@@ -544,7 +544,7 @@ export default function Header({ onNavigateToNews, onNavigateToHome, onNavigateT
                     <div className={`w-full max-w-2xl max-h-[80vh] overflow-y-auto rounded-xl p-6 md:p-8 bg-white text-black shadow-2xl relative text-left`}>
                         <button
                             onClick={() => setModalType(null)}
-                            className="absolute top-4 right-4 p-2 opacity-60 hover:opacity-100 transition-opacity"
+                            className="absolute top-4 right-4 p-2 opacity-60 hover:opacity-100 transition-opacity cursor-pointer"
                         >
                             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
@@ -637,7 +637,7 @@ export default function Header({ onNavigateToNews, onNavigateToHome, onNavigateT
                         <div className="mt-8 pt-6 border-t border-gray-200/20 text-center">
                             <button
                                 onClick={() => setModalType(null)}
-                                className={`px-8 py-2.5 rounded-full font-medium transition-colors bg-black text-white hover:bg-black/80`}
+                                className={`px-8 py-2.5 rounded-full font-medium transition-colors bg-black text-white hover:bg-black/80 cursor-pointer`}
                             >
                                 {lang === 'kr' ? "확인" : "Confirm"}
                             </button>
