@@ -87,11 +87,7 @@ export default function NewsList({ onSelectArticle }) {
                         <div
                             className="w-full lg:w-[50%] xl:w-[55%] flex flex-col cursor-pointer group"
                             onClick={() => {
-                                if (featuredNews.isDirectLink) {
-                                    window.open(featuredNews.originalUrl, '_blank');
-                                } else {
-                                    onSelectArticle(featuredNews);
-                                }
+                                window.open(featuredNews.originalUrl, '_blank');
                             }}
                         >
                             <div className="w-full aspect-[16/10] bg-gray-100 overflow-hidden mb-6 relative">
@@ -125,11 +121,7 @@ export default function NewsList({ onSelectArticle }) {
                                 key={news.id}
                                 className="flex flex-col cursor-pointer group h-full"
                                 onClick={() => {
-                                    if (news.isDirectLink) {
-                                        window.open(news.originalUrl, '_blank');
-                                    } else {
-                                        onSelectArticle(news);
-                                    }
+                                    window.open(news.originalUrl, '_blank');
                                 }}
                             >
                                 <h3 className="text-[22px] md:text-[24px] pr-2 leading-[1.35] text-[#222] font-inter font-medium tracking-[-0.02em] mb-3">
