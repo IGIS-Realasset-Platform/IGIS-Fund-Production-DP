@@ -170,7 +170,7 @@ The interpretation of these terms and any disputes between the Company and users
                         : "All images, design specifications, and detailed project plans included in this digital vision book are intended for illustrative purposes only and may differ from the actual implementation."}
                 </span>
 
-                <span className={`block ${copyrightColor} text-[11px] md:text-[13px]`}>© 2026 IOTA SEOUL & IGIS Asset Management. All rights reserved.</span>
+                <span className={`block ${copyrightColor} text-[11px] md:text-[13px]`}>© 2026 IOTA SEOUL. All rights reserved.</span>
             </footer>
 
             {/* Modal */}
