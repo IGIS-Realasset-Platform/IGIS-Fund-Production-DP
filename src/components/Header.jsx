@@ -480,8 +480,8 @@ export default function Header({ onNavigateToNews, onNavigateToHome, onNavigateT
             </header>
 
             <div id="mobile-menu"
-                className={`fixed top-[74px] md:top-[90px] left-0 w-full bg-white shadow-lg flex-col py-6 space-y-4 z-40 transition-transform ${mobileMenuOpen ? 'flex' : 'hidden'} min-[1100px]:hidden text-center justify-center items-center`}>
-                <div className="w-full flex-col h-[70vh] overflow-y-auto px-6 py-4 hide-scrollbar flex items-start text-left">
+                className={`fixed top-[74px] md:top-[90px] bottom-0 left-0 w-full bg-white shadow-lg flex-col pt-4 pb-8 space-y-4 z-40 transition-transform ${mobileMenuOpen ? 'flex' : 'hidden'} min-[1100px]:hidden`}>
+                <div className="w-full flex-col flex-1 overflow-y-auto px-6 py-2 hide-scrollbar flex items-start text-left">
                     {currentMenuData.map((col, idx) => (
                         <div key={idx} className="w-full mb-6">
                             <h4 className="text-[18px] font-bold text-black mb-3 border-b border-gray-100 pb-2">{col.title}</h4>
