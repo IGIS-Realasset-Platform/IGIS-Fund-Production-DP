@@ -136,6 +136,23 @@ export default function Header({ onNavigateToNews, onNavigateToHome, onNavigateT
     const currentMenuData = lang === 'kr' ? menuDataKr : menuDataEn;
 
     React.useEffect(() => {
+        if (mobileMenuOpen || modalType) {
+            document.body.style.overflow = 'hidden';
+            // Also prevent touchmove on iOS Safari
+            document.body.style.touchAction = 'none';
+        } else {
+            document.body.style.overflow = '';
+            document.body.style.touchAction = '';
+        }
+
+        return () => {
+            document.body.style.overflow = '';
+            document.body.style.touchAction = '';
+        };
+    }, [mobileMenuOpen, modalType]);
+
+
+    React.useEffect(() => {
         if (currentPage !== 'home') {
             setActiveSection('news');
             return;

@@ -134,6 +134,21 @@ Copyrights and intellectual property rights for all information, images, designs
 The interpretation of these terms and any disputes between the Company and users shall be governed by the laws of the Republic of Korea, and any such disputes shall be subject to the exclusive jurisdiction of the Seoul Central District Court.`;
 
 
+    React.useEffect(() => {
+        if (modalType) {
+            document.body.style.overflow = 'hidden';
+            document.body.style.touchAction = 'none';
+        } else {
+            document.body.style.overflow = '';
+            document.body.style.touchAction = '';
+        }
+
+        return () => {
+            document.body.style.overflow = '';
+            document.body.style.touchAction = '';
+        };
+    }, [modalType]);
+
     return (
         <div className={`w-full ${bgColor} pt-8 md:pt-12 pb-8 md:pb-12 flex flex-col items-center ${className}`}>
             <footer className={`w-full text-center ${textColor} text-[12px] md:text-[14px] font-inter font-light tracking-[-0.02em] px-4 leading-[1.6] flex flex-col gap-[6px]`}>
