@@ -82,7 +82,7 @@ All data is encrypted via HTTPS(SSL).
     const termsTextKr = `[IOTA SEOUL] 이용약관
 
 1. 목적
-본 약관은 이지스자산운용 주식회사(이하 "회사")가 제공하는 IOTA SEOUL 웹사이트(이하 "서비스")의 이용과 관련하여 회사와 이용자의 권리, 의무 및 책임사항, 기타 필요한 사항을 규정함을 목적으로 합니다.
+본 약관은 이지스자산운용 주식회사(이하 "회사")가 제공하는 IOTA SEOUL 디지털 비전북(이하 "서비스")의 이용과 관련하여 회사와 이용자의 권리, 의무 및 책임사항, 기타 필요한 사항을 규정함을 목적으로 합니다.
 
 2. 약관의 효력 및 변경
 ① 본 약관은 서비스를 이용하고자 하는 모든 이용자에게 효력을 발생합니다.
@@ -109,7 +109,7 @@ All data is encrypted via HTTPS(SSL).
     const termsTextEn = `[IOTA SEOUL] Terms of Service
 
 1. Purpose
-These terms and conditions aim to stipulate the rights, obligations, and responsibilities of IGIS Asset Management Co., Ltd. (the "Company") and the users in connection with the use of the IOTA SEOUL website (the "Service") provided by the Company.
+These terms and conditions aim to stipulate the rights, obligations, and responsibilities of IGIS Asset Management Co., Ltd. (the "Company") and the users in connection with the use of the IOTA SEOUL Digital Vision Book (the "Service") provided by the Company.
 
 2. Effect and Amendment of Terms
 ① These terms shall be effective for all users who wish to use the Service.
@@ -164,7 +164,7 @@ The interpretation of these terms and any disputes between the Company and users
                 </div>
 
                 {/* Disclaimer Text */}
-                <span className={`block text-[12px] md:text-[13px] ${disclaimerColor} break-keep`}>
+                <span className={`block text-[12px] md:text-[13px] ${disclaimerColor} break-keep mt-[1px]`}>
                     {lang === 'kr'
                         ? "본 디지털 비전북에 포함된 모든 이미지, 설계 제원 및 프로젝트 상세 계획은 이해를 돕기 위해 제작된 것으로 실제와 다를 수 있습니다."
                         : "All images, design specifications, and detailed project plans included in this digital vision book are intended for illustrative purposes only and may differ from the actual implementation."}
