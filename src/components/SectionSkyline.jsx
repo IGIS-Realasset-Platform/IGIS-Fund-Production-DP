@@ -63,11 +63,12 @@ export default function SectionSkyline() {
                         </div>
                     ))}
 
-                    {/* Image Source / Description Overlay */}
-                    <div className="absolute bottom-2 right-4 md:bottom-4 md:right-4 z-20 text-[10px] md:text-[12px] text-gray-500/80 font-light tracking-tight pointer-events-none text-right font-inter">
-                        *2032년 서울역 인근 예상 조감도
-                    </div>
                 </div>
+            </div>
+
+            {/* Image Source / Description */}
+            <div className="w-full max-w-[1600px] mx-auto px-4 md:px-0 text-right mt-3 text-[11px] md:text-[13px] text-gray-500 font-light tracking-tight font-inter bs-fade-up">
+                *2032년 서울역 인근 예상 조감도
             </div>
 
             {/* Mobile/Tablet Tip */}
