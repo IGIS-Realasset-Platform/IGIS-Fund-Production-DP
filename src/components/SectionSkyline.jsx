@@ -1,7 +1,9 @@
 import React, { useRef } from 'react';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function SectionSkyline() {
     const scrollRef = useRef(null);
+    const { lang } = useLanguage();
 
     // Option 2 Revised: Static simple white circles with dry text
     const pins = [
@@ -68,7 +70,7 @@ export default function SectionSkyline() {
 
             {/* Image Source / Description */}
             <div className="w-full max-w-[1600px] mx-auto px-4 md:px-0 text-right mt-3 text-[11px] md:text-[13px] text-gray-500 font-light tracking-tight font-inter bs-fade-up">
-                *2032년 서울역 인근 예상 조감도
+                {lang === 'kr' ? "*2032년 서울역 인근 예상 조감도" : "*Projected aerial view near Seoul Station in 2032"}
             </div>
 
             {/* Mobile/Tablet Tip */}
