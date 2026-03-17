@@ -7,7 +7,7 @@ export default function Section4() {
         <section className="section h-auto min-h-screen flex flex-col md:flex-row items-stretch overflow-hidden"
             id="section4">
             <div className="w-full md:w-1/2 bg-white flex items-center justify-center py-24 md:py-0 relative">
-                <img src="./img/logo_black.png" width="856" height="286" alt="IOTA Logo" className="h-[70px] md:h-[110px] object-contain logo-wrapper" />
+                <img src="./img/logo_black.webp" width="856" height="286" alt="IOTA Logo" className="h-[70px] md:h-[110px] object-contain logo-wrapper" />
             </div>
             <div
                 className="w-full md:w-1/2 bg-[#1b2a1f] text-white flex flex-col justify-center px-8 md:px-12 lg:px-24 py-24 md:py-32 green-panel relative z-10">

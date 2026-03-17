@@ -139,7 +139,7 @@ export default function SectionFoster() {
                     onClick={handlePlayClick}
                 >
                     <img
-                         src="./img/foster+partners.jpg" width="1691" height="944"
+                         src="./img/foster+partners.webp" width="1691" height="944"
                         alt="Foster + Partners Video"
                         className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500"
                         fetchPriority="high"

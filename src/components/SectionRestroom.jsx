@@ -31,7 +31,7 @@ export default function SectionRestroom() {
 
                 {/* IMAGE 1 */}
                 <div className="w-full max-w-[1400px] mx-auto flex items-center justify-center mb-16 bs-fade-up delay-200">
-                    <HoverImage  src="./img/toilet1.jpg" width="3000" height="1630" alt="Privacy-Focused Restroom" className="w-full h-auto object-contain shadow-sm" />
+                    <HoverImage  src="./img/toilet1.webp" width="3000" height="1630" alt="Privacy-Focused Restroom" className="w-full h-auto object-contain shadow-sm" />
                 </div>
 
                 {/* DESCRIPTION TEXT AREA */}
@@ -59,7 +59,7 @@ export default function SectionRestroom() {
 
                 {/* IMAGE 2 & GROOMING ROOM CAPTION */}
                 <div className="w-full max-w-[600px] mx-auto flex flex-col items-center justify-center bs-fade-up delay-400">
-                    <HoverImage  src="./img/toilet2.jpg" width="2065" height="1108" alt="Grooming Room" className="w-full h-auto object-contain mb-3" />
+                    <HoverImage  src="./img/toilet2.webp" width="2065" height="1108" alt="Grooming Room" className="w-full h-auto object-contain mb-3" />
                     <span className="text-[13px] md:text-[15px] text-gray-500 font-medium tracking-tight">
                         {lang === 'kr' ? "Grooming Room (별도 치카룸)" : "Grooming Room"}
                     </span>

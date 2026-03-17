@@ -10,7 +10,7 @@ export default function SectionElevator() {
 
                 {/* TOP IMAGE */}
                 <div className="w-full max-w-[1400px] mx-auto flex items-center justify-center mb-16 bs-fade-up delay-100">
-                    <img  src="./img/elevator01.jpg" width="3000" height="2291" alt="IOTA Seoul Largest Elevator" className="w-full h-auto object-contain" />
+                    <img  src="./img/elevator01.webp" width="3000" height="2291" alt="IOTA Seoul Largest Elevator" className="w-full h-auto object-contain" />
                 </div>
 
                 {/* BOTTOM TWO-COLUMN LAYOUT: Image Left, Text Right */}
@@ -18,7 +18,7 @@ export default function SectionElevator() {
 
                     {/* LEFT: Image 2 */}
                     <div className="w-full lg:w-[45%] flex items-center justify-center lg:justify-start shrink-0">
-                        <img  src="./img/elevator02.jpg" width="1554" height="2452" alt="Elevator Size Comparison" className="w-full max-w-[600px] h-auto object-contain" />
+                        <img  src="./img/elevator02.webp" width="1554" height="2452" alt="Elevator Size Comparison" className="w-full max-w-[600px] h-auto object-contain" />
                     </div>
 
                     {/* RIGHT: Texts */}

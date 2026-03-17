@@ -12,7 +12,7 @@ export default function SectionConstruction() {
                 {/* Background Image */}
                 <div
                     className="absolute inset-0 w-full h-full bg-cover bg-left md:bg-center"
-                    style={{ backgroundImage: "url('./img/samsung_cnt.jpg')" }}
+                    style={{ backgroundImage: "url('./img/samsung_cnt.webp')" }}
                 ></div>
 
                 {/* Image Source */}
@@ -62,7 +62,7 @@ export default function SectionConstruction() {
 
                         {/* overlay image layer */}
                         <div className="w-full mt-2 bs-fade-up delay-300">
-                            <img src="./img/hyundai&samsung.png" width="1201" height="614" alt="Hyundai & Samsung Logos and Ranking" className="w-[100%] max-w-[700px] h-auto object-contain block" />
+                            <img src="./img/hyundai&samsung.webp" width="1201" height="614" alt="Hyundai & Samsung Logos and Ranking" className="w-[100%] max-w-[700px] h-auto object-contain block" />
                         </div>
                     </div>
                 </div>
@@ -73,7 +73,7 @@ export default function SectionConstruction() {
             <div className="block lg:hidden w-full flex flex-col pb-[100px] bg-white">
                 {/* Image Section */}
                 <div className="w-full h-[55vh] min-h-[400px] relative shrink-0">
-                    <img src="./img/samsung_cnt.jpg" width="3000" height="1984" alt="Construction Background" className="absolute inset-0 w-full h-full object-cover object-bottom" />
+                    <img src="./img/samsung_cnt.webp" width="3000" height="1984" alt="Construction Background" className="absolute inset-0 w-full h-full object-cover object-bottom" />
 
                     {/* Image Source */}
                     <div className="absolute bottom-3 right-4 z-20 text-[10px] text-gray-500/80 font-light tracking-tight pointer-events-none">
@@ -123,7 +123,7 @@ export default function SectionConstruction() {
 
                         {/* overlay image layer */}
                         <div className="w-full mx-auto mt-4 bs-fade-up">
-                            <img src="./img/hyundai&samsung.png" width="1201" height="614" alt="Hyundai & Samsung Logos and Ranking" className="w-full h-auto object-contain block mx-auto" />
+                            <img src="./img/hyundai&samsung.webp" width="1201" height="614" alt="Hyundai & Samsung Logos and Ranking" className="w-full h-auto object-contain block mx-auto" />
                         </div>
                     </div>
                 </div>

@@ -43,7 +43,7 @@ export default function SectionSkyline() {
             >
                 <div className="relative w-[1500px] lg:w-full mx-auto">
                     <img
-                        src="./img/2032_seoulstation.jpg" width="1700" height="956"
+                        src="./img/2032_seoulstation.webp" width="1700" height="956"
                         alt="2032 Seoul Station Skyline Projected View"
                         className="w-full h-auto object-contain block"
                         draggable="false"

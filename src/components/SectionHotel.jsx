@@ -40,14 +40,14 @@ export default function SectionHotel() {
 
                     {/* Logo Area */}
                     <div className="w-full md:w-auto flex justify-center md:justify-end bs-fade-up delay-200">
-                        <img src="./img/logo_ritzcarlton.png" width="432" height="304" alt="The Ritz-Carlton Logo" className="w-[120px] md:w-[160px] object-contain" />
+                        <img src="./img/logo_ritzcarlton.webp" width="432" height="304" alt="The Ritz-Carlton Logo" className="w-[120px] md:w-[160px] object-contain" />
                     </div>
                 </div>
 
                 {/* Main Image Area */}
                 <div className="w-full relative overflow-hidden group bs-fade-up delay-300">
                     <img
-                        src="./img/ritzcarlton01.jpg"
+                        src="./img/ritzcarlton01.webp"
                         alt="The Ritz-Carlton Residence"
                         width="2500" height="1090"
                         className="w-full aspect-square md:aspect-auto md:h-auto object-cover block transform transition-transform duration-[2s] group-hover:scale-105"
@@ -61,7 +61,7 @@ export default function SectionHotel() {
                 <div className="w-full mt-[80px] md:mt-[120px] relative group bs-fade-up">
                     <div className="w-full overflow-hidden">
                         <img
-                            src="./img/ritzcarlton02.jpg"
+                            src="./img/ritzcarlton02.webp"
                             alt="The Ritz-Carlton Philadelphia"
                             width="3000" height="1202"
                             className="w-full aspect-square md:aspect-auto md:h-auto object-cover block transform transition-transform duration-[2s] group-hover:scale-[1.03]"
@@ -74,7 +74,7 @@ export default function SectionHotel() {
 
                 {/* Second Text Area */}
                 <div className="w-full mt-16 md:mt-20 flex flex-col items-center bs-fade-up">
-                    <img src="./img/logo_ritzcarlton.png" width="432" height="304" alt="The Ritz-Carlton Logo" className="w-[120px] md:w-[160px] mb-12 md:mb-16 object-contain" />
+                    <img src="./img/logo_ritzcarlton.webp" width="432" height="304" alt="The Ritz-Carlton Logo" className="w-[120px] md:w-[160px] mb-12 md:mb-16 object-contain" />
 
                     <div className="w-full flex flex-col lg:flex-row justify-between items-start gap-8 md:gap-16">
                         {lang === 'kr' ? (

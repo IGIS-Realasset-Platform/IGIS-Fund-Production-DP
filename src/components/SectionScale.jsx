@@ -30,7 +30,7 @@ export default function SectionScale() {
 
             {/* LARGE SCALE IMAGE (FULL WIDTH ON MOBILE) */}
             <div className="w-full md:w-[calc(100%-100px)] max-w-[1000px] mx-auto mb-16 bs-fade-up delay-100">
-                <HoverImage  src="./img/scale.jpg" width="2000" height="2740" alt="IOTA Seoul Scale" className="w-full h-auto object-cover rounded-none block" wrapperClassName="w-full relative overflow-hidden group cursor-pointer" />
+                <HoverImage  src="./img/scale.webp" width="2000" height="2740" alt="IOTA Seoul Scale" className="w-full h-auto object-cover rounded-none block" wrapperClassName="w-full relative overflow-hidden group cursor-pointer" />
             </div>
 
             <div className="w-[calc(100%-48px)] md:w-[calc(100%-100px)] max-w-[1600px] mx-auto flex flex-col items-center">
@@ -117,7 +117,7 @@ export default function SectionScale() {
                     </div>
 
                     <div className="w-full bg-white p-4 md:p-6 lg:p-8 rounded-none shadow-xl">
-                        <img  src="./img/CBD_assets.jpg" width="2080" height="674" alt="CBD Assets Comparison" className="w-full h-auto object-contain" />
+                        <img  src="./img/CBD_assets.webp" width="2080" height="674" alt="CBD Assets Comparison" className="w-full h-auto object-contain" />
                     </div>
                 </div>
 

@@ -31,7 +31,7 @@ export default function SectionHVAC() {
 
                 {/* IMAGE */}
                 <div className="w-full max-w-[1400px] mx-auto flex items-center justify-center mb-16 bs-fade-up delay-200">
-                    <HoverImage  src="./img/HVAC01.jpg" width="3000" height="1559" alt="HVAC Infrastructure" className="w-full h-auto object-contain block" wrapperClassName="w-full relative overflow-hidden group cursor-pointer" />
+                    <HoverImage  src="./img/HVAC01.webp" width="3000" height="1559" alt="HVAC Infrastructure" className="w-full h-auto object-contain block" wrapperClassName="w-full relative overflow-hidden group cursor-pointer" />
                 </div>
 
                 {/* DESCRIPTION TEXT AREA */}

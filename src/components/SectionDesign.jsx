@@ -77,7 +77,7 @@ export default function SectionDesign() {
                     <div className="w-full flex flex-col md:flex-row items-center md:items-start justify-between gap-8 md:gap-12 lg:gap-16">
                         {/* Left Image */}
                         <div className="w-full md:w-[60%] shrink-0 relative overflow-hidden group">
-                            <img src="./img/Applepark.jpg" width="2098" height="1116" alt="Apple Park by Foster + Partners" className="w-full h-auto object-cover transform transition-transform duration-[2s] group-hover:scale-105" />
+                            <img src="./img/Applepark.webp" width="2098" height="1116" alt="Apple Park by Foster + Partners" className="w-full h-auto object-cover transform transition-transform duration-[2s] group-hover:scale-105" />
                             <div className="absolute bottom-2 right-3 md:bottom-4 md:right-4 text-white/70 text-[10px] md:text-[12px] font-light tracking-wide pointer-events-none z-10 font-inter">
                                 Apple Park - Cupertino 미국 (fosterandpartners.com)
                             </div>
@@ -85,7 +85,7 @@ export default function SectionDesign() {
                         {/* Right Content */}
                         <div className="w-full md:w-[40%] flex flex-col items-start md:pt-[2%]">
                             <div className="mb-6">
-                                <img src="./img/foster-partners.jpg" width="394" height="54" alt="Foster + Partners Logo" className="h-[25px] md:h-[35px] lg:h-[40px] object-contain object-left block" />
+                                <img src="./img/foster-partners.webp" width="394" height="54" alt="Foster + Partners Logo" className="h-[25px] md:h-[35px] lg:h-[40px] object-contain object-left block" />
                             </div>
                             {lang === 'kr' ? (
                                 <div className="text-[17px] md:text-[19px] font-semibold text-stone-300 leading-[1.57] tracking-[-0.01em] break-keep">
@@ -113,7 +113,7 @@ export default function SectionDesign() {
                     <div className="w-full flex flex-col md:flex-row items-center md:items-start justify-between gap-8 md:gap-12 lg:gap-16">
                         {/* Left Image */}
                         <div className="w-full md:w-[60%] shrink-0 relative overflow-hidden group">
-                            <img src="./img/Burjkhalifa.jpg" width="2104" height="1110" alt="Burj Khalifa by SOM" className="w-full h-auto object-cover transform transition-transform duration-[2s] group-hover:scale-105" />
+                            <img src="./img/Burjkhalifa.webp" width="2104" height="1110" alt="Burj Khalifa by SOM" className="w-full h-auto object-cover transform transition-transform duration-[2s] group-hover:scale-105" />
                             <div className="absolute bottom-2 right-3 md:bottom-4 md:right-4 text-white/70 text-[10px] md:text-[12px] font-light tracking-wide pointer-events-none z-10 font-inter">
                                 Burj Khalifa - Dubai, United 아랍 에미레이트 (som.com)
                             </div>
@@ -121,7 +121,7 @@ export default function SectionDesign() {
                         {/* Right Content */}
                         <div className="w-full md:w-[40%] flex flex-col items-start md:pt-[2%]">
                             <div className="mb-6">
-                                <img src="./img/som.jpg" width="192" height="72" alt="SOM Logo" className="h-[30px] md:h-[45px] lg:h-[50px] object-contain object-left block" />
+                                <img src="./img/som.webp" width="192" height="72" alt="SOM Logo" className="h-[30px] md:h-[45px] lg:h-[50px] object-contain object-left block" />
                             </div>
                             {lang === 'kr' ? (
                                 <div className="text-[17px] md:text-[19px] font-semibold text-stone-300 leading-[1.57] tracking-[-0.01em] break-keep">

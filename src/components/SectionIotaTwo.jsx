@@ -50,7 +50,7 @@ export default function SectionIotaTwo() {
                     </div>
 
                     {/* First Image Area */}
-                    <HoverImage src="./img/iotatwo_01.jpg" width="3000" height="1691" alt="Ground Level Entry" />
+                    <HoverImage src="./img/iotatwo_01.webp" width="3000" height="1691" alt="Ground Level Entry" />
                 </div>
 
                 {/* Second Item Area (Full Width) */}
@@ -86,7 +86,7 @@ export default function SectionIotaTwo() {
 
                 {/* Second Image Area (Full Width) */}
                 <div className="w-full">
-                    <HoverImage src="./img/iotatwo_02.jpg" width="3000" height="2124" alt="Gateway Park" className="w-full h-auto object-cover block" wrapperClassName="w-full relative overflow-hidden group cursor-pointer" />
+                    <HoverImage src="./img/iotatwo_02.webp" width="3000" height="2124" alt="Gateway Park" className="w-full h-auto object-cover block" wrapperClassName="w-full relative overflow-hidden group cursor-pointer" />
                 </div>
 
                 <div className="w-[calc(100%-48px)] md:w-[calc(100%-100px)] max-w-[1600px] mx-auto flex flex-col items-start">
@@ -122,7 +122,7 @@ export default function SectionIotaTwo() {
                     </div>
 
                     {/* Third Image Area */}
-                    <HoverImage src="./img/iotatwo_03.jpg" width="3000" height="1589" alt="Corporate Multi-Use Arena" />
+                    <HoverImage src="./img/iotatwo_03.webp" width="3000" height="1589" alt="Corporate Multi-Use Arena" />
 
                     {/* Fourth Item Area */}
                     <div className="flex flex-col w-full bs-fade-up mt-[106px] md:mt-32">
@@ -155,10 +155,10 @@ export default function SectionIotaTwo() {
                     </div>
 
                     {/* Fourth Image Area */}
-                    <HoverImage src="./img/iotatwo_04.jpg" width="3000" height="1683" alt="Sky Garden" />
+                    <HoverImage src="./img/iotatwo_04.webp" width="3000" height="1683" alt="Sky Garden" />
 
                     <div className="mt-8 md:mt-12 w-full">
-                        <HoverImage src="./img/iotatwo_05.jpg" width="3000" height="2098" alt="Sky Garden Details" />
+                        <HoverImage src="./img/iotatwo_05.webp" width="3000" height="2098" alt="Sky Garden Details" />
                     </div>
 
                     {/* Fifth Item Area */}
@@ -192,7 +192,7 @@ export default function SectionIotaTwo() {
                     </div>
 
                     {/* Fifth Image Area */}
-                    <HoverImage src="./img/iotatwo_06.jpg" width="3000" height="1595" alt="Event Space" />
+                    <HoverImage src="./img/iotatwo_06.webp" width="3000" height="1595" alt="Event Space" />
 
                     {/* Sixth Item Area */}
                     <div className="flex flex-col w-full bs-fade-up mt-[106px] md:mt-32">
@@ -226,7 +226,7 @@ export default function SectionIotaTwo() {
                     </div>
 
                     {/* Sixth Image Area */}
-                    <HoverImage src="./img/iotatwo_07.jpg" width="3000" height="1692" alt="Sky Garden and Event Space" />
+                    <HoverImage src="./img/iotatwo_07.webp" width="3000" height="1692" alt="Sky Garden and Event Space" />
 
                     <div className="flex flex-col w-full bs-fade-up mt-[106px] md:mt-32">
                         <h2 className="text-[28px] md:text-[40px] font-inter font-light text-black tracking-[-0.03em] leading-tight mb-6 md:mb-8 break-keep">
@@ -236,7 +236,7 @@ export default function SectionIotaTwo() {
                                 <>Office Entry Space</>
                             )}
                         </h2>
-                        <HoverImage src="./img/iotatwo_08.jpg" width="3000" height="1942" alt="Sky Garden and Event Space Details" />
+                        <HoverImage src="./img/iotatwo_08.webp" width="3000" height="1942" alt="Sky Garden and Event Space Details" />
                     </div>
 
                     {/* Seventh Item Area */}
@@ -271,7 +271,7 @@ export default function SectionIotaTwo() {
                     </div>
 
                     {/* Seventh Image Area */}
-                    <HoverImage src="./img/iotatwo_09.jpg" width="3000" height="1775" alt="IOTA Two Main Lobby" />
+                    <HoverImage src="./img/iotatwo_09.webp" width="3000" height="1775" alt="IOTA Two Main Lobby" />
 
                     {/* Eighth Item Area - Mobile Text */}
                     <div className="flex flex-col w-full bs-fade-up mt-[106px] md:mt-32 md:hidden">
@@ -309,7 +309,7 @@ export default function SectionIotaTwo() {
 
                 {/* Full Width Image Area (iotatwo_10) with Desktop Overlay Text */}
                 <div className="relative w-full mt-12 md:mt-32 bs-fade-up overflow-hidden">
-                    <HoverImage src="./img/iotatwo_10.jpg" width="3000" height="2114" alt="Main Lobby View" className="w-full h-auto object-cover block" wrapperClassName="w-full relative overflow-hidden group cursor-pointer" />
+                    <HoverImage src="./img/iotatwo_10.webp" width="3000" height="2114" alt="Main Lobby View" className="w-full h-auto object-cover block" wrapperClassName="w-full relative overflow-hidden group cursor-pointer" />
 
                     {/* Desktop Gradient Overlay */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none hidden md:block z-10"></div>
@@ -363,7 +363,7 @@ export default function SectionIotaTwo() {
                     </div>
 
                     {/* Eighth Image Area */}
-                    <HoverImage src="./img/iotatwo_11.jpg" width="3000" height="1887" alt="Main Lobby Core Access" />
+                    <HoverImage src="./img/iotatwo_11.webp" width="3000" height="1887" alt="Main Lobby Core Access" />
 
                     {/* Ninth Item Area */}
                     <div className="flex flex-col w-full bs-fade-up mt-[106px] md:mt-32">
@@ -398,7 +398,7 @@ export default function SectionIotaTwo() {
                     </div>
 
                     {/* Ninth Image Area */}
-                    <HoverImage src="./img/iotatwo_12.jpg" width="3000" height="1356" alt="Office Open Lounge" />
+                    <HoverImage src="./img/iotatwo_12.webp" width="3000" height="1356" alt="Office Open Lounge" />
 
 
 
@@ -437,16 +437,16 @@ export default function SectionIotaTwo() {
                     {/* Tenth Image Area */}
                     <div className="w-full flex flex-col items-center gap-12 md:gap-24">
                         <div className="w-full">
-                            <HoverImage src="./img/iotatwo_13.jpg" width="3000" height="1390" alt="Office Elevator Hall Focus" />
+                            <HoverImage src="./img/iotatwo_13.webp" width="3000" height="1390" alt="Office Elevator Hall Focus" />
                         </div>
                         <div className="w-full max-w-[800px]">
-                            <HoverImage src="./img/iotatwo_15.jpg" width="1500" height="1225" alt="Office Elevator Detail" />
+                            <HoverImage src="./img/iotatwo_15.webp" width="1500" height="1225" alt="Office Elevator Detail" />
                         </div>
                     </div>
 
                     {/* Image Area (iotatwo_14) - Header Width */}
                     <div className="w-full mt-[106px] md:mt-32">
-                        <HoverImage src="./img/iotatwo_14.jpg" width="3000" height="1977" alt="Office Elevator Hall View" className="w-full h-auto object-cover block" wrapperClassName="w-full relative overflow-hidden group cursor-pointer" />
+                        <HoverImage src="./img/iotatwo_14.webp" width="3000" height="1977" alt="Office Elevator Hall View" className="w-full h-auto object-cover block" wrapperClassName="w-full relative overflow-hidden group cursor-pointer" />
                     </div>
 
                 </div>

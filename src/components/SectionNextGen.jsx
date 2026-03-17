@@ -18,7 +18,7 @@ export default function SectionNextGen() {
 
                 {/* TOP IMAGE */}
                 <div className="w-full max-w-[700px] mx-auto mb-[60px] md:mb-[80px] bs-slide-right delay-200">
-                    <img  src="./img/nextgenworkplace.jpg" width="1522" height="1402" alt="IOTA Seoul Next-Gen Workplace" className="w-full h-auto object-cover" />
+                    <img  src="./img/nextgenworkplace.webp" width="1522" height="1402" alt="IOTA Seoul Next-Gen Workplace" className="w-full h-auto object-cover" />
                 </div>
 
                 {/* TEXT CONTENT - CENTER ALIGNED */}
@@ -45,7 +45,7 @@ export default function SectionNextGen() {
 
                 {/* BOTTOM FIXTURE SPECIFICATION IMAGE */}
                 <div className="w-full max-w-[1000px] mt-[66px] md:mt-[98px] bs-fade-up delay-300">
-                    <img  src="./img/nextgen_specification.jpg" width="2306" height="612" alt="Next Gen Specification" className="w-full h-auto object-contain" />
+                    <img  src="./img/nextgen_specification.webp" width="2306" height="612" alt="Next Gen Specification" className="w-full h-auto object-contain" />
                 </div>
 
             </div>

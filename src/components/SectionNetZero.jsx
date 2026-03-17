@@ -16,7 +16,7 @@ export default function SectionNetZero() {
 
                 {/* IMAGES AREA */}
                 <div className="w-full max-w-[1400px] mx-auto flex items-center justify-center mb-16 bs-fade-up delay-200">
-                    <img  src="./img/netzero.jpg" width="3100" height="1725" alt="IOTA Seoul Net-Zero Dashboard" className="w-full h-auto object-contain" />
+                    <img  src="./img/netzero.webp" width="3100" height="1725" alt="IOTA Seoul Net-Zero Dashboard" className="w-full h-auto object-contain" />
                 </div>
 
                 {/* DESCRIPTION TEXT AREA */}

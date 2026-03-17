@@ -127,7 +127,7 @@ export default function Section5() {
                                 </p>
                             </div>
                             <div className="w-full max-w-[350px] flex flex-col gap-2 mt-2">
-                                <img src="./img/airport.png" width="1240" height="492" alt="Airports" className="w-full h-auto object-contain" />
+                                <img src="./img/airport.webp" width="1240" height="492" alt="Airports" className="w-full h-auto object-contain" />
                                 <div className="w-full flex gap-4">
                                     <div className="w-1/2 text-[12px] md:text-[14px] text-black font-medium tracking-tight">
                                         approx. 43 minutes.</div>
@@ -143,9 +143,9 @@ export default function Section5() {
                     {/* RIGHT BACKGROUND MAPS */}
                     <div
                         className="absolute top-0 right-0 w-full h-[40vh] lg:h-full z-10 lg:block pointer-events-none bs-slide-left delay-300 overflow-hidden">
-                        <img src="./img/sybd3.jpg" width="2500" height="2299" alt="SYBD Map 3" id="sybd-img-3"
+                        <img src="./img/sybd3.webp" width="2500" height="2299" alt="SYBD Map 3" id="sybd-img-3"
                             className="absolute top-0 right-0 w-full lg:w-[1400px] lg:max-w-none h-full object-cover object-[center_center] lg:object-[left_center] transition-opacity duration-1000 ease-in-out" />
-                        <img src="./img/sybd4.jpg" width="2500" height="1974" alt="SYBD Map 4" id="sybd-img-4"
+                        <img src="./img/sybd4.webp" width="2500" height="1974" alt="SYBD Map 4" id="sybd-img-4"
                             className="absolute top-0 right-0 w-full lg:w-[1400px] lg:max-w-none h-full object-cover object-[center_center] lg:object-[left_center] opacity-0 transition-opacity duration-1000 ease-in-out" />
                     </div>
 
@@ -237,7 +237,7 @@ export default function Section5() {
 
                 {/* Mobile Step 1 Image */}
                 <div className="w-full relative h-[60vh] md:h-[70vh]">
-                    <img src="./img/sybd3.jpg" width="2500" height="2299" alt="SYBD Map 3" className="w-full h-full object-cover object-[center_center]" />
+                    <img src="./img/sybd3.webp" width="2500" height="2299" alt="SYBD Map 3" className="w-full h-full object-cover object-[center_center]" />
                 </div>
 
                 {/* STEP 2: Korea's Central Station Text & Image */}
@@ -265,7 +265,7 @@ export default function Section5() {
                         </p>
                     </div>
                     <div className="w-full max-w-[300px] flex flex-col gap-2 mb-8">
-                        <img src="./img/airport.png" width="1240" height="492" alt="Airports" className="w-full h-auto object-contain" />
+                        <img src="./img/airport.webp" width="1240" height="492" alt="Airports" className="w-full h-auto object-contain" />
                         <div className="w-full flex gap-4">
                             <div className="w-1/2 text-[12px] text-black font-medium tracking-tight">approx. 43 minutes.</div>
                             <div className="w-1/2 text-[12px] text-black font-medium tracking-tight">approx. 22 minutes.</div>
@@ -275,7 +275,7 @@ export default function Section5() {
 
                 {/* Mobile Step 2 Image */}
                 <div className="w-full relative h-[60vh] md:h-[70vh]">
-                    <img src="./img/sybd4.jpg" width="2500" height="1974" alt="SYBD Map 4" className="w-full h-full object-cover object-[center_center]" />
+                    <img src="./img/sybd4.webp" width="2500" height="1974" alt="SYBD Map 4" className="w-full h-full object-cover object-[center_center]" />
                 </div>
 
             </div>

@@ -7,7 +7,7 @@ export default function SectionLargePlate() {
 
                 {/* LARGE PLATE IMAGE */}
                 <div className="w-full max-w-[1400px] mx-auto mb-16 md:mb-20 bs-fade-up">
-                    <img  src="./img/largeplate.jpg" width="2000" height="906" alt="IOTA Seoul Large Plate" className="w-full h-auto object-cover" />
+                    <img  src="./img/largeplate.webp" width="2000" height="906" alt="IOTA Seoul Large Plate" className="w-full h-auto object-cover" />
                 </div>
 
                 {/* TEXT CONTENT */}

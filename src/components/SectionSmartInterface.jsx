@@ -31,10 +31,10 @@ export default function SectionSmartInterface() {
                 {/* IMAGES AREA */}
                 <div className="relative w-full max-w-[1400px] mx-auto flex items-center justify-center bs-fade-up delay-200 mb-12 lg:mb-16">
                     {/* Background Layer (Base) */}
-                    <img src="./img/Smart_Interface_01.jpg" width="2982" height="1947" alt="Smart Interface Background" className="w-full h-auto object-contain" />
+                    <img src="./img/Smart_Interface_01.webp" width="2982" height="1947" alt="Smart Interface Background" className="w-full h-auto object-contain" />
 
                     {/* Foreground App Layer (Pops up!) */}
-                    <img src="./img/Smart_Interface_02.png" width="2982" height="1947" alt="Smart Interface App Layer" className="absolute w-[85%] md:w-[85%] lg:w-[91%] xl:w-[91%] h-auto object-contain bs-bounce-up delay-400" />
+                    <img src="./img/Smart_Interface_02.webp" width="2982" height="1947" alt="Smart Interface App Layer" className="absolute w-[85%] md:w-[85%] lg:w-[91%] xl:w-[91%] h-auto object-contain bs-bounce-up delay-400" />
                 </div>
 
                 {/* DESCRIPTION TEXT AREA */}

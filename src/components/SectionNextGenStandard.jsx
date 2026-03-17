@@ -26,7 +26,7 @@ export default function SectionNextGenStandard() {
 
                 {/* FULL WIDTH IMAGE EXCEEDING TEXT WIDTH IF NEEDED (Max 1600px) */}
                 <div className="w-full max-w-[1600px] mx-auto bs-fade-up delay-300 mb-10 md:mb-14">
-                    <img  src="./img/nextgen_standard.jpg" width="2200" height="911" alt="A New Office Standard" className="w-full h-auto object-cover" />
+                    <img  src="./img/nextgen_standard.webp" width="2200" height="911" alt="A New Office Standard" className="w-full h-auto object-cover" />
                 </div>
 
                 {/* TEXT CONTENT - DESCRIPTION BELOW IMAGE */}
