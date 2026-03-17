@@ -10,7 +10,7 @@ export default function SectionDesign() {
 
                 {/* TEXT AREA */}
                 <div className="text-center mb-16 px-4">
-                    <h2 className="text-[52px] md:text-[70px] lg:text-[80px] font-extrabold text-[#e2d5c3] tracking-[-0.03em] leading-tight font-inter mb-4 mt-[300px] md:mt-[600px]">
+                    <h2 className="text-[52px] md:text-[70px] lg:text-[80px] font-extrabold text-[#e2d5c3] tracking-[-0.03em] leading-tight font-inter mb-4 mt-[200px] md:mt-[300px]">
                         DESIGNED BY THE<br />WORLD'S FINEST EXPERT
                     </h2>
 
@@ -21,13 +21,9 @@ export default function SectionDesign() {
                     )}
                 </div>
 
-                {/* IMAGE AREA */}
-                <div className="w-full max-w-[600px] mx-auto flex items-center justify-center bs-fade-up delay-200">
-                    <img
-                        src="./img/NormanFoster.jpg" width="1500" height="1011"
-                        alt="Norman Foster"
-                        className="w-full h-auto object-contain shadow-2xl"
-                    />
+                {/* IMAGE AREA (Image removed, space preserved) */}
+                <div className="w-full max-w-[600px] mx-auto flex items-center justify-center bs-fade-up delay-200 aspect-[1500/1011]">
+                    {/* img tag removed as requested */}
                 </div>
 
                 {/* --- ARCHITECTS SHOWCASE NEW SECTION --- */}
@@ -82,6 +78,9 @@ export default function SectionDesign() {
                         {/* Left Image */}
                         <div className="w-full md:w-[60%] shrink-0 relative overflow-hidden group">
                             <img src="./img/Applepark.jpg" width="2098" height="1116" alt="Apple Park by Foster + Partners" className="w-full h-auto object-cover transform transition-transform duration-[2s] group-hover:scale-105" />
+                            <div className="absolute bottom-2 right-3 md:bottom-4 md:right-4 text-white/70 text-[10px] md:text-[12px] font-light tracking-wide pointer-events-none z-10 font-inter">
+                                Apple Park - Cupertino 미국 (fosterandpartners.com)
+                            </div>
                         </div>
                         {/* Right Content */}
                         <div className="w-full md:w-[40%] flex flex-col items-start md:pt-[2%]">
@@ -115,6 +114,9 @@ export default function SectionDesign() {
                         {/* Left Image */}
                         <div className="w-full md:w-[60%] shrink-0 relative overflow-hidden group">
                             <img src="./img/Burjkhalifa.jpg" width="2104" height="1110" alt="Burj Khalifa by SOM" className="w-full h-auto object-cover transform transition-transform duration-[2s] group-hover:scale-105" />
+                            <div className="absolute bottom-2 right-3 md:bottom-4 md:right-4 text-white/70 text-[10px] md:text-[12px] font-light tracking-wide pointer-events-none z-10 font-inter">
+                                Burj Khalifa - Dubai, United 아랍 에미레이트 (som.com)
+                            </div>
                         </div>
                         {/* Right Content */}
                         <div className="w-full md:w-[40%] flex flex-col items-start md:pt-[2%]">
