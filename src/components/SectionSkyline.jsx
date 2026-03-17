@@ -41,7 +41,7 @@ export default function SectionSkyline() {
             >
                 <div className="relative w-[1500px] lg:w-full mx-auto">
                     <img
-                         src="./img/2032_seoulstation.jpg" width="1700" height="956"
+                        src="./img/2032_seoulstation.jpg" width="1700" height="956"
                         alt="2032 Seoul Station Skyline Projected View"
                         className="w-full h-auto object-contain block"
                         draggable="false"
@@ -62,6 +62,11 @@ export default function SectionSkyline() {
                             </div>
                         </div>
                     ))}
+
+                    {/* Image Source / Description Overlay */}
+                    <div className="absolute bottom-2 right-4 md:bottom-4 md:right-4 z-20 text-[10px] md:text-[12px] text-gray-500/80 font-light tracking-tight pointer-events-none text-right font-inter">
+                        *2032년 서울역 인근 예상 조감도
+                    </div>
                 </div>
             </div>
 
