@@ -61,15 +61,15 @@ export default function Header({ onNavigateToNews, onNavigateToHome, onNavigateT
             items: [
                 { label: "News & Insights", id: "news", type: "news" }
             ]
-        },
-        {
+        }
+        /* {
             title: "Inquiry",
             type: "inquiry",
             items: [
                 { label: "Leasing Inquiry", id: "lease", type: "lease" },
                 { label: "Partnership Inquiry", id: "partnership", type: "partnership" }
             ]
-        }
+        } */
     ];
 
     const menuDataKr = [
@@ -122,15 +122,15 @@ export default function Header({ onNavigateToNews, onNavigateToHome, onNavigateT
             items: [
                 { label: "News & Insights", id: "news", type: "news" }
             ]
-        },
-        {
+        }
+        /* {
             title: "Inquiry",
             type: "inquiry",
             items: [
                 { label: "임대차 문의", id: "lease", type: "lease" },
                 { label: "파트너십 문의", id: "partnership", type: "partnership" }
             ]
-        }
+        } */
     ];
 
     const currentMenuData = lang === 'kr' ? menuDataKr : menuDataEn;
