@@ -16,9 +16,9 @@ export default function Section1() {
                 <div 
                     className={`flex text-black text-center px-4 antialiased transition-all duration-[800ms] ${mounted ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-16 scale-95'}`}
                     style={{ 
-                        fontFamily: "'Inter', sans-serif",
-                        fontSize: "clamp(2rem, 5vw, 4rem)",
-                        fontWeight: 700, // Bold
+                        fontFamily: "'Sanomat web light', 'Sanomat Web Light', 'Sanomat', sans-serif",
+                        fontSize: "50px",
+                        fontWeight: 300, 
                         letterSpacing: "-0.02em",
                         WebkitFontSmoothing: "antialiased",
                         MozOsxFontSmoothing: "grayscale",
