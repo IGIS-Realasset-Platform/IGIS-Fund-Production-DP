@@ -323,7 +323,7 @@ export default function Header({ onNavigateToNews, onNavigateToHome, onNavigateT
                     <a href="#"
                         onClick={(e) => handleScrollTo(e, 'top')}
                         className="text-xl font-bold tracking-normal cursor-pointer hover:opacity-80 transition-opacity">
-                        IOTA Seoul
+                        IFPDP
                     </a>
                     <div className="hidden min-[1100px]:flex items-center gap-[30px]">
                         <div

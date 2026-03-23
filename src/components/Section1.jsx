@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from 'react';
 
 export default function Section1() {
-    const [expanded, setExpanded] = useState(false);
+    const [expandedIndices, setExpandedIndices] = useState([]);
 
     useEffect(() => {
-        const timer = setTimeout(() => {
-            setExpanded(true);
-        }, 2000);
-        return () => clearTimeout(timer);
+        const count = 5;
+        const timeouts = [];
+        for (let idx = 0; idx < count; idx++) {
+            timeouts.push(
+                setTimeout(() => {
+                    setExpandedIndices(prev => [...prev, idx]);
+                }, 2000 + idx * 800) // Start at 2000ms, each following 800ms later
+            );
+        }
+        return () => timeouts.forEach(clearTimeout);
     }, []);
 
     const words = [
@@ -24,22 +30,25 @@ export default function Section1() {
                 <div 
                     className="flex text-white"
                     style={{ 
-                        fontFamily: "'Sanomat Web Regular', 'Sanomat', sans-serif",
-                        fontSize: "clamp(1.5rem, 4vw, 3.5rem)",
-                        fontWeight: 400,
+                        fontFamily: "'Sanomat web light', 'Sanomat Web Regular', 'Sanomat', sans-serif",
+                        fontSize: "clamp(2.75rem, 6vw, 4.75rem)",
+                        fontWeight: 200,
                         letterSpacing: "0.05em"
                     }}
                 >
-                    {words.map((item, idx) => (
-                        <div key={idx} className="flex items-baseline">
-                            <span>{item.i}</span>
-                            <div 
-                                className={`overflow-hidden transition-all duration-[3000ms] ease-out flex ${expanded ? 'max-w-[400px] opacity-100' : 'max-w-0 opacity-0'}`}
-                            >
-                                <span className="whitespace-pre">{item.text}</span>
+                    {words.map((item, idx) => {
+                        const isExpanded = expandedIndices.includes(idx);
+                        return (
+                            <div key={idx} className="flex items-baseline">
+                                <span>{item.i}</span>
+                                <div 
+                                    className={`overflow-hidden transition-all duration-[3000ms] ease-out flex ${isExpanded ? 'max-w-[400px] opacity-100' : 'max-w-0 opacity-0'}`}
+                                >
+                                    <span className="whitespace-pre">{item.text}</span>
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
             </div>
             <div id="scroll-arrow"
