@@ -22,7 +22,7 @@ export default function Section3({ isActive }) {
     return (
         <section className="section w-full h-full bg-white flex flex-col items-center justify-center relative px-4">
             <div 
-                className="w-full max-w-[1000px] text-[40px] md:text-[46px] flex flex-col items-start justify-center text-[#999] font-sans tracking-tight leading-snug gap-8 relative"
+                className="text-[40px] md:text-[46px] flex flex-col items-start justify-center text-[#999] font-sans tracking-tight leading-snug gap-8 relative"
                 style={{ fontWeight: 700 }}
             >
                 {/* Block 1 */}
