@@ -17,7 +17,7 @@ export default function Section1() {
                     className={`flex text-black text-center px-4 antialiased transition-all duration-[800ms] ${mounted ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-16 scale-95'}`}
                     style={{ 
                         fontFamily: "'Sanomat Wp', 'Sanomat Web', 'Sanomat', sans-serif",
-                        fontSize: "80px",
+                        fontSize: "70px",
                         fontWeight: 500, 
                         letterSpacing: "-0.01em",
                         WebkitFontSmoothing: "antialiased",
