@@ -1,81 +1,22 @@
 import React from 'react';
 import Header from './components/Header';
 import MainLayout from './components/MainLayout';
-import NewsList from './components/NewsList';
-import NewsDetail from './components/NewsDetail';
-import Lease from './components/Lease';
-import Partnership from './components/Partnership';
-import { newsData } from './data/newsData';
 import { useAnimations } from './hooks/useAnimations';
 import { useLanguage } from './context/LanguageContext';
 
 export default function App() {
-  const [currentPage, setCurrentPage] = React.useState('home'); // 'home', 'news', 'news_detail', 'lease', 'partnership'
+  const [currentPage, setCurrentPage] = React.useState('home');
 
   useAnimations(currentPage);
-  const [selectedArticle, setSelectedArticle] = React.useState(null);
 
   React.useEffect(() => {
-    const handlePopState = () => {
-      const hash = window.location.hash;
-
-      if (hash === '#news') {
-        setCurrentPage('news');
-        setSelectedArticle(null);
-      } else if (hash === '#lease') {
-        setCurrentPage('lease');
-        setSelectedArticle(null);
-      } else if (hash === '#partnership') {
-        setCurrentPage('partnership');
-        setSelectedArticle(null);
-      } else if (hash.startsWith('#news-detail-')) {
-        const id = parseInt(hash.replace('#news-detail-', ''), 10);
-        const article = newsData.find((a) => a.id === id);
-        if (article) {
-          setCurrentPage('news_detail');
-          setSelectedArticle(article);
-        } else {
-          setCurrentPage('news');
-        }
-      } else {
-        setCurrentPage('home');
-
-        let targetId = hash === '#' || hash === '#top' || hash === '' ? 'top' : hash.substring(1);
-        let checkCount = 0;
-        const checkInterval = setInterval(() => {
-          const target = targetId === 'top' ? document.getElementById('scroll-container') : document.getElementById(targetId);
-          checkCount++;
-          if (target || checkCount > 50) {
-            clearInterval(checkInterval);
-            if (targetId === 'top') {
-              window.scrollTo({ top: 0, behavior: 'instant' });
-            } else if (target) {
-              target.scrollIntoView({ behavior: 'instant', block: 'start' });
-            }
-          }
-        }, 50);
-      }
-    };
-
-    window.addEventListener('popstate', handlePopState);
-
-    // Initial load handling
-    if (window.location.hash) {
-      handlePopState();
-    }
-
-    return () => window.removeEventListener('popstate', handlePopState);
-  }, []);
-
-  React.useEffect(() => {
-    window.isNewsPage = currentPage === 'news' || currentPage === 'news_detail';
-    window.isLeasePage = currentPage === 'lease' || currentPage === 'partnership';
+    window.isNewsPage = false;
+    window.isLeasePage = false;
   }, [currentPage]);
 
   const { lang } = useLanguage();
 
   React.useEffect(() => {
-    // Re-apply language translations when page changes
     const applyLanguage = () => {
       const krTargetTexts = document.querySelectorAll(".kr-target-text");
       const enOnlyTexts = document.querySelectorAll(".en-only-text");
@@ -103,64 +44,17 @@ export default function App() {
         });
       }
     };
-
-    // Slight delay to ensure DOM is rendered after page change
     setTimeout(applyLanguage, 50);
   }, [currentPage, lang]);
-
-  const handleNavigateToNews = () => {
-    setCurrentPage('news');
-    setSelectedArticle(null);
-  };
-
-  const handleSelectArticle = (article) => {
-    setSelectedArticle(article);
-    setCurrentPage('news_detail');
-    window.history.pushState(null, '', `#news-detail-${article.id}`);
-  };
-
-  const handleNavigateToLease = () => {
-    setCurrentPage('lease');
-    setSelectedArticle(null);
-  };
-
-  const handleNavigateToPartnership = () => {
-    setCurrentPage('partnership');
-    setSelectedArticle(null);
-  };
-
-  const handleBackToOptions = () => {
-    setCurrentPage('news');
-    window.history.pushState(null, '', '#news');
-  };
-
-  const handleNavigateToHome = () => {
-    setCurrentPage('home');
-    window.history.pushState(null, '', window.location.pathname);
-  };
 
   return (
     <div className="scroll-container font-sans" id="scroll-container">
       <Header
-        onNavigateToNews={handleNavigateToNews}
-        onNavigateToHome={handleNavigateToHome}
-        onNavigateToLease={handleNavigateToLease}
-        onNavigateToPartnership={handleNavigateToPartnership}
+        onNavigateToHome={() => setCurrentPage('home')}
         currentPage={currentPage}
       />
 
       {currentPage === 'home' && <MainLayout />}
-
-      {currentPage === 'news' && (
-        <NewsList onSelectArticle={handleSelectArticle} />
-      )}
-
-      {currentPage === 'news_detail' && (
-        <NewsDetail article={selectedArticle} onBack={handleBackToOptions} />
-      )}
-
-      {currentPage === 'lease' && <Lease />}
-      {currentPage === 'partnership' && <Partnership />}
     </div>
   );
 }

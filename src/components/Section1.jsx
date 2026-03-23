@@ -29,12 +29,20 @@ export default function Section1() {
                     IGIS Fund Production Data Platform
                 </div>
             </div>
-            <div id="scroll-arrow"
-                className="absolute bottom-12 left-1/2 transform -translate-x-1/2 opacity-0 transition-opacity duration-1000">
-                <svg className="w-8 h-8 text-black animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-                        d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
-                </svg>
+            <div id="keyboard-hint"
+                className="absolute bottom-12 flex items-center gap-12 transition-opacity duration-1000 text-gray-400">
+                <div className="flex flex-col items-center gap-2 cursor-pointer hover:opacity-70 transition-opacity">
+                    <svg className="w-8 h-8 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"></path>
+                    </svg>
+                    <span className="text-[12px] uppercase font-bold tracking-widest text-black">Prev</span>
+                </div>
+                <div className="flex flex-col items-center gap-2 cursor-pointer hover:opacity-70 transition-opacity">
+                    <svg className="w-8 h-8 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                    <span className="text-[12px] uppercase font-bold tracking-widest text-black">Next</span>
+                </div>
             </div>
         </section>
     );
