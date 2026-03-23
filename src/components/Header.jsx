@@ -12,125 +12,19 @@ export default function Header({ onNavigateToNews, onNavigateToHome, onNavigateT
     const initialTransform = React.useRef('translateY(0)');
 
     const menuDataEn = [
-        {
-            title: "New Heart of Seoul",
-            id: "section2",
-            items: [
-                { label: "Build with Foster + Partners", id: "section-foster" },
-                { label: "Property Overview", id: "section3" },
-                { label: "Brand Guidelines", id: "section4" },
-                { label: "SYBD", id: "section5" },
-                { label: "Green", id: "section-green" },
-                { label: "Unmatched Scale", id: "section-scale" }
-            ]
-        },
-        {
-            title: "Next-Gen Workplace",
-            id: "section-nextgen",
-            items: [
-                { label: "New Office Standard for the AI Era", id: "section-nextgen-standard" },
-                { label: "Air Quality Management", id: "section-airquality" },
-                { label: "Seamless User Experience", id: "section-smartinterface" },
-                { label: "Net-Zero Ready", id: "section-netzero" },
-                { label: "Privacy-Focused Restroom", id: "section-restroom" },
-                { label: "Korea's Largest Elevator", id: "section-elevator" },
-                { label: "AI-Driven Building HVAC", id: "section-hvac" }
-            ]
-        },
-        {
-            title: "Design & Service",
-            id: "section-design",
-            items: [
-                { label: "Architectural Legends", id: "section-design" },
-                { label: "Global Top-Tier Construction Company", id: "section-construction" },
-                { label: "Upper Luxury Hospitality", id: "section-hotel" }
-            ]
-        },
-        {
-            title: "IOTA Details",
-            id: "section-iotaone",
-            items: [
-                { label: "IOTA Seoul One", id: "section-iotaone" },
-                { label: "IOTA Seoul Two", id: "section-iotatwo" },
-                { label: "Partnership", id: "section-partnership" }
-            ]
-        },
-        {
-            title: "News",
-            type: "news",
-            items: [
-                { label: "News & Insights", id: "news", type: "news" }
-            ]
-        }
-        /* {
-            title: "Inquiry",
-            type: "inquiry",
-            items: [
-                { label: "Leasing Inquiry", id: "lease", type: "lease" },
-                { label: "Partnership Inquiry", id: "partnership", type: "partnership" }
-            ]
-        } */
+        { title: "A", id: "section-a", items: [] },
+        { title: "B", id: "section-b", items: [] },
+        { title: "C", id: "section-c", items: [] },
+        { title: "D", id: "section-d", items: [] },
+        { title: "E", id: "section-e", items: [] }
     ];
 
     const menuDataKr = [
-        {
-            title: "New Heart of Seoul",
-            id: "section2",
-            items: [
-                { label: "포스터 앤 파트너스 설계", id: "section-foster" },
-                { label: "건축 개요", id: "section3" },
-                { label: "브랜드 아이덴티티", id: "section4" },
-                { label: "글로벌 업무지구", id: "section5" },
-                { label: "도심 속 자연", id: "section-green" },
-                { label: "압도적인 스케일", id: "section-scale" }
-            ]
-        },
-        {
-            title: "Next-Gen Workplace",
-            id: "section-nextgen",
-            items: [
-                { label: "AI 시대의 새로운 오피스 표준", id: "section-nextgen-standard" },
-                { label: "초정밀 공기질 관리 시스템", id: "section-airquality" },
-                { label: "심리스 디지털 사용자 경험", id: "section-smartinterface" },
-                { label: "넷제로 친환경 빌딩", id: "section-netzero" },
-                { label: "프라이버시 집중형 화장실", id: "section-restroom" },
-                { label: "국내 최고 사양 엘리베이터", id: "section-elevator" },
-                { label: "입주사 맞춤형 공조 시스템", id: "section-hvac" }
-            ]
-        },
-        {
-            title: "Design & Service",
-            id: "section-design",
-            items: [
-                { label: "세계적인 건축 거장의 만남", id: "section-design" },
-                { label: "글로벌 탑티어 건설사 참여", id: "section-construction" },
-                { label: "최상위 럭셔리 호스피탈리티", id: "section-hotel" }
-            ]
-        },
-        {
-            title: "IOTA Details",
-            id: "section-iotaone",
-            items: [
-                { label: "IOTA Seoul One", id: "section-iotaone" },
-                { label: "IOTA Seoul Two", id: "section-iotatwo" },
-                { label: "Partnership", id: "section-partnership" }
-            ]
-        },
-        {
-            title: "News",
-            type: "news",
-            items: [
-                { label: "News & Insights", id: "news", type: "news" }
-            ]
-        }
-        /* {
-            title: "Inquiry",
-            type: "inquiry",
-            items: [
-                { label: "임대차 문의", id: "lease", type: "lease" },
-                { label: "파트너십 문의", id: "partnership", type: "partnership" }
-            ]
-        } */
+        { title: "A", id: "section-a", items: [] },
+        { title: "B", id: "section-b", items: [] },
+        { title: "C", id: "section-c", items: [] },
+        { title: "D", id: "section-d", items: [] },
+        { title: "E", id: "section-e", items: [] }
     ];
 
     const currentMenuData = lang === 'kr' ? menuDataKr : menuDataEn;
