@@ -9,12 +9,12 @@ export default function Section2({ isActive }) {
             return;
         }
         
-        // 1. 가운데 텍스트 등장
-        const t1 = setTimeout(() => setStep(1), 600);
-        // 2. 그 위 텍스트 등장
-        const t2 = setTimeout(() => setStep(2), 1600);
-        // 3. 그 아래 텍스트 등장
-        const t3 = setTimeout(() => setStep(3), 2600);
+        // 1. 가운데 텍스트 등장 (0.5s)
+        const t1 = setTimeout(() => setStep(1), 500);
+        // 2. 그 위 텍스트 등장 (0.8s 간격 -> 1.3s)
+        const t2 = setTimeout(() => setStep(2), 1300);
+        // 3. 그 아래 텍스트 등장 (0.8s 간격 -> 2.1s)
+        const t3 = setTimeout(() => setStep(3), 2100);
 
         return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
     }, [isActive]);
@@ -22,7 +22,7 @@ export default function Section2({ isActive }) {
     return (
         <section className="section w-full h-full bg-white flex flex-col items-center justify-center relative px-4">
             <div 
-                className="w-full max-w-[600px] text-[30px] flex flex-col items-start text-black font-sans tracking-tight leading-relaxed gap-3"
+                className="w-full max-w-[800px] text-[50px] flex flex-col items-start text-black font-sans tracking-tight leading-tight gap-1"
                 style={{ fontWeight: 400 }}
             >
                 {/* 2. Top */}
