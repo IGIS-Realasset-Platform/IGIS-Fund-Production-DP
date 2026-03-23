@@ -12,14 +12,12 @@ export default function Section2({ isActive }) {
         
         // 1. 가운데 텍스트 등장 (0.5s)
         const t1 = setTimeout(() => setStep(1), 500);
-        // 2. 그 위 텍스트 등장 (1.3s)
+        // 2. 그 위 텍스트 + 이미지 등장 (1.3s)
         const t2 = setTimeout(() => setStep(2), 1300);
         // 3. 그 아래 텍스트 등장 (2.1s)
         const t3 = setTimeout(() => setStep(3), 2100);
-        // 4. 최상단 openclaw.jpg 이미지 등장 (좀 더 빨리: 2.3s)
-        const t4 = setTimeout(() => setStep(4), 2300);
 
-        return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); clearTimeout(t4); };
+        return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
     }, [isActive]);
 
     return (
@@ -28,12 +26,12 @@ export default function Section2({ isActive }) {
                 className="w-[1000px] text-[50px] flex flex-col items-start justify-center text-black font-sans tracking-tight leading-tight gap-1 relative"
                 style={{ fontWeight: 400 }}
             >
-                {/* 4. Top Image (openclaw.jpg) - 절대 위치 지정으로 텍스트의 세로 중앙 정렬을 방해하지 않게 분리 */}
+                {/* 2. Top Image (openclaw.jpg) - 텍스트(Top)와 동시에 등장 */}
                 <div className="absolute -top-[100px] left-0 w-full h-[100px] flex items-end z-0 mix-blend-multiply pointer-events-none">
                     <img 
                         src={openclawImg} 
                         alt="OpenClaw Logo" 
-                        className={`w-auto h-full object-contain object-left transition-all duration-[400ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] ${step >= 4 ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`} 
+                        className={`w-auto h-full object-contain object-left transition-all duration-[400ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] ${step >= 2 ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`} 
                     />
                 </div>
 
