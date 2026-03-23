@@ -7,9 +7,9 @@ export default function Section1() {
                 <div 
                     className="flex text-black text-center px-4 antialiased"
                     style={{ 
-                        fontFamily: "'Sanomat web light', 'Sanomat Web Light', 'Sanomat', serif",
+                        fontFamily: "'Inter', sans-serif",
                         fontSize: "clamp(3.25rem, 7vw, 5.25rem)",
-                        fontWeight: 100, 
+                        fontWeight: 200, 
                         letterSpacing: "-0.02em",
                         WebkitFontSmoothing: "antialiased",
                         MozOsxFontSmoothing: "grayscale",
