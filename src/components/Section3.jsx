@@ -9,12 +9,12 @@ export default function Section3({ isActive }) {
             return;
         }
         
-        // 0.4s 간격 (400ms)
-        const t1 = setTimeout(() => setStep(1), 400);
-        const t2 = setTimeout(() => setStep(2), 800);
-        const t3 = setTimeout(() => setStep(3), 1200);
-        const t4 = setTimeout(() => setStep(4), 1600);
-        const t5 = setTimeout(() => setStep(5), 2000);
+        // 0.8s 간격 (800ms)
+        const t1 = setTimeout(() => setStep(1), 500);
+        const t2 = setTimeout(() => setStep(2), 1300);
+        const t3 = setTimeout(() => setStep(3), 2100);
+        const t4 = setTimeout(() => setStep(4), 2900);
+        const t5 = setTimeout(() => setStep(5), 3700);
 
         return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); clearTimeout(t4); clearTimeout(t5); };
     }, [isActive]);
