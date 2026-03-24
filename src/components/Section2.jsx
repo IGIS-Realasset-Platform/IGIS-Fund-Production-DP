@@ -48,13 +48,12 @@ export default function Section2({ isActive }) {
                     <div 
                         className={`flex flex-col items-start transition-all duration-[1200ms] ease-[cubic-bezier(0.19,1,0.22,1)] overflow-hidden ${step >= 3 ? 'opacity-100 max-h-[250px] mt-1' : 'opacity-0 max-h-0 mt-0'}`}
                     >
-                        {/* 클리핑 방지를 위해 p 태그에 pb-4 여백을 줌 */}
-                        <p className="text-[37px] md:text-[51px] font-bold text-[#1d1d1f] tracking-tight leading-[1.1] inline-block pb-4">
+                        <p className="text-[37px] md:text-[51px] font-bold text-[#1d1d1f] tracking-tight leading-[1.1] inline-block pb-4 z-10">
                             <span className="relative inline-block pb-[1px]">
                                 내 PC에 들어와 모든 걸 할 수 있는
-                                {/* 좌측에서 우측으로 그어지는 묵직한 언더라인 (텍스트에 아주 바짝 붙여 렌더링) */}
+                                {/* 좌측에서 우측으로 그어지는 언더라인 (1px 얇게, 2px 더 위로 밀착) */}
                                 <span 
-                                    className={`absolute bottom-0 left-0 h-[3px] md:h-[4px] bg-[#1d1d1f] transition-all duration-[800ms] ease-[cubic-bezier(0.25,1,0.5,1)] ${step >= 4 ? 'w-full opacity-100' : 'w-0 opacity-0'}`}
+                                    className={`absolute bottom-[2px] left-0 h-[2px] md:h-[3px] bg-[#1d1d1f] -z-10 transition-all duration-[800ms] ease-[cubic-bezier(0.25,1,0.5,1)] ${step >= 4 ? 'w-full opacity-100' : 'w-0 opacity-0'}`}
                                 ></span>
                             </span>
                             {' AI의 위력을.'}
