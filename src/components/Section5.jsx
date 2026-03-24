@@ -15,15 +15,16 @@ export default function Section5({ isActive }) {
         const t3 = setTimeout(() => setStep(3), 2100);
         const t4 = setTimeout(() => setStep(4), 2900);
         const t5 = setTimeout(() => setStep(5), 3700);
+        const t6 = setTimeout(() => setStep(6), 4600); // 6. Trigger global shift and AI=DATA
 
-        return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); clearTimeout(t4); clearTimeout(t5); };
+        return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); clearTimeout(t4); clearTimeout(t5); clearTimeout(t6); };
     }, [isActive]);
 
     return (
         <section className="section w-full h-full bg-white overflow-y-auto relative px-4">
-            <div className="w-full min-h-full flex flex-col items-center justify-center py-24 md:py-32">
+            <div className="w-full min-h-full max-w-[1400px] mx-auto flex flex-col items-center justify-center py-24 md:py-32 relative">
                 <div 
-                    className="w-full max-w-[1000px] text-[24px] sm:text-[32px] md:text-[40px] xl:text-[46px] flex flex-col items-start text-[#999] font-sans tracking-tight leading-[1.32] gap-[29px] md:gap-[37px] relative break-keep -translate-y-[40px] md:-translate-y-[50px]"
+                    className={`w-full max-w-[1000px] text-[24px] sm:text-[32px] md:text-[40px] xl:text-[46px] flex flex-col items-start text-[#999] font-sans tracking-tight leading-[1.32] gap-[29px] md:gap-[37px] relative break-keep -translate-y-[40px] md:-translate-y-[50px] transition-transform duration-[1400ms] ease-[cubic-bezier(0.19,1,0.22,1)] ${step >= 6 ? '-translate-x-[50px] md:-translate-x-[150px] lg:-translate-x-[200px]' : 'translate-x-0'}`}
                     style={{ fontWeight: 700 }}
                 >
                     {/* Block 1 */}
@@ -40,7 +41,8 @@ export default function Section5({ isActive }) {
                     {/* Block 3 */}
                     <div className={`transition-all duration-[600ms] ease-out ${step >= 3 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
                         거창한 AI 교육은 필요 없습니다.<br />
-                        직원들은 지금처럼 검색창에 필요한 질문만 던지면 되니까요.
+                        직원들은 지금처럼 검색창에 필요한 질문만<br />
+                        던지면 되니까요.
                     </div>
 
                     {/* Block 4 */}
@@ -54,6 +56,21 @@ export default function Section5({ isActive }) {
                         그것은 오직, 이지스 내부에 쌓여 흐르는<br />
                         <span className="text-black">'데이터의 깊이'</span>에 달려있습니다.
                     </div>
+                </div>
+
+                {/* 6. AI = DATA Hero Text (Right Side Overlay) */}
+                <div 
+                    className={`absolute right-[5%] md:right-[10%] lg:right-[15%] text-[#1d1d1f] flex items-center justify-center antialiased text-[60px] md:text-[90px] lg:text-[110px] transition-all duration-[1400ms] ease-[cubic-bezier(0.19,1,0.22,1)] ${step >= 6 ? 'opacity-100 translate-x-0 scale-100' : 'opacity-0 translate-x-[150px] scale-90'} hidden sm:flex`}
+                    style={{ 
+                        fontFamily: "'Sanomat Wp', 'Sanomat Web', 'Sanomat', sans-serif",
+                        fontWeight: 500, 
+                        letterSpacing: "-0.01em",
+                        WebkitFontSmoothing: "antialiased",
+                        MozOsxFontSmoothing: "grayscale",
+                        textRendering: "optimizeLegibility" 
+                    }}
+                >
+                    AI = DATA
                 </div>
             </div>
         </section>
