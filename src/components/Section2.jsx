@@ -48,11 +48,11 @@ export default function Section2({ isActive }) {
                     <div 
                         className={`flex flex-col items-start transition-all duration-[1200ms] ease-[cubic-bezier(0.19,1,0.22,1)] overflow-hidden ${step >= 3 ? 'opacity-100 max-h-[250px] mt-1' : 'opacity-0 max-h-0 mt-0'}`}
                     >
-                        <p className="relative text-[37px] md:text-[51px] font-bold text-[#1d1d1f] tracking-tight leading-[1.05] inline-block">
+                        <p className="relative pb-2 md:pb-3 text-[37px] md:text-[51px] font-bold text-[#1d1d1f] tracking-tight leading-[1.05] inline-block">
                             내 PC에 들어와 모든 걸 할 수 있는 AI의 위력을.
-                            {/* 좌측에서 우측으로 그어지는 묵직한 언더라인 */}
+                            {/* 좌측에서 우측으로 그어지는 묵직한 언더라인 (overflow-hidden에 잘리지 않게 pb 확보 후 bottom-0 배치) */}
                             <span 
-                                className={`absolute -bottom-2 left-0 h-[4px] bg-[#1d1d1f] transition-all duration-[800ms] ease-[cubic-bezier(0.25,1,0.5,1)] ${step >= 4 ? 'w-full opacity-100' : 'w-0 opacity-0'}`}
+                                className={`absolute bottom-0 left-0 h-[4px] bg-[#1d1d1f] transition-all duration-[800ms] ease-[cubic-bezier(0.25,1,0.5,1)] ${step >= 4 ? 'w-full opacity-100' : 'w-0 opacity-0'}`}
                             ></span>
                         </p>
                     </div>
