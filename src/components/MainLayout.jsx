@@ -116,54 +116,56 @@ export default function MainLayout() {
             })}
 
             {/* Global Pagination & Navigation Controls */}
-            <div className="fixed bottom-[32px] left-1/2 -translate-x-1/2 flex items-center justify-center gap-6 md:gap-12 z-[9999] mix-blend-difference">
+            <div className="fixed bottom-[32px] left-1/2 -translate-x-1/2 flex flex-col items-center justify-center gap-[10px] z-[9999] mix-blend-difference">
                 
-                {/* Left Arrow Button (화살표 축소) */}
-                <button 
-                    onClick={prevSlide}
-                    disabled={currentSlide === 0}
-                    className={`w-8 h-8 md:w-10 md:h-10 flex items-center justify-center border-[1.5px] md:border-2 border-white rounded-full transition-all duration-300 ${currentSlide === 0 ? 'opacity-20 cursor-default' : 'opacity-100 hover:scale-105 cursor-pointer'}`}
-                >
-                    <svg className="w-4 h-4 md:w-5 md:h-5 text-white transform rotate-180" fill="none" strokeWidth="2.5" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m-7-7l7 7-7 7" />
-                    </svg>
-                </button>
-
-                {/* Dots Pagination List */}
-                <div className="flex items-center gap-2 md:gap-3">
-                    {slides.map((_, idx) => (
-                        <div 
-                            key={idx} 
-                            onClick={() => setCurrentSlide(idx)}
-                            className="relative flex items-center justify-center w-[18px] h-[18px] cursor-pointer group"
-                        >
-                            {/* Inner Fixed Dot (항상 흰색, mix-blend로 완벽한 반전 구현) */}
-                            <div className="w-[8px] h-[8px] rounded-full bg-white transition-all duration-300"></div>
-                            
-                            {/* Outer Ring for Active State */}
-                            <div className={`absolute inset-0 border-[1.5px] border-white rounded-full transition-all duration-300 ${currentSlide === idx ? 'opacity-100 scale-100' : 'opacity-0 scale-75'}`}></div>
-                        </div>
-                    ))}
+                {/* Page Number Indicator (Centered Above Dots) */}
+                <div className="flex items-center justify-center text-white font-sans text-[12px] md:text-[13px] tracking-widest opacity-80">
+                    <span className="font-medium">{currentSlide + 1}</span>
+                    <span className="mx-[6px] font-extralight opacity-50">/</span>
+                    <span className="font-medium">{slides.length}</span>
                 </div>
 
-                {/* Right Arrow Button (화살표 축소) */}
-                <button 
-                    onClick={nextSlide}
-                    disabled={currentSlide === slides.length - 1}
-                    className={`w-8 h-8 md:w-10 md:h-10 flex items-center justify-center border-[1.5px] md:border-2 border-white rounded-full transition-all duration-300 ${currentSlide === slides.length - 1 ? 'opacity-20 cursor-default' : 'opacity-100 hover:scale-105 cursor-pointer'}`}
-                >
-                    <svg className="w-4 h-4 md:w-5 md:h-5 text-white" fill="none" strokeWidth="2.5" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m-7-7l7 7-7 7" />
-                    </svg>
-                </button>
+                {/* Controls Row */}
+                <div className="flex items-center justify-center gap-6 md:gap-12">
+                    {/* Left Arrow Button (화살표 축소) */}
+                    <button 
+                        onClick={prevSlide}
+                        disabled={currentSlide === 0}
+                        className={`w-8 h-8 md:w-10 md:h-10 flex items-center justify-center border-[1.5px] md:border-2 border-white rounded-full transition-all duration-300 ${currentSlide === 0 ? 'opacity-20 cursor-default' : 'opacity-100 hover:scale-105 cursor-pointer'}`}
+                    >
+                        <svg className="w-4 h-4 md:w-5 md:h-5 text-white transform rotate-180" fill="none" strokeWidth="2.5" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m-7-7l7 7-7 7" />
+                        </svg>
+                    </button>
 
-            </div>
+                    {/* Dots Pagination List */}
+                    <div className="flex items-center gap-2 md:gap-3">
+                        {slides.map((_, idx) => (
+                            <div 
+                                key={idx} 
+                                onClick={() => setCurrentSlide(idx)}
+                                className="relative flex items-center justify-center w-[18px] h-[18px] cursor-pointer group"
+                            >
+                                {/* Inner Fixed Dot (항상 흰색, mix-blend로 완벽한 반전 구현) */}
+                                <div className="w-[8px] h-[8px] rounded-full bg-white transition-all duration-300"></div>
+                                
+                                {/* Outer Ring for Active State */}
+                                <div className={`absolute inset-0 border-[1.5px] border-white rounded-full transition-all duration-300 ${currentSlide === idx ? 'opacity-100 scale-100' : 'opacity-0 scale-75'}`}></div>
+                            </div>
+                        ))}
+                    </div>
 
-            {/* Page Number Indicator (Bottom Right) - 다시 우측 하단으로 분리 복귀 */}
-            <div className="fixed bottom-[28px] right-6 md:right-10 flex items-center justify-center z-[9999] mix-blend-difference text-white font-sans text-[12px] md:text-[14px] tracking-widest opacity-60">
-                <span className="font-light">{currentSlide + 1}</span>
-                <span className="mx-1 font-extralight opacity-50">/</span>
-                <span className="font-light">{slides.length}</span>
+                    {/* Right Arrow Button (화살표 축소) */}
+                    <button 
+                        onClick={nextSlide}
+                        disabled={currentSlide === slides.length - 1}
+                        className={`w-8 h-8 md:w-10 md:h-10 flex items-center justify-center border-[1.5px] md:border-2 border-white rounded-full transition-all duration-300 ${currentSlide === slides.length - 1 ? 'opacity-20 cursor-default' : 'opacity-100 hover:scale-105 cursor-pointer'}`}
+                    >
+                        <svg className="w-4 h-4 md:w-5 md:h-5 text-white" fill="none" strokeWidth="2.5" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m-7-7l7 7-7 7" />
+                        </svg>
+                    </button>
+                </div>
             </div>
         </div>
     );
