@@ -39,7 +39,7 @@ export default function Section4({ isActive }) {
             <div className="w-full max-w-[1200px] flex flex-col z-10 pt-16 md:pt-0">
                 
                 {/* 1. Header Title Sequence (중앙정렬 및 자간 조정) */}
-                <div className="flex flex-col items-center text-center mb-[20px]">
+                <div className="flex flex-col items-center text-center mb-[30px]">
                     <div className="overflow-hidden mb-[8px]">
                         <span 
                             className={`block text-gray-500 text-[15px] md:text-[18px] transition-all duration-[1000ms] ease-[cubic-bezier(0.19,1,0.22,1)] ${step >= 1 ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'}`}
@@ -136,10 +136,10 @@ export default function Section4({ isActive }) {
                             
                             {/* Floating Speech Bubble (Appears at Step 4 natively hovering on the right) */}
                             <div 
-                                className={`absolute top-[40px] md:top-[60px] -right-[20px] md:-right-[80px] lg:-right-[250px] xl:-right-[310px] w-[300px] md:w-[380px] lg:w-[440px] bg-[#f2f7fc] p-6 md:p-9 shadow-[0_15px_40px_rgba(0,0,0,0.15)] border-[2.5px] border-[#a0c6ed]/60 z-50 transition-all duration-[1200ms] delay-[400ms] ease-[cubic-bezier(0.19,1,0.22,1)] pointer-events-none rounded-[16px] md:rounded-[24px] ${step >= 4 ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-12 scale-95'} hidden md:block`}
+                                className={`absolute top-[20px] md:top-[40px] -right-[30px] md:-right-[90px] lg:-right-[260px] xl:-right-[320px] w-[300px] md:w-[380px] lg:w-[440px] bg-[#f2f7fc] p-6 md:p-9 shadow-[0_15px_40px_rgba(0,0,0,0.15)] border-[2.5px] border-[#1d1d1f] z-50 transition-all duration-[1200ms] delay-[400ms] ease-[cubic-bezier(0.19,1,0.22,1)] pointer-events-none rounded-none ${step >= 4 ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-12 scale-95'} hidden md:block`}
                             >
                                 {/* Speech Bubble Arrow (Rotated box with 2 aligned borders for perfect integration) */}
-                                <div className="absolute top-[36px] md:top-[44px] -left-[10px] md:-left-[12px] w-5 h-5 md:w-6 md:h-6 bg-[#f2f7fc] border-l-[2.5px] border-b-[2.5px] border-[#a0c6ed]/60 transform rotate-45 rounded-sm"></div>
+                                <div className="absolute top-[56px] md:top-[64px] -left-[10px] md:-left-[12px] w-5 h-5 md:w-6 md:h-6 bg-[#f2f7fc] border-l-[2.5px] border-b-[2.5px] border-[#1d1d1f] transform rotate-45 rounded-none"></div>
                                 
                                 <p className="text-[#1d1d1f] text-[16px] md:text-[18px] leading-[1.6] md:leading-[1.7] break-keep font-medium mb-5">
                                     외주 제작 시, 전체 맥락을 도급자에게<br className="hidden md:block" />
@@ -164,7 +164,7 @@ export default function Section4({ isActive }) {
                 <div 
                     className={`mt-6 md:mt-10 w-full flex justify-center items-center px-4 transition-all duration-[1200ms] delay-[1400ms] ease-[cubic-bezier(0.19,1,0.22,1)] ${step >= 5 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
                 >
-                    <p className="text-[40px] md:text-[56px] font-bold text-center tracking-tight text-[#1d1d1f] leading-[1.2]">
+                    <p className="text-[36px] md:text-[52px] font-bold text-center tracking-tight text-[#1d1d1f] leading-[1.2]">
                         기획과 데이터만 내재되어 있다면, <br className="block md:hidden" />
                         AI 시대에 우리가 직접 만들어내지 못할 <span className="text-[#005f9e]">'통합 플랫폼'</span>은 없습니다.
                     </p>
