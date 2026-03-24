@@ -83,36 +83,48 @@ export default function MainLayout() {
                 );
             })}
 
-            {/* Global Navigation Hint / Clickable Buttons */}
-            <div className="fixed bottom-[38px] left-1/2 -translate-x-1/2 flex items-center gap-12 text-gray-400 z-[9999] mix-blend-difference">
+            {/* Global Pagination & Navigation Controls */}
+            <div className="fixed bottom-[32px] left-1/2 -translate-x-1/2 flex items-center gap-8 md:gap-14 z-[9999] mix-blend-difference">
+                
+                {/* Left Arrow Button */}
                 <button 
                     onClick={prevSlide}
                     disabled={currentSlide === 0}
-                    className={`flex flex-col items-center gap-2 transition-opacity duration-300 ${currentSlide === 0 ? 'opacity-20 cursor-default' : 'opacity-100 hover:opacity-70 cursor-pointer'}`}
+                    className={`w-10 h-10 md:w-12 md:h-12 flex items-center justify-center border-2 border-white rounded-full transition-all duration-300 ${currentSlide === 0 ? 'opacity-20 cursor-default' : 'opacity-100 hover:scale-105 cursor-pointer'}`}
                 >
-                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"></path>
+                    <svg className="w-5 h-5 md:w-6 md:h-6 text-white transform rotate-180" fill="none" strokeWidth="2.5" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m-7-7l7 7-7 7" />
                     </svg>
-                    <span className="text-[10px] uppercase font-bold tracking-widest text-white">Left</span>
                 </button>
-                <div className={`w-[1px] h-[30px] bg-white/20`} />
+
+                {/* 5 Dots Pagination List */}
+                <div className="flex items-center gap-3 md:gap-4">
+                    {slides.map((_, idx) => (
+                        <div 
+                            key={idx} 
+                            onClick={() => setCurrentSlide(idx)}
+                            className="relative flex items-center justify-center w-6 h-6 cursor-pointer group"
+                        >
+                            {/* Inner Fixed Dot */}
+                            <div className={`w-[6px] h-[6px] md:w-[8px] md:h-[8px] rounded-full transition-all duration-300 ${currentSlide === idx ? 'bg-white scale-110' : 'bg-white/40 group-hover:bg-white/80'}`}></div>
+                            
+                            {/* Outer Expanding Ring for Active State */}
+                            <div className={`absolute inset-0 border-[1.5px] border-white rounded-full transition-all duration-500 ease-out ${currentSlide === idx ? 'opacity-100 scale-100' : 'opacity-0 scale-50'}`}></div>
+                        </div>
+                    ))}
+                </div>
+
+                {/* Right Arrow Button */}
                 <button 
                     onClick={nextSlide}
                     disabled={currentSlide === slides.length - 1}
-                    className={`flex flex-col items-center gap-2 transition-opacity duration-300 ${currentSlide === slides.length - 1 ? 'opacity-20 cursor-default' : 'opacity-100 hover:opacity-70 cursor-pointer'}`}
+                    className={`w-10 h-10 md:w-12 md:h-12 flex items-center justify-center border-2 border-white rounded-full transition-all duration-300 ${currentSlide === slides.length - 1 ? 'opacity-20 cursor-default' : 'opacity-100 hover:scale-105 cursor-pointer'}`}
                 >
-                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
+                    <svg className="w-5 h-5 md:w-6 md:h-6 text-white" fill="none" strokeWidth="2.5" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m-7-7l7 7-7 7" />
                     </svg>
-                    <span className="text-[10px] uppercase font-bold tracking-widest text-white">Right</span>
                 </button>
-            </div>
 
-            {/* Page Number Indicator (Bottom Right) - 작고 얇게, 하단 10px 내림 */}
-            <div className="fixed bottom-[28px] right-6 md:right-10 flex items-center justify-center z-[9999] mix-blend-difference text-white font-sans text-[12px] md:text-[14px] tracking-widest opacity-60">
-                <span className="font-light">{currentSlide + 1}</span>
-                <span className="mx-1 font-extralight opacity-50">/</span>
-                <span className="font-light">{slides.length}</span>
             </div>
         </div>
     );
