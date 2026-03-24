@@ -22,9 +22,6 @@ export default function Section3({ isActive }) {
     return (
         <section className="section w-full h-full bg-[#fbfbfd] flex flex-col items-center justify-center relative px-6 overflow-hidden">
             
-            {/* ✨ Subtle Background Glow - Blooms violently but softly when step 5 triggers */}
-            <div className={`absolute top-[60%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] md:w-[700px] md:h-[700px] bg-gradient-to-tr from-[#007AFF]/25 to-[#B026FF]/25 rounded-full blur-[100px] md:blur-[140px] transition-all duration-[2000ms] ease-out ${step >= 5 ? 'opacity-100 scale-100' : 'opacity-0 scale-50'} pointer-events-none`}></div>
-
             <div className="w-full max-w-[1200px] flex flex-col items-center justify-center text-center font-sans tracking-tight relative z-10">
                 
                 {/* 1. Introduction Phrase */}

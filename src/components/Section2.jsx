@@ -10,46 +10,53 @@ export default function Section2({ isActive }) {
             return;
         }
         
-        // 1. 가운데 텍스트 등장 (0.5s)
-        const t1 = setTimeout(() => setStep(1), 500);
-        // 2. 그 위 텍스트 + 이미지 등장 (1.3s)
-        const t2 = setTimeout(() => setStep(2), 1300);
-        // 3. 그 아래 텍스트 등장 (2.1s)
-        const t3 = setTimeout(() => setStep(3), 2100);
+        // Cinematic Sequencing
+        const t1 = setTimeout(() => setStep(1), 500);  // "대표님은 알고계실 것입니다." 크게 뜸
+        const t2 = setTimeout(() => setStep(2), 2200); // 텍스트 작아지며 위에 OpenClaw 등장
+        const t3 = setTimeout(() => setStep(3), 3200); // 밑에 텍스트 등장
 
         return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
     }, [isActive]);
 
     return (
-        <section className="section w-full h-full bg-white overflow-y-auto relative px-4">
-            <div className="w-full min-h-full flex flex-col items-center justify-center py-24 md:py-32">
-                <div 
-                    className="w-full max-w-[1000px] text-[28px] sm:text-[36px] md:text-[50px] flex flex-col items-start text-black font-sans tracking-tight leading-tight gap-2 md:gap-1 relative break-keep"
-                    style={{ fontWeight: 400 }}
-                >
-                    {/* 2. Top Image (openclaw.jpg) - 텍스트(Top)와 동시에 등장 */}
-                    <div className="absolute -top-[80px] md:-top-[100px] left-0 w-full h-[80px] md:h-[100px] flex items-end z-0 mix-blend-multiply pointer-events-none">
+        <section className="section w-full h-full bg-[#fbfbfd] overflow-hidden relative px-4">
+            <div className="w-full min-h-full flex flex-col items-center justify-center">
+                
+                {/* 절대 위치 및 센터 기준점 역할을 하는 래퍼 */}
+                <div className="relative flex flex-col items-center justify-center text-center max-w-[1000px] w-full">
+                    
+                    {/* 2. Top Logo & Text (Absolute) */}
+                    <div 
+                        className={`absolute bottom-full mb-8 md:mb-12 w-full flex flex-col items-center transition-all duration-[1200ms] ease-[cubic-bezier(0.19,1,0.22,1)] ${step >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+                    >
                         <img 
                             src={openclawImg} 
                             alt="OpenClaw Logo" 
-                            className={`w-auto h-full object-contain object-left transition-all duration-[400ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] ${step >= 2 ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`} 
+                            className="h-[60px] md:h-[80px] object-contain mb-4 md:mb-6 mix-blend-multiply" 
                         />
+                        <p className="text-[28px] md:text-[36px] font-medium text-gray-500 tracking-[-0.02em]">
+                            OpenClaw를 쓰고 계신
+                        </p>
                     </div>
 
-                    {/* 2. Top */}
-                    <div className={`transition-all duration-500 ease-out relative z-10 ${step >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-                        OpenClaw를 쓰고계신
+                    {/* 1. Middle Text (Hero) */}
+                    <div 
+                        className={`transition-all duration-[1200ms] ease-[cubic-bezier(0.19,1,0.22,1)] ${step === 0 ? 'opacity-0 scale-95 translate-y-6' : step === 1 ? 'opacity-100 scale-110 md:scale-125 translate-y-0' : 'opacity-100 scale-100 translate-y-0'}`}
+                    >
+                        <p className="text-[40px] md:text-[60px] font-bold text-[#1d1d1f] tracking-[-0.03em]">
+                            대표님은 알고 계실 것입니다.
+                        </p>
                     </div>
 
-                    {/* 1. Middle */}
-                    <div className={`font-bold transition-all duration-500 ease-out relative z-10 ${step >= 1 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-                        대표님은 알고계실 것입니다.
+                    {/* 3. Bottom Text (Absolute) */}
+                    <div 
+                        className={`absolute top-full mt-8 md:mt-12 w-full flex flex-col items-center transition-all duration-[1200ms] ease-[cubic-bezier(0.19,1,0.22,1)] ${step >= 3 ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-8'}`}
+                    >
+                        <p className="text-[28px] md:text-[36px] font-medium text-gray-500 tracking-[-0.02em]">
+                            내 PC에 들어와 모든 걸 할 수 있는 AI의 위력을.
+                        </p>
                     </div>
 
-                    {/* 3. Bottom */}
-                    <div className={`transition-all duration-500 ease-out relative z-10 ${step >= 3 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-                        내 PC에 들어와 모든걸 할 수 있는 AI의 위력을.
-                    </div>
                 </div>
             </div>
         </section>
