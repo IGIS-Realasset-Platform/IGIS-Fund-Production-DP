@@ -23,7 +23,7 @@ export default function Section2({ isActive }) {
             <div className="w-full min-h-full flex flex-col items-center justify-center py-24 md:py-32">
                 
                 {/* 일반 Flex Flow로 좌측 정렬 및 가장 타이트한 줄간격 밀착 */}
-                <div className="flex flex-col items-start justify-center text-left max-w-[1000px] w-full gap-0 md:gap-1 relative border-l-0 pl-0">
+                <div className="flex flex-col items-start justify-center text-left max-w-[1000px] w-full gap-0 md:gap-1 relative border-l-0 pl-0 -translate-y-[40px] md:-translate-y-[50px]">
                     
                     {/* 2. Top Logo & Text */}
                     <div 

@@ -84,7 +84,7 @@ export default function MainLayout() {
             })}
 
             {/* Global Navigation Hint / Clickable Buttons */}
-            <div className="fixed bottom-12 left-1/2 -translate-x-1/2 flex items-center gap-12 text-gray-400 z-[9999] mix-blend-difference">
+            <div className="fixed bottom-[38px] left-1/2 -translate-x-1/2 flex items-center gap-12 text-gray-400 z-[9999] mix-blend-difference">
                 <button 
                     onClick={prevSlide}
                     disabled={currentSlide === 0}

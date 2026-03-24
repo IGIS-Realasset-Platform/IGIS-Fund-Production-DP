@@ -22,7 +22,7 @@ export default function Section3({ isActive }) {
     return (
         <section className="section w-full h-full bg-[#fbfbfd] flex flex-col items-center justify-center relative px-6 overflow-hidden">
             
-            <div className="w-full max-w-[1200px] flex flex-col items-center justify-center text-center font-sans tracking-tight relative z-10">
+            <div className="w-full max-w-[1200px] flex flex-col items-center justify-center text-center font-sans tracking-tight relative z-10 -translate-y-[40px] md:-translate-y-[50px]">
                 
                 {/* 1. Introduction Phrase */}
                 <div className="overflow-hidden mb-10 md:mb-16">

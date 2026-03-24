@@ -17,7 +17,7 @@ export default function Section1({ isActive }) {
 
     return (
         <section className="section w-full h-full bg-white flex flex-col items-center justify-center relative">
-            <div className="logo-fade w-full flex justify-center pb-20">
+            <div className="logo-fade w-full flex justify-center pb-20 -translate-y-[40px] md:-translate-y-[50px]">
                 <div 
                     className={`flex text-black text-center px-4 antialiased transition-all duration-[800ms] ${mounted ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-16 scale-95'}`}
                     style={{ 
