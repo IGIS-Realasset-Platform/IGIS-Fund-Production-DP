@@ -91,10 +91,16 @@ export default function Section4({ isActive }) {
                                     href="https://270parkave.com/" 
                                     target="_blank" 
                                     rel="noopener noreferrer" 
-                                    className="w-full text-center mt-2.5 md:mt-3 text-[12px] md:text-[13px] font-bold text-gray-500 hover:text-[#1d1d1f] hover:underline transition-all tracking-widest uppercase"
+                                    className="group flex items-center justify-start w-full mt-3 text-[13px] md:text-[15px] font-normal text-[#1d1d1f] transition-all tracking-wide"
                                     style={{ fontFamily: "'Guardian Sans', sans-serif" }}
                                 >
-                                    Go to homepage -&gt;
+                                    <span className="group-hover:underline">Go to homepage</span>
+                                    <div className="ml-3 w-[26px] h-[26px] rounded-full border border-[#1d1d1f] flex items-center justify-center transition-transform duration-300 group-hover:translate-x-1">
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                                            <line x1="4" y1="12" x2="20" y2="12"></line>
+                                            <polyline points="14 6 20 12 14 18"></polyline>
+                                        </svg>
+                                    </div>
                                 </a>
                             </div>
                             
@@ -137,10 +143,16 @@ export default function Section4({ isActive }) {
                                         href="https://iotaseoul.site/" 
                                         target="_blank" 
                                         rel="noopener noreferrer" 
-                                        className="w-full text-center mt-2.5 md:mt-3 text-[12px] md:text-[13px] font-bold text-gray-400 hover:text-white hover:underline transition-all tracking-widest uppercase"
+                                        className="group flex items-center justify-start w-full mt-3 text-[13px] md:text-[15px] font-normal text-white transition-all tracking-wide relative z-10"
                                         style={{ fontFamily: "'Guardian Sans', sans-serif" }}
                                     >
-                                        Go to homepage -&gt;
+                                        <span className="group-hover:underline transition-all duration-300">Go to homepage</span>
+                                        <div className="ml-3 w-[26px] h-[26px] rounded-full border border-white flex items-center justify-center transition-transform duration-300 group-hover:translate-x-1">
+                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                                                <line x1="4" y1="12" x2="20" y2="12"></line>
+                                                <polyline points="14 6 20 12 14 18"></polyline>
+                                            </svg>
+                                        </div>
                                     </a>
                                 </div>
                                 
