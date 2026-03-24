@@ -4,8 +4,8 @@ import imgIota from '../assets/images/iotaseoul.jpg';
 
 // Comparison Item Blueprint
 const CardItem = ({ title, desc, isDark, isHighlighted, highlightClass }) => (
-    <div className={`flex flex-col border-t ${isDark ? 'border-white/20' : 'border-[#1d1d1f]/10'} py-4 md:py-[24px]`}>
-        <span className={`text-[12px] md:text-[13px] font-bold tracking-widest uppercase mb-1 ${isDark ? 'text-gray-400' : 'text-gray-500'}`} style={{ fontFamily: "'Guardian Sans', sans-serif" }}>
+    <div className={`flex flex-col border-t ${isDark ? 'border-white/20' : 'border-[#1d1d1f]/10'} py-3 md:py-[14px]`}>
+        <span className={`text-[12px] md:text-[13px] font-bold tracking-widest uppercase mb-0 ${isDark ? 'text-gray-400' : 'text-gray-500'}`} style={{ fontFamily: "'Guardian Sans', sans-serif" }}>
             {title}
         </span>
         <span className={`transition-colors duration-[1500ms] text-[15px] md:text-[18px] font-bold tracking-tight leading-[1.3] break-keep ${isHighlighted ? highlightClass : (isDark ? 'text-white' : 'text-[#1d1d1f]')}`}>
@@ -35,9 +35,9 @@ export default function Section4({ isActive }) {
     }, [isActive]);
 
     return (
-        <section className="section w-full h-full bg-[#fbfbfd] flex flex-col items-center justify-center relative px-6 md:px-12 py-24 overflow-y-auto">
+        <section className="section w-full min-h-[100vh] bg-[#fbfbfd] flex flex-col items-center justify-start relative px-6 md:px-12 pt-[110px] md:pt-[130px] pb-12 overflow-y-auto">
             {/* Main Content Wrapper (Width expanded to prevent text wrap on bottom row) */}
-            <div className="w-full max-w-[1340px] flex flex-col z-10 pt-16 md:pt-0">
+            <div className="w-full max-w-[1340px] flex flex-col z-10 shrink-0 mb-auto">
                 
                 {/* 1. Header Title Sequence (중앙정렬 및 자간 조정) */}
                 <div className="flex flex-col items-center text-center mb-[30px]">
@@ -53,8 +53,8 @@ export default function Section4({ isActive }) {
                         <h2 
                             className={`text-[40px] md:text-[56px] font-bold text-[#1d1d1f] tracking-tight leading-[1.15] transition-all duration-[1200ms] ease-[cubic-bezier(0.19,1,0.22,1)] ${step >= 1 ? 'translate-y-0 opacity-100' : 'translate-y-[120%] opacity-0'}`}
                         >
-                            <span className="text-[#3b7294]">데이터를 이해</span>하고, <br className="block md:hidden" />
-                            <span className="text-[#3b7294]">AI와 협업</span>할 때 벌어지는 일
+                            <span className="text-[#3b82f6]">데이터를 이해</span>하고, <br className="block md:hidden" />
+                            <span className="text-[#3b82f6]">AI와 협업</span>할 때 벌어지는 일
                         </h2>
                     </div>
                 </div>
@@ -69,7 +69,7 @@ export default function Section4({ isActive }) {
                         <div 
                             className={`flex flex-col bg-white border border-gray-200 p-6 md:p-10 mx-[15px] shadow-sm transition-all duration-[1200ms] ease-[cubic-bezier(0.19,1,0.22,1)] ${step >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-24'}`}
                         >
-                            <div className="flex flex-col mb-4 md:mb-6">
+                            <div className="flex flex-col mb-2 md:mb-3">
                                 <span className="text-gray-400 text-[12px] md:text-[14px] font-bold tracking-widest uppercase mb-1" style={{ fontFamily: "'Guardian Sans', sans-serif" }}>
                                     Traditional Agency Way
                                 </span>
@@ -81,7 +81,7 @@ export default function Section4({ isActive }) {
                                     href="https://270parkave.com/" 
                                     target="_blank" 
                                     rel="noopener noreferrer" 
-                                    className="w-full h-[120px] md:h-[150px] lg:h-[170px] overflow-hidden mb-2 shadow-sm border border-gray-200 relative group cursor-pointer block"
+                                    className="w-full h-[80px] md:h-[120px] lg:h-[135px] overflow-hidden mb-1 shadow-sm border border-gray-200 relative group cursor-pointer block"
                                 >
                                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300 z-10 w-full h-full flex items-center justify-center">
                                         <span className="text-white opacity-0 group-hover:opacity-100 font-bold transition-opacity tracking-widest font-sans drop-shadow-md">VISIT SITE</span>
@@ -90,11 +90,11 @@ export default function Section4({ isActive }) {
                                 </a>
                             </div>
                             
-                            <div className="flex flex-col mt-auto pb-4 md:pb-6">
-                                <CardItem title="의사결정 및 런칭" desc="기획-입찰-계약-제작 (3~6개월 소요)" isDark={false} isHighlighted={step >= 6} highlightClass="text-[#a81414]" />
-                                <CardItem title="구축 비용" desc="억 단위 용역비 발생" isDark={false} isHighlighted={step >= 6} highlightClass="text-[#a81414]" />
-                                <CardItem title="콘텐츠 업데이트" desc="대행사 경유 (평균 1~3일 소요)" isDark={false} isHighlighted={step >= 6} highlightClass="text-[#a81414]" />
-                                <CardItem title="데이터 소유권" desc="대행사 DB 관리 (접근 권한 제한적)" isDark={false} isHighlighted={step >= 6} highlightClass="text-[#a81414]" />
+                            <div className="flex flex-col mt-auto pb-0">
+                                <CardItem title="의사결정 및 런칭" desc="기획-입찰-계약-제작 (3~6개월 소요)" isDark={false} isHighlighted={step >= 6} highlightClass="text-[#d92d2d]" />
+                                <CardItem title="구축 비용" desc="억 단위 용역비 발생" isDark={false} isHighlighted={step >= 6} highlightClass="text-[#d92d2d]" />
+                                <CardItem title="콘텐츠 업데이트" desc="대행사 경유 (평균 1~3일 소요)" isDark={false} isHighlighted={step >= 6} highlightClass="text-[#d92d2d]" />
+                                <CardItem title="데이터 소유권" desc="대행사 DB 관리 (접근 권한 제한적)" isDark={false} isHighlighted={step >= 6} highlightClass="text-[#d92d2d]" />
                             </div>
                         </div>
 
@@ -106,8 +106,8 @@ export default function Section4({ isActive }) {
                                 {/* Subtle background glow effect */}
                                 <div className="absolute inset-0 bg-gradient-to-br from-[#ffffff10] to-transparent pointer-events-none"></div>
 
-                                <div className="flex flex-col mb-4 md:mb-6 relative z-10">
-                                    <span className="text-[#3b7294] text-[12px] md:text-[14px] font-bold tracking-widest uppercase mb-1" style={{ fontFamily: "'Guardian Sans', sans-serif" }}>
+                                <div className="flex flex-col mb-2 md:mb-3 relative z-10">
+                                    <span className="text-[#3b82f6] text-[12px] md:text-[14px] font-bold tracking-widest uppercase mb-1" style={{ fontFamily: "'Guardian Sans', sans-serif" }}>
                                         AI-Driven Internalization
                                     </span>
                                     <h3 className="text-[28px] md:text-[40px] font-bold text-white tracking-tight leading-none mb-4">
@@ -118,7 +118,7 @@ export default function Section4({ isActive }) {
                                         href="https://iotaseoul.site/" 
                                         target="_blank" 
                                         rel="noopener noreferrer" 
-                                        className="w-full h-[120px] md:h-[150px] lg:h-[170px] overflow-hidden mb-2 shadow-sm border border-white/10 relative group cursor-pointer block"
+                                        className="w-full h-[80px] md:h-[120px] lg:h-[135px] overflow-hidden mb-1 shadow-sm border border-white/10 relative group cursor-pointer block"
                                     >
                                         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300 z-10 w-full h-full flex items-center justify-center">
                                             <span className="text-white opacity-0 group-hover:opacity-100 font-bold transition-opacity tracking-widest font-sans drop-shadow-md">VISIT SITE</span>
@@ -127,11 +127,11 @@ export default function Section4({ isActive }) {
                                     </a>
                                 </div>
                                 
-                                <div className="flex flex-col mt-auto pb-4 md:pb-6 relative z-10">
-                                    <CardItem title="의사결정 및 런칭" desc="내재인력이 AI 활용 단독 수행 (단 5일)" isDark={true} isHighlighted={step >= 6} highlightClass="text-[#3b7294]" />
-                                    <CardItem title="구축 비용" desc="0원 (도메인 비용 외 영구 면제)" isDark={true} isHighlighted={step >= 6} highlightClass="text-[#3b7294]" />
-                                    <CardItem title="콘텐츠 업데이트" desc="실시간 5분 이내 직접 즉각 수정" isDark={true} isHighlighted={step >= 6} highlightClass="text-[#3b7294]" />
-                                    <CardItem title="데이터 소유권" desc="내부 DB 실시간 축적 및 데이터 주권 확보" isDark={true} isHighlighted={step >= 6} highlightClass="text-[#3b7294]" />
+                                <div className="flex flex-col mt-auto pb-0 relative z-10">
+                                    <CardItem title="의사결정 및 런칭" desc="내재인력이 AI 활용 단독 수행 (단 5일)" isDark={true} isHighlighted={step >= 6} highlightClass="text-[#3b82f6]" />
+                                    <CardItem title="구축 비용" desc="0원 (도메인 비용 외 영구 면제)" isDark={true} isHighlighted={step >= 6} highlightClass="text-[#3b82f6]" />
+                                    <CardItem title="콘텐츠 업데이트" desc="실시간 5분 이내 직접 즉각 수정" isDark={true} isHighlighted={step >= 6} highlightClass="text-[#3b82f6]" />
+                                    <CardItem title="데이터 소유권" desc="내부 DB 실시간 축적 및 데이터 주권 확보" isDark={true} isHighlighted={step >= 6} highlightClass="text-[#3b82f6]" />
                                 </div>
                             </div>
                             
@@ -148,10 +148,10 @@ export default function Section4({ isActive }) {
                                     <strong className="font-extrabold bg-[#1d1d1f] text-white px-1">수개월의 불필요한 기간</strong>이 증발합니다.
                                 </p>
                                 <p className="text-[#1d1d1f] text-[16px] md:text-[18px] leading-[1.45] md:leading-[1.55] break-keep font-bold mb-5">
-                                    반면 <strong className="text-[#3b7294] font-extrabold">내부 인력</strong>이 <strong className="font-extrabold">AI</strong>라는 무기를 직접 다루면<br className="hidden md:block" />
+                                    반면 <strong className="text-[#3b82f6] font-extrabold">내부 인력</strong>이 <strong className="font-extrabold">AI</strong>라는 무기를 직접 다루면<br className="hidden md:block" />
                                     외주 교육의 비효율이 존재하지 않으며,
                                 </p>
-                                <p className="text-[#3b7294] text-[16px] md:text-[18px] leading-[1.45] md:leading-[1.55] break-keep font-extrabold pb-1">
+                                <p className="text-[#3b82f6] text-[16px] md:text-[18px] leading-[1.45] md:leading-[1.55] break-keep font-extrabold pb-1">
                                     실무 DB 실시간 축적 기반 상시 업데이트<br className="hidden md:block" />
                                     통제권을 기업이 온전히 독점합니다.
                                 </p>
@@ -167,7 +167,7 @@ export default function Section4({ isActive }) {
                 >
                     <p className="text-[30px] md:text-[46px] font-bold text-center tracking-tight text-[#1d1d1f] leading-[1.25] whitespace-nowrap">
                         기획과 데이터만 내재되어 있다면, <br />
-                        AI 시대에 우리가 직접 만들어내지 못할 <span className="text-[#3b7294]">'통합 플랫폼'</span>은 없습니다.
+                        AI 시대에 우리가 직접 만들어내지 못할 <span className="text-[#3b82f6]">'통합 플랫폼'</span>은 없습니다.
                     </p>
                 </div>
 
