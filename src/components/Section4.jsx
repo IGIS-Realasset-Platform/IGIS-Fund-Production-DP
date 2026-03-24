@@ -39,7 +39,7 @@ export default function Section4({ isActive }) {
             <div className="w-full max-w-[1340px] flex flex-col z-10 shrink-0 my-auto">
                 
                 {/* 1. Header Title Sequence (중앙정렬 및 자간 조정) */}
-                <div className="flex flex-col items-center text-center mb-[30px]">
+                <div className="flex flex-col items-center text-center mb-[44px]">
                     <div className="overflow-hidden mb-[8px]">
                         <span 
                             className={`block text-gray-500 text-[15px] md:text-[18px] transition-all duration-[1000ms] ease-[cubic-bezier(0.19,1,0.22,1)] ${step >= 1 ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'}`}
@@ -91,9 +91,10 @@ export default function Section4({ isActive }) {
                                     href="https://270parkave.com/" 
                                     target="_blank" 
                                     rel="noopener noreferrer" 
-                                    className="w-full text-center py-2 mt-1 md:mt-2 text-[12px] md:text-[14px] font-bold text-[#1d1d1f] border border-gray-300 hover:bg-gray-50 transition-colors tracking-tight"
+                                    className="w-full text-center mt-2.5 md:mt-3 text-[12px] md:text-[13px] font-bold text-gray-500 hover:text-[#1d1d1f] hover:underline transition-all tracking-widest uppercase"
+                                    style={{ fontFamily: "'Guardian Sans', sans-serif" }}
                                 >
-                                    홈페이지 바로가기 ↗
+                                    Go to homepage -&gt;
                                 </a>
                             </div>
                             
@@ -136,9 +137,10 @@ export default function Section4({ isActive }) {
                                         href="https://iotaseoul.site/" 
                                         target="_blank" 
                                         rel="noopener noreferrer" 
-                                        className="w-full text-center py-2 mt-1 md:mt-2 text-[12px] md:text-[14px] font-bold text-white border border-white/20 hover:bg-white/10 transition-colors tracking-tight"
+                                        className="w-full text-center mt-2.5 md:mt-3 text-[12px] md:text-[13px] font-bold text-gray-400 hover:text-white hover:underline transition-all tracking-widest uppercase"
+                                        style={{ fontFamily: "'Guardian Sans', sans-serif" }}
                                     >
-                                        홈페이지 바로가기 ↗
+                                        Go to homepage -&gt;
                                     </a>
                                 </div>
                                 
@@ -178,7 +180,7 @@ export default function Section4({ isActive }) {
 
                 {/* 3. Bottom Vision Statement (Appears dynamically at end) */}
                 <div 
-                    className={`mt-6 md:mt-10 w-full flex justify-center items-center px-0 md:px-4 transition-all duration-[1200ms] ease-[cubic-bezier(0.19,1,0.22,1)] ${step >= 5 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+                    className={`mt-[34px] md:mt-[50px] w-full flex justify-center items-center px-0 md:px-4 transition-all duration-[1200ms] ease-[cubic-bezier(0.19,1,0.22,1)] ${step >= 5 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
                 >
                     <p className="text-[30px] md:text-[46px] font-bold text-center tracking-tight text-[#1d1d1f] leading-[1.25] whitespace-nowrap">
                         기획과 데이터만 내재되어 있다면, <br />
