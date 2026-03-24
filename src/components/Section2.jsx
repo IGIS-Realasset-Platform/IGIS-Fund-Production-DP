@@ -27,12 +27,12 @@ export default function Section2({ isActive }) {
                     
                     {/* 2. Top Logo & Text (Absolute) */}
                     <div 
-                        className={`absolute bottom-full mb-8 md:mb-12 w-full flex flex-col items-center transition-all duration-[1200ms] ease-[cubic-bezier(0.19,1,0.22,1)] ${step >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+                        className={`absolute bottom-full mb-2 md:mb-4 w-full flex flex-col items-center transition-all duration-[1200ms] ease-[cubic-bezier(0.19,1,0.22,1)] ${step >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
                     >
                         <img 
                             src={openclawImg} 
                             alt="OpenClaw Logo" 
-                            className="h-[60px] md:h-[80px] object-contain mb-4 md:mb-6 mix-blend-multiply" 
+                            className="h-[50px] md:h-[70px] object-contain mb-2 md:mb-3 mix-blend-multiply" 
                         />
                         <p className="text-[32px] md:text-[46px] font-bold text-gray-500 tracking-tight">
                             OpenClaw를 쓰고 계신
@@ -50,7 +50,7 @@ export default function Section2({ isActive }) {
 
                     {/* 3. Bottom Text (Absolute) - 핵심 메시지 강조 칼라 (신뢰의 Blue) */}
                     <div 
-                        className={`absolute top-full mt-8 md:mt-12 w-full flex flex-col items-center transition-all duration-[1200ms] ease-[cubic-bezier(0.19,1,0.22,1)] ${step >= 3 ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-8'}`}
+                        className={`absolute top-full mt-2 md:mt-4 w-full flex flex-col items-center transition-all duration-[1200ms] ease-[cubic-bezier(0.19,1,0.22,1)] ${step >= 3 ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-8'}`}
                     >
                         <p className="text-[32px] md:text-[46px] font-bold text-blue-600 tracking-tight">
                             내 PC에 들어와 모든 걸 할 수 있는 AI의 위력을.

@@ -83,28 +83,30 @@ export default function MainLayout() {
                 );
             })}
 
-            {/* Global Navigation Hint / Clickable Buttons */}
-            <div className="fixed bottom-12 left-1/2 -translate-x-1/2 flex items-center gap-12 text-gray-400 z-[9999] mix-blend-difference">
+            {/* Global Navigation Hint / Keyboard Key Design */}
+            <div className="fixed bottom-12 left-1/2 -translate-x-1/2 flex items-center gap-6 text-white z-[9999] mix-blend-difference">
                 <button 
                     onClick={prevSlide}
                     disabled={currentSlide === 0}
-                    className={`flex flex-col items-center gap-2 transition-opacity duration-300 ${currentSlide === 0 ? 'opacity-20 cursor-default' : 'opacity-100 hover:opacity-70 cursor-pointer'}`}
+                    className={`group flex flex-col items-center gap-2 transition-all duration-300 ${currentSlide === 0 ? 'opacity-20 cursor-default scale-95' : 'opacity-100 hover:scale-[1.05] hover:opacity-80 active:scale-95 cursor-pointer'}`}
                 >
-                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"></path>
-                    </svg>
-                    <span className="text-[10px] uppercase font-bold tracking-widest text-white">Left</span>
+                    <div className="w-[56px] h-[46px] rounded-[8px] border-[2.5px] border-white flex items-center justify-center shadow-lg transition-colors">
+                        <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 19l-7-7 7-7"></path>
+                        </svg>
+                    </div>
                 </button>
-                <div className={`w-[1px] h-[30px] bg-white/20`} />
+                
                 <button 
                     onClick={nextSlide}
                     disabled={currentSlide === slides.length - 1}
-                    className={`flex flex-col items-center gap-2 transition-opacity duration-300 ${currentSlide === slides.length - 1 ? 'opacity-20 cursor-default' : 'opacity-100 hover:opacity-70 cursor-pointer'}`}
+                    className={`group flex flex-col items-center gap-2 transition-all duration-300 ${currentSlide === slides.length - 1 ? 'opacity-20 cursor-default scale-95' : 'opacity-100 hover:scale-[1.05] hover:opacity-80 active:scale-95 cursor-pointer'}`}
                 >
-                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
-                    </svg>
-                    <span className="text-[10px] uppercase font-bold tracking-widest text-white">Right</span>
+                    <div className="w-[56px] h-[46px] rounded-[8px] border-[2.5px] border-white flex items-center justify-center shadow-lg transition-colors">
+                        <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </div>
                 </button>
             </div>
         </div>
