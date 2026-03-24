@@ -10,12 +10,13 @@ export default function Section2({ isActive }) {
             return;
         }
         
-        // Cinematic Sequencing
-        const t1 = setTimeout(() => setStep(1), 500);  // "대표님은 알고계실 것입니다." 크게 뜸
-        const t2 = setTimeout(() => setStep(2), 2200); // 텍스트 작아지며 위에 OpenClaw 등장
-        const t3 = setTimeout(() => setStep(3), 3200); // 밑에 텍스트 등장
+        // Cinematic Sequencing - 빠르게 조정
+        const t1 = setTimeout(() => setStep(1), 500);  
+        const t2 = setTimeout(() => setStep(2), 1400); // OpenClaw 등장 (당김)
+        const t3 = setTimeout(() => setStep(3), 2100); // 밑에 텍스트 등장
+        const t4 = setTimeout(() => setStep(4), 3000); // 밑줄 긋기 애니메이션
 
-        return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
+        return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); clearTimeout(t4); };
     }, [isActive]);
 
     return (
@@ -34,21 +35,25 @@ export default function Section2({ isActive }) {
                         </p>
                     </div>
 
-                    {/* 1. Middle Text (Hero) - 크기가 작아지지 않게 고정 */}
+                    {/* 1. Middle Text (Hero) */}
                     <div 
                         className={`transition-all duration-[1200ms] ease-[cubic-bezier(0.19,1,0.22,1)] ${step >= 1 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
                     >
                         <p className="text-[37px] md:text-[51px] font-bold text-[#1d1d1f] tracking-tight leading-[1.05]">
-                            대표님은 알고 계실 것입니다.
+                            대표님은 이미 알고 계실 것입니다.
                         </p>
                     </div>
 
-                    {/* 3. Bottom Text - 핵심 메시지 컬러도 무거운 검정으로 통일하여 전문성 강조 */}
+                    {/* 3. Bottom Text - 밑줄 그어지는 하이라이트 애니메이션 추가 */}
                     <div 
                         className={`flex flex-col items-start transition-all duration-[1200ms] ease-[cubic-bezier(0.19,1,0.22,1)] overflow-hidden ${step >= 3 ? 'opacity-100 max-h-[250px] mt-1' : 'opacity-0 max-h-0 mt-0'}`}
                     >
-                        <p className="text-[37px] md:text-[51px] font-bold text-[#1d1d1f] tracking-tight leading-[1.05]">
+                        <p className="relative text-[37px] md:text-[51px] font-bold text-[#1d1d1f] tracking-tight leading-[1.05] inline-block">
                             내 PC에 들어와 모든 걸 할 수 있는 AI의 위력을.
+                            {/* 좌측에서 우측으로 그어지는 묵직한 언더라인 */}
+                            <span 
+                                className={`absolute -bottom-2 left-0 h-[4px] bg-[#1d1d1f] transition-all duration-[800ms] ease-[cubic-bezier(0.25,1,0.5,1)] ${step >= 4 ? 'w-full opacity-100' : 'w-0 opacity-0'}`}
+                            ></span>
                         </p>
                     </div>
 
