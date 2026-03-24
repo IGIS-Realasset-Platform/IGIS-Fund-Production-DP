@@ -118,8 +118,8 @@ export default function MainLayout() {
             {/* Global Pagination & Navigation Controls */}
             <div className="fixed bottom-[32px] left-1/2 -translate-x-1/2 flex flex-col items-center justify-center gap-[10px] z-[9999] mix-blend-difference">
                 
-                {/* Page Number Indicator (Centered Above Dots) */}
-                <div className="flex items-center justify-center text-white font-sans text-[12px] md:text-[13px] tracking-widest opacity-80">
+                {/* Page Number Indicator (Centered Above Dots, Dropped 15px) */}
+                <div className="flex items-center justify-center text-white font-sans text-[12px] md:text-[13px] tracking-widest opacity-80 translate-y-[15px]">
                     <span className="font-medium">{currentSlide + 1}</span>
                     <span className="mx-[6px] font-extralight opacity-50">/</span>
                     <span className="font-medium">{slides.length}</span>
