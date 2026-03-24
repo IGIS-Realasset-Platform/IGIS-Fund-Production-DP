@@ -20,7 +20,7 @@ export default function Section2({ isActive }) {
     }, [isActive]);
 
     return (
-        <section className="section w-full h-full bg-[#fbfbfd] overflow-y-auto relative px-4">
+        <section className="section w-full h-full bg-white overflow-y-auto relative px-4">
             <div className="w-full min-h-full flex flex-col items-center justify-center py-24 md:py-32">
                 
                 {/* 일반 Flex Flow로 좌측 정렬 및 가장 타이트한 줄간격 밀착 */}
