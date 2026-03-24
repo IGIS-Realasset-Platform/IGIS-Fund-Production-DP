@@ -21,6 +21,19 @@ export default function MainLayout() {
 
     const slides = [<Section1 />, <Section2 />, <Section3 />, <Section4 />, <Section5 />];
 
+    const [isActionDone, setIsActionDone] = useState(false);
+
+    // Animation durations mapped closely to each page's visual completion timing
+    const slideAnimationTimes = [1500, 3600, 4200, 2600, 4200];
+
+    useEffect(() => {
+        setIsActionDone(false);
+        const timer = setTimeout(() => {
+            setIsActionDone(true);
+        }, slideAnimationTimes[currentSlide] || 3000);
+        return () => clearTimeout(timer);
+    }, [currentSlide]);
+
     const nextSlide = () => setCurrentSlide(prev => Math.min(prev + 1, slides.length - 1));
     const prevSlide = () => setCurrentSlide(prev => Math.max(prev - 1, 0));
 
@@ -83,8 +96,24 @@ export default function MainLayout() {
     };
 
     return (
-        <div 
-            className="w-full h-screen overflow-hidden relative bg-white"
+        <>
+            <style>{`
+                @keyframes pulseBlueInvert {
+                    0%, 100% {
+                        color: #ffffff;
+                        border-color: #ffffff;
+                    }
+                    50% {
+                        color: #eab308;
+                        border-color: #eab308;
+                    }
+                }
+                .action-done-pulse {
+                    animation: pulseBlueInvert 1.5s infinite ease-in-out;
+                }
+            `}</style>
+            <div 
+                className="w-full h-screen overflow-hidden relative bg-white"
             onTouchStart={onTouchStart}
             onTouchMove={onTouchMove}
             onTouchEnd={onTouchEnd}
@@ -127,16 +156,23 @@ export default function MainLayout() {
 
                 {/* Controls Row */}
                 <div className="flex items-center justify-center gap-6 md:gap-12">
-                    {/* Left Arrow Button (화살표 축소) */}
-                    <button 
-                        onClick={prevSlide}
-                        disabled={currentSlide === 0}
-                        className={`w-8 h-8 md:w-10 md:h-10 flex items-center justify-center border-[1.5px] md:border-2 border-white rounded-full transition-all duration-300 ${currentSlide === 0 ? 'opacity-20 cursor-default' : 'opacity-100 hover:scale-105 cursor-pointer'}`}
-                    >
-                        <svg className="w-4 h-4 md:w-5 md:h-5 text-white transform rotate-180" fill="none" strokeWidth="2.5" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m-7-7l7 7-7 7" />
-                        </svg>
-                    </button>
+                    {/* Left Arrow Button Group */}
+                    <div className="flex items-center gap-[6px] md:gap-[10px] group cursor-pointer" onClick={prevSlide}>
+                        <span 
+                            className={`text-[#737373] font-light text-[11px] md:text-[13px] tracking-wide transition-all duration-300 ${currentSlide === 0 ? 'opacity-0' : 'opacity-100 group-hover:opacity-60 pointer-events-none'}`} 
+                            style={{ fontFamily: "'Guardian Sans', sans-serif" }}
+                        >
+                            Keyboard Left
+                        </span>
+                        <button 
+                            disabled={currentSlide === 0}
+                            className={`w-8 h-8 md:w-10 md:h-10 flex items-center justify-center border-[1.5px] md:border-2 border-white rounded-full transition-all duration-300 ${currentSlide === 0 ? 'opacity-20 cursor-default text-white' : 'opacity-100 group-hover:scale-105 cursor-pointer text-white'}`}
+                        >
+                            <svg className="w-4 h-4 md:w-5 md:h-5 transform rotate-180" fill="none" strokeWidth="2.5" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m-7-7l7 7-7 7" />
+                            </svg>
+                        </button>
+                    </div>
 
                     {/* Dots Pagination List */}
                     <div className="flex items-center gap-2 md:gap-3">
@@ -155,18 +191,27 @@ export default function MainLayout() {
                         ))}
                     </div>
 
-                    {/* Right Arrow Button (화살표 축소) */}
-                    <button 
-                        onClick={nextSlide}
-                        disabled={currentSlide === slides.length - 1}
-                        className={`w-8 h-8 md:w-10 md:h-10 flex items-center justify-center border-[1.5px] md:border-2 border-white rounded-full transition-all duration-300 ${currentSlide === slides.length - 1 ? 'opacity-20 cursor-default' : 'opacity-100 hover:scale-105 cursor-pointer'}`}
-                    >
-                        <svg className="w-4 h-4 md:w-5 md:h-5 text-white" fill="none" strokeWidth="2.5" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m-7-7l7 7-7 7" />
-                        </svg>
-                    </button>
+                    {/* Right Arrow Button Group */}
+                    <div className="flex items-center gap-[6px] md:gap-[10px] group cursor-pointer" onClick={nextSlide}>
+                        <button 
+                            disabled={currentSlide === slides.length - 1}
+                            className={`w-8 h-8 md:w-10 md:h-10 flex items-center justify-center border-[1.5px] md:border-2 rounded-full transition-all duration-300 
+                                ${currentSlide === slides.length - 1 ? 'border-white opacity-20 cursor-default text-white' : isActionDone ? 'action-done-pulse cursor-pointer group-hover:scale-105' : 'border-white opacity-100 group-hover:scale-105 cursor-pointer text-white'}`}
+                        >
+                            <svg className="w-4 h-4 md:w-5 md:h-5 current-color" fill="none" strokeWidth="2.5" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m-7-7l7 7-7 7" />
+                            </svg>
+                        </button>
+                        <span 
+                            className={`text-[#737373] font-light text-[11px] md:text-[13px] tracking-wide transition-all duration-300 ${currentSlide === slides.length - 1 ? 'opacity-0' : 'opacity-100 group-hover:opacity-60 pointer-events-none'}`} 
+                            style={{ fontFamily: "'Guardian Sans', sans-serif" }}
+                        >
+                            Keyboard Right
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>
+        </>
     );
 }
