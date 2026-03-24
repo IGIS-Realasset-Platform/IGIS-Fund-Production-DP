@@ -87,6 +87,14 @@ export default function Section4({ isActive }) {
                                     </div>
                                     <img src={img270} alt="기존 제작 방식 - 270parkave" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                                 </a>
+                                <a 
+                                    href="https://270parkave.com/" 
+                                    target="_blank" 
+                                    rel="noopener noreferrer" 
+                                    className="w-full text-center py-2 mt-1 md:mt-2 text-[12px] md:text-[14px] font-bold text-[#1d1d1f] border border-gray-300 hover:bg-gray-50 transition-colors tracking-tight"
+                                >
+                                    홈페이지 바로가기 ↗
+                                </a>
                             </div>
                             
                             <div className="flex flex-col mt-auto pb-0">
@@ -106,7 +114,7 @@ export default function Section4({ isActive }) {
                                 <div className="absolute inset-0 bg-gradient-to-br from-[#ffffff10] to-transparent pointer-events-none"></div>
 
                                 <div className="flex flex-col mb-2 md:mb-3 relative z-10">
-                                    <span className="text-[#1d4ed8] text-[12px] md:text-[14px] font-bold tracking-widest uppercase mb-1" style={{ fontFamily: "'Guardian Sans', sans-serif" }}>
+                                    <span className="text-[#3b82f6] text-[12px] md:text-[14px] font-bold tracking-widest uppercase mb-1" style={{ fontFamily: "'Guardian Sans', sans-serif" }}>
                                         AI-Driven Internalization
                                     </span>
                                     <h3 className="text-[28px] md:text-[40px] font-bold text-white tracking-tight leading-none mb-4">
@@ -122,15 +130,23 @@ export default function Section4({ isActive }) {
                                         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300 z-10 w-full h-full flex items-center justify-center">
                                             <span className="text-white opacity-0 group-hover:opacity-100 font-bold transition-opacity tracking-widest font-sans drop-shadow-md">VISIT SITE</span>
                                         </div>
-                                        <img src={imgIota} alt="AI 구축 사례 - IOTA SEOUL" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                                    <img src={imgIota} alt="AI 구축 사례 - IOTA SEOUL" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                                    </a>
+                                    <a 
+                                        href="https://iotaseoul.site/" 
+                                        target="_blank" 
+                                        rel="noopener noreferrer" 
+                                        className="w-full text-center py-2 mt-1 md:mt-2 text-[12px] md:text-[14px] font-bold text-white border border-white/20 hover:bg-white/10 transition-colors tracking-tight"
+                                    >
+                                        홈페이지 바로가기 ↗
                                     </a>
                                 </div>
                                 
                                 <div className="flex flex-col mt-auto pb-0 relative z-10">
-                                    <CardItem title="의사결정 및 런칭" desc="내재인력이 AI 활용 단독 수행 (단 5일)" isDark={true} isHighlighted={step >= 6} highlightClass="text-[#1d4ed8]" />
-                                    <CardItem title="구축 비용" desc="0원 (도메인 비용 외 영구 면제)" isDark={true} isHighlighted={step >= 6} highlightClass="text-[#1d4ed8]" />
-                                    <CardItem title="콘텐츠 업데이트" desc="실시간 5분 이내 직접 즉각 수정" isDark={true} isHighlighted={step >= 6} highlightClass="text-[#1d4ed8]" />
-                                    <CardItem title="데이터 소유권" desc="내부 DB 실시간 축적 및 데이터 주권 확보" isDark={true} isHighlighted={step >= 6} highlightClass="text-[#1d4ed8]" />
+                                    <CardItem title="의사결정 및 런칭" desc="내재인력이 AI 활용 단독 수행 (단 5일)" isDark={true} isHighlighted={step >= 6} highlightClass="text-[#3b82f6]" />
+                                    <CardItem title="구축 비용" desc="0원 (도메인 비용 외 영구 면제)" isDark={true} isHighlighted={step >= 6} highlightClass="text-[#3b82f6]" />
+                                    <CardItem title="콘텐츠 업데이트" desc="실시간 5분 이내 직접 즉각 수정" isDark={true} isHighlighted={step >= 6} highlightClass="text-[#3b82f6]" />
+                                    <CardItem title="데이터 소유권" desc="내부 DB 실시간 축적 및 데이터 주권 확보" isDark={true} isHighlighted={step >= 6} highlightClass="text-[#3b82f6]" />
                                 </div>
                             </div>
                             
