@@ -107,6 +107,13 @@ export default function MainLayout() {
                     <span className="text-[10px] uppercase font-bold tracking-widest text-white">Right</span>
                 </button>
             </div>
+
+            {/* Page Number Indicator (Bottom Right) */}
+            <div className="fixed bottom-[38px] right-6 md:right-10 flex items-center justify-center z-[9999] mix-blend-difference text-white font-sans text-[15px] md:text-[18px] tracking-widest opacity-80">
+                <span className="font-bold">{currentSlide + 1}</span>
+                <span className="mx-1 font-light opacity-50">/</span>
+                <span className="font-light">{slides.length}</span>
+            </div>
         </div>
     );
 }
