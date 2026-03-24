@@ -26,17 +26,17 @@ export default function Section3({ isActive }) {
                 <div 
                     className={`transition-all duration-[1200ms] ease-out ${step >= 1 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
                 >
-                    <p className="text-[28px] md:text-[40px] xl:text-[46px] font-medium text-[#242424] leading-[1.3] break-keep">
-                        <span className="font-bold text-black">AI</span>의 진짜 위력은
+                    <p className="text-[37px] md:text-[51px] font-bold text-[#242424] tracking-tight leading-[1.1] break-keep">
+                        <span className="text-black">AI</span>의 진짜 위력은
                     </p>
                 </div>
 
                 {/* 2. Line 2 (줄바꿈 없이 최대한 유지) */}
                 <div 
-                    className={`transition-all duration-[1200ms] ease-out ${step >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+                    className={`transition-all duration-[1200ms] ease-out mt-4 md:mt-6 ${step >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
                 >
-                    <p className="text-[28px] md:text-[40px] xl:text-[46px] font-medium text-[#242424] leading-[1.3] whitespace-normal md:whitespace-nowrap break-keep">
-                        내 PC 안의 <span className="font-bold text-black">'리치한 데이터(Rich Data)'</span>에서 나옵니다.
+                    <p className="text-[37px] md:text-[51px] font-bold text-[#242424] tracking-tight leading-[1.1] whitespace-normal md:whitespace-nowrap break-keep">
+                        내 PC 안의 <span className="text-black">'리치한 데이터(Rich Data)'</span>에서 나옵니다.
                     </p>
                 </div>
 
@@ -44,9 +44,9 @@ export default function Section3({ isActive }) {
                 <div 
                     className={`transition-all duration-[1200ms] ease-out mt-8 md:mt-12 ${step >= 3 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
                 >
-                    <p className="text-[24px] md:text-[36px] xl:text-[42px] font-medium text-[#242424] leading-[1.4] break-keep">
-                        <span className="font-bold text-black">AI</span>를 <span className="font-bold text-black">천재</span>로 만드는 것은,<br className="hidden md:block" />
-                        다름 아닌 내 PC 안의 <span className="font-bold text-black">'풍부한 실무 데이터'</span>입니다.
+                    <p className="text-[37px] md:text-[51px] font-bold text-[#242424] tracking-tight leading-[1.1] break-keep">
+                        <span className="text-black">AI</span>를 <span className="text-black">천재</span>로 만드는 것은,<br className="hidden md:block" />
+                        다름 아닌 내 PC 안의 <span className="text-black">'풍부한 실무 데이터'</span>입니다.
                     </p>
                 </div>
 
