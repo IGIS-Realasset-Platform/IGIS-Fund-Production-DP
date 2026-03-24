@@ -41,7 +41,7 @@ export default function Section5({ isActive }) {
                     {/* Block 3 */}
                     <div className={`transition-all duration-[600ms] ease-out ${step >= 3 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
                         거창한 AI 교육은 필요 없습니다.<br />
-                        직원들은 지금처럼 검색창에 필요한 질문만<br />
+                        직원들은 지금처럼 <span className="text-black">검색창에 필요한 질문만</span><br />
                         던지면 되니까요.
                     </div>
 
@@ -58,9 +58,9 @@ export default function Section5({ isActive }) {
                     </div>
                 </div>
 
-                {/* 6. AI = DATA Hero Text (Right Side Overlay) */}
+                {/* 6. AI = Data Hero Text (Right Side Overlay) */}
                 <div 
-                    className={`absolute right-[5%] md:right-[10%] lg:right-[15%] text-[#1d1d1f] flex items-center justify-center antialiased text-[60px] md:text-[90px] lg:text-[110px] transition-all duration-[1400ms] ease-[cubic-bezier(0.19,1,0.22,1)] ${step >= 6 ? 'opacity-100 translate-x-0 scale-100' : 'opacity-0 translate-x-[150px] scale-90'} hidden sm:flex`}
+                    className={`absolute right-[5%] md:right-[10%] lg:right-[15%] text-[#1d1d1f] flex items-center justify-center antialiased text-[80px] md:text-[110px] lg:text-[130px] transition-all duration-[1400ms] ease-[cubic-bezier(0.19,1,0.22,1)] ${step >= 6 ? 'opacity-100 translate-x-0 scale-100' : 'opacity-0 translate-x-[150px] scale-90'} hidden sm:flex ml-[50px]`}
                     style={{ 
                         fontFamily: "'Sanomat Wp', 'Sanomat Web', 'Sanomat', sans-serif",
                         fontWeight: 500, 
@@ -70,7 +70,7 @@ export default function Section5({ isActive }) {
                         textRendering: "optimizeLegibility" 
                     }}
                 >
-                    AI = DATA
+                    AI = Data
                 </div>
             </div>
         </section>
