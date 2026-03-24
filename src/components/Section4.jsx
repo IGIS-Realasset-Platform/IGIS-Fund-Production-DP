@@ -36,8 +36,8 @@ export default function Section4({ isActive }) {
 
     return (
         <section className="section w-full h-full bg-[#fbfbfd] flex flex-col items-center justify-center relative px-6 md:px-12 py-24 overflow-y-auto">
-            
-            <div className="w-full max-w-[1200px] flex flex-col z-10 pt-16 md:pt-0">
+            {/* Main Content Wrapper (Width expanded to prevent text wrap on bottom row) */}
+            <div className="w-full max-w-[1340px] flex flex-col z-10 pt-16 md:pt-0">
                 
                 {/* 1. Header Title Sequence (중앙정렬 및 자간 조정) */}
                 <div className="flex flex-col items-center text-center mb-[30px]">
@@ -53,8 +53,8 @@ export default function Section4({ isActive }) {
                         <h2 
                             className={`text-[40px] md:text-[56px] font-bold text-[#1d1d1f] tracking-tight leading-[1.15] transition-all duration-[1200ms] ease-[cubic-bezier(0.19,1,0.22,1)] ${step >= 1 ? 'translate-y-0 opacity-100' : 'translate-y-[120%] opacity-0'}`}
                         >
-                            <span className="text-[#005f9e]">데이터를 이해</span>하고, <br className="block md:hidden" />
-                            <span className="text-[#005f9e]">AI와 협업</span>할 때 벌어지는 일
+                            <span className="text-[#2997ff]">데이터를 이해</span>하고, <br className="block md:hidden" />
+                            <span className="text-[#2997ff]">AI와 협업</span>할 때 벌어지는 일
                         </h2>
                     </div>
                 </div>
@@ -107,7 +107,7 @@ export default function Section4({ isActive }) {
                                 <div className="absolute inset-0 bg-gradient-to-br from-[#ffffff10] to-transparent pointer-events-none"></div>
 
                                 <div className="flex flex-col mb-4 md:mb-6 relative z-10">
-                                    <span className="text-[#4d8fcd] text-[12px] md:text-[14px] font-bold tracking-widest uppercase mb-1" style={{ fontFamily: "'Guardian Sans', sans-serif" }}>
+                                    <span className="text-[#2997ff] text-[12px] md:text-[14px] font-bold tracking-widest uppercase mb-1" style={{ fontFamily: "'Guardian Sans', sans-serif" }}>
                                         AI-Driven Internalization
                                     </span>
                                     <h3 className="text-[28px] md:text-[40px] font-bold text-white tracking-tight leading-none mb-4">
@@ -128,10 +128,10 @@ export default function Section4({ isActive }) {
                                 </div>
                                 
                                 <div className="flex flex-col gap-4 md:gap-5 mt-auto relative z-10">
-                                    <CardItem title="의사결정 및 런칭" desc="내재인력이 AI 활용 단독 수행 (단 5일)" isDark={true} isHighlighted={step >= 6} highlightClass="text-[#4d8fcd]" />
-                                    <CardItem title="구축 비용" desc="0원 (도메인 비용 외 영구 면제)" isDark={true} isHighlighted={step >= 6} highlightClass="text-[#4d8fcd]" />
-                                    <CardItem title="콘텐츠 업데이트" desc="실시간 5분 이내 직접 즉각 수정" isDark={true} isHighlighted={step >= 6} highlightClass="text-[#4d8fcd]" />
-                                    <CardItem title="데이터 소유권" desc="내부 DB 실시간 축적 및 데이터 주권 확보" isDark={true} isHighlighted={step >= 6} highlightClass="text-[#4d8fcd]" />
+                                    <CardItem title="의사결정 및 런칭" desc="내재인력이 AI 활용 단독 수행 (단 5일)" isDark={true} isHighlighted={step >= 6} highlightClass="text-[#2997ff]" />
+                                    <CardItem title="구축 비용" desc="0원 (도메인 비용 외 영구 면제)" isDark={true} isHighlighted={step >= 6} highlightClass="text-[#2997ff]" />
+                                    <CardItem title="콘텐츠 업데이트" desc="실시간 5분 이내 직접 즉각 수정" isDark={true} isHighlighted={step >= 6} highlightClass="text-[#2997ff]" />
+                                    <CardItem title="데이터 소유권" desc="내부 DB 실시간 축적 및 데이터 주권 확보" isDark={true} isHighlighted={step >= 6} highlightClass="text-[#2997ff]" />
                                 </div>
                             </div>
                             
@@ -148,10 +148,10 @@ export default function Section4({ isActive }) {
                                     <strong className="font-bold">수개월의 불필요한 기간</strong>이 증발합니다.
                                 </p>
                                 <p className="text-[#1d1d1f] text-[16px] md:text-[18px] leading-[1.6] md:leading-[1.7] break-keep font-medium mb-5">
-                                    반면 <strong className="text-[#0052cc] font-bold">내부 인력</strong>이 <strong className="font-bold">AI</strong>라는 무기를 직접 다루면<br className="hidden md:block" />
+                                    반면 <strong className="text-[#2997ff] font-bold">내부 인력</strong>이 <strong className="font-bold">AI</strong>라는 무기를 직접 다루면<br className="hidden md:block" />
                                     외주 교육의 비효율이 존재하지 않으며,
                                 </p>
-                                <p className="text-[#0052cc] text-[16px] md:text-[18px] leading-[1.6] md:leading-[1.7] break-keep font-bold">
+                                <p className="text-[#2997ff] text-[16px] md:text-[18px] leading-[1.6] md:leading-[1.7] break-keep font-bold">
                                     실무 DB 실시간 축적 기반 상시 업데이트<br className="hidden md:block" />
                                     통제권을 기업이 온전히 독점합니다.
                                 </p>
@@ -163,11 +163,11 @@ export default function Section4({ isActive }) {
 
                 {/* 3. Bottom Vision Statement (Appears dynamically at end) */}
                 <div 
-                    className={`mt-6 md:mt-10 w-full flex justify-center items-center px-4 transition-all duration-[1200ms] ease-[cubic-bezier(0.19,1,0.22,1)] ${step >= 5 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+                    className={`mt-6 md:mt-10 w-full flex justify-center items-center px-0 md:px-4 transition-all duration-[1200ms] ease-[cubic-bezier(0.19,1,0.22,1)] ${step >= 5 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
                 >
-                    <p className="text-[36px] md:text-[52px] font-bold text-center tracking-tight text-[#1d1d1f] leading-[1.2]">
+                    <p className="text-[30px] md:text-[46px] font-bold text-center tracking-tight text-[#1d1d1f] leading-[1.25] whitespace-nowrap">
                         기획과 데이터만 내재되어 있다면, <br />
-                        AI 시대에 우리가 직접 만들어내지 못할 <span className="text-[#005f9e]">'통합 플랫폼'</span>은 없습니다.
+                        AI 시대에 우리가 직접 만들어내지 못할 <span className="text-[#2997ff]">'통합 플랫폼'</span>은 없습니다.
                     </p>
                 </div>
 
