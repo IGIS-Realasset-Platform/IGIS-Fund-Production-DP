@@ -97,22 +97,22 @@ export default function MainLayout() {
                     </svg>
                 </button>
 
-                {/* Dots Pagination List with Absolute Text Above */}
+                {/* Dots Pagination List with Independent Numbers */}
                 <div className="relative flex flex-col items-center">
-                    {/* Page Number (동그라미들 바로 위에 명시) */}
-                    <div className="absolute -top-[24px] md:-top-[28px] flex items-center gap-1 text-[11px] md:text-[13px] text-white tracking-widest font-sans opacity-70">
-                        <span className="font-medium">{currentSlide + 1}</span>
-                        <span className="font-extralight opacity-50">/</span>
-                        <span className="font-light">{slides.length}</span>
-                    </div>
-
-                    <div className="flex items-center gap-3 md:gap-4 mt-2">
+                    <div className="flex items-center gap-3 md:gap-5">
                         {slides.map((_, idx) => (
                             <div 
                                 key={idx} 
                                 onClick={() => setCurrentSlide(idx)}
-                                className="relative flex items-center justify-center w-6 h-6 cursor-pointer group"
+                                className="relative flex flex-col items-center justify-center w-6 h-6 md:w-8 md:h-8 cursor-pointer group"
                             >
+                                {/* Number strictly 5px above the dot */}
+                                <div 
+                                    className={`absolute -top-[14px] md:-top-[16px] text-[10px] md:text-[11px] font-mono tracking-tighter mix-blend-difference transition-all duration-300 ${currentSlide === idx ? 'text-white opacity-100 font-bold' : 'text-white opacity-30 group-hover:opacity-60'}`}
+                                >
+                                    {idx + 1}
+                                </div>
+
                                 {/* Inner Fixed Dot */}
                                 <div className={`w-[6px] h-[6px] md:w-[8px] md:h-[8px] rounded-full transition-all duration-300 ${currentSlide === idx ? 'bg-white scale-110' : 'bg-white/40 group-hover:bg-white/80'}`}></div>
                                 
