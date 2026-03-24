@@ -97,30 +97,21 @@ export default function MainLayout() {
                     </svg>
                 </button>
 
-                {/* Dots Pagination List with Independent Numbers */}
-                <div className="relative flex flex-col items-center">
-                    <div className="flex items-center gap-3 md:gap-5">
-                        {slides.map((_, idx) => (
-                            <div 
-                                key={idx} 
-                                onClick={() => setCurrentSlide(idx)}
-                                className="relative flex flex-col items-center justify-center w-6 h-6 md:w-8 md:h-8 cursor-pointer group"
-                            >
-                                {/* Number strictly 5px above the dot */}
-                                <div 
-                                    className={`absolute -top-[14px] md:-top-[16px] text-[10px] md:text-[11px] font-mono tracking-tighter mix-blend-difference transition-all duration-300 ${currentSlide === idx ? 'text-white opacity-100 font-bold' : 'text-white opacity-30 group-hover:opacity-60'}`}
-                                >
-                                    {idx + 1}
-                                </div>
-
-                                {/* Inner Fixed Dot */}
-                                <div className={`w-[6px] h-[6px] md:w-[8px] md:h-[8px] rounded-full transition-all duration-300 ${currentSlide === idx ? 'bg-white scale-110' : 'bg-white/40 group-hover:bg-white/80'}`}></div>
-                                
-                                {/* Outer Expanding Ring for Active State */}
-                                <div className={`absolute inset-0 border-[1.5px] border-white rounded-full transition-all duration-500 ease-out ${currentSlide === idx ? 'opacity-100 scale-100' : 'opacity-0 scale-50'}`}></div>
-                            </div>
-                        ))}
-                    </div>
+                {/* Dots Pagination List */}
+                <div className="flex items-center gap-6 md:gap-8">
+                    {slides.map((_, idx) => (
+                        <div 
+                            key={idx} 
+                            onClick={() => setCurrentSlide(idx)}
+                            className="relative flex items-center justify-center w-[16px] h-[16px] md:w-[20px] md:h-[20px] cursor-pointer group"
+                        >
+                            {/* Inner Fixed Dot (Bigger) */}
+                            <div className={`w-[6px] h-[6px] md:w-[8px] md:h-[8px] rounded-full transition-all duration-300 ${currentSlide === idx ? 'bg-white scale-110' : 'bg-white/40 group-hover:bg-white/80'}`}></div>
+                            
+                            {/* Outer Expanding Ring for Active State (Tighter ring) */}
+                            <div className={`absolute inset-0 border-[1.5px] border-white rounded-full transition-all duration-500 ease-out ${currentSlide === idx ? 'opacity-100 scale-100' : 'opacity-0 scale-50'}`}></div>
+                        </div>
+                    ))}
                 </div>
 
                 {/* Right Arrow Button (화살표 축소) */}
@@ -134,6 +125,13 @@ export default function MainLayout() {
                     </svg>
                 </button>
 
+            </div>
+
+            {/* Page Number Indicator (Bottom Right) - 다시 우측 하단으로 분리 복귀 */}
+            <div className="fixed bottom-[28px] right-6 md:right-10 flex items-center justify-center z-[9999] mix-blend-difference text-white font-sans text-[12px] md:text-[14px] tracking-widest opacity-60">
+                <span className="font-light">{currentSlide + 1}</span>
+                <span className="mx-1 font-extralight opacity-50">/</span>
+                <span className="font-light">{slides.length}</span>
             </div>
         </div>
     );

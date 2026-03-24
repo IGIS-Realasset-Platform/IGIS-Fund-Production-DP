@@ -21,12 +21,13 @@ export default function Section4({ isActive }) {
             return;
         }
         
-        // Staggered presentation reveal
+        // Staggered presentation reveal mapped to Blackstone UI
         const t1 = setTimeout(() => setStep(1), 500);  // Title cascade
-        const t2 = setTimeout(() => setStep(2), 1100); // Traditional Card
-        const t3 = setTimeout(() => setStep(3), 1600); // AI Inner Card
+        const t2 = setTimeout(() => setStep(2), 1000); // 2-Card Comparisons
+        const t3 = setTimeout(() => setStep(3), 1600); // Right Speech Bubble Insight start
+        const t4 = setTimeout(() => setStep(4), 2200); // Trigger Bubble Popup & Shift
         
-        return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
+        return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); clearTimeout(t4); };
     }, [isActive]);
 
     return (
