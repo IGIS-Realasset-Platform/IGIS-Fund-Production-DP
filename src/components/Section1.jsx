@@ -17,9 +17,11 @@ export default function Section1({ isActive }) {
 
     return (
         <section className="section w-full h-full bg-white flex flex-col items-center justify-center relative">
-            <div className="logo-fade w-full flex justify-center pb-20 -translate-y-[40px] md:-translate-y-[50px]">
+            <div className="logo-fade w-full flex flex-col items-center justify-center pb-20 -translate-y-[40px] md:-translate-y-[50px]">
+                
+                {/* Main Title */}
                 <div 
-                    className={`flex text-black text-center px-4 antialiased transition-all duration-[800ms] ${mounted ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-16 scale-95'}`}
+                    className={`flex text-[#1d1d1f] text-center px-4 antialiased transition-all duration-[800ms] ${mounted ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-16 scale-95'}`}
                     style={{ 
                         fontFamily: "'Sanomat Wp', 'Sanomat Web', 'Sanomat', sans-serif",
                         fontSize: "60px",
@@ -33,6 +35,15 @@ export default function Section1({ isActive }) {
                 >
                     IGIS Fund Production Data Platform
                 </div>
+
+                {/* Subtitle */}
+                <div 
+                    className={`mt-4 md:mt-6 text-gray-500 text-[20px] md:text-[28px] font-medium tracking-[-0.02em] px-4 transition-all duration-[1000ms] delay-[300ms] ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+                    style={{ fontFamily: "sans-serif" }}
+                >
+                    ONE IGIS + CFT 전략의 완벽한 실체화 For AI ERA
+                </div>
+
             </div>
         </section>
     );
