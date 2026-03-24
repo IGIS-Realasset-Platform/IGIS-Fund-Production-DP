@@ -98,18 +98,18 @@ export default function MainLayout() {
                 </button>
 
                 {/* Dots Pagination List */}
-                <div className="flex items-center gap-6 md:gap-8">
+                <div className="flex items-center gap-2 md:gap-3">
                     {slides.map((_, idx) => (
                         <div 
                             key={idx} 
                             onClick={() => setCurrentSlide(idx)}
-                            className="relative flex items-center justify-center w-[16px] h-[16px] md:w-[20px] md:h-[20px] cursor-pointer group"
+                            className="relative flex items-center justify-center w-[18px] h-[18px] cursor-pointer group"
                         >
-                            {/* Inner Fixed Dot (Bigger) */}
-                            <div className={`w-[6px] h-[6px] md:w-[8px] md:h-[8px] rounded-full transition-all duration-300 ${currentSlide === idx ? 'bg-white scale-110' : 'bg-white/40 group-hover:bg-white/80'}`}></div>
+                            {/* Inner Fixed Dot (항상 흰색, mix-blend로 완벽한 반전 구현) */}
+                            <div className="w-[8px] h-[8px] rounded-full bg-white transition-all duration-300"></div>
                             
-                            {/* Outer Expanding Ring for Active State (Tighter ring) */}
-                            <div className={`absolute inset-0 border-[1.5px] border-white rounded-full transition-all duration-500 ease-out ${currentSlide === idx ? 'opacity-100 scale-100' : 'opacity-0 scale-50'}`}></div>
+                            {/* Outer Ring for Active State */}
+                            <div className={`absolute inset-0 border-[1.5px] border-white rounded-full transition-all duration-300 ${currentSlide === idx ? 'opacity-100 scale-100' : 'opacity-0 scale-75'}`}></div>
                         </div>
                     ))}
                 </div>

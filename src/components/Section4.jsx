@@ -39,7 +39,7 @@ export default function Section4({ isActive }) {
                 <div className="flex flex-col items-center text-center mb-[30px]">
                     <div className="overflow-hidden mb-[10px]">
                         <span 
-                            className={`block text-gray-500 text-[13px] md:text-[16px] transition-all duration-[1000ms] ease-[cubic-bezier(0.19,1,0.22,1)] ${step >= 1 ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'}`}
+                            className={`block text-gray-500 text-[15px] md:text-[18px] transition-all duration-[1000ms] ease-[cubic-bezier(0.19,1,0.22,1)] ${step >= 1 ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'}`}
                             style={{ fontFamily: "'Guardian Sans', sans-serif" }}
                         >
                             Case Study : Agile Launching & Data Sovereignty
@@ -135,19 +135,23 @@ export default function Section4({ isActive }) {
                             
                             {/* Floating Speech Bubble (Appears at Step 4 natively hovering on the right) */}
                             <div 
-                                className={`absolute top-[40px] md:top-[80px] -right-[20px] md:-right-[60px] lg:-right-[160px] w-[280px] md:w-[320px] lg:w-[360px] bg-blue-50/95 backdrop-blur-md border border-blue-200/60 p-6 md:p-8 shadow-2xl z-50 transition-all duration-[1200ms] delay-[400ms] ease-[cubic-bezier(0.19,1,0.22,1)] pointer-events-none rounded-xl ${step >= 4 ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-12 scale-95'} hidden md:block`}
+                                className={`absolute top-[60px] md:top-[90px] -right-[20px] md:-right-[80px] lg:-right-[220px] xl:-right-[280px] w-[300px] md:w-[380px] lg:w-[440px] bg-[#f2f7fc] p-6 md:p-9 shadow-[0_15px_40px_rgba(0,0,0,0.15)] z-50 transition-all duration-[1200ms] delay-[400ms] ease-[cubic-bezier(0.19,1,0.22,1)] pointer-events-none rounded-[16px] md:rounded-[24px] ${step >= 4 ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-12 scale-95'} hidden md:block`}
                             >
                                 {/* Speech Bubble Arrow (Left pointing tail) */}
-                                <div className="absolute top-[30px] -left-[10px] w-6 h-6 bg-blue-50/95 border-l border-b border-blue-200/60 transform rotate-45"></div>
+                                <div className="absolute top-[36px] md:top-[44px] -left-[10px] md:-left-[14px] w-6 h-6 md:w-8 md:h-8 bg-[#f2f7fc] transform rotate-45 rounded-sm"></div>
                                 
-                                <p className="text-[#1d1d1f] text-[15px] md:text-[16px] leading-[1.6] break-keep font-medium mb-3">
-                                    외주 제작 시, 전체 맥락을 도급자에게 이해시키고 양사가 커뮤니케이션하는 데에만 <strong>수개월의 불필요한 기간</strong>이 증발합니다.
+                                <p className="text-[#1d1d1f] text-[16px] md:text-[18px] leading-[1.6] md:leading-[1.7] break-keep font-medium mb-5">
+                                    외주 제작 시, 전체 맥락을 도급자에게<br className="hidden md:block" />
+                                    이해시키고 양사가 커뮤니케이션하는 데에만<br className="hidden md:block" />
+                                    <strong className="font-bold">수개월의 불필요한 기간</strong>이 증발합니다.
                                 </p>
-                                <p className="text-[#1d1d1f] text-[15px] md:text-[16px] leading-[1.6] break-keep font-medium mb-3">
-                                    반면 <strong className="text-blue-600">내부 인력</strong>이 <strong>AI</strong>라는 무기를 직접 다루면 외주 교육의 비효율이 존재하지 않으며, 
+                                <p className="text-[#1d1d1f] text-[16px] md:text-[18px] leading-[1.6] md:leading-[1.7] break-keep font-medium mb-5">
+                                    반면 <strong className="text-[#0052cc] font-bold">내부 인력</strong>이 <strong className="font-bold">AI</strong>라는 무기를 직접 다루면<br className="hidden md:block" />
+                                    외주 교육의 비효율이 존재하지 않으며,
                                 </p>
-                                <p className="text-blue-600 text-[15px] md:text-[16px] leading-[1.6] break-keep font-bold">
-                                    실무 DB 실시간 축적 기반 상시 업데이트 통제권을 기업이 온전히 독점합니다.
+                                <p className="text-[#0052cc] text-[16px] md:text-[18px] leading-[1.6] md:leading-[1.7] break-keep font-bold">
+                                    실무 DB 실시간 축적 기반 상시 업데이트<br className="hidden md:block" />
+                                    통제권을 기업이 온전히 독점합니다.
                                 </p>
                             </div>
                         </div>
