@@ -52,8 +52,8 @@ export default function Section4({ isActive }) {
                         <h2 
                             className={`text-[40px] md:text-[56px] font-bold text-[#1d1d1f] tracking-tight leading-[1.15] transition-all duration-[1200ms] ease-[cubic-bezier(0.19,1,0.22,1)] ${step >= 1 ? 'translate-y-0 opacity-100' : 'translate-y-[120%] opacity-0'}`}
                         >
-                            AI를 외주가 아닌 <br className="block md:hidden" />
-                            <span className="text-[#005f9e]">'우리의 실행 도구'</span>로 쓸 때 벌어지는 일
+                            <span className="text-[#005f9e]">데이터를 이해</span>하고, <br className="block md:hidden" />
+                            <span className="text-[#005f9e]">AI와 협업</span>할 때 벌어지는 일
                         </h2>
                     </div>
                 </div>

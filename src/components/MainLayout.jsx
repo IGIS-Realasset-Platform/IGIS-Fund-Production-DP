@@ -6,11 +6,43 @@ import Section4 from './Section4';
 import Section5 from './Section5';
 
 export default function MainLayout() {
-    const [currentSlide, setCurrentSlide] = useState(0);
+    const slidesLength = 5; // known length
+    const [currentSlide, setCurrentSlide] = useState(() => {
+        // Initialize from URL hash if available (persistent reload mapping)
+        const hash = window.location.hash;
+        if (hash && hash.startsWith('#page-')) {
+            const pageIndex = parseInt(hash.replace('#page-', ''), 10) - 1;
+            if (!isNaN(pageIndex) && pageIndex >= 0 && pageIndex < slidesLength) {
+                return pageIndex;
+            }
+        }
+        return 0;
+    });
+
     const slides = [<Section1 />, <Section2 />, <Section3 />, <Section4 />, <Section5 />];
 
     const nextSlide = () => setCurrentSlide(prev => Math.min(prev + 1, slides.length - 1));
     const prevSlide = () => setCurrentSlide(prev => Math.max(prev - 1, 0));
+
+    // Sync state changes -> URL Hash
+    useEffect(() => {
+        window.location.hash = `page-${currentSlide + 1}`;
+    }, [currentSlide]);
+
+    // Sync URL Hash changes (Browser Back/Forward) -> state
+    useEffect(() => {
+        const handleHashChange = () => {
+            const hash = window.location.hash;
+            if (hash && hash.startsWith('#page-')) {
+                const pageIndex = parseInt(hash.replace('#page-', ''), 10) - 1;
+                if (!isNaN(pageIndex) && pageIndex >= 0 && pageIndex < slidesLength) {
+                    setCurrentSlide(pageIndex);
+                }
+            }
+        };
+        window.addEventListener('hashchange', handleHashChange);
+        return () => window.removeEventListener('hashchange', handleHashChange);
+    }, []);
 
     useEffect(() => {
         const handleKeyDown = (e) => {
