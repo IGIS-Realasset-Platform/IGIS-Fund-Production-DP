@@ -4,9 +4,10 @@ import Section2 from './Section2';
 import Section3 from './Section3';
 import Section4 from './Section4';
 import Section5 from './Section5';
+import Section6 from './Section6';
 
 export default function MainLayout() {
-    const slidesLength = 5; // known length
+    const slidesLength = 6; // known length
     const [currentSlide, setCurrentSlide] = useState(() => {
         // Initialize from URL hash if available (persistent reload mapping)
         const hash = window.location.hash;
@@ -19,12 +20,12 @@ export default function MainLayout() {
         return 0;
     });
 
-    const slides = [<Section1 />, <Section2 />, <Section3 />, <Section4 />, <Section5 />];
+    const slides = [<Section1 />, <Section2 />, <Section3 />, <Section4 />, <Section5 />, <Section6 />];
 
     const [isActionDone, setIsActionDone] = useState(false);
 
     // Animation durations mapped closely to each page's visual completion timing
-    const slideAnimationTimes = [1500, 3600, 4200, 2600, 4200];
+    const slideAnimationTimes = [1500, 3600, 4200, 2600, 4200, 2500];
 
     useEffect(() => {
         setIsActionDone(false);

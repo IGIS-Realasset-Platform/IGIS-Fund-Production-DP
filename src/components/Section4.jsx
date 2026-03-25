@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import img270 from '../assets/images/270parkave.jpg';
 import imgIota from '../assets/images/iotaseoul.jpg';
+import { useLanguage } from '../context/LanguageContext';
 
 // Comparison Item Blueprint
 const CardItem = ({ title, desc, isDark, isHighlighted, highlightClass }) => (
