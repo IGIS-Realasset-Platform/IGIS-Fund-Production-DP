@@ -5,17 +5,19 @@ import imgJosh from '../assets/images/josh_panknin.webp';
 export default function Section6({ isActive }) {
     const { lang } = useLanguage();
     const [step, setStep] = useState(0);
+    const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
         if (!isActive) {
             setStep(0);
+            setShowModal(false);
             return;
         }
         
         const t1 = setTimeout(() => setStep(1), 500); // Image fade in
         const t2 = setTimeout(() => setStep(2), 1000); // Quote text fade in
         const t3 = setTimeout(() => setStep(3), 1800); // Name and title fade in
-        const t4 = setTimeout(() => setStep(4), 2800); // Underline highlight
+        const t4 = setTimeout(() => setStep(4), 1800); // Underline highlight
 
         return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); clearTimeout(t4); };
     }, [isActive]);
@@ -23,6 +25,54 @@ export default function Section6({ isActive }) {
     return (
         <section className="section w-full h-full bg-black flex flex-col relative px-6 md:px-16 lg:px-24 pt-[100px] md:pt-[120px] pb-[80px] overflow-y-auto">
             
+            {/* Modal Overlay */}
+            <div 
+                className={`fixed inset-0 z-[9999] flex items-center justify-center bg-black/85 backdrop-blur-sm transition-all duration-[800ms] ${showModal ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
+                onClick={() => setShowModal(false)}
+            >
+                <div 
+                    className={`flex flex-col items-center justify-center text-center p-8 transition-transform duration-[800ms] ease-[cubic-bezier(0.19,1,0.22,1)] ${showModal ? 'scale-100 translate-y-0' : 'scale-95 translate-y-12'}`}
+                    onClick={(e) => e.stopPropagation()}
+                >
+                    <h2 className="text-[24px] md:text-[34px] lg:text-[40px] font-bold text-white tracking-tight leading-[1.35] break-keep px-4 md:px-12">
+                        {lang === 'kr' ? (
+                            <>
+                                부동산 기업들은 철저하게 <span className="text-[#3b82f6]">‘사일로’</span> 형태로 조직되어 있어<br className="hidden md:block"/>
+                                내 데이터는 내 것, 네 데이터는 네 것이라는 마인드가 강하다
+                            </>
+                        ) : (
+                            <>
+                                Real estate companies are strictly organized in <span className="text-[#3b82f6]">'silos'</span>, so there is a<br className="hidden md:block"/>
+                                strong mindset of 'my data is mine, your data is yours'
+                            </>
+                        )}
+                    </h2>
+
+                    {/* Altus Group Link */}
+                    <a 
+                        href="https://www.altusgroup.com/insights/commercial-real-estate-data-integration/?utm_source=google&utm_medium=organic" 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="flex items-center justify-center group cursor-pointer outline-none mt-[20px] md:mt-[30px]"
+                    >
+                        <div 
+                            className="flex items-center justify-center w-full text-[14px] md:text-[16px] font-normal text-white transition-all tracking-wide opacity-70 group-hover:opacity-100"
+                            style={{ fontFamily: "'Guardian Sans', 'Apple SD Gothic Neo', sans-serif" }}
+                        >
+                            <span className="relative pb-[2px] after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-[1.5px] after:bottom-0 after:left-0 after:bg-current after:origin-bottom-left after:transition-transform after:duration-300 group-hover:after:scale-x-100">
+                                {lang === 'kr' ? 'Data integration in commercial real estate 전문 보기' : 'Read "Data integration in commercial real estate"'}
+                            </span>
+                            <div className="ml-3 w-[24px] h-[24px] md:w-[26px] md:h-[26px] rounded-full border border-white flex items-center justify-center transition-transform duration-300 group-hover:translate-x-1">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                                    <line x1="4" y1="12" x2="20" y2="12"></line>
+                                    <polyline points="14 6 20 12 14 18"></polyline>
+                                </svg>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
             <div className="w-full max-w-[1400px] mx-auto flex flex-col md:flex-row items-center md:items-start justify-between gap-[40px] md:gap-[80px] lg:gap-[100px] my-auto">
                 
                 {/* Left: Portrait Image */}
@@ -37,7 +87,6 @@ export default function Section6({ isActive }) {
                         onError={(e) => {
                             e.target.onerror = null;
                             e.target.style.display = 'none';
-                            e.target.parentElement.innerHTML = '<div class="w-full h-full flex flex-col items-center justify-center text-gray-500 font-sans tracking-widest text-[13px] border border-[#333] p-4 text-center leading-relaxed"><span class="block text-white">IMAGE</span></div>';
                         }}
                     />
                 </div>
@@ -68,7 +117,8 @@ export default function Section6({ isActive }) {
                                     <br /><br />
                                     현재까지 이런 데이터 정리를 하고 있는 회사들은<br className="hidden md:block" />
                                     글로벌 톱 5 정도로 앞으로 부동산 시장에서 <span 
-                                        className="inline"
+                                        onClick={() => setShowModal(true)}
+                                        className={`inline transition-colors duration-500 hover:text-white ${step >= 4 ? 'cursor-pointer' : ''}`}
                                         style={{
                                             backgroundImage: 'linear-gradient(transparent 90%, #f4f4f5 90%, #f4f4f5 100%)',
                                             backgroundRepeat: 'no-repeat',
@@ -86,7 +136,8 @@ export default function Section6({ isActive }) {
                                     However, the use of AI tools requires prior data organization, yet the real estate industry still struggles with decades of unorganized data.
                                     <br /><br />
                                     Currently, only about the top 5 global firms are undertaking such data structuring, and we anticipate <span 
-                                        className="inline"
+                                        onClick={() => setShowModal(true)}
+                                        className={`inline transition-colors duration-500 hover:text-white ${step >= 4 ? 'cursor-pointer' : ''}`}
                                         style={{
                                             backgroundImage: 'linear-gradient(transparent 90%, #f4f4f5 90%, #f4f4f5 100%)',
                                             backgroundRepeat: 'no-repeat',
