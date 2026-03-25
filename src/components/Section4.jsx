@@ -35,7 +35,7 @@ export default function Section4({ isActive }) {
     }, [isActive]);
 
     return (
-        <section className="section w-full min-h-[100vh] bg-white flex flex-col items-center justify-start relative px-6 md:px-12 pt-[80px] md:pt-[100px] pb-[100px] md:pb-[140px] overflow-y-auto">
+        <section className="section w-full h-full bg-white flex flex-col items-center justify-start relative px-6 md:px-12 pt-[80px] md:pt-[100px] pb-[100px] md:pb-[140px] overflow-y-auto">
             <div className="w-full max-w-[1340px] flex flex-col z-10 shrink-0 my-auto">
                 
                 {/* 1. Header Title Sequence (중앙정렬 및 자간 조정) */}
