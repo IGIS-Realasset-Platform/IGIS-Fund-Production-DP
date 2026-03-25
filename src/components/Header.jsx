@@ -142,6 +142,11 @@ export default function Header({ onNavigateToNews, onNavigateToHome, onNavigateT
         const newUrl = isTop ? window.location.pathname : `#${targetId}`;
         const currentCheck = isTop ? window.location.pathname : window.location.hash;
 
+        if (targetId.startsWith('page-')) {
+            window.location.hash = targetId;
+            return;
+        }
+
         if (window.location.hash !== (isTop ? '' : `#${targetId}`)) {
             window.history.pushState(null, '', newUrl);
         }
