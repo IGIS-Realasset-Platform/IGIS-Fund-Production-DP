@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLanguage } from '../context/LanguageContext';
+import imgJosh from '../assets/images/josh_panknin.webp';
 
 export default function Section6({ isActive }) {
     const { lang } = useLanguage();
@@ -29,7 +30,7 @@ export default function Section6({ isActive }) {
                     style={{ aspectRatio: '3 / 4' }}
                 >
                     <img 
-                        src="/josh_panknin.webp" 
+                        src={imgJosh} 
                         alt="Josh Panknin" 
                         className="w-full h-full object-cover"
                         onError={(e) => {
