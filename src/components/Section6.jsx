@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import imgJosh from '../assets/images/josh_panknin.webp';
 
@@ -6,6 +6,11 @@ export default function Section6({ isActive }) {
     const { lang } = useLanguage();
     const [step, setStep] = useState(0);
     const [showModal, setShowModal] = useState(false);
+
+    const stepRef = useRef(0);
+    stepRef.current = step;
+    const showModalRef = useRef(false);
+    showModalRef.current = showModal;
 
     useEffect(() => {
         if (!isActive) {
@@ -21,12 +26,10 @@ export default function Section6({ isActive }) {
 
         const nextAction = (e) => {
             if (e.type === 'appSlideNext') {
-                setStep(prev => {
-                    if (prev >= 4) {
-                        setShowModal(true);
-                    }
-                    return prev;
-                });
+                if (stepRef.current >= 4 && !showModalRef.current) {
+                    e.preventDefault();
+                    setShowModal(true);
+                }
             }
         };
 
