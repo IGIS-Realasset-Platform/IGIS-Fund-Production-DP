@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import img270 from '../assets/images/270parkave.jpg';
 import imgIota from '../assets/images/iotaseoul.jpg';
 import { useLanguage } from '../context/LanguageContext';
@@ -18,6 +18,8 @@ const CardItem = ({ title, desc, isDark, isHighlighted, highlightClass }) => (
 export default function Section4({ isActive }) {
     const { lang } = useLanguage();
     const [step, setStep] = useState(0);
+    const stepRef = useRef(0);
+    stepRef.current = step;
 
     useEffect(() => {
         if (!isActive) {
@@ -30,10 +32,23 @@ export default function Section4({ isActive }) {
         const t2 = setTimeout(() => setStep(2), 800);  // 2-Card Comparisons slide-in
         const t3 = setTimeout(() => setStep(3), 1100); // (Legacy interval bypassed)
         const t4 = setTimeout(() => setStep(4), 1300); // Trigger Bubble Popup *MID-FLIGHT* (during pincer slides)
-        const t5 = setTimeout(() => setStep(5), 1800); // 5. Bottom Vision Statement
-        const t6 = setTimeout(() => setStep(6), 2200); // 6. Text Color Highlights (Red/Blue)
+        const t5 = setTimeout(() => setStep(5), 1800); // Text Color Highlights (Red/Blue)
+
+        const nextAction = (e) => {
+            if (e.type === 'appSlideNext') {
+                if (stepRef.current >= 5 && stepRef.current < 6) {
+                    e.preventDefault(); // Intercept and block slide change
+                    setStep(6); // Trigger the bottom vision text
+                }
+            }
+        };
+
+        window.addEventListener('appSlideNext', nextAction);
         
-        return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); clearTimeout(t4); clearTimeout(t5); clearTimeout(t6); };
+        return () => { 
+            clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); clearTimeout(t4); clearTimeout(t5);
+            window.removeEventListener('appSlideNext', nextAction);
+        };
     }, [isActive]);
 
     return (
@@ -52,7 +67,7 @@ export default function Section4({ isActive }) {
                     </div>
                     <div className="overflow-hidden">
                         <h2 
-                            className={`text-[40px] md:text-[56px] font-bold text-[#1d1d1f] tracking-tight leading-[1.15] transition-all duration-[1200ms] ease-[cubic-bezier(0.19,1,0.22,1)] ${step >= 1 ? 'translate-y-0 opacity-100' : 'translate-y-[120%] opacity-0'}`}
+                            className={`text-[36px] md:text-[52px] font-bold text-[#1d1d1f] tracking-tight leading-[1.15] transition-all duration-[1200ms] ease-[cubic-bezier(0.19,1,0.22,1)] ${step >= 1 ? 'translate-y-0 opacity-100' : 'translate-y-[120%] opacity-0'}`}
                         >
                             {lang === 'kr' ? (
                                 <>
@@ -114,10 +129,10 @@ export default function Section4({ isActive }) {
                             </div>
                             
                             <div className="flex flex-col mt-auto pb-0">
-                                <CardItem title={lang === 'kr' ? "의사결정 및 런칭" : "Decision & Launch"} desc={lang === 'kr' ? "기획-입찰-계약-제작 (3~6개월 소요)" : "Plan-Bid-Contract-Build (3~6 months)"} isDark={false} isHighlighted={step >= 6} highlightClass="text-[#d92d2d]" />
-                                <CardItem title={lang === 'kr' ? "구축 비용" : "Deployment Cost"} desc={lang === 'kr' ? "억 단위 용역비 발생" : "Millions of dollars incurred"} isDark={false} isHighlighted={step >= 6} highlightClass="text-[#d92d2d]" />
-                                <CardItem title={lang === 'kr' ? "콘텐츠 업데이트" : "Content Update"} desc={lang === 'kr' ? "대행사 경유 (평균 1~3일 소요)" : "Via agency (1~3 days average delay)"} isDark={false} isHighlighted={step >= 6} highlightClass="text-[#d92d2d]" />
-                                <CardItem title={lang === 'kr' ? "데이터 소유권" : "Data Sovereignty"} desc={lang === 'kr' ? "대행사 DB 관리 (접근 권한 제한적)" : "Managed by agency (restricted access)"} isDark={false} isHighlighted={step >= 6} highlightClass="text-[#d92d2d]" />
+                                <CardItem title={lang === 'kr' ? "의사결정 및 런칭" : "Decision & Launch"} desc={lang === 'kr' ? "기획-입찰-계약-제작 (3~6개월 소요)" : "Plan-Bid-Contract-Build (3~6 months)"} isDark={false} isHighlighted={step >= 5} highlightClass="text-[#d92d2d]" />
+                                <CardItem title={lang === 'kr' ? "구축 비용" : "Deployment Cost"} desc={lang === 'kr' ? "억 단위 용역비 발생" : "Millions of dollars incurred"} isDark={false} isHighlighted={step >= 5} highlightClass="text-[#d92d2d]" />
+                                <CardItem title={lang === 'kr' ? "콘텐츠 업데이트" : "Content Update"} desc={lang === 'kr' ? "대행사 경유 (평균 1~3일 소요)" : "Via agency (1~3 days average delay)"} isDark={false} isHighlighted={step >= 5} highlightClass="text-[#d92d2d]" />
+                                <CardItem title={lang === 'kr' ? "데이터 소유권" : "Data Sovereignty"} desc={lang === 'kr' ? "대행사 DB 관리 (접근 권한 제한적)" : "Managed by agency (restricted access)"} isDark={false} isHighlighted={step >= 5} highlightClass="text-[#d92d2d]" />
                             </div>
                         </div>
 
@@ -165,10 +180,10 @@ export default function Section4({ isActive }) {
                                 </div>
                                 
                                 <div className="flex flex-col mt-auto pb-0 relative z-10">
-                                    <CardItem title={lang === 'kr' ? "의사결정 및 런칭" : "Decision & Launch"} desc={lang === 'kr' ? "내재인력이 AI 활용 단독 수행 (단 5일)" : "Exclusively internal AI leveraging (5 Days)"} isDark={true} isHighlighted={step >= 6} highlightClass="text-[#3b82f6]" />
-                                    <CardItem title={lang === 'kr' ? "구축 비용" : "Deployment Cost"} desc={lang === 'kr' ? "0원 (도메인 비용 외 영구 면제)" : "$0 (Free permanently excluding domain)"} isDark={true} isHighlighted={step >= 6} highlightClass="text-[#3b82f6]" />
-                                    <CardItem title={lang === 'kr' ? "콘텐츠 업데이트" : "Content Update"} desc={lang === 'kr' ? "실시간 5분 이내 직접 즉각 수정" : "Instant internal modification within 5 mins"} isDark={true} isHighlighted={step >= 6} highlightClass="text-[#3b82f6]" />
-                                    <CardItem title={lang === 'kr' ? "데이터 소유권" : "Data Sovereignty"} desc={lang === 'kr' ? "내부 DB 실시간 축적 및 데이터 주권 확보" : "Real-time internal DB metrics & Data Sovereignty"} isDark={true} isHighlighted={step >= 6} highlightClass="text-[#3b82f6]" />
+                                    <CardItem title={lang === 'kr' ? "의사결정 및 런칭" : "Decision & Launch"} desc={lang === 'kr' ? "내재인력이 AI 활용 단독 수행 (단 5일)" : "Exclusively internal AI leveraging (5 Days)"} isDark={true} isHighlighted={step >= 5} highlightClass="text-[#3b82f6]" />
+                                    <CardItem title={lang === 'kr' ? "구축 비용" : "Deployment Cost"} desc={lang === 'kr' ? "0원 (도메인 비용 외 영구 면제)" : "$0 (Free permanently excluding domain)"} isDark={true} isHighlighted={step >= 5} highlightClass="text-[#3b82f6]" />
+                                    <CardItem title={lang === 'kr' ? "콘텐츠 업데이트" : "Content Update"} desc={lang === 'kr' ? "실시간 5분 이내 직접 즉각 수정" : "Instant internal modification within 5 mins"} isDark={true} isHighlighted={step >= 5} highlightClass="text-[#3b82f6]" />
+                                    <CardItem title={lang === 'kr' ? "데이터 소유권" : "Data Sovereignty"} desc={lang === 'kr' ? "내부 DB 실시간 축적 및 데이터 주권 확보" : "Real-time internal DB metrics & Data Sovereignty"} isDark={true} isHighlighted={step >= 5} highlightClass="text-[#3b82f6]" />
                                 </div>
                             </div>
                             
@@ -241,9 +256,9 @@ export default function Section4({ isActive }) {
 
                 {/* 3. Bottom Vision Statement (Appears dynamically at end) */}
                 <div 
-                    className={`mt-[54px] md:mt-[70px] w-full flex justify-center items-center px-0 md:px-4 transition-all duration-[2500ms] delay-[300ms] ease-[cubic-bezier(0.19,1,0.22,1)] ${step >= 5 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-[40px]'}`}
+                    className={`mt-[54px] md:mt-[70px] w-full flex justify-center items-center px-0 md:px-4 transition-all duration-[2500ms] delay-[300ms] ease-[cubic-bezier(0.19,1,0.22,1)] ${step >= 6 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-[40px]'}`}
                 >
-                    <p className="text-[40px] md:text-[56px] font-bold text-center tracking-tight text-[#1d1d1f] leading-[1.25] whitespace-nowrap">
+                    <p className="text-[36px] md:text-[52px] font-bold text-center tracking-tight text-[#1d1d1f] leading-[1.25] whitespace-nowrap">
                         {lang === 'kr' ? (
                             <>
                                 기획과 데이터만 내재되어 있다면, <br />

@@ -36,8 +36,11 @@ export default function MainLayout() {
     }, [currentSlide]);
 
     const nextSlide = () => {
-        window.dispatchEvent(new CustomEvent('appSlideNext'));
-        setCurrentSlide(prev => Math.min(prev + 1, slides.length - 1));
+        const event = new CustomEvent('appSlideNext', { cancelable: true });
+        window.dispatchEvent(event);
+        if (!event.defaultPrevented) {
+            setCurrentSlide(prev => Math.min(prev + 1, slides.length - 1));
+        }
     };
     const prevSlide = () => setCurrentSlide(prev => Math.max(prev - 1, 0));
 
