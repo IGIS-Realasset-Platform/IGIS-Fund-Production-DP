@@ -12,6 +12,30 @@
 
 @layer base {
 
+    @font-face {
+        font-family: 'Sanomat Wp';
+        src: url('/Sanomat-Regular.ttf') format('truetype');
+        font-weight: normal;
+        font-style: normal;
+        font-display: swap;
+    }
+
+    @font-face {
+        font-family: 'Sanomat Web';
+        src: url('/Sanomat-Regular.ttf') format('truetype');
+        font-weight: normal;
+        font-style: normal;
+        font-display: swap;
+    }
+
+    @font-face {
+        font-family: 'Sanomat';
+        src: url('/Sanomat-Regular.ttf') format('truetype');
+        font-weight: normal;
+        font-style: normal;
+        font-display: swap;
+    }
+
     html,
     body {
         margin: 0;
