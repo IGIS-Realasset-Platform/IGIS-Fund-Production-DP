@@ -57,7 +57,8 @@ export default function Section8({ isActive }) {
             if (e.type === 'appSlideNext') {
                 if (stepRef.current === 4) {
                     e.preventDefault();
-                    setStep(5); // Trigger vertical disconnected silos
+                    setStep(5); // Trigger horizontal scaling down & title appear
+                    setTimeout(() => setStep(6), 1200); // Trigger vertical cloning
                 }
             }
         };
@@ -158,12 +159,21 @@ export default function Section8({ isActive }) {
                     
                     {[0, 1, 2].map((rowIndex) => (
                         <div 
-                            key={`row-${rowIndex}`}
-                            className={`flex items-center min-w-[1000px] xl:min-w-0 w-full overflow-hidden transition-all duration-[1200ms] ease-[cubic-bezier(0.19,1,0.22,1)] 
-                                ${rowIndex === 0 ? '' : (step >= 5 ? 'opacity-100 mt-[15px] md:mt-[20px] scale-100' : 'opacity-0 mt-0 max-h-0 scale-95 pointer-events-none')}
-                                ${step >= 5 ? 'border-y-[3px] border-[#dc2626]/80 shadow-[0_0_20px_rgba(220,38,38,0.2)]' : 'border border-[#333] rounded-lg'}
+                            key={`row-wrapper-${rowIndex}`}
+                            className={`flex flex-col min-w-[1000px] xl:min-w-0 w-full transition-all duration-[1200ms] ease-[cubic-bezier(0.19,1,0.22,1)] 
+                                ${rowIndex === 0 ? '' : (step >= 6 ? 'opacity-100 mt-[20px] md:mt-[30px] max-h-[500px]' : 'opacity-0 mt-0 max-h-0 overflow-hidden pointer-events-none')}
                             `}
                         >
+                            {/* Project Title (Appears above each row smoothly) */}
+                            <div className={`flex text-white font-bold text-[14px] md:text-[17px] px-2 transition-all duration-[800ms] origin-left ${step >= 5 ? 'opacity-100 max-h-[30px] mb-2 md:mb-3 scale-100' : 'opacity-0 max-h-0 mb-0 scale-95 overflow-hidden'}`}>
+                                <span className="text-[#f97316] mr-2">{lang === 'kr' ? '프로젝트' : 'Project'} :</span> {["IOTA Seoul", "서리풀", "용산시티코어"][rowIndex]}
+                            </div>
+
+                            <div 
+                                className={`flex items-center w-full overflow-hidden transition-all duration-[1200ms] ease-[cubic-bezier(0.19,1,0.22,1)] 
+                                    ${step >= 5 ? 'border-y-[3px] border-[#dc2626]/80 shadow-[0_0_20px_rgba(220,38,38,0.2)]' : 'border border-[#333] rounded-lg'}
+                                `}
+                            >
                             {stages.map((stage, idx) => (
                                 <React.Fragment key={idx}>
                                     {/* Node Compartment */}
@@ -205,6 +215,7 @@ export default function Section8({ isActive }) {
                                     )}
                                 </React.Fragment>
                             ))}
+                            </div>
                         </div>
                     ))}
 
