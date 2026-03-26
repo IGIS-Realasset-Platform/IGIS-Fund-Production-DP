@@ -36,7 +36,7 @@ const DataFlowSuccess = () => {
     const [streams] = useState(() => Array.from({ length: 60 }).map(() => ({
         top: 30 + Math.random() * 60,
         delay: Math.random() * 6, // staggered starts
-        duration: 6.0 + Math.random() * 4.0, // Slow: 6s - 10s traversal
+        duration: 12.0 + Math.random() * 8.0, // 0.5x Speed: 12s - 20s traversal
         chars: Math.random() > 0.5 ? "01101  1011  01" : "10  0100  1101 "
     })));
 
@@ -196,14 +196,23 @@ export default function Section9({ isActive }) {
                             <div className={`flex flex-col min-w-[1000px] xl:min-w-0 w-full transition-all duration-[1200ms] ease-[cubic-bezier(0.19,1,0.22,1)]`}>
                                 
                                 {/* Sharp Rectangular Control Tower on Blocked Box */}
-                                <div className={`flex items-center justify-center w-full mb-3 transition-all duration-[1000ms] ease-[cubic-bezier(0.19,1,0.22,1)] ${step >= 3 ? 'opacity-100 scale-y-100' : 'opacity-0 scale-y-0'}`}>
+                                <div className={`flex items-center justify-center w-full transition-all duration-[1000ms] ease-[cubic-bezier(0.19,1,0.22,1)] ${step >= 3 ? 'opacity-100 scale-y-100' : 'opacity-0 scale-y-0'}`}>
                                     <div className="flex flex-col items-center w-full">
                                         <div className="bg-[#1e40af] text-white px-8 py-1.5 font-bold text-[12px] md:text-[14px] tracking-widest uppercase border border-[#1e40af] rounded-none shadow-sm z-20">
                                             CONTROL TOWER
                                         </div>
-                                        <div className="w-[3px] h-[16px] md:h-[24px] bg-[#1e40af] opacity-50 z-10 -my-[1px]"></div>
-                                        {/* Bridge line connecting to the box */}
-                                        <div className="w-[95%] h-[2px] bg-gradient-to-r from-transparent via-[#1e40af] to-transparent opacity-80 z-10"></div>
+                                        <div className="w-[3px] h-[15px] md:h-[20px] bg-[#1e40af] z-10 -my-[1px]"></div>
+                                        {/* Perfect Org Chart Branching to all 10 Flex Cells */}
+                                        <div className="w-full flex relative z-10">
+                                            {stages.map((_, i) => (
+                                                <div key={`ct-line-1-${i}`} className="flex-1 flex flex-col items-center relative">
+                                                    {/* Top horizontal connection */}
+                                                    <div className="absolute top-0 h-[3px] bg-[#1e40af] w-full" style={{ left: i === 0 ? '50%' : '0', width: (i === 0 || i === stages.length - 1) ? '50%' : '100%' }}></div>
+                                                    {/* Vertical stem down to box */}
+                                                    <div className="w-[3px] h-[15px] md:h-[20px] bg-[#1e40af]"></div>
+                                                </div>
+                                            ))}
+                                        </div>
                                     </div>
                                 </div>
 
@@ -249,6 +258,18 @@ export default function Section9({ isActive }) {
                                 </div>
                             </div>
                         </div>
+
+                        {/* Bottom CFT & IFPDP Text moved to Phase 1 Bottom */}
+                        <div className={`w-full text-center mt-6 md:mt-10 transition-all duration-[1200ms] delay-[500ms] ease-[cubic-bezier(0.19,1,0.22,1)] ${step >= 3 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+                            <h3 className="text-[17px] md:text-[22px] lg:text-[26px] font-extrabold text-[#1d1d1f] tracking-tight inline-block break-keep">
+                                Cross Functional System and CFT(Cross Functional Team) 조직 구축
+                            </h3>
+                            <div className="text-[20px] font-extrabold text-[#999] my-1 leading-none">&</div>
+                            <h3 className="text-[18px] md:text-[25px] lg:text-[30px] font-extrabold tracking-tight bg-gradient-to-r from-[#297cf6] to-[#0448d3] text-transparent bg-clip-text inline-block break-keep">
+                                IFPDP (IGIS Fund Production Data Platform)
+                            </h3>
+                        </div>
+
                     </div>
                 </div>
 
@@ -259,10 +280,11 @@ export default function Section9({ isActive }) {
                     <div className="w-full max-w-[1500px] flex flex-col items-center justify-center px-4 md:px-12 lg:px-20">
                         
                         {/* Downward Arrow */}
-                        <div className={`transition-all duration-[800ms] ease-out flex justify-center mb-4 md:mb-6
-                            ${step >= 5 ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4 scale-50'}`}>
-                            <div className="bg-[#1e40af]/10 px-6 py-2 rounded-none border border-[#1e40af]/20">
-                                <svg className="w-6 h-6 md:w-8 md:h-8 text-[#1e40af]" fill="none" strokeWidth="2.5" stroke="currentColor" viewBox="0 0 24 24">
+                        <div className={`transition-all duration-[800ms] ease-out flex justify-center mb-6 md:mb-10
+                            ${step >= 5 ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-8 scale-50'}
+                        `}>
+                            <div className="animate-bounce">
+                                <svg className="w-10 h-10 md:w-14 md:h-14 text-[#1e40af]" fill="none" strokeWidth="2.5" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
                                 </svg>
                             </div>
@@ -287,14 +309,24 @@ export default function Section9({ isActive }) {
                         `}>
                             <div className={`flex flex-col min-w-[1000px] xl:min-w-0 w-full`}>
                                 
-                                {/* Sharp Rectangular Control Tower overhead replacing Project Title */}
-                                <div className={`flex items-center justify-center w-full mb-3 opacity-0 scale-y-50 origin-bottom transition-all duration-[1000ms] ease-[cubic-bezier(0.19,1,0.22,1)] delay-[1000ms] ${step >= 6 ? 'opacity-100 scale-y-100' : ''}`}>
+                                {/* Sharp Rectangular Control Tower Org Chart */}
+                                <div className={`flex items-center justify-center w-full opacity-0 scale-y-50 origin-bottom transition-all duration-[1000ms] ease-[cubic-bezier(0.19,1,0.22,1)] delay-[1000ms] ${step >= 6 ? 'opacity-100 scale-y-100' : ''}`}>
                                     <div className="flex flex-col items-center w-full">
                                         <div className="bg-[#1e40af] text-white px-8 py-1.5 font-bold text-[12px] md:text-[14px] tracking-widest uppercase border border-[#1e40af] rounded-none shadow-sm z-20">
                                             CONTROL TOWER
                                         </div>
-                                        <div className="w-[3px] h-[16px] md:h-[24px] bg-[#1e40af] opacity-50 z-10 -my-[1px]"></div>
-                                        <div className="w-full h-[2px] bg-gradient-to-r from-transparent via-[#1e40af] to-transparent opacity-80 z-10 relative"></div>
+                                        <div className="w-[3px] h-[15px] md:h-[20px] bg-[#1e40af] z-10 -my-[1px]"></div>
+                                        {/* Perfect Org Chart Branching to all 10 Flex Cells */}
+                                        <div className="w-full flex relative z-10">
+                                            {stages.map((_, i) => (
+                                                <div key={`ct-line-2-${i}`} className="flex-1 flex flex-col items-center relative">
+                                                    {/* Top horizontal connection */}
+                                                    <div className="absolute top-0 h-[3px] bg-[#1e40af] w-full" style={{ left: i === 0 ? '50%' : '0', width: (i === 0 || i === stages.length - 1) ? '50%' : '100%' }}></div>
+                                                    {/* Vertical stem down to box */}
+                                                    <div className="w-[3px] h-[15px] md:h-[20px] bg-[#1e40af]"></div>
+                                                </div>
+                                            ))}
+                                        </div>
                                     </div>
                                 </div>
 
@@ -308,7 +340,7 @@ export default function Section9({ isActive }) {
                                     {stages.map((stage, idx) => (
                                         <React.Fragment key={idx}>
                                             <div 
-                                                className={`flex-1 flex flex-col relative overflow-hidden h-[80px] md:h-[110px]
+                                                className={`flex-1 flex flex-col relative overflow-hidden h-[120px] md:h-[165px]
                                                     bg-[#f4f4f5] border-transparent rounded-none shadow-none z-0 
                                                     border-none
                                                 `}
@@ -325,14 +357,6 @@ export default function Section9({ isActive }) {
                                         </React.Fragment>
                                     ))}
                                 </div>
-
-                                {/* Bottom Cross Functional Text */}
-                                <div className={`w-full text-center mt-8 md:mt-12 transition-all duration-[1200ms] delay-[1800ms] ease-[cubic-bezier(0.19,1,0.22,1)] ${step >= 6 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-                                    <h3 className="text-[17px] md:text-[22px] lg:text-[26px] font-extrabold tracking-tight bg-gradient-to-r from-[#297cf6] to-[#0448d3] text-transparent bg-clip-text inline-block break-keep">
-                                        {lang === 'kr' ? 'Cross Functional System and CFT(Cross Functional Team) 조직 구축' : 'Establishment of Cross-Functional System and CFT'}
-                                    </h3>
-                                </div>
-
                             </div>
                         </div>
 
