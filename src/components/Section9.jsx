@@ -33,23 +33,29 @@ const DataFlowCell = () => {
 
 const DataFlowSuccess = () => {
     // Reverted to scattered format but with +30% volume and slightly slower speed
-    const [streams] = useState(() => Array.from({ length: 78 }).map(() => ({
-        top: 30 + Math.random() * 60,
-        delay: Math.random() * 8, // staggered starts
-        duration: 20.0 + Math.random() * 15.0, // Slower traversal
-        chars: Math.random() > 0.5 ? "01101  1011  01" : "10  0100  1101 "
-    })));
+    const [streams] = useState(() => Array.from({ length: 78 }).map(() => {
+        const colorPalette = ['#3b82f6', '#1d4ed8', '#1e3a8a', '#2dd4bf', '#06b6d4', '#6366f1', '#4f46e5', '#60a5fa'];
+        return {
+            top: 25 + Math.random() * 70,
+            delay: Math.random() * 8, // staggered starts
+            duration: 20.0 + Math.random() * 15.0, // Slower traversal
+            chars: Math.random() > 0.5 ? "01101  1011  01" : "10  0100  1101 ",
+            fontWeightList: Math.random() > 0.65 ? 'font-bold' : 'font-light',
+            themeColor: colorPalette[Math.floor(Math.random() * colorPalette.length)]
+        };
+    }));
 
     return (
         <div className="absolute inset-0 overflow-hidden pointer-events-none z-10" style={{ maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)', WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)' }}>
             {streams.map((s, i) => (
                 <div 
                     key={i} 
-                    className="absolute font-mono leading-none tracking-widest whitespace-pre data-stream-success"
+                    className={`absolute font-mono leading-none tracking-widest whitespace-pre data-stream-success ${s.fontWeightList}`}
                     style={{
                         top: `${s.top}%`,
                         left: '0',
                         fontSize: 'clamp(10px, 1.2vw, 15px)',
+                        color: s.themeColor,
                         animationDelay: `${s.delay}s`,
                         animationDuration: `${s.duration}s`
                     }}
@@ -108,11 +114,11 @@ export default function Section9({ isActive }) {
                 .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
                 @keyframes dataFlowSuccessRight {
-                    0% { transform: translateX(-10vw); opacity: 0; color: #93c5fd; }
-                    10% { opacity: 0.8; color: #3b82f6; }
-                    50% { color: #1e40af; opacity: 1; }
+                    0% { transform: translateX(-10vw); opacity: 0; }
+                    10% { opacity: 0.8; }
+                    50% { opacity: 1; }
                     80% { opacity: 0.8; }
-                    100% { transform: translateX(100vw); opacity: 0; color: #172554; }
+                    100% { transform: translateX(100vw); opacity: 0; }
                 }
                 .data-stream-success {
                     animation-name: dataFlowSuccessRight;
@@ -362,7 +368,7 @@ export default function Section9({ isActive }) {
                                 </div>
 
                                 <div 
-                                    className={`flex items-center w-full relative gap-0 border-[2.5px] border-[#1e40af] rounded-none shadow-[0_20px_50px_rgba(30,64,175,0.2)] overflow-hidden bg-white
+                                    className={`flex items-center w-full relative gap-0 border-[4.5px] border-[#1e40af] rounded-none shadow-[0_20px_50px_rgba(30,64,175,0.2)] overflow-hidden bg-white
                                     `}
                                 >
                                     {/* Global Flow Engine representing total seamless sharing */}
@@ -371,7 +377,7 @@ export default function Section9({ isActive }) {
                                     {stages.map((stage, idx) => (
                                         <React.Fragment key={idx}>
                                             <div 
-                                                className={`flex-1 flex flex-col relative overflow-hidden h-[120px] md:h-[165px]
+                                                className={`flex-1 flex flex-col relative overflow-hidden h-[130px] md:h-[175px]
                                                     bg-[#f4f4f5] border-transparent rounded-none shadow-none z-0 
                                                     border-none
                                                 `}
