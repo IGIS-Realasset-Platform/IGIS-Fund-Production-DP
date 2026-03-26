@@ -7,9 +7,10 @@ import Section5 from './Section5';
 import Section6 from './Section6';
 import Section7 from './Section7';
 import Section8 from './Section8';
+import Section9 from './Section9';
 
 export default function MainLayout() {
-    const slidesLength = 8; // known length
+    const slidesLength = 9; // known length
     const [currentSlide, setCurrentSlide] = useState(() => {
         // Initialize from URL hash if available (persistent reload mapping)
         const hash = window.location.hash;
@@ -22,12 +23,12 @@ export default function MainLayout() {
         return 0;
     });
 
-    const slides = [<Section1 />, <Section2 />, <Section3 />, <Section4 />, <Section5 />, <Section6 />, <Section7 />, <Section8 />];
+    const slides = [<Section1 />, <Section2 />, <Section3 />, <Section4 />, <Section5 />, <Section6 />, <Section7 />, <Section8 />, <Section9 />];
 
     const [isActionDone, setIsActionDone] = useState(false);
 
     // Animation durations mapped closely to each page's visual completion timing
-    const slideAnimationTimes = [1500, 3600, 4200, 2600, 4200, 2500, 3500, 4000];
+    const slideAnimationTimes = [1500, 3600, 4200, 2600, 4200, 2500, 3500, 4000, 4500];
 
     useEffect(() => {
         setIsActionDone(false);
@@ -187,19 +188,22 @@ export default function MainLayout() {
 
                     {/* Dots Pagination List */}
                     <div className="flex items-center gap-2 md:gap-3">
-                        {slides.map((_, idx) => (
-                            <div 
-                                key={idx} 
-                                onClick={() => setCurrentSlide(idx)}
-                                className="relative flex items-center justify-center w-[18px] h-[18px] cursor-pointer group"
-                            >
-                                {/* Inner Fixed Dot (항상 흰색, mix-blend로 완벽한 반전 구현) */}
-                                <div className="w-[8px] h-[8px] rounded-full bg-white transition-all duration-300"></div>
-                                
-                                {/* Outer Ring for Active State */}
-                                <div className={`absolute inset-0 border-[1.5px] border-white rounded-full transition-all duration-300 ${currentSlide === idx ? 'opacity-100 scale-100' : 'opacity-0 scale-75'}`}></div>
-                            </div>
-                        ))}
+                        {Array.from({ length: Math.min(slides.length, 7) }).map((_, idx) => {
+                            const isDotActive = currentSlide >= 6 ? idx === 6 : currentSlide === idx;
+                            return (
+                                <div 
+                                    key={idx} 
+                                    onClick={() => setCurrentSlide(idx === 6 ? Math.max(currentSlide, 6) : idx)}
+                                    className="relative flex items-center justify-center w-[18px] h-[18px] cursor-pointer group"
+                                >
+                                    {/* Inner Fixed Dot (항상 흰색, mix-blend로 완벽한 반전 구현) */}
+                                    <div className="w-[8px] h-[8px] rounded-full bg-white transition-all duration-300"></div>
+                                    
+                                    {/* Outer Ring for Active State */}
+                                    <div className={`absolute inset-0 border-[1.5px] border-white rounded-full transition-all duration-300 ${isDotActive ? 'opacity-100 scale-100' : 'opacity-0 scale-75'}`}></div>
+                                </div>
+                            );
+                        })}
                     </div>
 
                     {/* Right Arrow Button Group */}
