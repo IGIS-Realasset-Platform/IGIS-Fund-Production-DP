@@ -144,12 +144,12 @@ export default function Section8({ isActive }) {
                         {lang === 'kr' ? (
                             <>
                                 나아가, 다른 프로젝트를 진행하는 팀들 간에도 <strong className="text-[#f97316] font-bold">노하우가 공유되기 어렵습니다.</strong><br />
-                                소싱은 소싱끼리, 투자는 투자끼리 단절되어버리는 완벽한 <strong className="text-[#dc2626] font-bold">수직적 밀실 구조</strong>가 형성됩니다.
+                                소싱은 소싱끼리, 투자는 투자끼리 단절되어버리는 견고한 <strong className="text-[#dc2626] font-bold">'부서 간 장벽(Barrier)'</strong>이 세워집니다.
                             </>
                         ) : (
                             <>
                                 Furthermore, even between teams working on different projects, <strong className="text-[#f97316] font-bold">know-how is difficult to share.</strong><br />
-                                Sourcing is isolated from sourcing, investing from investing, resulting in a perfect <strong className="text-[#dc2626] font-bold">vertical silo structure</strong>.
+                                Sourcing is isolated from sourcing, investing from investing, resulting in rigid <strong className="text-[#dc2626] font-bold">inter-departmental barriers</strong>.
                             </>
                         )}
                     </h3>
