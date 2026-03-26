@@ -16,7 +16,8 @@ export default function Header({ onNavigateToNews, onNavigateToHome, onNavigateT
             title: "The Engine", 
             id: "page-2", 
             items: [
-                { label: "Data Sovereignty", id: "page-2" }
+                { label: "Data Sovereignty", id: "page-2" },
+                { label: "Cross-Functional Shift", id: "page-6" }
             ] 
         },
         { title: "B", id: "section-b", items: [] },
@@ -30,7 +31,8 @@ export default function Header({ onNavigateToNews, onNavigateToHome, onNavigateT
             title: "The Engine", 
             id: "page-2", 
             items: [
-                { label: "Data Sovereignty", id: "page-2" }
+                { label: "Data Sovereignty", id: "page-2" },
+                { label: "Cross-Functional Shift", id: "page-6" }
             ] 
         },
         { title: "B", id: "section-b", items: [] },
