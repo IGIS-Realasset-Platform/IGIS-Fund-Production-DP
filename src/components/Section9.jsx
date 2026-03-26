@@ -394,7 +394,7 @@ export default function Section9({ isActive }) {
                                     <h3 className="text-[14px] md:text-[18px] lg:text-[22px] font-medium text-[#1d1d1f] tracking-tight inline-block break-keep">
                                         {lang === 'kr' ? 'Cross Functional System and CFT 조직 구축' : 'Establishment of Cross-Functional System and CFT'}
                                     </h3>
-                                    <div className="text-[18px] font-extrabold text-[#999] my-0 leading-none">&</div>
+                                    <div className="text-[18px] font-normal text-[#999] mt-1 mb-0 leading-none">with</div>
                                     <h3 className="text-[18px] md:text-[25px] lg:text-[30px] font-extrabold tracking-tight bg-gradient-to-r from-[#297cf6] to-[#0448d3] text-transparent bg-clip-text inline-block break-keep">
                                         IFPDP (IGIS Fund Production Data Platform)
                                     </h3>
