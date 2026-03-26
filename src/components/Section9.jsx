@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 
-const DataFlowSuccess = () => {
+const DataFlowCell = () => {
     // Generate static random values per stream
-    const [streams] = useState(() => Array.from({ length: 30 }).map(() => ({
-        top: 25 + Math.random() * 65,
-        delay: Math.random() * 3,
-        duration: 3.0 + Math.random() * 2.0, // Long smooth flight
-        chars: Math.random() > 0.5 ? "0110    101    110" : "10    010    1001   0"
+    const [streams] = useState(() => Array.from({ length: 8 }).map(() => ({
+        top: 30 + Math.random() * 60,
+        delay: Math.random() * 2.5,
+        duration: 1.0 + Math.random() * 1.5, 
+        chars: Math.random() > 0.5 ? "010 " : "101 "
     })));
 
     return (
@@ -15,11 +15,11 @@ const DataFlowSuccess = () => {
             {streams.map((s, i) => (
                 <div 
                     key={i} 
-                    className="absolute font-mono leading-none tracking-widest whitespace-pre data-stream-success"
+                    className="absolute font-mono leading-none tracking-widest whitespace-pre data-stream-cell"
                     style={{
                         top: `${s.top}%`,
                         left: '0',
-                        fontSize: 'clamp(10px, 1.2vw, 14px)',
+                        fontSize: 'clamp(9px, 1vw, 12px)',
                         animationDelay: `${s.delay}s`,
                         animationDuration: `${s.duration}s`
                     }}
@@ -66,27 +66,28 @@ export default function Section9({ isActive }) {
                     scrollbar-width: none;
                 }
                 
-                @keyframes dataFlowSuccessRight {
-                    0% { transform: translateX(-10%); opacity: 0; color: #93c5fd; }
-                    10% { opacity: 0.8; color: #3b82f6; }
-                    50% { color: #2563eb; opacity: 1; }
-                    80% { opacity: 0.8; }
-                    100% { transform: translateX(100vw); opacity: 0; color: #1e40af; }
+                @keyframes dataFlowCellRight {
+                    0% { transform: translateX(-10%); opacity: 0; color: #60a5fa; }
+                    20% { opacity: 0.8; color: #3b82f6; }
+                    80% { opacity: 0.8; color: #1e40af; transform: translateX(80%); }
+                    95% { opacity: 0; filter: blur(4px) brightness(1.2); transform: translateX(95%) scaleY(1.3); }
+                    100% { opacity: 0; transform: translateX(100%); }
                 }
 
-                .data-stream-success {
-                    animation-name: dataFlowSuccessRight;
-                    animation-timing-function: linear;
+                .data-stream-cell {
+                    animation-name: dataFlowCellRight;
+                    animation-timing-function: ease-in;
                     animation-iteration-count: infinite;
                     opacity: 0;
                 }
             `}</style>
             
-            <div className="w-full max-w-[1500px] mx-auto flex flex-col items-center justify-start h-full relative">
+            <div className="w-full max-w-[1500px] mx-auto flex flex-col items-center justify-center h-full relative space-y-4 md:space-y-6">
                 
                 {/* 1. Text Content (Appears first at the top) */}
-                <div className="w-full flex items-center justify-start mt-4 mb-20 md:mb-32">
-                    <div className="w-full text-left">
+                <div className="w-full flex items-center justify-center">
+                    <div className="w-full text-center flex flex-col items-center">
+                        
                         {/* 1-1. Dilemma Paragraph */}
                         <div className={`transition-all duration-[1000ms] ease-[cubic-bezier(0.19,1,0.22,1)] ${step >= 1 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
                             <h3 className={`text-[18px] md:text-[22px] lg:text-[26px] font-medium text-[#555] tracking-tight leading-[1.6] break-keep`}>
@@ -105,7 +106,7 @@ export default function Section9({ isActive }) {
                         </div>
 
                         {/* 1-2. Modified Collaboration Title & Principle */}
-                        <div className={`mt-10 md:mt-16 transition-all duration-[1200ms] delay-[200ms] ease-[cubic-bezier(0.19,1,0.22,1)] ${step >= 2 ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-12 scale-95'}`}>
+                        <div className={`my-[40px] md:my-[60px] transition-all duration-[1200ms] delay-[200ms] ease-[cubic-bezier(0.19,1,0.22,1)] ${step >= 2 ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-12 scale-95'} flex flex-col items-center`}>
                             {/* Main title reduced by 6px */}
                             <h2 className="text-[26px] md:text-[39px] lg:text-[46px] font-bold bg-gradient-to-r from-[#297cf6] to-[#0448d3] text-transparent bg-clip-text tracking-tight leading-[1.2] mb-6 md:mb-8 inline-block">
                                 {lang === 'kr' ? "'수정 협업주의 (Modified Collaboration)'" : "'Modified Collaboration'"}
@@ -139,27 +140,27 @@ export default function Section9({ isActive }) {
                         </div>
 
                         {/* The Box */}
-                        {/* Step 3: merged (gap-0, border blue, solid wrapper border, control tower linked) */}
+                        {/* Step 3: merged (gap-0, border blue, solid border, control tower linked) */}
                         <div 
                             className={`flex items-center w-full transition-all duration-[1200ms] ease-[cubic-bezier(0.19,1,0.22,1)] relative
-                                ${step >= 3 ? 'gap-0 border-[2.5px] border-[#297cf6] rounded-lg shadow-[0_15px_40px_rgba(41,124,246,0.15)] overflow-hidden bg-white' : 'gap-[10px] md:gap-[15px] lg:gap-[20px] bg-transparent border-transparent'}
+                                ${step >= 3 ? 'gap-0 border-[2.5px] border-[#1e40af] rounded-lg shadow-[0_15px_40px_rgba(30,64,175,0.15)] overflow-hidden bg-white' : 'gap-[10px] md:gap-[15px] lg:gap-[20px] bg-transparent border-transparent'}
                             `}
                         >
-                            {/* Data Flow Engine: Spans horizontally across the merged parent */}
-                            {step >= 4 && <DataFlowSuccess />}
-
                             {stages.map((stage, idx) => (
                                 <React.Fragment key={idx}>
                                     {/* Isolated Node -> Mapped Cell */}
                                     <div 
                                         className={`flex-1 flex flex-col relative overflow-hidden transition-all duration-[1000ms] ease-[cubic-bezier(0.19,1,0.22,1)] h-[100px] md:h-[130px]
-                                            ${step >= 3 ? 'bg-[#f4f4f5] border-transparent rounded-none shadow-none z-0' : 'bg-[#fff] rounded-md border-[2px] border-[#ef4444] shadow-[0_4px_15px_rgba(239,68,68,0.15)] z-20'}
+                                            ${step >= 3 ? 'bg-[#f4f4f5] border-transparent rounded-none shadow-none z-0 border-r border-[#1e40af]/30 last:border-r-0' : 'bg-[#fff] rounded-md border-[2px] border-[#ef4444] shadow-[0_4px_15px_rgba(239,68,68,0.15)] z-20'}
                                         `}
                                     >
+                                        {/* Blocked Data Flow restricted INSIDE the cell */}
+                                        {step >= 4 && <DataFlowCell />}
+
                                         {/* Top Title Bar */}
                                         <div 
                                             className={`w-full flex items-center justify-center z-20 transition-all duration-[1000ms]
-                                                ${step >= 3 ? 'bg-[#297cf6] h-[30px] md:h-[40px] py-1 border-none' : 'bg-[#ef4444] h-[30px] md:h-[40px] py-1 border-b border-[#ef4444]'}
+                                                ${step >= 3 ? 'bg-[#1e40af] h-[30px] md:h-[40px] py-1 border-none' : 'bg-[#ef4444] h-[30px] md:h-[40px] py-1 border-b border-[#ef4444]'}
                                             `}
                                         >
                                             <span className={`transition-all duration-[1000ms] font-bold text-center leading-[1.2] break-keep px-1 text-[10px] md:text-[13px]
@@ -173,7 +174,7 @@ export default function Section9({ isActive }) {
                                     {/* The connecting joint (Control Tower Force Link) */}
                                     {idx < stages.length - 1 && (
                                         <div 
-                                            className={`bg-[#297cf6] shrink-0 z-30 transition-all duration-[1000ms] ease-[cubic-bezier(0.19,1,0.22,1)]
+                                            className={`bg-[#1e40af] shrink-0 z-30 transition-all duration-[1000ms] ease-[cubic-bezier(0.19,1,0.22,1)]
                                                 ${step >= 3 ? 'w-[2px] md:w-[3px] h-[100px] md:h-[130px] opacity-100 scale-y-100' : 'w-0 h-[80px] opacity-0 scale-y-0 mx-0'}
                                             `} 
                                         ></div>
