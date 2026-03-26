@@ -32,38 +32,29 @@ const DataFlowCell = () => {
 };
 
 const DataFlowSuccess = () => {
-    // Continuous seamless flow rows
-    const [rows] = useState(() => Array.from({ length: 30 }).map(() => {
-        let str = "";
-        for(let i = 0; i<300; i++) {
-            str += Math.random() > 0.5 ? "1" : "0";
-        }
-        return {
-            top: 20 + Math.random() * 75,
-            duration: 60 + Math.random() * 60, // Much slower: 60s to 120s 
-            str: str,
-            opacity: 0.15 + Math.random() * 0.85,
-            color: Math.random() > 0.5 ? "#1e40af" : "#2563eb"
-        };
-    }));
+    // Reverted to scattered format but with +30% volume and slightly slower speed
+    const [streams] = useState(() => Array.from({ length: 78 }).map(() => ({
+        top: 30 + Math.random() * 60,
+        delay: Math.random() * 8, // staggered starts
+        duration: 20.0 + Math.random() * 15.0, // Slower traversal
+        chars: Math.random() > 0.5 ? "01101  1011  01" : "10  0100  1101 "
+    })));
 
     return (
         <div className="absolute inset-0 overflow-hidden pointer-events-none z-10" style={{ maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)', WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)' }}>
-            {rows.map((r, i) => (
+            {streams.map((s, i) => (
                 <div 
                     key={i} 
-                    className="absolute flex whitespace-pre font-mono tracking-widest data-stream-success-continuous"
+                    className="absolute font-mono leading-none tracking-widest whitespace-pre data-stream-success"
                     style={{
-                        top: `${r.top}%`,
+                        top: `${s.top}%`,
                         left: '0',
                         fontSize: 'clamp(10px, 1.2vw, 15px)',
-                        color: r.color,
-                        opacity: r.opacity,
-                        animationDuration: `${r.duration}s`
+                        animationDelay: `${s.delay}s`,
+                        animationDuration: `${s.duration}s`
                     }}
                 >
-                    <span>{r.str}</span>
-                    <span>{r.str}</span>
+                    {s.chars}
                 </div>
             ))}
         </div>
@@ -116,15 +107,18 @@ export default function Section9({ isActive }) {
                 .hide-scrollbar::-webkit-scrollbar { display: none; }
                 .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-                @keyframes dataFlowContinuousRight {
-                    0% { transform: translateX(-50%); }
-                    100% { transform: translateX(0%); }
+                @keyframes dataFlowSuccessRight {
+                    0% { transform: translateX(-10vw); opacity: 0; color: #93c5fd; }
+                    10% { opacity: 0.8; color: #3b82f6; }
+                    50% { color: #1e40af; opacity: 1; }
+                    80% { opacity: 0.8; }
+                    100% { transform: translateX(100vw); opacity: 0; color: #172554; }
                 }
-                .data-stream-success-continuous {
-                    animation-name: dataFlowContinuousRight;
+                .data-stream-success {
+                    animation-name: dataFlowSuccessRight;
                     animation-timing-function: linear;
                     animation-iteration-count: infinite;
-                    will-change: transform;
+                    opacity: 0;
                 }
 
                 @keyframes dataFlowCellRight {
@@ -331,7 +325,7 @@ export default function Section9({ isActive }) {
                         <div className={`transition-all duration-[1000ms] ease-[cubic-bezier(0.19,1,0.22,1)] text-center mb-8 md:mb-12
                             ${step >= 5 ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-10 scale-95'}
                         `}>
-                            <h2 className="text-[20px] md:text-[28px] lg:text-[34px] font-bold text-[#1d1d1f] tracking-tight leading-[1.4] break-keep border border-transparent">
+                            <h2 className="text-[20px] md:text-[28px] lg:text-[34px] font-bold text-[#1d1d1f] tracking-tight break-keep border border-transparent" style={{ lineHeight: 'calc(1.4em - 2px)' }}>
                                 {lang === 'kr' ? (
                                     <>이 공정을, <span className="bg-gradient-to-r from-red-500 to-orange-500 text-transparent bg-clip-text">조직의 유연성과 독립성을 확보</span>하면서<br className="hidden md:block"/> 유연하게 연결시키려면?</>
                                 ) : (
