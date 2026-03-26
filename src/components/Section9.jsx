@@ -313,11 +313,11 @@ export default function Section9({ isActive }) {
                         </div>
 
                         {/* Downward Arrow */}
-                        <div className={`transition-all duration-[800ms] ease-out flex justify-center mt-2 mb-2 md:mt-4 md:mb-4
+                        <div className={`transition-all duration-[800ms] ease-out flex justify-center my-[30px] md:my-[40px]
                             ${step >= 5 ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-8 scale-50'}
                         `}>
                             <div className="animate-bounce">
-                                <svg className="w-8 h-8 md:w-10 md:h-10 text-[#1e40af]" fill="none" strokeWidth="2.5" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg className="w-8 h-8 md:w-10 md:h-10 text-[#1d1d1f]" fill="none" strokeWidth="2.5" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
                                 </svg>
                             </div>
@@ -329,21 +329,21 @@ export default function Section9({ isActive }) {
                         `}>
                             <h2 className="text-[20px] md:text-[28px] lg:text-[34px] font-bold text-[#1d1d1f] tracking-tight leading-[1.4] break-keep border border-transparent">
                                 {lang === 'kr' ? (
-                                    <>이 공정을, <span className="bg-[#1e40af] text-white px-3 py-1 mr-1">조직의 유연성과 독립성을 확보</span>하면서<br className="hidden md:block"/> 유연하게 연결시키려면?</>
+                                    <>이 공정을, <span className="bg-gradient-to-r from-red-500 to-orange-500 text-transparent bg-clip-text animate-pulse">조직의 유연성과 독립성을 확보</span>하면서<br className="hidden md:block"/> 유연하게 연결시키려면?</>
                                 ) : (
-                                    <>How do we flexibly connect this process, <br className="hidden md:block"/><span className="bg-[#1e40af] text-white px-3 py-1 mr-1">securing the organization's flexibility and independence</span>?</>
+                                    <>How do we flexibly connect this process, <br className="hidden md:block"/><span className="bg-gradient-to-r from-red-500 to-orange-500 text-transparent bg-clip-text animate-pulse">securing the organization's flexibility and independence</span>?</>
                                 )}
                             </h2>
                         </div>
 
                         {/* Unified, Flowing Value Chain Box */}
-                        <div className={`w-full overflow-x-auto hide-scrollbar pb-6 flex flex-col items-center transition-all duration-[1500ms] ease-[cubic-bezier(0.19,1,0.22,1)] delay-[300ms]
+                        <div className={`w-full overflow-x-auto hide-scrollbar pb-6 flex flex-col items-center transition-all duration-[1500ms] ease-[cubic-bezier(0.19,1,0.22,1)] delay-0
                             ${step >= 6 ? 'opacity-100 translate-y-0 filter-none' : 'opacity-0 translate-y-12 blur-sm'}
                         `}>
                             <div className={`flex flex-col min-w-[1000px] xl:min-w-0 w-full`}>
                                 
                                 {/* Sharp Rectangular Control Tower Org Chart */}
-                                <div className={`flex items-center justify-center w-full opacity-0 scale-y-50 origin-bottom transition-all duration-[1000ms] ease-[cubic-bezier(0.19,1,0.22,1)] delay-[1000ms] ${step >= 6 ? 'opacity-100 scale-y-100' : ''}`}>
+                                <div className={`flex items-center justify-center w-full opacity-0 scale-y-50 origin-bottom transition-all duration-[1000ms] ease-[cubic-bezier(0.19,1,0.22,1)] delay-[300ms] ${step >= 6 ? 'opacity-100 scale-y-100' : ''}`}>
                                     <div className="flex flex-col items-center w-full">
                                         <div className="bg-[#1e40af] text-white px-8 py-1.5 font-bold text-[12px] md:text-[14px] tracking-widest uppercase border border-[#1e40af] rounded-none shadow-sm z-20">
                                             CONTROL TOWER
