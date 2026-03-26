@@ -144,12 +144,14 @@ export default function Section8({ isActive }) {
                         {lang === 'kr' ? (
                             <>
                                 나아가, 다른 프로젝트를 진행하는 팀들 간에도 <strong className="text-[#f97316] font-bold">노하우가 공유되기 어렵습니다.</strong><br />
-                                소싱은 소싱끼리, 투자는 투자끼리 단절되어버리는 견고한 <strong className="text-[#dc2626] font-bold">'부서 간 장벽(Barrier)'</strong>이 세워집니다.
+                                각 벨류체인이 단절되어 버리는 견고한 <strong className="text-[#dc2626] font-bold">'부서 간 장벽(Barrier)'</strong>이 세워지고<br />
+                                성공의 공식이 공유되지 않기에, 우리는 매 프로젝트마다 가장 비효율적인 방식의 <strong className="text-[#dc2626] font-bold">'맨땅에 헤딩'</strong>을 지속하고 있습니다.
                             </>
                         ) : (
                             <>
                                 Furthermore, even between teams working on different projects, <strong className="text-[#f97316] font-bold">know-how is difficult to share.</strong><br />
-                                Sourcing is isolated from sourcing, investing from investing, resulting in rigid <strong className="text-[#dc2626] font-bold">inter-departmental barriers</strong>.
+                                Each value chain gets severed, erecting rigid <strong className="text-[#dc2626] font-bold">inter-departmental barriers</strong>,<br />
+                                and because formulas for success are not shared, we continue to <strong className="text-[#dc2626] font-bold">'start from scratch'</strong> in the most inefficient way for every project.
                             </>
                         )}
                     </h3>
