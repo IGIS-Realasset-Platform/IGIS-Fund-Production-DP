@@ -259,14 +259,10 @@ export default function Section9({ isActive }) {
                             </div>
                         </div>
 
-                        {/* Bottom CFT & IFPDP Text moved to Phase 1 Bottom */}
+                        {/* Bottom CFT Text for Phase 1 (Organizational Decision) */}
                         <div className={`w-full text-center mt-6 md:mt-10 transition-all duration-[1200ms] delay-[500ms] ease-[cubic-bezier(0.19,1,0.22,1)] ${step >= 3 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
                             <h3 className="text-[17px] md:text-[22px] lg:text-[26px] font-extrabold text-[#1d1d1f] tracking-tight inline-block break-keep">
-                                Cross Functional System and CFT(Cross Functional Team) 조직 구축
-                            </h3>
-                            <div className="text-[20px] font-extrabold text-[#999] my-1 leading-none">&</div>
-                            <h3 className="text-[18px] md:text-[25px] lg:text-[30px] font-extrabold tracking-tight bg-gradient-to-r from-[#297cf6] to-[#0448d3] text-transparent bg-clip-text inline-block break-keep">
-                                IFPDP (IGIS Fund Production Data Platform)
+                                {lang === 'kr' ? 'Cross Functional System and CFT(Cross Functional Team) 조직 구축' : 'Establishment of Cross-Functional System and CFT'}
                             </h3>
                         </div>
 
@@ -357,6 +353,18 @@ export default function Section9({ isActive }) {
                                         </React.Fragment>
                                     ))}
                                 </div>
+                                
+                                {/* Bottom IFPDP Text for Phase 2 (Technical Solution) */}
+                                <div className={`w-full text-center mt-8 md:mt-12 transition-all duration-[1200ms] delay-[1800ms] ease-[cubic-bezier(0.19,1,0.22,1)] ${step >= 6 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+                                    <h3 className="text-[17px] md:text-[22px] lg:text-[26px] font-bold text-[#1d1d1f] tracking-tight inline-block break-keep">
+                                        Cross Functional System and CFT(Cross Functional Team) 조직 구축
+                                    </h3>
+                                    <div className="text-[20px] font-extrabold text-[#999] my-1 leading-none">&</div>
+                                    <h3 className="text-[18px] md:text-[25px] lg:text-[30px] font-extrabold tracking-tight bg-gradient-to-r from-[#297cf6] to-[#0448d3] text-transparent bg-clip-text inline-block break-keep">
+                                        IFPDP (IGIS Fund Production Data Platform)
+                                    </h3>
+                                </div>
+                                
                             </div>
                         </div>
 
