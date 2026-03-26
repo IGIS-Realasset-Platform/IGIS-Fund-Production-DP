@@ -32,29 +32,38 @@ const DataFlowCell = () => {
 };
 
 const DataFlowSuccess = () => {
-    // Dense but slow global flowing data (unblocked)
-    const [streams] = useState(() => Array.from({ length: 60 }).map(() => ({
-        top: 30 + Math.random() * 60,
-        delay: Math.random() * 6, // staggered starts
-        duration: 12.0 + Math.random() * 8.0, // 0.5x Speed: 12s - 20s traversal
-        chars: Math.random() > 0.5 ? "01101  1011  01" : "10  0100  1101 "
-    })));
+    // Continuous seamless flow rows
+    const [rows] = useState(() => Array.from({ length: 30 }).map(() => {
+        let str = "";
+        for(let i = 0; i<300; i++) {
+            str += Math.random() > 0.5 ? "1" : "0";
+        }
+        return {
+            top: 20 + Math.random() * 75,
+            duration: 60 + Math.random() * 60, // Much slower: 60s to 120s 
+            str: str,
+            opacity: 0.15 + Math.random() * 0.85,
+            color: Math.random() > 0.5 ? "#1e40af" : "#2563eb"
+        };
+    }));
 
     return (
-        <div className="absolute inset-0 overflow-hidden pointer-events-none z-10" style={{ maskImage: 'linear-gradient(to right, transparent, black 5%, black 95%, transparent)', WebkitMaskImage: 'linear-gradient(to right, transparent, black 5%, black 95%, transparent)' }}>
-            {streams.map((s, i) => (
+        <div className="absolute inset-0 overflow-hidden pointer-events-none z-10" style={{ maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)', WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)' }}>
+            {rows.map((r, i) => (
                 <div 
                     key={i} 
-                    className="absolute font-mono leading-none tracking-widest whitespace-pre data-stream-success"
+                    className="absolute flex whitespace-pre font-mono tracking-widest data-stream-success-continuous"
                     style={{
-                        top: `${s.top}%`,
+                        top: `${r.top}%`,
                         left: '0',
                         fontSize: 'clamp(10px, 1.2vw, 15px)',
-                        animationDelay: `${s.delay}s`,
-                        animationDuration: `${s.duration}s`
+                        color: r.color,
+                        opacity: r.opacity,
+                        animationDuration: `${r.duration}s`
                     }}
                 >
-                    {s.chars}
+                    <span>{r.str}</span>
+                    <span>{r.str}</span>
                 </div>
             ))}
         </div>
@@ -107,18 +116,15 @@ export default function Section9({ isActive }) {
                 .hide-scrollbar::-webkit-scrollbar { display: none; }
                 .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-                @keyframes dataFlowSuccessRight {
-                    0% { transform: translateX(-10vw); opacity: 0; color: #93c5fd; }
-                    10% { opacity: 0.8; color: #3b82f6; }
-                    50% { color: #1e40af; opacity: 1; }
-                    80% { opacity: 0.8; }
-                    100% { transform: translateX(100vw); opacity: 0; color: #172554; }
+                @keyframes dataFlowContinuousRight {
+                    0% { transform: translateX(-50%); }
+                    100% { transform: translateX(0%); }
                 }
-                .data-stream-success {
-                    animation-name: dataFlowSuccessRight;
+                .data-stream-success-continuous {
+                    animation-name: dataFlowContinuousRight;
                     animation-timing-function: linear;
                     animation-iteration-count: infinite;
-                    opacity: 0;
+                    will-change: transform;
                 }
 
                 @keyframes dataFlowCellRight {
