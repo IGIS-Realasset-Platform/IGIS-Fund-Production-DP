@@ -86,8 +86,8 @@ export default function Section11({ isActive }) {
                                 </>
                             )}
                             
-                            {/* AIR APAC Logo - 원본의 70% 수준으로 축소 (w-[75px] ~ w-[90px]) */}
-                            <div className="mt-4 w-[75px] md:w-[90px] opacity-80 mix-blend-multiply grayscale">
+                            {/* AIR APAC Logo - 원본의 70% 수준에서 추가 80%로 축소 (총 56% 수준, w-[60px] md:w-[72px]) */}
+                            <div className="mt-4 w-[60px] md:w-[72px] opacity-80 mix-blend-multiply grayscale">
                                 <img src={`${import.meta.env.BASE_URL}airapac.jpg`} alt="AIR APAC" className="w-full h-auto object-contain" />
                             </div>
                         </div>
