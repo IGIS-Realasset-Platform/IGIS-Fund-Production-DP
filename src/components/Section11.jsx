@@ -52,7 +52,7 @@ export default function Section11({ isActive }) {
                     <div className={`flex flex-col w-full transition-all duration-[1000ms] ease-out ${step >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
                         <div className="w-full relative pb-[80%] md:pb-[70%] lg:pb-[75%] overflow-hidden mb-4 bg-black">
                             <img 
-                                src="/Indhran.jpg" 
+                                src={`${import.meta.env.BASE_URL}Indhran.jpg`} 
                                 alt="Indhran Seghar" 
                                 className="absolute top-0 left-0 w-full h-full object-cover" 
                                 style={{ objectPosition: 'center top' }}
@@ -88,7 +88,7 @@ export default function Section11({ isActive }) {
                             
                             {/* AIR APAC Logo - 원본의 70% 수준으로 축소 (w-[75px] ~ w-[90px]) */}
                             <div className="mt-4 w-[75px] md:w-[90px] opacity-80 mix-blend-multiply grayscale">
-                                <img src="/airapac.jpg" alt="AIR APAC" className="w-full h-auto object-contain" />
+                                <img src={`${import.meta.env.BASE_URL}airapac.jpg`} alt="AIR APAC" className="w-full h-auto object-contain" />
                             </div>
                         </div>
                     </div>
