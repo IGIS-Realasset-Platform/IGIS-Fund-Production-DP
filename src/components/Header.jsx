@@ -18,7 +18,8 @@ export default function Header({ onNavigateToNews, onNavigateToHome, onNavigateT
             items: [
                 { label: "Data Sovereignty", id: "page-2" },
                 { label: "Cross-Functional Shift", id: "page-6" },
-                { label: "The Engine of IGIS", id: "page-10" }
+                { label: "The Engine of IGIS", id: "page-10" },
+                { label: "Global Validation & Advisory", id: "page-11" }
             ] 
         },
         { title: "The Steering Wheel", id: "section-b", items: [] },
@@ -34,7 +35,8 @@ export default function Header({ onNavigateToNews, onNavigateToHome, onNavigateT
             items: [
                 { label: "Data Sovereignty", id: "page-2" },
                 { label: "Cross-Functional Shift", id: "page-6" },
-                { label: "The Engine of IGIS", id: "page-10" }
+                { label: "The Engine of IGIS", id: "page-10" },
+                { label: "Global Validation & Advisory", id: "page-11" }
             ] 
         },
         { title: "The Steering Wheel", id: "section-b", items: [] },
