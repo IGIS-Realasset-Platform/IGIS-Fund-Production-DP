@@ -36,9 +36,9 @@ export default function Section12({ isActive }) {
         <section className="relative section w-full h-full flex flex-col justify-center items-center overflow-hidden bg-black">
             
             {/* Chapter Intro Overlay - Starts Solid Black First */}
-            <div className={`absolute inset-0 z-[100] flex flex-col items-center justify-center bg-black transition-opacity duration-[1500ms] pointer-events-none ${chapterStep <= 1 ? 'opacity-100' : 'opacity-0'}`}>
+            <div className={`absolute inset-0 z-[100] flex flex-col items-center justify-center bg-black transition-opacity duration-[2000ms] ease-in-out pointer-events-none ${chapterStep <= 1 ? 'opacity-100' : 'opacity-0'}`}>
                 <div 
-                    className={`flex flex-col items-center text-center space-y-4 transition-all duration-[1200ms] ease-out ${chapterStep === 0 ? 'opacity-0 blur-lg scale-95' : chapterStep === 1 ? 'opacity-100 blur-none scale-100' : 'opacity-0 blur-lg scale-[1.02]'}`}
+                    className={`flex flex-col items-center text-center space-y-4 transition-all duration-[2000ms] ease-in-out ${chapterStep === 0 ? 'opacity-0 blur-lg scale-95' : chapterStep === 1 ? 'opacity-100 blur-none scale-100' : 'opacity-0 blur-lg scale-[1.02]'}`}
                     style={{ 
                         fontFamily: "'Sanomat Wp', 'Sanomat Web', 'Sanomat', sans-serif",
                         WebkitFontSmoothing: "antialiased",
