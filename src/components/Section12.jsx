@@ -27,7 +27,7 @@ export default function Section12({ isActive }) {
         timers.push(setTimeout(() => setStep(3), 5300));  // Paragraph 1
         timers.push(setTimeout(() => setStep(4), 5700));  // Paragraph 2 (Bold)
         timers.push(setTimeout(() => setStep(5), 6100));  // Paragraph 3
-        timers.push(setTimeout(() => setStep(6), 6900));  // Underline Highlight (맨 마지막 액션)
+        timers.push(setTimeout(() => setStep(6), 8000));  // Underline Highlight & Context Popping (드라마틱한 간격 추가)
         
         return () => timers.forEach(t => clearTimeout(t));
     }, [isActive]);
