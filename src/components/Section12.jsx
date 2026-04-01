@@ -15,35 +15,29 @@ export default function Section12({ isActive }) {
         
         let timers = [];
         
-        // 1. Chapter intro appears (like smoke)
-        timers.push(setTimeout(() => setChapterStep(1), 100));
+        // 1. Chapter text appears (like smoke) over solid black screen
+        timers.push(setTimeout(() => setChapterStep(1), 200));
         
-        // 2. Chapter intro vanishes like smoke
+        // 2. The solid black background AND the chapter text fade out together, revealing the car
         timers.push(setTimeout(() => setChapterStep(2), 2200));
 
-        // 3. Background car image fades in
-        timers.push(setTimeout(() => setStep(0.5), 3200));
-
-        // 4. Staggered fade-in animations for main text
-        timers.push(setTimeout(() => setStep(1), 3800));  // Heading
-        timers.push(setTimeout(() => setStep(2), 4200));  // Quote
-        timers.push(setTimeout(() => setStep(3), 4600));  // Paragraph 1
-        timers.push(setTimeout(() => setStep(4), 5000));  // Paragraph 2 (Bold)
-        timers.push(setTimeout(() => setStep(5), 5400));  // Paragraph 3
+        // 3. Staggered fade-in animations for main text
+        timers.push(setTimeout(() => setStep(1), 3000));  // Heading
+        timers.push(setTimeout(() => setStep(2), 3400));  // Quote
+        timers.push(setTimeout(() => setStep(3), 3800));  // Paragraph 1
+        timers.push(setTimeout(() => setStep(4), 4200));  // Paragraph 2 (Bold)
+        timers.push(setTimeout(() => setStep(5), 4600));  // Paragraph 3
         
         return () => timers.forEach(t => clearTimeout(t));
     }, [isActive]);
 
     return (
-        <section className="relative section w-full h-full flex flex-col justify-center items-center overflow-hidden">
+        <section className="relative section w-full h-full flex flex-col justify-center items-center overflow-hidden bg-black">
             
-            
-            {/* Chapter Intro Overlay */}
-            <div className={`absolute inset-0 z-[100] flex flex-col items-center justify-center bg-black text-white transition-all duration-[1200ms] ease-out pointer-events-none 
-                ${chapterStep === 0 ? 'opacity-0 blur-lg scale-95' : chapterStep === 1 ? 'opacity-100 blur-none scale-100' : 'opacity-0 blur-lg scale-105'}`}
-            >
+            {/* Chapter Intro Overlay - Starts Solid Black First */}
+            <div className={`absolute inset-0 z-[100] flex flex-col items-center justify-center bg-black transition-opacity duration-[1500ms] pointer-events-none ${chapterStep <= 1 ? 'opacity-100' : 'opacity-0'}`}>
                 <div 
-                    className="flex flex-col items-center text-center space-y-4"
+                    className={`flex flex-col items-center text-center space-y-4 transition-all duration-[1200ms] ease-out ${chapterStep === 0 ? 'opacity-0 blur-lg scale-95' : chapterStep === 1 ? 'opacity-100 blur-none scale-100' : 'opacity-0 blur-lg scale-[1.02]'}`}
                     style={{ 
                         fontFamily: "'Sanomat Wp', 'Sanomat Web', 'Sanomat', sans-serif",
                         WebkitFontSmoothing: "antialiased",
@@ -59,16 +53,16 @@ export default function Section12({ isActive }) {
                 </div>
             </div>
 
-            {/* Background Image with Overlay */}
+            {/* Background Image with Overlay - Underneath the black chapter overlay */}
             <div 
-                className={`absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat z-0 transform transition-all duration-[8000ms] ease-out ${step >= 0.5 ? 'opacity-100' : 'opacity-0'}`}
+                className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat z-0 transform transition-transform duration-[15000ms] ease-out"
                 style={{ 
                     backgroundImage: `url('${import.meta.env.BASE_URL}car.jpg')`,
                     transform: isActive ? 'scale(1.05)' : 'scale(1)'
                 }}
             />
             {/* Dimming Overlay to ensure text readability */}
-            <div className={`absolute inset-0 bg-black/65 z-10 transition-opacity duration-[1500ms] ${step >= 0.5 ? 'opacity-100' : 'opacity-0'}`} />
+            <div className={`absolute inset-0 bg-black/65 z-10 transition-opacity duration-1000 ${isActive ? 'opacity-100' : 'opacity-0'}`} />
 
             {/* Content Container */}
             <div className={`relative z-20 w-[calc(100%-48px)] md:w-[calc(100%-100px)] max-w-[1200px] mx-auto text-white flex flex-col font-sans break-keep pt-10`}>
