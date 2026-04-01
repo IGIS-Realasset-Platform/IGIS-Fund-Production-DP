@@ -22,7 +22,7 @@ export default function Header({ onNavigateToNews, onNavigateToHome, onNavigateT
                 { label: "Global Validation & Advisory", id: "page-11" }
             ] 
         },
-        { title: "The Steering Wheel", id: "section-b", items: [] },
+        { title: "The Steering Wheel", id: "page-12", items: [] },
         { title: "C", id: "section-c", items: [] },
         { title: "D", id: "section-d", items: [] },
         { title: "E", id: "section-e", items: [] }
@@ -39,7 +39,7 @@ export default function Header({ onNavigateToNews, onNavigateToHome, onNavigateT
                 { label: "Global Validation & Advisory", id: "page-11" }
             ] 
         },
-        { title: "The Steering Wheel", id: "section-b", items: [] },
+        { title: "The Steering Wheel", id: "page-12", items: [] },
         { title: "C", id: "section-c", items: [] },
         { title: "D", id: "section-d", items: [] },
         { title: "E", id: "section-e", items: [] }
