@@ -4,36 +4,71 @@ import { useLanguage } from '../context/LanguageContext';
 export default function Section12({ isActive }) {
     const { lang } = useLanguage();
     const [step, setStep] = useState(0);
+    const [chapterStep, setChapterStep] = useState(0);
 
     useEffect(() => {
         if (!isActive) {
             setStep(0);
+            setChapterStep(0);
             return;
         }
         
-        // Staggered fade-in animations
-        const t1 = setTimeout(() => setStep(1), 100);  // Heading
-        const t2 = setTimeout(() => setStep(2), 500);  // Quote
-        const t3 = setTimeout(() => setStep(3), 900);  // Paragraph 1
-        const t4 = setTimeout(() => setStep(4), 1300); // Paragraph 2 (Bold)
-        const t5 = setTimeout(() => setStep(5), 1700); // Paragraph 3
+        let timers = [];
         
-        return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); clearTimeout(t4); clearTimeout(t5); };
+        // 1. Chapter intro appears (like smoke)
+        timers.push(setTimeout(() => setChapterStep(1), 100));
+        
+        // 2. Chapter intro vanishes like smoke
+        timers.push(setTimeout(() => setChapterStep(2), 2200));
+
+        // 3. Background car image fades in
+        timers.push(setTimeout(() => setStep(0.5), 3200));
+
+        // 4. Staggered fade-in animations for main text
+        timers.push(setTimeout(() => setStep(1), 3800));  // Heading
+        timers.push(setTimeout(() => setStep(2), 4200));  // Quote
+        timers.push(setTimeout(() => setStep(3), 4600));  // Paragraph 1
+        timers.push(setTimeout(() => setStep(4), 5000));  // Paragraph 2 (Bold)
+        timers.push(setTimeout(() => setStep(5), 5400));  // Paragraph 3
+        
+        return () => timers.forEach(t => clearTimeout(t));
     }, [isActive]);
 
     return (
         <section className="relative section w-full h-full flex flex-col justify-center items-center overflow-hidden">
             
+            
+            {/* Chapter Intro Overlay */}
+            <div className={`absolute inset-0 z-[100] flex flex-col items-center justify-center bg-black text-white transition-all duration-[1200ms] ease-out pointer-events-none 
+                ${chapterStep === 0 ? 'opacity-0 blur-lg scale-95' : chapterStep === 1 ? 'opacity-100 blur-none scale-100' : 'opacity-0 blur-lg scale-105'}`}
+            >
+                <div 
+                    className="flex flex-col items-center text-center space-y-4"
+                    style={{ 
+                        fontFamily: "'Sanomat Wp', 'Sanomat Web', 'Sanomat', sans-serif",
+                        WebkitFontSmoothing: "antialiased",
+                        textRendering: "optimizeLegibility",
+                    }}
+                >
+                    <span className="text-[30px] md:text-[50px] text-gray-400 font-light tracking-wide duration-1000 transition-all">
+                        Chapter 2.
+                    </span>
+                    <span className="text-[50px] md:text-[70px] text-white font-medium tracking-tight duration-1000 transition-all">
+                        The Steering Wheel
+                    </span>
+                </div>
+            </div>
+
             {/* Background Image with Overlay */}
             <div 
-                className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat z-0 transform transition-transform duration-[10000ms] ease-out"
+                className={`absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat z-0 transform transition-all duration-[8000ms] ease-out ${step >= 0.5 ? 'opacity-100' : 'opacity-0'}`}
                 style={{ 
                     backgroundImage: `url('${import.meta.env.BASE_URL}car.jpg')`,
                     transform: isActive ? 'scale(1.05)' : 'scale(1)'
                 }}
             />
             {/* Dimming Overlay to ensure text readability */}
-            <div className={`absolute inset-0 bg-black/65 z-10 transition-opacity duration-1000 ${isActive ? 'opacity-100' : 'opacity-0'}`} />
+            <div className={`absolute inset-0 bg-black/65 z-10 transition-opacity duration-[1500ms] ${step >= 0.5 ? 'opacity-100' : 'opacity-0'}`} />
 
             {/* Content Container */}
             <div className={`relative z-20 w-[calc(100%-48px)] md:w-[calc(100%-100px)] max-w-[1200px] mx-auto text-white flex flex-col font-sans break-keep pt-10`}>
