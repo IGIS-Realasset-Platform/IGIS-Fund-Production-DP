@@ -196,22 +196,38 @@ export default function MainLayout() {
 
                     {/* Dots Pagination List */}
                     <div className="flex items-center gap-2 md:gap-3">
-                        {Array.from({ length: Math.min(slides.length, 7) }).map((_, idx) => {
-                            const isDotActive = currentSlide >= 6 ? idx === 6 : currentSlide === idx;
-                            return (
-                                <div 
-                                    key={idx} 
-                                    onClick={() => setCurrentSlide(idx === 6 ? Math.max(currentSlide, 6) : idx)}
-                                    className="relative flex items-center justify-center w-[18px] h-[18px] cursor-pointer group"
-                                >
-                                    {/* Inner Fixed Dot (항상 흰색, mix-blend로 완벽한 반전 구현) */}
-                                    <div className="w-[8px] h-[8px] rounded-full bg-white transition-all duration-300"></div>
-                                    
-                                    {/* Outer Ring for Active State */}
-                                    <div className={`absolute inset-0 border-[1.5px] border-white rounded-full transition-all duration-300 ${isDotActive ? 'opacity-100 scale-100' : 'opacity-0 scale-75'}`}></div>
-                                </div>
-                            );
-                        })}
+                        {(() => {
+                            const total = slides.length;
+                            const maxDots = 7;
+                            let windowPages = [];
+                            
+                            if (total <= maxDots) {
+                                windowPages = Array.from({ length: total }, (_, i) => i);
+                            } else if (currentSlide <= 3) {
+                                windowPages = Array.from({ length: maxDots }, (_, i) => i);
+                            } else if (currentSlide >= total - 4) {
+                                windowPages = Array.from({ length: maxDots }, (_, i) => total - maxDots + i);
+                            } else {
+                                windowPages = Array.from({ length: maxDots }, (_, i) => currentSlide - 3 + i);
+                            }
+                            
+                            return windowPages.map((pageIdx, idx) => {
+                                const isDotActive = currentSlide === pageIdx;
+                                return (
+                                    <div 
+                                        key={idx} 
+                                        onClick={() => setCurrentSlide(pageIdx)}
+                                        className="relative flex items-center justify-center w-[18px] h-[18px] cursor-pointer group"
+                                    >
+                                        {/* Inner Fixed Dot (항상 흰색, mix-blend로 완벽한 반전 구현) */}
+                                        <div className="w-[8px] h-[8px] rounded-full bg-white transition-all duration-300"></div>
+                                        
+                                        {/* Outer Ring for Active State */}
+                                        <div className={`absolute inset-0 border-[1.5px] border-white rounded-full transition-all duration-300 ${isDotActive ? 'opacity-100 scale-100' : 'opacity-0 scale-75'}`}></div>
+                                    </div>
+                                );
+                            });
+                        })()}
                     </div>
 
                     {/* Right Arrow Button Group */}
