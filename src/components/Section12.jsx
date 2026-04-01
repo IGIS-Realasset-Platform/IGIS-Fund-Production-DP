@@ -68,6 +68,23 @@ export default function Section12({ isActive }) {
             {/* Content Container */}
             <div className={`relative z-20 w-[calc(100%-48px)] md:w-[calc(100%-100px)] max-w-[1200px] mx-auto text-white flex flex-col font-sans break-keep pt-10`}>
                 
+                {/* 0. Context Popping Header (맨 마지막 액션 시 밀어내며 등장) */}
+                <div 
+                    className={`overflow-hidden transition-all duration-[1200ms] ease-[cubic-bezier(0.19,1,0.22,1)] ${step >= 6 ? 'max-h-[150px] opacity-100 mb-6 md:mb-10' : 'max-h-0 opacity-0 mb-0'}`}
+                >
+                    <div 
+                        className={`text-[55px] md:text-[75px] lg:text-[95px] font-medium text-white transition-transform duration-[1200ms] ease-[cubic-bezier(0.19,1,0.22,1)] ${step >= 6 ? 'translate-y-0' : 'translate-y-12'}`}
+                        style={{ 
+                            fontFamily: "'Sanomat Wp', 'Sanomat Web', 'Sanomat', sans-serif",
+                            letterSpacing: "-0.01em",
+                            WebkitFontSmoothing: "antialiased",
+                            textRendering: "optimizeLegibility",
+                        }}
+                    >
+                        Context
+                    </div>
+                </div>
+
                 {/* 1. Main Heading */}
                 <h2 
                     className={`text-[28px] md:text-[36px] lg:text-[45px] font-bold tracking-tight mb-10 transition-all duration-1000 ease-out ${step >= 1 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
@@ -119,7 +136,7 @@ export default function Section12({ isActive }) {
                         <>
                             <span className="relative inline-block pb-[1px]">
                                 AI의 능력은 '맥락 (Context)'
-                                <span className={`absolute bottom-[3px] left-0 h-[1px] md:h-[2px] bg-[#f5f5f7] -z-10 transition-all duration-[800ms] ease-[cubic-bezier(0.25,1,0.5,1)] ${step >= 6 ? 'w-full opacity-100' : 'w-0 opacity-0'}`}></span>
+                                <span className={`absolute bottom-[5px] left-0 h-[1px] md:h-[2px] bg-[#f5f5f7] -z-10 transition-all duration-[800ms] ease-[cubic-bezier(0.25,1,0.5,1)] ${step >= 6 ? 'w-full opacity-100' : 'w-0 opacity-0'}`}></span>
                             </span>에 좌우됩니다.<br/>
                             맥락 없는 데이터는 AI라는 운전자를 최고급 엔진만 있고 운전대가 없는 포르쉐에 태운 것과 같습니다.
                         </>
@@ -127,7 +144,7 @@ export default function Section12({ isActive }) {
                         <>
                             An AI's true ability is solely dependent on <span className="relative inline-block pb-[1px]">
                                 'Context'
-                                <span className={`absolute bottom-[3px] left-0 h-[1px] md:h-[2px] bg-[#f5f5f7] -z-10 transition-all duration-[800ms] ease-[cubic-bezier(0.25,1,0.5,1)] ${step >= 6 ? 'w-full opacity-100' : 'w-0 opacity-0'}`}></span>
+                                <span className={`absolute bottom-[5px] left-0 h-[1px] md:h-[2px] bg-[#f5f5f7] -z-10 transition-all duration-[800ms] ease-[cubic-bezier(0.25,1,0.5,1)] ${step >= 6 ? 'w-full opacity-100' : 'w-0 opacity-0'}`}></span>
                             </span>.<br/>
                             Contextless data is like putting an AI driver in a Porsche with a top-tier engine, but no steering wheel.
                         </>
