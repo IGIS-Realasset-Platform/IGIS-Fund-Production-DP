@@ -17,6 +17,7 @@ export default function Section14({ isActive }) {
         timers.push(setTimeout(() => setStep(2), 1200)); // Titles and bodies
         timers.push(setTimeout(() => setStep(3), 3200)); // Bottom Horizontal Line
         timers.push(setTimeout(() => setStep(4), 3800)); // Core Premise 
+        timers.push(setTimeout(() => setStep(5), 4500)); // Images pull together
 
         return () => timers.forEach(t => clearTimeout(t));
     }, [isActive]);
@@ -58,7 +59,11 @@ export default function Section14({ isActive }) {
                             )}
                         </p>
 
-                        <div className={`mt-10 md:mt-16 w-full max-w-[220px] lg:max-w-[280px] grayscale transition-all duration-[1500ms] ease-out delay-[500ms] ${step >= 2 ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-8'}`}>
+                        <div className={`mt-10 md:mt-16 w-full max-w-[220px] lg:max-w-[280px] grayscale transition-all duration-[2000ms] ease-[cubic-bezier(0.25,1,0.5,1)] 
+                            ${step < 2 ? 'opacity-0 scale-95 translate-y-8 translate-x-0' : ''}
+                            ${step >= 2 && step < 5 ? 'opacity-100 scale-100 translate-y-0 translate-x-0 delay-[500ms]' : ''}
+                            ${step >= 5 ? 'opacity-100 scale-100 translate-y-0 translate-x-6 md:translate-x-10 lg:translate-x-16 delay-[0ms]' : ''}
+                        `}>
                             <img src={`${import.meta.env.BASE_URL}engine_bw.png`} alt="Engine" className="w-full object-contain mix-blend-darken" />
                         </div>
                     </div>
@@ -90,7 +95,11 @@ export default function Section14({ isActive }) {
                             )}
                         </p>
 
-                        <div className={`mt-10 md:mt-16 w-full max-w-[220px] lg:max-w-[280px] grayscale transition-all duration-[1500ms] ease-out delay-[700ms] ${step >= 2 ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-8'}`}>
+                        <div className={`mt-10 md:mt-16 w-full max-w-[220px] lg:max-w-[280px] grayscale transition-all duration-[2000ms] ease-[cubic-bezier(0.25,1,0.5,1)] 
+                            ${step < 2 ? 'opacity-0 scale-95 translate-y-8 translate-x-0' : ''}
+                            ${step >= 2 && step < 5 ? 'opacity-100 scale-100 translate-y-0 translate-x-0 delay-[700ms]' : ''}
+                            ${step >= 5 ? 'opacity-100 scale-100 translate-y-0 -translate-x-6 md:-translate-x-10 lg:-translate-x-16 delay-[0ms]' : ''}
+                        `}>
                             <img src={`${import.meta.env.BASE_URL}steering_wheel_bw.png`} alt="Steering Wheel" className="w-full object-contain mix-blend-darken" />
                         </div>
                     </div>
@@ -107,12 +116,12 @@ export default function Section14({ isActive }) {
                     
                     <div className={`pt-8 md:pt-10 flex flex-col items-center justify-center text-center transition-all duration-1000 ease-out ${step >= 4 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
                         <h3 className="text-[15px] md:text-[16px] font-bold tracking-[0.1em] text-[#86868b] uppercase mb-2 md:mb-3">
-                            {lang === 'kr' ? '핵심 전제' : 'Core Premise'}
+                            {lang === 'kr' ? '핵심전제' : 'Core Premise'}
                         </h3>
                         
                         <p className="text-[17px] md:text-[22px] lg:text-[26px] font-medium text-[#1d1d1f] leading-[1.6] break-keep max-w-[950px] tracking-tight">
                             {lang === 'kr' ? (
-                                <>아무리 뛰어난 <strong>기술(Engine)</strong>을 도입하더라도, 이를 통제할 <strong>조직의 룰과 거버넌스(Steering Wheel)</strong>가 부재하다면 플랫폼은 작동하지 않습니다.</>
+                                <>아무리 뛰어난 <strong>기술(Engine)</strong>을 도입하더라도, 이를 통제할 <strong>조직의 룰과 거버넌스(Steering Wheel)</strong>가<br className="hidden md:block" />부재하다면 플랫폼은 작동하지 않습니다.</>
                             ) : (
                                 <>No matter how advanced the <strong>technology (Engine)</strong> is, the platform will not operate without the <strong>rules and organizational governance (Steering Wheel)</strong> to control it.</>
                             )}
