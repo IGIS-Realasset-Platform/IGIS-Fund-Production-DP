@@ -51,7 +51,7 @@ export default function Section13({ isActive }) {
                     
                     {/* 0. Moat Popping Header (맨 마지막 액션 시 밀어내며 등장 - 12p Context와 완벽히 동일한 구조) */}
                     <div 
-                        className={`overflow-hidden transition-all duration-[1200ms] ease-[cubic-bezier(0.19,1,0.22,1)] md:-ml-[100px] ${step >= 7 ? 'max-h-[150px] opacity-100 mb-[44px] md:mb-[60px]' : 'max-h-0 opacity-0 mb-0'}`}
+                        className={`overflow-hidden transition-all duration-[1200ms] ease-[cubic-bezier(0.19,1,0.22,1)] md:-ml-[100px] ${step >= 7 ? 'max-h-[150px] opacity-100 mb-6 md:mb-10' : 'max-h-0 opacity-0 mb-0'}`}
                     >
                         <div 
                             className={`text-[55px] md:text-[75px] lg:text-[95px] font-medium text-white transition-transform duration-[1200ms] ease-[cubic-bezier(0.19,1,0.22,1)] ${step >= 7 ? 'translate-y-0' : 'translate-y-12'}`}
@@ -68,7 +68,7 @@ export default function Section13({ isActive }) {
 
                     {/* 1. Main Heading */}
                     <h2 
-                        className={`text-[26px] md:text-[34px] lg:text-[42px] font-bold tracking-tight mb-14 transition-all duration-1000 ease-out ${step >= 1 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+                        className={`text-[26px] md:text-[34px] lg:text-[42px] font-bold tracking-tight mb-[46px] transition-all duration-1000 ease-out ${step >= 1 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
                     >
                         {lang === 'kr' ? (
                             <>데이터에 맥락이 쌓이면 해자(Moat)가 됩니다.</>
