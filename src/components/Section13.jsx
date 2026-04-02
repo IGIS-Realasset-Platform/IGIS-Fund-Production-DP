@@ -109,12 +109,12 @@ export default function Section13({ isActive }) {
                     >
                         {lang === 'kr' ? (
                             <>
-                                이지스를 100조원 매출 운용사로 만든 진짜 '맥락(Institutional Knowledge)'은 서버에 존재하지 않습니다.<br className="hidden lg:block"/>
+                                이지스를 1조원 매출 운용사로 만든 진짜 '맥락(Institutional Knowledge)'은 서버에 존재하지 않습니다.<br className="hidden lg:block"/>
                                 오직 500명 운용역들의 '머릿속과 개인 PC'에만 흩어져 있습니다.
                             </>
                         ) : (
                             <>
-                                The true 'Institutional Knowledge' that built IGIS into a 100-trillion-won firm does not exist on a server.<br className="hidden lg:block"/>
+                                The true 'Institutional Knowledge' that built IGIS into a 1-trillion-won revenue firm does not exist on a server.<br className="hidden lg:block"/>
                                 It is scattered solely across the minds and personal PCs of its 500 professionals.
                             </>
                         )}
