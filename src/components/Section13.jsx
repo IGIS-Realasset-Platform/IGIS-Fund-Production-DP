@@ -175,7 +175,10 @@ export default function Section13({ isActive }) {
 
             {/* Reference Modal */}
             {isModalPopupOpen && (
-                <div className="absolute inset-0 z-[999] flex items-center justify-center bg-black/60 p-4 md:p-8 backdrop-blur-sm -translate-y-[env(safe-area-inset-top)]">
+                <div 
+                    className="absolute inset-0 z-[999] flex items-center justify-center bg-black/60 p-4 md:p-8 backdrop-blur-sm -translate-y-[env(safe-area-inset-top)]"
+                    onClick={() => setIsModalPopupOpen(false)}
+                >
                     <div className="w-full max-w-4xl max-h-[85vh] overflow-y-auto hide-scrollbar rounded-none p-6 md:p-10 lg:p-12 bg-white text-black shadow-2xl relative text-left"
                          onClick={(e) => e.stopPropagation()}>
                         <button
