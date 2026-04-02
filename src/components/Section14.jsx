@@ -35,7 +35,7 @@ export default function Section14({ isActive }) {
                     ></div>
 
                     {/* Left Box (The Engine) */}
-                    <div className="flex-1 flex flex-col justify-center pr-0 md:pr-16 lg:pr-32 py-10 md:py-0">
+                    <div className="flex-1 flex flex-col justify-center items-end text-right pr-0 md:pr-10 lg:pr-16 xl:pr-24 py-10 md:py-0">
                         <span className={`text-[#86868b] font-semibold text-[13px] md:text-[14px] tracking-[0.2em] uppercase mb-6 md:mb-8 transition-all duration-1000 ease-out delay-[0ms] ${step >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
                             Definition / 01
                         </span>
@@ -46,7 +46,7 @@ export default function Section14({ isActive }) {
                         >
                             The Engine
                             <span className="block text-[20px] md:text-[24px] lg:text-[28px] tracking-normal font-sans text-[#86868b] mt-5 font-semibold">
-                                : IFPDP
+                                IFPDP
                             </span>
                         </h2>
                         
@@ -57,34 +57,42 @@ export default function Section14({ isActive }) {
                                 <>A physical system (Technology) that performs data integration and AI computation.</>
                             )}
                         </p>
+
+                        <div className={`mt-10 md:mt-16 w-full max-w-[220px] lg:max-w-[280px] grayscale opacity-90 mix-blend-multiply transition-all duration-[1500ms] ease-out delay-[500ms] ${step >= 2 ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-8'}`}>
+                            <img src={`${import.meta.env.BASE_URL}engine_bw.png`} alt="Engine" className="w-full object-contain mix-blend-multiply" />
+                        </div>
                     </div>
 
                     {/* Mobile Divider */}
                     <div className={`md:hidden w-full h-[1px] bg-black/10 my-4 transition-transform duration-1000 origin-left ${step >= 1 ? 'scale-x-100' : 'scale-x-0'}`}></div>
 
                     {/* Right Box (The Steering Wheel) */}
-                    <div className="flex-1 flex flex-col justify-center pl-0 md:pl-16 lg:pl-32 py-10 md:py-0">
+                    <div className="flex-1 flex flex-col justify-center items-start text-left pl-0 md:pl-10 lg:pl-16 xl:pl-24 py-10 md:py-0 overflow-visible w-full max-w-full">
                         <span className={`text-[#86868b] font-semibold text-[13px] md:text-[14px] tracking-[0.2em] uppercase mb-6 md:mb-8 transition-all duration-1000 ease-out delay-[200ms] ${step >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
                             Definition / 02
                         </span>
                         
                         <h2 
-                            className={`text-[46px] md:text-[60px] lg:text-[75px] font-medium leading-[1.05] tracking-tight text-[#1d1d1f] mb-8 md:mb-10 transition-all duration-1000 ease-out delay-[350ms] ${step >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`} 
+                            className={`text-[36px] md:text-[45px] lg:text-[52px] xl:text-[62px] 2xl:text-[75px] font-medium leading-[1.05] tracking-tight text-[#1d1d1f] mb-8 md:mb-10 transition-all duration-1000 ease-out delay-[350ms] whitespace-nowrap overflow-visible ${step >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`} 
                             style={{ fontFamily: "'Sanomat Wp', 'Sanomat Web', 'Sanomat', sans-serif" }}
                         >
-                            The Steering<br className="hidden md:block"/> Wheel
+                            The Steering Wheel
                             <span className="block text-[20px] md:text-[24px] lg:text-[28px] tracking-normal font-sans text-[#86868b] mt-5 font-semibold">
-                                : Human Layer
+                                Human Layer
                             </span>
                         </h2>
                         
-                        <p className={`text-[16px] md:text-[18px] lg:text-[20px] font-medium text-[#424245] leading-[1.6] break-keep transition-all duration-1000 ease-out delay-[500ms] ${step >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
+                        <p className={`text-[12px] md:text-[13px] lg:text-[15px] xl:text-[17px] 2xl:text-[20px] font-medium text-[#424245] leading-[1.6] break-keep transition-all duration-1000 ease-out delay-[500ms] whitespace-nowrap overflow-visible ${step >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
                             {lang === 'kr' ? (
                                 <>시스템을 올바른 방향으로 통제하고 운영역들의 참여를 이끌어내는 조직적 거버넌스(Governance).</>
                             ) : (
                                 <>Organizational governance that directs the system rightly and drives professional engagement.</>
                             )}
                         </p>
+
+                        <div className={`mt-10 md:mt-16 w-full max-w-[220px] lg:max-w-[280px] grayscale opacity-90 mix-blend-multiply transition-all duration-[1500ms] ease-out delay-[700ms] ${step >= 2 ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-8'}`}>
+                            <img src={`${import.meta.env.BASE_URL}steering_wheel_bw.png`} alt="Steering Wheel" className="w-full object-contain mix-blend-multiply" />
+                        </div>
                     </div>
                     
                 </div>
