@@ -16,16 +16,16 @@ export default function Section13({ isActive }) {
         // Background dimming / Image reveal
         timers.push(setTimeout(() => setStep(0.5), 100));
 
-        // Text reveal steps (Identical effect and pacing to Section 12)
-        timers.push(setTimeout(() => setStep(1), 4500));  // Heading
-        timers.push(setTimeout(() => setStep(2), 4900));  // Question
-        timers.push(setTimeout(() => setStep(3), 5300));  // Quotes
-        timers.push(setTimeout(() => setStep(4), 5700));  // Para 1
-        timers.push(setTimeout(() => setStep(5), 6100));  // Para 2
-        timers.push(setTimeout(() => setStep(6), 6900));  // Conclusion
+        // Text reveal steps (빠르게 바로 등장)
+        timers.push(setTimeout(() => setStep(1), 800));   // Heading
+        timers.push(setTimeout(() => setStep(2), 1200));  // Question
+        timers.push(setTimeout(() => setStep(3), 1600));  // Quotes
+        timers.push(setTimeout(() => setStep(4), 2000));  // Para 1
+        timers.push(setTimeout(() => setStep(5), 2400));  // Para 2
+        timers.push(setTimeout(() => setStep(6), 2900));  // Conclusion
         
-        // Giant 'Moat' + Underline drops in (마지막 효과, 타이밍 간격 1.1s)
-        timers.push(setTimeout(() => setStep(7), 8000)); 
+        // Giant 'Moat' + Underline drops in (마지막 효과, 충분히 읽을 시간 확보 후 등장)
+        timers.push(setTimeout(() => setStep(7), 4800)); 
 
         return () => timers.forEach(t => clearTimeout(t));
     }, [isActive]);
@@ -45,27 +45,27 @@ export default function Section13({ isActive }) {
             {/* Dimming Overlay to ensure readability */}
             <div className={`absolute inset-0 bg-black/75 z-10 transition-opacity duration-[1500ms] ease-out ${step >= 0.5 ? 'opacity-100' : 'opacity-0'}`} />
 
-            {/* Giant "Moat" (마지막에 스윽 떠오르는 효과) */}
-            <div 
-                className={`absolute top-6 md:top-10 left-6 md:left-[8%] lg:left-[calc(50%-600px)] z-20 pointer-events-none transition-all duration-[1200ms] ease-[cubic-bezier(0.19,1,0.22,1)] ${step >= 7 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
-            >
-                <div 
-                    className="text-[55px] md:text-[75px] lg:text-[95px] font-medium text-white mix-blend-overlay opacity-80"
-                    style={{ 
-                        fontFamily: "'Sanomat Wp', 'Sanomat Web', 'Sanomat', sans-serif",
-                        letterSpacing: "-0.01em",
-                        WebkitFontSmoothing: "antialiased",
-                        textRendering: "optimizeLegibility",
-                    }}
-                >
-                    Moat
-                </div>
-            </div>
-
-            {/* Content Container (Section 12와 동일하게 위치 미세조정) */}
+            {/* Content Container (Section 12와 동일하게 위치 및 내부 Moat 정렬) */}
             <div className={`relative z-20 w-[calc(100%-48px)] md:w-[calc(100%-100px)] max-w-[1200px] mx-auto text-white flex flex-col font-sans break-keep pt-5 -translate-y-10`}>
                 <div className="flex flex-col md:ml-[150px] w-full max-w-full text-left">
                     
+                    {/* 0. Moat Popping Header (맨 마지막 액션 시 밀어내며 등장 - 12p Context와 완벽히 동일한 구조) */}
+                    <div 
+                        className={`overflow-hidden transition-all duration-[1200ms] ease-[cubic-bezier(0.19,1,0.22,1)] ${step >= 7 ? 'max-h-[150px] opacity-100 mb-[44px] md:mb-[60px]' : 'max-h-0 opacity-0 mb-0'}`}
+                    >
+                        <div 
+                            className={`text-[55px] md:text-[75px] lg:text-[95px] font-medium text-white transition-transform duration-[1200ms] ease-[cubic-bezier(0.19,1,0.22,1)] ${step >= 7 ? 'translate-y-0' : 'translate-y-12'}`}
+                            style={{ 
+                                fontFamily: "'Sanomat Wp', 'Sanomat Web', 'Sanomat', sans-serif",
+                                letterSpacing: "-0.01em",
+                                WebkitFontSmoothing: "antialiased",
+                                textRendering: "optimizeLegibility",
+                            }}
+                        >
+                            Moat
+                        </div>
+                    </div>
+
                     {/* 1. Main Heading */}
                     <h2 
                         className={`text-[26px] md:text-[34px] lg:text-[42px] font-bold tracking-tight mb-14 transition-all duration-1000 ease-out ${step >= 1 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
