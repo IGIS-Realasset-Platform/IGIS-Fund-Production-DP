@@ -22,7 +22,7 @@ export default function Section14({ isActive }) {
     }, [isActive]);
 
     return (
-        <section className="relative section w-full h-full flex flex-col justify-center items-center overflow-hidden bg-white">
+        <section className="relative section w-full h-full flex flex-col justify-center items-center overflow-hidden bg-[#f4f4f5]">
             
             <div className="w-[calc(100%-48px)] md:w-[calc(100%-100px)] max-w-[1400px] h-[75%] md:h-[65%] mx-auto flex flex-col justify-between">
                 
@@ -35,7 +35,7 @@ export default function Section14({ isActive }) {
                     ></div>
 
                     {/* Left Box (The Engine) */}
-                    <div className="flex-1 flex flex-col justify-center items-end text-right pr-0 md:pr-10 lg:pr-16 xl:pr-24 py-10 md:py-0">
+                    <div className="flex-1 flex flex-col justify-center items-end text-right pr-0 md:pr-16 lg:pr-24 xl:pr-32 2xl:pr-40 py-10 md:py-0">
                         <span className={`text-[#86868b] font-semibold text-[13px] md:text-[14px] tracking-[0.2em] uppercase mb-6 md:mb-8 transition-all duration-1000 ease-out delay-[0ms] ${step >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
                             Definition / 01
                         </span>
@@ -52,14 +52,14 @@ export default function Section14({ isActive }) {
                         
                         <p className={`text-[16px] md:text-[18px] lg:text-[20px] font-medium text-[#424245] leading-[1.6] break-keep transition-all duration-1000 ease-out delay-[300ms] ${step >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
                             {lang === 'kr' ? (
-                                <>데이터 통합과 AI 연산을 수행하는 물리적 시스템(Technology).</>
+                                <>데이터 통합과 AI 연산을 수행하는 물리적 시스템(Technology)</>
                             ) : (
-                                <>A physical system (Technology) that performs data integration and AI computation.</>
+                                <>A physical system (Technology) that performs data integration and AI computation</>
                             )}
                         </p>
 
-                        <div className={`mt-10 md:mt-16 w-full max-w-[220px] lg:max-w-[280px] grayscale opacity-90 mix-blend-multiply transition-all duration-[1500ms] ease-out delay-[500ms] ${step >= 2 ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-8'}`}>
-                            <img src={`${import.meta.env.BASE_URL}engine_bw.png`} alt="Engine" className="w-full object-contain mix-blend-multiply" />
+                        <div className={`mt-10 md:mt-16 w-full max-w-[220px] lg:max-w-[280px] grayscale transition-all duration-[1500ms] ease-out delay-[500ms] ${step >= 2 ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-8'}`}>
+                            <img src={`${import.meta.env.BASE_URL}engine_bw.png`} alt="Engine" className="w-full object-contain mix-blend-darken" />
                         </div>
                     </div>
 
@@ -67,7 +67,7 @@ export default function Section14({ isActive }) {
                     <div className={`md:hidden w-full h-[1px] bg-black/10 my-4 transition-transform duration-1000 origin-left ${step >= 1 ? 'scale-x-100' : 'scale-x-0'}`}></div>
 
                     {/* Right Box (The Steering Wheel) */}
-                    <div className="flex-1 flex flex-col justify-center items-start text-left pl-0 md:pl-10 lg:pl-16 xl:pl-24 py-10 md:py-0 overflow-visible w-full max-w-full">
+                    <div className="flex-1 flex flex-col justify-center items-start text-left pl-0 md:pl-16 lg:pl-24 xl:pl-32 2xl:pl-40 py-10 md:py-0 overflow-visible w-full max-w-full">
                         <span className={`text-[#86868b] font-semibold text-[13px] md:text-[14px] tracking-[0.2em] uppercase mb-6 md:mb-8 transition-all duration-1000 ease-out delay-[200ms] ${step >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
                             Definition / 02
                         </span>
@@ -82,16 +82,16 @@ export default function Section14({ isActive }) {
                             </span>
                         </h2>
                         
-                        <p className={`text-[12px] md:text-[13px] lg:text-[15px] xl:text-[17px] 2xl:text-[20px] font-medium text-[#424245] leading-[1.6] break-keep transition-all duration-1000 ease-out delay-[500ms] whitespace-nowrap overflow-visible ${step >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
+                        <p className={`text-[12px] md:text-[13px] lg:text-[15px] xl:text-[17px] 2xl:text-[20px] font-medium text-[#424245] leading-[1.6] break-keep transition-all duration-1000 ease-out delay-[500ms] ${step >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
                             {lang === 'kr' ? (
-                                <>시스템을 올바른 방향으로 통제하고 운영역들의 참여를 이끌어내는 조직적 거버넌스(Governance).</>
+                                <>시스템을 올바른 방향으로 통제하고 운영역들의 참여를 이끌어내는<br />조직적 거버넌스(Governance)</>
                             ) : (
-                                <>Organizational governance that directs the system rightly and drives professional engagement.</>
+                                <>Organizational governance that directs the system rightly and drives professional engagement</>
                             )}
                         </p>
 
-                        <div className={`mt-10 md:mt-16 w-full max-w-[220px] lg:max-w-[280px] grayscale opacity-90 mix-blend-multiply transition-all duration-[1500ms] ease-out delay-[700ms] ${step >= 2 ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-8'}`}>
-                            <img src={`${import.meta.env.BASE_URL}steering_wheel_bw.png`} alt="Steering Wheel" className="w-full object-contain mix-blend-multiply" />
+                        <div className={`mt-10 md:mt-16 w-full max-w-[220px] lg:max-w-[280px] grayscale transition-all duration-[1500ms] ease-out delay-[700ms] ${step >= 2 ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-8'}`}>
+                            <img src={`${import.meta.env.BASE_URL}steering_wheel_bw.png`} alt="Steering Wheel" className="w-full object-contain mix-blend-darken" />
                         </div>
                     </div>
                     
