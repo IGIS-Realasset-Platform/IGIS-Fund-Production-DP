@@ -81,79 +81,13 @@ export default function Section16({ isActive }) {
                     </div>
                 </div>
 
-                {/* RIGHT: Realistic iPad Frame containing the Dashboard */}
-                <div className={`relative w-full max-w-[850px] mx-auto aspect-[4/3] bg-black rounded-[2.5rem] p-3 shadow-[0_30px_60px_rgba(0,0,0,0.15)] border-[4px] border-[#d1d1d6] flex flex-col transition-all duration-[1500ms] ease-[cubic-bezier(0.16,1,0.3,1)] transform ${step >= 3 ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-12'}`}>
-                    
-                    {/* Tiny iPad Camera Dot */}
-                    <div className="absolute top-0 inset-x-0 mx-auto w-1.5 h-1.5 bg-[#222] rounded-full mt-1.5 z-20" />
-
-                    {/* Inner White Screen */}
-                    <div className="w-full h-full bg-[#f5f5f7] rounded-[2rem] overflow-hidden relative flex flex-col">
-                        
-                        {/* Safari/App Top Bar */}
-                        <div className="w-full h-[50px] bg-white border-b border-[#e5e5ea] flex items-center px-6 justify-between flex-shrink-0 relative z-10">
-                            <span className="font-bold text-[15px] tracking-tight text-black">IFPDP Executive Dashboard</span>
-                            <div className="flex gap-4 items-center">
-                                <span className="text-[#86868b] text-[12px] font-semibold">Total Assets: 24 active</span>
-                                <div className="w-8 h-8 bg-black rounded-full flex items-center justify-center shadow-sm">
-                                    <span className="text-white text-[12px] font-bold">DA</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* App Content */}
-                        <div className="p-8 h-full flex flex-col relative z-0">
-                            
-                            {/* Value Chain Top Banner */}
-                            <div className="w-full bg-white rounded-xl shadow-sm border border-[#e5e5ea] p-5 mb-6">
-                                <h3 className="text-[13px] font-bold text-[#86868b] mb-4">Value Chain Live Monitoring</h3>
-                                <div className="flex justify-between items-center px-2">
-                                    {vcNodes.map((node, i) => {
-                                        const isRed = i === 7; // 개발관리 (Dev Mgmt) is RED
-                                        return (
-                                            <div key={i} className="flex flex-col items-center gap-2">
-                                                <div className={`w-3 h-3 rounded-full ${isRed ? 'bg-[#ff3b30]' : 'bg-[#34c759]'}`} 
-                                                     style={isRed ? { animation: 'redPulseAlert 1.5s infinite' } : {}} />
-                                                <span className={`text-[11px] font-bold whitespace-nowrap ${isRed ? 'text-[#ff3b30]' : 'text-[#86868b]'}`}>{node}</span>
-                                            </div>
-                                        );
-                                    })}
-                                </div>
-                                {/* Connection line behind nodes */}
-                                <div className="w-[90%] h-[2px] bg-[#e5e5ea] absolute top-[85px] left-1/2 -translate-x-1/2 -z-10" />
-                            </div>
-
-                            {/* Red Flag Details Card */}
-                            <div className={`flex-1 bg-white rounded-xl shadow-lg border-2 border-[#ff3b30]/20 p-8 flex flex-col transition-all duration-[1000ms] delay-500 transform ${step >= 4 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-                                <div className="flex items-center gap-3 mb-6">
-                                    <div className="w-2.5 h-2.5 bg-[#ff3b30] rounded-full animate-pulse" />
-                                    <span className="font-extrabold text-[16px] text-[#ff3b30] uppercase tracking-widest">Action Required</span>
-                                    <span className="ml-auto text-[#86868b] text-[13px] font-medium">Ticket: DEV-38X</span>
-                                </div>
-                                
-                                <h2 className="text-[26px] font-bold text-black leading-tight mb-3">
-                                    도곡동 복합시설 개발: <br/>주요 자재비 폭등 (LTV 이탈 경고)
-                                </h2>
-                                <p className="text-[15px] font-medium text-[#424245] leading-[1.6] mb-auto pr-10 border-l-[3px] border-[#e5e5ea] pl-4">
-                                    개발관리(Dev Mgmt) 단계에서 철근 및 시멘트 단가 30% 폭등이 감지되었습니다. 
-                                    이는 기존 도급 한도를 15% 초과하는 리스크로, 실무 협의가 불가능한 단계입니다.
-                                    <br/><br/>
-                                    <strong>대안:</strong> 추가 예산 120억 원 집행 및 공자기한 2개월 연장안 수용 (예상 수익률 0.5% 하락 방어)
-                                </p>
-
-                                {/* Bottom Action Row */}
-                                <div className="flex justify-end gap-3 mt-8">
-                                    <button className="px-8 py-3 bg-[#f5f5f7] text-[#86868b] font-bold text-[14px] rounded-lg tracking-wide hover:bg-[#e5e5ea] transition-colors">
-                                        REJECT (재검토)
-                                    </button>
-                                    <button className="px-10 py-3 bg-black text-white font-bold text-[14px] rounded-lg tracking-widest hover:bg-[#333] hover:shadow-xl transition-all">
-                                        APPROVE (승인)
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
+                {/* RIGHT: iPad Image Asset */}
+                <div className={`relative w-full flex justify-end lg:justify-center items-center transition-all duration-[1500ms] ease-[cubic-bezier(0.16,1,0.3,1)] transform ${step >= 3 ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-12'}`}>
+                    <img 
+                        src="/ipad.jpg" 
+                        alt="iPad Dashboard Graphic" 
+                        className="w-auto h-auto max-w-[120%] lg:max-w-none lg:w-[130%] object-contain origin-left"
+                    />
                 </div>
 
             </div>
