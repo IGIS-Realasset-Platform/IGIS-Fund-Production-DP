@@ -10,116 +10,146 @@ export default function Section16({ isActive }) {
             const t1 = setTimeout(() => setStep(1), 300);
             const t2 = setTimeout(() => setStep(2), 1100);
             const t3 = setTimeout(() => setStep(3), 1900);
-            const t4 = setTimeout(() => setStep(4), 2700);
+            const t4 = setTimeout(() => setStep(4), 2800);
             return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); clearTimeout(t4); };
         } else {
             setStep(0);
         }
     }, [isActive]);
 
-    // Dashboard Matrix representation
-    const rows = 8;
-    const cols = 12; // 96 dots
-    const normalDots = Array.from({ length: rows * cols - 1 }); 
+    // 10 Value chains list
+    const vcNodes = ['소싱', '투자', '펀드생성', '개발추진', '파이낸싱', '유저솔루션', '기업마케팅', '개발관리', '준공', '운영'];
 
     return (
         <section className="relative w-full h-full bg-[#fbfbfd] flex flex-col justify-center items-center overflow-hidden">
             
             <style>
                 {`
-                    @keyframes redPulseClean {
-                        0% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.4); transform: scale(1); }
+                    @keyframes redPulseAlert {
+                        0% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.5); transform: scale(1); }
                         70% { box-shadow: 0 0 0 15px rgba(255, 59, 48, 0); transform: scale(1.1); }
                         100% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0); transform: scale(1); }
                     }
                 `}
             </style>
 
-            <div className="w-full max-w-[1400px] px-6 md:px-12 lg:px-20 mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center h-full pt-[60px] md:pt-0">
+            <div className="w-full max-w-[1500px] px-6 lg:px-14 mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center h-full pt-[60px] md:pt-0">
                 
-                {/* LEFT: Dry, authoritative editorial text (Inherited from Section 10 style) */}
-                <div className={`w-full border-l-[3px] border-[#1d1d1f] pl-6 md:pl-10 transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] transform ${step >= 1 ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-12'}`}>
+                {/* LEFT: Dry, authoritative text (Matched to User Image exactly) */}
+                <div className={`w-full max-w-[600px] transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] transform ${step >= 1 ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-12'}`}>
                     
-                    <span className="text-[#86868b] font-bold text-[12px] md:text-[14px] tracking-[0.2em] uppercase mb-4 block">
-                        Executive View : 예외 관리와 권한 위임(DA)
+                    <span className="text-black font-bold text-[14px] md:text-[15px] tracking-tight mb-3 block">
+                        Delegation of Authority
                     </span>
 
-                    <h2 className="text-[32px] md:text-[45px] lg:text-[54px] font-bold leading-[1.2] text-[#1d1d1f] tracking-tight mb-8 md:mb-10 break-keep">
+                    <h2 className="text-[40px] md:text-[50px] lg:text-[56px] font-bold leading-[1.2] text-black tracking-tight mb-8 md:mb-12">
                         {lang === 'kr' ? (
                             <>
-                                데이터 기반의 <br/>
-                                <span className="font-extrabold">권한 위임 (Delegation of Authority)</span>
+                                DA : 데이터 기반의<br/>
+                                권한 위임
                             </>
                         ) : (
                             <>
-                                Data-driven <br/>
-                                <span className="font-extrabold">Delegation of Authority</span>
+                                DA : Data-Driven<br/>
+                                Delegation
                             </>
                         )}
                     </h2>
 
-                    <div className={`transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] transform ${step >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-                        <p className="text-[16px] md:text-[19px] font-bold text-[#1d1d1f] leading-[1.6] mb-5 break-keep">
-                            {lang === 'kr' ? '거버넌스가 세팅된 플랫폼은 마이크로 매니징(Micro-management)을 요구하지 않습니다.' : 'A platform with established governance does not require micro-management.'}
+                    <div className={`flex flex-col gap-6 md:gap-7 transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] transform ${step >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+                        <p className="text-[17px] md:text-[20px] font-bold text-black leading-[1.5] break-keep">
+                            {lang === 'kr' ? (
+                                <>거버넌스가 세팅된 플랫폼은 마이크로 매니징을<br/>요구하지 않습니다.</>
+                            ) : (
+                                <>A platform with established governance does not require micro-management.</>
+                            )}
                         </p>
-                        <p className="text-[15px] md:text-[17px] font-medium text-[#424245] leading-[1.7] mb-5 break-keep">
-                            {lang === 'kr' ? 'IFPDP는 실시간 데이터 취합을 통해 정상 범위의 공정은 자율 작동시키고, 리스크 한도를 이탈한 프로젝트(Red Flag)와 최종 의사결정(Approval) 안건만을 대표님께 보고합니다.' : 'Through real-time data aggregation, IFPDP autonomously operates processes within normal parameters, reporting only out-of-bounds projects (Red Flags) and final decision (Approval) agendas to the executive.'}
+                        <p className="text-[15px] md:text-[17px] font-medium text-[#86868b] leading-[1.6] break-keep">
+                            {lang === 'kr' ? (
+                                <>IFPDP는 실시간 데이터 취합을 통해 정상 범위의 공정은 자율 작동시키고,<br/>리스크 한도를 이탈한 프로젝트(Red Flag)와 최종 의사결정(Approval) 안건만을<br/>대표님께 보고합니다.</>
+                            ) : (
+                                <>Through real-time data aggregation, IFPDP autonomously operates normal processes, reporting only out-of-bounds projects (Red Flags) and final decisions to the executive.</>
+                            )}
                         </p>
-                        <p className="text-[16px] md:text-[19px] font-bold text-[#1d1d1f] leading-[1.6] break-keep">
-                            {lang === 'kr' ? '이를 통해 경영진의 리소스를 \'과정의 통제\'가 아닌 \'전략적 결단\'에 집중시킵니다.' : 'This focuses executive resources on \'strategic decisions\' rather than \'process control\'.'}
+                        <p className="text-[17px] md:text-[20px] font-bold text-black leading-[1.5] break-keep">
+                            {lang === 'kr' ? (
+                                <>이를 통해 경영진의 리소스를 '과정의 통제'가 아닌 '전략적 결단'에<br/>집중시킵니다.</>
+                            ) : (
+                                <>This focuses executive resources on 'strategic decisions' rather than 'process control'.</>
+                            )}
                         </p>
                     </div>
                 </div>
 
-                {/* RIGHT: Minimalist Wireframe CEO Dashboard */}
-                <div className={`relative w-full aspect-video max-h-[500px] bg-white border border-[#d2d2d7] rounded-lg shadow-[0_20px_40px_rgba(0,0,0,0.04)] overflow-hidden transition-all duration-[1500ms] ease-[cubic-bezier(0.16,1,0.3,1)] transform ${step >= 3 ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-12'}`}>
+                {/* RIGHT: Realistic iPad Frame containing the Dashboard */}
+                <div className={`relative w-full max-w-[850px] mx-auto aspect-[4/3] bg-black rounded-[2.5rem] p-3 shadow-[0_30px_60px_rgba(0,0,0,0.15)] border-[4px] border-[#d1d1d6] flex flex-col transition-all duration-[1500ms] ease-[cubic-bezier(0.16,1,0.3,1)] transform ${step >= 3 ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-12'}`}>
                     
-                    {/* Dashboard Header Bar */}
-                    <div className="w-full h-[40px] border-b border-[#e5e5ea] flex items-center px-4 justify-between bg-[#fbfbfd]">
-                        <div className="flex gap-1.5">
-                            <div className="w-2.5 h-2.5 rounded-full border border-[#d2d2d7]" />
-                            <div className="w-2.5 h-2.5 rounded-full border border-[#d2d2d7]" />
-                            <div className="w-2.5 h-2.5 rounded-full border border-[#d2d2d7]" />
-                        </div>
-                        <div className="flex gap-6">
-                            <div className="w-12 h-1 bg-[#d2d2d7] rounded-full" />
-                            <div className="w-8 h-1 bg-[#d2d2d7] rounded-full" />
-                        </div>
-                    </div>
+                    {/* Tiny iPad Camera Dot */}
+                    <div className="absolute top-0 inset-x-0 mx-auto w-1.5 h-1.5 bg-[#222] rounded-full mt-1.5 z-20" />
 
-                    {/* Dashboard Content Grid */}
-                    <div className="w-full h-[calc(100%-40px)] p-6 lg:p-10 flex flex-col relative">
+                    {/* Inner White Screen */}
+                    <div className="w-full h-full bg-[#f5f5f7] rounded-[2rem] overflow-hidden relative flex flex-col">
                         
-                        {/* Title wireframe */}
-                        <div className="w-1/3 h-3 bg-[#e5e5ea] rounded-full mb-8" />
-
-                        {/* Matrix of Normal operations */}
-                        <div className="w-full flex-1 grid grid-cols-12 gap-3 lg:gap-4 relative pr-[200px]">
-                            {normalDots.map((_, i) => (
-                                <div key={i} className="w-[6px] h-[6px] bg-[#d2d2d7] rounded-full mx-auto" />
-                            ))}
-                            
-                            {/* The ONE Red Flag Exception */}
-                            <div className={`absolute top-[40%] left-[60%] flex flex-col items-center z-10 transition-all duration-1000 ${step >= 4 ? 'opacity-100 scale-100' : 'opacity-0 scale-50'}`}>
-                                <div className="w-4 h-4 bg-[#ff3b30] rounded-full relative z-20" style={{ animation: 'redPulseClean 2.5s infinite' }} />
-                                
-                                {/* Red Flag connection line to the floating box */}
-                                <div className="w-[100px] h-[1px] bg-[#ff3b30] absolute top-2 left-4 origin-left scale-x-100 border-dashed border-t-[1px]" />
+                        {/* Safari/App Top Bar */}
+                        <div className="w-full h-[50px] bg-white border-b border-[#e5e5ea] flex items-center px-6 justify-between flex-shrink-0 relative z-10">
+                            <span className="font-bold text-[15px] tracking-tight text-black">IFPDP Executive Dashboard</span>
+                            <div className="flex gap-4 items-center">
+                                <span className="text-[#86868b] text-[12px] font-semibold">Total Assets: 24 active</span>
+                                <div className="w-8 h-8 bg-black rounded-full flex items-center justify-center shadow-sm">
+                                    <span className="text-white text-[12px] font-bold">DA</span>
+                                </div>
                             </div>
                         </div>
 
-                        {/* Floating Exception Approval Panel */}
-                        <div className={`absolute right-6 lg:right-10 top-1/2 -translate-y-1/2 w-[180px] bg-white border border-[#e5e5ea] shadow-lg rounded-md p-4 transition-all duration-[1200ms] delay-300 transform ${step >= 4 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-                            <div className="flex items-center gap-2 mb-3">
-                                <div className="w-1.5 h-1.5 bg-[#ff3b30] rounded-full" />
-                                <div className="w-16 h-1.5 bg-[#e5e5ea] rounded-full" />
-                            </div>
-                            <div className="w-full h-1 bg-[#f5f5f7] rounded-full mb-1.5" />
-                            <div className="w-4/5 h-1 bg-[#f5f5f7] rounded-full mb-4" />
+                        {/* App Content */}
+                        <div className="p-8 h-full flex flex-col relative z-0">
                             
-                            {/* Minimalist Approve Button */}
-                            <div className="w-full h-8 bg-[#1d1d1f] text-white flex items-center justify-center text-[10px] font-bold tracking-widest cursor-pointer hover:bg-black transition-colors rounded-sm">
-                                APPROVE
+                            {/* Value Chain Top Banner */}
+                            <div className="w-full bg-white rounded-xl shadow-sm border border-[#e5e5ea] p-5 mb-6">
+                                <h3 className="text-[13px] font-bold text-[#86868b] mb-4">Value Chain Live Monitoring</h3>
+                                <div className="flex justify-between items-center px-2">
+                                    {vcNodes.map((node, i) => {
+                                        const isRed = i === 7; // 개발관리 (Dev Mgmt) is RED
+                                        return (
+                                            <div key={i} className="flex flex-col items-center gap-2">
+                                                <div className={`w-3 h-3 rounded-full ${isRed ? 'bg-[#ff3b30]' : 'bg-[#34c759]'}`} 
+                                                     style={isRed ? { animation: 'redPulseAlert 1.5s infinite' } : {}} />
+                                                <span className={`text-[11px] font-bold whitespace-nowrap ${isRed ? 'text-[#ff3b30]' : 'text-[#86868b]'}`}>{node}</span>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                                {/* Connection line behind nodes */}
+                                <div className="w-[90%] h-[2px] bg-[#e5e5ea] absolute top-[85px] left-1/2 -translate-x-1/2 -z-10" />
+                            </div>
+
+                            {/* Red Flag Details Card */}
+                            <div className={`flex-1 bg-white rounded-xl shadow-lg border-2 border-[#ff3b30]/20 p-8 flex flex-col transition-all duration-[1000ms] delay-500 transform ${step >= 4 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                                <div className="flex items-center gap-3 mb-6">
+                                    <div className="w-2.5 h-2.5 bg-[#ff3b30] rounded-full animate-pulse" />
+                                    <span className="font-extrabold text-[16px] text-[#ff3b30] uppercase tracking-widest">Action Required</span>
+                                    <span className="ml-auto text-[#86868b] text-[13px] font-medium">Ticket: DEV-38X</span>
+                                </div>
+                                
+                                <h2 className="text-[26px] font-bold text-black leading-tight mb-3">
+                                    도곡동 복합시설 개발: <br/>주요 자재비 폭등 (LTV 이탈 경고)
+                                </h2>
+                                <p className="text-[15px] font-medium text-[#424245] leading-[1.6] mb-auto pr-10 border-l-[3px] border-[#e5e5ea] pl-4">
+                                    개발관리(Dev Mgmt) 단계에서 철근 및 시멘트 단가 30% 폭등이 감지되었습니다. 
+                                    이는 기존 도급 한도를 15% 초과하는 리스크로, 실무 협의가 불가능한 단계입니다.
+                                    <br/><br/>
+                                    <strong>대안:</strong> 추가 예산 120억 원 집행 및 공자기한 2개월 연장안 수용 (예상 수익률 0.5% 하락 방어)
+                                </p>
+
+                                {/* Bottom Action Row */}
+                                <div className="flex justify-end gap-3 mt-8">
+                                    <button className="px-8 py-3 bg-[#f5f5f7] text-[#86868b] font-bold text-[14px] rounded-lg tracking-wide hover:bg-[#e5e5ea] transition-colors">
+                                        REJECT (재검토)
+                                    </button>
+                                    <button className="px-10 py-3 bg-black text-white font-bold text-[14px] rounded-lg tracking-widest hover:bg-[#333] hover:shadow-xl transition-all">
+                                        APPROVE (승인)
+                                    </button>
+                                </div>
                             </div>
                         </div>
 
