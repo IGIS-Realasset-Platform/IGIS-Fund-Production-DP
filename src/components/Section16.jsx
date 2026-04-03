@@ -87,7 +87,6 @@ export default function Section16({ isActive }) {
                         src="/ipad.jpg" 
                         alt="iPad Dashboard Graphic" 
                         className="w-auto h-auto max-w-none object-contain origin-left mix-blend-darken"
-                        style={{ transform: 'scale(1.3)' }}
                     />
                 </div>
 
