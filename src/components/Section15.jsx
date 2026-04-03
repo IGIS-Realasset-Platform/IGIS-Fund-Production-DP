@@ -57,10 +57,10 @@ export default function Section15({ isActive }) {
                         80% { opacity: 1; }
                         100% { transform: translateY(-50%) translateX(60px); opacity: 0; }
                     }
-                    @keyframes deepBlueBreathe {
-                        0% { transform: scale(0.85) rotate(0deg); opacity: 0.4; box-shadow: inset 0 0 50px rgba(10, 40, 120, 0.2); }
-                        50% { transform: scale(1.05) rotate(180deg); opacity: 0.7; box-shadow: inset 0 0 100px rgba(20, 60, 180, 0.5); }
-                        100% { transform: scale(0.85) rotate(360deg); opacity: 0.4; box-shadow: inset 0 0 50px rgba(10, 40, 120, 0.2); }
+                    @keyframes dotBlueFlow {
+                        0% { box-shadow: 0 0 0 0 rgba(30, 58, 138, 0.7); background-color: #000000; }
+                        50% { box-shadow: 0 0 0 10px rgba(30, 58, 138, 0); background-color: #1e3a8a; }
+                        100% { box-shadow: 0 0 0 0 rgba(30, 58, 138, 0); background-color: #000000; }
                     }
                 `}
             </style>
@@ -102,14 +102,6 @@ export default function Section15({ isActive }) {
                 {/* 2. Main Centered Orbital Diagram */}
                 <div className={`relative w-full flex justify-center items-center mb-[60px] transition-all duration-1000 ease-out ${step >= 3 ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`} style={{ height: '460px' }}>
                     
-                    {/* Deep Blue Flowing Aura (Alive effect) */}
-                    <div className="absolute z-10 w-[300px] h-[300px] rounded-full pointer-events-none mix-blend-multiply flex justify-center items-center" 
-                         style={{ 
-                             background: 'conic-gradient(from 0deg, transparent, rgba(30, 80, 180, 0.1), rgba(15, 30, 110, 0.4), rgba(30, 80, 180, 0.1), transparent)',
-                             filter: 'blur(20px)',
-                             animation: 'deepBlueBreathe 15s ease-in-out infinite' 
-                         }} />
-
                     {/* The spinning component wrapper */}
                     <div className="absolute z-20 origin-center" style={{ animation: 'orbitSpin 60s linear infinite', width: `${radius * 2}px`, height: `${radius * 2}px` }}>
                         
@@ -153,13 +145,15 @@ export default function Section15({ isActive }) {
                             
                             return (
                                 <React.Fragment key={`node-${i}`}>
-                                    {/* Rotating Black Solid Dot */}
+                                    {/* Flowing Blue Target Dot */}
                                     <div 
-                                        className="absolute w-[16px] h-[16px] bg-black rounded-full shadow-sm ring-[3px] ring-[#fafafc]"
+                                        className="absolute w-[16px] h-[16px] rounded-full ring-[2px] ring-[#fafafc]"
                                         style={{
                                             left: `calc(50% + ${dotX}px)`,
                                             top: `calc(50% + ${dotY}px)`,
                                             transform: 'translate(-50%, -50%)',
+                                            animation: `dotBlueFlow ${2 + (i % 3) * 0.5}s ease-in-out infinite`,
+                                            animationDelay: `${i * 0.2}s`
                                         }}
                                     />
                                     {/* Perfect Geometric Label Wrapper */}
@@ -184,8 +178,8 @@ export default function Section15({ isActive }) {
                     </div>
 
                     {/* Static Core Inner Layer */}
-                    <div className="absolute w-[110px] h-[110px] rounded-full bg-black flex flex-col items-center justify-center z-30 shadow-[0_15px_30px_rgba(0,0,0,0.2)]">
-                        <span className="text-white font-bold text-[18px] tracking-tight leading-tight">IFPDP</span>
+                    <div className="absolute w-[132px] h-[132px] rounded-full bg-black flex flex-col items-center justify-center z-30 shadow-[0_15px_30px_rgba(0,0,0,0.2)]">
+                        <span className="text-white font-bold text-[24px] tracking-tight leading-tight">IFPDP</span>
                         <span className="text-[#a1a1aa] font-medium text-[12px] tracking-tight mt-0.5" style={{ fontFamily: "'Sanomat', sans-serif" }}>Core</span>
                     </div>
 
