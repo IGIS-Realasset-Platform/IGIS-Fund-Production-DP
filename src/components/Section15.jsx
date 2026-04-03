@@ -45,6 +45,18 @@ export default function Section15({ isActive }) {
                         from { transform: rotate(0deg); }
                         to { transform: rotate(-360deg); }
                     }
+                    @keyframes dataFlowOut {
+                        0% { transform: translateY(-50%) translateX(60px); opacity: 0; }
+                        20% { opacity: 1; }
+                        80% { opacity: 1; }
+                        100% { transform: translateY(-50%) translateX(170px); opacity: 0; }
+                    }
+                    @keyframes dataFlowIn {
+                        0% { transform: translateY(-50%) translateX(170px); opacity: 0; }
+                        20% { opacity: 1; }
+                        80% { opacity: 1; }
+                        100% { transform: translateY(-50%) translateX(60px); opacity: 0; }
+                    }
                 `}
             </style>
 
@@ -90,6 +102,31 @@ export default function Section15({ isActive }) {
                         
                         {/* Orbit Track Line */}
                         <div className="absolute inset-0 rounded-full border border-gray-300 pointer-events-none" />
+
+                        {/* Minimalist Data Exchange Spokes */}
+                        {nodes.map((_, i) => {
+                            const rotateDeg = i * 36 - 90;
+                            // Alternating in and out logic
+                            const isOutward = i % 2 === 0;
+                            return (
+                                <div key={`spoke-${i}`} 
+                                     className="absolute top-1/2 left-1/2 h-[1px] bg-gradient-to-r from-transparent via-gray-300/60 to-gray-300 origin-left"
+                                     style={{
+                                         width: `${radius}px`,
+                                         transform: `translateY(-50%) rotate(${rotateDeg}deg)`,
+                                     }}>
+                                    {/* Simple Data Dot moving along the spoke */}
+                                    <div 
+                                        className="absolute top-1/2 w-[3px] h-[3px] bg-black rounded-full"
+                                        style={{ 
+                                            transform: 'translateY(-50%)',
+                                            animation: `${isOutward ? 'dataFlowOut' : 'dataFlowIn'} ${2.5 + (i % 3) * 0.4}s ease-in-out infinite`,
+                                            animationDelay: `${i * 0.3}s`
+                                        }} 
+                                    />
+                                </div>
+                            );
+                        })}
 
                         {/* Nodes & Accurately Distributed Labels */}
                         {nodes.map((node, i) => {
@@ -140,28 +177,28 @@ export default function Section15({ isActive }) {
                 </div>
 
                 {/* 3. Bottom: Free-flowing 3 Columns Row Layout */}
-                <div className="w-full max-w-[1440px] px-0 lg:px-4 grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 lg:gap-10 text-left z-20 pb-4">
+                <div className="w-full max-w-[1600px] px-0 lg:px-4 grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10 lg:gap-12 text-left z-20 pb-4">
                     
                     {/* Role 1 */}
                     <div className={`flex flex-col w-full transition-all duration-700 ease-out ${step >= 4 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
-                        <h3 className="text-[21px] font-bold text-black mb-3 tracking-tight">1. Rule Setting</h3>
-                        <p className="text-[19px] font-bold text-[#626262] leading-[1.5] break-keep whitespace-nowrap lg:whitespace-normal">
+                        <h3 className="text-[23px] font-bold text-black mb-3 tracking-tight">1. Rule Setting</h3>
+                        <p className="text-[19px] font-bold text-[#626262] leading-[1.5] break-keep min-w-[380px] w-full lg:whitespace-normal">
                             {lang === 'kr' ? '각 조직과 협업하여 10단계 가치사슬 간 필수 데이터 연동 표준안 수립' : 'Establish essential data linkage standards across the 10-stage value chain.'}
                         </p>
                     </div>
 
                     {/* Role 2 */}
                     <div className={`flex flex-col w-full transition-all duration-700 ease-out ${step >= 5 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
-                        <h3 className="text-[21px] font-bold text-black mb-3 tracking-tight">2. Bottleneck Removal</h3>
-                        <p className="text-[19px] font-bold text-[#626262] leading-[1.5] break-keep whitespace-nowrap lg:whitespace-normal">
+                        <h3 className="text-[23px] font-bold text-black mb-3 tracking-tight">2. Bottleneck Removal</h3>
+                        <p className="text-[19px] font-bold text-[#626262] leading-[1.5] break-keep min-w-[380px] w-full lg:whitespace-normal">
                             {lang === 'kr' ? '권한이 모호한 회색지대와 데이터 병목 구간 조율 및 해소' : 'Coordinate and resolve ambiguous operational gray areas and data bottlenecks.'}
                         </p>
                     </div>
 
                     {/* Role 3 */}
                     <div className={`flex flex-col w-full transition-all duration-700 ease-out ${step >= 6 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
-                        <h3 className="text-[21px] font-bold text-black mb-3 tracking-tight">3. Optimization & Evolution</h3>
-                        <p className="text-[19px] font-bold text-[#626262] leading-[1.5] break-keep whitespace-nowrap lg:whitespace-normal">
+                        <h3 className="text-[23px] font-bold text-black mb-3 tracking-tight">3. Optimization & Evolution</h3>
+                        <p className="text-[19px] font-bold text-[#626262] leading-[1.5] break-keep min-w-[380px] w-full lg:whitespace-normal">
                             {lang === 'kr' ? '데이터 자산의 지속적 고도화 및 AI 플랫폼 운영 거버넌스 관리' : 'Continuously advance data assets and manage AI platform governance.'}
                         </p>
                     </div>
