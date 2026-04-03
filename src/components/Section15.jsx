@@ -14,11 +14,10 @@ export default function Section15({ isActive }) {
         let timers = [];
         timers.push(setTimeout(() => setStep(1), 500));  // Title & Headers
         timers.push(setTimeout(() => setStep(2), 1000)); // Description
-        timers.push(setTimeout(() => setStep(3), 1500)); // Circle Diagram
-        timers.push(setTimeout(() => setStep(4), 2000)); // Particles Flow
-        timers.push(setTimeout(() => setStep(5), 2400)); // Role 1
-        timers.push(setTimeout(() => setStep(6), 2800)); // Role 2
-        timers.push(setTimeout(() => setStep(7), 3200)); // Role 3
+        timers.push(setTimeout(() => setStep(3), 1500)); // Orbit Diagram
+        timers.push(setTimeout(() => setStep(4), 2000)); // Role 1
+        timers.push(setTimeout(() => setStep(5), 2300)); // Role 2
+        timers.push(setTimeout(() => setStep(6), 2600)); // Role 3
 
         return () => timers.forEach(t => clearTimeout(t));
     }, [isActive]);
@@ -29,48 +28,37 @@ export default function Section15({ isActive }) {
 
     const nodes = lang === 'kr' ? nodesKr : nodesEn;
     
-    const radius = 180; // Orbit circle radius (px)
-    const labelRadius = 220; // Label distance from center (px)
+    // Mathematically perfect radius settings
+    const radius = 180; // Orbit circle radius (px) - Diameter is 360px
+    const labelRadius = 220; // Exact distance from center to center of text (px)
 
     return (
-        <section className="relative section w-full h-full flex flex-col overflow-hidden bg-[#fafafc] text-[#1d1d1f]">
+        <section className="relative section w-full h-full flex flex-col overflow-hidden bg-[#fafafc] text-[#1d1d1f] justify-center items-center">
             
-            {/* Inline CSS for dynamic organic animations */}
             <style>
                 {`
                     @keyframes orbitSpin {
-                        from { transform: translate(-50%, -50%) rotate(0deg); }
-                        to { transform: translate(-50%, -50%) rotate(360deg); }
+                        from { transform: rotate(0deg); }
+                        to { transform: rotate(360deg); }
                     }
                     @keyframes orbitSpinReverse {
                         from { transform: rotate(0deg); }
                         to { transform: rotate(-360deg); }
                     }
-                    @keyframes bloodFlowIn {
-                        0% { transform: translateY(-50%) rotate(var(--angle)) translateX(${radius + 20}px); opacity: 0; }
-                        20% { opacity: 1; }
-                        80% { opacity: 1; }
-                        100% { transform: translateY(-50%) rotate(var(--angle)) translateX(70px); opacity: 0; }
-                    }
-                    @keyframes bloodFlowOut {
-                        0% { transform: translateY(-50%) rotate(var(--angle)) translateX(70px); opacity: 0; }
-                        20% { opacity: 1; }
-                        80% { opacity: 1; }
-                        100% { transform: translateY(-50%) rotate(var(--angle)) translateX(${radius + 20}px); opacity: 0; }
-                    }
                 `}
             </style>
 
-            <div className="w-[calc(100%-48px)] md:w-[calc(100%-100px)] max-w-[1240px] h-full mx-auto flex flex-col pt-24 md:pt-[7%] pb-10">
+            {/* Perfect viewport-centering container wrapping all 3 blocks uniformly */}
+            <div className="w-full max-w-[1240px] px-6 md:px-12 flex flex-col items-center justify-center">
                 
-                {/* Header Phase */}
-                <div className="w-full flex flex-col items-center text-center px-4 md:px-0 relative z-30">
-                    <span className={`text-[#1d1d1f] font-bold text-[12px] md:text-[13px] tracking-widest uppercase mb-3 transition-all duration-1000 ease-out delay-[0ms] ${step >= 1 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
+                {/* 1. Header Phase */}
+                <div className="w-full flex flex-col items-center text-center relative z-30 mb-10 md:mb-14">
+                    <span className={`text-[#1d1d1f] font-bold text-[11px] md:text-[13px] tracking-widest uppercase mb-3 transition-all duration-1000 ease-out delay-[0ms] ${step >= 1 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
                         The Steering Wheel
                     </span>
                     
                     <h2 
-                        className={`text-[32px] md:text-[42px] lg:text-[48px] font-bold leading-[1.2] tracking-tight text-[#1d1d1f] mb-3 transition-all duration-1000 ease-out delay-[100ms] ${step >= 1 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`} 
+                        className={`text-[32px] md:text-[44px] lg:text-[48px] font-bold leading-[1.2] tracking-tight text-[#1d1d1f] mb-3 transition-all duration-1000 ease-out delay-[100ms] ${step >= 1 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`} 
                     >
                         {lang === 'kr' ? 'CFT 전략의 조향장치' : 'Steering Wheel of CFT Strategy'}
                     </h2>
@@ -79,7 +67,7 @@ export default function Section15({ isActive }) {
                         {lang === 'kr' ? '통합 실행 조직 - The Orchestrator' : 'Integrated Execution - The Orchestrator'}
                     </h3>
 
-                    <p className={`text-[15px] md:text-[16px] lg:text-[17px] font-medium text-[#86868b] leading-[1.6] break-keep max-w-[700px] mx-auto transition-all duration-1000 ease-out delay-[100ms] ${step >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
+                    <p className={`text-[15px] md:text-[16px] lg:text-[17px] font-medium text-[#86868b] leading-[1.6] break-keep max-w-[850px] transition-all duration-1000 ease-out delay-[100ms] ${step >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
                         {lang === 'kr' ? (
                             <>
                                 플랫폼은 데이터를 모을 수 있지만, 맥락과 거버넌스를 직접 만들어낼 수는 없습니다.<br className="hidden md:block" />
@@ -94,116 +82,88 @@ export default function Section15({ isActive }) {
                     </p>
                 </div>
 
-                {/* Main Centered Content Layout */}
-                <div className="w-full flex flex-col flex-1 mt-10 items-center overflow-visible z-20">
+                {/* 2. Main Centered Orbital Diagram */}
+                <div className={`relative w-full flex justify-center items-center mb-10 transition-all duration-1000 ease-out ${step >= 3 ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`} style={{ height: '460px' }}>
                     
-                    {/* Centered Circular Diagram */}
-                    <div className={`relative w-full max-w-[500px] h-[450px] flex items-center justify-center transition-all duration-1000 ease-out ${step >= 3 ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}`}>
+                    {/* The spinning component wrapper */}
+                    <div className="absolute z-20 origin-center" style={{ animation: 'orbitSpin 60s linear infinite', width: `${radius * 2}px`, height: `${radius * 2}px` }}>
                         
-                        {/* Data Blood Flow Layers */}
-                        <div className={`absolute inset-0 transition-opacity duration-1000 z-10 ${step >= 4 ? 'opacity-100' : 'opacity-0'}`}>
-                            {Array.from({ length: 5 }).map((_, i) => (
-                                <div key={`in-${i}`} className="absolute top-1/2 left-1/2 w-[50px] h-[2px] rounded-full bg-gradient-to-r from-transparent via-black/30 to-[#1d1d1f] origin-left"
-                                     style={{
-                                         '--angle': `${i * 72}deg`,
-                                         animation: `bloodFlowIn ${3.5 + i * 0.4}s ease-in-out infinite`,
-                                         animationDelay: `${i * 0.5}s`
-                                     }}></div>
-                            ))}
-                            {Array.from({ length: 5 }).map((_, i) => (
-                                <div key={`out-${i}`} className="absolute top-1/2 left-1/2 w-[50px] h-[2px] rounded-full bg-gradient-to-r from-[#1d1d1f] via-black/30 to-transparent origin-left"
-                                     style={{
-                                         '--angle': `${45 + i * 72}deg`,
-                                         animation: `bloodFlowOut ${3 + i * 0.3}s ease-in-out infinite`,
-                                         animationDelay: `${i * 0.2}s`
-                                     }}></div>
-                            ))}
-                        </div>
+                        {/* Orbit Track Line */}
+                        <div className="absolute inset-0 rounded-full border border-gray-300 pointer-events-none" />
 
-                        {/* Spinning Orbit Wrapper */}
-                        <div className="absolute top-1/2 left-1/2 w-full h-full z-20 origin-center" style={{ animation: 'orbitSpin 60s linear infinite' }}>
-                            {/* Orbit Track Line */}
-                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-black/10" 
-                                 style={{ width: `${radius * 2}px`, height: `${radius * 2}px` }} />
-                        </div>
-
-                        {/* Static Core Layer (doesn't spin) */}
-                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120px] h-[120px] rounded-full bg-black flex flex-col items-center justify-center z-30 shadow-[0_15px_30px_rgba(0,0,0,0.15)] ring-4 ring-[#fafafc]">
-                            <span className="text-white font-bold text-[20px] tracking-tight leading-tight">IFPDP</span>
-                            <span className="text-[#a1a1aa] font-medium text-[13px] tracking-tight mt-0.5" style={{ fontFamily: "'Sanomat', sans-serif" }}>Core</span>
-                        </div>
-
-                        {/* Nodes & Labels (Attached to spinning track, but counter-rotating text) */}
-                        <div className="absolute top-1/2 left-1/2 w-full h-full z-30 origin-center" style={{ animation: 'orbitSpin 60s linear infinite' }}>
-                            {nodes.map((node, i) => {
-                                const angleRad = (i * 36 - 90) * (Math.PI / 180);
-                                const dotX = Math.cos(angleRad) * radius;
-                                const dotY = Math.sin(angleRad) * radius;
-                                
-                                const labelX = Math.cos(angleRad) * labelRadius;
-                                const labelY = Math.sin(angleRad) * labelRadius;
-
-                                const isLeftHalf = i > 4 && i < 10;
-                                
-                                return (
-                                    <React.Fragment key={`node-${i}`}>
-                                        {/* Black Solid Dot (Spins normally) */}
-                                        <div 
-                                            className="absolute w-[18px] h-[18px] bg-black rounded-full shadow-sm ring-2 ring-[#fafafc]"
-                                            style={{
-                                                left: `calc(50% + ${dotX}px)`,
-                                                top: `calc(50% + ${dotY}px)`,
-                                                transform: 'translate(-50%, -50%)',
-                                            }}
-                                        />
-                                        {/* Text Label Wrapper */}
-                                        <div 
-                                            className="absolute text-[15px] font-bold text-black whitespace-nowrap leading-none"
-                                            style={{
-                                                left: `calc(50% + ${labelX}px)`,
-                                                top: `calc(50% + ${labelY}px)`,
-                                                transform: `translate(${isLeftHalf ? '-100%' : '0%'}, -50%)`,
-                                                marginLeft: isLeftHalf ? '-8px' : '8px' // Offset spacing from dot
-                                            }}
-                                        >
-                                            {/* Counter-rotating text so it stays upright! */}
-                                            <div style={{ animation: 'orbitSpinReverse 60s linear infinite' }}>
-                                                {node}
-                                            </div>
+                        {/* Nodes & Accurately Distributed Labels */}
+                        {nodes.map((node, i) => {
+                            const angleRad = (i * 36 - 90) * (Math.PI / 180);
+                            
+                            const dotX = Math.cos(angleRad) * radius;
+                            const dotY = Math.sin(angleRad) * radius;
+                            
+                            const labelX = Math.cos(angleRad) * labelRadius;
+                            const labelY = Math.sin(angleRad) * labelRadius;
+                            
+                            return (
+                                <React.Fragment key={`node-${i}`}>
+                                    {/* Rotating Black Solid Dot */}
+                                    <div 
+                                        className="absolute w-[16px] h-[16px] bg-black rounded-full shadow-sm ring-[3px] ring-[#fafafc]"
+                                        style={{
+                                            left: `calc(50% + ${dotX}px)`,
+                                            top: `calc(50% + ${dotY}px)`,
+                                            transform: 'translate(-50%, -50%)',
+                                        }}
+                                    />
+                                    {/* Perfect Geometric Label Wrapper */}
+                                    <div 
+                                        className="absolute flex justify-center items-center"
+                                        style={{
+                                            left: `calc(50% + ${labelX}px)`,
+                                            top: `calc(50% + ${labelY}px)`,
+                                            transform: 'translate(-50%, -50%)',
+                                        }}
+                                    >
+                                        <div className="text-[14px] font-bold text-black whitespace-nowrap leading-none tracking-tight" 
+                                             style={{ animation: 'orbitSpinReverse 60s linear infinite' }}>
+                                            {node}
                                         </div>
-                                    </React.Fragment>
-                                );
-                            })}
-                        </div>
+                                    </div>
+                                </React.Fragment>
+                            );
+                        })}
                     </div>
 
-                    {/* Bottom: 3-column Roles Layout */}
-                    <div className="w-full max-w-[1100px] flex flex-col md:flex-row items-start justify-between gap-8 md:gap-10 mt-8 mb-4">
-                        
-                        {/* Role 1 */}
-                        <div className={`flex flex-col w-full md:w-1/3 transition-all duration-700 ease-out z-20 ${step >= 5 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
-                            <h3 className="text-[17px] font-bold text-black mb-1.5 tracking-tight">1. Rule Setting</h3>
-                            <p className="text-[14px] font-medium text-[#86868b] leading-[1.6] break-keep">
-                                {lang === 'kr' ? '각 조직과 협업하여 10단계 가치사슬 간 필수 데이터 연동 표준안 수립' : 'Establish essential data linkage standards across the 10-stage value chain.'}
-                            </p>
-                        </div>
+                    {/* Static Core Inner Layer */}
+                    <div className="absolute w-[110px] h-[110px] rounded-full bg-black flex flex-col items-center justify-center z-30 shadow-[0_15px_30px_rgba(0,0,0,0.15)] ring-4 ring-[#fafafc]">
+                        <span className="text-white font-bold text-[18px] tracking-tight leading-tight">IFPDP</span>
+                        <span className="text-[#a1a1aa] font-medium text-[12px] tracking-tight mt-0.5" style={{ fontFamily: "'Sanomat', sans-serif" }}>Core</span>
+                    </div>
 
-                        {/* Role 2 */}
-                        <div className={`flex flex-col w-full md:w-1/3 transition-all duration-700 ease-out z-20 ${step >= 6 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
-                            <h3 className="text-[17px] font-bold text-black mb-1.5 tracking-tight">2. Bottleneck Removal</h3>
-                            <p className="text-[14px] font-medium text-[#86868b] leading-[1.6] break-keep">
-                                {lang === 'kr' ? '권한이 모호한 회색지대와 데이터 병목 구간 조율 및 해소' : 'Coordinate and resolve ambiguous operational gray areas and data bottlenecks.'}
-                            </p>
-                        </div>
+                </div>
 
-                        {/* Role 3 */}
-                        <div className={`flex flex-col w-full md:w-1/3 transition-all duration-700 ease-out z-20 ${step >= 7 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
-                            <h3 className="text-[17px] font-bold text-black mb-1.5 tracking-tight">3. Optimization & Evolution</h3>
-                            <p className="text-[14px] font-medium text-[#86868b] leading-[1.6] break-keep">
-                                {lang === 'kr' ? '데이터 자산의 지속적 고도화 및 AI 플랫폼 운영 거버넌스 관리' : 'Continuously advance data assets and manage AI platform governance.'}
-                            </p>
-                        </div>
+                {/* 3. Bottom: Free-flowing 3 Columns Row Layout */}
+                <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-8 max-w-[1100px] text-left z-20 pb-4">
+                    
+                    {/* Role 1 */}
+                    <div className={`flex flex-col w-full transition-all duration-700 ease-out ${step >= 4 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
+                        <h3 className="text-[17px] font-bold text-black mb-2 tracking-tight">1. Rule Setting</h3>
+                        <p className="text-[15px] font-medium text-[#626262] leading-[1.6] break-keep min-w-full lg:max-w-[90%]">
+                            {lang === 'kr' ? '각 조직과 협업하여 10단계 가치사슬 간 필수 데이터 연동 표준안 수립' : 'Establish essential data linkage standards across the 10-stage value chain.'}
+                        </p>
+                    </div>
 
+                    {/* Role 2 */}
+                    <div className={`flex flex-col w-full transition-all duration-700 ease-out ${step >= 5 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
+                        <h3 className="text-[17px] font-bold text-black mb-2 tracking-tight">2. Bottleneck Removal</h3>
+                        <p className="text-[15px] font-medium text-[#626262] leading-[1.6] break-keep min-w-full lg:max-w-[90%]">
+                            {lang === 'kr' ? '권한이 모호한 회색지대와 데이터 병목 구간 조율 및 해소' : 'Coordinate and resolve ambiguous operational gray areas and data bottlenecks.'}
+                        </p>
+                    </div>
+
+                    {/* Role 3 */}
+                    <div className={`flex flex-col w-full transition-all duration-700 ease-out ${step >= 6 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
+                        <h3 className="text-[17px] font-bold text-black mb-2 tracking-tight">3. Optimization & Evolution</h3>
+                        <p className="text-[15px] font-medium text-[#626262] leading-[1.6] break-keep min-w-full lg:max-w-[90%]">
+                            {lang === 'kr' ? '데이터 자산의 지속적 고도화 및 AI 플랫폼 운영 거버넌스 관리' : 'Continuously advance data assets and manage AI platform governance.'}
+                        </p>
                     </div>
 
                 </div>
