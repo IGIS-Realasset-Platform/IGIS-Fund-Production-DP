@@ -57,6 +57,11 @@ export default function Section15({ isActive }) {
                         80% { opacity: 1; }
                         100% { transform: translateY(-50%) translateX(60px); opacity: 0; }
                     }
+                    @keyframes deepBlueBreathe {
+                        0% { transform: scale(0.85) rotate(0deg); opacity: 0.4; box-shadow: inset 0 0 50px rgba(10, 40, 120, 0.2); }
+                        50% { transform: scale(1.05) rotate(180deg); opacity: 0.7; box-shadow: inset 0 0 100px rgba(20, 60, 180, 0.5); }
+                        100% { transform: scale(0.85) rotate(360deg); opacity: 0.4; box-shadow: inset 0 0 50px rgba(10, 40, 120, 0.2); }
+                    }
                 `}
             </style>
 
@@ -76,7 +81,7 @@ export default function Section15({ isActive }) {
                     </h2>
                     
                     <h3 className={`text-[18px] md:text-[22px] font-bold text-[#86868b] tracking-tight mb-8 transition-all duration-1000 ease-out delay-[200ms] ${step >= 1 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
-                        {lang === 'kr' ? '통합 실행 조직 - The Orchestrator' : 'Integrated Execution - The Orchestrator'}
+                        {lang === 'kr' ? '플랫폼 컨트롤 타워의 실무적 정의' : 'Practical Definition of Platform Control Tower'}
                     </h3>
 
                     <p className={`text-[19px] md:text-[20px] lg:text-[21px] font-bold text-[#424245] leading-[1.6] break-keep max-w-[1000px] transition-all duration-1000 ease-out delay-[100ms] ${step >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
@@ -97,6 +102,14 @@ export default function Section15({ isActive }) {
                 {/* 2. Main Centered Orbital Diagram */}
                 <div className={`relative w-full flex justify-center items-center mb-[60px] transition-all duration-1000 ease-out ${step >= 3 ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`} style={{ height: '460px' }}>
                     
+                    {/* Deep Blue Flowing Aura (Alive effect) */}
+                    <div className="absolute z-10 w-[300px] h-[300px] rounded-full pointer-events-none mix-blend-multiply flex justify-center items-center" 
+                         style={{ 
+                             background: 'conic-gradient(from 0deg, transparent, rgba(30, 80, 180, 0.1), rgba(15, 30, 110, 0.4), rgba(30, 80, 180, 0.1), transparent)',
+                             filter: 'blur(20px)',
+                             animation: 'deepBlueBreathe 15s ease-in-out infinite' 
+                         }} />
+
                     {/* The spinning component wrapper */}
                     <div className="absolute z-20 origin-center" style={{ animation: 'orbitSpin 60s linear infinite', width: `${radius * 2}px`, height: `${radius * 2}px` }}>
                         
