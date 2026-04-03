@@ -67,7 +67,7 @@ export default function Section15({ isActive }) {
                         {lang === 'kr' ? '통합 실행 조직 - The Orchestrator' : 'Integrated Execution - The Orchestrator'}
                     </h3>
 
-                    <p className={`text-[15px] md:text-[16px] lg:text-[17px] font-medium text-[#86868b] leading-[1.6] break-keep max-w-[850px] transition-all duration-1000 ease-out delay-[100ms] ${step >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
+                    <p className={`text-[19px] md:text-[20px] lg:text-[21px] font-bold text-[#424245] leading-[1.6] break-keep max-w-[1000px] transition-all duration-1000 ease-out delay-[100ms] ${step >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
                         {lang === 'kr' ? (
                             <>
                                 플랫폼은 데이터를 모을 수 있지만, 맥락과 거버넌스를 직접 만들어낼 수는 없습니다.<br className="hidden md:block" />
@@ -121,7 +121,7 @@ export default function Section15({ isActive }) {
                                             transform: 'translate(-50%, -50%)',
                                         }}
                                     >
-                                        <div className="text-[14px] font-bold text-black whitespace-nowrap leading-none tracking-tight" 
+                                        <div className="text-[16px] font-bold text-black whitespace-nowrap leading-none tracking-tight" 
                                              style={{ animation: 'orbitSpinReverse 60s linear infinite' }}>
                                             {node}
                                         </div>
@@ -140,32 +140,31 @@ export default function Section15({ isActive }) {
                 </div>
 
                 {/* 3. Bottom: Free-flowing 3 Columns Row Layout */}
-                <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-14 max-w-[1300px] text-left z-20 pb-4">
+                <div className="w-full max-w-[1440px] px-0 lg:px-4 grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 lg:gap-10 text-left z-20 pb-4">
                     
                     {/* Role 1 */}
                     <div className={`flex flex-col w-full transition-all duration-700 ease-out ${step >= 4 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
-                        <h3 className="text-[17px] font-bold text-black mb-2 tracking-tight">1. Rule Setting</h3>
-                        <p className="text-[15px] font-medium text-[#626262] leading-[1.6] break-keep min-w-full w-full">
+                        <h3 className="text-[21px] font-bold text-black mb-3 tracking-tight">1. Rule Setting</h3>
+                        <p className="text-[19px] font-bold text-[#626262] leading-[1.5] break-keep whitespace-nowrap lg:whitespace-normal">
                             {lang === 'kr' ? '각 조직과 협업하여 10단계 가치사슬 간 필수 데이터 연동 표준안 수립' : 'Establish essential data linkage standards across the 10-stage value chain.'}
                         </p>
                     </div>
 
                     {/* Role 2 */}
                     <div className={`flex flex-col w-full transition-all duration-700 ease-out ${step >= 5 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
-                        <h3 className="text-[17px] font-bold text-black mb-2 tracking-tight">2. Bottleneck Removal</h3>
-                        <p className="text-[15px] font-medium text-[#626262] leading-[1.6] break-keep min-w-full w-full">
+                        <h3 className="text-[21px] font-bold text-black mb-3 tracking-tight">2. Bottleneck Removal</h3>
+                        <p className="text-[19px] font-bold text-[#626262] leading-[1.5] break-keep whitespace-nowrap lg:whitespace-normal">
                             {lang === 'kr' ? '권한이 모호한 회색지대와 데이터 병목 구간 조율 및 해소' : 'Coordinate and resolve ambiguous operational gray areas and data bottlenecks.'}
                         </p>
                     </div>
 
                     {/* Role 3 */}
                     <div className={`flex flex-col w-full transition-all duration-700 ease-out ${step >= 6 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
-                        <h3 className="text-[17px] font-bold text-black mb-2 tracking-tight">3. Optimization & Evolution</h3>
-                        <p className="text-[15px] font-medium text-[#626262] leading-[1.6] break-keep min-w-full w-full">
+                        <h3 className="text-[21px] font-bold text-black mb-3 tracking-tight">3. Optimization & Evolution</h3>
+                        <p className="text-[19px] font-bold text-[#626262] leading-[1.5] break-keep whitespace-nowrap lg:whitespace-normal">
                             {lang === 'kr' ? '데이터 자산의 지속적 고도화 및 AI 플랫폼 운영 거버넌스 관리' : 'Continuously advance data assets and manage AI platform governance.'}
                         </p>
                     </div>
-
                 </div>
 
             </div>
