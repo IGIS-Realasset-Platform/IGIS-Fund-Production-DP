@@ -32,7 +32,7 @@ export default function Header({ onNavigateToNews, onNavigateToHome, onNavigateT
                 { label: "Executive View", id: "page-16" }
             ] 
         },
-        { title: "Inside IFPDP", id: "section-c", items: [] },
+        { title: "Inside IFPDP", id: "page-17", items: [] },
         { title: "Execution Plan", id: "section-d", items: [] }
     ];
 
@@ -57,7 +57,7 @@ export default function Header({ onNavigateToNews, onNavigateToHome, onNavigateT
                 { label: "Executive View", id: "page-16" }
             ] 
         },
-        { title: "Inside IFPDP", id: "section-c", items: [] },
+        { title: "Inside IFPDP", id: "page-17", items: [] },
         { title: "Execution Plan", id: "section-d", items: [] }
     ];
 
