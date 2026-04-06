@@ -14,6 +14,7 @@ import Section12 from './Section12';
 import Section13 from './Section13';
 import Section14 from './Section14';
 import Section15 from './Section15';
+import Section16 from './Section16';
 import Section17 from './Section17';
 import Section18 from './Section18';
 
