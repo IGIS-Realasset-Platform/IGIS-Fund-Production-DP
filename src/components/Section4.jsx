@@ -254,23 +254,36 @@ export default function Section4({ isActive }) {
                     </div>
                 </div>
 
-                {/* 3. Bottom Vision Statement (Appears dynamically at end) */}
+                {/* 3. Bottom Vision Statement (Modal Overlay format matching Section 6) */}
                 <div 
-                    className={`w-full flex justify-center items-center px-0 md:px-4 transition-all duration-[1800ms] ease-[cubic-bezier(0.19,1,0.22,1)] overflow-hidden ${step >= 6 ? 'opacity-100 mt-[60px] md:mt-[80px] max-h-[300px] translate-y-0' : 'opacity-0 mt-0 max-h-0 translate-y-12'}`}
+                    className={`fixed inset-0 z-[9999] flex items-center justify-center bg-black/85 backdrop-blur-sm transition-all duration-[800ms] ${step >= 6 ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
+                    onClick={() => setStep(5)}
                 >
-                    <p className="text-[36px] md:text-[52px] font-bold text-center tracking-tight text-[#1d1d1f] leading-[1.25] whitespace-nowrap pt-[5px]">
-                        {lang === 'kr' ? (
-                            <>
-                                기획과 데이터만 내재되어 있다면, <br />
-                                AI 시대에 우리가 직접 만들어내지 못할 <span className="text-[#1d4ed8]">'통합 플랫폼'</span>은 없습니다.
-                            </>
-                        ) : (
-                            <>
-                                As long as planning and data are internalized, <br />
-                                there is no <span className="text-[#1d4ed8]">'integrated platform'</span> we cannot physically build in the AI era.
-                            </>
-                        )}
-                    </p>
+                    <div 
+                        className={`flex flex-col items-center justify-center text-center p-8 transition-transform duration-[800ms] ease-[cubic-bezier(0.19,1,0.22,1)] ${step >= 6 ? 'scale-100 translate-y-0' : 'scale-95 translate-y-12'}`}
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <p className="text-[32px] md:text-[46px] lg:text-[52px] font-bold text-center tracking-tight text-white leading-[1.35] whitespace-nowrap">
+                            {lang === 'kr' ? (
+                                <>
+                                    기획과 데이터만 내재되어 있다면, <br />
+                                    AI 시대에 우리가 직접 만들어내지 못할 <span className="text-[#3b82f6]">'통합 플랫폼'</span>은 없습니다.
+                                </>
+                            ) : (
+                                <>
+                                    As long as planning and data are internalized, <br />
+                                    there is no <span className="text-[#3b82f6]">'integrated platform'</span> we cannot physically build in the AI era.
+                                </>
+                            )}
+                        </p>
+                        
+                        <div 
+                            className="mt-[40px] px-6 py-2 border border-white/30 text-white/70 font-sans tracking-widest text-[14px] uppercase rounded-full cursor-pointer hover:bg-white hover:text-black transition-all duration-300"
+                            onClick={() => setStep(5)}
+                        >
+                            {lang === 'kr' ? '돌아가기' : 'Go Back'}
+                        </div>
+                    </div>
                 </div>
 
             </div>
