@@ -4,6 +4,7 @@ import { useLanguage } from '../context/LanguageContext';
 export default function Section17({ isActive }) {
     const { lang } = useLanguage();
     const [step, setStep] = useState(0);
+    const [isZooming, setIsZooming] = useState(false);
 
     useEffect(() => {
         if (isActive) {
@@ -13,6 +14,7 @@ export default function Section17({ isActive }) {
             return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
         } else {
             setStep(0);
+            setIsZooming(false);
         }
     }, [isActive]);
 
@@ -22,7 +24,7 @@ export default function Section17({ isActive }) {
             <div className="w-[calc(100%-48px)] md:w-[calc(100%-100px)] max-w-[1600px] mx-auto relative flex flex-col justify-center items-center h-full pt-[60px] md:pt-0">
                 
                 {/* Image constrained by viewport height instead of wrapper width */}
-                <div className={`relative flex flex-col justify-center items-center overflow-hidden transition-all duration-[1500ms] ease-[cubic-bezier(0.16,1,0.3,1)] transform ${step >= 1 ? 'opacity-100 scale-100' : 'opacity-0 scale-[0.98]'}`}>
+                <div className={`relative flex flex-col justify-center items-center overflow-hidden transition-all duration-[1600ms] ${isZooming ? 'ease-[cubic-bezier(0.7,0,0.1,1)]' : 'ease-[cubic-bezier(0.16,1,0.3,1)]'} transform ${isZooming ? 'scale-[20] origin-[50%_35%]' : (step >= 1 ? 'opacity-100 scale-100 origin-center' : 'opacity-0 scale-[0.98] origin-center')}`}>
                     <img 
                         src={`${import.meta.env.BASE_URL}inside_IFPDP.jpg`} 
                         alt="Inside IFPDP Monitor Graphic" 
@@ -33,16 +35,14 @@ export default function Section17({ isActive }) {
                     <div className="absolute inset-0 z-10 flex flex-col items-center justify-center text-center pb-[18vh]">
                         
                         {/* Title */}
-                        <h2 className={`text-[46px] md:text-[60px] lg:text-[84px] font-bold text-white tracking-tighter leading-none mb-6 md:mb-10 transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] transform ${step >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
+                        <h2 className={`text-[46px] md:text-[60px] lg:text-[84px] font-bold text-white tracking-tighter leading-none mb-6 md:mb-10 transition-all duration-[1000ms] ease-[cubic-bezier(0.16,1,0.3,1)] transform ${isZooming ? 'opacity-0 scale-[1.5] blur-md' : (step >= 2 ? 'opacity-100 translate-y-0 blur-0' : 'opacity-0 translate-y-6 blur-[6px]')}`}>
                             Inside IFPDP
                         </h2>
 
                         {/* Stylish Button */}
                         <button 
-                            className={`group cursor-pointer relative overflow-hidden rounded-full bg-white text-black px-10 py-3 md:px-14 md:py-4 flex items-center justify-center transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] transform ${step >= 3 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
-                            onClick={() => {
-                                alert("System integration in progress. Please check back later.");
-                            }}
+                            className={`group cursor-pointer relative overflow-hidden rounded-full bg-white text-black px-10 py-3 md:px-14 md:py-4 flex items-center justify-center transition-all duration-[1000ms] ease-[cubic-bezier(0.16,1,0.3,1)] transform ${isZooming ? 'opacity-0 translate-y-8 blur-md' : (step >= 3 ? 'opacity-100 translate-y-0 blur-0' : 'opacity-0 translate-y-6 blur-[6px]')}`}
+                            onClick={() => setIsZooming(true)}
                         >
                             <span className="relative z-10 text-[15px] md:text-[17px] font-bold tracking-tight whitespace-nowrap">
                                 Go Inside
@@ -55,8 +55,29 @@ export default function Section17({ isActive }) {
                         </button>
                     </div>
 
+
                 </div>
             </div>
+
+            {/* Immersive System Integration Overlay (Fades in after zooming into the black screen) */}
+            <div className={`absolute inset-0 z-50 flex flex-col items-center justify-center bg-black transition-all duration-[1200ms] ease-out ${isZooming ? 'opacity-100 delay-[1200ms] pointer-events-auto' : 'opacity-0 delay-0 pointer-events-none'}`}>
+                <div className={`flex flex-col items-center transition-all duration-[1000ms] ease-out delay-[1500ms] transform ${isZooming ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
+                    <h3 className="text-[24px] md:text-[34px] font-medium text-white tracking-[-0.03em] mb-10 text-center leading-tight">
+                        {lang === 'kr' ? "시스템 연동 작업이 진행 중입니다." : "System integration in progress."}
+                        <br/>
+                        <span className="text-[#888] text-[18px] md:text-[22px] font-normal mt-3 block">
+                            {lang === 'kr' ? "잠시 후 다시 접속해 주세요." : "Please check back later."}
+                        </span>
+                    </h3>
+                    <button 
+                        onClick={() => setIsZooming(false)}
+                        className="px-8 py-3 rounded-full border border-gray-600 text-gray-300 hover:text-white hover:border-white transition-all cursor-pointer font-medium text-[15px] tracking-tight"
+                    >
+                        {lang === 'kr' ? "돌아가기" : "Return"}
+                    </button>
+                </div>
+            </div>
+
         </section>
     );
 }
