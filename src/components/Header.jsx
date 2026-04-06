@@ -63,6 +63,35 @@ export default function Header({ onNavigateToNews, onNavigateToHome, onNavigateT
 
     const currentMenuData = lang === 'kr' ? menuDataKr : menuDataEn;
 
+    const [activeHash, setActiveHash] = useState(window.location.hash || '#page-1');
+
+    React.useEffect(() => {
+        const handleHashChange = () => setActiveHash(window.location.hash);
+        window.addEventListener('hashchange', handleHashChange);
+        
+        const handleGoto = (e) => {
+            if (e.detail && typeof e.detail.slideIndex === 'number') {
+                setActiveHash(`#page-${e.detail.slideIndex + 1}`);
+            }
+        };
+        window.addEventListener('appSlideGoto', handleGoto);
+
+        return () => {
+            window.removeEventListener('hashchange', handleHashChange);
+            window.removeEventListener('appSlideGoto', handleGoto);
+        };
+    }, []);
+
+    const getActiveNavIndex = () => {
+        const pageNum = parseInt(activeHash.replace('#page-', ''), 10) || 1;
+        if (pageNum >= 2 && pageNum <= 11) return 0; // The Engine
+        if (pageNum >= 12 && pageNum <= 16) return 1; // The Steering Wheel
+        if (pageNum === 17) return 2; // Inside IFPDP
+        if (pageNum === 18) return 3; // Execution Plan
+        return -1;
+    };
+    const activeNavIndex = getActiveNavIndex();
+
     React.useEffect(() => {
         if (mobileMenuOpen || modalType) {
             document.body.style.overflow = 'hidden';
@@ -296,7 +325,7 @@ export default function Header({ onNavigateToNews, onNavigateToHome, onNavigateT
                                         }
                                     }}
                                 >
-                                    <span className="relative pb-0 after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-[1.5px] after:-bottom-[-2px] after:left-0 after:bg-black after:origin-bottom-left after:transition-transform after:duration-300 group-hover/menu:after:scale-x-100 transition-colors hover:text-black">
+                                    <span className={`relative pb-0 after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-[1.5px] after:-bottom-[-2px] after:left-0 after:bg-black after:origin-bottom-left after:transition-transform after:duration-300 group-hover/menu:after:scale-x-100 transition-colors hover:text-black ${activeNavIndex === idx ? 'font-bold' : ''}`}>
                                         {col.title}
                                     </span>
                                 </div>
