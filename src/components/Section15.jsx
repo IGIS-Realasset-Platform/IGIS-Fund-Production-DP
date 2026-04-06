@@ -66,7 +66,7 @@ export default function Section15({ isActive }) {
             </style>
 
             {/* Perfect viewport-centering container wrapping all 3 blocks uniformly */}
-            <div className="w-full max-w-[1400px] px-6 md:px-12 flex flex-col items-center justify-center my-auto shrink-0 mt-5 md:mt-10">
+            <div className="w-full max-w-[1400px] px-6 md:px-12 flex flex-col items-center justify-center my-auto shrink-0 translate-y-[50px] md:translate-y-[100px]">
                 
                 {/* 1. Header Phase */}
                 <div className="w-full flex flex-col items-center text-center relative z-30 mb-10 md:mb-14">
