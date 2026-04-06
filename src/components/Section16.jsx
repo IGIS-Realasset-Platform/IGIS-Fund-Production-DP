@@ -30,13 +30,27 @@ export default function Section16({ isActive }) {
                         70% { box-shadow: 0 0 0 15px rgba(255, 59, 48, 0); transform: scale(1.1); }
                         100% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0); transform: scale(1); }
                     }
+                    }
+                    @keyframes textFlowBlue {
+                        0% { background-position: 0% 50%; opacity: 0.9; }
+                        50% { background-position: 100% 50%; opacity: 1; }
+                        100% { background-position: 0% 50%; opacity: 0.9; }
+                    }
+                    .text-flow-blue {
+                        background: linear-gradient(90deg, #1d4ed8 0%, #60a5fa 50%, #1d4ed8 100%);
+                        background-size: 200% auto;
+                        -webkit-background-clip: text;
+                        -webkit-text-fill-color: transparent;
+                        animation: textFlowBlue 3s linear infinite;
+                        font-weight: 800;
+                    }
                 `}
             </style>
 
-            <div className="w-full max-w-[1500px] px-6 lg:px-14 mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center h-full pt-[60px] md:pt-0">
+            <div className="w-full max-w-[1300px] px-6 md:px-10 lg:px-14 mx-auto grid grid-cols-1 lg:grid-cols-[450px_1fr] gap-10 lg:gap-14 items-center h-full pt-[60px] md:pt-0">
                 
                 {/* LEFT: Dry, authoritative text (Matched to User Image exactly) */}
-                <div className={`relative z-20 w-full max-w-[600px] lg:-ml-[50px] lg:-mt-[50px] transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] transform ${step >= 1 ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-12'}`}>
+                <div className={`relative z-20 w-full max-w-[600px] mr-auto lg:-mt-[50px] transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] transform ${step >= 1 ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-12'}`}>
                     
                     <span className="text-black font-bold text-[14px] md:text-[15px] tracking-tight mb-3 block">
                         Delegation of Authority
@@ -66,7 +80,7 @@ export default function Section16({ isActive }) {
                         </p>
                         <p className="text-[15px] md:text-[17px] font-medium text-[#86868b] leading-[1.6] break-keep">
                             {lang === 'kr' ? (
-                                <>IFPDP는 실시간 데이터 취합을 통해 정상 범위의 공정은 자율 작동시키고,<br/>리스크 한도를 이탈한 프로젝트(Red Flag)와 최종 의사결정(Approval) 안건만을<br/>대표님께 보고합니다.</>
+                                <>IFPDP는 실시간 데이터 취합을 통해 <span className="text-flow-blue">정상 범위의 공정은 자율 작동</span>시키고,<br/><span className="text-flow-blue">리스크 한도를 이탈한 프로젝트(Red Flag)와 최종 의사결정(Approval)</span> 안건만을<br/>대표님께 보고합니다.</>
                             ) : (
                                 <>Through real-time data aggregation, IFPDP autonomously operates normal processes, reporting only out-of-bounds projects (Red Flags) and final decisions to the executive.</>
                             )}
