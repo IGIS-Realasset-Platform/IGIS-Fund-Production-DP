@@ -32,9 +32,8 @@ export default function Header({ onNavigateToNews, onNavigateToHome, onNavigateT
                 { label: "Executive View", id: "page-16" }
             ] 
         },
-        { title: "C", id: "section-c", items: [] },
-        { title: "D", id: "section-d", items: [] },
-        { title: "E", id: "section-e", items: [] }
+        { title: "Inside IFPDP", id: "section-c", items: [] },
+        { title: "Execution Plan", id: "section-d", items: [] }
     ];
 
     const menuDataKr = [
@@ -58,9 +57,8 @@ export default function Header({ onNavigateToNews, onNavigateToHome, onNavigateT
                 { label: "Executive View", id: "page-16" }
             ] 
         },
-        { title: "C", id: "section-c", items: [] },
-        { title: "D", id: "section-d", items: [] },
-        { title: "E", id: "section-e", items: [] }
+        { title: "Inside IFPDP", id: "section-c", items: [] },
+        { title: "Execution Plan", id: "section-d", items: [] }
     ];
 
     const currentMenuData = lang === 'kr' ? menuDataKr : menuDataEn;
