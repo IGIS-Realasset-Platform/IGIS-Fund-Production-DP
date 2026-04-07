@@ -20,13 +20,15 @@ export default function Section6({ isActive }) {
         }
         
         const t1 = setTimeout(() => setStep(1), 500); // Image fade in
-        const t2 = setTimeout(() => setStep(2), 1000); // Quote text fade in
-        const t3 = setTimeout(() => setStep(3), 1800); // Name and title fade in
-        const t4 = setTimeout(() => setStep(4), 1800); // Underline highlight
+        const t2 = setTimeout(() => setStep(2), 700); // Quote P1 fade in
+        const t3 = setTimeout(() => setStep(3), 1600); // Quote P2 fade in
+        const t4 = setTimeout(() => setStep(4), 2600); // Quote P3 fade in
+        const t5 = setTimeout(() => setStep(5), 3700); // Name and title fade in
+        const t6 = setTimeout(() => setStep(6), 4400); // Underline highlight
 
         const nextAction = (e) => {
             if (e.type === 'appSlideNext') {
-                if (stepRef.current >= 4 && !showModalRef.current) {
+                if (stepRef.current >= 6 && !showModalRef.current) {
                     e.preventDefault();
                     setShowModal(true);
                 }
@@ -36,7 +38,7 @@ export default function Section6({ isActive }) {
         window.addEventListener('appSlideNext', nextAction);
 
         return () => { 
-            clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); clearTimeout(t4);
+            clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); clearTimeout(t4); clearTimeout(t5); clearTimeout(t6);
             window.removeEventListener('appSlideNext', nextAction);
         };
     }, [isActive]);
@@ -114,62 +116,80 @@ export default function Section6({ isActive }) {
                 <div className="flex flex-col flex-1 max-w-[850px] mt-0 md:-mt-1 lg:-mt-2">
                     
                     {/* Main Quote */}
-                    <div className="overflow-visible">
-                        <p 
-                            className={`text-[14px] md:text-[26px] lg:text-[32px] xl:text-[35px] leading-[1.5] text-[#f4f4f5] font-light transition-all duration-[1500ms] ease-[cubic-bezier(0.19,1,0.22,1)] break-keep ${step >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
-                            style={{ 
-                                fontFamily: "'Guardian Sans', 'Apple SD Gothic Neo', 'Helvetica Neue', sans-serif",
-                                letterSpacing: "-0.01em"
-                            }}
-                        >
-                            {lang === 'kr' ? (
-                                <>
+                    <div className="overflow-visible flex flex-col gap-6 md:gap-10">
+                        {lang === 'kr' ? (
+                            <>
+                                <p 
+                                    className={`text-[14px] md:text-[26px] lg:text-[32px] xl:text-[35px] leading-[1.5] text-[#f4f4f5] font-light transition-all duration-[1500ms] ease-[cubic-bezier(0.19,1,0.22,1)] break-keep ${step >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
+                                    style={{ fontFamily: "'Guardian Sans', 'Apple SD Gothic Neo', 'Helvetica Neue', sans-serif", letterSpacing: "-0.01em" }}
+                                >
                                     “AI 기술은 투자자뿐 아니라 운용사가 보다<br className="hidden md:block" />
                                     정확한 결정을 내릴 수 있도록 지원할 수 있으며<br className="hidden md:block" />
                                     구체적으로 <span className="text-[#fbbf24]">AI가</span> 부동산의 운영 효율성을 높이고,<br className="hidden md:block" />
                                     임차인 만족도를 증가시켜 결국 <span className="text-[#fbbf24]">자산 가치를 극대화<br className="hidden md:block" />
                                     하는 중요한 도구</span>가 될 것이라고 평가하고 있습니다.
-                                    <br /><br />
+                                </p>
+                                <p 
+                                    className={`text-[14px] md:text-[26px] lg:text-[32px] xl:text-[35px] leading-[1.5] text-[#f4f4f5] font-light transition-all duration-[1500ms] ease-[cubic-bezier(0.19,1,0.22,1)] break-keep ${step >= 3 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
+                                    style={{ fontFamily: "'Guardian Sans', 'Apple SD Gothic Neo', 'Helvetica Neue', sans-serif", letterSpacing: "-0.01em" }}
+                                >
                                     다만, AI 툴을 사용하기 위해서는 데이터의 정리가<br className="hidden md:block" />
                                     선행되어야 하는데 아직까지 부동산 업계는 오랜 시간<br className="hidden md:block" />
                                     쌓은 데이터들의 정리가 되지 않고 있습니다.
-                                    <br /><br />
+                                </p>
+                                <p 
+                                    className={`text-[14px] md:text-[26px] lg:text-[32px] xl:text-[35px] leading-[1.5] text-[#f4f4f5] font-light transition-all duration-[1500ms] ease-[cubic-bezier(0.19,1,0.22,1)] break-keep ${step >= 4 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
+                                    style={{ fontFamily: "'Guardian Sans', 'Apple SD Gothic Neo', 'Helvetica Neue', sans-serif", letterSpacing: "-0.01em" }}
+                                >
                                     현재까지 이런 데이터 정리를 하고 있는 회사들은<br className="hidden md:block" />
                                     글로벌 톱 5 정도로 앞으로 부동산 시장에서 <span 
                                         className="inline font-bold text-[#fbbf24]"
                                         style={{
-                                            backgroundImage: 'linear-gradient(transparent 94%, #fbbf24 94%, #fbbf24 100%)',
+                                            backgroundImage: 'linear-gradient(transparent 92%, #fbbf24 92%, #fbbf24 98%, transparent 98%)',
                                             backgroundRepeat: 'no-repeat',
-                                            backgroundSize: step >= 4 ? '100% 100%' : '0% 100%',
+                                            backgroundSize: step >= 6 ? '100% 100%' : '0% 100%',
                                             transition: 'background-size 1.5s cubic-bezier(0.19, 1, 0.22, 1)'
                                         }}
                                     >데이터<br className="hidden md:block" />
                                     정리 및 분석이 가능한 회사들과 그렇지 못한 회사들의<br className="hidden md:block" />
                                     투자는 확연한 차이가 날 수 밖에 없다</span>고 보고 있습니다.”
-                                </>
-                            ) : (
-                                <>
+                                </p>
+                            </>
+                        ) : (
+                            <>
+                                <p 
+                                    className={`text-[14px] md:text-[26px] lg:text-[32px] xl:text-[35px] leading-[1.5] text-[#f4f4f5] font-light transition-all duration-[1500ms] ease-[cubic-bezier(0.19,1,0.22,1)] break-keep ${step >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
+                                    style={{ fontFamily: "'Guardian Sans', 'Apple SD Gothic Neo', 'Helvetica Neue', sans-serif", letterSpacing: "-0.01em" }}
+                                >
                                     “AI technology supports not only investors but also operators in making more accurate decisions, and it is assessed to be a crucial tool for enhancing operational efficiency, increasing tenant satisfaction, and ultimately maximizing asset value.
-                                    <br /><br />
+                                </p>
+                                <p 
+                                    className={`text-[14px] md:text-[26px] lg:text-[32px] xl:text-[35px] leading-[1.5] text-[#f4f4f5] font-light transition-all duration-[1500ms] ease-[cubic-bezier(0.19,1,0.22,1)] break-keep ${step >= 3 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
+                                    style={{ fontFamily: "'Guardian Sans', 'Apple SD Gothic Neo', 'Helvetica Neue', sans-serif", letterSpacing: "-0.01em" }}
+                                >
                                     However, the use of AI tools requires prior data organization, yet the real estate industry still struggles with decades of unorganized data.
-                                    <br /><br />
+                                </p>
+                                <p 
+                                    className={`text-[14px] md:text-[26px] lg:text-[32px] xl:text-[35px] leading-[1.5] text-[#f4f4f5] font-light transition-all duration-[1500ms] ease-[cubic-bezier(0.19,1,0.22,1)] break-keep ${step >= 4 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
+                                    style={{ fontFamily: "'Guardian Sans', 'Apple SD Gothic Neo', 'Helvetica Neue', sans-serif", letterSpacing: "-0.01em" }}
+                                >
                                     Currently, only about the top 5 global firms are undertaking such data structuring, and we anticipate <span 
                                         className="inline"
                                         style={{
-                                            backgroundImage: 'linear-gradient(transparent 90%, #f4f4f5 90%, #f4f4f5 100%)',
+                                            backgroundImage: 'linear-gradient(transparent 92%, #f4f4f5 92%, #f4f4f5 98%, transparent 98%)',
                                             backgroundRepeat: 'no-repeat',
-                                            backgroundSize: step >= 4 ? '100% 100%' : '0% 100%',
+                                            backgroundSize: step >= 6 ? '100% 100%' : '0% 100%',
                                             transition: 'background-size 1.5s cubic-bezier(0.19, 1, 0.22, 1)'
                                         }}
                                     >a stark contrast in future investments between companies capable of data organization and analysis and those that are not</span>.”
-                                </>
-                            )}
-                        </p>
+                                </p>
+                            </>
+                        )}
                     </div>
 
                     {/* Name and Title (Left aligned inner text, aligned to right side of parent box) */}
                     <div 
-                        className={`flex w-full mt-10 md:mt-16 lg:mt-24 transition-all duration-[1500ms] ease-[cubic-bezier(0.19,1,0.22,1)] ${step >= 3 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+                        className={`flex w-full mt-10 md:mt-16 lg:mt-24 transition-all duration-[1500ms] ease-[cubic-bezier(0.19,1,0.22,1)] ${step >= 5 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
                     >
                         <div className="flex flex-col text-left ml-auto w-full md:w-[65%] lg:w-[60%]">
                             <span 
