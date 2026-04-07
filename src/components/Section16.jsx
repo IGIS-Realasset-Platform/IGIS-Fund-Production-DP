@@ -87,7 +87,7 @@ export default function Section16({ isActive }) {
                 </div>
 
                 {/* RIGHT: iPad Image Asset */}
-                <div className={`relative w-full flex justify-end lg:justify-start lg:-ml-[100px] items-center transition-all duration-[1500ms] ease-[cubic-bezier(0.16,1,0.3,1)] transform ${step >= 1 ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-32'}`}>
+                <div className={`relative w-full flex justify-end lg:justify-start lg:-ml-[150px] items-center transition-all duration-[1500ms] ease-[cubic-bezier(0.16,1,0.3,1)] transform ${step >= 1 ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-32'}`}>
                     <img 
                         src={`${import.meta.env.BASE_URL}ipad.jpg`}
                         alt="iPad Dashboard Graphic" 
