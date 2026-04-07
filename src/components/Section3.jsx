@@ -28,7 +28,7 @@ export default function Section3({ isActive }) {
         <section className="section w-full h-full bg-white flex flex-col relative px-6 md:px-12 overflow-y-auto">
             
             {/* 2페이지와 동일하게 좌측 상단 정렬 및 가장 타이트한 기준 유지 */}
-            <div className="w-full max-w-[1000px] mx-auto flex flex-col items-center justify-center text-center font-sans tracking-tight relative z-10 my-auto shrink-0 -translate-y-[40px] md:-translate-y-[50px] gap-0 pt-24 pb-32">
+            <div className="w-full max-w-[1000px] mx-auto flex flex-col items-start justify-center text-left font-sans tracking-tight relative z-10 my-auto shrink-0 -translate-y-[40px] md:-translate-y-[50px] gap-0 pt-24 pb-32">
                 
                 {/* 1. Line 1 (Hero Anchor) */}
                 <div className="overflow-hidden">
@@ -51,7 +51,7 @@ export default function Section3({ isActive }) {
                 </div>
 
                 {/* 3. Line 3 (더블 마진 배치 후 스르륵 상승) */}
-                <div className="overflow-hidden mt-10 md:mt-16">
+                <div className="overflow-hidden mt-12 md:mt-20">
                     <p 
                         className={`text-[33px] md:text-[47px] font-bold text-[#242424] tracking-tight leading-[1.13] whitespace-nowrap transition-all duration-[1200ms] ease-[cubic-bezier(0.19,1,0.22,1)] ${step >= 3 ? 'translate-y-0 opacity-100' : 'translate-y-[120%] opacity-0'}`}
                     >
