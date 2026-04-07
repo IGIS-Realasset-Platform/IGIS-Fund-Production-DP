@@ -30,7 +30,9 @@ export default function Section16({ isActive }) {
                         100% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0); transform: scale(1); }
                     }
                     .text-flow-blue {
-                        color: #0031ea;
+                        background: linear-gradient(90deg, #1e3a8a 0%, #2563eb 100%);
+                        -webkit-background-clip: text;
+                        -webkit-text-fill-color: transparent;
                         font-weight: 800;
                     }
                 `}
