@@ -3,9 +3,13 @@ import Header from './components/Header';
 import MainLayout from './components/MainLayout';
 import { useAnimations } from './hooks/useAnimations';
 import { useLanguage } from './context/LanguageContext';
+import Notes from './components/Notes';
 
 export default function App() {
-  const [currentPage, setCurrentPage] = React.useState('home');
+  const [currentPage, setCurrentPage] = React.useState(() => {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('page') || 'home';
+  });
 
   useAnimations(currentPage);
 
@@ -68,6 +72,7 @@ export default function App() {
         />
 
         {currentPage === 'home' && <MainLayout />}
+        {currentPage === 'notes' && <Notes />}
       </div>
     </>
   );
