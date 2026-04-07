@@ -19,15 +19,16 @@ export default function Section3({ isActive }) {
         const t3 = setTimeout(() => setStep(3), 2000); // 3. AI를 천재로...
         const t4 = setTimeout(() => setStep(4), 2800); // 4. 다름 아닌...
         const t5 = setTimeout(() => setStep(5), 3600); // 5. 밑줄 애니메이션 그리기 
+        const t6 = setTimeout(() => setStep(6), 4800); // 6. 엔터프라이즈 스케일 브릿지 텍스트 
 
-        return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); clearTimeout(t4); clearTimeout(t5); };
+        return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); clearTimeout(t4); clearTimeout(t5); clearTimeout(t6); };
     }, [isActive]);
 
     return (
         <section className="section w-full h-full bg-white flex flex-col relative px-6 md:px-12 overflow-y-auto">
             
             {/* 2페이지와 동일하게 좌측 상단 정렬 및 가장 타이트한 기준 유지 */}
-            <div className="w-full max-w-[1000px] mx-auto flex flex-col items-start justify-center text-left font-sans tracking-tight relative z-10 my-auto -translate-y-[40px] md:-translate-y-[50px] gap-0 pt-24 pb-32">
+            <div className="w-full max-w-[1000px] mx-auto flex flex-col items-start justify-center text-left font-sans tracking-tight relative z-10 my-auto shrink-0 -translate-y-[40px] md:-translate-y-[50px] gap-0 pt-24 pb-32">
                 
                 {/* 1. Line 1 (Hero Anchor) */}
                 <div className="overflow-hidden">
@@ -79,6 +80,25 @@ export default function Section3({ isActive }) {
                             ></span>
                         </span>
                         {lang === 'kr' ? "입니다." : "."}
+                    </p>
+                </div>
+
+                {/* 5. Narrative Bridge to Enterprise Scale */}
+                <div className="overflow-hidden mt-12 md:mt-20 pt-8 border-t border-gray-200">
+                    <p 
+                        className={`text-[20px] md:text-[26px] lg:text-[30px] font-medium text-gray-500 tracking-tight leading-[1.5] transition-all duration-[1200ms] ease-[cubic-bezier(0.19,1,0.22,1)] ${step >= 6 ? 'translate-y-0 opacity-100' : 'translate-y-[100%] opacity-0'}`}
+                    >
+                        {lang === 'kr' ? (
+                            <>
+                                그렇다면, 내 PC 안의 이 <strong className="font-bold text-[#1d1d1f]">'풍부한 실무 데이터'</strong>가 <strong className="font-bold text-[#1d1d1f]">전사(Enterprise) 차원</strong>으로 연결된다면<br className="hidden md:block" />
+                                과연 이 천재적인 AI는 어떤 폭발적인 결과물을 만들어낼까요?
+                            </>
+                        ) : (
+                            <>
+                                Then, if the <strong className="font-bold text-[#1d1d1f]">'rich production data'</strong> inside our PCs is hyper-connected at the <strong className="font-bold text-[#1d1d1f]">enterprise level</strong>,<br className="hidden md:block" />
+                                what explosive results would this genius AI ultimately produce?
+                            </>
+                        )}
                     </p>
                 </div>
 
