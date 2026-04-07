@@ -83,22 +83,24 @@ export default function Section3({ isActive }) {
                     </p>
                 </div>
 
-                {/* 5. Narrative Bridge to Enterprise Scale */}
-                <div className="overflow-hidden mt-12 md:mt-20 pt-8 border-t border-gray-200">
+                {/* 5. Line 5: Narrative Bridge 1 */}
+                <div className="overflow-hidden mt-12 md:mt-20">
                     <p 
-                        className={`text-[20px] md:text-[26px] lg:text-[30px] font-medium text-gray-500 tracking-tight leading-[1.5] transition-all duration-[1200ms] ease-[cubic-bezier(0.19,1,0.22,1)] ${step >= 6 ? 'translate-y-0 opacity-100' : 'translate-y-[100%] opacity-0'}`}
+                        className={`text-[37px] md:text-[51px] font-bold text-[#242424] tracking-tight leading-[1.13] whitespace-nowrap transition-all duration-[1200ms] ease-[cubic-bezier(0.19,1,0.22,1)] ${step >= 6 ? 'translate-y-0 opacity-100' : 'translate-y-[120%] opacity-0'}`}
                     >
-                        {lang === 'kr' ? (
-                            <>
-                                그렇다면, 내 PC 안의 이 <strong className="font-bold text-[#1d1d1f]">'풍부한 실무 데이터'</strong>가 <strong className="font-bold text-[#1d1d1f]">전사(Enterprise) 차원</strong>으로 연결된다면<br className="hidden md:block" />
-                                과연 이 천재적인 AI는 어떤 폭발적인 결과물을 만들어낼까요?
-                            </>
-                        ) : (
-                            <>
-                                Then, if the <strong className="font-bold text-[#1d1d1f]">'rich production data'</strong> inside our PCs is hyper-connected at the <strong className="font-bold text-[#1d1d1f]">enterprise level</strong>,<br className="hidden md:block" />
-                                what explosive results would this genius AI ultimately produce?
-                            </>
-                        )}
+                        {lang === 'kr' ? "이 풍부한 데이터가 " : "When this rich data is connected at the "}
+                        <span className="bg-gradient-to-r from-[#297cf6] to-[#0448d3] text-transparent bg-clip-text font-bold">{lang === 'kr' ? "전사(Enterprise)" : "Enterprise"}</span>
+                        {lang === 'kr' ? " 단위로 연결될 때," : " level,"}
+                    </p>
+                </div>
+                
+                {/* 6. Line 6: Narrative Bridge 2 */}
+                <div className="overflow-hidden mt-1 md:mt-2">
+                    <p 
+                        className={`text-[37px] md:text-[51px] font-bold text-[#242424] tracking-tight leading-[1.13] whitespace-nowrap transition-all duration-[1200ms] ease-[cubic-bezier(0.19,1,0.22,1)] delay-[150ms] ${step >= 6 ? 'translate-y-0 opacity-100' : 'translate-y-[120%] opacity-0'}`}
+                    >
+                        <span className="text-black">AI</span>
+                        {lang === 'kr' ? "는 어떤 폭발적인 결과물을 만들어낼까요?" : " what explosive results will it produce?"}
                     </p>
                 </div>
 
