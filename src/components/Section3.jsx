@@ -18,8 +18,8 @@ export default function Section3({ isActive }) {
         // (살짝 쉬는 공백 - 호흡을 가다듬는 시간)
         const t3 = setTimeout(() => setStep(3), 2000); // 3. AI를 천재로...
         const t4 = setTimeout(() => setStep(4), 2800); // 4. 다름 아닌...
-        const t5 = setTimeout(() => setStep(5), 3600); // 5. 밑줄 애니메이션 그리기 
-        const t6 = setTimeout(() => setStep(6), 4800); // 6. 엔터프라이즈 스케일 브릿지 텍스트 
+        const t5 = setTimeout(() => setStep(5), 3200); // 5. 밑줄 애니메이션 그리기 
+        const t6 = setTimeout(() => setStep(6), 4300); // 6. 엔터프라이즈 스케일 브릿지 텍스트 
 
         return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); clearTimeout(t4); clearTimeout(t5); clearTimeout(t6); };
     }, [isActive]);
