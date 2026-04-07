@@ -138,7 +138,7 @@ export default function Section6({ isActive }) {
                                     글로벌 톱 5 정도로 앞으로 부동산 시장에서 <span 
                                         className="inline font-bold text-[#fbbf24]"
                                         style={{
-                                            backgroundImage: 'linear-gradient(transparent 90%, #fbbf24 90%, #fbbf24 100%)',
+                                            backgroundImage: 'linear-gradient(transparent 94%, #fbbf24 94%, #fbbf24 100%)',
                                             backgroundRepeat: 'no-repeat',
                                             backgroundSize: step >= 4 ? '100% 100%' : '0% 100%',
                                             transition: 'background-size 1.5s cubic-bezier(0.19, 1, 0.22, 1)'
