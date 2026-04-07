@@ -54,12 +54,11 @@ export default function Section12({ isActive }) {
                 </div>
             </div>
 
-            {/* Background Image with Overlay - Underneath the black chapter overlay */}
             <div 
                 className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat z-0 transform transition-transform duration-[40000ms] ease-linear"
                 style={{ 
                     backgroundImage: `url('${import.meta.env.BASE_URL}car.jpg')`,
-                    transform: chapterStep >= 1 ? 'scale(1.15)' : 'scale(1)'
+                    transform: chapterStep >= 1 ? 'scale(1.05)' : 'scale(1)'
                 }}
             />
             {/* Dimming Overlay to ensure text readability (Dims only when text appears to let users enjoy the bright background first) */}
