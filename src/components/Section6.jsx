@@ -21,10 +21,10 @@ export default function Section6({ isActive }) {
         
         const t1 = setTimeout(() => setStep(1), 500); // Image fade in
         const t2 = setTimeout(() => setStep(2), 700); // Quote P1 fade in
-        const t3 = setTimeout(() => setStep(3), 1600); // Quote P2 fade in
-        const t4 = setTimeout(() => setStep(4), 2600); // Quote P3 fade in
-        const t5 = setTimeout(() => setStep(5), 3700); // Name and title fade in
-        const t6 = setTimeout(() => setStep(6), 4400); // Underline highlight
+        const t3 = setTimeout(() => setStep(3), 900); // Quote P2 fade in
+        const t4 = setTimeout(() => setStep(4), 1100); // Quote P3 fade in
+        const t5 = setTimeout(() => setStep(5), 2200); // Name and title fade in
+        const t6 = setTimeout(() => setStep(6), 2700); // Underline highlight
 
         const nextAction = (e) => {
             if (e.type === 'appSlideNext') {
