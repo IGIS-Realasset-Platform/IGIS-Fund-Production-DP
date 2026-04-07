@@ -263,7 +263,7 @@ export default function Section4({ isActive }) {
                         className={`flex flex-col items-center justify-center text-center p-8 transition-transform duration-[800ms] ease-[cubic-bezier(0.19,1,0.22,1)] ${step >= 6 ? 'scale-100 translate-y-0' : 'scale-95 translate-y-12'}`}
                         onClick={(e) => e.stopPropagation()}
                     >
-                        <p className="text-[32px] md:text-[46px] lg:text-[52px] font-bold text-center tracking-tight text-white leading-[1.35] whitespace-nowrap">
+                        <p className="text-[28px] md:text-[42px] lg:text-[48px] font-bold text-center tracking-tight text-white leading-[1.35] whitespace-nowrap">
                             {lang === 'kr' ? (
                                 <>
                                     기획과 데이터만 내재되어 있다면, <br />
