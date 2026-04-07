@@ -113,14 +113,14 @@ export default function Section16({ isActive }) {
                 </FadeInUp>
 
                 <FadeInUp delay={200}>
-                    <div className="w-full h-[2px] bg-[#1d1d1f] mt-[68px] mb-[80px] md:mb-[100px]"></div>
+                    <div className="w-full h-[1px] bg-[#1d1d1f] my-[52px]"></div>
                 </FadeInUp>
 
                 {/* List Section */}
                 <div className="flex flex-col mb-[120px] md:mb-[180px]">
                     {lists.map((item, idx) => (
                         <FadeInUp key={idx} delay={200 + idx * 150}>
-                            <div className="flex flex-col hover:bg-neutral-50 transition-colors duration-500">
+                            <div className="flex flex-col">
                                 <h3 
                                     className="text-[32px] md:text-[40px] leading-[1.2] mb-4 text-[#1d1d1f] tracking-tight font-medium"
                                     style={{ fontFamily: "'Sanomat Wp', 'Sanomat Web', 'Sanomat', sans-serif" }}
