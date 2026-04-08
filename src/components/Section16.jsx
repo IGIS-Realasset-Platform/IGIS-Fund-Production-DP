@@ -169,10 +169,12 @@ export default function Section16({ isActive }) {
                                     className="group flex flex-row items-center w-fit mb-4 cursor-pointer outline-none"
                                 >
                                     <h3 
-                                        className="text-[32px] md:text-[40px] leading-[1.2] text-[#1d1d1f] tracking-tight font-medium group-hover:underline underline-offset-[6px] decoration-1 transition-all duration-300"
+                                        className="text-[32px] md:text-[40px] leading-[1.2] text-[#1d1d1f] tracking-tight font-medium"
                                         style={{ fontFamily: "'Sanomat Wp', 'Sanomat Web', 'Sanomat', sans-serif" }}
                                     >
-                                        {item.title}
+                                        <span className="relative pb-[4px] after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-[2px] after:-bottom-[2px] after:left-0 after:bg-current after:origin-bottom-left after:transition-transform after:duration-300 group-hover:after:scale-x-100">
+                                            {item.title}
+                                        </span>
                                     </h3>
                                     <div className="ml-4 w-[28px] h-[28px] md:w-[32px] md:h-[32px] rounded-full border border-[#1d1d1f] flex shrink-0 items-center justify-center transition-all duration-300 group-hover:translate-x-1 group-hover:bg-[#1d1d1f] group-hover:text-white group-hover:border-transparent text-[#1d1d1f]">
                                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
