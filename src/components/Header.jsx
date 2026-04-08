@@ -29,7 +29,8 @@ export default function Header({ onNavigateToNews, onNavigateToHome, onNavigateT
                 { label: "Context & Moat", id: "page-12" },
                 { label: "Human Layer", id: "page-14" },
                 { label: "Value Accelerator", id: "page-15" },
-                { label: "Executive View", id: "page-16" }
+                { label: "Internal OS Benchmarks", id: "page-16" },
+                { label: "Delegation of Authority", id: "page-17" }
             ] 
         },
         { title: "Inside IFPDP", id: "page-18", items: [] },
@@ -54,7 +55,8 @@ export default function Header({ onNavigateToNews, onNavigateToHome, onNavigateT
                 { label: "Context & Moat", id: "page-12" },
                 { label: "Human Layer", id: "page-14" },
                 { label: "Value Accelerator", id: "page-15" },
-                { label: "Executive View", id: "page-16" }
+                { label: "Internal OS Benchmarks", id: "page-16" },
+                { label: "Delegation of Authority", id: "page-17" }
             ] 
         },
         { title: "Inside IFPDP", id: "page-18", items: [] },
