@@ -76,18 +76,6 @@ export default function Section16({ isActive }) {
         };
     }, [isActive]);
 
-    // Auto-scroll to newly revealed text when step == 1
-    useEffect(() => {
-        if (step === 1 && scrollRef.current) {
-            // slight delay to let the DOM paint the height calculation reliably
-            setTimeout(() => {
-                if (scrollRef.current) {
-                    scrollRef.current.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' });
-                }
-            }, 50);
-        }
-    }, [step]);
-
     const lists = [
         {
             title: "Goldman Sachs",
