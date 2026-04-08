@@ -32,8 +32,8 @@ export default function Header({ onNavigateToNews, onNavigateToHome, onNavigateT
                 { label: "Executive View", id: "page-16" }
             ] 
         },
-        { title: "Inside IFPDP", id: "page-17", items: [] },
-        { title: "Execution Plan", id: "page-18", items: [] }
+        { title: "Inside IFPDP", id: "page-18", items: [] },
+        { title: "Execution Plan", id: "page-19", items: [] }
     ];
 
     const menuDataKr = [
@@ -57,8 +57,8 @@ export default function Header({ onNavigateToNews, onNavigateToHome, onNavigateT
                 { label: "Executive View", id: "page-16" }
             ] 
         },
-        { title: "Inside IFPDP", id: "page-17", items: [] },
-        { title: "Execution Plan", id: "page-18", items: [] }
+        { title: "Inside IFPDP", id: "page-18", items: [] },
+        { title: "Execution Plan", id: "page-19", items: [] }
     ];
 
     const currentMenuData = lang === 'kr' ? menuDataKr : menuDataEn;
@@ -85,9 +85,9 @@ export default function Header({ onNavigateToNews, onNavigateToHome, onNavigateT
     const getActiveNavIndex = () => {
         const pageNum = parseInt(activeHash.replace('#page-', ''), 10) || 1;
         if (pageNum >= 2 && pageNum <= 11) return 0; // The Engine
-        if (pageNum >= 12 && pageNum <= 16) return 1; // The Steering Wheel
-        if (pageNum === 17) return 2; // Inside IFPDP
-        if (pageNum === 18) return 3; // Execution Plan
+        if (pageNum >= 12 && pageNum <= 17) return 1; // The Steering Wheel
+        if (pageNum === 18) return 2; // Inside IFPDP
+        if (pageNum >= 19) return 3; // Execution Plan
         return -1;
     };
     const activeNavIndex = getActiveNavIndex();
