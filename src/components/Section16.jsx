@@ -78,20 +78,6 @@ export default function Section16({ isActive }) {
 
     const lists = [
         {
-            title: "Goldman Sachs",
-            krLine1: "사내 AI 랩을 주축으로 자체 개발한 GS AI Assistant를 전 세계 직원에게 배포.",
-            krLine2: "오피스 업무 시간 30% 이상 단축, 외부 유출을 막기 위해 철저히 내부 보안 규정 결합된 프라이빗 플랫폼 형태 운영.",
-            enLine1: "Distributed their proprietary 'GS AI Assistant', developed by the internal AI lab, to employees worldwide.",
-            enLine2: "Reduced office work time by over 30%, operating as a private platform tightly integrated with internal security regulations to prevent leaks."
-        },
-        {
-            title: "Jones Lang LaSalle",
-            krLine1: "상업용 부동산 전용 AI 플랫폼 JLL Falcon 구축.",
-            krLine2: "수십 년간 축적한 자체 임대, 매각, 운영 데이터를 AI 모델과 결합하여 자사 직원들만 사용할 수 있는 수백 개의 애플리케이션 구동 '엔진'으로 내재화",
-            enLine1: "Built the commercial real estate dedicated AI platform 'JLL Falcon'.",
-            enLine2: "Internalized as an 'engine' capable of running hundreds of applications exclusively for employees, combining decades of proprietary data with AI models."
-        },
-        {
             title: "Brookfield Asset Management",
             krLine1: "전사 통합 컨트롤 타워 AI Value Creation Office 신설.",
             krLine2: "부동산, 인프라, PEF 등 분절된 사업부의 AI 프로젝트 우선순위를 조정하고, 보유 자산의 공간/운영 데이터를 AI 학습용으로 자산화하여 통제.",
@@ -104,6 +90,20 @@ export default function Section16({ isActive }) {
             krLine2: "딜 소싱 및 포트폴리오 관리. 개별 인력에 의존하던 딜 발굴을 데이터 기반의 시스템적 의사결정으로 전환하여 전사 적용 중.",
             enLine1: "Built and operates the in-house AI platform 'Motherbrain'.",
             enLine2: "Deal sourcing and portfolio management. Converted deal finding, previously reliant on individual personnel, into a data-driven systemic decision process enterprise-wide."
+        },
+        {
+            title: "Jones Lang LaSalle",
+            krLine1: "상업용 부동산 전용 AI 플랫폼 JLL Falcon 구축.",
+            krLine2: "수십 년간 축적한 자체 임대, 매각, 운영 데이터를 AI 모델과 결합하여 자사 직원들만 사용할 수 있는 수백 개의 애플리케이션 구동 '엔진'으로 내재화",
+            enLine1: "Built the commercial real estate dedicated AI platform 'JLL Falcon'.",
+            enLine2: "Internalized as an 'engine' capable of running hundreds of applications exclusively for employees, combining decades of proprietary data with AI models."
+        },
+        {
+            title: "Goldman Sachs",
+            krLine1: "사내 AI 랩을 주축으로 자체 개발한 GS AI Assistant를 전 세계 직원에게 배포.",
+            krLine2: "오피스 업무 시간 30% 이상 단축, 외부 유출을 막기 위해 철저히 내부 보안 규정 결합된 프라이빗 플랫폼 형태 운영.",
+            enLine1: "Distributed their proprietary 'GS AI Assistant', developed by the internal AI lab, to employees worldwide.",
+            enLine2: "Reduced office work time by over 30%, operating as a private platform tightly integrated with internal security regulations to prevent leaks."
         }
     ];
 
@@ -197,16 +197,18 @@ export default function Section16({ isActive }) {
                             <>
                                 데이터의 연결과 최적화는 가장 정밀한 <span className="text-[#3b82f6]">'리스크 매니지먼트'</span>이자, 강력한 <span className="text-[#3b82f6]">'자본 조달의 무기'</span>가 됩니다.<br/><br/>
                                 <span className="text-gray-300 font-normal text-[17px] md:text-[22px] lg:text-[26px]">
-                                파편화된 경험을 하나의 데이터 프로토콜로 통합할 때, 우리는 시장의 변동성과 잠재적 위험을 시스템적으로 선제 통제할 수 있습니다.<br/>
-                                낮아진 리스크는 곧 최적의 파이낸싱 금리 확보와 차별화된 우량 자산 매입으로 직결되며, 이지스는 글로벌 선도 기업들과 같이 자본의 한계를 넘어서는 독자적인 운영체제(OS)를 구축해야 합니다.
+                                파편화된 경험을 하나의 프로토콜로 통합할 때, 우리는 시장의 변동성과 잠재적 위험을 시스템으로 선제 통제할 수 있습니다.<br/>
+                                낮아진 리스크는 곧 최적의 파이낸싱 금리 확보와 차별화된 우량 자산 매입으로 직결됩니다.<br/>
+                                내부 데이터의 자산화와 시스템적 리스크 통제 체계(OS) 구축은 시장 지배력을 유지하기 위한 필수 전략입니다.
                                 </span>
                             </>
                         ) : (
                             <>
                                 The connection and optimization of data become the most precise <span className="text-[#3b82f6]">'risk management'</span> and a powerful <span className="text-[#3b82f6]">'weapon for capital sourcing'</span>.<br/><br/>
                                 <span className="text-gray-300 font-normal text-[17px] md:text-[22px] lg:text-[24px]">
-                                When fragmented experiences are integrated into a single data protocol, we can systematically and preemptively control market volatility and potential risks.<br/>
-                                Lowered risk directly translates to securing optimal financing rates and acquiring differentiated prime assets, meaning IGIS, like global leading firms, must build an independent operating system (OS) that transcends the limits of capital.
+                                When fragmented experiences are integrated into a single protocol, we can preemptively control market volatility and potential risks through a system.<br/>
+                                Lowered risk directly translates to securing optimal financing rates and acquiring differentiated prime assets.<br/>
+                                Capitalizing internal data and building a systemic risk control framework (OS) are essential strategies to maintain market dominance.
                                 </span>
                             </>
                         )}
