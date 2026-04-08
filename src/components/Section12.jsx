@@ -38,14 +38,14 @@ export default function Section12({ isActive }) {
             {/* Chapter Intro Overlay - Starts Solid Black First */}
             <div className={`absolute inset-0 z-[100] flex flex-col items-center justify-center bg-black transition-opacity duration-[800ms] ease-out pointer-events-none ${chapterStep <= 1 ? 'opacity-100' : 'opacity-0'}`}>
                 <div 
-                    className={`flex flex-col items-center text-center space-y-4 transition-all ${chapterStep === 0 ? 'opacity-0 blur-sm scale-95 duration-[1000ms] ease-out translate-x-0' : chapterStep === 1 ? 'opacity-100 blur-none scale-100 duration-[1000ms] ease-out translate-x-0' : 'opacity-0 -translate-x-[50vw] duration-[400ms] ease-[cubic-bezier(0.5,0,0.1,1)]'}`}
+                    className={`flex flex-col items-center text-center transition-all ${chapterStep === 0 ? 'opacity-0 blur-sm scale-95 duration-[1000ms] ease-out translate-x-0' : chapterStep === 1 ? 'opacity-100 blur-none scale-100 duration-[1000ms] ease-out translate-x-0' : 'opacity-0 -translate-x-[50vw] duration-[400ms] ease-[cubic-bezier(0.5,0,0.1,1)]'}`}
                     style={{ 
                         fontFamily: "'Sanomat Wp', 'Sanomat Web', 'Sanomat', sans-serif",
                         WebkitFontSmoothing: "antialiased",
                         textRendering: "optimizeLegibility",
                     }}
                 >
-                    <span className="text-[26px] md:text-[46px] text-gray-400 font-light tracking-wide duration-[1000ms] transition-all">
+                    <span className="text-[26px] md:text-[46px] text-gray-400 font-light tracking-wide duration-[1000ms] transition-all mb-[1px]">
                         Chapter 2.
                     </span>
                     <span className="text-[54px] md:text-[74px] text-white font-medium tracking-tight duration-1000 transition-all">
