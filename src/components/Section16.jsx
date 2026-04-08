@@ -78,32 +78,38 @@ export default function Section16({ isActive }) {
 
     const lists = [
         {
+            title: "Goldman Sachs",
+            krLine1: "사내 AI 랩을 주축으로 자체 개발한 GS AI Assistant를 전 세계 직원에게 배포.",
+            krLine2: "오피스 업무 시간 30% 이상 단축, 외부 유출을 막기 위해 철저히 내부 보안 규정 결합된 프라이빗 플랫폼 형태 운영.",
+            krLine3: "\"...하지만 더 중요한 것은 상대적으로 덜 주목받는 부분입니다. 바로 골드만삭스의 독자적인 구조화된 데이터, 즉 레전드 레이어에 저장된 30년 간의 거래 내역, 가격 모델, 위험 매개변수, 거래 상대방 기록 등에 AI 추론 기술을 적용하는 것입니다. 이는 상품화되는 모델 시장에서 결코 모방할 수 없는 자산입니다. 골드만삭스는 모델 주변에 해자를 쌓는 것이 아니라, 데이터 주변에 해자를 쌓고 있는 것입니다.\"",
+            enLine1: "Distributed their proprietary 'GS AI Assistant', developed by the internal AI lab, to employees worldwide.",
+            enLine2: "Reduced office work time by over 30%, operating as a private platform tightly integrated with internal security regulations to prevent leaks.",
+            enLine3: "\"...But what's more important is the relatively less highlighted aspect. It is the application of AI inference technology to Goldman Sachs' proprietary structured data—namely, 30 years of transaction history, pricing models, risk parameters, and counterparty records stored in the Legend layer. This is an asset that can never be replicated in the commoditized model market. Goldman Sachs is not building a moat around models, but building a moat around data.\"",
+            link: "https://bankersmagazine.com/ai-banking/articles/goldman-ai-architecture/"
+        },
+        {
             title: "Brookfield Asset Management",
             krLine1: "전사 통합 컨트롤 타워 AI Value Creation Office 신설.",
             krLine2: "부동산, 인프라, PEF 등 분절된 사업부의 AI 프로젝트 우선순위를 조정하고, 보유 자산의 공간/운영 데이터를 AI 학습용으로 자산화하여 통제.",
             enLine1: "Established the enterprise integrated control tower 'AI Value Creation Office'.",
-            enLine2: "Coordinates AI project priorities across siloed divisions like real estate, infra, and PEF, and controls spatial/operational data of managed assets for AI training."
+            enLine2: "Coordinates AI project priorities across siloed divisions like real estate, infra, and PEF, and controls spatial/operational data of managed assets for AI training.",
+            link: "https://www.brookfield.com/views-news/insights/next-industrials-ai-transformation#driving-results"
         },
         {
             title: "EQT Partners",
             krLine1: "자체 AI 플랫폼 Motherbrain 구축 및 운용.",
             krLine2: "딜 소싱 및 포트폴리오 관리. 개별 인력에 의존하던 딜 발굴을 데이터 기반의 시스템적 의사결정으로 전환하여 전사 적용 중.",
             enLine1: "Built and operates the in-house AI platform 'Motherbrain'.",
-            enLine2: "Deal sourcing and portfolio management. Converted deal finding, previously reliant on individual personnel, into a data-driven systemic decision process enterprise-wide."
+            enLine2: "Deal sourcing and portfolio management. Converted deal finding, previously reliant on individual personnel, into a data-driven systemic decision process enterprise-wide.",
+            link: "https://eqtgroup.com/about/motherbrain"
         },
         {
             title: "Jones Lang LaSalle",
             krLine1: "상업용 부동산 전용 AI 플랫폼 JLL Falcon 구축.",
             krLine2: "수십 년간 축적한 자체 임대, 매각, 운영 데이터를 AI 모델과 결합하여 자사 직원들만 사용할 수 있는 수백 개의 애플리케이션 구동 '엔진'으로 내재화",
             enLine1: "Built the commercial real estate dedicated AI platform 'JLL Falcon'.",
-            enLine2: "Internalized as an 'engine' capable of running hundreds of applications exclusively for employees, combining decades of proprietary data with AI models."
-        },
-        {
-            title: "Goldman Sachs",
-            krLine1: "사내 AI 랩을 주축으로 자체 개발한 GS AI Assistant를 전 세계 직원에게 배포.",
-            krLine2: "오피스 업무 시간 30% 이상 단축, 외부 유출을 막기 위해 철저히 내부 보안 규정 결합된 프라이빗 플랫폼 형태 운영.",
-            enLine1: "Distributed their proprietary 'GS AI Assistant', developed by the internal AI lab, to employees worldwide.",
-            enLine2: "Reduced office work time by over 30%, operating as a private platform tightly integrated with internal security regulations to prevent leaks."
+            enLine2: "Internalized as an 'engine' capable of running hundreds of applications exclusively for employees, combining decades of proprietary data with AI models.",
+            link: "https://www.facebook.com/jll/videos/jll-falcon/1544548580080896/"
         }
     ];
 
@@ -156,18 +162,36 @@ export default function Section16({ isActive }) {
                     {lists.map((item, idx) => (
                         <FadeInUp key={idx} delay={200 + idx * 150}>
                             <div className="flex flex-col">
-                                <h3 
-                                    className="text-[32px] md:text-[40px] leading-[1.2] mb-4 text-[#1d1d1f] tracking-tight font-medium"
-                                    style={{ fontFamily: "'Sanomat Wp', 'Sanomat Web', 'Sanomat', sans-serif" }}
+                                <a 
+                                    href={item.link} 
+                                    target="_blank" 
+                                    rel="noopener noreferrer" 
+                                    className="group flex flex-row items-center w-fit mb-4 cursor-pointer outline-none"
                                 >
-                                    {item.title}
-                                </h3>
+                                    <h3 
+                                        className="text-[32px] md:text-[40px] leading-[1.2] text-[#1d1d1f] tracking-tight font-medium group-hover:underline underline-offset-[6px] decoration-1 transition-all duration-300"
+                                        style={{ fontFamily: "'Sanomat Wp', 'Sanomat Web', 'Sanomat', sans-serif" }}
+                                    >
+                                        {item.title}
+                                    </h3>
+                                    <div className="ml-4 w-[28px] h-[28px] md:w-[32px] md:h-[32px] rounded-full border border-[#1d1d1f] flex shrink-0 items-center justify-center transition-all duration-300 group-hover:translate-x-1 group-hover:bg-[#1d1d1f] group-hover:text-white group-hover:border-transparent text-[#1d1d1f]">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                                            <line x1="4" y1="12" x2="20" y2="12"></line>
+                                            <polyline points="14 6 20 12 14 18"></polyline>
+                                        </svg>
+                                    </div>
+                                </a>
                                 <p className="text-[19px] md:text-[20px] font-normal text-[#555] leading-[1.3] break-keep mb-1">
                                     {lang === 'kr' ? item.krLine1 : item.enLine1}
                                 </p>
                                 <p className="text-[19px] md:text-[20px] font-normal text-[#555] leading-[1.3] break-keep">
                                     {lang === 'kr' ? item.krLine2 : item.enLine2}
                                 </p>
+                                {(item.krLine3 || item.enLine3) && (
+                                    <p className="text-[18px] md:text-[19px] font-medium text-[#333] leading-[1.65] break-keep mt-5 pl-5 border-l-2 border-[#1d1d1f]/40">
+                                        {lang === 'kr' ? item.krLine3 : item.enLine3}
+                                    </p>
+                                )}
                             </div>
                             {idx !== lists.length - 1 && (
                                 <div className="w-full h-[1px] bg-[#1d1d1f] my-[52px]"></div>
