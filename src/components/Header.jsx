@@ -42,21 +42,21 @@ export default function Header({ onNavigateToNews, onNavigateToHome, onNavigateT
             title: "The Engine", 
             id: "page-2", 
             items: [
-                { label: "Data Sovereignty", id: "page-2" },
-                { label: "Cross-Functional Shift", id: "page-6" },
-                { label: "The Engine of IGIS", id: "page-10" },
-                { label: "Global Validation & Advisory", id: "page-11" }
+                { label: "내부 데이터 자산화", id: "page-2" },
+                { label: "Cross-Functional workflow", id: "page-6" },
+                { label: "차세대 운영 엔진", id: "page-10" },
+                { label: "글로벌 전문가 자문/검증", id: "page-11" }
             ] 
         },
         { 
             title: "The Steering Wheel", 
             id: "page-12", 
             items: [
-                { label: "Context & Moat", id: "page-12" },
-                { label: "Human Layer", id: "page-14" },
-                { label: "Value Accelerator", id: "page-15" },
-                { label: "Global OS Benchmarks", id: "page-16" },
-                { label: "Delegation of Authority", id: "page-17" }
+                { label: "독보적 비즈니스 해자 구축", id: "page-12" },
+                { label: "조직적 룰과 거버넌스", id: "page-14" },
+                { label: "가치 창출 가속화", id: "page-15" },
+                { label: "글로벌 선도 운용사 벤치마크", id: "page-16" },
+                { label: "운영 거버넌스 및 의사결정 체계", id: "page-17" }
             ] 
         },
         { title: "Inside IFPDP", id: "page-18", items: [] },
