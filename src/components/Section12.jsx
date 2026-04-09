@@ -45,10 +45,10 @@ export default function Section12({ isActive }) {
                         textRendering: "optimizeLegibility",
                     }}
                 >
-                    <span className="text-[26px] md:text-[46px] text-gray-400 font-light tracking-wide duration-[1000ms] transition-all mb-[1px]">
+                    <span className="text-[22px] md:text-[42px] text-gray-400 font-light tracking-wide duration-[1000ms] transition-all mb-[1px]">
                         Chapter 2.
                     </span>
-                    <span className="text-[54px] md:text-[74px] text-white font-medium tracking-tight duration-1000 transition-all">
+                    <span className="text-[50px] md:text-[70px] text-white font-medium tracking-tight duration-1000 transition-all">
                         The Steering Wheel
                     </span>
                 </div>
