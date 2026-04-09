@@ -72,7 +72,7 @@ export default function App() {
         />
 
         {currentPage === 'home' && <MainLayout />}
-        {currentPage === 'notes' && <Notes />}
+        {currentPage === 'action-plan' && <Notes />}
       </div>
     </>
   );
