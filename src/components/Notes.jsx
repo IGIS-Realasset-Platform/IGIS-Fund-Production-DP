@@ -104,13 +104,19 @@ export default function Notes() {
                             {upperParts.map((part, idx) => {
                                 const lines = part.trim().split('\n');
                                 const title = lines[0];
-                                const body = lines.slice(1).join('\n');
                                 
                                 return (
                                     <div key={`up-${idx}`} className="mb-6">
                                         <h2 className="text-xl font-bold mb-3">{title}</h2>
-                                        <div className="text-base leading-relaxed whitespace-pre-wrap ml-2 text-gray-800">
-                                            {body}
+                                        <div className="ml-2">
+                                            {lines.slice(1).map((line, lIdx) => {
+                                                const isPreamble = idx === 0 && lIdx === 0;
+                                                return (
+                                                    <div key={`uline-${lIdx}`} className={isPreamble ? "text-[18px] font-bold text-black leading-relaxed mb-4 break-keep" : "text-base leading-relaxed whitespace-pre-wrap text-gray-800"}>
+                                                        {line}
+                                                    </div>
+                                                );
+                                            })}
                                         </div>
                                     </div>
                                 );
@@ -135,13 +141,19 @@ export default function Notes() {
                             {aiParts.map((part, idx) => {
                                 const lines = part.trim().split('\n');
                                 const title = lines[0];
-                                const body = lines.slice(1).join('\n');
                                 
                                 return (
                                     <div key={`ai-${idx}`} className="mb-6">
                                         <h2 className="text-xl font-bold mb-3">{title}</h2>
-                                        <div className="text-base leading-relaxed whitespace-pre-wrap ml-2 text-gray-800">
-                                            {body}
+                                        <div className="ml-2">
+                                            {lines.slice(1).map((line, lIdx) => {
+                                                const isPreamble = idx === 0 && lIdx === 0;
+                                                return (
+                                                    <div key={`aline-${lIdx}`} className={isPreamble ? "text-[18px] font-bold text-black leading-relaxed mb-4 break-keep" : "text-base leading-relaxed whitespace-pre-wrap text-gray-800"}>
+                                                        {line}
+                                                    </div>
+                                                );
+                                            })}
                                         </div>
                                     </div>
                                 );
@@ -173,6 +185,33 @@ export default function Notes() {
                                     </div>
                                 );
                             })}
+                        </div>
+                    </div>
+                    
+                    {/* 4. Feedback Validation Box */}
+                    <div className="mt-32 mb-20">
+                        <div className="bg-gray-50 border border-gray-300 p-8 md:p-10 rounded-sm">
+                            <h3 className="text-xl font-bold mb-8 flex items-center gap-2 border-b-2 border-black pb-3 inline-block">
+                                ■ 플랫폼 아키텍처 및 추진 전략 타당성 검토
+                            </h3>
+                            <div className="space-y-6 text-[15.5px] leading-relaxed text-gray-800 break-keep">
+                                <div>
+                                    <strong className="text-lg text-black block mb-1">1. 데이터레이크(Data Lake) 선구축의 정합성</strong>
+                                    AI 모델(LLM 등)의 실질적 성능은 내부 데이터의 정합성과 접근성에 의해 결정된다(RAG 아키텍처 기반). 부서별로 분절된 데이터를 IFPDP라는 단일 데이터레이크로 결합한 후 그 위에 AI를 얹는 본 로드맵은, 무의미한 AI 껍데기 도입을 방지하는 가장 완벽하고 기술적으로 타당한 정석적 접근이다.
+                                </div>
+                                <div>
+                                    <strong className="text-lg text-black block mb-1">2. 멀티모달 롤아웃(Phased Rollout) 전략의 현실성</strong>
+                                    1단계에서 엔터프라이즈(보안 폐쇄형) 모델을 결합해 상위 권한자(PO 이상)를 대상으로 우선 검증하는 방식은 권한 제어와 데이터 오염 리스크를 최소화한다. 초기 검증을 거친 후 2단계(전직원 및 다각화)로 확장하는 로드맵은 전사 도입간 발생할 수 있는 시행착오 비용을 극적으로 낮추는 강력한 구현 플랜이다.
+                                </div>
+                                <div>
+                                    <strong className="text-lg text-black block mb-1">3. 비즈니스 레버리지 극대화 (대외 마케팅)</strong>
+                                    본 플랫폼을 내부 업무 효율화에만 국한하지 않고, 빅테크 기업(OpenAI, 구글 등)과의 'MOU 및 협업'이라는 대외적 메시지로 승화시키는 것은 매우 전략적이다. 이는 외부 투자자(LP) 및 시장에 이지스자산운용의 압도적인 선진화 시스템 구축을 증명하여 기업 신뢰도를 회복시키고, 투입되는 플랫폼 구축 비용을 훨씬 상회하는 기업 가치 상승을 견인할 역량이 있다.
+                                </div>
+                                <div>
+                                    <strong className="text-lg text-black block mb-1">4. 망분리 및 데이터 주권 (Data Privacy)</strong>
+                                    벤더사의 파운데이션 모델 활용 시, 이지스의 핵심 자산 정보(원가, 수익률 등)가 해당 AI의 외부 학습용 데이터로 유출되지 않도록 원천 차단하는 VPC(가상 프라이빗 클라우드) 기반의 API 통신망 및 폐쇄 아키텍처를 전제로 하고 있어 최우선적인 금융 데이터 보안성을 확립하였다.
+                                </div>
+                            </div>
                         </div>
                     </div>
 
