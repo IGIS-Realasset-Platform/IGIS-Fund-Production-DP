@@ -314,13 +314,7 @@ export default function Header({ onNavigateToNews, onNavigateToHome, onNavigateT
                 style={{ transform: initialTransform.current, width: 'calc(100vw - var(--scrollbar-width, 0px))' }}>
                 <div className="w-[calc(100%-48px)] md:w-[calc(100%-100px)] max-w-[1600px] mx-auto flex justify-between items-center transition-all duration-300">
                     <a href="#page-1"
-                        onClick={(e) => {
-                            if (window.location.hash === '#page-1') {
-                                // If already on page 1, we still want to trigger any internal resets if necessary,
-                                // but for slide continuity simply forcing the hash works perfectly.
-                                return;
-                            }
-                        }}
+                        onClick={(e) => handleScrollTo(e, 'page-1')}
                         className="text-xl font-bold tracking-normal cursor-pointer hover:opacity-80 transition-opacity">
                         IFPDP
                     </a>
