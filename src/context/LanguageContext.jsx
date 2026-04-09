@@ -4,10 +4,15 @@ const LanguageContext = createContext();
 
 export function LanguageProvider({ children }) {
     const [lang, setLang] = useState(() => {
+        if (typeof window !== 'undefined') {
+            const storedLang = localStorage.getItem('ifpdp_lang');
+            if (storedLang === 'en' || storedLang === 'kr') return storedLang;
+        }
+
         // 1. URL 파라미터 확인 (?lang=en 또는 #page-11?lang=en 지원)
         const params = new URLSearchParams(window.location.search);
-        if (params.get('lang') === 'en' || window.location.hash.includes('lang=en')) return 'en';
-        if (params.get('lang') === 'kr' || window.location.hash.includes('lang=kr')) return 'kr';
+        if (params.get('lang') === 'en' || window.location.href.includes('lang=en')) return 'en';
+        if (params.get('lang') === 'kr' || window.location.href.includes('lang=kr')) return 'kr';
         
         // 2. 브라우저 언어 자동 감지 (한국어가 아니면 자동으로 영문 적용)
         if (typeof navigator !== 'undefined' && navigator.language) {
@@ -20,6 +25,10 @@ export function LanguageProvider({ children }) {
 
     // Utility to toggle font styles globally or optionally use state in components
     useEffect(() => {
+        if (typeof window !== 'undefined') {
+            localStorage.setItem('ifpdp_lang', lang);
+        }
+
         document.documentElement.lang = lang;
 
         const krTargetTexts = document.querySelectorAll(".kr-target-text");
