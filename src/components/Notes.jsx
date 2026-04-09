@@ -88,92 +88,96 @@ AI 모델을 다양하게 끼울수 있는 환경 구성
     return (
         <div className="w-full h-screen overflow-y-auto pb-[200px] bg-white font-sans text-black flex flex-col items-center">
             
-            {/* Dedicated 1100px Container */}
-            <div className="w-[calc(100%-48px)] max-w-[1100px] mt-24 md:mt-32">
+            {/* Header Width Sync Container (Matches Header Edge exactly) */}
+            <div className="w-[calc(100%-48px)] md:w-[calc(100%-100px)] max-w-[1600px] mt-24 md:mt-32">
                 
-                {/* 1. AI Section */}
-                <div className="mb-20">
-                    <h1 className="text-2xl md:text-3xl font-bold mb-2 border-b-2 border-black pb-4 inline-block tracking-tight">
-                        AI의 도입 계획
-                    </h1>
-                    <p className="text-md text-gray-500 font-medium mb-6 tracking-tight">2026.04.09 기획추진센터 합의 完</p>
-                    <p className="text-[17px] font-bold mb-10 text-[#2563eb] break-keep leading-relaxed border-l-4 border-[#2563eb] py-1 pl-5">
-                        본 IFPDP 플랫폼은 기본적으로 리얼에셋의 데이터레이크를 구성하고, 그 위에 성능 좋은 AI모델을 자유롭게 태워 AI 플랫폼으로써 궁극적 기능을 수행한다.
-                    </p>
+                {/* 1100px Left Aligned Reading Width */}
+                <div className="w-full max-w-[1100px]">
                     
-                    <div className="space-y-8">
-                        {aiParts.map((part, idx) => {
-                            const lines = part.trim().split('\n');
-                            const title = lines[0];
-                            const body = lines.slice(1).join('\n');
-                            
-                            return (
-                                <div key={`ai-${idx}`} className="mb-6">
-                                    <h2 className="text-xl font-bold mb-3">{title}</h2>
-                                    <div className="text-base leading-relaxed whitespace-pre-wrap ml-2 text-gray-800">
-                                        {body}
+                    {/* 1. AI Section */}
+                    <div className="mb-20">
+                        <h1 className="text-2xl md:text-3xl font-bold mb-2 pb-4 inline-block tracking-tight">
+                            AI의 도입 계획
+                        </h1>
+                        <p className="text-md text-gray-500 font-medium mb-6 tracking-tight">2026.04.09 기획추진센터 합의 完</p>
+                        <p className="text-[17px] font-bold mb-10 text-gray-800 break-keep leading-relaxed mt-4">
+                            본 IFPDP 플랫폼은 기본적으로 리얼에셋의 데이터레이크를 구성하고, 그 위에 성능 좋은 AI모델을 자유롭게 태워 AI 플랫폼으로써 궁극적 기능을 수행한다.
+                        </p>
+                        
+                        <div className="space-y-8">
+                            {aiParts.map((part, idx) => {
+                                const lines = part.trim().split('\n');
+                                const title = lines[0];
+                                const body = lines.slice(1).join('\n');
+                                
+                                return (
+                                    <div key={`ai-${idx}`} className="mb-6">
+                                        <h2 className="text-xl font-bold mb-3">{title}</h2>
+                                        <div className="text-base leading-relaxed whitespace-pre-wrap ml-2 text-gray-800">
+                                            {body}
+                                        </div>
                                     </div>
-                                </div>
-                            );
-                        })}
+                                );
+                            })}
+                        </div>
                     </div>
-                </div>
 
-                {/* Solid Complete Divider */}
-                <hr className="border-t-[3px] border-black my-20" />
+                    {/* Solid Complete Divider */}
+                    <hr className="border-t-[3px] border-black my-20" />
 
-                {/* 2. Mission Setup Section */}
-                <div className="mb-20">
-                    <h1 className="text-2xl md:text-3xl font-bold mb-2 border-b-2 border-black pb-4 inline-block tracking-tight">
-                        IFPDP 미션화 및 데이터 취합/활용 방법론
-                    </h1>
-                    <p className="text-md text-gray-500 font-medium mb-10 tracking-tight">2026.04.09 기획추진센터 합의 完</p>
-                    
-                    <div className="space-y-8">
-                        {upperParts.map((part, idx) => {
-                            const lines = part.trim().split('\n');
-                            const title = lines[0];
-                            const body = lines.slice(1).join('\n');
-                            
-                            return (
-                                <div key={`up-${idx}`} className="mb-6">
-                                    <h2 className="text-xl font-bold mb-3">{title}</h2>
-                                    <div className="text-base leading-relaxed whitespace-pre-wrap ml-2 text-gray-800">
-                                        {body}
+                    {/* 2. Mission Setup Section */}
+                    <div className="mb-20">
+                        <h1 className="text-2xl md:text-3xl font-bold mb-2 pb-4 inline-block tracking-tight">
+                            IFPDP 미션화 및 데이터 취합/활용 방법론
+                        </h1>
+                        <p className="text-md text-gray-500 font-medium mb-10 tracking-tight">2026.04.09 기획추진센터 합의 完</p>
+                        
+                        <div className="space-y-8">
+                            {upperParts.map((part, idx) => {
+                                const lines = part.trim().split('\n');
+                                const title = lines[0];
+                                const body = lines.slice(1).join('\n');
+                                
+                                return (
+                                    <div key={`up-${idx}`} className="mb-6">
+                                        <h2 className="text-xl font-bold mb-3">{title}</h2>
+                                        <div className="text-base leading-relaxed whitespace-pre-wrap ml-2 text-gray-800">
+                                            {body}
+                                        </div>
                                     </div>
-                                </div>
-                            );
-                        })}
+                                );
+                            })}
+                        </div>
                     </div>
-                </div>
 
-                {/* Solid Complete Divider */}
-                <hr className="border-t-[3px] border-black my-20" />
+                    {/* Solid Complete Divider */}
+                    <hr className="border-t-[3px] border-black my-20" />
 
-                {/* 3. Original Requirements Section */}
-                <div>
-                    <h1 className="text-2xl md:text-3xl font-bold mb-10 border-b-2 border-black pb-4 inline-block tracking-tight">
-                        IFPDP_데이터 취합 주요 고려사항 <span className="text-lg font-normal text-gray-500">(2026.04.06 ver)</span>
-                    </h1>
-                    
-                    <div className="space-y-8">
-                        {lowerParts.map((part, idx) => {
-                            const lines = part.trim().split('\n');
-                            const title = lines[0];
-                            const body = lines.slice(1).join('\n');
-                            
-                            return (
-                                <div key={`low-${idx}`} className="mb-6">
-                                    <h2 className="text-xl font-bold mb-3">{title}</h2>
-                                    <div className="text-base leading-relaxed whitespace-pre-wrap ml-2 text-gray-800">
-                                        {body}
+                    {/* 3. Original Requirements Section */}
+                    <div>
+                        <h1 className="text-2xl md:text-3xl font-bold mb-10 pb-4 inline-block tracking-tight">
+                            IFPDP_데이터 취합 주요 고려사항 <span className="text-lg font-normal text-gray-500">(2026.04.06 ver)</span>
+                        </h1>
+                        
+                        <div className="space-y-8">
+                            {lowerParts.map((part, idx) => {
+                                const lines = part.trim().split('\n');
+                                const title = lines[0];
+                                const body = lines.slice(1).join('\n');
+                                
+                                return (
+                                    <div key={`low-${idx}`} className="mb-6">
+                                        <h2 className="text-xl font-bold mb-3">{title}</h2>
+                                        <div className="text-base leading-relaxed whitespace-pre-wrap ml-2 text-gray-800">
+                                            {body}
+                                        </div>
                                     </div>
-                                </div>
-                            );
-                        })}
+                                );
+                            })}
+                        </div>
                     </div>
-                </div>
 
+                </div>
             </div>
         </div>
     );
