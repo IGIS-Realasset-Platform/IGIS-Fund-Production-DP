@@ -425,7 +425,7 @@ export default function Header({ onNavigateToNews, onNavigateToHome, onNavigateT
                                         <button onClick={() => setModalType('terms')} className="cursor-pointer hover:text-black transition-colors">
                                             {lang === 'kr' ? "이용약관" : "Terms of Service"}
                                         </button>
-                                        <a href="?page=action-plan" className="cursor-pointer hover:text-black transition-colors mt-auto">
+                                        <a href="?page=action-plan" className="cursor-pointer hover:text-black transition-colors mt-auto font-normal text-[13px] md:text-[14px]">
                                             Action plan (initial)
                                         </a>
                                     </div>
@@ -533,7 +533,7 @@ export default function Header({ onNavigateToNews, onNavigateToHome, onNavigateT
                         <button onClick={() => { setModalType('terms'); setMobileMenuOpen(false); }} className="text-[15px] font-bold text-gray-500 hover:text-black cursor-pointer transition-colors">
                             {lang === 'kr' ? "이용약관" : "Terms of Service"}
                         </button>
-                        <a href="?page=action-plan" className="text-[15px] font-bold text-gray-500 hover:text-black cursor-pointer transition-colors mt-2">
+                        <a href="?page=action-plan" className="text-[16px] font-normal text-gray-500 hover:text-black cursor-pointer transition-colors mt-2">
                             Action plan (initial)
                         </a>
                     </div>
