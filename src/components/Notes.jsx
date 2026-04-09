@@ -191,8 +191,8 @@ export default function Notes() {
                     {/* 4. Feedback Validation Box */}
                     <div className="mt-32 mb-20">
                         <div className="bg-gray-50 border border-gray-300 p-8 md:p-10 rounded-sm">
-                            <h3 className="text-xl font-bold mb-8 flex items-center gap-2 border-b-2 border-black pb-3 inline-block">
-                                ■ 플랫폼 아키텍처 및 추진 전략 타당성 검토
+                            <h3 className="text-[24px] font-bold mb-8 flex items-center gap-2">
+                                플랫폼 아키텍처 및 추진 전략 타당성 검토
                             </h3>
                             <div className="space-y-6 text-[15.5px] leading-relaxed text-gray-800 break-keep">
                                 <div>
