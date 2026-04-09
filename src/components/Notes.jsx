@@ -22,25 +22,7 @@ export default function Notes() {
     ㄴ 최종 상세페이지에는, 모든 부서에서 취합된 정보가 담기고, 이 페이지는 최고 권한자만 열람할 수 있게 한다. 
     ㄴ 사용자 권한 설정 (데이터 열람 권한 부여, 읽기/쓰기 권한 부여)
 
-4. 데이터 취합의 방법론 
-- 각각의 부서간 조직장 및 실무자와 협의/합의하여 최초 등록할 프로젝트/자산에 대해 설정하고, 그들과 긴밀하게 협력하여 최초 데이터셋을 구축한다.  
-- 예상 데이터 구축 협업 부서와 실무자 
-   ㄴ 기업마케팅센터 (고아라/김민지)
-   ㄴ 투자그룹 (신용우/송기석/홍봉석)
-   ㄴ 글로벌투자그룹 (미정)
-   ㄴ 스페셜시츄에이션그룹 (미정)
-   ㄴ 사업그룹 (이수정/강순용)
-   ㄴ 디지털사업그룹 (미정/홍창의)
-   ㄴ 개발솔루션 (김대익/미정)
-   ㄴ 관리/운영 (미정)
-   ㄴ 글로벌자산관리 (미정)
-   ㄴ 리빙그룹 (미정)
-   ㄴ 리테일솔루션센터 (미정)
-   ㄴ LFC (미정)
-   ㄴ 공간솔루션센터 (미정)
-   ㄴ CM (미정)
-
-5. 플랫폼 서비스 (맥락) 구축의 방법론 
+4. 플랫폼 서비스 (맥락) 구축의 방법론 
 - 스키마 유연화 : 전체 풀셑 항목을 만드는데 너무 집중하지 말고 지속적으로 바꿔가며 업데이트 한다. (AI 덕분에 항목을 바꾸고 업데이트 하는 비용이 기하급수적으로 자유로워졌기 때문이다.)
 - AI 트리거용 맥락데이터 : 가장 중요한 것은, AI에게 어떤 상태값(이슈)일때 어떻게 대응하는지에 대한 맥락 데이터셋을 구성하고 지속 업데이트 하는 것이다. 
    ㄴ e.g.1. 전력 인입 단계에서 주의해야 할것. (예비수전-본수전-계약수전 으로 나뉘어지는데, 예비수전은 그냥 있냐고 물어보는 수준이며 금방 날라갈 수 있음. 이제는 전기가 없음. 옛날에는 신청하면 다 줬지만 지금은 아예 불가능. 예비수전 후 본수전 바로 신청 필요 & 전력은 홍장군 센터장님에게 모든 정보/커뮤니케이션 조율할 수 있도록 바로 공유 필요)
@@ -52,26 +34,30 @@ export default function Notes() {
     const parts = rawText.split(/(?=\n\d\.\s)/g);
 
     return (
-        <div className="w-full h-screen overflow-y-auto pb-[200px] bg-white p-6 md:p-12 pt-28 font-sans text-black">
-            <h1 className="text-2xl font-bold mb-10 border-b border-black pb-4 inline-block mt-10">
-                IFPDP_데이터 취합 주요 고려사항
-            </h1>
+        <div className="w-full h-screen overflow-y-auto pb-[200px] bg-white font-sans text-black flex flex-col items-center">
             
-            <div className="space-y-8">
-                {parts.map((part, idx) => {
-                    const lines = part.trim().split('\n');
-                    const title = lines[0];
-                    const body = lines.slice(1).join('\n');
-                    
-                    return (
-                        <div key={idx} className="mb-6">
-                            <h2 className="text-xl font-bold mb-3">{title}</h2>
-                            <div className="text-base leading-relaxed whitespace-pre-wrap ml-2">
-                                {body}
+            {/* Header Width Sync Container */}
+            <div className="w-[calc(100%-48px)] md:w-[calc(100%-100px)] max-w-[1600px] mt-24 md:mt-32">
+                <h1 className="text-2xl font-bold mb-10 border-b border-black pb-4 inline-block">
+                    IFPDP_데이터 취합 주요 고려사항
+                </h1>
+                
+                <div className="space-y-8">
+                    {parts.map((part, idx) => {
+                        const lines = part.trim().split('\n');
+                        const title = lines[0];
+                        const body = lines.slice(1).join('\n');
+                        
+                        return (
+                            <div key={idx} className="mb-6">
+                                <h2 className="text-xl font-bold mb-3">{title}</h2>
+                                <div className="text-base leading-relaxed whitespace-pre-wrap ml-2">
+                                    {body}
+                                </div>
                             </div>
-                        </div>
-                    );
-                })}
+                        );
+                    })}
+                </div>
             </div>
         </div>
     );
