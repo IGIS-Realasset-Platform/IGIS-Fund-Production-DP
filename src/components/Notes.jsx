@@ -175,7 +175,7 @@ To efficiently accomplish enterprise-wide data collection, it is elevated from a
                             {lang === 'en' ? 'IFPDP Mission Execution & Data Collection Methodology' : 'IFPDP 미션화 및 데이터 취합/활용 방법론'}
                         </h1>
                         <p className="text-md text-gray-500 font-medium mb-10 tracking-tight">
-                            {lang === 'en' ? 'April 9, 2026 - Planning Promotion Center Consensus Complete' : '2026.04.09 기획추진센터 컨센서스 完'}
+                            {lang === 'en' ? 'April 9, 2026 - Planning Promotion Center Consensus Complete' : '2026.04.09 기획추진센터 컨센서스 ver.'}
                         </p>
                         
                         <div className="space-y-8">
@@ -212,7 +212,7 @@ To efficiently accomplish enterprise-wide data collection, it is elevated from a
                             {lang === 'en' ? 'AI Introduction Plan' : 'AI의 도입 계획'}
                         </h1>
                         <p className="text-md text-gray-500 font-medium mb-6 tracking-tight">
-                            {lang === 'en' ? 'April 9, 2026 - Planning Promotion Center Consensus Complete' : '2026.04.09 기획추진센터 컨센서스 完'}
+                            {lang === 'en' ? 'April 9, 2026 - Planning Promotion Center Consensus Complete' : '2026.04.09 기획추진센터 컨센서스 ver.'}
                         </p>
                         <p className="text-[17px] font-bold mb-10 text-gray-800 break-keep leading-relaxed mt-4">
                             {lang === 'en' ? 'The IFPDP platform fundamentally constructs a data lake of real assets, freely mounting high-performance AI models on top to fulfill its ultimate role as an AI platform.' : '본 IFPDP 플랫폼은 기본적으로 리얼에셋의 데이터레이크를 구성하고, 그 위에 성능 좋은 AI모델을 자유롭게 태워 AI 플랫폼으로써 정통적/궁극적 기능을 수행한다.'}
