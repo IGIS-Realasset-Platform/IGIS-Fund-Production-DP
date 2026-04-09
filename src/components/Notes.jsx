@@ -33,8 +33,20 @@ export default function Notes() {
     // Regex to split by numbered headers
     const lowerParts = rawText.split(/(?=\n\d\.\s)/g);
 
+    const aiText = `1. 1단계
+특정 AI사와 협업, 이지스의 AI플랫폼을 (예. OpenAI)와 함께 구축하는 방향을 설정하고 그들과 MOU 및 계약하, 이를 활용하여 이지스의 선진화 시스템 도입 및 신뢰도 회복에 도움이 되는 대외마케팅 진행.
+실제 초기 모델 구축에 될수있는한 컨설팅 받는다.
+- AI사 후보 및 모델 : 오픈AI, 구글, 클로드 / LLM
+- 단일 AI모델을 태운 엔터프라이즈 오픈클로 형태가 된다.
+- 사용자 : PO 이상 + 각 부서의 데이터입력 담당자
+
+2. 2단계
+AI 모델을 다양하게 끼울수 있는 환경 구성
+- AI사 후보 및 모델 : 오픈AI, 구글, 클로드 +a / 멀티모달
+- 사용자 : 전직원 확대 (사용권한 및 접속 환경 세분화)`;
+
     const upperText = `1. 미션 수행의 목적
-전사적 데이터 취합을 효율적으로 완수하기 위해, 이를 단순 부서 업무가 아닌 '리얼에셋 부문(이철승 대표이사)의 전사 핵심 미션'으로 격상하여 추진합니다. 각 조직별 핵심 인력을 공식 미션 수행원으로 지정해 강력한 크로스펑셔널(Cross-functional) 협업 체계를 구축하며, 참여자들에게 명확한 동기부여와 실질적인 OKR 평가 성과를 부여하는 것을 최우선 목적으로 합니다.
+전사적 데이터 취합을 효율적으로 완수하기 위해, 이를 단순 부서 업무가 아닌 '리얼에셋 부문(이철승 대표이사 지시)의 전사 핵심 미션'으로 격상하여 추진한다. 각 조직별 핵심 인력을 공식 미션 수행원으로 지정해 강력한 크로스펑셔널(Cross-functional) 협업 체계를 구축하며, 참여자들에게 명확한 동기부여와 실질적인 OKR 평가 성과를 부여하는 것을 최우선 목적으로 한다.
 
 2. 내부 데이터의 취합
 1) 이미 기획추진센터 노션에 취합된 데이터
@@ -70,17 +82,49 @@ export default function Notes() {
 - 글로벌 마켓과 섹터 : 프리퀸, PMA 등
 - 글로벌 정량데이터 : RCA`;
 
+    const aiParts = aiText.split(/(?=\n\d\.\s)/g);
     const upperParts = upperText.split(/(?=\n\d\.\s)/g);
 
     return (
         <div className="w-full h-screen overflow-y-auto pb-[200px] bg-white font-sans text-black flex flex-col items-center">
             
-            {/* Header Width Sync Container */}
-            <div className="w-[calc(100%-48px)] md:w-[calc(100%-100px)] max-w-[1600px] mt-24 md:mt-32">
+            {/* Dedicated 1100px Container */}
+            <div className="w-[calc(100%-48px)] max-w-[1100px] mt-24 md:mt-32">
                 
-                {/* Upper Section (Newest) */}
+                {/* 1. AI Section */}
                 <div className="mb-20">
-                    <h1 className="text-2xl md:text-3xl font-bold mb-2 border-b-2 border-black pb-4 inline-block">
+                    <h1 className="text-2xl md:text-3xl font-bold mb-2 border-b-2 border-black pb-4 inline-block tracking-tight">
+                        AI의 도입 계획
+                    </h1>
+                    <p className="text-md text-gray-500 font-medium mb-6 tracking-tight">2026.04.09 기획추진센터 합의 完</p>
+                    <p className="text-[17px] font-bold mb-10 text-[#2563eb] break-keep leading-relaxed border-l-4 border-[#2563eb] py-1 pl-5">
+                        본 IFPDP 플랫폼은 기본적으로 리얼에셋의 데이터레이크를 구성하고, 그 위에 성능 좋은 AI모델을 자유롭게 태워 AI 플랫폼으로써 궁극적 기능을 수행한다.
+                    </p>
+                    
+                    <div className="space-y-8">
+                        {aiParts.map((part, idx) => {
+                            const lines = part.trim().split('\n');
+                            const title = lines[0];
+                            const body = lines.slice(1).join('\n');
+                            
+                            return (
+                                <div key={`ai-${idx}`} className="mb-6">
+                                    <h2 className="text-xl font-bold mb-3">{title}</h2>
+                                    <div className="text-base leading-relaxed whitespace-pre-wrap ml-2 text-gray-800">
+                                        {body}
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+                </div>
+
+                {/* Solid Complete Divider */}
+                <hr className="border-t-[3px] border-black my-20" />
+
+                {/* 2. Mission Setup Section */}
+                <div className="mb-20">
+                    <h1 className="text-2xl md:text-3xl font-bold mb-2 border-b-2 border-black pb-4 inline-block tracking-tight">
                         IFPDP 미션화 및 데이터 취합/활용 방법론
                     </h1>
                     <p className="text-md text-gray-500 font-medium mb-10 tracking-tight">2026.04.09 기획추진센터 합의 完</p>
@@ -103,16 +147,12 @@ export default function Notes() {
                     </div>
                 </div>
 
-                {/* Divider */}
-                <div className="w-full h-[1px] bg-gray-300 mb-20 relative">
-                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white px-4 text-gray-400 text-sm font-medium tracking-widest">
-                        PREVIOUS LOGS
-                    </div>
-                </div>
+                {/* Solid Complete Divider */}
+                <hr className="border-t-[3px] border-black my-20" />
 
-                {/* Lower Section (Older Version) */}
-                <div className="opacity-80">
-                    <h1 className="text-2xl font-bold mb-10 border-b border-gray-400 pb-4 inline-block text-gray-600">
+                {/* 3. Original Requirements Section */}
+                <div>
+                    <h1 className="text-2xl md:text-3xl font-bold mb-10 border-b-2 border-black pb-4 inline-block tracking-tight">
                         IFPDP_데이터 취합 주요 고려사항 <span className="text-lg font-normal text-gray-500">(2026.04.06 ver)</span>
                     </h1>
                     
@@ -124,8 +164,8 @@ export default function Notes() {
                             
                             return (
                                 <div key={`low-${idx}`} className="mb-6">
-                                    <h2 className="text-lg font-bold mb-3 text-gray-600">{title}</h2>
-                                    <div className="text-base leading-relaxed whitespace-pre-wrap ml-2 text-gray-500">
+                                    <h2 className="text-xl font-bold mb-3">{title}</h2>
+                                    <div className="text-base leading-relaxed whitespace-pre-wrap ml-2 text-gray-800">
                                         {body}
                                     </div>
                                 </div>
