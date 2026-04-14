@@ -1,19 +1,18 @@
 import React, { useEffect, useRef } from 'react';
 
 export default function SystemRightRAG() {
-    const endRef = useRef(null);
+    const scrollContainerRef = useRef(null);
 
     useEffect(() => {
-        if (endRef.current) {
-            // Scroll to bottom so content isn't hidden under the fixed input area on small screens
-            endRef.current.scrollIntoView({ behavior: 'auto', block: 'end' });
+        if (scrollContainerRef.current) {
+            scrollContainerRef.current.scrollTop = scrollContainerRef.current.scrollHeight;
         }
     }, []);
     return (
         <div className="w-[520px] h-full bg-[#fbfbfd] dark:bg-transparent flex flex-col flex-shrink-0 relative font-sans text-[#1D1D1F] dark:text-[#E5E5E5] transition-colors duration-300">
             
             {/* Chat Content */}
-            <div className="flex-1 overflow-y-auto px-[38px] pt-[36px] pb-[180px] hide-scrollbar flex flex-col">
+            <div ref={scrollContainerRef} className="flex-1 overflow-y-auto px-[38px] pt-[36px] pb-[180px] hide-scrollbar flex flex-col scroll-smooth">
                 
                 {/* User Bubble */}
                 <div className="flex justify-end mb-[38px] mt-2">
@@ -71,10 +70,6 @@ export default function SystemRightRAG() {
                             진행 중인 신규 자산 파이프라인 모두 보기
                         </button>
                 </div>
-                </div>
-
-                {/* Auto-scroll Anchor */}
-                <div ref={endRef} className="w-full h-1" />
             </div>
 
             {/* Bottom Input Area */}

@@ -41,7 +41,8 @@
         
         // FOUC (Flash of Unstyled Content) Prevention for Dark Mode
         try {
-            if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            const theme = localStorage.getItem('theme');
+            if (theme === 'dark' || !theme) {
                 document.documentElement.classList.add('dark');
             } else {
                 document.documentElement.classList.remove('dark');

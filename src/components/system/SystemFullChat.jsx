@@ -26,7 +26,7 @@ export default function SystemFullChat({ onShowContent }) {
     const [buttonActive, setButtonActive] = useState(false);
     const [hasTriggeredClick, setHasTriggeredClick] = useState(false);
     const btnRef = useRef(null);
-    const messagesEndRef = useRef(null);
+    const scrollContainerRef = useRef(null);
 
     const totalHtmlLength = linesData.reduce((acc, curr) => acc + curr.text.length, 0);
 
@@ -46,8 +46,8 @@ export default function SystemFullChat({ onShowContent }) {
     }, [totalHtmlLength]);
 
     useEffect(() => {
-        if (messagesEndRef.current) {
-            messagesEndRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
+        if (scrollContainerRef.current) {
+            scrollContainerRef.current.scrollTop = scrollContainerRef.current.scrollHeight;
         }
     }, [visibleChars]);
 
@@ -164,7 +164,7 @@ export default function SystemFullChat({ onShowContent }) {
             <VirtualMouse isVisible={mouseVisible} style={mousePos} />
 
             {/* Scrollable Chat Area */}
-            <div className="flex-1 overflow-y-auto w-full hide-scrollbar flex flex-col items-center pt-10 pb-[180px]">
+            <div ref={scrollContainerRef} className="flex-1 overflow-y-auto w-full hide-scrollbar flex flex-col items-center pt-10 pb-[180px] scroll-smooth">
                 <div className="w-full max-w-[850px] flex flex-col px-6">
                     
                     {/* User Message */}
@@ -200,10 +200,6 @@ export default function SystemFullChat({ onShowContent }) {
                                 진행 중인 신규 자산 파이프라인 모두 보기
                             </button>
                         </div>
-
-                        {/* Anchor for auto-scroll */}
-                        <div ref={messagesEndRef} className="h-1 w-full" />
-
                     </div>
                 </div>
             </div>
