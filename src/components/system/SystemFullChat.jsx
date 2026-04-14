@@ -45,6 +45,8 @@ export default function SystemFullChat({ onShowContent }) {
         return () => clearInterval(interval);
     }, [totalHtmlLength]);
 
+    const isTypingComplete = visibleChars >= totalHtmlLength;
+
     useEffect(() => {
         if (!scrollContainerRef.current) return;
         
@@ -65,8 +67,6 @@ export default function SystemFullChat({ onShowContent }) {
         }
         
     }, [visibleChars, isTypingComplete]);
-
-    const isTypingComplete = visibleChars >= totalHtmlLength;
 
     const handleScreenClick = () => {
         if (isTypingComplete && !hasTriggeredClick) {
