@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function SystemRightRAG() {
     return (
-        <div className="w-[520px] h-full bg-[#fbfbfd] dark:bg-transparent border-l border-black/5 dark:border-[#2C2C2E] flex flex-col flex-shrink-0 relative font-sans text-[#1D1D1F] dark:text-[#E5E5E5] transition-colors duration-300">
+        <div className="w-[520px] h-full bg-[#fbfbfd] dark:bg-transparent flex flex-col flex-shrink-0 relative font-sans text-[#1D1D1F] dark:text-[#E5E5E5] transition-colors duration-300">
             
             {/* Chat Content */}
             <div className="flex-1 overflow-y-auto px-[38px] pt-[36px] pb-[180px] hide-scrollbar flex flex-col">
