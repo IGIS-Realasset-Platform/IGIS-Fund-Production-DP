@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 
-export default function Section18({ isActive }) {
+export default function Section19({ isActive }) {
     const { lang } = useLanguage();
     const [step, setStep] = useState(0);
 

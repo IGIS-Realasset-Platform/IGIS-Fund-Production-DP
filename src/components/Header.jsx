@@ -447,6 +447,9 @@ export default function Header({ onNavigateToNews, onNavigateToHome, onNavigateT
                                         <a href="?page=action-plan" className="cursor-pointer hover:text-black transition-colors mt-auto font-normal text-[13px] md:text-[14px]">
                                             Action plan (initial)
                                         </a>
+                                        <a href="?page=system-plan" className="text-white hover:text-white cursor-default select-none font-medium text-[13px] md:text-[14px]">
+                                            System plan
+                                        </a>
                                     </div>
 
                                 </div>
@@ -554,6 +557,9 @@ export default function Header({ onNavigateToNews, onNavigateToHome, onNavigateT
                         </button>
                         <a href="?page=action-plan" className="text-[16px] font-normal text-gray-500 hover:text-black cursor-pointer transition-colors mt-2">
                             Action plan (initial)
+                        </a>
+                        <a href="?page=system-plan" className="text-[16px] font-medium text-white hover:text-white cursor-default select-none transition-colors">
+                            System plan
                         </a>
                     </div>
                     <div className="flex space-x-8 pt-6 border-t border-gray-200 justify-start w-full mb-8">

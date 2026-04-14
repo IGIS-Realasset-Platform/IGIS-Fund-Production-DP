@@ -4,12 +4,50 @@ import MainLayout from './components/MainLayout';
 import { useAnimations } from './hooks/useAnimations';
 import { useLanguage } from './context/LanguageContext';
 import Notes from './components/Notes';
+import SystemPlan from './components/system/SystemPlan';
+import SystemLogin from './components/system/SystemLogin';
 
 export default function App() {
   const [currentPage, setCurrentPage] = React.useState(() => {
       const params = new URLSearchParams(window.location.search);
       return params.get('page') || 'home';
   });
+
+  // Handle URL syncing and global left/right key navigation sequences
+  React.useEffect(() => {
+      const handlePopState = () => {
+          const params = new URLSearchParams(window.location.search);
+          setCurrentPage(params.get('page') || 'home');
+      };
+
+      const handleGlobalKeyDown = (e) => {
+          if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+          const flow = ['home', 'system-plan', 'system-bridge', 'system-chat', 'system-detail', 'action-plan'];
+          const currentIndex = flow.indexOf(currentPage);
+          
+          if (e.key === 'ArrowLeft' && currentIndex > 0) {
+              // system-plan(로그인 화면)에서는 왼쪽 버튼으로 메인 홈으로 튕기지 않도록 방어
+              if (currentPage === 'system-plan') return;
+              
+              const prev = flow[currentIndex - 1];
+              window.history.pushState(null, '', window.location.pathname + '?page=' + prev);
+              setCurrentPage(prev);
+          }
+      };
+
+      window.addEventListener('popstate', handlePopState);
+      window.addEventListener('keydown', handleGlobalKeyDown);
+      return () => {
+          window.removeEventListener('popstate', handlePopState);
+          window.removeEventListener('keydown', handleGlobalKeyDown);
+      };
+  }, [currentPage]);
+
+  const navigateTo = (page) => {
+      window.history.pushState(null, '', window.location.pathname + '?page=' + page);
+      setCurrentPage(page);
+  };
 
   useAnimations(currentPage);
 
@@ -65,14 +103,32 @@ export default function App() {
         </div>
       </div>
 
-      <div className="hidden lg:block scroll-container font-sans" id="scroll-container">
-        <Header
-          onNavigateToHome={() => setCurrentPage('home')}
-          currentPage={currentPage}
-        />
+      <div className={['system-plan', 'system-bridge', 'system-chat', 'system-detail'].includes(currentPage) ? "w-full h-screen overflow-hidden" : "hidden lg:block scroll-container font-sans"} id="scroll-container">
+        {!['system-plan', 'system-bridge', 'system-chat', 'system-detail'].includes(currentPage) && (
+            <Header
+              onNavigateToHome={() => setCurrentPage('home')}
+              currentPage={currentPage}
+            />
+        )}
 
         {currentPage === 'home' && <MainLayout />}
         {currentPage === 'action-plan' && <Notes />}
+        
+        {/* Navigation Handlers overriding the inline SystemPlan internal stage logic */}
+        {currentPage === 'system-plan' && <SystemLogin onLogin={() => navigateTo('system-bridge')} />}
+        {['system-bridge', 'system-chat', 'system-detail'].includes(currentPage) && (
+            <SystemPlan 
+                externalStage={
+                    currentPage === 'system-bridge' ? 0 : 
+                    currentPage === 'system-chat' ? 1 : 2
+                } 
+                onNext={() => {
+                    if (currentPage === 'system-bridge') navigateTo('system-chat');
+                    if (currentPage === 'system-chat') navigateTo('system-detail');
+                }} 
+            />
+        )}
+        
       </div>
     </>
   );
