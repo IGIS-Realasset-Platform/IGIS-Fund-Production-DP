@@ -44,12 +44,18 @@
         padding: 0;
         min-height: 100%;
         width: 100%;
-        background-color: #ffffff;
-        color: #000000;
+        background-color: #fbfbfd;
+        color: #1D1D1F;
         -webkit-overflow-scrolling: touch;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         text-rendering: optimizeLegibility;
+    }
+
+    html.dark,
+    html.dark body {
+        background-color: #1F1F1E;
+        color: #E5E5E5;
     }
 
     ::selection {

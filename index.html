@@ -39,6 +39,15 @@
         if (navigator.userAgent.indexOf('Win') !== -1) {
             document.documentElement.classList.add('is-windows');
         }
+        
+        // FOUC (Flash of Unstyled Content) Prevention for Dark Mode
+        try {
+            if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        } catch (_) {}
     </script>
 </head>
 
