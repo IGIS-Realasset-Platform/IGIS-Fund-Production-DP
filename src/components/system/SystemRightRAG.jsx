@@ -69,6 +69,7 @@ export default function SystemRightRAG() {
                         <button onClick={() => alert("준비 중인 데모 화면입니다.")} className="px-5 py-3.5 bg-white dark:bg-[#2B2B2B] text-[#111] dark:text-[#c3c2b7] border border-black/10 dark:border-transparent hover:bg-gray-50 dark:hover:bg-[#333] shadow-sm dark:shadow-none text-[14px] font-medium rounded-2xl transition-all whitespace-nowrap outline-none cursor-pointer">
                             진행 중인 신규 자산 파이프라인 모두 보기
                         </button>
+                    </div>
                 </div>
             </div>
 
