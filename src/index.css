@@ -93,8 +93,14 @@
         position: relative;
     }
 
-    .scroll-container::-webkit-scrollbar {
+    .scroll-container::-webkit-scrollbar,
+    .hide-scrollbar::-webkit-scrollbar {
         display: none;
+    }
+
+    .hide-scrollbar {
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
     }
 
     .section {
