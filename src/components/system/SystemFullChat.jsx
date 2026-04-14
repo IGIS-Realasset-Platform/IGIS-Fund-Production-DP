@@ -99,7 +99,7 @@ export default function SystemFullChat({ onShowContent }) {
 
     const flushUl = () => {
         if (ulChildren.length > 0) {
-            renderContent.push(<div key={`ul_${renderContent.length}`} className="mb-6 space-y-2 bg-white dark:bg-transparent p-5 dark:p-0 rounded-2xl border border-black/10 dark:border-none shadow-sm dark:shadow-none transition-colors duration-300">{ulChildren}</div>);
+            renderContent.push(<div key={`ul_${renderContent.length}`} className="mb-6 space-y-2 bg-transparent p-0 rounded-2xl border-none shadow-none">{ulChildren}</div>);
             ulChildren = [];
         }
     };
@@ -124,9 +124,9 @@ export default function SystemFullChat({ onShowContent }) {
             ulChildren.push(node);
             node = null; // Don't push directly
         } else if (item.type === 'title') {
-            node = <p key={i} className="mb-2 text-[#86868B] dark:text-[#A1A1AA] font-semibold transition-colors duration-300">{textToRender}</p>;
+            node = <p key={i} className="mb-2 text-[#A1A1AA] font-semibold">{textToRender}</p>;
         } else if (item.type === 'gray') {
-            node = <p key={i} className="mb-8 text-[#555] dark:text-[#888888] whitespace-pre-wrap leading-relaxed transition-colors duration-300">{textToRender}</p>;
+            node = <p key={i} className="mb-8 text-[#888888] whitespace-pre-wrap leading-relaxed">{textToRender}</p>;
         } else if (item.type === 'p') {
             const mb = item.mb || 'mb-6';
             const plClass = item.pl ? 'space-y-1 pl-0.5' : '';
@@ -141,7 +141,7 @@ export default function SystemFullChat({ onShowContent }) {
                      node = (
                          <p key={i} className={`${mb} ${plClass} whitespace-pre-wrap`}>
                             {left}
-                            {keywordPart.length > 0 && <strong className="font-semibold text-[#111] dark:text-white transition-colors duration-300">{keywordPart}</strong>}
+                            {keywordPart.length > 0 && <strong className="font-semibold text-white">{keywordPart}</strong>}
                             {right}
                          </p>
                      );
@@ -160,7 +160,7 @@ export default function SystemFullChat({ onShowContent }) {
 
 
     return (
-        <div className={`flex-1 flex flex-col h-full bg-[#fbfbfd] dark:bg-[#1F1F1E] relative transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] overflow-hidden ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} onClick={handleScreenClick}>
+        <div className={`flex-1 flex flex-col h-full bg-[#1F1F1E] relative transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] overflow-hidden ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} onClick={handleScreenClick}>
             <VirtualMouse isVisible={mouseVisible} style={mousePos} />
 
             {/* Scrollable Chat Area */}
@@ -169,8 +169,8 @@ export default function SystemFullChat({ onShowContent }) {
                     
                     {/* User Message */}
                     <div className="flex justify-end mb-16 animate-fade-in-up">
-                        <div className="bg-[#111] dark:bg-[#0A0A0A] border-none rounded-[16px] rounded-tr-[4px] px-6 py-5 max-w-[85%] text-[16px] leading-[1.6] text-[#E5E5E5] shadow-sm transition-colors duration-300">
-                            <span className="font-normal text-white md:text-[#F4F4F5] dark:text-[#c3c2b7] transition-colors duration-300">
+                        <div className="bg-[#0A0A0A] border-none rounded-[16px] rounded-tr-[4px] px-6 py-5 max-w-[85%] text-[16px] leading-[1.6] text-[#E5E5E5] shadow-sm">
+                            <span className="font-normal text-[#c3c2b7]">
                                 올해 이지스 리얼에셋 부문에서 가장 큰 실물 사업이 뭐야?<br />
                                 <div className="text-right mt-1 opacity-80">연면적 기준으로.</div>
                             </span>
@@ -178,13 +178,13 @@ export default function SystemFullChat({ onShowContent }) {
                     </div>
 
                     {/* AI Message Frame */}
-                    <div className="flex flex-col text-[16px] leading-[1.8] text-[#333] dark:text-[#c3c2b7] font-normal break-keep tracking-tight w-full pr-12 min-h-[400px] transition-colors duration-300">
+                    <div className="flex flex-col text-[16px] leading-[1.8] text-[#c3c2b7] font-normal break-keep tracking-tight w-full pr-12 min-h-[400px]">
                         
                         {renderContent}
                         
                         {/* Blinking Cursor (only when typing) */}
                         {!isTypingComplete && (
-                            <span className="inline-block w-2.5 h-4 ml-1 bg-[#111] dark:bg-[#A1A1AA] animate-pulse relative top-0.5 transition-colors duration-300"></span>
+                            <span className="inline-block w-2.5 h-4 ml-1 bg-[#A1A1AA] animate-pulse relative top-0.5"></span>
                         )}
 
                         {/* Action Buttons (Fades in after typing is complete) */}
@@ -192,11 +192,11 @@ export default function SystemFullChat({ onShowContent }) {
                             <button 
                                 ref={btnRef}
                                 onClick={(e) => { e.stopPropagation(); onShowContent(); }} 
-                                className={`px-6 py-4 text-[#111] dark:text-[#c3c2b7] border hover:bg-gray-50 dark:hover:bg-[#333] hover:text-[#111] dark:hover:text-white text-[14px] font-medium rounded-2xl transition-all whitespace-nowrap outline-none cursor-pointer shadow-sm ${buttonActive ? 'bg-gray-100 dark:bg-[#333] scale-95 border-gray-300 dark:border-white/20' : 'bg-white dark:bg-[#262626] border-black/10 dark:border-[#3A3A3A]'}`}
+                                className={`px-6 py-4 text-[#c3c2b7] border hover:bg-[#333] hover:text-white text-[14px] font-medium rounded-2xl transition-all whitespace-nowrap outline-none cursor-pointer shadow-sm ${buttonActive ? 'bg-[#333] scale-95 border-white/20' : 'bg-[#262626] border-[#3A3A3A]'}`}
                             >
                                 더케이트윈타워 딜 상세 보기
                             </button>
-                            <button onClick={(e) => { e.stopPropagation(); alert("진행 중인 파이프라인 목록 데모"); }} className="px-6 py-4 bg-white dark:bg-[#262626] text-[#111] dark:text-[#c3c2b7] border border-black/10 dark:border-[#3A3A3A] hover:bg-gray-50 dark:hover:bg-[#333] hover:text-[#111] dark:hover:text-white text-[14px] font-medium rounded-2xl transition-colors whitespace-nowrap outline-none cursor-pointer shadow-sm">
+                            <button onClick={(e) => { e.stopPropagation(); alert("진행 중인 파이프라인 목록 데모"); }} className="px-6 py-4 bg-[#262626] text-[#c3c2b7] border border-[#3A3A3A] hover:bg-[#333] hover:text-white text-[14px] font-medium rounded-2xl whitespace-nowrap outline-none cursor-pointer shadow-sm">
                                 진행 중인 신규 자산 파이프라인 모두 보기
                             </button>
                         </div>
@@ -205,22 +205,22 @@ export default function SystemFullChat({ onShowContent }) {
             </div>
 
             {/* Bottom Input Area */}
-            <div className="absolute bottom-0 w-full flex justify-center pb-8 bg-gradient-to-t from-[#fbfbfd] via-[#fbfbfd] dark:from-[#1F1F1E] dark:via-[#1F1F1E] to-transparent pt-12 pointer-events-none transition-colors duration-300">
-                <div className="w-full max-w-[850px] h-[120px] bg-white dark:bg-[#2C2C2A] rounded-[24px] flex flex-col relative px-5 pt-5 pb-4 border border-black/10 dark:border-[#3A3A3A] shadow-2xl pointer-events-auto transition-colors duration-300">
+            <div className="absolute bottom-0 w-full flex justify-center pb-8 bg-gradient-to-t from-[#1F1F1E] via-[#1F1F1E] to-transparent pt-12 pointer-events-none">
+                <div className="w-full max-w-[850px] h-[120px] bg-[#2C2C2A] rounded-[24px] flex flex-col relative px-5 pt-5 pb-4 border border-[#3A3A3A] shadow-2xl pointer-events-auto">
                     <textarea 
                         placeholder="추가 입력사항..." 
-                        className="w-full bg-transparent text-[16px] text-[#111] dark:text-[#E5E5E5] focus:outline-none placeholder-gray-400 dark:placeholder-[#737373] font-normal resize-none h-[50px] ml-1 transition-colors duration-300"
+                        className="w-full bg-transparent text-[16px] text-[#E5E5E5] focus:outline-none placeholder-[#737373] font-normal resize-none h-[50px] ml-1"
                         defaultValue=""
                     ></textarea>
                     
                     <div className="absolute bottom-4 left-5">
-                        <button className="text-gray-400 dark:text-[#737373] hover:text-[#111] dark:hover:text-[#E5E5E5] p-1 flex items-center justify-center transition-colors cursor-pointer">
+                        <button className="text-[#737373] hover:text-[#E5E5E5] p-1 flex items-center justify-center cursor-pointer">
                             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 4v16m8-8H4" /></svg>
                         </button>
                     </div>
 
                     <div className="absolute bottom-4 right-5">
-                        <button className="w-[36px] h-[36px] rounded-full bg-[#111] dark:bg-[#5E5E5B] hover:bg-[#333] dark:hover:bg-[#72726D] flex items-center justify-center transition-colors shadow-sm outline-none cursor-pointer">
+                        <button className="w-[36px] h-[36px] rounded-full bg-[#5E5E5B] hover:bg-[#72726D] flex items-center justify-center shadow-sm outline-none cursor-pointer">
                             <svg className="w-4 h-4 text-white ml-0.5" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14M13 5l7 7-7 7" />
                             </svg>
@@ -228,7 +228,7 @@ export default function SystemFullChat({ onShowContent }) {
                     </div>
                 </div>
                 {/* 하단 캡션 */}
-                <div className="absolute bottom-2 text-[#86868B] dark:text-[#737373] text-[11px] font-normal w-full text-center tracking-tight transition-colors duration-300">
+                <div className="absolute bottom-2 text-[#737373] text-[11px] font-normal w-full text-center tracking-tight">
                     응답 결과 및 정량 수치는 해당 부서 담당 매니저와 꼭 확인해 주세요.
                 </div>
             </div>
