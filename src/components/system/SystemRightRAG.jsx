@@ -71,6 +71,7 @@ export default function SystemRightRAG() {
                             진행 중인 신규 자산 파이프라인 모두 보기
                         </button>
                 </div>
+                </div>
 
                 {/* Auto-scroll Anchor */}
                 <div ref={endRef} className="w-full h-1" />
