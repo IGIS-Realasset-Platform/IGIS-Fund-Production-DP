@@ -4,9 +4,20 @@ export default function SystemRightRAG() {
     const scrollContainerRef = useRef(null);
 
     useEffect(() => {
-        if (scrollContainerRef.current) {
-            scrollContainerRef.current.scrollTop = scrollContainerRef.current.scrollHeight;
-        }
+        if (!scrollContainerRef.current) return;
+        
+        const scrollToBottom = () => {
+            if (scrollContainerRef.current) {
+                // Windows OS 비율에서 발생하는 오차 제거를 위해 극한값 삽입
+                scrollContainerRef.current.scrollTop = scrollContainerRef.current.scrollHeight * 2;
+            }
+        };
+
+        // 초기 마운트 시 완전한 브라우저 페인팅 후 연산되도록 requestAnimationFrame 사용
+        requestAnimationFrame(scrollToBottom);
+        setTimeout(scrollToBottom, 50);
+        setTimeout(scrollToBottom, 200);
+
     }, []);
     return (
         <div className="w-[520px] h-full bg-[#fbfbfd] dark:bg-transparent flex flex-col flex-shrink-0 relative font-sans text-[#1D1D1F] dark:text-[#E5E5E5] transition-colors duration-300">

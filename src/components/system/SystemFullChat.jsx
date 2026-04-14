@@ -46,10 +46,25 @@ export default function SystemFullChat({ onShowContent }) {
     }, [totalHtmlLength]);
 
     useEffect(() => {
-        if (scrollContainerRef.current) {
-            scrollContainerRef.current.scrollTop = scrollContainerRef.current.scrollHeight;
+        if (!scrollContainerRef.current) return;
+        
+        // Windows OS Scaling 및 Layout 연산 지연을 우회하는 강력한 바닥초점(Auto-anchor) 전략
+        const scrollToBottom = () => {
+            if (scrollContainerRef.current) {
+                // scrollTop을 강제로 99999등 비정상적으로 큰 값으로 밀어버리는 대신, 안전하게 scrollHeight를 2배로 강제 할당하여 윈도우 스크롤 버퍼 오차 극복
+                scrollContainerRef.current.scrollTop = scrollContainerRef.current.scrollHeight * 2;
+            }
+        };
+
+        // 타이핑 시 즉각 반영 + 타이핑이 끝났을때 추가 등장하는 버튼들(트랜지션)의 위치까지 고려해 짧은 딜레이로 한번 더 꽂아줌
+        scrollToBottom();
+        requestAnimationFrame(scrollToBottom);
+        if (isTypingComplete) {
+            setTimeout(scrollToBottom, 100);
+            setTimeout(scrollToBottom, 400);
         }
-    }, [visibleChars]);
+        
+    }, [visibleChars, isTypingComplete]);
 
     const isTypingComplete = visibleChars >= totalHtmlLength;
 
