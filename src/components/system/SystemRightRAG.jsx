@@ -28,7 +28,7 @@ export default function SystemRightRAG() {
                         요청하신 연면적과 사업비(AUM), 그리고 현재 진행 중인 핵심 전략 현황은 다음과 같습니다.
                     </p>
 
-                    <div className="mb-6 space-y-2 bg-white dark:bg-transparent p-4 dark:p-0 rounded-xl border border-black/5 dark:border-none shadow-sm dark:shadow-none transition-colors duration-300">
+                    <div className="mb-6 space-y-2 bg-white dark:bg-transparent p-4 dark:p-0 rounded-xl border border-black/10 dark:border-none shadow-sm dark:shadow-none transition-colors duration-300">
                         <p>🏢 연면적 기준: 약 25,000평 (현재 검토 풀 내 최대 규모)</p>
                         <p>💰 사업비(AUM) 기준: 약 9,500억 원 (예상 매입 보수 약 40억 원)</p>
                     </div>
@@ -56,10 +56,10 @@ export default function SystemRightRAG() {
 
                     {/* Action Buttons */}
                     <div className="flex flex-col gap-3 items-start">
-                        <button onClick={() => alert("시나리오의 다음 단계인 '컨텐츠 상세 화면'으로 이어집니다.")} className="px-5 py-3.5 bg-white dark:bg-[#2B2B2B] text-[#111] dark:text-[#c3c2b7] border border-black/5 dark:border-transparent hover:bg-gray-50 dark:hover:bg-[#333] shadow-sm dark:shadow-none text-[14px] font-medium rounded-2xl transition-all whitespace-nowrap outline-none cursor-pointer">
+                        <button onClick={() => alert("시나리오의 다음 단계인 '컨텐츠 상세 화면'으로 이어집니다.")} className="px-5 py-3.5 bg-white dark:bg-[#2B2B2B] text-[#111] dark:text-[#c3c2b7] border border-black/10 dark:border-transparent hover:bg-gray-50 dark:hover:bg-[#333] shadow-sm dark:shadow-none text-[14px] font-medium rounded-2xl transition-all whitespace-nowrap outline-none cursor-pointer">
                             더케이트윈타워 딜 상세 보기
                         </button>
-                        <button onClick={() => alert("준비 중인 데모 화면입니다.")} className="px-5 py-3.5 bg-white dark:bg-[#2B2B2B] text-[#111] dark:text-[#c3c2b7] border border-black/5 dark:border-transparent hover:bg-gray-50 dark:hover:bg-[#333] shadow-sm dark:shadow-none text-[14px] font-medium rounded-2xl transition-all whitespace-nowrap outline-none cursor-pointer">
+                        <button onClick={() => alert("준비 중인 데모 화면입니다.")} className="px-5 py-3.5 bg-white dark:bg-[#2B2B2B] text-[#111] dark:text-[#c3c2b7] border border-black/10 dark:border-transparent hover:bg-gray-50 dark:hover:bg-[#333] shadow-sm dark:shadow-none text-[14px] font-medium rounded-2xl transition-all whitespace-nowrap outline-none cursor-pointer">
                             진행 중인 신규 자산 파이프라인 모두 보기
                         </button>
                     </div>
@@ -69,7 +69,7 @@ export default function SystemRightRAG() {
 
             {/* Bottom Input Area */}
             <div className="absolute bottom-0 w-full px-4 pb-4 bg-transparent border-t-0">
-                <div className="w-full h-[140px] bg-white dark:bg-[#2C2C2A] rounded-[18px] flex flex-col relative px-4 pt-5 pb-4 border border-black/5 dark:border-[#3A3A3A] shadow-sm transition-colors duration-300">
+                <div className="w-full h-[140px] bg-white dark:bg-[#2C2C2A] rounded-[18px] flex flex-col relative px-4 pt-5 pb-4 border border-black/10 dark:border-[#3A3A3A] shadow-sm transition-colors duration-300">
                     <textarea 
                         placeholder="댓글..." 
                         className="w-full bg-transparent text-[15px] text-[#111] dark:text-[#c3c2b7] focus:outline-none placeholder-gray-400 dark:placeholder-[#888888] font-normal resize-none h-[64px] ml-1 transition-colors duration-300"

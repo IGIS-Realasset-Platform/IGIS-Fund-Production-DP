@@ -5,7 +5,7 @@ export default function SystemLeftNav() {
     const { isLightMode, toggleTheme } = useTheme();
 
     return (
-        <div className="w-[275px] h-full bg-[#FBFBFD] dark:bg-transparent border-r border-black/5 dark:border-[#2C2C2E] flex flex-col flex-shrink-0 text-[14px] font-sans text-[#1D1D1F] dark:text-white transition-colors duration-300">
+        <div className="w-[275px] h-full bg-[#FBFBFD] dark:bg-transparent border-r border-black/10 dark:border-[#2C2C2E] flex flex-col flex-shrink-0 text-[14px] font-sans text-[#1D1D1F] dark:text-white transition-colors duration-300">
             
             {/* Top IFPDP Header & Sidebar Collapse Icon */}
             <div className="w-full flex items-center justify-between px-[15px] pt-[18px] pb-4">
@@ -158,7 +158,7 @@ export default function SystemLeftNav() {
             </div>
 
             {/* Bottom Profile */}
-            <div className="px-[15px] py-3 border-t border-black/5 dark:border-[#3A3A3C] w-full pb-4 flex items-center justify-between transition-colors duration-300">
+            <div className="px-[15px] py-3 border-t border-black/10 dark:border-[#3A3A3C] w-full pb-4 flex items-center justify-between transition-colors duration-300">
                 <div className="flex items-center gap-3 hover:bg-gray-200 dark:hover:bg-[#2C2C2E] p-1.5 -ml-1.5 rounded-lg cursor-pointer transition-colors duration-300">
                     <div className="w-10 h-10 rounded-full bg-[#E5E5EA] dark:bg-[#c3c2b7] text-[#111] dark:text-[#1F1F1E] flex items-center justify-center text-[16px] font-bold tracking-tighter -ml-[2px] transition-colors duration-300">
                         JK

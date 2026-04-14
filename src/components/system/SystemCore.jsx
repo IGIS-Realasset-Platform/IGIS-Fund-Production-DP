@@ -20,7 +20,7 @@ export default function SystemCore() {
                 </div>
 
                 {/* 채팅/RAG 박스 */}
-                <div className="w-[520px] h-full flex flex-col shrink-0 border-l border-black/5 dark:border-[#2C2C2E] transition-colors duration-300">
+                <div className="w-[520px] h-full flex flex-col shrink-0 border-l border-black/10 dark:border-[#2C2C2E] transition-colors duration-300">
                     <SystemRightRAG />
                 </div>
             </div>
