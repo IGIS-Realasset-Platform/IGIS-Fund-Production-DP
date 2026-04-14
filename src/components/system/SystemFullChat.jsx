@@ -92,7 +92,7 @@ export default function SystemFullChat({ onShowContent }) {
 
     const flushUl = () => {
         if (ulChildren.length > 0) {
-            renderContent.push(<div key={`ul_${renderContent.length}`} className="mb-6 space-y-2 bg-white dark:bg-transparent p-5 dark:p-0 rounded-2xl border border-gray-200 dark:border-none shadow-sm dark:shadow-none transition-colors duration-300">{ulChildren}</div>);
+            renderContent.push(<div key={`ul_${renderContent.length}`} className="mb-6 space-y-2 bg-white dark:bg-transparent p-5 dark:p-0 rounded-2xl border border-black/5 dark:border-none shadow-sm dark:shadow-none transition-colors duration-300">{ulChildren}</div>);
             ulChildren = [];
         }
     };
@@ -185,11 +185,11 @@ export default function SystemFullChat({ onShowContent }) {
                             <button 
                                 ref={btnRef}
                                 onClick={(e) => { e.stopPropagation(); onShowContent(); }} 
-                                className={`px-6 py-4 text-[#111] dark:text-[#c3c2b7] border hover:bg-gray-50 dark:hover:bg-[#333] hover:text-[#111] dark:hover:text-white text-[14px] font-medium rounded-2xl transition-all whitespace-nowrap outline-none cursor-pointer shadow-sm ${buttonActive ? 'bg-gray-100 dark:bg-[#333] scale-95 border-gray-300 dark:border-white/20' : 'bg-white dark:bg-[#262626] border-gray-200 dark:border-[#3A3A3A]'}`}
+                                className={`px-6 py-4 text-[#111] dark:text-[#c3c2b7] border hover:bg-gray-50 dark:hover:bg-[#333] hover:text-[#111] dark:hover:text-white text-[14px] font-medium rounded-2xl transition-all whitespace-nowrap outline-none cursor-pointer shadow-sm ${buttonActive ? 'bg-gray-100 dark:bg-[#333] scale-95 border-gray-300 dark:border-white/20' : 'bg-white dark:bg-[#262626] border-black/5 dark:border-[#3A3A3A]'}`}
                             >
                                 더케이트윈타워 딜 상세 보기
                             </button>
-                            <button onClick={(e) => { e.stopPropagation(); alert("진행 중인 파이프라인 목록 데모"); }} className="px-6 py-4 bg-white dark:bg-[#262626] text-[#111] dark:text-[#c3c2b7] border border-gray-200 dark:border-[#3A3A3A] hover:bg-gray-50 dark:hover:bg-[#333] hover:text-[#111] dark:hover:text-white text-[14px] font-medium rounded-2xl transition-colors whitespace-nowrap outline-none cursor-pointer shadow-sm">
+                            <button onClick={(e) => { e.stopPropagation(); alert("진행 중인 파이프라인 목록 데모"); }} className="px-6 py-4 bg-white dark:bg-[#262626] text-[#111] dark:text-[#c3c2b7] border border-black/5 dark:border-[#3A3A3A] hover:bg-gray-50 dark:hover:bg-[#333] hover:text-[#111] dark:hover:text-white text-[14px] font-medium rounded-2xl transition-colors whitespace-nowrap outline-none cursor-pointer shadow-sm">
                                 진행 중인 신규 자산 파이프라인 모두 보기
                             </button>
                         </div>
@@ -200,7 +200,7 @@ export default function SystemFullChat({ onShowContent }) {
 
             {/* Bottom Input Area */}
             <div className="absolute bottom-0 w-full flex justify-center pb-8 bg-gradient-to-t from-[#fbfbfd] via-[#fbfbfd] dark:from-[#1F1F1E] dark:via-[#1F1F1E] to-transparent pt-12 pointer-events-none transition-colors duration-300">
-                <div className="w-full max-w-[850px] h-[120px] bg-white dark:bg-[#2C2C2A] rounded-[24px] flex flex-col relative px-5 pt-5 pb-4 border border-gray-200 dark:border-[#3A3A3A] shadow-2xl pointer-events-auto transition-colors duration-300">
+                <div className="w-full max-w-[850px] h-[120px] bg-white dark:bg-[#2C2C2A] rounded-[24px] flex flex-col relative px-5 pt-5 pb-4 border border-black/5 dark:border-[#3A3A3A] shadow-2xl pointer-events-auto transition-colors duration-300">
                     <textarea 
                         placeholder="추가 입력사항..." 
                         className="w-full bg-transparent text-[16px] text-[#111] dark:text-[#E5E5E5] focus:outline-none placeholder-gray-400 dark:placeholder-[#737373] font-normal resize-none h-[50px] ml-1 transition-colors duration-300"

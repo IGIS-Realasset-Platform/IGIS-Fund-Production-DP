@@ -93,7 +93,7 @@ export default function SystemBridge({ onTypingComplete }) {
                 <h2 className="text-[38px] text-[#1D1D1F] dark:text-[#A1A1AA] font-normal mb-[25px] tracking-tight font-sans transition-colors duration-300">"전기영님 또 오셨네요."</h2>
 
                 {/* Same styling as SystemRightRAG comment box but larger width */}
-                <div className="w-[700px] h-[140px] bg-white dark:bg-[#2C2C2A] rounded-[18px] flex flex-col relative px-5 pt-5 pb-4 border border-gray-200 dark:border-[#3A3A3A] cursor-text shadow-lg transition-colors duration-300">
+                <div className="w-[700px] h-[140px] bg-white dark:bg-[#2C2C2A] rounded-[18px] flex flex-col relative px-5 pt-5 pb-4 border border-black/5 dark:border-[#3A3A3A] cursor-text shadow-lg transition-colors duration-300">
                     <textarea 
                         placeholder="오늘은 어떤 도움이 필요하세요?" 
                         className="w-full bg-transparent text-[16px] text-[#111] dark:text-[#E5E5E5] focus:outline-none placeholder-gray-400 dark:placeholder-[#888888] font-normal resize-none h-[64px] transition-colors duration-300"

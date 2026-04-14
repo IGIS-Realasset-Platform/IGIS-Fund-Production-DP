@@ -73,13 +73,13 @@ export default function SystemLogin({ onLogin }) {
                 <h1 className="text-[46px] font-bold mb-[22px] tracking-normal font-inter text-[#1D1D1F] dark:text-[#E5E5E5] transition-colors duration-300">IFPDP</h1>
 
                 {/* Form Box */}
-                <div className="bg-white dark:bg-transparent border border-gray-200 dark:border-[#333333] rounded-[28px] p-8 w-[430px] flex flex-col shadow-xl dark:shadow-2xl transition-colors duration-300">
+                <div className="bg-white dark:bg-transparent border border-black/5 dark:border-[#333333] rounded-[28px] p-8 w-[430px] flex flex-col shadow-xl dark:shadow-2xl transition-colors duration-300">
                     
                     {/* Google Button */}
                     <button 
                         ref={targetRef}
                         onClick={(e) => e.stopPropagation()}
-                        className={`w-full border border-gray-300 dark:border-[#333333] text-[#1D1D1F] dark:text-[#E5E5E5] rounded-lg py-3 flex items-center justify-center gap-3 transition-colors text-[14px] font-medium cursor-pointer ${buttonActive ? 'bg-gray-100 dark:bg-[#2A2A2A] scale-[0.98]' : 'bg-white dark:bg-[#1A1A1A] hover:bg-gray-50 dark:hover:bg-[#2A2A2A]'}`}
+                        className={`w-full border border-black/5 dark:border-[#333333] text-[#1D1D1F] dark:text-[#E5E5E5] rounded-lg py-3 flex items-center justify-center gap-3 transition-colors text-[14px] font-medium cursor-pointer ${buttonActive ? 'bg-gray-100 dark:bg-[#2A2A2A] scale-[0.98]' : 'bg-white dark:bg-[#1A1A1A] hover:bg-gray-50 dark:hover:bg-[#2A2A2A]'}`}
                     >
                         <svg className="w-[18px] h-[18px]" viewBox="0 0 24 24">
                             <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
@@ -103,7 +103,7 @@ export default function SystemLogin({ onLogin }) {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             onClick={(e) => e.stopPropagation()}
-                            className="w-full bg-white dark:bg-[#262626] text-[#111] dark:text-white placeholder-gray-400 dark:placeholder-[#737373] text-[16px] px-4 py-3.5 rounded-lg border border-gray-300 dark:border-[#3A3A3A] focus:outline-none focus:border-[#111] dark:focus:border-[#666] transition-colors duration-300"
+                            className="w-full bg-white dark:bg-[#262626] text-[#111] dark:text-white placeholder-gray-400 dark:placeholder-[#737373] text-[16px] px-4 py-3.5 rounded-lg border border-black/10 dark:border-[#3A3A3A] focus:outline-none focus:border-[#111] dark:focus:border-[#666] transition-colors duration-300"
                         />
                     </div>
 
