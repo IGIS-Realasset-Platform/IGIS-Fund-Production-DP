@@ -52,12 +52,6 @@
         text-rendering: auto;
     }
 
-    html:not(.dark),
-    html:not(.dark) body {
-        background-color: #fbfbfd;
-        color: #1D1D1F;
-    }
-
     ::selection {
         background-color: #fbf167;
         color: #000;
