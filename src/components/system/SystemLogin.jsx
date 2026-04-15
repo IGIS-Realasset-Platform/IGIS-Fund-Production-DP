@@ -35,13 +35,12 @@ export default function SystemLogin({ onLogin }) {
         setTimeout(() => {
             setButtonActive(false);
             setMousePos(prev => ({ ...prev, transform: 'scale(1)' }));
-            setDissolved(true);
         }, 1700);
 
-        // 4. Actually navigate
+        // 4. Actually navigate (Wait slightly before transitioning, matching SystemBridge)
         setTimeout(() => {
             onLogin();
-        }, 2500); // Wait for dissolve animation (800ms)
+        }, 2100); // 400ms after release
     };
 
     useEffect(() => {
@@ -55,7 +54,7 @@ export default function SystemLogin({ onLogin }) {
     }, [hasTriggered]);
 
     return (
-        <div className={`w-full h-full min-h-screen bg-[#FDFDFD] dark:bg-[#111111] text-[#1D1D1F] dark:text-white flex flex-col font-sans relative cursor-default transition-colors duration-300 ${dissolved ? 'opacity-0 scale-95' : 'opacity-100 scale-100'} ease-in-out`} style={{ transitionDuration: dissolved ? '800ms' : '0ms' }} onClick={handleScreenClick}>
+        <div className={`w-full h-full min-h-screen bg-[#FDFDFD] dark:bg-[#111111] text-[#1D1D1F] dark:text-white flex flex-col font-sans relative cursor-default transition-colors duration-300 ease-in-out`} onClick={handleScreenClick}>
             <VirtualMouse isVisible={mouseVisible} style={mousePos} />
             {/* Top Navbar */}
             <div className="w-full flex justify-between items-center px-12 py-8 relative z-50">
@@ -78,7 +77,7 @@ export default function SystemLogin({ onLogin }) {
                     {/* Google Button */}
                     <button 
                         ref={targetRef}
-                        onClick={(e) => e.stopPropagation()}
+                        onClick={(e) => { e.stopPropagation(); handleScreenClick(); }}
                         className={`w-full border border-black/10 dark:border-[#333333] text-[#1D1D1F] dark:text-[#E5E5E5] rounded-lg py-3 flex items-center justify-center gap-3 transition-colors text-[14px] font-medium cursor-pointer ${buttonActive ? 'bg-gray-100 dark:bg-[#2A2A2A] scale-[0.98]' : 'bg-white dark:bg-[#1A1A1A] hover:bg-gray-50 dark:hover:bg-[#2A2A2A]'}`}
                     >
                         <svg className="w-[18px] h-[18px]" viewBox="0 0 24 24">
@@ -109,7 +108,7 @@ export default function SystemLogin({ onLogin }) {
 
                     {/* Email Submit Button */}
                     <button 
-                        onClick={(e) => { e.stopPropagation(); onLogin(); }}
+                        onClick={(e) => { e.stopPropagation(); handleScreenClick(); }}
                         className="w-full bg-[#111] dark:bg-[#F5F5F7] text-white dark:text-[#111111] hover:bg-[#333] dark:hover:bg-white rounded-lg py-3 font-semibold transition-colors text-[16px] cursor-pointer"
                     >
                         이메일로 계속하기

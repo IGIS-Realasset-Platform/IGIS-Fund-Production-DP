@@ -85,12 +85,12 @@ export default function SystemFullChat({ onShowContent }) {
             setTimeout(() => {
                 setButtonActive(true);
                 setMousePos(prev => ({ ...prev, transform: 'scale(0.85)' }));
-            }, 1400);
+            }, 1500);
 
             setTimeout(() => {
                 setButtonActive(false);
                 setMousePos(prev => ({ ...prev, transform: 'scale(1)' }));
-            }, 1600);
+            }, 1700);
 
             setTimeout(() => {
                 onShowContent();
