@@ -35,12 +35,13 @@ export default function SystemLogin({ onLogin }) {
         setTimeout(() => {
             setButtonActive(false);
             setMousePos(prev => ({ ...prev, transform: 'scale(1)' }));
+            setDissolved(true);
         }, 1700);
 
-        // 4. Actually navigate (Wait slightly before transitioning, matching SystemBridge)
+        // 4. Actually navigate (Wait for dissolve transition to complete)
         setTimeout(() => {
             onLogin();
-        }, 2100); // 400ms after release
+        }, 2400); // 700ms after release to allow fade out
     };
 
     useEffect(() => {
@@ -54,7 +55,7 @@ export default function SystemLogin({ onLogin }) {
     }, [hasTriggered]);
 
     return (
-        <div className={`w-full h-full min-h-screen bg-[#FDFDFD] dark:bg-[#111111] text-[#1D1D1F] dark:text-white flex flex-col font-sans relative cursor-default transition-colors duration-300 ease-in-out`} onClick={handleScreenClick}>
+        <div className={`w-full h-full min-h-screen bg-[#FDFDFD] dark:bg-[#111111] text-[#1D1D1F] dark:text-white flex flex-col font-sans relative cursor-default transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${dissolved ? 'opacity-0 scale-[0.98]' : 'opacity-100 scale-100'}`} onClick={handleScreenClick}>
             <VirtualMouse isVisible={mouseVisible} style={mousePos} />
             {/* Top Navbar */}
             <div className="w-full flex justify-between items-center px-12 py-8 relative z-50">
