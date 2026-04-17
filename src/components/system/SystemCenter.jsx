@@ -919,7 +919,7 @@ export default function SystemCenter() {
                 <div className="w-full h-[1px] bg-[#444]/50 my-[60px]"></div>
 
                 {/* Research & Insight Box */}
-                <div className="w-full bg-[#232323] border border-[#3c3c3c] rounded-[32px] mb-[80px] overflow-hidden relative">
+                <div className="w-full bg-[#232323] border border-[#3c3c3c] rounded-[32px] mb-[100px] overflow-hidden relative">
                     <div className="pl-[30px] pr-[32px] pt-[28px] pb-[32px] flex flex-col w-full">
                         {/* Title Row */}
                         <div className="flex items-center justify-between w-full mb-[24px]">
@@ -961,6 +961,139 @@ export default function SystemCenter() {
                                 </a>
                             </div>
                         </div>
+                    </div>
+                </div>
+
+                {/* Compare Title */}
+                <div className="w-full text-left mb-[16px] pl-[4px]">
+                    <span className="text-[16px] font-bold text-[#E5E5E5] tracking-tight">서울 3대권역 프라임빌딩 자산 비교하기</span>
+                </div>
+
+                {/* Compare Boxes Row */}
+                <div className="w-full flex flex-row gap-[16px] mb-[80px]">
+                    
+                    {/* Image Box */}
+                    <div className="w-[430px] h-[360px] rounded-[32px] overflow-hidden relative shrink-0 border border-[#3c3c3c]/50">
+                        <img src="/centerfield.webp" alt="Centerfield" className="w-full h-full object-cover opacity-90 transition-opacity hover:opacity-100" />
+                        <div className="absolute top-[20px] right-[24px] w-[46px] h-[46px] rounded-full bg-black/20 backdrop-blur-md border border-[#ffffff]/20 flex items-center justify-center cursor-pointer hover:bg-black/40 transition-colors z-10 shadow-sm group">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E5E5E5" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="group-hover:scale-110 transition-transform">
+                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                        </div>
+                    </div>
+
+                    {/* Data Box */}
+                    <div className="flex-1 bg-[#232323] border border-[#3c3c3c] rounded-[32px] overflow-hidden p-[32px] flex flex-col h-[360px]">
+                        
+                        {/* Header */}
+                        <div className="flex items-center justify-between w-full mb-[24px]">
+                            <span className="text-[26px] font-bold text-[#E5E5E5] tracking-tight">Centerfield</span>
+                            <div className="flex items-center text-[#86868B] cursor-pointer hover:text-[#fbf167] transition-colors group">
+                                <span className="text-[13px] font-medium tracking-tight">IOTA Soul 2 816과 비교하기</span>
+                                <svg className="w-[12px] h-[12px] ml-[4px] text-[#666] group-hover:text-[#fbf167] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 5l7 7-7 7" />
+                                </svg>
+                            </div>
+                        </div>
+
+                        {/* Layout Split */}
+                        <div className="flex flex-row w-full flex-1 min-h-0">
+                            
+                            {/* Cols 1 & 2 */}
+                            <div className="flex flex-row flex-[1.7] border-r border-[#444]/50 pr-[30px]">
+                                {/* Col 1 */}
+                                <div className="flex flex-col flex-1 border-r border-[#444]/50 pr-[30px]">
+                                    <div className="flex items-center w-full flex-1 border-b border-[#444]/50">
+                                        <span className="w-[85px] text-[13px] font-bold text-[#86868B]">권역</span>
+                                        <span className="text-[14px] text-[#E5E5E5] font-medium">GBD</span>
+                                    </div>
+                                    <div className="flex items-center w-full flex-1 border-b border-[#444]/50">
+                                        <span className="w-[85px] text-[13px] font-bold text-[#86868B]">준공년도</span>
+                                        <span className="text-[14px] text-[#E5E5E5] font-medium">2021</span>
+                                    </div>
+                                    <div className="flex items-center w-full flex-1 border-b border-[#444]/50">
+                                        <span className="w-[85px] text-[13px] font-bold text-[#86868B]">연면적</span>
+                                        <span className="text-[14px] text-[#E5E5E5] font-medium tracking-tight">72,374평</span>
+                                    </div>
+                                    <div className="flex items-center w-full flex-1 border-b border-[#444]/50">
+                                        <span className="w-[85px] text-[13px] font-bold text-[#86868B]">오피스면적</span>
+                                        <span className="text-[14px] text-[#E5E5E5] font-medium tracking-tight">51,189평</span>
+                                    </div>
+                                    <div className="flex items-center w-full flex-1 border-b border-[#444]/50">
+                                        <span className="w-[85px] text-[13px] font-bold text-[#86868B]">리테일면적</span>
+                                        <span className="text-[14px] text-[#E5E5E5] font-medium tracking-tight">2,288평</span>
+                                    </div>
+                                    <div className="flex items-center w-full flex-1">
+                                        <span className="w-[85px] text-[13px] font-bold text-[#86868B]">기준층면적</span>
+                                        <span className="text-[14px] text-[#E5E5E5] font-medium tracking-tight">599/529평</span>
+                                    </div>
+                                </div>
+                                
+                                {/* Col 2 */}
+                                <div className="flex flex-col flex-1 pl-[30px]">
+                                    <div className="flex items-center w-full flex-1 border-b border-[#444]/50">
+                                        <span className="w-[85px] text-[13px] font-bold text-[#86868B]">규모</span>
+                                        <span className="text-[14px] text-[#E5E5E5] font-medium">B9 / 34F</span>
+                                    </div>
+                                    <div className="flex items-center w-full flex-1 border-b border-[#444]/50">
+                                        <span className="w-[85px] text-[13px] font-bold text-[#86868B]">천정고</span>
+                                        <span className="text-[14px] text-[#E5E5E5] font-medium">3.00m</span>
+                                    </div>
+                                    <div className="flex items-center w-full flex-1 border-b border-[#444]/50">
+                                        <span className="w-[85px] text-[13px] font-bold text-[#86868B]">주차대수</span>
+                                        <span className="text-[14px] text-[#E5E5E5] font-medium">889 대</span>
+                                    </div>
+                                    <div className="flex items-center w-full flex-1 border-b border-[#444]/50">
+                                        <span className="w-[85px] text-[13px] font-bold text-[#86868B]">시공사</span>
+                                        <span className="text-[14px] text-[#E5E5E5] font-medium tracking-tight">현대건설, 현대엔지..</span>
+                                    </div>
+                                    <div className="flex items-center w-full flex-1 border-b border-[#444]/50">
+                                        <span className="w-[85px] text-[13px] font-bold text-[#86868B]">설계사</span>
+                                        <span className="text-[14px] text-[#E5E5E5] font-medium">JMA, dA</span>
+                                    </div>
+                                    <div className="flex items-center w-full flex-1">
+                                        <span className="w-[85px] text-[13px] font-bold text-[#86868B]">리스스팬</span>
+                                        <span className="text-[14px] text-[#E5E5E5] font-medium">16m</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Financials Col 3 */}
+                            <div className="flex flex-col flex-1 pl-[30px] justify-center py-[4px]">
+                                <div className="flex flex-col flex-1 justify-center gap-[24px]">
+                                    <div className="flex justify-between items-center w-full">
+                                        <span className="text-[13px] font-bold text-[#86868B]">월 GI</span>
+                                        <span className="text-[22px] font-bold text-white tracking-tight">211억</span>
+                                    </div>
+                                    <div className="flex justify-between items-center w-full">
+                                        <span className="text-[13px] font-bold text-[#86868B]">연 GI</span>
+                                        <span className="text-[24px] font-bold text-white tracking-tight">2,533억</span>
+                                    </div>
+                                    <div className="flex justify-between items-center w-full">
+                                        <span className="text-[13px] font-bold text-[#86868B]">연 NOI <span className="font-normal text-[11px]">(85%)</span></span>
+                                        <span className="text-[22px] font-bold text-white tracking-tight">2,153억</span>
+                                    </div>
+                                </div>
+                                <div className="flex flex-col gap-[20px] mt-[32px]">
+                                    <div className="flex justify-between items-center w-full">
+                                        <div className="flex flex-col">
+                                            <span className="text-[12px] font-bold text-[#86868B]">E.NOC</span>
+                                            <span className="text-[10px] text-[#666] -mt-[2px]">(2026)</span>
+                                        </div>
+                                        <span className="text-[18px] font-bold text-white tracking-tight">523,100원</span>
+                                    </div>
+                                    <div className="flex justify-between items-center w-full">
+                                        <div className="flex flex-col">
+                                            <span className="text-[12px] font-bold text-[#86868B]">E.NOC</span>
+                                            <span className="text-[10px] text-[#666] -mt-[2px]">(2032)</span>
+                                        </div>
+                                        <span className="text-[18px] font-bold text-white tracking-tight">621,802원</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
 
