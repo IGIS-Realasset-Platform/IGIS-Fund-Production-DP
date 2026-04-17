@@ -819,12 +819,12 @@ export default function SystemCenter() {
                 </div>
 
                 {/* Eco & Spec Box */}
-                <div className="w-full bg-[#292928] border border-[#3c3c3c] rounded-[32px] flex flex-col mb-[80px] overflow-hidden">
+                <div className="w-full bg-[#292928] border border-[#3c3c3c] rounded-[32px] flex flex-col mb-0 overflow-hidden">
                     
                     {/* Top Body Row (2 Columns) */}
                     <div className="flex flex-row w-full flex-1">
                         {/* Left Column Strategy: 친환경 인증 */}
-                        <div className="w-[380px] border-r border-[#444]/50 flex flex-col shrink-0">
+                        <div className="w-[380px] flex flex-col shrink-0">
                             {/* Body */}
                             <div className="pl-[30px] pr-[32px] pt-[28px] pb-[27px] flex flex-col flex-1 relative">
                                 {/* Title */}
@@ -858,9 +858,9 @@ export default function SystemCenter() {
                         {/* Right Column Strategy: 빌딩 상세 SPEC */}
                         <div className="flex-1 flex flex-col">
                             {/* Body */}
-                            <div className="pl-[30px] pr-[32px] pt-[28px] pb-[27px] flex flex-col flex-1 relative">
+                            <div className="pr-[32px] pt-[28px] pb-[27px] flex flex-col flex-1 relative">
                                 {/* Title */}
-                                <div className="flex items-center justify-between w-full mb-[14px]">
+                                <div className="pl-[30px] flex items-center justify-between w-full mb-[14px]">
                                     <span className="text-[14px] font-bold text-[#86868B] tracking-tight">빌딩 상세 SPEC</span>
                                     <div className="text-[15px] text-[#86868B] cursor-pointer hover:text-[#E5E5E5] transition-colors font-medium flex items-center group tracking-tight -mr-[9px]">
                                         <span>빌딩 SPEC 전체보기</span>
@@ -870,7 +870,7 @@ export default function SystemCenter() {
                                     </div>
                                 </div>
                                 {/* Content */}
-                                <div className="flex flex-col gap-[8px]">
+                                <div className="pl-[30px] border-l border-[#444]/50 flex flex-col gap-[8px]">
                                     <div className="text-[15px] leading-[22px]">
                                         <span className="text-[#86868B] font-medium mr-[6px] tracking-tight">[통합 빌딩 관리 시스템]</span>
                                         <a href="#" className="text-[#c3c2b7] font-medium tracking-tight hover:text-[#fbf167] cursor-pointer transition-colors">
@@ -913,6 +913,43 @@ export default function SystemCenter() {
                         </div>
                     </div>
 
+                </div>
+
+                {/* Section Divider */}
+                <div className="w-full h-[1px] bg-[#444]/50 my-[60px]"></div>
+
+                {/* Research & Insight Box */}
+                <div className="w-full bg-[#292928] border border-[#3c3c3c] rounded-[32px] mb-[80px] overflow-hidden relative">
+                    <div className="pl-[30px] pr-[32px] pt-[28px] pb-[32px] flex flex-col w-full">
+                        {/* Title Row */}
+                        <div className="flex items-center justify-between w-full mb-[24px]">
+                            <span className="text-[14px] font-bold text-[#86868B] tracking-tight">Research & Insight</span>
+                        </div>
+
+                        {/* Circular Action Button */}
+                        <div className="absolute top-[20px] right-[24px] w-[46px] h-[46px] rounded-full border border-[#555] flex items-center justify-center cursor-pointer hover:bg-[#444] transition-colors group z-10 shadow-sm">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E5E5E5" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="group-hover:scale-110 transition-transform">
+                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                        </div>
+
+                        {/* Text List */}
+                        <div className="flex flex-col w-full">
+                            <div className="w-full pb-[20px]">
+                                <a href="#" className="text-[16px] font-medium text-[#E5E5E5] hover:text-[#fbf167] transition-colors cursor-pointer block tracking-tight">현재 개발중인 3대권역 5만평 이상 복합 프로젝트 원가 DATA</a>
+                            </div>
+                            <div className="w-full py-[20px] border-t border-[#444]/50">
+                                <a href="#" className="text-[16px] font-medium text-[#E5E5E5] hover:text-[#fbf167] transition-colors cursor-pointer block tracking-tight">서울 도심 내 5,000평 이상 거래 가능한 상업부지</a>
+                            </div>
+                            <div className="w-full py-[20px] border-t border-[#444]/50">
+                                <a href="#" className="text-[16px] font-medium text-[#E5E5E5] hover:text-[#fbf167] transition-colors cursor-pointer block tracking-tight">국내 매출 TOP 100 기업 임차 현황</a>
+                            </div>
+                            <div className="w-full pt-[20px] pb-[4px] border-t border-[#444]/50">
+                                <a href="#" className="text-[16px] font-medium text-[#E5E5E5] hover:text-[#fbf167] transition-colors cursor-pointer block tracking-tight">서울 오피스 전기사용량과 주요 프라임 오피스 전력인프라 현황</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 </div>
