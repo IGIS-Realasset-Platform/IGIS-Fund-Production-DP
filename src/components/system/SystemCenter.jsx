@@ -44,7 +44,7 @@ export default function SystemCenter() {
                             <span className="text-[18px] font-bold text-[#A1A1AA] tracking-tight cursor-pointer transition-colors duration-200 hover:text-white">개발중</span>
                         </div>
                         
-                        <div className="w-px h-[28px] bg-[#333]"></div>
+                        <div className="w-px h-[28px] bg-[#E5E5E5] dark:bg-[#333]"></div>
                         
                         {/* Item 2 */}
                         <div className="flex flex-col items-center justify-center h-full px-[20px] flex-shrink-0">
@@ -52,36 +52,36 @@ export default function SystemCenter() {
                             <span className="text-[18px] font-bold text-[#e11d48] tracking-tight font-['Inter'] cursor-pointer transition-all duration-200 hover:brightness-125">High</span>
                         </div>
                         
-                        <div className="w-px h-[28px] bg-[#333]"></div>
+                        <div className="w-px h-[28px] bg-[#E5E5E5] dark:bg-[#333]"></div>
                         
                         {/* Item 3 */}
                         <div className="flex flex-col items-center justify-center h-full px-[20px]">
                             <span className="text-[13px] text-[#666] font-normal -mb-[1px] font-['Inter']">Vehicle</span>
-                            <span className="text-[18px] font-bold text-[#A1A1AA] tracking-tight font-['Inter'] cursor-pointer transition-colors duration-200 hover:text-white">PFV</span>
+                            <span className="text-[18px] font-bold text-[#1D1D1F] dark:text-[#A1A1AA] tracking-tight font-['Inter'] cursor-pointer transition-colors duration-200 hover:text-black dark:hover:text-white">PFV</span>
                         </div>
                         
-                        <div className="w-px h-[28px] bg-[#333]"></div>
+                        <div className="w-px h-[28px] bg-[#E5E5E5] dark:bg-[#333]"></div>
                         
                         {/* Item 4 */}
                         <div className="flex flex-col items-center justify-center h-full px-[20px]">
                             <span className="text-[13px] text-[#666] font-normal -mb-[1px] font-['Inter']">Sector</span>
-                            <span className="text-[18px] font-bold text-[#A1A1AA] tracking-tight font-['Inter'] cursor-pointer transition-colors duration-200 hover:text-white">Commercial</span>
+                            <span className="text-[18px] font-bold text-[#1D1D1F] dark:text-[#A1A1AA] tracking-tight font-['Inter'] cursor-pointer transition-colors duration-200 hover:text-black dark:hover:text-white">Commercial</span>
                         </div>
                         
-                        <div className="w-px h-[28px] bg-[#333]"></div>
+                        <div className="w-px h-[28px] bg-[#E5E5E5] dark:bg-[#333]"></div>
                         
                         {/* Item 5 */}
                         <div className="flex flex-col items-center justify-center h-full px-[20px]">
                             <span className="text-[13px] text-[#666] font-normal -mb-[1px] font-['Inter']">Use</span>
-                            <span className="text-[18px] font-bold text-[#A1A1AA] tracking-tight font-['Inter'] cursor-pointer transition-colors duration-200 hover:text-white">Office</span>
+                            <span className="text-[18px] font-bold text-[#1D1D1F] dark:text-[#A1A1AA] tracking-tight font-['Inter'] cursor-pointer transition-colors duration-200 hover:text-black dark:hover:text-white">Office</span>
                         </div>
                         
-                        <div className="w-px h-[28px] bg-[#333]"></div>
+                        <div className="w-px h-[28px] bg-[#E5E5E5] dark:bg-[#333]"></div>
                         
                         {/* Item 6 */}
                         <div className="flex flex-col items-center justify-center h-full pl-[20px]">
                             <span className="text-[13px] text-[#666] font-normal -mb-[1px] font-['Inter']">Project Type</span>
-                            <span className="text-[18px] font-bold text-[#A1A1AA] tracking-tight font-['Inter'] cursor-pointer transition-colors duration-200 hover:text-white">Development</span>
+                            <span className="text-[18px] font-bold text-[#1D1D1F] dark:text-[#A1A1AA] tracking-tight font-['Inter'] cursor-pointer transition-colors duration-200 hover:text-black dark:hover:text-white">Development</span>
                         </div>
                     </div>
                 </div>
@@ -966,7 +966,7 @@ export default function SystemCenter() {
 
                 {/* Compare Title */}
                 <div className="w-full text-left mb-[16px] pl-[4px]">
-                    <span className="text-[20px] font-bold text-[#E5E5E5] tracking-tight">서울 3대권역 프라임빌딩 자산 비교하기</span>
+                    <span className="text-[20px] font-bold text-[#1D1D1F] dark:text-[#E5E5E5] tracking-tight">서울 3대권역 프라임빌딩 자산 비교하기</span>
                 </div>
 
                 {/* Compare Boxes List */}
