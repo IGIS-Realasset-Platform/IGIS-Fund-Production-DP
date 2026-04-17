@@ -41,7 +41,7 @@ export default function Header({ onNavigateToNews, onNavigateToHome, onNavigateT
                 { label: "Core Detail Page Draft", type: "system-core" }
             ] 
         },
-        { title: "Execution Plan", type: "action-plan", items: [] }
+        { title: "Execution Plan", id: "page-19", items: [] }
     ];
 
     const menuDataKr = [
@@ -74,7 +74,7 @@ export default function Header({ onNavigateToNews, onNavigateToHome, onNavigateT
                 { label: "Core Detail Page Draft", type: "system-core" }
             ] 
         },
-        { title: "Execution Plan", type: "action-plan", items: [] }
+        { title: "Execution Plan", id: "page-19", items: [] }
     ];
 
     const currentMenuData = lang === 'kr' ? menuDataKr : menuDataEn;
@@ -364,10 +364,6 @@ export default function Header({ onNavigateToNews, onNavigateToHome, onNavigateT
                                         } else if (col.type === 'alert') {
                                             e.preventDefault();
                                             alert(col.message);
-                                        } else if (col.type === 'action-plan') {
-                                            e.preventDefault();
-                                            window.history.pushState(null, '', window.location.pathname + '?page=action-plan');
-                                            window.dispatchEvent(new Event('popstate'));
                                         } else if (col.id) {
                                             e.preventDefault();
                                             handleScrollTo(e, col.id);
@@ -405,10 +401,6 @@ export default function Header({ onNavigateToNews, onNavigateToHome, onNavigateT
                                                     } else if (col.type === 'alert') {
                                                         e.preventDefault();
                                                         alert(col.message);
-                                                    } else if (col.type === 'action-plan') {
-                                                        e.preventDefault();
-                                                        window.history.pushState(null, '', window.location.pathname + '?page=action-plan');
-                                                        window.dispatchEvent(new Event('popstate'));
                                                     } else if (col.id) {
                                                         e.preventDefault();
                                                         handleScrollTo(e, col.id);
@@ -510,7 +502,17 @@ export default function Header({ onNavigateToNews, onNavigateToHome, onNavigateT
                 <div className="w-full flex-col flex-1 overflow-y-auto overscroll-contain px-6 py-2 hide-scrollbar flex items-start text-left">
                     {currentMenuData.map((col, idx) => (
                         <div key={idx} className="w-full mb-6">
-                            <h4 className="text-[18px] font-medium text-black mb-3 border-b border-gray-100 pb-2 font-guardian tracking-normal">{col.title}</h4>
+                            <h4 
+                                className="text-[18px] font-medium text-black mb-3 border-b border-gray-100 pb-2 font-guardian tracking-normal cursor-pointer"
+                                onClick={(e) => {
+                                    if (col.id) {
+                                        handleScrollTo(e, col.id);
+                                        setMobileMenuOpen(false);
+                                    }
+                                }}
+                            >
+                                {col.title}
+                            </h4>
                             <div className="flex flex-col space-y-3">
                                 {col.items.map((item, itemIdx) => {
                                     if (item.type === 'news') {

@@ -359,6 +359,9 @@ Defense Logic: Initially, one 'Data Pioneer (Mission Volunteer)' is selected fro
 
                 </div>
             </div>
+
+            {/* Bottom Gradient Overlay (Lightweight text blocker for navigation) */}
+            <div className="fixed bottom-0 left-0 w-full h-[140px] bg-gradient-to-t from-white via-white/90 to-transparent pointer-events-none z-[40]"></div>
         </div>
     );
 }
