@@ -129,7 +129,7 @@ export default function SystemCenter() {
                             <div key={index} className={`absolute flex flex-col items-center justify-center top-1/2 -translate-y-1/2 -translate-x-1/2 ${ms.type === 'now' ? 'ml-[4px]' : ''}`} style={{ left: `${ms.left * 100}%` }}>
                                 {/* Date (UP) */}
                                 <div className="absolute bottom-[20px] w-[120px] text-center pointer-events-none">
-                                    <span className={`text-[13px] font-['Inter'] transition-colors duration-300 ${ms.type === 'now' ? 'font-bold text-white' : 'text-[#86868B] group-hover:text-[#E5E5E5]'}`}>
+                                    <span className={`text-[13px] font-['Inter'] transition-colors duration-300 ${ms.type === 'now' ? 'font-bold text-[#c3c2b7]' : 'text-[#86868B] group-hover:text-[#E5E5E5]'}`}>
                                         {ms.date}
                                     </span>
                                 </div>
@@ -137,7 +137,7 @@ export default function SystemCenter() {
                                 {/* Node (CENTER) */}
                                 <div className="relative z-10 flex items-center justify-center w-[14px] h-[14px]">
                                     {ms.type === 'now' ? (
-                                        <div className="absolute w-[2px] h-[36px] border-l-[2px] border-dotted border-white -top-[14px] left-[6px]" />
+                                        <div className="absolute w-[2px] h-[36px] border-l-[2px] border-dotted border-[#c3c2b7] -top-[14px] left-[6px]" />
                                     ) : (
                                         <div className="w-[14px] h-[14px] rounded-full bg-[#555] group-hover:bg-white transition-colors duration-300 shadow-sm" />
                                     )}
@@ -314,11 +314,11 @@ export default function SystemCenter() {
                         <div className="flex items-center gap-[16px]">
                             <div className="flex items-center gap-[6px]">
                                 <span className="text-[#86868B] font-bold text-[16px]">Equity</span>
-                                <span className="text-[#3AB5F0] font-bold text-[16px]">63.95 억원</span>
+                                <span className="text-white font-bold text-[16px]">63.95 억원</span>
                             </div>
                             <div className="flex items-center gap-[6px]">
                                 <span className="text-[#86868B] font-bold text-[16px]">Loan</span>
-                                <span className="text-[#3AB5F0] font-bold text-[16px]">9,570 억원</span>
+                                <span className="text-white font-bold text-[16px]">9,570 억원</span>
                             </div>
                             
                             <div className="w-[1px] h-[12px] bg-[#444]/50 mx-[4px]"></div>
@@ -353,27 +353,27 @@ export default function SystemCenter() {
                         <div className="flex flex-col pt-[20px] pb-[32px] pl-[26px] pr-[22px]">
                             <div className="flex justify-between items-center w-full mb-[16px]">
                                 <span className="text-[#86868B] font-bold text-[15px]">수익자</span>
-                                <span className="text-[#3AB5F0] font-bold text-[16px]">63.95 억</span>
+                                <span className="text-white font-bold text-[16px]">63.95 억</span>
                             </div>
                             <div className="flex justify-between items-center w-full mb-[12px] group cursor-pointer">
-                                <span className="text-[#E5E5E5] text-[15.5px] transition-all duration-200 group-hover:text-[#3AB5F0] group-hover:underline underline-offset-[3px] decoration-[#3AB5F0]/50">1. 국민은행</span>
-                                <span className="text-white text-[15.5px] transition-all duration-200 group-hover:text-[#3AB5F0] group-hover:underline underline-offset-[3px] decoration-[#3AB5F0]/50">19.55 억</span>
+                                <span className="text-[#E5E5E5] text-[15.5px] transition-all duration-200 group-hover:text-white group-hover:underline underline-offset-[3px] decoration-white/50">1. 국민은행</span>
+                                <span className="text-white text-[15.5px] transition-all duration-200 group-hover:text-white group-hover:underline underline-offset-[3px] decoration-white/50">19.55 억</span>
                             </div>
                             <div className="flex justify-between items-center w-full mb-[12px] group cursor-pointer">
-                                <span className="text-[#E5E5E5] text-[15.5px] transition-all duration-200 group-hover:text-[#3AB5F0] group-hover:underline underline-offset-[3px] decoration-[#3AB5F0]/50">2. 에셀유한회사</span>
-                                <span className="text-white text-[15.5px] transition-all duration-200 group-hover:text-[#3AB5F0] group-hover:underline underline-offset-[3px] decoration-[#3AB5F0]/50">16.50 억</span>
+                                <span className="text-[#E5E5E5] text-[15.5px] transition-all duration-200 group-hover:text-white group-hover:underline underline-offset-[3px] decoration-white/50">2. 에셀유한회사</span>
+                                <span className="text-white text-[15.5px] transition-all duration-200 group-hover:text-white group-hover:underline underline-offset-[3px] decoration-white/50">16.50 억</span>
                             </div>
                             <div className="flex justify-between items-center w-full mb-[12px] group cursor-pointer">
-                                <span className="text-[#E5E5E5] text-[15.5px] transition-all duration-200 group-hover:text-[#3AB5F0] group-hover:underline underline-offset-[3px] decoration-[#3AB5F0]/50">3. 신한투자증권</span>
-                                <span className="text-white text-[15.5px] transition-all duration-200 group-hover:text-[#3AB5F0] group-hover:underline underline-offset-[3px] decoration-[#3AB5F0]/50">12.95 억</span>
+                                <span className="text-[#E5E5E5] text-[15.5px] transition-all duration-200 group-hover:text-white group-hover:underline underline-offset-[3px] decoration-white/50">3. 신한투자증권</span>
+                                <span className="text-white text-[15.5px] transition-all duration-200 group-hover:text-white group-hover:underline underline-offset-[3px] decoration-white/50">12.95 억</span>
                             </div>
                             <div className="flex justify-between items-center w-full mb-[12px] group cursor-pointer">
-                                <span className="text-[#E5E5E5] text-[15.5px] transition-all duration-200 group-hover:text-[#3AB5F0] group-hover:underline underline-offset-[3px] decoration-[#3AB5F0]/50">4. NH투자증권</span>
-                                <span className="text-white text-[15.5px] transition-all duration-200 group-hover:text-[#3AB5F0] group-hover:underline underline-offset-[3px] decoration-[#3AB5F0]/50">7.95 억</span>
+                                <span className="text-[#E5E5E5] text-[15.5px] transition-all duration-200 group-hover:text-white group-hover:underline underline-offset-[3px] decoration-white/50">4. NH투자증권</span>
+                                <span className="text-white text-[15.5px] transition-all duration-200 group-hover:text-white group-hover:underline underline-offset-[3px] decoration-white/50">7.95 억</span>
                             </div>
                             <div className="flex justify-between items-center w-full group cursor-pointer">
-                                <span className="text-[#E5E5E5] text-[15.5px] transition-all duration-200 group-hover:text-[#3AB5F0] group-hover:underline underline-offset-[3px] decoration-[#3AB5F0]/50">5. 삼성물산</span>
-                                <span className="text-white text-[15.5px] transition-all duration-200 group-hover:text-[#3AB5F0] group-hover:underline underline-offset-[3px] decoration-[#3AB5F0]/50">6.00 억</span>
+                                <span className="text-[#E5E5E5] text-[15.5px] transition-all duration-200 group-hover:text-white group-hover:underline underline-offset-[3px] decoration-white/50">5. 삼성물산</span>
+                                <span className="text-white text-[15.5px] transition-all duration-200 group-hover:text-white group-hover:underline underline-offset-[3px] decoration-white/50">6.00 억</span>
                             </div>
                         </div>
 
@@ -381,27 +381,27 @@ export default function SystemCenter() {
                         <div className="flex flex-col pt-[20px] pb-[32px] px-[22px]">
                             <div className="flex justify-between items-center w-full mb-[16px]">
                                 <span className="text-[#86868B] font-bold text-[15px]">Tr. A</span>
-                                <span className="text-[#3AB5F0] font-bold text-[16px]">4,800 억</span>
+                                <span className="text-white font-bold text-[16px]">4,800 억</span>
                             </div>
                             <div className="flex justify-between items-center w-full mb-[12px] group cursor-pointer">
-                                <span className="text-[#E5E5E5] text-[15.5px] transition-all duration-200 group-hover:text-[#3AB5F0] group-hover:underline underline-offset-[3px] decoration-[#3AB5F0]/50">1. 국민은행</span>
-                                <span className="text-white text-[15.5px] transition-all duration-200 group-hover:text-[#3AB5F0] group-hover:underline underline-offset-[3px] decoration-[#3AB5F0]/50">1,500 억</span>
+                                <span className="text-[#E5E5E5] text-[15.5px] transition-all duration-200 group-hover:text-white group-hover:underline underline-offset-[3px] decoration-white/50">1. 국민은행</span>
+                                <span className="text-white text-[15.5px] transition-all duration-200 group-hover:text-white group-hover:underline underline-offset-[3px] decoration-white/50">1,500 억</span>
                             </div>
                             <div className="flex justify-between items-center w-full mb-[12px] group cursor-pointer">
-                                <span className="text-[#E5E5E5] text-[15.5px] transition-all duration-200 group-hover:text-[#3AB5F0] group-hover:underline underline-offset-[3px] decoration-[#3AB5F0]/50">2. 과학기술인공제회</span>
-                                <span className="text-white text-[15.5px] transition-all duration-200 group-hover:text-[#3AB5F0] group-hover:underline underline-offset-[3px] decoration-[#3AB5F0]/50">500 억</span>
+                                <span className="text-[#E5E5E5] text-[15.5px] transition-all duration-200 group-hover:text-white group-hover:underline underline-offset-[3px] decoration-white/50">2. 과학기술인공제회</span>
+                                <span className="text-white text-[15.5px] transition-all duration-200 group-hover:text-white group-hover:underline underline-offset-[3px] decoration-white/50">500 억</span>
                             </div>
                             <div className="flex justify-between items-center w-full mb-[12px] group cursor-pointer">
-                                <span className="text-[#E5E5E5] text-[15.5px] transition-all duration-200 group-hover:text-[#3AB5F0] group-hover:underline underline-offset-[3px] decoration-[#3AB5F0]/50">3. 대구은행</span>
-                                <span className="text-white text-[15.5px] transition-all duration-200 group-hover:text-[#3AB5F0] group-hover:underline underline-offset-[3px] decoration-[#3AB5F0]/50">500 억</span>
+                                <span className="text-[#E5E5E5] text-[15.5px] transition-all duration-200 group-hover:text-white group-hover:underline underline-offset-[3px] decoration-white/50">3. 대구은행</span>
+                                <span className="text-white text-[15.5px] transition-all duration-200 group-hover:text-white group-hover:underline underline-offset-[3px] decoration-white/50">500 억</span>
                             </div>
                             <div className="flex justify-between items-center w-full mb-[12px] group cursor-pointer">
-                                <span className="text-[#E5E5E5] text-[15.5px] transition-all duration-200 group-hover:text-[#3AB5F0] group-hover:underline underline-offset-[3px] decoration-[#3AB5F0]/50">4. 미래에셋캐피탈</span>
-                                <span className="text-white text-[15.5px] transition-all duration-200 group-hover:text-[#3AB5F0] group-hover:underline underline-offset-[3px] decoration-[#3AB5F0]/50">480 억</span>
+                                <span className="text-[#E5E5E5] text-[15.5px] transition-all duration-200 group-hover:text-white group-hover:underline underline-offset-[3px] decoration-white/50">4. 미래에셋캐피탈</span>
+                                <span className="text-white text-[15.5px] transition-all duration-200 group-hover:text-white group-hover:underline underline-offset-[3px] decoration-white/50">480 억</span>
                             </div>
                             <div className="flex justify-between items-center w-full group cursor-pointer">
-                                <span className="text-[#E5E5E5] text-[15.5px] transition-all duration-200 group-hover:text-[#3AB5F0] group-hover:underline underline-offset-[3px] decoration-[#3AB5F0]/50">5. KB캐피탈</span>
-                                <span className="text-white text-[15.5px] transition-all duration-200 group-hover:text-[#3AB5F0] group-hover:underline underline-offset-[3px] decoration-[#3AB5F0]/50">450 억</span>
+                                <span className="text-[#E5E5E5] text-[15.5px] transition-all duration-200 group-hover:text-white group-hover:underline underline-offset-[3px] decoration-white/50">5. KB캐피탈</span>
+                                <span className="text-white text-[15.5px] transition-all duration-200 group-hover:text-white group-hover:underline underline-offset-[3px] decoration-white/50">450 억</span>
                             </div>
                         </div>
 
@@ -409,27 +409,27 @@ export default function SystemCenter() {
                         <div className="flex flex-col pt-[20px] pb-[32px] px-[22px]">
                             <div className="flex justify-between items-center w-full mb-[16px]">
                                 <span className="text-[#86868B] font-bold text-[15px]">Tr. B</span>
-                                <span className="text-[#3AB5F0] font-bold text-[16px]">1,400 억</span>
+                                <span className="text-white font-bold text-[16px]">1,400 억</span>
                             </div>
                             <div className="flex justify-between items-center w-full mb-[12px] group cursor-pointer">
-                                <span className="text-[#E5E5E5] text-[15.5px] transition-all duration-200 group-hover:text-[#3AB5F0] group-hover:underline underline-offset-[3px] decoration-[#3AB5F0]/50">1. 한투리얼(Debt)</span>
-                                <span className="text-white text-[15.5px] transition-all duration-200 group-hover:text-[#3AB5F0] group-hover:underline underline-offset-[3px] decoration-[#3AB5F0]/50">600 억</span>
+                                <span className="text-[#E5E5E5] text-[15.5px] transition-all duration-200 group-hover:text-white group-hover:underline underline-offset-[3px] decoration-white/50">1. 한투리얼(Debt)</span>
+                                <span className="text-white text-[15.5px] transition-all duration-200 group-hover:text-white group-hover:underline underline-offset-[3px] decoration-white/50">600 억</span>
                             </div>
                             <div className="flex justify-between items-center w-full mb-[12px] group cursor-pointer">
-                                <span className="text-[#E5E5E5] text-[15.5px] transition-all duration-200 group-hover:text-[#3AB5F0] group-hover:underline underline-offset-[3px] decoration-[#3AB5F0]/50">2. 한투리얼(메자닌)</span>
-                                <span className="text-white text-[15.5px] transition-all duration-200 group-hover:text-[#3AB5F0] group-hover:underline underline-offset-[3px] decoration-[#3AB5F0]/50">350 억</span>
+                                <span className="text-[#E5E5E5] text-[15.5px] transition-all duration-200 group-hover:text-white group-hover:underline underline-offset-[3px] decoration-white/50">2. 한투리얼(메자닌)</span>
+                                <span className="text-white text-[15.5px] transition-all duration-200 group-hover:text-white group-hover:underline underline-offset-[3px] decoration-white/50">350 억</span>
                             </div>
                             <div className="flex justify-between items-center w-full mb-[12px] group cursor-pointer">
-                                <span className="text-[#E5E5E5] text-[15.5px] transition-all duration-200 group-hover:text-[#3AB5F0] group-hover:underline underline-offset-[3px] decoration-[#3AB5F0]/50">3. 신한증권</span>
-                                <span className="text-white text-[15.5px] transition-all duration-200 group-hover:text-[#3AB5F0] group-hover:underline underline-offset-[3px] decoration-[#3AB5F0]/50">115 억</span>
+                                <span className="text-[#E5E5E5] text-[15.5px] transition-all duration-200 group-hover:text-white group-hover:underline underline-offset-[3px] decoration-white/50">3. 신한증권</span>
+                                <span className="text-white text-[15.5px] transition-all duration-200 group-hover:text-white group-hover:underline underline-offset-[3px] decoration-white/50">115 억</span>
                             </div>
                             <div className="flex justify-between items-center w-full mb-[12px] group cursor-pointer">
-                                <span className="text-[#E5E5E5] text-[15.5px] transition-all duration-200 group-hover:text-[#3AB5F0] group-hover:underline underline-offset-[3px] decoration-[#3AB5F0]/50">4. 신한캐피탈</span>
-                                <span className="text-white text-[15.5px] transition-all duration-200 group-hover:text-[#3AB5F0] group-hover:underline underline-offset-[3px] decoration-[#3AB5F0]/50">100 억</span>
+                                <span className="text-[#E5E5E5] text-[15.5px] transition-all duration-200 group-hover:text-white group-hover:underline underline-offset-[3px] decoration-white/50">4. 신한캐피탈</span>
+                                <span className="text-white text-[15.5px] transition-all duration-200 group-hover:text-white group-hover:underline underline-offset-[3px] decoration-white/50">100 억</span>
                             </div>
                             <div className="flex justify-between items-center w-full group cursor-pointer">
-                                <span className="text-[#E5E5E5] text-[15.5px] transition-all duration-200 group-hover:text-[#3AB5F0] group-hover:underline underline-offset-[3px] decoration-[#3AB5F0]/50">5. NH투자증권</span>
-                                <span className="text-white text-[15.5px] transition-all duration-200 group-hover:text-[#3AB5F0] group-hover:underline underline-offset-[3px] decoration-[#3AB5F0]/50">85 억</span>
+                                <span className="text-[#E5E5E5] text-[15.5px] transition-all duration-200 group-hover:text-white group-hover:underline underline-offset-[3px] decoration-white/50">5. NH투자증권</span>
+                                <span className="text-white text-[15.5px] transition-all duration-200 group-hover:text-white group-hover:underline underline-offset-[3px] decoration-white/50">85 억</span>
                             </div>
                         </div>
 
@@ -437,24 +437,24 @@ export default function SystemCenter() {
                         <div className="flex flex-col pt-[20px] pb-[32px] pl-[22px] pr-[32px]">
                             <div className="flex justify-between items-center w-full mb-[16px]">
                                 <span className="text-[#86868B] font-bold text-[15px]">Tr. C</span>
-                                <span className="text-[#3AB5F0] font-bold text-[16px]">970 억</span>
+                                <span className="text-white font-bold text-[16px]">970 억</span>
                             </div>
                             <div className="flex justify-between items-center w-full mb-[12px] group cursor-pointer">
-                                <span className="text-[#E5E5E5] text-[15.5px] transition-all duration-200 group-hover:text-[#3AB5F0] group-hover:underline underline-offset-[3px] decoration-[#3AB5F0]/50">1. 대신증권</span>
-                                <span className="text-white text-[15.5px] transition-all duration-200 group-hover:text-[#3AB5F0] group-hover:underline underline-offset-[3px] decoration-[#3AB5F0]/50">480 억</span>
+                                <span className="text-[#E5E5E5] text-[15.5px] transition-all duration-200 group-hover:text-white group-hover:underline underline-offset-[3px] decoration-white/50">1. 대신증권</span>
+                                <span className="text-white text-[15.5px] transition-all duration-200 group-hover:text-white group-hover:underline underline-offset-[3px] decoration-white/50">480 억</span>
                             </div>
                             <div className="flex justify-between items-center w-full mb-[12px] group cursor-pointer">
-                                <span className="text-[#E5E5E5] text-[15.5px] transition-all duration-200 group-hover:text-[#3AB5F0] group-hover:underline underline-offset-[3px] decoration-[#3AB5F0]/50">2. 신한증권</span>
-                                <span className="text-white text-[15.5px] transition-all duration-200 group-hover:text-[#3AB5F0] group-hover:underline underline-offset-[3px] decoration-[#3AB5F0]/50">290 억</span>
+                                <span className="text-[#E5E5E5] text-[15.5px] transition-all duration-200 group-hover:text-white group-hover:underline underline-offset-[3px] decoration-white/50">2. 신한증권</span>
+                                <span className="text-white text-[15.5px] transition-all duration-200 group-hover:text-white group-hover:underline underline-offset-[3px] decoration-white/50">290 억</span>
                             </div>
                             <div className="flex justify-between items-center w-full mb-[12px] group cursor-pointer">
-                                <span className="text-[#E5E5E5] text-[15.5px] transition-all duration-200 group-hover:text-[#3AB5F0] group-hover:underline underline-offset-[3px] decoration-[#3AB5F0]/50">3. DS증권</span>
-                                <span className="text-white text-[15.5px] transition-all duration-200 group-hover:text-[#3AB5F0] group-hover:underline underline-offset-[3px] decoration-[#3AB5F0]/50">200 억</span>
+                                <span className="text-[#E5E5E5] text-[15.5px] transition-all duration-200 group-hover:text-white group-hover:underline underline-offset-[3px] decoration-white/50">3. DS증권</span>
+                                <span className="text-white text-[15.5px] transition-all duration-200 group-hover:text-white group-hover:underline underline-offset-[3px] decoration-white/50">200 억</span>
                             </div>
                             <div className="w-full border-t border-[#444]/50 mt-[6px] mb-[18px]"></div>
                             <div className="flex justify-between items-center w-full">
                                 <span className="text-[#E5E5E5] text-[15.5px]">주주대여금</span>
-                                <span className="text-[#3AB5F0] font-bold text-[16px]">2,400 억</span>
+                                <span className="text-white font-bold text-[16px]">2,400 억</span>
                             </div>
                         </div>
                     </div>
