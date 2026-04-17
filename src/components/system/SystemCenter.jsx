@@ -1003,7 +1003,7 @@ export default function SystemCenter() {
                         <div className="flex flex-row w-full flex-1 min-h-0">
                             
                             {/* Cols 1 & 2 */}
-                            <div className="flex flex-row flex-[1.7] border-r border-[#444]/50">
+                            <div className="flex flex-row flex-[1.6] border-r border-[#444]/50">
                                 {/* Col 1 */}
                                 <div className="flex flex-col flex-[0.85] border-r border-[#444]/50">
                                     <div className="flex items-center w-full h-[44px] pr-[30px]">
@@ -1062,7 +1062,7 @@ export default function SystemCenter() {
                             </div>
 
                             {/* Financials Col 3 */}
-                            <div className="flex flex-col flex-1 pl-[30px]">
+                            <div className="flex flex-col flex-1 pl-[26px]">
                                 <div className="flex flex-col w-full">
                                     <div className="flex justify-between items-center w-full h-[44px]">
                                         <span className="text-[13px] font-bold text-[#86868B]">월 GI</span>
