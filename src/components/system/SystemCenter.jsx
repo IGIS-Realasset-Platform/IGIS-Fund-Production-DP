@@ -1014,7 +1014,7 @@ export default function SystemCenter() {
                     </div>
 
                     {/* Data Box */}
-                    <div className="flex-1 bg-[#232323] border border-[#3c3c3c] rounded-[32px] overflow-hidden px-[32px] pt-[24px] pb-[32px] flex flex-col h-[360px]">
+                    <div className="flex-1 bg-[#292928] border border-[#3c3c3c] rounded-[32px] overflow-hidden px-[32px] pt-[24px] pb-[32px] flex flex-col h-[360px]">
                         
                         {/* Header */}
                         <div className="flex items-center justify-between w-full pb-[24px]">
