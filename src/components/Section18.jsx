@@ -48,6 +48,7 @@ export default function Section17({ isActive }) {
                         <button 
                             className={`group cursor-pointer relative overflow-hidden rounded-full bg-white text-black px-10 py-3 md:px-14 md:py-4 flex items-center justify-center transition-all duration-[1000ms] ease-[cubic-bezier(0.16,1,0.3,1)] transform ${isZooming ? 'opacity-0 translate-y-8 blur-md' : (step >= 3 ? 'opacity-100 translate-y-0 blur-0' : 'opacity-0 translate-y-6 blur-[6px]')}`}
                             onClick={() => {
+                                window.dispatchEvent(new Event('hide-header'));
                                 setIsZooming(true);
                                 setTimeout(() => {
                                     window.history.pushState(null, '', window.location.pathname + '?page=system-plan');

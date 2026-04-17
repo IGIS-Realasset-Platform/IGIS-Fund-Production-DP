@@ -78,9 +78,18 @@ export default function Header({ onNavigateToNews, onNavigateToHome, onNavigateT
         };
         window.addEventListener('appSlideGoto', handleGoto);
 
+        const handleHideHeader = () => {
+            const header = document.getElementById('main-header');
+            if (header) {
+                header.style.transform = "translateY(-100%)";
+            }
+        };
+        window.addEventListener('hide-header', handleHideHeader);
+
         return () => {
             window.removeEventListener('hashchange', handleHashChange);
             window.removeEventListener('appSlideGoto', handleGoto);
+            window.removeEventListener('hide-header', handleHideHeader);
         };
     }, []);
 
@@ -310,7 +319,7 @@ export default function Header({ onNavigateToNews, onNavigateToHome, onNavigateT
     return (
         <>
             <header id="main-header"
-                className="fixed top-0 left-0 bg-white text-black z-50 py-[5px] md:py-[15px] transition-transform ease-in-out"
+                className="fixed top-0 left-0 bg-white text-black z-50 py-[5px] md:py-[15px] transition-transform duration-[800ms] ease-[cubic-bezier(0.16,1,0.3,1)]"
                 style={{ transform: initialTransform.current, width: 'calc(100vw - var(--scrollbar-width, 0px))' }}>
                 <div className="w-[calc(100%-48px)] md:w-[calc(100%-100px)] max-w-[1600px] mx-auto flex justify-between items-center transition-all duration-300">
                     <a href="#page-1"
