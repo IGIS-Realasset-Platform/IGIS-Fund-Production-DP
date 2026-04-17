@@ -1062,7 +1062,7 @@ export default function SystemCenter() {
                             </div>
 
                             {/* Financials Col 3 */}
-                            <div className="flex flex-col flex-1 pl-[26px]">
+                            <div className="flex flex-col flex-1 pl-[24px]">
                                 <div className="flex flex-col w-full">
                                     <div className="flex justify-between items-center w-full h-[44px]">
                                         <span className="text-[13px] font-bold text-[#86868B]">월 GI</span>
