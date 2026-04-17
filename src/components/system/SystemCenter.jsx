@@ -1066,7 +1066,7 @@ export default function SystemCenter() {
                                 <div className="flex flex-col w-full">
                                     <div className="flex justify-between items-center w-full h-[44px]">
                                         <span className="text-[13px] font-bold text-[#86868B]">월 GI</span>
-                                        <span className="text-[22px] font-bold text-white tracking-tight">211억</span>
+                                        <span className="text-[24px] font-bold text-white tracking-tight">211억</span>
                                     </div>
                                     <div className="flex justify-between items-center w-full h-[44px]">
                                         <span className="text-[13px] font-bold text-[#86868B]">연 GI</span>
@@ -1074,7 +1074,7 @@ export default function SystemCenter() {
                                     </div>
                                     <div className="flex justify-between items-center w-full h-[44px]">
                                         <span className="text-[13px] font-bold text-[#86868B]">연 NOI <span className="font-normal text-[11px]">(85%)</span></span>
-                                        <span className="text-[22px] font-bold text-white tracking-tight">2,153억</span>
+                                        <span className="text-[24px] font-bold text-white tracking-tight">2,153억</span>
                                     </div>
                                 </div>
                                 <div className="flex flex-col mt-[26px]">
@@ -1083,14 +1083,14 @@ export default function SystemCenter() {
                                             <span className="text-[12px] font-bold text-[#86868B] leading-none">E.NOC</span>
                                             <span className="text-[10px] text-[#666] leading-none mt-[3px]">(2026)</span>
                                         </div>
-                                        <span className="text-[18px] font-bold text-white tracking-tight">523,100원</span>
+                                        <span className="text-[24px] font-bold text-white tracking-tight">523,100원</span>
                                     </div>
                                     <div className="flex justify-between items-center w-full h-[44px]">
                                         <div className="flex flex-col leading-tight">
                                             <span className="text-[12px] font-bold text-[#86868B] leading-none">E.NOC</span>
                                             <span className="text-[10px] text-[#666] leading-none mt-[3px]">(2032)</span>
                                         </div>
-                                        <span className="text-[18px] font-bold text-white tracking-tight">621,802원</span>
+                                        <span className="text-[24px] font-bold text-white tracking-tight">621,802원</span>
                                     </div>
                                 </div>
                             </div>
