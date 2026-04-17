@@ -1127,7 +1127,7 @@ export default function SystemCenter() {
 
                     </div>
                 </div>
-                ))}
+                ));
                 })()}
 
 
