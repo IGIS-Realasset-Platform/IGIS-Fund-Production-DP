@@ -47,7 +47,13 @@ export default function Section17({ isActive }) {
                         {/* Stylish Button */}
                         <button 
                             className={`group cursor-pointer relative overflow-hidden rounded-full bg-white text-black px-10 py-3 md:px-14 md:py-4 flex items-center justify-center transition-all duration-[1000ms] ease-[cubic-bezier(0.16,1,0.3,1)] transform ${isZooming ? 'opacity-0 translate-y-8 blur-md' : (step >= 3 ? 'opacity-100 translate-y-0 blur-0' : 'opacity-0 translate-y-6 blur-[6px]')}`}
-                            onClick={() => setIsZooming(true)}
+                            onClick={() => {
+                                setIsZooming(true);
+                                setTimeout(() => {
+                                    window.history.pushState(null, '', window.location.pathname + '?page=system-plan');
+                                    window.dispatchEvent(new Event('popstate'));
+                                }, 1800);
+                            }}
                         >
                             <span className="relative z-10 text-[15px] md:text-[17px] font-bold tracking-tight whitespace-nowrap">
                                 Go Inside
@@ -61,25 +67,6 @@ export default function Section17({ isActive }) {
                     </div>
 
 
-                </div>
-            </div>
-
-            {/* Immersive System Integration Overlay (Fades in after zooming into the black screen) */}
-            <div className={`absolute inset-0 z-50 flex flex-col items-center justify-center bg-black transition-all duration-[1200ms] ease-out ${isZooming ? 'opacity-100 delay-[1200ms] pointer-events-auto' : 'opacity-0 delay-0 pointer-events-none'}`}>
-                <div className={`flex flex-col items-center transition-all duration-[1000ms] ease-out delay-[1500ms] transform ${isZooming ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
-                    <h3 className="text-[24px] md:text-[34px] font-medium text-white tracking-[-0.03em] mb-10 text-center leading-tight">
-                        System Master Planning in progress.
-                        <br/>
-                        <span className="text-[#888] text-[18px] md:text-[22px] font-normal mt-3 block">
-                            Please check back later.
-                        </span>
-                    </h3>
-                    <button 
-                        onClick={() => setIsZooming(false)}
-                        className="px-8 py-3 rounded-full border border-gray-600 text-gray-300 hover:text-white hover:border-white transition-all cursor-pointer font-medium text-[15px] tracking-tight"
-                    >
-                        Go Back
-                    </button>
                 </div>
             </div>
 
