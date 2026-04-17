@@ -190,8 +190,7 @@ export default function SystemLeftNav({ isCore }) {
                 
                 {/* Theme Toggle Switch */}
                 <div 
-                    onClick={handleToggle}
-                    className="flex shrink-0 items-center justify-center cursor-pointer ml-2"
+                    className="flex shrink-0 items-center justify-center cursor-default ml-2"
                 >
                     <div className={`w-[42px] h-[24px] rounded-full relative transition-colors duration-300 ${activeLight ? 'bg-[#c3c2b7]' : 'bg-[#3A3A3C]'} border border-black/10 dark:border-[#4A4A4C]`}>
                         <div className={`w-[18px] h-[18px] bg-white rounded-full absolute top-[2px] transition-transform duration-300 shadow-sm ${activeLight ? 'translate-x-[20px]' : 'translate-x-[2px]'}`}></div>

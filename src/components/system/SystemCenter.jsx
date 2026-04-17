@@ -732,7 +732,7 @@ export default function SystemCenter() {
                 </div>
 
                 {/* Marketing & Placemaking Box */}
-                <div className="w-full bg-[#292928] border border-[#3c3c3c] rounded-[32px] flex flex-row mb-0 overflow-hidden">
+                <div className="w-full bg-[#292928] border border-[#3c3c3c] rounded-[32px] flex flex-row mb-[20px] overflow-hidden">
                     
                     {/* Left Column Strategy: Marketing */}
                     <div className="flex-1 border-r border-[#444]/50 flex flex-col">
