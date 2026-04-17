@@ -1093,25 +1093,25 @@ export default function SystemCenter() {
                             <div className="flex flex-col flex-1 pl-[24px]">
                                 <div className="flex flex-col w-full">
                                     <div className="flex justify-between items-center w-full h-[44px]">
-                                        <span className="text-[13px] font-bold text-[#86868B]">월 GI</span>
+                                        <span className="text-[14px] font-bold text-[#86868B]">월 GI</span>
                                         <span className="text-[24px] font-bold text-white tracking-tight">{data.monthlyGI}</span>
                                     </div>
                                     <div className="flex justify-between items-center w-full h-[44px]">
-                                        <span className="text-[13px] font-bold text-[#86868B]">연 GI</span>
+                                        <span className="text-[14px] font-bold text-[#86868B]">연 GI</span>
                                         <span className="text-[24px] font-bold text-white tracking-tight">{data.yearlyGI}</span>
                                     </div>
                                     <div className="flex justify-between items-center w-full h-[44px]">
-                                        <span className="text-[13px] font-bold text-[#86868B]">연 NOI <span className="font-normal text-[11px]">(85%)</span></span>
+                                        <span className="text-[14px] font-bold text-[#86868B]">연 NOI <span className="font-normal text-[11px]">(85%)</span></span>
                                         <span className="text-[24px] font-bold text-white tracking-tight">{data.yearlyNOI}</span>
                                     </div>
                                 </div>
                                 <div className="flex flex-col mt-[26px]">
                                     <div className="flex justify-between items-center w-full h-[44px]">
-                                        <span className="text-[13px] font-bold text-[#86868B]">E.NOC <span className="font-normal text-[11px] pl-[2px]">(2026)</span></span>
+                                        <span className="text-[14px] font-bold text-[#86868B]">E.NOC <span className="font-normal text-[11px] pl-[2px]">(2026)</span></span>
                                         <span className="text-[24px] font-bold text-white tracking-tight">{data.enoc2026}</span>
                                     </div>
                                     <div className="flex justify-between items-center w-full h-[44px]">
-                                        <span className="text-[13px] font-bold text-[#86868B]">E.NOC <span className="font-bold text-white text-[11px] pl-[2px]">(2032 예측)</span></span>
+                                        <span className="text-[14px] font-bold text-[#86868B]">E.NOC <span className="font-bold text-white text-[11px] pl-[2px]">(2032 예측)</span></span>
                                         <span className="text-[24px] font-bold text-white tracking-tight">{data.enoc2032}</span>
                                     </div>
                                 </div>
