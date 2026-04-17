@@ -1002,7 +1002,7 @@ export default function SystemCenter() {
                     
                     {/* Image Box */}
                     <div className="w-[430px] h-[360px] rounded-[32px] overflow-hidden relative shrink-0 border border-[#3c3c3c]/50">
-                        <img src={data.image} alt={data.title} className="w-full h-full object-cover opacity-90 transition-opacity hover:opacity-100" />
+                        <img src={`${import.meta.env.BASE_URL}${data.image.replace(/^\//, '')}`} alt={data.title} className="w-full h-full object-cover opacity-90 transition-opacity hover:opacity-100" />
                         
                         {/* Top Right '+' Button */}
                         <div className="absolute top-[17px] right-[17px] w-[46px] h-[46px] rounded-full bg-black/20 border border-white/60 flex items-center justify-center cursor-pointer hover:bg-black/30 transition-colors z-10 shadow-sm">
