@@ -3,8 +3,8 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 const ThemeContext = createContext();
 
 export function ThemeProvider({ children }) {
-    // Default to light mode (white version) as requested, true = light, false = dark
-    const [isLightMode, setIsLightMode] = useState(true);
+    // Default to dark mode as requested, true = light, false = dark
+    const [isLightMode, setIsLightMode] = useState(false);
 
     useEffect(() => {
         const root = document.documentElement;
