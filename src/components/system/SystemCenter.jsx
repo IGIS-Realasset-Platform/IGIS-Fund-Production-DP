@@ -627,7 +627,7 @@ export default function SystemCenter() {
                             </div>
                             <div className="flex items-start">
                                 <span className="w-[160px] shrink-0 text-[14px] font-bold text-[#86868B] mt-[1px]">프로젝트 브랜드 컨셉</span>
-                                <a href="#" className="text-[15px] font-medium text-[#c3c2b7] tracking-tight leading-[22px] hover:text-[#fbf167] cursor-pointer transition-colors">TBD (ex. Moden Urban Village Green & Wellness by Azabudai Hills)</a>
+                                <span className="text-[15px] font-medium text-[#666] tracking-tight leading-[22px] cursor-default">TBD (ex. Moden Urban Village Green & Wellness by Azabudai Hills)</span>
                             </div>
                             <div className="flex items-start">
                                 <span className="w-[160px] shrink-0 text-[14px] font-bold text-[#86868B] mt-[1px]">공간 UX 차별성</span>
