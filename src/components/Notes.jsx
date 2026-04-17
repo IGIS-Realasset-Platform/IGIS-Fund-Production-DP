@@ -161,27 +161,19 @@ We will designate key personnel from each organization as official mission execu
 
     const defenseTextKr = `1. "그래서 기존 데이터(Legacy) 마이그레이션은 어떻게 할 건가?"
 예상 질문: "과거 10년간 쌓인 수만 개의 엑셀 파일과 PDF는 이 시스템에 어떻게 넣을 건가? 수작업으로 다 칠 건가?"
-방어 논리: 과거 데이터는 수치화하여 정형 DB에 억지로 밀어 넣지 않고, AI(Vector DB)가 검색할 수 있는 문서 형태로만 쏟아 넣습니다. IFPDP의 정형 데이터(10단계 파이프라인)는 '론칭일 이후 신규 프로젝트' 및 '핵심 파일럿 프로젝트(IOTA 등)'부터 새롭게 시작하여 마찰 비용을 최소화한다는 점을 강조해야 합니다.
+방어 논리: 과거 데이터는 수치화하여 정형 DB에 억지로 밀어 넣지 않고, AI(Vector DB)가 검색할 수 있는 문서 형태로만 쏟아 넣는다. IFPDP의 정형 데이터(10단계 파이프라인)는 '론칭일 이후 신규 프로젝트' 및 '핵심 파일럿 프로젝트(IOTA 등)'부터 새롭게 시작하여 마찰 비용을 최소화하고 실행 속도를 높인다.
 
 2. "실무진의 입력 저항(Friction)은 어떻게 돌파할 것인가?"
 예상 질문: "지금도 바빠 죽겠는데, 시스템에 데이터 입력하느라 일 못 하겠다는 불만은 어떻게 감당할 건가?"
-방어 논리: 초기에는 부서별 1인의 'Data Pioneer(미션원)'를 차출하여 전담시키고, 이들에게 파격적인 KPI 가중치와 인센티브를 부여합니다. 입력 방식을 직접 타이핑하는 것이 아니라, 표준 엑셀 템플릿을 업로드하면 자동 파싱(Parsing)되거나, 알스퀘어 등 외부 데이터를 API로 긁어오는 방식으로 'UX의 편의성'을 최우선으로 설계했음을 어필해야 합니다.
-
-3. "기획추진센터의 '권력 독점(옥상옥)' 논란은 어떻게 피할 것인가?"
-예상 질문: "기추센터가 타 부서의 데이터를 다 쥐고 흔들면, 결국 기추센터가 상전 노릇 하려는 거 아닌가?"
-방어 논리: 부장님께서 'The Steering Wheel' 장표에서 다듬으셨던 'The Orchestrator(조율자)' 논리를 강력하게 전면에 내세워야 합니다. "우리는 군림하는 것이 아니라, 타 부서가 못 하는 대형 앵커 유치(기업마케팅)나 꼬여버린 인허가 병목을 시스템 데이터를 근거로 '대신 뚫어주는 부스터(Booster)' 역할이다"라고 실리를 강조해야 합니다.`;
+방어 논리: 초기에는 부서별 1인의 'Data Pioneer(미션자원자)'를 차출하여 전담시킨다. 입력 방식을 직접 타이핑하는 것이 아니라, 표준 엑셀 템플릿을 업로드하면 자동 파싱(Parsing)되는 방법을 취한다. 그것도 어려우면 Raw file을 전달 받아 기획추진에서 직접 입력한다.`;
 
     const defenseTextEn = `1. "How will we handle Legacy Data Migration?"
 Anticipated Question: "How will we input the tens of thousands of Excel files and PDFs accumulated over the past 10 years into this system? Will it be done manually?"
-Defense Logic: Past data will not be forcibly quantified and pushed into a structured DB; it will simply be dumped in a document format searchable by AI (Vector DB). We must emphasize that IFPDP's structured data (10-stage pipeline) will start fresh with 'new projects post-launch' and 'core pilot projects (like IOTA)' to minimize friction costs.
+Defense Logic: Past data is not forcibly quantified and pushed into a structured DB; it is simply loaded in a document format searchable by AI (Vector DB). IFPDP's structured data (10-stage pipeline) starts fresh with 'new projects post-launch' and 'core pilot projects (like IOTA)' to minimize friction costs and accelerate execution speed.
 
 2. "How will we overcome the working-level Input Friction?"
 Anticipated Question: "We are already swamped with work. How will we handle complaints about not being able to do our jobs because we're stuck entering data into the system?"
-Defense Logic: Initially, one 'Data Pioneer' will be selected from each department to take dedicated charge, and they will be given exceptional KPI weighting and incentives. We must highlight that the input method prioritizes 'UX Convenience', designed not for direct typing, but for automatic parsing when uploading standard Excel templates, or scraping external data via APIs like RSQUARE.
-
-3. "How to avoid the controversy of 'Monopolization of Power' by the Planning & Promotion Center?"
-Anticipated Question: "If the Planning & Promotion Center holds and controls data from all departments, aren't they trying to act like overlords?"
-Defense Logic: We must strongly bring the 'The Orchestrator' logic—which was refined in 'The Steering Wheel' slide—to the forefront. We must emphasize practical benefits: "We are not ruling over others, but acting as a 'Booster' that pushes through bottlenecks—such as attracting large anchor tenants (Corporate Marketing) or resolving tangled licensing issues—based on system data, things that other departments cannot do."`;
+Defense Logic: Initially, one 'Data Pioneer (Mission Volunteer)' is selected from each department to take dedicated charge. The input method does not involve direct typing, but rather automatic parsing when standard Excel templates are uploaded. If even that is difficult, raw files are received and directly entered by the Planning & Promotion Center.`;
 
     const aiParts = (lang === 'en' ? aiTextEn : aiTextKr).split(/(?=\n\d\.\s)/g);
     const upperParts = (lang === 'en' ? upperTextEn : upperTextKr).split(/(?=\n\d\.\s)/g);

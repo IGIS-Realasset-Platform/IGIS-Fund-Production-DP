@@ -33,7 +33,14 @@ export default function Header({ onNavigateToNews, onNavigateToHome, onNavigateT
                 { label: "Delegation of Authority", id: "page-17" }
             ] 
         },
-        { title: "Inside IFPDP", id: "page-18", items: [] },
+        { 
+            title: "Inside IFPDP", 
+            id: "page-18", 
+            items: [
+                { label: "IFPDP Usage Flow", id: "page-18" },
+                { label: "Core Detail Page Draft", type: "system-core" }
+            ] 
+        },
         { title: "Execution Plan", type: "action-plan", items: [] }
     ];
 
@@ -59,7 +66,14 @@ export default function Header({ onNavigateToNews, onNavigateToHome, onNavigateT
                 { label: "운영 거버넌스 및 의사결정 체계", id: "page-17" }
             ] 
         },
-        { title: "Inside IFPDP", id: "page-18", items: [] },
+        { 
+            title: "Inside IFPDP", 
+            id: "page-18", 
+            items: [
+                { label: "IFPDP의 사용 흐름", id: "page-18" },
+                { label: "Core Detail Page Draft", type: "system-core" }
+            ] 
+        },
         { title: "Execution Plan", type: "action-plan", items: [] }
     ];
 
@@ -412,6 +426,7 @@ export default function Header({ onNavigateToNews, onNavigateToHome, onNavigateT
                                                     const isPartnership = item.type === 'partnership';
                                                     const isAlert = item.type === 'alert';
                                                     const isDownload = item.type === 'download';
+                                                    const isSystemCore = item.type === 'system-core';
 
                                                     const clickHandler = (e) => {
                                                         if (isNews) {
@@ -427,7 +442,7 @@ export default function Header({ onNavigateToNews, onNavigateToHome, onNavigateT
                                                             e.preventDefault();
                                                             setIsMegaMenuOpen(false);
                                                             alert(item.message);
-                                                        } else if (isDownload) {
+                                                        } else if (isDownload || isSystemCore) {
                                                             setIsMegaMenuOpen(false);
                                                         } else {
                                                             setIsMegaMenuOpen(false);
@@ -438,7 +453,7 @@ export default function Header({ onNavigateToNews, onNavigateToHome, onNavigateT
                                                     return (
                                                         <li key={itemIdx}>
                                                             <a
-                                                                href={isNews ? "#news" : isLease ? "#lease" : isPartnership ? "#partnership" : isAlert ? "#" : isDownload ? item.url : `#${item.id}`}
+                                                                href={isNews ? "#news" : isLease ? "#lease" : isPartnership ? "#partnership" : isAlert ? "#" : isDownload ? item.url : isSystemCore ? "?page=system-core" : `#${item.id}`}
                                                                 target={isDownload ? "_blank" : undefined}
                                                                 onClick={clickHandler}
                                                                 className="text-[13px] xl:text-[15px] text-gray-700 font-light tracking-[-0.03em] group/sub inline-block w-fit"
@@ -462,9 +477,6 @@ export default function Header({ onNavigateToNews, onNavigateToHome, onNavigateT
                                         <button onClick={() => setModalType('terms')} className="cursor-pointer hover:text-black transition-colors">
                                             {lang === 'kr' ? "이용약관" : "Terms of Service"}
                                         </button>
-                                        <a href="?page=system-core" className="cursor-pointer hover:text-black transition-colors mt-auto font-normal text-[13px] md:text-[14px]">
-                                            Core Detail Page
-                                        </a>
                                     </div>
 
                                 </div>
@@ -546,6 +558,17 @@ export default function Header({ onNavigateToNews, onNavigateToHome, onNavigateT
                                                 {item.label}
                                             </a>
                                         );
+                                    } else if (item.type === 'system-core') {
+                                        return (
+                                            <a
+                                                key={itemIdx}
+                                                href="?page=system-core"
+                                                onClick={() => setMobileMenuOpen(false)}
+                                                className={`text-[15px] text-gray-600 hover:text-black hover:font-bold transition-all tracking-tight`}
+                                            >
+                                                {item.label}
+                                            </a>
+                                        );
                                     } else {
                                         return (
                                             <a
@@ -570,9 +593,6 @@ export default function Header({ onNavigateToNews, onNavigateToHome, onNavigateT
                         <button onClick={() => { setModalType('terms'); setMobileMenuOpen(false); }} className="text-[15px] font-bold text-gray-500 hover:text-black cursor-pointer transition-colors">
                             {lang === 'kr' ? "이용약관" : "Terms of Service"}
                         </button>
-                        <a href="?page=system-core" className="text-[16px] font-normal text-gray-500 hover:text-black cursor-pointer transition-colors mt-2">
-                            Core Detail Page
-                        </a>
                     </div>
                     <div className="flex space-x-8 pt-6 border-t border-gray-200 justify-start w-full mb-8">
                         <button className="text-[20px] font-bold text-gray-800 hover:text-gray-500" onClick={() => switchLang('en')}>EN</button>
