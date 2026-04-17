@@ -1003,7 +1003,7 @@ export default function SystemCenter() {
                         <div className="flex flex-row w-full flex-1 min-h-0">
                             
                             {/* Cols 1 & 2 */}
-                            <div className="flex flex-row flex-[1.6] border-r border-[#444]/50">
+                            <div className="flex flex-row flex-[1.55] border-r border-[#444]/50">
                                 {/* Col 1 */}
                                 <div className="flex flex-col flex-[0.85] border-r border-[#444]/50">
                                     <div className="flex items-center w-full h-[44px] pr-[30px]">
