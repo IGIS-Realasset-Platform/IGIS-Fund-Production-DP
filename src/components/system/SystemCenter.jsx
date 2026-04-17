@@ -1007,56 +1007,56 @@ export default function SystemCenter() {
                                 {/* Col 1 */}
                                 <div className="flex flex-col flex-[0.85] border-r border-[#444]/50">
                                     <div className="flex items-center w-full h-[44px] pr-[30px]">
-                                        <span className="w-[85px] shrink-0 text-[13px] font-bold text-[#86868B]">권역</span>
-                                        <span className="text-[14px] text-[#E5E5E5] font-medium truncate">GBD</span>
+                                        <span className="w-[85px] shrink-0 text-[15px] font-bold text-[#86868B]">권역</span>
+                                        <span className="text-[16px] text-[#E5E5E5] font-medium truncate">GBD</span>
                                     </div>
                                     <div className="flex items-center w-full h-[44px] pr-[30px] border-t border-[#444]/50">
-                                        <span className="w-[85px] shrink-0 text-[13px] font-bold text-[#86868B]">준공년도</span>
-                                        <span className="text-[14px] text-[#E5E5E5] font-medium truncate">2021</span>
+                                        <span className="w-[85px] shrink-0 text-[15px] font-bold text-[#86868B]">준공년도</span>
+                                        <span className="text-[16px] text-[#E5E5E5] font-medium truncate">2021</span>
                                     </div>
                                     <div className="flex items-center w-full h-[44px] pr-[30px] border-t border-[#444]/50">
-                                        <span className="w-[85px] shrink-0 text-[13px] font-bold text-[#86868B]">연면적</span>
-                                        <span className="text-[14px] text-[#E5E5E5] font-medium tracking-tight truncate">72,374평</span>
+                                        <span className="w-[85px] shrink-0 text-[15px] font-bold text-[#86868B]">연면적</span>
+                                        <span className="text-[16px] text-[#E5E5E5] font-medium tracking-tight truncate">72,374평</span>
                                     </div>
                                     <div className="flex items-center w-full h-[44px] pr-[30px] border-t border-[#444]/50">
-                                        <span className="w-[85px] shrink-0 text-[13px] font-bold text-[#86868B]">오피스면적</span>
-                                        <span className="text-[14px] text-[#E5E5E5] font-medium tracking-tight truncate">51,189평</span>
+                                        <span className="w-[85px] shrink-0 text-[15px] font-bold text-[#86868B]">오피스면적</span>
+                                        <span className="text-[16px] text-[#E5E5E5] font-medium tracking-tight truncate">51,189평</span>
                                     </div>
                                     <div className="flex items-center w-full h-[44px] pr-[30px] border-t border-[#444]/50">
-                                        <span className="w-[85px] shrink-0 text-[13px] font-bold text-[#86868B]">리테일면적</span>
-                                        <span className="text-[14px] text-[#E5E5E5] font-medium tracking-tight truncate">2,288평</span>
+                                        <span className="w-[85px] shrink-0 text-[15px] font-bold text-[#86868B]">리테일면적</span>
+                                        <span className="text-[16px] text-[#E5E5E5] font-medium tracking-tight truncate">2,288평</span>
                                     </div>
                                     <div className="flex items-center w-full h-[44px] pr-[30px] border-t border-[#444]/50">
-                                        <span className="w-[85px] shrink-0 text-[13px] font-bold text-[#86868B]">기준층면적</span>
-                                        <span className="text-[14px] text-[#E5E5E5] font-medium tracking-tight truncate">599/529평</span>
+                                        <span className="w-[85px] shrink-0 text-[15px] font-bold text-[#86868B]">기준층면적</span>
+                                        <span className="text-[16px] text-[#E5E5E5] font-medium tracking-tight truncate">599/529평</span>
                                     </div>
                                 </div>
                                 
                                 {/* Col 2 */}
                                 <div className="flex flex-col flex-[1.15]">
                                     <div className="flex items-center w-full h-[44px] pl-[26px] pr-[30px]">
-                                        <span className="w-[75px] shrink-0 text-[13px] font-bold text-[#86868B]">규모</span>
-                                        <span className="text-[14px] text-[#E5E5E5] font-medium truncate">B9 / 34F</span>
+                                        <span className="w-[75px] shrink-0 text-[15px] font-bold text-[#86868B]">규모</span>
+                                        <span className="text-[16px] text-[#E5E5E5] font-medium truncate">B9 / 34F</span>
                                     </div>
                                     <div className="flex items-center w-full h-[44px] pl-[26px] pr-[30px] border-t border-[#444]/50">
-                                        <span className="w-[75px] shrink-0 text-[13px] font-bold text-[#86868B]">천정고</span>
-                                        <span className="text-[14px] text-[#E5E5E5] font-medium truncate">3.00m</span>
+                                        <span className="w-[75px] shrink-0 text-[15px] font-bold text-[#86868B]">천정고</span>
+                                        <span className="text-[16px] text-[#E5E5E5] font-medium truncate">3.00m</span>
                                     </div>
                                     <div className="flex items-center w-full h-[44px] pl-[26px] pr-[30px] border-t border-[#444]/50">
-                                        <span className="w-[75px] shrink-0 text-[13px] font-bold text-[#86868B]">주차대수</span>
-                                        <span className="text-[14px] text-[#E5E5E5] font-medium truncate">889 대</span>
+                                        <span className="w-[75px] shrink-0 text-[15px] font-bold text-[#86868B]">주차대수</span>
+                                        <span className="text-[16px] text-[#E5E5E5] font-medium truncate">889 대</span>
                                     </div>
                                     <div className="flex items-center w-full h-[44px] pl-[26px] pr-[30px] border-t border-[#444]/50">
-                                        <span className="w-[75px] shrink-0 text-[13px] font-bold text-[#86868B]">시공사</span>
-                                        <span className="text-[14px] text-[#E5E5E5] font-medium tracking-tight truncate">현대건설, 현대엔지..</span>
+                                        <span className="w-[75px] shrink-0 text-[15px] font-bold text-[#86868B]">시공사</span>
+                                        <span className="text-[16px] text-[#E5E5E5] font-medium tracking-tight truncate">현대건설, 현대엔지..</span>
                                     </div>
                                     <div className="flex items-center w-full h-[44px] pl-[26px] pr-[30px] border-t border-[#444]/50">
-                                        <span className="w-[75px] shrink-0 text-[13px] font-bold text-[#86868B]">설계사</span>
-                                        <span className="text-[14px] text-[#E5E5E5] font-medium truncate">JMA, dA</span>
+                                        <span className="w-[75px] shrink-0 text-[15px] font-bold text-[#86868B]">설계사</span>
+                                        <span className="text-[16px] text-[#E5E5E5] font-medium truncate">JMA, dA</span>
                                     </div>
                                     <div className="flex items-center w-full h-[44px] pl-[26px] pr-[30px] border-t border-[#444]/50">
-                                        <span className="w-[75px] shrink-0 text-[13px] font-bold text-[#86868B]">리스스팬</span>
-                                        <span className="text-[14px] text-[#E5E5E5] font-medium truncate">16m</span>
+                                        <span className="w-[75px] shrink-0 text-[15px] font-bold text-[#86868B]">리스스팬</span>
+                                        <span className="text-[16px] text-[#E5E5E5] font-medium truncate">16m</span>
                                     </div>
                                 </div>
                             </div>
