@@ -87,7 +87,7 @@ export default function ParallelPlan() {
                 <div className="flex flex-col gap-[36px] w-full pb-[100px]">
                     
                     {/* Platform Box */}
-                    <div className="w-full border-t-[1px] border-[#f0f0f0] pt-[36px] pb-[36px]">
+                    <div className="w-full border-[6px] border-black p-[50px]">
                         <div className="flex items-start w-full">
                             <div className="flex-1 flex flex-col">
                                 <h2 className="text-[32px] md:text-[36px] font-bold tracking-tighter mb-[22px] font-inter">
@@ -117,7 +117,7 @@ export default function ParallelPlan() {
                     </div>
 
                     {/* AI Adoption Box */}
-                    <div className="w-full border-t-[1px] border-[#f0f0f0] pt-[36px]">
+                    <div className="w-full border-[6px] border-black p-[50px]">
                         <div className="flex items-start w-full">
                             <div className="flex-1 flex flex-col">
                                 <h2 className="text-[32px] md:text-[36px] font-bold tracking-tighter mb-[22px] font-inter">
