@@ -12,66 +12,61 @@ export default function Section2({ isActive }) {
             return;
         }
         
-        // Cinematic Sequencing - 빠르게 조정
-        const t1 = setTimeout(() => setStep(1), 500);  
-        const t2 = setTimeout(() => setStep(2), 1400); // OpenClaw 등장 (당김)
-        const t3 = setTimeout(() => setStep(3), 2100); // 밑에 텍스트 등장
-        const t4 = setTimeout(() => setStep(4), 3000); // 밑줄 긋기 애니메이션
+        // Cinematic Sequencing for the new Employee-facing text
+        const t1 = setTimeout(() => setStep(1), 500);  // Line 1
+        const t2 = setTimeout(() => setStep(2), 1500); // Line 2
+        const t3 = setTimeout(() => setStep(3), 2500); // Line 3
+        const t4 = setTimeout(() => setStep(4), 4200); // Small text
+        const t5 = setTimeout(() => setStep(5), 5200); // OpenClaw Box
 
-        return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); clearTimeout(t4); };
+        return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); clearTimeout(t4); clearTimeout(t5); };
     }, [isActive]);
 
     return (
         <section className="section w-full h-full bg-white overflow-y-auto relative px-4 flex flex-col">
             <div className="w-full flex flex-col items-center justify-center py-24 md:py-32 my-auto">
                 
-                {/* 일반 Flex Flow로 좌측 정렬 및 가장 타이트한 줄간격 밀착 */}
-                <div className="flex flex-col items-start justify-center text-left max-w-[1000px] w-full gap-0 md:gap-1 relative border-l-0 pl-0 -translate-y-[40px] md:-translate-y-[50px]">
+                <div className="flex flex-col items-start justify-center text-left max-w-[1100px] w-full gap-0 relative border-l-0 pl-0 -translate-y-[20px] md:-translate-y-[30px]">
                     
-                    {/* 2. Top Text (relative Wrapper for anchoring absolute Logo) */}
-                    <div className="relative w-full">
-                        {/* 0. OpenClaw Logo (Absolute 배치로 텍스트 밀림 현상 완벽 방지) */}
-                        <div className="absolute bottom-full left-0 mb-1 md:mb-2 overflow-hidden pointer-events-none">
-                            <img 
-                                src={openclawImg} 
-                                alt="OpenClaw Logo" 
-                                className={`h-[40px] md:h-[60px] object-contain mix-blend-multiply transition-all duration-[1200ms] ease-[cubic-bezier(0.19,1,0.22,1)] ${step >= 4 ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'}`} 
-                            />
-                        </div>
+                    {/* Line 1 */}
+                    <div className={`transition-all duration-[1200ms] ease-[cubic-bezier(0.19,1,0.22,1)] ${step >= 1 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
+                        <p className="text-[28px] md:text-[38px] font-bold text-[#666] tracking-tight leading-[1.2]">
+                            {lang === 'kr' ? "바깥 세상의 지식만 읊어대는 평범한 AI를 넘어," : "Beyond ordinary AI merely reciting worldly knowledge,"}
+                        </p>
+                    </div>
 
-                        {/* Top Text content */}
-                        <div 
-                            className={`flex flex-col items-start transition-all duration-[1200ms] ease-[cubic-bezier(0.19,1,0.22,1)] overflow-hidden ${step >= 2 ? 'opacity-100 max-h-[300px]' : 'opacity-0 max-h-0'}`}
-                        >
-                            <p className="text-[37px] md:text-[51px] font-bold text-[#1d1d1f] tracking-tight leading-[1.05]">
-                                {lang === 'kr' ? "OpenClaw를 쓰고 계신" : "As an active user of OpenClaw,"}
+                    {/* Line 2 */}
+                    <div className={`transition-all duration-[1200ms] ease-[cubic-bezier(0.19,1,0.22,1)] mt-2 md:mt-4 ${step >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
+                        <p className="text-[34px] md:text-[48px] font-bold text-[#1d1d1f] tracking-tight leading-[1.15] break-keep">
+                            {lang === 'kr' ? "내 PC 안의 수많은 파일과 문서들을 통째로 꿰뚫어 보고 분석하는" : "an exclusive AI that perfectly penetrates and analyzes all files and documents in your PC,"}
+                        </p>
+                    </div>
+
+                    {/* Line 3 */}
+                    <div className={`transition-all duration-[1200ms] ease-[cubic-bezier(0.19,1,0.22,1)] mt-2 md:mt-4 ${step >= 3 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
+                        <p className="text-[34px] md:text-[48px] font-bold text-[#1d1d1f] tracking-tight leading-[1.15] break-keep">
+                            <span className="text-[#297cf6]">{lang === 'kr' ? "나만의 전용 AI" : "your own dedicated AI"}</span>
+                            {lang === 'kr' ? "가 쏟아낼 압도적인 결과물들을 상상해 보신 적 있습니까?" : " – have you ever imagined the overwhelming results it could produce?"}
+                        </p>
+                    </div>
+
+                    {/* Sub Text 1 */}
+                    <div className={`transition-all duration-[1500ms] ease-[cubic-bezier(0.19,1,0.22,1)] mt-16 md:mt-24 ${step >= 4 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+                        <p className="text-[20px] md:text-[24px] font-medium text-[#555] tracking-tight border-l-[3px] border-[#297cf6] pl-4 leading-[1.4]">
+                            {lang === 'kr' ? "그런 AI들이 이미 작동하고 사용되어지고 있습니다." : "Such AIs are actually already operating and being utilized today."}
+                        </p>
+                    </div>
+
+                    {/* OpenClaw Reveal Box */}
+                    <div className={`transition-all duration-[1500ms] ease-[cubic-bezier(0.19,1,0.22,1)] mt-6 w-full ${step >= 5 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+                        <div className="flex flex-col md:flex-row items-start md:items-center gap-6 bg-[#f8f9fa] border border-[#e2e8f0] rounded-2xl p-6 md:px-8 md:py-6 w-full max-w-[950px] shadow-sm hover:shadow-md transition-shadow duration-500">
+                            <img src={openclawImg} alt="OpenClaw Logo" className="h-[28px] md:h-[34px] object-contain mix-blend-multiply opacity-90 shrink-0" />
+                            <p className="text-[17px] md:text-[19px] text-[#444] leading-[1.6] break-keep font-medium">
+                                {lang === 'kr' ? 
+                                "오픈클로(OpenClaw)는 내 PC 내의 엑셀, 문서, PPT 등 산재된 실무 데이터를 직접 읽고 맥락을 융합하여 기안서 초안과 인사이트를 실시간으로 작성해 주는 이지스 전용 업무 인프라 AI입니다." : 
+                                "OpenClaw is an exclusive business AI infrastructure that directly reads and fuses practical data from your PC history to draft documents and provide core insights in real-time."}
                             </p>
                         </div>
-                    </div>
-
-                    {/* 1. Middle Text (Hero) */}
-                    <div 
-                        className={`transition-all duration-[1200ms] ease-[cubic-bezier(0.19,1,0.22,1)] ${step >= 1 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
-                    >
-                        <p className="text-[37px] md:text-[51px] font-bold text-[#1d1d1f] tracking-tight leading-[1.05]">
-                            {lang === 'kr' ? "대표님은 이미 알고 계실 것입니다." : "you likely already recognize,"}
-                        </p>
-                    </div>
-
-                    {/* 3. Bottom Text - 밑줄 그어지는 하이라이트 애니메이션 추가 */}
-                    <div 
-                        className={`flex flex-col items-start transition-all duration-[1200ms] ease-[cubic-bezier(0.19,1,0.22,1)] overflow-hidden ${step >= 3 ? 'opacity-100 max-h-[250px] mt-1' : 'opacity-0 max-h-0 mt-0'}`}
-                    >
-                        <p className="text-[37px] md:text-[51px] font-bold text-[#1d1d1f] tracking-tight leading-[1.1] inline-block pb-4 z-10">
-                            <span className="relative inline-block pb-[1px]">
-                                {lang === 'kr' ? "내 PC에 들어와 모든 걸 할 수 있는" : "the unprecedented power of an AI"}
-                                {/* 좌측에서 우측으로 그어지는 언더라인 (1px 얇게, 2px 더 위로 밀착) */}
-                                <span 
-                                    className={`absolute bottom-[2px] left-0 h-[2px] md:h-[3px] bg-[#1d1d1f] -z-10 transition-all duration-[800ms] ease-[cubic-bezier(0.25,1,0.5,1)] ${step >= 4 ? 'w-full opacity-100' : 'w-0 opacity-0'}`}
-                                ></span>
-                            </span>
-                            {lang === 'kr' ? ' AI의 위력을.' : ' operating entirely within your PC.'}
-                        </p>
                     </div>
 
                 </div>
