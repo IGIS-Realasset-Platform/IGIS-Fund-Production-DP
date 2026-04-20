@@ -19,14 +19,14 @@ export default function SystemCore() {
             {/* Stage 2 Layout (상세페이지 고정) */}
             <div className="flex-1 flex overflow-hidden">
                 {/* 컨텐츠 박스 (SystemCenter) */}
-                <div className="w-[calc(100%-520px)] h-full overflow-hidden shrink-0 flex flex-col items-stretch opacity-100">
+                <div className="w-[calc(100%-510px)] h-full overflow-hidden shrink-0 flex flex-col items-stretch opacity-100">
                     <div className="w-full h-full flex flex-col items-stretch min-w-[600px] opacity-100">
                         <SystemCenter />
                     </div>
                 </div>
 
                 {/* 채팅/RAG 박스 */}
-                <div className="w-[520px] h-full flex flex-col shrink-0 border-l border-[#2C2C2E]">
+                <div className="w-[510px] h-full flex flex-col shrink-0 border-l border-[#2C2C2E]">
                     <SystemRightRAG />
                 </div>
             </div>
