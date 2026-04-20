@@ -44,10 +44,20 @@ export default function ParallelPlan() {
         },
         en: {
             title: "Platform Build & AI Adoption (Parallel Track)",
-            subtitle: "We will establish a Real Asset Datalake and efficiently integrate high-performance AI models to fulfill its ultimate role as an AI platform. The core 'Data Foundation' and 'Enterprise AI' will proceed concurrently.",
+            subtitle: (
+                <>
+                    We will establish a Real Asset Datalake and efficiently integrate high-performance AI models to fulfill its ultimate role as an AI platform.<br />
+                    The core 'Data Foundation' and 'Enterprise AI' will proceed concurrently.
+                </>
+            ),
             box1: {
                 title: "1. Platform",
-                desc: "We prioritize gathering scattered data starting with high-priority projects and will progressively deploy stage/sector dashboards in real-time to maximize practical management efficiency.",
+                desc: (
+                    <>
+                        We prioritize gathering scattered data starting with high-priority projects and will progressively deploy stage/sector dashboards in real-time.<br />
+                        Deploy these natively in real-time to maximize practical management efficiency.
+                    </>
+                ),
                 bullets: [
                     { label: "A", title: "Integrated Statistics", desc: "Deploy contextual (Priority, Vehicle, Sector, Use, Type..) listings and statistical distributions." },
                     { label: "B", title: "Core Detail Screens", desc: "Digitize tailored project core screens by asset type (Office, Logistics, etc.) for Investment/Development/Management." },
@@ -74,11 +84,11 @@ export default function ParallelPlan() {
             <div className={`w-full max-w-[1400px] flex flex-col transition-all duration-[1200ms] transform ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
                 
                 {/* Header Block */}
-                <div className="w-full pt-[20px] pb-[36px] mb-[45px]">
+                <div className="w-full pt-[20px] pb-[36px] mb-[25px]">
                     <h1 className="text-[36px] md:text-[42px] font-extrabold tracking-tight uppercase font-inter leading-tight mb-[24px]">
                         {text.title}
                     </h1>
-                    <p className="text-[22px] md:text-[24px] font-bold text-[#222] tracking-tight leading-[1.6] break-keep">
+                    <p className="text-[22px] md:text-[24px] font-bold text-[#222] tracking-tight leading-[36px] break-keep">
                         {text.subtitle}
                     </p>
                 </div>
@@ -87,13 +97,13 @@ export default function ParallelPlan() {
                 <div className="flex flex-col gap-[36px] w-full pb-[100px]">
                     
                     {/* Platform Box */}
-                    <div className="w-full border-[6px] border-black p-[50px]">
+                    <div className="w-full border-[6px] border-black px-[50px] pt-[40px] pb-[50px]">
                         <div className="flex items-start w-full">
                             <div className="flex-1 flex flex-col">
-                                <h2 className="text-[32px] md:text-[36px] font-bold tracking-tighter mb-[22px] font-inter">
+                                <h2 className="text-[32px] md:text-[36px] font-bold tracking-tighter mb-[18px] font-inter">
                                     {text.box1.title}
                                 </h2>
-                                <p className="text-[24px] font-medium text-[#222] leading-[1.6] tracking-tight mb-[40px] break-keep">
+                                <p className="text-[24px] font-medium text-[#222] leading-[36px] tracking-tight mb-[20px] break-keep">
                                     {text.box1.desc}
                                 </p>
                                 
@@ -103,10 +113,10 @@ export default function ParallelPlan() {
                                             <div className="text-[17px] font-bold tracking-wider mb-[16px] pb-[10px] text-[#888] uppercase">
                                                 {bullet.label}
                                             </div>
-                                            <h3 className="text-[22px] font-bold text-black tracking-tight mb-[12px]">
+                                            <h3 className="text-[22px] font-bold text-black tracking-tight mb-[8px]">
                                                 {bullet.title}
                                             </h3>
-                                            <p className="text-[19px] font-medium leading-[1.6] text-[#333] tracking-tight break-keep">
+                                            <p className="text-[19px] font-medium leading-[28px] text-[#333] tracking-tight break-keep">
                                                 {bullet.desc}
                                             </p>
                                         </div>
@@ -117,13 +127,13 @@ export default function ParallelPlan() {
                     </div>
 
                     {/* AI Adoption Box */}
-                    <div className="w-full border-[6px] border-black p-[50px]">
+                    <div className="w-full border-[6px] border-black px-[50px] pt-[40px] pb-[50px]">
                         <div className="flex items-start w-full">
                             <div className="flex-1 flex flex-col">
-                                <h2 className="text-[32px] md:text-[36px] font-bold tracking-tighter mb-[22px] font-inter">
+                                <h2 className="text-[32px] md:text-[36px] font-bold tracking-tighter mb-[18px] font-inter">
                                     {text.box2.title}
                                 </h2>
-                                <p className="text-[24px] font-medium text-[#222] leading-[1.6] tracking-tight mb-[40px] break-keep">
+                                <p className="text-[24px] font-medium text-[#222] leading-[36px] tracking-tight mb-[20px] break-keep">
                                     {text.box2.desc}
                                 </p>
                                 
@@ -133,10 +143,10 @@ export default function ParallelPlan() {
                                             <div className="text-[17px] font-bold tracking-wider mb-[16px] pb-[10px] text-[#888] uppercase">
                                                 {bullet.label}
                                             </div>
-                                            <h3 className="text-[22px] font-bold text-black tracking-tight mb-[12px]">
+                                            <h3 className="text-[22px] font-bold text-black tracking-tight mb-[8px]">
                                                 {bullet.title}
                                             </h3>
-                                            <p className="text-[19px] font-medium leading-[1.6] text-[#333] tracking-tight break-keep">
+                                            <p className="text-[19px] font-medium leading-[28px] text-[#333] tracking-tight break-keep">
                                                 {bullet.desc}
                                             </p>
                                         </div>
