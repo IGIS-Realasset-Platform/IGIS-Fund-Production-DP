@@ -12,10 +12,20 @@ export default function ParallelPlan() {
     const content = {
         kr: {
             title: "플랫폼 구축 및 AI 도입 (Parallel 트랙)",
-            subtitle: "기본적으로 리얼에셋의 Datalake를 구성하고 성능 좋은 AI모델을 그 위에 태워 AI 플랫폼으로써의 궁극적 기능을 수행합니다. 가장 핵심적인 '데이터 기반 확보'와 '기업용 AI 도입'은 순차적이 아닌 Parallel(병렬)로 동시 진행됩니다.",
+            subtitle: (
+                <>
+                    기본적으로 리얼에셋의 Datalake를 구성하고 성능 좋은 AI모델을 그 위에 태워 AI 플랫폼으로써의 궁극적 기능을 수행합니다.<br />
+                    가장 핵심적인 '데이터 기반 확보'와 '기업용 AI 도입'은 순차적이 아닌 Parallel(병렬)로 동시 진행됩니다.
+                </>
+            ),
             box1: {
                 title: "1. 플랫폼 (Platform)",
-                desc: "Priority가 높은 핵심 프로젝트 우선순위로 그룹 내 정보를 취합하고, 단계별/섹터별 대시보드를 점진적으로 구축합니다. 이를 현업에 실시간 배포하여 실무 효율을 극대화합니다.",
+                desc: (
+                    <>
+                        Priority가 높은 핵심 프로젝트 우선순위로 그룹 내 정보를 취합하고, 단계별/섹터별 대시보드를 점진적으로 구축합니다.<br />
+                        이를 현업에 실시간 배포하여 실무 효율을 극대화합니다.
+                    </>
+                ),
                 bullets: [
                     { label: "A", title: "통합 통계", desc: "전체 프로젝트의 맥락별(Priority, Vehicle, Sector, Use, Type..) 리스팅 및 통합 통계 배포" },
                     { label: "B", title: "코어 상세화면", desc: "투자/개발/관리 자산의 유형별(오피스/물류/주거 등) 맞춤형 프로젝트 코어 화면 디지털화" },
@@ -64,7 +74,7 @@ export default function ParallelPlan() {
             <div className={`w-full max-w-[1400px] flex flex-col transition-all duration-[1200ms] transform ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
                 
                 {/* Header Block */}
-                <div className="w-full border-b-[4px] border-black pb-[36px] mb-[45px]">
+                <div className="w-full pb-[36px] mb-[45px]">
                     <h1 className="text-[36px] md:text-[42px] font-extrabold tracking-tight uppercase font-inter leading-tight mb-[24px]">
                         {text.title}
                     </h1>
@@ -77,7 +87,7 @@ export default function ParallelPlan() {
                 <div className="flex flex-col gap-[36px] w-full pb-[100px]">
                     
                     {/* Platform Box */}
-                    <div className="w-full border-b-[2px] border-[#ddd] pb-[36px]">
+                    <div className="w-full pb-[36px]">
                         <div className="flex items-start w-full">
                             <div className="flex-1 flex flex-col">
                                 <h2 className="text-[32px] md:text-[36px] font-bold tracking-tighter mb-[22px] font-inter">
@@ -87,7 +97,7 @@ export default function ParallelPlan() {
                                     {text.box1.desc}
                                 </p>
                                 
-                                <div className="w-full border-t-[2px] border-black pt-[30px] grid grid-cols-3 gap-[40px]">
+                                <div className="w-full pt-[30px] grid grid-cols-3 gap-[40px]">
                                     {text.box1.bullets.map((bullet, idx) => (
                                         <div key={idx} className="flex flex-col">
                                             <div className="text-[15px] font-bold tracking-wider mb-[16px] pb-[10px] text-[#555] uppercase">
@@ -117,7 +127,7 @@ export default function ParallelPlan() {
                                     {text.box2.desc}
                                 </p>
                                 
-                                <div className="w-full border-t-[2px] border-black pt-[30px] grid grid-cols-3 gap-[40px]">
+                                <div className="w-full pt-[30px] grid grid-cols-3 gap-[40px]">
                                     {text.box2.bullets.map((bullet, idx) => (
                                         <div key={idx} className="flex flex-col">
                                             <div className="text-[15px] font-bold tracking-wider mb-[16px] pb-[10px] text-[#555] uppercase">
