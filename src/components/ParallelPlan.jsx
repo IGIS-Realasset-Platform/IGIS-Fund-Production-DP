@@ -74,7 +74,7 @@ export default function ParallelPlan() {
             <div className={`w-full max-w-[1400px] flex flex-col transition-all duration-[1200ms] transform ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
                 
                 {/* Header Block */}
-                <div className="w-full pb-[36px] mb-[45px]">
+                <div className="w-full pt-[20px] pb-[36px] mb-[45px]">
                     <h1 className="text-[36px] md:text-[42px] font-extrabold tracking-tight uppercase font-inter leading-tight mb-[24px]">
                         {text.title}
                     </h1>
@@ -87,7 +87,7 @@ export default function ParallelPlan() {
                 <div className="flex flex-col gap-[36px] w-full pb-[100px]">
                     
                     {/* Platform Box */}
-                    <div className="w-full pb-[36px]">
+                    <div className="w-full border-t-[1px] border-[#f0f0f0] pt-[36px] pb-[36px]">
                         <div className="flex items-start w-full">
                             <div className="flex-1 flex flex-col">
                                 <h2 className="text-[32px] md:text-[36px] font-bold tracking-tighter mb-[22px] font-inter">
@@ -100,7 +100,7 @@ export default function ParallelPlan() {
                                 <div className="w-full pt-[30px] grid grid-cols-3 gap-[40px]">
                                     {text.box1.bullets.map((bullet, idx) => (
                                         <div key={idx} className="flex flex-col">
-                                            <div className="text-[15px] font-bold tracking-wider mb-[16px] pb-[10px] text-[#555] uppercase">
+                                            <div className="text-[17px] font-bold tracking-wider mb-[16px] pb-[10px] text-[#888] uppercase">
                                                 {bullet.label}
                                             </div>
                                             <h3 className="text-[22px] font-bold text-black tracking-tight mb-[12px]">
@@ -117,7 +117,7 @@ export default function ParallelPlan() {
                     </div>
 
                     {/* AI Adoption Box */}
-                    <div className="w-full">
+                    <div className="w-full border-t-[1px] border-[#f0f0f0] pt-[36px]">
                         <div className="flex items-start w-full">
                             <div className="flex-1 flex flex-col">
                                 <h2 className="text-[32px] md:text-[36px] font-bold tracking-tighter mb-[22px] font-inter">
@@ -130,7 +130,7 @@ export default function ParallelPlan() {
                                 <div className="w-full pt-[30px] grid grid-cols-3 gap-[40px]">
                                     {text.box2.bullets.map((bullet, idx) => (
                                         <div key={idx} className="flex flex-col">
-                                            <div className="text-[15px] font-bold tracking-wider mb-[16px] pb-[10px] text-[#555] uppercase">
+                                            <div className="text-[17px] font-bold tracking-wider mb-[16px] pb-[10px] text-[#888] uppercase">
                                                 {bullet.label}
                                             </div>
                                             <h3 className="text-[22px] font-bold text-black tracking-tight mb-[12px]">
