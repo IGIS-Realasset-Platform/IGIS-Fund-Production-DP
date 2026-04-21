@@ -54,7 +54,7 @@ export default function Section2({ isActive }) {
 
                     {/* Sub Text 1 */}
                     <div className={`transition-all duration-[1500ms] ease-[cubic-bezier(0.19,1,0.22,1)] mt-16 md:mt-24 mb-[20px] ${step >= 4 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-                        <p className="text-[20px] md:text-[24px] font-medium text-[#555] tracking-tight border-l-[3px] border-[#297cf6] pl-4 leading-[1.4]">
+                        <p className="text-[20px] md:text-[24px] font-medium text-[#555] tracking-tight leading-[1.4]">
                             {lang === 'kr' ? "그런 AI들이 이미 개인들에게 사용되어지고 있습니다." : "Such AIs are actually already being utilized by individuals today."}
                         </p>
                     </div>
