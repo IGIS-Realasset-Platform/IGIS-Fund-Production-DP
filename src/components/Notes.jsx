@@ -285,7 +285,7 @@ Defense Logic: Initially, one Mission Volunteer is selected from each department
         <div className="w-full h-screen bg-white font-sans text-black flex flex-col items-center overflow-hidden">
             
             <div className="w-[calc(100%-48px)] md:w-[calc(100%-100px)] max-w-[1600px] mt-24 md:mt-32 shrink-0">
-                <h1 className="text-[32px] md:text-[40px] font-extrabold tracking-tight mb-8 font-inter">
+                <h1 className="text-[22px] md:text-[30px] font-extrabold tracking-tight mb-8 font-inter">
                     {lang === 'en' ? 'IFPDP Execution Specifications' : 'IFPDP 세부 실행계획'}
                 </h1>
 
@@ -321,9 +321,9 @@ Defense Logic: Initially, one Mission Volunteer is selected from each department
                                         const bodyBlocks = lines.slice(1);
                                         
                                         return (
-                                            <div key={`plan-${idx}`} className="mb-6">
+                                            <div key={`plan-${idx}`} className="mb-6 mt-[10px]">
                                                 <h2 className="text-xl font-bold mb-3">{titleStr}</h2>
-                                                <div className="ml-2">
+                                                <div className="">
                                                     {bodyBlocks.map((line, lIdx) => {
                                                         if (!line.trim()) return <div key={`empty-${lIdx}`} className="mb-4"></div>;
                                                         
@@ -333,7 +333,7 @@ Defense Logic: Initially, one Mission Volunteer is selected from each department
                                                         }
 
                                                         if (isSubtitle || line.startsWith('①') || line.startsWith('②') || line.startsWith('③') || line.startsWith('④') || line.startsWith('⑤') || line.startsWith('⑥') || line.startsWith('⑦')) {
-                                                            return <div key={`p-uline-${lIdx}`} className="text-[18px] font-bold text-gray-700 leading-[27px] pl-3 break-keep">{line}</div>;
+                                                            return <div key={`p-uline-${lIdx}`} className="text-[18px] font-bold text-gray-700 leading-[27px] break-keep">{line}</div>;
                                                         }
 
                                                         if (line.includes(': ')) {
