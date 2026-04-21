@@ -534,10 +534,10 @@ Defense Logic: Initially, one Mission Volunteer is selected from each department
                                                     <th className="border-b border-gray-300 px-3 py-2 font-bold">운영체제(OS) 화면 맵핑 예제 (IOTA Seoul)</th>
                                                 </tr>
                                             </thead>
-                                                                                        <tbody className="bg-white tracking-tight">
+                                                                                                                                    <tbody className="bg-white tracking-tight">
                                                 {/* SECTION 1: 상단 프로젝트 개요 */}
                                                 <tr className="bg-[#f8f8f9]">
-                                                    <td className="border-b border-r border-gray-300 px-3 py-2 font-bold text-gray-700" rowSpan="12">Section 1<br/>프로젝트 개요 (Static)</td>
+                                                    <td className="border-b border-r border-gray-300 px-3 py-2 font-bold text-gray-700" rowSpan="9">Section 1<br/>프로젝트 개요 (Static/Meta)</td>
                                                     <td className="border-b border-r border-gray-300 px-3 py-[6px]">① Static 프로필 <span className="text-gray-400 font-normal">(불변)</span></td>
                                                     <td className="border-b border-r border-gray-300 px-3 py-[6px] font-mono text-[11px] text-[#2c3e50] font-bold">projectName</td>
                                                     <td className="border-b border-r border-gray-300 px-3 py-[6px]">단일 구조</td>
@@ -553,13 +553,6 @@ Defense Logic: Initially, one Mission Volunteer is selected from each department
                                                 </tr>
                                                 <tr className="bg-[#f8f8f9]">
                                                     <td className="border-b border-r border-gray-300 px-3 py-[6px]">① Static 프로필 <span className="text-gray-400 font-normal">(불변)</span></td>
-                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px] font-mono text-[11px] text-[#2c3e50] font-bold">riskPriority</td>
-                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px]">단일 구조</td>
-                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px] text-[#e67e22] font-semibold text-[12px]">Enum</td>
-                                                    <td className="border-b border-gray-300 px-3 py-[6px] text-gray-600">리스크 우선순위 : "High" <span className="text-gray-400 text-[11px] ml-1">(다른 High 보기 연동)</span></td>
-                                                </tr>
-                                                <tr className="bg-[#f8f8f9]">
-                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px]">① Static 프로필 <span className="text-gray-400 font-normal">(불변)</span></td>
                                                     <td className="border-b border-r border-gray-300 px-3 py-[6px] font-mono text-[11px] text-[#2c3e50] font-bold">sector</td>
                                                     <td className="border-b border-r border-gray-300 px-3 py-[6px]">단일 구조</td>
                                                     <td className="border-b border-r border-gray-300 px-3 py-[6px] text-[#e67e22] font-semibold text-[12px]">Enum</td>
@@ -571,27 +564,6 @@ Defense Logic: Initially, one Mission Volunteer is selected from each department
                                                     <td className="border-b border-r border-gray-300 px-3 py-[6px]">단일 구조</td>
                                                     <td className="border-b border-r border-gray-300 px-3 py-[6px] text-[#e67e22] font-semibold text-[12px]">Enum</td>
                                                     <td className="border-b border-gray-300 px-3 py-[6px] text-gray-600">입찰/수의 분류 : "입찰"</td>
-                                                </tr>
-                                                <tr className="bg-[#f8f8f9]">
-                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px] font-semibold text-[#1e3a8a]">③ Context 텍스트 <span className="text-[#3b82f6] font-normal">(RAG)</span></td>
-                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px] font-mono text-[11px] text-[#16a085] font-bold bg-yellow-100/50">majorIssuesLog</td>
-                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px]">Log Series <span className="text-gray-400">(로그 배열)</span></td>
-                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px] text-[#2980b9] font-semibold text-[12px]">Array of Objects</td>
-                                                    <td className="border-b border-gray-300 px-3 py-[6px] text-black font-semibold">지금까지의 주요 이슈 로그 : "2026년 3월 클로징..." <span className="text-[#e55039] ml-1">(최근 2~3건 노출, 창확대)</span></td>
-                                                </tr>
-                                                <tr className="bg-[#f8f8f9]">
-                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px]">① Static 프로필 <span className="text-gray-400 font-normal">(불변)</span></td>
-                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px] font-mono text-[11px] text-[#2c3e50] font-bold">valueChainPhase</td>
-                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px]">단일 구조</td>
-                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px] text-[#e67e22] font-semibold text-[12px]">Enum</td>
-                                                    <td className="border-b border-gray-300 px-3 py-[6px] text-gray-600">현재 가치 사슬 : "개발중" <span className="text-gray-400 text-[11px] ml-1">(일정 상세 연동)</span></td>
-                                                </tr>
-                                                <tr className="bg-[#f8f8f9]">
-                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px]">① Static 프로필 <span className="text-gray-400 font-normal">(불변)</span></td>
-                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px] font-mono text-[11px] text-[#2c3e50] font-bold">supplyYear</td>
-                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px]">단일 구조</td>
-                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px] text-[#e67e22] font-semibold text-[12px]">Number</td>
-                                                    <td className="border-b border-gray-300 px-3 py-[6px] text-gray-600">예정공급년도 : 2032년</td>
                                                 </tr>
                                                 <tr className="bg-[#f8f8f9]">
                                                     <td className="border-b border-r border-gray-300 px-3 py-[6px]">① Static 프로필 <span className="text-gray-400 font-normal">(불변)</span></td>
@@ -610,9 +582,16 @@ Defense Logic: Initially, one Mission Volunteer is selected from each department
                                                 <tr className="bg-[#f8f8f9]">
                                                     <td className="border-b border-r border-gray-300 px-3 py-[6px]">① Static 프로필 <span className="text-gray-400 font-normal">(불변)</span></td>
                                                     <td className="border-b border-r border-gray-300 px-3 py-[6px] font-mono text-[11px] text-[#2c3e50] font-bold">pmTeam</td>
+                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px]">단일 구조 <span className="text-gray-400 font-normal">(관계)</span></td>
+                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px] text-[#2980b9] font-semibold text-[12px]">Array of Enum</td>
+                                                    <td className="border-b border-gray-300 px-3 py-[6px] text-gray-600">담당자 : "조직장 OOO, PO OOO" <span className="text-gray-400 text-[11px] ml-1">(인사DB 연동 Array)</span></td>
+                                                </tr>
+                                                <tr className="bg-[#f8f8f9]">
+                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px]">① Static 프로필 <span className="text-gray-400 font-normal">(불변)</span></td>
+                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px] font-mono text-[11px] text-[#2c3e50] font-bold">detailSpecs</td>
                                                     <td className="border-b border-r border-gray-300 px-3 py-[6px]">단일 구조</td>
-                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px] text-[#2980b9] font-semibold text-[12px]">String, Text, Enum</td>
-                                                    <td className="border-b border-gray-300 px-3 py-[6px] text-gray-600">사업 담당자 : "조직장 OOO, PO OOO, 담당 OOO" <span className="text-gray-400 text-[11px] ml-1">(클릭 상세)</span></td>
+                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px] text-[#2980b9] font-semibold text-[12px]">JSON / Struct</td>
+                                                    <td className="border-b border-gray-300 px-3 py-[6px] text-gray-600">상세스펙(전력수전용량 등 필터링 가능한 속성은 Number형 구조화)</td>
                                                 </tr>
                                                 <tr className="bg-[#f8f8f9]">
                                                     <td className="border-b border-r border-gray-300 px-3 py-[6px]">① Static 프로필 <span className="text-gray-400 font-normal">(불변)</span></td>
@@ -622,28 +601,70 @@ Defense Logic: Initially, one Mission Volunteer is selected from each department
                                                     <td className="border-b border-gray-300 px-3 py-[6px] text-gray-600">자산 개요 : "사진, 자산명, 소재지, 대지면적, 규모, 준공일 등"</td>
                                                 </tr>
 
-                                                {/* SECTION 2: Dynamic 지표 (사업성, 재무) */}
+                                                {/* SECTION 2: Dynamic 지표 (사업성, 재무) & 핵심 로그 */}
                                                 <tr>
-                                                    <td className="border-b border-r border-gray-300 px-3 py-2 font-bold text-gray-700" rowSpan="10">Section 2<br/>사업성 및 진행도<br/>(Dynamic)</td>
+                                                    <td className="border-b border-r border-gray-300 px-3 py-2 font-bold text-gray-700" rowSpan="13">Section 2<br/>사업성 및 진행도<br/>(Dynamic / History Tracker)</td>
+                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px] font-medium">② Dynamic 지표 <span className="text-[#3b82f6] font-bold text-[11px]">(필수!)</span></td>
+                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px] font-mono text-[11px] text-[#8e44ad] font-bold bg-blue-50/50">valueChainPhase</td>
+                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px]">단일 구조 <span className="text-[#e55039] font-bold ml-1">(이력추적)</span></td>
+                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px] text-[#e67e22] font-semibold text-[12px]">Enum Tracker</td>
+                                                    <td className="border-b border-gray-300 px-3 py-[6px] text-black font-semibold">10단계 가치 사슬 : "개발중" <span className="text-gray-500 text-[11px] ml-1">(※ 시간이 지남에 따라 변동되므로 Dynamic 처리)</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px] font-medium">② Dynamic 지표 <span className="text-[#3b82f6] font-bold text-[11px]">(필수!)</span></td>
+                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px] font-mono text-[11px] text-[#8e44ad] font-bold bg-blue-50/50">riskPriority</td>
+                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px]">단일 구조 <span className="text-[#e55039] font-bold ml-1">(이력추적)</span></td>
+                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px] text-[#e67e22] font-semibold text-[12px]">Enum Tracker</td>
+                                                    <td className="border-b border-gray-300 px-3 py-[6px] text-black font-semibold">리스크 우선순위 : "High" <span className="text-gray-500 text-[11px] ml-1">(※ 리스크는 사업 단계별로 하향/상향되므로 변동이력 관리)</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px] font-medium">② Dynamic 지표 <span className="text-[#3b82f6] font-bold text-[11px]">(필수!)</span></td>
+                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px] font-mono text-[11px] text-[#8e44ad] font-bold bg-blue-50/50">supplyYear_Delay</td>
+                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px]">Date Series</td>
+                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px] text-[#2980b9] font-semibold text-[12px]">Array of Dates</td>
+                                                    <td className="border-b border-gray-300 px-3 py-[6px] text-gray-700 font-semibold">예정공급년도 / 개발기간: "2032년" <span className="text-[#e55039] text-[11px] ml-1">(※ 인허가 지연 등 일정이 밀리는 이력을 필히 추적해야 함)</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px] font-semibold text-[#1e3a8a]">③ Context 텍스트 <span className="text-[#3b82f6] font-normal">(RAG)</span></td>
+                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px] font-mono text-[11px] text-[#16a085] font-bold bg-yellow-100/50">majorIssuesLog</td>
+                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px]">Log Series <span className="text-gray-400">(로그 배열)</span></td>
+                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px] text-[#2980b9] font-semibold text-[12px]">Array of Objects</td>
+                                                    <td className="border-b border-gray-300 px-3 py-[6px] text-black font-semibold">지금까지의 주요 이슈 로그 : "2026년 3월 클로징..." <span className="text-[#e55039] ml-1">(최근 2~3건 노출, 창확대)</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px] font-medium">② Dynamic 지표 & <span className="text-[#16a085] font-bold">RAG</span></td>
+                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px] font-mono text-[11px] text-[#8e44ad] font-bold">leasingStatusLog</td>
+                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px]">Mixed Series</td>
+                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px] text-[#2980b9] font-semibold text-[12px]">Number + Logs</td>
+                                                    <td className="border-b border-gray-300 px-3 py-[6px] text-gray-600">리징 : 목표/달성 임대율(Number/Dynamic) + 주요 임차사 협의 이력(RAG) 융합</td>
+                                                </tr>
+                                                <tr>
                                                     <td className="border-b border-r border-gray-300 px-3 py-[6px] font-medium">② Dynamic 지표 <span className="text-gray-400 font-normal">(변동)</span></td>
                                                     <td className="border-b border-r border-gray-300 px-3 py-[6px] font-mono text-[11px] text-[#8e44ad] font-bold">costHistory</td>
                                                     <td className="border-b border-r border-gray-300 px-3 py-[6px]">Date Series <span className="text-gray-400">(시계열)</span></td>
                                                     <td className="border-b border-r border-gray-300 px-3 py-[6px] text-[#2980b9] font-semibold text-[12px]">Number</td>
-                                                    <td className="border-b border-gray-300 px-3 py-[6px] text-gray-600">사업 원가 : "8000억(25.03) -> 9500억(26.04)" (토지비/공사비 변화 이력)</td>
+                                                    <td className="border-b border-gray-300 px-3 py-[6px] text-gray-600">사업 원가 : "8000억(25.03) -> 9500억(26.04)" (토지비/공사비 등 세부 분리저장)</td>
                                                 </tr>
                                                 <tr>
                                                     <td className="border-b border-r border-gray-300 px-3 py-[6px] font-medium">② Dynamic 지표 <span className="text-gray-400 font-normal">(변동)</span></td>
-                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px] font-mono text-[11px] text-[#8e44ad] font-bold">cashFlow</td>
+                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px] font-mono text-[11px] text-[#8e44ad] font-bold">financeDashboard</td>
                                                     <td className="border-b border-r border-gray-300 px-3 py-[6px]">Time-Series</td>
                                                     <td className="border-b border-r border-gray-300 px-3 py-[6px] text-[#2980b9] font-semibold text-[12px]">Array of Objects</td>
-                                                    <td className="border-b border-gray-300 px-3 py-[6px] text-gray-600">CF (현금흐름 분기별 추이)</td>
+                                                    <td className="border-b border-gray-300 px-3 py-[6px] text-gray-600">CF & Financing 현금흐름 및 자금조달계획 시계열 (대시보드화 목적별 통합)</td>
                                                 </tr>
                                                 <tr>
-                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px] font-medium">② Dynamic 지표 <span className="text-gray-400 font-normal">(변동)</span></td>
-                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px] font-mono text-[11px] text-[#8e44ad] font-bold">financing</td>
-                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px]">Time-Series</td>
-                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px] text-[#2980b9] font-semibold text-[12px]">Array of Objects</td>
-                                                    <td className="border-b border-gray-300 px-3 py-[6px] text-gray-600">Financing (자금 조달 내역)</td>
+                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px] font-medium">② Dynamic 지표 <span className="text-[#3b82f6] font-bold text-[11px]">(구조화)</span></td>
+                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px] font-mono text-[11px] text-[#8e44ad] font-bold bg-blue-50/50">capitalStack</td>
+                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px]">Nested Array</td>
+                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px] text-[#2980b9] font-semibold text-[12px]">JSON / Struct</td>
+                                                    <td className="border-b border-gray-300 px-3 py-[6px] text-black font-semibold">에쿼티("780억") / 론 / 고유투자금 이 필드 안에 <span className="text-[#27ae60]">계층형</span>으로 묶여야 함</td>
+                                                </tr>
+                                                <tr>
+                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px] font-medium">② Dynamic 지표 <span className="text-[#3b82f6] font-bold text-[11px]">(관계)</span></td>
+                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px] font-mono text-[11px] text-[#8e44ad] font-bold bg-blue-50/50">capitalPartners</td>
+                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px]">Relational Array</td>
+                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px] text-[#2980b9] font-semibold text-[12px]">Array of Structs</td>
+                                                    <td className="border-b border-gray-300 px-3 py-[6px] text-black font-semibold">투자자 / 수익자 / 대주정보는 위 capitalStack의 Tranche(A/B/C)와 매핑 필요.</td>
                                                 </tr>
                                                 <tr>
                                                     <td className="border-b border-r border-gray-300 px-3 py-[6px] font-medium">② Dynamic 지표 <span className="text-gray-400 font-normal">(변동)</span></td>
@@ -651,20 +672,6 @@ Defense Logic: Initially, one Mission Volunteer is selected from each department
                                                     <td className="border-b border-r border-gray-300 px-3 py-[6px]">Date Series</td>
                                                     <td className="border-b border-r border-gray-300 px-3 py-[6px] text-[#2980b9] font-semibold text-[12px]">Array of Objects</td>
                                                     <td className="border-b border-gray-300 px-3 py-[6px] text-gray-600">공정/인허가 진척율 및 마일스톤 로그</td>
-                                                </tr>
-                                                <tr>
-                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px] font-medium">② Dynamic 지표 <span className="text-gray-400 font-normal">(변동)</span></td>
-                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px] font-mono text-[11px] text-[#8e44ad] font-bold">investmentStructure</td>
-                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px]">단일 Array</td>
-                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px] text-[#2980b9] font-semibold text-[12px]">Array of Objects</td>
-                                                    <td className="border-b border-gray-300 px-3 py-[6px] text-gray-600">투자구조 / 고유투자금 / 투자자 담당자 / 수익자 및 대주 정보</td>
-                                                </tr>
-                                                <tr>
-                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px] font-medium">② Dynamic 지표 <span className="text-gray-400 font-normal">(변동)</span></td>
-                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px] font-mono text-[11px] text-[#8e44ad] font-bold">equity / loan</td>
-                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px]">Time-Series</td>
-                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px] text-[#2980b9] font-semibold text-[12px]">Number / Array</td>
-                                                    <td className="border-b border-gray-300 px-3 py-[6px] text-gray-600">에쿼티 ("780억") / 론 비중</td>
                                                 </tr>
                                                 <tr>
                                                     <td className="border-b border-r border-gray-300 px-3 py-[6px] font-medium">② Dynamic 지표 <span className="text-gray-400 font-normal">(변동)</span></td>
@@ -678,14 +685,7 @@ Defense Logic: Initially, one Mission Volunteer is selected from each department
                                                     <td className="border-b border-r border-gray-300 px-3 py-[6px] font-mono text-[11px] text-[#8e44ad] font-bold">exitPlan</td>
                                                     <td className="border-b border-r border-gray-300 px-3 py-[6px]">Date Series</td>
                                                     <td className="border-b border-r border-gray-300 px-3 py-[6px] text-[#2980b9] font-semibold text-[12px]">Array of Objects</td>
-                                                    <td className="border-b border-gray-300 px-3 py-[6px] text-gray-600">예상 매각시점 & 매각가 변동</td>
-                                                </tr>
-                                                <tr>
-                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px] font-medium">② Dynamic 지표 <span className="text-gray-400 font-normal">(변동)</span></td>
-                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px] font-mono text-[11px] text-[#8e44ad] font-bold">developmentPeriod</td>
-                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px]">Time-Series</td>
-                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px] text-[#2980b9] font-semibold text-[12px]">Number</td>
-                                                    <td className="border-b border-gray-300 px-3 py-[6px] text-gray-600">개발기간 변동치</td>
+                                                    <td className="border-b border-gray-300 px-3 py-[6px] text-gray-600">예상 매각시점 & 매각가 변동 추이</td>
                                                 </tr>
                                                 <tr>
                                                     <td className="border-b border-r border-gray-300 px-3 py-[6px] font-medium">② Dynamic 지표 <span className="text-gray-400 font-normal">(변동)</span></td>
@@ -697,7 +697,7 @@ Defense Logic: Initially, one Mission Volunteer is selected from each department
 
                                                 {/* SECTION 3: Context / 하단 상세 요소 */}
                                                 <tr className="bg-[#f0f4f8]">
-                                                    <td className="border-r border-gray-300 px-3 py-2 font-bold text-[#1e3a8a]" rowSpan="5">Section 3<br/>파트너 & 리포트<br/>(Context)</td>
+                                                    <td className="border-r border-gray-300 px-3 py-2 font-bold text-[#1e3a8a]" rowSpan="4">Section 3<br/>파트너 & 리포트<br/>(Context)</td>
                                                     <td className="border-b border-r border-gray-300 px-3 py-[6px]">① Static 프로필 <span className="text-gray-400 font-normal">(불변)</span></td>
                                                     <td className="border-b border-r border-gray-300 px-3 py-[6px] font-mono text-[11px] text-[#2c3e50] font-bold">partnersArchitects</td>
                                                     <td className="border-b border-r border-gray-300 px-3 py-[6px]">단일 Array</td>
@@ -716,21 +716,14 @@ Defense Logic: Initially, one Mission Volunteer is selected from each department
                                                     <td className="border-b border-r border-gray-300 px-3 py-[6px] font-mono text-[11px] text-[#16a085] font-bold">salesMarketingLog</td>
                                                     <td className="border-b border-r border-gray-300 px-3 py-[6px]">Log Series <span className="text-gray-400">(로그 누적)</span></td>
                                                     <td className="border-b border-r border-gray-300 px-3 py-[6px] text-[#2980b9] font-semibold text-[12px]">Array of Objects</td>
-                                                    <td className="border-b border-gray-300 px-3 py-[6px] text-gray-600">마케팅(+플레이스메이킹) / 기업파트너십(SI) / 리징</td>
+                                                    <td className="border-b border-gray-300 px-3 py-[6px] text-gray-600">마케팅(+플레이스메이킹) / 기업파트너십(SI) 제휴 협의이력</td>
                                                 </tr>
                                                 <tr className="bg-[#f0f4f8]">
-                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px] font-semibold text-[#1e3a8a]">③ Context 텍스트 <span className="text-[#3b82f6] font-normal">(RAG)</span></td>
-                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px] font-mono text-[11px] text-[#16a085] font-bold">dataRoomReports</td>
-                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px]">단일 Array</td>
-                                                    <td className="border-b border-r border-gray-300 px-3 py-[6px] text-[#2980b9] font-semibold text-[12px]">Files / Text</td>
-                                                    <td className="border-b border-gray-300 px-3 py-[6px] text-gray-600">자료실 : 티저, IM, 심의/실사보고서 등</td>
-                                                </tr>
-                                                <tr className="bg-[#f0f4f8]">
-                                                    <td className="border-r border-gray-300 px-3 py-[6px]">① Static 프로필 <span className="text-gray-400 font-normal">(불변)</span></td>
-                                                    <td className="border-r border-gray-300 px-3 py-[6px] font-mono text-[11px] text-[#2c3e50] font-bold">detailSpecs</td>
-                                                    <td className="border-r border-gray-300 px-3 py-[6px]">단일 컨텍스트 구조</td>
-                                                    <td className="border-r border-gray-300 px-3 py-[6px] text-[#e67e22] font-semibold text-[12px]">Enum / Text</td>
-                                                    <td className="px-3 py-[6px] text-gray-600">리테일 / 전력공급 / 상세스펙</td>
+                                                    <td className="border-r border-gray-300 px-3 py-[6px] font-semibold text-[#1e3a8a]">③ Context 텍스트 <span className="text-[#3b82f6] font-normal">(RAG)</span></td>
+                                                    <td className="border-r border-gray-300 px-3 py-[6px] font-mono text-[11px] text-[#16a085] font-bold">dataRoomReports</td>
+                                                    <td className="border-r border-gray-300 px-3 py-[6px]">단일 Array</td>
+                                                    <td className="border-r border-gray-300 px-3 py-[6px] text-[#2980b9] font-semibold text-[12px]">Files / Text</td>
+                                                    <td className="px-3 py-[6px] text-gray-600">자료실 : 티저, IM, 심의/실사보고서 등</td>
                                                 </tr>
                                             </tbody>
                                         </table>
