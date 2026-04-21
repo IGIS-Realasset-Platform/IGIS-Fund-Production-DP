@@ -16,8 +16,8 @@ export default function Section2({ isActive }) {
         const t1 = setTimeout(() => setStep(1), 500);  
         const t2 = setTimeout(() => setStep(2), 1500); 
         const t3 = setTimeout(() => setStep(3), 2500); 
-        const t4 = setTimeout(() => setStep(4), 2800); 
-        const t5 = setTimeout(() => setStep(5), 3800); 
+        const t4 = setTimeout(() => setStep(4), 3600); 
+        const t5 = setTimeout(() => setStep(5), 4600); 
 
         return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); clearTimeout(t4); clearTimeout(t5); };
     }, [isActive]);
