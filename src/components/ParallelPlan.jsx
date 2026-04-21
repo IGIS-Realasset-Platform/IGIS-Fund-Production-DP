@@ -108,7 +108,7 @@ export default function ParallelPlan() {
             <div className={`w-full max-w-[1400px] flex flex-col transition-all duration-[1200ms] transform ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
                 
                 {/* Header Block */}
-                <div className="w-full pt-[20px] pb-[36px] mb-[5px]">
+                <div className="w-full pt-[20px] pb-[26px] mb-[5px]">
                     <h1 className="text-[36px] md:text-[42px] font-extrabold tracking-tight uppercase font-inter leading-tight mb-[24px]">
                         {text.title}
                     </h1>
