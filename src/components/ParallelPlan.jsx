@@ -15,30 +15,30 @@ export default function ParallelPlan() {
             subtitle: (
                 <>
                     기본적으로 리얼에셋의 <span className="font-extrabold">데이터레이크</span>를 구성하고 성능 좋은 AI 모델을 그 위에 태워 AI 플랫폼으로써의 궁극적 기능을 수행한다.<br />
-                    가장 핵심적인 '<span className="text-[#d92d2d]">데이터 기반 확보</span>'와 '<span className="text-[#1e3a8a]">기업용 AI 도입</span>'은 순차적이 아닌 Parallel로 동시 진행된다.
+                    가장 핵심적인 '<span className="text-[#d92d2d] font-bold">데이터 기반 확보</span>'와 '<span className="text-[#1e3a8a] font-bold">기업용 AI 도입</span>'은 순차적이 아닌 Parallel로 동시 진행된다.
                 </>
             ),
             box1: {
                 title: "1. 플랫폼",
                 desc: (
                     <>
-                        Priority가 높은 <span className="text-[#d92d2d]">핵심 프로젝트</span> 우선순위로 그룹 내 정보를 취합하고, <span className="text-[#d92d2d]">단계별/섹터별 대시보드</span>를 점진적으로 구축한다.<br />
+                        Priority가 높은 <span className="text-[#d92d2d] font-bold">핵심 프로젝트</span> 우선순위로 그룹 내 정보를 취합하고, <span className="text-[#d92d2d] font-bold">단계별/섹터별 대시보드</span>를 점진적으로 구축한다.<br />
                         이를 현업에 실시간 배포하여 실무 효율을 극대화한다.
                     </>
                 ),
                 bullets: [
-                    { label: "A", title: "통합 통계", desc: <><span className="text-[#d92d2d]">전체 프로젝트</span>의 맥락별(Priority, Vehicle, Sector, Use, Type..) <span className="text-[#d92d2d]">리스팅 및 통합 통계</span> 배포</> },
-                    { label: "B", title: "코어 상세화면", desc: <>투자/개발/관리 자산의 유형별(오피스/물류/주거 등) 맞춤형 <span className="text-[#d92d2d]">프로젝트 코어 화면</span> 디지털화</> },
-                    { label: "C", title: "독립형 센터 대시보드", desc: <>본연의 업무에 고도화 몰입할 수 있는 <span className="text-[#d92d2d]">센터별 전용 대시보드</span> 구축 (유저솔루션/투자자/기업 등)</> }
+                    { label: "A", title: "통합 통계", desc: <><span className="text-[#d92d2d] font-bold">전체 프로젝트</span>의 맥락별(Priority, Vehicle, Sector, Use, Type..) <span className="text-[#d92d2d] font-bold">리스팅 및 통합 통계</span> 배포</> },
+                    { label: "B", title: "코어 상세화면", desc: <>투자/개발/관리 자산의 유형별(오피스/물류/주거 등) 맞춤형 <span className="text-[#d92d2d] font-bold">프로젝트 코어 화면</span> 디지털화</> },
+                    { label: "C", title: "독립형 센터 대시보드", desc: <>본연의 업무에 고도화 몰입할 수 있는 <span className="text-[#d92d2d] font-bold">센터별 전용 대시보드</span> 구축 (유저솔루션/투자자/기업 등)</> }
                 ]
             },
             box2: {
                 title: "2. AI 시스템 도입",
-                desc: <><span className="text-[#1e3a8a]">빅테크 AI 벤더사</span>(OpenAI, 구글 등)와의 전략적 제휴를 맺는다. 단순 개발을 넘어 공식 <span className="text-[#1e3a8a]">MOU 및 론칭</span>을 통해 이지스의 '선진 기술 도입'과 '시스템 투명성'을 투자자들에게 각인시켜 신뢰도를 높이는 <span className="text-[#1e3a8a]">강력한 대외 홍보 수단</span>으로 활용한다.</>,
+                desc: <><span className="text-[#1e3a8a] font-bold">빅테크 AI 벤더사</span>(OpenAI, 구글 등)와의 전략적 제휴를 맺는다. 단순 개발을 넘어 공식 <span className="text-[#1e3a8a] font-bold">MOU 및 론칭</span>을 통해 이지스의 '선진 기술 도입'과 '시스템 투명성'을 투자자들에게 각인시켜 신뢰도를 높이는 <span className="text-[#1e3a8a] font-bold">강력한 대외 홍보 수단</span>으로 활용한다.</>,
                 bullets: [
                     { label: "엔진 후보군", title: "최상위 LLM 체계 탑재", desc: "OpenAI, Google Gemini, Claude 등 검증된 대형 언어 모델 기반 아키텍처" },
-                    { label: "데이터 보안 통제", title: "엔터프라이즈 전용 폐쇄망 생태계", desc: <>자산의 핵심 정보가 외부 학습용으로 넘어가지 않도록 <span className="text-[#1e3a8a]">VPC 수준의 인프라</span> 구축</> },
-                    { label: "초기 파일럿 검증", title: "테스트 사용자 성능검증", desc: <><span className="text-[#1e3a8a]">PO 이상 및 핵심 데이터 취급 담당자로 한정</span>하여 철저한 초기 검증 및 시스템 정합성 구축</> }
+                    { label: "데이터 보안 통제", title: "엔터프라이즈 전용 폐쇄망 생태계", desc: <>자산의 핵심 정보가 외부 학습용으로 넘어가지 않도록 <span className="text-[#1e3a8a] font-bold">VPC 수준의 인프라</span> 구축</> },
+                    { label: "초기 파일럿 검증", title: "테스트 사용자 성능검증", desc: <><span className="text-[#1e3a8a] font-bold">PO 이상 및 핵심 데이터 취급 담당자로 한정</span>하여 철저한 초기 검증 및 시스템 정합성 구축</> }
                 ]
             }
         },
@@ -97,7 +97,7 @@ export default function ParallelPlan() {
                 <div className="flex flex-col gap-[36px] w-full pb-[100px]">
                     
                     {/* Platform Box */}
-                    <div className="w-full border-[8px] border-black px-[50px] pt-[40px] pb-[50px]">
+                    <div className="w-full border-[8px] border-[#d92d2d] px-[50px] pt-[40px] pb-[50px]">
                         <div className="flex items-start w-full">
                             <div className="flex-1 flex flex-col">
                                 <h2 className="text-[32px] md:text-[36px] font-bold tracking-tighter mb-[13px] font-inter">
@@ -127,7 +127,7 @@ export default function ParallelPlan() {
                     </div>
 
                     {/* AI Adoption Box */}
-                    <div className="w-full border-[8px] border-black px-[50px] pt-[40px] pb-[50px]">
+                    <div className="w-full border-[8px] border-[#1e3a8a] px-[50px] pt-[40px] pb-[50px]">
                         <div className="flex items-start w-full">
                             <div className="flex-1 flex flex-col">
                                 <h2 className="text-[32px] md:text-[36px] font-bold tracking-tighter mb-[13px] font-inter">
