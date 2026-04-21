@@ -37,8 +37,8 @@ export default function Section14({ isActive }) {
 
                     {/* Left Box (The Engine) */}
                     <div className="w-full md:w-1/2 flex-none flex flex-col justify-center items-end text-right pr-0 md:pr-[60px] lg:pr-[80px] xl:pr-[100px] 2xl:pr-[130px] py-10 md:py-0">
-                        <span className={`text-[#86868b] font-semibold text-[13px] md:text-[14px] tracking-tight mb-6 md:mb-8 transition-all duration-1000 ease-out delay-[0ms] ${step >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
-                            Definition / 01
+                        <span className={`text-[#86868b] font-semibold text-[14px] md:text-[15px] tracking-tight mb-6 md:mb-8 transition-all duration-1000 ease-out delay-[0ms] ${step >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
+                            Definition 1
                         </span>
                         
                         <h2 
@@ -73,8 +73,8 @@ export default function Section14({ isActive }) {
 
                     {/* Right Box (The Steering Wheel) */}
                     <div className="w-full md:w-1/2 flex-none flex flex-col justify-center items-start text-left pl-0 md:pl-[60px] lg:pl-[80px] xl:pl-[100px] 2xl:pl-[130px] py-10 md:py-0">
-                        <span className={`text-[#86868b] font-semibold text-[13px] md:text-[14px] tracking-tight mb-6 md:mb-8 transition-all duration-1000 ease-out delay-[200ms] ${step >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
-                            Definition / 02
+                        <span className={`text-[#86868b] font-semibold text-[14px] md:text-[15px] tracking-tight mb-6 md:mb-8 transition-all duration-1000 ease-out delay-[200ms] ${step >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
+                            Definition 2
                         </span>
                         
                         <h2 
@@ -115,7 +115,7 @@ export default function Section14({ isActive }) {
                     ></div>
                     
                     <div className={`pt-8 md:pt-10 flex flex-col items-center justify-center text-center transition-all duration-1000 ease-out ${step >= 4 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-                        <h3 className="text-[15px] md:text-[16px] font-bold tracking-[0.1em] text-[#86868b] uppercase mb-2 md:mb-3">
+                        <h3 className="text-[15px] md:text-[16px] font-bold tracking-tight text-[#86868b] mb-2 md:mb-3">
                             {lang === 'kr' ? '핵심전제' : 'Core Premise'}
                         </h3>
                         
