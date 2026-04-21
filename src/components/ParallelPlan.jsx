@@ -45,11 +45,11 @@ export default function ParallelPlan() {
                 },
                 option2: {
                     title: "[2안] 빅테크 제휴망 구축 (Enterprise AI)",
-                    desc: <><span className="text-[#1e3a8a] font-bold">빅테크 AI 벤더사</span>(OpenAI, 구글 등)와의 전략적 제휴를 맺는다. 단순 개발을 넘어 공식 <span className="text-[#1e3a8a] font-bold">MOU 및 론칭</span>을 통해 <span className="text-[#1e3a8a] font-bold">강력한 대외 홍보 수단</span>으로 활용한다.</>,
+                    desc: <><span className="text-[#1e3a8a] font-bold">빅테크 AI 벤더사</span>(OpenAI, 구글 등)와의 전략적 제휴를 맺는다. 단순 개발을 넘어 공식 <span className="text-[#1e3a8a] font-bold">MOU 및 론칭</span>을 통해 이지스의 '선진 기술 도입'과 '시스템 투명성'을 투자자들에게 각인시켜 신뢰도를 높이는 <span className="text-[#1e3a8a] font-bold">강력한 대외 홍보 수단</span>으로 활용한다.</>,
                     bullets: [
-                        { label: "엔진 후보군", title: "최상위 LLM 탑재", desc: "OpenAI, Google Gemini 등 대형 언어 모델 활용" },
-                        { label: "인프라 보안", title: "VPC 수준의 폐쇄망", desc: "자산 데이터의 외부 학습 차단을 위한 VPC 인프라 구축" },
-                        { label: "접근 통제", title: "테스트 사용자 한정", desc: <><span className="text-[#1e3a8a] font-bold">PO 이상 및 핵심 데이터 취급 담당자로 한정</span>하여 검증</> }
+                        { label: "엔진 후보군", title: "최상위 LLM 체계 탑재", desc: "OpenAI, Google Gemini, Claude 등 검증된 대형 언어 모델 기반 아키텍처" },
+                        { label: "데이터 보안 통제", title: "엔터프라이즈 전용 폐쇄망 생태계", desc: <>자산의 핵심 정보가 외부 학습용으로 넘어가지 않도록 <span className="text-[#1e3a8a] font-bold">VPC 수준의 인프라</span> 구축</> },
+                        { label: "초기 파일럿 검증", title: "테스트 사용자 성능검증", desc: <><span className="text-[#1e3a8a] font-bold">PO 이상 및 핵심 데이터 취급 담당자로 한정</span>하여 철저한 초기 검증 및 시스템 정합성 구축</> }
                     ]
                 }
             }
@@ -89,11 +89,11 @@ export default function ParallelPlan() {
                 },
                 option2: {
                     title: "[Option 2] Big Tech Partnership (Enterprise AI)",
-                    desc: "Form strategic alliances with Big Tech AI vendors. Official MOUs and launches will engrave IGIS's 'Technological Adoption' to investors, acting as a powerful PR tool.",
+                    desc: "Form strategic alliances with Big Tech AI vendors. Beyond simple development, official MOUs and launches will engrave IGIS's 'Technological Adoption' to investors, acting as a powerful PR tool to restore trust.",
                     bullets: [
-                        { label: "Engine", title: "Top-tier LLM", desc: "Architectures based on proven large language models like OpenAI." },
-                        { label: "Security", title: "VPC Level Closed-Network", desc: "VPC infrastructure to firmly seal critical asset data from external training." },
-                        { label: "Control", title: "Restricted Testing", desc: "Rigorous testing confined to PO level and core data managers." }
+                        { label: "Engine Options", title: "Top-tier LLM Deployment", desc: "Architectures based on proven models like OpenAI, Google Gemini, and Claude." },
+                        { label: "Data Security", title: "Enterprise Dedicated Closed-Network", desc: "Build VPC-level infrastructure to firmly seal critical asset data from external training." },
+                        { label: "Initial Pilot Phase", title: "Test User Performance Verification", desc: "Rigorous testing confined to PO level and core data managers to build system integrity." }
                     ]
                 }
             }
