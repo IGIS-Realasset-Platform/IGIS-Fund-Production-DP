@@ -108,7 +108,7 @@ export default function ParallelPlan() {
             <div className={`w-full max-w-[1400px] flex flex-col transition-all duration-[1200ms] transform ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
                 
                 {/* Header Block */}
-                <div className="w-full pt-[20px] pb-[36px] mb-[25px]">
+                <div className="w-full pt-[20px] pb-[36px] mb-[15px]">
                     <h1 className="text-[36px] md:text-[42px] font-extrabold tracking-tight uppercase font-inter leading-tight mb-[24px]">
                         {text.title}
                     </h1>
@@ -151,7 +151,7 @@ export default function ParallelPlan() {
                     </div>
 
                     {/* AI Adoption Box */}
-                    <div className="w-full border-[8px] border-[#1e3a8a] px-[40px] md:px-[50px] pt-[30px] pb-[40px]">
+                    <div className="w-full border-[8px] border-[#1e3a8a] px-[40px] md:px-[50px] pt-[35px] pb-[40px]">
                         <div className="flex flex-col w-full">
                             <h2 className="text-[32px] md:text-[36px] font-bold tracking-tighter mb-[30px] font-inter">
                                 {text.box2.title}
