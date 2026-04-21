@@ -118,7 +118,7 @@ export default function ParallelPlan() {
                 </div>
 
                 {/* Content Block Columns - Vertical Flow */}
-                <div className="flex flex-col gap-[26px] w-full pb-[100px]">
+                <div className="flex flex-col gap-[26px] w-full pb-[150px]">
                     
                     {/* Platform Box */}
                     <div className="w-full border-[8px] border-[#1e3a8a] px-[50px] pt-[40px] pb-[50px]">
@@ -158,7 +158,7 @@ export default function ParallelPlan() {
                             </h2>
 
                             {/* Option 1 */}
-                            <div className="mb-[40px]">
+                            <div className="mb-[30px]">
                                 <h3 className="text-[26px] font-extrabold text-[#1e3a8a] mb-[10px] tracking-tight">{text.box2.option1.title}</h3>
                                 <p className="text-[22px] font-bold text-[#444] leading-[34px] tracking-tight mb-[25px] break-keep">
                                     {text.box2.option1.desc}
