@@ -54,13 +54,42 @@ export default function Section10({ isActive }) {
                             )}
                         </p>
 
-                        <div className="flex items-center">
-                            <a href="#none" className="group inline-flex items-center justify-center bg-[#1d1d1f] text-white px-8 md:px-10 py-4 md:py-5 font-bold text-[14px] md:text-[16px] tracking-wide hover:bg-[#333] transition-all duration-300">
-                                {lang === 'kr' ? 'IFPDP 사용해보기' : 'Initialize IFPDP'}
-                                <svg className="w-4 h-4 md:w-5 md:h-5 ml-3 md:ml-4 transform group-hover:translate-x-2 transition-transform duration-300" fill="none" strokeWidth="2.5" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="square" strokeLinejoin="miter" d="M5 12h14M12 5l7 7-7 7" />
-                                </svg>
-                            </a>
+                        {/* 사용자 검토용 3가지 대안 렌더링 영역 */}
+                        <div className="flex flex-col gap-16 mt-4 w-full">
+                            
+                            {/* 대안 1: 매니페스토 스탬프 */}
+                            <div className="relative">
+                                <span className="absolute -top-6 left-0 text-[11px] text-red-500 font-bold">OPTION 1. 매니페스토 스탬프 (드라이 & 공문서 스타일)</span>
+                                <div className="border-l-[4px] border-[#1d1d1f] pl-5 py-2">
+                                    <p className="font-mono text-[11px] md:text-[13px] text-[#86868b] tracking-widest uppercase mb-1">System Status</p>
+                                    <p className="text-[16px] md:text-[20px] font-extrabold text-[#1d1d1f] tracking-tight">INITIALIZED: THE ENGINE OF IGIS</p>
+                                </div>
+                            </div>
+
+                            {/* 대안 2: 엔진 가동 마이크로 애니메이션 */}
+                            <div className="relative">
+                                <span className="absolute -top-6 left-0 text-[11px] text-red-500 font-bold">OPTION 2. 인디케이터 애니메이션 (시스템 가동 메타포)</span>
+                                <div className="flex items-center gap-4 bg-[#f2f2f7] px-6 py-4 inline-flex">
+                                    <div className="text-[12px] md:text-[14px] font-bold text-[#1d1d1f] uppercase tracking-widest">Core Engine Active</div>
+                                    <div className="flex gap-[3px] items-center h-[14px]">
+                                        <div className="w-[3px] bg-[#1d1d1f] animate-pulse h-full"></div>
+                                        <div className="w-[3px] bg-[#86868b] animate-pulse delay-100 h-3/4"></div>
+                                        <div className="w-[3px] bg-[#1d1d1f] animate-pulse delay-200 h-full"></div>
+                                        <div className="w-[3px] bg-[#86868b] animate-pulse delay-300 h-2/4"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* 대안 3: 넥스트 스텝 선언문 */}
+                            <div className="relative">
+                                <span className="absolute -top-6 left-0 text-[11px] text-red-500 font-bold">OPTION 3. 비저너리 텍스트 블록 (단호한 선언 스타일)</span>
+                                <div className="bg-[#1d1d1f] text-white px-8 py-5 md:px-12 md:py-6 inline-block">
+                                    <p className="text-[14px] md:text-[16px] font-bold tracking-widest uppercase break-keep">
+                                        {lang === 'kr' ? "지금, 전사적 엔진이 가동됩니다." : "NOW, THE CORPORATE ENGINE STARTS."}
+                                    </p>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
 
