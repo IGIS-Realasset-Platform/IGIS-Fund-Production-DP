@@ -61,7 +61,7 @@ export default function Section2({ isActive }) {
 
                     {/* OpenClaw Reveal Box */}
                     <div className={`transition-all duration-[1500ms] ease-[cubic-bezier(0.19,1,0.22,1)] mt-6 w-full ${step >= 5 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-                        <div className="flex flex-col md:flex-row items-start md:items-center gap-6 bg-[#f8f9fa] border border-[#e2e8f0] rounded-2xl p-6 md:px-8 md:py-6 w-full max-w-[950px] shadow-sm hover:shadow-md transition-shadow duration-500">
+                        <div className="flex flex-col md:flex-row items-start md:items-center gap-6 bg-white border-[4px] border-black p-6 md:px-8 md:py-6 w-full max-w-[950px]">
                             <img src={openclawImg} alt="OpenClaw Logo" className="h-[40px] md:h-[50px] object-contain mix-blend-multiply opacity-90 shrink-0" />
                             <p className="text-[17px] md:text-[19px] text-[#444] leading-[1.6] break-keep font-medium">
                                 {lang === 'kr' ? 
