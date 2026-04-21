@@ -280,8 +280,8 @@ Defense Logic: Initially, one Mission Volunteer is selected from each department
     const defenseParts = parseSections(lang === 'en' ? defenseTextEn : defenseTextKr);
 
     const tabs = lang === 'en' 
-        ? ["System Action Plan", "Collection Methodology", "Data Considerations", "AI Introduction Plan", "Strategic Defense", "Architecture Feasibility"]
-        : ["IFPDP 시스템 기획안", "데이터 취합 방법론", "취합 주요 고려사항", "AI 도입 계획", "전략적 방어 논리", "아키텍처 타당성 검토"];
+        ? ["System Action Plan", "Collection Methodology", "Data Considerations", "AI Introduction Plan", "Anticipated Q&A", "Architecture Feasibility"]
+        : ["IFPDP 시스템 기획안", "데이터 취합 방법론", "취합 주요 고려사항", "AI 도입 계획", "예상 Q&A", "아키텍처 타당성 검토"];
 
     return (
         <div className="w-full h-screen bg-white font-sans text-black flex flex-col items-center overflow-hidden">
