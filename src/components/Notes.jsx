@@ -376,7 +376,7 @@ Defense Logic: Initially, one Mission Volunteer is selected from each department
                                                         const isPreamble = idx === 0;
                                                         const isArrowFocus = line.trim().startsWith('->');
                                                         return (
-                                                            <div key={`uline-${lIdx}`} className={isPreamble ? "text-[18px] font-bold text-gray-700 leading-[27px] pl-3 break-keep" : \`text-base leading-relaxed whitespace-pre-wrap \${isArrowFocus ? 'font-bold text-black' : 'text-gray-800'}\`}>
+                                                            <div key={`uline-${lIdx}`} className={isPreamble ? "text-[18px] font-bold text-gray-700 leading-[27px] pl-3 break-keep" : `text-base leading-relaxed whitespace-pre-wrap ${isArrowFocus ? 'font-bold text-black' : 'text-gray-800'}`}>
                                                                 {line}
                                                             </div>
                                                         );
@@ -473,7 +473,7 @@ Defense Logic: Initially, one Mission Volunteer is selected from each department
                                                             const [label, ...rest] = line.split(':');
                                                             return (
                                                                 <div key={lIdx} className="flex flex-col md:flex-row gap-1 md:gap-4 items-start">
-                                                                    <span className={\`shrink-0 font-bold w-[90px] \${isQuestion ? 'text-[#e55039]' : 'text-[#4a69bd]'}\`}>[{label.trim()}]</span>
+                                                                    <span className={`shrink-0 font-bold w-[90px] ${isQuestion ? 'text-[#e55039]' : 'text-[#4a69bd]'}`}>[{label.trim()}]</span>
                                                                     <span className="whitespace-normal break-keep pt-[1px]">{rest.join(':').trim()}</span>
                                                                 </div>
                                                             );
