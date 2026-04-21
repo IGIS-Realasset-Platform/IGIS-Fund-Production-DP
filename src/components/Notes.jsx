@@ -280,8 +280,8 @@ Defense Logic: Initially, one Mission Volunteer is selected from each department
     const defenseParts = parseSections(lang === 'en' ? defenseTextEn : defenseTextKr);
 
     const tabs = lang === 'en' 
-        ? ["System Action Plan", "Collection Methodology", "Data Considerations", "AI Introduction Plan", "Anticipated Q&A", "Architecture Feasibility"]
-        : ["IFPDP 시스템 기획안", "데이터 취합 방법론", "취합 주요 고려사항", "AI 도입 계획", "예상 Q&A", "아키텍처 타당성 검토"];
+        ? ["System Action Plan", "Collection Methodology", "Data Considerations", "AI Introduction Plan", "Q&A", "Architecture Feasibility"]
+        : ["IFPDP 시스템 기획안", "데이터 취합 방법론", "취합 주요 고려사항", "AI 도입 계획", "Q&A", "아키텍처 타당성 검토"];
 
     return (
         <div className="w-full h-screen bg-white font-sans text-black flex flex-col items-center overflow-hidden">
@@ -314,7 +314,7 @@ Defense Logic: Initially, one Mission Volunteer is selected from each department
                         {activeTab === 0 && (
                             <div className="animate-fadeIn">
                                 <p className="text-md text-gray-500 font-medium mb-10 tracking-tight">
-                                    {lang === 'en' ? 'Updated 2026.04' : '2026.04 업데이트안'}
+                                    {lang === 'en' ? 'April 21, 2026 - Version' : '2026.04.21 ver.'}
                                 </p>
                                 <div className="">
                                     {planParts.map((part, idx) => {
@@ -394,7 +394,7 @@ Defense Logic: Initially, one Mission Volunteer is selected from each department
                         {activeTab === 2 && (
                             <div className="animate-fadeIn">
                                 <p className="text-md text-gray-500 font-medium mb-10 tracking-tight">
-                                    {lang === 'en' ? 'April 6, 2026 - Version' : '2026.04.06 ver.'}
+                                    {lang === 'en' ? 'April 9, 2026 - Planning Promotion Center Consensus Complete' : '2026.04.09 기획추진센터 컨센서스 ver.'}
                                 </p>
                                 <div className="space-y-8">
                                     {lowerParts.map((part, idx) => {
@@ -451,13 +451,10 @@ Defense Logic: Initially, one Mission Volunteer is selected from each department
                             </div>
                         )}
 
-                        {/* TAB 4: Strategic Defense Logic */}
+                        {/* TAB 4: Q&A */}
                         {activeTab === 4 && (
                             <div className="animate-fadeIn">
-                                 <p className="text-md text-gray-500 font-medium mb-10 tracking-tight">
-                                    {lang === 'en' ? 'Core logic for stakeholders' : '이해관계자 설득을 위한 주요 방어 논리'}
-                                </p>
-                                <div className="space-y-12">
+                                <div className="space-y-12 mt-2">
                                     {defenseParts.map((part, idx) => {
                                         const lines = part.trim().split('\n');
                                         const title = lines[0];
