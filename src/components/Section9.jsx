@@ -295,9 +295,9 @@ export default function Section9({ isActive }) {
                         `}>
                             <h2 className="text-[20px] md:text-[28px] lg:text-[34px] font-bold text-[#1d1d1f] tracking-tight break-keep border border-transparent" style={{ lineHeight: 'calc(1.4em - 2px)' }}>
                                 {lang === 'kr' ? (
-                                    <>이 공정을, <span className="bg-gradient-to-r from-red-500 to-orange-500 text-transparent bg-clip-text">조직의 유연성과 독립성을 확보</span>하면서<br className="hidden md:block"/> 유연하게 연결시키려면?</>
+                                    <>이 공정을, <span className="text-[#d92d2d] font-bold">조직의 유연성과 독립성을 확보</span>하면서<br className="hidden md:block"/> 유연하게 연결시키려면?</>
                                 ) : (
-                                    <>How do we flexibly connect this process, <br className="hidden md:block"/><span className="bg-gradient-to-r from-red-500 to-orange-500 text-transparent bg-clip-text">securing the organization's flexibility and independence</span>?</>
+                                    <>How do we flexibly connect this process, <br className="hidden md:block"/><span className="text-[#d92d2d] font-bold">securing the organization's flexibility and independence</span>?</>
                                 )}
                             </h2>
                         </div>
