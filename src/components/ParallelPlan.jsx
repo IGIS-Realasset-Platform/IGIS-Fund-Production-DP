@@ -35,21 +35,21 @@ export default function ParallelPlan() {
             box2: {
                 title: "2. AI 시스템 도입 방안",
                 option1: {
-                    title: "[1안] 빅테크 제휴망 구축 (Enterprise AI)",
-                    desc: <><span className="text-[#1e3a8a] font-bold">빅테크 AI 벤더사</span>(OpenAI, 구글 등)와의 전략적 제휴를 맺는다. 단순 개발을 넘어 공식 <span className="text-[#1e3a8a] font-bold">MOU 및 론칭</span>을 통해 <span className="text-[#1e3a8a] font-bold">강력한 대외 홍보 수단</span>으로 활용한다.</>,
-                    bullets: [
-                        { label: "엔진 후보군", title: "최상위 LLM 탑재", desc: "OpenAI, Google Gemini 등 대형 언어 모델 활용" },
-                        { label: "인프라 보안", title: "VPC 수준의 폐쇄망", desc: "자산 데이터의 외부 학습 차단을 위한 VPC 인프라 구축" },
-                        { label: "접근 통제", title: "테스트 사용자 한정", desc: <><span className="text-[#1e3a8a] font-bold">PO 이상 및 핵심 데이터 취급 담당자로 한정</span>하여 검증</> }
-                    ]
-                },
-                option2: {
-                    title: "[2안] 로컬 인프라망 자체 구축 (On-Premise AI)",
+                    title: "[1안] 로컬 인프라망 자체 구축 (On-Premise AI)",
                     desc: <>가장 뛰어난 보안을 위해 <span className="text-[#1e3a8a] font-bold">고용량 사내 통합 하드웨어와 로컬 오픈소스 LLM</span>을 결합한다. 외부 통신을 차단한 채 <span className="text-[#1e3a8a] font-bold">빠른 IFPDP 3단분리 적용</span>을 이루어낸다.</>,
                     bullets: [
                         { label: "하드웨어", title: "고용량 통합 서버 구비", desc: <><span className="text-[#1e3a8a] font-bold">맥미니 등 AI 구동에 최적화된 로컬 PC/서버</span> 구축</> },
                         { label: "로컬 엔진", title: "경량화 로컬 LLM", desc: "Gemma 4 등의 모델을 탑재하여 핵심 시스템에 즉각 적용" },
                         { label: "접근 보안", title: "폐쇄 웹 및 이중 통제", desc: <>사내 폐쇄망 웹에 올려 서비스하며 <span className="text-[#1e3a8a] font-bold">이용자 접근 권한을 등급별로 철저히 통제</span></> }
+                    ]
+                },
+                option2: {
+                    title: "[2안] 빅테크 제휴망 구축 (Enterprise AI)",
+                    desc: <><span className="text-[#1e3a8a] font-bold">빅테크 AI 벤더사</span>(OpenAI, 구글 등)와의 전략적 제휴를 맺는다. 단순 개발을 넘어 공식 <span className="text-[#1e3a8a] font-bold">MOU 및 론칭</span>을 통해 <span className="text-[#1e3a8a] font-bold">강력한 대외 홍보 수단</span>으로 활용한다.</>,
+                    bullets: [
+                        { label: "엔진 후보군", title: "최상위 LLM 탑재", desc: "OpenAI, Google Gemini 등 대형 언어 모델 활용" },
+                        { label: "인프라 보안", title: "VPC 수준의 폐쇄망", desc: "자산 데이터의 외부 학습 차단을 위한 VPC 인프라 구축" },
+                        { label: "접근 통제", title: "테스트 사용자 한정", desc: <><span className="text-[#1e3a8a] font-bold">PO 이상 및 핵심 데이터 취급 담당자로 한정</span>하여 검증</> }
                     ]
                 }
             }
@@ -79,21 +79,21 @@ export default function ParallelPlan() {
             box2: {
                 title: "2. Enterprise AI Adoption Options",
                 option1: {
-                    title: "[Option 1] Big Tech Partnership (Enterprise AI)",
-                    desc: "Form strategic alliances with Big Tech AI vendors. Official MOUs and launches will engrave IGIS's 'Technological Adoption' to investors, acting as a powerful PR tool.",
-                    bullets: [
-                        { label: "Engine", title: "Top-tier LLM", desc: "Architectures based on proven large language models like OpenAI." },
-                        { label: "Security", title: "VPC Level Closed-Network", desc: "VPC infrastructure to firmly seal critical asset data from external training." },
-                        { label: "Control", title: "Restricted Testing", desc: "Rigorous testing confined to PO level and core data managers." }
-                    ]
-                },
-                option2: {
-                    title: "[Option 2] On-Premise Local AI Infrastructure",
+                    title: "[Option 1] On-Premise Local AI Infrastructure",
                     desc: "Combine high-capacity enterprise hardware with local open-source LLMs to create an ultimate closed network environment, quickly applying IFPDP.",
                     bullets: [
                         { label: "Hardware", title: "Integrated Local Servers", desc: "Deploy capable local machines like Mac Minis for robust edge computing." },
                         { label: "Local Engine", title: "Lightweight Local LLM", desc: "Mount models like Gemma 4 to activate the 3-tier system instantly." },
                         { label: "Access Security", title: "Closed Web Portal", desc: "Strictly manage user access tiers within internal closed network web services." }
+                    ]
+                },
+                option2: {
+                    title: "[Option 2] Big Tech Partnership (Enterprise AI)",
+                    desc: "Form strategic alliances with Big Tech AI vendors. Official MOUs and launches will engrave IGIS's 'Technological Adoption' to investors, acting as a powerful PR tool.",
+                    bullets: [
+                        { label: "Engine", title: "Top-tier LLM", desc: "Architectures based on proven large language models like OpenAI." },
+                        { label: "Security", title: "VPC Level Closed-Network", desc: "VPC infrastructure to firmly seal critical asset data from external training." },
+                        { label: "Control", title: "Restricted Testing", desc: "Rigorous testing confined to PO level and core data managers." }
                     ]
                 }
             }
@@ -134,7 +134,7 @@ export default function ParallelPlan() {
                                 <div className="w-full pt-[30px] grid grid-cols-3 gap-[40px]">
                                     {text.box1.bullets.map((bullet, idx) => (
                                         <div key={idx} className="flex flex-col">
-                                            <div className="text-[17px] font-bold tracking-wider mb-[5px] pb-[10px] text-[#888] uppercase">
+                                            <div className="text-[17px] font-bold tracking-wider mb-[5px] pb-[6px] text-[#888] uppercase">
                                                 {bullet.label}
                                             </div>
                                             <h3 className="text-[22px] font-bold text-black tracking-tight mb-[7px]">
