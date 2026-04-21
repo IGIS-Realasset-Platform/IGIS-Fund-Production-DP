@@ -1,6 +1,6 @@
 # Antigravity AI Assistant Memory & Rules
 
-이 파일은 Antigravity AI가 사용자(jkjeon2025)와의 원활한 협업을 위해 스스로 기억해야 할 핵심 규칙과 컨텍스트를 저장하는 공간입니다.
+이 파일은 Antigravity AI가 사용자(전기영 부장)와의 원활한 협업을 위해 스스로 기억해야 할 핵심 규칙과 컨텍스트를 저장하는 공간입니다.
 
 ## 1. Git Workflow Rule (핵심 준수 사항)
 - **자동 커밋 의무**: 소스 코드나 파일 수정 작업이 성공적으로 끝날 때마다, **반드시** 사용자에게 보고하기 전에 백그라운드 터미널(`run_command`)을 사용하여 `git add .` 및 `git commit -m "작업 내용 요약"`을 실행할 것.
