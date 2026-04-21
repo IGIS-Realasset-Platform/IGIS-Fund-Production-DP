@@ -28,13 +28,13 @@ export default function Section7({ isActive }) {
                     <h2 className="text-[26px] md:text-[36px] lg:text-[42px] font-bold text-[#1d1d1f] tracking-tight leading-[1.3] break-keep mb-8 md:mb-12">
                         {lang === 'kr' ? (
                             <>
-                                앞선 글로벌 전문가의 지적은,<br />
-                                놀랍게도 현재 우리가 현업에서 매일 마주하는 뼈아픈 한계와 일치합니다.
+                                앞선 글로벌 석학의 경고는,<br />
+                                놀랍게도 대표님이 CFT 마스터플랜에서 짚어준 우리의 현실과 정확히 일치합니다.
                             </>
                         ) : (
                             <>
-                                The preceding global expert's warning<br />
-                                perfectly aligns with the painful limitations we face in our daily operations.
+                                Surprisingly, the preceding global expert's warning<br />
+                                perfectly aligns with the reality pointed out in our CEO's CFT Masterplan.
                             </>
                         )}
                     </h2>
@@ -44,11 +44,11 @@ export default function Section7({ isActive }) {
                     <h3 className="text-[26px] md:text-[36px] lg:text-[42px] font-bold text-[#1d1d1f] tracking-tight leading-[1.3] break-keep mb-16 md:mb-24">
                         {lang === 'kr' ? (
                             <>
-                                바로 "<span className="text-[#d92d2d] font-bold">데이터 고립 현상과 파편화된 지식 자산</span>" 때문입니다.
+                                "<span className="text-[#d92d2d] font-bold">운용 인력들의 폐쇄적인 오너십과 개인편차</span>" 때문입니다.
                             </>
                         ) : (
                             <>
-                                It is precisely due to "<span className="text-[#d92d2d] font-bold">data isolation and fragmented knowledge assets</span>".
+                                It is due to the "<span className="text-[#d92d2d] font-bold">closed ownership and individual deviations of operation personnel</span>".
                             </>
                         )}
                     </h3>
@@ -60,13 +60,13 @@ export default function Section7({ isActive }) {
                     {/* Column 1 */}
                     <div className="flex flex-col">
                         <h4 className="text-[20px] md:text-[24px] font-bold text-[#1d1d1f] mb-6">
-                            {lang === 'kr' ? "데이터 고립 현상" : "Data Isolation"}
+                            {lang === 'kr' ? "폐쇄적 오너십" : "Closed Ownership"}
                         </h4>
                         <p className="text-[16px] md:text-[18px] text-[#424245] leading-[1.65] break-keep font-medium">
                             {lang === 'kr' ? (
                                 <>
-                                    각 자산별 책임과 권한이 명확한 것은 효율적이나,<br className="hidden lg:block" />
-                                    강한 오너십이 오히려 부서 간<br className="hidden lg:block" />
+                                    프로젝트/펀드 설정과 관리에서 가장 중요한 것은<br className="hidden lg:block" />
+                                    운용역의 오너십. 이는 집중과 효율 측면에서 긍정적이나,<br className="hidden lg:block" />
                                     <span 
                                         className="relative inline transition-colors duration-500 font-bold"
                                         style={{
@@ -75,12 +75,11 @@ export default function Section7({ isActive }) {
                                             backgroundSize: step >= 4 ? '100% 100%' : '0% 100%',
                                             transition: 'background-size 1.2s cubic-bezier(0.19, 1, 0.22, 1)'
                                         }}
-                                    >데이터가 전사적으로 흐르지 못하는 벽을 생성.</span>
+                                    >협업 측면에서는 부정적(폐쇄적)인 요소로 작용</span>
                                 </>
                             ) : (
                                 <>
-                                    Clear responsibility per asset is efficient, but<br className="hidden lg:block" />
-                                    strong ownership acts as a limitation: <span 
+                                    The most crucial aspect of project/fund setup and management is the operator’s ownership. While positive for focus and efficiency, <span 
                                         className="relative inline transition-colors duration-500 font-bold"
                                         style={{
                                             backgroundImage: 'linear-gradient(transparent 85%, #d92d2d 85%, #d92d2d 100%)',
@@ -88,7 +87,7 @@ export default function Section7({ isActive }) {
                                             backgroundSize: step >= 4 ? '100% 100%' : '0% 100%',
                                             transition: 'background-size 1.2s cubic-bezier(0.19, 1, 0.22, 1)'
                                         }}
-                                    >it creates a wall restricting corporate data flow.</span>
+                                    >it acts as a negative (closed) factor for collaboration.</span>
                                 </>
                             )}
                         </p>
@@ -97,12 +96,12 @@ export default function Section7({ isActive }) {
                     {/* Column 2 */}
                     <div className="flex flex-col">
                         <h4 className="text-[20px] md:text-[24px] font-bold text-[#1d1d1f] mb-6">
-                            {lang === 'kr' ? "파편화된 지식 자산" : "Fragmented Knowledge Assets"}
+                            {lang === 'kr' ? "개인 편차" : "Individual Deviation"}
                         </h4>
                         <p className="text-[16px] md:text-[18px] text-[#424245] leading-[1.65] break-keep font-medium">
                             {lang === 'kr' ? (
                                 <>
-                                    실무진 개개인의 뛰어난 역량과 산출물이 <span 
+                                    협업의 본질에서 중요한건 <span 
                                         className="relative inline transition-colors duration-500 font-bold"
                                         style={{
                                             backgroundImage: 'linear-gradient(transparent 85%, #d92d2d 85%, #d92d2d 100%)',
@@ -110,13 +109,13 @@ export default function Section7({ isActive }) {
                                             backgroundSize: step >= 4 ? '100% 100%' : '0% 100%',
                                             transition: 'background-size 1.2s cubic-bezier(0.19, 1, 0.22, 1)'
                                         }}
-                                    >전사 통합 자산화되지 못하고<br className="hidden lg:block" />
-                                    각자의 이메일과 로컬 폴더 속에 흩어져 있음.</span><br className="hidden lg:block" />
-                                    누가 어떤 정보를 쥐고 있는지 알 수 없어 중복 업무 발생.
+                                    >상대방을 인정하고<br className="hidden lg:block" />
+                                    나의 부족함을 드러내야 하는데 그게 안됨</span><br className="hidden lg:block" />
+                                    PO마다 성향이 모두 달라 일관성이 없음
                                 </>
                             ) : (
                                 <>
-                                    Exceptional individual capabilities and outputs <span 
+                                    The essence of collaboration requires <span 
                                         className="relative inline transition-colors duration-500 font-bold"
                                         style={{
                                             backgroundImage: 'linear-gradient(transparent 85%, #d92d2d 85%, #d92d2d 100%)',
@@ -124,8 +123,8 @@ export default function Section7({ isActive }) {
                                             backgroundSize: step >= 4 ? '100% 100%' : '0% 100%',
                                             transition: 'background-size 1.2s cubic-bezier(0.19, 1, 0.22, 1)'
                                         }}
-                                    >are not consolidated as corporate assets, but scattered across local folders.</span><br className="hidden lg:block" />
-                                    Resulting in redundant work due to hidden information.
+                                    >acknowledging others and revealing one's own shortcomings, which often fails.</span><br className="hidden lg:block" />
+                                    PO profiles vary completely, lacking consistency.
                                 </>
                             )}
                         </p>
@@ -134,13 +133,13 @@ export default function Section7({ isActive }) {
                     {/* Column 3 */}
                     <div className="flex flex-col">
                         <h4 className="text-[20px] md:text-[24px] font-bold text-[#1d1d1f] mb-6">
-                            {lang === 'kr' ? "일관된 플랫폼 부재" : "Lack of Consistent Platform"}
+                            {lang === 'kr' ? "이지스의 특성" : "Characteristics of IGIS"}
                         </h4>
                         <p className="text-[16px] md:text-[18px] text-[#424245] leading-[1.65] break-keep font-medium">
                             {lang === 'kr' ? (
                                 <>
-                                    대기업처럼 강압적인 양식과 규약으로 묶어버리면<br className="hidden lg:block" />
-                                    조직 특유의 생동감과 스피드가 즉각 상실됨.<br className="hidden lg:block" />
+                                    대기업의 협업은 큰 조직의 협업 규약을 따르면<br className="hidden lg:block" />
+                                    저절로 협업이 되는데 반해, 이지스는 협업 규약을<br className="hidden lg:block" />
                                     <span 
                                         className="relative inline transition-colors duration-500 font-bold"
                                         style={{
@@ -149,14 +148,11 @@ export default function Section7({ isActive }) {
                                             backgroundSize: step >= 4 ? '100% 100%' : '0% 100%',
                                             transition: 'background-size 1.2s cubic-bezier(0.19, 1, 0.22, 1)'
                                         }}
-                                    >개인의 업무 방식을 존중하면서도<br className="hidden lg:block" />
-                                    이걸 백그라운드에서 하나로 연결할 시스템 부재.</span>
+                                    >만들고 강제하면 유연성이 떨어지고 오히려 반작용 발생.</span>
                                 </>
                             ) : (
                                 <>
-                                    Binding collaboration with rigid corporate templates<br className="hidden lg:block" />
-                                    instantly kills the organization's unique flexibility.<br className="hidden lg:block" />
-                                    <span 
+                                    While corporate collaboration naturally happens by following a large organization's protocol, for IGIS, <span 
                                         className="relative inline transition-colors duration-500 font-bold"
                                         style={{
                                             backgroundImage: 'linear-gradient(transparent 85%, #d92d2d 85%, #d92d2d 100%)',
@@ -164,7 +160,7 @@ export default function Section7({ isActive }) {
                                             backgroundSize: step >= 4 ? '100% 100%' : '0% 100%',
                                             transition: 'background-size 1.2s cubic-bezier(0.19, 1, 0.22, 1)'
                                         }}
-                                    >We lack a system that connects data in the background while respecting individuality.</span>
+                                    >creating and enforcing collaboration protocols reduces flexibility and causes adverse reactions.</span>
                                 </>
                             )}
                         </p>
