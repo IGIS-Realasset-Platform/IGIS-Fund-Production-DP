@@ -314,14 +314,14 @@ Defense Logic: Initially, one Mission Volunteer is selected from each department
                                 <p className="text-md text-gray-500 font-medium mb-10 tracking-tight">
                                     {lang === 'en' ? 'Updated 2026.04' : '2026.04 업데이트안'}
                                 </p>
-                                <div className="space-y-[42px]">
+                                <div className="">
                                     {planParts.map((part, idx) => {
                                         const lines = part.trim().split('\n');
                                         const titleStr = lines[0];
                                         const bodyBlocks = lines.slice(1);
                                         
                                         return (
-                                            <div key={`plan-${idx}`} className="mb-6">
+                                            <div key={`plan-${idx}`} className="mb-6" style={{ marginTop: idx > 0 ? '42px' : '0px' }}>
                                                 <h2 className="text-xl font-bold mb-3">{titleStr}</h2>
                                                 <div className="">
                                                     {bodyBlocks.map((line, lIdx) => {
