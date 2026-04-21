@@ -677,6 +677,18 @@ Defense Logic: Initially, one Mission Volunteer is selected from each department
                                                 <li>- <span className="font-bold text-[#e55039]">Log Series (로그 누적 배열):</span> 특정 이슈(리파이낸싱 컨택, 주요 임차인 제안 등)마다 카라반/회의록 데이터가 차곡차곡 쌓이는 RAG 최적화 구조.</li>
                                             </ul>
                                         </div>
+
+                                        <div>
+                                            <h3 className="font-extrabold text-[15px] mb-2 text-[#1a1a1a]">3. 데이터 타입 (Data Type)</h3>
+                                            <p className="mb-2 text-gray-700">프로그래밍 관점에서 이 데이터에 "어떤 형태의 값을 입력할 수 있는가?"를 정의. 실제 데이터베이스 제약 조건(Validation)을 걸 때 사용하는 원시적인 단위.</p>
+                                            <ul className="space-y-1 ml-1 text-gray-800">
+                                                <li>- <span className="font-extrabold text-[#e67e22]">String / Text:</span> 평범한 글자(문자열). (예: "정영진", "하층부 F&B 전략")</li>
+                                                <li>- <span className="font-extrabold text-[#e67e22]">Enum (선택형):</span> 정해진 드롭다운 목록에서 선택. (예: "커머셜, 입찰단계, 오피스")</li>
+                                                <li>- <span className="font-extrabold text-[#e67e22]">Number / Float:</span> 연산(더하기, 빼기 등)이 가능한 순수 숫자나 소수점.</li>
+                                                <li>- <span className="font-extrabold text-[#e67e22]">Date:</span> 날짜 연산(목표일-현재일=D-Day)이 가능한 표준 시각 규격. (예: 2026-08-30)</li>
+                                                <li>- <span className="font-extrabold text-[#2980b9]">Array (배열) / Array of Objects:</span> 위에 설명한 Time-Series나 Log Series를 실제로 구현하기 위해, 괄호 [] 안에 여러 개의 덩어리(Object)들을 무한정 집어넣을 수 있는 데이터 타입.</li>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
