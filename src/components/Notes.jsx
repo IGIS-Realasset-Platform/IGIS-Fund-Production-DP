@@ -105,7 +105,7 @@ It is unrealistic to temporarily build massive enterprise data into 7 DB modules
 Decoupled Modular Architecture
 The visually demanding main dashboard and the computationally heavy AI panel are mutually decoupled at the code level, ensuring seamless scaling without performance degradation or conflicts.`;
 
-    const rawTextKr = `1. 크게 이지스의 외부 / 내부 데이터로 나뉜다.
+    const rawTextKr = `1. 크게 이지스의 외부 / 내부 데이터로 나뉜다. (완벽한 플랫폼 모델로써 작동하는데에 내부 데이터만으로는 한계가 있기 때문이다)
    - 최초 외부데이터는 리서치센터에서 주관하는 데이터(알스퀘어 등) raw파일을 쓰고 가공한다.
    - 내부데이터셋은 처음부터 만든다. 
    - 매핑기준 : 내/외부 데이터 결합을 위한 '표준 자산 식별 코드(Asset ID)'를 우선 정의
@@ -117,7 +117,7 @@ The visually demanding main dashboard and the computationally heavy AI panel are
     - 시계열 데이터의 취합과 셑과 저장소를 따로 분류
     - 스냅샷 : 데이터 변화의 기준점 마일스톤(예: 초기 티저, 투자심의위원회 승인, 본 PF 기표, 준공) 시점의 데이터 스냅샷 락인(Lock-in) 기능 구현
 
-3. 데이터베이스는 물리적으로 하나(SSOT)로 통합.
+3. 데이터베이스는 물리적으로 하나(Single Source of Truth)로 통합. 하지만 사용자(부서)에 따른 최적 화면은 따로 구성된다.
     ㄴ 각 부서의 니즈에 맞게 부서별 기본 상세페이지를 모두 따로 구성한다. 
     ㄴ 최종 상세페이지에는, 모든 부서에서 취합된 정보가 담기고, 이 페이지는 최고 권한자만 열람할 수 있게 한다. 
     ㄴ 사용자 권한 설정 (데이터 열람 권한 부여, 읽기/쓰기 권한 부여)
@@ -178,74 +178,74 @@ Expands to a flexible architecture allowing powerful multi-modal AI engines proc
 - User Environment: Expanding usage rights to all employees and deploying segment-specific connection environments.`;
 
     const upperTextKr = `1. 미션 수행의 목적
-전사적 데이터 취합을 효율적으로 완수하기 위해, 이를 단순 부서 업무가 아닌 '리얼에셋 부문 전사 핵심 미션'으로 격상하여 추진한다.
+전사적 데이터 취합을 효율적으로 완수하기 위해, 이를 단순 부서 업무가 아닌 '리얼에셋 부문 전사 핵심 미션'으로 격상하여 추진한다. 
 각 조직별 핵심 인력이 공식 미션 수행원으로 지정되어 강력한 크로스펑셔널(Cross-functional) 협업 체계를 구축하며, 참여자들에게 명확한 동기부여와 실질적인 OKR 평가 성과를 부여하는 것을 최우선 목적으로 한다.
 
 2. 내부 데이터의 취합
 1) 이미 기획추진센터 노션에 취합된 데이터
 2) 아우름 데이터
 3) 매주 주간회의때마다 이슈제기 되고 리더(이철승대표 이하) 합의로 취합할 데이터
-   - e.g. 4/8 사업그룹 미팅 지시사항 : 프로젝트마다의 설계사/시공사 다 파악해서 데이터화
-4) IFPDP 미션수행 시 각 부서와의 협의에 따라 필요한 데이터셑을 합의하고 추가.
+    - e.g. 4/8 사업그룹 미팅 지시사항 : 프로젝트마다의 설계사/시공사 다 파악해서 데이터화
+4) IFPDP 미션수행 시 각 부서와의 협의에 따라 필요한 데이터셑을 합의하고 추가. 
    - e.g. 기업마케팅 CRM 데이터, 프로젝트 별 심화데이터(브랜드 포지셔닝, 플레이스 메이킹 플랜, M6 서비스, 어메니티 공간 계획 등) 등.
 
-3. 조직적 데이터 취합의 방법론
-- 각각의 부서간 조직장 및 실무자와 협의/합의하여 최초 등록할 프로젝트/자산에 대해 설정하고, 그들과 긴밀하게 협력하여 최초 데이터셋을 구축한다.
-- 예상 데이터 구축 협업 부서와 실무자
-  ㄴ 기업마케팅센터 (고아라/김민지)
-  ㄴ 투자그룹 (신용우/송기석/홍봉석)
-  ㄴ 글로벌투자그룹 (미정)
-  ㄴ 스페셜시츄에이션그룹 (미정)
-  ㄴ 사업그룹 (이수정/강순용)
-  ㄴ 디지털사업그룹 (미정/홍창의)
-  ㄴ 개발솔루션 (김대익/미정)
-  ㄴ 관리/운영 (미정)
-  ㄴ 글로벌자산관리 (미정)
-  ㄴ 리빙그룹 (미정)
-  ㄴ 리테일솔루션센터 (미정)
-  ㄴ LFC (미정)
-  ㄴ 공간솔루션센터 (미정)
-  ㄴ CM (미정)
--> ifpdp 시연화면을 만들어보며 각 부서별 니즈와 이를 충족하고 이들을 끌어들일수 있을만한것을 아이데이션해본후 적절 부서 접촉 예정
--> 인맥 없는 곳은 이시정 리더의 도움 받기로 함
+3. 조직적 데이터 취합의 방법론 
+- 각각의 부서간 조직장 및 실무자와 협의/합의하여 최초 등록할 프로젝트/자산에 대해 설정하고, 그들과 긴밀하게 협력하여 최초 데이터셋을 구축한다.  
+- 예상 데이터 구축 협업 부서와 실무자 
+   ㄴ 기업마케팅센터 (고아라/김민지)
+   ㄴ 투자그룹 (신용우/송기석/홍봉석)
+   ㄴ 글로벌투자그룹 (미정)
+   ㄴ 스페셜시츄에이션그룹 (미정)
+   ㄴ 사업그룹 (이수정/강순용)
+   ㄴ 디지털사업그룹 (미정/홍창의)
+   ㄴ 개발솔루션 (김대익/미정)
+   ㄴ 관리/운영 (미정)
+   ㄴ 글로벌자산관리 (미정)
+   ㄴ 리빙그룹 (미정)
+   ㄴ 리테일솔루션센터 (미정)
+   ㄴ LFC (미정)
+   ㄴ 공간솔루션센터 (미정)
+   ㄴ CM (미정)
+   -> ifpdp 시연화면을 만들어보며 각 부서별 니즈와 이를 충족하고 이들을 끌어들일수 있을만한것을 아이데이션해본후 적절 부서 접촉 예정
+   -> 인맥 없는 곳은 이시정 리더의 도움 받기로 함
 
 4. 외부데이터의 취합
-- 국내 마켓과 섹터 : spi 데이터 크롤링 취합
+- 국내 마켓과 섹터 : spi 데이터 크롤링 취합 
 - 국내 정량데이터 : 알스퀘어
 - 글로벌 마켓과 섹터 : 프리퀸, PMA 등
 - 글로벌 정량데이터 : RCA`;
 
     const upperTextEn = `1. Purpose of Mission Execution
-To efficiently accomplish enterprise-wide data collection, it is elevated from a mere departmental task to a 'Core Enterprise Mission' for the Real Asset Division. 
-Key personnel from each organization are designated as official mission executors to build a strong cross-functional collaboration system, prioritizing clear motivation and substantive OKR performance evaluations.
+To efficiently accomplish enterprise-wide data collection, it is elevated from a mere departmental task to a 'Core Enterprise Mission for the Real Asset Division'. 
+We will designate key personnel from each organization as official mission executors to build a strong cross-functional collaboration system, primarily aiming to provide clear motivation and practical OKR evaluation achievements to participants.
 
 2. Collection of Internal Data
 1) Data already collected in the Planning & Promotion Center's Notion
 2) Aurum data
-3) Data to be collected based on issues raised during weekly meetings
-   - e.g. 4/8 Business Group meeting instructions: Digitize all architects/contractors for each project
-4) Datasets agreed upon and added through consultation with each department during the IFPDP mission.
-   - e.g. Corporate Marketing CRM data, in-depth project data (brand positioning, placemaking plan, M6 service, amenity space planning, etc.).
+3) Data to be collected based on issues raised during weekly meetings and agreed upon by leaders (CEO Cheol-seung Lee and below)
+    - e.g., Instructions from the April 8th Business Group meeting: Identify all architects/contractors for each project and digitize them.
+4) Data sets agreed upon and added through consultation with each department during the IFPDP mission.
+   - e.g., Corporate marketing CRM data, project-specific in-depth data (brand positioning, placemaking plans, M6 services, amenity space planning, etc.).
 
 3. Methodology for Organizational Data Collection
-- Set the initial projects/assets to be registered in consultation with the organization heads and closely collaborate with them to build the initial datasets.
-- Expected collaborating departments and staff for data construction
-  ㄴ Corporate Marketing Center (Ah-ra Ko / Min-ji Kim)
-  ㄴ Investment Group (Yong-woo Shin / Ki-seok Song / Bong-seok Hong)
-  ㄴ Global Investment Group (TBD)
-  ㄴ Special Situation Group (TBD)
-  ㄴ Business Group (Soo-jung Lee / Soon-yong Kang)
-  ㄴ Digital Business Group (TBD / Chang-eui Hong)
-  ㄴ Development Solutions (Dae-ik Kim / TBD)
-  ㄴ Management/Operations (TBD)
-  ㄴ Global Asset Management (TBD)
-  ㄴ Living Group (TBD)
-  ㄴ Retail Solution Center (TBD)
-  ㄴ LFC (TBD)
-  ㄴ Space Solution Center (TBD)
-  ㄴ CM (TBD)
--> Plan to ideate satisfying needs by demonstrating IFPDP screens, then contact appropriate departments
--> If lacking connections, support will be provided by Leader Si-jung Lee
+- Set the initial projects/assets to be registered in consultation/agreement with the organization heads and working-level staff of each department, and closely collaborate with them to build the initial datasets.
+- Expected collaborating departments and staff for data construction:
+   - Corporate Marketing Center (Ah-ra Ko / Min-ji Kim)
+   - Investment Group (Yong-woo Shin / Ki-seok Song / Bong-seok Hong)
+   - Global Investment Group (TBD)
+   - Special Situation Group (TBD)
+   - Business Group (Soo-jung Lee / Soon-yong Kang)
+   - Digital Business Group (TBD / Chang-eui Hong)
+   - Development Solutions (Dae-ik Kim / TBD)
+   - Management/Operation (TBD)
+   - Global Asset Management (TBD)
+   - Living Group (TBD)
+   - Retail Solutions Center (TBD)
+   - LFC (TBD)
+   - Space Solutions Center (TBD)
+   - CM (TBD)
+   -> We plan to ideate what can satisfy needs and attract each department by creating an IFPDP demo screen, then contact the appropriate departments.
+   -> For places without connections, we agreed to receive help from Leader Si-jeong Lee.
 
 4. Collection of External Data
 - Domestic Markets and Sectors: Crawling SPI data
@@ -282,9 +282,9 @@ Defense Logic: Initially, one Mission Volunteer is selected from each department
         : ["IFPDP 시스템 기획안", "데이터 취합 방법론", "AI 도입 계획", "취합 주요 고려사항", "전략적 방어 논리", "아키텍처 타당성 검토"];
 
     return (
-        <div className="w-full h-full bg-white font-sans text-black flex flex-col items-center overflow-hidden">
+        <div className="w-full h-screen bg-white font-sans text-black flex flex-col items-center overflow-hidden">
             
-            <div className="w-[calc(100%-48px)] md:w-[calc(100%-100px)] max-w-[1400px] mt-24 md:mt-32 shrink-0">
+            <div className="w-[calc(100%-48px)] md:w-[calc(100%-100px)] max-w-[1600px] mt-24 md:mt-32 shrink-0">
                 <h1 className="text-[32px] md:text-[40px] font-extrabold tracking-tight mb-8 font-inter">
                     {lang === 'en' ? 'IFPDP Execution Specifications' : 'IFPDP 세부 실행계획'}
                 </h1>
@@ -295,7 +295,7 @@ Defense Logic: Initially, one Mission Volunteer is selected from each department
                         <button
                             key={idx}
                             onClick={() => setActiveTab(idx)}
-                            className={"cursor-pointer whitespace-nowrap px-6 py-3 font-bold text-[16px] md:text-[18px] transition-colors -mb-[1px] " + (activeTab === idx ? "border-b-[5px] border-black text-black" : "border-b-[5px] border-transparent text-gray-400 hover:text-gray-600")}
+                            className={"cursor-pointer whitespace-nowrap px-6 py-3 font-bold text-[16px] md:text-[18px] transition-colors -mb-[1px] " + (activeTab === idx ? "border-b-[4px] border-black text-black" : "border-b-[4px] border-transparent text-gray-400 hover:text-gray-600")}
                         >
                             {tab}
                         </button>
@@ -305,217 +305,219 @@ Defense Logic: Initially, one Mission Volunteer is selected from each department
 
             {/* Scrollable Content Area */}
             <div className="w-full flex-1 overflow-y-auto pb-[150px] relative px-[24px] md:px-[50px] flex flex-col items-center">
-                <div className="w-full max-w-[1400px] flex flex-col items-start block">
+                <div className="w-full max-w-[1600px] block">
+                    <div className="w-full max-w-[1100px]">
 
-                    {/* TAB 0: System Action Plan */}
-                    {activeTab === 0 && (
-                        <div className="animate-fadeIn">
-                            <p className="text-md text-gray-500 font-medium mb-10 tracking-tight">
-                                {lang === 'en' ? 'Updated 2026.04' : '2026.04 업데이트안'}
-                            </p>
-                            <div className="space-y-12">
-                                {planParts.map((part, idx) => {
-                                    const lines = part.trim().split('\n');
-                                    const titleStr = lines[0];
-                                    const bodyBlocks = lines.slice(1);
-                                    
-                                    return (
-                                        <div key={"plan-" + idx} className="mb-8 mt-[50px]">
-                                            <h2 className="text-[22px] md:text-[24px] font-bold mb-4 tracking-tighter text-black">{titleStr}</h2>
-                                            <div className="text-[17px] leading-[30px] font-medium text-gray-800 break-keep">
-                                                {bodyBlocks.map((line, lIdx) => {
-                                                    if (!line.trim()) return <br key={lIdx} />;
-                                                    
-                                                    // Emphasize first lines or key phrases matching the strict styling
-                                                    let isBoldLine = false;
-                                                    if (!line.startsWith('①') && !line.startsWith('②') && !line.startsWith('③') && !line.startsWith('④') && !line.startsWith('⑤') && !line.startsWith('⑥') && !line.startsWith('⑦') && !line.includes(': ')) {
-                                                        isBoldLine = (lIdx === 0 && line.length < 50); // Usually subtitles are short and first
-                                                    }
+                        {/* TAB 0: System Action Plan */}
+                        {activeTab === 0 && (
+                            <div className="animate-fadeIn">
+                                <p className="text-md text-gray-500 font-medium mb-10 tracking-tight">
+                                    {lang === 'en' ? 'Updated 2026.04' : '2026.04 업데이트안'}
+                                </p>
+                                <div className="space-y-12">
+                                    {planParts.map((part, idx) => {
+                                        const lines = part.trim().split('\n');
+                                        const titleStr = lines[0];
+                                        const bodyBlocks = lines.slice(1);
+                                        
+                                        return (
+                                            <div key={"plan-" + idx} className="mb-8 mt-[40px]">
+                                                <h2 className="text-[22px] md:text-[24px] font-bold mb-4 tracking-tighter text-black">{titleStr}</h2>
+                                                <div className="text-[16px] leading-[28px] font-medium text-gray-800 break-keep">
+                                                    {bodyBlocks.map((line, lIdx) => {
+                                                        if (!line.trim()) return <br key={lIdx} />;
+                                                        
+                                                        // Emphasize first lines or key phrases matching the strict styling
+                                                        let isBoldLine = false;
+                                                        if (!line.startsWith('①') && !line.startsWith('②') && !line.startsWith('③') && !line.startsWith('④') && !line.startsWith('⑤') && !line.startsWith('⑥') && !line.startsWith('⑦') && !line.includes(': ')) {
+                                                            isBoldLine = (lIdx === 0 && line.length < 50); // Usually subtitles are short and first
+                                                        }
 
-                                                    if (isBoldLine || line.startsWith('①') || line.startsWith('②') || line.startsWith('③') || line.startsWith('④') || line.startsWith('⑤') || line.startsWith('⑥') || line.startsWith('⑦')) {
-                                                        return <p key={lIdx} className="font-extrabold text-[19px] mt-1 mb-2">{line}</p>;
-                                                    }
+                                                        if (isBoldLine || line.startsWith('①') || line.startsWith('②') || line.startsWith('③') || line.startsWith('④') || line.startsWith('⑤') || line.startsWith('⑥') || line.startsWith('⑦')) {
+                                                            return <p key={lIdx} className="font-extrabold text-[19px] mt-1 mb-2 text-black">{line}</p>;
+                                                        }
 
-                                                    if (line.includes(': ')) {
-                                                        const parts = line.split(': ');
+                                                        if (line.includes(': ')) {
+                                                            const parts = line.split(': ');
+                                                            return (
+                                                                <p key={lIdx} className="mb-2">
+                                                                    <strong className="text-black">{parts[0]}: </strong>
+                                                                    {parts.slice(1).join(': ')}
+                                                                </p>
+                                                            );
+                                                        }
+                                                        
+                                                        return <p key={lIdx} className="mb-2 whitespace-pre-wrap">{line}</p>;
+                                                    })}
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                        )}
+
+                        {/* TAB 1: Data Collection Methodology */}
+                        {activeTab === 1 && (
+                            <div className="animate-fadeIn">
+                                <p className="text-md text-gray-500 font-medium mb-10 tracking-tight">
+                                    {lang === 'en' ? 'April 9, 2026 - Planning Promotion Center Consensus Complete' : '2026.04.09 기획추진센터 컨센서스 ver.'}
+                                </p>
+                                <div className="space-y-8">
+                                    {upperParts.map((part, idx) => {
+                                        const lines = part.trim().split('\n');
+                                        const title = lines[0];
+                                        
+                                        return (
+                                            <div key={`up-${idx}`} className="mb-6">
+                                                <h2 className="text-xl font-bold mb-3">{title}</h2>
+                                                <div className="ml-2">
+                                                    {lines.slice(1).map((line, lIdx) => {
+                                                        const isPreamble = idx === 0;
+                                                        const isArrowFocus = line.trim().startsWith('->');
                                                         return (
-                                                            <p key={lIdx} className="mb-2">
-                                                                <strong className="text-black">{parts[0]}: </strong>
-                                                                {parts.slice(1).join(': ')}
-                                                            </p>
-                                                        );
-                                                    }
-                                                    
-                                                    return <p key={lIdx} className="mb-2">{line}</p>;
-                                                })}
-                                            </div>
-                                        </div>
-                                    );
-                                })}
-                            </div>
-                        </div>
-                    )}
-
-                    {/* TAB 1: Data Collection Methodology */}
-                    {activeTab === 1 && (
-                        <div className="animate-fadeIn">
-                            <p className="text-md text-gray-500 font-medium mb-10 tracking-tight">
-                                {lang === 'en' ? 'April 9, 2026 - Consensus Complete' : '2026.04.09 기획추진센터 컨센서스 ver.'}
-                            </p>
-                            <div className="space-y-10">
-                                {upperParts.map((part, idx) => {
-                                    const lines = part.trim().split('\n');
-                                    const title = lines[0];
-                                    
-                                    return (
-                                        <div key={"up-" + idx} className="mb-6 mt-[50px]">
-                                            <h2 className="text-[20px] font-bold mb-4">{title}</h2>
-                                            <div className="ml-2">
-                                                {lines.slice(1).map((line, lIdx) => {
-                                                    const isPreamble = idx === 0;
-                                                    const isArrowFocus = line.trim().startsWith('->');
-                                                    return (
-                                                        <div key={"uline-" + lIdx} className={isPreamble ? "text-[16px] font-bold text-gray-700 leading-[28px] break-keep mb-2 whitespace-pre-wrap" : "text-[16px] leading-[28px] break-keep whitespace-pre-wrap " + (isArrowFocus ? "font-bold text-black" : "text-gray-800")}>
-                                                            {line || '\n'}
-                                                        </div>
-                                                    );
-                                                })}
-                                            </div>
-                                        </div>
-                                    );
-                                })}
-                            </div>
-                        </div>
-                    )}
-
-                    {/* TAB 2: AI Introduction Plan */}
-                    {activeTab === 2 && (
-                        <div className="animate-fadeIn">
-                             <p className="text-md text-gray-500 font-medium mb-10 tracking-tight">
-                                {lang === 'en' ? 'April 9, 2026 - Consensus Complete' : '2026.04.09 기획추진센터 컨센서스 ver.'}
-                            </p>
-                            <p className="text-[17px] font-bold mb-10 text-gray-800 break-keep leading-[30px] border-l-[4px] border-black pl-5">
-                                {lang === 'en' ? 'The IFPDP platform fundamentally constructs a data lake of real assets, freely mounting high-performance AI models on top to fulfill its ultimate role as an AI platform.' : '본 IFPDP 플랫폼은 기본적으로 리얼에셋의 데이터레이크를 구성하고, 그 위에 성능 좋은 AI모델을 자유롭게 태워 AI 플랫폼으로써 정통적/궁극적 기능을 수행한다.'}
-                            </p>
-                            
-                            <div className="space-y-10">
-                                {aiParts.map((part, idx) => {
-                                    const lines = part.trim().split('\n');
-                                    const title = lines[0];
-                                    
-                                    return (
-                                        <div key={"ai-" + idx} className="mb-6 mt-[50px]">
-                                            <h2 className="text-[20px] font-bold mb-3">{title}</h2>
-                                            <div className="ml-2">
-                                                {lines.slice(1).map((line, lIdx) => {
-                                                    const isPreamble = idx === 0 && lIdx === 0;
-                                                    return (
-                                                        <div key={"aline-" + lIdx} className={isPreamble ? "text-[17px] font-bold text-gray-700 leading-[28px] mb-4 break-keep whitespace-pre-wrap" : "text-[16px] leading-[28px] break-keep text-gray-800 whitespace-pre-wrap"}>
-                                                            {line || '\n'}
-                                                        </div>
-                                                    );
-                                                })}
-                                            </div>
-                                        </div>
-                                    );
-                                })}
-                            </div>
-                        </div>
-                    )}
-
-                    {/* TAB 3: Data Collection Considerations */}
-                    {activeTab === 3 && (
-                        <div className="animate-fadeIn">
-                            <p className="text-md text-gray-500 font-medium mb-10 tracking-tight">
-                                {lang === 'en' ? 'April 6, 2026 - Version' : '2026.04.06 ver.'}
-                            </p>
-                            <div className="space-y-10">
-                                {lowerParts.map((part, idx) => {
-                                    const lines = part.trim().split('\n');
-                                    const title = lines[0];
-                                    const body = lines.slice(1).join('\n');
-                                    
-                                    return (
-                                        <div key={"low-" + idx} className="mb-6 mt-[50px]">
-                                            <h2 className="text-[20px] font-bold mb-3">{title}</h2>
-                                            <div className="text-[16px] leading-[28px] break-keep ml-2 text-gray-800 whitespace-pre-wrap">
-                                                {body}
-                                            </div>
-                                        </div>
-                                    );
-                                })}
-                            </div>
-                        </div>
-                    )}
-
-                    {/* TAB 4: Strategic Defense Logic */}
-                    {activeTab === 4 && (
-                        <div className="animate-fadeIn">
-                             <p className="text-md text-gray-500 font-medium mb-10 tracking-tight">
-                                {lang === 'en' ? 'Core logic for stakeholders' : '이해관계자 설득을 위한 주요 방어 논리'}
-                            </p>
-                            <div className="space-y-12">
-                                {defenseParts.map((part, idx) => {
-                                    const lines = part.trim().split('\n');
-                                    const title = lines[0];
-                                    
-                                    return (
-                                        <div key={"def-" + idx} className="mb-8 mt-[50px]">
-                                            <h2 className="text-[20px] font-bold mb-5 tracking-tight">{title}</h2>
-                                            <div className="ml-2 space-y-4 text-[16px] leading-[28px] text-gray-800 bg-gray-50 border-[2px] border-gray-200 p-8">
-                                                {lines.slice(1).map((line, lIdx) => {
-                                                    if (!line.trim()) return null;
-                                                    const isQuestion = line.startsWith('예상 질문:') || line.startsWith('Anticipated Question:');
-                                                    const isLogic = line.startsWith('방어 논리:') || line.startsWith('Defense Logic:');
-                                                    
-                                                    if (isQuestion || isLogic) {
-                                                        const [label, ...rest] = line.split(':');
-                                                        return (
-                                                            <div key={lIdx} className="flex flex-col md:flex-row gap-1 md:gap-4 items-start break-keep">
-                                                                <span className={"shrink-0 font-extrabold w-[100px] " + (isQuestion ? "text-[#d92d2d]" : "text-[#1e3a8a]")}>[{label.trim()}]</span>
-                                                                <span className="whitespace-normal break-keep pt-[1px]">{rest.join(':').trim()}</span>
+                                                            <div key={`uline-${lIdx}`} className={isPreamble ? "text-[18px] font-bold text-gray-700 leading-[27px] pl-3 break-keep" : \`text-base leading-relaxed whitespace-pre-wrap \${isArrowFocus ? 'font-bold text-black' : 'text-gray-800'}\`}>
+                                                                {line}
                                                             </div>
                                                         );
-                                                    }
-                                                    return <div key={lIdx} className="break-keep">{line}</div>;
-                                                })}
+                                                    })}
+                                                </div>
                                             </div>
-                                        </div>
-                                    );
-                                })}
+                                        );
+                                    })}
+                                </div>
                             </div>
-                        </div>
-                    )}
+                        )}
 
-                    {/* TAB 5: Architecture Feasibility */}
-                    {activeTab === 5 && (
-                        <div className="animate-fadeIn">
-                            <div className="bg-gray-50 border-[2px] border-black p-8 md:p-12 mb-10">
-                                <h3 className="text-[24px] font-bold mb-10 flex items-center gap-2 border-b-[2px] border-gray-200 pb-5">
-                                    {lang === 'en' ? 'Platform Architecture & Execution Strategy Feasibility Review' : '플랫폼 아키텍처 및 추진 전략 타당성 검토'}
-                                </h3>
-                                <div className="space-y-10 text-[16px] leading-[30px] text-[#333] break-keep">
-                                    <div>
-                                        <strong className="text-[19px] text-black block mb-2">{lang === 'en' ? '1. Validity of Pre-building a Data Lake' : '1. 데이터레이크(Data Lake) 선구축의 정합성'}</strong>
-                                        {lang === 'en' ? "The actual performance of AI models (such as LLM) is determined by the consistency and accessibility of internal data (based on RAG architecture). This roadmap, which combines fragmented departmental data into a single data lake called IFPDP and mounts AI on top of it, is the most perfect and technologically sound orthodox approach to prevent the introduction of meaningless AI shells." : "AI 모델(LLM 등)의 실질적 성능은 내부 데이터의 정합성과 접근성에 의해 결정된다(RAG 아키텍처 기반). 부서별로 분절된 데이터를 IFPDP라는 단일 데이터레이크로 결합한 후 그 위에 AI를 얹는 본 로드맵은, 무의미한 AI 껍데기 도입을 방지하는 가장 완벽하고 기술적으로 타당한 정석적 접근이다."}
-                                    </div>
-                                    <div>
-                                        <strong className="text-[19px] text-black block mb-2">{lang === 'en' ? '2. Realism of Multi-modal Phased Rollout Strategy' : '2. 멀티모달 롤아웃(Phased Rollout) 전략의 현실성'}</strong>
-                                        {lang === 'en' ? "The method of integrating an enterprise (secure closed) model in Phase 1 and prioritizing validation for higher authorities (PO and above) minimizes permission control and data contamination risks. The roadmap to expand to Phase 2 (all employees and diversification) after initial validation is a powerful implementation plan that dramatically lowers the trial and error costs that can occur during company-wide deployment." : "1단계에서 엔터프라이즈(보안 폐쇄형) 모델을 결합해 상위 권한자(PO 이상)를 대상으로 우선 검증하는 방식은 권한 제어와 데이터 오염 리스크를 최소화한다. 초기 검증을 거친 후 2단계(전직원 및 다각화)로 확장하는 로드맵은 전사 도입간 발생할 수 있는 시행착오 비용을 극적으로 낮추는 강력한 구현 플랜이다."}
-                                    </div>
-                                    <div>
-                                        <strong className="text-[19px] text-black block mb-2">{lang === 'en' ? '3. Maximization of Business Leverage (External Marketing)' : '3. 비즈니스 레버리지 극대화 (대외 마케팅)'}</strong>
-                                        {lang === 'en' ? "It is highly strategic to elevate this platform beyond internal operational efficiency to an external message of 'MOU and collaboration' with big tech companies (OpenAI, Google, etc.). This proves IGIS Asset Management's overwhelming establishment of an advanced system to external investors (LP) and the market, restoring corporate trust, and has the capability to drive an increase in corporate value that far exceeds the platform construction costs." : "본 플랫폼을 내부 업무 효율화에만 국한하지 않고, 빅테크 기업(OpenAI, 구글 등)과의 'MOU 및 협업'이라는 대외적 메시지로 승화시키는 것은 매우 전략적이다. 이는 외부 투자자(LP) 및 시장에 이지스자산운용의 압도적인 선진화 시스템 구축을 증명하여 기업 신뢰도를 회복시키고, 투입되는 플랫폼 구축 비용을 훨씬 상회하는 기업 가치 상승을 견인할 역량이 있다."}
-                                    </div>
-                                    <div>
-                                        <strong className="text-[19px] text-black block mb-2">{lang === 'en' ? '4. Network Separation & Data Privacy (Data Sovereignty)' : '4. 망분리 및 데이터 주권 (Data Privacy)'}</strong>
-                                        {lang === 'en' ? "When utilizing a vendor's foundation model, prioritizing financial data security was established by requiring a VPC (Virtual Private Cloud) based API communication network and closed architecture, which fundamentally blocks IGIS's core asset information (cost, yield, etc.) from leaking as external AI training data." : "벤더사의 파운데이션 모델 활용 시, 이지스의 핵심 자산 정보(원가, 수익률 등)가 해당 AI의 외부 학습용 데이터로 유출되지 않도록 원천 차단하는 VPC(가상 프라이빗 클라우드) 기반의 API 통신망 및 폐쇄 아키텍처를 전제로 하고 있어 최우선적인 금융 데이터 보안성을 확립하였다."}
+                        {/* TAB 2: AI Introduction Plan */}
+                        {activeTab === 2 && (
+                            <div className="animate-fadeIn">
+                                 <p className="text-md text-gray-500 font-medium mb-6 tracking-tight">
+                                    {lang === 'en' ? 'April 9, 2026 - Planning Promotion Center Consensus Complete' : '2026.04.09 기획추진센터 컨센서스 ver.'}
+                                </p>
+                                <p className="text-[17px] font-bold mb-10 text-gray-800 break-keep leading-relaxed mt-4">
+                                    {lang === 'en' ? 'The IFPDP platform fundamentally constructs a data lake of real assets, freely mounting high-performance AI models on top to fulfill its ultimate role as an AI platform.' : '본 IFPDP 플랫폼은 기본적으로 리얼에셋의 데이터레이크를 구성하고, 그 위에 성능 좋은 AI모델을 자유롭게 태워 AI 플랫폼으로써 정통적/궁극적 기능을 수행한다.'}
+                                </p>
+                                
+                                <div className="space-y-8">
+                                    {aiParts.map((part, idx) => {
+                                        const lines = part.trim().split('\n');
+                                        const title = lines[0];
+                                        
+                                        return (
+                                            <div key={`ai-${idx}`} className="mb-6">
+                                                <h2 className="text-xl font-bold mb-3">{title}</h2>
+                                                <div className="ml-2">
+                                                    {lines.slice(1).map((line, lIdx) => {
+                                                        const isPreamble = idx === 0 && lIdx === 0;
+                                                        return (
+                                                            <div key={`aline-${lIdx}`} className={isPreamble ? "text-[18px] font-bold text-gray-700 leading-[27px] pl-3 mb-4 break-keep" : "text-base leading-relaxed whitespace-pre-wrap text-gray-800"}>
+                                                                {line}
+                                                            </div>
+                                                        );
+                                                    })}
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                        )}
+
+                        {/* TAB 3: Data Collection Considerations */}
+                        {activeTab === 3 && (
+                            <div className="animate-fadeIn">
+                                <p className="text-md text-gray-500 font-medium mb-10 tracking-tight">
+                                    {lang === 'en' ? 'April 6, 2026 - Version' : '2026.04.06 ver.'}
+                                </p>
+                                <div className="space-y-8">
+                                    {lowerParts.map((part, idx) => {
+                                        const lines = part.trim().split('\n');
+                                        const title = lines[0];
+                                        const body = lines.slice(1).join('\n');
+                                        
+                                        return (
+                                            <div key={`low-${idx}`} className="mb-6">
+                                                <h2 className="text-xl font-bold mb-3">{title}</h2>
+                                                <div className="text-base leading-relaxed whitespace-pre-wrap ml-2 text-gray-800">
+                                                    {body}
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                        )}
+
+                        {/* TAB 4: Strategic Defense Logic */}
+                        {activeTab === 4 && (
+                            <div className="animate-fadeIn">
+                                 <p className="text-md text-gray-500 font-medium mb-10 tracking-tight">
+                                    {lang === 'en' ? 'Core logic for stakeholders' : '이해관계자 설득을 위한 주요 방어 논리'}
+                                </p>
+                                <div className="space-y-12">
+                                    {defenseParts.map((part, idx) => {
+                                        const lines = part.trim().split('\n');
+                                        const title = lines[0];
+                                        
+                                        return (
+                                            <div key={`def-${idx}`} className="mb-8">
+                                                <h2 className="text-[19px] font-bold mb-5">{title}</h2>
+                                                <div className="ml-2 space-y-4 text-base leading-relaxed text-gray-800 bg-gray-50 border border-gray-200 p-6 rounded-md">
+                                                    {lines.slice(1).map((line, lIdx) => {
+                                                        if (!line.trim()) return null;
+                                                        const isQuestion = line.startsWith('예상 질문:') || line.startsWith('Anticipated Question:');
+                                                        const isLogic = line.startsWith('방어 논리:') || line.startsWith('Defense Logic:');
+                                                        
+                                                        if (isQuestion || isLogic) {
+                                                            const [label, ...rest] = line.split(':');
+                                                            return (
+                                                                <div key={lIdx} className="flex flex-col md:flex-row gap-1 md:gap-4 items-start">
+                                                                    <span className={\`shrink-0 font-bold w-[90px] \${isQuestion ? 'text-[#e55039]' : 'text-[#4a69bd]'}\`}>[{label.trim()}]</span>
+                                                                    <span className="whitespace-normal break-keep pt-[1px]">{rest.join(':').trim()}</span>
+                                                                </div>
+                                                            );
+                                                        }
+                                                        return <div key={lIdx}>{line}</div>;
+                                                    })}
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                        )}
+
+                        {/* TAB 5: Architecture Feasibility */}
+                        {activeTab === 5 && (
+                            <div className="animate-fadeIn">
+                                <div className="bg-gray-50 border border-gray-300 p-8 md:p-10 rounded-sm">
+                                    <h3 className="text-[24px] font-bold mb-8 flex items-center gap-2">
+                                        {lang === 'en' ? 'Platform Architecture & Execution Strategy Feasibility Review' : '플랫폼 아키텍처 및 추진 전략 타당성 검토'}
+                                    </h3>
+                                    <div className="space-y-6 text-[15.5px] leading-relaxed text-gray-800 break-keep">
+                                        <div>
+                                            <strong className="text-lg text-black block mb-1">{lang === 'en' ? '1. Validity of Pre-building a Data Lake' : '1. 데이터레이크(Data Lake) 선구축의 정합성'}</strong>
+                                            {lang === 'en' ? "The actual performance of AI models (such as LLM) is determined by the consistency and accessibility of internal data (based on RAG architecture). This roadmap, which combines fragmented departmental data into a single data lake called IFPDP and mounts AI on top of it, is the most perfect and technologically sound orthodox approach to prevent the introduction of meaningless AI shells." : "AI 모델(LLM 등)의 실질적 성능은 내부 데이터의 정합성과 접근성에 의해 결정된다(RAG 아키텍처 기반). 부서별로 분절된 데이터를 IFPDP라는 단일 데이터레이크로 결합한 후 그 위에 AI를 얹는 본 로드맵은, 무의미한 AI 껍데기 도입을 방지하는 가장 완벽하고 기술적으로 타당한 정석적 접근이다."}
+                                        </div>
+                                        <div>
+                                            <strong className="text-lg text-black block mb-1">{lang === 'en' ? '2. Realism of Multi-modal Phased Rollout Strategy' : '2. 멀티모달 롤아웃(Phased Rollout) 전략의 현실성'}</strong>
+                                            {lang === 'en' ? "The method of integrating an enterprise (secure closed) model in Phase 1 and prioritizing validation for higher authorities (PO and above) minimizes permission control and data contamination risks. The roadmap to expand to Phase 2 (all employees and diversification) after initial validation is a powerful implementation plan that dramatically lowers the trial and error costs that can occur during company-wide deployment." : "1단계에서 엔터프라이즈(보안 폐쇄형) 모델을 결합해 상위 권한자(PO 이상)를 대상으로 우선 검증하는 방식은 권한 제어와 데이터 오염 리스크를 최소화한다. 초기 검증을 거친 후 2단계(전직원 및 다각화)로 확장하는 로드맵은 전사 도입간 발생할 수 있는 시행착오 비용을 극적으로 낮추는 강력한 구현 플랜이다."}
+                                        </div>
+                                        <div>
+                                            <strong className="text-lg text-black block mb-1">{lang === 'en' ? '3. Maximization of Business Leverage (External Marketing)' : '3. 비즈니스 레버리지 극대화 (대외 마케팅)'}</strong>
+                                            {lang === 'en' ? "It is highly strategic to elevate this platform beyond internal operational efficiency to an external message of 'MOU and collaboration' with big tech companies (OpenAI, Google, etc.). This proves IGIS Asset Management's overwhelming establishment of an advanced system to external investors (LP) and the market, restoring corporate trust, and has the capability to drive an increase in corporate value that far exceeds the platform construction costs." : "본 플랫폼을 내부 업무 효율화에만 국한하지 않고, 빅테크 기업(OpenAI, 구글 등)과의 'MOU 및 협업'이라는 대외적 메시지로 승화시키는 것은 매우 전략적이다. 이는 외부 투자자(LP) 및 시장에 이지스자산운용의 압도적인 선진화 시스템 구축을 증명하여 기업 신뢰도를 회복시키고, 투입되는 플랫폼 구축 비용을 훨씬 상회하는 기업 가치 상승을 견인할 역량이 있다."}
+                                        </div>
+                                        <div>
+                                            <strong className="text-lg text-black block mb-1">{lang === 'en' ? '4. Network Separation & Data Privacy (Data Sovereignty)' : '4. 망분리 및 데이터 주권 (Data Privacy)'}</strong>
+                                            {lang === 'en' ? "When utilizing a vendor's foundation model, prioritizing financial data security was established by requiring a VPC (Virtual Private Cloud) based API communication network and closed architecture, which fundamentally blocks IGIS's core asset information (cost, yield, etc.) from leaking as external AI training data." : "벤더사의 파운데이션 모델 활용 시, 이지스의 핵심 자산 정보(원가, 수익률 등)가 해당 AI의 외부 학습용 데이터로 유출되지 않도록 원천 차단하는 VPC(가상 프라이빗 클라우드) 기반의 API 통신망 및 폐쇄 아키텍처를 전제로 하고 있어 최우선적인 금융 데이터 보안성을 확립하였다."}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    )}
+                        )}
 
+                    </div>
                 </div>
             </div>
 
