@@ -89,7 +89,7 @@ export default function Section14({ isActive }) {
                         
                         <p className={`text-[12px] md:text-[13px] lg:text-[15px] xl:text-[17px] 2xl:text-[20px] font-medium text-[#424245] leading-[1.6] break-keep transition-all duration-1000 ease-out delay-[500ms] ${step >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
                             {lang === 'kr' ? (
-                                <>시스템을 올바른 방향으로 통제하고 운영역들의 참여를 이끌어내는<br />조직적 거버넌스(Governance)</>
+                                <>시스템을 올바른 방향으로 통제하고 운영역들의 참여를 이끌어내는<br />조직적 거버넌스</>
                             ) : (
                                 <>Organizational governance that directs the system rightly and drives professional engagement</>
                             )}
@@ -121,7 +121,7 @@ export default function Section14({ isActive }) {
                         
                         <p className="text-[17px] md:text-[22px] lg:text-[26px] font-medium text-[#1d1d1f] leading-[1.6] break-keep max-w-[1200px] w-full px-4 md:px-0 tracking-[-0.02em]">
                             {lang === 'kr' ? (
-                                <>아무리 뛰어난 <strong>기술(Engine)</strong>을 도입하더라도, 이를 통제할 <strong>조직의 룰과 거버넌스(Steering Wheel)</strong>가<br className="hidden md:block" />부재하다면 플랫폼은 작동하지 않습니다.</>
+                                <>아무리 뛰어난 <strong>기술 시스템</strong>을 도입하더라도, 이를 통제할 <strong>조직의 룰과 거버넌스</strong>가<br className="hidden md:block" />부재하다면 플랫폼은 작동하지 않습니다.</>
                             ) : (
                                 <>No matter how advanced the <strong>technology (Engine)</strong> is, the platform will not operate without the <strong>rules and organizational governance (Steering Wheel)</strong> to control it.</>
                             )}

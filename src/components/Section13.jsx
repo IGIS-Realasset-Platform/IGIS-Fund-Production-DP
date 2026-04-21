@@ -110,7 +110,7 @@ export default function Section13({ isActive }) {
                     >
                         {lang === 'kr' ? (
                             <>
-                                이지스를 1조원 매출 운용사로 만든 진짜 '맥락(Institutional Knowledge)'은 서버에 존재하지 않습니다.<br className="hidden lg:block"/>
+                                이지스를 1조원 매출 운용사로 만든 진짜 '조직적 맥락'은 서버에 존재하지 않습니다.<br className="hidden lg:block"/>
                                 오직 500명 운용역들의 '머릿속과 개인 PC'에만 흩어져 있습니다.
                             </>
                         ) : (
@@ -129,7 +129,7 @@ export default function Section13({ isActive }) {
                             <>
                                 직원들에게 AI 툴 사용법(Prompt)을 교육하는 것은 해답이 아닙니다.<br className="hidden lg:block"/>
                                 툴을 쥐여주기 전에, AI가 안전하고 똑똑하게 뛰어놀 수 있는 <span className="relative inline-block font-bold text-white pb-[1px]">
-                                    '이지스만의 거대한 맥락의 판(Context Graph)'
+                                    '이지스만의 거대한 맥락의 판'
                                     <span className={`absolute bottom-[2px] md:bottom-[4px] left-0 h-[1px] md:h-[2px] bg-white -z-10 transition-all duration-[800ms] ease-[cubic-bezier(0.25,1,0.5,1)] ${step >= 7 ? 'w-full opacity-100' : 'w-0 opacity-0'}`}></span>
                                 </span>을 먼저 깔아주어야 합니다.
                             </>
