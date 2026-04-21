@@ -55,15 +55,10 @@ export default function Section10({ isActive }) {
                         </p>
 
                         {/* Final Signature Block */}
-                        <div className="mt-4 md:mt-8">
-                            <div className="border-l-[4px] border-[#1d1d1f] pl-5 md:pl-6 py-2">
-                                <p className="font-mono text-[11px] md:text-[13px] text-[#86868b] tracking-[0.2em] uppercase mb-1.5">
-                                    {lang === 'kr' ? "시스템 가동 준비 완료" : "System Initialized"}
-                                </p>
-                                <p className="text-[18px] md:text-[24px] lg:text-[28px] font-extrabold text-[#1d1d1f] tracking-tight uppercase">
-                                    THE ENGINE OF IGIS<br className="md:hidden" /> FOR THE AI ERA.
-                                </p>
-                            </div>
+                        <div className="mt-6 md:mt-10">
+                            <p className="text-[18px] md:text-[24px] lg:text-[28px] font-extrabold text-[#1d1d1f] tracking-tight uppercase">
+                                THE ENGINE OF IGIS<br className="md:hidden" /> FOR THE AI ERA.
+                            </p>
                         </div>
                     </div>
 
