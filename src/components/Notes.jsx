@@ -290,12 +290,12 @@ Defense Logic: Initially, one Mission Volunteer is selected from each department
                 </h1>
 
                 {/* Tab Navigation */}
-                <div className="flex border-b border-gray-200 mb-8 overflow-x-auto no-scrollbar">
+                <div className="flex border-b border-gray-200 mb-8 overflow-x-auto no-scrollbar gap-8">
                     {tabs.map((tab, idx) => (
                         <button
                             key={idx}
                             onClick={() => setActiveTab(idx)}
-                            className={"cursor-pointer whitespace-nowrap px-6 py-3 font-bold text-[16px] md:text-[18px] transition-colors -mb-[1px] " + (activeTab === idx ? "border-b-[4px] border-black text-black" : "border-b-[4px] border-transparent text-gray-400 hover:text-gray-600")}
+                            className={"cursor-pointer whitespace-nowrap pb-3 font-bold text-[16px] md:text-[18px] transition-colors -mb-[1px] " + (activeTab === idx ? "border-b-[4px] border-black text-black" : "border-b-[4px] border-transparent text-gray-400 hover:text-gray-600")}
                         >
                             {tab}
                         </button>
@@ -314,40 +314,40 @@ Defense Logic: Initially, one Mission Volunteer is selected from each department
                                 <p className="text-md text-gray-500 font-medium mb-10 tracking-tight">
                                     {lang === 'en' ? 'Updated 2026.04' : '2026.04 업데이트안'}
                                 </p>
-                                <div className="space-y-12">
+                                <div className="space-y-8">
                                     {planParts.map((part, idx) => {
                                         const lines = part.trim().split('\n');
                                         const titleStr = lines[0];
                                         const bodyBlocks = lines.slice(1);
                                         
                                         return (
-                                            <div key={"plan-" + idx} className="mb-8 mt-[40px]">
-                                                <h2 className="text-[22px] md:text-[24px] font-bold mb-4 tracking-tighter text-black">{titleStr}</h2>
-                                                <div className="text-[16px] leading-[28px] font-medium text-gray-800 break-keep">
+                                            <div key={`plan-${idx}`} className="mb-6">
+                                                <h2 className="text-xl font-bold mb-3">{titleStr}</h2>
+                                                <div className="ml-2">
                                                     {bodyBlocks.map((line, lIdx) => {
-                                                        if (!line.trim()) return <br key={lIdx} />;
+                                                        if (!line.trim()) return null; // Using margin instead of empty HTML lines
                                                         
-                                                        // Emphasize first lines or key phrases matching the strict styling
-                                                        let isBoldLine = false;
+                                                        let isSubtitle = false;
                                                         if (!line.startsWith('①') && !line.startsWith('②') && !line.startsWith('③') && !line.startsWith('④') && !line.startsWith('⑤') && !line.startsWith('⑥') && !line.startsWith('⑦') && !line.includes(': ')) {
-                                                            isBoldLine = (lIdx === 0 && line.length < 50); // Usually subtitles are short and first
+                                                            isSubtitle = (lIdx === 0 && line.length < 50); // Usually subtitles are short and first
                                                         }
 
-                                                        if (isBoldLine || line.startsWith('①') || line.startsWith('②') || line.startsWith('③') || line.startsWith('④') || line.startsWith('⑤') || line.startsWith('⑥') || line.startsWith('⑦')) {
-                                                            return <p key={lIdx} className="font-extrabold text-[19px] mt-1 mb-2 text-black">{line}</p>;
+                                                        if (isSubtitle || line.startsWith('①') || line.startsWith('②') || line.startsWith('③') || line.startsWith('④') || line.startsWith('⑤') || line.startsWith('⑥') || line.startsWith('⑦')) {
+                                                            // Applies the exact formatting rules mapped from Data Collection Methodology Preamble
+                                                            return <div key={`p-uline-${lIdx}`} className="text-[18px] font-bold text-gray-700 leading-[27px] pl-3 break-keep mt-5 mb-2">{line}</div>;
                                                         }
 
                                                         if (line.includes(': ')) {
                                                             const parts = line.split(': ');
                                                             return (
-                                                                <p key={lIdx} className="mb-2">
+                                                                <div key={`p-line-${lIdx}`} className="text-base leading-relaxed break-keep text-gray-800 mb-2 whitespace-pre-wrap">
                                                                     <strong className="text-black">{parts[0]}: </strong>
                                                                     {parts.slice(1).join(': ')}
-                                                                </p>
+                                                                </div>
                                                             );
                                                         }
                                                         
-                                                        return <p key={lIdx} className="mb-2 whitespace-pre-wrap">{line}</p>;
+                                                        return <div key={`p-nline-${lIdx}`} className="text-base leading-relaxed break-keep text-gray-800 mb-2 whitespace-pre-wrap">{line}</div>;
                                                     })}
                                                 </div>
                                             </div>
@@ -373,10 +373,11 @@ Defense Logic: Initially, one Mission Volunteer is selected from each department
                                                 <h2 className="text-xl font-bold mb-3">{title}</h2>
                                                 <div className="ml-2">
                                                     {lines.slice(1).map((line, lIdx) => {
+                                                        if (!line.trim()) return null; // Margins over empty HTML nodes
                                                         const isPreamble = idx === 0;
                                                         const isArrowFocus = line.trim().startsWith('->');
                                                         return (
-                                                            <div key={`uline-${lIdx}`} className={isPreamble ? "text-[18px] font-bold text-gray-700 leading-[27px] pl-3 break-keep" : `text-base leading-relaxed whitespace-pre-wrap ${isArrowFocus ? 'font-bold text-black' : 'text-gray-800'}`}>
+                                                            <div key={`uline-${lIdx}`} className={isPreamble ? "text-[18px] font-bold text-gray-700 leading-[27px] pl-3 break-keep mb-3" : `text-base leading-relaxed whitespace-pre-wrap ${isArrowFocus ? 'font-bold text-black mt-3 mb-2' : 'text-gray-800 mb-1'}`}>
                                                                 {line}
                                                             </div>
                                                         );
@@ -409,9 +410,10 @@ Defense Logic: Initially, one Mission Volunteer is selected from each department
                                                 <h2 className="text-xl font-bold mb-3">{title}</h2>
                                                 <div className="ml-2">
                                                     {lines.slice(1).map((line, lIdx) => {
+                                                        if (!line.trim()) return null; // Using margins
                                                         const isPreamble = idx === 0 && lIdx === 0;
                                                         return (
-                                                            <div key={`aline-${lIdx}`} className={isPreamble ? "text-[18px] font-bold text-gray-700 leading-[27px] pl-3 mb-4 break-keep" : "text-base leading-relaxed whitespace-pre-wrap text-gray-800"}>
+                                                            <div key={`aline-${lIdx}`} className={isPreamble ? "text-[18px] font-bold text-gray-700 leading-[27px] pl-3 mb-4 break-keep" : "text-base leading-relaxed whitespace-pre-wrap text-gray-800 mb-2"}>
                                                                 {line}
                                                             </div>
                                                         );
@@ -434,13 +436,15 @@ Defense Logic: Initially, one Mission Volunteer is selected from each department
                                     {lowerParts.map((part, idx) => {
                                         const lines = part.trim().split('\n');
                                         const title = lines[0];
-                                        const body = lines.slice(1).join('\n');
                                         
                                         return (
                                             <div key={`low-${idx}`} className="mb-6">
                                                 <h2 className="text-xl font-bold mb-3">{title}</h2>
-                                                <div className="text-base leading-relaxed whitespace-pre-wrap ml-2 text-gray-800">
-                                                    {body}
+                                                <div className="ml-2">
+                                                    {lines.slice(1).map((line, lIdx) => {
+                                                        if (!line.trim()) return null; // Using explicit block mapping with margin
+                                                        return <div key={`lline-${lIdx}`} className="text-base leading-relaxed whitespace-pre-wrap text-gray-800 mb-2">{line}</div>;
+                                                    })}
                                                 </div>
                                             </div>
                                         );
@@ -463,7 +467,7 @@ Defense Logic: Initially, one Mission Volunteer is selected from each department
                                         return (
                                             <div key={`def-${idx}`} className="mb-8">
                                                 <h2 className="text-[19px] font-bold mb-5">{title}</h2>
-                                                <div className="ml-2 space-y-4 text-base leading-relaxed text-gray-800 bg-gray-50 border border-gray-200 p-6 rounded-md">
+                                                <div className="ml-2 bg-gray-50 border border-gray-200 p-6 rounded-md">
                                                     {lines.slice(1).map((line, lIdx) => {
                                                         if (!line.trim()) return null;
                                                         const isQuestion = line.startsWith('예상 질문:') || line.startsWith('Anticipated Question:');
@@ -472,13 +476,13 @@ Defense Logic: Initially, one Mission Volunteer is selected from each department
                                                         if (isQuestion || isLogic) {
                                                             const [label, ...rest] = line.split(':');
                                                             return (
-                                                                <div key={lIdx} className="flex flex-col md:flex-row gap-1 md:gap-4 items-start">
+                                                                <div key={lIdx} className="flex flex-col md:flex-row gap-1 md:gap-4 items-start mb-4">
                                                                     <span className={`shrink-0 font-bold w-[90px] ${isQuestion ? 'text-[#e55039]' : 'text-[#4a69bd]'}`}>[{label.trim()}]</span>
-                                                                    <span className="whitespace-normal break-keep pt-[1px]">{rest.join(':').trim()}</span>
+                                                                    <span className="whitespace-normal break-keep pt-[1px] text-base leading-relaxed text-gray-800">{rest.join(':').trim()}</span>
                                                                 </div>
                                                             );
                                                         }
-                                                        return <div key={lIdx}>{line}</div>;
+                                                        return <div key={lIdx} className="text-base leading-relaxed text-gray-800 mb-2">{line}</div>;
                                                     })}
                                                 </div>
                                             </div>
