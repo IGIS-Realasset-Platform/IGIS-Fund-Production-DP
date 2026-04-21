@@ -155,27 +155,29 @@ The visually demanding main dashboard and the computationally heavy AI panel are
    - e.g.3. To plan asset air quality, specific air conditioning methods must be considered from the architectural design stage.
   - These must be implemented in advance across each of the 10 value chains.`;
 
-    const aiTextKr = `1. 1단계
-빅테크 AI 벤더사(OpenAI, 구글 등)와의 전략적 제휴를 통해 전용 AI 플랫폼의 코어 뼈대를 구축한다. 단순 시스템 구축을 넘어 벤더사와의 공식 MOU 및 컨설팅 론칭을 기점으로, 이지스의 선진 기술 도입과 시스템 투명성을 외부 투자자(LP) 및 시장에 각인시켜 기업 신뢰도 회복을 위한 강력한 대외 홍보 및 비즈니스 레버리지 수단으로 적극 활용한다.
-- AI사 후보 및 모델 : 오픈AI, 구글, 클로드 / LLM 기반
-- 데이터 보안 아키텍처 : 금융/부동산 핵심 자산 정보가 외부 AI 학습용 유출을 원천 차단하는 VPC 수준의 엔터프라이즈 전용 폐쇄망 생태계로 통제한다.
-- 테스트 사용자 : PO 레벨 이상 및 각 부서별 핵심 데이터 입력 담당자로 한정하여 철저한 초기 검증을 거친다.
+    const aiTextKr = `1. [1안] 로컬 인프라망 자체 구축 (On-Premise AI)
+가장 뛰어난 보안을 달성하기 위해 고용량 사내 통합 하드웨어와 로컬 오픈소스 LLM을 결합하는 방안이다. 외부망과의 데이터 통신을 원천 차단한 채, 사내 망 안에서만 빠르게 IFPDP 3단분리 적용을 이루어낸다.
+- 고용량 통합 서버 구비 : 맥스튜디오/맥미니 등 로컬 AI 구동에 최적화된 최고 사양의 로컬 PC/서버를 자체 전산망 내에 구축
+- 경량화 로컬 LLM 탑재 : Llama 3, Gemma 2 등 로컬 구동 최적화 오픈소스 모델을 탑재하여 핵심 시스템에 즉각 적용
+- 접근 보안 및 이중 통제 : 사내 전용 폐쇄망 웹에 포팅하여 서비스하며, 이용자 접근 권한(읽기/쓰기)을 직급 및 부서별로 철저히 통제
 
-2. 2단계
-특정 AI 모델에 종속되지 않고, 다양한 형태의 데이터(텍스트, 이미지 등)를 처리하는 강력한 멀티모달 AI 엔진들을 플러그인 형태로 자유롭게 끼우고 교체할 수 있는 유연한 아키텍처로 확장한다.
-- AI사 후보 및 모델 : 오픈AI, 구글, 클로드 + a / 멀티모달 종합 환경 구성
-- 사용자 환경 : 전 직원 사용 권한 확대 및 직무 특성에 맞춘 접속 환경(UI) 세분화 배포`;
+2. [2안] 빅테크 제휴망 구축 (Enterprise AI)
+빅테크 AI 벤더사(OpenAI, 구글, 앤스로픽 등)의 최상위 B2B 엔터프라이즈 모델과 전략적 제휴를 맺어 도입하는 도입안. 단순 시스템 개발을 넘어 공식 MOU 및 론칭을 기점으로 삼는다. 이를 통해 이지스자산운용의 '선진 기술 도입'과 '시스템 투명성'을 외부 투자자(LP) 및 기관들에게 각인시켜 신뢰도를 높이는 강력한 대외 홍보 수단으로 적극 활용한다.
+- 최상위 LLM 체계 탑재 : OpenAI(GPT-4o), Google Gemini Advanced, Claude 3 Opus 등 검증된 최고 성능의 대형 언어 모델 기반 아키텍처 사용
+- 엔터프라이즈 전용 폐쇄망 생태계 (데이터 보안 통제) : 자산의 핵심 원가/수익 정보가 외부 AI 벤더사의 학습용 데이터로 유출되지 않도록 VPC 수준의 인프라 구축 및 엔터프라이즈 API 계약 체결
+- 초기 파일럿 및 테스트 사용자 성능검증 : 오류 및 할루시네이션(환각) 리스크를 초기 통제하기 위해, PO 레벨 이상 전사 핵심 인력 및 각 부서별 데이터 리더로 최초 사용자를 한정하여 철저한 초기 검증 및 시스템 정합성을 구축한다.`;
 
-    const aiTextEn = `1. Phase 1
-By establishing a strategic alliance with big tech AI vendors (OpenAI, Google, etc.), we will build the core skeleton of the exclusive AI platform. Beyond simple system construction, starting with an official MOU, we will actively use this to imprint IGIS's Advanced Technology and System Transparency onto LP investors, serving as a powerful external PR tool.
-- AI Candidates & Models: OpenAI, Google, Claude / LLM-based
-- Data Security Architecture: Financial/real estate core asset information will be strictly controlled using a VPC-level enterprise-exclusive closed-network.
-- Test Users: Strictly verified initially, limited to PO level and above, along with core data input managers.
+    const aiTextEn = `1. [Option 1] On-Premise Local AI Infrastructure
+A plan focusing on the highest level of security by combining high-capacity internal enterprise hardware with local open-source LLMs. It fundamentally strictly isolates external data communication, rapidly deploying the IFPDP 3-tier structure entirely within the internal network.
+- High-Capacity Integrated Servers: Deploy top-tier optimal local machines like Mac Studio/Mac Mini specifically configured for local AI processing within independent physical networks.
+- Lightweight Local LLM: Instantly mount optimized models like Llama 3 or Gemma 2 on the core system.
+- Access Security & Dual Control: Porting and servicing the platform on internal closed-network web environments, strictly managing user access rights across positions and departments.
 
-2. Phase 2
-Expands to a flexible architecture allowing powerful multi-modal AI engines processing various types of data (text, images, etc.) to be freely plugged in or replaced as plugins.
-- AI Candidates & Models: OpenAI, Google, Claude + a / Comprehensive Multi-modal environment
-- User Environment: Expanding usage rights to all employees and deploying segment-specific connection environments.`;
+2. [Option 2] Big Tech Partnership (Enterprise AI)
+A plan to strategically ally with big tech AI vendors (OpenAI, Google) for their top-tier B2B Enterprise models. Beyond simple development, it marks an official MOU and launch. This actively acts as a powerful external PR tool to engrave IGIS's 'Technological Adoption' and 'System Transparency' to LP investors and institutions, fully restoring trust.
+- Top-Tier LLM Architecture: Utilize proven massive language models such as OpenAI (GPT-4o), Google Gemini, and Claude 3 Opus.
+- Enterprise-Dedicated Closed-Network (Data Security): Construct VPC-level infrastructures via API agreements to guarantee that critical asset cost and yield data is fundamentally blocked from leaking as learning mechanisms for external AI vendors.
+- Pilot Test & Verification: To control initial errors and hallucination risks, initial usage will be strictly confined to PO level and above, along with core departmental data entry managers. This ensures rigorous initial verification and system stability before company-wide distribution.`;
 
     const upperTextKr = `1. 미션 수행의 목적
 전사적 데이터 취합을 효율적으로 완수하기 위해, 이를 단순 부서 업무가 아닌 '리얼에셋 부문 전사 핵심 미션'으로 격상하여 추진한다. 
@@ -278,8 +280,8 @@ Defense Logic: Initially, one Mission Volunteer is selected from each department
     const defenseParts = parseSections(lang === 'en' ? defenseTextEn : defenseTextKr);
 
     const tabs = lang === 'en' 
-        ? ["System Action Plan", "Collection Methodology", "AI Introduction Plan", "Data Considerations", "Strategic Defense", "Architecture Feasibility"]
-        : ["IFPDP 시스템 기획안", "데이터 취합 방법론", "AI 도입 계획", "취합 주요 고려사항", "전략적 방어 논리", "아키텍처 타당성 검토"];
+        ? ["System Action Plan", "Collection Methodology", "Data Considerations", "AI Introduction Plan", "Strategic Defense", "Architecture Feasibility"]
+        : ["IFPDP 시스템 기획안", "데이터 취합 방법론", "취합 주요 고려사항", "AI 도입 계획", "전략적 방어 논리", "아키텍처 타당성 검토"];
 
     return (
         <div className="w-full h-screen bg-white font-sans text-black flex flex-col items-center overflow-hidden">
@@ -388,8 +390,34 @@ Defense Logic: Initially, one Mission Volunteer is selected from each department
                             </div>
                         )}
 
-                        {/* TAB 2: AI Introduction Plan */}
+                        {/* TAB 2: Data Collection Considerations */}
                         {activeTab === 2 && (
+                            <div className="animate-fadeIn">
+                                <p className="text-md text-gray-500 font-medium mb-10 tracking-tight">
+                                    {lang === 'en' ? 'April 6, 2026 - Version' : '2026.04.06 ver.'}
+                                </p>
+                                <div className="space-y-8">
+                                    {lowerParts.map((part, idx) => {
+                                        const lines = part.trim().split('\n');
+                                        const title = lines[0];
+                                        
+                                        const body = lines.slice(1).join('\n');
+                                        
+                                        return (
+                                            <div key={`low-${idx}`} className="mb-6">
+                                                <h2 className="text-xl font-bold mb-3">{title}</h2>
+                                                <div className="text-base leading-relaxed whitespace-pre-wrap ml-2 text-gray-800">
+                                                    {body}
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                        )}
+
+                        {/* TAB 3: AI Introduction Plan */}
+                        {activeTab === 3 && (
                             <div className="animate-fadeIn">
                                  <p className="text-md text-gray-500 font-medium mb-6 tracking-tight">
                                     {lang === 'en' ? 'April 9, 2026 - Planning Promotion Center Consensus Complete' : '2026.04.09 기획추진센터 컨센서스 ver.'}
@@ -415,32 +443,6 @@ Defense Logic: Initially, one Mission Volunteer is selected from each department
                                                             </div>
                                                         );
                                                     })}
-                                                </div>
-                                            </div>
-                                        );
-                                    })}
-                                </div>
-                            </div>
-                        )}
-
-                        {/* TAB 3: Data Collection Considerations */}
-                        {activeTab === 3 && (
-                            <div className="animate-fadeIn">
-                                <p className="text-md text-gray-500 font-medium mb-10 tracking-tight">
-                                    {lang === 'en' ? 'April 6, 2026 - Version' : '2026.04.06 ver.'}
-                                </p>
-                                <div className="space-y-8">
-                                    {lowerParts.map((part, idx) => {
-                                        const lines = part.trim().split('\n');
-                                        const title = lines[0];
-                                        
-                                        const body = lines.slice(1).join('\n');
-                                        
-                                        return (
-                                            <div key={`low-${idx}`} className="mb-6">
-                                                <h2 className="text-xl font-bold mb-3">{title}</h2>
-                                                <div className="text-base leading-relaxed whitespace-pre-wrap ml-2 text-gray-800">
-                                                    {body}
                                                 </div>
                                             </div>
                                         );
