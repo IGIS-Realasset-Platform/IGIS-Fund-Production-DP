@@ -29,12 +29,12 @@ export default function Section7({ isActive }) {
                         {lang === 'kr' ? (
                             <>
                                 앞선 글로벌 석학의 경고는,<br />
-                                놀랍게도 대표님이 CFT 마스터플랜에서 짚어준 우리의 현실과 정확히 일치합니다.
+                                현재 우리가 현업에서 매일 마주하는 현실과 일치합니다.
                             </>
                         ) : (
                             <>
                                 Surprisingly, the preceding global expert's warning<br />
-                                perfectly aligns with the reality pointed out in our CEO's CFT Masterplan.
+                                aligns with the reality we face every day in the field.
                             </>
                         )}
                     </h2>
@@ -44,11 +44,11 @@ export default function Section7({ isActive }) {
                     <h3 className="text-[26px] md:text-[36px] lg:text-[42px] font-bold text-[#1d1d1f] tracking-tight leading-[1.3] break-keep mb-16 md:mb-24">
                         {lang === 'kr' ? (
                             <>
-                                "<span className="text-[#d92d2d] font-bold">운용 인력들의 폐쇄적인 오너십과 개인편차</span>" 때문입니다.
+                                "<span className="text-[#d92d2d] font-bold">자산운용업 특유의 폐쇄적 오너십과 개인편차</span>" 때문입니다.
                             </>
                         ) : (
                             <>
-                                It is due to the "<span className="text-[#d92d2d] font-bold">closed ownership and individual deviations of operation personnel</span>".
+                                It is due to the "<span className="text-[#d92d2d] font-bold">closed ownership and individual deviations inherent in asset management</span>".
                             </>
                         )}
                     </h3>
@@ -138,8 +138,8 @@ export default function Section7({ isActive }) {
                         <p className="text-[16px] md:text-[18px] text-[#424245] leading-[1.65] break-keep font-medium">
                             {lang === 'kr' ? (
                                 <>
-                                    대기업의 협업은 큰 조직의 협업 규약을 따르면<br className="hidden lg:block" />
-                                    저절로 협업이 되는데 반해, 이지스는 협업 규약을<br className="hidden lg:block" />
+                                    대기업처럼 강압적인 양식과 규약으로 묶어 통제하면<br className="hidden lg:block" />
+                                    조직 특유의 생동감과 스피드가 상실됨.<br className="hidden lg:block" />
                                     <span 
                                         className="relative inline transition-colors duration-500 font-bold"
                                         style={{
@@ -148,11 +148,14 @@ export default function Section7({ isActive }) {
                                             backgroundSize: step >= 4 ? '100% 100%' : '0% 100%',
                                             transition: 'background-size 1.2s cubic-bezier(0.19, 1, 0.22, 1)'
                                         }}
-                                    >만들고 강제하면 유연성이 떨어지고 오히려 반작용 발생.</span>
+                                    >개인의 업무 방식을 존중하면서도<br className="hidden lg:block" />
+                                    이걸 백그라운드에서 하나로 연결할 시스템 부재.</span>
                                 </>
                             ) : (
                                 <>
-                                    While corporate collaboration naturally happens by following a large organization's protocol, for IGIS, <span 
+                                    Controlling with rigid corporate templates<br className="hidden lg:block" />
+                                    instantly kills the organization's unique speed.<br className="hidden lg:block" />
+                                    <span 
                                         className="relative inline transition-colors duration-500 font-bold"
                                         style={{
                                             backgroundImage: 'linear-gradient(transparent 85%, #d92d2d 85%, #d92d2d 100%)',
@@ -160,7 +163,8 @@ export default function Section7({ isActive }) {
                                             backgroundSize: step >= 4 ? '100% 100%' : '0% 100%',
                                             transition: 'background-size 1.2s cubic-bezier(0.19, 1, 0.22, 1)'
                                         }}
-                                    >creating and enforcing collaboration protocols reduces flexibility and causes adverse reactions.</span>
+                                    >We lack a system that connects data in the background<br className="hidden lg:block" />
+                                    while respecting individual workflows.</span>
                                 </>
                             )}
                         </p>
