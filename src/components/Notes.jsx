@@ -3,7 +3,17 @@ import { useLanguage } from '../context/LanguageContext';
 
 export default function Notes() {
     const { lang } = useLanguage();
-    const [activeTab, setActiveTab] = useState(0);
+    const [activeTab, setActiveTab] = useState(() => {
+        const params = new URLSearchParams(window.location.search);
+        const tab = params.get('tab');
+        if (tab === 'data-collection') return 1;
+        if (tab === 'considerations') return 2;
+        if (tab === 'ai-plan') return 3;
+        if (tab === 'qa') return 4;
+        if (tab === 'architecture') return 5;
+        if (tab === 'schema') return 6;
+        return 0;
+    });
 
     useEffect(() => {
         window.scrollTo(0, 0);
