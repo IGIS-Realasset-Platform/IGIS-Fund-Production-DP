@@ -263,7 +263,7 @@ export default function SystemCenter() {
                                     <div className="flex flex-col items-end w-[138px] whitespace-nowrap">
                                         <span className="text-[11px] text-white mb-0 leading-none font-medium font-['Inter'] whitespace-nowrap">As-is 2026.03</span>
                                         <span className="text-[13px] text-white mb-[6px] font-['Inter'] whitespace-nowrap"><span className="text-[#86868B] mr-1 tracking-tight">Target</span>EM x1.73</span>
-                                        <span className="text-[28px] font-bold text-white tracking-tighter leading-none font-['Inter'] whitespace-nowrap">IRR 5.8%</span>
+                                        <span className="text-[28px] font-bold text-white tracking-tighter leading-none font-['Inter'] whitespace-nowrap">IRR 10.5%</span>
                                     </div>
                                 </div>
                             </div>
