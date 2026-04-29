@@ -51,7 +51,7 @@ export default function Section17({ isActive }) {
                                 window.dispatchEvent(new Event('hide-header'));
                                 setIsZooming(true);
                                 setTimeout(() => {
-                                    window.history.pushState(null, '', window.location.pathname + '?page=system-plan');
+                                    window.history.pushState(null, '', '/system-plan');
                                     window.dispatchEvent(new Event('popstate'));
                                 }, 1800);
                             }}

@@ -11,15 +11,15 @@ import SystemLogin from './components/system/SystemLogin';
 
 export default function App() {
   const [currentPage, setCurrentPage] = React.useState(() => {
-      const params = new URLSearchParams(window.location.search);
-      return params.get('page') || 'home';
+      const path = window.location.pathname.replace(/^\//, '') || 'home';
+      return path;
   });
 
   // Handle URL syncing and global left/right key navigation sequences
   React.useEffect(() => {
       const handlePopState = () => {
-          const params = new URLSearchParams(window.location.search);
-          setCurrentPage(params.get('page') || 'home');
+          const path = window.location.pathname.replace(/^\//, '') || 'home';
+          setCurrentPage(path);
       };
 
       const handleGlobalKeyDown = (e) => {
@@ -33,7 +33,7 @@ export default function App() {
               if (currentPage === 'system-plan') return;
               
               const prev = flow[currentIndex - 1];
-              window.history.pushState(null, '', window.location.pathname + '?page=' + prev);
+              window.history.pushState(null, '', prev === 'home' ? '/' : '/' + prev);
               setCurrentPage(prev);
           }
       };
@@ -47,7 +47,7 @@ export default function App() {
   }, [currentPage]);
 
   const navigateTo = (page) => {
-      window.history.pushState(null, '', window.location.pathname + '?page=' + page);
+      window.history.pushState(null, '', page === 'home' ? '/' : '/' + page);
       setCurrentPage(page);
   };
 
