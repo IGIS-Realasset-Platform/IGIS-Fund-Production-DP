@@ -86,7 +86,7 @@ const menuItems = [
     },
 ];
 
-export default function IotaLeftNav({ isPlatform = false }) {
+export default function IotaLeftNav({ onMenuChange }) {
     const [activeId, setActiveId] = useState(1);
 
     return (
@@ -116,7 +116,7 @@ export default function IotaLeftNav({ isPlatform = false }) {
                         return (
                             <div
                                 key={item.id}
-                                onClick={() => setActiveId(item.id)}
+                                onClick={() => { setActiveId(item.id); onMenuChange?.(item.id); }}
                                 className={`flex items-center justify-between px-2.5 py-2 rounded-xl cursor-pointer transition-colors duration-200 outline-none select-none ${isActive ? 'bg-[#333333]' : 'hover:bg-[#2C2C2E]'}`}
                             >
                                 <div className="flex items-center">
