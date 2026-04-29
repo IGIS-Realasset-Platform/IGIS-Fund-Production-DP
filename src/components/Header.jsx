@@ -467,7 +467,12 @@ export default function Header({ onNavigateToNews, onNavigateToHome, onNavigateT
                                                             e.preventDefault();
                                                             setIsMegaMenuOpen(false);
                                                             alert(item.message);
-                                                        } else if (isDownload || isSystemCore) {
+                                                        } else if (isSystemCore) {
+                                                            e.preventDefault();
+                                                            setIsMegaMenuOpen(false);
+                                                            window.history.pushState(null, '', `${import.meta.env.BASE_URL}system-core`);
+                                                            window.dispatchEvent(new Event('popstate'));
+                                                        } else if (isDownload) {
                                                             setIsMegaMenuOpen(false);
                                                         } else {
                                                             setIsMegaMenuOpen(false);
@@ -598,7 +603,12 @@ export default function Header({ onNavigateToNews, onNavigateToHome, onNavigateT
                                             <a
                                                 key={itemIdx}
                                                 href={`${import.meta.env.BASE_URL}system-core`}
-                                                onClick={() => setMobileMenuOpen(false)}
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    setMobileMenuOpen(false);
+                                                    window.history.pushState(null, '', `${import.meta.env.BASE_URL}system-core`);
+                                                    window.dispatchEvent(new Event('popstate'));
+                                                }}
                                                 className={`text-[15px] text-gray-600 hover:text-black hover:font-bold transition-all tracking-tight`}
                                             >
                                                 {item.label}
