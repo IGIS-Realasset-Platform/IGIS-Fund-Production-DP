@@ -5,16 +5,20 @@ import SystemCenter from './SystemCenter';
 import SystemRightRAG from './SystemRightRAG';
 import { useTheme } from '../../context/ThemeContext';
 
-export default function SystemCore({ isPlatform = false }) {
+export default function SystemCore({ isPlatform = false, isIotaWorkspaceOverride = false }) {
     const { isLightMode, toggleTheme } = useTheme();
-    const [isIotaWorkspace, setIsIotaWorkspace] = useState(false);
+    const [isIotaWorkspace, setIsIotaWorkspace] = useState(isIotaWorkspaceOverride);
 
     useEffect(() => {
         if (isLightMode) toggleTheme();
 
         const handleLocationChange = () => {
-            const params = new URLSearchParams(window.location.search);
-            setIsIotaWorkspace(params.get('workspace') === 'iota');
+            if (isIotaWorkspaceOverride) {
+                setIsIotaWorkspace(true);
+            } else {
+                const params = new URLSearchParams(window.location.search);
+                setIsIotaWorkspace(params.get('workspace') === 'iota');
+            }
         };
 
         handleLocationChange();
