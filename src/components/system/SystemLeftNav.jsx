@@ -167,6 +167,20 @@ export default function SystemLeftNav({ isCore }) {
                     <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" /></svg>
                 </div>
 
+                <div 
+                    onClick={() => {
+                        window.history.pushState(null, '', window.location.pathname + '?page=system-core&workspace=iota');
+                        window.dispatchEvent(new Event('popstate'));
+                    }}
+                    className="flex items-center justify-between px-2.5 py-2 hover:bg-[#18181A] dark:hover:bg-[#18181A] rounded-md cursor-pointer mt-4 mb-2 transition-colors duration-300 border border-gray-300 dark:border-[#3A3A3C] shadow-sm bg-white dark:bg-[#2A2A2A] group"
+                >
+                    <div className="flex items-center">
+                        <span className="text-[16px] mr-2.5">💎</span>
+                        <span className="font-semibold text-[14px] text-[#111] dark:text-white group-hover:text-white dark:group-hover:text-white">IOTA Seoul 관제탑</span>
+                    </div>
+                    <svg className="w-3.5 h-3.5 text-[#86868B] group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" /></svg>
+                </div>
+
                 {/* 최근 채팅 영역 */}
                 <div className="mt-8 mb-2 px-2.5">
                     <div className="font-semibold mb-2 text-[12px] text-[#86868B] dark:text-[#A1A1AA] transition-colors duration-300">최근 채팅</div>

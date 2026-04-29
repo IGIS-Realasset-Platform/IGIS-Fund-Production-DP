@@ -1,20 +1,32 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import SystemLeftNav from './SystemLeftNav';
+import IotaLeftNav from './IotaLeftNav';
 import SystemCenter from './SystemCenter';
 import SystemRightRAG from './SystemRightRAG';
 import { useTheme } from '../../context/ThemeContext';
-import { useEffect } from 'react';
+
 export default function SystemCore() {
     const { isLightMode, toggleTheme } = useTheme();
+    const [isIotaWorkspace, setIsIotaWorkspace] = useState(false);
+
     useEffect(() => {
         if (isLightMode) toggleTheme();
+
+        const handleLocationChange = () => {
+            const params = new URLSearchParams(window.location.search);
+            setIsIotaWorkspace(params.get('workspace') === 'iota');
+        };
+
+        handleLocationChange();
+        window.addEventListener('popstate', handleLocationChange);
+        return () => window.removeEventListener('popstate', handleLocationChange);
     }, [isLightMode, toggleTheme]);
 
     return (
         <div className="w-full h-screen bg-[#1F1F1E] flex overflow-hidden font-sans text-[#E5E5E5] relative border-none">
             
-            {/* 좌측 사이드바 고정 유지 */}
-            <SystemLeftNav isCore={true} />
+            {/* 좌측 사이드바 스위칭 로직 */}
+            {isIotaWorkspace ? <IotaLeftNav isCore={true} /> : <SystemLeftNav isCore={true} />}
 
             {/* Stage 2 Layout (상세페이지 고정) */}
             <div className="flex-1 flex overflow-hidden">
