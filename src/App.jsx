@@ -106,8 +106,8 @@ export default function App() {
         </div>
       </div>
 
-      <div className={['system-plan', 'system-bridge', 'system-chat', 'system-detail', 'system-core', 'ai-review-claude'].includes(currentPage) ? "w-full h-screen overflow-hidden" : "hidden lg:block scroll-container font-sans"} id="scroll-container">
-        {!['system-plan', 'system-bridge', 'system-chat', 'system-detail', 'system-core', 'ai-review-claude'].includes(currentPage) && (
+      <div className={['system-plan', 'system-bridge', 'system-chat', 'system-detail', 'system-core'].includes(currentPage) ? "w-full h-screen overflow-hidden" : "hidden lg:block scroll-container font-sans"} id="scroll-container">
+        {!['system-plan', 'system-bridge', 'system-chat', 'system-detail', 'system-core'].includes(currentPage) && (
             <Header
               onNavigateToHome={() => setCurrentPage('home')}
               currentPage={currentPage}
