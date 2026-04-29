@@ -133,7 +133,9 @@ export default function IotaLeftNav({ isPlatform = false }) {
                                             {item.badge}
                                         </div>
                                     )}
-                                    <svg className="w-3.5 h-3.5 text-[#86868B]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" /></svg>
+                                    {item.id !== 1 && (
+                                        <svg className="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" /></svg>
+                                    )}
                                 </div>
                             </div>
                         );
