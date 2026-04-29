@@ -117,7 +117,7 @@ export default function IotaLeftNav({ isPlatform = false }) {
                             <div
                                 key={item.id}
                                 onClick={() => setActiveId(item.id)}
-                                className={`flex items-center justify-between px-2.5 py-2 rounded-md cursor-pointer transition-colors duration-200 ${isActive ? 'bg-[#2A2A2A] border border-[#3A3A3C]' : 'hover:bg-[#2C2C2E]'}`}
+                                className={`flex items-center justify-between px-2.5 py-2 rounded-lg cursor-pointer transition-colors duration-200 outline-none select-none ${isActive ? 'bg-[#2A2A2A]' : 'hover:bg-[#2C2C2E]'}`}
                             >
                                 <div className="flex items-center">
                                     <span className="text-white">
