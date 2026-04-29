@@ -22,7 +22,7 @@ export default function SystemLeftNav({ isCore, isPlatform = false }) {
             <div className="w-full flex items-center justify-between px-[15px] pt-[18px] pb-4">
                 <span 
                     onClick={() => {
-                        window.history.pushState(null, '', '/');
+                        window.history.pushState(null, '', import.meta.env.BASE_URL);
                         window.dispatchEvent(new Event('popstate'));
                     }}
                     className="font-bold text-[20px] tracking-wide font-inter ml-[5px] text-[#1D1D1F] dark:text-white transition-colors duration-300 cursor-pointer hover:text-gray-400 dark:hover:text-gray-400"
@@ -40,7 +40,7 @@ export default function SystemLeftNav({ isCore, isPlatform = false }) {
                 
                 <div
                     onClick={() => {
-                        window.history.pushState(null, '', '/');
+                        window.history.pushState(null, '', import.meta.env.BASE_URL);
                         window.dispatchEvent(new Event('popstate'));
                     }}
                     className="flex items-center px-2.5 py-2 hover:bg-gray-200 dark:hover:bg-[#2C2C2E] rounded-md cursor-pointer transition-colors duration-300"
@@ -105,7 +105,7 @@ export default function SystemLeftNav({ isCore, isPlatform = false }) {
 
                 <div 
                     onClick={isPlatform ? () => {
-                        window.history.pushState(null, '', '/platform?workspace=iota');
+                        window.history.pushState(null, '', `${import.meta.env.BASE_URL}platform?workspace=iota`);
                         window.dispatchEvent(new Event('popstate'));
                     } : undefined}
                     className={`flex items-center justify-between px-2.5 py-2 rounded-md mt-4 mb-2 transition-colors duration-300 border dark:border-[#3A3A3C] shadow-sm dark:bg-[#2A2A2A] group ${isPlatform ? 'hover:bg-[#18181A] dark:hover:bg-[#18181A] cursor-pointer border-gray-300 bg-white' : 'cursor-not-allowed opacity-40 border-gray-200 bg-gray-50'}`}

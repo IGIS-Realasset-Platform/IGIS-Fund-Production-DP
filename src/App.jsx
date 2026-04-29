@@ -10,16 +10,21 @@ import SystemPlan from './components/system/SystemPlan';
 import SystemLogin from './components/system/SystemLogin';
 
 export default function App() {
-  const [currentPage, setCurrentPage] = React.useState(() => {
-      const path = window.location.pathname.replace(/^\//, '') || 'home';
+  // BASE_URL: '/' in dev, '/IGIS-Fund-Production-DP/' in GitHub Pages production
+  const BASE = import.meta.env.BASE_URL;
+  const getPage = () => {
+      const base = BASE.endsWith('/') ? BASE.slice(0, -1) : BASE;
+      const path = window.location.pathname.replace(base, '').replace(/^\//, '') || 'home';
       return path;
-  });
+  };
+  const toUrl = (page) => page === 'home' ? BASE : `${BASE}${page}`;
+
+  const [currentPage, setCurrentPage] = React.useState(() => getPage());
 
   // Handle URL syncing and global left/right key navigation sequences
   React.useEffect(() => {
       const handlePopState = () => {
-          const path = window.location.pathname.replace(/^\//, '') || 'home';
-          setCurrentPage(path);
+          setCurrentPage(getPage());
       };
 
       const handleGlobalKeyDown = (e) => {
@@ -31,10 +36,14 @@ export default function App() {
           if (e.key === 'ArrowLeft' && currentIndex > 0) {
               // system-plan(로그인 화면)에서는 왼쪽 버튼으로 메인 홈으로 튕기지 않도록 방어
               if (currentPage === 'system-plan') return;
-              
               const prev = flow[currentIndex - 1];
-              window.history.pushState(null, '', prev === 'home' ? '/' : '/' + prev);
+              window.history.pushState(null, '', toUrl(prev));
               setCurrentPage(prev);
+          }
+          if (e.key === 'ArrowRight' && currentIndex >= 0 && currentIndex < flow.length - 1) {
+              const next = flow[currentIndex + 1];
+              window.history.pushState(null, '', toUrl(next));
+              setCurrentPage(next);
           }
       };
 
@@ -47,7 +56,7 @@ export default function App() {
   }, [currentPage]);
 
   const navigateTo = (page) => {
-      window.history.pushState(null, '', page === 'home' ? '/' : '/' + page);
+      window.history.pushState(null, '', toUrl(page));
       setCurrentPage(page);
   };
 
