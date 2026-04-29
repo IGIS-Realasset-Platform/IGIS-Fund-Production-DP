@@ -8,6 +8,7 @@ import SystemFullChat from './components/system/SystemFullChat';
 import SystemCore from './components/system/SystemCore';
 import SystemPlan from './components/system/SystemPlan';
 import SystemLogin from './components/system/SystemLogin';
+import PlatformCore from './components/system/PlatformCore';
 
 export default function App() {
   // BASE_URL: '/' in dev, '/IGIS-Fund-Production-DP/' in GitHub Pages production
@@ -135,8 +136,8 @@ export default function App() {
             />
         )}
         {currentPage === 'system-core' && <SystemCore isPlatform={false} />}
-        {currentPage === 'platform' && <SystemCore isPlatform={true} />}
-        {currentPage === 'platform/iotaseoul' && <SystemCore isPlatform={true} isIotaWorkspaceOverride={true} />}
+        {currentPage === 'platform' && <PlatformCore isPlatform={true} />}
+        {currentPage === 'platform/iotaseoul' && <PlatformCore isPlatform={true} isIotaWorkspaceOverride={true} />}
       </div>
     </>
   );
