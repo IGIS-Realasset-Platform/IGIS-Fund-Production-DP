@@ -144,7 +144,7 @@ export default function IotaLeftNav({ isPlatform = false }) {
             </div>
 
             {/* Bottom Profile */}
-            <div className="px-[15px] pt-4 pb-3 border-t border-[#3A3A3C] w-full flex items-center justify-between transition-colors duration-300">
+            <div className="pl-[15px] pr-[17px] pt-4 pb-3 border-t border-[#3A3A3C] w-full flex items-center justify-between transition-colors duration-300">
                 <div className="flex items-center gap-3 hover:bg-[#2C2C2E] p-1.5 -ml-1.5 rounded-lg cursor-pointer transition-colors duration-300">
                     <div className="w-10 h-10 rounded-full bg-[#c3c2b7] text-[#1F1F1E] flex items-center justify-center text-[16px] font-bold tracking-tighter -ml-[2px]">
                         JK
