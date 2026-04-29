@@ -3,7 +3,7 @@ import { useState } from 'react';
 const menuItems = [
     {
         id: 1,
-        label: '사업 개요',
+        label: '홈',
         active: true,
         icon: (
             <svg className="w-4.5 h-4.5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
