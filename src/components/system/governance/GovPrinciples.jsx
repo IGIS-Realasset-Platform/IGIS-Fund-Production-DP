@@ -31,7 +31,7 @@ export default function GovPrinciples() {
             <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[36px] mt-[48px]">4중 평가체계</h1>
 
             {/* KPI / OKR List */}
-            <div className="w-full bg-[#1E1E1E] border border-[#3c3c3c] rounded-[32px] pt-[32px] pb-[32px] px-[32px] flex flex-col relative">
+            <div className="w-full bg-[#1E1E1E] border border-[#3c3c3c] rounded-[32px] pt-[18px] pb-[32px] px-[32px] flex flex-col relative">
 
                 {/* Headers */}
                 <div className="flex items-end mb-[16px]">
@@ -39,10 +39,10 @@ export default function GovPrinciples() {
                         <span className="block text-[15px] font-bold text-[#E5E5E5]">평가 차원</span>
                     </div>
                     <div className="flex-1 grid grid-cols-2 gap-[24px]">
-                        <div className="ml-[20px]">
+                        <div className="ml-[30px]">
                             <span className="block text-[15px] font-bold text-[#E5E5E5]">측정 대상</span>
                         </div>
-                        <div className="-ml-[150px]">
+                        <div className="-ml-[170px]">
                             <span className="block text-[15px] font-bold text-[#E5E5E5]">대표 지표(예시)</span>
                         </div>
                     </div>
@@ -56,10 +56,10 @@ export default function GovPrinciples() {
                         <span className="text-[19px] font-bold text-white">KPI (사업단위)</span>
                     </div>
                     <div className="flex-1 grid grid-cols-2 gap-[24px]">
-                        <div className="ml-[20px]">
+                        <div className="ml-[30px]">
                             <span className="text-[17px] text-white">이오타서울 PFV 합산 성과</span>
                         </div>
-                        <div className="-ml-[150px]">
+                        <div className="-ml-[170px]">
                             <span className="text-[15px] text-[#c3c2b7]">IRR/Multiple, 사업비 UW 대비 차이, 공정·예산 슬리피지(%), 대주단 covenants 위반 0건</span>
                         </div>
                     </div>
@@ -73,10 +73,10 @@ export default function GovPrinciples() {
                         <span className="text-[19px] font-bold text-white">OKR (조직단위)</span>
                     </div>
                     <div className="flex-1 grid grid-cols-2 gap-[24px]">
-                        <div className="ml-[20px]">
+                        <div className="ml-[30px]">
                             <span className="text-[17px] text-white">CFT 5개 기능 셀</span>
                         </div>
-                        <div className="-ml-[150px]">
+                        <div className="-ml-[170px]">
                             <span className="text-[15px] text-[#c3c2b7]">의사결정 평균 소요일, 회의체 정시개최율, 미결 액션 7일 내 종결률</span>
                         </div>
                     </div>
@@ -90,10 +90,10 @@ export default function GovPrinciples() {
                         <span className="text-[19px] font-bold text-white">CGC (부문 기여)</span>
                     </div>
                     <div className="flex-1 grid grid-cols-2 gap-[24px]">
-                        <div className="ml-[20px]">
+                        <div className="ml-[30px]">
                             <span className="text-[17px] text-white">타 사업/타 펀드 파급</span>
                         </div>
-                        <div className="-ml-[150px]">
+                        <div className="-ml-[170px]">
                             <span className="text-[15px] text-[#c3c2b7]">이오타에서 도출된 표준 SOP·계약서·UW 모델의 부문 내 재활용 건수</span>
                         </div>
                     </div>
@@ -107,10 +107,10 @@ export default function GovPrinciples() {
                         <span className="text-[19px] font-bold text-white">경영조직 (종합)</span>
                     </div>
                     <div className="flex-1 grid grid-cols-2 gap-[24px]">
-                        <div className="ml-[20px]">
+                        <div className="ml-[30px]">
                             <span className="text-[17px] text-white">부문대표 직속 평가</span>
                         </div>
-                        <div className="-ml-[150px]">
+                        <div className="-ml-[170px]">
                             <span className="text-[15px] text-[#c3c2b7]">LP NPS, 외부 파트너 컴플레인 0건, 미디어/규제 리스크 사건 0건</span>
                         </div>
                     </div>
