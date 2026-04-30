@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function GovPrinciples() {
     return (
-        <div className="w-full flex flex-col pt-[77px] pb-[60px] max-w-[1200px] mx-auto">
+        <div className="w-full flex flex-col pt-[77px] pb-[60px] max-w-[1112px] mx-auto">
             <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[36px]">5대 의사결정 원칙</h1>
             
             <div className="flex flex-col w-full mb-[32px]">
