@@ -28,42 +28,83 @@ export default function GovPrinciples() {
                 </div>
             </div>
 
-            <div className="w-full bg-[#1A1A1A] border border-[#333] rounded-[24px] overflow-hidden">
-                <div className="px-[28px] py-[20px] border-b border-[#333] bg-[#222]">
-                    <h3 className="text-[16px] font-bold text-white">KPI / OKR 이중 평가 체계</h3>
+                        {/* KPI / OKR List */}
+            <div className="w-full max-w-[1112px] mx-auto bg-[#1E1E1E] border border-[#3c3c3c] rounded-[32px] pt-[19px] pb-[32px] px-[32px] flex flex-col relative">
+                <h2 className="text-[18px] font-bold text-white mb-[16px]">KPI / OKR 이중 평가 체계</h2>
+                <div className="-mx-[32px] w-[calc(100%+64px)] h-px bg-[#333] mb-[24px]"></div>
+
+                {/* 1. KPI */}
+                <div className="flex items-start">
+                    <div className="w-[180px] shrink-0">
+                        <span className="text-[15px] font-bold text-white">KPI <span className="text-[#86868B] font-normal text-[13px] ml-1">(사업단위)</span></span>
+                    </div>
+                    <div className="flex-1 grid grid-cols-2 gap-[24px]">
+                        <div>
+                            <span className="block text-[14px] text-[#666] mb-[4px]">측정 대상</span>
+                            <span className="text-[15px] text-white">이오타서울 PFV 합산 성과</span>
+                        </div>
+                        <div>
+                            <span className="block text-[14px] text-[#666] mb-[4px]">대표 지표(예시)</span>
+                            <span className="text-[15px] text-[#c3c2b7]">IRR/Multiple, 사업비 UW 대비 차이, 공정·예산 슬리피지(%), 대주단 covenants 위반 0건</span>
+                        </div>
+                    </div>
                 </div>
-                <div className="w-full">
-                    <table className="w-full text-left">
-                        <thead className="bg-[#1A1A1A]">
-                            <tr>
-                                <th className="px-[28px] py-[16px] text-[13px] font-bold text-[#86868B] border-b border-[#333] w-[180px]">평가 차원</th>
-                                <th className="px-[28px] py-[16px] text-[13px] font-bold text-[#86868B] border-b border-[#333] w-[200px]">측정 대상</th>
-                                <th className="px-[28px] py-[16px] text-[13px] font-bold text-[#86868B] border-b border-[#333]">대표 지표(예시)</th>
-                            </tr>
-                        </thead>
-                        <tbody className="divide-y divide-[#333]">
-                            <tr className="hover:bg-[#222] transition-colors">
-                                <td className="px-[28px] py-[20px] text-[15px] font-bold text-[#E5E5E5]">KPI <span className="text-[#86868B] font-normal text-[13px] ml-1">(사업단위)</span></td>
-                                <td className="px-[28px] py-[20px] text-[15px] text-[#A1A1AA]">이오타서울 PFV 합산 성과</td>
-                                <td className="px-[28px] py-[20px] text-[14px] text-[#A1A1AA]">IRR/Multiple, 사업비 UW 대비 차이, 공정·예산 슬리피지(%), 대주단 covenants 위반 0건</td>
-                            </tr>
-                            <tr className="hover:bg-[#222] transition-colors">
-                                <td className="px-[28px] py-[20px] text-[15px] font-bold text-[#E5E5E5]">OKR <span className="text-[#86868B] font-normal text-[13px] ml-1">(조직단위)</span></td>
-                                <td className="px-[28px] py-[20px] text-[15px] text-[#A1A1AA]">CFT 5개 기능 셀</td>
-                                <td className="px-[28px] py-[20px] text-[14px] text-[#A1A1AA]">의사결정 평균 소요일, 회의체 정시개최율, 미결 액션 7일 내 종결률</td>
-                            </tr>
-                            <tr className="hover:bg-[#222] transition-colors">
-                                <td className="px-[28px] py-[20px] text-[15px] font-bold text-[#E5E5E5]">CGC <span className="text-[#86868B] font-normal text-[13px] ml-1">(부문 기여)</span></td>
-                                <td className="px-[28px] py-[20px] text-[15px] text-[#A1A1AA]">타 사업/타 펀드 파급</td>
-                                <td className="px-[28px] py-[20px] text-[14px] text-[#A1A1AA]">이오타에서 도출된 표준 SOP·계약서·UW 모델의 부문 내 재활용 건수</td>
-                            </tr>
-                            <tr className="hover:bg-[#222] transition-colors">
-                                <td className="px-[28px] py-[20px] text-[15px] font-bold text-[#E5E5E5]">경영조직 <span className="text-[#86868B] font-normal text-[13px] ml-1">(종합)</span></td>
-                                <td className="px-[28px] py-[20px] text-[15px] text-[#A1A1AA]">부문대표 직속 평가</td>
-                                <td className="px-[28px] py-[20px] text-[14px] text-[#A1A1AA]">LP NPS, 외부 파트너 컴플레인 0건, 미디어/규제 리스크 사건 0건</td>
-                            </tr>
-                        </tbody>
-                    </table>
+
+                <div className="-mx-[32px] w-[calc(100%+64px)] h-px bg-[#333] my-[24px]"></div>
+
+                {/* 2. OKR */}
+                <div className="flex items-start">
+                    <div className="w-[180px] shrink-0">
+                        <span className="text-[15px] font-bold text-white">OKR <span className="text-[#86868B] font-normal text-[13px] ml-1">(조직단위)</span></span>
+                    </div>
+                    <div className="flex-1 grid grid-cols-2 gap-[24px]">
+                        <div>
+                            <span className="block text-[14px] text-[#666] mb-[4px]">측정 대상</span>
+                            <span className="text-[15px] text-white">CFT 5개 기능 셀</span>
+                        </div>
+                        <div>
+                            <span className="block text-[14px] text-[#666] mb-[4px]">대표 지표(예시)</span>
+                            <span className="text-[15px] text-[#c3c2b7]">의사결정 평균 소요일, 회의체 정시개최율, 미결 액션 7일 내 종결률</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="-mx-[32px] w-[calc(100%+64px)] h-px bg-[#333] my-[24px]"></div>
+
+                {/* 3. CGC */}
+                <div className="flex items-start">
+                    <div className="w-[180px] shrink-0">
+                        <span className="text-[15px] font-bold text-white">CGC <span className="text-[#86868B] font-normal text-[13px] ml-1">(부문 기여)</span></span>
+                    </div>
+                    <div className="flex-1 grid grid-cols-2 gap-[24px]">
+                        <div>
+                            <span className="block text-[14px] text-[#666] mb-[4px]">측정 대상</span>
+                            <span className="text-[15px] text-white">타 사업/타 펀드 파급</span>
+                        </div>
+                        <div>
+                            <span className="block text-[14px] text-[#666] mb-[4px]">대표 지표(예시)</span>
+                            <span className="text-[15px] text-[#c3c2b7]">이오타에서 도출된 표준 SOP·계약서·UW 모델의 부문 내 재활용 건수</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="-mx-[32px] w-[calc(100%+64px)] h-px bg-[#333] my-[24px]"></div>
+
+                {/* 4. 경영조직 */}
+                <div className="flex items-start">
+                    <div className="w-[180px] shrink-0">
+                        <span className="text-[15px] font-bold text-white">경영조직 <span className="text-[#86868B] font-normal text-[13px] ml-1">(종합)</span></span>
+                    </div>
+                    <div className="flex-1 grid grid-cols-2 gap-[24px]">
+                        <div>
+                            <span className="block text-[14px] text-[#666] mb-[4px]">측정 대상</span>
+                            <span className="text-[15px] text-white">부문대표 직속 평가</span>
+                        </div>
+                        <div>
+                            <span className="block text-[14px] text-[#666] mb-[4px]">대표 지표(예시)</span>
+                            <span className="text-[15px] text-[#c3c2b7]">LP NPS, 외부 파트너 컴플레인 0건, 미디어/규제 리스크 사건 0건</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
