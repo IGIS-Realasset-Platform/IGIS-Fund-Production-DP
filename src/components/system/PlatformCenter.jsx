@@ -12,6 +12,13 @@ import StakeInternal from './stakeholder/StakeInternal';
 import StakeLp from './stakeholder/StakeLp';
 import StakeTenant from './stakeholder/StakeTenant';
 import StakePartner from './stakeholder/StakePartner';
+import WorkspaceMarketing from './workspace/WorkspaceMarketing';
+import WorkspacePm from './workspace/WorkspacePm';
+import WorkspaceFinancing from './workspace/WorkspaceFinancing';
+import WorkspaceDevelopment from './workspace/WorkspaceDevelopment';
+import WorkspaceDigital from './workspace/WorkspaceDigital';
+import WorkspaceFund from './workspace/WorkspaceFund';
+import WorkspaceIpr from './workspace/WorkspaceIpr';
 
 export default function PlatformCenter({ currentPath = '' }) {
     const renderGovernance = () => {
@@ -39,9 +46,23 @@ export default function PlatformCenter({ currentPath = '' }) {
         }
     };
 
+    const renderWorkspace = () => {
+        switch(currentPath) {
+            case 'platform/iotaseoul/workspace/marketing': return <WorkspaceMarketing />;
+            case 'platform/iotaseoul/workspace/pm': return <WorkspacePm />;
+            case 'platform/iotaseoul/workspace/financing': return <WorkspaceFinancing />;
+            case 'platform/iotaseoul/workspace/development': return <WorkspaceDevelopment />;
+            case 'platform/iotaseoul/workspace/digital': return <WorkspaceDigital />;
+            case 'platform/iotaseoul/workspace/fund': return <WorkspaceFund />;
+            case 'platform/iotaseoul/workspace/ipr': return <WorkspaceIpr />;
+            default: return null;
+        }
+    };
+
     const govContent = renderGovernance();
     const stakeContent = renderStakeholder();
-    const activeContent = govContent || stakeContent;
+    const workspaceContent = renderWorkspace();
+    const activeContent = govContent || stakeContent || workspaceContent;
 
     if (activeContent) {
         return (
