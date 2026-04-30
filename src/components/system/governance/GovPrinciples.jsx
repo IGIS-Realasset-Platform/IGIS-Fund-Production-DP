@@ -1,4 +1,5 @@
 import React from 'react';
+import tierImg from '../../../assets/5tier.webp';
 
 export default function GovPrinciples() {
     return (
@@ -135,6 +136,17 @@ export default function GovPrinciples() {
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[16px] mt-[64px]">5 Tier 거버넌스 위계</h1>
+            <p className="text-[16px] text-[#A1A1AA] leading-[26px] mb-[32px]">
+                각 티어(Tier)는 명확히 구분된 의사결정 범위와 전결 규정, 그리고 독립된 주재자를 갖습니다.<br />
+                모든 정보와 이슈는 T5에서 T1으로 이어지는 지정된 에스컬레이션 라인을 따라 상향 보고되며, 경영진의 최종 결정과 지침은 T1에서 T5로 신속하게 하향 전파됩니다.<br />
+                또한 시공사, 증권사, 대주단, LP 등 대외 커뮤니케이션은 혼선을 방지하기 위해 철저히 통제된 단일 창구(Single Point of Contact)를 통해서만 이루어집니다.
+            </p>
+
+            <div className="w-full flex justify-center mb-0 -mt-[10px]">
+                <img src={tierImg} alt="5 Tier 거버넌스 위계" className="w-full max-w-[1112px] object-contain rounded-[16px]" />
             </div>
         </div>
     );
