@@ -2,8 +2,8 @@ import React from 'react';
 
 export default function GovPrinciples() {
     return (
-        <div className="w-full flex-1 flex flex-col pt-[77px] pb-[60px] max-w-[1200px] mx-auto">
-            <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[36px]">의사결정 원칙 및 평가 체계</h1>
+        <div className="w-full flex flex-col pt-[77px] pb-[60px] max-w-[1200px] mx-auto">
+            <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[36px]">의사결정 및 평가 체계</h1>
             
             <div className="grid grid-cols-2 gap-[24px] mb-[32px]">
                 <div className="bg-[#292928] border border-[#3c3c3c] rounded-[24px] p-[28px] hover:border-[#555] transition-colors group">
