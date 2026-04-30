@@ -11,7 +11,7 @@ export default function GovSystem() {
             </div>
 
             {/* 4대 축 List (No Title, Thin Separators) */}
-            <div className="w-full max-w-[1000px] mx-auto bg-[#1A1A1A] border border-[#3c3c3c] rounded-[32px] p-[32px] flex flex-col relative">
+            <div className="w-full max-w-[1040px] mx-auto bg-[#1A1A1A] border border-[#3c3c3c] rounded-[32px] p-[32px] flex flex-col relative">
                 
                 {/* 1. 내부 CFT */}
                 <div className="flex items-start">
