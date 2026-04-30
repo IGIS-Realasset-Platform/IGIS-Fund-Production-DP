@@ -3,7 +3,7 @@ import React from 'react';
 export default function GovPrinciples() {
     return (
         <div className="w-full flex flex-col pt-[77px] pb-[60px] max-w-[1200px] mx-auto">
-            <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[36px]">의사결정 및 평가 체계</h1>
+            <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[36px]">5대 의사결정 원칙</h1>
             
             <div className="grid grid-cols-2 gap-[24px] mb-[32px]">
                 <div className="bg-[#292928] border border-[#3c3c3c] rounded-[24px] p-[28px] hover:border-[#555] transition-colors group">
@@ -31,13 +31,15 @@ export default function GovPrinciples() {
                         {/* KPI / OKR List */}
             <div className="w-full bg-[#1E1E1E] border border-[#3c3c3c] rounded-[32px] pt-[19px] pb-[32px] px-[32px] flex flex-col relative">
                 
+                <h2 className="text-[18px] font-bold text-white mb-[24px]">4중 평가체계</h2>
+
                 {/* Headers */}
                 <div className="flex items-end mb-[16px]">
                     <div className="w-[180px] shrink-0">
-                        <h2 className="text-[18px] font-bold text-white">KPI / OKR 이중 평가 체계</h2>
+                        <span className="block text-[15px] font-bold text-[#E5E5E5]">평가 차원</span>
                     </div>
                     <div className="flex-1 grid grid-cols-2 gap-[24px]">
-                        <div>
+                        <div className="ml-[20px]">
                             <span className="block text-[15px] font-bold text-[#E5E5E5]">측정 대상</span>
                         </div>
                         <div className="-ml-[150px]">
@@ -54,7 +56,7 @@ export default function GovPrinciples() {
                         <span className="text-[19px] font-bold text-white">KPI (사업단위)</span>
                     </div>
                     <div className="flex-1 grid grid-cols-2 gap-[24px]">
-                        <div>
+                        <div className="ml-[20px]">
                             <span className="text-[17px] text-white">이오타서울 PFV 합산 성과</span>
                         </div>
                         <div className="-ml-[150px]">
@@ -71,7 +73,7 @@ export default function GovPrinciples() {
                         <span className="text-[19px] font-bold text-white">OKR (조직단위)</span>
                     </div>
                     <div className="flex-1 grid grid-cols-2 gap-[24px]">
-                        <div>
+                        <div className="ml-[20px]">
                             <span className="text-[17px] text-white">CFT 5개 기능 셀</span>
                         </div>
                         <div className="-ml-[150px]">
@@ -88,7 +90,7 @@ export default function GovPrinciples() {
                         <span className="text-[19px] font-bold text-white">CGC (부문 기여)</span>
                     </div>
                     <div className="flex-1 grid grid-cols-2 gap-[24px]">
-                        <div>
+                        <div className="ml-[20px]">
                             <span className="text-[17px] text-white">타 사업/타 펀드 파급</span>
                         </div>
                         <div className="-ml-[150px]">
@@ -105,7 +107,7 @@ export default function GovPrinciples() {
                         <span className="text-[19px] font-bold text-white">경영조직 (종합)</span>
                     </div>
                     <div className="flex-1 grid grid-cols-2 gap-[24px]">
-                        <div>
+                        <div className="ml-[20px]">
                             <span className="text-[17px] text-white">부문대표 직속 평가</span>
                         </div>
                         <div className="-ml-[150px]">

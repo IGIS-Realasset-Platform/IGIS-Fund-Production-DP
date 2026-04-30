@@ -255,7 +255,7 @@ export default function IotaLeftNav({ onMenuChange, currentPath = '' }) {
                     {isGovOpen && (
                         <div className="flex flex-col gap-0">
                             {[{ label: '통합 수행체계', path: 'platform/iotaseoul/governance/system' },
-                                { label: '의사결정 및 평가 체계', path: 'platform/iotaseoul/governance/principles' },
+                                { label: '5대 의사결정 원칙', path: 'platform/iotaseoul/governance/principles' },
                                 { label: 'RACI', path: 'platform/iotaseoul/governance/raci' },
                                 { label: '90 Day Roadmap', path: 'platform/iotaseoul/governance/roadmap' },
                                 { label: '회의체 운영 방침', path: 'platform/iotaseoul/governance/meetings' },
