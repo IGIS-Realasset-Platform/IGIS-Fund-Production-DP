@@ -31,10 +31,10 @@ export default function GovRaci() {
         <div className="w-full flex-1 flex flex-col pt-[77px] pb-[60px] max-w-[1200px] mx-auto">
             <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[24px]">RACI 매트릭스</h1>
             <div className="flex items-center gap-8 mb-[36px] bg-transparent border border-[#333] p-5 rounded-[16px]">
-                <div className="flex items-center gap-3"><span className="px-2 py-1 bg-[#4f46e5]/40 text-[#c7d2fe] rounded-md font-bold text-[14px]">A</span> <span className="text-[#A1A1AA] text-[14px]">최종 결정 및 승인 (Accountable)</span></div>
-                <div className="flex items-center gap-3"><span className="px-2 py-1 bg-[#059669]/40 text-[#a7f3d0] rounded-md font-bold text-[14px]">R</span> <span className="text-[#A1A1AA] text-[14px]">실무 주관 및 실행 (Responsible)</span></div>
-                <div className="flex items-center gap-3"><span className="px-2 py-1 bg-[#4b5563]/60 text-[#e5e7eb] rounded-md font-bold text-[14px]">C</span> <span className="text-[#A1A1AA] text-[14px]">사전 협의 및 자문 (Consulted)</span></div>
-                <div className="flex items-center gap-3"><span className="px-2 py-1 bg-[#374151]/40 text-[#9ca3af] rounded-md font-normal text-[14px]">I</span> <span className="text-[#A1A1AA] text-[14px]">사후 결과 통보 (Informed)</span></div>
+                <div className="flex items-center gap-3"><span className="px-2 py-1 bg-[#4f46e5]/40 text-[#c7d2fe] rounded-md font-bold text-[14px]">A</span> <span className="text-white text-[14px]">최종 결정 및 승인 (Accountable)</span></div>
+                <div className="flex items-center gap-3"><span className="px-2 py-1 bg-[#059669]/40 text-[#a7f3d0] rounded-md font-bold text-[14px]">R</span> <span className="text-white text-[14px]">실무 주관 및 실행 (Responsible)</span></div>
+                <div className="flex items-center gap-3"><span className="px-2 py-1 bg-[#4b5563]/60 text-[#e5e7eb] rounded-md font-bold text-[14px]">C</span> <span className="text-white text-[14px]">사전 협의 및 자문 (Consulted)</span></div>
+                <div className="flex items-center gap-3"><span className="px-2 py-1 bg-[#374151]/40 text-[#9ca3af] rounded-md font-normal text-[14px]">I</span> <span className="text-white text-[14px]">사후 결과 통보 (Informed)</span></div>
             </div>
             
             <div className="w-full border border-[#333] rounded-[24px] overflow-hidden">
@@ -42,12 +42,12 @@ export default function GovRaci() {
                     <thead className="bg-transparent">
                         <tr>
                             <th className="px-[24px] py-[16px] text-[14px] font-bold text-[#86868B] border-b border-[#333] border-r border-[#333] w-[260px] text-left">의사결정 영역</th>
-                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-white border-b border-[#333] border-r border-[#333]">PM<br/><span className="text-[#666] font-normal text-[11px] block mt-1">강순용</span></th>
-                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-white border-b border-[#333] border-r border-[#333]">LFC<br/><span className="text-[#666] font-normal text-[11px] block mt-1">박준호</span></th>
-                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-white border-b border-[#333] border-r border-[#333]">개발<br/><span className="text-[#666] font-normal text-[11px] block mt-1">홍장군</span></th>
-                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-white border-b border-[#333] border-r border-[#333]">EMC<br/><span className="text-[#666] font-normal text-[11px] block mt-1">김민지</span></th>
-                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-white border-b border-[#333] border-r border-[#333]">KAM<br/><span className="text-[#666] font-normal text-[11px] block mt-1">김행단</span></th>
-                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-[#fbf167] border-b border-[#333]">CFT총괄<br/><span className="text-[#666] font-normal text-[11px] block mt-1">이철승</span></th>
+                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-white border-b border-[#333] border-r border-[#333]">PM<br/><span className="text-white font-normal text-[13px] block mt-1">강순용</span></th>
+                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-white border-b border-[#333] border-r border-[#333]">LFC<br/><span className="text-white font-normal text-[13px] block mt-1">박준호</span></th>
+                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-white border-b border-[#333] border-r border-[#333]">개발<br/><span className="text-white font-normal text-[13px] block mt-1">홍장군</span></th>
+                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-white border-b border-[#333] border-r border-[#333]">EMC<br/><span className="text-white font-normal text-[13px] block mt-1">김민지</span></th>
+                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-white border-b border-[#333] border-r border-[#333]">KAM<br/><span className="text-white font-normal text-[13px] block mt-1">김행단</span></th>
+                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-[#fbf167] border-b border-[#333]">CFT총괄<br/><span className="text-white font-normal text-[13px] block mt-1">이철승</span></th>
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-[#333]">
