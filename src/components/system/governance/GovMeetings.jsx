@@ -98,21 +98,21 @@ export default function GovMeetings() {
                 <table className="w-full text-left table-fixed">
                     <thead className="bg-[#1E1E1E]">
                         <tr>
-                            <th className="px-[12px] py-[12px] text-[15px] font-bold text-[#86868B] border-b border-[#333]  w-[180px]">회의체</th>
-                            <th className="px-[12px] py-[12px] text-[15px] font-bold text-[#86868B] border-b border-[#333]  w-[120px]">주기</th>
-                            <th className="px-[12px] py-[12px] text-[15px] font-bold text-[#86868B] border-b border-[#333]  w-[160px]">주재자</th>
-                            <th className="px-[12px] py-[12px] text-[15px] font-bold text-[#86868B] border-b border-[#333]  w-[260px]">주요 참석자</th>
-                            <th className="px-[12px] py-[12px] text-[15px] font-bold text-[#86868B] border-b border-[#333]">핵심 산출물</th>
+                            <th className="pl-[22px] pr-[12px] py-[12px] text-[15px] font-bold text-[#86868B] border-b border-[#333]  w-[180px]">회의체</th>
+                            <th className="pl-[22px] pr-[12px] py-[12px] text-[15px] font-bold text-[#86868B] border-b border-[#333]  w-[120px]">주기</th>
+                            <th className="pl-[22px] pr-[12px] py-[12px] text-[15px] font-bold text-[#86868B] border-b border-[#333]  w-[160px]">주재자</th>
+                            <th className="pl-[22px] pr-[12px] py-[12px] text-[15px] font-bold text-[#86868B] border-b border-[#333]  w-[260px]">주요 참석자</th>
+                            <th className="pl-[22px] pr-[12px] py-[12px] text-[15px] font-bold text-[#86868B] border-b border-[#333]">핵심 산출물</th>
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-[#333]">
                         {internalMeetings.map((row, idx) => (
                             <tr key={idx} className="hover:bg-[#292928] transition-colors group">
-                                <td className="px-[12px] py-[12px] text-[15px] text-[#E5E5E5]  group-hover:text-white transition-colors text-left font-semibold">{row.meeting}</td>
-                                <td className="px-[12px] py-[12px] text-[14px] text-[#c3c2b7]  group-hover:text-[#E5E5E5] transition-colors">{row.period}</td>
-                                <td className="px-[12px] py-[12px] text-[14px] text-[#c3c2b7]  group-hover:text-[#E5E5E5] transition-colors">{row.leader}</td>
-                                <td className="px-[12px] py-[12px] text-[14px] text-[#c3c2b7]  text-left group-hover:text-[#E5E5E5] transition-colors">{row.attendees}</td>
-                                <td className="px-[12px] py-[12px] text-[14px] text-[#c3c2b7] text-left group-hover:text-[#E5E5E5] transition-colors">{row.output}</td>
+                                <td className="pl-[22px] pr-[12px] py-[12px] text-[15px] text-[#E5E5E5]  group-hover:text-white transition-colors text-left font-semibold">{row.meeting}</td>
+                                <td className="pl-[22px] pr-[12px] py-[12px] text-[14px] transition-colors"><span className="inline-block px-[10px] py-[4px] rounded-[6px] bg-[#111] text-[#c3c2b7] group-hover:text-white transition-colors whitespace-nowrap">{row.period}</span></td>
+                                <td className="pl-[22px] pr-[12px] py-[12px] text-[14px] font-bold text-white transition-colors">{row.leader}</td>
+                                <td className="pl-[22px] pr-[12px] py-[12px] text-[14px] text-[#c3c2b7]  text-left group-hover:text-[#E5E5E5] transition-colors">{row.attendees}</td>
+                                <td className="pl-[22px] pr-[12px] py-[12px] text-[14px] text-[#c3c2b7] text-left group-hover:text-[#E5E5E5] transition-colors">{row.output}</td>
                             </tr>
                         ))}
                     </tbody>
@@ -124,21 +124,21 @@ export default function GovMeetings() {
                 <table className="w-full text-left table-fixed">
                     <thead className="bg-[#1E1E1E]">
                         <tr>
-                            <th className="px-[12px] py-[12px] text-[15px] font-bold text-[#86868B] border-b border-[#333]  w-[180px]">회의체</th>
-                            <th className="px-[12px] py-[12px] text-[15px] font-bold text-[#86868B] border-b border-[#333]  w-[120px]">주기</th>
-                            <th className="px-[12px] py-[12px] text-[15px] font-bold text-[#86868B] border-b border-[#333]  w-[160px]">주재자</th>
-                            <th className="px-[12px] py-[12px] text-[15px] font-bold text-[#86868B] border-b border-[#333]  w-[260px]">주요 참석자</th>
-                            <th className="px-[12px] py-[12px] text-[15px] font-bold text-[#86868B] border-b border-[#333]">핵심 산출물</th>
+                            <th className="pl-[22px] pr-[12px] py-[12px] text-[15px] font-bold text-[#86868B] border-b border-[#333]  w-[180px]">회의체</th>
+                            <th className="pl-[22px] pr-[12px] py-[12px] text-[15px] font-bold text-[#86868B] border-b border-[#333]  w-[120px]">주기</th>
+                            <th className="pl-[22px] pr-[12px] py-[12px] text-[15px] font-bold text-[#86868B] border-b border-[#333]  w-[160px]">주재자</th>
+                            <th className="pl-[22px] pr-[12px] py-[12px] text-[15px] font-bold text-[#86868B] border-b border-[#333]  w-[260px]">주요 참석자</th>
+                            <th className="pl-[22px] pr-[12px] py-[12px] text-[15px] font-bold text-[#86868B] border-b border-[#333]">핵심 산출물</th>
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-[#333]">
                         {externalMeetings.map((row, idx) => (
                             <tr key={idx} className="hover:bg-[#292928] transition-colors group">
-                                <td className="px-[12px] py-[12px] text-[15px] text-[#E5E5E5]  group-hover:text-white transition-colors text-left font-semibold">{row.meeting}</td>
-                                <td className="px-[12px] py-[12px] text-[14px] text-[#c3c2b7]  group-hover:text-[#E5E5E5] transition-colors">{row.period}</td>
-                                <td className="px-[12px] py-[12px] text-[14px] text-[#c3c2b7]  group-hover:text-[#E5E5E5] transition-colors">{row.leader}</td>
-                                <td className="px-[12px] py-[12px] text-[14px] text-[#c3c2b7]  text-left group-hover:text-[#E5E5E5] transition-colors">{row.attendees}</td>
-                                <td className="px-[12px] py-[12px] text-[14px] text-[#c3c2b7] text-left group-hover:text-[#E5E5E5] transition-colors">{row.output}</td>
+                                <td className="pl-[22px] pr-[12px] py-[12px] text-[15px] text-[#E5E5E5]  group-hover:text-white transition-colors text-left font-semibold">{row.meeting}</td>
+                                <td className="pl-[22px] pr-[12px] py-[12px] text-[14px] transition-colors"><span className="inline-block px-[10px] py-[4px] rounded-[6px] bg-[#111] text-[#c3c2b7] group-hover:text-white transition-colors whitespace-nowrap">{row.period}</span></td>
+                                <td className="pl-[22px] pr-[12px] py-[12px] text-[14px] font-bold text-white transition-colors">{row.leader}</td>
+                                <td className="pl-[22px] pr-[12px] py-[12px] text-[14px] text-[#c3c2b7]  text-left group-hover:text-[#E5E5E5] transition-colors">{row.attendees}</td>
+                                <td className="pl-[22px] pr-[12px] py-[12px] text-[14px] text-[#c3c2b7] text-left group-hover:text-[#E5E5E5] transition-colors">{row.output}</td>
                             </tr>
                         ))}
                     </tbody>
