@@ -175,15 +175,15 @@ export default function GovRoadmap() {
                         
                         {/* Current Date Marker */}
                         <div className="absolute left-1/2 -translate-x-1/2 w-[8px] h-[2px] bg-[#fbf167]" style={{ top: '0%' }}></div>
-                        <div className="absolute left-[12px] text-[#fbf167] text-[11px] font-bold" style={{ top: '0%', marginTop: '-7px' }}>Today</div>
+                        <div className="absolute left-[12px] text-[#fbf167] text-[11px] font-bold whitespace-nowrap" style={{ top: '0%', marginTop: '-7px' }}>Today 2026.5.11</div>
 
                         {/* D+30 Marker */}
                         <div className="absolute left-1/2 -translate-x-1/2 w-[6px] h-[2px] bg-[#555]" style={{ top: '33.3%' }}></div>
-                        <div className="absolute right-[12px] text-[#86868B] text-[10px] whitespace-nowrap font-medium" style={{ top: '33.3%', marginTop: '-7px' }}>6.10</div>
+                        <div className="absolute left-[12px] text-[#86868B] text-[10px] whitespace-nowrap font-medium" style={{ top: '33.3%', marginTop: '-7px' }}>6.10</div>
 
                         {/* D+60 Marker */}
                         <div className="absolute left-1/2 -translate-x-1/2 w-[6px] h-[2px] bg-[#555]" style={{ top: '66.6%' }}></div>
-                        <div className="absolute right-[12px] text-[#86868B] text-[10px] whitespace-nowrap font-medium" style={{ top: '66.6%', marginTop: '-7px' }}>7.10</div>
+                        <div className="absolute left-[12px] text-[#86868B] text-[10px] whitespace-nowrap font-medium" style={{ top: '66.6%', marginTop: '-7px' }}>7.10</div>
                         
                         {/* D+90 Marker (End) */}
                         <div className="absolute left-1/2 -translate-x-1/2 w-[6px] h-[2px] bg-[#555]" style={{ top: '100%' }}></div>
