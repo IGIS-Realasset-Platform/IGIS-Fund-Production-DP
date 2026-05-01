@@ -50,10 +50,10 @@ export default function StakeInternal() {
                         {/* 사업 PM */}
                         <tr>
                             <td rowSpan={2} className="px-[24px] py-[16px] text-[14px] font-normal text-[#E5E5E5] border-r border-[#333] border-b border-[#333]">사업 PM</td>
-                            <td className="px-[24px] py-[16px] border-r border-[#333]">
+                            <td className="px-[24px] py-[16px] border-r border-b border-[#333]">
                                 {renderLeader('권순일', '사업1파트장')}
                             </td>
-                            <td className="px-[24px] py-[16px] text-[13px] border-r border-[#333] leading-[22px]"><div className="flex flex-wrap gap-x-3 gap-y-1">{renderMembers('윤주형 김제익 류홍 박만진 박일훈 이정원 전무경')}</div></td>
+                            <td className="px-[24px] py-[16px] text-[13px] border-r border-b border-[#333] leading-[22px]"><div className="flex flex-wrap gap-x-3 gap-y-1">{renderMembers('윤주형 김제익 류홍 박만진 박일훈 이정원 전무경')}</div></td>
                             <td rowSpan={2} className="px-[24px] py-[16px] text-[13px] text-[#bbb9af] border-r border-[#333] border-b border-[#333] leading-[22px]">전체 일정·예산 통제<br/>변경관리 결정<br/>PFV 외부 단일 창구</td>
                             <td rowSpan={2} className="px-[24px] py-[16px] text-[13px] text-[#bbb9af] border-b border-[#333]">사업그룹</td>
                         </tr>
@@ -109,10 +109,10 @@ export default function StakeInternal() {
                         {/* 상품·디지털 */}
                         <tr>
                             <td rowSpan={2} className="px-[24px] py-[16px] text-[14px] font-normal text-[#E5E5E5] border-r border-[#333] border-b border-[#333]">상품·디지털</td>
-                            <td className="px-[24px] py-[16px] border-r border-[#333]">
+                            <td className="px-[24px] py-[16px] border-r border-b border-[#333]">
                                 {renderLeader('김현수', '공간솔루션센터장')}
                             </td>
-                            <td className="px-[24px] py-[16px] text-[13px] border-r border-[#333] leading-[22px]"><div className="flex flex-wrap gap-x-3 gap-y-1">{renderMembers('이가현 정수명')}</div></td>
+                            <td className="px-[24px] py-[16px] text-[13px] border-r border-b border-[#333] leading-[22px]"><div className="flex flex-wrap gap-x-3 gap-y-1">{renderMembers('이가현 정수명')}</div></td>
                             <td rowSpan={2} className="px-[24px] py-[16px] text-[13px] text-[#bbb9af] border-r border-[#333] border-b border-[#333] leading-[22px]">상품 차별화 전략·POC<br/>테넌트 경험 설계<br/>디지털 인프라(보안·통신·DC 등)</td>
                             <td rowSpan={2} className="px-[24px] py-[16px] text-[13px] text-[#bbb9af] border-b border-[#333] leading-[22px]">SSC<br/>디지털사업그룹</td>
                         </tr>
@@ -137,10 +137,10 @@ export default function StakeInternal() {
                         {/* IPR */}
                         <tr>
                             <td rowSpan={2} className="px-[24px] py-[16px] text-[14px] font-normal text-[#E5E5E5] border-r border-[#333] border-b border-[#333]">IPR</td>
-                            <td className="px-[24px] py-[16px] border-r border-[#333]">
+                            <td className="px-[24px] py-[16px] border-r border-b border-[#333]">
                                 {renderLeader('권순일', '(투자) 사업1파트장')}
                             </td>
-                            <td className="px-[24px] py-[16px] text-[13px] text-[#bbb9af] border-r border-[#333] leading-[22px]">사업1파트 실무진</td>
+                            <td className="px-[24px] py-[16px] text-[13px] text-[#bbb9af] border-r border-b border-[#333] leading-[22px]">사업1파트 실무진</td>
                             <td rowSpan={2} className="px-[24px] py-[16px] text-[13px] text-[#bbb9af] border-r border-[#333] border-b border-[#333] leading-[22px]">프로젝트리츠 TFT 운영<br/>투자자 대응<br/>외부 자문사 선정</td>
                             <td rowSpan={2} className="px-[24px] py-[16px] text-[13px] text-[#bbb9af] border-b border-[#333] leading-[22px]">부문직속<br/>신설TFT</td>
                         </tr>
