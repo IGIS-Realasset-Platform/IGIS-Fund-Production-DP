@@ -24,10 +24,10 @@ export default function GovWorkingGroup() {
             
             <div className="flex flex-col gap-4">
                 <div className="bg-[#292928] border border-[#3c3c3c] rounded-[16px] p-[24px] flex items-center gap-6">
-                    <div className="w-[100px] font-black text-[24px] text-[#555]">Stage 0</div>
+                    <div className="w-[100px] font-black text-[24px] text-[#bbb9af]">Stage 0</div>
                     <div className="w-px h-[40px] bg-[#444]"></div>
                     <div className="flex-1">
-                        <span className="text-[16px] font-bold text-white block mb-1">조기 의향 확인</span>
+                        <span className="text-[16px] font-bold text-[#bbb9af] block mb-1">조기 의향 확인</span>
                         <span className="text-[15px] text-[#A1A1AA]">프리츠 TFT가 이오타 자산을 IPR 편입 후보로 ‘예비등록’</span>
                     </div>
                 </div>
@@ -42,37 +42,37 @@ export default function GovWorkingGroup() {
                 </div>
 
                 <div className="bg-[#292928] border border-[#3c3c3c] rounded-[16px] p-[24px] flex items-center gap-6">
-                    <div className="w-[100px] font-black text-[24px] text-[#555]">Stage 2</div>
+                    <div className="w-[100px] font-black text-[24px] text-[#bbb9af]">Stage 2</div>
                     <div className="w-px h-[40px] bg-[#444]"></div>
                     <div className="flex-1">
-                        <span className="text-[16px] font-bold text-white block mb-1">권순약정 초안</span>
+                        <span className="text-[16px] font-bold text-[#bbb9af] block mb-1">권순약정 초안</span>
                         <span className="text-[15px] text-[#A1A1AA]">외부 법무자문 선정 → 권순약정·우선매수약정 초안 작성</span>
                     </div>
                 </div>
 
                 <div className="bg-[#292928] border border-[#3c3c3c] rounded-[16px] p-[24px] flex items-center gap-6">
-                    <div className="w-[100px] font-black text-[24px] text-[#555]">Stage 3</div>
+                    <div className="w-[100px] font-black text-[24px] text-[#bbb9af]">Stage 3</div>
                     <div className="w-px h-[40px] bg-[#444]"></div>
                     <div className="flex-1">
-                        <span className="text-[16px] font-bold text-white block mb-1">외부 검증</span>
+                        <span className="text-[16px] font-bold text-[#bbb9af] block mb-1">외부 검증</span>
                         <span className="text-[15px] text-[#A1A1AA]">회계자문(세무)·감정평가(가격) 병렬 진행, 시나리오별 IRR/Cap Rate 검증</span>
                     </div>
                 </div>
 
                 <div className="bg-[#292928] border border-[#3c3c3c] rounded-[16px] p-[24px] flex items-center gap-6">
-                    <div className="w-[100px] font-black text-[24px] text-[#555]">Stage 4</div>
+                    <div className="w-[100px] font-black text-[24px] text-[#bbb9af]">Stage 4</div>
                     <div className="w-px h-[40px] bg-[#444]"></div>
                     <div className="flex-1">
-                        <span className="text-[16px] font-bold text-white block mb-1">LP 사전 통지</span>
+                        <span className="text-[16px] font-bold text-[#bbb9af] block mb-1">LP 사전 통지</span>
                         <span className="text-[15px] text-[#A1A1AA]">421호 펀드 LP에 IPR 편입 시나리오 사전 통지·의향 청취</span>
                     </div>
                 </div>
 
                 <div className="bg-[#292928] border border-[#3c3c3c] rounded-[16px] p-[24px] flex items-center gap-6">
-                    <div className="w-[100px] font-black text-[24px] text-[#555]">Stage 5</div>
+                    <div className="w-[100px] font-black text-[24px] text-[#bbb9af]">Stage 5</div>
                     <div className="w-px h-[40px] bg-[#444]"></div>
                     <div className="flex-1">
-                        <span className="text-[16px] font-bold text-white block mb-1">약정 체결·공시</span>
+                        <span className="text-[16px] font-bold text-[#bbb9af] block mb-1">약정 체결·공시</span>
                         <span className="text-[15px] text-[#A1A1AA]">정식 권순약정 체결 후 운용보고에 반영</span>
                     </div>
                 </div>
