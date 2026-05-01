@@ -75,7 +75,7 @@ export default function GovRaci() {
             </div>
             
             <div className="w-full border border-[#333] rounded-[24px] overflow-hidden">
-                <table className="w-full text-center">
+                <table className="w-full text-center table-fixed">
                     <thead className="bg-transparent">
                         <tr>
                             <th className="px-[24px] py-[16px] text-[14px] font-bold text-[#86868B] border-b border-[#333] border-r border-[#333] w-[300px] min-w-[300px] max-w-[300px] text-left">의사결정 영역</th>
@@ -111,18 +111,18 @@ export default function GovRaci() {
             {/* Table 1 */}
             <h3 className="text-[20px] font-bold text-white mb-[16px]">PF 전(착공 전) 단계</h3>
             <div className="w-full border border-[#333] rounded-[24px] overflow-hidden mb-[48px]">
-                <table className="w-full text-center">
+                <table className="w-full text-center table-fixed">
                     <thead className="bg-transparent">
                         <tr>
                             <th className="px-[24px] py-[16px] text-[14px] font-bold text-[#86868B] border-b border-[#333] border-r border-[#333] w-[300px] min-w-[300px] max-w-[300px] text-left">세부 업무</th>
-                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333] w-[90px]">사업1파트</th>
-                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333] w-[90px]">사업2파트</th>
-                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333] w-[90px]">개발솔루션</th>
-                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333] w-[90px]">SSC</th>
-                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333] w-[90px]">LFC</th>
-                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333] w-[90px]">EMC</th>
-                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333] w-[90px]">KAM·기타</th>
-                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] w-[90px]">IPR(TF)</th>
+                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333]">사업1파트</th>
+                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333]">사업2파트</th>
+                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333]">개발솔루션</th>
+                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333]">SSC</th>
+                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333]">LFC</th>
+                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333]">EMC</th>
+                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333]">KAM·기타</th>
+                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333]">IPR(TF)</th>
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-[#333]">
@@ -146,15 +146,15 @@ export default function GovRaci() {
             {/* Table 2 */}
             <h3 className="text-[20px] font-bold text-white mb-[16px]">PF 후(개발 단계)</h3>
             <div className="w-full border border-[#333] rounded-[24px] overflow-hidden mb-[48px]">
-                <table className="w-full text-center">
+                <table className="w-full text-center table-fixed">
                     <thead className="bg-transparent">
                         <tr>
                             <th className="px-[24px] py-[16px] text-[14px] font-bold text-[#86868B] border-b border-[#333] border-r border-[#333] w-[300px] min-w-[300px] max-w-[300px] text-left">세부 업무</th>
-                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333] w-[100px]">사업1파트</th>
-                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333] w-[100px]">사업2파트</th>
-                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333] w-[100px]">개발솔루션</th>
-                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333] w-[100px]">LFC</th>
-                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333] w-[100px]">EMC</th>
+                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333]">사업1파트</th>
+                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333]">사업2파트</th>
+                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333]">개발솔루션</th>
+                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333]">LFC</th>
+                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333]">EMC</th>
                             <th className="px-[24px] py-[16px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] text-left">비고</th>
                         </tr>
                     </thead>
@@ -177,16 +177,16 @@ export default function GovRaci() {
             {/* Table 3 */}
             <h3 className="text-[20px] font-bold text-white mb-[16px]">운영·매각·IPR 편입 단계</h3>
             <div className="w-full border border-[#333] rounded-[24px] overflow-hidden mb-[16px]">
-                <table className="w-full text-center">
+                <table className="w-full text-center table-fixed">
                     <thead className="bg-transparent">
                         <tr>
                             <th className="px-[24px] py-[16px] text-[14px] font-bold text-[#86868B] border-b border-[#333] border-r border-[#333] w-[300px] min-w-[300px] max-w-[300px] text-left">세부 업무</th>
-                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333] w-[110px]">사업2파트</th>
-                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333] w-[110px]">개발솔루션</th>
-                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333] w-[110px]">LFC</th>
-                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333] w-[110px]">EMC</th>
-                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333] w-[110px]">KAM 1파트</th>
-                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] w-[110px]">프리츠TFT</th>
+                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333]">사업2파트</th>
+                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333]">개발솔루션</th>
+                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333]">LFC</th>
+                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333]">EMC</th>
+                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333]">KAM 1파트</th>
+                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333]">프리츠TFT</th>
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-[#333]">
