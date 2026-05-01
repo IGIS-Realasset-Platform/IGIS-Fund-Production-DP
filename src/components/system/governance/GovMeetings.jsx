@@ -37,8 +37,8 @@ export default function GovMeetings() {
                                         
                                         after:content-[''] after:absolute after:top-1/2 after:-translate-y-1/2 after:-left-[7px] after:w-[14px] after:h-[14px] after:rotate-45 after:bg-[#111] md:after:hidden
                                     ">
-                                        <span className="text-[16px] font-bold text-white block">{item.title}</span>
-                                        {item.desc && <p className="text-[14px] text-[#A1A1AA] mt-1">{item.desc}</p>}
+                                        <span className="text-[15px] font-bold text-white block">{item.title}</span>
+                                        {item.desc && <p className="text-[15px] text-[#A1A1AA] mt-1">{item.desc}</p>}
                                     </div>
 
                                     {/* Duration Indicator: Clean text on the right of the vertical line */}
