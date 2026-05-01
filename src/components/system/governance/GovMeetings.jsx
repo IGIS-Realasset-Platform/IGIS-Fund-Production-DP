@@ -20,7 +20,7 @@ export default function GovMeetings() {
                     <h3 className="text-[16px] font-bold text-white">표준 회의 어젠다 <span className="text-[#86868B] font-normal text-[13px] ml-1">(1시간 기준)</span></h3>
                 </div>
                 <div className="px-[28px] py-[34px]">
-                    <div className="flex flex-col relative before:absolute before:inset-0 before:ml-[34px] md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-[#444] before:via-[#444] before:to-transparent">
+                    <div className="flex flex-col relative before:absolute before:inset-x-0 before:top-[28px] before:bottom-0 before:ml-[34px] md:before:mx-auto md:before:translate-x-0 before:w-0.5 before:bg-gradient-to-b before:from-[#444] before:via-[#444] before:to-transparent">
                         
                         {timelineData.map((item, index) => (
                             <React.Fragment key={index}>
