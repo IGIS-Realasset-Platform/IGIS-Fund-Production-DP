@@ -7,7 +7,7 @@ export default function GovFundRnR() {
             <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[18px]">
                 421호 펀드 운용 R&R
             </h1>
-            <p className="text-[17px] text-[#A1A1AA] leading-[28px] mb-[64px]">
+            <p className="text-[17px] text-[#A1A1AA] leading-[28px] mb-[54px]">
                 421호 펀드는 이오타서울의 핵심 자본 공급 주체이자 LP를 위한 신탁 구조입니다. PFV의 개발 리스크가 펀드 수익자에게 직접 전이되는 것을 철저히 차단하기 위해, 명확하고 견고한 방화벽과 투명한 보고 체계를 확립하여 운영하고 있습니다.
             </p>
 
@@ -43,7 +43,7 @@ export default function GovFundRnR() {
             </div>
 
             {/* Divider */}
-            <div className="w-full h-px bg-[#333] my-[48px]"></div>
+            <div className="w-full h-px bg-[#333] mt-[28px] mb-[48px]"></div>
 
             {/* 자본콜·운용지시·자금집행 라인 */}
             <h2 className="text-[22px] font-bold text-white mb-[10px] tracking-tight">
