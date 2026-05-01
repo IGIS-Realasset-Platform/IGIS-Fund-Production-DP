@@ -78,25 +78,25 @@ export default function GovRaci() {
                 <table className="w-full text-center table-fixed">
                     <thead className="bg-transparent">
                         <tr>
-                            <th className="px-[24px] py-[14px] text-[15px] font-bold text-[#86868B] border-b border-[#333] border-r border-[#333] w-[300px] min-w-[300px] max-w-[300px] text-left">의사결정 영역</th>
-                            <th className="px-[12px] py-[14px] text-[15px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333]">PM<br/><span className="text-white font-normal text-[15px] block mt-[1px] cursor-pointer hover:underline underline-offset-4 decoration-white/30 transition-all">강순용</span></th>
-                            <th className="px-[12px] py-[14px] text-[15px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333]">LFC<br/><span className="text-white font-normal text-[15px] block mt-[1px] cursor-pointer hover:underline underline-offset-4 decoration-white/30 transition-all">박준호</span></th>
-                            <th className="px-[12px] py-[14px] text-[15px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333]">개발<br/><span className="text-white font-normal text-[15px] block mt-[1px] cursor-pointer hover:underline underline-offset-4 decoration-white/30 transition-all">홍장군</span></th>
-                            <th className="px-[12px] py-[14px] text-[15px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333]">EMC<br/><span className="text-white font-normal text-[15px] block mt-[1px] cursor-pointer hover:underline underline-offset-4 decoration-white/30 transition-all">김민지</span></th>
-                            <th className="px-[12px] py-[14px] text-[15px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333]">KAM<br/><span className="text-white font-normal text-[15px] block mt-[1px] cursor-pointer hover:underline underline-offset-4 decoration-white/30 transition-all">김행단</span></th>
-                            <th className="px-[12px] py-[14px] text-[15px] font-bold text-[#bbb9af] border-b border-[#333]">CFT총괄<br/><span className="text-white font-normal text-[15px] block mt-[1px] cursor-pointer hover:underline underline-offset-4 decoration-white/30 transition-all">이철승</span></th>
+                            <th className="px-[24px] py-[12px] text-[15px] font-bold text-[#86868B] border-b border-[#333] border-r border-[#333] w-[300px] min-w-[300px] max-w-[300px] text-left">의사결정 영역</th>
+                            <th className="px-[12px] py-[12px] text-[15px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333]">PM<br/><span className="text-white font-normal text-[15px] block mt-[1px] cursor-pointer hover:underline underline-offset-4 decoration-white/30 transition-all">강순용</span></th>
+                            <th className="px-[12px] py-[12px] text-[15px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333]">LFC<br/><span className="text-white font-normal text-[15px] block mt-[1px] cursor-pointer hover:underline underline-offset-4 decoration-white/30 transition-all">박준호</span></th>
+                            <th className="px-[12px] py-[12px] text-[15px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333]">개발<br/><span className="text-white font-normal text-[15px] block mt-[1px] cursor-pointer hover:underline underline-offset-4 decoration-white/30 transition-all">홍장군</span></th>
+                            <th className="px-[12px] py-[12px] text-[15px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333]">EMC<br/><span className="text-white font-normal text-[15px] block mt-[1px] cursor-pointer hover:underline underline-offset-4 decoration-white/30 transition-all">김민지</span></th>
+                            <th className="px-[12px] py-[12px] text-[15px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333]">KAM<br/><span className="text-white font-normal text-[15px] block mt-[1px] cursor-pointer hover:underline underline-offset-4 decoration-white/30 transition-all">김행단</span></th>
+                            <th className="px-[12px] py-[12px] text-[15px] font-bold text-[#bbb9af] border-b border-[#333]">CFT총괄<br/><span className="text-white font-normal text-[15px] block mt-[1px] cursor-pointer hover:underline underline-offset-4 decoration-white/30 transition-all">이철승</span></th>
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-[#333]">
                         {raciData.map((row, idx) => (
                             <tr key={idx} className="hover:bg-[#292928] transition-colors group">
-                                <td className="px-[24px] py-[14px] text-[15px] text-[#E5E5E5] border-r border-[#333] text-left group-hover:text-white transition-colors">{row.task}</td>
-                                <td className="px-[12px] py-[14px] border-r border-[#333]">{renderBadge(row.pm)}</td>
-                                <td className="px-[12px] py-[14px] border-r border-[#333]">{renderBadge(row.lfc)}</td>
-                                <td className="px-[12px] py-[14px] border-r border-[#333]">{renderBadge(row.dev)}</td>
-                                <td className="px-[12px] py-[14px] border-r border-[#333]">{renderBadge(row.emc)}</td>
-                                <td className="px-[12px] py-[14px] border-r border-[#333]">{renderBadge(row.kam)}</td>
-                                <td className="px-[12px] py-[14px] transition-colors">{renderBadge(row.total)}</td>
+                                <td className="px-[24px] py-[12px] text-[15px] text-[#E5E5E5] border-r border-[#333] text-left group-hover:text-white transition-colors">{row.task}</td>
+                                <td className="px-[12px] py-[12px] border-r border-[#333]">{renderBadge(row.pm)}</td>
+                                <td className="px-[12px] py-[12px] border-r border-[#333]">{renderBadge(row.lfc)}</td>
+                                <td className="px-[12px] py-[12px] border-r border-[#333]">{renderBadge(row.dev)}</td>
+                                <td className="px-[12px] py-[12px] border-r border-[#333]">{renderBadge(row.emc)}</td>
+                                <td className="px-[12px] py-[12px] border-r border-[#333]">{renderBadge(row.kam)}</td>
+                                <td className="px-[12px] py-[12px] transition-colors">{renderBadge(row.total)}</td>
                             </tr>
                         ))}
                     </tbody>
@@ -118,29 +118,29 @@ export default function GovRaci() {
                 <table className="w-full text-center table-fixed">
                     <thead className="bg-transparent">
                         <tr>
-                            <th className="px-[24px] py-[16px] text-[14px] font-bold text-[#86868B] border-b border-[#333] border-r border-[#333] w-[300px] min-w-[300px] max-w-[300px] text-left">세부 업무</th>
-                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333]">사업1파트</th>
-                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333]">사업2파트</th>
-                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333]">개발솔루션</th>
-                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333]">SSC</th>
-                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333]">LFC</th>
-                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333]">EMC</th>
-                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333]">KAM·기타</th>
-                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333]">IPR(TF)</th>
+                            <th className="px-[24px] py-[14px] text-[14px] font-bold text-[#86868B] border-b border-[#333] border-r border-[#333] w-[300px] min-w-[300px] max-w-[300px] text-left">세부 업무</th>
+                            <th className="px-[12px] py-[14px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333]">사업1파트</th>
+                            <th className="px-[12px] py-[14px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333]">사업2파트</th>
+                            <th className="px-[12px] py-[14px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333]">개발솔루션</th>
+                            <th className="px-[12px] py-[14px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333]">SSC</th>
+                            <th className="px-[12px] py-[14px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333]">LFC</th>
+                            <th className="px-[12px] py-[14px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333]">EMC</th>
+                            <th className="px-[12px] py-[14px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333]">KAM·기타</th>
+                            <th className="px-[12px] py-[14px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333]">IPR(TF)</th>
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-[#333]">
                         {phase1Data.map((row, idx) => (
                             <tr key={idx} className="hover:bg-[#292928] transition-colors group">
-                                <td className="px-[24px] py-[14px] text-[15px] text-[#E5E5E5] border-r border-[#333] text-left group-hover:text-white transition-colors">{row.task}</td>
-                                <td className="px-[12px] py-[14px] border-r border-[#333]">{renderBadge(row.col1)}</td>
-                                <td className="px-[12px] py-[14px] border-r border-[#333]">{renderBadge(row.col2)}</td>
-                                <td className="px-[12px] py-[14px] border-r border-[#333]">{renderBadge(row.col3)}</td>
-                                <td className="px-[12px] py-[14px] border-r border-[#333]">{renderBadge(row.col4)}</td>
-                                <td className="px-[12px] py-[14px] border-r border-[#333]">{renderBadge(row.col5)}</td>
-                                <td className="px-[12px] py-[14px] border-r border-[#333]">{renderBadge(row.col6)}</td>
-                                <td className="px-[12px] py-[14px] border-r border-[#333]">{renderBadge(row.col7)}</td>
-                                <td className="px-[12px] py-[14px] transition-colors">{renderBadge(row.col8)}</td>
+                                <td className="px-[24px] py-[12px] text-[15px] text-[#E5E5E5] border-r border-[#333] text-left group-hover:text-white transition-colors">{row.task}</td>
+                                <td className="px-[12px] py-[12px] border-r border-[#333]">{renderBadge(row.col1)}</td>
+                                <td className="px-[12px] py-[12px] border-r border-[#333]">{renderBadge(row.col2)}</td>
+                                <td className="px-[12px] py-[12px] border-r border-[#333]">{renderBadge(row.col3)}</td>
+                                <td className="px-[12px] py-[12px] border-r border-[#333]">{renderBadge(row.col4)}</td>
+                                <td className="px-[12px] py-[12px] border-r border-[#333]">{renderBadge(row.col5)}</td>
+                                <td className="px-[12px] py-[12px] border-r border-[#333]">{renderBadge(row.col6)}</td>
+                                <td className="px-[12px] py-[12px] border-r border-[#333]">{renderBadge(row.col7)}</td>
+                                <td className="px-[12px] py-[12px] transition-colors">{renderBadge(row.col8)}</td>
                             </tr>
                         ))}
                     </tbody>
@@ -153,25 +153,25 @@ export default function GovRaci() {
                 <table className="w-full text-center table-fixed">
                     <thead className="bg-transparent">
                         <tr>
-                            <th className="px-[24px] py-[16px] text-[14px] font-bold text-[#86868B] border-b border-[#333] border-r border-[#333] w-[300px] min-w-[300px] max-w-[300px] text-left">세부 업무</th>
-                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333]">사업1파트</th>
-                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333]">사업2파트</th>
-                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333]">개발솔루션</th>
-                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333]">LFC</th>
-                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333]">EMC</th>
-                            <th className="px-[16px] py-[16px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] text-left w-[140px]">비고</th>
+                            <th className="px-[24px] py-[14px] text-[14px] font-bold text-[#86868B] border-b border-[#333] border-r border-[#333] w-[300px] min-w-[300px] max-w-[300px] text-left">세부 업무</th>
+                            <th className="px-[12px] py-[14px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333]">사업1파트</th>
+                            <th className="px-[12px] py-[14px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333]">사업2파트</th>
+                            <th className="px-[12px] py-[14px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333]">개발솔루션</th>
+                            <th className="px-[12px] py-[14px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333]">LFC</th>
+                            <th className="px-[12px] py-[14px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333]">EMC</th>
+                            <th className="px-[16px] py-[14px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] text-left w-[140px]">비고</th>
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-[#333]">
                         {phase2Data.map((row, idx) => (
                             <tr key={idx} className="hover:bg-[#292928] transition-colors group">
-                                <td className="px-[24px] py-[14px] text-[15px] text-[#E5E5E5] border-r border-[#333] text-left group-hover:text-white transition-colors">{row.task}</td>
-                                <td className="px-[12px] py-[14px] border-r border-[#333]">{renderBadge(row.col1)}</td>
-                                <td className="px-[12px] py-[14px] border-r border-[#333]">{renderBadge(row.col2)}</td>
-                                <td className="px-[12px] py-[14px] border-r border-[#333]">{renderBadge(row.col3)}</td>
-                                <td className="px-[12px] py-[14px] border-r border-[#333]">{renderBadge(row.col4)}</td>
-                                <td className="px-[12px] py-[14px] border-r border-[#333]">{renderBadge(row.col5)}</td>
-                                <td className="px-[16px] py-[14px] text-[14px] text-[#86868B] transition-colors text-left whitespace-nowrap">{row.remark}</td>
+                                <td className="px-[24px] py-[12px] text-[15px] text-[#E5E5E5] border-r border-[#333] text-left group-hover:text-white transition-colors">{row.task}</td>
+                                <td className="px-[12px] py-[12px] border-r border-[#333]">{renderBadge(row.col1)}</td>
+                                <td className="px-[12px] py-[12px] border-r border-[#333]">{renderBadge(row.col2)}</td>
+                                <td className="px-[12px] py-[12px] border-r border-[#333]">{renderBadge(row.col3)}</td>
+                                <td className="px-[12px] py-[12px] border-r border-[#333]">{renderBadge(row.col4)}</td>
+                                <td className="px-[12px] py-[12px] border-r border-[#333]">{renderBadge(row.col5)}</td>
+                                <td className="px-[16px] py-[12px] text-[14px] text-[#86868B] transition-colors text-left whitespace-nowrap">{row.remark}</td>
                             </tr>
                         ))}
                     </tbody>
@@ -184,25 +184,25 @@ export default function GovRaci() {
                 <table className="w-full text-center table-fixed">
                     <thead className="bg-transparent">
                         <tr>
-                            <th className="px-[24px] py-[16px] text-[14px] font-bold text-[#86868B] border-b border-[#333] border-r border-[#333] w-[300px] min-w-[300px] max-w-[300px] text-left">세부 업무</th>
-                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333]">사업2파트</th>
-                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333]">개발솔루션</th>
-                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333]">LFC</th>
-                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333]">EMC</th>
-                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333]">KAM 1파트</th>
-                            <th className="px-[12px] py-[16px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333]">프리츠TFT</th>
+                            <th className="px-[24px] py-[14px] text-[14px] font-bold text-[#86868B] border-b border-[#333] border-r border-[#333] w-[300px] min-w-[300px] max-w-[300px] text-left">세부 업무</th>
+                            <th className="px-[12px] py-[14px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333]">사업2파트</th>
+                            <th className="px-[12px] py-[14px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333]">개발솔루션</th>
+                            <th className="px-[12px] py-[14px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333]">LFC</th>
+                            <th className="px-[12px] py-[14px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333]">EMC</th>
+                            <th className="px-[12px] py-[14px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333] border-r border-[#333]">KAM 1파트</th>
+                            <th className="px-[12px] py-[14px] text-[14px] font-bold text-[#bbb9af] border-b border-[#333]">프리츠TFT</th>
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-[#333]">
                         {phase3Data.map((row, idx) => (
                             <tr key={idx} className="hover:bg-[#292928] transition-colors group">
-                                <td className="px-[24px] py-[14px] text-[15px] text-[#E5E5E5] border-r border-[#333] text-left group-hover:text-white transition-colors">{row.task}</td>
-                                <td className="px-[12px] py-[14px] border-r border-[#333]">{renderBadge(row.col1)}</td>
-                                <td className="px-[12px] py-[14px] border-r border-[#333]">{renderBadge(row.col2)}</td>
-                                <td className="px-[12px] py-[14px] border-r border-[#333]">{renderBadge(row.col3)}</td>
-                                <td className="px-[12px] py-[14px] border-r border-[#333]">{renderBadge(row.col4)}</td>
-                                <td className="px-[12px] py-[14px] border-r border-[#333]">{renderBadge(row.col5)}</td>
-                                <td className="px-[12px] py-[14px] transition-colors">{renderBadge(row.col6)}</td>
+                                <td className="px-[24px] py-[12px] text-[15px] text-[#E5E5E5] border-r border-[#333] text-left group-hover:text-white transition-colors">{row.task}</td>
+                                <td className="px-[12px] py-[12px] border-r border-[#333]">{renderBadge(row.col1)}</td>
+                                <td className="px-[12px] py-[12px] border-r border-[#333]">{renderBadge(row.col2)}</td>
+                                <td className="px-[12px] py-[12px] border-r border-[#333]">{renderBadge(row.col3)}</td>
+                                <td className="px-[12px] py-[12px] border-r border-[#333]">{renderBadge(row.col4)}</td>
+                                <td className="px-[12px] py-[12px] border-r border-[#333]">{renderBadge(row.col5)}</td>
+                                <td className="px-[12px] py-[12px] transition-colors">{renderBadge(row.col6)}</td>
                             </tr>
                         ))}
                     </tbody>
