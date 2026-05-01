@@ -28,7 +28,7 @@ export default function GovWorkingGroup() {
                     <div className="w-px h-[40px] bg-[#444]"></div>
                     <div className="flex-1">
                         <span className="text-[16px] font-bold text-white block mb-1">조기 의향 확인</span>
-                        <span className="text-[14px] text-[#A1A1AA]">프리츠 TFT가 이오타 자산을 IPR 편입 후보로 ‘예비등록’</span>
+                        <span className="text-[15px] text-[#A1A1AA]">프리츠 TFT가 이오타 자산을 IPR 편입 후보로 ‘예비등록’</span>
                     </div>
                 </div>
 
@@ -37,7 +37,7 @@ export default function GovWorkingGroup() {
                     <div className="w-px h-[40px] bg-[#444]"></div>
                     <div className="flex-1">
                         <span className="text-[16px] font-bold text-[#fbf167] block mb-1">옵션 설계</span>
-                        <span className="text-[14px] text-[#A1A1AA]">가격결정 메커니즘(고정/변동), 인도시점, 옵션 수수료 구조</span>
+                        <span className="text-[15px] text-[#A1A1AA]">가격결정 메커니즘(고정/변동), 인도시점, 옵션 수수료 구조</span>
                     </div>
                 </div>
 
@@ -46,7 +46,7 @@ export default function GovWorkingGroup() {
                     <div className="w-px h-[40px] bg-[#444]"></div>
                     <div className="flex-1">
                         <span className="text-[16px] font-bold text-white block mb-1">권순약정 초안</span>
-                        <span className="text-[14px] text-[#A1A1AA]">외부 법무자문 선정 → 권순약정·우선매수약정 초안 작성</span>
+                        <span className="text-[15px] text-[#A1A1AA]">외부 법무자문 선정 → 권순약정·우선매수약정 초안 작성</span>
                     </div>
                 </div>
 
@@ -55,7 +55,7 @@ export default function GovWorkingGroup() {
                     <div className="w-px h-[40px] bg-[#444]"></div>
                     <div className="flex-1">
                         <span className="text-[16px] font-bold text-white block mb-1">외부 검증</span>
-                        <span className="text-[14px] text-[#A1A1AA]">회계자문(세무)·감정평가(가격) 병렬 진행, 시나리오별 IRR/Cap Rate 검증</span>
+                        <span className="text-[15px] text-[#A1A1AA]">회계자문(세무)·감정평가(가격) 병렬 진행, 시나리오별 IRR/Cap Rate 검증</span>
                     </div>
                 </div>
 
@@ -64,7 +64,7 @@ export default function GovWorkingGroup() {
                     <div className="w-px h-[40px] bg-[#444]"></div>
                     <div className="flex-1">
                         <span className="text-[16px] font-bold text-white block mb-1">LP 사전 통지</span>
-                        <span className="text-[14px] text-[#A1A1AA]">421호 펀드 LP에 IPR 편입 시나리오 사전 통지·의향 청취</span>
+                        <span className="text-[15px] text-[#A1A1AA]">421호 펀드 LP에 IPR 편입 시나리오 사전 통지·의향 청취</span>
                     </div>
                 </div>
 
@@ -73,7 +73,7 @@ export default function GovWorkingGroup() {
                     <div className="w-px h-[40px] bg-[#444]"></div>
                     <div className="flex-1">
                         <span className="text-[16px] font-bold text-white block mb-1">약정 체결·공시</span>
-                        <span className="text-[14px] text-[#A1A1AA]">정식 권순약정 체결 후 운용보고에 반영</span>
+                        <span className="text-[15px] text-[#A1A1AA]">정식 권순약정 체결 후 운용보고에 반영</span>
                     </div>
                 </div>
             </div>
