@@ -30,7 +30,7 @@ export default function StakeInternal() {
                     <thead>
                         <tr>
                             <th className="px-[24px] py-[16px] text-[13px] font-normal text-[#86868B] border-b border-[#333] border-r border-[#333] w-[140px] bg-transparent">기능셀</th>
-                            <th className="px-[14px] py-[16px] text-[13px] font-normal text-[#86868B] border-b border-[#333]  w-[220px] bg-transparent">책임인력</th>
+                            <th className="px-[14px] py-[16px] text-[13px] font-normal text-[#86868B] border-b border-[#333]  w-[200px] bg-transparent">책임인력</th>
                             <th className="px-[14px] py-[16px] text-[13px] font-normal text-[#86868B] border-b border-[#333] border-r border-[#333] bg-transparent">실무인력</th>
                             <th className="px-[14px] py-[16px] text-[13px] font-normal text-[#86868B] border-b border-[#333] border-r border-[#333] w-[260px] bg-transparent">핵심 책임</th>
                             <th className="px-[14px] py-[16px] text-[13px] font-normal text-[#86868B] border-b border-[#333] w-[130px] bg-transparent">부문 내 소속</th>
