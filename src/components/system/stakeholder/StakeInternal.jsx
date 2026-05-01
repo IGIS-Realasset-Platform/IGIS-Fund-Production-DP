@@ -8,6 +8,12 @@ export default function StakeInternal() {
         setMousePos({ x: e.clientX, y: e.clientY });
     };
 
+    const handleNavigation = (path) => {
+        const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
+        window.history.pushState(null, '', `${base}/${path}`);
+        window.dispatchEvent(new Event('popstate'));
+    };
+
     const renderMembers = (namesString) => {
         return namesString.split(' ').map((name, idx) => (
             <span key={idx} className="text-white cursor-pointer hover:text-[#fbf167] transition-colors">{name}</span>
@@ -69,7 +75,7 @@ export default function StakeInternal() {
                         </tr>
 
                         {/* 사업 PM */}
-                        <tr className={`cursor-pointer transition-colors ${hoveredRow === '사업 PM' ? 'bg-white/5' : ''}`} onMouseEnter={() => setHoveredRow('사업 PM')} onMouseLeave={() => setHoveredRow(null)} onClick={() => alert('[사업 PM] 워크스페이스로 이동합니다.')}>
+                        <tr className={`cursor-pointer transition-colors ${hoveredRow === '사업 PM' ? 'bg-white/5' : ''}`} onMouseEnter={() => setHoveredRow('사업 PM')} onMouseLeave={() => setHoveredRow(null)} onClick={() => handleNavigation('platform/iotaseoul/workspace/pm')}>
                             <td rowSpan={2} className="px-[24px] py-[16px] text-[14px] font-normal text-[#E5E5E5] border-r border-[#333] border-b border-[#333]">사업 PM</td>
                             <td className="px-[14px] py-[16px] border-b border-[#333]">
                                 {renderLeader('권순일', '사업1파트장')}
@@ -78,7 +84,7 @@ export default function StakeInternal() {
                             <td rowSpan={2} className="px-[14px] py-[16px] text-[13px] text-[#bbb9af] border-r border-[#333] border-b border-[#333] leading-[22px]">전체 일정·예산 통제<br/>변경관리 결정<br/>PFV 외부 단일 창구</td>
                             <td rowSpan={2} className="px-[14px] py-[16px] text-[13px] text-[#bbb9af] border-b border-[#333]">사업그룹</td>
                         </tr>
-                        <tr className={`border-b border-[#333] cursor-pointer transition-colors ${hoveredRow === '사업 PM' ? 'bg-white/5' : ''}`} onMouseEnter={() => setHoveredRow('사업 PM')} onMouseLeave={() => setHoveredRow(null)} onClick={() => alert('[사업 PM] 워크스페이스로 이동합니다.')}>
+                        <tr className={`border-b border-[#333] cursor-pointer transition-colors ${hoveredRow === '사업 PM' ? 'bg-white/5' : ''}`} onMouseEnter={() => setHoveredRow('사업 PM')} onMouseLeave={() => setHoveredRow(null)} onClick={() => handleNavigation('platform/iotaseoul/workspace/pm')}>
                             <td className="px-[14px] py-[16px] ">
                                 {renderLeader('강순용', '사업2파트장')}
                             </td>
@@ -86,7 +92,7 @@ export default function StakeInternal() {
                         </tr>
 
                         {/* 파이낸싱 */}
-                        <tr className={`border-b border-[#333] cursor-pointer transition-colors ${hoveredRow === '파이낸싱' ? 'bg-white/5' : ''}`} onMouseEnter={() => setHoveredRow('파이낸싱')} onMouseLeave={() => setHoveredRow(null)} onClick={() => alert('[파이낸싱] 워크스페이스로 이동합니다.')}>
+                        <tr className={`border-b border-[#333] cursor-pointer transition-colors ${hoveredRow === '파이낸싱' ? 'bg-white/5' : ''}`} onMouseEnter={() => setHoveredRow('파이낸싱')} onMouseLeave={() => setHoveredRow(null)} onClick={() => handleNavigation('platform/iotaseoul/workspace/financing')}>
                             <td className="px-[24px] py-[16px] text-[14px] font-normal text-[#E5E5E5] border-r border-[#333]">파이낸싱</td>
                             <td className="px-[14px] py-[16px] ">
                                 {renderLeader('박준호', 'LFC 센터장')}
@@ -97,7 +103,7 @@ export default function StakeInternal() {
                         </tr>
 
                         {/* 개발관리 */}
-                        <tr className={`border-b border-[#333] cursor-pointer transition-colors ${hoveredRow === '개발관리' ? 'bg-white/5' : ''}`} onMouseEnter={() => setHoveredRow('개발관리')} onMouseLeave={() => setHoveredRow(null)} onClick={() => alert('[개발관리] 워크스페이스로 이동합니다.')}>
+                        <tr className={`border-b border-[#333] cursor-pointer transition-colors ${hoveredRow === '개발관리' ? 'bg-white/5' : ''}`} onMouseEnter={() => setHoveredRow('개발관리')} onMouseLeave={() => setHoveredRow(null)} onClick={() => handleNavigation('platform/iotaseoul/workspace/development')}>
                             <td className="px-[24px] py-[16px] text-[14px] font-normal text-[#E5E5E5] border-r border-[#333]">개발관리</td>
                             <td className="px-[14px] py-[16px]">
                                 {renderLeader('홍장군', '개발솔루션센터장')}
@@ -113,7 +119,7 @@ export default function StakeInternal() {
                         </tr>
 
                         {/* 기업마케팅 */}
-                        <tr className={`border-b border-[#333] cursor-pointer transition-colors ${hoveredRow === '기업마케팅' ? 'bg-white/5' : ''}`} onMouseEnter={() => setHoveredRow('기업마케팅')} onMouseLeave={() => setHoveredRow(null)} onClick={() => alert('[기업마케팅] 워크스페이스로 이동합니다.')}>
+                        <tr className={`border-b border-[#333] cursor-pointer transition-colors ${hoveredRow === '기업마케팅' ? 'bg-white/5' : ''}`} onMouseEnter={() => setHoveredRow('기업마케팅')} onMouseLeave={() => setHoveredRow(null)} onClick={() => handleNavigation('platform/iotaseoul/workspace/marketing')}>
                             <td className="px-[24px] py-[16px] text-[14px] font-normal text-[#E5E5E5] border-r border-[#333]">기업마케팅</td>
                             <td className="px-[14px] py-[16px]">
                                 {renderLeader('김민지', '기업마케팅담당')}
@@ -128,7 +134,7 @@ export default function StakeInternal() {
                         </tr>
 
                         {/* 상품·디지털 */}
-                        <tr className={`cursor-pointer transition-colors ${hoveredRow === '상품·디지털' ? 'bg-white/5' : ''}`} onMouseEnter={() => setHoveredRow('상품·디지털')} onMouseLeave={() => setHoveredRow(null)} onClick={() => alert('[상품·디지털] 워크스페이스로 이동합니다.')}>
+                        <tr className={`cursor-pointer transition-colors ${hoveredRow === '상품·디지털' ? 'bg-white/5' : ''}`} onMouseEnter={() => setHoveredRow('상품·디지털')} onMouseLeave={() => setHoveredRow(null)} onClick={() => handleNavigation('platform/iotaseoul/workspace/digital')}>
                             <td rowSpan={2} className="px-[24px] py-[16px] text-[14px] font-normal text-[#E5E5E5] border-r border-[#333] border-b border-[#333]">상품·디지털</td>
                             <td className="px-[14px] py-[16px] border-b border-[#333]">
                                 {renderLeader('김현수', '공간솔루션센터장')}
@@ -137,7 +143,7 @@ export default function StakeInternal() {
                             <td rowSpan={2} className="px-[14px] py-[16px] text-[13px] text-[#bbb9af] border-r border-[#333] border-b border-[#333] leading-[22px]">상품 차별화 전략·POC<br/>테넌트 경험 설계<br/>디지털 인프라(보안·통신·DC 등)</td>
                             <td rowSpan={2} className="px-[14px] py-[16px] text-[13px] text-[#bbb9af] border-b border-[#333] leading-[22px]">SSC<br/>디지털사업그룹</td>
                         </tr>
-                        <tr className={`border-b border-[#333] cursor-pointer transition-colors ${hoveredRow === '상품·디지털' ? 'bg-white/5' : ''}`} onMouseEnter={() => setHoveredRow('상품·디지털')} onMouseLeave={() => setHoveredRow(null)} onClick={() => alert('[상품·디지털] 워크스페이스로 이동합니다.')}>
+                        <tr className={`border-b border-[#333] cursor-pointer transition-colors ${hoveredRow === '상품·디지털' ? 'bg-white/5' : ''}`} onMouseEnter={() => setHoveredRow('상품·디지털')} onMouseLeave={() => setHoveredRow(null)} onClick={() => handleNavigation('platform/iotaseoul/workspace/digital')}>
                             <td className="px-[14px] py-[16px] ">
                                 {renderLeader('현철호', '디지털사업그룹장')}
                             </td>
@@ -145,7 +151,7 @@ export default function StakeInternal() {
                         </tr>
 
                         {/* 펀드운용 */}
-                        <tr className={`border-b border-[#333] cursor-pointer transition-colors ${hoveredRow === '펀드운용' ? 'bg-white/5' : ''}`} onMouseEnter={() => setHoveredRow('펀드운용')} onMouseLeave={() => setHoveredRow(null)} onClick={() => alert('[펀드운용] 워크스페이스로 이동합니다.')}>
+                        <tr className={`border-b border-[#333] cursor-pointer transition-colors ${hoveredRow === '펀드운용' ? 'bg-white/5' : ''}`} onMouseEnter={() => setHoveredRow('펀드운용')} onMouseLeave={() => setHoveredRow(null)} onClick={() => handleNavigation('platform/iotaseoul/workspace/fund')}>
                             <td className="px-[24px] py-[16px] text-[14px] font-normal text-[#E5E5E5] border-r border-[#333]">펀드운용</td>
                             <td className="px-[14px] py-[16px] ">
                                 {renderLeader('김행단', 'KAM그룹장')}
@@ -156,7 +162,7 @@ export default function StakeInternal() {
                         </tr>
 
                         {/* IPR */}
-                        <tr className={`cursor-pointer transition-colors ${hoveredRow === 'IPR' ? 'bg-white/5' : ''}`} onMouseEnter={() => setHoveredRow('IPR')} onMouseLeave={() => setHoveredRow(null)} onClick={() => alert('[IPR] 워크스페이스로 이동합니다.')}>
+                        <tr className={`cursor-pointer transition-colors ${hoveredRow === 'IPR' ? 'bg-white/5' : ''}`} onMouseEnter={() => setHoveredRow('IPR')} onMouseLeave={() => setHoveredRow(null)} onClick={() => handleNavigation('platform/iotaseoul/workspace/ipr')}>
                             <td rowSpan={2} className="px-[24px] py-[16px] text-[14px] font-normal text-[#E5E5E5] border-r border-[#333] border-b border-[#333]">IPR</td>
                             <td className="px-[14px] py-[16px] border-b border-[#333]">
                                 {renderLeader('권순일', '(투자) 사업1파트장')}
@@ -165,7 +171,7 @@ export default function StakeInternal() {
                             <td rowSpan={2} className="px-[14px] py-[16px] text-[13px] text-[#bbb9af] border-r border-[#333] border-b border-[#333] leading-[22px]">프로젝트리츠 TFT 운영<br/>투자자 대응<br/>외부 자문사 선정</td>
                             <td rowSpan={2} className="px-[14px] py-[16px] text-[13px] text-[#bbb9af] border-b border-[#333] leading-[22px]">부문직속<br/>신설TFT</td>
                         </tr>
-                        <tr className={`border-b border-[#333] cursor-pointer transition-colors ${hoveredRow === 'IPR' ? 'bg-white/5' : ''}`} onMouseEnter={() => setHoveredRow('IPR')} onMouseLeave={() => setHoveredRow(null)} onClick={() => alert('[IPR] 워크스페이스로 이동합니다.')}>
+                        <tr className={`border-b border-[#333] cursor-pointer transition-colors ${hoveredRow === 'IPR' ? 'bg-white/5' : ''}`} onMouseEnter={() => setHoveredRow('IPR')} onMouseLeave={() => setHoveredRow(null)} onClick={() => handleNavigation('platform/iotaseoul/workspace/ipr')}>
                             <td className="px-[14px] py-[16px] ">
                                 {renderLeader('윤용택', '(관리) 사업3파트')}
                             </td>
