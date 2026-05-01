@@ -8,7 +8,7 @@ export default function GovFundRnR() {
                 421호 펀드 운용 R&R
             </h1>
             <p className="text-[17px] text-[#A1A1AA] leading-[28px] mb-[54px]">
-                421호 펀드는 이오타서울의 핵심 자본 공급 주체이자 LP를 위한 신탁 구조입니다. PFV의 개발 리스크가 펀드 수익자에게 직접 전이되는 것을 철저히 차단하기 위해, 명확하고 견고한 방화벽과 투명한 보고 체계를 확립하여 운영하고 있습니다.
+                421호 펀드는 이오타서울의 핵심 자본 공급 주체이자 LP를 위한 신탁 구조입니다.<br />PFV의 개발 리스크가 펀드 수익자에게 직접 전이되는 것을 철저히 차단하기 위해, 명확하고 견고한 방화벽과 투명한 보고 체계를 확립하여 운영해야 합니다.
             </p>
 
             {/* LP 커뮤니케이션 프로토콜 */}
@@ -50,7 +50,7 @@ export default function GovFundRnR() {
                 자본콜·운용지시·자금집행 라인
             </h2>
             <p className="text-[16px] text-[#A1A1AA] leading-[26px] mb-[32px]">
-                자본콜 프로세스는 PFV 자금 수요 → PM 검증 → LFC 검토 → KAM 운용지시 → LP 통지 → 자금집행의 체계적인 단계를 거쳐 표준화되어 있습니다. 각 단계마다 엄격한 결재선과 문서 보존 규정을 적용하여 자금 집행의 투명성을 보장합니다.
+                자본콜 프로세스는 PFV 자금 수요 → PM 검증 → LFC 검토 → KAM 운용지시 → LP 통지 → 자금집행의 체계적인 단계를 거쳐 표준화 합니다.<br />각 단계마다 엄격한 결재선과 문서 보존 규정을 적용하여 자금 집행의 투명성을 보장합니다.
             </p>
 
             <div className="bg-transparent border border-[#333] rounded-[24px] p-[32px] mb-[64px]">
@@ -114,28 +114,28 @@ export default function GovFundRnR() {
                 </h3>
                 <div className="flex flex-col gap-[20px]">
                     <div className="flex items-start">
-                        <span className="inline-flex min-w-[24px] text-[17px] font-bold text-[#86868B] mt-[2px]">1)</span>
+                        <span className="inline-flex min-w-[24px] text-[16px] font-bold text-[#86868B] mt-[2px]">1)</span>
                         <div>
-                            <span className="text-[18px] font-bold text-[#E5E5E5] mr-[8px]">의사결정 분리 —</span>
-                            <span className="text-[18px] text-[#A1A1AA] leading-[28px]">
+                            <span className="text-[17px] font-bold text-[#E5E5E5] mr-[8px]">의사결정 분리</span>
+                            <span className="text-[17px] text-[#A1A1AA] leading-[28px]">
                                 PFV 이사회의 의사결정과 펀드의 운용지시는 엄격하게 분리되어, 별도의 결재선과 의사록을 통해 독립적으로 관리됩니다.
                             </span>
                         </div>
                     </div>
                     <div className="flex items-start">
-                        <span className="inline-flex min-w-[24px] text-[17px] font-bold text-[#86868B] mt-[2px]">2)</span>
+                        <span className="inline-flex min-w-[24px] text-[16px] font-bold text-[#86868B] mt-[2px]">2)</span>
                         <div>
-                            <span className="text-[18px] font-bold text-[#E5E5E5] mr-[8px]">자금 분리 —</span>
-                            <span className="text-[18px] text-[#A1A1AA] leading-[28px]">
+                            <span className="text-[17px] font-bold text-[#E5E5E5] mr-[8px]">자금 분리</span>
+                            <span className="text-[17px] text-[#A1A1AA] leading-[28px]">
                                 PFV 계좌, 펀드 계좌, 신탁 계좌는 일체 통합되지 않으며, 모든 자금의 이동은 정식으로 승인된 운용지시서에 기반하여 투명하게 이루어집니다.
                             </span>
                         </div>
                     </div>
                     <div className="flex items-start">
-                        <span className="inline-flex min-w-[24px] text-[17px] font-bold text-[#86868B] mt-[2px]">3)</span>
+                        <span className="inline-flex min-w-[24px] text-[16px] font-bold text-[#86868B] mt-[2px]">3)</span>
                         <div>
-                            <span className="text-[18px] font-bold text-[#E5E5E5] mr-[8px]">정보 분리 —</span>
-                            <span className="text-[18px] text-[#A1A1AA] leading-[28px]">
+                            <span className="text-[17px] font-bold text-[#E5E5E5] mr-[8px]">정보 분리</span>
+                            <span className="text-[17px] text-[#A1A1AA] leading-[28px]">
                                 LP는 펀드 운용 관련 정보에 한정하여 접근 권한을 가지며, PFV의 일상적인 운영 데이터는 KAM 1파트의 철저한 검증과 가공을 거친 공식 보고서를 통해서만 제공됩니다.
                             </span>
                         </div>
