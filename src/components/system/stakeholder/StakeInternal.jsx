@@ -1,6 +1,12 @@
 import React from 'react';
 
 export default function StakeInternal() {
+    const renderMembers = (namesString) => {
+        return namesString.split(' ').map((name, idx) => (
+            <span key={idx} className="text-white cursor-pointer hover:underline underline-offset-4 decoration-white/30 transition-all">{name}</span>
+        ));
+    };
+
     const renderLeader = (name, title) => (
         <div className="flex items-center gap-[12px]">
             <div className="w-[36px] h-[36px] shrink-0 rounded-full bg-[#3c3c3c] flex items-center justify-center border border-[#555]">
@@ -47,7 +53,7 @@ export default function StakeInternal() {
                             <td className="px-[24px] py-[16px] border-r border-[#333]">
                                 {renderLeader('권순일', '사업1파트장')}
                             </td>
-                            <td className="px-[24px] py-[16px] text-[13px] text-[#bbb9af] border-r border-[#333] leading-[22px] whitespace-nowrap">윤주형 김제익 류홍 박만진 박일훈 이정원 전무경</td>
+                            <td className="px-[24px] py-[16px] text-[13px] border-r border-[#333] leading-[22px]"><div className="flex flex-wrap gap-x-3 gap-y-1">{renderMembers('윤주형 김제익 류홍 박만진 박일훈 이정원 전무경')}</div></td>
                             <td rowSpan={2} className="px-[24px] py-[16px] text-[13px] text-[#bbb9af] border-r border-[#333] border-b border-[#333] leading-[22px]">전체 일정·예산 통제<br/>변경관리 결정<br/>PFV 외부 단일 창구</td>
                             <td rowSpan={2} className="px-[24px] py-[16px] text-[13px] text-[#bbb9af] border-b border-[#333]">사업그룹</td>
                         </tr>
@@ -55,7 +61,7 @@ export default function StakeInternal() {
                             <td className="px-[24px] pb-[16px] pt-[0px] border-r border-[#333]">
                                 {renderLeader('강순용', '사업2파트장')}
                             </td>
-                            <td className="px-[24px] pb-[16px] pt-[0px] text-[13px] text-[#bbb9af] border-r border-[#333] leading-[22px] whitespace-nowrap">한찬호 박석제 박채현 소현준 이수정 조영비 한수정</td>
+                            <td className="px-[24px] pb-[16px] pt-[0px] text-[13px] border-r border-[#333] leading-[22px]"><div className="flex flex-wrap gap-x-3 gap-y-1">{renderMembers('한찬호 박석제 박채현 소현준 이수정 조영비 한수정')}</div></td>
                         </tr>
 
                         {/* 파이낸싱 */}
@@ -64,7 +70,7 @@ export default function StakeInternal() {
                             <td className="px-[24px] py-[16px] border-r border-[#333]">
                                 {renderLeader('박준호', 'LFC 센터장')}
                             </td>
-                            <td className="px-[24px] py-[16px] text-[13px] text-[#bbb9af] border-r border-[#333] leading-[22px]">강석민 정리훈 손유정 김지우 박현승 이성민 한승환</td>
+                            <td className="px-[24px] py-[16px] text-[13px] border-r border-[#333] leading-[22px]"><div className="flex flex-wrap gap-x-3 gap-y-1">{renderMembers('강석민 정리훈 손유정 김지우 박현승 이성민 한승환')}</div></td>
                             <td className="px-[24px] py-[16px] text-[13px] text-[#bbb9af] border-r border-[#333] leading-[22px]">본PF·통합PF 구조, 대주단 모니터링<br/>리파이낸싱 옵션 상시 검토</td>
                             <td className="px-[24px] py-[16px] text-[13px] text-[#bbb9af]">LFC</td>
                         </tr>
@@ -76,10 +82,10 @@ export default function StakeInternal() {
                                 {renderLeader('홍장군', '개발솔루션센터장')}
                             </td>
                             <td className="px-[24px] py-[16px] text-[13px] text-[#bbb9af] border-r border-[#333] leading-[24px]">
-                                <div className="flex gap-4"><span className="w-[50px] text-[#86868B] shrink-0">건설담당</span><span>채원 김보성 전승희</span></div>
-                                <div className="flex gap-4"><span className="w-[50px] text-[#86868B] shrink-0">설계담당</span><span>김대익 장성진</span></div>
-                                <div className="flex gap-4"><span className="w-[50px] text-[#86868B] shrink-0">인허가</span><span>이정훈</span></div>
-                                <div className="flex gap-4"><span className="w-[50px] text-[#86868B] shrink-0">전문위원</span><span>박봉서</span></div>
+                                <div className="flex gap-4"><span className="w-[50px] text-[#86868B] shrink-0">건설담당</span><div className="flex flex-wrap gap-x-3 gap-y-1">{renderMembers('채원 김보성 전승희')}</div></div>
+                                <div className="flex gap-4"><span className="w-[50px] text-[#86868B] shrink-0">설계담당</span><div className="flex flex-wrap gap-x-3 gap-y-1">{renderMembers('김대익 장성진')}</div></div>
+                                <div className="flex gap-4"><span className="w-[50px] text-[#86868B] shrink-0">인허가</span><div className="flex flex-wrap gap-x-3 gap-y-1">{renderMembers('이정훈')}</div></div>
+                                <div className="flex gap-4"><span className="w-[50px] text-[#86868B] shrink-0">전문위원</span><div className="flex flex-wrap gap-x-3 gap-y-1">{renderMembers('박봉서')}</div></div>
                             </td>
                             <td className="px-[24px] py-[16px] text-[13px] text-[#bbb9af] border-r border-[#333] leading-[22px]">설계·시공·CM·감리 통제<br/>인허가/명도 대응<br/>공정·품질·안전 KPI</td>
                             <td className="px-[24px] py-[16px] text-[13px] text-[#bbb9af]">개발솔루션센터</td>
@@ -92,9 +98,9 @@ export default function StakeInternal() {
                                 {renderLeader('김민지', '기업마케팅담당')}
                             </td>
                             <td className="px-[24px] py-[16px] text-[13px] text-[#bbb9af] border-r border-[#333] leading-[24px]">
-                                <div className="flex gap-4"><span className="w-[40px] text-[#86868B] shrink-0">EMC</span><span>고아라</span></div>
-                                <div className="flex gap-4"><span className="w-[40px] text-[#86868B] shrink-0">SSC</span><span>이가현 정수명</span></div>
-                                <div className="flex gap-4"><span className="w-[40px] text-[#86868B] shrink-0">사업1</span><span>권순일(자문)</span></div>
+                                <div className="flex gap-4"><span className="w-[40px] text-[#86868B] shrink-0">EMC</span><div className="flex flex-wrap gap-x-3 gap-y-1">{renderMembers('고아라')}</div></div>
+                                <div className="flex gap-4"><span className="w-[40px] text-[#86868B] shrink-0">SSC</span><div className="flex flex-wrap gap-x-3 gap-y-1">{renderMembers('이가현 정수명')}</div></div>
+                                <div className="flex gap-4"><span className="w-[40px] text-[#86868B] shrink-0">사업1</span><div className="flex flex-wrap gap-x-3 gap-y-1">{renderMembers('권순일(자문)')}</div></div>
                             </td>
                             <td className="px-[24px] py-[16px] text-[13px] text-[#bbb9af] border-r border-[#333] leading-[22px]">LM 전략·잠재 임차인 피칭<br/>임대차 조건 협의<br/>LM사 관리</td>
                             <td className="px-[24px] py-[16px] text-[13px] text-[#bbb9af] leading-[22px]">EMC<br/>SSC</td>
@@ -106,7 +112,7 @@ export default function StakeInternal() {
                             <td className="px-[24px] py-[16px] border-r border-[#333]">
                                 {renderLeader('김현수', '공간솔루션센터장')}
                             </td>
-                            <td className="px-[24px] py-[16px] text-[13px] text-[#bbb9af] border-r border-[#333] leading-[22px]">이가현 정수명</td>
+                            <td className="px-[24px] py-[16px] text-[13px] border-r border-[#333] leading-[22px]"><div className="flex flex-wrap gap-x-3 gap-y-1">{renderMembers('이가현 정수명')}</div></td>
                             <td rowSpan={2} className="px-[24px] py-[16px] text-[13px] text-[#bbb9af] border-r border-[#333] border-b border-[#333] leading-[22px]">상품 차별화 전략·POC<br/>테넌트 경험 설계<br/>디지털 인프라(보안·통신·DC 등)</td>
                             <td rowSpan={2} className="px-[24px] py-[16px] text-[13px] text-[#bbb9af] border-b border-[#333] leading-[22px]">SSC<br/>디지털사업그룹</td>
                         </tr>
@@ -114,7 +120,7 @@ export default function StakeInternal() {
                             <td className="px-[24px] pb-[16px] pt-[0px] border-r border-[#333]">
                                 {renderLeader('현철호', '디지털사업그룹장')}
                             </td>
-                            <td className="px-[24px] pb-[16px] pt-[0px] text-[13px] text-[#bbb9af] border-r border-[#333] leading-[22px]">신민호</td>
+                            <td className="px-[24px] pb-[16px] pt-[0px] text-[13px] border-r border-[#333] leading-[22px]"><div className="flex flex-wrap gap-x-3 gap-y-1">{renderMembers('신민호')}</div></td>
                         </tr>
 
                         {/* 펀드운용 */}
