@@ -11,7 +11,7 @@ export default function StakeInternal() {
         <div className="flex items-center gap-[12px]">
             <div className="relative w-[36px] h-[36px] shrink-0 rounded-full bg-[#3c3c3c] flex items-center justify-center overflow-hidden">
                 <img src="/lee.jpg" alt={name} className="w-full h-full object-cover" />
-                <div className="absolute inset-0 rounded-full border border-black/15 pointer-events-none"></div>
+                <div className="absolute inset-0 rounded-full border border-white/10 pointer-events-none"></div>
             </div>
             <div className="flex flex-col text-left">
                 <span className="text-white font-bold text-[14px] cursor-pointer hover:underline underline-offset-4 decoration-white/30 transition-all leading-tight">{name}</span>
