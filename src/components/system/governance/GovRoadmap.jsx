@@ -156,7 +156,7 @@ export default function GovRoadmap() {
                                 </li>
                                 <li className="flex items-start gap-[8px]">
                                     <div className="w-[4px] h-[4px] rounded-full bg-[#A1A1AA] mt-[10px] shrink-0"></div>
-                                    <span className="text-[16px] text-white leading-[24px]">프로젝트리츠 TFT와 인터페이스 규약 합의</span>
+                                    <span className="text-[16px] text-white leading-[24px]">프리츠TFT와 인터페이스 규약 합의</span>
                                 </li>
                             </ul>
                         </div>
