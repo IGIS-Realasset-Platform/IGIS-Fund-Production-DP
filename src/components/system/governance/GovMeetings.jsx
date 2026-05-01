@@ -1,81 +1,63 @@
 import React from 'react';
 
 export default function GovMeetings() {
+    const timelineData = [
+        { time: '00', duration: '5분', title: '지난 주 액션 종결 확인 (5분)', desc: '' },
+        { time: '05', duration: '10분', title: '주요 KPI/OKR 변동', desc: '— 대시보드 공유 (10분)' },
+        { time: '15', duration: '10분', title: 'Top10 리스크 업데이트', desc: '— 색상 변동 셀만 (10분)' },
+        { time: '25', duration: '15분', title: '의사결정 안건', desc: '— Two-Lock 표결 (15분)' },
+        { time: '40', duration: '10분', title: '외부 인터페이스 이슈', desc: '— 대주/LP/시공/임차 (10분)' },
+        { time: '50', duration: '5분', title: 'IPR 워킹그룹 진척 (5분)', desc: '' },
+        { time: '55', duration: '5분', title: '차주 액션 / 회의록 합의 (5분)', desc: '' }
+    ];
+
     return (
-        <div className="w-full flex-1 flex flex-col pt-[77px] pb-[60px] max-w-[1200px] mx-auto">
+        <div className="w-full flex-1 flex flex-col pt-[77px] pb-[110px] max-w-[1112px] mx-auto">
             <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[36px]">회의체 운영 방침</h1>
             
-            <div className="w-full bg-[#1A1A1A] border border-[#333] rounded-[24px] overflow-hidden mb-[32px]">
-                <div className="px-[28px] py-[20px] border-b border-[#333] bg-[#222]">
+            <div className="w-full border border-[#333] rounded-[24px] overflow-hidden mb-[32px] bg-transparent">
+                <div className="px-[28px] py-[20px] border-b border-[#333] bg-transparent">
                     <h3 className="text-[16px] font-bold text-white">표준 회의 어젠다 <span className="text-[#86868B] font-normal text-[13px] ml-1">(1시간 기준)</span></h3>
                 </div>
-                <div className="px-[28px] py-[24px]">
-                    <div className="flex flex-col relative before:absolute before:inset-0 before:ml-[50px] before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-[#444] before:to-transparent">
+                <div className="px-[28px] py-[40px]">
+                    <div className="flex flex-col relative before:absolute before:inset-0 before:ml-[34px] md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-[#444] before:via-[#444] before:to-transparent">
                         
+                        {timelineData.map((item, index) => (
+                            <React.Fragment key={index}>
+                                {/* Timeline Node */}
+                                <div className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+                                    <div className="flex items-center justify-center w-[56px] h-[56px] rounded-full border-[2px] border-[#444] bg-[#111] text-white font-bold text-[17px] shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
+                                        {item.time}
+                                    </div>
+                                    
+                                    {/* Speech Bubble */}
+                                    <div className="relative w-[calc(100%-5rem)] md:w-[calc(50%-3.5rem)] p-5 rounded-[16px] bg-[#111] border border-[#3c3c3c]
+                                        md:group-odd:after:content-[''] md:group-odd:after:absolute md:group-odd:after:top-1/2 md:group-odd:after:-translate-y-1/2 md:group-odd:after:-right-[7px] md:group-odd:after:w-[14px] md:group-odd:after:h-[14px] md:group-odd:after:border-t md:group-odd:after:border-r md:group-odd:after:border-[#3c3c3c] md:group-odd:after:rotate-45 md:group-odd:after:bg-[#111]
+                                        md:group-even:after:content-[''] md:group-even:after:absolute md:group-even:after:top-1/2 md:group-even:after:-translate-y-1/2 md:group-even:after:-left-[7px] md:group-even:after:w-[14px] md:group-even:after:h-[14px] md:group-even:after:border-b md:group-even:after:border-l md:group-even:after:border-[#3c3c3c] md:group-even:after:rotate-45 md:group-even:after:bg-[#111]
+                                        
+                                        after:content-[''] after:absolute after:top-1/2 after:-translate-y-1/2 after:-left-[7px] after:w-[14px] after:h-[14px] after:border-b after:border-l after:border-[#3c3c3c] after:rotate-45 after:bg-[#111] md:after:hidden
+                                    ">
+                                        <span className="text-[16px] font-bold text-white block">{item.title}</span>
+                                        {item.desc && <p className="text-[14px] text-[#A1A1AA] mt-2">{item.desc}</p>}
+                                    </div>
+                                </div>
+
+                                {/* Duration Indicator */}
+                                <div className="relative flex justify-center md:justify-normal items-center h-[50px] group">
+                                    <div className="absolute left-[34px] md:left-1/2 -translate-x-1/2 bg-[#111] px-3 py-1 rounded-full border border-[#333] text-[12px] text-[#A1A1AA] z-10">
+                                        {item.duration}
+                                    </div>
+                                </div>
+                            </React.Fragment>
+                        ))}
+
+                        {/* Final Node 60 */}
                         <div className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
-                            <div className="flex items-center justify-center w-10 h-10 rounded-full border border-[#444] bg-[#222] text-[#fbf167] font-bold text-[13px] shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2">
-                                00
+                            <div className="flex items-center justify-center w-[56px] h-[56px] rounded-full border-[2px] border-[#444] bg-[#111] text-white font-bold text-[17px] shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
+                                60
                             </div>
-                            <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-4 rounded-[16px] bg-[#292928] border border-[#3c3c3c]">
-                                <span className="text-[15px] font-bold text-white">지난 주 액션 종결 확인 (5분)</span>
-                            </div>
-                        </div>
-
-                        <div className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active mt-4">
-                            <div className="flex items-center justify-center w-10 h-10 rounded-full border border-[#444] bg-[#222] text-[#A1A1AA] font-bold text-[13px] shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2">
-                                05
-                            </div>
-                            <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-4 rounded-[16px] bg-[#292928] border border-[#3c3c3c]">
-                                <span className="text-[15px] font-bold text-white">주요 KPI/OKR 변동</span>
-                                <p className="text-[13px] text-[#86868B] mt-1">— 대시보드 공유 (10분)</p>
-                            </div>
-                        </div>
-
-                        <div className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active mt-4">
-                            <div className="flex items-center justify-center w-10 h-10 rounded-full border border-[#444] bg-[#222] text-[#e11d48] font-bold text-[13px] shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2">
-                                15
-                            </div>
-                            <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-4 rounded-[16px] bg-[#292928] border border-[#3c3c3c]">
-                                <span className="text-[15px] font-bold text-white">Top10 리스크 업데이트</span>
-                                <p className="text-[13px] text-[#86868B] mt-1">— 색상 변동 셀만 (10분)</p>
-                            </div>
-                        </div>
-
-                        <div className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active mt-4">
-                            <div className="flex items-center justify-center w-10 h-10 rounded-full border border-[#444] bg-[#222] text-[#34d399] font-bold text-[13px] shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2">
-                                25
-                            </div>
-                            <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-4 rounded-[16px] bg-[#292928] border border-[#3c3c3c]">
-                                <span className="text-[15px] font-bold text-white">의사결정 안건</span>
-                                <p className="text-[13px] text-[#86868B] mt-1">— Two-Lock 표결 (15분)</p>
-                            </div>
-                        </div>
-
-                        <div className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active mt-4">
-                            <div className="flex items-center justify-center w-10 h-10 rounded-full border border-[#444] bg-[#222] text-[#818cf8] font-bold text-[13px] shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2">
-                                40
-                            </div>
-                            <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-4 rounded-[16px] bg-[#292928] border border-[#3c3c3c]">
-                                <span className="text-[15px] font-bold text-white">외부 인터페이스 이슈</span>
-                                <p className="text-[13px] text-[#86868B] mt-1">— 대주/LP/시공/임차 (10분)</p>
-                            </div>
-                        </div>
-
-                        <div className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active mt-4">
-                            <div className="flex items-center justify-center w-10 h-10 rounded-full border border-[#444] bg-[#222] text-[#A1A1AA] font-bold text-[13px] shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2">
-                                50
-                            </div>
-                            <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-4 rounded-[16px] bg-[#292928] border border-[#3c3c3c]">
-                                <span className="text-[15px] font-bold text-white">IPR 워킹그룹 진척 (5분)</span>
-                            </div>
-                        </div>
-
-                        <div className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active mt-4">
-                            <div className="flex items-center justify-center w-10 h-10 rounded-full border border-[#444] bg-[#222] text-[#A1A1AA] font-bold text-[13px] shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2">
-                                55
-                            </div>
-                            <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-4 rounded-[16px] bg-[#292928] border border-[#3c3c3c]">
-                                <span className="text-[15px] font-bold text-white">차주 액션 / 회의록 합의 (5분)</span>
+                            <div className="w-[calc(100%-5rem)] md:w-[calc(50%-3.5rem)] opacity-0">
+                                {/* Invisible spacer block */}
                             </div>
                         </div>
 
