@@ -19,7 +19,7 @@ export default function GovMeetings() {
                 <div className="px-[28px] py-[20px] border-b border-[#333] bg-transparent">
                     <h3 className="text-[16px] font-bold text-white">표준 회의 어젠다 <span className="text-[#86868B] font-normal text-[13px] ml-1">(1시간 기준)</span></h3>
                 </div>
-                <div className="px-[28px] py-[40px]">
+                <div className="px-[28px] py-[34px]">
                     <div className="flex flex-col relative before:absolute before:inset-0 before:ml-[34px] md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-[#444] before:via-[#444] before:to-transparent">
                         
                         {timelineData.map((item, index) => (
@@ -31,7 +31,7 @@ export default function GovMeetings() {
                                     </div>
                                     
                                     {/* Speech Bubble */}
-                                    <div className="relative w-[calc(100%-5rem)] md:w-[calc(50%-156px)] md:group-odd:mr-[100px] md:group-even:ml-[100px] px-5 py-[14px] rounded-[16px] bg-[#111]
+                                    <div className="relative w-[calc(100%-5rem)] md:w-[calc(50%-156px)] md:group-odd:mr-[100px] md:group-even:ml-[100px] p-5 rounded-[16px] bg-[#111]
                                         md:group-odd:after:content-[''] md:group-odd:after:absolute md:group-odd:after:top-1/2 md:group-odd:after:-translate-y-1/2 md:group-odd:after:-left-[7px] md:group-odd:after:w-[14px] md:group-odd:after:h-[14px] md:group-odd:after:rotate-45 md:group-odd:after:bg-[#111]
                                         md:group-even:after:content-[''] md:group-even:after:absolute md:group-even:after:top-1/2 md:group-even:after:-translate-y-1/2 md:group-even:after:-right-[7px] md:group-even:after:w-[14px] md:group-even:after:h-[14px] md:group-even:after:rotate-45 md:group-even:after:bg-[#111]
                                         
