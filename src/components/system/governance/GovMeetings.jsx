@@ -88,8 +88,7 @@ export default function GovMeetings() {
             </div>
 
 
-            {/* Divider */}
-            <div className="w-full h-px bg-[#333] my-[80px]"></div>
+
 
             {/* 정기 회의체 */}
             <h2 className="text-[28px] font-bold text-white mb-[8px] tracking-tight">정기 회의체 (Cadence)</h2>
