@@ -90,7 +90,7 @@ export default function GovRaci() {
                     <tbody className="divide-y divide-[#333]">
                         {raciData.map((row, idx) => (
                             <tr key={idx} className="hover:bg-[#292928] transition-colors group">
-                                <td className="px-[24px] py-[14px] text-[14px] text-[#E5E5E5] border-r border-[#333] text-left group-hover:text-white transition-colors">{row.task}</td>
+                                <td className="px-[24px] py-[14px] text-[15px] text-[#E5E5E5] border-r border-[#333] text-left group-hover:text-white transition-colors">{row.task}</td>
                                 <td className="px-[12px] py-[14px] border-r border-[#333]">{renderBadge(row.pm)}</td>
                                 <td className="px-[12px] py-[14px] border-r border-[#333]">{renderBadge(row.lfc)}</td>
                                 <td className="px-[12px] py-[14px] border-r border-[#333]">{renderBadge(row.dev)}</td>
@@ -132,7 +132,7 @@ export default function GovRaci() {
                     <tbody className="divide-y divide-[#333]">
                         {phase1Data.map((row, idx) => (
                             <tr key={idx} className="hover:bg-[#292928] transition-colors group">
-                                <td className="px-[24px] py-[14px] text-[14px] text-[#E5E5E5] border-r border-[#333] text-left group-hover:text-white transition-colors">{row.task}</td>
+                                <td className="px-[24px] py-[14px] text-[15px] text-[#E5E5E5] border-r border-[#333] text-left group-hover:text-white transition-colors">{row.task}</td>
                                 <td className="px-[12px] py-[14px] border-r border-[#333]">{renderBadge(row.col1)}</td>
                                 <td className="px-[12px] py-[14px] border-r border-[#333]">{renderBadge(row.col2)}</td>
                                 <td className="px-[12px] py-[14px] border-r border-[#333]">{renderBadge(row.col3)}</td>
@@ -165,7 +165,7 @@ export default function GovRaci() {
                     <tbody className="divide-y divide-[#333]">
                         {phase2Data.map((row, idx) => (
                             <tr key={idx} className="hover:bg-[#292928] transition-colors group">
-                                <td className="px-[24px] py-[14px] text-[14px] text-[#E5E5E5] border-r border-[#333] text-left group-hover:text-white transition-colors">{row.task}</td>
+                                <td className="px-[24px] py-[14px] text-[15px] text-[#E5E5E5] border-r border-[#333] text-left group-hover:text-white transition-colors">{row.task}</td>
                                 <td className="px-[12px] py-[14px] border-r border-[#333]">{renderBadge(row.col1)}</td>
                                 <td className="px-[12px] py-[14px] border-r border-[#333]">{renderBadge(row.col2)}</td>
                                 <td className="px-[12px] py-[14px] border-r border-[#333]">{renderBadge(row.col3)}</td>
@@ -196,7 +196,7 @@ export default function GovRaci() {
                     <tbody className="divide-y divide-[#333]">
                         {phase3Data.map((row, idx) => (
                             <tr key={idx} className="hover:bg-[#292928] transition-colors group">
-                                <td className="px-[24px] py-[14px] text-[14px] text-[#E5E5E5] border-r border-[#333] text-left group-hover:text-white transition-colors">{row.task}</td>
+                                <td className="px-[24px] py-[14px] text-[15px] text-[#E5E5E5] border-r border-[#333] text-left group-hover:text-white transition-colors">{row.task}</td>
                                 <td className="px-[12px] py-[14px] border-r border-[#333]">{renderBadge(row.col1)}</td>
                                 <td className="px-[12px] py-[14px] border-r border-[#333]">{renderBadge(row.col2)}</td>
                                 <td className="px-[12px] py-[14px] border-r border-[#333]">{renderBadge(row.col3)}</td>
