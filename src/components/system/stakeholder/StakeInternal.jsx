@@ -3,7 +3,7 @@ import React from 'react';
 export default function StakeInternal() {
     const renderMembers = (namesString) => {
         return namesString.split(' ').map((name, idx) => (
-            <span key={idx} className="text-white cursor-pointer hover:underline underline-offset-4 decoration-white/30 transition-all">{name}</span>
+            <span key={idx} className="text-white cursor-pointer hover:text-[#fbf167] transition-colors">{name}</span>
         ));
     };
 
@@ -14,7 +14,7 @@ export default function StakeInternal() {
                 <div className="absolute inset-0 rounded-full border border-white/10 pointer-events-none"></div>
             </div>
             <div className="flex flex-col text-left">
-                <span className="text-white font-bold text-[14px] cursor-pointer hover:underline underline-offset-4 decoration-white/30 transition-all leading-tight">{name}</span>
+                <span className="text-white font-bold text-[14px] cursor-pointer hover:text-[#fbf167] transition-colors leading-tight">{name}</span>
                 <span className="text-[#A1A1AA] text-[12px] mt-[2px] leading-tight">{title}</span>
             </div>
         </div>
