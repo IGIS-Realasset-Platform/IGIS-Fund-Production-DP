@@ -116,7 +116,7 @@ export default function GovFundRnR() {
                     <div className="flex items-start">
                         <span className="inline-flex min-w-[24px] text-[16px] font-bold text-[#86868B] mt-[2px]">1)</span>
                         <div>
-                            <span className="text-[17px] font-bold text-[#E5E5E5] mr-[8px]">의사결정 분리</span>
+                            <span className="text-[17px] font-bold text-[#2997FF] mr-[8px]">의사결정 분리</span>
                             <span className="text-[17px] text-[#A1A1AA] leading-[28px]">
                                 PFV 이사회 결정과 펀드 운용지시는 별도 결재선·별도 의사록으로 분리한다.
                             </span>
@@ -125,7 +125,7 @@ export default function GovFundRnR() {
                     <div className="flex items-start">
                         <span className="inline-flex min-w-[24px] text-[16px] font-bold text-[#86868B] mt-[2px]">2)</span>
                         <div>
-                            <span className="text-[17px] font-bold text-[#E5E5E5] mr-[8px]">자금 분리</span>
+                            <span className="text-[17px] font-bold text-[#2997FF] mr-[8px]">자금 분리</span>
                             <span className="text-[17px] text-[#A1A1AA] leading-[28px]">
                                 PFV 계좌·펀드 계좌·신탁 계좌는 통합되지 않으며, 자금 이동은 운용지시서 기반으로만 발생한다.
                             </span>
@@ -134,7 +134,7 @@ export default function GovFundRnR() {
                     <div className="flex items-start">
                         <span className="inline-flex min-w-[24px] text-[16px] font-bold text-[#86868B] mt-[2px]">3)</span>
                         <div>
-                            <span className="text-[17px] font-bold text-[#E5E5E5] mr-[8px]">정보 분리</span>
+                            <span className="text-[17px] font-bold text-[#2997FF] mr-[8px]">정보 분리</span>
                             <span className="text-[17px] text-[#A1A1AA] leading-[28px]">
                                 LP는 펀드 운용 정보에만 접근하며, PFV의 일상 운영 데이터는 KAM 1파트의 가공·승인을 거친 보고서를 통해서만 제공된다.
                             </span>
