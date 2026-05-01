@@ -110,7 +110,7 @@ export default function GovMeetings() {
                             <tr key={idx} className="hover:bg-[#292928] transition-colors group">
                                 <td className="pl-[22px] pr-[12px] py-[12px] text-[15px] text-[#E5E5E5]  group-hover:text-white transition-colors text-left font-semibold">{row.meeting}</td>
                                 <td className="pl-[22px] pr-[12px] py-[12px] text-[14px] transition-colors"><span className="inline-block px-[10px] py-[4px] rounded-[6px] bg-[#111] text-[#c3c2b7] group-hover:text-white transition-colors whitespace-nowrap">{row.period}</span></td>
-                                <td className="pl-[22px] pr-[12px] py-[12px] text-[14px] font-bold text-white transition-colors">{row.leader}</td>
+                                <td className="pl-[22px] pr-[12px] py-[12px] text-[14px] font-bold text-white whitespace-nowrap transition-colors">{row.leader}</td>
                                 <td className="pl-[22px] pr-[12px] py-[12px] text-[14px] text-[#c3c2b7]  text-left group-hover:text-[#E5E5E5] transition-colors">{row.attendees}</td>
                                 <td className="pl-[22px] pr-[12px] py-[12px] text-[14px] text-[#c3c2b7] text-left group-hover:text-[#E5E5E5] transition-colors">{row.output}</td>
                             </tr>
@@ -136,7 +136,7 @@ export default function GovMeetings() {
                             <tr key={idx} className="hover:bg-[#292928] transition-colors group">
                                 <td className="pl-[22px] pr-[12px] py-[12px] text-[15px] text-[#E5E5E5]  group-hover:text-white transition-colors text-left font-semibold">{row.meeting}</td>
                                 <td className="pl-[22px] pr-[12px] py-[12px] text-[14px] transition-colors"><span className="inline-block px-[10px] py-[4px] rounded-[6px] bg-[#111] text-[#c3c2b7] group-hover:text-white transition-colors whitespace-nowrap">{row.period}</span></td>
-                                <td className="pl-[22px] pr-[12px] py-[12px] text-[14px] font-bold text-white transition-colors">{row.leader}</td>
+                                <td className="pl-[22px] pr-[12px] py-[12px] text-[14px] font-bold text-white whitespace-nowrap transition-colors">{row.leader}</td>
                                 <td className="pl-[22px] pr-[12px] py-[12px] text-[14px] text-[#c3c2b7]  text-left group-hover:text-[#E5E5E5] transition-colors">{row.attendees}</td>
                                 <td className="pl-[22px] pr-[12px] py-[12px] text-[14px] text-[#c3c2b7] text-left group-hover:text-[#E5E5E5] transition-colors">{row.output}</td>
                             </tr>
