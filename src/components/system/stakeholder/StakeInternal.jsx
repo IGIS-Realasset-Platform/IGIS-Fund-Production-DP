@@ -79,10 +79,10 @@ export default function StakeInternal() {
                         {/* 개발관리 */}
                         <tr className="border-b border-[#333]">
                             <td className="px-[24px] py-[16px] text-[14px] font-normal text-[#E5E5E5] border-r border-[#333]">개발관리</td>
-                            <td className="px-[14px] py-[16px]  align-top">
+                            <td className="px-[14px] py-[16px]">
                                 {renderLeader('홍장군', '개발솔루션센터장')}
                             </td>
-                            <td className="px-[14px] py-[16px] text-[13px] text-[#bbb9af] border-r border-[#333] leading-[24px]">
+                            <td className="px-[14px] py-[16px] text-[13px] text-[#bbb9af] border-r border-[#333] leading-[22px]">
                                 <div className="flex gap-4"><span className="w-[50px] text-[#86868B] shrink-0">건설담당</span><div className="flex flex-wrap gap-x-3 gap-y-1">{renderMembers('채원 김보성 전승희')}</div></div>
                                 <div className="flex gap-4"><span className="w-[50px] text-[#86868B] shrink-0">설계담당</span><div className="flex flex-wrap gap-x-3 gap-y-1">{renderMembers('김대익 장성진')}</div></div>
                                 <div className="flex gap-4"><span className="w-[50px] text-[#86868B] shrink-0">인허가</span><div className="flex flex-wrap gap-x-3 gap-y-1">{renderMembers('이정훈')}</div></div>
@@ -95,10 +95,10 @@ export default function StakeInternal() {
                         {/* 기업마케팅 */}
                         <tr className="border-b border-[#333]">
                             <td className="px-[24px] py-[16px] text-[14px] font-normal text-[#E5E5E5] border-r border-[#333]">기업마케팅</td>
-                            <td className="px-[14px] py-[16px]  align-top">
+                            <td className="px-[14px] py-[16px]">
                                 {renderLeader('김민지', '기업마케팅담당')}
                             </td>
-                            <td className="px-[14px] py-[16px] text-[13px] text-[#bbb9af] border-r border-[#333] leading-[24px]">
+                            <td className="px-[14px] py-[16px] text-[13px] text-[#bbb9af] border-r border-[#333] leading-[22px]">
                                 <div className="flex gap-4"><span className="w-[40px] text-[#86868B] shrink-0">EMC</span><div className="flex flex-wrap gap-x-3 gap-y-1">{renderMembers('고아라')}</div></div>
                                 <div className="flex gap-4"><span className="w-[40px] text-[#86868B] shrink-0">SSC</span><div className="flex flex-wrap gap-x-3 gap-y-1">{renderMembers('이가현 정수명')}</div></div>
                                 <div className="flex gap-4"><span className="w-[40px] text-[#86868B] shrink-0">사업1</span><div className="flex flex-wrap gap-x-3 gap-y-1">{renderMembers('권순일(자문)')}</div></div>
