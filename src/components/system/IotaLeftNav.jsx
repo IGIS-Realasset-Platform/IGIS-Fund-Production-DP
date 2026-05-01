@@ -259,6 +259,7 @@ export default function IotaLeftNav({ onMenuChange, currentPath = '' }) {
                                 { label: '90 Day Roadmap', path: 'platform/iotaseoul/governance/roadmap' },
                                 { label: 'RACI', path: 'platform/iotaseoul/governance/raci' },
                                 { label: '회의체 운영 방침', path: 'platform/iotaseoul/governance/meetings' },
+                                { label: '펀드 운용 R&R', path: 'platform/iotaseoul/governance/fund-rnr' },
                                 { label: '프로젝트리츠 워킹그룹', path: 'platform/iotaseoul/governance/working-group' },
                                 { label: 'PFV 단일 창구 운영 원칙', path: 'platform/iotaseoul/governance/pfv-rules' },
                                 { label: '주요 사안 에스컬레이션 라인', path: 'platform/iotaseoul/governance/escalation' },

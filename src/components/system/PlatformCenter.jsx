@@ -4,6 +4,7 @@ import GovPrinciples from './governance/GovPrinciples';
 import GovRaci from './governance/GovRaci';
 import GovRoadmap from './governance/GovRoadmap';
 import GovMeetings from './governance/GovMeetings';
+import GovFundRnR from './governance/GovFundRnR';
 import GovWorkingGroup from './governance/GovWorkingGroup';
 import GovPfvRules from './governance/GovPfvRules';
 import GovEscalation from './governance/GovEscalation';
@@ -29,6 +30,7 @@ export default function PlatformCenter({ currentPath = '' }) {
             case 'platform/iotaseoul/governance/raci': return <GovRaci />;
             case 'platform/iotaseoul/governance/roadmap': return <GovRoadmap />;
             case 'platform/iotaseoul/governance/meetings': return <GovMeetings />;
+            case 'platform/iotaseoul/governance/fund-rnr': return <GovFundRnR />;
             case 'platform/iotaseoul/governance/working-group': return <GovWorkingGroup />;
             case 'platform/iotaseoul/governance/pfv-rules': return <GovPfvRules />;
             case 'platform/iotaseoul/governance/escalation': return <GovEscalation />;
