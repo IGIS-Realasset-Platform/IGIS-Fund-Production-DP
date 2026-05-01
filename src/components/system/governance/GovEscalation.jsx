@@ -11,7 +11,7 @@ export default function GovEscalation() {
     ];
 
     return (
-        <div className="w-full flex-1 flex flex-col pt-[77px] pb-[60px] max-w-[1200px] mx-auto">
+        <div className="w-full flex-1 flex flex-col pt-[77px] pb-[60px] max-w-[1112px] mx-auto">
             <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[12px]">주요 사안 에스컬레이션 라인</h1>
             <p className="text-[15px] text-[#86868B] mb-[36px]">외부 파트너와의 사안이 ‘일상’의 범위를 넘는 순간 에스컬레이션 라인이 자동 작동합니다.</p>
             
