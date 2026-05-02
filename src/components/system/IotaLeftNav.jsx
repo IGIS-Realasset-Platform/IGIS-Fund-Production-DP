@@ -261,8 +261,7 @@ export default function IotaLeftNav({ onMenuChange, currentPath = '' }) {
                                 { label: '회의체 운영 방침', path: 'platform/iotaseoul/governance/meetings' },
                                 { label: '펀드 운용 R&R', path: 'platform/iotaseoul/governance/fund-rnr' },
                                 { label: '프로젝트리츠 워킹그룹', path: 'platform/iotaseoul/governance/working-group' },
-                                { label: 'PFV 단일 창구 운영 원칙', path: 'platform/iotaseoul/governance/pfv-rules' },
-                                { label: '주요 사안 에스컬레이션 라인', path: 'platform/iotaseoul/governance/escalation' },
+                                { label: '대외 소통 정책', path: 'platform/iotaseoul/governance/external-comm' },
                                 { label: 'Top 10 리스크 대응 방향', path: 'platform/iotaseoul/governance/risk-top10' }].map((item, idx) => {
                                 const isActive = currentPath === item.path;
                                 return (

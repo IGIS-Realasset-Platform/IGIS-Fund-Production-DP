@@ -6,8 +6,7 @@ import GovRoadmap from './governance/GovRoadmap';
 import GovMeetings from './governance/GovMeetings';
 import GovFundRnR from './governance/GovFundRnR';
 import GovWorkingGroup from './governance/GovWorkingGroup';
-import GovPfvRules from './governance/GovPfvRules';
-import GovEscalation from './governance/GovEscalation';
+import GovExternalComm from './governance/GovExternalComm';
 import GovRiskTop10 from './governance/GovRiskTop10';
 import StakeInternal from './stakeholder/StakeInternal';
 import StakeLp from './stakeholder/StakeLp';
@@ -32,8 +31,7 @@ export default function PlatformCenter({ currentPath = '' }) {
             case 'platform/iotaseoul/governance/meetings': return <GovMeetings />;
             case 'platform/iotaseoul/governance/fund-rnr': return <GovFundRnR />;
             case 'platform/iotaseoul/governance/working-group': return <GovWorkingGroup />;
-            case 'platform/iotaseoul/governance/pfv-rules': return <GovPfvRules />;
-            case 'platform/iotaseoul/governance/escalation': return <GovEscalation />;
+            case 'platform/iotaseoul/governance/external-comm': return <GovExternalComm />;
             case 'platform/iotaseoul/governance/risk-top10': return <GovRiskTop10 />;
             default: return null;
         }

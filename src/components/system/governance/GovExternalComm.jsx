@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function GovPfvRules() {
+export default function GovExternalComm() {
     const rulesData = [
         { partner: '시공사', window: '개발솔루션 <span className="text-[#E5E5E5] hover:text-[#fbf167] cursor-pointer transition-colors hover:underline underline-offset-4 decoration-[#fbf167]/50">홍장군</span>', backup: 'Co-PM <span className="text-[#E5E5E5] hover:text-[#fbf167] cursor-pointer transition-colors hover:underline underline-offset-4 decoration-[#fbf167]/50">권순일</span> / <span className="text-[#E5E5E5] hover:text-[#fbf167] cursor-pointer transition-colors hover:underline underline-offset-4 decoration-[#fbf167]/50">강순용</span>', auth: 'UW 범위 내 자율, UW 외는 PM/CFT 운영위 승인' },
         { partner: '설계사', window: '개발솔루션 설계담당(<span className="text-[#E5E5E5] hover:text-[#fbf167] cursor-pointer transition-colors hover:underline underline-offset-4 decoration-[#fbf167]/50">김대익</span>·<span className="text-[#E5E5E5] hover:text-[#fbf167] cursor-pointer transition-colors hover:underline underline-offset-4 decoration-[#fbf167]/50">장성진</span>)', backup: 'PM <span className="text-[#E5E5E5] hover:text-[#fbf167] cursor-pointer transition-colors hover:underline underline-offset-4 decoration-[#fbf167]/50">강순용</span>', auth: 'Alt 결정은 PM 단독, 상품 변경은 SSC 협의' },
@@ -14,11 +14,21 @@ export default function GovPfvRules() {
         { partner: '외부 법무·회계·감정 (IPR)', window: '프리츠 TFT <span className="text-[#E5E5E5] hover:text-[#fbf167] cursor-pointer transition-colors hover:underline underline-offset-4 decoration-[#fbf167]/50">권순일</span>', backup: 'PM <span className="text-[#E5E5E5] hover:text-[#fbf167] cursor-pointer transition-colors hover:underline underline-offset-4 decoration-[#fbf167]/50">강순용</span> (사실관계 한정)', auth: '자료 외부 반출 시 워터마크·로그' },
     ];
 
+    const esData = [
+        { trigger: 'UW 범위 외 일정/예산 변경', actor: 'PM <span className="text-[#E5E5E5] hover:text-[#fbf167] cursor-pointer transition-colors hover:underline underline-offset-4 decoration-[#fbf167]/50">강순용</span>', step1: 'CFT 운영위 임시 소집', final: '부문대표 승인 + LP 통지' },
+        { trigger: 'Covenants 위반 가능성', actor: 'LFC <span className="text-[#E5E5E5] hover:text-[#fbf167] cursor-pointer transition-colors hover:underline underline-offset-4 decoration-[#fbf167]/50">박준호</span>', step1: 'PM·KAM·법무 자문 라운드', final: '부문대표 승인 후 대주단 통지' },
+        { trigger: '핵심 임차인 LOI 철회', actor: 'EMC <span className="text-[#E5E5E5] hover:text-[#fbf167] cursor-pointer transition-colors hover:underline underline-offset-4 decoration-[#fbf167]/50">김민지</span>', step1: 'PM·SSC·KAM 임시 LM 회의', final: 'PM 결정, 영향분석 후 운영위 통지' },
+        { trigger: '규제·인허가·소송', actor: '<span className="text-[#E5E5E5] hover:text-[#fbf167] cursor-pointer transition-colors hover:underline underline-offset-4 decoration-[#fbf167]/50">권순일</span> / <span className="text-[#E5E5E5] hover:text-[#fbf167] cursor-pointer transition-colors hover:underline underline-offset-4 decoration-[#fbf167]/50">이정훈</span>', step1: '외부 송무 자문 + CFT 총괄 검토', final: '부문대표·법무 공동 결정, LP 통지' },
+        { trigger: '미디어/평판 이슈', actor: 'PM / CFT 총괄', step1: '부문 커뮤니케이션 (외부 PR 자문)', final: '부문대표 단독 (24시간 내)' },
+        { trigger: 'LP 임시 출자/분배 요청', actor: 'KAM <span className="text-[#E5E5E5] hover:text-[#fbf167] cursor-pointer transition-colors hover:underline underline-offset-4 decoration-[#fbf167]/50">김행단</span>', step1: 'LFC·운용지원 검토', final: 'CFT 운영위 승인 → 자금집행' },
+    ];
+
     return (
         <div className="w-full flex-1 flex flex-col pt-[77px] pb-[160px] max-w-[1112px] mx-auto">
-            <h1 className="text-[37px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[12px]">PFV 단일 창구 운영 원칙</h1>
-            <p className="text-[16px] text-[#86868B] mb-[36px]">외부 파트너로부터 ‘동일 사안에 대해 다른 답이 나가는 상황’을 원천 차단하기 위해 단일 창구를 지정합니다.</p>
+            <h1 className="text-[37px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[12px]">대외 소통 정책</h1>
+            <p className="text-[16px] text-[#86868B] mb-[48px]">외부 파트너로부터의 혼선을 원천 차단하기 위한 단일 창구를 지정하고, 일상의 범위를 넘어서는 주요 사안에 대한 에스컬레이션 라인을 통합 규정합니다.</p>
             
+            <h2 className="text-[20px] font-bold text-white mb-[16px]">PFV 단일 창구 운영 원칙</h2>
             <div className="w-full bg-[#1A1A1A] border border-[#333] rounded-[24px] overflow-hidden">
                 <table className="w-full text-left">
                     <thead className="bg-[#222]">
@@ -40,6 +50,39 @@ export default function GovPfvRules() {
                         ))}
                     </tbody>
                 </table>
+            </div>
+
+            <div className="w-full h-px bg-[#333] my-[56px]"></div>
+
+            <h2 className="text-[20px] font-bold text-white mb-[16px]">주요 사안 에스컬레이션 라인</h2>
+            <div className="flex flex-col gap-3">
+                {esData.map((row, idx) => (
+                    <div key={idx} className="bg-[#292928] border border-[#3c3c3c] rounded-[16px] p-[20px] flex items-center hover:border-[#555] transition-colors">
+                        <div className="w-[280px] pr-4">
+                            <span className="block text-[13px] text-[#e11d48] font-bold mb-1">Trigger</span>
+                            <span className="text-[15px] font-bold text-white">{row.trigger}</span>
+                            <div className="text-[13px] text-[#A1A1AA] mt-1" dangerouslySetInnerHTML={{ __html: row.actor }}></div>
+                        </div>
+                        
+                        <div className="flex-1 flex items-center px-4">
+                            <div className="w-[40px] flex justify-center text-[#555]">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                            </div>
+                            <div className="flex-1 text-center bg-[#1A1A1A] border border-[#333] rounded-[8px] py-3 px-4">
+                                <span className="text-[13px] text-[#86868B] block mb-1">1차 에스컬레이션</span>
+                                <span className="text-[14px] text-[#E5E5E5] font-medium">{row.step1}</span>
+                            </div>
+                            <div className="w-[40px] flex justify-center text-[#555]">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                            </div>
+                        </div>
+
+                        <div className="w-[280px] pl-4 text-right">
+                            <span className="block text-[13px] text-[#fbf167] font-bold mb-1">Final Decision</span>
+                            <span className="text-[15px] font-bold text-white">{row.final}</span>
+                        </div>
+                    </div>
+                ))}
             </div>
         </div>
     );
