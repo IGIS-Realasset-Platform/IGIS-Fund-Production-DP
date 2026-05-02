@@ -32,8 +32,8 @@ export default function GovPfvRules() {
                     <tbody className="divide-y divide-[#333]">
                         {rulesData.map((row, idx) => (
                             <tr key={idx} className="hover:bg-[#292928] transition-colors">
-                                <td className="px-[24px] py-[16px] text-[15px] font-bold text-[#E5E5E5] border-r border-[#333]">{row.partner}</td>
-                                <td className="px-[24px] py-[16px] text-[15px] font-bold text-[#E5E5E5] border-r border-[#333]" dangerouslySetInnerHTML={{ __html: row.window }}></td>
+                                <td className="px-[24px] py-[16px] text-[15px] font-bold text-[#E5E5E5] border-r border-[#333] whitespace-nowrap">{row.partner}</td>
+                                <td className="px-[24px] py-[16px] text-[15px] font-bold text-[#E5E5E5] border-r border-[#333] whitespace-nowrap" dangerouslySetInnerHTML={{ __html: row.window }}></td>
                                 <td className="px-[24px] py-[16px] text-[14px] text-[#A1A1AA] border-r border-[#333]" dangerouslySetInnerHTML={{ __html: row.backup }}></td>
                                 <td className="px-[24px] py-[16px] text-[14px] text-[#A1A1AA]">{row.auth}</td>
                             </tr>
