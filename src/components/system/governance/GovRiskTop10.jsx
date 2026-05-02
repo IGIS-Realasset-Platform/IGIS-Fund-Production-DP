@@ -19,15 +19,15 @@ export default function GovRiskTop10() {
             <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[12px]">Top 10 리스크 대응 방향</h1>
             <p className="text-[15px] text-[#86868B] mb-[36px]">리스크 등록부는 통합 데이터룸의 핵심 운영 도구입니다. 식별된 Top 10 리스크와 1차 대응 셀입니다.</p>
             
-            <div className="w-full border-t border-[#333] overflow-hidden mt-[12px]">
+            <div className="w-full bg-[#1A1A1A] border border-[#333] rounded-[24px] overflow-hidden mt-[12px]">
                 <table className="w-full text-left">
-                    <thead>
+                    <thead className="bg-[#222]">
                         <tr>
                             <th className="px-[24px] py-[16px] text-[15px] font-bold text-[#555] border-b border-[#333] w-[60px] text-center">#</th>
                             <th className="px-[24px] py-[16px] text-[15px] font-bold text-[#86868B] border-b border-[#333] border-r border-[#333] w-[300px]">리스크</th>
                             <th className="px-[24px] py-[16px] text-[15px] font-bold text-[#E5E5E5] border-b border-[#333] border-r border-[#333] w-[200px]">1차 대응 셀</th>
                             <th className="px-[24px] py-[16px] text-[15px] font-bold text-[#e11d48] border-b border-[#333] border-r border-[#333] w-[200px]">트리거</th>
-                            <th className="px-[24px] py-[16px] text-[15px] font-bold text-[#fbf167] border-b border-[#333] border-r border-[#333] w-[160px]">최종 책임</th>
+                            <th className="px-[24px] py-[16px] text-[15px] font-bold text-white border-b border-[#333] border-r border-[#333] w-[160px]">최종 책임</th>
                             <th className="px-[24px] py-[16px] text-[15px] font-bold text-[#86868B] border-b border-[#333] w-[120px]">상태</th>
                         </tr>
                     </thead>
@@ -38,10 +38,10 @@ export default function GovRiskTop10() {
                                 <td className="px-[24px] py-[16px] text-[16px] font-bold text-white border-r border-[#333]">{row.risk}</td>
                                 <td className="px-[24px] py-[16px] text-[15px] text-white border-r border-[#333]" dangerouslySetInnerHTML={{ __html: row.cell }}></td>
                                 <td className="px-[24px] py-[16px] text-[15px] font-medium text-[#c3c2b7] border-r border-[#333]">{row.trigger}</td>
-                                <td className="px-[24px] py-[16px] text-[15px] font-bold text-[#E5E5E5] border-r border-[#333]">{row.final}</td>
+                                <td className="px-[24px] py-[16px] text-[15px] font-bold text-white border-r border-[#333]">{row.final}</td>
                                 <td className="px-[24px] py-[16px]">
-                                    <div className="inline-flex items-center justify-center bg-black border border-[#333] rounded-[6px] px-[12px] py-[6px]">
-                                        <span className={`text-[13px] font-bold ${row.status === '주의' ? 'text-[#f59e0b]' : 'text-[#10b981]'}`}>{row.status}</span>
+                                    <div className="inline-flex items-center justify-center bg-black rounded-[12px] px-[12px] py-[6px]">
+                                        <span className={`text-[13px] font-bold ${row.status === '주의' ? 'text-[#f59e0b]' : 'text-[#2997FF]'}`}>{row.status}</span>
                                     </div>
                                 </td>
                             </tr>
