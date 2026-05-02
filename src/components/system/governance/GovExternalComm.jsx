@@ -54,33 +54,51 @@ export default function GovExternalComm() {
 
             <div className="w-full h-px bg-[#333] my-[56px]"></div>
 
-            <h2 className="text-[20px] font-bold text-white mb-[16px]">주요 사안 에스컬레이션 라인</h2>
-            <div className="flex flex-col gap-3">
+            <h2 className="text-[20px] font-bold text-white mb-[16px]">범위 외 사안 에스컬레이션 라인</h2>
+            <div className="flex flex-col gap-[12px]">
                 {esData.map((row, idx) => (
-                    <div key={idx} className="bg-[#292928] border border-[#3c3c3c] rounded-[16px] p-[20px] flex items-center hover:border-[#555] transition-colors">
-                        <div className="w-[280px] pr-4">
-                            <span className="block text-[13px] text-[#e11d48] font-bold mb-1">Trigger</span>
-                            <span className="text-[15px] font-bold text-white">{row.trigger}</span>
-                            <div className="text-[13px] text-[#A1A1AA] mt-1" dangerouslySetInnerHTML={{ __html: row.actor }}></div>
-                        </div>
+                    <div key={idx} className="flex flex-col md:flex-row md:items-stretch gap-[12px] group">
                         
-                        <div className="flex-1 flex items-center px-4">
-                            <div className="w-[40px] flex justify-center text-[#555]">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                        {/* Left Box (Trigger) */}
+                        <div className="flex-1 flex flex-col justify-center bg-[#1E1E1E] border border-[#3c3c3c] rounded-[16px] p-[20px] transition-colors group-hover:bg-[#292928]">
+                            <div className="flex items-center mb-[8px]">
+                                <div className="w-[8px] h-[8px] rounded-full bg-[#e11d48] mr-[12px] shrink-0"></div>
+                                <span className="text-[13px] text-[#e11d48] font-bold">Trigger</span>
                             </div>
-                            <div className="flex-1 text-center bg-[#1A1A1A] border border-[#333] rounded-[8px] py-3 px-4">
-                                <span className="text-[13px] text-[#86868B] block mb-1">1차 에스컬레이션</span>
-                                <span className="text-[14px] text-[#E5E5E5] font-medium">{row.step1}</span>
-                            </div>
-                            <div className="w-[40px] flex justify-center text-[#555]">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-                            </div>
+                            <div className="text-[18px] text-[#E5E5E5] font-medium text-left leading-snug pl-[20px] mb-[4px]">{row.trigger}</div>
+                            <div className="text-[14px] text-[#A1A1AA] pl-[20px]" dangerouslySetInnerHTML={{ __html: row.actor }}></div>
                         </div>
 
-                        <div className="w-[280px] pl-4 text-right">
-                            <span className="block text-[13px] text-[#fbf167] font-bold mb-1">Final Decision</span>
-                            <span className="text-[15px] font-bold text-white">{row.final}</span>
+                        {/* Arrow */}
+                        <div className="flex items-center justify-center text-[#666] shrink-0 px-[4px]">
+                            <svg className="hidden md:block" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                            <svg className="block md:hidden" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
                         </div>
+
+                        {/* Middle Box (1차 에스컬레이션) */}
+                        <div className="flex-1 flex flex-col justify-center bg-[#1E1E1E] border border-[#3c3c3c] rounded-[16px] p-[20px] transition-colors group-hover:bg-[#292928]">
+                            <div className="flex items-center mb-[8px]">
+                                <div className="w-[8px] h-[8px] rounded-full bg-[#86868B] mr-[12px] shrink-0"></div>
+                                <span className="text-[13px] text-[#86868B] font-bold">1차 에스컬레이션</span>
+                            </div>
+                            <div className="text-[18px] text-[#E5E5E5] font-medium text-left leading-snug pl-[20px]">{row.step1}</div>
+                        </div>
+
+                        {/* Arrow */}
+                        <div className="flex items-center justify-center text-[#666] shrink-0 px-[4px]">
+                            <svg className="hidden md:block" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                            <svg className="block md:hidden" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
+                        </div>
+
+                        {/* Right Box (Final Decision) */}
+                        <div className="flex-1 flex flex-col justify-center bg-[#1E1E1E] border border-[#3c3c3c] rounded-[16px] p-[20px] transition-colors group-hover:bg-[#292928]">
+                            <div className="flex items-center mb-[8px]">
+                                <div className="w-[8px] h-[8px] rounded-full bg-[#fbf167] mr-[12px] shrink-0"></div>
+                                <span className="text-[13px] text-[#fbf167] font-bold">Final Decision</span>
+                            </div>
+                            <div className="text-[18px] text-[#fbf167] font-bold text-left leading-snug pl-[20px]">{row.final}</div>
+                        </div>
+
                     </div>
                 ))}
             </div>
