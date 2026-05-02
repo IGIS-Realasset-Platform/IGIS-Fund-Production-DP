@@ -6,7 +6,7 @@ export default function GovSystem() {
         <div className="w-full flex flex-col pt-[77px] pb-[160px] max-w-[1112px] mx-auto">
             <h1 className="w-full max-w-[1112px] mx-auto text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[36px]">IOTA CFT 통합 수행체계</h1>
             
-            <div className="w-full flex justify-center mb-[40px] -mt-[20px]">
+            <div className="w-full flex justify-center mb-[40px] -mt-[10px]">
                 <img src={cftImg} alt="IOTA CFT 통합 수행체계" className="w-full max-w-[1130px] object-contain [clip-path:inset(2px)]" />
             </div>
 
