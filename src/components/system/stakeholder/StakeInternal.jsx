@@ -279,7 +279,7 @@ export default function StakeInternal() {
                             {group.members.map((member, mIdx) => (
                                 <div key={mIdx} className="w-full flex items-start gap-[40px]">
                                     {/* 1. Photo */}
-                                    <div className="w-[120px] h-[120px] shrink-0 rounded-full bg-[#3c3c3c] overflow-hidden relative shadow-lg">
+                                    <div className="w-[120px] h-[120px] shrink-0 rounded-full bg-[#3c3c3c] overflow-hidden relative shadow-lg mt-[4px]">
                                         <img src={`${import.meta.env.BASE_URL}${member.photo}.webp`} alt={member.name} className="w-full h-full object-cover" onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }} />
                                         <div className="absolute inset-0 rounded-full border border-white/10 pointer-events-none"></div>
                                     </div>
