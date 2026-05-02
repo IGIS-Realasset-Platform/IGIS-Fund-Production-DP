@@ -585,7 +585,7 @@ export default function StakeInternal() {
                                     
                                     {/* 2. Name & Roles */}
                                     <div className="w-[156px] shrink-0 flex flex-col">
-                                        <div className="flex items-center h-[24px] mb-[8px]">
+                                        <div className="flex items-center h-[24px] mb-[6px]">
                                             <span className="text-[15px] font-bold text-white leading-none">{member.name}</span>
                                         </div>
                                         <div className="flex flex-col gap-[4px] pt-[4px]">
@@ -605,7 +605,7 @@ export default function StakeInternal() {
                                     {/* 3. Activity Logs */}
                                     <div className="flex-1 flex flex-col">
                                         {/* Table Header */}
-                                        <div className="grid grid-cols-[1fr_80px_70px_60px_160px_80px] gap-[16px] h-[24px] items-center mb-[8px] mr-[4px]">
+                                        <div className="grid grid-cols-[1fr_80px_70px_60px_160px_80px] gap-[16px] h-[24px] items-center mb-[6px] mr-[4px]">
                                             <span className="text-[12px] text-[#86868B] tracking-tight leading-none">활동로그</span>
                                             <span className="text-[12px] text-[#86868B] tracking-tight leading-none">프로젝트</span>
                                             <span className="text-[12px] text-[#86868B] tracking-tight leading-none">활용목적</span>
