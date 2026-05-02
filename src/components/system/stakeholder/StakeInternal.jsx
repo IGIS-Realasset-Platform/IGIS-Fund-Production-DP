@@ -22,7 +22,7 @@ const stakeholderGroups = [
                                 name: '권순일',
                                 photo: '권순일',
                                 roles: ['사업그룹1파트/파트장+', 'IOTA CFT', '개발PFV TF/TF장'],
-                                responsibility: '사업PM · IPR · 전략자문 책임인력',
+                                responsibility: '사업PM · IPR · 전략자문\n책임인력',
                                 email: 'ksoonil@igisam.com',
                                 phone: '010-8567-6907',
                             },
@@ -383,6 +383,13 @@ export default function StakeInternal() {
                      className="flex items-center gap-[6px] bg-[#222] hover:bg-[#333] transition-colors rounded-full pl-[4px] pr-[10px] py-[4px] border border-[#333] cursor-pointer group min-w-[76px]"
                      onMouseEnter={() => { if(!noImageNames.has(cleanName)) setHoveredImage(cleanName) }}
                      onMouseLeave={() => setHoveredImage(null)}
+                     onClick={(e) => {
+                         e.stopPropagation();
+                         const target = document.getElementById(`member-${cleanName}`);
+                         if (target) {
+                             target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                         }
+                     }}
                 >
                     <div className="w-[20px] h-[20px] shrink-0 rounded-full bg-[#3c3c3c] overflow-hidden">
                         <img src={`${import.meta.env.BASE_URL}${cleanName}.webp`} alt={name} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; handleImageError(cleanName); }} />
@@ -396,16 +403,23 @@ export default function StakeInternal() {
     const renderLeader = (name, title) => {
         const cleanName = name.split('(')[0];
         return (
-        <div className="flex items-center gap-[12px]"
+        <div className="flex items-center gap-[12px] cursor-pointer group"
              onMouseEnter={() => { if(!noImageNames.has(cleanName)) setHoveredImage(cleanName) }}
              onMouseLeave={() => setHoveredImage(null)}
+             onClick={(e) => {
+                 e.stopPropagation();
+                 const target = document.getElementById(`member-${cleanName}`);
+                 if (target) {
+                     target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                 }
+             }}
         >
             <div className="relative w-[36px] h-[36px] shrink-0 rounded-full bg-[#3c3c3c] flex items-center justify-center overflow-hidden">
-                <img src={`${import.meta.env.BASE_URL}${cleanName}.webp`} alt={name} className="w-full h-full object-cover" onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; handleImageError(cleanName); }} />
+                <img src={`${import.meta.env.BASE_URL}${cleanName}.webp`} alt={name} className="w-full h-full object-cover group-hover:scale-105 transition-transform" onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; handleImageError(cleanName); }} />
                 <div className="absolute inset-0 rounded-full border border-white/10 pointer-events-none"></div>
             </div>
             <div className="flex flex-col text-left">
-                <span className="text-white font-bold text-[14px] cursor-pointer hover:text-[#fbf167] transition-colors leading-tight">{name}</span>
+                <span className="text-white font-bold text-[14px] group-hover:text-[#fbf167] transition-colors leading-tight">{name}</span>
                 <span className="text-[#A1A1AA] text-[12px] mt-[2px] leading-tight">{title}</span>
             </div>
 
@@ -623,7 +637,7 @@ export default function StakeInternal() {
                         {/* Members List */}
                         <div className="w-full flex flex-col gap-[46px]">
                             {group.members.map((member, mIdx) => (
-                                <div key={mIdx} className="w-full flex items-start gap-[40px]">
+                                <div key={mIdx} id={`member-${member.name.split('(')[0]}`} className="w-full flex items-start gap-[40px] scroll-mt-[100px]">
                                     {/* 1. Photo */}
                                     <div className="w-[120px] h-[120px] shrink-0 rounded-full bg-[#3c3c3c] overflow-hidden relative shadow-lg mt-[4px]">
                                         <img src={`${import.meta.env.BASE_URL}${member.photo}.webp`} alt={member.name} className="w-full h-full object-cover" onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }} />
@@ -640,7 +654,7 @@ export default function StakeInternal() {
                                                 <span key={rIdx} className="text-[13px] text-[#bbb9af] leading-tight tracking-tight">{role}</span>
                                             ))}
                                             {member.responsibility && (
-                                                <span className="text-[13px] text-[#2997ff] leading-tight tracking-tight">{member.responsibility}</span>
+                                                <span className="text-[13px] text-[#2997ff] leading-tight tracking-tight whitespace-pre-wrap">{member.responsibility}</span>
                                             )}
                                         </div>
                                         <div className="flex flex-col gap-[2px] mt-[12px]">
