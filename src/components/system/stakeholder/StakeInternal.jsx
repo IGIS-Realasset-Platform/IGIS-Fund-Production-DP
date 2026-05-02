@@ -275,7 +275,7 @@ export default function StakeInternal() {
                         <h2 className="text-[18px] font-bold text-white tracking-tight">{group.groupTitle}</h2>
                         
                         {/* Members List */}
-                        <div className="w-full flex flex-col gap-[40px]">
+                        <div className="w-full flex flex-col gap-[46px]">
                             {group.members.map((member, mIdx) => (
                                 <div key={mIdx} className="w-full flex items-start gap-[40px]">
                                     {/* 1. Photo */}
