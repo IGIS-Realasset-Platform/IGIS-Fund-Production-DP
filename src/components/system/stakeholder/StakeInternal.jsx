@@ -289,11 +289,9 @@ export default function StakeInternal() {
                                         <div className="flex items-center h-[24px] mb-[12px]">
                                             <span className="text-[15px] font-bold text-white leading-none">{member.name}</span>
                                         </div>
-                                        <div className="flex flex-col">
+                                        <div className="flex flex-col gap-[4px] pt-[4px]">
                                             {member.roles.map((role, rIdx) => (
-                                                <div key={rIdx} className="py-[4px] flex items-center min-h-[28px]">
-                                                    <span className="text-[13px] text-[#bbb9af] leading-tight tracking-tight">{role}</span>
-                                                </div>
+                                                <span key={rIdx} className="text-[13px] text-[#bbb9af] leading-tight tracking-tight">{role}</span>
                                             ))}
                                         </div>
                                         <div className="flex flex-col gap-[2px] mt-[12px]">
@@ -322,7 +320,7 @@ export default function StakeInternal() {
                                             { log: 'LG전자 지주 제안 관련 미팅', project: 'IOTA1 427', purpose: '협업', status: '진행중', stakeholder: 'LG전자 서준혁 회장', date: '2026.04.30' },
                                             { log: '427 호텔 및 남대문교회 진행사항 보고', project: 'IOTA2 427', purpose: '리스크판단', status: '진행중', stakeholder: '현대건설 서준혁 회장', date: '2026.04.28' },
                                         ].map((row, rIdx) => (
-                                            <div key={rIdx} className="grid grid-cols-[1fr_80px_70px_60px_160px_80px] gap-[16px] py-[4px] group cursor-pointer hover:bg-white/5 transition-colors -mx-[8px] px-[8px] rounded-[4px] min-h-[28px] items-center">
+                                            <div key={rIdx} className="grid grid-cols-[1fr_80px_70px_60px_160px_80px] gap-[16px] py-[4px] group cursor-pointer hover:bg-white/5 transition-colors -ml-[8px] pl-[8px] pr-[2px] -mr-[2px] rounded-[8px] items-center">
                                                 <span className="text-[13px] text-[#E5E5E5] group-hover:text-[#bbb9af] transition-colors tracking-tight truncate leading-tight">{row.log}</span>
                                                 <span className="text-[13px] text-[#E5E5E5] group-hover:text-[#bbb9af] transition-colors tracking-tight truncate leading-tight">{row.project}</span>
                                                 <span className="text-[13px] text-[#E5E5E5] group-hover:text-[#bbb9af] transition-colors tracking-tight truncate leading-tight">{row.purpose}</span>
