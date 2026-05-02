@@ -91,7 +91,7 @@ export default function GovMeetings() {
 
 
             {/* 정기 회의체 */}
-            <h2 className="text-[28px] font-bold text-white mt-[20px] mb-0 tracking-tight">정기 회의체 (Cadence)</h2>
+            <h2 className="text-[28px] font-bold text-white mt-[60px] mb-0 tracking-tight">정기 회의체 (Cadence)</h2>
             
             <h3 className="text-[18px] font-bold text-white mt-[30px] mb-[16px]">[이지스 내부]</h3>
             <div className="w-full border border-[#333] rounded-[24px] overflow-hidden mb-[32px]">
@@ -146,7 +146,7 @@ export default function GovMeetings() {
             </div>
 
             {/* 비정기 회의체 */}
-            <h2 className="text-[28px] font-bold text-white mb-[16px] tracking-tight">비정기 회의체 (Trigger 기반)</h2>
+            <h2 className="text-[28px] font-bold text-white mt-[60px] mb-[16px] tracking-tight">비정기 회의체 (Trigger 기반)</h2>
             <p className="text-[17px] text-[#A1A1AA] leading-[26px] mb-[32px]">
                 아래 트리거가 발생하는 즉시 24시간 내 비정기 회의가 자동 소집됩니다.<br/>
                 트리거는 통합 데이터룸의 <strong className="text-[#E5E5E5]">‘리스크 등록부’</strong>에 등록된 항목과 연동됩니다.
