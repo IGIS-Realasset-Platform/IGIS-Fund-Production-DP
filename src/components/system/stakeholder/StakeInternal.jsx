@@ -301,7 +301,7 @@ export default function StakeInternal() {
                                     {/* 3. Activity Logs */}
                                     <div className="flex-1 flex flex-col pt-[2px]">
                                         {/* Table Header */}
-                                        <div className="grid grid-cols-[1fr_80px_70px_60px_160px_80px] gap-[16px] pb-[8px] mb-[4px]">
+                                        <div className="grid grid-cols-[1fr_80px_70px_60px_160px_80px] gap-[16px] pb-[8px] mb-[12px]">
                                             <span className="text-[12px] text-[#86868B] tracking-tight">활동로그</span>
                                             <span className="text-[12px] text-[#86868B] tracking-tight">프로젝트</span>
                                             <span className="text-[12px] text-[#86868B] tracking-tight">활용목적</span>
@@ -329,7 +329,7 @@ export default function StakeInternal() {
                                         ))}
                                         
                                         {/* View All Button */}
-                                        <div className="mt-[12px] flex">
+                                        <div className="mt-[8px] flex">
                                             <button className="px-[12px] py-[6px] rounded-[10px] border border-[#333] bg-transparent text-[12px] text-[#2997ff] hover:bg-[#2997ff]/10 transition-colors font-medium cursor-pointer tracking-tight">
                                                 전체 활동로그 보기
                                             </button>
