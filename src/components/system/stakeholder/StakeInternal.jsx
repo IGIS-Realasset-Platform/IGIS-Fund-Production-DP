@@ -295,7 +295,7 @@ export default function StakeInternal() {
                                                 <span key={rIdx} className="text-[13px] text-[#bbb9af] leading-tight tracking-tight">{role}</span>
                                             ))}
                                             {member.responsibility && (
-                                                <span className="text-[13px] text-[#2997ff] font-medium leading-tight tracking-tight mt-[4px]">{member.responsibility}</span>
+                                                <span className="text-[13px] text-[#2997ff] leading-tight tracking-tight">{member.responsibility}</span>
                                             )}
                                         </div>
                                         <div className="flex flex-col gap-[2px] mt-[12px]">
