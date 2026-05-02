@@ -55,9 +55,9 @@ export default function GovExternalComm() {
             <div className="w-full h-px bg-[#333] my-[56px]"></div>
 
             <h2 className="text-[20px] font-bold text-white mb-[16px]">범위 외 사안 에스컬레이션 라인</h2>
-            <div className="flex flex-col gap-[12px]">
+            <div className="flex flex-col gap-[16px]">
                 {esData.map((row, idx) => (
-                    <div key={idx} className="flex flex-col md:flex-row md:items-stretch gap-[12px] group">
+                    <div key={idx} className="flex flex-col md:flex-row md:items-stretch gap-[4px] group">
                         
                         {/* Left Box (Trigger) */}
                         <div className="flex-1 flex flex-col justify-center bg-[#1E1E1E] border border-[#3c3c3c] rounded-[16px] p-[20px] transition-colors group-hover:bg-[#292928]">
@@ -70,9 +70,9 @@ export default function GovExternalComm() {
                         </div>
 
                         {/* Arrow */}
-                        <div className="flex items-center justify-center text-[#666] shrink-0 px-[4px]">
-                            <svg className="hidden md:block" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-                            <svg className="block md:hidden" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
+                        <div className="flex items-center justify-center text-[#666] shrink-0">
+                            <svg className="hidden md:block" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                            <svg className="block md:hidden" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
                         </div>
 
                         {/* Middle Box (1차 에스컬레이션) */}
@@ -85,9 +85,9 @@ export default function GovExternalComm() {
                         </div>
 
                         {/* Arrow */}
-                        <div className="flex items-center justify-center text-[#666] shrink-0 px-[4px]">
-                            <svg className="hidden md:block" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-                            <svg className="block md:hidden" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
+                        <div className="flex items-center justify-center text-[#666] shrink-0">
+                            <svg className="hidden md:block" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                            <svg className="block md:hidden" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
                         </div>
 
                         {/* Right Box (Final Decision) */}
