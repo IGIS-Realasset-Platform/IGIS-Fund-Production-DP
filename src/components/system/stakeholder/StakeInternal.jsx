@@ -709,7 +709,7 @@ export default function StakeInternal() {
                                                 <span className="text-[13px] text-[#E5E5E5] group-hover:text-[#bbb9af] transition-colors tracking-tight truncate leading-tight">{row.purpose}</span>
                                                 <span className="text-[13px] text-[#E5E5E5] group-hover:text-[#bbb9af] transition-colors tracking-tight truncate leading-tight">{row.status}</span>
                                                 <span className="text-[13px] text-[#E5E5E5] group-hover:text-[#bbb9af] transition-colors tracking-tight truncate leading-tight">{row.stakeholder}</span>
-                                                <span className="text-[13px] text-[#E5E5E5] group-hover:text-[#bbb9af] transition-colors tracking-tight truncate leading-tight">{row.date}</span>
+                                                <span className="text-[13px] text-[#86868B] transition-colors tracking-tight truncate leading-tight">{row.date}</span>
                                             </div>
                                         ))}
                                         
