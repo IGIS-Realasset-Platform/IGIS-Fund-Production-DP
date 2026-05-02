@@ -231,6 +231,7 @@ export default function StakeInternal() {
                                 name: '이철승',
                                 photo: '이철승',
                                 roles: ['리얼에셋부문/부문대표', '사업&개발/부문대표', '기업마케팅센터/부문대표', 'IOTA CFT/TF장', 'SMP/SMP'],
+                                responsibility: 'CFT 총괄 책임인력',
                                 email: 'ethan.lee@igisam.com',
                                 phone: '010-3186-0868',
                             }
@@ -293,6 +294,9 @@ export default function StakeInternal() {
                                             {member.roles.map((role, rIdx) => (
                                                 <span key={rIdx} className="text-[13px] text-[#bbb9af] leading-tight tracking-tight">{role}</span>
                                             ))}
+                                            {member.responsibility && (
+                                                <span className="text-[13px] text-[#2997ff] font-medium leading-tight tracking-tight mt-[4px]">{member.responsibility}</span>
+                                            )}
                                         </div>
                                         <div className="flex flex-col gap-[2px] mt-[12px]">
                                             <span className="text-[12px] text-[#666] tracking-tight">{member.email}</span>
