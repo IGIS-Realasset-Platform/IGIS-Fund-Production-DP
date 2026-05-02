@@ -220,6 +220,128 @@ export default function StakeInternal() {
                 </table>
             </div>
 
+            {/* Profiles & Activity Logs Section */}
+            <div className="w-full mt-[80px] flex flex-col gap-[60px]">
+                {/* Dummy Data Array */}
+                {[
+                    {
+                        groupTitle: 'CFT 총괄',
+                        members: [
+                            {
+                                name: '이철승',
+                                photo: '이철승',
+                                roles: ['리얼에셋부문/부문대표', '사업&개발/부문대표', '기업마케팅센터/부문대표', 'IOTA CFT/TF장', 'SMP/SMP'],
+                                email: 'ethan.lee@igisam.com',
+                                phone: '010-3186-0868',
+                            }
+                        ]
+                    },
+                    {
+                        groupTitle: '사업PM',
+                        members: [
+                            {
+                                name: '권순일',
+                                photo: '권순일',
+                                roles: ['사업그룹1파트/파트장', 'IOTA CFT', '개발PFV TF/TF장'],
+                                email: 'ksoonil@igisam.com',
+                                phone: '010-8567-6907',
+                            },
+                            {
+                                name: '강순용',
+                                photo: '강순용',
+                                roles: ['사업그룹2파트/파트장', 'IOTA CFT'],
+                                email: 'sykang@igisam.com',
+                                phone: '010-8274-4638',
+                            },
+                            {
+                                name: '윤주형',
+                                photo: '윤주형',
+                                roles: ['사업그룹1파트', 'IOTA CFT'],
+                                email: 'jhyoon@igisam.com',
+                                phone: '010-0000-0000',
+                            },
+                            {
+                                name: '류홍',
+                                photo: '류홍',
+                                roles: ['사업그룹1파트', 'IOTA CFT'],
+                                email: 'hryu@igisam.com',
+                                phone: '010-0000-0000',
+                            }
+                        ]
+                    }
+                ].map((group, gIdx) => (
+                    <div key={gIdx} className="w-full flex flex-col gap-[32px]">
+                        {/* Group Header */}
+                        <h2 className="text-[16px] font-bold text-white tracking-tight">{group.groupTitle}</h2>
+                        
+                        {/* Members List */}
+                        <div className="w-full flex flex-col gap-[40px]">
+                            {group.members.map((member, mIdx) => (
+                                <div key={mIdx} className="w-full flex items-start gap-[40px]">
+                                    {/* 1. Photo */}
+                                    <div className="w-[120px] h-[120px] shrink-0 rounded-full bg-[#3c3c3c] overflow-hidden relative shadow-lg">
+                                        <img src={`${import.meta.env.BASE_URL}${member.photo}.webp`} alt={member.name} className="w-full h-full object-cover" onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }} />
+                                        <div className="absolute inset-0 rounded-full border border-white/10 pointer-events-none"></div>
+                                    </div>
+                                    
+                                    {/* 2. Name & Roles */}
+                                    <div className="w-[200px] shrink-0 flex flex-col pt-[10px]">
+                                        <span className="text-[15px] font-bold text-white mb-[12px]">{member.name}</span>
+                                        <div className="flex flex-col gap-[4px] mb-[16px]">
+                                            {member.roles.map((role, rIdx) => (
+                                                <span key={rIdx} className="text-[13px] text-[#bbb9af] leading-tight tracking-tight">{role}</span>
+                                            ))}
+                                        </div>
+                                        <div className="flex flex-col gap-[2px]">
+                                            <span className="text-[12px] text-[#666] tracking-tight">{member.email}</span>
+                                            <span className="text-[12px] text-[#666] tracking-tight">{member.phone}</span>
+                                        </div>
+                                    </div>
+                                    
+                                    {/* 3. Activity Logs */}
+                                    <div className="flex-1 flex flex-col pt-[10px]">
+                                        {/* Table Header */}
+                                        <div className="grid grid-cols-[1fr_80px_70px_60px_160px_80px] gap-[16px] pb-[8px] mb-[8px] border-b border-[#333]">
+                                            <span className="text-[12px] text-[#86868B] tracking-tight">활동로그</span>
+                                            <span className="text-[12px] text-[#86868B] tracking-tight">프로젝트</span>
+                                            <span className="text-[12px] text-[#86868B] tracking-tight">활용목적</span>
+                                            <span className="text-[12px] text-[#86868B] tracking-tight">상태</span>
+                                            <span className="text-[12px] text-[#86868B] tracking-tight">이해관계</span>
+                                            <span className="text-[12px] text-[#86868B] tracking-tight">날짜</span>
+                                        </div>
+                                        
+                                        {/* Table Rows (Dummy Data) */}
+                                        {[
+                                            { log: '816 관련 소노인터내셔널 협업 미팅', project: 'IOTA2 816', purpose: '리스크판단', status: '진행중', stakeholder: '소노인터내셔널 서준혁 회장', date: '2026.05.02' },
+                                            { log: "중순위 대주 '한투리얼에셋자산운용' 재...", project: '421 Fund', purpose: '협업', status: '완료', stakeholder: '한투리얼에셋 서준혁 회장', date: '2026.05.01' },
+                                            { log: '816 투자자 협의(kt estate IR day 후..', project: 'IOTA1 427', purpose: '의사결정', status: '검토중', stakeholder: 'KT estate 서준혁 회장', date: '2026.04.30' },
+                                            { log: 'LG전자 지주 제안 관련 미팅', project: 'IOTA1 427', purpose: '협업', status: '진행중', stakeholder: 'LG전자 서준혁 회장', date: '2026.04.30' },
+                                            { log: '427 호텔 및 남대문교회 진행사항 보고', project: 'IOTA2 427', purpose: '리스크판단', status: '진행중', stakeholder: '현대건설 서준혁 회장', date: '2026.04.28' },
+                                        ].map((row, rIdx) => (
+                                            <div key={rIdx} className="grid grid-cols-[1fr_80px_70px_60px_160px_80px] gap-[16px] py-[4px] group cursor-pointer hover:bg-white/5 transition-colors -mx-[8px] px-[8px] rounded-[4px]">
+                                                <span className="text-[13px] text-[#E5E5E5] tracking-tight truncate">{row.log}</span>
+                                                <span className="text-[13px] text-[#E5E5E5] tracking-tight truncate">{row.project}</span>
+                                                <span className="text-[13px] text-[#E5E5E5] tracking-tight truncate">{row.purpose}</span>
+                                                <span className="text-[13px] text-[#E5E5E5] tracking-tight truncate">{row.status}</span>
+                                                <span className="text-[13px] text-[#E5E5E5] tracking-tight truncate">{row.stakeholder}</span>
+                                                <span className="text-[13px] text-[#E5E5E5] tracking-tight truncate">{row.date}</span>
+                                            </div>
+                                        ))}
+                                        
+                                        {/* View All Button */}
+                                        <div className="mt-[16px] flex">
+                                            <button className="px-[12px] py-[6px] rounded-[6px] border border-[#333] bg-transparent text-[12px] text-[#2997ff] hover:bg-[#2997ff]/10 transition-colors font-medium cursor-pointer tracking-tight">
+                                                전체 활동로그 보기
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                ))}
+            </div>
+
             {hoveredRow && (
                 <div 
                     className="fixed z-[100] pointer-events-none px-[10px] py-[6px] bg-[#111] border border-[#333] text-[#bbb9af] text-[12px] font-normal whitespace-nowrap flex items-center gap-[6px]"
