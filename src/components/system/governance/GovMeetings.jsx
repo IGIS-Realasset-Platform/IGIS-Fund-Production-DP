@@ -2,13 +2,13 @@ import React from 'react';
 
 export default function GovMeetings() {
     const timelineData = [
-        { time: '00', duration: '5분', title: '지난 주 액션 종결 확인 (5분)', desc: '' },
-        { time: '05', duration: '10분', title: '주요 KPI/OKR 변동', desc: '대시보드 공유 (10분)' },
-        { time: '15', duration: '10분', title: 'Top10 리스크 업데이트', desc: '색상 변동 셀만 (10분)' },
-        { time: '25', duration: '15분', title: '의사결정 안건', desc: 'Two-Lock 표결 (15분)' },
-        { time: '40', duration: '10분', title: '외부 인터페이스 이슈', desc: '대주/LP/시공/임차 (10분)' },
-        { time: '50', duration: '5분', title: 'IPR 워킹그룹 진척 (5분)', desc: '' },
-        { time: '55', duration: '5분', title: '차주 액션 / 회의록 합의 (5분)', desc: '' }
+        { time: '00', duration: '5분', title: '지난 주 액션 종결 확인 (5분)', desc: '', color: '#ffffff' },
+        { time: '05', duration: '10분', title: '주요 KPI/OKR 변동', desc: '대시보드 공유 (10분)', color: '#e0f0ff' },
+        { time: '15', duration: '10분', title: 'Top10 리스크 업데이트', desc: '색상 변동 셀만 (10분)', color: '#c2e1ff' },
+        { time: '25', duration: '15분', title: '의사결정 안건', desc: 'Two-Lock 표결 (15분)', color: '#a3d2ff' },
+        { time: '40', duration: '10분', title: '외부 인터페이스 이슈', desc: '대주/LP/시공/임차 (10분)', color: '#85c3ff' },
+        { time: '50', duration: '5분', title: 'IPR 워킹그룹 진척 (5분)', desc: '', color: '#66b4ff' },
+        { time: '55', duration: '5분', title: '차주 액션 / 회의록 합의 (5분)', desc: '', color: '#47a5ff' }
     ];
 
     const internalMeetings = [
@@ -50,7 +50,10 @@ export default function GovMeetings() {
                             <React.Fragment key={index}>
                                 {/* Timeline Node */}
                                 <div className={`relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active ${index > 0 ? 'md:-mt-[16px] mt-[32px]' : ''}`}>
-                                    <div className="flex items-center justify-center w-[56px] h-[56px] rounded-full border-[2px] border-[#444] bg-[#111] text-white font-bold text-[17px] shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10 relative">
+                                    <div 
+                                        className="flex items-center justify-center w-[56px] h-[56px] rounded-full border-[2px] border-[#444] bg-[#111] font-bold text-[17px] shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10 relative transition-colors"
+                                        style={{ color: item.color }}
+                                    >
                                         {item.time}
                                     </div>
                                     
@@ -75,7 +78,10 @@ export default function GovMeetings() {
 
                         {/* Final Node 60 */}
                         <div className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active md:-mt-[16px] mt-[32px]">
-                            <div className="flex items-center justify-center w-[56px] h-[56px] rounded-full border-[2px] border-[#444] bg-[#111] text-white font-bold text-[17px] shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
+                            <div 
+                                className="flex items-center justify-center w-[56px] h-[56px] rounded-full border-[2px] border-[#444] bg-[#111] font-bold text-[17px] shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10 transition-colors"
+                                style={{ color: '#2997FF' }}
+                            >
                                 60
                             </div>
                             <div className="w-[calc(100%-5rem)] md:w-[calc(50%-3.5rem)] opacity-0">
@@ -146,7 +152,7 @@ export default function GovMeetings() {
             </div>
 
             {/* 비정기 회의체 */}
-            <h2 className="text-[28px] font-bold text-white mt-[40px] mb-[16px] tracking-tight">비정기 회의체 (Trigger 기반)</h2>
+            <h2 className="text-[28px] font-bold text-white mt-[30px] mb-[16px] tracking-tight">비정기 회의체 (Trigger 기반)</h2>
             <p className="text-[17px] text-[#A1A1AA] leading-[26px] mb-[32px]">
                 아래 트리거가 발생하는 즉시 24시간 내 비정기 회의가 자동 소집됩니다.<br/>
                 트리거는 통합 데이터룸의 <strong className="text-[#E5E5E5]">‘리스크 등록부’</strong>에 등록된 항목과 연동됩니다.
