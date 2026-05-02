@@ -15,15 +15,25 @@ export default function StakeInternal() {
     };
 
     const renderMembers = (namesString) => {
-        return namesString.split(' ').map((name, idx) => (
-            <span key={idx} className="text-white cursor-pointer hover:text-[#fbf167] transition-colors">{name}</span>
-        ));
+        return namesString.split(' ').map((name, idx) => {
+            const cleanName = name.split('(')[0];
+            return (
+                <div key={idx} className="flex items-center gap-[6px] bg-[#222] hover:bg-[#333] transition-colors rounded-full pl-[4px] pr-[10px] py-[4px] border border-[#333] cursor-pointer group">
+                    <div className="w-[20px] h-[20px] shrink-0 rounded-full bg-[#3c3c3c] overflow-hidden">
+                        <img src={`/${cleanName}.webp`} alt={name} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" onError={(e) => { e.target.src = '/lee.webp'; }} />
+                    </div>
+                    <span className="text-[#E5E5E5] text-[12px] font-medium group-hover:text-white transition-colors leading-none">{name}</span>
+                </div>
+            );
+        });
     };
 
-    const renderLeader = (name, title) => (
+    const renderLeader = (name, title) => {
+        const cleanName = name.split('(')[0];
+        return (
         <div className="flex items-center gap-[12px]">
             <div className="relative w-[36px] h-[36px] shrink-0 rounded-full bg-[#3c3c3c] flex items-center justify-center overflow-hidden">
-                <img src="/lee.jpg" alt={name} className="w-full h-full object-cover" />
+                <img src={`/${cleanName}.webp`} alt={name} className="w-full h-full object-cover" onError={(e) => { e.target.src = '/lee.webp'; }} />
                 <div className="absolute inset-0 rounded-full border border-white/10 pointer-events-none"></div>
             </div>
             <div className="flex flex-col text-left">
@@ -44,7 +54,8 @@ export default function StakeInternal() {
                 </div>
             )}
         </div>
-    );
+        );
+    };
 
     return (
         <div className="w-full flex-1 flex flex-col pt-[77px] pb-[60px] max-w-[1112px] mx-auto" onMouseMove={handleMouseMove}>
