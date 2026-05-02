@@ -13,6 +13,22 @@ const stakeholderGroups = [
                                 email: 'ethan.lee@igisam.com',
                                 phone: '010-3186-0868',
                             },
+                            {
+                                name: '윤관식',
+                                photo: '윤관식',
+                                roles: ['투자&펀딩/부대표', '투자1그룹/부대표', '투자1그룹4파트/부대표', '양재TF/TF장'],
+                                responsibility: 'CFT 총괄(Sub PO)',
+                                email: 'gwansik.yoon@igisam.com',
+                                phone: '010-7368-0309',
+                            },
+                            {
+                                name: '정조민',
+                                photo: '정조민',
+                                roles: ['관리&운영/부대표', '리빙그룹/부대표', '전략펀드운용3실', '전략펀드운용1실', '전략펀드운용2실', '리테일솔루션센터/부대표'],
+                                responsibility: 'CFT 총괄(Sub PO)',
+                                email: 'jmjung@igisam.com',
+                                phone: '010-6341-0174',
+                            },
                         ]
                     },
                     {
@@ -488,14 +504,22 @@ export default function StakeInternal() {
                     </thead>
                     <tbody>
                         {/* CFT 총괄 */}
-                        <tr className="border-b border-[#333]">
-                            <td className="px-[24px] py-[16px] text-[14px] font-normal text-[#E5E5E5] border-r border-[#333]">CFT 총괄</td>
-                            <td className="px-[14px] py-[16px] ">
+                        <tr className="border-b-0">
+                            <td rowSpan={2} className="px-[24px] py-[16px] text-[14px] font-normal text-[#E5E5E5] border-r border-[#333] border-b border-[#333]">CFT 총괄(PO)</td>
+                            <td className="px-[14px] py-[16px] border-b border-[#333]">
                                 {renderLeader('이철승', '부문대표')}
                             </td>
-                            <td className="px-[14px] py-[16px] text-[13px] text-[#bbb9af] border-r border-[#333]">CFT 사무국 (신설 / 기획추진센터 IEC 협업)</td>
-                            <td className="px-[14px] py-[16px] text-[13px] text-[#bbb9af] border-r border-[#333]">IOTA CFT 총괄</td>
-                            <td className="px-[14px] py-[16px] text-[13px] text-[#bbb9af]">부문직속</td>
+                            <td rowSpan={2} className="px-[14px] py-[16px] text-[13px] text-[#bbb9af] border-r border-[#333] border-b border-[#333]">CFT 사무국 (신설 / 기획추진센터 IEC 협업)</td>
+                            <td rowSpan={2} className="px-[14px] py-[16px] text-[13px] text-[#bbb9af] border-r border-[#333] border-b border-[#333] leading-[22px]">IOTA CFT 총괄<br/>최종 의사결정, 외부사인</td>
+                            <td rowSpan={2} className="px-[14px] py-[16px] text-[13px] text-[#bbb9af] border-b border-[#333]">부문직속</td>
+                        </tr>
+                        <tr className="border-b border-[#333]">
+                            <td className="px-[14px] py-[16px]">
+                                <div className="flex flex-col gap-[16px]">
+                                    {renderLeader('윤관식', 'CFT 총괄(Sub PO)')}
+                                    {renderLeader('정조민', 'CFT 총괄(Sub PO)')}
+                                </div>
+                            </td>
                         </tr>
 
                         {/* 사업 PM */}
