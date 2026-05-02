@@ -20,7 +20,7 @@ export default function GovExternalComm() {
                 {members.length > 0 && (
                     <div className="flex -space-x-2 shrink-0">
                         {members.map((name, idx) => (
-                            <div key={idx} className="w-[36px] h-[36px] rounded-full overflow-hidden bg-[#3c3c3c] border-2 border-[#1A1A1A] relative z-[1]">
+                            <div key={idx} className="w-[36px] h-[36px] rounded-full overflow-hidden bg-[#3c3c3c] border border-[#1A1A1A] relative z-[1]">
                                 <img src={`/${name}.webp`} alt={name} className="w-full h-full object-cover" onError={(e) => { e.target.src = '/default_avatar.svg'; }} />
                             </div>
                         ))}
@@ -59,7 +59,7 @@ export default function GovExternalComm() {
                     <thead className="bg-transparent">
                         <tr>
                             <th className="px-[24px] py-[16px] text-[14px] font-bold text-[#86868B] border-b border-[#333] border-r border-[#333] w-[200px]">외부 파트너</th>
-                            <th className="px-[24px] py-[16px] text-[14px] font-bold text-[#2997FF] border-b border-[#333] border-r border-[#333] w-[340px]">1차 단일창구</th>
+                            <th className="px-[24px] py-[16px] text-[14px] font-bold text-[#2997FF] border-b border-[#333] border-r border-[#333] w-[320px]">1차 단일창구</th>
                             <th className="px-[24px] py-[16px] text-[14px] font-bold text-[#86868B] border-b border-[#333] border-r border-[#333] w-[200px]">백업 창구</th>
                             <th className="px-[24px] py-[16px] text-[14px] font-bold text-[#86868B] border-b border-[#333]">승인 한도 / 주의</th>
                         </tr>
