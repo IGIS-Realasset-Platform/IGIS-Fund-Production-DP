@@ -1,6 +1,42 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 
 export default function SystemCenter() {
+    const scrollRef = useRef(null);
+
+    const handleScroll = () => {
+        if (scrollRef.current) {
+            const state = window.history.state || {};
+            window.history.replaceState({ ...state, scroll: scrollRef.current.scrollTop }, '');
+        }
+    };
+
+    useEffect(() => {
+        if (scrollRef.current) {
+            const state = window.history.state;
+            if (state && state.scroll !== undefined) {
+                if (state.scroll === 0) {
+                    scrollRef.current.scrollTop = 0;
+                } else {
+                    let attempts = 0;
+                    const interval = setInterval(() => {
+                        if (scrollRef.current) {
+                            scrollRef.current.scrollTop = state.scroll;
+                            attempts++;
+                            if (scrollRef.current.scrollTop > 0 || attempts >= 15) {
+                                clearInterval(interval);
+                            }
+                        } else {
+                            clearInterval(interval);
+                        }
+                    }, 100);
+                    return () => clearInterval(interval);
+                }
+            } else {
+                scrollRef.current.scrollTop = 0;
+            }
+        }
+    }, []);
+
     return (
         <div className="flex-1 h-full bg-transparent flex flex-col relative font-sans text-[#1D1D1F] dark:text-[#E5E5E5] overflow-hidden transition-colors duration-300">
             
@@ -29,7 +65,7 @@ export default function SystemCenter() {
             </div>
 
             {/* Dedicated Scroll Container */}
-            <div className="flex-1 w-full overflow-y-auto hide-scrollbar flex flex-col relative">
+            <div ref={scrollRef} onScroll={handleScroll} className="flex-1 w-full overflow-y-auto hide-scrollbar flex flex-col relative">
                 {/* Main Content Area */}
                 <div className="w-[1200px] mx-auto flex-1 flex flex-col pt-[77px] shrink-0 pb-[60px]">
                 

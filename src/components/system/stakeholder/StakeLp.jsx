@@ -1,62 +1,412 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { supabase } from '../../../utils/supabaseClient';
+
+// Fetched dynamically from DB
 
 export default function StakeLp() {
-    const lpData = [
-        { name: '국민연금공단 (NPS)', type: 'Equity / LP', tag: 'Core LP', amount: '2,500억원', rep: '대체투자본부 부동산투자실', status: '의사결정 진행중' },
-        { name: 'KB국민은행', type: 'Senior Loan', tag: '대주단 주간사', amount: '3,000억원', rep: 'IB영업부', status: 'Term Sheet 협의' },
-        { name: '미래에셋증권', type: 'Mezzanine', tag: '공동 대주', amount: '1,000억원', rep: 'PF본부', status: '심사역 배정 완료' },
-        { name: '교직원공제회', type: 'Equity / LP', tag: 'Co-Invest', amount: '1,500억원', rep: '대체투자부', status: 'IM 수령 대기' },
-        { name: '글로벌 부동산 펀드 A', type: 'Strategic Investor', tag: 'SI', amount: 'TBD', rep: 'Asia Pacific 팀', status: '초기 탭핑 (Tapping)' },
-    ];
+    const [searchTerm, setSearchTerm] = useState('');
+    const [otherInvestors, setOtherInvestors] = useState([]);
+    const [iotaData, setIotaData] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [expandedRow, setExpandedRow] = useState(null); // { name: string }
+    const [contactsCache, setContactsCache] = useState({});
 
-    const getStatusColor = (status) => {
-        if (status.includes('진행중')) return 'text-[#fbf167] bg-[#fbf167]/10 border-[#fbf167]/30';
-        if (status.includes('협의')) return 'text-[#34d399] bg-[#34d399]/10 border-[#34d399]/30';
-        if (status.includes('대기') || status.includes('초기')) return 'text-[#A1A1AA] bg-[#444]/50 border-[#555]';
-        return 'text-[#818cf8] bg-[#818cf8]/10 border-[#818cf8]/30';
+    // Fetch master DB for "Other Investors" and IOTA Stack
+    useEffect(() => {
+        const fetchMaster = async () => {
+            try {
+                // Fetch IOTA Capital Stack
+                const { data: stackData } = await supabase.from('iota_capital_stack').select('*');
+                
+                let parsedIota = {
+                    427: { equity: [], loan: [] },
+                    816: { equity: [], loan: [] },
+                    421: { equity: [], loan: [] }
+                };
+
+                if (stackData) {
+                    stackData.forEach(item => {
+                        // For 816, only take Refinancing for the directory
+                        if (item.vehicle_name === '816' && item.phase !== 'Refinancing') return;
+                        
+                        const v = parseInt(item.vehicle_name);
+                        const type = item.tranche_type === 'Equity' ? 'equity' : 'loan';
+                        
+                        if (parsedIota[v] && parsedIota[v][type]) {
+                            parsedIota[v][type].push({
+                                name: item.institution_name,
+                                amount: item.amount_krw_100m.toLocaleString(),
+                                rawAmount: item.amount_krw_100m
+                            });
+                        }
+                    });
+                    
+                    // Sort descending by amount
+                    [427, 816, 421].forEach(v => {
+                        ['equity', 'loan'].forEach(t => {
+                            parsedIota[v][t].sort((a, b) => b.rawAmount - a.rawAmount);
+                        });
+                    });
+                }
+                setIotaData(parsedIota);
+
+                // Fetch counterparties
+                const { data: cps } = await supabase.from('counterparties').select('counterparty_id, name, category');
+                // Fetch exposures
+                const { data: exps } = await supabase.from('beneficiary_exposures').select('counterparty_id, committed_amt');
+                
+                if (cps && exps && parsedIota) {
+                    const amounts = {};
+                    exps.forEach(ex => {
+                        if (ex.counterparty_id && ex.committed_amt) {
+                            amounts[ex.counterparty_id] = (amounts[ex.counterparty_id] || 0) + parseInt(ex.committed_amt);
+                        }
+                    });
+
+                    // List of IOTA names to exclude from "Other"
+                    const iotaNames = new Set([
+                        ...parsedIota[427].equity.map(i=>i.name), ...parsedIota[427].loan.map(i=>i.name),
+                        ...parsedIota[816].equity.map(i=>i.name), ...parsedIota[816].loan.map(i=>i.name),
+                        ...parsedIota[421].equity.map(i=>i.name), ...parsedIota[421].loan.map(i=>i.name)
+                    ]);
+
+                    const others = cps
+                        .filter(cp => cp.name && !iotaNames.has(cp.name))
+                        .map(cp => ({
+                            ...cp,
+                            total_amt: amounts[cp.counterparty_id] || 0
+                        }))
+                        .filter(cp => cp.total_amt > 0)
+                        .sort((a, b) => b.total_amt - a.total_amt)
+                        .slice(0, 50); // Limit for performance
+
+                    setOtherInvestors(others);
+                }
+            } catch (error) {
+                console.error(error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchMaster();
+    }, []);
+
+    useEffect(() => {
+        if (!loading && window.location.hash) {
+            const id = window.location.hash.substring(1);
+            setTimeout(() => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }, 100);
+        }
+    }, [loading]);
+
+    const fetchContacts = async (instName) => {
+        if (contactsCache[instName]) return;
+        
+        try {
+            const keyword = instName.split('(')[0].replace(' 펀드', '').trim();
+            const { data: cps } = await supabase.from('counterparties').select('counterparty_id').ilike('name', `%${keyword}%`);
+            
+            if (cps && cps.length > 0) {
+                const cpIds = cps.map(c => c.counterparty_id);
+                const { data: ctData } = await supabase.from('counterparty_contacts').select('*').in('counterparty_id', cpIds);
+                setContactsCache(prev => ({ ...prev, [instName]: ctData || [] }));
+            } else {
+                setContactsCache(prev => ({ ...prev, [instName]: [] }));
+            }
+        } catch (error) {
+            console.error(error);
+        }
     };
 
-    return (
-        <div className="w-full flex-1 flex flex-col pt-[77px] pb-[60px] max-w-[1200px] mx-auto">
-            <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[12px]">LP / 대주 / SI</h1>
-            <p className="text-[15px] text-[#86868B] mb-[36px]">자본 구조(Capital Stack)를 구성하는 핵심 투자자 및 대주단 파이프라인 현황입니다.</p>
-            
-            <div className="grid grid-cols-2 gap-[24px]">
-                {lpData.map((item, idx) => (
-                    <div key={idx} className="bg-[#292928] border border-[#3c3c3c] rounded-[24px] p-[28px] hover:border-[#555] transition-colors relative flex flex-col">
-                        <div className="flex justify-between items-start mb-[20px]">
-                            <div className="flex items-center gap-[16px]">
-                                <div className="w-[48px] h-[48px] rounded-[12px] bg-[#1A1A1A] border border-[#333] flex items-center justify-center text-[18px] font-black text-[#555]">
-                                    {item.name.substring(0, 2)}
-                                </div>
-                                <div>
-                                    <h3 className="text-[20px] font-bold text-white leading-tight">{item.name}</h3>
-                                    <span className="text-[14px] text-[#A1A1AA] mt-1 block">{item.type}</span>
-                                </div>
+    const toggleRow = (instName) => {
+        if (expandedRow === instName) {
+            setExpandedRow(null);
+        } else {
+            setExpandedRow(instName);
+            fetchContacts(instName);
+        }
+    };
+
+    // Filter logic
+    const isSearching = searchTerm.trim().length > 0;
+    
+    // Get all items that match the search
+    const getSearchResults = () => {
+        if (!isSearching) return [];
+        const term = searchTerm.toLowerCase();
+        
+        const results = [];
+        
+        // Search in IOTA data
+        if (iotaData) {
+            [427, 816, 421].forEach(vehicle => {
+                ['equity', 'loan'].forEach(type => {
+                    iotaData[vehicle][type].forEach(item => {
+                        if (item.name.toLowerCase().includes(term)) {
+                            results.push({ ...item, vehicle, type, isIota: true });
+                        }
+                    });
+                });
+            });
+        }
+
+        // Search in Other Investors
+        otherInvestors.forEach(item => {
+            if (item.name.toLowerCase().includes(term)) {
+                results.push({ 
+                    name: item.name, 
+                    amount: Math.floor(item.total_amt / 100000000).toLocaleString(), 
+                    isIota: false,
+                    category: item.category
+                });
+            }
+        });
+
+        return results;
+    };
+
+    const searchResults = getSearchResults();
+    const isSearchResultNonIota = isSearching && searchResults.every(r => !r.isIota);
+
+    const AccordionContent = ({ instName }) => {
+        const contacts = contactsCache[instName];
+        return (
+            <motion.div 
+                initial={{ height: 0, opacity: 0 }} 
+                animate={{ height: 'auto', opacity: 1 }} 
+                exit={{ height: 0, opacity: 0 }}
+                className="overflow-hidden bg-[#1c1c1c] border-x border-b border-[#3c3c3c] rounded-b-[12px] -mt-[1px] mb-[10px]"
+            >
+                <div className="p-6 grid grid-cols-2 gap-8">
+                    {/* CRM Contacts */}
+                    <div>
+                        <h4 className="text-[14px] font-bold text-[#86868B] mb-3 uppercase">Key Contacts (CRM)</h4>
+                        {!contacts ? (
+                            <div className="text-[13px] text-[#A1A1AA]">데이터 연동 중...</div>
+                        ) : contacts.length > 0 ? (
+                            <div className="flex flex-col gap-3">
+                                {contacts.map((c, i) => (
+                                    <div key={i} className="flex items-center gap-3 p-3 bg-[#252525] rounded-xl border border-[#333]">
+                                        <div className="w-10 h-10 rounded-full bg-[#111] flex items-center justify-center text-[14px] font-bold text-white border border-[#444]">
+                                            {c.name.substring(0,1)}
+                                        </div>
+                                        <div>
+                                            <div className="text-[14px] font-bold text-white">{c.name} <span className="text-[#A1A1AA] font-normal text-[13px] ml-1">{c.title}</span></div>
+                                            <div className="text-[12px] text-[#86868B] mt-0.5">{c.department} | {c.mobile} | {c.email}</div>
+                                        </div>
+                                    </div>
+                                ))}
                             </div>
-                            <span className="px-3 py-1 rounded-full text-[12px] font-bold bg-[#222] text-[#86868B] border border-[#333]">
-                                {item.tag}
-                            </span>
-                        </div>
-                        
-                        <div className="flex-1 flex flex-col gap-[12px]">
-                            <div className="flex justify-between items-center py-[12px] border-t border-[#333]/50">
-                                <span className="text-[14px] text-[#86868B]">타겟 금액</span>
-                                <span className="text-[16px] font-bold text-[#E5E5E5]">{item.amount}</span>
+                        ) : (
+                            <div className="text-[13px] text-[#A1A1AA] p-4 bg-[#252525] rounded-xl border border-[#333] text-center">
+                                등록된 CRM 정보가 없습니다.
                             </div>
-                            <div className="flex justify-between items-center py-[12px] border-t border-[#333]/50">
-                                <span className="text-[14px] text-[#86868B]">담당 부서</span>
-                                <span className="text-[15px] text-[#E5E5E5]">{item.rep}</span>
-                            </div>
-                            <div className="flex justify-between items-center py-[12px] border-t border-[#333]/50 mt-auto">
-                                <span className="text-[14px] text-[#86868B]">현재 상태</span>
-                                <span className={`px-3 py-1 rounded-full text-[13px] font-bold border ${getStatusColor(item.status)}`}>
-                                    {item.status}
-                                </span>
-                            </div>
+                        )}
+                    </div>
+                    
+                    {/* History / Info */}
+                    <div>
+                        <h4 className="text-[14px] font-bold text-[#86868B] mb-3 uppercase">소통 히스토리 & Notes</h4>
+                        <div className="p-4 bg-[#252525] rounded-xl border border-[#333] h-[120px] flex items-center justify-center">
+                            <span className="text-[13px] text-[#555]">최근 미팅 노트 연동 준비중</span>
                         </div>
                     </div>
-                ))}
+                </div>
+            </motion.div>
+        );
+    };
+
+    const TransparentTable = ({ title, items, isLoan }) => (
+        <div className="mb-8">
+            <h3 className="text-[16px] font-bold text-white mb-3 pl-2 flex items-center gap-2">
+                <span className={`w-2 h-2 rounded-full ${isLoan ? 'bg-[#0A84FF]' : 'bg-[#34d399]'}`}></span>
+                {title}
+            </h3>
+            <div className="w-full">
+                {items.length > 0 ? items.map((item, idx) => {
+                    const isExpanded = expandedRow === item.name;
+                    return (
+                        <div key={idx} className="flex flex-col">
+                            <div 
+                                onClick={() => toggleRow(item.name)}
+                                className={`flex items-center justify-between px-5 py-[14px] cursor-pointer transition-colors border border-[#3c3c3c] bg-transparent
+                                    ${idx === 0 && !isExpanded ? 'rounded-t-[12px]' : ''} 
+                                    ${idx === items.length - 1 && !isExpanded ? 'rounded-b-[12px]' : ''}
+                                    ${idx !== 0 ? '-mt-[1px]' : ''}
+                                    ${isExpanded ? 'bg-[#2a2a2a] rounded-t-[12px] border-b-transparent z-10' : 'hover:bg-[#222]'}
+                                `}
+                            >
+                                <div className="flex items-center gap-4">
+                                    <span className="text-[15px] font-medium text-white">{item.name}</span>
+                                </div>
+                                <div className="flex items-center gap-6">
+                                    <span className="text-[15px] font-bold text-white text-right w-[100px]">{item.amount}억</span>
+                                    <svg className={`w-4 h-4 text-[#86868B] transition-transform ${isExpanded ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"/></svg>
+                                </div>
+                            </div>
+                            <AnimatePresence>
+                                {isExpanded && <AccordionContent instName={item.name} />}
+                            </AnimatePresence>
+                        </div>
+                    );
+                }) : (
+                    <div className="px-5 py-4 border border-[#3c3c3c] rounded-[12px] text-[14px] text-[#A1A1AA] text-center">데이터 없음</div>
+                )}
+            </div>
+        </div>
+    );
+
+    return (
+        <div className="w-full flex-1 flex flex-col pt-[40px] pb-[60px] px-[40px] max-w-[1200px] mx-auto">
+            {/* Header */}
+            <div className="flex justify-between items-end mb-[30px]">
+                <div>
+                    <h1 className="text-[32px] font-bold text-white tracking-tight leading-none mb-3">LP / 대주 / SI</h1>
+                    <p className="text-[15px] text-[#86868B]">이지스 전체 파트너사 마스터 디렉토리 및 CRM 연동 현황</p>
+                </div>
+                
+                {/* Search Bar */}
+                <div className="relative w-[320px]">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <svg className="h-5 w-5 text-[#86868B]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                    </div>
+                    <input
+                        type="text"
+                        className="block w-full pl-10 pr-3 py-2.5 border border-[#3A3A3C] rounded-[12px] leading-5 bg-[#1C1C1E] text-white placeholder-[#86868B] focus:outline-none focus:border-[#0A84FF] transition-colors sm:text-[14px]"
+                        placeholder="기관명 검색 (예: 국민연금)"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                </div>
+            </div>
+
+            {/* Content Area */}
+            <div className="flex-1 overflow-y-auto hide-scrollbar">
+                
+                {isSearching ? (
+                    // Search Mode (Grid View like StakeInternal)
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                        {searchResults.length > 0 ? searchResults.map((item, idx) => {
+                            const isExpanded = expandedRow === item.name;
+                            return (
+                                <div key={idx} className="col-span-1 md:col-span-1">
+                                    <div 
+                                        onClick={() => toggleRow(item.name)}
+                                        className={`bg-[#1c1c1c] border transition-all cursor-pointer p-5 flex flex-col
+                                            ${isExpanded ? 'border-[#0A84FF] rounded-t-[16px]' : 'border-[#3c3c3c] rounded-[16px] hover:border-[#555]'}
+                                        `}
+                                    >
+                                        <div className="text-[13px] font-bold text-[#86868B] mb-1">
+                                            {item.isIota ? `IOTA ${item.vehicle} (${item.type === 'loan' ? '대주' : '출자'})` : (item.category || '기타 투자자')}
+                                        </div>
+                                        <h3 className="text-[18px] font-bold text-white leading-tight mb-4">{item.name}</h3>
+                                        <div className="flex justify-between items-center mt-auto">
+                                            <span className="text-[13px] text-[#A1A1AA]">총 약정/투자액</span>
+                                            <span className="text-[15px] font-bold text-white">{item.amount}억</span>
+                                        </div>
+                                    </div>
+                                    <AnimatePresence>
+                                        {isExpanded && (
+                                            <div className="col-span-full">
+                                                <AccordionContent instName={item.name} />
+                                            </div>
+                                        )}
+                                    </AnimatePresence>
+                                </div>
+                            );
+                        }) : (
+                            <div className="col-span-full py-10 text-center text-[#86868B] text-[15px]">
+                                검색 결과가 없습니다.
+                            </div>
+                        )}
+                    </div>
+                ) : (
+                    // Default Table Mode
+                    <div className="flex flex-col gap-6">
+                        
+                        {loading || !iotaData ? (
+                            <div className="text-center text-[#86868B] py-10">DB 데이터 연동 중...</div>
+                        ) : (
+                            <>
+                                {/* IOTA 816 (Highest Priority currently) */}
+                                <div className="bg-[#151515] p-6 rounded-[24px] border border-[#2c2c2e]">
+                                    <h2 className="text-[22px] font-bold text-white mb-6 tracking-tight">IOTA Two (816 PFV)</h2>
+                                    <div className="grid grid-cols-2 gap-8">
+                                        <div><TransparentTable title="Equity (출자자)" items={iotaData[816].equity} isLoan={false} /></div>
+                                        <div><TransparentTable title="Loan (대주단)" items={iotaData[816].loan} isLoan={true} /></div>
+                                    </div>
+                                </div>
+
+                                {/* IOTA 427 */}
+                                <div className="bg-[#151515] p-6 rounded-[24px] border border-[#2c2c2e]">
+                                    <h2 className="text-[22px] font-bold text-white mb-6 tracking-tight">IOTA One (427 PFV)</h2>
+                                    <div className="grid grid-cols-2 gap-8">
+                                        <div><TransparentTable title="Equity (출자자)" items={iotaData[427].equity} isLoan={false} /></div>
+                                        <div><TransparentTable title="Loan (대주단)" items={iotaData[427].loan} isLoan={true} /></div>
+                                    </div>
+                                </div>
+
+                                {/* IOTA 421 */}
+                                <div id="section-421" className="bg-[#151515] p-6 rounded-[24px] border border-[#2c2c2e]">
+                                    <h2 className="text-[22px] font-bold text-white mb-6 tracking-tight">421호 펀드</h2>
+                                    <div className="grid grid-cols-2 gap-8">
+                                        <div><TransparentTable title="Equity (출자자)" items={iotaData[421].equity} isLoan={false} /></div>
+                                        <div><TransparentTable title="Loan (대주단)" items={iotaData[421].loan} isLoan={true} /></div>
+                                    </div>
+                                </div>
+                            </>
+                        )}
+
+                        {/* Non-IOTA Investors */}
+                        <div className="mt-8 p-6">
+                            <h2 className="text-[22px] font-bold text-white mb-2 tracking-tight">기타 이지스 마스터 투자자</h2>
+                            <p className="text-[14px] text-[#86868B] mb-6">IOTA에 참여하지 않은 기관 중 이지스 총 약정액이 높은 순서입니다.</p>
+                            
+                            {loading ? (
+                                <div className="text-center text-[#86868B] py-10">DB 데이터 연동 중...</div>
+                            ) : (
+                                <div className="w-full">
+                                    {otherInvestors.map((item, idx) => {
+                                        const isExpanded = expandedRow === item.name;
+                                        return (
+                                            <div key={idx} className="flex flex-col">
+                                                <div 
+                                                    onClick={() => toggleRow(item.name)}
+                                                    className={`flex items-center justify-between px-5 py-[14px] cursor-pointer transition-colors border border-[#3c3c3c] bg-transparent
+                                                        ${idx === 0 && !isExpanded ? 'rounded-t-[12px]' : ''} 
+                                                        ${idx === otherInvestors.length - 1 && !isExpanded ? 'rounded-b-[12px]' : ''}
+                                                        ${idx !== 0 ? '-mt-[1px]' : ''}
+                                                        ${isExpanded ? 'bg-[#2a2a2a] rounded-t-[12px] border-b-transparent z-10' : 'hover:bg-[#222]'}
+                                                    `}
+                                                >
+                                                    <div className="flex items-center gap-4">
+                                                        <span className="text-[15px] font-medium text-white">{item.name}</span>
+                                                        <span className="text-[12px] text-[#86868B] border border-[#444] px-2 py-0.5 rounded-md">{item.category || '기타'}</span>
+                                                    </div>
+                                                    <div className="flex items-center gap-6">
+                                                        <span className="text-[15px] font-bold text-white text-right w-[150px]">총 {Math.floor(item.total_amt / 100000000).toLocaleString()}억</span>
+                                                        <svg className={`w-4 h-4 text-[#86868B] transition-transform ${isExpanded ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"/></svg>
+                                                    </div>
+                                                </div>
+                                                <AnimatePresence>
+                                                    {isExpanded && <AccordionContent instName={item.name} />}
+                                                </AnimatePresence>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            )}
+                        </div>
+
+                    </div>
+                )}
             </div>
         </div>
     );

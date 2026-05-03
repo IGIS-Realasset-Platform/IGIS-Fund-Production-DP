@@ -19,14 +19,47 @@ import WorkspaceDevelopment from './workspace/WorkspaceDevelopment';
 import WorkspaceDigital from './workspace/WorkspaceDigital';
 import WorkspaceFund from './workspace/WorkspaceFund';
 import WorkspaceIpr from './workspace/WorkspaceIpr';
+import WorkspaceIprWg from './workspace/WorkspaceIprWg';
 import IotaDashboard from './IotaDashboard';
+import VehicleIntegrated from './VehicleIntegrated';
+import SystemFund421 from './SystemFund421';
 
 export default function PlatformCenter({ currentPath = '' }) {
     const scrollRef = useRef(null);
 
+    const handleScroll = () => {
+        if (scrollRef.current) {
+            const state = window.history.state || {};
+            window.history.replaceState({ ...state, scroll: scrollRef.current.scrollTop }, '');
+        }
+    };
+
     useEffect(() => {
         if (scrollRef.current) {
-            scrollRef.current.scrollTop = 0;
+            const state = window.history.state;
+            if (state && state.scroll !== undefined) {
+                if (state.scroll === 0) {
+                    scrollRef.current.scrollTop = 0;
+                } else {
+                    // Try multiple times since data might be loading asynchronously (e.g. Supabase fetches)
+                    let attempts = 0;
+                    const interval = setInterval(() => {
+                        if (scrollRef.current) {
+                            scrollRef.current.scrollTop = state.scroll;
+                            attempts++;
+                            // If the browser successfully applied the scroll (meaning DOM is now tall enough) or we timed out
+                            if (scrollRef.current.scrollTop > 0 || attempts >= 15) {
+                                clearInterval(interval);
+                            }
+                        } else {
+                            clearInterval(interval);
+                        }
+                    }, 100);
+                    return () => clearInterval(interval);
+                }
+            } else {
+                scrollRef.current.scrollTop = 0;
+            }
         }
     }, [currentPath]);
 
@@ -63,7 +96,10 @@ export default function PlatformCenter({ currentPath = '' }) {
             case 'platform/iotaseoul/workspace/development': return <WorkspaceDevelopment />;
             case 'platform/iotaseoul/workspace/digital': return <WorkspaceDigital />;
             case 'platform/iotaseoul/workspace/fund': return <WorkspaceFund />;
-            case 'platform/iotaseoul/workspace/ipr': return <WorkspaceIpr />;
+            case 'platform/iotaseoul/workspace/ipr': return <WorkspaceIprWg />;
+            case 'platform/iotaseoul/project-reits': return <WorkspaceIpr />;
+            case 'platform/iotaseoul/vehicle-integrated': return <VehicleIntegrated />;
+            case 'platform/iotaseoul/421-fund': return <SystemFund421 />;
             default: return null;
         }
     };
@@ -80,7 +116,7 @@ export default function PlatformCenter({ currentPath = '' }) {
     if (activeContent) {
         return (
             <div className="flex-1 h-full bg-transparent flex flex-col relative font-sans text-[#1D1D1F] dark:text-[#E5E5E5] overflow-hidden transition-colors duration-300">
-                <div ref={scrollRef} className="flex-1 w-full overflow-y-auto hide-scrollbar flex flex-col relative">
+                <div ref={scrollRef} onScroll={handleScroll} className="flex-1 w-full overflow-y-auto hide-scrollbar flex flex-col relative">
                     {activeContent}
                 </div>
             </div>
@@ -105,7 +141,7 @@ export default function PlatformCenter({ currentPath = '' }) {
         <div className="flex-1 h-full bg-transparent flex flex-col relative font-sans text-[#1D1D1F] dark:text-[#E5E5E5] overflow-hidden transition-colors duration-300">
 
             {/* Dedicated Scroll Container */}
-            <div ref={scrollRef} className="flex-1 w-full overflow-y-auto hide-scrollbar flex flex-col relative">
+            <div ref={scrollRef} onScroll={handleScroll} className="flex-1 w-full overflow-y-auto hide-scrollbar flex flex-col relative">
                 {/* Main Content Area */}
                 <div className="w-[1200px] mx-auto flex-1 flex flex-col pt-[77px] shrink-0 pb-[60px]">
                 

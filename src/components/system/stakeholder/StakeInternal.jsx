@@ -650,14 +650,14 @@ export default function StakeInternal() {
                     );
                     return { ...group, members: filteredMembers };
                 }).filter(group => group.members.length > 0)).map((group, gIdx) => (
-                    <div key={gIdx} className="w-full flex flex-col gap-[32px]">
+                    <div key={gIdx} className={`w-full flex flex-col gap-[32px] ${gIdx > 0 ? 'border-t border-[#3c3c3c] pt-[40px] -mt-[20px]' : ''}`}>
                         {/* Group Header */}
                         <h2 className="text-[20px] font-bold text-white tracking-tight">{group.groupTitle}</h2>
                         
                         {/* Members List */}
                         <div className="w-full flex flex-col gap-[46px]">
                             {group.members.map((member, mIdx) => (
-                                <div key={mIdx} id={`member-${member.name.split('(')[0]}`} className="w-full flex items-start gap-[40px] scroll-mt-[100px]">
+                                <div key={mIdx} id={`member-${member.name.split('(')[0]}`} className="w-full flex items-start gap-[30px] scroll-mt-[100px]">
                                     {/* 1. Photo */}
                                     <div className="w-[120px] h-[120px] shrink-0 rounded-full bg-[#3c3c3c] overflow-hidden relative shadow-lg mt-[4px]">
                                         <img src={`${import.meta.env.BASE_URL}${member.photo}.webp`} alt={member.name} className="w-full h-full object-cover" onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }} />
@@ -665,7 +665,7 @@ export default function StakeInternal() {
                                     </div>
                                     
                                     {/* 2. Name & Roles */}
-                                    <div className="w-[156px] shrink-0 flex flex-col">
+                                    <div className="w-[156px] shrink-0 flex flex-col translate-x-[6px]">
                                         <div className="flex items-center h-[24px] mb-[6px]">
                                             <span className="text-[15px] font-bold text-white leading-none">{member.name}</span>
                                         </div>
@@ -698,7 +698,7 @@ export default function StakeInternal() {
                                         {/* Table Rows (Dummy Data) */}
                                         {[
                                             { log: '816 관련 소노인터내셔널 협업 미팅', project: 'IOTA2 816', purpose: '리스크판단', status: '진행중', stakeholder: '소노인터내셔널 서준혁 회장', date: '2026.05.02' },
-                                            { log: "중순위 대주 '한투리얼에셋자산운용' 재...", project: '421 Fund', purpose: '협업', status: '완료', stakeholder: '한투리얼에셋 서준혁 회장', date: '2026.05.01' },
+                                            { log: "중순위 대주 '한투리얼에셋자산운용' 재참여설득", project: '421 Fund', purpose: '협업', status: '완료', stakeholder: '한투리얼에셋 서준혁 회장', date: '2026.05.01' },
                                             { log: '816 투자자 협의(kt estate IR day 후..', project: 'IOTA1 427', purpose: '의사결정', status: '검토중', stakeholder: 'KT estate 서준혁 회장', date: '2026.04.30' },
                                             { log: 'LG전자 지주 제안 관련 미팅', project: 'IOTA1 427', purpose: '협업', status: '진행중', stakeholder: 'LG전자 서준혁 회장', date: '2026.04.30' },
                                             { log: '427 호텔 및 남대문교회 진행사항 보고', project: 'IOTA2 427', purpose: '리스크판단', status: '진행중', stakeholder: '현대건설 서준혁 회장', date: '2026.04.28' },
