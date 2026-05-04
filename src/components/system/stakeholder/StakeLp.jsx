@@ -621,13 +621,13 @@ export default function StakeLp() {
             <div className="flex-1 overflow-y-auto hide-scrollbar">
                 
                 {isSearching ? (
-                    // Search Mode (Grid View like StakeInternal)
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    // Search Mode (Full Width View)
+                    <div className="flex flex-col gap-4">
                         {searchResults.length > 0 ? searchResults.map((item, idx) => {
                             const uniqueKey = `search-${idx}-${item.name}`;
                             const isExpanded = expandedRow === uniqueKey;
                             return (
-                                <div key={idx} className="col-span-1 md:col-span-1">
+                                <div key={idx} className="w-full">
                                     <div 
                                         onClick={() => toggleRow(uniqueKey, item.name)}
                                         className={`bg-[#1c1c1c] border transition-all cursor-pointer p-5 flex flex-col
@@ -707,7 +707,22 @@ export default function StakeLp() {
 
                         {/* Non-IOTA Investors */}
                         <div className="mt-3">
-                            <h2 className="text-[22px] font-bold text-white mb-1 tracking-tight">기타 이지스 마스터 투자자</h2>
+                            <div className="flex items-center justify-between mb-1">
+                                <h2 className="text-[22px] font-bold text-white tracking-tight">기타 이지스 마스터 투자자</h2>
+                                {/* Search Bar Duplicate */}
+                                <div className="relative w-[280px]">
+                                    <div className="absolute inset-y-0 left-[14px] flex items-center pointer-events-none">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#86868B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                                    </div>
+                                    <input
+                                        type="text"
+                                        className="bg-[#272726] border border-[#545451] hover:border-[#666] rounded-[12px] pl-[36px] pr-[16px] py-[8px] text-[13px] text-white w-[280px] focus:outline-none focus:border-[#2997ff] transition-colors"
+                                        placeholder="기관명 검색 (예: 국민연금)"
+                                        value={searchTerm}
+                                        onChange={(e) => setSearchTerm(e.target.value)}
+                                    />
+                                </div>
+                            </div>
                             <p className="text-[14px] text-[#86868B] mb-6">IOTA에 참여하지 않은 기관 중 이지스 총 약정액이 높은 순서입니다.</p>
                             
                             {loading ? (
