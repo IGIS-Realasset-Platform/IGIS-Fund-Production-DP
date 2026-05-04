@@ -12,6 +12,15 @@ const getTrancheColor = (trancheName) => {
     return 'text-[#86868B]';
 };
 
+const formatTrancheName = (name) => {
+    if (!name) return '';
+    if (name.includes('A종 수익증권')) return 'Tr.A';
+    if (name.includes('B종 수익증권')) return 'Tr.B';
+    if (name.includes('C종 수익증권')) return 'Tr.C';
+    if (name.includes('D종 수익증권')) return 'Tr.D';
+    return name;
+};
+
 const AccordionContent = ({ instName, contactsCache, isLast }) => {
     const contacts = contactsCache[instName];
     return (
@@ -193,7 +202,7 @@ export default function StakeLp() {
                             name: item.institution_name,
                             amount: item.amount_krw_100m.toLocaleString(),
                             rawAmount: item.amount_krw_100m,
-                            tranche: item.tranche_name
+                            tranche: formatTrancheName(item.tranche_name)
                         };
 
                         if (type === 'equity') {
