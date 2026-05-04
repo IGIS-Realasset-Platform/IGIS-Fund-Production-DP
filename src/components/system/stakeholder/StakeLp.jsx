@@ -21,7 +21,22 @@ const formatTrancheName = (name) => {
     return name;
 };
 
-const AccordionContent = ({ instName, contactsCache, metaCache, isLast, isMaster = false }) => {
+const formatKoreanAmount = (amountStrOrNum) => {
+    if (!amountStrOrNum) return '0억';
+    let numStr = String(amountStrOrNum).replace(/,/g, '').replace('억', '').replace(' ', '');
+    let num = Number(numStr);
+    if (isNaN(num)) return amountStrOrNum;
+    
+    if (num >= 10000) {
+        const jo = Math.floor(num / 10000);
+        const uk = Math.floor(num % 10000);
+        if (uk === 0) return `${jo}조원`;
+        return `${jo}조 ${uk.toLocaleString()}억`;
+    }
+    return `${num.toLocaleString()}억`;
+};
+
+const AccordionContent = ({ instName, contactsCache, metaCache, isLast, isMaster = false, iotaInvestments = [] }) => {
     const contacts = contactsCache[instName];
     const metaData = metaCache ? metaCache[instName] : undefined;
     const meta = metaData?.investment || [];
@@ -50,7 +65,7 @@ const AccordionContent = ({ instName, contactsCache, metaCache, isLast, isMaster
                                                     <div className="text-[14px] font-bold text-white">{m.name}</div>
                                                     {m.department && m.department !== '0' && (
                                                         <div className="text-[14px] text-white">
-                                                            {!isNaN(m.department) ? `${Number(m.department).toLocaleString()}억` : m.department}
+                                                            {formatKoreanAmount(m.department)}
                                                         </div>
                                                     )}
                                                 </div>
@@ -63,6 +78,18 @@ const AccordionContent = ({ instName, contactsCache, metaCache, isLast, isMaster
                                 ) : (
                                     <div className="text-[13px] text-[#A1A1AA]">
                                         등록된 투자 현황이 없습니다.
+                                    </div>
+                                )}
+
+                                {iotaInvestments.length > 0 && (
+                                    <div className="flex flex-col gap-2 mt-4 pt-5 border-t border-[#333]">
+                                        <div className="text-[13px] font-bold text-[#86868B] mb-2 uppercase">IOTA 프로젝트 투자 현황</div>
+                                        {iotaInvestments.map((inv, idx) => (
+                                            <div key={`inv-${idx}`} className="flex justify-between items-center text-[13px] py-1 border-b border-[#333] border-dashed last:border-0">
+                                                <span className="text-[#A1A1AA]">{inv.label}</span>
+                                                <span className="text-white font-bold">{formatKoreanAmount(inv.amount)}</span>
+                                            </div>
+                                        ))}
                                     </div>
                                 )}
                             </div>
@@ -540,7 +567,7 @@ export default function StakeLp() {
                                         <h3 className="text-[18px] font-bold text-white leading-tight mb-4">{item.name}</h3>
                                         <div className="flex justify-between items-center mt-auto">
                                             <span className="text-[13px] text-[#A1A1AA]">총 약정/투자액</span>
-                                            <span className="text-[15px] font-bold text-white">{item.amount}억</span>
+                                            <span className="text-[15px] font-bold text-white">{item.amount ? `${item.amount}억` : `총 ${formatKoreanAmount(Math.floor(item.total_amt / 100000000))}`}</span>
                                         </div>
                                     </div>
                                     <AnimatePresence>
@@ -622,12 +649,12 @@ export default function StakeLp() {
                                                         <span className="text-[12px] text-[#86868B] border border-[#444] px-2 py-0.5 rounded-md">{item.category || '기타'}</span>
                                                     </div>
                                                     <div className="flex items-center gap-6">
-                                                        <span className="text-[15px] font-bold text-white text-right w-[150px]">총 {Math.floor(item.total_amt / 100000000).toLocaleString()}억</span>
+                                                        <span className="text-[15px] font-bold text-white text-right w-[150px]">총 {formatKoreanAmount(Math.floor(item.total_amt / 100000000))}</span>
                                                         <svg className={`w-4 h-4 text-[#86868B] transition-transform ${isExpanded ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"/></svg>
                                                     </div>
                                                 </div>
                                                 <AnimatePresence>
-                                                    {isExpanded && <AccordionContent instName={item.name} contactsCache={contactsCache} metaCache={metaCache} isLast={idx === otherInvestors.length - 1} isMaster={true} />}
+                                                    {isExpanded && <AccordionContent instName={item.name} contactsCache={contactsCache} metaCache={metaCache} isLast={idx === otherInvestors.length - 1} isMaster={true} iotaInvestments={getIotaInvestments(item.name)} />}
                                                 </AnimatePresence>
                                             </div>
                                         );
