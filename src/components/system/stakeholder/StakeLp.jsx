@@ -504,6 +504,9 @@ export default function StakeLp() {
                     validContacts.push(c);
                 });
 
+                // Sort historyMeta by date descending
+                historyMeta.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
                 setContactsCache(prev => ({ ...prev, [instName]: validContacts }));
                 setMetaCache(prev => ({ ...prev, [instName]: { investment: investmentMeta, history: historyMeta } }));
             } else {
