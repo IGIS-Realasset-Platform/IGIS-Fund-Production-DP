@@ -29,6 +29,14 @@ const stakeholderGroups = [
                                 email: 'jmjung@igisam.com',
                                 phone: '010-6341-0174',
                             },
+                            {
+                                name: '우형석',
+                                photo: '우형석',
+                                roles: ['사업그룹/그룹장', '전략펀드운용1실', '사업그룹3파트/그룹장'],
+                                responsibility: '개발관리파트 총괄 (Sub-PO)',
+                                email: 'hyungsuk.woo@igisam.com',
+                                phone: '010-8893-7572',
+                            },
                         ]
                     },
                     {
