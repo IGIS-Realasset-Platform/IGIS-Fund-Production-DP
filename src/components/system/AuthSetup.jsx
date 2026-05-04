@@ -6,21 +6,29 @@ export default function AuthSetup({ onLogin }) {
     const [mounted, setMounted] = useState(false);
     const [dissolved, setDissolved] = useState(false);
     const [hasError, setHasError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
 
     useEffect(() => {
         const timer = setTimeout(() => setMounted(true), 100);
         return () => clearTimeout(timer);
     }, []);
 
-    const triggerError = () => {
+    const triggerError = (msg) => {
         setHasError(true);
+        setErrorMessage(msg);
         setTimeout(() => setHasError(false), 500);
     };
 
     const handleSubmit = (e) => {
         e?.preventDefault();
-        if (password !== confirmPassword || password.length < 6) {
-            triggerError();
+        setErrorMessage('');
+        
+        if (password.length < 6) {
+            triggerError('패스워드는 최소 6자리 이상이어야 합니다.');
+            return;
+        }
+        if (password !== confirmPassword) {
+            triggerError('패스워드가 일치하지 않습니다.');
             return;
         }
         
@@ -93,14 +101,26 @@ export default function AuthSetup({ onLogin }) {
                         </div>
 
                         {/* Confirm Password Input */}
-                        <div className="w-full mb-6">
+                        <div className="w-full mb-2">
                             <input 
                                 type="password" 
                                 placeholder="패스워드를 확인하세요"
                                 value={confirmPassword}
-                                onChange={(e) => setConfirmPassword(e.target.value)}
+                                onChange={(e) => {
+                                    setConfirmPassword(e.target.value);
+                                    if (errorMessage) setErrorMessage('');
+                                }}
                                 className={`w-full bg-white dark:bg-[#262626] text-[#111] dark:text-white placeholder-gray-400 dark:placeholder-[#737373] text-[15px] px-4 py-3.5 rounded-lg border focus:outline-none transition-colors duration-300 ${hasError ? 'border-red-500 dark:border-red-500' : 'border-black/10 dark:border-[#3A3A3A] focus:border-[#111] dark:focus:border-[#666]'}`}
                             />
+                        </div>
+
+                        {/* Error Message Space */}
+                        <div className="w-full h-[24px] mb-4 flex items-center px-1">
+                            {errorMessage && (
+                                <span className="text-red-500 dark:text-[#FF453A] text-[13px] font-medium animate-pulse">
+                                    * {errorMessage}
+                                </span>
+                            )}
                         </div>
 
                         {/* Submit Button */}
