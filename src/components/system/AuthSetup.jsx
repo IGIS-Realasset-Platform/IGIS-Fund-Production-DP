@@ -97,7 +97,7 @@ export default function AuthSetup({ onLogin }) {
                         <div className="w-full mb-3">
                             <input 
                                 type="password" 
-                                placeholder="패스워드를 입력하세요"
+                                placeholder="패스워드를 입력하세요."
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 className={`w-full bg-white dark:bg-[#262626] text-[#111] dark:text-white placeholder-gray-400 dark:placeholder-[#737373] text-[15px] px-4 py-3.5 rounded-lg border focus:outline-none transition-colors duration-300 ${hasError ? 'border-red-500 dark:border-red-500' : 'border-black/10 dark:border-[#3A3A3A] focus:border-[#111] dark:focus:border-[#666]'}`}
@@ -108,7 +108,7 @@ export default function AuthSetup({ onLogin }) {
                         <div className="w-full mb-2">
                             <input 
                                 type="password" 
-                                placeholder="패스워드를 확인하세요"
+                                placeholder="패스워드를 확인하세요."
                                 value={confirmPassword}
                                 onChange={(e) => {
                                     setConfirmPassword(e.target.value);
