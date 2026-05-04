@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 
 import { supabase } from '../../utils/supabaseClient';
 import { fetchWithRetry } from '../../utils/fetchWithRetry';
+import { useAuth } from '../../context/AuthContext';
 
 export default function AuthSetup({ onLogin }) {
-    const [step, setStep] = useState(1);
+    const { recoveryMode, setRecoveryMode } = useAuth();
+    const [step, setStep] = useState(recoveryMode ? 5 : 1);
     const [email, setEmail] = useState('');
     const [staffName, setStaffName] = useState('');
     const [isFirstTime, setIsFirstTime] = useState(true);
@@ -27,6 +29,12 @@ export default function AuthSetup({ onLogin }) {
         const timer = setTimeout(() => setMounted(true), 100);
         return () => clearTimeout(timer);
     }, []);
+
+    useEffect(() => {
+        if (recoveryMode) {
+            setStep(5);
+        }
+    }, [recoveryMode]);
 
     const triggerError = (msg) => {
         setHasError(true);
@@ -139,6 +147,59 @@ export default function AuthSetup({ onLogin }) {
         }
     };
 
+    const handleResetEmailSubmit = async (e) => {
+        e?.preventDefault();
+        setErrorMessage('');
+        
+        try {
+            const { error } = await supabase.auth.resetPasswordForEmail(email.trim().toLowerCase(), {
+                redirectTo: window.location.origin + import.meta.env.BASE_URL + 'auth-setup',
+            });
+            
+            if (error) {
+                triggerError('이메일 발송 실패: ' + error.message);
+                return;
+            }
+            
+            alert('이메일로 비밀번호 재설정 링크가 발송되었습니다. 이메일을 확인해주세요.');
+            setStep(1);
+        } catch (err) {
+            triggerError('이메일 발송 중 오류가 발생했습니다.');
+        }
+    };
+
+    const handleRecoveryPasswordSubmit = async (e) => {
+        e?.preventDefault();
+        setErrorMessage('');
+        
+        if (newPassword.length < 6) {
+            triggerError('새 패스워드는 최소 6자리 이상이어야 합니다.');
+            return;
+        }
+        if (newPassword !== confirmNewPassword) {
+            triggerError('새 패스워드가 일치하지 않습니다.');
+            return;
+        }
+
+        try {
+            const { error: updateError } = await supabase.auth.updateUser({
+                password: newPassword
+            });
+
+            if (updateError) {
+                triggerError('패스워드 변경 실패: ' + updateError.message);
+                return;
+            }
+
+            // Success, clear recovery mode and show confirmation popup
+            setRecoveryMode(false);
+            setShowChangeSuccessModal(true);
+
+        } catch (err) {
+            triggerError('패스워드 변경 중 오류가 발생했습니다.');
+        }
+    };
+
     const proceedLogin = async () => {
         setShowConfirmModal(false);
         setErrorMessage('');
@@ -146,14 +207,28 @@ export default function AuthSetup({ onLogin }) {
         try {
             if (isFirstTime) {
                 // Sign up new user
-                const { data, error } = await supabase.auth.signUp({
+                let { data, error } = await supabase.auth.signUp({
                     email: email.trim().toLowerCase(),
                     password: password
                 });
                 
                 if (error) {
-                    triggerError('회원가입 실패: ' + error.message);
-                    return;
+                    // Auto-heal: If user already exists in Supabase auth but auth_id in DB is null (e.g. after table reset)
+                    if (error.message.includes('already registered')) {
+                        const signInRes = await supabase.auth.signInWithPassword({
+                            email: email.trim().toLowerCase(),
+                            password: password
+                        });
+                        
+                        if (signInRes.error) {
+                            triggerError('이미 가입된 이메일입니다. 기존 패스워드를 입력하거나 "비밀번호 찾기"를 이용하세요.');
+                            return;
+                        }
+                        data = signInRes.data; // Use the signed-in session data
+                    } else {
+                        triggerError('회원가입 실패: ' + error.message);
+                        return;
+                    }
                 }
 
                 // Update auth_id in our members table
@@ -332,19 +407,27 @@ export default function AuthSetup({ onLogin }) {
                                 </button>
 
                                 {!isFirstTime && (
-                                    <div className="w-full mt-5 flex justify-center">
+                                    <div className="w-full mt-5 flex justify-center items-center">
                                         <button 
                                             type="button"
                                             onClick={() => setStep(3)}
                                             className="text-[#86868B] hover:text-[#111] dark:hover:text-[#E5E5E5] text-[13px] font-medium transition-colors border-b border-transparent hover:border-[#111] dark:hover:border-[#E5E5E5] pb-0.5"
                                         >
-                                            패스워드 재설정
+                                            패스워드 변경
+                                        </button>
+                                        <span className="mx-3 text-[#E5E5E5] dark:text-[#333]">|</span>
+                                        <button 
+                                            type="button"
+                                            onClick={() => setStep(4)}
+                                            className="text-[#86868B] hover:text-[#111] dark:hover:text-[#E5E5E5] text-[13px] font-medium transition-colors border-b border-transparent hover:border-[#111] dark:hover:border-[#E5E5E5] pb-0.5"
+                                        >
+                                            비밀번호를 잊으셨나요?
                                         </button>
                                     </div>
                                 )}
                             </form>
                         </>
-                    ) : (
+                    ) : step === 3 ? (
                         <>
                             <div className="flex items-center justify-between w-full mt-1 mb-6">
                                 <span className="text-[#333] dark:text-[#E5E5E5] text-[17px] font-semibold tracking-tight transition-colors duration-300">
@@ -398,6 +481,93 @@ export default function AuthSetup({ onLogin }) {
                                     className="w-full bg-[#111] dark:bg-[#0A84FF] text-white dark:text-white hover:bg-[#333] dark:hover:bg-[#0071E3] rounded-lg py-3.5 font-semibold transition-colors text-[16px] cursor-pointer"
                                 >
                                     변경 및 접속하기
+                                </button>
+                            </form>
+                        </>
+                    ) : step === 4 ? (
+                        <>
+                            <div className="flex items-center justify-between w-full mt-1 mb-6">
+                                <span className="text-[#333] dark:text-[#E5E5E5] text-[17px] font-semibold tracking-tight transition-colors duration-300">
+                                    비밀번호 재설정 링크 발송
+                                </span>
+                                <button onClick={() => setStep(2)} className="text-[#86868B] hover:text-[#111] dark:hover:text-white transition-colors flex items-center text-[13px] shrink-0">
+                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"/></svg>
+                                    뒤로
+                                </button>
+                            </div>
+
+                            <p className="text-[#86868B] dark:text-[#A1A1AA] text-[14px] mb-6 leading-relaxed">
+                                가입하신 이메일 주소로 비밀번호를 재설정할 수 있는 링크를 보내드립니다.
+                            </p>
+
+                            <form onSubmit={handleResetEmailSubmit} className="w-full">
+                                <div className="w-full mb-2">
+                                    <input 
+                                        type="email" 
+                                        placeholder="이메일을 입력하세요."
+                                        value={email}
+                                        onChange={(e) => { setEmail(e.target.value); if(errorMessage) setErrorMessage(''); }}
+                                        className={`w-full bg-white dark:bg-[#262626] text-[#111] dark:text-white placeholder-gray-400 dark:placeholder-[#737373] text-[15px] px-4 py-3.5 rounded-lg border focus:outline-none transition-colors duration-300 ${hasError ? 'border-red-500 dark:border-red-500' : 'border-black/10 dark:border-[#3A3A3A] focus:border-[#111] dark:focus:border-[#666]'}`}
+                                    />
+                                </div>
+
+                                <div className="w-full h-[24px] mb-4 flex items-center px-1">
+                                    {errorMessage && (
+                                        <span className="text-red-500 dark:text-[#FF453A] text-[13px] font-medium animate-pulse">
+                                            * {errorMessage}
+                                        </span>
+                                    )}
+                                </div>
+
+                                <button 
+                                    type="submit"
+                                    className="w-full bg-[#111] dark:bg-[#0A84FF] text-white dark:text-white hover:bg-[#333] dark:hover:bg-[#0071E3] rounded-lg py-3.5 font-semibold transition-colors text-[16px] cursor-pointer"
+                                >
+                                    재설정 링크 받기
+                                </button>
+                            </form>
+                        </>
+                    ) : (
+                        <>
+                            <div className="flex items-center justify-between w-full mt-1 mb-6">
+                                <span className="text-[#333] dark:text-[#E5E5E5] text-[17px] font-semibold tracking-tight transition-colors duration-300">
+                                    새로운 패스워드 설정
+                                </span>
+                            </div>
+
+                            <form onSubmit={handleRecoveryPasswordSubmit} className="w-full">
+                                <div className="w-full mb-2">
+                                    <input 
+                                        type="password" 
+                                        placeholder="새 패스워드"
+                                        value={newPassword}
+                                        onChange={(e) => { setNewPassword(e.target.value); if(errorMessage) setErrorMessage(''); }}
+                                        className={`w-full bg-white dark:bg-[#262626] text-[#111] dark:text-white placeholder-gray-400 dark:placeholder-[#737373] text-[15px] px-4 py-3.5 rounded-lg border focus:outline-none transition-colors duration-300 ${hasError ? 'border-red-500 dark:border-red-500' : 'border-black/10 dark:border-[#3A3A3A] focus:border-[#111] dark:focus:border-[#666]'}`}
+                                    />
+                                </div>
+                                <div className="w-full mb-2">
+                                    <input 
+                                        type="password" 
+                                        placeholder="새 패스워드 확인"
+                                        value={confirmNewPassword}
+                                        onChange={(e) => { setConfirmNewPassword(e.target.value); if(errorMessage) setErrorMessage(''); }}
+                                        className={`w-full bg-white dark:bg-[#262626] text-[#111] dark:text-white placeholder-gray-400 dark:placeholder-[#737373] text-[15px] px-4 py-3.5 rounded-lg border focus:outline-none transition-colors duration-300 ${hasError ? 'border-red-500 dark:border-red-500' : 'border-black/10 dark:border-[#3A3A3A] focus:border-[#111] dark:focus:border-[#666]'}`}
+                                    />
+                                </div>
+
+                                <div className="w-full h-[24px] mb-4 flex items-center px-1">
+                                    {errorMessage && (
+                                        <span className="text-red-500 dark:text-[#FF453A] text-[13px] font-medium animate-pulse">
+                                            * {errorMessage}
+                                        </span>
+                                    )}
+                                </div>
+
+                                <button 
+                                    type="submit"
+                                    className="w-full bg-[#111] dark:bg-[#0A84FF] text-white dark:text-white hover:bg-[#333] dark:hover:bg-[#0071E3] rounded-lg py-3.5 font-semibold transition-colors text-[16px] cursor-pointer"
+                                >
+                                    패스워드 저장 및 접속하기
                                 </button>
                             </form>
                         </>

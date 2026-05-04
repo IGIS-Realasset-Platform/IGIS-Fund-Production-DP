@@ -7,6 +7,7 @@ export function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
     const [memberInfo, setMemberInfo] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [recoveryMode, setRecoveryMode] = useState(false);
 
     useEffect(() => {
         // Fetch current session and setup listener
@@ -38,6 +39,10 @@ export function AuthProvider({ children }) {
                 
                 // Only subscribe AFTER initial session is loaded to prevent concurrent lock conflicts
                 const { data } = supabase.auth.onAuthStateChange(async (event, session) => {
+                    if (event === 'PASSWORD_RECOVERY') {
+                        setRecoveryMode(true);
+                    }
+
                     if (session?.user) {
                         setUser(session.user);
                         await fetchMemberInfo(session.user.email);
@@ -97,7 +102,7 @@ export function AuthProvider({ children }) {
     };
 
     return (
-        <AuthContext.Provider value={{ user, memberInfo, loading, signOut }}>
+        <AuthContext.Provider value={{ user, memberInfo, loading, signOut, recoveryMode, setRecoveryMode }}>
             {loading ? (
                 <div className="fixed inset-0 w-full h-full flex flex-col items-center justify-center bg-[#F5F5F7] dark:bg-[#1C1C1E] z-[99999]">
                     <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#0071E3] mb-4"></div>

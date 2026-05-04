@@ -26,11 +26,11 @@ CREATE POLICY "Allow public read access" ON public.iota_seoul_pilot_members FOR 
 CREATE POLICY "Allow individual update" ON public.iota_seoul_pilot_members FOR UPDATE USING (true);
 
 INSERT INTO public.iota_seoul_pilot_members (staff_name, email, workspace_code, role_code) VALUES
-('전기영', 'jk.jeon@igisam.com', 'WS_PM', 'master'),
-('이철승', 'ethan.lee@igisam.com', 'WS_MASTER', 'master'),
-('윤관식', 'gwansik.yoon@igisam.com', 'WS_MASTER', 'master'),
-('정조민', 'jmjung@igisam.com', 'WS_MASTER', 'master'),
-('우형석', 'hyungsuk.woo@igisam.com', 'WS_MASTER', 'master'),
+('전기영', 'jk.jeon@igisam.com', 'WS_PM', 'manager'),
+('이철승', 'ethan.lee@igisam.com', 'WS_MASTER', 'director'),
+('윤관식', 'gwansik.yoon@igisam.com', 'WS_MASTER', 'director'),
+('정조민', 'jmjung@igisam.com', 'WS_MASTER', 'director'),
+('우형석', 'hyungsuk.woo@igisam.com', 'WS_MASTER', 'director'),
 ('권순일', 'ksoonil@igisam.com', 'WS_PM', 'director'),
 ('강순용', 'sykang@igisam.com', 'WS_PM', 'director'),
 ('윤주형', 'jh.yoon@igisam.com', 'WS_PM', 'manager'),

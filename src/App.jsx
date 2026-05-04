@@ -66,14 +66,19 @@ export default function App() {
   }, [currentPage]);
 
   const { lang } = useLanguage();
-  const { user, loading } = useAuth();
+  const { user, loading, recoveryMode } = useAuth();
 
   // Protect platform routes
   React.useEffect(() => {
-      if (!loading && !user && currentPage.startsWith('platform/iotaseoul')) {
+      if (recoveryMode && currentPage !== 'auth-setup') {
+          navigateTo('auth-setup');
+          return;
+      }
+
+      if (!loading && !user && currentPage.startsWith('platform/iotaseoul') && !recoveryMode) {
           navigateTo('auth-setup');
       }
-  }, [user, loading, currentPage]);
+  }, [user, loading, currentPage, recoveryMode]);
 
   React.useEffect(() => {
     const applyLanguage = () => {
