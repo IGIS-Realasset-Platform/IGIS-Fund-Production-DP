@@ -731,21 +731,8 @@ export default function StakeLp() {
                                         className="bg-[#272726] border border-[#545451] hover:border-[#666] rounded-[12px] pl-[36px] pr-[16px] py-[8px] text-[13px] text-white w-[280px] focus:outline-none focus:border-[#2997ff] transition-colors"
                                         placeholder="기관명 검색 (예: 국민연금)"
                                         value={searchTerm}
-                                        onChange={(e) => {
-                                            setSearchTerm(e.target.value);
-                                            // Focus the top search bar immediately so typing can continue
-                                            // when the bottom search bar gets unmounted by the search view
-                                            setTimeout(() => {
-                                                const topSearch = document.getElementById('top-search');
-                                                if (topSearch) {
-                                                    topSearch.focus();
-                                                    // Ensure cursor is at the end of the input
-                                                    const val = topSearch.value;
-                                                    topSearch.value = '';
-                                                    topSearch.value = val;
-                                                }
-                                            }, 0);
-                                        }}
+                                        onFocus={() => setActiveSearchInput('bottom')}
+                                        onChange={(e) => setSearchTerm(e.target.value)}
                                     />
                                 </div>
                             </div>
