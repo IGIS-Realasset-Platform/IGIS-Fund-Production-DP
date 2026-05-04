@@ -27,8 +27,8 @@ export default function StakeLp() {
 
                 if (stackData) {
                     stackData.forEach(item => {
-                        // For 816, only take Refinancing for the directory
-                        if (item.vehicle_name === '816' && item.phase !== 'Refinancing') return;
+                        // For 816 and 427, only take Refinancing for the directory
+                        if ((item.vehicle_name === '816' || item.vehicle_name === '427') && item.phase !== 'Refinancing') return;
                         
                         const v = parseInt(item.vehicle_name);
                         const type = item.tranche_type === 'Equity' ? 'equity' : 'loan';
