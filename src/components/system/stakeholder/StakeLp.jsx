@@ -23,7 +23,9 @@ const formatTrancheName = (name) => {
 
 const AccordionContent = ({ instName, contactsCache, metaCache, isLast, isMaster = false }) => {
     const contacts = contactsCache[instName];
-    const meta = metaCache ? metaCache[instName] : undefined;
+    const metaData = metaCache ? metaCache[instName] : undefined;
+    const meta = metaData?.investment || [];
+    const historyMeta = metaData?.history || [];
     return (
         <motion.div 
             initial={{ height: 0, opacity: 0 }} 
@@ -38,7 +40,7 @@ const AccordionContent = ({ instName, contactsCache, metaCache, isLast, isMaster
                         <div className="flex flex-col gap-6">
                             <div>
                                 <h4 className="text-[14px] font-bold text-[#86868B] mb-4 uppercase">Investment Profile (투자 현황)</h4>
-                                {!meta ? (
+                                {!metaData ? (
                                     <div className="text-[13px] text-[#A1A1AA]">데이터 연동 중...</div>
                                 ) : meta.length > 0 ? (
                                     <div className="flex flex-col gap-4">
@@ -76,9 +78,22 @@ const AccordionContent = ({ instName, contactsCache, metaCache, isLast, isMaster
                             
                             <div>
                                 <h4 className="text-[14px] font-bold text-[#86868B] mb-3 uppercase">소통 히스토리 & Notes</h4>
-                                <div className="p-4 bg-transparent rounded-xl border border-dashed border-[#444] h-[120px] flex items-center justify-center">
-                                    <span className="text-[13px] text-[#555]">최근 미팅 노트 연동 준비중</span>
-                                </div>
+                                {historyMeta.length > 0 ? (
+                                    <div className="flex flex-col gap-3">
+                                        {historyMeta.map((h, i) => (
+                                            <div key={i} className="p-4 bg-transparent rounded-xl border border-[#333]">
+                                                {h.name && <div className="text-[13px] font-bold text-[#34d399] mb-1">[{h.name}]</div>}
+                                                {h.title && <div className="text-[12px] text-[#A1A1AA] mb-2 font-medium">참석자: {h.title}</div>}
+                                                {h.email && <div className="text-[13px] text-white leading-relaxed whitespace-pre-line mb-2">{h.email}</div>}
+                                                {h.mobile && <div className="text-[13px] text-[#A1A1AA] leading-relaxed whitespace-pre-line">{h.mobile}</div>}
+                                            </div>
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <div className="p-4 bg-transparent rounded-xl border border-dashed border-[#444] h-[120px] flex items-center justify-center">
+                                        <span className="text-[13px] text-[#555]">최근 미팅 노트 연동 준비중</span>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </>
@@ -112,9 +127,22 @@ const AccordionContent = ({ instName, contactsCache, metaCache, isLast, isMaster
                         
                         <div>
                             <h4 className="text-[14px] font-bold text-[#86868B] mb-3 uppercase">소통 히스토리 & Notes</h4>
-                            <div className="p-4 bg-[#1e1e1e] rounded-xl border border-[#333] h-[120px] flex items-center justify-center">
-                                <span className="text-[13px] text-[#555]">최근 미팅 노트 연동 준비중</span>
-                            </div>
+                            {historyMeta.length > 0 ? (
+                                <div className="flex flex-col gap-3">
+                                    {historyMeta.map((h, i) => (
+                                        <div key={i} className="p-4 bg-[#1e1e1e] rounded-xl border border-[#333]">
+                                            {h.name && <div className="text-[13px] font-bold text-[#34d399] mb-1">[{h.name}]</div>}
+                                            {h.title && <div className="text-[12px] text-[#A1A1AA] mb-2 font-medium">참석자: {h.title}</div>}
+                                            {h.email && <div className="text-[13px] text-white leading-relaxed whitespace-pre-line mb-2">{h.email}</div>}
+                                            {h.mobile && <div className="text-[13px] text-[#A1A1AA] leading-relaxed whitespace-pre-line">{h.mobile}</div>}
+                                        </div>
+                                    ))}
+                                </div>
+                            ) : (
+                                <div className="p-4 bg-[#1e1e1e] rounded-xl border border-[#333] h-[120px] flex items-center justify-center">
+                                    <span className="text-[13px] text-[#555]">최근 미팅 노트 연동 준비중</span>
+                                </div>
+                            )}
                         </div>
                     </>
                 )}
@@ -351,24 +379,42 @@ export default function StakeLp() {
                 const cpIds = cps.map(c => c.counterparty_id);
                 const { data: ctData } = await supabase.from('counterparty_contacts').select('*').in('counterparty_id', cpIds);
                 
-                const validContacts = (ctData || []).filter(c => {
+                const validContacts = [];
+                const investmentMeta = [];
+                const historyMeta = [];
+
+                (ctData || []).forEach(c => {
                     const name = c.name || '';
                     const title = c.title || '';
-                    // Exclude rows that are actually unstructured metadata from Excel parsing
-                    if (name.length > 15) return false;
-                    const invalidWords = ['AUM', '펀드', '위탁', '투자자', '참석자', '프로젝트', '회의록', '연락처'];
-                    if (invalidWords.some(w => name.includes(w))) return false;
-                    if (title.length > 20) return false;
-                    return true;
+                    
+                    // Exclude Table Headers
+                    if (name.includes('투자자 참석자') || name.includes('당사 참석자') || name.includes('주요 회의록')) return;
+
+                    // 1. Is Investment Profile?
+                    if (['AUM', '펀드', '위탁', '운용자산', '모펀드', '규모'].some(w => name.includes(w))) {
+                        investmentMeta.push(c);
+                        return;
+                    }
+
+                    // 2. Is Meeting History?
+                    if (
+                        (c.mobile && c.mobile.length > 20) || 
+                        (c.email && c.email.length > 20 && !c.email.includes('@')) ||
+                        name.length > 15 || title.length > 20
+                    ) {
+                        historyMeta.push(c);
+                        return;
+                    }
+
+                    // 3. Otherwise, check if it's a valid contact
+                    validContacts.push(c);
                 });
-                
-                const metaContacts = (ctData || []).filter(c => !validContacts.includes(c));
 
                 setContactsCache(prev => ({ ...prev, [instName]: validContacts }));
-                setMetaCache(prev => ({ ...prev, [instName]: metaContacts }));
+                setMetaCache(prev => ({ ...prev, [instName]: { investment: investmentMeta, history: historyMeta } }));
             } else {
                 setContactsCache(prev => ({ ...prev, [instName]: [] }));
-                setMetaCache(prev => ({ ...prev, [instName]: [] }));
+                setMetaCache(prev => ({ ...prev, [instName]: null }));
             }
         } catch (error) {
             console.error(error);
