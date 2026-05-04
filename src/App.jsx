@@ -132,7 +132,7 @@ export default function App() {
         {currentPage === 'action-plan' && <Notes />}
         
         {/* Navigation Handlers overriding the inline SystemPlan internal stage logic */}
-        {currentPage === 'auth-setup' && <AuthSetup onLogin={() => navigateTo('platform/iotaseoul')} />}
+        {currentPage === 'auth-setup' && <AuthSetup onLogin={() => navigateTo('platform/iotaseoul/dashboard')} />}
         {currentPage === 'system-plan' && <SystemLogin onLogin={() => navigateTo('system-bridge')} />}
         {['system-bridge', 'system-chat', 'system-detail'].includes(currentPage) && (
             <SystemPlan 

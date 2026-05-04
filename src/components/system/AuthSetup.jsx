@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import { supabase } from '../../utils/supabaseClient';
+import { fetchWithRetry } from '../../utils/fetchWithRetry';
 
 export default function AuthSetup({ onLogin }) {
     const [step, setStep] = useState(1);
@@ -20,6 +21,7 @@ export default function AuthSetup({ onLogin }) {
     const [errorMessage, setErrorMessage] = useState('');
     const [showContactModal, setShowContactModal] = useState(false);
     const [showConfirmModal, setShowConfirmModal] = useState(false);
+    const [showChangeSuccessModal, setShowChangeSuccessModal] = useState(false);
 
     useEffect(() => {
         const timer = setTimeout(() => setMounted(true), 100);
@@ -43,14 +45,15 @@ export default function AuthSetup({ onLogin }) {
 
         try {
             // Check if email exists in our pilot members list
-            const { data, error } = await supabase
+            const { data, error } = await fetchWithRetry(() => supabase
                 .from('iota_seoul_pilot_members')
                 .select('staff_name, auth_id')
                 .eq('email', email.trim().toLowerCase())
-                .single();
+                .single());
 
             if (error || !data) {
-                triggerError('등록되지 않은 사용자입니다. 관리팀에 문의해주세요.');
+                console.error("Login email lookup error:", error);
+                triggerError(error ? `서버 오류: ${error.message}` : '등록되지 않은 사용자입니다. 관리팀에 문의해주세요.');
                 return;
             }
 
@@ -128,11 +131,8 @@ export default function AuthSetup({ onLogin }) {
                 return;
             }
 
-            // Success, proceed to login
-            setDissolved(true);
-            setTimeout(() => {
-                if(onLogin) onLogin();
-            }, 700);
+            // Success, show confirmation popup
+            setShowChangeSuccessModal(true);
 
         } catch (err) {
             triggerError('패스워드 변경 중 오류가 발생했습니다.');
@@ -444,6 +444,39 @@ export default function AuthSetup({ onLogin }) {
                             <button onClick={() => setShowConfirmModal(false)} className="flex-1 py-3.5 rounded-xl bg-[#F5F5F7] dark:bg-[#2C2C2E] text-[#1D1D1F] dark:text-white font-semibold text-[15px] hover:bg-[#E8E8ED] dark:hover:bg-[#3A3A3C] transition-colors">취소</button>
                             <button onClick={proceedLogin} className="flex-1 py-3.5 rounded-xl bg-[#0071E3] text-white font-semibold text-[15px] hover:bg-[#0077ED] transition-colors">진행하기</button>
                         </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Password Change Success Modal */}
+            {showChangeSuccessModal && (
+                <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/40 backdrop-blur-sm transition-opacity">
+                    <div className="bg-white dark:bg-[#1C1C1E] w-[400px] rounded-[24px] p-8 shadow-2xl flex flex-col items-center">
+                        <div className="w-12 h-12 rounded-full bg-green-50 dark:bg-green-900/30 flex items-center justify-center mb-5">
+                            <svg className="w-6 h-6 text-green-500" fill="none" strokeWidth="2.5" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                            </svg>
+                        </div>
+                        <h3 className="text-[20px] font-bold text-[#1D1D1F] dark:text-white mb-4 tracking-tight">패스워드 변경 완료</h3>
+                        <div className="bg-[#F5F5F7] dark:bg-[#2C2C2E] rounded-lg px-6 py-4 mb-6 flex flex-col items-center w-full">
+                            <span className="text-[13px] text-[#86868B] dark:text-[#A1A1AA] mb-1">새로 설정된 패스워드</span>
+                            <span className="text-[22px] font-semibold text-[#1D1D1F] dark:text-white tracking-widest">{newPassword}</span>
+                        </div>
+                        <p className="text-[14px] font-medium text-[#86868B] dark:text-[#A1A1AA] mb-8 text-center leading-relaxed">
+                            패스워드가 성공적으로 변경되었습니다.<br/>반드시 기억해 주세요.
+                        </p>
+                        <button 
+                            onClick={() => {
+                                setShowChangeSuccessModal(false);
+                                setDissolved(true);
+                                setTimeout(() => {
+                                    if(onLogin) onLogin();
+                                }, 700);
+                            }} 
+                            className="w-full py-3.5 rounded-xl bg-[#0071E3] text-white font-semibold text-[15px] hover:bg-[#0077ED] transition-colors"
+                        >
+                            접속하기
+                        </button>
                     </div>
                 </div>
             )}

@@ -18,5 +18,11 @@ export const fetchWithRetry = async (queryFn, maxRetries = 3, delayMs = 500) => 
             break;
         }
     }
+    // If we exhausted retries and it's STILL a lock error, we simply return the error.
+    // NEVER forcefully log the user out or nuke storage here. Let the UI handle the error state gracefully.
+    if (lastError && lastError.message && lastError.message.includes('Lock')) {
+        console.warn('Supabase Lock error persisted after retries. Returning error to UI instead of crashing.');
+    }
+
     return { data: null, error: lastError };
 };

@@ -7,7 +7,6 @@ import { ThemeProvider } from './context/ThemeContext.jsx'
 import { AuthProvider } from './context/AuthContext.jsx'
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
     <LanguageProvider>
       <ThemeProvider>
         <AuthProvider>
@@ -15,5 +14,4 @@ createRoot(document.getElementById('root')).render(
         </AuthProvider>
       </ThemeProvider>
     </LanguageProvider>
-  </StrictMode>,
 )
