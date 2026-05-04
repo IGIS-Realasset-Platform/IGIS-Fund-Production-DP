@@ -62,7 +62,7 @@ const AccordionContent = ({ instName, contactsCache, metaCache, isLast, isMaster
                                         {meta.map((m, i) => (
                                             <div key={i} className="flex flex-col pb-4 border-b border-[#333] last:border-0">
                                                 <div className="flex items-baseline gap-2 mb-1.5">
-                                                    <div className="text-[14px] font-bold text-white">{m.name}</div>
+                                                    <div className="text-[14px] font-bold text-white whitespace-pre-line">{m.metadata?.full_text || m.name}</div>
                                                     {m.department && m.department !== '0' && (
                                                         <div className="text-[14px] text-white">
                                                             {formatKoreanAmount(m.department)}
@@ -183,7 +183,9 @@ const AccordionContent = ({ instName, contactsCache, metaCache, isLast, isMaster
                                             {h.created_at && (
                                                 <div className="text-[12px] font-medium text-[#86868B] mb-2">{new Date(h.created_at).toLocaleDateString()}</div>
                                             )}
-                                            {h.name && <div className="text-[13px] font-bold text-[#34d399] mb-1">[{h.name}]</div>}
+                                            <div className="text-[13px] text-[#e5e5e5] leading-relaxed whitespace-pre-line mb-1">
+                                                {h.metadata?.full_text || h.name}
+                                            </div>
                                             {h.title && <div className="text-[12px] text-[#A1A1AA] mb-2 font-medium">참석자: {h.title}</div>}
                                             {h.email && <div className="text-[13px] text-white leading-relaxed whitespace-pre-line mb-2">{h.email}</div>}
                                             {h.mobile && <div className="text-[13px] text-[#A1A1AA] leading-relaxed whitespace-pre-line">{h.mobile}</div>}
