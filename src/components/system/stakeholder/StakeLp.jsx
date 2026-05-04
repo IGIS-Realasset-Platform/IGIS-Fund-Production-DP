@@ -483,7 +483,7 @@ export default function StakeLp() {
                                         return (
                                             <div key={idx} className="flex flex-col">
                                                 <div 
-                                                    onClick={() => toggleRow(uniqueKey, item.name)}
+                                                    onClick={() => toggleRow(item.name, item.name)}
                                                     className={`flex items-center justify-between px-5 py-[14px] cursor-pointer transition-colors border border-[#3c3c3c] bg-transparent
                                                         ${idx === 0 ? 'rounded-t-[12px]' : ''} 
                                                         ${idx === otherInvestors.length - 1 && !isExpanded ? 'rounded-b-[12px]' : ''}
