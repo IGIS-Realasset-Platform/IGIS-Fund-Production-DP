@@ -483,12 +483,12 @@ export default function StakeLp() {
                                         return (
                                             <div key={idx} className="flex flex-col">
                                                 <div 
-                                                    onClick={() => toggleRow(item.name)}
+                                                    onClick={() => toggleRow(uniqueKey, item.name)}
                                                     className={`flex items-center justify-between px-5 py-[14px] cursor-pointer transition-colors border border-[#3c3c3c] bg-transparent
-                                                        ${idx === 0 && !isExpanded ? 'rounded-t-[12px]' : ''} 
+                                                        ${idx === 0 ? 'rounded-t-[12px]' : ''} 
                                                         ${idx === otherInvestors.length - 1 && !isExpanded ? 'rounded-b-[12px]' : ''}
                                                         ${idx !== 0 ? '-mt-[1px]' : ''}
-                                                        ${isExpanded ? 'bg-[#2a2a2a] rounded-t-[12px] border-b-transparent z-10' : 'hover:bg-[#222]'}
+                                                        ${isExpanded ? 'bg-[#2a2a2a] border-b-transparent z-10' : 'hover:bg-[#222]'}
                                                     `}
                                                 >
                                                     <div className="flex items-center gap-4">
@@ -501,7 +501,7 @@ export default function StakeLp() {
                                                     </div>
                                                 </div>
                                                 <AnimatePresence>
-                                                    {isExpanded && <AccordionContent instName={item.name} contactsCache={contactsCache} isLast={false} />}
+                                                    {isExpanded && <AccordionContent instName={item.name} contactsCache={contactsCache} isLast={idx === otherInvestors.length - 1} />}
                                                 </AnimatePresence>
                                             </div>
                                         );
