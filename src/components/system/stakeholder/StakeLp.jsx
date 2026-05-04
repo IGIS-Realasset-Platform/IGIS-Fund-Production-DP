@@ -372,7 +372,16 @@ export default function StakeLp() {
         if (contactsCache[instName]) return;
         
         try {
-            const keyword = instName.split('(')[0].replace(' 펀드', '').trim();
+            let keyword = instName.split('(')[0].replace(' 펀드', '').trim();
+            
+            // Alias map for institutions where Excel name differs from DB name
+            const aliases = {
+                '농업협동조합중앙회': '농협중앙회'
+            };
+            if (aliases[keyword]) {
+                keyword = aliases[keyword];
+            }
+
             const { data: cps } = await supabase.from('counterparties').select('counterparty_id').ilike('name', `%${keyword}%`);
             
             if (cps && cps.length > 0) {
