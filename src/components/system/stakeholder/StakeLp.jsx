@@ -102,10 +102,10 @@ const TransparentTable = ({ title, items, bridgeItems, refiItems, isLoan, vehicl
                     {currentItems.length > 5 && (
                         <button 
                             onClick={() => setShowAll(!showAll)}
-                            className="cursor-pointer text-[12px] font-medium text-[#86868B] hover:text-white transition-colors flex items-center gap-1.5 bg-[#1c1c1c] hover:bg-[#252525] px-3 h-[34px] rounded-lg border border-[#3c3c3c]"
+                            className="cursor-pointer text-[13px] font-medium text-[#86868B] hover:text-white transition-colors flex items-center gap-1.5 bg-[#1a1a1a] hover:bg-[#2c2c2e] px-4 h-[34px] rounded-[10px] border border-[#2c2c2e]"
                         >
                             {showAll ? '접기' : `전체보기 (${currentItems.length}개)`}
-                            <svg className={`w-3.5 h-3.5 transition-transform ${showAll ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" transform="rotate(180 12 12)"/></svg>
+                            <svg className={`w-3.5 h-3.5 transition-transform ${showAll ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"/></svg>
                         </button>
                     )}
                 </div>
@@ -405,8 +405,8 @@ export default function StakeLp() {
                         ) : (
                             <>
                                 {/* IOTA 427 */}
-                                <div className="mb-12">
-                                    <h2 className="text-[22px] font-bold text-white mb-6 tracking-tight">IOTA One (427 PFV)</h2>
+                                <div className="mb-12 mt-[20px]">
+                                    <h2 className="text-[22px] font-bold text-white mb-[14px] tracking-tight">IOTA One (427 PFV)</h2>
                                     <div className="grid grid-cols-2 gap-8">
                                         <div><TransparentTable title="Equity (수익자)" items={iotaData[427].equity} isLoan={false} vehicle={427} expandedRow={expandedRow} toggleRow={toggleRow} contactsCache={contactsCache} /></div>
                                         <div><TransparentTable title="Loan (대주단)" items={iotaData[427].refiLoan} bridgeItems={iotaData[427].bridgeLoan} refiItems={iotaData[427].refiLoan} isLoan={true} vehicle={427} expandedRow={expandedRow} toggleRow={toggleRow} contactsCache={contactsCache} /></div>
@@ -414,8 +414,8 @@ export default function StakeLp() {
                                 </div>
 
                                 {/* IOTA 816 (Highest Priority currently) */}
-                                <div className="mb-12">
-                                    <h2 className="text-[22px] font-bold text-white mb-6 tracking-tight">IOTA Two (816 PFV)</h2>
+                                <div className="mb-12 mt-[20px]">
+                                    <h2 className="text-[22px] font-bold text-white mb-[14px] tracking-tight">IOTA Two (816 PFV)</h2>
                                     <div className="grid grid-cols-2 gap-8">
                                         <div><TransparentTable title="Equity (수익자)" items={iotaData[816].equity} isLoan={false} vehicle={816} expandedRow={expandedRow} toggleRow={toggleRow} contactsCache={contactsCache} /></div>
                                         <div><TransparentTable title="Loan (대주단)" items={iotaData[816].refiLoan} bridgeItems={iotaData[816].bridgeLoan} refiItems={iotaData[816].refiLoan} isLoan={true} vehicle={816} expandedRow={expandedRow} toggleRow={toggleRow} contactsCache={contactsCache} /></div>
@@ -423,8 +423,8 @@ export default function StakeLp() {
                                 </div>
 
                                 {/* IOTA 421 */}
-                                <div id="section-421" className="mb-12">
-                                    <h2 className="text-[22px] font-bold text-white mb-6 tracking-tight">421호 펀드</h2>
+                                <div id="section-421" className="mb-12 mt-[20px]">
+                                    <h2 className="text-[22px] font-bold text-white mb-[14px] tracking-tight">421호 펀드</h2>
                                     <div className="grid grid-cols-2 gap-8">
                                         <div><TransparentTable title="Equity (수익자)" items={iotaData[421].equity} isLoan={false} vehicle={421} expandedRow={expandedRow} toggleRow={toggleRow} contactsCache={contactsCache} /></div>
                                         <div><TransparentTable title="Loan (대주단)" items={iotaData[421].loan} isLoan={true} vehicle={421} expandedRow={expandedRow} toggleRow={toggleRow} contactsCache={contactsCache} /></div>
