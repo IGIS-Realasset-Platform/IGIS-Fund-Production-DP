@@ -302,12 +302,15 @@ export default function StakeLp() {
         // Search in IOTA data
         if (iotaData) {
             [427, 816, 421].forEach(vehicle => {
-                ['equity', 'loan'].forEach(type => {
-                    iotaData[vehicle][type].forEach(item => {
-                        if (item.name.toLowerCase().includes(term)) {
-                            results.push({ ...item, vehicle, type, isIota: true });
-                        }
-                    });
+                const types = vehicle === 421 ? ['equity', 'loan'] : ['equity', 'bridgeLoan', 'refiLoan'];
+                types.forEach(type => {
+                    if (iotaData[vehicle][type]) {
+                        iotaData[vehicle][type].forEach(item => {
+                            if (item.name && item.name.toLowerCase().includes(term)) {
+                                results.push({ ...item, vehicle, type, isIota: true });
+                            }
+                        });
+                    }
                 });
             });
         }
