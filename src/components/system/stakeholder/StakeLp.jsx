@@ -314,7 +314,6 @@ const TransparentTable = ({ title, items, bridgeItems, refiItems, isLoan, vehicl
 
 export default function StakeLp() {
     const [searchTerm, setSearchTerm] = useState('');
-    const [activeSearchInput, setActiveSearchInput] = useState('top');
     const [otherInvestors, setOtherInvestors] = useState([]);
     const [iotaData, setIotaData] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -502,6 +501,17 @@ export default function StakeLp() {
                 // Sort historyMeta by date descending
                 historyMeta.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
 
+                // Sort investmentMeta: AUM first, 프로젝트펀드 second, 위탁운용펀드 last
+                investmentMeta.sort((a, b) => {
+                    const getOrder = (name) => {
+                        if (name.includes('AUM') || name.includes('운용자산')) return 1;
+                        if (name.includes('프로젝트펀드')) return 2;
+                        if (name.includes('위탁운용펀드')) return 3;
+                        return 4;
+                    };
+                    return getOrder(a.name) - getOrder(b.name);
+                });
+
                 setContactsCache(prev => ({ ...prev, [instName]: validContacts }));
                 setMetaCache(prev => ({ ...prev, [instName]: { investment: investmentMeta, history: historyMeta } }));
             } else {
@@ -650,38 +660,17 @@ export default function StakeLp() {
             {/* Header */}
             <div className="flex items-center justify-between mb-[12px]">
                 <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter']">LP / 대주 / SI</h1>
-                
-                {/* Search Bar */}
-                <div className="relative w-[280px]">
-                    <div className="absolute inset-y-0 left-[14px] flex items-center pointer-events-none">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#86868B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                    </div>
-                    <input
-                        id="top-search"
-                        type="text"
-                        className="bg-[#272726] border border-[#545451] hover:border-[#666] rounded-[12px] pl-[36px] pr-[16px] py-[8px] text-[13px] text-white w-[280px] focus:outline-none focus:border-[#2997ff] transition-colors"
-                        placeholder="기관명 검색 (예: 국민연금)"
-                        value={searchTerm}
-                        onFocus={() => setActiveSearchInput('top')}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                    />
-                </div>
             </div>
             <p className="text-[15px] text-[#86868B] mb-[36px]">이지스 전체 파트너사 마스터 디렉토리 및 CRM 연동 현황</p>
 
             {/* Content Area */}
             <div className="flex-1 overflow-y-auto hide-scrollbar">
                 
-                {/* Search Mode (Top Results) */}
-                <div className={`w-full ${isSearching && activeSearchInput === 'top' ? '' : 'hidden'}`}>
-                    {searchResultsContent}
-                </div>
-
-                {/* Default Table Mode (Always mounted, conditionally hidden) */}
-                <div className={`flex flex-col gap-6 ${isSearching && activeSearchInput === 'top' ? 'hidden' : ''}`}>
+                {/* Default Table Mode (Always mounted) */}
+                <div className="flex flex-col gap-6">
                     
                     {/* IOTA Tables */}
-                    <div className={`flex flex-col gap-6 ${isSearching && activeSearchInput === 'bottom' ? 'hidden' : ''}`}>
+                    <div className="flex flex-col gap-6">
                         
                         {loading || !iotaData ? (
                             <div className="text-center text-[#86868B] py-10">DB 데이터 연동 중...</div>
@@ -731,61 +720,69 @@ export default function StakeLp() {
                                         className="bg-[#272726] border border-[#545451] hover:border-[#666] rounded-[12px] pl-[36px] pr-[16px] py-[8px] text-[13px] text-white w-[280px] focus:outline-none focus:border-[#2997ff] transition-colors"
                                         placeholder="기관명 검색 (예: 국민연금)"
                                         value={searchTerm}
-                                        onFocus={() => setActiveSearchInput('bottom')}
                                         onChange={(e) => setSearchTerm(e.target.value)}
                                     />
                                 </div>
                             </div>
                             <p className="text-[14px] text-[#86868B] mb-6">IOTA에 참여하지 않은 기관 중 이지스 총 약정액이 높은 순서입니다.</p>
                             
-                            {loading ? (
-                                <div className="text-center text-[#86868B] py-10">DB 데이터 연동 중...</div>
-                            ) : (
-                                <div className="w-full">
-                                    {otherInvestors.slice(0, displayCount).map((item, idx) => {
-                                        const isExpanded = expandedRow === item.name;
-                                        const isLastDisplayed = idx === Math.min(otherInvestors.length, displayCount) - 1;
-                                        const hasMore = displayCount < otherInvestors.length;
-                                        
-                                        return (
-                                            <div key={idx} className="flex flex-col">
+                            {/* Search Results / Default List */}
+                            <div className="w-full">
+                                <div className={`${isSearching ? '' : 'hidden'}`}>
+                                    {searchResultsContent}
+                                </div>
+                                <div className={`${isSearching ? 'hidden' : ''}`}>
+                                    {loading ? (
+                                        <div className="text-center text-[#86868B] py-10">DB 데이터 연동 중...</div>
+                                    ) : (
+                                        <div className="w-full">
+                                            {otherInvestors.slice(0, displayCount).map((item, idx) => {
+                                                const isExpanded = expandedRow === item.name;
+                                                const isLastDisplayed = idx === Math.min(otherInvestors.length, displayCount) - 1;
+                                                const hasMore = displayCount < otherInvestors.length;
+                                                
+                                                return (
+                                                    <div key={idx} className="flex flex-col">
+                                                        <div 
+                                                            onClick={() => toggleRow(item.name, item.name)}
+                                                            className={`flex items-center justify-between px-5 py-[14px] cursor-pointer transition-colors border border-[#3c3c3c] bg-transparent
+                                                                ${idx === 0 ? 'rounded-t-[12px]' : ''} 
+                                                                ${isLastDisplayed && !isExpanded && !hasMore ? 'rounded-b-[12px]' : ''}
+                                                                ${idx !== 0 ? '-mt-[1px]' : ''}
+                                                                ${isExpanded ? 'border-b-transparent z-10' : 'hover:bg-[#222]'}
+                                                            `}
+                                                        >
+                                                            <div className="flex items-center gap-4">
+                                                                <div className="w-[24px] text-[13px] font-medium text-[#555] text-center">{idx + 1}</div>
+                                                                <span className="text-[15px] font-medium text-white">{item.name}</span>
+                                                                <span className="text-[12px] text-[#86868B] border border-[#444] px-2 py-0.5 rounded-md">{item.category || '기타'}</span>
+                                                            </div>
+                                                            <div className="flex items-center gap-6">
+                                                                <span className="text-[15px] font-bold text-white text-right w-[150px]">총 {formatKoreanAmount(Math.floor(item.total_amt / 100000000))}</span>
+                                                                <svg className={`w-4 h-4 text-[#86868B] transition-transform ${isExpanded ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"/></svg>
+                                                            </div>
+                                                        </div>
+                                                        <AnimatePresence>
+                                                            {isExpanded && <AccordionContent instName={item.name} contactsCache={contactsCache} metaCache={metaCache} isLast={isLastDisplayed && !hasMore} isMaster={true} iotaInvestments={getIotaInvestments(item.name)} igisInvestments={igisInvestmentsData[item.name] || []} />}
+                                                        </AnimatePresence>
+                                                    </div>
+                                                );
+                                            })}
+                                            
+                                            {otherInvestors.length > displayCount && (
                                                 <div 
-                                                    onClick={() => toggleRow(item.name, item.name)}
-                                                    className={`flex items-center justify-between px-5 py-[14px] cursor-pointer transition-colors border border-[#3c3c3c] bg-transparent
-                                                        ${idx === 0 ? 'rounded-t-[12px]' : ''} 
-                                                        ${isLastDisplayed && !isExpanded && !hasMore ? 'rounded-b-[12px]' : ''}
-                                                        ${idx !== 0 ? '-mt-[1px]' : ''}
-                                                        ${isExpanded ? 'border-b-transparent z-10' : 'hover:bg-[#222]'}
-                                                    `}
+                                                    onClick={() => setDisplayCount(prev => prev + 50)}
+                                                    className="flex items-center justify-center px-5 py-4 cursor-pointer transition-colors border border-[#3c3c3c] bg-transparent hover:bg-[#222] -mt-[1px] rounded-b-[12px]"
                                                 >
-                                                    <div className="flex items-center gap-4">
-                                                        <div className="w-[24px] text-[13px] font-medium text-[#555] text-center">{idx + 1}</div>
-                                                        <span className="text-[15px] font-medium text-white">{item.name}</span>
-                                                        <span className="text-[12px] text-[#86868B] border border-[#444] px-2 py-0.5 rounded-md">{item.category || '기타'}</span>
-                                                    </div>
-                                                    <div className="flex items-center gap-6">
-                                                        <span className="text-[15px] font-bold text-white text-right w-[150px]">총 {formatKoreanAmount(Math.floor(item.total_amt / 100000000))}</span>
-                                                        <svg className={`w-4 h-4 text-[#86868B] transition-transform ${isExpanded ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"/></svg>
-                                                    </div>
+                                                    <span className="text-[13px] font-bold text-[#86868B]">더보기 ({displayCount} / {otherInvestors.length})</span>
                                                 </div>
-                                                <AnimatePresence>
-                                                    {isExpanded && <AccordionContent instName={item.name} contactsCache={contactsCache} metaCache={metaCache} isLast={isLastDisplayed && !hasMore} isMaster={true} iotaInvestments={getIotaInvestments(item.name)} igisInvestments={igisInvestmentsData[item.name] || []} />}
-                                                </AnimatePresence>
-                                            </div>
-                                        );
-                                    })}
-                                    
-                                    {otherInvestors.length > displayCount && (
-                                        <div 
-                                            onClick={() => setDisplayCount(prev => prev + 50)}
-                                            className="flex items-center justify-center px-5 py-4 cursor-pointer transition-colors border border-[#3c3c3c] bg-transparent hover:bg-[#222] -mt-[1px] rounded-b-[12px]"
-                                        >
-                                            <span className="text-[13px] font-bold text-[#86868B]">더보기 ({displayCount} / {otherInvestors.length})</span>
+                                            )}
                                         </div>
                                     )}
                                 </div>
-                            )}
+                            </div>
                         </div>
+
                     </div>
                 </div>
             </div>
