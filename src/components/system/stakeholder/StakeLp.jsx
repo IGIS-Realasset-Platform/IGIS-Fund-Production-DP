@@ -457,6 +457,34 @@ export default function StakeLp() {
         }
     };
 
+    const getIotaInvestments = (instName) => {
+        if (!iotaData) return [];
+        const results = [];
+        
+        const checkPhase = (vehicle, phaseName, prefix) => {
+            if (iotaData[vehicle] && iotaData[vehicle][phaseName]) {
+                const match = iotaData[vehicle][phaseName].find(i => i.name === instName);
+                if (match) {
+                    const label = `IOTA ${vehicle} • ${prefix}${match.tranche ? ` • ${match.tranche}` : ''}`;
+                    results.push({ label, amount: match.rawAmount || parseInt(String(match.amount || '0').replace(/,/g, '')) });
+                }
+            }
+        };
+
+        checkPhase(427, 'equity', 'Equity');
+        checkPhase(427, 'bridgeLoan', '기존 브릿지');
+        checkPhase(427, 'refiLoan', '본PF 1차');
+        
+        checkPhase(816, 'equity', 'Equity');
+        checkPhase(816, 'bridgeLoan', '기존 브릿지');
+        checkPhase(816, 'refiLoan', '금번 리파이낸싱');
+        
+        checkPhase(421, 'equity', '수익증권');
+        checkPhase(421, 'loan', '대출');
+
+        return results;
+    };
+
     const toggleRow = (uniqueKey, instName) => {
         if (expandedRow === uniqueKey) {
             setExpandedRow(null);
