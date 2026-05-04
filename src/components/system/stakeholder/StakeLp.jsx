@@ -715,8 +715,9 @@ export default function StakeLp() {
                                 </div>
                             </>
                         )}
+                    </div>
 
-                        {/* Non-IOTA Investors */}
+                    {/* Non-IOTA Investors */}
                         <div className="mt-3">
                             <div className="flex items-center justify-between mb-1">
                                 <h2 className="text-[22px] font-bold text-white tracking-tight">기타 이지스 마스터 투자자</h2>
