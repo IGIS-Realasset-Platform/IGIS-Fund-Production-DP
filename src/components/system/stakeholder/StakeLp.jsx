@@ -295,7 +295,19 @@ export default function StakeLp() {
             if (cps && cps.length > 0) {
                 const cpIds = cps.map(c => c.counterparty_id);
                 const { data: ctData } = await supabase.from('counterparty_contacts').select('*').in('counterparty_id', cpIds);
-                setContactsCache(prev => ({ ...prev, [instName]: ctData || [] }));
+                
+                const validContacts = (ctData || []).filter(c => {
+                    const name = c.name || '';
+                    const title = c.title || '';
+                    // Exclude rows that are actually unstructured metadata from Excel parsing
+                    if (name.length > 15) return false;
+                    const invalidWords = ['AUM', '펀드', '위탁', '투자자', '참석자', '프로젝트', '회의록', '연락처'];
+                    if (invalidWords.some(w => name.includes(w))) return false;
+                    if (title.length > 20) return false;
+                    return true;
+                });
+
+                setContactsCache(prev => ({ ...prev, [instName]: validContacts }));
             } else {
                 setContactsCache(prev => ({ ...prev, [instName]: [] }));
             }
