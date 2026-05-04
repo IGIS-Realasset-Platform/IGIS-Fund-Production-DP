@@ -389,15 +389,19 @@ export default function StakeLp() {
                                         `}
                                     >
                                         <div className="text-[13px] font-bold text-[#86868B] mb-1">
-                                            {item.isIota ? `IOTA ${item.vehicle} (${item.type === 'loan' ? '대주' : '출자'})` : (item.category || '기타 투자자')}
+                                            {item.isIota ? (
+                                                <span>
+                                                    IOTA {item.vehicle} • {item.type === 'equity' ? 'Equity' : 'Loan'}
+                                                    {item.tranche && (
+                                                        <>
+                                                            {' • '}
+                                                            <span className={getTrancheColor(item.tranche)}>{item.tranche}</span>
+                                                        </>
+                                                    )}
+                                                </span>
+                                            ) : (item.category || '기타 투자자')}
                                         </div>
                                         <h3 className="text-[18px] font-bold text-white leading-tight mb-4">{item.name}</h3>
-                                        {item.tranche && (
-                                            <div className="flex justify-between items-center mb-1">
-                                                <span className="text-[13px] text-[#A1A1AA]">트랜치</span>
-                                                <span className={`text-[13px] font-medium ${getTrancheColor(item.tranche)}`}>{item.tranche}</span>
-                                            </div>
-                                        )}
                                         <div className="flex justify-between items-center mt-auto">
                                             <span className="text-[13px] text-[#A1A1AA]">총 약정/투자액</span>
                                             <span className="text-[15px] font-bold text-white">{item.amount}억</span>
