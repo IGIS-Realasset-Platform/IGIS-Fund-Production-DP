@@ -471,17 +471,21 @@ export default function StakeLp() {
                     if (name.includes('투자자 참석자') || name.includes('당사 참석자') || name.includes('주요 회의록')) return;
 
                     // 1. Is Investment Profile?
-                    const investmentKeywords = ['AUM', '펀드', '위탁', '운용자산', '모펀드', '규모', '조원', '부동산', '투자부', '대체투자', '전체'];
-                    if (investmentKeywords.some(w => name.includes(w))) {
+                    // Match specific AUM prefixes, and ensure it's not a multi-line meeting note or bracketed topic
+                    const isInvestment = (name.startsWith('전체 AUM') || name.startsWith('프로젝트펀드') || name.startsWith('위탁운용펀드')) || 
+                                         (['AUM', '운용자산', '모펀드'].some(w => name.includes(w)) && !name.includes('\n') && !name.startsWith('['));
+                    
+                    if (isInvestment) {
                         investmentMeta.push(c);
                         return;
                     }
 
                     // 2. Is Meeting History?
+                    // Normal contacts have short names (<= 15 chars). Anything longer is a note.
                     if (
                         (c.mobile && c.mobile.length > 20) || 
                         (c.email && c.email.length > 20 && !c.email.includes('@')) ||
-                        name.length > 15 || title.length > 20
+                        name.length > 15 || title.length > 20 || name.includes('\n')
                     ) {
                         historyMeta.push(c);
                         return;
