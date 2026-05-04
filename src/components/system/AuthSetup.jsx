@@ -74,9 +74,9 @@ export default function AuthSetup({ onLogin }) {
                 >
                     
                     {/* Divider Text */}
-                    <div className="flex flex-col items-center justify-center mt-2 mb-6">
-                        <span className="text-[#333] dark:text-[#E5E5E5] text-[15px] font-semibold tracking-tight transition-colors duration-300">
-                            전기영님 패스워드를 설정해주세요.
+                    <div className="flex flex-col items-center justify-center mt-1 mb-6">
+                        <span className="text-[#333] dark:text-[#E5E5E5] text-[17px] font-semibold tracking-tight transition-colors duration-300">
+                            전기영님 반갑습니다. 패스워드를 설정해주세요.
                         </span>
                     </div>
 
