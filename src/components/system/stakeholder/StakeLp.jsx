@@ -314,6 +314,7 @@ const TransparentTable = ({ title, items, bridgeItems, refiItems, isLoan, vehicl
 
 export default function StakeLp() {
     const [searchTerm, setSearchTerm] = useState('');
+    const [activeSearchInput, setActiveSearchInput] = useState('top');
     const [otherInvestors, setOtherInvestors] = useState([]);
     const [iotaData, setIotaData] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -595,6 +596,55 @@ export default function StakeLp() {
 
 
 
+    const searchResultsContent = (
+        <div className="flex flex-col gap-4">
+            {searchResults.length > 0 ? searchResults.map((item, idx) => {
+                const uniqueKey = `search-${idx}-${item.name}`;
+                const isExpanded = expandedRow === uniqueKey;
+                return (
+                    <div key={idx} className="w-full">
+                        <div 
+                            onClick={() => toggleRow(uniqueKey, item.name)}
+                            className={`bg-[#1c1c1c] border transition-all cursor-pointer p-5 flex flex-col
+                                ${isExpanded ? 'border-[#0A84FF] rounded-t-[16px]' : 'border-[#3c3c3c] rounded-[16px] hover:border-[#555]'}
+                            `}
+                        >
+                            <div className="text-[13px] font-bold text-[#86868B] mb-1">
+                                {item.isIota ? (
+                                    <span>
+                                        IOTA {item.vehicle} • {item.type === 'equity' ? 'Equity' : 'Loan'}
+                                        {item.tranche && (
+                                            <>
+                                                {' • '}
+                                                <span className={getTrancheColor(item.tranche)}>{item.tranche}</span>
+                                            </>
+                                        )}
+                                    </span>
+                                ) : (item.category || '기타 투자자')}
+                            </div>
+                            <h3 className="text-[18px] font-bold text-white leading-tight mb-4">{item.name}</h3>
+                            <div className="flex justify-between items-center mt-auto">
+                                <span className="text-[13px] text-[#A1A1AA]">총 약정/투자액</span>
+                                <span className="text-[15px] font-bold text-white">{item.amount ? `${item.amount}억` : `총 ${formatKoreanAmount(Math.floor(item.total_amt / 100000000))}`}</span>
+                            </div>
+                        </div>
+                        <AnimatePresence>
+                            {isExpanded && (
+                                <div className="col-span-full">
+                                    <AccordionContent instName={item.name} contactsCache={contactsCache} metaCache={metaCache} isLast={true} isMaster={!item.isIota} />
+                                </div>
+                            )}
+                        </AnimatePresence>
+                    </div>
+                );
+            }) : (
+                <div className="col-span-full py-10 text-center text-[#86868B] text-[15px]">
+                    검색 결과가 없습니다.
+                </div>
+            )}
+        </div>
+    );
+
     return (
         <div className="w-full flex-1 flex flex-col pt-[77px] pb-[100px] max-w-[1112px] mx-auto">
             {/* Header */}
@@ -612,6 +662,7 @@ export default function StakeLp() {
                         className="bg-[#272726] border border-[#545451] hover:border-[#666] rounded-[12px] pl-[36px] pr-[16px] py-[8px] text-[13px] text-white w-[280px] focus:outline-none focus:border-[#2997ff] transition-colors"
                         placeholder="기관명 검색 (예: 국민연금)"
                         value={searchTerm}
+                        onFocus={() => setActiveSearchInput('top')}
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
                 </div>
@@ -621,57 +672,16 @@ export default function StakeLp() {
             {/* Content Area */}
             <div className="flex-1 overflow-y-auto hide-scrollbar">
                 
-                {isSearching ? (
-                    // Search Mode (Full Width View)
-                    <div className="flex flex-col gap-4">
-                        {searchResults.length > 0 ? searchResults.map((item, idx) => {
-                            const uniqueKey = `search-${idx}-${item.name}`;
-                            const isExpanded = expandedRow === uniqueKey;
-                            return (
-                                <div key={idx} className="w-full">
-                                    <div 
-                                        onClick={() => toggleRow(uniqueKey, item.name)}
-                                        className={`bg-[#1c1c1c] border transition-all cursor-pointer p-5 flex flex-col
-                                            ${isExpanded ? 'border-[#0A84FF] rounded-t-[16px]' : 'border-[#3c3c3c] rounded-[16px] hover:border-[#555]'}
-                                        `}
-                                    >
-                                        <div className="text-[13px] font-bold text-[#86868B] mb-1">
-                                            {item.isIota ? (
-                                                <span>
-                                                    IOTA {item.vehicle} • {item.type === 'equity' ? 'Equity' : 'Loan'}
-                                                    {item.tranche && (
-                                                        <>
-                                                            {' • '}
-                                                            <span className={getTrancheColor(item.tranche)}>{item.tranche}</span>
-                                                        </>
-                                                    )}
-                                                </span>
-                                            ) : (item.category || '기타 투자자')}
-                                        </div>
-                                        <h3 className="text-[18px] font-bold text-white leading-tight mb-4">{item.name}</h3>
-                                        <div className="flex justify-between items-center mt-auto">
-                                            <span className="text-[13px] text-[#A1A1AA]">총 약정/투자액</span>
-                                            <span className="text-[15px] font-bold text-white">{item.amount ? `${item.amount}억` : `총 ${formatKoreanAmount(Math.floor(item.total_amt / 100000000))}`}</span>
-                                        </div>
-                                    </div>
-                                    <AnimatePresence>
-                                        {isExpanded && (
-                                            <div className="col-span-full">
-                                                <AccordionContent instName={item.name} contactsCache={contactsCache} metaCache={metaCache} isLast={true} isMaster={!item.isIota} />
-                                            </div>
-                                        )}
-                                    </AnimatePresence>
-                                </div>
-                            );
-                        }) : (
-                            <div className="col-span-full py-10 text-center text-[#86868B] text-[15px]">
-                                검색 결과가 없습니다.
-                            </div>
-                        )}
-                    </div>
-                ) : (
-                    // Default Table Mode
-                    <div className="flex flex-col gap-6">
+                {/* Search Mode (Top Results) */}
+                <div className={`w-full ${isSearching && activeSearchInput === 'top' ? '' : 'hidden'}`}>
+                    {searchResultsContent}
+                </div>
+
+                {/* Default Table Mode (Always mounted, conditionally hidden) */}
+                <div className={`flex flex-col gap-6 ${isSearching && activeSearchInput === 'top' ? 'hidden' : ''}`}>
+                    
+                    {/* IOTA Tables */}
+                    <div className={`flex flex-col gap-6 ${isSearching && activeSearchInput === 'bottom' ? 'hidden' : ''}`}>
                         
                         {loading || !iotaData ? (
                             <div className="text-center text-[#86868B] py-10">DB 데이터 연동 중...</div>
