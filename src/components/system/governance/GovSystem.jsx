@@ -1,5 +1,5 @@
 import React from 'react';
-import cftImg from '../../../assets/cft.jpg';
+import cftImg from '../../../assets/cft.webp';
 
 export default function GovSystem() {
     return (
