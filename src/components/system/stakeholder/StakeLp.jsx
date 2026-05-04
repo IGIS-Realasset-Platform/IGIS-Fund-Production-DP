@@ -180,6 +180,9 @@ const AccordionContent = ({ instName, contactsCache, metaCache, isLast, isMaster
                                 <div className="flex flex-col gap-3">
                                     {historyMeta.map((h, i) => (
                                         <div key={i} className="p-4 bg-[#1e1e1e] rounded-xl border border-[#333]">
+                                            {h.created_at && (
+                                                <div className="text-[12px] font-medium text-[#86868B] mb-2">{new Date(h.created_at).toLocaleDateString()}</div>
+                                            )}
                                             {h.name && <div className="text-[13px] font-bold text-[#34d399] mb-1">[{h.name}]</div>}
                                             {h.title && <div className="text-[12px] text-[#A1A1AA] mb-2 font-medium">참석자: {h.title}</div>}
                                             {h.email && <div className="text-[13px] text-white leading-relaxed whitespace-pre-line mb-2">{h.email}</div>}
@@ -307,6 +310,7 @@ export default function StakeLp() {
     const [contactsCache, setContactsCache] = useState({});
     const [metaCache, setMetaCache] = useState({});
     const [igisInvestmentsData, setIgisInvestmentsData] = useState({});
+    const [displayCount, setDisplayCount] = useState(50);
 
     // Fetch master DB for "Other Investors" and IOTA Stack
     useEffect(() => {
@@ -408,8 +412,7 @@ export default function StakeLp() {
                             total_amt: amounts[cp.name] || 0
                         }))
                         .filter(cp => cp.total_amt > 0)
-                        .sort((a, b) => b.total_amt - a.total_amt)
-                        .slice(0, 50); // Limit for performance
+                        .sort((a, b) => b.total_amt - a.total_amt);
 
                     setOtherInvestors(others);
                 }
@@ -699,15 +702,18 @@ export default function StakeLp() {
                                 <div className="text-center text-[#86868B] py-10">DB 데이터 연동 중...</div>
                             ) : (
                                 <div className="w-full">
-                                    {otherInvestors.map((item, idx) => {
+                                    {otherInvestors.slice(0, displayCount).map((item, idx) => {
                                         const isExpanded = expandedRow === item.name;
+                                        const isLastDisplayed = idx === Math.min(otherInvestors.length, displayCount) - 1;
+                                        const hasMore = displayCount < otherInvestors.length;
+                                        
                                         return (
                                             <div key={idx} className="flex flex-col">
                                                 <div 
                                                     onClick={() => toggleRow(item.name, item.name)}
                                                     className={`flex items-center justify-between px-5 py-[14px] cursor-pointer transition-colors border border-[#3c3c3c] bg-transparent
                                                         ${idx === 0 ? 'rounded-t-[12px]' : ''} 
-                                                        ${idx === otherInvestors.length - 1 && !isExpanded ? 'rounded-b-[12px]' : ''}
+                                                        ${isLastDisplayed && !isExpanded && !hasMore ? 'rounded-b-[12px]' : ''}
                                                         ${idx !== 0 ? '-mt-[1px]' : ''}
                                                         ${isExpanded ? 'border-b-transparent z-10' : 'hover:bg-[#222]'}
                                                     `}
@@ -722,11 +728,20 @@ export default function StakeLp() {
                                                     </div>
                                                 </div>
                                                 <AnimatePresence>
-                                                    {isExpanded && <AccordionContent instName={item.name} contactsCache={contactsCache} metaCache={metaCache} isLast={idx === otherInvestors.length - 1} isMaster={true} iotaInvestments={getIotaInvestments(item.name)} igisInvestments={igisInvestmentsData[item.name] || []} />}
+                                                    {isExpanded && <AccordionContent instName={item.name} contactsCache={contactsCache} metaCache={metaCache} isLast={isLastDisplayed && !hasMore} isMaster={true} iotaInvestments={getIotaInvestments(item.name)} igisInvestments={igisInvestmentsData[item.name] || []} />}
                                                 </AnimatePresence>
                                             </div>
                                         );
                                     })}
+                                    
+                                    {otherInvestors.length > displayCount && (
+                                        <div 
+                                            onClick={() => setDisplayCount(prev => prev + 50)}
+                                            className="flex items-center justify-center px-5 py-4 cursor-pointer transition-colors border border-[#3c3c3c] bg-transparent hover:bg-[#222] -mt-[1px] rounded-b-[12px]"
+                                        >
+                                            <span className="text-[13px] font-bold text-[#86868B]">더보기 ({displayCount} / {otherInvestors.length})</span>
+                                        </div>
+                                    )}
                                 </div>
                             )}
                         </div>
