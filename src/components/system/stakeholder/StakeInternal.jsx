@@ -33,7 +33,7 @@ const stakeholderGroups = [
                                 name: '우형석',
                                 photo: '우형석',
                                 roles: ['사업그룹/그룹장', '전략펀드운용1실', '사업그룹3파트/그룹장'],
-                                responsibility: '개발관리파트 총괄 (Sub-PO)',
+                                responsibility: 'CFT 총괄(Sub PO)',
                                 email: 'hyungsuk.woo@igisam.com',
                                 phone: '010-8893-7572',
                             },
@@ -513,12 +513,13 @@ export default function StakeInternal() {
                     <tbody>
                         {/* CFT 총괄 */}
                         <tr className="border-b border-[#333]">
-                            <td className="px-[24px] py-[16px] text-[14px] font-normal text-[#E5E5E5] border-r border-[#333]">CFT 총괄(PO)</td>
+                            <td className="px-[24px] py-[16px] text-[14px] font-normal text-[#E5E5E5] border-r border-[#333]">CFT 총괄<br/>PO & Sub-PO</td>
                             <td className="px-[14px] py-[16px]">
                                 <div className="flex flex-col gap-[16px]">
                                     {renderLeader('이철승', '부문대표(PO)')}
                                     {renderLeader('윤관식', '부대표(Sub-PO)')}
                                     {renderLeader('정조민', '부대표(Sub-PO)')}
+                                    {renderLeader('우형석', '그룹장(Sub-PO)')}
                                 </div>
                             </td>
                             <td className="px-[14px] py-[16px] text-[13px] text-[#bbb9af] border-r border-[#333] leading-[22px]">CFT 사무국 신설<br/>기획추진센터 IEC 협업</td>
