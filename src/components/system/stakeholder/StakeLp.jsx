@@ -34,11 +34,17 @@ export default function StakeLp() {
                         const type = item.tranche_type === 'Equity' ? 'equity' : 'loan';
                         
                         if (parsedIota[v] && parsedIota[v][type]) {
-                            parsedIota[v][type].push({
-                                name: item.institution_name,
-                                amount: item.amount_krw_100m.toLocaleString(),
-                                rawAmount: item.amount_krw_100m
-                            });
+                            const existingIdx = parsedIota[v][type].findIndex(x => x.name === item.institution_name);
+                            if (existingIdx !== -1) {
+                                parsedIota[v][type][existingIdx].rawAmount += item.amount_krw_100m;
+                                parsedIota[v][type][existingIdx].amount = parsedIota[v][type][existingIdx].rawAmount.toLocaleString();
+                            } else {
+                                parsedIota[v][type].push({
+                                    name: item.institution_name,
+                                    amount: item.amount_krw_100m.toLocaleString(),
+                                    rawAmount: item.amount_krw_100m
+                                });
+                            }
                         }
                     });
                     
