@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../../utils/supabaseClient';
+import { useAuth } from '../../context/AuthContext';
 
 export default function DecisionLog() {
+    const { memberInfo } = useAuth();
     const [logs, setLogs] = useState([]);
     const [expandedLogs, setExpandedLogs] = useState({});
     const [logsViewMode, setLogsViewMode] = useState('full');
     const [currentPage, setCurrentPage] = useState(1);
     const [logSearchQuery, setLogSearchQuery] = useState('');
+    
+    // Delete states
+    const [logToDelete, setLogToDelete] = useState(null);
+    const [isDeleting, setIsDeleting] = useState(false);
 
     const formatDateYYMMDD = (dateString) => {
         if (!dateString) return '';
@@ -57,6 +63,41 @@ export default function DecisionLog() {
             ...prev,
             [id]: !prev[id]
         }));
+    };
+
+    const handleDeleteClick = (log) => {
+        setLogToDelete(log);
+    };
+
+    const confirmDelete = async () => {
+        if (!logToDelete) return;
+        setIsDeleting(true);
+        try {
+            const { error: stakeholdersError } = await supabase
+                .from('iota_seoul_log_stakeholders')
+                .delete()
+                .eq('log_id', logToDelete.log_id);
+
+            if (stakeholdersError) {
+                console.error('Error deleting stakeholders:', stakeholdersError);
+                throw stakeholdersError;
+            }
+
+            const { error } = await supabase
+                .from('iota_seoul_logs')
+                .delete()
+                .eq('log_id', logToDelete.log_id);
+
+            if (error) throw error;
+            
+            setLogs(logs.filter(l => l.log_id !== logToDelete.log_id));
+            setLogToDelete(null);
+        } catch (err) {
+            console.error('Delete error:', err);
+            alert('삭제 중 오류가 발생했습니다.');
+        } finally {
+            setIsDeleting(false);
+        }
     };
 
     const itemsPerPage = logsViewMode === 'summary' ? 5 : 20;
@@ -227,6 +268,18 @@ export default function DecisionLog() {
                                 </span>
                             </div>
                             <div className="h-[24px] flex items-center w-[60px] justify-center"><span className="text-[13px] text-[#86868B] font-['Inter']">{formatDateYYMMDD(log.work_date)}</span></div>
+                            
+                            {/* Delete Button (Absolute positioned outside content flow) */}
+                            {(memberInfo?.email === log.writer_staff_id || memberInfo?.name === log.writer_name) && (
+                                <button 
+                                    type="button"
+                                    onClick={(e) => { e.stopPropagation(); handleDeleteClick(log); }}
+                                    className="absolute right-[-24px] top-1/2 -translate-y-1/2 w-[24px] h-[24px] bg-black rounded-none flex items-center justify-center transition-opacity opacity-100 border border-[#333] shadow-none cursor-pointer hover:bg-[#222]"
+                                    title="삭제"
+                                >
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                                </button>
+                            )}
                         </div>
                     </div>
                 ))}
@@ -250,6 +303,37 @@ export default function DecisionLog() {
                     </div>
                 )}
             </div>
+
+            {/* Delete Confirmation Modal */}
+            {logToDelete && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60">
+                    <div className="bg-[#222] border border-[#333] rounded-[16px] w-[320px] p-[24px] shadow-2xl flex flex-col items-center">
+                        <div className="w-[48px] h-[48px] rounded-full bg-white/10 flex items-center justify-center mb-[16px]">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18"></path><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                        </div>
+                        <h3 className="text-[16px] font-bold text-white mb-[8px]">해당 업무를 삭제하시겠습니까?</h3>
+                        <p className="text-[13px] text-[#86868B] text-center mb-[24px]">이 작업은 되돌릴 수 없습니다.</p>
+                        <div className="flex items-center gap-[12px] w-full">
+                            <button 
+                                type="button"
+                                onClick={() => setLogToDelete(null)}
+                                className="flex-1 py-[10px] rounded-[8px] bg-[#333] hover:bg-[#444] text-white text-[13px] font-medium transition-colors"
+                                disabled={isDeleting}
+                            >
+                                취소
+                            </button>
+                            <button 
+                                type="button"
+                                onClick={confirmDelete}
+                                className="flex-1 py-[10px] rounded-[8px] bg-white hover:bg-gray-200 text-black text-[13px] font-bold transition-colors flex justify-center items-center"
+                                disabled={isDeleting}
+                            >
+                                {isDeleting ? '삭제 중...' : '삭제'}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
