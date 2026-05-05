@@ -102,13 +102,6 @@ export default function DecisionLog() {
                             className="bg-[#222] border border-[#333] hover:border-[#444] rounded-[8px] pl-[32px] pr-[12px] py-[6px] text-[12px] text-white w-[180px] focus:outline-none focus:border-[#2997ff] transition-all"
                         />
                     </div>
-                    <button 
-                        type="button"
-                        onClick={() => { setLogsViewMode(prev => prev === 'summary' ? 'full' : 'summary'); setCurrentPage(1); }} 
-                        className="px-[12px] py-[6px] rounded-[8px] bg-[#222] border border-[#333] text-[12px] text-[#A1A1AA] hover:text-white hover:border-[#444] transition-all font-medium"
-                    >
-                        {logsViewMode === 'summary' ? '전체보기' : '간략히 보기'}
-                    </button>
                 </div>
             </div>
             <div className="w-full border border-[#333] rounded-[24px] mb-[40px] flex flex-col bg-transparent">
@@ -116,28 +109,28 @@ export default function DecisionLog() {
                 <div className="w-full px-[20px] py-[12px] flex items-center border-b border-[#333] bg-[#222]/50 rounded-t-[24px]">
                     {/* Left Section */}
                     <div className="flex flex-1 min-w-0">
-                        <div className="w-[86px] mr-[16px] text-left">
+                        <div className="w-[86px] mr-[16px] text-center">
                             <span className="text-[13px] font-bold text-[#86868B]">프로젝트</span>
                         </div>
                         <div className="flex flex-1 min-w-0 translate-x-[-20px]">
-                            <div className="w-[80px] shrink-0 translate-x-[14px]">
+                            <div className="w-[80px] shrink-0 translate-x-[18px]">
                                 <span className="text-[13px] font-bold text-[#86868B]">기능셀</span>
                             </div>
-                            <div className="w-[110px] shrink-0 translate-x-[4px]">
+                            <div className="w-[110px] shrink-0 translate-x-[10px]">
                                 <span className="text-[13px] font-bold text-[#86868B]">등록자</span>
                             </div>
-                            <div className="flex-1 min-w-0 translate-x-[-4px]">
+                            <div className="flex-1 min-w-0 translate-x-[2px]">
                                 <span className="text-[13px] font-bold text-[#86868B]">내용</span>
                             </div>
                         </div>
                     </div>
                     {/* Right Section */}
                     <div className="flex gap-[12px] shrink-0 ml-[12px] justify-end">
-                        <div className="w-[120px] mr-[4px] text-right">
+                        <div className="w-[110px] mr-[4px] text-right">
                             <span className="text-[13px] font-bold text-[#86868B]">이해관계자</span>
                         </div>
                         <div className="w-[60px] text-right">
-                            <span className="text-[13px] font-bold text-[#86868B]">등록 목적</span>
+                            <span className="text-[13px] font-bold text-[#86868B]">목적</span>
                         </div>
                         <div className="w-[60px] text-center">
                             <span className="text-[13px] font-bold text-[#86868B]">진행상태</span>
@@ -178,12 +171,12 @@ export default function DecisionLog() {
 
                             <div className={`flex ${expandedLogs[log.log_id] ? 'items-start pt-[2px]' : 'items-center'} flex-1 min-w-0 translate-x-[-20px]`}>
                                 {/* Cell Name */}
-                                <div className={`w-[80px] shrink-0 translate-x-[14px] ${expandedLogs[log.log_id] ? 'pt-[4px]' : ''}`}>
+                                <div className={`w-[80px] shrink-0 translate-x-[18px] ${expandedLogs[log.log_id] ? 'pt-[4px]' : ''}`}>
                                     <span className="text-[13px] font-medium text-[#86868B]">{getCellName(log.writer_name)}</span>
                                 </div>
 
                                 {/* Avatar & Name */}
-                                <div className="flex items-center gap-[8px] w-[110px] shrink-0 translate-x-[4px]">
+                                <div className="flex items-center gap-[8px] w-[110px] shrink-0 translate-x-[10px]">
                                     <div className="w-[28px] h-[28px] rounded-full bg-[#333] overflow-hidden">
                                         <img 
                                             src={`${import.meta.env.BASE_URL}${log.writer_name}.webp`} 
@@ -196,8 +189,11 @@ export default function DecisionLog() {
                                 </div>
 
                                 {/* Content */}
-                                <div className={`flex-1 min-w-0 pr-0 flex ${expandedLogs[log.log_id] ? 'items-start' : 'items-center'} gap-[8px] translate-x-[-4px]`}>
-                                    <div className={`flex-1 min-w-0 text-[14px] text-[#E5E5E5] transition-all duration-300 ${expandedLogs[log.log_id] ? 'leading-relaxed' : 'truncate'}`}>
+                                <div className={`flex-1 min-w-0 pr-0 flex ${expandedLogs[log.log_id] ? 'items-start' : 'items-center'} gap-[8px] translate-x-[2px]`}>
+                                    <div 
+                                        onClick={(e) => { e.stopPropagation(); toggleExpand(log.log_id); }}
+                                        className={`flex-1 min-w-0 text-[14px] text-[#E5E5E5] transition-all duration-300 cursor-pointer ${expandedLogs[log.log_id] ? 'leading-relaxed' : 'truncate'}`}
+                                    >
                                         {log.raw_text}
                                     </div>
                                     {log.raw_text && log.raw_text.length > 40 && (
@@ -216,7 +212,7 @@ export default function DecisionLog() {
                         {/* Right Section */}
                         <div className={`flex ${expandedLogs[log.log_id] ? 'items-start pt-[4px]' : 'items-center'} gap-[12px] shrink-0 ml-[12px] justify-end`}>
                             {/* Stakeholder Info */}
-                            <div className={`shrink-0 flex justify-end w-[120px] mr-[4px]`}>
+                            <div className={`shrink-0 flex justify-end w-[110px] mr-[4px]`}>
                                 {log.iota_seoul_log_stakeholders?.[0]?.sh_name && (
                                     <span className={`text-[13px] text-[#A1A1AA] text-right ${expandedLogs[log.log_id] ? 'break-words whitespace-pre-wrap' : 'truncate'}`} title={log.iota_seoul_log_stakeholders[0].sh_name}>
                                         {log.iota_seoul_log_stakeholders[0].sh_name}
