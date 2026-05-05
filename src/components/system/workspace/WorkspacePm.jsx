@@ -203,7 +203,10 @@ export default function WorkspacePm() {
                 .order('work_date', { ascending: false })
                 .order('created_at', { ascending: false });
             if (error) throw error;
-            setLogs(data || []);
+            
+            // Filter out non-members ('기타')
+            const validLogs = (data || []).filter(log => getCellName(log.writer_name) !== '기타');
+            setLogs(validLogs);
         } catch (e) {
             console.error('Error fetching logs:', e);
         }
@@ -660,15 +663,27 @@ export default function WorkspacePm() {
                         {/* Left Section */}
                         <div className={`flex ${expandedLogs[log.log_id] ? 'items-start' : 'items-center'} flex-1 min-w-0`}>
                             {/* Project Button */}
-                            <div className="py-[6px] bg-[#222] border border-[#333] rounded-[8px] text-[12px] font-bold text-[#A1A1AA] shrink-0 mr-[16px] w-[86px] text-center">
-                                {(() => {
-                                    if (log.metadata?.project_name) return log.metadata.project_name;
+                            {/* Project Button */}
+                            {(() => {
+                                let projName = 'IOTA 427';
+                                if (log.metadata?.project_name) {
+                                    projName = log.metadata.project_name;
+                                } else {
                                     const text = log.metadata?.workspace_label || log.metadata?.source_project_text || '';
-                                    if (text.includes('816') || text.includes('서울 2') || text.includes('IOTA 2') || text.includes('Two')) return 'IOTA 816';
-                                    if (text.includes('421')) return '421 Fund';
-                                    return 'IOTA 427';
-                                })()}
-                            </div>
+                                    if (text.includes('816') || text.includes('서울 2') || text.includes('IOTA 2') || text.includes('Two')) projName = 'IOTA 816';
+                                    else if (text.includes('421')) projName = '421 Fund';
+                                }
+                                
+                                let textColorClass = 'text-[#E5E5E5]'; // IOTA 427 (Lightest)
+                                if (projName === 'IOTA 816') textColorClass = 'text-[#A1A1AA]'; // IOTA 816 (Medium)
+                                else if (projName === '421 Fund') textColorClass = 'text-[#737373]'; // 421 Fund (Darkest)
+                                
+                                return (
+                                    <div className={`py-[6px] bg-[#222] border border-[#333] rounded-[8px] text-[12px] font-bold ${textColorClass} shrink-0 mr-[16px] w-[86px] text-center`}>
+                                        {projName}
+                                    </div>
+                                );
+                            })()}
 
                             <div className={`flex ${expandedLogs[log.log_id] ? 'items-start pt-[2px]' : 'items-center'} flex-1 min-w-0 translate-x-[-20px]`}>
                                 {/* Cell Name */}
