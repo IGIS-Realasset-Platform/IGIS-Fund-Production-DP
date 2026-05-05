@@ -648,14 +648,14 @@ export default function WorkspacePm() {
                         {/* Right Section */}
                         <div className="flex items-center gap-[16px] shrink-0 ml-[20px] justify-end">
                             {/* Stakeholder Info */}
-                            <div className={`shrink-0 flex justify-start items-center w-[80px] translate-x-[50px]`}>
+                            <div className={`shrink-0 flex justify-start items-center w-[70px] translate-x-[20px]`}>
                                 {log.iota_seoul_log_stakeholders?.[0]?.sh_name && (
                                     <span className={`text-[13px] text-[#A1A1AA] text-left ${expandedLogs[log.log_id] ? 'break-words whitespace-pre-wrap' : 'truncate'}`} title={log.iota_seoul_log_stakeholders[0].sh_name}>
                                         {log.iota_seoul_log_stakeholders[0].sh_name}
                                     </span>
                                 )}
                             </div>
-                            <span className="text-[13px] text-[#A1A1AA] w-[100px] text-right truncate shrink-0">{log.metadata?.triage_type || '공유'}</span>
+                            <span className="text-[13px] text-[#A1A1AA] w-[60px] text-right truncate shrink-0">{log.metadata?.triage_type || '공유'}</span>
                             <span className="text-[13px] text-[#E5E5E5] w-[60px] text-center shrink-0">{log.metadata?.issue_status || '진행중'}</span>
                             <span className={`text-[13px] font-bold w-[40px] text-center shrink-0 ${log.metadata?.priority === '높음' ? 'text-[#FF453A]' : (log.metadata?.priority === '낮음' ? 'text-[#86868B]' : 'text-[#3b82f6]')}`}>
                                 {log.metadata?.priority || '중간'}
