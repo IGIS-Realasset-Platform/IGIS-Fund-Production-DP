@@ -594,9 +594,9 @@ export default function WorkspacePm() {
             </div>
             <div className="w-full border border-[#333] rounded-[24px] mb-[40px] flex flex-col bg-transparent">
                 {displayedLogs.map((log, index) => (
-                    <div key={log.log_id} className={`relative w-full px-[20px] py-[16px] flex items-center group transition-colors hover:bg-white/5 first:rounded-t-[24px] last:rounded-b-[24px] ${index !== displayedLogs.length - 1 ? 'border-b border-[#333]' : ''}`}>
+                    <div key={log.log_id} className={`relative w-full px-[20px] py-[16px] flex items-start group transition-colors hover:bg-white/5 first:rounded-t-[24px] last:rounded-b-[24px] ${index !== displayedLogs.length - 1 ? 'border-b border-[#333]' : ''}`}>
                         {/* Left Section */}
-                        <div className="flex items-center flex-1 min-w-0">
+                        <div className="flex items-start flex-1 min-w-0">
                             {/* Project Button */}
                             <div className="py-[6px] bg-[#222] border border-[#333] rounded-[8px] text-[12px] font-bold text-[#A1A1AA] shrink-0 mr-[16px] w-[86px] text-center">
                                 {(() => {
@@ -608,9 +608,9 @@ export default function WorkspacePm() {
                                 })()}
                             </div>
 
-                            <div className="flex items-center flex-1 min-w-0 translate-x-[-20px]">
+                            <div className="flex items-start flex-1 min-w-0 translate-x-[-20px] pt-[2px]">
                                 {/* Cell Name */}
-                                <div className="w-[80px] shrink-0 translate-x-[14px]">
+                                <div className="w-[80px] shrink-0 translate-x-[14px] pt-[4px]">
                                     <span className="text-[13px] font-medium text-[#86868B]">{getCellName(log.writer_name)}</span>
                                 </div>
 
@@ -628,7 +628,7 @@ export default function WorkspacePm() {
                                 </div>
 
                                 {/* Content */}
-                                <div className="flex-1 min-w-0 pr-[20px] flex items-start gap-[8px]">
+                                <div className="flex-1 min-w-0 pr-[0px] flex items-start gap-[8px] translate-x-[-4px]">
                                     <div className={`flex-1 min-w-0 text-[14px] text-[#E5E5E5] leading-relaxed transition-all duration-300 ${expandedLogs[log.log_id] ? '' : 'truncate'}`}>
                                         {log.raw_text}
                                     </div>
@@ -646,11 +646,11 @@ export default function WorkspacePm() {
                         </div>
 
                         {/* Right Section */}
-                        <div className="flex items-center gap-[16px] shrink-0 ml-[20px] justify-end">
+                        <div className="flex items-start gap-[16px] shrink-0 ml-[20px] justify-end pt-[4px]">
                             {/* Stakeholder Info */}
-                            <div className={`shrink-0 flex justify-start items-center w-[70px] translate-x-[20px]`}>
+                            <div className={`shrink-0 flex justify-end items-start w-[140px] mr-[8px]`}>
                                 {log.iota_seoul_log_stakeholders?.[0]?.sh_name && (
-                                    <span className={`text-[13px] text-[#A1A1AA] text-left ${expandedLogs[log.log_id] ? 'break-words whitespace-pre-wrap' : 'truncate'}`} title={log.iota_seoul_log_stakeholders[0].sh_name}>
+                                    <span className={`text-[13px] text-[#A1A1AA] text-right ${expandedLogs[log.log_id] ? 'break-words whitespace-pre-wrap' : 'truncate'}`} title={log.iota_seoul_log_stakeholders[0].sh_name}>
                                         {log.iota_seoul_log_stakeholders[0].sh_name}
                                     </span>
                                 )}
@@ -667,7 +667,7 @@ export default function WorkspacePm() {
                                 <button 
                                     type="button"
                                     onClick={(e) => { e.stopPropagation(); setLogToDelete(log); }}
-                                    className="absolute right-[-24px] top-1/2 -translate-y-1/2 w-[24px] h-[24px] bg-black rounded-none flex items-center justify-center transition-opacity opacity-100 border border-[#444] shadow-none"
+                                    className="absolute right-[-24px] top-1/2 -translate-y-1/2 w-[24px] h-[24px] bg-black rounded-none flex items-center justify-center transition-opacity opacity-100 border border-[#333] shadow-none"
                                     title="삭제"
                                 >
                                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
@@ -765,10 +765,10 @@ export default function WorkspacePm() {
 
             {/* Delete Confirmation Modal */}
             {logToDelete && (
-                <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm">
+                <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60">
                     <div className="bg-[#222] border border-[#333] rounded-[16px] w-[320px] p-[24px] shadow-2xl flex flex-col items-center">
-                        <div className="w-[48px] h-[48px] rounded-full bg-[#ff453a]/10 flex items-center justify-center mb-[16px]">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ff453a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18"></path><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                        <div className="w-[48px] h-[48px] rounded-full bg-white/10 flex items-center justify-center mb-[16px]">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18"></path><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
                         </div>
                         <h3 className="text-[16px] font-bold text-white mb-[8px]">해당 업무를 삭제하시겠습니까?</h3>
                         <p className="text-[13px] text-[#86868B] text-center mb-[24px]">이 작업은 되돌릴 수 없습니다.</p>
@@ -784,7 +784,7 @@ export default function WorkspacePm() {
                             <button 
                                 type="button"
                                 onClick={() => handleDelete(logToDelete.log_id)}
-                                className="flex-1 py-[10px] rounded-[8px] bg-[#ff453a] hover:bg-[#d93a30] text-white text-[13px] font-bold transition-colors flex justify-center items-center"
+                                className="flex-1 py-[10px] rounded-[8px] bg-white hover:bg-gray-200 text-black text-[13px] font-bold transition-colors flex justify-center items-center"
                                 disabled={isDeleting}
                             >
                                 {isDeleting ? '삭제 중...' : '삭제'}
