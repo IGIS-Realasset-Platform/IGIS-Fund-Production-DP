@@ -315,7 +315,7 @@ export default function AuthSetup({ onLogin }) {
                             </div>
 
                             <form onSubmit={handleEmailSubmit} className="w-full">
-                                <div className="w-full mb-2">
+                                <div className="w-full">
                                     <input 
                                         type="email" 
                                         placeholder="이메일을 입력하세요."
@@ -324,13 +324,14 @@ export default function AuthSetup({ onLogin }) {
                                         className={`w-full bg-white dark:bg-[#262626] text-[#111] dark:text-white placeholder-gray-400 dark:placeholder-[#737373] text-[15px] px-4 py-3.5 rounded-lg border focus:outline-none transition-colors duration-300 ${hasError ? 'border-red-500 dark:border-red-500' : 'border-black/10 dark:border-[#3A3A3A] focus:border-[#111] dark:focus:border-[#666]'}`}
                                     />
                                 </div>
-                                <div className="w-full h-[24px] mb-4 flex items-center px-1">
-                                    {errorMessage && (
+                                {errorMessage && (
+                                    <div className="w-full flex items-center px-1 mt-2 mb-4">
                                         <span className="text-red-500 dark:text-[#FF453A] text-[13px] font-medium animate-pulse">
                                             * {errorMessage}
                                         </span>
-                                    )}
-                                </div>
+                                    </div>
+                                )}
+                                {!errorMessage && <div className="h-4"></div>}
                                 <button 
                                     type="submit"
                                     className="w-full bg-[#111] dark:bg-[#0A84FF] text-white dark:text-white hover:bg-[#333] dark:hover:bg-[#0071E3] rounded-lg py-3.5 font-semibold transition-colors text-[16px] cursor-pointer"
