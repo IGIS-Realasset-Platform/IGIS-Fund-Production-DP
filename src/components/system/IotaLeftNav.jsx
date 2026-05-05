@@ -315,7 +315,8 @@ export default function IotaLeftNav({ onMenuChange, currentPath = '' }) {
                 <div className="flex items-center">
                     {/* Logout Button */}
                     <button 
-                        onClick={async () => { await signOut(); }}
+                        type="button"
+                        onClick={async (e) => { e.preventDefault(); e.stopPropagation(); await signOut(); }}
                         className="text-[#86868B] hover:text-red-500 transition-colors cursor-pointer p-1"
                         title="로그아웃"
                     >
