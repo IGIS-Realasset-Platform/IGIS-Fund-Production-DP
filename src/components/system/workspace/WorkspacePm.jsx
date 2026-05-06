@@ -858,7 +858,7 @@ export default function WorkspacePm() {
                         statusColor: 'text-[#fbf167]'
                     }
                 ].map((log) => (
-                    <div key={log.id} className="relative bg-[#292928] border border-[#3c3c3c] rounded-[16px] p-[20px] flex flex-col hover:border-[#555] transition-colors">
+                    <div key={log.id} className="relative bg-[#252525] border border-[#3c3c3c] rounded-[16px] p-[20px] flex flex-col hover:border-[#555] transition-colors">
                         <div className="flex items-center w-full">
                             <div className="relative flex flex-col justify-center w-[120px] shrink-0">
                                 <span className="text-[13px] text-[#86868B] font-medium leading-tight">{log.date}</span>

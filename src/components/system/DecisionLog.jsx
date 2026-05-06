@@ -430,7 +430,7 @@ export default function DecisionLog() {
                     </div>
                 </div>
             </div>
-            <div className="w-full border border-[#3c3c3c] rounded-[24px] mb-[40px] flex flex-col bg-[#292928]">
+            <div className="w-full border border-[#3c3c3c] rounded-[24px] mb-[40px] flex flex-col bg-[#252525]">
                 {/* Header Row */}
                 <div className="w-full px-[20px] py-[12px] flex items-center border-b border-[#3c3c3c] bg-transparent rounded-t-[24px]">
                     {/* Left Section */}
