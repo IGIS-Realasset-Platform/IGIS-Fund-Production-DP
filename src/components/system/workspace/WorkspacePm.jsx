@@ -949,12 +949,13 @@ export default function WorkspacePm() {
                                         else if (text.includes('421')) projName = '421 Fund';
                                     }
                                     
-                                    let textColorClass = 'text-[#E5E5E5]'; // IOTA 427 (Lightest)
-                                    if (projName === 'IOTA 816') textColorClass = 'text-[#A1A1AA]'; // IOTA 816 (Medium)
-                                    else if (projName === '421 Fund') textColorClass = 'text-[#737373]'; // 421 Fund (Darkest)
+                                    let textColorClass = 'text-[#E5E5E5] border-[#444]'; // IOTA 427 (Lightest)
+                                    if (projName === 'IOTA 816') textColorClass = 'text-[#A1A1AA] border-[#333]'; // IOTA 816 (Medium)
+                                    else if (projName === '421 Fund') textColorClass = 'text-[#737373] border-[#222]'; // 421 Fund (Darkest)
+                                    else if (projName === 'IOTA 공통') textColorClass = 'text-[#A1A1AA] border-[#333]';
                                     
                                     return (
-                                        <div className={`py-[6px] bg-[#222] border border-[#333] rounded-[8px] text-[12px] font-bold ${textColorClass} shrink-0 mr-[16px] w-[86px] text-center`}>
+                                        <div className={`py-[6px] border rounded-[8px] text-[12px] font-bold ${textColorClass} shrink-0 mr-[16px] w-[86px] text-center bg-transparent`}>
                                             {projName}
                                         </div>
                                     );
@@ -962,13 +963,13 @@ export default function WorkspacePm() {
 
                                 <div className="flex items-center flex-1 min-w-0 translate-x-[-20px]">
                                     {/* Cell Name */}
-                                    <div className="w-[80px] shrink-0 translate-x-[14px]">
+                                    <div className="w-[80px] shrink-0 translate-x-[4px] flex justify-center">
                                         <span className="text-[13px] font-medium text-[#86868B]">{getCellName(log.writer_name)}</span>
                                     </div>
 
                                     {/* Avatar & Name */}
-                                    <div className="flex items-center gap-[8px] w-[110px] shrink-0 translate-x-[4px]">
-                                        <div className="w-[28px] h-[28px] rounded-full bg-[#333] overflow-hidden">
+                                    <div className="flex items-center gap-[8px] w-[110px] shrink-0 translate-x-[10px]">
+                                        <div className="w-[28px] h-[28px] rounded-full bg-[#333] overflow-hidden border border-[#444]">
                                             <img 
                                                 src={`${import.meta.env.BASE_URL}${log.writer_name}.webp`} 
                                                 alt={log.writer_name} 
@@ -980,7 +981,7 @@ export default function WorkspacePm() {
                                     </div>
 
                                     {/* Content */}
-                                    <div className="flex-1 min-w-0 pr-0 flex items-center gap-[8px] translate-x-[-4px]">
+                                    <div className="flex-1 min-w-0 pr-0 flex items-center gap-[8px] translate-x-[2px]">
                                         <div className="flex-1 min-w-0 text-[14px] text-[#E5E5E5] truncate">
                                             {log.raw_text ? log.raw_text.split('\n')[0] : ''}
                                         </div>

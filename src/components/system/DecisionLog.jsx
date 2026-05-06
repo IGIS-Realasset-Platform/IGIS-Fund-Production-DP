@@ -451,12 +451,13 @@ export default function DecisionLog() {
                                         else if (text.includes('421')) projName = '421 Fund';
                                     }
                                     
-                                    let textColorClass = 'text-[#E5E5E5]'; // IOTA 427 (Lightest)
-                                    if (projName === 'IOTA 816') textColorClass = 'text-[#A1A1AA]'; // IOTA 816 (Medium)
-                                    else if (projName === '421 Fund') textColorClass = 'text-[#737373]'; // 421 Fund (Darkest)
+                                    let textColorClass = 'text-[#E5E5E5] border-[#444]'; // IOTA 427 (Lightest)
+                                    if (projName === 'IOTA 816') textColorClass = 'text-[#A1A1AA] border-[#333]'; // IOTA 816 (Medium)
+                                    else if (projName === '421 Fund') textColorClass = 'text-[#737373] border-[#222]'; // 421 Fund (Darkest)
+                                    else if (projName === 'IOTA 공통') textColorClass = 'text-[#A1A1AA] border-[#333]';
                                     
                                     return (
-                                        <div className={`py-[6px] bg-[#222] border border-[#333] rounded-[8px] text-[12px] font-bold ${textColorClass} shrink-0 mr-[16px] w-[86px] text-center`}>
+                                        <div className={`py-[6px] border rounded-[8px] text-[12px] font-bold ${textColorClass} shrink-0 mr-[16px] w-[86px] text-center bg-transparent`}>
                                             {projName}
                                         </div>
                                     );
@@ -470,7 +471,7 @@ export default function DecisionLog() {
 
                                     {/* Avatar & Name */}
                                     <div className="flex items-center gap-[8px] w-[110px] shrink-0 translate-x-[10px]">
-                                        <div className="w-[28px] h-[28px] rounded-full bg-[#333] overflow-hidden">
+                                        <div className="w-[28px] h-[28px] rounded-full bg-[#333] overflow-hidden border border-[#444]">
                                             <img 
                                                 src={`${import.meta.env.BASE_URL}${log.writer_name}.webp`} 
                                                 alt={log.writer_name} 
@@ -546,7 +547,7 @@ export default function DecisionLog() {
                             <div className="w-full flex mt-[14px]">
                                 <div 
                                     className="bg-[#1c1c1e] border border-[#333] rounded-[12px] p-[16px] flex-1 relative"
-                                    style={{ marginLeft: '166px', marginRight: '344px' }}
+                                    style={{ marginLeft: '166px', marginRight: '72px' }}
                                 >
                                     {/* Stakeholder Pill (Floated Right) */}
                                     {log.iota_seoul_log_stakeholders?.[0]?.sh_name && (
