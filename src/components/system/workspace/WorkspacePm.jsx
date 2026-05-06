@@ -33,6 +33,7 @@ export default function WorkspacePm() {
     const [isDeleting, setIsDeleting] = useState(false);
     const [showNewStakeholderModal, setShowNewStakeholderModal] = useState(false);
     const [showCompanyWarningModal, setShowCompanyWarningModal] = useState(false);
+    const [showSuccessModal, setShowSuccessModal] = useState(false);
     
     // Mention states
     const [showMentionDropdown, setShowMentionDropdown] = useState(false);
@@ -273,7 +274,10 @@ export default function WorkspacePm() {
             setCompanyQuery('');
             setContactQuery('');
             fetchLogs();
-            alert('성공적으로 저장되었습니다!');
+            setShowSuccessModal(true);
+            setTimeout(() => {
+                setShowSuccessModal(false);
+            }, 2000);
         } catch (error) {
             console.error('Error saving log:', error);
             alert('저장 중 오류가 발생했습니다.');
@@ -1065,6 +1069,28 @@ export default function WorkspacePm() {
                                 type="button"
                                 onClick={() => setShowCompanyWarningModal(false)}
                                 className="w-full py-[10px] rounded-[8px] bg-[#333] hover:bg-[#444] text-white text-[13px] font-bold transition-colors"
+                            >
+                                확인
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Success Modal */}
+            {showSuccessModal && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60">
+                    <div className="bg-[#222] border border-[#333] rounded-[16px] w-[320px] p-[24px] shadow-2xl flex flex-col items-center">
+                        <div className="w-[48px] h-[48px] rounded-full bg-white/10 flex items-center justify-center mb-[16px]">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#34d399" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                        </div>
+                        <h3 className="text-[16px] font-bold text-white mb-[8px]">등록 완료</h3>
+                        <p className="text-[13px] text-[#86868B] text-center mb-[24px]">성공적으로 저장되었습니다.</p>
+                        <div className="flex items-center justify-center w-full">
+                            <button 
+                                type="button"
+                                onClick={() => setShowSuccessModal(false)}
+                                className="w-full py-[10px] rounded-[8px] bg-[#34d399] hover:bg-[#10b981] text-black text-[13px] font-bold transition-colors"
                             >
                                 확인
                             </button>
