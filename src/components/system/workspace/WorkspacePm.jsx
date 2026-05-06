@@ -711,7 +711,7 @@ export default function WorkspacePm() {
                                                 value={commentContent}
                                                 onChange={(e) => setCommentContent(e.target.value)}
                                                 placeholder="댓글을 입력하세요..."
-                                                className="w-full bg-[#2a2a2c] border border-[#444] rounded-[8px] p-[12px] text-[14px] text-[#E5E5E5] leading-relaxed resize-y focus:outline-none focus:border-[#2997ff] min-h-[80px]"
+                                                className="w-full bg-[#2a2a2c] border border-[#444] rounded-[8px] p-[12px] text-[14px] text-[#E5E5E5] leading-relaxed resize-y focus:outline-none focus:border-[#2997ff] min-h-[90px]"
                                             />
                                             <div className="flex justify-end gap-[8px] mt-[8px]">
                                                 <button

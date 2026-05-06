@@ -338,7 +338,7 @@ export default function DecisionLog() {
                             <div className="flex flex-col gap-[8px] flex-1">
                                 {ws.logs.length > 0 ? ws.logs.map(log => (
                                     <div key={log.log_id} className="text-[13px] text-[#A1A1AA] group-hover:text-[#E5E5E5] transition-colors leading-snug truncate" title={log.raw_text}>
-                                        <span className="text-[#555] mr-[6px]">•</span>{log.raw_text.split('\n')[0]}
+                                        {log.raw_text.split('\n')[0]}
                                     </div>
                                 )) : (
                                     <div className="text-[13px] text-[#FF453A] font-medium mt-[4px]">최근 2주간 등록된 활동내역이 없습니다.</div>
@@ -361,7 +361,7 @@ export default function DecisionLog() {
                             <div className="flex flex-col gap-[8px] flex-1">
                                 {ws.logs.length > 0 ? ws.logs.map(log => (
                                     <div key={log.log_id} className="text-[13px] text-[#A1A1AA] group-hover:text-[#E5E5E5] transition-colors leading-snug truncate" title={log.raw_text}>
-                                        <span className="text-[#555] mr-[6px]">•</span>{log.raw_text.split('\n')[0]}
+                                        {log.raw_text.split('\n')[0]}
                                     </div>
                                 )) : (
                                     <div className="text-[13px] text-[#FF453A] font-medium mt-[4px]">최근 2주간 등록된 활동내역이 없습니다.</div>
@@ -728,7 +728,7 @@ export default function DecisionLog() {
                                                 value={commentContent}
                                                 onChange={(e) => setCommentContent(e.target.value)}
                                                 placeholder="댓글을 입력하세요..."
-                                                className="w-full bg-[#2a2a2c] border border-[#444] rounded-[8px] p-[12px] text-[14px] text-[#E5E5E5] leading-relaxed resize-y focus:outline-none focus:border-[#2997ff] min-h-[80px]"
+                                                className="w-full bg-[#2a2a2c] border border-[#444] rounded-[8px] p-[12px] text-[14px] text-[#E5E5E5] leading-relaxed resize-y focus:outline-none focus:border-[#2997ff] min-h-[90px]"
                                             />
                                             <div className="flex justify-end gap-[8px] mt-[8px]">
                                                 <button
