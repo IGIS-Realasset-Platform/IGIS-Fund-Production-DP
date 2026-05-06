@@ -186,7 +186,7 @@ export default function IotaLeftNav({ onMenuChange, currentPath = '' }) {
                                                     className={`flex items-center justify-between py-[6px] rounded-xl cursor-pointer transition-colors duration-200 outline-none select-none ${isSubActive ? 'bg-[#151515] px-[9px] -mx-[2px]' : 'px-[7px] hover:bg-[#151515]'}`}
                                                 >
                                                     <div className="flex items-center">
-                                                        <span className="text-[13px] text-[#A1A1AA] font-light group-hover:text-white transition-colors">
+                                                        <span className="text-[14px] text-[#A1A1AA] font-light group-hover:text-white transition-colors">
                                                             {sub.label}
                                                         </span>
                                                     </div>
