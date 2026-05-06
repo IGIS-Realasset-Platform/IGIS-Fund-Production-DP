@@ -4,12 +4,70 @@ export default function WorkspaceIpr() {
     const [activeTab, setActiveTab] = useState(0);
 
     return (
-        <div className="w-full flex-1 flex flex-col pt-[60px] pb-[60px] max-w-[1200px] mx-auto">
-            {/* Header Metadata */}
-            <div className="w-full flex justify-between items-end mb-[24px]">
-                <div>
-                    <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[8px]">Iota Project REITs</h1>
-                    <p className="text-[16px] text-[#86868B] leading-[26px]">YD427PFV, YD816PFV로 부터 IOTA Seoul One, Two를 자산 양수도하여, IPR이 IOTA Seoul 프로젝트의 통합개발 시행주체가 될 예정입니다.</p>
+                <div className="w-full flex-1 flex flex-col pt-[50px] pb-[60px] max-w-[1200px] mx-auto">
+            {/* Header & Team Structure */}
+            <div className="w-full flex justify-between items-center mb-[40px] gap-[40px]">
+                {/* Header Metadata */}
+                <div className="shrink-0 max-w-[300px]">
+                    <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[12px]">IPR</h1>
+                    <p className="text-[15px] text-[#86868B] leading-[24px]">자본시장 소통 및 프로젝트 리츠 TFT 운영</p>
+                </div>
+                
+                {/* Team Structure */}
+                <div className="border border-[#333] rounded-[24px] flex flex-col bg-transparent shrink-0">
+
+                    
+                    <div className="flex items-center pl-[20px] pr-[10px] py-[10px]">
+                        <div className="w-[80px] shrink-0">
+                            <span className="text-[13px] font-bold text-[#86868B]">투자</span>
+                        </div>
+                        <div className="flex items-center gap-[12px] w-[130px] shrink-0">
+                            <div className="relative w-[30px] h-[30px] shrink-0 rounded-full bg-[#3c3c3c] flex items-center justify-center overflow-hidden ml-[2px]">
+                                <img src={`${import.meta.env.BASE_URL}권순일.webp`} alt="권순일" className="w-full h-full object-cover" onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }} />
+                                <div className="absolute inset-0 rounded-full border border-white/10 pointer-events-none"></div>
+                            </div>
+                            <div className="flex flex-col text-left">
+                                <span className="text-white font-bold text-[13px] leading-tight">권순일</span>
+                                <span className="text-[#A1A1AA] text-[12px] mt-[1px] leading-tight">사업1파트장</span>
+                            </div>
+                        </div>
+                        <div className="flex flex-wrap gap-x-1.5 gap-y-2 -ml-[6px]">
+                            {[].map(name => (
+                                <div key={name} className="flex items-center gap-[6px] bg-[#222] border border-[#333] rounded-full pl-[4px] pr-[10px] py-[4px] min-w-[76px]">
+                                    <div className="w-[21px] h-[21px] shrink-0 rounded-full bg-[#3c3c3c] overflow-hidden">
+                                        <img src={`${import.meta.env.BASE_URL}${name}.webp`} alt={name} className="w-full h-full object-cover" onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }} />
+                                    </div>
+                                    <span className="text-[#E5E5E5] text-[12px] font-medium leading-none">{name}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                    <div className="w-full h-px bg-[#333]"></div>
+                    <div className="flex items-center pl-[20px] pr-[10px] py-[10px]">
+                        <div className="w-[80px] shrink-0">
+                            <span className="text-[13px] font-bold text-[#86868B]">관리</span>
+                        </div>
+                        <div className="flex items-center gap-[12px] w-[130px] shrink-0">
+                            <div className="relative w-[30px] h-[30px] shrink-0 rounded-full bg-[#3c3c3c] flex items-center justify-center overflow-hidden ml-[2px]">
+                                <img src={`${import.meta.env.BASE_URL}윤용택.webp`} alt="윤용택" className="w-full h-full object-cover" onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }} />
+                                <div className="absolute inset-0 rounded-full border border-white/10 pointer-events-none"></div>
+                            </div>
+                            <div className="flex flex-col text-left">
+                                <span className="text-white font-bold text-[13px] leading-tight">윤용택</span>
+                                <span className="text-[#A1A1AA] text-[12px] mt-[1px] leading-tight">사업3파트</span>
+                            </div>
+                        </div>
+                        <div className="flex flex-wrap gap-x-1.5 gap-y-2 -ml-[6px]">
+                            {[].map(name => (
+                                <div key={name} className="flex items-center gap-[6px] bg-[#222] border border-[#333] rounded-full pl-[4px] pr-[10px] py-[4px] min-w-[76px]">
+                                    <div className="w-[21px] h-[21px] shrink-0 rounded-full bg-[#3c3c3c] overflow-hidden">
+                                        <img src={`${import.meta.env.BASE_URL}${name}.webp`} alt={name} className="w-full h-full object-cover" onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }} />
+                                    </div>
+                                    <span className="text-[#E5E5E5] text-[12px] font-medium leading-none">{name}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
                 </div>
             </div>
 
