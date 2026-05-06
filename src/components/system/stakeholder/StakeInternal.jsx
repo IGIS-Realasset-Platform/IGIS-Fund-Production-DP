@@ -444,7 +444,7 @@ export default function StakeInternal() {
                          }
                      }}
                 >
-                    <div className="w-[20px] h-[20px] shrink-0 rounded-full bg-[#3c3c3c] overflow-hidden">
+                    <div className="w-[21px] h-[21px] shrink-0 rounded-full bg-[#3c3c3c] overflow-hidden">
                         <img src={`${import.meta.env.BASE_URL}${cleanName}.webp`} alt={name} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; handleImageError(cleanName); }} />
                     </div>
                     <span className="text-[#E5E5E5] text-[12px] font-medium group-hover:text-white transition-colors leading-none">{name}</span>
@@ -467,7 +467,7 @@ export default function StakeInternal() {
                  }
              }}
         >
-            <div className="relative w-[36px] h-[36px] shrink-0 rounded-full bg-[#3c3c3c] flex items-center justify-center overflow-hidden">
+            <div className="relative w-[38px] h-[38px] shrink-0 rounded-full bg-[#3c3c3c] flex items-center justify-center overflow-hidden">
                 <img src={`${import.meta.env.BASE_URL}${cleanName}.webp`} alt={name} className="w-full h-full object-cover" onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; handleImageError(cleanName); }} />
                 <div className="absolute inset-0 rounded-full border border-white/10 pointer-events-none"></div>
             </div>
@@ -517,7 +517,7 @@ export default function StakeInternal() {
             </div>
             <p className="text-[16px] text-[#86868B] mb-[24px] leading-[26px]">이오타서울 통합 업무수행 조직(CFT)의 핵심 책임/실무 인력 명단입니다.</p>
             
-            <div className="flex items-center justify-between mb-[16px]">
+            <div className="flex items-center justify-between mb-[12px]">
                 <h2 className="text-[18px] font-bold text-white tracking-tight">조직도 요약표</h2>
                 <button 
                     onClick={() => setIsTableCollapsed(!isTableCollapsed)}

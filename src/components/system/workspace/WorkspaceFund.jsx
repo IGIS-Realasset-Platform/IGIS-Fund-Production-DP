@@ -17,7 +17,7 @@ export default function WorkspaceFund() {
 
                     
                     <div className="flex items-center pl-[20px] pr-[10px] py-[10px]">
-                        <div className="w-[80px] shrink-0">
+                        <div className="w-[60px] shrink-0">
                             <span className="text-[13px] font-bold text-[#86868B]">KAM</span>
                         </div>
                         <div className="flex items-center gap-[12px] w-[130px] shrink-0">
@@ -30,15 +30,8 @@ export default function WorkspaceFund() {
                                 <span className="text-[#A1A1AA] text-[12px] mt-[1px] leading-tight">그룹장</span>
                             </div>
                         </div>
-                        <div className="flex flex-wrap gap-x-1.5 gap-y-2 -ml-[6px]">
-                            {[].map(name => (
-                                <div key={name} className="flex items-center gap-[6px] bg-[#222] border border-[#333] rounded-full pl-[4px] pr-[10px] py-[4px] min-w-[76px]">
-                                    <div className="w-[21px] h-[21px] shrink-0 rounded-full bg-[#3c3c3c] overflow-hidden">
-                                        <img src={`${import.meta.env.BASE_URL}${name}.webp`} alt={name} className="w-full h-full object-cover" onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }} />
-                                    </div>
-                                    <span className="text-[#E5E5E5] text-[12px] font-medium leading-none">{name}</span>
-                                </div>
-                            ))}
+                        <div className="flex items-center ml-2">
+                            <span className="text-[13px] font-medium text-[#86868B]">KAM 1파트 실무진</span>
                         </div>
                     </div>
                 </div>

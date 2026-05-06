@@ -69,7 +69,7 @@ export default function SystemLogin({ onLogin }) {
                 <div className="flex gap-8 text-[17px] font-medium text-[#86868B] dark:text-[#A1A1AA] transition-colors duration-300">
                     <a href="?page=home" className="hover:text-[#111] dark:hover:text-white cursor-pointer transition-colors">IFPDP 소개</a>
                     <button onClick={(e) => { e.stopPropagation(); alert("[리소스 데이터베이스] 데모 시연을 위해 준비 중인 메뉴입니다."); }} className="hover:text-[#111] dark:hover:text-white cursor-pointer transition-colors bg-transparent border-none outline-none p-0 font-medium">리소스</button>
-                    <button onClick={(e) => { e.stopPropagation(); alert("[Help Desk] IFPDP 관리 및 지원을 위한 연락처 팝업이 노출될 예정입니다."); }} className="hover:text-[#111] dark:hover:text-white cursor-pointer transition-colors bg-transparent border-none outline-none p-0 font-medium">관리팀 문의</button>
+                    <button onClick={(e) => { e.stopPropagation(); alert("[Help Desk] IFPDP 관리 및 지원을 위한 연락처 팝업이 노출될 예정입니다."); }} className="hover:text-[#111] dark:hover:text-white cursor-pointer transition-colors bg-transparent border-none outline-none p-0 font-medium">플랫폼 이용 문의</button>
                 </div>
             </div>
 

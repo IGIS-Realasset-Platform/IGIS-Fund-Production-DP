@@ -289,7 +289,7 @@ export default function AuthSetup({ onLogin }) {
                         window.history.pushState(null, '', import.meta.env.BASE_URL);
                         window.dispatchEvent(new Event('popstate'));
                     }} className="hover:text-[#111] dark:hover:text-white cursor-pointer transition-colors bg-transparent border-none outline-none p-0 font-medium">IFPDP 소개</button>
-                    <button onClick={() => setShowContactModal(true)} className="hover:text-[#111] dark:hover:text-white cursor-pointer transition-colors bg-transparent border-none outline-none p-0 font-medium">관리팀 문의</button>
+                    <button onClick={() => setShowContactModal(true)} className="hover:text-[#111] dark:hover:text-white cursor-pointer transition-colors bg-transparent border-none outline-none p-0 font-medium">플랫폼 이용 문의</button>
                 </div>
             </div>
 
@@ -590,7 +590,7 @@ export default function AuthSetup({ onLogin }) {
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                             </svg>
                         </div>
-                        <h3 className="text-[22px] font-bold text-[#1D1D1F] dark:text-white mb-2 tracking-tight">관리팀 문의</h3>
+                        <h3 className="text-[22px] font-bold text-[#1D1D1F] dark:text-white mb-2 tracking-tight">플랫폼 이용 문의</h3>
                         <p className="text-[15px] font-medium text-[#86868B] dark:text-[#A1A1AA] text-center leading-relaxed mb-8">
                             jk.jeon@igisam.com<br/>010-9076-5369<br/>전기영 매니저에게 연락해주세요.
                         </p>

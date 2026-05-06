@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
+import { supabase } from '../../utils/supabaseClient';
 
 const menuItems = [
     {
@@ -113,12 +114,27 @@ export default function IotaLeftNav({ onMenuChange, currentPath = '' }) {
     const handleNavigation = (path) => {
         const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
         window.history.pushState(null, '', `${base}/${path}`);
-        window.dispatchEvent(new Event('force-refresh'));
         window.dispatchEvent(new Event('popstate'));
         onMenuChange?.(path);
     };
     const { user, memberInfo, signOut } = useAuth();
+    const [showProfileMenu, setShowProfileMenu] = useState(false);
+    const [showContactModal, setShowContactModal] = useState(false);
+    const [showPasswordModal, setShowPasswordModal] = useState(false);
+    const [newPassword, setNewPassword] = useState('');
     const [isWorkspaceOpen, setIsWorkspaceOpen] = useState(true);
+
+    const handlePasswordChange = async () => {
+        try {
+            const { error } = await supabase.auth.updateUser({ password: newPassword });
+            if (error) throw error;
+            alert('비밀번호가 성공적으로 변경되었습니다.');
+            setShowPasswordModal(false);
+            setNewPassword('');
+        } catch (error) {
+            alert('비밀번호 변경 실패: ' + error.message);
+        }
+    };
     const [isStakeholderOpen, setIsStakeholderOpen] = useState(true);
     const [isGovOpen, setIsGovOpen] = useState(true);
     const [isVehicleOpen, setIsVehicleOpen] = useState(false);
@@ -319,47 +335,121 @@ export default function IotaLeftNav({ onMenuChange, currentPath = '' }) {
             </div>
 
             {/* Bottom Profile */}
-            <div className="pl-[15px] pr-[17px] pt-[10px] pb-3 border-t border-[#3A3A3C] w-full flex items-center justify-between transition-colors duration-300 relative">
-                
-                <div className="flex items-center gap-3 p-1.5 -ml-1.5 rounded-lg transition-colors duration-300">
-                    <div className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center bg-[#2C2C2E] -ml-[2px] border border-white/10">
-                        {memberInfo?.staff_name ? (
-                            <img 
-                                src={`${import.meta.env.BASE_URL}${memberInfo.staff_name}.webp`} 
-                                alt={`${memberInfo.staff_name} 프로필`} 
-                                className="w-full h-full object-cover"
-                                onError={(e) => { 
-                                    e.target.style.display = 'none'; 
-                                    e.target.parentNode.innerHTML = memberInfo.staff_name.substring(0,2); 
-                                    e.target.parentNode.className = 'w-10 h-10 rounded-full bg-[#c3c2b7] text-[#1F1F1E] flex items-center justify-center text-[15px] font-bold tracking-tighter -ml-[2px]'; 
-                                }}
-                            />
-                        ) : (
-                            <span className="text-[#1F1F1E] font-bold">U</span>
-                        )}
-                    </div>
-                    <div className="flex flex-col max-w-[130px]">
-                        <span className="font-semibold text-[14px] leading-tight mb-0.5 text-white tracking-tight truncate">
-                            {memberInfo?.staff_name ? `${memberInfo.staff_name} ${memberInfo.role_code === 'master' ? '마스터' : memberInfo.role_code === 'director' ? '책임' : '매니저'}` : '로그인 필요'}
-                        </span>
-                        <span className="text-[#86868B] text-[12px] leading-none font-normal truncate">
-                            {user?.email || '권한 없음'}
-                        </span>
-                    </div>
-                </div>
+            <div className="relative">
+                {/* Popover Menu */}
+                {showProfileMenu && (
+                    <>
+                        <div className="fixed inset-0 z-40" onClick={() => setShowProfileMenu(false)}></div>
+                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-[258px] bg-[#2C2C2E] border border-[#3A3A3C] rounded-[16px] shadow-lg py-2 z-50">
+                            <button onClick={() => { setShowProfileMenu(false); setShowPasswordModal(true); }} className="w-full text-left px-4 py-2.5 text-[14px] font-medium text-[#E5E5E5] hover:bg-[#3A3A3C] transition-colors flex items-center gap-3 cursor-pointer">
+                                <svg className="w-4 h-4 text-[#A1A1AA]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" /></svg>
+                                비밀번호 변경
+                            </button>
+                            <button onClick={() => { setShowProfileMenu(false); setShowContactModal(true); }} className="w-full text-left px-4 py-2.5 text-[14px] font-medium text-[#E5E5E5] hover:bg-[#3A3A3C] transition-colors flex items-center gap-3 cursor-pointer">
+                                <svg className="w-4 h-4 text-[#A1A1AA]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                                플랫폼 이용 문의
+                            </button>
+                            <div className="my-1 border-t border-white/5"></div>
+                            <button onClick={async () => { setShowProfileMenu(false); await signOut(); }} className="w-full text-left px-4 py-2.5 text-[14px] font-medium text-[#FF453A] hover:bg-red-500/10 transition-colors flex items-center gap-3 cursor-pointer">
+                                <svg className="w-4 h-4 text-[#FF453A]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
+                                로그아웃
+                            </button>
+                        </div>
+                    </>
+                )}
 
-                <div className="flex items-center">
-                    {/* Logout Button */}
-                    <button 
-                        type="button"
-                        onClick={async (e) => { e.preventDefault(); e.stopPropagation(); await signOut(); }}
-                        className="text-[#86868B] hover:text-red-500 transition-colors cursor-pointer p-1"
-                        title="로그아웃"
-                    >
-                        <svg className="w-[18px] h-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
-                    </button>
+                <div 
+                    onClick={() => setShowProfileMenu(!showProfileMenu)}
+                    className="pl-[15px] pr-[17px] pt-[10px] pb-3 border-t border-[#3A3A3C] w-full flex items-center justify-between transition-colors duration-300 cursor-pointer hover:bg-white/5"
+                >
+                    <div className="flex items-center gap-3 p-1.5 -ml-1.5 rounded-lg transition-colors duration-300">
+                        <div className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center bg-[#2C2C2E] -ml-[2px] border border-white/10">
+                            {memberInfo?.staff_name ? (
+                                <img 
+                                    src={`${import.meta.env.BASE_URL}${memberInfo.staff_name}.webp`} 
+                                    alt={`${memberInfo.staff_name} 프로필`} 
+                                    className="w-full h-full object-cover"
+                                    onError={(e) => { 
+                                        e.target.style.display = 'none'; 
+                                        e.target.parentNode.innerHTML = memberInfo.staff_name.substring(0,2); 
+                                        e.target.parentNode.className = 'w-10 h-10 rounded-full bg-[#c3c2b7] text-[#1F1F1E] flex items-center justify-center text-[15px] font-bold tracking-tighter -ml-[2px]'; 
+                                    }}
+                                />
+                            ) : (
+                                <span className="text-[#1F1F1E] font-bold">U</span>
+                            )}
+                        </div>
+                        <div className="flex flex-col max-w-[130px]">
+                            <span className="font-semibold text-[14px] leading-tight mb-0.5 text-white tracking-tight truncate">
+                                {memberInfo?.staff_name ? `${memberInfo.staff_name} ${memberInfo.role_code === 'master' ? '마스터' : memberInfo.role_code === 'director' ? '책임' : '매니저'}` : '로그인 필요'}
+                            </span>
+                            <span className="text-[#86868B] text-[12px] leading-none font-normal truncate">
+                                {user?.email || '권한 없음'}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div className="flex items-center">
+                        <button 
+                            type="button"
+                            className="text-[#86868B] transition-colors p-1 pointer-events-none"
+                        >
+                            <svg className="w-[18px] h-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9 5l7 7-7 7" /></svg>
+                        </button>
+                    </div>
                 </div>
             </div>
+
+            {/* Modals */}
+            {showContactModal && (
+                <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/40 backdrop-blur-sm transition-opacity">
+                    <div className="bg-[#1C1C1E] w-[400px] rounded-[24px] p-8 shadow-2xl flex flex-col items-center">
+                        <div className="w-12 h-12 rounded-full bg-[#2C2C2E] flex items-center justify-center mb-5">
+                            <svg className="w-6 h-6 text-white" fill="none" strokeWidth="2" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                        <h3 className="text-[22px] font-bold text-white mb-2 tracking-tight">플랫폼 이용 문의</h3>
+                        <p className="text-[15px] font-medium text-[#A1A1AA] text-center leading-relaxed mb-8">
+                            jk.jeon@igisam.com<br/>010-9076-5369<br/>전기영 매니저에게 연락해주세요.
+                        </p>
+                        <button onClick={() => setShowContactModal(false)} className="w-full py-3.5 rounded-[16px] bg-[#2C2C2E] text-white font-semibold text-[16px] hover:bg-[#3A3A3C] transition-colors cursor-pointer">
+                            닫기
+                        </button>
+                    </div>
+                </div>
+            )}
+
+            {showPasswordModal && (
+                <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/40 backdrop-blur-sm transition-opacity">
+                    <div className="bg-[#1C1C1E] w-[400px] rounded-[24px] p-8 shadow-2xl flex flex-col items-center">
+                        <div className="w-12 h-12 rounded-full bg-[#2C2C2E] flex items-center justify-center mb-5">
+                            <svg className="w-6 h-6 text-white" fill="none" strokeWidth="2" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                            </svg>
+                        </div>
+                        <h3 className="text-[22px] font-bold text-white mb-2 tracking-tight">비밀번호 변경</h3>
+                        <p className="text-[15px] font-medium text-[#A1A1AA] text-center leading-relaxed mb-6">
+                            새로운 비밀번호를 입력해주세요.
+                        </p>
+                        <input 
+                            type="password" 
+                            value={newPassword}
+                            onChange={(e) => setNewPassword(e.target.value)}
+                            placeholder="새 비밀번호"
+                            className="w-full h-[52px] bg-[#1C1C1E] border border-[#333333] rounded-[16px] px-5 text-[17px] text-white placeholder:text-[#86868B] focus:outline-none focus:border-[#0071E3] focus:ring-1 focus:ring-[#0071E3] transition-all mb-4"
+                        />
+                        <div className="flex w-full gap-3">
+                            <button onClick={() => setShowPasswordModal(false)} className="flex-1 py-3.5 rounded-[16px] bg-[#2C2C2E] text-white font-semibold text-[16px] hover:bg-[#3A3A3C] transition-colors cursor-pointer">
+                                취소
+                            </button>
+                            <button onClick={handlePasswordChange} disabled={!newPassword} className="flex-1 py-3.5 rounded-[16px] bg-[#0071E3] text-white font-semibold text-[16px] hover:bg-[#0077ED] transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
+                                변경하기
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

@@ -1,13 +1,30 @@
 import React, { useState } from 'react';
 import { useTheme } from '../../context/ThemeContext';
 import { useAuth } from '../../context/AuthContext';
+import { supabase } from '../../utils/supabaseClient';
 
 export default function SystemLeftNav({ isCore, isPlatform = false }) {
     const { isLightMode, toggleTheme } = useTheme();
     const { user, memberInfo, signOut } = useAuth();
     const [fakeLight, setFakeLight] = useState(false);
+    const [showProfileMenu, setShowProfileMenu] = useState(false);
+    const [showContactModal, setShowContactModal] = useState(false);
+    const [showPasswordModal, setShowPasswordModal] = useState(false);
+    const [newPassword, setNewPassword] = useState('');
 
     const activeLight = isCore ? fakeLight : isLightMode;
+
+    const handlePasswordChange = async () => {
+        try {
+            const { error } = await supabase.auth.updateUser({ password: newPassword });
+            if (error) throw error;
+            alert('비밀번호가 성공적으로 변경되었습니다.');
+            setShowPasswordModal(false);
+            setNewPassword('');
+        } catch (error) {
+            alert('비밀번호 변경 실패: ' + error.message);
+        }
+    };
 
     const handleToggle = () => {
         if (isCore) {
@@ -25,7 +42,6 @@ export default function SystemLeftNav({ isCore, isPlatform = false }) {
                 <span 
                     onClick={() => {
                         window.history.pushState(null, '', import.meta.env.BASE_URL);
-                        window.dispatchEvent(new Event('force-refresh'));
                         window.dispatchEvent(new Event('popstate'));
                     }}
                     className="font-bold text-[20px] tracking-wide font-inter ml-[5px] text-[#1D1D1F] dark:text-white transition-colors duration-300 cursor-pointer hover:text-gray-400 dark:hover:text-gray-400"
@@ -44,7 +60,6 @@ export default function SystemLeftNav({ isCore, isPlatform = false }) {
                 <div
                     onClick={() => {
                         window.history.pushState(null, '', import.meta.env.BASE_URL);
-                        window.dispatchEvent(new Event('force-refresh'));
                         window.dispatchEvent(new Event('popstate'));
                     }}
                     className="flex items-center px-2.5 py-2 hover:bg-gray-200 dark:hover:bg-[#2C2C2E] rounded-md cursor-pointer transition-colors duration-300"
@@ -110,7 +125,6 @@ export default function SystemLeftNav({ isCore, isPlatform = false }) {
                 <div 
                     onClick={isPlatform ? () => {
                         window.history.pushState(null, '', `${import.meta.env.BASE_URL}platform/iotaseoul`);
-                        window.dispatchEvent(new Event('force-refresh'));
                         window.dispatchEvent(new Event('popstate'));
                     } : undefined}
                     className={`flex items-center justify-between px-2.5 py-2 rounded-md mt-4 mb-2 transition-colors duration-300 border dark:border-[#3A3A3C] shadow-sm dark:bg-[#2A2A2A] group ${isPlatform ? 'hover:bg-[#18181A] dark:hover:bg-[#18181A] cursor-pointer border-gray-300 bg-white' : 'cursor-not-allowed opacity-40 border-gray-200 bg-gray-50'}`}
@@ -143,57 +157,132 @@ export default function SystemLeftNav({ isCore, isPlatform = false }) {
             </div>
 
             {/* Bottom Profile */}
-            <div className="px-[15px] pt-4 pb-3 border-t border-black/10 dark:border-[#3A3A3C] w-full flex items-center justify-between transition-colors duration-300 relative">
-                
-                <div className="flex items-center gap-3 p-1.5 -ml-1.5 rounded-lg transition-colors duration-300">
-                    <div className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center bg-[#E5E5EA] dark:bg-[#2C2C2E] -ml-[2px] border border-black/5 dark:border-white/10 transition-colors duration-300">
-                        {memberInfo?.staff_name ? (
-                            <img 
-                                src={`${import.meta.env.BASE_URL}${memberInfo.staff_name}.webp`} 
-                                alt={`${memberInfo.staff_name} 프로필`} 
-                                className="w-full h-full object-cover"
-                                onError={(e) => { 
-                                    e.target.style.display = 'none'; 
-                                    e.target.parentNode.innerHTML = memberInfo.staff_name.substring(0,2); 
-                                    e.target.parentNode.className = 'w-10 h-10 rounded-full bg-[#E5E5EA] dark:bg-[#c3c2b7] text-[#111] dark:text-[#1F1F1E] flex items-center justify-center text-[15px] font-bold tracking-tighter -ml-[2px] transition-colors duration-300'; 
-                                }}
-                            />
-                        ) : (
-                            <span className="text-[#111] dark:text-[#1F1F1E] font-bold">U</span>
-                        )}
-                    </div>
-                    <div className="flex flex-col max-w-[130px]">
-                        <span className="font-semibold text-[14px] leading-tight mb-0.5 text-[#1D1D1F] dark:text-white transition-colors duration-300 tracking-tight truncate">
-                            {memberInfo?.staff_name ? `${memberInfo.staff_name} ${memberInfo.role_code === 'master' ? '마스터' : memberInfo.role_code === 'director' ? '책임' : '매니저'}` : '로그인 필요'}
-                        </span>
-                        <span className="text-[#86868B] dark:text-gray-400 text-[12px] leading-none font-normal transition-colors duration-300 truncate">
-                            {user?.email || '권한 없음'}
-                        </span>
-                    </div>
-                </div>
-                
-                <div className="flex items-center gap-2">
-                    {/* Logout Button */}
-                    <button 
-                        type="button"
-                        onClick={async (e) => { e.preventDefault(); e.stopPropagation(); await signOut(); }}
-                        className="text-[#86868B] hover:text-red-500 transition-colors cursor-pointer p-1"
-                        title="로그아웃"
-                    >
-                        <svg className="w-[18px] h-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
-                    </button>
+            <div className="relative">
+                {/* Popover Menu */}
+                {showProfileMenu && (
+                    <>
+                        <div className="fixed inset-0 z-40" onClick={() => setShowProfileMenu(false)}></div>
+                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-[258px] bg-white dark:bg-[#2C2C2E] border border-black/10 dark:border-[#3A3A3C] rounded-[16px] shadow-lg py-2 z-50">
+                            <button onClick={() => { setShowProfileMenu(false); setShowPasswordModal(true); }} className="w-full text-left px-4 py-2.5 text-[14px] font-medium text-[#1D1D1F] dark:text-[#E5E5E5] hover:bg-[#F5F5F7] dark:hover:bg-[#3A3A3C] transition-colors flex items-center gap-3 cursor-pointer">
+                                <svg className="w-4 h-4 text-[#86868B] dark:text-[#A1A1AA]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" /></svg>
+                                비밀번호 변경
+                            </button>
+                            <button onClick={() => { setShowProfileMenu(false); setShowContactModal(true); }} className="w-full text-left px-4 py-2.5 text-[14px] font-medium text-[#1D1D1F] dark:text-[#E5E5E5] hover:bg-[#F5F5F7] dark:hover:bg-[#3A3A3C] transition-colors flex items-center gap-3 cursor-pointer">
+                                <svg className="w-4 h-4 text-[#86868B] dark:text-[#A1A1AA]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                                플랫폼 이용 문의
+                            </button>
+                            <div className="my-1 border-t border-black/5 dark:border-white/5"></div>
+                            <button onClick={async () => { setShowProfileMenu(false); await signOut(); }} className="w-full text-left px-4 py-2.5 text-[14px] font-medium text-[#FF453A] hover:bg-red-50 dark:hover:bg-red-500/10 transition-colors flex items-center gap-3 cursor-pointer">
+                                <svg className="w-4 h-4 text-[#FF453A]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
+                                로그아웃
+                            </button>
+                        </div>
+                    </>
+                )}
 
-                    {/* Theme Toggle Switch */}
-                    <div className="flex shrink-0 items-center justify-center cursor-default">
-                        <div className={`w-[42px] h-[24px] rounded-full relative transition-colors duration-300 ${activeLight ? 'bg-[#c3c2b7]' : 'bg-[#3A3A3C]'} border border-black/10 dark:border-[#4A4A4C]`}>
-                            <div className={`w-[18px] h-[18px] bg-white rounded-full absolute top-[2px] transition-transform duration-300 shadow-sm ${activeLight ? 'translate-x-[20px]' : 'translate-x-[2px]'}`}></div>
-                            {/* Sun/Moon icons */}
-                            <svg className={`absolute left-[4px] top-[4px] w-4 h-4 text-[#111] transition-opacity duration-300 ${activeLight ? 'opacity-100' : 'opacity-0'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
-                            <svg className={`absolute right-[3px] top-[3.5px] w-[15px] h-[15px] text-[#A1A1AA] transition-opacity duration-300 ${activeLight ? 'opacity-0' : 'opacity-100'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+                <div 
+                    onClick={() => setShowProfileMenu(!showProfileMenu)}
+                    className="px-[15px] pt-4 pb-3 border-t border-black/10 dark:border-[#3A3A3C] w-full flex items-center justify-between transition-colors duration-300 relative cursor-pointer hover:bg-black/5 dark:hover:bg-white/5"
+                >
+                    <div className="flex items-center gap-3 p-1.5 -ml-1.5 rounded-lg transition-colors duration-300">
+                        <div className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center bg-[#E5E5EA] dark:bg-[#2C2C2E] -ml-[2px] border border-black/5 dark:border-white/10 transition-colors duration-300">
+                            {memberInfo?.staff_name ? (
+                                <img 
+                                    src={`${import.meta.env.BASE_URL}${memberInfo.staff_name}.webp`} 
+                                    alt={`${memberInfo.staff_name} 프로필`} 
+                                    className="w-full h-full object-cover"
+                                    onError={(e) => { 
+                                        e.target.style.display = 'none'; 
+                                        e.target.parentNode.innerHTML = memberInfo.staff_name.substring(0,2); 
+                                        e.target.parentNode.className = 'w-10 h-10 rounded-full bg-[#E5E5EA] dark:bg-[#c3c2b7] text-[#111] dark:text-[#1F1F1E] flex items-center justify-center text-[15px] font-bold tracking-tighter -ml-[2px] transition-colors duration-300'; 
+                                    }}
+                                />
+                            ) : (
+                                <span className="text-[#111] dark:text-[#1F1F1E] font-bold">U</span>
+                            )}
+                        </div>
+                        <div className="flex flex-col max-w-[130px]">
+                            <span className="font-semibold text-[14px] leading-tight mb-0.5 text-[#1D1D1F] dark:text-white transition-colors duration-300 tracking-tight truncate">
+                                {memberInfo?.staff_name ? `${memberInfo.staff_name} ${memberInfo.role_code === 'master' ? '마스터' : memberInfo.role_code === 'director' ? '책임' : '매니저'}` : '로그인 필요'}
+                            </span>
+                            <span className="text-[#86868B] dark:text-gray-400 text-[12px] leading-none font-normal transition-colors duration-300 truncate">
+                                {user?.email || '권한 없음'}
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div className="flex items-center gap-2">
+                        {/* Expand Icon */}
+                        <div className="text-[#86868B] transition-colors p-1 pointer-events-none">
+                            <svg className="w-[18px] h-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9 5l7 7-7 7" /></svg>
+                        </div>
+
+                        {/* Theme Toggle Switch */}
+                        <div 
+                            onClick={(e) => { e.stopPropagation(); handleToggle(); }}
+                            className="flex shrink-0 items-center justify-center cursor-pointer"
+                        >
+                            <div className={`w-[42px] h-[24px] rounded-full relative transition-colors duration-300 ${activeLight ? 'bg-[#c3c2b7]' : 'bg-[#3A3A3C]'} border border-black/10 dark:border-[#4A4A4C]`}>
+                                <div className={`w-[18px] h-[18px] bg-white rounded-full absolute top-[2px] transition-transform duration-300 shadow-sm ${activeLight ? 'translate-x-[20px]' : 'translate-x-[2px]'}`}></div>
+                                {/* Sun/Moon icons */}
+                                <svg className={`absolute left-[4px] top-[4px] w-4 h-4 text-[#111] transition-opacity duration-300 ${activeLight ? 'opacity-100' : 'opacity-0'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                                <svg className={`absolute right-[3px] top-[3.5px] w-[15px] h-[15px] text-[#A1A1AA] transition-opacity duration-300 ${activeLight ? 'opacity-0' : 'opacity-100'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+            {/* Modals */}
+            {showContactModal && (
+                <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/40 backdrop-blur-sm transition-opacity">
+                    <div className="bg-white dark:bg-[#1C1C1E] w-[400px] rounded-[24px] p-8 shadow-2xl flex flex-col items-center">
+                        <div className="w-12 h-12 rounded-full bg-gray-100 dark:bg-[#2C2C2E] flex items-center justify-center mb-5">
+                            <svg className="w-6 h-6 text-[#1D1D1F] dark:text-white" fill="none" strokeWidth="2" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                        <h3 className="text-[22px] font-bold text-[#1D1D1F] dark:text-white mb-2 tracking-tight">플랫폼 이용 문의</h3>
+                        <p className="text-[15px] font-medium text-[#86868B] dark:text-[#A1A1AA] text-center leading-relaxed mb-8">
+                            jk.jeon@igisam.com<br/>010-9076-5369<br/>전기영 매니저에게 연락해주세요.
+                        </p>
+                        <button onClick={() => setShowContactModal(false)} className="w-full py-3.5 rounded-[16px] bg-[#F5F5F7] dark:bg-[#2C2C2E] text-[#1D1D1F] dark:text-white font-semibold text-[16px] hover:bg-[#E8E8ED] dark:hover:bg-[#3A3A3C] transition-colors cursor-pointer">
+                            닫기
+                        </button>
+                    </div>
+                </div>
+            )}
+
+            {showPasswordModal && (
+                <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/40 backdrop-blur-sm transition-opacity">
+                    <div className="bg-white dark:bg-[#1C1C1E] w-[400px] rounded-[24px] p-8 shadow-2xl flex flex-col items-center">
+                        <div className="w-12 h-12 rounded-full bg-gray-100 dark:bg-[#2C2C2E] flex items-center justify-center mb-5">
+                            <svg className="w-6 h-6 text-[#1D1D1F] dark:text-white" fill="none" strokeWidth="2" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                            </svg>
+                        </div>
+                        <h3 className="text-[22px] font-bold text-[#1D1D1F] dark:text-white mb-2 tracking-tight">비밀번호 변경</h3>
+                        <p className="text-[15px] font-medium text-[#86868B] dark:text-[#A1A1AA] text-center leading-relaxed mb-6">
+                            새로운 비밀번호를 입력해주세요.
+                        </p>
+                        <input 
+                            type="password" 
+                            value={newPassword}
+                            onChange={(e) => setNewPassword(e.target.value)}
+                            placeholder="새 비밀번호"
+                            className="w-full h-[52px] bg-white dark:bg-[#1C1C1E] border border-black/10 dark:border-[#333333] rounded-[16px] px-5 text-[17px] text-[#1D1D1F] dark:text-white placeholder:text-[#86868B] focus:outline-none focus:border-[#0071E3] focus:ring-1 focus:ring-[#0071E3] transition-all mb-4"
+                        />
+                        <div className="flex w-full gap-3">
+                            <button onClick={() => setShowPasswordModal(false)} className="flex-1 py-3.5 rounded-[16px] bg-[#F5F5F7] dark:bg-[#2C2C2E] text-[#1D1D1F] dark:text-white font-semibold text-[16px] hover:bg-[#E8E8ED] dark:hover:bg-[#3A3A3C] transition-colors cursor-pointer">
+                                취소
+                            </button>
+                            <button onClick={handlePasswordChange} disabled={!newPassword} className="flex-1 py-3.5 rounded-[16px] bg-[#0071E3] text-white font-semibold text-[16px] hover:bg-[#0077ED] transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
+                                변경하기
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
