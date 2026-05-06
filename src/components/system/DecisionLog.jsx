@@ -33,6 +33,11 @@ export default function DecisionLog() {
     const [editingContent, setEditingContent] = useState('');
     const [isSavingEdit, setIsSavingEdit] = useState(false);
 
+    // Comment states
+    const [commentingLogId, setCommentingLogId] = useState(null);
+    const [commentContent, setCommentContent] = useState('');
+    const [isSavingComment, setIsSavingComment] = useState(false);
+
     const renderLogTextWithMentions = (text) => {
         if (!text) return null;
         if (!masterStakeholders || masterStakeholders.length === 0) return text;
@@ -190,11 +195,70 @@ export default function DecisionLog() {
             setLogs(prev => prev.map(l => l.log_id === logId ? { ...l, raw_text: editingContent, updated_at: new Date().toISOString() } : l));
             setEditingLogId(null);
             setEditingContent('');
-        } catch (err) {
-            console.error('Error updating log:', err);
+        } catch (e) {
+            console.error('Error saving edit:', e);
             alert('수정 중 오류가 발생했습니다.');
         } finally {
             setIsSavingEdit(false);
+        }
+    };
+
+    const handleSaveComment = async (logId) => {
+        if (!commentContent.trim()) return;
+        setIsSavingComment(true);
+        try {
+            const log = logs.find(l => l.log_id === logId);
+            const metadata = log.metadata || {};
+            const comments = metadata.comments || [];
+            
+            const newComment = {
+                id: Date.now().toString(),
+                author: memberInfo?.staff_name || memberInfo?.name || '익명',
+                author_email: memberInfo?.email || 'unknown',
+                text: commentContent,
+                created_at: new Date().toISOString()
+            };
+            
+            const updatedMetadata = { ...metadata, comments: [...comments, newComment] };
+            
+            const { error } = await supabase
+                .from('iota_seoul_logs')
+                .update({ metadata: updatedMetadata })
+                .eq('log_id', logId);
+                
+            if (error) throw error;
+            
+            setLogs(prev => prev.map(l => l.log_id === logId ? { ...l, metadata: updatedMetadata } : l));
+            setCommentingLogId(null);
+            setCommentContent('');
+        } catch (e) {
+            console.error('Error saving comment:', e);
+            alert('댓글 저장 중 오류가 발생했습니다.');
+        } finally {
+            setIsSavingComment(false);
+        }
+    };
+
+    const handleDeleteComment = async (logId, commentId) => {
+        if (!confirm('댓글을 삭제하시겠습니까?')) return;
+        try {
+            const log = logs.find(l => l.log_id === logId);
+            const metadata = log.metadata || {};
+            const comments = (metadata.comments || []).filter(c => c.id !== commentId);
+            
+            const updatedMetadata = { ...metadata, comments };
+            
+            const { error } = await supabase
+                .from('iota_seoul_logs')
+                .update({ metadata: updatedMetadata })
+                .eq('log_id', logId);
+                
+            if (error) throw error;
+            
+            setLogs(prev => prev.map(l => l.log_id === logId ? { ...l, metadata: updatedMetadata } : l));
+        } catch (e) {
+            console.error('Error deleting comment:', e);
+            alert('댓글 삭제 중 오류가 발생했습니다.');
         }
     };
 
@@ -591,7 +655,7 @@ export default function DecisionLog() {
                                             </div>
                                         </div>
                                     )}
-                                    
+                                    {/* Original Text */}
                                     {editingLogId === log.log_id ? (
                                         <div className="w-full">
                                             <textarea
@@ -602,25 +666,79 @@ export default function DecisionLog() {
                                             <div className="flex justify-end gap-[8px] mt-[12px]">
                                                 <button
                                                     onClick={() => setEditingLogId(null)}
-                                                    className="px-[12px] py-[6px] bg-transparent border border-[#444] rounded-[6px] text-[12px] text-[#A1A1AA] hover:text-[#E5E5E5] transition-colors"
+                                                    className="px-[12px] py-[6px] bg-transparent border border-[#444] rounded-[6px] text-[12px] text-[#A1A1AA] hover:text-[#E5E5E5] transition-colors cursor-pointer"
                                                 >
                                                     취소
                                                 </button>
                                                 <button
                                                     onClick={() => handleSaveEdit(log.log_id)}
                                                     disabled={isSavingEdit}
-                                                    className="px-[12px] py-[6px] bg-[#2997ff] hover:bg-[#0071e3] border border-transparent rounded-[6px] text-[12px] text-white font-bold transition-colors disabled:opacity-50"
+                                                    className="px-[12px] py-[6px] bg-[#2997ff] hover:bg-[#0071e3] border border-transparent rounded-[6px] text-[12px] text-white font-bold transition-colors disabled:opacity-50 cursor-pointer"
                                                 >
                                                     {isSavingEdit ? '저장 중...' : '저장'}
                                                 </button>
                                             </div>
                                         </div>
                                     ) : (
-                                        <div className="whitespace-pre-wrap break-words text-[15px] text-[#E5E5E5] leading-relaxed">
+                                        <div className={`whitespace-pre-wrap break-words text-[15px] leading-relaxed ${commentingLogId === log.log_id ? 'text-[#86868B] opacity-70' : 'text-[#E5E5E5]'}`}>
                                             {renderLogTextWithMentions(log.raw_text)}
                                         </div>
                                     )}
-                                    <div className="clear-both"></div>
+                                    <div className="clear-both mb-[16px]"></div>
+                                    
+                                    {/* Comments List */}
+                                    {log.metadata?.comments && log.metadata.comments.length > 0 && (
+                                        <div className="flex flex-col gap-[8px] mb-[16px] border-t border-[#333] pt-[12px]">
+                                            {log.metadata.comments.map(comment => (
+                                                <div key={comment.id} className="bg-[#222] rounded-[8px] p-[12px] flex justify-between group">
+                                                    <div className="flex-1 min-w-0 pr-[16px]">
+                                                        <div className="flex items-center gap-[8px] mb-[4px]">
+                                                            <span className="text-[13px] font-bold text-[#E5E5E5]">{comment.author}</span>
+                                                            <span className="text-[11px] text-[#86868B]">
+                                                                {new Date(comment.created_at).toLocaleString('ko-KR', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })}
+                                                            </span>
+                                                        </div>
+                                                        <div className="text-[13px] text-[#A1A1AA] whitespace-pre-wrap break-words">{comment.text}</div>
+                                                    </div>
+                                                    {comment.author_email === memberInfo?.email && (
+                                                        <button
+                                                            onClick={(e) => { e.stopPropagation(); handleDeleteComment(log.log_id, comment.id); }}
+                                                            className="text-[12px] text-[#FF453A] opacity-0 group-hover:opacity-100 transition-opacity hover:underline cursor-pointer"
+                                                        >
+                                                            삭제
+                                                        </button>
+                                                    )}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+
+                                    {/* Commenting Box */}
+                                    {commentingLogId === log.log_id && (
+                                        <div className="w-full mt-[16px]">
+                                            <textarea
+                                                value={commentContent}
+                                                onChange={(e) => setCommentContent(e.target.value)}
+                                                placeholder="댓글을 입력하세요..."
+                                                className="w-full bg-[#2a2a2c] border border-[#444] rounded-[8px] p-[12px] text-[14px] text-[#E5E5E5] leading-relaxed resize-y focus:outline-none focus:border-[#2997ff] min-h-[80px]"
+                                            />
+                                            <div className="flex justify-end gap-[8px] mt-[8px]">
+                                                <button
+                                                    onClick={() => setCommentingLogId(null)}
+                                                    className="px-[12px] py-[6px] bg-transparent border border-[#444] rounded-[6px] text-[12px] text-[#A1A1AA] hover:text-[#E5E5E5] transition-colors cursor-pointer"
+                                                >
+                                                    취소
+                                                </button>
+                                                <button
+                                                    onClick={() => handleSaveComment(log.log_id)}
+                                                    disabled={isSavingComment}
+                                                    className="px-[12px] py-[6px] bg-[#2997ff] hover:bg-[#0071e3] border border-transparent rounded-[6px] text-[12px] text-white font-bold transition-colors disabled:opacity-50 cursor-pointer"
+                                                >
+                                                    {isSavingComment ? '저장 중...' : '등록'}
+                                                </button>
+                                            </div>
+                                        </div>
+                                    )}
                                     
                                     <div className="mt-[12px] flex items-end justify-between">
                                         <div className="text-[12px] text-[#555] font-medium">
@@ -630,8 +748,13 @@ export default function DecisionLog() {
                                             {!editingLogId && (
                                                 <button
                                                     type="button"
-                                                    onClick={(e) => { e.stopPropagation(); /* TODO: Implement comment logic */ }}
-                                                    className="px-[12px] py-[6px] bg-[#222] hover:bg-[#333] border border-[#333] hover:border-[#444] rounded-[6px] text-[12px] text-[#A1A1AA] hover:text-[#E5E5E5] font-medium transition-all flex items-center gap-[6px]"
+                                                    onClick={(e) => { 
+                                                        e.stopPropagation(); 
+                                                        setCommentingLogId(log.log_id);
+                                                        setCommentContent('');
+                                                        setEditingLogId(null);
+                                                    }}
+                                                    className="px-[12px] py-[6px] bg-[#222] hover:bg-[#333] border border-[#333] hover:border-[#444] rounded-[6px] text-[12px] text-[#A1A1AA] hover:text-[#E5E5E5] font-medium transition-all flex items-center gap-[6px] cursor-pointer"
                                                 >
                                                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
                                                     댓글
@@ -644,8 +767,9 @@ export default function DecisionLog() {
                                                         e.stopPropagation(); 
                                                         setEditingLogId(log.log_id);
                                                         setEditingContent(log.raw_text);
+                                                        setCommentingLogId(null);
                                                     }}
-                                                    className="px-[12px] py-[6px] bg-[#222] hover:bg-[#333] border border-[#333] hover:border-[#444] rounded-[6px] text-[12px] text-[#A1A1AA] hover:text-[#E5E5E5] font-medium transition-all"
+                                                    className="px-[12px] py-[6px] bg-[#222] hover:bg-[#333] border border-[#333] hover:border-[#444] rounded-[6px] text-[12px] text-[#A1A1AA] hover:text-[#E5E5E5] font-medium transition-all cursor-pointer"
                                                 >
                                                     수정하기
                                                 </button>
