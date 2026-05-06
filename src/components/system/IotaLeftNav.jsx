@@ -22,36 +22,23 @@ const menuItems = [
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
             </svg>
         ),
-    },
-    {
-        id: 3,
-        label: 'IOTA One 427',
-        path: 'platform/iotaseoul/iota-one-427',
-        icon: (
-            <svg className="w-4.5 h-4.5 mr-[10px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-            </svg>
-        ),
-    },
-    {
-        id: 4,
-        label: 'IOTA Two 816',
-        path: 'platform/iotaseoul/iota-two-816',
-        icon: (
-            <svg className="w-4.5 h-4.5 mr-[10px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M3 21h18M5 21V5a2 2 0 012-2h10a2 2 0 012 2v16M9 9h6M9 13h6M9 17h6" />
-            </svg>
-        ),
-    },
-    {
-        id: 5,
-        label: '421 Fund',
-        path: 'platform/iotaseoul/421-fund',
-        icon: (
-            <svg className="w-4.5 h-4.5 mr-[10px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-            </svg>
-        ),
+        subItems: [
+            {
+                id: 3,
+                label: 'IOTA One 427',
+                path: 'platform/iotaseoul/iota-one-427'
+            },
+            {
+                id: 4,
+                label: 'IOTA Two 816',
+                path: 'platform/iotaseoul/iota-two-816'
+            },
+            {
+                id: 5,
+                label: '421 Fund',
+                path: 'platform/iotaseoul/421-fund'
+            }
+        ]
     },
     {
         id: 6,
@@ -127,6 +114,7 @@ export default function IotaLeftNav({ onMenuChange, currentPath = '' }) {
     const [isWorkspaceOpen, setIsWorkspaceOpen] = useState(true);
     const [isStakeholderOpen, setIsStakeholderOpen] = useState(true);
     const [isGovOpen, setIsGovOpen] = useState(true);
+    const [isVehicleOpen, setIsVehicleOpen] = useState(true);
 
     return (
         <div className="w-[275px] h-full bg-transparent border-r border-[#2C2C2E] flex flex-col flex-shrink-0 text-[14px] font-sans text-white transition-colors duration-300">
@@ -150,29 +138,63 @@ export default function IotaLeftNav({ onMenuChange, currentPath = '' }) {
                 <div className="flex flex-col gap-0">
                     {menuItems.map((item) => {
                         const isActive = currentPath === item.path;
+                        const hasSubItems = item.subItems && item.subItems.length > 0;
+                        const isExpanded = item.id === 2 ? isVehicleOpen : false;
+
                         return (
-                            <div
-                                key={item.id}
-                                onClick={() => handleNavigation(item.path)}
-                                className={`flex items-center justify-between py-[7px] rounded-xl cursor-pointer transition-colors duration-200 outline-none select-none ${isActive ? 'bg-[#151515] px-[9px] -mx-[2px]' : 'px-[7px] hover:bg-[#151515]'}`}
-                            >
-                                <div className="flex items-center">
-                                    <span className="text-white">
-                                        {item.icon}
-                                    </span>
-                                    <span className="text-[14px] text-white font-light">
-                                        {item.label}
-                                    </span>
+                            <div key={item.id} className="flex flex-col">
+                                <div
+                                    onClick={() => {
+                                        handleNavigation(item.path);
+                                        if (hasSubItems && item.id === 2) {
+                                            setIsVehicleOpen(!isVehicleOpen);
+                                        }
+                                    }}
+                                    className={`flex items-center justify-between py-[7px] rounded-xl cursor-pointer transition-colors duration-200 outline-none select-none ${isActive ? 'bg-[#151515] px-[9px] -mx-[2px]' : 'px-[7px] hover:bg-[#151515]'}`}
+                                >
+                                    <div className="flex items-center">
+                                        <span className="text-white">
+                                            {item.icon}
+                                        </span>
+                                        <span className="text-[14px] text-white font-light">
+                                            {item.label}
+                                        </span>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        {item.badge && (
+                                            <div className="bg-[#f87171]/20 text-[#f87171] text-[10px] px-2 py-0.5 rounded-full">
+                                                {item.badge}
+                                            </div>
+                                        )}
+                                        {hasSubItems ? (
+                                            <svg className={`w-3.5 h-3.5 text-[#86868B] transition-transform duration-200 ${isExpanded ? 'rotate-0' : '-rotate-90'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                                            </svg>
+                                        ) : (
+                                            <svg className="w-3.5 h-3.5 text-white translate-x-[2px] hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7-7" /></svg>
+                                        )}
+                                    </div>
                                 </div>
-                                <div className="flex items-center gap-2">
-                                    {item.badge && (
-                                        <div className="bg-[#f87171]/20 text-[#f87171] text-[10px] px-2 py-0.5 rounded-full">
-                                            {item.badge}
-                                        </div>
-                                    )}
-                                    {/* 숨김 처리된 꺾쇠 화살표 */}
-                                    <svg className="w-3.5 h-3.5 text-white translate-x-[2px] hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" /></svg>
-                                </div>
+                                {hasSubItems && isExpanded && (
+                                    <div className="flex flex-col gap-0 mt-1 mb-1 pl-[28px]">
+                                        {item.subItems.map(sub => {
+                                            const isSubActive = currentPath === sub.path;
+                                            return (
+                                                <div
+                                                    key={sub.id}
+                                                    onClick={(e) => { e.stopPropagation(); handleNavigation(sub.path); }}
+                                                    className={`flex items-center justify-between py-[6px] rounded-xl cursor-pointer transition-colors duration-200 outline-none select-none ${isSubActive ? 'bg-[#151515] px-[9px] -mx-[2px]' : 'px-[7px] hover:bg-[#151515]'}`}
+                                                >
+                                                    <div className="flex items-center">
+                                                        <span className="text-[13px] text-[#A1A1AA] font-light group-hover:text-white transition-colors">
+                                                            {sub.label}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                )}
                             </div>
                         );
                     })}
