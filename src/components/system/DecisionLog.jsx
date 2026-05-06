@@ -89,11 +89,11 @@ export default function DecisionLog() {
             '전기영': '기획추진', '이시정': '기획추진', '이관용': '기획추진',
             '이철승': 'CFT 총괄', '윤관식': 'CFT 총괄', '정조민': 'CFT 총괄', '우형석': 'CFT 총괄',
             '권순일': '사업PM', '강순용': '사업PM', '윤주형': '사업PM', '김제익': '사업PM', '류홍': '사업PM', '박만진': '사업PM', '박일훈': '사업PM', '이정원': '사업PM', '전무경': '사업PM', '한찬호': '사업PM', '박석제': '사업PM', '박채현': '사업PM', '소현준': '사업PM', '이수정': '사업PM', '조영비': '사업PM', '한수정': '사업PM',
-            '박준호': '파이낸싱', '강석민': '파이낸싱', '정리훈': '파이낸싱', '손유정': '파이낸싱', '김지우': '파이낸싱', '박현승': '파이낸싱', '이성민A': '파이낸싱', '한승환': '파이낸싱',
-            '홍장군': '개발관리', '채원': '개발관리', '김보성': '개발관리', '전승희': '개발관리', '김대익': '개발관리', '장성진': '개발관리', '이정훈': '개발관리', '박봉서': '개발관리',
-            '김민지': '기업마케팅', '고아라': '기업마케팅', '이가현': '기업마케팅', '정수명': '기업마케팅',
-            '김현수': '상품·디지털', '현철호': '상품·디지털', '신민호': '상품·디지털',
-            '김행단': '펀드운용', '윤용택': 'IPR'
+            '박준호': '파이낸싱-LFC', '강석민': '파이낸싱-LFC', '정리훈': '파이낸싱-LFC', '손유정': '파이낸싱-LFC', '김지우': '파이낸싱-LFC', '박현승': '파이낸싱-LFC', '이성민A': '파이낸싱-LFC', '한승환': '파이낸싱-LFC',
+            '홍장군': '개발솔루션-DSC', '채원': '개발솔루션-DSC', '김보성': '개발솔루션-DSC', '전승희': '개발솔루션-DSC', '김대익': '개발솔루션-DSC', '장성진': '개발솔루션-DSC', '이정훈': '개발솔루션-DSC', '박봉서': '개발솔루션-DSC',
+            '김민지': '기업마케팅-EMC', '고아라': '기업마케팅-EMC', '이가현': '기업마케팅-EMC', '정수명': '기업마케팅-EMC',
+            '김현수': '상품·디지털-SSC', '현철호': '상품·디지털-SSC', '신민호': '상품·디지털-SSC',
+            '김행단': '펀드운용-KAM', '윤용택': 'IPR'
         };
         return cells[name] || '기타';
     };
@@ -224,22 +224,28 @@ export default function DecisionLog() {
 
     const workspaces = [
         { id: 'ws1', label: '사업 PM', cell: '사업PM', icon: <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg> },
-        { id: 'ws2', label: '파이낸싱', cell: '파이낸싱', icon: <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> },
-        { id: 'ws3', label: '개발관리', cell: '개발관리', icon: <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><circle cx="12" cy="12" r="3" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" /></svg> },
-        { id: 'ws4', label: '기업마케팅', cell: '기업마케팅', icon: <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" /></svg> },
-        { id: 'ws5', label: '상품·디지털', cell: '상품·디지털', icon: <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg> },
-        { id: 'ws6', label: '펀드 운용', cell: '펀드운용', icon: <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg> },
-        { id: 'ws7', label: 'IPR-WG', cell: 'IPR', icon: <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg> }
+        { id: 'ws2', label: '파이낸싱-LFC', cell: '파이낸싱-LFC', icon: <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> },
+        { id: 'ws3', label: '개발솔루션-DSC', cell: '개발솔루션-DSC', icon: <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><circle cx="12" cy="12" r="3" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" /></svg> },
+        { id: 'ws4', label: '기업마케팅-EMC', cell: '기업마케팅-EMC', icon: <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" /></svg> },
+        { id: 'ws5', label: '상품·디지털-SSC', cell: '상품·디지털-SSC', icon: <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg> },
+        { id: 'ws6', label: '펀드운용-KAM', cell: '펀드운용-KAM', icon: <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg> },
+        { id: 'ws7', label: 'IPR-WG', cell: 'IPR', icon: <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg> },
+        { id: 'ws8', label: '기획추진', cell: '기획추진', icon: <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" strokeWidth="1.5"></circle><circle cx="12" cy="12" r="6" strokeWidth="1.5"></circle><circle cx="12" cy="12" r="2" strokeWidth="1.5"></circle></svg> }
     ];
 
     const activeStatus = ['신규', '검토중', '진행중'];
     const activeLogs = logs.filter(l => activeStatus.includes(l.metadata?.issue_status || '진행중'));
+    const twoWeeksAgo = new Date(Date.now() - 14 * 24 * 60 * 60 * 1000);
     
     // Group active logs by cell
     const issuesByWorkspace = workspaces.map(ws => {
-        const wsLogs = activeLogs.filter(l => getCellName(l.writer_name) === ws.cell).slice(0, 3);
-        const count = activeLogs.filter(l => getCellName(l.writer_name) === ws.cell).length;
-        return { ...ws, logs: wsLogs, count };
+        const cellLogs = activeLogs.filter(l => getCellName(l.writer_name) === ws.cell);
+        const totalCount = cellLogs.length;
+        const recentLogs = cellLogs.filter(l => new Date(l.work_date || l.created_at) >= twoWeeksAgo);
+        const recentCount = recentLogs.length;
+        const wsLogs = recentLogs.slice(0, 3);
+        
+        return { ...ws, logs: wsLogs, recentCount, totalCount };
     });
 
     return (
@@ -257,11 +263,13 @@ export default function DecisionLog() {
                 {/* 1st Row: 4 Workspaces */}
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-[16px]">
                     {issuesByWorkspace.slice(0, 4).map((ws, idx) => (
-                        <div key={idx} className="flex flex-col p-[20px] rounded-[16px] border border-[#333] bg-transparent hover:bg-white/5 transition-colors cursor-pointer group" onClick={() => { setFilterCell(ws.cell); document.getElementById('log-viewer-header')?.scrollIntoView({behavior: 'smooth'}); }}>
-                            <div className="flex items-center gap-[8px] mb-[16px]">
+                        <div key={idx} className="flex flex-col bg-[#292928] border border-[#3c3c3c] rounded-[24px] p-[24px] hover:border-[#555] transition-colors relative overflow-hidden cursor-pointer group" onClick={() => { setFilterCell(ws.cell); document.getElementById('log-viewer-header')?.scrollIntoView({behavior: 'smooth'}); }}>
+                            <div className="flex items-center gap-[6px] mb-[16px]">
                                 <span className="text-[#86868B] group-hover:text-white transition-colors">{ws.icon}</span>
                                 <span className="text-[15px] font-bold text-white tracking-tight">{ws.label}</span>
-                                {ws.count > 0 && <span className="ml-auto text-[11px] font-bold bg-[#FF453A]/10 text-[#FF453A] px-[8px] py-[2px] rounded-full">{ws.count}건 진행</span>}
+                                <span className="ml-auto text-[11px] font-bold bg-[#3b82f6]/10 text-[#3b82f6] px-[8px] py-[2px] rounded-full">
+                                    최근 {ws.recentCount}건 / 총 {ws.totalCount}건
+                                </span>
                             </div>
                             <div className="flex flex-col gap-[8px] flex-1">
                                 {ws.logs.length > 0 ? ws.logs.map(log => (
@@ -269,20 +277,22 @@ export default function DecisionLog() {
                                         <span className="text-[#555] mr-[6px]">•</span>{log.raw_text.split('\n')[0]}
                                     </div>
                                 )) : (
-                                    <div className="text-[13px] text-[#555] font-medium mt-[4px]">진행중인 업무 없음</div>
+                                    <div className="text-[13px] text-[#FF453A] font-medium mt-[4px]">최근 2주간 등록된 활동내역이 없습니다.</div>
                                 )}
                             </div>
                         </div>
                     ))}
                 </div>
-                {/* 2nd Row: 3 Workspaces */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-[16px]">
-                    {issuesByWorkspace.slice(4, 7).map((ws, idx) => (
-                        <div key={idx} className="flex flex-col p-[20px] rounded-[16px] border border-[#333] bg-transparent hover:bg-white/5 transition-colors cursor-pointer group" onClick={() => { setFilterCell(ws.cell); document.getElementById('log-viewer-header')?.scrollIntoView({behavior: 'smooth'}); }}>
-                            <div className="flex items-center gap-[8px] mb-[16px]">
+                {/* 2nd Row: 4 Workspaces */}
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-[16px]">
+                    {issuesByWorkspace.slice(4, 8).map((ws, idx) => (
+                        <div key={idx} className="flex flex-col bg-[#292928] border border-[#3c3c3c] rounded-[24px] p-[24px] hover:border-[#555] transition-colors relative overflow-hidden cursor-pointer group" onClick={() => { setFilterCell(ws.cell); document.getElementById('log-viewer-header')?.scrollIntoView({behavior: 'smooth'}); }}>
+                            <div className="flex items-center gap-[6px] mb-[16px]">
                                 <span className="text-[#86868B] group-hover:text-white transition-colors">{ws.icon}</span>
                                 <span className="text-[15px] font-bold text-white tracking-tight">{ws.label}</span>
-                                {ws.count > 0 && <span className="ml-auto text-[11px] font-bold bg-[#FF453A]/10 text-[#FF453A] px-[8px] py-[2px] rounded-full">{ws.count}건 진행</span>}
+                                <span className="ml-auto text-[11px] font-bold bg-[#3b82f6]/10 text-[#3b82f6] px-[8px] py-[2px] rounded-full">
+                                    최근 {ws.recentCount}건 / 총 {ws.totalCount}건
+                                </span>
                             </div>
                             <div className="flex flex-col gap-[8px] flex-1">
                                 {ws.logs.length > 0 ? ws.logs.map(log => (
@@ -290,7 +300,7 @@ export default function DecisionLog() {
                                         <span className="text-[#555] mr-[6px]">•</span>{log.raw_text.split('\n')[0]}
                                     </div>
                                 )) : (
-                                    <div className="text-[13px] text-[#555] font-medium mt-[4px]">진행중인 업무 없음</div>
+                                    <div className="text-[13px] text-[#FF453A] font-medium mt-[4px]">최근 2주간 등록된 활동내역이 없습니다.</div>
                                 )}
                             </div>
                         </div>
@@ -373,7 +383,7 @@ export default function DecisionLog() {
                                     style={{ textAlignLast: 'center' }}
                                 >
                                     <option value="" className="bg-[#222] text-[#E5E5E5]">기능셀</option>
-                                    {Array.from(new Set(logs.map(log => getCellName(log.writer_name)))).filter(Boolean).map(val => (
+                                    {['사업PM', '파이낸싱-LFC', '개발솔루션-DSC', '기업마케팅-EMC', '상품·디지털-SSC', '펀드운용-KAM', 'IPR', '기획추진', 'CFT 총괄'].map(val => (
                                         <option key={val} value={val} className="bg-[#222] text-[#E5E5E5]">{val}</option>
                                     ))}
                                 </select>
@@ -495,7 +505,10 @@ export default function DecisionLog() {
 
                                     {/* Content */}
                                     <div className="flex-1 min-w-0 pr-0 flex items-center gap-[8px] translate-x-[2px]">
-                                        <div className="flex-1 min-w-0 text-[14px] text-[#E5E5E5] truncate">
+                                        <div 
+                                            className="flex-1 min-w-0 text-[14px] text-[#E5E5E5] truncate cursor-pointer hover:text-white transition-colors"
+                                            onClick={(e) => { e.stopPropagation(); toggleExpand(log.log_id); }}
+                                        >
                                             {log.raw_text ? log.raw_text.split('\n')[0] : ''}
                                         </div>
                                         {log.raw_text && log.raw_text.length > 40 && (
@@ -609,23 +622,35 @@ export default function DecisionLog() {
                                     )}
                                     <div className="clear-both"></div>
                                     
-                                    <div className="mt-[14px] flex items-end justify-between">
+                                    <div className="mt-[12px] flex items-end justify-between">
                                         <div className="text-[12px] text-[#555] font-medium">
                                             수정일자: {log.updated_at ? new Date(log.updated_at).toLocaleString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }) : new Date(log.created_at || log.work_date).toLocaleString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })}
                                         </div>
-                                        {!editingLogId && (memberInfo?.email === log.writer_staff_id || memberInfo?.name === log.writer_name) && (
-                                            <button
-                                                type="button"
-                                                onClick={(e) => { 
-                                                    e.stopPropagation(); 
-                                                    setEditingLogId(log.log_id);
-                                                    setEditingContent(log.raw_text);
-                                                }}
-                                                className="px-[12px] py-[6px] bg-[#222] hover:bg-[#333] border border-[#333] hover:border-[#444] rounded-[6px] text-[12px] text-[#A1A1AA] hover:text-[#E5E5E5] font-medium transition-all"
-                                            >
-                                                수정하기
-                                            </button>
-                                        )}
+                                        <div className="flex items-center gap-[8px]">
+                                            {!editingLogId && (
+                                                <button
+                                                    type="button"
+                                                    onClick={(e) => { e.stopPropagation(); /* TODO: Implement comment logic */ }}
+                                                    className="px-[12px] py-[6px] bg-[#222] hover:bg-[#333] border border-[#333] hover:border-[#444] rounded-[6px] text-[12px] text-[#A1A1AA] hover:text-[#E5E5E5] font-medium transition-all flex items-center gap-[6px]"
+                                                >
+                                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                                                    댓글
+                                                </button>
+                                            )}
+                                            {!editingLogId && (memberInfo?.email === log.writer_staff_id || memberInfo?.name === log.writer_name) && (
+                                                <button
+                                                    type="button"
+                                                    onClick={(e) => { 
+                                                        e.stopPropagation(); 
+                                                        setEditingLogId(log.log_id);
+                                                        setEditingContent(log.raw_text);
+                                                    }}
+                                                    className="px-[12px] py-[6px] bg-[#222] hover:bg-[#333] border border-[#333] hover:border-[#444] rounded-[6px] text-[12px] text-[#A1A1AA] hover:text-[#E5E5E5] font-medium transition-all"
+                                                >
+                                                    수정하기
+                                                </button>
+                                            )}
+                                        </div>
                                     </div>
                                 </div>
                             </div>

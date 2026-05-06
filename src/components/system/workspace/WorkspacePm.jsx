@@ -152,11 +152,11 @@ export default function WorkspacePm() {
             '전기영': '기획추진', '이시정': '기획추진', '이관용': '기획추진',
             '이철승': 'CFT 총괄', '윤관식': 'CFT 총괄', '정조민': 'CFT 총괄', '우형석': 'CFT 총괄',
             '권순일': '사업PM', '강순용': '사업PM', '윤주형': '사업PM', '김제익': '사업PM', '류홍': '사업PM', '박만진': '사업PM', '박일훈': '사업PM', '이정원': '사업PM', '전무경': '사업PM', '한찬호': '사업PM', '박석제': '사업PM', '박채현': '사업PM', '소현준': '사업PM', '이수정': '사업PM', '조영비': '사업PM', '한수정': '사업PM',
-            '박준호': '파이낸싱', '강석민': '파이낸싱', '정리훈': '파이낸싱', '손유정': '파이낸싱', '김지우': '파이낸싱', '박현승': '파이낸싱', '이성민A': '파이낸싱', '한승환': '파이낸싱',
-            '홍장군': '개발관리', '채원': '개발관리', '김보성': '개발관리', '전승희': '개발관리', '김대익': '개발관리', '장성진': '개발관리', '이정훈': '개발관리', '박봉서': '개발관리',
-            '김민지': '기업마케팅', '고아라': '기업마케팅', '이가현': '기업마케팅', '정수명': '기업마케팅',
-            '김현수': '상품·디지털', '현철호': '상품·디지털', '신민호': '상품·디지털',
-            '김행단': '펀드운용', '윤용택': 'IPR'
+            '박준호': '파이낸싱-LFC', '강석민': '파이낸싱-LFC', '정리훈': '파이낸싱-LFC', '손유정': '파이낸싱-LFC', '김지우': '파이낸싱-LFC', '박현승': '파이낸싱-LFC', '이성민A': '파이낸싱-LFC', '한승환': '파이낸싱-LFC',
+            '홍장군': '개발솔루션-DSC', '채원': '개발솔루션-DSC', '김보성': '개발솔루션-DSC', '전승희': '개발솔루션-DSC', '김대익': '개발솔루션-DSC', '장성진': '개발솔루션-DSC', '이정훈': '개발솔루션-DSC', '박봉서': '개발솔루션-DSC',
+            '김민지': '기업마케팅-EMC', '고아라': '기업마케팅-EMC', '이가현': '기업마케팅-EMC', '정수명': '기업마케팅-EMC',
+            '김현수': '상품·디지털-SSC', '현철호': '상품·디지털-SSC', '신민호': '상품·디지털-SSC',
+            '김행단': '펀드운용-KAM', '윤용택': 'IPR'
         };
         return cells[name] || '기타';
     };
@@ -365,7 +365,7 @@ export default function WorkspacePm() {
                                     style={{ textAlignLast: 'center' }}
                                 >
                                     <option value="" className="bg-[#222] text-[#E5E5E5]">기능셀</option>
-                                    {Array.from(new Set(logs.map(log => getCellName(log.writer_name)))).filter(Boolean).map(val => (
+                                    {['사업PM', '파이낸싱-LFC', '개발솔루션-DSC', '기업마케팅-EMC', '상품·디지털-SSC', '펀드운용-KAM', 'IPR', '기획추진', 'CFT 총괄'].map(val => (
                                         <option key={val} value={val} className="bg-[#222] text-[#E5E5E5]">{val}</option>
                                     ))}
                                 </select>
@@ -487,7 +487,10 @@ export default function WorkspacePm() {
 
                                     {/* Content */}
                                     <div className="flex-1 min-w-0 pr-0 flex items-center gap-[8px] translate-x-[2px]">
-                                        <div className="flex-1 min-w-0 text-[14px] text-[#E5E5E5] truncate">
+                                        <div 
+                                            className="flex-1 min-w-0 text-[14px] text-[#E5E5E5] truncate cursor-pointer hover:text-white transition-colors"
+                                            onClick={(e) => { e.stopPropagation(); toggleExpand(log.log_id); }}
+                                        >
                                             {log.raw_text ? log.raw_text.split('\n')[0] : ''}
                                         </div>
                                         {log.raw_text && log.raw_text.length > 40 && (
@@ -605,19 +608,31 @@ export default function WorkspacePm() {
                                         <div className="text-[12px] text-[#555] font-medium">
                                             수정일자: {log.updated_at ? new Date(log.updated_at).toLocaleString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }) : new Date(log.created_at || log.work_date).toLocaleString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })}
                                         </div>
-                                        {!editingLogId && (memberInfo?.email === log.writer_staff_id || memberInfo?.name === log.writer_name) && (
-                                            <button
-                                                type="button"
-                                                onClick={(e) => { 
-                                                    e.stopPropagation(); 
-                                                    setEditingLogId(log.log_id);
-                                                    setEditingContent(log.raw_text);
-                                                }}
-                                                className="px-[12px] py-[6px] bg-[#222] hover:bg-[#333] border border-[#333] hover:border-[#444] rounded-[6px] text-[12px] text-[#A1A1AA] hover:text-[#E5E5E5] font-medium transition-all"
-                                            >
-                                                수정하기
-                                            </button>
-                                        )}
+                                        <div className="flex items-center gap-[8px]">
+                                            {!editingLogId && (
+                                                <button
+                                                    type="button"
+                                                    onClick={(e) => { e.stopPropagation(); /* TODO: Implement comment logic */ }}
+                                                    className="px-[12px] py-[6px] bg-[#222] hover:bg-[#333] border border-[#333] hover:border-[#444] rounded-[6px] text-[12px] text-[#A1A1AA] hover:text-[#E5E5E5] font-medium transition-all flex items-center gap-[6px]"
+                                                >
+                                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                                                    댓글
+                                                </button>
+                                            )}
+                                            {!editingLogId && (memberInfo?.email === log.writer_staff_id || memberInfo?.name === log.writer_name) && (
+                                                <button
+                                                    type="button"
+                                                    onClick={(e) => { 
+                                                        e.stopPropagation(); 
+                                                        setEditingLogId(log.log_id);
+                                                        setEditingContent(log.raw_text);
+                                                    }}
+                                                    className="px-[12px] py-[6px] bg-[#222] hover:bg-[#333] border border-[#333] hover:border-[#444] rounded-[6px] text-[12px] text-[#A1A1AA] hover:text-[#E5E5E5] font-medium transition-all"
+                                                >
+                                                    수정하기
+                                                </button>
+                                            )}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
