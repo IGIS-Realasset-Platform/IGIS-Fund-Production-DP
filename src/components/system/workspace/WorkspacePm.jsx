@@ -892,14 +892,6 @@ export default function WorkspacePm() {
 
                             {/* Right Section */}
                             <div className="flex items-center gap-[12px] shrink-0 ml-[12px] justify-end">
-                                {/* Stakeholder Info */}
-                                <div className="shrink-0 flex justify-end w-[120px] mr-[4px]">
-                                    {log.iota_seoul_log_stakeholders?.[0]?.sh_name && (
-                                        <span className="text-[13px] text-[#A1A1AA] text-right truncate" title={log.iota_seoul_log_stakeholders[0].sh_name}>
-                                            {log.iota_seoul_log_stakeholders[0].sh_name}
-                                        </span>
-                                    )}
-                                </div>
                                 <span className="text-[13px] text-[#A1A1AA] w-[60px] text-right truncate shrink-0">{log.metadata?.triage_type || '공유'}</span>
                                 <span className="text-[13px] text-[#E5E5E5] w-[60px] text-center shrink-0">{log.metadata?.issue_status || '진행중'}</span>
                                 <span className={`text-[13px] font-bold w-[40px] text-center shrink-0 ${log.metadata?.priority === '높음' ? 'text-[#FF453A]' : (log.metadata?.priority === '낮음' ? 'text-[#86868B]' : 'text-[#3b82f6]')}`}>
@@ -923,12 +915,25 @@ export default function WorkspacePm() {
 
                         {/* Expanded Box */}
                         {expandedLogs[log.log_id] && (
-                            <div className="w-full flex mt-[16px]">
+                            <div className="w-full flex mt-[14px]">
                                 <div 
-                                    className="bg-[#1c1c1e] border border-[#333] rounded-[12px] px-[16px] py-[14px] whitespace-pre-wrap break-words text-[14px] text-[#E5E5E5] leading-relaxed flex-1"
+                                    className="bg-[#1c1c1e] border border-[#333] rounded-[12px] p-[16px] flex-1"
                                     style={{ marginLeft: '166px', marginRight: '72px' }}
                                 >
-                                    {renderLogTextWithMentions(log.raw_text)}
+                                    {/* Stakeholder Pill (Floated Right) */}
+                                    {log.iota_seoul_log_stakeholders?.[0]?.sh_name && (
+                                        <div className="float-right ml-[16px] mb-[8px] bg-[#2a2a2c] border border-[#444] rounded-full pl-[8px] pr-[12px] py-[4px] flex items-center gap-[6px]">
+                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#A1A1AA" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                                            <span className="text-[12px] font-medium text-[#E5E5E5]">
+                                                {log.iota_seoul_log_stakeholders[0].sh_name}
+                                            </span>
+                                        </div>
+                                    )}
+                                    
+                                    <div className="whitespace-pre-wrap break-words text-[14px] text-[#E5E5E5] leading-relaxed">
+                                        {renderLogTextWithMentions(log.raw_text)}
+                                    </div>
+                                    <div className="clear-both"></div>
                                 </div>
                             </div>
                         )}
