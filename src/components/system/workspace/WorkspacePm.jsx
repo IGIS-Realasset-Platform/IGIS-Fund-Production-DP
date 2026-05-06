@@ -1064,6 +1064,21 @@ export default function WorkspacePm() {
                                         {renderLogTextWithMentions(log.raw_text)}
                                     </div>
                                     <div className="clear-both"></div>
+                                    
+                                    <div className="mt-[24px] pt-[16px] border-t border-[#333]/50 flex items-end justify-between">
+                                        <div className="text-[12px] text-[#555] font-medium">
+                                            수정일자: {log.updated_at ? new Date(log.updated_at).toLocaleString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }) : new Date(log.created_at || log.work_date).toLocaleString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })}
+                                        </div>
+                                        {(memberInfo?.email === log.writer_staff_id || memberInfo?.name === log.writer_name) && (
+                                            <button
+                                                type="button"
+                                                onClick={(e) => { e.stopPropagation(); alert("수정 기능은 준비 중입니다."); }}
+                                                className="px-[12px] py-[6px] bg-[#222] hover:bg-[#333] border border-[#333] hover:border-[#444] rounded-[6px] text-[12px] text-[#A1A1AA] hover:text-[#E5E5E5] font-medium transition-all"
+                                            >
+                                                수정하기
+                                            </button>
+                                        )}
+                                    </div>
                                 </div>
                             </div>
                         )}
