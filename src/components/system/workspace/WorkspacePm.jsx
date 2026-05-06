@@ -283,7 +283,7 @@ export default function WorkspacePm() {
                 {/* PM Team Structure */}
                 <div className="border border-[#333] rounded-[24px] flex flex-col bg-transparent shrink-0">
                     {/* 사업1파트 */}
-                    <div className="flex items-center pl-[20px] pr-[20px] py-[11px]">
+                    <div className="flex items-center pl-[20px] pr-[20px] py-[10px]">
                         <div className="w-[80px] shrink-0">
                             <span className="text-[13px] font-bold text-[#86868B]">Co-PM 전략</span>
                         </div>
@@ -293,7 +293,7 @@ export default function WorkspacePm() {
                                 <div className="absolute inset-0 rounded-full border border-white/10 pointer-events-none"></div>
                             </div>
                             <div className="flex flex-col text-left">
-                                <span className="text-white font-bold text-[14px] leading-tight">권순일</span>
+                                <span className="text-white font-bold text-[13px] leading-tight">권순일</span>
                                 <span className="text-[#A1A1AA] text-[12px] mt-[1px] leading-tight">사업1파트장</span>
                             </div>
                         </div>
@@ -312,7 +312,7 @@ export default function WorkspacePm() {
                     <div className="w-full h-px bg-[#333]"></div>
 
                     {/* 사업2파트 */}
-                    <div className="flex items-center pl-[20px] pr-[20px] py-[11px]">
+                    <div className="flex items-center pl-[20px] pr-[20px] py-[10px]">
                         <div className="w-[80px] shrink-0">
                             <span className="text-[13px] font-bold text-[#86868B]">Co-PM 사업</span>
                         </div>
@@ -322,7 +322,7 @@ export default function WorkspacePm() {
                                 <div className="absolute inset-0 rounded-full border border-white/10 pointer-events-none"></div>
                             </div>
                             <div className="flex flex-col text-left">
-                                <span className="text-white font-bold text-[14px] leading-tight">강순용</span>
+                                <span className="text-white font-bold text-[13px] leading-tight">강순용</span>
                                 <span className="text-[#A1A1AA] text-[12px] mt-[1px] leading-tight">사업2파트장</span>
                             </div>
                         </div>
