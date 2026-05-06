@@ -283,7 +283,7 @@ export default function WorkspacePm() {
                 {/* PM Team Structure */}
                 <div className="flex-1 border border-[#333] rounded-[24px] flex flex-col bg-transparent max-w-[850px]">
                     {/* 사업1파트 */}
-                    <div className="flex items-center px-[20px] py-[11px]">
+                    <div className="flex items-center pl-[20px] pr-[10px] py-[11px]">
                         <div className="w-[80px] shrink-0">
                             <span className="text-[13px] font-bold text-[#86868B]">Co-PM 전략</span>
                         </div>
@@ -297,7 +297,7 @@ export default function WorkspacePm() {
                                 <span className="text-[#A1A1AA] text-[12px] mt-[2px] leading-tight">사업1파트장</span>
                             </div>
                         </div>
-                        <div className="flex flex-wrap gap-x-2 gap-y-2 ml-[0px]">
+                        <div className="flex flex-wrap gap-x-1.5 gap-y-2 -ml-[10px]">
                             {['윤주형', '김제익', '류홍', '박만진', '박일훈', '이정원', '전무경'].map(name => (
                                 <div key={name} className="flex items-center gap-[6px] bg-[#222] border border-[#333] rounded-full pl-[4px] pr-[10px] py-[4px] min-w-[76px]">
                                     <div className="w-[21px] h-[21px] shrink-0 rounded-full bg-[#3c3c3c] overflow-hidden">
@@ -312,7 +312,7 @@ export default function WorkspacePm() {
                     <div className="w-full h-px bg-[#333]"></div>
 
                     {/* 사업2파트 */}
-                    <div className="flex items-center px-[20px] py-[11px]">
+                    <div className="flex items-center pl-[20px] pr-[10px] py-[11px]">
                         <div className="w-[80px] shrink-0">
                             <span className="text-[13px] font-bold text-[#86868B]">Co-PM 사업</span>
                         </div>
@@ -326,7 +326,7 @@ export default function WorkspacePm() {
                                 <span className="text-[#A1A1AA] text-[12px] mt-[2px] leading-tight">사업2파트장</span>
                             </div>
                         </div>
-                        <div className="flex flex-wrap gap-x-2 gap-y-2 ml-[0px]">
+                        <div className="flex flex-wrap gap-x-1.5 gap-y-2 -ml-[10px]">
                             {['한찬호', '박석제', '박채현', '소현준', '이수정', '조영비', '한수정'].map(name => (
                                 <div key={name} className="flex items-center gap-[6px] bg-[#222] border border-[#333] rounded-full pl-[4px] pr-[10px] py-[4px] min-w-[76px]">
                                     <div className="w-[21px] h-[21px] shrink-0 rounded-full bg-[#3c3c3c] overflow-hidden">
