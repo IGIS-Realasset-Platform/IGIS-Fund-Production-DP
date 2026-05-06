@@ -9,14 +9,18 @@ export default function IotaTwo816() {
     const [comparisonData, setComparisonData] = useState([]);
 
     useEffect(() => {
+        const controller = new AbortController();
+
         const fetchData = async () => {
             try {
                 const [marketingRes, specsRes, researchRes, comparisonRes] = await Promise.all([
-                    supabase.from('iota_marketing_history').select('*').order('created_at', { ascending: true }),
-                    supabase.from('iota_building_specs').select('*').order('created_at', { ascending: true }),
-                    supabase.from('iota_research_insights').select('*').order('created_at', { ascending: true }),
-                    supabase.from('iota_building_comparison').select('*').order('created_at', { ascending: true })
+                    supabase.from('iota_marketing_history').select('*').order('created_at', { ascending: true }).abortSignal(controller.signal),
+                    supabase.from('iota_building_specs').select('*').order('created_at', { ascending: true }).abortSignal(controller.signal),
+                    supabase.from('iota_research_insights').select('*').order('created_at', { ascending: true }).abortSignal(controller.signal),
+                    supabase.from('iota_building_comparison').select('*').order('created_at', { ascending: true }).abortSignal(controller.signal)
                 ]);
+
+                if (controller.signal.aborted) return;
 
                 if (marketingRes.data) setMarketingData(marketingRes.data);
                 if (specsRes.data) {
@@ -26,11 +30,16 @@ export default function IotaTwo816() {
                 if (researchRes.data) setResearchInsights(researchRes.data);
                 if (comparisonRes.data) setComparisonData(comparisonRes.data);
             } catch (err) {
+                if (controller.signal.aborted) return;
                 console.error("Error fetching IotaTwo816 data:", err);
             }
         };
 
         fetchData();
+
+        return () => {
+            controller.abort();
+        };
     }, []);
     return (
                 <div className="w-[1200px] mx-auto flex-1 flex flex-col pt-[60px] shrink-0 pb-[60px]">

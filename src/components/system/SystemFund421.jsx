@@ -18,9 +18,19 @@ export default function SystemFund421() {
     };
 
     useEffect(() => {
+        const controller = new AbortController();
+
         const fetchData = async () => {
             try {
-                const { data, error } = await fetchWithRetry(() => supabase.from('iota_capital_stack').select('*'));
+                const { data, error } = await fetchWithRetry(
+                    () => supabase.from('iota_capital_stack').select('*').abortSignal(controller.signal),
+                    3,
+                    500,
+                    controller.signal
+                );
+                
+                if (controller.signal.aborted) return;
+
                 if (error) {
                     console.error("Supabase API Error:", error);
                     setIotaData({ error: error.message });
@@ -75,13 +85,20 @@ export default function SystemFund421() {
                     setIotaData(grouped);
                 }
             } catch (error) {
+                if (controller.signal.aborted) return;
                 console.error("Unhandled Exception in SystemFund421:", error);
                 setIotaData({ error: error.message || "데이터 로딩 중 예기치 않은 오류가 발생했습니다." });
             } finally {
-                setLoading(false);
+                if (!controller.signal.aborted) {
+                    setLoading(false);
+                }
             }
         };
         fetchData();
+        
+        return () => {
+            controller.abort();
+        };
     }, []);
 
     const handleInstClick = (instName, tranche, amount) => {

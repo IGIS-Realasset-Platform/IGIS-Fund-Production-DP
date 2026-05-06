@@ -326,10 +326,20 @@ export default function StakeLp() {
 
     // Fetch master DB for "Other Investors" and IOTA Stack
     useEffect(() => {
+        const controller = new AbortController();
+
         const fetchMaster = async () => {
             try {
                 // Fetch IOTA Capital Stack
-                const { data: stackData, error: stackError } = await fetchWithRetry(() => supabase.from('iota_capital_stack').select('*'));
+                const { data: stackData, error: stackError } = await fetchWithRetry(
+                    () => supabase.from('iota_capital_stack').select('*').abortSignal(controller.signal),
+                    3,
+                    500,
+                    controller.signal
+                );
+                
+                if (controller.signal.aborted) return;
+
                 if (stackError) {
                     console.error("Supabase API Error:", stackError);
                     setIotaData({ error: stackError.message });
@@ -387,9 +397,12 @@ export default function StakeLp() {
                 setIotaData(parsedIota);
 
                 // Fetch counterparties
-                const { data: cps } = await supabase.from('counterparties').select('counterparty_id, name, category');
+                const { data: cps } = await supabase.from('counterparties').select('counterparty_id, name, category').abortSignal(controller.signal);
+                if (controller.signal.aborted) return;
+                
                 // Fetch exposures
-                const { data: exps } = await supabase.from('beneficiary_exposures').select('beneficiary_clean, beneficiary_raw, committed_amt, funds(short_name)');
+                const { data: exps } = await supabase.from('beneficiary_exposures').select('beneficiary_clean, beneficiary_raw, committed_amt, funds(short_name)').abortSignal(controller.signal);
+                if (controller.signal.aborted) return;
                 
                 if (cps && exps && parsedIota) {
                     const amounts = {};
@@ -438,13 +451,20 @@ export default function StakeLp() {
                     setOtherInvestors(others);
                 }
             } catch (error) {
+                if (controller.signal.aborted) return;
                 console.error("Unhandled Exception in StakeLp:", error);
                 setIotaData({ error: error.message || "데이터 로딩 중 예기치 않은 오류가 발생했습니다." });
             } finally {
-                setLoading(false);
+                if (!controller.signal.aborted) {
+                    setLoading(false);
+                }
             }
         };
         fetchMaster();
+        
+        return () => {
+            controller.abort();
+        };
     }, []);
 
     useEffect(() => {

@@ -72,6 +72,8 @@ export default function DecisionLog() {
     };
 
     useEffect(() => {
+        const controller = new AbortController();
+
         const fetchLogs = async () => {
             setIsLoading(true);
             try {
@@ -79,20 +81,30 @@ export default function DecisionLog() {
                     .from('iota_seoul_logs')
                     .select('*, iota_seoul_log_stakeholders(sh_name, role_category)')
                     .order('work_date', { ascending: false })
-                    .order('created_at', { ascending: false });
+                    .order('created_at', { ascending: false })
+                    .abortSignal(controller.signal);
+                
+                if (controller.signal.aborted) return;
                 if (error) throw error;
                 
                 // Filter out non-members ('기타')
                 const validLogs = (data || []).filter(log => getCellName(log.writer_name) !== '기타');
                 setLogs(validLogs);
             } catch (e) {
+                if (controller.signal.aborted) return;
                 console.error('Error fetching logs:', e);
             } finally {
-                setIsLoading(false);
+                if (!controller.signal.aborted) {
+                    setIsLoading(false);
+                }
             }
         };
 
         fetchLogs();
+
+        return () => {
+            controller.abort();
+        };
     }, []);
 
     const toggleExpand = (id) => {

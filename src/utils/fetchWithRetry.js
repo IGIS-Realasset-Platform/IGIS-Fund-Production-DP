@@ -1,8 +1,12 @@
 import { supabase } from './supabaseClient';
 
-export const fetchWithRetry = async (queryFn, maxRetries = 3, delayMs = 500) => {
+export const fetchWithRetry = async (queryFn, maxRetries = 3, delayMs = 500, signal = null) => {
     let lastError = null;
     for (let i = 0; i < maxRetries; i++) {
+        if (signal && signal.aborted) {
+            return { data: null, error: new Error('Aborted by user') };
+        }
+
         let data = null, error = null;
         try {
             const result = await queryFn();
@@ -10,6 +14,10 @@ export const fetchWithRetry = async (queryFn, maxRetries = 3, delayMs = 500) => 
             error = result.error;
         } catch (err) {
             error = err;
+        }
+
+        if (signal && signal.aborted) {
+            return { data: null, error: new Error('Aborted by user') };
         }
 
         if (!error) return { data, error: null };
