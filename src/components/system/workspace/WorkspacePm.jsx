@@ -42,6 +42,13 @@ export default function WorkspacePm() {
     const [mentionCursorIndex, setMentionCursorIndex] = useState(0);
     const [mentionPosition, setMentionPosition] = useState({ top: 0, left: 0 });
     const [mentionedNames, setMentionedNames] = useState([]);
+    
+    // Filter states
+    const [filterStakeholder, setFilterStakeholder] = useState('');
+    const [filterCell, setFilterCell] = useState('');
+    const [filterPurpose, setFilterPurpose] = useState('');
+    const [filterStatus, setFilterStatus] = useState('');
+    const [filterPriority, setFilterPriority] = useState('');
 
     const formatDisplayDate = (dateString) => {
         if (!dateString) return '';
@@ -328,7 +335,7 @@ export default function WorkspacePm() {
         try {
             const { data, error } = await supabase
                 .from('iota_seoul_logs')
-                .select('*, iota_seoul_log_stakeholders(sh_name)')
+                .select('*, iota_seoul_log_stakeholders(sh_name, role_category)')
                 .order('work_date', { ascending: false })
                 .order('created_at', { ascending: false });
             if (error) throw error;
@@ -414,7 +421,14 @@ export default function WorkspacePm() {
         const isAllowedCell = cell === '사업PM' || cell === '기획추진' || cell === '전략자문';
         if (!isAllowedCell) return false;
 
-        const query = (logSearchQuery || '').toLowerCase();
+        if (filterStakeholder && log.iota_seoul_log_stakeholders?.[0]?.role_category !== filterStakeholder) return false;
+        if (filterCell && cell !== filterCell) return false;
+        if (filterPurpose && (log.metadata?.triage_type || '공유') !== filterPurpose) return false;
+        if (filterStatus && (log.metadata?.issue_status || '진행중') !== filterStatus) return false;
+        if (filterPriority && (log.metadata?.priority || '중간') !== filterPriority) return false;
+
+        if (!logSearchQuery) return true;
+        const query = logSearchQuery.toLowerCase();
         return (
             log.raw_text?.toLowerCase().includes(query) ||
             log.writer_name?.toLowerCase().includes(query) ||
@@ -839,7 +853,17 @@ export default function WorkspacePm() {
                         </div>
                         <div className="flex flex-1 min-w-0 translate-x-[-20px]">
                             <div className="w-[80px] shrink-0 translate-x-[4px] flex justify-center">
-                                <span className="text-[13px] font-bold text-[#86868B]">기능셀</span>
+                                <select 
+                                    value={filterCell}
+                                    onChange={e => { setFilterCell(e.target.value); setCurrentPage(1); }}
+                                    className={`bg-white/5 border border-transparent text-[12px] font-bold cursor-pointer appearance-none focus:outline-none w-[60px] hover:text-white hover:bg-white/10 rounded-[8px] px-[2px] py-[4px] transition-colors ${filterCell ? 'text-[#fbf167]' : 'text-[#A1A1AA]'}`}
+                                    style={{ textAlignLast: 'center' }}
+                                >
+                                    <option value="" className="bg-[#222] text-[#E5E5E5]">기능셀</option>
+                                    {Array.from(new Set(logs.map(log => getCellName(log.writer_name)))).filter(Boolean).map(val => (
+                                        <option key={val} value={val} className="bg-[#222] text-[#E5E5E5]">{val}</option>
+                                    ))}
+                                </select>
                             </div>
                             <div className="w-[110px] shrink-0 translate-x-[10px] flex items-center">
                                 <span className="text-[13px] font-bold text-[#86868B] pl-[20px]">등록자</span>
@@ -852,16 +876,56 @@ export default function WorkspacePm() {
                     {/* Right Section */}
                     <div className="flex gap-[12px] shrink-0 ml-[12px] justify-end items-center">
                         <div className="w-[110px] mr-[4px] text-right flex items-center justify-end">
-                            <span className="text-[13px] font-bold text-[#86868B] pr-[4px]">이해관계자</span>
+                            <select 
+                                value={filterStakeholder}
+                                onChange={e => { setFilterStakeholder(e.target.value); setCurrentPage(1); }}
+                                className={`bg-white/5 border border-transparent text-[12px] font-bold cursor-pointer appearance-none focus:outline-none w-[76px] hover:text-white hover:bg-white/10 rounded-[8px] px-[2px] py-[4px] transition-colors ${filterStakeholder ? 'text-[#fbf167]' : 'text-[#A1A1AA]'}`}
+                                style={{ textAlignLast: 'center' }}
+                            >
+                                <option value="" className="bg-[#222] text-[#E5E5E5]">이해관계자</option>
+                                {['투자자', '대주', 'SI', '잠재임차자', '운영 파트너', 'IGIS 내부인력'].map(val => (
+                                    <option key={val} value={val} className="bg-[#222] text-[#E5E5E5]">{val}</option>
+                                ))}
+                            </select>
                         </div>
                         <div className="w-[60px] flex items-center justify-center translate-x-[6px]">
-                            <span className="text-[13px] font-bold text-[#86868B]">목적</span>
+                            <select 
+                                value={filterPurpose}
+                                onChange={e => { setFilterPurpose(e.target.value); setCurrentPage(1); }}
+                                className={`bg-white/5 border border-transparent text-[12px] font-bold cursor-pointer appearance-none focus:outline-none w-[44px] hover:text-white hover:bg-white/10 rounded-[8px] px-[2px] py-[4px] transition-colors ${filterPurpose ? 'text-[#fbf167]' : 'text-[#A1A1AA]'}`}
+                                style={{ textAlignLast: 'center' }}
+                            >
+                                <option value="" className="bg-[#222] text-[#E5E5E5]">목적</option>
+                                {Array.from(new Set(logs.map(log => log.metadata?.triage_type || '공유'))).filter(Boolean).map(val => (
+                                    <option key={val} value={val} className="bg-[#222] text-[#E5E5E5]">{val}</option>
+                                ))}
+                            </select>
                         </div>
                         <div className="w-[60px] flex items-center justify-center">
-                            <span className="text-[13px] font-bold text-[#86868B]">진행상태</span>
+                            <select 
+                                value={filterStatus}
+                                onChange={e => { setFilterStatus(e.target.value); setCurrentPage(1); }}
+                                className={`bg-white/5 border border-transparent text-[12px] font-bold cursor-pointer appearance-none focus:outline-none w-[54px] hover:text-white hover:bg-white/10 rounded-[8px] px-[2px] py-[4px] transition-colors ${filterStatus ? 'text-[#fbf167]' : 'text-[#A1A1AA]'}`}
+                                style={{ textAlignLast: 'center' }}
+                            >
+                                <option value="" className="bg-[#222] text-[#E5E5E5]">진행상태</option>
+                                {['신규', '검토중', '진행중', '보류', '완료'].map(val => (
+                                    <option key={val} value={val} className="bg-[#222] text-[#E5E5E5]">{val}</option>
+                                ))}
+                            </select>
                         </div>
                         <div className="w-[40px] flex items-center justify-center">
-                            <span className="text-[13px] font-bold text-[#86868B]">중요도</span>
+                            <select 
+                                value={filterPriority}
+                                onChange={e => { setFilterPriority(e.target.value); setCurrentPage(1); }}
+                                className={`bg-white/5 border border-transparent text-[12px] font-bold cursor-pointer appearance-none focus:outline-none w-[50px] hover:text-white hover:bg-white/10 rounded-[8px] px-[2px] py-[4px] transition-colors ${filterPriority ? 'text-[#fbf167]' : 'text-[#A1A1AA]'}`}
+                                style={{ textAlignLast: 'center' }}
+                            >
+                                <option value="" className="bg-[#222] text-[#E5E5E5]">중요도</option>
+                                {['높음', '중간', '낮음'].map(val => (
+                                    <option key={val} value={val} className="bg-[#222] text-[#E5E5E5]">{val}</option>
+                                ))}
+                            </select>
                         </div>
                         <div className="w-[60px] text-center flex items-center justify-center">
                             <span className="text-[13px] font-bold text-[#86868B] px-[4px]">등록일</span>
