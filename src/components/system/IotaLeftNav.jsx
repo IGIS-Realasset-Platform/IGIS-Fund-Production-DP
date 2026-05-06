@@ -37,6 +37,12 @@ const menuItems = [
                 id: 5,
                 label: '421 Fund',
                 path: 'platform/iotaseoul/421-fund'
+            },
+            {
+                id: 'vision-book',
+                label: 'Vision Book',
+                path: 'external/vision-book',
+                externalUrl: 'https://iotaseoul.site/'
             }
         ]
     },
@@ -114,7 +120,7 @@ export default function IotaLeftNav({ onMenuChange, currentPath = '' }) {
     const [isWorkspaceOpen, setIsWorkspaceOpen] = useState(true);
     const [isStakeholderOpen, setIsStakeholderOpen] = useState(true);
     const [isGovOpen, setIsGovOpen] = useState(true);
-    const [isVehicleOpen, setIsVehicleOpen] = useState(true);
+    const [isVehicleOpen, setIsVehicleOpen] = useState(false);
 
     return (
         <div className="w-[275px] h-full bg-transparent border-r border-[#2C2C2E] flex flex-col flex-shrink-0 text-[14px] font-sans text-white transition-colors duration-300">
@@ -182,7 +188,14 @@ export default function IotaLeftNav({ onMenuChange, currentPath = '' }) {
                                             return (
                                                 <div
                                                     key={sub.id}
-                                                    onClick={(e) => { e.stopPropagation(); handleNavigation(sub.path); }}
+                                                    onClick={(e) => { 
+                                                        e.stopPropagation(); 
+                                                        if (sub.externalUrl) {
+                                                            window.open(sub.externalUrl, '_blank');
+                                                        } else {
+                                                            handleNavigation(sub.path); 
+                                                        }
+                                                    }}
                                                     className={`flex items-center justify-between py-[6px] rounded-xl cursor-pointer transition-colors duration-200 outline-none select-none ${isSubActive ? 'bg-[#151515] px-[9px] -mx-[2px]' : 'px-[7px] hover:bg-[#151515]'}`}
                                                 >
                                                     <div className="flex items-center">
