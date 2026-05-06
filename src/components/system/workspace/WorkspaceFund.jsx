@@ -17,10 +17,10 @@ export default function WorkspaceFund() {
 
                     
                     <div className="flex items-center pl-[20px] pr-[16px] py-[10px]">
-                        <div className="w-[54px] shrink-0">
+                        <div className="w-[50px] shrink-0">
                             <span className="text-[13px] font-bold text-[#86868B]">KAM</span>
                         </div>
-                        <div className="flex items-center gap-[12px] w-[106px] shrink-0">
+                        <div className="flex items-center gap-[12px] w-[96px] shrink-0">
                             <div className="relative w-[30px] h-[30px] shrink-0 rounded-full bg-[#3c3c3c] flex items-center justify-center overflow-hidden ml-[2px]">
                                 <img src={`${import.meta.env.BASE_URL}김행단.webp`} alt="김행단" className="w-full h-full object-cover" onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }} />
                                 <div className="absolute inset-0 rounded-full border border-white/10 pointer-events-none"></div>
