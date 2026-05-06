@@ -99,8 +99,8 @@ export default function PlatformCenter({ currentPath = '' }) {
             case 'platform/iotaseoul/workspace/development': return <WorkspaceDevelopment />;
             case 'platform/iotaseoul/workspace/digital': return <WorkspaceDigital />;
             case 'platform/iotaseoul/workspace/fund': return <WorkspaceFund />;
-            case 'platform/iotaseoul/workspace/ipr': return <WorkspaceIprWg />;
-            case 'platform/iotaseoul/project-reits': return <WorkspaceIpr />;
+            case 'platform/iotaseoul/workspace/ipr': return <WorkspaceIpr />;
+            case 'platform/iotaseoul/project-reits': return <WorkspaceIprWg />;
             case 'platform/iotaseoul/vehicle-integrated': return <VehicleIntegrated />;
             case 'platform/iotaseoul/421-fund': return <SystemFund421 />;
             case 'platform/iotaseoul/iota-one-427': return <IotaOne427 />;

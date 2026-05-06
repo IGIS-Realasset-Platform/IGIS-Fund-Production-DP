@@ -18,7 +18,7 @@ export default function WorkspaceDigital() {
                     <div className="w-[80px] shrink-0">
                         <span className="text-[13px] font-bold text-[#86868B]">공간솔루션</span>
                     </div>
-                    <div className="flex items-center gap-[12px] w-[116px] shrink-0">
+                    <div className="flex items-center gap-[12px] w-[106px] shrink-0">
                         <div className="relative w-[30px] h-[30px] shrink-0 rounded-full bg-[#3c3c3c] flex items-center justify-center overflow-hidden ml-[2px]">
                             <img src={`${import.meta.env.BASE_URL}김현수.webp`} alt="김현수" className="w-full h-full object-cover" onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }} />
                             <div className="absolute inset-0 rounded-full border border-white/10 pointer-events-none"></div>
@@ -46,7 +46,7 @@ export default function WorkspaceDigital() {
                     <div className="w-[80px] shrink-0">
                         <span className="text-[13px] font-bold text-[#86868B]">디지털사업</span>
                     </div>
-                    <div className="flex items-center gap-[12px] w-[116px] shrink-0">
+                    <div className="flex items-center gap-[12px] w-[106px] shrink-0">
                         <div className="relative w-[30px] h-[30px] shrink-0 rounded-full bg-[#3c3c3c] flex items-center justify-center overflow-hidden ml-[2px]">
                             <img src={`${import.meta.env.BASE_URL}현철호.webp`} alt="현철호" className="w-full h-full object-cover" onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }} />
                             <div className="absolute inset-0 rounded-full border border-white/10 pointer-events-none"></div>
