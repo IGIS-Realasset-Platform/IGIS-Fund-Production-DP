@@ -12,7 +12,7 @@ export default function StakePartner() {
 
     return (
         <div className="w-full flex-1 flex flex-col pt-[77px] pb-[60px] max-w-[1200px] mx-auto">
-            <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[12px]">운영 파트너</h1>
+            <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[8px]">운영 파트너</h1>
             <p className="text-[15px] text-[#86868B] mb-[36px]">성공적인 자산 운영 및 매각/구조화 지원을 위한 핵심 아웃소싱 파트너 명단입니다.</p>
             
             <div className="grid grid-cols-3 gap-[24px]">

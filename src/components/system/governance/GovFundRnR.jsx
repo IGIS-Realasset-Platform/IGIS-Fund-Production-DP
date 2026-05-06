@@ -4,7 +4,7 @@ export default function GovFundRnR() {
     return (
         <div className="w-full flex-1 flex flex-col pt-[77px] pb-[110px] max-w-[1112px] mx-auto">
             {/* Header */}
-            <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[18px]">
+            <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[8px]">
                 421호 펀드 운용 R&R
             </h1>
             <p className="text-[17px] text-[#A1A1AA] leading-[28px] mb-[54px]">
@@ -49,7 +49,7 @@ export default function GovFundRnR() {
             <h2 className="text-[22px] font-bold text-white mb-[10px] tracking-tight">
                 자본콜·운용지시·자금집행 라인
             </h2>
-            <p className="text-[16px] text-[#A1A1AA] leading-[26px] mb-[32px]">
+            <p className="text-[16px] text-[#A1A1AA] leading-[26px] mb-[24px]">
                 자본콜 프로세스는 PFV 자금 수요 → PM 검증 → LFC 검토 → KAM 운용지시 → LP 통지 → 자금집행의 체계적인 단계를 거쳐 표준화 합니다.<br />각 단계마다 엄격한 결재선과 문서 보존 규정을 적용하여 자금 집행의 투명성을 보장합니다.
             </p>
 

@@ -37,7 +37,7 @@ export default function GovMeetings() {
 
     return (
         <div className="w-full flex-1 flex flex-col pt-[77px] pb-[110px] max-w-[1112px] mx-auto">
-            <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[36px]">회의체 운영 방침</h1>
+            <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[8px]">회의체 운영 방침</h1>
             
             <div className="w-full border border-[#333] rounded-[24px] overflow-hidden mb-[32px] bg-transparent">
                 <div className="px-[28px] py-[20px] border-b border-[#333] bg-transparent">

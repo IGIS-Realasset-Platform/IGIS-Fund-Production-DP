@@ -66,7 +66,7 @@ export default function GovRaci() {
 
     return (
         <div className="w-full flex-1 flex flex-col pt-[77px] pb-[110px] max-w-[1112px] mx-auto">
-            <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[24px]">핵심 의사결정 RACI</h1>
+            <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[8px]">핵심 의사결정 RACI</h1>
             <div className="flex items-center gap-8 mb-[32px] bg-transparent border border-[#333] p-5 rounded-[24px]">
                 <div className="flex items-center gap-3"><span className="inline-flex w-[32px] h-[32px] items-center justify-center rounded-[10px] font-bold text-[14px] bg-[#0e3658] text-[#5da0e7]">A</span> <span className="text-white text-[14px]">최종 결정 및 승인 (Accountable)</span></div>
                 <div className="flex items-center gap-3"><span className="inline-flex w-[32px] h-[32px] items-center justify-center rounded-[10px] font-bold text-[14px] bg-[#13383b] text-[#3aaab3]">R</span> <span className="text-white text-[14px]">실무 주관 및 실행 (Responsible)</span></div>
@@ -107,7 +107,7 @@ export default function GovRaci() {
             <div className="w-full h-px bg-[#333] my-[80px]"></div>
 
             <h2 className="text-[28px] font-bold text-white mb-[8px] tracking-tight">Phase 별 주관·합의 매트릭스</h2>
-            <p className="text-[16px] text-[#A1A1AA] leading-[26px] mb-[40px]">
+            <p className="text-[16px] text-[#A1A1AA] leading-[26px] mb-[24px]">
                 이오타서울 프로젝트의 라이프사이클은 크게 (1) PF 전(착공 전), (2) PF 후(개발 단계), (3) 운영 단계, (4) 매각 및 IPR 편입의 4단계로 구분됩니다.<br />
                 본 매트릭스는 각 라이프사이클 단계별 핵심 과제에 대해 어떤 조직(Cell)이 주관(<span className="text-white">●</span>) 및 합의(<span className="text-[#A1A1AA]">○</span>) 책임을 지는지 통합적으로 정의합니다.
             </p>

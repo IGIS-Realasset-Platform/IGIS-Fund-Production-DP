@@ -165,7 +165,7 @@ export default function DecisionLog() {
             {/* Header Metadata */}
             <div className="w-full flex justify-between items-end mb-[36px]">
                 <div>
-                    <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[12px]">의사결정 로그</h1>
+                    <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[8px]">의사결정 로그</h1>
                     <p className="text-[15px] text-[#86868B]">사업 진행 간의 주요 협의 및 의사결정 이력을 추적합니다.</p>
                 </div>
             </div>

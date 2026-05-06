@@ -32,7 +32,7 @@ export default function WorkspaceMarketing() {
             {/* Header Metadata */}
             <div className="w-full flex justify-between items-end mb-[36px]">
                 <div>
-                    <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[12px]">기업마케팅 Workspace</h1>
+                    <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[8px]">기업마케팅 Workspace</h1>
                     <p className="text-[15px] text-[#86868B]">기업마케팅센터 (CMC) 업무 프로그레스 및 기업마케팅 DB</p>
                 </div>
                 

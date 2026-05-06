@@ -311,7 +311,7 @@ export default function WorkspacePm() {
             {/* Header Metadata */}
             <div className="w-full flex justify-between items-end mb-[36px]">
                 <div>
-                    <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[12px]">사업 PM</h1>
+                    <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[8px]">사업 PM</h1>
                     <p className="text-[15px] text-[#86868B]">전체 사업 일정 및 예산 통제, 변경관리 결정, PFV 외부 단일창구</p>
                 </div>
             </div>

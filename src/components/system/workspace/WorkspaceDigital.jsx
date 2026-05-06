@@ -6,7 +6,7 @@ export default function WorkspaceDigital() {
             {/* Header Metadata */}
             <div className="w-full flex justify-between items-end mb-[36px]">
                 <div>
-                    <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[12px]">상품·디지털</h1>
+                    <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[8px]">상품·디지털</h1>
                     <p className="text-[15px] text-[#86868B]">상품 차별화 전략·POC, 테넌트 경험 설계, 디지털 인프라(보안·통신·DC)</p>
                 </div>
                 

@@ -6,7 +6,7 @@ export default function WorkspaceFund() {
             {/* Header Metadata */}
             <div className="w-full flex justify-between items-end mb-[36px]">
                 <div>
-                    <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[12px]">펀드 운용 (KAM)</h1>
+                    <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[8px]">펀드 운용 (KAM)</h1>
                     <p className="text-[15px] text-[#86868B]">LP 커뮤니케이션·자본콜·자금집행·회계/세무·컴플라이언스</p>
                 </div>
                 

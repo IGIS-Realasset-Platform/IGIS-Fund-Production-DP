@@ -8,7 +8,7 @@ export default function WorkspaceIpr() {
             {/* Header Metadata */}
             <div className="w-full flex justify-between items-end mb-[36px]">
                 <div>
-                    <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[12px]">Iota Project REITs</h1>
+                    <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[8px]">Iota Project REITs</h1>
                     <p className="text-[15px] text-[#86868B]">YD427PFV, YD816PFV로 부터 IOTA Seoul One, Two를 자산 양수도하여, IPR이 IOTA Seoul 프로젝트의 통합개발 시행주체가 될 예정입니다.</p>
                 </div>
             </div>

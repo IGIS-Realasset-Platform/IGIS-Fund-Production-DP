@@ -486,7 +486,7 @@ export default function StakeInternal() {
 
     return (
         <div className="w-full flex-1 flex flex-col pt-[77px] pb-[100px] max-w-[1112px] mx-auto" onMouseMove={handleMouseMove}>
-            <div className="flex items-center justify-between mb-[12px]">
+            <div className="flex items-center justify-between mb-[8px]">
                 <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter']">IGIS 내부인력</h1>
                 <form onSubmit={(e) => { 
                     e.preventDefault(); 
@@ -507,7 +507,7 @@ export default function StakeInternal() {
                     <button type="submit" className="hidden"></button>
                 </form>
             </div>
-            <p className="text-[15px] text-[#86868B] mb-[36px]">이오타서울 통합 업무수행 조직(CFT)의 핵심 책임/실무 인력 명단입니다.</p>
+            <p className="text-[15px] text-[#86868B] mb-[24px]">이오타서울 통합 업무수행 조직(CFT)의 핵심 책임/실무 인력 명단입니다.</p>
             
             <div className="flex items-center justify-between mb-[16px]">
                 <h2 className="text-[18px] font-bold text-white tracking-tight">조직도 요약표</h2>

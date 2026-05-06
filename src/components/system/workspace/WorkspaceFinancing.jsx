@@ -6,7 +6,7 @@ export default function WorkspaceFinancing() {
             {/* Header Metadata */}
             <div className="w-full flex justify-between items-end mb-[36px]">
                 <div>
-                    <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[12px]">파이낸싱 (LFC)</h1>
+                    <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[8px]">파이낸싱 (LFC)</h1>
                     <p className="text-[15px] text-[#86868B]">IOTA Seoul Capital Stack 및 대주단 파이프라인 관리</p>
                 </div>
                 
