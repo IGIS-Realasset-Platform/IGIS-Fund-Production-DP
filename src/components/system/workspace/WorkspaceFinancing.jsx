@@ -2,12 +2,12 @@ import React from 'react';
 
 export default function WorkspaceFinancing() {
     return (
-        <div className="w-full flex flex-col pt-[77px] pb-[60px] max-w-[1200px] mx-auto">
+        <div className="w-full flex flex-col pt-[60px] pb-[60px] max-w-[1200px] mx-auto">
             {/* Header Metadata */}
-            <div className="w-full flex justify-between items-end mb-[36px]">
+            <div className="w-full flex justify-between items-end mb-[24px]">
                 <div>
                     <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[8px]">파이낸싱 (LFC)</h1>
-                    <p className="text-[15px] text-[#86868B]">IOTA Seoul Capital Stack 및 대주단 파이프라인 관리</p>
+                    <p className="text-[16px] text-[#86868B] leading-[26px]">IOTA Seoul Capital Stack 및 대주단 파이프라인 관리</p>
                 </div>
                 
                 <div className="flex items-center h-[48px] border border-[#333] rounded-[16px] bg-[#1A1A1A] px-2">

@@ -2,8 +2,8 @@ import React from 'react';
 
 export default function IotaOne427() {
     return (
-        <div className="w-[1200px] mx-auto flex-1 flex flex-col pt-[77px] shrink-0 pb-[60px]">
-            <div className="w-full flex justify-between items-end mb-[26px]">
+        <div className="w-[1200px] mx-auto flex-1 flex flex-col pt-[60px] shrink-0 pb-[60px]">
+            <div className="w-full flex justify-between items-end mb-[24px]">
                 <h1 className="text-[36px] font-bold text-[#1D1D1F] dark:text-white tracking-tight leading-none font-['Inter'] -translate-y-[1px] translate-x-[4px]">IOTA Seoul 1 427</h1>
             </div>
             

@@ -181,7 +181,7 @@ export default function SystemFund421() {
 
         return (
             <div id={id} className="mb-12">
-                <div className="flex justify-between items-end mb-[14px]">
+                <div className="flex justify-between items-end mb-[24px]">
                     <h2 className="text-[24px] font-bold text-white tracking-tight">{title}</h2>
                 </div>
 
@@ -329,7 +329,7 @@ export default function SystemFund421() {
     };
 
     return (
-        <div className="w-[1200px] mx-auto flex-1 flex flex-col pt-[77px] shrink-0 pb-[200px]">
+        <div className="w-[1200px] mx-auto flex-1 flex flex-col pt-[60px] shrink-0 pb-[200px]">
             {/* Header / Title */}
             <div className="mb-[10px]">
                 <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[8px]">421 Fund</h1>
@@ -451,7 +451,7 @@ export default function SystemFund421() {
 
             {/* 수익자 지분 구조 */}
             <div className="w-full mb-[60px]">
-                <div className="flex justify-between items-end mb-[16px]">
+                <div className="flex justify-between items-end mb-[24px]">
                     <h2 className="text-[24px] font-bold text-white tracking-tight">수익자 지분 구조</h2>
                     <button 
                         onClick={() => setShowAllLps(!showAllLps)}

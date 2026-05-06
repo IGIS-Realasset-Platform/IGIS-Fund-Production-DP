@@ -2,12 +2,12 @@ import React from 'react';
 
 export default function WorkspaceIprWg() {
     return (
-        <div className="w-full flex-1 flex flex-col pt-[77px] pb-[60px] max-w-[1200px] mx-auto">
+        <div className="w-full flex-1 flex flex-col pt-[60px] pb-[60px] max-w-[1200px] mx-auto">
             {/* Header Metadata */}
-            <div className="w-full flex justify-between items-end mb-[36px]">
+            <div className="w-full flex justify-between items-end mb-[24px]">
                 <div>
                     <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[8px]">IPR (프로젝트 리츠)</h1>
-                    <p className="text-[15px] text-[#86868B]">Forward Purchase 권순약정 타임라인 및 밸류에이션 / IPR Working Group</p>
+                    <p className="text-[16px] text-[#86868B] leading-[26px]">Forward Purchase 권순약정 타임라인 및 밸류에이션 / IPR Working Group</p>
                 </div>
                 
                 <div className="flex items-center h-[48px] border border-[#333] rounded-[16px] bg-[#1A1A1A] px-2">

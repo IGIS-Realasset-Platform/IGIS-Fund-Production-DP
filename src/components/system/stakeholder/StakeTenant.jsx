@@ -17,9 +17,9 @@ export default function StakeTenant() {
     };
 
     return (
-        <div className="w-full flex-1 flex flex-col pt-[77px] pb-[60px] max-w-[1200px] mx-auto">
+        <div className="w-full flex-1 flex flex-col pt-[60px] pb-[60px] max-w-[1200px] mx-auto">
             <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[8px]">잠재 임차사</h1>
-            <p className="text-[15px] text-[#86868B] mb-[36px]">이오타서울 자산의 앵커 테넌트(Anchor Tenant) 및 주요 임차사 파이프라인 관리 보드입니다.</p>
+            <p className="text-[16px] text-[#86868B] mb-[36px] leading-[26px]">이오타서울 자산의 앵커 테넌트(Anchor Tenant) 및 주요 임차사 파이프라인 관리 보드입니다.</p>
             
             <div className="w-full bg-[#1A1A1A] border border-[#333] rounded-[24px] overflow-hidden">
                 <table className="w-full text-left">

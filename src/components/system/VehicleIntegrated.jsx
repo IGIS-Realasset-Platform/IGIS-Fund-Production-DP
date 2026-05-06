@@ -258,7 +258,7 @@ export default function VehicleIntegrated() {
 
         return (
             <div id={id} className="mb-12">
-                <div className="flex justify-between items-end mb-[14px]">
+                <div className="flex justify-between items-end mb-[24px]">
                     <h2 className="text-[24px] font-bold text-white tracking-tight">{title}</h2>
                     {toggleContent}
                 </div>
@@ -755,7 +755,7 @@ export default function VehicleIntegrated() {
 
             {/* 5. IPR */}
             <div id="section-ipr" className="mb-12">
-                <div className="flex justify-between items-end mb-[14px]">
+                <div className="flex justify-between items-end mb-[24px]">
                     <h2 className="text-[24px] font-bold text-white tracking-tight">4. IPR (Iota Project REITs)</h2>
                     <button 
                         onClick={() => navigateTo('platform/iotaseoul/workspace/ipr')}

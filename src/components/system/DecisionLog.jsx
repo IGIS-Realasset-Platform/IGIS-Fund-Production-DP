@@ -161,12 +161,12 @@ export default function DecisionLog() {
     const displayedLogs = searchFilteredLogs.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
     return (
-        <div className="w-full flex-1 flex flex-col pt-[77px] pb-[60px] max-w-[1200px] mx-auto">
+        <div className="w-full flex-1 flex flex-col pt-[60px] pb-[60px] max-w-[1200px] mx-auto">
             {/* Header Metadata */}
-            <div className="w-full flex justify-between items-end mb-[36px]">
+            <div className="w-full flex justify-between items-end mb-[24px]">
                 <div>
                     <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[8px]">의사결정 로그</h1>
-                    <p className="text-[15px] text-[#86868B]">사업 진행 간의 주요 협의 및 의사결정 이력을 추적합니다.</p>
+                    <p className="text-[16px] text-[#86868B] leading-[26px]">사업 진행 간의 주요 협의 및 의사결정 이력을 추적합니다.</p>
                 </div>
             </div>
 

@@ -2,12 +2,12 @@ import React from 'react';
 
 export default function WorkspaceDevelopment() {
     return (
-        <div className="w-full flex-1 flex flex-col pt-[77px] pb-[60px] max-w-[1200px] mx-auto">
+        <div className="w-full flex-1 flex flex-col pt-[60px] pb-[60px] max-w-[1200px] mx-auto">
             {/* Header Metadata */}
-            <div className="w-full flex justify-between items-end mb-[36px]">
+            <div className="w-full flex justify-between items-end mb-[24px]">
                 <div>
                     <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[8px]">개발관리</h1>
-                    <p className="text-[15px] text-[#86868B]">설계·시공·CM·감리 통제, 인허가/명도 대응, 공정·품질·안전 KPI</p>
+                    <p className="text-[16px] text-[#86868B] leading-[26px]">설계·시공·CM·감리 통제, 인허가/명도 대응, 공정·품질·안전 KPI</p>
                 </div>
                 
                 <div className="flex items-center h-[48px] border border-[#333] rounded-[16px] bg-[#1A1A1A] px-2">

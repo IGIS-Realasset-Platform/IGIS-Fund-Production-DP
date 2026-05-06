@@ -28,12 +28,12 @@ export default function WorkspaceMarketing() {
     const nextWeekTasks = pipelines.filter(t => t.bucket === '다음주');
 
     return (
-        <div className="w-full flex-1 flex flex-col pt-[77px] pb-[60px] max-w-[1200px] mx-auto">
+        <div className="w-full flex-1 flex flex-col pt-[60px] pb-[60px] max-w-[1200px] mx-auto">
             {/* Header Metadata */}
-            <div className="w-full flex justify-between items-end mb-[36px]">
+            <div className="w-full flex justify-between items-end mb-[24px]">
                 <div>
                     <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[8px]">기업마케팅 Workspace</h1>
-                    <p className="text-[15px] text-[#86868B]">기업마케팅센터 (CMC) 업무 프로그레스 및 기업마케팅 DB</p>
+                    <p className="text-[16px] text-[#86868B] leading-[26px]">기업마케팅센터 (CMC) 업무 프로그레스 및 기업마케팅 DB</p>
                 </div>
                 
                 <div className="flex items-center h-[48px] border border-[#333] rounded-[16px] bg-[#1A1A1A] px-2">
@@ -90,7 +90,7 @@ export default function WorkspaceMarketing() {
             </div>
 
             {/* 2. Task 관리 */}
-            <div className="flex justify-between items-end mb-[16px]">
+            <div className="flex justify-between items-end mb-[24px]">
                 <h2 className="text-[18px] font-bold text-white">Task 관리</h2>
                 <span className="text-[13px] text-[#86868B]">큰 업무 단위 (마감일 및 다음 액션 관리)</span>
             </div>
@@ -136,7 +136,7 @@ export default function WorkspaceMarketing() {
             </div>
 
             {/* 3. Pipeline 관리 */}
-            <div className="flex justify-between items-end mb-[16px]">
+            <div className="flex justify-between items-end mb-[24px]">
                 <h2 className="text-[18px] font-bold text-white">Pipe line 관리</h2>
                 <span className="text-[13px] text-[#86868B]">수기 입력 중심 운영 (컨택 포인트 포함)</span>
             </div>
