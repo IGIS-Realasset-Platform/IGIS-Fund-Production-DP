@@ -104,9 +104,11 @@ export function AuthProvider({ children }) {
     return (
         <AuthContext.Provider value={{ user, memberInfo, loading, signOut, recoveryMode, setRecoveryMode }}>
             {loading ? (
-                <div className="fixed inset-0 w-full h-full flex flex-col items-center justify-center bg-[#F5F5F7] dark:bg-[#1C1C1E] z-[99999]">
-                    <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#0071E3] mb-4"></div>
-                    <span className="text-[#86868B] text-sm font-medium">인증 정보를 확인하는 중입니다...</span>
+                <div className="fixed inset-0 w-full h-full flex flex-col items-center justify-center bg-[#FDFDFD] dark:bg-[#111111] z-[99999]">
+                    <div className="w-6 h-6 relative mb-5 animate-spin">
+                        <div className="absolute top-0 left-1/2 -ml-[3px] w-[6px] h-[6px] bg-[#111] dark:bg-white rounded-full"></div>
+                    </div>
+                    <span className="text-[#86868B] dark:text-[#A1A1AA] text-[14px] font-medium tracking-tight">데이터를 불러오고 있습니다...</span>
                 </div>
             ) : children}
         </AuthContext.Provider>
