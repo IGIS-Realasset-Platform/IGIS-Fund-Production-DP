@@ -897,12 +897,12 @@ export default function WorkspacePm() {
                                 <span className={`text-[13px] font-bold w-[40px] text-center shrink-0 ${log.metadata?.priority === '높음' ? 'text-[#FF453A]' : (log.metadata?.priority === '낮음' ? 'text-[#86868B]' : 'text-[#3b82f6]')}`}>
                                     {log.metadata?.priority || '중간'}
                                 </span>
-                                <div className="flex flex-col items-end w-[60px] shrink-0 justify-center">
+                                <div className="relative flex flex-col items-end w-[60px] shrink-0 justify-center">
                                     <span className="text-[13px] text-[#86868B] font-['Inter'] leading-tight">
                                         {formatDateYYMMDD(log.work_date)}
                                     </span>
                                     {expandedLogs[log.log_id] && log.created_at && (
-                                        <span className="text-[11px] text-[#555] font-['Inter'] leading-tight mt-[2px]">
+                                        <span className="absolute top-[100%] right-0 text-[11px] text-[#555] font-['Inter'] leading-tight mt-[2px] whitespace-nowrap">
                                             {new Date(log.created_at).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })}
                                         </span>
                                     )}
@@ -932,7 +932,7 @@ export default function WorkspacePm() {
                                     {/* Stakeholder Pill (Floated Right) */}
                                     {log.iota_seoul_log_stakeholders?.[0]?.sh_name && (
                                         <div className="float-right ml-[16px] mb-[12px] flex flex-col items-end gap-[4px]">
-                                            <span className="text-[11px] font-bold text-[#86868B] pr-[4px]">이해관계자</span>
+                                            <span className="text-[11px] font-bold text-[#86868B] pr-[12px]">이해관계자</span>
                                             <div className="bg-[#2a2a2c] border border-[#444] rounded-full pl-[8px] pr-[12px] py-[4px] flex items-center gap-[6px]">
                                                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#A1A1AA" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                                                 <span className="text-[12px] font-medium text-[#E5E5E5]">
