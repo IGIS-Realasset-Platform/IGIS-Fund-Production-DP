@@ -6,9 +6,9 @@ export default function WorkspaceFinancing() {
             {/* Header & Team Structure */}
             <div className="w-full flex justify-between items-center mb-[40px] gap-[40px]">
                 {/* Header Metadata */}
-                <div className="shrink-0 max-w-[300px]">
+                <div className="shrink-0 max-w-[350px]">
                     <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[12px]">파이낸싱</h1>
-                    <p className="text-[15px] text-[#86868B] leading-[24px]">IOTA Seoul Capital Stack 및 대주단 파이프라인 관리</p>
+                    <p className="text-[15px] text-[#86868B] leading-[24px] break-keep">IOTA Seoul Capital Stack 및 대주단 파이프라인 관리</p>
                 </div>
                 
                 {/* Team Structure */}
@@ -17,7 +17,7 @@ export default function WorkspaceFinancing() {
                     
                     <div className="flex items-center pl-[20px] pr-[10px] py-[10px]">
                         <div className="w-[80px] shrink-0">
-                            <span className="text-[13px] font-bold text-[#86868B]">LFC</span>
+                            <span className="text-[13px] font-bold text-[#86868B]">파이낸싱</span>
                         </div>
                         <div className="flex items-center gap-[12px] w-[130px] shrink-0">
                             <div className="relative w-[30px] h-[30px] shrink-0 rounded-full bg-[#3c3c3c] flex items-center justify-center overflow-hidden ml-[2px]">
