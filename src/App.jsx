@@ -19,7 +19,8 @@ export default function App() {
       const base = BASE.endsWith('/') ? BASE.slice(0, -1) : BASE;
       let path = window.location.pathname.replace(base, '').replace(/^\//, '');
       if (path.endsWith('/')) path = path.slice(0, -1);
-      return path || 'home';
+      // 'home' 대신 'platform/iotaseoul/decision-log'를 기본 경로로 설정하여 커스텀 도메인 접속 시 바로 플랫폼으로 이동
+      return path || 'platform/iotaseoul/decision-log';
   };
   const toUrl = (page) => page === 'home' ? BASE : `${BASE}${page}`;
 
