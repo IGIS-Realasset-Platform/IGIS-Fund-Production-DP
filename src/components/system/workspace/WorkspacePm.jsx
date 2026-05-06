@@ -533,7 +533,9 @@ export default function WorkspacePm() {
                                 <div className="flex items-center flex-1 min-w-0 translate-x-[-20px]">
                                     {/* Cell Name */}
                                     <div className="w-[80px] shrink-0 translate-x-[4px] flex justify-center">
-                                        <span className="text-[13px] font-medium text-[#86868B]">{getCellName(log.writer_name)}</span>
+                                        <span className="text-[13px] font-medium text-[#86868B]">
+                                            {getCellName(log.writer_name).replace(/-(LFC|DSC|EMC|SSC|KAM)$/, '')}
+                                        </span>
                                     </div>
 
                                     {/* Avatar & Name */}
