@@ -594,7 +594,7 @@ export default function DecisionLog() {
                                             <textarea
                                                 value={editingContent}
                                                 onChange={(e) => setEditingContent(e.target.value)}
-                                                className="w-full bg-[#2a2a2c] border border-[#444] rounded-[8px] p-[12px] text-[15px] text-[#E5E5E5] leading-relaxed resize-none focus:outline-none focus:border-[#2997ff] min-h-[120px]"
+                                                className="w-full bg-[#2a2a2c] border border-[#444] rounded-[8px] p-[12px] text-[15px] text-[#E5E5E5] leading-relaxed resize-y focus:outline-none focus:border-[#2997ff] min-h-[180px]"
                                             />
                                             <div className="flex justify-end gap-[8px] mt-[12px]">
                                                 <button
@@ -619,7 +619,7 @@ export default function DecisionLog() {
                                     )}
                                     <div className="clear-both"></div>
                                     
-                                    <div className="mt-[24px] flex items-end justify-between">
+                                    <div className="mt-[14px] flex items-end justify-between">
                                         <div className="text-[12px] text-[#555] font-medium">
                                             수정일자: {log.updated_at ? new Date(log.updated_at).toLocaleString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }) : new Date(log.created_at || log.work_date).toLocaleString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })}
                                         </div>
