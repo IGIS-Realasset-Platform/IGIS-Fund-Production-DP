@@ -16,7 +16,7 @@ export default function WorkspaceFinancing() {
 
                     
                     <div className="flex items-center pl-[20px] pr-[10px] py-[10px]">
-                        <div className="w-[80px] shrink-0">
+                        <div className="w-[70px] shrink-0">
                             <span className="text-[13px] font-bold text-[#86868B]">파이낸싱</span>
                         </div>
                         <div className="flex items-center gap-[12px] w-[130px] shrink-0">
