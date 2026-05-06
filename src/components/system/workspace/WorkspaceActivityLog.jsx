@@ -250,7 +250,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
             />
             {/* Log Viewer */}
             <div className="flex justify-between items-center mb-[12px]">
-                <h2 className="text-[18px] font-bold text-white tracking-tight">최근 등록된 업무</h2>
+                <h2 className="text-[18px] font-bold text-white tracking-tight translate-y-[2px]">최근 등록된 업무</h2>
                 <div className="flex items-center gap-[12px]">
                     {/* Search Box */}
                     <div className="relative">
@@ -420,6 +420,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
                                             onClick={(e) => { e.stopPropagation(); toggleExpand(log.log_id); }}
                                         >
                                             {log.raw_text ? log.raw_text.split('\n')[0] : ''}
+                                            {log.metadata?.comments?.length > 0 && <span className="text-[#3b82f6] ml-[6px] font-bold text-[13px]">({log.metadata.comments.length})</span>}
                                         </div>
                                         {log.raw_text && log.raw_text.length > 40 && (
                                             <button 

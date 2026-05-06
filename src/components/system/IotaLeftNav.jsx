@@ -338,11 +338,11 @@ export default function IotaLeftNav({ onMenuChange, currentPath = '' }) {
                             <span className="text-[#1F1F1E] font-bold">U</span>
                         )}
                     </div>
-                    <div className="flex flex-col max-w-[100px]">
+                    <div className="flex flex-col max-w-[130px]">
                         <span className="font-semibold text-[14px] leading-tight mb-0.5 text-white tracking-tight truncate">
                             {memberInfo?.staff_name ? `${memberInfo.staff_name} ${memberInfo.role_code === 'master' ? '마스터' : memberInfo.role_code === 'director' ? '책임' : '매니저'}` : '로그인 필요'}
                         </span>
-                        <span className="text-[#86868B] text-[11px] leading-none font-medium truncate">
+                        <span className="text-[#86868B] text-[12px] leading-none font-normal truncate">
                             {user?.email || '권한 없음'}
                         </span>
                     </div>

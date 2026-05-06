@@ -162,11 +162,11 @@ export default function SystemLeftNav({ isCore, isPlatform = false }) {
                             <span className="text-[#111] dark:text-[#1F1F1E] font-bold">U</span>
                         )}
                     </div>
-                    <div className="flex flex-col max-w-[100px]">
+                    <div className="flex flex-col max-w-[130px]">
                         <span className="font-semibold text-[14px] leading-tight mb-0.5 text-[#1D1D1F] dark:text-white transition-colors duration-300 tracking-tight truncate">
                             {memberInfo?.staff_name ? `${memberInfo.staff_name} ${memberInfo.role_code === 'master' ? '마스터' : memberInfo.role_code === 'director' ? '책임' : '매니저'}` : '로그인 필요'}
                         </span>
-                        <span className="text-[#86868B] dark:text-gray-400 text-[11px] leading-none font-medium transition-colors duration-300 truncate">
+                        <span className="text-[#86868B] dark:text-gray-400 text-[12px] leading-none font-normal transition-colors duration-300 truncate">
                             {user?.email || '권한 없음'}
                         </span>
                     </div>

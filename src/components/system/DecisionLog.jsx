@@ -338,6 +338,7 @@ export default function DecisionLog() {
                                 {ws.logs.length > 0 ? ws.logs.map(log => (
                                     <div key={log.log_id} className="text-[13px] text-[#A1A1AA] group-hover:text-[#E5E5E5] transition-colors leading-snug truncate" title={log.raw_text}>
                                         {log.raw_text.split('\n')[0]}
+                                        {log.metadata?.comments?.length > 0 && <span className="text-[#3b82f6] ml-[6px] font-bold">({log.metadata.comments.length})</span>}
                                     </div>
                                 )) : (
                                     <div className="text-[13px] text-[#FF453A] font-medium mt-[4px]">최근 2주간 등록된 활동내역이 없습니다.</div>
@@ -361,6 +362,7 @@ export default function DecisionLog() {
                                 {ws.logs.length > 0 ? ws.logs.map(log => (
                                     <div key={log.log_id} className="text-[13px] text-[#A1A1AA] group-hover:text-[#E5E5E5] transition-colors leading-snug truncate" title={log.raw_text}>
                                         {log.raw_text.split('\n')[0]}
+                                        {log.metadata?.comments?.length > 0 && <span className="text-[#3b82f6] ml-[6px] font-bold">({log.metadata.comments.length})</span>}
                                     </div>
                                 )) : (
                                     <div className="text-[13px] text-[#FF453A] font-medium mt-[4px]">최근 2주간 등록된 활동내역이 없습니다.</div>
@@ -372,20 +374,18 @@ export default function DecisionLog() {
             </div>
 
 
-            <div className="w-full mb-[20px]">
-                <LogWriteBox 
-                            memberInfo={memberInfo}
-                            masterStakeholders={masterStakeholders}
-                            fetchLogs={fetchLogs}
-                            fetchMasterStakeholders={fetchMasterStakeholders}
-                            workspaceCode="WS_DECISION"
-                            workspaceLabel="의사결정 로그"
-                        />
-            </div>
+            <LogWriteBox 
+                memberInfo={memberInfo}
+                masterStakeholders={masterStakeholders}
+                fetchLogs={fetchLogs}
+                fetchMasterStakeholders={fetchMasterStakeholders}
+                workspaceCode="WS_DECISION"
+                workspaceLabel="의사결정 로그"
+            />
 
             {/* Log Viewer */}
             <div id="log-viewer-header" className="flex justify-between items-center mb-[12px] scroll-mt-[80px]">
-                <h2 className="text-[18px] font-bold text-white tracking-tight">활동내역 전체보기</h2>
+                <h2 className="text-[18px] font-bold text-white tracking-tight translate-y-[2px]">활동내역 전체보기</h2>
                 <div className="flex items-center gap-[12px]">
                     
 
@@ -558,6 +558,7 @@ export default function DecisionLog() {
                                             onClick={(e) => { e.stopPropagation(); toggleExpand(log.log_id); }}
                                         >
                                             {log.raw_text ? log.raw_text.split('\n')[0] : ''}
+                                            {log.metadata?.comments?.length > 0 && <span className="text-[#3b82f6] ml-[6px] font-bold text-[13px]">({log.metadata.comments.length})</span>}
                                         </div>
                                         {log.raw_text && log.raw_text.length > 40 && (
                                             <button 
