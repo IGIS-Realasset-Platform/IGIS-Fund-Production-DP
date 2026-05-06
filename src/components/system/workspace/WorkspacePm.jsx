@@ -272,69 +272,70 @@ export default function WorkspacePm() {
 
     return (
         <div className="w-full flex-1 flex flex-col pt-[60px] pb-[60px] max-w-[1200px] mx-auto">
-            {/* Header Metadata */}
-            <div className="w-full flex justify-between items-end mb-[24px]">
-                <div>
-                    <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[8px]">사업 PM</h1>
-                    <p className="text-[16px] text-[#86868B] leading-[26px]">전체 사업 일정 및 예산 통제, 변경관리 결정, PFV 외부 단일창구</p>
+            {/* Header & Team Structure */}
+            <div className="w-full flex justify-between items-center mb-[40px] gap-[40px]">
+                {/* Header Metadata */}
+                <div className="shrink-0 max-w-[300px]">
+                    <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[12px]">사업 PM</h1>
+                    <p className="text-[15px] text-[#86868B] leading-[24px]">전체 사업 일정 및 예산 통제, 변경관리 결정, PFV 외부 단일창구</p>
                 </div>
-            </div>
-            
-            {/* PM Team Structure */}
-            <div className="w-full border border-[#333] rounded-[24px] -mt-[4px] mb-[40px] flex flex-col">
-                {/* 사업1파트 */}
-                <div className="flex items-center px-[24px] py-[11px]">
-                    <div className="w-[90px] shrink-0">
-                        <span className="text-[13px] font-bold text-[#86868B]">Co-PM 전략</span>
-                    </div>
-                    <div className="flex items-center gap-[12px] w-[180px] shrink-0">
-                        <div className="relative w-[30px] h-[30px] shrink-0 rounded-full bg-[#3c3c3c] flex items-center justify-center overflow-hidden">
-                            <img src={`${import.meta.env.BASE_URL}권순일.webp`} alt="권순일" className="w-full h-full object-cover" onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }} />
-                            <div className="absolute inset-0 rounded-full border border-white/10 pointer-events-none"></div>
+                
+                {/* PM Team Structure */}
+                <div className="flex-1 border border-[#333] rounded-[24px] flex flex-col bg-transparent max-w-[850px]">
+                    {/* 사업1파트 */}
+                    <div className="flex items-center px-[20px] py-[11px]">
+                        <div className="w-[80px] shrink-0">
+                            <span className="text-[13px] font-bold text-[#86868B]">Co-PM 전략</span>
                         </div>
-                        <div className="flex flex-col text-left">
-                            <span className="text-white font-bold text-[14px] leading-tight">권순일</span>
-                            <span className="text-[#A1A1AA] text-[13px] mt-[2px] leading-tight">사업1파트장</span>
-                        </div>
-                    </div>
-                    <div className="flex flex-wrap gap-x-2 gap-y-2 -ml-[30px]">
-                        {['윤주형', '김제익', '류홍', '박만진', '박일훈', '이정원', '전무경'].map(name => (
-                            <div key={name} className="flex items-center gap-[6px] bg-[#222] border border-[#333] rounded-full pl-[4px] pr-[10px] py-[4px] min-w-[76px]">
-                                <div className="w-[21px] h-[21px] shrink-0 rounded-full bg-[#3c3c3c] overflow-hidden">
-                                    <img src={`${import.meta.env.BASE_URL}${name}.webp`} alt={name} className="w-full h-full object-cover" onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }} />
-                                </div>
-                                <span className="text-[#E5E5E5] text-[12px] font-medium leading-none">{name}</span>
+                        <div className="flex items-center gap-[12px] w-[130px] shrink-0">
+                            <div className="relative w-[30px] h-[30px] shrink-0 rounded-full bg-[#3c3c3c] flex items-center justify-center overflow-hidden">
+                                <img src={`${import.meta.env.BASE_URL}권순일.webp`} alt="권순일" className="w-full h-full object-cover" onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }} />
+                                <div className="absolute inset-0 rounded-full border border-white/10 pointer-events-none"></div>
                             </div>
-                        ))}
-                    </div>
-                </div>
-
-                <div className="w-full h-px bg-[#333]"></div>
-
-                {/* 사업2파트 */}
-                <div className="flex items-center px-[24px] py-[11px]">
-                    <div className="w-[90px] shrink-0">
-                        <span className="text-[13px] font-bold text-[#86868B]">Co-PM 사업</span>
-                    </div>
-                    <div className="flex items-center gap-[12px] w-[180px] shrink-0">
-                        <div className="relative w-[30px] h-[30px] shrink-0 rounded-full bg-[#3c3c3c] flex items-center justify-center overflow-hidden">
-                            <img src={`${import.meta.env.BASE_URL}강순용.webp`} alt="강순용" className="w-full h-full object-cover" onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }} />
-                            <div className="absolute inset-0 rounded-full border border-white/10 pointer-events-none"></div>
-                        </div>
-                        <div className="flex flex-col text-left">
-                            <span className="text-white font-bold text-[14px] leading-tight">강순용</span>
-                            <span className="text-[#A1A1AA] text-[13px] mt-[2px] leading-tight">사업2파트장</span>
-                        </div>
-                    </div>
-                    <div className="flex flex-wrap gap-x-2 gap-y-2 -ml-[30px]">
-                        {['한찬호', '박석제', '박채현', '소현준', '이수정', '조영비', '한수정'].map(name => (
-                            <div key={name} className="flex items-center gap-[6px] bg-[#222] border border-[#333] rounded-full pl-[4px] pr-[10px] py-[4px] min-w-[76px]">
-                                <div className="w-[21px] h-[21px] shrink-0 rounded-full bg-[#3c3c3c] overflow-hidden">
-                                    <img src={`${import.meta.env.BASE_URL}${name}.webp`} alt={name} className="w-full h-full object-cover" onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }} />
-                                </div>
-                                <span className="text-[#E5E5E5] text-[12px] font-medium leading-none">{name}</span>
+                            <div className="flex flex-col text-left">
+                                <span className="text-white font-bold text-[14px] leading-tight">권순일</span>
+                                <span className="text-[#A1A1AA] text-[12px] mt-[2px] leading-tight">사업1파트장</span>
                             </div>
-                        ))}
+                        </div>
+                        <div className="flex flex-wrap gap-x-2 gap-y-2 ml-[0px]">
+                            {['윤주형', '김제익', '류홍', '박만진', '박일훈', '이정원', '전무경'].map(name => (
+                                <div key={name} className="flex items-center gap-[6px] bg-[#222] border border-[#333] rounded-full pl-[4px] pr-[10px] py-[4px] min-w-[76px]">
+                                    <div className="w-[21px] h-[21px] shrink-0 rounded-full bg-[#3c3c3c] overflow-hidden">
+                                        <img src={`${import.meta.env.BASE_URL}${name}.webp`} alt={name} className="w-full h-full object-cover" onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }} />
+                                    </div>
+                                    <span className="text-[#E5E5E5] text-[12px] font-medium leading-none">{name}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    <div className="w-full h-px bg-[#333]"></div>
+
+                    {/* 사업2파트 */}
+                    <div className="flex items-center px-[20px] py-[11px]">
+                        <div className="w-[80px] shrink-0">
+                            <span className="text-[13px] font-bold text-[#86868B]">Co-PM 사업</span>
+                        </div>
+                        <div className="flex items-center gap-[12px] w-[130px] shrink-0">
+                            <div className="relative w-[30px] h-[30px] shrink-0 rounded-full bg-[#3c3c3c] flex items-center justify-center overflow-hidden">
+                                <img src={`${import.meta.env.BASE_URL}강순용.webp`} alt="강순용" className="w-full h-full object-cover" onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }} />
+                                <div className="absolute inset-0 rounded-full border border-white/10 pointer-events-none"></div>
+                            </div>
+                            <div className="flex flex-col text-left">
+                                <span className="text-white font-bold text-[14px] leading-tight">강순용</span>
+                                <span className="text-[#A1A1AA] text-[12px] mt-[2px] leading-tight">사업2파트장</span>
+                            </div>
+                        </div>
+                        <div className="flex flex-wrap gap-x-2 gap-y-2 ml-[0px]">
+                            {['한찬호', '박석제', '박채현', '소현준', '이수정', '조영비', '한수정'].map(name => (
+                                <div key={name} className="flex items-center gap-[6px] bg-[#222] border border-[#333] rounded-full pl-[4px] pr-[10px] py-[4px] min-w-[76px]">
+                                    <div className="w-[21px] h-[21px] shrink-0 rounded-full bg-[#3c3c3c] overflow-hidden">
+                                        <img src={`${import.meta.env.BASE_URL}${name}.webp`} alt={name} className="w-full h-full object-cover" onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }} />
+                                    </div>
+                                    <span className="text-[#E5E5E5] text-[12px] font-medium leading-none">{name}</span>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>
