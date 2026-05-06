@@ -113,6 +113,7 @@ export default function IotaLeftNav({ onMenuChange, currentPath = '' }) {
     const handleNavigation = (path) => {
         const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
         window.history.pushState(null, '', `${base}/${path}`);
+        window.dispatchEvent(new Event('force-refresh'));
         window.dispatchEvent(new Event('popstate'));
         onMenuChange?.(path);
     };
