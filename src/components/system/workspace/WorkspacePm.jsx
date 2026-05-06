@@ -293,7 +293,7 @@ export default function WorkspacePm() {
                             <div className="absolute inset-0 rounded-full border border-white/10 pointer-events-none"></div>
                         </div>
                         <div className="flex flex-col text-left">
-                            <span className="text-white font-bold text-[15px] leading-tight">권순일</span>
+                            <span className="text-white font-bold text-[14px] leading-tight">권순일</span>
                             <span className="text-[#A1A1AA] text-[13px] mt-[2px] leading-tight">사업1파트장</span>
                         </div>
                     </div>
@@ -322,7 +322,7 @@ export default function WorkspacePm() {
                             <div className="absolute inset-0 rounded-full border border-white/10 pointer-events-none"></div>
                         </div>
                         <div className="flex flex-col text-left">
-                            <span className="text-white font-bold text-[15px] leading-tight">강순용</span>
+                            <span className="text-white font-bold text-[14px] leading-tight">강순용</span>
                             <span className="text-[#A1A1AA] text-[13px] mt-[2px] leading-tight">사업2파트장</span>
                         </div>
                     </div>
