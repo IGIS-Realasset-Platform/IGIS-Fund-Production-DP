@@ -15,66 +15,46 @@ export default function WorkspaceIpr() {
                 </div>
                 
                 {/* Team Structure */}
-                <div className="border border-[#333] rounded-[24px] flex flex-col bg-transparent shrink-0">
+                <div className="border border-[#333] rounded-[24px] flex items-center bg-transparent shrink-0 pl-[20px] pr-[10px] py-[10px]">
 
-                    
-                    <div className="flex items-center pl-[20px] pr-[10px] py-[10px]">
-                        <div className="w-[80px] shrink-0">
-                            <span className="text-[13px] font-bold text-[#86868B]">투자</span>
+                    {/* 투자 */}
+                    <div className="w-[80px] shrink-0">
+                        <span className="text-[13px] font-bold text-[#86868B]">투자</span>
+                    </div>
+                    <div className="flex items-center gap-[12px] w-[130px] shrink-0">
+                        <div className="relative w-[30px] h-[30px] shrink-0 rounded-full bg-[#3c3c3c] flex items-center justify-center overflow-hidden ml-[2px]">
+                            <img src={`${import.meta.env.BASE_URL}권순일.webp`} alt="권순일" className="w-full h-full object-cover" onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }} />
+                            <div className="absolute inset-0 rounded-full border border-white/10 pointer-events-none"></div>
                         </div>
-                        <div className="flex items-center gap-[12px] w-[130px] shrink-0">
-                            <div className="relative w-[30px] h-[30px] shrink-0 rounded-full bg-[#3c3c3c] flex items-center justify-center overflow-hidden ml-[2px]">
-                                <img src={`${import.meta.env.BASE_URL}권순일.webp`} alt="권순일" className="w-full h-full object-cover" onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }} />
-                                <div className="absolute inset-0 rounded-full border border-white/10 pointer-events-none"></div>
-                            </div>
-                            <div className="flex flex-col text-left">
-                                <span className="text-white font-bold text-[13px] leading-tight">권순일</span>
-                                <span className="text-[#A1A1AA] text-[12px] mt-[1px] leading-tight">사업1파트장</span>
-                            </div>
-                        </div>
-                        <div className="flex flex-wrap gap-x-1.5 gap-y-2 -ml-[6px]">
-                            <span className="text-[#A1A1AA] text-[13px] font-medium leading-none ml-[6px] pt-[10px]">사업1파트 실무진</span>
+                        <div className="flex flex-col text-left">
+                            <span className="text-white font-bold text-[13px] leading-tight">권순일</span>
+                            <span className="text-[#A1A1AA] text-[12px] mt-[1px] leading-tight">사업1파트장</span>
                         </div>
                     </div>
-                    <div className="w-full h-px bg-[#333]"></div>
-                    <div className="flex items-center pl-[20px] pr-[10px] py-[10px]">
-                        <div className="w-[80px] shrink-0">
-                            <span className="text-[13px] font-bold text-[#86868B]">관리</span>
+                    <div className="flex flex-wrap gap-x-1.5 gap-y-2 -ml-[6px]">
+                        <span className="text-[#A1A1AA] text-[13px] font-medium leading-none ml-[6px]">사업1파트 실무진</span>
+                    </div>
+
+                    {/* Vertical Separator */}
+                    <div className="w-px h-[30px] bg-[#333] mx-[20px]"></div>
+
+                    {/* 관리 */}
+                    <div className="w-[80px] shrink-0">
+                        <span className="text-[13px] font-bold text-[#86868B]">관리</span>
+                    </div>
+                    <div className="flex items-center gap-[12px] w-[130px] shrink-0">
+                        <div className="relative w-[30px] h-[30px] shrink-0 rounded-full bg-[#3c3c3c] flex items-center justify-center overflow-hidden ml-[2px]">
+                            <img src={`${import.meta.env.BASE_URL}윤용택.webp`} alt="윤용택" className="w-full h-full object-cover" onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }} />
+                            <div className="absolute inset-0 rounded-full border border-white/10 pointer-events-none"></div>
                         </div>
-                        <div className="flex items-center gap-[12px] w-[130px] shrink-0">
-                            <div className="relative w-[30px] h-[30px] shrink-0 rounded-full bg-[#3c3c3c] flex items-center justify-center overflow-hidden ml-[2px]">
-                                <img src={`${import.meta.env.BASE_URL}윤용택.webp`} alt="윤용택" className="w-full h-full object-cover" onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }} />
-                                <div className="absolute inset-0 rounded-full border border-white/10 pointer-events-none"></div>
-                            </div>
-                            <div className="flex flex-col text-left">
-                                <span className="text-white font-bold text-[13px] leading-tight">윤용택</span>
-                                <span className="text-[#A1A1AA] text-[12px] mt-[1px] leading-tight">사업3파트</span>
-                            </div>
-                        </div>
-                        <div className="flex flex-wrap gap-x-1.5 gap-y-2 -ml-[6px]">
-                            <span className="text-[#A1A1AA] text-[13px] font-medium leading-none ml-[6px] pt-[10px]">신규 영입 예정</span>
+                        <div className="flex flex-col text-left">
+                            <span className="text-white font-bold text-[13px] leading-tight">윤용택</span>
+                            <span className="text-[#A1A1AA] text-[12px] mt-[1px] leading-tight">사업3파트</span>
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <div className="flex w-full gap-[24px] mb-[40px]">
-                <div className="flex-1 bg-[#292928] border border-[#3c3c3c] rounded-[24px] p-[32px] hover:border-[#555] transition-colors relative overflow-hidden group">
-                    <div className="absolute top-0 left-0 w-full h-[4px] bg-[#fbf167]"></div>
-                    <h3 className="text-[16px] font-bold text-[#86868B] mb-[12px]">주요 KPI 달성률</h3>
-                    <div className="text-[48px] font-black text-white">0<span className="text-[24px] text-[#A1A1AA]">%</span></div>
-                    <div className="w-full bg-[#1A1A1A] h-2 rounded-full mt-4"><div className="h-full bg-[#fbf167] rounded-full w-0 transition-all duration-1000 group-hover:w-[75%]"></div></div>
-                </div>
-                <div className="flex-1 bg-[#292928] border border-[#3c3c3c] rounded-[24px] p-[32px] hover:border-[#555] transition-colors relative overflow-hidden">
-                    <div className="absolute top-0 left-0 w-full h-[4px] bg-[#34d399]"></div>
-                    <h3 className="text-[16px] font-bold text-[#86868B] mb-[12px]">현재 Status</h3>
-                    <div className="text-[24px] font-bold text-white">정상 진행 중</div>
-                    <p className="text-[14px] text-[#A1A1AA] mt-2">지연 이슈 없음</p>
-                </div>
-                <div className="flex-1 bg-[#292928] border border-[#3c3c3c] rounded-[24px] p-[32px] hover:border-[#555] transition-colors relative overflow-hidden">
-                    <div className="absolute top-0 left-0 w-full h-[4px] bg-[#e11d48]"></div>
-                    <h3 className="text-[16px] font-bold text-[#86868B] mb-[12px]">Pending Action</h3>
-                    <div className="text-[32px] font-black text-white">3<span className="text-[16px] font-normal text-[#A1A1AA] ml-2">건</span></div>
+                    <div className="flex flex-wrap gap-x-1.5 gap-y-2 -ml-[6px]">
+                        <span className="text-[#A1A1AA] text-[13px] font-medium leading-none ml-[6px]">신규 영입 예정</span>
+                    </div>
                 </div>
             </div>
 

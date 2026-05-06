@@ -17,8 +17,9 @@ export default function App() {
   const BASE = import.meta.env.BASE_URL;
   const getPage = () => {
       const base = BASE.endsWith('/') ? BASE.slice(0, -1) : BASE;
-      const path = window.location.pathname.replace(base, '').replace(/^\//, '') || 'home';
-      return path;
+      let path = window.location.pathname.replace(base, '').replace(/^\//, '');
+      if (path.endsWith('/')) path = path.slice(0, -1);
+      return path || 'home';
   };
   const toUrl = (page) => page === 'home' ? BASE : `${BASE}${page}`;
 
