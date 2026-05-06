@@ -136,6 +136,14 @@ export default function DecisionLog() {
     useEffect(() => {
         fetchLogs();
         fetchMasterStakeholders();
+        
+        const handleRefetch = () => {
+            fetchLogs();
+            fetchMasterStakeholders();
+        };
+        window.addEventListener('refetch-data', handleRefetch);
+        
+        return () => window.removeEventListener('refetch-data', handleRefetch);
     }, []);
 
     const toggleExpand = (id) => {

@@ -96,7 +96,13 @@ export default function SystemFund421() {
         };
         fetchData();
         
+        const handleRefetch = () => {
+            fetchData();
+        };
+        window.addEventListener('refetch-data', handleRefetch);
+        
         return () => {
+            window.removeEventListener('refetch-data', handleRefetch);
             controller.abort();
         };
     }, []);

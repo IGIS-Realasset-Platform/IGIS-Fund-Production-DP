@@ -24,16 +24,11 @@ export default function App() {
   const toUrl = (page) => page === 'home' ? BASE : `${BASE}${page}`;
 
   const [currentPage, setCurrentPage] = React.useState(() => getPage());
-  const [refreshKey, setRefreshKey] = React.useState(0);
 
   // Handle URL syncing and global left/right key navigation sequences
   React.useEffect(() => {
       const handlePopState = () => {
           setCurrentPage(getPage());
-      };
-      
-      const handleForceRefresh = () => {
-          setRefreshKey(prev => prev + 1);
       };
 
       const handleGlobalKeyDown = (e) => {
@@ -52,11 +47,9 @@ export default function App() {
       };
 
       window.addEventListener('popstate', handlePopState);
-      window.addEventListener('force-refresh', handleForceRefresh);
       window.addEventListener('keydown', handleGlobalKeyDown);
       return () => {
           window.removeEventListener('popstate', handlePopState);
-          window.removeEventListener('force-refresh', handleForceRefresh);
           window.removeEventListener('keydown', handleGlobalKeyDown);
       };
   }, [currentPage]);
@@ -160,8 +153,8 @@ export default function App() {
             />
         )}
         {currentPage === 'system-core' && <SystemCore isPlatform={false} />}
-        {currentPage === 'platform' && <PlatformCore isPlatform={true} refreshKey={refreshKey} />}
-        {currentPage.startsWith('platform/iotaseoul') && <PlatformCore isPlatform={true} isIotaWorkspaceOverride={true} currentPath={currentPage} refreshKey={refreshKey} />}
+        {currentPage === 'platform' && <PlatformCore isPlatform={true} />}
+        {currentPage.startsWith('platform/iotaseoul') && <PlatformCore isPlatform={true} isIotaWorkspaceOverride={true} currentPath={currentPage} />}
       </div>
     </>
   );

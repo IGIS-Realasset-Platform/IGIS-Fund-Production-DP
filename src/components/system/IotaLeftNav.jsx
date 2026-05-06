@@ -168,6 +168,9 @@ export default function IotaLeftNav({ onMenuChange, currentPath = '' }) {
                             <div key={item.id} className="flex flex-col">
                                 <div
                                     onClick={() => {
+                                        if (currentPath === item.path) {
+                                            window.dispatchEvent(new Event('refetch-data'));
+                                        }
                                         handleNavigation(item.path);
                                         if (hasSubItems && item.id === 2) {
                                             setIsVehicleOpen(!isVehicleOpen);

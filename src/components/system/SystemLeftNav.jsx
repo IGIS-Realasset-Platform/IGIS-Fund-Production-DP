@@ -41,6 +41,9 @@ export default function SystemLeftNav({ isCore, isPlatform = false }) {
             <div className="w-full flex items-center justify-between px-[15px] pt-[18px] pb-4">
                 <span 
                     onClick={() => {
+                        if (currentPath === '' || currentPath === 'home') {
+                            window.dispatchEvent(new Event('refetch-data'));
+                        }
                         window.history.pushState(null, '', import.meta.env.BASE_URL);
                         window.dispatchEvent(new Event('popstate'));
                     }}
@@ -59,6 +62,9 @@ export default function SystemLeftNav({ isCore, isPlatform = false }) {
                 
                 <div
                     onClick={() => {
+                        if (currentPath === '' || currentPath === 'home') {
+                            window.dispatchEvent(new Event('refetch-data'));
+                        }
                         window.history.pushState(null, '', import.meta.env.BASE_URL);
                         window.dispatchEvent(new Event('popstate'));
                     }}
@@ -124,6 +130,9 @@ export default function SystemLeftNav({ isCore, isPlatform = false }) {
 
                 <div 
                     onClick={isPlatform ? () => {
+                        if (currentPath === 'platform/iotaseoul' || currentPath.startsWith('platform/iotaseoul/')) {
+                            window.dispatchEvent(new Event('refetch-data'));
+                        }
                         window.history.pushState(null, '', `${import.meta.env.BASE_URL}platform/iotaseoul`);
                         window.dispatchEvent(new Event('popstate'));
                     } : undefined}

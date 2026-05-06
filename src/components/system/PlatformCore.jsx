@@ -4,7 +4,7 @@ import IotaLeftNav from './IotaLeftNav';
 import PlatformCenter from './PlatformCenter';
 import { useTheme } from '../../context/ThemeContext';
 
-export default function PlatformCore({ isPlatform = true, isIotaWorkspaceOverride = false, currentPath = '', refreshKey = 0 }) {
+export default function PlatformCore({ isPlatform = true, isIotaWorkspaceOverride = false, currentPath = '' }) {
     const { isLightMode, toggleTheme } = useTheme();
     const [isIotaWorkspace, setIsIotaWorkspace] = useState(isIotaWorkspaceOverride);
 
@@ -36,7 +36,7 @@ export default function PlatformCore({ isPlatform = true, isIotaWorkspaceOverrid
                 {/* 컨텐츠 박스 (PlatformCenter) */}
                 <div className="w-full h-full overflow-hidden shrink-0 flex flex-col items-stretch opacity-100">
                     <div className="w-full h-full flex flex-col items-stretch min-w-[600px] opacity-100">
-                        <PlatformCenter key={refreshKey} currentPath={currentPath} />
+                        <PlatformCenter currentPath={currentPath} />
                     </div>
                 </div>
             </div>
