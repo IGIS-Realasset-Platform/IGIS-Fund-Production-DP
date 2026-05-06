@@ -693,6 +693,14 @@ export default function DecisionLog() {
                                                 <div key={comment.id} className="bg-[#222] rounded-[8px] p-[12px] flex justify-between group">
                                                     <div className="flex-1 min-w-0 pr-[16px]">
                                                         <div className="flex items-center gap-[8px] mb-[4px]">
+                                                            <div className="w-[28px] h-[28px] rounded-full bg-[#333] overflow-hidden border border-[#444] shrink-0">
+                                                                <img 
+                                                                    src={`${import.meta.env.BASE_URL}${comment.author}.webp`} 
+                                                                    alt={comment.author} 
+                                                                    className="w-full h-full object-cover"
+                                                                    onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }}
+                                                                />
+                                                            </div>
                                                             <span className="text-[13px] font-bold text-[#E5E5E5]">{comment.author}</span>
                                                             <span className="text-[11px] text-[#86868B]">
                                                                 {new Date(comment.created_at).toLocaleString('ko-KR', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })}
