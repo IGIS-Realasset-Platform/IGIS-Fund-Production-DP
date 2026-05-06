@@ -49,6 +49,11 @@ export default function WorkspacePm() {
     const [filterPurpose, setFilterPurpose] = useState('');
     const [filterStatus, setFilterStatus] = useState('');
     const [filterPriority, setFilterPriority] = useState('');
+    
+    // Edit states
+    const [editingLogId, setEditingLogId] = useState(null);
+    const [editingContent, setEditingContent] = useState('');
+    const [isSavingEdit, setIsSavingEdit] = useState(false);
 
     const formatDisplayDate = (dateString) => {
         if (!dateString) return '';
@@ -381,6 +386,28 @@ export default function WorkspacePm() {
             alert('삭제 중 오류가 발생했습니다.');
         } finally {
             setIsDeleting(false);
+        }
+    };
+
+    const handleSaveEdit = async (logId) => {
+        if (!editingContent.trim()) return;
+        setIsSavingEdit(true);
+        try {
+            const { error } = await supabase
+                .from('iota_seoul_logs')
+                .update({ raw_text: editingContent, updated_at: new Date().toISOString() })
+                .eq('log_id', logId);
+            
+            if (error) throw error;
+            
+            setLogs(prev => prev.map(l => l.log_id === logId ? { ...l, raw_text: editingContent, updated_at: new Date().toISOString() } : l));
+            setEditingLogId(null);
+            setEditingContent('');
+        } catch (err) {
+            console.error('Error updating log:', err);
+            alert('수정 중 오류가 발생했습니다.');
+        } finally {
+            setIsSavingEdit(false);
         }
     };
 
@@ -989,7 +1016,7 @@ export default function WorkspacePm() {
                                             <button 
                                                 type="button"
                                                 onClick={(e) => { e.stopPropagation(); toggleExpand(log.log_id); }}
-                                                className="text-[12px] text-[#2997ff] hover:underline cursor-pointer font-medium shrink-0 ml-[4px]"
+                                                className="text-[13px] text-[#2997ff] hover:underline cursor-pointer font-medium shrink-0 ml-[4px]"
                                             >
                                                 {expandedLogs[log.log_id] ? '[접기]' : '[펼쳐보기]'}
                                             </button>
@@ -1060,19 +1087,48 @@ export default function WorkspacePm() {
                                         </div>
                                     )}
                                     
-                                    <div className="whitespace-pre-wrap break-words text-[15px] text-[#E5E5E5] leading-relaxed">
-                                        {renderLogTextWithMentions(log.raw_text)}
-                                    </div>
+                                    {editingLogId === log.log_id ? (
+                                        <div className="w-full">
+                                            <textarea
+                                                value={editingContent}
+                                                onChange={(e) => setEditingContent(e.target.value)}
+                                                className="w-full bg-[#2a2a2c] border border-[#444] rounded-[8px] p-[12px] text-[15px] text-[#E5E5E5] leading-relaxed resize-none focus:outline-none focus:border-[#2997ff] min-h-[120px]"
+                                            />
+                                            <div className="flex justify-end gap-[8px] mt-[12px]">
+                                                <button
+                                                    onClick={() => setEditingLogId(null)}
+                                                    className="px-[12px] py-[6px] bg-transparent border border-[#444] rounded-[6px] text-[12px] text-[#A1A1AA] hover:text-[#E5E5E5] transition-colors"
+                                                >
+                                                    취소
+                                                </button>
+                                                <button
+                                                    onClick={() => handleSaveEdit(log.log_id)}
+                                                    disabled={isSavingEdit}
+                                                    className="px-[12px] py-[6px] bg-[#2997ff] hover:bg-[#0071e3] border border-transparent rounded-[6px] text-[12px] text-white font-bold transition-colors disabled:opacity-50"
+                                                >
+                                                    {isSavingEdit ? '저장 중...' : '저장'}
+                                                </button>
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        <div className="whitespace-pre-wrap break-words text-[15px] text-[#E5E5E5] leading-relaxed">
+                                            {renderLogTextWithMentions(log.raw_text)}
+                                        </div>
+                                    )}
                                     <div className="clear-both"></div>
                                     
                                     <div className="mt-[24px] flex items-end justify-between">
                                         <div className="text-[12px] text-[#555] font-medium">
                                             수정일자: {log.updated_at ? new Date(log.updated_at).toLocaleString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }) : new Date(log.created_at || log.work_date).toLocaleString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })}
                                         </div>
-                                        {(memberInfo?.email === log.writer_staff_id || memberInfo?.name === log.writer_name) && (
+                                        {!editingLogId && (memberInfo?.email === log.writer_staff_id || memberInfo?.name === log.writer_name) && (
                                             <button
                                                 type="button"
-                                                onClick={(e) => { e.stopPropagation(); alert("수정 기능은 준비 중입니다."); }}
+                                                onClick={(e) => { 
+                                                    e.stopPropagation(); 
+                                                    setEditingLogId(log.log_id);
+                                                    setEditingContent(log.raw_text);
+                                                }}
                                                 className="px-[12px] py-[6px] bg-[#222] hover:bg-[#333] border border-[#333] hover:border-[#444] rounded-[6px] text-[12px] text-[#A1A1AA] hover:text-[#E5E5E5] font-medium transition-all"
                                             >
                                                 수정하기
