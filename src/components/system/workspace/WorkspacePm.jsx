@@ -1016,9 +1016,9 @@ export default function WorkspacePm() {
                                             <button 
                                                 type="button"
                                                 onClick={(e) => { e.stopPropagation(); toggleExpand(log.log_id); }}
-                                                className="text-[13px] text-[#2997ff] hover:underline cursor-pointer font-medium shrink-0 ml-[4px]"
+                                                className="bg-white/5 border border-[#333] hover:border-[#555] rounded-[6px] px-[4px] py-[3px] text-[13px] font-medium transition-colors text-[#86868B] hover:text-[#E5E5E5] cursor-pointer shrink-0 ml-[8px] w-[64px] flex items-center justify-center"
                                             >
-                                                {expandedLogs[log.log_id] ? '[접기]' : '[펼쳐보기]'}
+                                                {expandedLogs[log.log_id] ? '접기' : '펼쳐보기'}
                                             </button>
                                         )}
                                     </div>
