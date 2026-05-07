@@ -635,7 +635,7 @@ export default function WorkspaceFinancing() {
                     </div>
 
                     {/* IOTA One, Two Details */}
-                    <div className="w-full mt-[32px] flex flex-col gap-[10px]">
+                    <div className="w-full mt-[42px] flex flex-col gap-0">
                         <VehicleDetailCard 
                             id="section-427" 
                             vehicleId="427"
@@ -654,7 +654,7 @@ export default function WorkspaceFinancing() {
                         />
                     </div>
 
-                    <div className="w-full h-[44px]"></div>
+                    <div className="w-full h-[14px]"></div>
 
                     {/* 월별 이자 발생 시계열 */}
                     <div className="w-full mb-[40px]">
@@ -767,54 +767,33 @@ export default function WorkspaceFinancing() {
                             </button>
                         </div>
                         
-                        <div className="w-full bg-transparent border border-[#3c3c3c] rounded-[24px] p-[32px] flex gap-[32px]">
-                            {/* Sidebar Filters */}
-                            <div className="w-[200px] shrink-0 flex flex-col">
-                                                                <select 
-                                    value={selectedLender} 
-                                    onChange={(e) => setSelectedLender(e.target.value)}
-                                    className="w-full bg-[#1A1A1A] border border-[#444] text-white text-[14px] rounded-[12px] px-[16px] py-[10px] outline-none hover:border-[#555] transition-colors focus:border-[#0a84ff] appearance-none"
-                                    style={{ backgroundImage: `url('data:image/svg+xml;utf8,<svg fill="none" stroke="%2386868B" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>')`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 16px center', backgroundSize: '16px' }}
-                                >
-                                    <option value="전체 대주">전체 대주</option>
-                                    {marketNews?.items?.map((g, i) => (
-                                        <option key={i} value={g.lender}>{g.lender}</option>
+                        <div className="w-full bg-[#1A1A1A] border border-[#3c3c3c] rounded-[24px] p-[32px] flex flex-col">
+                            {marketNews ? (
+                                <div className="flex flex-col w-full divide-y divide-[#333]">
+                                    {marketNews.items.map((group, idx) => (
+                                        <div key={idx} className="flex items-start py-[24px] first:pt-0 last:pb-0">
+                                            {/* Left side: Lender & Relation */}
+                                            <div className="w-[300px] shrink-0 flex flex-col gap-[4px] pr-[20px]">
+                                                <span className="text-white font-bold text-[15px]">{group.lender}</span>
+                                                <span className="text-[#86868B] text-[13px] leading-snug break-keep">{group.relation}</span>
+                                            </div>
+                                            
+                                            {/* Right side: 3 Articles */}
+                                            <div className="flex-1 flex flex-col gap-[14px]">
+                                                {group.articles.slice(0, 3).map((article, aIdx) => (
+                                                    <a key={aIdx} href={article.url} target="_blank" rel="noreferrer" className="text-[#E5E5E5] text-[14px] hover:text-[#0a84ff] transition-colors leading-none truncate">
+                                                        {article.title}
+                                                    </a>
+                                                ))}
+                                            </div>
+                                        </div>
                                     ))}
-                                </select>
-                                <div className="mt-[20px] text-[#666] text-[13px] font-['Inter'] leading-[22px]">
-                                    뉴스 {marketNews?.generatedAt ? new Date(marketNews.generatedAt).toLocaleString('ko-KR', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }) : '-'} <br/>
-                                    확인 {new Date().toLocaleString('ko-KR', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })} <br/>
-                                    통합 · 실시간 크롤링
                                 </div>
-                            </div>
-
-                            {/* News List */}
-                            <div className="flex-1 flex flex-col gap-[16px]">
-                                {marketNews ? (
-                                    marketNews.items
-                                        .filter(g => selectedLender === '전체 대주' || g.lender === selectedLender)
-                                        .flatMap(g => g.articles.map(a => ({ ...a, lender: g.lender })))
-                                        .sort((a,b) => new Date(b.date) - new Date(a.date))
-                                        .map((article, idx) => (
-                                            <a key={idx} href={article.url} target="_blank" rel="noreferrer" className="w-full bg-[#1A1A1A] border border-[#333] rounded-[16px] p-[20px] flex flex-col hover:border-[#555] hover:bg-[#222] transition-all group">
-                                                <div className="flex items-center gap-[10px] mb-[8px]">
-                                                    <span className="bg-[#2a2a2c] border border-[#444] text-[#A1A1AA] text-[11px] font-bold px-[8px] py-[2px] rounded-full">{article.lender}</span>
-                                                    <span className="text-[#666] text-[12px] font-['Inter']">{article.date} · {article.publisher}</span>
-                                                </div>
-                                                <h3 className="text-white text-[15px] font-bold leading-snug group-hover:text-[#0a84ff] transition-colors">{article.title}</h3>
-                                            </a>
-                                        ))
-                                ) : (
-                                    <div className="w-full h-[200px] flex items-center justify-center text-[#666] text-[14px]">
-                                        데이터를 불러오는 중입니다...
-                                    </div>
-                                )}
-                                {marketNews && marketNews.items.filter(g => selectedLender === '전체 대주' || g.lender === selectedLender).flatMap(g => g.articles).length === 0 && (
-                                    <div className="w-full h-[100px] flex items-center justify-center text-[#666] text-[14px]">
-                                        해당 대주의 최근 크롤링 뉴스가 없습니다.
-                                    </div>
-                                )}
-                            </div>
+                            ) : (
+                                <div className="w-full h-[200px] flex items-center justify-center text-[#666] text-[14px]">
+                                    데이터를 불러오는 중입니다...
+                                </div>
+                            )}
                         </div>
                     </div>
 
