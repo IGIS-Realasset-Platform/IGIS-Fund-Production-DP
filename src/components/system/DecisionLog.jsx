@@ -435,7 +435,7 @@ export default function DecisionLog() {
                     </div>
                 </div>
             </div>
-            <div className="w-full border border-[#3c3c3c] rounded-[24px] mb-[40px] flex flex-col bg-[#252525]">
+            <div className="w-full border border-[#3c3c3c] rounded-[24px] mb-[30px] flex flex-col bg-[#252525]">
                 {/* Header Row */}
                 <div className="w-full px-[20px] py-[12px] flex items-center border-b border-[#3c3c3c] bg-transparent rounded-t-[24px]">
                     {/* Left Section */}
@@ -805,7 +805,7 @@ export default function DecisionLog() {
                 )}
 
                 {logsViewMode === 'full' && totalPages > 1 && (
-                    <div className="w-full py-[18px] flex justify-center items-center gap-[12px]">
+                    <div className="w-full py-[12px] flex justify-center items-center gap-[12px]">
                         <button 
                             disabled={currentPage === 1}
                             onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
