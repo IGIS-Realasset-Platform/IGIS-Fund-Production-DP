@@ -102,6 +102,20 @@ export default function DecisionLog() {
         return cells[name] || '기타';
     };
 
+    const getLogCell = (log) => {
+        if (log.metadata?.workspace_label) {
+            const lbl = log.metadata.workspace_label;
+            if (lbl.includes('사업 PM') || lbl.includes('사업PM')) return '사업PM';
+            if (lbl.includes('파이낸싱')) return '파이낸싱-LFC';
+            if (lbl.includes('개발솔루션')) return '개발솔루션-DSC';
+            if (lbl.includes('기업마케팅')) return '기업마케팅-EMC';
+            if (lbl.includes('상품·디지털') || lbl.includes('상품/디지털')) return '상품·디지털-SSC';
+            if (lbl.includes('펀드운용')) return '펀드운용-KAM';
+            if (lbl.includes('IPR')) return 'IPR';
+        }
+        return getCellName(log.writer_name);
+    };
+
     const fetchMasterStakeholders = async () => {
         try {
             const { data, error } = await supabase.from('iota_stakeholder_master').select('*');
@@ -275,7 +289,7 @@ export default function DecisionLog() {
     const searchFilteredLogs = logs.filter(log => {
         if (showMyLogsOnly && log.writer_staff_id !== memberInfo?.email) return false;
         if (filterStakeholder && log.iota_seoul_log_stakeholders?.[0]?.role_category !== filterStakeholder) return false;
-        if (filterCell && getCellName(log.writer_name) !== filterCell) return false;
+        if (filterCell && getLogCell(log) !== filterCell) return false;
         if (filterPurpose && (log.metadata?.triage_type || '공유') !== filterPurpose) return false;
         if (filterStatus && (log.metadata?.issue_status || '진행중') !== filterStatus) return false;
         if (filterPriority && (log.metadata?.priority || '중간') !== filterPriority) return false;
@@ -284,7 +298,7 @@ export default function DecisionLog() {
         const query = logSearchQuery.toLowerCase();
         const rawMatch = (log.raw_text || '').toLowerCase().includes(query);
         const nameMatch = (log.writer_name || '').toLowerCase().includes(query);
-        const cellMatch = getCellName(log.writer_name).toLowerCase().includes(query);
+        const cellMatch = getLogCell(log).toLowerCase().includes(query);
         const shMatch = (log.iota_seoul_log_stakeholders?.[0]?.sh_name || '').toLowerCase().includes(query);
         return rawMatch || nameMatch || cellMatch || shMatch;
     });
@@ -310,7 +324,7 @@ export default function DecisionLog() {
     
     // Group active logs by cell
     const issuesByWorkspace = workspaces.map(ws => {
-        const cellLogs = activeLogs.filter(l => getCellName(l.writer_name) === ws.cell);
+        const cellLogs = activeLogs.filter(l => getLogCell(l) === ws.cell);
         const totalCount = cellLogs.length;
         const recentLogs = cellLogs.filter(l => new Date(l.work_date || l.created_at) >= twoWeeksAgo);
         const recentCount = recentLogs.length;
@@ -546,7 +560,7 @@ export default function DecisionLog() {
                                     {/* Cell Name */}
                                     <div className="w-[80px] shrink-0 translate-x-[4px] flex justify-center">
                                         <span className="text-[13px] font-medium text-[#86868B]">
-                                            {getCellName(log.writer_name).replace(/-(LFC|DSC|EMC|SSC|KAM)$/, '')}
+                                            {getLogCell(log).replace(/-(LFC|DSC|EMC|SSC|KAM)$/, '')}
                                         </span>
                                     </div>
 

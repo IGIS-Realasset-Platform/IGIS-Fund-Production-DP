@@ -206,6 +206,20 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
         return cells[name] || '기타';
     };
 
+    const getLogCell = (log) => {
+        if (log.metadata?.workspace_label) {
+            const lbl = log.metadata.workspace_label;
+            if (lbl.includes('사업 PM') || lbl.includes('사업PM')) return '사업PM';
+            if (lbl.includes('파이낸싱')) return '파이낸싱-LFC';
+            if (lbl.includes('개발솔루션')) return '개발솔루션-DSC';
+            if (lbl.includes('기업마케팅')) return '기업마케팅-EMC';
+            if (lbl.includes('상품·디지털') || lbl.includes('상품/디지털')) return '상품·디지털-SSC';
+            if (lbl.includes('펀드운용')) return '펀드운용-KAM';
+            if (lbl.includes('IPR')) return 'IPR';
+        }
+        return getCellName(log.writer_name);
+    };
+
     const formatDateYYMMDD = (dateStr) => {
         if (!dateStr) return '';
         const d = new Date(dateStr);
@@ -221,7 +235,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
 
     const logsPerPage = logsViewMode === 'summary' ? 5 : 20;
     const filteredLogs = logs.filter(log => {
-        const cell = getCellName(log.writer_name);
+        const cell = getLogCell(log);
         
         if (filterStakeholder && log.iota_seoul_log_stakeholders?.[0]?.role_category !== filterStakeholder) return false;
         if (filterCell && cell !== filterCell) return false;
@@ -403,7 +417,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
                                     {/* Cell Name */}
                                     <div className="w-[80px] shrink-0 translate-x-[4px] flex justify-center">
                                         <span className="text-[13px] font-medium text-[#86868B]">
-                                            {getCellName(log.writer_name).replace(/-(LFC|DSC|EMC|SSC|KAM)$/, '')}
+                                            {getLogCell(log).replace(/-(LFC|DSC|EMC|SSC|KAM)$/, '')}
                                         </span>
                                     </div>
 
