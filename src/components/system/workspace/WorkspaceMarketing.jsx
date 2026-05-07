@@ -17,9 +17,46 @@ export default function WorkspaceMarketing() {
     const [projectShowAll, setProjectShowAll] = useState(false);
     const [pipelineShowAll, setPipelineShowAll] = useState(false);
 
+    // Stakeholder States
+    const [masterStakeholders, setMasterStakeholders] = useState([]);
+    const [companyQuery, setCompanyQuery] = useState('');
+    const [showCompanyDropdown, setShowCompanyDropdown] = useState(false);
+    const [showNewStakeholderModal, setShowNewStakeholderModal] = useState(false);
+
     useEffect(() => {
         fetchTasks();
+        fetchMasterStakeholders();
     }, []);
+
+    const fetchMasterStakeholders = async () => {
+        try {
+            const { data, error } = await supabase.from('iota_stakeholder_master').select('*');
+            if (!error && data) {
+                setMasterStakeholders(data);
+            }
+        } catch (e) {
+            console.error('Master stakeholder fetch error:', e);
+        }
+    };
+    
+    const registerMasterStakeholder = async () => {
+        try {
+            const { error } = await supabase.from('iota_stakeholder_master').insert({
+                company_name: companyQuery
+            });
+            if (!error) {
+                await fetchMasterStakeholders();
+                setShowNewStakeholderModal(false);
+            } else {
+                alert('이해관계자 등록 중 오류가 발생했습니다.');
+            }
+        } catch (e) {
+            alert('연결 오류');
+        }
+    };
+
+    const uniqueCompanies = [...new Set(masterStakeholders.map(s => s.company_name).filter(Boolean))];
+    const filteredCompanies = uniqueCompanies.filter(c => c.toLowerCase().includes(companyQuery.toLowerCase()));
 
     const fetchTasks = async () => {
         try {
@@ -43,6 +80,7 @@ export default function WorkspaceMarketing() {
             if (error) throw error;
             
             setNewTask({ task_name: '', company_name: '', related_asset: 'IOTA 공통', status: '아이데이션', priority: '중간', due_date: '', next_action: '' });
+            setCompanyQuery('');
             setIsAdding(false);
             fetchTasks();
         } catch (e) {
@@ -171,16 +209,58 @@ export default function WorkspaceMarketing() {
                                     <input type="text" value={newTask.task_name} onChange={e => setNewTask({...newTask, task_name: e.target.value})} className="w-full bg-[#272726] border border-[#444] rounded-[6px] px-[8px] py-[6px] text-white text-[13px] outline-none focus:border-[#888]" placeholder="Task 입력" />
                                 </td>
                                 <td className="px-[12px] py-[12px]">
-                                    <input type="text" value={newTask.company_name} onChange={e => setNewTask({...newTask, company_name: e.target.value})} className="w-full bg-[#272726] border border-[#444] rounded-[6px] px-[8px] py-[6px] text-white text-[13px] outline-none focus:border-[#888]" placeholder="기업명" />
+                                    <div className="relative">
+                                        <input 
+                                            type="text" 
+                                            value={companyQuery} 
+                                            onChange={e => {
+                                                setCompanyQuery(e.target.value);
+                                                setShowCompanyDropdown(true);
+                                                setNewTask({...newTask, company_name: e.target.value});
+                                            }}
+                                            onFocus={() => setShowCompanyDropdown(true)}
+                                            onBlur={() => setTimeout(() => setShowCompanyDropdown(false), 200)}
+                                            className="w-full bg-[#272726] border border-[#444] rounded-[6px] px-[8px] py-[6px] text-white text-[13px] outline-none focus:border-[#888]" 
+                                            placeholder="기업명 검색" 
+                                        />
+                                        {showCompanyDropdown && companyQuery && (
+                                            <div className="absolute top-full left-0 mt-1 w-full max-h-[150px] overflow-y-auto bg-[#2A2A2A] border border-[#444] rounded-[6px] z-50 shadow-xl">
+                                                {filteredCompanies.length > 0 ? (
+                                                    filteredCompanies.map((c, i) => (
+                                                        <div 
+                                                            key={i} 
+                                                            className="px-3 py-2 text-[13px] text-white hover:bg-[#3b82f6] cursor-pointer"
+                                                            onMouseDown={(e) => {
+                                                                e.preventDefault();
+                                                                setCompanyQuery(c);
+                                                                setNewTask({...newTask, company_name: c});
+                                                                setShowCompanyDropdown(false);
+                                                            }}
+                                                        >
+                                                            {c}
+                                                        </div>
+                                                    ))
+                                                ) : (
+                                                    <div className="px-3 py-2">
+                                                        <span className="text-[#A1A1AA] text-[12px] block mb-2">검색 결과가 없습니다.</span>
+                                                        <button 
+                                                            type="button"
+                                                            onMouseDown={(e) => { e.preventDefault(); setShowNewStakeholderModal(true); setShowCompanyDropdown(false); }}
+                                                            className="w-full px-2 py-1 bg-[#3b82f6] hover:bg-[#2563eb] text-white text-[12px] rounded-[4px] transition-colors"
+                                                        >
+                                                            + 신규 등록
+                                                        </button>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        )}
+                                    </div>
                                 </td>
                                 <td className="px-[12px] py-[12px]">
                                     <select value={newTask.related_asset} onChange={e => setNewTask({...newTask, related_asset: e.target.value})} className="w-full bg-[#272726] border border-[#444] rounded-[6px] px-[8px] py-[6px] text-white text-[13px] outline-none focus:border-[#888]">
                                         <option>IOTA 공통</option>
-                                        <option>IOTA One (427)</option>
-                                        <option>IOTA Two (816)</option>
-                                        <option>서리풀</option>
-                                        <option>타임워크 분당</option>
-                                        <option>타임워크 신도림</option>
+                                        <option>IOTA 427</option>
+                                        <option>IOTA 816</option>
                                     </select>
                                 </td>
                                 <td className="px-[12px] py-[12px]">
@@ -204,7 +284,7 @@ export default function WorkspaceMarketing() {
                                 <td className="px-[12px] py-[12px] text-center">
                                     <div className="flex flex-col gap-1">
                                         <button onClick={handleSaveRow} className="text-[#34d399] hover:text-[#10b981] text-[12px] font-bold">저장</button>
-                                        <button onClick={() => setIsAdding(false)} className="text-[#86868B] hover:text-white text-[12px]">취소</button>
+                                        <button onClick={() => { setIsAdding(false); setCompanyQuery(''); }} className="text-[#86868B] hover:text-white text-[12px]">취소</button>
                                     </div>
                                 </td>
                             </tr>
@@ -223,7 +303,7 @@ export default function WorkspaceMarketing() {
                                         </span>
                                     </td>
                                     <td className="px-[16px] py-[16px]">
-                                        <span className={`text-[13px] font-bold ${row.priority === '높음' ? 'text-[#ef4444]' : row.priority === '중간' ? 'text-[#fbf167]' : 'text-[#86868B]'}`}>{row.priority}</span>
+                                        <span className={`text-[13px] font-bold ${row.priority === '높음' ? 'text-[#ef4444]' : row.priority === '중간' ? 'text-[#3b82f6]' : 'text-[#10b981]'}`}>{row.priority}</span>
                                     </td>
                                     <td className="px-[16px] py-[16px] text-[13px] text-[#A1A1AA] font-['Inter']">{row.due_date}</td>
                                     <td className="px-[16px] py-[16px] text-[13px] text-[#E5E5E5] leading-relaxed break-keep">{parseNames(row.next_action)}</td>
@@ -292,6 +372,19 @@ export default function WorkspaceMarketing() {
                     </div>
                 )}
             </div>
+            {/* Pipeline 관리 하단 */}
+            {showNewStakeholderModal && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm">
+                    <div className="bg-[#1A1A1A] border border-[#333] rounded-[16px] w-[400px] shadow-2xl p-[24px]">
+                        <h3 className="text-white font-bold text-[16px] mb-[16px]">신규 이해관계자 등록</h3>
+                        <p className="text-[#A1A1AA] text-[13px] mb-[20px]">입력하신 "{companyQuery}" 기업을 DB에 등록하시겠습니까?</p>
+                        <div className="flex gap-[10px] justify-end">
+                            <button onClick={() => setShowNewStakeholderModal(false)} className="px-[16px] py-[8px] rounded-[8px] bg-[#333] text-white text-[13px] font-bold">취소</button>
+                            <button onClick={registerMasterStakeholder} className="px-[16px] py-[8px] rounded-[8px] bg-[#3b82f6] hover:bg-[#2563eb] text-white text-[13px] font-bold">등록하기</button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
