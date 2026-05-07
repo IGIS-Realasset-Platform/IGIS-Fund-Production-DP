@@ -468,6 +468,14 @@ export default function StakeLp() {
     }, []);
 
     useEffect(() => {
+        const timer = setTimeout(() => {
+            setLoading(false);
+            setIotaData(prev => prev || { error: '연결 시간이 초과되었습니다. 페이지를 새로고침 해주세요.' });
+        }, 12000);
+        return () => clearTimeout(timer);
+    }, []);
+
+    useEffect(() => {
         if (!loading && window.location.hash) {
             const id = window.location.hash.substring(1);
             setTimeout(() => {

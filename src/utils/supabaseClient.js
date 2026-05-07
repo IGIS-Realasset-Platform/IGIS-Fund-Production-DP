@@ -17,7 +17,7 @@ if (!window.__SUPABASE_CLIENT__) {
             timeoutId = setTimeout(() => {
                 console.warn(`Supabase fetch timeout exceeded for url: ${url}`);
                 controller.abort();
-            }, 15000); // 15 seconds global timeout
+            }, 8000); // 8 seconds global timeout
         }
 
         if (options && options.signal) {

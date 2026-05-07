@@ -1,5 +1,3 @@
-import { supabase } from './supabaseClient';
-
 export const fetchWithRetry = async (queryFn, maxRetries = 3, delayMs = 500, signal = null) => {
     let lastError = null;
     for (let i = 0; i < maxRetries; i++) {
@@ -24,11 +22,14 @@ export const fetchWithRetry = async (queryFn, maxRetries = 3, delayMs = 500, sig
         
         lastError = error;
         // If it's a lock stolen error, network issue, or our custom timeout abort, retry
+        // AbortError means our timeout fired or user navigated away — don't retry, just bail
+        if (error.name === 'AbortError' || (error.message && error.message.toLowerCase().includes('abort'))) {
+            break;
+        }
+
         if (
-            (error.message && error.message.includes('Lock')) || 
-            (error.message && error.message.toLowerCase().includes('fetch')) ||
-            (error.message && error.message.toLowerCase().includes('abort')) ||
-            error.name === 'AbortError'
+            (error.message && error.message.includes('Lock')) ||
+            (error.message && error.message.toLowerCase().includes('fetch'))
         ) {
             await new Promise(resolve => setTimeout(resolve, delayMs));
             continue;
