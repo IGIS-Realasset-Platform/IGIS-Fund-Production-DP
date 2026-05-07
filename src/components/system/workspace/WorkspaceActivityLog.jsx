@@ -370,7 +370,10 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
                 {displayedLogs.map((log, index) => (
                     <div key={log.log_id} className={`relative w-full px-[20px] py-[16px] flex flex-col group transition-colors hover:bg-white/5 last:rounded-b-[24px] ${index !== displayedLogs.length - 1 ? 'border-b border-[#3c3c3c]' : ''}`}>
                         {/* Main Row */}
-                        <div className="w-full flex items-center justify-between">
+                        <div 
+                            className="w-full flex items-center justify-between cursor-pointer"
+                            onClick={() => toggleExpand(log.log_id)}
+                        >
                             {/* Left Section */}
                             <div className="flex items-center flex-1 min-w-0">
                                 {/* Project Button */}
@@ -420,27 +423,11 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
                                     {/* Content */}
                                     <div className="flex-1 min-w-0 pr-0 flex items-center gap-[8px] translate-x-[2px]">
                                         <div 
-                                            className="flex-1 min-w-0 text-[14px] text-[#E5E5E5] truncate cursor-pointer hover:text-white transition-colors"
-                                            onClick={(e) => { e.stopPropagation(); toggleExpand(log.log_id); }}
+                                            className="flex-1 min-w-0 text-[14px] text-[#E5E5E5] truncate hover:text-white transition-colors"
                                         >
                                             {log.raw_text ? log.raw_text.split('\n')[0] : ''}
                                             {log.metadata?.comments?.length > 0 && <span className="text-[#3b82f6] ml-[6px] font-bold text-[13px]">({log.metadata.comments.length})</span>}
                                         </div>
-                                        {log.raw_text && log.raw_text.length > 40 && (
-                                            <button 
-                                                type="button"
-                                                onClick={(e) => { e.stopPropagation(); toggleExpand(log.log_id); }}
-                                                className="bg-white/5 border border-[#333] hover:border-[#555] rounded-[6px] pl-[6px] pr-[5px] h-[23px] transition-colors text-[#86868B] hover:text-[#E5E5E5] cursor-pointer shrink-0 ml-[8px] w-[73px] flex items-center justify-center gap-[4px]"
-                                            >
-                                                <span className="text-[12px] font-medium leading-none">{expandedLogs[log.log_id] ? '접기' : '펼쳐보기'}</span>
-                                                <svg 
-                                                    width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
-                                                    className={`transition-transform duration-200 ${expandedLogs[log.log_id] ? 'rotate-180' : ''}`}
-                                                >
-                                                    <polyline points="6 9 12 15 18 9"></polyline>
-                                                </svg>
-                                            </button>
-                                        )}
                                     </div>
                                 </div>
                             </div>
