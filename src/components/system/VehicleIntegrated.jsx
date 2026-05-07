@@ -274,7 +274,7 @@ export default function VehicleIntegrated() {
 
         return (
             <div id={id} className="mb-12">
-                <div className="flex justify-between items-end mb-[24px]">
+                <div className="flex justify-between items-end mb-[16px]">
                     <h2 className="text-[24px] font-bold text-white tracking-tight">{title}</h2>
                     {toggleContent}
                 </div>
@@ -697,7 +697,7 @@ export default function VehicleIntegrated() {
         <div className="w-[1200px] mx-auto flex-1 flex flex-col pt-[60px] shrink-0 pb-[100px]">
             
             {/* 1. 종합 */}
-            <div className="mb-12">
+            <div className="mb-[28px]">
                 <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[8px]">통합 Vehicle 파이낸싱 구조</h1>
                 <p className="text-[16px] text-[#86868B] mb-[24px] leading-[26px]">IOTA Seoul 프로젝트 전체의 자본 구조 및 펀드별 에쿼티/론 조달 현황입니다.</p>
                 
@@ -819,7 +819,7 @@ export default function VehicleIntegrated() {
 
             {/* 5. IPR */}
             <div id="section-ipr" className="mb-12">
-                <div className="flex justify-between items-end mb-[24px]">
+                <div className="flex justify-between items-end mb-[16px]">
                     <h2 className="text-[24px] font-bold text-white tracking-tight">4. IPR (Iota Project REITs)</h2>
                     <button 
                         onClick={() => navigateTo('platform/iotaseoul/workspace/ipr')}
