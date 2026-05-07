@@ -25,6 +25,11 @@ const menuItems = [
         ),
         subItems: [
             {
+                id: 'integrated',
+                label: 'Vehicle 통합구조',
+                path: 'platform/iotaseoul/vehicle-integrated'
+            },
+            {
                 id: 3,
                 label: 'IOTA One 427',
                 path: 'platform/iotaseoul/iota-one-427'
@@ -135,7 +140,12 @@ export default function IotaLeftNav({ onMenuChange, currentPath = '' }) {
     };
     const [isStakeholderOpen, setIsStakeholderOpen] = useState(true);
     const [isGovOpen, setIsGovOpen] = useState(true);
-    const [isVehicleOpen, setIsVehicleOpen] = useState(false);
+    const [isVehicleOpen, setIsVehicleOpen] = useState(
+        currentPath === 'platform/iotaseoul/vehicle-integrated' ||
+        currentPath === 'platform/iotaseoul/iota-one-427' ||
+        currentPath === 'platform/iotaseoul/iota-two-816' ||
+        currentPath === 'platform/iotaseoul/421-fund'
+    );
 
     return (
         <div className="w-[275px] h-full bg-transparent border-r border-[#2C2C2E] flex flex-col flex-shrink-0 text-[14px] font-sans text-white transition-colors duration-300">
