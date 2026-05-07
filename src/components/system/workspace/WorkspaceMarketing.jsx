@@ -145,12 +145,13 @@ export default function WorkspaceMarketing() {
                 <h2 className="text-[18px] font-bold text-white tracking-tight">기업마케팅 주요 테스크 관리</h2>
                 <button 
                     onClick={handleAddClick}
-                    className="px-[14px] py-[6px] bg-[#333] hover:bg-[#444] border border-[#444] text-[#E5E5E5] text-[13px] font-bold rounded-[8px] transition-colors"
+                    className="px-[14px] py-[6px] bg-[#333] hover:bg-[#444] border border-[#444] text-[#E5E5E5] text-[13px] font-bold rounded-[8px] transition-colors cursor-pointer"
                 >
                     + Task 등록하기
                 </button>
             </div>
-            <div className="w-full bg-[#262626] border border-[#3c3c3c] rounded-[24px] overflow-hidden mb-[40px]">
+            <div className="w-full rounded-[24px] p-[1px] bg-gradient-to-br from-[#d6efe9] via-[#82afb9] to-[#4c6e86] mb-[40px]">
+                <div className="w-full h-full bg-[#262626] rounded-[23px] overflow-hidden">
                 <table className="w-full text-left table-fixed">
                     <thead className="bg-[#1A1A1A]">
                         <tr>
@@ -239,20 +240,22 @@ export default function WorkspaceMarketing() {
                     <div className="w-full border-t border-[#3c3c3c] p-2 flex justify-center bg-[#1A1A1A]">
                         <button 
                             onClick={() => setProjectShowAll(!projectShowAll)}
-                            className="text-[13px] font-bold text-[#A1A1AA] hover:text-white transition-colors px-4 py-2"
+                            className="text-[13px] font-bold text-[#A1A1AA] hover:text-white transition-colors px-4 py-2 cursor-pointer"
                         >
                             {projectShowAll ? '접기' : `더보기 (${tasks.length - 5}개)`}
                         </button>
                     </div>
                 )}
+                </div>
             </div>
             
-            {/* 3. Pipeline 관리 */} {/* 3. Pipeline 관리 */}
+            {/* 3. Pipeline 관리 */}
             <div className="flex justify-between items-end mb-[24px]">
                 <h2 className="text-[18px] font-bold text-white">Pipe line 관리</h2>
                 <span className="text-[13px] text-[#86868B]">수기 입력 중심 운영 (컨택 포인트 포함)</span>
             </div>
-            <div className="w-full bg-[#1A1A1A] border border-[#333] rounded-[24px] overflow-hidden mb-[40px]">
+            <div className="w-full rounded-[24px] p-[1px] bg-gradient-to-br from-[#d6efe9] via-[#82afb9] to-[#4c6e86] mb-[40px]">
+                <div className="w-full h-full bg-[#262626] rounded-[23px] overflow-hidden">
                 <table className="w-full text-left">
                     <thead className="bg-[#222]">
                         <tr>
@@ -285,12 +288,13 @@ export default function WorkspaceMarketing() {
                     <div className="w-full border-t border-[#333] p-2 flex justify-center bg-[#222]">
                         <button 
                             onClick={() => setPipelineShowAll(!pipelineShowAll)}
-                            className="text-[13px] font-bold text-[#A1A1AA] hover:text-white transition-colors px-4 py-2"
+                            className="text-[13px] font-bold text-[#A1A1AA] hover:text-white transition-colors px-4 py-2 cursor-pointer"
                         >
                             {pipelineShowAll ? '접기' : `더보기 (${pipelines.length - 5}개)`}
                         </button>
                     </div>
                 )}
+                </div>
             </div>
         </div>
     );
