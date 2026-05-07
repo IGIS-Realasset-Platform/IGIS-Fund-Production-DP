@@ -165,10 +165,10 @@ export default function WorkspaceDevelopment() {
 
             {/* Development Milestones */}
             <div className="w-full mb-[40px]">
-                <div className="w-full flex gap-[32px]">
+                <div className="w-full flex gap-[24px]">
                     
                     {/* IOTA One 427 */}
-                    <div className="flex-1 bg-transparent border border-[#333] rounded-[24px] p-[28px]">
+                    <div className="flex-1 bg-[#292928]/50 border border-[#333] rounded-[24px] p-[28px]">
                         <div className="flex justify-between items-center mb-[24px]">
                             <h3 className="text-[24px] font-bold text-white leading-none">IOTA One 427</h3>
                             <div className="px-[12px] py-[6px] bg-[#222] border border-[#333] rounded-full">
@@ -177,7 +177,7 @@ export default function WorkspaceDevelopment() {
                         </div>
 
                         {/* Table Header */}
-                        <div className="grid grid-cols-[1fr_50px_60px_50px_60px] gap-[16px] mb-[16px] pb-[8px] px-[8px]">
+                        <div className="grid grid-cols-[1fr_50px_60px_50px_60px] gap-[16px] mb-[16px] px-[8px]">
                             <span className="text-[13px] font-bold text-[#86868B]">마일스톤</span>
                             <span className="text-[13px] font-bold text-[#86868B] text-center">UW</span>
                             <span className="text-[13px] font-bold text-[#86868B] text-center">실제</span>
@@ -212,7 +212,7 @@ export default function WorkspaceDevelopment() {
                     </div>
 
                     {/* IOTA Two 816 */}
-                    <div className="flex-1 bg-transparent border border-[#333] rounded-[24px] p-[28px]">
+                    <div className="flex-1 bg-[#292928]/50 border border-[#333] rounded-[24px] p-[28px]">
                         <div className="flex justify-between items-center mb-[24px]">
                             <h3 className="text-[24px] font-bold text-white leading-none">IOTA Two 816</h3>
                             <div className="px-[12px] py-[6px] bg-[#222] border border-[#333] rounded-full">
@@ -221,7 +221,7 @@ export default function WorkspaceDevelopment() {
                         </div>
 
                         {/* Table Header */}
-                        <div className="grid grid-cols-[1fr_50px_60px_50px_60px] gap-[16px] mb-[16px] pb-[8px] px-[8px]">
+                        <div className="grid grid-cols-[1fr_50px_60px_50px_60px] gap-[16px] mb-[16px] px-[8px]">
                             <span className="text-[13px] font-bold text-[#86868B]">마일스톤</span>
                             <span className="text-[13px] font-bold text-[#86868B] text-center">UW</span>
                             <span className="text-[13px] font-bold text-[#86868B] text-center">실제</span>
