@@ -384,7 +384,6 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                             <option value="SI">SI</option>
                             <option value="잠재임차사">잠재임차사</option>
                             <option value="운영 파트너">운영 파트너</option>
-                            <option value="운영 파트너">운영 파트너</option>
                             <option value="IGIS 내부인력">IGIS 내부인력</option>
                         </select>
                     </label>
