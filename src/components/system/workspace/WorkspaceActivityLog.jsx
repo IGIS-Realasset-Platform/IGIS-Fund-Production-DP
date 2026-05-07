@@ -302,17 +302,9 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
                         </div>
                         <div className="flex flex-1 min-w-0 translate-x-[-20px]">
                             <div className="w-[80px] shrink-0 translate-x-[4px] flex justify-center">
-                                <select 
-                                    value={filterCell}
-                                    onChange={e => { setFilterCell(e.target.value); setCurrentPage(1); }}
-                                    className={`bg-white/5 border border-transparent text-[12px] font-bold cursor-pointer appearance-none focus:outline-none w-[60px] hover:text-white hover:bg-white/10 rounded-[8px] px-[2px] py-[4px] transition-colors ${filterCell ? 'text-[#fbf167]' : 'text-[#A1A1AA]'}`}
-                                    style={{ textAlignLast: 'center' }}
-                                >
-                                    <option value="" className="bg-[#222] text-[#E5E5E5]">기능셀</option>
-                                    {['사업PM', '파이낸싱-LFC', '개발솔루션-DSC', '기업마케팅-EMC', '상품·디지털-SSC', '펀드운용-KAM', 'IPR', '기획추진', 'CFT 총괄'].map(val => (
-                                        <option key={val} value={val} className="bg-[#222] text-[#E5E5E5]">{val.replace(/-(LFC|DSC|EMC|SSC|KAM)$/, '')}</option>
-                                    ))}
-                                </select>
+                                <div className="text-[12px] font-bold text-[#fbf167] px-[2px] py-[4px] text-center w-[60px]">
+                                    {filterCell ? filterCell.replace(/-(LFC|DSC|EMC|SSC|KAM)$/, '') : '기능셀'}
+                                </div>
                             </div>
                             <div className="w-[110px] shrink-0 translate-x-[10px] flex items-center">
                                 <span className="text-[13px] font-bold text-[#86868B] pl-[20px]">등록자</span>
