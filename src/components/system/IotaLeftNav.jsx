@@ -113,9 +113,7 @@ export default function IotaLeftNav({ onMenuChange, currentPath = '' }) {
     
     const handleNavigation = (path) => {
         const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
-        window.history.pushState(null, '', `${base}/${path}`);
-        window.dispatchEvent(new Event('popstate'));
-        onMenuChange?.(path);
+        window.location.href = `${base}/${path}`;
     };
     const { user, memberInfo, signOut } = useAuth();
     const [showProfileMenu, setShowProfileMenu] = useState(false);
@@ -168,9 +166,6 @@ export default function IotaLeftNav({ onMenuChange, currentPath = '' }) {
                             <div key={item.id} className="flex flex-col">
                                 <div
                                     onClick={() => {
-                                        if (currentPath === item.path) {
-                                            window.dispatchEvent(new Event('refetch-data'));
-                                        }
                                         handleNavigation(item.path);
                                         if (hasSubItems && item.id === 2) {
                                             setIsVehicleOpen(!isVehicleOpen);
