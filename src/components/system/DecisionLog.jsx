@@ -283,7 +283,7 @@ export default function DecisionLog() {
         }
     };
 
-    const itemsPerPage = logsViewMode === 'summary' ? 5 : 10;
+    const itemsPerPage = logsViewMode === 'summary' ? 5 : 15;
     
     // Filter by search query and dropdowns
     const searchFilteredLogs = logs.filter(log => {
@@ -525,7 +525,7 @@ export default function DecisionLog() {
                     </div>
                 </div>
                 {displayedLogs.map((log, index) => (
-                    <div key={log.log_id} className={`relative w-full px-[20px] py-[16px] flex flex-col group transition-colors hover:bg-white/5 last:rounded-b-[24px] ${index !== displayedLogs.length - 1 ? 'border-b border-[#3c3c3c]' : ''}`}>
+                    <div key={log.log_id} className="relative w-full px-[20px] py-[16px] flex flex-col group transition-colors hover:bg-white/5 last:rounded-b-[24px] border-b border-[#3c3c3c]">
                         {/* Main Row */}
                         <div 
                             className="w-full flex items-center justify-between cursor-pointer"
@@ -805,7 +805,7 @@ export default function DecisionLog() {
                 )}
 
                 {logsViewMode === 'full' && totalPages > 1 && (
-                    <div className="w-full py-[24px] flex justify-center items-center gap-[12px]">
+                    <div className="w-full py-[18px] flex justify-center items-center gap-[12px]">
                         <button 
                             disabled={currentPage === 1}
                             onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
