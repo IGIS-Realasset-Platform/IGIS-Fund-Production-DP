@@ -1,0 +1,72 @@
+[
+    {
+        "id": "pf-plan-01",
+        "step": "01",
+        "name": "통합 PF 구조 확정",
+        "work": "427 본PF와 816 후속 PF를 통합 관점에서 연결",
+        "materials": "통합 자금구조표, 상환재원 표",
+        "counterparty": "주관기관 후보",
+        "target": "",
+        "next": "최종 엑셀 수령 후 구조표와 tranche sizing 연결"
+    },
+    {
+        "id": "pf-plan-02",
+        "step": "02",
+        "name": "Tranche sizing",
+        "work": "Senior, 중순위, 후순위, 주주대여금의 역할 구분",
+        "materials": "Capital stack, 대주별 조건표",
+        "counterparty": "대주단 / 증권사",
+        "target": "",
+        "next": "금액은 최종 엑셀 수령 후 반영"
+    },
+    {
+        "id": "pf-plan-03",
+        "step": "03",
+        "name": "주관·참여기관 협의",
+        "work": "대주단과의 구체적인 조건 협의",
+        "materials": "협의 메모, term sheet",
+        "counterparty": "KB, NH, 신한 등",
+        "target": "",
+        "next": ""
+    },
+    {
+        "id": "pf-plan-04",
+        "step": "04",
+        "name": "Term sheet 정리",
+        "work": "금융조건의 서면화 및 최종 조율",
+        "materials": "대출 조건표, 약정 주요 조건",
+        "counterparty": "대주단",
+        "target": "",
+        "next": ""
+    },
+    {
+        "id": "pf-plan-05",
+        "step": "05",
+        "name": "심의·승인 패키지",
+        "work": "대주단 내부 심의용 자료 작성",
+        "materials": "IM, 리스크심의, 사업계획, 모델",
+        "counterparty": "내부 심의 / 대주 심사",
+        "target": "",
+        "next": ""
+    },
+    {
+        "id": "pf-plan-06",
+        "step": "06",
+        "name": "약정서·담보 패키지",
+        "work": "대출약정서 및 제반 담보 계약 체결",
+        "materials": "약정서, 담보계약, 책임준공 관련 문서",
+        "counterparty": "법무 / 대주단 / 시공사",
+        "target": "",
+        "next": ""
+    },
+    {
+        "id": "pf-plan-07",
+        "step": "07",
+        "name": "기표 및 기존 대출 상환",
+        "work": "자금 집행 및 브릿지론 상환",
+        "materials": "기표 일정, 상환계획, 자금집행표",
+        "counterparty": "대리금융기관 / 대주단",
+        "target": "",
+        "next": ""
+    }
+]
