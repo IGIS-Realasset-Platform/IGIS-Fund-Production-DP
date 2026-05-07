@@ -11,7 +11,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
     const [stakeholderCat, setStakeholderCat] = useState('');
     const [workDate, setWorkDate] = useState(new Date().toISOString().slice(0, 10));
     const [content, setContent] = useState('');
-    const [isExpanded, setIsExpanded] = useState(false);
+    const [isExpanded, setIsExpanded] = useState(true);
     const [isSubmitting, setIsSubmitting] = useState(false);
     
     // Stakeholder Search States
@@ -292,12 +292,34 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
         <div className="w-full rounded-[24px] p-[1px] bg-gradient-to-br from-[#d6efe9] via-[#82afb9] to-[#4c6e86] mb-[11px]">
             <div className="w-full h-full bg-[#262626] rounded-[23px] overflow-hidden">
                 {/* Header */}
-                <div className="w-full px-[20px] py-[10px] border-b border-[#333] flex items-center gap-[12px]">
+                <div 
+                    className={`w-full px-[20px] py-[10px] border-b border-[#333] flex items-center gap-[12px] ${!isExpanded ? 'cursor-pointer hover:bg-[#2a2a2a] transition-colors' : ''}`}
+                    onClick={() => {
+                        if (!isExpanded) setIsExpanded(true);
+                    }}
+                >
                     <div className="relative w-[40px] h-[40px] shrink-0 rounded-full bg-[#3c3c3c] flex items-center justify-center overflow-hidden border border-white/10">
                         <img src={`${import.meta.env.BASE_URL}${memberInfo?.staff_name || 'default'}.webp`} alt="User" className="w-full h-full object-cover" onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }} />
                     </div>
 
-                    <select value={projectId} onChange={(e) => setProjectId(e.target.value)} className="bg-transparent border border-[#333] rounded-[16px] px-[16px] py-[8px] ml-[-2px] text-white font-semibold text-[14px] outline-none cursor-pointer appearance-none pr-[32px] relative" style={{ backgroundImage: iconChevronGray, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center' }}>
+                    {!isExpanded ? (
+                        <>
+                            <div className="flex-1 pl-[8px]">
+                                <span className="text-[#bcdbdb] font-bold text-[16px]">주요 공유사항, 협업 및 논의가 필요한 내용을 등록하세요.</span>
+                            </div>
+                            <div className="rounded-[8px] p-[1px] bg-gradient-to-br from-[#d6efe9] via-[#82afb9] to-[#4c6e86] ml-auto">
+                                <button
+                                    type="button"
+                                    onClick={(e) => { e.stopPropagation(); setIsExpanded(true); }}
+                                    className="flex items-center px-[12px] py-[6px] rounded-[7px] text-[12px] font-bold cursor-pointer transition-colors bg-[#222] text-[#E5E5E5] hover:bg-[#333]"
+                                >
+                                    글작성하기
+                                </button>
+                            </div>
+                        </>
+                    ) : (
+                        <>
+                            <select value={projectId} onChange={(e) => setProjectId(e.target.value)} className="bg-transparent border border-[#333] rounded-[16px] px-[16px] py-[8px] ml-[-2px] text-white font-semibold text-[14px] outline-none cursor-pointer appearance-none pr-[32px] relative" style={{ backgroundImage: iconChevronGray, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center' }}>
                         <option value="IOTA_COMMON">IOTA 공통</option>
                         <option value="P00030">IOTA 427</option>
                         <option value="P00037">IOTA 816</option>
@@ -390,15 +412,17 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                         />
                     </label>
                     <div className="w-px h-[14px] bg-[#333] mx-[4px]"></div>
-                    <div className="rounded-[8px] p-[1px] bg-gradient-to-br from-[#d6efe9] via-[#82afb9] to-[#4c6e86]">
-                        <button
-                            type="button"
-                            onClick={() => setIsExpanded(!isExpanded)}
-                            className="flex items-center px-[12px] py-[6px] rounded-[7px] text-[12px] font-bold cursor-pointer transition-colors bg-[#222] text-[#E5E5E5] hover:bg-[#333]"
-                        >
-                            {isExpanded ? '접기' : '글작성하기'}
-                        </button>
-                    </div>
+                            <div className="rounded-[8px] p-[1px] bg-gradient-to-br from-[#d6efe9] via-[#82afb9] to-[#4c6e86]">
+                                <button
+                                    type="button"
+                                    onClick={(e) => { e.stopPropagation(); setIsExpanded(false); }}
+                                    className="flex items-center px-[12px] py-[6px] rounded-[7px] text-[12px] font-bold cursor-pointer transition-colors bg-[#222] text-[#E5E5E5] hover:bg-[#333]"
+                                >
+                                    접기
+                                </button>
+                            </div>
+                        </>
+                    )}
                 </div>
 
                 
