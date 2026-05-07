@@ -150,10 +150,9 @@ export default function WorkspaceMarketing() {
                     + Task 등록하기
                 </button>
             </div>
-            <div className="w-full rounded-[24px] p-[1px] bg-gradient-to-br from-[#d6efe9] via-[#82afb9] to-[#4c6e86] mb-[40px]">
-                <div className="w-full h-full bg-[#262626] rounded-[23px] overflow-hidden">
+            <div className="w-full bg-[#272726] border border-[#3c3c3c] rounded-[24px] overflow-hidden mb-[40px]">
                 <table className="w-full text-left table-fixed">
-                    <thead className="bg-[#1A1A1A]">
+                    <thead className="bg-[#272726]">
                         <tr>
                             <th className="px-[16px] py-[16px] text-[13px] font-bold text-[#86868B] border-b border-[#3c3c3c] w-[15%]">Task 명</th>
                             <th className="px-[16px] py-[16px] text-[13px] font-bold text-[#86868B] border-b border-[#3c3c3c] w-[12%]">연결 기업</th>
@@ -167,15 +166,15 @@ export default function WorkspaceMarketing() {
                     </thead>
                     <tbody className="divide-y divide-[#3c3c3c]">
                         {isAdding && (
-                            <tr className="bg-[#2A2A2A]">
+                            <tr className="bg-[#272726]">
                                 <td className="px-[12px] py-[12px]">
-                                    <input type="text" value={newTask.task_name} onChange={e => setNewTask({...newTask, task_name: e.target.value})} className="w-full bg-[#151515] border border-[#444] rounded-[6px] px-[8px] py-[6px] text-white text-[13px] outline-none focus:border-[#888]" placeholder="Task 입력" />
+                                    <input type="text" value={newTask.task_name} onChange={e => setNewTask({...newTask, task_name: e.target.value})} className="w-full bg-[#272726] border border-[#444] rounded-[6px] px-[8px] py-[6px] text-white text-[13px] outline-none focus:border-[#888]" placeholder="Task 입력" />
                                 </td>
                                 <td className="px-[12px] py-[12px]">
-                                    <input type="text" value={newTask.company_name} onChange={e => setNewTask({...newTask, company_name: e.target.value})} className="w-full bg-[#151515] border border-[#444] rounded-[6px] px-[8px] py-[6px] text-white text-[13px] outline-none focus:border-[#888]" placeholder="기업명" />
+                                    <input type="text" value={newTask.company_name} onChange={e => setNewTask({...newTask, company_name: e.target.value})} className="w-full bg-[#272726] border border-[#444] rounded-[6px] px-[8px] py-[6px] text-white text-[13px] outline-none focus:border-[#888]" placeholder="기업명" />
                                 </td>
                                 <td className="px-[12px] py-[12px]">
-                                    <select value={newTask.related_asset} onChange={e => setNewTask({...newTask, related_asset: e.target.value})} className="w-full bg-[#151515] border border-[#444] rounded-[6px] px-[8px] py-[6px] text-white text-[13px] outline-none focus:border-[#888]">
+                                    <select value={newTask.related_asset} onChange={e => setNewTask({...newTask, related_asset: e.target.value})} className="w-full bg-[#272726] border border-[#444] rounded-[6px] px-[8px] py-[6px] text-white text-[13px] outline-none focus:border-[#888]">
                                         <option>IOTA 공통</option>
                                         <option>IOTA One (427)</option>
                                         <option>IOTA Two (816)</option>
@@ -185,22 +184,22 @@ export default function WorkspaceMarketing() {
                                     </select>
                                 </td>
                                 <td className="px-[12px] py-[12px]">
-                                    <select value={newTask.status} onChange={e => setNewTask({...newTask, status: e.target.value})} className="w-full bg-[#151515] border border-[#444] rounded-[6px] px-[8px] py-[6px] text-white text-[13px] outline-none focus:border-[#888]">
+                                    <select value={newTask.status} onChange={e => setNewTask({...newTask, status: e.target.value})} className="w-full bg-[#272726] border border-[#444] rounded-[6px] px-[8px] py-[6px] text-white text-[13px] outline-none focus:border-[#888]">
                                         {['아이데이션', '자료준비', '제안진행', '미팅후속', '협상', '보류', '완료'].map(s => <option key={s}>{s}</option>)}
                                     </select>
                                 </td>
                                 <td className="px-[12px] py-[12px]">
-                                    <select value={newTask.priority} onChange={e => setNewTask({...newTask, priority: e.target.value})} className="w-full bg-[#151515] border border-[#444] rounded-[6px] px-[8px] py-[6px] text-white text-[13px] outline-none focus:border-[#888]">
+                                    <select value={newTask.priority} onChange={e => setNewTask({...newTask, priority: e.target.value})} className="w-full bg-[#272726] border border-[#444] rounded-[6px] px-[8px] py-[6px] text-white text-[13px] outline-none focus:border-[#888]">
                                         <option>높음</option>
                                         <option>중간</option>
                                         <option>낮음</option>
                                     </select>
                                 </td>
                                 <td className="px-[12px] py-[12px]">
-                                    <input type="date" value={newTask.due_date} onChange={e => setNewTask({...newTask, due_date: e.target.value})} className="w-full bg-[#151515] border border-[#444] rounded-[6px] px-[8px] py-[6px] text-[#A1A1AA] text-[13px] outline-none focus:border-[#888] [color-scheme:dark]" />
+                                    <input type="date" value={newTask.due_date} onChange={e => setNewTask({...newTask, due_date: e.target.value})} className="w-full bg-[#272726] border border-[#444] rounded-[6px] px-[8px] py-[6px] text-[#A1A1AA] text-[13px] outline-none focus:border-[#888] [color-scheme:dark]" />
                                 </td>
                                 <td className="px-[12px] py-[12px]">
-                                    <input type="text" value={newTask.next_action} onChange={e => setNewTask({...newTask, next_action: e.target.value})} className="w-full bg-[#151515] border border-[#444] rounded-[6px] px-[8px] py-[6px] text-white text-[13px] outline-none focus:border-[#888]" placeholder="액션 플랜 입력" />
+                                    <input type="text" value={newTask.next_action} onChange={e => setNewTask({...newTask, next_action: e.target.value})} className="w-full bg-[#272726] border border-[#444] rounded-[6px] px-[8px] py-[6px] text-white text-[13px] outline-none focus:border-[#888]" placeholder="액션 플랜 입력" />
                                 </td>
                                 <td className="px-[12px] py-[12px] text-center">
                                     <div className="flex flex-col gap-1">
@@ -214,7 +213,7 @@ export default function WorkspaceMarketing() {
                             <tr><td colSpan="8" className="text-center py-[40px] text-[#86868B]">데이터를 불러오는 중입니다...</td></tr>
                         ) : (
                             (projectShowAll ? tasks : tasks.slice(0, 5)).map((row) => (
-                                <tr key={row.id} className="hover:bg-[#2A2A2A] transition-colors group">
+                                <tr key={row.id} className="hover:bg-[#272726] transition-colors group">
                                     <td className="px-[16px] py-[16px] text-[14px] font-bold text-white leading-snug">{row.task_name}</td>
                                     <td className="px-[16px] py-[16px] text-[13px] text-[#A1A1AA]">{row.company_name}</td>
                                     <td className="px-[16px] py-[16px] text-[13px] text-[#A1A1AA]">{row.related_asset}</td>
@@ -246,7 +245,6 @@ export default function WorkspaceMarketing() {
                         </button>
                     </div>
                 )}
-                </div>
             </div>
             
             {/* 3. Pipeline 관리 */}
@@ -254,10 +252,9 @@ export default function WorkspaceMarketing() {
                 <h2 className="text-[18px] font-bold text-white">Pipe line 관리</h2>
                 <span className="text-[13px] text-[#86868B]">수기 입력 중심 운영 (컨택 포인트 포함)</span>
             </div>
-            <div className="w-full rounded-[24px] p-[1px] bg-gradient-to-br from-[#d6efe9] via-[#82afb9] to-[#4c6e86] mb-[40px]">
-                <div className="w-full h-full bg-[#262626] rounded-[23px] overflow-hidden">
+            <div className="w-full bg-[#272726] border border-[#3c3c3c] rounded-[24px] overflow-hidden mb-[40px]">
                 <table className="w-full text-left">
-                    <thead className="bg-[#222]">
+                    <thead className="bg-[#272726]">
                         <tr>
                             <th className="px-[20px] py-[16px] text-[13px] font-bold text-[#86868B] border-b border-[#333]">채널명</th>
                             <th className="px-[20px] py-[16px] text-[13px] font-bold text-[#86868B] border-b border-[#333]">상태</th>
@@ -294,7 +291,6 @@ export default function WorkspaceMarketing() {
                         </button>
                     </div>
                 )}
-                </div>
             </div>
         </div>
     );
