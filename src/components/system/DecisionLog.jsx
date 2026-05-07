@@ -407,7 +407,7 @@ export default function DecisionLog() {
             />
 
             {/* Log Viewer */}
-            <div id="log-viewer-header" className="flex justify-between items-center mt-[10px] mb-[12px] scroll-mt-[80px]">
+            <div id="log-viewer-header" className="flex justify-between items-center mt-[20px] mb-[12px] scroll-mt-[80px]">
                 <h2 className="text-[18px] font-bold text-white tracking-tight translate-y-[2px]">활동내역 전체보기</h2>
                 <div className="flex items-center gap-[12px]">
                     
@@ -805,7 +805,7 @@ export default function DecisionLog() {
                 )}
 
                 {logsViewMode === 'full' && totalPages > 1 && (
-                    <div className="w-full py-2 flex justify-center items-center gap-[12px]">
+                    <div className="w-full py-[14px] flex justify-center items-center gap-[12px]">
                         <button 
                             disabled={currentPage === 1}
                             onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
