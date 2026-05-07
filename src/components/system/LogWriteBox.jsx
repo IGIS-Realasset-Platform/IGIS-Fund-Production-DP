@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { supabase } from '../../utils/supabaseClient';
 import { motion, AnimatePresence } from 'framer-motion';
 
-export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs, fetchMasterStakeholders, workspaceCode, workspaceLabel }) {
+export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs, fetchMasterStakeholders, workspaceCode, workspaceLabel, defaultExpanded = true }) {
     // Form States
     const [projectId, setProjectId] = useState('IOTA_COMMON');
     const [triageType, setTriageType] = useState('공유');
@@ -11,7 +11,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
     const [stakeholderCat, setStakeholderCat] = useState('');
     const [workDate, setWorkDate] = useState(new Date().toISOString().slice(0, 10));
     const [content, setContent] = useState('');
-    const [isExpanded, setIsExpanded] = useState(true);
+    const [isExpanded, setIsExpanded] = useState(defaultExpanded);
     const [isSubmitting, setIsSubmitting] = useState(false);
     
     // Stakeholder Search States
@@ -304,10 +304,10 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
 
                     {!isExpanded ? (
                         <>
-                            <div className="flex-1 pl-[8px]">
+                            <div className="pl-[8px]">
                                 <span className="text-[#bcdbdb] font-bold text-[16px]">주요 공유사항, 협업 및 논의가 필요한 내용을 등록하세요.</span>
                             </div>
-                            <div className="rounded-[8px] p-[1px] bg-gradient-to-br from-[#d6efe9] via-[#82afb9] to-[#4c6e86] ml-auto">
+                            <div className="rounded-[8px] p-[1px] bg-gradient-to-br from-[#d6efe9] via-[#82afb9] to-[#4c6e86] ml-[14px]">
                                 <button
                                     type="button"
                                     onClick={(e) => { e.stopPropagation(); setIsExpanded(true); }}

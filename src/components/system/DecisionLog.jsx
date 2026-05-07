@@ -324,8 +324,8 @@ export default function DecisionLog() {
             {/* Header Metadata */}
             <div className="w-full flex justify-between items-end mb-[24px]">
                 <div>
-                    <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[8px]">의사결정 로그</h1>
-                    <p className="text-[16px] text-[#86868B] leading-[26px]">사업 진행 간의 주요 협의 및 의사결정 이력을 추적합니다.</p>
+                    <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[8px]">전체 업무 현황</h1>
+                    <p className="text-[16px] text-[#86868B] leading-[26px]">통합 수행 체계에서 IOTA CFT의 전체 업무 현황을 공유·협업·리스크·의사결정 관점으로 모아 봅니다.</p>
                 </div>
             </div>
 
@@ -388,7 +388,8 @@ export default function DecisionLog() {
                 fetchLogs={fetchLogs}
                 fetchMasterStakeholders={fetchMasterStakeholders}
                 workspaceCode="WS_DECISION"
-                workspaceLabel="의사결정 로그"
+                workspaceLabel="전체 업무 현황"
+                defaultExpanded={false}
             />
 
             {/* Log Viewer */}

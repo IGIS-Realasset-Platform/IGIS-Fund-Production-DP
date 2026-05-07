@@ -60,7 +60,7 @@ const menuItems = [
     },
     {
         id: 7,
-        label: '의사결정 로그',
+        label: '전체 업무 현황',
         path: 'platform/iotaseoul/decision-log',
         icon: (
             <svg className="w-4.5 h-4.5 mr-[10px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">

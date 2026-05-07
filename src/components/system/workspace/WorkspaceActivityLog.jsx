@@ -8,6 +8,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
     const { memberInfo } = useAuth();
     
     // Logs State
+    const [isLoading, setIsLoading] = useState(true);
     const [logs, setLogs] = useState([]);
     const [logsViewMode, setLogsViewMode] = useState('summary');
     const [currentPage, setCurrentPage] = useState(1);
@@ -68,6 +69,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
     };
 
     const fetchLogs = async () => {
+        setIsLoading(true);
         try {
             const { data, error } = await supabase
                 .from('iota_seoul_logs')
@@ -81,6 +83,8 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
             setLogs(validLogs);
         } catch (e) {
             console.error('Error fetching logs:', e);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -250,7 +254,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
             />
             {/* Log Viewer */}
             <div className="flex justify-between items-center mb-[12px]">
-                <h2 className="text-[18px] font-bold text-white tracking-tight translate-y-[2px]">[{workspaceLabel ? workspaceLabel.split('-')[0].trim() : ''}] 전체 활동</h2>
+                <h2 className="text-[18px] font-bold text-white tracking-tight translate-y-[2px]">{workspaceLabel ? workspaceLabel.split('-')[0].trim() : ''} 전체 활동</h2>
                 <div className="flex items-center gap-[12px]">
                     {/* Search Box */}
                     <div className="relative">
@@ -646,7 +650,9 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
                     </div>
                 ))}
                 {displayedLogs.length === 0 && (
-                    <div className="py-[60px] text-center text-[14px] text-[#86868B]">등록된 업무가 없습니다.</div>
+                    <div className="py-[60px] text-center text-[14px] text-[#86868B]">
+                        {isLoading ? '데이터를 불러오는 중입니다...' : '등록된 업무가 없습니다.'}
+                    </div>
                 )}
 
                 {logsViewMode === 'full' && totalPages > 1 && (
