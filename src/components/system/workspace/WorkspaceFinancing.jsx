@@ -707,7 +707,7 @@ export default function WorkspaceFinancing() {
                             </div>
                             
                             {/* Stepper Rail */}
-                            <div className="flex gap-[12px] overflow-x-auto pb-[20px] mb-[12px] scrollbar-hide" style={{ WebkitOverflowScrolling: 'touch' }}>
+                            <div className="flex gap-[12px] overflow-x-auto pb-[20px] mb-[12px] custom-scrollbar" style={{ WebkitOverflowScrolling: 'touch' }}>
                                 {pfPlanData.map((item, idx) => (
                                     <div 
                                         key={idx} 

@@ -283,7 +283,7 @@ export default function DecisionLog() {
         }
     };
 
-    const itemsPerPage = logsViewMode === 'summary' ? 5 : 20;
+    const itemsPerPage = logsViewMode === 'summary' ? 5 : 10;
     
     // Filter by search query and dropdowns
     const searchFilteredLogs = logs.filter(log => {
@@ -823,7 +823,7 @@ export default function DecisionLog() {
 
             
 {/* Meeting Info Banner */}
-            <div className="w-full bg-transparent border border-[#333] rounded-[24px] p-[28px] mb-[30px] shadow-sm">
+            <div className="w-full bg-[#111111] border border-[#333] rounded-[24px] p-[28px] mb-[30px] shadow-sm">
                 <h3 className="text-[20px] font-bold text-[#E5E5E5] mb-[8px] tracking-tight">주요 의사결정 히스토리는 정기/비정기 회의체 개최 후 업데이트 될 예정입니다.</h3>
                 
                 <button 

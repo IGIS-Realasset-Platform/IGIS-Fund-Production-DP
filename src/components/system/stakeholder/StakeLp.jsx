@@ -265,8 +265,13 @@ const TransparentTable = ({ title, items, bridgeItems, refiItems, isLoan, vehicl
                     
                     {/* View All Button */}
                     <button 
-                        onClick={() => setShowAll(!showAll)}
-                        className="cursor-pointer text-[13px] font-medium text-[#86868B] hover:text-white transition-colors flex items-center justify-center bg-[#1a1a1a] hover:bg-[#2c2c2e] w-[72px] h-[34px] rounded-[10px] border border-[#2c2c2e]"
+                        onClick={() => currentItems.length > 5 && setShowAll(!showAll)}
+                        disabled={currentItems.length <= 5}
+                        className={`text-[13px] font-medium flex items-center justify-center w-[72px] h-[34px] rounded-[10px] border border-[#2c2c2e] transition-colors ${
+                            currentItems.length <= 5 
+                                ? 'text-[#555] bg-transparent cursor-default' 
+                                : 'cursor-pointer text-[#86868B] hover:text-white bg-[#1a1a1a] hover:bg-[#2c2c2e]'
+                        }`}
                     >
                         {showAll ? '접기' : '전체보기'}
                     </button>
@@ -757,7 +762,7 @@ export default function StakeLp() {
                             <div className="flex items-center justify-between mb-1">
                                 <h2 className="text-[22px] font-bold text-white tracking-tight">기타 이지스 마스터 투자자</h2>
                                 {/* Search Bar Duplicate */}
-                                <div className="relative w-[280px]">
+                                <div className="relative w-[280px] translate-y-[20px]">
                                     <div className="absolute inset-y-0 left-[14px] flex items-center pointer-events-none">
                                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#86868B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
                                     </div>
