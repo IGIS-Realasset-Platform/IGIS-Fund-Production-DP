@@ -174,7 +174,7 @@ export default function WorkspaceDevelopment() {
             </div>
 
             {/* Development Milestones */}
-            <div className="w-full mb-[40px] -mt-[10px]">
+            <div className="w-full mb-[40px] -mt-[14px]">
                 <div className="w-full flex gap-[24px]">
                     
                     {/* IOTA One 427 */}
@@ -192,11 +192,11 @@ export default function WorkspaceDevelopment() {
 
                         {/* Table Header */}
                         <div className="grid grid-cols-[1fr_50px_60px_50px_60px] gap-[16px] mb-[16px] px-[8px]">
-                            <span className="text-[13px] font-bold text-[#86868B]">마일스톤</span>
-                            <span className="text-[13px] font-bold text-[#86868B] text-center">UW</span>
-                            <span className="text-[13px] font-bold text-[#86868B] text-center">실제</span>
-                            <span className="text-[13px] font-bold text-[#86868B] text-center">지연</span>
-                            <span className="text-[13px] font-bold text-[#86868B] text-center">상태</span>
+                            <span className="text-[14px] font-bold text-[#86868B]">마일스톤</span>
+                            <span className="text-[14px] font-bold text-[#86868B] text-center">UW</span>
+                            <span className="text-[14px] font-bold text-[#86868B] text-center">실제</span>
+                            <span className="text-[14px] font-bold text-[#86868B] text-center">지연</span>
+                            <span className="text-[14px] font-bold text-[#86868B] text-center">상태</span>
                         </div>
 
                         {/* Rows */}
@@ -212,9 +212,9 @@ export default function WorkspaceDevelopment() {
                             ].map((row, idx) => (
                                 <div key={`one-${idx}`} className="grid grid-cols-[1fr_50px_60px_50px_60px] gap-[16px] items-center bg-[#222] hover:bg-[#292928] transition-colors rounded-[16px] py-[16px] px-[16px] border border-[#333]">
                                     <span className="text-[14px] font-bold text-white whitespace-nowrap">{row.title}</span>
-                                    <span className="text-[13px] font-bold text-[#A1A1AA] text-center">{row.uw}</span>
-                                    <span className="text-[13px] font-bold text-[#A1A1AA] text-center">{row.actual}</span>
-                                    <span className={`text-[13px] font-bold text-center ${row.delayColor}`}>{row.delay}</span>
+                                    <span className="text-[14px] font-bold text-[#A1A1AA] text-center">{row.uw}</span>
+                                    <span className="text-[14px] font-bold text-[#A1A1AA] text-center">{row.actual}</span>
+                                    <span className={`text-[14px] font-bold text-center ${row.delayColor}`}>{row.delay}</span>
                                     <div className="flex justify-center">
                                         <span className={`text-[12px] font-bold rounded-full px-[14px] py-[4px] border ${row.statusClass}`}>
                                             {row.status}
@@ -240,11 +240,11 @@ export default function WorkspaceDevelopment() {
 
                         {/* Table Header */}
                         <div className="grid grid-cols-[1fr_50px_60px_50px_60px] gap-[16px] mb-[16px] px-[8px]">
-                            <span className="text-[13px] font-bold text-[#86868B]">마일스톤</span>
-                            <span className="text-[13px] font-bold text-[#86868B] text-center">UW</span>
-                            <span className="text-[13px] font-bold text-[#86868B] text-center">실제</span>
-                            <span className="text-[13px] font-bold text-[#86868B] text-center">지연</span>
-                            <span className="text-[13px] font-bold text-[#86868B] text-center">상태</span>
+                            <span className="text-[14px] font-bold text-[#86868B]">마일스톤</span>
+                            <span className="text-[14px] font-bold text-[#86868B] text-center">UW</span>
+                            <span className="text-[14px] font-bold text-[#86868B] text-center">실제</span>
+                            <span className="text-[14px] font-bold text-[#86868B] text-center">지연</span>
+                            <span className="text-[14px] font-bold text-[#86868B] text-center">상태</span>
                         </div>
 
                         {/* Rows */}
@@ -259,9 +259,9 @@ export default function WorkspaceDevelopment() {
                             ].map((row, idx) => (
                                 <div key={`two-${idx}`} className="grid grid-cols-[1fr_50px_60px_50px_60px] gap-[16px] items-center bg-[#222] hover:bg-[#292928] transition-colors rounded-[16px] py-[16px] px-[16px] border border-[#333]">
                                     <span className="text-[14px] font-bold text-white whitespace-nowrap">{row.title}</span>
-                                    <span className="text-[13px] font-bold text-[#A1A1AA] text-center">{row.uw}</span>
-                                    <span className="text-[13px] font-bold text-[#A1A1AA] text-center">{row.actual}</span>
-                                    <span className={`text-[13px] font-bold text-center ${row.delayColor}`}>{row.delay}</span>
+                                    <span className="text-[14px] font-bold text-[#A1A1AA] text-center">{row.uw}</span>
+                                    <span className="text-[14px] font-bold text-[#A1A1AA] text-center">{row.actual}</span>
+                                    <span className={`text-[14px] font-bold text-center ${row.delayColor}`}>{row.delay}</span>
                                     <div className="flex justify-center">
                                         <span className={`text-[12px] font-bold rounded-full px-[14px] py-[4px] border ${row.statusClass}`}>
                                             {row.status}
