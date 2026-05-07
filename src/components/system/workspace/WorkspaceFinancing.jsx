@@ -266,9 +266,9 @@ export default function WorkspaceFinancing() {
             <WorkspaceActivityLog workspaceCode="WS_LFC" workspaceLabel="파이낸싱-LFC" />
 
             {!loading && iotaData && !iotaData.error && (
-                <div className="w-full mt-[24px] border-t border-[#3c3c3c] pt-[50px]">
+                <div className="w-full mt-[18px] border-t border-[#3c3c3c] pt-[44px]">
                     <h2 className="text-[20px] font-bold text-white mb-[12px]">통합 Vehicle 파이낸싱 구조</h2>
-                    <div className="p-6 bg-transparent border border-[#3c3c3c] rounded-[24px] flex gap-8 items-start">
+                    <div className="p-6 bg-[#262626] border border-[#3c3c3c] rounded-[24px] flex gap-8 items-start">
                         <div className="w-[280px] shrink-0 flex flex-col">
                             <div className="text-[13px] font-bold text-[#86868B] uppercase mb-[10px]">Total Project Volume</div>
                             <div className="text-[32px] font-bold text-white leading-none tracking-tight pt-[6px]">{formatAmount(grandTotal)}</div>
