@@ -247,7 +247,7 @@ export default function WorkspaceMarketing() {
                                     onFocus={() => setShowCompanyDropdown(true)}
                                     onBlur={() => setTimeout(() => setShowCompanyDropdown(false), 200)}
                                     className="w-full bg-[#1A1A1A] border border-[#444] rounded-[12px] px-4 py-3 text-white text-[16px] outline-none focus:border-[#888]" 
-                                    placeholder="기업명 검색" 
+                                    placeholder="연결 기업 검색" 
                                 />
                                 {showCompanyDropdown && companyQuery && (
                                     <div className="absolute top-full left-0 mt-1 w-full max-h-[150px] overflow-y-auto bg-[#2A2A2A] border border-[#444] rounded-[12px] z-50 shadow-xl py-2">
@@ -320,7 +320,7 @@ export default function WorkspaceMarketing() {
                         <div 
                             key={row.id} 
                             onClick={() => setExpandedTaskId(expandedTaskId === row.id ? null : row.id)}
-                            className={`relative bg-[#272726] border border-[#3c3c3c] rounded-[24px] p-6 cursor-pointer transition-all duration-300 group ${expandedTaskId === row.id ? 'hover:bg-[#272726]' : 'hover:bg-[#333]'}`}
+                            className={`relative bg-[#272726] border border-[#3c3c3c] rounded-[24px] px-6 pt-6 pb-4 cursor-pointer transition-all duration-300 group ${expandedTaskId === row.id ? 'hover:bg-[#272726]' : 'hover:bg-[#333]'}`}
                         >
                             <div className="absolute right-[-70px] top-6">
                                 <button 
@@ -345,9 +345,10 @@ export default function WorkspaceMarketing() {
                                         </p>
                                     </div>
                                 </div>
-                                <div className="flex shrink-0">
+                                <div className="flex items-center gap-3 shrink-0">
+                                    <span className="text-[13px] font-bold text-[#86868B]">연결기업</span>
                                     <span className="text-[15px] font-bold text-[#E5E5E5] px-4 py-2 bg-[#1A1A1A] rounded-[12px] border border-[#333]">
-                                        {row.company_name}
+                                        {row.company_name || '내부업무'}
                                     </span>
                                 </div>
                             </div>
