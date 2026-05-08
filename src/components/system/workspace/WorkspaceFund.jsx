@@ -189,7 +189,7 @@ export default function WorkspaceFund() {
 
         return (
             <div id={id} className="mb-[28px]">
-                <div className="flex justify-between items-end mb-[16px]">
+                <div className="flex justify-between items-end mb-[12px]">
                     <h2 className="text-[24px] font-bold text-white tracking-tight">{title}</h2>
                     {toggleContent}
                 </div>
@@ -580,15 +580,15 @@ export default function WorkspaceFund() {
             
             <WorkspaceActivityLog workspaceCode="WS_KAM" workspaceLabel="펀드운용-KAM" />
 
-            <div className="mt-[40px]">
+            <div className="mt-[10px]">
                 {loading || !iotaData ? (
                     <div className="flex justify-center items-center py-20">
                         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
                     </div>
                 ) : (
                     <>
-            <div className="w-full mb-[60px]">
-                <div className="flex justify-between items-end mb-[24px]">
+            <div className="w-full mb-[50px]">
+                <div className="flex justify-between items-end mb-[14px]">
                     <h2 className="text-[24px] font-bold text-white tracking-tight">수익자 지분 구조</h2>
                     <button 
                         onClick={() => setShowAllLps(!showAllLps)}
