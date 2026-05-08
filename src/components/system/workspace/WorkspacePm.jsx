@@ -121,43 +121,7 @@ export default function WorkspacePm() {
                 </div>
             </div>
 
-            {/* KPI Summary Cards */}
-            <div className="grid grid-cols-5 gap-[10px] mb-[40px]">
-                <div className="bg-[#262626] border border-[#333] rounded-[24px] px-[24px] py-[14px]">
-                    <div className="text-[#86868B] text-[13px] font-medium mb-[8px]">공정 진척도</div>
-                    <div className="flex items-baseline gap-[4px]">
-                        <span className="text-[28px] font-bold text-white">{kpiData.progress_percent}%</span>
-                        <span className="text-[13px] text-[#34d399] font-medium">▲ 0.5%</span>
-                    </div>
-                </div>
-                <div className="bg-[#262626] border border-[#333] rounded-[24px] px-[24px] py-[14px]">
-                    <div className="text-[#86868B] text-[13px] font-medium mb-[8px]">예산 대비 집행</div>
-                    <div className="flex items-baseline gap-[4px]">
-                        <span className="text-[28px] font-bold text-white">{kpiData.budget_variance}%</span>
-                        <span className="text-[13px] text-[#FF453A] font-medium">▼ 0.2%</span>
-                    </div>
-                </div>
-                <div className="bg-[#262626] border border-[#333] rounded-[24px] px-[24px] py-[14px]">
-                    <div className="text-[#86868B] text-[13px] font-medium mb-[8px]">Schedule Slippage</div>
-                    <div className="flex items-baseline gap-[4px]">
-                        <span className="text-[28px] font-bold text-[#FF453A]">{kpiData.schedule_slippage_days} days</span>
-                    </div>
-                </div>
-                <div className="bg-[#262626] border border-[#333] rounded-[24px] px-[24px] py-[14px]">
-                    <div className="text-[#86868B] text-[13px] font-medium mb-[8px]">Covenant (LTV)</div>
-                    <div className="flex items-baseline gap-[4px]">
-                        <span className="text-[28px] font-bold text-white">{kpiData.covenant_ltv}%</span>
-                        <span className="text-[13px] text-[#34d399] font-medium">Safe</span>
-                    </div>
-                </div>
-                <div className="bg-[#262626] border border-[#333] rounded-[24px] px-[24px] py-[14px]">
-                    <div className="text-[#86868B] text-[13px] font-medium mb-[8px]">Covenant (DSCR)</div>
-                    <div className="flex items-baseline gap-[4px]">
-                        <span className="text-[28px] font-bold text-white">{kpiData.covenant_dscr}x</span>
-                        <span className="text-[13px] text-[#34d399] font-medium">Safe</span>
-                    </div>
-                </div>
-            </div>
+
 
             <WorkspaceActivityLog workspaceCode="WS_PM" workspaceLabel="사업 PM" />
 

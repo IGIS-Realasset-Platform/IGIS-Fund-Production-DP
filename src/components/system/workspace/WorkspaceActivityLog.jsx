@@ -271,8 +271,8 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
                 workspaceLabel={workspaceLabel}
             />
             {/* Log Viewer */}
-            <div className="flex justify-between items-center mt-[14px] mb-[12px]">
-                <h2 className="text-[18px] font-bold text-white tracking-tight translate-y-[2px]">{workspaceLabel ? workspaceLabel.split('-')[0].trim() : ''} 전체 활동</h2>
+            <div className="flex justify-between items-center mt-[2px] mb-[12px]">
+                <h2 className="text-[18px] font-bold text-white tracking-tight translate-y-[2px]">{workspaceLabel ? workspaceLabel.split('-')[0].trim() : ''} 협업게시판</h2>
                 <div className="flex items-center gap-[12px]">
                     {/* Search Box */}
                     <div className="relative">
