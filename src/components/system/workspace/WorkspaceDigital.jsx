@@ -34,7 +34,7 @@ export default function WorkspaceDigital() {
     const [showAuthAlert, setShowAuthAlert] = useState(false);
 
     // Asset filter and custom assets
-    const [assetFilter, setAssetFilter] = useState('ALL');
+    const [assetFilter, setAssetFilter] = useState('427 PFV');
     const [customAssets, setCustomAssets] = useState([]);
     const [showNewAssetModal, setShowNewAssetModal] = useState(false);
     const [newAssetName, setNewAssetName] = useState('');
@@ -374,7 +374,7 @@ export default function WorkspaceDigital() {
             
             <motion.div layout className="w-full flex flex-col gap-[16px] mb-[40px]">
                 {isAdding && (
-                    <div className="bg-[#272726] border border-[#3c3c3c] rounded-[24px] p-6 flex flex-col gap-4">
+                    <div className="w-full bg-[#272726] border border-[#3c3c3c] rounded-[24px] p-6 flex flex-col gap-4">
                         <div className="flex gap-4">
                             <input 
                                 type="text" 
@@ -458,7 +458,7 @@ export default function WorkspaceDigital() {
                 ) : (
                     <div className="flex flex-col gap-[10px]">
                         <AnimatePresence>
-                            {(projectShowAll ? sortedTasks : sortedTasks.slice(0, 5)).map((row, index) => (
+                            {(projectShowAll ? sortedTasks : sortedTasks.slice(0, selectedTheme ? 5 : 10)).map((row, index) => (
                             <motion.div 
                                 layout
                                 initial={{ opacity: 0, y: 10 }}

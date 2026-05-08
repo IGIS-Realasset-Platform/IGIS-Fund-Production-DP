@@ -288,7 +288,7 @@ export default function WorkspaceMarketing() {
             </div>
             <div className="w-full flex flex-col gap-[16px] mb-[40px]">
                 {isAdding && (
-                    <div className="bg-[#272726] border border-[#3c3c3c] rounded-[24px] p-6 flex flex-col gap-4">
+                    <div className="w-full bg-[#272726] border border-[#3c3c3c] rounded-[24px] p-6 flex flex-col gap-4">
                         <div className="flex gap-4">
                             <input 
                                 type="text" 
