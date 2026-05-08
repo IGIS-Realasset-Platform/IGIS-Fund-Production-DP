@@ -428,24 +428,40 @@ export default function MarketingPipeline({ memberInfo, masterStakeholders, fetc
                     const isExpanded = expandedPipelineId === pipe.id;
 
                     return (
-                        <div key={pipe.id} className="flex gap-4 items-center group/row">
                         <div 
-                            className={`flex-1 bg-[#272726] border border-[#3c3c3c] rounded-[24px] p-6 transition-all duration-300 ${isExpanded ? '' : 'hover:bg-[#333] cursor-pointer'}`}
+                            key={pipe.id}
+                            className={`w-full relative bg-[#272726] border border-[#3c3c3c] rounded-[24px] p-6 transition-all duration-300 group/row ${isExpanded ? '' : 'hover:bg-[#333] cursor-pointer'}`}
                             onClick={() => !isExpanded && setExpandedPipelineId(pipe.id)}
                         >
-                            <div className="flex justify-between items-center gap-8 relative">
-                                {isAllowedEditor && (
-                                    <div className="absolute right-[-70px] top-1/2 -translate-y-1/2">
+                            {/* 삭제 및 정렬 버튼 (우측 바깥 영역) */}
+                            {isAllowedEditor && (
+                                <div className="absolute right-[-110px] top-1/2 -translate-y-1/2 flex items-center gap-2 opacity-0 group-hover/row:opacity-100 transition-opacity">
+                                    <div className="flex flex-col gap-1">
                                         <button 
-                                            onClick={(e) => { e.stopPropagation(); handleDeletePipeline(pipe.id); }} 
-                                            className="px-4 py-2 bg-[#ef4444]/10 text-[#ef4444] border border-[#ef4444]/30 rounded-[12px] text-[14px] font-bold opacity-0 hover:opacity-100 transition-all cursor-pointer"
-                                            style={{ opacity: isExpanded ? 1 : undefined }}
+                                            onClick={(e) => { e.stopPropagation(); handleMovePipelineUp(index); }}
+                                            disabled={index === 0}
+                                            className={`w-7 h-7 flex items-center justify-center rounded-[6px] bg-[#272726] border border-[#3c3c3c] transition-colors ${index === 0 ? 'opacity-30 cursor-not-allowed' : 'hover:bg-[#333] cursor-pointer'}`}
                                         >
-                                            삭제
+                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#E5E5E5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
+                                        </button>
+                                        <button 
+                                            onClick={(e) => { e.stopPropagation(); handleMovePipelineDown(index); }}
+                                            disabled={index === pipelines.length - 1}
+                                            className={`w-7 h-7 flex items-center justify-center rounded-[6px] bg-[#272726] border border-[#3c3c3c] transition-colors ${index === pipelines.length - 1 ? 'opacity-30 cursor-not-allowed' : 'hover:bg-[#333] cursor-pointer'}`}
+                                        >
+                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#E5E5E5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                                         </button>
                                     </div>
-                                )}
-                                
+                                    <button 
+                                        onClick={(e) => { e.stopPropagation(); handleDeletePipeline(pipe.id); }} 
+                                        className="px-3 py-2 h-[60px] bg-[#ef4444]/10 text-[#ef4444] border border-[#ef4444]/30 rounded-[8px] text-[13px] font-bold hover:bg-[#ef4444]/20 cursor-pointer"
+                                    >
+                                        삭제
+                                    </button>
+                                </div>
+                            )}
+
+                            <div className="flex justify-between items-center gap-8 relative">
                                 <div className="flex-1 flex gap-8 items-center">
                                     {/* 채널명 (부각) */}
                                     <div className="w-[300px] shrink-0 border-r border-[#444]/50 pr-8">
@@ -573,25 +589,6 @@ export default function MarketingPipeline({ memberInfo, masterStakeholders, fetc
                                     </div>
                                 </div>
                             )}
-                        </div>
-                        {isAllowedEditor && (
-                            <div className="w-[32px] flex flex-col gap-1 opacity-0 group-hover/row:opacity-100 transition-opacity">
-                                <button 
-                                    onClick={(e) => { e.stopPropagation(); handleMovePipelineUp(index); }}
-                                    disabled={index === 0}
-                                    className={`w-8 h-8 flex items-center justify-center rounded-[8px] bg-[#272726] border border-[#3c3c3c] transition-colors ${index === 0 ? 'opacity-30 cursor-not-allowed' : 'hover:bg-[#333] cursor-pointer'}`}
-                                >
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#E5E5E5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
-                                </button>
-                                <button 
-                                    onClick={(e) => { e.stopPropagation(); handleMovePipelineDown(index); }}
-                                    disabled={index === pipelines.length - 1}
-                                    className={`w-8 h-8 flex items-center justify-center rounded-[8px] bg-[#272726] border border-[#3c3c3c] transition-colors ${index === pipelines.length - 1 ? 'opacity-30 cursor-not-allowed' : 'hover:bg-[#333] cursor-pointer'}`}
-                                >
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#E5E5E5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                                </button>
-                            </div>
-                        )}
                         </div>
                     );
                 })}

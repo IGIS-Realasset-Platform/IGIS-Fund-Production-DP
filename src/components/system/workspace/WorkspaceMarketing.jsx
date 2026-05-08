@@ -361,19 +361,40 @@ export default function WorkspaceMarketing() {
                 ) : (
                     <div className="flex flex-col gap-[10px]">
                         {(projectShowAll ? sortedTasks : sortedTasks.slice(0, 5)).map((row, index) => (
-                        <div key={row.id} className="flex gap-4 items-center group/row">
                         <div 
+                            key={row.id} 
                             onClick={() => setExpandedTaskId(expandedTaskId === row.id ? null : row.id)}
-                            className={`flex-1 relative bg-[#272726] border border-[#3c3c3c] rounded-[24px] px-6 pt-6 pb-4 cursor-pointer transition-all duration-300 group ${expandedTaskId === row.id ? 'hover:bg-[#272726]' : 'hover:bg-[#333]'}`}
+                            className={`w-full relative bg-[#272726] border border-[#3c3c3c] rounded-[24px] px-6 pt-6 pb-4 cursor-pointer transition-all duration-300 group/row ${expandedTaskId === row.id ? 'hover:bg-[#272726]' : 'hover:bg-[#333]'}`}
                         >
-                            <div className="absolute right-[-70px] top-6">
-                                <button 
-                                    onClick={(e) => { e.stopPropagation(); handleDeleteRow(row.id); }} 
-                                    className="px-4 py-2 bg-[#ef4444]/10 text-[#ef4444] border border-[#ef4444]/30 rounded-[12px] text-[14px] font-bold opacity-0 group-hover:opacity-100 transition-all hover:bg-[#ef4444]/20 cursor-pointer"
-                                >
-                                    삭제
-                                </button>
-                            </div>
+                            {/* 삭제 및 정렬 버튼 (우측 바깥 영역) */}
+                            {isAuthorized && (
+                                <div className="absolute right-[-110px] top-1/2 -translate-y-1/2 flex items-center gap-2 opacity-0 group-hover/row:opacity-100 transition-opacity">
+                                    {sortBy === '기본' && (
+                                        <div className="flex flex-col gap-1">
+                                            <button 
+                                                onClick={(e) => { e.stopPropagation(); handleMoveTaskUp(index); }}
+                                                disabled={index === 0}
+                                                className={`w-7 h-7 flex items-center justify-center rounded-[6px] bg-[#272726] border border-[#3c3c3c] transition-colors ${index === 0 ? 'opacity-30 cursor-not-allowed' : 'hover:bg-[#333] cursor-pointer'}`}
+                                            >
+                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#E5E5E5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
+                                            </button>
+                                            <button 
+                                                onClick={(e) => { e.stopPropagation(); handleMoveTaskDown(index); }}
+                                                disabled={index === (projectShowAll ? sortedTasks.length : Math.min(sortedTasks.length, 5)) - 1}
+                                                className={`w-7 h-7 flex items-center justify-center rounded-[6px] bg-[#272726] border border-[#3c3c3c] transition-colors ${index === (projectShowAll ? sortedTasks.length : Math.min(sortedTasks.length, 5)) - 1 ? 'opacity-30 cursor-not-allowed' : 'hover:bg-[#333] cursor-pointer'}`}
+                                            >
+                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#E5E5E5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                            </button>
+                                        </div>
+                                    )}
+                                    <button 
+                                        onClick={(e) => { e.stopPropagation(); handleDeleteRow(row.id); }} 
+                                        className="px-3 py-2 h-[60px] bg-[#ef4444]/10 text-[#ef4444] border border-[#ef4444]/30 rounded-[8px] text-[13px] font-bold hover:bg-[#ef4444]/20 cursor-pointer"
+                                    >
+                                        삭제
+                                    </button>
+                                </div>
+                            )}
                             <div className="flex justify-between items-start gap-8">
                                 <div className="flex-1 flex gap-8">
                                     <div className="w-[430px] shrink-0 flex flex-col gap-[2px] border-r border-[#444]/50 pr-8">
@@ -421,25 +442,6 @@ export default function WorkspaceMarketing() {
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        {isAuthorized && sortBy === '기본' && (
-                            <div className="w-[32px] flex flex-col gap-1 opacity-0 group-hover/row:opacity-100 transition-opacity">
-                                <button 
-                                    onClick={(e) => { e.stopPropagation(); handleMoveTaskUp(index); }}
-                                    disabled={index === 0}
-                                    className={`w-8 h-8 flex items-center justify-center rounded-[8px] bg-[#272726] border border-[#3c3c3c] transition-colors ${index === 0 ? 'opacity-30 cursor-not-allowed' : 'hover:bg-[#333] cursor-pointer'}`}
-                                >
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#E5E5E5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
-                                </button>
-                                <button 
-                                    onClick={(e) => { e.stopPropagation(); handleMoveTaskDown(index); }}
-                                    disabled={index === (projectShowAll ? sortedTasks.length : Math.min(sortedTasks.length, 5)) - 1}
-                                    className={`w-8 h-8 flex items-center justify-center rounded-[8px] bg-[#272726] border border-[#3c3c3c] transition-colors ${index === (projectShowAll ? sortedTasks.length : Math.min(sortedTasks.length, 5)) - 1 ? 'opacity-30 cursor-not-allowed' : 'hover:bg-[#333] cursor-pointer'}`}
-                                >
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#E5E5E5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                                </button>
-                            </div>
-                        )}
                         </div>
                         ))}
                     </div>
