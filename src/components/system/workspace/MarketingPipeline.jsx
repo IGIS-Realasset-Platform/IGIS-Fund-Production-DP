@@ -156,10 +156,10 @@ export default function MarketingPipeline({ memberInfo, masterStakeholders, fetc
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const handleAddPipeline = async () => {
-        if (!newPipeline.channel_name) {
-            alert('채널명을 입력해주세요.');
-            return;
-        }
+        if (!newPipeline.channel_name) return alert('채널명(기업명)을 입력해주세요.');
+        if (!newPipeline.contact_point) return alert('컨택포인트(담당자)를 입력해주세요.');
+        if (!newPipeline.progress_detail) return alert('진행 상세 내용을 입력해주세요.');
+        if (!newPipeline.management_plan) return alert('향후 관리 및 대응 방안을 입력해주세요.');
 
         const existingCompany = (masterStakeholders || []).find(s => s.company_name === newPipeline.channel_name);
         const existingContact = newPipeline.contact_point ? (masterStakeholders || []).find(s => s.contact_name === newPipeline.contact_point) : true;
@@ -317,7 +317,17 @@ export default function MarketingPipeline({ memberInfo, masterStakeholders, fetc
                                     }}
                                     onFocus={() => setShowCompanyDropdown(true)}
                                     onBlur={() => setTimeout(() => setShowCompanyDropdown(false), 200)}
-                                    onKeyDown={e => { if(e.key === 'Enter') handleAddPipeline() }}
+                                    onKeyDown={e => { 
+                                        if(e.key === 'Enter') {
+                                            e.preventDefault();
+                                            if (!newPipeline.channel_name) return;
+                                            const existing = masterStakeholders?.find(s => s.company_name === newPipeline.channel_name);
+                                            if (!existing) {
+                                                setShowNewStakeholderModal(true);
+                                            }
+                                            setShowCompanyDropdown(false);
+                                        } 
+                                    }}
                                     className="w-full bg-[#272726] border border-[#444] rounded-[12px] px-4 py-3 text-white text-[15px] outline-none focus:border-[#888]" 
                                     placeholder="기업명 검색" 
                                 />
@@ -363,7 +373,17 @@ export default function MarketingPipeline({ memberInfo, masterStakeholders, fetc
                                     }}
                                     onFocus={() => setShowContactDropdown(true)}
                                     onBlur={() => setTimeout(() => setShowContactDropdown(false), 200)}
-                                    onKeyDown={e => { if(e.key === 'Enter') handleAddPipeline() }}
+                                    onKeyDown={e => { 
+                                        if(e.key === 'Enter') {
+                                            e.preventDefault();
+                                            if (!newPipeline.contact_point) return;
+                                            const existingContact = masterStakeholders?.find(s => s.contact_name === newPipeline.contact_point);
+                                            if (!existingContact) {
+                                                setShowNewStakeholderModal(true);
+                                            }
+                                            setShowContactDropdown(false);
+                                        } 
+                                    }}
                                     className="w-full bg-[#272726] border border-[#444] rounded-[12px] px-4 py-3 text-white text-[15px] outline-none focus:border-[#888]" 
                                     placeholder="담당자명 검색" 
                                 />
@@ -428,18 +448,17 @@ export default function MarketingPipeline({ memberInfo, masterStakeholders, fetc
                         </div>
                         <div className="flex gap-4">
                             <div className="flex-1">
-                                <label className="block text-[#86868B] text-[13px] font-bold mb-2">초기 진행내용 (선택)</label>
+                                <label className="block text-[#86868B] text-[13px] font-bold mb-2">초기 진행내용 (필수)</label>
                                 <input 
                                     type="text" 
                                     value={newPipeline.progress_detail}
                                     onChange={e => setNewPipeline({...newPipeline, progress_detail: e.target.value})}
-                                    onKeyDown={e => { if(e.key === 'Enter') handleAddPipeline() }}
                                     className="w-full bg-[#272726] border border-[#444] rounded-[12px] px-4 py-3 text-white text-[15px] outline-none focus:border-[#888]" 
                                     placeholder="진행내용 요약" 
                                 />
                             </div>
                             <div className="flex-1">
-                                <label className="block text-[#86868B] text-[13px] font-bold mb-2">초기 관리방안 (선택)</label>
+                                <label className="block text-[#86868B] text-[13px] font-bold mb-2">초기 관리방안 (필수)</label>
                                 <input 
                                     type="text" 
                                     value={newPipeline.management_plan}
