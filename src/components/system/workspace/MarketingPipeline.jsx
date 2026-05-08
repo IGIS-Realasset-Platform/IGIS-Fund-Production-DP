@@ -85,17 +85,24 @@ export default function MarketingPipeline({ memberInfo, masterStakeholders, fetc
         
         try {
             const { data, error } = await supabase.from('iota_marketing_pipelines').insert([insertData]).select('*');
-            if (error) throw error;
+            if (error) {
+                alert('파이프라인 등록 중 DB 오류 발생: ' + error.message);
+                throw error;
+            }
             
             const pId = data && data[0] ? data[0].id : fallbackPipelineId;
             
             if (newPipeline.progress_detail || newPipeline.management_plan) {
-                await supabase.from('iota_marketing_pipeline_logs').insert([{
+                const { error: logError } = await supabase.from('iota_marketing_pipeline_logs').insert([{
                     pipeline_id: pId,
                     progress_detail: newPipeline.progress_detail,
                     management_plan: newPipeline.management_plan,
                     created_at: new Date().toISOString()
                 }]);
+                if (logError) {
+                    alert('로그 등록 중 DB 오류 발생: ' + logError.message);
+                    throw logError;
+                }
             }
             await fetchPipelines();
             await fetchLogs();
@@ -228,7 +235,10 @@ export default function MarketingPipeline({ memberInfo, masterStakeholders, fetc
         const insertData = { pipeline_id: pipelineId, ...newLog, created_at: new Date().toISOString() };
         try {
             const { error } = await supabase.from('iota_marketing_pipeline_logs').insert([insertData]);
-            if (error) throw error;
+            if (error) {
+                alert('로그 추가 중 DB 오류 발생: ' + error.message);
+                throw error;
+            }
             await fetchLogs();
         } catch (e) {
             const local = [...logs, { ...insertData, id: Date.now().toString() }];
