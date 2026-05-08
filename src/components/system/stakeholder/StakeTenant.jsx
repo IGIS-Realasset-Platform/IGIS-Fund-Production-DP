@@ -17,7 +17,14 @@ export default function StakeTenant() {
     };
 
     return (
-        <div className="w-full flex-1 flex flex-col pt-[60px] pb-[60px] max-w-[1200px] mx-auto">
+        <div className="relative w-full flex-1 flex flex-col min-h-screen">
+            {/* TBD Overlay */}
+            <div className="absolute inset-0 z-50 backdrop-blur-md bg-black/20 flex flex-col items-center justify-center">
+                <h1 className="text-[120px] font-black text-white tracking-tighter mb-4 leading-none drop-shadow-2xl">TBD</h1>
+                <p className="text-[20px] text-[#A1A1AA] font-medium tracking-wide">해당 화면은 현재 기획 중입니다.</p>
+            </div>
+
+            <div className="w-full flex-1 flex flex-col pt-[60px] pb-[60px] max-w-[1200px] mx-auto opacity-30 pointer-events-none filter blur-[4px]">
             <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[8px]">잠재 임차사</h1>
             <p className="text-[16px] text-[#86868B] mb-[36px] leading-[26px]">이오타서울 자산의 앵커 테넌트(Anchor Tenant) 및 주요 임차사 파이프라인 관리 보드입니다.</p>
             
@@ -51,6 +58,7 @@ export default function StakeTenant() {
                         ))}
                     </tbody>
                 </table>
+            </div>
             </div>
         </div>
     );

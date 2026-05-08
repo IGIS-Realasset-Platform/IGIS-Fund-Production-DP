@@ -47,7 +47,7 @@ const AccordionContent = ({ instName, contactsCache, metaCache, isLast, isMaster
             initial={{ height: 0, opacity: 0 }} 
             animate={{ height: 'auto', opacity: 1 }} 
             exit={{ height: 0, opacity: 0 }}
-            className={`overflow-hidden bg-transparent border-x border-b border-[#3c3c3c] -mt-[1px] ${isLast ? 'rounded-b-[12px]' : ''}`}
+            className={`overflow-hidden bg-[#272727] border-x border-b border-[#3c3c3c] -mt-[1px] ${isLast ? 'rounded-b-[12px]' : ''}`}
         >
             <div className="p-6 grid grid-cols-2 gap-8">
                 {isMaster ? (
@@ -287,11 +287,11 @@ const TransparentTable = ({ title, items, bridgeItems, refiItems, isLoan, vehicl
                         <div key={idx} className="flex flex-col">
                             <div 
                                 onClick={() => toggleRow(uniqueKey, item.name)}
-                                className={`flex items-center justify-between px-5 py-[13px] cursor-pointer transition-colors border border-[#3c3c3c] bg-transparent
+                                className={`flex items-center justify-between px-5 py-[13px] cursor-pointer transition-colors border border-[#3c3c3c] bg-[#272727]
                                     ${idx === 0 ? 'rounded-t-[12px]' : ''} 
                                     ${isLastItem && !isExpanded ? 'rounded-b-[12px]' : ''}
                                     ${idx !== 0 ? '-mt-[1px]' : ''}
-                                    ${isExpanded ? 'border-b-transparent z-10' : 'hover:bg-[#222]'}
+                                    ${isExpanded ? 'border-b-transparent z-10' : 'hover:bg-[#333]'}
                                 `}
                             >
                                 <div className="flex items-center gap-4">
@@ -659,7 +659,7 @@ export default function StakeLp() {
                     <div key={idx} className="w-full">
                         <div 
                             onClick={() => toggleRow(uniqueKey, item.name)}
-                            className={`bg-[#1c1c1c] border transition-all cursor-pointer p-5 flex flex-col
+                            className={`bg-[#272727] border transition-all cursor-pointer p-5 flex flex-col
                                 ${isExpanded ? 'border-[#0A84FF] rounded-t-[16px]' : 'border-[#3c3c3c] rounded-[16px] hover:border-[#555]'}
                             `}
                         >
@@ -759,8 +759,8 @@ export default function StakeLp() {
 
                     {/* Non-IOTA Investors */}
                         <div className="mt-3">
-                            <div className="flex items-center justify-between mb-1">
-                                <h2 className="text-[22px] font-bold text-white tracking-tight">기타 이지스 마스터 투자자</h2>
+                            <div className="flex items-center justify-between">
+                                <h2 className="text-[23px] font-bold text-white tracking-tight">기타 이지스 마스터 투자자</h2>
                                 {/* Search Bar Duplicate */}
                                 <div className="relative w-[280px] translate-y-[20px]">
                                     <div className="absolute inset-y-0 left-[14px] flex items-center pointer-events-none">
@@ -796,11 +796,11 @@ export default function StakeLp() {
                                                     <div key={idx} className="flex flex-col">
                                                         <div 
                                                             onClick={() => toggleRow(item.name, item.name)}
-                                                            className={`flex items-center justify-between px-5 py-[14px] cursor-pointer transition-colors border border-[#3c3c3c] bg-transparent
+                                                            className={`flex items-center justify-between px-5 py-[14px] cursor-pointer transition-colors border border-[#3c3c3c] bg-[#272727]
                                                                 ${idx === 0 ? 'rounded-t-[12px]' : ''} 
                                                                 ${isLastDisplayed && !isExpanded && !hasMore ? 'rounded-b-[12px]' : ''}
                                                                 ${idx !== 0 ? '-mt-[1px]' : ''}
-                                                                ${isExpanded ? 'border-b-transparent z-10' : 'hover:bg-[#222]'}
+                                                                ${isExpanded ? 'border-b-transparent z-10' : 'hover:bg-[#333]'}
                                                             `}
                                                         >
                                                             <div className="flex items-center gap-4">

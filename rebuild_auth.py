@@ -1,4 +1,8 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import os
+
+file_path = "src/context/AuthContext.jsx"
+
+new_content = """import React, { createContext, useContext, useState, useEffect } from 'react';
 import { supabase } from '../utils/supabaseClient';
 
 const AuthContext = createContext();
@@ -177,3 +181,7 @@ export function AuthProvider({ children }) {
 export function useAuth() {
     return useContext(AuthContext);
 }
+"""
+
+with open(file_path, "w") as f:
+    f.write(new_content)

@@ -54,7 +54,7 @@ export default function WorkspaceIprWg() {
                                 {/* Dot */}
                                 <div className={`w-[16px] h-[16px] rounded-full mb-[20px] ${s.active ? 'border-[3px] border-[#eab308] bg-[#eab308]' : 'bg-[#3c3c3c]'}`}></div>
                                 {/* Title */}
-                                <div className={`text-center font-bold text-[15px] mb-[8px] ${s.active ? 'text-[#eab308]' : 'text-white'}`}>Stage {s.stage}<br/>{s.title}</div>
+                                <div className={`text-center font-bold text-[17px] mb-[8px] ${s.active ? 'text-[#eab308]' : 'text-white'}`}>Stage {s.stage}<br/>{s.title}</div>
                                 {/* Desc */}
                                 <div className="text-center text-[#86868B] text-[12px] break-keep leading-snug px-1">{s.desc}</div>
                             </div>

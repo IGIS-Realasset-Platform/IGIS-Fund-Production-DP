@@ -35,6 +35,7 @@ export default function WorkspaceMarketing() {
     const [newStakeholderRole, setNewStakeholderRole] = useState('');
     const [itemToDelete, setItemToDelete] = useState(null);
     const [isDeleting, setIsDeleting] = useState(false);
+    const [showAuthAlert, setShowAuthAlert] = useState(false);
 
     useEffect(() => {
         fetchTasks();
@@ -135,7 +136,7 @@ export default function WorkspaceMarketing() {
 
     const handleAddClick = () => {
         if (!isAuthorized) {
-            alert('등록 권한이 없습니다.');
+            setShowAuthAlert(true);
             return;
         }
         setIsAdding(true);
@@ -577,6 +578,25 @@ export default function WorkspaceMarketing() {
                             <button onClick={() => { setShowNewAssetModal(false); setNewAssetName(''); }} className="flex-1 py-[10px] rounded-[8px] bg-[#333] hover:bg-[#444] text-white text-[13px] font-medium transition-colors">취소</button>
                             <button onClick={registerNewAsset} disabled={isSubmittingAsset} className="flex-1 py-[10px] rounded-[8px] bg-[#2997ff] hover:bg-[#0071e3] text-white text-[13px] font-bold transition-colors">{isSubmittingAsset ? '등록 중...' : '등록 후 저장'}</button>
                         </div>
+                    </div>
+                </div>
+            )}
+            {/* Auth Alert Modal */}
+            {showAuthAlert && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60">
+                    <div className="bg-[#222] border border-[#333] rounded-[16px] w-[320px] p-[24px] shadow-2xl flex flex-col items-center">
+                        <div className="w-[48px] h-[48px] rounded-full bg-white/10 flex items-center justify-center mb-[16px]">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fbf167" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                        </div>
+                        <h3 className="text-[16px] font-bold text-white mb-[8px] text-center">권한 없음</h3>
+                        <p className="text-[13px] text-[#86868B] text-center mb-[24px]">기업마케팅 책임 담당자만 등록 가능합니다.</p>
+                        <button 
+                            type="button"
+                            onClick={() => setShowAuthAlert(false)}
+                            className="w-full py-[10px] rounded-[8px] bg-white hover:bg-gray-200 text-black text-[13px] font-bold transition-colors"
+                        >
+                            확인
+                        </button>
                     </div>
                 </div>
             )}

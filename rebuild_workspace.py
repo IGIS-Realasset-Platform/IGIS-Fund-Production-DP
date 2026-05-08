@@ -1,4 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import os
+
+file_path = "src/components/system/workspace/WorkspaceDigital.jsx"
+
+new_content = """import React, { useState, useEffect } from 'react';
 import { supabase } from '../../../utils/supabaseClient';
 import { useAuth } from '../../../context/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -16,13 +20,13 @@ const sscScopes = [
 
 export default function WorkspaceDigital() {
     const { memberInfo } = useAuth();
-    const isAuthorized = ['김현수', '이가현', '정수명', '전기영', '현철호', '신민호'].includes(memberInfo?.staff_name);
+    const isAuthorized = ['김현수', '이가현', '현철호', '정수명', '신민호'].includes(memberInfo?.staff_name);
     
     const [tasks, setTasks] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [isAdding, setIsAdding] = useState(false);
     const [newTask, setNewTask] = useState({
-        task_name: '', ssc_theme: '01. 자산 상품화 전략 및 포지셔닝', related_asset: 'IOTA 공통', status: '아이데이션', priority: '중간', due_date: '', next_action: '', notes: ''
+        task_name: '', ssc_theme: '01. 자산 상품화 전략 및 포지셔닝', related_asset: 'IOTA 공통', status: '아이데이션', priority: '중간', due_date: '', next_action: ''
     });
 
     const [expandedTaskId, setExpandedTaskId] = useState(null);
@@ -31,7 +35,6 @@ export default function WorkspaceDigital() {
     const [selectedTheme, setSelectedTheme] = useState(null);
     const [itemToDelete, setItemToDelete] = useState(null);
     const [isDeleting, setIsDeleting] = useState(false);
-    const [showAuthAlert, setShowAuthAlert] = useState(false);
 
     useEffect(() => {
         fetchTasks();
@@ -71,7 +74,7 @@ export default function WorkspaceDigital() {
             setTasks(updated);
             localStorage.setItem('iota_digital_tasks_fallback', JSON.stringify(updated));
         } finally {
-            setNewTask({ task_name: '', ssc_theme: '01. 자산 상품화 전략 및 포지셔닝', related_asset: 'IOTA 공통', status: '아이데이션', priority: '중간', due_date: '', next_action: '', notes: '' });
+            setNewTask({ task_name: '', ssc_theme: '01. 자산 상품화 전략 및 포지셔닝', related_asset: 'IOTA 공통', status: '아이데이션', priority: '중간', due_date: '', next_action: '' });
             setIsAdding(false);
         }
     };
@@ -95,7 +98,7 @@ export default function WorkspaceDigital() {
 
     const handleAddClick = () => {
         if (!isAuthorized) {
-            setShowAuthAlert(true);
+            alert('등록 권한이 없습니다.');
             return;
         }
         setIsAdding(true);
@@ -152,7 +155,7 @@ export default function WorkspaceDigital() {
     const linkClass = "text-[#E5E5E5] hover:text-[#fbf167] cursor-pointer transition-colors hover:underline underline-offset-4 decoration-[#fbf167]/50";
     const parseNames = (text) => {
         if (!text) return text;
-        const names = ['김현수', '이가현', '정수명', '전기영', '현철호', '신민호'];
+        const names = ['김현수', '이가현', '현철호', '정수명', '신민호'];
         let result = text;
         names.forEach(name => {
             const regex = new RegExp(name, 'g');
@@ -238,7 +241,7 @@ export default function WorkspaceDigital() {
             <WorkspaceActivityLog workspaceCode="WS_SSC" workspaceLabel="상품·디지털-SSC" />
 
             {/* SSC 상품·디지털 업무 범위 */}
-            <div className="w-full mt-[20px] mb-0 relative">
+            <div className="w-full mt-[20px] mb-[60px] relative">
                 <h2 className="text-[22px] font-bold text-white mb-[14px]">SSC 상품·디지털 업무 범위</h2>
                 <div className="max-w-none overflow-x-auto hide-scrollbar pb-[20px] w-[calc(50vw-140px+50%)]">
                     <div className="flex gap-[20px] w-max pr-[40px]">
@@ -264,7 +267,8 @@ export default function WorkspaceDigital() {
             </div>
 
             {/* 2. 주요 테스크 관리 */}
-            <div className="flex justify-between items-center mt-[20px] mb-[10px]">
+            <div className="w-full mt-[6px] border-t border-[#3c3c3c] pt-[32px]"></div>
+            <div className="flex justify-between items-center mb-[10px]">
                 <h2 className="text-[18px] font-bold text-white tracking-tight flex items-center">
                     상품·디지털 주요 테스크 관리
                     {selectedTheme && <span className="ml-3 px-2 py-1 bg-[#2997ff]/10 text-[#2997ff] rounded-[6px] text-[13px] font-bold">필터: {getThemeTitle(selectedTheme)}</span>}
@@ -313,13 +317,6 @@ export default function WorkspaceDigital() {
                             className="w-full bg-[#1A1A1A] border border-[#444] rounded-[12px] px-4 py-3 text-white text-[15px] outline-none focus:border-[#888]" 
                             placeholder="다음 액션 준비사항 입력" 
                         />
-                        <input 
-                            type="text" 
-                            value={newTask.notes || ''} 
-                            onChange={e => setNewTask({...newTask, notes: e.target.value})} 
-                            className="w-full bg-[#1A1A1A] border border-[#444] rounded-[12px] px-4 py-3 text-[#A1A1AA] text-[14px] outline-none focus:border-[#888]" 
-                            placeholder="링크나 비고 입력 (선택사항)" 
-                        />
                         <div className="flex flex-wrap gap-4 items-center">
                             <select 
                                 value={newTask.related_asset} 
@@ -366,7 +363,7 @@ export default function WorkspaceDigital() {
                                 transition={{ type: "spring", stiffness: 300, damping: 30 }}
                                 key={row.id} 
                                 onClick={() => setExpandedTaskId((expandedTaskId === 'ALL' || expandedTaskId === row.id) ? null : row.id)}
-                                className={`w-full relative bg-[#272726] border border-[#3c3c3c] rounded-[24px] px-6 pt-[20px] pb-[20px] cursor-pointer transition-colors duration-300 group/row ${(expandedTaskId === 'ALL' || expandedTaskId === row.id) ? 'hover:bg-[#272726]' : 'hover:bg-[#333]'}`}
+                                className={`w-full relative bg-[#272726] border border-[#3c3c3c] rounded-[24px] px-6 pt-6 pb-4 cursor-pointer transition-colors duration-300 group/row ${(expandedTaskId === 'ALL' || expandedTaskId === row.id) ? 'hover:bg-[#272726]' : 'hover:bg-[#333]'}`}
                             >
                             {/* 삭제 및 정렬 버튼 */}
                             {isAuthorized && (
@@ -397,7 +394,7 @@ export default function WorkspaceDigital() {
                             )}
                             <div className="flex justify-between items-start gap-8">
                                 <div className="flex-1 flex gap-8">
-                                    <div className="w-[650px] shrink-0 flex flex-col gap-[2px] border-r border-[#444]/50 pr-8">
+                                    <div className="w-[430px] shrink-0 flex flex-col gap-[2px] border-r border-[#444]/50 pr-8">
                                         <div className="flex items-center gap-2">
                                             <span className="text-[13px] font-bold text-[#86868B]">Task</span>
                                             {row.ssc_theme && (
@@ -444,14 +441,6 @@ export default function WorkspaceDigital() {
                                         <span className="text-[14px] text-[#2997ff] font-medium">{row.ssc_theme}</span>
                                     </div>
                                 </div>
-                                {row.notes && (
-                                <div className="flex items-start gap-4 mt-4 pt-4 border-t border-[#333]/50">
-                                    <span className="text-[13px] font-bold text-[#86868B] shrink-0 mt-[2px]">비고/링크</span>
-                                    <span className="text-[14px] text-white font-medium break-all">
-                                        {row.notes.startsWith('http') ? <a href={row.notes} target="_blank" rel="noreferrer" className="text-[#2997ff] hover:underline">{row.notes}</a> : row.notes}
-                                    </span>
-                                </div>
-                                )}
                                 </div>
                             </motion.div>
                             ))}
@@ -491,26 +480,10 @@ export default function WorkspaceDigital() {
                 </div>
             )}
 
-            {/* Auth Alert Modal */}
-            {showAuthAlert && (
-                <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60">
-                    <div className="bg-[#222] border border-[#333] rounded-[16px] w-[320px] p-[24px] shadow-2xl flex flex-col items-center">
-                        <div className="w-[48px] h-[48px] rounded-full bg-white/10 flex items-center justify-center mb-[16px]">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fbf167" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
-                        </div>
-                        <h3 className="text-[16px] font-bold text-white mb-[8px] text-center">권한 없음</h3>
-                        <p className="text-[13px] text-[#86868B] text-center mb-[24px]">상품·디지털 책임 담당자만 등록 가능합니다.</p>
-                        <button 
-                            type="button"
-                            onClick={() => setShowAuthAlert(false)}
-                            className="w-full py-[10px] rounded-[8px] bg-white hover:bg-gray-200 text-black text-[13px] font-bold transition-colors"
-                        >
-                            확인
-                        </button>
-                    </div>
-                </div>
-            )}
-
         </div>
     );
 }
+"""
+
+with open(file_path, "w") as f:
+    f.write(new_content)

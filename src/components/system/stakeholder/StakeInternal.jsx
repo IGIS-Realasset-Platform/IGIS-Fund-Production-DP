@@ -409,6 +409,7 @@ export default function StakeInternal() {
     const [searchQuery, setSearchQuery] = useState('');
     const [activeSearch, setActiveSearch] = useState('');
     const [isTableCollapsed, setIsTableCollapsed] = useState(false);
+    const [showAlert, setShowAlert] = useState(false);
 
     const handleImageError = (name) => {
         setNoImageNames(prev => {
@@ -433,7 +434,7 @@ export default function StakeInternal() {
             const cleanName = name.split('(')[0];
             return (
                 <div key={idx} 
-                     className="flex items-center gap-[6px] bg-[#222] hover:bg-[#333] transition-colors rounded-full pl-[4px] pr-[10px] py-[4px] border border-[#333] cursor-pointer group min-w-[76px]"
+                     className="flex items-center gap-[6px] bg-[#242424] hover:bg-[#333] transition-colors rounded-full pl-[4px] pr-[10px] py-[4px] border border-[#333] cursor-pointer group min-w-[76px]"
                      onMouseEnter={() => { if(!noImageNames.has(cleanName)) setHoveredImage(cleanName) }}
                      onMouseLeave={() => setHoveredImage(null)}
                      onClick={(e) => {
@@ -528,12 +529,12 @@ export default function StakeInternal() {
             </div>
             
             {!isTableCollapsed && (
-                <div className="w-full border border-[#333] rounded-[24px] overflow-hidden transition-all">
+                <div className="w-full border border-[#333] rounded-[24px] overflow-hidden transition-all bg-[#242424]">
                     <table className="w-full text-left bg-transparent border-collapse table-fixed">
                     <thead>
                         <tr>
                             <th className="px-[24px] py-[16px] text-[13px] font-normal text-[#86868B] border-b border-[#333] border-r border-[#333] w-[140px] bg-transparent">기능셀</th>
-                            <th className="px-[14px] py-[16px] text-[13px] font-normal text-[#86868B] border-b border-[#333]  w-[190px] bg-transparent">책임인력</th>
+                            <th className="px-[14px] py-[16px] text-[13px] font-normal text-[#86868B] border-b border-[#333] w-[190px] bg-transparent">책임인력</th>
                             <th className="px-[14px] py-[16px] text-[13px] font-normal text-[#86868B] border-b border-[#333] border-r border-[#333] bg-transparent">실무인력</th>
                             <th className="px-[14px] py-[16px] text-[13px] font-normal text-[#86868B] border-b border-[#333] border-r border-[#333] w-[260px] bg-transparent">핵심 책임</th>
                             <th className="px-[14px] py-[16px] text-[13px] font-normal text-[#86868B] border-b border-[#333] w-[130px] bg-transparent">부문 내 소속</th>
@@ -752,7 +753,10 @@ export default function StakeInternal() {
                                         
                                         {/* View All Button */}
                                         <div className="mt-[8px] flex">
-                                            <button className="px-[12px] py-[6px] rounded-[10px] border border-[#333] bg-transparent text-[12px] text-[#2997ff] hover:bg-[#2997ff]/10 transition-colors font-medium cursor-pointer tracking-tight">
+                                            <button 
+                                                onClick={() => setShowAlert(true)}
+                                                className="px-[12px] py-[6px] rounded-[10px] border border-[#333] bg-transparent text-[12px] text-[#2997ff] hover:bg-[#2997ff]/10 transition-colors font-medium cursor-pointer tracking-tight"
+                                            >
                                                 전체 활동로그 보기
                                             </button>
                                         </div>
@@ -788,6 +792,31 @@ export default function StakeInternal() {
                     }}
                 >
                     <img src={`${import.meta.env.BASE_URL}${hoveredImage}.webp`} alt="preview" className="w-full h-full object-cover" onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }} />
+                </div>
+            )}
+
+            {/* Alert Popup */}
+            {showAlert && (
+                <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/60 backdrop-blur-sm" onClick={() => setShowAlert(false)}>
+                    <div className="bg-[#1c1c1c] border border-[#333] rounded-[16px] p-[32px] w-[360px] flex flex-col items-center shadow-2xl" onClick={(e) => e.stopPropagation()}>
+                        <div className="w-[48px] h-[48px] rounded-full bg-[#2a2a2a] flex items-center justify-center mb-[20px]">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#A1A1AA" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="12" y1="16" x2="12" y2="12"></line>
+                                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                            </svg>
+                        </div>
+                        <h3 className="text-[18px] font-bold text-white mb-[12px] text-center">업데이트 예정</h3>
+                        <p className="text-[14px] text-[#A1A1AA] text-center leading-relaxed mb-[24px]">
+                            전체 활동로그 보기는 실제 로그가 쌓이는<br/>시점에 배포 예정입니다.
+                        </p>
+                        <button 
+                            onClick={() => setShowAlert(false)}
+                            className="w-full py-[12px] bg-white hover:bg-gray-200 text-black text-[14px] font-bold rounded-[10px] transition-colors cursor-pointer"
+                        >
+                            확인
+                        </button>
+                    </div>
                 </div>
             )}
         </div>
