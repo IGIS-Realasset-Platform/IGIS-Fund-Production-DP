@@ -353,22 +353,22 @@ export default function WorkspaceMarketing() {
                             </div>
                             
                             <div className={`overflow-hidden transition-all duration-300 ease-in-out ${expandedTaskId === row.id ? 'max-h-[200px] mt-6 pt-6 border-t border-[#3c3c3c] opacity-100' : 'max-h-0 opacity-0'}`}>
-                                <div className="flex justify-end gap-12 pr-4">
-                                    <div className="flex flex-col gap-2 text-right">
+                                <div className="flex justify-start items-center gap-12">
+                                    <div className="flex items-center gap-3">
                                         <span className="text-[13px] font-bold text-[#86868B]">관련 자산</span>
                                         <span className="text-[16px] text-white font-medium">{row.related_asset}</span>
                                     </div>
-                                    <div className="flex flex-col gap-2 items-end">
+                                    <div className="flex items-center gap-3">
                                         <span className="text-[13px] font-bold text-[#86868B]">상태</span>
                                         <span className={`px-2 py-1 rounded-[6px] text-[13px] font-bold w-max ${row.status === '제안진행' || row.status === '협상' ? 'bg-[#059669]/20 text-[#34d399]' : row.status === '자료준비' || row.status === '아이데이션' ? 'bg-[#d97706]/20 text-[#fbf167]' : row.status === '완료' ? 'bg-[#2563eb]/20 text-[#60a5fa]' : 'bg-[#4b5563]/20 text-[#9ca3af]'}`}>
                                             {row.status}
                                         </span>
                                     </div>
-                                    <div className="flex flex-col gap-2 text-right">
+                                    <div className="flex items-center gap-3">
                                         <span className="text-[13px] font-bold text-[#86868B]">중요도</span>
                                         <span className={`text-[16px] font-bold ${row.priority === '높음' ? 'text-[#ef4444]' : row.priority === '중간' ? 'text-[#3b82f6]' : 'text-[#10b981]'}`}>{row.priority}</span>
                                     </div>
-                                    <div className="flex flex-col gap-2 text-right">
+                                    <div className="flex items-center gap-3">
                                         <span className="text-[13px] font-bold text-[#86868B]">마감일</span>
                                         <span className="text-[16px] text-[#A1A1AA] font-['Inter'] font-medium">{row.due_date}</span>
                                     </div>
