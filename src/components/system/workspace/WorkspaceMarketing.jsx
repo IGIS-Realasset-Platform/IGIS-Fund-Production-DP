@@ -11,7 +11,7 @@ export default function WorkspaceMarketing() {
     const [tasks, setTasks] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [isAdding, setIsAdding] = useState(false);
-    const [sortBy, setSortBy] = useState('마감일');
+    const [sortBy, setSortBy] = useState('기본');
     const [newTask, setNewTask] = useState({
         task_name: '', company_name: '', related_asset: 'IOTA 공통', status: '아이데이션', priority: '중간', due_date: '', next_action: ''
     });
@@ -137,8 +137,50 @@ export default function WorkspaceMarketing() {
     const thisWeekTasks = pipelines.filter(t => t.bucket === '이번주');
     const nextWeekTasks = pipelines.filter(t => t.bucket === '다음주');
 
+    const handleMoveTaskUp = async (index) => {
+        if (index === 0) return;
+        const current = sortedTasks[index];
+        const prev = sortedTasks[index - 1];
+        
+        const temp = current.created_at;
+        current.created_at = prev.created_at;
+        prev.created_at = temp;
+        
+        const newTasks = tasks.map(t => t.id === current.id ? {...t, created_at: current.created_at} : t.id === prev.id ? {...t, created_at: prev.created_at} : t);
+        setTasks(newTasks);
+        
+        try {
+            await supabase.from('iota_marketing_tasks').update({ created_at: current.created_at }).eq('id', current.id);
+            await supabase.from('iota_marketing_tasks').update({ created_at: prev.created_at }).eq('id', prev.id);
+        } catch (e) {
+            localStorage.setItem('iota_marketing_tasks', JSON.stringify(newTasks));
+        }
+    };
+
+    const handleMoveTaskDown = async (index) => {
+        if (index === sortedTasks.length - 1) return;
+        const current = sortedTasks[index];
+        const next = sortedTasks[index + 1];
+        
+        const temp = current.created_at;
+        current.created_at = next.created_at;
+        next.created_at = temp;
+        
+        const newTasks = tasks.map(t => t.id === current.id ? {...t, created_at: current.created_at} : t.id === next.id ? {...t, created_at: next.created_at} : t);
+        setTasks(newTasks);
+        
+        try {
+            await supabase.from('iota_marketing_tasks').update({ created_at: current.created_at }).eq('id', current.id);
+            await supabase.from('iota_marketing_tasks').update({ created_at: next.created_at }).eq('id', next.id);
+        } catch (e) {
+            localStorage.setItem('iota_marketing_tasks', JSON.stringify(newTasks));
+        }
+    };
+
     const sortedTasks = [...tasks].sort((a, b) => {
-        if (sortBy === '마감일') {
+        if (sortBy === '기본') {
+            return new Date(b.created_at) - new Date(a.created_at);
+        } else if (sortBy === '마감일') {
             if (!a.due_date) return 1;
             if (!b.due_date) return -1;
             return new Date(a.due_date) - new Date(b.due_date);
@@ -208,6 +250,7 @@ export default function WorkspaceMarketing() {
                             onChange={(e) => setSortBy(e.target.value)}
                             className="px-[12px] py-[6px] bg-[#272726] border border-[#3c3c3c] text-[#A1A1AA] text-[13px] rounded-[8px] outline-none focus:border-[#555] appearance-none pr-[30px] cursor-pointer"
                         >
+                            <option value="기본">기본 순으로 보기</option>
                             <option value="마감일">마감일 순으로 보기</option>
                             <option value="중요도">중요도 순으로 보기</option>
                         </select>
@@ -317,11 +360,11 @@ export default function WorkspaceMarketing() {
                     <div className="text-center py-[40px] text-[#86868B]">데이터를 불러오는 중입니다...</div>
                 ) : (
                     <div className="flex flex-col gap-[10px]">
-                        {(projectShowAll ? sortedTasks : sortedTasks.slice(0, 5)).map((row) => (
+                        {(projectShowAll ? sortedTasks : sortedTasks.slice(0, 5)).map((row, index) => (
+                        <div key={row.id} className="flex gap-4 items-center group/row">
                         <div 
-                            key={row.id} 
                             onClick={() => setExpandedTaskId(expandedTaskId === row.id ? null : row.id)}
-                            className={`relative bg-[#272726] border border-[#3c3c3c] rounded-[24px] px-6 pt-6 pb-4 cursor-pointer transition-all duration-300 group ${expandedTaskId === row.id ? 'hover:bg-[#272726]' : 'hover:bg-[#333]'}`}
+                            className={`flex-1 relative bg-[#272726] border border-[#3c3c3c] rounded-[24px] px-6 pt-6 pb-4 cursor-pointer transition-all duration-300 group ${expandedTaskId === row.id ? 'hover:bg-[#272726]' : 'hover:bg-[#333]'}`}
                         >
                             <div className="absolute right-[-70px] top-6">
                                 <button 
@@ -378,6 +421,25 @@ export default function WorkspaceMarketing() {
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        {isAllowedEditor && sortBy === '기본' && (
+                            <div className="w-[32px] flex flex-col gap-1 opacity-0 group-hover/row:opacity-100 transition-opacity">
+                                <button 
+                                    onClick={(e) => { e.stopPropagation(); handleMoveTaskUp(index); }}
+                                    disabled={index === 0}
+                                    className={`w-8 h-8 flex items-center justify-center rounded-[8px] bg-[#272726] border border-[#3c3c3c] transition-colors ${index === 0 ? 'opacity-30 cursor-not-allowed' : 'hover:bg-[#333] cursor-pointer'}`}
+                                >
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#E5E5E5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
+                                </button>
+                                <button 
+                                    onClick={(e) => { e.stopPropagation(); handleMoveTaskDown(index); }}
+                                    disabled={index === (projectShowAll ? sortedTasks.length : Math.min(sortedTasks.length, 5)) - 1}
+                                    className={`w-8 h-8 flex items-center justify-center rounded-[8px] bg-[#272726] border border-[#3c3c3c] transition-colors ${index === (projectShowAll ? sortedTasks.length : Math.min(sortedTasks.length, 5)) - 1 ? 'opacity-30 cursor-not-allowed' : 'hover:bg-[#333] cursor-pointer'}`}
+                                >
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#E5E5E5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                </button>
+                            </div>
+                        )}
                         </div>
                         ))}
                     </div>

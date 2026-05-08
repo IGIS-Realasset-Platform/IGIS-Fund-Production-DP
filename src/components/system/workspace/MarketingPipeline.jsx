@@ -176,6 +176,50 @@ export default function MarketingPipeline({ memberInfo, masterStakeholders, fetc
         }
     };
 
+    const handleMovePipelineUp = async (index) => {
+        if (index === 0) return;
+        const current = pipelines[index];
+        const prev = pipelines[index - 1];
+        
+        const temp = current.created_at;
+        current.created_at = prev.created_at;
+        prev.created_at = temp;
+        
+        const newPipelines = [...pipelines];
+        newPipelines[index] = prev;
+        newPipelines[index - 1] = current;
+        setPipelines(newPipelines);
+        
+        try {
+            await supabase.from('iota_marketing_pipelines').update({ created_at: current.created_at }).eq('id', current.id);
+            await supabase.from('iota_marketing_pipelines').update({ created_at: prev.created_at }).eq('id', prev.id);
+        } catch (e) {
+            localStorage.setItem('iota_marketing_pipelines', JSON.stringify(newPipelines));
+        }
+    };
+
+    const handleMovePipelineDown = async (index) => {
+        if (index === pipelines.length - 1) return;
+        const current = pipelines[index];
+        const next = pipelines[index + 1];
+        
+        const temp = current.created_at;
+        current.created_at = next.created_at;
+        next.created_at = temp;
+        
+        const newPipelines = [...pipelines];
+        newPipelines[index] = next;
+        newPipelines[index + 1] = current;
+        setPipelines(newPipelines);
+        
+        try {
+            await supabase.from('iota_marketing_pipelines').update({ created_at: current.created_at }).eq('id', current.id);
+            await supabase.from('iota_marketing_pipelines').update({ created_at: next.created_at }).eq('id', next.id);
+        } catch (e) {
+            localStorage.setItem('iota_marketing_pipelines', JSON.stringify(newPipelines));
+        }
+    };
+
     const handleAddLog = async (pipelineId) => {
         if (!newLog.progress_detail || !newLog.management_plan) {
             alert('진행내용과 관리방안을 모두 입력해주세요.');
@@ -230,7 +274,6 @@ export default function MarketingPipeline({ memberInfo, masterStakeholders, fetc
             <div className="flex justify-between items-end mb-[12px]">
                 <h2 className="text-[18px] font-bold text-white">Pipe line 관리</h2>
                 <div className="flex items-center gap-4">
-                    <span className="text-[13px] text-[#86868B]">수기 입력 중심 운영 (컨택 포인트 포함)</span>
                     {isAllowedEditor && (
                         <button 
                             onClick={() => setIsAddingPipeline(!isAddingPipeline)}
@@ -380,14 +423,14 @@ export default function MarketingPipeline({ memberInfo, masterStakeholders, fetc
             )}
 
             <div className="flex flex-col gap-[10px]">
-                {pipelines.map(pipe => {
+                {pipelines.map((pipe, index) => {
                     const pipeLogs = logs.filter(l => l.pipeline_id === pipe.id);
                     const isExpanded = expandedPipelineId === pipe.id;
 
                     return (
+                        <div key={pipe.id} className="flex gap-4 items-center group/row">
                         <div 
-                            key={pipe.id}
-                            className={`bg-[#272726] border border-[#3c3c3c] rounded-[24px] p-6 transition-all duration-300 ${isExpanded ? '' : 'hover:bg-[#333] cursor-pointer'}`}
+                            className={`flex-1 bg-[#272726] border border-[#3c3c3c] rounded-[24px] p-6 transition-all duration-300 ${isExpanded ? '' : 'hover:bg-[#333] cursor-pointer'}`}
                             onClick={() => !isExpanded && setExpandedPipelineId(pipe.id)}
                         >
                             <div className="flex justify-between items-center gap-8 relative">
@@ -530,6 +573,25 @@ export default function MarketingPipeline({ memberInfo, masterStakeholders, fetc
                                     </div>
                                 </div>
                             )}
+                        </div>
+                        {isAllowedEditor && (
+                            <div className="w-[32px] flex flex-col gap-1 opacity-0 group-hover/row:opacity-100 transition-opacity">
+                                <button 
+                                    onClick={(e) => { e.stopPropagation(); handleMovePipelineUp(index); }}
+                                    disabled={index === 0}
+                                    className={`w-8 h-8 flex items-center justify-center rounded-[8px] bg-[#272726] border border-[#3c3c3c] transition-colors ${index === 0 ? 'opacity-30 cursor-not-allowed' : 'hover:bg-[#333] cursor-pointer'}`}
+                                >
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#E5E5E5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
+                                </button>
+                                <button 
+                                    onClick={(e) => { e.stopPropagation(); handleMovePipelineDown(index); }}
+                                    disabled={index === pipelines.length - 1}
+                                    className={`w-8 h-8 flex items-center justify-center rounded-[8px] bg-[#272726] border border-[#3c3c3c] transition-colors ${index === pipelines.length - 1 ? 'opacity-30 cursor-not-allowed' : 'hover:bg-[#333] cursor-pointer'}`}
+                                >
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#E5E5E5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                </button>
+                            </div>
+                        )}
                         </div>
                     );
                 })}
