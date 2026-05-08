@@ -1,13 +1,44 @@
-import React, { useState, useEffect } from 'react';
-import { useAuth } from '../../../context/AuthContext';
-import { motion, AnimatePresence } from 'framer-motion';
-import { supabase } from '../../../utils/supabaseClient';
-import WorkspaceActivityLog from './WorkspaceActivityLog';
+import re
+import os
 
-export default function WorkspacePm() {
+configs = [
+    {
+        "file": "src/components/system/workspace/WorkspaceFinancing.jsx",
+        "table": "iota_financing_tasks",
+        "title": "파이낸싱 주요 테스크 관리",
+        "auth": "['전기영', '박준호', '윤상준', '이희재', '강상구', '김지혜', '박세진', '김수종', '김민지']",
+        "target_jsx": '<WorkspaceActivityLog workspaceCode="WS_LFC" workspaceLabel="파이낸싱-LFC" />',
+        "component_name": "WorkspaceFinancing"
+    },
+    {
+        "file": "src/components/system/workspace/WorkspaceDevelopment.jsx",
+        "table": "iota_development_tasks",
+        "title": "개발솔루션 주요 테스크 관리",
+        "auth": "['전기영', '홍장군', '채원', '김보성', '전승희', '김대익', '장성진', '이정훈', '박봉서']",
+        "target_jsx": '<WorkspaceActivityLog workspaceCode="WS_DSC" workspaceLabel="개발솔루션-DSC" />',
+        "component_name": "WorkspaceDevelopment"
+    },
+    {
+        "file": "src/components/system/workspace/WorkspaceFund.jsx",
+        "table": "iota_fund_tasks",
+        "title": "펀드운용 주요 테스크 관리",
+        "auth": "['전기영', '김행단', '이동명', '최선영']",
+        "target_jsx": '<WorkspaceActivityLog workspaceCode="WS_KAM" workspaceLabel="펀드운용-KAM" />',
+        "component_name": "WorkspaceFund"
+    },
+    {
+        "file": "src/components/system/workspace/WorkspaceIpr.jsx",
+        "table": "iota_ipr_tasks",
+        "title": "IPR 주요 테스크 관리",
+        "auth": "['전기영', '권순일', '윤용택', '정수명', '김성원', '이가현', '박재호', '허재영']",
+        "target_jsx": '<WorkspaceActivityLog workspaceCode="WS_IPR" workspaceLabel="IPR" />',
+        "component_name": "WorkspaceIpr"
+    }
+]
 
+state_template = """
     const { memberInfo } = useAuth();
-    const isAuthorized = ['전기영', '강순용', '윤주형', '김제익', '류홍', '박만진', '박일훈', '이정원', '전무경', '한찬호', '박석제', '박채현', '소현준', '이수정', '조영비', '한수정'].includes(memberInfo?.staff_name);
+    const isAuthorized = {AUTH}.includes(memberInfo?.staff_name);
 
     // Task Management States
     const [tasks, setTasks] = useState([]);
@@ -38,7 +69,7 @@ export default function WorkspacePm() {
     useEffect(() => {
         fetchTasks();
         fetchMasterStakeholders();
-        const saved = localStorage.getItem('iota_pm_custom_assets');
+        const saved = localStorage.getItem('{TABLE}_custom_assets');
         if (saved) setCustomAssets(JSON.parse(saved));
     }, []);
 
@@ -76,7 +107,7 @@ export default function WorkspacePm() {
         setTimeout(() => {
             const updated = [...customAssets, newAssetName.trim()];
             setCustomAssets(updated);
-            localStorage.setItem('iota_pm_custom_assets', JSON.stringify(updated));
+            localStorage.setItem('{TABLE}_custom_assets', JSON.stringify(updated));
             setNewTask({...newTask, related_asset: newAssetName.trim()});
             setIsSubmittingAsset(false);
             setShowNewAssetModal(false);
@@ -91,12 +122,12 @@ export default function WorkspacePm() {
         setIsLoadingTasks(true);
         try {
             const { data, error } = await supabase
-                .from('iota_pm_tasks')
+                .from('{TABLE}')
                 .select('*')
                 .order('created_at', { ascending: false });
             if (error) {
                 console.warn('Falling back to local storage for tasks:', error);
-                const localData = localStorage.getItem('iota_pm_tasks_fallback');
+                const localData = localStorage.getItem('{TABLE}_fallback');
                 if (localData) setTasks(JSON.parse(localData));
                 else setTasks([]);
             } else {
@@ -104,7 +135,7 @@ export default function WorkspacePm() {
             }
         } catch (e) {
             console.error('Failed to fetch tasks:', e);
-            const localData = localStorage.getItem('iota_pm_tasks_fallback');
+            const localData = localStorage.getItem('{TABLE}_fallback');
             if (localData) setTasks(JSON.parse(localData));
         } finally {
             setIsLoadingTasks(false);
@@ -115,12 +146,12 @@ export default function WorkspacePm() {
         if (!newTask.task_name) return alert('Task 명을 입력해주세요.');
         const taskToSave = { ...newTask, id: Date.now().toString(), created_at: new Date().toISOString() };
         try {
-            const { error } = await supabase.from('iota_pm_tasks').insert([taskToSave]);
+            const { error } = await supabase.from('{TABLE}').insert([taskToSave]);
             if (error) throw error;
         } catch (e) {
             console.warn('Saving to local storage fallback due to error:', e);
             const updated = [taskToSave, ...tasks];
-            localStorage.setItem('iota_pm_tasks_fallback', JSON.stringify(updated));
+            localStorage.setItem('{TABLE}_fallback', JSON.stringify(updated));
         }
         
         setNewTask({ task_name: '', company_name: '', related_asset: 'IOTA 공통', status: '신규', priority: '중간', due_date: '', next_action: '' });
@@ -132,12 +163,12 @@ export default function WorkspacePm() {
     const handleDeleteRow = async (id) => {
         setIsDeleting(true);
         try {
-            const { error } = await supabase.from('iota_pm_tasks').delete().eq('id', id);
+            const { error } = await supabase.from('{TABLE}').delete().eq('id', id);
             if (error) throw error;
         } catch (e) {
             console.warn('Deleting from local storage fallback due to error:', e);
             const updated = tasks.filter(t => t.id !== id);
-            localStorage.setItem('iota_pm_tasks_fallback', JSON.stringify(updated));
+            localStorage.setItem('{TABLE}_fallback', JSON.stringify(updated));
         } finally {
             fetchTasks();
             setIsDeleting(false);
@@ -166,10 +197,10 @@ export default function WorkspacePm() {
         setTasks(newTasks);
         
         try {
-            await supabase.from('iota_pm_tasks').update({ created_at: current.created_at }).eq('id', current.id);
-            await supabase.from('iota_pm_tasks').update({ created_at: prev.created_at }).eq('id', prev.id);
+            await supabase.from('{TABLE}').update({ created_at: current.created_at }).eq('id', current.id);
+            await supabase.from('{TABLE}').update({ created_at: prev.created_at }).eq('id', prev.id);
         } catch (e) {
-            localStorage.setItem('iota_pm_tasks_fallback', JSON.stringify(newTasks));
+            localStorage.setItem('{TABLE}_fallback', JSON.stringify(newTasks));
         }
     };
 
@@ -186,10 +217,10 @@ export default function WorkspacePm() {
         setTasks(newTasks);
         
         try {
-            await supabase.from('iota_pm_tasks').update({ created_at: current.created_at }).eq('id', current.id);
-            await supabase.from('iota_pm_tasks').update({ created_at: next.created_at }).eq('id', next.id);
+            await supabase.from('{TABLE}').update({ created_at: current.created_at }).eq('id', current.id);
+            await supabase.from('{TABLE}').update({ created_at: next.created_at }).eq('id', next.id);
         } catch (e) {
-            localStorage.setItem('iota_pm_tasks_fallback', JSON.stringify(newTasks));
+            localStorage.setItem('{TABLE}_fallback', JSON.stringify(newTasks));
         }
     };
 
@@ -209,7 +240,7 @@ export default function WorkspacePm() {
 
     const parseNames = (text) => {
         if (!text) return text;
-        const names = ['강순용', '권순일', '윤주형', '김제익', '박석제', '이수정'];
+        const names = {AUTH};
         let result = text;
         names.forEach(name => {
             const regex = new RegExp(name, 'g');
@@ -217,133 +248,13 @@ export default function WorkspacePm() {
         });
         return <span dangerouslySetInnerHTML={{ __html: result }} />;
     };
+"""
 
-    const [kpiData, setKpiData] = useState({
-        progress_percent: 18.0,
-        budget_variance: 1.2,
-        schedule_slippage_days: 7,
-        covenant_status: '정상',
-        covenant_ltv: 45.5,
-        covenant_dscr: 1.25
-    });
-
-    const [expandedDecisions, setExpandedDecisions] = useState({});
-
-    const riskData = [
-        { no: 1, risk: '공정 지연 (시공·인허가 복합)', cellText: '개발관리(', cellMembers: ['홍장군'], cellSuffix: ')', trigger: '2주 누적 지연', final: 'PM', status: '정상' },
-        { no: 2, risk: '사업비 UW 범위 외 증가', cellText: 'PM(', cellMembers: ['강순용'], cellSuffix: ')', trigger: 'UW +5% 누적', final: 'CFT 총괄', status: '정상' },
-        { no: 3, risk: '대주단 Covenants 위반', cellText: 'LFC(', cellMembers: ['박준호'], cellSuffix: ')', trigger: 'DSCR/LTV 임계점', final: 'CFT 총괄', status: '정상' },
-        { no: 4, risk: '핵심 임차인 이탈/철회', cellText: 'EMC(', cellMembers: ['김민지'], cellSuffix: ')', trigger: 'LOI 철회 통보', final: 'PM', status: '주의' },
-        { no: 5, risk: '금리 환경 급변(리파이낸싱 옵션 훼손)', cellText: 'LFC(', cellMembers: ['박준호'], cellSuffix: ')', trigger: '시장금리 ±50bp', final: 'CFT 총괄', status: '정상' },
-        { no: 6, risk: 'LP 분배 지연 / 신뢰 하락', cellText: 'KAM(', cellMembers: ['김행단'], cellSuffix: ')', trigger: '분배 지연 30일', final: 'CFT 총괄', status: '정상' },
-        { no: 7, risk: 'IPR 권순약정 협상 지연', cellText: '프리츠 TFT(', cellMembers: ['권순일'], cellSuffix: ')', trigger: 'Stage 2 지연 60일', final: 'CFT 총괄', status: '주의' },
-        { no: 8, risk: '규제·인허가 변경', cellText: '사업1파트(', cellMembers: ['권순일'], cellSuffix: ')', trigger: '법령/지침 개정', final: '부문대표', status: '정상' },
-        { no: 9, risk: '외부 자문 이해상충 노출', cellText: 'CFT 총괄', cellMembers: ['이철승', '권순일', '강순용'], cellSuffix: '', trigger: '감정평가 5% 차이', final: '부문대표', status: '정상', hideNames: true },
-        { no: 10, risk: '평판/미디어 리스크', cellText: 'CFT 총괄', cellMembers: ['이철승', '권순일', '강순용'], cellSuffix: '', trigger: '외부 매체 보도', final: '부문대표', status: '정상', hideNames: true },
-    ];
-
-    const renderCell = (text, members, suffix, hideNames = false) => {
-        return (
-            <div className="flex items-center gap-[12px]">
-                {members.length > 0 && (
-                    <div className="flex -space-x-2 shrink-0">
-                        {members.map((name, idx) => (
-                            <div key={idx} className="w-[36px] h-[36px] rounded-full overflow-hidden bg-[#3c3c3c] border border-[#1A1A1A] relative z-[1]">
-                                <img src={`${import.meta.env.BASE_URL}${name}.webp`} alt={name} className="w-full h-full object-cover" onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }} />
-                            </div>
-                        ))}
-                    </div>
-                )}
-                <div className="leading-snug whitespace-normal">
-                    {text}
-                    {!hideNames && members.map((name, idx) => (
-                        <React.Fragment key={idx}>
-                            <span className="text-[#E5E5E5] hover:text-[#fbf167] cursor-pointer transition-colors hover:underline underline-offset-4 decoration-[#fbf167]/50">{name}</span>
-                            {idx < members.length - 1 && '·'}
-                        </React.Fragment>
-                    ))}
-                    {!hideNames && suffix}
-                </div>
-            </div>
-        );
-    };
-
-    useEffect(() => {
-        const fetchKpis = async () => {
-            const { data, error } = await supabase
-                .from('iota_workspace_kpis')
-                .select('*')
-                .eq('project_id', 'IOTA_SEOUL')
-                .single();
-                
-            if (data && !error) {
-                setKpiData(data);
-            }
-        };
-        fetchKpis();
-    }, []);
-
-    const toggleDecisionExpand = (id) => {
-        setExpandedDecisions(prev => ({ ...prev, [id]: !prev[id] }));
-    };
-
-    return (
-        <div className="w-full flex-1 flex flex-col pt-[48px] pb-[200px] max-w-[1200px] mx-auto">
-            {/* Header & Team Structure */}
-            <div className="w-full flex justify-between items-center mb-[40px] gap-[40px]">
-                {/* Header Metadata */}
-                <div className="shrink-0 max-w-[300px]">
-                    <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[12px]">사업 PM</h1>
-                    <p className="text-[15px] text-[#86868B] leading-[24px]">전체 사업 일정 및 예산 통제, 변경관리 결정</p>
-                </div>
-                
-                {/* PM Team Structure */}
-                <div className="border border-[#333] rounded-[24px] flex items-center bg-transparent overflow-x-auto hide-scrollbar max-w-[700px] pl-[20px] pr-[10px] py-[10px]">
-                    
-                    <div className="flex items-center shrink-0">
-                        <span className="text-[13px] font-bold text-[#86868B] mr-[16px]">Co-PM</span>
-                        
-                        <div className="flex items-center gap-[12px]">
-                            {/* 권순일 */}
-                            <div className="flex items-center gap-[6px]">
-                                <div className="relative w-[28px] h-[28px] shrink-0 rounded-full bg-[#3c3c3c] flex items-center justify-center overflow-hidden">
-                                    <img src={`${import.meta.env.BASE_URL}권순일.webp`} alt="권순일" className="w-full h-full object-cover" onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }} />
-                                </div>
-                                <span className="text-white font-bold text-[13px]">권순일</span>
-                            </div>
-                            {/* 강순용 */}
-                            <div className="flex items-center gap-[6px]">
-                                <div className="relative w-[28px] h-[28px] shrink-0 rounded-full bg-[#3c3c3c] flex items-center justify-center overflow-hidden">
-                                    <img src={`${import.meta.env.BASE_URL}강순용.webp`} alt="강순용" className="w-full h-full object-cover" onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }} />
-                                </div>
-                                <span className="text-white font-bold text-[13px]">강순용</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div className="w-px h-[20px] bg-[#333] mx-[16px] shrink-0"></div>
-
-                    <div className="flex items-center gap-[6px] shrink-0">
-                        {['윤주형', '김제익', '류홍', '박만진', '박일훈', '이정원', '전무경', '한찬호', '박석제', '박채현', '소현준', '이수정', '조영비', '한수정'].map(name => (
-                            <div key={name} className="flex items-center gap-[6px] bg-[#222] border border-[#333] rounded-full pl-[4px] pr-[10px] py-[4px] min-w-[76px] shrink-0">
-                                <div className="w-[21px] h-[21px] shrink-0 rounded-full bg-[#3c3c3c] overflow-hidden">
-                                    <img src={`${import.meta.env.BASE_URL}${name}.webp`} alt={name} className="w-full h-full object-cover" onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }} />
-                                </div>
-                                <span className="text-[#E5E5E5] text-[12px] font-medium leading-none">{name}</span>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </div>
-
-
-
-            <WorkspaceActivityLog workspaceCode="WS_PM" workspaceLabel="사업 PM" />
-
+jsx_template = """
             {/* 2. Task 관리 */}
             <div className="w-full mt-0"></div>
             <div className="flex justify-between items-center mb-[10px]">
-                <h2 className="text-[18px] font-bold text-white tracking-tight">사업 PM 주요 테스크 관리</h2>
+                <h2 className="text-[18px] font-bold text-white tracking-tight">{TITLE}</h2>
                 <div className="flex gap-2 items-center">
                     <div className="flex bg-[#272726] border border-[#3c3c3c] rounded-[8px] overflow-hidden p-[2px]">
                         <button onClick={() => setAssetFilter('427 PFV')} className={`px-[12px] py-[4px] text-[13px] font-bold rounded-[6px] transition-colors ${assetFilter === '427 PFV' ? 'bg-[#3c3c3c] text-white' : 'text-[#86868B] hover:text-[#E5E5E5]'}`}>이오타서울만 보기</button>
@@ -477,7 +388,6 @@ export default function WorkspacePm() {
                                 onClick={() => setExpandedTaskId((expandedTaskId === 'ALL' || expandedTaskId === row.id) ? null : row.id)}
                                 className={`w-full relative bg-[#272726] border border-[#3c3c3c] rounded-[24px] px-6 pt-6 pb-4 cursor-pointer transition-colors duration-300 group/row ${(expandedTaskId === 'ALL' || expandedTaskId === row.id) ? 'hover:bg-[#272726]' : 'hover:bg-[#333]'}`}
                             >
-                            {/* 삭제 및 정렬 버튼 (우측 바깥 영역) */}
                             {isAuthorized && (
                                 <div className="absolute right-[-118px] w-[118px] pl-[8px] top-0 bottom-0 flex items-center justify-start gap-2 opacity-0 group-hover/row:opacity-100 transition-opacity">
                                         <div className="flex flex-col gap-1">
@@ -557,42 +467,9 @@ export default function WorkspacePm() {
                     </div>
                 )}
             </div>
+"""
 
-
-            {/* Top 10 Risks Board */}
-            <h2 className="text-[18px] font-bold text-white mb-[12px]">Top 10 리스크 모니터링</h2>
-            <div className="w-full bg-transparent border border-[#333] rounded-[24px] overflow-hidden mb-[40px]">
-                <table className="w-full text-left">
-                    <thead className="bg-transparent">
-                        <tr>
-                            <th className="px-[16px] py-[16px] text-[15px] font-bold text-[#555] border-b border-[#333] w-[50px] text-center">#</th>
-                            <th className="pl-[4px] pr-[24px] py-[16px] text-[15px] font-bold text-[#86868B] border-b border-[#333] border-r border-[#333] w-[300px]">리스크</th>
-                            <th className="px-[24px] py-[16px] text-[15px] font-bold text-[#E5E5E5] border-b border-[#333] border-r border-[#333] w-[240px]">1차 대응 셀</th>
-                            <th className="px-[24px] py-[16px] text-[15px] font-bold text-[#e11d48] border-b border-[#333] border-r border-[#333] w-[200px]">트리거</th>
-                            <th className="px-[24px] py-[16px] text-[15px] font-bold text-white border-b border-[#333] border-r border-[#333] w-[130px] text-center">최종 책임</th>
-                            <th className="px-[24px] py-[16px] text-[15px] font-bold text-[#86868B] border-b border-[#333] w-[120px] text-center">상태</th>
-                        </tr>
-                    </thead>
-                    <tbody className="divide-y divide-[#333]">
-                        {riskData.map((row, idx) => (
-                            <tr key={idx} className="hover:bg-[#292928] transition-colors">
-                                <td className="px-[16px] py-[16px] text-[15px] font-bold text-[#555] text-center">{row.no}</td>
-                                <td className="pl-[4px] pr-[24px] py-[16px] text-[16px] font-bold text-white border-r border-[#333]">{row.risk}</td>
-                                <td className="px-[24px] py-[16px] text-[15px] text-white border-r border-[#333]">{renderCell(row.cellText, row.cellMembers, row.cellSuffix, row.hideNames)}</td>
-                                <td className="px-[24px] py-[16px] text-[15px] font-medium text-[#c3c2b7] border-r border-[#333]">{row.trigger}</td>
-                                <td className="px-[24px] py-[16px] text-[15px] font-bold text-white border-r border-[#333] text-center">{row.final}</td>
-                                <td className="px-[24px] py-[16px] text-center">
-                                    <div className="inline-flex items-center justify-center bg-black rounded-[12px] px-[12px] py-[6px]">
-                                        <span className={`text-[13px] font-bold ${row.status === '주의' ? 'text-[#f59e0b]' : 'text-[#2997FF]'}`}>{row.status}</span>
-                                    </div>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
-
-
+modals_template = """
             {showNewStakeholderModal && (
                 <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60">
                     <div className="bg-[#222] border border-[#333] rounded-[16px] w-[320px] p-[24px] shadow-2xl flex flex-col items-center">
@@ -697,7 +574,50 @@ export default function WorkspacePm() {
                     </div>
                 </div>
             )}
+"""
 
-        </div>
+for cfg in configs:
+    with open(cfg["file"], "r") as f:
+        content = f.read()
+
+    # 1. Imports
+    if "import { useAuth } from '../../../context/AuthContext';" not in content:
+        content = content.replace("import React, { useState, useEffect } from 'react';", "import React, { useState, useEffect } from 'react';\nimport { useAuth } from '../../../context/AuthContext';\nimport { motion, AnimatePresence } from 'framer-motion';")
+    else:
+        if "from 'framer-motion'" not in content:
+            content = content.replace("import { useAuth }", "import { useAuth } from '../../../context/AuthContext';\nimport { motion, AnimatePresence } from 'framer-motion';\n//")
+
+    # 2. Add State Logic
+    component_start_pattern = rf"(export default function {cfg['component_name']}\(\) {{)"
+    component_start_match = re.search(component_start_pattern, content)
+    
+    if component_start_match:
+        state_str = state_template.replace("{TABLE}", cfg["table"]).replace("{AUTH}", cfg["auth"])
+        content = content[:component_start_match.end()] + "\n" + state_str + content[component_start_match.end():]
+
+    # 3. Add JSX
+    jsx_str = jsx_template.replace("{TITLE}", cfg["title"])
+    target_jsx = cfg["target_jsx"]
+    
+    if target_jsx in content:
+        content = content.replace(target_jsx, target_jsx + "\n" + jsx_str)
+    
+    # 4. Add Modals
+    target_end = """        </div>
     );
-}
+}"""
+    if target_end in content:
+        content = content.replace(target_end, modals_template + "\n" + target_end)
+    else:
+        # Fallback if different ending
+        target_end_2 = """        </div>
+    )
+}"""
+        if target_end_2 in content:
+            content = content.replace(target_end_2, modals_template + "\n" + target_end_2)
+
+    with open(cfg["file"], "w") as f:
+        f.write(content)
+        
+    print(f"Patched {cfg['component_name']}")
+
