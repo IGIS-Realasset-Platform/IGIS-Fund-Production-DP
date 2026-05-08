@@ -1,6 +1,20 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { supabase } from '../../../utils/supabaseClient';
 
+const MOCK_PIPELINES = [
+    {"id": "task-pipe-pwc", "channel_name": "PwC삼일회계법인", "related_asset": "이오타서울, 현대차새만금프로젝트", "status": "진행중", "contact_point": "박성진 부대표 메인", "created_at": "2026-05-08T00:00:00Z"},
+    {"id": "task-pipe-samsungpb", "channel_name": "삼성증권PB", "related_asset": "타임워크신도림, 분당롯데", "status": "진행중", "contact_point": "노혜란 지점장, 여인모 위원", "created_at": "2026-05-08T00:00:00Z"},
+    {"id": "task-pipe-saramin", "channel_name": "사람인", "related_asset": "타임워크신도림", "status": "진행중", "contact_point": "이경호 본부장", "created_at": "2026-05-08T00:00:00Z"},
+    {"id": "task-pipe-rsquare", "channel_name": "알스퀘어", "related_asset": "미정", "status": "대기", "contact_point": "미정", "created_at": "2026-05-08T00:00:00Z"}
+];
+
+const MOCK_LOGS = [
+    {"id": "log-1", "pipeline_id": "task-pipe-pwc", "progress_detail": "킥오프 미팅 통한 이오타 서울 임차기업 리스트업 및 현대차 새만금 연계 검토", "management_plan": "주기적 미팅 및 보상 방안 구조화", "created_at": "2026-05-08T00:00:00Z"},
+    {"id": "log-2", "pipeline_id": "task-pipe-samsungpb", "progress_detail": "타임워크 신도림 계약서 검토 단계, 타임워크 분당 양사 연결 브리핑 진행", "management_plan": "주기적 미팅 및 신규 기업 물색", "created_at": "2026-05-08T00:00:00Z"},
+    {"id": "log-3", "pipeline_id": "task-pipe-saramin", "progress_detail": "사람인 사이트 하위 메뉴에 임차 정보 확인 및 임차 제안서 신규 업로드 요청", "management_plan": "주기적 미팅 및 진행 현황 체크, 실효성 검토", "created_at": "2026-05-08T00:00:00Z"},
+    {"id": "log-4", "pipeline_id": "task-pipe-rsquare", "progress_detail": "알스퀘어 TR DB 구축형 활용 가능 여부 협의", "management_plan": "1차 미팅 예정", "created_at": "2026-05-08T00:00:00Z"}
+];
+
 export default function MarketingPipeline({ memberInfo, masterStakeholders, fetchMasterStakeholders }) {
     const [pipelines, setPipelines] = useState([]);
     const [logs, setLogs] = useState([]);
@@ -10,7 +24,7 @@ export default function MarketingPipeline({ memberInfo, masterStakeholders, fetc
 
     // States for Adding Pipeline
     const [isAddingPipeline, setIsAddingPipeline] = useState(false);
-    const [newPipeline, setNewPipeline] = useState({ channel_name: '', status: '대기', related_asset: 'IOTA 공통', contact_point: '' });
+    const [newPipeline, setNewPipeline] = useState({ channel_name: '', status: '대기', related_asset: 'IOTA 공통', contact_point: '', progress_detail: '', management_plan: '' });
     const [showCompanyDropdown, setShowCompanyDropdown] = useState(false);
     const [showContactDropdown, setShowContactDropdown] = useState(false);
 
@@ -31,6 +45,10 @@ export default function MarketingPipeline({ memberInfo, masterStakeholders, fetc
             console.warn('Supabase fetch failed, falling back to localStorage for pipelines', e);
             const local = localStorage.getItem('iota_marketing_pipelines');
             if (local) setPipelines(JSON.parse(local));
+            else {
+                setPipelines(MOCK_PIPELINES);
+                localStorage.setItem('iota_marketing_pipelines', JSON.stringify(MOCK_PIPELINES));
+            }
         }
     };
 
@@ -43,6 +61,10 @@ export default function MarketingPipeline({ memberInfo, masterStakeholders, fetc
             console.warn('Supabase fetch failed, falling back to localStorage for logs', e);
             const local = localStorage.getItem('iota_marketing_pipeline_logs');
             if (local) setLogs(JSON.parse(local));
+            else {
+                setLogs(MOCK_LOGS);
+                localStorage.setItem('iota_marketing_pipeline_logs', JSON.stringify(MOCK_LOGS));
+            }
         }
     };
 
@@ -52,18 +74,52 @@ export default function MarketingPipeline({ memberInfo, masterStakeholders, fetc
     }, []);
 
     const submitPipeline = async () => {
-        const insertData = { ...newPipeline, created_at: new Date().toISOString() };
+        const insertData = { 
+            channel_name: newPipeline.channel_name, 
+            status: newPipeline.status, 
+            related_asset: newPipeline.related_asset, 
+            contact_point: newPipeline.contact_point, 
+            created_at: new Date().toISOString() 
+        };
+        const fallbackPipelineId = `task-pipe-${Date.now()}`;
+        
         try {
-            const { error } = await supabase.from('iota_marketing_pipelines').insert([insertData]);
+            const { data, error } = await supabase.from('iota_marketing_pipelines').insert([insertData]).select('*');
             if (error) throw error;
+            
+            const pId = data && data[0] ? data[0].id : fallbackPipelineId;
+            
+            if (newPipeline.progress_detail || newPipeline.management_plan) {
+                await supabase.from('iota_marketing_pipeline_logs').insert([{
+                    pipeline_id: pId,
+                    progress_detail: newPipeline.progress_detail,
+                    management_plan: newPipeline.management_plan,
+                    created_at: new Date().toISOString()
+                }]);
+            }
             await fetchPipelines();
+            await fetchLogs();
         } catch (e) {
-            const local = [...pipelines, { ...insertData, id: Date.now().toString() }];
-            setPipelines(local);
-            localStorage.setItem('iota_marketing_pipelines', JSON.stringify(local));
+            insertData.id = fallbackPipelineId;
+            const localPipes = [...pipelines, insertData];
+            setPipelines(localPipes);
+            localStorage.setItem('iota_marketing_pipelines', JSON.stringify(localPipes));
+            
+            if (newPipeline.progress_detail || newPipeline.management_plan) {
+                const logData = {
+                    id: `log-${Date.now()}`,
+                    pipeline_id: fallbackPipelineId,
+                    progress_detail: newPipeline.progress_detail,
+                    management_plan: newPipeline.management_plan,
+                    created_at: new Date().toISOString()
+                };
+                const localLogs = [...logs, logData];
+                setLogs(localLogs);
+                localStorage.setItem('iota_marketing_pipeline_logs', JSON.stringify(localLogs));
+            }
         }
         setIsAddingPipeline(false);
-        setNewPipeline({ channel_name: '', status: '대기', related_asset: 'IOTA 공통', contact_point: '' });
+        setNewPipeline({ channel_name: '', status: '대기', related_asset: 'IOTA 공통', contact_point: '', progress_detail: '', management_plan: '' });
     };
 
     const registerMasterStakeholder = async () => {
@@ -196,6 +252,7 @@ export default function MarketingPipeline({ memberInfo, masterStakeholders, fetc
                                     }}
                                     onFocus={() => setShowCompanyDropdown(true)}
                                     onBlur={() => setTimeout(() => setShowCompanyDropdown(false), 200)}
+                                    onKeyDown={e => { if(e.key === 'Enter') handleAddPipeline() }}
                                     className="w-full bg-[#272726] border border-[#444] rounded-[12px] px-4 py-3 text-white text-[15px] outline-none focus:border-[#888]" 
                                     placeholder="기업명 검색" 
                                 />
@@ -232,6 +289,7 @@ export default function MarketingPipeline({ memberInfo, masterStakeholders, fetc
                                     }}
                                     onFocus={() => setShowContactDropdown(true)}
                                     onBlur={() => setTimeout(() => setShowContactDropdown(false), 200)}
+                                    onKeyDown={e => { if(e.key === 'Enter') handleAddPipeline() }}
                                     className="w-full bg-[#272726] border border-[#444] rounded-[12px] px-4 py-3 text-white text-[15px] outline-none focus:border-[#888]" 
                                     placeholder="담당자명 검색" 
                                 />
@@ -262,7 +320,7 @@ export default function MarketingPipeline({ memberInfo, masterStakeholders, fetc
                                 <select 
                                     value={newPipeline.status}
                                     onChange={e => setNewPipeline({...newPipeline, status: e.target.value})}
-                                    className="w-full bg-[#272726] border border-[#444] rounded-[12px] px-4 py-3 text-white text-[15px] outline-none focus:border-[#888] appearance-none"
+                                    className="w-full bg-[#272726] border border-[#444] rounded-[12px] px-4 py-3 text-white text-[15px] outline-none focus:border-[#888] appearance-none cursor-pointer"
                                 >
                                     <option>대기</option>
                                     <option>진행중</option>
@@ -276,13 +334,37 @@ export default function MarketingPipeline({ memberInfo, masterStakeholders, fetc
                                 <select 
                                     value={newPipeline.related_asset}
                                     onChange={e => setNewPipeline({...newPipeline, related_asset: e.target.value})}
-                                    className="w-full bg-[#272726] border border-[#444] rounded-[12px] px-4 py-3 text-white text-[15px] outline-none focus:border-[#888] appearance-none"
+                                    className="w-full bg-[#272726] border border-[#444] rounded-[12px] px-4 py-3 text-white text-[15px] outline-none focus:border-[#888] appearance-none cursor-pointer"
                                 >
                                     <option>IOTA 공통</option>
                                     <option>427 PFV</option>
                                     <option>816 PFV</option>
                                     <option>421 Fund</option>
                                 </select>
+                            </div>
+                        </div>
+                        <div className="flex gap-4">
+                            <div className="flex-1">
+                                <label className="block text-[#86868B] text-[13px] font-bold mb-2">초기 진행내용 (선택)</label>
+                                <input 
+                                    type="text" 
+                                    value={newPipeline.progress_detail}
+                                    onChange={e => setNewPipeline({...newPipeline, progress_detail: e.target.value})}
+                                    onKeyDown={e => { if(e.key === 'Enter') handleAddPipeline() }}
+                                    className="w-full bg-[#272726] border border-[#444] rounded-[12px] px-4 py-3 text-white text-[15px] outline-none focus:border-[#888]" 
+                                    placeholder="진행내용 요약" 
+                                />
+                            </div>
+                            <div className="flex-1">
+                                <label className="block text-[#86868B] text-[13px] font-bold mb-2">초기 관리방안 (선택)</label>
+                                <input 
+                                    type="text" 
+                                    value={newPipeline.management_plan}
+                                    onChange={e => setNewPipeline({...newPipeline, management_plan: e.target.value})}
+                                    onKeyDown={e => { if(e.key === 'Enter') handleAddPipeline() }}
+                                    className="w-full bg-[#272726] border border-[#444] rounded-[12px] px-4 py-3 text-white text-[15px] outline-none focus:border-[#888]" 
+                                    placeholder="관리방안 및 향후 계획" 
+                                />
                             </div>
                         </div>
                         <div className="flex justify-end pt-2 border-t border-[#3c3c3c]">
@@ -324,21 +406,37 @@ export default function MarketingPipeline({ memberInfo, masterStakeholders, fetc
                                     </div>
                                     
                                     {/* 나머지 정보 */}
-                                    <div className="flex-1 flex gap-12 items-center">
-                                        <div className="flex flex-col gap-1">
-                                            <span className="text-[13px] font-bold text-[#86868B]">상태</span>
-                                            <span className={`px-2 py-1 rounded-[6px] text-[13px] font-bold w-max ${pipe.status === '진행중' ? 'bg-[#059669]/20 text-[#34d399]' : pipe.status === '검토필요' ? 'bg-[#d97706]/20 text-[#fbf167]' : pipe.status === '완료' ? 'bg-[#2563eb]/20 text-[#60a5fa]' : pipe.status === '지연' ? 'bg-[#ef4444]/20 text-[#f87171]' : 'bg-[#4b5563]/20 text-[#9ca3af]'}`}>
-                                                {pipe.status}
-                                            </span>
+                                    <div className="flex-1 flex flex-col justify-center gap-4">
+                                        <div className="flex gap-12 items-center">
+                                            <div className="flex flex-col gap-1">
+                                                <span className="text-[13px] font-bold text-[#86868B]">상태</span>
+                                                <span className={`px-2 py-1 rounded-[6px] text-[13px] font-bold w-max ${pipe.status === '진행중' ? 'bg-[#059669]/20 text-[#34d399]' : pipe.status === '검토필요' ? 'bg-[#d97706]/20 text-[#fbf167]' : pipe.status === '완료' ? 'bg-[#2563eb]/20 text-[#60a5fa]' : pipe.status === '지연' ? 'bg-[#ef4444]/20 text-[#f87171]' : 'bg-[#4b5563]/20 text-[#9ca3af]'}`}>
+                                                    {pipe.status}
+                                                </span>
+                                            </div>
+                                            <div className="flex flex-col gap-1">
+                                                <span className="text-[13px] font-bold text-[#86868B]">관련 자산</span>
+                                                <span className="text-[16px] font-bold text-white">{pipe.related_asset}</span>
+                                            </div>
+                                            <div className="flex flex-col gap-1">
+                                                <span className="text-[13px] font-bold text-[#86868B]">컨택포인트</span>
+                                                <span className="text-[16px] text-[#bbb9af] font-medium">{pipe.contact_point || '-'}</span>
+                                            </div>
                                         </div>
-                                        <div className="flex flex-col gap-1">
-                                            <span className="text-[13px] font-bold text-[#86868B]">관련 자산</span>
-                                            <span className="text-[16px] font-bold text-white">{pipe.related_asset}</span>
-                                        </div>
-                                        <div className="flex flex-col gap-1">
-                                            <span className="text-[13px] font-bold text-[#86868B]">컨택포인트</span>
-                                            <span className="text-[16px] text-[#bbb9af] font-medium">{pipe.contact_point || '-'}</span>
-                                        </div>
+                                        
+                                        {/* 최근 진행내용 및 관리방안 */}
+                                        {pipeLogs.length > 0 && !isExpanded && (
+                                            <div className="flex gap-8 mt-1 border-t border-[#444]/30 pt-3">
+                                                <div className="flex-1">
+                                                    <span className="text-[12px] font-bold text-[#86868B] block mb-1">최근 진행내용</span>
+                                                    <p className="text-[14px] text-[#E5E5E5] line-clamp-1">{pipeLogs[0].progress_detail || '-'}</p>
+                                                </div>
+                                                <div className="flex-1">
+                                                    <span className="text-[12px] font-bold text-[#86868B] block mb-1">최근 관리방안</span>
+                                                    <p className="text-[14px] text-[#E5E5E5] line-clamp-1">{pipeLogs[0].management_plan || '-'}</p>
+                                                </div>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                                 
