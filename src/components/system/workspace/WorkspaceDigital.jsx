@@ -204,7 +204,16 @@ export default function WorkspaceDigital() {
     };
 
     const safeTasks = Array.isArray(tasks) ? tasks : [];
-    const filteredTasks = safeTasks.filter(t => !selectedTheme || (t.ssc_theme && t.ssc_theme.startsWith(selectedTheme)));
+    const isCoreAsset = (asset) => {
+        if (!asset || typeof asset !== 'string') return false;
+        const lower = asset.toLowerCase();
+        return lower.includes('iota') || lower.includes('이오타') || lower.includes('427') || lower.includes('816') || lower.includes('421');
+    };
+
+    const filteredTasks = safeTasks.filter(t => 
+        (!selectedTheme || (t.ssc_theme && t.ssc_theme.startsWith(selectedTheme))) &&
+        (assetFilter === 'ALL' || isCoreAsset(t.related_asset))
+    );
     const sortedTasks = [...filteredTasks].sort((a, b) => {
         const timeA = a.created_at ? new Date(a.created_at).getTime() : 0;
         const timeB = b.created_at ? new Date(b.created_at).getTime() : 0;
@@ -226,6 +235,18 @@ export default function WorkspaceDigital() {
     const getThemeTitle = (no) => {
         const theme = sscScopes.find(t => t.no === no);
         return theme ? `${theme.no}. ${theme.title}` : no;
+    };
+
+    const getThemeColor = (themeStr) => {
+        if (!themeStr) return "bg-[#333] text-[#A1A1AA] border-[#444]";
+        if (themeStr.startsWith('01')) return "bg-[#2997ff]/10 text-[#2997ff] border-[#2997ff]/20";
+        if (themeStr.startsWith('02')) return "bg-[#34d399]/10 text-[#34d399] border-[#34d399]/20";
+        if (themeStr.startsWith('03')) return "bg-[#f472b6]/10 text-[#f472b6] border-[#f472b6]/20";
+        if (themeStr.startsWith('04')) return "bg-[#fbbf24]/10 text-[#fbbf24] border-[#fbbf24]/20";
+        if (themeStr.startsWith('05')) return "bg-[#a78bfa]/10 text-[#a78bfa] border-[#a78bfa]/20";
+        if (themeStr.startsWith('06')) return "bg-[#f87171]/10 text-[#f87171] border-[#f87171]/20";
+        if (themeStr.startsWith('07')) return "bg-[#38bdf8]/10 text-[#38bdf8] border-[#38bdf8]/20";
+        return "bg-[#2997ff]/10 text-[#2997ff] border-[#2997ff]/20";
     };
 
     return (
@@ -332,6 +353,10 @@ export default function WorkspaceDigital() {
                     {selectedTheme && <span className="ml-3 px-2 py-1 bg-[#2997ff]/10 text-[#2997ff] rounded-[6px] text-[13px] font-bold">필터: {getThemeTitle(selectedTheme)}</span>}
                 </h2>
                 <div className="flex gap-2 items-center">
+                    <div className="flex bg-[#272726] border border-[#3c3c3c] rounded-[8px] overflow-hidden p-[2px]">
+                        <button onClick={() => setAssetFilter('427 PFV')} className={`px-[12px] py-[4px] text-[13px] font-bold rounded-[6px] transition-colors ${assetFilter === '427 PFV' ? 'bg-[#3c3c3c] text-white' : 'text-[#86868B] hover:text-[#E5E5E5]'}`}>이오타서울만 보기</button>
+                        <button onClick={() => setAssetFilter('ALL')} className={`px-[12px] py-[4px] text-[13px] font-bold rounded-[6px] transition-colors ${assetFilter === 'ALL' ? 'bg-[#3c3c3c] text-white' : 'text-[#86868B] hover:text-[#E5E5E5]'}`}>전체 자산 보기</button>
+                    </div>
                     <button 
                         onClick={() => setProjectShowAll(!projectShowAll)}
                         className="w-[80px] py-[6px] bg-[#272726] border border-[#3c3c3c] text-[#86868B] hover:text-[#E5E5E5] hover:bg-[#333] text-[13px] font-medium rounded-[8px] transition-colors cursor-pointer"
@@ -385,13 +410,27 @@ export default function WorkspaceDigital() {
                         <div className="flex flex-wrap gap-4 items-center">
                             <select 
                                 value={newTask.related_asset} 
-                                onChange={e => setNewTask({...newTask, related_asset: e.target.value})} 
+                                onChange={e => {
+                                    if (e.target.value === '+ 자산 신규 추가') {
+                                        setShowNewAssetModal(true);
+                                    } else {
+                                        setNewTask({...newTask, related_asset: e.target.value});
+                                    }
+                                }} 
                                 className="bg-[#1A1A1A] border border-[#444] rounded-[10px] px-3 py-2 text-white text-[14px] outline-none focus:border-[#888] cursor-pointer"
                             >
-                                <option value="IOTA 공통">IOTA 공통</option>
+                                <option value="IOTA 공통">✔️ IOTA 공통</option>
                                 <option value="427 PFV">427 PFV</option>
                                 <option value="816 PFV">816 PFV</option>
                                 <option value="421 Fund">421 Fund</option>
+                                <option value="타임워크 신도림">타임워크 신도림</option>
+                                <option value="타임워크 분당">타임워크 분당</option>
+                                <option value="현대차 새만금 DC">현대차 새만금 DC</option>
+                                <option value="미정">미정</option>
+                                {customAssets.map(asset => (
+                                    <option key={asset} value={asset}>{asset}</option>
+                                ))}
+                                <option value="+ 자산 신규 추가" className="font-bold text-[#2997ff]">+ 자산 신규 추가</option>
                             </select>
                             <select value={newTask.status} onChange={e => setNewTask({...newTask, status: e.target.value})} className="bg-[#1A1A1A] border border-[#444] rounded-[10px] px-3 py-2 text-white text-[14px] outline-none focus:border-[#888]">
                                 {['아이데이션', '자료준비', '제안진행', '미팅후속', '협상', '보류', '완료'].map(s => <option key={s}>{s}</option>)}
@@ -461,11 +500,22 @@ export default function WorkspaceDigital() {
                                 <div className="flex-1 flex gap-8">
                                     <div className="w-[650px] shrink-0 flex flex-col gap-[2px] border-r border-[#444]/50 pr-8">
                                         <div className="flex items-center gap-2">
-                                            <span className="text-[13px] font-bold text-[#86868B]">Task</span>
-                                            {row.ssc_theme && (
-                                                <span className="px-2 py-[2px] bg-[#2997ff]/10 text-[#2997ff] border border-[#2997ff]/20 rounded-[4px] text-[11px] font-bold whitespace-nowrap overflow-hidden text-ellipsis max-w-[200px]">
-                                                    {row.ssc_theme.split('.')[0]} {/* Show just '01' or '02' if we want, or full text. I'll split by dot to keep it short */}
+                                            {row.related_asset && (
+                                                <span className="px-[6px] py-[2px] bg-[#333] text-[#A1A1AA] border border-[#444] rounded-[4px] text-[11px] font-bold whitespace-nowrap">
+                                                    {row.related_asset}
                                                 </span>
+                                            )}
+                                            {row.ssc_theme && (
+                                                <div className="flex items-center gap-2">
+                                                    <span className={`px-2 py-[2px] border rounded-[4px] text-[11px] font-bold ${getThemeColor(row.ssc_theme)}`}>
+                                                        {row.ssc_theme.split('.')[0]}
+                                                    </span>
+                                                    {row.ssc_theme.includes('.') && (
+                                                        <span className="text-[13px] font-bold text-[#86868B] whitespace-nowrap overflow-hidden text-ellipsis max-w-[250px]">
+                                                            {row.ssc_theme.split('.').slice(1).join('.').trim()}
+                                                        </span>
+                                                    )}
+                                                </div>
                                             )}
                                         </div>
                                         <h3 className="text-[21px] font-bold text-white tracking-tight leading-tight mt-1">
@@ -573,6 +623,26 @@ export default function WorkspaceDigital() {
                 </div>
             )}
 
+            {/* New Asset Modal */}
+            {showNewAssetModal && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60">
+                    <div className="bg-[#222] border border-[#333] rounded-[16px] w-[360px] p-[24px] shadow-2xl flex flex-col items-center">
+                        <h3 className="text-[16px] font-bold text-white mb-[16px] w-full text-left">자산 신규 추가</h3>
+                        <input 
+                            type="text" 
+                            value={newAssetName} 
+                            onChange={e => setNewAssetName(e.target.value)} 
+                            placeholder="추가할 자산 명칭 입력"
+                            className="w-full bg-[#111] border border-[#444] rounded-[8px] px-[12px] py-[10px] text-white text-[14px] outline-none focus:border-[#2997ff] transition-colors mb-[24px]"
+                            autoFocus
+                        />
+                        <div className="flex items-center gap-[12px] w-full">
+                            <button onClick={() => { setShowNewAssetModal(false); setNewAssetName(''); }} className="flex-1 py-[10px] rounded-[8px] bg-[#333] hover:bg-[#444] text-white text-[13px] font-medium transition-colors">취소</button>
+                            <button onClick={registerNewAsset} disabled={isSubmittingAsset} className="flex-1 py-[10px] rounded-[8px] bg-[#2997ff] hover:bg-[#0071e3] text-white text-[13px] font-bold transition-colors">{isSubmittingAsset ? '등록 중...' : '등록 후 선택'}</button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
