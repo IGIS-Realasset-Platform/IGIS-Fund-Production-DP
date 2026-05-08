@@ -26,6 +26,8 @@ export default function WorkspaceMarketing() {
     const [showCompanyDropdown, setShowCompanyDropdown] = useState(false);
     const [showNewStakeholderModal, setShowNewStakeholderModal] = useState(false);
     const [newStakeholderRole, setNewStakeholderRole] = useState('');
+    const [itemToDelete, setItemToDelete] = useState(null);
+    const [isDeleting, setIsDeleting] = useState(false);
 
     useEffect(() => {
         fetchTasks();

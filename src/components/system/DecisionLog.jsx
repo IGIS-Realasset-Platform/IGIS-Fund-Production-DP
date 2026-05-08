@@ -932,18 +932,18 @@ export default function DecisionLog() {
             </div>
 
             {/* Delete Confirmation Modal */}
-            {logToDelete && (
+            {(logToDelete || commentToDelete) && (
                 <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60">
                     <div className="bg-[#222] border border-[#333] rounded-[16px] w-[320px] p-[24px] shadow-2xl flex flex-col items-center">
                         <div className="w-[48px] h-[48px] rounded-full bg-white/10 flex items-center justify-center mb-[16px]">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18"></path><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
                         </div>
-                        <h3 className="text-[16px] font-bold text-white mb-[8px]">해당 업무를 삭제하시겠습니까?</h3>
+                        <h3 className="text-[16px] font-bold text-white mb-[8px] text-center">{logToDelete ? '해당 업무를 삭제하시겠습니까?' : '댓글을 삭제하시겠습니까?'}</h3>
                         <p className="text-[13px] text-[#86868B] text-center mb-[24px]">이 작업은 되돌릴 수 없습니다.</p>
                         <div className="flex items-center gap-[12px] w-full">
                             <button 
                                 type="button"
-                                onClick={() => setLogToDelete(null)}
+                                onClick={() => { setLogToDelete(null); setCommentToDelete(null); }}
                                 className="flex-1 py-[10px] rounded-[8px] bg-[#333] hover:bg-[#444] text-white text-[13px] font-medium transition-colors"
                                 disabled={isDeleting}
                             >
@@ -951,7 +951,10 @@ export default function DecisionLog() {
                             </button>
                             <button 
                                 type="button"
-                                onClick={confirmDelete}
+                                onClick={() => {
+                                    if (logToDelete) confirmDelete();
+                                    else if (commentToDelete) handleDeleteComment(commentToDelete.logId, commentToDelete.commentId);
+                                }}
                                 className="flex-1 py-[10px] rounded-[8px] bg-white hover:bg-gray-200 text-black text-[13px] font-bold transition-colors flex justify-center items-center"
                                 disabled={isDeleting}
                             >
