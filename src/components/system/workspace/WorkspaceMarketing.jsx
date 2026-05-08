@@ -262,9 +262,9 @@ export default function WorkspaceMarketing() {
                     </div>
                     <button 
                         onClick={handleAddClick}
-                        className="px-[14px] py-[6px] bg-[#333] hover:bg-[#444] border border-[#444] text-[#E5E5E5] text-[13px] font-bold rounded-[8px] transition-colors cursor-pointer"
+                        className="px-[14px] py-[6px] bg-[#3b82f6]/20 text-[#60a5fa] border border-[#3b82f6]/30 text-[13px] font-bold rounded-[8px] transition-all hover:bg-[#3b82f6]/30 cursor-pointer"
                     >
-                        + Task 등록하기
+                        {isAdding ? '등록 취소' : '+ Task 등록하기'}
                     </button>
                 </div>
             </div>
@@ -368,7 +368,7 @@ export default function WorkspaceMarketing() {
                         >
                             {/* 삭제 및 정렬 버튼 (우측 바깥 영역) */}
                             {isAuthorized && (
-                                <div className="absolute right-[-110px] top-1/2 -translate-y-1/2 flex items-center gap-2 opacity-0 group-hover/row:opacity-100 transition-opacity">
+                                <div className="absolute right-[-110px] w-[110px] top-0 bottom-0 flex items-center justify-start gap-2 opacity-0 group-hover/row:opacity-100 transition-opacity">
                                     {sortBy === '기본' && (
                                         <div className="flex flex-col gap-1">
                                             <button 
