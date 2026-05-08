@@ -546,7 +546,7 @@ export default function WorkspaceFund() {
 
 
     return (
-        <div className="w-full flex-1 flex flex-col pt-[50px] pb-[60px] max-w-[1200px] mx-auto">
+        <div className="w-full flex-1 flex flex-col pt-[50px] pb-[160px] max-w-[1200px] mx-auto">
             {/* Header & Team Structure */}
             <div className="w-full flex justify-between items-center mb-[40px] gap-[40px]">
                 {/* Header Metadata */}
@@ -588,7 +588,7 @@ export default function WorkspaceFund() {
                 ) : (
                     <>
             <div className="w-full mb-[50px]">
-                <div className="flex justify-between items-end mb-[14px]">
+                <div className="flex justify-between items-end mb-[12px]">
                     <h2 className="text-[24px] font-bold text-white tracking-tight">수익자 지분 구조</h2>
                     <button 
                         onClick={() => setShowAllLps(!showAllLps)}
