@@ -332,7 +332,7 @@ export default function WorkspaceMarketing() {
                             </div>
                             <div className="flex justify-between items-start gap-8">
                                 <div className="flex-1 flex gap-8">
-                                    <div className="w-[35%] shrink-0 flex flex-col gap-[2px] border-r border-[#444]/50 pr-8">
+                                    <div className="w-[450px] shrink-0 flex flex-col gap-[2px] border-r border-[#444]/50 pr-8">
                                         <span className="text-[13px] font-bold text-[#86868B]">Task</span>
                                         <h3 className="text-[21px] font-bold text-white tracking-tight leading-tight">
                                             {row.task_name}
@@ -340,7 +340,7 @@ export default function WorkspaceMarketing() {
                                     </div>
                                     <div className="flex-1 flex flex-col gap-[2px] pr-4">
                                         <span className="text-[13px] font-bold text-[#86868B]">Next Action</span>
-                                        <p className="text-[17px] text-[#bbb9af] leading-relaxed break-keep font-medium">
+                                        <p className="text-[18px] text-[#bbb9af] leading-relaxed break-keep font-medium">
                                             {parseNames(row.next_action)}
                                         </p>
                                     </div>
@@ -352,7 +352,7 @@ export default function WorkspaceMarketing() {
                                 </div>
                             </div>
                             
-                            <div className={`overflow-hidden transition-all duration-300 ease-in-out ${expandedTaskId === row.id ? 'max-h-[200px] mt-6 pt-6 border-t border-[#3c3c3c] opacity-100' : 'max-h-0 opacity-0'}`}>
+                            <div className={`overflow-hidden transition-all duration-300 ease-in-out ${expandedTaskId === row.id ? 'max-h-[200px] mt-4 pt-4 border-t border-[#3c3c3c] opacity-100' : 'max-h-0 opacity-0'}`}>
                                 <div className="flex justify-start items-center gap-12">
                                     <div className="flex items-center gap-3">
                                         <span className="text-[13px] font-bold text-[#86868B]">관련 자산</span>
