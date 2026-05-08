@@ -9,9 +9,9 @@ export default function WorkspaceIpr() {
             {/* Header & Team Structure */}
             <div className="w-full flex justify-between items-center mb-[40px] gap-[40px]">
                 {/* Header Metadata */}
-                <div className="shrink-0 max-w-[300px]">
-                    <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[12px]">IPR</h1>
-                    <p className="text-[15px] text-[#86868B] leading-[24px]">자본시장 소통 및 프로젝트 리츠 TFT 운영</p>
+                <div className="shrink-0 max-w-[450px]">
+                    <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[12px]">IPR Working Group</h1>
+                    <p className="text-[15px] text-[#86868B] leading-[24px]">이오타 CFT는 프리츠 TFT와의 인터페이스를 ‘IPR 워킹그룹(IPR-WG)’ 형태로 운영합니다.</p>
                 </div>
                 
                 {/* Team Structure */}

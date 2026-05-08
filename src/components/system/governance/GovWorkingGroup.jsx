@@ -80,8 +80,7 @@ export default function GovWorkingGroup() {
             <div className="mt-[56px] pt-[48px] border-t border-[#333]">
                 <h2 className="text-[20px] font-bold text-white mb-[16px]">외부 자문 선정 프로세스</h2>
                 <p className="text-[15px] text-[#A1A1AA] leading-[26px] mb-[28px]">
-                    법무·회계·감정 3개 분야 모두 <strong className="text-white font-bold">‘이오타 전담’</strong> 자문사를 별도 선정합니다.<br/>
-                    부문 전체 자문사 풀과는 분리하여 이해상충을 최소화합니다.
+                    법무·회계·감정 3개 분야 모두 <strong className="text-white font-bold">‘이오타 전담’</strong> 자문사를 별도 선정합니다. 부문 전체 자문사 풀과는 분리하여 이해상충을 최소화합니다.
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-[16px]">
                     <div className="bg-[#1A1A1A] rounded-[16px] p-[24px] flex flex-col gap-[12px] border border-[#333] hover:border-[#555] transition-colors">
