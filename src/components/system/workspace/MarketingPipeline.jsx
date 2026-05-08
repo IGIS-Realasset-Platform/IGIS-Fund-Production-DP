@@ -153,6 +153,8 @@ export default function MarketingPipeline({ memberInfo, masterStakeholders, fetc
         }
     };
 
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
     const handleAddPipeline = async () => {
         if (!newPipeline.channel_name) {
             alert('채널명을 입력해주세요.');
@@ -167,7 +169,12 @@ export default function MarketingPipeline({ memberInfo, masterStakeholders, fetc
             return;
         }
 
-        await submitPipeline();
+        setIsSubmitting(true);
+        try {
+            await submitPipeline();
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     const handleDeletePipeline = async (id) => {
@@ -331,7 +338,16 @@ export default function MarketingPipeline({ memberInfo, masterStakeholders, fetc
                                                 </div>
                                             ))
                                         ) : (
-                                            <div className="px-4 py-2 text-[13px] text-[#86868B]">검색 결과가 없습니다.</div>
+                                            <div className="px-4 py-2">
+                                                <span className="text-[#A1A1AA] text-[13px] block mb-2">검색 결과가 없습니다.</span>
+                                                <button 
+                                                    type="button"
+                                                    onMouseDown={(e) => { e.preventDefault(); setShowNewStakeholderModal(true); setShowCompanyDropdown(false); }}
+                                                    className="w-full px-3 py-2 bg-[#3b82f6] hover:bg-[#2563eb] text-white text-[13px] rounded-[8px] transition-colors"
+                                                >
+                                                    + 신규 등록
+                                                </button>
+                                            </div>
                                         )}
                                     </div>
                                 )}
@@ -368,7 +384,16 @@ export default function MarketingPipeline({ memberInfo, masterStakeholders, fetc
                                                 </div>
                                             ))
                                         ) : (
-                                            <div className="px-4 py-2 text-[13px] text-[#86868B]">검색 결과가 없습니다.</div>
+                                            <div className="px-4 py-2">
+                                                <span className="text-[#A1A1AA] text-[13px] block mb-2">검색 결과가 없습니다.</span>
+                                                <button 
+                                                    type="button"
+                                                    onMouseDown={(e) => { e.preventDefault(); setShowNewStakeholderModal(true); setShowContactDropdown(false); }}
+                                                    className="w-full px-3 py-2 bg-[#3b82f6] hover:bg-[#2563eb] text-white text-[13px] rounded-[8px] transition-colors"
+                                                >
+                                                    + 신규 등록
+                                                </button>
+                                            </div>
                                         )}
                                     </div>
                                 )}
@@ -426,7 +451,13 @@ export default function MarketingPipeline({ memberInfo, masterStakeholders, fetc
                             </div>
                         </div>
                         <div className="flex justify-end pt-2 border-t border-[#3c3c3c]">
-                            <button onClick={handleAddPipeline} className="px-6 py-2 bg-white text-black font-bold rounded-[8px] hover:bg-[#E5E5E5] transition-all">등록하기</button>
+                            <button 
+                                onClick={handleAddPipeline} 
+                                disabled={isSubmitting}
+                                className={`px-6 py-2 bg-white text-black font-bold rounded-[8px] transition-all ${isSubmitting ? 'opacity-50 cursor-not-allowed' : 'hover:bg-[#E5E5E5]'}`}
+                            >
+                                {isSubmitting ? '등록 중...' : '등록하기'}
+                            </button>
                         </div>
                     </div>
                 </div>
