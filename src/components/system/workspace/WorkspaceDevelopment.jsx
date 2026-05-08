@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../../context/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
+import { supabase } from '../../../utils/supabaseClient';
 import WorkspaceActivityLog from './WorkspaceActivityLog';
 import { PROJECTS, COSTS, RR, COUNTERPARTIES } from '../../../data/iotaDevelopmentData';
 
@@ -404,7 +405,7 @@ export default function WorkspaceDevelopment() {
                 {isLoadingTasks ? (
                     <div className="text-center py-[40px] text-[#86868B]">데이터를 불러오는 중입니다...</div>
                 ) : (
-                    <div className="flex flex-col gap-[10px]">
+                    <div className="flex flex-col gap-[8px]">
                         <AnimatePresence>
                             {(projectShowAll ? sortedTasks : sortedTasks.slice(0, 5)).map((row, index) => (
                             <motion.div 
@@ -446,7 +447,7 @@ export default function WorkspaceDevelopment() {
                             <div className="flex justify-between items-start gap-8">
                                 <div className="flex-1 flex gap-8">
                                     <div className="w-[430px] shrink-0 flex flex-col gap-[2px] border-r border-[#444]/50 pr-8">
-                                        <span className="text-[13px] font-bold text-[#86868B] relative -top-[1px]">Task</span>
+                                        <span className="text-[13px] font-bold text-[#86868B] relative -top-[1px]">Task {index + 1}</span>
                                         <h3 className="text-[21px] font-bold text-white tracking-tight leading-tight">
                                             {row.task_name}
                                         </h3>
@@ -790,7 +791,7 @@ export default function WorkspaceDevelopment() {
                                     <h3 className="text-[18px] font-bold text-white">{item.name}</h3>
                                     <span className="text-[12px] font-bold text-[#A1A1AA]">{item.category}</span>
                                 </div>
-                                <div className="flex flex-col gap-[10px]">
+                                <div className="flex flex-col gap-[8px]">
                                     <span className="text-[15px] text-[#A1A1AA] leading-snug break-keep">{item.point}</span>
                                     <span className="text-[15px] text-[#A1A1AA] leading-snug break-keep">{item.action}</span>
                                 </div>

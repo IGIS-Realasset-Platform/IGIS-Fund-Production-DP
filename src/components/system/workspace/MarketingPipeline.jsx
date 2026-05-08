@@ -523,7 +523,7 @@ export default function MarketingPipeline({ memberInfo, masterStakeholders, fetc
                 </div>
             )}
 
-            <div className="flex flex-col gap-[10px]">
+            <div className="flex flex-col gap-[8px]">
                 <AnimatePresence>
                     {(Array.isArray(pipelines) ? pipelines : []).filter(p => {
                         const isCoreAsset = (asset) => {

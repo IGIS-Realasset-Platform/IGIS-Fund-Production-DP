@@ -456,7 +456,7 @@ export default function WorkspaceDigital() {
                         {selectedTheme ? '해당 주제로 등록된 테스크가 없습니다.' : '등록된 테스크가 없습니다.'}
                     </motion.div>
                 ) : (
-                    <div className="flex flex-col gap-[10px]">
+                    <div className="flex flex-col gap-[8px]">
                         <AnimatePresence>
                             {(projectShowAll ? sortedTasks : sortedTasks.slice(0, selectedTheme ? 5 : 10)).map((row, index) => (
                             <motion.div 
