@@ -426,7 +426,7 @@ export default function IotaLeftNav({ onMenuChange, currentPath = '' }) {
                         </div>
                         <h3 className="text-[22px] font-bold text-white mb-2 tracking-tight">플랫폼 이용 문의</h3>
                         <p className="text-[15px] font-medium text-[#A1A1AA] text-center leading-relaxed mb-8">
-                            jk.jeon@igisam.com<br/>010-9076-5369<br/>전기영 매니저에게 연락해주세요.
+                            ***@igisam.com<br/>010-****-****<br/>전기영 매니저에게 연락해주세요.
                         </p>
                         <button onClick={() => setShowContactModal(false)} className="w-full py-3.5 rounded-[16px] bg-[#2C2C2E] text-white font-semibold text-[16px] hover:bg-[#3A3A3C] transition-colors cursor-pointer">
                             닫기
