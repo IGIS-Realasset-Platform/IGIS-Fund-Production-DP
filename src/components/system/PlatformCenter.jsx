@@ -105,7 +105,7 @@ export default function PlatformCenter({ currentPath = '' }) {
             case 'platform/iotaseoul/421-fund': return <SystemFund421 />;
             case 'platform/iotaseoul/iota-one-427': return <IotaOne427 />;
             case 'platform/iotaseoul/iota-two-816': return <IotaTwo816 />;
-            case 'platform/iotaseoul/decision-log': return <DecisionLog />;
+            case 'platform/iotaseoul/workflow': return <DecisionLog />;
             default: return null;
         }
     };
