@@ -507,9 +507,9 @@ export default function DecisionLog() {
                                                     <h4 className="text-[20px] font-bold text-[#e2aa29] leading-none group-hover:text-[#fbf167] transition-colors truncate block w-full pt-[2px]">
                                                         {task.task_name}
                                                     </h4>
-                                                    <div className="flex items-center gap-[6px] mt-[2px]">
-                                                        <span className="text-[14px] font-medium text-[#666] shrink-0 pt-[2px]">다음 액션 :</span>
-                                                        <p className="text-[16px] text-[#86868B] truncate w-full leading-none group-hover:text-[#A1A1AA] transition-colors pt-[2px]">
+                                                    <div className="flex items-center gap-[6px]">
+                                                        <span className="text-[15px] font-medium text-[#666] shrink-0">다음 액션 :</span>
+                                                        <p className="text-[15px] text-[#86868B] truncate w-full leading-none group-hover:text-[#A1A1AA] transition-colors">
                                                             {task.next_action || '작성된 내용이 없습니다.'}
                                                         </p>
                                                     </div>
