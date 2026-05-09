@@ -147,6 +147,69 @@ export default function DecisionLog() {
         }
     };
 
+    const hasRestrictedPermissions = (log) => {
+        const perms = log.metadata?.permissions;
+        if (!perms) return false;
+        return (perms.groups && perms.groups.length > 0) || (perms.individuals && perms.individuals.length > 0);
+    };
+
+    const getPermissionString = (log) => {
+        const perms = log.metadata?.permissions;
+        if (!perms) return '';
+        const parts = [];
+        if (perms.groups && perms.groups.length > 0) parts.push(...perms.groups);
+        if (perms.individuals && perms.individuals.length > 0) {
+            parts.push(`지정된 인원 ${perms.individuals.length}명`);
+        }
+        return parts.join(', ');
+    };
+
+    const getShortPermissionString = (log) => {
+        const perms = log.metadata?.permissions;
+        if (!perms) return '';
+        if (perms.groups && perms.groups.length > 0 && perms.groups[0] === "각 워크스페이스") {
+            return "워크스페이스 전용";
+        }
+        if (perms.groups && perms.groups.length > 0 && perms.groups[0] === "PO") {
+            return "PO 전용";
+        }
+        const total = (perms.groups?.length || 0) + (perms.individuals?.length || 0);
+        return `PO 외 ${total}명`;
+    };
+
+    const checkUserAccess = (log) => {
+        const perms = log.metadata?.permissions;
+        if (!perms) return true;
+        
+        const hasGroups = perms.groups && perms.groups.length > 0;
+        const hasIndivs = perms.individuals && perms.individuals.length > 0;
+        
+        if (!hasGroups && !hasIndivs) return true;
+
+        const myEmail = memberInfo?.email;
+        const myName = memberInfo?.staff_name || memberInfo?.name;
+        const isAuthor = log.writer_staff_id === myEmail || log.writer_name === myName;
+        
+        if (isAuthor) return true;
+        
+        if (hasIndivs && perms.individuals.includes(myName)) return true;
+        
+        if (hasGroups) {
+            const myStakeholderRecords = masterStakeholders.filter(s => s.contact_name === myName);
+            const myRoles = myStakeholderRecords.map(s => s.role_category).filter(Boolean);
+            
+            for (const group of perms.groups) {
+                if (group === "각 워크스페이스" && myStakeholderRecords.length > 0) return true;
+                if (myRoles.includes(group)) return true;
+                
+                if (group === "PO" && myName === "이철승") return true;
+                if (group === "Sub-PO" && ["윤관식", "정조민", "우형석"].includes(myName)) return true;
+            }
+        }
+        
+        return false;
+    };
+
     useEffect(() => {
         fetchLogs();
         fetchMasterStakeholders();
@@ -575,10 +638,19 @@ export default function DecisionLog() {
                                     {/* Content */}
                                     <div className="flex-1 min-w-0 pr-0 flex items-center gap-[8px] translate-x-[2px]">
                                         <div 
-                                            className="flex-1 min-w-0 text-[14px] text-[#E5E5E5] truncate hover:text-white transition-colors"
+                                            className="flex-1 min-w-0 text-[14px] text-[#E5E5E5] hover:text-white transition-colors flex items-center gap-[6px]"
                                         >
-                                            {log.raw_text ? log.raw_text.split('\n')[0] : ''}
-                                            {log.metadata?.comments?.length > 0 && <span className="text-[#3b82f6] ml-[6px] font-bold text-[13px]">({log.metadata.comments.length})</span>}
+                                            {hasRestrictedPermissions(log) && (
+                                                <div className="group relative flex items-center gap-[4px] shrink-0 cursor-default">
+                                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                                                    <span className="text-[#ef4444] text-[12px] font-bold">[{getShortPermissionString(log)}]</span>
+                                                    <div className="absolute left-0 bottom-[100%] mb-[8px] hidden group-hover:flex bg-[#222] border border-[#333] px-[10px] py-[6px] rounded-[6px] whitespace-nowrap text-[12px] text-[#E5E5E5] shadow-xl z-[99] pointer-events-none font-medium">
+                                                        🔒 열람 권한: {getPermissionString(log)}
+                                                    </div>
+                                                </div>
+                                            )}
+                                            <span className="truncate">{log.summary || (log.raw_text ? log.raw_text.split('\n')[0] : '')}</span>
+                                            {log.metadata?.comments?.length > 0 && <span className="text-[#3b82f6] ml-[6px] font-bold text-[13px] shrink-0">({log.metadata.comments.length})</span>}
                                         </div>
                                     </div>
                                 </div>
@@ -640,18 +712,32 @@ export default function DecisionLog() {
                                     className="bg-[#1c1c1e] border border-[#333] rounded-[12px] p-[16px] flex-1 relative"
                                     style={{ marginLeft: '166px', marginRight: '72px' }}
                                 >
-                                    {/* Stakeholder Pill (Floated Right) */}
-                                    {log.iota_seoul_log_stakeholders?.[0]?.sh_name && (
-                                        <div className="float-right ml-[16px] mb-[12px] flex flex-col items-end gap-[4px]">
-                                            <span className="text-[11px] font-bold text-[#86868B] pr-[14px]">이해관계자</span>
-                                            <div className="bg-[#2a2a2c] border border-[#444] rounded-full pl-[8px] pr-[12px] py-[4px] flex items-center gap-[6px]">
-                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#A1A1AA" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                                                <span className="text-[12px] font-medium text-[#E5E5E5]">
-                                                    {log.iota_seoul_log_stakeholders[0].sh_name.split(' - ')[0]}
-                                                </span>
+                                    {/* Right Floating Badges */}
+                                    <div className="float-right ml-[16px] mb-[12px] flex flex-col items-end gap-[12px]">
+                                        {hasRestrictedPermissions(log) && (
+                                            <div className="flex flex-col items-end gap-[4px]">
+                                                <span className="text-[11px] font-bold text-[#86868B] pr-[14px]">열람 권한</span>
+                                                <div className="bg-[#1e293b] border border-[#334155] rounded-full pl-[8px] pr-[12px] py-[4px] flex items-center gap-[6px]">
+                                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                                                    <span className="text-[12px] font-medium text-[#e2e8f0]">
+                                                        제한됨: {getPermissionString(log)}
+                                                    </span>
+                                                </div>
                                             </div>
-                                        </div>
-                                    )}
+                                        )}
+                                        
+                                        {log.iota_seoul_log_stakeholders?.[0]?.sh_name && (
+                                            <div className="flex flex-col items-end gap-[4px]">
+                                                <span className="text-[11px] font-bold text-[#86868B] pr-[14px]">이해관계자</span>
+                                                <div className="bg-[#2a2a2c] border border-[#444] rounded-full pl-[8px] pr-[12px] py-[4px] flex items-center gap-[6px]">
+                                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#A1A1AA" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                                                    <span className="text-[12px] font-medium text-[#E5E5E5]">
+                                                        {log.iota_seoul_log_stakeholders[0].sh_name.split(' - ')[0]}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
                                     {/* Original Text */}
                                     {editingLogId === log.log_id ? (
                                         <div className="w-full">
@@ -677,14 +763,20 @@ export default function DecisionLog() {
                                             </div>
                                         </div>
                                     ) : (
-                                        <div className={`whitespace-pre-wrap break-words text-[15px] leading-relaxed ${commentingLogId === log.log_id ? 'text-[#86868B] opacity-70' : 'text-[#E5E5E5]'}`}>
-                                            {renderLogTextWithMentions(log.raw_text)}
-                                        </div>
+                                        checkUserAccess(log) ? (
+                                            <div className={`whitespace-pre-wrap break-words text-[15px] leading-relaxed ${commentingLogId === log.log_id ? 'text-[#86868B] opacity-70' : 'text-[#E5E5E5]'}`}>
+                                                {renderLogTextWithMentions(log.raw_text)}
+                                            </div>
+                                        ) : (
+                                            <div className="text-[#86868B] text-[14px] italic py-[20px] text-center border border-[#333] rounded-[8px] bg-[#1a1a1a]">
+                                                🔒 열람 권한이 없습니다.
+                                            </div>
+                                        )
                                     )}
                                     <div className="clear-both mb-[16px]"></div>
                                     
                                     {/* Comments List */}
-                                    {log.metadata?.comments && log.metadata.comments.length > 0 && (
+                                    {checkUserAccess(log) && log.metadata?.comments && log.metadata.comments.length > 0 && (
                                         <div className="flex flex-col gap-[8px] mb-[16px] border-t border-[#333] pt-[12px]">
                                             {log.metadata.comments.map(comment => (
                                                 <div key={comment.id} className="bg-[#222] rounded-[8px] p-[12px] flex justify-between group">
@@ -719,7 +811,7 @@ export default function DecisionLog() {
                                     )}
 
                                     {/* Commenting Box */}
-                                    {commentingLogId === log.log_id && (
+                                    {checkUserAccess(log) && commentingLogId === log.log_id && (
                                         <div className="w-full mt-[16px]">
                                             <textarea
                                                 value={commentContent}
@@ -749,8 +841,9 @@ export default function DecisionLog() {
                                         <div className="text-[12px] text-[#555] font-medium">
                                             수정일자: {log.updated_at ? new Date(log.updated_at).toLocaleString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }) : new Date(log.created_at || log.work_date).toLocaleString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })}
                                         </div>
-                                        <div className="flex items-center gap-[8px]">
-                                            {!editingLogId && (
+                                        {checkUserAccess(log) && (
+                                            <div className="flex items-center gap-[8px]">
+                                                {!editingLogId && (
                                                 <button
                                                     type="button"
                                                     onClick={(e) => { 
@@ -779,7 +872,8 @@ export default function DecisionLog() {
                                                     수정하기
                                                 </button>
                                             )}
-                                        </div>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                                 </motion.div>
