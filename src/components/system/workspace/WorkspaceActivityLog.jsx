@@ -79,9 +79,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
                 .order('created_at', { ascending: false });
             if (error) throw error;
             
-            // Filter out non-members ('기타')
-            const validLogs = (data || []).filter(log => getCellName(log.writer_name) !== '기타');
-            setLogs(validLogs);
+            setLogs(data || []);
         } catch (e) {
             console.error('Error fetching logs:', e);
         } finally {
@@ -234,6 +232,9 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
 
     const logsPerPage = logsViewMode === 'summary' ? 5 : 20;
     const filteredLogs = logs.filter(log => {
+        // Filter out non-members
+        if (getCellName(log.writer_name) === '기타') return false;
+
         // --- Access Permission Check ---
         const perms = log.metadata?.permissions;
         if (perms) {
