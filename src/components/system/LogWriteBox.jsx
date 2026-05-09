@@ -867,12 +867,12 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                 <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60">
                     <div className="bg-[#222] border border-[#333] rounded-[16px] w-[320px] p-[24px] shadow-2xl flex flex-col items-center">
                         <div className="w-[48px] h-[48px] rounded-full bg-white/10 flex items-center justify-center mb-[16px]">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#34d399" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
                         </div>
                         <h3 className="text-[16px] font-bold text-white mb-[8px]">등록 완료</h3>
                         <p className="text-[13px] text-[#86868B] text-center mb-[24px]">성공적으로 저장되었습니다.</p>
                         <div className="flex items-center justify-center w-full">
-                            <button onClick={() => setShowSuccessModal(false)} className="w-full py-[10px] rounded-[8px] bg-[#34d399] hover:bg-[#10b981] text-black text-[13px] font-bold transition-colors">확인</button>
+                            <button onClick={() => setShowSuccessModal(false)} className="w-full py-[10px] rounded-[8px] bg-white hover:bg-gray-200 text-black text-[13px] font-bold transition-colors">확인</button>
                         </div>
                     </div>
                 </div>
