@@ -488,14 +488,14 @@ export default function DecisionLog() {
                         <span className="text-[#86868B] text-[15px]">데이터를 불러오는 중입니다...</span>
                     </div>
                 ) : (
-                    <div className="w-full flex gap-[16px] overflow-x-auto pb-[20px] snap-x scrollbar-hide">
+                    <div className="w-[calc(50vw-140px+50%)] max-w-none flex gap-[6px] overflow-x-auto pb-[20px] snap-x scrollbar-hide pr-[40px]">
                         {WORKSPACE_CONFIG.map(ws => {
                             const tasks = focusTasks[ws.id] || [];
                             return (
                                 <div 
                                     key={ws.id}
                                     id={`focus-card-${ws.id}`}
-                                    className="min-w-[320px] max-w-[320px] shrink-0 bg-[#272727] border border-[#3c3c3c] rounded-[16px] p-[24px] snap-start flex flex-col gap-[24px]"
+                                    className="min-w-[380px] max-w-[380px] shrink-0 bg-[#272727] border border-[#3c3c3c] rounded-[16px] p-[24px] snap-start flex flex-col gap-[24px]"
                                 >
                                     {/* Card Title */}
                                     <h3 className="text-[18px] font-bold text-white mb-[-8px]">{ws.name}</h3>
@@ -510,10 +510,10 @@ export default function DecisionLog() {
                                                     <span className="text-[12px] font-bold text-[#A1A1AA]">목표 마감일 {task.due_date || '미정'}</span>
                                                 </div>
                                                 <div 
-                                                    className="cursor-pointer group"
+                                                    className="cursor-pointer group overflow-hidden"
                                                     onClick={() => setExpandedFocusTaskId(expandedFocusTaskId === task.id ? null : task.id)}
                                                 >
-                                                    <h4 className="text-[20px] font-bold text-[#e2aa29] leading-tight mb-[6px] group-hover:underline underline-offset-4 decoration-[#e2aa29]/50 break-keep">
+                                                    <h4 className="text-[20px] font-bold text-[#e2aa29] leading-tight mb-[6px] group-hover:underline underline-offset-4 decoration-[#e2aa29]/50 truncate block w-full">
                                                         {task.task_name}
                                                     </h4>
                                                     <p className="text-[14px] text-[#86868B] truncate">
