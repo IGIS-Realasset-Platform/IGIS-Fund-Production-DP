@@ -5,12 +5,22 @@ import { supabase } from '../../utils/supabaseClient';
 const menuItems = [
     {
         id: 1,
-        label: '전체 현황',
+        label: '홈',
         path: 'platform/iotaseoul/dashboard',
         
         icon: (
             <svg className="w-4.5 h-4.5 mr-[10px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+            </svg>
+        ),
+    },
+    {
+        id: 7,
+        label: '전체 업무 현황',
+        path: 'platform/iotaseoul/workflow',
+        icon: (
+            <svg className="w-4.5 h-4.5 mr-[10px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
             </svg>
         ),
     },
@@ -60,16 +70,6 @@ const menuItems = [
             <svg className="w-4.5 h-4.5 mr-[10px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" />
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" />
-            </svg>
-        ),
-    },
-    {
-        id: 7,
-        label: '전체 업무 현황',
-        path: 'platform/iotaseoul/workflow',
-        icon: (
-            <svg className="w-4.5 h-4.5 mr-[10px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
             </svg>
         ),
     },
@@ -260,12 +260,17 @@ export default function IotaLeftNav({ onMenuChange, currentPath = '' }) {
                                                             handleNavigation(sub.path); 
                                                         }
                                                     }}
-                                                    className={`flex items-center justify-between py-[4px] rounded-xl cursor-pointer transition-colors duration-200 outline-none select-none ${isSubActive ? 'bg-[#151515] px-[9px] -mx-[2px]' : 'px-[7px] hover:bg-[#151515]'}`}
+                                                    className={`group flex items-center justify-between py-[4px] rounded-xl cursor-pointer transition-colors duration-200 outline-none select-none ${isSubActive ? 'bg-[#151515] px-[9px] -mx-[2px]' : 'px-[7px] hover:bg-[#151515]'}`}
                                                 >
-                                                    <div className="flex items-center">
-                                                        <span className="text-[14px] text-[#A1A1AA] font-light group-hover:text-white transition-colors">
+                                                    <div className="flex items-center gap-[6px]">
+                                                        <span className={`text-[14px] font-light transition-colors ${isSubActive ? 'text-white' : 'text-[#A1A1AA] group-hover:text-white'}`}>
                                                             {sub.label}
                                                         </span>
+                                                        {sub.externalUrl && (
+                                                            <svg className={`w-3.5 h-3.5 transition-colors ${isSubActive ? 'text-[#888]' : 'text-[#666] group-hover:text-[#888]'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                                            </svg>
+                                                        )}
                                                     </div>
                                                 </div>
                                             );

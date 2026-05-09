@@ -465,7 +465,7 @@ export default function DecisionLog() {
             </div>
 
             {/* This Week's Focus */}
-            <div className="w-full mb-[50px]">
+            <div className="w-full mb-[44px]">
                 {/* Header with Title and Nav Links */}
                 <div className="flex items-center gap-[16px] mb-[10px]">
                     <h2 className="text-[20px] font-bold text-white tracking-tight shrink-0">이번주 포커스</h2>
@@ -582,7 +582,13 @@ export default function DecisionLog() {
             </div>
 
                         {/* Workspace Issues Overview */}
-            <div className="w-full flex flex-col gap-[16px] mb-[30px]">
+            <div className="w-full flex flex-col gap-[16px] mb-[18px] relative">
+                {/* Overlay */}
+                <div className="absolute inset-[-12px] z-50 backdrop-blur-[3px] bg-[#151515]/40 flex flex-col items-center justify-center rounded-[32px] border border-[#FF3B30]">
+                    <h3 className="text-[24px] font-bold text-white tracking-tight mb-[8px]">이번주 사람들이 모여 논의하는 주제</h3>
+                    <p className="text-[15px] text-[#A1A1AA] font-medium">2026.05.10 업데이트 완료 예정</p>
+                </div>
+
                 {/* 1st Row: 4 Workspaces */}
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-[16px]">
                     {issuesByWorkspace.slice(0, 4).map((ws, idx) => (
@@ -635,7 +641,7 @@ export default function DecisionLog() {
 
             {/* Log Viewer */}
             <div id="log-viewer-header" className="flex justify-between items-center mt-[20px] mb-[12px] scroll-mt-[80px]">
-                <h2 className="text-[18px] font-bold text-white tracking-tight translate-y-[2px]">활동내역 전체보기</h2>
+                <h2 className="text-[18px] font-bold text-white tracking-tight translate-y-[2px]">CFT 협업 활동 전체보기</h2>
                 <div className="flex items-center gap-[12px]">
                     
 
