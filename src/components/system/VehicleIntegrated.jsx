@@ -274,14 +274,15 @@ export default function VehicleIntegrated() {
 
         return (
             <div id={id} className="mb-[28px]">
-                <div className="flex justify-between items-end mb-[16px]">
+                <div className="flex justify-between items-end mb-[12px]">
                     <h2 className="text-[24px] font-bold text-white tracking-tight">{title}</h2>
                     {toggleContent}
                 </div>
 
+                <div className="w-full p-[6px] border border-[#333] rounded-[38px] flex flex-col gap-[6px]">
                 {/* Dashboard Metrics Cards */}
                 {vehicleId !== '421' && (
-                <div className="w-full flex gap-[20px] mb-[20px]">
+                <div className="w-full flex gap-[20px]">
                     <div className="w-[390px] h-[274px] flex flex-col gap-[20px]">
                         <div className="w-full flex-1 bg-[#292928] border border-[#3c3c3c] rounded-[32px] pr-6 flex flex-row items-center transition-colors duration-300">
                             <div className="w-[114px] flex flex-col justify-between border-r border-[#444]/50 h-[54px] pl-[24px]">
@@ -411,7 +412,7 @@ export default function VehicleIntegrated() {
                 )}
 
                 {/* Visual Tranche Bar */}
-                <div className="w-full mb-[20px]">
+                <div className="w-full">
                     {(() => {
                         const allItems = Object.values(data).flat();
                         const barGroups = {};
@@ -625,6 +626,7 @@ export default function VehicleIntegrated() {
                         })}
                     </div>
                 </div>
+                </div>
             </div>
         );
     };
@@ -694,7 +696,7 @@ export default function VehicleIntegrated() {
     };
 
     return (
-        <div className="w-[1200px] mx-auto flex-1 flex flex-col pt-[60px] shrink-0 pb-[100px]">
+        <div className="w-[1200px] mx-auto flex-1 flex flex-col pt-[50px] shrink-0 pb-[100px]">
             
             {/* 1. 종합 */}
             <div className="mb-[28px]">
@@ -702,7 +704,7 @@ export default function VehicleIntegrated() {
                 <p className="text-[16px] text-[#86868B] mb-[24px] leading-[26px]">IOTA Seoul 프로젝트 전체의 자본 구조 및 펀드별 에쿼티/론 조달 현황입니다.</p>
                 
                 {/* 외곽선 복구, 까만 박스 테두리 삭제 */}
-                <div className="p-6 bg-transparent border border-[#3c3c3c] rounded-[24px] flex gap-8 items-start">
+                <div className="p-6 bg-[#272726] border border-[#3c3c3c] rounded-[24px] flex gap-8 items-start">
                     <div className="w-[280px] shrink-0 flex flex-col">
                         <div className="text-[13px] font-bold text-[#86868B] uppercase mb-[10px]">Total Project Volume</div>
                         <div className="text-[32px] font-bold text-white leading-none tracking-tight pt-[6px]">{formatAmount(grandTotal)}</div>
@@ -819,7 +821,7 @@ export default function VehicleIntegrated() {
 
             {/* 5. IPR */}
             <div id="section-ipr" className="mb-[28px]">
-                <div className="flex justify-between items-end mb-[16px]">
+                <div className="flex justify-between items-end mb-[12px]">
                     <h2 className="text-[24px] font-bold text-white tracking-tight">4. IPR (Iota Project REITs)</h2>
                     <button 
                         onClick={() => navigateTo('platform/iotaseoul/workspace/ipr')}

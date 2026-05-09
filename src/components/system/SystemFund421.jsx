@@ -352,13 +352,15 @@ export default function SystemFund421() {
     };
 
     return (
-        <div className="w-[1200px] mx-auto flex-1 flex flex-col pt-[60px] shrink-0 pb-[200px]">
+        <div className="w-[1200px] mx-auto flex-1 flex flex-col pt-[50px] shrink-0 pb-[200px]">
             {/* Header / Title */}
-            <div className="mb-[10px]">
-                <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[8px]">421 Fund</h1>
-                <p className="text-[16px] text-[#86868B] mb-[40px] leading-[26px]">
-                    IOTA One, Two 투자를 위해 운용중인 이지스421호 부동산 사모펀드입니다.
-                </p>
+            <div className="w-full flex justify-between items-start mb-[32px]">
+                <div>
+                    <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[8px]">421 Fund</h1>
+                    <p className="text-[16px] text-[#86868B] leading-[26px]">
+                        IOTA One, Two 투자를 위해 운용중인 이지스421호 부동산 사모펀드입니다.
+                    </p>
+                </div>
             </div>
 
             {/* Tables Section */}

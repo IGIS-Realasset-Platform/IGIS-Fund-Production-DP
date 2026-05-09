@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { supabase } from '../../utils/supabaseClient';
 
@@ -125,7 +125,10 @@ export default function IotaLeftNav({ onMenuChange, currentPath = '' }) {
     const [showContactModal, setShowContactModal] = useState(false);
     const [showPasswordModal, setShowPasswordModal] = useState(false);
     const [newPassword, setNewPassword] = useState('');
-    const [isWorkspaceOpen, setIsWorkspaceOpen] = useState(true);
+    const [isWorkspaceOpen, setIsWorkspaceOpen] = useState(() => {
+        const saved = sessionStorage.getItem('isWorkspaceOpen');
+        return saved !== null ? saved === 'true' : true;
+    });
 
     const handlePasswordChange = async () => {
         try {
@@ -138,14 +141,39 @@ export default function IotaLeftNav({ onMenuChange, currentPath = '' }) {
             alert('비밀번호 변경 실패: ' + error.message);
         }
     };
-    const [isStakeholderOpen, setIsStakeholderOpen] = useState(true);
-    const [isGovOpen, setIsGovOpen] = useState(true);
-    const [isVehicleOpen, setIsVehicleOpen] = useState(
-        currentPath === 'platform/iotaseoul/vehicle-integrated' ||
-        currentPath === 'platform/iotaseoul/iota-one-427' ||
-        currentPath === 'platform/iotaseoul/iota-two-816' ||
-        currentPath === 'platform/iotaseoul/421-fund'
-    );
+    const [isStakeholderOpen, setIsStakeholderOpen] = useState(() => {
+        const saved = sessionStorage.getItem('isStakeholderOpen');
+        return saved !== null ? saved === 'true' : true;
+    });
+    const [isGovOpen, setIsGovOpen] = useState(() => {
+        const saved = sessionStorage.getItem('isGovOpen');
+        return saved !== null ? saved === 'true' : true;
+    });
+    const [isVehicleOpen, setIsVehicleOpen] = useState(() => {
+        const isVehiclePath = currentPath === 'platform/iotaseoul/vehicle-integrated' ||
+                              currentPath === 'platform/iotaseoul/iota-one-427' ||
+                              currentPath === 'platform/iotaseoul/iota-two-816' ||
+                              currentPath === 'platform/iotaseoul/421-fund';
+        if (isVehiclePath) return true;
+        const saved = sessionStorage.getItem('isVehicleOpen');
+        return saved !== null ? saved === 'true' : false;
+    });
+
+    useEffect(() => { sessionStorage.setItem('isWorkspaceOpen', isWorkspaceOpen); }, [isWorkspaceOpen]);
+    useEffect(() => { sessionStorage.setItem('isStakeholderOpen', isStakeholderOpen); }, [isStakeholderOpen]);
+    useEffect(() => { sessionStorage.setItem('isGovOpen', isGovOpen); }, [isGovOpen]);
+    useEffect(() => { sessionStorage.setItem('isVehicleOpen', isVehicleOpen); }, [isVehicleOpen]);
+
+    useEffect(() => {
+        if (
+            currentPath === 'platform/iotaseoul/vehicle-integrated' ||
+            currentPath === 'platform/iotaseoul/iota-one-427' ||
+            currentPath === 'platform/iotaseoul/iota-two-816' ||
+            currentPath === 'platform/iotaseoul/421-fund'
+        ) {
+            setIsVehicleOpen(true);
+        }
+    }, [currentPath]);
 
     return (
         <div className="w-[275px] h-full bg-transparent border-r border-[#2C2C2E] flex flex-col flex-shrink-0 text-[14px] font-sans text-white transition-colors duration-300">
@@ -176,7 +204,11 @@ export default function IotaLeftNav({ onMenuChange, currentPath = '' }) {
                             <div key={item.id} className="flex flex-col">
                                 <div
                                     onClick={() => {
-                                        handleNavigation(item.path);
+                                        if (item.id === 2) {
+                                            setIsVehicleOpen(!isVehicleOpen);
+                                        } else {
+                                            handleNavigation(item.path);
+                                        }
                                     }}
                                     className={`flex items-center justify-between py-[7px] rounded-xl cursor-pointer transition-colors duration-200 outline-none select-none ${isActive ? 'bg-[#151515] px-[9px] -mx-[2px]' : 'px-[7px] hover:bg-[#151515]'}`}
                                 >
@@ -214,7 +246,7 @@ export default function IotaLeftNav({ onMenuChange, currentPath = '' }) {
                                     </div>
                                 </div>
                                 {hasSubItems && isExpanded && (
-                                    <div className="flex flex-col gap-0 mt-1 mb-1 pl-[28px]">
+                                    <div className="flex flex-col gap-0 mt-[2px] mb-[2px] pl-[28px]">
                                         {item.subItems.map(sub => {
                                             const isSubActive = currentPath === sub.path;
                                             return (
@@ -228,7 +260,7 @@ export default function IotaLeftNav({ onMenuChange, currentPath = '' }) {
                                                             handleNavigation(sub.path); 
                                                         }
                                                     }}
-                                                    className={`flex items-center justify-between py-[6px] rounded-xl cursor-pointer transition-colors duration-200 outline-none select-none ${isSubActive ? 'bg-[#151515] px-[9px] -mx-[2px]' : 'px-[7px] hover:bg-[#151515]'}`}
+                                                    className={`flex items-center justify-between py-[4px] rounded-xl cursor-pointer transition-colors duration-200 outline-none select-none ${isSubActive ? 'bg-[#151515] px-[9px] -mx-[2px]' : 'px-[7px] hover:bg-[#151515]'}`}
                                                 >
                                                     <div className="flex items-center">
                                                         <span className="text-[14px] text-[#A1A1AA] font-light group-hover:text-white transition-colors">

@@ -452,7 +452,7 @@ export default function DecisionLog() {
     const formattedDate = `${today.getFullYear()}년 ${today.getMonth() + 1}월 ${today.getDate()}일 (${days[today.getDay()]})`;
 
     return (
-        <div className="w-full flex-1 flex flex-col pt-[60px] pb-[60px] max-w-[1200px] mx-auto">
+        <div className="w-full flex-1 flex flex-col pt-[50px] pb-[60px] max-w-[1200px] mx-auto">
             {/* Header Metadata */}
             <div className="w-full flex justify-between items-start mb-[32px]">
                 <div>
