@@ -1006,7 +1006,10 @@ export default function WorkspaceFinancing() {
                                         </h3>
                                     </div>
                                     <div className="flex-1 flex flex-col gap-[2px] pr-4">
-                                        <span className="text-[13px] font-bold text-[#86868B]">Next Action</span>
+                                        <div className="flex items-center gap-2 mb-1">
+                                            <span className="text-[13px] font-bold text-[#86868B]">Next Action</span>
+                                            <span className="text-[11px] font-medium text-[#A1A1AA] bg-[#2c2c2e] border border-[#3a3a3c] px-[8px] py-[2px] rounded-full tracking-tight">마감일 목표 2026.05.28</span>
+                                        </div>
                                         <p className="text-[18px] text-[#bbb9af] leading-relaxed break-keep font-medium">
                                             {parseNames(row.next_action)}
                                         </p>

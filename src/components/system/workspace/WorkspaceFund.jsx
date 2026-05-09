@@ -1015,7 +1015,10 @@ export default function WorkspaceFund() {
                                         </h3>
                                     </div>
                                     <div className="flex-1 flex flex-col gap-[2px] pr-4">
-                                        <span className="text-[13px] font-bold text-[#86868B]">Next Action</span>
+                                        <div className="flex items-center gap-2 mb-1">
+                                            <span className="text-[13px] font-bold text-[#86868B]">Next Action</span>
+                                            <span className="text-[11px] font-medium text-[#A1A1AA] bg-[#2c2c2e] border border-[#3a3a3c] px-[8px] py-[2px] rounded-full tracking-tight">마감일 목표 2026.05.28</span>
+                                        </div>
                                         <p className="text-[18px] text-[#bbb9af] leading-relaxed break-keep font-medium">
                                             {parseNames(row.next_action)}
                                         </p>
@@ -1070,7 +1073,7 @@ export default function WorkspaceFund() {
 
 
             <div className="mt-[10px]">
-                {loading || !iotaData ? (
+                {loading || !iotaData || iotaData.error || !iotaData[421] ? (
                     <div className="flex justify-center items-center py-20">
                         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
                     </div>
@@ -1338,7 +1341,7 @@ export default function WorkspaceFund() {
                         vehicleId="421"
                         title="3. 421호 펀드" 
                         totalAmountStr={formatAmount(getTotal(421))} 
-                        data={iotaData[421].Current} 
+                        data={iotaData[421]?.Current || {}} 
                         toggleContent={
                             <button 
                                 onClick={() => navigateTo('platform/iotaseoul/421-fund')}
