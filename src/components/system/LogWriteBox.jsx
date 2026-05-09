@@ -629,7 +629,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                     </div>
                     {(visibilityGroups.length > 0 || visibilityIndividuals.length > 0) && (
                         <div className="flex items-center mr-2">
-                            <span className="text-[#A1A1AA] text-[13px]">
+                            <span className="text-red-500 font-bold text-[13px]">
                                 {visibilityGroups.join(', ')}
                                 {visibilityGroups.length > 0 && visibilityIndividuals.length > 0 && ', '}
                                 {visibilityIndividuals.map(i => i.contact_name).join(', ')}
@@ -639,7 +639,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                     <button 
                         type="button"
                         onClick={() => setShowVisibilityModal(true)}
-                        className="px-[16px] py-[10px] rounded-[10px] border border-[#444] text-[#86868B] font-bold text-[13px] hover:bg-[#333] hover:text-white transition-colors cursor-pointer mr-2"
+                        className="px-[16px] py-[10px] rounded-[10px] border border-red-500/50 text-red-500 font-bold text-[13px] hover:bg-red-500/10 hover:border-red-500 hover:text-red-400 transition-colors cursor-pointer mr-2"
                     >
                         열람권한
                     </button>
