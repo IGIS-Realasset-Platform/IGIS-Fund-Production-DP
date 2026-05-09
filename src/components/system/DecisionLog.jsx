@@ -454,7 +454,7 @@ export default function DecisionLog() {
             {/* This Week's Focus */}
             <div className="w-full mb-[50px]">
                 {/* Header with Title and Nav Links */}
-                <div className="flex items-center gap-[16px] mb-[24px]">
+                <div className="flex items-center gap-[16px] mb-[14px]">
                     <h2 className="text-[20px] font-bold text-white tracking-tight shrink-0">이번주 포커스</h2>
                     <div className="flex items-center gap-[8px] overflow-x-auto scrollbar-hide">
                         {WORKSPACE_CONFIG.map(ws => (
@@ -483,7 +483,7 @@ export default function DecisionLog() {
                                 <div 
                                     key={ws.id}
                                     id={`focus-card-${ws.id}`}
-                                    className="min-w-[380px] max-w-[380px] shrink-0 bg-[#272727] border border-[#3c3c3c] rounded-[16px] p-[24px] pb-[32px] snap-start flex flex-col gap-[16px] min-h-[380px]"
+                                    className="min-w-[480px] max-w-[480px] shrink-0 bg-[#272727] border border-[#3c3c3c] rounded-[24px] p-[24px] pb-[32px] snap-start flex flex-col gap-[16px] min-h-[380px]"
                                 >
                                     {/* Card Title */}
                                     <h3 className="text-[18px] font-bold text-white mb-[4px]">{ws.name}</h3>
