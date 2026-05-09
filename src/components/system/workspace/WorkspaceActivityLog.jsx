@@ -491,7 +491,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
                                         >
                                             {hasRestrictedPermissions(log) && (
                                                 <div className="group relative flex items-center shrink-0">
-                                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#A1A1AA" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
                                                     <div className="absolute left-1/2 -translate-x-1/2 bottom-[100%] mb-[8px] hidden group-hover:flex bg-[#222] border border-[#333] px-[8px] py-[4px] rounded-[6px] whitespace-nowrap text-[11px] text-[#E5E5E5] shadow-lg z-[99] pointer-events-none font-medium">
                                                         열람 권한: {getPermissionString(log)}
                                                     </div>
@@ -566,7 +566,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
                                             <div className="flex flex-col items-end gap-[4px]">
                                                 <span className="text-[11px] font-bold text-[#86868B] pr-[14px]">열람 권한</span>
                                                 <div className="bg-[#1e293b] border border-[#334155] rounded-full pl-[8px] pr-[12px] py-[4px] flex items-center gap-[6px]">
-                                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
                                                     <span className="text-[12px] font-medium text-[#e2e8f0]">
                                                         제한됨: {getPermissionString(log)}
                                                     </span>
