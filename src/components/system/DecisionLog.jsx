@@ -447,13 +447,20 @@ export default function DecisionLog() {
         return { ...ws, logs: wsLogs, recentCount, totalCount };
     });
 
+    const today = new Date();
+    const days = ['일', '월', '화', '수', '목', '금', '토'];
+    const formattedDate = `${today.getFullYear()}년 ${today.getMonth() + 1}월 ${today.getDate()}일 (${days[today.getDay()]})`;
+
     return (
         <div className="w-full flex-1 flex flex-col pt-[60px] pb-[60px] max-w-[1200px] mx-auto">
             {/* Header Metadata */}
-            <div className="w-full flex justify-between items-end mb-[32px]">
+            <div className="w-full flex justify-between items-start mb-[32px]">
                 <div>
-                    <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[8px]">통합 수행 체계</h1>
-                    <p className="text-[16px] text-[#86868B] leading-[26px]">통합 수행 체계에서 IOTA CFT의 전체 업무 현황을 한 화면에서 모아 봅니다.</p>
+                    <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[8px]">전체 업무 현황</h1>
+                    <p className="text-[16px] text-[#86868B] leading-[26px]">IOTA CFT의 전체 업무 현황을 한 화면에서 모아 봅니다.</p>
+                </div>
+                <div className="text-[15px] font-bold text-[#86868B] tracking-tight bg-[#222] px-[16px] py-[8px] rounded-full shrink-0 flex items-center shadow-sm">
+                    {formattedDate}
                 </div>
             </div>
 
@@ -491,10 +498,10 @@ export default function DecisionLog() {
                         <span className="text-[#86868B] text-[15px]">데이터를 불러오는 중입니다...</span>
                     </div>
                 ) : (
-                    <div className="-mx-[7px] p-[6px] border border-[#333] rounded-[30px] translate-x-[-24px]">
+                    <div className="-ml-[24px] -mr-[calc(50vw-50%)] p-[6px] border-y border-l border-[#333] rounded-l-[30px]">
                         <div 
                             id="focus-scroll-container" 
-                            className="w-[calc(50vw-140px+50%)] max-w-none flex gap-[6px] overflow-x-auto snap-x pr-[40px] custom-thin-scrollbar rounded-[24px]"
+                            className="w-full flex gap-[6px] overflow-x-auto snap-x pr-[40px] custom-thin-scrollbar rounded-l-[24px]"
                             onScroll={(e) => {
                                 const container = e.target;
                                 const scrollLeft = container.scrollLeft;
@@ -565,8 +572,8 @@ export default function DecisionLog() {
                         })}
                         {/* Spacer to allow the last card to snap to the left edge */}
                         <div className="min-w-[calc(100vw-480px)] shrink-0 flex items-center justify-start px-[40px] select-none pointer-events-none box-border">
-                            <div className="text-white opacity-[0.04] font-bold leading-[0.9] tracking-tighter w-full" style={{ fontSize: 'clamp(40px, 4vw, 80px)' }}>
-                                IOTA Seoul<br />Cross Functional Team
+                            <div className="text-white opacity-[0.04] font-bold leading-[0.9] tracking-tighter w-full" style={{ fontSize: 'clamp(30px, 5vw, 100px)' }}>
+                                IOTA Seoul<br />Cross Functional<br />Team
                             </div>
                         </div>
                         </div>
