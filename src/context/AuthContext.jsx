@@ -35,47 +35,17 @@ export function AuthProvider({ children }) {
 
     // Activity tracking for session timeout
     useEffect(() => {
-        let lastUpdate = Date.now();
-        let intervalId;
-
-        const updateActivity = () => {
-            const now = Date.now();
-            // Throttle localStorage updates to once per minute to save performance
-            if (now - lastUpdate > 60000) {
-                localStorage.setItem('iota_last_activity', now.toString());
-                lastUpdate = now;
-            }
-        };
-
-        const checkTimeout = async () => {
-            const lastActivityStr = localStorage.getItem('iota_last_activity');
-            if (lastActivityStr) {
-                const lastActivity = parseInt(lastActivityStr, 10);
-                if (Date.now() - lastActivity > TIMEOUT_MS) {
-                    console.log("Session timed out due to inactivity.");
-                    // Remove activity key and sign out
-                    localStorage.removeItem('iota_last_activity');
-                    await handleSignOut();
-                }
-            }
-        };
-
-        // Initial check
-        checkTimeout();
-        
-        // Initialize activity tracking if we haven't timed out
+        // Update activity immediately
         localStorage.setItem('iota_last_activity', Date.now().toString());
 
-        // Attach event listeners
-        const events = ['mousemove', 'keydown', 'click', 'scroll'];
-        events.forEach(e => window.addEventListener(e, updateActivity, { passive: true }));
-
-        // Check periodically (every 1 minute)
-        intervalId = setInterval(checkTimeout, 60000);
+        // Continuously update activity every 1 minute as long as the app is open.
+        // This ensures the user is NEVER logged out while the browser tab is open.
+        const activityIntervalId = setInterval(() => {
+            localStorage.setItem('iota_last_activity', Date.now().toString());
+        }, 60000);
 
         return () => {
-            events.forEach(e => window.removeEventListener(e, updateActivity));
-            clearInterval(intervalId);
+            clearInterval(activityIntervalId);
         };
     }, []);
 
