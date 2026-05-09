@@ -234,23 +234,11 @@ export default function DecisionLog() {
                     const { data, error } = await supabase
                         .from(ws.table)
                         .select('*')
-                        .eq('status', '진행중');
+                        .order('created_at', { ascending: false })
+                        .limit(3);
                         
                     if (!error && data) {
-                        const sorted = data.sort((a, b) => {
-                            // 1. Priority desc
-                            if (priorityWeight[a.priority] !== priorityWeight[b.priority]) {
-                                return (priorityWeight[b.priority] || 0) - (priorityWeight[a.priority] || 0);
-                            }
-                            // 2. Due date asc
-                            if (a.due_date && b.due_date) {
-                                return new Date(a.due_date) - new Date(b.due_date);
-                            }
-                            if (a.due_date) return -1;
-                            if (b.due_date) return 1;
-                            return 0;
-                        });
-                        results[ws.id] = sorted.slice(0, 3);
+                        results[ws.id] = data;
                     } else {
                         results[ws.id] = [];
                     }
@@ -511,7 +499,10 @@ export default function DecisionLog() {
                                                 </div>
                                                 <div 
                                                     className="cursor-pointer group overflow-hidden"
-                                                    onClick={() => window.location.hash = `#/${ws.path}`}
+                                                    onClick={() => {
+                                                        const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
+                                                        window.location.href = `${base}/${ws.path}`;
+                                                    }}
                                                 >
                                                     <h4 className="text-[20px] font-bold text-[#e2aa29] leading-tight mb-[2px] group-hover:text-[#fbf167] transition-colors truncate block w-full">
                                                         {task.task_name}
