@@ -239,6 +239,42 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
 
     const logsPerPage = logsViewMode === 'summary' ? 5 : 20;
     const filteredLogs = logs.filter(log => {
+        // --- Access Permission Check ---
+        const perms = log.metadata?.permissions;
+        if (perms) {
+            const hasGroups = perms.groups && perms.groups.length > 0;
+            const hasIndivs = perms.individuals && perms.individuals.length > 0;
+            
+            if (hasGroups || hasIndivs) {
+                const myEmail = memberInfo?.email;
+                const myName = memberInfo?.staff_name || memberInfo?.name;
+                const isAuthor = log.writer_staff_id === myEmail || log.writer_name === myName;
+                
+                let hasAccess = isAuthor;
+                
+                if (!hasAccess && hasIndivs) {
+                    if (perms.individuals.includes(myName)) hasAccess = true;
+                }
+                
+                if (!hasAccess && hasGroups) {
+                    const myStakeholderRecords = masterStakeholders.filter(s => s.contact_name === myName);
+                    const myRoles = myStakeholderRecords.map(s => s.role_category).filter(Boolean);
+                    
+                    for (const group of perms.groups) {
+                        if (group === "각 워크스페이스" && myStakeholderRecords.length > 0) hasAccess = true;
+                        else if (myRoles.includes(group)) hasAccess = true;
+                        
+                        // Hardcode fallbacks as requested
+                        if (group === "PO" && myName === "이철승") hasAccess = true;
+                        if (group === "Sub-PO" && ["윤관식", "정조민", "우형석"].includes(myName)) hasAccess = true;
+                    }
+                }
+                
+                if (!hasAccess) return false;
+            }
+        }
+        // --- End Access Permission Check ---
+
         const cell = getLogCell(log);
         
         if (filterStakeholder && log.iota_seoul_log_stakeholders?.[0]?.role_category !== filterStakeholder) return false;

@@ -25,6 +25,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
     const [showCompanyWarningModal, setShowCompanyWarningModal] = useState(false);
     const [showSuccessModal, setShowSuccessModal] = useState(false);
     
+
     // Mention states
     const [showMentionDropdown, setShowMentionDropdown] = useState(false);
     const [mentionQuery, setMentionQuery] = useState('');
@@ -32,6 +33,13 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
     const [mentionPosition, setMentionPosition] = useState({ top: 0, left: 0 });
     const [mentionedNames, setMentionedNames] = useState([]);
 
+    // Permission states
+    const [visibilityGroups, setVisibilityGroups] = useState([]);
+    const [visibilityIndividuals, setVisibilityIndividuals] = useState([]);
+    const [showVisibilityModal, setShowVisibilityModal] = useState(false);
+    const [showPublicWarningModal, setShowPublicWarningModal] = useState(false);
+    const [visibilitySearchQuery, setVisibilitySearchQuery] = useState('');
+    const visibilityGroupOptions = ["PO", "Sub-PO", "CFT 책임인력", "각 워크스페이스"];
     const iconChevronGray = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' fill='none' stroke='%23A1A1AA' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' viewBox='0 0 24 24'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")`;
     const iconChevronDark = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' viewBox='0 0 24 24'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")`;
 
@@ -203,7 +211,11 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                     project_name: projectId === 'IOTA_COMMON' ? 'IOTA 공통' : projectId === 'P00030' ? '427 PFV' : projectId === 'P00037' ? '816 PFV' : '421 Fund',
                     triage_type: triageType,
                     issue_status: issueStatus,
-                    priority: priority
+                    priority: priority,
+                    permissions: {
+                        groups: visibilityGroups,
+                        individuals: visibilityIndividuals.map(i => i.contact_name)
+                    }
                 }
             });
             if (logError) throw logError;
@@ -261,6 +273,16 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
             alert('저장 중 오류가 발생했습니다.');
         } finally {
             setIsSubmitting(false);
+        }
+    };
+
+    const handlePreSubmit = (e) => {
+        if (e && e.preventDefault) e.preventDefault();
+        if (!content.trim()) return;
+        if (visibilityGroups.length === 0 && visibilityIndividuals.length === 0) {
+            setShowPublicWarningModal(true);
+        } else {
+            handleSubmit(e);
         }
     };
 
@@ -594,9 +616,25 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                             )}
                         </div>
                     </div>
+                    {(visibilityGroups.length > 0 || visibilityIndividuals.length > 0) && (
+                        <div className="flex items-center mr-2">
+                            <span className="text-[#A1A1AA] text-[13px]">
+                                {visibilityGroups.join(', ')}
+                                {visibilityGroups.length > 0 && visibilityIndividuals.length > 0 && ', '}
+                                {visibilityIndividuals.map(i => i.contact_name).join(', ')}
+                            </span>
+                        </div>
+                    )}
                     <button 
                         type="button"
-                        onClick={handleSubmit}
+                        onClick={() => setShowVisibilityModal(true)}
+                        className="px-[16px] py-[10px] rounded-[10px] border border-[#444] text-[#86868B] font-bold text-[13px] hover:bg-[#333] hover:text-white transition-colors cursor-pointer mr-2"
+                    >
+                        열람권한
+                    </button>
+                    <button 
+                        type="button"
+                        onClick={handlePreSubmit}
                         disabled={isSubmitting}
                         className={`px-[32px] py-[10px] rounded-[10px] border border-[#444] text-[#E5E5E5] font-bold text-[13px] transition-all duration-200 ${isSubmitting ? 'opacity-50 cursor-not-allowed' : 'hover:bg-[#333] hover:border-[#555] cursor-pointer'}`}
                     >
@@ -610,6 +648,146 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
             </div>
 
             {/* Modals */}
+
+            {/* Permission Modal */}
+            {showVisibilityModal && (
+                <div className="fixed inset-0 z-[60] flex items-center justify-center">
+                    <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setShowVisibilityModal(false)}></div>
+                    <div className="relative bg-[#262626] rounded-[24px] border border-[#333] w-full max-w-[500px] overflow-hidden shadow-2xl flex flex-col max-h-[85vh]">
+                        <div className="p-6 border-b border-[#333] shrink-0">
+                            <h3 className="text-[20px] font-bold text-white mb-2">열람 권한 설정</h3>
+                            <p className="text-[#86868B] text-[14px]">이 게시물을 볼 수 있는 그룹과 특정 인원을 지정합니다.</p>
+                        </div>
+                        
+                        <div className="p-6 overflow-y-auto custom-scrollbar flex-1">
+                            <div className="mb-6">
+                                <h4 className="text-[14px] font-bold text-[#A1A1AA] mb-3">1. 그룹 선택 (다중 선택 가능)</h4>
+                                <div className="flex flex-wrap gap-2">
+                                    {visibilityGroupOptions.map(opt => {
+                                        const isSelected = visibilityGroups.includes(opt);
+                                        return (
+                                            <button 
+                                                key={opt}
+                                                type="button"
+                                                onClick={() => {
+                                                    if (isSelected) setVisibilityGroups(visibilityGroups.filter(g => g !== opt));
+                                                    else setVisibilityGroups([...visibilityGroups, opt]);
+                                                }}
+                                                className={`px-4 py-2 rounded-[10px] text-[13px] font-bold transition-colors cursor-pointer ${isSelected ? 'bg-[#2997ff] text-white border border-[#2997ff]' : 'bg-[#1a1a1a] text-[#86868B] border border-[#444] hover:border-[#666]'}`}
+                                            >
+                                                {opt}
+                                            </button>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                            
+                            <div className="mb-4">
+                                <h4 className="text-[14px] font-bold text-[#A1A1AA] mb-3">2. 특정 인원 추가</h4>
+                                <input 
+                                    type="text" 
+                                    placeholder="이름을 검색하세요" 
+                                    value={visibilitySearchQuery}
+                                    onChange={(e) => setVisibilitySearchQuery(e.target.value)}
+                                    className="w-full bg-[#1A1A1A] border border-[#444] rounded-[10px] px-4 py-2.5 text-white text-[14px] outline-none focus:border-[#888]"
+                                />
+                                {visibilitySearchQuery && (
+                                    <div className="mt-2 bg-[#1A1A1A] border border-[#444] rounded-[10px] overflow-hidden max-h-[150px] overflow-y-auto">
+                                        {Array.from(new Set(masterStakeholders.map(s => s.contact_name).filter(Boolean)))
+                                            .filter(n => n.toLowerCase().includes(visibilitySearchQuery.toLowerCase()))
+                                            .map(name => {
+                                                const stakeholder = masterStakeholders.find(s => s.contact_name === name);
+                                                const isAdded = visibilityIndividuals.some(i => i.contact_name === name);
+                                                return (
+                                                    <div 
+                                                        key={name}
+                                                        onClick={() => {
+                                                            if (!isAdded) {
+                                                                setVisibilityIndividuals([...visibilityIndividuals, stakeholder]);
+                                                            }
+                                                            setVisibilitySearchQuery('');
+                                                        }}
+                                                        className="px-4 py-2 hover:bg-[#333] cursor-pointer flex items-center justify-between transition-colors text-[13px]"
+                                                    >
+                                                        <span className="text-white">{name} {stakeholder?.role_category ? `(${stakeholder.role_category})` : ''}</span>
+                                                        {isAdded && <span className="text-[#34d399] text-[12px]">추가됨</span>}
+                                                    </div>
+                                                );
+                                            })}
+                                    </div>
+                                )}
+                            </div>
+
+                            {visibilityIndividuals.length > 0 && (
+                                <div className="flex flex-wrap gap-2 mb-2">
+                                    {visibilityIndividuals.map(ind => (
+                                        <div key={ind.contact_name} className="flex items-center gap-1 bg-[#1A1A1A] border border-[#444] rounded-[6px] px-3 py-1 text-[13px] text-white">
+                                            <span>{ind.contact_name}</span>
+                                            <button 
+                                                onClick={() => setVisibilityIndividuals(visibilityIndividuals.filter(i => i.contact_name !== ind.contact_name))}
+                                                className="text-[#666] hover:text-[#ff453a] ml-1 cursor-pointer"
+                                            >×</button>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+
+                        <div className="p-6 border-t border-[#333] bg-[#222] shrink-0">
+                            <div className="bg-[#1A1A1A] border border-[#444] rounded-[10px] p-4 mb-4">
+                                <p className="text-[#e2aa29] text-[13px] font-bold">
+                                    {visibilityGroups.length === 0 && visibilityIndividuals.length === 0 ? 
+                                        "이 게시물은 전체 공개로 모든 인원이 열람할 수 있습니다." : 
+                                        `이 게시물은 ${[...visibilityGroups, ...visibilityIndividuals.map(i => i.contact_name)].join(', ')}만 열람할 수 있습니다.`}
+                                </p>
+                            </div>
+                            <button 
+                                onClick={() => setShowVisibilityModal(false)}
+                                className="w-full py-[12px] bg-[#2997ff] text-white font-bold rounded-[12px] text-[15px] hover:bg-[#0071e3] transition-colors cursor-pointer"
+                            >
+                                확인
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Public Warning Modal */}
+            {showPublicWarningModal && (
+                <div className="fixed inset-0 z-[70] flex items-center justify-center">
+                    <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setShowPublicWarningModal(false)}></div>
+                    <div className="relative bg-[#262626] rounded-[24px] border border-[#333] w-full max-w-[400px] overflow-hidden shadow-2xl">
+                        <div className="p-6 text-center">
+                            <div className="w-[48px] h-[48px] bg-[#3c3c3c] rounded-full flex items-center justify-center mx-auto mb-4">
+                                <span className="text-[24px]">👀</span>
+                            </div>
+                            <h3 className="text-[18px] font-bold text-white mb-2">전체 공개 게시물</h3>
+                            <p className="text-[#86868B] text-[14px] leading-relaxed mb-6">
+                                열람 권한이 설정되지 않았습니다.<br/>
+                                이 게시물은 시스템의 모든 인원이<br/>열람할 수 있는 <strong className="text-[#34d399]">전체 공개글</strong>로 게시됩니다.
+                            </p>
+                            <div className="flex gap-3">
+                                <button 
+                                    onClick={() => setShowPublicWarningModal(false)}
+                                    className="flex-1 py-[12px] bg-[#3c3c3c]/50 text-[#86868B] font-bold rounded-[12px] text-[14px] border border-[#444] hover:bg-[#3c3c3c] hover:text-white transition-colors cursor-pointer"
+                                >
+                                    취소
+                                </button>
+                                <button 
+                                    onClick={(e) => {
+                                        setShowPublicWarningModal(false);
+                                        handleSubmit(e);
+                                    }}
+                                    className="flex-1 py-[12px] bg-[#2997ff] text-white font-bold rounded-[12px] text-[14px] hover:bg-[#0071e3] transition-colors cursor-pointer"
+                                >
+                                    네, 작성할게요
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             {showNewStakeholderModal && (
                 <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60">
                     <div className="bg-[#222] border border-[#333] rounded-[16px] w-[320px] p-[24px] shadow-2xl flex flex-col items-center">
