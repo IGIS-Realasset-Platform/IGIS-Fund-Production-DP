@@ -235,10 +235,16 @@ export default function DecisionLog() {
                         .from(ws.table)
                         .select('*')
                         .order('created_at', { ascending: false })
-                        .limit(3);
+                        .limit(20);
                         
                     if (!error && data) {
-                        results[ws.id] = data;
+                        const isCoreAsset = (asset) => {
+                            if (!asset || typeof asset !== 'string') return false;
+                            const lower = asset.toLowerCase();
+                            return lower.includes('iota') || lower.includes('이오타') || lower.includes('427') || lower.includes('816') || lower.includes('421') || lower.includes('공통');
+                        };
+                        const filteredData = data.filter(t => isCoreAsset(t.related_asset)).slice(0, 3);
+                        results[ws.id] = filteredData;
                     } else {
                         results[ws.id] = [];
                     }
@@ -461,7 +467,11 @@ export default function DecisionLog() {
                             <button
                                 key={ws.id}
                                 onClick={() => {
-                                    document.getElementById(`focus-card-${ws.id}`)?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+                                    const container = document.getElementById('focus-scroll-container');
+                                    const card = document.getElementById(`focus-card-${ws.id}`);
+                                    if (container && card) {
+                                        container.scrollTo({ left: card.offsetLeft - container.offsetLeft, behavior: 'smooth' });
+                                    }
                                 }}
                                 className="px-[12px] py-[6px] rounded-full text-[13px] font-bold bg-transparent border border-[#333] text-[#86868B] hover:text-white hover:border-[#555] transition-colors whitespace-nowrap"
                             >
@@ -476,23 +486,25 @@ export default function DecisionLog() {
                         <span className="text-[#86868B] text-[15px]">데이터를 불러오는 중입니다...</span>
                     </div>
                 ) : (
-                    <div className="w-[calc(50vw-140px+50%)] max-w-none flex gap-[6px] overflow-x-auto pb-[20px] snap-x scrollbar-hide pr-[40px]">
+                    <div className="-mx-[7px] p-[6px] border border-[#333] rounded-[30px]">
+                        <div id="focus-scroll-container" className="w-[calc(50vw-140px+50%)] max-w-none flex gap-[6px] overflow-x-auto pb-[20px] snap-x scrollbar-hide pr-[40px]">
                         {WORKSPACE_CONFIG.map(ws => {
                             const tasks = focusTasks[ws.id] || [];
                             return (
                                 <div 
                                     key={ws.id}
                                     id={`focus-card-${ws.id}`}
-                                    className="min-w-[480px] max-w-[480px] shrink-0 bg-[#272727] border border-[#3c3c3c] rounded-[24px] p-[24px] pb-[32px] snap-start flex flex-col gap-[16px] min-h-[380px]"
+                                    className="min-w-[480px] max-w-[480px] shrink-0 bg-[#272727] border border-[#3c3c3c] rounded-[24px] px-[24px] pt-[16px] pb-[26px] snap-start flex flex-col gap-[16px] min-h-[380px]"
                                 >
                                     {/* Card Title */}
-                                    <h3 className="text-[18px] font-bold text-white mb-[4px]">{ws.name}</h3>
+                                    <h3 className="text-[18px] font-bold text-white mb-[0]">{ws.name}</h3>
 
                                     {tasks.length === 0 ? (
                                         <div className="text-[#86868B] text-[14px] mt-[10px]">진행 중인 주요 테스크가 없습니다.</div>
                                     ) : (
                                         tasks.map((task, idx) => (
                                             <div key={task.id} className="flex flex-col gap-[4px] mt-[8px]">
+                                                <div className="w-[calc(100%+48px)] h-[1px] bg-[#333] ml-[-24px] -mt-[10px] mb-[10px]"></div>
                                                 <div className="flex justify-between items-center mb-[2px]">
                                                     <span className="text-[13px] font-bold text-[#86868B]">Task {idx + 1}</span>
                                                     <span className="text-[12px] font-medium text-[#555] opacity-60">목표 마감일 {task.due_date || '미정'}</span>
@@ -500,6 +512,7 @@ export default function DecisionLog() {
                                                 <div 
                                                     className="cursor-pointer group overflow-hidden flex flex-col gap-[8px]"
                                                     onClick={() => {
+                                                        localStorage.setItem('iota_target_task_id', task.id);
                                                         const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
                                                         window.location.href = `${base}/${ws.path}#task-management`;
                                                     }}
@@ -520,6 +533,7 @@ export default function DecisionLog() {
                                 </div>
                             );
                         })}
+                        </div>
                     </div>
                 )}
             </div>

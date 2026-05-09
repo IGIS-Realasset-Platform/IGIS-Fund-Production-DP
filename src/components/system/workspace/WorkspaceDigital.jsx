@@ -107,6 +107,28 @@ export default function WorkspaceDigital() {
         }
     };
 
+    useEffect(() => {
+        if (!isLoadingTasks && tasks.length > 0) {
+            const targetTaskId = localStorage.getItem('iota_target_task_id');
+            if (targetTaskId) {
+                const targetTask = tasks.find(t => t.id === targetTaskId);
+                if (targetTask) {
+                    setProjectShowAll(true);
+                    setExpandedTaskId(targetTaskId);
+                    setTimeout(() => {
+                        const el = document.getElementById(`task-${targetTaskId}`);
+                        if (el) {
+                            // offset scroll so it's not under fixed header
+                            const y = el.getBoundingClientRect().top + window.scrollY - 100;
+                            window.scrollTo({top: y, behavior: 'smooth'});
+                        }
+                        localStorage.removeItem('iota_target_task_id');
+                    }, 500);
+                }
+            }
+        }
+    }, [isLoadingTasks, tasks]);
+
     const handleEditRow = (row) => {
         setEditingTaskId(row.id);
         setNewTask({
@@ -405,7 +427,8 @@ export default function WorkspaceDigital() {
                 </div>
             </div>
             
-            <motion.div layout className="w-full flex flex-col gap-[16px] mb-[40px]">
+            <div className="-mx-[7px] p-[6px] border border-[#333] rounded-[30px] mb-[40px]">
+                <motion.div layout className="w-full flex flex-col gap-[16px]">
                 {isAdding && (
                     <div className="w-full bg-[#272726] border border-[#3c3c3c] rounded-[24px] p-6 flex flex-col gap-4">
                         <div className="flex gap-4">
@@ -498,9 +521,10 @@ export default function WorkspaceDigital() {
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={{ opacity: 0, scale: 0.95 }}
                                 transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                                key={row.id} 
+                                key={row.id}
+                                id={`task-${row.id}`} 
                                 onClick={() => setExpandedTaskId((expandedTaskId === 'ALL' || expandedTaskId === row.id) ? null : row.id)}
-                                className={`w-full relative bg-[#272726] border border-[#3c3c3c] rounded-[24px] px-6 pt-[20px] pb-[20px] cursor-pointer transition-colors duration-300 group/row ${(expandedTaskId === 'ALL' || expandedTaskId === row.id) ? 'hover:bg-[#272726]' : 'hover:bg-[#333]'}`}
+                                className={`w-full relative rounded-[24px] px-6 pt-[20px] pb-[20px] cursor-pointer transition-all duration-300 group/row ${(expandedTaskId === 'ALL' || expandedTaskId === row.id) ? 'border-[2px] border-transparent [background:linear-gradient(#272726,#272726)_padding-box,linear-gradient(to_bottom_right,#d6efe9,#82afb9,#4c6e86)_border-box]' : 'bg-[#272726] border border-[#3c3c3c] hover:bg-[#333]'}`}
                             >
                             {/* 삭제 및 정렬 버튼 */}
                             {isAuthorized && (
@@ -614,7 +638,8 @@ export default function WorkspaceDigital() {
                         </AnimatePresence>
                     </div>
                 )}
-            </motion.div>
+                </motion.div>
+            </div>
 
             {/* Delete Confirmation Modal */}
             {itemToDelete && (

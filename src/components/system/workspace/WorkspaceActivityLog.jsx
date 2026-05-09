@@ -519,7 +519,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
                             <div className="flex items-center gap-[12px] shrink-0 ml-[12px] justify-end">
                                 {/* Stakeholder Info */}
                                 <div className="shrink-0 flex justify-center w-[110px] mr-[4px]">
-                                    {log.iota_seoul_log_stakeholders?.[0]?.sh_name && (
+                                    {checkUserAccess(log) && log.iota_seoul_log_stakeholders?.[0]?.sh_name && (
                                         <span className="text-[13px] text-[#A1A1AA] text-center truncate" title={log.iota_seoul_log_stakeholders[0].sh_name.split(' - ')[0]}>
                                             {log.iota_seoul_log_stakeholders[0].sh_name.split(' - ')[0]}
                                         </span>
@@ -568,9 +568,10 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
                                     transition={{ duration: 0.2, ease: "easeInOut" }}
                                 >
                                 <div 
-                                    className="bg-[#1c1c1e] border border-[#333] rounded-[12px] p-[16px] flex-1"
+                                    className="rounded-[12px] p-[1px] bg-gradient-to-br from-[#d6efe9] via-[#82afb9] to-[#4c6e86] flex-1"
                                     style={{ marginLeft: '166px', marginRight: '72px' }}
                                 >
+                                    <div className="bg-[#1c1c1e] rounded-[11px] p-[16px] w-full h-full">
                                     {/* Right Floating Badges */}
                                     <div className="float-right ml-[16px] mb-[12px] flex flex-col items-end gap-[12px]">
                                         {hasRestrictedPermissions(log) && (
@@ -585,7 +586,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
                                             </div>
                                         )}
                                         
-                                        {log.iota_seoul_log_stakeholders?.[0]?.sh_name && (
+                                        {checkUserAccess(log) && log.iota_seoul_log_stakeholders?.[0]?.sh_name && (
                                             <div className="flex flex-col items-end gap-[4px]">
                                                 <span className="text-[11px] font-bold text-[#86868B] pr-[14px]">이해관계자</span>
                                                 <div className="bg-[#2a2a2c] border border-[#444] rounded-full pl-[8px] pr-[12px] py-[4px] flex items-center gap-[6px]">
@@ -599,31 +600,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
                                     </div>
                                     
                                     {/* Original Text */}
-                                    {editingLogId === log.log_id ? (
-                                        <div className="w-full">
-                                            <textarea
-                                                value={editingContent}
-                                                onChange={(e) => setEditingContent(e.target.value)}
-                                                className="w-full bg-[#2a2a2c] border border-[#444] rounded-[8px] p-[12px] text-[15px] text-[#E5E5E5] leading-relaxed resize-y focus:outline-none focus:border-[#2997ff] min-h-[180px]"
-                                            />
-                                            <div className="flex justify-end gap-[8px] mt-[12px]">
-                                                <button
-                                                    onClick={() => setEditingLogId(null)}
-                                                    className="px-[12px] py-[6px] bg-transparent border border-[#444] rounded-[6px] text-[12px] text-[#A1A1AA] hover:text-[#E5E5E5] transition-colors cursor-pointer"
-                                                >
-                                                    취소
-                                                </button>
-                                                <button
-                                                    onClick={() => handleSaveEdit(log.log_id)}
-                                                    disabled={isSavingEdit}
-                                                    className="px-[12px] py-[6px] bg-[#2997ff] hover:bg-[#0071e3] border border-transparent rounded-[6px] text-[12px] text-white font-bold transition-colors disabled:opacity-50 cursor-pointer"
-                                                >
-                                                    {isSavingEdit ? '저장 중...' : '저장'}
-                                                </button>
-                                            </div>
-                                        </div>
-                                    ) : (
-                                        checkUserAccess(log) ? (
+                                    {checkUserAccess(log) ? (
                                             <div className={`whitespace-pre-wrap break-words text-[15px] leading-relaxed ${commentingLogId === log.log_id ? 'text-[#86868B] opacity-70' : 'text-[#E5E5E5]'}`}>
                                                 {renderLogTextWithMentions(log.raw_text)}
                                             </div>
@@ -631,8 +608,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
                                             <div className="text-[#86868B] text-[14px] italic py-[20px] text-center border border-[#333] rounded-[8px] bg-[#1a1a1a]">
                                                 🔒 열람 권한이 없습니다.
                                             </div>
-                                        )
-                                    )}
+                                        )}
                                     <div className="clear-both mb-[16px]"></div>
                                     
                                     {/* Comments List */}
@@ -724,7 +700,6 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
                                                         onClick={(e) => { 
                                                             e.stopPropagation(); 
                                                             setEditingLogId(log.log_id);
-                                                            setEditingContent(log.raw_text);
                                                             setCommentingLogId(null);
                                                         }}
                                                         className="px-[12px] py-[6px] bg-[#222] hover:bg-[#333] border border-[#333] hover:border-[#444] rounded-[6px] text-[12px] text-[#A1A1AA] hover:text-[#E5E5E5] font-medium transition-all cursor-pointer"
@@ -734,6 +709,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
                                                 )}
                                             </div>
                                         )}
+                                        </div>
                                     </div>
                                 </div>
                                 </motion.div>
@@ -763,6 +739,26 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
                     </div>
                 )}
             </div>
+
+            {/* Edit Modal */}
+            {editingLogId && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 p-[40px]">
+                    <div className="w-full max-w-[1000px] max-h-[90vh] overflow-y-auto rounded-[24px]">
+                        <LogWriteBox 
+                            memberInfo={memberInfo}
+                            masterStakeholders={masterStakeholders}
+                            fetchLogs={fetchLogs}
+                            fetchMasterStakeholders={fetchMasterStakeholders}
+                            workspaceCode={workspaceCode}
+                            workspaceLabel={workspaceLabel}
+                            editMode={true}
+                            initialData={logs.find(l => l.log_id === editingLogId)}
+                            onCancel={() => setEditingLogId(null)}
+                            onSuccess={() => setEditingLogId(null)}
+                        />
+                    </div>
+                </div>
+            )}
 
             {/* Delete Confirmation Modal */}
             {(logToDelete || commentToDelete) && (

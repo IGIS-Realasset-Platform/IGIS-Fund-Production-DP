@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { supabase } from '../../utils/supabaseClient';
 import { motion, AnimatePresence } from 'framer-motion';
 
-export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs, fetchMasterStakeholders, workspaceCode, workspaceLabel, defaultExpanded = false }) {
+export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs, fetchMasterStakeholders, workspaceCode, workspaceLabel, defaultExpanded = false, editMode = false, initialData = null, onCancel = null, onSuccess = null }) {
     // Form States
     const [projectId, setProjectId] = useState('IOTA_COMMON');
     const [triageType, setTriageType] = useState('공유');
@@ -54,6 +54,47 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
         availableContacts = [...new Set(masterStakeholders.map(s => s.contact_name).filter(Boolean))];
     }
     const filteredContacts = availableContacts.filter(c => c.toLowerCase().includes(contactQuery.toLowerCase()));
+
+    // Edit Mode Initialization
+    useEffect(() => {
+        if (editMode && initialData) {
+            setTitle(initialData.summary || '');
+            setContent(initialData.raw_text || '');
+            if (initialData.work_date) {
+                setWorkDate(initialData.work_date);
+            }
+            
+            if (initialData.metadata) {
+                const meta = initialData.metadata;
+                if (meta.project_name === 'IOTA 공통') setProjectId('IOTA_COMMON');
+                else if (meta.project_name === '427 PFV') setProjectId('P00030');
+                else if (meta.project_name === '816 PFV') setProjectId('P00037');
+                else if (meta.project_name === '421 Fund') setProjectId('112614');
+                
+                if (meta.triage_type) setTriageType(meta.triage_type);
+                if (meta.issue_status) setIssueStatus(meta.issue_status);
+                if (meta.priority) setPriority(meta.priority);
+                
+                if (meta.permissions) {
+                    if (meta.permissions.groups) setVisibilityGroups(meta.permissions.groups);
+                    if (meta.permissions.individuals && masterStakeholders && masterStakeholders.length > 0) {
+                        const indivs = meta.permissions.individuals.map(name => masterStakeholders.find(s => s.contact_name === name)).filter(Boolean);
+                        setVisibilityIndividuals(indivs);
+                    }
+                }
+            }
+            
+            if (initialData.iota_seoul_log_stakeholders && initialData.iota_seoul_log_stakeholders.length > 0) {
+                const sh = initialData.iota_seoul_log_stakeholders[0];
+                if (sh.role_category) setStakeholderCat(sh.role_category);
+                if (sh.sh_name) {
+                    const parts = sh.sh_name.split(' - ');
+                    if (parts.length > 0) setCompanyQuery(parts[0]);
+                    if (parts.length > 1) setContactQuery(parts[1]);
+                }
+            }
+        }
+    }, [editMode, initialData, masterStakeholders]);
 
     const formatDisplayDate = (dateString) => {
         if (!dateString) return '';
@@ -192,21 +233,18 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
         setShowNewStakeholderModal(false);
 
         try {
-            const logId = `iota_issue_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
-            const writerId = memberInfo?.email || 'unknown';
-            const writerName = memberInfo?.staff_name || '익명';
+            const isEditing = editMode && initialData;
+            const logId = isEditing ? initialData.log_id : `iota_issue_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
+            const writerId = isEditing ? initialData.writer_staff_id : (memberInfo?.email || 'unknown');
+            const writerName = isEditing ? initialData.writer_name : (memberInfo?.staff_name || '익명');
 
-            // 1. Insert into iota_seoul_logs
-            const { error: logError } = await supabase.from('iota_seoul_logs').insert({
-                log_id: logId,
-                writer_staff_id: writerId,
-                writer_name: writerName,
+            const logData = {
                 work_date: workDate,
                 raw_text: content,
                 summary: title,
-                input_status: 'submitted',
-                source_system: workspaceCode === 'WS_PM' ? 'workspace_pm_form' : 'decision_log_form',
+                updated_at: new Date().toISOString(),
                 metadata: {
+                    ...(isEditing ? initialData.metadata : {}),
                     workspace_code: workspaceCode,
                     workspace_label: workspaceLabel,
                     project_name: projectId === 'IOTA_COMMON' ? 'IOTA 공통' : projectId === 'P00030' ? '427 PFV' : projectId === 'P00037' ? '816 PFV' : '421 Fund',
@@ -218,8 +256,26 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                         individuals: visibilityIndividuals.map(i => i.contact_name)
                     }
                 }
-            });
-            if (logError) throw logError;
+            };
+
+            // 1. Update or Insert into iota_seoul_logs
+            if (isEditing) {
+                const { error: logError } = await supabase.from('iota_seoul_logs').update(logData).eq('log_id', logId);
+                if (logError) throw logError;
+                
+                await supabase.from('iota_seoul_log_links').delete().eq('log_id', logId);
+                await supabase.from('iota_seoul_log_stakeholders').delete().eq('log_id', logId);
+            } else {
+                const { error: logError } = await supabase.from('iota_seoul_logs').insert({
+                    ...logData,
+                    log_id: logId,
+                    writer_staff_id: writerId,
+                    writer_name: writerName,
+                    input_status: 'submitted',
+                    source_system: workspaceCode === 'WS_PM' ? 'workspace_pm_form' : 'decision_log_form',
+                });
+                if (logError) throw logError;
+            }
 
             // 2. Insert into iota_seoul_log_links
             const { error: linkError } = await supabase.from('iota_seoul_log_links').insert({
@@ -260,18 +316,25 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
             }
 
             // Success, reset form
-            setTitle('');
-            setContent('');
-            setCompanyQuery('');
-            setContactQuery('');
-            setVisibilityGroups([]);
-            setVisibilityIndividuals([]);
+            if (!editMode) {
+                setTitle('');
+                setContent('');
+                setCompanyQuery('');
+                setContactQuery('');
+                setVisibilityGroups([]);
+                setVisibilityIndividuals([]);
+            }
             if(fetchLogs) fetchLogs();
+            
             setShowSuccessModal(true);
-            setIsExpanded(false);
             setTimeout(() => {
                 setShowSuccessModal(false);
-            }, 2000);
+                if (editMode && onSuccess) {
+                    onSuccess();
+                } else if (!editMode) {
+                    setIsExpanded(false);
+                }
+            }, 1000);
         } catch (error) {
             console.error('Error saving log:', error);
             alert('저장 중 오류가 발생했습니다.');
@@ -345,44 +408,45 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
     const collapsedText = displayLabel ? `${displayLabel}${getParticle(displayLabel)} 협업 및 논의가 필요한 사항, 또는 공유할 내용을 등록하세요.` : '주요 공유사항, 협업 및 논의가 필요한 내용을 등록하세요.';
 
     return (
-        <div className="w-full rounded-[24px] p-[1px] bg-gradient-to-br from-[#d6efe9] via-[#82afb9] to-[#4c6e86] mb-[11px]">
+        <div className={`w-full rounded-[24px] p-[1px] bg-gradient-to-br from-[#d6efe9] via-[#82afb9] to-[#4c6e86] mb-[11px] ${editMode ? 'shadow-2xl' : ''}`}>
             <div className="w-full h-full bg-[#262626] rounded-[23px] overflow-hidden">
                 {/* Header */}
-                <div 
-                    className={`w-full px-[20px] py-[10px] border-b border-[#333] flex items-center gap-[12px] ${!isExpanded ? 'cursor-pointer hover:bg-[#2a2a2a] transition-colors' : ''}`}
-                    onClick={() => {
-                        if (!isExpanded) setIsExpanded(true);
-                    }}
-                >
-                    <div className="relative w-[40px] h-[40px] shrink-0 rounded-full bg-[#3c3c3c] flex items-center justify-center overflow-hidden border border-white/10">
-                        <img src={`${import.meta.env.BASE_URL}${memberInfo?.staff_name || 'default'}.webp`} alt="User" className="w-full h-full object-cover" onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }} />
-                    </div>
+                {!editMode && (
+                    <div 
+                        className={`w-full px-[20px] py-[10px] border-b border-[#333] flex items-center gap-[12px] ${!isExpanded ? 'cursor-pointer hover:bg-[#2a2a2a] transition-colors' : ''}`}
+                        onClick={() => {
+                            if (!isExpanded) setIsExpanded(true);
+                        }}
+                    >
+                        <div className="relative w-[40px] h-[40px] shrink-0 rounded-full bg-[#3c3c3c] flex items-center justify-center overflow-hidden border border-white/10">
+                            <img src={`${import.meta.env.BASE_URL}${memberInfo?.staff_name || 'default'}.webp`} alt="User" className="w-full h-full object-cover" onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }} />
+                        </div>
 
-                    {!isExpanded ? (
-                        <>
-                            <div className="pl-[8px]">
-                                <span className="text-[#bcdbdb] font-bold text-[16px]">{collapsedText}</span>
-                            </div>
-                            <div className="rounded-[8px] p-[1px] bg-gradient-to-br from-[#d6efe9] via-[#82afb9] to-[#4c6e86] ml-[14px]">
-                                <button
-                                    type="button"
-                                    onClick={(e) => { e.stopPropagation(); setIsExpanded(true); }}
-                                    className="flex items-center px-[12px] py-[6px] rounded-[7px] text-[12px] font-bold cursor-pointer transition-colors bg-[#222] text-[#E5E5E5] hover:bg-[#333]"
-                                >
-                                    글작성하기
-                                </button>
-                            </div>
-                        </>
-                    ) : (
-                        <>
-                            <select value={projectId} onChange={(e) => setProjectId(e.target.value)} className="bg-transparent border border-[#333] rounded-[16px] px-[16px] py-[8px] ml-[-2px] text-white font-semibold text-[14px] outline-none cursor-pointer appearance-none pr-[32px] relative" style={{ backgroundImage: iconChevronGray, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center' }}>
-                        <option value="IOTA_COMMON">IOTA 공통</option>
-                        <option value="P00030">427 PFV</option>
-                        <option value="P00037">816 PFV</option>
-                        <option value="112614">421 Fund</option>
-                    </select>
+                        {!isExpanded ? (
+                            <>
+                                <div className="pl-[8px]">
+                                    <span className="text-[#bcdbdb] font-bold text-[16px]">{collapsedText}</span>
+                                </div>
+                                <div className="rounded-[8px] p-[1px] bg-gradient-to-br from-[#d6efe9] via-[#82afb9] to-[#4c6e86] ml-[14px]">
+                                    <button
+                                        type="button"
+                                        onClick={(e) => { e.stopPropagation(); setIsExpanded(true); }}
+                                        className="flex items-center px-[12px] py-[6px] rounded-[7px] text-[12px] font-bold cursor-pointer transition-colors bg-[#222] text-[#E5E5E5] hover:bg-[#333]"
+                                    >
+                                        글작성하기
+                                    </button>
+                                </div>
+                            </>
+                        ) : (
+                            <>
+                                <select value={projectId} onChange={(e) => setProjectId(e.target.value)} className="bg-transparent border border-[#333] rounded-[16px] px-[16px] py-[8px] ml-[-2px] text-white font-semibold text-[14px] outline-none cursor-pointer appearance-none pr-[32px] relative" style={{ backgroundImage: iconChevronGray, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center' }}>
+                            <option value="IOTA_COMMON">IOTA 공통</option>
+                            <option value="P00030">427 PFV</option>
+                            <option value="P00037">816 PFV</option>
+                            <option value="112614">421 Fund</option>
+                        </select>
 
-                    <div className="w-px h-[14px] bg-[#333] mx-[2px]"></div>
+                        <div className="w-px h-[14px] bg-[#333] mx-[2px]"></div>
 
                     <label className="relative flex items-center gap-[8px] cursor-pointer group">
                         <span className="text-[#86868B] text-[14px] font-medium shrink-0 group-hover:text-white transition-colors">활용목적</span>
@@ -478,10 +542,10 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                         </>
                     )}
                 </div>
-
+                )}
                 
                 <AnimatePresence>
-                    {isExpanded && (
+                    {(isExpanded || editMode) && (
                         <motion.div
                             initial={false}
                             animate={{ height: 'auto', opacity: 1 }}
@@ -490,7 +554,61 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                             className="overflow-hidden w-full flex flex-col"
                         >
 {/* Text Area */}
-                <div className="w-full px-[20px] pt-[20px] pb-[24px] bg-transparent">
+                <div className={`w-full px-[20px] pt-[20px] pb-[24px] bg-transparent ${editMode ? 'border-b border-[#333] pb-[20px] mb-[0]' : ''}`}>
+                    {editMode && (
+                        <div className="w-full flex items-center justify-between mb-[20px]">
+                            <h3 className="text-[18px] font-bold text-white">업무 수정하기</h3>
+                            <button onClick={() => { if (onCancel) onCancel(); }} className="text-[#86868B] hover:text-white transition-colors cursor-pointer">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                            </button>
+                        </div>
+                    )}
+                    
+                    {editMode && (
+                        <div className="w-full flex items-center gap-[12px] mb-[20px] overflow-x-auto pb-[4px]">
+                            <select value={projectId} onChange={(e) => setProjectId(e.target.value)} className="bg-[#222] border border-[#444] rounded-[8px] px-[12px] py-[6px] text-white font-medium text-[13px] outline-none cursor-pointer appearance-none pr-[28px] relative" style={{ backgroundImage: iconChevronGray, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 8px center' }}>
+                                <option value="IOTA_COMMON">IOTA 공통</option>
+                                <option value="P00030">427 PFV</option>
+                                <option value="P00037">816 PFV</option>
+                                <option value="112614">421 Fund</option>
+                            </select>
+
+                            <select value={triageType} onChange={(e) => setTriageType(e.target.value)} className="bg-[#222] border border-[#444] rounded-[8px] px-[12px] py-[6px] text-[#E5E5E5] text-[13px] outline-none cursor-pointer appearance-none pr-[28px]" style={{ backgroundImage: iconChevronDark, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 8px center' }}>
+                                <option value="공유">공유</option>
+                                <option value="협업">협업</option>
+                                <option value="리스크 판단">리스크 판단</option>
+                                <option value="의사결정">의사결정</option>
+                            </select>
+
+                            <select value={issueStatus} onChange={(e) => setIssueStatus(e.target.value)} className="bg-[#222] border border-[#444] rounded-[8px] px-[12px] py-[6px] text-[#E5E5E5] text-[13px] outline-none cursor-pointer appearance-none pr-[28px]" style={{ backgroundImage: iconChevronDark, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 8px center' }}>
+                                <option value="신규">신규</option>
+                                <option value="검토중">검토중</option>
+                                <option value="진행중">진행중</option>
+                                <option value="보류">보류</option>
+                                <option value="완료">완료</option>
+                            </select>
+
+                            <select value={priority} onChange={(e) => setPriority(e.target.value)} className="bg-[#222] border border-[#444] rounded-[8px] px-[12px] py-[6px] text-[#E5E5E5] text-[13px] outline-none cursor-pointer appearance-none pr-[28px]" style={{ backgroundImage: iconChevronDark, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 8px center' }}>
+                                <option value="높음">높음</option>
+                                <option value="중간">중간</option>
+                                <option value="낮음">낮음</option>
+                            </select>
+                            
+                            <select value={stakeholderCat} onChange={(e) => setStakeholderCat(e.target.value)} className="bg-[#222] border border-[#444] rounded-[8px] px-[12px] py-[6px] text-[#E5E5E5] text-[13px] outline-none cursor-pointer appearance-none pr-[28px]" style={{ backgroundImage: iconChevronDark, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 8px center' }}>
+                                <option value="">이해관계자 분류 안 함</option>
+                                <option value="SI">SI</option>
+                                <option value="잠재임차사">잠재임차사</option>
+                                <option value="운영 파트너">운영 파트너</option>
+                                <option value="IGIS 내부인력">IGIS 내부인력</option>
+                            </select>
+
+                            <label className="relative inline-flex items-center gap-[6px] cursor-pointer bg-[#222] border border-[#444] rounded-[8px] px-[12px] py-[6px]">
+                                <span className="text-[#E5E5E5] text-[13px]">{formatDisplayDate(workDate)}</span>
+                                <input type="date" value={workDate} onChange={(e) => setWorkDate(e.target.value)} onClick={(e) => { if (e.target.showPicker) e.target.showPicker(); }} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
+                            </label>
+                        </div>
+                    )}
+
                     <input
                         type="text"
                         value={title}
@@ -642,8 +760,11 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                         </div>
                     </div>
                     {(visibilityGroups.length > 0 || visibilityIndividuals.length > 0) && (
-                        <div className="flex items-center mr-2">
-                            <span className="text-red-500 font-bold text-[13px]">
+                        <div className="flex items-center mr-2 max-w-[250px]">
+                            <span 
+                                className="text-red-500 font-bold text-[13px] truncate block"
+                                title={`${visibilityGroups.join(', ')}${visibilityGroups.length > 0 && visibilityIndividuals.length > 0 ? ', ' : ''}${visibilityIndividuals.map(i => i.contact_name).join(', ')}`}
+                            >
                                 {visibilityGroups.join(', ')}
                                 {visibilityGroups.length > 0 && visibilityIndividuals.length > 0 && ', '}
                                 {visibilityIndividuals.map(i => i.contact_name).join(', ')}
@@ -657,14 +778,34 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                     >
                         열람권한
                     </button>
-                    <button 
-                        type="button"
-                        onClick={handlePreSubmit}
-                        disabled={isSubmitting}
-                        className={`px-[32px] py-[10px] rounded-[10px] border border-[#444] text-[#E5E5E5] font-bold text-[13px] transition-all duration-200 ${isSubmitting ? 'opacity-50 cursor-not-allowed' : 'hover:bg-[#333] hover:border-[#555] cursor-pointer'}`}
-                    >
-                        {isSubmitting ? '저장 중...' : '작성하기'}
-                    </button>
+                    {editMode ? (
+                        <>
+                            <button 
+                                type="button"
+                                onClick={() => { if (onCancel) onCancel(); }}
+                                className="px-[24px] py-[10px] rounded-[10px] border border-[#444] text-[#E5E5E5] font-bold text-[13px] hover:bg-[#333] transition-all cursor-pointer mr-[8px]"
+                            >
+                                취소
+                            </button>
+                            <button 
+                                type="button"
+                                onClick={handlePreSubmit}
+                                disabled={isSubmitting}
+                                className={`px-[32px] py-[10px] rounded-[10px] border border-transparent bg-[#2997ff] text-white font-bold text-[13px] transition-all duration-200 ${isSubmitting ? 'opacity-50 cursor-not-allowed' : 'hover:bg-[#0071e3] cursor-pointer'}`}
+                            >
+                                {isSubmitting ? '저장 중...' : '수정 완료'}
+                            </button>
+                        </>
+                    ) : (
+                        <button 
+                            type="button"
+                            onClick={handlePreSubmit}
+                            disabled={isSubmitting}
+                            className={`px-[32px] py-[10px] rounded-[10px] border border-[#444] text-[#E5E5E5] font-bold text-[13px] transition-all duration-200 ${isSubmitting ? 'opacity-50 cursor-not-allowed' : 'hover:bg-[#333] hover:border-[#555] cursor-pointer'}`}
+                        >
+                            {isSubmitting ? '저장 중...' : '작성하기'}
+                        </button>
+                    )}
                 </div>
             
                         </motion.div>
