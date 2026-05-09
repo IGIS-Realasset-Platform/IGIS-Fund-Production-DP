@@ -316,7 +316,7 @@ export default function WorkspaceMarketing() {
                 </div>
             </div>
 {/* 2. Task 관리 */}
-            <div className="w-full mt-[6px] border-t border-[#3c3c3c] pt-[32px]"></div>
+            <div className="w-full mt-[-2px]"></div>
             <div className="flex justify-between items-center mb-[10px]">
                 <h2 id="task-management" className="text-[18px] font-bold text-white tracking-tight">기업마케팅 주요 테스크 관리</h2>
                 <div className="flex gap-2 items-center">

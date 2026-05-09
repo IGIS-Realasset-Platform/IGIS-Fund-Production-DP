@@ -371,7 +371,7 @@ export default function WorkspaceDigital() {
                 </div>
             </div>
 {/* SSC 상품·디지털 업무 범위 */}
-            <div className="w-full mt-[10px] mb-0 relative">
+            <div className="w-full mt-0 mb-0 relative">
                 <h2 className="text-[22px] font-bold text-white mb-[12px]">SSC 상품·디지털 업무 범위</h2>
                 <div className="max-w-none overflow-x-auto hide-scrollbar pb-[20px] w-[calc(50vw-140px+50%)]">
                     <div className="flex gap-[12px] w-max pr-[40px]">
