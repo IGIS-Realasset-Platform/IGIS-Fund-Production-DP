@@ -41,7 +41,8 @@ export default function DecisionLog() {
     const [isDeleting, setIsDeleting] = useState(false);
     const [showMeetingsInfo, setShowMeetingsInfo] = useState(false);
     const [showMyLogsOnly, setShowMyLogsOnly] = useState(false);
-        const [masterStakeholders, setMasterStakeholders] = useState([]);
+    const [masterStakeholders, setMasterStakeholders] = useState([]);
+    const [showAllCrossFunctional, setShowAllCrossFunctional] = useState(false);
 
     // Edit states
     const [editingLogId, setEditingLogId] = useState(null);
@@ -451,6 +452,27 @@ export default function DecisionLog() {
     const days = ['일', '월', '화', '수', '목', '금', '토'];
     const formattedDate = `${today.getFullYear()}년 ${today.getMonth() + 1}월 ${today.getDate()}일 (${days[today.getDay()]})`;
 
+    const CELL_REPRESENTATIVES = {
+        '사업PM': '권순일/강순용',
+        '기업마케팅': '김민지'
+    };
+
+    const crossFunctionalLogs = logs.filter(log => {
+        const logDate = new Date(log.work_date || log.created_at);
+        if (logDate < twoWeeksAgo) return false;
+        if (!log.metadata?.workspace_label) return false; // Only workspace logs
+
+        const writerCell = getCellName(log.writer_name);
+        const targetCell = getLogCell(log);
+        
+        const normWriter = writerCell.replace(/-(LFC|DSC|EMC|SSC|KAM)$/, '');
+        const normTarget = targetCell.replace(/-(LFC|DSC|EMC|SSC|KAM)$/, '');
+
+        if (normWriter === '기타') return false;
+
+        return normWriter !== normTarget;
+    });
+
     return (
         <div className="w-full flex-1 flex flex-col pt-[50px] pb-[60px] max-w-[1200px] mx-auto">
             {/* Header Metadata */}
@@ -582,61 +604,152 @@ export default function DecisionLog() {
             </div>
 
                         {/* Workspace Issues Overview */}
-            <div className="w-full flex flex-col gap-[16px] mb-[18px] relative">
-                {/* Overlay */}
-                <div className="absolute inset-[-12px] z-50 backdrop-blur-[3px] bg-[#151515]/40 flex flex-col items-center justify-center rounded-[32px] border border-[#FF3B30]">
-                    <h3 className="text-[24px] font-bold text-white tracking-tight mb-[8px]">이번주 사람들이 모여 논의하는 주제</h3>
-                    <p className="text-[15px] text-[#A1A1AA] font-medium">2026.05.10 업데이트 완료 예정</p>
+            <div className="w-full flex flex-col gap-[12px] mb-[16px] -mt-[10px]">
+                <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-[16px]">
+                        <h3 className="text-[20px] font-bold text-white tracking-tight">사람들이 모여 논의하는 주제</h3>
+                        <p className="text-[14px] text-[#A1A1AA] font-medium">최근 2주간 타 기능셀의 협업게시판에 등록된 크로스펑셔널(Cross-functional) 업무 내역입니다.</p>
+                    </div>
+                    {crossFunctionalLogs.length > 6 && (
+                        <button 
+                            onClick={() => setShowAllCrossFunctional(!showAllCrossFunctional)}
+                            className="px-[12px] py-[6px] text-[13px] font-bold text-[#86868B] hover:text-white border border-[#3c3c3c] hover:border-[#555] rounded-[8px] transition-colors"
+                        >
+                            {showAllCrossFunctional ? '간략히 보기' : '전체보기'}
+                        </button>
+                    )}
                 </div>
 
-                {/* 1st Row: 4 Workspaces */}
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-[16px]">
-                    {issuesByWorkspace.slice(0, 4).map((ws, idx) => (
-                        <div key={idx} className="flex flex-col bg-[#292928] border border-[#3c3c3c] rounded-[24px] p-[24px] hover:border-[#555] transition-colors relative overflow-hidden cursor-pointer group" onClick={() => { setFilterCell(ws.cell); document.getElementById('log-viewer-header')?.scrollIntoView({behavior: 'smooth'}); }}>
-                            <div className="flex items-center gap-[6px] mb-[16px]">
-                                <span className="text-white transition-colors">{ws.icon}</span>
-                                <span className="text-[16px] font-bold text-white tracking-tight">{ws.label}</span>
-                                <span className="ml-auto text-[11px] font-bold bg-[#3b82f6]/10 text-[#3b82f6] px-[8px] py-[2px] rounded-full">
-                                    최근 {ws.recentCount}건 / 총 {ws.totalCount}건
-                                </span>
-                            </div>
-                            <div className="flex flex-col gap-[8px] flex-1">
-                                {ws.logs.length > 0 ? ws.logs.map(log => (
-                                    <div key={log.log_id} className="text-[13px] text-[#A1A1AA] group-hover:text-[#E5E5E5] transition-colors leading-snug truncate" title={log.raw_text}>
-                                        {log.raw_text.split('\n')[0]}
-                                        {log.metadata?.comments?.length > 0 && <span className="text-[#3b82f6] ml-[6px] font-bold">({log.metadata.comments.length})</span>}
+                {crossFunctionalLogs.length === 0 ? (
+                    <div className="w-full py-[60px] flex items-center justify-center border border-[#333] rounded-[24px] bg-[#222]">
+                        <span className="text-[#86868B] text-[14px]">최근 2주간 크로스펑셔널 협업 내역이 없습니다.</span>
+                    </div>
+                ) : (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-[8px] items-start">
+                        {(showAllCrossFunctional ? crossFunctionalLogs : crossFunctionalLogs.slice(0, 6)).map(log => {
+                            const normWriter = getCellName(log.writer_name).replace(/-(LFC|DSC|EMC|SSC|KAM)$/, '');
+                            const normTarget = getLogCell(log).replace(/-(LFC|DSC|EMC|SSC|KAM)$/, '');
+                            const targetRep = CELL_REPRESENTATIVES[normTarget];
+                            const isRestricted = hasRestrictedPermissions(log);
+                            
+                            return (
+                                <div key={log.log_id} className="bg-[#292928] border border-[#3c3c3c] hover:border-[#82afb9]/50 rounded-[24px] p-[16px] px-[20px] transition-all cursor-pointer group flex flex-col h-auto" onClick={() => toggleExpand(log.log_id)}>
+                                    <div className="flex items-start gap-[20px]">
+                                        {/* Sender -> Target Box */}
+                                        <div className="shrink-0 bg-[#222] rounded-[16px] px-[16px] py-[12px] border border-[#333] flex items-center gap-[12px]">
+                                            <div className="flex flex-col items-center justify-center">
+                                                <span className="text-[11px] font-bold text-[#A1A1AA] mb-[4px]">{normWriter}</span>
+                                                <div className="flex items-center gap-[4px]">
+                                                    <div className="w-[20px] h-[20px] rounded-full bg-[#333] overflow-hidden border border-[#444] shrink-0">
+                                                        <img src={`${import.meta.env.BASE_URL}${log.writer_name}.webp`} alt={log.writer_name} className="w-full h-full object-cover" onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }} />
+                                                    </div>
+                                                    <span className="text-[13px] font-bold text-white truncate max-w-[60px]">{log.writer_name}</span>
+                                                </div>
+                                            </div>
+                                            
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#82afb9" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+
+                                            <div className="flex flex-col items-center justify-center">
+                                                {targetRep ? (
+                                                    <React.Fragment>
+                                                        <span className="text-[11px] font-bold text-[#82afb9] mb-[4px]">{normTarget}</span>
+                                                        <span className="text-[13px] font-bold text-white truncate max-w-[60px]">{targetRep}</span>
+                                                    </React.Fragment>
+                                                ) : (
+                                                    <span className="text-[13px] font-bold text-[#82afb9]">{normTarget}</span>
+                                                )}
+                                            </div>
+                                        </div>
+
+                                        {/* Title and Metadata on the right */}
+                                        <div className="flex-1 flex flex-col pt-[4px]">
+                                            <div className="text-[15px] font-bold text-[#E5E5E5] line-clamp-2 leading-snug group-hover:text-white transition-colors mb-[12px]">
+                                                {log.summary || (log.raw_text ? log.raw_text.split('\n')[0] : '')}
+                                            </div>
+                                            
+                                            <div className="flex items-center justify-between w-full mt-auto">
+                                                <div className="flex items-center gap-[10px]">
+                                                    <span className="text-[12px] text-[#555] font-medium">{formatDateYYMMDD(log.work_date || log.created_at)}</span>
+                                                    {isRestricted && (
+                                                        <span className="text-[11px] font-bold text-[#ef4444] bg-[#ef4444]/10 px-[6px] py-[2px] rounded-[4px] border border-[#ef4444]/20">
+                                                            🔒 {getShortPermissionString(log)}
+                                                        </span>
+                                                    )}
+                                                </div>
+                                                <span className="text-[12px] text-[#2997ff] font-medium opacity-0 group-hover:opacity-100 transition-opacity">자세히 보기</span>
+                                            </div>
+                                        </div>
                                     </div>
-                                )) : (
-                                    <div className="text-[13px] text-[#FF453A] font-medium mt-[4px]">최근 2주간 등록된 활동내역이 없습니다.</div>
-                                )}
-                            </div>
-                        </div>
-                    ))}
-                </div>
-                {/* 2nd Row: 4 Workspaces */}
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-[16px]">
-                    {issuesByWorkspace.slice(4, 8).map((ws, idx) => (
-                        <div key={idx} className="flex flex-col bg-[#292928] border border-[#3c3c3c] rounded-[24px] p-[24px] hover:border-[#555] transition-colors relative overflow-hidden cursor-pointer group" onClick={() => { setFilterCell(ws.cell); document.getElementById('log-viewer-header')?.scrollIntoView({behavior: 'smooth'}); }}>
-                            <div className="flex items-center gap-[6px] mb-[16px]">
-                                <span className="text-white transition-colors">{ws.icon}</span>
-                                <span className="text-[16px] font-bold text-white tracking-tight">{ws.label}</span>
-                                <span className="ml-auto text-[11px] font-bold bg-[#3b82f6]/10 text-[#3b82f6] px-[8px] py-[2px] rounded-full">
-                                    최근 {ws.recentCount}건 / 총 {ws.totalCount}건
-                                </span>
-                            </div>
-                            <div className="flex flex-col gap-[8px] flex-1">
-                                {ws.logs.length > 0 ? ws.logs.map(log => (
-                                    <div key={log.log_id} className="text-[13px] text-[#A1A1AA] group-hover:text-[#E5E5E5] transition-colors leading-snug truncate" title={log.raw_text}>
-                                        {log.raw_text.split('\n')[0]}
-                                        {log.metadata?.comments?.length > 0 && <span className="text-[#3b82f6] ml-[6px] font-bold">({log.metadata.comments.length})</span>}
-                                    </div>
-                                )) : (
-                                    <div className="text-[13px] text-[#FF453A] font-medium mt-[4px]">최근 2주간 등록된 활동내역이 없습니다.</div>
-                                )}
-                            </div>
-                        </div>
-                    ))}
-                </div>
+
+                                    {/* Expanded Box for Cross Functional */}
+                                    <AnimatePresence>
+                                        {expandedLogs[log.log_id] && (
+                                            <motion.div 
+                                                className="w-full flex overflow-hidden mt-[16px] cursor-auto"
+                                                onClick={(e) => e.stopPropagation()}
+                                                initial={{ height: 0, opacity: 0 }}
+                                                animate={{ height: 'auto', opacity: 1 }}
+                                                exit={{ height: 0, opacity: 0 }}
+                                                transition={{ duration: 0.2, ease: "easeInOut" }}
+                                            >
+                                                <div className="bg-[#222] border border-[#333] rounded-[12px] p-[16px] flex-1 relative w-full">
+                                                    {/* Right Floating Badges */}
+                                                    <div className="float-right ml-[16px] mb-[12px] flex flex-col items-end gap-[12px]">
+                                                        {isRestricted && (
+                                                            <div className="flex flex-col items-end gap-[4px]">
+                                                                <span className="text-[11px] font-bold text-[#86868B] pr-[14px]">열람 권한</span>
+                                                                <div className="bg-[#1e293b] border border-[#334155] rounded-full pl-[8px] pr-[12px] py-[4px] flex items-center gap-[6px]">
+                                                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                                                                    <span className="text-[12px] font-medium text-[#e2e8f0]">제한됨</span>
+                                                                </div>
+                                                            </div>
+                                                        )}
+                                                    </div>
+
+                                                    {/* Original Text */}
+                                                    {checkUserAccess(log) ? (
+                                                        <div className="whitespace-pre-wrap break-words text-[14px] leading-relaxed text-[#E5E5E5]">
+                                                            {renderLogTextWithMentions(log.raw_text)}
+                                                        </div>
+                                                    ) : (
+                                                        <div className="text-[#86868B] text-[14px] italic py-[20px] text-center border border-[#333] rounded-[8px] bg-[#222]">
+                                                            🔒 열람 권한이 없습니다.
+                                                        </div>
+                                                    )}
+                                                    <div className="clear-both mb-[16px]"></div>
+                                                    
+                                                    {/* Comments List */}
+                                                    {checkUserAccess(log) && log.metadata?.comments && log.metadata.comments.length > 0 && (
+                                                        <div className="flex flex-col gap-[8px] mb-[16px] border-t border-[#333] pt-[12px]">
+                                                            {log.metadata.comments.map(comment => (
+                                                                <div key={comment.id} className="bg-[#292928] rounded-[8px] p-[12px] flex justify-between group/comment">
+                                                                    <div className="flex-1 min-w-0 pr-[16px]">
+                                                                        <div className="flex items-center gap-[8px] mb-[4px]">
+                                                                            <div className="w-[24px] h-[24px] rounded-full bg-[#333] overflow-hidden border border-[#444] shrink-0">
+                                                                                <img 
+                                                                                    src={`${import.meta.env.BASE_URL}${comment.author}.webp`} 
+                                                                                    alt={comment.author} 
+                                                                                    className="w-full h-full object-cover"
+                                                                                    onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }}
+                                                                                />
+                                                                            </div>
+                                                                            <span className="text-[13px] font-bold text-[#E5E5E5]">{comment.author}</span>
+                                                                        </div>
+                                                                        <div className="text-[13px] text-[#A1A1AA] whitespace-pre-wrap break-words ml-[32px]">{comment.text}</div>
+                                                                    </div>
+                                                                </div>
+                                                            ))}
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </motion.div>
+                                        )}
+                                    </AnimatePresence>
+                                </div>
+                            );
+                        })}
+                    </div>
+                )}
             </div>
 
             {/* Log Viewer */}
