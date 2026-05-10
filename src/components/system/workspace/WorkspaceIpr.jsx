@@ -7,7 +7,7 @@ import WorkspaceActivityLog from './WorkspaceActivityLog';
 export default function WorkspaceIpr() {
 
     const { memberInfo } = useAuth();
-    const isAuthorized = ['전기영', '권순일', '윤용택', '정수명', '김성원', '이가현', '박재호', '허재영'].includes(memberInfo?.staff_name);
+    const isAuthorized = ['전기영', '권순일', '윤용택', '김성원', '박재호', '허재영'].includes(memberInfo?.staff_name);
 
     // Task Management States
     const [tasks, setTasks] = useState([]);
@@ -262,7 +262,7 @@ export default function WorkspaceIpr() {
 
     const parseNames = (text) => {
         if (!text) return text;
-        const names = ['전기영', '권순일', '윤용택', '정수명', '김성원', '이가현', '박재호', '허재영'];
+        const names = ['전기영', '권순일', '윤용택', '김성원', '박재호', '허재영'];
         let result = text;
         names.forEach(name => {
             const regex = new RegExp(name, 'g');

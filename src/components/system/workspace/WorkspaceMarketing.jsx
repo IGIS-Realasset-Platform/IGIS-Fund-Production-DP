@@ -202,7 +202,7 @@ export default function WorkspaceMarketing() {
     // Auto-link function for names
     const parseNames = (text) => {
         if (!text) return text;
-        const names = ['김민지', '고아라', '이가현', '정수명', '박성진', '노혜란', '여인모', '이경호', '안지하'];
+        const names = ['김민지', '고아라', '권순일'];
         let result = text;
         names.forEach(name => {
             const regex = new RegExp(name, 'g');

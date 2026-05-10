@@ -114,8 +114,8 @@ export default function DecisionLog() {
             '권순일': '사업PM', '강순용': '사업PM', '윤주형': '사업PM', '김제익': '사업PM', '류홍': '사업PM', '박만진': '사업PM', '박일훈': '사업PM', '이정원': '사업PM', '전무경': '사업PM', '한찬호': '사업PM', '박석제': '사업PM', '박채현': '사업PM', '소현준': '사업PM', '이수정': '사업PM', '조영비': '사업PM', '한수정': '사업PM',
             '박준호': '파이낸싱-LFC', '강석민': '파이낸싱-LFC', '정리훈': '파이낸싱-LFC', '손유정': '파이낸싱-LFC', '김지우': '파이낸싱-LFC', '박현승': '파이낸싱-LFC', '이성민A': '파이낸싱-LFC', '한승환': '파이낸싱-LFC',
             '홍장군': '개발솔루션-DSC', '채원': '개발솔루션-DSC', '김보성': '개발솔루션-DSC', '전승희': '개발솔루션-DSC', '김대익': '개발솔루션-DSC', '장성진': '개발솔루션-DSC', '이정훈': '개발솔루션-DSC', '박봉서': '개발솔루션-DSC',
-            '김민지': '기업마케팅-EMC', '고아라': '기업마케팅-EMC', '이가현': '기업마케팅-EMC', '정수명': '기업마케팅-EMC',
-            '김현수': '상품·디지털-SSC', '현철호': '상품·디지털-SSC', '신민호': '상품·디지털-SSC',
+            '김민지': '기업마케팅-EMC', '고아라': '기업마케팅-EMC',
+            '김현수': '상품·디지털-SSC', '현철호': '상품·디지털-SSC', '신민호': '상품·디지털-SSC', '이가현': '상품·디지털-SSC', '정수명': '상품·디지털-SSC',
             '김행단': '펀드운용-KAM', '윤용택': 'IPR'
         };
         return cells[name] || '기타';
@@ -638,27 +638,32 @@ export default function DecisionLog() {
                                 <div key={log.log_id} className="bg-[#292928] border border-[#3c3c3c] hover:border-[#82afb9]/50 rounded-[24px] p-[16px] px-[20px] transition-all cursor-pointer group flex flex-col h-auto" onClick={() => toggleExpand(log.log_id)}>
                                     <div className="flex items-start gap-[20px]">
                                         {/* Sender -> Target Box */}
-                                        <div className="shrink-0 bg-[#222] rounded-[16px] px-[16px] py-[12px] border border-[#333] flex items-center gap-[12px]">
-                                            <div className="flex flex-col items-center justify-center">
-                                                <span className="text-[11px] font-bold text-[#A1A1AA] mb-[4px]">{normWriter}</span>
-                                                <div className="flex items-center gap-[4px]">
+                                        <div className="shrink-0 bg-[#222] rounded-[16px] px-[12px] py-[12px] border border-[#333] flex items-center justify-between w-[166px]">
+                                            <div className="flex flex-col items-center justify-center flex-1 w-0">
+                                                <span className="text-[11px] font-bold text-[#A1A1AA] mb-[4px] truncate w-full text-center">{normWriter}</span>
+                                                <div className="flex items-center gap-[4px] justify-center w-full min-w-0">
                                                     <div className="w-[20px] h-[20px] rounded-full bg-[#333] overflow-hidden border border-[#444] shrink-0">
                                                         <img src={`${import.meta.env.BASE_URL}${log.writer_name}.webp`} alt={log.writer_name} className="w-full h-full object-cover" onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }} />
                                                     </div>
-                                                    <span className="text-[13px] font-bold text-white truncate max-w-[60px]">{log.writer_name}</span>
+                                                    <span className="text-[13px] font-bold text-white truncate">{log.writer_name}</span>
                                                 </div>
                                             </div>
                                             
-                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#82afb9" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#82afb9" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 mx-[4px]"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
 
-                                            <div className="flex flex-col items-center justify-center">
+                                            <div className="flex flex-col items-center justify-center flex-1 w-0">
                                                 {targetRep ? (
                                                     <React.Fragment>
-                                                        <span className="text-[11px] font-bold text-[#82afb9] mb-[4px]">{normTarget}</span>
-                                                        <span className="text-[13px] font-bold text-white truncate max-w-[60px]">{targetRep}</span>
+                                                        <span className="text-[11px] font-bold text-[#82afb9] mb-[4px] truncate w-full text-center">{normTarget}</span>
+                                                        <div className="flex items-center gap-[4px] justify-center w-full min-w-0">
+                                                            <div className="w-[20px] h-[20px] rounded-full bg-[#333] overflow-hidden border border-[#444] shrink-0">
+                                                                <img src={`${import.meta.env.BASE_URL}${targetRep.split('/')[0].trim()}.webp`} alt={targetRep.split('/')[0].trim()} className="w-full h-full object-cover" onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }} />
+                                                            </div>
+                                                            <span className="text-[13px] font-bold text-white truncate">{targetRep.split('/')[0].trim()}</span>
+                                                        </div>
                                                     </React.Fragment>
                                                 ) : (
-                                                    <span className="text-[13px] font-bold text-[#82afb9]">{normTarget}</span>
+                                                    <span className="text-[13px] font-bold text-[#82afb9] truncate w-full text-center">{normTarget}</span>
                                                 )}
                                             </div>
                                         </div>
