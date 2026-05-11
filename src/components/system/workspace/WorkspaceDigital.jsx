@@ -453,12 +453,6 @@ export default function WorkspaceDigital() {
 {/* SSC 상품·디지털 업무 범위 */}
             <div className="w-full mt-0 mb-0 relative">
                 <h2 className="text-[22px] font-bold text-white mb-[12px]">SSC 상품·디지털 업무 범위</h2>
-                    <a href={`${import.meta.env.BASE_URL}platform/iotaseoul/workspace/archive?workspace=digital`} target="_blank" rel="noopener noreferrer" className="text-[#A1A1AA] hover:text-white bg-transparent border border-[#3c3c3c] hover:bg-[#333] text-[13px] font-normal tracking-[-0.02em] ml-[10px] mt-[2px] pl-[10px] pr-[8px] py-[3px] rounded-[6px] transition-all flex items-center gap-[4px] cursor-pointer">
-                        지난 Task 관리
-                        <svg className="w-[14px] h-[14px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                        </svg>
-                    </a>
                 <div className="max-w-none overflow-x-auto hide-scrollbar pb-[20px] w-[calc(50vw-140px+50%)]">
                     <div className="flex gap-[12px] w-max pr-[40px]">
                         {sscScopes.map((item, idx) => {
@@ -489,6 +483,12 @@ export default function WorkspaceDigital() {
                         <span className="bg-[#333] text-[#b3b0a6] px-[8px] py-[3px] rounded-[6px] ml-[10px] font-bold text-[14px]">{getCurrentWeekInfo().weekLabel}</span>
                         {selectedTheme && <span className="ml-3 px-2 py-1 bg-[#2997ff]/10 text-[#2997ff] rounded-[6px] text-[13px] font-bold">필터: {getThemeTitle(selectedTheme)}</span>}
                     </h2>
+                    <a href={`${import.meta.env.BASE_URL}platform/iotaseoul/workspace/archive?workspace=digital`} target="_blank" rel="noopener noreferrer" className="text-[#A1A1AA] hover:text-white bg-transparent border border-[#3c3c3c] hover:bg-[#333] text-[13px] font-normal tracking-[-0.02em] ml-[10px] mt-[2px] pl-[10px] pr-[8px] py-[3px] rounded-[6px] transition-all flex items-center gap-[4px] cursor-pointer">
+                        지난 Task 관리
+                        <svg className="w-[14px] h-[14px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                        </svg>
+                    </a>
                     
                 </div>
                 <div className="flex gap-2 items-center">
@@ -599,7 +599,7 @@ export default function WorkspaceDigital() {
                 ) : (
                     <div className="flex flex-col gap-[8px]">
                         <AnimatePresence>
-                            {(projectShowAll ? sortedTasks : sortedTasks.slice(0, selectedTheme ? 5 : 10)).map((row, index) => (
+                            {(projectShowAll ? sortedTasks : sortedTasks.slice(0, 5)).map((row, index) => (
                             <motion.div 
                                 layout
                                 initial={{ opacity: 0, y: 10 }}
@@ -731,7 +731,7 @@ export default function WorkspaceDigital() {
                 </motion.div>
             </div>
 
-            <div className="w-full mt-[10px]"></div>
+            <div className="w-full mt-[20px]"></div>
             <WorkspaceActivityLog workspaceCode="WS_SSC" workspaceLabel="상품·디지털-SSC" />
 
 
