@@ -45,6 +45,22 @@ export default function MarketingPipeline({ memberInfo, masterStakeholders, fetc
     const [isSubmittingStakeholder, setIsSubmittingStakeholder] = useState(false);
     const [itemToDelete, setItemToDelete] = useState(null); // { type: 'pipeline' | 'log', id: string, message: string }
     const [isDeleting, setIsDeleting] = useState(false);
+    
+    const [editingPipelineId, setEditingPipelineId] = useState(null);
+
+    const handleEditPipeline = (pipe) => {
+        setEditingPipelineId(pipe.id);
+        setNewPipeline({
+            channel_name: pipe.channel_name || '',
+            status: pipe.status || '대기',
+            related_asset: pipe.related_asset || 'IOTA 공통',
+            contact_point: pipe.contact_point || '',
+            progress_detail: '',
+            management_plan: ''
+        });
+        setIsAddingPipeline(true);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
 
     const fetchPipelines = async () => {
         try {
@@ -104,54 +120,72 @@ export default function MarketingPipeline({ memberInfo, masterStakeholders, fetc
             channel_name: newPipeline.channel_name, 
             status: newPipeline.status, 
             related_asset: newPipeline.related_asset, 
-            contact_point: newPipeline.contact_point, 
-            created_at: new Date().toISOString() 
+            contact_point: newPipeline.contact_point
         };
-        const fallbackPipelineId = `task-pipe-${Date.now()}`;
         
         try {
-            const { data, error } = await supabase.from('iota_marketing_pipelines').insert([insertData]).select('*');
-            if (error) {
-                alert('파이프라인 등록 중 DB 오류 발생: ' + error.message);
-                throw error;
-            }
-            
-            const pId = data && data[0] ? data[0].id : fallbackPipelineId;
-            
-            if (newPipeline.progress_detail || newPipeline.management_plan) {
-                const { error: logError } = await supabase.from('iota_marketing_pipeline_logs').insert([{
-                    pipeline_id: pId,
-                    progress_detail: newPipeline.progress_detail,
-                    management_plan: newPipeline.management_plan,
-                    created_at: new Date().toISOString()
-                }]);
-                if (logError) {
-                    alert('로그 등록 중 DB 오류 발생: ' + logError.message);
-                    throw logError;
+            if (editingPipelineId) {
+                const { error } = await supabase.from('iota_marketing_pipelines').update(insertData).eq('id', editingPipelineId);
+                if (error) {
+                    alert('파이프라인 수정 중 DB 오류 발생: ' + error.message);
+                    throw error;
                 }
+                await fetchPipelines();
+            } else {
+                insertData.created_at = new Date().toISOString();
+                const fallbackPipelineId = `task-pipe-${Date.now()}`;
+                const { data, error } = await supabase.from('iota_marketing_pipelines').insert([insertData]).select('*');
+                if (error) {
+                    alert('파이프라인 등록 중 DB 오류 발생: ' + error.message);
+                    throw error;
+                }
+                
+                const pId = data && data[0] ? data[0].id : fallbackPipelineId;
+                
+                if (newPipeline.progress_detail || newPipeline.management_plan) {
+                    const { error: logError } = await supabase.from('iota_marketing_pipeline_logs').insert([{
+                        pipeline_id: pId,
+                        progress_detail: newPipeline.progress_detail,
+                        management_plan: newPipeline.management_plan,
+                        created_at: new Date().toISOString()
+                    }]);
+                    if (logError) {
+                        alert('로그 등록 중 DB 오류 발생: ' + logError.message);
+                        throw logError;
+                    }
+                }
+                await fetchPipelines();
+                await fetchLogs();
             }
-            await fetchPipelines();
-            await fetchLogs();
         } catch (e) {
-            insertData.id = fallbackPipelineId;
-            const localPipes = [...pipelines, insertData];
-            setPipelines(localPipes);
-            localStorage.setItem('iota_marketing_pipelines', JSON.stringify(localPipes));
-            
-            if (newPipeline.progress_detail || newPipeline.management_plan) {
-                const logData = {
-                    id: `log-${Date.now()}`,
-                    pipeline_id: fallbackPipelineId,
-                    progress_detail: newPipeline.progress_detail,
-                    management_plan: newPipeline.management_plan,
-                    created_at: new Date().toISOString()
-                };
-                const localLogs = [...logs, logData];
-                setLogs(localLogs);
-                localStorage.setItem('iota_marketing_pipeline_logs', JSON.stringify(localLogs));
+            if (editingPipelineId) {
+                const localPipes = pipelines.map(p => p.id === editingPipelineId ? { ...p, ...insertData } : p);
+                setPipelines(localPipes);
+                localStorage.setItem('iota_marketing_pipelines', JSON.stringify(localPipes));
+            } else {
+                const fallbackPipelineId = `task-pipe-${Date.now()}`;
+                insertData.id = fallbackPipelineId;
+                insertData.created_at = new Date().toISOString();
+                const localPipes = [...pipelines, insertData];
+                setPipelines(localPipes);
+                localStorage.setItem('iota_marketing_pipelines', JSON.stringify(localPipes));
+                
+                if (newPipeline.progress_detail || newPipeline.management_plan) {
+                    const logData = {
+                        id: `log-${Date.now()}`,
+                        pipeline_id: fallbackPipelineId,
+                        progress_detail: newPipeline.progress_detail,
+                        management_plan: newPipeline.management_plan,
+                        created_at: new Date().toISOString()
+                    };
+                    const localLogs = [...logs, logData];
+                    setLogs(localLogs);
+                    localStorage.setItem('iota_marketing_pipeline_logs', JSON.stringify(localLogs));
+                }
             }
         }
         setIsAddingPipeline(false);
+        setEditingPipelineId(null);
         setNewPipeline({ channel_name: '', status: '대기', related_asset: 'IOTA 공통', contact_point: '', progress_detail: '', management_plan: '' });
     };
 
@@ -184,8 +218,10 @@ export default function MarketingPipeline({ memberInfo, masterStakeholders, fetc
     const handleAddPipeline = async () => {
         if (!newPipeline.channel_name) return alert('채널명(기업명)을 입력해주세요.');
         if (!newPipeline.contact_point) return alert('컨택포인트(담당자)를 입력해주세요.');
-        if (!newPipeline.progress_detail) return alert('진행 상세 내용을 입력해주세요.');
-        if (!newPipeline.management_plan) return alert('향후 관리 및 대응 방안을 입력해주세요.');
+        if (!editingPipelineId) {
+            if (!newPipeline.progress_detail) return alert('진행 상세 내용을 입력해주세요.');
+            if (!newPipeline.management_plan) return alert('향후 관리 및 대응 방안을 입력해주세요.');
+        }
 
         const existingCompany = (masterStakeholders || []).find(s => s.company_name === newPipeline.channel_name);
         const existingContact = newPipeline.contact_point ? (masterStakeholders || []).find(s => s.contact_name === newPipeline.contact_point) : true;
@@ -329,7 +365,13 @@ export default function MarketingPipeline({ memberInfo, masterStakeholders, fetc
                     </div>
                     {isAllowedEditor && (
                         <button 
-                            onClick={() => setIsAddingPipeline(!isAddingPipeline)}
+                            onClick={() => {
+                                setIsAddingPipeline(!isAddingPipeline);
+                                if (isAddingPipeline) {
+                                    setEditingPipelineId(null);
+                                    setNewPipeline({ channel_name: '', status: '대기', related_asset: 'IOTA 공통', contact_point: '', progress_detail: '', management_plan: '' });
+                                }
+                            }}
                             className="px-4 py-2 bg-[#3b82f6]/20 text-[#60a5fa] rounded-[8px] text-[13px] font-bold border border-[#3b82f6]/30 hover:bg-[#3b82f6]/30 transition-all cursor-pointer"
                         >
                             {isAddingPipeline ? '취소' : '+ 신규 파이프라인'}
@@ -487,36 +529,38 @@ export default function MarketingPipeline({ memberInfo, masterStakeholders, fetc
                                 </select>
                             </div>
                         </div>
-                        <div className="flex gap-4">
-                            <div className="flex-1">
-                                <label className="block text-[#86868B] text-[13px] font-bold mb-2">초기 진행내용 (필수)</label>
-                                <input 
-                                    type="text" 
-                                    value={newPipeline.progress_detail}
-                                    onChange={e => setNewPipeline({...newPipeline, progress_detail: e.target.value})}
-                                    className="w-full bg-[#272726] border border-[#444] rounded-[12px] px-4 py-3 text-white text-[15px] outline-none focus:border-[#888]" 
-                                    placeholder="진행내용 요약" 
-                                />
+                        {!editingPipelineId && (
+                            <div className="flex gap-4">
+                                <div className="flex-1">
+                                    <label className="block text-[#86868B] text-[13px] font-bold mb-2">초기 진행내용 (필수)</label>
+                                    <input 
+                                        type="text" 
+                                        value={newPipeline.progress_detail}
+                                        onChange={e => setNewPipeline({...newPipeline, progress_detail: e.target.value})}
+                                        className="w-full bg-[#272726] border border-[#444] rounded-[12px] px-4 py-3 text-white text-[15px] outline-none focus:border-[#888]" 
+                                        placeholder="진행내용 요약" 
+                                    />
+                                </div>
+                                <div className="flex-1">
+                                    <label className="block text-[#86868B] text-[13px] font-bold mb-2">초기 관리방안 (필수)</label>
+                                    <input 
+                                        type="text" 
+                                        value={newPipeline.management_plan}
+                                        onChange={e => setNewPipeline({...newPipeline, management_plan: e.target.value})}
+                                        onKeyDown={e => { if(e.key === 'Enter') handleAddPipeline() }}
+                                        className="w-full bg-[#272726] border border-[#444] rounded-[12px] px-4 py-3 text-white text-[15px] outline-none focus:border-[#888]" 
+                                        placeholder="관리방안 및 향후 계획" 
+                                    />
+                                </div>
                             </div>
-                            <div className="flex-1">
-                                <label className="block text-[#86868B] text-[13px] font-bold mb-2">초기 관리방안 (필수)</label>
-                                <input 
-                                    type="text" 
-                                    value={newPipeline.management_plan}
-                                    onChange={e => setNewPipeline({...newPipeline, management_plan: e.target.value})}
-                                    onKeyDown={e => { if(e.key === 'Enter') handleAddPipeline() }}
-                                    className="w-full bg-[#272726] border border-[#444] rounded-[12px] px-4 py-3 text-white text-[15px] outline-none focus:border-[#888]" 
-                                    placeholder="관리방안 및 향후 계획" 
-                                />
-                            </div>
-                        </div>
-                        <div className="flex justify-end pt-2 border-t border-[#3c3c3c]">
+                        )}
+                        <div className="flex justify-end pt-2 border-t border-[#3c3c3c] mt-2">
                             <button 
                                 onClick={handleAddPipeline} 
                                 disabled={isSubmitting}
                                 className={`px-6 py-2 bg-white text-black font-bold rounded-[8px] transition-all ${isSubmitting ? 'opacity-50 cursor-not-allowed' : 'hover:bg-[#E5E5E5]'}`}
                             >
-                                {isSubmitting ? '등록 중...' : '등록하기'}
+                                {isSubmitting ? '저장 중...' : editingPipelineId ? '수정하기' : '등록하기'}
                             </button>
                         </div>
                     </div>
@@ -566,12 +610,20 @@ export default function MarketingPipeline({ memberInfo, masterStakeholders, fetc
                                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#E5E5E5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                                         </button>
                                     </div>
-                                    <button 
-                                        onClick={(e) => { e.stopPropagation(); setItemToDelete({ type: 'pipeline', id: pipe.id, message: '정말 삭제하시겠습니까? 관련 로그도 모두 삭제됩니다.' }); }} 
-                                        className="px-3 py-2 h-[60px] bg-[#ef4444]/10 text-[#ef4444] border border-[#ef4444]/30 rounded-[8px] text-[13px] font-bold hover:bg-[#ef4444]/20 cursor-pointer"
-                                    >
-                                        삭제
-                                    </button>
+                                    <div className="flex flex-col gap-1 w-[46px]">
+                                        <button 
+                                            onClick={(e) => { e.stopPropagation(); setItemToDelete({ type: 'pipeline', id: pipe.id, message: '정말 삭제하시겠습니까? 관련 로그도 모두 삭제됩니다.' }); }} 
+                                            className="w-full h-[28px] flex items-center justify-center bg-[#ef4444]/10 text-[#ef4444] border border-[#ef4444]/30 rounded-[6px] text-[12px] font-bold hover:bg-[#ef4444]/20 cursor-pointer"
+                                        >
+                                            삭제
+                                        </button>
+                                        <button 
+                                            onClick={(e) => { e.stopPropagation(); handleEditPipeline(pipe); }} 
+                                            className="w-full h-[28px] flex items-center justify-center bg-[#3b82f6]/10 text-[#3b82f6] border border-[#3b82f6]/30 rounded-[6px] text-[12px] font-bold hover:bg-[#3b82f6]/20 cursor-pointer"
+                                        >
+                                            수정
+                                        </button>
+                                    </div>
                                 </div>
                             )}
 
