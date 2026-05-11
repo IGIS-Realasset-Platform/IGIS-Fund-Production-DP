@@ -26,6 +26,76 @@ export default function WorkspaceDigital() {
     });
 
     const [expandedTaskId, setExpandedTaskId] = useState(null);
+
+    const getCurrentWeekInfo = () => {
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = today.getMonth() + 1;
+        const date = today.getDate();
+        
+        const firstDay = new Date(year, month - 1, 1);
+        let firstDayWeekday = firstDay.getDay();
+        if (firstDayWeekday === 0) firstDayWeekday = 7;
+        
+        const offsetDate = date + firstDayWeekday - 1;
+        const week = Math.ceil(offsetDate / 7);
+        
+        const weekLabel = `${year.toString().slice(2)}년 ${month}월 ${week}주`;
+        const weekId = `digital-${year}-${month}-${week}`;
+        
+        return { weekLabel, weekId };
+    };
+
+    const autoSaveSnapshot = async (currentTasks) => {
+        if (!currentTasks || currentTasks.length === 0) return;
+        const { weekLabel, weekId } = getCurrentWeekInfo();
+        
+        try {
+            const { data: existing } = await supabase
+                .from('iota_weekly_snapshots')
+                .select('id')
+                .eq('workspace', 'digital')
+                .eq('week_label', weekLabel)
+                .single();
+                
+            if (existing) {
+                await supabase
+                    .from('iota_weekly_snapshots')
+                    .update({ snapshot_data: currentTasks, created_at: new Date().toISOString() })
+                    .eq('id', existing.id);
+            } else {
+                await supabase
+                    .from('iota_weekly_snapshots')
+                    .insert([{
+                        id: weekId,
+                        workspace: 'digital',
+                        week_label: weekLabel,
+                        snapshot_data: currentTasks,
+                        created_at: new Date().toISOString()
+                    }]);
+            }
+        } catch (e) {
+            const localSnapshots = JSON.parse(localStorage.getItem('iota_weekly_snapshots') || '[]');
+            const index = localSnapshots.findIndex(s => s.week_label === weekLabel && s.workspace === 'digital');
+            if (index >= 0) {
+                localSnapshots[index] = { ...localSnapshots[index], snapshot_data: currentTasks, created_at: new Date().toISOString() };
+            } else {
+                localSnapshots.push({
+                    id: weekId,
+                    workspace: 'digital',
+                    week_label: weekLabel,
+                    snapshot_data: currentTasks,
+                    created_at: new Date().toISOString()
+                });
+            }
+            localStorage.setItem('iota_weekly_snapshots', JSON.stringify(localSnapshots));
+        }
+    };
+
+    useEffect(() => { if (tasks && tasks.length > 0) autoSaveSnapshot(tasks); }, [tasks]);
+
+
+    
     const [projectShowAll, setProjectShowAll] = useState(false);
     
     const [selectedTheme, setSelectedTheme] = useState(null);
@@ -406,12 +476,17 @@ export default function WorkspaceDigital() {
                 </div>
             </div>
 
-            {/* 2. 주요 테스크 관리 */}
             <div className="flex justify-between items-center mt-[20px] mb-[10px]">
-                <h2 id="task-management" className="text-[18px] font-bold text-white tracking-tight flex items-center">
-                    상품·디지털 주요 테스크 관리
-                    {selectedTheme && <span className="ml-3 px-2 py-1 bg-[#2997ff]/10 text-[#2997ff] rounded-[6px] text-[13px] font-bold">필터: {getThemeTitle(selectedTheme)}</span>}
-                </h2>
+                <div className="flex items-center gap-0">
+                    <h2 id="task-management" className="text-[18px] font-bold text-white tracking-tight flex items-center">
+                        <span className="mt-[2px]">상품·디지털 주요 테스크 관리</span>
+                        <span className="bg-[#333] text-[#b3b0a6] px-[8px] py-[3px] rounded-[6px] ml-[8px] font-bold text-[14px]">{getCurrentWeekInfo().weekLabel}</span>
+                        {selectedTheme && <span className="ml-3 px-2 py-1 bg-[#2997ff]/10 text-[#2997ff] rounded-[6px] text-[13px] font-bold">필터: {getThemeTitle(selectedTheme)}</span>}
+                    </h2>
+                    <a href={`${import.meta.env.BASE_URL}platform/iotaseoul/workspace/archive?workspace=digital`} target="_blank" rel="noopener noreferrer" className="text-[#86868B] hover:text-[#3b82f6] text-[13px] font-bold ml-[8px] mt-[2px] transition-colors flex items-center gap-1 cursor-pointer">
+                        지난 테스크 보기 ↗
+                    </a>
+                </div>
                 <div className="flex gap-2 items-center">
                     <div className="flex bg-[#272726] border border-[#3c3c3c] rounded-[8px] overflow-hidden p-[2px]">
                         <button onClick={() => setAssetFilter('427 PFV')} className={`px-[12px] py-[4px] text-[13px] font-bold rounded-[6px] transition-colors ${assetFilter === '427 PFV' ? 'bg-[#3c3c3c] text-white' : 'text-[#86868B] hover:text-[#E5E5E5]'}`}>이오타서울만 보기</button>
@@ -533,7 +608,7 @@ export default function WorkspaceDigital() {
                             >
                             {/* 삭제 및 정렬 버튼 */}
                             {isAuthorized && (
-                                <div className="absolute right-[-118px] w-[118px] pl-[8px] top-0 bottom-0 flex items-center justify-start gap-2 opacity-0 group-hover/row:opacity-100 transition-opacity">
+                                <div className="absolute left-[-40px] w-[40px] pr-[8px] top-0 bottom-0 flex items-center justify-end opacity-0 group-hover/row:opacity-100 transition-opacity">
                                         <div className="flex flex-col gap-1">
                                             <button 
                                                 onClick={(e) => { e.stopPropagation(); handleMoveTaskUp(index); }}
@@ -550,7 +625,12 @@ export default function WorkspaceDigital() {
                                                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#E5E5E5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                                             </button>
                                         </div>
-                                                                        <div className="flex flex-col gap-1 w-[46px]">
+                                </div>
+                            )}
+                            {/* 삭제 및 수정 버튼 (우측 바깥 영역) */}
+                            {isAuthorized && (
+                                <div className="absolute right-[-60px] w-[60px] pl-[8px] top-0 bottom-0 flex items-center justify-start opacity-0 group-hover/row:opacity-100 transition-opacity">
+                                    <div className="flex flex-col gap-1 w-[46px]">
                                         <button 
                                             onClick={(e) => { e.stopPropagation(); setItemToDelete({ id: row.id, message: '정말 삭제하시겠습니까?' }); }} 
                                             className="w-full h-[28px] flex items-center justify-center bg-[#ef4444]/10 text-[#ef4444] border border-[#ef4444]/30 rounded-[6px] text-[12px] font-bold hover:bg-[#ef4444]/20 cursor-pointer"

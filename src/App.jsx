@@ -11,6 +11,7 @@ import SystemPlan from './components/system/SystemPlan';
 import SystemLogin from './components/system/SystemLogin';
 import AuthSetup from './components/system/AuthSetup';
 import PlatformCore from './components/system/PlatformCore';
+import WorkspaceArchive from './components/system/workspace/WorkspaceArchive';
 
 export default function App() {
   // BASE_URL: '/' in dev, '/IGIS-Fund-Production-DP/' in GitHub Pages production
@@ -127,8 +128,8 @@ export default function App() {
         </div>
       </div>
 
-      <div className={(['system-plan', 'system-bridge', 'system-chat', 'system-detail', 'system-core', 'platform', 'auth-setup'].includes(currentPage) || currentPage.startsWith('platform/iotaseoul')) ? "w-full h-screen overflow-hidden" : "hidden lg:block scroll-container font-sans"} id="scroll-container">
-        {!(['system-plan', 'system-bridge', 'system-chat', 'system-detail', 'system-core', 'platform', 'auth-setup'].includes(currentPage) || currentPage.startsWith('platform/iotaseoul')) && (
+      <div className={(['system-plan', 'system-bridge', 'system-chat', 'system-detail', 'system-core', 'platform', 'auth-setup', 'workspace/archive'].includes(currentPage) || currentPage.startsWith('platform/iotaseoul')) ? "w-full h-screen overflow-hidden" : "hidden lg:block scroll-container font-sans"} id="scroll-container">
+        {!(['system-plan', 'system-bridge', 'system-chat', 'system-detail', 'system-core', 'platform', 'auth-setup', 'workspace/archive'].includes(currentPage) || currentPage.startsWith('platform/iotaseoul')) && (
             <Header
               onNavigateToHome={() => setCurrentPage('home')}
               currentPage={currentPage}
@@ -155,7 +156,8 @@ export default function App() {
         )}
         {currentPage === 'system-core' && <SystemCore isPlatform={false} />}
         {currentPage === 'platform' && <PlatformCore isPlatform={true} />}
-        {currentPage.startsWith('platform/iotaseoul') && <PlatformCore isPlatform={true} isIotaWorkspaceOverride={true} currentPath={currentPage} />}
+        {currentPage.startsWith('platform/iotaseoul') && !currentPage.includes('/archive') && <PlatformCore isPlatform={true} isIotaWorkspaceOverride={true} currentPath={currentPage} />}
+        {(currentPage.includes('workspace/archive') || currentPage.endsWith('/archive')) && <WorkspaceArchive />}
       </div>
     </>
   );

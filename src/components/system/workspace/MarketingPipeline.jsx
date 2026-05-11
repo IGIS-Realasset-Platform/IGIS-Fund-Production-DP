@@ -40,6 +40,16 @@ export default function MarketingPipeline({ memberInfo, masterStakeholders, fetc
     const [expandedPipelineId, setExpandedPipelineId] = useState(null);
     const [isAddingLog, setIsAddingLog] = useState(false);
     const [newLog, setNewLog] = useState({ progress_detail: '', management_plan: '' });
+    const [editingLogId, setEditingLogId] = useState(null);
+
+    const handleEditLog = (log) => {
+        setEditingLogId(log.id);
+        setNewLog({
+            progress_detail: log.progress_detail || '',
+            management_plan: log.management_plan || ''
+        });
+        setIsAddingLog(true);
+    };
     const [showNewStakeholderModal, setShowNewStakeholderModal] = useState(false);
     const [stakeholderCat, setStakeholderCat] = useState('');
     const [isSubmittingStakeholder, setIsSubmittingStakeholder] = useState(false);
@@ -304,20 +314,38 @@ export default function MarketingPipeline({ memberInfo, masterStakeholders, fetc
             alert('진행내용과 관리방안을 모두 입력해주세요.');
             return;
         }
-        const insertData = { pipeline_id: pipelineId, ...newLog, created_at: new Date().toISOString() };
-        try {
-            const { error } = await supabase.from('iota_marketing_pipeline_logs').insert([insertData]);
-            if (error) {
-                alert('로그 추가 중 DB 오류 발생: ' + error.message);
-                throw error;
+        
+        if (editingLogId) {
+            const updateData = { progress_detail: newLog.progress_detail, management_plan: newLog.management_plan };
+            try {
+                const { error } = await supabase.from('iota_marketing_pipeline_logs').update(updateData).eq('id', editingLogId);
+                if (error) {
+                    alert('로그 수정 중 DB 오류 발생: ' + error.message);
+                    throw error;
+                }
+                await fetchLogs();
+            } catch (e) {
+                const local = logs.map(l => l.id === editingLogId ? { ...l, ...updateData } : l);
+                setLogs(local);
+                localStorage.setItem('iota_marketing_pipeline_logs', JSON.stringify(local));
             }
-            await fetchLogs();
-        } catch (e) {
-            const local = [...logs, { ...insertData, id: Date.now().toString() }];
-            setLogs(local);
-            localStorage.setItem('iota_marketing_pipeline_logs', JSON.stringify(local));
+        } else {
+            const insertData = { pipeline_id: pipelineId, ...newLog, created_at: new Date().toISOString() };
+            try {
+                const { error } = await supabase.from('iota_marketing_pipeline_logs').insert([insertData]);
+                if (error) {
+                    alert('로그 추가 중 DB 오류 발생: ' + error.message);
+                    throw error;
+                }
+                await fetchLogs();
+            } catch (e) {
+                const local = [...logs, { ...insertData, id: Date.now().toString() }];
+                setLogs(local);
+                localStorage.setItem('iota_marketing_pipeline_logs', JSON.stringify(local));
+            }
         }
         setIsAddingLog(false);
+        setEditingLogId(null);
         setNewLog({ progress_detail: '', management_plan: '' });
     };
 
@@ -593,7 +621,7 @@ export default function MarketingPipeline({ memberInfo, masterStakeholders, fetc
                             >
                             {/* 삭제 및 정렬 버튼 (우측 바깥 영역) */}
                             {isAllowedEditor && (
-                                <div className="absolute right-[-118px] w-[118px] pl-[8px] top-0 bottom-0 flex items-center justify-start gap-2 opacity-0 group-hover/row:opacity-100 transition-opacity">
+                                <div className="absolute left-[-40px] w-[40px] pr-[8px] top-0 bottom-0 flex items-center justify-end opacity-0 group-hover/row:opacity-100 transition-opacity">
                                     <div className="flex flex-col gap-1">
                                         <button 
                                             onClick={(e) => { e.stopPropagation(); handleMovePipelineUp(index); }}
@@ -610,6 +638,12 @@ export default function MarketingPipeline({ memberInfo, masterStakeholders, fetc
                                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#E5E5E5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                                         </button>
                                     </div>
+                                </div>
+                            )}
+
+                            {/* 삭제 및 수정 버튼 (우측 바깥 영역) */}
+                            {isAllowedEditor && (
+                                <div className="absolute right-[-60px] w-[60px] pl-[8px] top-0 bottom-0 flex items-center justify-start opacity-0 group-hover/row:opacity-100 transition-opacity">
                                     <div className="flex flex-col gap-1 w-[46px]">
                                         <button 
                                             onClick={(e) => { e.stopPropagation(); setItemToDelete({ type: 'pipeline', id: pipe.id, message: '정말 삭제하시겠습니까? 관련 로그도 모두 삭제됩니다.' }); }} 
@@ -694,7 +728,13 @@ export default function MarketingPipeline({ memberInfo, masterStakeholders, fetc
                                         <h4 className="text-[16px] font-bold text-white">타임라인</h4>
                                         {isAllowedEditor && (
                                             <button 
-                                                onClick={() => setIsAddingLog(!isAddingLog)}
+                                                onClick={() => {
+                                                    setIsAddingLog(!isAddingLog);
+                                                    if (isAddingLog) {
+                                                        setEditingLogId(null);
+                                                        setNewLog({ progress_detail: '', management_plan: '' });
+                                                    }
+                                                }}
                                                 className="text-[13px] font-bold text-[#3b82f6] hover:text-[#60a5fa] transition-all"
                                             >
                                                 {isAddingLog ? '취소' : '+ 진행내역 추가'}
@@ -727,7 +767,9 @@ export default function MarketingPipeline({ memberInfo, masterStakeholders, fetc
                                                 </div>
                                             </div>
                                             <div className="flex justify-end">
-                                                <button onClick={() => handleAddLog(pipe.id)} className="px-4 py-1.5 bg-[#3b82f6] text-white font-bold rounded-[6px] text-[13px] hover:bg-[#2563eb]">등록</button>
+                                                <button onClick={() => handleAddLog(pipe.id)} className="px-4 py-1.5 bg-[#3b82f6] text-white font-bold rounded-[6px] text-[13px] hover:bg-[#2563eb]">
+                                                    {editingLogId ? '수정' : '등록'}
+                                                </button>
                                             </div>
                                         </div>
                                     )}
@@ -749,12 +791,20 @@ export default function MarketingPipeline({ memberInfo, masterStakeholders, fetc
                                                     </div>
                                                 </div>
                                                 {isAllowedEditor && (
-                                                    <button 
-                                                        onClick={() => setItemToDelete({ type: 'log', id: log.id, message: '로그를 삭제하시겠습니까?' })}
-                                                        className="absolute right-4 top-4 text-[#ef4444] opacity-0 group-hover:opacity-100 text-[13px] font-bold hover:underline"
-                                                    >
-                                                        삭제
-                                                    </button>
+                                                    <div className="absolute right-4 top-4 flex flex-col gap-2 opacity-0 group-hover:opacity-100">
+                                                        <button 
+                                                            onClick={() => setItemToDelete({ type: 'log', id: log.id, message: '로그를 삭제하시겠습니까?' })}
+                                                            className="text-[#ef4444] text-[13px] font-bold hover:underline text-right"
+                                                        >
+                                                            삭제
+                                                        </button>
+                                                        <button 
+                                                            onClick={() => handleEditLog(log)}
+                                                            className="text-[#3b82f6] text-[13px] font-bold hover:underline text-right"
+                                                        >
+                                                            수정
+                                                        </button>
+                                                    </div>
                                                 )}
                                             </div>
                                         )) : (
