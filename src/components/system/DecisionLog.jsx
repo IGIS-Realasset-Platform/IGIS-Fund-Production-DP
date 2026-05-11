@@ -505,7 +505,7 @@ export default function DecisionLog() {
                                         container.scrollTo({ left: card.offsetLeft - container.offsetLeft, behavior: 'smooth' });
                                     }
                                 }}
-                                className={`px-[12px] py-[6px] rounded-full text-[13px] font-bold whitespace-nowrap transition-colors ${
+                                className={`px-[12px] py-[6px] rounded-full text-[13px] font-bold whitespace-nowrap cursor-pointer transition-colors ${
                                     activeWorkspaceTab === ws.id
                                         ? 'text-white border-[1px] border-transparent [background:linear-gradient(#1F1F1E,#1F1F1E)_padding-box,linear-gradient(to_bottom_right,#d6efe9,#82afb9,#4c6e86)_border-box]'
                                         : 'bg-transparent border border-[#333] text-[#86868B] hover:text-white hover:border-[#555]'
@@ -707,7 +707,12 @@ export default function DecisionLog() {
                                                                 <span className="text-[11px] font-bold text-[#86868B] pr-[14px]">열람 권한</span>
                                                                 <div className="bg-[#1e293b] border border-[#334155] rounded-full pl-[8px] pr-[12px] py-[4px] flex items-center gap-[6px]">
                                                                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                                                                    <span className="text-[12px] font-medium text-[#e2e8f0]">제한됨</span>
+                                                                    <div className="flex flex-col leading-[1.2]">
+                                                                        <span className="text-[12px] font-medium text-[#e2e8f0]">제한됨</span>
+                                                                        {(memberInfo?.email === log.writer_staff_id || (memberInfo?.staff_name || memberInfo?.name) === (log.writer_name || log.author)) && (
+                                                                            <span className="text-[10px] text-[#94a3b8] mt-[1px]">(내글)</span>
+                                                                        )}
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         )}
@@ -719,7 +724,7 @@ export default function DecisionLog() {
                                                             {renderLogTextWithMentions(log.raw_text)}
                                                         </div>
                                                     ) : (
-                                                        <div className="text-[#86868B] text-[14px] italic py-[20px] text-center border border-[#333] rounded-[8px] bg-[#222]">
+                                                        <div className="text-[#86868B] text-[14px] italic py-[20px] text-center">
                                                             🔒 열람 권한이 없습니다.
                                                         </div>
                                                     )}
@@ -1078,9 +1083,12 @@ export default function DecisionLog() {
                                                 <span className="text-[11px] font-bold text-[#86868B] pr-[14px]">열람 권한</span>
                                                 <div className="bg-[#1e293b] border border-[#334155] rounded-full pl-[8px] pr-[12px] py-[4px] flex items-center gap-[6px]">
                                                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                                                    <span className="text-[12px] font-medium text-[#e2e8f0]">
-                                                        제한됨: {getPermissionString(log)}
-                                                    </span>
+                                                    <div className="flex flex-col leading-[1.2]">
+                                                        <span className="text-[12px] font-medium text-[#e2e8f0]">제한됨: {getPermissionString(log)}</span>
+                                                        {(memberInfo?.email === log.writer_staff_id || (memberInfo?.staff_name || memberInfo?.name) === (log.writer_name || log.author)) && (
+                                                            <span className="text-[10px] text-[#94a3b8] mt-[1px]">(내글)</span>
+                                                        )}
+                                                    </div>
                                                 </div>
                                             </div>
                                         )}
@@ -1127,7 +1135,7 @@ export default function DecisionLog() {
                                                 {renderLogTextWithMentions(log.raw_text)}
                                             </div>
                                         ) : (
-                                            <div className="text-[#86868B] text-[14px] italic py-[20px] text-center border border-[#333] rounded-[8px] bg-[#1a1a1a]">
+                                            <div className="text-[#86868B] text-[14px] italic py-[20px] text-center">
                                                 🔒 열람 권한이 없습니다.
                                             </div>
                                         )

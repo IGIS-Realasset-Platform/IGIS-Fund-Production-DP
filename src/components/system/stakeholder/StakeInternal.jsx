@@ -307,6 +307,13 @@ const stakeholderGroups = [
                                 email: '***@igisam.com',
                                 phone: '010-****-****',
                             },
+                            {
+                                name: '홍창의',
+                                photo: '홍창의',
+                                roles: ['사업파트/파트장', 'People Architecture TF', 'IOTA CFT'],
+                                email: 'cu.hong@igisam.com',
+                                phone: '010-9189-2365',
+                            },
                         ]
                     },
                     {
@@ -617,6 +624,7 @@ export default function StakeInternal() {
                             <td className="px-[14px] py-[16px] text-[13px] text-[#bbb9af] border-r border-[#333] leading-[22px]">
                                 <div className="flex gap-4"><span className="w-[60px] text-[#86868B] shrink-0 pt-[3px]">EMC</span><div className="flex flex-wrap gap-x-3 gap-y-1">{renderMembers('고아라')}</div></div>
                                 <div className="flex gap-4 mt-[4px]"><span className="w-[60px] text-[#86868B] shrink-0 pt-[3px]">사업1</span><div className="flex flex-wrap gap-x-3 gap-y-1">{renderMembers('권순일(자문)')}</div></div>
+                                <div className="flex gap-4 mt-[4px]"><span className="w-[60px] text-[#86868B] shrink-0 pt-[3px]">디지털사업</span><div className="flex flex-wrap gap-x-3 gap-y-1">{renderMembers('홍창의(자문)')}</div></div>
                             </td>
                             <td className="px-[14px] py-[16px] text-[13px] text-[#bbb9af] border-r border-[#333] leading-[22px]">LM 전략·잠재 임차인 피칭<br/>임대차 조건 협의<br/>LM사 관리</td>
                             <td className="px-[14px] py-[16px] text-[13px] text-[#bbb9af] leading-[22px]">EMC</td>
