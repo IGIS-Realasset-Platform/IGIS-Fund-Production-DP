@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 import { supabase } from '../../utils/supabaseClient';
 import { fetchWithRetry } from '../../utils/fetchWithRetry';
@@ -25,6 +25,14 @@ export default function AuthSetup({ onLogin }) {
     const [showContactModal, setShowContactModal] = useState(false);
     const [showConfirmModal, setShowConfirmModal] = useState(false);
     const [showChangeSuccessModal, setShowChangeSuccessModal] = useState(false);
+    
+    const passwordInputRef = useRef(null);
+
+    useEffect(() => {
+        if (step === 2 && passwordInputRef.current) {
+            passwordInputRef.current.focus();
+        }
+    }, [step]);
 
     useEffect(() => {
         const timer = setTimeout(() => setMounted(true), 100);
@@ -289,11 +297,7 @@ export default function AuthSetup({ onLogin }) {
             <div className={`w-full flex justify-between items-center px-12 py-8 relative z-50 transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}>
                 <div className="text-[20px] font-bold tracking-wide text-[#1D1D1F] dark:text-white transition-colors duration-300">IFPDP</div>
                 <div className="flex gap-8 text-[17px] font-medium text-[#86868B] dark:text-[#A1A1AA] transition-colors duration-300">
-                    <button onClick={() => {
-                        window.history.pushState(null, '', import.meta.env.BASE_URL + 'home');
-                        window.dispatchEvent(new Event('popstate'));
-                    }} className="hover:text-[#111] dark:hover:text-white cursor-pointer transition-colors bg-transparent border-none outline-none p-0 font-medium">IFPDP 소개</button>
-                    <button onClick={() => setShowContactModal(true)} className="hover:text-[#111] dark:hover:text-white cursor-pointer transition-colors bg-transparent border-none outline-none p-0 font-medium">플랫폼 이용 문의</button>
+                    <a href={`${import.meta.env.BASE_URL}home`} target="_blank" rel="noopener noreferrer" className="hover:text-[#111] dark:hover:text-white cursor-pointer transition-colors bg-transparent border-none outline-none p-0 font-medium no-underline">IFPDP 소개</a>
                 </div>
             </div>
 
@@ -374,6 +378,7 @@ export default function AuthSetup({ onLogin }) {
                                 <div className="w-full mb-2">
                                     <input 
                                         type="password" 
+                                        ref={passwordInputRef}
                                         placeholder={isFirstTime ? "패스워드를 설정하세요." : "패스워드를 입력하세요."}
                                         value={password}
                                         onChange={(e) => { setPassword(e.target.value); if(errorMessage) setErrorMessage(''); }}

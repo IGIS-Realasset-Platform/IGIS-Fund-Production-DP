@@ -556,7 +556,7 @@ export default function SystemFund421() {
 
             {/* 수익자 지분 구조 */}
             <div className="w-full mb-[60px]">
-                <div className="flex justify-between items-end mb-[24px]">
+                <div className="flex justify-between items-end mb-[14px]">
                     <h2 className="text-[24px] font-bold text-white tracking-tight">수익자 지분 구조</h2>
                     <button 
                         onClick={() => setShowAllLps(!showAllLps)}

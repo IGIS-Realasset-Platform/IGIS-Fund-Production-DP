@@ -305,8 +305,8 @@ export default function VehicleIntegrated() {
                 <div className="w-full p-[6px] border border-[#333] rounded-[38px] flex flex-col gap-[6px]">
                 {/* Dashboard Metrics Cards */}
                 {vehicleId !== '421' && (
-                <div className="w-full flex gap-[20px]">
-                    <div className="w-[390px] h-[274px] flex flex-col gap-[20px]">
+                <div className="w-full flex gap-[6px]">
+                    <div className="w-[390px] h-[274px] flex flex-col gap-[6px]">
                         <div className="w-full flex-1 bg-[#292928] border border-[#3c3c3c] rounded-[32px] pr-6 flex flex-row items-center transition-colors duration-300">
                             <div className="w-[114px] flex flex-col justify-between border-r border-[#444]/50 h-[54px] pl-[24px]">
                                 <span className="text-[14px] font-bold text-[#86868B] font-['Inter'] whitespace-nowrap">공급 예정</span>
