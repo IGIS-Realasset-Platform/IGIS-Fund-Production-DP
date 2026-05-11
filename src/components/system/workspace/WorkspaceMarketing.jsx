@@ -7,7 +7,7 @@ import MarketingPipeline from './MarketingPipeline';
 
 export default function WorkspaceMarketing() {
     const { memberInfo } = useAuth();
-    const isAuthorized = ['김민지', '고아라', '전기영'].includes(memberInfo?.staff_name);
+    const isAuthorized = ['김민지', '고아라', '전기영', '권순일', '홍창의'].includes(memberInfo?.staff_name);
     
     const [tasks, setTasks] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -202,7 +202,7 @@ export default function WorkspaceMarketing() {
     // Auto-link function for names
     const parseNames = (text) => {
         if (!text) return text;
-        const names = ['김민지', '고아라', '권순일'];
+        const names = ['김민지', '고아라', '권순일', '홍창의'];
         let result = text;
         names.forEach(name => {
             const regex = new RegExp(name, 'g');
@@ -303,7 +303,7 @@ export default function WorkspaceMarketing() {
                             </div>
                         </div>
                         <div className="flex flex-wrap gap-x-1.5 gap-y-2 -ml-[6px]">
-                            {[{img: '고아라', label: '고아라'}, {img: '권순일', label: '권순일(자문)'}].map(member => (
+                            {[{img: '고아라', label: '고아라'}, {img: '권순일', label: '권순일(자문)'}, {img: '홍창의', label: '홍창의(자문)'}].map(member => (
                                 <div key={member.label} className="flex items-center gap-[6px] bg-[#222] border border-[#333] rounded-full pl-[4px] pr-[10px] py-[4px] min-w-[76px]">
                                     <div className="w-[21px] h-[21px] shrink-0 rounded-full bg-[#3c3c3c] overflow-hidden">
                                         <img src={`${import.meta.env.BASE_URL}${member.img}.webp`} alt={member.label} className="w-full h-full object-cover" onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }} />

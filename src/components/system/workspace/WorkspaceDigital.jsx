@@ -16,7 +16,7 @@ const sscScopes = [
 
 export default function WorkspaceDigital() {
     const { memberInfo } = useAuth();
-    const isAuthorized = ['김현수', '이가현', '정수명', '전기영', '현철호', '신민호'].includes(memberInfo?.staff_name);
+    const isAuthorized = ['김현수', '이가현', '정수명', '전기영', '현철호', '홍창의', '신민호'].includes(memberInfo?.staff_name);
     
     const [tasks, setTasks] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -276,7 +276,7 @@ export default function WorkspaceDigital() {
     const linkClass = "text-[#E5E5E5] hover:text-[#fbf167] cursor-pointer transition-colors hover:underline underline-offset-4 decoration-[#fbf167]/50";
     const parseNames = (text) => {
         if (!text) return text;
-        const names = ['김현수', '이가현', '정수명', '전기영', '현철호', '신민호'];
+        const names = ['김현수', '이가현', '정수명', '전기영', '현철호', '홍창의', '신민호'];
         let result = text;
         names.forEach(name => {
             const regex = new RegExp(name, 'g');
@@ -316,7 +316,7 @@ export default function WorkspaceDigital() {
                 <div className="border border-[#333] rounded-[24px] flex items-center bg-transparent shrink-0 pl-[20px] pr-[10px] py-[10px]">
 
                     {/* 공간솔루션 */}
-                    <div className="w-[80px] shrink-0">
+                    <div className="w-[74px] shrink-0">
                         <span className="text-[13px] font-bold text-[#86868B]">공간솔루션</span>
                     </div>
                     <div className="flex items-center gap-[12px] w-[106px] shrink-0">
@@ -344,7 +344,7 @@ export default function WorkspaceDigital() {
                     <div className="w-px h-[30px] bg-[#333] mx-[20px]"></div>
 
                     {/* 디지털사업 */}
-                    <div className="w-[80px] shrink-0">
+                    <div className="w-[74px] shrink-0">
                         <span className="text-[13px] font-bold text-[#86868B]">디지털사업</span>
                     </div>
                     <div className="flex items-center gap-[12px] w-[106px] shrink-0">
@@ -355,6 +355,16 @@ export default function WorkspaceDigital() {
                         <div className="flex flex-col text-left">
                             <span className="text-white font-bold text-[13px] leading-tight">현철호</span>
                             <span className="text-[#A1A1AA] text-[12px] mt-[1px] leading-tight">그룹장</span>
+                        </div>
+                    </div>
+                    <div className="flex items-center gap-[12px] w-[106px] shrink-0 -ml-[10px]">
+                        <div className="relative w-[30px] h-[30px] shrink-0 rounded-full bg-[#3c3c3c] flex items-center justify-center overflow-hidden ml-[2px]">
+                            <img src={`${import.meta.env.BASE_URL}홍창의.webp`} alt="홍창의" className="w-full h-full object-cover" onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }} />
+                            <div className="absolute inset-0 rounded-full border border-white/10 pointer-events-none"></div>
+                        </div>
+                        <div className="flex flex-col text-left">
+                            <span className="text-white font-bold text-[13px] leading-tight">홍창의</span>
+                            <span className="text-[#A1A1AA] text-[12px] mt-[1px] leading-tight">파트장</span>
                         </div>
                     </div>
                     <div className="flex flex-wrap gap-x-1.5 gap-y-2 -ml-[6px]">
