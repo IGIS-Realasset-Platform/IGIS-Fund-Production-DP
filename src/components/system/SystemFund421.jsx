@@ -8,6 +8,7 @@ export default function SystemFund421() {
     const [loading, setLoading] = useState(true);
     const [selectedInst, setSelectedInst] = useState(null);
     const [showAllLps, setShowAllLps] = useState(false);
+    const [phase421, setPhase421] = useState('current'); // 'current' | 'new'
     const vehicleId = '421';
     
     const navigateTo = (path) => {
@@ -38,7 +39,7 @@ export default function SystemFund421() {
                 }
                 if (data) {
                     const grouped = {
-                        421: { Current: {} }
+                        421: {}
                     };
 
                     data.forEach(item => {
@@ -50,19 +51,20 @@ export default function SystemFund421() {
                         let sortOrder = 0;
                         let originalTranche = tranche;
 
-                        if (grouped[v] && grouped[v][p]) {
-                            if (!grouped[v][p][tranche]) {
-                                grouped[v][p][tranche] = [];
-                            }
-                            grouped[v][p][tranche].push({
-                                name: item.institution_name,
-                                amount: item.amount_krw_100m.toLocaleString(),
-                                rawAmount: item.amount_krw_100m,
-                                type: type,
-                                originalTranche: originalTranche,
-                                sortOrder: sortOrder
-                            });
+                        if (!grouped[v][p]) {
+                            grouped[v][p] = {};
                         }
+                        if (!grouped[v][p][tranche]) {
+                            grouped[v][p][tranche] = [];
+                        }
+                        grouped[v][p][tranche].push({
+                            name: item.institution_name,
+                            amount: item.amount_krw_100m.toLocaleString(),
+                            rawAmount: item.amount_krw_100m,
+                            type: type,
+                            originalTranche: originalTranche,
+                            sortOrder: sortOrder
+                        });
                     });
 
                     Object.keys(grouped[421]).forEach(p => {
@@ -136,7 +138,8 @@ export default function SystemFund421() {
         return sum;
     };
 
-    const total421 = getTotal(421);
+    const activePhase421 = phase421 === 'current' ? '2024.10.ver' : 'new';
+    const total421 = getTotal(421, activePhase421);
 
     const formatAmount = (rawAmt) => {
         const amt = Math.round(rawAmt);
@@ -204,7 +207,7 @@ export default function SystemFund421() {
 
         return (
             <div id={id} className="mb-12">
-                <div className="flex justify-between items-end mb-[24px]">
+                <div className="flex justify-between items-end mb-[14px]">
                     <h2 className="text-[24px] font-bold text-white tracking-tight">{title}</h2>
                 </div>
 
@@ -351,6 +354,80 @@ export default function SystemFund421() {
         );
     };
 
+    const toggle421 = (
+        <div className="bg-[#1C1C1E] p-1 rounded-[12px] flex items-center border border-[#3c3c3c]">
+            <button 
+                onClick={() => setPhase421('current')}
+                className={`relative px-4 py-1.5 rounded-[10px] text-[13px] font-bold transition-all duration-300 ${phase421 === 'current' ? 'bg-[#2C2C2E] text-[#0A84FF] shadow-sm' : 'text-[#86868B] hover:text-white'}`}
+            >
+                <span className="absolute -top-[20px] left-1/2 -translate-x-1/2 text-[11px] text-[#86868B] tracking-tight whitespace-nowrap font-normal cursor-default">2024.10.ver</span>
+                기존 펀드
+            </button>
+            <button 
+                onClick={() => setPhase421('new')}
+                className={`px-4 py-1.5 rounded-[10px] text-[13px] font-bold transition-all duration-300 ${phase421 === 'new' ? 'bg-[#2C2C2E] text-white shadow-sm' : 'text-[#86868B] hover:text-white'}`}
+            >
+                신규 업데이트
+            </button>
+        </div>
+    );
+
+    const data421 = iotaData[421]?.[activePhase421] || {};
+
+    const getTopLps = () => {
+        const allItems = Object.values(data421).flat();
+        if (allItems.length === 0) return [];
+        
+        const instGroups = {};
+        allItems.forEach(item => {
+            if (item.isSubHeader) return;
+            const name = item.name;
+            if (!instGroups[name]) {
+                instGroups[name] = { name, totalAmount: 0, tranches: {} };
+            }
+            instGroups[name].totalAmount += (item.rawAmount || 0);
+            
+            const tranche = item.originalTranche || item.type;
+            if (!instGroups[name].tranches[tranche]) instGroups[name].tranches[tranche] = 0;
+            instGroups[name].tranches[tranche] += (item.rawAmount || 0);
+        });
+
+        const sortedInsts = Object.values(instGroups).sort((a,b) => b.totalAmount - a.totalAmount).slice(0, 5);
+        
+        return sortedInsts.map(inst => {
+            let mainTranche = '';
+            let maxAmt = 0;
+            Object.entries(inst.tranches).forEach(([t, amt]) => {
+                if (amt > maxAmt) { maxAmt = amt; mainTranche = t; }
+            });
+            
+            let role = `Major LP (${mainTranche})`;
+            if (inst.name.includes('이지스자산운용')) {
+                role = 'GP / Anchor LP (합산)';
+            } else if (inst.totalAmount >= 400) {
+                role = `Anchor LP (${mainTranche})`;
+            }
+
+            let color = 'text-white';
+            if (mainTranche.includes('A종')) color = 'text-[#5da0e7]';
+            if (mainTranche.includes('B종')) color = 'text-[#3aaab3]';
+            if (mainTranche.includes('C종')) color = 'text-[#cd879c]'; 
+
+            const pct = total421 > 0 ? ((inst.totalAmount / total421) * 100).toFixed(1) : 0;
+            
+            return {
+                name: inst.name,
+                amountStr: inst.totalAmount.toString(),
+                role: role,
+                tranche: mainTranche,
+                color: color,
+                pct: pct
+            };
+        });
+    };
+
+    const topLps = getTopLps();
+
     return (
         <div className="w-[1200px] mx-auto flex-1 flex flex-col pt-[50px] shrink-0 pb-[200px]">
             {/* Header / Title */}
@@ -360,6 +437,9 @@ export default function SystemFund421() {
                     <p className="text-[16px] text-[#86868B] leading-[26px]">
                         IOTA One, Two 투자를 위해 운용중인 이지스421호 부동산 사모펀드입니다.
                     </p>
+                </div>
+                <div className="mt-[8px]">
+                    {toggle421}
                 </div>
             </div>
 
@@ -488,71 +568,27 @@ export default function SystemFund421() {
 
                 {!showAllLps ? (
                     <div className="w-full flex gap-[15px]">
-                        <div 
-                            className="flex-1 bg-[#292928] border border-[#3c3c3c] rounded-[32px] p-6 flex flex-col justify-between transition-colors duration-300 cursor-pointer hover:bg-[#3c3c3c]"
-                            onClick={() => handleInstClick('삼성물산', 'C종 수익증권', '800')}
-                        >
-                            <div>
-                                <div className="text-[#86868B] text-[13px] font-bold mb-1">Anchor LP (C종)</div>
-                                <div className="text-[20px] font-bold text-white tracking-tight">삼성물산</div>
+                        {topLps.map((lp, i) => (
+                            <div 
+                                key={i}
+                                className="flex-1 bg-[#292928] border border-[#3c3c3c] rounded-[32px] p-6 flex flex-col justify-between transition-colors duration-300 cursor-pointer hover:bg-[#3c3c3c]"
+                                onClick={() => handleInstClick(lp.name, lp.tranche, lp.amountStr)}
+                            >
+                                <div>
+                                    <div className="text-[#86868B] text-[13px] font-bold mb-1">{lp.role}</div>
+                                    <div className="text-[20px] font-bold text-white tracking-tight">{lp.name}</div>
+                                </div>
+                                <div className="mt-4 flex items-end justify-between">
+                                    <div className="text-[14px] text-[#A1A1AA]">투자금 <span className="font-['Inter'] text-white ml-1">{lp.amountStr}</span><span className="text-[12px] ml-[2px]">억</span></div>
+                                    <div className={`text-[24px] font-bold ${lp.color} font-['Inter'] tracking-tight translate-y-[5px]`}>{lp.pct}%</div>
+                                </div>
                             </div>
-                            <div className="mt-4 flex items-end justify-between">
-                                <div className="text-[14px] text-[#A1A1AA]">투자금 <span className="font-['Inter'] text-white ml-1">800</span><span className="text-[12px] ml-[2px]">억</span></div>
-                                <div className="text-[24px] font-bold text-[#cd879c] font-['Inter'] tracking-tight translate-y-[5px]">25.9%</div>
+                        ))}
+                        {topLps.length === 0 && (
+                            <div className="w-full text-center text-[#86868B] py-[40px] border border-[#3c3c3c] rounded-[32px]">
+                                데이터가 없습니다. 신규 업데이트를 진행해 주세요.
                             </div>
-                        </div>
-                        <div 
-                            className="flex-1 bg-[#292928] border border-[#3c3c3c] rounded-[32px] p-6 flex flex-col justify-between transition-colors duration-300 cursor-pointer hover:bg-[#3c3c3c]"
-                            onClick={() => handleInstClick('NH투자증권', 'C종 수익증권', '500')}
-                        >
-                            <div>
-                                <div className="text-[#86868B] text-[13px] font-bold mb-1">Anchor LP (C종)</div>
-                                <div className="text-[20px] font-bold text-white tracking-tight">NH투자증권</div>
-                            </div>
-                            <div className="mt-4 flex items-end justify-between">
-                                <div className="text-[14px] text-[#A1A1AA]">투자금 <span className="font-['Inter'] text-white ml-1">500</span><span className="text-[12px] ml-[2px]">억</span></div>
-                                <div className="text-[24px] font-bold text-[#cd879c] font-['Inter'] tracking-tight translate-y-[5px]">16.2%</div>
-                            </div>
-                        </div>
-                        <div 
-                            className="flex-1 bg-[#292928] border border-[#3c3c3c] rounded-[32px] p-6 flex flex-col justify-between transition-colors duration-300 cursor-pointer hover:bg-[#3c3c3c]"
-                            onClick={() => handleInstClick('이지스자산운용(주)', 'GP / Anchor LP (합산)', '424.5')}
-                        >
-                            <div>
-                                <div className="text-[#86868B] text-[13px] font-bold mb-1">GP / Anchor LP (합산)</div>
-                                <div className="text-[20px] font-bold text-white tracking-tight">이지스자산운용(주)</div>
-                            </div>
-                            <div className="mt-4 flex items-end justify-between">
-                                <div className="text-[14px] text-[#A1A1AA]">투자금 <span className="font-['Inter'] text-white ml-1">424.5</span><span className="text-[12px] ml-[2px]">억</span></div>
-                                <div className="text-[24px] font-bold text-[#5da0e7] font-['Inter'] tracking-tight translate-y-[5px]">13.7%</div>
-                            </div>
-                        </div>
-                        <div 
-                            className="flex-1 bg-[#292928] border border-[#3c3c3c] rounded-[32px] p-6 flex flex-col justify-between transition-colors duration-300 cursor-pointer hover:bg-[#3c3c3c]"
-                            onClick={() => handleInstClick('디에스클러스터(주)', 'C종 수익증권', '250')}
-                        >
-                            <div>
-                                <div className="text-[#86868B] text-[13px] font-bold mb-1">Major LP (C종)</div>
-                                <div className="text-[20px] font-bold text-white tracking-tight">디에스클러스터(주)</div>
-                            </div>
-                            <div className="mt-4 flex items-end justify-between">
-                                <div className="text-[14px] text-[#A1A1AA]">투자금 <span className="font-['Inter'] text-white ml-1">250</span><span className="text-[12px] ml-[2px]">억</span></div>
-                                <div className="text-[24px] font-bold text-[#cd879c] font-['Inter'] tracking-tight translate-y-[5px]">8.1%</div>
-                            </div>
-                        </div>
-                        <div 
-                            className="flex-1 bg-[#292928] border border-[#3c3c3c] rounded-[32px] p-6 flex flex-col justify-between transition-colors duration-300 cursor-pointer hover:bg-[#3c3c3c]"
-                            onClick={() => handleInstClick('(주)케이티에스테이트', 'B종 수익증권', '210')}
-                        >
-                            <div>
-                                <div className="text-[#86868B] text-[13px] font-bold mb-1">Major LP (B종)</div>
-                                <div className="text-[20px] font-bold text-white tracking-tight">(주)케이티에스테이트</div>
-                            </div>
-                            <div className="mt-4 flex items-end justify-between">
-                                <div className="text-[14px] text-[#A1A1AA]">투자금 <span className="font-['Inter'] text-white ml-1">210</span><span className="text-[12px] ml-[2px]">억</span></div>
-                                <div className="text-[24px] font-bold text-[#3aaab3] font-['Inter'] tracking-tight translate-y-[4px]">6.8%</div>
-                            </div>
-                        </div>
+                        )}
                     </div>
                 ) : (
                     <div className="w-full">
@@ -739,7 +775,7 @@ export default function SystemFund421() {
                 vehicleId="421"
                 title="421호 펀드 투자 구조" 
                 totalAmountStr={formatAmount(total421)} 
-                data={iotaData[421].Current} 
+                data={iotaData[421]?.[activePhase421] || {}} 
             />
 
             {/* Layer Popup (Modal) for Institution Click */}

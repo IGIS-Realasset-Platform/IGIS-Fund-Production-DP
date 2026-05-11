@@ -6,6 +6,7 @@ import { fetchWithRetry } from '../../utils/fetchWithRetry';
 export default function VehicleIntegrated() {
     const [phase816, setPhase816] = useState('refi'); // 'bridge' | 'refi'
     const [phase427, setPhase427] = useState('refi'); // 'bridge' | 'refi'
+    const [phase421, setPhase421] = useState('current'); // 'current' | 'new'
     const [selectedInst, setSelectedInst] = useState(null);
     const [iotaData, setIotaData] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -34,7 +35,7 @@ export default function VehicleIntegrated() {
                     // Group data by vehicle -> phase -> tranche -> array of institutions
                     const grouped = {
                         427: { Bridge: {}, Refinancing: {} },
-                        421: { Current: {} },
+                        421: {},
                         816: { Bridge: {}, Refinancing: {} }
                     };
 
@@ -66,19 +67,23 @@ export default function VehicleIntegrated() {
                             sortOrder = 1;
                         }
 
-                        if (grouped[v] && grouped[v][p]) {
-                            if (!grouped[v][p][tranche]) {
-                                grouped[v][p][tranche] = [];
-                            }
-                            grouped[v][p][tranche].push({
-                                name: item.institution_name,
-                                amount: item.amount_krw_100m.toLocaleString(),
-                                rawAmount: item.amount_krw_100m,
-                                type: type,
-                                originalTranche: originalTranche,
-                                sortOrder: sortOrder
-                            });
+                        if (!grouped[v]) {
+                            grouped[v] = {};
                         }
+                        if (!grouped[v][p]) {
+                            grouped[v][p] = {};
+                        }
+                        if (!grouped[v][p][tranche]) {
+                            grouped[v][p][tranche] = [];
+                        }
+                        grouped[v][p][tranche].push({
+                            name: item.institution_name,
+                            amount: item.amount_krw_100m.toLocaleString(),
+                            rawAmount: item.amount_krw_100m,
+                            type: type,
+                            originalTranche: originalTranche,
+                            sortOrder: sortOrder
+                        });
                     });
 
                     // Sort everything by amount descending
@@ -196,6 +201,24 @@ export default function VehicleIntegrated() {
             >
                 <span className="absolute -top-[20px] left-1/2 -translate-x-1/2 text-[11px] text-[#86868B] tracking-tight whitespace-nowrap font-normal cursor-default">2025.05</span>
                 본PF 1차
+            </button>
+        </div>
+    );
+
+    const toggle421 = (
+        <div className="bg-[#1C1C1E] p-1 rounded-[12px] flex items-center border border-[#3c3c3c]">
+            <button 
+                onClick={() => setPhase421('current')}
+                className={`relative px-4 py-1.5 rounded-[10px] text-[13px] font-bold transition-all duration-300 ${phase421 === 'current' ? 'bg-[#2C2C2E] text-[#0A84FF] shadow-sm' : 'text-[#86868B] hover:text-white'}`}
+            >
+                <span className="absolute -top-[20px] left-1/2 -translate-x-1/2 text-[11px] text-[#86868B] tracking-tight whitespace-nowrap font-normal cursor-default">2024.10.ver</span>
+                기존 펀드
+            </button>
+            <button 
+                onClick={() => setPhase421('new')}
+                className={`px-4 py-1.5 rounded-[10px] text-[13px] font-bold transition-all duration-300 ${phase421 === 'new' ? 'bg-[#2C2C2E] text-white shadow-sm' : 'text-[#86868B] hover:text-white'}`}
+            >
+                신규 업데이트
             </button>
         </div>
     );
@@ -678,7 +701,8 @@ export default function VehicleIntegrated() {
 
     const displayTotal427 = getTotal(427, phase427 === 'bridge' ? 'Bridge' : 'Refinancing');
     const displayTotal816 = getTotal(816, phase816 === 'bridge' ? 'Bridge' : 'Refinancing');
-    const total421 = getTotal(421);
+    const activePhase421 = phase421 === 'current' ? '2024.10.ver' : 'new';
+    const total421 = getTotal(421, activePhase421);
     
     // Grand total uses latest refinancing (or fixed values) for stability, or dynamic if preferred. Let's make it dynamic based on current toggles.
     const grandTotal = displayTotal427 + total421 + displayTotal816;
@@ -806,15 +830,8 @@ export default function VehicleIntegrated() {
                 vehicleId="421"
                 title="3. 421호 펀드" 
                 totalAmountStr={formatAmount(total421)} 
-                data={iotaData[421].Current} 
-                toggleContent={
-                    <button 
-                        onClick={() => navigateTo('platform/iotaseoul/421-fund')}
-                        className="px-[12px] py-[6px] rounded-[10px] border border-[#333] bg-transparent text-[12px] text-[#2997ff] hover:bg-[#2997ff]/10 transition-colors font-medium cursor-pointer tracking-tight"
-                    >
-                        펀드 구조 및 지분율 자세히보기
-                    </button>
-                }
+                data={iotaData[421]?.[activePhase421] || {}} 
+                toggleContent={toggle421}
             />
 
             <div className="w-full h-[38px]"></div>
