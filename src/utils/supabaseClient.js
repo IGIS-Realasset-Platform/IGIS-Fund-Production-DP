@@ -2,10 +2,41 @@ import { createClient } from '@supabase/supabase-js';
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://dummy-url.supabase.co';
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'dummy-key';
+const hasSupabaseConfig = Boolean(import.meta.env.VITE_SUPABASE_URL && import.meta.env.VITE_SUPABASE_ANON_KEY);
 
 let supabaseInstance;
 
-if (!window.__SUPABASE_CLIENT__) {
+if (!hasSupabaseConfig) {
+    supabaseInstance = {
+        auth: {
+            async getSession() {
+                return { data: { session: null }, error: null };
+            },
+            onAuthStateChange() {
+                return { data: { subscription: { unsubscribe() {} } } };
+            },
+            async signOut() {
+                return { error: null };
+            },
+            async updateUser() {
+                return { data: null, error: new Error('Supabase environment is not configured.') };
+            }
+        },
+        from() {
+            return {
+                select() {
+                    return this;
+                },
+                eq() {
+                    return this;
+                },
+                async single() {
+                    return { data: null, error: null };
+                }
+            };
+        }
+    };
+} else if (!window.__SUPABASE_CLIENT__) {
     const customFetch = (url, options) => {
         const isAuthRequest = url.includes('/auth/v1/');
         const controller = new AbortController();
@@ -38,7 +69,9 @@ if (!window.__SUPABASE_CLIENT__) {
             fetch: customFetch
         }
     });
+    supabaseInstance = window.__SUPABASE_CLIENT__;
+} else {
+    supabaseInstance = window.__SUPABASE_CLIENT__;
 }
-supabaseInstance = window.__SUPABASE_CLIENT__;
 
 export const supabase = supabaseInstance;

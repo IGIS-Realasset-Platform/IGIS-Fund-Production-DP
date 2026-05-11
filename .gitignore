@@ -10,6 +10,11 @@ lerna-debug.log*
 node_modules
 dist
 dist-ssr
+.npm-cache/
+qa-artifacts/
+__pycache__/
+*.pyc
+docs/logistics-leasing/pm-workboard.md
 *.local
 
 # Editor directories and files

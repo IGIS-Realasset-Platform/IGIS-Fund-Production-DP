@@ -26,6 +26,7 @@ import SystemFund421 from './SystemFund421';
 import IotaTwo816 from './IotaTwo816';
 import IotaOne427 from './IotaOne427';
 import DecisionLog from './DecisionLog';
+import LogisticsLeasingDashboard from './logistics/LogisticsLeasingDashboard';
 
 export default function PlatformCenter({ currentPath = '' }) {
     const scrollRef = useRef(null);
@@ -106,6 +107,7 @@ export default function PlatformCenter({ currentPath = '' }) {
             case 'platform/iotaseoul/iota-one-427': return <IotaOne427 />;
             case 'platform/iotaseoul/iota-two-816': return <IotaTwo816 />;
             case 'platform/iotaseoul/workflow': return <DecisionLog />;
+            case 'platform/logistics-leasing': return <LogisticsLeasingDashboard />;
             default: return null;
         }
     };
