@@ -530,8 +530,8 @@ export default function WorkspaceFund() {
             <div id={id} className="mb-[28px]">
                 <div className="flex justify-between items-end mb-[12px]">
                     <h2 className="text-[24px] font-bold text-white tracking-tight">{title}</h2>
-                    <a href={`${import.meta.env.BASE_URL}platform/iotaseoul/workspace/archive?workspace=fund`} target="_blank" rel="noopener noreferrer" className="text-[#A1A1AA] hover:text-white bg-transparent border border-[#3c3c3c] hover:bg-[#333] text-[13px] font-normal tracking-[-0.02em] ml-[12px] mt-[2px] pl-[10px] pr-[8px] py-[3px] rounded-[6px] transition-all flex items-center gap-[4px] cursor-pointer">
-                        지난 테스크 보기
+                    <a href={`${import.meta.env.BASE_URL}platform/iotaseoul/workspace/archive?workspace=fund`} target="_blank" rel="noopener noreferrer" className="text-[#A1A1AA] hover:text-white bg-transparent border border-[#3c3c3c] hover:bg-[#333] text-[13px] font-normal tracking-[-0.02em] ml-[10px] mt-[2px] pl-[10px] pr-[8px] py-[3px] rounded-[6px] transition-all flex items-center gap-[4px] cursor-pointer">
+                        지난 Task 관리
                         <svg className="w-[14px] h-[14px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                         </svg>
@@ -927,7 +927,7 @@ export default function WorkspaceFund() {
             <div className="flex justify-between items-center mb-[10px]">
                 <div className="flex items-center gap-0">
                     <h2 id="task-management" className="text-[18px] font-bold text-white tracking-tight flex items-center">
-                        <span className="mt-[2px]">펀드운용 주요 테스크 관리</span>
+                        <span className="mt-[2px]">펀드운용 주요 TASK 관리</span>
                         <span className="bg-[#333] text-[#b3b0a6] px-[8px] py-[3px] rounded-[6px] ml-[10px] font-bold text-[14px]">{getCurrentWeekInfo().weekLabel}</span>
                     </h2>
                     
