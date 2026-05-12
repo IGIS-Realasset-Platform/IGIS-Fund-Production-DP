@@ -20,6 +20,7 @@ import WorkspaceDigital from './workspace/WorkspaceDigital';
 import WorkspaceFund from './workspace/WorkspaceFund';
 import WorkspaceIpr from './workspace/WorkspaceIpr';
 import WorkspaceIprWg from './workspace/WorkspaceIprWg';
+import WorkspaceLogistics from './workspace/WorkspaceLogistics';
 import IotaDashboard from './IotaDashboard';
 import VehicleIntegrated from './VehicleIntegrated';
 import SystemFund421 from './SystemFund421';
@@ -92,6 +93,9 @@ export default function PlatformCenter({ currentPath = '' }) {
     };
 
     const renderWorkspace = () => {
+        if (currentPath.startsWith('platform/iotaseoul/workspace/logistics')) {
+            return <WorkspaceLogistics currentPath={currentPath} />;
+        }
         switch(currentPath) {
             case 'platform/iotaseoul/workspace/marketing': return <WorkspaceMarketing />;
             case 'platform/iotaseoul/workspace/pm': return <WorkspacePm />;
