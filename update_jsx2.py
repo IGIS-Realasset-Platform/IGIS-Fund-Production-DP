@@ -3,26 +3,15 @@ import re
 with open('src/components/system/SystemFund421.jsx', 'r') as f:
     content = f.read()
 
+# Define the new tbody
 new_tbody = """<tbody className="text-[13px] text-[#E5E5E5]">
                                 {/* A종 */}
                                 <tr className="border-b border-[#444]">
                                     <td rowSpan="7" className="py-2 px-4 text-center font-bold text-white border-r border-[#444] bg-[#1a1a1c]">A종 수익증권</td>
-                                    <td className="py-2 px-4 border-r border-[#444] bg-[#5da0e7]/20 text-[#5da0e7] font-bold">이지스자산운용㈜</td>
-                                    <td className="py-2 px-4 text-right font-bold text-[#5da0e7] font-[Inter] tracking-tight border-r border-[#444] bg-[#5da0e7]/20">19,000</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444] bg-[#5da0e7]/20 text-[#5da0e7]">30.65%</td>
-                                    <td className="py-2 px-4 text-right font-bold text-[#5da0e7] font-[Inter] tracking-tight bg-[#5da0e7]/20">5.88%</td>
-                                </tr>
-                                <tr className="border-b border-[#444]">
-                                    <td className="py-2 px-4 border-r border-[#444]">㈜포르테디앤씨</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">3,000</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">4.84%</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight">0.93%</td>
-                                </tr>
-                                <tr className="border-b border-[#444]">
-                                    <td className="py-2 px-4 border-r border-[#444]">대신증권㈜</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">20,000</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">32.26%</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight">6.19%</td>
+                                    <td className="py-2 px-4 border-r border-[#444]">한중건설㈜</td>
+                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">13,000</td>
+                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">20.97%</td>
+                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight">4.02%</td>
                                 </tr>
                                 <tr className="border-b border-[#444]">
                                     <td className="py-2 px-4 border-r border-[#444]">에셀유한회사</td>
@@ -31,16 +20,28 @@ new_tbody = """<tbody className="text-[13px] text-[#E5E5E5]">
                                     <td className="py-2 px-4 text-right font-[Inter] tracking-tight">3.10%</td>
                                 </tr>
                                 <tr className="border-b border-[#444]">
-                                    <td className="py-2 px-4 border-r border-[#444]">㈜데피니트파트너스</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">6,000</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">9.68%</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight">1.86%</td>
+                                    <td className="py-2 px-4 border-r border-[#444]">구봉산업㈜</td>
+                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">10,000</td>
+                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">16.13%</td>
+                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight">3.10%</td>
                                 </tr>
                                 <tr className="border-b border-[#444]">
                                     <td className="py-2 px-4 border-r border-[#444]">㈜게우트플래닝</td>
                                     <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">4,000</td>
                                     <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">6.45%</td>
                                     <td className="py-2 px-4 text-right font-[Inter] tracking-tight">1.24%</td>
+                                </tr>
+                                <tr className="border-b border-[#444]">
+                                    <td className="py-2 px-4 border-r border-[#444] bg-[#5da0e7]/20 text-[#5da0e7] font-bold">이지스자산운용㈜</td>
+                                    <td className="py-2 px-4 text-right font-bold text-[#5da0e7] font-[Inter] tracking-tight border-r border-[#444] bg-[#5da0e7]/20">19,000</td>
+                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444] bg-[#5da0e7]/20 text-[#5da0e7]">30.65%</td>
+                                    <td className="py-2 px-4 text-right font-bold text-[#5da0e7] font-[Inter] tracking-tight bg-[#5da0e7]/20">5.88%</td>
+                                </tr>
+                                <tr className="border-b border-[#444]">
+                                    <td className="py-2 px-4 border-r border-[#444]">㈜데피니트파트너스</td>
+                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">6,000</td>
+                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">9.68%</td>
+                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight">1.86%</td>
                                 </tr>
                                 <tr className="border-b border-[#444] bg-[#1c1c1e]/50">
                                     <td className="py-2 px-4 font-bold text-center text-[#86868B] border-r border-[#444]">소계</td>
@@ -52,6 +53,12 @@ new_tbody = """<tbody className="text-[13px] text-[#E5E5E5]">
                                 {/* B종 */}
                                 <tr className="border-b border-[#444]">
                                     <td rowSpan="11" className="py-2 px-4 text-center font-bold text-white border-r border-[#444] bg-[#1a1a1c]">B종 수익증권</td>
+                                    <td className="py-2 px-4 border-r border-[#444] bg-[#3aaab3]/20 text-[#3aaab3] font-bold">㈜케이티에스테이트</td>
+                                    <td className="py-2 px-4 text-right font-bold text-[#3aaab3] font-[Inter] tracking-tight border-r border-[#444] bg-[#3aaab3]/20">21,000</td>
+                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444] bg-[#3aaab3]/20 text-[#3aaab3]">33.87%</td>
+                                    <td className="py-2 px-4 text-right font-bold text-[#3aaab3] font-[Inter] tracking-tight bg-[#3aaab3]/20">6.50%</td>
+                                </tr>
+                                <tr className="border-b border-[#444]">
                                     <td className="py-2 px-4 border-r border-[#444] bg-[#5da0e7]/20 text-[#5da0e7] font-bold">이지스자산운용㈜</td>
                                     <td className="py-2 px-4 text-right font-bold text-[#5da0e7] font-[Inter] tracking-tight border-r border-[#444] bg-[#5da0e7]/20">13,450</td>
                                     <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444] bg-[#5da0e7]/20 text-[#5da0e7]">21.69%</td>
@@ -80,12 +87,6 @@ new_tbody = """<tbody className="text-[13px] text-[#E5E5E5]">
                                     <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">3,000</td>
                                     <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">4.84%</td>
                                     <td className="py-2 px-4 text-right font-[Inter] tracking-tight">0.93%</td>
-                                </tr>
-                                <tr className="border-b border-[#444]">
-                                    <td className="py-2 px-4 border-r border-[#444] bg-[#3aaab3]/20 text-[#3aaab3] font-bold">㈜케이티에스테이트</td>
-                                    <td className="py-2 px-4 text-right font-bold text-[#3aaab3] font-[Inter] tracking-tight border-r border-[#444] bg-[#3aaab3]/20">21,000</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444] bg-[#3aaab3]/20 text-[#3aaab3]">33.87%</td>
-                                    <td className="py-2 px-4 text-right font-bold text-[#3aaab3] font-[Inter] tracking-tight bg-[#3aaab3]/20">6.50%</td>
                                 </tr>
                                 <tr className="border-b border-[#444]">
                                     <td className="py-2 px-4 border-r border-[#444]">주식회사 안다자산운용</td>
@@ -199,25 +200,19 @@ new_tbody = """<tbody className="text-[13px] text-[#E5E5E5]">
                                 </tr>
                             </tbody>"""
 
-# In the previous step, I changed the file to look like this:
-# {phase421 === 'new' ? (
-# <tbody className="text-[13px] text-[#E5E5E5]">
-# ... wrong new_tbody ...
-# </tbody>
-# ) : (
-# <tbody className="text-[13px] text-[#E5E5E5]">
-# ... old_tbody ...
-# </tbody>
-# )}
-#
-# Let's find the FIRST <tbody ...> inside the phase421 === 'new' block and replace it.
-
-matches = list(re.finditer(r"(?s)(\{phase421 === 'new'\s*\?\s*\(\s*)(<tbody.*?</tbody>)(\s*\)\s*:\s*\()", content))
-if matches:
-    match = matches[0]
-    content = content[:match.start(2)] + new_tbody + content[match.end(2):]
-    with open('src/components/system/SystemFund421.jsx', 'w') as f:
-        f.write(content)
-    print("Successfully replaced wrong new_tbody")
+matches = list(re.finditer(r'(<tbody className="text-\[13px\] text-\[#E5E5E5\]">.*?</tbody\s*>)', content, re.DOTALL))
+if len(matches) >= 2:
+    match = matches[1] # The second one is the detail table
+    old_tbody = match.group(1)
+    
+    if "{phase421 === 'new' ?" not in old_tbody:
+        replacement = f"{{phase421 === 'new' ? (\n{new_tbody}\n) : (\n{old_tbody}\n)}}"
+        content = content[:match.start()] + replacement + content[match.end():]
+        
+        with open('src/components/system/SystemFund421.jsx', 'w') as f:
+            f.write(content)
+        print("Successfully updated SystemFund421.jsx")
+    else:
+        print("Already updated.")
 else:
-    print("Pattern not found!")
+    print("Could not find tbody")

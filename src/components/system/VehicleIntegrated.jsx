@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { supabase } from '../../utils/supabaseClient';
 import { fetchWithRetry } from '../../utils/fetchWithRetry';
+import Fund421DetailCard from './shared/Fund421DetailCard';
+
 
 export default function VehicleIntegrated() {
     const [phase816, setPhase816] = useState('refi'); // 'bridge' | 'refi'
     const [phase427, setPhase427] = useState('refi'); // 'bridge' | 'refi'
-    const [phase421, setPhase421] = useState('current'); // 'current' | 'new'
+    const [phase421, setPhase421] = useState('new'); // 'current' | 'new'
     const [selectedInst, setSelectedInst] = useState(null);
     const [iotaData, setIotaData] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -209,16 +211,16 @@ export default function VehicleIntegrated() {
         <div className="bg-[#1C1C1E] p-1 rounded-[12px] flex items-center border border-[#3c3c3c]">
             <button 
                 onClick={() => setPhase421('current')}
-                className={`relative px-4 py-1.5 rounded-[10px] text-[13px] font-bold transition-all duration-300 ${phase421 === 'current' ? 'bg-[#2C2C2E] text-[#0A84FF] shadow-sm' : 'text-[#86868B] hover:text-white'}`}
+                className={`relative px-4 py-1.5 rounded-[10px] text-[13px] font-bold transition-all duration-300 cursor-pointer ${phase421 === 'current' ? 'bg-[#2C2C2E] text-[#0A84FF] shadow-sm' : 'text-[#86868B] hover:text-white'}`}
             >
-                <span className="absolute -top-[20px] left-1/2 -translate-x-1/2 text-[11px] text-[#86868B] tracking-tight whitespace-nowrap font-normal cursor-default">2024.10.ver</span>
                 기존 펀드
             </button>
             <button 
                 onClick={() => setPhase421('new')}
-                className={`px-4 py-1.5 rounded-[10px] text-[13px] font-bold transition-all duration-300 ${phase421 === 'new' ? 'bg-[#2C2C2E] text-white shadow-sm' : 'text-[#86868B] hover:text-white'}`}
+                className={`relative px-4 py-1.5 rounded-[10px] text-[13px] font-bold transition-all duration-300 cursor-pointer ${phase421 === 'new' ? 'bg-[#2C2C2E] text-[#0A84FF] shadow-sm' : 'text-[#86868B] hover:text-white'}`}
             >
-                신규 업데이트
+                <span className="absolute -top-[20px] left-1/2 -translate-x-1/2 text-[11px] text-[#86868B] tracking-tight whitespace-nowrap font-normal cursor-default">2026.05</span>
+                현재 현황
             </button>
         </div>
     );
@@ -825,7 +827,7 @@ export default function VehicleIntegrated() {
             <div className="w-full h-[38px]"></div>
 
             {/* 4. 421 펀드 */}
-            <VehicleDetailCard 
+            <Fund421DetailCard 
                 id="section-421" 
                 vehicleId="421"
                 title="3. 421호 펀드" 
