@@ -404,7 +404,7 @@ const IotaOne427DetailCard = ({ id, vehicleId, title, dbData, navigateTo, extern
                             if (item.isSubHeader) return;
                             let bT = item.originalTranche || item.type;
                             if (vehicleId !== '421') {
-                                if (bT === '보통주' || bT === '1종 종류주 등' || (bT.includes('종류주') && !bT.includes('수익증권')) || bT === 'Equity') bT = 'Equity';
+                                if (bT === '보통주' || bT === '1종 종류주' || (bT.includes('종류주') && !bT.includes('수익증권')) || bT === 'Equity') bT = 'Equity';
                                 if (bT === '주주대여금' || bT === '주주대여') bT = '주주대여';
                             }
                             if (!barGroups[bT]) barGroups[bT] = 0;
@@ -545,8 +545,8 @@ const IotaOne427DetailCard = ({ id, vehicleId, title, dbData, navigateTo, extern
                                                 </div>
                                                 {items.map((item, i) => {
                                                     if (item.isSubHeader) {
-                                                        const isTargetSub = item.name === 'Tr.A-2' || item.name === 'Tr.B-2';
-                                                        const subSum = isTargetSub ? items.filter(it => it.originalTranche === item.name).reduce((a,b) => a + (b.rawAmount || 0), 0) : 0;
+                                                        const isTargetSub = item.name === 'Tr.A-2' || item.name === 'Tr.B-2' || item.name === '보통주' || item.name === '1종 종류주' || (item.name && item.name.includes('종류주'));
+                                                        const subSum = isTargetSub ? items.filter(it => it.originalTranche === item.name || (item.name === '1종 종류주' && it.originalTranche && it.originalTranche.includes('종류주'))).reduce((a,b) => a + (b.rawAmount || 0), 0) : 0;
                                                         
                                                         return (
                                                             <div key={i} className={`mt-[16px] mb-[12px] border-b border-[#444]/50 pb-2 ${isTargetSub ? 'flex justify-between items-end' : ''}`}>

@@ -50,13 +50,13 @@ export default function VehicleIntegrated() {
                         let sortOrder = 0;
                         let originalTranche = tranche;
 
-                        // 427 & 816 special rule: merge '1종 종류주 등', '보통주', '주주대여금' into 'Equity'
-                        if ((v === 427 || v === 816) && (tranche === '1종 종류주 등' || tranche === '보통주' || tranche === '주주대여금' || tranche.includes('종류주'))) {
+                        // 427 & 816 special rule: merge '1종 종류주', '보통주', '주주대여금' into 'Equity'
+                        if ((v === 427 || v === 816) && (tranche === '1종 종류주' || tranche === '보통주' || tranche === '주주대여금' || tranche.includes('종류주'))) {
                             tranche = 'Equity';
                             type = 'Equity';
-                            if (originalTranche === '주주대여금') {
-                                sortOrder = 1;
-                            }
+                            if (originalTranche === '1종 종류주' || originalTranche.includes('종류주')) sortOrder = 0;
+                            else if (originalTranche === '보통주') sortOrder = 1;
+                            else if (originalTranche === '주주대여금') sortOrder = 2;
                         }
                         // 427 & 816 special rule: merge 'Tr.A-2' into 'Tr.A-1'
                         if ((v === 427 || v === 816) && tranche === 'Tr.A-2') {
@@ -100,14 +100,17 @@ export default function VehicleIntegrated() {
                                 });
 
                                 if ((v === 427 || v === 816) && t === 'Equity') {
-                                    let hasSubheader = false;
-                                    for (let i = 0; i < arr.length; i++) {
-                                        if (arr[i].originalTranche === '주주대여금' && !hasSubheader) {
-                                            arr.splice(i, 0, { isSubHeader: true, name: '주주대여금' });
-                                            hasSubheader = true;
-                                            i++; // skip the newly inserted subheader
+                                    const subheaders = ['1종 종류주', '보통주', '주주대여금'];
+                                    subheaders.forEach(sub => {
+                                        let hasSub = false;
+                                        for (let i = 0; i < arr.length; i++) {
+                                            if (!arr[i].isSubHeader && (arr[i].originalTranche === sub || (sub === '1종 종류주' && arr[i].originalTranche && arr[i].originalTranche.includes('종류주'))) && !hasSub) {
+                                                arr.splice(i, 0, { isSubHeader: true, name: sub });
+                                                hasSub = true;
+                                                i++;
+                                            }
                                         }
-                                    }
+                                    });
                                 }
                                 
                                 if ((v === 427 || v === 816) && t === 'Tr.A-1') {
@@ -446,7 +449,7 @@ export default function VehicleIntegrated() {
                             if (item.isSubHeader) return;
                             let bT = item.originalTranche || item.type;
                             if (vehicleId !== '421') {
-                                if (bT === '보통주' || bT === '1종 종류주 등' || (bT.includes('종류주') && !bT.includes('수익증권')) || bT === 'Equity') bT = 'Equity';
+                                if (bT === '보통주' || bT === '1종 종류주' || (bT.includes('종류주') && !bT.includes('수익증권')) || bT === 'Equity') bT = 'Equity';
                                 if (bT === '주주대여금' || bT === '주주대여') bT = '주주대여';
                             }
                             if (!barGroups[bT]) barGroups[bT] = 0;
