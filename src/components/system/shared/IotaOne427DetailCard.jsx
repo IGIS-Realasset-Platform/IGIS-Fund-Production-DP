@@ -11,15 +11,17 @@ const IotaOne427DetailCard = ({ id, vehicleId, title, dbData, navigateTo, extern
     // MOCK DATA for Phase 1 & 2 Capital Stack
     const mockPhase1 = {
         'Equity': dbData?.['Bridge']?.['Equity'] || [],
-        'Tr.A': [{ name: 'Tr.A', type: 'Loan', rawAmount: 19600, displayIndex: 1, originalTranche: 'Tr.A' }],
-        'Tr.B': [{ name: 'Tr.B', type: 'Loan', rawAmount: 4500, displayIndex: 1, originalTranche: 'Tr.B' }],
-        'Tr.C': [{ name: 'Tr.C', type: 'Loan', rawAmount: 4300, displayIndex: 1, originalTranche: 'Tr.C' }]
+        'Tr.A': [{ name: 'Tr.A', type: 'Loan', rawAmount: 8400, displayIndex: 1, originalTranche: 'Tr.A' }],
+        'Tr.B': [{ name: 'Tr.B', type: 'Loan', rawAmount: 2500, displayIndex: 1, originalTranche: 'Tr.B' }],
+        'Tr.C': [{ name: 'Tr.C', type: 'Loan', rawAmount: 1500, displayIndex: 1, originalTranche: 'Tr.C' }],
+        'Tr.D': [{ name: 'Tr.D', type: 'Loan', rawAmount: 2000, displayIndex: 1, originalTranche: 'Tr.D' }]
     };
     const mockPhase2 = {
         'Equity': dbData?.['Bridge']?.['Equity'] || [],
-        'Tr.A': [{ name: 'Tr.A', type: 'Loan', rawAmount: 10000, displayIndex: 1, originalTranche: 'Tr.A' }],
-        'Tr.B': [{ name: 'Tr.B', type: 'Loan', rawAmount: 4200, displayIndex: 1, originalTranche: 'Tr.B' }],
-        'Tr.C': [{ name: 'Tr.C', type: 'Loan', rawAmount: 2000, displayIndex: 1, originalTranche: 'Tr.C' }]
+        'Tr.A': [{ name: 'Tr.A', type: 'Loan', rawAmount: 8400, displayIndex: 1, originalTranche: 'Tr.A' }],
+        'Tr.B': [{ name: 'Tr.B', type: 'Loan', rawAmount: 2500, displayIndex: 1, originalTranche: 'Tr.B' }],
+        'Tr.C': [{ name: 'Tr.C', type: 'Loan', rawAmount: 1500, displayIndex: 1, originalTranche: 'Tr.C' }],
+        'Tr.D': [{ name: 'Tr.D', type: 'Loan', rawAmount: 2000, displayIndex: 1, originalTranche: 'Tr.D' }]
     };
 
     const getActiveData = () => {

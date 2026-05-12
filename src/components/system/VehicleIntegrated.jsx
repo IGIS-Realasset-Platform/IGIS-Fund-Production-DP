@@ -708,13 +708,13 @@ export default function VehicleIntegrated() {
     const get427MockPhaseTotal = (phase, typeStr) => {
         if (phase === 'phase1') {
             if (typeStr === 'Equity') return 2800;
-            if (typeStr === 'Loan') return 28400;
-            return 31200;
+            if (typeStr === 'Loan') return 14400;
+            return 17200;
         }
         if (phase === 'phase2') {
             if (typeStr === 'Equity') return 2800;
-            if (typeStr === 'Loan') return 16200;
-            return 19000;
+            if (typeStr === 'Loan') return 14400;
+            return 17200;
         }
         return 0;
     };
