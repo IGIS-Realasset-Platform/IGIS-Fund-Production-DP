@@ -1,33 +1,43 @@
 import { createClient } from '@supabase/supabase-js';
-import fs from 'fs';
-import path from 'path';
 
-const envPath = path.join(process.cwd(), '.env');
-const envContent = fs.readFileSync(envPath, 'utf8');
+const supabaseUrl = 'https://qgrszltduzblpvpqvkqr.supabase.co';
+const supabaseKey = 'sb_publishable_4xfLdHDF2yMobyRQruJV4A_Q4Fn9m9S';
+const supabase = createClient(supabaseUrl, supabaseKey);
 
-let url = '';
-let key = '';
-
-envContent.split('\n').forEach(line => {
-    if (line.startsWith('VITE_SUPABASE_URL=')) url = line.split('=')[1].trim();
-    if (line.startsWith('VITE_SUPABASE_ANON_KEY=')) key = line.split('=')[1].trim();
-});
-
-const supabase = createClient(url, key);
-
-async function checkLog() {
-    console.log("--- Checking Master DB ---");
-    const { data: masterData } = await supabase.from('iota_stakeholder_master').select('*').like('company_name', '%I.O.IV%');
-    console.log("Master Data:", masterData);
-
-    console.log("\n--- Checking Logs ---");
-    const { data: logsData } = await supabase.from('iota_seoul_logs').select('log_id, raw_text, created_at').like('raw_text', '%ㅇㄹㄹㄷㄷ%');
-    console.log("Logs:", logsData);
-    
-    if (logsData && logsData.length > 0) {
-        console.log("\n--- Checking Log Stakeholders ---");
-        const { data: logShData } = await supabase.from('iota_seoul_log_stakeholders').select('*').eq('log_id', logsData[0].log_id);
-        console.log("Log Stakeholders:", logShData);
+async function checkData() {
+    const { data, error } = await supabase
+        .from('iota_capital_stack')
+        .select('*');
+        
+    if (error) {
+        console.error("Error fetching:", error);
+        return;
     }
+    
+    // Group by vehicle_name
+    const vehicles = {};
+    data.forEach(item => {
+        if (!vehicles[item.vehicle_name]) {
+            vehicles[item.vehicle_name] = [];
+        }
+        vehicles[item.vehicle_name].push(item);
+    });
+    
+    console.log("Found vehicles:", Object.keys(vehicles));
+    console.log("Total records:", data.length);
+    
+    // Check 421 data
+    const d421 = vehicles['421'] || [];
+    console.log("421 records:", d421.length);
+    
+    // Group 421 by tranche
+    const tranches = {};
+    d421.forEach(item => {
+        const t = item.tranche || item.type;
+        if (!tranches[t]) tranches[t] = 0;
+        tranches[t] += (item.amount || 0);
+    });
+    console.log("421 Tranche breakdown (amount):", tranches);
 }
-checkLog();
+
+checkData();

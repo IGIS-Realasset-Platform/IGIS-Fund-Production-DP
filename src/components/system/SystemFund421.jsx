@@ -104,6 +104,90 @@ export default function SystemFund421() {
         };
         window.addEventListener('refetch-data', handleRefetch);
         
+
+    const renderDynamicTableBody = () => {
+        const activePhase = phase421 === 'new' ? 'new' : '2024.10.ver';
+        const data421 = iotaData?.[421]?.[activePhase] || {};
+        if (Object.keys(data421).length === 0) return null;
+
+        const order = {'A종 수익증권':1, 'B종 수익증권':2, 'C종 수익증권':3, 'C-1종 수익증권':4, 'Tr.A':1, 'Tr.B':2, 'Tr.C':3, 'Tr.D':4, 'Equity':5};
+        const sortedTranches = Object.keys(data421).sort((a,b) => (order[a]||99) - (order[b]||99));
+        
+        let grandTotal = 0;
+        sortedTranches.forEach(tName => {
+            data421[tName].forEach(lp => {
+                grandTotal += (lp.rawAmount || 0);
+            });
+        });
+
+        return (
+            <tbody className="text-[13px] text-[#E5E5E5]">
+                {sortedTranches.map(tName => {
+                    const lps = data421[tName] || [];
+                    if (lps.length === 0) return null;
+                    
+                    const sortedLps = [...lps].sort((a,b) => (b.rawAmount || 0) - (a.rawAmount || 0));
+                    const trancheTotal = sortedLps.reduce((sum, lp) => sum + (lp.rawAmount || 0), 0);
+                    
+                    return (
+                        <React.Fragment key={tName}>
+                            {sortedLps.map((lp, idx) => {
+                                const isIgis = lp.name.includes('이지스자산운용');
+                                const isSamsung = lp.name.includes('삼성물산') || lp.name.includes('디에스클러스터') || lp.name.includes('NH투자증권');
+                                
+                                let nameClass = "py-2 px-4 border-r border-[#444]";
+                                let amountClass = "py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]";
+                                let pct1Class = "py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]";
+                                let pct2Class = "py-2 px-4 text-right font-[Inter] tracking-tight";
+                                
+                                if (isIgis) {
+                                    nameClass += " bg-[#5da0e7]/20 text-[#5da0e7] font-bold";
+                                    amountClass += " font-bold text-[#5da0e7] bg-[#5da0e7]/20";
+                                    pct1Class += " bg-[#5da0e7]/20 text-[#5da0e7]";
+                                    pct2Class += " font-bold text-[#5da0e7] bg-[#5da0e7]/20";
+                                } else if (isSamsung) {
+                                    nameClass += " bg-[#cd879c]/20 text-[#cd879c] font-bold";
+                                    amountClass += " font-bold text-[#cd879c] bg-[#cd879c]/20";
+                                    pct1Class += " bg-[#cd879c]/20 text-[#cd879c]";
+                                    pct2Class += " font-bold text-[#cd879c] bg-[#cd879c]/20";
+                                }
+                                
+                                const tranchePct = trancheTotal > 0 ? ((lp.rawAmount / trancheTotal) * 100).toFixed(2) + '%' : '0%';
+                                const totalPct = grandTotal > 0 ? ((lp.rawAmount / grandTotal) * 100).toFixed(2) + '%' : '0%';
+                                
+                                return (
+                                    <tr key={`${tName}-${idx}`} className="border-b border-[#444]">
+                                        {idx === 0 && (
+                                            <td rowSpan={sortedLps.length + 1} className="py-2 px-4 text-center font-bold text-white border-r border-[#444] bg-[#1a1a1c]">
+                                                {tName}
+                                            </td>
+                                        )}
+                                        <td className={nameClass}>{lp.name}</td>
+                                        <td className={amountClass}>{Number(lp.rawAmount).toLocaleString()}</td>
+                                        <td className={pct1Class}>{tranchePct}</td>
+                                        <td className={pct2Class}>{totalPct}</td>
+                                    </tr>
+                                );
+                            })}
+                            <tr className="border-b border-[#444] bg-[#1c1c1e]/50">
+                                <td className="py-2 px-4 font-bold text-center text-[#86868B] border-r border-[#444]">소계</td>
+                                <td className="py-2 px-4 text-right font-bold text-[#A1A1AA] font-[Inter] tracking-tight border-r border-[#444]">{Number(trancheTotal).toLocaleString()}</td>
+                                <td className="py-2 px-4 text-right font-bold text-[#A1A1AA] font-[Inter] tracking-tight border-r border-[#444]">100.00%</td>
+                                <td className="py-2 px-4 text-right font-bold text-[#A1A1AA] font-[Inter] tracking-tight">{grandTotal > 0 ? ((trancheTotal / grandTotal) * 100).toFixed(2) + '%' : '0%'}</td>
+                            </tr>
+                        </React.Fragment>
+                    );
+                })}
+                <tr className="border-b border-[#444] bg-[#1a1a1c]">
+                    <td colSpan={2} className="py-2 px-4 text-center font-bold text-white border-r border-[#444]">합계</td>
+                    <td className="py-2 px-4 text-right font-bold text-[#0A84FF] text-[14.5px] font-[Inter] tracking-tight border-r border-[#444]">{Number(grandTotal).toLocaleString()}</td>
+                    <td className="py-2 px-4 text-right font-bold text-[#0A84FF] text-[14.5px] font-[Inter] tracking-tight border-r border-[#444]">100.00%</td>
+                    <td className="py-2 px-4 text-right font-bold text-[#0A84FF] text-[14.5px] font-[Inter] tracking-tight">100.00%</td>
+                </tr>
+            </tbody>
+        );
+    };
+
         return () => {
             window.removeEventListener('refetch-data', handleRefetch);
             controller.abort();
@@ -415,366 +499,7 @@ export default function SystemFund421() {
                                     <th className="py-2 px-4 text-[#86868B] font-bold text-[13px] text-right w-[120px]">지분율(전체)</th>
                                 </tr>
                             </thead>
-                            {phase421 === 'new' ? (
-<tbody className="text-[13px] text-[#E5E5E5]">
-                                {/* A종 */}
-                                <tr className="border-b border-[#444]">
-                                    <td rowSpan="7" className="py-2 px-4 text-center font-bold text-white border-r border-[#444] bg-[#1a1a1c]">A종 수익증권</td>
-                                    <td className="py-2 px-4 border-r border-[#444] bg-[#5da0e7]/20 text-[#5da0e7] font-bold">이지스자산운용㈜</td>
-                                    <td className="py-2 px-4 text-right font-bold text-[#5da0e7] font-[Inter] tracking-tight border-r border-[#444] bg-[#5da0e7]/20">19,000</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444] bg-[#5da0e7]/20 text-[#5da0e7]">30.65%</td>
-                                    <td className="py-2 px-4 text-right font-bold text-[#5da0e7] font-[Inter] tracking-tight bg-[#5da0e7]/20">5.88%</td>
-                                </tr>
-                                <tr className="border-b border-[#444]">
-                                    <td className="py-2 px-4 border-r border-[#444]">㈜포르테디앤씨</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">3,000</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">4.84%</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight">0.93%</td>
-                                </tr>
-                                <tr className="border-b border-[#444]">
-                                    <td className="py-2 px-4 border-r border-[#444]">대신증권㈜</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">20,000</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">32.26%</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight">6.19%</td>
-                                </tr>
-                                <tr className="border-b border-[#444]">
-                                    <td className="py-2 px-4 border-r border-[#444]">에셀유한회사</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">10,000</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">16.13%</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight">3.10%</td>
-                                </tr>
-                                <tr className="border-b border-[#444]">
-                                    <td className="py-2 px-4 border-r border-[#444]">㈜데피니트파트너스</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">6,000</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">9.68%</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight">1.86%</td>
-                                </tr>
-                                <tr className="border-b border-[#444]">
-                                    <td className="py-2 px-4 border-r border-[#444]">㈜게우트플래닝</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">4,000</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">6.45%</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight">1.24%</td>
-                                </tr>
-                                <tr className="border-b border-[#444] bg-[#1c1c1e]/50">
-                                    <td className="py-2 px-4 font-bold text-center text-[#86868B] border-r border-[#444]">소계</td>
-                                    <td className="py-2 px-4 text-right font-bold text-[#A1A1AA] font-[Inter] tracking-tight border-r border-[#444]">62,000</td>
-                                    <td className="py-2 px-4 text-right font-bold text-[#A1A1AA] font-[Inter] tracking-tight border-r border-[#444]">100.00%</td>
-                                    <td className="py-2 px-4 text-right font-bold text-[#A1A1AA] font-[Inter] tracking-tight">19.20%</td>
-                                </tr>
-
-                                {/* B종 */}
-                                <tr className="border-b border-[#444]">
-                                    <td rowSpan="11" className="py-2 px-4 text-center font-bold text-white border-r border-[#444] bg-[#1a1a1c]">B종 수익증권</td>
-                                    <td className="py-2 px-4 border-r border-[#444] bg-[#5da0e7]/20 text-[#5da0e7] font-bold">이지스자산운용㈜</td>
-                                    <td className="py-2 px-4 text-right font-bold text-[#5da0e7] font-[Inter] tracking-tight border-r border-[#444] bg-[#5da0e7]/20">13,450</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444] bg-[#5da0e7]/20 text-[#5da0e7]">21.69%</td>
-                                    <td className="py-2 px-4 text-right font-bold text-[#5da0e7] font-[Inter] tracking-tight bg-[#5da0e7]/20">4.16%</td>
-                                </tr>
-                                <tr className="border-b border-[#444]">
-                                    <td className="py-2 px-4 border-r border-[#444]">안다인베스트먼트파트너스 유한회사</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">9,500</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">15.32%</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight">2.94%</td>
-                                </tr>
-                                <tr className="border-b border-[#444]">
-                                    <td className="py-2 px-4 border-r border-[#444]">에셀유한회사</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">5,350</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">8.63%</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight">1.66%</td>
-                                </tr>
-                                <tr className="border-b border-[#444]">
-                                    <td className="py-2 px-4 border-r border-[#444]">구봉산업㈜</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">5,000</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">8.06%</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight">1.55%</td>
-                                </tr>
-                                <tr className="border-b border-[#444]">
-                                    <td className="py-2 px-4 border-r border-[#444]">㈜에스제이더블유인터내셔널</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">3,000</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">4.84%</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight">0.93%</td>
-                                </tr>
-                                <tr className="border-b border-[#444]">
-                                    <td className="py-2 px-4 border-r border-[#444] bg-[#3aaab3]/20 text-[#3aaab3] font-bold">㈜케이티에스테이트</td>
-                                    <td className="py-2 px-4 text-right font-bold text-[#3aaab3] font-[Inter] tracking-tight border-r border-[#444] bg-[#3aaab3]/20">21,000</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444] bg-[#3aaab3]/20 text-[#3aaab3]">33.87%</td>
-                                    <td className="py-2 px-4 text-right font-bold text-[#3aaab3] font-[Inter] tracking-tight bg-[#3aaab3]/20">6.50%</td>
-                                </tr>
-                                <tr className="border-b border-[#444]">
-                                    <td className="py-2 px-4 border-r border-[#444]">주식회사 안다자산운용</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">1,500</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">2.42%</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight">0.46%</td>
-                                </tr>
-                                <tr className="border-b border-[#444]">
-                                    <td className="py-2 px-4 border-r border-[#444]">이노베스트 코리아</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">1,200</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">1.94%</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight">0.37%</td>
-                                </tr>
-                                <tr className="border-b border-[#444]">
-                                    <td className="py-2 px-4 border-r border-[#444]">㈜데피니트파트너스</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">1,000</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">1.61%</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight">0.31%</td>
-                                </tr>
-                                <tr className="border-b border-[#444]">
-                                    <td className="py-2 px-4 border-r border-[#444]">㈜디와이시스템</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">1,000</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">1.61%</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight">0.31%</td>
-                                </tr>
-                                <tr className="border-b border-[#444] bg-[#1c1c1e]/50">
-                                    <td className="py-2 px-4 font-bold text-center text-[#86868B] border-r border-[#444]">소계</td>
-                                    <td className="py-2 px-4 text-right font-bold text-[#A1A1AA] font-[Inter] tracking-tight border-r border-[#444]">62,000</td>
-                                    <td className="py-2 px-4 text-right font-bold text-[#A1A1AA] font-[Inter] tracking-tight border-r border-[#444]">100.00%</td>
-                                    <td className="py-2 px-4 text-right font-bold text-[#A1A1AA] font-[Inter] tracking-tight">19.20%</td>
-                                </tr>
-
-                                {/* C종 */}
-                                <tr className="border-b border-[#444]">
-                                    <td rowSpan="9" className="py-2 px-4 text-center font-bold text-white border-r border-[#444] bg-[#1a1a1c]">C종 수익증권</td>
-                                    <td className="py-2 px-4 border-r border-[#444] bg-[#5da0e7]/20 text-[#5da0e7] font-bold">이지스자산운용㈜</td>
-                                    <td className="py-2 px-4 text-right font-bold text-[#5da0e7] font-[Inter] tracking-tight border-r border-[#444] bg-[#5da0e7]/20">10,000</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444] bg-[#5da0e7]/20 text-[#5da0e7]">5.41%</td>
-                                    <td className="py-2 px-4 text-right font-bold text-[#5da0e7] font-[Inter] tracking-tight bg-[#5da0e7]/20">3.10%</td>
-                                </tr>
-                                <tr className="border-b border-[#444]">
-                                    <td className="py-2 px-4 border-r border-[#444] bg-[#cd879c]/20 text-[#cd879c] font-bold">삼성물산</td>
-                                    <td className="py-2 px-4 text-right font-bold text-[#cd879c] font-[Inter] tracking-tight border-r border-[#444] bg-[#cd879c]/20">80,000</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444] bg-[#cd879c]/20 text-[#cd879c]">43.24%</td>
-                                    <td className="py-2 px-4 text-right font-bold text-[#cd879c] font-[Inter] tracking-tight bg-[#cd879c]/20">24.77%</td>
-                                </tr>
-                                <tr className="border-b border-[#444]">
-                                    <td className="py-2 px-4 border-r border-[#444] bg-[#cd879c]/20 text-[#cd879c] font-bold">디에스클러스터 주식회사</td>
-                                    <td className="py-2 px-4 text-right font-bold text-[#cd879c] font-[Inter] tracking-tight border-r border-[#444] bg-[#cd879c]/20">25,000</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444] bg-[#cd879c]/20 text-[#cd879c]">13.51%</td>
-                                    <td className="py-2 px-4 text-right font-bold text-[#cd879c] font-[Inter] tracking-tight bg-[#cd879c]/20">7.74%</td>
-                                </tr>
-                                <tr className="border-b border-[#444]">
-                                    <td className="py-2 px-4 border-r border-[#444] bg-[#cd879c]/20 text-[#cd879c] font-bold">NH투자증권</td>
-                                    <td className="py-2 px-4 text-right font-bold text-[#cd879c] font-[Inter] tracking-tight border-r border-[#444] bg-[#cd879c]/20">37,500</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444] bg-[#cd879c]/20 text-[#cd879c]">20.27%</td>
-                                    <td className="py-2 px-4 text-right font-bold text-[#cd879c] font-[Inter] tracking-tight bg-[#cd879c]/20">11.61%</td>
-                                </tr>
-                                <tr className="border-b border-[#444]">
-                                    <td className="py-2 px-4 border-r border-[#444]">주식회사 투어벨여행사</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">500</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">0.27%</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight">0.15%</td>
-                                </tr>
-                                <tr className="border-b border-[#444]">
-                                    <td className="py-2 px-4 border-r border-[#444]">주식회사 경방</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">10,000</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">5.41%</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight">3.10%</td>
-                                </tr>
-                                <tr className="border-b border-[#444]">
-                                    <td className="py-2 px-4 border-r border-[#444]">주식회사 안다자산운용</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">2,000</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">1.08%</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight">0.62%</td>
-                                </tr>
-                                <tr className="border-b border-[#444]">
-                                    <td className="py-2 px-4 border-r border-[#444]">현대캐피탈</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">20,000</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">10.81%</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight">6.19%</td>
-                                </tr>
-                                <tr className="border-b border-[#444] bg-[#1c1c1e]/50">
-                                    <td className="py-2 px-4 font-bold text-center text-[#86868B] border-r border-[#444]">소계</td>
-                                    <td className="py-2 px-4 text-right font-bold text-[#A1A1AA] font-[Inter] tracking-tight border-r border-[#444]">185,000</td>
-                                    <td className="py-2 px-4 text-right font-bold text-[#A1A1AA] font-[Inter] tracking-tight border-r border-[#444]">100.00%</td>
-                                    <td className="py-2 px-4 text-right font-bold text-[#A1A1AA] font-[Inter] tracking-tight">57.28%</td>
-                                </tr>
-
-                                {/* C-1종 */}
-                                <tr className="border-b border-[#444]">
-                                    <td rowSpan="2" className="py-2 px-4 text-center font-bold text-white border-r border-[#444] bg-[#1a1a1c]">C-1종 수익증권</td>
-                                    <td className="py-2 px-4 border-r border-[#444] bg-[#5da0e7]/20 text-[#5da0e7] font-bold">이지스자산운용㈜</td>
-                                    <td className="py-2 px-4 text-right font-bold text-[#5da0e7] font-[Inter] tracking-tight border-r border-[#444] bg-[#5da0e7]/20">14,000</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444] bg-[#5da0e7]/20 text-[#5da0e7]">100.00%</td>
-                                    <td className="py-2 px-4 text-right font-bold text-[#5da0e7] font-[Inter] tracking-tight bg-[#5da0e7]/20">4.33%</td>
-                                </tr>
-                                <tr className="border-b border-[#444] bg-[#1c1c1e]/50">
-                                    <td className="py-2 px-4 font-bold text-center text-[#86868B] border-r border-[#444]">소계</td>
-                                    <td className="py-2 px-4 text-right font-bold text-[#A1A1AA] font-[Inter] tracking-tight border-r border-[#444]">14,000</td>
-                                    <td className="py-2 px-4 text-right font-bold text-[#A1A1AA] font-[Inter] tracking-tight border-r border-[#444]">100.00%</td>
-                                    <td className="py-2 px-4 text-right font-bold text-[#A1A1AA] font-[Inter] tracking-tight">4.33%</td>
-                                </tr>
-
-                                {/* Total */}
-                                <tr className="bg-[#2A2A2A]">
-                                    <td colSpan="2" className="py-2 px-4 text-center font-bold text-white border-r border-[#444]">합계</td>
-                                    <td className="py-2 px-4 text-right font-bold text-[#0A84FF] text-[14.5px] font-[Inter] tracking-tight border-r border-[#444]">323,000</td>
-                                    <td className="py-2 px-4 text-right font-bold text-[#0A84FF] text-[14.5px] font-[Inter] tracking-tight border-r border-[#444]">100.00%</td>
-                                    <td className="py-2 px-4 text-right font-bold text-[#0A84FF] text-[14.5px] font-[Inter] tracking-tight">100.00%</td>
-                                </tr>
-                            </tbody>
-) : (
-<tbody className="text-[13px] text-[#E5E5E5]">
-                                {/* A종 */}
-                                <tr className="border-b border-[#444]">
-                                    <td rowSpan="7" className="py-2 px-4 text-center font-bold text-white border-r border-[#444] bg-[#1a1a1c]">A종 수익증권</td>
-                                    <td className="py-2 px-4 border-r border-[#444] bg-[#5da0e7]/20 text-[#5da0e7] font-bold">이지스자산운용(주)</td>
-                                    <td className="py-2 px-4 text-right font-bold text-[#5da0e7] font-[Inter] tracking-tight border-r border-[#444] bg-[#5da0e7]/20">19,000</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444] bg-[#5da0e7]/20 text-[#5da0e7]">30.60%</td>
-                                    <td className="py-2 px-4 text-right font-bold text-[#5da0e7] font-[Inter] tracking-tight bg-[#5da0e7]/20">6.10%</td>
-                                </tr>
-                                <tr className="border-b border-[#444]">
-                                    <td className="py-2 px-4 border-r border-[#444]">한중건설(주)</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">13,000</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">21.00%</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight">4.20%</td>
-                                </tr>
-                                <tr className="border-b border-[#444]">
-                                    <td className="py-2 px-4 border-r border-[#444]">에셀유한회사</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">10,000</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">16.10%</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight">3.20%</td>
-                                </tr>
-                                <tr className="border-b border-[#444]">
-                                    <td className="py-2 px-4 border-r border-[#444]">구봉산업(주)</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">10,000</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">16.10%</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight">3.20%</td>
-                                </tr>
-                                <tr className="border-b border-[#444]">
-                                    <td className="py-2 px-4 border-r border-[#444]">(주)데피니트파트너스</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">6,000</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">9.70%</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight">1.90%</td>
-                                </tr>
-                                <tr className="border-b border-[#444]">
-                                    <td className="py-2 px-4 border-r border-[#444]">(주)게우트플래닝</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">4,000</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">6.50%</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight">1.30%</td>
-                                </tr>
-                                <tr className="border-b border-[#444] bg-[#1c1c1e]/50">
-                                    <td className="py-2 px-4 font-bold text-center text-[#86868B] border-r border-[#444]">소계</td>
-                                    <td className="py-2 px-4 text-right font-bold text-[#A1A1AA] font-[Inter] tracking-tight border-r border-[#444]">62,000</td>
-                                    <td className="py-2 px-4 text-right font-bold text-[#A1A1AA] font-[Inter] tracking-tight border-r border-[#444]">100.00%</td>
-                                    <td className="py-2 px-4 text-right font-bold text-[#A1A1AA] font-[Inter] tracking-tight">20.10%</td>
-                                </tr>
-
-                                {/* B종 */}
-                                <tr className="border-b border-[#444]">
-                                    <td rowSpan="11" className="py-2 px-4 text-center font-bold text-white border-r border-[#444] bg-[#1a1a1c]">B종 수익증권</td>
-                                    <td className="py-2 px-4 border-r border-[#444] bg-[#5da0e7]/20 text-[#5da0e7] font-bold">이지스자산운용(주)</td>
-                                    <td className="py-2 px-4 text-right font-bold text-[#5da0e7] font-[Inter] tracking-tight border-r border-[#444] bg-[#5da0e7]/20">13,450</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444] bg-[#5da0e7]/20 text-[#5da0e7]">21.70%</td>
-                                    <td className="py-2 px-4 text-right font-bold text-[#5da0e7] font-[Inter] tracking-tight bg-[#5da0e7]/20">4.40%</td>
-                                </tr>
-                                <tr className="border-b border-[#444]">
-                                    <td className="py-2 px-4 border-r border-[#444]">안다인베스트먼트파트너스</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">9,500</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">15.30%</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight">3.10%</td>
-                                </tr>
-                                <tr className="border-b border-[#444]">
-                                    <td className="py-2 px-4 border-r border-[#444]">에셀유한회사</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">5,350</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">8.60%</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight">1.70%</td>
-                                </tr>
-                                <tr className="border-b border-[#444]">
-                                    <td className="py-2 px-4 border-r border-[#444]">구봉산업(주)</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">5,000</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">8.10%</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight">1.60%</td>
-                                </tr>
-                                <tr className="border-b border-[#444]">
-                                    <td className="py-2 px-4 border-r border-[#444]">(주)에스제이더블유인터내셔널</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">3,000</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">4.80%</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight">1.00%</td>
-                                </tr>
-                                <tr className="border-b border-[#444]">
-                                    <td className="py-2 px-4 border-r border-[#444] bg-[#3aaab3]/20 text-[#3aaab3] font-bold">(주)케이티에스테이트</td>
-                                    <td className="py-2 px-4 text-right font-bold text-[#3aaab3] font-[Inter] tracking-tight border-r border-[#444] bg-[#3aaab3]/20">21,000</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444] bg-[#3aaab3]/20 text-[#3aaab3]">33.90%</td>
-                                    <td className="py-2 px-4 text-right font-bold text-[#3aaab3] font-[Inter] tracking-tight bg-[#3aaab3]/20">6.80%</td>
-                                </tr>
-                                <tr className="border-b border-[#444]">
-                                    <td className="py-2 px-4 border-r border-[#444]">주식회사안다자산운용</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">1,500</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">2.40%</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight">0.50%</td>
-                                </tr>
-                                <tr className="border-b border-[#444]">
-                                    <td className="py-2 px-4 border-r border-[#444]">이노베스트 코리아</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">1,200</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">1.90%</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight">0.40%</td>
-                                </tr>
-                                <tr className="border-b border-[#444]">
-                                    <td className="py-2 px-4 border-r border-[#444]">(주)데피니트파트너스</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">1,000</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">1.60%</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight">0.30%</td>
-                                </tr>
-                                <tr className="border-b border-[#444]">
-                                    <td className="py-2 px-4 border-r border-[#444]">(주)디와이시스템</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">1,000</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">1.60%</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight">0.30%</td>
-                                </tr>
-                                <tr className="border-b border-[#444] bg-[#1c1c1e]/50">
-                                    <td className="py-2 px-4 font-bold text-center text-[#86868B] border-r border-[#444]">소계</td>
-                                    <td className="py-2 px-4 text-right font-bold text-[#A1A1AA] font-[Inter] tracking-tight border-r border-[#444]">62,000</td>
-                                    <td className="py-2 px-4 text-right font-bold text-[#A1A1AA] font-[Inter] tracking-tight border-r border-[#444]">100.00%</td>
-                                    <td className="py-2 px-4 text-right font-bold text-[#A1A1AA] font-[Inter] tracking-tight">20.10%</td>
-                                </tr>
-
-                                {/* C종 */}
-                                <tr className="border-b border-[#444]">
-                                    <td rowSpan="6" className="py-2 px-4 text-center font-bold text-white border-r border-[#444] bg-[#1a1a1c]">C종 수익증권</td>
-                                    <td className="py-2 px-4 border-r border-[#444] bg-[#5da0e7]/20 text-[#5da0e7] font-bold">이지스자산운용(주)</td>
-                                    <td className="py-2 px-4 text-right font-bold text-[#5da0e7] font-[Inter] tracking-tight border-r border-[#444] bg-[#5da0e7]/20">10,000</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444] bg-[#5da0e7]/20 text-[#5da0e7]">5.40%</td>
-                                    <td className="py-2 px-4 text-right font-bold text-[#5da0e7] font-[Inter] tracking-tight bg-[#5da0e7]/20">3.20%</td>
-                                </tr>
-                                <tr className="border-b border-[#444]">
-                                    <td className="py-2 px-4 border-r border-[#444] bg-[#cd879c]/20 text-[#cd879c] font-bold">삼성물산</td>
-                                    <td className="py-2 px-4 text-right font-bold text-[#cd879c] font-[Inter] tracking-tight border-r border-[#444] bg-[#cd879c]/20">80,000</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444] bg-[#cd879c]/20 text-[#cd879c]">43.20%</td>
-                                    <td className="py-2 px-4 text-right font-bold text-[#cd879c] font-[Inter] tracking-tight bg-[#cd879c]/20">25.90%</td>
-                                </tr>
-                                <tr className="border-b border-[#444]">
-                                    <td className="py-2 px-4 border-r border-[#444] bg-[#cd879c]/20 text-[#cd879c] font-bold">디에스클러스터 주식회사</td>
-                                    <td className="py-2 px-4 text-right font-bold text-[#cd879c] font-[Inter] tracking-tight border-r border-[#444] bg-[#cd879c]/20">25,000</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444] bg-[#cd879c]/20 text-[#cd879c]">13.50%</td>
-                                    <td className="py-2 px-4 text-right font-bold text-[#cd879c] font-[Inter] tracking-tight bg-[#cd879c]/20">8.10%</td>
-                                </tr>
-                                <tr className="border-b border-[#444]">
-                                    <td className="py-2 px-4 border-r border-[#444] bg-[#cd879c]/20 text-[#cd879c] font-bold">NH투자증권</td>
-                                    <td className="py-2 px-4 text-right font-bold text-[#cd879c] font-[Inter] tracking-tight border-r border-[#444] bg-[#cd879c]/20">50,000</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444] bg-[#cd879c]/20 text-[#cd879c]">27.00%</td>
-                                    <td className="py-2 px-4 text-right font-bold text-[#cd879c] font-[Inter] tracking-tight bg-[#cd879c]/20">16.20%</td>
-                                </tr>
-                                <tr className="border-b border-[#444]">
-                                    <td className="py-2 px-4 border-r border-[#444]">현대캐피탈</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">20,000</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight border-r border-[#444]">10.80%</td>
-                                    <td className="py-2 px-4 text-right font-[Inter] tracking-tight">6.50%</td>
-                                </tr>
-                                <tr className="border-b border-[#444] bg-[#1c1c1e]/50">
-                                    <td className="py-2 px-4 font-bold text-center text-[#86868B] border-r border-[#444]">소계</td>
-                                    <td className="py-2 px-4 text-right font-bold text-[#A1A1AA] font-[Inter] tracking-tight border-r border-[#444]">185,000</td>
-                                    <td className="py-2 px-4 text-right font-bold text-[#A1A1AA] font-[Inter] tracking-tight border-r border-[#444]">100.00%</td>
-                                    <td className="py-2 px-4 text-right font-bold text-[#A1A1AA] font-[Inter] tracking-tight">59.90%</td>
-                                </tr>
-
-                                {/* Total */}
-                                <tr className="bg-[#2A2A2A]">
-                                    <td colSpan="2" className="py-2 px-4 text-center font-bold text-white border-r border-[#444]">합계</td>
-                                    <td className="py-2 px-4 text-right font-bold text-[#0A84FF] text-[14.5px] font-[Inter] tracking-tight border-r border-[#444]">309,000</td>
-                                    <td className="py-2 px-4 text-right font-bold text-[#0A84FF] text-[14.5px] font-[Inter] tracking-tight border-r border-[#444]">100.00%</td>
-                                    <td className="py-2 px-4 text-right font-bold text-[#0A84FF] text-[14.5px] font-[Inter] tracking-tight">100.00%</td>
-                                </tr>
-                            </tbody>
-)}
+                            {renderDynamicTableBody()}
                         </table>
                     </div>
                 )}
