@@ -4,12 +4,18 @@ import { useAuth } from '../../../context/AuthContext';
 import weeklyReportData from './logisticsWeeklyReportData.json';
 import homeData from './logisticsHomeData.json';
 import assetOptionsData from './logisticsAssetOptionsData.json';
+import companyOptionsData from './logisticsCompanyOptionsData.json';
 
 const assetPayloadModules = import.meta.glob('./logisticsAssetData/*.json', { eager: true });
 const ASSET_PAYLOADS = Object.fromEntries(Object.values(assetPayloadModules)
   .map((module) => module.default)
   .filter(Boolean)
   .map((payload) => [payload.overview?.assetId || payload.meta?.selection?.assetId, payload]));
+const companyPayloadModules = import.meta.glob('./logisticsCompanyData/*.json', { eager: true });
+const COMPANY_PAYLOADS = Object.fromEntries(Object.values(companyPayloadModules)
+  .map((module) => module.default)
+  .filter(Boolean)
+  .map((payload) => [payload.meta?.selection?.tenantId || payload.filters?.selectedTenantId || payload.profile?.tenantId, payload]));
 
 const MODULES = [
   { id: 'weekly', label: 'Weekly', source: '주간 업무' },
@@ -106,7 +112,8 @@ function cleanDisplay(value, fallback = '-') {
 }
 
 function formatNumber(value) {
-  const numeric = Number(value || 0);
+  if (value === undefined || value === null || value === '') return '-';
+  const numeric = Number(value);
   if (!Number.isFinite(numeric)) return cleanDisplay(value);
   return new Intl.NumberFormat('ko-KR').format(numeric);
 }
@@ -120,25 +127,29 @@ function sumRows(rows, picker) {
 }
 
 function formatPercent(value) {
-  const numeric = Number(value || 0);
+  if (value === undefined || value === null || value === '') return '-';
+  const numeric = Number(value);
   if (!Number.isFinite(numeric)) return '-';
   return `${(numeric * 100).toFixed(1)}%`;
 }
 
 function formatArea(value) {
-  const numeric = Number(value || 0);
+  if (value === undefined || value === null || value === '') return '-';
+  const numeric = Number(value);
   if (!Number.isFinite(numeric)) return '-';
   return `${formatNumber(Math.round(numeric))}㎡`;
 }
 
 function formatPy(value) {
-  const numeric = Number(value || 0);
+  if (value === undefined || value === null || value === '') return '-';
+  const numeric = Number(value);
   if (!Number.isFinite(numeric)) return '-';
   return `${formatNumber(Math.round(numeric / 3.305785))}평`;
 }
 
 function formatCurrency(value) {
-  const numeric = Number(value || 0);
+  if (value === undefined || value === null || value === '') return '-';
+  const numeric = Number(value);
   if (!Number.isFinite(numeric)) return '-';
   if (Math.abs(numeric) >= 100000000) return `${formatNumber(Math.round(numeric / 100000000))}억`;
   if (Math.abs(numeric) >= 10000) return `${formatNumber(Math.round(numeric / 10000))}만`;
@@ -153,6 +164,7 @@ function formatMetric(value, type) {
   if (type === 'area') return formatArea(value);
   if (type === 'currency') return formatCurrency(value);
   if (type === 'percent') return formatPercent(value);
+  if (type === 'date') return formatDate(value);
   return formatNumber(value);
 }
 
@@ -660,6 +672,25 @@ function PortfolioMapPlot({ points }) {
             mapRef.current.setCenter(validPoints.length > 1 ? bounds.getCenter() : latLngs[0]);
           }
         }, delay));
+        const authCheckStartedAt = Date.now();
+        const authFailureInterval = window.setInterval(() => {
+          if (disposed || !containerRef.current) return;
+          const mapText = containerRef.current.textContent || '';
+          const hasAuthFailure = /인증.*실패|Open API 인증|unauthorized|authentication/i.test(mapText);
+          const loadedTileCount = containerRef.current.querySelectorAll('img').length;
+          if (!hasAuthFailure && Date.now() - authCheckStartedAt < 2500) return;
+          if (!hasAuthFailure && loadedTileCount > 1) return;
+          window.clearInterval(authFailureInterval);
+          try {
+            if (mapRef.current && typeof mapRef.current.destroy === 'function') mapRef.current.destroy();
+          } catch {
+            // Naver SDK can throw while tearing down an unauthorized map shell.
+          }
+          mapRef.current = null;
+          containerRef.current.innerHTML = '';
+          mountLeaflet();
+        }, 500);
+        window.setTimeout(() => window.clearInterval(authFailureInterval), 10000);
       })
       .catch(() => {
         if (!disposed) mountLeaflet();
@@ -668,8 +699,12 @@ function PortfolioMapPlot({ points }) {
     return () => {
       disposed = true;
       if (mapRef.current) {
-        if (typeof mapRef.current.destroy === 'function') mapRef.current.destroy();
-        if (typeof mapRef.current.remove === 'function') mapRef.current.remove();
+        try {
+          if (typeof mapRef.current.destroy === 'function') mapRef.current.destroy();
+          if (typeof mapRef.current.remove === 'function') mapRef.current.remove();
+        } catch {
+          // External map SDK cleanup should not break route changes.
+        }
         mapRef.current = null;
       }
     };
@@ -990,6 +1025,245 @@ function normalizeAssetPayload(payload) {
   };
 }
 
+function buildSpaceLabel(row) {
+  const floors = Array.isArray(row.floorLabels) ? row.floorLabels.join(', ') : row.floorLabel;
+  const details = Array.isArray(row.detailAreaLabels) ? row.detailAreaLabels.join(', ') : row.detailAreaLabel;
+  return [floors, details].filter(Boolean).join(' / ') || '-';
+}
+
+function normalizeCompanyPayload(payload) {
+  const sourceRows = payload.rows || [];
+  const rowByAssetName = new Map(sourceRows.map((row) => [row.assetName, row]));
+  const leasedAssets = (payload.leasedAssets || payload.profile?.leasedAssets || []).map((row) => {
+    const matched = rowByAssetName.get(row.assetName) || {};
+    const asset = matched.asset || {};
+    const leasedAreaSqm = firstDefined(row.leasedAreaSqm, matched.leasedAreaSqm, matched.currentLeasedAreaSqm);
+    const monthlyRentTotal = firstDefined(row.monthlyRentTotal, matched.currentMonthlyRentTotal, matched.monthlyRentTotal);
+    const monthlyMfTotal = firstDefined(row.monthlyMfTotal, matched.currentMonthlyMfTotal, matched.monthlyMfTotal);
+    const derivedMonthlyCost = monthlyRentTotal != null || monthlyMfTotal != null ? Number(monthlyRentTotal || 0) + Number(monthlyMfTotal || 0) : null;
+    const monthlyCostTotal = firstDefined(row.monthlyCostTotal, matched.currentMonthlyCostTotal, matched.monthlyCostTotal, derivedMonthlyCost);
+    return {
+      ...matched,
+      ...row,
+      assetId: firstDefined(matched.assetId, matched.assetCode, asset.assetCode, row.assetId, row.assetCode, row.assetName),
+      assetName: row.assetName || matched.assetName || '-',
+      address: firstDefined(asset.standardizedAddress, asset.lookupAddress, row.address),
+      latitude: firstDefined(asset.latitude, row.latitude),
+      longitude: firstDefined(asset.longitude, row.longitude),
+      leasedAreaSqm,
+      leasedAreaPy: firstDefined(row.leasedAreaPy, Number(leasedAreaSqm || 0) / 3.305785),
+      monthlyRentTotal,
+      monthlyMfTotal,
+      monthlyCostTotal,
+      latestExpiry: firstDefined(row.latestExpiry, matched.currentEndDate, matched.latestExpiry),
+      spaceLabel: buildSpaceLabel({ ...matched, ...row }),
+    };
+  });
+  const exposureSource = payload.operations?.exposure?.byAsset || leasedAssets.map((row) => ({
+    assetName: row.assetName,
+    leasedAreaSqm: row.leasedAreaSqm,
+    monthlyRentTotal: row.monthlyRentTotal,
+    monthlyMfTotal: row.monthlyMfTotal,
+    monthlyCostTotal: row.monthlyCostTotal,
+  }));
+  const mapPoints = (payload.mapPoints || leasedAssets).map((row) => ({
+    assetId: firstDefined(row.assetId, row.assetCode, row.assetName),
+    assetName: row.assetName || row.label || '-',
+    address: firstDefined(row.address, row.standardizedAddress),
+    latitude: row.latitude,
+    longitude: row.longitude,
+  }));
+  return {
+    ...payload,
+    normalizedLeasedAssets: leasedAssets,
+    exposureRows: exposureSource.map((row) => ({
+      ...row,
+      label: row.assetName || row.label || '-',
+      monthlyCostTotal: firstDefined(row.monthlyCostTotal, row.monthlyCombinedTotal),
+    })),
+    normalizedMapPoints: mapPoints,
+  };
+}
+
+function companyDartRows(profile = {}, financials = {}) {
+  const company = profile.company || {};
+  return [
+    ['표준기업명', firstDefined(company.tenantMasterName, profile.tenantMasterName, '-')],
+    ['사업자번호', firstDefined(company.businessRegistrationNo, profile.businessRegistrationNo, '-')],
+    ['법인등록번호', company.corpRegistrationNo || '-'],
+    ['DART corp code', company.dartCorpCode || '-'],
+    ['매칭 상태', company.matchStatus || '-'],
+    ['업종', company.industryCode || '-'],
+    ['본점소재지', company.headquartersAddress || '-'],
+    ['상장여부', company.listedYn || '-'],
+    ['그룹명', company.groupName || '-'],
+    ['최근 재무제표 연도', company.latestFinancialYear || '-'],
+    ['재무 구분', company.financialStatementType || '-'],
+    ['사용한 보고서', company.latestReportName || '-'],
+    ['접수번호', company.latestReceiptNo || '-'],
+    ['최근 매출', formatCurrency(firstDefined(financials.revenue, company.latestRevenue))],
+    ['영업이익', formatCurrency(firstDefined(financials.operatingIncome, company.latestOperatingIncome))],
+    ['부채비율', firstDefined(financials.debtRatio, company.latestDebtRatio) == null ? '-' : `${formatNumber(firstDefined(financials.debtRatio, company.latestDebtRatio))}%`],
+    ['직원수', firstDefined(financials.employeeCount, company.latestEmployeeCount) == null ? '-' : `${formatNumber(firstDefined(financials.employeeCount, company.latestEmployeeCount))}명`],
+    ['DART 적재일', formatDate(firstDefined(financials.fetchedAt, company.fetchedAt))],
+    ['검토 메모', firstDefined(financials.reviewNote, company.reviewNote, financials.emptyStateMessage, '-')],
+  ];
+}
+
+function CompanyDashboard() {
+  const defaultTenantId = companyOptionsData[0]?.tenantId || Object.keys(COMPANY_PAYLOADS)[0];
+  const [selectedTenantId, setSelectedTenantId] = useState(defaultTenantId);
+  const [exposureMode, setExposureMode] = useState('cost');
+  const [modal, setModal] = useState(null);
+  const rawPayload = COMPANY_PAYLOADS[selectedTenantId] || COMPANY_PAYLOADS[defaultTenantId] || Object.values(COMPANY_PAYLOADS)[0];
+  const company = useMemo(() => normalizeCompanyPayload(rawPayload || {}), [rawPayload]);
+  const profile = company.profile || {};
+  const financials = company.financials || {};
+  const leasedAssets = company.normalizedLeasedAssets || [];
+  const mapPoints = company.normalizedMapPoints || [];
+  const mappedPointCount = mapPoints.filter((row) => Number.isFinite(Number(row.latitude)) && Number.isFinite(Number(row.longitude))).length;
+  const kpiLookup = Object.fromEntries((company.kpis || []).map((item) => [item.key, item]));
+  const kpis = [
+    { key: 'asset_count', label: '임차 자산 수', value: profile.assetCount, valueType: 'number' },
+    { key: 'leased_area', label: '총 임차면적', value: profile.leasedAreaSqm, valueType: 'area' },
+    { key: 'monthly_total_cost', label: '월 임관리비 총액', value: profile.monthlyCostTotal, valueType: 'currency' },
+    { key: 'monthly_rent_total', label: '월 임대료 총액', value: profile.monthlyRentTotal, valueType: 'currency' },
+    { key: 'monthly_mf_total', label: '월 관리비 총액', value: profile.monthlyMfTotal, valueType: 'currency' },
+  ].map((item) => ({ ...item, ...(kpiLookup[item.key] || {}) }));
+  const exposureRows = (company.exposureRows || []).map((row) => ({
+    ...row,
+    value: exposureMode === 'area' ? row.leasedAreaSqm : firstDefined(row.monthlyCostTotal, row.monthlyCombinedTotal),
+  })).sort((a, b) => Number(b.value || 0) - Number(a.value || 0));
+  const leasedAssetHeaders = ['자산명', '층/세부구역', '임대면적(㎡)', '임대면적(평)', '월 임대료', '월 관리비', '월 임관리비', '현재 계약만기일'];
+  const leasedAssetRows = leasedAssets.map((row) => [
+    row.assetName,
+    row.spaceLabel,
+    formatArea(row.leasedAreaSqm),
+    formatNumber(row.leasedAreaPy),
+    formatCurrency(row.monthlyRentTotal),
+    formatCurrency(row.monthlyMfTotal),
+    formatCurrency(row.monthlyCostTotal),
+    formatDate(row.latestExpiry),
+  ]);
+  const exposureTableRows = exposureRows.map((row) => [
+    row.assetName || row.label,
+    formatArea(row.leasedAreaSqm),
+    formatCurrency(row.monthlyRentTotal),
+    formatCurrency(row.monthlyMfTotal),
+    formatCurrency(row.monthlyCostTotal),
+  ]);
+  const openTableModal = (title, headers, rows) => setModal({ title, headers, rows });
+  const openAssetExposureDetail = (row) => setModal({
+    title: `자산 노출 상세 · ${row.assetName || '-'}`,
+    headers: ['항목', '내용'],
+    rows: [
+      ['자산명', row.assetName || '-'],
+      ['층/세부구역', row.spaceLabel || '-'],
+      ['임대면적', formatArea(row.leasedAreaSqm)],
+      ['임대면적(평)', formatNumber(row.leasedAreaPy)],
+      ['월 임대료', formatCurrency(row.monthlyRentTotal)],
+      ['월 관리비', formatCurrency(row.monthlyMfTotal)],
+      ['월 임관리비', formatCurrency(row.monthlyCostTotal)],
+      ['현재 계약만기일', formatDate(row.latestExpiry)],
+      ['주소', row.address || '-'],
+    ],
+  });
+  const openKpiModal = (item) => {
+    if (item.key === 'asset_count') {
+      openTableModal('임차 자산 수', ['자산명', '층/세부구역', '임대면적', '월 임관리비', '최근 만기일'], leasedAssets.map((row) => [
+        row.assetName,
+        row.spaceLabel,
+        formatArea(row.leasedAreaSqm),
+        formatCurrency(row.monthlyCostTotal),
+        formatDate(row.latestExpiry),
+      ]));
+      return;
+    }
+    openTableModal(item.label, ['항목', '내용'], [
+      ['기업명', profile.tenantMasterName || '-'],
+      ['값', formatMetric(item.value, item.valueType)],
+      ['DART 연결', financials.dartLinked ? '연결됨' : '미연결'],
+      ['상태', item.status || '-'],
+    ]);
+  };
+
+  return (
+    <div className="space-y-6">
+      <LogisticsModal modal={modal} onClose={() => setModal(null)} />
+      <section className="rounded-[20px] border border-[#333333] bg-[#252524] p-5">
+        <div className="flex flex-col xl:flex-row xl:items-start xl:justify-between gap-5">
+          <div>
+            <div className="text-[12px] text-[#86868B] font-semibold">기업 개요</div>
+            <h3 className="text-[26px] text-white font-semibold mt-1">{profile.tenantMasterName || '기업'}</h3>
+            <p className="text-[13px] text-[#A1A1AA] mt-2">{profile.businessRegistrationNo || '사업자번호 미입력'} · {financials.dartLinked ? 'DART 연결됨' : 'DART 미연결'}</p>
+          </div>
+          <select value={selectedTenantId} onChange={(event) => setSelectedTenantId(event.target.value)} className="h-10 min-w-[280px] rounded-[8px] border border-[#3A3A3C] bg-[#1F1F1E] px-3 text-[13px] text-white">
+            {companyOptionsData.map((item) => <option key={item.tenantId} value={item.tenantId}>{item.tenantMasterName}</option>)}
+          </select>
+        </div>
+      </section>
+
+      <section className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-5 gap-3">
+        {kpis.map((item) => (
+          <button key={item.key || item.label} type="button" onClick={() => openKpiModal(item)} className="text-left rounded-[14px] border border-[#333333] bg-[#252524] px-4 py-4 hover:bg-[#2A2A29]">
+            <div className="text-[12px] text-[#86868B] font-semibold">{item.label}</div>
+            <div className="text-[21px] text-white font-semibold mt-2">{formatMetric(item.value, item.valueType)}</div>
+          </button>
+        ))}
+      </section>
+
+      <section className="grid grid-cols-1 md:grid-cols-5 gap-3">
+        {[
+          ['대상', profile.tenantMasterName || '-'],
+          ['기준시점', company.basisDisplay?.asOf || company.generatedAt || '-'],
+          ['계약/금액', 'DB_일반 + DB_히스토리'],
+          ['DART', financials.fetchedAt ? formatDate(financials.fetchedAt) : (financials.dartLinked ? '연결됨' : '미연결')],
+          ['지도', `${formatNumber(mappedPointCount)} / ${formatNumber(mapPoints.length)}개 좌표`],
+        ].map(([label, value]) => (
+          <div key={label} className="rounded-[14px] border border-[#333333] bg-[#1F1F1E] px-4 py-4">
+            <div className="text-[12px] text-[#86868B] font-semibold">{label}</div>
+            <div className="text-[16px] text-white font-semibold mt-2">{value}</div>
+          </div>
+        ))}
+      </section>
+
+      <section className="rounded-[20px] border border-[#333333] bg-[#252524] p-5">
+        <SectionHeader eyebrow="LEASED ASSETS" title="임차 자산 현황" right={<button type="button" onClick={() => openTableModal('임차 자산 현황', leasedAssetHeaders, leasedAssetRows)} className="h-9 px-3 rounded-[8px] bg-[#30302F] text-white text-[13px] font-semibold hover:bg-[#3A3A3A]">원본 표 보기</button>} />
+        <DataTable headers={leasedAssetHeaders} rows={leasedAssetRows} onRowClick={(index) => openAssetExposureDetail(leasedAssets[index])} compact />
+      </section>
+
+      <section className="grid grid-cols-1 xl:grid-cols-[1fr_420px] gap-5">
+        <div className="space-y-5">
+          <div className="rounded-[20px] border border-[#333333] bg-[#252524] p-5">
+            <SectionHeader eyebrow="MAP" title="회사별 임차 자산 지도" right={<button type="button" onClick={() => setModal({ title: '포트폴리오 위치', content: <div className="space-y-4"><PortfolioMapPlot points={mapPoints} /><DataTable headers={['자산명', '주소', '좌표']} rows={mapPoints.map((row) => [row.assetName, row.address || '-', `${row.latitude || '-'}, ${row.longitude || '-'}`])} compact /></div> })} className="h-9 px-3 rounded-[8px] bg-white text-[#1F1F1E] text-[13px] font-semibold hover:bg-[#E5E5E5]">지도 크게 보기</button>} />
+            <PortfolioMapPlot points={mapPoints} />
+          </div>
+          <div className="rounded-[20px] border border-[#333333] bg-[#252524] p-5">
+            <SectionHeader
+              eyebrow="EXPOSURE"
+              title="자산별 노출도"
+              right={(
+                <div className="flex flex-wrap gap-2">
+                  <button type="button" onClick={() => setExposureMode('cost')} className={`h-9 px-3 rounded-[8px] text-[13px] font-semibold ${exposureMode === 'cost' ? 'bg-white text-[#1F1F1E]' : 'bg-[#30302F] text-white hover:bg-[#3A3A3A]'}`}>임관리비 총합 기준</button>
+                  <button type="button" onClick={() => setExposureMode('area')} className={`h-9 px-3 rounded-[8px] text-[13px] font-semibold ${exposureMode === 'area' ? 'bg-white text-[#1F1F1E]' : 'bg-[#30302F] text-white hover:bg-[#3A3A3A]'}`}>임대면적 기준</button>
+                  <button type="button" onClick={() => openTableModal('자산별 노출도', ['자산명', '임대면적', '월 임대료', '월 관리비', '월 임관리비'], exposureTableRows)} className="h-9 px-3 rounded-[8px] bg-[#30302F] text-white text-[13px] font-semibold hover:bg-[#3A3A3A]">원본 표 보기</button>
+                </div>
+              )}
+            />
+            <SimpleBarChart rows={exposureRows} labelKey="label" valueKey="value" valueType={exposureMode === 'area' ? 'area' : 'currency'} onClick={() => openTableModal('자산별 노출도', ['자산명', '임대면적', '월 임대료', '월 관리비', '월 임관리비'], exposureTableRows)} />
+          </div>
+        </div>
+
+        <div className="rounded-[20px] border border-[#333333] bg-[#252524] p-5">
+          <SectionHeader eyebrow="DART" title="DART 상세 정보" />
+          <DataTable headers={['항목', '값']} rows={companyDartRows(profile, financials)} compact />
+          {financials.emptyStateMessage ? <div className="mt-4 rounded-[12px] border border-[#3A3A3C] bg-[#1F1F1E] p-3 text-[13px] text-[#C7C7CC]">{financials.emptyStateMessage}</div> : null}
+        </div>
+      </section>
+    </div>
+  );
+}
+
 function AssetDashboard() {
   const defaultAssetId = assetOptionsData[0]?.assetId || Object.keys(ASSET_PAYLOADS)[0];
   const [selectedAssetId, setSelectedAssetId] = useState(defaultAssetId);
@@ -1267,7 +1541,7 @@ function DashboardShell({ activeModule }) {
         })}
       </div>
 
-      {selected.id === 'weekly' ? <WeeklyDashboard /> : selected.id === 'home' ? <HomeDashboard /> : selected.id === 'asset' ? <AssetDashboard /> : (
+      {selected.id === 'weekly' ? <WeeklyDashboard /> : selected.id === 'home' ? <HomeDashboard /> : selected.id === 'asset' ? <AssetDashboard /> : selected.id === 'company' ? <CompanyDashboard /> : (
       <section className="border border-[#333333] rounded-[20px] bg-[#252524] overflow-hidden">
         <div className="px-6 py-5 border-b border-[#333333] flex items-center justify-between gap-4">
           <div>
