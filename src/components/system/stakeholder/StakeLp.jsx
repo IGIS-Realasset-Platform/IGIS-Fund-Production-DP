@@ -15,10 +15,12 @@ const getTrancheColor = (trancheName) => {
 
 const formatTrancheName = (name) => {
     if (!name) return '';
-    if (name.includes('A종 수익증권')) return 'Tr.A';
-    if (name.includes('B종 수익증권')) return 'Tr.B';
-    if (name.includes('C종 수익증권')) return 'Tr.C';
-    if (name.includes('D종 수익증권')) return 'Tr.D';
+    if (name.includes('A종 수익증권')) return 'A종';
+    if (name.includes('B종 수익증권')) return 'B종';
+    if (name.includes('C종 수익증권')) return 'C종';
+    if (name.includes('D종 수익증권')) return 'D종';
+    if (name === 'Tr.A-2') return 'Tr.A-1'; // Mapping as per VehicleIntegrated
+    if (name === 'Tr.B-2') return 'Tr.B-1'; // Mapping as per VehicleIntegrated
     return name;
 };
 
@@ -215,21 +217,10 @@ const AccordionContent = ({ instName, contactsCache, metaCache, isLast, isMaster
     );
 };
 
-const TransparentTable = ({ title, items, bridgeItems, refiItems, isLoan, vehicle, expandedRow, toggleRow, contactsCache, metaCache }) => {
+const TransparentTable = ({ title, items = [], isLoan, vehicle, expandedRow, toggleRow, contactsCache, metaCache }) => {
     const [showAll, setShowAll] = useState(false);
-    const [activePhase, setActivePhase] = useState('refi');
     
-    const hasToggle = isLoan && bridgeItems && refiItems;
-    let currentItems = items;
-    if (hasToggle) {
-        currentItems = activePhase === 'refi' ? refiItems : bridgeItems;
-    }
-    
-    const displayItems = showAll ? currentItems : currentItems.slice(0, 5);
-
-    const bridgeLabel = "기존 브릿지 대출";
-    const refiLabel = vehicle === 427 ? "본PF 1차" : "금번 리파이낸싱";
-    const refiDate = vehicle === 427 ? "2025.05" : "2026.05.24";
+    const displayItems = showAll ? items : items.slice(0, 5);
 
     return (
         <div className="mb-10">
@@ -240,35 +231,12 @@ const TransparentTable = ({ title, items, bridgeItems, refiItems, isLoan, vehicl
                 </h3>
                 
                 <div className="flex items-center gap-[10px]">
-                    {/* Toggle Buttons */}
-                    {hasToggle && (
-                        <div className="flex bg-[#1a1a1a] rounded-[10px] p-[3px] border border-[#2c2c2e] relative items-center h-[34px]">
-                            <button
-                                onClick={() => { setActivePhase('bridge'); setShowAll(false); }}
-                                className={`cursor-pointer px-4 h-full text-[13px] rounded-[7px] transition-colors ${activePhase === 'bridge' ? 'bg-[#2c2c2e] text-white font-medium shadow-sm' : 'text-[#86868B] hover:text-white'}`}
-                            >
-                                {bridgeLabel}
-                            </button>
-                            <div className="relative h-full flex">
-                                <div className="absolute -top-[21px] left-1/2 -translate-x-1/2 text-[12px] text-[#86868B] font-medium tracking-tight whitespace-nowrap">
-                                    {refiDate}
-                                </div>
-                                <button
-                                    onClick={() => { setActivePhase('refi'); setShowAll(false); }}
-                                    className={`cursor-pointer px-4 h-full text-[13px] rounded-[7px] transition-colors ${activePhase === 'refi' ? 'bg-[#2c2c2e] text-[#0A84FF] font-medium shadow-sm' : 'text-[#86868B] hover:text-white'}`}
-                                >
-                                    {refiLabel}
-                                </button>
-                            </div>
-                        </div>
-                    )}
-                    
                     {/* View All Button */}
                     <button 
-                        onClick={() => currentItems.length > 5 && setShowAll(!showAll)}
-                        disabled={currentItems.length <= 5}
+                        onClick={() => items.length > 5 && setShowAll(!showAll)}
+                        disabled={items.length <= 5}
                         className={`text-[13px] font-medium flex items-center justify-center w-[72px] h-[34px] rounded-[10px] border border-[#2c2c2e] transition-colors ${
-                            currentItems.length <= 5 
+                            items.length <= 5 
                                 ? 'text-[#555] bg-transparent cursor-default' 
                                 : 'cursor-pointer text-[#86868B] hover:text-white bg-[#1a1a1a] hover:bg-[#2c2c2e]'
                         }`}
@@ -328,6 +296,8 @@ export default function StakeLp() {
     const [metaCache, setMetaCache] = useState({});
     const [igisInvestmentsData, setIgisInvestmentsData] = useState({});
     const [displayCount, setDisplayCount] = useState(50);
+    const [phase816, setPhase816] = useState('phase5');
+    const [phase427, setPhase427] = useState('phase4');
 
     // Fetch master DB for "Other Investors" and IOTA Stack
     useEffect(() => {
@@ -353,50 +323,82 @@ export default function StakeLp() {
                 }
                 
                 let parsedIota = {
-                    427: { equity: [], loan: [], bridgeLoan: [], refiLoan: [] },
-                    816: { equity: [], loan: [], bridgeLoan: [], refiLoan: [] },
-                    421: { equity: [], loan: [] }
+                    427: { Phase1: { equity: [], loan: [] }, Phase2: { equity: [], loan: [] }, Bridge: { equity: [], loan: [] }, Refinancing: { equity: [], loan: [] } },
+                    816: { Phase1: { equity: [], loan: [] }, Phase2: { equity: [], loan: [] }, Phase3: { equity: [], loan: [] }, Bridge: { equity: [], loan: [] }, Refinancing: { equity: [], loan: [] } },
+                    421: { Current: { equity: [], loan: [] }, New: { equity: [], loan: [] } }
                 };
 
                 if (stackData) {
                     stackData.forEach(item => {
                         const v = parseInt(item.vehicle_name);
-                        let type = item.tranche_type === 'Equity' ? 'equity' : 'loan';
+                        let p = item.phase;
+                        // Map specific phases to internal keys for 421 if needed, but for 427/816 they use 'Bridge', 'Refinancing'
                         
-                        // Hardcode override: 816호의 이지스421호(2400억)는 주주대여금이므로 Equity로 처리
+                        let tranche = item.tranche_name;
+                        let type = item.tranche_type;
+                        let sortOrder = 0;
+
+                        // 816 이지스421호 override
                         if (v === 816 && item.institution_name === '이지스421호') {
-                            type = 'equity';
+                            type = 'Equity';
                         }
-                        
+
+                        // 427 & 816 special rule: merge equity types and sort
+                        if ((v === 427 || v === 816) && (tranche === '1종 종류주' || tranche === '보통주' || tranche === '주주대여금' || tranche.includes('종류주'))) {
+                            type = 'Equity';
+                            if (tranche === '1종 종류주' || tranche.includes('종류주')) sortOrder = 0;
+                            else if (tranche === '보통주') sortOrder = 1;
+                            else if (tranche === '주주대여금') sortOrder = 2;
+                            else sortOrder = 3;
+                        } else if (v === 427 || v === 816) {
+                            if (tranche.includes('Tr.A')) sortOrder = 4;
+                            else if (tranche.includes('Tr.B')) sortOrder = 5;
+                            else if (tranche.includes('Tr.C')) sortOrder = 6;
+                            else if (tranche.includes('Tr.D')) sortOrder = 7;
+                        }
+
+                        // VehicleIntegrated Loan mergers
+                        if ((v === 427 || v === 816) && tranche === 'Tr.A-2') {
+                            tranche = 'Tr.A-1';
+                            sortOrder = 4.1;
+                        }
+                        if (v === 427 && tranche === 'Tr.B-2') {
+                            tranche = 'Tr.B-1';
+                            sortOrder = 5.1;
+                        }
+
                         const obj = {
                             name: item.institution_name,
                             amount: item.amount_krw_100m.toLocaleString(),
                             rawAmount: item.amount_krw_100m,
-                            tranche: formatTrancheName(item.tranche_name)
+                            tranche: formatTrancheName(tranche),
+                            sortOrder: sortOrder
                         };
 
-                        if (type === 'equity') {
-                            if (v === 816 && item.phase !== 'Refinancing') return;
-                            if (v === 427 && item.phase !== 'Refinancing') return;
-                            if (parsedIota[v] && parsedIota[v].equity) parsedIota[v].equity.push(obj);
+                        if (!parsedIota[v]) return;
+                        // Use correct phase key for 421
+                        if (v === 421) {
+                            p = p === 'current' || p === '2024.10.ver' ? 'Current' : 'New';
+                        }
+                        if (!parsedIota[v][p]) return; // Avoid crashing on unknown phases
+
+                        if (type === 'Equity' || type === 'equity') {
+                            parsedIota[v][p].equity.push(obj);
                         } else {
-                            if (v === 427 || v === 816) {
-                                if (item.phase === 'Bridge') parsedIota[v].bridgeLoan.push(obj);
-                                if (item.phase === 'Refinancing') parsedIota[v].refiLoan.push(obj);
-                            } else {
-                                if (parsedIota[v] && parsedIota[v].loan) parsedIota[v].loan.push(obj);
-                            }
+                            parsedIota[v][p].loan.push(obj);
                         }
                     });
                     
-                    // Sort descending by amount
-                    [427, 816].forEach(v => {
-                        ['equity', 'bridgeLoan', 'refiLoan'].forEach(t => {
-                            parsedIota[v][t].sort((a, b) => b.rawAmount - a.rawAmount);
+                    // Sort descending by amount but respect sortOrder
+                    [427, 816, 421].forEach(v => {
+                        Object.keys(parsedIota[v]).forEach(p => {
+                            ['equity', 'loan'].forEach(t => {
+                                parsedIota[v][p][t].sort((a, b) => {
+                                    if (a.sortOrder !== b.sortOrder) return a.sortOrder - b.sortOrder;
+                                    return b.rawAmount - a.rawAmount;
+                                });
+                            });
                         });
-                    });
-                    ['equity', 'loan'].forEach(t => {
-                        parsedIota[421][t].sort((a, b) => b.rawAmount - a.rawAmount);
                     });
                 }
                 setIotaData(parsedIota);
@@ -438,11 +440,17 @@ export default function StakeLp() {
                     setIgisInvestmentsData(igisInv);
 
                     // List of IOTA names to exclude from "Other"
-                    const iotaNames = new Set([
-                        ...parsedIota[427].equity.map(i=>i.name), ...parsedIota[427].bridgeLoan.map(i=>i.name), ...parsedIota[427].refiLoan.map(i=>i.name),
-                        ...parsedIota[816].equity.map(i=>i.name), ...parsedIota[816].bridgeLoan.map(i=>i.name), ...parsedIota[816].refiLoan.map(i=>i.name),
-                        ...parsedIota[421].equity.map(i=>i.name), ...parsedIota[421].loan.map(i=>i.name)
-                    ]);
+                    const getIotaNames = () => {
+                        let names = new Set();
+                        [427, 816, 421].forEach(v => {
+                            Object.values(parsedIota[v]).forEach(phaseObj => {
+                                phaseObj.equity.forEach(i => names.add(i.name));
+                                phaseObj.loan.forEach(i => names.add(i.name));
+                            });
+                        });
+                        return names;
+                    };
+                    const iotaNames = getIotaNames();
 
                     const others = cps
                         .filter(cp => cp.name && !iotaNames.has(cp.name))
@@ -573,7 +581,8 @@ export default function StakeLp() {
         
         const checkPhase = (vehicle, phaseName, prefix) => {
             if (iotaData[vehicle] && iotaData[vehicle][phaseName]) {
-                const match = iotaData[vehicle][phaseName].find(i => i.name === instName);
+                const combined = [...iotaData[vehicle][phaseName].equity, ...iotaData[vehicle][phaseName].loan];
+                const match = combined.find(i => i.name === instName);
                 if (match) {
                     const label = `IOTA ${vehicle} • ${prefix}${match.tranche ? ` • ${match.tranche}` : ''}`;
                     results.push({ label, amount: match.rawAmount || parseInt(String(match.amount || '0').replace(/,/g, '')) });
@@ -581,16 +590,11 @@ export default function StakeLp() {
             }
         };
 
-        checkPhase(427, 'equity', 'Equity');
-        checkPhase(427, 'bridgeLoan', '기존 브릿지');
-        checkPhase(427, 'refiLoan', '본PF 1차');
-        
-        checkPhase(816, 'equity', 'Equity');
-        checkPhase(816, 'bridgeLoan', '기존 브릿지');
-        checkPhase(816, 'refiLoan', '금번 리파이낸싱');
-        
-        checkPhase(421, 'equity', '수익증권');
-        checkPhase(421, 'loan', '대출');
+        checkPhase(427, 'Refinancing', '본PF 1차');
+        checkPhase(427, 'Bridge', '기존 브릿지');
+        checkPhase(816, 'Refinancing', '금번 리파이낸싱');
+        checkPhase(816, 'Bridge', '기존 브릿지');
+        checkPhase(421, 'Current', '기존 펀드');
 
         return results;
     };
@@ -617,15 +621,17 @@ export default function StakeLp() {
         // Search in IOTA data
         if (iotaData) {
             [427, 816, 421].forEach(vehicle => {
-                const types = vehicle === 421 ? ['equity', 'loan'] : ['equity', 'bridgeLoan', 'refiLoan'];
-                types.forEach(type => {
-                    if (iotaData[vehicle][type]) {
-                        iotaData[vehicle][type].forEach(item => {
-                            if (item.name && item.name.toLowerCase().includes(term)) {
-                                results.push({ ...item, vehicle, type, isIota: true });
-                            }
-                        });
-                    }
+                Object.keys(iotaData[vehicle]).forEach(phaseKey => {
+                    const types = ['equity', 'loan'];
+                    types.forEach(type => {
+                        if (iotaData[vehicle][phaseKey][type]) {
+                            iotaData[vehicle][phaseKey][type].forEach(item => {
+                                if (item.name && item.name.toLowerCase().includes(term)) {
+                                    results.push({ ...item, vehicle, type, isIota: true });
+                                }
+                            });
+                        }
+                    });
                 });
             });
         }
@@ -729,19 +735,76 @@ export default function StakeLp() {
                             <>
                                 {/* IOTA 427 */}
                                 <div className="mt-[20px]">
-                                    <h2 className="text-[22px] font-bold text-white mb-[14px] tracking-tight">IOTA One (427 PFV)</h2>
+                                    <div className="flex items-center justify-between mb-[14px]">
+                                        <h2 className="text-[22px] font-bold text-white tracking-tight">IOTA One (427 PFV)</h2>
+                                        <div className="bg-[#1C1C1E] p-1 rounded-[12px] flex items-center border border-[#3c3c3c]">
+                                            {[
+                                                { id: 'phase1', label: '최초UW', date: '2022.12', dbKey: 'Phase1' },
+                                                { id: 'phase2', label: 'PFV 설립', date: '2023.04', dbKey: 'Phase2' },
+                                                { id: 'phase3', label: '브릿지 대출', date: '2024.05', dbKey: 'Bridge' },
+                                                { id: 'phase4', label: '본PF 1차', date: '2025.05', dbKey: 'Refinancing' }
+                                            ].map(tab => (
+                                                <button
+                                                    key={tab.id}
+                                                    onClick={() => setPhase427(tab.id)}
+                                                    className={`relative px-4 py-1.5 rounded-[10px] text-[13px] font-bold transition-all duration-300 ${phase427 === tab.id ? 'bg-[#2C2C2E] text-white shadow-sm' : 'text-[#86868B] hover:text-white'}`}
+                                                >
+                                                    <span className={`absolute -top-[20px] left-1/2 -translate-x-1/2 text-[11px] tracking-tight whitespace-nowrap font-normal cursor-default ${phase427 === tab.id ? 'text-[#86868B]' : 'text-[#555] group-hover:text-[#86868B]'}`}>{tab.date}</span>
+                                                    {tab.label}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
                                     <div className="grid grid-cols-2 gap-8">
-                                        <div><TransparentTable title="Equity (수익자)" items={iotaData[427].equity} isLoan={false} vehicle={427} expandedRow={expandedRow} toggleRow={toggleRow} contactsCache={contactsCache} /></div>
-                                        <div><TransparentTable title="Loan (대주단)" items={iotaData[427].refiLoan} bridgeItems={iotaData[427].bridgeLoan} refiItems={iotaData[427].refiLoan} isLoan={true} vehicle={427} expandedRow={expandedRow} toggleRow={toggleRow} contactsCache={contactsCache} /></div>
+                                        {(() => {
+                                            const dbKey = { 'phase1': 'Phase1', 'phase2': 'Phase2', 'phase3': 'Bridge', 'phase4': 'Refinancing' }[phase427];
+                                            const eData = iotaData[427][dbKey]?.equity || [];
+                                            const lData = iotaData[427][dbKey]?.loan || [];
+                                            return (
+                                                <>
+                                                    <div><TransparentTable title="Equity (수익자)" items={eData} isLoan={false} vehicle={427} expandedRow={expandedRow} toggleRow={toggleRow} contactsCache={contactsCache} /></div>
+                                                    <div><TransparentTable title="Loan (대주단)" items={lData} isLoan={true} vehicle={427} expandedRow={expandedRow} toggleRow={toggleRow} contactsCache={contactsCache} /></div>
+                                                </>
+                                            );
+                                        })()}
                                     </div>
                                 </div>
 
                                 {/* IOTA 816 (Highest Priority currently) */}
                                 <div>
-                                    <h2 className="text-[22px] font-bold text-white mb-[14px] tracking-tight">IOTA Two (816 PFV)</h2>
+                                    <div className="flex items-center justify-between mb-[14px]">
+                                        <h2 className="text-[22px] font-bold text-white tracking-tight">IOTA Two (816 PFV)</h2>
+                                        <div className="bg-[#1C1C1E] p-1 rounded-[12px] flex items-center border border-[#3c3c3c]">
+                                            {[
+                                                { id: 'phase1', label: '최초UW', date: '2023.01', dbKey: 'Phase1' },
+                                                { id: 'phase2', label: '정비계획 변경', date: '2023.11', dbKey: 'Phase2' },
+                                                { id: 'phase3', label: '자산매입', date: '2024.03', dbKey: 'Phase3' },
+                                                { id: 'phase4', label: '브릿지론 재연장', date: '2025.10', dbKey: 'Bridge' },
+                                                { id: 'phase5', label: '리파이낸싱', date: '2026.04', dbKey: 'Refinancing' }
+                                            ].map(tab => (
+                                                <button
+                                                    key={tab.id}
+                                                    onClick={() => setPhase816(tab.id)}
+                                                    className={`relative px-4 py-1.5 rounded-[10px] text-[13px] font-bold transition-all duration-300 ${phase816 === tab.id ? 'bg-[#2C2C2E] text-white shadow-sm' : 'text-[#86868B] hover:text-white'}`}
+                                                >
+                                                    <span className={`absolute -top-[20px] left-1/2 -translate-x-1/2 text-[11px] tracking-tight whitespace-nowrap font-normal cursor-default ${phase816 === tab.id ? 'text-[#86868B]' : 'text-[#555] group-hover:text-[#86868B]'}`}>{tab.date}</span>
+                                                    {tab.label}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
                                     <div className="grid grid-cols-2 gap-8">
-                                        <div><TransparentTable title="Equity (수익자)" items={iotaData[816].equity} isLoan={false} vehicle={816} expandedRow={expandedRow} toggleRow={toggleRow} contactsCache={contactsCache} /></div>
-                                        <div><TransparentTable title="Loan (대주단)" items={iotaData[816].refiLoan} bridgeItems={iotaData[816].bridgeLoan} refiItems={iotaData[816].refiLoan} isLoan={true} vehicle={816} expandedRow={expandedRow} toggleRow={toggleRow} contactsCache={contactsCache} /></div>
+                                        {(() => {
+                                            const dbKey = { 'phase1': 'Phase1', 'phase2': 'Phase2', 'phase3': 'Phase3', 'phase4': 'Bridge', 'phase5': 'Refinancing' }[phase816];
+                                            const eData = iotaData[816][dbKey]?.equity || [];
+                                            const lData = iotaData[816][dbKey]?.loan || [];
+                                            return (
+                                                <>
+                                                    <div><TransparentTable title="Equity (수익자)" items={eData} isLoan={false} vehicle={816} expandedRow={expandedRow} toggleRow={toggleRow} contactsCache={contactsCache} /></div>
+                                                    <div><TransparentTable title="Loan (대주단)" items={lData} isLoan={true} vehicle={816} expandedRow={expandedRow} toggleRow={toggleRow} contactsCache={contactsCache} /></div>
+                                                </>
+                                            );
+                                        })()}
                                     </div>
                                 </div>
 
@@ -749,8 +812,8 @@ export default function StakeLp() {
                                 <div id="section-421">
                                     <h2 className="text-[22px] font-bold text-white mb-[14px] tracking-tight">421호 펀드</h2>
                                     <div className="grid grid-cols-2 gap-8">
-                                        <div><TransparentTable title="Equity (수익자)" items={iotaData[421].equity} isLoan={false} vehicle={421} expandedRow={expandedRow} toggleRow={toggleRow} contactsCache={contactsCache} /></div>
-                                        <div><TransparentTable title="Loan (대주단)" items={iotaData[421].loan} isLoan={true} vehicle={421} expandedRow={expandedRow} toggleRow={toggleRow} contactsCache={contactsCache} /></div>
+                                        <div><TransparentTable title="Equity (수익자)" items={iotaData[421]['Current']?.equity || []} isLoan={false} vehicle={421} expandedRow={expandedRow} toggleRow={toggleRow} contactsCache={contactsCache} /></div>
+                                        <div><TransparentTable title="Loan (대주단)" items={iotaData[421]['Current']?.loan || []} isLoan={true} vehicle={421} expandedRow={expandedRow} toggleRow={toggleRow} contactsCache={contactsCache} /></div>
                                     </div>
                                 </div>
                             </>

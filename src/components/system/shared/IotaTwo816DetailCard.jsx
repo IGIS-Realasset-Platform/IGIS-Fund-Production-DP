@@ -1,18 +1,67 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const IotaOne427DetailCard = ({ id, vehicleId, title, dbData, navigateTo, externalPhase, setExternalPhase }) => {
+const IotaTwo816DetailCard = ({ id, vehicleId, title, dbData, historyData, navigateTo }) => {
     const [hoveredBarTranche, setHoveredBarTranche] = useState(null);
     const [isAccordionOpen, setIsAccordionOpen] = useState(false);
-    const [localPhase, setLocalPhase] = useState('phase4');
-    const activePhase = externalPhase || localPhase;
-    const setActivePhase = setExternalPhase || setLocalPhase;
+    const [activePhase, setActivePhase] = useState('phase5');
+
+    const bridge816Data = {
+        'Equity': [
+            { isSubHeader: true, name: '1종 종류주' },
+            { name: '에셀유한회사', rawAmount: 16.5, type: 'Equity', originalTranche: '1종 종류주', displayIndex: 1 },
+            { name: 'NH투자증권', rawAmount: 7.95, type: 'Equity', originalTranche: '1종 종류주', displayIndex: 2 },
+            { name: '삼성물산', rawAmount: 6, type: 'Equity', originalTranche: '1종 종류주', displayIndex: 3 },
+            { name: '이지스자산운용(고유)', rawAmount: 1, type: 'Equity', originalTranche: '1종 종류주', displayIndex: 4 },
+            { isSubHeader: true, name: '보통주' },
+            { name: '이지스421호', rawAmount: 19.55, type: 'Equity', originalTranche: '보통주', displayIndex: 5 },
+            { name: '신한투자증권', rawAmount: 12.95, type: 'Equity', originalTranche: '보통주', displayIndex: 6 },
+            { isSubHeader: true, name: '주주대여금' },
+            { name: '주주대여금', rawAmount: 2400, type: 'Equity', originalTranche: '주주대여금', displayIndex: 7 }
+        ],
+        'Tr.A': [
+            { name: 'KB국민은행', rawAmount: 1500, type: 'Loan', originalTranche: 'Tr.A', displayIndex: 1 },
+            { name: '과학기술인공제회', rawAmount: 500, type: 'Loan', originalTranche: 'Tr.A', displayIndex: 2 },
+            { name: '대구은행', rawAmount: 500, type: 'Loan', originalTranche: 'Tr.A', displayIndex: 3 },
+            { name: '미래에셋캐피탈', rawAmount: 480, type: 'Loan', originalTranche: 'Tr.A', displayIndex: 4 },
+            { name: 'KB캐피탈', rawAmount: 450, type: 'Loan', originalTranche: 'Tr.A', displayIndex: 5 },
+            { name: '뉴스타케미제일차(전기공사공제회)', rawAmount: 300, type: 'Loan', originalTranche: 'Tr.A', displayIndex: 6 },
+            { name: 'IBK캐피탈', rawAmount: 150, type: 'Loan', originalTranche: 'Tr.A', displayIndex: 7 },
+            { name: '오케이저축은행', rawAmount: 100, type: 'Loan', originalTranche: 'Tr.A', displayIndex: 8 },
+            { name: 'DB저축은행', rawAmount: 100, type: 'Loan', originalTranche: 'Tr.A', displayIndex: 9 },
+            { name: 'DGB캐피탈', rawAmount: 100, type: 'Loan', originalTranche: 'Tr.A', displayIndex: 10 }
+        ],
+        'Tr.B': [
+            { name: '한투리얼(한국투자Debt)', rawAmount: 600, type: 'Loan', originalTranche: 'Tr.B', displayIndex: 1 },
+            { name: '한투리얼(한국투자메자닌)', rawAmount: 350, type: 'Loan', originalTranche: 'Tr.B', displayIndex: 2 },
+            { name: 'BC카드', rawAmount: 150, type: 'Loan', originalTranche: 'Tr.B', displayIndex: 3 },
+            { name: '스틱얼터너티브자산운용 펀드', rawAmount: 100, type: 'Loan', originalTranche: 'Tr.B', displayIndex: 4 },
+            { name: '대신저축은행', rawAmount: 80, type: 'Loan', originalTranche: 'Tr.B', displayIndex: 5 },
+            { name: '816공간제일차(신한증권)', rawAmount: 50, type: 'Loan', originalTranche: 'Tr.B', displayIndex: 6 },
+            { name: '실버아이언제일차(한화저축)', rawAmount: 50, type: 'Loan', originalTranche: 'Tr.B', displayIndex: 7 },
+            { name: '흥국저축은행', rawAmount: 20, type: 'Loan', originalTranche: 'Tr.B', displayIndex: 8 }
+        ],
+        'Tr.C': [
+            { name: '대신증권(디에스센트럴프라임)', rawAmount: 480, type: 'Loan', originalTranche: 'Tr.C', displayIndex: 1 },
+            { name: '코람코국내개발일반1-2', rawAmount: 200, type: 'Loan', originalTranche: 'Tr.C', displayIndex: 2 },
+            { name: '816공간제일차(신한증권)', rawAmount: 150, type: 'Loan', originalTranche: 'Tr.C', displayIndex: 3 },
+            { name: '키움가치추구형일반사모1호', rawAmount: 90, type: 'Loan', originalTranche: 'Tr.C', displayIndex: 4 },
+            { name: '816공간제일차(신한증권)', rawAmount: 50, type: 'Loan', originalTranche: 'Tr.C', displayIndex: 5 }
+        ]
+    };
 
     const getActiveData = () => {
-        if (activePhase === 'phase1') return dbData?.['Phase1'] || {};
-        if (activePhase === 'phase2') return dbData?.['Phase2'] || {};
-        if (activePhase === 'phase3') return dbData?.['Bridge'] || {};
-        if (activePhase === 'phase4') return dbData?.['Refinancing'] || {};
+        // If DB has data for 816, dbData might be populated.
+        // For phase 4 (기존 브릿지), use hardcoded data to fix the wrong 427 data.
+        if (activePhase === 'phase4') return bridge816Data;
+        
+        // For phase 5 (금번 리파이낸싱), use DB if available, else also fallback to same or empty.
+        // The user said "마지막거는 우리가 해놓은거니 맞는것 같은데" so dbData might be fine for phase 5, or empty is okay for now.
+        if (activePhase === 'phase5') {
+            const hasDbData = dbData && Object.keys(dbData).length > 0;
+            return hasDbData ? dbData : {};
+        }
+
         return {};
     };
 
@@ -82,128 +131,54 @@ const IotaOne427DetailCard = ({ id, vehicleId, title, dbData, navigateTo, extern
         return 'bg-[#444]';
     };
 
-    // Dynamic phase metrics based on the table
-        const phaseMetrics = {
-        phase1: {
-            title: '최초UW',
-            subtitle: '2021.11',
-            cost: '2조 9,044억',
-            costPyeong: '2,832 만원/평',
-            revenue: '3조 2,907억',
-            revenuePyeong: '3,209 만원/평',
-            returnEM: '이익률 9.0%',
-            returnIRR: '2,962억원',
-            period: '68M',
-            enoc: 'TBD',
-            gfa: '85,159평',
-            completionYear: '2027',
-            officeArea: '-',
-            retailArea: '-',
-            hotelArea: '-'
-        },
-        phase2: {
-            title: '1차 리파',
-            subtitle: '2024.05',
-            cost: '3조 9,231억',
-            costPyeong: '3,825 만원/평',
-            revenue: '4조 4,944억',
-            revenuePyeong: '4,383 만원/평',
-            returnEM: '이익률 12.7%',
-            returnIRR: '5,712억원',
-            period: '93M',
-            enoc: 'TBD',
-            gfa: '104,111평',
-            completionYear: '2029',
-            officeArea: '-',
-            retailArea: '-',
-            hotelArea: '-'
-        },
-        phase3: {
-            title: '2차 리파',
-            subtitle: '2025.01',
-            cost: '취합중',
-            costPyeong: '-',
-            revenue: '5조 1,177억',
-            revenuePyeong: '4,990 만원/평',
-            returnEM: '이익률 9.0%',
-            returnIRR: '4,540억원',
-            period: '109M',
-            enoc: 'TBD',
-            gfa: '104,741평',
-            completionYear: '2031',
-            officeArea: '-',
-            retailArea: '-',
-            hotelArea: '-'
-        },
-        phase4: {
-            title: '본PF 1차',
-            subtitle: '2025.05',
-            cost: '4조 9,751억',
-            costPyeong: '4,851 만원/평',
-            revenue: '5조 3,288억',
-            revenuePyeong: '5,196 만원/평',
-            returnEM: '이익률 6.6%',
-            returnIRR: '3,536억원',
-            period: '122M',
-            enoc: 'TBD',
-            gfa: '102,124평',
-            completionYear: '2032',
-            officeArea: '34,470평',
-            retailArea: '1,569평',
-            hotelArea: '5,121평'
-        }
+    const phaseMetrics = {
+        phase1: { title: '최초UW', subtitle: '2023.01', cost: '1조 5,391억', costPyeong: '4,212 만원/평', revenue: '1조 7,736억', revenuePyeong: '4,854 만원/평', returnEM: '이익률 13.2%', returnProfit: '2,345억원', enoc: '37.5만원', enocSub: '2027년 기준', period: '69M', gfa: '36,537평', completionYear: '2028', officeArea: '-평', retailArea: '-평' },
+        phase2: { title: '정비계획 변경', subtitle: '2023.11', cost: '1조 7,888억', costPyeong: '4,896 만원/평', revenue: '1조 9,041억', revenuePyeong: '5,211 만원/평', returnEM: '이익률 6.1%', returnProfit: '1,153억원', enoc: 'TBD', enocSub: '-', period: '69M', gfa: '36,537평', completionYear: '2028', officeArea: '-평', retailArea: '-평' },
+        phase3: { title: '자산매입', subtitle: '2024.03', cost: '2조 1,556억', costPyeong: '5,900 만원/평', revenue: '2조 3,060억', revenuePyeong: '6,311 만원/평', returnEM: '이익률 11.3%', returnProfit: '2,614억원', enoc: 'TBD', enocSub: '-', period: '95M', gfa: '36,537평', completionYear: '2030', officeArea: '-평', retailArea: '-평' },
+        phase4: { title: '브릿지론 재연장', subtitle: '2025.10', cost: '2조 2,000억', costPyeong: '6,021 만원/평', revenue: '2조 5,102억', revenuePyeong: '6,870 만원/평', returnEM: '수지 재평가', returnProfit: '정량 이익 미산정', enoc: 'TBD', enocSub: '-', period: '101M', gfa: '36,537평', completionYear: '2031', officeArea: '-평', retailArea: '-평' },
+        phase5: { title: '리파이낸싱', subtitle: '2026.04', cost: '2조 1,964억', costPyeong: '6,011 만원/평', revenue: '2조 5,823억', revenuePyeong: '7,068 만원/평', returnEM: '이익률 4.8%', returnProfit: '1,240억원', enoc: 'TBD', enocSub: '-', period: '104M', gfa: '36,537평', completionYear: '2031', officeArea: '15,529평', retailArea: '1,022평' }
     };
 
-    const baseMetrics = phaseMetrics['phase1'];
-    const curMetrics = phaseMetrics[activePhase];
-
-    const richData = [
-        { category: '분석 대상 문서', phase1: '0. Hilton_IM_v2.06_PFV', phase2: '1. TM_밀레니엄힐튼 담보대출 Refi', phase3: '2. 만기연장 IM / 2.5. 추가투자 펀드', phase4: '3-1. 1차 PF대출 / 3-2. 현대건설 PF' },
-        { category: '연면적', phase1: '85,159평', phase2: '104,111평', phase3: '104,741평', phase4: '102,124평' },
-        { category: '총사업비 (지출)', phase1: '2조 9,044억원', phase2: '3조 9,231억원 (+35.1%)', phase3: '- (취합중)', phase4: '4조 9,751억원 (+71.3%)' },
-        { category: '총매출 (수입)', phase1: '3조 2,907억원', phase2: '4조 4,944억원 (+36.6%)', phase3: '5조 1,177억원 (+55.5%)', phase4: '5조 3,288억원 (+61.9%)' },
-        { category: '예상 사업이익', phase1: '2,962억원 (이익률 9.0%)', phase2: '5,712억원 (이익률 12.7%)', phase3: '4,540억원 (이익률 9.0%)', phase4: '3,536억원 (이익률 6.6%)' },
-        { category: '토지 매입가', phase1: '1조 1,000억원 (평당 1.78억)', phase2: '1조 1,000억원 (동일)', phase3: '1조 1,000억원 (동일)', phase4: '1조 1,000억원 (동일)' },
-        { category: '자산매입 비용 (명도/보상 포함)', phase1: '1조 4,519억원', phase2: '1조 3,078억원 (명도비 절감)', phase3: '1조 3,869억원 (일부 재상승)', phase4: '1조 3,005억원 (최종 확정)' },
-        { category: '평당 도급공사비', phase1: '820만원 / 평', phase2: '900만원 / 평 (+15.4%)', phase3: '1,139만원 / 평 (+46.0%)', phase4: '1,130만원 / 평 (+44.9%)' },
-        { category: '직접 공사비 총액', phase1: '6,983억원', phase2: '9,370억원 (+34.2%)', phase3: '1조 1,930억원 (+70.8%)', phase4: '1조 1,540억원 (+65.3%)' },
-        { category: '금융 비용 총액', phase1: '6,172억원', phase2: '1조 2,196억원 (+97.6%)', phase3: '- (취합중)', phase4: '1조 9,529억원 (+216.4%)' },
-        { category: '대출 구조 (총액)', phase1: '브릿지론 1.44조원', phase2: '리파이낸싱 1.44조원 (계획)', phase3: '브릿지 단기연장 1.44조원', phase4: '1차 PF 2.20조원 (실행)' },
-        { category: '토지 감정가 (LTV)', phase1: '1조 4,069억원 (LTV 102.4%)', phase2: '2조 90억원 (LTV 80.6%)', phase3: '2조 6,535억원 (LTV 54.3%)', phase4: '2조 6,535억원 (LTV 82.91%)' },
-        { category: '본공사 착공 시점', phase1: '2024년 05월 (예정)', phase2: '2025년 05월 (12개월 지연)', phase3: '2026년 07월 (26개월 지연)', phase4: '2027년 05월 (36개월 지연)' },
-        { category: '사업 준공 시점', phase1: '2027년 09월 (68개월 소요)', phase2: '2029년 10월 (+25개월 지연)', phase3: '2031년 02월 (+41개월 지연)', phase4: '2032년 03월 (+54개월 지연)' }
-    ];
-
-    const ToggleContent = (
-        <div className="bg-[#1C1C1E] p-1 rounded-[12px] flex items-center border border-[#3c3c3c]">
-            {[
-                { id: 'phase1', label: '최초UW', date: '2021.11' },
-                { id: 'phase2', label: '1차 리파', date: '2024.05' },
-                { id: 'phase3', label: '2차 리파', date: '2025.01' },
-                { id: 'phase4', label: '본PF 1차', date: '2025.05' }
-            ].map(p => (
-                <button 
-                    key={p.id}
-                    onClick={() => setActivePhase(p.id)}
-                    className={`relative px-4 py-1.5 rounded-[10px] text-[13px] font-bold transition-all duration-300 ${activePhase === p.id ? 'bg-[#2C2C2E] text-[#0A84FF] shadow-sm' : 'text-[#86868B] hover:text-white'}`}
-                >
-                    <span className="absolute -top-[20px] left-1/2 -translate-x-1/2 text-[11px] text-[#86868B] tracking-tight whitespace-nowrap font-normal cursor-default">{p.date}</span>
-                    {p.label}
-                </button>
-            ))}
-        </div>
-    );
+    let baseMetrics = { ...phaseMetrics['phase1'] };
+    let curMetrics = { ...phaseMetrics[activePhase] };
 
     return (
         <div id={id} className="mb-[28px]">
-            <div className="flex justify-between items-end mb-[12px]">
-                <h2 className="text-[24px] font-bold text-white tracking-tight">{title}</h2>
-                {ToggleContent}
-            </div>
+            {title && (
+                <div className="flex justify-between items-end mb-[12px] px-[8px]">
+                    <div className="flex items-end gap-[16px]">
+                        <h2 className="text-[24px] font-bold text-white tracking-tight">{title}</h2>
+                    </div>
+                </div>
+            )}
 
-            <div className="w-full p-[6px] border border-[#333] rounded-[38px] flex flex-col gap-[6px]">
-                {/* Dashboard Metrics Cards */}
-                <div 
+            <div className="relative w-full">
+                {/* Right Wing Toggle - Absolutely positioned 6px to the right of main component */}
+                <div className="absolute top-[6px] -right-[116px] bottom-0 w-[110px] pointer-events-none z-50">
+                    <div className="sticky top-[20px] pointer-events-auto bg-[#292928] border border-[#333] p-[6px] rounded-[32px] flex flex-col gap-[4px] shadow-lg">
+                        {[
+                            { id: 'phase1', label: '최초UW', date: '2023.01' },
+                            { id: 'phase2', label: '정비계획\n변경', date: '2023.11' },
+                            { id: 'phase3', label: '자산매입', date: '2024.03' },
+                            { id: 'phase4', label: '브릿지론\n재연장', date: '2025.10' },
+                            { id: 'phase5', label: '리파이낸싱', date: '2026.04' }
+                        ].map((p) => (
+                            <button 
+                                key={p.id}
+                                onClick={() => setActivePhase(p.id)}
+                                className={`w-full flex flex-col items-center justify-center py-[16px] px-1 rounded-[26px] transition-all duration-300 ${activePhase === p.id ? 'bg-[#3C3C3E] text-[#0A84FF] shadow-sm border border-[#555]' : 'border border-transparent text-[#86868B] hover:text-white hover:bg-[#333]'}`}
+                            >
+                                <span className={`text-[11px] mb-[6px] font-['Inter'] leading-none ${activePhase === p.id ? 'text-[#0A84FF]/80 font-medium' : 'opacity-60'}`}>{p.date}</span>
+                                <span className={`text-[13px] font-bold text-center leading-[1.2] whitespace-pre-wrap tracking-tight ${activePhase === p.id ? 'text-white' : ''}`}>{p.label}</span>
+                            </button>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Main Left Area */}
+                <div className="w-full p-[6px] border border-[#333] rounded-[38px] flex flex-col gap-[6px]">
+                    {/* Dashboard Metrics Cards */}
+                    <div 
                     className="w-full flex gap-[6px] cursor-pointer hover:opacity-90 transition-opacity relative group"
                     onClick={() => setIsAccordionOpen(!isAccordionOpen)}
                 >
@@ -252,10 +227,6 @@ const IotaOne427DetailCard = ({ id, vehicleId, title, dbData, navigateTo, extern
                                     <div className="flex items-center justify-between">
                                         <span className="text-[14px] text-[#86868B] leading-none">리테일</span>
                                         <span className="text-[16px] font-bold text-white leading-none">{curMetrics.retailArea}</span>
-                                    </div>
-                                    <div className="flex items-center justify-between">
-                                        <span className="text-[14px] text-[#86868B] leading-none">호텔</span>
-                                        <span className="text-[16px] font-bold text-white leading-none">{curMetrics.hotelArea}</span>
                                     </div>
                                 </div>
                             </div>
@@ -307,13 +278,13 @@ const IotaOne427DetailCard = ({ id, vehicleId, title, dbData, navigateTo, extern
                                     <div className="flex flex-col items-end">
                                         <span className="text-[11px] text-[#666] mb-0 leading-none font-['Inter']">{baseMetrics.title}</span>
                                         <span className="text-[13px] text-[#86868B] mb-[6px] font-['Inter']">{baseMetrics.returnEM}</span>
-                                        <span className="text-[28px] font-bold text-[#A1A1AA] tracking-tighter leading-none font-['Inter']">{baseMetrics.returnIRR}</span>
+                                        <span className="text-[28px] font-bold text-[#A1A1AA] tracking-tighter leading-none font-['Inter']">{baseMetrics.returnProfit}</span>
                                     </div>
                                     <span className="text-[20px] text-[#666] mb-[1px] font-bold mr-[-2px]">→</span>
                                     <div className="flex flex-col items-end w-[138px] whitespace-nowrap">
                                         <span className="text-[11px] text-white mb-0 leading-none font-medium font-['Inter'] whitespace-nowrap">{curMetrics.title}</span>
                                         <span className="text-[13px] text-white mb-[6px] font-['Inter'] whitespace-nowrap">{curMetrics.returnEM}</span>
-                                        <span className="text-[28px] font-bold text-[#bbb9af] tracking-tighter leading-none font-['Inter'] whitespace-nowrap">{curMetrics.returnIRR}</span>
+                                        <span className="text-[28px] font-bold text-[#bbb9af] tracking-tighter leading-none font-['Inter'] whitespace-nowrap">{curMetrics.returnProfit}</span>
                                     </div>
                                 </div>
                             </div>
@@ -323,13 +294,13 @@ const IotaOne427DetailCard = ({ id, vehicleId, title, dbData, navigateTo, extern
                                 <div className="flex items-end justify-end gap-3 w-full">
                                     <div className="flex flex-col items-end">
                                         <span className="text-[11px] text-[#666] mb-0 leading-none font-['Inter']">{baseMetrics.title}</span>
-                                        <span className="text-[13px] text-[#86868B] mb-[6px]">-</span>
+                                        <span className="text-[13px] text-[#86868B] mb-[6px]">{baseMetrics.enocSub}</span>
                                         <span className="text-[28px] font-bold text-[#A1A1AA] tracking-tighter leading-none">{baseMetrics.enoc}</span>
                                     </div>
                                     <span className="text-[20px] text-[#666] mb-[1px] font-bold mr-[-2px]">→</span>
                                     <div className="flex flex-col items-end w-[138px] whitespace-nowrap">
                                         <span className="text-[11px] text-white mb-0 leading-none font-medium font-['Inter'] whitespace-nowrap">{curMetrics.title}</span>
-                                        <span className="text-[13px] text-white mb-[6px] whitespace-nowrap">-</span>
+                                        <span className="text-[13px] text-white mb-[6px] whitespace-nowrap">{curMetrics.enocSub}</span>
                                         <span className="text-[28px] font-bold text-[#bbb9af] tracking-tighter leading-none whitespace-nowrap">{curMetrics.enoc}</span>
                                     </div>
                                 </div>
@@ -338,7 +309,7 @@ const IotaOne427DetailCard = ({ id, vehicleId, title, dbData, navigateTo, extern
                     </div>
                 </div>
 
-                {/* ACCORDION (Added cleanly without changing original surrounding UI) */}
+                {/* ACCORDION */}
                 <AnimatePresence>
                     {isAccordionOpen && (
                         <motion.div
@@ -352,36 +323,38 @@ const IotaOne427DetailCard = ({ id, vehicleId, title, dbData, navigateTo, extern
                                     <span className="w-1.5 h-4 bg-[#A1A1AA] mr-2 rounded-full"></span>
                                     개발 단계별 핵심 지표 비교 요약표
                                 </h3>
-                                <div className="overflow-x-auto custom-scrollbar pb-2">
-                                    <table className="w-full text-left border-collapse border-y-[2px] border-t-[#666] border-b-[#444] min-w-[1000px]">
-                                        <thead>
-                                            <tr className="border-b border-[#444] bg-[#1a1a1c]">
-                                                <th className="py-4 px-4 text-[#86868B] font-bold text-[13px] border-r border-[#444] w-[180px]">지표 구분</th>
-                                                <th className={`py-4 px-4 font-bold text-[13px] border-r border-[#444] ${activePhase==='phase1'?'text-[#0A84FF]':'text-[#86868B]'}`}>Phase 1: 초기 가정<br/><span className="text-[#666] font-normal">(2021.11 / IM 기준)</span></th>
-                                                <th className={`py-4 px-4 font-bold text-[13px] border-r border-[#444] ${activePhase==='phase2'?'text-[#0A84FF]':'text-[#86868B]'}`}>Phase 2: 1차 연장<br/><span className="text-[#666] font-normal">(2024.05 / TM 기준)</span></th>
-                                                <th className={`py-4 px-4 font-bold text-[13px] border-r border-[#444] ${activePhase==='phase3'?'text-[#0A84FF]':'text-[#86868B]'}`}>Phase 3: 2차 연장<br/><span className="text-[#666] font-normal">(2025.01 / 단기연장)</span></th>
-                                                <th className={`py-4 px-4 font-bold text-[13px] ${activePhase==='phase4'?'text-[#0A84FF]':'text-[#86868B]'}`}>Phase 4: 1차 PF<br/><span className="text-[#666] font-normal">(2025.05 / PF IM 기준)</span></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody className="text-[13.5px] text-[#E5E5E5]">
-                                            {richData.map((row, idx) => (
-                                                <tr key={idx} className="border-b border-[#333] hover:bg-[#2A2A2A] transition-colors">
-                                                    <td className="py-3 px-4 font-bold text-[#A1A1AA] border-r border-[#444] bg-[#222] break-keep">{row.category}</td>
-                                                    <td className={`py-3 px-4 border-r border-[#444] ${activePhase==='phase1'?'bg-[#2A2A2A] text-white':''}`}>{row.phase1}</td>
-                                                    <td className={`py-3 px-4 border-r border-[#444] ${activePhase==='phase2'?'bg-[#2A2A2A] text-white':''}`}>{row.phase2}</td>
-                                                    <td className={`py-3 px-4 border-r border-[#444] ${activePhase==='phase3'?'bg-[#2A2A2A] text-white':''}`}>{row.phase3}</td>
-                                                    <td className={`py-3 px-4 ${activePhase==='phase4'?'bg-[#2A2A2A] text-white':''}`}>{row.phase4}</td>
-                                                </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
+                                <div className="w-full overflow-x-auto custom-scrollbar pb-4">
+                                <div className="min-w-max border border-[#3C3C3C] rounded-lg overflow-hidden bg-[#242426]">
+                                    <div className="flex border-b border-[#3C3C3C] bg-[#2C2C2E]">
+                                        <div className="w-[180px] p-3 border-r border-[#3C3C3C] font-bold text-[#86868B] text-[13px] shrink-0 flex items-center">지표 구분</div>
+                                        <div className={`w-[280px] p-3 border-r border-[#3C3C3C] font-bold text-[13px] shrink-0 ${activePhase === 'phase1' ? 'text-[#0A84FF]' : 'text-[#E5E5E5]'}`}>Phase 1: 최초UW<br/><span className="text-[#86868B] font-normal">(2023.01 기준)</span></div>
+                                        <div className={`w-[280px] p-3 border-r border-[#3C3C3C] font-bold text-[13px] shrink-0 ${activePhase === 'phase2' ? 'text-[#0A84FF]' : 'text-[#E5E5E5]'}`}>Phase 2: 정비계획 변경<br/><span className="text-[#86868B] font-normal">(2023.11 기준)</span></div>
+                                        <div className={`w-[280px] p-3 border-r border-[#3C3C3C] font-bold text-[13px] shrink-0 ${activePhase === 'phase3' ? 'text-[#0A84FF]' : 'text-[#E5E5E5]'}`}>Phase 3: 자산매입<br/><span className="text-[#86868B] font-normal">(2024.03 기준)</span></div>
+                                        <div className={`w-[280px] p-3 border-r border-[#3C3C3C] font-bold text-[13px] shrink-0 ${activePhase === 'phase4' ? 'text-[#0A84FF]' : 'text-[#E5E5E5]'}`}>Phase 4: 브릿지론 재연장<br/><span className="text-[#86868B] font-normal">(2025.10 기준)</span></div>
+                                        <div className={`w-[280px] p-3 font-bold text-[13px] shrink-0 ${activePhase === 'phase5' ? 'text-[#0A84FF]' : 'text-[#E5E5E5]'}`}>Phase 5: 리파이낸싱<br/><span className="text-[#86868B] font-normal">(2026.04 기준)</span></div>
+                                    </div>
+                                    {historyData && historyData.length > 0 ? historyData.map((row, index) => (
+                                        <div key={index} className={`flex border-b border-[#3C3C3C] hover:bg-[#2A2A2C] transition-colors ${index === historyData.length - 1 ? 'border-b-0' : ''}`}>
+                                            <div className="w-[180px] p-3 border-r border-[#3C3C3C] font-bold text-[#86868B] text-[13px] shrink-0 flex items-center bg-[#28282A]">{row.category}</div>
+                                            <div className={`w-[280px] p-3 border-r border-[#3C3C3C] text-[13px] leading-snug shrink-0 whitespace-pre-wrap ${activePhase === 'phase1' ? 'bg-[#2A2A2A] text-white font-bold' : 'text-[#D1D1D6]'}`}>{row.phase1}</div>
+                                            <div className={`w-[280px] p-3 border-r border-[#3C3C3C] text-[13px] leading-snug shrink-0 whitespace-pre-wrap ${activePhase === 'phase2' ? 'bg-[#2A2A2A] text-white font-bold' : 'text-[#D1D1D6]'}`}>{row.phase2}</div>
+                                            <div className={`w-[280px] p-3 border-r border-[#3C3C3C] text-[13px] leading-snug shrink-0 whitespace-pre-wrap ${activePhase === 'phase3' ? 'bg-[#2A2A2A] text-white font-bold' : 'text-[#D1D1D6]'}`}>{row.phase3}</div>
+                                            <div className={`w-[280px] p-3 border-r border-[#3C3C3C] text-[13px] leading-snug shrink-0 whitespace-pre-wrap ${activePhase === 'phase4' ? 'bg-[#2A2A2A] text-white font-bold' : 'text-[#D1D1D6]'}`}>{row.phase4}</div>
+                                            <div className={`w-[280px] p-3 text-[13px] leading-snug shrink-0 whitespace-pre-wrap ${activePhase === 'phase5' ? 'bg-[#2A2A2A] text-white font-bold' : 'text-[#D1D1D6]'}`}>{row.phase5}</div>
+                                        </div>
+                                    )) : (
+                                        <div className="p-8 text-center text-[#86868B] text-[14px]">
+                                            데이터가 없습니다.
+                                        </div>
+                                    )}
                                 </div>
+                            </div>
                             </div>
                         </motion.div>
                     )}
                 </AnimatePresence>
 
-                {/* Visual Tranche Bar (EXACTLY AS ORIGINAL) */}
+                {/* Visual Tranche Bar */}
                 <div className="w-full mt-[8px] mb-[8px]">
                     {(() => {
                         const allItems = Object.values(data).flat();
@@ -402,6 +375,8 @@ const IotaOne427DetailCard = ({ id, vehicleId, title, dbData, navigateTo, extern
 
                         return (
                             <div className="w-full h-[60px] relative rounded-[20px] bg-[#292928] select-none">
+                                {Object.keys(barGroups).length > 0 ? (
+                                <>
                                 <div className="absolute inset-0 flex w-full h-full rounded-[20px] overflow-hidden">
                                     {sortedBarKeys.map(tName => {
                                         const tSum = barGroups[tName];
@@ -436,12 +411,19 @@ const IotaOne427DetailCard = ({ id, vehicleId, title, dbData, navigateTo, extern
                                         );
                                     })}
                                 </div>
+                                </>
+                                ) : (
+                                    <div className="w-full h-full flex items-center justify-center">
+                                        <span className="text-[#86868B] text-[14px] font-bold tracking-tight">해당 단계의 투자 데이터가 없습니다.</span>
+                                    </div>
+                                )}
                             </div>
                         );
                     })()}
                 </div>
 
-                {/* Investment Structure Box (EXACTLY AS ORIGINAL) */}
+                {/* Investment Structure Box */}
+                {Object.keys(data).length > 0 && (
                 <div className="w-full bg-[#292928] border border-[#3c3c3c] rounded-[32px] pt-[20px] flex flex-col overflow-hidden">
                     <div className="flex justify-between items-center w-full pb-[16px] border-b border-[#444]/50 pl-[26px] pr-[32px]">
                         <div className="flex items-center gap-[16px] overflow-x-auto hide-scrollbar">
@@ -544,7 +526,7 @@ const IotaOne427DetailCard = ({ id, vehicleId, title, dbData, navigateTo, extern
                                                     return (
                                                         <div key={i} className="flex justify-between items-center w-full mb-[12px] group cursor-pointer">
                                                             <span className={`text-[#E5E5E5] text-[14.5px] transition-colors duration-200 ${getTrancheHoverColor(trancheName)} break-keep mr-2 truncate`}>
-                                                                {item.displayIndex}. {item.name}
+                                                                {item.displayIndex ? `${item.displayIndex}. ` : ''}{item.name}
                                                             </span>
                                                             <span className={`text-[#E5E5E5] text-[14.5px] transition-colors duration-200 ${getTrancheHoverColor(trancheName)} shrink-0`}>
                                                                 {Number(item.rawAmount).toLocaleString()}<span className="ml-[2px]">억</span>
@@ -558,9 +540,11 @@ const IotaOne427DetailCard = ({ id, vehicleId, title, dbData, navigateTo, extern
                         })}
                     </div>
                 </div>
+                )}
+                </div>
             </div>
         </div>
     );
 };
 
-export default IotaOne427DetailCard;
+export default IotaTwo816DetailCard;

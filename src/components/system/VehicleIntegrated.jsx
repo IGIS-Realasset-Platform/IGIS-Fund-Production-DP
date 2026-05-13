@@ -4,6 +4,7 @@ import { supabase } from '../../utils/supabaseClient';
 import { fetchWithRetry } from '../../utils/fetchWithRetry';
 import Fund421DetailCard from './shared/Fund421DetailCard';
 import IotaOne427DetailCard from './shared/IotaOne427DetailCard';
+import IotaTwo816DetailCard from './shared/IotaTwo816DetailCard';
 
 
 export default function VehicleIntegrated() {
@@ -12,6 +13,8 @@ export default function VehicleIntegrated() {
     const [phase421, setPhase421] = useState('new'); // 'current' | 'new'
     const [selectedInst, setSelectedInst] = useState(null);
     const [iotaData, setIotaData] = useState(null);
+    const [projectMetrics, setProjectMetrics] = useState(null);
+    const [projectHistory, setProjectHistory] = useState(null);
     const [loading, setLoading] = useState(true);
     const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
     const [isHoveringIprWorkspace, setIsHoveringIprWorkspace] = useState(false);
@@ -21,20 +24,40 @@ export default function VehicleIntegrated() {
 
         const fetchData = async () => {
             try {
-                const { data, error } = await fetchWithRetry(
-                    () => supabase.from('iota_capital_stack').select('*').abortSignal(controller.signal),
-                    3, 
-                    500, 
-                    controller.signal
-                );
+                const [capitalRes, metricsRes, historyRes] = await Promise.all([
+                    fetchWithRetry(() => supabase.from('iota_capital_stack').select('*').abortSignal(controller.signal), 3, 500, controller.signal),
+                    fetchWithRetry(() => supabase.from('iota_project_metrics').select('*').abortSignal(controller.signal), 3, 500, controller.signal),
+                    fetchWithRetry(() => supabase.from('iota_project_history').select('*').order('sort_order', { ascending: true }).abortSignal(controller.signal), 3, 500, controller.signal)
+                ]);
+                
                 if (controller.signal.aborted) return;
 
-                if (error) {
-                    console.error("Supabase API Error:", error);
-                    setIotaData({ error: error.message });
+                if (capitalRes.error || metricsRes.error || historyRes.error) {
+                    const errorMsg = capitalRes.error?.message || metricsRes.error?.message || historyRes.error?.message;
+                    console.error("Supabase API Error:", errorMsg);
+                    setIotaData({ error: errorMsg });
                     return;
                 }
-                if (data) {
+                
+                if (metricsRes.data) {
+                    const metricsObj = {};
+                    metricsRes.data.forEach(m => {
+                        metricsObj[m.vehicle_name] = m;
+                    });
+                    setProjectMetrics(metricsObj);
+                }
+
+                if (historyRes.data) {
+                    const historyObj = {};
+                    historyRes.data.forEach(h => {
+                        if (!historyObj[h.vehicle_name]) historyObj[h.vehicle_name] = [];
+                        historyObj[h.vehicle_name].push(h);
+                    });
+                    setProjectHistory(historyObj);
+                }
+
+                if (capitalRes.data) {
+                    const data = capitalRes.data;
                     // Group data by vehicle -> phase -> tranche -> array of institutions
                     const grouped = {
                         427: { Bridge: {}, Refinancing: {} },
@@ -145,7 +168,10 @@ export default function VehicleIntegrated() {
                         });
                     });
 
+                    
+                    
                     setIotaData(grouped);
+
                 }
             } catch (error) {
                 if (controller.signal.aborted) return;
@@ -296,10 +322,41 @@ export default function VehicleIntegrated() {
             return 'bg-[#444]';
         };
 
-        const gfa = vehicleId === '427' ? '102,540평' : '36,537평';
-        const officeArea = vehicleId === '427' ? '34,470평' : '15,529평';
-        const retailArea = vehicleId === '427' ? '1,569평' : '1,022평';
-        const hotelArea = vehicleId === '427' ? '5,121평' : '-평';
+        const pm = projectMetrics?.[vehicleId] || {};
+        const gfa = pm.gfa || (vehicleId === '427' ? '102,540평' : '36,537평');
+        const officeArea = pm.office_area || (vehicleId === '427' ? '34,470평' : '15,529평');
+        const retailArea = pm.retail_area || (vehicleId === '427' ? '1,569평' : '1,022평');
+        const hotelArea = pm.hotel_area || (vehicleId === '427' ? '5,121평' : '-평');
+        const targetIrr = pm.target_irr || (vehicleId === '427' ? '10.5%' : '8.2%');
+
+        // TODO: The following metrics will be calculated dynamically from existing core DB tables.
+        // For now, these are placeholder calculations.
+        const calculateCost = (vid) => {
+            return vid === '427' ? { uw: '1조 6,000억', asis: '2조 1,964억', uwPyeong: '4,380 만원/평', asisPyeong: '6,053 만원/평' } 
+                                 : { uw: '6,500억', asis: '8,200억', uwPyeong: '1,780 만원/평', asisPyeong: '2,244 만원/평' };
+        };
+        const calculateRevenue = (vid) => {
+            return vid === '427' ? { uw: '1조 8,070억', asis: '2조 3,749억', uwPyeong: '4,600 만원/평', asisPyeong: '6,500 만원/평' } 
+                                 : { uw: '7,800억', asis: '9,500억', uwPyeong: '2,135 만원/평', asisPyeong: '2,600 만원/평' };
+        };
+        const calculateDevPeriod = (vid) => {
+            return vid === '427' ? { uwMonths: '67M', asisMonths: '116M', uwDate: 'UW 2022.12', asisDate: 'As-is 2026.03' }
+                                 : { uwMonths: '50M', asisMonths: '74M', uwDate: 'UW 2021.10', asisDate: 'As-is 2025.08' };
+        };
+        const calculateEnoc = (vid) => {
+            return vid === '427' ? { uw: '37.5만원', asis: '64.3만원', uwDate: '2027년 기준', asisDate: '2032년 기준' }
+                                 : { uw: '18.5만원', asis: '24.3만원', uwDate: '2026년 기준', asisDate: '2029년 기준' };
+        };
+        const calculateIrrEm = (vid) => {
+            return vid === '427' ? { uwEm: 'EM x1.75', asisEm: 'EM x1.73' }
+                                 : { uwEm: 'EM x1.45', asisEm: 'EM x1.41' };
+        };
+
+        const costData = calculateCost(vehicleId);
+        const revenueData = calculateRevenue(vehicleId);
+        const periodData = calculateDevPeriod(vehicleId);
+        const enocData = calculateEnoc(vehicleId);
+        const irrEmData = calculateIrrEm(vehicleId);
 
         return (
             <div id={id} className="mb-[28px]">
@@ -332,13 +389,13 @@ export default function VehicleIntegrated() {
                             <div className="flex-[1.4] flex flex-col justify-center border-r border-[#444]/50 h-[74px] pr-5">
                                 <span className="text-[14px] font-bold text-[#86868B] mb-[10px] font-['Inter']">개발기간</span>
                                 <div className="flex items-center justify-start gap-[10px] mb-[4px]">
-                                    <span className="text-[28px] font-bold text-[#A1A1AA] tracking-tighter leading-none">67M</span>
+                                    <span className="text-[28px] font-bold text-[#A1A1AA] tracking-tighter leading-none">{periodData.uwMonths}</span>
                                     <span className="text-[20px] text-[#666] leading-none mb-1 font-bold">→</span>
-                                    <span className="text-[28px] font-bold text-white tracking-tighter leading-none">116M</span>
+                                    <span className="text-[28px] font-bold text-white tracking-tighter leading-none">{periodData.asisMonths}</span>
                                 </div>
                                 <div className="flex justify-start gap-[24px] w-full">
-                                    <span className="text-[11px] text-[#666] font-['Inter'] leading-none">UW 2022.12</span>
-                                    <span className="text-[11px] text-[#A1A1AA] font-['Inter'] leading-none">As-is 2026.03</span>
+                                    <span className="text-[11px] text-[#666] font-['Inter'] leading-none">{periodData.uwDate}</span>
+                                    <span className="text-[11px] text-[#A1A1AA] font-['Inter'] leading-none">{periodData.asisDate}</span>
                                 </div>
                             </div>
                             <div className="flex-[1] flex flex-col justify-center pl-6 h-[74px]">
@@ -372,15 +429,15 @@ export default function VehicleIntegrated() {
                                 <span className="absolute top-[20px] left-[20px] text-[15px] font-bold text-[#86868B] font-['Inter'] tracking-tight">원가</span>
                                 <div className="flex items-end justify-end gap-3 w-full">
                                     <div className="flex flex-col items-end">
-                                        <span className="text-[11px] text-[#666] mb-0 leading-none font-['Inter']">UW 2022.12</span>
-                                        <span className="text-[13px] text-[#86868B] mb-[6px]">4,380 만원/평</span>
-                                        <span className="text-[28px] font-bold text-[#A1A1AA] tracking-tighter leading-none">1조 6,000억</span>
+                                        <span className="text-[11px] text-[#666] mb-0 leading-none font-['Inter']">{periodData.uwDate}</span>
+                                        <span className="text-[13px] text-[#86868B] mb-[6px]">{costData.uwPyeong}</span>
+                                        <span className="text-[28px] font-bold text-[#A1A1AA] tracking-tighter leading-none">{costData.uw}</span>
                                     </div>
                                     <span className="text-[20px] text-[#666] mb-[1px] font-bold mr-[-2px]">→</span>
                                     <div className="flex flex-col items-end w-[138px] whitespace-nowrap">
-                                        <span className="text-[11px] text-white mb-0 leading-none font-medium font-['Inter'] whitespace-nowrap">As-is 2026.03</span>
-                                        <span className="text-[13px] text-white mb-[6px] whitespace-nowrap">6,053 만원/평</span>
-                                        <span className="text-[28px] font-bold text-[#bbb9af] tracking-tighter leading-none whitespace-nowrap">2조 1,964억</span>
+                                        <span className="text-[11px] text-white mb-0 leading-none font-medium font-['Inter'] whitespace-nowrap">{periodData.asisDate}</span>
+                                        <span className="text-[13px] text-white mb-[6px] whitespace-nowrap">{costData.asisPyeong}</span>
+                                        <span className="text-[28px] font-bold text-[#bbb9af] tracking-tighter leading-none whitespace-nowrap">{costData.asis}</span>
                                     </div>
                                 </div>
                             </div>
@@ -389,15 +446,15 @@ export default function VehicleIntegrated() {
                                 <span className="absolute top-[20px] left-[20px] text-[15px] font-bold text-[#86868B] font-['Inter'] tracking-tight">매각 목표</span>
                                 <div className="flex items-end justify-end gap-3 w-full">
                                     <div className="flex flex-col items-end">
-                                        <span className="text-[11px] text-[#666] mb-0 leading-none font-['Inter']">UW 2022.12</span>
-                                        <span className="text-[13px] text-[#86868B] mb-[6px]">4,600 만원/평</span>
-                                        <span className="text-[28px] font-bold text-[#A1A1AA] tracking-tighter leading-none">1조 8,070억</span>
+                                        <span className="text-[11px] text-[#666] mb-0 leading-none font-['Inter']">{periodData.uwDate}</span>
+                                        <span className="text-[13px] text-[#86868B] mb-[6px]">{revenueData.uwPyeong}</span>
+                                        <span className="text-[28px] font-bold text-[#A1A1AA] tracking-tighter leading-none">{revenueData.uw}</span>
                                     </div>
                                     <span className="text-[20px] text-[#666] mb-[1px] font-bold mr-[-2px]">→</span>
                                     <div className="flex flex-col items-end w-[138px] whitespace-nowrap">
-                                        <span className="text-[11px] text-white mb-0 leading-none font-medium font-['Inter'] whitespace-nowrap">As-is 2026.03</span>
-                                        <span className="text-[13px] text-white mb-[6px] whitespace-nowrap"><span className="text-[#86868B] font-['Inter'] mr-1 tracking-tight">Target</span>6,500 만원/평</span>
-                                        <span className="text-[28px] font-bold text-[#bbb9af] tracking-tighter leading-none whitespace-nowrap">2조 3,749억</span>
+                                        <span className="text-[11px] text-white mb-0 leading-none font-medium font-['Inter'] whitespace-nowrap">{periodData.asisDate}</span>
+                                        <span className="text-[13px] text-white mb-[6px] whitespace-nowrap"><span className="text-[#86868B] font-['Inter'] mr-1 tracking-tight">Target</span>{revenueData.asisPyeong}</span>
+                                        <span className="text-[28px] font-bold text-[#bbb9af] tracking-tighter leading-none whitespace-nowrap">{revenueData.asis}</span>
                                     </div>
                                 </div>
                             </div>
@@ -406,15 +463,15 @@ export default function VehicleIntegrated() {
                                 <span className="absolute top-[20px] left-[20px] text-[15px] font-bold text-[#86868B] font-['Inter'] tracking-tight">수익률 목표</span>
                                 <div className="flex items-end justify-end gap-3 w-full">
                                     <div className="flex flex-col items-end">
-                                        <span className="text-[11px] text-[#666] mb-0 leading-none font-['Inter']">UW 2022.12</span>
-                                        <span className="text-[13px] text-[#86868B] mb-[6px] font-['Inter']">EM x1.75</span>
-                                        <span className="text-[28px] font-bold text-[#A1A1AA] tracking-tighter leading-none font-['Inter']">IRR 10.5%</span>
+                                        <span className="text-[11px] text-[#666] mb-0 leading-none font-['Inter']">{periodData.uwDate}</span>
+                                        <span className="text-[13px] text-[#86868B] mb-[6px] font-['Inter']">{irrEmData.uwEm}</span>
+                                        <span className="text-[28px] font-bold text-[#A1A1AA] tracking-tighter leading-none font-['Inter']">IRR {targetIrr}</span>
                                     </div>
                                     <span className="text-[20px] text-[#666] mb-[1px] font-bold mr-[-2px]">→</span>
                                     <div className="flex flex-col items-end w-[138px] whitespace-nowrap">
-                                        <span className="text-[11px] text-white mb-0 leading-none font-medium font-['Inter'] whitespace-nowrap">As-is 2026.03</span>
-                                        <span className="text-[13px] text-white mb-[6px] font-['Inter'] whitespace-nowrap"><span className="text-[#86868B] mr-1 tracking-tight">Target</span>EM x1.73</span>
-                                        <span className="text-[28px] font-bold text-[#bbb9af] tracking-tighter leading-none font-['Inter'] whitespace-nowrap">IRR 10.5%</span>
+                                        <span className="text-[11px] text-white mb-0 leading-none font-medium font-['Inter'] whitespace-nowrap">{periodData.asisDate}</span>
+                                        <span className="text-[13px] text-white mb-[6px] font-['Inter'] whitespace-nowrap"><span className="text-[#86868B] mr-1 tracking-tight">Target</span>{irrEmData.asisEm}</span>
+                                        <span className="text-[28px] font-bold text-[#bbb9af] tracking-tighter leading-none font-['Inter'] whitespace-nowrap">IRR {targetIrr}</span>
                                     </div>
                                 </div>
                             </div>
@@ -423,15 +480,15 @@ export default function VehicleIntegrated() {
                                 <span className="absolute top-[20px] left-[20px] text-[15px] font-bold text-[#86868B] font-['Inter'] tracking-tight">E.NOC 목표</span>
                                 <div className="flex items-end justify-end gap-3 w-full">
                                     <div className="flex flex-col items-end">
-                                        <span className="text-[11px] text-[#666] mb-0 leading-none font-['Inter']">UW 2022.12</span>
-                                        <span className="text-[13px] text-[#86868B] mb-[6px]">2027년 기준</span>
-                                        <span className="text-[28px] font-bold text-[#A1A1AA] tracking-tighter leading-none">37.5만원</span>
+                                        <span className="text-[11px] text-[#666] mb-0 leading-none font-['Inter']">{periodData.uwDate}</span>
+                                        <span className="text-[13px] text-[#86868B] mb-[6px]">{enocData.uwDate}</span>
+                                        <span className="text-[28px] font-bold text-[#A1A1AA] tracking-tighter leading-none">{enocData.uw}</span>
                                     </div>
                                     <span className="text-[20px] text-[#666] mb-[1px] font-bold mr-[-2px]">→</span>
                                     <div className="flex flex-col items-end w-[138px] whitespace-nowrap">
-                                        <span className="text-[11px] text-white mb-0 leading-none font-medium font-['Inter'] whitespace-nowrap">As-is 2026.03</span>
-                                        <span className="text-[13px] text-white mb-[6px] whitespace-nowrap">2032년 기준</span>
-                                        <span className="text-[28px] font-bold text-[#bbb9af] tracking-tighter leading-none whitespace-nowrap">64.3만원</span>
+                                        <span className="text-[11px] text-white mb-0 leading-none font-medium font-['Inter'] whitespace-nowrap">{periodData.asisDate}</span>
+                                        <span className="text-[13px] text-white mb-[6px] whitespace-nowrap">{enocData.asisDate}</span>
+                                        <span className="text-[28px] font-bold text-[#bbb9af] tracking-tighter leading-none whitespace-nowrap">{enocData.asis}</span>
                                     </div>
                                 </div>
                             </div>
@@ -705,34 +762,21 @@ export default function VehicleIntegrated() {
         return sum;
     };
 
-    const get427MockPhaseTotal = (phase, typeStr) => {
-        if (phase === 'phase1') {
-            if (typeStr === 'Equity') return 2800;
-            if (typeStr === 'Loan') return 14400;
-            return 17200;
-        }
-        if (phase === 'phase2') {
-            if (typeStr === 'Equity') return 2800;
-            if (typeStr === 'Loan') return 14400;
-            return 17200;
-        }
-        return 0;
+    const get427DbPhase = (phaseId) => {
+        if (phaseId === 'phase1') return 'Phase1';
+        if (phaseId === 'phase2') return 'Phase2';
+        if (phaseId === 'phase3') return 'Bridge';
+        return 'Refinancing';
     };
 
-    const displayTotal427 = phase427 === 'phase1' || phase427 === 'phase2' 
-        ? get427MockPhaseTotal(phase427, 'Total') 
-        : getTotal(427, phase427 === 'phase3' ? 'Bridge' : 'Refinancing');
+    const active427PhaseStr = get427DbPhase(phase427);
+    const displayTotal427 = getTotal(427, active427PhaseStr);
     const displayTotal816 = getTotal(816, phase816 === 'bridge' ? 'Bridge' : 'Refinancing');
     const activePhase421 = phase421 === 'current' ? '2024.10.ver' : 'new';
     const total421 = getTotal(421, activePhase421);
 
-    const equity427 = phase427 === 'phase1' || phase427 === 'phase2'
-        ? get427MockPhaseTotal(phase427, 'Equity')
-        : getTypeTotal(427, phase427 === 'phase3' ? 'Bridge' : 'Refinancing', 'Equity');
-        
-    const loan427 = phase427 === 'phase1' || phase427 === 'phase2'
-        ? get427MockPhaseTotal(phase427, 'Loan')
-        : getTypeTotal(427, phase427 === 'phase3' ? 'Bridge' : 'Refinancing', 'Loan');
+    const equity427 = getTypeTotal(427, active427PhaseStr, 'Equity');
+    const loan427 = getTypeTotal(427, active427PhaseStr, 'Loan');
     
     // Grand total uses latest refinancing (or fixed values) for stability, or dynamic if preferred. Let's make it dynamic based on current toggles.
     const grandTotal = displayTotal427 + total421 + displayTotal816;
@@ -844,12 +888,13 @@ export default function VehicleIntegrated() {
             <div className="w-full h-[38px]"></div>
 
             {/* 3. IOTA Two (816) */}
-            <VehicleDetailCard 
+            <IotaTwo816DetailCard 
                 id="section-816" 
                 vehicleId="816"
                 title="IOTA Two (816 PFV)" 
                 totalAmountStr={formatAmount(displayTotal816)} 
-                data={iotaData[816][phase816 === 'bridge' ? 'Bridge' : 'Refinancing']} 
+                dbData={iotaData[816][phase816 === 'bridge' ? 'Bridge' : 'Refinancing']} 
+                historyData={projectHistory?.['816'] || []}
                 toggleContent={toggle816}
             />
 
