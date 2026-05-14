@@ -612,6 +612,29 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
                                         )}
                                     <div className="clear-both mb-[16px]"></div>
                                     
+                                    {/* Attached Files List */}
+                                    {checkUserAccess(log) && log.metadata?.attachedFiles && log.metadata.attachedFiles.length > 0 && (
+                                        <div className="flex flex-col gap-[8px] mb-[16px] border-t border-[#333] pt-[12px]">
+                                            <div className="text-[12px] font-bold text-[#86868B] mb-[4px]">첨부파일</div>
+                                            <div className="flex flex-wrap gap-[8px]">
+                                                {log.metadata.attachedFiles.map((file, idx) => (
+                                                    <a 
+                                                        key={idx} 
+                                                        href={file.url} 
+                                                        target="_blank" 
+                                                        rel="noopener noreferrer"
+                                                        className="flex items-center gap-[6px] bg-[#222] hover:bg-[#333] border border-[#444] rounded-[8px] px-[12px] py-[8px] transition-colors group cursor-pointer"
+                                                        onClick={(e) => e.stopPropagation()}
+                                                    >
+                                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#A1A1AA" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:stroke-white transition-colors"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
+                                                        <span className="text-[12px] text-[#A1A1AA] group-hover:text-[#E5E5E5] transition-colors truncate max-w-[200px]" title={file.name}>{file.name}</span>
+                                                        <span className="text-[10px] text-[#555] ml-[4px]">{file.size ? (file.size / 1024 / 1024).toFixed(2) : '0.00'}MB</span>
+                                                    </a>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
+
                                     {/* Comments List */}
                                     {checkUserAccess(log) && log.metadata?.comments && log.metadata.comments.length > 0 && (
                                         <div className="flex flex-col gap-[8px] mb-[16px] border-t border-[#333] pt-[12px]">
