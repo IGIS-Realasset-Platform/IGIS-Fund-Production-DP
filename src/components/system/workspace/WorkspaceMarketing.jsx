@@ -713,7 +713,7 @@ export default function WorkspaceMarketing() {
                                             <span className="text-[13px] font-bold text-[#86868B]">Next Action</span>
                                             {row.due_date && <span className="text-[11px] font-medium text-[#A1A1AA] bg-[#2c2c2e] border border-[#3a3a3c] px-[8px] py-[2px] rounded-full tracking-tight">마감일 목표 {row.due_date}</span>}
                                         </div>
-                                        <p className="text-[18px] text-[#bbb9af] leading-relaxed break-keep font-medium -translate-y-[6px]">
+                                        <p className="min-h-[28px] text-[18px] text-[#bbb9af] leading-relaxed break-keep font-medium -translate-y-[6px]">
                                             {parseNames(row.next_action)}
                                         </p>
                                     </div>
