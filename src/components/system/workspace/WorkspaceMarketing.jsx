@@ -352,32 +352,17 @@ export default function WorkspaceMarketing() {
         const current = sortedTasks[index];
         const prev = sortedTasks[index - 1];
         
-        let tCurrent = new Date(current.created_at || Date.now()).getTime();
-        let tPrev = new Date(prev.created_at || Date.now()).getTime();
+        const temp = current.created_at;
+        current.created_at = prev.created_at;
+        prev.created_at = temp;
         
-        if (tCurrent === tPrev) {
-            tPrev += 10; // add 10ms to force strict difference without jumping over others
-        }
-        
-        const newCurrentTime = new Date(tPrev).toISOString(); // swapped
-        const newPrevTime = new Date(tCurrent).toISOString(); // swapped
-        
-        const newTasks = tasks.map(t => {
-            if (t.id === current.id) return { ...t, created_at: newCurrentTime };
-            if (t.id === prev.id) return { ...t, created_at: newPrevTime };
-            return t;
-        });
+        const newTasks = tasks.map(t => t.id === current.id ? {...t, created_at: current.created_at} : t.id === prev.id ? {...t, created_at: prev.created_at} : t);
         setTasks(newTasks);
         
         try {
-            const { data: d1, error: err1 } = await executeWithTimeout(supabase.from('iota_stakeholder_master').update({ created_at: newCurrentTime }).eq('id', current.id).select());
-            const { data: d2, error: err2 } = await executeWithTimeout(supabase.from('iota_stakeholder_master').update({ created_at: newPrevTime }).eq('id', prev.id).select());
-            if (err1 || err2) {
-                console.error('Reorder update failed:', err1 || err2);
-                alert('순서 변경 실패: 권한이 없거나 서버 오류입니다.');
-            }
+            await supabase.from('iota_stakeholder_master').update({ created_at: current.created_at }).eq('id', current.id);
+            await supabase.from('iota_stakeholder_master').update({ created_at: prev.created_at }).eq('id', prev.id);
         } catch (e) {
-            console.error('Reorder timeout/error:', e);
             localStorage.setItem('iota_stakeholder_master_fallback', JSON.stringify(newTasks));
         }
     };
@@ -385,34 +370,19 @@ export default function WorkspaceMarketing() {
     const handleMoveTaskDown = async (index) => {
         if (index === sortedTasks.length - 1) return;
         const current = sortedTasks[index];
-        const nextTask = sortedTasks[index + 1];
+        const next = sortedTasks[index + 1];
         
-        let tCurrent = new Date(current.created_at || Date.now()).getTime();
-        let tNext = new Date(nextTask.created_at || Date.now()).getTime();
+        const temp = current.created_at;
+        current.created_at = next.created_at;
+        next.created_at = temp;
         
-        if (tCurrent === tNext) {
-            tCurrent += 10;
-        }
-        
-        const newCurrentTime = new Date(tNext).toISOString();
-        const newNextTime = new Date(tCurrent).toISOString();
-        
-        const newTasks = tasks.map(t => {
-            if (t.id === current.id) return { ...t, created_at: newCurrentTime };
-            if (t.id === nextTask.id) return { ...t, created_at: newNextTime };
-            return t;
-        });
+        const newTasks = tasks.map(t => t.id === current.id ? {...t, created_at: current.created_at} : t.id === next.id ? {...t, created_at: next.created_at} : t);
         setTasks(newTasks);
         
         try {
-            const { data: d1, error: err1 } = await executeWithTimeout(supabase.from('iota_stakeholder_master').update({ created_at: newCurrentTime }).eq('id', current.id).select());
-            const { data: d2, error: err2 } = await executeWithTimeout(supabase.from('iota_stakeholder_master').update({ created_at: newNextTime }).eq('id', nextTask.id).select());
-            if (err1 || err2) {
-                console.error('Reorder update failed:', err1 || err2);
-                alert('순서 변경 실패: 권한이 없거나 서버 오류입니다.');
-            }
+            await supabase.from('iota_stakeholder_master').update({ created_at: current.created_at }).eq('id', current.id);
+            await supabase.from('iota_stakeholder_master').update({ created_at: next.created_at }).eq('id', next.id);
         } catch (e) {
-            console.error('Reorder timeout/error:', e);
             localStorage.setItem('iota_stakeholder_master_fallback', JSON.stringify(newTasks));
         }
     };
