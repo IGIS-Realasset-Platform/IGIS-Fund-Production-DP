@@ -326,7 +326,7 @@ const IotaTwo816DetailCard = ({ id, vehicleId, title, dbData, historyData, navig
                                     </h3>
                                     <span className="text-[#86868B] text-[12px] mb-[2px] font-medium tracking-tight">**대상 문서에 기반한 초안이며 정확한 숫자는 담당부서 재검증 후 업데이트 예정</span>
                                 </div>
-                                <div className="w-full overflow-x-auto custom-scrollbar pb-4">
+                                <div className="w-full overflow-x-auto custom-scrollbar pb-2">
                                 <div className="min-w-max border border-[#3C3C3C] rounded-lg overflow-hidden bg-[#242426]">
                                     <div className="flex border-b border-[#3C3C3C] bg-[#2C2C2E]">
                                         <div className="w-[150px] p-3 border-r border-[#3C3C3C] font-bold text-[#86868B] text-[13px] shrink-0 flex items-center">지표 구분</div>
