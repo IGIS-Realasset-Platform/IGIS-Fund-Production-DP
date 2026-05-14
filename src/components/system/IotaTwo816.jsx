@@ -183,27 +183,15 @@ export default function IotaTwo816() {
                     </div>
                 </div>
 
-                {/* Team Info Pill Box */}
+                {/* Team Info Pill Box (Now Status Track) */}
                 <div className="w-full bg-[#292928] border border-[#3c3c3c] rounded-[24px] h-[74px] flex items-center justify-between px-8">
                     <div className="flex items-center text-[16px]">
-                        <span className="text-[#86868B] mr-[12px] text-[14px] font-medium font-['Inter']">Director</span>
-                        <span className="text-white font-bold mr-[32px] cursor-pointer hover:text-[#fbf167] transition-colors">이철승</span>
-                        
-                        <span className="text-[#86868B] mr-[12px] text-[14px] font-medium font-['Inter']">Project Owner</span>
-                        <span className="text-white font-bold mr-[32px] cursor-pointer hover:text-[#fbf167] transition-colors">강순용</span>
-                        
-                        <span className="text-[#86868B] mr-[12px] text-[14px] font-medium font-['Inter']">Project Manager</span>
-                        <div className="flex items-center gap-[14px]">
-                            {['한찬호', '소현준', '이수정', '박석제', '한수정', '박채현', '조영비'].map(name => (
-                                <span key={name} className="text-white font-bold cursor-pointer hover:text-[#fbf167] transition-colors">{name}</span>
-                            ))}
-                        </div>
-                    </div>
-                    <div className="text-[15px] text-[#86868B] cursor-pointer hover:text-[#E5E5E5] transition-colors font-medium -mr-[2px] flex items-center group">
-                        <span>사업2파트 프로젝트 전체보기</span>
-                        <svg className="w-[12px] h-[12px] ml-1 text-[#666] group-hover:text-[#A1A1AA] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 5l7 7-7 7" />
-                        </svg>
+                        <span className="text-[#86868B] mr-[18px] text-[14px] font-medium font-['Inter']">현재트랙</span>
+                        <span className="text-white font-bold">2026년 4월 24일 리파이낸싱 완료</span>
+                        <span className="text-[#666] mx-[14px]">ㅣ</span>
+                        <span className="text-white font-bold">2027년 4월 철거 공사 예정</span>
+                        <span className="text-[#666] mx-[14px]">ㅣ</span>
+                        <span className="text-white font-bold">통합 PF 준비중</span>
                     </div>
                 </div>
 

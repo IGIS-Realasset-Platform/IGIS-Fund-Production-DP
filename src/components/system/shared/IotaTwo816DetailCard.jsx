@@ -143,7 +143,7 @@ const IotaTwo816DetailCard = ({ id, vehicleId, title, dbData, historyData, navig
     let curMetrics = { ...phaseMetrics[activePhase] };
 
     return (
-        <div id={id} className="mb-[28px] -mt-[4px]">
+        <div id={id} className="mb-[20px] -mt-[4px]">
             {title && (
                 <div className="flex justify-between items-end mb-[12px] px-[8px]">
                     <div className="flex items-end gap-[16px]">

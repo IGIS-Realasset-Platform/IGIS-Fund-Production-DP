@@ -26,7 +26,7 @@ const menuItems = [
     },
     {
         id: 2,
-        label: 'Vehicle 통합',
+        label: 'Vehicle 정보',
         path: 'platform/iotaseoul/vehicle-integrated',
         icon: (
             <svg className="w-4.5 h-4.5 mr-[10px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">

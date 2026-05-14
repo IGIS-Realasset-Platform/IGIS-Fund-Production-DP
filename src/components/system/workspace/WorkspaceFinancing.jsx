@@ -943,6 +943,149 @@ export default function WorkspaceFinancing() {
         return `${formattedUk}억원`;
     };
 
+    const renderEditForm = () => (
+        <div className="w-full bg-[#272726] border border-[#3c3c3c] rounded-[24px] p-6 flex flex-col gap-[14px] mt-[16px]">
+                        <div className="flex gap-4">
+                            <input 
+                                type="text" 
+                                value={newTask.task_name} 
+                                onChange={e => setNewTask({...newTask, task_name: e.target.value})} 
+                                className="flex-[2] bg-[#1A1A1A] border border-[#444] rounded-[12px] px-4 py-3 text-white text-[16px] font-bold outline-none focus:border-[#888]" 
+                                placeholder="Task 입력" 
+                            />
+                            <div className="relative flex-1">
+                                <input 
+                                    type="text" 
+                                    value={companyQuery} 
+                                    onChange={e => {
+                                        setCompanyQuery(e.target.value);
+                                        setShowCompanyDropdown(true);
+                                        setNewTask({...newTask, company_name: e.target.value});
+                                    }}
+                                    onFocus={() => setShowCompanyDropdown(true)}
+                                    onBlur={() => setTimeout(() => setShowCompanyDropdown(false), 200)}
+                                    className="w-full bg-[#1A1A1A] border border-[#444] rounded-[12px] px-4 py-3 text-white text-[16px] outline-none focus:border-[#888]" 
+                                    placeholder="이해관계자 검색" 
+                                />
+                                {showCompanyDropdown && companyQuery && (
+                                    <div className="absolute top-full left-0 mt-1 w-full max-h-[150px] overflow-y-auto bg-[#2A2A2A] border border-[#444] rounded-[12px] z-50 shadow-xl py-2">
+                                        {filteredCompanies.length > 0 ? (
+                                            filteredCompanies.map((c, i) => (
+                                                <div 
+                                                    key={i} 
+                                                    className="px-4 py-2 text-[14px] text-white hover:bg-[#3b82f6] cursor-pointer"
+                                                    onMouseDown={(e) => {
+                                                        e.preventDefault();
+                                                        setCompanyQuery(c);
+                                                        setNewTask({...newTask, company_name: c});
+                                                        setShowCompanyDropdown(false);
+                                                    }}
+                                                >
+                                                    {c}
+                                                </div>
+                                            ))
+                                        ) : (
+                                            <div className="px-4 py-2">
+                                                <span className="text-[#A1A1AA] text-[13px] block mb-2">검색 결과가 없습니다.</span>
+                                                <button 
+                                                    type="button"
+                                                    onMouseDown={(e) => { e.preventDefault(); setShowNewStakeholderModal(true); setShowCompanyDropdown(false); }}
+                                                    className="w-full px-3 py-2 bg-[#3b82f6] hover:bg-[#2563eb] text-white text-[13px] rounded-[8px] transition-colors"
+                                                >
+                                                    + 신규 등록
+                                                </button>
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                        <input 
+                            type="text" 
+                            value={newTask.next_action} 
+                            onChange={e => setNewTask({...newTask, next_action: e.target.value})} 
+                            className="w-full bg-[#1A1A1A] border border-[#444] rounded-[12px] px-4 py-3 text-white text-[15px] outline-none focus:border-[#888]" 
+                            placeholder="다음액션 준비사항 입력" 
+                        />
+                        <textarea 
+                            value={newTask.notes || ''} 
+                            onChange={e => setNewTask({...newTask, notes: e.target.value})} 
+                            className="w-full bg-[#1A1A1A] border border-[#444] rounded-[12px] px-4 py-3 text-[#A1A1AA] text-[14px] outline-none focus:border-[#888] min-h-[92px] resize-y" 
+                            placeholder="상세 내용 입력" 
+                        />
+                        <div className="flex items-center gap-3">
+                            <input 
+                                type="file" 
+                                ref={fileInputRef} 
+                                onChange={handleFileUpload} 
+                                className="hidden" 
+                            />
+                            <button 
+                                onClick={() => fileInputRef.current?.click()}
+                                disabled={uploadingFile}
+                                className="px-3 py-1.5 bg-[#2A2A2A] hover:bg-[#333] text-[#A1A1AA] text-[13px] rounded-lg transition-colors flex items-center gap-2 border border-[#444] cursor-pointer"
+                            >
+                                {uploadingFile ? (
+                                    <span className="animate-pulse">업로드 중...</span>
+                                ) : (
+                                    <>
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48"/></svg>
+                                        파일 첨부
+                                    </>
+                                )}
+                            </button>
+                            {newTask.file_name && (
+                                <div className="flex items-center gap-2 bg-[#222] px-3 py-1.5 rounded-lg border border-[#333]">
+                                    <span 
+                                        className="text-[13px] text-[#A1A1AA] truncate max-w-[200px] hover:text-[#E5E5E5] cursor-pointer hover:underline transition-colors"
+                                        onClick={() => newTask.file_url && handleDownloadFile(newTask.file_url, newTask.file_name)}
+                                        title="클릭하여 다운로드"
+                                    >
+                                        {newTask.file_name}
+                                    </span>
+                                    <button 
+                                        onClick={() => setNewTask({...newTask, file_name: null, file_url: null})}
+                                        className="text-[#888] hover:text-[#fff] cursor-pointer"
+                                        title="첨부파일 삭제"
+                                    >
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+                        <div className="flex flex-wrap gap-4 items-center">
+                            <select 
+                                value={newTask.related_asset} 
+                                onChange={e => {
+                                    if (e.target.value === 'ADD_NEW') setShowNewAssetModal(true);
+                                    else setNewTask({...newTask, related_asset: e.target.value});
+                                }} 
+                                className="bg-[#1A1A1A] border border-[#444] rounded-[10px] px-3 py-2 text-white text-[14px] outline-none focus:border-[#888] cursor-pointer"
+                            >
+                                <option value="IOTA 공통">IOTA 공통</option>
+                                <option value="427 PFV">427 PFV</option>
+                                <option value="816 PFV">816 PFV</option>
+                                <option value="421 Fund">421 Fund</option>
+                                {Array.isArray(customAssets) && customAssets.map(a => typeof a === 'string' ? <option key={a} value={a}>{a}</option> : null)}
+                                <option value="ADD_NEW" className="text-[#3b82f6] font-bold">+ 자산 신규 추가</option>
+                            </select>
+                            <select value={newTask.status} onChange={e => setNewTask({...newTask, status: e.target.value})} className="bg-[#1A1A1A] border border-[#444] rounded-[10px] px-3 py-2 text-white text-[14px] outline-none focus:border-[#888]">
+                                {['신규', '검토중', '진행중', '보류', '완료'].map(s => <option key={s}>{s}</option>)}
+                            </select>
+                            <select value={newTask.priority} onChange={e => setNewTask({...newTask, priority: e.target.value})} className="bg-[#1A1A1A] border border-[#444] rounded-[10px] px-3 py-2 text-white text-[14px] outline-none focus:border-[#888]">
+                                <option>높음</option>
+                                <option>중간</option>
+                                <option>낮음</option>
+                            </select>
+                            <div className="flex items-center gap-2"><span className="text-[#86868B] text-[13px] font-bold shrink-0">목표 마감일</span><input type="date" value={newTask.due_date} onClick={(e) => e.target.showPicker && e.target.showPicker()} onChange={e => setNewTask({...newTask, due_date: e.target.value})} className="bg-[#1A1A1A] border border-[#444] rounded-[10px] px-3 py-2 text-[#A1A1AA] text-[14px] outline-none focus:border-[#888] cursor-pointer [color-scheme:dark]" /></div>
+                            <div className="flex gap-2 ml-auto">
+                                <button onClick={() => { setIsAdding(false); setEditingTaskId(null); setCompanyQuery(''); setNewTask({ task_name: '', company_name: '', related_asset: 'IOTA 공통', status: '신규', priority: '중간', due_date: new Date().toLocaleDateString('en-CA'), next_action: '', notes: '', file_name: null, file_url: null }); }} className="px-5 py-2 bg-[#3c3c3c]/50 text-[#86868B] border border-[#444] rounded-[10px] text-[14px] font-bold hover:bg-[#3c3c3c] hover:text-white transition-colors cursor-pointer">취소</button>
+                                <button onClick={handleSaveRow} disabled={isSubmittingTask} className="px-5 py-2 bg-[#059669]/20 text-[#34d399] border border-[#059669]/30 rounded-[10px] text-[14px] font-bold hover:bg-[#059669]/40 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">{isSubmittingTask ? '저장 중...' : editingTaskId ? '수정 완료' : '저장'}</button>
+                            </div>
+                        </div>
+                    </div>
+    );
+
     return (
                 <div className="w-full flex-1 flex flex-col pt-[50px] pb-[60px] max-w-[1200px] mx-auto">
             {/* Header & Team Structure */}
@@ -1271,150 +1414,7 @@ export default function WorkspaceFinancing() {
                                 const trC = isProjected ? 0 : 15 + Math.random() * 5;
                                 const totalH = trA + trB + trC;
                                 
-                                const renderEditForm = () => (
-        <div className="w-full bg-[#272726] border border-[#3c3c3c] rounded-[24px] p-6 flex flex-col gap-[14px] mt-[16px]">
-                        <div className="flex gap-4">
-                            <input 
-                                type="text" 
-                                value={newTask.task_name} 
-                                onChange={e => setNewTask({...newTask, task_name: e.target.value})} 
-                                className="flex-[2] bg-[#1A1A1A] border border-[#444] rounded-[12px] px-4 py-3 text-white text-[16px] font-bold outline-none focus:border-[#888]" 
-                                placeholder="Task 입력" 
-                            />
-                            <div className="relative flex-1">
-                                <input 
-                                    type="text" 
-                                    value={companyQuery} 
-                                    onChange={e => {
-                                        setCompanyQuery(e.target.value);
-                                        setShowCompanyDropdown(true);
-                                        setNewTask({...newTask, company_name: e.target.value});
-                                    }}
-                                    onFocus={() => setShowCompanyDropdown(true)}
-                                    onBlur={() => setTimeout(() => setShowCompanyDropdown(false), 200)}
-                                    className="w-full bg-[#1A1A1A] border border-[#444] rounded-[12px] px-4 py-3 text-white text-[16px] outline-none focus:border-[#888]" 
-                                    placeholder="이해관계자 검색" 
-                                />
-                                {showCompanyDropdown && companyQuery && (
-                                    <div className="absolute top-full left-0 mt-1 w-full max-h-[150px] overflow-y-auto bg-[#2A2A2A] border border-[#444] rounded-[12px] z-50 shadow-xl py-2">
-                                        {filteredCompanies.length > 0 ? (
-                                            filteredCompanies.map((c, i) => (
-                                                <div 
-                                                    key={i} 
-                                                    className="px-4 py-2 text-[14px] text-white hover:bg-[#3b82f6] cursor-pointer"
-                                                    onMouseDown={(e) => {
-                                                        e.preventDefault();
-                                                        setCompanyQuery(c);
-                                                        setNewTask({...newTask, company_name: c});
-                                                        setShowCompanyDropdown(false);
-                                                    }}
-                                                >
-                                                    {c}
-                                                </div>
-                                            ))
-                                        ) : (
-                                            <div className="px-4 py-2">
-                                                <span className="text-[#A1A1AA] text-[13px] block mb-2">검색 결과가 없습니다.</span>
-                                                <button 
-                                                    type="button"
-                                                    onMouseDown={(e) => { e.preventDefault(); setShowNewStakeholderModal(true); setShowCompanyDropdown(false); }}
-                                                    className="w-full px-3 py-2 bg-[#3b82f6] hover:bg-[#2563eb] text-white text-[13px] rounded-[8px] transition-colors"
-                                                >
-                                                    + 신규 등록
-                                                </button>
-                                            </div>
-                                        )}
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-                        <input 
-                            type="text" 
-                            value={newTask.next_action} 
-                            onChange={e => setNewTask({...newTask, next_action: e.target.value})} 
-                            className="w-full bg-[#1A1A1A] border border-[#444] rounded-[12px] px-4 py-3 text-white text-[15px] outline-none focus:border-[#888]" 
-                            placeholder="다음액션 준비사항 입력" 
-                        />
-                        <textarea 
-                            value={newTask.notes || ''} 
-                            onChange={e => setNewTask({...newTask, notes: e.target.value})} 
-                            className="w-full bg-[#1A1A1A] border border-[#444] rounded-[12px] px-4 py-3 text-[#A1A1AA] text-[14px] outline-none focus:border-[#888] min-h-[92px] resize-y" 
-                            placeholder="상세 내용 입력" 
-                        />
-                        <div className="flex items-center gap-3">
-                            <input 
-                                type="file" 
-                                ref={fileInputRef} 
-                                onChange={handleFileUpload} 
-                                className="hidden" 
-                            />
-                            <button 
-                                onClick={() => fileInputRef.current?.click()}
-                                disabled={uploadingFile}
-                                className="px-3 py-1.5 bg-[#2A2A2A] hover:bg-[#333] text-[#A1A1AA] text-[13px] rounded-lg transition-colors flex items-center gap-2 border border-[#444] cursor-pointer"
-                            >
-                                {uploadingFile ? (
-                                    <span className="animate-pulse">업로드 중...</span>
-                                ) : (
-                                    <>
-                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48"/></svg>
-                                        파일 첨부
-                                    </>
-                                )}
-                            </button>
-                            {newTask.file_name && (
-                                <div className="flex items-center gap-2 bg-[#222] px-3 py-1.5 rounded-lg border border-[#333]">
-                                    <span 
-                                        className="text-[13px] text-[#A1A1AA] truncate max-w-[200px] hover:text-[#E5E5E5] cursor-pointer hover:underline transition-colors"
-                                        onClick={() => newTask.file_url && handleDownloadFile(newTask.file_url, newTask.file_name)}
-                                        title="클릭하여 다운로드"
-                                    >
-                                        {newTask.file_name}
-                                    </span>
-                                    <button 
-                                        onClick={() => setNewTask({...newTask, file_name: null, file_url: null})}
-                                        className="text-[#888] hover:text-[#fff] cursor-pointer"
-                                        title="첨부파일 삭제"
-                                    >
-                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                                    </button>
-                                </div>
-                            )}
-                        </div>
-                        <div className="flex flex-wrap gap-4 items-center">
-                            <select 
-                                value={newTask.related_asset} 
-                                onChange={e => {
-                                    if (e.target.value === 'ADD_NEW') setShowNewAssetModal(true);
-                                    else setNewTask({...newTask, related_asset: e.target.value});
-                                }} 
-                                className="bg-[#1A1A1A] border border-[#444] rounded-[10px] px-3 py-2 text-white text-[14px] outline-none focus:border-[#888] cursor-pointer"
-                            >
-                                <option value="IOTA 공통">IOTA 공통</option>
-                                <option value="427 PFV">427 PFV</option>
-                                <option value="816 PFV">816 PFV</option>
-                                <option value="421 Fund">421 Fund</option>
-                                {Array.isArray(customAssets) && customAssets.map(a => typeof a === 'string' ? <option key={a} value={a}>{a}</option> : null)}
-                                <option value="ADD_NEW" className="text-[#3b82f6] font-bold">+ 자산 신규 추가</option>
-                            </select>
-                            <select value={newTask.status} onChange={e => setNewTask({...newTask, status: e.target.value})} className="bg-[#1A1A1A] border border-[#444] rounded-[10px] px-3 py-2 text-white text-[14px] outline-none focus:border-[#888]">
-                                {['신규', '검토중', '진행중', '보류', '완료'].map(s => <option key={s}>{s}</option>)}
-                            </select>
-                            <select value={newTask.priority} onChange={e => setNewTask({...newTask, priority: e.target.value})} className="bg-[#1A1A1A] border border-[#444] rounded-[10px] px-3 py-2 text-white text-[14px] outline-none focus:border-[#888]">
-                                <option>높음</option>
-                                <option>중간</option>
-                                <option>낮음</option>
-                            </select>
-                            <div className="flex items-center gap-2"><span className="text-[#86868B] text-[13px] font-bold shrink-0">목표 마감일</span><input type="date" value={newTask.due_date} onClick={(e) => e.target.showPicker && e.target.showPicker()} onChange={e => setNewTask({...newTask, due_date: e.target.value})} className="bg-[#1A1A1A] border border-[#444] rounded-[10px] px-3 py-2 text-[#A1A1AA] text-[14px] outline-none focus:border-[#888] cursor-pointer [color-scheme:dark]" /></div>
-                            <div className="flex gap-2 ml-auto">
-                                <button onClick={() => { setIsAdding(false); setEditingTaskId(null); setCompanyQuery(''); setNewTask({ task_name: '', company_name: '', related_asset: 'IOTA 공통', status: '신규', priority: '중간', due_date: new Date().toLocaleDateString('en-CA'), next_action: '', notes: '', file_name: null, file_url: null }); }} className="px-5 py-2 bg-[#3c3c3c]/50 text-[#86868B] border border-[#444] rounded-[10px] text-[14px] font-bold hover:bg-[#3c3c3c] hover:text-white transition-colors cursor-pointer">취소</button>
-                                <button onClick={handleSaveRow} disabled={isSubmittingTask} className="px-5 py-2 bg-[#059669]/20 text-[#34d399] border border-[#059669]/30 rounded-[10px] text-[14px] font-bold hover:bg-[#059669]/40 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">{isSubmittingTask ? '저장 중...' : editingTaskId ? '수정 완료' : '저장'}</button>
-                            </div>
-                        </div>
-                    </div>
-    );
-
-    return (
+                                return (
                                     <div key={i} className="flex flex-col items-center gap-[12px] h-full justify-end w-[40px] group">
                                         <div className={`w-full flex flex-col justify-end gap-[1px] ${isProjected ? 'opacity-20' : ''} transition-opacity cursor-crosshair`} style={{height: '220px'}}>
                                             {isProjected ? (
