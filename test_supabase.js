@@ -1,25 +1,9 @@
-import { createClient } from '@supabase/supabase-js';
-import fs from 'fs';
+import { createClient } from '@supabase/supabase-js'
+import fs from 'fs'
 
-// Read supabase url and key from .env
-const envFile = fs.readFileSync('.env', 'utf8');
-let url = '';
-let key = '';
-envFile.split('\n').forEach(line => {
-    if (line.startsWith('VITE_SUPABASE_URL=')) url = line.split('=')[1];
-    if (line.startsWith('VITE_SUPABASE_ANON_KEY=')) key = line.split('=')[1];
-});
-
-const supabase = createClient(url, key);
-
-async function check() {
-    const { data, error } = await supabase.from('iota_pm_tasks').select('*');
-    if (error) {
-        console.error("Supabase Error:", error);
-    } else {
-        console.log("Supabase iota_pm_tasks count:", data.length);
-        console.log(JSON.stringify(data, null, 2));
-    }
-}
-
-check();
+// Read env variables from .env if possible or extract from code
+const content = fs.readFileSync('src/utils/supabaseClient.js', 'utf8')
+const urlMatch = content.match(/VITE_SUPABASE_URL\s*\}?\s*=\s*import\.meta\.env\s*\|\|\s*\{[^}]*VITE_SUPABASE_URL:\s*'([^']+)'/) 
+              || content.match(/const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;/)
+// We can't easily extract env vars without running the build or having .env
+// Let's just find the .env file
