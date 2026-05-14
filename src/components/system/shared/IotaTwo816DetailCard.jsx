@@ -329,7 +329,7 @@ const IotaTwo816DetailCard = ({ id, vehicleId, title, dbData, historyData, navig
                                 <div className="w-full overflow-x-auto custom-scrollbar pb-2">
                                 <div className="min-w-max border border-[#3C3C3C] rounded-lg overflow-hidden bg-[#242426]">
                                     <div className="flex border-b border-[#3C3C3C] bg-[#2C2C2E]">
-                                        <div className="w-[150px] p-3 border-r border-[#3C3C3C] font-bold text-[#86868B] text-[13px] shrink-0 flex items-center">지표 구분</div>
+                                        <div className="sticky left-0 z-20 bg-[#2C2C2E] w-[150px] p-3 border-r border-[#3C3C3C] font-bold text-[#86868B] text-[13px] shrink-0 flex items-center">지표 구분</div>
                                         <div className={`w-[220px] p-3 border-r border-[#3C3C3C] font-bold text-[13px] shrink-0 ${activePhase === 'phase1' ? 'text-[#0A84FF]' : 'text-[#E5E5E5]'}`}>Phase 1: 최초UW<br/><span className="text-[#86868B] font-normal">(2023.01 기준)</span></div>
                                         <div className={`w-[220px] p-3 border-r border-[#3C3C3C] font-bold text-[13px] shrink-0 ${activePhase === 'phase2' ? 'text-[#0A84FF]' : 'text-[#E5E5E5]'}`}>Phase 2: 정비계획 변경<br/><span className="text-[#86868B] font-normal">(2023.11 기준)</span></div>
                                         <div className={`w-[220px] p-3 border-r border-[#3C3C3C] font-bold text-[13px] shrink-0 ${activePhase === 'phase3' ? 'text-[#0A84FF]' : 'text-[#E5E5E5]'}`}>Phase 3: 자산매입<br/><span className="text-[#86868B] font-normal">(2024.03 기준)</span></div>
@@ -337,8 +337,8 @@ const IotaTwo816DetailCard = ({ id, vehicleId, title, dbData, historyData, navig
                                         <div className={`w-[220px] p-3 font-bold text-[13px] shrink-0 ${activePhase === 'phase5' ? 'text-[#0A84FF]' : 'text-[#E5E5E5]'}`}>Phase 5: 리파이낸싱<br/><span className="text-[#86868B] font-normal">(2026.04 기준)</span></div>
                                     </div>
                                     {historyData && historyData.length > 0 ? historyData.map((row, index) => (
-                                        <div key={index} className={`flex border-b border-[#3C3C3C] hover:bg-[#2A2A2C] transition-colors ${index === historyData.length - 1 ? 'border-b-0' : ''}`}>
-                                            <div className="w-[150px] p-3 border-r border-[#3C3C3C] font-bold text-[#86868B] text-[13px] shrink-0 flex items-center bg-[#28282A]">{row.category}</div>
+                                        <div key={index} className={`flex group border-b border-[#3C3C3C] hover:bg-[#2A2A2C] transition-colors ${index === historyData.length - 1 ? 'border-b-0' : ''}`}>
+                                            <div className="sticky left-0 z-10 w-[150px] p-3 border-r border-[#3C3C3C] font-bold text-[#86868B] text-[13px] shrink-0 flex items-center bg-[#28282A] group-hover:bg-[#2A2A2C] transition-colors">{row.category}</div>
                                             <div className={`w-[220px] p-3 border-r border-[#3C3C3C] text-[13px] leading-snug shrink-0 whitespace-pre-wrap ${activePhase === 'phase1' ? 'bg-[#2A2A2A] text-white font-bold' : 'text-[#D1D1D6]'}`}>{row.phase1}</div>
                                             <div className={`w-[220px] p-3 border-r border-[#3C3C3C] text-[13px] leading-snug shrink-0 whitespace-pre-wrap ${activePhase === 'phase2' ? 'bg-[#2A2A2A] text-white font-bold' : 'text-[#D1D1D6]'}`}>{row.phase2}</div>
                                             <div className={`w-[220px] p-3 border-r border-[#3C3C3C] text-[13px] leading-snug shrink-0 whitespace-pre-wrap ${activePhase === 'phase3' ? 'bg-[#2A2A2A] text-white font-bold' : 'text-[#D1D1D6]'}`}>{row.phase3}</div>
