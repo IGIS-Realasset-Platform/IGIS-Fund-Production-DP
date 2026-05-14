@@ -568,7 +568,7 @@ export default function DecisionLog() {
                                                 <div className="w-[calc(100%+48px)] h-[1px] bg-[#333] ml-[-24px] -mt-[10px] mb-[10px]"></div>
                                                 <div className="flex justify-between items-center mb-[2px]">
                                                     <span className="text-[13px] font-bold text-[#86868B]">Task {idx + 1}</span>
-                                                    <span className="text-[12px] font-medium text-[#555] opacity-60">목표 마감일 {task.due_date || '미정'}</span>
+                                                    <span className="text-[12px] font-medium text-[#86868B]">목표 마감일 {task.due_date || '미정'}</span>
                                                 </div>
                                                 <div 
                                                     className="cursor-pointer group overflow-hidden flex flex-col gap-[8px]"
