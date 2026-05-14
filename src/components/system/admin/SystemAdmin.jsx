@@ -88,11 +88,46 @@ export default function SystemAdmin() {
         );
     }
 
-    const getRoleName = (roleCode) => {
-        if (roleCode === 'master') return '마스터';
-        if (roleCode === 'director') return '책임';
-        if (roleCode === 'manager') return '매니저';
-        return roleCode || '-';
+    const getStaffTitle = (staffName) => {
+        if (!staffName) return '-';
+        const titles = {
+            '이철승': '부문대표',
+            '윤관식': '부대표',
+            '정조민': '부대표',
+            '우형석': '그룹장',
+            '권술일': '파트장',
+            '권순일': '파트장',
+            '강순용': '파트장',
+            '윤주형': 'Sr.Manager',
+            '한찬호': 'Sr.Manager',
+            '박준호': '센터장',
+            '강석민': 'Sr.Manager',
+            '정리훈': 'Sr.Manager',
+            '홍장군': '센터장',
+            '채원': '담당',
+            '김대익': '마스터',
+            '장성진': '마스터',
+            '김보성': '마스터',
+            '박봉서': '전문위원',
+            '이정훈': '담당',
+            '김민지': 'Sr.Manager',
+            '김현수': '센터장',
+            '이가현': '리더',
+            '이시정': '리더',
+            '현철호': '그룹장',
+            '홍창의': '파트장',
+            '신민호': 'Sr.Manager',
+            '김행단': '그룹장',
+            '윤용택': 'Sr.Manager'
+        };
+        return titles[staffName] || '매니저';
+    };
+
+    const getDepartment = (staffName, originalOrg) => {
+        if (['홍창의', '현철호', '신민호'].includes(staffName)) {
+            return '디지털 사업그룹';
+        }
+        return originalOrg || '-';
     };
 
     const handleRowClick = async (email, staffName) => {
@@ -158,8 +193,8 @@ export default function SystemAdmin() {
                                         className="hover:bg-black/[0.04] dark:hover:bg-white/[0.04] transition-colors cursor-pointer"
                                     >
                                         <td className="py-4 px-6 text-[15px] font-medium">{log.staff_name}</td>
-                                        <td className="py-4 px-6 text-[14px] text-[#666] dark:text-[#A1A1AA]">{log.org_name || '-'}</td>
-                                        <td className="py-4 px-6 text-[14px] text-[#666] dark:text-[#A1A1AA]">{getRoleName(log.role_code)}</td>
+                                        <td className="py-4 px-6 text-[14px] text-[#666] dark:text-[#A1A1AA]">{getDepartment(log.staff_name, log.org_name)}</td>
+                                        <td className="py-4 px-6 text-[14px] text-[#666] dark:text-[#A1A1AA]">{getStaffTitle(log.staff_name)}</td>
                                         <td className="py-4 px-6 text-[14px] text-[#666] dark:text-[#A1A1AA]">{log.email}</td>
                                         <td className="py-4 px-6 text-[14px] text-[#666] dark:text-[#A1A1AA] font-mono tracking-tight">{formatDate(log.last_login_at)}</td>
                                     </tr>

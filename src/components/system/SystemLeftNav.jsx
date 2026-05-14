@@ -3,6 +3,42 @@ import { useTheme } from '../../context/ThemeContext';
 import { useAuth } from '../../context/AuthContext';
 import { supabase } from '../../utils/supabaseClient';
 
+const getStaffTitle = (memberInfo) => {
+    if (!memberInfo?.staff_name) return '로그인 필요';
+    const name = memberInfo.staff_name;
+    const titles = {
+        '이철승': '부문대표',
+        '윤관식': '부대표',
+        '정조민': '부대표',
+        '우형석': '그룹장',
+        '권술일': '파트장',
+        '권순일': '파트장',
+        '강순용': '파트장',
+        '윤주형': 'Sr.Manager',
+        '한찬호': 'Sr.Manager',
+        '박준호': '센터장',
+        '강석민': 'Sr.Manager',
+        '정리훈': 'Sr.Manager',
+        '홍장군': '센터장',
+        '채원': '담당',
+        '김대익': '마스터',
+        '장성진': '마스터',
+        '김보성': '마스터',
+        '박봉서': '전문위원',
+        '이정훈': '담당',
+        '김민지': 'Sr.Manager',
+        '김현수': '센터장',
+        '이가현': '리더',
+        '이시정': '리더',
+        '현철호': '그룹장',
+        '홍창의': '파트장',
+        '신민호': 'Sr.Manager',
+        '김행단': '그룹장',
+        '윤용택': 'Sr.Manager'
+    };
+    return `${name} ${titles[name] || '매니저'}`;
+};
+
 export default function SystemLeftNav({ isCore, isPlatform = false }) {
     const { isLightMode, toggleTheme } = useTheme();
     const { user, memberInfo, signOut } = useAuth();
@@ -219,7 +255,7 @@ export default function SystemLeftNav({ isCore, isPlatform = false }) {
                         </div>
                         <div className="flex flex-col max-w-[130px]">
                             <span className="font-semibold text-[14px] leading-tight mb-0.5 text-[#1D1D1F] dark:text-white transition-colors duration-300 tracking-tight truncate">
-                                {memberInfo?.staff_name ? `${memberInfo.staff_name} ${memberInfo.role_code === 'master' ? '마스터' : memberInfo.role_code === 'director' ? '책임' : '매니저'}` : '로그인 필요'}
+                                {getStaffTitle(memberInfo)}
                             </span>
                             <span className="text-[#86868B] dark:text-gray-400 text-[12px] leading-none font-normal transition-colors duration-300 truncate">
                                 {user?.email || '권한 없음'}
@@ -260,7 +296,7 @@ export default function SystemLeftNav({ isCore, isPlatform = false }) {
                         </div>
                         <h3 className="text-[22px] font-bold text-[#1D1D1F] dark:text-white mb-2 tracking-tight">플랫폼 이용 문의</h3>
                         <p className="text-[15px] font-medium text-[#86868B] dark:text-[#A1A1AA] text-center leading-relaxed mb-8">
-                            ***@igisam.com<br/>010-****-****<br/>전기영 매니저에게 연락해주세요.
+                            jk.jeon@igisam.com<br/>010-9076-5369
                         </p>
                         <button onClick={() => setShowContactModal(false)} className="w-full py-3.5 rounded-[16px] bg-[#F5F5F7] dark:bg-[#2C2C2E] text-[#1D1D1F] dark:text-white font-semibold text-[16px] hover:bg-[#E8E8ED] dark:hover:bg-[#3A3A3C] transition-colors cursor-pointer">
                             닫기

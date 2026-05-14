@@ -12,6 +12,7 @@ export default function IotaTwo816() {
     const [dbData, setDbData] = useState({});
     const [historyData, setHistoryData] = useState([]);
     const [showPfScheduleModal, setShowPfScheduleModal] = useState(false);
+    const [isIssuesExpanded, setIsIssuesExpanded] = useState(false);
 
     useEffect(() => {
         const controller = new AbortController();
@@ -216,7 +217,7 @@ export default function IotaTwo816() {
                             { date: '2026.01', label: 'EOD', left: 0.55 },
                             { date: '2026.04', label: '리파이낸싱', left: 0.61 },
                             { date: 'NOW', label: '', type: 'now', left: 0.66 },
-                            { date: '2027.02', label: '통합PF', left: 0.72 },
+                            { date: '2026.11', label: '통합PF', left: 0.72 },
                             { date: '2027.05', label: 'IOTA1 착공', left: 0.80 },
                             { date: '2028.06', label: 'IOTA2 착공', left: 0.89 },
                             { date: '2032.07', label: '준공', left: 1.0 }
@@ -264,23 +265,113 @@ export default function IotaTwo816() {
                 />
 
                 {/* Major Issues Box */}
-                <div className="w-full bg-[#292928] border border-[#3c3c3c] rounded-[32px] pl-[24px] pr-[32px] py-[24px] flex flex-col mb-[20px] h-[127px]">
+                <div 
+                    onClick={() => setIsIssuesExpanded(!isIssuesExpanded)}
+                    className={`w-full cursor-pointer bg-[#292928] border border-[#3c3c3c] hover:border-[#666] rounded-[32px] pl-[24px] pr-[32px] flex flex-col mb-[20px] transition-all duration-300 ${isIssuesExpanded ? 'pt-[24px] pb-[32px]' : 'pt-[24px] pb-[34px] min-h-[127px] h-auto'}`}
+                >
                     <div className="w-full flex justify-between items-center mb-[1px] mt-[-5px]">
                         <span className="text-[14px] font-bold text-[#86868B] font-['Inter'] relative top-[-1px]">주요 이슈</span>
-                        <div className="w-[32px] h-[32px] rounded-full flex items-center justify-center cursor-pointer hover:bg-[#444]/60 transition-colors duration-200 group/btn mr-[-4px]">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#86868B" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-70 group-hover/btn:opacity-100 transition-opacity">
+                        <div className="w-[32px] h-[32px] rounded-full flex items-center justify-center hover:bg-[#444]/60 transition-colors duration-200 group/btn mr-[-4px]">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#86868B" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={`opacity-70 group-hover/btn:opacity-100 transition-transform duration-300 ${isIssuesExpanded ? 'rotate-180' : ''}`}>
                                 <polyline points="6 9 12 15 18 9"></polyline>
                             </svg>
                         </div>
                     </div>
-                    <div className="flex flex-col gap-[4px]">
-                        <span className="text-[16px] font-medium text-[#c3c2b7] leading-[22px] tracking-tight">
-                            2026년 3월 클로징 목표로 리파이낸싱을 추진했으나 KB증권 안이 부결되어 현재는 선순위 일부는 메리츠증권, 잔여분은 NH증권이 참여하는 구조를 협의 중임
-                        </span>
-                        <span className="text-[16px] font-medium text-[#c3c2b7] leading-[22px] tracking-tight">
-                            PFV는 브릿지론 후순위 대여 700억원 소노인터내셔널 확약을 확보했고, 힐튼 재개발사업과 통합 프로젝트 리츠 설립 후 PF를 조달해 전반적 사업구조 안정화하는 방안 함께 검토 중
-                        </span>
-                    </div>
+                    
+                    {!isIssuesExpanded ? (
+                        <div className="flex flex-col gap-[4px] mt-[4px] animate-fadeIn">
+                            <span className="text-[15px] font-medium text-[#c3c2b7] leading-[22px] tracking-tight">
+                                <span className="font-bold text-white mr-1">EOD Rescue Capital:</span>
+                                공매 처분을 막기 위해 이지스자산운용은 부동산펀드 421호에 C-1종 우선수익권을 긴급 개설하여 고유재원 유치. 시행사인 YD816PFV에 총 140억원의 후순위 주주대여를 단행해 밀린 연체이자를 정산 치유.
+                            </span>
+                            <span className="text-[15px] font-medium text-[#c3c2b7] leading-[22px] tracking-tight mt-[2px]">
+                                <span className="font-bold text-white mr-1">리파이낸싱 완료 & 통합 PF 전향:</span>
+                                기존 대주를 정리하는 7,970억원 규모의 신규 대환 리파이낸싱 구조 확립. 소노(SONO)그룹의 자금보충 연동 후순위 Tr.D(700억) 신용보강. 평당 공사비 1,281만원(+50.7%)으로 상승. 힐튼 재개발사업과 통합PF로 전반적 사업구조 안정화하는 방안 검토 중.
+                            </span>
+                        </div>
+                    ) : (
+                        <div className="flex flex-col gap-[28px] mt-[14px] animate-fadeIn">
+                            
+                            {/* Phase 1 */}
+                            <div className="flex flex-col gap-[8px]">
+                                <div className="text-[15px] font-bold text-[#E5E5E5] tracking-tight">Phase 1. PFV 설립 및 계약금 납입 <span className="text-[#86868B] font-medium ml-1">(2023년 1월 4차 심의)</span></div>
+                                <div className="flex flex-col gap-[4px]">
+                                    <div className="text-[14px] text-[#A1A1AA] leading-[22px] tracking-tight">
+                                        <span className="font-semibold text-[#c3c2b7] mr-1">특수목적법인 설립 및 매매계약 체결:</span> 
+                                        2022년 12월 29일 시행주체인 YD816PFV를 설립하고, 12월 30일 메트로타워, 이듬해 1월 12일 서울로타워의 매매계약을 체결.
+                                    </div>
+                                    <div className="text-[14px] text-[#A1A1AA] leading-[22px] tracking-tight">
+                                        <span className="font-semibold text-[#c3c2b7] mr-1">계약금 납입 재원:</span> 
+                                        총 매매대금 7,238억원의 5%인 계약금 및 초기 운용비 조달을 위해 이지스 421호 펀드 B-1종 수익증권을 개설하여 총 620억원의 재원을 모집, 1월 31일 계약금을 공제 기표. 당시 가설은 총사업비 1.54조원, 공사비 평당 850만원, 착공 25.06, 준공 28.10의 포트폴리오 구도였음.
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Phase 2 */}
+                            <div className="flex flex-col gap-[8px]">
+                                <div className="text-[15px] font-bold text-[#E5E5E5] tracking-tight">Phase 2. 정비계획 변경 및 용적률 상향 <span className="text-[#86868B] font-medium ml-1">(2023년 9월~11월 5차 심의 이전)</span></div>
+                                <div className="flex flex-col gap-[4px]">
+                                    <div className="text-[14px] text-[#A1A1AA] leading-[22px] tracking-tight">
+                                        <span className="font-semibold text-[#c3c2b7] mr-1">개발 인프라 확장 Upside:</span> 
+                                        인허가 과정에서 연접한 두 빌딩의 용적률을 최대 1,199.42%까지 확보하는 정비계획 변경을 추진하며, 개발 연면적을 기존 35,611평에서 39,001평으로 늘려 목표 매출액을 1.90조원(+7.4%)으로 상향 조정.
+                                    </div>
+                                    <div className="text-[14px] text-[#A1A1AA] leading-[22px] tracking-tight">
+                                        <span className="font-semibold text-[#c3c2b7] mr-1">원가 악화의 시작:</span> 
+                                        원자재 가격 상승 트렌드를 미리 반영하여 도급공사비 가정을 평당 900만원(+5.9%)으로 올렸고, 잔액 인수를 조율하는 과정에서 브릿지론 총액이 7,170억원으로 증액 계획되면서 총사업비가 1.79조원(+16.2%)으로 불어났음.
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Phase 3 */}
+                            <div className="flex flex-col gap-[8px]">
+                                <div className="text-[15px] font-bold text-[#E5E5E5] tracking-tight">Phase 3. 자산매입 완료 및 거래종결 연기 <span className="text-[#86868B] font-medium ml-1">(2024년 3월)</span></div>
+                                <div className="flex flex-col gap-[4px]">
+                                    <div className="text-[14px] text-[#A1A1AA] leading-[22px] tracking-tight">
+                                        <span className="font-semibold text-[#c3c2b7] mr-1">급격한 잔금 순연 리스크 발발:</span> 
+                                        원래 2023년 11월 30일이 잔금지급 예정일이었으나 금융기관 연말 한도소진 이슈로 대환 기표가 불발되자, 이지스는 매도인에게 위약금을 수용하는 조건으로 소유권 이전을 2024년 3월로 긴급 연장함.
+                                    </div>
+                                    <div className="text-[14px] text-[#A1A1AA] leading-[22px] tracking-tight">
+                                        <span className="font-semibold text-[#c3c2b7] mr-1">취득과 동시에 원가 수직상승:</span> 
+                                        2024년 3월 15일(메트로), 29일(서울로) 실제 취득을 마쳤을 때는 자산 가격 정산과 금융수수료가 가중되어 브릿지론이 7,170억원 실행 완료되었으며, 평당 도급공사비가 1,100만원/평(+29.4%)으로 확정되며 총사업비가 2조 1,556억원(+40.1%)으로 늘어남.
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Phase 4 */}
+                            <div className="flex flex-col gap-[8px]">
+                                <div className="text-[15px] font-bold text-[#E5E5E5] tracking-tight">Phase 4. 본 PF 지연 및 3차 B/L 연장 <span className="text-[#86868B] font-medium ml-1">(2025년 10월 리스크심의)</span></div>
+                                <div className="flex flex-col gap-[4px]">
+                                    <div className="text-[14px] text-[#A1A1AA] leading-[22px] tracking-tight">
+                                        <span className="font-semibold text-[#c3c2b7] mr-1">시장경색에 따른 기동불가 상태:</span> 
+                                        시공사의 무거운 도급 조건 책임준공 확약 거부와 주요 책임임차인(삼성물산)의 내부 의결 지연으로 본 PF 1.95조원 모집에 실패.
+                                    </div>
+                                    <div className="text-[14px] text-[#A1A1AA] leading-[22px] tracking-tight">
+                                        <span className="font-semibold text-[#c3c2b7] mr-1">기존 브릿지 3개월 연장:</span> 
+                                        본 PF 대환 시간을 추가로 벌기 위해 기존 7,170억원의 대출 만기를 2026년 1월 17일까지 3개월 연장하는 임시조치 기표.
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Phase 5 */}
+                            <div className="flex flex-col gap-[8px]">
+                                <div className="text-[15px] font-bold text-[#E5E5E5] tracking-tight">Phase 5. EOD 발생 및 리파이낸싱 <span className="text-[#86868B] font-medium ml-1">(2026년 01월~05월 현재)</span></div>
+                                <div className="flex flex-col gap-[4px]">
+                                    <div className="text-[14px] text-[#A1A1AA] leading-[22px] tracking-tight">
+                                        <span className="font-semibold text-[#c3c2b7] mr-1">연체이자 reserve 소진과 EOD 돌발:</span> 
+                                        4차 연장 협상 중, 후취이자 유보 재원이 바닥나자 특정 대주가 연장 거부권을 무기로 디폴트를 전격 선언하며 2026년 1월 20일 기한이익상실(EOD) 현실화.
+                                    </div>
+                                    <div className="text-[14px] text-[#A1A1AA] leading-[22px] tracking-tight">
+                                        <span className="font-semibold text-[#c3c2b7] mr-1">EOD Rescue Capital:</span> 
+                                        공매 처분을 막기 위해 이지스자산운용은 부동산펀드 421호에 C-1종 우선수익권을 긴급 개설하여 고유재원 유치. 시행사인 YD816PFV에 총 140억원의 후순위 주주대여를 단행해 밀린 연체이자를 정산 치유.
+                                    </div>
+                                    <div className="text-[14px] text-[#A1A1AA] leading-[22px] tracking-tight">
+                                        <span className="font-semibold text-[#c3c2b7] mr-1">리파이낸싱 완료 & 통합 PF 전향:</span> 
+                                        기존 대주를 정리하는 7,970억원 규모의 신규 대환 리파이낸싱 구조 확립. 소노(SONO)그룹의 자금보충 연동 후순위 Tr.D(700억) 신용보강. 평당 공사비 1,281만원(+50.7%)으로 상승. 힐튼 재개발사업과 통합PF로 전반적 사업구조 안정화하는 방안 검토 중.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
                 </div>
 
                 {/* Architectural Info Box */}
@@ -293,16 +384,28 @@ export default function IotaTwo816() {
                         <div className="absolute inset-0 rounded-[32px] border border-white/15 pointer-events-none z-10 transition-colors duration-700 group-hover:border-white/25"></div>
                         
                         {/* Top Right '+' Button */}
-                        <div className="absolute top-[17px] right-[17px] w-[46px] h-[46px] rounded-full bg-black/20 border border-white/60 flex items-center justify-center cursor-pointer hover:bg-black/30 transition-colors z-10 shadow-sm">
+                        <div 
+                            onClick={(e) => e.preventDefault()}
+                            className="absolute top-[17px] right-[17px] w-[46px] h-[46px] rounded-full bg-black/20 border border-white/60 flex items-center justify-center cursor-pointer hover:bg-black/30 transition-colors z-10 shadow-sm group/btn"
+                        >
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                                 <line x1="12" y1="4" x2="12" y2="20"></line>
                                 <line x1="4" y1="12" x2="20" y2="12"></line>
                             </svg>
+                            <div className="absolute top-[110%] right-0 mt-2 px-3 py-1.5 bg-[#333] text-[#E5E5E5] text-[12px] font-medium rounded-md whitespace-nowrap opacity-0 group-hover/btn:opacity-100 transition-opacity duration-200 pointer-events-none z-50 shadow-lg border border-[#444]">
+                                콘텐츠 준비중입니다.
+                            </div>
                         </div>
                         
                         {/* Bottom Center Pill */}
-                        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 px-[14px] py-[6px] rounded-[6px] bg-black/40 border border-white/20 flex items-center justify-center cursor-pointer hover:bg-black/60 transition-colors z-10 shadow-sm whitespace-nowrap">
+                        <div 
+                            onClick={(e) => e.preventDefault()}
+                            className="absolute bottom-6 left-1/2 -translate-x-1/2 px-[14px] py-[6px] rounded-[6px] bg-black/40 border border-white/20 flex items-center justify-center cursor-pointer hover:bg-black/60 transition-colors z-10 shadow-sm whitespace-nowrap group/pill"
+                        >
                             <span className="text-[13px] text-white/90 font-medium tracking-tight">CG컷 | 평면도</span>
+                            <div className="absolute bottom-[100%] left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 bg-[#333] text-[#E5E5E5] text-[12px] font-medium rounded-md whitespace-nowrap opacity-0 group-hover/pill:opacity-100 transition-opacity duration-200 pointer-events-none z-50 shadow-lg border border-[#444]">
+                                콘텐츠 준비중입니다.
+                            </div>
                         </div>
                     </div>
 
@@ -310,11 +413,17 @@ export default function IotaTwo816() {
                     <div className="flex-1 bg-[#292928] border border-[#3c3c3c] rounded-[32px] pt-[24px] pb-[4px] relative flex flex-col h-[452px] overflow-hidden">
                         
                         {/* Architecture Overview Link */}
-                        <div className="absolute top-[24px] right-[32px] text-[14px] text-[#86868B] cursor-pointer hover:text-[#E5E5E5] transition-colors font-medium flex items-center group z-10">
+                        <div 
+                            onClick={(e) => e.preventDefault()}
+                            className="absolute top-[24px] right-[32px] text-[14px] text-[#86868B] cursor-pointer hover:text-[#E5E5E5] transition-colors font-medium flex items-center group/link z-10"
+                        >
                             <span>건축개요 전체보기</span>
-                            <svg className="w-[12px] h-[12px] ml-1 text-[#666] group-hover:text-[#A1A1AA] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg className="w-[12px] h-[12px] ml-1 text-[#666] group-hover/link:text-[#A1A1AA] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 5l7 7-7 7" />
                             </svg>
+                            <div className="absolute top-[100%] right-0 mt-2 px-3 py-1.5 bg-[#333] text-[#E5E5E5] text-[12px] font-medium rounded-md whitespace-nowrap opacity-0 group-hover/link:opacity-100 transition-opacity duration-200 pointer-events-none z-50 shadow-lg border border-[#444]">
+                                콘텐츠 준비중입니다.
+                            </div>
                         </div>
 
                         {/* Top Header Row */}
@@ -725,20 +834,33 @@ export default function IotaTwo816() {
                         </div>
 
                         {/* Circular Action Button */}
-                        <div className="absolute top-[20px] right-[24px] w-[46px] h-[46px] rounded-full border border-[#555] flex items-center justify-center cursor-pointer hover:bg-[#444] transition-colors group z-10 shadow-sm">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E5E5E5" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="group-hover:scale-110 transition-transform">
+                        <div 
+                            onClick={(e) => e.preventDefault()}
+                            className="absolute top-[20px] right-[24px] w-[46px] h-[46px] rounded-full border border-[#555] flex items-center justify-center cursor-pointer hover:bg-[#444] transition-colors z-10 shadow-sm group/btn2"
+                        >
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E5E5E5" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="group-hover/btn2:scale-110 transition-transform">
                                 <line x1="12" y1="5" x2="12" y2="19"></line>
                                 <line x1="5" y1="12" x2="19" y2="12"></line>
                             </svg>
+                            <div className="absolute top-[110%] right-0 mt-2 px-3 py-1.5 bg-[#333] text-[#E5E5E5] text-[12px] font-medium rounded-md whitespace-nowrap opacity-0 group-hover/btn2:opacity-100 transition-opacity duration-200 pointer-events-none z-50 shadow-lg border border-[#444]">
+                                콘텐츠 준비중입니다.
+                            </div>
                         </div>
 
                         {/* Text List */}
                         <div className="flex flex-col w-full">
                             {researchInsights.map((item, index) => (
                                 <div key={item.id} className={`w-full ${index === 0 ? 'pb-[20px]' : index === researchInsights.length - 1 ? 'pt-[20px] pb-[4px] border-t border-[#444]/50' : 'py-[20px] border-t border-[#444]/50'}`}>
-                                    <a href={item.url} className="text-[20px] font-medium text-[#E5E5E5] hover:text-[#fbf167] transition-colors cursor-pointer flex items-center tracking-tight">
+                                    <a 
+                                        href={item.url} 
+                                        onClick={(e) => e.preventDefault()}
+                                        className="text-[20px] font-medium text-[#E5E5E5] hover:text-[#fbf167] transition-colors cursor-pointer flex items-center tracking-tight relative w-fit group/link"
+                                    >
                                         <span className={`mr-[14px] text-[22px] grayscale opacity-70 ${item.is_bright ? 'brightness-125' : ''}`}>{item.icon}</span>
                                         {item.title}
+                                        <div className="absolute top-[100%] left-0 mt-2 px-3 py-1.5 bg-[#333] text-[#E5E5E5] text-[12px] font-medium rounded-md whitespace-nowrap opacity-0 group-hover/link:opacity-100 transition-opacity duration-200 pointer-events-none z-50 shadow-lg border border-[#444]">
+                                            콘텐츠 준비중입니다.
+                                        </div>
                                     </a>
                                 </div>
                             ))}
@@ -760,11 +882,17 @@ export default function IotaTwo816() {
                         <img src={`${import.meta.env.BASE_URL}${(data.image || '').replace(/^\//, '')}`} alt={data.title} className="w-full h-full object-cover opacity-90 transition-opacity hover:opacity-100" />
                         
                         {/* Top Right '+' Button */}
-                        <div className="absolute top-[17px] right-[17px] w-[46px] h-[46px] rounded-full bg-black/20 border border-white/60 flex items-center justify-center cursor-pointer hover:bg-black/30 transition-colors z-10 shadow-sm">
+                        <div 
+                            onClick={(e) => e.preventDefault()}
+                            className="absolute top-[17px] right-[17px] w-[46px] h-[46px] rounded-full bg-black/20 border border-white/60 flex items-center justify-center cursor-pointer hover:bg-black/30 transition-colors z-10 shadow-sm group/btn3"
+                        >
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                                 <line x1="12" y1="4" x2="12" y2="20"></line>
                                 <line x1="4" y1="12" x2="20" y2="12"></line>
                             </svg>
+                            <div className="absolute top-[110%] right-0 mt-2 px-3 py-1.5 bg-[#333] text-[#E5E5E5] text-[12px] font-medium rounded-md whitespace-nowrap opacity-0 group-hover/btn3:opacity-100 transition-opacity duration-200 pointer-events-none z-50 shadow-lg border border-[#444]">
+                                콘텐츠 준비중입니다.
+                            </div>
                         </div>
                     </div>
 
@@ -774,11 +902,17 @@ export default function IotaTwo816() {
                         {/* Header */}
                         <div className="flex items-center justify-between w-full pb-[24px]">
                             <span className="text-[26px] font-bold text-[#E5E5E5] tracking-tight">{data.title}</span>
-                            <div className="flex items-center text-[#86868B] cursor-pointer hover:text-[#fbf167] transition-colors group">
+                            <div 
+                                onClick={(e) => e.preventDefault()}
+                                className="flex items-center text-[#86868B] cursor-pointer hover:text-[#fbf167] transition-colors group/link2 relative"
+                            >
                                 <span className="text-[13px] font-medium tracking-tight">IOTA Soul 2 816과 비교하기</span>
-                                <svg className="w-[12px] h-[12px] ml-[4px] text-[#666] group-hover:text-[#fbf167] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg className="w-[12px] h-[12px] ml-[4px] text-[#666] group-hover/link2:text-[#fbf167] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 5l7 7-7 7" />
                                 </svg>
+                                <div className="absolute top-[100%] right-0 mt-2 px-3 py-1.5 bg-[#333] text-[#E5E5E5] text-[12px] font-medium rounded-md whitespace-nowrap opacity-0 group-hover/link2:opacity-100 transition-opacity duration-200 pointer-events-none z-50 shadow-lg border border-[#444]">
+                                    콘텐츠 준비중입니다.
+                                </div>
                             </div>
                         </div>
 

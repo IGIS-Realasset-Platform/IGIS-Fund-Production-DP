@@ -18,54 +18,56 @@ export function AuthProvider({ children }) {
         } catch (error) {
             console.error("Error during sign out:", error);
         } finally {
-            const keysToRemove = [];
+            const keysToRemoveLocal = [];
             for (let i = 0; i < localStorage.length; i++) {
                 const key = localStorage.key(i);
                 if (key && key.startsWith('sb-')) {
-                    keysToRemove.push(key);
+                    keysToRemoveLocal.push(key);
                 }
             }
-            keysToRemove.forEach(k => localStorage.removeItem(k));
+            keysToRemoveLocal.forEach(k => localStorage.removeItem(k));
+
+            const keysToRemoveSession = [];
+            for (let i = 0; i < sessionStorage.length; i++) {
+                const key = sessionStorage.key(i);
+                if (key && key.startsWith('sb-')) {
+                    keysToRemoveSession.push(key);
+                }
+            }
+            keysToRemoveSession.forEach(k => sessionStorage.removeItem(k));
+
             localStorage.removeItem('iota_last_activity');
+            sessionStorage.removeItem('iota_last_activity');
             setUser(null);
             setMemberInfo(null);
             window.location.href = import.meta.env.BASE_URL + 'auth-setup';
         }
     };
 
-    // Activity tracking for session timeout
-    useEffect(() => {
-        // Update activity immediately
-        localStorage.setItem('iota_last_activity', Date.now().toString());
-
-        // Continuously update activity every 1 minute as long as the app is open.
-        // This ensures the user is NEVER logged out while the browser tab is open.
-        const activityIntervalId = setInterval(() => {
-            localStorage.setItem('iota_last_activity', Date.now().toString());
-        }, 60000);
-
-        return () => {
-            clearInterval(activityIntervalId);
-        };
-    }, []);
-
     useEffect(() => {
         // Fetch current session and setup listener
         let subscription;
+        let activityIntervalId;
 
         const initializeAuth = async () => {
             let timeoutId;
             try {
                 // Check timeout before attempting to load session
-                const lastActivityStr = localStorage.getItem('iota_last_activity');
+                const lastActivityStr = sessionStorage.getItem('iota_last_activity');
                 if (lastActivityStr) {
                     const lastActivity = parseInt(lastActivityStr, 10);
                     if (Date.now() - lastActivity > TIMEOUT_MS) {
-                        localStorage.removeItem('iota_last_activity');
+                        sessionStorage.removeItem('iota_last_activity');
                         await handleSignOut();
                         return; // Stop initialization
                     }
                 }
+
+                // If we haven't timed out, update activity and start interval
+                sessionStorage.setItem('iota_last_activity', Date.now().toString());
+                activityIntervalId = setInterval(() => {
+                    sessionStorage.setItem('iota_last_activity', Date.now().toString());
+                }, 60000);
 
                 timeoutId = setTimeout(() => {
                     console.error("Auth initialization timed out! Forcing load.");
@@ -103,14 +105,17 @@ export function AuthProvider({ children }) {
                     }
                     setLoading(false);
                 });
-                subscription = data.subscription;
+                if (data && data.subscription) {
+                    subscription = data.subscription;
+                }
             }
         };
 
         initializeAuth();
 
         return () => {
-            subscription?.unsubscribe();
+            if (subscription) subscription.unsubscribe();
+            if (activityIntervalId) clearInterval(activityIntervalId);
         };
     }, []);
 
