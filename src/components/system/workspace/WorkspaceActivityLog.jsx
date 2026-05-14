@@ -195,6 +195,32 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
         }
     };
 
+    const handleDownloadFile = async (e, filePath, fileName) => {
+        e.preventDefault();
+        e.stopPropagation();
+        try {
+            const { data, error } = await supabase.storage
+                .from('task-attachments')
+                .createSignedUrl(filePath, 60);
+
+            if (error) throw error;
+
+            const response = await fetch(data.signedUrl);
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = fileName;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+        } catch (error) {
+            console.error('Error downloading file:', error);
+            alert('파일 다운로드 중 오류가 발생했습니다.');
+        }
+    };
+
     const getCellName = (name) => {
         if (!masterStakeholders || masterStakeholders.length === 0) return '기타';
         const stakeholder = masterStakeholders.find(s => s.contact_name === name);
@@ -618,18 +644,16 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
                                             <div className="text-[12px] font-bold text-[#86868B] mb-[4px]">첨부파일</div>
                                             <div className="flex flex-wrap gap-[8px]">
                                                 {log.metadata.attachedFiles.map((file, idx) => (
-                                                    <a 
+                                                    <button 
                                                         key={idx} 
-                                                        href={file.url} 
-                                                        target="_blank" 
-                                                        rel="noopener noreferrer"
+                                                        type="button"
                                                         className="flex items-center gap-[6px] bg-[#222] hover:bg-[#333] border border-[#444] rounded-[8px] px-[12px] py-[8px] transition-colors group cursor-pointer"
-                                                        onClick={(e) => e.stopPropagation()}
+                                                        onClick={(e) => handleDownloadFile(e, file.path, file.name)}
                                                     >
                                                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#A1A1AA" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:stroke-white transition-colors"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
                                                         <span className="text-[12px] text-[#A1A1AA] group-hover:text-[#E5E5E5] transition-colors truncate max-w-[200px]" title={file.name}>{file.name}</span>
                                                         <span className="text-[10px] text-[#555] ml-[4px]">{file.size ? (file.size / 1024 / 1024).toFixed(2) : '0.00'}MB</span>
-                                                    </a>
+                                                    </button>
                                                 ))}
                                             </div>
                                         </div>
