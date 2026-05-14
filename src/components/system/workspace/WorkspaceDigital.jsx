@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { supabase } from '../../../utils/supabaseClient';
 import { useAuth } from '../../../context/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -19,6 +19,8 @@ export default function WorkspaceDigital() {
     const isAuthorized = ['김현수', '이가현', '정수명', '전기영', '현철호', '홍창의', '신민호'].includes(memberInfo?.staff_name);
     
     const [tasks, setTasks] = useState([]);
+    const [uploadingFile, setUploadingFile] = useState(false);
+    const fileInputRef = useRef(null);
     const [isLoading, setIsLoading] = useState(true);
     const [isAdding, setIsAdding] = useState(false);
     const [newTask, setNewTask] = useState({
@@ -130,6 +132,54 @@ export default function WorkspaceDigital() {
             setShowNewAssetModal(false);
             setNewAssetName('');
         }, 300);
+    };
+
+    
+    const handleFileUpload = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        setUploadingFile(true);
+        try {
+            const fileExt = file.name.split('.').pop();
+            const fileName = `${Math.random().toString(36).substring(2, 15)}.${fileExt}`;
+            const filePath = `uploads/${fileName}`;
+
+            const { error: uploadError } = await supabase.storage
+                .from('task-attachments')
+                .upload(filePath, file);
+
+            if (uploadError) throw uploadError;
+
+            setNewTask({
+                ...newTask,
+                file_name: file.name,
+                file_url: filePath
+            });
+        } catch (error) {
+            console.error('Error uploading file:', error);
+            alert('파일 업로드 중 오류가 발생했습니다.');
+        } finally {
+            setUploadingFile(false);
+        }
+    };
+
+    const handleDownloadFile = async (filePath, fileName) => {
+        try {
+            const { data, error } = await supabase.storage
+                .from('task-attachments')
+                .createSignedUrl(filePath, 60);
+
+            if (error) throw error;
+
+            const a = document.createElement('a');
+            a.href = data.signedUrl;
+            a.download = fileName;
+            a.target = '_blank';
+            a.click();
+        } catch (error) {
+            console.error('Error downloading file:', error);
+            alert('파일 다운로드 중 오류가 발생했습니다.');
+        }
     };
 
     const fetchTasks = async () => {
@@ -515,7 +565,7 @@ export default function WorkspaceDigital() {
             <div className="-mx-[7px] p-[6px] border border-[#333] rounded-[30px] mb-[24px]">
                 <motion.div layout className="w-full flex flex-col gap-[16px]">
                 {isAdding && (
-                    <div className="w-full bg-[#272726] border border-[#3c3c3c] rounded-[24px] p-6 flex flex-col gap-4">
+                    <div className="w-full bg-[#272726] border border-[#3c3c3c] rounded-[24px] p-6 flex flex-col gap-[14px]">
                         <div className="flex gap-4">
                             <input 
                                 type="text" 
@@ -547,6 +597,39 @@ export default function WorkspaceDigital() {
                             className="w-full bg-[#1A1A1A] border border-[#444] rounded-[12px] px-4 py-3 text-[#A1A1AA] text-[14px] outline-none focus:border-[#888] min-h-[92px] resize-y" 
                             placeholder="상세 내용 입력" 
                         />
+                        <div className="flex items-center gap-3">
+                            <input 
+                                type="file" 
+                                ref={fileInputRef} 
+                                onChange={handleFileUpload} 
+                                className="hidden" 
+                            />
+                            <button 
+                                onClick={() => fileInputRef.current?.click()}
+                                disabled={uploadingFile}
+                                className="px-3 py-1.5 bg-[#2A2A2A] hover:bg-[#333] text-[#A1A1AA] text-[13px] rounded-lg transition-colors flex items-center gap-2 border border-[#444]"
+                            >
+                                {uploadingFile ? (
+                                    <span className="animate-pulse">업로드 중...</span>
+                                ) : (
+                                    <>
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48"/></svg>
+                                        파일 첨부
+                                    </>
+                                )}
+                            </button>
+                            {newTask.file_name && (
+                                <div className="flex items-center gap-2 bg-[#222] px-3 py-1.5 rounded-lg border border-[#333]">
+                                    <span className="text-[13px] text-[#A1A1AA] truncate max-w-[200px]">{newTask.file_name}</span>
+                                    <button 
+                                        onClick={() => setNewTask({...newTask, file_name: null, file_url: null})}
+                                        className="text-[#888] hover:text-[#fff]"
+                                    >
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                                    </button>
+                                </div>
+                            )}
+                        </div>
                         <div className="flex flex-wrap gap-4 items-center">
                             <select 
                                 value={newTask.related_asset} 
@@ -719,6 +802,21 @@ export default function WorkspaceDigital() {
                                     <span className="text-[14px] text-white font-medium break-all">
                                         {row.notes.startsWith('http') ? <a href={row.notes} target="_blank" rel="noreferrer" className="text-[#2997ff] hover:underline">{row.notes}</a> : row.notes}
                                     </span>
+                                </div>
+                                )}
+                                {row.file_name && row.file_url && (
+                                <div className="flex items-start gap-4 mt-4 pt-4 border-t border-[#3c3c3c]/50">
+                                    <span className="text-[13px] font-bold text-[#86868B] shrink-0 mt-[2px]">첨부파일</span>
+                                    <button 
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleDownloadFile(row.file_url, row.file_name);
+                                        }}
+                                        className="flex items-center gap-2 px-3 py-1.5 bg-[#2A2A2A] hover:bg-[#333] text-[#A1A1AA] text-[13px] rounded-lg transition-colors border border-[#444]"
+                                    >
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                                        {row.file_name}
+                                    </button>
                                 </div>
                                 )}
                                 </div>
