@@ -14,6 +14,9 @@ export default function SystemLeftNav({ isCore, isPlatform = false }) {
 
     const activeLight = isCore ? fakeLight : isLightMode;
 
+    const AUTHORIZED_ADMINS = ['전기영', '이시정', '이관용'];
+    const isAdmin = AUTHORIZED_ADMINS.includes(memberInfo?.staff_name);
+
     const handlePasswordChange = async () => {
         try {
             const { error } = await supabase.auth.updateUser({ password: newPassword });
@@ -131,6 +134,21 @@ export default function SystemLeftNav({ isCore, isPlatform = false }) {
                     </div>
                     <svg className="w-3.5 h-3.5 text-[#86868B] group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" /></svg>
                 </div>
+
+                {isAdmin && (
+                    <div 
+                        onClick={() => {
+                            window.history.pushState(null, '', `${import.meta.env.BASE_URL}system-admin`);
+                            window.dispatchEvent(new Event('popstate'));
+                        }}
+                        className="flex items-center justify-between px-2.5 py-2 hover:bg-[#FCEFD4] dark:hover:bg-[#4A3C2A] rounded-md cursor-pointer mt-4 transition-colors duration-300 border border-[#F5A623] text-[#F5A623]"
+                    >
+                        <div className="flex items-center">
+                            <svg className="w-4.5 h-4.5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
+                            <span className="font-semibold text-[14px]">Admin Logs</span>
+                        </div>
+                    </div>
+                )}
 
                 {/* 최근 채팅 영역 */}
                 <div className="mt-8 mb-2 px-2.5">

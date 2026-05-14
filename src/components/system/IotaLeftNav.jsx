@@ -115,12 +115,14 @@ const workspaceItems = [
 
 export default function IotaLeftNav({ onMenuChange, currentPath = '' }) {
     
-    
+    const { user, memberInfo, signOut } = useAuth();
+    const AUTHORIZED_ADMINS = ['전기영', '이시정', '이관용'];
+    const isAdmin = AUTHORIZED_ADMINS.includes(memberInfo?.staff_name);
+
     const handleNavigation = (path) => {
         const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
         window.location.href = `${base}/${path}`;
     };
-    const { user, memberInfo, signOut } = useAuth();
     const [showProfileMenu, setShowProfileMenu] = useState(false);
     const [showContactModal, setShowContactModal] = useState(false);
     const [showPasswordModal, setShowPasswordModal] = useState(false);
@@ -385,6 +387,22 @@ export default function IotaLeftNav({ onMenuChange, currentPath = '' }) {
                     )}
                 </div>
             </div>
+
+            {isAdmin && (
+                <div className="px-[15px] pb-3 w-full">
+                    <div 
+                        onClick={() => {
+                            window.open(`${import.meta.env.BASE_URL}system-admin`, '_blank');
+                        }}
+                        className="flex items-center justify-center py-1.5 hover:bg-[#FCEFD4]/10 rounded-md cursor-pointer transition-colors duration-300 border border-[#F5A623]/50 text-[#F5A623]"
+                    >
+                        <div className="flex items-center">
+                            <svg className="w-3.5 h-3.5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
+                            <span className="font-medium text-[12px]">Admin Logs</span>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {/* Bottom Profile */}
             <div className="relative">

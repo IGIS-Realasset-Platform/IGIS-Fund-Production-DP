@@ -143,7 +143,7 @@ const IotaTwo816DetailCard = ({ id, vehicleId, title, dbData, historyData, navig
     let curMetrics = { ...phaseMetrics[activePhase] };
 
     return (
-        <div id={id} className="mb-[28px]">
+        <div id={id} className="mb-[28px] -mt-[4px]">
             {title && (
                 <div className="flex justify-between items-end mb-[12px] px-[8px]">
                     <div className="flex items-end gap-[16px]">
@@ -154,8 +154,8 @@ const IotaTwo816DetailCard = ({ id, vehicleId, title, dbData, historyData, navig
 
             <div className="relative w-full">
                 {/* Right Wing Toggle - Absolutely positioned 6px to the right of main component */}
-                <div className="absolute top-[6px] -right-[116px] bottom-0 w-[110px] pointer-events-none z-50">
-                    <div className="sticky top-[20px] pointer-events-auto bg-[#292928] border border-[#333] p-[6px] rounded-[32px] flex flex-col gap-[4px] shadow-lg">
+                <div className="absolute top-[7px] -right-[116px] bottom-0 w-[110px] pointer-events-none z-50">
+                    <div className="sticky top-[20px] pointer-events-auto bg-[#292928] border border-[#333] p-[6px] rounded-[32px] flex flex-col gap-0 shadow-lg">
                         {[
                             { id: 'phase1', label: '최초UW', date: '2023.01' },
                             { id: 'phase2', label: '정비계획\n변경', date: '2023.11' },
@@ -374,10 +374,10 @@ const IotaTwo816DetailCard = ({ id, vehicleId, title, dbData, historyData, navig
                         const sortedBarKeys = Object.keys(barGroups).sort((a,b) => (order[a] || 99) - (order[b] || 99));
 
                         return (
-                            <div className="w-full h-[60px] relative rounded-[20px] bg-[#292928] select-none">
+                            <div className={`w-full relative rounded-[32px] bg-[#292928] select-none ${Object.keys(barGroups).length > 0 ? 'h-[60px]' : 'h-[90px]'}`}>
                                 {Object.keys(barGroups).length > 0 ? (
                                 <>
-                                <div className="absolute inset-0 flex w-full h-full rounded-[20px] overflow-hidden">
+                                <div className="absolute inset-0 flex w-full h-full rounded-[32px] overflow-hidden">
                                     {sortedBarKeys.map(tName => {
                                         const tSum = barGroups[tName];
                                         if (tSum === 0) return null;

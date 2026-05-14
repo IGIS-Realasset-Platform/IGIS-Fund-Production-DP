@@ -208,7 +208,7 @@ export default function IotaTwo816() {
                 </div>
 
                 {/* Timeline Setup */}
-                <div className="w-full h-[120px] mt-[14px] mb-[8px] relative group cursor-pointer rounded-[24px] hover:bg-[#242424] transition-colors duration-300 px-[40px]">
+                <div className="w-[1260px] -ml-[30px] h-[120px] mt-[14px] mb-[8px] relative group cursor-pointer rounded-[24px] hover:bg-[#242424] transition-colors duration-300 px-[40px]">
                     <div className="absolute top-[56px] left-[40px] right-[40px] h-px bg-[#444] group-hover:bg-[#E5E5E5] transition-colors duration-300 z-0">
                         {[
                             { date: '2022.12', label: 'PFV설립', left: 0 },
@@ -219,11 +219,12 @@ export default function IotaTwo816() {
                             { date: '2025.09', label: '2차연장', left: 0.43 },
                             { date: '2025.10', label: '3차연장', left: 0.49 },
                             { date: '2026.01', label: 'EOD', left: 0.55 },
-                            { date: 'NOW', label: '', type: 'now', left: 0.59 },
-                            { date: '2027.02', label: '통합PF', left: 0.67 },
-                            { date: '2027.05', label: 'IOTA1 착공', left: 0.76 },
-                            { date: '2028.06', label: 'IOTA2 착공', left: 0.86 },
-                            { date: '2032.08', label: '준공', left: 1.0 }
+                            { date: '2026.04', label: '리파이낸싱', left: 0.61 },
+                            { date: 'NOW', label: '', type: 'now', left: 0.66 },
+                            { date: '2027.02', label: '통합PF', left: 0.72 },
+                            { date: '2027.05', label: 'IOTA1 착공', left: 0.80 },
+                            { date: '2028.06', label: 'IOTA2 착공', left: 0.89 },
+                            { date: '2031.09', label: '준공', left: 1.0 }
                         ].map((ms, index) => (
                             <div key={index} className={`absolute flex flex-col items-center justify-center top-1/2 -translate-y-1/2 -translate-x-1/2 ${ms.type === 'now' ? 'ml-[4px]' : ''}`} style={{ left: `${ms.left * 100}%` }}>
                                 {/* Date (UP) */}

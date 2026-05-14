@@ -249,6 +249,11 @@ export default function AuthSetup({ onLogin }) {
                         .from('iota_seoul_pilot_members')
                         .update({ auth_id: data.user.id, last_login_at: new Date().toISOString() })
                         .eq('email', email.trim().toLowerCase());
+
+                    // Insert into login history
+                    await supabase
+                        .from('iota_seoul_login_history')
+                        .insert({ email: email.trim().toLowerCase(), staff_name: staffName, login_time: new Date().toISOString() });
                 }
             } else {
                 // Sign in existing user
@@ -267,6 +272,11 @@ export default function AuthSetup({ onLogin }) {
                         .from('iota_seoul_pilot_members')
                         .update({ last_login_at: new Date().toISOString() })
                         .eq('email', email.trim().toLowerCase());
+
+                    // Insert into login history
+                    await supabase
+                        .from('iota_seoul_login_history')
+                        .insert({ email: email.trim().toLowerCase(), staff_name: staffName, login_time: new Date().toISOString() });
                 }
             }
 
