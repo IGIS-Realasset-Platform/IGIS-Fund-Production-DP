@@ -10,6 +10,7 @@ export default function SystemLeftNav({ isCore, isPlatform = false }) {
     const [showProfileMenu, setShowProfileMenu] = useState(false);
     const [showContactModal, setShowContactModal] = useState(false);
     const [showPasswordModal, setShowPasswordModal] = useState(false);
+    const [showLogoutModal, setShowLogoutModal] = useState(false);
     const [newPassword, setNewPassword] = useState('');
 
     const activeLight = isCore ? fakeLight : isLightMode;
@@ -187,7 +188,7 @@ export default function SystemLeftNav({ isCore, isPlatform = false }) {
                                 플랫폼 이용 문의
                             </button>
                             <div className="my-1 border-t border-black/5 dark:border-white/5"></div>
-                            <button onClick={async () => { setShowProfileMenu(false); await signOut(); }} className="w-full text-left px-4 py-2.5 text-[14px] font-medium text-[#FF453A] hover:bg-red-50 dark:hover:bg-red-500/10 transition-colors flex items-center gap-3 cursor-pointer">
+                            <button onClick={() => { setShowProfileMenu(false); setShowLogoutModal(true); }} className="w-full text-left px-4 py-2.5 text-[14px] font-medium text-[#FF453A] hover:bg-red-50 dark:hover:bg-red-500/10 transition-colors flex items-center gap-3 cursor-pointer">
                                 <svg className="w-4 h-4 text-[#FF453A]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
                                 로그아웃
                             </button>
@@ -293,6 +294,36 @@ export default function SystemLeftNav({ isCore, isPlatform = false }) {
                             </button>
                             <button onClick={handlePasswordChange} disabled={!newPassword} className="flex-1 py-3.5 rounded-[16px] bg-[#0071E3] text-white font-semibold text-[16px] hover:bg-[#0077ED] transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
                                 변경하기
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {showLogoutModal && (
+                <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/40 backdrop-blur-sm transition-opacity">
+                    <div className="bg-white dark:bg-[#1C1C1E] w-[400px] rounded-[24px] p-8 shadow-2xl flex flex-col items-center">
+                        <div className="w-12 h-12 rounded-full bg-red-50 dark:bg-red-500/10 flex items-center justify-center mb-5">
+                            <svg className="w-6 h-6 text-[#FF453A]" fill="none" strokeWidth="2" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                            </svg>
+                        </div>
+                        <h3 className="text-[22px] font-bold text-[#1D1D1F] dark:text-white mb-2 tracking-tight">로그아웃</h3>
+                        <p className="text-[15px] font-medium text-[#86868B] dark:text-[#A1A1AA] text-center leading-relaxed mb-6">
+                            정말 로그아웃 하시겠습니까?
+                        </p>
+                        <div className="flex w-full gap-3">
+                            <button onClick={() => setShowLogoutModal(false)} className="flex-1 py-3.5 rounded-[16px] bg-[#F5F5F7] dark:bg-[#2C2C2E] text-[#1D1D1F] dark:text-white font-semibold text-[16px] hover:bg-[#E8E8ED] dark:hover:bg-[#3A3A3C] transition-colors cursor-pointer">
+                                취소
+                            </button>
+                            <button onClick={async () => {
+                                setShowLogoutModal(false);
+                                await signOut();
+                                localStorage.clear();
+                                sessionStorage.clear();
+                                window.location.href = import.meta.env.BASE_URL;
+                            }} className="flex-1 py-3.5 rounded-[16px] bg-[#FF453A] text-white font-semibold text-[16px] hover:bg-[#FF3B30] transition-colors cursor-pointer">
+                                확인
                             </button>
                         </div>
                     </div>

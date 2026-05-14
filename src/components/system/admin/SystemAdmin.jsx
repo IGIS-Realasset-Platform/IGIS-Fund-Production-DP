@@ -205,22 +205,12 @@ export default function SystemAdmin() {
                                             총 {historyLogs.length}회 접속
                                         </span>
                                     </div>
-                                    <div className="space-y-3">
+                                    <div className="space-y-2">
                                         {historyLogs.map((h, i) => (
-                                            <div key={i} className="flex items-center gap-4 p-4 rounded-xl border border-black/5 dark:border-white/5 bg-white dark:bg-[#1C1C1E] shadow-sm">
-                                                <div className="w-10 h-10 rounded-full bg-[#F5F5F7] dark:bg-[#2C2C2E] flex items-center justify-center shrink-0">
-                                                    <svg className="w-5 h-5 text-[#86868B] dark:text-[#A1A1AA]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
-                                                    </svg>
-                                                </div>
-                                                <div className="flex flex-col">
-                                                    <span className="text-[15px] font-medium text-[#1D1D1F] dark:text-white font-mono tracking-tight">
-                                                        {formatDate(h.login_time)}
-                                                    </span>
-                                                    <span className="text-[13px] text-[#86868B] dark:text-[#A1A1AA] mt-0.5">
-                                                        {i === 0 ? '가장 최근 접속' : '과거 접속 기록'}
-                                                    </span>
-                                                </div>
+                                            <div key={i} className="flex items-center px-4 py-2.5 rounded-lg border border-black/5 dark:border-white/5 bg-white dark:bg-[#1C1C1E] shadow-sm">
+                                                <span className="text-[15px] font-medium text-[#1D1D1F] dark:text-white font-mono tracking-tight">
+                                                    {formatDate(h.login_time)}
+                                                </span>
                                             </div>
                                         ))}
                                     </div>
