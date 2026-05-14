@@ -167,7 +167,7 @@ export default function WorkspaceDigital() {
         try {
             const { data, error } = await supabase.storage
                 .from('task-attachments')
-                .createSignedUrl(filePath, 60);
+                .createSignedUrl(filePath, 60, { download: fileName });
 
             if (error) throw error;
 
@@ -257,7 +257,9 @@ export default function WorkspaceDigital() {
             priority: row.priority || '중간',
             due_date: row.due_date || '',
             next_action: row.next_action || '',
-            notes: row.notes || ''
+            notes: row.notes || '',
+            file_name: row.file_name || null,
+            file_url: row.file_url || null
         });
         setIsAdding(true);
         document.getElementById('task-management')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -607,7 +609,7 @@ export default function WorkspaceDigital() {
                             <button 
                                 onClick={() => fileInputRef.current?.click()}
                                 disabled={uploadingFile}
-                                className="px-3 py-1.5 bg-[#2A2A2A] hover:bg-[#333] text-[#A1A1AA] text-[13px] rounded-lg transition-colors flex items-center gap-2 border border-[#444]"
+                                className="px-3 py-1.5 bg-[#2A2A2A] hover:bg-[#333] text-[#A1A1AA] text-[13px] rounded-lg transition-colors flex items-center gap-2 border border-[#444] cursor-pointer"
                             >
                                 {uploadingFile ? (
                                     <span className="animate-pulse">업로드 중...</span>
@@ -812,7 +814,7 @@ export default function WorkspaceDigital() {
                                             e.stopPropagation();
                                             handleDownloadFile(row.file_url, row.file_name);
                                         }}
-                                        className="flex items-center gap-2 px-3 py-1.5 bg-[#2A2A2A] hover:bg-[#333] text-[#A1A1AA] text-[13px] rounded-lg transition-colors border border-[#444]"
+                                        className="flex items-center gap-2 px-3 py-1.5 bg-[#2A2A2A] hover:bg-[#333] text-[#A1A1AA] text-[13px] rounded-lg transition-colors border border-[#444] cursor-pointer"
                                     >
                                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
                                         {row.file_name}

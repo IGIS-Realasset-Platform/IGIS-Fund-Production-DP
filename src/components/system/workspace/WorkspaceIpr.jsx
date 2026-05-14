@@ -16,7 +16,7 @@ export default function WorkspaceIpr() {
     const [isLoadingTasks, setIsLoadingTasks] = useState(true);
     const [isAdding, setIsAdding] = useState(false);
     const [newTask, setNewTask] = useState({
-        task_name: '', company_name: '', related_asset: 'IOTA 공통', status: '신규', priority: '중간', due_date: new Date().toLocaleDateString('en-CA'), next_action: ''
+        task_name: '', company_name: '', related_asset: 'IOTA 공통', status: '신규', priority: '중간', due_date: new Date().toLocaleDateString('en-CA'), next_action: '', notes: '', file_name: null, file_url: null
     });
 
     const [expandedTaskId, setExpandedTaskId] = useState(null);
@@ -194,7 +194,7 @@ export default function WorkspaceIpr() {
         try {
             const { data, error } = await supabase.storage
                 .from('task-attachments')
-                .createSignedUrl(filePath, 60);
+                .createSignedUrl(filePath, 60, { download: fileName });
 
             if (error) throw error;
 
@@ -264,7 +264,9 @@ export default function WorkspaceIpr() {
             priority: row.priority || '중간',
             due_date: row.due_date || '',
             next_action: row.next_action || '',
-            notes: row.notes || ''
+            notes: row.notes || '',
+            file_name: row.file_name || null,
+            file_url: row.file_url || null
         });
         setCompanyQuery(row.company_name || '');
         setIsAdding(true);
@@ -288,7 +290,7 @@ export default function WorkspaceIpr() {
             // simple local fallback logic omitted for brevity in update mode, relies on fetchTasks
         }
         
-        setNewTask({ task_name: '', company_name: '', related_asset: 'IOTA 공통', status: '신규', priority: '중간', due_date: new Date().toLocaleDateString('en-CA'), next_action: '', notes: '' });
+        setNewTask({ task_name: '', company_name: '', related_asset: 'IOTA 공통', status: '신규', priority: '중간', due_date: new Date().toLocaleDateString('en-CA'), next_action: '', notes: '', file_name: null, file_url: null });
         setCompanyQuery('');
         setIsAdding(false);
         setEditingTaskId(null);
@@ -320,7 +322,7 @@ export default function WorkspaceIpr() {
         if (isAdding) {
             setIsAdding(false);
             setEditingTaskId(null);
-            setNewTask({ task_name: '', company_name: '', related_asset: 'IOTA 공통', status: '신규', priority: '중간', due_date: new Date().toLocaleDateString('en-CA'), next_action: '', notes: '' });
+            setNewTask({ task_name: '', company_name: '', related_asset: 'IOTA 공통', status: '신규', priority: '중간', due_date: new Date().toLocaleDateString('en-CA'), next_action: '', notes: '', file_name: null, file_url: null });
             setCompanyQuery('');
         } else {
             setIsAdding(true);
@@ -565,7 +567,7 @@ export default function WorkspaceIpr() {
                             <button 
                                 onClick={() => fileInputRef.current?.click()}
                                 disabled={uploadingFile}
-                                className="px-3 py-1.5 bg-[#2A2A2A] hover:bg-[#333] text-[#A1A1AA] text-[13px] rounded-lg transition-colors flex items-center gap-2 border border-[#444]"
+                                className="px-3 py-1.5 bg-[#2A2A2A] hover:bg-[#333] text-[#A1A1AA] text-[13px] rounded-lg transition-colors flex items-center gap-2 border border-[#444] cursor-pointer"
                             >
                                 {uploadingFile ? (
                                     <span className="animate-pulse">업로드 중...</span>
@@ -614,7 +616,7 @@ export default function WorkspaceIpr() {
                             </select>
                             <div className="flex items-center gap-2"><span className="text-[#86868B] text-[13px] font-bold shrink-0">목표 마감일</span><input type="date" value={newTask.due_date} onClick={(e) => e.target.showPicker && e.target.showPicker()} onChange={e => setNewTask({...newTask, due_date: e.target.value})} className="bg-[#1A1A1A] border border-[#444] rounded-[10px] px-3 py-2 text-[#A1A1AA] text-[14px] outline-none focus:border-[#888] cursor-pointer [color-scheme:dark]" /></div>
                             <div className="flex gap-2 ml-auto">
-                                <button onClick={() => { setIsAdding(false); setEditingTaskId(null); setCompanyQuery(''); setNewTask({ task_name: '', company_name: '', related_asset: 'IOTA 공통', status: '신규', priority: '중간', due_date: new Date().toLocaleDateString('en-CA'), next_action: '', notes: '' }); }} className="px-5 py-2 bg-[#3c3c3c]/50 text-[#86868B] border border-[#444] rounded-[10px] text-[14px] font-bold hover:bg-[#3c3c3c] hover:text-white transition-colors cursor-pointer">취소</button>
+                                <button onClick={() => { setIsAdding(false); setEditingTaskId(null); setCompanyQuery(''); setNewTask({ task_name: '', company_name: '', related_asset: 'IOTA 공통', status: '신규', priority: '중간', due_date: new Date().toLocaleDateString('en-CA'), next_action: '', notes: '', file_name: null, file_url: null }); }} className="px-5 py-2 bg-[#3c3c3c]/50 text-[#86868B] border border-[#444] rounded-[10px] text-[14px] font-bold hover:bg-[#3c3c3c] hover:text-white transition-colors cursor-pointer">취소</button>
                                 <button onClick={handleSaveRow} disabled={isSubmittingTask} className="px-5 py-2 bg-[#059669]/20 text-[#34d399] border border-[#059669]/30 rounded-[10px] text-[14px] font-bold hover:bg-[#059669]/40 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">{isSubmittingTask ? '저장 중...' : editingTaskId ? '수정 완료' : '저장'}</button>
                             </div>
                         </div>
@@ -742,7 +744,7 @@ export default function WorkspaceIpr() {
                                             e.stopPropagation();
                                             handleDownloadFile(row.file_url, row.file_name);
                                         }}
-                                        className="flex items-center gap-2 px-3 py-1.5 bg-[#2A2A2A] hover:bg-[#333] text-[#A1A1AA] text-[13px] rounded-lg transition-colors border border-[#444]"
+                                        className="flex items-center gap-2 px-3 py-1.5 bg-[#2A2A2A] hover:bg-[#333] text-[#A1A1AA] text-[13px] rounded-lg transition-colors border border-[#444] cursor-pointer"
                                     >
                                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
                                         {row.file_name}
