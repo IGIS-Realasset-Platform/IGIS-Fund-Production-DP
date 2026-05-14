@@ -182,11 +182,11 @@ export default function IotaLeftNav({ onMenuChange, currentPath = '' }) {
     };
     const [isStakeholderOpen, setIsStakeholderOpen] = useState(() => {
         const saved = sessionStorage.getItem('isStakeholderOpen');
-        return saved !== null ? saved === 'true' : true;
+        return saved !== null ? saved === 'true' : false;
     });
     const [isGovOpen, setIsGovOpen] = useState(() => {
         const saved = sessionStorage.getItem('isGovOpen');
-        return saved !== null ? saved === 'true' : true;
+        return saved !== null ? saved === 'true' : false;
     });
     const [isVehicleOpen, setIsVehicleOpen] = useState(() => {
         const isVehiclePath = currentPath === 'platform/iotaseoul/vehicle-integrated' ||

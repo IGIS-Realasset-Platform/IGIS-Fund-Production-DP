@@ -53,20 +53,20 @@ export function AuthProvider({ children }) {
             let timeoutId;
             try {
                 // Check timeout before attempting to load session
-                const lastActivityStr = sessionStorage.getItem('iota_last_activity');
+                const lastActivityStr = localStorage.getItem('iota_last_activity');
                 if (lastActivityStr) {
                     const lastActivity = parseInt(lastActivityStr, 10);
                     if (Date.now() - lastActivity > TIMEOUT_MS) {
-                        sessionStorage.removeItem('iota_last_activity');
+                        localStorage.removeItem('iota_last_activity');
                         await handleSignOut();
                         return; // Stop initialization
                     }
                 }
 
                 // If we haven't timed out, update activity and start interval
-                sessionStorage.setItem('iota_last_activity', Date.now().toString());
+                localStorage.setItem('iota_last_activity', Date.now().toString());
                 activityIntervalId = setInterval(() => {
-                    sessionStorage.setItem('iota_last_activity', Date.now().toString());
+                    localStorage.setItem('iota_last_activity', Date.now().toString());
                 }, 60000);
 
                 timeoutId = setTimeout(() => {

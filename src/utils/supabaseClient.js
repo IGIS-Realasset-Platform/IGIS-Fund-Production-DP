@@ -30,10 +30,23 @@ if (!window.__SUPABASE_CLIENT__) {
             });
     };
 
+    const cookieStorage = {
+        getItem: (key) => {
+            const match = document.cookie.match(new RegExp('(^| )' + key + '=([^;]+)'));
+            return match ? decodeURIComponent(match[2]) : null;
+        },
+        setItem: (key, value) => {
+            document.cookie = `${key}=${encodeURIComponent(value)}; path=/; secure; samesite=lax`;
+        },
+        removeItem: (key) => {
+            document.cookie = `${key}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
+        }
+    };
+
     window.__SUPABASE_CLIENT__ = createClient(supabaseUrl, supabaseAnonKey, {
         auth: {
             storageKey: 'sb-iota-auth-token',
-            storage: window.sessionStorage
+            storage: cookieStorage
         },
         global: {
             fetch: customFetch

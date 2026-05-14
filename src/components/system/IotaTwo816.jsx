@@ -5,6 +5,7 @@ import IotaTwo816DetailCard from './shared/IotaTwo816DetailCard';
 
 export default function IotaTwo816() {
     const [marketingData, setMarketingData] = useState([]);
+    const [marketingTasks, setMarketingTasks] = useState([]);
     const [ecoSpecs, setEcoSpecs] = useState([]);
     const [buildingSpecs, setBuildingSpecs] = useState([]);
     const [researchInsights, setResearchInsights] = useState([]);
@@ -12,6 +13,7 @@ export default function IotaTwo816() {
     const [dbData, setDbData] = useState({});
     const [historyData, setHistoryData] = useState([]);
     const [showPfScheduleModal, setShowPfScheduleModal] = useState(false);
+    const [showSalesKitModal, setShowSalesKitModal] = useState(false);
     const [isIssuesExpanded, setIsIssuesExpanded] = useState(false);
 
     useEffect(() => {
@@ -19,18 +21,20 @@ export default function IotaTwo816() {
 
         const fetchData = async () => {
             try {
-                const [marketingRes, specsRes, researchRes, comparisonRes, capitalRes, historyRes] = await Promise.all([
+                const [marketingRes, specsRes, researchRes, comparisonRes, capitalRes, historyRes, tasksRes] = await Promise.all([
                     supabase.from('iota_marketing_history').select('*').order('created_at', { ascending: true }).abortSignal(controller.signal),
                     supabase.from('iota_building_specs').select('*').order('created_at', { ascending: true }).abortSignal(controller.signal),
                     supabase.from('iota_research_insights').select('*').order('created_at', { ascending: true }).abortSignal(controller.signal),
                     supabase.from('iota_building_comparison').select('*').order('created_at', { ascending: true }).abortSignal(controller.signal),
                     supabase.from('iota_capital_stack').select('*').eq('vehicle_name', '816').abortSignal(controller.signal),
-                    supabase.from('iota_project_history').select('*').eq('vehicle_name', '816').order('created_at', { ascending: true }).abortSignal(controller.signal)
+                    supabase.from('iota_project_history').select('*').eq('vehicle_name', '816').order('created_at', { ascending: true }).abortSignal(controller.signal),
+                    supabase.from('iota_marketing_tasks').select('*').order('created_at', { ascending: false }).limit(3).abortSignal(controller.signal)
                 ]);
 
                 if (controller.signal.aborted) return;
 
                 if (marketingRes.data) setMarketingData(marketingRes.data);
+                if (tasksRes.data) setMarketingTasks(tasksRes.data);
                 if (specsRes.data) {
                     setEcoSpecs(specsRes.data.filter(s => s.category === 'eco'));
                     setBuildingSpecs(specsRes.data.filter(s => s.category === 'spec'));
@@ -259,8 +263,7 @@ export default function IotaTwo816() {
                     navigateTo={(path) => {
                         const base = import.meta.env.BASE_URL;
                         const url = base.endsWith('/') ? `${base}${path}` : `${base}/${path}`;
-                        window.history.pushState(null, '', url);
-                        window.dispatchEvent(new PopStateEvent('popstate'));
+                        window.location.href = url;
                     }} 
                 />
 
@@ -382,20 +385,6 @@ export default function IotaTwo816() {
                         
                         {/* Premium Inner Overlay Stroke */}
                         <div className="absolute inset-0 rounded-[32px] border border-white/15 pointer-events-none z-10 transition-colors duration-700 group-hover:border-white/25"></div>
-                        
-                        {/* Top Right '+' Button */}
-                        <div 
-                            onClick={(e) => e.preventDefault()}
-                            className="absolute top-[17px] right-[17px] w-[46px] h-[46px] rounded-full bg-black/20 border border-white/60 flex items-center justify-center cursor-pointer hover:bg-black/30 transition-colors z-10 shadow-sm group/btn"
-                        >
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                                <line x1="12" y1="4" x2="12" y2="20"></line>
-                                <line x1="4" y1="12" x2="20" y2="12"></line>
-                            </svg>
-                            <div className="absolute top-[110%] right-0 mt-2 px-3 py-1.5 bg-[#333] text-[#E5E5E5] text-[12px] font-medium rounded-md whitespace-nowrap opacity-0 group-hover/btn:opacity-100 transition-opacity duration-200 pointer-events-none z-50 shadow-lg border border-[#444]">
-                                콘텐츠 준비중입니다.
-                            </div>
-                        </div>
                         
                         {/* Bottom Center Pill */}
                         <div 
@@ -533,7 +522,7 @@ export default function IotaTwo816() {
                         <span className="text-[14px] font-bold text-[#86868B] w-full text-center">Brand & Product</span>
                         <img src={`${import.meta.env.BASE_URL}iota-logo.png`} alt="IOTA" className="w-[110px] object-contain opacity-100 my-auto" />
                         <div className="w-full flex flex-col gap-[8px]">
-                            <div className="w-full h-[32px] rounded-[8px] border border-[#444] bg-transparent flex items-center justify-center cursor-pointer hover:bg-[#333] transition-colors">
+                            <div onClick={() => setShowSalesKitModal(true)} className="w-full h-[32px] rounded-[8px] border border-[#444] bg-transparent flex items-center justify-center cursor-pointer hover:bg-[#333] transition-colors">
                                 <span className="text-[12px] font-bold text-[#A1A1AA] tracking-wide">Sales kit</span>
                             </div>
                             <a href="https://iotaseoul.site/" target="_blank" rel="noopener noreferrer" className="w-full h-[32px] rounded-[8px] border border-[#444] bg-transparent flex items-center justify-center cursor-pointer hover:bg-[#333] transition-colors">
@@ -549,44 +538,38 @@ export default function IotaTwo816() {
                             {/* Rows */}
                             <div className="flex items-start">
                                 <span className="w-[160px] shrink-0 text-[14px] font-bold text-[#86868B] mt-[1px]">Brand Guidelines</span>
-                                <a href="#" className="text-[15px] font-medium text-[#c3c2b7] tracking-tight leading-[22px] hover:text-[#fbf167] cursor-pointer transition-colors">그리스 숫자로 10을 의미하는 단어 'IOTA'는 모든 수를 포함하는 통합의 수 '10'을 뜻합니다.</a>
+                                <a href="https://iotaseoul.site/#section4" target="_blank" rel="noopener noreferrer" className="text-[15px] font-medium text-[#c3c2b7] tracking-tight leading-[22px] hover:text-[#fbf167] cursor-pointer transition-colors">그리스 숫자로 10을 의미하는 단어 'IOTA'는 모든 수를 포함하는 통합의 수 '10'을 뜻합니다.</a>
                             </div>
                             <div className="flex items-start">
-                                <span className="w-[160px] shrink-0 text-[14px] font-bold text-[#86868B] mt-[1px]">프로젝트 리서치</span>
-                                <a href="#" className="text-[15px] font-medium text-[#c3c2b7] tracking-tight leading-[22px] hover:text-[#fbf167] cursor-pointer transition-colors">당대 글로벌 Trophy 오피스 사례를 비교 조사 했습니다. (아자부다이힐스, 토라노몬힐스, 270 파크에비뉴..)</a>
+                                <span className="w-[160px] shrink-0 text-[14px] font-bold text-[#86868B] mt-[1px]">자산 포지셔닝</span>
+                                <span onClick={() => { window.location.href = `${import.meta.env.BASE_URL}platform/iotaseoul/workspace/digital?card=01`; }} className="text-[15px] font-medium text-[#c3c2b7] tracking-tight leading-[22px] hover:text-[#fbf167] cursor-pointer transition-colors">City of Well Life, The New Heritage of Seoul, 호텔 Social Sanctuary</span>
                             </div>
                             <div className="flex items-start">
-                                <span className="w-[160px] shrink-0 text-[14px] font-bold text-[#86868B] mt-[1px]">프로젝트 브랜드 컨셉</span>
-                                <span className="text-[15px] font-medium text-[#666] tracking-tight leading-[22px] cursor-default">TBD (ex. Moden Urban Village Green & Wellness by Azabudai Hills)</span>
+                                <span className="w-[160px] shrink-0 text-[14px] font-bold text-[#86868B] mt-[1px]">공간 프로그램</span>
+                                <span onClick={() => { window.location.href = `${import.meta.env.BASE_URL}platform/iotaseoul/workspace/digital?card=02`; }} className="text-[15px] font-medium text-[#c3c2b7] tracking-tight leading-[22px] hover:text-[#fbf167] cursor-pointer transition-colors">라운지, 웰니스, 갤러리, 오피스/호텔/리테일 통합 경험, 주요 POI</span>
                             </div>
                             <div className="flex items-start">
-                                <span className="w-[160px] shrink-0 text-[14px] font-bold text-[#86868B] mt-[1px]">공간 UX 차별성</span>
-                                <a href="#" className="text-[15px] font-medium text-[#c3c2b7] tracking-tight leading-[22px] hover:text-[#fbf167] cursor-pointer transition-colors">개방형녹지(게이트웨이파크), 시티뷰 멀티 아레나, 루프탑 스카이가든, 프라이빗 이벤트스페이스, 라운지, 로비, 진입동선 등</a>
+                                <span className="w-[160px] shrink-0 text-[14px] font-bold text-[#86868B] mt-[1px]">테크 솔루션</span>
+                                <span onClick={() => { window.location.href = `${import.meta.env.BASE_URL}platform/iotaseoul/workspace/digital?card=04`; }} className="text-[15px] font-medium text-[#c3c2b7] tracking-tight leading-[22px] hover:text-[#fbf167] cursor-pointer transition-colors">Building OS 구성, AI Ready Office, 기술 도입 범위와 기대효과 검토</span>
                             </div>
                             <div className="flex items-start">
-                                <span className="w-[160px] shrink-0 text-[14px] font-bold text-[#86868B] mt-[1px]">디지털 OS & UX</span>
-                                <a href="#" className="text-[15px] font-medium text-[#c3c2b7] tracking-tight leading-[22px] hover:text-[#fbf167] cursor-pointer transition-colors">핀포인트+삼성전자 디지털 OS 탑재 기획 진행중</a>
+                                <span className="w-[160px] shrink-0 text-[14px] font-bold text-[#86868B] mt-[1px]">맴버십 서비스</span>
+                                <span onClick={() => { window.location.href = `${import.meta.env.BASE_URL}platform/iotaseoul/workspace/digital?card=07`; }} className="text-[15px] font-medium text-[#c3c2b7] tracking-tight leading-[22px] hover:text-[#fbf167] cursor-pointer transition-colors">Tenant Membership, 프리미엄 멤버십, 각종 서비스 프로그램</span>
                             </div>
 
-                            {/* Circular Plus Button */}
-                            <div className="absolute top-[18px] right-[18px] w-[46px] h-[46px] rounded-full border border-[#555] flex items-center justify-center cursor-pointer hover:bg-[#444] transition-colors group z-10 shadow-sm">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E5E5E5" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="group-hover:scale-110 transition-transform">
-                                    <line x1="12" y1="5" x2="12" y2="19"></line>
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                </svg>
-                            </div>
+
                         </div>
 
                         {/* Footer Section restricted strictly to the right side */}
                         <div className="w-full h-[54px] border-t border-[#444]/50 flex items-center pl-[32px] gap-[24px] shrink-0">
                             <div className="flex items-center gap-[12px]">
                                 <span className="text-[13px] font-bold text-[#86868B]">브랜드 담당</span>
-                                <a href="#" className="text-[14px] font-bold text-[#E5E5E5] hover:text-[#fbf167] cursor-pointer transition-colors">공간솔루션센터</a>
+                                <span onClick={() => { window.location.href = `${import.meta.env.BASE_URL}platform/iotaseoul/workspace/digital`; }} className="text-[14px] font-bold text-[#E5E5E5] hover:text-[#fbf167] cursor-pointer transition-colors">공간솔루션센터</span>
                             </div>
                             <div className="w-[1px] h-[14px] bg-[#555]"></div>
                             <div className="flex items-center gap-[12px]">
                                 <span className="text-[13px] font-bold text-[#86868B]">Partnership</span>
-                                <a href="#" className="text-[14px] font-bold text-[#E5E5E5] hover:text-[#fbf167] cursor-pointer transition-colors">삼성전자</a>
+                                <span className="text-[14px] font-bold text-[#E5E5E5]">TBD</span>
                             </div>
                         </div>
                     </div>
@@ -599,7 +582,14 @@ export default function IotaTwo816() {
                         {/* Title Row */}
                         <div className="flex items-center justify-between w-full mb-[14px]">
                             <span className="text-[14px] font-bold text-[#86868B] tracking-tight">기업 세일즈 & 파트너십</span>
-                            <div className="text-[15px] text-[#86868B] cursor-pointer hover:text-[#E5E5E5] transition-colors font-medium flex items-center group tracking-tight">
+                            <div 
+                                onClick={() => {
+                                    const base = import.meta.env.BASE_URL;
+                                    const url = base.endsWith('/') ? `${base}platform/iotaseoul/workspace/archive?workspace=marketing` : `${base}/platform/iotaseoul/workspace/archive?workspace=marketing`;
+                                    window.open(url, '_blank', 'noopener,noreferrer');
+                                }}
+                                className="text-[15px] text-[#86868B] cursor-pointer hover:text-[#E5E5E5] transition-colors font-medium flex items-center group tracking-tight"
+                            >
                                 <span>히스토리 전체보기</span>
                                 <svg className="w-[12px] h-[12px] ml-[4px] text-[#666] group-hover:text-[#A1A1AA] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 5l7 7-7 7" />
@@ -609,41 +599,36 @@ export default function IotaTwo816() {
                         
                         {/* Content Rows */}
                         <div className="flex flex-col gap-[8px]">
-                            {/* Row 1 */}
-                            <div className="text-[15px] leading-[22px]">
-                                <span className="text-[#86868B] font-medium mr-[6px] tracking-tight">[접촉 준비]</span>
-                                <a href="#" className="text-[#c3c2b7] font-medium tracking-tight hover:text-[#fbf167] cursor-pointer transition-colors">
-                                    IOTA 서울 SK 계열사 통합 이전 관련 (약 0000명 0개층 사용) 접촉 준비 
-                                </a>
-                                <span className="text-[#666] mx-[8px]">ㅣ</span> 
-                                <a href="#" className="text-[#E5E5E5] font-medium tracking-tight hover:text-[#fbf167] cursor-pointer transition-colors">SK솔루션</a>
-                                <span className="text-[#666] mx-[8px]">ㅣ</span> 
-                                <a href="#" className="text-[#E5E5E5] font-medium tracking-tight hover:text-[#fbf167] cursor-pointer transition-colors">OO 사업실 OOO 본부장</a>
-                            </div>
-                            
-                            {/* Row 2 */}
-                            <div className="text-[15px] leading-[22px]">
-                                <span className="text-[#86868B] font-medium mr-[6px] tracking-tight">[제안 및 검토]</span>
-                                <a href="#" className="text-[#c3c2b7] font-medium tracking-tight hover:text-[#fbf167] cursor-pointer transition-colors">
-                                    LG전자 이오타 임차, 프로젝트 내 설비 + 데이터센터 설비 협업 사업건 제안 및 상호 협의 진행중 
-                                </a>
-                                <span className="text-[#666] mx-[8px]">ㅣ</span> 
-                                <a href="#" className="text-[#E5E5E5] font-medium tracking-tight hover:text-[#fbf167] cursor-pointer transition-colors">LG전자</a>
-                                <span className="text-[#666] mx-[8px]">ㅣ</span> 
-                                <a href="#" className="text-[#E5E5E5] font-medium tracking-tight hover:text-[#fbf167] cursor-pointer transition-colors">한국 영업본부 데이터사업실 CSO OOO</a>
-                            </div>
-                            
-                            {/* Row 3 */}
-                            <div className="text-[15px] leading-[22px]">
-                                <span className="text-[#86868B] font-medium mr-[6px] tracking-tight">[제안 및 검토]</span>
-                                <a href="#" className="text-[#c3c2b7] font-medium tracking-tight hover:text-[#fbf167] cursor-pointer transition-colors">
-                                    법무법인 화우 임차 제안(약 1천명 이오타2 7개층 사용) 및 협의 진행중 
-                                </a>
-                                <span className="text-[#666] mx-[8px]">ㅣ</span> 
-                                <a href="#" className="text-[#E5E5E5] font-medium tracking-tight hover:text-[#fbf167] cursor-pointer transition-colors">법무법인화우</a>
-                                <span className="text-[#666] mx-[8px]">ㅣ</span> 
-                                <a href="#" className="text-[#E5E5E5] font-medium tracking-tight hover:text-[#fbf167] cursor-pointer transition-colors">한영익 팀장</a>
-                            </div>
+                            {marketingTasks.map((task, idx) => (
+                                <div key={idx} className="text-[15px] leading-[22px]">
+                                    <span className="text-[#86868B] font-medium mr-[6px] tracking-tight">[{task.status || '상태없음'}]</span>
+                                    <span onClick={() => {
+                                        const base = import.meta.env.BASE_URL;
+                                        window.location.href = base.endsWith('/') ? `${base}platform/iotaseoul/workspace/marketing` : `${base}/platform/iotaseoul/workspace/marketing`;
+                                    }} className="text-[#c3c2b7] font-medium tracking-tight hover:text-[#fbf167] cursor-pointer transition-colors">
+                                        {task.task_name || '제목없음'} 
+                                    </span>
+                                    <span className="text-[#666] mx-[8px]">ㅣ</span> 
+                                    <span onClick={() => {
+                                        const base = import.meta.env.BASE_URL;
+                                        window.location.href = base.endsWith('/') ? `${base}platform/iotaseoul/workspace/marketing` : `${base}/platform/iotaseoul/workspace/marketing`;
+                                    }} className="text-[#E5E5E5] font-medium tracking-tight hover:text-[#fbf167] cursor-pointer transition-colors">
+                                        {task.company_name || '내부업무'}
+                                    </span>
+                                    <span className="text-[#666] mx-[8px]">ㅣ</span> 
+                                    <span onClick={() => {
+                                        const base = import.meta.env.BASE_URL;
+                                        window.location.href = base.endsWith('/') ? `${base}platform/iotaseoul/workspace/marketing` : `${base}/platform/iotaseoul/workspace/marketing`;
+                                    }} className="text-[#E5E5E5] font-medium tracking-tight hover:text-[#fbf167] cursor-pointer transition-colors">
+                                        {task.next_action || '-'}
+                                    </span>
+                                </div>
+                            ))}
+                            {marketingTasks.length === 0 && (
+                                <div className="text-[15px] leading-[22px] text-[#86868B]">
+                                    등록된 마케팅 Task가 없습니다.
+                                </div>
+                            )}
                         </div>
                     </div>
 
@@ -651,12 +636,15 @@ export default function IotaTwo816() {
                     <div className="w-full h-[54px] border-t border-[#444]/50 flex items-center pl-[30px] gap-[24px] shrink-0">
                         <div className="flex items-center gap-[12px]">
                             <span className="text-[13px] font-bold text-[#86868B]">기업세일즈 담당</span>
-                            <a href="#" className="text-[14px] font-bold text-[#E5E5E5] hover:text-[#fbf167] cursor-pointer transition-colors">기업마케팅센터</a>
+                            <span onClick={() => {
+                                const base = import.meta.env.BASE_URL;
+                                window.location.href = base.endsWith('/') ? `${base}platform/iotaseoul/workspace/marketing` : `${base}/platform/iotaseoul/workspace/marketing`;
+                            }} className="text-[14px] font-bold text-[#E5E5E5] hover:text-[#fbf167] cursor-pointer transition-colors">기업마케팅센터</span>
                         </div>
                         <div className="w-[1px] h-[14px] bg-[#555]"></div>
                         <div className="flex items-center gap-[12px]">
                             <span className="text-[13px] font-bold text-[#86868B]">Partnership</span>
-                            <a href="#" className="text-[14px] font-bold text-[#E5E5E5] hover:text-[#fbf167] cursor-pointer transition-colors">PwC</a>
+                            <span className="text-[14px] font-bold text-[#E5E5E5]">PwC, TBD</span>
                         </div>
                     </div>
                 </div>
@@ -833,20 +821,6 @@ export default function IotaTwo816() {
                             <span className="text-[14px] font-bold text-[#86868B] tracking-tight">Research & Insight</span>
                         </div>
 
-                        {/* Circular Action Button */}
-                        <div 
-                            onClick={(e) => e.preventDefault()}
-                            className="absolute top-[20px] right-[24px] w-[46px] h-[46px] rounded-full border border-[#555] flex items-center justify-center cursor-pointer hover:bg-[#444] transition-colors z-10 shadow-sm group/btn2"
-                        >
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E5E5E5" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="group-hover/btn2:scale-110 transition-transform">
-                                <line x1="12" y1="5" x2="12" y2="19"></line>
-                                <line x1="5" y1="12" x2="19" y2="12"></line>
-                            </svg>
-                            <div className="absolute top-[110%] right-0 mt-2 px-3 py-1.5 bg-[#333] text-[#E5E5E5] text-[12px] font-medium rounded-md whitespace-nowrap opacity-0 group-hover/btn2:opacity-100 transition-opacity duration-200 pointer-events-none z-50 shadow-lg border border-[#444]">
-                                콘텐츠 준비중입니다.
-                            </div>
-                        </div>
-
                         {/* Text List */}
                         <div className="flex flex-col w-full">
                             {researchInsights.map((item, index) => (
@@ -880,20 +854,6 @@ export default function IotaTwo816() {
                     {/* Image Box */}
                     <div className="w-[430px] h-[360px] rounded-[32px] overflow-hidden relative shrink-0 border border-[#3c3c3c]/50">
                         <img src={`${import.meta.env.BASE_URL}${(data.image || '').replace(/^\//, '')}`} alt={data.title} className="w-full h-full object-cover opacity-90 transition-opacity hover:opacity-100" />
-                        
-                        {/* Top Right '+' Button */}
-                        <div 
-                            onClick={(e) => e.preventDefault()}
-                            className="absolute top-[17px] right-[17px] w-[46px] h-[46px] rounded-full bg-black/20 border border-white/60 flex items-center justify-center cursor-pointer hover:bg-black/30 transition-colors z-10 shadow-sm group/btn3"
-                        >
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                                <line x1="12" y1="4" x2="12" y2="20"></line>
-                                <line x1="4" y1="12" x2="20" y2="12"></line>
-                            </svg>
-                            <div className="absolute top-[110%] right-0 mt-2 px-3 py-1.5 bg-[#333] text-[#E5E5E5] text-[12px] font-medium rounded-md whitespace-nowrap opacity-0 group-hover/btn3:opacity-100 transition-opacity duration-200 pointer-events-none z-50 shadow-lg border border-[#444]">
-                                콘텐츠 준비중입니다.
-                            </div>
-                        </div>
                     </div>
 
                     {/* Data Box */}
@@ -1024,6 +984,40 @@ export default function IotaTwo816() {
                                 </svg>
                             </div>
                             <img src={`${import.meta.env.BASE_URL}pf-schedule.webp`} alt="통합PF 스케줄" className="w-auto h-auto max-w-full max-h-[90vh] object-contain block" />
+                        </div>
+                    </div>
+                )}
+
+                {/* Sales Kit Modal */}
+                {showSalesKitModal && (
+                    <div className="fixed inset-0 z-[9999] flex items-center justify-center px-4 bg-black/60 backdrop-blur-sm animate-fadeIn">
+                        <div className="bg-[#1D1D1F] border border-[#3C3C3C] w-full max-w-[420px] rounded-[24px] p-8 shadow-2xl relative">
+                            <div className="w-12 h-12 bg-[#2C2C2E] rounded-full flex items-center justify-center mx-auto mb-6">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                    <polyline points="22,6 12,13 2,6"></polyline>
+                                </svg>
+                            </div>
+                            <h3 className="text-[20px] font-bold text-white mb-3 tracking-tight text-center">Sales kit 요청</h3>
+                            <p className="text-[15px] font-medium text-[#A1A1AA] text-center leading-relaxed mb-8 break-keep">
+                                기업마케팅 워크스페이스의 협업게시판을 통해<br/>요청해주시기 바랍니다.
+                            </p>
+                            <div className="flex flex-col gap-3">
+                                <button 
+                                    onClick={() => {
+                                        window.location.href = `${import.meta.env.BASE_URL}platform/iotaseoul/workspace/marketing`;
+                                    }} 
+                                    className="w-full py-3.5 rounded-[12px] bg-[#0071E3] text-white font-semibold text-[15px] hover:bg-[#0077ED] transition-colors cursor-pointer tracking-tight"
+                                >
+                                    기업마케팅 워크스페이스 가기
+                                </button>
+                                <button 
+                                    onClick={() => setShowSalesKitModal(false)} 
+                                    className="w-full py-3.5 rounded-[12px] bg-[#2C2C2E] text-white font-semibold text-[15px] hover:bg-[#3A3A3C] transition-colors cursor-pointer tracking-tight"
+                                >
+                                    닫기
+                                </button>
+                            </div>
                         </div>
                     </div>
                 )}
