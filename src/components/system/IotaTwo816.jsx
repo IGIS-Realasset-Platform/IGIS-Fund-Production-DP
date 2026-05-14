@@ -208,7 +208,7 @@ export default function IotaTwo816() {
                 </div>
 
                 {/* Timeline Setup */}
-                <div className="w-[1260px] -ml-[30px] h-[112px] mt-[9px] mb-[13px] relative group cursor-pointer rounded-[24px] hover:bg-[#242424] transition-colors duration-300 px-[40px]">
+                <div className="w-[1230px] -ml-[30px] h-[112px] mt-[9px] mb-[13px] relative group cursor-pointer rounded-[24px] hover:bg-[#242424] transition-colors duration-300 px-[40px]">
                     <div className="absolute top-[56px] left-[40px] right-[40px] h-px bg-[#444] group-hover:bg-[#E5E5E5] transition-colors duration-300 z-0">
                         {[
                             { date: '2022.12', label: 'PFV설립', left: 0 },
