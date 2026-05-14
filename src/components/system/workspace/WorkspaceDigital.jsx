@@ -344,12 +344,6 @@ export default function WorkspaceDigital() {
         const current = sortedTasks[index];
         const prev = sortedTasks[index - 1];
         
-        // Prevent identical timestamp lock (which causes DB swap to fail silently on refresh)
-        if (current.created_at === prev.created_at) {
-            const time = new Date(prev.created_at || Date.now()).getTime();
-            prev.created_at = new Date(time + 1).toISOString(); // Add 1ms to break the tie cleanly
-        }
-        
         const temp = current.created_at;
         current.created_at = prev.created_at;
         prev.created_at = temp;
@@ -369,11 +363,6 @@ export default function WorkspaceDigital() {
         if (index === sortedTasks.length - 1) return;
         const current = sortedTasks[index];
         const next = sortedTasks[index + 1];
-        
-        if (current.created_at === next.created_at) {
-            const time = new Date(next.created_at || Date.now()).getTime();
-            next.created_at = new Date(time + 1).toISOString();
-        }
         
         const temp = current.created_at;
         current.created_at = next.created_at;

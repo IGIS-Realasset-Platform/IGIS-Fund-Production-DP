@@ -352,12 +352,6 @@ export default function WorkspaceMarketing() {
         const current = sortedTasks[index];
         const prev = sortedTasks[index - 1];
         
-        // Prevent identical timestamp lock (which causes DB swap to fail silently on refresh)
-        if (current.created_at === prev.created_at) {
-            const time = new Date(prev.created_at || Date.now()).getTime();
-            prev.created_at = new Date(time + 1).toISOString(); // Add 1ms to break the tie cleanly
-        }
-        
         const temp = current.created_at;
         current.created_at = prev.created_at;
         prev.created_at = temp;
@@ -366,10 +360,10 @@ export default function WorkspaceMarketing() {
         setTasks(newTasks);
         
         try {
-            await supabase.from('iota_stakeholder_master').update({ created_at: current.created_at }).eq('id', current.id);
-            await supabase.from('iota_stakeholder_master').update({ created_at: prev.created_at }).eq('id', prev.id);
+            await supabase.from('iota_mkt_tasks').update({ created_at: current.created_at }).eq('id', current.id);
+            await supabase.from('iota_mkt_tasks').update({ created_at: prev.created_at }).eq('id', prev.id);
         } catch (e) {
-            localStorage.setItem('iota_stakeholder_master_fallback', JSON.stringify(newTasks));
+            localStorage.setItem('iota_mkt_tasks_fallback', JSON.stringify(newTasks));
         }
     };
 
@@ -377,11 +371,6 @@ export default function WorkspaceMarketing() {
         if (index === sortedTasks.length - 1) return;
         const current = sortedTasks[index];
         const next = sortedTasks[index + 1];
-        
-        if (current.created_at === next.created_at) {
-            const time = new Date(next.created_at || Date.now()).getTime();
-            next.created_at = new Date(time + 1).toISOString();
-        }
         
         const temp = current.created_at;
         current.created_at = next.created_at;
@@ -391,10 +380,10 @@ export default function WorkspaceMarketing() {
         setTasks(newTasks);
         
         try {
-            await supabase.from('iota_stakeholder_master').update({ created_at: current.created_at }).eq('id', current.id);
-            await supabase.from('iota_stakeholder_master').update({ created_at: next.created_at }).eq('id', next.id);
+            await supabase.from('iota_mkt_tasks').update({ created_at: current.created_at }).eq('id', current.id);
+            await supabase.from('iota_mkt_tasks').update({ created_at: next.created_at }).eq('id', next.id);
         } catch (e) {
-            localStorage.setItem('iota_stakeholder_master_fallback', JSON.stringify(newTasks));
+            localStorage.setItem('iota_mkt_tasks_fallback', JSON.stringify(newTasks));
         }
     };
 
