@@ -209,7 +209,7 @@ export default function WorkspaceDigital() {
                         return (id && String(id).startsWith('temp-')) ? rest : t;
                     });
                     
-                    const { error: insertError } = await executeWithTimeout(supabase.from('iota_digital_tasks').insert(tasksToInsert));
+                    const { error: insertError } = await supabase.from('iota_digital_tasks').insert(tasksToInsert);
                     if (!insertError) {
                         localStorage.removeItem('iota_digital_tasks_fallback'); // 동기화 성공 시 백업 삭제
                         
@@ -277,11 +277,11 @@ export default function WorkspaceDigital() {
         
         try {
             if (editingTaskId) {
-                const { error } = await executeWithTimeout(supabase.from('iota_digital_tasks').update(newTask).eq('id', editingTaskId));
+                const { error } = await supabase.from('iota_digital_tasks').update(newTask).eq('id', editingTaskId);
                 if (error) throw error;
                 fetchTasks();
             } else {
-                const { error } = await executeWithTimeout(supabase.from('iota_digital_tasks').insert([{ ...newTask, created_at: taskToSave.created_at }]));
+                const { error } = await supabase.from('iota_digital_tasks').insert([{ ...newTask, created_at: taskToSave.created_at }]);
                 if (error) throw error;
                 fetchTasks();
             }
@@ -303,7 +303,7 @@ export default function WorkspaceDigital() {
     const handleDeleteRow = async (id) => {
         setIsDeleting(true);
         try {
-            const { error } = await executeWithTimeout(supabase.from('iota_digital_tasks').delete().eq('id', id));
+            const { error } = await supabase.from('iota_digital_tasks').delete().eq('id', id);
             if (error) throw error;
             fetchTasks();
         } catch (e) {

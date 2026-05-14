@@ -274,10 +274,10 @@ export default function WorkspaceMarketing() {
         setIsSubmittingTask(true);
         try {
             if (editingTaskId) {
-                const { error } = await executeWithTimeout(supabase.from('iota_marketing_tasks').update(newTask).eq('id', editingTaskId));
+                const { error } = await supabase.from('iota_marketing_tasks').update(newTask).eq('id', editingTaskId);
                 if (error) throw error;
             } else {
-                const { error } = await executeWithTimeout(supabase.from('iota_marketing_tasks').insert([{...newTask, id: `temp-${Date.now()}`, created_at: new Date().toISOString()}]));
+                const { error } = await supabase.from('iota_marketing_tasks').insert([{...newTask, id: `temp-${Date.now()}`, created_at: new Date().toISOString()}]);
                 if (error) throw error;
             }
             
@@ -297,7 +297,7 @@ export default function WorkspaceMarketing() {
     const handleDeleteRow = async (id) => {
         setIsDeleting(true);
         try {
-            const { error } = await executeWithTimeout(supabase.from('iota_marketing_tasks').delete().eq('id', id));
+            const { error } = await supabase.from('iota_marketing_tasks').delete().eq('id', id);
             if (error) throw error;
             fetchTasks();
         } catch (e) {

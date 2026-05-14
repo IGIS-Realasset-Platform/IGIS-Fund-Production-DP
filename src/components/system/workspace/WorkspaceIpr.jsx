@@ -283,11 +283,11 @@ export default function WorkspaceIpr() {
         setIsSubmittingTask(true);
         try {
             if (editingTaskId) {
-                const { error } = await executeWithTimeout(supabase.from('iota_ipr_tasks').update(newTask).eq('id', editingTaskId));
+                const { error } = await supabase.from('iota_ipr_tasks').update(newTask).eq('id', editingTaskId);
                 if (error) throw error;
             } else {
                 const taskToSave = { ...newTask, id: Date.now().toString(), created_at: new Date().toISOString() };
-                const { error } = await executeWithTimeout(supabase.from('iota_ipr_tasks').insert([taskToSave]));
+                const { error } = await supabase.from('iota_ipr_tasks').insert([taskToSave]);
                 if (error) throw error;
             }
         } catch (e) {
@@ -306,12 +306,10 @@ export default function WorkspaceIpr() {
     const handleDeleteRow = async (id) => {
         setIsDeleting(true);
         try {
-            const { error } = await executeWithTimeout(supabase.from('iota_ipr_tasks').delete().eq('id', id));
+            const { error } = await supabase.from('iota_ipr_tasks').delete().eq('id', id);
             if (error) throw error;
         } catch (e) {
             console.warn('Deleting from local storage fallback due to error:', e);
-            alert('서버 통신 지연이 감지되어 임시 보관 처리 후 새로고침합니다.');
-            window.location.reload();
             const updated = tasks.filter(t => t.id !== id);
             localStorage.setItem('iota_ipr_tasks_fallback', JSON.stringify(updated));
         } finally {

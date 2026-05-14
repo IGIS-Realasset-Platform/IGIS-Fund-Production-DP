@@ -96,9 +96,9 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
     const handleDelete = async (logId) => {
         setIsDeleting(true);
         try {
-            await executeWithTimeout(supabase.from('iota_seoul_log_links').delete().eq('log_id', logId));
-            await executeWithTimeout(supabase.from('iota_seoul_log_stakeholders').delete().eq('log_id', logId));
-            const { error } = await executeWithTimeout(supabase.from('iota_seoul_logs').delete().eq('log_id', logId));
+            await supabase.from('iota_seoul_log_links').delete().eq('log_id', logId);
+            await supabase.from('iota_seoul_log_stakeholders').delete().eq('log_id', logId);
+            const { error } = await supabase.from('iota_seoul_logs').delete().eq('log_id', logId);
             if (error) throw error;
             
             setLogs(prev => prev.filter(l => l.log_id !== logId));
@@ -106,7 +106,6 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
         } catch (error) {
             console.error('Error deleting log:', error);
             alert('서버 연결 지연으로 인해 일시적인 오류가 발생했습니다. 페이지를 새로고침합니다.');
-            window.location.reload();
         } finally {
             setIsDeleting(false);
         }
@@ -129,7 +128,6 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
         } catch (err) {
             console.error('Error updating log:', err);
             alert('서버 연결 지연으로 인해 일시적인 오류가 발생했습니다. 페이지를 새로고침합니다.');
-            window.location.reload();
         } finally {
             setIsSavingEdit(false);
         }
@@ -166,7 +164,6 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
         } catch (e) {
             console.error('Error saving comment:', e);
             alert('서버 연결 지연으로 인해 일시적인 오류가 발생했습니다. 페이지를 새로고침합니다.');
-            window.location.reload();
         } finally {
             setIsSavingComment(false);
         }
@@ -192,7 +189,6 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
         } catch (e) {
             console.error('Error deleting comment:', e);
             alert('서버 연결 지연으로 인해 일시적인 오류가 발생했습니다. 페이지를 새로고침합니다.');
-            window.location.reload();
         } finally {
             setIsDeleting(false);
             setCommentToDelete(null);
