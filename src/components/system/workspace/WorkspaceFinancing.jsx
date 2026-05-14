@@ -1009,12 +1009,11 @@ export default function WorkspaceFinancing() {
                             className="w-full bg-[#1A1A1A] border border-[#444] rounded-[12px] px-4 py-3 text-white text-[15px] outline-none focus:border-[#888]" 
                             placeholder="다음 액션 준비사항 입력" 
                         />
-                        <input 
-                            type="text" 
+                        <textarea 
                             value={newTask.notes || ''} 
                             onChange={e => setNewTask({...newTask, notes: e.target.value})} 
-                            className="w-full bg-[#1A1A1A] border border-[#444] rounded-[12px] px-4 py-3 text-[#A1A1AA] text-[14px] outline-none focus:border-[#888]" 
-                            placeholder="비고 / 링크 입력 (선택사항)" 
+                            className="w-full bg-[#1A1A1A] border border-[#444] rounded-[12px] px-4 py-3 text-[#A1A1AA] text-[14px] outline-none focus:border-[#888] min-h-[92px] resize-y" 
+                            placeholder="상세 내용 입력" 
                         />
                         <div className="flex flex-wrap gap-4 items-center">
                             <select 
@@ -1156,7 +1155,7 @@ export default function WorkspaceFinancing() {
                                 </div>
                                 {row.notes && (
                                 <div className="flex items-start gap-4 mt-4 pt-4 border-t border-[#3c3c3c]/50">
-                                    <span className="text-[13px] font-bold text-[#86868B] shrink-0 mt-[2px]">비고/링크</span>
+                                    <span className="text-[13px] font-bold text-[#86868B] shrink-0 mt-[2px]">상세 내용</span>
                                     <span className="text-[14px] text-white font-medium break-all">
                                         {row.notes.startsWith('http') ? <a href={row.notes} target="_blank" rel="noreferrer" className="text-[#2997ff] hover:underline">{row.notes}</a> : row.notes}
                                     </span>
