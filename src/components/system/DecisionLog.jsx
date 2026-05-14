@@ -582,7 +582,7 @@ export default function DecisionLog() {
                                                         {task.task_name}
                                                     </h4>
                                                     <div className="flex items-center gap-[6px]">
-                                                        <span className="text-[15px] font-medium text-[#555] opacity-80 shrink-0">다음 액션</span>
+                                                        <span className="text-[15px] font-medium text-[#555] opacity-80 shrink-0">다음액션</span>
                                                         <p className="text-[15px] text-[#86868B] truncate w-full leading-none group-hover:text-[#A1A1AA] transition-colors">
                                                             {task.next_action || '작성된 내용이 없습니다.'}
                                                         </p>

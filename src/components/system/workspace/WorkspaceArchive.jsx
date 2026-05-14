@@ -224,7 +224,7 @@ export default function WorkspacePmArchive() {
                                         </div>
                                     </div>
                                     <div className="w-[40%] pl-4">
-                                        <span className="block text-[13px] font-bold text-[#86868B] mb-[6px]">Next Action</span>
+                                        <span className="block text-[13px] font-bold text-[#86868B] mb-[6px]">다음액션</span>
                                         <p className="text-[16px] text-[#E5E5E5] leading-relaxed break-keep whitespace-pre-wrap">{row.next_action || '-'}</p>
                                     </div>
                                 </div>

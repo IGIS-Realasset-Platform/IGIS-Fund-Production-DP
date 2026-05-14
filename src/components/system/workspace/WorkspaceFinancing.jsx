@@ -1084,7 +1084,7 @@ export default function WorkspaceFinancing() {
                             value={newTask.next_action} 
                             onChange={e => setNewTask({...newTask, next_action: e.target.value})} 
                             className="w-full bg-[#1A1A1A] border border-[#444] rounded-[12px] px-4 py-3 text-white text-[15px] outline-none focus:border-[#888]" 
-                            placeholder="다음 액션 준비사항 입력" 
+                            placeholder="다음액션 준비사항 입력" 
                         />
                         <textarea 
                             value={newTask.notes || ''} 
@@ -1156,7 +1156,7 @@ export default function WorkspaceFinancing() {
                                 <option>중간</option>
                                 <option>낮음</option>
                             </select>
-                            <div className="flex items-center gap-2"><span className="text-[#86868B] text-[13px] font-bold shrink-0">목표 마감일</span><input type="date" value={newTask.due_date} onClick={(e) => e.target.showPicker && e.target.showPicker()} onChange={e => setNewTask({...newTask, due_date: e.target.value})} className="bg-[#1A1A1A] border border-[#444] rounded-[10px] px-3 py-2 text-[#A1A1AA] text-[14px] outline-none focus:border-[#888] cursor-pointer [color-scheme:dark]" /></div>
+                            <div className="flex items-center gap-2"><span className="text-[#A1A1AA] text-[13px] font-bold shrink-0">목표 마감일</span><input type="date" value={newTask.due_date} onClick={(e) => e.target.showPicker && e.target.showPicker()} onChange={e => setNewTask({...newTask, due_date: e.target.value})} className="bg-[#1A1A1A] border border-[#444] rounded-[10px] px-3 py-2 text-[#A1A1AA] text-[14px] outline-none focus:border-[#888] cursor-pointer [color-scheme:dark]" /></div>
                             <div className="flex gap-2 ml-auto">
                                 <button onClick={() => { setIsAdding(false); setEditingTaskId(null); setCompanyQuery(''); setNewTask({ task_name: '', company_name: '', related_asset: 'IOTA 공통', status: '신규', priority: '중간', due_date: new Date().toLocaleDateString('en-CA'), next_action: '', notes: '', file_name: null, file_url: null }); }} className="px-5 py-2 bg-[#3c3c3c]/50 text-[#86868B] border border-[#444] rounded-[10px] text-[14px] font-bold hover:bg-[#3c3c3c] hover:text-white transition-colors cursor-pointer">취소</button>
                                 <button onClick={handleSaveRow} disabled={isSubmittingTask} className="px-5 py-2 bg-[#059669]/20 text-[#34d399] border border-[#059669]/30 rounded-[10px] text-[14px] font-bold hover:bg-[#059669]/40 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">{isSubmittingTask ? '저장 중...' : editingTaskId ? '수정 완료' : '저장'}</button>
@@ -1231,8 +1231,8 @@ export default function WorkspaceFinancing() {
                                     </div>
                                     <div className="flex-1 flex flex-col gap-[2px] pr-4">
                                         <div className="flex items-center gap-2 mb-1 -translate-y-[2px]">
-                                            <span className="text-[13px] font-bold text-[#86868B]">Next Action</span>
-                                            {row.due_date && <span className="text-[11px] font-medium text-[#A1A1AA] bg-[#2c2c2e] border border-[#3a3a3c] px-[8px] py-[2px] rounded-full tracking-tight">마감일 목표 {row.due_date}</span>}
+                                            <span className="text-[13px] font-bold text-[#86868B]">다음액션</span>
+                                            {row.due_date && <span className="text-[11px] font-medium text-[#E5E5E5] bg-[#3c3c3c] border border-[#4c4c4c] px-[8px] py-[2px] rounded-full tracking-tight">마감일 목표 {row.due_date}</span>}
                                         </div>
                                         <p className="min-h-[28px] text-[18px] text-[#bbb9af] leading-relaxed break-keep font-medium -translate-y-[6px]">
                                             {parseNames(row.next_action)}
@@ -1564,7 +1564,7 @@ export default function WorkspaceFinancing() {
                             </div>
                             {selectedPfPlan.next && (
                                 <div className="bg-[#1A1A1A] border border-[#333] rounded-[16px] p-[20px]">
-                                    <h4 className="text-[14px] font-bold text-white mb-[8px]">다음 액션</h4>
+                                    <h4 className="text-[14px] font-bold text-white mb-[8px]">다음액션</h4>
                                     <p className="text-[13px] text-[#E5E5E5] leading-relaxed">{selectedPfPlan.next}</p>
                                 </div>
                             )}
