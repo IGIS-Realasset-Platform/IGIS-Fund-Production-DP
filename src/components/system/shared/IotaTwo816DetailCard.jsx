@@ -319,7 +319,7 @@ const IotaTwo816DetailCard = ({ id, vehicleId, title, dbData, historyData, navig
                             className="overflow-hidden bg-[#1c1c1e] rounded-[32px] border border-[#3c3c3c] mt-[6px]"
                         >
                             <div className="p-[32px]">
-                                <div className="flex justify-between items-end mb-[20px]">
+                                <div className="flex justify-between items-end mb-[12px]">
                                     <h3 className="text-[20px] font-bold text-white tracking-tight flex items-center">
                                         <span className="w-1.5 h-4 bg-[#A1A1AA] mr-2 rounded-full"></span>
                                         개발 단계별 핵심 지표 비교 요약표
