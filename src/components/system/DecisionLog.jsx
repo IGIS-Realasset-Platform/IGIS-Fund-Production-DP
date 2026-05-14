@@ -568,7 +568,7 @@ export default function DecisionLog() {
                                                 <div className="w-[calc(100%+48px)] h-[1px] bg-[#333] ml-[-24px] -mt-[10px] mb-[10px]"></div>
                                                 <div className="flex justify-between items-center mb-[2px]">
                                                     <span className="text-[13px] font-bold text-[#86868B]">Task {idx + 1}</span>
-                                                    <span className="text-[12px] font-medium text-[#86868B]">목표 마감일 {task.due_date || '미정'}</span>
+                                                    <span className="text-[12px] font-medium text-[#6c6c6d]">목표 마감일 {task.due_date || '미정'}</span>
                                                 </div>
                                                 <div 
                                                     className="cursor-pointer group overflow-hidden flex flex-col gap-[8px]"
@@ -582,7 +582,7 @@ export default function DecisionLog() {
                                                         {task.task_name}
                                                     </h4>
                                                     <div className="flex items-center gap-[6px]">
-                                                        <span className="text-[15px] font-medium text-[#555] opacity-80 shrink-0">다음액션</span>
+                                                        <span className="text-[15px] font-medium text-[#454545] shrink-0">다음액션</span>
                                                         <p className="text-[15px] text-[#86868B] truncate w-full leading-none group-hover:text-[#A1A1AA] transition-colors">
                                                             {task.next_action || '작성된 내용이 없습니다.'}
                                                         </p>
