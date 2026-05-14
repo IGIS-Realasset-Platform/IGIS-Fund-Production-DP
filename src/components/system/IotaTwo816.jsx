@@ -11,6 +11,7 @@ export default function IotaTwo816() {
     const [comparisonData, setComparisonData] = useState([]);
     const [dbData, setDbData] = useState({});
     const [historyData, setHistoryData] = useState([]);
+    const [showPfScheduleModal, setShowPfScheduleModal] = useState(false);
 
     useEffect(() => {
         const controller = new AbortController();
@@ -186,13 +187,19 @@ export default function IotaTwo816() {
                 {/* Team Info Pill Box (Now Status Track) */}
                 <div className="w-full bg-[#292928] border border-[#3c3c3c] rounded-[24px] h-[74px] flex items-center justify-between px-8">
                     <div className="flex items-center text-[16px]">
-                        <span className="text-[#86868B] mr-[18px] text-[14px] font-medium font-['Inter']">현재트랙</span>
+                        <span className="text-[#86868B] mr-[18px] text-[15px] font-medium font-['Inter']">현재트랙</span>
                         <span className="text-white font-bold">2026년 4월 24일 리파이낸싱 완료</span>
                         <span className="text-[#666] mx-[14px]">ㅣ</span>
                         <span className="text-white font-bold">2027년 4월 철거 공사 예정</span>
                         <span className="text-[#666] mx-[14px]">ㅣ</span>
                         <span className="text-white font-bold">통합 PF 준비중</span>
                     </div>
+                    <button 
+                        onClick={() => setShowPfScheduleModal(true)}
+                        className="h-[32px] px-[16px] bg-transparent hover:bg-white/5 rounded-[8px] text-[13px] font-medium text-[#A1A1AA] hover:text-[#E5E5E5] transition-colors border border-[#444] flex items-center justify-center cursor-pointer"
+                    >
+                        통합PF 스케줄 보기
+                    </button>
                 </div>
 
                 {/* Timeline Setup */}
@@ -871,6 +878,21 @@ export default function IotaTwo816() {
                 ))}
                 
                 <div className="h-[200px] shrink-0 w-full"></div>
+
+                {/* PF Schedule Modal */}
+                {showPfScheduleModal && (
+                    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/70 backdrop-blur-sm transition-opacity" onClick={() => setShowPfScheduleModal(false)}>
+                        <div className="relative max-w-[90vw] max-h-[90vh] rounded-[24px] overflow-hidden shadow-2xl" onClick={e => e.stopPropagation()}>
+                            <div className="absolute top-[20px] right-[20px] w-[40px] h-[40px] rounded-full bg-black/40 hover:bg-black/60 border border-white/20 flex items-center justify-center cursor-pointer transition-colors z-10" onClick={() => setShowPfScheduleModal(false)}>
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                                </svg>
+                            </div>
+                            <img src={`${import.meta.env.BASE_URL}pf-schedule.webp`} alt="통합PF 스케줄" className="w-auto h-auto max-w-full max-h-[90vh] object-contain block" />
+                        </div>
+                    </div>
+                )}
             </div>
     );
 }
