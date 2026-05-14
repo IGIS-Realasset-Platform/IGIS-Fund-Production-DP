@@ -344,16 +344,26 @@ export default function WorkspaceDigital() {
         const current = sortedTasks[index];
         const prev = sortedTasks[index - 1];
         
-        const temp = current.created_at;
-        current.created_at = prev.created_at;
-        prev.created_at = temp;
+        let tCurrent = new Date(current.created_at || Date.now()).getTime();
+        let tPrev = new Date(prev.created_at || Date.now()).getTime();
         
-        const newTasks = tasks.map(t => t.id === current.id ? {...t, created_at: current.created_at} : t.id === prev.id ? {...t, created_at: prev.created_at} : t);
+        if (tCurrent === tPrev) {
+            tPrev += 1;
+        }
+        
+        const newCurrentTime = new Date(tPrev).toISOString();
+        const newPrevTime = new Date(tCurrent).toISOString();
+        
+        const newTasks = tasks.map(t => {
+            if (t.id === current.id) return { ...t, created_at: newCurrentTime };
+            if (t.id === prev.id) return { ...t, created_at: newPrevTime };
+            return t;
+        });
         setTasks(newTasks);
         
         try {
-            await supabase.from('iota_digital_tasks').update({ created_at: current.created_at }).eq('id', current.id);
-            await supabase.from('iota_digital_tasks').update({ created_at: prev.created_at }).eq('id', prev.id);
+            await supabase.from('iota_digital_tasks').update({ created_at: newCurrentTime }).eq('id', current.id);
+            await supabase.from('iota_digital_tasks').update({ created_at: newPrevTime }).eq('id', prev.id);
         } catch (e) {
             localStorage.setItem('iota_digital_tasks_fallback', JSON.stringify(newTasks));
         }
@@ -364,16 +374,26 @@ export default function WorkspaceDigital() {
         const current = sortedTasks[index];
         const next = sortedTasks[index + 1];
         
-        const temp = current.created_at;
-        current.created_at = next.created_at;
-        next.created_at = temp;
+        let tCurrent = new Date(current.created_at || Date.now()).getTime();
+        let tNext = new Date(next.created_at || Date.now()).getTime();
         
-        const newTasks = tasks.map(t => t.id === current.id ? {...t, created_at: current.created_at} : t.id === next.id ? {...t, created_at: next.created_at} : t);
+        if (tCurrent === tNext) {
+            tNext += 1;
+        }
+        
+        const newCurrentTime = new Date(tNext).toISOString();
+        const newNextTime = new Date(tCurrent).toISOString();
+        
+        const newTasks = tasks.map(t => {
+            if (t.id === current.id) return { ...t, created_at: newCurrentTime };
+            if (t.id === next.id) return { ...t, created_at: newNextTime };
+            return t;
+        });
         setTasks(newTasks);
         
         try {
-            await supabase.from('iota_digital_tasks').update({ created_at: current.created_at }).eq('id', current.id);
-            await supabase.from('iota_digital_tasks').update({ created_at: next.created_at }).eq('id', next.id);
+            await supabase.from('iota_digital_tasks').update({ created_at: newCurrentTime }).eq('id', current.id);
+            await supabase.from('iota_digital_tasks').update({ created_at: newNextTime }).eq('id', next.id);
         } catch (e) {
             localStorage.setItem('iota_digital_tasks_fallback', JSON.stringify(newTasks));
         }
@@ -701,7 +721,7 @@ export default function WorkspaceDigital() {
                                 key={row.id}
                                 id={`task-${row.id}`} 
                                 onClick={() => setExpandedTaskId((expandedTaskId === 'ALL' || expandedTaskId === row.id) ? null : row.id)}
-                                className={`scroll-mt-[100px] w-full relative rounded-[24px] px-6 pt-[18px] pb-[18px] cursor-pointer transition-all duration-300 group/row ${(expandedTaskId === 'ALL' || expandedTaskId === row.id) ? 'border-[2px] border-transparent [background:linear-gradient(#272726,#272726)_padding-box,linear-gradient(to_bottom_right,#d6efe9,#82afb9,#4c6e86)_border-box]' : 'bg-[#272726] border border-[#3c3c3c] hover:bg-[#333]'}`}
+                                className={`scroll-mt-[100px] w-full relative rounded-[24px] px-6 pt-[18px] pb-[18px] cursor-pointer transition-colors duration-300 group/row ${(expandedTaskId === 'ALL' || expandedTaskId === row.id) ? 'border-[2px] border-transparent [background:linear-gradient(#272726,#272726)_padding-box,linear-gradient(to_bottom_right,#d6efe9,#82afb9,#4c6e86)_border-box]' : 'bg-[#272726] border border-[#3c3c3c] hover:bg-[#333]'}`}
                             >
                             {/* 삭제 및 정렬 버튼 */}
                             {isAuthorized && (

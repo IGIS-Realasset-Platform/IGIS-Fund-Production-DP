@@ -616,7 +616,7 @@ export default function MarketingPipeline({ memberInfo, masterStakeholders, fetc
                                 exit={{ opacity: 0, scale: 0.95 }}
                                 transition={{ type: "spring", stiffness: 300, damping: 30 }}
                                 key={pipe.id}
-                                className={`w-full relative rounded-[24px] px-6 pt-[21px] pb-[20px] cursor-pointer transition-all duration-300 group/row ${isExpanded ? 'border-[2px] border-transparent [background:linear-gradient(#272726,#272726)_padding-box,linear-gradient(to_bottom_right,#d6efe9,#82afb9,#4c6e86)_border-box]' : 'bg-[#272726] border border-[#3c3c3c] hover:bg-[#333]'}`}
+                                className={`w-full relative rounded-[24px] px-6 pt-[21px] pb-[20px] cursor-pointer transition-colors duration-300 group/row ${isExpanded ? 'border-[2px] border-transparent [background:linear-gradient(#272726,#272726)_padding-box,linear-gradient(to_bottom_right,#d6efe9,#82afb9,#4c6e86)_border-box]' : 'bg-[#272726] border border-[#3c3c3c] hover:bg-[#333]'}`}
                                 onClick={() => setExpandedPipelineId(isExpanded ? null : pipe.id)}
                             >
                             {/* 삭제 및 정렬 버튼 (우측 바깥 영역) */}
