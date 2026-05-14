@@ -183,8 +183,8 @@ const IotaTwo816DetailCard = ({ id, vehicleId, title, dbData, historyData, navig
                     onClick={() => setIsAccordionOpen(!isAccordionOpen)}
                 >
                     <div className="absolute inset-0 bg-[#292928]/50 rounded-[32px] opacity-0 group-hover:opacity-100 transition-opacity z-20 pointer-events-none flex items-center justify-center">
-                        <span className="text-white font-bold tracking-tight text-[15px] bg-[#1a1a1c]/80 px-4 py-2 rounded-full border border-[#444] shadow-lg backdrop-blur-sm">
-                            {isAccordionOpen ? '상세 표 닫기 ▲' : '개발 단계별 핵심 지표 상세 표 보기 ▼'}
+                        <span className="text-white font-bold tracking-tight text-[16px] bg-[#1a1a1c]/80 px-6 py-3 rounded-full border border-[#444] shadow-lg backdrop-blur-sm">
+                            {isAccordionOpen ? '개발 단계별 핵심 지표 닫기 ▲' : '개발 단계별 핵심 지표 보기 ▼'}
                         </span>
                     </div>
 
