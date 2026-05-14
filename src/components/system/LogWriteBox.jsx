@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../../utils/supabaseClient';
+import { executeWithTimeout } from '../../utils/supabaseHelper';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs, fetchMasterStakeholders, workspaceCode, workspaceLabel, defaultExpanded = false, editMode = false, initialData = null, onCancel = null, onSuccess = null }) {
@@ -54,6 +55,21 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
         availableContacts = [...new Set(masterStakeholders.map(s => s.contact_name).filter(Boolean))];
     }
     const filteredContacts = availableContacts.filter(c => c.toLowerCase().includes(contactQuery.toLowerCase()));
+
+
+    useEffect(() => {
+        if (!editMode) {
+            try {
+                const draft = localStorage.getItem('iota_log_draft');
+                if (draft) {
+                    const parsed = JSON.parse(draft);
+                    if (parsed.title) setTitle(parsed.title);
+                    if (parsed.content) setContent(parsed.content);
+                    localStorage.removeItem('iota_log_draft');
+                }
+            } catch(e) {}
+        }
+    }, [editMode]);
 
     // Edit Mode Initialization
     useEffect(() => {
@@ -260,41 +276,41 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
 
             // 1. Update or Insert into iota_seoul_logs
             if (isEditing) {
-                const { error: logError } = await supabase.from('iota_seoul_logs').update(logData).eq('log_id', logId);
+                const { error: logError } = await executeWithTimeout(supabase.from('iota_seoul_logs').update(logData).eq('log_id', logId));
                 if (logError) throw logError;
                 
-                await supabase.from('iota_seoul_log_links').delete().eq('log_id', logId);
-                await supabase.from('iota_seoul_log_stakeholders').delete().eq('log_id', logId);
+                await executeWithTimeout(supabase.from('iota_seoul_log_links').delete().eq('log_id', logId));
+                await executeWithTimeout(supabase.from('iota_seoul_log_stakeholders').delete().eq('log_id', logId));
             } else {
-                const { error: logError } = await supabase.from('iota_seoul_logs').insert({
+                const { error: logError } = await executeWithTimeout(supabase.from('iota_seoul_logs').insert({
                     ...logData,
                     log_id: logId,
                     writer_staff_id: writerId,
                     writer_name: writerName,
                     input_status: 'submitted',
                     source_system: workspaceCode === 'WS_PM' ? 'workspace_pm_form' : 'decision_log_form',
-                });
+                }));
                 if (logError) throw logError;
             }
 
             // 2. Insert into iota_seoul_log_links
-            const { error: linkError } = await supabase.from('iota_seoul_log_links').insert({
+            const { error: linkError } = await executeWithTimeout(supabase.from('iota_seoul_log_links').insert({
                 link_id: `link_${logId}`,
                 log_id: logId,
                 proj_id: projectId,
                 relation_type: 'direct_input'
-            });
+            }));
             if (linkError) throw linkError;
 
             // 3. Update master DB if new
             if (companyQuery) {
                 const existing = masterStakeholders.find(s => s.company_name === companyQuery && (s.contact_name || '') === (contactQuery || ''));
                 if (!existing) {
-                    const { error: masterError } = await supabase.from('iota_stakeholder_master').insert({
+                    const { error: masterError } = await executeWithTimeout(supabase.from('iota_stakeholder_master').insert({
                         company_name: companyQuery,
                         contact_name: contactQuery || null,
                         role_category: stakeholderCat || null
-                    });
+                    }));
                     if (masterError && masterError.code !== '23505') {
                         console.error('Master insert error:', masterError);
                     } else {
@@ -306,12 +322,12 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
             // 4. Insert into iota_seoul_log_stakeholders
             if (stakeholderCat || companyQuery || contactQuery) {
                 const combinedName = [companyQuery, contactQuery].filter(Boolean).join(' - ');
-                const { error: shError } = await supabase.from('iota_seoul_log_stakeholders').insert({
+                const { error: shError } = await executeWithTimeout(supabase.from('iota_seoul_log_stakeholders').insert({
                     sh_id: `sh_${logId}`,
                     log_id: logId,
                     sh_name: combinedName || null,
                     role_category: stakeholderCat
-                });
+                }));
                 if (shError) throw shError;
             }
 
@@ -337,7 +353,9 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
             }, 1000);
         } catch (error) {
             console.error('Error saving log:', error);
-            alert('저장 중 오류가 발생했습니다.');
+            alert('서버 통신 지연이 발생했습니다. 작성 내용을 안전하게 임시 보관하고 새로고침합니다.');
+            localStorage.setItem('iota_log_draft', JSON.stringify({ title, content }));
+            window.location.reload();
         } finally {
             setIsSubmitting(false);
         }

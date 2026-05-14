@@ -196,15 +196,20 @@ export default function WorkspaceFund() {
         try {
             const { data, error } = await supabase.storage
                 .from('task-attachments')
-                .createSignedUrl(filePath, 60, { download: fileName });
+                .createSignedUrl(filePath, 60);
 
             if (error) throw error;
 
+            const response = await fetch(data.signedUrl);
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
-            a.href = data.signedUrl;
+            a.href = url;
             a.download = fileName;
-            a.target = '_blank';
+            document.body.appendChild(a);
             a.click();
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
         } catch (error) {
             console.error('Error downloading file:', error);
             alert('파일 다운로드 중 오류가 발생했습니다.');
@@ -280,11 +285,11 @@ export default function WorkspaceFund() {
         setIsSubmittingTask(true);
         try {
             if (editingTaskId) {
-                const { error } = await supabase.from('iota_fund_tasks').update(newTask).eq('id', editingTaskId);
+                const { error } = await executeWithTimeout(supabase.from('iota_fund_tasks').update(newTask).eq('id', editingTaskId));
                 if (error) throw error;
             } else {
                 const taskToSave = { ...newTask, id: Date.now().toString(), created_at: new Date().toISOString() };
-                const { error } = await supabase.from('iota_fund_tasks').insert([taskToSave]);
+                const { error } = await executeWithTimeout(supabase.from('iota_fund_tasks').insert([taskToSave]));
                 if (error) throw error;
             }
         } catch (e) {
@@ -303,10 +308,12 @@ export default function WorkspaceFund() {
     const handleDeleteRow = async (id) => {
         setIsDeleting(true);
         try {
-            const { error } = await supabase.from('iota_fund_tasks').delete().eq('id', id);
+            const { error } = await executeWithTimeout(supabase.from('iota_fund_tasks').delete().eq('id', id));
             if (error) throw error;
         } catch (e) {
             console.warn('Deleting from local storage fallback due to error:', e);
+            alert('서버 통신 지연이 감지되어 임시 보관 처리 후 새로고침합니다.');
+            window.location.reload();
             const updated = tasks.filter(t => t.id !== id);
             localStorage.setItem('iota_fund_tasks_fallback', JSON.stringify(updated));
         } finally {
@@ -344,8 +351,8 @@ export default function WorkspaceFund() {
         setTasks(newTasks);
         
         try {
-            await supabase.from('iota_fund_tasks').update({ created_at: current.created_at }).eq('id', current.id);
-            await supabase.from('iota_fund_tasks').update({ created_at: prev.created_at }).eq('id', prev.id);
+            await executeWithTimeout(supabase.from('iota_fund_tasks').update({ created_at: current.created_at }).eq('id', current.id));
+            await executeWithTimeout(supabase.from('iota_fund_tasks').update({ created_at: prev.created_at }).eq('id', prev.id));
         } catch (e) {
             localStorage.setItem('iota_fund_tasks_fallback', JSON.stringify(newTasks));
         }
@@ -364,8 +371,8 @@ export default function WorkspaceFund() {
         setTasks(newTasks);
         
         try {
-            await supabase.from('iota_fund_tasks').update({ created_at: current.created_at }).eq('id', current.id);
-            await supabase.from('iota_fund_tasks').update({ created_at: next.created_at }).eq('id', next.id);
+            await executeWithTimeout(supabase.from('iota_fund_tasks').update({ created_at: current.created_at }).eq('id', current.id));
+            await executeWithTimeout(supabase.from('iota_fund_tasks').update({ created_at: next.created_at }).eq('id', next.id));
         } catch (e) {
             localStorage.setItem('iota_fund_tasks_fallback', JSON.stringify(newTasks));
         }
@@ -1262,10 +1269,17 @@ export default function WorkspaceFund() {
                             </button>
                             {newTask.file_name && (
                                 <div className="flex items-center gap-2 bg-[#222] px-3 py-1.5 rounded-lg border border-[#333]">
-                                    <span className="text-[13px] text-[#A1A1AA] truncate max-w-[200px]">{newTask.file_name}</span>
+                                    <span 
+                                        className="text-[13px] text-[#A1A1AA] truncate max-w-[200px] hover:text-[#E5E5E5] cursor-pointer hover:underline transition-colors"
+                                        onClick={() => newTask.file_url && handleDownloadFile(newTask.file_url, newTask.file_name)}
+                                        title="클릭하여 다운로드"
+                                    >
+                                        {newTask.file_name}
+                                    </span>
                                     <button 
                                         onClick={() => setNewTask({...newTask, file_name: null, file_url: null})}
-                                        className="text-[#888] hover:text-[#fff]"
+                                        className="text-[#888] hover:text-[#fff] cursor-pointer"
+                                        title="첨부파일 삭제"
                                     >
                                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                                     </button>

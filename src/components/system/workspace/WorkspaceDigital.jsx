@@ -167,15 +167,20 @@ export default function WorkspaceDigital() {
         try {
             const { data, error } = await supabase.storage
                 .from('task-attachments')
-                .createSignedUrl(filePath, 60, { download: fileName });
+                .createSignedUrl(filePath, 60);
 
             if (error) throw error;
 
+            const response = await fetch(data.signedUrl);
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
-            a.href = data.signedUrl;
+            a.href = url;
             a.download = fileName;
-            a.target = '_blank';
+            document.body.appendChild(a);
             a.click();
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
         } catch (error) {
             console.error('Error downloading file:', error);
             alert('파일 다운로드 중 오류가 발생했습니다.');
@@ -204,7 +209,7 @@ export default function WorkspaceDigital() {
                         return (id && String(id).startsWith('temp-')) ? rest : t;
                     });
                     
-                    const { error: insertError } = await supabase.from('iota_digital_tasks').insert(tasksToInsert);
+                    const { error: insertError } = await executeWithTimeout(supabase.from('iota_digital_tasks').insert(tasksToInsert));
                     if (!insertError) {
                         localStorage.removeItem('iota_digital_tasks_fallback'); // 동기화 성공 시 백업 삭제
                         
@@ -272,11 +277,11 @@ export default function WorkspaceDigital() {
         
         try {
             if (editingTaskId) {
-                const { error } = await supabase.from('iota_digital_tasks').update(newTask).eq('id', editingTaskId);
+                const { error } = await executeWithTimeout(supabase.from('iota_digital_tasks').update(newTask).eq('id', editingTaskId));
                 if (error) throw error;
                 fetchTasks();
             } else {
-                const { error } = await supabase.from('iota_digital_tasks').insert([{ ...newTask, created_at: taskToSave.created_at }]);
+                const { error } = await executeWithTimeout(supabase.from('iota_digital_tasks').insert([{ ...newTask, created_at: taskToSave.created_at }]));
                 if (error) throw error;
                 fetchTasks();
             }
@@ -298,7 +303,7 @@ export default function WorkspaceDigital() {
     const handleDeleteRow = async (id) => {
         setIsDeleting(true);
         try {
-            const { error } = await supabase.from('iota_digital_tasks').delete().eq('id', id);
+            const { error } = await executeWithTimeout(supabase.from('iota_digital_tasks').delete().eq('id', id));
             if (error) throw error;
             fetchTasks();
         } catch (e) {
@@ -347,9 +352,9 @@ export default function WorkspaceDigital() {
         setTasks(newTasks);
         
         try {
-            const { error: e1 } = await supabase.from('iota_digital_tasks').update({ created_at: current.created_at }).eq('id', current.id);
+            const { error: e1 } = await executeWithTimeout(supabase.from('iota_digital_tasks').update({ created_at: current.created_at }).eq('id', current.id));
             if (e1) throw e1;
-            const { error: e2 } = await supabase.from('iota_digital_tasks').update({ created_at: prev.created_at }).eq('id', prev.id);
+            const { error: e2 } = await executeWithTimeout(supabase.from('iota_digital_tasks').update({ created_at: prev.created_at }).eq('id', prev.id));
             if (e2) throw e2;
         } catch (e) {
             localStorage.setItem('iota_digital_tasks_fallback', JSON.stringify(newTasks));
@@ -369,9 +374,9 @@ export default function WorkspaceDigital() {
         setTasks(newTasks);
         
         try {
-            const { error: e1 } = await supabase.from('iota_digital_tasks').update({ created_at: current.created_at }).eq('id', current.id);
+            const { error: e1 } = await executeWithTimeout(supabase.from('iota_digital_tasks').update({ created_at: current.created_at }).eq('id', current.id));
             if (e1) throw e1;
-            const { error: e2 } = await supabase.from('iota_digital_tasks').update({ created_at: next.created_at }).eq('id', next.id);
+            const { error: e2 } = await executeWithTimeout(supabase.from('iota_digital_tasks').update({ created_at: next.created_at }).eq('id', next.id));
             if (e2) throw e2;
         } catch (e) {
             localStorage.setItem('iota_digital_tasks_fallback', JSON.stringify(newTasks));
@@ -622,10 +627,17 @@ export default function WorkspaceDigital() {
                             </button>
                             {newTask.file_name && (
                                 <div className="flex items-center gap-2 bg-[#222] px-3 py-1.5 rounded-lg border border-[#333]">
-                                    <span className="text-[13px] text-[#A1A1AA] truncate max-w-[200px]">{newTask.file_name}</span>
+                                    <span 
+                                        className="text-[13px] text-[#A1A1AA] truncate max-w-[200px] hover:text-[#E5E5E5] cursor-pointer hover:underline transition-colors"
+                                        onClick={() => newTask.file_url && handleDownloadFile(newTask.file_url, newTask.file_name)}
+                                        title="클릭하여 다운로드"
+                                    >
+                                        {newTask.file_name}
+                                    </span>
                                     <button 
                                         onClick={() => setNewTask({...newTask, file_name: null, file_url: null})}
-                                        className="text-[#888] hover:text-[#fff]"
+                                        className="text-[#888] hover:text-[#fff] cursor-pointer"
+                                        title="첨부파일 삭제"
                                     >
                                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                                     </button>

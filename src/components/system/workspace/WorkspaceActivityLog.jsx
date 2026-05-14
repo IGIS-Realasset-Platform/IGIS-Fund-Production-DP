@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../../../utils/supabaseClient';
+import { executeWithTimeout } from '../../../utils/supabaseHelper';
 import { useAuth } from '../../../context/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import LogWriteBox from '../LogWriteBox';
@@ -95,16 +96,17 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
     const handleDelete = async (logId) => {
         setIsDeleting(true);
         try {
-            await supabase.from('iota_seoul_log_links').delete().eq('log_id', logId);
-            await supabase.from('iota_seoul_log_stakeholders').delete().eq('log_id', logId);
-            const { error } = await supabase.from('iota_seoul_logs').delete().eq('log_id', logId);
+            await executeWithTimeout(supabase.from('iota_seoul_log_links').delete().eq('log_id', logId));
+            await executeWithTimeout(supabase.from('iota_seoul_log_stakeholders').delete().eq('log_id', logId));
+            const { error } = await executeWithTimeout(supabase.from('iota_seoul_logs').delete().eq('log_id', logId));
             if (error) throw error;
             
             setLogs(prev => prev.filter(l => l.log_id !== logId));
             setLogToDelete(null);
         } catch (error) {
             console.error('Error deleting log:', error);
-            alert('삭제 중 오류가 발생했습니다.');
+            alert('서버 연결 지연으로 인해 일시적인 오류가 발생했습니다. 페이지를 새로고침합니다.');
+            window.location.reload();
         } finally {
             setIsDeleting(false);
         }
@@ -126,7 +128,8 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
             setEditingContent('');
         } catch (err) {
             console.error('Error updating log:', err);
-            alert('수정 중 오류가 발생했습니다.');
+            alert('서버 연결 지연으로 인해 일시적인 오류가 발생했습니다. 페이지를 새로고침합니다.');
+            window.location.reload();
         } finally {
             setIsSavingEdit(false);
         }
@@ -162,7 +165,8 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
             setCommentContent('');
         } catch (e) {
             console.error('Error saving comment:', e);
-            alert('댓글 저장 중 오류가 발생했습니다.');
+            alert('서버 연결 지연으로 인해 일시적인 오류가 발생했습니다. 페이지를 새로고침합니다.');
+            window.location.reload();
         } finally {
             setIsSavingComment(false);
         }
@@ -187,7 +191,8 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
             setLogs(prev => prev.map(l => l.log_id === logId ? { ...l, metadata: updatedMetadata } : l));
         } catch (e) {
             console.error('Error deleting comment:', e);
-            alert('댓글 삭제 중 오류가 발생했습니다.');
+            alert('서버 연결 지연으로 인해 일시적인 오류가 발생했습니다. 페이지를 새로고침합니다.');
+            window.location.reload();
         } finally {
             setIsDeleting(false);
             setCommentToDelete(null);
