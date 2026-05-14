@@ -276,7 +276,7 @@ export default function WorkspaceFinancing() {
         });
         setCompanyQuery(row.company_name || '');
         setIsAdding(true);
-        document.getElementById('task-management')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // document.getElementById('task-management')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     };
 
     const handleSaveRow = async () => {
@@ -1022,8 +1022,257 @@ export default function WorkspaceFinancing() {
             </div>
             <div className="-mx-[7px] p-[6px] border border-[#333] rounded-[30px] mb-[34px]">
                 <div className="w-full flex flex-col gap-[16px]">
-                {isAdding && (
-                    <div className="w-full bg-[#272726] border border-[#3c3c3c] rounded-[24px] p-6 flex flex-col gap-[14px]">
+                {isAdding && !editingTaskId && renderEditForm()}
+                
+                {isLoadingTasks ? (
+                    <div className="text-center py-[40px] text-[#86868B]">데이터를 불러오는 중입니다...</div>
+                ) : (
+                    <div className="flex flex-col gap-[8px]">
+                        <AnimatePresence>
+                            {(projectShowAll ? sortedTasks : sortedTasks.slice(0, 5)).map((row, index) => (
+                            <motion.div 
+                                layout
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, scale: 0.95 }}
+                                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                                key={row.id}
+                                id={`task-${row.id}`} 
+                                onClick={() => setExpandedTaskId((expandedTaskId === 'ALL' || expandedTaskId === row.id) ? null : row.id)}
+                                className={`scroll-mt-[100px] w-full relative rounded-[24px] px-6 pt-[22px] pb-[14px] cursor-pointer transition-colors duration-300 group/row ${(expandedTaskId === 'ALL' || expandedTaskId === row.id) ? 'border-[2px] border-transparent [background:linear-gradient(#272726,#272726)_padding-box,linear-gradient(to_bottom_right,#d6efe9,#82afb9,#4c6e86)_border-box]' : 'bg-[#272726] border border-[#3c3c3c] hover:bg-[#333]'}`}
+                            >
+                            {isAuthorized && (
+                                <div className="absolute left-[-40px] w-[40px] pr-[8px] top-0 bottom-0 flex items-center justify-end opacity-0 group-hover/row:opacity-100 transition-opacity">
+                                        <div className="flex flex-col gap-1">
+                                            <button 
+                                                onClick={(e) => { e.stopPropagation(); handleMoveTaskUp(index); }}
+                                                disabled={index === 0}
+                                                className={`w-7 h-7 flex items-center justify-center rounded-[6px] bg-[#272726] border border-[#3c3c3c] transition-colors ${index === 0 ? 'opacity-30 cursor-not-allowed' : 'hover:bg-[#333] cursor-pointer'}`}
+                                            >
+                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#E5E5E5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
+                                            </button>
+                                            <button 
+                                                onClick={(e) => { e.stopPropagation(); handleMoveTaskDown(index); }}
+                                                disabled={index === (projectShowAll ? sortedTasks.length : Math.min(sortedTasks.length, 5)) - 1}
+                                                className={`w-7 h-7 flex items-center justify-center rounded-[6px] bg-[#272726] border border-[#3c3c3c] transition-colors ${index === (projectShowAll ? sortedTasks.length : Math.min(sortedTasks.length, 5)) - 1 ? 'opacity-30 cursor-not-allowed' : 'hover:bg-[#333] cursor-pointer'}`}
+                                            >
+                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#E5E5E5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                            </button>
+                                        </div>
+                                </div>
+                            )}
+                            {/* 삭제 및 수정 버튼 (우측 바깥 영역) */}
+                            {isAuthorized && (
+                                <div className="absolute right-[-60px] w-[60px] pl-[8px] top-0 bottom-0 flex items-center justify-start opacity-0 group-hover/row:opacity-100 transition-opacity">
+                                    <div className="flex flex-col gap-1 w-[46px]">
+                                        <button 
+                                            onClick={(e) => { e.stopPropagation(); setItemToDelete({ id: row.id, message: '정말 삭제하시겠습니까?' }); }} 
+                                            className="w-full h-[28px] flex items-center justify-center bg-[#ef4444]/10 text-[#ef4444] border border-[#ef4444]/30 rounded-[6px] text-[12px] font-bold hover:bg-[#ef4444]/20 cursor-pointer"
+                                        >
+                                            삭제
+                                        </button>
+                                        <button 
+                                            onClick={(e) => { e.stopPropagation(); handleEditRow(row); }} 
+                                            className="w-full h-[28px] flex items-center justify-center bg-[#3b82f6]/10 text-[#3b82f6] border border-[#3b82f6]/30 rounded-[6px] text-[12px] font-bold hover:bg-[#3b82f6]/20 cursor-pointer"
+                                        >
+                                            수정
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
+                            <div className="flex justify-between items-start gap-8">
+                                <div className="flex-1 flex gap-8">
+                                    <div className="w-[430px] shrink-0 flex flex-col gap-[2px] border-r border-[#444]/50 pr-8">
+                                        <span className="text-[13px] font-bold text-[#86868B] relative -top-[1px]">Task {index + 1}</span>
+                                        <h3 className={`text-[21px] font-bold ${index < 5 ? 'text-[#e2aa29]' : 'text-white'} tracking-tight leading-tight`}>
+                                            {row.task_name}
+                                        </h3>
+                                    </div>
+                                    <div className="flex-1 flex flex-col gap-[2px] pr-4">
+                                        <div className="flex items-center gap-2 mb-1 -translate-y-[2px]">
+                                            <span className="text-[13px] font-bold text-[#86868B]">다음액션</span>
+                                            {row.due_date && <span className="text-[11px] font-medium text-[#A1A1AA] bg-[#2c2c2e] border border-[#3a3a3c] px-[8px] py-[2px] rounded-full tracking-tight">마감일 목표 {row.due_date}</span>}
+                                        </div>
+                                        <p className="min-h-[28px] text-[18px] text-[#bbb9af] leading-relaxed break-keep font-medium -translate-y-[6px]">
+                                            {parseNames(row.next_action)}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div className="flex items-center gap-3 shrink-0">
+                                    {row.company_name && (
+                                        <span className="text-[13px] font-medium text-[#86868B]">이해관계자</span>
+                                    )}
+                                    <span className={`text-[15px] px-4 py-2 bg-[#1A1A1A] rounded-[12px] border border-[#333] ${row.company_name ? 'font-bold text-[#E5E5E5]' : 'font-normal text-[#86868B]'}`}>
+                                        {row.company_name || '내부업무'}
+                                    </span>
+                                </div>
+                            </div>
+                            
+                            <div className={`overflow-hidden transition-all duration-300 ease-in-out ${(expandedTaskId === 'ALL' || expandedTaskId === row.id) ? 'max-h-[200px] mt-4 pt-4 border-t border-[#3c3c3c] opacity-100' : 'max-h-0 opacity-0'}`}>
+                                <div className="flex justify-start items-center gap-12">
+                                    <div className="flex items-center gap-3">
+                                        <span className="text-[13px] font-bold text-[#86868B]">관련 자산</span>
+                                        <span className="text-[16px] text-white font-medium">{row.related_asset}</span>
+                                    </div>
+                                    <div className="flex items-center gap-3">
+                                        <span className="text-[13px] font-bold text-[#86868B]">상태</span>
+                                        <span className={`px-2 py-1 rounded-[6px] text-[13px] font-bold w-max ${row.status === '진행중' ? 'bg-[#059669]/20 text-[#34d399]' : row.status === '검토중' ? 'bg-[#d97706]/20 text-[#fbf167]' : row.status === '완료' ? 'bg-[#2563eb]/20 text-[#60a5fa]' : 'bg-[#4b5563]/20 text-[#9ca3af]'}`}>
+                                            {row.status}
+                                        </span>
+                                    </div>
+                                    <div className="flex items-center gap-3">
+                                        <span className="text-[13px] font-bold text-[#86868B]">중요도</span>
+                                        <span className={`text-[16px] font-bold ${row.priority === '높음' ? 'text-[#ef4444]' : row.priority === '중간' ? 'text-[#3b82f6]' : 'text-[#10b981]'}`}>{row.priority}</span>
+                                    </div>
+                                    <div className="flex items-center gap-3">
+                                        <span className="text-[13px] font-bold text-[#86868B]">마감일</span>
+                                        <span className="text-[16px] text-[#A1A1AA] font-['Inter'] font-medium">{row.due_date}</span>
+                                    </div>
+                                </div>
+                                {row.notes && (
+                                <div className="flex items-start gap-4 mt-4 pt-4 border-t border-[#3c3c3c]/50">
+                                    <span className="text-[13px] font-bold text-[#86868B] shrink-0 mt-[2px]">상세 내용</span>
+                                    <span className="text-[14px] text-white font-medium break-all">
+                                        {row.notes.startsWith('http') ? <a href={row.notes} target="_blank" rel="noreferrer" className="text-[#2997ff] hover:underline">{row.notes}</a> : row.notes}
+                                    </span>
+                                </div>
+                                )}
+                                {row.file_name && row.file_url && (
+                                <div className="flex items-start gap-4 mt-4 pt-4 border-t border-[#3c3c3c]/50">
+                                    <span className="text-[13px] font-bold text-[#86868B] shrink-0 mt-[2px]">첨부파일</span>
+                                    <button 
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleDownloadFile(row.file_url, row.file_name);
+                                        }}
+                                        className="flex items-center gap-2 px-3 py-1.5 bg-[#2A2A2A] hover:bg-[#333] text-[#A1A1AA] text-[13px] rounded-lg transition-colors border border-[#444] cursor-pointer"
+                                    >
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                                        {row.file_name}
+                                    </button>
+                                </div>
+                                )}
+                                </div>
+                                {isAdding && editingTaskId === row.id && renderEditForm()}
+                            </motion.div>
+                            ))}
+                        </AnimatePresence>
+                    </div>
+                )}
+                </div>
+            </div>
+
+            <div className="w-full mt-[10px]"></div>
+            <WorkspaceActivityLog workspaceCode="WS_LFC" workspaceLabel="파이낸싱-LFC" />
+
+
+
+            {!loading && iotaData && !iotaData.error && (
+                <div className="w-full mt-[18px] border-t border-[#3c3c3c] pt-[44px]">
+                    <h2 className="text-[20px] font-bold text-white mb-[12px]">통합 Vehicle 파이낸싱 구조</h2>
+                    <div className="p-6 bg-[#262626] border border-[#3c3c3c] rounded-[24px] flex gap-8 items-start">
+                        <div className="w-[280px] shrink-0 flex flex-col">
+                            <div className="text-[13px] font-bold text-[#86868B] uppercase mb-[10px]">Total Project Volume</div>
+                            <div className="text-[32px] font-bold text-white leading-none tracking-tight pt-[6px]">{formatAmount(grandTotal)}</div>
+                        </div>
+                        
+                        <div className="flex-1 flex flex-col">
+                            <div className="flex gap-4 w-full">
+                                {/* 427 PFV Box */}
+                                <div className="flex-1 px-[20px] py-[16px] bg-[#151515] border border-transparent rounded-[16px] flex flex-col justify-between cursor-default transition-all">
+                                    <span className="text-[14px] font-bold text-white tracking-tight mb-[12px]">427 PFV</span>
+                                    <div className="flex flex-col gap-[6px]">
+                                        <div className="flex justify-between items-center text-[13px]">
+                                            <span className="text-[#86868B]">Equity</span>
+                                            <span className="text-[#E5E5E5] font-semibold">{formatAmount(getTypeTotal(427, 'Refinancing', 'Equity'))}</span>
+                                        </div>
+                                        <div className="flex justify-between items-center text-[13px]">
+                                            <span className="text-[#86868B]">Loan</span>
+                                            <span className="text-[#E5E5E5] font-semibold">{formatAmount(getTypeTotal(427, 'Refinancing', 'Loan'))}</span>
+                                        </div>
+                                        <div className="border-t border-[#333] pt-[10px] mt-[6px] flex justify-between items-end">
+                                            <span className="text-[13px] text-[#86868B] font-medium leading-none mb-[2px]">Total</span>
+                                            <span className="text-[20px] font-bold text-white tracking-tight leading-none">{formatAmount(displayTotal427)}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                {/* 816 PFV Box */}
+                                <div className="flex-1 px-[20px] py-[16px] bg-[#151515] border border-transparent rounded-[16px] flex flex-col justify-between cursor-default transition-all">
+                                    <span className="text-[14px] font-bold text-white tracking-tight mb-[12px]">816 PFV</span>
+                                    <div className="flex flex-col gap-[6px]">
+                                        <div className="flex justify-between items-center text-[13px]">
+                                            <span className="text-[#86868B]">Equity</span>
+                                            <span className="text-[#E5E5E5] font-semibold">{formatAmount(getTypeTotal(816, 'Refinancing', 'Equity'))}</span>
+                                        </div>
+                                        <div className="flex justify-between items-center text-[13px]">
+                                            <span className="text-[#86868B]">Loan</span>
+                                            <span className="text-[#E5E5E5] font-semibold">{formatAmount(getTypeTotal(816, 'Refinancing', 'Loan'))}</span>
+                                        </div>
+                                        <div className="border-t border-[#333] pt-[10px] mt-[6px] flex justify-between items-end">
+                                            <span className="text-[13px] text-[#86868B] font-medium leading-none mb-[2px]">Total</span>
+                                            <span className="text-[20px] font-bold text-white tracking-tight leading-none">{formatAmount(displayTotal816)}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                {/* 421 Fund Box */}
+                                <div className="flex-1 px-[20px] py-[16px] bg-[#151515] border border-transparent rounded-[16px] flex flex-col justify-between cursor-default transition-all">
+                                    <span className="text-[14px] font-bold text-white tracking-tight mb-[12px]">421호 펀드</span>
+                                    <div className="flex flex-col justify-end h-full">
+                                        <div className="border-t border-[#333] pt-[10px] mt-auto flex justify-between items-end">
+                                            <span className="text-[13px] text-[#86868B] font-medium leading-none mb-[2px]">Total</span>
+                                            <span className="text-[20px] font-bold text-white tracking-tight leading-none">{formatAmount(total421)}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* IOTA One, Two Details */}
+                    <div className="w-full mt-[42px] flex flex-col gap-0">
+                        <VehicleDetailCard 
+                            id="section-427" 
+                            vehicleId="427"
+                            title="IOTA One (427 PFV) 파이낸싱 구조" 
+                            totalAmountStr={formatAmount(displayTotal427)} 
+                            data={iotaData[427]['Refinancing']} 
+                            toggleContent={null}
+                        />
+                        <VehicleDetailCard 
+                            id="section-816" 
+                            vehicleId="816"
+                            title="IOTA Two (816 PFV) 파이낸싱 구조" 
+                            totalAmountStr={formatAmount(displayTotal816)} 
+                            data={iotaData[816]['Refinancing']} 
+                            toggleContent={null}
+                        />
+                    </div>
+
+                    <div className="w-full h-[14px]"></div>
+
+                    {/* 월별 이자 발생 시계열 */}
+                    <div className="w-full mb-[40px]">
+                        <h2 className="text-[20px] font-bold text-white mb-[12px] uppercase tracking-tight">월별 이자 발생 시계열</h2>
+                        <div className="w-full bg-[#1A1A1A] border border-[#333] rounded-[24px] p-[32px] h-[320px] relative overflow-hidden flex items-end justify-between px-[60px]">
+                            {/* Dummy Y-axis labels */}
+                            <div className="absolute left-[20px] top-[24px] bottom-[40px] flex flex-col justify-between text-[11px] text-[#666] font-['Inter'] pointer-events-none">
+                                <span>300억</span>
+                                <span>150억</span>
+                                <span>0</span>
+                            </div>
+                            
+                            {/* Dummy Bar Chart */}
+                            {[...Array(12)].map((_, i) => {
+                                const isProjected = i >= 3;
+                                const trA = isProjected ? 0 : 80 + Math.random() * 20;
+                                const trB = isProjected ? 0 : 30 + Math.random() * 10;
+                                const trC = isProjected ? 0 : 15 + Math.random() * 5;
+                                const totalH = trA + trB + trC;
+                                
+                                const renderEditForm = () => (
+        <div className="w-full bg-[#272726] border border-[#3c3c3c] rounded-[24px] p-6 flex flex-col gap-[14px] mt-[16px]">
                         <div className="flex gap-4">
                             <input 
                                 type="text" 
@@ -1163,255 +1412,9 @@ export default function WorkspaceFinancing() {
                             </div>
                         </div>
                     </div>
-                )}
-                
-                {isLoadingTasks ? (
-                    <div className="text-center py-[40px] text-[#86868B]">데이터를 불러오는 중입니다...</div>
-                ) : (
-                    <div className="flex flex-col gap-[8px]">
-                        <AnimatePresence>
-                            {(projectShowAll ? sortedTasks : sortedTasks.slice(0, 5)).map((row, index) => (
-                            <motion.div 
-                                layout
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, scale: 0.95 }}
-                                transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                                key={row.id}
-                                id={`task-${row.id}`} 
-                                onClick={() => setExpandedTaskId((expandedTaskId === 'ALL' || expandedTaskId === row.id) ? null : row.id)}
-                                className={`scroll-mt-[100px] w-full relative rounded-[24px] px-6 pt-[22px] pb-[14px] cursor-pointer transition-colors duration-300 group/row ${(expandedTaskId === 'ALL' || expandedTaskId === row.id) ? 'border-[2px] border-transparent [background:linear-gradient(#272726,#272726)_padding-box,linear-gradient(to_bottom_right,#d6efe9,#82afb9,#4c6e86)_border-box]' : 'bg-[#272726] border border-[#3c3c3c] hover:bg-[#333]'}`}
-                            >
-                            {isAuthorized && (
-                                <div className="absolute left-[-40px] w-[40px] pr-[8px] top-0 bottom-0 flex items-center justify-end opacity-0 group-hover/row:opacity-100 transition-opacity">
-                                        <div className="flex flex-col gap-1">
-                                            <button 
-                                                onClick={(e) => { e.stopPropagation(); handleMoveTaskUp(index); }}
-                                                disabled={index === 0}
-                                                className={`w-7 h-7 flex items-center justify-center rounded-[6px] bg-[#272726] border border-[#3c3c3c] transition-colors ${index === 0 ? 'opacity-30 cursor-not-allowed' : 'hover:bg-[#333] cursor-pointer'}`}
-                                            >
-                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#E5E5E5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
-                                            </button>
-                                            <button 
-                                                onClick={(e) => { e.stopPropagation(); handleMoveTaskDown(index); }}
-                                                disabled={index === (projectShowAll ? sortedTasks.length : Math.min(sortedTasks.length, 5)) - 1}
-                                                className={`w-7 h-7 flex items-center justify-center rounded-[6px] bg-[#272726] border border-[#3c3c3c] transition-colors ${index === (projectShowAll ? sortedTasks.length : Math.min(sortedTasks.length, 5)) - 1 ? 'opacity-30 cursor-not-allowed' : 'hover:bg-[#333] cursor-pointer'}`}
-                                            >
-                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#E5E5E5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                                            </button>
-                                        </div>
-                                </div>
-                            )}
-                            {/* 삭제 및 수정 버튼 (우측 바깥 영역) */}
-                            {isAuthorized && (
-                                <div className="absolute right-[-60px] w-[60px] pl-[8px] top-0 bottom-0 flex items-center justify-start opacity-0 group-hover/row:opacity-100 transition-opacity">
-                                    <div className="flex flex-col gap-1 w-[46px]">
-                                        <button 
-                                            onClick={(e) => { e.stopPropagation(); setItemToDelete({ id: row.id, message: '정말 삭제하시겠습니까?' }); }} 
-                                            className="w-full h-[28px] flex items-center justify-center bg-[#ef4444]/10 text-[#ef4444] border border-[#ef4444]/30 rounded-[6px] text-[12px] font-bold hover:bg-[#ef4444]/20 cursor-pointer"
-                                        >
-                                            삭제
-                                        </button>
-                                        <button 
-                                            onClick={(e) => { e.stopPropagation(); handleEditRow(row); }} 
-                                            className="w-full h-[28px] flex items-center justify-center bg-[#3b82f6]/10 text-[#3b82f6] border border-[#3b82f6]/30 rounded-[6px] text-[12px] font-bold hover:bg-[#3b82f6]/20 cursor-pointer"
-                                        >
-                                            수정
-                                        </button>
-                                    </div>
-                                </div>
-                            )}
-                            <div className="flex justify-between items-start gap-8">
-                                <div className="flex-1 flex gap-8">
-                                    <div className="w-[430px] shrink-0 flex flex-col gap-[2px] border-r border-[#444]/50 pr-8">
-                                        <span className="text-[13px] font-bold text-[#86868B] relative -top-[1px]">Task {index + 1}</span>
-                                        <h3 className={`text-[21px] font-bold ${index < 5 ? 'text-[#e2aa29]' : 'text-white'} tracking-tight leading-tight`}>
-                                            {row.task_name}
-                                        </h3>
-                                    </div>
-                                    <div className="flex-1 flex flex-col gap-[2px] pr-4">
-                                        <div className="flex items-center gap-2 mb-1 -translate-y-[2px]">
-                                            <span className="text-[13px] font-bold text-[#86868B]">다음액션</span>
-                                            {row.due_date && <span className="text-[11px] font-medium text-[#A1A1AA] bg-[#2c2c2e] border border-[#3a3a3c] px-[8px] py-[2px] rounded-full tracking-tight">마감일 목표 {row.due_date}</span>}
-                                        </div>
-                                        <p className="min-h-[28px] text-[18px] text-[#bbb9af] leading-relaxed break-keep font-medium -translate-y-[6px]">
-                                            {parseNames(row.next_action)}
-                                        </p>
-                                    </div>
-                                </div>
-                                <div className="flex items-center gap-3 shrink-0">
-                                    {row.company_name && (
-                                        <span className="text-[13px] font-medium text-[#86868B]">이해관계자</span>
-                                    )}
-                                    <span className={`text-[15px] px-4 py-2 bg-[#1A1A1A] rounded-[12px] border border-[#333] ${row.company_name ? 'font-bold text-[#E5E5E5]' : 'font-normal text-[#86868B]'}`}>
-                                        {row.company_name || '내부업무'}
-                                    </span>
-                                </div>
-                            </div>
-                            
-                            <div className={`overflow-hidden transition-all duration-300 ease-in-out ${(expandedTaskId === 'ALL' || expandedTaskId === row.id) ? 'max-h-[200px] mt-4 pt-4 border-t border-[#3c3c3c] opacity-100' : 'max-h-0 opacity-0'}`}>
-                                <div className="flex justify-start items-center gap-12">
-                                    <div className="flex items-center gap-3">
-                                        <span className="text-[13px] font-bold text-[#86868B]">관련 자산</span>
-                                        <span className="text-[16px] text-white font-medium">{row.related_asset}</span>
-                                    </div>
-                                    <div className="flex items-center gap-3">
-                                        <span className="text-[13px] font-bold text-[#86868B]">상태</span>
-                                        <span className={`px-2 py-1 rounded-[6px] text-[13px] font-bold w-max ${row.status === '진행중' ? 'bg-[#059669]/20 text-[#34d399]' : row.status === '검토중' ? 'bg-[#d97706]/20 text-[#fbf167]' : row.status === '완료' ? 'bg-[#2563eb]/20 text-[#60a5fa]' : 'bg-[#4b5563]/20 text-[#9ca3af]'}`}>
-                                            {row.status}
-                                        </span>
-                                    </div>
-                                    <div className="flex items-center gap-3">
-                                        <span className="text-[13px] font-bold text-[#86868B]">중요도</span>
-                                        <span className={`text-[16px] font-bold ${row.priority === '높음' ? 'text-[#ef4444]' : row.priority === '중간' ? 'text-[#3b82f6]' : 'text-[#10b981]'}`}>{row.priority}</span>
-                                    </div>
-                                    <div className="flex items-center gap-3">
-                                        <span className="text-[13px] font-bold text-[#86868B]">마감일</span>
-                                        <span className="text-[16px] text-[#A1A1AA] font-['Inter'] font-medium">{row.due_date}</span>
-                                    </div>
-                                </div>
-                                {row.notes && (
-                                <div className="flex items-start gap-4 mt-4 pt-4 border-t border-[#3c3c3c]/50">
-                                    <span className="text-[13px] font-bold text-[#86868B] shrink-0 mt-[2px]">상세 내용</span>
-                                    <span className="text-[14px] text-white font-medium break-all">
-                                        {row.notes.startsWith('http') ? <a href={row.notes} target="_blank" rel="noreferrer" className="text-[#2997ff] hover:underline">{row.notes}</a> : row.notes}
-                                    </span>
-                                </div>
-                                )}
-                                {row.file_name && row.file_url && (
-                                <div className="flex items-start gap-4 mt-4 pt-4 border-t border-[#3c3c3c]/50">
-                                    <span className="text-[13px] font-bold text-[#86868B] shrink-0 mt-[2px]">첨부파일</span>
-                                    <button 
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            handleDownloadFile(row.file_url, row.file_name);
-                                        }}
-                                        className="flex items-center gap-2 px-3 py-1.5 bg-[#2A2A2A] hover:bg-[#333] text-[#A1A1AA] text-[13px] rounded-lg transition-colors border border-[#444] cursor-pointer"
-                                    >
-                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                                        {row.file_name}
-                                    </button>
-                                </div>
-                                )}
-                                </div>
-                            </motion.div>
-                            ))}
-                        </AnimatePresence>
-                    </div>
-                )}
-                </div>
-            </div>
+    );
 
-            <div className="w-full mt-[10px]"></div>
-            <WorkspaceActivityLog workspaceCode="WS_LFC" workspaceLabel="파이낸싱-LFC" />
-
-
-
-            {!loading && iotaData && !iotaData.error && (
-                <div className="w-full mt-[18px] border-t border-[#3c3c3c] pt-[44px]">
-                    <h2 className="text-[20px] font-bold text-white mb-[12px]">통합 Vehicle 파이낸싱 구조</h2>
-                    <div className="p-6 bg-[#262626] border border-[#3c3c3c] rounded-[24px] flex gap-8 items-start">
-                        <div className="w-[280px] shrink-0 flex flex-col">
-                            <div className="text-[13px] font-bold text-[#86868B] uppercase mb-[10px]">Total Project Volume</div>
-                            <div className="text-[32px] font-bold text-white leading-none tracking-tight pt-[6px]">{formatAmount(grandTotal)}</div>
-                        </div>
-                        
-                        <div className="flex-1 flex flex-col">
-                            <div className="flex gap-4 w-full">
-                                {/* 427 PFV Box */}
-                                <div className="flex-1 px-[20px] py-[16px] bg-[#151515] border border-transparent rounded-[16px] flex flex-col justify-between cursor-default transition-all">
-                                    <span className="text-[14px] font-bold text-white tracking-tight mb-[12px]">427 PFV</span>
-                                    <div className="flex flex-col gap-[6px]">
-                                        <div className="flex justify-between items-center text-[13px]">
-                                            <span className="text-[#86868B]">Equity</span>
-                                            <span className="text-[#E5E5E5] font-semibold">{formatAmount(getTypeTotal(427, 'Refinancing', 'Equity'))}</span>
-                                        </div>
-                                        <div className="flex justify-between items-center text-[13px]">
-                                            <span className="text-[#86868B]">Loan</span>
-                                            <span className="text-[#E5E5E5] font-semibold">{formatAmount(getTypeTotal(427, 'Refinancing', 'Loan'))}</span>
-                                        </div>
-                                        <div className="border-t border-[#333] pt-[10px] mt-[6px] flex justify-between items-end">
-                                            <span className="text-[13px] text-[#86868B] font-medium leading-none mb-[2px]">Total</span>
-                                            <span className="text-[20px] font-bold text-white tracking-tight leading-none">{formatAmount(displayTotal427)}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                {/* 816 PFV Box */}
-                                <div className="flex-1 px-[20px] py-[16px] bg-[#151515] border border-transparent rounded-[16px] flex flex-col justify-between cursor-default transition-all">
-                                    <span className="text-[14px] font-bold text-white tracking-tight mb-[12px]">816 PFV</span>
-                                    <div className="flex flex-col gap-[6px]">
-                                        <div className="flex justify-between items-center text-[13px]">
-                                            <span className="text-[#86868B]">Equity</span>
-                                            <span className="text-[#E5E5E5] font-semibold">{formatAmount(getTypeTotal(816, 'Refinancing', 'Equity'))}</span>
-                                        </div>
-                                        <div className="flex justify-between items-center text-[13px]">
-                                            <span className="text-[#86868B]">Loan</span>
-                                            <span className="text-[#E5E5E5] font-semibold">{formatAmount(getTypeTotal(816, 'Refinancing', 'Loan'))}</span>
-                                        </div>
-                                        <div className="border-t border-[#333] pt-[10px] mt-[6px] flex justify-between items-end">
-                                            <span className="text-[13px] text-[#86868B] font-medium leading-none mb-[2px]">Total</span>
-                                            <span className="text-[20px] font-bold text-white tracking-tight leading-none">{formatAmount(displayTotal816)}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                {/* 421 Fund Box */}
-                                <div className="flex-1 px-[20px] py-[16px] bg-[#151515] border border-transparent rounded-[16px] flex flex-col justify-between cursor-default transition-all">
-                                    <span className="text-[14px] font-bold text-white tracking-tight mb-[12px]">421호 펀드</span>
-                                    <div className="flex flex-col justify-end h-full">
-                                        <div className="border-t border-[#333] pt-[10px] mt-auto flex justify-between items-end">
-                                            <span className="text-[13px] text-[#86868B] font-medium leading-none mb-[2px]">Total</span>
-                                            <span className="text-[20px] font-bold text-white tracking-tight leading-none">{formatAmount(total421)}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* IOTA One, Two Details */}
-                    <div className="w-full mt-[42px] flex flex-col gap-0">
-                        <VehicleDetailCard 
-                            id="section-427" 
-                            vehicleId="427"
-                            title="IOTA One (427 PFV) 파이낸싱 구조" 
-                            totalAmountStr={formatAmount(displayTotal427)} 
-                            data={iotaData[427]['Refinancing']} 
-                            toggleContent={null}
-                        />
-                        <VehicleDetailCard 
-                            id="section-816" 
-                            vehicleId="816"
-                            title="IOTA Two (816 PFV) 파이낸싱 구조" 
-                            totalAmountStr={formatAmount(displayTotal816)} 
-                            data={iotaData[816]['Refinancing']} 
-                            toggleContent={null}
-                        />
-                    </div>
-
-                    <div className="w-full h-[14px]"></div>
-
-                    {/* 월별 이자 발생 시계열 */}
-                    <div className="w-full mb-[40px]">
-                        <h2 className="text-[20px] font-bold text-white mb-[12px] uppercase tracking-tight">월별 이자 발생 시계열</h2>
-                        <div className="w-full bg-[#1A1A1A] border border-[#333] rounded-[24px] p-[32px] h-[320px] relative overflow-hidden flex items-end justify-between px-[60px]">
-                            {/* Dummy Y-axis labels */}
-                            <div className="absolute left-[20px] top-[24px] bottom-[40px] flex flex-col justify-between text-[11px] text-[#666] font-['Inter'] pointer-events-none">
-                                <span>300억</span>
-                                <span>150억</span>
-                                <span>0</span>
-                            </div>
-                            
-                            {/* Dummy Bar Chart */}
-                            {[...Array(12)].map((_, i) => {
-                                const isProjected = i >= 3;
-                                const trA = isProjected ? 0 : 80 + Math.random() * 20;
-                                const trB = isProjected ? 0 : 30 + Math.random() * 10;
-                                const trC = isProjected ? 0 : 15 + Math.random() * 5;
-                                const totalH = trA + trB + trC;
-                                
-                                return (
+    return (
                                     <div key={i} className="flex flex-col items-center gap-[12px] h-full justify-end w-[40px] group">
                                         <div className={`w-full flex flex-col justify-end gap-[1px] ${isProjected ? 'opacity-20' : ''} transition-opacity cursor-crosshair`} style={{height: '220px'}}>
                                             {isProjected ? (

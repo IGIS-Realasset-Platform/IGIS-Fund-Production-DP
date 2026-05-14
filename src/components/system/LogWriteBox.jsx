@@ -19,6 +19,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
     // File Attachment States
     const [attachedFiles, setAttachedFiles] = useState([]);
     const [isUploadingFile, setIsUploadingFile] = useState(false);
+    const [showFileSecurityModal, setShowFileSecurityModal] = useState(false);
     const fileInputRef = React.useRef(null);
 
     
@@ -886,7 +887,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                     />
                     <button 
                         type="button"
-                        onClick={() => fileInputRef.current?.click()}
+                        onClick={() => setShowFileSecurityModal(true)}
                         disabled={isUploadingFile}
                         className="px-[16px] py-[10px] rounded-[10px] border border-[#444] text-[#A1A1AA] font-bold text-[13px] hover:bg-[#333] hover:text-[#E5E5E5] transition-colors cursor-pointer mr-2 flex items-center gap-2"
                     >
@@ -1136,6 +1137,25 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                         <div className="flex items-center justify-center w-full">
                             <button onClick={() => setShowSuccessModal(false)} className="w-full py-[10px] rounded-[8px] bg-white hover:bg-gray-200 text-black text-[13px] font-bold transition-colors">확인</button>
                         </div>
+                    </div>
+                </div>
+            )}
+        
+            {showFileSecurityModal && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60">
+                    <div className="bg-[#222] border border-[#333] rounded-[16px] w-[320px] p-[24px] shadow-2xl flex flex-col items-center">
+                        <div className="w-[48px] h-[48px] rounded-full bg-white/10 flex items-center justify-center mb-[16px]">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fbf167" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                        </div>
+                        <h3 className="text-[16px] font-bold text-white mb-[8px] text-center">기능 제한 안내</h3>
+                        <p className="text-[13px] text-[#86868B] text-center mb-[24px]">파일 첨부 기능은 보안 이슈로 임시 제한되었습니다. 양해 부탁드립니다.</p>
+                        <button 
+                            type="button"
+                            onClick={() => setShowFileSecurityModal(false)}
+                            className="w-full py-[10px] rounded-[8px] bg-white hover:bg-gray-200 text-black text-[13px] font-bold transition-colors cursor-pointer"
+                        >
+                            확인
+                        </button>
                     </div>
                 </div>
             )}

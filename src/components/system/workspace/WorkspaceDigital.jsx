@@ -267,7 +267,7 @@ export default function WorkspaceDigital() {
             file_url: row.file_url || null
         });
         setIsAdding(true);
-        document.getElementById('task-management')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // document.getElementById('task-management')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     };
 
     const handleSaveRow = async () => {
@@ -530,65 +530,8 @@ export default function WorkspaceDigital() {
                     <div className="flex gap-[12px] w-max pr-[40px]">
                         {sscScopes.map((item, idx) => {
                             const isSelected = selectedTheme === item.no;
-                            return (
-                            <div 
-                                key={idx} 
-                                onClick={() => setSelectedTheme(isSelected ? null : item.no)}
-                                className={`w-[300px] shrink-0 bg-[#272727] border ${isSelected ? 'border-[#2997ff]' : 'border-[#3c3c3c] hover:border-[#555]'} rounded-[16px] p-[28px] flex flex-col cursor-pointer transition-colors`}
-                            >
-                                <span className={`text-[20px] font-bold mb-[12px] ${isSelected ? 'text-[#2997ff] opacity-100' : 'text-[#86868B] opacity-60'}`}>{item.no}</span>
-                                <h3 className={`text-[20px] font-bold mb-[16px] break-keep min-h-[56px] transition-colors ${isSelected ? 'text-[#2997ff]' : 'text-white'}`}>{item.title}</h3>
-                                <p className="text-[15px] text-[#A1A1AA] leading-[1.6] break-keep mb-[32px] flex-1">{item.desc}</p>
-                                <div className="text-[15px] text-[#A1A1AA] leading-[1.6] break-keep mt-auto pt-[20px] border-t border-[#3c3c3c]">
-                                    <span className="text-[#2997ff] font-bold block mb-[4px]">IOTA Seoul</span>
-                                    {item.iota}
-                                </div>
-                            </div>
-                        )})}
-                    </div>
-                </div>
-            </div>
-
-            <div className="flex justify-between items-center mt-[20px] mb-[10px]">
-                <div className="flex items-center gap-0">
-                    <h2 id="task-management" className="text-[18px] font-bold text-white tracking-tight flex items-center">
-                        <span className="mt-[2px]">상품·디지털 주요 TASK 관리</span>
-                        <span className="bg-[#333] text-[#b3b0a6] px-[8px] py-[3px] rounded-[6px] ml-[10px] font-bold text-[14px]">{getCurrentWeekInfo().weekLabel}</span>
-                        {selectedTheme && <span className="ml-3 px-2 py-1 bg-[#2997ff]/10 text-[#2997ff] rounded-[6px] text-[13px] font-bold">필터: {getThemeTitle(selectedTheme)}</span>}
-                    </h2>
-                    <a href={`${import.meta.env.BASE_URL}platform/iotaseoul/workspace/archive?workspace=digital`} target="_blank" rel="noopener noreferrer" className="text-[#A1A1AA] hover:text-white bg-transparent border border-[#3c3c3c] hover:bg-[#333] text-[13px] font-normal tracking-[-0.02em] ml-[10px] mt-[2px] pl-[10px] pr-[8px] py-[3px] rounded-[6px] transition-all flex items-center gap-[4px] cursor-pointer">
-                        지난 Task 관리
-                        <svg className="w-[14px] h-[14px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                        </svg>
-                    </a>
-                    
-                </div>
-                <div className="flex gap-2 items-center">
-                    
-                    <div className="flex bg-[#272726] border border-[#3c3c3c] rounded-[8px] overflow-hidden p-[2px]">
-                        <button onClick={() => setAssetFilter('427 PFV')} className={`px-[12px] py-[4px] text-[13px] font-bold rounded-[6px] transition-colors ${assetFilter === '427 PFV' ? 'bg-[#3c3c3c] text-white' : 'text-[#86868B] hover:text-[#E5E5E5]'}`}>이오타서울만 보기</button>
-                        <button onClick={() => setAssetFilter('ALL')} className={`px-[12px] py-[4px] text-[13px] font-bold rounded-[6px] transition-colors ${assetFilter === 'ALL' ? 'bg-[#3c3c3c] text-white' : 'text-[#86868B] hover:text-[#E5E5E5]'}`}>전체 자산 보기</button>
-                    </div>
-                    <button 
-                        onClick={() => setProjectShowAll(!projectShowAll)}
-                        className="w-[80px] py-[6px] bg-[#272726] border border-[#3c3c3c] text-[#86868B] hover:text-[#E5E5E5] hover:bg-[#333] text-[13px] font-medium rounded-[8px] transition-colors cursor-pointer"
-                    >
-                        {projectShowAll ? '접기' : '전체보기'}
-                    </button>
-                    <button 
-                        onClick={handleAddClick}
-                        className="px-[14px] py-[6px] bg-[#3b82f6]/20 text-[#60a5fa] border border-[#3b82f6]/30 text-[13px] font-bold rounded-[8px] transition-all hover:bg-[#3b82f6]/30 cursor-pointer"
-                    >
-                        {isAdding ? '등록 취소' : '+ Task 등록하기'}
-                    </button>
-                </div>
-            </div>
-            
-            <div className="-mx-[7px] p-[6px] border border-[#333] rounded-[30px] mb-[24px]">
-                <motion.div layout className="w-full flex flex-col gap-[16px]">
-                {isAdding && (
-                    <div className="w-full bg-[#272726] border border-[#3c3c3c] rounded-[24px] p-6 flex flex-col gap-[14px]">
+                            const renderEditForm = () => (
+        <div className="w-full bg-[#272726] border border-[#3c3c3c] rounded-[24px] p-6 flex flex-col gap-[14px] mt-[16px]">
                         <div className="flex gap-4">
                             <input 
                                 type="text" 
@@ -700,7 +643,66 @@ export default function WorkspaceDigital() {
                             </div>
                         </div>
                     </div>
-                )}
+    );
+
+    return (
+                            <div 
+                                key={idx} 
+                                onClick={() => setSelectedTheme(isSelected ? null : item.no)}
+                                className={`w-[300px] shrink-0 bg-[#272727] border ${isSelected ? 'border-[#2997ff]' : 'border-[#3c3c3c] hover:border-[#555]'} rounded-[16px] p-[28px] flex flex-col cursor-pointer transition-colors`}
+                            >
+                                <span className={`text-[20px] font-bold mb-[12px] ${isSelected ? 'text-[#2997ff] opacity-100' : 'text-[#86868B] opacity-60'}`}>{item.no}</span>
+                                <h3 className={`text-[20px] font-bold mb-[16px] break-keep min-h-[56px] transition-colors ${isSelected ? 'text-[#2997ff]' : 'text-white'}`}>{item.title}</h3>
+                                <p className="text-[15px] text-[#A1A1AA] leading-[1.6] break-keep mb-[32px] flex-1">{item.desc}</p>
+                                <div className="text-[15px] text-[#A1A1AA] leading-[1.6] break-keep mt-auto pt-[20px] border-t border-[#3c3c3c]">
+                                    <span className="text-[#2997ff] font-bold block mb-[4px]">IOTA Seoul</span>
+                                    {item.iota}
+                                </div>
+                            </div>
+                        )})}
+                    </div>
+                </div>
+            </div>
+
+            <div className="flex justify-between items-center mt-[20px] mb-[10px]">
+                <div className="flex items-center gap-0">
+                    <h2 id="task-management" className="text-[18px] font-bold text-white tracking-tight flex items-center">
+                        <span className="mt-[2px]">상품·디지털 주요 TASK 관리</span>
+                        <span className="bg-[#333] text-[#b3b0a6] px-[8px] py-[3px] rounded-[6px] ml-[10px] font-bold text-[14px]">{getCurrentWeekInfo().weekLabel}</span>
+                        {selectedTheme && <span className="ml-3 px-2 py-1 bg-[#2997ff]/10 text-[#2997ff] rounded-[6px] text-[13px] font-bold">필터: {getThemeTitle(selectedTheme)}</span>}
+                    </h2>
+                    <a href={`${import.meta.env.BASE_URL}platform/iotaseoul/workspace/archive?workspace=digital`} target="_blank" rel="noopener noreferrer" className="text-[#A1A1AA] hover:text-white bg-transparent border border-[#3c3c3c] hover:bg-[#333] text-[13px] font-normal tracking-[-0.02em] ml-[10px] mt-[2px] pl-[10px] pr-[8px] py-[3px] rounded-[6px] transition-all flex items-center gap-[4px] cursor-pointer">
+                        지난 Task 관리
+                        <svg className="w-[14px] h-[14px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                        </svg>
+                    </a>
+                    
+                </div>
+                <div className="flex gap-2 items-center">
+                    
+                    <div className="flex bg-[#272726] border border-[#3c3c3c] rounded-[8px] overflow-hidden p-[2px]">
+                        <button onClick={() => setAssetFilter('427 PFV')} className={`px-[12px] py-[4px] text-[13px] font-bold rounded-[6px] transition-colors ${assetFilter === '427 PFV' ? 'bg-[#3c3c3c] text-white' : 'text-[#86868B] hover:text-[#E5E5E5]'}`}>이오타서울만 보기</button>
+                        <button onClick={() => setAssetFilter('ALL')} className={`px-[12px] py-[4px] text-[13px] font-bold rounded-[6px] transition-colors ${assetFilter === 'ALL' ? 'bg-[#3c3c3c] text-white' : 'text-[#86868B] hover:text-[#E5E5E5]'}`}>전체 자산 보기</button>
+                    </div>
+                    <button 
+                        onClick={() => setProjectShowAll(!projectShowAll)}
+                        className="w-[80px] py-[6px] bg-[#272726] border border-[#3c3c3c] text-[#86868B] hover:text-[#E5E5E5] hover:bg-[#333] text-[13px] font-medium rounded-[8px] transition-colors cursor-pointer"
+                    >
+                        {projectShowAll ? '접기' : '전체보기'}
+                    </button>
+                    <button 
+                        onClick={handleAddClick}
+                        className="px-[14px] py-[6px] bg-[#3b82f6]/20 text-[#60a5fa] border border-[#3b82f6]/30 text-[13px] font-bold rounded-[8px] transition-all hover:bg-[#3b82f6]/30 cursor-pointer"
+                    >
+                        {isAdding ? '등록 취소' : '+ Task 등록하기'}
+                    </button>
+                </div>
+            </div>
+            
+            <div className="-mx-[7px] p-[6px] border border-[#333] rounded-[30px] mb-[24px]">
+                <motion.div layout className="w-full flex flex-col gap-[16px]">
+                {isAdding && !editingTaskId && renderEditForm()}
                 
                 {isLoading ? (
                     <motion.div layout initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="text-center py-[40px] text-[#86868B]">데이터를 불러오는 중입니다...</motion.div>
@@ -850,6 +852,7 @@ export default function WorkspaceDigital() {
                                 </div>
                                 )}
                                 </div>
+                                {isAdding && editingTaskId === row.id && renderEditForm()}
                             </motion.div>
                             ))}
                         </AnimatePresence>

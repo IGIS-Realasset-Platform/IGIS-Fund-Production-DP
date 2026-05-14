@@ -136,7 +136,7 @@ const IotaTwo816DetailCard = ({ id, vehicleId, title, dbData, historyData, navig
         phase2: { title: '정비계획 변경', subtitle: '2023.11', cost: '1조 7,888억', costPyeong: '4,896 만원/평', revenue: '1조 9,041억', revenuePyeong: '5,211 만원/평', returnEM: '이익률 6.1%', returnProfit: '1,153억원', enoc: 'TBD', enocSub: '-', period: '69M', gfa: '36,537평', completionYear: '2028', officeArea: '-평', retailArea: '-평' },
         phase3: { title: '자산매입', subtitle: '2024.03', cost: '2조 1,556억', costPyeong: '5,900 만원/평', revenue: '2조 3,060억', revenuePyeong: '6,311 만원/평', returnEM: '이익률 11.3%', returnProfit: '2,614억원', enoc: 'TBD', enocSub: '-', period: '95M', gfa: '36,537평', completionYear: '2030', officeArea: '-평', retailArea: '-평' },
         phase4: { title: '브릿지론 재연장', subtitle: '2025.10', cost: '2조 2,000억', costPyeong: '6,021 만원/평', revenue: '2조 5,102억', revenuePyeong: '6,870 만원/평', returnEM: '수지 재평가', returnProfit: '정량 이익 미산정', enoc: 'TBD', enocSub: '-', period: '101M', gfa: '36,537평', completionYear: '2031', officeArea: '-평', retailArea: '-평' },
-        phase5: { title: '리파이낸싱', subtitle: '2026.04', cost: '2조 1,964억', costPyeong: '6,011 만원/평', revenue: '2조 5,823억', revenuePyeong: '7,068 만원/평', returnEM: '이익률 4.8%', returnProfit: '1,240억원', enoc: 'TBD', enocSub: '-', period: '104M', gfa: '36,537평', completionYear: '2031', officeArea: '15,529평', retailArea: '1,022평' }
+        phase5: { title: '리파이낸싱', subtitle: '2026.04', cost: '2조 1,964억', costPyeong: '6,011 만원/평', revenue: '2조 5,823억', revenuePyeong: '7,068 만원/평', returnEM: '이익률 4.8%', returnProfit: '1,240억원', enoc: 'TBD', enocSub: '-', period: '114M', gfa: '36,537평', completionYear: '2032', officeArea: '15,529평', retailArea: '1,022평' }
     };
 
     let baseMetrics = { ...phaseMetrics['phase1'] };
@@ -336,16 +336,22 @@ const IotaTwo816DetailCard = ({ id, vehicleId, title, dbData, historyData, navig
                                         <div className={`w-[220px] p-3 border-r border-[#3C3C3C] font-bold text-[13px] shrink-0 ${activePhase === 'phase4' ? 'text-[#0A84FF]' : 'text-[#E5E5E5]'}`}>Phase 4: 브릿지론 재연장<br/><span className="text-[#86868B] font-normal">(2025.10 기준)</span></div>
                                         <div className={`w-[220px] p-3 font-bold text-[13px] shrink-0 rounded-tr-lg ${activePhase === 'phase5' ? 'text-[#0A84FF]' : 'text-[#E5E5E5]'}`}>Phase 5: 리파이낸싱<br/><span className="text-[#86868B] font-normal">(2026.04 기준)</span></div>
                                     </div>
-                                    {historyData && historyData.length > 0 ? historyData.map((row, index) => (
+                                    {historyData && historyData.length > 0 ? historyData.map((row, index) => {
+                                        let displayPhase5 = row.phase5;
+                                        if (typeof displayPhase5 === 'string' && displayPhase5.includes('2031년 09월')) {
+                                            displayPhase5 = displayPhase5.replace('2031년 09월', '2032년 07월').replace('+35개월', '+45개월');
+                                        }
+                                        return (
                                         <div key={index} className={`flex group border-b border-[#3C3C3C] hover:bg-[#2A2A2C] transition-colors ${index === historyData.length - 1 ? 'border-b-0' : ''}`}>
                                             <div className={`sticky left-0 z-10 w-[150px] p-3 border-r border-[#3C3C3C] font-bold text-[#86868B] text-[13px] shrink-0 flex items-center bg-[#28282A] group-hover:bg-[#2A2A2C] transition-colors ${index === historyData.length - 1 ? 'rounded-bl-lg' : ''}`}>{row.category}</div>
                                             <div className={`w-[220px] p-3 border-r border-[#3C3C3C] text-[13px] leading-snug shrink-0 whitespace-pre-wrap ${activePhase === 'phase1' ? 'bg-[#2A2A2A] text-white font-bold' : 'text-[#D1D1D6]'}`}>{row.phase1}</div>
                                             <div className={`w-[220px] p-3 border-r border-[#3C3C3C] text-[13px] leading-snug shrink-0 whitespace-pre-wrap ${activePhase === 'phase2' ? 'bg-[#2A2A2A] text-white font-bold' : 'text-[#D1D1D6]'}`}>{row.phase2}</div>
                                             <div className={`w-[220px] p-3 border-r border-[#3C3C3C] text-[13px] leading-snug shrink-0 whitespace-pre-wrap ${activePhase === 'phase3' ? 'bg-[#2A2A2A] text-white font-bold' : 'text-[#D1D1D6]'}`}>{row.phase3}</div>
                                             <div className={`w-[220px] p-3 border-r border-[#3C3C3C] text-[13px] leading-snug shrink-0 whitespace-pre-wrap ${activePhase === 'phase4' ? 'bg-[#2A2A2A] text-white font-bold' : 'text-[#D1D1D6]'}`}>{row.phase4}</div>
-                                            <div className={`w-[220px] p-3 text-[13px] leading-snug shrink-0 whitespace-pre-wrap ${index === historyData.length - 1 ? 'rounded-br-lg' : ''} ${activePhase === 'phase5' ? 'bg-[#2A2A2A] text-white font-bold' : 'text-[#D1D1D6]'}`}>{row.phase5}</div>
+                                            <div className={`w-[220px] p-3 text-[13px] leading-snug shrink-0 whitespace-pre-wrap ${index === historyData.length - 1 ? 'rounded-br-lg' : ''} ${activePhase === 'phase5' ? 'bg-[#2A2A2A] text-white font-bold' : 'text-[#D1D1D6]'}`}>{displayPhase5}</div>
                                         </div>
-                                    )) : (
+                                        );
+                                    }) : (
                                         <div className="p-8 text-center text-[#86868B] text-[14px]">
                                             데이터가 없습니다.
                                         </div>

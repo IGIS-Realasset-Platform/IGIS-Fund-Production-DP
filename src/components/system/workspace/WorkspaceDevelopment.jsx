@@ -276,7 +276,7 @@ export default function WorkspaceDevelopment() {
         });
         setCompanyQuery(row.company_name || '');
         setIsAdding(true);
-        document.getElementById('task-management')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // document.getElementById('task-management')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     };
 
     const handleSaveRow = async () => {
@@ -442,83 +442,8 @@ export default function WorkspaceDevelopment() {
         setCpTabProject(activeProject);
     }, [activeProject]);
 
-    return (
-        <div className="w-full flex-1 flex flex-col pt-[50px] pb-[60px] max-w-[1200px] mx-auto relative">
-            {/* Header & Team Structure */}
-            <div className="w-full flex justify-between items-center mb-[40px] gap-[40px]">
-                <div className="shrink-0 max-w-[400px]">
-                    <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[12px]">개발관리</h1>
-                    <p className="text-[15px] text-[#86868B] leading-[24px] break-keep">설계·시공·CM·감리 통제, 인허가/명도 대응, 공정·품질·안전 KPI</p>
-                </div>
-                
-                <div className="border border-[#3c3c3c] rounded-[24px] flex flex-col bg-transparent shrink-0">
-                    <div className="flex items-center pl-[20px] pr-[10px] py-[10px]">
-                        <div className="w-[76px] shrink-0">
-                            <span className="text-[13px] font-bold text-[#86868B]">개발솔루션</span>
-                        </div>
-                        <div className="flex items-center gap-[12px] w-[112px] shrink-0">
-                            <div className="relative w-[30px] h-[30px] shrink-0 rounded-full bg-[#3c3c3c] flex items-center justify-center overflow-hidden ml-[2px]">
-                                <img src={`${import.meta.env.BASE_URL}홍장군.webp`} alt="홍장군" className="w-full h-full object-cover" onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }} />
-                                <div className="absolute inset-0 rounded-full border border-white/10 pointer-events-none"></div>
-                            </div>
-                            <div className="flex flex-col text-left">
-                                <span className="text-white font-bold text-[13px] leading-tight">홍장군</span>
-                                <span className="text-[#A1A1AA] text-[12px] mt-[1px] leading-tight">센터장</span>
-                            </div>
-                        </div>
-                        <div className="flex flex-wrap gap-x-1.5 gap-y-2 -ml-[6px]">
-                            {["채원","김보성","전승희","김대익","장성진","이정훈","박봉서"].map(name => (
-                                <div key={name} className="flex items-center gap-[6px] bg-[#222] border border-[#3c3c3c] rounded-full pl-[4px] pr-[10px] py-[4px] min-w-[76px]">
-                                    <div className="w-[21px] h-[21px] shrink-0 rounded-full bg-[#3c3c3c] overflow-hidden">
-                                        <img src={`${import.meta.env.BASE_URL}${name}.webp`} alt={name} className="w-full h-full object-cover" onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }} />
-                                    </div>
-                                    <span className="text-[#E5E5E5] text-[12px] font-medium leading-none">{name}</span>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            </div>
-{/* 2. Task 관리 */}
-            <div className="w-full mt-0"></div>
-            <div className="flex justify-between items-center mb-[10px]">
-                <div className="flex items-center gap-0">
-                    <h2 id="task-management" className="text-[18px] font-bold text-white tracking-tight flex items-center">
-                        <span className="mt-[2px]">개발솔루션 주요 TASK 관리</span>
-                        <span className="bg-[#333] text-[#b3b0a6] px-[8px] py-[3px] rounded-[6px] ml-[10px] font-bold text-[14px]">{getCurrentWeekInfo().weekLabel}</span>
-                    </h2>
-                    <a href={`${import.meta.env.BASE_URL}platform/iotaseoul/workspace/archive?workspace=development`} target="_blank" rel="noopener noreferrer" className="text-[#A1A1AA] hover:text-white bg-transparent border border-[#3c3c3c] hover:bg-[#333] text-[13px] font-normal tracking-[-0.02em] ml-[10px] mt-[2px] pl-[10px] pr-[8px] py-[3px] rounded-[6px] transition-all flex items-center gap-[4px] cursor-pointer">
-                        지난 Task 관리
-                        <svg className="w-[14px] h-[14px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                        </svg>
-                    </a>
-                    
-                </div>
-                <div className="flex gap-2 items-center">
-                    
-                    <div className="flex bg-[#272726] border border-[#3c3c3c] rounded-[8px] overflow-hidden p-[2px]">
-                        <button onClick={() => setAssetFilter('427 PFV')} className={`px-[12px] py-[4px] text-[13px] font-bold rounded-[6px] transition-colors ${assetFilter === '427 PFV' ? 'bg-[#3c3c3c] text-white' : 'text-[#86868B] hover:text-[#E5E5E5]'}`}>이오타서울만 보기</button>
-                        <button onClick={() => setAssetFilter('ALL')} className={`px-[12px] py-[4px] text-[13px] font-bold rounded-[6px] transition-colors ${assetFilter === 'ALL' ? 'bg-[#3c3c3c] text-white' : 'text-[#86868B] hover:text-[#E5E5E5]'}`}>전체 자산 보기</button>
-                    </div>
-                    <button 
-                        onClick={() => setProjectShowAll(!projectShowAll)}
-                        className="w-[80px] py-[6px] bg-[#272726] border border-[#3c3c3c] text-[#86868B] hover:text-[#E5E5E5] hover:bg-[#333] text-[13px] font-medium rounded-[8px] transition-colors cursor-pointer"
-                    >
-                        {projectShowAll ? '접기' : '전체보기'}
-                    </button>
-                    <button 
-                        onClick={handleAddClick}
-                        className="px-[14px] py-[6px] bg-[#3b82f6]/20 text-[#60a5fa] border border-[#3b82f6]/30 text-[13px] font-bold rounded-[8px] transition-all hover:bg-[#3b82f6]/30 cursor-pointer"
-                    >
-                        {isAdding ? '등록 취소' : '+ Task 등록하기'}
-                    </button>
-                </div>
-            </div>
-            <div className="-mx-[7px] p-[6px] border border-[#333] rounded-[30px] mb-[34px]">
-                <div className="w-full flex flex-col gap-[16px]">
-                {isAdding && (
-                    <div className="w-full bg-[#272726] border border-[#3c3c3c] rounded-[24px] p-6 flex flex-col gap-[14px]">
+    const renderEditForm = () => (
+        <div className="w-full bg-[#272726] border border-[#3c3c3c] rounded-[24px] p-6 flex flex-col gap-[14px] mt-[16px]">
                         <div className="flex gap-4">
                             <input 
                                 type="text" 
@@ -658,7 +583,84 @@ export default function WorkspaceDevelopment() {
                             </div>
                         </div>
                     </div>
-                )}
+    );
+
+    return (
+        <div className="w-full flex-1 flex flex-col pt-[50px] pb-[60px] max-w-[1200px] mx-auto relative">
+            {/* Header & Team Structure */}
+            <div className="w-full flex justify-between items-center mb-[40px] gap-[40px]">
+                <div className="shrink-0 max-w-[400px]">
+                    <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[12px]">개발관리</h1>
+                    <p className="text-[15px] text-[#86868B] leading-[24px] break-keep">설계·시공·CM·감리 통제, 인허가/명도 대응, 공정·품질·안전 KPI</p>
+                </div>
+                
+                <div className="border border-[#3c3c3c] rounded-[24px] flex flex-col bg-transparent shrink-0">
+                    <div className="flex items-center pl-[20px] pr-[10px] py-[10px]">
+                        <div className="w-[76px] shrink-0">
+                            <span className="text-[13px] font-bold text-[#86868B]">개발솔루션</span>
+                        </div>
+                        <div className="flex items-center gap-[12px] w-[112px] shrink-0">
+                            <div className="relative w-[30px] h-[30px] shrink-0 rounded-full bg-[#3c3c3c] flex items-center justify-center overflow-hidden ml-[2px]">
+                                <img src={`${import.meta.env.BASE_URL}홍장군.webp`} alt="홍장군" className="w-full h-full object-cover" onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }} />
+                                <div className="absolute inset-0 rounded-full border border-white/10 pointer-events-none"></div>
+                            </div>
+                            <div className="flex flex-col text-left">
+                                <span className="text-white font-bold text-[13px] leading-tight">홍장군</span>
+                                <span className="text-[#A1A1AA] text-[12px] mt-[1px] leading-tight">센터장</span>
+                            </div>
+                        </div>
+                        <div className="flex flex-wrap gap-x-1.5 gap-y-2 -ml-[6px]">
+                            {["채원","김보성","전승희","김대익","장성진","이정훈","박봉서"].map(name => (
+                                <div key={name} className="flex items-center gap-[6px] bg-[#222] border border-[#3c3c3c] rounded-full pl-[4px] pr-[10px] py-[4px] min-w-[76px]">
+                                    <div className="w-[21px] h-[21px] shrink-0 rounded-full bg-[#3c3c3c] overflow-hidden">
+                                        <img src={`${import.meta.env.BASE_URL}${name}.webp`} alt={name} className="w-full h-full object-cover" onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }} />
+                                    </div>
+                                    <span className="text-[#E5E5E5] text-[12px] font-medium leading-none">{name}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            </div>
+{/* 2. Task 관리 */}
+            <div className="w-full mt-0"></div>
+            <div className="flex justify-between items-center mb-[10px]">
+                <div className="flex items-center gap-0">
+                    <h2 id="task-management" className="text-[18px] font-bold text-white tracking-tight flex items-center">
+                        <span className="mt-[2px]">개발솔루션 주요 TASK 관리</span>
+                        <span className="bg-[#333] text-[#b3b0a6] px-[8px] py-[3px] rounded-[6px] ml-[10px] font-bold text-[14px]">{getCurrentWeekInfo().weekLabel}</span>
+                    </h2>
+                    <a href={`${import.meta.env.BASE_URL}platform/iotaseoul/workspace/archive?workspace=development`} target="_blank" rel="noopener noreferrer" className="text-[#A1A1AA] hover:text-white bg-transparent border border-[#3c3c3c] hover:bg-[#333] text-[13px] font-normal tracking-[-0.02em] ml-[10px] mt-[2px] pl-[10px] pr-[8px] py-[3px] rounded-[6px] transition-all flex items-center gap-[4px] cursor-pointer">
+                        지난 Task 관리
+                        <svg className="w-[14px] h-[14px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                        </svg>
+                    </a>
+                    
+                </div>
+                <div className="flex gap-2 items-center">
+                    
+                    <div className="flex bg-[#272726] border border-[#3c3c3c] rounded-[8px] overflow-hidden p-[2px]">
+                        <button onClick={() => setAssetFilter('427 PFV')} className={`px-[12px] py-[4px] text-[13px] font-bold rounded-[6px] transition-colors ${assetFilter === '427 PFV' ? 'bg-[#3c3c3c] text-white' : 'text-[#86868B] hover:text-[#E5E5E5]'}`}>이오타서울만 보기</button>
+                        <button onClick={() => setAssetFilter('ALL')} className={`px-[12px] py-[4px] text-[13px] font-bold rounded-[6px] transition-colors ${assetFilter === 'ALL' ? 'bg-[#3c3c3c] text-white' : 'text-[#86868B] hover:text-[#E5E5E5]'}`}>전체 자산 보기</button>
+                    </div>
+                    <button 
+                        onClick={() => setProjectShowAll(!projectShowAll)}
+                        className="w-[80px] py-[6px] bg-[#272726] border border-[#3c3c3c] text-[#86868B] hover:text-[#E5E5E5] hover:bg-[#333] text-[13px] font-medium rounded-[8px] transition-colors cursor-pointer"
+                    >
+                        {projectShowAll ? '접기' : '전체보기'}
+                    </button>
+                    <button 
+                        onClick={handleAddClick}
+                        className="px-[14px] py-[6px] bg-[#3b82f6]/20 text-[#60a5fa] border border-[#3b82f6]/30 text-[13px] font-bold rounded-[8px] transition-all hover:bg-[#3b82f6]/30 cursor-pointer"
+                    >
+                        {isAdding ? '등록 취소' : '+ Task 등록하기'}
+                    </button>
+                </div>
+            </div>
+            <div className="-mx-[7px] p-[6px] border border-[#333] rounded-[30px] mb-[34px]">
+                <div className="w-full flex flex-col gap-[16px]">
+                {isAdding && !editingTaskId && renderEditForm()}
                 
                 {isLoadingTasks ? (
                     <div className="text-center py-[40px] text-[#86868B]">데이터를 불러오는 중입니다...</div>
@@ -789,6 +791,7 @@ export default function WorkspaceDevelopment() {
                                 </div>
                                 )}
                                 </div>
+                                {isAdding && editingTaskId === row.id && renderEditForm()}
                             </motion.div>
                             ))}
                         </AnimatePresence>

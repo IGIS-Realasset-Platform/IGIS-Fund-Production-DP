@@ -224,7 +224,7 @@ export default function IotaTwo816() {
                             { date: '2027.02', label: '통합PF', left: 0.72 },
                             { date: '2027.05', label: 'IOTA1 착공', left: 0.80 },
                             { date: '2028.06', label: 'IOTA2 착공', left: 0.89 },
-                            { date: '2031.09', label: '준공', left: 1.0 }
+                            { date: '2032.07', label: '준공', left: 1.0 }
                         ].map((ms, index) => (
                             <div key={index} className={`absolute flex flex-col items-center justify-center top-1/2 -translate-y-1/2 -translate-x-1/2 ${ms.type === 'now' ? 'ml-[4px]' : ''}`} style={{ left: `${ms.left * 100}%` }}>
                                 {/* Date (UP) */}
