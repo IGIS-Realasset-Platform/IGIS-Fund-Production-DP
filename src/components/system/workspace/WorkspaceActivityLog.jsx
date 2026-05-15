@@ -4,6 +4,7 @@ import { executeWithTimeout } from '../../../utils/supabaseHelper';
 import { useAuth } from '../../../context/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import LogWriteBox from '../LogWriteBox';
+import ReactionAvatarStack from '../ReactionAvatarStack';
 
 export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) {
     const { memberInfo } = useAuth();
@@ -16,6 +17,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
     const [expandedLogs, setExpandedLogs] = useState({});
     const [logSearchQuery, setLogSearchQuery] = useState('');
     const [masterStakeholders, setMasterStakeholders] = useState([]);
+    const [pilotMembers, setPilotMembers] = useState([]);
     
     // Delete states
     const [logToDelete, setLogToDelete] = useState(null);
@@ -67,6 +69,11 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
             .limit(5000);
         if (data && !error) {
             setMasterStakeholders(data);
+        }
+        
+        const { data: pilotData, error: pilotError } = await supabase.from('iota_seoul_pilot_members').select('email, staff_name, org_name, role_code');
+        if (!pilotError && pilotData) {
+            setPilotMembers(pilotData);
         }
     };
 
@@ -195,6 +202,67 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
         }
     };
 
+    const handleToggleReaction = async (logId, type, commentId = null) => {
+        try {
+            const log = logs.find(l => l.log_id === logId);
+            if (!log) return;
+            const myEmail = memberInfo?.email;
+            if (!myEmail) {
+                alert('로그인이 필요합니다.');
+                return;
+            }
+
+            const metadata = JSON.parse(JSON.stringify(log.metadata || {}));
+            
+            if (commentId) {
+                const comments = metadata.comments || [];
+                const commentIndex = comments.findIndex(c => c.id === commentId);
+                if (commentIndex === -1) return;
+                
+                const comment = comments[commentIndex];
+                const reactions = comment.reactions || { like: [], check: [] };
+                const currentReactionList = reactions[type] || [];
+                
+                let newReactionList;
+                if (currentReactionList.includes(myEmail)) {
+                    newReactionList = currentReactionList.filter(email => email !== myEmail);
+                } else {
+                    newReactionList = [...currentReactionList, myEmail];
+                }
+                
+                comments[commentIndex] = {
+                    ...comment,
+                    reactions: { ...reactions, [type]: newReactionList }
+                };
+                metadata.comments = comments;
+            } else {
+                const reactions = metadata.reactions || { like: [], check: [] };
+                const currentReactionList = reactions[type] || [];
+                
+                let newReactionList;
+                if (currentReactionList.includes(myEmail)) {
+                    newReactionList = currentReactionList.filter(email => email !== myEmail);
+                } else {
+                    newReactionList = [...currentReactionList, myEmail];
+                }
+                metadata.reactions = { ...reactions, [type]: newReactionList };
+            }
+
+            setLogs(prev => prev.map(l => l.log_id === logId ? { ...l, metadata } : l));
+
+            const { error } = await supabase
+                .from('iota_seoul_logs')
+                .update({ metadata })
+                .eq('log_id', logId);
+
+            if (error) throw error;
+        } catch (e) {
+            console.error('Error toggling reaction:', e);
+            alert('일시적인 오류가 발생했습니다.');
+            fetchLogs();
+        }
+    };
+
     const handleDownloadFile = async (e, filePath, fileName) => {
         e.preventDefault();
         e.stopPropagation();
@@ -237,7 +305,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
             if (lbl.includes('파이낸싱')) return '파이낸싱-LFC';
             if (lbl.includes('개발솔루션')) return '개발솔루션-DSC';
             if (lbl.includes('기업마케팅')) return '기업마케팅-EMC';
-            if (lbl.includes('상품·디지털') || lbl.includes('상품/디지털')) return '상품·디지털-SSC';
+            if (lbl.includes('공간솔루션') || lbl.includes('상품/디지털') || lbl.includes('상품·디지털')) return '공간솔루션-SSC';
             if (lbl.includes('펀드운용')) return '펀드운용-KAM';
             if (lbl.includes('IPR')) return 'IPR';
         }
@@ -408,6 +476,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
                     </div>
                     {/* Right Section */}
                     <div className="flex gap-[12px] shrink-0 ml-[12px] justify-end items-center">
+                        <div className="w-[90px] shrink-0"></div>
                         <div className="w-[110px] mr-[4px] text-center flex items-center justify-center">
                             <select 
                                 value={filterStakeholder}
@@ -544,6 +613,26 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
 
                             {/* Right Section */}
                             <div className="flex items-center gap-[12px] shrink-0 ml-[12px] justify-end">
+                                {/* Reactions Indicator */}
+                                <div className="shrink-0 flex items-center justify-end gap-[6px] w-[90px]">
+                                    {(log.metadata?.reactions?.like?.length > 0 || log.metadata?.reactions?.check?.length > 0) && (
+                                        <div className="flex items-center gap-[8px]">
+                                            {log.metadata?.reactions?.like?.length > 0 && (
+                                                <div className="flex items-center gap-[4px]">
+                                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="#ff3b30" stroke="#ff3b30" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                                                    <ReactionAvatarStack reactionEmails={log.metadata.reactions.like} pilotMembers={pilotMembers} />
+                                                </div>
+                                            )}
+                                            {log.metadata?.reactions?.check?.length > 0 && (
+                                                <div className="flex items-center gap-[4px]">
+                                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#2997ff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                                                    <ReactionAvatarStack reactionEmails={log.metadata.reactions.check} pilotMembers={pilotMembers} />
+                                                </div>
+                                            )}
+                                        </div>
+                                    )}
+                                </div>
+                                
                                 {/* Stakeholder Info */}
                                 <div className="shrink-0 flex justify-center w-[110px] mr-[4px]">
                                     {checkUserAccess(log) && log.iota_seoul_log_stakeholders?.[0]?.sh_name && (
@@ -679,7 +768,33 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
                                                                 {new Date(comment.created_at).toLocaleString('ko-KR', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })}
                                                             </span>
                                                         </div>
-                                                        <div className="text-[13px] text-[#A1A1AA] whitespace-pre-wrap break-words ml-[36px]">{comment.text}</div>
+                                                        <div className="text-[13px] text-[#A1A1AA] whitespace-pre-wrap break-words ml-[36px] mb-[6px]">{comment.text}</div>
+                                                        <div className="flex items-center gap-[8px] ml-[36px]">
+                                                            <button
+                                                                type="button"
+                                                                onClick={(e) => { e.stopPropagation(); handleToggleReaction(log.log_id, 'like', comment.id); }}
+                                                                className={`flex items-center gap-[4px] transition-colors cursor-pointer ${comment.reactions?.like?.includes(memberInfo?.email) ? 'text-[#ff3b30]' : 'text-[#86868B] hover:text-[#A1A1AA]'}`}
+                                                            >
+                                                                <svg width="12" height="12" viewBox="0 0 24 24" fill={comment.reactions?.like?.includes(memberInfo?.email) ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                                                                {comment.reactions?.like?.length > 0 ? (
+                                                                    <ReactionAvatarStack reactionEmails={comment.reactions.like} pilotMembers={pilotMembers} />
+                                                                ) : (
+                                                                    <span className="text-[11px] font-medium">좋아요</span>
+                                                                )}
+                                                            </button>
+                                                            <button
+                                                                type="button"
+                                                                onClick={(e) => { e.stopPropagation(); handleToggleReaction(log.log_id, 'check', comment.id); }}
+                                                                className={`flex items-center gap-[4px] transition-colors cursor-pointer ${comment.reactions?.check?.includes(memberInfo?.email) ? 'text-[#2997ff]' : 'text-[#86868B] hover:text-[#A1A1AA]'}`}
+                                                            >
+                                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                                                                {comment.reactions?.check?.length > 0 ? (
+                                                                    <ReactionAvatarStack reactionEmails={comment.reactions.check} pilotMembers={pilotMembers} />
+                                                                ) : (
+                                                                    <span className="text-[11px] font-medium">확인</span>
+                                                                )}
+                                                            </button>
+                                                        </div>
                                                     </div>
                                                     {comment.author_email === memberInfo?.email && (
                                                         <button
@@ -727,6 +842,33 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
                                         </div>
                                         {checkUserAccess(log) && (
                                             <div className="flex items-center gap-[8px]">
+                                                {/* Post Reactions */}
+                                                <div className="flex items-center gap-[6px] mr-[8px]">
+                                                    <button
+                                                        type="button"
+                                                        onClick={(e) => { e.stopPropagation(); handleToggleReaction(log.log_id, 'like'); }}
+                                                        className={`flex items-center gap-[4px] px-[8px] py-[4px] rounded-[6px] transition-colors border cursor-pointer ${log.metadata?.reactions?.like?.includes(memberInfo?.email) ? 'bg-[#ff3b30]/10 border-[#ff3b30]/30 text-[#ff3b30]' : 'bg-[#222] border-[#333] hover:border-[#444] text-[#A1A1AA] hover:text-[#E5E5E5]'}`}
+                                                    >
+                                                        <svg width="14" height="14" viewBox="0 0 24 24" fill={log.metadata?.reactions?.like?.includes(memberInfo?.email) ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                                                        {log.metadata?.reactions?.like?.length > 0 ? (
+                                                            <ReactionAvatarStack reactionEmails={log.metadata.reactions.like} pilotMembers={pilotMembers} />
+                                                        ) : (
+                                                            <span className="text-[12px] font-medium">0</span>
+                                                        )}
+                                                    </button>
+                                                    <button
+                                                        type="button"
+                                                        onClick={(e) => { e.stopPropagation(); handleToggleReaction(log.log_id, 'check'); }}
+                                                        className={`flex items-center gap-[4px] px-[8px] py-[4px] rounded-[6px] transition-colors border cursor-pointer ${log.metadata?.reactions?.check?.includes(memberInfo?.email) ? 'bg-[#2997ff]/10 border-[#2997ff]/30 text-[#2997ff]' : 'bg-[#222] border-[#333] hover:border-[#444] text-[#A1A1AA] hover:text-[#E5E5E5]'}`}
+                                                    >
+                                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                                                        {log.metadata?.reactions?.check?.length > 0 ? (
+                                                            <ReactionAvatarStack reactionEmails={log.metadata.reactions.check} pilotMembers={pilotMembers} />
+                                                        ) : (
+                                                            <span className="text-[12px] font-medium">0</span>
+                                                        )}
+                                                    </button>
+                                                </div>
                                                 {!editingLogId && (
                                                     <button
                                                         type="button"

@@ -572,7 +572,7 @@ export default function WorkspaceDigital() {
             <div className="w-full flex justify-between items-center mb-[40px] gap-[40px]">
                 {/* Header Metadata */}
                 <div className="shrink-0 max-w-[460px]">
-                    <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[12px]">상품·디지털</h1>
+                    <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[12px]">공간솔루션</h1>
                     <p className="text-[15px] text-[#86868B] leading-[24px] break-keep">프로젝트 브랜드 포지셔닝, 상품 차별화, 테넌트 경험 설계, 맴버십 서비스 등</p>
                 </div>
                 
@@ -608,9 +608,9 @@ export default function WorkspaceDigital() {
 
                 </div>
             </div>
-{/* SSC 상품·디지털 업무 범위 */}
+{/* SSC 공간솔루션 업무 범위 */}
             <div className="w-full mt-0 mb-0 relative">
-                <h2 className="text-[22px] font-bold text-white mb-[12px]">SSC 상품·디지털 업무 범위</h2>
+                <h2 className="text-[22px] font-bold text-white mb-[12px]">SSC 공간솔루션 업무 범위</h2>
                 <div className="max-w-none overflow-x-auto hide-scrollbar pb-[20px] w-[calc(50vw-140px+50%)]">
                     <div className="flex gap-[12px] w-max pr-[40px]">
                         {sscScopes.map((item, idx) => {
@@ -637,7 +637,7 @@ export default function WorkspaceDigital() {
             <div className="flex justify-between items-center mt-[20px] mb-[10px]">
                 <div className="flex items-center gap-0">
                     <h2 id="task-management" className="text-[18px] font-bold text-white tracking-tight flex items-center">
-                        <span className="mt-[2px]">상품·디지털 주요 TASK 관리</span>
+                        <span className="mt-[2px]">공간솔루션 주요 TASK 관리</span>
                         <span className="bg-[#333] text-[#b3b0a6] px-[8px] py-[3px] rounded-[6px] ml-[10px] font-bold text-[14px]">{getCurrentWeekInfo().weekLabel}</span>
                         {selectedTheme && <span className="ml-3 px-2 py-1 bg-[#2997ff]/10 text-[#2997ff] rounded-[6px] text-[13px] font-bold">필터: {getThemeTitle(selectedTheme)}</span>}
                     </h2>
@@ -832,7 +832,7 @@ export default function WorkspaceDigital() {
             </div>
 
             <div className="w-full mt-[20px]"></div>
-            <WorkspaceActivityLog workspaceCode="WS_SSC" workspaceLabel="상품·디지털-SSC" />
+            <WorkspaceActivityLog workspaceCode="WS_SSC" workspaceLabel="공간솔루션-SSC" />
 
 
             {/* Delete Confirmation Modal */}
@@ -874,7 +874,7 @@ export default function WorkspaceDigital() {
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fbf167" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
                         </div>
                         <h3 className="text-[16px] font-bold text-white mb-[8px] text-center">권한 없음</h3>
-                        <p className="text-[13px] text-[#86868B] text-center mb-[24px]">상품·디지털 책임 담당자만 등록 가능합니다.</p>
+                        <p className="text-[13px] text-[#86868B] text-center mb-[24px]">공간솔루션 책임 담당자만 등록 가능합니다.</p>
                         <button 
                             type="button"
                             onClick={() => setShowAuthAlert(false)}

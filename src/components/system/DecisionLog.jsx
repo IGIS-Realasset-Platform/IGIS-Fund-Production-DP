@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { supabase } from '../../utils/supabaseClient';
 import { useAuth } from '../../context/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
+import ReactionAvatarStack from './ReactionAvatarStack';
 
 const WORKSPACE_CONFIG = [
     { id: 'pm', name: '사업 PM', path: 'platform/iotaseoul/workspace/pm', table: 'iota_pm_tasks', color: 'bg-[#ff9f0a]' },
     { id: 'financing', name: '파이낸싱', path: 'platform/iotaseoul/workspace/financing', table: 'iota_financing_tasks', color: 'bg-[#30d158]' },
     { id: 'development', name: '개발솔루션', path: 'platform/iotaseoul/workspace/development', table: 'iota_development_tasks', color: 'bg-[#0a84ff]' },
     { id: 'marketing', name: '기업마케팅', path: 'platform/iotaseoul/workspace/marketing', table: 'iota_marketing_tasks', color: 'bg-[#64d2ff]' },
-    { id: 'digital', name: '상품·디지털', path: 'platform/iotaseoul/workspace/digital', table: 'iota_digital_tasks', color: 'bg-[#ffd60a]' },
+    { id: 'digital', name: '공간솔루션', path: 'platform/iotaseoul/workspace/digital', table: 'iota_digital_tasks', color: 'bg-[#ffd60a]' },
     { id: 'fund', name: '펀드운용', path: 'platform/iotaseoul/workspace/fund', table: 'iota_fund_tasks', color: 'bg-[#bf5af2]' },
     { id: 'ipr', name: 'IPR', path: 'platform/iotaseoul/workspace/ipr', table: 'iota_ipr_tasks', color: 'bg-[#ff453a]' }
 ];
@@ -42,6 +43,7 @@ export default function DecisionLog() {
     const [showMeetingsInfo, setShowMeetingsInfo] = useState(false);
     const [showMyLogsOnly, setShowMyLogsOnly] = useState(false);
     const [masterStakeholders, setMasterStakeholders] = useState([]);
+    const [pilotMembers, setPilotMembers] = useState([]);
     const [showAllCrossFunctional, setShowAllCrossFunctional] = useState(false);
     const [activeCadenceTab, setActiveCadenceTab] = useState('internal');
     const [expandedCadenceRow, setExpandedCadenceRow] = useState(null);
@@ -115,7 +117,7 @@ export default function DecisionLog() {
             '박준호': '파이낸싱-LFC', '강석민': '파이낸싱-LFC', '정리훈': '파이낸싱-LFC', '손유정': '파이낸싱-LFC', '김지우': '파이낸싱-LFC', '박현승': '파이낸싱-LFC', '이성민A': '파이낸싱-LFC', '한승환': '파이낸싱-LFC',
             '홍장군': '개발솔루션-DSC', '채원': '개발솔루션-DSC', '김보성': '개발솔루션-DSC', '전승희': '개발솔루션-DSC', '김대익': '개발솔루션-DSC', '장성진': '개발솔루션-DSC', '이정훈': '개발솔루션-DSC', '박봉서': '개발솔루션-DSC', '김형주': '개발솔루션-DSC',
             '김민지': '기업마케팅-EMC', '고아라': '기업마케팅-EMC',
-            '김현수': '상품·디지털-SSC', '현철호': '상품·디지털-SSC', '신민호': '상품·디지털-SSC', '이가현': '상품·디지털-SSC', '정수명': '상품·디지털-SSC',
+            '김현수': '공간솔루션-SSC', '현철호': '공간솔루션-SSC', '신민호': '공간솔루션-SSC', '이가현': '공간솔루션-SSC', '정수명': '공간솔루션-SSC',
             '김행단': '펀드운용-KAM', '윤용택': 'IPR'
         };
         return cells[name] || '기타';
@@ -128,7 +130,7 @@ export default function DecisionLog() {
             if (lbl.includes('파이낸싱')) return '파이낸싱-LFC';
             if (lbl.includes('개발솔루션')) return '개발솔루션-DSC';
             if (lbl.includes('기업마케팅')) return '기업마케팅-EMC';
-            if (lbl.includes('상품·디지털') || lbl.includes('상품/디지털')) return '상품·디지털-SSC';
+            if (lbl.includes('공간솔루션') || lbl.includes('상품/디지털') || lbl.includes('상품·디지털')) return '공간솔루션-SSC';
             if (lbl.includes('펀드운용')) return '펀드운용-KAM';
             if (lbl.includes('IPR')) return 'IPR';
         }
@@ -140,6 +142,10 @@ export default function DecisionLog() {
             const { data, error } = await supabase.from('iota_stakeholder_master').select('*');
             if (!error && data) {
                 setMasterStakeholders(data);
+            }
+            const { data: pilotData, error: pilotError } = await supabase.from('iota_seoul_pilot_members').select('email, staff_name, org_name, role_code');
+            if (!pilotError && pilotData) {
+                setPilotMembers(pilotData);
             }
         } catch (e) {
             console.error(e);
@@ -400,6 +406,67 @@ export default function DecisionLog() {
         }
     };
 
+    const handleToggleReaction = async (logId, type, commentId = null) => {
+        try {
+            const log = logs.find(l => l.log_id === logId);
+            if (!log) return;
+            const myEmail = memberInfo?.email;
+            if (!myEmail) {
+                alert('로그인이 필요합니다.');
+                return;
+            }
+
+            const metadata = JSON.parse(JSON.stringify(log.metadata || {}));
+            
+            if (commentId) {
+                const comments = metadata.comments || [];
+                const commentIndex = comments.findIndex(c => c.id === commentId);
+                if (commentIndex === -1) return;
+                
+                const comment = comments[commentIndex];
+                const reactions = comment.reactions || { like: [], check: [] };
+                const currentReactionList = reactions[type] || [];
+                
+                let newReactionList;
+                if (currentReactionList.includes(myEmail)) {
+                    newReactionList = currentReactionList.filter(email => email !== myEmail);
+                } else {
+                    newReactionList = [...currentReactionList, myEmail];
+                }
+                
+                comments[commentIndex] = {
+                    ...comment,
+                    reactions: { ...reactions, [type]: newReactionList }
+                };
+                metadata.comments = comments;
+            } else {
+                const reactions = metadata.reactions || { like: [], check: [] };
+                const currentReactionList = reactions[type] || [];
+                
+                let newReactionList;
+                if (currentReactionList.includes(myEmail)) {
+                    newReactionList = currentReactionList.filter(email => email !== myEmail);
+                } else {
+                    newReactionList = [...currentReactionList, myEmail];
+                }
+                metadata.reactions = { ...reactions, [type]: newReactionList };
+            }
+
+            setLogs(prev => prev.map(l => l.log_id === logId ? { ...l, metadata } : l));
+
+            const { error } = await supabase
+                .from('iota_seoul_logs')
+                .update({ metadata })
+                .eq('log_id', logId);
+
+            if (error) throw error;
+        } catch (e) {
+            console.error('Error toggling reaction:', e);
+            alert('일시적인 오류가 발생했습니다.');
+            fetchLogs();
+        }
+    };
+
     const itemsPerPage = logsViewMode === 'summary' ? 5 : 15;
     
     // Filter by search query and dropdowns
@@ -429,7 +496,7 @@ export default function DecisionLog() {
         { id: 'ws2', label: '파이낸싱-LFC', cell: '파이낸싱-LFC', icon: <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> },
         { id: 'ws3', label: '개발솔루션-DSC', cell: '개발솔루션-DSC', icon: <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><circle cx="12" cy="12" r="3" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" /></svg> },
         { id: 'ws4', label: '기업마케팅-EMC', cell: '기업마케팅-EMC', icon: <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" /></svg> },
-        { id: 'ws5', label: '상품·디지털-SSC', cell: '상품·디지털-SSC', icon: <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg> },
+        { id: 'ws5', label: '공간솔루션-SSC', cell: '공간솔루션-SSC', icon: <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg> },
         { id: 'ws6', label: '펀드운용-KAM', cell: '펀드운용-KAM', icon: <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg> },
         { id: 'ws7', label: 'IPR-WG', cell: 'IPR', icon: <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg> },
         { id: 'ws8', label: '기획추진', cell: '기획추진', icon: <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" strokeWidth="1.5"></circle><circle cx="12" cy="12" r="6" strokeWidth="1.5"></circle><circle cx="12" cy="12" r="2" strokeWidth="1.5"></circle></svg> }
@@ -728,6 +795,37 @@ export default function DecisionLog() {
                                                             🔒 열람 권한이 없습니다.
                                                         </div>
                                                     )}
+                                                    
+                                                    {/* Post Reactions for Cross Functional */}
+                                                    {checkUserAccess(log) && (
+                                                        <div className="mt-[12px] flex items-center gap-[6px]">
+                                                            <button
+                                                                type="button"
+                                                                onClick={(e) => { e.stopPropagation(); handleToggleReaction(log.log_id, 'like'); }}
+                                                                className={`flex items-center gap-[4px] px-[8px] py-[4px] rounded-[6px] transition-colors border cursor-pointer ${log.metadata?.reactions?.like?.includes(memberInfo?.email) ? 'bg-[#ff3b30]/10 border-[#ff3b30]/30 text-[#ff3b30]' : 'bg-[#222] border-[#333] hover:border-[#444] text-[#A1A1AA] hover:text-[#E5E5E5]'}`}
+                                                            >
+                                                                <svg width="14" height="14" viewBox="0 0 24 24" fill={log.metadata?.reactions?.like?.includes(memberInfo?.email) ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                                                                {log.metadata?.reactions?.like?.length > 0 ? (
+                                                                    <ReactionAvatarStack reactionEmails={log.metadata.reactions.like} pilotMembers={pilotMembers} />
+                                                                ) : (
+                                                                    <span className="text-[12px] font-medium">0</span>
+                                                                )}
+                                                            </button>
+                                                            <button
+                                                                type="button"
+                                                                onClick={(e) => { e.stopPropagation(); handleToggleReaction(log.log_id, 'check'); }}
+                                                                className={`flex items-center gap-[4px] px-[8px] py-[4px] rounded-[6px] transition-colors border cursor-pointer ${log.metadata?.reactions?.check?.includes(memberInfo?.email) ? 'bg-[#2997ff]/10 border-[#2997ff]/30 text-[#2997ff]' : 'bg-[#222] border-[#333] hover:border-[#444] text-[#A1A1AA] hover:text-[#E5E5E5]'}`}
+                                                            >
+                                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                                                                {log.metadata?.reactions?.check?.length > 0 ? (
+                                                                    <ReactionAvatarStack reactionEmails={log.metadata.reactions.check} pilotMembers={pilotMembers} />
+                                                                ) : (
+                                                                    <span className="text-[12px] font-medium">0</span>
+                                                                )}
+                                                            </button>
+                                                        </div>
+                                                    )}
+
                                                     <div className="clear-both mb-[16px]"></div>
                                                     
                                                     {/* Comments List */}
@@ -747,7 +845,33 @@ export default function DecisionLog() {
                                                                             </div>
                                                                             <span className="text-[13px] font-bold text-[#E5E5E5]">{comment.author}</span>
                                                                         </div>
-                                                                        <div className="text-[13px] text-[#A1A1AA] whitespace-pre-wrap break-words ml-[32px]">{comment.text}</div>
+                                                                        <div className="text-[13px] text-[#A1A1AA] whitespace-pre-wrap break-words ml-[32px] mb-[6px]">{comment.text}</div>
+                                                                        <div className="flex items-center gap-[8px] ml-[32px]">
+                                                                            <button
+                                                                                type="button"
+                                                                                onClick={(e) => { e.stopPropagation(); handleToggleReaction(log.log_id, 'like', comment.id); }}
+                                                                                className={`flex items-center gap-[4px] transition-colors cursor-pointer ${comment.reactions?.like?.includes(memberInfo?.email) ? 'text-[#ff3b30]' : 'text-[#86868B] hover:text-[#A1A1AA]'}`}
+                                                                            >
+                                                                                <svg width="12" height="12" viewBox="0 0 24 24" fill={comment.reactions?.like?.includes(memberInfo?.email) ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                                                                                {comment.reactions?.like?.length > 0 ? (
+                                                                                    <ReactionAvatarStack reactionEmails={comment.reactions.like} pilotMembers={pilotMembers} />
+                                                                                ) : (
+                                                                                    <span className="text-[11px] font-medium">좋아요</span>
+                                                                                )}
+                                                                            </button>
+                                                                            <button
+                                                                                type="button"
+                                                                                onClick={(e) => { e.stopPropagation(); handleToggleReaction(log.log_id, 'check', comment.id); }}
+                                                                                className={`flex items-center gap-[4px] transition-colors cursor-pointer ${comment.reactions?.check?.includes(memberInfo?.email) ? 'text-[#2997ff]' : 'text-[#86868B] hover:text-[#A1A1AA]'}`}
+                                                                            >
+                                                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                                                                                {comment.reactions?.check?.length > 0 ? (
+                                                                                    <ReactionAvatarStack reactionEmails={comment.reactions.check} pilotMembers={pilotMembers} />
+                                                                                ) : (
+                                                                                    <span className="text-[11px] font-medium">확인</span>
+                                                                                )}
+                                                                            </button>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             ))}
@@ -871,7 +995,7 @@ export default function DecisionLog() {
                                     style={{ textAlignLast: 'center' }}
                                 >
                                     <option value="" className="bg-[#222] text-[#E5E5E5]">기능셀</option>
-                                    {['사업PM', '파이낸싱-LFC', '개발솔루션-DSC', '기업마케팅-EMC', '상품·디지털-SSC', '펀드운용-KAM', 'IPR', '기획추진', 'CFT 총괄'].map(val => (
+                                    {['사업PM', '파이낸싱-LFC', '개발솔루션-DSC', '기업마케팅-EMC', '공간솔루션-SSC', '펀드운용-KAM', 'IPR', '기획추진', 'CFT 총괄'].map(val => (
                                         <option key={val} value={val} className="bg-[#222] text-[#E5E5E5]">{val}</option>
                                     ))}
                                 </select>
@@ -886,6 +1010,7 @@ export default function DecisionLog() {
                     </div>
                     {/* Right Section */}
                     <div className="flex gap-[12px] shrink-0 ml-[12px] justify-end items-center">
+                        <div className="w-[90px] shrink-0"></div>
                         <div className="w-[110px] mr-[4px] text-center flex items-center justify-center">
                             <select 
                                 value={filterStakeholder}
@@ -1022,6 +1147,26 @@ export default function DecisionLog() {
 
                             {/* Right Section */}
                             <div className="flex items-center gap-[12px] shrink-0 ml-[12px] justify-end">
+                                {/* Reactions Indicator */}
+                                <div className="shrink-0 flex items-center justify-end gap-[6px] w-[90px]">
+                                    {(log.metadata?.reactions?.like?.length > 0 || log.metadata?.reactions?.check?.length > 0) && (
+                                        <div className="flex items-center gap-[8px]">
+                                            {log.metadata?.reactions?.like?.length > 0 && (
+                                                <div className="flex items-center gap-[4px]">
+                                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="#ff3b30" stroke="#ff3b30" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                                                    <ReactionAvatarStack reactionEmails={log.metadata.reactions.like} pilotMembers={pilotMembers} />
+                                                </div>
+                                            )}
+                                            {log.metadata?.reactions?.check?.length > 0 && (
+                                                <div className="flex items-center gap-[4px]">
+                                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#2997ff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                                                    <ReactionAvatarStack reactionEmails={log.metadata.reactions.check} pilotMembers={pilotMembers} />
+                                                </div>
+                                            )}
+                                        </div>
+                                    )}
+                                </div>
+                                
                                 {/* Stakeholder Info */}
                                 <div className="shrink-0 flex justify-center w-[110px] mr-[4px]">
                                     {log.iota_seoul_log_stakeholders?.[0]?.sh_name && (
@@ -1162,7 +1307,33 @@ export default function DecisionLog() {
                                                                 {new Date(comment.created_at).toLocaleString('ko-KR', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })}
                                                             </span>
                                                         </div>
-                                                        <div className="text-[13px] text-[#A1A1AA] whitespace-pre-wrap break-words ml-[36px]">{comment.text}</div>
+                                                        <div className="text-[13px] text-[#A1A1AA] whitespace-pre-wrap break-words ml-[36px] mb-[6px]">{comment.text}</div>
+                                                        <div className="flex items-center gap-[8px] ml-[36px]">
+                                                            <button
+                                                                type="button"
+                                                                onClick={(e) => { e.stopPropagation(); handleToggleReaction(log.log_id, 'like', comment.id); }}
+                                                                className={`flex items-center gap-[4px] transition-colors cursor-pointer ${comment.reactions?.like?.includes(memberInfo?.email) ? 'text-[#ff3b30]' : 'text-[#86868B] hover:text-[#A1A1AA]'}`}
+                                                            >
+                                                                <svg width="12" height="12" viewBox="0 0 24 24" fill={comment.reactions?.like?.includes(memberInfo?.email) ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                                                                {comment.reactions?.like?.length > 0 ? (
+                                                                    <ReactionAvatarStack reactionEmails={comment.reactions.like} pilotMembers={pilotMembers} />
+                                                                ) : (
+                                                                    <span className="text-[11px] font-medium">좋아요</span>
+                                                                )}
+                                                            </button>
+                                                            <button
+                                                                type="button"
+                                                                onClick={(e) => { e.stopPropagation(); handleToggleReaction(log.log_id, 'check', comment.id); }}
+                                                                className={`flex items-center gap-[4px] transition-colors cursor-pointer ${comment.reactions?.check?.includes(memberInfo?.email) ? 'text-[#2997ff]' : 'text-[#86868B] hover:text-[#A1A1AA]'}`}
+                                                            >
+                                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                                                                {comment.reactions?.check?.length > 0 ? (
+                                                                    <ReactionAvatarStack reactionEmails={comment.reactions.check} pilotMembers={pilotMembers} />
+                                                                ) : (
+                                                                    <span className="text-[11px] font-medium">확인</span>
+                                                                )}
+                                                            </button>
+                                                        </div>
                                                     </div>
                                                     {comment.author_email === memberInfo?.email && (
                                                         <button
@@ -1210,6 +1381,33 @@ export default function DecisionLog() {
                                         </div>
                                         {checkUserAccess(log) && (
                                             <div className="flex items-center gap-[8px]">
+                                                {/* Post Reactions */}
+                                                <div className="flex items-center gap-[6px] mr-[8px]">
+                                                    <button
+                                                        type="button"
+                                                        onClick={(e) => { e.stopPropagation(); handleToggleReaction(log.log_id, 'like'); }}
+                                                        className={`flex items-center gap-[4px] px-[8px] py-[4px] rounded-[6px] transition-colors border cursor-pointer ${log.metadata?.reactions?.like?.includes(memberInfo?.email) ? 'bg-[#ff3b30]/10 border-[#ff3b30]/30 text-[#ff3b30]' : 'bg-[#222] border-[#333] hover:border-[#444] text-[#A1A1AA] hover:text-[#E5E5E5]'}`}
+                                                    >
+                                                        <svg width="14" height="14" viewBox="0 0 24 24" fill={log.metadata?.reactions?.like?.includes(memberInfo?.email) ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                                                        {log.metadata?.reactions?.like?.length > 0 ? (
+                                                            <ReactionAvatarStack reactionEmails={log.metadata.reactions.like} pilotMembers={pilotMembers} />
+                                                        ) : (
+                                                            <span className="text-[12px] font-medium">0</span>
+                                                        )}
+                                                    </button>
+                                                    <button
+                                                        type="button"
+                                                        onClick={(e) => { e.stopPropagation(); handleToggleReaction(log.log_id, 'check'); }}
+                                                        className={`flex items-center gap-[4px] px-[8px] py-[4px] rounded-[6px] transition-colors border cursor-pointer ${log.metadata?.reactions?.check?.includes(memberInfo?.email) ? 'bg-[#2997ff]/10 border-[#2997ff]/30 text-[#2997ff]' : 'bg-[#222] border-[#333] hover:border-[#444] text-[#A1A1AA] hover:text-[#E5E5E5]'}`}
+                                                    >
+                                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                                                        {log.metadata?.reactions?.check?.length > 0 ? (
+                                                            <ReactionAvatarStack reactionEmails={log.metadata.reactions.check} pilotMembers={pilotMembers} />
+                                                        ) : (
+                                                            <span className="text-[12px] font-medium">0</span>
+                                                        )}
+                                                    </button>
+                                                </div>
                                                 {!editingLogId && (
                                                 <button
                                                     type="button"
