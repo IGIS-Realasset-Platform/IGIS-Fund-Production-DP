@@ -16,9 +16,9 @@
     "new_user_requests": "Add new requests to the best matching stage, update the denominator, and report the new total in the same session."
   },
   "summary": {
-    "completed": 28,
+    "completed": 29,
     "total": 159,
-    "completion_rate": 17.6
+    "completion_rate": 18.2
   },
   "stages": [
     {
@@ -689,7 +689,7 @@
     {
       "stage": 12,
       "area": "승인대기 대상",
-      "completed": 0,
+      "completed": 1,
       "total": 9,
       "items": [
         {
@@ -734,8 +734,8 @@
         },
         {
           "id": "12.09",
-          "status": "approval_pending",
-          "text": "commit/push."
+          "status": "done",
+          "text": "commit/push ??: c9de1e1 Implement logistics data quality edge workflow pushed to origin/codex/logistics-leasing-work-platform."
         }
       ]
     },
