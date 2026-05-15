@@ -39,8 +39,24 @@ export default function SupportRequestModal({ isOpen, onClose, memberInfo }) {
     React.useEffect(() => {
         if (isOpen) {
             fetchRequests();
+            // Load drafts
+            const draftTitle = localStorage.getItem('support_draft_title');
+            const draftContent = localStorage.getItem('support_draft_content');
+            if (draftTitle) setTitle(draftTitle);
+            if (draftContent) setContent(draftContent);
         }
     }, [isOpen]);
+
+    // Save drafts on change
+    React.useEffect(() => {
+        const timeoutId = setTimeout(() => {
+            if (title || content) {
+                localStorage.setItem('support_draft_title', title);
+                localStorage.setItem('support_draft_content', content);
+            }
+        }, 500);
+        return () => clearTimeout(timeoutId);
+    }, [title, content]);
 
     const handleFileUpload = async (e) => {
         const files = Array.from(e.target.files);
@@ -142,15 +158,26 @@ export default function SupportRequestModal({ isOpen, onClose, memberInfo }) {
                 relation_type: 'direct_input'
             }));
 
+            // Clear drafts on success
+            localStorage.removeItem('support_draft_title');
+            localStorage.removeItem('support_draft_content');
+            
             // Reset and refresh list
             setTitle('');
             setContent('');
             setAttachedFiles([]);
-            alert('요청사항이 성공적으로 접수되었습니다. 감사합니다!');
+            
+            // Use setTimeout to allow React to paint the UI before alert
+            setTimeout(() => {
+                alert('요청사항이 성공적으로 접수되었습니다. 감사합니다!');
+            }, 10);
+            
             fetchRequests();
         } catch (error) {
             console.error('Error saving request:', error);
-            alert('요청사항 전송 중 오류가 발생했습니다. 다시 시도해주세요.');
+            setTimeout(() => {
+                alert('요청사항 전송 중 통신 지연이 발생했습니다. 다시 시도해주세요.\n(작성하신 내용은 안전하게 임시저장되어 있습니다.)');
+            }, 10);
         } finally {
             setIsSubmitting(false);
         }
