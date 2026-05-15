@@ -310,7 +310,7 @@ const stakeholderGroups = [
                         ]
                     },
                     {
-                        groupTitle: '상품·디지털',
+                        groupTitle: '공간솔루션',
                         members: [
                             {
                                 name: '김현수',
@@ -337,7 +337,7 @@ const stakeholderGroups = [
                         ]
                     },
                     {
-                        groupTitle: '디지털 사업그룹 (자문)',
+                        groupTitle: '디지털사업',
                         members: [
                             {
                                 name: '현철호',
@@ -635,26 +635,30 @@ export default function StakeInternal() {
                             <td className="px-[14px] py-[16px] text-[13px] text-[#bbb9af] leading-[22px]">EMC</td>
                         </tr>
 
-                        {/* 상품·디지털 */}
-                        <tr className={`cursor-pointer transition-colors ${hoveredRow === '상품·디지털' ? 'bg-white/5' : ''}`} onMouseEnter={() => setHoveredRow('상품·디지털')} onMouseLeave={() => setHoveredRow(null)} onClick={() => handleNavigation('platform/iotaseoul/workspace/digital')}>
-                            <td rowSpan={2} className="px-[24px] py-[16px] text-[14px] font-normal text-[#E5E5E5] border-r border-[#333] border-b border-[#333]">상품·디지털</td>
+                        {/* 공간솔루션 */}
+                        <tr className={`cursor-pointer transition-colors ${hoveredRow === '공간솔루션' ? 'bg-white/5' : ''}`} onMouseEnter={() => setHoveredRow('공간솔루션')} onMouseLeave={() => setHoveredRow(null)} onClick={() => handleNavigation('platform/iotaseoul/workspace/digital')}>
+                            <td className="px-[24px] py-[16px] text-[14px] font-normal text-[#E5E5E5] border-r border-[#333] border-b border-[#333]">공간솔루션</td>
                             <td className="px-[14px] py-[16px] border-b border-[#333]">
                                 {renderLeader('김현수', '공간솔루션센터장')}
                             </td>
                             <td className="px-[14px] py-[16px] text-[13px] border-r border-b border-[#333] leading-[22px]"><div className="flex flex-wrap gap-x-3 gap-y-1">{renderMembers('이가현 정수명')}</div></td>
-                            <td rowSpan={2} className="px-[14px] py-[16px] text-[13px] text-[#bbb9af] border-r border-[#333] border-b border-[#333] leading-[22px]">상품 차별화 전략·POC<br/>테넌트 경험 설계<br/>디지털 인프라(보안·통신·DC 등)</td>
-                            <td rowSpan={2} className="px-[14px] py-[16px] text-[13px] text-[#bbb9af] border-b border-[#333] leading-[22px]">SSC<br/>디지털사업그룹</td>
+                            <td className="px-[14px] py-[16px] text-[13px] text-[#bbb9af] border-r border-[#333] border-b border-[#333] leading-[22px]">브랜드 포지셔닝, 상품 차별화<br/>테넌트 경험설계, 멤버십 서비스 등</td>
+                            <td className="px-[14px] py-[16px] text-[13px] text-[#bbb9af] border-b border-[#333] leading-[22px]">SSC</td>
                         </tr>
-                        <tr className={`border-b border-[#333] cursor-pointer transition-colors ${hoveredRow === '상품·디지털' ? 'bg-white/5' : ''}`} onMouseEnter={() => setHoveredRow('상품·디지털')} onMouseLeave={() => setHoveredRow(null)} onClick={() => handleNavigation('platform/iotaseoul/workspace/digital')}>
-                            <td className="px-[14px] py-[16px] ">
+                        {/* 디지털사업 */}
+                        <tr className={`border-b border-[#333] cursor-pointer transition-colors ${hoveredRow === '디지털사업' ? 'bg-white/5' : ''}`} onMouseEnter={() => setHoveredRow('디지털사업')} onMouseLeave={() => setHoveredRow(null)} onClick={() => handleNavigation('platform/iotaseoul/workspace/digital')}>
+                            <td className="px-[24px] py-[16px] text-[14px] font-normal text-[#E5E5E5] border-r border-[#333] border-b border-[#333]">디지털사업</td>
+                            <td className="px-[14px] py-[16px] border-b border-[#333]">
                                 {renderLeader('현철호', '디지털사업그룹장')}
                             </td>
-                            <td className="px-[14px] py-[16px] text-[13px] border-r border-[#333] leading-[22px]">
+                            <td className="px-[14px] py-[16px] text-[13px] border-r border-b border-[#333] leading-[22px]">
                                 <div className="flex items-center gap-[16px]">
                                     {renderLeader('홍창의', '사업파트장')}
                                     <div className="flex flex-wrap gap-x-3 gap-y-1">{renderMembers('신민호')}</div>
                                 </div>
                             </td>
+                            <td className="px-[14px] py-[16px] text-[13px] text-[#bbb9af] border-r border-[#333] border-b border-[#333] leading-[22px]">디지털 인프라<br/>(보안·통신·DC 등)</td>
+                            <td className="px-[14px] py-[16px] text-[13px] text-[#bbb9af] border-b border-[#333] leading-[22px]">디지털사업그룹</td>
                         </tr>
 
                         {/* 펀드운용 */}

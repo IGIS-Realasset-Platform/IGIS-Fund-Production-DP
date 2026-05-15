@@ -16,7 +16,7 @@ const sscScopes = [
 
 export default function WorkspaceDigital() {
     const { memberInfo } = useAuth();
-    const isAuthorized = ['김현수', '이가현', '정수명', '전기영', '현철호', '홍창의', '신민호'].includes(memberInfo?.staff_name);
+    const isAuthorized = ['김현수', '이가현', '정수명', '전기영'].includes(memberInfo?.staff_name);
     
     const [tasks, setTasks] = useState([]);
     const [uploadingFile, setUploadingFile] = useState(false);
@@ -425,7 +425,7 @@ export default function WorkspaceDigital() {
     const linkClass = "text-[#E5E5E5] hover:text-[#fbf167] cursor-pointer transition-colors hover:underline underline-offset-4 decoration-[#fbf167]/50";
     const parseNames = (text) => {
         if (!text) return text;
-        const names = ['김현수', '이가현', '정수명', '전기영', '현철호', '홍창의', '신민호'];
+        const names = ['김현수', '이가현', '정수명', '전기영'];
         let result = text;
         names.forEach(name => {
             const regex = new RegExp(name, 'g');
@@ -573,7 +573,7 @@ export default function WorkspaceDigital() {
                 {/* Header Metadata */}
                 <div className="shrink-0 max-w-[460px]">
                     <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[12px]">상품·디지털</h1>
-                    <p className="text-[15px] text-[#86868B] leading-[24px] break-keep">상품 차별화 전략·POC, 테넌트 경험 설계, 디지털 인프라(보안·통신·DC)</p>
+                    <p className="text-[15px] text-[#86868B] leading-[24px] break-keep">프로젝트 브랜드 포지셔닝, 상품 차별화, 테넌트 경험 설계, 맴버십 서비스 등</p>
                 </div>
                 
                 {/* Team Structure */}
@@ -604,43 +604,7 @@ export default function WorkspaceDigital() {
                         ))}
                     </div>
 
-                    {/* Vertical Separator */}
-                    <div className="w-px h-[30px] bg-[#333] mx-[20px]"></div>
 
-                    {/* 디지털사업 */}
-                    <div className="w-[74px] shrink-0">
-                        <span className="text-[13px] font-bold text-[#86868B]">디지털사업</span>
-                    </div>
-                    <div className="flex items-center gap-[12px] w-[106px] shrink-0">
-                        <div className="relative w-[30px] h-[30px] shrink-0 rounded-full bg-[#3c3c3c] flex items-center justify-center overflow-hidden ml-[2px]">
-                            <img src={`${import.meta.env.BASE_URL}현철호.webp`} alt="현철호" className="w-full h-full object-cover" onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }} />
-                            <div className="absolute inset-0 rounded-full border border-white/10 pointer-events-none"></div>
-                        </div>
-                        <div className="flex flex-col text-left">
-                            <span className="text-white font-bold text-[13px] leading-tight">현철호</span>
-                            <span className="text-[#A1A1AA] text-[12px] mt-[1px] leading-tight">그룹장</span>
-                        </div>
-                    </div>
-                    <div className="flex items-center gap-[12px] w-[106px] shrink-0 -ml-[10px]">
-                        <div className="relative w-[30px] h-[30px] shrink-0 rounded-full bg-[#3c3c3c] flex items-center justify-center overflow-hidden ml-[2px]">
-                            <img src={`${import.meta.env.BASE_URL}홍창의.webp`} alt="홍창의" className="w-full h-full object-cover" onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }} />
-                            <div className="absolute inset-0 rounded-full border border-white/10 pointer-events-none"></div>
-                        </div>
-                        <div className="flex flex-col text-left">
-                            <span className="text-white font-bold text-[13px] leading-tight">홍창의</span>
-                            <span className="text-[#A1A1AA] text-[12px] mt-[1px] leading-tight">파트장</span>
-                        </div>
-                    </div>
-                    <div className="flex flex-wrap gap-x-1.5 gap-y-2 -ml-[6px]">
-                        {["신민호"].map(name => (
-                            <div key={name} className="flex items-center gap-[6px] bg-[#222] border border-[#333] rounded-full pl-[4px] pr-[10px] py-[4px] min-w-[76px]">
-                                <div className="w-[21px] h-[21px] shrink-0 rounded-full bg-[#3c3c3c] overflow-hidden">
-                                    <img src={`${import.meta.env.BASE_URL}${name}.webp`} alt={name} className="w-full h-full object-cover" onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }} />
-                                </div>
-                                <span className="text-[#E5E5E5] text-[12px] font-medium leading-none">{name}</span>
-                            </div>
-                        ))}
-                    </div>
 
                 </div>
             </div>
