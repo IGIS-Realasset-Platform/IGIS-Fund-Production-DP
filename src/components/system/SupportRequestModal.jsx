@@ -175,7 +175,7 @@ export default function SupportRequestModal({ isOpen, onClose, memberInfo }) {
                         <textarea
                             value={content}
                             onChange={(e) => setContent(e.target.value)}
-                            placeholder="에러사항이 또는 추가하고 싶은 기능 등 자유롭게 말씀 주세요."
+                            placeholder="에러사항 또는 추가하고 싶은 기능 등 자유롭게 말씀 주세요."
                             className="w-full h-[180px] bg-[#262626] border border-[#333] rounded-[16px] p-[16px] text-[#E5E5E5] text-[15px] outline-none resize-none focus:border-[#0071e3] transition-colors placeholder:text-[#666] leading-relaxed"
                             required
                         ></textarea>
