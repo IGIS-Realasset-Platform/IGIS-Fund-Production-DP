@@ -14,6 +14,7 @@ export default function SystemAdmin() {
     const [selectedUser, setSelectedUser] = useState(null);
     const [historyLogs, setHistoryLogs] = useState([]);
     const [loadingHistory, setLoadingHistory] = useState(false);
+    const [isDeleting, setIsDeleting] = useState(false);
 
     const AUTHORIZED_USERS = ['전기영', '이시정', '이관용'];
 
@@ -168,6 +169,26 @@ export default function SystemAdmin() {
         }
     };
 
+    const handleDeleteRequest = async (logId) => {
+        if (!window.confirm('정말 이 요청사항을 삭제하시겠습니까?')) return;
+        
+        setIsDeleting(true);
+        try {
+            // 연관된 링크 데이터 삭제
+            await supabase.from('iota_seoul_log_links').delete().eq('log_id', logId);
+            const { error } = await supabase.from('iota_seoul_logs').delete().eq('log_id', logId);
+            if (error) throw error;
+            
+            setSupportRequests(prev => prev.filter(req => req.log_id !== logId));
+            alert('삭제되었습니다.');
+        } catch (err) {
+            console.error('Error deleting request:', err);
+            alert('삭제 중 오류가 발생했습니다.');
+        } finally {
+            setIsDeleting(false);
+        }
+    };
+
     return (
         <div className="w-full h-screen overflow-y-auto bg-[#FDFDFD] dark:bg-[#111111] text-[#1D1D1F] dark:text-[#E5E5E5] font-sans p-10 md:p-16">
             <div className="max-w-6xl mx-auto">
@@ -250,7 +271,17 @@ export default function SystemAdmin() {
                                         <h3 className="text-[17px] font-bold text-[#1D1D1F] dark:text-white">{req.summary}</h3>
                                         <span className="text-[11px] font-bold px-2 py-1 rounded bg-[#F5F5F7] dark:bg-[#333] text-[#86868B]">{req.metadata?.issue_status || '신규'}</span>
                                     </div>
-                                    <span className="text-[13px] text-[#86868B] font-mono tracking-tight">{formatDate(req.created_at)}</span>
+                                    <div className="flex items-center gap-3">
+                                        <span className="text-[13px] text-[#86868B] font-mono tracking-tight">{formatDate(req.created_at)}</span>
+                                        <button 
+                                            onClick={() => handleDeleteRequest(req.log_id)}
+                                            disabled={isDeleting}
+                                            className="text-[#86868B] hover:text-[#ff3b30] p-1 rounded transition-colors disabled:opacity-50"
+                                            title="삭제"
+                                        >
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                                        </button>
+                                    </div>
                                 </div>
                                 <p className="text-[15px] leading-relaxed text-[#666] dark:text-[#A1A1AA] whitespace-pre-wrap mb-5">{req.raw_text}</p>
                                 <div className="flex items-center justify-between pt-4 border-t border-black/5 dark:border-white/5">
