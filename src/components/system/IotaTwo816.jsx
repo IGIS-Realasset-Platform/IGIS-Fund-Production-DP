@@ -28,7 +28,7 @@ export default function IotaTwo816() {
                     supabase.from('iota_building_comparison').select('*').order('created_at', { ascending: true }).abortSignal(controller.signal),
                     supabase.from('iota_capital_stack').select('*').eq('vehicle_name', '816').abortSignal(controller.signal),
                     supabase.from('iota_project_history').select('*').eq('vehicle_name', '816').order('created_at', { ascending: true }).abortSignal(controller.signal),
-                    supabase.from('iota_marketing_tasks').select('*').order('created_at', { ascending: false }).limit(3).abortSignal(controller.signal)
+                    supabase.from('iota_marketing_tasks').select('*').or('related_asset.ilike.%iota%,related_asset.ilike.%이오타%,related_asset.ilike.%427%,related_asset.ilike.%816%,related_asset.ilike.%421%').order('created_at', { ascending: false }).limit(3).abortSignal(controller.signal)
                 ]);
 
                 if (controller.signal.aborted) return;
@@ -137,8 +137,8 @@ export default function IotaTwo816() {
                 <div className="w-[1200px] mx-auto flex-1 flex flex-col pt-[40px] shrink-0 pb-[60px]">
                 
                 {/* Title & Metadata row */}
-                <div className="w-full flex justify-between items-start mb-[32px]">
-                    <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] translate-y-[9px] translate-x-[4px]">IOTA Seoul 2 816</h1>
+                <div className="w-full flex justify-between items-start mb-[22px]">
+                    <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] translate-y-[13px] translate-x-[4px]">IOTA Seoul Two 816</h1>
                     
                     <div className="flex items-center h-[48px] translate-y-[4px] -translate-x-[30px]">
                         {/* Item 1 */}

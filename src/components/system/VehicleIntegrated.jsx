@@ -11,6 +11,7 @@ export default function VehicleIntegrated() {
     const [phase816, setPhase816] = useState('refi'); // 'bridge' | 'refi'
     const [phase427, setPhase427] = useState('phase4');
     const [phase421, setPhase421] = useState('new'); // 'current' | 'new'
+    const [volumeType, setVolumeType] = useState('조달가');
     const [selectedInst, setSelectedInst] = useState(null);
     const [iotaData, setIotaData] = useState(null);
     const [projectMetrics, setProjectMetrics] = useState(null);
@@ -793,6 +794,20 @@ export default function VehicleIntegrated() {
         return `${formattedUk}억원`;
     };
 
+    const getDynamicValues = (type) => {
+        if (type === '조달가') return { v427: displayTotal427, v816: displayTotal816, v421: total421, showEquityLoan: true };
+        if (type === '원가') return { v427: 49751, v816: 21964, v421: total421, showEquityLoan: false };
+        if (type === '매각가') return { v427: 53288, v816: 25823, v421: total421, showEquityLoan: false };
+        if (type === '토지가') return { v427: 11000, v816: 7238, v421: total421, showEquityLoan: false };
+        if (type === '공사비') return { v427: 11540, v816: 5408, v421: total421, showEquityLoan: false };
+        if (type === '금융비') return { v427: 19529, v816: 6411, v421: total421, showEquityLoan: false };
+        return { v427: 0, v816: 0, v421: total421, showEquityLoan: false };
+    };
+
+    const dynVals = getDynamicValues(volumeType);
+    // 조달가는 전체 Vehicle의 조달금액을 합친 grandTotal 사용, 나머지는 427과 816만 합산
+    const dynTotal = volumeType === '조달가' ? grandTotal : (dynVals.v427 + dynVals.v816);
+
     return (
         <div className="w-[1200px] mx-auto flex-1 flex flex-col pt-[50px] shrink-0 pb-[100px]">
             
@@ -803,9 +818,22 @@ export default function VehicleIntegrated() {
                 
                 {/* 외곽선 복구, 까만 박스 테두리 삭제 */}
                 <div className="p-6 bg-[#272726] border border-[#3c3c3c] rounded-[24px] flex gap-8 items-start">
-                    <div className="w-[280px] shrink-0 flex flex-col">
+                    <div className="w-[320px] shrink-0 flex flex-col">
                         <div className="text-[13px] font-bold text-[#86868B] uppercase mb-[10px]">Total Project Volume</div>
-                        <div className="text-[32px] font-bold text-white leading-none tracking-tight pt-[6px]">{formatAmount(grandTotal)}</div>
+                        <div className="text-[32px] font-bold text-white leading-none tracking-tight pt-[6px] mb-[20px]">
+                            {formatAmount(dynTotal)}
+                        </div>
+                        <div className="flex flex-nowrap items-center gap-0.5 w-max -ml-1">
+                            {['조달가', '원가', '매각가', '토지가', '공사비', '금융비'].map(type => (
+                                <button 
+                                    key={type}
+                                    onClick={() => setVolumeType(type)}
+                                    className={`cursor-pointer px-2.5 py-1 rounded-[6px] text-[13px] font-bold transition-all duration-300 whitespace-nowrap ${volumeType === type ? 'bg-[#3C3C3E] text-white shadow-sm' : 'bg-[#1c1c1e] text-[#86868B] hover:text-[#E5E5E5] hover:bg-[#2A2A2C]'}`}
+                                >
+                                    {type}
+                                </button>
+                            ))}
+                        </div>
                     </div>
                     
                     <div className="flex-1 flex flex-col">
@@ -813,58 +841,95 @@ export default function VehicleIntegrated() {
                             {/* 427 PFV Box */}
                             <div 
                                 onClick={() => document.getElementById('section-427')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-                                className="flex-1 px-[20px] py-[16px] bg-[#151515] border border-transparent rounded-[16px] flex flex-col justify-between cursor-pointer hover:bg-[#1f1f1f] hover:border-[#444] transition-all"
+                                className="w-[300px] shrink-0 h-[134px] px-[18px] py-[14px] bg-[#151515] border border-transparent rounded-[16px] flex flex-col justify-between cursor-pointer hover:bg-[#1f1f1f] hover:border-[#444] transition-all"
                             >
-                                <span className="text-[14px] font-bold text-white tracking-tight mb-[12px]">427 PFV</span>
-                                <div className="flex flex-col gap-[6px]">
-                                    <div className="flex justify-between items-center text-[13px]">
-                                        <span className="text-[#86868B]">Equity</span>
-                                        <span className="text-[#E5E5E5] font-semibold">{formatAmount(equity427)}</span>
-                                    </div>
-                                    <div className="flex justify-between items-center text-[13px]">
-                                        <span className="text-[#86868B]">Loan</span>
-                                        <span className="text-[#E5E5E5] font-semibold">{formatAmount(loan427)}</span>
-                                    </div>
-                                    <div className="border-t border-[#333] pt-[10px] mt-[6px] flex justify-between items-end">
-                                        <span className="text-[13px] text-[#86868B] font-medium leading-none mb-[2px]">Total</span>
-                                        <span className="text-[20px] font-bold text-white tracking-tight leading-none">{formatAmount(displayTotal427)}</span>
-                                    </div>
+                                <span className="text-[14px] font-bold text-white tracking-tight">427 PFV</span>
+                                <div className="flex flex-col justify-end h-full">
+                                    {dynVals.showEquityLoan ? (
+                                        <>
+                                            <div className="flex justify-between items-center text-[13px] mb-[4px] mt-[4px]">
+                                                <span className="text-[#86868B]">Equity</span>
+                                                <span className="text-[#E5E5E5] font-semibold">{formatAmount(equity427)}</span>
+                                            </div>
+                                            <div className="flex justify-between items-center text-[13px] mb-[4px]">
+                                                <span className="text-[#86868B]">Loan</span>
+                                                <span className="text-[#E5E5E5] font-semibold">{formatAmount(loan427)}</span>
+                                            </div>
+                                            <div className="pt-[8px] flex justify-between items-end">
+                                                <span className="text-[13px] text-[#86868B] font-medium leading-none mb-[2px]">Total</span>
+                                                <span className="text-[20px] font-bold text-white tracking-tight leading-none">{formatAmount(dynVals.v427)}</span>
+                                            </div>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <div className="pt-[8px] flex justify-between items-end">
+                                                <span className="text-[13px] text-[#86868B] font-medium leading-none mb-[2px]">{volumeType}</span>
+                                                <span className="text-[20px] font-bold text-white tracking-tight leading-none">{formatAmount(dynVals.v427)}</span>
+                                            </div>
+                                            <div className="flex justify-between items-end mt-[6px]">
+                                                <span className="text-[13px] text-[#666] font-medium">연면적 102,542평</span>
+                                                <span className="text-[13px] text-[#A1A1AA] font-bold">평당 {Math.round((dynVals.v427 * 10000) / 102542).toLocaleString()}만원</span>
+                                            </div>
+                                        </>
+                                    )}
                                 </div>
                             </div>
                             
                             {/* 816 PFV Box */}
                             <div 
                                 onClick={() => document.getElementById('section-816')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-                                className="flex-1 px-[20px] py-[16px] bg-[#151515] border border-transparent rounded-[16px] flex flex-col justify-between cursor-pointer hover:bg-[#1f1f1f] hover:border-[#444] transition-all"
+                                className="w-[300px] shrink-0 h-[134px] px-[18px] py-[14px] bg-[#151515] border border-transparent rounded-[16px] flex flex-col justify-between cursor-pointer hover:bg-[#1f1f1f] hover:border-[#444] transition-all"
                             >
-                                <span className="text-[14px] font-bold text-white tracking-tight mb-[12px]">816 PFV</span>
-                                <div className="flex flex-col gap-[6px]">
-                                    <div className="flex justify-between items-center text-[13px]">
-                                        <span className="text-[#86868B]">Equity</span>
-                                        <span className="text-[#E5E5E5] font-semibold">{formatAmount(getTypeTotal(816, phase816 === 'bridge' ? 'Bridge' : 'Refinancing', 'Equity'))}</span>
-                                    </div>
-                                    <div className="flex justify-between items-center text-[13px]">
-                                        <span className="text-[#86868B]">Loan</span>
-                                        <span className="text-[#E5E5E5] font-semibold">{formatAmount(getTypeTotal(816, phase816 === 'bridge' ? 'Bridge' : 'Refinancing', 'Loan'))}</span>
-                                    </div>
-                                    <div className="border-t border-[#333] pt-[10px] mt-[6px] flex justify-between items-end">
-                                        <span className="text-[13px] text-[#86868B] font-medium leading-none mb-[2px]">Total</span>
-                                        <span className="text-[20px] font-bold text-white tracking-tight leading-none">{formatAmount(displayTotal816)}</span>
-                                    </div>
+                                <span className="text-[14px] font-bold text-white tracking-tight">816 PFV</span>
+                                <div className="flex flex-col justify-end h-full">
+                                    {dynVals.showEquityLoan ? (
+                                        <>
+                                            <div className="flex justify-between items-center text-[13px] mb-[4px] mt-[4px]">
+                                                <span className="text-[#86868B]">Equity</span>
+                                                <span className="text-[#E5E5E5] font-semibold">{formatAmount(getTypeTotal(816, phase816 === 'bridge' ? 'Bridge' : 'Refinancing', 'Equity'))}</span>
+                                            </div>
+                                            <div className="flex justify-between items-center text-[13px] mb-[4px]">
+                                                <span className="text-[#86868B]">Loan</span>
+                                                <span className="text-[#E5E5E5] font-semibold">{formatAmount(getTypeTotal(816, phase816 === 'bridge' ? 'Bridge' : 'Refinancing', 'Loan'))}</span>
+                                            </div>
+                                            <div className="pt-[8px] flex justify-between items-end">
+                                                <span className="text-[13px] text-[#86868B] font-medium leading-none mb-[2px]">Total</span>
+                                                <span className="text-[20px] font-bold text-white tracking-tight leading-none">{formatAmount(dynVals.v816)}</span>
+                                            </div>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <div className="border-t border-[#333] pt-[8px] flex justify-between items-end">
+                                                <span className="text-[13px] text-[#86868B] font-medium leading-none mb-[2px]">{volumeType}</span>
+                                                <span className="text-[20px] font-bold text-white tracking-tight leading-none">{formatAmount(dynVals.v816)}</span>
+                                            </div>
+                                            <div className="flex justify-between items-end mt-[6px]">
+                                                <span className="text-[13px] text-[#666] font-medium">연면적 36,537평</span>
+                                                <span className="text-[13px] text-[#A1A1AA] font-bold">평당 {Math.round((dynVals.v816 * 10000) / 36537).toLocaleString()}만원</span>
+                                            </div>
+                                        </>
+                                    )}
                                 </div>
                             </div>
                             
                             {/* 421 Fund Box */}
                             <div 
                                 onClick={() => document.getElementById('section-421')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-                                className="flex-1 px-[20px] py-[16px] bg-[#151515] border border-transparent rounded-[16px] flex flex-col justify-between cursor-pointer hover:bg-[#1f1f1f] hover:border-[#444] transition-all"
+                                className="flex-1 h-[134px] px-[18px] py-[14px] bg-[#151515] border border-transparent rounded-[16px] flex flex-col justify-between cursor-pointer hover:bg-[#1f1f1f] hover:border-[#444] transition-all"
                             >
-                                <span className="text-[14px] font-bold text-white tracking-tight mb-[12px]">421호 펀드</span>
+                                <span className="text-[14px] font-bold text-white tracking-tight">421호 펀드</span>
                                 <div className="flex flex-col justify-end h-full">
-                                    <div className="border-t border-[#333] pt-[10px] mt-auto flex justify-between items-end">
-                                        <span className="text-[13px] text-[#86868B] font-medium leading-none mb-[2px]">Total</span>
-                                        <span className="text-[20px] font-bold text-white tracking-tight leading-none">{formatAmount(total421)}</span>
-                                    </div>
+                                    {volumeType === '조달가' ? (
+                                        <div className="pt-[8px] mt-auto flex justify-between items-end">
+                                            <span className="text-[13px] text-[#86868B] font-medium leading-none mb-[2px]">Total</span>
+                                            <span className="text-[20px] font-bold text-white tracking-tight leading-none">{formatAmount(dynVals.v421)}</span>
+                                        </div>
+                                    ) : (
+                                        <div className="pt-[8px] mt-auto flex justify-between items-end opacity-50">
+                                            <span className="text-[13px] text-[#86868B] font-medium leading-none mb-[2px]">해당없음</span>
+                                            <span className="text-[20px] font-bold text-[#86868B] tracking-tight leading-none">-</span>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </div>

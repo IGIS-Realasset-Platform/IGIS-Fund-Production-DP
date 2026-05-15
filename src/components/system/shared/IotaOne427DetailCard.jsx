@@ -95,7 +95,7 @@ const IotaOne427DetailCard = ({ id, vehicleId, title, dbData, navigateTo, extern
             returnIRR: '2,962억원',
             period: '68M',
             enoc: 'TBD',
-            gfa: '85,159평',
+            gfa: '77,983평',
             completionYear: '2027',
             officeArea: '-',
             retailArea: '-',
@@ -112,7 +112,7 @@ const IotaOne427DetailCard = ({ id, vehicleId, title, dbData, navigateTo, extern
             returnIRR: '5,712억원',
             period: '93M',
             enoc: 'TBD',
-            gfa: '104,111평',
+            gfa: '102,542평',
             completionYear: '2029',
             officeArea: '-',
             retailArea: '-',
@@ -129,7 +129,7 @@ const IotaOne427DetailCard = ({ id, vehicleId, title, dbData, navigateTo, extern
             returnIRR: '4,540억원',
             period: '109M',
             enoc: 'TBD',
-            gfa: '104,741평',
+            gfa: '102,542평',
             completionYear: '2031',
             officeArea: '-',
             retailArea: '-',
@@ -146,7 +146,7 @@ const IotaOne427DetailCard = ({ id, vehicleId, title, dbData, navigateTo, extern
             returnIRR: '3,536억원',
             period: '122M',
             enoc: 'TBD',
-            gfa: '102,124평',
+            gfa: '102,542평',
             completionYear: '2032',
             officeArea: '34,470평',
             retailArea: '1,569평',
@@ -159,7 +159,7 @@ const IotaOne427DetailCard = ({ id, vehicleId, title, dbData, navigateTo, extern
 
     const richData = [
         { category: '분석 대상 문서', phase1: '0. Hilton_IM_v2.06_PFV', phase2: '1. TM_밀레니엄힐튼 담보대출 Refi', phase3: '2. 만기연장 IM / 2.5. 추가투자 펀드', phase4: '3-1. 1차 PF대출 / 3-2. 현대건설 PF' },
-        { category: '연면적', phase1: '85,159평', phase2: '104,111평', phase3: '104,741평', phase4: '102,124평' },
+        { category: '연면적', phase1: '77,983평', phase2: '102,542평', phase3: '102,542평', phase4: '102,542평' },
         { category: '총사업비 (지출)', phase1: '2조 9,044억원', phase2: '3조 9,231억원 (+35.1%)', phase3: '- (취합중)', phase4: '4조 9,751억원 (+71.3%)' },
         { category: '총매출 (수입)', phase1: '3조 2,907억원', phase2: '4조 4,944억원 (+36.6%)', phase3: '5조 1,177억원 (+55.5%)', phase4: '5조 3,288억원 (+61.9%)' },
         { category: '예상 사업이익', phase1: '2,962억원 (이익률 9.0%)', phase2: '5,712억원 (이익률 12.7%)', phase3: '4,540억원 (이익률 9.0%)', phase4: '3,536억원 (이익률 6.6%)' },
@@ -174,34 +174,40 @@ const IotaOne427DetailCard = ({ id, vehicleId, title, dbData, navigateTo, extern
         { category: '사업 준공 시점', phase1: '2027년 09월 (68개월 소요)', phase2: '2029년 10월 (+25개월 지연)', phase3: '2031년 02월 (+41개월 지연)', phase4: '2032년 03월 (+54개월 지연)' }
     ];
 
-    const ToggleContent = (
-        <div className="bg-[#1C1C1E] p-1 rounded-[12px] flex items-center border border-[#3c3c3c]">
-            {[
-                { id: 'phase1', label: '최초UW', date: '2021.11' },
-                { id: 'phase2', label: '1차 리파', date: '2024.05' },
-                { id: 'phase3', label: '2차 리파', date: '2025.01' },
-                { id: 'phase4', label: '본PF 1차', date: '2025.05' }
-            ].map(p => (
-                <button 
-                    key={p.id}
-                    onClick={() => setActivePhase(p.id)}
-                    className={`relative px-4 py-1.5 rounded-[10px] text-[13px] font-bold transition-all duration-300 ${activePhase === p.id ? 'bg-[#2C2C2E] text-[#0A84FF] shadow-sm' : 'text-[#86868B] hover:text-white'}`}
-                >
-                    <span className="absolute -top-[20px] left-1/2 -translate-x-1/2 text-[11px] text-[#86868B] tracking-tight whitespace-nowrap font-normal cursor-default">{p.date}</span>
-                    {p.label}
-                </button>
-            ))}
-        </div>
-    );
-
     return (
         <div id={id} className="mb-[28px]">
-            <div className="flex justify-between items-end mb-[12px]">
-                <h2 className="text-[24px] font-bold text-white tracking-tight">{title}</h2>
-                {ToggleContent}
-            </div>
+            {title && (
+                <div className="flex justify-between items-end mb-[12px] px-[8px]">
+                    <div className="flex items-end gap-[16px]">
+                        <h2 className="text-[24px] font-bold text-white tracking-tight">{title}</h2>
+                    </div>
+                </div>
+            )}
 
-            <div className="w-full p-[6px] border border-[#333] rounded-[38px] flex flex-col gap-[6px]">
+            <div className="relative w-full">
+                {/* Right Wing Toggle - Absolutely positioned 6px to the right of main component */}
+                <div className="absolute top-[7px] -right-[116px] bottom-0 w-[110px] pointer-events-none z-50">
+                    <div className="sticky top-[20px] pointer-events-auto bg-[#292928] border border-[#333] p-[6px] rounded-[32px] flex flex-col gap-0 shadow-lg">
+                        {[
+                            { id: 'phase1', label: '최초UW', date: '2021.11' },
+                            { id: 'phase2', label: '1차 리파', date: '2024.05' },
+                            { id: 'phase3', label: '2차 리파', date: '2025.01' },
+                            { id: 'phase4', label: '본PF 1차', date: '2025.05' }
+                        ].map((p) => (
+                            <button 
+                                key={p.id}
+                                onClick={() => setActivePhase(p.id)}
+                                className={`w-full flex flex-col items-center justify-center py-[16px] px-1 rounded-[26px] transition-all duration-300 ${activePhase === p.id ? 'bg-[#3C3C3E] text-[#0A84FF] shadow-sm border border-[#555]' : 'border border-transparent text-[#86868B] hover:text-white hover:bg-[#333]'}`}
+                            >
+                                <span className={`text-[11px] mb-[6px] font-['Inter'] leading-none ${activePhase === p.id ? 'text-[#0A84FF]/80 font-medium' : 'opacity-60'}`}>{p.date}</span>
+                                <span className={`text-[13px] font-bold text-center leading-[1.2] whitespace-pre-wrap tracking-tight ${activePhase === p.id ? 'text-white' : ''}`}>{p.label}</span>
+                            </button>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Main Left Area */}
+                <div className="w-full p-[6px] border border-[#333] rounded-[38px] flex flex-col gap-[6px]">
                 {/* Dashboard Metrics Cards */}
                 <div 
                     className="w-full flex gap-[6px] cursor-pointer hover:opacity-90 transition-opacity relative group"
@@ -557,6 +563,7 @@ const IotaOne427DetailCard = ({ id, vehicleId, title, dbData, navigateTo, extern
                                     );
                         })}
                     </div>
+                </div>
                 </div>
             </div>
         </div>
