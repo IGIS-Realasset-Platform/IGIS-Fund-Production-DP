@@ -5,8 +5,10 @@ import { useAuth } from '../../../context/AuthContext';
 export default function SystemAdmin() {
     const { user, memberInfo } = useAuth();
     const [logs, setLogs] = useState([]);
+    const [supportRequests, setSupportRequests] = useState([]);
     const [loading, setLoading] = useState(true);
     const [accessDenied, setAccessDenied] = useState(false);
+    const [activeTab, setActiveTab] = useState('access_logs');
     
     // Login History Modal State
     const [selectedUser, setSelectedUser] = useState(null);
@@ -36,6 +38,18 @@ export default function SystemAdmin() {
                 } else {
                     setLogs(data || []);
                 }
+
+                // Fetch Support Requests
+                const { data: supportData, error: supportError } = await supabase
+                    .from('iota_seoul_logs')
+                    .select('*')
+                    .eq('metadata->>workspace_code', 'WS_SUPPORT')
+                    .order('created_at', { ascending: false });
+                
+                if (!supportError) {
+                    setSupportRequests(supportData || []);
+                }
+
             } catch (err) {
                 console.error("Unexpected error fetching logs:", err);
             } finally {
@@ -160,7 +174,7 @@ export default function SystemAdmin() {
                 <div className="flex items-center justify-between mb-10">
                     <div>
                         <h1 className="text-3xl font-bold tracking-tight mb-2">Admin Dashboard</h1>
-                        <p className="text-[#86868B]">System Access Logs</p>
+                        <p className="text-[#86868B]">System Access Logs & Support Requests</p>
                     </div>
                     <button 
                         onClick={() => {
@@ -173,7 +187,24 @@ export default function SystemAdmin() {
                     </button>
                 </div>
 
-                <div className="bg-white dark:bg-[#1C1C1E] border border-black/10 dark:border-white/10 rounded-2xl overflow-hidden shadow-sm">
+                {/* Tabs */}
+                <div className="flex items-center gap-4 mb-6 border-b border-black/10 dark:border-white/10">
+                    <button 
+                        onClick={() => setActiveTab('access_logs')}
+                        className={`pb-3 px-2 text-[15px] font-semibold transition-colors ${activeTab === 'access_logs' ? 'text-[#1D1D1F] dark:text-white border-b-2 border-[#111] dark:border-white translate-y-[1px]' : 'text-[#86868B] hover:text-[#1D1D1F] dark:hover:text-white'}`}
+                    >
+                        Access Logs
+                    </button>
+                    <button 
+                        onClick={() => setActiveTab('support_requests')}
+                        className={`pb-3 px-2 text-[15px] font-semibold transition-colors ${activeTab === 'support_requests' ? 'text-[#1D1D1F] dark:text-white border-b-2 border-[#111] dark:border-white translate-y-[1px]' : 'text-[#86868B] hover:text-[#1D1D1F] dark:hover:text-white'}`}
+                    >
+                        플랫폼 개선 요청
+                    </button>
+                </div>
+
+                {activeTab === 'access_logs' && (
+                    <div className="bg-white dark:bg-[#1C1C1E] border border-black/10 dark:border-white/10 rounded-2xl overflow-hidden shadow-sm">
                     <div className="overflow-x-auto">
                         <table className="w-full text-left border-collapse">
                             <thead>
@@ -208,6 +239,53 @@ export default function SystemAdmin() {
                         </table>
                     </div>
                 </div>
+                )}
+
+                {activeTab === 'support_requests' && (
+                    <div className="bg-white dark:bg-[#1C1C1E] border border-black/10 dark:border-white/10 rounded-2xl overflow-hidden shadow-sm p-6 space-y-4">
+                        {supportRequests.map(req => (
+                            <div key={req.log_id} className="border border-black/10 dark:border-white/10 rounded-xl p-5 hover:bg-black/[0.02] dark:hover:bg-white/[0.02] transition-colors">
+                                <div className="flex items-start justify-between mb-3">
+                                    <div className="flex items-center gap-3">
+                                        <h3 className="text-[17px] font-bold text-[#1D1D1F] dark:text-white">{req.summary}</h3>
+                                        <span className="text-[11px] font-bold px-2 py-1 rounded bg-[#F5F5F7] dark:bg-[#333] text-[#86868B]">{req.metadata?.issue_status || '신규'}</span>
+                                    </div>
+                                    <span className="text-[13px] text-[#86868B] font-mono tracking-tight">{formatDate(req.created_at)}</span>
+                                </div>
+                                <p className="text-[15px] leading-relaxed text-[#666] dark:text-[#A1A1AA] whitespace-pre-wrap mb-5">{req.raw_text}</p>
+                                <div className="flex items-center justify-between pt-4 border-t border-black/5 dark:border-white/5">
+                                    <div className="flex items-center gap-2">
+                                        <div className="w-[24px] h-[24px] rounded-full bg-[#E5E5E5] dark:bg-[#333] overflow-hidden">
+                                            <img 
+                                                src={`${import.meta.env.BASE_URL}${req.writer_name}.webp`} 
+                                                alt={req.writer_name} 
+                                                className="w-full h-full object-cover"
+                                                onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }}
+                                            />
+                                        </div>
+                                        <span className="text-[13px] font-medium text-[#1D1D1F] dark:text-white">{req.writer_name}</span>
+                                    </div>
+                                    {req.metadata?.attachedFiles?.length > 0 && (
+                                        <div className="flex gap-2">
+                                            {req.metadata.attachedFiles.map((f, i) => (
+                                                <a key={i} href={f.url} target="_blank" rel="noreferrer" className="flex items-center gap-[6px] bg-[#F5F5F7] dark:bg-[#2C2C2E] px-3 py-1.5 rounded-lg text-[12px] font-medium hover:bg-[#E8E8ED] dark:hover:bg-[#3C3C3E] transition-colors text-[#1D1D1F] dark:text-white">
+                                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
+                                                    첨부파일 {i+1}
+                                                </a>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        ))}
+                        {supportRequests.length === 0 && (
+                            <div className="py-16 flex flex-col items-center justify-center text-center">
+                                <svg className="w-12 h-12 text-[#86868B] mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                                <p className="text-[15px] font-medium text-[#1D1D1F] dark:text-white">등록된 플랫폼 개선 요청이 없습니다.</p>
+                            </div>
+                        )}
+                    </div>
+                )}
             </div>
 
             {/* History Modal */}
