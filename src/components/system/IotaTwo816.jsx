@@ -659,31 +659,45 @@ export default function IotaTwo816() {
                             {/* Title */}
                             <div className="flex items-center justify-between w-full mb-[14px]">
                                 <span className="text-[14px] font-bold text-[#86868B] tracking-tight">Marketing</span>
-                                <div className="text-[15px] text-[#86868B] cursor-pointer hover:text-[#E5E5E5] transition-colors font-medium flex items-center group tracking-tight -mr-[9px]">
+                                <div className="text-[15px] text-[#86868B] cursor-pointer hover:text-[#E5E5E5] transition-colors font-medium flex items-center group tracking-tight -mr-[9px] relative">
                                     <span>마케팅 내역 전체보기</span>
                                     <svg className="w-[12px] h-[12px] ml-[4px] text-[#666] group-hover:text-[#A1A1AA] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 5l7 7-7 7" />
                                     </svg>
+                                    <div className="absolute top-[100%] right-0 mt-2 px-3 py-1.5 bg-[#333] text-[#E5E5E5] text-[12px] font-medium rounded-md whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-50 shadow-lg border border-[#444]">
+                                        콘텐츠 준비중입니다.
+                                    </div>
                                 </div>
                             </div>
                             {/* Content */}
                             <div className="flex flex-col gap-[8px]">
-                                {marketingData.length > 0 ? marketingData.map(item => (
-                                    <div key={item.id} className="text-[15px] leading-[22px]">
-                                        <span className="text-[#86868B] font-medium mr-[6px] tracking-tight">{item.type}</span>
-                                        <a href={item.url} className="text-[#c3c2b7] font-medium tracking-tight hover:text-[#fbf167] cursor-pointer transition-colors">{item.title}</a>
-                                    </div>
-                                )) : (
-                                    <div className="text-[15px] leading-[22px] text-[#86868B]">마케팅 내역을 불러오는 중...</div>
-                                )}
+                                <div className="text-[15px] leading-[22px]">
+                                    <span className="text-[#86868B] font-medium mr-[6px] tracking-tight">[자체생산]</span>
+                                    <a href="https://iotaseoul.site/#news" target="_blank" rel="noopener noreferrer" className="text-[#c3c2b7] font-medium tracking-tight hover:text-[#fbf167] cursor-pointer transition-colors">
+                                        Design Presentation by Luke Fox (Interview 영상)
+                                    </a>
+                                </div>
+                                <div className="text-[15px] leading-[22px]">
+                                    <span className="text-[#86868B] font-medium mr-[6px] tracking-tight">[기획기사]</span>
+                                    <a href="https://www.asiae.co.kr/article/2025072816532155944" target="_blank" rel="noopener noreferrer" className="text-[#c3c2b7] font-medium tracking-tight hover:text-[#fbf167] cursor-pointer transition-colors">
+                                        AI시대 '서울의 지식 허브' 떠오르는 6개 핵심 지역은
+                                    </a>
+                                </div>
+                                <div className="text-[15px] leading-[22px]">
+                                    <span className="text-[#86868B] font-medium mr-[6px] tracking-tight">[기획기사]</span>
+                                    <a href="https://marketin.edaily.co.kr/News/Read?newsId=01505526642170560" target="_blank" rel="noopener noreferrer" className="text-[#c3c2b7] font-medium tracking-tight hover:text-[#fbf167] cursor-pointer transition-colors">
+                                        '이오타 서울' AI 시대 오피스 공간 변화 '선두' 달린다
+                                    </a>
+                                </div>
                             </div>
                         </div>
                         {/* Footer */}
                         <div className="w-full h-[54px] border-t border-[#444]/50 flex items-center pl-[30px] shrink-0">
                             <span className="text-[13px] font-bold text-[#86868B] mr-[12px]">마케팅 담당</span>
-                            <a href="#" className="text-[14px] font-bold text-[#E5E5E5] hover:text-[#fbf167] cursor-pointer transition-colors">기업마케팅센터</a>
-                            <span className="text-[#666] mx-[8px]">ㅣ</span>
-                            <a href="#" className="text-[14px] font-bold text-[#E5E5E5] hover:text-[#fbf167] cursor-pointer transition-colors">PR팀</a>
+                            <span onClick={() => {
+                                const base = import.meta.env.BASE_URL;
+                                window.location.href = base.endsWith('/') ? `${base}platform/iotaseoul/workspace/marketing` : `${base}/platform/iotaseoul/workspace/marketing`;
+                            }} className="text-[14px] font-bold text-[#E5E5E5] hover:text-[#fbf167] cursor-pointer transition-colors">기업마케팅센터</span>
                         </div>
                     </div>
 
@@ -694,11 +708,14 @@ export default function IotaTwo816() {
                             {/* Title */}
                             <div className="flex items-center justify-between w-full mb-[14px]">
                                 <span className="text-[14px] font-bold text-[#86868B] tracking-tight">Placemaking</span>
-                                <div className="text-[15px] text-[#86868B] cursor-pointer hover:text-[#E5E5E5] transition-colors font-medium flex items-center group tracking-tight">
+                                <div className="text-[15px] text-[#86868B] cursor-pointer hover:text-[#E5E5E5] transition-colors font-medium flex items-center group tracking-tight relative">
                                     <span>히스토리 전체보기</span>
                                     <svg className="w-[12px] h-[12px] ml-[4px] text-[#666] group-hover:text-[#A1A1AA] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 5l7 7-7 7" />
                                     </svg>
+                                    <div className="absolute top-[100%] right-0 mt-2 px-3 py-1.5 bg-[#333] text-[#E5E5E5] text-[12px] font-medium rounded-md whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-50 shadow-lg border border-[#444]">
+                                        콘텐츠 준비중입니다.
+                                    </div>
                                 </div>
                             </div>
                             {/* Content Centered "TBD" */}
@@ -709,7 +726,10 @@ export default function IotaTwo816() {
                         {/* Footer */}
                         <div className="w-full h-[54px] border-t border-[#444]/50 flex items-center pl-[30px] shrink-0">
                             <span className="text-[13px] font-bold text-[#86868B] mr-[12px]">플레이스메이킹 담당</span>
-                            <span className="text-[14px] font-bold text-[#86868B]">TBD</span>
+                            <span onClick={() => {
+                                const base = import.meta.env.BASE_URL;
+                                window.location.href = base.endsWith('/') ? `${base}platform/iotaseoul/workspace/digital` : `${base}/platform/iotaseoul/workspace/digital`;
+                            }} className="text-[14px] font-bold text-[#E5E5E5] hover:text-[#fbf167] cursor-pointer transition-colors">공간솔루션센터</span>
                         </div>
                     </div>
 
@@ -750,10 +770,15 @@ export default function IotaTwo816() {
                                     {ecoSpecs.map(item => (
                                         <div key={item.id} className="text-[15px] leading-[22px]">
                                             <span className="text-[#86868B] font-medium mr-[6px] tracking-tight">{item.label}</span>
-                                            <a href="#" className="text-[#c3c2b7] font-medium tracking-tight hover:text-[#fbf167] cursor-pointer transition-colors group/link inline-block">
-                                                {item.highlight ? <span className="font-bold text-[#E5E5E5] group-hover/link:text-[#fbf167] transition-colors">{item.highlight} </span> : null}
-                                                {item.value}
-                                            </a>
+                                            <div className="relative inline-block group/link cursor-pointer">
+                                                <span onClick={(e) => e.preventDefault()} className="text-[#c3c2b7] font-medium tracking-tight hover:text-[#fbf167] transition-colors">
+                                                    {item.highlight ? <span className="font-bold text-[#E5E5E5] group-hover/link:text-[#fbf167] transition-colors">{item.highlight} </span> : null}
+                                                    {item.value}
+                                                </span>
+                                                <div className="absolute bottom-[100%] left-0 mb-2 px-3 py-1.5 bg-[#333] text-[#E5E5E5] text-[12px] font-medium rounded-md whitespace-nowrap opacity-0 group-hover/link:opacity-100 transition-opacity duration-200 pointer-events-none z-50 shadow-lg border border-[#444]">
+                                                    콘텐츠 준비중입니다.
+                                                </div>
+                                            </div>
                                         </div>
                                     ))}
                                 </div>
