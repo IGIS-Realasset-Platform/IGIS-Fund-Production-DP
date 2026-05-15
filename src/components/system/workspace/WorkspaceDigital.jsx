@@ -6,8 +6,8 @@ import WorkspaceActivityLog from './WorkspaceActivityLog';
 
 const sscScopes = [
     { no: "01", title: "자산 상품화 전략 및 포지셔닝", desc: "자산 포지셔닝, 핵심 Value Proposition, 상품 차별화(USP), 임대·운영 관점 Feasibility 검토.", iota: "City of Well Life, The New Heritage of Seoul, 호텔 Social Sanctuary." },
-    { no: "02", title: "공간 프로그램 및 사용자 경험 기획", desc: "공간 구성 원칙, 사용자 시나리오·동선 기준, 공간 프로그램 구조화, 디자인/설계 방향 검토.", iota: "라운지, 웰니스, 갤러리, 오피스/호텔/리테일 통합 경험, 주요 POI." },
-    { no: "03", title: "플레이스메이킹", desc: "Place Identity, 지역 맥락 기반 스토리라인, 문화·집객 콘텐츠 전략, 공간 활성화 전략.", iota: "남산 연계, New Heritage 구현, Cultural Programming, Gateway Park." },
+    { no: "02", title: "공간 프로그램 및 사용자 경험", desc: "공간 구성 원칙, 사용자 시나리오·동선 기준, 공간 프로그램 구조화, 디자인/설계 방향 검토.", iota: "라운지, 웰니스, 갤러리, 오피스/호텔/리테일 통합 경험, 주요 POI." },
+    { no: "03", title: "플레이스메이킹", desc: "Place Identity, 지역 맥락 기반 스토리라인, 문화·집객 콘텐츠 전략, 공간 활성화 전략.", iota: "남산 연계, New Heritage 구현, Cultural Program, Gateway Park." },
     { no: "04", title: "테크 솔루션", desc: "스마트빌딩 전략, 운영 시스템 구조, IoT/DT/Robotics, AI Ready 오피스 전략.", iota: "Building OS 구성, AI Ready Office, 기술 도입 범위와 기대효과 검토." },
     { no: "05", title: "자산 브랜딩 및 커뮤니케이션", desc: "브랜드 컨셉, 네이밍, 핵심 메시지, 브랜드·공간·콘텐츠 연결, 대외 커뮤니케이션.", iota: "Sales Kit 메시지 구조화, 투자자/리징 대응 Narrative." },
     { no: "06", title: "콘텐츠 / 솔루션 파트너십", desc: "전략 파트너 발굴, 콘텐츠/테크 파트너십, 운영사 검토 및 실행 관리.", iota: "디지털 아트 파트너, 웰니스 운영사, 외부 에이전시 협업 구조." },
@@ -655,12 +655,12 @@ export default function WorkspaceDigital() {
                             <div 
                                 key={idx} 
                                 onClick={() => setSelectedTheme(isSelected ? null : item.no)}
-                                className={`w-[300px] shrink-0 bg-[#272727] border ${isSelected ? 'border-[#2997ff]' : 'border-[#3c3c3c] hover:border-[#555]'} rounded-[16px] p-[28px] flex flex-col cursor-pointer transition-colors`}
+                                className={`w-[300px] shrink-0 bg-[#272727] border ${isSelected ? 'border-[#2997ff]' : 'border-[#3c3c3c] hover:border-[#555]'} rounded-[16px] p-[24px] flex flex-col cursor-pointer transition-colors`}
                             >
-                                <span className={`text-[20px] font-bold mb-[12px] ${isSelected ? 'text-[#2997ff] opacity-100' : 'text-[#86868B] opacity-60'}`}>{item.no}</span>
-                                <h3 className={`text-[20px] font-bold mb-[16px] break-keep min-h-[56px] transition-colors ${isSelected ? 'text-[#2997ff]' : 'text-white'}`}>{item.title}</h3>
-                                <p className="text-[15px] text-[#A1A1AA] leading-[1.6] break-keep mb-[32px] flex-1">{item.desc}</p>
-                                <div className="text-[15px] text-[#A1A1AA] leading-[1.6] break-keep mt-auto pt-[20px] border-t border-[#3c3c3c]">
+                                <span className={`text-[18px] font-bold mb-[8px] ${isSelected ? 'text-[#2997ff] opacity-100' : 'text-[#86868B] opacity-60'}`}>{item.no}</span>
+                                <h3 className={`text-[18px] font-bold mb-[12px] break-keep min-h-[28px] transition-colors ${isSelected ? 'text-[#2997ff]' : 'text-white'}`}>{item.title}</h3>
+                                <p className="text-[14px] text-[#A1A1AA] leading-[1.6] break-keep mb-[20px] flex-1">{item.desc}</p>
+                                <div className="text-[14px] text-[#A1A1AA] leading-[1.6] break-keep mt-auto pt-[16px] border-t border-[#3c3c3c]">
                                     <span className="text-[#2997ff] font-bold block mb-[4px]">IOTA Seoul</span>
                                     {item.iota}
                                 </div>

@@ -804,9 +804,14 @@ export default function IotaTwo816() {
                                     {buildingSpecs.map(item => (
                                         <div key={item.id} className="text-[15px] leading-[22px]">
                                             <span className="text-[#86868B] font-medium mr-[6px] tracking-tight">{item.label}</span>
-                                            <a href="#" className="text-[#c3c2b7] font-medium tracking-tight hover:text-[#fbf167] cursor-pointer transition-colors">
-                                                {item.value}
-                                            </a>
+                                            <div className="relative inline-block group/link cursor-pointer">
+                                                <span onClick={(e) => e.preventDefault()} className="text-[#c3c2b7] font-medium tracking-tight hover:text-[#fbf167] transition-colors">
+                                                    {item.value}
+                                                </span>
+                                                <div className="absolute bottom-[100%] left-0 mb-2 px-3 py-1.5 bg-[#333] text-[#E5E5E5] text-[12px] font-medium rounded-md whitespace-nowrap opacity-0 group-hover/link:opacity-100 transition-opacity duration-200 pointer-events-none z-50 shadow-lg border border-[#444]">
+                                                    콘텐츠 준비중입니다.
+                                                </div>
+                                            </div>
                                         </div>
                                     ))}
                                 </div>
@@ -819,16 +824,16 @@ export default function IotaTwo816() {
                         <div className="flex items-center gap-[12px]">
                             <span className="text-[13px] font-bold text-[#86868B]">담당</span>
                             <div className="flex items-center gap-[8px]">
-                                <a href="#" className="text-[14px] font-bold text-[#E5E5E5] hover:text-[#fbf167] cursor-pointer transition-colors">이수정</a>
-                                <a href="#" className="text-[14px] font-bold text-[#E5E5E5] hover:text-[#fbf167] cursor-pointer transition-colors">김대익</a>
+                                <span className="text-[14px] font-bold text-[#E5E5E5]">이수정</span>
+                                <span className="text-[14px] font-bold text-[#E5E5E5]">김대익</span>
                             </div>
                         </div>
                         <div className="w-[1px] h-[14px] bg-[#555]"></div>
                         <div className="flex items-center gap-[12px]">
                             <span className="text-[13px] font-bold text-[#86868B]">Partnership</span>
                             <div className="flex items-center gap-[8px]">
-                                <a href="#" className="text-[14px] font-bold text-[#E5E5E5] hover:text-[#fbf167] cursor-pointer transition-colors">dA</a>
-                                <a href="#" className="text-[14px] font-bold text-[#E5E5E5] hover:text-[#fbf167] cursor-pointer transition-colors">어패스리질리언스</a>
+                                <span className="text-[14px] font-bold text-[#E5E5E5]">dA</span>
+                                <span className="text-[14px] font-bold text-[#E5E5E5]">어패스리질리언스</span>
                             </div>
                         </div>
                     </div>
