@@ -13,6 +13,7 @@ const LOGISTICS_ALLOWED_EMAILS = new Set([
     ...LOGISTICS_PERMISSION_USERS.map((user) => String(user.email || '').trim().toLowerCase()).filter(Boolean),
     ...Object.keys(LOGISTICS_EMAIL_ALIASES),
 ]);
+const LOGISTICS_LOCAL_AUTH_KEY = 'logistics_preview_auth';
 
 function logisticsMemberFromPermission(email) {
     const normalizedEmail = String(email || '').trim().toLowerCase();
@@ -31,6 +32,39 @@ function logisticsMemberFromPermission(email) {
         team_name: user.organization,
         role_code: user.organization === '기획추진센터' ? 'master' : 'member',
     };
+}
+
+function readLocalLogisticsSession() {
+    try {
+        const raw = localStorage.getItem(LOGISTICS_LOCAL_AUTH_KEY);
+        if (!raw) return null;
+        const parsed = JSON.parse(raw);
+        const email = String(parsed?.email || '').trim().toLowerCase();
+        if (!email || !LOGISTICS_ALLOWED_EMAILS.has(email)) {
+            localStorage.removeItem(LOGISTICS_LOCAL_AUTH_KEY);
+            return null;
+        }
+        const member = logisticsMemberFromPermission(email);
+        if (!member) {
+            localStorage.removeItem(LOGISTICS_LOCAL_AUTH_KEY);
+            return null;
+        }
+        return {
+            user: {
+                id: parsed.user_id || `local-logistics-${email}`,
+                email,
+                app_metadata: { provider: 'logistics-preview' },
+                user_metadata: {
+                    staff_name: member.staff_name,
+                    organization: member.organization,
+                },
+            },
+            member,
+        };
+    } catch {
+        localStorage.removeItem(LOGISTICS_LOCAL_AUTH_KEY);
+        return null;
+    }
 }
 
 export function AuthProvider({ children }) {
@@ -55,6 +89,7 @@ export function AuthProvider({ children }) {
             }
             keysToRemove.forEach(k => localStorage.removeItem(k));
             localStorage.removeItem('iota_last_activity');
+            localStorage.removeItem(LOGISTICS_LOCAL_AUTH_KEY);
             setUser(null);
             setMemberInfo(null);
             window.location.href = import.meta.env.BASE_URL + 'auth-setup';
@@ -80,6 +115,7 @@ export function AuthProvider({ children }) {
     useEffect(() => {
         // Fetch current session and setup listener
         let subscription;
+        let localAuthHandler;
 
         const initializeAuth = async () => {
             let timeoutId;
@@ -112,8 +148,14 @@ export function AuthProvider({ children }) {
                     setUser(session.user);
                     await fetchMemberInfo(sessionEmail);
                 } else {
-                    setUser(null);
-                    setMemberInfo(null);
+                    const localSession = readLocalLogisticsSession();
+                    if (localSession) {
+                        setUser(localSession.user);
+                        setMemberInfo(localSession.member);
+                    } else {
+                        setUser(null);
+                        setMemberInfo(null);
+                    }
                 }
             } catch (err) {
                 console.error("Auth initialization error:", err);
@@ -122,6 +164,15 @@ export function AuthProvider({ children }) {
                 setLoading(false);
                 
                 // Only subscribe AFTER initial session is loaded to prevent concurrent lock conflicts
+                const applyLocalSession = () => {
+                    const localSession = readLocalLogisticsSession();
+                    if (localSession) {
+                        setUser(localSession.user);
+                        setMemberInfo(localSession.member);
+                    }
+                    return Boolean(localSession);
+                };
+
                 const { data } = supabase.auth.onAuthStateChange(async (event, session) => {
                     if (event === 'PASSWORD_RECOVERY') {
                         setRecoveryMode(true);
@@ -136,12 +187,17 @@ export function AuthProvider({ children }) {
                         setUser(session.user);
                         await fetchMemberInfo(sessionEmail);
                     } else {
-                        setUser(null);
-                        setMemberInfo(null);
+                        if (!applyLocalSession()) {
+                            setUser(null);
+                            setMemberInfo(null);
+                        }
                     }
                     setLoading(false);
                 });
                 subscription = data.subscription;
+
+                localAuthHandler = applyLocalSession;
+                window.addEventListener('logistics-local-auth-changed', localAuthHandler);
             }
         };
 
@@ -149,6 +205,9 @@ export function AuthProvider({ children }) {
 
         return () => {
             subscription?.unsubscribe();
+            if (localAuthHandler) {
+                window.removeEventListener('logistics-local-auth-changed', localAuthHandler);
+            }
         };
     }, []);
 

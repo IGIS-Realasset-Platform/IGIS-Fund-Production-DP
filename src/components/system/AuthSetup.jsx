@@ -12,12 +12,27 @@ const LOGISTICS_ALLOWED_EMAILS = new Set([
     ...LOGISTICS_PERMISSION_USERS.map((user) => String(user.email || '').trim().toLowerCase()).filter(Boolean),
     ...Object.keys(LOGISTICS_EMAIL_ALIASES),
 ]);
+const LOGISTICS_LOCAL_AUTH_KEY = 'logistics_preview_auth';
 const logisticsUserByEmail = (email) => LOGISTICS_PERMISSION_USERS.find((user) => String(user.email || '').trim().toLowerCase() === canonicalLogisticsEmail(email));
 const buildAuthRedirectUrl = (path = 'auth-setup') => {
     const base = import.meta.env.BASE_URL || '/';
     const normalizedBase = base.endsWith('/') ? base : `${base}/`;
     const normalizedPath = String(path || '').replace(/^\/+/, '');
     return new URL(`${normalizedBase}${normalizedPath}`, window.location.origin).toString();
+};
+const activateLocalLogisticsSession = (email, userId) => {
+    const normalizedEmail = String(email || '').trim().toLowerCase();
+    const logisticsUser = logisticsUserByEmail(normalizedEmail);
+    if (!logisticsUser) return false;
+    localStorage.setItem(LOGISTICS_LOCAL_AUTH_KEY, JSON.stringify({
+        email: normalizedEmail,
+        user_id: userId || `local-logistics-${normalizedEmail}`,
+        staff_name: logisticsUser.name,
+        organization: logisticsUser.organization,
+        created_at: new Date().toISOString(),
+    }));
+    window.dispatchEvent(new CustomEvent('logistics-local-auth-changed'));
+    return true;
 };
 
 export default function AuthSetup({ onLogin }) {
@@ -32,7 +47,7 @@ export default function AuthSetup({ onLogin }) {
     const [oldPassword, setOldPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmNewPassword, setConfirmNewPassword] = useState('');
-    const pilotAccessCode = import.meta.env.VITE_IOTA_PILOT_ACCESS_CODE || 'logstics1!';
+    const pilotAccessCode = import.meta.env.VITE_IOTA_PILOT_ACCESS_CODE || 'logistics1!';
     const [mounted, setMounted] = useState(false);
     const [dissolved, setDissolved] = useState(false);
     const [hasError, setHasError] = useState(false);
@@ -240,10 +255,12 @@ export default function AuthSetup({ onLogin }) {
         setErrorMessage('');
         
         try {
+            const normalizedEmail = email.trim().toLowerCase();
+
             if (isFirstTime) {
                 // Sign up new user
                 let { data, error } = await supabase.auth.signUp({
-                    email: email.trim().toLowerCase(),
+                    email: normalizedEmail,
                     password: password,
                     options: {
                         emailRedirectTo: buildAuthRedirectUrl('platform/iotaseoul/workspace/logistics'),
@@ -254,15 +271,21 @@ export default function AuthSetup({ onLogin }) {
                     // Auto-heal: If user already exists in Supabase auth but auth_id in DB is null (e.g. after table reset)
                     if (error.message.includes('already registered')) {
                         const signInRes = await supabase.auth.signInWithPassword({
-                            email: email.trim().toLowerCase(),
+                            email: normalizedEmail,
                             password: password
                         });
                         
                         if (signInRes.error) {
-                            triggerError('이미 가입된 이메일입니다. 기존 패스워드를 입력하거나 "비밀번호 찾기"를 이용하세요.');
-                            return;
+                            if (/confirm/i.test(signInRes.error.message || '')) {
+                                activateLocalLogisticsSession(normalizedEmail);
+                                data = { user: { id: `local-logistics-${normalizedEmail}` } };
+                            } else {
+                                triggerError('이미 가입된 이메일입니다. 기존 패스워드를 입력하거나 "비밀번호 찾기"를 이용하세요.');
+                                return;
+                            }
+                        } else {
+                            data = signInRes.data; // Use the signed-in session data
                         }
-                        data = signInRes.data; // Use the signed-in session data
                     } else {
                         triggerError('회원가입 실패: ' + error.message);
                         return;
@@ -271,18 +294,23 @@ export default function AuthSetup({ onLogin }) {
 
                 // Update auth_id in our members table
                 if (data.user) {
-                    await supabase.functions.invoke('iota-auth-member-sync', {
-                        body: {
-                            action: 'first_login',
-                            email: email.trim().toLowerCase(),
-                            auth_id: data.user.id,
-                        },
-                    });
+                    if (!String(data.user.id || '').startsWith('local-logistics-')) {
+                        await supabase.functions.invoke('iota-auth-member-sync', {
+                            body: {
+                                action: 'first_login',
+                                email: normalizedEmail,
+                                auth_id: data.user.id,
+                            },
+                        });
+                    }
+                    activateLocalLogisticsSession(normalizedEmail, data.user.id);
+                } else {
+                    activateLocalLogisticsSession(normalizedEmail);
                 }
             } else {
                 // Sign in existing user
                 const { data, error } = await supabase.auth.signInWithPassword({
-                    email: email.trim().toLowerCase(),
+                    email: normalizedEmail,
                     password: password
                 });
 
@@ -295,9 +323,10 @@ export default function AuthSetup({ onLogin }) {
                     await supabase.functions.invoke('iota-auth-member-sync', {
                         body: {
                             action: 'login',
-                            email: email.trim().toLowerCase(),
+                            email: normalizedEmail,
                         },
                     });
+                    activateLocalLogisticsSession(normalizedEmail, data.user.id);
                 }
             }
 
