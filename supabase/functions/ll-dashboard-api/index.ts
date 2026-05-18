@@ -36,12 +36,14 @@ const WRITE_TABLE_ALLOWLIST = new Set([
   'public.ll_api_audit_logs',
   'public.ll_data_change_audit_logs',
   'public.ll_external_api_cache',
+  'public.ll_dashboard_metric_snapshots',
 ]);
 
 const EDIT_TARGET_TABLE_ALLOWLIST = new Set([
   'public.ll_assets',
   'public.ll_companies',
   'public.ll_data_quality_findings',
+  'public.ll_lease_spaces',
   'public.ll_leases',
   'public.ll_leasing_contracts',
   'public.ll_rent_history',
@@ -67,6 +69,17 @@ const EDIT_FIELD_ALLOWLIST: Record<string, Set<string>> = {
     'tenantMasterName', 'tenant_master_name', 'assetName', 'asset_name', 'spaceLabel', 'space_label',
     'leasedAreaSqm', 'leased_area_sqm', 'exclusiveAreaSqm', 'exclusive_area_sqm',
     'currentStartDate', 'current_start_date', 'currentEndDate', 'current_end_date',
+  ]),
+  'public.ll_lease_spaces': new Set([
+    'tenantMasterName', 'tenant_master_name', 'assetName', 'asset_name', 'assetCode', 'asset_code',
+    'leaseSpaceId', 'lease_space_id', 'leaseId', 'lease_id', 'tenantId', 'tenant_id', 'assetId', 'asset_id',
+    'floorLabel', 'floor_label', 'detailAreaLabel', 'detail_area_label', 'temperatureType', 'temperature_type',
+    'leasedAreaSqm', 'leased_area_sqm', 'exclusiveAreaSqm', 'exclusive_area_sqm',
+    'currentMonthlyRentTotal', 'current_monthly_rent_total',
+    'currentMonthlyMfTotal', 'current_monthly_mf_total',
+    'currentMonthlyCostTotal', 'current_monthly_cost_total',
+    'eNoc', 'e_noc',
+    'contractStatus', 'contract_status',
   ]),
   'public.ll_leasing_contracts': new Set([
     'tenantMasterName', 'tenant_master_name', 'assetName', 'asset_name', 'assetCode', 'asset_code', 'fundCode', 'fund_code', 'fundName', 'fund_name',
@@ -1374,12 +1387,18 @@ const AI_SEARCH_STOP_TERMS = new Set([
   '데이터',
   '대해서',
   '관련',
+  '지금',
+  '내가',
+  '있는',
+  '있어',
+  '얼마야',
+  '누구야',
 ]);
 
 function aiSearchTerms(value: unknown) {
   return normalizeText(value)
     .split(/[^가-힣a-z0-9]+/iu)
-    .map((item) => normalizeKey(item))
+    .map((item) => normalizeKey(item).replace(/(에서|으로|에게|에는|은|는|이|가|을|를|의|도)$/u, ''))
     .filter((item) => item.length >= 2 && !AI_SEARCH_STOP_TERMS.has(item))
     .slice(0, 10);
 }
@@ -1393,6 +1412,206 @@ function keywordMatchScore(text: unknown, terms: string[]) {
 function minimumAiSearchScore(terms: string[]) {
   if (terms.length <= 1) return 1;
   return Math.min(2, terms.length);
+}
+
+const AI_ASSET_MATCH_EXCLUDE_TERMS = new Set([
+  'noc',
+  'enoc',
+  '평당',
+  '월',
+  '임관리비',
+  '임대료',
+  '관리비',
+  '가장',
+  '많은',
+  '많이',
+  '면적',
+  '임차',
+  '임차하고',
+  '임차한',
+  '임차인',
+  '자산',
+  '분석할',
+  '개야',
+]);
+
+function aiAssetSearchTerms(question: string) {
+  return aiSearchTerms(question).filter((term) => !AI_ASSET_MATCH_EXCLUDE_TERMS.has(term));
+}
+
+function numberValue(value: unknown) {
+  if (value === undefined || value === null || value === '') return null;
+  const numeric = Number(String(value).replace(/,/gu, '').replace(/[^\d.-]/gu, ''));
+  return Number.isFinite(numeric) ? numeric : null;
+}
+
+function rowAssetName(row: Record<string, unknown>) {
+  return normalizeText(firstDefined(row.asset_name, row.assetName, row.asset, row.asset_id, row.assetId)).trim();
+}
+
+function rowTenantName(row: Record<string, unknown>) {
+  return normalizeText(firstDefined(row.tenant_master_name, row.tenantMasterName, row.tenant, row.company_name, row.companyName, row.raw_tenant_name)).trim();
+}
+
+function rowAssetId(row: Record<string, unknown>) {
+  return normalizeText(firstDefined(row.asset_id, row.assetId, row.asset_code, row.assetCode, row.related_asset_id, row.asset_name, row.assetName)).trim();
+}
+
+function rowTenantId(row: Record<string, unknown>) {
+  return normalizeText(firstDefined(row.tenant_id, row.tenantId, row.business_registration_no, row.businessRegistrationNo, row.tenant_master_name, row.tenantMasterName, row.company_name, row.companyName)).trim();
+}
+
+function rowAreaPy(row: Record<string, unknown>) {
+  const directPy = numberValue(firstDefined(row.leased_area_py, row.leasedAreaPy, row.area_py, row.areaPy));
+  if (directPy && directPy > 0) return directPy;
+  const sqm = numberValue(firstDefined(row.leased_area_sqm, row.leasedAreaSqm, row.exclusive_area_sqm, row.exclusiveAreaSqm, row.area_sqm, row.areaSqm));
+  return sqm && sqm > 0 ? sqm * 0.3025 : null;
+}
+
+function rowMonthlyCombined(row: Record<string, unknown>) {
+  const combined = numberValue(firstDefined(row.monthly_combined_total, row.monthlyCombinedTotal, row.monthly_cost_total, row.monthlyCostTotal, row.current_monthly_cost_total, row.currentMonthlyCostTotal));
+  if (combined && combined > 0) return combined;
+  const rent = numberValue(firstDefined(row.monthly_rent_total, row.monthlyRentTotal, row.current_monthly_rent_total, row.currentMonthlyRentTotal)) || 0;
+  const mf = numberValue(firstDefined(row.monthly_mf_total, row.monthlyMfTotal, row.current_monthly_mf_total, row.currentMonthlyMfTotal)) || 0;
+  return rent + mf > 0 ? rent + mf : null;
+}
+
+function rowENoc(row: Record<string, unknown>) {
+  const stored = numberValue(firstDefined(row.average_e_noc, row.averageENoc, row.e_noc, row.eNoc, row.current_e_noc, row.currentENoc, row.current_e_noc_per_py, row.currentENocPerPy));
+  if (stored && stored > 0) return stored;
+  const rentPerPy = numberValue(firstDefined(row.current_rent_per_py, row.currentRentPerPy, row.rent_per_py, row.rentPerPy));
+  const mfPerPy = numberValue(firstDefined(row.current_mf_per_py, row.currentMfPerPy, row.mf_per_py, row.mfPerPy));
+  if ((rentPerPy || 0) + (mfPerPy || 0) > 0) return (rentPerPy || 0) + (mfPerPy || 0);
+  const monthly = rowMonthlyCombined(row);
+  const areaPy = rowAreaPy(row);
+  return monthly && areaPy && areaPy > 0 ? monthly / areaPy : null;
+}
+
+function weightedENoc(rows: Record<string, unknown>[]) {
+  const weighted = rows.reduce((acc, row) => {
+    const value = rowENoc(row);
+    const area = rowAreaPy(row);
+    if (!value || !area || value <= 0 || area <= 0) return acc;
+    return {
+      weightedSum: acc.weightedSum + value * area,
+      areaSum: acc.areaSum + area,
+      count: acc.count + 1,
+    };
+  }, { weightedSum: 0, areaSum: 0, count: 0 });
+  if (!weighted.areaSum) return null;
+  return {
+    value: weighted.weightedSum / weighted.areaSum,
+    areaPy: weighted.areaSum,
+    rowCount: weighted.count,
+  };
+}
+
+function formatKoreanWon(value: number) {
+  return `${new Intl.NumberFormat('ko-KR').format(Math.round(value))}원`;
+}
+
+function formatKoreanPy(value: number) {
+  return `${new Intl.NumberFormat('ko-KR', { maximumFractionDigits: 1 }).format(value)}평`;
+}
+
+function isENocQuestion(question: string) {
+  return /e\.?\s*noc|enoc|이\s*엔\s*오\s*씨|평당\s*(월\s*)?임\s*관리비|평당\s*월\s*임대료\s*\+\s*관리비/iu.test(question);
+}
+
+function isReadableAssetCountQuestion(question: string) {
+  return /(분석할\s*수\s*있는\s*자산|조회\s*가능한\s*자산|읽기\s*권한.{0,12}자산|담당.{0,12}자산|자산.{0,12}몇\s*개|몇\s*개.{0,12}자산|(분석|볼|조회|읽기|담당).{0,24}자산.{0,12}(몇|수|개)|자산.{0,12}(몇|수|개).{0,24}(분석|볼|조회|읽기|담당))/iu.test(question);
+}
+
+function isLargestTenantAreaQuestion(question: string) {
+  return /(가장|제일|최대).{0,18}(많|큰|넓).{0,18}(면적|임차)|면적.{0,18}(가장|제일|최대).{0,18}(많|큰|넓)/iu.test(question);
+}
+
+function isAssetLookupQuestion(question: string) {
+  return /(있어|있나|찾아|검색|어디|알려|보여)/iu.test(question);
+}
+
+function metricSnapshotKey(metricScope: string, metricKey: string, assetId: string, tenantId: string, basisDate: string) {
+  return [metricScope, metricKey, assetId || '-', tenantId || '-', basisDate].map((item) => normalizeKey(item)).join(':');
+}
+
+function findQuestionAssetRows(context: Record<string, unknown>, question: string) {
+  const rows = (context.assetRows as Record<string, unknown>[] | undefined) || [];
+  const terms = aiAssetSearchTerms(question);
+  if (!terms.length) {
+    const matched = (context.matchedAssetRows as Record<string, unknown>[] | undefined) || [];
+    return matched.length ? matched : [];
+  }
+  const requiredScore = Math.max(1, Math.min(2, terms.length));
+  return rows
+    .map((row) => ({ row, score: keywordMatchScore(rowText(row), terms) }))
+    .filter((item) => item.score >= requiredScore)
+    .sort((a, b) => b.score - a.score)
+    .map((item) => item.row);
+}
+
+function rowsForAssets(rows: Record<string, unknown>[], assetRows: Record<string, unknown>[]) {
+  const keys = new Set(assetRows.flatMap((row) => [
+    row.asset_id,
+    row.assetId,
+    row.asset_code,
+    row.assetCode,
+    row.asset_name,
+    row.assetName,
+    row.asset,
+  ].map(normalizeKey).filter(Boolean)));
+  return rows.filter((row) => {
+    const candidates = [
+      row.asset_id,
+      row.assetId,
+      row.asset_code,
+      row.assetCode,
+      row.asset_name,
+      row.assetName,
+      row.asset,
+    ].map(normalizeKey).filter(Boolean);
+    return candidates.some((candidate) => keys.has(candidate));
+  });
+}
+
+function enrichRowsWithAssetTenantNames(rows: Record<string, unknown>[], assetRows: Record<string, unknown>[], tenantRows: Record<string, unknown>[]) {
+  const assetById = new Map(assetRows.flatMap((row) => {
+    const assetName = rowAssetName(row);
+    return [row.asset_id, row.assetId, row.asset_code, row.assetCode, row.asset_name, row.assetName]
+      .map(normalizeKey)
+      .filter(Boolean)
+      .map((key) => [key, assetName]);
+  }));
+  const tenantById = new Map(tenantRows.flatMap((row) => {
+    const tenantName = rowTenantName(row);
+    return [row.tenant_id, row.tenantId, row.business_registration_no, row.businessRegistrationNo, row.tenant_master_name, row.tenantMasterName]
+      .map(normalizeKey)
+      .filter(Boolean)
+      .map((key) => [key, tenantName]);
+  }));
+  return rows.map((row) => {
+    const assetKey = normalizeKey(firstDefined(row.asset_id, row.assetId, row.asset_code, row.assetCode, row.asset_name, row.assetName));
+    const tenantKey = normalizeKey(firstDefined(row.tenant_id, row.tenantId, row.business_registration_no, row.businessRegistrationNo, row.tenant_master_name, row.tenantMasterName));
+    return {
+      ...row,
+      asset_name: firstDefined(row.asset_name, row.assetName, assetById.get(assetKey)),
+      tenant_master_name: firstDefined(row.tenant_master_name, row.tenantMasterName, row.company_name, row.companyName, tenantById.get(tenantKey)),
+    };
+  });
+}
+
+function groupTenantArea(rows: Record<string, unknown>[]) {
+  const grouped = new Map<string, { tenantName: string; areaPy: number; rowCount: number }>();
+  rows.forEach((row) => {
+    const tenantName = rowTenantName(row);
+    const areaPy = rowAreaPy(row);
+    if (!tenantName || !areaPy || areaPy <= 0) return;
+    const key = normalizeKey(tenantName);
+    const current = grouped.get(key) || { tenantName, areaPy: 0, rowCount: 0 };
+    current.areaPy += areaPy;
+    current.rowCount += 1;
+    grouped.set(key, current);
+  });
+  return [...grouped.values()].sort((a, b) => b.areaPy - a.areaPy || a.tenantName.localeCompare(b.tenantName, 'ko'));
 }
 
 async function safeSelectRows(ctx: Context, table: string, limit: number) {
@@ -1418,19 +1637,17 @@ function compactEvidenceRows(rows: Record<string, unknown>[], table: string, max
 }
 
 async function collectAiSearchContext(ctx: Context, question: string) {
-  const terms = normalizeKey(question)
-    .split(/[^가-힣a-z0-9]+/iu)
-    .map((item) => item.trim())
-    .filter((item) => item.length >= 2)
-    .slice(0, 8);
-  const [assetRows, leaseRows, rentRows, tenantRows, worklogRows, weeklyAssetRows, weeklyProjectRows] = await Promise.all([
+  const terms = aiSearchTerms(question).slice(0, 8);
+  const [assetRows, leasingContractRows, leaseSpaceRows, rentRows, tenantRows, worklogRows, weeklyAssetRows, weeklyProjectRows, metricRows] = await Promise.all([
     safeSelectRows(ctx, 'll_assets', 250),
     safeSelectRows(ctx, 'll_leasing_contracts', 500),
+    safeSelectRows(ctx, 'll_lease_spaces', 1000),
     safeSelectRows(ctx, 'll_rent_history', 500),
     safeSelectRows(ctx, 'll_tenants', 300),
     safeSelectRows(ctx, 'll_worklogs', 300),
     safeSelectRows(ctx, 'll_weekly_assets', 300),
     safeSelectRows(ctx, 'll_weekly_projects', 300),
+    safeSelectRows(ctx, 'll_dashboard_metric_snapshots', 1000),
   ]);
   const allowedAssets = assetRows.filter((row) => canReadDataRow(ctx, row));
   const allowedAssetKeys = new Set(allowedAssets.flatMap((row) => [
@@ -1441,8 +1658,11 @@ async function collectAiSearchContext(ctx: Context, question: string) {
     row.asset_name,
     row.assetName,
   ].map(normalizeKey).filter(Boolean)));
-  const permittedLeaseRows = leaseRows.filter((row) => canReadDataRow(ctx, row));
-  const permittedRentRows = rentRows.filter((row) => canReadDataRow(ctx, row));
+  const namedLeaseSpaceRows = enrichRowsWithAssetTenantNames(leaseSpaceRows, assetRows, tenantRows);
+  const namedRentRows = enrichRowsWithAssetTenantNames(rentRows, assetRows, tenantRows);
+  const permittedLeaseRows = [...leasingContractRows, ...namedLeaseSpaceRows].filter((row) => canReadDataRow(ctx, row));
+  const permittedRentRows = namedRentRows.filter((row) => canReadDataRow(ctx, row));
+  const permittedMetricRows = metricRows.filter((row) => canReadDataRow(ctx, row));
   const permittedWeeklyAssets = weeklyAssetRows.filter((row) => canReadDataRow(ctx, row));
   const permittedWorklogs = filterWorklogRows(ctx, worklogRows);
   const allowedTenantKeys = new Set([...permittedLeaseRows, ...permittedRentRows].flatMap((row) => [
@@ -1464,12 +1684,13 @@ async function collectAiSearchContext(ctx: Context, question: string) {
   });
   const buckets = [
     { table: 'll_assets', rows: allowedAssets },
-    { table: 'll_leasing_contracts', rows: permittedLeaseRows },
+    { table: 'll_lease_spaces', rows: permittedLeaseRows },
     { table: 'll_rent_history', rows: permittedRentRows },
     { table: 'll_tenants', rows: permittedTenants },
     { table: 'll_worklogs', rows: permittedWorklogs },
     { table: 'll_weekly_assets', rows: permittedWeeklyAssets },
     { table: 'll_weekly_projects', rows: permittedWeeklyProjects },
+    { table: 'll_dashboard_metric_snapshots', rows: permittedMetricRows },
   ].map((bucket) => ({
     ...bucket,
     matchedRows: bucket.rows.filter((row) => keywordMatches(row, terms)),
@@ -1487,6 +1708,14 @@ async function collectAiSearchContext(ctx: Context, question: string) {
       evidence_rows: evidence.length,
       matched_tables: buckets.filter((bucket) => bucket.matchedRows.length).map((bucket) => bucket.table),
     },
+    assetRows: allowedAssets,
+    leaseRows: permittedLeaseRows,
+    rentRows: permittedRentRows,
+    metricRows: permittedMetricRows,
+    matchedAssetRows: buckets.find((bucket) => bucket.table === 'll_assets')?.matchedRows || [],
+    matchedLeaseRows: buckets.find((bucket) => bucket.table === 'll_lease_spaces')?.matchedRows || [],
+    matchedRentRows: buckets.find((bucket) => bucket.table === 'll_rent_history')?.matchedRows || [],
+    matchedMetricRows: buckets.find((bucket) => bucket.table === 'll_dashboard_metric_snapshots')?.matchedRows || [],
   };
 }
 
@@ -1534,6 +1763,277 @@ function buildProviderFallbackAnswer(question: string, context: { evidence: Reco
   if (addresses.length) lines.push(`주소는 ${addresses.join(', ')}입니다.`);
   if (monthlyCostTotal > 0) lines.push(`월 임관리비 합계는 ${compactAiValue(monthlyCostTotal)}입니다.`);
   return lines.join('\n');
+}
+
+function matchedMetricRows(context: Record<string, unknown>, metricKey: string, assetRows: Record<string, unknown>[]) {
+  const rows = (context.metricRows as Record<string, unknown>[] | undefined) || [];
+  const assetKeys = new Set(assetRows.flatMap((row) => [
+    row.asset_id,
+    row.assetId,
+    row.asset_code,
+    row.assetCode,
+    row.asset_name,
+    row.assetName,
+    row.asset,
+  ].map(normalizeKey).filter(Boolean)));
+  return rows.filter((row) => {
+    if (normalizeKey(row.metric_key) !== normalizeKey(metricKey)) return false;
+    const candidates = [row.asset_id, row.assetId, row.asset_name, row.assetName, row.asset].map(normalizeKey).filter(Boolean);
+    return !assetKeys.size || candidates.some((candidate) => assetKeys.has(candidate));
+  });
+}
+
+function buildDeterministicAiAnswer(question: string, context: Record<string, unknown>) {
+  const assetRows = findQuestionAssetRows(context, question);
+  const assetName = rowAssetName(assetRows[0] || {}) || uniqueStrings((context.evidence as Record<string, unknown>[] || []).map((row) => row.asset), 1)[0] || '';
+  if (isReadableAssetCountQuestion(question)) {
+    const count = numberValue(context.scope && (context.scope as Record<string, unknown>).readable_asset_count);
+    if (count !== null) {
+      return {
+        mode: 'deterministic_asset_count',
+        answer: `현재 읽기 권한 범위에서 조회 가능한 자산은 ${new Intl.NumberFormat('ko-KR').format(count)}개입니다.`,
+      };
+    }
+  }
+
+  if (isENocQuestion(question) && assetRows.length) {
+    const storedMetric = matchedMetricRows(context, 'average_e_noc', assetRows)
+      .map((row) => numberValue(firstDefined(row.numeric_value, row.value)))
+      .find((value) => value !== null && value > 0);
+    if (storedMetric) {
+      return {
+        mode: 'deterministic_metric_snapshot',
+        answer: `${assetName}의 E. NOC는 ${formatKoreanWon(storedMetric)}입니다.`,
+      };
+    }
+    const assetStored = assetRows
+      .map((row) => rowENoc(row))
+      .find((value) => value !== null && value > 0);
+    if (assetStored) {
+      return {
+        mode: 'deterministic_asset_metric',
+        answer: `${assetName}의 E. NOC는 ${formatKoreanWon(assetStored)}입니다.`,
+      };
+    }
+    const leaseRows = rowsForAssets((context.leaseRows as Record<string, unknown>[] | undefined) || [], assetRows);
+    const rentRows = rowsForAssets((context.rentRows as Record<string, unknown>[] | undefined) || [], assetRows);
+    const computed = weightedENoc(leaseRows.length ? leaseRows : rentRows);
+    if (computed) {
+      return {
+        mode: 'deterministic_computed_metric',
+        answer: `${assetName}의 E. NOC는 ${formatKoreanWon(computed.value)}입니다.`,
+      };
+    }
+    return {
+      mode: 'deterministic_metric_missing',
+      answer: `${assetName}의 E. NOC는 현재 확인 가능한 사전 계산값이나 계약별 임대료/면적 근거가 없어 산출되지 않습니다.`,
+    };
+  }
+
+  if (isLargestTenantAreaQuestion(question) && assetRows.length) {
+    const storedTopTenant = matchedMetricRows(context, 'top_tenant_by_leased_area', assetRows)[0];
+    if (storedTopTenant?.text_value) {
+      const area = numberValue(storedTopTenant.numeric_value);
+      return {
+        mode: 'deterministic_metric_snapshot',
+        answer: area
+          ? `${assetName}에서 가장 많은 면적을 임차한 임차인은 ${storedTopTenant.text_value}이고, 임대면적은 ${formatKoreanPy(area)}입니다.`
+          : `${assetName}에서 가장 많은 면적을 임차한 임차인은 ${storedTopTenant.text_value}입니다.`,
+      };
+    }
+    const leaseRows = rowsForAssets((context.leaseRows as Record<string, unknown>[] | undefined) || [], assetRows);
+    const tenantAreas = groupTenantArea(leaseRows);
+    if (tenantAreas[0]) {
+      return {
+        mode: 'deterministic_tenant_area_rank',
+        answer: `${assetName}에서 가장 많은 면적을 임차한 임차인은 ${tenantAreas[0].tenantName}이고, 임대면적은 ${formatKoreanPy(tenantAreas[0].areaPy)}입니다.`,
+      };
+    }
+    return {
+      mode: 'deterministic_tenant_area_missing',
+      answer: `${assetName}의 임차인별 임대면적 근거가 현재 확인되지 않습니다.`,
+    };
+  }
+
+  if (isAssetLookupQuestion(question) && assetRows.length === 1) {
+    const fund = normalizeText(firstDefined(assetRows[0].fund_name, assetRows[0].fundName)).trim();
+    const address = normalizeText(firstDefined(assetRows[0].sigungu_address, assetRows[0].address_sigungu, assetRows[0].standardized_address, assetRows[0].standardizedAddress)).trim();
+    return {
+      mode: 'deterministic_asset_lookup',
+      answer: `${assetName}은 조회 가능합니다.${fund ? ` 펀드는 ${fund}입니다.` : ''}${address ? ` 위치는 ${address}입니다.` : ''}`,
+    };
+  }
+
+  return null;
+}
+
+function dashboardMetricRecord(input: {
+  metricScope: string;
+  metricKey: string;
+  assetId?: string;
+  assetName?: string;
+  tenantId?: string;
+  tenantName?: string;
+  basisDate: string;
+  numericValue?: number | null;
+  textValue?: string | null;
+  unit: string;
+  sourceTable: string;
+  sourceRowCount: number;
+  sourcePayload: Record<string, unknown>;
+}) {
+  const assetId = input.assetId || '';
+  const tenantId = input.tenantId || '';
+  return stripUndefined({
+    snapshot_key: metricSnapshotKey(input.metricScope, input.metricKey, assetId, tenantId, input.basisDate),
+    metric_scope: input.metricScope,
+    metric_key: input.metricKey,
+    asset_id: assetId || null,
+    asset_name: input.assetName || null,
+    tenant_id: tenantId || null,
+    tenant_name: input.tenantName || null,
+    basis_date: input.basisDate,
+    numeric_value: input.numericValue ?? null,
+    text_value: input.textValue || null,
+    unit: input.unit,
+    source_table: input.sourceTable,
+    source_row_count: input.sourceRowCount,
+    source_payload: input.sourcePayload,
+    computed_at: new Date().toISOString(),
+  });
+}
+
+function buildDashboardMetricSnapshotRows(assetRows: Record<string, unknown>[], leaseRows: Record<string, unknown>[], rentRows: Record<string, unknown>[], basisDate: string) {
+  return assetRows.flatMap((assetRow) => {
+    const assetId = rowAssetId(assetRow);
+    const assetName = rowAssetName(assetRow);
+    const leaseRowsForAsset = rowsForAssets(leaseRows, [assetRow]);
+    const rentRowsForAsset = rowsForAssets(rentRows, [assetRow]);
+    const sourceRows = leaseRowsForAsset.length ? leaseRowsForAsset : rentRowsForAsset;
+    const computedENoc = weightedENoc(sourceRows);
+    const storedENoc = rowENoc(assetRow);
+    const eNocValue = computedENoc?.value || storedENoc;
+    const tenantAreas = groupTenantArea(leaseRowsForAsset);
+    const monthlyCombined = sourceRows.reduce((sum, row) => sum + (rowMonthlyCombined(row) || 0), 0);
+    const leasedAreaPy = sourceRows.reduce((sum, row) => sum + (rowAreaPy(row) || 0), 0);
+    const records: Record<string, unknown>[] = [];
+    if (eNocValue && eNocValue > 0) {
+      records.push(dashboardMetricRecord({
+        metricScope: 'asset',
+        metricKey: 'average_e_noc',
+        assetId,
+        assetName,
+        basisDate,
+        numericValue: eNocValue,
+        unit: 'KRW/py/month',
+        sourceTable: leaseRowsForAsset.length ? 'public.ll_lease_spaces' : 'public.ll_assets',
+        sourceRowCount: sourceRows.length || 1,
+        sourcePayload: {
+          formula: computedENoc ? 'weighted_average(contract_e_noc, leased_area_py)' : 'll_assets.average_e_noc',
+          leased_area_py: computedENoc?.areaPy || leasedAreaPy || null,
+          computed_from_rows: computedENoc?.rowCount || 0,
+        },
+      }));
+    }
+    if (tenantAreas[0]) {
+      records.push(dashboardMetricRecord({
+        metricScope: 'asset',
+        metricKey: 'top_tenant_by_leased_area',
+        assetId,
+        assetName,
+        tenantId: tenantAreas[0].tenantName,
+        tenantName: tenantAreas[0].tenantName,
+        basisDate,
+        numericValue: tenantAreas[0].areaPy,
+        textValue: tenantAreas[0].tenantName,
+        unit: 'py',
+        sourceTable: 'public.ll_lease_spaces',
+        sourceRowCount: tenantAreas[0].rowCount,
+        sourcePayload: {
+          formula: 'sum(leased_area_py) by tenant within asset',
+          rank: 1,
+        },
+      }));
+    }
+    if (monthlyCombined > 0) {
+      records.push(dashboardMetricRecord({
+        metricScope: 'asset',
+        metricKey: 'monthly_combined_total',
+        assetId,
+        assetName,
+        basisDate,
+        numericValue: monthlyCombined,
+        unit: 'KRW/month',
+        sourceTable: leaseRowsForAsset.length ? 'public.ll_lease_spaces' : 'public.ll_rent_history',
+        sourceRowCount: sourceRows.length,
+        sourcePayload: {
+          formula: 'sum(monthly_combined_total)',
+        },
+      }));
+    }
+    if (leasedAreaPy > 0) {
+      records.push(dashboardMetricRecord({
+        metricScope: 'asset',
+        metricKey: 'leased_area_py',
+        assetId,
+        assetName,
+        basisDate,
+        numericValue: leasedAreaPy,
+        unit: 'py',
+        sourceTable: leaseRowsForAsset.length ? 'public.ll_lease_spaces' : 'public.ll_rent_history',
+        sourceRowCount: sourceRows.length,
+        sourcePayload: {
+          formula: 'sum(leased_area_sqm) * 0.3025',
+        },
+      }));
+    }
+    return records;
+  });
+}
+
+async function refreshDashboardMetricSnapshots(serviceClient: SupabaseClient, basisDate = '2026-04-30') {
+  const [assetResult, leaseResult, rentResult, tenantResult] = await Promise.all([
+    serviceClient.from('ll_assets').select('*').limit(500),
+    serviceClient.from('ll_lease_spaces').select('*').limit(2000),
+    serviceClient.from('ll_rent_history').select('*').limit(3000),
+    serviceClient.from('ll_tenants').select('*').limit(800),
+  ]);
+  if (assetResult.error) throw new Error(`ll_assets read failed: ${assetResult.error.message}`);
+  const assetRows = (assetResult.data || []) as Record<string, unknown>[];
+  const tenantRows = tenantResult.error ? [] : (tenantResult.data || []) as Record<string, unknown>[];
+  const leaseRows = leaseResult.error ? [] : enrichRowsWithAssetTenantNames((leaseResult.data || []) as Record<string, unknown>[], assetRows, tenantRows);
+  const rentRows = rentResult.error ? [] : enrichRowsWithAssetTenantNames((rentResult.data || []) as Record<string, unknown>[], assetRows, tenantRows);
+  const records = buildDashboardMetricSnapshotRows(assetRows, leaseRows, rentRows, basisDate);
+  for (let index = 0; index < records.length; index += 200) {
+    const chunk = records.slice(index, index + 200);
+    const { error } = await serviceClient
+      .from('ll_dashboard_metric_snapshots')
+      .upsert(chunk, { onConflict: 'snapshot_key' });
+    if (error) throw new Error(`ll_dashboard_metric_snapshots upsert failed: ${error.message}`);
+  }
+  return {
+    asset_count: assetRows.length,
+    lease_row_count: leaseRows.length,
+    rent_row_count: rentRows.length,
+    snapshot_count: records.length,
+    basis_date: basisDate,
+    sample: records.slice(0, 5),
+  };
+}
+
+async function callDashboardMetricRefresh(ctx: Context, payload: Record<string, unknown>) {
+  if (!hasRole(ctx.role, 'Admin')) return fail(403, 'Insufficient logistics permission', ctx.origin);
+  if (!checkRateLimit(ctx.user.id, 'dashboard-metrics/refresh', 6, 60_000)) return fail(429, 'Rate limit exceeded', ctx.origin);
+  const basisDate = String(payload.basis_date || payload.basisDate || '2026-04-30').slice(0, 10);
+  try {
+    const result = await refreshDashboardMetricSnapshots(ctx.serviceClient, basisDate);
+    await audit(ctx.serviceClient, ctx.user.id, 'dashboard-metrics/refresh', 200, result);
+    return jsonResponse({ ok: true, data: result }, 200, ctx.origin);
+  } catch (error) {
+    const message = safeProviderError(error);
+    await audit(ctx.serviceClient, ctx.user.id, 'dashboard-metrics/refresh', 502, { basis_date: basisDate, error: message }).catch(() => {});
+    return fail(502, 'Dashboard metric snapshot refresh failed', ctx.origin, { error: message });
+  }
 }
 
 function groqApiKey() {
@@ -1751,6 +2251,26 @@ async function callGoogleAiSearchChat(ctx: Context, payload: Record<string, unkn
   if (question.length < 2) return fail(400, 'question is required', ctx.origin);
   if (!groqApiKey() && !googleAiApiKey()) return fail(503, 'AI provider key is not configured', ctx.origin);
   const context = await collectAiSearchContext(ctx, question);
+  const deterministicAnswer = buildDeterministicAiAnswer(question, context as Record<string, unknown>);
+  if (deterministicAnswer) {
+    await audit(ctx.serviceClient, ctx.user.id, 'ai/search-chat', 200, {
+      question,
+      provider: 'edge',
+      model: deterministicAnswer.mode,
+      evidence_rows: context.evidence.length,
+      matched_tables: context.scope.matched_tables,
+      deterministic: true,
+    });
+    return jsonResponse({
+      ok: true,
+      mode: deterministicAnswer.mode,
+      provider: 'edge',
+      model: 'dashboard-metrics',
+      answer: deterministicAnswer.answer,
+      evidence: context.evidence.slice(0, 12),
+      scope: context.scope,
+    }, 200, ctx.origin);
+  }
   const prompt = [
     'You are the internal logistics leasing work-platform assistant.',
     'Answer in Korean. Use only the supplied evidence rows and the user permission scope.',
@@ -1838,6 +2358,10 @@ async function collectAiDemoSearchContext(serviceClient: SupabaseClient, questio
   if (error) throw error;
   const rows = (data || []) as Record<string, unknown>[];
   let contractRows: Record<string, unknown>[] = [];
+  let leaseSpaceRows: Record<string, unknown>[] = [];
+  let rentRows: Record<string, unknown>[] = [];
+  let tenantRows: Record<string, unknown>[] = [];
+  let metricRows: Record<string, unknown>[] = [];
   try {
     const { data: contractData } = await serviceClient
       .from('ll_leasing_contracts')
@@ -1847,8 +2371,47 @@ async function collectAiDemoSearchContext(serviceClient: SupabaseClient, questio
   } catch {
     contractRows = [];
   }
+  try {
+    const { data: leaseSpaceData } = await serviceClient
+      .from('ll_lease_spaces')
+      .select('*')
+      .limit(1000);
+    leaseSpaceRows = (leaseSpaceData || []) as Record<string, unknown>[];
+  } catch {
+    leaseSpaceRows = [];
+  }
+  try {
+    const { data: rentData } = await serviceClient
+      .from('ll_rent_history')
+      .select('*')
+      .limit(800);
+    rentRows = (rentData || []) as Record<string, unknown>[];
+  } catch {
+    rentRows = [];
+  }
+  try {
+    const { data: tenantData } = await serviceClient
+      .from('ll_tenants')
+      .select('*')
+      .limit(500);
+    tenantRows = (tenantData || []) as Record<string, unknown>[];
+  } catch {
+    tenantRows = [];
+  }
+  try {
+    const { data: metricData } = await serviceClient
+      .from('ll_dashboard_metric_snapshots')
+      .select('*')
+      .limit(1000);
+    metricRows = (metricData || []) as Record<string, unknown>[];
+  } catch {
+    metricRows = [];
+  }
+  const namedLeaseSpaceRows = enrichRowsWithAssetTenantNames(leaseSpaceRows, rows, tenantRows);
+  const namedRentRows = enrichRowsWithAssetTenantNames(rentRows, rows, tenantRows);
+  const searchableLeaseRows = [...contractRows, ...namedLeaseSpaceRows];
   const contractTextByAsset = new Map<string, string>();
-  contractRows.forEach((row) => {
+  [...searchableLeaseRows, ...namedRentRows, ...metricRows].forEach((row) => {
     const assetName = normalizeText(firstDefined(row.asset_name, row.assetName));
     if (!assetName) return;
     const current = contractTextByAsset.get(normalizeKey(assetName)) || '';
@@ -1866,32 +2429,83 @@ async function collectAiDemoSearchContext(serviceClient: SupabaseClient, questio
   const matchedRows = scoredRows.map((item) => item.row);
   const sourceRows = matchedRows.length ? matchedRows : rows;
   const assetEvidence = sourceRows.slice(0, 12).map(demoAssetEvidence);
-  const matchedContractRows = contractRows
+  const matchedContractRows = searchableLeaseRows
     .map((row) => ({ row, score: keywordMatchScore(rowText(row), terms) }))
     .filter((item) => !terms.length || item.score > 0)
     .sort((a, b) => b.score - a.score || rowText(a.row).localeCompare(rowText(b.row), 'ko'))
     .slice(0, 8)
     .map(({ row }) => stripUndefined({
-      table: 'll_leasing_contracts',
+      table: firstDefined(row.lease_space_id, row.leaseSpaceId) ? 'll_lease_spaces' : 'll_leasing_contracts',
       asset: firstDefined(row.asset_name, row.assetName),
       tenant: firstDefined(row.tenant_master_name, row.tenantMasterName, row.company_name, row.companyName),
-      space: firstDefined(row.space_label, row.spaceLabel, row.floor_label, row.floorLabel),
+      space: firstDefined(row.space_label, row.spaceLabel, row.floor_label, row.floorLabel, row.detail_area_label, row.detailAreaLabel),
       leased_area_py: firstDefined(row.leased_area_py, row.leasedAreaPy),
-      monthly_combined_total: firstDefined(row.monthly_combined_total, row.monthlyCombinedTotal),
+      leased_area_sqm: firstDefined(row.leased_area_sqm, row.leasedAreaSqm),
+      monthly_combined_total: firstDefined(row.monthly_combined_total, row.monthlyCombinedTotal, row.current_monthly_cost_total, row.currentMonthlyCostTotal),
+      monthly_rent_total: firstDefined(row.monthly_rent_total, row.monthlyRentTotal, row.current_monthly_rent_total, row.currentMonthlyRentTotal),
+      monthly_mf_total: firstDefined(row.monthly_mf_total, row.monthlyMfTotal, row.current_monthly_mf_total, row.currentMonthlyMfTotal),
+      e_noc: firstDefined(row.e_noc, row.eNoc),
+      current_rent_per_py: firstDefined(row.current_rent_per_py, row.currentRentPerPy),
+      current_mf_per_py: firstDefined(row.current_mf_per_py, row.currentMfPerPy),
       current_end_date: firstDefined(row.current_end_date, row.currentEndDate),
     }));
-  const evidence = [...assetEvidence, ...matchedContractRows].slice(0, 16);
+  const matchedRentRows = namedRentRows
+    .map((row) => ({ row, score: keywordMatchScore(rowText(row), terms) }))
+    .filter((item) => !terms.length || item.score > 0)
+    .sort((a, b) => b.score - a.score || rowText(a.row).localeCompare(rowText(b.row), 'ko'))
+    .slice(0, 8)
+    .map(({ row }) => stripUndefined({
+      table: 'll_rent_history',
+      asset: firstDefined(row.asset_name, row.assetName),
+      tenant: firstDefined(row.tenant_master_name, row.tenantMasterName, row.company_name, row.companyName),
+      space: firstDefined(row.space_label, row.spaceLabel, row.floor_label, row.floorLabel, row.detail_area_label, row.detailAreaLabel),
+      leased_area_sqm: firstDefined(row.leased_area_sqm, row.leasedAreaSqm),
+      monthly_combined_total: firstDefined(row.monthly_combined_total, row.monthlyCombinedTotal),
+      monthly_rent_total: firstDefined(row.monthly_rent_total, row.monthlyRentTotal),
+      monthly_mf_total: firstDefined(row.monthly_mf_total, row.monthlyMfTotal),
+      current_rent_per_py: firstDefined(row.current_rent_per_py, row.currentRentPerPy, row.rent_per_py, row.rentPerPy),
+      current_mf_per_py: firstDefined(row.current_mf_per_py, row.currentMfPerPy, row.mf_per_py, row.mfPerPy),
+      basis_date: firstDefined(row.basis_date, row.basisDate),
+    }));
+  const matchedMetricRows = metricRows
+    .map((row) => ({ row, score: keywordMatchScore(rowText(row), terms) }))
+    .filter((item) => !terms.length || item.score > 0)
+    .sort((a, b) => b.score - a.score || rowText(a.row).localeCompare(rowText(b.row), 'ko'))
+    .slice(0, 12)
+    .map(({ row }) => stripUndefined({
+      table: 'll_dashboard_metric_snapshots',
+      asset: firstDefined(row.asset_name, row.assetName),
+      tenant: firstDefined(row.tenant_name, row.tenantName),
+      metric_key: row.metric_key,
+      value: firstDefined(row.numeric_value, row.text_value),
+      unit: row.unit,
+      basis_date: row.basis_date,
+    }));
+  const evidence = [...assetEvidence, ...matchedMetricRows, ...matchedContractRows, ...matchedRentRows].slice(0, 24);
   return {
     evidence,
     scope: {
       demo_mode: true,
-      evidence_policy: 'll_assets and ll_leasing_contracts summary fields only',
+      evidence_policy: 'll_assets, ll_lease_spaces, ll_rent_history, and ll_dashboard_metric_snapshots summary fields only',
       readable_asset_count: rows.length,
       evidence_rows: evidence.length,
       matched_asset_rows: matchedRows.length,
       matched_terms: terms,
-      matched_tables: matchedContractRows.length ? ['ll_assets', 'll_leasing_contracts'] : ['ll_assets'],
+      matched_tables: [
+        'll_assets',
+        ...(matchedMetricRows.length ? ['ll_dashboard_metric_snapshots'] : []),
+        ...(matchedContractRows.length ? ['ll_lease_spaces'] : []),
+        ...(matchedRentRows.length ? ['ll_rent_history'] : []),
+      ],
     },
+    assetRows: rows,
+    leaseRows: searchableLeaseRows,
+    rentRows: namedRentRows,
+    metricRows,
+    matchedAssetRows: matchedRows,
+    matchedLeaseRows: matchedContractRows,
+    matchedRentRows,
+    matchedMetricRows,
   };
 }
 
@@ -1910,6 +2524,26 @@ async function callGoogleAiSearchChatDemo(origin: string, payload: Record<string
   let context: { evidence: Record<string, unknown>[]; scope: Record<string, unknown> } | null = null;
   try {
     context = await collectAiDemoSearchContext(serviceClient, question);
+    const deterministicAnswer = buildDeterministicAiAnswer(question, context as Record<string, unknown>);
+    if (deterministicAnswer) {
+      await audit(serviceClient, null, 'ai/search-chat-demo', 200, {
+        origin,
+        provider: 'edge',
+        model: deterministicAnswer.mode,
+        question_length: question.length,
+        evidence_count: context.evidence.length,
+        deterministic: true,
+      }).catch(() => {});
+      return jsonResponse({
+        ok: true,
+        mode: deterministicAnswer.mode,
+        provider: 'edge',
+        model: 'dashboard-metrics',
+        answer: deterministicAnswer.answer,
+        evidence: context.evidence.slice(0, 12),
+        scope: context.scope,
+      }, 200, origin);
+    }
     const prompt = [
       'You are the internal logistics leasing work-platform assistant in temporary demo mode.',
       'Answer in Korean. Use only the supplied ll_* summary evidence rows.',
@@ -2026,6 +2660,7 @@ Deno.serve(async (request) => {
   if (action === 'building-register/summary') return callBuildingRegister(ctx, payload);
   if (action === 'naver/geocode') return callNaverGeocode(ctx, payload);
   if (action === 'ai/search-chat') return callGoogleAiSearchChat(ctx, payload);
+  if (action === 'dashboard-metrics/refresh') return callDashboardMetricRefresh(ctx, payload);
   if (action === 'snapshot-refresh' || action === 'cache-clear') {
     if (!hasRole(ctx.role, 'Admin')) return fail(403, 'Insufficient logistics permission', origin);
     await audit(ctx.serviceClient, ctx.user.id, action, 202, payload);
