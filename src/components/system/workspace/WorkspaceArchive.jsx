@@ -12,6 +12,28 @@ export default function WorkspacePmArchive() {
         return params.get('workspace') || 'pm';
     });
 
+    const generateWeekInfo = (date) => {
+        const d = new Date(date);
+        const day = d.getDay();
+        const diff = d.getDate() - day + (day === 0 ? -6 : 1);
+        const monday = new Date(d.setDate(diff));
+        
+        const sunday = new Date(monday);
+        sunday.setDate(monday.getDate() + 6);
+        
+        const firstDayOfMonth = new Date(monday.getFullYear(), monday.getMonth(), 1);
+        const firstDayWeekday = firstDayOfMonth.getDay() || 7; 
+        const offsetDate = monday.getDate() + firstDayWeekday - 1;
+        const weekNum = Math.floor(offsetDate / 7) + 1;
+        
+        const yearStr = String(monday.getFullYear()).slice(-2);
+        const month = monday.getMonth() + 1;
+        
+        const weekLabel = `${yearStr}년 ${month}월 ${weekNum}주`;
+        const range = `(${yearStr}.${month}.${monday.getDate()}~${sunday.getMonth()+1}.${sunday.getDate()})`;
+        return { weekLabel, range, monday };
+    };
+
     const workspaces = [
         { id: 'pm', name: '사업 PM', icon: <svg className="w-[18px] h-[18px] mr-3 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg> },
         { id: 'financing', name: '파이낸싱-LFC', icon: <svg className="w-[18px] h-[18px] mr-3 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> },
@@ -46,32 +68,40 @@ export default function WorkspacePmArchive() {
                 if (snapshotRes.error) throw snapshotRes.error;
                 let fetchedData = snapshotRes.data || [];
                 
-                // Fallback: If no snapshot exists, use the pre-fetched live data
-                if (fetchedData.length === 0 && liveRes.data && liveRes.data.length > 0) {
+                const currentWeekInfo = generateWeekInfo(new Date());
+                const hasCurrentWeek = fetchedData.some(s => s.week_label === currentWeekInfo.weekLabel);
+                
+                // Fallback: If no snapshot exists for the current week, use live data
+                if (!hasCurrentWeek && liveRes.data && liveRes.data.length > 0) {
                     fetchedData.push({
                         id: workspaceFilter + '-live-fallback',
                         workspace: workspaceFilter,
-                        week_label: '26년 5월 3주',
+                        week_label: currentWeekInfo.weekLabel,
                         created_at: new Date().toISOString(),
-                        snapshot_data: liveRes.data
+                        snapshot_data: liveRes.data,
+                        range: currentWeekInfo.range
                     });
                 }
                 
-                // Add dummy 5월 2주 snapshot if we have a current one
-                if (fetchedData.length > 0) {
-                    const hasWeek2 = fetchedData.some(s => s.week_label === '26년 5월 2주');
-                    if (!hasWeek2) {
-                        const dummy = {
-                            ...fetchedData[0],
-                            id: fetchedData[0].id + '-dummy',
-                            week_label: '26년 5월 2주',
-                            created_at: new Date(new Date(fetchedData[0].created_at).getTime() - 7 * 24 * 60 * 60 * 1000).toISOString()
-                        };
-                        fetchedData.push(dummy);
+                // Ensure we have past 3 weeks for dummy visualization if not in DB
+                for (let i = 1; i <= 3; i++) {
+                    const pastDate = new Date(new Date().getTime() - i * 7 * 24 * 60 * 60 * 1000);
+                    const pastInfo = generateWeekInfo(pastDate);
+                    
+                    const hasPastWeek = fetchedData.some(s => s.week_label === pastInfo.weekLabel);
+                    if (!hasPastWeek && fetchedData.length > 0) {
+                        const baseSnap = fetchedData[0];
+                        fetchedData.push({
+                            ...baseSnap,
+                            id: baseSnap.id + '-dummy-' + i,
+                            week_label: pastInfo.weekLabel,
+                            created_at: pastDate.toISOString(),
+                            range: pastInfo.range
+                        });
                     }
                 }
                 
-                // Sort to ensure 5월 2주 comes after 5월 3주
+                // Sort to ensure descending order by date
                 fetchedData.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
 
                 setSnapshots(fetchedData);
@@ -85,16 +115,14 @@ export default function WorkspacePmArchive() {
                 const localData = JSON.parse(localStorage.getItem('iota_weekly_snapshots') || '[]');
                 let filteredSnaps = localData.filter(s => s.workspace === workspaceFilter);
                 
-                // Fallback: If no snapshot exists at all, fetch from the live workspace table
-                if (filteredSnaps.length === 0) {
+                // Apply dynamic dummy logic for local storage fallback as well
+                const currentWeekInfo = generateWeekInfo(new Date());
+                const hasCurrentWeekLocal = filteredSnaps.some(s => s.week_label === currentWeekInfo.weekLabel);
+                
+                if (!hasCurrentWeekLocal && filteredSnaps.length === 0) {
                     const tableMap = {
-                        pm: 'iota_pm_tasks',
-                        digital: 'iota_digital_tasks',
-                        marketing: 'iota_marketing_tasks',
-                        fund: 'iota_fund_tasks',
-                        development: 'iota_development_tasks',
-                        financing: 'iota_financing_tasks',
-                        ipr: 'iota_ipr_tasks'
+                        pm: 'iota_pm_tasks', digital: 'iota_digital_tasks', marketing: 'iota_marketing_tasks',
+                        fund: 'iota_fund_tasks', development: 'iota_development_tasks', financing: 'iota_financing_tasks', ipr: 'iota_ipr_tasks'
                     };
                     const tableName = tableMap[workspaceFilter];
                     let liveTasks = [];
@@ -111,23 +139,28 @@ export default function WorkspacePmArchive() {
                         filteredSnaps.push({
                             id: workspaceFilter + '-live-fallback',
                             workspace: workspaceFilter,
-                            week_label: '26년 5월 3주',
+                            week_label: currentWeekInfo.weekLabel,
                             created_at: new Date().toISOString(),
-                            snapshot_data: liveTasks
+                            snapshot_data: liveTasks,
+                            range: currentWeekInfo.range
                         });
                     }
                 }
                 
-                if (filteredSnaps.length > 0) {
-                    const hasWeek2 = filteredSnaps.some(s => s.week_label === '26년 5월 2주');
-                    if (!hasWeek2) {
-                        const dummy = {
-                            ...filteredSnaps[0],
-                            id: filteredSnaps[0].id + '-dummy',
-                            week_label: '26년 5월 2주',
-                            created_at: new Date(new Date(filteredSnaps[0].created_at).getTime() - 7 * 24 * 60 * 60 * 1000).toISOString()
-                        };
-                        filteredSnaps.push(dummy);
+                for (let i = 1; i <= 3; i++) {
+                    const pastDate = new Date(new Date().getTime() - i * 7 * 24 * 60 * 60 * 1000);
+                    const pastInfo = generateWeekInfo(pastDate);
+                    
+                    const hasPastWeek = filteredSnaps.some(s => s.week_label === pastInfo.weekLabel);
+                    if (!hasPastWeek && filteredSnaps.length > 0) {
+                        const baseSnap = filteredSnaps[0];
+                        filteredSnaps.push({
+                            ...baseSnap,
+                            id: baseSnap.id + '-dummy-' + i,
+                            week_label: pastInfo.weekLabel,
+                            created_at: pastDate.toISOString(),
+                            range: pastInfo.range
+                        });
                     }
                 }
                 
@@ -186,7 +219,7 @@ export default function WorkspacePmArchive() {
                         <div>
                             
                             <h2 className="text-[32px] font-bold text-white tracking-tight flex items-center gap-3">
-                                <span className="text-[#b3b0a6]">{snap.week_label} {snap.week_label === '26년 5월 3주' ? '(26.5.11~5.17)' : snap.week_label === '26년 5월 2주' ? '(26.5.4~5.10)' : ''}</span>
+                                <span className="text-[#b3b0a6]">{snap.week_label} {snap.range ? snap.range : generateWeekInfo(snap.created_at).range}</span>
                                 <span className="text-[#A1A1AA] text-[24px]">|</span>
                                 <span>{workspaces.find(w => w.id === workspaceFilter)?.name}</span>
                             </h2>
@@ -278,7 +311,8 @@ export default function WorkspacePmArchive() {
                                     <button 
                                         onClick={() => {
                                             if (allSelected) {
-                                                const currentWeekSnap = grouped[groupKey].find(s => s.week_label === '26년 5월 3주') || grouped[groupKey][0];
+                                                const currentWeekInfo = generateWeekInfo(new Date());
+                                                const currentWeekSnap = grouped[groupKey].find(s => s.week_label === currentWeekInfo.weekLabel) || grouped[groupKey][0];
                                                 if (currentWeekSnap) {
                                                     setSelectedSnapshotIds(prev => {
                                                         const filtered = prev.filter(id => !groupIds.includes(id));
@@ -301,7 +335,7 @@ export default function WorkspacePmArchive() {
                                             onClick={() => setSelectedSnapshotIds(prev => prev.includes(snap.id) ? prev.filter(id => id !== snap.id) : [...prev, snap.id])}
                                             className={`w-full text-left px-4 py-[8px] rounded-[8px] transition-all flex justify-between items-center ${selectedSnapshotIds.includes(snap.id) ? 'bg-[#3b82f6]/20 text-[#60a5fa] border border-[#3b82f6]/30 font-bold' : 'text-[#E5E5E5] hover:bg-[#333] border border-transparent'}`}
                                         >
-                                            <span className="text-[13px]">{snap.week_label} {snap.week_label === '26년 5월 3주' ? '(26.5.11~5.17)' : snap.week_label === '26년 5월 2주' ? '(26.5.4~5.10)' : ''}</span>
+                                            <span className="text-[13px]">{snap.week_label} {snap.range ? snap.range : generateWeekInfo(snap.created_at).range}</span>
                                             {selectedSnapshotIds.includes(snap.id) && <span className="text-[16px] text-[#60a5fa]">✓</span>}
                                         </button>
                                     ))}
