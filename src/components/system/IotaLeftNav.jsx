@@ -230,6 +230,13 @@ export default function IotaLeftNav({ currentPath = '' }) {
 
     const isLogisticsPath = currentPath.startsWith('platform/iotaseoul/workspace/logistics');
     const isLogisticsAdmin = LOGISTICS_ADMIN_NAMES.has(memberInfo?.staff_name || memberInfo?.name);
+    const renderCollapsedTooltip = (label) => (
+        isCollapsed ? (
+            <span className="pointer-events-none absolute left-[58px] top-1/2 z-[9999] -translate-y-1/2 whitespace-nowrap rounded-[8px] border border-[#3A3A3C] bg-[#242424] px-2.5 py-1.5 text-[12px] font-semibold text-white opacity-0 shadow-xl transition-opacity duration-150 group-hover:opacity-100">
+                {label}
+            </span>
+        ) : null
+    );
 
     if (isLogisticsPath) {
         const visibleLogisticsItems = logisticsNavItems.filter((item) => !item.adminOnly || isLogisticsAdmin);
@@ -253,13 +260,15 @@ export default function IotaLeftNav({ currentPath = '' }) {
                     ) : null}
                     <div className="flex flex-col gap-0">
                         {visibleLogisticsItems.map((item) => {
-                            const isActive = currentPath === item.path || currentPath.startsWith(`${item.path}/`);
+                            const isRootItem = item.path === 'platform/iotaseoul/workspace/logistics';
+                            const isActive = isRootItem ? currentPath === item.path : currentPath === item.path || currentPath.startsWith(`${item.path}/`);
                             return (
-                                <div key={item.path} title={isCollapsed ? item.label : undefined} onClick={() => handleNavigation(item.path)} className={`flex items-center ${isCollapsed ? 'justify-center' : 'justify-between'} py-[7px] rounded-xl cursor-pointer transition-colors duration-200 outline-none select-none ${isActive ? 'bg-[#151515] px-[9px] -mx-[2px]' : 'px-[7px] hover:bg-[#151515]'}`}>
+                                <div key={item.path} title={isCollapsed ? item.label : undefined} onClick={() => handleNavigation(item.path)} className={`group relative flex items-center ${isCollapsed ? 'justify-center' : 'justify-between'} py-[7px] rounded-xl cursor-pointer transition-colors duration-200 outline-none select-none ${isActive ? 'bg-[#151515] px-[9px] -mx-[2px]' : 'px-[7px] hover:bg-[#151515]'}`}>
                                     <div className={`flex items-center ${isCollapsed ? 'justify-center' : ''}`}>
                                         <span className={`text-white ${isCollapsed ? '[&>svg]:mr-0' : ''}`}>{item.icon}</span>
                                         {!isCollapsed ? <span className="text-[14px] text-white font-light">{item.label}</span> : null}
                                     </div>
+                                    {renderCollapsedTooltip(item.label)}
                                 </div>
                             );
                         })}
@@ -329,7 +338,7 @@ export default function IotaLeftNav({ currentPath = '' }) {
                                         }
                                     }}
                                     title={isCollapsed ? item.label : undefined}
-                                    className={`flex items-center ${isCollapsed ? 'justify-center px-[7px]' : 'justify-between'} py-[7px] rounded-xl cursor-pointer transition-colors duration-200 outline-none select-none ${isActive ? 'bg-[#151515] px-[9px] -mx-[2px]' : 'px-[7px] hover:bg-[#151515]'}`}
+                                    className={`group relative flex items-center ${isCollapsed ? 'justify-center px-[7px]' : 'justify-between'} py-[7px] rounded-xl cursor-pointer transition-colors duration-200 outline-none select-none ${isActive ? 'bg-[#151515] px-[9px] -mx-[2px]' : 'px-[7px] hover:bg-[#151515]'}`}
                                 >
                                     <div className={`flex items-center ${isCollapsed ? 'justify-center' : ''}`}>
                                         <span className={`text-white ${isCollapsed ? '[&>svg]:mr-0' : ''}`}>
@@ -339,6 +348,7 @@ export default function IotaLeftNav({ currentPath = '' }) {
                                             {item.label}
                                         </span> : null}
                                     </div>
+                                    {renderCollapsedTooltip(item.label)}
                                     {!isCollapsed ? <div className="flex items-center gap-2">
                                         {item.badge && (
                                             <div className="bg-[#f87171]/20 text-[#f87171] text-[10px] px-2 py-0.5 rounded-full">
@@ -417,7 +427,7 @@ export default function IotaLeftNav({ currentPath = '' }) {
                             {workspaceItems.map((item, idx) => {
                                 const isActive = currentPath === item.path || currentPath.startsWith(`${item.path}/`);
                                 return (
-                                <div key={idx} title={isCollapsed ? item.label : undefined} onClick={() => handleNavigation(item.path)} className={`flex items-center ${isCollapsed ? 'justify-center' : 'justify-between'} py-[7px] rounded-xl cursor-pointer transition-colors duration-200 outline-none select-none ${isActive ? 'bg-[#151515] px-[9px] -mx-[2px]' : 'px-[7px] hover:bg-[#151515]'}`}>
+                                <div key={idx} title={isCollapsed ? item.label : undefined} onClick={() => handleNavigation(item.path)} className={`group relative flex items-center ${isCollapsed ? 'justify-center' : 'justify-between'} py-[7px] rounded-xl cursor-pointer transition-colors duration-200 outline-none select-none ${isActive ? 'bg-[#151515] px-[9px] -mx-[2px]' : 'px-[7px] hover:bg-[#151515]'}`}>
                                     <div className={`flex items-center ${isCollapsed ? 'justify-center' : ''}`}>
                                         <span className={`text-white ${isCollapsed ? '[&>svg]:mr-0' : ''}`}>
                                             {item.icon}
@@ -426,6 +436,7 @@ export default function IotaLeftNav({ currentPath = '' }) {
                                             {item.label}
                                         </span> : null}
                                     </div>
+                                    {renderCollapsedTooltip(item.label)}
                                 </div>
                             );
                             })}

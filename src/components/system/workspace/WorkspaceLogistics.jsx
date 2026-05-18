@@ -7153,22 +7153,17 @@ function DashboardShell({ activeModule }) {
       <SectionHeader
         eyebrow="INTERNAL MODULE"
         title="임대차 Dashboard"
-        right={(
+        right={canUseOriginalDataEdit ? (
           <div className="flex flex-wrap items-center justify-end gap-2">
-            {canUseOriginalDataEdit ? (
-              <button
-                type="button"
-                onClick={() => setModal({ title: '원본 데이터 수정', size: 'wide', content: <OriginalDataEditPanel permission={permission} /> })}
-                className={`h-9 rounded-[8px] border px-3 text-[13px] font-semibold ${DARK_BUTTON_CLASS}`}
-              >
-                원본 데이터 수정
-              </button>
-            ) : null}
-            <button type="button" onClick={() => navigateTo(pathFor())} className={`h-9 rounded-[8px] border px-3 text-[13px] font-semibold ${PRIMARY_BLUE_BUTTON_CLASS}`}>
-              물류센터 워크 플랫폼
+            <button
+              type="button"
+              onClick={() => setModal({ title: '원본 데이터 수정', size: 'wide', content: <OriginalDataEditPanel permission={permission} /> })}
+              className={`h-9 rounded-[8px] border px-3 text-[13px] font-semibold ${DARK_BUTTON_CLASS}`}
+            >
+              원본 데이터 수정
             </button>
           </div>
-        )}
+        ) : null}
       />
 
       {selected.id === 'home' ? <HomeDashboard /> : selected.id === 'asset' ? <AssetDashboard /> : selected.id === 'company' ? <CompanyDashboard /> : selected.id === 'tools' ? <AnalysisToolsDashboard /> : selected.id === 'playground' ? <DataPlaygroundDashboard /> : selected.id === 'quality' ? <DataQualityDashboard /> : null}

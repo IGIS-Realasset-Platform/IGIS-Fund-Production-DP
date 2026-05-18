@@ -16,16 +16,16 @@
     "new_user_requests": "Add new requests to the best matching stage, update the denominator, and report the new total in the same session."
   },
   "summary": {
-    "completed": 134,
-    "total": 212,
-    "completion_rate": 63.2
+    "completed": 139,
+    "total": 217,
+    "completion_rate": 64.1
   },
   "stages": [
     {
       "stage": 2,
       "area": "공통 데이터 기준",
-      "completed": 4,
-      "total": 10,
+      "completed": 5,
+      "total": 11,
       "items": [
         {
           "id": "2.01",
@@ -76,14 +76,19 @@
           "id": "2.10",
           "status": "partial",
           "text": "부국 물류센터는 임차 행과 최신 금액이 있어 월 임관리비/임대면적 기준 E.NOC 27,450원 수준으로 파생 가능하고 저온창고 비율은 0.0%로 계산된다. 아레나스 안성은 임차 행과 저온/상온 구분은 있으나 DB_히스토리누적 최신 금액 연결이 history_unmatched라 E.NOC를 계산할 수 없다. Supabase/live readback은 남아 있다. Evidence: home-enoc-coldratio-static-qa-20260515 allPass=true."
+        },
+        {
+          "id": "2.11",
+          "status": "done",
+          "text": "사용자가 지적한 경산 쿠팡물류센터, 부산송정물류센터, 아레나스양지물류센터를 원본 Excel과 Supabase qveg read-only 쿼리로 대조했다. 경산은 rent_history 3건 보정 완료이나 lease_space_id 충돌이 남아 있고, 부산송정은 원본 tenant \"-\" placeholder, 아레나스양지는 원본 aggregate row와 Supabase lease rows는 일치하되 CJ rent_history linkage가 불완전하다. Evidence: source-supabase-target-reconciliation-20260518/supabase-excel-anomaly-readback.md."
         }
       ]
     },
     {
       "stage": 3,
       "area": "업무 로그 메인 페이지",
-      "completed": 18,
-      "total": 24,
+      "completed": 20,
+      "total": 26,
       "items": [
         {
           "id": "3.01",
@@ -204,14 +209,24 @@
           "id": "3.26",
           "status": "done",
           "text": "?? ?? ?? ??? Gemini ?? ?? ??? Edge/Gemini/model/provider status ?? ?? UI? ????. Evidence: gemini-diagnostics-smoke-20260518, preview JS contains ai/gemini-diagnostics and ?? ??."
+        },
+        {
+          "id": "3.27",
+          "status": "done",
+          "text": "좌측 사이드바에서 워크 플랫폼을 눌렀다가 Dashboard Home/Asset/Company 등 다른 탭으로 이동해도 워크 플랫폼 active 음영이 남지 않도록 root path는 exact match로 고쳤다. Evidence: IotaLeftNav.jsx static grep, npm run build pass."
+        },
+        {
+          "id": "3.28",
+          "status": "done",
+          "text": "좌측 사이드바 접힘 상태에서 물류 전용 메뉴와 기존 IOTA 메뉴/워크스페이스 메뉴 버튼 hover 시 커스텀 tooltip으로 버튼 이름이 뜨도록 추가했다. Evidence: IotaLeftNav.jsx static grep, npm run build pass."
         }
       ]
     },
     {
       "stage": 4,
       "area": "Dashboard 공통",
-      "completed": 5,
-      "total": 10,
+      "completed": 6,
+      "total": 11,
       "items": [
         {
           "id": "4.01",
@@ -262,6 +277,11 @@
           "id": "4.10",
           "status": "partial",
           "text": "자산이 늘거나 줄어도 17개/20개 같은 하드코딩에 의존하지 않도록, 워크 플랫폼·대시보드·권한 필터·집계는 백엔드 자산 master와 권한 scope를 기준으로 동적으로 동작해야 한다."
+        },
+        {
+          "id": "4.11",
+          "status": "done",
+          "text": "기존 대시보드 탭 우상단의 물류센터 워크 플랫폼 이동 버튼을 제거하고, 권한자용 원본 데이터 수정 버튼만 조건부로 남겼다. Evidence: WorkspaceLogistics.jsx static grep, npm run build pass."
         }
       ]
     },
@@ -1015,8 +1035,8 @@
     {
       "stage": 14,
       "area": "QA 계획",
-      "completed": 7,
-      "total": 19,
+      "completed": 8,
+      "total": 20,
       "items": [
         {
           "id": "14.01",
@@ -1112,6 +1132,11 @@
           "id": "14.19",
           "status": "done",
           "text": "Gemini diagnostics direct/live-origin/frontend bundle 3?? smoke? ????. qveg direct live-origin diagnostics? ok=true, gemini_ok=true, model=gemini-2.5-flash, provider_status=200?? demo search? ok=true? ????. Evidence: gemini-diagnostics-smoke-20260518."
+        },
+        {
+          "id": "14.20",
+          "status": "done",
+          "text": "이번 사이드바 active/tooltip 및 대시보드 우상단 버튼 제거 변경에 대해 정적 grep과 GitHub Pages base build를 통과했다. Evidence: npm run build -- --base=/logistics-gate6-preview/ pass."
         }
       ]
     },
@@ -1259,5 +1284,6 @@
     "latest_partial_item_ids": [
       "2.10"
     ]
-  }
+  },
+  "lastUpdated": "2026-05-18T18:55:00+09:00"
 }
