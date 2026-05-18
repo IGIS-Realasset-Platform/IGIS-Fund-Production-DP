@@ -1603,13 +1603,80 @@ function PermissionDetailContent({ permission }) {
   );
 }
 
+function normalizeSearchText(value) {
+  return String(value || '')
+    .toLowerCase()
+    .replace(/[㈜().,·/\\_-]+/gu, ' ')
+    .replace(/\s+/gu, ' ')
+    .trim();
+}
+
+function buildAssetSearchText(asset) {
+  const payload = findAssetPayload(asset.assetId, asset.assetName) || {};
+  const overview = payload.overview || {};
+  const rows = [
+    ...(payload.normalizedRows || []),
+    ...(payload.leaseSpaces || []),
+    ...(payload.contracts || []),
+    ...(payload.monthlyCostByTenant || []),
+  ];
+  const tenantNames = rows.map((row) => firstDefined(row.tenantMasterName, row.tenantName, row.companyName, row.rawTenantName)).filter(Boolean);
+  const rowTextValue = rows.slice(0, 80).map((row) => [
+    row.tenantMasterName,
+    row.tenantName,
+    row.companyName,
+    row.assetName,
+    row.spaceLabel,
+    row.floorLabel,
+    row.detailAreaLabel,
+    row.coldStorageType,
+  ].filter(Boolean).join(' ')).join(' ');
+  return [
+    asset.assetName,
+    asset.assetId,
+    asset.assetCode,
+    asset.fundName,
+    asset.address,
+    asset.standardizedAddress,
+    overview.assetName,
+    overview.fundName,
+    overview.standardizedAddress,
+    ...tenantNames,
+    rowTextValue,
+  ].filter(Boolean).join(' ');
+}
+
+function buildTenantSearchText(tenant) {
+  const payload = COMPANY_PAYLOADS[tenant.tenantId] || {};
+  const profile = payload.profile || {};
+  const leasedAssets = payload.leasedAssets || payload.leases || [];
+  const assetNames = leasedAssets.map((row) => firstDefined(row.assetName, row.asset_name)).filter(Boolean);
+  return [
+    tenant.tenantMasterName,
+    tenant.tenantId,
+    tenant.businessRegistrationNo,
+    profile.tenantMasterName,
+    profile.companyName,
+    profile.businessRegistrationNo,
+    ...assetNames,
+    leasedAssets.slice(0, 80).map((row) => Object.values(row).filter((value) => typeof value !== 'object').join(' ')).join(' '),
+  ].filter(Boolean).join(' ');
+}
+
 function buildLogisticsSearchResults(query, permission) {
   const text = String(query || '').trim().toLowerCase();
   if (text.length < 2) return [];
+  const normalizedQuery = normalizeSearchText(query);
+  const terms = normalizedQuery.split(/[^가-힣a-z0-9]+/iu).map((item) => item.trim()).filter((item) => item.length >= 2);
+  const matchesQuery = (value) => {
+    const haystack = normalizeSearchText(value);
+    if (!haystack) return false;
+    return haystack.includes(normalizedQuery) || terms.every((term) => haystack.includes(term));
+  };
   const managedAssetNames = new Set((permission.managedAssets || []).map((asset) => asset.assetName));
   const assetResults = assetOptionsData
     .filter((asset) => !managedAssetNames.size || managedAssetNames.has(asset.assetName) || assetMatchesPermission(asset.assetName, permission))
-    .filter((asset) => [asset.assetName, asset.assetId].join(' ').toLowerCase().includes(text))
+    .filter((asset) => matchesQuery(buildAssetSearchText(asset)))
     .sort((a, b) => String(a.assetName || '').localeCompare(String(b.assetName || ''), 'ko-KR'))
     .slice(0, 8)
     .map((asset) => ({
@@ -1620,7 +1687,7 @@ function buildLogisticsSearchResults(query, permission) {
       raw: asset,
     }));
   const tenantResults = companyOptionsData
-    .filter((tenant) => [tenant.tenantMasterName, tenant.tenantId].join(' ').toLowerCase().includes(text))
+    .filter((tenant) => matchesQuery(buildTenantSearchText(tenant)))
     .sort((a, b) => String(a.tenantMasterName || '').localeCompare(String(b.tenantMasterName || ''), 'ko-KR'))
     .slice(0, 8)
     .map((tenant) => ({
@@ -1883,10 +1950,20 @@ export default function WorkspaceLogistics({ currentPath = '' }) {
   const [expandedTaskId, setExpandedTaskId] = useState(null);
   const [mainModal, setMainModal] = useState(null);
   const [mainSearchQuery, setMainSearchQuery] = useState('');
-  const [mainAiAnswer, setMainAiAnswer] = useState(null);
-  const [mainAiLoading, setMainAiLoading] = useState(false);
-  const [mainAiDiagnostics, setMainAiDiagnostics] = useState(null);
-  const [mainAiDiagnosticsLoading, setMainAiDiagnosticsLoading] = useState(false);
+  const [isAiDockOpen, setIsAiDockOpen] = useState(false);
+  const [aiChatInput, setAiChatInput] = useState('');
+  const [aiChatLoading, setAiChatLoading] = useState(false);
+  const [aiDiagnosticsLoading, setAiDiagnosticsLoading] = useState(false);
+  const [aiToast, setAiToast] = useState(null);
+  const [aiChatMessages, setAiChatMessages] = useState([
+    {
+      id: 'ai-welcome',
+      role: 'assistant',
+      content: '물류센터 자산, 임차인, 계약, 이슈에 대해 질문하시면 읽기 권한 범위 안의 데이터로 답변합니다.',
+      evidence: [],
+    },
+  ]);
+  const aiChatScrollRef = useRef(null);
   const [selectedSearchResult, setSelectedSearchResult] = useState(null);
   const [taskRecords, setTaskRecords] = useState([]);
   const [taskEditTarget, setTaskEditTarget] = useState(null);
@@ -1929,6 +2006,17 @@ export default function WorkspaceLogistics({ currentPath = '' }) {
       cancelled = true;
     };
   }, [permission, weeklyTasks]);
+
+  useEffect(() => {
+    aiChatScrollRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+  }, [aiChatMessages, aiChatLoading, isAiDockOpen]);
+
+  useEffect(() => {
+    if (!aiToast) return undefined;
+    const timer = window.setTimeout(() => setAiToast(null), 2200);
+    return () => window.clearTimeout(timer);
+  }, [aiToast]);
+
   const scopedTasks = useMemo(() => filterMainTasksByScope(taskRecords, taskScope, permission, showCompletedTasks), [permission, showCompletedTasks, taskRecords, taskScope]);
   const sortedWeeklyTasks = useMemo(() => sortMainTasks(scopedTasks), [scopedTasks]);
   const visibleTasks = showAllTasks ? sortedWeeklyTasks : sortedWeeklyTasks.slice(0, 5);
@@ -2068,7 +2156,8 @@ export default function WorkspaceLogistics({ currentPath = '' }) {
     }
     if (status === 401) return 'Edge Function 인증이 거절되었습니다. 로그인 토큰 또는 anon key 설정을 확인해야 합니다.';
     if (status === 403) return 'Edge Function 권한 또는 origin 허용이 거절되었습니다. live preview URL 허용 설정을 확인해야 합니다.';
-    if (status === 429) return 'Gemini 또는 Edge Function 호출 한도에 걸렸습니다. 잠시 뒤 다시 시도해야 합니다.';
+    if (/spending cap|spend cap|monthly spending/iu.test(rawMessage)) return 'Edge 연결은 정상입니다. 다만 Google AI Studio의 월 지출 한도 설정 때문에 Gemini 응답이 막혀 있습니다.';
+    if (status === 429 || /quota|rate limit|exceeded/iu.test(rawMessage)) return 'Gemini 사용량 한도에 걸렸습니다. 내부 DB 근거 답변으로 대체하거나 잠시 뒤 다시 시도해야 합니다.';
     if (/Google AI key is not configured/i.test(rawMessage)) {
       return 'Edge Function secret에 GOOGLE_AI_KEY 또는 GEMINI_API_KEY가 설정되지 않았습니다.';
     }
@@ -2078,27 +2167,26 @@ export default function WorkspaceLogistics({ currentPath = '' }) {
     return `AI 답변을 불러오지 못했습니다. (${rawMessage || 'unknown error'})`;
   };
 
-  const runMainAiDiagnostics = async () => {
-    setMainAiDiagnosticsLoading(true);
-    setMainAiDiagnostics(null);
+  const diagnosticToastMessage = (data) => {
+    if (data?.edge_reached) return { type: 'success', message: '연결되었습니다.' };
+    return { type: 'warning', message: '연결 진단에 실패했습니다.' };
+  };
+
+  const runAiDiagnostics = async () => {
+    setAiDiagnosticsLoading(true);
     try {
       const { data, error } = await supabase.functions.invoke('ll-dashboard-api', {
-        body: { action: 'ai/gemini-diagnostics', payload: { source: 'workspace-main' } },
+        body: { action: 'ai/provider-diagnostics', payload: { source: 'workspace-chatbot' } },
       });
       if (error) throw error;
-      setMainAiDiagnostics({
-        type: data?.gemini_ok ? 'success' : 'warning',
-        message: data?.gemini_ok ? 'Gemini 연결이 확인되었습니다.' : (data?.message || data?.provider_message || data?.provider_error || 'Gemini 연결 진단에 실패했습니다.'),
-        data,
-      });
+      setAiToast(diagnosticToastMessage(data));
     } catch (error) {
-      setMainAiDiagnostics({
+      setAiToast({
         type: 'warning',
         message: describeAiFunctionError(error),
-        data: null,
       });
     } finally {
-      setMainAiDiagnosticsLoading(false);
+      setAiDiagnosticsLoading(false);
     }
   };
 
@@ -2108,11 +2196,18 @@ export default function WorkspaceLogistics({ currentPath = '' }) {
     return hostname === 'kylee94.github.io' || hostname === 'localhost' || hostname === '127.0.0.1';
   };
 
-  const submitMainAiQuestion = async () => {
-    const question = mainSearchQuery.trim();
+  const submitAiChatQuestion = async () => {
+    const question = aiChatInput.trim();
     if (question.length < 2) return;
-    setMainAiLoading(true);
-    setMainAiAnswer(null);
+    const userMessage = {
+      id: `ai-user-${Date.now()}`,
+      role: 'user',
+      content: question,
+      evidence: [],
+    };
+    setAiChatMessages((messages) => [...messages, userMessage]);
+    setAiChatInput('');
+    setAiChatLoading(true);
     try {
       let responseData = null;
       let primaryError = null;
@@ -2140,22 +2235,25 @@ export default function WorkspaceLogistics({ currentPath = '' }) {
         }
       }
       if (primaryError && !responseData?.ok) throw primaryError;
-      setMainAiAnswer({
-        type: responseData?.ok ? 'success' : 'warning',
-        answer: responseData?.answer || responseData?.message || '권한 범위 안에서 답변할 수 있는 근거를 찾지 못했습니다.',
+      setAiChatMessages((messages) => [...messages, {
+        id: `ai-assistant-${Date.now()}`,
+        role: 'assistant',
+        content: responseData?.answer || responseData?.message || '권한 범위 안에서 답변할 수 있는 근거를 찾지 못했습니다.',
         evidence: Array.isArray(responseData?.evidence) ? responseData.evidence : [],
         scope: responseData?.scope || null,
         mode: responseData?.mode || null,
         model: responseData?.model || null,
-      });
+      }]);
     } catch (error) {
-      setMainAiAnswer({
-        type: 'warning',
-        answer: describeAiFunctionError(error, error?.data),
+      setAiChatMessages((messages) => [...messages, {
+        id: `ai-error-${Date.now()}`,
+        role: 'assistant',
+        tone: 'warning',
+        content: describeAiFunctionError(error, error?.data),
         evidence: [],
-      });
+      }]);
     } finally {
-      setMainAiLoading(false);
+      setAiChatLoading(false);
     }
   };
   const moveTask = async (index, direction) => {
@@ -2180,7 +2278,7 @@ export default function WorkspaceLogistics({ currentPath = '' }) {
   }
 
   return (
-    <div className="w-full max-w-[1200px] mx-auto px-8 pt-[50px] pb-[70px]">
+    <div className={`w-full max-w-[1200px] px-8 pt-[50px] pb-[70px] transition-[margin,max-width] duration-300 ${isAiDockOpen ? 'xl:ml-8 xl:mr-[420px] xl:max-w-[calc(100vw-760px)]' : 'mx-auto'}`}>
       <header className="mb-[28px] flex flex-col gap-5 xl:flex-row xl:items-start xl:justify-between">
         <div>
           <h1 className="text-[36px] font-bold leading-none tracking-tight text-white font-['Inter']">물류센터 워크 플랫폼</h1>
@@ -2220,68 +2318,22 @@ export default function WorkspaceLogistics({ currentPath = '' }) {
           </div>
         </div>
         <div className="mt-4 border-t border-[#333333] pt-4">
-          <div className="mx-auto grid w-full max-w-[1040px] grid-cols-1 items-center gap-4 md:grid-cols-[128px_minmax(0,1fr)_96px_96px]">
+          <div className="mx-auto grid w-full max-w-[1040px] grid-cols-1 items-center gap-4 md:grid-cols-[128px_minmax(0,1fr)]">
             <h2 className="text-[18px] font-bold text-white md:text-left">통합 검색</h2>
             <input
+              data-testid="logistics-main-search-input"
               value={mainSearchQuery}
               onChange={(event) => setMainSearchQuery(event.target.value)}
               onKeyDown={(event) => {
                 if (event.key === 'Enter') {
                   event.preventDefault();
-                  submitMainAiQuestion();
+                  if (searchResults[0]) setSelectedSearchResult(searchResults[0]);
                 }
               }}
-              placeholder="자산·임차인·계약·이슈를 검색하거나 질문하세요"
+              placeholder="자산명 또는 임차인명을 검색하세요"
               className="h-12 w-full rounded-[999px] border border-[#3A3A3C] bg-[#1F1F1E] px-5 text-[15px] font-semibold text-white shadow-inner outline-none placeholder:text-[#6E6E73] focus:border-[#8E8E93]"
             />
-            <button
-              type="button"
-              onClick={submitMainAiQuestion}
-              disabled={mainAiLoading || mainSearchQuery.trim().length < 2}
-              className={`h-12 rounded-[999px] border px-4 text-[13px] font-bold transition-colors ${mainAiLoading || mainSearchQuery.trim().length < 2 ? 'border-[#333333] bg-[#222] text-[#6E6E73]' : PRIMARY_BLUE_BUTTON_CLASS}`}
-            >
-              {mainAiLoading ? '답변 중' : 'AI 답변'}
-            </button>
-            <button
-              type="button"
-              onClick={runMainAiDiagnostics}
-              disabled={mainAiDiagnosticsLoading}
-              className={`h-12 rounded-[999px] border px-4 text-[13px] font-bold transition-colors ${mainAiDiagnosticsLoading ? 'border-[#333333] bg-[#222] text-[#6E6E73]' : DARK_BUTTON_CLASS}`}
-            >
-              {mainAiDiagnosticsLoading ? '진단 중' : '연결 진단'}
-            </button>
           </div>
-          {mainAiAnswer ? (
-            <div className={`mx-auto mt-3 max-w-[1040px] rounded-[16px] border p-4 ${mainAiAnswer.type === 'success' ? 'border-[#2E6B45] bg-[#173522]/70' : 'border-[#7A6425] bg-[#2B2613]/80'}`}>
-              <div className="whitespace-pre-line text-[14px] font-semibold leading-6 text-white">{mainAiAnswer.answer}</div>
-              {mainAiAnswer.evidence?.length ? (
-                <div className="mt-3 flex flex-wrap gap-2">
-                  {mainAiAnswer.evidence.slice(0, 4).map((item, index) => (
-                    <span key={`${item.table}-${index}`} className="rounded-full border border-white/10 bg-black/20 px-2.5 py-1 text-[11px] font-semibold text-[#C7C7CC]">
-                      {item.table} · {item.asset || item.tenant || '근거'}
-                    </span>
-                  ))}
-                </div>
-              ) : null}
-            </div>
-          ) : null}
-          {mainAiDiagnostics ? (
-            <div className={`mx-auto mt-3 max-w-[1040px] rounded-[16px] border p-4 ${mainAiDiagnostics.type === 'success' ? 'border-[#2E6B45] bg-[#173522]/70' : 'border-[#7A6425] bg-[#2B2613]/80'}`}>
-              <div className="text-[14px] font-semibold leading-6 text-white">{mainAiDiagnostics.message}</div>
-              {mainAiDiagnostics.data ? (
-                <div className="mt-3 grid grid-cols-2 gap-2 text-[12px] text-[#C7C7CC] md:grid-cols-5">
-                  <span>Edge {mainAiDiagnostics.data.edge_reached ? 'OK' : 'FAIL'}</span>
-                  <span>Gemini {mainAiDiagnostics.data.gemini_ok ? 'OK' : 'FAIL'}</span>
-                  <span>{mainAiDiagnostics.data.model || 'model unknown'}</span>
-                  <span>Status {mainAiDiagnostics.data.provider_status ?? '-'}</span>
-                  <span>Origin {mainAiDiagnostics.data.origin_allowed ? 'OK' : 'FAIL'}</span>
-                  {mainAiDiagnostics.data.answer_preview ? (
-                    <span className="col-span-2 md:col-span-5">Preview: {mainAiDiagnostics.data.answer_preview}</span>
-                  ) : null}
-                </div>
-              ) : null}
-            </div>
-          ) : null}
           {mainSearchQuery.trim().length >= 2 ? (
             <div className="mt-3 grid grid-cols-1 gap-2 md:grid-cols-2">
               {searchResults.length ? searchResults.map((result) => (
@@ -2616,6 +2668,107 @@ export default function WorkspaceLogistics({ currentPath = '' }) {
           </div>
         </MainOverlay>
       )}
+      {aiToast ? (
+        <div data-testid="logistics-ai-toast" className={`fixed right-6 top-6 z-[90] rounded-[14px] border px-4 py-3 text-[13px] font-bold shadow-2xl ${aiToast.type === 'success' ? 'border-[#2E6B45] bg-[#173522] text-[#B5E48C]' : 'border-[#7A6425] bg-[#2B2613] text-[#FFD166]'}`}>
+          {aiToast.message}
+        </div>
+      ) : null}
+      <div className="fixed right-0 top-1/2 z-[70] -translate-y-1/2">
+        {!isAiDockOpen ? (
+          <button
+            type="button"
+            data-testid="logistics-ai-dock-open"
+            onClick={() => setIsAiDockOpen(true)}
+            className="flex h-[112px] w-11 items-center justify-center rounded-l-[16px] border border-r-0 border-[#3b82f6]/40 bg-[#1f3763] text-[13px] font-bold text-[#CFE1FF] shadow-2xl transition-colors hover:bg-[#284B87]"
+            aria-label="AI 챗봇 열기"
+          >
+            <span className="flex flex-col items-center justify-center gap-1 leading-none">
+              <span className="tracking-normal">AI</span>
+              <span>챗</span>
+              <span>봇</span>
+            </span>
+          </button>
+        ) : null}
+      </div>
+      <div data-testid="logistics-ai-dock" className={`fixed right-0 top-0 z-[80] flex h-screen w-[min(420px,calc(100vw-24px))] transform flex-col border-l border-[#333333] bg-[#1B1B1A] shadow-2xl transition-transform duration-300 ${isAiDockOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+        <div className="flex h-[68px] shrink-0 items-center justify-between border-b border-[#333333] px-4">
+          <div>
+            <div className="text-[15px] font-bold text-white">물류센터 AI 챗봇</div>
+            <div className="mt-1 text-[11px] font-semibold text-[#86868B]">읽기 권한 범위 내 데이터 기준</div>
+          </div>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              data-testid="logistics-ai-diagnostics"
+              onClick={runAiDiagnostics}
+              disabled={aiDiagnosticsLoading}
+              className={`h-9 rounded-[9px] border px-3 text-[12px] font-bold transition-colors ${aiDiagnosticsLoading ? 'border-[#333333] bg-[#222] text-[#6E6E73]' : DARK_BUTTON_CLASS}`}
+            >
+              {aiDiagnosticsLoading ? '진단 중' : '연결 진단'}
+            </button>
+            <button
+              type="button"
+              onClick={() => setIsAiDockOpen(false)}
+              className="h-9 w-9 rounded-[9px] border border-[#333333] bg-[#222] text-[18px] font-bold leading-none text-[#D1D1D6] hover:border-[#555] hover:text-white"
+              aria-label="AI 챗봇 닫기"
+            >
+              ×
+            </button>
+          </div>
+        </div>
+        <div className="flex-1 space-y-3 overflow-y-auto px-4 py-4">
+          {aiChatMessages.map((message) => {
+            const isUserMessage = message.role === 'user';
+            return (
+              <div key={message.id} className={`flex ${isUserMessage ? 'justify-end' : 'justify-start'}`}>
+                <div className={`max-w-[84%] rounded-[18px] px-4 py-3 text-[13px] leading-6 shadow-sm ${isUserMessage ? 'rounded-br-[6px] bg-[#3b82f6] text-white' : message.tone === 'warning' ? 'rounded-bl-[6px] border border-[#7A6425] bg-[#2B2613] text-[#FFE6A1]' : 'rounded-bl-[6px] border border-[#333333] bg-[#262625] text-[#F2F2F7]'}`}>
+                  <div className="whitespace-pre-line break-keep">{message.content}</div>
+                </div>
+              </div>
+            );
+          })}
+          {aiChatLoading ? (
+            <div className="flex justify-start">
+              <div className="rounded-[18px] rounded-bl-[6px] border border-[#333333] bg-[#262625] px-4 py-3 text-[13px] font-semibold text-[#C7C7CC]">
+                답변 생성 중...
+              </div>
+            </div>
+          ) : null}
+          <div ref={aiChatScrollRef} />
+        </div>
+        <form
+          className="shrink-0 border-t border-[#333333] p-4"
+          onSubmit={(event) => {
+            event.preventDefault();
+            submitAiChatQuestion();
+          }}
+        >
+          <div className="flex items-end gap-2">
+            <textarea
+              data-testid="logistics-ai-input"
+              value={aiChatInput}
+              onChange={(event) => setAiChatInput(event.target.value)}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter' && !event.shiftKey) {
+                  event.preventDefault();
+                  submitAiChatQuestion();
+                }
+              }}
+              rows={2}
+              placeholder="물류센터 데이터에 대해 질문하세요"
+              className="max-h-[120px] min-h-[46px] flex-1 resize-none rounded-[14px] border border-[#3A3A3C] bg-[#111] px-3 py-3 text-[13px] font-semibold leading-5 text-white outline-none placeholder:text-[#6E6E73] focus:border-[#8E8E93]"
+            />
+            <button
+              type="submit"
+              data-testid="logistics-ai-submit"
+              disabled={aiChatLoading || aiChatInput.trim().length < 2}
+              className={`h-[46px] rounded-[14px] border px-4 text-[13px] font-bold transition-colors ${aiChatLoading || aiChatInput.trim().length < 2 ? 'border-[#333333] bg-[#222] text-[#6E6E73]' : PRIMARY_BLUE_BUTTON_CLASS}`}
+            >
+              전송
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }

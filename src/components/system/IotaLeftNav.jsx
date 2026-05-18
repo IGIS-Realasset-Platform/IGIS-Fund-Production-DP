@@ -130,6 +130,10 @@ export default function IotaLeftNav({ currentPath = '' }) {
     const [showContactModal, setShowContactModal] = useState(false);
     const [showPasswordModal, setShowPasswordModal] = useState(false);
     const [newPassword, setNewPassword] = useState('');
+    const [isCollapsed, setIsCollapsed] = useState(() => {
+        const saved = sessionStorage.getItem('iotaLeftNavCollapsed');
+        return saved !== null ? saved === 'true' : false;
+    });
     const [isWorkspaceOpen, setIsWorkspaceOpen] = useState(() => {
         const saved = sessionStorage.getItem('isWorkspaceOpen');
         return saved !== null ? saved === 'true' : true;
@@ -164,6 +168,7 @@ export default function IotaLeftNav({ currentPath = '' }) {
         return saved !== null ? saved === 'true' : false;
     });
 
+    useEffect(() => { sessionStorage.setItem('iotaLeftNavCollapsed', isCollapsed); }, [isCollapsed]);
     useEffect(() => { sessionStorage.setItem('isWorkspaceOpen', isWorkspaceOpen); }, [isWorkspaceOpen]);
     useEffect(() => { sessionStorage.setItem('isStakeholderOpen', isStakeholderOpen); }, [isStakeholderOpen]);
     useEffect(() => { sessionStorage.setItem('isGovOpen', isGovOpen); }, [isGovOpen]);
@@ -181,15 +186,15 @@ export default function IotaLeftNav({ currentPath = '' }) {
     }, [currentPath]);
 
     return (
-        <div className="w-[275px] h-full bg-transparent border-r border-[#2C2C2E] flex flex-col flex-shrink-0 text-[14px] font-sans text-white transition-colors duration-300">
+        <div className={`${isCollapsed ? 'w-[72px]' : 'w-[275px]'} h-full bg-transparent border-r border-[#2C2C2E] flex flex-col flex-shrink-0 text-[14px] font-sans text-white transition-[width,background-color,border-color] duration-300`}>
 
             {/* Header */}
-            <div className="w-full flex items-center justify-between px-[15px] pt-[14px] pb-4">
-                <span className="font-bold text-[20px] tracking-tight font-inter ml-[5px] text-white">
+            <div className={`w-full flex items-center ${isCollapsed ? 'justify-center px-[10px]' : 'justify-between px-[15px]'} pt-[14px] pb-4`}>
+                {!isCollapsed ? <span className="font-bold text-[20px] tracking-tight font-inter ml-[5px] text-white">
                     IOTA Seoul
-                </span>
-                <button className="text-[#86868B] hover:text-white pb-1 transition-colors cursor-pointer mt-[4px]">
-                    <svg className="w-[22px] h-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.8">
+                </span> : null}
+                <button type="button" onClick={() => setIsCollapsed((value) => !value)} title={isCollapsed ? '사이드바 펼치기' : '사이드바 접기'} className="text-[#86868B] hover:text-white pb-1 transition-colors cursor-pointer mt-[4px]">
+                    <svg className={`w-[22px] h-[18px] transition-transform ${isCollapsed ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.8">
                         <rect x="2" y="4" width="20" height="16" rx="3" ry="3" />
                         <line x1="8" y1="4" x2="8" y2="20" />
                     </svg>
@@ -197,7 +202,7 @@ export default function IotaLeftNav({ currentPath = '' }) {
             </div>
 
             {/* Main Menu */}
-            <div className="flex-1 overflow-y-auto pb-5 hide-scrollbar flex flex-col px-[11px]">
+            <div className={`flex-1 overflow-y-auto pb-5 hide-scrollbar flex flex-col ${isCollapsed ? 'px-[9px]' : 'px-[11px]'}`}>
 
                 <div className="flex flex-col gap-0">
                     {menuItems.map((item) => {
@@ -215,17 +220,18 @@ export default function IotaLeftNav({ currentPath = '' }) {
                                             handleNavigation(item.path);
                                         }
                                     }}
-                                    className={`flex items-center justify-between py-[7px] rounded-xl cursor-pointer transition-colors duration-200 outline-none select-none ${isActive ? 'bg-[#151515] px-[9px] -mx-[2px]' : 'px-[7px] hover:bg-[#151515]'}`}
+                                    title={isCollapsed ? item.label : undefined}
+                                    className={`flex items-center ${isCollapsed ? 'justify-center px-[7px]' : 'justify-between'} py-[7px] rounded-xl cursor-pointer transition-colors duration-200 outline-none select-none ${isActive ? 'bg-[#151515] px-[9px] -mx-[2px]' : 'px-[7px] hover:bg-[#151515]'}`}
                                 >
-                                    <div className="flex items-center">
-                                        <span className="text-white">
+                                    <div className={`flex items-center ${isCollapsed ? 'justify-center' : ''}`}>
+                                        <span className={`text-white ${isCollapsed ? '[&>svg]:mr-0' : ''}`}>
                                             {item.icon}
                                         </span>
-                                        <span className="text-[14px] text-white font-light">
+                                        {!isCollapsed ? <span className="text-[14px] text-white font-light">
                                             {item.label}
-                                        </span>
+                                        </span> : null}
                                     </div>
-                                    <div className="flex items-center gap-2">
+                                    {!isCollapsed ? <div className="flex items-center gap-2">
                                         {item.badge && (
                                             <div className="bg-[#f87171]/20 text-[#f87171] text-[10px] px-2 py-0.5 rounded-full">
                                                 {item.badge}
@@ -248,9 +254,9 @@ export default function IotaLeftNav({ currentPath = '' }) {
                                         ) : (
                                             <svg className="w-3.5 h-3.5 text-white translate-x-[2px] hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7-7" /></svg>
                                         )}
-                                    </div>
+                                    </div> : null}
                                 </div>
-                                {hasSubItems && isExpanded && (
+                                {hasSubItems && isExpanded && !isCollapsed && (
                                     <div className="flex flex-col gap-0 mt-[2px] mb-[2px] pl-[28px]">
                                         {item.subItems.map(sub => {
                                             const isSubActive = currentPath === sub.path;
@@ -288,9 +294,9 @@ export default function IotaLeftNav({ currentPath = '' }) {
                 </div>
 
                 {/* 워크스페이스 영역 */}
-                <div className="mt-6 mb-2">
+                <div className={`${isCollapsed ? 'mt-3 mb-2' : 'mt-6 mb-2'}`}>
                     <div 
-                        className="flex items-center justify-between font-semibold mb-[7px] text-[13px] text-[#86868B] hover:text-white cursor-pointer transition-colors duration-300 px-[7px]"
+                        className={`flex items-center justify-between font-semibold mb-[7px] text-[13px] text-[#86868B] hover:text-white cursor-pointer transition-colors duration-300 px-[7px] ${isCollapsed ? 'hidden' : ''}`}
                         onClick={() => setIsWorkspaceOpen(!isWorkspaceOpen)}
                     >
                         <span>워크스페이스</span>
@@ -303,14 +309,14 @@ export default function IotaLeftNav({ currentPath = '' }) {
                             {workspaceItems.map((item, idx) => {
                                 const isActive = currentPath === item.path || currentPath.startsWith(`${item.path}/`);
                                 return (
-                                <div key={idx} onClick={() => handleNavigation(item.path)} className={`flex items-center justify-between py-[7px] rounded-xl cursor-pointer transition-colors duration-200 outline-none select-none ${isActive ? 'bg-[#151515] px-[9px] -mx-[2px]' : 'px-[7px] hover:bg-[#151515]'}`}>
-                                    <div className="flex items-center">
-                                        <span className="text-white">
+                                <div key={idx} title={isCollapsed ? item.label : undefined} onClick={() => handleNavigation(item.path)} className={`flex items-center ${isCollapsed ? 'justify-center' : 'justify-between'} py-[7px] rounded-xl cursor-pointer transition-colors duration-200 outline-none select-none ${isActive ? 'bg-[#151515] px-[9px] -mx-[2px]' : 'px-[7px] hover:bg-[#151515]'}`}>
+                                    <div className={`flex items-center ${isCollapsed ? 'justify-center' : ''}`}>
+                                        <span className={`text-white ${isCollapsed ? '[&>svg]:mr-0' : ''}`}>
                                             {item.icon}
                                         </span>
-                                        <span className="text-[14px] text-white font-light">
+                                        {!isCollapsed ? <span className="text-[14px] text-white font-light">
                                             {item.label}
-                                        </span>
+                                        </span> : null}
                                     </div>
                                 </div>
                             );
@@ -320,7 +326,7 @@ export default function IotaLeftNav({ currentPath = '' }) {
                 </div>
 
                 {/* 이해관계자 영역 */}
-                <div className="mt-6 mb-2">
+                <div className={`${isCollapsed ? 'hidden' : 'mt-6 mb-2'}`}>
                     <div 
                         className="flex items-center justify-between font-semibold mb-[7px] text-[13px] text-[#86868B] hover:text-white cursor-pointer transition-colors duration-300 px-[7px]"
                         onClick={() => setIsStakeholderOpen(!isStakeholderOpen)}
@@ -353,7 +359,7 @@ export default function IotaLeftNav({ currentPath = '' }) {
                 </div>
 
                 {/* IOTA CFT 거번넌스 영역 */}
-                <div className="mt-6 mb-2">
+                <div className={`${isCollapsed ? 'hidden' : 'mt-6 mb-2'}`}>
                     <div 
                         className="flex items-center justify-between font-semibold mb-[7px] text-[13px] text-[#86868B] hover:text-white cursor-pointer transition-colors duration-300 px-[7px]"
                         onClick={() => setIsGovOpen(!isGovOpen)}
@@ -417,9 +423,9 @@ export default function IotaLeftNav({ currentPath = '' }) {
 
                 <div 
                     onClick={() => setShowProfileMenu(!showProfileMenu)}
-                    className="pl-[15px] pr-[17px] pt-[10px] pb-3 border-t border-[#3A3A3C] w-full flex items-center justify-between transition-colors duration-300 cursor-pointer hover:bg-white/5"
+                    className={`${isCollapsed ? 'justify-center px-[10px]' : 'justify-between pl-[15px] pr-[17px]'} pt-[10px] pb-3 border-t border-[#3A3A3C] w-full flex items-center transition-colors duration-300 cursor-pointer hover:bg-white/5`}
                 >
-                    <div className="flex items-center gap-3 p-1.5 -ml-1.5 rounded-lg transition-colors duration-300">
+                    <div className={`flex items-center gap-3 p-1.5 rounded-lg transition-colors duration-300 ${isCollapsed ? '' : '-ml-1.5'}`}>
                         <div className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center bg-[#2C2C2E] -ml-[2px] border border-white/10">
                             {memberInfo?.staff_name ? (
                                 <img 
@@ -439,24 +445,24 @@ export default function IotaLeftNav({ currentPath = '' }) {
                                 <span className="text-[#1F1F1E] font-bold">U</span>
                             )}
                         </div>
-                        <div className="flex flex-col max-w-[130px]">
+                        {!isCollapsed ? <div className="flex flex-col max-w-[130px]">
                             <span className="font-semibold text-[14px] leading-tight mb-0.5 text-white tracking-tight truncate">
                                 {memberInfo?.staff_name ? `${memberInfo.staff_name} ${memberInfo.role_code === 'master' ? '마스터' : memberInfo.role_code === 'director' ? '책임' : '매니저'}` : '로그인 필요'}
                             </span>
                             <span className="text-[#86868B] text-[12px] leading-none font-normal truncate">
                                 {user?.email || '권한 없음'}
                             </span>
-                        </div>
+                        </div> : null}
                     </div>
 
-                    <div className="flex items-center">
+                    {!isCollapsed ? <div className="flex items-center">
                         <button 
                             type="button"
                             className="text-[#86868B] transition-colors p-1 pointer-events-none"
                         >
                             <svg className="w-[18px] h-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9 5l7 7-7 7" /></svg>
                         </button>
-                    </div>
+                    </div> : null}
                 </div>
             </div>
 
