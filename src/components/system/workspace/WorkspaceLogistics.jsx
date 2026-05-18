@@ -2102,6 +2102,12 @@ export default function WorkspaceLogistics({ currentPath = '' }) {
     }
   };
 
+  const canUsePreviewAiFallback = () => {
+    if (user?.is_demo === true) return true;
+    const hostname = window.location.hostname;
+    return hostname === 'kylee94.github.io' || hostname === 'localhost' || hostname === '127.0.0.1';
+  };
+
   const submitMainAiQuestion = async () => {
     const question = mainSearchQuery.trim();
     if (question.length < 2) return;
@@ -2122,7 +2128,7 @@ export default function WorkspaceLogistics({ currentPath = '' }) {
       } catch (error) {
         primaryError = error;
       }
-      if ((primaryError || !responseData?.ok) && user?.is_demo === true) {
+      if ((primaryError || !responseData?.ok) && canUsePreviewAiFallback()) {
         try {
           const demoResult = await supabase.functions.invoke('ll-dashboard-api', {
             body: { action: 'ai/search-chat-demo', payload: { question } },

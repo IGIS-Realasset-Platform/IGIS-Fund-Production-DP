@@ -222,7 +222,7 @@ function jsonResponse(body: unknown, status = 200, origin = '') {
   const headers = new Headers({
     'content-type': 'application/json; charset=utf-8',
     'access-control-allow-methods': 'POST, OPTIONS',
-    'access-control-allow-headers': 'authorization, content-type, x-client-info',
+    'access-control-allow-headers': 'apikey, authorization, content-type, x-client-info',
     vary: 'origin',
   });
   if (origin && isAllowedOrigin(origin)) headers.set('access-control-allow-origin', origin);
