@@ -3,8 +3,15 @@ import { supabase } from '../../../utils/supabaseClient';
 import { useAuth } from '../../../context/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import LogWriteBox from '../LogWriteBox';
+import logisticsPermissionData from './logisticsPermissionData.json';
 
 const MotionDiv = motion.div;
+const LOGISTICS_MASTER_STAKEHOLDERS = (logisticsPermissionData.users || []).map((user) => ({
+    company_name: user.organization || 'IGIS',
+    contact_name: user.name,
+    role_category: user.organization || 'IGIS 내부인력',
+    email: user.email,
+})).filter((item) => item.contact_name);
 
 export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, assetOptions = [] }) {
     const { memberInfo } = useAuth();
@@ -127,7 +134,8 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, as
 
     useEffect(() => {
         fetchLogs();
-        if (!isLogisticsMode) fetchMasterStakeholders();
+        if (isLogisticsMode) setMasterStakeholders(LOGISTICS_MASTER_STAKEHOLDERS);
+        else fetchMasterStakeholders();
     }, []);
 
     const handleDelete = async (logId) => {

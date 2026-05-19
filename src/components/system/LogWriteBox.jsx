@@ -1,8 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { supabase } from '../../utils/supabaseClient';
 import { motion, AnimatePresence } from 'framer-motion';
+import logisticsPermissionData from './workspace/logisticsPermissionData.json';
 
 const MotionDiv = motion.div;
+const LOGISTICS_VISIBILITY_GROUP_OPTIONS = ['사업그룹4파트', '로지스틱스매니지먼트', '자산관리3파트', '투자1그룹4파트'];
+const LOGISTICS_STAKEHOLDER_CATEGORY_OPTIONS = ['SI', '잠재 임차인', '운영 파트너', 'IGIS 내부인력'];
+const DARK_SELECT_CLASS = 'absolute inset-0 w-full h-full opacity-0 cursor-pointer appearance-none bg-[#1A1A1A] text-white [color-scheme:dark]';
+
+function buildLogisticsStakeholders() {
+    return (logisticsPermissionData.users || [])
+        .map((user) => ({
+            company_name: user.organization || 'IGIS',
+            contact_name: user.name,
+            role_category: user.organization || 'IGIS 내부인력',
+            email: user.email,
+        }))
+        .filter((item) => item.contact_name);
+}
 
 export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs, fetchMasterStakeholders, workspaceCode, workspaceLabel, projectOptions = null, defaultExpanded = false, editMode = false, initialData = null, onCancel = null, onSuccess = null }) {
     const isLogisticsMode = workspaceCode === 'WS_LOGISTICS';
@@ -47,18 +62,25 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
     const [showVisibilityModal, setShowVisibilityModal] = useState(false);
     const [showPublicWarningModal, setShowPublicWarningModal] = useState(false);
     const [visibilitySearchQuery, setVisibilitySearchQuery] = useState('');
-    const visibilityGroupOptions = ["PO", "Sub-PO", "CFT 책임인력", "기획추진", "사업PM", "파이낸싱-LFC", "개발관리", "기업마케팅", "상품·디지털", "펀드운용", "IPR-WG"];
+    const logisticsStakeholders = useMemo(() => buildLogisticsStakeholders(), []);
+    const effectiveMasterStakeholders = isLogisticsMode ? logisticsStakeholders : (masterStakeholders || []);
+    const visibilityGroupOptions = isLogisticsMode
+        ? LOGISTICS_VISIBILITY_GROUP_OPTIONS
+        : ["PO", "Sub-PO", "CFT 책임인력", "기획추진", "사업PM", "파이낸싱-LFC", "개발관리", "기업마케팅", "상품·디지털", "펀드운용", "IPR-WG"];
+    const stakeholderCategoryOptions = isLogisticsMode
+        ? LOGISTICS_STAKEHOLDER_CATEGORY_OPTIONS
+        : ['SI', '잠재 임차인', '운영 파트너', 'IGIS 내부인력'];
     const iconChevronGray = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' fill='none' stroke='%23A1A1AA' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' viewBox='0 0 24 24'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")`;
     const iconChevronDark = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' viewBox='0 0 24 24'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")`;
 
-    const uniqueCompanies = [...new Set(masterStakeholders.map(s => s.company_name).filter(Boolean))];
+    const uniqueCompanies = [...new Set(effectiveMasterStakeholders.map(s => s.company_name).filter(Boolean))];
     const filteredCompanies = uniqueCompanies.filter(c => c.toLowerCase().includes(companyQuery.toLowerCase()));
     
     let availableContacts = [];
     if (companyQuery) {
-        availableContacts = [...new Set(masterStakeholders.filter(s => s.company_name === companyQuery).map(s => s.contact_name).filter(Boolean))];
+        availableContacts = [...new Set(effectiveMasterStakeholders.filter(s => s.company_name === companyQuery).map(s => s.contact_name).filter(Boolean))];
     } else {
-        availableContacts = [...new Set(masterStakeholders.map(s => s.contact_name).filter(Boolean))];
+        availableContacts = [...new Set(effectiveMasterStakeholders.map(s => s.contact_name).filter(Boolean))];
     }
     const filteredContacts = availableContacts.filter(c => c.toLowerCase().includes(contactQuery.toLowerCase()));
 
@@ -92,8 +114,8 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                 
                 if (meta.permissions) {
                     if (meta.permissions.groups) setVisibilityGroups(meta.permissions.groups);
-                    if (meta.permissions.individuals && masterStakeholders && masterStakeholders.length > 0) {
-                        const indivs = meta.permissions.individuals.map(name => masterStakeholders.find(s => s.contact_name === name)).filter(Boolean);
+                    if (meta.permissions.individuals && effectiveMasterStakeholders && effectiveMasterStakeholders.length > 0) {
+                        const indivs = meta.permissions.individuals.map(name => effectiveMasterStakeholders.find(s => s.contact_name === name)).filter(Boolean);
                         setVisibilityIndividuals(indivs);
                     }
                 }
@@ -109,7 +131,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                 }
             }
         }
-    }, [editMode, initialData, masterStakeholders]);
+    }, [editMode, initialData, effectiveMasterStakeholders]);
 
     const formatDisplayDate = (dateString) => {
         if (!dateString) return '';
@@ -214,6 +236,11 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
     };
 
     const registerMasterStakeholder = async () => {
+        if (isLogisticsMode) {
+            setShowNewStakeholderModal(false);
+            await processSubmit();
+            return;
+        }
         if (!stakeholderCat) return alert('이해관계자 분류를 선택해주세요.');
         setIsSubmitting(true);
         try {
@@ -278,7 +305,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
 
             if (isLogisticsMode) {
                 const action = isEditing ? 'work-platform/board-posts/update' : 'work-platform/board-posts';
-                const { error } = await supabase.functions.invoke('ll-dashboard-api', {
+                const { data, error } = await supabase.functions.invoke('ll-dashboard-api', {
                     body: {
                         action,
                         payload: {
@@ -299,7 +326,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                         },
                     },
                 });
-                if (error) throw error;
+                if (error || !data?.ok) throw new Error(error?.message || data?.message || '협업게시판 저장 실패');
 
                 if (!editMode) {
                     setTitle('');
@@ -348,8 +375,8 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
             if (linkError) throw linkError;
 
             // 3. Update master DB if new
-            if (companyQuery) {
-                const existing = masterStakeholders.find(s => s.company_name === companyQuery && (s.contact_name || '') === (contactQuery || ''));
+            if (!isLogisticsMode && companyQuery) {
+                const existing = effectiveMasterStakeholders.find(s => s.company_name === companyQuery && (s.contact_name || '') === (contactQuery || ''));
                 if (!existing) {
                     const { error: masterError } = await supabase.from('iota_stakeholder_master').insert({
                         company_name: companyQuery,
@@ -424,7 +451,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
         }
 
         if (!isLogisticsMode && (companyQuery || contactQuery)) {
-            const existing = masterStakeholders.find(s => 
+            const existing = effectiveMasterStakeholders.find(s =>
                 (companyQuery ? s.company_name === companyQuery : true) && 
                 (contactQuery ? s.contact_name === contactQuery : true)
             );
@@ -436,7 +463,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
         await processSubmit();
     };
 
-    const mentionCandidates = Array.from(new Set(masterStakeholders.map(s => s.contact_name).filter(Boolean)));
+    const mentionCandidates = Array.from(new Set(effectiveMasterStakeholders.map(s => s.contact_name).filter(Boolean)));
     const filteredMentions = mentionCandidates.filter(name => name.toLowerCase().includes(mentionQuery.toLowerCase())).slice(0, 5);
 
     const getParticle = (word) => {
@@ -456,8 +483,8 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
     
 
     const getCellName = (name) => {
-        if (!masterStakeholders || masterStakeholders.length === 0) return '';
-        const stakeholder = masterStakeholders.find(s => s.contact_name === name);
+        if (!effectiveMasterStakeholders || effectiveMasterStakeholders.length === 0) return '';
+        const stakeholder = effectiveMasterStakeholders.find(s => s.contact_name === name);
         if (stakeholder && stakeholder.role_category && stakeholder.role_category !== 'IGIS 내부인력') {
             return stakeholder.role_category;
         }
@@ -513,7 +540,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                         <div className="inline-flex items-center text-[#E5E5E5] text-[14px] pr-[16px] group-hover:text-white transition-colors" style={{ backgroundImage: iconChevronDark, backgroundRepeat: 'no-repeat', backgroundPosition: 'right center' }}>
                             {triageType}
                         </div>
-                        <select value={triageType} onChange={(e) => setTriageType(e.target.value)} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer appearance-none">
+                        <select value={triageType} onChange={(e) => setTriageType(e.target.value)} className={DARK_SELECT_CLASS}>
                             <option value="공유">공유</option>
                             <option value="협업">협업</option>
                             <option value="리스크 판단">리스크 판단</option>
@@ -528,7 +555,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                         <div className="inline-flex items-center text-[#E5E5E5] text-[14px] pr-[16px] group-hover:text-white transition-colors" style={{ backgroundImage: iconChevronDark, backgroundRepeat: 'no-repeat', backgroundPosition: 'right center' }}>
                             {issueStatus}
                         </div>
-                        <select value={issueStatus} onChange={(e) => setIssueStatus(e.target.value)} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer appearance-none">
+                        <select value={issueStatus} onChange={(e) => setIssueStatus(e.target.value)} className={DARK_SELECT_CLASS}>
                             <option value="신규">신규</option>
                             <option value="검토중">검토중</option>
                             <option value="진행중">진행중</option>
@@ -544,7 +571,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                         <div className={`inline-flex items-center text-[14px] font-bold pr-[16px] ${priority === '높음' ? 'text-[#FF453A]' : priority === '중간' ? 'text-[#3b82f6]' : 'text-[#34d399]'} group-hover:opacity-80 transition-colors`} style={{ backgroundImage: iconChevronDark, backgroundRepeat: 'no-repeat', backgroundPosition: 'right center' }}>
                             {priority}
                         </div>
-                        <select value={priority} onChange={(e) => setPriority(e.target.value)} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer appearance-none">
+                        <select value={priority} onChange={(e) => setPriority(e.target.value)} className={DARK_SELECT_CLASS}>
                             <option value="높음">높음</option>
                             <option value="중간">중간</option>
                             <option value="낮음">낮음</option>
@@ -558,12 +585,11 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                         <div className="inline-flex items-center text-[#E5E5E5] text-[14px] pr-[16px] group-hover:text-white transition-colors" style={{ backgroundImage: iconChevronDark, backgroundRepeat: 'no-repeat', backgroundPosition: 'right center' }}>
                             {stakeholderCat || '선택 안 함'}
                         </div>
-                        <select value={stakeholderCat} onChange={(e) => setStakeholderCat(e.target.value)} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer appearance-none">
+                        <select value={stakeholderCat} onChange={(e) => setStakeholderCat(e.target.value)} className={DARK_SELECT_CLASS}>
                             <option value="">선택 안 함</option>
-                            <option value="SI">SI</option>
-                            <option value="잠재임차사">잠재임차사</option>
-                            <option value="운영 파트너">운영 파트너</option>
-                            <option value="IGIS 내부인력">IGIS 내부인력</option>
+                            {stakeholderCategoryOptions.map((option) => (
+                                <option key={option} value={option}>{option}</option>
+                            ))}
                         </select>
                     </label>
 
@@ -632,14 +658,14 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                                 ))}
                             </select>
 
-                            <select value={triageType} onChange={(e) => setTriageType(e.target.value)} className="bg-[#222] border border-[#444] rounded-[8px] px-[12px] py-[6px] text-[#E5E5E5] text-[13px] outline-none cursor-pointer appearance-none pr-[28px]" style={{ backgroundImage: iconChevronDark, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 8px center' }}>
+                            <select value={triageType} onChange={(e) => setTriageType(e.target.value)} className="bg-[#222] border border-[#444] rounded-[8px] px-[12px] py-[6px] text-[#E5E5E5] text-[13px] outline-none cursor-pointer appearance-none pr-[28px] [color-scheme:dark]" style={{ backgroundImage: iconChevronDark, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 8px center' }}>
                                 <option value="공유">공유</option>
                                 <option value="협업">협업</option>
                                 <option value="리스크 판단">리스크 판단</option>
                                 <option value="의사결정">의사결정</option>
                             </select>
 
-                            <select value={issueStatus} onChange={(e) => setIssueStatus(e.target.value)} className="bg-[#222] border border-[#444] rounded-[8px] px-[12px] py-[6px] text-[#E5E5E5] text-[13px] outline-none cursor-pointer appearance-none pr-[28px]" style={{ backgroundImage: iconChevronDark, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 8px center' }}>
+                            <select value={issueStatus} onChange={(e) => setIssueStatus(e.target.value)} className="bg-[#222] border border-[#444] rounded-[8px] px-[12px] py-[6px] text-[#E5E5E5] text-[13px] outline-none cursor-pointer appearance-none pr-[28px] [color-scheme:dark]" style={{ backgroundImage: iconChevronDark, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 8px center' }}>
                                 <option value="신규">신규</option>
                                 <option value="검토중">검토중</option>
                                 <option value="진행중">진행중</option>
@@ -647,18 +673,17 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                                 <option value="완료">완료</option>
                             </select>
 
-                            <select value={priority} onChange={(e) => setPriority(e.target.value)} className="bg-[#222] border border-[#444] rounded-[8px] px-[12px] py-[6px] text-[#E5E5E5] text-[13px] outline-none cursor-pointer appearance-none pr-[28px]" style={{ backgroundImage: iconChevronDark, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 8px center' }}>
+                            <select value={priority} onChange={(e) => setPriority(e.target.value)} className="bg-[#222] border border-[#444] rounded-[8px] px-[12px] py-[6px] text-[#E5E5E5] text-[13px] outline-none cursor-pointer appearance-none pr-[28px] [color-scheme:dark]" style={{ backgroundImage: iconChevronDark, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 8px center' }}>
                                 <option value="높음">높음</option>
                                 <option value="중간">중간</option>
                                 <option value="낮음">낮음</option>
                             </select>
                             
-                            <select value={stakeholderCat} onChange={(e) => setStakeholderCat(e.target.value)} className="bg-[#222] border border-[#444] rounded-[8px] px-[12px] py-[6px] text-[#E5E5E5] text-[13px] outline-none cursor-pointer appearance-none pr-[28px]" style={{ backgroundImage: iconChevronDark, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 8px center' }}>
+                            <select value={stakeholderCat} onChange={(e) => setStakeholderCat(e.target.value)} className="bg-[#222] border border-[#444] rounded-[8px] px-[12px] py-[6px] text-[#E5E5E5] text-[13px] outline-none cursor-pointer appearance-none pr-[28px] [color-scheme:dark]" style={{ backgroundImage: iconChevronDark, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 8px center' }}>
                                 <option value="">이해관계자 분류 안 함</option>
-                                <option value="SI">SI</option>
-                                <option value="잠재임차사">잠재임차사</option>
-                                <option value="운영 파트너">운영 파트너</option>
-                                <option value="IGIS 내부인력">IGIS 내부인력</option>
+                                {stakeholderCategoryOptions.map((option) => (
+                                    <option key={option} value={option}>{option}</option>
+                                ))}
                             </select>
 
                             <label className="relative inline-flex items-center gap-[6px] cursor-pointer bg-[#222] border border-[#444] rounded-[8px] px-[12px] py-[6px]">
@@ -745,7 +770,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                                             setShowCompanyWarningModal(true);
                                             return;
                                         }
-                                        const existing = masterStakeholders.find(s => s.company_name === companyQuery && (contactQuery ? s.contact_name === contactQuery : true));
+                                        const existing = effectiveMasterStakeholders.find(s => s.company_name === companyQuery && (contactQuery ? s.contact_name === contactQuery : true));
                                         if (!existing && companyQuery) setShowNewStakeholderModal(true);
                                     }
                                 }}
@@ -787,7 +812,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                                             setShowCompanyWarningModal(true);
                                             return;
                                         }
-                                        const existing = masterStakeholders.find(s => (companyQuery ? s.company_name === companyQuery : true) && s.contact_name === contactQuery);
+                                        const existing = effectiveMasterStakeholders.find(s => (companyQuery ? s.company_name === companyQuery : true) && s.contact_name === contactQuery);
                                         if (!existing && contactQuery) setShowNewStakeholderModal(true);
                                     }
                                 }}
@@ -804,7 +829,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                                                 setContactQuery(name);
                                                 setShowContactDropdown(false);
                                                 if (!companyQuery) {
-                                                    const found = masterStakeholders.find(s => s.contact_name === name);
+                                                    const found = effectiveMasterStakeholders.find(s => s.contact_name === name);
                                                     if (found && found.company_name) {
                                                         setCompanyQuery(found.company_name);
                                                     }
@@ -918,10 +943,10 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                                 />
                                 {visibilitySearchQuery && (
                                     <div className="mt-2 bg-[#1A1A1A] border border-[#444] rounded-[10px] overflow-hidden max-h-[150px] overflow-y-auto">
-                                        {Array.from(new Set(masterStakeholders.map(s => s.contact_name).filter(Boolean)))
+                                        {Array.from(new Set(effectiveMasterStakeholders.map(s => s.contact_name).filter(Boolean)))
                                             .filter(n => n.toLowerCase().includes(visibilitySearchQuery.toLowerCase()))
                                             .map(name => {
-                                                const stakeholder = masterStakeholders.find(s => s.contact_name === name);
+                                                const stakeholder = effectiveMasterStakeholders.find(s => s.contact_name === name);
                                                 const isAdded = visibilityIndividuals.some(i => i.contact_name === name);
                                                 return (
                                                     <div 
@@ -1026,12 +1051,12 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                             <select 
                                 value={stakeholderCat}
                                 onChange={(e) => setStakeholderCat(e.target.value)}
-                                className="w-full bg-[#1A1A1A] border border-[#333] rounded-[8px] pl-[12px] pr-[30px] py-[10px] text-[13px] text-white outline-none focus:border-[#2997ff] appearance-none cursor-pointer"
+                                className="w-full bg-[#1A1A1A] border border-[#333] rounded-[8px] pl-[12px] pr-[30px] py-[10px] text-[13px] text-white outline-none focus:border-[#2997ff] appearance-none cursor-pointer [color-scheme:dark]"
                             >
                                 <option value="" disabled>이해관계자 분류 선택</option>
-                                <option value="SI">SI</option>
-                                <option value="잠재임차사">잠재임차사</option>
-                                <option value="운영 파트너">운영 파트너</option>
+                                {stakeholderCategoryOptions.map((option) => (
+                                    <option key={option} value={option}>{option}</option>
+                                ))}
                             </select>
                             <div className="absolute right-[12px] top-1/2 -translate-y-1/2 pointer-events-none text-[#86868B]">
                                 <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">

@@ -241,9 +241,9 @@ export default function IotaLeftNav({ currentPath = '' }) {
     if (isLogisticsPath) {
         const visibleLogisticsItems = logisticsNavItems.filter((item) => !item.adminOnly || isLogisticsAdmin);
         return (
-            <div className={`${isCollapsed ? 'w-[72px]' : 'w-[275px]'} h-full bg-transparent border-r border-[#2C2C2E] flex flex-col flex-shrink-0 text-[14px] font-sans text-white transition-[width,background-color,border-color] duration-300`}>
+            <div className={`${isCollapsed ? 'w-[72px]' : 'w-[275px]'} h-full overflow-hidden bg-transparent border-r border-[#2C2C2E] flex flex-col flex-shrink-0 text-[14px] font-sans text-white transition-[width,background-color,border-color] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]`}>
                 <div className={`w-full flex items-center ${isCollapsed ? 'justify-center px-[10px]' : 'justify-between px-[15px]'} pt-[14px] pb-4`}>
-                    {!isCollapsed ? <span className="font-bold text-[20px] tracking-tight font-inter ml-[5px] text-white">Logistics</span> : null}
+                    <span className={`overflow-hidden whitespace-nowrap font-bold text-[20px] tracking-tight font-inter ml-[5px] text-white transition-[opacity,max-width,transform] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${isCollapsed ? 'max-w-0 -translate-x-2 opacity-0' : 'max-w-[170px] translate-x-0 opacity-100'}`}>Logistics</span>
                     <button type="button" onClick={() => setIsCollapsed((value) => !value)} title={isCollapsed ? '사이드바 펼치기' : '사이드바 접기'} className="text-[#86868B] hover:text-white pb-1 transition-colors cursor-pointer mt-[4px]">
                         <svg className={`w-[22px] h-[18px] transition-transform ${isCollapsed ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.8">
                             <rect x="2" y="4" width="20" height="16" rx="3" ry="3" />
@@ -253,20 +253,18 @@ export default function IotaLeftNav({ currentPath = '' }) {
                 </div>
 
                 <div className={`flex-1 overflow-y-auto pb-5 hide-scrollbar flex flex-col ${isCollapsed ? 'px-[9px]' : 'px-[11px]'}`}>
-                    {!isCollapsed ? (
-                        <div className="mb-3 px-[7px] text-[11px] font-semibold uppercase tracking-[0.14em] text-[#86868B]">
+                    <div className={`mb-3 overflow-hidden px-[7px] text-[11px] font-semibold uppercase tracking-[0.14em] text-[#86868B] transition-[opacity,max-height,transform] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${isCollapsed ? 'max-h-0 -translate-x-2 opacity-0' : 'max-h-[24px] translate-x-0 opacity-100'}`}>
                             Logistics Platform
-                        </div>
-                    ) : null}
+                    </div>
                     <div className="flex flex-col gap-0">
                         {visibleLogisticsItems.map((item) => {
                             const isRootItem = item.path === 'platform/iotaseoul/workspace/logistics';
                             const isActive = isRootItem ? currentPath === item.path : currentPath === item.path || currentPath.startsWith(`${item.path}/`);
                             return (
                                 <div key={item.path} title={isCollapsed ? item.label : undefined} onClick={() => handleNavigation(item.path)} className={`group relative flex items-center ${isCollapsed ? 'justify-center' : 'justify-between'} py-[7px] rounded-xl cursor-pointer transition-colors duration-200 outline-none select-none ${isActive ? 'bg-[#151515] px-[9px] -mx-[2px]' : 'px-[7px] hover:bg-[#151515]'}`}>
-                                    <div className={`flex items-center ${isCollapsed ? 'justify-center' : ''}`}>
+                                    <div className={`flex min-w-0 items-center ${isCollapsed ? 'justify-center' : ''}`}>
                                         <span className={`text-white ${isCollapsed ? '[&>svg]:mr-0' : ''}`}>{item.icon}</span>
-                                        {!isCollapsed ? <span className="text-[14px] text-white font-light">{item.label}</span> : null}
+                                        <span className={`overflow-hidden whitespace-nowrap text-[14px] text-white font-light transition-[opacity,max-width,transform] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${isCollapsed ? 'max-w-0 -translate-x-2 opacity-0' : 'max-w-[180px] translate-x-0 opacity-100'}`}>{item.label}</span>
                                     </div>
                                     {renderCollapsedTooltip(item.label)}
                                 </div>
@@ -280,12 +278,10 @@ export default function IotaLeftNav({ currentPath = '' }) {
                         <div className="w-8 h-8 rounded-full bg-[#3c3c3c] overflow-hidden shrink-0">
                             <img src={`${import.meta.env.BASE_URL}${(memberInfo?.staff_name || '').replace(/\s/g, '')}.webp`} alt={memberInfo?.staff_name || '사용자'} className="w-full h-full object-cover" onError={(e) => { e.currentTarget.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }} />
                         </div>
-                        {!isCollapsed ? (
-                            <div className="ml-3 min-w-0 text-left">
+                        <div className={`ml-3 min-w-0 overflow-hidden text-left transition-[opacity,max-width,transform] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${isCollapsed ? 'max-w-0 -translate-x-2 opacity-0' : 'max-w-[170px] translate-x-0 opacity-100'}`}>
                                 <div className="truncate text-[13px] font-semibold text-white">{memberInfo?.staff_name || '로그인 사용자'}</div>
                                 <div className="truncate text-[11px] text-[#86868B]">{memberInfo?.organization || memberInfo?.department || '조직 미확인'}</div>
-                            </div>
-                        ) : null}
+                        </div>
                     </button>
                     {showProfileMenu ? (
                         <>

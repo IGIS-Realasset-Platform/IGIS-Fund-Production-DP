@@ -492,12 +492,9 @@ function filterWorklogRows(ctx: Context, rows: Record<string, unknown>[]) {
 function filterWorkPlatformTaskRows(ctx: Context, rows: Record<string, unknown>[]) {
   const organization = String(ctx.permission?.organization || '');
   return rows.filter((row) => {
-    const scope = String(row.scope || '').toLowerCase();
-    if (scope === 'personal') return row.created_by === ctx.user.id;
-    if (scope === 'team') {
-      return row.created_by === ctx.user.id || String(row.organization || '') === organization;
-    }
-    return canReadRelatedAsset(ctx, row.related_asset_id);
+    if (row.created_by === ctx.user.id) return true;
+    if (canReadRelatedAsset(ctx, row.related_asset_id)) return true;
+    return Boolean(String(row.organization || '') === organization && !row.related_asset_id);
   });
 }
 
@@ -1085,7 +1082,6 @@ async function deleteWorklog(ctx: Context, payload: Record<string, unknown>) {
 
 const WORK_PLATFORM_TASK_SELECT = [
   'id',
-  'scope',
   'task_name',
   'company_name',
   'related_asset_id',
@@ -1163,11 +1159,10 @@ async function saveWorkPlatformTask(ctx: Context, payload: Record<string, unknow
   if (!hasRole(ctx.role, 'Reader')) return fail(403, 'Insufficient logistics permission', ctx.origin);
   const relatedAssetId = safeText(payload.related_asset_id);
   if (!relatedAssetId) return fail(400, 'related_asset_id is required', ctx.origin);
-  if (!canMutateWorklog(ctx, 'create', relatedAssetId)) return fail(403, 'Insufficient create permission for this task scope', ctx.origin);
+  if (!canMutateWorklog(ctx, 'create', relatedAssetId)) return fail(403, 'Insufficient create permission for this task asset', ctx.origin);
   const { data, error } = await ctx.serviceClient
     .from('ll_work_platform_tasks')
     .insert(stripUndefined({
-      scope: safeText(payload.scope, 'personal'),
       task_name: safeText(firstDefined(payload.task_name, payload.title), 'Task'),
       company_name: safeText(payload.company_name) || null,
       related_asset_id: relatedAssetId,
@@ -1214,15 +1209,14 @@ async function updateWorkPlatformTask(ctx: Context, payload: Record<string, unkn
   const currentRow = current.data as Record<string, unknown>;
   const currentAssetId = safeText(currentRow.related_asset_id);
   const nextAssetId = safeText(firstDefined(payload.related_asset_id, currentAssetId));
-  if (!canMutateWorklog(ctx, 'update', currentAssetId)) return fail(403, 'Insufficient update permission for existing task scope', ctx.origin);
+  if (!canMutateWorklog(ctx, 'update', currentAssetId)) return fail(403, 'Insufficient update permission for existing task asset', ctx.origin);
   if (nextAssetId !== currentAssetId && !canMutateWorklog(ctx, 'update', nextAssetId)) {
-    return fail(403, 'Insufficient update permission for new task scope', ctx.origin);
+    return fail(403, 'Insufficient update permission for new task asset', ctx.origin);
   }
   const currentPayload = (currentRow.payload || {}) as Record<string, unknown>;
   const { data, error } = await ctx.serviceClient
     .from('ll_work_platform_tasks')
     .update(stripUndefined({
-      scope: payload.scope === undefined ? undefined : safeText(payload.scope),
       task_name: payload.task_name === undefined && payload.title === undefined ? undefined : safeText(firstDefined(payload.task_name, payload.title), safeText(currentRow.task_name)),
       company_name: payload.company_name === undefined ? undefined : safeText(payload.company_name) || null,
       related_asset_id: nextAssetId || undefined,
@@ -1257,7 +1251,7 @@ async function deleteWorkPlatformTask(ctx: Context, payload: Record<string, unkn
   const current = await readWorkPlatformTaskForWrite(ctx, id);
   if (current.response) return current.response;
   const currentRow = current.data as Record<string, unknown>;
-  if (!canMutateWorklog(ctx, 'delete', currentRow.related_asset_id)) return fail(403, 'Insufficient delete permission for existing task scope', ctx.origin);
+  if (!canMutateWorklog(ctx, 'delete', currentRow.related_asset_id)) return fail(403, 'Insufficient delete permission for existing task asset', ctx.origin);
   const currentPayload = (currentRow.payload || {}) as Record<string, unknown>;
   const { data, error } = await ctx.serviceClient
     .from('ll_work_platform_tasks')

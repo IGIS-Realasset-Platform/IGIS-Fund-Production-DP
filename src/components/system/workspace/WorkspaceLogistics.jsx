@@ -1390,19 +1390,12 @@ function canViewAdvancedLogisticsTools(memberInfo, permission) {
   return canViewDataQuality(memberInfo, permission);
 }
 
-function taskScopeLabel(scope) {
-  if (scope === 'personal') return '개인 업무';
-  if (scope === 'team') return '팀 업무';
-  return '섹터 업무';
-}
-
 function buildMainWeeklyTasks(report, permission) {
   const rows = [...(report.newProjects || []), ...(report.managementProjects || [])];
   return rows.slice(0, 6).map((row, index) => {
     const meta = inferMainTaskMeta(row, index);
     const assetName = cleanDisplay(row.assetName || row.projectName, '');
     const managedAsset = (permission.managedAssets || []).find((asset) => assetMatchesPermission(assetName || asset.assetName, { managedAssets: [asset] }));
-    const scope = index % 3 === 0 ? 'personal' : index % 3 === 1 ? 'team' : 'sector';
     return {
       id: row.id || `main-task-${index + 1}`,
       taskName: cleanDisplay(row.projectName || row.assetName, `Weekly Task ${index + 1}`),
@@ -1410,7 +1403,6 @@ function buildMainWeeklyTasks(report, permission) {
       issue: trimMainText(row.issue || row.status || '주요 이슈 없음', 108),
       assetName: managedAsset?.assetName || assetName || '-',
       fundName: managedAsset?.fundName || row.fundName || '',
-      scope,
       createdByName: permission.name,
       createdByEmail: permission.email,
       organization: permission.organization,
@@ -1436,13 +1428,13 @@ function sortMainTasks(tasks) {
   });
 }
 
-function filterMainTasksByScope(tasks, scope, permission, showCompleted) {
+function filterMainTasksByPermission(tasks, permission, showCompleted) {
   return (tasks || []).filter((task) => {
     if (task.status === 'deleted') return false;
     if (!showCompleted && (task.completed || task.status === '완료' || task.status === 'completed')) return false;
-    if (scope === 'personal') return task.createdByEmail === permission.email || task.createdByName === permission.name;
-    if (scope === 'team') return task.organization && task.organization === permission.organization;
-    return assetMatchesPermission(task.assetName, permission);
+    if (assetMatchesPermission(task.assetName || task.relatedAsset, permission)) return true;
+    if (task.createdByEmail === permission.email || task.createdByName === permission.name) return true;
+    return Boolean(task.organization && task.organization === permission.organization && !task.assetName);
   });
 }
 
@@ -1473,7 +1465,6 @@ function defaultLogisticsTaskDraft(permission, assetName = '') {
     dueDate: new Date().toLocaleDateString('en-CA'),
     priority: '중간',
     status: '신규',
-    scope: 'personal',
   };
 }
 
@@ -1499,7 +1490,6 @@ function normalizeServerWorklogTask(row, permission) {
     assetName: cleanDisplay(assetName, '-'),
     relatedAsset: cleanDisplay(assetName, '-'),
     fundName: payload.fundName || option?.fundName || '',
-    scope: row.scope || payload.scope || 'personal',
     createdByName: row.created_by_name || payload.createdByName || permission.name,
     createdByEmail: row.created_by_email || payload.createdByEmail || permission.email,
     organization: row.organization || payload.organization || permission.organization,
@@ -1984,7 +1974,6 @@ function MainWorklogRow({ item }) {
 
 export default function WorkspaceLogistics({ currentPath = '' }) {
   const { user, memberInfo } = useAuth();
-  const [taskScope, setTaskScope] = useState('personal');
   const [showAllTasks, setShowAllTasks] = useState(false);
   const [showCompletedTasks, setShowCompletedTasks] = useState(false);
   const [isLoadingTasks, setIsLoadingTasks] = useState(true);
@@ -2064,8 +2053,8 @@ export default function WorkspaceLogistics({ currentPath = '' }) {
     return () => window.clearTimeout(timer);
   }, [aiToast]);
 
-  const scopedTasks = useMemo(() => filterMainTasksByScope(taskRecords, taskScope, permission, showCompletedTasks), [permission, showCompletedTasks, taskRecords, taskScope]);
-  const sortedWeeklyTasks = useMemo(() => sortMainTasks(scopedTasks), [scopedTasks]);
+  const permittedTasks = useMemo(() => filterMainTasksByPermission(taskRecords, permission, showCompletedTasks), [permission, showCompletedTasks, taskRecords]);
+  const sortedWeeklyTasks = useMemo(() => sortMainTasks(permittedTasks), [permittedTasks]);
   const visibleTasks = showAllTasks ? sortedWeeklyTasks : sortedWeeklyTasks.slice(0, 5);
   const topAssets = useMemo(() => [...(permission.managedAssets || [])].sort((a, b) => String(a.assetName || '').localeCompare(String(b.assetName || ''), 'ko-KR')), [permission.managedAssets]);
   const searchResults = useMemo(() => buildLogisticsSearchResults(mainSearchQuery, permission), [mainSearchQuery, permission]);
@@ -2106,7 +2095,6 @@ export default function WorkspaceLogistics({ currentPath = '' }) {
           action,
           payload: {
             id: task.id,
-            scope: payload.scope || task.scope,
             task_name: payload.taskName || task.taskName,
             company_name: payload.companyName || task.companyName || '',
             next_action: payload.nextAction || task.nextAction,
@@ -2139,7 +2127,6 @@ export default function WorkspaceLogistics({ currentPath = '' }) {
       dueDate: task.dueDate || '',
       priority: task.priority || '중간',
       status: task.status || '신규',
-      scope: task.scope || taskScope,
     });
     setIsAddingTask(true);
     document.getElementById('task-management')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -2427,15 +2414,6 @@ export default function WorkspaceLogistics({ currentPath = '' }) {
             </a>
           </div>
           <div className="flex items-center gap-2">
-            <div className="flex overflow-hidden rounded-[8px] border border-[#3c3c3c] bg-[#272726] p-[2px]">
-              {[
-                ['personal', '개인 업무'],
-                ['team', '팀 업무'],
-                ['sector', '섹터 업무'],
-              ].map(([value, label]) => (
-                <button key={value} type="button" onClick={() => setTaskScope(value)} className={`rounded-[6px] px-[12px] py-[4px] text-[13px] font-bold transition-colors ${taskScope === value ? 'bg-[#3c3c3c] text-white' : 'text-[#86868B] hover:text-[#E5E5E5]'}`}>{label}</button>
-              ))}
-            </div>
             <button type="button" onClick={() => setShowCompletedTasks((value) => !value)} className={`rounded-[8px] border px-[12px] py-[6px] text-[13px] font-medium transition-colors ${showCompletedTasks ? 'border-white bg-white text-[#1F1F1E]' : 'border-[#3c3c3c] bg-[#272726] text-[#86868B] hover:bg-[#333] hover:text-[#E5E5E5]'}`}>
               완료 포함
             </button>
@@ -2489,11 +2467,6 @@ export default function WorkspaceLogistics({ currentPath = '' }) {
                     className="cursor-pointer rounded-[10px] border border-[#444] bg-[#1A1A1A] px-3 py-2 text-[14px] text-white outline-none focus:border-[#888]"
                   >
                     {topAssets.map((asset) => <option key={asset.assetCode || asset.assetName} value={asset.assetName}>{asset.assetName}</option>)}
-                  </select>
-                  <select value={taskDraft.scope} onChange={(event) => setTaskDraft((draft) => ({ ...draft, scope: event.target.value }))} className="rounded-[10px] border border-[#444] bg-[#1A1A1A] px-3 py-2 text-[14px] text-white outline-none focus:border-[#888]">
-                    <option value="personal">개인 업무</option>
-                    <option value="team">팀 업무</option>
-                    <option value="sector">섹터 업무</option>
                   </select>
                   <select value={taskDraft.status} onChange={(event) => setTaskDraft((draft) => ({ ...draft, status: event.target.value }))} className="rounded-[10px] border border-[#444] bg-[#1A1A1A] px-3 py-2 text-[14px] text-white outline-none focus:border-[#888]">
                     {['신규', '검토중', '진행중', '보류', '완료'].map((status) => <option key={status}>{status}</option>)}
@@ -2586,10 +2559,6 @@ export default function WorkspaceLogistics({ currentPath = '' }) {
                             <span className="text-[16px] font-medium text-white">{task.assetName || task.relatedAsset}</span>
                           </div>
                           <div className="flex items-center gap-3">
-                            <span className="text-[13px] font-bold text-[#86868B]">업무 구분</span>
-                            <span className="text-[16px] font-medium text-white">{taskScopeLabel(task.scope)}</span>
-                          </div>
-                          <div className="flex items-center gap-3">
                             <span className="text-[13px] font-bold text-[#86868B]">상태</span>
                             <span className={`w-max rounded-[6px] px-2 py-1 text-[13px] font-bold ${task.status === '진행중' ? 'bg-[#059669]/20 text-[#34d399]' : task.status === '검토중' ? 'bg-[#d97706]/20 text-[#fbf167]' : task.status === '완료' ? 'bg-[#2563eb]/20 text-[#60a5fa]' : 'bg-[#4b5563]/20 text-[#9ca3af]'}`}>
                               {task.status}
@@ -2645,11 +2614,6 @@ export default function WorkspaceLogistics({ currentPath = '' }) {
                               className="cursor-pointer rounded-[10px] border border-[#444] bg-[#1A1A1A] px-3 py-2 text-[14px] text-white outline-none focus:border-[#888]"
                             >
                               {topAssets.map((asset) => <option key={asset.assetCode || asset.assetName} value={asset.assetName}>{asset.assetName}</option>)}
-                            </select>
-                            <select value={taskDraft.scope} onChange={(event) => setTaskDraft((draft) => ({ ...draft, scope: event.target.value }))} className="rounded-[10px] border border-[#444] bg-[#1A1A1A] px-3 py-2 text-[14px] text-white outline-none focus:border-[#888]">
-                              <option value="personal">개인 업무</option>
-                              <option value="team">팀 업무</option>
-                              <option value="sector">섹터 업무</option>
                             </select>
                             <select value={taskDraft.status} onChange={(event) => setTaskDraft((draft) => ({ ...draft, status: event.target.value }))} className="rounded-[10px] border border-[#444] bg-[#1A1A1A] px-3 py-2 text-[14px] text-white outline-none focus:border-[#888]">
                               {['신규', '검토중', '진행중', '보류', '완료'].map((status) => <option key={status}>{status}</option>)}
