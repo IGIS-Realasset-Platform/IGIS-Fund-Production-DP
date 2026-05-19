@@ -16,17 +16,18 @@
     "new_user_requests": "Add new requests to the best matching stage, update the denominator, and report the new total in the same session."
   },
   "summary": {
-    "completed": 158,
-    "total": 245,
-    "completion_rate": 64.5,
-    "updated_at": "2026-05-19T07:04:46.835Z"
+    "completed": 169,
+    "total": 265,
+    "completion_rate": 63.8,
+    "updated_at": "2026-05-19T07:44:10.844Z",
+    "conflict_resolution": "Removed superseded personal/team/sector task scope checklist items 3.06 and 3.07; latest request removes those buttons."
   },
   "stages": [
     {
       "stage": 2,
       "area": "공통 데이터 기준",
-      "completed": 7,
-      "total": 16,
+      "completed": 8,
+      "total": 17,
       "items": [
         {
           "id": "2.01",
@@ -107,14 +108,22 @@
           "id": "2.16",
           "status": "partial",
           "text": "Supabase ll_* 테이블과 컬럼 중 원본 Excel 값이 아니라 개발/운영 과정에서 붙은 불필요 payload, review, cache성 컬럼을 전수분류하고 정리한다. 현재 information_schema 및 pg_stat_user_tables read-only 기준으로 ll_* row count와 jsonb/payload 컬럼 inventory를 작성했다. 실제 컬럼 삭제/정규화 migration은 사용처 감사, rollback, readback query 작성 후 진행한다."
+        },
+        {
+          "id": "2.17",
+          "status": "done",
+          "text": "담당자별 권한 부여 Excel 재생성 결과 김행단(hkim@igisam.com)을 로그인/권한 JSON에 반영했다.",
+          "evidence": "scripts/logistics/generate-permission-data.cjs output users=34; logisticsPermissionData.json contains 김행단 with 10 managed assets.",
+          "added_at": "2026-05-19T07:37:33.239Z",
+          "updated_at": "2026-05-19T07:37:33.239Z"
         }
       ]
     },
     {
       "stage": 3,
       "area": "업무 로그 메인 페이지",
-      "completed": 25,
-      "total": 30,
+      "completed": 27,
+      "total": 33,
       "items": [
         {
           "id": "3.01",
@@ -140,16 +149,6 @@
           "id": "3.05",
           "status": "done",
           "text": "협업게시판 자산 선택은 사용자가 읽기 권한 있는 담당 자산만 가나다순으로 표시한다. Evidence: board asset select width/options/sort QA passed."
-        },
-        {
-          "id": "3.06",
-          "status": "partial",
-          "text": "주요 Task 관리는 개인/팀/섹터 전환을 유지하되 서버 권한 기준으로 필터링한다. Evidence: local scope switch QA passed; live Edge permission readback still needed."
-        },
-        {
-          "id": "3.07",
-          "status": "partial",
-          "text": "개인 업무는 내가 작성한 Task, 팀 업무는 내 조직 Task, 섹터 업무는 읽기 권한 있는 자산 Task만 표시한다. Evidence: local personal/team/sector switching passed; role-specific live account QA still needed."
         },
         {
           "id": "3.08",
@@ -271,6 +270,46 @@
           "text": "좌측 사이드바는 Work Platform 단일 탭과 Dashboard 접힘 그룹(Home, Asset, Company, Analysis Tools, Data Playground, Data Quality)으로 정리한다.",
           "evidence": "left sidebar now uses Work Platform root and collapsible Dashboard group; targeted eslint 0 errors and build passed",
           "updated_at": "2026-05-19T07:04:46.835Z"
+        },
+        {
+          "id": "3.33",
+          "status": "partial",
+          "text": "Work Platform AI ?? ???? ??/?? ?????? ?? ?? ???? ????? ???.",
+          "added_at": "2026-05-19T07:15:39.429Z",
+          "evidence": "AI dock transition classes aligned; browser animation QA remains.",
+          "updated_at": "2026-05-19T07:37:33.239Z"
+        },
+        {
+          "id": "3.34",
+          "status": "done",
+          "text": "????? ??? ??????? ????.",
+          "added_at": "2026-05-19T07:15:39.429Z",
+          "evidence": "WorkspaceActivityLog logistics title now renders 협업게시판.",
+          "updated_at": "2026-05-19T07:37:33.239Z"
+        },
+        {
+          "id": "3.35",
+          "status": "partial",
+          "text": "????? ?????? ?? ??? ??? ??/?? ???? ???, ?? ? ll_* ????? ???? ???.",
+          "added_at": "2026-05-19T07:15:39.429Z",
+          "evidence": "LogWriteBox now separates company stakeholder search from people mention/visibility; ll_* stakeholder company table remains.",
+          "updated_at": "2026-05-19T07:37:33.239Z"
+        },
+        {
+          "id": "3.36",
+          "status": "done",
+          "text": "????? @ ??? ??? ?? ?? Excel ?? ?? ???? ??/???? ??.",
+          "added_at": "2026-05-19T07:15:39.429Z",
+          "evidence": "@ mention and visibility person search use logisticsPermissionData users regenerated from permission Excel; 김행단 included.",
+          "updated_at": "2026-05-19T07:37:33.239Z"
+        },
+        {
+          "id": "3.37",
+          "status": "partial",
+          "text": "?? TASK ?? ??? ?? TASK ??? ???? GitHub ?? ???? ?? ????? ?? ?? ??? ????.",
+          "added_at": "2026-05-19T07:15:39.429Z",
+          "evidence": "Main task component title updated to 주요 TASK 관리; reference-level feature audit remains.",
+          "updated_at": "2026-05-19T07:37:33.239Z"
         }
       ]
     },
@@ -278,7 +317,7 @@
       "stage": 4,
       "area": "Dashboard 공통",
       "completed": 7,
-      "total": 12,
+      "total": 14,
       "items": [
         {
           "id": "4.01",
@@ -341,6 +380,22 @@
           "text": "각 탭 본문 최상단 제목은 좌측 사이드바 탭 제목과 동일하게 맞추고 INTERNAL MODULE 같은 서브 제목은 제거한다.",
           "evidence": "dashboard shell titles now match selected sidebar labels and internal-module eyebrow removed; targeted eslint 0 errors and build passed",
           "updated_at": "2026-05-19T07:04:46.835Z"
+        },
+        {
+          "id": "4.13",
+          "status": "partial",
+          "text": "Dashboard ? ?? ???? ??? ??? PDF ??? ?? ?? ????.",
+          "added_at": "2026-05-19T07:15:39.429Z",
+          "evidence": "Standalone PDF Report sidebar route and page implemented; print/browser QA remains.",
+          "updated_at": "2026-05-19T07:37:33.239Z"
+        },
+        {
+          "id": "4.14",
+          "status": "partial",
+          "text": "PDF ??? ?? ??? Dashboard ???? ??, ????, ?? ??, ? ??/?? ?? PDF ??? ????.",
+          "added_at": "2026-05-19T07:15:39.429Z",
+          "evidence": "PDF Report supports asset selection, component selection, reorder and print/PDF styling; visual QA remains.",
+          "updated_at": "2026-05-19T07:37:33.239Z"
         }
       ]
     },
@@ -435,8 +490,8 @@
     {
       "stage": 6,
       "area": "Home 탭",
-      "completed": 29,
-      "total": 36,
+      "completed": 31,
+      "total": 39,
       "items": [
         {
           "id": "6.01",
@@ -619,14 +674,38 @@
           "id": "6.36",
           "status": "pending",
           "text": "Home 용도별 비율과 월 임관리비 비중 숫자가 Asset 및 다른 컴포넌트와 일치하는지 재검증한다."
+        },
+        {
+          "id": "6.37",
+          "status": "done",
+          "text": "Home ??? ???? ?? ??? ???? ??? ?? ???.",
+          "added_at": "2026-05-19T07:15:39.429Z",
+          "evidence": "Home region exposure and maturity concentration sections swapped in code.",
+          "updated_at": "2026-05-19T07:37:33.239Z"
+        },
+        {
+          "id": "6.38",
+          "status": "partial",
+          "text": "Home ?? ??? ?? plot ??, ? ??, tick, ??? ?? ?? ???? ????.",
+          "added_at": "2026-05-19T07:15:39.429Z",
+          "evidence": "Home maturity chart height increased and layout moved full-width; browser axis readability QA remains.",
+          "updated_at": "2026-05-19T07:37:33.239Z"
+        },
+        {
+          "id": "6.39",
+          "status": "done",
+          "text": "Home ?? ?? ?? ?? ?? hover ??? ???/??? ?? ??? ????, ?? ?? ? ?? Asset ??? ????.",
+          "added_at": "2026-05-19T07:15:39.429Z",
+          "evidence": "Home map marker hover card uses white panel/black text and navigates to Asset tab on click.",
+          "updated_at": "2026-05-19T07:37:33.239Z"
         }
       ]
     },
     {
       "stage": 7,
       "area": "Asset 탭",
-      "completed": 13,
-      "total": 17,
+      "completed": 15,
+      "total": 21,
       "items": [
         {
           "id": "7.01",
@@ -714,6 +793,36 @@
           "id": "7.17",
           "status": "pending",
           "text": "부산송정물류센터, 아레나스양지물류센터, 화성 석포리 물류센터 Asset 층별 배치와 만기 스냅샷을 전수 확인한다."
+        },
+        {
+          "id": "7.18",
+          "status": "done",
+          "text": "Asset ????/????? ???? ??? ?? ?? ?? ?? ???? ??? ???.",
+          "added_at": "2026-05-19T07:15:39.429Z",
+          "evidence": "Asset overview/investment tables keep fixed rows even when values are blank.",
+          "updated_at": "2026-05-19T07:37:33.239Z"
+        },
+        {
+          "id": "7.19",
+          "status": "done",
+          "text": "Asset ???? ???? ??/??/??/?? ?? ?? ?? ???? ?? ?? ?? ???.",
+          "added_at": "2026-05-19T07:15:39.429Z",
+          "evidence": "Asset investment table groups repeated categories with merged first cell and wider content column.",
+          "updated_at": "2026-05-19T07:37:33.239Z"
+        },
+        {
+          "id": "7.20",
+          "status": "partial",
+          "text": "Asset ????????, ??????????, ?? ??? ???? ?? ??? ?? ??? ??? ?? ??? ???? ????.",
+          "added_at": "2026-05-19T07:15:39.429Z",
+          "evidence": "Asset tab now falls back from normalizedRows to raw rows and derives expiry rows from row end dates, so 부산송정/화성석포리/아레나스양지 stacking and expiry data have code-level recovery; browser QA remains.",
+          "updated_at": "2026-05-19T07:44:10.844Z"
+        },
+        {
+          "id": "7.21",
+          "status": "pending",
+          "text": "Asset ????? API? Edge Function secret ???? live ??/??/readback?? ????.",
+          "added_at": "2026-05-19T07:15:39.429Z"
         }
       ]
     },
@@ -797,9 +906,9 @@
     },
     {
       "stage": 9,
-      "area": "Data Playground",
-      "completed": 10,
-      "total": 11,
+      "area": "Pivot Table",
+      "completed": 12,
+      "total": 13,
       "items": [
         {
           "id": "9.01",
@@ -855,6 +964,22 @@
           "id": "9.11",
           "status": "done",
           "text": "Data Playground 탭은 피벗 결과 테이블을 선택 컨트롤 바로 아래로 올리고 바 차트는 그 아래로 내리며, 값 필드에 평당 월임대료와 평당 월관리비를 추가했다. Evidence: current-request-ui-static-qa-20260515 allPass=true."
+        },
+        {
+          "id": "9.12",
+          "status": "done",
+          "text": "Data Playground ??? Pivot Table? ????.",
+          "added_at": "2026-05-19T07:15:39.429Z",
+          "evidence": "Navigation and dashboard label use Pivot Table while route remains backward compatible.",
+          "updated_at": "2026-05-19T07:37:33.239Z"
+        },
+        {
+          "id": "9.13",
+          "status": "done",
+          "text": "Pivot Table?? ?? ? ?? ???? ????.",
+          "added_at": "2026-05-19T07:15:39.429Z",
+          "evidence": "Pivot Table multi-value summary section removed; pivot table stays above chart.",
+          "updated_at": "2026-05-19T07:37:33.239Z"
         }
       ]
     },
@@ -971,8 +1096,8 @@
     {
       "stage": 11,
       "area": "Analysis Tools",
-      "completed": 4,
-      "total": 6,
+      "completed": 6,
+      "total": 8,
       "items": [
         {
           "id": "11.01",
@@ -1003,6 +1128,22 @@
           "id": "11.06",
           "status": "done",
           "text": "Analysis Tools 선택 자산·기업 비교에서 기업 선택의 하이픈(-) 옵션은 제거하고, 비교 값 선택 UI를 잘 보이는 위치로 옮겼으며 평당 월임대료와 평당 월관리비를 추가했다. Evidence: current-request-ui-static-qa-20260515 allPass=true."
+        },
+        {
+          "id": "11.07",
+          "status": "done",
+          "text": "Analysis Tools ???? ????? ??/?? ???? ???? ? ??? horizontal ??/???? ????.",
+          "added_at": "2026-05-19T07:15:39.429Z",
+          "evidence": "Analysis Tools benchmark matrix split into asset/company collapsible horizontal panels.",
+          "updated_at": "2026-05-19T07:37:33.239Z"
+        },
+        {
+          "id": "11.08",
+          "status": "done",
+          "text": "Analysis Tools ?? ?? ??? ?? ?? ?? ????? ????.",
+          "added_at": "2026-05-19T07:15:39.429Z",
+          "evidence": "Analysis Tools selected contract ledger and review-needed sections removed.",
+          "updated_at": "2026-05-19T07:37:33.239Z"
         }
       ]
     },
@@ -1010,7 +1151,7 @@
       "stage": 12,
       "area": "승인대기 대상",
       "completed": 10,
-      "total": 18,
+      "total": 20,
       "items": [
         {
           "id": "12.01",
@@ -1103,6 +1244,18 @@
           "text": "OpenDART API와 건축물대장 API를 빠르게 연결하고 Edge Function 배포/readback으로 확인한다.",
           "evidence": "ll-dashboard-api redeployed successfully; OpenDART/building-register live provider QA remains",
           "updated_at": "2026-05-19T07:04:46.835Z"
+        },
+        {
+          "id": "12.21",
+          "status": "pending",
+          "text": "OpenDART API? Edge Function secret ???? live ??/??/readback?? ????.",
+          "added_at": "2026-05-19T07:15:39.429Z"
+        },
+        {
+          "id": "12.22",
+          "status": "pending",
+          "text": "????? ????? ?? ??? ll_* ??? ?? ??? ???? ?? ? migration/seed/readback? ????.",
+          "added_at": "2026-05-19T07:15:39.429Z"
         }
       ]
     },
@@ -1125,7 +1278,9 @@
         {
           "id": "13.03",
           "status": "done",
-          "text": "Naver Cloud map/geocoding 관련 secret은 Edge Function secret 기준으로 연결했다. qveg live smoke에서 naver/maps-config ok, naver/geocode provider_status=200을 확인했다. 실제 지도 타일/마커 화면 QA는 사용자 브라우저 확인 항목으로 남긴다."
+          "text": "Naver Cloud map/geocoding 관련 secret은 Edge Function secret 기준으로 연결했다. qveg live smoke에서 naver/maps-config ok, naver/geocode provider_status=200을 확인했다. 실제 지도 타일/마커 화면 QA는 사용자 브라우저 확인 항목으로 남긴다.",
+          "evidence": "qveg live origin smoke returned naver/maps-config ok=true with NAVER_CLOUD_CLIENT_ID source.",
+          "updated_at": "2026-05-19T07:44:10.844Z"
         },
         {
           "id": "13.04",
@@ -1173,7 +1328,7 @@
       "stage": 14,
       "area": "QA 계획",
       "completed": 11,
-      "total": 24,
+      "total": 25,
       "items": [
         {
           "id": "14.01",
@@ -1294,6 +1449,12 @@
           "id": "14.24",
           "status": "done",
           "text": "아레나스양지물류센터 층별 배치/만기 스냅샷 회귀 QA를 추가하고 통과했습니다. Evidence: arenaYangjiNormalizedRows=21, arenaYangjiRowsWithExpiry=21, arenaYangjiFloorCount=12, deployed asset index-ZZ58eKbF.js."
+        },
+        {
+          "id": "14.25",
+          "status": "pending",
+          "text": "???? ?? QA: Home/Company ?? hover ??, Asset ??, PDF ??? ?, Pivot Table?, Analysis ???? ??? ???? ????.",
+          "added_at": "2026-05-19T07:15:39.429Z"
         }
       ]
     },
@@ -1405,5 +1566,5 @@
       "work-platform-task-board-crud-smoke-20260519.md"
     ]
   },
-  "lastUpdated": "2026-05-19T10:45:00+09:00"
+  "lastUpdated": "2026-05-19T07:44:10.844Z"
 }

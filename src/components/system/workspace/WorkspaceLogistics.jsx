@@ -50,7 +50,7 @@ const MODULES = [
   { id: 'asset', label: 'Asset', source: 'Asset' },
   { id: 'company', label: 'Company', source: 'Company' },
   { id: 'tools', label: 'Analysis Tools', source: 'Analysis Tools' },
-  { id: 'playground', label: 'Data Playground', source: 'Data Playground' },
+  { id: 'playground', label: 'Pivot Table', source: 'Pivot Table' },
   { id: 'quality', label: 'Data Quality', source: 'Data Quality' },
 ];
 const ADMIN_ONLY_MODULE_IDS = new Set(['tools', 'playground', 'quality']);
@@ -1173,10 +1173,26 @@ function buildAssetInvestmentRows(project, weeklyRow) {
     ['만기', '펀드만기', cleanDisplay(weeklyRow?.fundMaturity, '')],
     ['만기', '대출만기', cleanDisplay(weeklyRow?.loanMaturity, '')],
   ];
-  return [...baseRows, ...splitProjectEtcRows(managementProjectValue(project, '기타'))];
+  const parsedEtcRows = splitProjectEtcRows(managementProjectValue(project, '기타'));
+  const parsedByItem = new Map(parsedEtcRows.map((row) => [row[1], row[2]]));
+  const fixedEtcRows = ['매입가', '평당 매입가', '운영사', '비고'].map((item) => ['기타', item, parsedByItem.get(item) || '']);
+  const extraEtcRows = parsedEtcRows.filter((row) => !fixedEtcRows.some((fixed) => fixed[1] === row[1]));
+  return [...baseRows, ...fixedEtcRows, ...extraEtcRows];
 }
 
 function AssetProjectToggleTable({ id, title, rows, openSections, onToggle }) {
+  const groupedRows = rows.map((row, index) => {
+    const [group] = row;
+    const isFirst = index === 0 || rows[index - 1]?.[0] !== group;
+    let rowSpan = 0;
+    if (isFirst) {
+      for (let cursor = index; cursor < rows.length && rows[cursor]?.[0] === group; cursor += 1) {
+        rowSpan += 1;
+      }
+    }
+    return { row, isFirst, rowSpan };
+  });
+
   return (
     <div className="rounded-[14px] border border-[#333333] bg-[#1F1F1E] p-4">
       <button
@@ -1188,11 +1204,35 @@ function AssetProjectToggleTable({ id, title, rows, openSections, onToggle }) {
         <span className="rounded-[6px] border border-[#3A3A3C] bg-[#252524] px-2 py-1 text-[12px] font-semibold text-[#D1D1D6]">{openSections[id] ? '접기' : '펼치기'}</span>
       </button>
       {openSections[id] ? (
-        rows.length ? (
-          <DataTable headers={['구분', '항목', '내용']} rows={rows} compact />
-        ) : (
-          <div className="rounded-[10px] border border-[#333333] bg-[#252524] p-3 text-[12px] leading-5 text-[#86868B]">해당 자산의 원문 행을 아직 찾지 못했습니다.</div>
-        )
+        <div className="overflow-hidden rounded-[10px] border border-[#333333]">
+          <table className="w-full table-fixed border-collapse text-left">
+            <colgroup>
+              <col className="w-[86px]" />
+              <col className="w-[142px]" />
+              <col />
+            </colgroup>
+            <thead className="bg-[#252524] text-[12px] font-semibold text-[#86868B]">
+              <tr>
+                <th className="border-b border-[#333333] px-3 py-2">구분</th>
+                <th className="border-b border-[#333333] px-3 py-2">항목</th>
+                <th className="border-b border-[#333333] px-3 py-2">내용</th>
+              </tr>
+            </thead>
+            <tbody>
+              {groupedRows.map(({ row, isFirst, rowSpan }, index) => (
+                <tr key={`${row[0]}-${row[1]}-${index}`} className="border-b border-[#333333] last:border-b-0">
+                  {isFirst ? (
+                    <td rowSpan={rowSpan} className="border-r border-[#333333] bg-[#252524] px-3 py-2 align-middle text-center text-[12px] font-bold text-white">
+                      {row[0]}
+                    </td>
+                  ) : null}
+                  <td className="border-r border-[#333333] px-3 py-2 align-top text-[12px] font-semibold text-[#D1D1D6]">{row[1]}</td>
+                  <td className="px-3 py-2 align-top text-[12px] leading-5 text-[#E5E5E5]">{row[2] || <span className="text-[#555]">-</span>}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       ) : null}
     </div>
   );
@@ -2426,6 +2466,7 @@ export default function WorkspaceLogistics({ currentPath = '' }) {
   const [pendingTaskAction, setPendingTaskAction] = useState(null);
 
   const isDashboard = currentPath.startsWith(pathFor('dashboard'));
+  const isPdfReport = currentPath.startsWith(pathFor('pdf-report'));
   const requestedModule = currentPath.split('/').pop() || 'home';
   const activeModule = requestedModule === 'sector' || requestedModule === 'weekly' ? 'home' : requestedModule;
   const permission = useMemo(() => resolveLogisticsPermission(memberInfo), [memberInfo]);
@@ -2735,6 +2776,10 @@ export default function WorkspaceLogistics({ currentPath = '' }) {
     await submitTaskOperation('update', other, { createdAt: currentCreatedAt });
   };
 
+  if (isPdfReport) {
+    return <PdfReportBuilder />;
+  }
+
   if (isDashboard) {
     return <DashboardShell activeModule={MODULES.some((item) => item.id === activeModule) ? activeModule : 'home'} />;
   }
@@ -2826,7 +2871,7 @@ export default function WorkspaceLogistics({ currentPath = '' }) {
         <div className="mb-[10px] flex items-center justify-between">
           <div className="flex items-center gap-0">
             <h2 id="task-management" className="flex items-center text-[18px] font-bold tracking-tight text-white">
-              <span className="mt-[2px]">물류센터 주요 TASK 관리</span>
+              <span className="mt-[2px]">주요 TASK 관리</span>
               <span className="ml-[10px] rounded-[6px] bg-[#333] px-[8px] py-[3px] text-[14px] font-bold text-[#b3b0a6]">{getLogisticsWeekInfo().weekLabel}</span>
             </h2>
             <a href={`${import.meta.env.BASE_URL}platform/iotaseoul/workspace/archive?workspace=logistics`} target="_blank" rel="opener" className="ml-[10px] mt-[2px] flex cursor-pointer items-center gap-[4px] rounded-[6px] border border-[#3c3c3c] bg-transparent py-[3px] pl-[10px] pr-[8px] text-[13px] font-normal tracking-[-0.02em] text-[#A1A1AA] transition-all hover:bg-[#333] hover:text-white">
@@ -3111,7 +3156,7 @@ export default function WorkspaceLogistics({ currentPath = '' }) {
             type="button"
             data-testid="logistics-ai-dock-open"
             onClick={() => setIsAiDockOpen(true)}
-            className="flex h-[112px] w-11 items-center justify-center rounded-l-[16px] border border-r-0 border-[#3b82f6]/40 bg-[#1f3763] text-[13px] font-bold text-[#CFE1FF] shadow-2xl transition-colors hover:bg-[#284B87]"
+            className="flex h-[112px] w-11 items-center justify-center rounded-l-[16px] border border-r-0 border-[#3b82f6]/40 bg-[#1f3763] text-[13px] font-bold text-[#CFE1FF] shadow-2xl transition-[transform,opacity,background-color] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-[#284B87]"
             aria-label="AI 챗봇 열기"
           >
             <span className="flex flex-col items-center justify-center gap-1 leading-none">
@@ -3122,7 +3167,7 @@ export default function WorkspaceLogistics({ currentPath = '' }) {
           </button>
         ) : null}
       </div>
-      <div data-testid="logistics-ai-dock" className={`fixed right-0 top-0 z-[80] flex h-screen w-[min(420px,calc(100vw-24px))] transform flex-col border-l border-[#333333] bg-[#1B1B1A] shadow-2xl transition-transform duration-300 ${isAiDockOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+      <div data-testid="logistics-ai-dock" className={`fixed right-0 top-0 z-[80] flex h-screen w-[min(420px,calc(100vw-24px))] transform flex-col border-l border-[#333333] bg-[#1B1B1A] shadow-2xl transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${isAiDockOpen ? 'translate-x-0' : 'translate-x-full'}`}>
         <div className="flex h-[68px] shrink-0 items-center justify-between border-b border-[#333333] px-4">
           <div>
             <div className="text-[15px] font-bold text-white">물류센터 AI 챗봇</div>
@@ -3615,7 +3660,21 @@ function loadNaverMapsSdk(clientId) {
   return window.__logisticsNaverMapPromise;
 }
 
-function PortfolioMapSchematic({ points }) {
+function escapeHtml(value) {
+  return String(value ?? '').replace(/[&<>"']/g, (char) => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;',
+  }[char]));
+}
+
+function escapeHtmlAttribute(value) {
+  return escapeHtml(value).replace(/`/g, '&#96;');
+}
+
+function PortfolioMapSchematic({ points, onAssetClick = navigateToAsset }) {
   const validPoints = (points || []).filter((point) => point.latitude != null && point.longitude != null);
   if (!validPoints.length) return <div className="text-[13px] text-[#86868B]">좌표가 등록된 자산이 없습니다.</div>;
   const minLat = Math.min(...validPoints.map((point) => Number(point.latitude)));
@@ -3634,22 +3693,36 @@ function PortfolioMapSchematic({ points }) {
           style={{ left: `${xFor(point)}%`, top: `${yFor(point)}%` }}
         >
           <div className="h-8 w-8 rounded-full bg-[#9AD7FF] text-[#111] text-[12px] font-bold flex items-center justify-center shadow-lg shadow-black/30">{index + 1}</div>
-          <div className="absolute left-8 top-1/2 -translate-y-1/2 hidden group-hover:block w-[220px] rounded-[8px] border border-[#3A3A3C] bg-[#252524] p-3 text-[12px] text-[#C7C7CC] z-10">
-            <strong className="block text-white mb-1">{point.assetName}</strong>
+          <button type="button" onClick={() => onAssetClick(point.assetName)} className="absolute left-8 top-1/2 z-10 hidden w-[230px] -translate-y-1/2 rounded-[8px] border border-[#D1D1D6] bg-white p-3 text-left text-[12px] text-[#1F1F1E] shadow-xl group-hover:block">
+            <strong className="mb-1 block text-[#111]">{point.assetName}</strong>
             {point.address || '-'}
-          </div>
+          </button>
         </div>
       ))}
     </div>
   );
 }
 
-function PortfolioMapPlot({ points }) {
+function PortfolioMapPlot({ points, onAssetClick = navigateToAsset }) {
   const containerRef = useRef(null);
   const mapRef = useRef(null);
   const validPoints = useMemo(() => (points || []).filter((point) => point.latitude != null && point.longitude != null), [points]);
   const [mode, setMode] = useState('loading');
   const [status, setStatus] = useState('동적 지도를 준비하고 있습니다.');
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return undefined;
+    const handleMapCardClick = (event) => {
+      const target = event.target?.closest?.('[data-map-asset-name]');
+      if (!target) return;
+      event.preventDefault();
+      event.stopPropagation();
+      onAssetClick(target.getAttribute('data-map-asset-name'));
+    };
+    container.addEventListener('click', handleMapCardClick);
+    return () => container.removeEventListener('click', handleMapCardClick);
+  }, [onAssetClick]);
 
   useEffect(() => {
     let disposed = false;
@@ -3680,7 +3753,11 @@ function PortfolioMapPlot({ points }) {
         }).addTo(map);
         validPoints.forEach((point, index) => {
           const marker = L.marker([Number(point.latitude), Number(point.longitude)], { title: point.assetName || `자산 ${index + 1}` }).addTo(map);
-          marker.bindPopup(`<strong>${point.assetName || `자산 ${index + 1}`}</strong><br>${point.address || ''}`);
+          marker.bindTooltip(
+            `<button type="button" data-map-asset-name="${escapeHtmlAttribute(point.assetName || '')}" style="display:block;max-width:240px;border:1px solid #d1d5db;border-radius:8px;background:#fff;color:#111;padding:10px 12px;text-align:left;line-height:1.45;box-shadow:0 12px 28px rgba(0,0,0,.24);cursor:pointer;"><strong style="display:block;margin-bottom:4px;color:#111;">${escapeHtml(point.assetName || `자산 ${index + 1}`)}</strong><span style="color:#111;">${escapeHtml(point.address || '')}</span></button>`,
+            { direction: 'right', offset: [14, 0], opacity: 1, sticky: true, interactive: true, className: 'logistics-map-tooltip' },
+          );
+          marker.on('mouseover', () => marker.openTooltip());
         });
         if (latLngs.length > 1) map.fitBounds(latLngs, { padding: [28, 28] });
         else map.setView(latLngs[0], 13);
@@ -3716,12 +3793,9 @@ function PortfolioMapPlot({ points }) {
             title: point.assetName || `자산 ${index + 1}`,
           });
           const infoWindow = new naver.maps.InfoWindow({
-            content: `<div style="padding:10px 12px;font-size:12px;line-height:1.4;"><strong>${point.assetName || `자산 ${index + 1}`}</strong><br>${point.address || ''}</div>`,
+            content: `<button type="button" data-map-asset-name="${escapeHtmlAttribute(point.assetName || '')}" style="display:block;max-width:240px;border:1px solid #d1d5db;border-radius:8px;background:#fff;color:#111;padding:10px 12px;text-align:left;font-size:12px;line-height:1.45;box-shadow:0 12px 28px rgba(0,0,0,.24);cursor:pointer;"><strong style="display:block;margin-bottom:4px;color:#111;">${escapeHtml(point.assetName || `자산 ${index + 1}`)}</strong><span style="color:#111;">${escapeHtml(point.address || '')}</span></button>`,
           });
-          naver.maps.Event.addListener(marker, 'click', () => {
-            if (infoWindow.getMap()) infoWindow.close();
-            else infoWindow.open(map, marker);
-          });
+          naver.maps.Event.addListener(marker, 'mouseover', () => infoWindow.open(map, marker));
         });
         if (validPoints.length > 1) map.fitBounds(bounds);
         [80, 300, 800].forEach((delay) => window.setTimeout(() => {
@@ -3766,7 +3840,7 @@ function PortfolioMapPlot({ points }) {
         mapRef.current = null;
       }
     };
-  }, [validPoints]);
+  }, [onAssetClick, validPoints]);
 
   if (!validPoints.length) {
     return <div className="text-[13px] text-[#86868B]">좌표가 등록된 자산이 없습니다.</div>;
@@ -3776,7 +3850,7 @@ function PortfolioMapPlot({ points }) {
     <div className="space-y-3">
       <div className="relative rounded-[14px] border border-[#333333] bg-[#1F1F1E] overflow-hidden" style={{ height: 520 }}>
         <div ref={containerRef} className="logistics-map-canvas [&_img]:!max-w-none [&_*]:box-content" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }} aria-label="동적 지도" />
-        {mode !== 'leaflet' && mode !== 'naver' ? <PortfolioMapSchematic points={validPoints} /> : null}
+        {mode !== 'leaflet' && mode !== 'naver' ? <PortfolioMapSchematic points={validPoints} onAssetClick={onAssetClick} /> : null}
         <div className={`absolute left-3 top-3 rounded-full border px-3 py-1 text-[12px] font-semibold ${mode === 'leaflet' || mode === 'naver' ? 'border-[#2E6B45] bg-[#173522] text-[#B5E48C]' : 'border-[#7A6425] bg-[#2B2613] text-[#FFD166]'}`}>
           {status}
         </div>
@@ -4258,30 +4332,6 @@ function HomeDashboard() {
         </div>
         <div className="rounded-[20px] border border-[#333333] bg-[#252524] p-5">
           <SectionHeader
-            eyebrow="EXPIRY"
-            title="만기 집중도"
-            right={<button type="button" onClick={() => openTableModal('만기 집중도 월별 상세', ['만기월', '임차인', '자산', '임대면적(평)', '월 임대료', '월 관리비', '월 임관리비', '평당 월 임대료', '평당 월 관리비', 'E.NOC', '공간'], expiryDetailRows)} className="h-9 px-3 rounded-[8px] bg-[#30302F] text-white text-[13px] font-semibold hover:bg-[#3A3A3A]">월별 상세 보기</button>}
-          />
-          <RichTrendChart
-            rows={data.monthlyExpiryRows}
-            labelKey="month"
-            leftValueType="area"
-            rightValueType="count"
-            rightAxisColor="#FFD166"
-            chartHeight={520}
-            chartHeightClass="h-[500px]"
-            onClick={() => openTableModal('만기 집중도 월별 상세', ['만기월', '임차인', '자산', '임대면적(평)', '월 임대료', '월 관리비', '월 임관리비', '평당 월 임대료', '평당 월 관리비', 'E.NOC', '공간'], expiryDetailRows)}
-            series={[
-              { key: 'expiringAreaSqm', label: '만기 임대면적', valueType: 'area', chartType: 'bar', color: '#9AD7FF' },
-              { key: 'uniqueTenantCount', label: '만기 임차인 수', valueType: 'count', axis: 'right', color: '#FFD166' },
-            ]}
-          />
-        </div>
-      </section>
-
-      <section className="grid grid-cols-1 gap-5">
-        <div className="rounded-[20px] border border-[#333333] bg-[#252524] p-5">
-          <SectionHeader
             eyebrow="REGION"
             title="권역별 노출도"
             right={(
@@ -4299,6 +4349,30 @@ function HomeDashboard() {
             )}
           />
           <RichBarChart rows={regionChartRows} labelKey="label" valueKey="value" valueType={regionMetric === 'area' ? 'area' : 'currency'} valueLabel={regionMetric === 'area' ? '권역별 연면적' : '권역별 월 임관리비'} onClick={() => openTableModal('권역별 노출도', ['권역', '자산 수', '연면적(평)', '월 임관리비'], regionExposureRows)} />
+        </div>
+      </section>
+
+      <section className="grid grid-cols-1 gap-5">
+        <div className="rounded-[20px] border border-[#333333] bg-[#252524] p-5">
+          <SectionHeader
+            eyebrow="EXPIRY"
+            title="만기 집중도"
+            right={<button type="button" onClick={() => openTableModal('만기 집중도 월별 상세', ['만기월', '임차인', '자산', '임대면적(평)', '월 임대료', '월 관리비', '월 임관리비', '평당 월 임대료', '평당 월 관리비', 'E.NOC', '공간'], expiryDetailRows)} className="h-9 px-3 rounded-[8px] bg-[#30302F] text-white text-[13px] font-semibold hover:bg-[#3A3A3A]">월별 상세 보기</button>}
+          />
+          <RichTrendChart
+            rows={data.monthlyExpiryRows}
+            labelKey="month"
+            leftValueType="area"
+            rightValueType="count"
+            rightAxisColor="#FFD166"
+            chartHeight={620}
+            chartHeightClass="h-[600px]"
+            onClick={() => openTableModal('만기 집중도 월별 상세', ['만기월', '임차인', '자산', '임대면적(평)', '월 임대료', '월 관리비', '월 임관리비', '평당 월 임대료', '평당 월 관리비', 'E.NOC', '공간'], expiryDetailRows)}
+            series={[
+              { key: 'expiringAreaSqm', label: '만기 임대면적', valueType: 'area', chartType: 'bar', color: '#9AD7FF' },
+              { key: 'uniqueTenantCount', label: '만기 임차인 수', valueType: 'count', axis: 'right', color: '#FFD166' },
+            ]}
+          />
         </div>
       </section>
 
@@ -5714,6 +5788,8 @@ function AnalysisToolsDashboard() {
   const [selectedAssetIds, setSelectedAssetIds] = useState(defaultAssetIds);
   const [selectedCompanyIds, setSelectedCompanyIds] = useState(defaultCompanyIds);
   const [benchmarkMetric, setBenchmarkMetric] = useState('monthlyCostTotal');
+  const [assetMatrixOpen, setAssetMatrixOpen] = useState(true);
+  const [companyMatrixOpen, setCompanyMatrixOpen] = useState(true);
   const [modal, setModal] = useState(null);
   const selectedAssetSet = new Set(selectedAssetIds);
   const selectedCompanySet = new Set(selectedCompanyIds);
@@ -5738,9 +5814,6 @@ function AnalysisToolsDashboard() {
   const selectedContracts = sourceRows
     .filter((row) => selectedAssetSet.has(row.assetId) || selectedCompanySet.has(row.tenantId))
     .sort((a, b) => Number(b.monthlyCostTotal || 0) - Number(a.monthlyCostTotal || 0));
-  const reviewHighlights = selectedContracts
-    .filter((row) => row.calculatedReviewStatus && row.calculatedReviewStatus !== '정상')
-    .slice(0, 12);
   const rentValues = rows.map((row) => Number(row.monthlyCostTotal || row.monthlyRentTotal || 0)).filter((value) => value > 0);
   const rentSpread = rentValues.length ? Math.max(...rentValues) - Math.min(...rentValues) : 0;
   const metricRankRows = allAnalysisRows
@@ -5922,25 +5995,30 @@ function AnalysisToolsDashboard() {
           <RichBarChart rows={companyCompareRows} labelKey="tenantMasterName" valueKey="metricValue" valueType={benchmarkMetricDef.type} valueLabel={benchmarkMetricDef.label} onClick={() => setModal({ title: '기업 비교', headers: ['기업명', '자산 목록', '계약 수', '임대면적(평)', '월 임대료', '월 관리비', '월 임관리비', benchmarkMetricDef.label], rows: companyTableRows })} />
         </div>
       </section>
-      <section className="rounded-[20px] border border-[#333333] bg-[#252524] p-5">
-        <SectionHeader eyebrow="MATRIX" title="벤치마크 매트릭스" />
-        <DataTable headers={['자산명', '권역', '연면적(평)', '임대면적(평)', '공실률', benchmarkMetricDef.label, '전체 평균 대비', '순위', '평균 E.NOC']} rows={tableRows} onRowClick={(index) => openAnalysisAssetDetail(rows[index])} compact />
-      </section>
-      <section className="grid grid-cols-1 gap-5 xl:grid-cols-[1fr_360px]">
+      <section className="grid grid-cols-1 gap-5 xl:grid-cols-2">
         <div className="rounded-[20px] border border-[#333333] bg-[#252524] p-5">
-          <SectionHeader eyebrow="LEDGER" title="선택 계약 원장" right={<button type="button" onClick={() => setModal({ title: '계약 원장', headers: ['자산', '임차인', '구역', '임대면적(평)', '월 임대료', '월 관리비', '월 임관리비', '만기', '검토 상태'], rows: contractRows })} className="h-9 cursor-pointer rounded-[8px] bg-[#30302F] px-3 text-[13px] font-semibold text-white hover:bg-[#3A3A3A]">전체 보기</button>} />
-          <DataTable headers={['자산', '임차인', '구역', '임대면적(평)', '월 임관리비', '만기']} rows={selectedContracts.slice(0, 12).map((row) => [row.assetName, row.tenantMasterName, row.spaceLabel, formatArea(row.leasedAreaSqm), formatCurrency(row.monthlyCostTotal), row.currentEndDate || '-'])} compact />
+          <button type="button" onClick={() => setAssetMatrixOpen((value) => !value)} className="mb-4 flex w-full items-center justify-between text-left">
+            <span>
+              <span className="block text-[12px] font-semibold uppercase tracking-[0.12em] text-[#86868B]">ASSET MATRIX</span>
+              <span className="mt-1 block text-[18px] font-bold text-white">자산 벤치마크 매트릭스</span>
+            </span>
+            <span className="rounded-[8px] border border-[#3A3A3C] bg-[#1F1F1E] px-3 py-1.5 text-[12px] font-semibold text-[#D1D1D6]">{assetMatrixOpen ? '접기' : '펼치기'}</span>
+          </button>
+          {assetMatrixOpen ? (
+            <DataTable headers={['자산명', '권역', '연면적(평)', '임대면적(평)', '공실률', benchmarkMetricDef.label, '전체 평균 대비', '순위', '평균 E.NOC']} rows={tableRows} onRowClick={(index) => openAnalysisAssetDetail(rows[index])} compact />
+          ) : null}
         </div>
         <div className="rounded-[20px] border border-[#333333] bg-[#252524] p-5">
-          <SectionHeader eyebrow="REVIEW" title="검토 필요 항목" />
-          <div className="space-y-2">
-            {reviewHighlights.length ? reviewHighlights.map((row, index) => (
-              <button key={`${row.assetName}-${row.tenantMasterName}-${index}`} type="button" onClick={() => setModal({ title: '검토 항목 상세', headers: ['항목', '내용'], rows: [['자산', row.assetName], ['임차인', row.tenantMasterName], ['구역', row.spaceLabel], ['검토 상태', row.calculatedReviewStatus], ['월 임관리비', formatCurrency(row.monthlyCostTotal)]] })} className="w-full cursor-pointer rounded-[12px] border border-[#333333] bg-[#1F1F1E] p-3 text-left hover:bg-[#2A2A29]">
-                <div className="text-[13px] font-semibold text-white">{row.assetName}</div>
-                <div className="mt-1 text-[12px] text-[#86868B]">{row.tenantMasterName} · {row.calculatedReviewStatus}</div>
-              </button>
-            )) : <div className="rounded-[12px] border border-[#333333] bg-[#1F1F1E] p-4 text-[13px] text-[#86868B]">선택 범위 내 검토 필요 항목이 없습니다.</div>}
-          </div>
+          <button type="button" onClick={() => setCompanyMatrixOpen((value) => !value)} className="mb-4 flex w-full items-center justify-between text-left">
+            <span>
+              <span className="block text-[12px] font-semibold uppercase tracking-[0.12em] text-[#86868B]">COMPANY MATRIX</span>
+              <span className="mt-1 block text-[18px] font-bold text-white">기업 벤치마크 매트릭스</span>
+            </span>
+            <span className="rounded-[8px] border border-[#3A3A3C] bg-[#1F1F1E] px-3 py-1.5 text-[12px] font-semibold text-[#D1D1D6]">{companyMatrixOpen ? '접기' : '펼치기'}</span>
+          </button>
+          {companyMatrixOpen ? (
+            <DataTable headers={['기업명', '자산 목록', '계약 수', '임대면적(평)', '월 임대료', '월 관리비', '월 임관리비', benchmarkMetricDef.label]} rows={companyTableRows} compact />
+          ) : null}
         </div>
       </section>
     </div>
@@ -5989,16 +6067,6 @@ function DataPlaygroundDashboard() {
     topN,
     excludeBlank,
   }), [aggregation, columnDimension, dimension, excludeBlank, filterDimension, filterValue, metric, sourceRows, topN]);
-  const secondaryPivot = useMemo(() => buildPivotRows(sourceRows, {
-    rowDimension: dimension,
-    columnDimension,
-    metric: secondaryMetric,
-    aggregation,
-    filterDimension,
-    filterValue,
-    topN,
-    excludeBlank,
-  }), [aggregation, columnDimension, dimension, excludeBlank, filterDimension, filterValue, secondaryMetric, sourceRows, topN]);
   const rowDimensionLabel = PLAYGROUND_DIMENSIONS.find((item) => item.key === dimension)?.label || '행';
   const columnDimensionLabel = columnDimension === 'none' ? '합계' : PLAYGROUND_DIMENSIONS.find((item) => item.key === columnDimension)?.label || '열';
   const aggregationLabel = PLAYGROUND_AGGREGATIONS.find((item) => item.key === aggregation)?.label || '합계';
@@ -6028,15 +6096,6 @@ function DataPlaygroundDashboard() {
     setFilterDimension(view.filterDimension || '');
     setFilterValue(view.filterValue || '');
   };
-  const summaryRows = pivot.rows.map((row) => {
-    const secondary = secondaryPivot.rows.find((item) => item.key === row.key);
-    return [
-      row.label,
-      formatMetric(row.total, metricDef.type),
-      formatMetric(secondary?.total || 0, secondaryMetricDef.type),
-      `${formatNumber(row.recordCount)}건`,
-    ];
-  });
   const explorerRows = pivot.filteredRows.slice(0, 80).map((row) => [
     row.assetName,
     row.tenantMasterName,
@@ -6058,9 +6117,9 @@ function DataPlaygroundDashboard() {
       <LogisticsModal modal={modal} onClose={() => setModal(null)} />
       <section className="rounded-[20px] border border-[#333333] bg-[#252524] p-5">
         <SectionHeader
-          eyebrow="DATA PLAYGROUND"
-          title="피벗테이블"
-          right={<button type="button" onClick={() => setModal({ title: 'Data Playground 피벗 결과', size: 'wide', headers: tableHeaders, rows: tableRows })} className="h-9 cursor-pointer rounded-[8px] bg-[#30302F] px-3 text-[13px] font-semibold text-white hover:bg-[#3A3A3A]">피벗 결과 크게 보기</button>}
+          eyebrow="PIVOT TABLE"
+          title="Pivot Table"
+          right={<button type="button" onClick={() => setModal({ title: 'Pivot Table 피벗 결과', size: 'wide', headers: tableHeaders, rows: tableRows })} className="h-9 cursor-pointer rounded-[8px] bg-[#30302F] px-3 text-[13px] font-semibold text-white hover:bg-[#3A3A3A]">피벗 결과 크게 보기</button>}
         />
         <div className="mb-5 flex flex-wrap items-center gap-2">
           {PLAYGROUND_MODES.map((item) => (
@@ -6150,10 +6209,6 @@ function DataPlaygroundDashboard() {
         <div className="text-[12px] leading-5 text-[#86868B]">{activeMode.title} · {basisLabel} · 행: {rowDimensionLabel} · 열: {columnDimensionLabel} · 값: {aggregationLabel} {metricDef.label} · 보조 값: {secondaryMetricDef.label} · 권한 자산 기준 {formatNumber(pivot.filteredRows.length)}행</div>
       </section>
       <section className="rounded-[20px] border border-[#333333] bg-[#252524] p-5">
-        <SectionHeader eyebrow="PIVOT VALUES" title="다중 값 요약" />
-        <DataTable headers={[rowDimensionLabel, `${aggregationLabel} ${metricDef.label}`, `${aggregationLabel} ${secondaryMetricDef.label}`, '원본 행']} rows={summaryRows} compact />
-      </section>
-      <section className="rounded-[20px] border border-[#333333] bg-[#252524] p-5">
         <SectionHeader eyebrow="PIVOT RESULT" title="피벗 결과 테이블" />
         <div className="custom-scrollbar overflow-auto rounded-[10px] border border-[#333333]">
           <table className="table-fixed border-collapse text-left text-[12px]" style={{ minWidth: `${Math.max(760, 180 + pivot.columns.length * 120 + 210)}px` }}>
@@ -6213,7 +6268,7 @@ function DataPlaygroundDashboard() {
             ['원본 행', `${formatNumber(row.recordCount)}건`],
             ['집계', `${aggregationLabel} ${metricDef.label}`],
           ],
-        }))} labelKey="label" valueKey="value" valueType={metricDef.type} valueLabel={`${aggregationLabel} ${metricDef.label}`} onClick={() => setModal({ title: 'Data Playground 차트 상세', size: 'wide', headers: tableHeaders, rows: tableRows })} />
+        }))} labelKey="label" valueKey="value" valueType={metricDef.type} valueLabel={`${aggregationLabel} ${metricDef.label}`} onClick={() => setModal({ title: 'Pivot Table 차트 상세', size: 'wide', headers: tableHeaders, rows: tableRows })} />
       </section>
       {mode === 'explorer' ? (
         <section className="rounded-[20px] border border-[#333333] bg-[#252524] p-5">
@@ -7304,7 +7359,7 @@ function AssetDashboard() {
   const asset = useMemo(() => normalizeAssetPayload(rawPayload || {}), [rawPayload]);
   const overview = asset.overview || {};
   const breakdown = asset.areaBreakdown || {};
-  const rows = useMemo(() => asset.normalizedRows || [], [asset.normalizedRows]);
+  const rows = useMemo(() => asset.normalizedRows || asset.rows || [], [asset.normalizedRows, asset.rows]);
   const stackingFloors = useMemo(() => buildStackingFloorsFromRows(rows, overview.floors || asset.stackingPlan), [rows, overview.floors, asset.stackingPlan]);
   const assetWeightedENoc = calculateWeightedENoc(rows, overview.averageENoc);
   const buildingRegisterSource = rows.find((row) => row.asset?.sigunguCd || row.sigunguCd) || overview;
@@ -7517,14 +7572,17 @@ function AssetDashboard() {
     formatDate(row.currentStartDate),
     formatDate(row.currentEndDate),
   ]);
-  const expiryRows = (asset.expiryRows || []).map((row) => [
+  const effectiveExpirySourceRows = asset.expiryRows && asset.expiryRows.length
+    ? asset.expiryRows
+    : buildExpiryRowsFromRows(rows);
+  const expiryRows = effectiveExpirySourceRows.map((row) => [
     row.tenantMasterName || '-',
     row.spaceLabel || row.detailAreaLabel || row.floorLabel || '-',
     formatDate(firstDefined(row.currentEndDate, row.earliestExpiry, row.latestExpiry)),
     formatNumber(row.monthsToExpiry),
     formatCurrency(firstDefined(row.monthlyCostTotal, row.monthlyCombinedTotal)),
   ]);
-  const expiryChartRows = (asset.expiryRows || []).map((row) => {
+  const expiryChartRows = effectiveExpirySourceRows.map((row) => {
     const zone = row.spaceLabel || row.detailAreaLabel || row.floorLabel || '-';
     const expiryDate = formatDate(firstDefined(row.currentEndDate, row.earliestExpiry, row.latestExpiry));
     return {
@@ -7627,6 +7685,174 @@ function AssetDashboard() {
         </div>
       </section>
     </div>
+  );
+}
+
+function PdfReportBuilder() {
+  const { memberInfo } = useAuth();
+  const permission = useMemo(() => resolveLogisticsPermission(memberInfo), [memberInfo]);
+  const readableAssets = useMemo(() => filterAssetsByPermission(assetOptionsData, permission), [permission]);
+  const sourceRows = useMemo(() => filterAssetsByPermission(buildLogisticsGeneralRows(), permission), [permission]);
+  const [selectedAssetId, setSelectedAssetId] = useState(readableAssets[0]?.assetId || '');
+  const [selectedComponentIds, setSelectedComponentIds] = useState(['kpi', 'overview', 'tenant', 'contracts']);
+
+  useEffect(() => {
+    if (!selectedAssetId && readableAssets[0]?.assetId) setSelectedAssetId(readableAssets[0].assetId);
+  }, [readableAssets, selectedAssetId]);
+
+  const componentOptions = [
+    { id: 'kpi', label: '핵심 KPI' },
+    { id: 'overview', label: '자산개요·투자개요' },
+    { id: 'tenant', label: '임차인 노출도' },
+    { id: 'contracts', label: '계약 원장' },
+    { id: 'maturity', label: '만기 스냅샷' },
+    { id: 'map', label: '자산 위치' },
+  ];
+  const selectedAsset = readableAssets.find((asset) => asset.assetId === selectedAssetId) || readableAssets[0] || {};
+  const assetRows = sourceRows.filter((row) => row.assetId === selectedAsset.assetId || resolveAssetIdByName(row.assetName) === selectedAsset.assetId);
+  const assetPayload = findAssetPayload(selectedAsset.assetId, selectedAsset.assetName);
+  const overview = assetPayload?.overview || selectedAsset || {};
+  const tenantGroups = buildTenantContractGroups(assetRows);
+  const grossAreaSqm = firstDefined(overview.grossFloorAreaSqm, selectedAsset.grossFloorAreaSqm, assetRows[0]?.grossFloorAreaSqm);
+  const leasedAreaSqm = assetRows.reduce((sum, row) => sum + Number(row.leasedAreaSqm || 0), 0);
+  const monthlyCostTotal = assetRows.reduce((sum, row) => sum + Number(row.monthlyCostTotal || row.currentMonthlyRentTotal || 0) + (row.monthlyCostTotal ? 0 : Number(row.currentMonthlyMfTotal || 0)), 0);
+  const weightedENoc = calculateWeightedENoc(assetRows, overview.averageENoc);
+  const kpiRows = [
+    ['자산명', selectedAsset.assetName || '-'],
+    ['총 연면적', formatArea(grossAreaSqm)],
+    ['총 임대면적', formatArea(leasedAreaSqm)],
+    ['월 임관리비', formatCurrency(monthlyCostTotal)],
+    ['E. NOC', formatWon(weightedENoc)],
+    ['현재 임차인 수', `${formatNumber(tenantGroups.length)}개`],
+  ];
+  const overviewRows = [
+    ['자산개요', '구분', firstDefined(overview.temperatureType, selectedAsset.temperatureType, '')],
+    ['자산개요', '주소', firstDefined(overview.standardizedAddress, selectedAsset.standardizedAddress, '')],
+    ['자산개요', '규모', firstDefined(overview.buildingScale, selectedAsset.buildingScale, '')],
+    ['투자개요', '펀드', firstDefined(overview.fundName, assetRows[0]?.fundName, selectedAsset.fundName, '')],
+    ['투자개요', '주요 임차인', tenantGroups.slice(0, 5).map((row) => row.tenantMasterName).join(', ')],
+  ];
+  const tenantRows = tenantGroups.slice(0, 12).map((row) => [
+    row.tenantMasterName,
+    row.assetNames?.join('\n') || selectedAsset.assetName,
+    formatNumber(row.rowCount),
+    formatArea(row.leasedAreaSqm),
+    formatCurrency(row.monthlyRentTotal),
+    formatCurrency(row.monthlyMfTotal),
+    formatCurrency(row.monthlyCostTotal),
+    formatWon(row.costPerPy),
+  ]);
+  const contractRows = assetRows.slice(0, 80).map((row) => [
+    row.tenantMasterName,
+    row.floorLabel || row.spaceLabel || '-',
+    row.detailAreaLabel || '-',
+    row.coldStorageType || '-',
+    formatArea(row.leasedAreaSqm),
+    formatCurrency(row.currentMonthlyRentTotal),
+    formatCurrency(row.currentMonthlyMfTotal),
+    formatCurrency(row.monthlyCostTotal),
+    row.currentEndDate || '-',
+  ]);
+  const maturityRows = assetRows
+    .filter((row) => row.currentEndDate)
+    .sort((a, b) => String(a.currentEndDate).localeCompare(String(b.currentEndDate)))
+    .slice(0, 20)
+    .map((row) => [
+      row.tenantMasterName,
+      [row.floorLabel, row.detailAreaLabel].filter(Boolean).join(' / ') || '-',
+      row.currentEndDate,
+      formatArea(row.leasedAreaSqm),
+      formatCurrency(row.monthlyCostTotal),
+    ]);
+  const mapPoint = selectedAsset.latitude && selectedAsset.longitude ? [{
+    assetId: selectedAsset.assetId,
+    assetName: selectedAsset.assetName,
+    address: selectedAsset.standardizedAddress || selectedAsset.address,
+    latitude: selectedAsset.latitude,
+    longitude: selectedAsset.longitude,
+  }] : [];
+  const renderComponent = (id) => {
+    if (id === 'kpi') return <ReportPreviewCard title="핵심 KPI"><DataTable headers={['항목', '값']} rows={kpiRows} compact /></ReportPreviewCard>;
+    if (id === 'overview') return <ReportPreviewCard title="자산개요·투자개요"><DataTable headers={['구분', '항목', '내용']} rows={overviewRows} compact /></ReportPreviewCard>;
+    if (id === 'tenant') return <ReportPreviewCard title="임차인 노출도"><DataTable headers={['임차인', '자산', '계약 수', '임대면적', '월 임대료', '월 관리비', '월 임관리비', 'E. NOC']} rows={tenantRows} compact /></ReportPreviewCard>;
+    if (id === 'contracts') return <ReportPreviewCard title="계약 원장"><DataTable headers={['임차인', '층', '세부구역', '저온/상온', '임대면적', '월 임대료', '월 관리비', '월 임관리비', '만기']} rows={contractRows} compact /></ReportPreviewCard>;
+    if (id === 'maturity') return <ReportPreviewCard title="만기 스냅샷"><DataTable headers={['임차인', '구역', '만기일', '임대면적', '월 임관리비']} rows={maturityRows} compact /></ReportPreviewCard>;
+    if (id === 'map') return <ReportPreviewCard title="자산 위치">{mapPoint.length ? <PortfolioMapPlot points={mapPoint} /> : <div className="rounded-[12px] border border-[#333333] bg-[#1F1F1E] p-4 text-[13px] text-[#A1A1AA]">좌표 데이터가 없습니다.</div>}</ReportPreviewCard>;
+    return null;
+  };
+  const moveComponent = (id, direction) => {
+    setSelectedComponentIds((current) => {
+      const index = current.indexOf(id);
+      const nextIndex = direction === 'up' ? index - 1 : index + 1;
+      if (index < 0 || nextIndex < 0 || nextIndex >= current.length) return current;
+      const next = [...current];
+      [next[index], next[nextIndex]] = [next[nextIndex], next[index]];
+      return next;
+    });
+  };
+
+  return (
+    <div className="w-full max-w-[1480px] mx-auto px-8 pt-8 pb-14">
+      <style>{`
+        @media print {
+          body { background: #fff !important; color: #000 !important; }
+          .pdf-report-controls, .pdf-report-sidebar { display: none !important; }
+          .pdf-report-page { max-width: none !important; padding: 0 !important; color: #000 !important; }
+          .pdf-report-card { break-inside: avoid; background: #fff !important; border-color: #d6d6d6 !important; color: #000 !important; }
+          .pdf-report-card * { color: #000 !important; }
+          .pdf-report-card thead { background: #eeeeee !important; }
+        }
+      `}</style>
+      <div className="pdf-report-page space-y-5">
+        <SectionHeader
+          title="PDF Report"
+          right={<button type="button" onClick={() => window.print()} className="pdf-report-controls h-9 rounded-[8px] bg-white px-4 text-[13px] font-bold text-[#1F1F1E] hover:bg-[#E5E5E5]">PDF 저장</button>}
+        />
+        <section className="grid grid-cols-1 gap-5 xl:grid-cols-[320px_minmax(0,1fr)]">
+          <aside className="pdf-report-sidebar rounded-[20px] border border-[#333333] bg-[#252524] p-5">
+            <label className="block text-[12px] font-bold text-[#86868B]">자산 선택</label>
+            <select value={selectedAsset.assetId || ''} onChange={(event) => setSelectedAssetId(event.target.value)} className="mt-2 h-11 w-full rounded-[8px] border border-[#3A3A3C] bg-[#1F1F1E] px-3 text-[13px] font-semibold text-white">
+              {readableAssets.map((asset) => <option key={asset.assetId} value={asset.assetId}>{asset.assetName}</option>)}
+            </select>
+            <div className="mt-5 text-[12px] font-bold text-[#86868B]">컴포넌트 선택 및 순서</div>
+            <div className="mt-2 space-y-2">
+              {componentOptions.map((option) => {
+                const checked = selectedComponentIds.includes(option.id);
+                return (
+                  <div key={option.id} className="flex items-center gap-2 rounded-[10px] border border-[#333333] bg-[#1F1F1E] p-2">
+                    <label className="flex min-w-0 flex-1 cursor-pointer items-center gap-2 text-[13px] font-semibold text-white">
+                      <input type="checkbox" checked={checked} onChange={(event) => {
+                        setSelectedComponentIds((current) => event.target.checked ? [...current, option.id] : current.filter((id) => id !== option.id));
+                      }} />
+                      <span className="truncate">{option.label}</span>
+                    </label>
+                    <button type="button" onClick={() => moveComponent(option.id, 'up')} disabled={!checked} className="h-7 w-7 rounded-[7px] border border-[#3A3A3C] text-[12px] text-[#D1D1D6] disabled:opacity-30">↑</button>
+                    <button type="button" onClick={() => moveComponent(option.id, 'down')} disabled={!checked} className="h-7 w-7 rounded-[7px] border border-[#3A3A3C] text-[12px] text-[#D1D1D6] disabled:opacity-30">↓</button>
+                  </div>
+                );
+              })}
+            </div>
+          </aside>
+          <main className="space-y-4">
+            <div className="rounded-[20px] border border-[#333333] bg-[#252524] p-5">
+              <div className="text-[12px] font-semibold text-[#86868B]">REPORT PREVIEW</div>
+              <h1 className="mt-1 text-[26px] font-bold text-white">{selectedAsset.assetName || '자산 선택 필요'}</h1>
+              <p className="mt-2 text-[13px] text-[#A1A1AA]">Dashboard 데이터를 읽기 권한 범위 안에서 조합한 PDF 미리보기입니다.</p>
+            </div>
+            {selectedComponentIds.map((id) => <React.Fragment key={id}>{renderComponent(id)}</React.Fragment>)}
+          </main>
+        </section>
+      </div>
+    </div>
+  );
+}
+
+function ReportPreviewCard({ title, children }) {
+  return (
+    <section className="pdf-report-card rounded-[20px] border border-[#333333] bg-[#252524] p-5">
+      <h2 className="mb-4 text-[18px] font-bold text-white">{title}</h2>
+      {children}
+    </section>
   );
 }
 

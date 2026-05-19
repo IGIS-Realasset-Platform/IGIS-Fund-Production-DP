@@ -149,7 +149,7 @@ const logisticsDashboardItems = [
         icon: <svg className={logisticsNavIconClass} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4 19V5m0 14h16M8 16V9m4 7V6m4 10v-4" /></svg>,
     },
     {
-        label: 'Data Playground',
+        label: 'Pivot Table',
         path: `${LOGISTICS_INTERNAL_BASE}/dashboard/playground`,
         adminOnly: true,
         icon: <svg className={logisticsNavIconClass} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4 7c0 1.657 3.582 3 8 3s8-1.343 8-3M4 7c0-1.657 3.582-3 8-3s8 1.343 8 3M4 7v10c0 1.657 3.582 3 8 3s8-1.343 8-3V7M4 12c0 1.657 3.582 3 8 3s8-1.343 8-3" /></svg>,
@@ -159,6 +159,13 @@ const logisticsDashboardItems = [
         path: `${LOGISTICS_INTERNAL_BASE}/dashboard/quality`,
         adminOnly: true,
         icon: <svg className={logisticsNavIconClass} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9 12l2 2 4-4M12 3l7 4v5c0 4.5-2.8 8.2-7 9-4.2-.8-7-4.5-7-9V7l7-4z" /></svg>,
+    },
+];
+const logisticsStandaloneItems = [
+    {
+        label: 'PDF Report',
+        path: `${LOGISTICS_INTERNAL_BASE}/pdf-report`,
+        icon: <svg className={logisticsNavIconClass} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M7 3h7l5 5v13H7a2 2 0 01-2-2V5a2 2 0 012-2z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M14 3v6h5M9 14h6M9 17h6M9 11h2" /></svg>,
     },
 ];
 
@@ -249,6 +256,7 @@ export default function IotaLeftNav({ currentPath = '' }) {
 
     if (isLogisticsPath) {
         const visibleDashboardItems = logisticsDashboardItems.filter((item) => !item.adminOnly || isLogisticsAdmin);
+        const visibleStandaloneItems = logisticsStandaloneItems;
         const isWorkPlatformActive = normalizedCurrentPath === logisticsRootItem.path;
         const isDashboardActive = normalizedCurrentPath.startsWith(`${LOGISTICS_INTERNAL_BASE}/dashboard`);
         return (
@@ -317,6 +325,20 @@ export default function IotaLeftNav({ currentPath = '' }) {
                                     })}
                                 </div>
                             </div>
+                        </div>
+                        <div className="mt-1">
+                            {visibleStandaloneItems.map((item) => {
+                                const isActive = normalizedCurrentPath === item.path || normalizedCurrentPath.startsWith(`${item.path}/`);
+                                return (
+                                    <div key={item.path} title={isCollapsed ? item.label : undefined} onClick={() => handleNavigation(item.path)} className={`group relative flex items-center ${isCollapsed ? 'justify-center' : 'justify-between'} py-[7px] rounded-xl cursor-pointer transition-colors duration-200 outline-none select-none ${isActive ? 'bg-[#151515] px-[9px] -mx-[2px]' : 'px-[7px] hover:bg-[#151515]'}`}>
+                                        <div className={`flex min-w-0 items-center ${isCollapsed ? 'justify-center' : ''}`}>
+                                            <span className={`text-white ${isCollapsed ? '[&>svg]:mr-0' : ''}`}>{item.icon}</span>
+                                            <span className={`overflow-hidden whitespace-nowrap text-[14px] text-white font-light transition-[opacity,max-width,transform] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${isCollapsed ? 'max-w-0 -translate-x-2 opacity-0' : 'max-w-[180px] translate-x-0 opacity-100'}`}>{item.label}</span>
+                                        </div>
+                                        {renderCollapsedTooltip(item.label)}
+                                    </div>
+                                );
+                            })}
                         </div>
                     </div>
                 </div>

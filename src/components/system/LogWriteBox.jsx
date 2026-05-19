@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { supabase } from '../../utils/supabaseClient';
 import { motion, AnimatePresence } from 'framer-motion';
 import logisticsPermissionData from './workspace/logisticsPermissionData.json';
+import companyOptionsData from './workspace/logisticsCompanyOptionsData.json';
 
 const MotionDiv = motion.div;
 const LOGISTICS_VISIBILITY_GROUP_OPTIONS = ['사업그룹4파트', '로지스틱스매니지먼트', '자산관리3파트', '투자1그룹4파트'];
@@ -10,15 +11,28 @@ const TRIAGE_TYPE_OPTIONS = ['공유', '협업', '리스크 판단', '의사결�
 const ISSUE_STATUS_OPTIONS = ['신규', '검토중', '진행중', '보류', '완료'];
 const PRIORITY_OPTIONS = ['높음', '중간', '낮음'];
 
-function buildLogisticsStakeholders() {
+function buildLogisticsPeople() {
     return (logisticsPermissionData.users || [])
         .map((user) => ({
-            company_name: user.organization || 'IGIS',
+            company_name: 'IGIS',
             contact_name: user.name,
             role_category: user.organization || 'IGIS 내부인력',
             email: user.email,
         }))
         .filter((item) => item.contact_name);
+}
+
+function buildLogisticsCompanyStakeholders() {
+    const rows = (companyOptionsData || [])
+        .map((company) => ({
+            company_name: company.tenantMasterName || company.tenantName || company.companyName,
+            contact_name: '',
+            role_category: '임차인',
+            business_number: company.businessRegistrationNo || company.businessNumber || '',
+        }))
+        .filter((item) => item.company_name);
+    return Array.from(new Map(rows.map((item) => [item.company_name, item])).values())
+        .sort((a, b) => String(a.company_name).localeCompare(String(b.company_name), 'ko-KR'));
 }
 
 function normalizeDropdownOptions(options) {
@@ -152,8 +166,10 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
     const [showVisibilityModal, setShowVisibilityModal] = useState(false);
     const [showPublicWarningModal, setShowPublicWarningModal] = useState(false);
     const [visibilitySearchQuery, setVisibilitySearchQuery] = useState('');
-    const logisticsStakeholders = useMemo(() => buildLogisticsStakeholders(), []);
-    const effectiveMasterStakeholders = isLogisticsMode ? logisticsStakeholders : (masterStakeholders || []);
+    const logisticsPeople = useMemo(() => buildLogisticsPeople(), []);
+    const logisticsCompanyStakeholders = useMemo(() => buildLogisticsCompanyStakeholders(), []);
+    const effectiveMasterStakeholders = isLogisticsMode ? logisticsCompanyStakeholders : (masterStakeholders || []);
+    const effectivePeopleStakeholders = isLogisticsMode ? logisticsPeople : (masterStakeholders || []);
     const visibilityGroupOptions = isLogisticsMode
         ? LOGISTICS_VISIBILITY_GROUP_OPTIONS
         : ["PO", "Sub-PO", "CFT 책임인력", "기획추진", "사업PM", "파이낸싱-LFC", "개발관리", "기업마케팅", "상품·디지털", "펀드운용", "IPR-WG"];
@@ -202,7 +218,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                 if (meta.permissions) {
                     if (meta.permissions.groups) setVisibilityGroups(meta.permissions.groups);
                     if (meta.permissions.individuals && effectiveMasterStakeholders && effectiveMasterStakeholders.length > 0) {
-                        const indivs = meta.permissions.individuals.map(name => effectiveMasterStakeholders.find(s => s.contact_name === name)).filter(Boolean);
+                        const indivs = meta.permissions.individuals.map(name => effectivePeopleStakeholders.find(s => s.contact_name === name)).filter(Boolean);
                         setVisibilityIndividuals(indivs);
                     }
                 }
@@ -218,7 +234,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                 }
             }
         }
-    }, [editMode, initialData, effectiveMasterStakeholders]);
+    }, [editMode, initialData, effectiveMasterStakeholders, effectivePeopleStakeholders]);
 
     const formatDisplayDate = (dateString) => {
         if (!dateString) return '';
@@ -556,7 +572,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
         await processSubmit();
     };
 
-    const mentionCandidates = Array.from(new Set(effectiveMasterStakeholders.map(s => s.contact_name).filter(Boolean)));
+    const mentionCandidates = Array.from(new Set(effectivePeopleStakeholders.map(s => s.contact_name).filter(Boolean)));
     const filteredMentions = mentionCandidates.filter(name => name.toLowerCase().includes(mentionQuery.toLowerCase())).slice(0, 5);
 
     const getParticle = (word) => {
@@ -576,8 +592,8 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
     
 
     const getCellName = (name) => {
-        if (!effectiveMasterStakeholders || effectiveMasterStakeholders.length === 0) return '';
-        const stakeholder = effectiveMasterStakeholders.find(s => s.contact_name === name);
+        if (!effectivePeopleStakeholders || effectivePeopleStakeholders.length === 0) return '';
+        const stakeholder = effectivePeopleStakeholders.find(s => s.contact_name === name);
         if (stakeholder && stakeholder.role_category && stakeholder.role_category !== 'IGIS 내부인력') {
             return stakeholder.role_category;
         }
@@ -1026,10 +1042,10 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                                 />
                                 {visibilitySearchQuery && (
                                     <div className="mt-2 bg-[#1A1A1A] border border-[#444] rounded-[10px] overflow-hidden max-h-[150px] overflow-y-auto">
-                                        {Array.from(new Set(effectiveMasterStakeholders.map(s => s.contact_name).filter(Boolean)))
+                                        {Array.from(new Set(effectivePeopleStakeholders.map(s => s.contact_name).filter(Boolean)))
                                             .filter(n => n.toLowerCase().includes(visibilitySearchQuery.toLowerCase()))
                                             .map(name => {
-                                                const stakeholder = effectiveMasterStakeholders.find(s => s.contact_name === name);
+                                                const stakeholder = effectivePeopleStakeholders.find(s => s.contact_name === name);
                                                 const isAdded = visibilityIndividuals.some(i => i.contact_name === name);
                                                 return (
                                                     <div 
