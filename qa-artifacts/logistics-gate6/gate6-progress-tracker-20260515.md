@@ -1,30 +1,38 @@
 # Gate 6 progress tracker
 
-- Updated: 2026-05-15
-- Overall: 118 / 205 (57.6%)
-- Note: 이번 갱신은 Home 임대료 추이 hover/table 신규 편입 자산 표시를 완료로 추가하고, 원본 데이터 수정 Excel 전면 재정리는 배포 후 마지막 수정배포 항목으로 분리한 것입니다.
+- Updated: 2026-05-19
+- Overall: 149 / 232 (64.2%)
+- Note: 최신 기준은 `gate6-progress-tracker-20260515.json`입니다. 이번 갱신은 Supabase weekly seed/readback, 지난 Task 관리 logistics archive, Home 월 임관리비 아레나스양지 stale 값 보정, Home 연면적 series, Asset 자산개요·투자개요 패널, ll_* 스키마 정리 감사 항목을 반영했습니다.
 
 | 단계 | 영역 | 완료/전체 |
 |---:|---|---:|
-| 2 | 공통 데이터 기준 | 4 / 10 |
-| 3 | 업무 로그 메인 페이지 | 14 / 21 |
-| 4 | Dashboard 공통 | 5 / 10 |
+| 2 | 공통 데이터 기준 | 7 / 16 |
+| 3 | 업무 로그 메인 페이지 | 22 / 27 |
+| 4 | Dashboard 공통 | 6 / 11 |
 | 5 | Weekly 탭 | 12 / 16 |
-| 6 | Home 탭 | 27 / 32 |
-| 7 | Asset 탭 | 11 / 13 |
+| 6 | Home 탭 | 28 / 34 |
+| 7 | Asset 탭 | 11 / 14 |
 | 8 | Company 탭 | 10 / 14 |
 | 9 | Data Playground | 10 / 11 |
 | 10 | Data Quality | 15 / 19 |
 | 11 | Analysis Tools | 4 / 6 |
-| 12 | 승인대기 대상 | 1 / 12 |
-| 13 | 외부권한대기 대상 | 0 / 10 |
-| 14 | QA 계획 | 5 / 17 |
+| 12 | 승인대기 대상 | 9 / 16 |
+| 13 | 외부권한대기 대상 | 5 / 11 |
+| 14 | QA 계획 | 10 / 23 |
 | 15 | 최종 완료 기준 | 0 / 14 |
 
 ## 이번 완료/부분 반영
 
 | 단계 | ID | 상태 | 항목 |
 |---:|---|---|---|
+| 2 | 2.15 | partial | 워크플랫폼/대시보드 데이터는 Supabase ll_* 기준으로 전환 중이며, 이번 세션에서 RA부문_사업그룹4파트_주간업무자료 260427의 자산현황 20건과 관리 Projects 5건을 ll_weekly_*에 적재하고 readback했다. |
+| 2 | 2.16 | partial | ll_* 스키마 정리 요청을 편입했다. information_schema와 pg_stat_user_tables read-only 조회로 테이블·컬럼·jsonb/payload 계열 현황을 확인했으며 실제 삭제/정규화는 별도 승인대기다. |
+| 3 | 3.29 | done | 물류센터 주요 TASK 관리의 지난 Task 관리 화면을 logistics archive로 재구성했다. ll_work_platform_tasks를 주차별로 묶고 Edge include_archived 옵션을 배포했다. Evidence: current-request-data-task-static-qa-20260519 pass, ll-dashboard-api version 29. |
+| 6 | 6.33 | partial | Home 월 임관리비 비중의 아레나스양지 stale 값 552,212,356원을 Asset 탭 상세 payload 기준 2,468,703,091원으로 보정했다. 현재 로컬 static QA 기준 17개 자산 합계는 13,050,719,577원(130.5억)이며, Supabase CLI readback은 pooler ECIRCUITBREAKER로 재시도 필요하다. |
+| 6 | 6.34 | done | Home 계약 이력 기준 임대료 추이 차트에 시점별 보유 연면적 series를 추가했다. Evidence: current-request-data-task-static-qa-20260519 pass, build pass. |
+| 7 | 7.14 | partial | Asset 탭 KPI 위에 관리 Projects 기반 자산개요/투자개요 2단 토글 표를 추가했다. Supabase seed/readback은 완료됐고 UI의 Supabase live fetch 전환은 남아 있다. |
+| 12 | 12.18 | done | ll-dashboard-api work-platform/tasks/list include_archived/include_deleted 옵션을 qveg Edge Function에 배포했다. |
+| 14 | 14.23 | done | 이번 요청 범위 정적 QA를 추가하고 통과했다. Evidence: current-request-data-task-static-qa-20260519 qa_status=pass. |
 | 3 | 3.17 | done | 원본 데이터 수정 Excel 다운로드/업로드 컴포넌트는 메인 하단에서 제거하고 대시보드 우측 상단 원본 데이터 수정 버튼+팝업 구조로 이동했다. Evidence: current-request-ui-static-qa-20260515 allPass=true. |
 | 3 | 3.18 | done | 메인 페이지 상단 사용자 이름 옆 프로필 영역은 사진이 연동된 사용자는 사진을 표시하고 사진이 없을 때만 이니셜로 fallback한다. Evidence: current-request-ui-static-qa-20260515 allPass=true. |
 | 3 | 3.19 | done | 메인 페이지 상단 통합 검색 제목과 질문 입력란 사이 여백을 재조정했다. Evidence: current-request-ui-static-qa-20260515 allPass=true. |

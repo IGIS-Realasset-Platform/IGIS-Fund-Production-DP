@@ -1145,12 +1145,14 @@ function workPlatformTaskMutationPayload(ctx: Context, payload: Record<string, u
 async function listWorkPlatformTasks(ctx: Context, payload: Record<string, unknown>) {
   if (!hasRole(ctx.role, 'Reader')) return fail(403, 'Insufficient logistics permission', ctx.origin);
   const limit = Math.min(Number(payload.limit || 200), 500);
-  const { data, error } = await ctx.serviceClient
+  const includeArchived = Boolean(payload.include_archived || payload.include_deleted);
+  let query = ctx.serviceClient
     .from('ll_work_platform_tasks')
     .select(WORK_PLATFORM_TASK_SELECT)
-    .neq('status', 'deleted')
     .order('created_at', { ascending: false })
     .limit(limit);
+  if (!includeArchived) query = query.neq('status', 'deleted');
+  const { data, error } = await query;
   if (error) return fail(500, 'Failed to list work platform tasks', ctx.origin);
   return jsonResponse({ ok: true, data: filterWorkPlatformTaskRows(ctx, data || []) }, 200, ctx.origin);
 }

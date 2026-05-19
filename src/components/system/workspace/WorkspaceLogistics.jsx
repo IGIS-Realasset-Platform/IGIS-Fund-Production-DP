@@ -7,7 +7,7 @@ import weeklyReportData from './logisticsWeeklyReportData.json';
 import logisticsPermissionData from './logisticsPermissionData.json';
 import WorkspaceActivityLog from './WorkspaceActivityLog';
 import homeData from './logisticsHomeData.json';
-import assetOptionsData from './logisticsAssetOptionsData.json';
+import rawAssetOptionsData from './logisticsAssetOptionsData.json';
 import companyOptionsData from './logisticsCompanyOptionsData.json';
 import sectorData from './logisticsSectorData.json';
 
@@ -18,6 +18,18 @@ const ASSET_PAYLOADS = Object.fromEntries(Object.values(assetPayloadModules)
   .map((module) => module.default)
   .filter(Boolean)
   .map((payload) => [payload.overview?.assetId || payload.meta?.selection?.assetId, payload]));
+const assetOptionsData = rawAssetOptionsData.map((option) => {
+  const overview = ASSET_PAYLOADS[option.assetId]?.overview;
+  if (!overview) return option;
+  return {
+    ...option,
+    assetName: option.assetName || overview.assetName,
+    uniqueTenantCount: firstDefined(overview.uniqueTenantCount, overview.tenantCount, option.uniqueTenantCount),
+    averageENoc: firstDefined(overview.averageENoc, option.averageENoc),
+    vacancyRate: firstDefined(overview.vacancyRate, option.vacancyRate),
+    monthlyCostTotal: firstDefined(overview.monthlyCostTotal, option.monthlyCostTotal),
+  };
+});
 const companyPayloadModules = import.meta.glob('./logisticsCompanyData/*.json', { eager: true });
 const getModuleStem = (modulePath) => modulePath.split('/').pop()?.replace(/\.json$/u, '');
 const COMPANY_PAYLOADS = Object.fromEntries(Object.entries(companyPayloadModules)
@@ -491,6 +503,10 @@ function compactCompositionRows(rows, limit = 8, otherLabel = '기타') {
       recordCount: sumRows(restRows, (row) => row.recordCount || 0),
     },
   ];
+}
+
+function monthlyCostCompositionLimit(mode) {
+  return mode === 'asset' ? 32 : 8;
 }
 
 function findAssetPayload(assetId, assetName) {
@@ -1059,6 +1075,105 @@ function ProjectDetail({ project, section, onRaw }) {
       </div>
       <DataTable headers={['구분', '내용']} rows={projectSummaryRows(project, section)} compact />
     </article>
+  );
+}
+
+const MANAGEMENT_PROJECT_ASSET_ALIASES = {
+  이천마장면물류센터: ['이천회억리물류센터'],
+  동산물류센터: ['이천회억리물류센터'],
+  부산송정물류센터: ['부산송정물류센터'],
+  경산쿠팡물류센터: ['경산쿠팡물류센터'],
+  인천석남물류센터: ['인천석남물류센터'],
+  화성석포리물류센터: ['화성석포리물류센터'],
+};
+
+function findManagementProjectForAsset(assetName) {
+  const assetKey = normalizeAssetNameKey(assetName);
+  if (!assetKey) return null;
+  const acceptedKeys = new Set([assetKey, ...(MANAGEMENT_PROJECT_ASSET_ALIASES[assetKey] || [])]);
+  return (weeklyReportData.managementProjects || []).find((project) => {
+    const projectKey = normalizeAssetNameKey(project.projectName);
+    return [...acceptedKeys].some((key) => projectKey.includes(key) || key.includes(projectKey));
+  }) || null;
+}
+
+function splitManagementProjectRows(project) {
+  const rows = project?.detailRows || [];
+  const overviewLabels = new Set(['주소', '섹터', '연면적', '대지면적', '용적률 및 건폐율', '규모(층수)']);
+  const investmentLabels = new Set(['투자 전략', '총 사업비', 'Equity', 'Loan', '기타']);
+  return {
+    overviewRows: rows
+      .filter((row) => overviewLabels.has(row.label))
+      .map((row) => [row.label, renderBulletListCell(row.value)]),
+    investmentRows: rows
+      .filter((row) => investmentLabels.has(row.label))
+      .map((row) => [row.label, renderBulletListCell(row.value)]),
+  };
+}
+
+function AssetProjectToggleTable({ id, title, rows, openSections, onToggle }) {
+  return (
+    <div className="rounded-[14px] border border-[#333333] bg-[#1F1F1E] p-4">
+      <button
+        type="button"
+        onClick={() => onToggle(id)}
+        className="mb-3 flex w-full items-center justify-between text-left"
+      >
+        <span className="text-[15px] font-bold text-white">{title}</span>
+        <span className="rounded-[6px] border border-[#3A3A3C] bg-[#252524] px-2 py-1 text-[12px] font-semibold text-[#D1D1D6]">{openSections[id] ? '접기' : '펼치기'}</span>
+      </button>
+      {openSections[id] ? (
+        rows.length ? (
+          <DataTable headers={['항목', '내용']} rows={rows} compact />
+        ) : (
+          <div className="rounded-[10px] border border-[#333333] bg-[#252524] p-3 text-[12px] leading-5 text-[#86868B]">해당 자산의 원문 행을 아직 찾지 못했습니다.</div>
+        )
+      ) : null}
+    </div>
+  );
+}
+
+function AssetProjectInfoPanel({ assetName }) {
+  const [openSections, setOpenSections] = useState({ overview: true, investment: true });
+  const toggleSection = (id) => setOpenSections((current) => ({ ...current, [id]: !current[id] }));
+  const project = findManagementProjectForAsset(assetName);
+  const weeklyRow = normalizeWeeklyAssetRows(weeklyReportData.assetRows || [])
+    .find((row) => normalizeAssetNameKey(row.assetName) === normalizeAssetNameKey(assetName));
+  const { overviewRows, investmentRows } = splitManagementProjectRows(project);
+  const fallbackOverviewRows = weeklyRow ? [
+    ['자산명', weeklyRow.assetName],
+    ['펀드명', cleanDisplay(weeklyRow.fundName)],
+    ['연면적', `${formatNumber(weeklyRow.grossAreaPy)}평`],
+    ['종류', cleanDisplay(weeklyRow.category)],
+    ['주요임차사', cleanDisplay(weeklyRow.mainTenant)],
+    ['Main Issue', renderBulletListCell(weeklyRow.mainIssue)],
+  ] : [];
+  const fallbackInvestmentRows = weeklyRow ? [
+    ['투자유형', cleanDisplay(weeklyRow.investmentType)],
+    ['매입시점', cleanDisplay(weeklyRow.acquisition)],
+    ['원가', cleanDisplay(weeklyRow.costPerPy)],
+    ['현재대비', cleanDisplay(weeklyRow.costTrend)],
+    ['펀드만기', cleanDisplay(weeklyRow.fundMaturity)],
+    ['대출만기', cleanDisplay(weeklyRow.loanMaturity)],
+  ] : [];
+  const finalOverviewRows = overviewRows.length ? overviewRows : fallbackOverviewRows;
+  const finalInvestmentRows = investmentRows.length ? investmentRows : fallbackInvestmentRows;
+  const sourceLabel = project
+    ? `관리 Projects 원문 · ${project.projectName}`
+    : 'Weekly 자산현황 원문 기준';
+
+  return (
+    <section className="rounded-[20px] border border-[#333333] bg-[#252524] p-5">
+      <SectionHeader
+        eyebrow="WEEKLY MANAGEMENT PROJECT"
+        title="자산개요 · 투자개요"
+        right={<span className="text-[12px] font-semibold text-[#86868B]">{sourceLabel}</span>}
+      />
+      <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
+        <AssetProjectToggleTable id="overview" title="자산개요" rows={finalOverviewRows} openSections={openSections} onToggle={toggleSection} />
+        <AssetProjectToggleTable id="investment" title="투자개요" rows={finalInvestmentRows} openSections={openSections} onToggle={toggleSection} />
+      </div>
+    </section>
   );
 }
 
@@ -3725,7 +3840,7 @@ function HomeDashboard() {
   const monthlyCostSourceRows = costCompositionMode === 'asset' ? assetMonthlyCostRows : tenantMonthlyCostRows;
   const monthlyCostCompositionRows = compactCompositionRows(
     monthlyCostSourceRows,
-    8,
+    monthlyCostCompositionLimit(costCompositionMode),
     costCompositionMode === 'asset' ? '기타 자산' : '기타/미분류 임차인',
   );
   const monthlyCostCompositionTotal = sumRows(monthlyCostSourceRows, (row) => row.value) || canonicalMonthlyCost;
@@ -3856,7 +3971,7 @@ function HomeDashboard() {
               </div>
             )}
           />
-          <DoughnutBreakdownChart rows={monthlyCostCompositionRows} valueType="currency" title={monthlyCostCompositionTitle} onClick={() => openTableModal(monthlyCostCompositionTitle, [costCompositionMode === 'asset' ? '자산명' : '임차인명', '비중', '월 임관리비', costCompositionMode === 'asset' ? '임차인 수' : '자산 수'], monthlyCostSourceRows.map((row) => [row.label, formatPercent(Number(row.value || 0) / Math.max(monthlyCostCompositionTotal, 1)), formatCurrency(row.value), `${formatNumber(row.recordCount)}개`]))} onSegmentClick={(row) => openTableModal(`${monthlyCostCompositionTitle} · ${row.label}`, ['항목', '내용'], [[costCompositionMode === 'asset' ? '자산명' : '임차인명', row.label], ['비중', formatPercent(Number(row.value || 0) / Math.max(monthlyCostCompositionTotal, 1))], ['월 임관리비', formatCurrency(row.value)], [costCompositionMode === 'asset' ? '임차인 수' : '자산 수', `${formatNumber(row.recordCount)}개`]])} />
+          <DoughnutBreakdownChart rows={monthlyCostCompositionRows} valueType="currency" title={monthlyCostCompositionTitle} maxRows={monthlyCostCompositionLimit(costCompositionMode)} onClick={() => openTableModal(monthlyCostCompositionTitle, [costCompositionMode === 'asset' ? '자산명' : '임차인명', '비중', '월 임관리비', costCompositionMode === 'asset' ? '임차인 수' : '자산 수'], monthlyCostSourceRows.map((row) => [row.label, formatPercent(Number(row.value || 0) / Math.max(monthlyCostCompositionTotal, 1)), formatCurrency(row.value), `${formatNumber(row.recordCount)}개`]))} onSegmentClick={(row) => openTableModal(`${monthlyCostCompositionTitle} · ${row.label}`, ['항목', '내용'], [[costCompositionMode === 'asset' ? '자산명' : '임차인명', row.label], ['비중', formatPercent(Number(row.value || 0) / Math.max(monthlyCostCompositionTotal, 1))], ['월 임관리비', formatCurrency(row.value)], [costCompositionMode === 'asset' ? '임차인 수' : '자산 수', `${formatNumber(row.recordCount)}개`]])} />
         </div>
       </section>
 
@@ -3870,18 +3985,24 @@ function HomeDashboard() {
           rows={rentTrendRows}
           labelKey="month"
           leftValueType="currency"
-          rightValueType="count"
-          rightAxisColor="#C7A6FF"
+          rightValueType="area"
+          rightAxisColor="#A78BFA"
           onClick={() => openTableModal('임대료 추이 원본 표', ['월', '월 임대료(RF/FO 반영)', '월 관리비', '월 임관리비(RF/FO 반영)', '월 임대료', '월 관리비', '월 임관리비', '자산 수', '총 연면적(평)', '신규 편입 자산'], rentTrendRows.map((row) => [row.month, formatCurrency(row.monthlyRentTotalAdjusted), formatCurrency(row.monthlyMfTotalAdjusted), formatCurrency(row.monthlyCostTotalAdjusted), formatCurrency(row.monthlyRentTotal), formatCurrency(row.monthlyMfTotal), formatCurrency(row.monthlyTotal), formatNumber(row.activeAssetCount), formatArea(row.grossFloorAreaSqm), formatNewlyAddedAssets(row)]))}
-          extraTooltipRows={(row) => [{
-            label: '신규 편입 자산',
-            value: formatNewlyAddedAssets(row),
-          }]}
+          extraTooltipRows={(row) => [
+            {
+              label: '자산 수',
+              value: formatMetric(row.activeAssetCount, 'count'),
+            },
+            {
+              label: '신규 편입 자산',
+              value: formatNewlyAddedAssets(row),
+            },
+          ]}
           series={[
             { key: 'monthlyRentTotalAdjusted', label: '월 임대료(RF/FO 반영)', valueType: 'currency' },
             { key: 'monthlyMfTotalAdjusted', label: '월 관리비', valueType: 'currency' },
             { key: 'monthlyCostTotalAdjusted', label: '월 임관리비(RF/FO 반영)', valueType: 'currency' },
-            { key: 'activeAssetCount', label: '자산 수', valueType: 'count', axis: 'right', color: '#C7A6FF' },
+            { key: 'grossFloorAreaSqm', label: '보유 연면적', valueType: 'area', axis: 'right', chartType: 'bar', color: '#A78BFA' },
           ]}
         />
         {trendToKpiGap ? (
@@ -4106,12 +4227,12 @@ function RichBarChart({ rows, labelKey, valueKey, valueType = 'number', onClick,
   );
 }
 
-function DoughnutBreakdownChart({ rows, valueType = 'number', title, onClick, onSegmentClick }) {
+function DoughnutBreakdownChart({ rows, valueType = 'number', title, onClick, onSegmentClick, maxRows = 8 }) {
   const [hoveredSegment, setHoveredSegment] = useState(null);
   const chartRef = useRef(null);
   const svgRef = useRef(null);
-  const sourceRows = (rows || []).filter((row) => Number(row.value || 0) > 0).slice(0, 8);
-  const chartRows = sourceRows.slice(0, 8);
+  const sourceRows = (rows || []).filter((row) => Number(row.value || 0) > 0).slice(0, maxRows);
+  const chartRows = sourceRows.slice(0, maxRows);
   const legendRows = chartRows;
   const total = sourceRows.reduce((sum, row) => sum + Number(row.value || 0), 0);
   const colors = ['#9AD7FF', '#B5E48C', '#FFD166', '#C7A6FF', '#FF9F8A', '#7DD3FC', '#F0ABFC', '#A7F3D0'];
@@ -7169,6 +7290,8 @@ function AssetDashboard() {
           </div>
         ) : null}
       </section>
+
+      <AssetProjectInfoPanel assetName={overview.assetName} />
 
       <section className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-7 gap-3">
         {kpis.map((item) => (
