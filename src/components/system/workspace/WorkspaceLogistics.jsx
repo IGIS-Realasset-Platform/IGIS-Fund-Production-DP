@@ -804,7 +804,8 @@ function getTableColumnMeta(header, index, total) {
   const label = tableHeaderText(header);
   const compact = /^(No\.?|ID|코드|구분|상태|여부|단계|우선순위|중요도)$/u.test(label);
   const countLike = /^(자산 수|구역 수|행 수|건수)$/u.test(label);
-  const dateLike = /날짜|일자|시점|만기|마감|기간|보고일|개시일|종료일/u.test(label);
+  const periodLike = /계약기간|현재 계약기간/u.test(label);
+  const dateLike = !periodLike && /날짜|일자|시점|만기|마감|기간|보고일|개시일|종료일/u.test(label);
   const numeric = /수$|건$|개$|율|비율|면적|평|금액|임대료|관리비|임관리비|NOC|원가|차이|합계|잔여|개월|비중/u.test(label);
   const nameLike = /자산명|임차인명|기업명|회사|프로젝트|Task|업무명|펀드명/u.test(label);
   const spaceLike = /층|구역|공간|호실|자산 목록/u.test(label);
@@ -813,6 +814,7 @@ function getTableColumnMeta(header, index, total) {
   if (total <= 2) width = index === 0 ? '28%' : '72%';
   else if (label === '임차인명') width = '178px';
   else if (label === '자산 목록') width = '340px';
+  else if (periodLike) width = '220px';
   else if (countLike) width = '72px';
   else if (compact) width = '76px';
   else if (dateLike) width = '112px';
@@ -820,7 +822,7 @@ function getTableColumnMeta(header, index, total) {
   else if (nameLike) width = index === 0 ? '240px' : '190px';
   else if (spaceLike) width = '118px';
   else if (longText) width = '240px';
-  return { label, compact, countLike, dateLike, numeric, nameLike, spaceLike, longText, width };
+  return { label, compact, countLike, dateLike, numeric, nameLike, spaceLike, longText, periodLike, width };
 }
 
 function normalizeTableColumnWidths(metas) {
@@ -850,6 +852,9 @@ function renderTableCell(cell, meta) {
   const primitive = typeof cell === 'string' || typeof cell === 'number';
   if (!primitive) return cell;
   const text = String(cell);
+  if (meta.periodLike) {
+    return <span className="block whitespace-normal break-keep leading-5" title={text}>{text}</span>;
+  }
   if (meta.numeric || meta.compact || meta.dateLike || meta.nameLike || meta.spaceLike) {
     return <span className="block truncate" title={text}>{text}</span>;
   }
@@ -964,12 +969,12 @@ function LogisticsModal({ modal, onClose }) {
   const sizeClass = modal.size === 'wide'
     ? 'max-w-[min(1760px,96vw)]'
     : modal.size === 'fullscreen'
-      ? 'max-w-[min(1880px,98vw)]'
+      ? 'max-w-[calc(100vw-24px)]'
       : 'max-w-[1120px]';
-  const bodyHeightClass = modal.size === 'fullscreen' ? 'max-h-[calc(94vh-88px)]' : 'max-h-[calc(88vh-88px)]';
+  const bodyHeightClass = modal.size === 'fullscreen' ? 'max-h-[calc(100vh-110px)]' : 'max-h-[calc(88vh-88px)]';
   return (
-    <div className="fixed inset-0 z-[9999] bg-black/70 backdrop-blur-sm flex items-center justify-center px-4 py-5" role="dialog" aria-modal="true">
-      <div className={`w-full ${sizeClass} max-h-[94vh] overflow-hidden rounded-[18px] border border-[#3A3A3C] bg-[#252524] shadow-2xl`}>
+    <div className="fixed inset-0 z-[9999] bg-black/70 backdrop-blur-sm flex items-center justify-center px-3 py-3" role="dialog" aria-modal="true">
+      <div className={`w-full ${sizeClass} ${modal.size === 'fullscreen' ? 'h-[calc(100vh-24px)] max-h-[calc(100vh-24px)]' : 'max-h-[94vh]'} overflow-hidden rounded-[18px] border border-[#3A3A3C] bg-[#252524] shadow-2xl`}>
         <div className="px-6 py-5 border-b border-[#333333] flex items-center justify-between gap-4">
           <div>
             <div className="text-[12px] text-[#86868B] font-semibold">DETAIL</div>
@@ -1297,9 +1302,6 @@ function AssetProjectInfoPanel({ assetName }) {
     assetIdMatchesPermission(assetId, assetName, permission)
     && (permission.permissions?.managedAsset?.update || permission.permissions?.managedAsset?.create || permission.permissions?.managedAsset?.delete)
   ));
-  const sourceLabel = project
-    ? `관리 Projects 원문 · ${project.projectName}`
-    : 'Weekly 자산현황 원문 기준';
   useEffect(() => {
     let cancelled = false;
     setServerRows(null);
@@ -1391,7 +1393,6 @@ function AssetProjectInfoPanel({ assetName }) {
         title="자산개요 · 투자개요"
         right={(
           <div className="flex flex-wrap items-center justify-end gap-2">
-            <span className="text-[12px] font-semibold text-[#86868B]">{serverRows ? 'Supabase ll_weekly_projects 기준' : sourceLabel}</span>
             {canEditProject && !isEditing ? <button type="button" onClick={startProjectEdit} className={`h-9 rounded-[8px] border px-3 text-[13px] font-semibold ${PRIMARY_BLUE_BUTTON_CLASS}`}>수정</button> : null}
             {isEditing ? (
               <>
@@ -1408,6 +1409,46 @@ function AssetProjectInfoPanel({ assetName }) {
         <AssetProjectToggleTable id="investment" title="투자개요" rows={isEditing ? draftRows.investment : effectiveInvestmentRows} openSections={openSections} onToggle={toggleSection} isEditing={isEditing} onCellChange={updateProjectDraftCell} onAddRow={addProjectDraftRow} onDeleteRow={deleteProjectDraftRow} />
       </div>
     </section>
+  );
+}
+
+function WeeklyAssetStatusFullTable({ rows, headers, columnWidths, numericStartIndex = 3, numericEndIndex = 13 }) {
+  return (
+    <div className="space-y-3">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div className="text-[13px] font-semibold text-[#A1A1AA]">전체 {formatNumber(rows.length)}개 자산 · 자산명 열고정 · 가로/세로 스크롤 지원</div>
+      </div>
+      <div className="custom-scrollbar h-[calc(100vh-190px)] overflow-auto rounded-[12px] border border-[#333333] bg-[#1F1F1E]">
+        <table className="min-w-[2240px] table-fixed border-collapse text-left">
+          <colgroup>
+            {columnWidths.map((width, index) => <col key={`${headers[index]}-${width}`} style={{ width }} />)}
+          </colgroup>
+          <thead className="sticky top-0 z-20 bg-[#141414] text-[12px] text-[#B0B0B6]">
+            <tr>
+              {headers.map((header, index) => (
+                <th key={header} className={`border-b border-[#333333] px-3 py-3 font-semibold ${index === 0 ? 'sticky left-0 z-30 bg-[#141414] pl-4 text-left' : index >= numericStartIndex && index <= numericEndIndex ? 'text-right' : 'text-left'}`}>
+                  {header}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map(({ source, cells }, rowIndex) => (
+              <tr key={`${source.assetName}-${rowIndex}`} className="border-b border-[#303030] last:border-b-0 hover:bg-white/[0.04]">
+                {cells.map((cell, cellIndex) => (
+                  <td key={`${source.assetName}-${cellIndex}`} className={`px-3 py-2.5 align-top text-[13px] leading-5 text-[#E5E5E5] ${cellIndex === 0 ? 'sticky left-0 z-10 bg-[#1F1F1E] pl-4 font-semibold shadow-[8px_0_12px_rgba(0,0,0,0.24)]' : ''} ${cellIndex >= numericStartIndex && cellIndex <= numericEndIndex ? 'text-right tabular-nums' : 'text-left'} ${cellIndex === headers.length - 1 ? '' : 'whitespace-nowrap'}`}>
+                    <span className={cellIndex === headers.length - 1 ? 'block whitespace-normal break-keep' : 'block truncate'} title={typeof cell === 'string' ? cell : undefined}>
+                      {cell}
+                    </span>
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        {!rows.length ? <div className="p-6 text-[13px] text-[#86868B]">표시할 자산현황이 없습니다.</div> : null}
+      </div>
+    </div>
   );
 }
 
@@ -1546,6 +1587,19 @@ function WeeklyAssetStatusTable({ title = '관리 Project 현황' }) {
         title={title}
         right={(
           <div className="flex flex-wrap items-center justify-end gap-2">
+            {!isEditing ? (
+              <button
+                type="button"
+                onClick={() => setModal({
+                  title,
+                  size: 'fullscreen',
+                  content: <WeeklyAssetStatusFullTable rows={sortableRows} headers={fullHeaders} columnWidths={columnWidths} />,
+                })}
+                className={`h-9 rounded-[8px] border px-3 text-[13px] font-semibold ${DARK_BUTTON_CLASS}`}
+              >
+                큰 표 보기
+              </button>
+            ) : null}
             {canEditWeeklyAssets && !isEditing ? (
               <button
                 type="button"
@@ -5856,7 +5910,7 @@ function CompanyDashboard() {
       </section>
 
       <section className="rounded-[20px] border border-[#333333] bg-[#252524] p-5">
-        <SectionHeader eyebrow="LEASED ASSETS" title="임차 자산 현황" right={<button type="button" onClick={() => openTableModal('임차 자산 현황', leasedAssetHeaders, leasedAssetRows)} className="h-9 px-3 rounded-[8px] bg-[#30302F] text-white text-[13px] font-semibold hover:bg-[#3A3A3A]">원본 표 보기</button>} />
+        <SectionHeader eyebrow="LEASED ASSETS" title="임차 자산 현황" />
         <DataTable headers={leasedAssetHeaders} rows={leasedAssetRows} onRowClick={(index) => openAssetExposureDetail(leasedAssets[index])} compact />
       </section>
 
@@ -7806,7 +7860,7 @@ function AssetDashboard() {
       </section>
 
       <section className="rounded-[20px] border border-[#333333] bg-[#252524] p-5">
-        <SectionHeader eyebrow="TENANTS" title="임차인 현황" right={<button type="button" onClick={() => openTableModal('임차인 현황', rosterHeaders, rosterRows)} className="h-9 px-3 rounded-[8px] bg-[#30302F] text-white text-[13px] font-semibold hover:bg-[#3A3A3A]">원본 표 보기</button>} />
+        <SectionHeader eyebrow="TENANTS" title="임차인 현황" />
         <DataTable headers={rosterHeaders} rows={rosterRows} onRowClick={(index) => openTenantDetail(rows[index], '임차인 상세')} compact />
       </section>
 
@@ -7841,17 +7895,19 @@ function AssetDashboard() {
 function PdfReportBuilder() {
   const { memberInfo } = useAuth();
   const permission = useMemo(() => resolveLogisticsPermission(memberInfo), [memberInfo]);
+  const canUseAdvancedTools = canViewAdvancedLogisticsTools(memberInfo, permission);
   const readableAssets = useMemo(() => filterAssetsByPermission(assetOptionsData, permission), [permission]);
   const sourceRows = useMemo(() => filterAssetsByPermission(buildLogisticsGeneralRows(), permission), [permission]);
   const [selectedAssetId, setSelectedAssetId] = useState(readableAssets[0]?.assetId || '');
   const [selectedComponentIds, setSelectedComponentIds] = useState(['kpi', 'overview', 'tenant', 'contracts']);
   const [draggingComponentId, setDraggingComponentId] = useState(null);
+  const printScopeRef = useRef(null);
 
   useEffect(() => {
     if (!selectedAssetId && readableAssets[0]?.assetId) setSelectedAssetId(readableAssets[0].assetId);
   }, [readableAssets, selectedAssetId]);
 
-  const componentOptions = [
+  const componentOptions = useMemo(() => [
     { id: 'homeKpi', label: 'Dashboard Home KPI' },
     { id: 'portfolioLocation', label: '포트폴리오 위치' },
     { id: 'useRatio', label: '용도별 비율' },
@@ -7869,11 +7925,22 @@ function PdfReportBuilder() {
     { id: 'maturity', label: 'Asset 만기 스냅샷' },
     { id: 'map', label: 'Asset 위치 지도' },
     { id: 'companyExposure', label: 'Company 자산별 노출도' },
-    { id: 'analysisAsset', label: 'Analysis 자산 비교' },
-    { id: 'analysisCompany', label: 'Analysis 기업 비교' },
-    { id: 'pivotTable', label: 'Pivot Table 결과' },
-    { id: 'dataQuality', label: 'Data Quality 이슈' },
-  ];
+    { id: 'analysisAsset', label: 'Analysis 자산 비교', adminOnly: true },
+    { id: 'analysisCompany', label: 'Analysis 기업 비교', adminOnly: true },
+    { id: 'pivotTable', label: 'Pivot Table 결과', adminOnly: true },
+    { id: 'dataQuality', label: 'Data Quality 이슈', adminOnly: true },
+  ].filter((option) => !option.adminOnly || canUseAdvancedTools), [canUseAdvancedTools]);
+  const componentOptionMap = useMemo(() => new Map(componentOptions.map((option) => [option.id, option])), [componentOptions]);
+  const selectedComponentOptions = useMemo(() => selectedComponentIds.map((id) => componentOptionMap.get(id)).filter(Boolean), [componentOptionMap, selectedComponentIds]);
+  const unselectedComponentOptions = useMemo(() => componentOptions.filter((option) => !selectedComponentIds.includes(option.id)), [componentOptions, selectedComponentIds]);
+  const orderedComponentOptions = useMemo(() => [...selectedComponentOptions, ...unselectedComponentOptions], [selectedComponentOptions, unselectedComponentOptions]);
+  useEffect(() => {
+    setSelectedComponentIds((current) => {
+      const allowedIds = new Set(componentOptions.map((option) => option.id));
+      const next = current.filter((id) => allowedIds.has(id));
+      return next.length ? next : componentOptions.slice(0, 4).map((option) => option.id);
+    });
+  }, [componentOptions]);
   const selectedAsset = readableAssets.find((asset) => asset.assetId === selectedAssetId) || readableAssets[0] || {};
   const assetRows = sourceRows.filter((row) => row.assetId === selectedAsset.assetId || resolveAssetIdByName(row.assetName) === selectedAsset.assetId);
   const assetPayload = findAssetPayload(selectedAsset.assetId, selectedAsset.assetName);
@@ -8014,11 +8081,69 @@ function PdfReportBuilder() {
       return next;
     });
   };
+  const toggleComponent = (optionId, checked) => {
+    setSelectedComponentIds((current) => {
+      if (checked) return current.includes(optionId) ? current : [...current, optionId];
+      return current.filter((id) => id !== optionId);
+    });
+  };
+  const printPdfReport = () => {
+    const printNode = printScopeRef.current;
+    if (!printNode || typeof window === 'undefined') {
+      window.print();
+      return;
+    }
+    const stylesheetLinks = Array.from(document.querySelectorAll('link[rel="stylesheet"]'))
+      .map((link) => `<link rel="stylesheet" href="${link.href}">`)
+      .join('');
+    const inlineStyles = Array.from(document.querySelectorAll('style'))
+      .map((style) => `<style>${style.textContent || ''}</style>`)
+      .join('');
+    const printWindow = window.open('', '_blank', 'noopener,noreferrer,width=1100,height=900');
+    if (!printWindow) {
+      window.print();
+      return;
+    }
+    printWindow.document.open();
+    printWindow.document.write(`<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>${escapeHtml(selectedAsset.assetName || 'PDF Report')}</title>
+  ${stylesheetLinks}
+  ${inlineStyles}
+  <style>
+    @page { size: A4 portrait; margin: 12mm; }
+    html, body { width: 100%; min-height: 100%; margin: 0; background: #fff !important; color: #111 !important; font-family: Inter, Arial, sans-serif; overflow: visible !important; }
+    body { padding: 0; }
+    .pdf-print-scope { width: 100% !important; max-width: none !important; margin: 0 !important; padding: 0 !important; display: block !important; background: #fff !important; color: #111 !important; }
+    .pdf-print-scope > * + * { margin-top: 12px !important; }
+    .pdf-report-card, .pdf-print-scope > div { break-inside: avoid; page-break-inside: avoid; background: #fff !important; border: 1px solid #d9d9d9 !important; color: #111 !important; box-shadow: none !important; }
+    .pdf-report-card * { color: #111 !important; }
+    .pdf-report-card table { width: 100% !important; border-collapse: collapse !important; font-size: 10px !important; }
+    .pdf-report-card th { background: #eeeeee !important; color: #111 !important; }
+    .pdf-report-card th, .pdf-report-card td { border-color: #d9d9d9 !important; color: #111 !important; }
+    .pdf-report-card .custom-scrollbar, .pdf-report-card [class*="overflow"] { overflow: visible !important; max-height: none !important; }
+    .logistics-map-canvas { display: none !important; }
+  </style>
+</head>
+<body>
+  ${printNode.outerHTML}
+  <script>
+    window.addEventListener('load', function () {
+      setTimeout(function () { window.focus(); window.print(); }, 450);
+    });
+  </script>
+</body>
+</html>`);
+    printWindow.document.close();
+  };
 
   return (
     <div className="w-full max-w-[1480px] mx-auto px-8 pt-8 pb-14">
       <style>{`
-        @page { size: A4 landscape; margin: 10mm; }
+        @page { size: A4 portrait; margin: 12mm; }
         @media print {
           html, body, #root { background: #fff !important; color: #000 !important; width: 100% !important; overflow: visible !important; }
           body * { visibility: hidden !important; }
@@ -8036,7 +8161,7 @@ function PdfReportBuilder() {
       <div className="pdf-report-page space-y-5">
         <SectionHeader
           title="PDF Report"
-          right={<button type="button" onClick={() => window.print()} className="pdf-report-controls h-9 rounded-[8px] bg-white px-4 text-[13px] font-bold text-[#1F1F1E] hover:bg-[#E5E5E5]">PDF 저장</button>}
+          right={<button type="button" onClick={printPdfReport} className="pdf-report-controls h-9 rounded-[8px] bg-white px-4 text-[13px] font-bold text-[#1F1F1E] hover:bg-[#E5E5E5]">PDF 저장</button>}
         />
         <section className="pdf-report-layout grid grid-cols-1 gap-5 xl:grid-cols-[320px_minmax(0,1fr)]">
           <aside className="pdf-report-sidebar rounded-[20px] border border-[#333333] bg-[#252524] p-5">
@@ -8044,29 +8169,36 @@ function PdfReportBuilder() {
             <select value={selectedAsset.assetId || ''} onChange={(event) => setSelectedAssetId(event.target.value)} className="mt-2 h-11 w-full rounded-[8px] border border-[#3A3A3C] bg-[#1F1F1E] px-3 text-[13px] font-semibold text-white">
               {readableAssets.map((asset) => <option key={asset.assetId} value={asset.assetId}>{asset.assetName}</option>)}
             </select>
-            <div className="mt-5 text-[12px] font-bold text-[#86868B]">컴포넌트 선택 및 순서</div>
+            <div className="mt-5 flex items-center justify-between gap-2">
+              <div className="text-[12px] font-bold text-[#86868B]">컴포넌트 선택 및 순서</div>
+              <span className="rounded-full border border-[#3A3A3C] bg-[#1F1F1E] px-2 py-0.5 text-[11px] font-semibold text-[#D1D1D6]">{selectedComponentOptions.length}개 선택</span>
+            </div>
+            <p className="mt-2 text-[11px] leading-4 text-[#86868B]">선택된 항목은 위에 고정되고, 위/아래 또는 드래그 순서가 PDF 출력 순서와 동일하게 반영됩니다.</p>
             <div className="mt-2 space-y-2">
-              {componentOptions.map((option) => {
+              {orderedComponentOptions.map((option) => {
                 const checked = selectedComponentIds.includes(option.id);
+                const selectedIndex = selectedComponentIds.indexOf(option.id);
                 return (
                   <div
                     key={option.id}
                     draggable={checked}
                     onDragStart={() => checked && setDraggingComponentId(option.id)}
                     onDragOver={(event) => {
-                      if (checked) event.preventDefault();
+                      if (checked && draggingComponentId) event.preventDefault();
                     }}
                     onDrop={(event) => {
                       event.preventDefault();
-                      reorderComponent(draggingComponentId, option.id);
+                      if (checked) reorderComponent(draggingComponentId, option.id);
                       setDraggingComponentId(null);
                     }}
-                    className={`flex items-center gap-2 rounded-[10px] border border-[#333333] bg-[#1F1F1E] p-2 ${checked ? 'cursor-grab active:cursor-grabbing' : ''}`}
+                    onDragEnd={() => setDraggingComponentId(null)}
+                    className={`flex items-center gap-2 rounded-[10px] border p-2 transition-colors ${checked ? 'cursor-grab border-[#34537A] bg-[#172A43] active:cursor-grabbing' : 'border-[#333333] bg-[#1F1F1E] opacity-75'}`}
                   >
                     <label className="flex min-w-0 flex-1 cursor-pointer items-center gap-2 text-[13px] font-semibold text-white">
                       <input type="checkbox" checked={checked} onChange={(event) => {
-                        setSelectedComponentIds((current) => event.target.checked ? [...current, option.id] : current.filter((id) => id !== option.id));
+                        toggleComponent(option.id, event.target.checked);
                       }} />
+                      {checked ? <span className="shrink-0 rounded-full bg-[#2997ff] px-1.5 py-0.5 text-[10px] font-bold text-white">{selectedIndex + 1}</span> : null}
                       <span className="truncate">{option.label}</span>
                     </label>
                     <button type="button" onClick={() => moveComponent(option.id, 'up')} disabled={!checked} className="h-7 w-7 rounded-[7px] border border-[#3A3A3C] text-[12px] text-[#D1D1D6] disabled:opacity-30">↑</button>
@@ -8076,11 +8208,11 @@ function PdfReportBuilder() {
               })}
             </div>
           </aside>
-          <main className="pdf-print-scope space-y-4">
+          <main ref={printScopeRef} data-pdf-print-scope="true" className="pdf-print-scope space-y-4">
             <div className="rounded-[20px] border border-[#333333] bg-[#252524] p-5">
               <div className="text-[12px] font-semibold text-[#86868B]">REPORT PREVIEW</div>
               <h1 className="mt-1 text-[26px] font-bold text-white">{selectedAsset.assetName || '자산 선택 필요'}</h1>
-              <p className="mt-2 text-[13px] text-[#A1A1AA]">Dashboard 데이터를 읽기 권한 범위 안에서 조합한 PDF 미리보기입니다.</p>
+              <p className="mt-2 text-[13px] text-[#A1A1AA]">Dashboard 데이터를 읽기 권한 범위 안에서 조합한 PDF 미리보기입니다. PDF는 A4 세로 형식으로 선택 컴포넌트를 위에서 아래로 출력합니다.</p>
             </div>
             {selectedComponentIds.map((id) => <React.Fragment key={id}>{renderComponent(id)}</React.Fragment>)}
           </main>
