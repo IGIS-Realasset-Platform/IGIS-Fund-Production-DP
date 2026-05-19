@@ -3360,6 +3360,60 @@ async function callGoogleAiSearchChatDemo(origin: string, payload: Record<string
   }
 }
 
+const LOGISTICS_AUTH_EMAIL_ALIASES: Record<string, string> = {
+  '10524@igisam.com': 'kylee@igisam.com',
+};
+
+function normalizeAuthEmail(value: unknown) {
+  return String(value || '').trim().toLowerCase();
+}
+
+async function findAuthUserByEmail(serviceClient: SupabaseClient, email: string) {
+  const aliasEmail = normalizeAuthEmail(LOGISTICS_AUTH_EMAIL_ALIASES[email]);
+  for (let page = 1; page <= 10; page += 1) {
+    const { data, error } = await serviceClient.auth.admin.listUsers({ page, perPage: 1000 });
+    if (error) throw error;
+    const users = data?.users || [];
+    const exact = users.find((user) => normalizeAuthEmail(user.email) === email);
+    if (exact) return exact;
+    const matched = aliasEmail
+      ? users.find((user) => normalizeAuthEmail(user.email) === aliasEmail)
+      : null;
+    if (matched) return matched;
+    if (users.length < 1000) break;
+  }
+  return null;
+}
+
+async function callLogisticsAuthStatus(origin: string, payload: Record<string, unknown>) {
+  const email = normalizeAuthEmail(payload.email);
+  if (!email || !email.endsWith('@igisam.com')) return fail(403, 'Company email is required', origin);
+  const supabaseUrl = Deno.env.get('SUPABASE_URL');
+  const serviceRoleKey = readEdgeSecret('SUPABASE_SERVICE_ROLE_KEY');
+  if (!supabaseUrl || !serviceRoleKey) return fail(500, 'Server is not configured', origin);
+  const serviceClient = createClient(supabaseUrl, serviceRoleKey, {
+    auth: { persistSession: false, autoRefreshToken: false },
+  });
+  const authUser = await findAuthUserByEmail(serviceClient, email);
+  const authEmail = normalizeAuthEmail(authUser?.email) || email;
+  const permissionFilters = [`email.eq.${email}`];
+  if (authEmail && authEmail !== email) permissionFilters.push(`email.eq.${authEmail}`);
+  const { data: permissionRows } = await serviceClient
+    .from('ll_user_permissions')
+    .select('user_id,email,updated_at')
+    .or(permissionFilters.join(','))
+    .limit(1);
+  const registered = Boolean(authUser || permissionRows?.length);
+  return jsonResponse({
+    ok: true,
+    registered,
+    first_login_completed: registered,
+    auth_email: authEmail,
+    has_auth_user: Boolean(authUser),
+    has_permission_row: Boolean(permissionRows?.length),
+  }, 200, origin);
+}
+
 Deno.serve(async (request) => {
   const origin = request.headers.get('origin') || '';
   if (!isAllowedOrigin(origin)) return fail(403, 'Origin not allowed', origin);
@@ -3380,6 +3434,7 @@ Deno.serve(async (request) => {
   if (action === 'ai/provider-diagnostics') return callAiProviderDiagnostics(origin);
   if (action === 'ai/gemini-diagnostics') return callGeminiDiagnostics(origin);
   if (action === 'ai/search-chat-demo') return callGoogleAiSearchChatDemo(origin, payload);
+  if (action === 'auth/logistics-status') return callLogisticsAuthStatus(origin, payload);
 
   let ctx: Context;
   try {

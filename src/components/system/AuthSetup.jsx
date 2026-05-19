@@ -31,6 +31,20 @@ const markFirstAccessComplete = (email) => {
     emails.add(normalizedEmail);
     localStorage.setItem(LOGISTICS_ENROLLED_EMAILS_KEY, JSON.stringify([...emails]));
 };
+const fetchLogisticsAuthStatus = async (email) => {
+    try {
+        const { data, error } = await supabase.functions.invoke('ll-dashboard-api', {
+            body: {
+                action: 'auth/logistics-status',
+                payload: { email },
+            },
+        });
+        if (error || data?.ok === false) return null;
+        return data || null;
+    } catch {
+        return null;
+    }
+};
 const buildAuthRedirectUrl = (path = 'auth-setup') => {
     const base = import.meta.env.BASE_URL || '/';
     const normalizedBase = base.endsWith('/') ? base : `${base}/`;
@@ -57,6 +71,7 @@ export default function AuthSetup({ onLogin }) {
     const { recoveryMode, setRecoveryMode } = useAuth();
     const [step, setStep] = useState(recoveryMode ? 5 : 1);
     const [email, setEmail] = useState('');
+    const [resolvedAuthEmail, setResolvedAuthEmail] = useState('');
     const [staffName, setStaffName] = useState('');
     const [isFirstTime, setIsFirstTime] = useState(true);
     const [password, setPassword] = useState('');
@@ -76,6 +91,7 @@ export default function AuthSetup({ onLogin }) {
     const [showChangeSuccessModal, setShowChangeSuccessModal] = useState(false);
     
     const passwordInputRef = useRef(null);
+    const currentAuthEmail = () => (resolvedAuthEmail || email).trim().toLowerCase();
 
     useEffect(() => {
         if (step === 2 && passwordInputRef.current) {
@@ -120,6 +136,7 @@ export default function AuthSetup({ onLogin }) {
             }
 
             let memberData = null;
+            const remoteAuthStatus = await fetchLogisticsAuthStatus(normalizedEmail);
             try {
                 const { data } = await fetchWithRetry(() => supabase
                     .from('iota_seoul_pilot_members')
@@ -131,8 +148,11 @@ export default function AuthSetup({ onLogin }) {
                 memberData = null;
             }
 
+            const authEmail = String(remoteAuthStatus?.auth_email || normalizedEmail).trim().toLowerCase();
+            const remoteFirstAccessComplete = Boolean(remoteAuthStatus?.registered || remoteAuthStatus?.first_login_completed);
             setStaffName(logisticsUser.name || memberData?.staff_name || normalizedEmail);
-            setIsFirstTime(!memberData?.auth_id && !hasCompletedFirstAccess(normalizedEmail));
+            setResolvedAuthEmail(authEmail);
+            setIsFirstTime(!remoteFirstAccessComplete && !memberData?.auth_id && !hasCompletedFirstAccess(normalizedEmail) && !hasCompletedFirstAccess(authEmail));
             setStep(2);
         } catch {
             triggerError('서버 연결에 실패했습니다.');
@@ -184,7 +204,7 @@ export default function AuthSetup({ onLogin }) {
         try {
             // 1. Verify old password by signing in
             const { data, error } = await supabase.auth.signInWithPassword({
-                email: email.trim().toLowerCase(),
+                email: currentAuthEmail(),
                 password: oldPassword
             });
 
@@ -224,7 +244,15 @@ export default function AuthSetup({ onLogin }) {
                 redirectTo: buildAuthRedirectUrl('auth-setup'),
             });
             
-            if (error) {
+            if (error && currentAuthEmail() !== email.trim().toLowerCase()) {
+                const retry = await supabase.auth.resetPasswordForEmail(currentAuthEmail(), {
+                    redirectTo: buildAuthRedirectUrl('auth-setup'),
+                });
+                if (retry.error) {
+                    triggerError('이메일 발송 실패: ' + retry.error.message);
+                    return;
+                }
+            } else if (error) {
                 triggerError('이메일 발송 실패: ' + error.message);
                 return;
             }
@@ -274,11 +302,12 @@ export default function AuthSetup({ onLogin }) {
         
         try {
             const normalizedEmail = email.trim().toLowerCase();
+            const authEmail = currentAuthEmail() || normalizedEmail;
 
             if (isFirstTime) {
                 // Sign up new user
                 let { data, error } = await supabase.auth.signUp({
-                    email: normalizedEmail,
+                    email: authEmail,
                     password: password,
                     options: {
                         emailRedirectTo: buildAuthRedirectUrl('work-platform'),
@@ -289,7 +318,7 @@ export default function AuthSetup({ onLogin }) {
                     // Auto-heal: If user already exists in Supabase auth but auth_id in DB is null (e.g. after table reset)
                     if (error.message.includes('already registered')) {
                         const signInRes = await supabase.auth.signInWithPassword({
-                            email: normalizedEmail,
+                            email: authEmail,
                             password: password
                         });
                         
@@ -316,21 +345,23 @@ export default function AuthSetup({ onLogin }) {
                         await supabase.functions.invoke('iota-auth-member-sync', {
                             body: {
                                 action: 'first_login',
-                                email: normalizedEmail,
+                                email: authEmail,
                                 auth_id: data.user.id,
                             },
                         });
                     }
                     markFirstAccessComplete(normalizedEmail);
+                    markFirstAccessComplete(authEmail);
                     activateLocalLogisticsSession(normalizedEmail, data.user.id);
                 } else {
                     markFirstAccessComplete(normalizedEmail);
+                    markFirstAccessComplete(authEmail);
                     activateLocalLogisticsSession(normalizedEmail);
                 }
             } else {
                 // Sign in existing user
                 const { data, error } = await supabase.auth.signInWithPassword({
-                    email: normalizedEmail,
+                    email: authEmail,
                     password: password
                 });
 
@@ -341,10 +372,11 @@ export default function AuthSetup({ onLogin }) {
 
                 if (data.user) {
                     markFirstAccessComplete(normalizedEmail);
+                    markFirstAccessComplete(authEmail);
                     await supabase.functions.invoke('iota-auth-member-sync', {
                         body: {
                             action: 'login',
-                            email: normalizedEmail,
+                            email: authEmail,
                         },
                     });
                     activateLocalLogisticsSession(normalizedEmail, data.user.id);
