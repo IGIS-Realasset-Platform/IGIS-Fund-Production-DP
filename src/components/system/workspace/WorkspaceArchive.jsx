@@ -12,6 +12,8 @@ const WORKSPACES = [
   { id: 'ipr', name: 'IPR-WG', table: 'iota_ipr_tasks' },
 ];
 
+const ARCHIVE_WORKSPACES = WORKSPACES.filter((workspace) => workspace.id === 'logistics');
+
 function WorkspaceIcon() {
   return (
     <svg className="mr-3 h-[18px] w-[18px] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -133,12 +135,9 @@ export default function WorkspaceArchive() {
   const [searchQuery, setSearchQuery] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState('');
-  const [workspaceFilter, setWorkspaceFilter] = useState(() => {
-    const params = new URLSearchParams(window.location.search);
-    return params.get('workspace') || 'logistics';
-  });
+  const [workspaceFilter, setWorkspaceFilter] = useState('logistics');
 
-  const selectedWorkspace = WORKSPACES.find((item) => item.id === workspaceFilter) || WORKSPACES[0];
+  const selectedWorkspace = ARCHIVE_WORKSPACES.find((item) => item.id === workspaceFilter) || ARCHIVE_WORKSPACES[0];
 
   useEffect(() => {
     const fetchSnapshots = async () => {
@@ -213,7 +212,7 @@ export default function WorkspaceArchive() {
         </div>
         <div className="border-b border-[#333] p-4">
           <div className="flex flex-col gap-1">
-            {WORKSPACES.map((workspace) => (
+            {ARCHIVE_WORKSPACES.map((workspace) => (
               <button
                 key={workspace.id}
                 type="button"

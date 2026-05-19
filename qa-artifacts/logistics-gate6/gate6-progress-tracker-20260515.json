@@ -16,12 +16,12 @@
     "new_user_requests": "Add new requests to the best matching stage, update the denominator, and report the new total in the same session."
   },
   "summary": {
-    "completed": 170,
-    "total": 282,
-    "completion_rate": 60.3,
-    "updated_at": "2026-05-19T08:39:05.297Z",
+    "completed": 164,
+    "total": 285,
+    "completion_rate": 57.5,
+    "updated_at": "2026-05-19T08:57:50.624Z",
     "conflict_resolution": "Removed superseded personal/team/sector task scope checklist items 3.06 and 3.07; latest request removes those buttons.",
-    "latest_priority_update": "2026-05-19 PDF Report order/print, Asset UI cleanup, Company leased asset table cleanup."
+    "latest_priority_update": "2026-05-19 PDF Report multi-page A4/map/full asset rows and archive logistics-only sidebar."
   },
   "stages": [
     {
@@ -307,10 +307,10 @@
         {
           "id": "3.37",
           "status": "partial",
-          "text": "?? TASK ?? ??? ?? TASK ??? ???? GitHub ?? ???? ?? ????? ?? ?? ??? ????.",
+          "text": "지난 Task 관리 버튼으로 들어가는 archive 화면의 좌측 워크스페이스 탭을 물류센터 워크 플랫폼 하나만 남기도록 제한했다. 다른 IOTA/워크스페이스 탭은 archive 좌측에서 노출하지 않는다.",
           "added_at": "2026-05-19T07:15:39.429Z",
-          "evidence": "Main task component title updated to 주요 TASK 관리; reference-level feature audit remains.",
-          "updated_at": "2026-05-19T07:37:33.239Z"
+          "evidence": "WorkspaceArchive.jsx ARCHIVE_WORKSPACES filters id=logistics; sidebar maps ARCHIVE_WORKSPACES; npm run build:preview success.",
+          "updated_at": "2026-05-19T08:57:50.624Z"
         },
         {
           "id": "3.41",
@@ -1531,6 +1531,22 @@
           "id": "14.31",
           "status": "partial",
           "text": "Company 임차 자산 현황 버튼 제거와 계약기간 전체 표시 변경에 대해 build QA를 통과했다. Evidence: npm run build:preview success, bundle assets/index-CuZaJt9C.js generated. Live bundle readback 및 화면 QA는 배포 후 확인한다."
+        },
+        {
+          "id": "14.32",
+          "status": "partial",
+          "text": "PDF Report 다중 페이지 A4 세로 출력, Asset 자산개요·투자개요 전체 행 연결, PDF 저장용 위치 지도 포함 변경에 대해 정적 QA와 preview build를 통과했다. 실제 브라우저 print preview에서 전체 페이지 수와 지도 표시 확인은 사용자 화면 QA로 남겨둔다.",
+          "evidence": "npx eslint src/components/system/workspace/WorkspaceLogistics.jsx => warning 1 existing; npm run build:preview => success, dist/assets/index-CIfQxmEa.js; bundle contains pdf-static-map-print, 자산 위치 지도, A4 portrait.",
+          "updated_at": "2026-05-19T08:53:56.027Z",
+          "added_at": "2026-05-19T08:53:56.027Z"
+        },
+        {
+          "id": "14.33",
+          "status": "partial",
+          "text": "PDF Report 및 지난 Task 관리 archive 좌측 탭 변경에 대해 ESLint와 preview build를 다시 통과했다. 실제 브라우저 PDF 저장 페이지 수와 archive 화면 시각 확인은 사용자 화면 QA로 남겨둔다.",
+          "evidence": "npx eslint WorkspaceLogistics.jsx WorkspaceArchive.jsx => pass; npm run build:preview => success, dist/assets/index-Bkkug4s1.js.",
+          "updated_at": "2026-05-19T08:57:50.624Z",
+          "added_at": "2026-05-19T08:57:50.624Z"
         }
       ]
     },
@@ -1619,6 +1635,14 @@
           "id": "15.25",
           "status": "partial",
           "text": "PDF Report 컴포넌트 선택/순서 목록을 선택 항목 우선 정렬로 바꾸고, 선택 순서 번호·위/아래 이동·drag-and-drop이 실제 PDF 미리보기와 저장 순서에 동일하게 반영되도록 수정했다. PDF 저장은 앱 전체 window.print 대신 미리보기 영역만 새 인쇄창으로 복제해 A4 세로 문서로 출력하도록 변경했다. 읽기 권한 자산 필터는 filterAssetsByPermission 기준으로 유지하고, Analysis/Pivot/Data Quality 컴포넌트는 권한자에게만 노출된다."
+        },
+        {
+          "id": "15.26",
+          "status": "partial",
+          "text": "PDF Report가 선택 컴포넌트를 A4 세로로 끝까지 출력하도록 인쇄 CSS를 보정하고, Asset 탭 기준 자산개요·투자개요 전체 행 및 PDF 저장용 자산 위치 지도를 포함하도록 구현했다. 브라우저 PDF 저장 결과의 페이지 분할 최종 확인은 남아 있다.",
+          "evidence": "WorkspaceLogistics.jsx PrintableAssetMap, activeComponentIds print scope, break-inside auto print CSS, buildAssetOverviewRows/buildAssetInvestmentRows reuse.",
+          "updated_at": "2026-05-19T08:53:56.027Z",
+          "added_at": "2026-05-19T08:53:56.027Z"
         }
       ]
     }

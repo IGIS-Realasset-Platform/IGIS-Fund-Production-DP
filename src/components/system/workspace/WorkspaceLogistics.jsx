@@ -1289,14 +1289,20 @@ function AssetProjectInfoPanel({ assetName }) {
   const [serverRows, setServerRows] = useState(null);
   const [draftRows, setDraftRows] = useState({ overview: [], investment: [] });
   const toggleSection = (id) => setOpenSections((current) => ({ ...current, [id]: !current[id] }));
-  const project = findManagementProjectForAsset(assetName);
-  const weeklyRow = normalizeWeeklyAssetRows(weeklyReportData.assetRows || [])
-    .find((row) => normalizeAssetNameKey(row.assetName) === normalizeAssetNameKey(assetName));
+  const project = useMemo(() => findManagementProjectForAsset(assetName), [assetName]);
+  const weeklyRow = useMemo(() => (
+    normalizeWeeklyAssetRows(weeklyReportData.assetRows || [])
+      .find((row) => normalizeAssetNameKey(row.assetName) === normalizeAssetNameKey(assetName))
+  ), [assetName]);
   void splitManagementProjectRows;
-  const finalOverviewRows = buildAssetOverviewRows(assetName, project, weeklyRow || {});
-  const finalInvestmentRows = buildAssetInvestmentRows(project, weeklyRow || {});
-  const effectiveOverviewRows = serverRows?.overview?.length ? serverRows.overview : finalOverviewRows;
-  const effectiveInvestmentRows = serverRows?.investment?.length ? serverRows.investment : finalInvestmentRows;
+  const finalOverviewRows = useMemo(() => buildAssetOverviewRows(assetName, project, weeklyRow || {}), [assetName, project, weeklyRow]);
+  const finalInvestmentRows = useMemo(() => buildAssetInvestmentRows(project, weeklyRow || {}), [project, weeklyRow]);
+  const effectiveOverviewRows = useMemo(() => (
+    serverRows?.overview?.length ? serverRows.overview : finalOverviewRows
+  ), [finalOverviewRows, serverRows]);
+  const effectiveInvestmentRows = useMemo(() => (
+    serverRows?.investment?.length ? serverRows.investment : finalInvestmentRows
+  ), [finalInvestmentRows, serverRows]);
   const assetId = resolveAssetIdByName(assetName);
   const canEditProject = Boolean(permission.role === 'Admin' || (
     assetIdMatchesPermission(assetId, assetName, permission)
@@ -1329,7 +1335,7 @@ function AssetProjectInfoPanel({ assetName }) {
     if (!isEditing) {
       setDraftRows({ overview: effectiveOverviewRows, investment: effectiveInvestmentRows });
     }
-  }, [assetName, serverRows, isEditing]);
+  }, [assetName, effectiveInvestmentRows, effectiveOverviewRows, isEditing, serverRows]);
   const updateProjectDraftCell = (sectionId, rowIndex, cellIndex, value) => {
     setDraftRows((current) => ({
       ...current,
@@ -4056,6 +4062,55 @@ function PortfolioMapPlot({ points, onAssetClick = navigateToAsset }) {
         <div className={`absolute left-3 top-3 rounded-full border px-3 py-1 text-[12px] font-semibold ${mode === 'leaflet' || mode === 'naver' ? 'border-[#2E6B45] bg-[#173522] text-[#B5E48C]' : 'border-[#7A6425] bg-[#2B2613] text-[#FFD166]'}`}>
           {status}
         </div>
+      </div>
+    </div>
+  );
+}
+
+function PrintableAssetMap({ point }) {
+  if (!point?.latitude || !point?.longitude) {
+    return (
+      <div className="pdf-static-map-print rounded-[14px] border border-[#D9D9D9] bg-white p-4 text-[12px] text-[#111]">
+        좌표 데이터가 없어 PDF 지도 이미지를 만들 수 없습니다.
+      </div>
+    );
+  }
+  const latitude = Number(point.latitude);
+  const longitude = Number(point.longitude);
+  const safeLat = Number.isFinite(latitude) ? latitude.toFixed(6) : '-';
+  const safeLng = Number.isFinite(longitude) ? longitude.toFixed(6) : '-';
+  const mapLabel = point.assetName || '선택 자산';
+  const address = point.address || '주소 미입력';
+  return (
+    <div className="pdf-static-map-print rounded-[14px] border border-[#D9D9D9] bg-white p-3 text-[#111]">
+      <svg viewBox="0 0 960 520" role="img" aria-label={`${mapLabel} 위치 지도`} className="h-auto w-full overflow-hidden rounded-[10px] border border-[#D9D9D9] bg-[#F7F8FA]">
+        <defs>
+          <pattern id="pdf-map-grid" width="56" height="56" patternUnits="userSpaceOnUse">
+            <path d="M 56 0 L 0 0 0 56" fill="none" stroke="#D8DEE8" strokeWidth="1" />
+          </pattern>
+          <filter id="pdf-map-shadow" x="-20%" y="-20%" width="140%" height="140%">
+            <feDropShadow dx="0" dy="8" stdDeviation="9" floodColor="#111111" floodOpacity="0.22" />
+          </filter>
+        </defs>
+        <rect width="960" height="520" fill="#EEF2F6" />
+        <rect width="960" height="520" fill="url(#pdf-map-grid)" opacity="0.78" />
+        <path d="M -40 390 C 170 330 280 340 470 260 C 650 184 780 190 1020 116" fill="none" stroke="#C7D2E2" strokeWidth="38" strokeLinecap="round" opacity="0.86" />
+        <path d="M -30 114 C 180 168 286 146 472 220 C 650 292 770 300 1010 370" fill="none" stroke="#D7C7A2" strokeWidth="22" strokeLinecap="round" opacity="0.82" />
+        <path d="M 110 -20 C 164 122 174 254 166 542" fill="none" stroke="#D6DEE9" strokeWidth="28" strokeLinecap="round" opacity="0.92" />
+        <path d="M 820 -20 C 760 134 736 272 780 552" fill="none" stroke="#D6DEE9" strokeWidth="24" strokeLinecap="round" opacity="0.86" />
+        <circle cx="480" cy="248" r="34" fill="#2F80ED" filter="url(#pdf-map-shadow)" />
+        <path d="M480 346 C480 346 428 286 428 248 C428 219 451 196 480 196 C509 196 532 219 532 248 C532 286 480 346 480 346Z" fill="#1E64C8" filter="url(#pdf-map-shadow)" />
+        <circle cx="480" cy="247" r="18" fill="#FFFFFF" />
+        <foreignObject x="540" y="176" width="360" height="160">
+          <div xmlns="http://www.w3.org/1999/xhtml" style={{ background: '#FFFFFF', border: '1px solid #D1D5DB', borderRadius: '12px', padding: '14px 16px', boxShadow: '0 16px 34px rgba(0,0,0,0.18)', color: '#111111', fontFamily: 'Arial, sans-serif' }}>
+            <div style={{ fontSize: '19px', fontWeight: 800, lineHeight: 1.35 }}>{mapLabel}</div>
+            <div style={{ marginTop: '8px', fontSize: '13px', lineHeight: 1.5 }}>{address}</div>
+            <div style={{ marginTop: '8px', fontSize: '12px', color: '#4B5563' }}>위도 {safeLat} · 경도 {safeLng}</div>
+          </div>
+        </foreignObject>
+      </svg>
+      <div className="mt-2 text-[11px] leading-4 text-[#3A3A3C]">
+        PDF 저장용 위치 지도입니다. 화면 미리보기에서는 동적 지도를 사용하고, PDF에는 좌표와 주소를 기준으로 이 인쇄용 지도가 포함됩니다.
       </div>
     </div>
   );
@@ -7898,14 +7953,10 @@ function PdfReportBuilder() {
   const canUseAdvancedTools = canViewAdvancedLogisticsTools(memberInfo, permission);
   const readableAssets = useMemo(() => filterAssetsByPermission(assetOptionsData, permission), [permission]);
   const sourceRows = useMemo(() => filterAssetsByPermission(buildLogisticsGeneralRows(), permission), [permission]);
-  const [selectedAssetId, setSelectedAssetId] = useState(readableAssets[0]?.assetId || '');
+  const [selectedAssetId, setSelectedAssetId] = useState('');
   const [selectedComponentIds, setSelectedComponentIds] = useState(['kpi', 'overview', 'tenant', 'contracts']);
   const [draggingComponentId, setDraggingComponentId] = useState(null);
   const printScopeRef = useRef(null);
-
-  useEffect(() => {
-    if (!selectedAssetId && readableAssets[0]?.assetId) setSelectedAssetId(readableAssets[0].assetId);
-  }, [readableAssets, selectedAssetId]);
 
   const componentOptions = useMemo(() => [
     { id: 'homeKpi', label: 'Dashboard Home KPI' },
@@ -7930,22 +7981,23 @@ function PdfReportBuilder() {
     { id: 'pivotTable', label: 'Pivot Table 결과', adminOnly: true },
     { id: 'dataQuality', label: 'Data Quality 이슈', adminOnly: true },
   ].filter((option) => !option.adminOnly || canUseAdvancedTools), [canUseAdvancedTools]);
+  const allowedComponentIds = useMemo(() => new Set(componentOptions.map((option) => option.id)), [componentOptions]);
+  const activeComponentIds = useMemo(() => {
+    const filtered = selectedComponentIds.filter((id) => allowedComponentIds.has(id));
+    return filtered.length ? filtered : componentOptions.slice(0, 4).map((option) => option.id);
+  }, [allowedComponentIds, componentOptions, selectedComponentIds]);
   const componentOptionMap = useMemo(() => new Map(componentOptions.map((option) => [option.id, option])), [componentOptions]);
-  const selectedComponentOptions = useMemo(() => selectedComponentIds.map((id) => componentOptionMap.get(id)).filter(Boolean), [componentOptionMap, selectedComponentIds]);
-  const unselectedComponentOptions = useMemo(() => componentOptions.filter((option) => !selectedComponentIds.includes(option.id)), [componentOptions, selectedComponentIds]);
+  const selectedComponentOptions = useMemo(() => activeComponentIds.map((id) => componentOptionMap.get(id)).filter(Boolean), [activeComponentIds, componentOptionMap]);
+  const unselectedComponentOptions = useMemo(() => componentOptions.filter((option) => !activeComponentIds.includes(option.id)), [activeComponentIds, componentOptions]);
   const orderedComponentOptions = useMemo(() => [...selectedComponentOptions, ...unselectedComponentOptions], [selectedComponentOptions, unselectedComponentOptions]);
-  useEffect(() => {
-    setSelectedComponentIds((current) => {
-      const allowedIds = new Set(componentOptions.map((option) => option.id));
-      const next = current.filter((id) => allowedIds.has(id));
-      return next.length ? next : componentOptions.slice(0, 4).map((option) => option.id);
-    });
-  }, [componentOptions]);
   const selectedAsset = readableAssets.find((asset) => asset.assetId === selectedAssetId) || readableAssets[0] || {};
   const assetRows = sourceRows.filter((row) => row.assetId === selectedAsset.assetId || resolveAssetIdByName(row.assetName) === selectedAsset.assetId);
   const assetPayload = findAssetPayload(selectedAsset.assetId, selectedAsset.assetName);
   const overview = assetPayload?.overview || selectedAsset || {};
   const tenantGroups = buildTenantContractGroups(assetRows);
+  const selectedAssetProject = findManagementProjectForAsset(selectedAsset.assetName);
+  const selectedWeeklyAssetRow = normalizeWeeklyAssetRows(weeklyReportData.assetRows || [])
+    .find((row) => normalizeAssetNameKey(row.assetName) === normalizeAssetNameKey(selectedAsset.assetName));
   const grossAreaSqm = firstDefined(overview.grossFloorAreaSqm, selectedAsset.grossFloorAreaSqm, assetRows[0]?.grossFloorAreaSqm);
   const leasedAreaSqm = assetRows.reduce((sum, row) => sum + Number(row.leasedAreaSqm || 0), 0);
   const monthlyCostTotal = assetRows.reduce((sum, row) => sum + Number(row.monthlyCostTotal || row.currentMonthlyRentTotal || 0) + (row.monthlyCostTotal ? 0 : Number(row.currentMonthlyMfTotal || 0)), 0);
@@ -7959,11 +8011,8 @@ function PdfReportBuilder() {
     ['현재 임차인 수', `${formatNumber(tenantGroups.length)}개`],
   ];
   const overviewRows = [
-    ['자산개요', '구분', firstDefined(overview.temperatureType, selectedAsset.temperatureType, '')],
-    ['자산개요', '주소', firstDefined(overview.standardizedAddress, selectedAsset.standardizedAddress, '')],
-    ['자산개요', '규모', firstDefined(overview.buildingScale, selectedAsset.buildingScale, '')],
-    ['투자개요', '펀드', firstDefined(overview.fundName, assetRows[0]?.fundName, selectedAsset.fundName, '')],
-    ['투자개요', '주요 임차인', tenantGroups.slice(0, 5).map((row) => row.tenantMasterName).join(', ')],
+    ...buildAssetOverviewRows(selectedAsset.assetName, selectedAssetProject, selectedWeeklyAssetRow || {}),
+    ...buildAssetInvestmentRows(selectedAssetProject, selectedWeeklyAssetRow || {}),
   ];
   const tenantRows = tenantGroups.slice(0, 12).map((row) => [
     row.tenantMasterName,
@@ -8051,7 +8100,7 @@ function PdfReportBuilder() {
     if (id === 'assetStacking') return <ReportPreviewCard title="층별 배치"><DataTable headers={['층', '세부구역', '임차인', '임대면적']} rows={stackingRows} compact /></ReportPreviewCard>;
     if (id === 'contracts') return <ReportPreviewCard title="계약 원장"><DataTable headers={['임차인', '층', '세부구역', '저온/상온', '임대면적', '월 임대료', '월 관리비', '월 임관리비', '만기']} rows={contractRows} compact /></ReportPreviewCard>;
     if (id === 'maturity') return <ReportPreviewCard title="만기 스냅샷"><DataTable headers={['임차인', '구역', '만기일', '임대면적', '월 임관리비']} rows={maturityRows} compact /></ReportPreviewCard>;
-    if (id === 'map') return <ReportPreviewCard title="자산 위치">{mapPoint.length ? <PortfolioMapPlot points={mapPoint} /> : <div className="rounded-[12px] border border-[#333333] bg-[#1F1F1E] p-4 text-[13px] text-[#A1A1AA]">좌표 데이터가 없습니다.</div>}</ReportPreviewCard>;
+    if (id === 'map') return <ReportPreviewCard title="자산 위치 지도">{mapPoint.length ? <div className="space-y-3"><div className="pdf-map-screen"><PortfolioMapPlot points={mapPoint} /></div><PrintableAssetMap point={mapPoint[0]} /></div> : <div className="rounded-[12px] border border-[#333333] bg-[#1F1F1E] p-4 text-[13px] text-[#A1A1AA]">좌표 데이터가 없습니다.</div>}</ReportPreviewCard>;
     if (id === 'companyExposure') return <ReportPreviewCard title="Company 자산별 노출도"><DataTable headers={['기업/임차인', '자산', '계약 수', '임대면적', '월 임관리비']} rows={tenantRows.map((row) => [row[0], row[1], row[2], row[3], row[6]])} compact /></ReportPreviewCard>;
     if (id === 'analysisAsset') return <ReportPreviewCard title="Analysis 자산 비교"><DataTable headers={['자산명', '연면적', '월 임관리비', 'E. NOC']} rows={portfolioRows.map((row) => [row[0], row[2], row[3], row[4]])} compact /></ReportPreviewCard>;
     if (id === 'analysisCompany') return <ReportPreviewCard title="Analysis 기업 비교"><DataTable headers={['임차인', '자산', '계약 수', '임대면적', '월 임관리비']} rows={tenantRows.map((row) => [row[0], row[1], row[2], row[3], row[6]])} compact /></ReportPreviewCard>;
@@ -8061,10 +8110,11 @@ function PdfReportBuilder() {
   };
   const moveComponent = (id, direction) => {
     setSelectedComponentIds((current) => {
-      const index = current.indexOf(id);
+      const basis = current.filter((item) => allowedComponentIds.has(item));
+      const next = basis.length ? [...basis] : [...activeComponentIds];
+      const index = next.indexOf(id);
       const nextIndex = direction === 'up' ? index - 1 : index + 1;
-      if (index < 0 || nextIndex < 0 || nextIndex >= current.length) return current;
-      const next = [...current];
+      if (index < 0 || nextIndex < 0 || nextIndex >= next.length) return current;
       [next[index], next[nextIndex]] = [next[nextIndex], next[index]];
       return next;
     });
@@ -8072,10 +8122,11 @@ function PdfReportBuilder() {
   const reorderComponent = (fromId, toId) => {
     if (!fromId || !toId || fromId === toId) return;
     setSelectedComponentIds((current) => {
-      const fromIndex = current.indexOf(fromId);
-      const toIndex = current.indexOf(toId);
+      const basis = current.filter((item) => allowedComponentIds.has(item));
+      const next = basis.length ? [...basis] : [...activeComponentIds];
+      const fromIndex = next.indexOf(fromId);
+      const toIndex = next.indexOf(toId);
       if (fromIndex < 0 || toIndex < 0) return current;
-      const next = [...current];
       const [moved] = next.splice(fromIndex, 1);
       next.splice(toIndex, 0, moved);
       return next;
@@ -8083,8 +8134,10 @@ function PdfReportBuilder() {
   };
   const toggleComponent = (optionId, checked) => {
     setSelectedComponentIds((current) => {
-      if (checked) return current.includes(optionId) ? current : [...current, optionId];
-      return current.filter((id) => id !== optionId);
+      const basis = current.filter((id) => allowedComponentIds.has(id));
+      const next = basis.length ? basis : activeComponentIds;
+      if (checked) return next.includes(optionId) ? next : [...next, optionId];
+      return next.filter((id) => id !== optionId);
     });
   };
   const printPdfReport = () => {
@@ -8099,7 +8152,7 @@ function PdfReportBuilder() {
     const inlineStyles = Array.from(document.querySelectorAll('style'))
       .map((style) => `<style>${style.textContent || ''}</style>`)
       .join('');
-    const printWindow = window.open('', '_blank', 'noopener,noreferrer,width=1100,height=900');
+    const printWindow = window.open('', '_blank', 'width=1100,height=900');
     if (!printWindow) {
       window.print();
       return;
@@ -8115,17 +8168,21 @@ function PdfReportBuilder() {
   ${inlineStyles}
   <style>
     @page { size: A4 portrait; margin: 12mm; }
-    html, body { width: 100%; min-height: 100%; margin: 0; background: #fff !important; color: #111 !important; font-family: Inter, Arial, sans-serif; overflow: visible !important; }
+    html, body { width: 100%; min-height: 100%; margin: 0; background: #fff !important; color: #111 !important; font-family: Inter, Arial, sans-serif; overflow: visible !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
     body { padding: 0; }
     .pdf-print-scope { width: 100% !important; max-width: none !important; margin: 0 !important; padding: 0 !important; display: block !important; background: #fff !important; color: #111 !important; }
     .pdf-print-scope > * + * { margin-top: 12px !important; }
-    .pdf-report-card, .pdf-print-scope > div { break-inside: avoid; page-break-inside: avoid; background: #fff !important; border: 1px solid #d9d9d9 !important; color: #111 !important; box-shadow: none !important; }
+    .pdf-report-card, .pdf-print-scope > div { break-inside: auto !important; page-break-inside: auto !important; background: #fff !important; border: 1px solid #d9d9d9 !important; color: #111 !important; box-shadow: none !important; }
     .pdf-report-card * { color: #111 !important; }
-    .pdf-report-card table { width: 100% !important; border-collapse: collapse !important; font-size: 10px !important; }
+    .pdf-report-card table { width: 100% !important; min-width: 100% !important; table-layout: fixed !important; border-collapse: collapse !important; font-size: 10px !important; }
+    .pdf-report-card thead { display: table-header-group !important; }
+    .pdf-report-card tr { break-inside: avoid !important; page-break-inside: avoid !important; }
     .pdf-report-card th { background: #eeeeee !important; color: #111 !important; }
-    .pdf-report-card th, .pdf-report-card td { border-color: #d9d9d9 !important; color: #111 !important; }
-    .pdf-report-card .custom-scrollbar, .pdf-report-card [class*="overflow"] { overflow: visible !important; max-height: none !important; }
-    .logistics-map-canvas { display: none !important; }
+    .pdf-report-card th, .pdf-report-card td { border-color: #d9d9d9 !important; color: #111 !important; white-space: normal !important; overflow: visible !important; text-overflow: clip !important; word-break: keep-all !important; overflow-wrap: anywhere !important; }
+    .pdf-report-card .custom-scrollbar, .pdf-report-card [class*="overflow"] { overflow: visible !important; max-height: none !important; height: auto !important; }
+    .pdf-map-screen { display: none !important; }
+    .pdf-static-map-print { display: block !important; break-inside: avoid !important; page-break-inside: avoid !important; }
+    .pdf-static-map-print svg { max-height: 145mm !important; }
   </style>
 </head>
 <body>
@@ -8144,18 +8201,26 @@ function PdfReportBuilder() {
     <div className="w-full max-w-[1480px] mx-auto px-8 pt-8 pb-14">
       <style>{`
         @page { size: A4 portrait; margin: 12mm; }
+        .pdf-static-map-print { display: none; }
         @media print {
-          html, body, #root { background: #fff !important; color: #000 !important; width: 100% !important; overflow: visible !important; }
+          html, body, #root { background: #fff !important; color: #000 !important; width: 100% !important; overflow: visible !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
           body * { visibility: hidden !important; }
           .pdf-print-scope, .pdf-print-scope * { visibility: visible !important; }
           .pdf-print-scope { position: absolute !important; inset: 0 auto auto 0 !important; width: 100% !important; max-width: none !important; margin: 0 !important; padding: 0 !important; background: #fff !important; color: #000 !important; }
           .pdf-report-controls, .pdf-report-sidebar { display: none !important; visibility: hidden !important; }
           .pdf-report-page { max-width: none !important; padding: 0 !important; color: #000 !important; }
           .pdf-report-layout { display: block !important; }
-          .pdf-report-card { break-inside: avoid; background: #fff !important; border-color: #d6d6d6 !important; color: #000 !important; }
+          .pdf-report-card { break-inside: auto !important; page-break-inside: auto !important; background: #fff !important; border-color: #d6d6d6 !important; color: #000 !important; }
           .pdf-report-card * { color: #000 !important; }
+          .pdf-report-card table { width: 100% !important; min-width: 100% !important; table-layout: fixed !important; }
+          .pdf-report-card thead { display: table-header-group !important; }
+          .pdf-report-card tr { break-inside: avoid !important; page-break-inside: avoid !important; }
+          .pdf-report-card th, .pdf-report-card td { white-space: normal !important; overflow: visible !important; text-overflow: clip !important; word-break: keep-all !important; overflow-wrap: anywhere !important; }
+          .pdf-report-card .custom-scrollbar, .pdf-report-card [class*="overflow"] { overflow: visible !important; max-height: none !important; height: auto !important; }
           .pdf-report-card thead { background: #eeeeee !important; }
-          .logistics-map-canvas { display: none !important; }
+          .pdf-map-screen { display: none !important; }
+          .pdf-static-map-print { display: block !important; break-inside: avoid !important; page-break-inside: avoid !important; }
+          .pdf-static-map-print svg { max-height: 145mm !important; }
         }
       `}</style>
       <div className="pdf-report-page space-y-5">
@@ -8176,8 +8241,8 @@ function PdfReportBuilder() {
             <p className="mt-2 text-[11px] leading-4 text-[#86868B]">선택된 항목은 위에 고정되고, 위/아래 또는 드래그 순서가 PDF 출력 순서와 동일하게 반영됩니다.</p>
             <div className="mt-2 space-y-2">
               {orderedComponentOptions.map((option) => {
-                const checked = selectedComponentIds.includes(option.id);
-                const selectedIndex = selectedComponentIds.indexOf(option.id);
+                const checked = activeComponentIds.includes(option.id);
+                const selectedIndex = activeComponentIds.indexOf(option.id);
                 return (
                   <div
                     key={option.id}
@@ -8214,7 +8279,7 @@ function PdfReportBuilder() {
               <h1 className="mt-1 text-[26px] font-bold text-white">{selectedAsset.assetName || '자산 선택 필요'}</h1>
               <p className="mt-2 text-[13px] text-[#A1A1AA]">Dashboard 데이터를 읽기 권한 범위 안에서 조합한 PDF 미리보기입니다. PDF는 A4 세로 형식으로 선택 컴포넌트를 위에서 아래로 출력합니다.</p>
             </div>
-            {selectedComponentIds.map((id) => <React.Fragment key={id}>{renderComponent(id)}</React.Fragment>)}
+            {activeComponentIds.map((id) => <React.Fragment key={id}>{renderComponent(id)}</React.Fragment>)}
           </main>
         </section>
       </div>
