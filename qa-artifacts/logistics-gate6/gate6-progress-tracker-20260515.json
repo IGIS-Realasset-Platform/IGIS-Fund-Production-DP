@@ -16,9 +16,10 @@
     "new_user_requests": "Add new requests to the best matching stage, update the denominator, and report the new total in the same session."
   },
   "summary": {
-    "completed": 152,
-    "total": 235,
-    "completion_rate": 64.7
+    "completed": 158,
+    "total": 245,
+    "completion_rate": 64.5,
+    "updated_at": "2026-05-19T07:04:46.835Z"
   },
   "stages": [
     {
@@ -112,8 +113,8 @@
     {
       "stage": 3,
       "area": "업무 로그 메인 페이지",
-      "completed": 22,
-      "total": 27,
+      "completed": 25,
+      "total": 30,
       "items": [
         {
           "id": "3.01",
@@ -249,14 +250,35 @@
           "id": "3.29",
           "status": "done",
           "text": "???? ?? TASK ??? ?? Task ?? ??? logistics workspace? ?? ?????. ll_work_platform_tasks? ??? archive snapshot?? ??, ??/?? ???? ? ? ??? Edge list include_archived ??? fallback? ????. Evidence: current-request-data-task-static-qa-20260519 pass, ll-dashboard-api version 29 deploy readback."
+        },
+        {
+          "id": "3.30",
+          "status": "completed",
+          "text": "배포 URL은 /platform/iotaseoul/... 노출 없이 /work-platform, /home, /asset, /company, /analysis-tools, /data-playground, /data-quality 형태로 정리한다.",
+          "evidence": "clean route aliases and GitHub Pages ?p fallback implemented; build passed; preview gh-pages readback JS=index-NHWyPtQ2.js",
+          "updated_at": "2026-05-19T07:04:46.833Z"
+        },
+        {
+          "id": "3.31",
+          "status": "completed",
+          "text": "브라우저 탭 title을 IGIS Logistics Work Platform으로 변경한다.",
+          "evidence": "index/404 title changed; preview gh-pages readback returned IGIS Logistics Work Platform",
+          "updated_at": "2026-05-19T07:04:46.835Z"
+        },
+        {
+          "id": "3.32",
+          "status": "completed",
+          "text": "좌측 사이드바는 Work Platform 단일 탭과 Dashboard 접힘 그룹(Home, Asset, Company, Analysis Tools, Data Playground, Data Quality)으로 정리한다.",
+          "evidence": "left sidebar now uses Work Platform root and collapsible Dashboard group; targeted eslint 0 errors and build passed",
+          "updated_at": "2026-05-19T07:04:46.835Z"
         }
       ]
     },
     {
       "stage": 4,
       "area": "Dashboard 공통",
-      "completed": 6,
-      "total": 11,
+      "completed": 7,
+      "total": 12,
       "items": [
         {
           "id": "4.01",
@@ -312,6 +334,13 @@
           "id": "4.11",
           "status": "done",
           "text": "기존 대시보드 탭 우상단의 물류센터 워크 플랫폼 이동 버튼을 제거하고, 권한자용 원본 데이터 수정 버튼만 조건부로 남겼다. Evidence: WorkspaceLogistics.jsx static grep, npm run build pass."
+        },
+        {
+          "id": "4.12",
+          "status": "completed",
+          "text": "각 탭 본문 최상단 제목은 좌측 사이드바 탭 제목과 동일하게 맞추고 INTERNAL MODULE 같은 서브 제목은 제거한다.",
+          "evidence": "dashboard shell titles now match selected sidebar labels and internal-module eyebrow removed; targeted eslint 0 errors and build passed",
+          "updated_at": "2026-05-19T07:04:46.835Z"
         }
       ]
     },
@@ -406,8 +435,8 @@
     {
       "stage": 6,
       "area": "Home 탭",
-      "completed": 28,
-      "total": 34,
+      "completed": 29,
+      "total": 36,
       "items": [
         {
           "id": "6.01",
@@ -578,14 +607,26 @@
           "id": "6.34",
           "status": "done",
           "text": "Home 계약 이력 기준 임대료 추이 차트에 시점별 보유 연면적 series를 추가하고 표/tooltip에 같이 노출되도록 했다. Evidence: current-request-data-task-static-qa-20260519 pass, npm run build -- --base=/logistics-gate6-preview/ pass."
+        },
+        {
+          "id": "6.35",
+          "status": "completed",
+          "text": "Home 계약 이력 기준 임대료 추이에 연면적과 자산 수를 동시에 표시하고 하단 안내문을 삭제한다.",
+          "evidence": "Home rent trend keeps gross floor area and asset count together; mouse hint text removed; build passed",
+          "updated_at": "2026-05-19T07:04:46.835Z"
+        },
+        {
+          "id": "6.36",
+          "status": "pending",
+          "text": "Home 용도별 비율과 월 임관리비 비중 숫자가 Asset 및 다른 컴포넌트와 일치하는지 재검증한다."
         }
       ]
     },
     {
       "stage": 7,
       "area": "Asset 탭",
-      "completed": 12,
-      "total": 15,
+      "completed": 13,
+      "total": 17,
       "items": [
         {
           "id": "7.01",
@@ -661,6 +702,18 @@
           "id": "7.15",
           "status": "done",
           "text": "아레나스양지물류센터 Asset 탭 층별 배치가 normalizedRows 21개 계약 row와 12개 층 라벨(1~10, B1, B2)을 기준으로 다시 구성되도록 수정했습니다. 문자열 tenant fallback도 보강했습니다. Evidence: current-request-data-task-static-qa-20260519 pass."
+        },
+        {
+          "id": "7.16",
+          "status": "completed",
+          "text": "Asset 자산개요/투자개요를 모든 자산 동일 형식, 기본 접힘, 테이블 구분/항목/내용 구조로 정리한다.",
+          "evidence": "Asset overview/investment overview panel unified as default-collapsed 3-column tables; build passed",
+          "updated_at": "2026-05-19T07:04:46.835Z"
+        },
+        {
+          "id": "7.17",
+          "status": "pending",
+          "text": "부산송정물류센터, 아레나스양지물류센터, 화성 석포리 물류센터 Asset 층별 배치와 만기 스냅샷을 전수 확인한다."
         }
       ]
     },
@@ -809,7 +862,7 @@
       "stage": 10,
       "area": "Data Quality",
       "completed": 15,
-      "total": 19,
+      "total": 20,
       "items": [
         {
           "id": "10.01",
@@ -905,6 +958,13 @@
           "id": "10.19",
           "status": "pending",
           "text": "원본 데이터 수정 Excel 파일은 현재 구현 상태를 최종으로 보지 않고, 배포 완료 후 마지막 수정배포 단계에서 사용자 확인 기준으로 다시 전면 정리한다."
+        },
+        {
+          "id": "10.20",
+          "status": "partial",
+          "text": "워크플랫폼 자산현황 원문 전체 보기 테이블은 우상단 수정 버튼으로 권한 있는 자산만 추가/수정/삭제 후 Supabase에 저장되게 한다.",
+          "evidence": "front edit UI and ll-dashboard-api weekly-assets/replace-latest deployed; authenticated save/readback still needs browser QA",
+          "updated_at": "2026-05-19T07:04:46.835Z"
         }
       ]
     },
@@ -950,7 +1010,7 @@
       "stage": 12,
       "area": "승인대기 대상",
       "completed": 10,
-      "total": 17,
+      "total": 18,
       "items": [
         {
           "id": "12.01",
@@ -1036,6 +1096,13 @@
           "id": "12.19",
           "status": "done",
           "text": "kylee94/logistics-gate6-preview GitHub Pages gh-pages 배포 스크립트의 preview build/deploy 옵션을 수정하고 최신 번들을 배포했습니다. Evidence: live index status=200, asset=/logistics-gate6-preview/assets/index-ZZ58eKbF.js."
+        },
+        {
+          "id": "12.20",
+          "status": "partial",
+          "text": "OpenDART API와 건축물대장 API를 빠르게 연결하고 Edge Function 배포/readback으로 확인한다.",
+          "evidence": "ll-dashboard-api redeployed successfully; OpenDART/building-register live provider QA remains",
+          "updated_at": "2026-05-19T07:04:46.835Z"
         }
       ]
     },

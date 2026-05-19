@@ -10,6 +10,7 @@ import homeData from './logisticsHomeData.json';
 import rawAssetOptionsData from './logisticsAssetOptionsData.json';
 import companyOptionsData from './logisticsCompanyOptionsData.json';
 import sectorData from './logisticsSectorData.json';
+import { LOGISTICS_INTERNAL_BASE, pathForLogisticsUrl } from './logisticsRoutes';
 
 const MotionDiv = motion.div;
 
@@ -117,7 +118,7 @@ const WEEKLY_ASSET_DB_CONTEXT = {
 };
 
 function pathFor(suffix = '') {
-  const base = 'platform/iotaseoul/workspace/logistics';
+  const base = LOGISTICS_INTERNAL_BASE;
   return suffix ? `${base}/${suffix}` : base;
 }
 
@@ -160,7 +161,9 @@ function MemberAvatar({ memberInfo, name, sizeClass = 'h-12 w-12', textClass = '
 
 function navigateTo(path) {
   const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
-  window.location.href = `${base}/${path}`;
+  window.location.href = String(path || '').startsWith(LOGISTICS_INTERNAL_BASE)
+    ? pathForLogisticsUrl(import.meta.env.BASE_URL, path)
+    : `${base}/${path}`;
 }
 
 function resolveAssetIdByName(assetName) {
@@ -753,8 +756,8 @@ function SectionHeader({ eyebrow, title, right }) {
   return (
     <div className="flex items-end justify-between gap-3 mb-3">
       <div>
-        <div className="text-[11px] font-semibold text-[#86868B] tracking-[0.02em]">{eyebrow}</div>
-        <h2 className="text-[20px] font-semibold text-white tracking-tight mt-1">{title}</h2>
+        {eyebrow ? <div className="text-[11px] font-semibold text-[#86868B] tracking-[0.02em]">{eyebrow}</div> : null}
+        <h2 className={`font-semibold text-white tracking-tight ${eyebrow ? 'mt-1 text-[20px]' : 'text-[28px]'}`}>{title}</h2>
       </div>
       {right}
     </div>
@@ -1111,6 +1114,68 @@ function splitManagementProjectRows(project) {
   };
 }
 
+function managementProjectValue(project, label) {
+  return cleanDisplay((project?.detailRows || []).find((row) => row.label === label)?.value, '');
+}
+
+function normalizeAssetCategory(value) {
+  const text = cleanDisplay(value, '');
+  if (!text) return '';
+  if (text.includes('복합')) return '복합';
+  if (text.includes('저온')) return '저온';
+  if (text.includes('상온')) return '상온';
+  return text;
+}
+
+function normalizeFloorScale(value) {
+  return cleanDisplay(value, '').replace(/\s*\/\s*/gu, '~').replace(/\bB(\d+)~(\d+)F\b/giu, 'B$1~$2F');
+}
+
+function splitProjectEtcRows(value) {
+  return cleanDisplay(value, '')
+    .split(/\s*\/\s*/u)
+    .map((item) => item.trim())
+    .filter(Boolean)
+    .map((item) => {
+      const match = item.match(/^([가-힣A-Za-z]+)\s+(.+)$/u);
+      return ['기타', match?.[1] || item, match?.[2] || ''];
+    });
+}
+
+function findAssetPayloadByName(assetName) {
+  const key = normalizeAssetNameKey(assetName);
+  return Object.values(ASSET_PAYLOADS).find((payload) => normalizeAssetNameKey(payload?.overview?.assetName) === key) || null;
+}
+
+function buildAssetOverviewRows(assetName, project, weeklyRow) {
+  const payload = findAssetPayloadByName(assetName);
+  const overview = payload?.overview || {};
+  return [
+    ['자산', '구분', normalizeAssetCategory(managementProjectValue(project, '섹터') || weeklyRow?.category)],
+    ['자산', '주소', managementProjectValue(project, '주소') || cleanDisplay(overview.address || overview.standardizedAddress, '')],
+    ['면적', '연면적', managementProjectValue(project, '연면적') || (overview.grossFloorAreaSqm ? formatArea(overview.grossFloorAreaSqm) : '')],
+    ['면적', '대지면적', managementProjectValue(project, '대지면적') || (overview.landAreaSqm ? formatArea(overview.landAreaSqm) : '')],
+    ['개발', '용적률', cleanDisplay(managementProjectValue(project, '용적률') || String(managementProjectValue(project, '용적률 및 건폐율')).split(/[·,/]/u)[0], '')],
+    ['개발', '건폐율', cleanDisplay(managementProjectValue(project, '건폐율') || String(managementProjectValue(project, '용적률 및 건폐율')).split(/[·,/]/u)[1], '')],
+    ['개발', '준공시점', cleanDisplay(weeklyRow?.completion || overview.completionDate || overview.completion, '')],
+    ['개발', '규모(층수)', normalizeFloorScale(managementProjectValue(project, '규모(층수)') || overview.floorScale)],
+    ['임대차', '주요 임차인', cleanDisplay(weeklyRow?.mainTenant || overview.mainTenant || overview.anchorTenant, '')],
+  ];
+}
+
+function buildAssetInvestmentRows(project, weeklyRow) {
+  const baseRows = [
+    ['투자', '투자 전략', managementProjectValue(project, '투자 전략') || cleanDisplay(weeklyRow?.investmentType, '')],
+    ['투자', '매입시점', cleanDisplay(weeklyRow?.acquisition, '')],
+    ['자금', '총 사업비', managementProjectValue(project, '총 사업비')],
+    ['자금', 'Equity', managementProjectValue(project, 'Equity')],
+    ['자금', 'Loan', managementProjectValue(project, 'Loan')],
+    ['만기', '펀드만기', cleanDisplay(weeklyRow?.fundMaturity, '')],
+    ['만기', '대출만기', cleanDisplay(weeklyRow?.loanMaturity, '')],
+  ];
+  return [...baseRows, ...splitProjectEtcRows(managementProjectValue(project, '기타'))];
+}
+
 function AssetProjectToggleTable({ id, title, rows, openSections, onToggle }) {
   return (
     <div className="rounded-[14px] border border-[#333333] bg-[#1F1F1E] p-4">
@@ -1124,7 +1189,7 @@ function AssetProjectToggleTable({ id, title, rows, openSections, onToggle }) {
       </button>
       {openSections[id] ? (
         rows.length ? (
-          <DataTable headers={['항목', '내용']} rows={rows} compact />
+          <DataTable headers={['구분', '항목', '내용']} rows={rows} compact />
         ) : (
           <div className="rounded-[10px] border border-[#333333] bg-[#252524] p-3 text-[12px] leading-5 text-[#86868B]">해당 자산의 원문 행을 아직 찾지 못했습니다.</div>
         )
@@ -1134,30 +1199,14 @@ function AssetProjectToggleTable({ id, title, rows, openSections, onToggle }) {
 }
 
 function AssetProjectInfoPanel({ assetName }) {
-  const [openSections, setOpenSections] = useState({ overview: true, investment: true });
+  const [openSections, setOpenSections] = useState({ overview: false, investment: false });
   const toggleSection = (id) => setOpenSections((current) => ({ ...current, [id]: !current[id] }));
   const project = findManagementProjectForAsset(assetName);
   const weeklyRow = normalizeWeeklyAssetRows(weeklyReportData.assetRows || [])
     .find((row) => normalizeAssetNameKey(row.assetName) === normalizeAssetNameKey(assetName));
-  const { overviewRows, investmentRows } = splitManagementProjectRows(project);
-  const fallbackOverviewRows = weeklyRow ? [
-    ['자산명', weeklyRow.assetName],
-    ['펀드명', cleanDisplay(weeklyRow.fundName)],
-    ['연면적', `${formatNumber(weeklyRow.grossAreaPy)}평`],
-    ['종류', cleanDisplay(weeklyRow.category)],
-    ['주요임차사', cleanDisplay(weeklyRow.mainTenant)],
-    ['Main Issue', renderBulletListCell(weeklyRow.mainIssue)],
-  ] : [];
-  const fallbackInvestmentRows = weeklyRow ? [
-    ['투자유형', cleanDisplay(weeklyRow.investmentType)],
-    ['매입시점', cleanDisplay(weeklyRow.acquisition)],
-    ['원가', cleanDisplay(weeklyRow.costPerPy)],
-    ['현재대비', cleanDisplay(weeklyRow.costTrend)],
-    ['펀드만기', cleanDisplay(weeklyRow.fundMaturity)],
-    ['대출만기', cleanDisplay(weeklyRow.loanMaturity)],
-  ] : [];
-  const finalOverviewRows = overviewRows.length ? overviewRows : fallbackOverviewRows;
-  const finalInvestmentRows = investmentRows.length ? investmentRows : fallbackInvestmentRows;
+  void splitManagementProjectRows;
+  const finalOverviewRows = buildAssetOverviewRows(assetName, project, weeklyRow || {});
+  const finalInvestmentRows = buildAssetInvestmentRows(project, weeklyRow || {});
   const sourceLabel = project
     ? `관리 Projects 원문 · ${project.projectName}`
     : 'Weekly 자산현황 원문 기준';
@@ -1178,31 +1227,112 @@ function AssetProjectInfoPanel({ assetName }) {
 }
 
 function WeeklyAssetStatusTable({ title = '자산현황 원문 전체 보기' }) {
+  const { memberInfo } = useAuth();
   const [modal, setModal] = useState(null);
   const [sortConfig, setSortConfig] = useState({ index: 0, direction: 'asc' });
-  const assetRows = useMemo(() => normalizeWeeklyAssetRows(weeklyReportData.assetRows || []), []);
-  const fullHeaders = ['자산명', '펀드명', '종류', '연면적(평)', '준공', '투자유형', '매입시점', '임대차만기', '펀드만기', '대출만기', '원가', '현재대비', '저온비율', '임대율', '주요임차사', 'Main Issue'];
-  const sortableRows = useMemo(() => assetRows.map((row) => ({
-    source: row,
-    cells: [
-      row.assetName,
-      cleanDisplay(row.fundName),
-      row.category,
-      formatNumber(row.grossAreaPy),
-      row.completion,
-      row.investmentType,
-      row.acquisition,
-      row.leaseMaturity || '-',
-      row.fundMaturity || '-',
-      row.loanMaturity || '-',
-      cleanDisplay(row.costPerPy),
-      cleanDisplay(row.costTrend),
-      cleanDisplay(row.coldRatio),
-      cleanDisplay(row.occupancyRate),
-      cleanDisplay(row.mainTenant),
-      cleanDisplay(row.mainIssue),
-    ],
-  })).sort((left, right) => compareSortableCells(left.cells[sortConfig.index], right.cells[sortConfig.index], sortConfig.direction)), [assetRows, sortConfig]);
+  const permission = useMemo(() => resolveLogisticsPermission(memberInfo), [memberInfo]);
+  const initialAssetRows = useMemo(() => normalizeWeeklyAssetRows(weeklyReportData.assetRows || []), []);
+  const [assetRowsDraft, setAssetRowsDraft] = useState(initialAssetRows);
+  const [isEditing, setIsEditing] = useState(false);
+  const [saveStatus, setSaveStatus] = useState(null);
+  const originalAssetNamesRef = useRef(initialAssetRows.map((row) => row.assetName).filter(Boolean));
+  const assetRows = assetRowsDraft;
+  const canEditWeeklyAssets = Boolean(permission.permissions?.managedAsset?.update || permission.permissions?.managedAsset?.create || permission.permissions?.managedAsset?.delete || permission.role === 'Admin');
+  const displayFieldDefs = [
+    ['assetName', '자산명', false],
+    ['fundName', '펀드명', false],
+    ['category', '구분', false],
+    ['grossAreaPy', '연면적(평)', true],
+    ['completion', '준공', false],
+    ['investmentType', '투자유형', false],
+    ['acquisition', '매입시점', false],
+    ['leaseMaturity', '임대차만기', false],
+    ['fundMaturity', '펀드만기', false],
+    ['loanMaturity', '대출만기', false],
+    ['costPerPy', '원가', true],
+    ['costTrend', '현재 대비', true],
+    ['coldRatio', '저온비율', true],
+    ['occupancyRate', '임대율', true],
+    ['mainTenant', '주요 임차인', false],
+    ['mainIssue', 'Main Issue', false],
+  ].map(([key, header, numeric]) => ({ key, header, numeric }));
+  const activeFieldDefs = displayFieldDefs;
+  const fullHeaders = activeFieldDefs.map((field) => field.header);
+  useEffect(() => {
+    setAssetRowsDraft(initialAssetRows);
+    originalAssetNamesRef.current = initialAssetRows.map((row) => row.assetName).filter(Boolean);
+  }, [initialAssetRows]);
+  const canEditWeeklyAssetRow = (row) => (
+    permission.role === 'Admin'
+    || (
+      (!cleanDisplay(row.assetName, '') && Boolean(permission.permissions?.managedAsset?.create))
+      || assetIdMatchesPermission(resolveAssetIdByName(row.assetName), row.assetName, permission)
+    ) && Boolean(permission.permissions?.managedAsset?.update || permission.permissions?.managedAsset?.create || permission.permissions?.managedAsset?.delete)
+  );
+  const updateDraftCell = (rowIndex, key, value) => {
+    setAssetRowsDraft((rows) => rows.map((row, index) => (index === rowIndex ? { ...row, [key]: value } : row)));
+  };
+  const addDraftRow = () => {
+    setAssetRowsDraft((rows) => [
+      ...rows,
+      {
+        id: `draft-${Date.now()}`,
+        assetName: '',
+        fundName: '',
+        category: '',
+        grossAreaPy: '',
+        completion: '',
+        investmentType: '',
+        acquisition: '',
+        leaseMaturity: '',
+        fundMaturity: '',
+        loanMaturity: '',
+        costPerPy: '',
+        costTrend: '',
+        coldRatio: '',
+        occupancyRate: '',
+        mainTenant: '',
+        mainIssue: '',
+      },
+    ]);
+  };
+  const removeDraftRow = (rowIndex) => setAssetRowsDraft((rows) => rows.filter((_, index) => index !== rowIndex));
+  const saveDraftRows = async () => {
+    setSaveStatus({ type: 'pending', message: '자산현황 수정 내용을 서버 권한 확인 후 저장 중입니다.' });
+    try {
+      const rows = assetRowsDraft.filter((row) => cleanDisplay(row.assetName, ''));
+      const { data, error } = await supabase.functions.invoke('ll-dashboard-api', {
+        body: {
+          action: 'weekly-assets/replace-latest',
+          payload: {
+            original_asset_names: originalAssetNamesRef.current,
+            rows,
+          },
+        },
+      });
+      if (error) throw error;
+      if (data?.ok === false) throw new Error(data.message || '저장 실패');
+      originalAssetNamesRef.current = rows.map((row) => row.assetName).filter(Boolean);
+      setAssetRowsDraft(rows);
+      setIsEditing(false);
+      setSaveStatus({ type: 'success', message: `저장 완료: ${data?.data?.inserted ?? rows.length}건 반영` });
+    } catch (error) {
+      setSaveStatus({ type: 'warning', message: `저장 실패: ${error.message || 'll-dashboard-api 연결 또는 권한을 확인해야 합니다.'}` });
+    }
+  };
+  const sortableRows = useMemo(() => {
+    const rows = assetRows.map((row, originalIndex) => ({
+      source: row,
+      originalIndex,
+      cells: activeFieldDefs.map((field) => (
+        field.key === 'grossAreaPy'
+          ? formatNumber(row[field.key])
+          : cleanDisplay(row[field.key], field.key.includes('Maturity') ? '-' : '')
+      )),
+    }));
+    if (isEditing) return rows;
+    return rows.sort((left, right) => compareSortableCells(left.cells[sortConfig.index], right.cells[sortConfig.index], sortConfig.direction));
+  }, [assetRows, activeFieldDefs, isEditing, sortConfig]);
   const toggleSort = (index) => {
     setSortConfig((current) => ({
       index,
@@ -1215,6 +1345,13 @@ function WeeklyAssetStatusTable({ title = '자산현황 원문 전체 보기' })
     rows: assetDetailRows(row),
   });
   const columnWidths = ['190px', '230px', '110px', '110px', '90px', '110px', '110px', '120px', '120px', '120px', '100px', '100px', '100px', '100px', '170px', '360px'];
+  const visibleHeaders = isEditing ? [...fullHeaders, '관리'] : fullHeaders;
+  const visibleColumnWidths = isEditing ? [...columnWidths, '92px'] : columnWidths;
+  const statusClass = saveStatus?.type === 'success'
+    ? 'border-[#2E6B45] bg-[#173522] text-[#B5E48C]'
+    : saveStatus?.type === 'warning'
+      ? 'border-[#7A6425] bg-[#2B2613] text-[#FFD166]'
+      : 'border-[#3A3A3C] bg-[#1F1F1E] text-[#C7C7CC]';
 
   return (
     <section className="mb-[28px] rounded-[24px] border border-[#333333] bg-[#252524] p-5">
@@ -1222,51 +1359,115 @@ function WeeklyAssetStatusTable({ title = '자산현황 원문 전체 보기' })
       <SectionHeader
         eyebrow="ASSET STATUS"
         title={title}
-        right={<span className="text-[12px] font-semibold text-[#86868B]">Weekly 자산현황 원문 기준</span>}
+        right={(
+          <div className="flex flex-wrap items-center justify-end gap-2">
+            <span className="text-[12px] font-semibold text-[#86868B]">Weekly 자산현황 원문 기준</span>
+            {canEditWeeklyAssets && !isEditing ? (
+              <button
+                type="button"
+                onClick={() => { setIsEditing(true); setSaveStatus(null); }}
+                className={`h-9 rounded-[8px] border px-3 text-[13px] font-semibold ${PRIMARY_BLUE_BUTTON_CLASS}`}
+              >
+                수정
+              </button>
+            ) : null}
+            {isEditing ? (
+              <>
+                <button type="button" onClick={addDraftRow} className={`h-9 rounded-[8px] border px-3 text-[13px] font-semibold ${DARK_BUTTON_CLASS}`}>행 추가</button>
+                <button type="button" onClick={saveDraftRows} className={`h-9 rounded-[8px] border px-3 text-[13px] font-semibold ${PRIMARY_BLUE_BUTTON_CLASS}`}>저장</button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setAssetRowsDraft(initialAssetRows);
+                    setIsEditing(false);
+                    setSaveStatus(null);
+                  }}
+                  className={`h-9 rounded-[8px] border px-3 text-[13px] font-semibold ${DARK_BUTTON_CLASS}`}
+                >
+                  취소
+                </button>
+              </>
+            ) : null}
+          </div>
+        )}
       />
+      {saveStatus ? (
+        <div className={`mb-3 rounded-[10px] border px-3 py-2 text-[13px] font-semibold ${statusClass}`}>
+          {saveStatus.message}
+        </div>
+      ) : null}
       <div className="custom-scrollbar max-h-[540px] overflow-auto rounded-[10px] border border-[#333333]">
-        <table className="min-w-[2240px] table-fixed border-collapse text-left">
+        <table className={`${isEditing ? 'min-w-[2340px]' : 'min-w-[2240px]'} table-fixed border-collapse text-left`}>
           <colgroup>
-            {columnWidths.map((width, index) => <col key={`${fullHeaders[index]}-${width}`} style={{ width }} />)}
+            {visibleColumnWidths.map((width, index) => <col key={`${visibleHeaders[index]}-${width}`} style={{ width }} />)}
           </colgroup>
           <thead className="sticky top-0 z-20 bg-[#1F1F1E] text-[12px] text-[#86868B]">
             <tr>
-              {fullHeaders.map((header, index) => (
+              {visibleHeaders.map((header, index) => (
                 <th key={header} className={`px-3 py-2 font-semibold ${index === 0 ? 'sticky left-0 z-30 bg-[#1F1F1E] pl-4 text-left' : index >= 3 && index <= 13 ? 'text-right' : 'text-left'}`}>
-                  <button
-                    type="button"
-                    onClick={() => toggleSort(index)}
-                    className={`flex w-full cursor-pointer items-center gap-1 text-[12px] font-semibold transition-colors hover:text-white ${index >= 3 && index <= 13 ? 'justify-end' : 'justify-start'}`}
-                    title={`${header} 기준 정렬`}
-                  >
-                    <span className="truncate">{header}</span>
-                    <span className={`text-[10px] ${sortConfig.index === index ? 'text-white' : 'text-[#5f5f64]'}`}>
-                      {sortConfig.index === index ? (sortConfig.direction === 'asc' ? '▲' : '▼') : '↕'}
-                    </span>
-                  </button>
+                  {index < fullHeaders.length ? (
+                    <button
+                      type="button"
+                      onClick={() => !isEditing && toggleSort(index)}
+                      className={`flex w-full items-center gap-1 text-[12px] font-semibold transition-colors hover:text-white ${isEditing ? 'cursor-default' : 'cursor-pointer'} ${index >= 3 && index <= 13 ? 'justify-end' : 'justify-start'}`}
+                      title={isEditing ? '수정 중에는 정렬을 잠시 고정합니다.' : `${header} 기준 정렬`}
+                    >
+                      <span className="truncate">{header}</span>
+                      {!isEditing ? (
+                        <span className={`text-[10px] ${sortConfig.index === index ? 'text-white' : 'text-[#5f5f64]'}`}>
+                          {sortConfig.index === index ? (sortConfig.direction === 'asc' ? '▲' : '▼') : '↕'}
+                        </span>
+                      ) : null}
+                    </button>
+                  ) : (
+                    <span className="block text-center">{header}</span>
+                  )}
                 </th>
               ))}
             </tr>
           </thead>
           <tbody>
-            {sortableRows.map(({ source, cells }, rowIndex) => (
+            {sortableRows.map(({ source, cells, originalIndex }, rowIndex) => {
+              const editableRow = isEditing && canEditWeeklyAssetRow(source);
+              return (
               <tr
                 key={`${source.assetName}-${rowIndex}`}
-                onClick={() => openAssetDetail(source)}
-                className="cursor-pointer border-b border-[#333333] last:border-b-0 hover:bg-white/[0.04]"
+                onClick={() => !isEditing && openAssetDetail(source)}
+                className={`${isEditing ? '' : 'cursor-pointer'} border-b border-[#333333] last:border-b-0 hover:bg-white/[0.04]`}
               >
                 {cells.map((cell, cellIndex) => (
                   <td
                     key={`${source.assetName}-${cellIndex}`}
                     className={`px-3 py-2 align-top text-[13px] leading-5 text-[#E5E5E5] ${cellIndex === 0 ? 'sticky left-0 z-10 bg-[#252524] pl-4 font-semibold shadow-[8px_0_12px_rgba(0,0,0,0.22)]' : ''} ${cellIndex >= 3 && cellIndex <= 13 ? 'text-right tabular-nums' : 'text-left'} ${cellIndex === 15 ? '' : 'whitespace-nowrap'}`}
                   >
-                    <span className={cellIndex === 15 ? 'block whitespace-normal break-keep' : 'block truncate'} title={typeof cell === 'string' ? cell : undefined}>
-                      {cell}
-                    </span>
+                    {editableRow ? (
+                      <input
+                        value={source[activeFieldDefs[cellIndex].key] ?? ''}
+                        onChange={(event) => updateDraftCell(originalIndex, activeFieldDefs[cellIndex].key, event.target.value)}
+                        className={`h-9 w-full rounded-[8px] border border-[#3A3A3C] bg-[#111111] px-2 text-[13px] text-white outline-none focus:border-[#2997ff] ${cellIndex >= 3 && cellIndex <= 13 ? 'text-right tabular-nums' : 'text-left'}`}
+                      />
+                    ) : (
+                      <span className={cellIndex === 15 ? 'block whitespace-normal break-keep' : 'block truncate'} title={typeof cell === 'string' ? cell : undefined}>
+                        {cell}
+                      </span>
+                    )}
                   </td>
                 ))}
+                {isEditing ? (
+                  <td className="px-3 py-2 align-top text-center">
+                    <button
+                      type="button"
+                      disabled={!editableRow}
+                      onClick={() => removeDraftRow(originalIndex)}
+                      className={`h-8 rounded-[8px] border px-2 text-[12px] font-semibold ${editableRow ? 'border-[#5A2A2A] bg-[#2B1515] text-[#FFB4B4] hover:bg-[#3A1D1D]' : 'cursor-not-allowed border-[#333333] bg-[#1F1F1E] text-[#5F5F64]'}`}
+                    >
+                      삭제
+                    </button>
+                  </td>
+                ) : null}
               </tr>
-            ))}
+              );
+            })}
           </tbody>
         </table>
         {!sortableRows.length ? <div className="p-5 text-[13px] text-[#86868B]">표시할 자산현황이 없습니다.</div> : null}
@@ -3238,7 +3439,7 @@ function RichTrendChart({
           const displayLabel = axisLabelText(label, shouldRotateXLabels ? 9 : 11);
           const metricRows = seriesCoords.map((item) => ({
             label: item.label,
-            value: formatMetric(row[item.key], item.valueType || primaryValueType),
+            value: formatMetric(row[item.tooltipKey || item.key], item.tooltipValueType || item.valueType || primaryValueType),
             color: item.color,
           }));
           const extraRows = typeof extraTooltipRows === 'function' ? extraTooltipRows(row) : [];
@@ -3278,7 +3479,6 @@ function RichTrendChart({
             </g>
           );
         })}
-        <text x={paddingLeft} y={height - 14} fill="#86868B" fontSize="11">마우스를 점 위에 올리면 해당 월의 세부 값이 표시됩니다.</text>
       </svg>
       {hoveredPoint && (
         <div data-testid="chart-tooltip" className="pointer-events-none fixed z-50 w-[360px] rounded-[10px] border border-[#4A4A4D] bg-[#101010]/95 px-3 py-2.5 text-[12px] text-white shadow-2xl" style={{ left: hoveredPoint.x, top: hoveredPoint.y }}>
@@ -3644,6 +3844,8 @@ function HomeDashboard() {
   const leaseSpaceMonthlyCost = sumRows(generalRows, (row) => row.monthlyCostTotal);
   const canonicalMonthlyCost = Number(assetSnapshotMonthlyCost || data.monthlyCost || leaseSpaceMonthlyCost || 0);
   const rawRentTrendRows = home.rentTrend || [];
+  const maxRentTrendGrossArea = Math.max(...rawRentTrendRows.map((row) => Number(row.grossFloorAreaSqm || 0)), 1);
+  const maxRentTrendAssetCount = Math.max(...rawRentTrendRows.map((row) => Number(row.activeAssetCount || 0)), 1);
 
   const rentTrendRows = rawRentTrendRows.map((row, index) => {
     const isLatest = index === rawRentTrendRows.length - 1;
@@ -3659,6 +3861,7 @@ function HomeDashboard() {
       monthlyMfTotalAdjusted: isLatest && canonicalMonthlyCost ? Math.round(Number(alignedCost) * (1 - rentRatio)) : row.monthlyMfTotalAdjusted,
       reconciliationBasis: isLatest && canonicalMonthlyCost ? 'current_excel_snapshot_basis' : 'source_rent_trend_basis',
       activeAssetCount: firstDefined(row.activeAssetCount, 0),
+      activeAssetCountPlot: maxRentTrendAssetCount > 0 ? (Number(firstDefined(row.activeAssetCount, 0)) / maxRentTrendAssetCount) * maxRentTrendGrossArea : 0,
       grossFloorAreaDisplay: row.grossFloorAreaDisplay ?? (row.grossFloorAreaSqm != null ? Number(row.grossFloorAreaSqm) / 10000 : null),
     };
   });
@@ -4003,6 +4206,7 @@ function HomeDashboard() {
             { key: 'monthlyMfTotalAdjusted', label: '월 관리비', valueType: 'currency' },
             { key: 'monthlyCostTotalAdjusted', label: '월 임관리비(RF/FO 반영)', valueType: 'currency' },
             { key: 'grossFloorAreaSqm', label: '보유 연면적', valueType: 'area', axis: 'right', chartType: 'bar', color: '#A78BFA' },
+            { key: 'activeAssetCountPlot', label: '자산 수', valueType: 'area', tooltipKey: 'activeAssetCount', tooltipValueType: 'count', axis: 'right', chartType: 'line', color: '#C7A6FF' },
           ]}
         />
         {trendToKpiGap ? (
@@ -7440,8 +7644,7 @@ function DashboardShell({ activeModule }) {
     <div className="w-full max-w-[1480px] mx-auto px-8 pt-8 pb-14">
       <LogisticsModal modal={modal} onClose={() => setModal(null)} />
       <SectionHeader
-        eyebrow="INTERNAL MODULE"
-        title="임대차 Dashboard"
+        title={selected.label}
         right={canUseOriginalDataEdit ? (
           <div className="flex flex-wrap items-center justify-end gap-2">
             <button
@@ -7515,8 +7718,7 @@ function LegacyWorkspaceLogistics({ currentPath = '' }) {
       <header className="mb-8">
         <div className="flex flex-col xl:flex-row xl:items-end xl:justify-between gap-5">
           <div>
-            <div className="text-[13px] font-semibold text-[#86868B] tracking-[0.03em]">LOGISTICS SECTOR WORKSPACE</div>
-            <h1 className="text-[34px] font-semibold tracking-tight text-white mt-2">물류센터 워크 플랫폼</h1>
+            <h1 className="text-[34px] font-semibold tracking-tight text-white">Work Platform</h1>
             <div className="text-[15px] text-[#A1A1AA] mt-3">
               업무 기록, Weekly 현황, 검색, 개인/팀/섹터 업무를 한 화면에서 관리합니다.
             </div>

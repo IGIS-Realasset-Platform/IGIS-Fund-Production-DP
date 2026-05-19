@@ -35,6 +35,7 @@ const WRITE_TABLE_ALLOWLIST = new Set([
   'public.ll_worklogs',
   'public.ll_work_platform_tasks',
   'public.ll_work_platform_board_posts',
+  'public.ll_weekly_assets',
   'public.ll_api_audit_logs',
   'public.ll_data_change_audit_logs',
   'public.ll_external_api_cache',
@@ -1476,6 +1477,92 @@ async function deleteWorkPlatformBoardComment(ctx: Context, payload: Record<stri
   if (error) return fail(500, 'Failed to delete work platform board comment', ctx.origin);
   await audit(ctx.serviceClient, ctx.user.id, 'work-platform/board-posts/comment-delete', 200, { id: currentRow.id, comment_id: commentId });
   return jsonResponse({ ok: true, message: 'Work platform board comment deleted', data }, 200, ctx.origin);
+}
+
+function weeklyAssetPayload(row: Record<string, unknown>) {
+  const rowJson = row.row_json && typeof row.row_json === 'object' && !Array.isArray(row.row_json)
+    ? row.row_json as Record<string, unknown>
+    : {};
+  return stripUndefined({
+    asset_code: safeText(firstDefined(row.asset_code, row.assetCode, row.assetId)) || null,
+    asset_name: safeText(firstDefined(row.asset_name, row.assetName)) || '',
+    fund_code: safeText(firstDefined(row.fund_code, row.fundCode)) || null,
+    fund_name: safeText(firstDefined(row.fund_name, row.fundName)) || null,
+    status: safeText(firstDefined(row.status, row.occupancyRate, row.mainIssue)) || null,
+    issue: safeText(firstDefined(row.issue, row.mainIssue)) || null,
+    plan: safeText(firstDefined(row.plan, row.nextPlan)) || null,
+    row_json: stripUndefined({
+      ...rowJson,
+      no: firstDefined(row.no, rowJson.no),
+      category: firstDefined(row.category, rowJson.category),
+      grossAreaPy: firstDefined(row.grossAreaPy, row.gross_area_py, rowJson.grossAreaPy),
+      completion: firstDefined(row.completion, rowJson.completion),
+      investmentType: firstDefined(row.investmentType, row.investment_type, rowJson.investmentType),
+      acquisition: firstDefined(row.acquisition, rowJson.acquisition),
+      leaseMaturity: firstDefined(row.leaseMaturity, row.lease_maturity, rowJson.leaseMaturity),
+      fundMaturity: firstDefined(row.fundMaturity, row.fund_maturity, rowJson.fundMaturity),
+      loanMaturity: firstDefined(row.loanMaturity, row.loan_maturity, rowJson.loanMaturity),
+      costPerPy: firstDefined(row.costPerPy, row.cost_per_py, rowJson.costPerPy),
+      costTrend: firstDefined(row.costTrend, row.cost_trend, rowJson.costTrend),
+      coldRatio: firstDefined(row.coldRatio, row.cold_ratio, rowJson.coldRatio),
+      occupancyRate: firstDefined(row.occupancyRate, row.occupancy_rate, rowJson.occupancyRate),
+      mainTenant: firstDefined(row.mainTenant, row.main_tenant, rowJson.mainTenant),
+      mainIssue: firstDefined(row.mainIssue, row.main_issue, row.issue, rowJson.mainIssue),
+      sourceRef: firstDefined(row.sourceRef, row.source_ref, rowJson.sourceRef),
+    }),
+  });
+}
+
+async function replaceWeeklyAssets(ctx: Context, payload: Record<string, unknown>) {
+  if (!hasRole(ctx.role, 'Editor')) return fail(403, 'Insufficient logistics permission', ctx.origin);
+  const rows = Array.isArray(payload.rows) ? payload.rows as Record<string, unknown>[] : [];
+  const originalAssetNames = Array.isArray(payload.original_asset_names)
+    ? payload.original_asset_names.map((item) => safeText(item)).filter(Boolean)
+    : [];
+  if (!rows.length && !originalAssetNames.length) return fail(400, 'rows or original_asset_names is required', ctx.origin);
+
+  const { data: report, error: reportError } = await ctx.serviceClient
+    .from('ll_weekly_reports')
+    .select('id')
+    .order('created_at', { ascending: false })
+    .limit(1)
+    .maybeSingle();
+  if (reportError || !report?.id) return fail(404, 'Weekly report not found', ctx.origin);
+
+  const nextRows = rows
+    .map((row) => weeklyAssetPayload(row))
+    .filter((row) => row.asset_name);
+  const requestedNames = [...new Set([
+    ...originalAssetNames,
+    ...nextRows.map((row) => String(row.asset_name || '')),
+  ].filter(Boolean))];
+  const permittedNames = requestedNames.filter((assetName) => canWriteRelatedAsset(ctx, assetName, assetName));
+  if (!permittedNames.length) return fail(403, 'No writable asset rows in request', ctx.origin);
+  const blockedNames = requestedNames.filter((assetName) => !permittedNames.includes(assetName));
+  const rowsToInsert = nextRows
+    .filter((row) => permittedNames.includes(String(row.asset_name || '')))
+    .map((row) => ({ ...row, report_id: report.id }));
+
+  const { error: deleteError } = await ctx.serviceClient
+    .from('ll_weekly_assets')
+    .delete()
+    .eq('report_id', report.id)
+    .in('asset_name', permittedNames);
+  if (deleteError) return fail(500, 'Failed to delete previous weekly asset rows', ctx.origin);
+
+  if (rowsToInsert.length) {
+    const { error: insertError } = await ctx.serviceClient
+      .from('ll_weekly_assets')
+      .insert(rowsToInsert);
+    if (insertError) return fail(500, 'Failed to insert weekly asset rows', ctx.origin);
+  }
+  await audit(ctx.serviceClient, ctx.user.id, 'weekly-assets/replace-latest', 200, {
+    report_id: report.id,
+    inserted: rowsToInsert.length,
+    deleted_scope: permittedNames.length,
+    blocked: blockedNames,
+  });
+  return jsonResponse({ ok: true, message: 'Weekly asset rows saved', data: { inserted: rowsToInsert.length, deleted_scope: permittedNames.length, blocked: blockedNames } }, 200, ctx.origin);
 }
 
 async function fetchJsonWithTimeout(url: string, init: RequestInit = {}, timeoutMs = 10_000, retries = 1) {
@@ -3109,6 +3196,7 @@ Deno.serve(async (request) => {
   if (action === 'work-platform/board-posts/delete') return deleteWorkPlatformBoardPost(ctx, payload);
   if (action === 'work-platform/board-posts/comment') return commentWorkPlatformBoardPost(ctx, payload);
   if (action === 'work-platform/board-posts/comment-delete') return deleteWorkPlatformBoardComment(ctx, payload);
+  if (action === 'weekly-assets/replace-latest') return replaceWeeklyAssets(ctx, payload);
   if (action === 'opendart/company') return callOpenDart(ctx, payload);
   if (action === 'building-register/summary') return callBuildingRegister(ctx, payload);
   if (action === 'naver/geocode') return callNaverGeocode(ctx, payload);

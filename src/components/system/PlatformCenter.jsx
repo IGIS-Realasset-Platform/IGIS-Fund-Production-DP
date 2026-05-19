@@ -27,9 +27,11 @@ import SystemFund421 from './SystemFund421';
 import IotaTwo816 from './IotaTwo816';
 import IotaOne427 from './IotaOne427';
 import DecisionLog from './DecisionLog';
+import { LOGISTICS_INTERNAL_BASE, normalizeLogisticsPath } from './workspace/logisticsRoutes';
 
 export default function PlatformCenter({ currentPath = '' }) {
     const scrollRef = useRef(null);
+    const normalizedCurrentPath = normalizeLogisticsPath(currentPath);
 
     const handleScroll = () => {
         if (scrollRef.current) {
@@ -65,10 +67,10 @@ export default function PlatformCenter({ currentPath = '' }) {
                 scrollRef.current.scrollTop = 0;
             }
         }
-    }, [currentPath]);
+    }, [normalizedCurrentPath]);
 
     const renderGovernance = () => {
-        switch(currentPath) {
+        switch(normalizedCurrentPath) {
             case 'platform/iotaseoul/governance/system': return <GovSystem />;
             case 'platform/iotaseoul/governance/principles': return <GovPrinciples />;
             case 'platform/iotaseoul/governance/raci': return <GovRaci />;
@@ -83,7 +85,7 @@ export default function PlatformCenter({ currentPath = '' }) {
     };
 
     const renderStakeholder = () => {
-        switch(currentPath) {
+        switch(normalizedCurrentPath) {
             case 'platform/iotaseoul/stakeholder/internal': return <StakeInternal />;
             case 'platform/iotaseoul/stakeholder/lp': return <StakeLp />;
             case 'platform/iotaseoul/stakeholder/tenant': return <StakeTenant />;
@@ -93,10 +95,10 @@ export default function PlatformCenter({ currentPath = '' }) {
     };
 
     const renderWorkspace = () => {
-        if (currentPath.startsWith('platform/iotaseoul/workspace/logistics')) {
-            return <WorkspaceLogistics currentPath={currentPath} />;
+        if (normalizedCurrentPath.startsWith(LOGISTICS_INTERNAL_BASE)) {
+            return <WorkspaceLogistics currentPath={normalizedCurrentPath} />;
         }
-        switch(currentPath) {
+        switch(normalizedCurrentPath) {
             case 'platform/iotaseoul/workspace/marketing': return <WorkspaceMarketing />;
             case 'platform/iotaseoul/workspace/pm': return <WorkspacePm />;
             case 'platform/iotaseoul/workspace/financing': return <WorkspaceFinancing />;
@@ -119,9 +121,9 @@ export default function PlatformCenter({ currentPath = '' }) {
     const workspaceContent = renderWorkspace();
     
     let activeContent = govContent || stakeContent || workspaceContent;
-    if (!currentPath || currentPath === '' || currentPath === 'platform/iotaseoul' || currentPath === 'platform/iotaseoul/home') {
+    if (!normalizedCurrentPath || normalizedCurrentPath === '' || normalizedCurrentPath === 'platform/iotaseoul' || normalizedCurrentPath === 'platform/iotaseoul/home') {
         activeContent = <DecisionLog />;
-    } else if (currentPath === 'platform/iotaseoul/dashboard') {
+    } else if (normalizedCurrentPath === 'platform/iotaseoul/dashboard') {
         activeContent = <IotaDashboard />;
     }
 
@@ -129,7 +131,7 @@ export default function PlatformCenter({ currentPath = '' }) {
         return (
             <div className="flex-1 h-full bg-transparent flex flex-col relative font-sans text-[#1D1D1F] dark:text-[#E5E5E5] overflow-hidden transition-colors duration-300">
                 <div ref={scrollRef} onScroll={handleScroll} className="flex-1 w-full overflow-y-auto hide-scrollbar flex flex-col relative">
-                    <div key={currentPath} className="animate-content-blink flex-1 flex flex-col w-full h-full relative">
+                    <div key={normalizedCurrentPath} className="animate-content-blink flex-1 flex flex-col w-full h-full relative">
                         {activeContent}
                     </div>
                     <div className="h-[200px] shrink-0 w-full"></div>

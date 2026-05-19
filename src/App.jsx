@@ -12,18 +12,27 @@ import SystemLogin from './components/system/SystemLogin';
 import AuthSetup from './components/system/AuthSetup';
 import PlatformCore from './components/system/PlatformCore';
 import WorkspaceArchive from './components/system/workspace/WorkspaceArchive';
+import { LOGISTICS_INTERNAL_BASE, normalizeLogisticsPath, publicLogisticsPath } from './components/system/workspace/logisticsRoutes';
 
 export default function App() {
   // BASE_URL: '/' in dev, '/IGIS-Fund-Production-DP/' in GitHub Pages production
   const BASE = import.meta.env.BASE_URL;
-  const LOGISTICS_WORKSPACE_PATH = 'platform/iotaseoul/workspace/logistics';
+  const LOGISTICS_WORKSPACE_PATH = LOGISTICS_INTERNAL_BASE;
   const getPage = () => {
       const base = BASE.endsWith('/') ? BASE.slice(0, -1) : BASE;
-      let path = window.location.pathname.replace(base, '').replace(/^\//, '');
+      const redirectedPath = new URLSearchParams(window.location.search).get('p');
+      let path = redirectedPath
+          ? redirectedPath.replace(/~and~/g, '&').replace(/^\//, '')
+          : window.location.pathname.replace(base, '').replace(/^\//, '');
       if (path.endsWith('/')) path = path.slice(0, -1);
-      return path || LOGISTICS_WORKSPACE_PATH;
+      return normalizeLogisticsPath(path || LOGISTICS_WORKSPACE_PATH);
   };
-  const toUrl = (page) => page === 'home' ? BASE : `${BASE}${page}`;
+  const toUrl = (page) => {
+      if (normalizeLogisticsPath(page).startsWith(LOGISTICS_INTERNAL_BASE)) {
+          return `${BASE}${publicLogisticsPath(page)}`;
+      }
+      return page === 'home' ? BASE : `${BASE}${page}`;
+  };
 
   const [currentPage, setCurrentPage] = React.useState(() => getPage());
 
@@ -57,8 +66,9 @@ export default function App() {
   }, [currentPage]);
 
   const navigateTo = (page) => {
-      window.history.pushState(null, '', toUrl(page));
-      setCurrentPage(page);
+      const normalizedPage = normalizeLogisticsPath(page);
+      window.history.pushState(null, '', toUrl(normalizedPage));
+      setCurrentPage(normalizedPage);
   };
 
   useAnimations(currentPage);
@@ -66,6 +76,16 @@ export default function App() {
   React.useEffect(() => {
     window.isNewsPage = false;
     window.isLeasePage = false;
+  }, [currentPage]);
+
+  React.useEffect(() => {
+      const normalized = normalizeLogisticsPath(currentPage);
+      if (!normalized.startsWith(LOGISTICS_INTERNAL_BASE)) return;
+      const targetUrl = toUrl(normalized);
+      const currentUrl = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+      if (currentUrl !== targetUrl) {
+          window.history.replaceState(window.history.state || null, '', targetUrl);
+      }
   }, [currentPage]);
 
   const { lang } = useLanguage();

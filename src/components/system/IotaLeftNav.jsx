@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { supabase } from '../../utils/supabaseClient';
+import { LOGISTICS_INTERNAL_BASE, normalizeLogisticsPath, pathForLogisticsUrl } from './workspace/logisticsRoutes';
 
 const menuItems = [
     {
@@ -120,42 +121,42 @@ const workspaceItems = [
 
 const LOGISTICS_ADMIN_NAMES = new Set(['이시정', '전기영', '이관용']);
 const logisticsNavIconClass = 'w-4.5 h-4.5 mr-[10px]';
-const logisticsNavItems = [
+const logisticsRootItem = {
+    label: 'Work Platform',
+    path: LOGISTICS_INTERNAL_BASE,
+    icon: <svg className={logisticsNavIconClass} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M3 7h18M5 7v10a2 2 0 002 2h10a2 2 0 002-2V7M8 11h8M8 15h5M9 7V5a2 2 0 012-2h2a2 2 0 012 2v2" /></svg>,
+};
+const logisticsDashboardItems = [
     {
-        label: '워크 플랫폼',
-        path: 'platform/iotaseoul/workspace/logistics',
-        icon: <svg className={logisticsNavIconClass} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M3 7h18M5 7v10a2 2 0 002 2h10a2 2 0 002-2V7M8 11h8M8 15h5M9 7V5a2 2 0 012-2h2a2 2 0 012 2v2" /></svg>,
-    },
-    {
-        label: 'Dashboard Home',
-        path: 'platform/iotaseoul/workspace/logistics/dashboard/home',
+        label: 'Home',
+        path: `${LOGISTICS_INTERNAL_BASE}/dashboard/home`,
         icon: <svg className={logisticsNavIconClass} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M3 12l9-9 9 9M5 10v10h14V10M9 20v-6h6v6" /></svg>,
     },
     {
         label: 'Asset',
-        path: 'platform/iotaseoul/workspace/logistics/dashboard/asset',
+        path: `${LOGISTICS_INTERNAL_BASE}/dashboard/asset`,
         icon: <svg className={logisticsNavIconClass} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4 21V7l8-4 8 4v14M8 21v-5h8v5M8 10h.01M12 10h.01M16 10h.01" /></svg>,
     },
     {
         label: 'Company',
-        path: 'platform/iotaseoul/workspace/logistics/dashboard/company',
+        path: `${LOGISTICS_INTERNAL_BASE}/dashboard/company`,
         icon: <svg className={logisticsNavIconClass} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M3 21h18M5 21V5a2 2 0 012-2h5v18M12 8h5a2 2 0 012 2v11M8 7h.01M8 11h.01M8 15h.01M16 12h.01M16 16h.01" /></svg>,
     },
     {
         label: 'Analysis Tools',
-        path: 'platform/iotaseoul/workspace/logistics/dashboard/tools',
+        path: `${LOGISTICS_INTERNAL_BASE}/dashboard/tools`,
         adminOnly: true,
         icon: <svg className={logisticsNavIconClass} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4 19V5m0 14h16M8 16V9m4 7V6m4 10v-4" /></svg>,
     },
     {
         label: 'Data Playground',
-        path: 'platform/iotaseoul/workspace/logistics/dashboard/playground',
+        path: `${LOGISTICS_INTERNAL_BASE}/dashboard/playground`,
         adminOnly: true,
         icon: <svg className={logisticsNavIconClass} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4 7c0 1.657 3.582 3 8 3s8-1.343 8-3M4 7c0-1.657 3.582-3 8-3s8 1.343 8 3M4 7v10c0 1.657 3.582 3 8 3s8-1.343 8-3V7M4 12c0 1.657 3.582 3 8 3s8-1.343 8-3" /></svg>,
     },
     {
         label: 'Data Quality',
-        path: 'platform/iotaseoul/workspace/logistics/dashboard/quality',
+        path: `${LOGISTICS_INTERNAL_BASE}/dashboard/quality`,
         adminOnly: true,
         icon: <svg className={logisticsNavIconClass} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9 12l2 2 4-4M12 3l7 4v5c0 4.5-2.8 8.2-7 9-4.2-.8-7-4.5-7-9V7l7-4z" /></svg>,
     },
@@ -166,7 +167,9 @@ export default function IotaLeftNav({ currentPath = '' }) {
     
     const handleNavigation = (path) => {
         const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
-        window.location.href = `${base}/${path}`;
+        window.location.href = normalizeLogisticsPath(path).startsWith(LOGISTICS_INTERNAL_BASE)
+            ? pathForLogisticsUrl(import.meta.env.BASE_URL, path)
+            : `${base}/${path}`;
     };
     const { user, memberInfo, signOut } = useAuth();
     const [showProfileMenu, setShowProfileMenu] = useState(false);
@@ -210,12 +213,17 @@ export default function IotaLeftNav({ currentPath = '' }) {
         const saved = sessionStorage.getItem('isVehicleOpen');
         return saved !== null ? saved === 'true' : false;
     });
+    const [isLogisticsDashboardOpen, setIsLogisticsDashboardOpen] = useState(() => {
+        const saved = sessionStorage.getItem('isLogisticsDashboardOpen');
+        return saved !== null ? saved === 'true' : true;
+    });
 
     useEffect(() => { sessionStorage.setItem('iotaLeftNavCollapsed', isCollapsed); }, [isCollapsed]);
     useEffect(() => { sessionStorage.setItem('isWorkspaceOpen', isWorkspaceOpen); }, [isWorkspaceOpen]);
     useEffect(() => { sessionStorage.setItem('isStakeholderOpen', isStakeholderOpen); }, [isStakeholderOpen]);
     useEffect(() => { sessionStorage.setItem('isGovOpen', isGovOpen); }, [isGovOpen]);
     useEffect(() => { sessionStorage.setItem('isVehicleOpen', isVehicleOpen); }, [isVehicleOpen]);
+    useEffect(() => { sessionStorage.setItem('isLogisticsDashboardOpen', isLogisticsDashboardOpen); }, [isLogisticsDashboardOpen]);
 
     useEffect(() => {
         if (
@@ -228,7 +236,8 @@ export default function IotaLeftNav({ currentPath = '' }) {
         }
     }, [currentPath]);
 
-    const isLogisticsPath = currentPath.startsWith('platform/iotaseoul/workspace/logistics');
+    const normalizedCurrentPath = normalizeLogisticsPath(currentPath);
+    const isLogisticsPath = normalizedCurrentPath.startsWith(LOGISTICS_INTERNAL_BASE);
     const isLogisticsAdmin = LOGISTICS_ADMIN_NAMES.has(memberInfo?.staff_name || memberInfo?.name);
     const renderCollapsedTooltip = (label) => (
         isCollapsed ? (
@@ -239,7 +248,9 @@ export default function IotaLeftNav({ currentPath = '' }) {
     );
 
     if (isLogisticsPath) {
-        const visibleLogisticsItems = logisticsNavItems.filter((item) => !item.adminOnly || isLogisticsAdmin);
+        const visibleDashboardItems = logisticsDashboardItems.filter((item) => !item.adminOnly || isLogisticsAdmin);
+        const isWorkPlatformActive = normalizedCurrentPath === logisticsRootItem.path;
+        const isDashboardActive = normalizedCurrentPath.startsWith(`${LOGISTICS_INTERNAL_BASE}/dashboard`);
         return (
             <div className={`${isCollapsed ? 'w-[72px]' : 'w-[275px]'} h-full overflow-hidden bg-transparent border-r border-[#2C2C2E] flex flex-col flex-shrink-0 text-[14px] font-sans text-white transition-[width,background-color,border-color] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]`}>
                 <div className={`w-full flex items-center ${isCollapsed ? 'justify-center px-[10px]' : 'justify-between px-[15px]'} pt-[14px] pb-4`}>
@@ -257,19 +268,56 @@ export default function IotaLeftNav({ currentPath = '' }) {
                             Logistics Platform
                     </div>
                     <div className="flex flex-col gap-0">
-                        {visibleLogisticsItems.map((item) => {
-                            const isRootItem = item.path === 'platform/iotaseoul/workspace/logistics';
-                            const isActive = isRootItem ? currentPath === item.path : currentPath === item.path || currentPath.startsWith(`${item.path}/`);
-                            return (
-                                <div key={item.path} title={isCollapsed ? item.label : undefined} onClick={() => handleNavigation(item.path)} className={`group relative flex items-center ${isCollapsed ? 'justify-center' : 'justify-between'} py-[7px] rounded-xl cursor-pointer transition-colors duration-200 outline-none select-none ${isActive ? 'bg-[#151515] px-[9px] -mx-[2px]' : 'px-[7px] hover:bg-[#151515]'}`}>
-                                    <div className={`flex min-w-0 items-center ${isCollapsed ? 'justify-center' : ''}`}>
-                                        <span className={`text-white ${isCollapsed ? '[&>svg]:mr-0' : ''}`}>{item.icon}</span>
-                                        <span className={`overflow-hidden whitespace-nowrap text-[14px] text-white font-light transition-[opacity,max-width,transform] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${isCollapsed ? 'max-w-0 -translate-x-2 opacity-0' : 'max-w-[180px] translate-x-0 opacity-100'}`}>{item.label}</span>
-                                    </div>
-                                    {renderCollapsedTooltip(item.label)}
+                        <div title={isCollapsed ? logisticsRootItem.label : undefined} onClick={() => handleNavigation(logisticsRootItem.path)} className={`group relative flex items-center ${isCollapsed ? 'justify-center' : 'justify-between'} py-[7px] rounded-xl cursor-pointer transition-colors duration-200 outline-none select-none ${isWorkPlatformActive ? 'bg-[#151515] px-[9px] -mx-[2px]' : 'px-[7px] hover:bg-[#151515]'}`}>
+                            <div className={`flex min-w-0 items-center ${isCollapsed ? 'justify-center' : ''}`}>
+                                <span className={`text-white ${isCollapsed ? '[&>svg]:mr-0' : ''}`}>{logisticsRootItem.icon}</span>
+                                <span className={`overflow-hidden whitespace-nowrap text-[14px] text-white font-light transition-[opacity,max-width,transform] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${isCollapsed ? 'max-w-0 -translate-x-2 opacity-0' : 'max-w-[180px] translate-x-0 opacity-100'}`}>{logisticsRootItem.label}</span>
+                            </div>
+                            {renderCollapsedTooltip(logisticsRootItem.label)}
+                        </div>
+
+                        <div className="mt-1">
+                            <button
+                                type="button"
+                                title={isCollapsed ? 'Dashboard' : undefined}
+                                onClick={() => {
+                                    if (isCollapsed) {
+                                        handleNavigation(`${LOGISTICS_INTERNAL_BASE}/dashboard/home`);
+                                    } else {
+                                        setIsLogisticsDashboardOpen((value) => !value);
+                                    }
+                                }}
+                                className={`group relative flex w-full items-center ${isCollapsed ? 'justify-center' : 'justify-between'} py-[7px] rounded-xl cursor-pointer transition-colors duration-200 outline-none select-none ${isDashboardActive ? 'bg-[#151515] px-[9px] -mx-[2px]' : 'px-[7px] hover:bg-[#151515]'}`}
+                            >
+                                <div className={`flex min-w-0 items-center ${isCollapsed ? 'justify-center' : ''}`}>
+                                    <span className={`text-white ${isCollapsed ? '[&>svg]:mr-0' : ''}`}>
+                                        <svg className={logisticsNavIconClass} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4 19V5m0 14h16M8 16V9m4 7V6m4 10v-4" /></svg>
+                                    </span>
+                                    <span className={`overflow-hidden whitespace-nowrap text-[14px] text-white font-light transition-[opacity,max-width,transform] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${isCollapsed ? 'max-w-0 -translate-x-2 opacity-0' : 'max-w-[180px] translate-x-0 opacity-100'}`}>Dashboard</span>
                                 </div>
-                            );
-                        })}
+                                {!isCollapsed ? (
+                                    <svg className={`h-4 w-4 text-[#86868B] transition-transform ${isLogisticsDashboardOpen ? 'rotate-90' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.8">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                                    </svg>
+                                ) : null}
+                                {renderCollapsedTooltip('Dashboard')}
+                            </button>
+                            <div className={`overflow-hidden transition-[max-height,opacity,transform] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${!isCollapsed && isLogisticsDashboardOpen ? 'max-h-[320px] translate-y-0 opacity-100' : 'max-h-0 -translate-y-1 opacity-0'}`}>
+                                <div className="mt-1 flex flex-col gap-0 pl-4">
+                                    {visibleDashboardItems.map((item) => {
+                                        const isActive = normalizedCurrentPath === item.path || normalizedCurrentPath.startsWith(`${item.path}/`);
+                                        return (
+                                            <div key={item.path} title={isCollapsed ? item.label : undefined} onClick={() => handleNavigation(item.path)} className={`group relative flex items-center justify-between rounded-xl py-[6px] transition-colors duration-200 outline-none select-none cursor-pointer ${isActive ? 'bg-[#151515] px-[9px] -mx-[2px]' : 'px-[7px] hover:bg-[#151515]'}`}>
+                                                <div className="flex min-w-0 items-center">
+                                                    <span className="text-white">{item.icon}</span>
+                                                    <span className="overflow-hidden whitespace-nowrap text-[13px] font-light text-white">{item.label}</span>
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 

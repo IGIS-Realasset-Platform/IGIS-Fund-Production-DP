@@ -281,7 +281,7 @@ export default function AuthSetup({ onLogin }) {
                     email: normalizedEmail,
                     password: password,
                     options: {
-                        emailRedirectTo: buildAuthRedirectUrl('platform/iotaseoul/workspace/logistics'),
+                        emailRedirectTo: buildAuthRedirectUrl('work-platform'),
                     },
                 });
                 
@@ -378,7 +378,7 @@ export default function AuthSetup({ onLogin }) {
             <div className={`w-full flex justify-between items-center px-12 py-8 relative z-50 transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}>
                 <div className="text-[20px] font-bold tracking-wide text-[#1D1D1F] dark:text-white transition-colors duration-300">Logistics</div>
                 <div className="flex gap-8 text-[17px] font-medium text-[#86868B] dark:text-[#A1A1AA] transition-colors duration-300">
-                    <a href={`${import.meta.env.BASE_URL}platform/iotaseoul/workspace/logistics`} target="_blank" rel="noopener noreferrer" className="hover:text-[#111] dark:hover:text-white cursor-pointer transition-colors bg-transparent border-none outline-none p-0 font-medium no-underline">물류센터 워크 플랫폼</a>
+                    <a href={`${import.meta.env.BASE_URL}work-platform`} target="_blank" rel="noopener noreferrer" className="hover:text-[#111] dark:hover:text-white cursor-pointer transition-colors bg-transparent border-none outline-none p-0 font-medium no-underline">물류센터 워크 플랫폼</a>
                 </div>
             </div>
 
