@@ -638,7 +638,7 @@ export default function WorkspaceDigital() {
                 <div className="flex items-center gap-0">
                     <h2 id="task-management" className="text-[18px] font-bold text-white tracking-tight flex items-center">
                         <span className="mt-[2px]">공간솔루션 주요 TASK 관리</span>
-                        <span className="bg-[#333] text-[#b3b0a6] px-[8px] py-[3px] rounded-[6px] ml-[10px] font-bold text-[14px]">{getCurrentWeekInfo().weekLabel}</span>
+                        <span className="bg-[#333] text-[#b3b0a6] px-[8px] py-[3px] rounded-[6px] ml-[10px] font-bold text-[14px] relative top-[1px]">{getCurrentWeekInfo().weekLabel}</span>
                         {selectedTheme && <span className="ml-3 px-2 py-1 bg-[#2997ff]/10 text-[#2997ff] rounded-[6px] text-[13px] font-bold">필터: {getThemeTitle(selectedTheme)}</span>}
                     </h2>
                     <a href={`${import.meta.env.BASE_URL}platform/iotaseoul/workspace/archive?workspace=digital`} target="_blank" rel="opener" className="text-[#A1A1AA] hover:text-white bg-transparent border border-[#3c3c3c] hover:bg-[#333] text-[13px] font-normal tracking-[-0.02em] ml-[10px] mt-[2px] pl-[10px] pr-[8px] py-[3px] rounded-[6px] transition-all flex items-center gap-[4px] cursor-pointer">
@@ -740,13 +740,13 @@ export default function WorkspaceDigital() {
                                     <div className="w-[650px] shrink-0 flex flex-col gap-[2px] border-r border-[#444]/50 pr-8">
                                         <div className="flex items-center gap-2">
                                             {row.related_asset && (
-                                                <span className="px-[6px] py-[2px] bg-[#333] text-[#A1A1AA] border border-[#444] rounded-[4px] text-[11px] font-bold whitespace-nowrap">
+                                                <span className="px-[5px] pt-[1px] pb-0 bg-[#333] text-[#A1A1AA] border border-[#444] rounded-[4px] text-[11px] font-bold whitespace-nowrap">
                                                     {row.related_asset}
                                                 </span>
                                             )}
                                             {row.ssc_theme && (
                                                 <div className="flex items-center gap-2">
-                                                    <span className={`px-2 py-[2px] border rounded-[4px] text-[11px] font-bold ${getThemeColor(row.ssc_theme)}`}>
+                                                    <span className={`px-[6px] pt-[1px] pb-0 border rounded-[4px] text-[11px] font-bold ${getThemeColor(row.ssc_theme)}`}>
                                                         {row.ssc_theme.split('.')[0]}
                                                     </span>
                                                     {row.ssc_theme.includes('.') && (

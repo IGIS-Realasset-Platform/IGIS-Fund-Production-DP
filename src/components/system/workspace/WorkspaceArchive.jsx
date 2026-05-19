@@ -235,7 +235,7 @@ export default function WorkspacePmArchive() {
                                     <div className="w-[60%] shrink-0 flex flex-col gap-[2px] border-r border-[#444]/50 pr-8">
                                         <div className="flex items-center gap-2">
                                             {row.related_asset && (
-                                                <span className="px-[6px] py-[2px] bg-[#333] text-[#A1A1AA] border border-[#444] rounded-[4px] text-[11px] font-bold whitespace-nowrap">
+                                                <span className="px-[5px] pt-[1px] pb-0 bg-[#333] text-[#A1A1AA] border border-[#444] rounded-[4px] text-[11px] font-bold whitespace-nowrap">
                                                     {row.related_asset}
                                                 </span>
                                             )}

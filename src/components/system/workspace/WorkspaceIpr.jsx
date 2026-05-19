@@ -623,7 +623,7 @@ export default function WorkspaceIpr() {
                 <div className="flex items-center gap-0">
                     <h2 id="task-management" className="text-[18px] font-bold text-white tracking-tight flex items-center">
                         <span className="mt-[2px]">IPR 주요 TASK 관리</span>
-                        <span className="bg-[#333] text-[#b3b0a6] px-[8px] py-[3px] rounded-[6px] ml-[10px] font-bold text-[14px]">{getCurrentWeekInfo().weekLabel}</span>
+                        <span className="bg-[#333] text-[#b3b0a6] px-[8px] py-[3px] rounded-[6px] ml-[10px] font-bold text-[14px] relative top-[1px]">{getCurrentWeekInfo().weekLabel}</span>
                     </h2>
                     <a href={`${import.meta.env.BASE_URL}platform/iotaseoul/workspace/archive?workspace=ipr`} target="_blank" rel="opener" className="text-[#A1A1AA] hover:text-white bg-transparent border border-[#3c3c3c] hover:bg-[#333] text-[13px] font-normal tracking-[-0.02em] ml-[10px] mt-[2px] pl-[10px] pr-[8px] py-[3px] rounded-[6px] transition-all flex items-center gap-[4px] cursor-pointer">
                         지난 Task 관리
@@ -716,7 +716,14 @@ export default function WorkspaceIpr() {
                             <div className="flex justify-between items-start gap-8">
                                 <div className="flex-1 flex gap-8">
                                     <div className="w-[430px] shrink-0 flex flex-col gap-[2px] border-r border-[#444]/50 pr-8">
-                                        <span className="text-[13px] font-bold text-[#86868B] relative -top-[1px]">Task {index + 1}</span>
+                                        <div className="flex items-center gap-2 relative -top-[1px]">
+                                            <span className="text-[13px] font-bold text-[#86868B]">Task {index + 1}</span>
+                                            {row.related_asset && (
+                                                <span className="px-[5px] pt-[1px] pb-0 bg-[#333] text-[#A1A1AA] border border-[#444] rounded-[4px] text-[11px] font-bold whitespace-nowrap">
+                                                    {row.related_asset}
+                                                </span>
+                                            )}
+                                        </div>
                                         <h3 className={`text-[21px] font-bold ${index < 5 ? 'text-[#e2aa29]' : 'text-white'} tracking-tight leading-tight`}>
                                             {row.task_name}
                                         </h3>
