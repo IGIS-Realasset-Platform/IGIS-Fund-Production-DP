@@ -16,11 +16,12 @@
     "new_user_requests": "Add new requests to the best matching stage, update the denominator, and report the new total in the same session."
   },
   "summary": {
-    "completed": 169,
-    "total": 265,
-    "completion_rate": 63.8,
-    "updated_at": "2026-05-19T07:44:10.844Z",
-    "conflict_resolution": "Removed superseded personal/team/sector task scope checklist items 3.06 and 3.07; latest request removes those buttons."
+    "completed": 170,
+    "total": 274,
+    "completion_rate": 62,
+    "updated_at": "2026-05-19T08:16:22.145Z",
+    "conflict_resolution": "Removed superseded personal/team/sector task scope checklist items 3.06 and 3.07; latest request removes those buttons.",
+    "latest_priority_update": "2026-05-19 priority: maps hover/click, Hwaseong expiry fallback, Analysis matrix one-open layout, AI dock animation, PDF Report selection/drag/print, login copy, Asset project edit/save, Work Platform project table title, Home maturity height."
   },
   "stages": [
     {
@@ -123,7 +124,7 @@
       "stage": 3,
       "area": "업무 로그 메인 페이지",
       "completed": 27,
-      "total": 33,
+      "total": 35,
       "items": [
         {
           "id": "3.01",
@@ -310,6 +311,16 @@
           "added_at": "2026-05-19T07:15:39.429Z",
           "evidence": "Main task component title updated to 주요 TASK 관리; reference-level feature audit remains.",
           "updated_at": "2026-05-19T07:37:33.239Z"
+        },
+        {
+          "id": "3.41",
+          "status": "partial",
+          "text": "로그인 최초 화면 안내 문구를 \"@igisam.com 도메인의 회사 이메일 계정을 입력해주세요\"로 변경했다. Evidence: AuthSetup.jsx grep, npm run build -- --base=/logistics-gate6-preview/ pass. Live 화면 QA는 사용자가 배포 URL에서 확인한다."
+        },
+        {
+          "id": "3.42",
+          "status": "partial",
+          "text": "Work Platform의 자산현황 원문 전체 보기 컴포넌트 제목을 관리 Project 현황으로 변경하고, 우상단 weekly 원문 기준 메시지를 제거했다. Evidence: WorkspaceLogistics.jsx grep, npm run build pass."
         }
       ]
     },
@@ -317,7 +328,7 @@
       "stage": 4,
       "area": "Dashboard 공통",
       "completed": 7,
-      "total": 14,
+      "total": 15,
       "items": [
         {
           "id": "4.01",
@@ -396,6 +407,11 @@
           "added_at": "2026-05-19T07:15:39.429Z",
           "evidence": "PDF Report supports asset selection, component selection, reorder and print/PDF styling; visual QA remains.",
           "updated_at": "2026-05-19T07:37:33.239Z"
+        },
+        {
+          "id": "4.29",
+          "status": "partial",
+          "text": "Home/Company 지도 hover card 클릭 시 assetId 또는 자산명으로 Asset 탭 선택값을 저장하도록 보정했고, Leaflet/Naver hover-out 닫힘과 클릭 가능 시간을 조정했다. Evidence: navigateToAsset assetId support, PortfolioMapPlot tooltip data-map-asset-id, npm run build pass. 실제 지도 hover/click QA는 사용자 브라우저 확인 필요."
         }
       ]
     },
@@ -491,7 +507,7 @@
       "stage": 6,
       "area": "Home 탭",
       "completed": 31,
-      "total": 39,
+      "total": 40,
       "items": [
         {
           "id": "6.01",
@@ -698,6 +714,11 @@
           "added_at": "2026-05-19T07:15:39.429Z",
           "evidence": "Home map marker hover card uses white panel/black text and navigates to Asset tab on click.",
           "updated_at": "2026-05-19T07:37:33.239Z"
+        },
+        {
+          "id": "6.41",
+          "status": "partial",
+          "text": "Home 만기 집중도 컴포넌트 높이를 620px 수준에서 460px chart/440px class 기준으로 낮췄다. Evidence: WorkspaceLogistics.jsx chartHeight grep, npm run build pass. 실제 화면 가독성 QA는 사용자 확인 필요."
         }
       ]
     },
@@ -705,7 +726,7 @@
       "stage": 7,
       "area": "Asset 탭",
       "completed": 15,
-      "total": 21,
+      "total": 23,
       "items": [
         {
           "id": "7.01",
@@ -823,6 +844,16 @@
           "status": "pending",
           "text": "Asset ????? API? Edge Function secret ???? live ??/??/readback?? ????.",
           "added_at": "2026-05-19T07:15:39.429Z"
+        },
+        {
+          "id": "7.31",
+          "status": "partial",
+          "text": "화성 석포리 물류센터의 local asset rows에 currentEndDate가 비어 있고 firstEndDate=2026-12-31만 있는 것을 확인했다. Asset normalize와 expiry fallback에 firstEndDate/contractEndDate를 추가해 만기 스냅샷이 비지 않게 보정했다. Evidence: asset_a112642001.json inspection, WorkspaceLogistics.jsx fallback, npm run build pass. Supabase 원본 계약만기 readback은 별도 필요."
+        },
+        {
+          "id": "7.32",
+          "status": "partial",
+          "text": "Asset 자산개요/투자개요에 권한자용 페이지 내 편집 UI를 추가하고 ll-dashboard-api weekly-projects/get-asset-detail 및 save-asset-detail action으로 ll_weekly_projects.row_json에 저장/readback하는 경로를 추가했다. Evidence: WorkspaceLogistics.jsx AssetProjectInfoPanel, ll-dashboard-api deploy qveg success, npm run build pass. 실제 권한 계정 live 저장 QA는 사용자 확인 필요."
         }
       ]
     },
@@ -1097,7 +1128,7 @@
       "stage": 11,
       "area": "Analysis Tools",
       "completed": 6,
-      "total": 8,
+      "total": 9,
       "items": [
         {
           "id": "11.01",
@@ -1144,13 +1175,18 @@
           "added_at": "2026-05-19T07:15:39.429Z",
           "evidence": "Analysis Tools selected contract ledger and review-needed sections removed.",
           "updated_at": "2026-05-19T07:37:33.239Z"
+        },
+        {
+          "id": "11.11",
+          "status": "partial",
+          "text": "Analysis Tools 벤치마크 매트릭스는 activeBenchmarkMatrix 단일 상태로 자산 또는 기업 한쪽만 펼치고, 비활성 패널은 반대편에 접힌 narrow rail로 표시하도록 변경했다. Evidence: WorkspaceLogistics.jsx activeBenchmarkMatrix grep, npm run build pass."
         }
       ]
     },
     {
       "stage": 12,
       "area": "승인대기 대상",
-      "completed": 10,
+      "completed": 11,
       "total": 20,
       "items": [
         {
@@ -1253,8 +1289,8 @@
         },
         {
           "id": "12.22",
-          "status": "pending",
-          "text": "????? ????? ?? ??? ll_* ??? ?? ??? ???? ?? ? migration/seed/readback? ????.",
+          "status": "done",
+          "text": "qvegpozwrcmspdvjokiz 프로젝트의 ll-dashboard-api를 재배포해 weekly-projects/get-asset-detail 및 weekly-projects/save-asset-detail action을 live Edge Function에 반영했다. Evidence: npx supabase functions deploy ll-dashboard-api --project-ref qvegpozwrcmspdvjokiz success.",
           "added_at": "2026-05-19T07:15:39.429Z"
         }
       ]
@@ -1328,7 +1364,7 @@
       "stage": 14,
       "area": "QA 계획",
       "completed": 11,
-      "total": 25,
+      "total": 26,
       "items": [
         {
           "id": "14.01",
@@ -1455,6 +1491,11 @@
           "status": "pending",
           "text": "???? ?? QA: Home/Company ?? hover ??, Asset ??, PDF ??? ?, Pivot Table?, Analysis ???? ??? ???? ????.",
           "added_at": "2026-05-19T07:15:39.429Z"
+        },
+        {
+          "id": "14.27",
+          "status": "partial",
+          "text": "현재 우선 요청 범위의 static/build QA를 통과했다. Evidence: npm run build -- --base=/logistics-gate6-preview/ success, bundle assets/index-ChdljVyW.js generated. 지도 hover/click, Asset 화성 만기, PDF print, Asset project edit/save는 사용자 실제 브라우저 QA 필요."
         }
       ]
     },
@@ -1462,7 +1503,7 @@
       "stage": 15,
       "area": "최종 완료 기준",
       "completed": 0,
-      "total": 14,
+      "total": 15,
       "items": [
         {
           "id": "15.01",
@@ -1533,6 +1574,11 @@
           "id": "15.14",
           "status": "pending",
           "text": "승인 후 의미 있는 단위의 commit/push 완료."
+        },
+        {
+          "id": "15.24",
+          "status": "partial",
+          "text": "PDF Report에 Dashboard 주요 컴포넌트 선택지를 확장하고 선택 항목의 drag-and-drop 순서 변경, print 전용 CSS, 좌측 nav print 숨김, PDF 본문 1컬럼 인쇄 레이아웃을 추가했다. Evidence: WorkspaceLogistics.jsx componentOptions/reorderComponent/print CSS, IotaLeftNav.jsx print:hidden, npm run build pass. 실제 PDF 저장 미리보기 QA는 사용자 확인 필요."
         }
       ]
     }

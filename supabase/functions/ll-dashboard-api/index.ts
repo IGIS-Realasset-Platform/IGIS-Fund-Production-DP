@@ -1565,6 +1565,222 @@ async function replaceWeeklyAssets(ctx: Context, payload: Record<string, unknown
   return jsonResponse({ ok: true, message: 'Weekly asset rows saved', data: { inserted: rowsToInsert.length, deleted_scope: permittedNames.length, blocked: blockedNames } }, 200, ctx.origin);
 }
 
+function normalizeProjectRows(rows: unknown) {
+  if (!Array.isArray(rows)) return [];
+  return rows
+    .map((row) => {
+      if (Array.isArray(row)) {
+        return [safeText(row[0]), safeText(row[1]), safeText(row[2])];
+      }
+      if (row && typeof row === 'object') {
+        const record = row as Record<string, unknown>;
+        return [
+          safeText(firstDefined(record.group, record.category, record.section)),
+          safeText(firstDefined(record.item, record.label, record.name)),
+          safeText(firstDefined(record.value, record.content, record.text)),
+        ];
+      }
+      return ['', '', ''];
+    })
+    .filter((row) => row.some((cell) => cell));
+}
+
+function weeklyProjectRowsFromRowJson(rowJson: Record<string, unknown>) {
+  const saved = rowJson.assetProjectRows && typeof rowJson.assetProjectRows === 'object' && !Array.isArray(rowJson.assetProjectRows)
+    ? rowJson.assetProjectRows as Record<string, unknown>
+    : null;
+  if (saved) {
+    return {
+      overviewRows: normalizeProjectRows(saved.overviewRows),
+      investmentRows: normalizeProjectRows(saved.investmentRows),
+    };
+  }
+
+  const detailRows = Array.isArray(rowJson.detailRows) ? rowJson.detailRows as Record<string, unknown>[] : [];
+  const overviewGroupByLabel: Record<string, string> = {
+    '섹터': '자산',
+    '주소': '자산',
+    '연면적': '면적',
+    '대지면적': '면적',
+    '용적률 및 건폐율': '개발',
+    '규모(층수)': '개발',
+  };
+  const investmentGroupByLabel: Record<string, string> = {
+    '투자 전략': '투자',
+    '총 사업비': '자금',
+    'Equity': '자금',
+    'Loan': '자금',
+    '기타': '기타',
+  };
+  return {
+    overviewRows: detailRows
+      .filter((row) => overviewGroupByLabel[safeText(row.label)])
+      .map((row) => [overviewGroupByLabel[safeText(row.label)], safeText(row.label), safeText(row.value)]),
+    investmentRows: detailRows
+      .filter((row) => investmentGroupByLabel[safeText(row.label)])
+      .map((row) => [investmentGroupByLabel[safeText(row.label)], safeText(row.label), safeText(row.value)]),
+  };
+}
+
+async function latestWeeklyReportId(ctx: Context) {
+  const { data, error } = await ctx.serviceClient
+    .from('ll_weekly_reports')
+    .select('id')
+    .order('created_at', { ascending: false })
+    .limit(1)
+    .maybeSingle();
+  if (error || !data?.id) return '';
+  return String(data.id);
+}
+
+async function resolveAssetReference(ctx: Context, payload: Record<string, unknown>) {
+  const inputId = safeText(firstDefined(payload.asset_id, payload.assetId));
+  const inputName = safeText(firstDefined(payload.asset_name, payload.assetName, payload.project_name));
+  const { data } = await ctx.serviceClient
+    .from('ll_assets')
+    .select('asset_id, asset_code, asset_name')
+    .limit(500);
+  const rows = (data || []) as Record<string, unknown>[];
+  const normalizedId = normalizeKey(inputId);
+  const normalizedName = normalizeKey(inputName);
+  const matched = rows.find((row) => {
+    const candidates = [row.asset_id, row.asset_code, row.asset_name].map(normalizeKey).filter(Boolean);
+    return (normalizedId && candidates.includes(normalizedId))
+      || (normalizedName && candidates.some((candidate) => candidate === normalizedName || candidate.includes(normalizedName) || normalizedName.includes(candidate)));
+  });
+  return {
+    assetId: safeText(firstDefined(matched?.asset_id, matched?.asset_code, inputId, inputName)),
+    assetName: safeText(firstDefined(matched?.asset_name, inputName)),
+  };
+}
+
+async function listWeeklyProjectsForLatestReport(ctx: Context) {
+  const reportId = await latestWeeklyReportId(ctx);
+  if (!reportId) return { reportId: '', rows: [] as Record<string, unknown>[] };
+  const { data, error } = await ctx.serviceClient
+    .from('ll_weekly_projects')
+    .select('*')
+    .eq('report_id', reportId)
+    .eq('project_type', 'managementProjects')
+    .limit(200);
+  if (error) throw new Error(`Failed to read weekly projects: ${error.message}`);
+  return { reportId, rows: (data || []) as Record<string, unknown>[] };
+}
+
+function projectMatchesAsset(project: Record<string, unknown>, assetName: string) {
+  const projectName = safeText(project.project_name);
+  const rowJson = project.row_json && typeof project.row_json === 'object' && !Array.isArray(project.row_json)
+    ? project.row_json as Record<string, unknown>
+    : {};
+  const normalizedAsset = normalizeKey(assetName);
+  const candidates = [
+    projectName,
+    rowJson.projectName,
+    rowJson.assetName,
+  ].map(normalizeKey).filter(Boolean);
+  return candidates.some((candidate) => candidate === normalizedAsset || candidate.includes(normalizedAsset) || normalizedAsset.includes(candidate));
+}
+
+async function getWeeklyProjectAssetDetail(ctx: Context, payload: Record<string, unknown>) {
+  if (!hasRole(ctx.role, 'Reader')) return fail(403, 'Insufficient logistics permission', ctx.origin);
+  const assetRef = await resolveAssetReference(ctx, payload);
+  if (!assetRef.assetName && !assetRef.assetId) return fail(400, 'asset_name is required', ctx.origin);
+  if (!canReadRelatedAsset(ctx, assetRef.assetId) && !canReadRelatedAsset(ctx, assetRef.assetName)) {
+    return fail(403, 'Insufficient read permission for this asset project detail', ctx.origin);
+  }
+  const { reportId, rows } = await listWeeklyProjectsForLatestReport(ctx);
+  const matched = rows.find((row) => projectMatchesAsset(row, assetRef.assetName || assetRef.assetId));
+  const rowJson = matched?.row_json && typeof matched.row_json === 'object' && !Array.isArray(matched.row_json)
+    ? matched.row_json as Record<string, unknown>
+    : {};
+  const detail = weeklyProjectRowsFromRowJson(rowJson);
+  await audit(ctx.serviceClient, ctx.user.id, 'weekly-projects/get-asset-detail', 200, { report_id: reportId, asset_name: assetRef.assetName, found: Boolean(matched) });
+  return jsonResponse({
+    ok: true,
+    data: {
+      report_id: reportId,
+      project_id: matched?.id || null,
+      asset_id: assetRef.assetId,
+      asset_name: assetRef.assetName,
+      overview_rows: detail.overviewRows,
+      investment_rows: detail.investmentRows,
+    },
+  }, 200, ctx.origin);
+}
+
+async function saveWeeklyProjectAssetDetail(ctx: Context, payload: Record<string, unknown>) {
+  if (!hasRole(ctx.role, 'Editor')) return fail(403, 'Insufficient logistics permission', ctx.origin);
+  const assetRef = await resolveAssetReference(ctx, payload);
+  if (!assetRef.assetName && !assetRef.assetId) return fail(400, 'asset_name is required', ctx.origin);
+  if (!canWriteRelatedAsset(ctx, assetRef.assetId, assetRef.assetName)) {
+    return fail(403, 'Insufficient update permission for this asset project detail', ctx.origin);
+  }
+  const overviewRows = normalizeProjectRows(payload.overview_rows);
+  const investmentRows = normalizeProjectRows(payload.investment_rows);
+  const { reportId, rows } = await listWeeklyProjectsForLatestReport(ctx);
+  if (!reportId) return fail(404, 'Weekly report not found', ctx.origin);
+  const matched = rows.find((row) => projectMatchesAsset(row, assetRef.assetName || assetRef.assetId));
+  const currentRowJson = matched?.row_json && typeof matched.row_json === 'object' && !Array.isArray(matched.row_json)
+    ? matched.row_json as Record<string, unknown>
+    : {};
+  const nextRowJson = {
+    ...currentRowJson,
+    assetName: assetRef.assetName,
+    assetProjectRows: {
+      overviewRows,
+      investmentRows,
+      updatedAt: new Date().toISOString(),
+      updatedBy: ctx.user.id,
+    },
+  };
+
+  if (matched?.id) {
+    const { error } = await ctx.serviceClient
+      .from('ll_weekly_projects')
+      .update({
+        row_json: nextRowJson,
+        project_name: safeText(matched.project_name) || assetRef.assetName,
+      })
+      .eq('id', matched.id);
+    if (error) return fail(500, 'Failed to update weekly project detail', ctx.origin);
+  } else {
+    const { error } = await ctx.serviceClient
+      .from('ll_weekly_projects')
+      .insert({
+        report_id: reportId,
+        project_type: 'managementProjects',
+        project_name: assetRef.assetName,
+        row_json: nextRowJson,
+      });
+    if (error) return fail(500, 'Failed to insert weekly project detail', ctx.origin);
+  }
+
+  const { rows: readbackRows } = await listWeeklyProjectsForLatestReport(ctx);
+  const readback = readbackRows.find((row) => projectMatchesAsset(row, assetRef.assetName || assetRef.assetId));
+  const readbackJson = readback?.row_json && typeof readback.row_json === 'object' && !Array.isArray(readback.row_json)
+    ? readback.row_json as Record<string, unknown>
+    : {};
+  const readbackDetail = weeklyProjectRowsFromRowJson(readbackJson);
+  await audit(ctx.serviceClient, ctx.user.id, 'weekly-projects/save-asset-detail', 200, {
+    report_id: reportId,
+    asset_id: assetRef.assetId,
+    asset_name: assetRef.assetName,
+    overview_rows: overviewRows.length,
+    investment_rows: investmentRows.length,
+  });
+  return jsonResponse({
+    ok: true,
+    message: 'Weekly project asset detail saved',
+    data: {
+      report_id: reportId,
+      asset_id: assetRef.assetId,
+      asset_name: assetRef.assetName,
+      overview_rows: readbackDetail.overviewRows,
+      investment_rows: readbackDetail.investmentRows,
+    },
+  }, 200, ctx.origin);
+}
+
 async function fetchJsonWithTimeout(url: string, init: RequestInit = {}, timeoutMs = 10_000, retries = 1) {
   let lastError: unknown = null;
   for (let attempt = 0; attempt <= retries; attempt += 1) {
@@ -3197,6 +3413,8 @@ Deno.serve(async (request) => {
   if (action === 'work-platform/board-posts/comment') return commentWorkPlatformBoardPost(ctx, payload);
   if (action === 'work-platform/board-posts/comment-delete') return deleteWorkPlatformBoardComment(ctx, payload);
   if (action === 'weekly-assets/replace-latest') return replaceWeeklyAssets(ctx, payload);
+  if (action === 'weekly-projects/get-asset-detail') return getWeeklyProjectAssetDetail(ctx, payload);
+  if (action === 'weekly-projects/save-asset-detail') return saveWeeklyProjectAssetDetail(ctx, payload);
   if (action === 'opendart/company') return callOpenDart(ctx, payload);
   if (action === 'building-register/summary') return callBuildingRegister(ctx, payload);
   if (action === 'naver/geocode') return callNaverGeocode(ctx, payload);

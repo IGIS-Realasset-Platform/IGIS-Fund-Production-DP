@@ -399,7 +399,7 @@ export default function AuthSetup({ onLogin }) {
                         <>
                             <div className="w-full flex items-center justify-start mt-1 mb-6">
                                 <span className="text-[#333] dark:text-[#E5E5E5] text-[17px] font-semibold tracking-tight transition-colors duration-300">
-                                    물류센터 권한부여 목록에 등록된 이메일을 입력해주세요.
+                                    @igisam.com 도메인의 회사 이메일 계정을 입력해주세요
                                 </span>
                             </div>
 
