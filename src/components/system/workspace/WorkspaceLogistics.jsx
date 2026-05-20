@@ -2171,6 +2171,39 @@ function normalizeServerWorklogTask(row, permission) {
   };
 }
 
+function buildTaskStakeholderOptions(taskRows = [], stakeholderRows = []) {
+  const candidates = [];
+  companyOptionsData.forEach((company) => {
+    candidates.push(company.tenantMasterName, company.companyName, company.displayName);
+  });
+  (stakeholderRows || []).forEach((row) => {
+    candidates.push(row.company_name, row.contact_name, row.stakeholder_name);
+  });
+  [...(weeklyReportData.newProjects || []), ...(weeklyReportData.managementProjects || []), ...(weeklyReportData.assetRows || [])].forEach((row) => {
+    candidates.push(row.stakeholder, row.tenantName, row.companyName, row.ownerName);
+  });
+  (taskRows || []).forEach((task) => {
+    candidates.push(task.companyName, task.stakeholder);
+  });
+  const unique = new Map();
+  candidates
+    .map((value) => cleanDisplay(value, ''))
+    .filter((value) => value && value !== '-')
+    .forEach((value) => {
+      const key = value.replace(/\s+/gu, '').toLowerCase();
+      if (!unique.has(key)) unique.set(key, value);
+    });
+  return [...unique.values()].sort((a, b) => a.localeCompare(b, 'ko-KR'));
+}
+
+function filterTaskStakeholderOptions(options, query) {
+  const normalizedQuery = String(query || '').replace(/\s+/gu, '').toLowerCase();
+  if (!normalizedQuery) return [];
+  return (options || [])
+    .filter((option) => String(option || '').replace(/\s+/gu, '').toLowerCase().includes(normalizedQuery))
+    .slice(0, 8);
+}
+
 function normalizeIdentity(value) {
   return String(value || '').trim().replace(/\t/g, '').toLowerCase();
 }
@@ -2639,6 +2672,52 @@ function MainWorklogRow({ item }) {
   );
 }
 
+function TaskStakeholderSearchInput({ value, onChange, options }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const filteredOptions = useMemo(() => filterTaskStakeholderOptions(options, value), [options, value]);
+  const hasQuery = String(value || '').trim().length > 0;
+
+  return (
+    <div className="relative flex-1">
+      <input
+        type="text"
+        value={value}
+        onChange={(event) => {
+          onChange(event.target.value);
+          setIsOpen(true);
+        }}
+        onFocus={() => setIsOpen(true)}
+        onBlur={() => window.setTimeout(() => setIsOpen(false), 160)}
+        className="w-full rounded-[12px] border border-[#444] bg-[#1A1A1A] px-4 py-3 text-[16px] text-white outline-none focus:border-[#888]"
+        placeholder="이해관계자 검색"
+        autoComplete="off"
+      />
+      {isOpen && hasQuery ? (
+        <div className="absolute left-0 top-full z-50 mt-1 max-h-[190px] w-full overflow-y-auto rounded-[12px] border border-[#444] bg-[#2A2A2A] py-2 shadow-xl">
+          {filteredOptions.length ? filteredOptions.map((option) => (
+            <button
+              key={option}
+              type="button"
+              onMouseDown={(event) => {
+                event.preventDefault();
+                onChange(option);
+                setIsOpen(false);
+              }}
+              className="block w-full cursor-pointer px-4 py-2 text-left text-[14px] text-white transition-colors hover:bg-[#3b82f6]"
+            >
+              {option}
+            </button>
+          )) : (
+            <div className="px-4 py-2 text-[13px] leading-5 text-[#A1A1AA]">
+              검색 결과가 없습니다. 입력한 명칭은 그대로 저장됩니다.
+            </div>
+          )}
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
 export default function WorkspaceLogistics({ currentPath = '' }) {
   const { user, memberInfo } = useAuth();
   const [showAllTasks, setShowAllTasks] = useState(false);
@@ -2664,6 +2743,7 @@ export default function WorkspaceLogistics({ currentPath = '' }) {
   const aiChatScrollRef = useRef(null);
   const [selectedSearchResult, setSelectedSearchResult] = useState(null);
   const [taskRecords, setTaskRecords] = useState([]);
+  const [stakeholderMasterRows, setStakeholderMasterRows] = useState([]);
   const [taskEditTarget, setTaskEditTarget] = useState(null);
   const [taskDraft, setTaskDraft] = useState(null);
   const [taskServerStatus, setTaskServerStatus] = useState(null);
@@ -2712,6 +2792,25 @@ export default function WorkspaceLogistics({ currentPath = '' }) {
   }, [permission, weeklyTasks]);
 
   useEffect(() => {
+    let cancelled = false;
+    const fetchStakeholderMasterRows = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('iota_stakeholder_master')
+          .select('company_name, contact_name, role_category')
+          .limit(5000);
+        if (!cancelled && !error && Array.isArray(data)) setStakeholderMasterRows(data);
+      } catch {
+        if (!cancelled) setStakeholderMasterRows([]);
+      }
+    };
+    fetchStakeholderMasterRows();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  useEffect(() => {
     aiChatScrollRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
   }, [aiChatMessages, aiChatLoading, isAiDockOpen]);
 
@@ -2726,6 +2825,7 @@ export default function WorkspaceLogistics({ currentPath = '' }) {
   const visibleTasks = showAllTasks ? sortedWeeklyTasks : sortedWeeklyTasks.slice(0, 5);
   const topAssets = useMemo(() => [...(permission.managedAssets || [])].sort((a, b) => String(a.assetName || '').localeCompare(String(b.assetName || ''), 'ko-KR')), [permission.managedAssets]);
   const searchResults = useMemo(() => buildLogisticsSearchResults(mainSearchQuery, permission), [mainSearchQuery, permission]);
+  const taskStakeholderOptions = useMemo(() => buildTaskStakeholderOptions(taskRecords, stakeholderMasterRows), [stakeholderMasterRows, taskRecords]);
 
   const canModifyTask = (task) => task?.createdByEmail === permission.email || task?.createdByName === permission.name || permission.role === 'Admin' || permission.role === 'Manager';
   const requestTaskAction = (type, task) => {
@@ -3111,12 +3211,10 @@ export default function WorkspaceLogistics({ currentPath = '' }) {
                     className="flex-[2] rounded-[12px] border border-[#444] bg-[#1A1A1A] px-4 py-3 text-[16px] font-bold text-white outline-none focus:border-[#888]"
                     placeholder="Task 입력"
                   />
-                  <input
-                    type="text"
+                  <TaskStakeholderSearchInput
                     value={taskDraft.companyName}
-                    onChange={(event) => setTaskDraft((draft) => ({ ...draft, companyName: event.target.value }))}
-                    className="flex-1 rounded-[12px] border border-[#444] bg-[#1A1A1A] px-4 py-3 text-[16px] text-white outline-none focus:border-[#888]"
-                    placeholder="이해관계자 검색"
+                    onChange={(nextValue) => setTaskDraft((draft) => ({ ...draft, companyName: nextValue }))}
+                    options={taskStakeholderOptions}
                   />
                 </div>
                 <input
@@ -3258,12 +3356,10 @@ export default function WorkspaceLogistics({ currentPath = '' }) {
                               className="flex-[2] rounded-[12px] border border-[#444] bg-[#1A1A1A] px-4 py-3 text-[16px] font-bold text-white outline-none focus:border-[#888]"
                               placeholder="Task 입력"
                             />
-                            <input
-                              type="text"
+                            <TaskStakeholderSearchInput
                               value={taskDraft.companyName}
-                              onChange={(event) => setTaskDraft((draft) => ({ ...draft, companyName: event.target.value }))}
-                              className="flex-1 rounded-[12px] border border-[#444] bg-[#1A1A1A] px-4 py-3 text-[16px] text-white outline-none focus:border-[#888]"
-                              placeholder="이해관계자 검색"
+                              onChange={(nextValue) => setTaskDraft((draft) => ({ ...draft, companyName: nextValue }))}
+                              options={taskStakeholderOptions}
                             />
                           </div>
                           <input
@@ -4455,12 +4551,7 @@ function HomeDashboard() {
         <SectionHeader
           eyebrow="LOCATION"
           title="포트폴리오 위치"
-          right={(
-            <div className="flex gap-2">
-              <button type="button" onClick={() => setModal({ title: '포트폴리오 위치', content: <div className="grid grid-cols-1 gap-4 xl:grid-cols-[0.82fr_1.18fr]"><PortfolioMapPlot points={readableMapPoints} /><PortfolioAssetTable rows={portfolioRows} /></div> })} className="h-9 px-3 rounded-[8px] bg-white text-[#1F1F1E] text-[13px] font-semibold hover:bg-[#E5E5E5]">지도 크게 보기</button>
-              <button type="button" onClick={() => openTableModal('포트폴리오 자산 목록', ['No.', '자산명', '주소(시군구)', '연면적(평)', '저온창고 비율', 'E. NOC'], portfolioModalRows)} className="h-9 px-3 rounded-[8px] bg-[#30302F] text-white text-[13px] font-semibold hover:bg-[#3A3A3A]">자산 표</button>
-            </div>
-          )}
+          right={<button type="button" onClick={() => openTableModal('포트폴리오 자산 목록', ['No.', '자산명', '주소(시군구)', '연면적(평)', '저온창고 비율', 'E. NOC'], portfolioModalRows)} className="h-9 px-3 rounded-[8px] bg-[#30302F] text-white text-[13px] font-semibold hover:bg-[#3A3A3A]">자산 표</button>}
         />
         <div className="grid grid-cols-1 gap-4 xl:grid-cols-[0.82fr_1.18fr]">
           <PortfolioMapPlot points={readableMapPoints} />

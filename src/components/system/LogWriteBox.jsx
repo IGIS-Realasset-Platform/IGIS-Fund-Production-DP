@@ -11,7 +11,7 @@ const TRIAGE_TYPE_OPTIONS = ['공유', '협업', '리스크 판단', '의사결�
 const ISSUE_STATUS_OPTIONS = ['신규', '검토중', '진행중', '보류', '완료'];
 const PRIORITY_OPTIONS = ['높음', '중간', '낮음'];
 
-function buildLogisticsPeople() {
+function buildLogisticsPeopleLegacy() {
     return (logisticsPermissionData.users || [])
         .map((user) => ({
             company_name: 'IGIS',
@@ -22,7 +22,7 @@ function buildLogisticsPeople() {
         .filter((item) => item.contact_name);
 }
 
-function buildLogisticsCompanyStakeholders() {
+function buildLogisticsCompanyStakeholdersLegacy() {
     const rows = (companyOptionsData || [])
         .map((company) => ({
             company_name: company.tenantMasterName || company.tenantName || company.companyName,
@@ -33,6 +33,60 @@ function buildLogisticsCompanyStakeholders() {
         .filter((item) => item.company_name);
     return Array.from(new Map(rows.map((item) => [item.company_name, item])).values())
         .sort((a, b) => String(a.company_name).localeCompare(String(b.company_name), 'ko-KR'));
+}
+
+function cleanStakeholderText(value) {
+    return String(value || '').trim();
+}
+
+function stakeholderSearchKey(value) {
+    return cleanStakeholderText(value).replace(/\s+/gu, '').toLowerCase();
+}
+
+function splitStakeholderName(value) {
+    const parts = cleanStakeholderText(value).split(' - ').map((part) => part.trim()).filter(Boolean);
+    return {
+        company_name: parts[0] || '',
+        contact_name: parts.slice(1).join(' - '),
+    };
+}
+
+function normalizeStakeholderRow(row = {}) {
+    const parsed = splitStakeholderName(row.stakeholder_name || row.sh_name);
+    return {
+        ...row,
+        company_name: cleanStakeholderText(row.company_name || parsed.company_name),
+        contact_name: cleanStakeholderText(row.contact_name || parsed.contact_name),
+        role_category: cleanStakeholderText(row.role_category),
+    };
+}
+
+function dedupeStakeholderRows(rows = []) {
+    const unique = new Map();
+    rows.map(normalizeStakeholderRow).forEach((row) => {
+        if (!row.company_name && !row.contact_name) return;
+        const key = `${stakeholderSearchKey(row.company_name)}|${stakeholderSearchKey(row.contact_name)}`;
+        if (!unique.has(key)) unique.set(key, row);
+    });
+    return [...unique.values()].sort((a, b) => (
+        `${a.company_name || ''} ${a.contact_name || ''}`.localeCompare(`${b.company_name || ''} ${b.contact_name || ''}`, 'ko-KR')
+    ));
+}
+
+function buildLogisticsPeople(referenceStakeholders = []) {
+    const permissionPeople = buildLogisticsPeopleLegacy();
+    const referencePeople = (referenceStakeholders || [])
+        .map(normalizeStakeholderRow)
+        .filter((item) => item.contact_name);
+    return dedupeStakeholderRows([...permissionPeople, ...referencePeople]);
+}
+
+function buildLogisticsCompanyStakeholders(referenceStakeholders = []) {
+    const tenantCompanies = buildLogisticsCompanyStakeholdersLegacy();
+    const referenceCompanies = (referenceStakeholders || [])
+        .map(normalizeStakeholderRow)
+        .filter((item) => item.company_name);
+    return dedupeStakeholderRows([...tenantCompanies, ...referenceCompanies]);
 }
 
 function normalizeDropdownOptions(options) {
@@ -166,8 +220,8 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
     const [showVisibilityModal, setShowVisibilityModal] = useState(false);
     const [showPublicWarningModal, setShowPublicWarningModal] = useState(false);
     const [visibilitySearchQuery, setVisibilitySearchQuery] = useState('');
-    const logisticsPeople = useMemo(() => buildLogisticsPeople(), []);
-    const logisticsCompanyStakeholders = useMemo(() => buildLogisticsCompanyStakeholders(), []);
+    const logisticsPeople = useMemo(() => buildLogisticsPeople(masterStakeholders), [masterStakeholders]);
+    const logisticsCompanyStakeholders = useMemo(() => buildLogisticsCompanyStakeholders(masterStakeholders), [masterStakeholders]);
     const effectiveMasterStakeholders = isLogisticsMode ? logisticsCompanyStakeholders : (masterStakeholders || []);
     const effectivePeopleStakeholders = isLogisticsMode ? logisticsPeople : (masterStakeholders || []);
     const visibilityGroupOptions = isLogisticsMode
@@ -876,9 +930,9 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                                 placeholder="회사명 검색/입력"
                                 className="bg-[#222] border border-[#333] hover:border-[#444] rounded-[8px] pl-[28px] pr-[12px] py-[6px] text-[13px] text-white w-[160px] focus:outline-none focus:border-[#2997ff] transition-all"
                             />
-                            {showCompanyDropdown && filteredCompanies.length > 0 && (
+                            {showCompanyDropdown && companyQuery && (
                                 <div className="absolute bottom-[40px] left-[0] bg-[#222] border border-[#333] rounded-[8px] py-[6px] w-[200px] max-h-[200px] overflow-y-auto z-50 shadow-xl">
-                                    {filteredCompanies.map((name, i) => (
+                                    {filteredCompanies.length > 0 ? filteredCompanies.map((name, i) => (
                                         <div 
                                             key={i} 
                                             className="px-[12px] py-[8px] text-[13px] text-[#E5E5E5] hover:bg-[#333] cursor-pointer truncate"
@@ -890,7 +944,11 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                                         >
                                             {name}
                                         </div>
-                                    ))}
+                                    )) : (
+                                        <div className="px-[12px] py-[8px] text-[12px] leading-relaxed text-[#A1A1AA]">
+                                            후보에 없습니다. 저장하면 새 회사명으로 함께 기록됩니다.
+                                        </div>
+                                    )}
                                 </div>
                             )}
                         </div>
@@ -918,9 +976,9 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                                 placeholder="담당자명 검색/입력"
                                 className="bg-[#222] border border-[#333] hover:border-[#444] rounded-[8px] px-[12px] py-[6px] text-[13px] text-white w-[160px] focus:outline-none focus:border-[#2997ff] transition-all"
                             />
-                            {showContactDropdown && filteredContacts.length > 0 && (
+                            {showContactDropdown && contactQuery && (
                                 <div className="absolute bottom-[40px] left-[0] bg-[#222] border border-[#333] rounded-[8px] py-[6px] w-[200px] max-h-[200px] overflow-y-auto z-50 shadow-xl">
-                                    {filteredContacts.map((name, i) => (
+                                    {filteredContacts.length > 0 ? filteredContacts.map((name, i) => (
                                         <div 
                                             key={i} 
                                             className="px-[12px] py-[8px] text-[13px] text-[#E5E5E5] hover:bg-[#333] cursor-pointer truncate"
@@ -937,7 +995,11 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                                         >
                                             {name}
                                         </div>
-                                    ))}
+                                    )) : (
+                                        <div className="px-[12px] py-[8px] text-[12px] leading-relaxed text-[#A1A1AA]">
+                                            후보에 없습니다. 저장하면 새 담당자명으로 함께 기록됩니다.
+                                        </div>
+                                    )}
                                 </div>
                             )}
                         </div>

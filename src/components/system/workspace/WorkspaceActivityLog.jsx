@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { supabase } from '../../../utils/supabaseClient';
 import { useAuth } from '../../../context/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -13,6 +13,50 @@ const LOGISTICS_MASTER_STAKEHOLDERS = (logisticsPermissionData.users || []).map(
     email: user.email,
 })).filter((item) => item.contact_name);
 
+function cleanStakeholderText(value) {
+    return String(value || '').trim();
+}
+
+function stakeholderKey(companyName, contactName) {
+    return `${cleanStakeholderText(companyName).replace(/\s+/gu, '').toLowerCase()}|${cleanStakeholderText(contactName).replace(/\s+/gu, '').toLowerCase()}`;
+}
+
+function splitStakeholderName(value) {
+    const parts = cleanStakeholderText(value).split(' - ').map((part) => part.trim()).filter(Boolean);
+    return {
+        company_name: parts[0] || '',
+        contact_name: parts.slice(1).join(' - '),
+    };
+}
+
+function normalizeStakeholderRow(row = {}) {
+    const parsed = splitStakeholderName(row.stakeholder_name || row.sh_name);
+    return {
+        ...row,
+        company_name: cleanStakeholderText(row.company_name || parsed.company_name),
+        contact_name: cleanStakeholderText(row.contact_name || parsed.contact_name),
+        role_category: cleanStakeholderText(row.role_category),
+    };
+}
+
+function stakeholderRowsFromLogs(rows = []) {
+    return (rows || []).flatMap((row) => (
+        row.iota_seoul_log_stakeholders || []
+    ).map((stakeholder) => normalizeStakeholderRow(stakeholder)));
+}
+
+function mergeStakeholderRows(...rowGroups) {
+    const unique = new Map();
+    rowGroups.flat().map(normalizeStakeholderRow).forEach((row) => {
+        if (!row.company_name && !row.contact_name) return;
+        const key = stakeholderKey(row.company_name, row.contact_name);
+        if (!unique.has(key)) unique.set(key, row);
+    });
+    return [...unique.values()].sort((a, b) => (
+        `${a.company_name || ''} ${a.contact_name || ''}`.localeCompare(`${b.company_name || ''} ${b.contact_name || ''}`, 'ko-KR')
+    ));
+}
+
 export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, assetOptions = [] }) {
     const { memberInfo } = useAuth();
     const isLogisticsMode = workspaceCode === 'WS_LOGISTICS';
@@ -25,6 +69,11 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, as
     const [expandedLogs, setExpandedLogs] = useState({});
     const [logSearchQuery, setLogSearchQuery] = useState('');
     const [masterStakeholders, setMasterStakeholders] = useState([]);
+    const effectiveMasterStakeholders = useMemo(() => (
+        isLogisticsMode
+            ? mergeStakeholderRows(masterStakeholders, LOGISTICS_MASTER_STAKEHOLDERS, stakeholderRowsFromLogs(logs))
+            : masterStakeholders
+    ), [isLogisticsMode, logs, masterStakeholders]);
     
     // Delete states
     const [logToDelete, setLogToDelete] = useState(null);
@@ -80,8 +129,8 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, as
 
     const renderLogTextWithMentions = (text) => {
         if (!text) return null;
-        if (!masterStakeholders || masterStakeholders.length === 0) return text;
-        const names = Array.from(new Set(masterStakeholders.map(s => s.contact_name).filter(Boolean)));
+        if (!effectiveMasterStakeholders || effectiveMasterStakeholders.length === 0) return text;
+        const names = Array.from(new Set(effectiveMasterStakeholders.map(s => s.contact_name).filter(Boolean)));
         if (names.length === 0) return text;
 
         const escapedNames = names.map(n => n.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
@@ -97,13 +146,19 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, as
     };
 
     const fetchMasterStakeholders = async () => {
-        const { data, error } = await supabase
-            .from('iota_stakeholder_master')
-            .select('*')
-            .limit(5000);
-        if (data && !error) {
-            setMasterStakeholders(data);
+        try {
+            const { data, error } = await supabase
+                .from('iota_stakeholder_master')
+                .select('*')
+                .limit(5000);
+            if (data && !error) {
+                setMasterStakeholders(isLogisticsMode ? mergeStakeholderRows(data, LOGISTICS_MASTER_STAKEHOLDERS) : data);
+                return;
+            }
+        } catch (error) {
+            console.error('Master stakeholder fetch error:', error);
         }
+        if (isLogisticsMode) setMasterStakeholders(LOGISTICS_MASTER_STAKEHOLDERS);
     };
 
     const fetchLogs = async () => {
@@ -134,8 +189,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, as
 
     useEffect(() => {
         fetchLogs();
-        if (isLogisticsMode) setMasterStakeholders(LOGISTICS_MASTER_STAKEHOLDERS);
-        else fetchMasterStakeholders();
+        fetchMasterStakeholders();
     }, []);
 
     const handleDelete = async (logId) => {
@@ -248,8 +302,8 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, as
     };
 
     const getCellName = (name) => {
-        if (!masterStakeholders || masterStakeholders.length === 0) return '기타';
-        const stakeholder = masterStakeholders.find(s => s.contact_name === name);
+        if (!effectiveMasterStakeholders || effectiveMasterStakeholders.length === 0) return '기타';
+        const stakeholder = effectiveMasterStakeholders.find(s => s.contact_name === name);
         if (stakeholder && stakeholder.role_category && stakeholder.role_category !== 'IGIS 내부인력') {
             return stakeholder.role_category;
         }
@@ -331,7 +385,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, as
         if (hasIndivs && perms.individuals.includes(myName)) return true;
         
         if (hasGroups) {
-            const myStakeholderRecords = masterStakeholders.filter(s => s.contact_name === myName);
+            const myStakeholderRecords = effectiveMasterStakeholders.filter(s => s.contact_name === myName);
             const myRoles = myStakeholderRecords.map(s => s.role_category).filter(Boolean);
             
             for (const group of perms.groups) {
@@ -416,7 +470,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, as
                 <div className="w-full flex flex-col mt-0">{/* Task Input Form */}
             <LogWriteBox 
                 memberInfo={memberInfo}
-                masterStakeholders={masterStakeholders}
+                masterStakeholders={effectiveMasterStakeholders}
                 fetchLogs={fetchLogs}
                 fetchMasterStakeholders={fetchMasterStakeholders}
                 workspaceCode={workspaceCode}
@@ -832,7 +886,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, as
                     <div className="w-full max-w-[1000px] max-h-[90vh] overflow-y-auto rounded-[24px]">
                         <LogWriteBox 
                             memberInfo={memberInfo}
-                            masterStakeholders={masterStakeholders}
+                            masterStakeholders={effectiveMasterStakeholders}
                             fetchLogs={fetchLogs}
                             fetchMasterStakeholders={fetchMasterStakeholders}
                             workspaceCode={workspaceCode}
