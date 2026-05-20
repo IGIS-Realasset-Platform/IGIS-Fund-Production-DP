@@ -927,7 +927,7 @@ export default function WorkspacePm() {
                                 className="w-full bg-[#1A1A1A] border border-[#333] rounded-[8px] pl-[12px] pr-[30px] py-[10px] text-[13px] text-white outline-none focus:border-[#2997ff] appearance-none cursor-pointer"
                             >
                                 <option value="" disabled>이해관계자 분류 선택</option>
-                                <option value="SI">SI</option>
+                                <option value="SI">LP I 대주 I SI</option>
                                 <option value="잠재임차사">잠재임차사</option>
                                 <option value="운영 파트너">운영 파트너</option>
                             </select>

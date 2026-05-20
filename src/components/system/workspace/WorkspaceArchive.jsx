@@ -301,34 +301,35 @@ export default function WorkspacePmArchive() {
                     ) : snapshots.length === 0 ? (
                         <div className="text-[#86868B] text-[13px]">저장된 스냅샷이 없습니다.</div>
                     ) : (
-                        Object.keys(grouped).sort((a,b) => b.localeCompare(a)).map(groupKey => {
-                            const groupIds = grouped[groupKey].map(s => s.id);
-                            const allSelected = groupIds.length > 0 && groupIds.every(id => selectedSnapshotIds.includes(id));
-                            return (
-                            <div key={groupKey}>
-                                <div className="flex justify-between items-center mb-3">
-                                    <h3 className="text-[#86868B] text-[12px] font-bold uppercase">{groupKey}</h3>
-                                    <button 
-                                        onClick={() => {
-                                            if (allSelected) {
-                                                const currentWeekInfo = generateWeekInfo(new Date());
-                                                const currentWeekSnap = grouped[groupKey].find(s => s.week_label === currentWeekInfo.weekLabel) || grouped[groupKey][0];
-                                                if (currentWeekSnap) {
-                                                    setSelectedSnapshotIds(prev => {
-                                                        const filtered = prev.filter(id => !groupIds.includes(id));
-                                                        return [...filtered, currentWeekSnap.id];
-                                                    });
-                                                }
-                                            } else {
-                                                setSelectedSnapshotIds(prev => [...new Set([...prev, ...groupIds])]);
-                                            }
-                                        }} 
-                                        className="text-[#86868B] text-[11px] font-bold hover:text-[#E5E5E5] bg-[#333] hover:bg-[#444] py-1 rounded-[4px] transition-colors w-[76px] text-center"
-                                    >
-                                        {allSelected ? '전체선택 해제' : '전체선택'}
-                                    </button>
-                                </div>
-                                <div className="flex flex-col gap-1">
+                        (() => {
+                            const sortedGroupKeys = Object.keys(grouped).sort((a,b) => b.localeCompare(a));
+                            const allSnapshotIds = sortedGroupKeys.flatMap(k => grouped[k].map(s => s.id));
+                            const isAllSelected = allSnapshotIds.length > 0 && allSnapshotIds.every(id => selectedSnapshotIds.includes(id));
+                            
+                            return sortedGroupKeys.map((groupKey, index) => {
+                                const groupIds = grouped[groupKey].map(s => s.id);
+                                return (
+                                <div key={groupKey}>
+                                    <div className="flex justify-between items-center mb-3">
+                                        <h3 className="text-[#86868B] text-[12px] font-bold uppercase">{groupKey}</h3>
+                                        {index === 0 && (
+                                            <button 
+                                                onClick={() => {
+                                                    if (isAllSelected) {
+                                                        if (allSnapshotIds.length > 0) {
+                                                            setSelectedSnapshotIds([allSnapshotIds[0]]);
+                                                        }
+                                                    } else {
+                                                        setSelectedSnapshotIds([...allSnapshotIds]);
+                                                    }
+                                                }} 
+                                                className="text-[#86868B] text-[11px] font-bold hover:text-[#E5E5E5] bg-[#333] hover:bg-[#444] py-1 rounded-[4px] transition-colors w-[76px] text-center shrink-0"
+                                            >
+                                                {isAllSelected ? '전체선택 해제' : '전체선택'}
+                                            </button>
+                                        )}
+                                    </div>
+                                    <div className="flex flex-col gap-1">
                                     {grouped[groupKey].map(snap => (
                                         <button 
                                             key={snap.id}
@@ -343,6 +344,7 @@ export default function WorkspacePmArchive() {
                             </div>
                         )
                         })
+                    })()
                     )}
                 </div>
             </div>

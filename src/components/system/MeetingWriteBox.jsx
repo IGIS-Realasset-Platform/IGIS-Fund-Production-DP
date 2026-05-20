@@ -3,10 +3,10 @@ import { supabase } from '../../utils/supabaseClient';
 import { executeWithTimeout } from '../../utils/supabaseHelper';
 import { motion, AnimatePresence } from 'framer-motion';
 
-export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs, fetchMasterStakeholders, workspaceCode, workspaceLabel, defaultExpanded = false, editMode = false, initialData = null, onCancel = null, onSuccess = null }) {
+export default function MeetingWriteBox({ memberInfo, masterStakeholders, fetchLogs, fetchMasterStakeholders, workspaceCode, workspaceLabel, defaultExpanded = false, editMode = false, initialData = null, onCancel = null, onSuccess = null }) {
     // Form States
     const [projectId, setProjectId] = useState('IOTA_COMMON');
-    const [triageType, setTriageType] = useState('공유');
+    const [triageType, setTriageType] = useState('정기 회의');
     const [issueStatus, setIssueStatus] = useState('검토중');
     const [priority, setPriority] = useState('중간');
     const [stakeholderCat, setStakeholderCat] = useState('');
@@ -67,12 +67,12 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
     useEffect(() => {
         if (!editMode) {
             try {
-                const draft = localStorage.getItem('iota_log_draft');
+                const draft = localStorage.getItem('iota_meeting_draft');
                 if (draft) {
                     const parsed = JSON.parse(draft);
                     if (parsed.title) setTitle(parsed.title);
                     if (parsed.content) setContent(parsed.content);
-                    localStorage.removeItem('iota_log_draft');
+                    localStorage.removeItem('iota_meeting_draft');
                 }
             } catch(e) {}
         }
@@ -81,10 +81,10 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
     // Edit Mode Initialization
     useEffect(() => {
         if (editMode && initialData) {
-            setTitle(initialData.summary || '');
-            setContent(initialData.raw_text || '');
-            if (initialData.work_date) {
-                setWorkDate(initialData.work_date);
+            setTitle(initialData.title || '');
+            setContent(initialData.content || '');
+            if (initialData.meeting_date) {
+                setWorkDate(initialData.meeting_date);
             }
             
             if (initialData.metadata) {
@@ -202,7 +202,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
 
     const renderHighlightedText = () => {
         if (!content) {
-            return <span className="text-[#bbb9af]">진행 이력, 협업 요청, 리스크 판단 필요사항, 의사결정 필요항목을 입력하세요. (@를 입력하여 담당자를 멘션할 수 있습니다)</span>;
+            return <span className="text-[#bbb9af]">회의 안건, 주요 논의사항, 결정사항 및 Action Item을 입력하세요. (@를 입력하여 담당자를 멘션할 수 있습니다)</span>;
         }
 
         if (mentionedNames.length === 0) {
@@ -318,21 +318,22 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
 
         try {
             const isEditing = editMode && initialData;
-            const logId = isEditing ? initialData.log_id : `iota_issue_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
-            const writerId = isEditing ? initialData.writer_staff_id : (memberInfo?.email || 'unknown');
-            const writerName = isEditing ? initialData.writer_name : (memberInfo?.staff_name || '익명');
+            const logId = isEditing ? initialData.id : `iota_issue_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
+            const writerId = isEditing ? initialData.author_id : (memberInfo?.email || 'unknown');
+            const writerName = isEditing ? initialData.author_name : (memberInfo?.staff_name || '익명');
 
             const logData = {
-                work_date: workDate,
-                raw_text: content,
-                summary: title,
+                meeting_date: workDate,
+                content: content,
+                title: title,
+                meeting_type: workspaceLabel,
+                meeting_category: triageType,
                 updated_at: new Date().toISOString(),
                 metadata: {
                     ...(isEditing ? initialData.metadata : {}),
                     workspace_code: workspaceCode,
                     workspace_label: workspaceLabel,
                     project_name: projectId === 'IOTA_COMMON' ? 'IOTA 공통' : projectId === 'P00030' ? '427 PFV' : projectId === 'P00037' ? '816 PFV' : '421 Fund',
-                    triage_type: triageType,
                     issue_status: issueStatus,
                     priority: priority,
                     permissions: {
@@ -343,25 +344,26 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                 }
             };
 
-            // 1. Update or Insert into iota_seoul_logs
+            // 1. Update or Insert into iota_meeting_logs
             if (isEditing) {
-                const { error: logError } = await executeWithTimeout(supabase.from('iota_seoul_logs').update(logData).eq('log_id', logId));
+                const { error: logError } = await executeWithTimeout(supabase.from('iota_meeting_logs').update(logData).eq('id', logId));
                 if (logError) throw logError;
                 
-                await executeWithTimeout(supabase.from('iota_seoul_log_links').delete().eq('log_id', logId));
-                await executeWithTimeout(supabase.from('iota_seoul_log_stakeholders').delete().eq('log_id', logId));
+                // await executeWithTimeout(supabase.from('iota_seoul_log_links').delete().eq('log_id', logId));
+                // await executeWithTimeout(supabase.from('iota_seoul_log_stakeholders').delete().eq('log_id', logId));
             } else {
-                const { error: logError } = await executeWithTimeout(supabase.from('iota_seoul_logs').insert({
+                const { error: logError } = await executeWithTimeout(supabase.from('iota_meeting_logs').insert({
                     ...logData,
-                    log_id: logId,
-                    writer_staff_id: writerId,
-                    writer_name: writerName,
+                    id: logId,
+                    author_id: writerId,
+                    author_name: writerName,
                     input_status: 'submitted',
                     source_system: workspaceCode === 'WS_PM' ? 'workspace_pm_form' : 'decision_log_form',
                 }));
                 if (logError) throw logError;
             }
 
+            /*
             // 2. Insert into iota_seoul_log_links
             const { error: linkError } = await executeWithTimeout(supabase.from('iota_seoul_log_links').insert({
                 link_id: `link_${logId}`,
@@ -370,6 +372,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                 relation_type: 'direct_input'
             }));
             if (linkError) throw linkError;
+            */
 
             // 3. Update master DB if new
             if (companyQuery) {
@@ -388,6 +391,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                 }
             }
 
+            /*
             // 4. Insert into iota_seoul_log_stakeholders
             if (stakeholderCat || companyQuery || contactQuery) {
                 const combinedName = [companyQuery, contactQuery].filter(Boolean).join(' - ');
@@ -399,6 +403,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                 }));
                 if (shError) throw shError;
             }
+            */
 
             // Success, reset form
             if (!editMode) {
@@ -424,7 +429,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
         } catch (error) {
             console.error('Error saving log:', error);
             alert('저장 중 오류가 발생했습니다: ' + (error.message || JSON.stringify(error)));
-            // localStorage.setItem('iota_log_draft', JSON.stringify({ title, content }));
+            // localStorage.setItem('iota_meeting_draft', JSON.stringify({ title, content }));
             // window.location.reload();
         } finally {
             setIsSubmitting(false);
@@ -493,7 +498,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
 
     const displayLabel = workspaceLabel ? workspaceLabel.split('-')[0].trim() : '';
 
-    const collapsedText = displayLabel ? `${displayLabel}${getParticle(displayLabel)} 협업 및 논의가 필요한 사항, 또는 공유할 내용을 등록하세요.` : '주요 공유사항, 협업 및 논의가 필요한 내용을 등록하세요.';
+    const collapsedText = displayLabel ? `${displayLabel}${getParticle(displayLabel)} 회의 안건 및 주요 논의사항을 기록하세요.` : '주요 회의 안건, 논의 내용 및 의사결정 사항을 등록하세요.';
 
     return (
         <div className={`w-full rounded-[24px] p-[1px] bg-gradient-to-br from-[#d6efe9] via-[#82afb9] to-[#4c6e86] mb-[11px] ${editMode ? 'shadow-2xl' : ''}`}>
@@ -521,7 +526,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                                         onClick={(e) => { e.stopPropagation(); setIsExpanded(true); }}
                                         className="flex items-center px-[12px] py-[6px] rounded-[7px] text-[12px] font-bold cursor-pointer transition-colors bg-[#222] text-[#E5E5E5] hover:bg-[#333]"
                                     >
-                                        글작성하기
+                                        회의록 작성
                                     </button>
                                 </div>
                             </>
@@ -536,36 +541,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
 
                         <div className="w-px h-[14px] bg-[#333] mx-[2px]"></div>
 
-                    <label className="relative flex items-center gap-[8px] cursor-pointer group">
-                        <span className="text-[#86868B] text-[14px] font-medium shrink-0 group-hover:text-white transition-colors">활용목적</span>
-                        <div className="inline-flex items-center text-[#E5E5E5] text-[14px] pr-[16px] group-hover:text-white transition-colors" style={{ backgroundImage: iconChevronDark, backgroundRepeat: 'no-repeat', backgroundPosition: 'right center' }}>
-                            {triageType}
-                        </div>
-                        <select value={triageType} onChange={(e) => setTriageType(e.target.value)} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer appearance-none">
-                            <option value="공유">공유</option>
-                            <option value="협업">협업</option>
-                            <option value="리스크 판단">리스크 판단</option>
-                            <option value="의사결정">의사결정</option>
-                        </select>
-                    </label>
 
-                    <div className="w-px h-[14px] bg-[#333] mx-[2px]"></div>
-
-                    <label className="relative flex items-center gap-[8px] cursor-pointer group">
-                        <span className="text-[#86868B] text-[14px] font-medium shrink-0 group-hover:text-white transition-colors">진행상태</span>
-                        <div className="inline-flex items-center text-[#E5E5E5] text-[14px] pr-[16px] group-hover:text-white transition-colors" style={{ backgroundImage: iconChevronDark, backgroundRepeat: 'no-repeat', backgroundPosition: 'right center' }}>
-                            {issueStatus}
-                        </div>
-                        <select value={issueStatus} onChange={(e) => setIssueStatus(e.target.value)} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer appearance-none">
-                            <option value="신규">신규</option>
-                            <option value="검토중">검토중</option>
-                            <option value="진행중">진행중</option>
-                            <option value="보류">보류</option>
-                            <option value="완료">완료</option>
-                        </select>
-                    </label>
-
-                    <div className="w-px h-[14px] bg-[#333] mx-[2px]"></div>
 
                     <label className="relative flex items-center gap-[8px] cursor-pointer group">
                         <span className="text-[#86868B] text-[14px] font-medium shrink-0 group-hover:text-white transition-colors">중요도</span>
@@ -662,10 +638,8 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                             </select>
 
                             <select value={triageType} onChange={(e) => setTriageType(e.target.value)} className="bg-[#222] border border-[#444] rounded-[8px] px-[12px] py-[6px] text-[#E5E5E5] text-[13px] outline-none cursor-pointer appearance-none pr-[28px]" style={{ backgroundImage: iconChevronDark, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 8px center' }}>
-                                <option value="공유">공유</option>
-                                <option value="협업">협업</option>
-                                <option value="리스크 판단">리스크 판단</option>
-                                <option value="의사결정">의사결정</option>
+                                <option value="정기 회의">정기 회의</option>
+                                <option value="비정기 회의">비정기 회의</option>
                             </select>
 
                             <select value={issueStatus} onChange={(e) => setIssueStatus(e.target.value)} className="bg-[#222] border border-[#444] rounded-[8px] px-[12px] py-[6px] text-[#E5E5E5] text-[13px] outline-none cursor-pointer appearance-none pr-[28px]" style={{ backgroundImage: iconChevronDark, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 8px center' }}>
@@ -889,7 +863,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                         type="button"
                         onClick={() => setShowFileSecurityModal(true)}
                         disabled={isUploadingFile}
-                        className="px-[16px] py-[10px] rounded-[10px] border border-[#444] text-[#A1A1AA] font-bold text-[13px] hover:bg-[#333] hover:text-[#E5E5E5] transition-colors cursor-pointer mr-2 flex items-center gap-2"
+                        className="hidden"
                     >
                         {isUploadingFile ? '업로드 중...' : '파일 첨부'}
                     </button>

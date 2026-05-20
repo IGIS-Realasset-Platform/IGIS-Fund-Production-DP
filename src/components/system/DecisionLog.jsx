@@ -927,20 +927,19 @@ export default function DecisionLog() {
                                 const isExpanded = expandedCadenceRow === rowId;
                                 return (
                                     <React.Fragment key={idx}>
-                                        <tr className="hover:bg-[#333] transition-colors group cursor-pointer" onClick={() => setExpandedCadenceRow(isExpanded ? null : rowId)}>
+                                        <tr 
+                                            className="hover:bg-[#333] transition-colors group cursor-pointer" 
+                                            onClick={() => {
+                                                const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
+                                                window.location.href = `${base}/platform/iotaseoul/meeting-logs?type=${encodeURIComponent(row.meeting)}`;
+                                            }}
+                                        >
                                             <td className="pl-[22px] pr-[12px] py-[12px] text-[17px] text-[#E5E5E5] group-hover:text-white transition-colors text-left font-semibold whitespace-pre-wrap">{row.meeting}</td>
-                                            <td className="pl-[22px] pr-[12px] py-[12px] text-[13px] transition-colors"><span className="inline-block px-[10px] py-[4px] rounded-[6px] bg-[#333] text-[#c3c2b7] group-hover:bg-[#444] group-hover:text-white transition-colors whitespace-nowrap">{row.period}</span></td>
+                                            <td className="pl-[22px] pr-[12px] py-[12px] text-[13px] transition-colors"><span className="inline-block px-[10px] py-[4px] rounded-[6px] bg-[#333] text-[#c3c2b7] group-hover:bg-[#2997ff] group-hover:text-white transition-colors whitespace-nowrap">{row.period}</span></td>
                                             <td className="pl-[22px] pr-[12px] py-[12px] text-[13px] font-bold text-white whitespace-nowrap transition-colors">{row.leader}</td>
                                             <td className="pl-[42px] pr-[12px] py-[12px] text-[13px] text-[#c3c2b7] text-left group-hover:text-[#E5E5E5] transition-colors">{row.attendees}</td>
                                             <td className="pl-[22px] pr-[12px] py-[12px] text-[13px] text-[#c3c2b7] text-left group-hover:text-[#E5E5E5] transition-colors">{row.output}</td>
                                         </tr>
-                                        {isExpanded && (
-                                            <tr className="bg-[#1f1f1e] animate-fade-in">
-                                                <td colSpan="5" className="pl-[22px] pr-[12px] py-[16px] text-[#ff453a] text-[14px] font-bold border-t border-[#3c3c3c]">
-                                                    최초 회의 개최 후 등록 예정입니다.
-                                                </td>
-                                            </tr>
-                                        )}
                                     </React.Fragment>
                                 );
                             })}
