@@ -79,6 +79,7 @@ const DATA_STATUS = [
 
 const PRIMARY_BLUE_BUTTON_CLASS = 'border-[#3b82f6]/30 bg-[#3b82f6]/20 text-[#60a5fa] hover:bg-[#3b82f6]/30';
 const DARK_BUTTON_CLASS = 'border-[#333333] bg-[#222] text-[#D1D1D6] hover:border-[#555] hover:text-white';
+const DASHBOARD_READ_MODE = import.meta.env.VITE_LOGISTICS_DASHBOARD_READ_MODE || 'shadow';
 const DATA_QUALITY_ALLOWED_NAMES = new Set(['이시정', '전기영', '이관용']);
 const DASHBOARD_BASIS_LABEL = '2026년 4월 기준';
 const USE_CATEGORY_COLORS = {
@@ -120,6 +121,98 @@ const WEEKLY_ASSET_DB_CONTEXT = {
 function pathFor(suffix = '') {
   const base = LOGISTICS_INTERNAL_BASE;
   return suffix ? `${base}/${suffix}` : base;
+}
+
+function numericDiff(expected, actual) {
+  const left = Number(expected);
+  const right = Number(actual);
+  if (!Number.isFinite(left) || !Number.isFinite(right)) return null;
+  return right - left;
+}
+
+function storeDashboardShadowDiff(report) {
+  if (typeof window === 'undefined') return;
+  const key = '__logisticsDashboardShadowDiffs';
+  const current = Array.isArray(window[key]) ? window[key] : [];
+  window[key] = [...current.slice(-49), report];
+}
+
+function useDashboardReadShadow(action, payload, staticSummary, enabled = true) {
+  const payloadKey = JSON.stringify(payload || {});
+  const summaryKey = JSON.stringify(staticSummary || {});
+
+  useEffect(() => {
+    if (!enabled || DASHBOARD_READ_MODE !== 'shadow') return undefined;
+    let cancelled = false;
+    const runShadowRead = async () => {
+      const requestPayload = JSON.parse(payloadKey || '{}');
+      const expectedSummary = JSON.parse(summaryKey || '{}');
+      try {
+        const { data, error } = await supabase.functions.invoke('ll-dashboard-api', {
+          body: { action, payload: requestPayload },
+        });
+        if (error) throw error;
+        if (data?.ok === false) {
+          const status = Number(data?.status || data?.detail?.status || 0);
+          const authFailure = status === 401 || status === 403 || /401|403|permission|authorization/iu.test(String(data?.message || ''));
+          const report = {
+            action,
+            mode: 'shadow',
+            ok: false,
+            fallback_allowed: !authFailure,
+            message: data.message || 'Supabase shadow read failed',
+            checked_at: new Date().toISOString(),
+          };
+          if (!cancelled) {
+            storeDashboardShadowDiff(report);
+            console.warn('[logistics-dashboard-shadow]', report);
+          }
+          return;
+        }
+        const serverSummary = data?.data?.summary || {};
+        const diffs = Object.fromEntries(Object.keys(expectedSummary).map((key) => [
+          key,
+          {
+            static_value: expectedSummary[key],
+            supabase_value: serverSummary[key],
+            diff: numericDiff(expectedSummary[key], serverSummary[key]),
+          },
+        ]));
+        const report = {
+          action,
+          mode: 'shadow',
+          ok: true,
+          source: data?.source || 'supabase',
+          basis_date: data?.basis_date,
+          scope_hash: data?.scope?.scope_hash,
+          diffs,
+          evidence: data?.evidence,
+          checked_at: new Date().toISOString(),
+        };
+        if (!cancelled) {
+          storeDashboardShadowDiff(report);
+          console.info('[logistics-dashboard-shadow]', report);
+        }
+      } catch (error) {
+        const report = {
+          action,
+          mode: 'shadow',
+          ok: false,
+          fallback_allowed: true,
+          message: error?.message || 'Supabase shadow read failed',
+          checked_at: new Date().toISOString(),
+        };
+        if (!cancelled) {
+          storeDashboardShadowDiff(report);
+          console.warn('[logistics-dashboard-shadow]', report);
+        }
+      }
+    };
+    runShadowRead();
+    return () => {
+      cancelled = true;
+    };
+  }, [action, enabled, payloadKey, summaryKey]);
 }
 
 function memberAvatarSource(memberInfo, fallbackName) {
@@ -620,6 +713,50 @@ function normalizeWeeklyAssetRows(rows) {
     });
   });
   return [...grouped.values()];
+}
+
+function useLatestWeeklyAssetRows(permission, memberInfo) {
+  const [rows, setRows] = useState([]);
+  const [status, setStatus] = useState('idle');
+  useEffect(() => {
+    let cancelled = false;
+    const fetchRows = async () => {
+      setStatus('loading');
+      let nextRows = [];
+      try {
+        const { data, error } = await supabase.functions.invoke('ll-dashboard-api', {
+          body: { action: 'weekly-assets/latest', payload: {} },
+        });
+        if (error || data?.ok === false) throw error || new Error(data?.message || 'weekly asset read failed');
+        nextRows = normalizeWeeklyAssetRows(data?.data?.rows || []);
+      } catch {
+        nextRows = [];
+      }
+      if (!nextRows.length) {
+        try {
+          const { data, error } = await supabase.functions.invoke('ll-dashboard-api', {
+            body: {
+              action: 'weekly-assets/latest-preview',
+              payload: { email: permission?.email || memberInfo?.email || '' },
+            },
+          });
+          if (error || data?.ok === false) throw error || new Error(data?.message || 'weekly asset preview read failed');
+          nextRows = normalizeWeeklyAssetRows(data?.data?.rows || []);
+        } catch {
+          nextRows = [];
+        }
+      }
+      if (!cancelled) {
+        setRows(nextRows);
+        setStatus(nextRows.length ? 'live' : 'empty');
+      }
+    };
+    fetchRows();
+    return () => {
+      cancelled = true;
+    };
+  }, [memberInfo?.email, permission?.email, permission?.role]);
+  return { rows, status };
 }
 
 function projectSummaryRows(row, section) {
@@ -1281,6 +1418,7 @@ function AssetProjectToggleTable({ id, title, rows, openSections, onToggle, isEd
 function AssetProjectInfoPanel({ assetName }) {
   const { memberInfo } = useAuth();
   const permission = useMemo(() => resolveLogisticsPermission(memberInfo), [memberInfo]);
+  const { rows: latestWeeklyAssetRows } = useLatestWeeklyAssetRows(permission, memberInfo);
   const [openSections, setOpenSections] = useState({ overview: false, investment: false });
   const [isEditing, setIsEditing] = useState(false);
   const [saveStatus, setSaveStatus] = useState(null);
@@ -1288,10 +1426,13 @@ function AssetProjectInfoPanel({ assetName }) {
   const [draftRows, setDraftRows] = useState({ overview: [], investment: [] });
   const toggleSection = (id) => setOpenSections((current) => ({ ...current, [id]: !current[id] }));
   const project = useMemo(() => findManagementProjectForAsset(assetName), [assetName]);
+  const weeklyAssetRowsForSource = useMemo(() => (
+    latestWeeklyAssetRows.length ? latestWeeklyAssetRows : normalizeWeeklyAssetRows(weeklyReportData.assetRows || [])
+  ), [latestWeeklyAssetRows]);
   const weeklyRow = useMemo(() => (
-    normalizeWeeklyAssetRows(weeklyReportData.assetRows || [])
+    weeklyAssetRowsForSource
       .find((row) => normalizeAssetNameKey(row.assetName) === normalizeAssetNameKey(assetName))
-  ), [assetName]);
+  ), [assetName, weeklyAssetRowsForSource]);
   void splitManagementProjectRows;
   const finalOverviewRows = useMemo(() => buildAssetOverviewRows(assetName, project, weeklyRow || {}), [assetName, project, weeklyRow]);
   const finalInvestmentRows = useMemo(() => buildAssetInvestmentRows(project, weeklyRow || {}), [project, weeklyRow]);
@@ -4052,6 +4193,42 @@ function escapeHtmlAttribute(value) {
   return escapeHtml(value).replace(/`/g, '&#96;');
 }
 
+function buildPrintableMapTiles(latitude, longitude, zoom = 13) {
+  const lat = Math.max(-85.05112878, Math.min(85.05112878, Number(latitude)));
+  const lng = Number(longitude);
+  if (!Number.isFinite(lat) || !Number.isFinite(lng)) return [];
+  const tileSize = 256;
+  const width = 960;
+  const height = 520;
+  const scale = 2 ** zoom;
+  const latRad = (lat * Math.PI) / 180;
+  const worldX = ((lng + 180) / 360) * scale * tileSize;
+  const worldY = ((1 - Math.log(Math.tan(latRad) + (1 / Math.cos(latRad))) / Math.PI) / 2) * scale * tileSize;
+  const startX = worldX - (width / 2);
+  const startY = worldY - (height / 2);
+  const startTileX = Math.floor(startX / tileSize);
+  const endTileX = Math.floor((startX + width) / tileSize);
+  const startTileY = Math.floor(startY / tileSize);
+  const endTileY = Math.floor((startY + height) / tileSize);
+  const maxTile = scale - 1;
+  const tiles = [];
+  for (let x = startTileX; x <= endTileX; x += 1) {
+    for (let y = startTileY; y <= endTileY; y += 1) {
+      if (y < 0 || y > maxTile) continue;
+      const wrappedX = ((x % scale) + scale) % scale;
+      tiles.push({
+        key: `${zoom}-${wrappedX}-${y}`,
+        src: `https://tile.openstreetmap.org/${zoom}/${wrappedX}/${y}.png`,
+        left: ((x * tileSize - startX) / width) * 100,
+        top: ((y * tileSize - startY) / height) * 100,
+        width: (tileSize / width) * 100,
+        height: (tileSize / height) * 100,
+      });
+    }
+  }
+  return tiles;
+}
+
 function PortfolioMapSchematic({ points, onAssetClick = navigateToAsset }) {
   const validPoints = (points || []).filter((point) => point.latitude != null && point.longitude != null);
   if (!validPoints.length) return <div className="text-[13px] text-[#86868B]">좌표가 등록된 자산이 없습니다.</div>;
@@ -4257,36 +4434,51 @@ function PrintableAssetMap({ point }) {
   const safeLng = Number.isFinite(longitude) ? longitude.toFixed(6) : '-';
   const mapLabel = point.assetName || '선택 자산';
   const address = point.address || '주소 미입력';
+  const tiles = buildPrintableMapTiles(latitude, longitude, 13);
   return (
     <div className="pdf-static-map-print rounded-[14px] border border-[#D9D9D9] bg-white p-3 text-[#111]">
-      <svg viewBox="0 0 960 520" role="img" aria-label={`${mapLabel} 위치 지도`} className="h-auto w-full overflow-hidden rounded-[10px] border border-[#D9D9D9] bg-[#F7F8FA]">
-        <defs>
-          <pattern id="pdf-map-grid" width="56" height="56" patternUnits="userSpaceOnUse">
-            <path d="M 56 0 L 0 0 0 56" fill="none" stroke="#D8DEE8" strokeWidth="1" />
-          </pattern>
-          <filter id="pdf-map-shadow" x="-20%" y="-20%" width="140%" height="140%">
-            <feDropShadow dx="0" dy="8" stdDeviation="9" floodColor="#111111" floodOpacity="0.22" />
-          </filter>
-        </defs>
-        <rect width="960" height="520" fill="#EEF2F6" />
-        <rect width="960" height="520" fill="url(#pdf-map-grid)" opacity="0.78" />
-        <path d="M -40 390 C 170 330 280 340 470 260 C 650 184 780 190 1020 116" fill="none" stroke="#C7D2E2" strokeWidth="38" strokeLinecap="round" opacity="0.86" />
-        <path d="M -30 114 C 180 168 286 146 472 220 C 650 292 770 300 1010 370" fill="none" stroke="#D7C7A2" strokeWidth="22" strokeLinecap="round" opacity="0.82" />
-        <path d="M 110 -20 C 164 122 174 254 166 542" fill="none" stroke="#D6DEE9" strokeWidth="28" strokeLinecap="round" opacity="0.92" />
-        <path d="M 820 -20 C 760 134 736 272 780 552" fill="none" stroke="#D6DEE9" strokeWidth="24" strokeLinecap="round" opacity="0.86" />
-        <circle cx="480" cy="248" r="34" fill="#2F80ED" filter="url(#pdf-map-shadow)" />
-        <path d="M480 346 C480 346 428 286 428 248 C428 219 451 196 480 196 C509 196 532 219 532 248 C532 286 480 346 480 346Z" fill="#1E64C8" filter="url(#pdf-map-shadow)" />
-        <circle cx="480" cy="247" r="18" fill="#FFFFFF" />
-        <foreignObject x="540" y="176" width="360" height="160">
-          <div xmlns="http://www.w3.org/1999/xhtml" style={{ background: '#FFFFFF', border: '1px solid #D1D5DB', borderRadius: '12px', padding: '14px 16px', boxShadow: '0 16px 34px rgba(0,0,0,0.18)', color: '#111111', fontFamily: 'Arial, sans-serif' }}>
-            <div style={{ fontSize: '19px', fontWeight: 800, lineHeight: 1.35 }}>{mapLabel}</div>
-            <div style={{ marginTop: '8px', fontSize: '13px', lineHeight: 1.5 }}>{address}</div>
-            <div style={{ marginTop: '8px', fontSize: '12px', color: '#4B5563' }}>위도 {safeLat} · 경도 {safeLng}</div>
+      <div
+        role="img"
+        aria-label={`${mapLabel} 위치 지도`}
+        className="relative w-full overflow-hidden rounded-[10px] border border-[#D9D9D9] bg-[#EEF2F6]"
+        style={{ aspectRatio: '960 / 520', backgroundImage: 'linear-gradient(#D8DEE8 1px, transparent 1px), linear-gradient(90deg, #D8DEE8 1px, transparent 1px)', backgroundSize: '56px 56px' }}
+      >
+        {tiles.map((tile) => (
+          <img
+            key={tile.key}
+            alt=""
+            src={tile.src}
+            loading="eager"
+            className="absolute block select-none"
+            style={{
+              left: `${tile.left}%`,
+              top: `${tile.top}%`,
+              width: `${tile.width}%`,
+              height: `${tile.height}%`,
+              maxWidth: 'none',
+            }}
+          />
+        ))}
+        <div className="absolute left-1/2 top-1/2 z-10 h-9 w-9 -translate-x-1/2 -translate-y-full rounded-full border-[3px] border-white bg-[#2F80ED] shadow-[0_10px_24px_rgba(0,0,0,0.35)]">
+          <div className="absolute left-1/2 top-[30px] h-4 w-4 -translate-x-1/2 rotate-45 rounded-[3px] bg-[#2F80ED]" />
+          <div className="absolute left-1/2 top-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white" />
+        </div>
+        <div className="absolute right-4 top-4 z-20 max-w-[380px] rounded-[12px] border border-[#D1D5DB] bg-white p-4 text-[#111111] shadow-[0_16px_34px_rgba(0,0,0,0.18)]">
+          <div className="text-[19px] font-extrabold leading-snug text-[#111111]">{mapLabel}</div>
+          <div className="mt-2 text-[13px] leading-5 text-[#111111]">{address}</div>
+          <div className="mt-2 text-[12px] text-[#4B5563]">위도 {safeLat} · 경도 {safeLng}</div>
+        </div>
+        <div className="absolute bottom-2 right-3 z-20 rounded bg-white/90 px-2 py-1 text-[10px] font-semibold text-[#4B5563]">
+          Map data © OpenStreetMap contributors
+        </div>
+        {!tiles.length ? (
+          <div className="absolute inset-0 flex items-center justify-center text-[13px] font-semibold text-[#4B5563]">
+            지도 타일을 만들 수 없어 좌표 위치만 표시합니다.
           </div>
-        </foreignObject>
-      </svg>
+        ) : null}
+      </div>
       <div className="mt-2 text-[11px] leading-4 text-[#3A3A3C]">
-        PDF 저장용 위치 지도입니다. 화면 미리보기에서는 동적 지도를 사용하고, PDF에는 좌표와 주소를 기준으로 이 인쇄용 지도가 포함됩니다.
+        PDF 저장용 지도입니다. 좌표와 주소를 기준으로 실제 지도 타일과 자산 위치를 함께 출력합니다.
       </div>
     </div>
   );
@@ -4342,6 +4534,7 @@ function HomeDashboard() {
   const [sectorAssetSort, setSectorAssetSort] = useState('cost');
   const [sectorTenantSort, setSectorTenantSort] = useState('cost');
   const [regionMetric, setRegionMetric] = useState('cost');
+  const { rows: latestWeeklyAssetRows } = useLatestWeeklyAssetRows(permission, memberInfo);
   const allGeneralRows = useMemo(() => buildLogisticsGeneralRows(), []);
   const generalRows = useMemo(() => filterAssetsByPermission(allGeneralRows, permission), [allGeneralRows, permission]);
   const readableAssetOptions = useMemo(() => filterAssetsByPermission(assetOptionsData, permission), [permission]);
@@ -4376,7 +4569,9 @@ function HomeDashboard() {
   const latestTrendMonthlyCost = Number(latestRentTrendRow.monthlyCostTotalAdjusted || 0);
   const trendToKpiGap = canonicalMonthlyCost && latestTrendMonthlyCost ? canonicalMonthlyCost - latestTrendMonthlyCost : 0;
   const leaseSpaceToKpiGap = canonicalMonthlyCost && leaseSpaceMonthlyCost ? canonicalMonthlyCost - leaseSpaceMonthlyCost : 0;
-  const weeklyAssetRowsForFallback = useMemo(() => normalizeWeeklyAssetRows(weeklyReportData.assetRows || []), []);
+  const weeklyAssetRowsForFallback = useMemo(() => (
+    latestWeeklyAssetRows.length ? latestWeeklyAssetRows : normalizeWeeklyAssetRows(weeklyReportData.assetRows || [])
+  ), [latestWeeklyAssetRows]);
   const mapAssetRows = readableMapPoints.map((point) => {
     const vacancy = readableVacancyRows.find((row) => row.assetId === point.assetId || row.assetName === point.assetName) || {};
     const payload = findAssetPayload(point.assetId, point.assetName);
@@ -4461,6 +4656,12 @@ function HomeDashboard() {
     grossArea: sumRows(readableVacancyRows, (row) => row.grossFloorAreaSqm),
   };
   filteredHomeMetrics.vacancyRate = filteredHomeMetrics.grossArea > 0 ? filteredHomeMetrics.vacancyArea / filteredHomeMetrics.grossArea : data.vacancyRate;
+  useDashboardReadShadow('dashboard/home/read', { basis_date: '2026-04-30' }, {
+    operating_asset_count: filteredHomeMetrics.operatingAssetCount,
+    gross_floor_area_sqm: filteredHomeMetrics.grossArea,
+    leased_area_sqm: filteredHomeMetrics.leasedArea,
+    current_monthly_cost_total: canonicalMonthlyCost,
+  });
 
   const openTableModal = (title, headers, rows) => setModal({ title, headers, rows });
   const openTenantContractDetail = (tenant) => setModal({
@@ -5977,6 +6178,13 @@ function CompanyDashboard() {
     monthlyMfTotal: sumRows(leasedAssets, (row) => row.monthlyMfTotal),
     monthlyCostTotal: sumRows(leasedAssets, (row) => row.monthlyCostTotal),
   };
+  useDashboardReadShadow('dashboard/company/read', { basis_date: '2026-04-30', tenant_id: selectedTenantId }, {
+    asset_count: visibleProfile.assetCount,
+    leased_area_sqm: visibleProfile.leasedAreaSqm,
+    current_monthly_rent_total: visibleProfile.monthlyRentTotal,
+    current_monthly_mf_total: visibleProfile.monthlyMfTotal,
+    current_monthly_cost_total: visibleProfile.monthlyCostTotal,
+  }, Boolean(selectedTenantId));
   const kpiLookup = kpiLookupFrom(company.kpis);
   const kpis = [
     { key: 'asset_count', label: '임차 자산 수', value: visibleProfile.assetCount, valueType: 'number' },
@@ -7820,6 +8028,11 @@ function AssetDashboard() {
                 ? firstDefined(overview.uniqueTenantCount, rows.length)
                 : firstDefined(item.value, item.key === 'monthly_total_cost' ? overview.monthlyCostTotal : item.value),
   }));
+  useDashboardReadShadow('dashboard/asset/read', { basis_date: '2026-04-30', asset_id: selectedAssetId }, {
+    gross_floor_area_sqm: overview.grossFloorAreaSqm,
+    leased_area_sqm: overview.leasedAreaSqm,
+    current_monthly_cost_total: overview.monthlyCostTotal,
+  }, Boolean(selectedAssetId));
   const mapPoint = overview.latitude != null && overview.longitude != null ? [{
     assetId: overview.assetId,
     assetName: overview.assetName,
@@ -8122,10 +8335,11 @@ function PdfReportBuilder() {
   const { memberInfo } = useAuth();
   const permission = useMemo(() => resolveLogisticsPermission(memberInfo), [memberInfo]);
   const canUseAdvancedTools = canViewAdvancedLogisticsTools(memberInfo, permission);
+  const { rows: latestWeeklyAssetRows } = useLatestWeeklyAssetRows(permission, memberInfo);
   const readableAssets = useMemo(() => filterAssetsByPermission(assetOptionsData, permission), [permission]);
   const sourceRows = useMemo(() => filterAssetsByPermission(buildLogisticsGeneralRows(), permission), [permission]);
   const [selectedAssetId, setSelectedAssetId] = useState('');
-  const [selectedComponentIds, setSelectedComponentIds] = useState(['kpi', 'overview', 'tenant', 'contracts']);
+  const [selectedComponentIds, setSelectedComponentIds] = useState(['kpi', 'overview', 'tenant', 'contracts', 'map']);
   const [draggingComponentId, setDraggingComponentId] = useState(null);
   const printScopeRef = useRef(null);
 
@@ -8167,7 +8381,10 @@ function PdfReportBuilder() {
   const overview = assetPayload?.overview || selectedAsset || {};
   const tenantGroups = buildTenantContractGroups(assetRows);
   const selectedAssetProject = findManagementProjectForAsset(selectedAsset.assetName);
-  const selectedWeeklyAssetRow = normalizeWeeklyAssetRows(weeklyReportData.assetRows || [])
+  const weeklyAssetRowsForSource = useMemo(() => (
+    latestWeeklyAssetRows.length ? latestWeeklyAssetRows : normalizeWeeklyAssetRows(weeklyReportData.assetRows || [])
+  ), [latestWeeklyAssetRows]);
+  const selectedWeeklyAssetRow = weeklyAssetRowsForSource
     .find((row) => normalizeAssetNameKey(row.assetName) === normalizeAssetNameKey(selectedAsset.assetName));
   const grossAreaSqm = firstDefined(overview.grossFloorAreaSqm, selectedAsset.grossFloorAreaSqm, assetRows[0]?.grossFloorAreaSqm);
   const leasedAreaSqm = assetRows.reduce((sum, row) => sum + Number(row.leasedAreaSqm || 0), 0);
@@ -8248,12 +8465,14 @@ function PdfReportBuilder() {
     ['계약 원장', 'll_lease_spaces / ll_rent_history 기준'],
     ['외부 API', 'OpenDART·건축물대장·Naver는 Edge Function 기준'],
   ];
-  const mapPoint = selectedAsset.latitude && selectedAsset.longitude ? [{
+  const mapLatitude = firstDefined(selectedAsset.latitude, overview.latitude, assetPayload?.overview?.latitude);
+  const mapLongitude = firstDefined(selectedAsset.longitude, overview.longitude, assetPayload?.overview?.longitude);
+  const mapPoint = mapLatitude && mapLongitude ? [{
     assetId: selectedAsset.assetId,
     assetName: selectedAsset.assetName,
-    address: selectedAsset.standardizedAddress || selectedAsset.address,
-    latitude: selectedAsset.latitude,
-    longitude: selectedAsset.longitude,
+    address: firstDefined(selectedAsset.standardizedAddress, selectedAsset.address, overview.standardizedAddress, overview.address),
+    latitude: mapLatitude,
+    longitude: mapLongitude,
   }] : [];
   const renderComponent = (id) => {
     if (id === 'homeKpi') return <ReportPreviewCard title="Dashboard Home KPI"><DataTable headers={['항목', '값']} rows={[['운영 자산 수', `${formatNumber(readableAssets.length)}개`], ['총 연면적', formatArea(readableAssets.reduce((sum, asset) => sum + Number(firstDefined(asset.grossFloorAreaSqm, ASSET_PAYLOADS[asset.assetId]?.overview?.grossFloorAreaSqm, 0)), 0))], ['월 임관리비 총액', formatCurrency(readableAssets.reduce((sum, asset) => sum + Number(firstDefined(asset.monthlyCostTotal, ASSET_PAYLOADS[asset.assetId]?.overview?.monthlyCostTotal, 0)), 0))]]} compact /></ReportPreviewCard>;
@@ -8271,7 +8490,7 @@ function PdfReportBuilder() {
     if (id === 'assetStacking') return <ReportPreviewCard title="층별 배치"><DataTable headers={['층', '세부구역', '임차인', '임대면적']} rows={stackingRows} compact /></ReportPreviewCard>;
     if (id === 'contracts') return <ReportPreviewCard title="계약 원장"><DataTable headers={['임차인', '층', '세부구역', '저온/상온', '임대면적', '월 임대료', '월 관리비', '월 임관리비', '만기']} rows={contractRows} compact /></ReportPreviewCard>;
     if (id === 'maturity') return <ReportPreviewCard title="만기 스냅샷"><DataTable headers={['임차인', '구역', '만기일', '임대면적', '월 임관리비']} rows={maturityRows} compact /></ReportPreviewCard>;
-    if (id === 'map') return <ReportPreviewCard title="자산 위치 지도">{mapPoint.length ? <div className="space-y-3"><div className="pdf-map-screen"><PortfolioMapPlot points={mapPoint} /></div><PrintableAssetMap point={mapPoint[0]} /></div> : <div className="rounded-[12px] border border-[#333333] bg-[#1F1F1E] p-4 text-[13px] text-[#A1A1AA]">좌표 데이터가 없습니다.</div>}</ReportPreviewCard>;
+    if (id === 'map') return <ReportPreviewCard title="자산 위치 지도">{mapPoint.length ? <PrintableAssetMap point={mapPoint[0]} /> : <div className="rounded-[12px] border border-[#333333] bg-[#1F1F1E] p-4 text-[13px] text-[#A1A1AA]">좌표 데이터가 없습니다.</div>}</ReportPreviewCard>;
     if (id === 'companyExposure') return <ReportPreviewCard title="Company 자산별 노출도"><DataTable headers={['기업/임차인', '자산', '계약 수', '임대면적', '월 임관리비']} rows={tenantRows.map((row) => [row[0], row[1], row[2], row[3], row[6]])} compact /></ReportPreviewCard>;
     if (id === 'analysisAsset') return <ReportPreviewCard title="Analysis 자산 비교"><DataTable headers={['자산명', '연면적', '월 임관리비', 'E. NOC']} rows={portfolioRows.map((row) => [row[0], row[2], row[3], row[4]])} compact /></ReportPreviewCard>;
     if (id === 'analysisCompany') return <ReportPreviewCard title="Analysis 기업 비교"><DataTable headers={['임차인', '자산', '계약 수', '임대면적', '월 임관리비']} rows={tenantRows.map((row) => [row[0], row[1], row[2], row[3], row[6]])} compact /></ReportPreviewCard>;
@@ -8353,14 +8572,36 @@ function PdfReportBuilder() {
     .pdf-report-card .custom-scrollbar, .pdf-report-card [class*="overflow"] { overflow: visible !important; max-height: none !important; height: auto !important; }
     .pdf-map-screen { display: none !important; }
     .pdf-static-map-print { display: block !important; break-inside: avoid !important; page-break-inside: avoid !important; }
-    .pdf-static-map-print svg { max-height: 145mm !important; }
+    .pdf-static-map-print img { max-width: none !important; }
+    .pdf-static-map-print [role="img"] { max-height: 145mm !important; }
   </style>
 </head>
 <body>
   ${printNode.outerHTML}
   <script>
     window.addEventListener('load', function () {
-      setTimeout(function () { window.focus(); window.print(); }, 450);
+      var done = false;
+      function finish() {
+        if (done) return;
+        done = true;
+        setTimeout(function () { window.focus(); window.print(); }, 180);
+      }
+      var images = Array.prototype.slice.call(document.images || []);
+      var pending = images.filter(function (img) { return !img.complete; });
+      if (!pending.length) {
+        finish();
+        return;
+      }
+      var remaining = pending.length;
+      pending.forEach(function (img) {
+        var resolve = function () {
+          remaining -= 1;
+          if (remaining <= 0) finish();
+        };
+        img.addEventListener('load', resolve, { once: true });
+        img.addEventListener('error', resolve, { once: true });
+      });
+      setTimeout(finish, 3200);
     });
   </script>
 </body>
@@ -8372,7 +8613,7 @@ function PdfReportBuilder() {
     <div className="w-full max-w-[1480px] mx-auto px-8 pt-8 pb-14">
       <style>{`
         @page { size: A4 portrait; margin: 12mm; }
-        .pdf-static-map-print { display: none; }
+        .pdf-static-map-print { display: block; }
         @media print {
           html, body, #root { background: #fff !important; color: #000 !important; width: 100% !important; overflow: visible !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
           body * { visibility: hidden !important; }
@@ -8391,7 +8632,8 @@ function PdfReportBuilder() {
           .pdf-report-card thead { background: #eeeeee !important; }
           .pdf-map-screen { display: none !important; }
           .pdf-static-map-print { display: block !important; break-inside: avoid !important; page-break-inside: avoid !important; }
-          .pdf-static-map-print svg { max-height: 145mm !important; }
+          .pdf-static-map-print img { max-width: none !important; }
+          .pdf-static-map-print [role="img"] { max-height: 145mm !important; }
         }
       `}</style>
       <div className="pdf-report-page space-y-5">

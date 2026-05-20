@@ -503,6 +503,352 @@ function filterWorkPlatformBoardRows(ctx: Context, rows: Record<string, unknown>
   return rows.filter((row) => row.created_by === ctx.user.id || canReadRelatedAsset(ctx, row.related_asset_id));
 }
 
+function hasPermissionRow(ctx: Context) {
+  return Boolean(ctx.permission?.user_id || ctx.permission?.email);
+}
+
+function allReadableAssetsAllowed(ctx: Context) {
+  return hasRole(ctx.role, 'Manager') || permissionFlag(ctx.permission, 'other_asset_permissions', 'read');
+}
+
+function matchesManagedAsset(ctx: Context, row: Record<string, unknown>) {
+  const managed = new Set(managedAssetCodes(ctx.permission).map((item) => String(item).trim()).filter(Boolean));
+  return managed.has(String(row.asset_id || ''))
+    || managed.has(String(row.asset_code || ''))
+    || managed.has(String(row.asset_name || ''));
+}
+
+async function listReadableAssetsForDashboard(ctx: Context) {
+  if (!hasPermissionRow(ctx)) return { rows: [], errorResponse: fail(403, 'No logistics permission row found', ctx.origin) };
+  const { data, error } = await ctx.serviceClient
+    .from('ll_assets')
+    .select('*')
+    .order('asset_name', { ascending: true })
+    .limit(500);
+  if (error) return { rows: [], errorResponse: fail(500, 'Failed to read assets', ctx.origin) };
+  const rows = (data || []) as Record<string, unknown>[];
+  return {
+    rows: allReadableAssetsAllowed(ctx) ? rows : rows.filter((row) => matchesManagedAsset(ctx, row)),
+    errorResponse: null,
+  };
+}
+
+function dashboardBasisDate(payload: Record<string, unknown>) {
+  const basisDate = safeText(firstDefined(payload.basis_date, payload.basisDate, '2026-04-30'));
+  return /^\d{4}-\d{2}-\d{2}$/u.test(basisDate) ? basisDate : '2026-04-30';
+}
+
+async function dashboardScope(ctx: Context, assets: Record<string, unknown>[]) {
+  const readableAssetIds = assets.map((row) => String(row.asset_id || '')).filter(Boolean).sort();
+  return {
+    role: ctx.role,
+    readable_asset_ids: readableAssetIds,
+    scope_hash: await sha256Text(JSON.stringify({
+      user_id: ctx.user.id,
+      role: ctx.role,
+      readable_asset_ids: readableAssetIds,
+    })),
+  };
+}
+
+function dashboardEvidence(entries: Record<string, unknown>[]) {
+  return {
+    tables: entries.map((entry) => stripUndefined(entry)),
+    source_cells: [],
+  };
+}
+
+function sumNumber(rows: Record<string, unknown>[], key: string) {
+  return rows.reduce((sum, row) => {
+    const value = Number(row[key] || 0);
+    return Number.isFinite(value) ? sum + value : sum;
+  }, 0);
+}
+
+function pickAssetPublic(row: Record<string, unknown>) {
+  return stripUndefined({
+    asset_id: row.asset_id,
+    asset_code: row.asset_code,
+    asset_name: row.asset_name,
+    fund_code: row.fund_code,
+    fund_name: row.fund_name,
+    sector: row.sector,
+    address: row.address,
+    latitude: row.latitude,
+    longitude: row.longitude,
+    gross_floor_area_sqm: row.gross_floor_area_sqm,
+    land_area_sqm: row.land_area_sqm,
+    floor_count: row.floor_count,
+    current_manager_name: row.current_manager_name,
+    current_manager_team: row.current_manager_team,
+    source_sheet_row_id: row.source_sheet_row_id,
+    review_status: row.review_status,
+  });
+}
+
+function pickLeaseSpacePublic(row: Record<string, unknown>) {
+  return stripUndefined({
+    lease_space_id: row.lease_space_id,
+    lease_id: row.lease_id,
+    asset_id: row.asset_id,
+    tenant_id: row.tenant_id,
+    floor_label: row.floor_label,
+    detail_area_label: row.detail_area_label,
+    temperature_type: row.temperature_type,
+    goods_type: row.goods_type,
+    leased_area_sqm: row.leased_area_sqm,
+    exclusive_area_sqm: row.exclusive_area_sqm,
+    exclusive_ratio: row.exclusive_ratio,
+    current_monthly_rent_total: row.current_monthly_rent_total,
+    current_monthly_mf_total: row.current_monthly_mf_total,
+    current_monthly_cost_total: row.current_monthly_cost_total,
+    e_noc: row.e_noc,
+    contract_status: row.contract_status,
+    source_sheet_row_id: row.source_sheet_row_id,
+    review_status: row.review_status,
+  });
+}
+
+function pickRentHistoryPublic(row: Record<string, unknown>) {
+  return stripUndefined({
+    rent_history_id: row.rent_history_id,
+    lease_space_id: row.lease_space_id,
+    lease_id: row.lease_id,
+    asset_id: row.asset_id,
+    tenant_id: row.tenant_id,
+    effective_date: row.effective_date,
+    change_reason: row.change_reason,
+    leased_area_sqm: row.leased_area_sqm,
+    exclusive_area_sqm: row.exclusive_area_sqm,
+    monthly_rent_total: row.monthly_rent_total,
+    monthly_mf_total: row.monthly_mf_total,
+    rent_per_py: row.rent_per_py,
+    mf_per_py: row.mf_per_py,
+    is_latest: row.is_latest,
+    floor_label: row.floor_label,
+    detail_area_label: row.detail_area_label,
+    temperature_type: row.temperature_type,
+    source_sheet_row_id: row.source_sheet_row_id,
+    source_contract_lease_space_id: row.source_contract_lease_space_id,
+    review_status: row.review_status,
+  });
+}
+
+async function listLeaseSpacesForAssets(ctx: Context, assetIds: string[]) {
+  if (!assetIds.length) return { rows: [], errorResponse: null };
+  const { data, error } = await ctx.serviceClient
+    .from('ll_lease_spaces')
+    .select('*')
+    .in('asset_id', assetIds)
+    .limit(2000);
+  if (error) return { rows: [], errorResponse: fail(500, 'Failed to read lease spaces', ctx.origin) };
+  return { rows: (data || []) as Record<string, unknown>[], errorResponse: null };
+}
+
+async function listRentHistoryForAssets(ctx: Context, assetIds: string[]) {
+  if (!assetIds.length) return { rows: [], errorResponse: null };
+  const { data, error } = await ctx.serviceClient
+    .from('ll_rent_history')
+    .select('*')
+    .in('asset_id', assetIds)
+    .order('effective_date', { ascending: true })
+    .limit(3000);
+  if (error) return { rows: [], errorResponse: fail(500, 'Failed to read rent history', ctx.origin) };
+  return { rows: (data || []) as Record<string, unknown>[], errorResponse: null };
+}
+
+async function callDashboardHomeRead(ctx: Context, payload: Record<string, unknown>) {
+  if (!hasRole(ctx.role, 'Reader')) return fail(403, 'Insufficient logistics permission', ctx.origin);
+  const assetResult = await listReadableAssetsForDashboard(ctx);
+  if (assetResult.errorResponse) return assetResult.errorResponse;
+  const assets = assetResult.rows;
+  const assetIds = assets.map((row) => String(row.asset_id || '')).filter(Boolean);
+  const spacesResult = await listLeaseSpacesForAssets(ctx, assetIds);
+  if (spacesResult.errorResponse) return spacesResult.errorResponse;
+  const historyResult = await listRentHistoryForAssets(ctx, assetIds);
+  if (historyResult.errorResponse) return historyResult.errorResponse;
+  const leaseSpaces = spacesResult.rows;
+  const rentHistory = historyResult.rows;
+  const latestHistory = rentHistory.filter((row) => row.is_latest === true);
+  const summary = {
+    operating_asset_count: assets.length,
+    gross_floor_area_sqm: sumNumber(assets, 'gross_floor_area_sqm'),
+    leased_area_sqm: sumNumber(leaseSpaces, 'leased_area_sqm'),
+    exclusive_area_sqm: sumNumber(leaseSpaces, 'exclusive_area_sqm'),
+    current_monthly_rent_total: sumNumber(leaseSpaces, 'current_monthly_rent_total'),
+    current_monthly_mf_total: sumNumber(leaseSpaces, 'current_monthly_mf_total'),
+    current_monthly_cost_total: sumNumber(leaseSpaces, 'current_monthly_cost_total'),
+    latest_rent_history_monthly_rent_total: sumNumber(latestHistory, 'monthly_rent_total'),
+    latest_rent_history_monthly_mf_total: sumNumber(latestHistory, 'monthly_mf_total'),
+  };
+  const scope = await dashboardScope(ctx, assets);
+  const body = {
+    ok: true,
+    source: 'supabase',
+    version: 'll-dashboard-payload-v1',
+    basis_date: dashboardBasisDate(payload),
+    scope,
+    data: {
+      summary,
+      assets: assets.map(pickAssetPublic),
+      lease_spaces: leaseSpaces.map(pickLeaseSpacePublic),
+      rent_history: rentHistory.map(pickRentHistoryPublic),
+    },
+    evidence: dashboardEvidence([
+      { table: 'public.ll_assets', rows: assets.length },
+      { table: 'public.ll_lease_spaces', rows: leaseSpaces.length },
+      { table: 'public.ll_rent_history', rows: rentHistory.length },
+    ]),
+    warnings: [],
+  };
+  await audit(ctx.serviceClient, ctx.user.id, 'dashboard/home/read', 200, {
+    basis_date: body.basis_date,
+    readable_assets: assets.length,
+    lease_spaces: leaseSpaces.length,
+    rent_history: rentHistory.length,
+  }).catch(() => {});
+  return jsonResponse(body, 200, ctx.origin);
+}
+
+async function callDashboardAssetRead(ctx: Context, payload: Record<string, unknown>) {
+  if (!hasRole(ctx.role, 'Reader')) return fail(403, 'Insufficient logistics permission', ctx.origin);
+  const assetResult = await listReadableAssetsForDashboard(ctx);
+  if (assetResult.errorResponse) return assetResult.errorResponse;
+  const readableAssets = assetResult.rows;
+  const requested = safeText(firstDefined(payload.asset_id, payload.assetId, payload.asset_name, payload.assetName));
+  const asset = readableAssets.find((row) => (
+    String(row.asset_id || '') === requested
+    || String(row.asset_code || '') === requested
+    || String(row.asset_name || '') === requested
+  )) || readableAssets[0];
+  if (!asset) return fail(404, 'Readable asset not found', ctx.origin);
+  const assetId = String(asset.asset_id || '');
+  const spacesResult = await listLeaseSpacesForAssets(ctx, [assetId]);
+  if (spacesResult.errorResponse) return spacesResult.errorResponse;
+  const historyResult = await listRentHistoryForAssets(ctx, [assetId]);
+  if (historyResult.errorResponse) return historyResult.errorResponse;
+  const leaseSpaces = spacesResult.rows;
+  const rentHistory = historyResult.rows;
+  const scope = await dashboardScope(ctx, readableAssets);
+  const body = {
+    ok: true,
+    source: 'supabase',
+    version: 'll-dashboard-payload-v1',
+    basis_date: dashboardBasisDate(payload),
+    scope,
+    data: {
+      asset: pickAssetPublic(asset),
+      lease_spaces: leaseSpaces.map(pickLeaseSpacePublic),
+      rent_history: rentHistory.map(pickRentHistoryPublic),
+      summary: {
+        gross_floor_area_sqm: asset.gross_floor_area_sqm,
+        leased_area_sqm: sumNumber(leaseSpaces, 'leased_area_sqm'),
+        exclusive_area_sqm: sumNumber(leaseSpaces, 'exclusive_area_sqm'),
+        current_monthly_rent_total: sumNumber(leaseSpaces, 'current_monthly_rent_total'),
+        current_monthly_mf_total: sumNumber(leaseSpaces, 'current_monthly_mf_total'),
+        current_monthly_cost_total: sumNumber(leaseSpaces, 'current_monthly_cost_total'),
+      },
+    },
+    evidence: dashboardEvidence([
+      { table: 'public.ll_assets', rows: 1 },
+      { table: 'public.ll_lease_spaces', rows: leaseSpaces.length },
+      { table: 'public.ll_rent_history', rows: rentHistory.length },
+    ]),
+    warnings: [],
+  };
+  await audit(ctx.serviceClient, ctx.user.id, 'dashboard/asset/read', 200, {
+    basis_date: body.basis_date,
+    asset_id: assetId,
+    lease_spaces: leaseSpaces.length,
+    rent_history: rentHistory.length,
+  }).catch(() => {});
+  return jsonResponse(body, 200, ctx.origin);
+}
+
+async function callDashboardCompanyRead(ctx: Context, payload: Record<string, unknown>) {
+  if (!hasRole(ctx.role, 'Reader')) return fail(403, 'Insufficient logistics permission', ctx.origin);
+  const assetResult = await listReadableAssetsForDashboard(ctx);
+  if (assetResult.errorResponse) return assetResult.errorResponse;
+  const readableAssets = assetResult.rows;
+  const readableAssetIds = new Set(readableAssets.map((row) => String(row.asset_id || '')).filter(Boolean));
+  const requested = safeText(firstDefined(payload.tenant_id, payload.tenantId, payload.tenant_name, payload.tenantName, payload.company_name, payload.companyName));
+  const tenantQuery = ctx.serviceClient
+    .from('ll_tenants')
+    .select('*')
+    .limit(200);
+  const { data: tenantsData, error: tenantsError } = await tenantQuery;
+  if (tenantsError) return fail(500, 'Failed to read tenants', ctx.origin);
+  const tenants = (tenantsData || []) as Record<string, unknown>[];
+  const tenant = requested
+    ? tenants.find((row) => (
+      String(row.tenant_id || '') === requested
+      || String(row.tenant_master_name || '') === requested
+      || String(row.company_name || '') === requested
+      || String(row.business_registration_no || '') === requested
+    ))
+    : tenants[0];
+  if (!tenant) return fail(404, 'Tenant not found', ctx.origin);
+  const tenantId = String(tenant.tenant_id || '');
+  const { data: spacesData, error: spacesError } = await ctx.serviceClient
+    .from('ll_lease_spaces')
+    .select('*')
+    .eq('tenant_id', tenantId)
+    .limit(1000);
+  if (spacesError) return fail(500, 'Failed to read tenant lease spaces', ctx.origin);
+  const leaseSpaces = ((spacesData || []) as Record<string, unknown>[])
+    .filter((row) => readableAssetIds.has(String(row.asset_id || '')));
+  const assetIds = [...new Set(leaseSpaces.map((row) => String(row.asset_id || '')).filter(Boolean))];
+  if (!leaseSpaces.length) return fail(403, 'No readable tenant exposure for this user', ctx.origin);
+  const historyResult = await listRentHistoryForAssets(ctx, assetIds);
+  if (historyResult.errorResponse) return historyResult.errorResponse;
+  const rentHistory = historyResult.rows.filter((row) => String(row.tenant_id || '') === tenantId);
+  const assets = readableAssets.filter((row) => assetIds.includes(String(row.asset_id || '')));
+  const scope = await dashboardScope(ctx, readableAssets);
+  const body = {
+    ok: true,
+    source: 'supabase',
+    version: 'll-dashboard-payload-v1',
+    basis_date: dashboardBasisDate(payload),
+    scope,
+    data: {
+      tenant: stripUndefined({
+        tenant_id: tenant.tenant_id,
+        tenant_master_name: tenant.tenant_master_name,
+        company_name: tenant.company_name,
+        business_registration_no: tenant.business_registration_no,
+        dart_corp_code: tenant.dart_corp_code,
+        source_sheet_row_id: tenant.source_sheet_row_id,
+        review_status: tenant.review_status,
+      }),
+      assets: assets.map(pickAssetPublic),
+      lease_spaces: leaseSpaces.map(pickLeaseSpacePublic),
+      rent_history: rentHistory.map(pickRentHistoryPublic),
+      summary: {
+        asset_count: assets.length,
+        leased_area_sqm: sumNumber(leaseSpaces, 'leased_area_sqm'),
+        current_monthly_rent_total: sumNumber(leaseSpaces, 'current_monthly_rent_total'),
+        current_monthly_mf_total: sumNumber(leaseSpaces, 'current_monthly_mf_total'),
+        current_monthly_cost_total: sumNumber(leaseSpaces, 'current_monthly_cost_total'),
+      },
+    },
+    evidence: dashboardEvidence([
+      { table: 'public.ll_tenants', rows: 1 },
+      { table: 'public.ll_assets', rows: assets.length },
+      { table: 'public.ll_lease_spaces', rows: leaseSpaces.length },
+      { table: 'public.ll_rent_history', rows: rentHistory.length },
+    ]),
+    warnings: [],
+  };
+  await audit(ctx.serviceClient, ctx.user.id, 'dashboard/company/read', 200, {
+    basis_date: body.basis_date,
+    tenant_id: tenantId,
+    assets: assets.length,
+    lease_spaces: leaseSpaces.length,
+    rent_history: rentHistory.length,
+  }).catch(() => {});
+  return jsonResponse(body, 200, ctx.origin);
+}
+
 function actorName(ctx: Context) {
   return String(
     ctx.permission?.staff_name
@@ -3591,6 +3937,13 @@ Deno.serve(async (request) => {
   if (action === 'opendart/company') return callOpenDart(ctx, payload);
   if (action === 'building-register/summary') return callBuildingRegister(ctx, payload);
   if (action === 'naver/geocode') return callNaverGeocode(ctx, payload);
+  if (action === 'dashboard/home/read') return callDashboardHomeRead(ctx, payload);
+  if (action === 'dashboard/asset/read') return callDashboardAssetRead(ctx, payload);
+  if (action === 'dashboard/company/read') return callDashboardCompanyRead(ctx, payload);
+  if (action === 'dashboard/read') {
+    const homeResponse = await callDashboardHomeRead(ctx, payload);
+    return homeResponse;
+  }
   if (action === 'ai/search-chat') return callGoogleAiSearchChat(ctx, payload);
   if (action === 'dashboard-metrics/refresh') return callDashboardMetricRefresh(ctx, payload);
   if (action === 'snapshot-refresh' || action === 'cache-clear') {
