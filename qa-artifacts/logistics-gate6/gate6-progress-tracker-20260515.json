@@ -16,12 +16,12 @@
     "new_user_requests": "Add new requests to the best matching stage, update the denominator, and report the new total in the same session."
   },
   "summary": {
-    "completed": 173,
-    "total": 286,
-    "completion_rate": 60.5,
-    "updated_at": "2026-05-20T02:00:33.893Z",
+    "completed": 175,
+    "total": 287,
+    "completion_rate": 61,
+    "updated_at": "2026-05-20T02:12:00.000Z",
     "conflict_resolution": "Cleaned active checklist to latest requirements: Weekly tab/upload retired, AI moved to right chatbot dock, Data Playground renamed Pivot Table, PDF details moved out of final acceptance stage, legacy completed status normalized to done.",
-    "latest_priority_update": "TASK seed deletion flow was deployed to qveg Edge Function and gh-pages live bundle."
+    "latest_priority_update": "Management Project Status table visible seed/readback fallback was removed; the table now renders Supabase weekly-assets/latest rows only, and gh-pages live bundle index-BCW-i40R.js was deployed."
   },
   "stages": [
     {
@@ -457,7 +457,7 @@
     {
       "stage": 5,
       "area": "Weekly source data after tab removal",
-      "completed": 2,
+      "completed": 3,
       "total": 4,
       "items": [
         {
@@ -477,8 +477,8 @@
         },
         {
           "id": "5.20",
-          "status": "partial",
-          "text": "Weekly source data remains a backend/source dataset for Management Project Status and Asset overview/investment panels. Remaining work is to remove static JSON fallback and rely on Supabase live fetch only."
+          "status": "done",
+          "text": "Management Project Status table no longer initializes or falls back to static weeklyReportData.assetRows. It renders Supabase weekly-assets/latest rows only; on read failure it stays empty instead of showing JSX seed data or an internal warning banner."
         }
       ]
     },
@@ -1373,8 +1373,8 @@
     {
       "stage": 14,
       "area": "QA 계획",
-      "completed": 16,
-      "total": 37,
+      "completed": 17,
+      "total": 38,
       "items": [
         {
           "id": "14.01",
@@ -1569,6 +1569,11 @@
           "id": "14.38",
           "status": "done",
           "text": "GitHub Pages gh-pages deployment readback confirmed index-B6zSL6-K.js is live with work-platform/tasks/archive-seed and weekly-assets/latest code included. Cache-busted live URL returned the new asset."
+        },
+        {
+          "id": "14.39",
+          "status": "done",
+          "text": "Management Project Status seed/readback warning removal passed targeted ESLint, preview build, gh-pages deployment, remote gh-pages readback, and cache-busted live JS check. Live asset index-BCW-i40R.js returned 200 and does not contain the removed internal warning strings."
         }
       ]
     },
@@ -1665,18 +1670,20 @@
   ],
   "last_user_request_added": {
     "date": "2026-05-20",
-    "summary": "Deploy TASK deletion changes to gh-pages and live Edge Function.",
+    "summary": "Remove visible Supabase readback/seed fallback banners and stop Management Project Status from rendering static JSX seed rows.",
     "added_item_ids": [
-      "14.38"
+      "5.20",
+      "14.39"
     ],
     "latest_evidence": [
-      "npx supabase functions deploy ll-dashboard-api --project-ref qvegpozwrcmspdvjokiz success",
+      "npx eslint src/components/system/workspace/WorkspaceLogistics.jsx success",
+      "npm run build:preview success",
       "npm run deploy Published",
-      "live cache-busted index points to assets/index-B6zSL6-K.js",
-      "live JS contains work-platform/tasks/archive-seed and weekly-assets/latest"
+      "remote gh-pages index points to assets/index-BCW-i40R.js",
+      "cache-busted live JS assets/index-BCW-i40R.js returned 200 and HasSeedWarning=false"
     ]
   },
-  "lastUpdated": "2026-05-20T02:00:33.893Z",
+  "lastUpdated": "2026-05-20T02:12:00.000Z",
   "retired_items": [
     {
       "retired_at": "2026-05-20T01:27:01.270Z",
