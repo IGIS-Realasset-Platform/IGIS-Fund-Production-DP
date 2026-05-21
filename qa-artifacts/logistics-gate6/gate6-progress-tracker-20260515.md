@@ -2,25 +2,25 @@
 
 - Updated: 2026-05-20
 - Source of truth: `gate6-progress-tracker-20260515.json`
-- Overall: 189 / 291 (64.9%)
+- Overall: 205 / 311 (65.9%)
 - Active work branch: `codex/logistics-gate6-post-deploy-updates` on `preview` remote.
 - Active branch is being audited for Supabase data-source coverage, dashboard data connection, and PDF Report map output before the next deploy batch.
 
 | Stage | Area | Done/Total | Rate |
 |---:|---|---:|---:|
-| 2 | 공통 데이터 기준 | 12 / 21 | 57.1% |
+| 2 | 공통 데이터 기준 | 14 / 23 | 60.9% |
 | 3 | 업무 로그 메인 페이지 | 31 / 41 | 75.6% |
 | 4 | Dashboard 공통 | 8 / 15 | 53.3% |
 | 5 | Weekly source data after tab removal | 3 / 4 | 75.0% |
 | 6 | Home 탭 | 33 / 41 | 80.5% |
-| 7 | Asset 탭 | 15 / 24 | 62.5% |
+| 7 | Asset 탭 | 18 / 28 | 64.3% |
 | 8 | Company 탭 | 10 / 15 | 66.7% |
 | 9 | Pivot Table | 12 / 13 | 92.3% |
-| 10 | Data Quality | 15 / 20 | 75.0% |
+| 10 | Data Quality | 15 / 21 | 71.4% |
 | 11 | Analysis Tools | 6 / 9 | 66.7% |
-| 12 | 승인대기 대상 | 17 / 23 | 73.9% |
+| 12 | 승인대기 대상 | 22 / 29 | 75.9% |
 | 13 | 외부권한대기 대상 | 5 / 11 | 45.5% |
-| 14 | QA 계획 | 21 / 39 | 53.8% |
+| 14 | QA 계획 | 27 / 46 | 58.7% |
 | 15 | 최종 완료 기준 | 1 / 15 | 6.7% |
 
 ## Latest Deployment Update
@@ -62,3 +62,46 @@
 - Frontend is still static-primary and Supabase-shadow. Static JSON fallback remains in place; 401/403 read failures are recorded as `fallback_allowed=false`.
 - QA: `git diff --check` pass, scoped `WorkspaceLogistics.jsx` eslint pass, `npm run build:preview` pass, Edge OPTIONS 200, unauth dashboard read 401, weekly assets preview 20 rows, live `gh-pages` asset 200 with `index-Dl7ZzjiC.js`, live JS secret-pattern scan 0 hits.
 - Remaining before primary: valid logged-in JWT smoke for `dashboard/*/read`, shadow diff review in the browser console, live Sheets 17-tab cell manifest append/readback, and user manual browser QA.
+
+## Current Fund Overview / Additive Migration Batch
+
+- Additive-only fund migration was dry-run with rollback, then applied to qveg: `ll_funds`, `ll_fund_asset_links`, `ll_fund_beneficiary_tranches`, `ll_fund_loan_tranches`.
+- Existing baseline row counts stayed unchanged after migration: `ll_source_cells=13,752`, `ll_assets=17`, `ll_tenants=36`, `ll_leases=45`, `ll_lease_spaces=80`, `ll_rent_history=163`, `ll_weekly_assets=20`.
+- Fund readback: `ll_funds=15`, `ll_fund_asset_links=17`; ??????, ??????, ?????????? share fund code `112527` / `??????????????????404?`.
+- Asset tab now expands `???? ? ????` into `???? ? ???? ? ????`. Fund overview is collapsed by default and includes fund information, beneficiary tranche rows, and lender tranche rows.
+- Edge Function `ll-dashboard-api` was deployed with `funds/read-by-asset`, `funds/save-by-asset`, and `dashboard/asset/read` fund_overview extension. Unauthenticated fund read smoke returns 401.
+- PDF Report Asset overview now includes fund overview rows. Browser visual QA for actual logged-in fund save and PDF display remains user-side.
+- QA: scoped ESLint pass, `npm run build:preview` pass, `git diff --check` pass, dist secret-pattern scan 0 hits, weekly-assets preview live smoke `ok=true`, rows `20`.
+
+## Current Schema Restructure / Cleanup Planning Batch
+
+- Cleanup 후보표만으로는 부족했던 부분을 보강해 `supabase-schema-restructure-plan-20260520.md`를 추가했습니다.
+- 목표 구조를 `Raw Source`, `Core Normalized`, `Detail Normalized`, `Weekly / Work Platform`, `Permission / Audit`, `Cache / Snapshot`, `Legacy Candidate`로 분리했습니다.
+- 삭제/정리 대상은 즉시 실행하지 않고, detail normalized table populate preview → dashboard primary 전환 → 캐시/legacy 사용처 제거 → SQL preview/rollback/readback/승인 순서로 정리합니다.
+
+## Current Fund Safe Transition Batch
+
+- 이번 배치는 `gh-pages` 배포본은 건드리지 않고, qveg Supabase DB와 live Edge Function만 안전 전환 범위로 적용했습니다.
+- Baseline 보호 기준은 `deployment-protection-baseline-20260520.md`에 고정했습니다. 주요 보존 기준은 `ll_source_cells=13,752`, `ll_assets=17`, `ll_tenants=36`, `ll_leases=45`, `ll_lease_spaces=80`, `ll_rent_history=163`, `ll_weekly_assets=20`, `ll_funds=15`, `ll_fund_asset_links=17`입니다.
+- `260520_물류센터 펀드 정보.xlsx`는 3개 시트, workbook hash `44fad30f487bfa0dc01f5497a386dae4880b899595d5b704b9f7a87c723364a7`로 inventory했습니다. 시트별 used range는 `펀드 정보=B2:L20`, `수익자 정보=B2:H55`, `대주 정보=B2:Q54`입니다.
+- 펀드 엑셀 backfill SQL을 qveg Supabase에 적용했고 readback 기준 `ll_source_cells=1,435`, `ll_source_field_registry=34`, `ll_funds=15`, `ll_fund_asset_links=17`, `ll_fund_beneficiary_tranches=52`, `ll_fund_loan_tranches=51`, `ll_import_runs=1` 모두 expected와 일치했습니다.
+- 기존 핵심 row count 감소는 없습니다. 적용 후 `ll_source_cells=15,187`, `ll_assets=17`, `ll_tenants=36`, `ll_leases=45`, `ll_lease_spaces=80`, `ll_rent_history=163`, `ll_weekly_assets=20`입니다.
+- 직접 적용한 `20260520092911` SQL은 remote migration history에 `applied`로 repair해 이후 `db push` 중복 실행 위험을 낮췄습니다.
+- 추가 무결성 readback 결과 orphan source cell/link/tranche는 0건이고, 대주 `인출시점`/`만기시점` 날짜 파싱 null도 0건입니다.
+- `funds/save-by-asset`는 live table 직접 write가 아니라 `ll_edit_requests` 승인 요청으로 접수하고, `edits/approve`에서 `fund_overview` 요청을 자산별 write 권한 재검증, 동시 승인 claim, readback/stale 차단, audit 포함 writer로 처리하도록 live Edge Function `ll-dashboard-api`에 배포했습니다.
+- Asset/PDF 펀드개요는 조회 결과가 오기 전에는 정적 fallback을 먼저 보여주지 않고, 401/403 권한 실패 시에도 정적 JSON fallback으로 우회하지 않도록 branch 프론트 코드를 보강했습니다.
+- 화면 데이터 소스 영향은 `dashboard-data-source-impact-matrix-20260520.md`로 정리했습니다. Home/Asset/Company/PDF/Analysis/Pivot/Data Quality는 아직 정적 JSON fallback을 제거하지 않습니다.
+- Batch status: `Supabase 마이그레이션 및 연결 완료` parent item은 진행중입니다. 완료된 증거는 펀드 엑셀 DB backfill/readback, live Edge deploy, CORS OPTIONS 200, unauth 401 smoke, scoped WorkspaceLogistics eslint pass, `npm run build:preview` pass입니다. Reviewer 재검토로 발견된 fallback 선노출, 승인자 자산별 권한, 동시 승인, 빈 배열 clear 위험은 즉시 보강했습니다. 남은 것은 Home/Asset/Company 핵심 payload의 Supabase primary 전환과 로그인 JWT 기반 화면 smoke입니다.
+- 기존 주의사항은 보고용이 아니라 처리 대기 작업으로 재분류했습니다: 전역 lint cleanup, valid JWT read smoke, Home/Asset/Company primary 전환, live Sheets 17탭 cell-level 보존.
+
+## Current Dashboard Read API / Primary-Safe Bridge Batch
+
+- `dashboard/asset/read`는 요청한 자산이 읽기 권한 밖이면 첫 번째 readable asset으로 대체하지 않고 403으로 차단하도록 보강했습니다.
+- `dashboard/company/read`는 readable asset의 lease space에서 파생된 tenant만 조회하도록 바꿔 권한 밖 tenant 존재 여부가 새지 않게 했습니다.
+- `dashboard/home/read`, `dashboard/asset/read`, `dashboard/company/read`의 성공 audit은 더 이상 실패를 무시하지 않습니다. 권한 거부 path도 `dashboard/*/read/denied` audit을 남기도록 보강했습니다.
+- Branch frontend에는 `useDashboardReadBridge`와 Home/Asset/Company adapter를 추가했습니다. `shadow`, `api-preview`, `primary-safe` 모드를 지원하되, live 기본값은 보호를 위해 `shadow`로 유지했습니다.
+- 401/403 및 shape/basis/evidence mismatch에서는 정적 JSON fallback을 차단합니다. 5xx/timeout/network 계열만 제한적으로 fallback 허용합니다.
+- Home blocked 상태에서 `homeData`, `staticGeneralRows`, `assetOptionsData`가 섞여 보이는 경로를 막았습니다.
+- `dashboard/*/read` 응답에 scoped `ll_leases`, `ll_tenants`를 포함해 계약일, 임차인명, 사업자번호를 정적 JSON 보정보다 Supabase 응답에서 먼저 쓰도록 보강했습니다.
+- QA: `git diff --check` pass, scoped `WorkspaceLogistics.jsx` eslint pass, `npm run build:preview` pass, dist secret-pattern scan 0 hits, live Edge deploy pass, Edge OPTIONS 200, unauth dashboard/home/read and dashboard/asset/read 401.
+- Reviewer 판정: Security/API와 Data/Frontend reviewer 기준으로 방향은 맞으나, Home derived chart series/PDF scope/Company selector 일부는 아직 static-mixed입니다. `Supabase 마이그레이션 및 연결 완료` parent item은 계속 진행중이며, valid logged-in JWT 200 smoke와 화면별 Supabase primary parity가 남아 있습니다.

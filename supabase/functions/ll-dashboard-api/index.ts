@@ -36,6 +36,9 @@ const WRITE_TABLE_ALLOWLIST = new Set([
   'public.ll_work_platform_tasks',
   'public.ll_work_platform_board_posts',
   'public.ll_weekly_assets',
+  'public.ll_funds',
+  'public.ll_fund_beneficiary_tranches',
+  'public.ll_fund_loan_tranches',
   'public.ll_api_audit_logs',
   'public.ll_data_change_audit_logs',
   'public.ll_external_api_cache',
@@ -54,6 +57,9 @@ const EDIT_TARGET_TABLE_ALLOWLIST = new Set([
   'public.ll_weekly_assets',
   'public.ll_weekly_projects',
   'public.ll_weekly_reports',
+  'public.ll_funds',
+  'public.ll_fund_beneficiary_tranches',
+  'public.ll_fund_loan_tranches',
 ]);
 
 const EDIT_FIELD_ALLOWLIST: Record<string, Set<string>> = {
@@ -133,6 +139,18 @@ const EDIT_FIELD_ALLOWLIST: Record<string, Set<string>> = {
   'public.ll_weekly_assets': new Set(['asset_name', 'issue', 'plan', 'status', 'owner_name', 'stakeholder', 'row_json']),
   'public.ll_weekly_projects': new Set(['project_type', 'project_name', 'issue', 'plan', 'status', 'owner_name', 'stakeholder', 'row_json']),
   'public.ll_weekly_reports': new Set(['report_json', 'summary_text', 'key_issues', 'current_status', 'next_plan']),
+  'public.ll_funds': new Set([
+    'fund_name', 'short_name', 'legal_form', 'investment_sector', 'fund_type', 'investment_strategy',
+    'initial_setup_date', 'maturity_date', 'notes',
+  ]),
+  'public.ll_fund_beneficiary_tranches': new Set([
+    'tranche', 'beneficiary_name', 'committed_amount_krw', 'display_order', 'is_active',
+  ]),
+  'public.ll_fund_loan_tranches': new Set([
+    'tranche', 'lender_name', 'committed_amount_krw', 'drawdown_date', 'maturity_date',
+    'loan_period', 'loan_type', 'interest_type', 'base_rate', 'spread_rate', 'loan_rate',
+    'interest_rate', 'fee', 'fee_rate', 'all_in', 'all_in_rate', 'display_order', 'is_active',
+  ]),
 };
 
 const IMMUTABLE_FIELDS = new Set([
@@ -157,6 +175,7 @@ const PRIMARY_KEY_FIELDS = new Set([
   'asset_id',
   'tenant_id',
   'lease_id',
+  'fund_id',
 ]);
 
 const rateBuckets = new Map<string, RateBucket>();
@@ -246,7 +265,7 @@ function jsonResponse(body: unknown, status = 200, origin = '') {
 }
 
 function fail(status: number, message: string, origin: string, detail?: unknown) {
-  return jsonResponse({ ok: false, message, detail }, status, origin);
+  return jsonResponse({ ok: false, status, message, detail }, status, origin);
 }
 
 function roleRank(role: string | undefined) {
@@ -299,6 +318,30 @@ function valuesEqual(a: unknown, b: unknown) {
   const leftNumber = Number(left.replace(/,/gu, ''));
   const rightNumber = Number(right.replace(/,/gu, ''));
   return Number.isFinite(leftNumber) && Number.isFinite(rightNumber) && Math.abs(leftNumber - rightNumber) < 0.000001;
+}
+
+function parseJsonValue(value: unknown, fallback: unknown = null): unknown {
+  if (value === undefined || value === null || value === '') return fallback;
+  if (typeof value !== 'string') return value;
+  try {
+    return JSON.parse(value);
+  } catch {
+    return fallback;
+  }
+}
+
+function stableComparable(value: unknown): unknown {
+  if (Array.isArray(value)) return value.map(stableComparable);
+  if (!value || typeof value !== 'object') return value;
+  return Object.fromEntries(
+    Object.entries(value as Record<string, unknown>)
+      .sort(([left], [right]) => left.localeCompare(right))
+      .map(([key, child]) => [key, stableComparable(child)]),
+  );
+}
+
+function jsonValuesEqual(a: unknown, b: unknown) {
+  return JSON.stringify(stableComparable(a)) === JSON.stringify(stableComparable(b));
 }
 
 function redactSensitivePayload(value: unknown, depth = 0): unknown {
@@ -386,12 +429,18 @@ async function getContext(request: Request, origin: string): Promise<Context> {
 }
 
 async function audit(serviceClient: SupabaseClient, userId: string | null, action: string, status: number, payload: unknown) {
-  await serviceClient.from('ll_api_audit_logs').insert({
+  const { error } = await serviceClient.from('ll_api_audit_logs').insert({
     action,
     status_code: status,
     requested_by: userId,
     request_payload: stripUndefined(redactSensitivePayload(payload)),
   });
+  if (error) throw new Error(`Failed to write API audit log: ${error.message}`);
+}
+
+async function denyDashboardRead(ctx: Context, action: string, status: number, message: string, reason: string) {
+  await audit(ctx.serviceClient, ctx.user.id, `${action}/denied`, status, { reason });
+  return fail(status, message, ctx.origin);
 }
 
 function managedAssetCodes(permission: Record<string, unknown> | null) {
@@ -609,6 +658,54 @@ function pickLeaseSpacePublic(row: Record<string, unknown>) {
   });
 }
 
+function pickLeasePublic(row: Record<string, unknown>) {
+  return stripUndefined({
+    lease_id: row.lease_id,
+    asset_id: row.asset_id,
+    tenant_id: row.tenant_id,
+    lease_status: row.lease_status,
+    first_contract_date: row.first_contract_date,
+    first_start_date: row.first_start_date,
+    first_end_date: row.first_end_date,
+    first_operation_date: row.first_operation_date,
+    recent_contract_date: row.recent_contract_date,
+    current_start_date: row.current_start_date,
+    current_end_date: row.current_end_date,
+    contract_years: row.contract_years,
+    extension_count: row.extension_count,
+    deposit_amount: row.deposit_amount,
+    rf_months: row.rf_months,
+    fo_months: row.fo_months,
+    ti_amount: row.ti_amount,
+    rent_escalation_rate: row.rent_escalation_rate,
+    management_fee_escalation_rate: row.management_fee_escalation_rate,
+    escalation_cycle_months: row.escalation_cycle_months,
+    next_escalation_date: row.next_escalation_date,
+    tenant_cost_burden: row.tenant_cost_burden,
+    early_termination_right: row.early_termination_right,
+    renewal_option: row.renewal_option,
+    source_sheet_row_id: row.source_sheet_row_id,
+    review_status: row.review_status,
+  });
+}
+
+function pickTenantPublic(row: Record<string, unknown>) {
+  return stripUndefined({
+    tenant_id: row.tenant_id,
+    tenant_master_name: row.tenant_master_name,
+    raw_tenant_name: row.raw_tenant_name,
+    business_registration_no: row.business_registration_no,
+    dart_corp_code: row.dart_corp_code,
+    match_status: row.match_status,
+    industry_code: row.industry_code,
+    headquarters_address: row.headquarters_address,
+    listed_yn: row.listed_yn,
+    group_name: row.group_name,
+    source_sheet_row_id: row.source_sheet_row_id,
+    review_status: row.review_status,
+  });
+}
+
 function pickRentHistoryPublic(row: Record<string, unknown>) {
   return stripUndefined({
     rent_history_id: row.rent_history_id,
@@ -632,6 +729,125 @@ function pickRentHistoryPublic(row: Record<string, unknown>) {
     source_contract_lease_space_id: row.source_contract_lease_space_id,
     review_status: row.review_status,
   });
+}
+
+function pickAreaBreakdownPublic(row: Record<string, unknown>) {
+  return stripUndefined({
+    id: row.id,
+    lease_space_id: row.lease_space_id,
+    lease_id: row.lease_id,
+    asset_id: row.asset_id,
+    tenant_id: row.tenant_id,
+    area_type: row.area_type,
+    area_label: row.area_label,
+    area_sqm: row.area_sqm,
+    area_py: row.area_py,
+    basis: row.basis,
+    source_sheet_row_id: row.source_sheet_row_id,
+    source_cell_id: row.source_cell_id,
+    review_status: row.review_status,
+    review_note: row.review_note,
+  });
+}
+
+function pickLeaseSpaceSpecPublic(row: Record<string, unknown>) {
+  return stripUndefined({
+    id: row.id,
+    lease_space_id: row.lease_space_id,
+    lease_id: row.lease_id,
+    asset_id: row.asset_id,
+    tenant_id: row.tenant_id,
+    spec_key: row.spec_key,
+    spec_label: row.spec_label,
+    spec_value: row.spec_value,
+    spec_numeric: row.spec_numeric,
+    unit_label: row.unit_label,
+    basis: row.basis,
+    source_sheet_row_id: row.source_sheet_row_id,
+    source_cell_id: row.source_cell_id,
+    review_status: row.review_status,
+    review_note: row.review_note,
+  });
+}
+
+function pickSpecialTermPublic(row: Record<string, unknown>) {
+  return stripUndefined({
+    id: row.id,
+    lease_space_id: row.lease_space_id,
+    lease_id: row.lease_id,
+    asset_id: row.asset_id,
+    tenant_id: row.tenant_id,
+    term_key: row.term_key,
+    term_label: row.term_label,
+    term_value: row.term_value,
+    term_numeric: row.term_numeric,
+    unit_label: row.unit_label,
+    basis: row.basis,
+    source_sheet_row_id: row.source_sheet_row_id,
+    source_cell_id: row.source_cell_id,
+    review_status: row.review_status,
+    review_note: row.review_note,
+  });
+}
+
+async function listLeasesByIds(ctx: Context, leaseIds: string[]) {
+  const ids = [...new Set(leaseIds.filter(Boolean))];
+  if (!ids.length) return { rows: [], errorResponse: null };
+  const { data, error } = await ctx.serviceClient
+    .from('ll_leases')
+    .select('*')
+    .in('lease_id', ids)
+    .limit(1000);
+  if (error) return { rows: [], errorResponse: fail(500, 'Failed to read leases', ctx.origin) };
+  return { rows: (data || []) as Record<string, unknown>[], errorResponse: null };
+}
+
+async function listAreaBreakdownsForLeaseSpaces(ctx: Context, leaseSpaceIds: string[]) {
+  const ids = [...new Set(leaseSpaceIds.filter(Boolean))];
+  if (!ids.length) return { rows: [], errorResponse: null };
+  const { data, error } = await ctx.serviceClient
+    .from('ll_lease_space_area_breakdowns')
+    .select('*')
+    .in('lease_space_id', ids)
+    .limit(5000);
+  if (error) return { rows: [], errorResponse: fail(500, 'Failed to read lease-space area breakdowns', ctx.origin) };
+  return { rows: (data || []) as Record<string, unknown>[], errorResponse: null };
+}
+
+async function listLeaseSpaceSpecsForLeaseSpaces(ctx: Context, leaseSpaceIds: string[]) {
+  const ids = [...new Set(leaseSpaceIds.filter(Boolean))];
+  if (!ids.length) return { rows: [], errorResponse: null };
+  const { data, error } = await ctx.serviceClient
+    .from('ll_lease_space_specs')
+    .select('*')
+    .in('lease_space_id', ids)
+    .limit(5000);
+  if (error) return { rows: [], errorResponse: fail(500, 'Failed to read lease-space specs', ctx.origin) };
+  return { rows: (data || []) as Record<string, unknown>[], errorResponse: null };
+}
+
+async function listSpecialTermsForLeaseSpaces(ctx: Context, leaseSpaceIds: string[]) {
+  const ids = [...new Set(leaseSpaceIds.filter(Boolean))];
+  if (!ids.length) return { rows: [], errorResponse: null };
+  const { data, error } = await ctx.serviceClient
+    .from('ll_lease_special_terms')
+    .select('*')
+    .in('lease_space_id', ids)
+    .limit(10000);
+  if (error) return { rows: [], errorResponse: fail(500, 'Failed to read lease special terms', ctx.origin) };
+  return { rows: (data || []) as Record<string, unknown>[], errorResponse: null };
+}
+
+async function listTenantsByIds(ctx: Context, tenantIds: string[]) {
+  const ids = [...new Set(tenantIds.filter(Boolean))];
+  if (!ids.length) return { rows: [], errorResponse: null };
+  const { data, error } = await ctx.serviceClient
+    .from('ll_tenants')
+    .select('*')
+    .in('tenant_id', ids)
+    .limit(1000);
+  if (error) return { rows: [], errorResponse: fail(500, 'Failed to read tenants', ctx.origin) };
+  return { rows: (data || []) as Record<string, unknown>[], errorResponse: null };
 }
 
 async function listLeaseSpacesForAssets(ctx: Context, assetIds: string[]) {
@@ -658,7 +874,7 @@ async function listRentHistoryForAssets(ctx: Context, assetIds: string[]) {
 }
 
 async function callDashboardHomeRead(ctx: Context, payload: Record<string, unknown>) {
-  if (!hasRole(ctx.role, 'Reader')) return fail(403, 'Insufficient logistics permission', ctx.origin);
+  if (!hasRole(ctx.role, 'Reader')) return denyDashboardRead(ctx, 'dashboard/home/read', 403, 'Insufficient logistics permission', 'role_below_reader');
   const assetResult = await listReadableAssetsForDashboard(ctx);
   if (assetResult.errorResponse) return assetResult.errorResponse;
   const assets = assetResult.rows;
@@ -669,6 +885,22 @@ async function callDashboardHomeRead(ctx: Context, payload: Record<string, unkno
   if (historyResult.errorResponse) return historyResult.errorResponse;
   const leaseSpaces = spacesResult.rows;
   const rentHistory = historyResult.rows;
+  const leaseSpaceIds = leaseSpaces.map((row) => String(row.lease_space_id || '')).filter(Boolean);
+  const areaResult = await listAreaBreakdownsForLeaseSpaces(ctx, leaseSpaceIds);
+  if (areaResult.errorResponse) return areaResult.errorResponse;
+  const specResult = await listLeaseSpaceSpecsForLeaseSpaces(ctx, leaseSpaceIds);
+  if (specResult.errorResponse) return specResult.errorResponse;
+  const termResult = await listSpecialTermsForLeaseSpaces(ctx, leaseSpaceIds);
+  if (termResult.errorResponse) return termResult.errorResponse;
+  const areaBreakdowns = areaResult.rows;
+  const leaseSpaceSpecs = specResult.rows;
+  const specialTerms = termResult.rows;
+  const leaseResult = await listLeasesByIds(ctx, leaseSpaces.map((row) => String(row.lease_id || '')));
+  if (leaseResult.errorResponse) return leaseResult.errorResponse;
+  const tenantResult = await listTenantsByIds(ctx, leaseSpaces.map((row) => String(row.tenant_id || '')));
+  if (tenantResult.errorResponse) return tenantResult.errorResponse;
+  const leases = leaseResult.rows;
+  const tenants = tenantResult.rows;
   const latestHistory = rentHistory.filter((row) => row.is_latest === true);
   const summary = {
     operating_asset_count: assets.length,
@@ -691,12 +923,22 @@ async function callDashboardHomeRead(ctx: Context, payload: Record<string, unkno
     data: {
       summary,
       assets: assets.map(pickAssetPublic),
+      tenants: tenants.map(pickTenantPublic),
+      leases: leases.map(pickLeasePublic),
       lease_spaces: leaseSpaces.map(pickLeaseSpacePublic),
+      lease_space_area_breakdowns: areaBreakdowns.map(pickAreaBreakdownPublic),
+      lease_space_specs: leaseSpaceSpecs.map(pickLeaseSpaceSpecPublic),
+      lease_special_terms: specialTerms.map(pickSpecialTermPublic),
       rent_history: rentHistory.map(pickRentHistoryPublic),
     },
     evidence: dashboardEvidence([
       { table: 'public.ll_assets', rows: assets.length },
+      { table: 'public.ll_tenants', rows: tenants.length },
+      { table: 'public.ll_leases', rows: leases.length },
       { table: 'public.ll_lease_spaces', rows: leaseSpaces.length },
+      { table: 'public.ll_lease_space_area_breakdowns', rows: areaBreakdowns.length },
+      { table: 'public.ll_lease_space_specs', rows: leaseSpaceSpecs.length },
+      { table: 'public.ll_lease_special_terms', rows: specialTerms.length },
       { table: 'public.ll_rent_history', rows: rentHistory.length },
     ]),
     warnings: [],
@@ -704,24 +946,30 @@ async function callDashboardHomeRead(ctx: Context, payload: Record<string, unkno
   await audit(ctx.serviceClient, ctx.user.id, 'dashboard/home/read', 200, {
     basis_date: body.basis_date,
     readable_assets: assets.length,
+    tenants: tenants.length,
+    leases: leases.length,
     lease_spaces: leaseSpaces.length,
+    lease_space_area_breakdowns: areaBreakdowns.length,
+    lease_space_specs: leaseSpaceSpecs.length,
+    lease_special_terms: specialTerms.length,
     rent_history: rentHistory.length,
-  }).catch(() => {});
+  });
   return jsonResponse(body, 200, ctx.origin);
 }
 
 async function callDashboardAssetRead(ctx: Context, payload: Record<string, unknown>) {
-  if (!hasRole(ctx.role, 'Reader')) return fail(403, 'Insufficient logistics permission', ctx.origin);
+  if (!hasRole(ctx.role, 'Reader')) return denyDashboardRead(ctx, 'dashboard/asset/read', 403, 'Insufficient logistics permission', 'role_below_reader');
   const assetResult = await listReadableAssetsForDashboard(ctx);
   if (assetResult.errorResponse) return assetResult.errorResponse;
   const readableAssets = assetResult.rows;
   const requested = safeText(firstDefined(payload.asset_id, payload.assetId, payload.asset_name, payload.assetName));
-  const asset = readableAssets.find((row) => (
+  const asset = requested ? readableAssets.find((row) => (
     String(row.asset_id || '') === requested
     || String(row.asset_code || '') === requested
     || String(row.asset_name || '') === requested
-  )) || readableAssets[0];
-  if (!asset) return fail(404, 'Readable asset not found', ctx.origin);
+  )) : readableAssets[0];
+  if (requested && !asset) return denyDashboardRead(ctx, 'dashboard/asset/read', 403, 'Requested asset is not readable for this user', 'requested_asset_not_readable');
+  if (!asset) return denyDashboardRead(ctx, 'dashboard/asset/read', 404, 'Readable asset not found', 'no_readable_asset');
   const assetId = String(asset.asset_id || '');
   const spacesResult = await listLeaseSpacesForAssets(ctx, [assetId]);
   if (spacesResult.errorResponse) return spacesResult.errorResponse;
@@ -729,7 +977,30 @@ async function callDashboardAssetRead(ctx: Context, payload: Record<string, unkn
   if (historyResult.errorResponse) return historyResult.errorResponse;
   const leaseSpaces = spacesResult.rows;
   const rentHistory = historyResult.rows;
+  const leaseSpaceIds = leaseSpaces.map((row) => String(row.lease_space_id || '')).filter(Boolean);
+  const areaResult = await listAreaBreakdownsForLeaseSpaces(ctx, leaseSpaceIds);
+  if (areaResult.errorResponse) return areaResult.errorResponse;
+  const specResult = await listLeaseSpaceSpecsForLeaseSpaces(ctx, leaseSpaceIds);
+  if (specResult.errorResponse) return specResult.errorResponse;
+  const termResult = await listSpecialTermsForLeaseSpaces(ctx, leaseSpaceIds);
+  if (termResult.errorResponse) return termResult.errorResponse;
+  const areaBreakdowns = areaResult.rows;
+  const leaseSpaceSpecs = specResult.rows;
+  const specialTerms = termResult.rows;
+  const leaseResult = await listLeasesByIds(ctx, leaseSpaces.map((row) => String(row.lease_id || '')));
+  if (leaseResult.errorResponse) return leaseResult.errorResponse;
+  const tenantResult = await listTenantsByIds(ctx, leaseSpaces.map((row) => String(row.tenant_id || '')));
+  if (tenantResult.errorResponse) return tenantResult.errorResponse;
+  const leases = leaseResult.rows;
+  const tenants = tenantResult.rows;
   const scope = await dashboardScope(ctx, readableAssets);
+  let fundOverview: Record<string, unknown> | null = null;
+  const warnings: string[] = [];
+  try {
+    fundOverview = await readFundOverviewPayload(ctx, { asset_id: assetId, asset_name: asset.asset_name });
+  } catch (error) {
+    warnings.push(error instanceof Error ? error.message : 'Fund overview read failed');
+  }
   const body = {
     ok: true,
     source: 'supabase',
@@ -738,7 +1009,13 @@ async function callDashboardAssetRead(ctx: Context, payload: Record<string, unkn
     scope,
     data: {
       asset: pickAssetPublic(asset),
+      fund_overview: fundOverview,
+      tenants: tenants.map(pickTenantPublic),
+      leases: leases.map(pickLeasePublic),
       lease_spaces: leaseSpaces.map(pickLeaseSpacePublic),
+      lease_space_area_breakdowns: areaBreakdowns.map(pickAreaBreakdownPublic),
+      lease_space_specs: leaseSpaceSpecs.map(pickLeaseSpaceSpecPublic),
+      lease_special_terms: specialTerms.map(pickSpecialTermPublic),
       rent_history: rentHistory.map(pickRentHistoryPublic),
       summary: {
         gross_floor_area_sqm: asset.gross_floor_area_sqm,
@@ -751,33 +1028,55 @@ async function callDashboardAssetRead(ctx: Context, payload: Record<string, unkn
     },
     evidence: dashboardEvidence([
       { table: 'public.ll_assets', rows: 1 },
+      { table: 'public.ll_funds', rows: fundOverview ? 1 : 0 },
+      { table: 'public.ll_fund_asset_links', rows: fundOverview ? 1 : 0 },
+      { table: 'public.ll_tenants', rows: tenants.length },
+      { table: 'public.ll_leases', rows: leases.length },
       { table: 'public.ll_lease_spaces', rows: leaseSpaces.length },
+      { table: 'public.ll_lease_space_area_breakdowns', rows: areaBreakdowns.length },
+      { table: 'public.ll_lease_space_specs', rows: leaseSpaceSpecs.length },
+      { table: 'public.ll_lease_special_terms', rows: specialTerms.length },
       { table: 'public.ll_rent_history', rows: rentHistory.length },
     ]),
-    warnings: [],
+    warnings,
   };
   await audit(ctx.serviceClient, ctx.user.id, 'dashboard/asset/read', 200, {
     basis_date: body.basis_date,
     asset_id: assetId,
+    tenants: tenants.length,
+    leases: leases.length,
     lease_spaces: leaseSpaces.length,
+    lease_space_area_breakdowns: areaBreakdowns.length,
+    lease_space_specs: leaseSpaceSpecs.length,
+    lease_special_terms: specialTerms.length,
     rent_history: rentHistory.length,
-  }).catch(() => {});
+  });
   return jsonResponse(body, 200, ctx.origin);
 }
 
 async function callDashboardCompanyRead(ctx: Context, payload: Record<string, unknown>) {
-  if (!hasRole(ctx.role, 'Reader')) return fail(403, 'Insufficient logistics permission', ctx.origin);
+  if (!hasRole(ctx.role, 'Reader')) return denyDashboardRead(ctx, 'dashboard/company/read', 403, 'Insufficient logistics permission', 'role_below_reader');
   const assetResult = await listReadableAssetsForDashboard(ctx);
   if (assetResult.errorResponse) return assetResult.errorResponse;
   const readableAssets = assetResult.rows;
   const readableAssetIds = new Set(readableAssets.map((row) => String(row.asset_id || '')).filter(Boolean));
+  if (!readableAssetIds.size) return denyDashboardRead(ctx, 'dashboard/company/read', 403, 'No readable assets for this user', 'no_readable_assets');
   const requested = safeText(firstDefined(payload.tenant_id, payload.tenantId, payload.tenant_name, payload.tenantName, payload.company_name, payload.companyName));
-  const tenantQuery = ctx.serviceClient
+  const { data: spacesData, error: spacesError } = await ctx.serviceClient
+    .from('ll_lease_spaces')
+    .select('*')
+    .in('asset_id', [...readableAssetIds])
+    .limit(1000);
+  if (spacesError) return fail(500, 'Failed to read readable lease spaces', ctx.origin);
+  const readableLeaseSpaces = (spacesData || []) as Record<string, unknown>[];
+  const readableTenantIds = [...new Set(readableLeaseSpaces.map((row) => String(row.tenant_id || '')).filter(Boolean))];
+  if (!readableTenantIds.length) return denyDashboardRead(ctx, 'dashboard/company/read', 403, 'No readable tenant exposure for this user', 'no_readable_tenant_exposure');
+  const { data: tenantsData, error: tenantsError } = await ctx.serviceClient
     .from('ll_tenants')
     .select('*')
+    .in('tenant_id', readableTenantIds)
     .limit(200);
-  const { data: tenantsData, error: tenantsError } = await tenantQuery;
-  if (tenantsError) return fail(500, 'Failed to read tenants', ctx.origin);
+  if (tenantsError) return fail(500, 'Failed to read readable tenants', ctx.origin);
   const tenants = (tenantsData || []) as Record<string, unknown>[];
   const tenant = requested
     ? tenants.find((row) => (
@@ -787,20 +1086,26 @@ async function callDashboardCompanyRead(ctx: Context, payload: Record<string, un
       || String(row.business_registration_no || '') === requested
     ))
     : tenants[0];
-  if (!tenant) return fail(404, 'Tenant not found', ctx.origin);
+  if (!tenant) return denyDashboardRead(ctx, 'dashboard/company/read', 403, 'No readable tenant exposure for this user', 'tenant_not_in_readable_exposure');
   const tenantId = String(tenant.tenant_id || '');
-  const { data: spacesData, error: spacesError } = await ctx.serviceClient
-    .from('ll_lease_spaces')
-    .select('*')
-    .eq('tenant_id', tenantId)
-    .limit(1000);
-  if (spacesError) return fail(500, 'Failed to read tenant lease spaces', ctx.origin);
-  const leaseSpaces = ((spacesData || []) as Record<string, unknown>[])
-    .filter((row) => readableAssetIds.has(String(row.asset_id || '')));
+  const leaseSpaces = readableLeaseSpaces.filter((row) => String(row.tenant_id || '') === tenantId);
+  const leaseSpaceIds = leaseSpaces.map((row) => String(row.lease_space_id || '')).filter(Boolean);
   const assetIds = [...new Set(leaseSpaces.map((row) => String(row.asset_id || '')).filter(Boolean))];
-  if (!leaseSpaces.length) return fail(403, 'No readable tenant exposure for this user', ctx.origin);
+  if (!leaseSpaces.length) return denyDashboardRead(ctx, 'dashboard/company/read', 403, 'No readable tenant exposure for this user', 'tenant_has_no_readable_lease_space');
+  const leaseResult = await listLeasesByIds(ctx, leaseSpaces.map((row) => String(row.lease_id || '')));
+  if (leaseResult.errorResponse) return leaseResult.errorResponse;
+  const areaResult = await listAreaBreakdownsForLeaseSpaces(ctx, leaseSpaceIds);
+  if (areaResult.errorResponse) return areaResult.errorResponse;
+  const specResult = await listLeaseSpaceSpecsForLeaseSpaces(ctx, leaseSpaceIds);
+  if (specResult.errorResponse) return specResult.errorResponse;
+  const termResult = await listSpecialTermsForLeaseSpaces(ctx, leaseSpaceIds);
+  if (termResult.errorResponse) return termResult.errorResponse;
   const historyResult = await listRentHistoryForAssets(ctx, assetIds);
   if (historyResult.errorResponse) return historyResult.errorResponse;
+  const leases = leaseResult.rows.filter((row) => String(row.tenant_id || '') === tenantId);
+  const areaBreakdowns = areaResult.rows;
+  const leaseSpaceSpecs = specResult.rows;
+  const specialTerms = termResult.rows;
   const rentHistory = historyResult.rows.filter((row) => String(row.tenant_id || '') === tenantId);
   const assets = readableAssets.filter((row) => assetIds.includes(String(row.asset_id || '')));
   const scope = await dashboardScope(ctx, readableAssets);
@@ -821,7 +1126,12 @@ async function callDashboardCompanyRead(ctx: Context, payload: Record<string, un
         review_status: tenant.review_status,
       }),
       assets: assets.map(pickAssetPublic),
+      tenants: [tenant].map(pickTenantPublic),
+      leases: leases.map(pickLeasePublic),
       lease_spaces: leaseSpaces.map(pickLeaseSpacePublic),
+      lease_space_area_breakdowns: areaBreakdowns.map(pickAreaBreakdownPublic),
+      lease_space_specs: leaseSpaceSpecs.map(pickLeaseSpaceSpecPublic),
+      lease_special_terms: specialTerms.map(pickSpecialTermPublic),
       rent_history: rentHistory.map(pickRentHistoryPublic),
       summary: {
         asset_count: assets.length,
@@ -834,7 +1144,11 @@ async function callDashboardCompanyRead(ctx: Context, payload: Record<string, un
     evidence: dashboardEvidence([
       { table: 'public.ll_tenants', rows: 1 },
       { table: 'public.ll_assets', rows: assets.length },
+      { table: 'public.ll_leases', rows: leases.length },
       { table: 'public.ll_lease_spaces', rows: leaseSpaces.length },
+      { table: 'public.ll_lease_space_area_breakdowns', rows: areaBreakdowns.length },
+      { table: 'public.ll_lease_space_specs', rows: leaseSpaceSpecs.length },
+      { table: 'public.ll_lease_special_terms', rows: specialTerms.length },
       { table: 'public.ll_rent_history', rows: rentHistory.length },
     ]),
     warnings: [],
@@ -843,9 +1157,13 @@ async function callDashboardCompanyRead(ctx: Context, payload: Record<string, un
     basis_date: body.basis_date,
     tenant_id: tenantId,
     assets: assets.length,
+    leases: leases.length,
     lease_spaces: leaseSpaces.length,
+    lease_space_area_breakdowns: areaBreakdowns.length,
+    lease_space_specs: leaseSpaceSpecs.length,
+    lease_special_terms: specialTerms.length,
     rent_history: rentHistory.length,
-  }).catch(() => {});
+  });
   return jsonResponse(body, 200, ctx.origin);
 }
 
@@ -1013,7 +1331,7 @@ async function rollbackAppliedEdits(client: SupabaseClient, applied: Array<{ cel
 }
 
 async function writeDataChangeAudit(ctx: Context, editRequestId: string, cell: ReturnType<typeof normalizeEditCells>[number], beforeValue: unknown, afterValue: unknown, readbackValue: unknown, status: string, actorId?: string) {
-  await ctx.serviceClient.from('ll_data_change_audit_logs').insert({
+  const { error } = await ctx.serviceClient.from('ll_data_change_audit_logs').insert({
     edit_request_id: editRequestId,
     action: 'data_quality_write',
     target_table: cell.targetTable,
@@ -1030,6 +1348,7 @@ async function writeDataChangeAudit(ctx: Context, editRequestId: string, cell: R
     approval_status: status,
     metadata: redactSensitivePayload({ primary_key_field: cell.primaryKeyField, asset_id: cell.assetId || null, asset_name: cell.assetName || null }),
   });
+  if (error) throw new Error(`Failed to write data change audit log: ${error.message}`);
 }
 
 function canReadDataQualityRow(ctx: Context, row: Record<string, unknown>) {
@@ -1177,6 +1496,205 @@ async function submitEdit(ctx: Context, payload: Record<string, unknown>) {
   return jsonResponse({ ok: true, message: 'Edit request submitted', data }, 200, ctx.origin);
 }
 
+function fundOverviewComparable(value: unknown) {
+  const record = (value && typeof value === 'object') ? value as Record<string, unknown> : {};
+  return stableComparable({
+    fund_info_rows: record.fund_info_rows || [],
+    beneficiary_rows: record.beneficiary_rows || [],
+    loan_rows: record.loan_rows || [],
+  });
+}
+
+async function writeFundOverviewAudit(
+  ctx: Context,
+  editRequestId: string,
+  fundId: string,
+  beforeValue: unknown,
+  afterValue: unknown,
+  readbackValue: unknown,
+  status: string,
+  actorId: string,
+) {
+  const { error } = await ctx.serviceClient.from('ll_data_change_audit_logs').insert({
+    edit_request_id: editRequestId,
+    action: 'fund_overview_write',
+    target_table: 'public.ll_funds',
+    target_row_id: fundId,
+    target_cell_id: null,
+    field_name: 'fund_overview',
+    before_value: normalizeText(beforeValue),
+    after_value: normalizeText(afterValue),
+    readback_value: normalizeText(readbackValue),
+    actor_id: actorId || null,
+    approver_id: ctx.user.id,
+    source_row_id: null,
+    source_cell_id: null,
+    approval_status: status,
+    metadata: redactSensitivePayload({ edge_action: 'edits/approve', target_type: 'fund_overview' }),
+  });
+  if (error) throw new Error(`Failed to write fund overview audit log: ${error.message}`);
+}
+
+async function restoreFundOverviewSnapshot(ctx: Context, fundId: string, snapshot: Record<string, unknown>) {
+  const fundInfoRows = Array.isArray(snapshot.fund_info_rows) ? snapshot.fund_info_rows as string[][] : [];
+  const fundPatch = fundPatchFromInfoRows(fundInfoRows);
+  const { error: fundError } = await ctx.serviceClient
+    .from('ll_funds')
+    .update(fundPatch)
+    .eq('fund_id', fundId);
+  if (fundError) throw new Error(`Failed to restore fund overview: ${fundError.message}`);
+  await replaceFundRows(
+    ctx,
+    'll_fund_beneficiary_tranches',
+    fundId,
+    normalizeBeneficiaryTrancheRows(snapshot.beneficiary_rows),
+    [],
+  );
+  await replaceFundRows(
+    ctx,
+    'll_fund_loan_tranches',
+    fundId,
+    normalizeLoanTrancheRows(snapshot.loan_rows),
+    [],
+  );
+}
+
+async function approveFundOverviewEdit(ctx: Context, payload: Record<string, unknown>, data: Record<string, unknown>) {
+  const id = safeText(data.id);
+  const requesterId = safeText(data.requested_by);
+  const requestPayload = parseJsonValue(data.request_payload, {}) as Record<string, unknown>;
+  const requestedValue = parseJsonValue(data.requested_value, requestPayload.requested_value || {}) as Record<string, unknown>;
+  const beforeValue = parseJsonValue(data.before_value, requestPayload.submit_readback || {}) as Record<string, unknown>;
+  const assetId = safeText(firstDefined(requestPayload.target_asset_id, requestedValue.asset_id));
+  const assetName = safeText(firstDefined(requestPayload.target_asset_name, requestedValue.asset_name, data.target_name));
+  const fundId = safeText(firstDefined(requestPayload.target_fund_id, data.target_row_id));
+  if (!fundId) return fail(400, 'fund_id is required for fund overview approval', ctx.origin);
+  if (!canWriteRelatedAsset(ctx, assetId, assetName)) {
+    return fail(403, 'Insufficient update permission for this fund overview asset', ctx.origin);
+  }
+
+  const beforeResolved = await resolveFundOverview(ctx, { asset_id: assetId, asset_name: assetName });
+  if (safeText(beforeResolved.fund.fund_id) !== fundId) {
+    return fail(409, 'Fund overview target changed before approval', ctx.origin);
+  }
+  const currentReadback = await readFundOverviewPayload(ctx, { asset_id: assetId, asset_name: assetName });
+  if (!jsonValuesEqual(currentReadback, beforeValue)) {
+    await ctx.serviceClient.from('ll_edit_requests').update({
+      status: 'stale_blocked',
+      readback_value: normalizeText(currentReadback),
+      write_error: 'stale fund overview value',
+      write_result: redactSensitivePayload({ before_value: beforeValue, current_readback: currentReadback }),
+      updated_at: new Date().toISOString(),
+    }).eq('id', id);
+    await writeFundOverviewAudit(ctx, id, fundId, beforeValue, requestedValue, currentReadback, 'stale_blocked', requesterId);
+    await audit(ctx.serviceClient, ctx.user.id, 'edits/approve/fund_overview/stale_blocked', 409, { id, fund_id: fundId });
+    return fail(409, 'Stale fund overview value blocked before write', ctx.origin);
+  }
+
+  const hasBeneficiaryRows = Object.prototype.hasOwnProperty.call(requestedValue, 'beneficiary_rows');
+  const hasLoanRows = Object.prototype.hasOwnProperty.call(requestedValue, 'loan_rows');
+  const beneficiaryRows = hasBeneficiaryRows ? normalizeBeneficiaryTrancheRows(requestedValue.beneficiary_rows) : null;
+  const loanRows = hasLoanRows ? normalizeLoanTrancheRows(requestedValue.loan_rows) : null;
+  if (hasBeneficiaryRows && !beneficiaryRows?.length && beforeResolved.beneficiaryRows.length > 0) {
+    return fail(400, 'Empty beneficiary rows would clear existing rows. Submit an explicit deletion workflow instead.', ctx.origin);
+  }
+  if (hasLoanRows && !loanRows?.length && beforeResolved.loanRows.length > 0) {
+    return fail(400, 'Empty loan rows would clear existing rows. Submit an explicit deletion workflow instead.', ctx.origin);
+  }
+
+  const startedAt = new Date().toISOString();
+  const { data: runningRequest, error: runningError } = await ctx.serviceClient
+    .from('ll_edit_requests')
+    .update({
+      status: 'approved_write_running',
+      approved_by: ctx.user.id,
+      approved_at: startedAt,
+      approval_note: payload.approval_note || null,
+      write_started_at: startedAt,
+      updated_at: startedAt,
+    })
+    .eq('id', id)
+    .eq('status', 'submitted')
+    .select('id, status')
+    .maybeSingle();
+  if (runningError) return fail(500, 'Failed to mark fund overview request as running', ctx.origin);
+  if (!runningRequest) return fail(409, 'Edit request is already being processed or is no longer submitted', ctx.origin);
+
+  try {
+    const fundInfoRows = normalizeFundInfoRows(requestedValue.fund_info_rows, beforeResolved.fund);
+    const fundPatch = fundPatchFromInfoRows(fundInfoRows);
+    const { error: fundError } = await ctx.serviceClient
+      .from('ll_funds')
+      .update(fundPatch)
+      .eq('fund_id', fundId);
+    if (fundError) throw new Error(`Failed to write fund overview: ${fundError.message}`);
+
+    if (beneficiaryRows) {
+      await replaceFundRows(ctx, 'll_fund_beneficiary_tranches', fundId, beneficiaryRows, beforeResolved.beneficiaryRows);
+    }
+    if (loanRows) {
+      await replaceFundRows(ctx, 'll_fund_loan_tranches', fundId, loanRows, beforeResolved.loanRows);
+    }
+
+    const afterReadback = await readFundOverviewPayload(ctx, { asset_id: assetId, asset_name: assetName });
+    if (!jsonValuesEqual(fundOverviewComparable(afterReadback), fundOverviewComparable(requestedValue))) {
+      await restoreFundOverviewSnapshot(ctx, fundId, beforeValue);
+      await ctx.serviceClient.from('ll_edit_requests').update({
+        status: 'readback_failed',
+        readback_value: normalizeText(afterReadback),
+        write_error: 'fund overview readback mismatch after write',
+        write_result: redactSensitivePayload({ requested_value: requestedValue, after_readback: afterReadback }),
+        updated_at: new Date().toISOString(),
+      }).eq('id', id);
+      await writeFundOverviewAudit(ctx, id, fundId, beforeValue, requestedValue, afterReadback, 'readback_failed', requesterId);
+      return fail(500, 'Fund overview write readback failed and rollback was attempted', ctx.origin);
+    }
+
+    const writtenAt = new Date().toISOString();
+    const { data: written, error: finalizeError } = await ctx.serviceClient
+      .from('ll_edit_requests')
+      .update({
+        status: 'written',
+        readback_value: normalizeText(afterReadback),
+        write_status: 'readback_confirmed',
+        write_result: redactSensitivePayload({ readback: afterReadback }),
+        written_at: writtenAt,
+        updated_at: writtenAt,
+      })
+      .eq('id', id)
+      .select('id, status, readback_value, write_result')
+      .single();
+    if (finalizeError) throw new Error(`Failed to finalize fund overview edit request: ${finalizeError.message}`);
+    await writeFundOverviewAudit(ctx, id, fundId, beforeValue, requestedValue, afterReadback, 'written', requesterId);
+    await audit(ctx.serviceClient, ctx.user.id, 'edits/approve/fund_overview/write', 200, { id, fund_id: fundId });
+    return jsonResponse({ ok: true, message: 'Fund overview request approved, written, read back, and audited', data: written }, 200, ctx.origin);
+  } catch (writeError) {
+    try {
+      await restoreFundOverviewSnapshot(ctx, fundId, beforeValue);
+    } catch (rollbackError) {
+      await ctx.serviceClient.from('ll_edit_requests').update({
+        status: 'write_failed_rollback_failed',
+        write_error: writeError instanceof Error ? writeError.message : 'unknown write error',
+        write_result: redactSensitivePayload({
+          rollback_error: rollbackError instanceof Error ? rollbackError.message : 'unknown rollback error',
+        }),
+        updated_at: new Date().toISOString(),
+      }).eq('id', id);
+      await audit(ctx.serviceClient, ctx.user.id, 'edits/approve/fund_overview/rollback_failed', 500, { id, fund_id: fundId });
+      return fail(500, 'Fund overview write failed and rollback also failed', ctx.origin);
+    }
+    await ctx.serviceClient.from('ll_edit_requests').update({
+      status: 'write_failed_rolled_back',
+      write_error: writeError instanceof Error ? writeError.message : 'unknown write error',
+      write_result: redactSensitivePayload({ rolled_back_to: beforeValue }),
+      updated_at: new Date().toISOString(),
+    }).eq('id', id);
+    await writeFundOverviewAudit(ctx, id, fundId, beforeValue, requestedValue, beforeValue, 'write_failed_rolled_back', requesterId);
+    await audit(ctx.serviceClient, ctx.user.id, 'edits/approve/fund_overview/write_failed_rolled_back', 500, { id, fund_id: fundId });
+    return fail(500, 'Fund overview write failed and rollback was attempted', ctx.origin);
+  }
+}
+
 async function approveEdit(ctx: Context, payload: Record<string, unknown>) {
   if (!hasRole(ctx.role, 'Manager')) return fail(403, 'Insufficient logistics permission', ctx.origin);
   if (!canUseDataQuality(ctx)) return fail(403, 'Data Quality permission is limited to Planning Center users', ctx.origin);
@@ -1192,6 +1710,11 @@ async function approveEdit(ctx: Context, payload: Record<string, unknown>) {
   if (error || !data) return fail(404, 'Edit request not found', ctx.origin);
   if (data.requested_by === ctx.user.id) return fail(403, 'Self approval is not allowed', ctx.origin);
   if (data.status !== 'submitted') return fail(409, 'Edit request is not in submitted status', ctx.origin);
+
+  const requestPayload = parseJsonValue(data.request_payload, {}) as Record<string, unknown>;
+  if (data.target_type === 'fund_overview' || requestPayload.kind === 'fund_overview') {
+    return approveFundOverviewEdit(ctx, payload, data as Record<string, unknown>);
+  }
 
   const cells = normalizeEditCells(data as Record<string, unknown>);
   const validationError = cells.map((cell) => validateEditCell(ctx, cell)).find(Boolean);
@@ -2196,6 +2719,405 @@ async function saveWeeklyProjectAssetDetail(ctx: Context, payload: Record<string
       investment_rows: readbackDetail.investmentRows,
     },
   }, 200, ctx.origin);
+}
+
+const FUND_INFO_ROW_DEFS = [
+  { group: '펀드 정보', item: '펀드명', field: 'fund_name' },
+  { group: '펀드 정보', item: '약칭', field: 'short_name' },
+  { group: '펀드 정보', item: '법적형태', field: 'legal_form' },
+  { group: '펀드 정보', item: '투자섹터', field: 'investment_sector' },
+  { group: '펀드 정보', item: '펀드유형', field: 'fund_type' },
+  { group: '펀드 정보', item: '투자전략', field: 'investment_strategy' },
+  { group: '펀드 정보', item: '최초설정일', field: 'initial_setup_date' },
+  { group: '펀드 정보', item: '만기일', field: 'maturity_date' },
+] as const;
+
+function fundInfoRowsFromFund(fund: Record<string, unknown> | null) {
+  return FUND_INFO_ROW_DEFS.map((row) => [
+    row.group,
+    row.item,
+    safeText(fund?.[row.field] || ''),
+  ]);
+}
+
+function normalizeFundInfoRows(value: unknown, fallbackFund: Record<string, unknown> | null = null) {
+  const rawRows = Array.isArray(value) ? value : [];
+  const byItem = new Map<string, string>();
+  for (const rawRow of rawRows) {
+    if (Array.isArray(rawRow)) {
+      byItem.set(safeText(rawRow[1]), safeText(rawRow[2]));
+    } else if (rawRow && typeof rawRow === 'object') {
+      const row = rawRow as Record<string, unknown>;
+      byItem.set(safeText(firstDefined(row.item, row.label, row.field)), safeText(firstDefined(row.value, row.content, row.text)));
+    }
+  }
+  return FUND_INFO_ROW_DEFS.map((row) => [
+    row.group,
+    row.item,
+    byItem.has(row.item) ? byItem.get(row.item) || '' : safeText(fallbackFund?.[row.field] || ''),
+  ]);
+}
+
+function fundPatchFromInfoRows(rows: string[][]) {
+  const patch: Record<string, unknown> = {};
+  for (const rowDef of FUND_INFO_ROW_DEFS) {
+    const row = rows.find((item) => safeText(item?.[1]) === rowDef.item);
+    const value = safeText(row?.[2]);
+    if (rowDef.field === 'initial_setup_date' || rowDef.field === 'maturity_date') {
+      patch[rowDef.field] = safeDateText(value);
+    } else {
+      patch[rowDef.field] = value || null;
+    }
+  }
+  patch.updated_at = new Date().toISOString();
+  return patch;
+}
+
+function parseKrwAmount(value: unknown) {
+  if (value === null || value === undefined || value === '') return null;
+  if (typeof value === 'number') return Number.isFinite(value) ? value : null;
+  const text = safeText(value);
+  if (!text) return null;
+  const numeric = Number(text.replace(/[^0-9.-]/gu, ''));
+  if (!Number.isFinite(numeric)) return null;
+  if (/조/u.test(text)) return numeric * 1_000_000_000_000;
+  if (/억/u.test(text)) return numeric * 100_000_000;
+  if (/만/u.test(text)) return numeric * 10_000;
+  return numeric;
+}
+
+function activeRowKey(prefix: string, index: number, raw: Record<string, unknown>) {
+  return safeText(firstDefined(raw.row_key, raw.rowKey, raw.id)) || `${prefix}_${String(index + 1).padStart(3, '0')}`;
+}
+
+function normalizeBeneficiaryTrancheRows(value: unknown) {
+  const rows = Array.isArray(value) ? value : [];
+  return rows.map((rawRow, index) => {
+    const row = Array.isArray(rawRow)
+      ? { tranche: rawRow[0], beneficiary_name: rawRow[1], committed_amount_krw: rawRow[2] }
+      : rawRow && typeof rawRow === 'object'
+        ? rawRow as Record<string, unknown>
+        : {};
+    return {
+      row_key: activeRowKey('beneficiary', index, row),
+      tranche: safeText(firstDefined(row.tranche, row.tranche_name)),
+      beneficiary_name: safeText(firstDefined(row.beneficiary_name, row.beneficiaryName, row.beneficiary, row.name)),
+      committed_amount_krw: parseKrwAmount(firstDefined(row.committed_amount_krw, row.committedAmountKrw, row.amount, row.value)),
+      display_order: index + 1,
+      is_active: true,
+      deleted_at: null,
+    };
+  }).filter((row) => row.tranche || row.beneficiary_name || row.committed_amount_krw !== null);
+}
+
+function normalizeLoanTrancheRows(value: unknown) {
+  const rows = Array.isArray(value) ? value : [];
+  return rows.map((rawRow, index) => {
+    const row = Array.isArray(rawRow)
+      ? {
+        tranche: rawRow[0],
+        lender_name: rawRow[1],
+        committed_amount_krw: rawRow[2],
+        drawdown_date: rawRow[3],
+        maturity_date: rawRow[4],
+        loan_period: rawRow[5],
+        interest_rate: rawRow[6],
+        fee: rawRow[7],
+        all_in: rawRow[8],
+      }
+      : rawRow && typeof rawRow === 'object'
+        ? rawRow as Record<string, unknown>
+        : {};
+    return {
+      row_key: activeRowKey('loan', index, row),
+      tranche: safeText(firstDefined(row.tranche, row.tranche_name)),
+      lender_name: safeText(firstDefined(row.lender_name, row.lenderName, row.lender, row.name)),
+      committed_amount_krw: parseKrwAmount(firstDefined(row.committed_amount_krw, row.committedAmountKrw, row.amount, row.value)),
+      drawdown_date: safeDateText(firstDefined(row.drawdown_date, row.drawdownDate)),
+      maturity_date: safeDateText(firstDefined(row.maturity_date, row.maturityDate)),
+      loan_period: safeText(firstDefined(row.loan_period, row.loanPeriod)),
+      loan_type: safeText(firstDefined(row.loan_type, row.loanType, row.loan_category, row.loanCategory)),
+      interest_type: safeText(firstDefined(row.interest_type, row.interestType)),
+      base_rate: safeText(firstDefined(row.base_rate, row.baseRate)),
+      spread_rate: safeText(firstDefined(row.spread_rate, row.spreadRate)),
+      loan_rate: safeText(firstDefined(row.loan_rate, row.loanRate)),
+      interest_rate: safeText(firstDefined(row.interest_rate, row.interestRate, row.loan_rate, row.loanRate)),
+      fee: safeText(firstDefined(row.fee, row.fee_rate, row.feeRate)),
+      fee_rate: safeText(firstDefined(row.fee_rate, row.feeRate, row.fee)),
+      all_in: safeText(firstDefined(row.all_in, row.allIn, row.all_in_rate, row.allInRate)),
+      all_in_rate: safeText(firstDefined(row.all_in_rate, row.allInRate, row.all_in, row.allIn)),
+      display_order: index + 1,
+      is_active: true,
+      deleted_at: null,
+    };
+  }).filter((row) => row.tranche || row.lender_name || row.committed_amount_krw !== null);
+}
+
+function publicBeneficiaryRow(row: Record<string, unknown>) {
+  return stripUndefined({
+    row_key: row.row_key,
+    tranche: row.tranche,
+    beneficiary_name: row.beneficiary_name,
+    committed_amount_krw: row.committed_amount_krw,
+    display_order: row.display_order,
+  });
+}
+
+function publicLoanRow(row: Record<string, unknown>) {
+  return stripUndefined({
+    row_key: row.row_key,
+    tranche: row.tranche,
+    lender_name: row.lender_name,
+    committed_amount_krw: row.committed_amount_krw,
+    drawdown_date: row.drawdown_date,
+    maturity_date: row.maturity_date,
+    loan_period: row.loan_period,
+    loan_type: row.loan_type,
+    interest_type: row.interest_type,
+    base_rate: row.base_rate,
+    spread_rate: row.spread_rate,
+    loan_rate: row.loan_rate,
+    interest_rate: row.interest_rate,
+    fee: row.fee,
+    fee_rate: row.fee_rate,
+    all_in: row.all_in,
+    all_in_rate: row.all_in_rate,
+    display_order: row.display_order,
+  });
+}
+
+async function resolveFundOverview(ctx: Context, payload: Record<string, unknown>) {
+  const assetRef = await resolveAssetReference(ctx, payload);
+  if (!assetRef.assetId && !assetRef.assetName) throw new Error('asset_name is required');
+  const { data: link, error: linkError } = await ctx.serviceClient
+    .from('ll_fund_asset_links')
+    .select('*')
+    .eq('asset_id', assetRef.assetId)
+    .eq('link_type', 'primary')
+    .maybeSingle();
+  if (linkError) throw new Error(`Failed to read fund link: ${linkError.message}`);
+  if (!link) throw new Error('Fund link was not found for this asset');
+  const fundId = safeText(link.fund_id);
+  const { data: fund, error: fundError } = await ctx.serviceClient
+    .from('ll_funds')
+    .select('*')
+    .eq('fund_id', fundId)
+    .maybeSingle();
+  if (fundError) throw new Error(`Failed to read fund: ${fundError.message}`);
+  if (!fund) throw new Error('Fund row was not found');
+  const { data: beneficiaryRows, error: beneficiaryError } = await ctx.serviceClient
+    .from('ll_fund_beneficiary_tranches')
+    .select('*')
+    .eq('fund_id', fundId)
+    .eq('is_active', true)
+    .order('display_order', { ascending: true })
+    .limit(200);
+  if (beneficiaryError) throw new Error(`Failed to read beneficiary tranches: ${beneficiaryError.message}`);
+  const { data: loanRows, error: loanError } = await ctx.serviceClient
+    .from('ll_fund_loan_tranches')
+    .select('*')
+    .eq('fund_id', fundId)
+    .eq('is_active', true)
+    .order('display_order', { ascending: true })
+    .limit(200);
+  if (loanError) throw new Error(`Failed to read loan tranches: ${loanError.message}`);
+  return {
+    assetRef,
+    link: link as Record<string, unknown>,
+    fund: fund as Record<string, unknown>,
+    beneficiaryRows: (beneficiaryRows || []) as Record<string, unknown>[],
+    loanRows: (loanRows || []) as Record<string, unknown>[],
+  };
+}
+
+async function readFundOverviewPayload(ctx: Context, payload: Record<string, unknown>) {
+  const resolved = await resolveFundOverview(ctx, payload);
+  const fund = resolved.fund;
+  return {
+    asset_id: resolved.assetRef.assetId,
+    asset_name: resolved.assetRef.assetName,
+    fund_id: fund.fund_id,
+    fund_code: fund.fund_code,
+    fund_name: fund.fund_name,
+    fund_info_rows: fundInfoRowsFromFund(fund),
+    beneficiary_rows: resolved.beneficiaryRows.map(publicBeneficiaryRow),
+    loan_rows: resolved.loanRows.map(publicLoanRow),
+    source: {
+      table: 'public.ll_funds/public.ll_fund_asset_links',
+      source_sheet_name: resolved.link.source_sheet_name || fund.source_sheet_name,
+      source_row_number: resolved.link.source_row_number || fund.source_row_number,
+      source_cell_ids: resolved.link.source_cell_ids || fund.source_cell_ids || [],
+    },
+    updated_at: fund.updated_at,
+  };
+}
+
+async function readFundOverviewByAsset(ctx: Context, payload: Record<string, unknown>) {
+  if (!hasRole(ctx.role, 'Reader')) return fail(403, 'Insufficient logistics permission', ctx.origin);
+  const assetRef = await resolveAssetReference(ctx, payload);
+  if (!assetRef.assetId && !assetRef.assetName) return fail(400, 'asset_name is required', ctx.origin);
+  if (!canReadRelatedAsset(ctx, assetRef.assetId) && !canReadRelatedAsset(ctx, assetRef.assetName)) {
+    return fail(403, 'Insufficient read permission for this fund overview', ctx.origin);
+  }
+  try {
+    const data = await readFundOverviewPayload(ctx, { ...payload, asset_id: assetRef.assetId, asset_name: assetRef.assetName });
+    await audit(ctx.serviceClient, ctx.user.id, 'funds/read-by-asset', 200, {
+      asset_id: assetRef.assetId,
+      fund_id: data.fund_id,
+    });
+    return jsonResponse({ ok: true, data }, 200, ctx.origin);
+  } catch (error) {
+    return fail(404, error instanceof Error ? error.message : 'Fund overview not found', ctx.origin);
+  }
+}
+
+async function markFundRowsInactive(ctx: Context, tableName: 'll_fund_beneficiary_tranches' | 'll_fund_loan_tranches', fundId: string) {
+  const { error } = await ctx.serviceClient
+    .from(tableName)
+    .update({
+      is_active: false,
+      deleted_at: new Date().toISOString(),
+      updated_by: ctx.user.id,
+      updated_at: new Date().toISOString(),
+    })
+    .eq('fund_id', fundId)
+    .eq('is_active', true);
+  if (error) throw new Error(`Failed to deactivate ${tableName}: ${error.message}`);
+}
+
+async function restoreFundRowsActive(ctx: Context, tableName: 'll_fund_beneficiary_tranches' | 'll_fund_loan_tranches', ids: string[]) {
+  if (!ids.length) return;
+  const { error } = await ctx.serviceClient
+    .from(tableName)
+    .update({
+      is_active: true,
+      deleted_at: null,
+      updated_by: ctx.user.id,
+      updated_at: new Date().toISOString(),
+    })
+    .in('id', ids);
+  if (error) throw new Error(`Failed to restore ${tableName}: ${error.message}`);
+}
+
+async function replaceFundRows(
+  ctx: Context,
+  tableName: 'll_fund_beneficiary_tranches' | 'll_fund_loan_tranches',
+  fundId: string,
+  rows: Record<string, unknown>[],
+  existingRows: Record<string, unknown>[],
+) {
+  if (!rows.length) {
+    if (existingRows.length) {
+      throw new Error(`Refusing to clear ${tableName} without explicit deletion workflow`);
+    }
+    return;
+  }
+  const previousIds = existingRows.map((row) => safeText(row.id)).filter(Boolean);
+  await markFundRowsInactive(ctx, tableName, fundId);
+  const nextRows = rows.map((row) => ({
+    ...row,
+    fund_id: fundId,
+    created_by: ctx.user.id,
+    updated_by: ctx.user.id,
+    updated_at: new Date().toISOString(),
+  }));
+  const { error } = await ctx.serviceClient
+    .from(tableName)
+    .upsert(nextRows, { onConflict: 'fund_id,row_key' });
+  if (error) {
+    await restoreFundRowsActive(ctx, tableName, previousIds);
+    throw new Error(`Failed to save ${tableName}: ${error.message}`);
+  }
+}
+
+async function writeFundAudit(ctx: Context, fundId: string, beforeValue: unknown, afterValue: unknown, readbackValue: unknown) {
+  await ctx.serviceClient.from('ll_data_change_audit_logs').insert({
+    action: 'funds/save-by-asset',
+    target_table: 'public.ll_funds',
+    target_row_id: fundId,
+    before_value: JSON.stringify(beforeValue),
+    after_value: JSON.stringify(afterValue),
+    readback_value: JSON.stringify(readbackValue),
+    actor_id: ctx.user.id,
+    approver_id: ctx.user.id,
+    approval_status: 'server_authorized_write',
+    metadata: { edge_action: 'funds/save-by-asset' },
+  });
+}
+
+async function saveFundOverviewByAsset(ctx: Context, payload: Record<string, unknown>) {
+  if (!hasRole(ctx.role, 'Editor')) return fail(403, 'Insufficient logistics permission', ctx.origin);
+  const assetRef = await resolveAssetReference(ctx, payload);
+  if (!assetRef.assetId && !assetRef.assetName) return fail(400, 'asset_name is required', ctx.origin);
+  if (!canWriteRelatedAsset(ctx, assetRef.assetId, assetRef.assetName)) {
+    return fail(403, 'Insufficient update permission for this fund overview', ctx.origin);
+  }
+  try {
+    const before = await resolveFundOverview(ctx, { ...payload, asset_id: assetRef.assetId, asset_name: assetRef.assetName });
+    const fundId = safeText(before.fund.fund_id);
+    const beforeReadback = await readFundOverviewPayload(ctx, { asset_id: assetRef.assetId, asset_name: assetRef.assetName });
+    const fundInfoRows = normalizeFundInfoRows(firstDefined(payload.fund_info_rows, payload.fundInfoRows), before.fund);
+    const beneficiaryRows = normalizeBeneficiaryTrancheRows(firstDefined(payload.beneficiary_rows, payload.beneficiaryRows));
+    const loanRows = normalizeLoanTrancheRows(firstDefined(payload.loan_rows, payload.loanRows));
+    const requestedValue = {
+      fund_info_rows: fundInfoRows,
+      beneficiary_rows: beneficiaryRows,
+      loan_rows: loanRows,
+    };
+    const requestPayload = redactSensitivePayload({
+      kind: 'fund_overview',
+      action: 'funds/save-by-asset',
+      mode: 'staging_only',
+      target_asset_id: assetRef.assetId,
+      target_asset_name: assetRef.assetName,
+      target_fund_id: fundId,
+      submit_readback: beforeReadback,
+      requested_value: requestedValue,
+    });
+    const { data: editRequest, error: editError } = await ctx.serviceClient
+      .from('ll_edit_requests')
+      .insert({
+        source_table: 'public.ll_funds',
+        target_type: 'fund_overview',
+        target_name: assetRef.assetName || safeText(before.fund.fund_name),
+        target_row_id: fundId,
+        field_name: 'fund_overview',
+        reason_code: 'fund_overview_update_request',
+        before_value: JSON.stringify(beforeReadback),
+        requested_value: JSON.stringify(requestedValue),
+        request_payload: requestPayload,
+        requested_by: ctx.user.id,
+        status: 'submitted',
+      })
+      .select('id, status')
+      .single();
+    if (editError) return fail(500, 'Failed to submit fund overview edit request', ctx.origin, editError.message);
+    const { error: apiAuditError } = await ctx.serviceClient.from('ll_api_audit_logs').insert({
+      action: 'funds/save-by-asset',
+      status_code: 202,
+      requested_by: ctx.user.id,
+      request_payload: redactSensitivePayload({
+        edit_request_id: editRequest.id,
+        asset_id: assetRef.assetId,
+        fund_id: fundId,
+        beneficiary_rows: beneficiaryRows.length,
+        loan_rows: loanRows.length,
+      }),
+    });
+    if (apiAuditError) return fail(500, 'Failed to audit fund overview edit request', ctx.origin, apiAuditError.message);
+    return jsonResponse({
+      ok: true,
+      message: 'Fund overview edit request submitted',
+      data: {
+        ...beforeReadback,
+        edit_request_id: editRequest.id,
+        status: editRequest.status,
+        write_status: 'approval_required',
+      },
+    }, 202, ctx.origin);
+  } catch (error) {
+    return fail(500, error instanceof Error ? error.message : 'Failed to save fund overview', ctx.origin);
+  }
 }
 
 async function fetchJsonWithTimeout(url: string, init: RequestInit = {}, timeoutMs = 10_000, retries = 1) {
@@ -3934,6 +4856,8 @@ Deno.serve(async (request) => {
   if (action === 'weekly-assets/latest') return listLatestWeeklyAssets(ctx);
   if (action === 'weekly-projects/get-asset-detail') return getWeeklyProjectAssetDetail(ctx, payload);
   if (action === 'weekly-projects/save-asset-detail') return saveWeeklyProjectAssetDetail(ctx, payload);
+  if (action === 'funds/read-by-asset') return readFundOverviewByAsset(ctx, payload);
+  if (action === 'funds/save-by-asset') return saveFundOverviewByAsset(ctx, payload);
   if (action === 'opendart/company') return callOpenDart(ctx, payload);
   if (action === 'building-register/summary') return callBuildingRegister(ctx, payload);
   if (action === 'naver/geocode') return callNaverGeocode(ctx, payload);

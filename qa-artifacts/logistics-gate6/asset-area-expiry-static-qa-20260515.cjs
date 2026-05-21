@@ -31,7 +31,10 @@ function computeAssetAreaBasis(asset) {
   const overview = asset.overview || {};
   const breakdown = asset.areaBreakdown || {};
   const rows = asset.rows || [];
-  const kpis = asset.kpis || [];
+  const rawKpis = asset.kpis || [];
+  const kpis = Array.isArray(rawKpis)
+    ? rawKpis
+    : Object.values(rawKpis).filter((item) => item && typeof item === 'object' && item.key);
   const kpiByKey = Object.fromEntries(kpis.map((item) => [item.key, item]));
 
   const exclusiveAreaSqm = Number(firstDefined(
