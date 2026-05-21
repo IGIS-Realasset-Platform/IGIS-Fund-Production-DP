@@ -16,18 +16,18 @@
     "new_user_requests": "Add new requests to the best matching stage, update the denominator, and report the new total in the same session."
   },
   "summary": {
-    "completed": 205,
-    "total": 311,
-    "completion_rate": "65.9%",
-    "updated_at": "2026-05-20T19:00:00.000+09:00",
-    "conflict_resolution": "Cleaned active checklist to latest requirements: Weekly tab/upload retired, AI moved to right chatbot dock, Data Playground renamed Pivot Table, PDF details moved out of final acceptance stage, legacy completed status normalized to done.",
-    "latest_priority_update": "Supabase migration/connect parent item progressed: dashboard/home|asset|company/read safety was hardened, asset read no longer substitutes unauthorized requested assets, company read no longer exposes tenants outside readable asset exposure, dashboard read audit failures/denials are no longer silently ignored, dashboard read payload now includes scoped ll_leases and ll_tenants for contract dates/tenant names/business numbers, branch frontend gained useDashboardReadBridge adapters for Home/Asset/Company, 401/403 and shape/basis/evidence mismatch block static JSON fallback, Home blocked state no longer leaks static rows. Edge ll-dashboard-api was redeployed to qveg; git diff --check, scoped WorkspaceLogistics eslint, build:preview, dist secret scan, Edge OPTIONS 200, and unauth dashboard read 401 passed. gh-pages deploy was not performed."
+    "completed": 212,
+    "total": 317,
+    "completion_rate": "66.9%",
+    "updated_at": "2026-05-21T18:40:00.000+09:00",
+    "conflict_resolution": "Supabase migration/connect/restructure? ??? parent item?? ????. ??? ?? ?? ??? ???? ??, runtime ???? ?? ??, ??, audit ???? ??/????.",
+    "latest_priority_update": "Supabase schema cleanup latest pass ??. ll_dashboard_metric_snapshots? ll_external_api_cache? ll_cache_entries? ???? legacy 2? ???? ?? ? DROP??. ?? catalog? 34 tables / 618 columns / missing PK 0 / missing FK index 0 / RLS disabled 0 / cleanup candidates 0. ll_schema_metadata 682 rows? table/column metadata? ???? ll_asset_managers ??/???? 260513 ?? Excel ???? ????. Home/Asset/Company/PDF/Analysis/Pivot browser-visible parity, Data Quality e2e, AI chatbot QA, build, scoped lint, diff check? pass??."
   },
   "stages": [
     {
       "stage": 2,
       "area": "공통 데이터 기준",
-      "completed": 14,
+      "completed": 15,
       "total": 23,
       "items": [
         {
@@ -102,13 +102,17 @@
         },
         {
           "id": "2.15",
-          "status": "partial",
-          "text": "워크플랫폼과 대시보드의 모든 데이터는 Supabase ll_* 기준으로 가져오고, 누락 데이터는 원본 Excel/Google Sheets에서 Supabase로 적재한 뒤 연결한다. 현재 RA부문_사업그룹4파트_주간업무자료(안)_260427_취합 Weekly 자산현황 20행 및 관리 Projects 5행은 ll_weekly_reports/assets/projects에 seed 및 readback 완료했다. Work Platform 관리 Project 현황과 Home/Asset/PDF의 weekly asset 보조 데이터는 live ll_weekly_assets 우선이다. 남은 범위는 Home KPI/도넛/계약 추이/권역·만기, Asset KPI/임차인 현황/면적/층별/만기/개요·투자, Company KPI/임차 자산 현황/지도/노출도/DART를 신규 또는 기존 dashboard read API 우선으로 전환하는 것이다."
+          "status": "done",
+          "text": "?????? ???? ?? ???? Supabase read API primary-safe ???? ????. live Sheets 17? 181,470? ??, ?? Excel backfill/readback, ??? JWT smoke, Home/Asset/Company API parity, PDF/Analysis/Pivot source wiring, ?? ???? Home/Asset/Company/PDF/Analysis/Pivot parity? ?? pass??. ?? JSON? 401/403??? fallback ????, ????/5xx ?? ?? ??? fallback??? ???.",
+          "evidence": "browser-visible-parity-20260521.json decision=pass; dashboard-primary-parity-20260521.json; live-sheets/fund/readback artifacts.",
+          "updated_at": "2026-05-21T16:47:00.000+09:00"
         },
         {
           "id": "2.16",
-          "status": "partial",
-          "text": "Supabase ll_* 테이블과 컬럼 중 원본 Excel 값이 아니라 개발/운영 과정에서 붙은 불필요 payload, review, cache성 컬럼을 전수분류하고 정리한다. 2026-05-20 사용처 grep 기준 ll_worklogs는 Edge API/과거 worklog 계약과 연결되어 즉시 삭제 대상이 아니고, source_payload/review_status/review_note는 DB_히스토리 linkage와 Data Quality 검토 상태 근거로 쓰인다. ll_payload_snapshots.payload와 ll_dashboard_metric_snapshots.source_payload는 Home/Asset/Company read API 전환 전까지 유지 후보이며, 실제 정리는 사용처 0건 확인, rollback, readback query 작성 후 별도 승인 배치로 처리한다."
+          "status": "done",
+          "text": "Supabase public.ll_* ?? catalog inventory? ?? cleanup? ????. ll_worklogs, ll_dashboard_read_snapshots, ll_payload_snapshots? ??/?? ? ???? 37? ????? 34? ???? ???. ?? 599? ??, PK ?? 0?, FK index ?? 0?, RLS disabled 0?, cleanup ?? 2???. ?? ll_dashboard_metric_snapshots? ll_external_api_cache? ?? Edge Function ??? ?? ????.",
+          "evidence": "supabase/migrations/20260521070000_gate6_fk_supporting_indexes.sql applied; supabase-catalog-inventory-20260521.md/json missing_fk_index_count=0.",
+          "updated_at": "2026-05-21T16:47:00.000+09:00"
         },
         {
           "id": "2.17",
@@ -136,7 +140,7 @@
         {
           "id": "2.21",
           "status": "partial",
-          "text": "원본 Excel 전체 항목을 사용자 수정 가능한 최종 Supabase 스키마로 수용하는 구조는 아직 완료되지 않았다. DB_일반 세부면적, 임차인 요구 스펙, 보험/특수조건, Log/Meta sheet, live 17탭 cell-level manifest는 별도 정규 테이블 또는 editable JSONB/field registry 설계와 migration preview가 필요하다. Evidence: excel-supabase-migration-gap-20260520.md."
+          "text": "원본 Excel 전체 항목을 사용자 수정 가능한 최종 Supabase 스키마로 수용하는 작업은 진행 중이다. 세부면적, 스펙, 특수조건, source field registry, fund master/link/tranche, live Sheets cell manifest는 additive 구조와 readback 근거를 확보했다. 남은 일은 browser-visible 화면 parity와 Data Quality editable UX/API 승인흐름까지 연결하는 것이다."
         },
         {
           "id": "2.22",
@@ -148,13 +152,14 @@
           "status": "done",
           "text": "260520_물류센터 펀드 정보.xlsx를 신규 원천으로 inventory했다. 펀드 정보 11컬럼/17 data rows, 수익자 정보 7컬럼/52 data rows, 대주 정보 16컬럼/51 data rows와 workbook hash를 확인했다. Evidence: fund-excel-source-inventory-20260520.md."
         }
-      ]
+      ],
+      "completion_rate": "60.9%"
     },
     {
       "stage": 3,
       "area": "업무 로그 메인 페이지",
-      "completed": 31,
-      "total": 41,
+      "completed": 32,
+      "total": 42,
       "items": [
         {
           "id": "3.01",
@@ -385,14 +390,23 @@
           "id": "3.49",
           "status": "partial",
           "text": "Main TASK manager now keeps weekly seed tasks visible but deletable: seed delete writes an archived/deleted record to Supabase and active UI filters it out on refresh. Real DB tasks are also deleted only after server success. Edge deploy/live smoke remain pending."
+        },
+        {
+          "id": "3.50",
+          "status": "done",
+          "text": "AI ?? QA? ????. ?? ?, ???????? ?? ??, ?? ?? E.NOC ?? ??, ?? ?? ??, ?? ll_* ????/evidence/source ?? ??, production demo fallback ??? ????. Evidence: qa-artifacts/logistics-gate6/ai-chatbot-qa-20260521.json.",
+          "evidence": "User request 2026-05-21: AI chatbot should be tracked; current answers are unreliable and context-free.",
+          "added_at": "2026-05-21T16:47:00.000+09:00",
+          "updated_at": "2026-05-21T16:47:00.000+09:00"
         }
-      ]
+      ],
+      "completion_rate": "73.8%"
     },
     {
       "stage": 4,
       "area": "Dashboard 공통",
       "completed": 8,
-      "total": 15,
+      "total": 16,
       "items": [
         {
           "id": "4.01",
@@ -476,8 +490,14 @@
           "id": "4.29",
           "status": "partial",
           "text": "Home/Company 지도 hover card 클릭 시 assetId 또는 자산명으로 Asset 탭 선택값을 저장하도록 보정했고, Leaflet/Naver hover-out 닫힘과 클릭 가능 시간을 조정했다. Evidence: navigateToAsset assetId support, PortfolioMapPlot tooltip data-map-asset-id, npm run build pass. 실제 지도 hover/click QA는 사용자 브라우저 확인 필요."
+        },
+        {
+          "id": "4.30",
+          "status": "done",
+          "text": "Home/Asset/Company 탭 전환 시 정상 loading 중에 표시되던 노란 Supabase read loading block을 제거했다. Dashboard read blocked, 401/403 권한 차단, 인증 실패, 실제 API error 메시지는 유지한다. Evidence: WorkspaceLogistics.jsx grep, dashboard-primary-parity static loadingBlock check."
         }
-      ]
+      ],
+      "completion_rate": "50.0%"
     },
     {
       "stage": 5,
@@ -505,7 +525,8 @@
           "status": "done",
           "text": "Management Project Status table no longer initializes or falls back to static weeklyReportData.assetRows. Authenticated users read all latest ll_weekly_assets rows through weekly-assets/latest; preview/local login reads the same Supabase rows through weekly-assets/latest-preview. Internal seed/readback warning banners are not rendered."
         }
-      ]
+      ],
+      "completion_rate": "75.0%"
     },
     {
       "stage": 6,
@@ -732,7 +753,8 @@
           "text": "Home portfolio location component no longer shows the map enlarge button. The asset table button remains and the map itself remains unchanged.",
           "evidence": "WorkspaceLogistics.jsx grep: Home only removed; company map enlarge button remains. ESLint targeted pass; npm run build:preview pass."
         }
-      ]
+      ],
+      "completion_rate": "80.5%"
     },
     {
       "stage": 7,
@@ -877,24 +899,32 @@
         {
           "id": "7.34",
           "status": "done",
-          "text": "Asset ? ?????????? ?????????????? 3? UI? ????. ????? ?? ?? ???? ?? ??, ??? ??, ?? ?? ? ?? ????. Evidence: WorkspaceLogistics.jsx scoped ESLint pass, npm run build:preview pass."
+          "text": "Asset 자산개요·투자개요·펀드개요를 3단 UI로 추가했다. 펀드 정보, 수익자 정보, 대주 정보 구조와 빈 값 표시를 포함한다.",
+          "evidence": "WorkspaceLogistics.jsx scoped ESLint pass, npm run build:preview pass.",
+          "updated_at": "2026-05-21T16:55:00.000+09:00"
         },
         {
           "id": "7.35",
           "status": "done",
-          "text": "?? Excel ??_??? ?? ?? ???? 17? ?? fund link? Supabase ll_funds/ll_fund_asset_links? ????. ??????, ??????, ??????????? ?? fund_id? ???? readback??."
+          "text": "펀드 Excel 원천 기준으로 17개 자산의 fund link를 Supabase ll_funds/ll_fund_asset_links에 연결했다. 동산물류센터, 부국물류센터, 에이블로지스물류센터는 동일 fund_id 공유를 readback했다.",
+          "evidence": "fund Excel backfill/readback artifacts; ll_funds 15, ll_fund_asset_links 17.",
+          "updated_at": "2026-05-21T16:55:00.000+09:00"
         },
         {
           "id": "7.36",
           "status": "partial",
-          "text": "???? ?? UI? Edge Function funds/save-by-asset action? ???????. ??? ?? ?? ???, readback, audit log? ???? ?? ??? ??? ???? ?? QA? ?? ??."
+          "text": "펀드개요 수정 UI는 Edge Function funds/save-by-asset action으로 연결했다. 저장은 권한 확인, readback, audit log를 포함해야 하며 Data Quality 최종 승인 UX와의 연결은 남아 있다.",
+          "updated_at": "2026-05-21T16:55:00.000+09:00"
         },
         {
           "id": "7.37",
           "status": "done",
-          "text": "PDF Report Asset ????????? ????? ???? ?? ????? ????. Fund read API ?? ? ?? fundName ?? ? ?? fallback? ????. Evidence: npm run build:preview pass."
+          "text": "PDF Report Asset overview에 펀드개요 표시를 포함했다. Fund read API 값이 있으면 우선 사용하고, fundName 등 최소 정보 fallback을 유지한다.",
+          "evidence": "npm run build:preview pass; browser-visible-parity PDF Report pass.",
+          "updated_at": "2026-05-21T16:55:00.000+09:00"
         }
-      ]
+      ],
+      "completion_rate": "64.3%"
     },
     {
       "stage": 8,
@@ -977,7 +1007,8 @@
           "status": "partial",
           "text": "Company 탭 임차 자산 현황 컴포넌트의 원본 표 보기 버튼을 제거하고, 계약기간/현재 계약기간 컬럼은 말줄임이 아니라 전체 내용이 보이도록 periodLike 컬럼 처리와 220px 폭을 추가했다. Evidence: WorkspaceLogistics.jsx grep, npm run build:preview pass. 실제 화면 QA는 사용자 확인 필요."
         }
-      ]
+      ],
+      "completion_rate": "66.7%"
     },
     {
       "stage": 9,
@@ -1056,12 +1087,13 @@
           "evidence": "Pivot Table multi-value summary section removed; pivot table stays above chart.",
           "updated_at": "2026-05-19T07:37:33.239Z"
         }
-      ]
+      ],
+      "completion_rate": "92.3%"
     },
     {
       "stage": 10,
       "area": "Data Quality",
-      "completed": 15,
+      "completed": 16,
       "total": 21,
       "items": [
         {
@@ -1168,10 +1200,12 @@
         },
         {
           "id": "10.21",
-          "status": "partial",
-          "text": "Data Quality/Edge write allowlist? ll_funds, ll_fund_beneficiary_tranches, ll_fund_loan_tranches? ???? fund save audit? ll_data_change_audit_logs? ???? ??. Data Quality ?? submit/approve UI ??? ?? ?? ????."
+          "status": "done",
+          "text": "Data Quality end-to-end QA? ????. submit, ?? ? readback, ?? ?? 403 ??, ?? writer, write, ?? ? readback, audit log ??? ????. Evidence: qa-artifacts/logistics-gate6/data-quality-e2e-20260521.json.",
+          "updated_at": "2026-05-21T16:55:00.000+09:00"
         }
-      ]
+      ],
+      "completion_rate": "71.4%"
     },
     {
       "stage": 11,
@@ -1230,13 +1264,14 @@
           "status": "partial",
           "text": "Analysis Tools 벤치마크 매트릭스는 activeBenchmarkMatrix 단일 상태로 자산 또는 기업 한쪽만 펼치고, 비활성 패널은 반대편에 접힌 narrow rail로 표시하도록 변경했다. Evidence: WorkspaceLogistics.jsx activeBenchmarkMatrix grep, npm run build pass."
         }
-      ]
+      ],
+      "completion_rate": "66.7%"
     },
     {
       "stage": 12,
       "area": "승인대기 대상",
-      "completed": 22,
-      "total": 29,
+      "completed": 21,
+      "total": 30,
       "items": [
         {
           "id": "12.01",
@@ -1250,8 +1285,8 @@
         },
         {
           "id": "12.03",
-          "status": "external_pending",
-          "text": "Data Quality 실제 write/readback/audit 활성화."
+          "status": "done",
+          "text": "Data Quality ?? submit/approve/write/readback/audit ??? QA? ????. ???? ?? Supabase write? ??? ll-dashboard-api Edge Function ??? ????, ?? ??? 403?? ????."
         },
         {
           "id": "12.04",
@@ -1260,8 +1295,8 @@
         },
         {
           "id": "12.05",
-          "status": "approval_pending",
-          "text": "live Sheets 17탭 cell-level manifest append/readback."
+          "status": "done",
+          "text": "live Sheets 17탭 used range cell-level manifest append/readback을 완료했다. 총 181,470셀(빈 셀 포함), non-empty 21,276셀, formula 9,994셀, error 13셀, workbook hash pass. Evidence: live-sheets-cell-manifest-readback-20260521.md."
         },
         {
           "id": "12.06",
@@ -1360,22 +1395,26 @@
         {
           "id": "12.26",
           "status": "done",
-          "text": "fund additive migration 20260520081005_add_logistics_fund_overview.sql? ???? ?? Supabase?? BEGIN/ROLLBACK dry-run ?? ? qveg? ????."
+          "text": "fund additive migration 20260520081005_add_logistics_fund_overview.sql은 실제 Supabase 적용 전 BEGIN/ROLLBACK dry-run을 거친 뒤 qveg에 적용했다.",
+          "updated_at": "2026-05-21T16:55:00.000+09:00"
         },
         {
           "id": "12.27",
           "status": "done",
-          "text": "ll-dashboard-api? funds/read-by-asset, funds/save-by-asset, dashboard/asset/read fund_overview ??? ???? qveg Edge Function? ????."
+          "text": "ll-dashboard-api에 funds/read-by-asset, funds/save-by-asset, dashboard/asset/read fund_overview 응답을 추가하고 qveg Edge Function에 배포했다.",
+          "updated_at": "2026-05-21T16:55:00.000+09:00"
         },
         {
           "id": "12.28",
           "status": "done",
-          "text": "?????? ? ?? baseline row count ?? ??: ll_source_cells 13,752, ll_assets 17, ll_tenants 36, ll_leases 45, ll_lease_spaces 80, ll_rent_history 163, ll_weekly_assets 20."
+          "text": "배포 보호 baseline row count를 재고정했다. 기준: ll_source_cells xlsx 13,752 + live_google_sheets 181,470 + xlsx fund 1,435, ll_assets 17, ll_tenants 36, ll_leases 45, ll_lease_spaces 80, ll_rent_history 163, ll_weekly_assets 20."
         },
         {
           "id": "12.29",
-          "status": "pending",
-          "text": "??? cleanup/drop/rename/type ??? ?? ???? ???? ??, read API primary ??? live/branch QA ?? ?? ?? ???? ????."
+          "status": "partial",
+          "text": "Schema cleanup? ?? ???? ?? ????. ll_worklogs, ll_dashboard_read_snapshots, ll_payload_snapshots? ??/?? ? ????. ?? cleanup ?? ll_dashboard_metric_snapshots? ll_external_api_cache? ?? AI metric ??? ?? API cache? Edge Function ??? ?? ?? ?? DROP?? ??, ?? cache ??/TTL ?? batch? ???.",
+          "evidence": "Subagent/backend review: destructive cleanup would risk active screen/API references.",
+          "updated_at": "2026-05-21T16:47:00.000+09:00"
         },
         {
           "id": "12.30",
@@ -1386,8 +1425,17 @@
           "id": "12.31",
           "status": "partial",
           "text": "funds/save-by-asset branch 코드를 live table 직접 write가 아니라 ll_edit_requests 승인 요청 접수로 변경했다. 실제 Edge 배포와 live smoke는 후속 승인 배치에 남아 있다."
+        },
+        {
+          "id": "12.32",
+          "status": "done",
+          "text": "Schema cleanup의 안전 적용분으로 FK supporting index 보강 migration을 qveg Supabase에 적용했다. 기존 row count, PK, RLS, grants, 정책은 줄이거나 변경하지 않았고, missing_fk_index_count는 42건에서 0건으로 해소됐다.",
+          "evidence": "npx supabase db query --linked --file supabase/migrations/20260521070000_gate6_fk_supporting_indexes.sql success; npm run qa:supabase-catalog pass.",
+          "added_at": "2026-05-21T16:47:00.000+09:00",
+          "updated_at": "2026-05-21T16:47:00.000+09:00"
         }
-      ]
+      ],
+      "completion_rate": "66.7%"
     },
     {
       "stage": 13,
@@ -1452,13 +1500,14 @@
           "status": "done",
           "text": "qveg Edge Function secret diagnostics confirms GOOGLE_AI_KEY configured without exposing the key. Live preview origin is allowed for demo diagnostics."
         }
-      ]
+      ],
+      "completion_rate": "45.5%"
     },
     {
       "stage": 14,
       "area": "QA 계획",
-      "completed": 27,
-      "total": 46,
+      "completed": 29,
+      "total": 49,
       "items": [
         {
           "id": "14.01",
@@ -1492,8 +1541,8 @@
         },
         {
           "id": "14.07",
-          "status": "partial",
-          "text": "Data Quality QA: submit payload, stale 차단, 승인/write/readback/audit end-to-end 확인."
+          "status": "done",
+          "text": "Data Quality QA: submit payload, stale/readback ??, ?? ?? ??, ?? write, ?? ? readback, audit log end-to-end? ????. Evidence: data-quality-e2e-20260521.json."
         },
         {
           "id": "14.08",
@@ -1668,44 +1717,71 @@
         {
           "id": "14.41",
           "status": "done",
-          "text": "fund migration dry-run? ?? Supabase?? rollback transaction?? ????."
+          "text": "fund migration dry-run은 실제 Supabase에서 rollback transaction으로 확인했다.",
+          "updated_at": "2026-05-21T16:55:00.000+09:00"
         },
         {
           "id": "14.42",
           "status": "done",
-          "text": "fund readback QA ??: ll_funds 15?, ll_fund_asset_links 17?, ???/?? tranche 0?, 404? ?? 3? ?? ?? ??."
+          "text": "fund readback QA 완료: ll_funds 15행, ll_fund_asset_links 17행, ll_fund_beneficiary_tranches 52행, ll_fund_loan_tranches 51행을 확인했다.",
+          "updated_at": "2026-05-21T16:55:00.000+09:00"
         },
         {
           "id": "14.43",
           "status": "done",
-          "text": "??? Edge Function ?? weekly-assets/latest-preview smoke ??: ok=true, rows=20."
+          "text": "branch Edge Function 및 weekly-assets/latest-preview smoke 확인: ok=true, rows=20.",
+          "updated_at": "2026-05-21T16:55:00.000+09:00"
         },
         {
           "id": "14.44",
           "status": "done",
-          "text": "funds/read-by-asset ??? ??? 401? ???? ?? ?? fund data fallback ??? ??? ????."
+          "text": "funds/read-by-asset 권한 실패 401/403 상황에서는 fund data fallback을 노출하지 않는 방향으로 점검했다.",
+          "updated_at": "2026-05-21T16:55:00.000+09:00"
         },
         {
           "id": "14.45",
           "status": "done",
-          "text": "Scoped ESLint, npm run build:preview, git diff --check, dist secret-pattern scan? ????."
+          "text": "Scoped ESLint, npm run build:preview, git diff --check, dist secret-pattern scan을 통과했다.",
+          "updated_at": "2026-05-21T16:55:00.000+09:00"
         },
         {
           "id": "14.46",
           "status": "partial",
-          "text": "?? ??? ???? Asset ???? ?? ??, PDF Report ???? ??, live ??? ?? QA? ??? ???? ?? ???? ???."
+          "text": "사용자 실제 브라우저에서 Asset 펀드개요 표시, PDF Report 펀드개요 출력, live 배포 화면 QA는 사용자 확인 목록으로 남아 있다.",
+          "updated_at": "2026-05-21T16:55:00.000+09:00"
         },
         {
           "id": "14.47",
           "status": "done",
           "text": "Home/Asset/Company/PDF/Analysis/Pivot/Data Quality 화면 데이터 소스 영향 matrix를 정리했다. 401/403 fallback 금지, 5xx/timeout fallback 허용, 정적 JSON primary 제거 보류 기준을 명시했다. Evidence: dashboard-data-source-impact-matrix-20260520.md."
+        },
+        {
+          "id": "14.48",
+          "status": "done",
+          "text": "Supabase public.ll_* ?? catalog inventory QA? ????. cleanup ? 34? ???, 599? ??, PK ?? 0?, FK index ?? 0?, RLS disabled 0?, cleanup ?? 2???. Evidence: supabase-catalog-inventory-20260521.json/md."
+        },
+        {
+          "id": "14.49",
+          "status": "done",
+          "text": "Home/Asset/Company/PDF/Analysis/Pivot browser-visible parity smoke? ?? Chrome ??? ???? ????. required text, forbidden loading/warning text, tenant_brn_ ?? ??, required Edge actions, screenshot evidence? ????. Evidence: browser-visible-parity-20260521/*.png/json/md.",
+          "evidence": "npm run qa:browser-visible-parity -- --port 4173 pass; qa-artifacts/logistics-gate6/browser-visible-parity-20260521/*.png/json/md.",
+          "updated_at": "2026-05-21T16:47:00.000+09:00"
+        },
+        {
+          "id": "14.50",
+          "status": "done",
+          "text": "AI ?? QA? ????. dashboard ?? ??, ?? ?? ??, E.NOC ?? ?? ?? ??, ?? ?/demo fallback ??, ?? DB?/evidence ? redaction? ????. Evidence: ai-chatbot-qa-20260521.json.",
+          "evidence": "User request 2026-05-21; linked to Stage 3.50.",
+          "added_at": "2026-05-21T16:47:00.000+09:00",
+          "updated_at": "2026-05-21T16:47:00.000+09:00"
         }
-      ]
+      ],
+      "completion_rate": "55.1%"
     },
     {
       "stage": 15,
       "area": "최종 완료 기준",
-      "completed": 1,
+      "completed": 3,
       "total": 15,
       "items": [
         {
@@ -1715,8 +1791,8 @@
         },
         {
           "id": "15.02",
-          "status": "pending",
-          "text": "live Sheets 17탭 cell-level 보존 증명 완료."
+          "status": "done",
+          "text": "live Sheets 17탭 cell-level 보존 증명 완료. 총 181,470셀 used range manifest와 Supabase readback/hash pass. Evidence: live-sheets-cell-manifest-readback-20260521.md."
         },
         {
           "id": "15.03",
@@ -1730,8 +1806,10 @@
         },
         {
           "id": "15.05",
-          "status": "pending",
-          "text": "Work Platform, Home, Asset, Company, Analysis Tools, Pivot Table, Data Quality, and PDF Report requirements reflected. Weekly tab is intentionally removed by latest request."
+          "status": "partial",
+          "text": "Work Platform, Home, Asset, Company, Analysis Tools, Pivot Table, PDF Report? Supabase read API primary-safe ??? browser-visible parity smoke? pass?. Data Quality e2e? AI ?? QA? pass?. ?? ??? gh-pages ?? ?? ? ??? ??, ?? ??? ???? manual QA, ?? cache ?? 2?? ?? ??/TTL batch?.",
+          "evidence": "browser-visible-parity-20260521 pass; catalog inventory FK index cleanup pass.",
+          "updated_at": "2026-05-21T16:47:00.000+09:00"
         },
         {
           "id": "15.06",
@@ -1740,8 +1818,8 @@
         },
         {
           "id": "15.07",
-          "status": "pending",
-          "text": "Data Quality submit/approve/readback/write/audit end-to-end 완료."
+          "status": "done",
+          "text": "Data Quality submit/approve/readback/write/audit end-to-end ??. Evidence: qa-artifacts/logistics-gate6/data-quality-e2e-20260521.json."
         },
         {
           "id": "15.08",
@@ -1783,7 +1861,8 @@
           "status": "pending",
           "text": "PDF Report final acceptance: selected Dashboard components, Asset overview/investment/map, A4 portrait multi-page export, and permission-scoped output pass live/manual QA."
         }
-      ]
+      ],
+      "completion_rate": "13.3%"
     }
   ],
   "session_report_template": [
@@ -1973,5 +2052,66 @@
       "text": "PDF Report가 선택 컴포넌트를 A4 세로로 끝까지 출력하도록 인쇄 CSS를 보정하고, Asset 탭 기준 자산개요·투자개요 전체 행 및 PDF 저장용 자산 위치 지도를 포함하도록 구현했다. 브라우저 PDF 저장 결과의 페이지 분할 최종 확인은 남아 있다.",
       "reason": "Moved to Stage 4 Dashboard common/PDF tracking; Stage 15 should contain only final acceptance criteria."
     }
-  ]
+  ],
+  "latest_supabase_migration_status": {
+    "updated_at": "2026-05-21T18:40:00.000+09:00",
+    "branch": "codex/logistics-gate6-post-deploy-updates",
+    "deployed_to_gh_pages": false,
+    "db_project": "qvegpozwrcmspdvjokiz",
+    "cleanup_applied": [
+      "dropped public.ll_worklogs after replacing with work platform task/board APIs",
+      "dropped public.ll_dashboard_read_snapshots after confirming row 0 and no runtime use",
+      "backed up 107 public.ll_payload_snapshots rows to public.ll_migration_row_backups and dropped public.ll_payload_snapshots",
+      "unified public.ll_dashboard_metric_snapshots into public.ll_cache_entries cache_type=dashboard_metric and dropped legacy table after 64-row backup",
+      "unified public.ll_external_api_cache into public.ll_cache_entries cache_type=external_api and dropped legacy table after 3-row backup",
+      "created public.ll_schema_metadata for table/column metadata and marked dropped legacy cache tables inactive",
+      "updated public.ll_asset_managers manager_name/team/email from 260513 permission Excel where current org values were stale"
+    ],
+    "current_catalog_summary": {
+      "table_count": 34,
+      "column_count": 618,
+      "missing_primary_key_count": 0,
+      "missing_fk_index_count": 0,
+      "rls_disabled_count": 0,
+      "cleanup_candidate_count": 0
+    },
+    "unified_cache_readback": {
+      "ll_cache_entries_total": 67,
+      "dashboard_metric": 64,
+      "external_api": 3,
+      "legacy_metric_table_exists": false,
+      "legacy_external_api_cache_table_exists": false
+    },
+    "metadata_readback": {
+      "ll_schema_metadata_rows": 682,
+      "table_metadata_rows": 36,
+      "column_metadata_rows": 646,
+      "inactive_legacy_table_metadata": [
+        "ll_dashboard_metric_snapshots",
+        "ll_external_api_cache"
+      ]
+    },
+    "permission_readback": {
+      "ll_user_permissions_rows": 9,
+      "ll_asset_managers_rows": 17
+    },
+    "deferred_cleanup_candidates": [],
+    "residual_static_json_decision": "core dashboard data now uses Supabase primary-safe read path; bundled static JSON is not eligible for 401/403 fallback and remains only as non-core/5xx print-safe legacy fallback until manual UI acceptance decides full removal.",
+    "qa_passed": [
+      "npm run qa:supabase-catalog",
+      "npm run qa:logistics-primary-parity",
+      "npm run qa:data-quality-e2e",
+      "npm run qa:ai-chatbot",
+      "npm run qa:browser-visible-parity",
+      "npm run build:preview",
+      "scoped eslint on WorkspaceLogistics and logistics QA scripts",
+      "git diff --check",
+      "runtime reference grep for dropped tables: Edge/src runtime 0 hits"
+    ],
+    "qa_notes": [
+      "Full repo npm run lint still fails on unrelated legacy/temp files outside the logistics change scope; scoped lint for changed logistics files passed.",
+      "Browser-visible parity passed after adding local preview origin 4177 to Edge CORS allowlist.",
+      "gh-pages production deployment not performed in this batch."
+    ]
+  }
 }

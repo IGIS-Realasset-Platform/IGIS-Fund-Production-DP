@@ -348,6 +348,18 @@ function camelLeaseSpaceFromApi(row = {}, asset = {}, fallback = {}) {
   const monthlyCostTotal = firstDefined(row.current_monthly_cost_total, row.currentMonthlyCostTotal, fallback.monthlyCostTotal, Number(monthlyRentTotal || 0) + Number(monthlyMfTotal || 0));
   const floorLabel = firstDefined(row.floor_label, row.floorLabel, fallback.floorLabel);
   const detailAreaLabel = firstDefined(row.detail_area_label, row.detailAreaLabel, fallback.detailAreaLabel);
+  const tenantDisplayName = firstHumanTenantName(
+    row.tenant_master_name,
+    row.company_name,
+    row.raw_tenant_name,
+    row.tenantName,
+    row.companyName,
+    fallback.tenantMasterName,
+    fallback.tenantName,
+    fallback.companyName,
+    fallback.rawTenantName,
+    fallback.raw_tenant_name,
+  );
   return {
     ...fallback,
     leaseSpaceId: firstDefined(row.lease_space_id, row.leaseSpaceId, fallback.leaseSpaceId),
@@ -359,26 +371,17 @@ function camelLeaseSpaceFromApi(row = {}, asset = {}, fallback = {}) {
     latitude: firstDefined(asset.latitude, fallback.latitude),
     longitude: firstDefined(asset.longitude, fallback.longitude),
     tenantId: firstDefined(row.tenant_id, row.tenantId, fallback.tenantId),
-    tenantMasterName: firstDefined(
-      fallback.tenantMasterName,
-      fallback.tenantName,
-      fallback.companyName,
-      row.tenant_master_name,
-      row.tenantName,
-      row.company_name,
-      row.companyName,
-      row.tenant_id,
-      '-',
-    ),
+    tenantMasterName: tenantDisplayName || '-',
     rawTenantName: firstDefined(fallback.rawTenantName, fallback.raw_tenant_name),
     companyName: firstDefined(
-      fallback.companyName,
-      fallback.tenantMasterName,
-      fallback.tenantName,
       row.company_name,
       row.companyName,
       row.tenant_master_name,
       row.tenantName,
+      fallback.companyName,
+      fallback.tenantMasterName,
+      fallback.tenantName,
+      tenantDisplayName,
     ),
     businessRegistrationNo: firstDefined(fallback.businessRegistrationNo, fallback.business_registration_no),
     floorLabel,
@@ -921,11 +924,11 @@ function companyPayloadFromDashboardRead(response, fallbackPayload = {}) {
         },
       },
       kpis: [
-        { key: 'asset_count', label: 'asset_count', value: summary.asset_count, valueType: 'number' },
-        { key: 'leased_area', label: 'leased_area', value: summary.leased_area_sqm, valueType: 'area' },
-        { key: 'monthly_total_cost', label: 'monthly_total_cost', value: summary.current_monthly_cost_total, valueType: 'currency' },
-        { key: 'monthly_rent_total', label: 'monthly_rent_total', value: summary.current_monthly_rent_total, valueType: 'currency' },
-        { key: 'monthly_mf_total', label: 'monthly_mf_total', value: summary.current_monthly_mf_total, valueType: 'currency' },
+        { key: 'asset_count', label: '임차 자산 수', value: summary.asset_count, valueType: 'number' },
+        { key: 'leased_area', label: '총 임차면적', value: summary.leased_area_sqm, valueType: 'area' },
+        { key: 'monthly_total_cost', label: '월 임관리비 총액', value: summary.current_monthly_cost_total, valueType: 'currency' },
+        { key: 'monthly_rent_total', label: '월 임대료 총액', value: summary.current_monthly_rent_total, valueType: 'currency' },
+        { key: 'monthly_mf_total', label: '월 관리비 총액', value: summary.current_monthly_mf_total, valueType: 'currency' },
       ],
       __dashboardRead: response,
     },
@@ -1040,6 +1043,19 @@ function cleanDisplay(value, fallback = '-') {
     .replace(/\s{2,}/g, ' ')
     .trim();
   return text || fallback;
+}
+
+function isInternalTenantCode(value) {
+  const text = cleanDisplay(value, '');
+  return /^tenant[_-]/iu.test(text) || /^brn[_-]?\d+/iu.test(text);
+}
+
+function firstHumanTenantName(...values) {
+  for (const value of values) {
+    const text = cleanDisplay(value, '');
+    if (text && !isInternalTenantCode(text)) return text;
+  }
+  return '';
 }
 
 function safeFileNameText(value) {
@@ -3496,7 +3512,7 @@ function normalizeServerWorklogTask(row, permission) {
     completed: row.status === 'completed' || Boolean(row.completed_at) || payload.completed,
     deleted: row.status === 'deleted' || Boolean(row.deleted_at) || payload.deleted,
     createdAt: row.created_at || payload.createdAt || '',
-    source: payload.source || (row.task_name ? 'll_work_platform_tasks' : 'll_worklogs'),
+    source: payload.source || 'll_work_platform_tasks',
   };
 }
 
@@ -4438,9 +4454,9 @@ export default function WorkspaceLogistics({ currentPath = '' }) {
   };
 
   const canUsePreviewAiFallback = () => {
-    if (user?.is_demo === true) return true;
+    if (user?.is_demo !== true) return false;
     const hostname = window.location.hostname;
-    return hostname === 'kylee94.github.io' || hostname === 'localhost' || hostname === '127.0.0.1';
+    return hostname === 'localhost' || hostname === '127.0.0.1';
   };
 
   const submitAiChatQuestion = async () => {
@@ -4455,12 +4471,16 @@ export default function WorkspaceLogistics({ currentPath = '' }) {
     setAiChatMessages((messages) => [...messages, userMessage]);
     setAiChatInput('');
     setAiChatLoading(true);
+    const history = aiChatMessages
+      .filter((message) => ['user', 'assistant'].includes(message.role) && message.content)
+      .slice(-8)
+      .map((message) => ({ role: message.role, content: message.content }));
     try {
       let responseData = null;
       let primaryError = null;
       try {
         const { data, error } = await supabase.functions.invoke('ll-dashboard-api', {
-          body: { action: 'ai/search-chat', payload: { question } },
+          body: { action: 'ai/search-chat', payload: { question, history } },
         });
         responseData = data;
         if (error || !data?.ok) {
@@ -4473,7 +4493,7 @@ export default function WorkspaceLogistics({ currentPath = '' }) {
       if ((primaryError || !responseData?.ok) && canUsePreviewAiFallback()) {
         try {
           const demoResult = await supabase.functions.invoke('ll-dashboard-api', {
-            body: { action: 'ai/search-chat-demo', payload: { question } },
+            body: { action: 'ai/search-chat-demo', payload: { question, history } },
           });
           if (demoResult.error) throw demoResult.error;
           responseData = demoResult.data;
@@ -4486,7 +4506,7 @@ export default function WorkspaceLogistics({ currentPath = '' }) {
         id: `ai-assistant-${Date.now()}`,
         role: 'assistant',
         content: responseData?.answer || responseData?.message || '권한 범위 안에서 답변할 수 있는 근거를 찾지 못했습니다.',
-        evidence: Array.isArray(responseData?.evidence) ? responseData.evidence : [],
+        evidence: [],
         scope: responseData?.scope || null,
         mode: responseData?.mode || null,
         model: responseData?.model || null,
@@ -6066,9 +6086,6 @@ function HomeDashboard() {
       {homeRead.blocked ? (
         <DashboardAccessState title="Dashboard read blocked" message="Supabase read API가 현재 로그인 사용자의 Home 데이터 읽기 권한을 허용하지 않아 정적 JSON fallback을 차단했습니다." />
       ) : null}
-      {homeRead.loading ? (
-        <DashboardAccessState title="Supabase read loading" message="Home 데이터를 Supabase read API 기준으로 확인하는 중입니다." />
-      ) : null}
       <section className="grid grid-cols-1 md:grid-cols-5 gap-3">
         {kpiCards.map(([label, value, basis, action]) => (
           <button key={label} type="button" onClick={action} className="text-left rounded-[14px] border border-[#333333] bg-[#252524] px-4 py-4 hover:bg-[#2A2A29]">
@@ -7595,9 +7612,6 @@ function CompanyDashboard() {
       {companyRead.blocked ? (
         <DashboardAccessState title="Dashboard read blocked" message="Supabase read API가 현재 로그인 사용자의 선택 기업 노출자산 읽기 권한을 허용하지 않아 정적 JSON fallback을 차단했습니다." />
       ) : null}
-      {companyRead.loading ? (
-        <DashboardAccessState title="Supabase read loading" message="Company 데이터를 Supabase read API 기준으로 확인하는 중입니다." />
-      ) : null}
       <section className="rounded-[20px] border border-[#333333] bg-[#252524] p-5">
         <div className="flex flex-col xl:flex-row xl:items-start xl:justify-between gap-5">
           <div>
@@ -7838,6 +7852,9 @@ function AnalysisToolsDashboard() {
   return (
     <div className="space-y-6">
       <LogisticsModal modal={modal} onClose={() => setModal(null)} />
+      {dashboardDataset.blocked ? (
+        <DashboardAccessState title="Dashboard read blocked" message="Supabase read API가 현재 로그인 사용자의 Analysis 데이터 읽기 권한을 허용하지 않아 정적 JSON fallback을 차단했습니다." />
+      ) : null}
       <section className="grid grid-cols-1 gap-5 xl:grid-cols-2">
         <div className="rounded-[20px] border border-[#333333] bg-[#252524] p-5">
           <SectionHeader
@@ -8037,6 +8054,9 @@ function DataPlaygroundDashboard() {
   return (
     <div className="space-y-6">
       <LogisticsModal modal={modal} onClose={() => setModal(null)} />
+      {dashboardDataset.blocked ? (
+        <DashboardAccessState title="Dashboard read blocked" message="Supabase read API가 현재 로그인 사용자의 Pivot Table 데이터 읽기 권한을 허용하지 않아 정적 JSON fallback을 차단했습니다." />
+      ) : null}
       <section className="rounded-[20px] border border-[#333333] bg-[#252524] p-5">
         <SectionHeader
           eyebrow="PIVOT TABLE"
@@ -8322,10 +8342,12 @@ function normalizeRemoteEditRequest(row, index) {
 function inferQualityTargetTable(finding) {
   const source = String(finding?.sourceTable || finding?.raw?.target_table || finding?.raw?.table_name || finding?.sheetName || '');
   if (/history|히스토리|rent/i.test(source)) return 'public.ll_rent_history';
-  if (/company|기업/i.test(source)) return 'public.ll_companies';
+  if (/company|기업/i.test(source)) return 'public.ll_tenants';
   if (/asset|자산/i.test(source)) return 'public.ll_assets';
   if (/weekly/i.test(source)) return 'public.ll_weekly_reports';
-  return source.startsWith('public.ll_') ? source : 'public.ll_leasing_contracts';
+  if (source === 'public.ll_companies') return 'public.ll_tenants';
+  if (source === 'public.ll_leasing_contracts') return 'public.ll_lease_spaces';
+  return source.startsWith('public.ll_') ? source : 'public.ll_lease_spaces';
 }
 
 function buildDataQualityEditGridRows(finding) {
@@ -8483,7 +8505,14 @@ const QUALITY_EXPORT_FIELDS = [
   { fieldName: 'monthlyMfTotal', label: '월관리비 총액', sourceHeader: '월관리비 총액', sourceColumnLetter: 'Q', domain: 'DB_히스토리 누적', table: 'public.ll_rent_history', valueType: 'currency' },
   { fieldName: 'currentRentPerPy', label: '평당 월임대료', sourceHeader: '평당 월임대료', sourceColumnLetter: 'R', domain: 'DB_히스토리 누적', table: 'public.ll_rent_history', valueType: 'won' },
   { fieldName: 'currentMfPerPy', label: '평당 월관리비', sourceHeader: '평당 월관리비', sourceColumnLetter: 'S', domain: 'DB_히스토리 누적', table: 'public.ll_rent_history', valueType: 'won' },
-];
+].map((field) => ({
+  ...field,
+  table: field.table === 'public.ll_leasing_contracts'
+    ? 'public.ll_lease_spaces'
+    : field.table === 'public.ll_companies'
+      ? 'public.ll_tenants'
+      : field.table,
+}));
 const QUALITY_ALLOWED_ACTIONS = new Set(['수정']);
 const QUALITY_REQUIRED_UPLOAD_COLUMNS = ['행위', '현재값', '수정값', 'target_table', 'target_row_id', 'primary_key_field', 'field_name', 'source_row_id', 'source_cell_id', 'before_value', 'asset_id'];
 
@@ -8501,7 +8530,7 @@ function qualityTargetRowId(row, field, fallbackRowId) {
   if (field.table === 'public.ll_assets') return String(firstDefined(row.assetId, row.asset_id, row.assetCode, row.assetName, fallbackRowId));
   if (field.table === 'public.ll_tenants') return String(firstDefined(row.tenantId, row.tenant_id, row.tenantRowId, fallbackRowId));
   if (field.table === 'public.ll_rent_history') return String(firstDefined(row.rentHistoryId, row.rent_history_id, row.historyId, row.history_row_id, row.leaseId, fallbackRowId));
-  if (field.table === 'public.ll_leasing_contracts') return String(firstDefined(row.leaseId, row.contractId, row.leaseRowId, fallbackRowId));
+  if (field.table === 'public.ll_lease_spaces') return String(firstDefined(row.leaseSpaceId, row.lease_space_id, row.leaseId, row.contractId, row.leaseRowId, fallbackRowId));
   return String(fallbackRowId);
 }
 
@@ -9609,9 +9638,6 @@ function AssetDashboard() {
       {assetRead.blocked ? (
         <DashboardAccessState title="Dashboard read blocked" message="Supabase read API가 현재 로그인 사용자의 선택 자산 읽기 권한을 허용하지 않아 정적 JSON fallback을 차단했습니다." />
       ) : null}
-      {assetRead.loading ? (
-        <DashboardAccessState title="Supabase read loading" message="Asset 데이터를 Supabase read API 기준으로 확인하는 중입니다." />
-      ) : null}
 
       <AssetProjectInfoPanel assetName={overview.assetName} />
 
@@ -10080,6 +10106,9 @@ function PdfReportBuilder() {
           title="PDF Report"
           right={<button type="button" onClick={printPdfReport} className="pdf-report-controls h-9 rounded-[8px] bg-white px-4 text-[13px] font-bold text-[#1F1F1E] hover:bg-[#E5E5E5]">PDF 저장</button>}
         />
+        {dashboardDataset.blocked ? (
+          <DashboardAccessState title="Dashboard read blocked" message="Supabase read API가 현재 로그인 사용자의 PDF Report 데이터 읽기 권한을 허용하지 않아 정적 JSON fallback을 차단했습니다." />
+        ) : null}
         <section className="pdf-report-layout grid grid-cols-1 gap-5 xl:grid-cols-[320px_minmax(0,1fr)]">
           <aside className="pdf-report-sidebar rounded-[20px] border border-[#333333] bg-[#252524] p-5">
             <label className="block text-[12px] font-bold text-[#86868B]">자산 선택</label>

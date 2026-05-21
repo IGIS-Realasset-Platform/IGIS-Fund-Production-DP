@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "checked_at": "2026-05-21T05:37:22.201Z",
+  "checked_at": "2026-05-21T09:35:18.783Z",
   "branch_only": true,
   "basis_date": "2026-04-30",
   "static_checks": {
@@ -13,6 +13,11 @@
       "status": "pass",
       "line": 184,
       "evidence": "primary-safe/primary and 401/403 should not be eligible for static fallback"
+    },
+    "loadingBlock": {
+      "status": "pass",
+      "line": null,
+      "evidence": "normal Supabase read loading status block should not render during tab switches; blocked/error states remain visible"
     }
   },
   "component_matrix": [
@@ -20,7 +25,7 @@
       "component": "Home",
       "api": "dashboard/home/read",
       "lines": [
-        742
+        745
       ],
       "static_fallback": "logisticsHomeData.json",
       "residual_static_dependencies": [
@@ -50,7 +55,7 @@
       "component": "Asset",
       "api": "dashboard/asset/read",
       "lines": [
-        9298
+        9327
       ],
       "static_fallback": "logisticsAssetData/*.json",
       "residual_static_dependencies": [
@@ -81,7 +86,7 @@
       "component": "Company",
       "api": "dashboard/company/read",
       "lines": [
-        7445
+        7462
       ],
       "static_fallback": "logisticsCompanyData/*.json",
       "residual_static_dependencies": [
@@ -111,8 +116,8 @@
       "component": "PDF Report",
       "api": "dashboard/home/read + dashboard/asset/read",
       "lines": [
-        9666,
-        9718
+        9692,
+        9744
       ],
       "static_fallback": "current selected payload fallback",
       "residual_static_dependencies": [
@@ -134,6 +139,11 @@
           "name": "pdf can include fund overview",
           "pass": true,
           "status": "pass"
+        },
+        {
+          "name": "pdf blocked state is visible",
+          "pass": true,
+          "status": "pass"
         }
       ],
       "wiring_status": "pass",
@@ -143,7 +153,7 @@
       "component": "Analysis Tools",
       "api": "dashboard/home/read shared dataset",
       "lines": [
-        7685
+        7699
       ],
       "static_fallback": "shared home fallback rows",
       "residual_static_dependencies": [
@@ -159,6 +169,11 @@
           "name": "analysis reads general rows from dataset",
           "pass": true,
           "status": "pass"
+        },
+        {
+          "name": "analysis blocked state is visible",
+          "pass": true,
+          "status": "pass"
         }
       ],
       "wiring_status": "pass",
@@ -168,7 +183,7 @@
       "component": "Pivot Table",
       "api": "dashboard/home/read shared dataset",
       "lines": [
-        7949
+        7966
       ],
       "static_fallback": "shared home fallback rows",
       "residual_static_dependencies": [
@@ -182,6 +197,11 @@
         },
         {
           "name": "pivot can source rows from general rows",
+          "pass": true,
+          "status": "pass"
+        },
+        {
+          "name": "pivot blocked state is visible",
           "pass": true,
           "status": "pass"
         }

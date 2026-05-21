@@ -188,6 +188,11 @@ async function main() {
       line: lineOf(workspace, 'function canUseStaticDashboardFallback'),
       evidence: 'primary-safe/primary and 401/403 should not be eligible for static fallback',
     },
+    loadingBlock: {
+      status: !has(workspace, 'title="Supabase read loading"') ? 'pass' : 'fail',
+      line: lineOf(workspace, 'title="Supabase read loading"'),
+      evidence: 'normal Supabase read loading status block should not render during tab switches; blocked/error states remain visible',
+    },
   };
 
   const componentMatrix = [
@@ -247,6 +252,7 @@ async function main() {
         { name: 'pdf uses shared home read dataset', pass: has(workspace, 'const dashboardDataset = useDashboardHomeReadDataset(memberInfo);') },
         { name: 'pdf uses asset read bridge', pass: has(workspace, 'const pdfAssetRead = useDashboardReadBridge') },
         { name: 'pdf can include fund overview', pass: has(workspace, 'fundOverview') && has(workspace, '펀드개요') },
+        { name: 'pdf blocked state is visible', pass: has(workspace, 'PDF Report 데이터 읽기 권한') },
       ],
     },
     {
@@ -260,6 +266,7 @@ async function main() {
       checks: [
         { name: 'analysis uses shared home read dataset', pass: has(workspace, 'function AnalysisToolsDashboard') && has(workspace, 'useDashboardHomeReadDataset(memberInfo)') },
         { name: 'analysis reads general rows from dataset', pass: has(workspace, 'dashboardDataset.generalRows') },
+        { name: 'analysis blocked state is visible', pass: has(workspace, 'Analysis 데이터 읽기 권한') },
       ],
     },
     {
@@ -273,6 +280,7 @@ async function main() {
       checks: [
         { name: 'pivot uses shared home read dataset', pass: has(workspace, 'function DataPlaygroundDashboard') && has(workspace, 'useDashboardHomeReadDataset(memberInfo)') },
         { name: 'pivot can source rows from general rows', pass: has(workspace, 'sourceRows') && has(workspace, 'dashboardDataset.generalRows') },
+        { name: 'pivot blocked state is visible', pass: has(workspace, 'Pivot Table 데이터 읽기 권한') },
       ],
     },
   ].map((item) => ({

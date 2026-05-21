@@ -6,13 +6,17 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "build:preview": "npm run build -- --base=/logistics-gate6-preview/",
+    "build:preview": "npm run build -- --base=/logistics-gate6-preview/ && node scripts/build/write-github-pages-fallback.cjs",
     "lint": "eslint .",
     "preview": "vite preview",
     "predeploy": "npm run build:preview && node -e \"require('fs').rmSync('dist/CNAME',{force:true})\"",
     "deploy": "gh-pages -d dist -b gh-pages --repo https://github.com/KYLee94/logistics-gate6-preview.git",
     "qa:logistics-jwt-smoke": "node scripts/qa/logistics-dashboard-jwt-smoke.cjs",
-    "qa:logistics-primary-parity": "node scripts/qa/logistics-dashboard-primary-parity.cjs"
+    "qa:logistics-primary-parity": "node scripts/qa/logistics-dashboard-primary-parity.cjs",
+    "qa:data-quality-e2e": "node scripts/qa/logistics-data-quality-e2e.cjs",
+    "qa:ai-chatbot": "node scripts/qa/logistics-ai-chatbot-qa.cjs",
+    "qa:supabase-catalog": "node scripts/qa/logistics-supabase-catalog-inventory.cjs",
+    "qa:browser-visible-parity": "node scripts/qa/logistics-browser-visible-parity.cjs"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
@@ -34,6 +38,7 @@
     "eslint-plugin-react-refresh": "^0.4.24",
     "gh-pages": "^6.3.0",
     "globals": "^16.5.0",
+    "playwright": "^1.60.0",
     "postcss": "^8.5.8",
     "tailwindcss": "^4.2.1",
     "vite": "^7.3.1"

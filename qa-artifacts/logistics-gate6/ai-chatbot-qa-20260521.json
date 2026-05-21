@@ -1,0 +1,22 @@
+{
+  "ok": true,
+  "generated_at": "2026-05-21T09:26:31.876Z",
+  "endpoint": "https://qvegpozwrcmspdvjokiz.redacted.supabase.co/functions/v1/ll-dashboard-api",
+  "origin": "https://kylee94.github.io",
+  "auth_source": "password_grant",
+  "checks": {
+    "asset_count": {
+      "status": 200,
+      "answer": "현재 읽기 권한 범위에서 조회 가능한 자산은 17개입니다."
+    },
+    "asset_lookup": {
+      "status": 200,
+      "answer": "인천석남물류센터은 조회 가능합니다. 펀드는 이지스인컴앤그로스제2의4호일반사모부동산모투자회사입니다."
+    },
+    "context_follow_up": {
+      "status": 200,
+      "answer": "인천석남물류센터의 E. NOC는 31,633원입니다."
+    },
+    "production_demo_blocked": 401
+  }
+}

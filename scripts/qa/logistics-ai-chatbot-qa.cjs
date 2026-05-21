@@ -1,0 +1,169 @@
+const fs = require('fs');
+const path = require('path');
+
+const ROOT = path.resolve(__dirname, '..', '..');
+const OUT_DIR = path.join(ROOT, 'qa-artifacts', 'logistics-gate6');
+const OUT_JSON = path.join(OUT_DIR, 'ai-chatbot-qa-20260521.json');
+const EDGE_FUNCTION = 'll-dashboard-api';
+const DEFAULT_ORIGIN = 'https://kylee94.github.io';
+
+function readEnvFile(filePath) {
+  if (!fs.existsSync(filePath)) return {};
+  return Object.fromEntries(fs.readFileSync(filePath, 'utf8')
+    .split(/\r?\n/u)
+    .map((line) => line.trim())
+    .filter((line) => line && !line.startsWith('#') && line.includes('='))
+    .map((line) => {
+      const index = line.indexOf('=');
+      return [line.slice(0, index).trim(), line.slice(index + 1).trim().replace(/^['"]|['"]$/gu, '')];
+    }));
+}
+
+const fileEnv = {
+  ...readEnvFile(path.join(ROOT, '.env')),
+  ...readEnvFile(path.join(ROOT, '.env.local')),
+};
+
+function envValue(...keys) {
+  for (const key of keys) {
+    if (process.env[key]) return process.env[key];
+    if (fileEnv[key]) return fileEnv[key];
+  }
+  return '';
+}
+
+function argsValue(name, fallback = '') {
+  const flag = `--${name}`;
+  const index = process.argv.indexOf(flag);
+  return index === -1 ? fallback : (process.argv[index + 1] || fallback);
+}
+
+async function signInForAccessToken(supabaseUrl, anonKey, email, password) {
+  const response = await fetch(`${supabaseUrl.replace(/\/$/u, '')}/auth/v1/token?grant_type=password`, {
+    method: 'POST',
+    headers: { apikey: anonKey, 'content-type': 'application/json' },
+    body: JSON.stringify({ email, password }),
+  });
+  const body = await response.json().catch(() => ({}));
+  if (!response.ok || !body.access_token) {
+    const message = body.msg || body.message || body.error_description || body.error || 'unknown auth error';
+    throw new Error(`Supabase Auth login failed (${response.status}): ${message}`);
+  }
+  return body.access_token;
+}
+
+async function resolveAccessToken(supabaseUrl, anonKey) {
+  const token = envValue('LOGISTICS_SUPABASE_ACCESS_TOKEN');
+  if (token) return { token, source: 'LOGISTICS_SUPABASE_ACCESS_TOKEN' };
+  const email = argsValue('email', envValue('LOGISTICS_SUPABASE_EMAIL', 'LOGISTICS_SUPABASE_AUTH_EMAIL'));
+  const password = argsValue('password', envValue('LOGISTICS_SUPABASE_PASSWORD', 'LOGISTICS_SUPABASE_AUTH_PASSWORD'));
+  if (!email || !password) throw new Error('Set LOGISTICS_SUPABASE_ACCESS_TOKEN, or LOGISTICS_SUPABASE_EMAIL and LOGISTICS_SUPABASE_PASSWORD.');
+  return { token: await signInForAccessToken(supabaseUrl, anonKey, email, password), source: 'password_grant' };
+}
+
+async function invoke(endpoint, anonKey, origin, token, action, payload) {
+  const response = await fetch(endpoint, {
+    method: 'POST',
+    headers: {
+      apikey: anonKey,
+      authorization: token ? `Bearer ${token}` : '',
+      'content-type': 'application/json',
+      origin,
+    },
+    body: JSON.stringify({ action, payload }),
+  });
+  const text = await response.text();
+  let body = null;
+  try {
+    body = text ? JSON.parse(text) : null;
+  } catch {
+    body = { raw: text.slice(0, 500) };
+  }
+  return { action, status: response.status, ok: response.ok, body };
+}
+
+function assertStatus(result, expected) {
+  if (result.status !== expected) {
+    const message = result.body?.message || result.body?.error || JSON.stringify(result.body).slice(0, 300);
+    throw new Error(`${result.action} expected ${expected}, got ${result.status}: ${message}`);
+  }
+}
+
+function assertCleanAnswer(result, label) {
+  assertStatus(result, 200);
+  if (result.body?.ok !== true) throw new Error(`${label} returned ok=false`);
+  const answer = String(result.body?.answer || '');
+  if (!answer.trim()) throw new Error(`${label} returned empty answer`);
+  if (/\bll_[a-z0-9_]+\b/iu.test(answer)) throw new Error(`${label} exposed internal table name: ${answer}`);
+  if (/source[_ -]?cell|source[_ -]?row|provider|fallback|Edge Function|service role|JWT/iu.test(answer)) {
+    throw new Error(`${label} exposed implementation detail: ${answer}`);
+  }
+  if (Array.isArray(result.body?.evidence) && result.body.evidence.length > 0) {
+    throw new Error(`${label} returned raw evidence rows to browser.`);
+  }
+  return answer;
+}
+
+async function main() {
+  const supabaseUrl = envValue('LOGISTICS_SUPABASE_URL', 'VITE_SUPABASE_URL');
+  const anonKey = envValue('LOGISTICS_SUPABASE_ANON_KEY', 'VITE_SUPABASE_ANON_KEY');
+  const origin = argsValue('origin', DEFAULT_ORIGIN);
+  if (!supabaseUrl || !anonKey) throw new Error('Missing Supabase URL or anon key.');
+  const endpoint = `${supabaseUrl.replace(/\/$/u, '')}/functions/v1/${EDGE_FUNCTION}`;
+  const auth = await resolveAccessToken(supabaseUrl, anonKey);
+
+  const assetCount = await invoke(endpoint, anonKey, origin, auth.token, 'ai/search-chat', {
+    question: '지금 내가 데이터 분석할 수 있는 자산이 몇 개야?',
+    history: [],
+  });
+  const assetCountAnswer = assertCleanAnswer(assetCount, 'asset count');
+  if (!/17|자산/iu.test(assetCountAnswer)) throw new Error(`asset count answer is not useful: ${assetCountAnswer}`);
+
+  const assetLookup = await invoke(endpoint, anonKey, origin, auth.token, 'ai/search-chat', {
+    question: '인천 석남 물류센터 있어?',
+    history: [{ role: 'user', content: '내 담당 자산 중 인천권 자산을 확인해줘' }],
+  });
+  const assetLookupAnswer = assertCleanAnswer(assetLookup, 'asset lookup');
+  if (!/인천|석남|물류센터/iu.test(assetLookupAnswer)) throw new Error(`asset lookup answer is not asset-specific: ${assetLookupAnswer}`);
+
+  const followUp = await invoke(endpoint, anonKey, origin, auth.token, 'ai/search-chat', {
+    question: '그 자산 E. NOC는?',
+    history: [
+      { role: 'user', content: '인천 석남 물류센터 있어?' },
+      { role: 'assistant', content: assetLookupAnswer },
+    ],
+  });
+  const followUpAnswer = assertCleanAnswer(followUp, 'context follow-up');
+  if (!/(E\.?\s*NOC|원|근거|확인)/iu.test(followUpAnswer)) {
+    throw new Error(`context follow-up answer did not address E. NOC: ${followUpAnswer}`);
+  }
+
+  const demoBlocked = await invoke(endpoint, anonKey, origin, '', 'ai/search-chat-demo', {
+    question: '운영 URL에서 demo fallback이 열려 있나요?',
+  });
+  if (![401, 403].includes(demoBlocked.status)) {
+    throw new Error(`ai/search-chat-demo should be blocked in production origin, got ${demoBlocked.status}`);
+  }
+
+  const output = {
+    ok: true,
+    generated_at: new Date().toISOString(),
+    endpoint: endpoint.replace(/https:\/\/([^./]+)\./u, 'https://$1.redacted.'),
+    origin,
+    auth_source: auth.source,
+    checks: {
+      asset_count: { status: assetCount.status, answer: assetCountAnswer },
+      asset_lookup: { status: assetLookup.status, answer: assetLookupAnswer },
+      context_follow_up: { status: followUp.status, answer: followUpAnswer },
+      production_demo_blocked: demoBlocked.status,
+    },
+  };
+  fs.mkdirSync(OUT_DIR, { recursive: true });
+  fs.writeFileSync(OUT_JSON, JSON.stringify(output, null, 2), 'utf8');
+  console.log(JSON.stringify(output, null, 2));
+}
+
+main().catch((error) => {
+  console.error(error.stack || error.message);
+  process.exit(1);
+});
