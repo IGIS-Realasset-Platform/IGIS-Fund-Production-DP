@@ -24,40 +24,40 @@
 
 | Table | Rows | Columns | PK | FKs | Indexes | RLS | Policies | Grants | Group | Decision | Local uses |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| ll_api_audit_logs | 698 | 6 | id | 1 | 2 | enabled | 1 | 28 | Permission / Audit | delete_prohibited | 70 |
-| ll_asset_managers | 17 | 13 | asset_manager_id | 2 | 3 | enabled | 0 | 28 | Core Normalized | keep | 71 |
-| ll_assets | 17 | 23 | asset_id | 1 | 3 | enabled | 0 | 28 | Core Normalized | keep | 245 |
-| ll_cache_entries | 67 | 30 | id | 0 | 5 | enabled | 0 | 28 | Cache / Snapshot | keep | 98 |
-| ll_data_change_audit_logs | 4 | 17 | id | 3 | 5 | enabled | 1 | 28 | Permission / Audit | delete_prohibited | 99 |
-| ll_data_quality_findings | 51 | 16 | finding_id | 0 | 3 | enabled | 0 | 28 | Permission / Audit | delete_prohibited | 108 |
-| ll_edit_requests | 4 | 28 | id | 3 | 5 | enabled | 1 | 28 | Permission / Audit | delete_prohibited | 136 |
+| ll_api_audit_logs | 731 | 6 | id | 1 | 2 | enabled | 1 | 28 | Permission / Audit | delete_prohibited | 71 |
+| ll_asset_managers | 17 | 13 | asset_manager_id | 2 | 3 | enabled | 0 | 28 | Core Normalized | keep | 76 |
+| ll_assets | 17 | 23 | asset_id | 1 | 3 | enabled | 0 | 28 | Core Normalized | keep | 246 |
+| ll_cache_entries | 67 | 30 | id | 0 | 5 | enabled | 0 | 28 | Cache / Snapshot | keep | 110 |
+| ll_data_change_audit_logs | 5 | 17 | id | 3 | 5 | enabled | 1 | 28 | Permission / Audit | delete_prohibited | 100 |
+| ll_data_quality_findings | 51 | 16 | finding_id | 0 | 3 | enabled | 0 | 28 | Permission / Audit | delete_prohibited | 109 |
+| ll_edit_requests | 4 | 28 | id | 3 | 5 | enabled | 1 | 28 | Permission / Audit | delete_prohibited | 137 |
 | ll_fund_asset_links | 17 | 14 | id | 2 | 4 | enabled | 0 | 28 | Fund | keep | 119 |
-| ll_fund_beneficiary_tranches | 52 | 19 | id | 3 | 5 | enabled | 0 | 28 | Fund | keep | 113 |
-| ll_fund_loan_tranches | 51 | 32 | id | 3 | 6 | enabled | 0 | 28 | Fund | keep | 164 |
+| ll_fund_beneficiary_tranches | 52 | 19 | id | 3 | 5 | enabled | 0 | 28 | Fund | keep | 114 |
+| ll_fund_loan_tranches | 51 | 32 | id | 3 | 6 | enabled | 0 | 28 | Fund | keep | 165 |
 | ll_funds | 15 | 19 | fund_id | 0 | 3 | enabled | 0 | 28 | Fund | keep | 157 |
 | ll_import_runs | 4 | 11 | import_id | 0 | 1 | enabled | 0 | 24 | Raw Source | delete_prohibited | 58 |
-| ll_issues | 42 | 16 | issue_id | 3 | 4 | enabled | 0 | 28 | Work Platform / Weekly | keep | 72 |
-| ll_lease_space_area_breakdowns | 387 | 17 | id | 4 | 5 | enabled | 0 | 28 | Detail Normalized | keep | 130 |
-| ll_lease_space_specs | 513 | 18 | id | 4 | 5 | enabled | 0 | 28 | Detail Normalized | keep | 143 |
+| ll_issues | 42 | 16 | issue_id | 3 | 4 | enabled | 0 | 28 | Work Platform / Weekly | keep | 73 |
+| ll_lease_space_area_breakdowns | 387 | 17 | id | 4 | 5 | enabled | 0 | 28 | Detail Normalized | keep | 131 |
+| ll_lease_space_specs | 513 | 18 | id | 4 | 5 | enabled | 0 | 28 | Detail Normalized | keep | 144 |
 | ll_lease_spaces | 80 | 31 | lease_space_id | 4 | 5 | enabled | 0 | 28 | Core Normalized | keep | 313 |
-| ll_lease_special_terms | 1758 | 18 | id | 4 | 5 | enabled | 0 | 28 | Detail Normalized | keep | 132 |
+| ll_lease_special_terms | 1758 | 18 | id | 4 | 5 | enabled | 0 | 28 | Detail Normalized | keep | 133 |
 | ll_leases | 45 | 33 | lease_id | 3 | 4 | enabled | 0 | 28 | Core Normalized | keep | 209 |
-| ll_migration_row_backups | 214 | 6 | id | 0 | 2 | enabled | 0 | 28 | Migration Safety | delete_prohibited | 66 |
+| ll_migration_row_backups | 214 | 6 | id | 0 | 2 | enabled | 0 | 28 | Migration Safety | delete_prohibited | 65 |
 | ll_rent_history | 163 | 26 | rent_history_id | 6 | 8 | enabled | 0 | 28 | Core Normalized | keep | 298 |
-| ll_schema_metadata | 682 | 17 | metadata_id | 0 | 3 | enabled | 0 | 28 | Metadata | keep | 64 |
+| ll_schema_metadata | 682 | 17 | metadata_id | 0 | 3 | enabled | 0 | 28 | Metadata | keep | 70 |
 | ll_sheet_rows | 347 | 10 | sheet_row_id | 1 | 3 | enabled | 0 | 28 | Raw Source | delete_prohibited | 93 |
 | ll_source_cells | 196657 | 27 | source_cell_id | 1 | 5 | enabled | 0 | 22 | Raw Source | delete_prohibited | 168 |
 | ll_source_field_registry | 134 | 21 | source_field_id | 1 | 4 | enabled | 0 | 28 | Raw Source | delete_prohibited | 95 |
 | ll_source_review_logs | 35 | 15 | id | 0 | 3 | enabled | 0 | 28 | Raw Source | delete_prohibited | 78 |
-| ll_tenants | 36 | 16 | tenant_id | 1 | 3 | enabled | 0 | 28 | Core Normalized | keep | 196 |
-| ll_user_permissions | 9 | 10 | user_id | 0 | 1 | enabled | 1 | 28 | Permission / Audit | delete_prohibited | 120 |
-| ll_weekly_assets | 20 | 11 | id | 1 | 2 | enabled | 1 | 28 | Work Platform / Weekly | keep | 120 |
-| ll_weekly_doc_ingest_runs | 0 | 11 | id | 2 | 3 | enabled | 1 | 28 | Work Platform / Weekly | keep | 73 |
-| ll_weekly_projects | 5 | 10 | id | 1 | 2 | enabled | 1 | 28 | Work Platform / Weekly | keep | 91 |
-| ll_weekly_reports | 1 | 13 | id | 1 | 3 | enabled | 1 | 28 | Work Platform / Weekly | keep | 104 |
-| ll_work_platform_board_posts | 3 | 27 | id | 2 | 4 | enabled | 1 | 28 | Work Platform / Weekly | keep | 105 |
-| ll_work_platform_task_snapshots | 2 | 16 | id | 1 | 4 | enabled | 1 | 28 | Work Platform / Weekly | keep | 84 |
-| ll_work_platform_tasks | 2 | 21 | id | 3 | 4 | enabled | 1 | 28 | Work Platform / Weekly | keep | 132 |
+| ll_tenants | 36 | 16 | tenant_id | 1 | 3 | enabled | 0 | 28 | Core Normalized | keep | 197 |
+| ll_user_permissions | 9 | 10 | user_id | 0 | 1 | enabled | 1 | 28 | Permission / Audit | delete_prohibited | 123 |
+| ll_weekly_assets | 20 | 11 | id | 1 | 2 | enabled | 1 | 28 | Work Platform / Weekly | keep | 121 |
+| ll_weekly_doc_ingest_runs | 0 | 11 | id | 2 | 3 | enabled | 1 | 28 | Work Platform / Weekly | keep | 74 |
+| ll_weekly_projects | 5 | 10 | id | 1 | 2 | enabled | 1 | 28 | Work Platform / Weekly | keep | 92 |
+| ll_weekly_reports | 1 | 13 | id | 1 | 3 | enabled | 1 | 28 | Work Platform / Weekly | keep | 105 |
+| ll_work_platform_board_posts | 3 | 27 | id | 2 | 4 | enabled | 1 | 28 | Work Platform / Weekly | keep | 106 |
+| ll_work_platform_task_snapshots | 2 | 16 | id | 1 | 4 | enabled | 1 | 28 | Work Platform / Weekly | keep | 85 |
+| ll_work_platform_tasks | 2 | 21 | id | 3 | 4 | enabled | 1 | 28 | Work Platform / Weekly | keep | 133 |
 
 ## FK Index Coverage
 

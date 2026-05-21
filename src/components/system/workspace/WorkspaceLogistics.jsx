@@ -6332,10 +6332,14 @@ function SimpleBarChart({ rows, labelKey, valueKey, valueType = 'number', onClic
   );
 }
 
-function RichBarChart({ rows, labelKey, valueKey, valueType = 'number', onClick, valueLabel }) {
+function RichBarChart({ rows, labelKey, valueKey, valueType = 'number', onClick, valueLabel, maxRows = 10, includeZero = false }) {
   const chartRef = useRef(null);
   const [hoveredBar, setHoveredBar] = useState(null);
-  const chartRows = (rows || []).filter((row) => Number(row?.[valueKey] || 0) > 0).slice(0, 10);
+  const filteredRows = (rows || []).filter((row) => {
+    const value = Number(row?.[valueKey]);
+    return Number.isFinite(value) && (includeZero ? value >= 0 : value > 0);
+  });
+  const chartRows = Number.isFinite(maxRows) ? filteredRows.slice(0, maxRows) : filteredRows;
   const axis = buildAxisSpec(Math.max(...chartRows.map((row) => Number(row[valueKey] || 0)), 1), valueType);
   const maxValue = axis.max;
   const metricName = valueLabel || chartMetricLabel(valueKey, valueType);
@@ -6737,10 +6741,57 @@ function StackingPlan({ floors, onTenantClick }) {
 
 function floorSortValue(label) {
   const value = String(label || '').trim().toUpperCase();
+  const matches = [...value.matchAll(/B\s*\d+|\d+(?:\.\d+)?\s*(?:F|층)?/giu)];
+  if (matches.length) {
+    const floorValues = matches.map((match) => {
+      const token = match[0].trim().toUpperCase();
+      const numeric = Number((token.match(/\d+(?:\.\d+)?/u) || [])[0]);
+      if (!Number.isFinite(numeric)) return -999;
+      return token.startsWith('B') ? -numeric : numeric;
+    });
+    return Math.max(...floorValues);
+  }
   const basement = value.match(/^B\s*(\d+)/u);
   if (basement) return -Number(basement[1]);
   const numeric = value.match(/-?\d+(?:\.\d+)?/u);
   return numeric ? Number(numeric[0]) : -999;
+}
+
+function expiryDateForRow(row = {}) {
+  return firstDefined(row.currentEndDate, row.latestExpiry, row.earliestExpiry, row.endDate, row.firstEndDate, row.contractEndDate);
+}
+
+function expiryFloorSortValue(row = {}) {
+  return floorSortValue(firstDefined(row.floorLabel, row.spaceLabel, row.detailAreaLabel, row.sourceFloorLabel));
+}
+
+function expiryRowKey(row = {}, index = 0) {
+  return String(firstDefined(
+    row.leaseSpaceId,
+    row.lease_space_id,
+    row.sourceSheetRowId,
+    row.source_sheet_row_id,
+    [row.tenantMasterName, row.spaceLabel, row.floorLabel, row.detailAreaLabel, expiryDateForRow(row), index].filter(Boolean).join('|'),
+  ));
+}
+
+function sortExpiryRows(rows = []) {
+  return (rows || []).slice().sort((a, b) => {
+    const aMonths = Number(firstDefined(a.monthsToExpiry, monthsUntil(expiryDateForRow(a)), Number.POSITIVE_INFINITY));
+    const bMonths = Number(firstDefined(b.monthsToExpiry, monthsUntil(expiryDateForRow(b)), Number.POSITIVE_INFINITY));
+    if (Number.isFinite(aMonths) && Number.isFinite(bMonths) && aMonths !== bMonths) return aMonths - bMonths;
+    if (Number.isFinite(aMonths) !== Number.isFinite(bMonths)) return Number.isFinite(aMonths) ? -1 : 1;
+
+    const floorDiff = expiryFloorSortValue(b) - expiryFloorSortValue(a);
+    if (floorDiff) return floorDiff;
+
+    const aDate = String(expiryDateForRow(a) || '');
+    const bDate = String(expiryDateForRow(b) || '');
+    if (aDate !== bDate) return aDate.localeCompare(bDate);
+
+    return String(firstDefined(a.tenantMasterName, a.spaceLabel, a.leaseSpaceId, '') || '')
+      .localeCompare(String(firstDefined(b.tenantMasterName, b.spaceLabel, b.leaseSpaceId, '') || ''), 'ko-KR');
+  });
 }
 
 function buildStackingFloorsFromRows(rows = [], fallbackFloors = []) {
@@ -6793,9 +6844,9 @@ function buildStackingFloorsFromRows(rows = [], fallbackFloors = []) {
 }
 
 function buildExpiryRowsFromRows(rows = []) {
-  return (rows || [])
+  return sortExpiryRows((rows || [])
     .map((row) => {
-      const expiryDate = firstDefined(row.currentEndDate, row.latestExpiry, row.earliestExpiry, row.endDate, row.firstEndDate, row.contractEndDate);
+      const expiryDate = expiryDateForRow(row);
       const months = monthsUntil(expiryDate);
       if (months == null) return null;
       return {
@@ -6805,8 +6856,27 @@ function buildExpiryRowsFromRows(rows = []) {
         monthlyCostTotal: firstDefined(row.monthlyCostTotal, row.monthlyCombinedTotal, row.currentMonthlyCostTotal),
       };
     })
-    .filter(Boolean)
-    .sort((a, b) => Number(a.monthsToExpiry || 0) - Number(b.monthsToExpiry || 0));
+    .filter(Boolean));
+}
+
+function mergeExpiryRows(derivedRows = [], explicitRows = []) {
+  const merged = new Map();
+  derivedRows.forEach((row, index) => merged.set(expiryRowKey(row, index), row));
+  explicitRows.forEach((row, index) => {
+    const key = expiryRowKey(row, index);
+    const derived = merged.get(key);
+    if (derived) {
+      merged.set(key, {
+        ...row,
+        ...derived,
+        monthsToExpiry: firstDefined(derived.monthsToExpiry, row.monthsToExpiry),
+        monthlyCostTotal: firstDefined(derived.monthlyCostTotal, derived.monthlyCombinedTotal, row.monthlyCostTotal, row.monthlyCombinedTotal, row.currentMonthlyCostTotal),
+      });
+      return;
+    }
+    merged.set(key, row);
+  });
+  return sortExpiryRows([...merged.values()]);
 }
 
 function normalizeAssetPayload(payload) {
@@ -6842,10 +6912,7 @@ function normalizeAssetPayload(payload) {
       ? payload.analytics.contractExpiry
       : [];
   const derivedExpiryRows = buildExpiryRowsFromRows(corrected.rows.length ? corrected.rows : explicitExpiryRows);
-  const explicitExpiryComplete = explicitExpiryRows.some((row) => (
-    row.monthsToExpiry != null
-    && firstDefined(row.monthlyCostTotal, row.monthlyCombinedTotal, row.currentMonthlyCostTotal) != null
-  ));
+  const mergedExpiryRows = mergeExpiryRows(derivedExpiryRows, explicitExpiryRows);
   return {
     ...payload,
     overview: corrected.overview,
@@ -6853,7 +6920,7 @@ function normalizeAssetPayload(payload) {
     normalizedRows: corrected.rows,
     uniqueTenants: payload.analytics?.uniqueTenants || payload.topTenants || [],
     monthlyCostByTenant: payload.analytics?.monthlyCostByTenant || payload.analytics?.coreTenants || [],
-    expiryRows: explicitExpiryComplete ? explicitExpiryRows : derivedExpiryRows,
+    expiryRows: mergedExpiryRows,
   };
 }
 
@@ -9569,9 +9636,9 @@ function AssetDashboard() {
     formatDate(row.currentStartDate),
     formatDate(row.currentEndDate),
   ]);
-  const effectiveExpirySourceRows = asset.expiryRows && asset.expiryRows.length
+  const effectiveExpirySourceRows = sortExpiryRows(asset.expiryRows && asset.expiryRows.length
     ? asset.expiryRows
-    : buildExpiryRowsFromRows(rows);
+    : buildExpiryRowsFromRows(rows));
   const expiryRows = effectiveExpirySourceRows.map((row) => [
     row.tenantMasterName || '-',
     row.spaceLabel || row.detailAreaLabel || row.floorLabel || '-',
@@ -9682,7 +9749,7 @@ function AssetDashboard() {
       <section className="grid grid-cols-1 xl:grid-cols-2 gap-5">
         <div className="rounded-[20px] border border-[#333333] bg-[#252524] p-5">
           <SectionHeader eyebrow="EXPIRY" title="만기 스냅샷" right={<button type="button" onClick={() => openTableModal('만기 스냅샷', ['임차인명', '세부 구역', '계약만기일', '잔여 개월', '월 임관리비'], expiryRows)} className="h-9 px-3 rounded-[8px] bg-[#30302F] text-white text-[13px] font-semibold hover:bg-[#3A3A3A]">원본 표 보기</button>} />
-          <RichBarChart rows={expiryChartRows} labelKey="expiryChartLabel" valueKey="monthsToExpiry" valueType="number" valueLabel="계약만기까지 잔여 개월" onClick={() => openTableModal('만기 스냅샷', ['임차인명', '세부 구역', '계약만기일', '잔여 개월', '월 임관리비'], expiryRows)} />
+          <RichBarChart rows={expiryChartRows} labelKey="expiryChartLabel" valueKey="monthsToExpiry" valueType="number" valueLabel="계약만기까지 잔여 개월" maxRows={Infinity} includeZero onClick={() => openTableModal('만기 스냅샷', ['임차인명', '세부 구역', '계약만기일', '잔여 개월', '월 임관리비'], expiryRows)} />
         </div>
       </section>
     </div>

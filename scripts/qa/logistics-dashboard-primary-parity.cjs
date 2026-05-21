@@ -60,6 +60,10 @@ function statusFromChecks(checks) {
   return failed.length ? 'fail' : 'pass';
 }
 
+function firstDefined(...values) {
+  return values.find((value) => value !== undefined && value !== null && value !== '');
+}
+
 function readinessFrom(checks) {
   if (statusFromChecks(checks) === 'fail') return 'fail';
   return 'primary_safe_pass';
@@ -68,6 +72,11 @@ function readinessFrom(checks) {
 function summarizeDashboardBody(body) {
   const data = body?.data || {};
   const evidence = Array.isArray(body?.evidence?.tables) ? body.evidence.tables : [];
+  const leasesById = new Map((data.leases || []).map((row) => [firstDefined(row.lease_id, row.leaseId), row]));
+  const expiryCandidateRows = (data.lease_spaces || []).filter((row) => {
+    const lease = leasesById.get(firstDefined(row.lease_id, row.leaseId)) || {};
+    return Boolean(firstDefined(lease.current_end_date, lease.currentEndDate));
+  });
   return {
     ok: body?.ok === true,
     source: body?.source,
@@ -82,6 +91,7 @@ function summarizeDashboardBody(body) {
     tenants: Array.isArray(data.tenants) ? data.tenants.length : 0,
     leases: Array.isArray(data.leases) ? data.leases.length : 0,
     lease_spaces: Array.isArray(data.lease_spaces) ? data.lease_spaces.length : 0,
+    expiry_candidate_rows: expiryCandidateRows.length,
     rent_history: Array.isArray(data.rent_history) ? data.rent_history.length : 0,
     fund_overview: Boolean(data.fund_overview),
   };
@@ -223,6 +233,10 @@ async function main() {
         { name: 'asset read bridge exists', pass: has(workspace, "useDashboardReadBridge('dashboard/asset/read'") },
         { name: 'asset adapter exists', pass: has(workspace, 'assetPayloadFromDashboardRead') },
         { name: 'asset blocked state prevents static payload', pass: has(workspace, "assetRead.primaryMode && !assetRead.fallbackAllowed") },
+        { name: 'asset expiry snapshot derives from lease-space rows', pass: has(workspace, 'buildExpiryRowsFromRows(corrected.rows.length ? corrected.rows : explicitExpiryRows)') },
+        { name: 'asset expiry snapshot merges explicit snapshot without dropping derived rows', pass: has(workspace, 'mergeExpiryRows(derivedExpiryRows, explicitExpiryRows)') },
+        { name: 'asset expiry snapshot sorts same remaining months by higher floor first', pass: has(workspace, 'expiryFloorSortValue(b) - expiryFloorSortValue(a)') },
+        { name: 'asset expiry chart does not truncate to first 10 rows', pass: has(workspace, 'maxRows={Infinity} includeZero') },
       ],
     },
     {

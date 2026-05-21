@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "checked_at": "2026-05-21T09:35:18.783Z",
+  "checked_at": "2026-05-21T09:55:49.903Z",
   "branch_only": true,
   "basis_date": "2026-04-30",
   "static_checks": {
@@ -55,7 +55,7 @@
       "component": "Asset",
       "api": "dashboard/asset/read",
       "lines": [
-        9327
+        9394
       ],
       "static_fallback": "logisticsAssetData/*.json",
       "residual_static_dependencies": [
@@ -77,6 +77,26 @@
           "name": "asset blocked state prevents static payload",
           "pass": true,
           "status": "pass"
+        },
+        {
+          "name": "asset expiry snapshot derives from lease-space rows",
+          "pass": true,
+          "status": "pass"
+        },
+        {
+          "name": "asset expiry snapshot merges explicit snapshot without dropping derived rows",
+          "pass": true,
+          "status": "pass"
+        },
+        {
+          "name": "asset expiry snapshot sorts same remaining months by higher floor first",
+          "pass": true,
+          "status": "pass"
+        },
+        {
+          "name": "asset expiry chart does not truncate to first 10 rows",
+          "pass": true,
+          "status": "pass"
         }
       ],
       "wiring_status": "pass",
@@ -86,7 +106,7 @@
       "component": "Company",
       "api": "dashboard/company/read",
       "lines": [
-        7462
+        7529
       ],
       "static_fallback": "logisticsCompanyData/*.json",
       "residual_static_dependencies": [
@@ -116,8 +136,8 @@
       "component": "PDF Report",
       "api": "dashboard/home/read + dashboard/asset/read",
       "lines": [
-        9692,
-        9744
+        9759,
+        9811
       ],
       "static_fallback": "current selected payload fallback",
       "residual_static_dependencies": [
@@ -153,7 +173,7 @@
       "component": "Analysis Tools",
       "api": "dashboard/home/read shared dataset",
       "lines": [
-        7699
+        7766
       ],
       "static_fallback": "shared home fallback rows",
       "residual_static_dependencies": [
@@ -183,7 +203,7 @@
       "component": "Pivot Table",
       "api": "dashboard/home/read shared dataset",
       "lines": [
-        7966
+        8033
       ],
       "static_fallback": "shared home fallback rows",
       "residual_static_dependencies": [
@@ -263,6 +283,7 @@
           "tenants": 31,
           "leases": 45,
           "lease_spaces": 80,
+          "expiry_candidate_rows": 78,
           "rent_history": 163,
           "fund_overview": false
         }
@@ -315,6 +336,7 @@
           "tenants": 1,
           "leases": 1,
           "lease_spaces": 14,
+          "expiry_candidate_rows": 14,
           "rent_history": 16,
           "fund_overview": true
         }
@@ -362,6 +384,7 @@
           "tenants": 1,
           "leases": 1,
           "lease_spaces": 1,
+          "expiry_candidate_rows": 1,
           "rent_history": 10,
           "fund_overview": false
         }

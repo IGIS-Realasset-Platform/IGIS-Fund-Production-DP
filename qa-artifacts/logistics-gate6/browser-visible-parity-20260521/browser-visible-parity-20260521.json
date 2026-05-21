@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "checked_at": "2026-05-21T09:37:54.117Z",
+  "checked_at": "2026-05-21T10:00:24.605Z",
   "branch_only": true,
   "base_url": "http://127.0.0.1:4177/logistics-gate6-preview/",
   "auth_mode": "real Supabase Auth session injected into sb-iota-auth-token for browser-visible parity.",
@@ -92,7 +92,7 @@
             "source_cells": []
           },
           "warnings": [],
-          "checked_at": "2026-05-21T09:35:18.168Z"
+          "checked_at": "2026-05-21T09:57:47.216Z"
         },
         {
           "action": "dashboard/home/read",
@@ -157,7 +157,7 @@
             "source_cells": []
           },
           "warnings": [],
-          "checked_at": "2026-05-21T09:35:18.534Z"
+          "checked_at": "2026-05-21T09:57:47.292Z"
         }
       ],
       "screenshot": "qa-artifacts/logistics-gate6/browser-visible-parity-20260521/home.png"
@@ -253,7 +253,72 @@
             "source_cells": []
           },
           "warnings": [],
-          "checked_at": "2026-05-21T09:35:42.735Z"
+          "checked_at": "2026-05-21T09:58:14.329Z"
+        },
+        {
+          "action": "dashboard/home/read",
+          "mode": "primary-safe",
+          "ok": true,
+          "source": "supabase",
+          "basis_date": "2026-04-30",
+          "scope_hash": "bd4eff8c73b59cc49438507c8435e51aca4944b8ce315cd40951f4bd2d24af81",
+          "readable_asset_count": 17,
+          "diffs": {
+            "operating_asset_count": {
+              "static_value": 17,
+              "supabase_value": 17,
+              "diff": 0
+            },
+            "leased_area_sqm": {
+              "static_value": 1340655.4600000002,
+              "supabase_value": 1623178.02,
+              "diff": 282522.5599999998
+            },
+            "current_monthly_cost_total": {
+              "static_value": 11134228842,
+              "supabase_value": 16920715647,
+              "diff": 5786486805
+            }
+          },
+          "evidence": {
+            "tables": [
+              {
+                "table": "public.ll_assets",
+                "rows": 17
+              },
+              {
+                "table": "public.ll_tenants",
+                "rows": 31
+              },
+              {
+                "table": "public.ll_leases",
+                "rows": 45
+              },
+              {
+                "table": "public.ll_lease_spaces",
+                "rows": 80
+              },
+              {
+                "table": "public.ll_lease_space_area_breakdowns",
+                "rows": 387
+              },
+              {
+                "table": "public.ll_lease_space_specs",
+                "rows": 513
+              },
+              {
+                "table": "public.ll_lease_special_terms",
+                "rows": 1000
+              },
+              {
+                "table": "public.ll_rent_history",
+                "rows": 163
+              }
+            ],
+            "source_cells": []
+          },
+          "warnings": [],
+          "checked_at": "2026-05-21T09:58:14.385Z"
         },
         {
           "action": "dashboard/asset/read",
@@ -326,72 +391,7 @@
             "source_cells": []
           },
           "warnings": [],
-          "checked_at": "2026-05-21T09:35:42.773Z"
-        },
-        {
-          "action": "dashboard/home/read",
-          "mode": "primary-safe",
-          "ok": true,
-          "source": "supabase",
-          "basis_date": "2026-04-30",
-          "scope_hash": "bd4eff8c73b59cc49438507c8435e51aca4944b8ce315cd40951f4bd2d24af81",
-          "readable_asset_count": 17,
-          "diffs": {
-            "operating_asset_count": {
-              "static_value": 17,
-              "supabase_value": 17,
-              "diff": 0
-            },
-            "leased_area_sqm": {
-              "static_value": 1340655.4600000002,
-              "supabase_value": 1623178.02,
-              "diff": 282522.5599999998
-            },
-            "current_monthly_cost_total": {
-              "static_value": 11134228842,
-              "supabase_value": 16920715647,
-              "diff": 5786486805
-            }
-          },
-          "evidence": {
-            "tables": [
-              {
-                "table": "public.ll_assets",
-                "rows": 17
-              },
-              {
-                "table": "public.ll_tenants",
-                "rows": 31
-              },
-              {
-                "table": "public.ll_leases",
-                "rows": 45
-              },
-              {
-                "table": "public.ll_lease_spaces",
-                "rows": 80
-              },
-              {
-                "table": "public.ll_lease_space_area_breakdowns",
-                "rows": 387
-              },
-              {
-                "table": "public.ll_lease_space_specs",
-                "rows": 513
-              },
-              {
-                "table": "public.ll_lease_special_terms",
-                "rows": 1000
-              },
-              {
-                "table": "public.ll_rent_history",
-                "rows": 163
-              }
-            ],
-            "source_cells": []
-          },
-          "warnings": [],
-          "checked_at": "2026-05-21T09:35:42.830Z"
+          "checked_at": "2026-05-21T09:58:14.439Z"
         }
       ],
       "screenshot": "qa-artifacts/logistics-gate6/browser-visible-parity-20260521/asset.png"
@@ -485,7 +485,7 @@
             "source_cells": []
           },
           "warnings": [],
-          "checked_at": "2026-05-21T09:36:09.592Z"
+          "checked_at": "2026-05-21T09:58:39.876Z"
         },
         {
           "action": "dashboard/home/read",
@@ -550,7 +550,7 @@
             "source_cells": []
           },
           "warnings": [],
-          "checked_at": "2026-05-21T09:36:09.646Z"
+          "checked_at": "2026-05-21T09:58:39.928Z"
         },
         {
           "action": "dashboard/company/read",
@@ -625,7 +625,7 @@
             "source_cells": []
           },
           "warnings": [],
-          "checked_at": "2026-05-21T09:36:10.273Z"
+          "checked_at": "2026-05-21T09:58:40.504Z"
         }
       ],
       "screenshot": "qa-artifacts/logistics-gate6/browser-visible-parity-20260521/company.png"
@@ -719,7 +719,7 @@
             "source_cells": []
           },
           "warnings": [],
-          "checked_at": "2026-05-21T09:36:35.862Z"
+          "checked_at": "2026-05-21T09:59:06.203Z"
         },
         {
           "action": "dashboard/asset/read",
@@ -787,7 +787,7 @@
             "source_cells": []
           },
           "warnings": [],
-          "checked_at": "2026-05-21T09:36:36.752Z"
+          "checked_at": "2026-05-21T09:59:06.996Z"
         }
       ],
       "screenshot": "qa-artifacts/logistics-gate6/browser-visible-parity-20260521/pdf-report.png"
@@ -877,7 +877,7 @@
             "source_cells": []
           },
           "warnings": [],
-          "checked_at": "2026-05-21T09:37:02.101Z"
+          "checked_at": "2026-05-21T09:59:32.640Z"
         },
         {
           "action": "dashboard/home/read",
@@ -942,7 +942,7 @@
             "source_cells": []
           },
           "warnings": [],
-          "checked_at": "2026-05-21T09:37:02.166Z"
+          "checked_at": "2026-05-21T09:59:32.700Z"
         }
       ],
       "screenshot": "qa-artifacts/logistics-gate6/browser-visible-parity-20260521/analysis-tools.png"
@@ -1032,7 +1032,7 @@
             "source_cells": []
           },
           "warnings": [],
-          "checked_at": "2026-05-21T09:37:28.927Z"
+          "checked_at": "2026-05-21T09:59:59.407Z"
         },
         {
           "action": "dashboard/home/read",
@@ -1097,7 +1097,7 @@
             "source_cells": []
           },
           "warnings": [],
-          "checked_at": "2026-05-21T09:37:28.960Z"
+          "checked_at": "2026-05-21T09:59:59.500Z"
         }
       ],
       "screenshot": "qa-artifacts/logistics-gate6/browser-visible-parity-20260521/pivot-table.png"

@@ -1,9 +1,9 @@
 # Gate 6 Progress Tracker - Logistics Work Platform
 
-- Updated at: 2026-05-21T18:40:00.000+09:00
-- Overall: 212 / 317 (66.9%)
+- Updated at: 2026-05-21T19:05:00.000+09:00
+- Overall: 215 / 317 (67.8%)
 - Active work branch: `codex/logistics-gate6-post-deploy-updates`
-- gh-pages deployment: not executed in this batch. Production deployment remains gated by user confirmation.
+- gh-pages deployment: executed for Asset maturity snapshot completeness/sorting fix.
 
 | Stage | Area | Done/Total | Rate |
 | ---: | --- | ---: | ---: |
@@ -12,14 +12,14 @@
 | 4 | Dashboard 공통 | 8 / 16 | 50.0% |
 | 5 | Weekly source data after tab removal | 3 / 4 | 75.0% |
 | 6 | Home 탭 | 33 / 41 | 80.5% |
-| 7 | Asset 탭 | 18 / 28 | 64.3% |
+| 7 | Asset 탭 | 19 / 28 | 67.9% |
 | 8 | Company 탭 | 10 / 15 | 66.7% |
 | 9 | Pivot Table | 12 / 13 | 92.3% |
 | 10 | Data Quality | 16 / 21 | 76.2% |
 | 11 | Analysis Tools | 6 / 9 | 66.7% |
-| 12 | DB / Edge / 배포 승인대기 | 22 / 30 | 73.3% |
+| 12 | DB / Edge / 배포 승인대기 | 23 / 30 | 76.7% |
 | 13 | 외부권한대기 | 5 / 11 | 45.5% |
-| 14 | QA 계획 | 29 / 49 | 59.2% |
+| 14 | QA 계획 | 30 / 49 | 61.2% |
 | 15 | 최종 완료 기준 | 3 / 15 | 20.0% |
 
 ## Latest Priority Update
@@ -60,7 +60,9 @@
 - Data Quality submit/approve/write/readback/audit end-to-end는 pass했습니다.
 - AI 챗봇은 자산 수, 특정 자산 조회, 맥락 기반 E.NOC 후속 질문, production demo fallback 차단 QA를 통과했습니다.
 - 정적 JSON은 401/403 fallback으로 쓰이지 않습니다. 일부 파일은 5xx/timeout 또는 print-safe 보조 fallback 용도로만 남아 있습니다.
-- gh-pages 운영 배포는 이번 batch에서 수행하지 않았습니다.
+- Asset 탭 만기 스냅샷은 `ll_lease_spaces` 기반 파생 행을 우선하고 기존 snapshot을 보강값으로만 병합하도록 수정했습니다.
+- 만기 스냅샷 차트는 10건 제한을 해제했고, 같은 잔여개월이면 높은 층이 먼저 오도록 정렬합니다.
+- gh-pages 운영 배포는 Asset 만기 스냅샷 수정 범위로 수행했습니다.
 
 ## Remaining Risks
 
