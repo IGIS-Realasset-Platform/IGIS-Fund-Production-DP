@@ -94,6 +94,55 @@
 - Batch status: `Supabase 마이그레이션 및 연결 완료` parent item은 진행중입니다. 완료된 증거는 펀드 엑셀 DB backfill/readback, live Edge deploy, CORS OPTIONS 200, unauth 401 smoke, scoped WorkspaceLogistics eslint pass, `npm run build:preview` pass입니다. Reviewer 재검토로 발견된 fallback 선노출, 승인자 자산별 권한, 동시 승인, 빈 배열 clear 위험은 즉시 보강했습니다. 남은 것은 Home/Asset/Company 핵심 payload의 Supabase primary 전환과 로그인 JWT 기반 화면 smoke입니다.
 - 기존 주의사항은 보고용이 아니라 처리 대기 작업으로 재분류했습니다: 전역 lint cleanup, valid JWT read smoke, Home/Asset/Company primary 전환, live Sheets 17탭 cell-level 보존.
 
+## Branch-Only Supabase Primary Continuation - 2026-05-21
+
+- 현재 이후 작업은 사용자 지시에 따라 브랜치 전용입니다. `gh-pages` 배포, Edge Function 배포, Supabase write/migration/RLS/policy 변경은 명시 승인 전 실행하지 않습니다.
+- `Supabase 마이그레이션 및 연결 완료`는 하나의 parent 업무로 계속 관리합니다. 내부 증거는 산출물로 남기되 체크리스트 분모를 불필요하게 늘리지 않습니다.
+- live Google Sheets 17탭 `181,470`셀은 used range 안의 빈 셀까지 포함한 cell-level 보존 숫자입니다. 이는 원본 증거 보존 통과를 의미하지만, 화면이 Supabase primary 값을 쓴다는 의미는 아닙니다.
+- 새로 생긴 `ll_work_platform_task_snapshots`는 Work Platform / 지난 Task 관리 아카이브 전용 테이블입니다. Home/Asset/Company/PDF/Analysis/Pivot 숫자 source로 쓰면 안 됩니다.
+- 정적 검사 결과 `ll_work_platform_task_snapshots`는 Edge Function의 task snapshot 함수와 Work Platform archive 호출부에서만 확인됐고, dashboard read 함수의 직접 source로는 확인되지 않았습니다.
+- 추가 산출물:
+  - `qa-artifacts/logistics-gate6/supabase-primary-branch-only-plan-20260521.md`
+  - `qa-artifacts/logistics-gate6/dashboard-primary-source-static-audit-20260521.md`
+- 남은 완료 조건은 valid logged-in JWT smoke와 Home/Asset/Company/PDF/Analysis/Pivot 컴포넌트별 Supabase primary parity입니다.
+
+## Branch-Only JWT / Primary Parity Execution - 2026-05-21
+
+- `scripts/qa/logistics-dashboard-jwt-smoke.cjs`를 보강했습니다. 이제 `LOGISTICS_SUPABASE_ACCESS_TOKEN`뿐 아니라 `LOGISTICS_SUPABASE_EMAIL` + `LOGISTICS_SUPABASE_PASSWORD`로도 실제 로그인 JWT를 받아 smoke를 실행할 수 있습니다.
+- JWT smoke는 더 이상 HTTP 200만 보지 않습니다. `ok=true`, `source=supabase`, `version=ll-dashboard-payload-v1`, `basis_date=2026-04-30`, `scope_hash`, `evidence.tables`, snapshot upsert/list readback까지 확인합니다.
+- `scripts/qa/logistics-dashboard-primary-parity.cjs`와 `npm run qa:logistics-primary-parity`를 추가했습니다. Home/Asset/Company/PDF/Analysis/Pivot별 Supabase read path, fallback policy, residual static dependency를 산출물로 남깁니다.
+- 실행 결과: static wiring과 401/403 fallback 차단 구조는 pass입니다. 다만 현재 로컬 작업환경에 `LOGISTICS_SUPABASE_ACCESS_TOKEN` 또는 `LOGISTICS_SUPABASE_EMAIL`/`LOGISTICS_SUPABASE_PASSWORD`가 없어 valid logged-in runtime 200 smoke는 실행하지 못했습니다.
+- 산출물:
+  - `qa-artifacts/logistics-gate6/dashboard-primary-parity-20260521.json`
+  - `qa-artifacts/logistics-gate6/dashboard-primary-parity-20260521.md`
+- 검증:
+  - `npm run qa:logistics-primary-parity`: 실행 완료, runtime은 `blocked_missing_credentials`
+  - `npm run qa:logistics-jwt-smoke`: credentials 없음으로 정상 차단
+  - `npx eslint scripts/qa/logistics-dashboard-jwt-smoke.cjs scripts/qa/logistics-dashboard-primary-parity.cjs`: pass
+  - `npm run build:preview`: pass
+  - `git diff --check`: pass, line-ending warning only
+- 판정: `Supabase 마이그레이션 및 연결 완료`는 계속 `in_progress`입니다. 코드 연결과 fallback 방어는 확인했지만, 실제 로그인 JWT 200 smoke와 runtime component parity가 없으므로 완료로 표시하지 않습니다.
+
+## Logged-In JWT Smoke Completed - 2026-05-21
+
+- `.env.local`에 들어온 로그인 정보를 사용해 password grant 방식으로 실제 로그인 JWT smoke를 실행했습니다. 비밀번호와 토큰은 출력하지 않았습니다.
+- `npm run qa:logistics-jwt-smoke`: pass
+  - `dashboard/home/read`: 200, readable assets 17, `ll_lease_spaces` 80, `ll_rent_history` 163
+  - `dashboard/asset/read`: 200, selected asset evidence includes `ll_funds` 1, `ll_fund_asset_links` 1, `ll_lease_spaces` 14
+  - `dashboard/company/read`: 200, selected tenant evidence includes `ll_assets` 1, `ll_lease_spaces` 1, `ll_rent_history` 10
+  - `work-platform/tasks/snapshots/upsert-current`: 200, `week_key=2026-04-27`, `task_count=0`
+  - `work-platform/tasks/snapshots/list`: 200
+  - unauthenticated `dashboard/home/read`: 401
+- `npm run qa:logistics-primary-parity`: pass
+  - Home/Asset/Company API runtime parity smoke가 pass로 갱신됐습니다.
+  - PDF/Analysis/Pivot은 Supabase read path wiring과 fallback policy가 pass입니다.
+  - 단, PDF/Analysis/Pivot은 브라우저에서 실제 렌더링 컴포넌트 값까지 본 것은 아니므로 manual/browser-visible parity는 별도 남습니다.
+- 산출물 갱신:
+  - `qa-artifacts/logistics-gate6/jwt-smoke-result-20260521.json`
+  - `qa-artifacts/logistics-gate6/dashboard-primary-parity-20260521.json`
+  - `qa-artifacts/logistics-gate6/dashboard-primary-parity-20260521.md`
+- 판정: 반복적으로 밀리던 실제 로그인 JWT smoke와 Home/Asset/Company API runtime parity는 완료했습니다. `Supabase 마이그레이션 및 연결 완료` parent는 residual static dependency cleanup 및 브라우저 visible parity가 남아 계속 `in_progress`입니다.
+
 ## Current Dashboard Read API / Primary-Safe Bridge Batch
 
 - `dashboard/asset/read`는 요청한 자산이 읽기 권한 밖이면 첫 번째 readable asset으로 대체하지 않고 403으로 차단하도록 보강했습니다.

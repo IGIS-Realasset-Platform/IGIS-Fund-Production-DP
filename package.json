@@ -10,7 +10,9 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "predeploy": "npm run build:preview && node -e \"require('fs').rmSync('dist/CNAME',{force:true})\"",
-    "deploy": "gh-pages -d dist -b gh-pages --repo https://github.com/KYLee94/logistics-gate6-preview.git"
+    "deploy": "gh-pages -d dist -b gh-pages --repo https://github.com/KYLee94/logistics-gate6-preview.git",
+    "qa:logistics-jwt-smoke": "node scripts/qa/logistics-dashboard-jwt-smoke.cjs",
+    "qa:logistics-primary-parity": "node scripts/qa/logistics-dashboard-primary-parity.cjs"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",

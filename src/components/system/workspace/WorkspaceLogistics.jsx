@@ -181,7 +181,8 @@ function dashboardReadInvalidReason(data, expectedBasisDate) {
   return '';
 }
 
-function canUseStaticDashboardFallback(status, message) {
+function canUseStaticDashboardFallback(mode, status, message) {
+  if (mode === 'primary-safe' || mode === 'primary') return false;
   return status >= 500
     || /timeout|network|failed to fetch|failed to send a request/iu.test(String(message || ''));
 }
@@ -214,7 +215,7 @@ function useDashboardReadBridge(action, payload, staticSummary, adapter, enabled
           const status = dashboardReadResponseStatus(data);
           const message = invalidReason;
           const authFailure = isAuthOrPermissionFailure(status, message);
-          const fallbackAllowed = !authFailure && canUseStaticDashboardFallback(status, message);
+          const fallbackAllowed = !authFailure && canUseStaticDashboardFallback(mode, status, message);
           const report = {
             action,
             mode,
@@ -274,7 +275,7 @@ function useDashboardReadBridge(action, payload, staticSummary, adapter, enabled
         const status = edgeErrorStatus(error);
         const message = error?.message || 'Supabase dashboard read failed';
         const authFailure = isAuthOrPermissionFailure(status, message);
-        const fallbackAllowed = !authFailure && canUseStaticDashboardFallback(status, message);
+        const fallbackAllowed = !authFailure && canUseStaticDashboardFallback(mode, status, message);
         const report = {
           action,
           mode,
@@ -358,9 +359,27 @@ function camelLeaseSpaceFromApi(row = {}, asset = {}, fallback = {}) {
     latitude: firstDefined(asset.latitude, fallback.latitude),
     longitude: firstDefined(asset.longitude, fallback.longitude),
     tenantId: firstDefined(row.tenant_id, row.tenantId, fallback.tenantId),
-    tenantMasterName: firstDefined(fallback.tenantMasterName, fallback.tenantName, fallback.companyName, row.tenant_id, '-'),
+    tenantMasterName: firstDefined(
+      fallback.tenantMasterName,
+      fallback.tenantName,
+      fallback.companyName,
+      row.tenant_master_name,
+      row.tenantName,
+      row.company_name,
+      row.companyName,
+      row.tenant_id,
+      '-',
+    ),
     rawTenantName: firstDefined(fallback.rawTenantName, fallback.raw_tenant_name),
-    companyName: firstDefined(fallback.companyName, fallback.tenantMasterName, fallback.tenantName),
+    companyName: firstDefined(
+      fallback.companyName,
+      fallback.tenantMasterName,
+      fallback.tenantName,
+      row.company_name,
+      row.companyName,
+      row.tenant_master_name,
+      row.tenantName,
+    ),
     businessRegistrationNo: firstDefined(fallback.businessRegistrationNo, fallback.business_registration_no),
     floorLabel,
     detailAreaLabel,
@@ -414,10 +433,12 @@ function generalRowsFromDashboardReadData(readData = {}, fallbackRows = []) {
   const fallbackByLeaseSpaceId = new Map((fallbackRows || []).map((row) => [row.leaseSpaceId, row]));
   return (readData.lease_spaces || []).map((row) => {
     const lease = leasesById.get(firstDefined(row.lease_id, row.leaseId)) || {};
-    const tenant = tenantsById.get(firstDefined(row.tenant_id, row.tenantId)) || {};
+    const tenantId = firstDefined(row.tenant_id, row.tenantId, lease.tenant_id, lease.tenantId);
+    const tenant = tenantsById.get(tenantId) || {};
     const fallback = {
       ...(fallbackByLeaseSpaceId.get(firstDefined(row.lease_space_id, row.leaseSpaceId)) || {}),
       ...lease,
+      tenantId,
       tenantMasterName: firstDefined(tenant.tenant_master_name, tenant.company_name, tenant.raw_tenant_name),
       rawTenantName: tenant.raw_tenant_name,
       companyName: firstDefined(tenant.company_name, tenant.tenant_master_name),
@@ -434,12 +455,12 @@ function generalRowsFromDashboardReadData(readData = {}, fallbackRows = []) {
 
 function kpisFromDashboardSummary(summary = {}) {
   return [
-    { key: 'operating_asset_count', label: 'operating_asset_count', value: summary.operating_asset_count, valueType: 'number' },
-    { key: 'gross_floor_area_total', label: 'gross_floor_area_total', value: summary.gross_floor_area_sqm, valueType: 'area' },
-    { key: 'leased_area_total', label: 'leased_area_total', value: summary.leased_area_sqm, valueType: 'area' },
-    { key: 'monthly_rent_total', label: 'monthly_rent_total', value: summary.current_monthly_rent_total, valueType: 'currency' },
-    { key: 'monthly_mf_total', label: 'monthly_mf_total', value: summary.current_monthly_mf_total, valueType: 'currency' },
-    { key: 'monthly_total_cost', label: 'monthly_total_cost', value: summary.current_monthly_cost_total, valueType: 'currency' },
+    { key: 'operating_asset_count', label: '운영 자산 수', value: summary.operating_asset_count, valueType: 'number' },
+    { key: 'gross_floor_area_total', label: '총 연면적', value: summary.gross_floor_area_sqm, valueType: 'area' },
+    { key: 'leased_area_total', label: '총 임대면적', value: summary.leased_area_sqm, valueType: 'area' },
+    { key: 'monthly_rent_total', label: '월 임대료 총액', value: summary.current_monthly_rent_total, valueType: 'currency' },
+    { key: 'monthly_mf_total', label: '월 관리비 총액', value: summary.current_monthly_mf_total, valueType: 'currency' },
+    { key: 'monthly_total_cost', label: '월 임관리비 총액', value: summary.current_monthly_cost_total, valueType: 'currency' },
   ];
 }
 
@@ -508,11 +529,133 @@ function assetOptionsFromDashboardReadData(readData = {}, fallbackOptions = []) 
   });
 }
 
+function monthKeyFromDate(value) {
+  const text = String(value || '').trim();
+  if (/^\d{4}-\d{2}/u.test(text)) return text.slice(0, 7);
+  const parsed = new Date(text);
+  if (Number.isNaN(parsed.getTime())) return '';
+  return `${parsed.getFullYear()}-${String(parsed.getMonth() + 1).padStart(2, '0')}`;
+}
+
+function buildRentTrendRowsFromDashboardReadData(readData = {}) {
+  const rentRows = (readData.rent_history || [])
+    .map((row) => ({
+      ...row,
+      month: monthKeyFromDate(row.effective_date),
+      leaseSpaceId: firstDefined(row.lease_space_id, row.leaseSpaceId),
+      assetId: firstDefined(row.asset_id, row.assetId),
+      monthlyRentTotal: Number(firstDefined(row.monthly_rent_total, row.monthlyRentTotal, 0) || 0),
+      monthlyMfTotal: Number(firstDefined(row.monthly_mf_total, row.monthlyMfTotal, 0) || 0),
+      leasedAreaSqm: Number(firstDefined(row.leased_area_sqm, row.leasedAreaSqm, 0) || 0),
+    }))
+    .filter((row) => row.month && row.leaseSpaceId);
+  const monthKeys = [...new Set(rentRows.map((row) => row.month))].sort();
+  const assetById = new Map((readData.assets || []).map((row) => [firstDefined(row.asset_id, row.assetId), camelAssetFromApi(row)]));
+  const firstAssetMonth = new Map();
+  rentRows.forEach((row) => {
+    if (!row.assetId) return;
+    const current = firstAssetMonth.get(row.assetId);
+    if (!current || row.month < current) firstAssetMonth.set(row.assetId, row.month);
+  });
+  return monthKeys.map((month) => {
+    const activeBySpace = new Map();
+    rentRows
+      .filter((row) => row.month <= month)
+      .sort((a, b) => String(a.month).localeCompare(String(b.month)))
+      .forEach((row) => activeBySpace.set(row.leaseSpaceId, row));
+    const activeRows = [...activeBySpace.values()];
+    const activeAssetIds = new Set(activeRows.map((row) => row.assetId).filter(Boolean));
+    const newlyAddedAssets = [...activeAssetIds]
+      .filter((assetId) => firstAssetMonth.get(assetId) === month)
+      .map((assetId) => assetById.get(assetId)?.assetName || assetId);
+    const monthlyRentTotal = sumRows(activeRows, (row) => row.monthlyRentTotal);
+    const monthlyMfTotal = sumRows(activeRows, (row) => row.monthlyMfTotal);
+    const grossFloorAreaSqm = [...activeAssetIds].reduce((sum, assetId) => sum + Number(assetById.get(assetId)?.grossFloorAreaSqm || 0), 0);
+    return {
+      month,
+      monthlyRentTotal,
+      monthlyMfTotal,
+      monthlyTotal: monthlyRentTotal + monthlyMfTotal,
+      monthlyRentTotalAdjusted: monthlyRentTotal,
+      monthlyMfTotalAdjusted: monthlyMfTotal,
+      monthlyCostTotalAdjusted: monthlyRentTotal + monthlyMfTotal,
+      leasedAreaSqm: sumRows(activeRows, (row) => row.leasedAreaSqm),
+      activeAssetCount: activeAssetIds.size,
+      contractActiveAssetCount: activeAssetIds.size,
+      grossFloorAreaSqm,
+      newlyAddedAssets,
+      newlyAddedAssetCount: newlyAddedAssets.length,
+      knownLeaseSpaceCount: activeRows.length,
+      source: 'dashboard/home/read:ll_rent_history',
+    };
+  });
+}
+
+function buildMonthlyExpirySeriesFromGeneralRows(rows = []) {
+  const grouped = new Map();
+  (rows || []).forEach((row) => {
+    const expiryDate = firstDefined(row.currentEndDate, row.latestExpiry, row.endDate);
+    const month = monthKeyFromDate(expiryDate);
+    if (!month) return;
+    if (!grouped.has(month)) {
+      grouped.set(month, {
+        label: month,
+        month,
+        count: 0,
+        contractCount: 0,
+        uniqueTenantIds: new Set(),
+        expiringAreaSqm: 0,
+        monthlyRentTotal: 0,
+        monthlyMfTotal: 0,
+        monthlyCostTotal: 0,
+        items: [],
+      });
+    }
+    const group = grouped.get(month);
+    const monthlyRentTotal = Number(firstDefined(row.currentMonthlyRentTotal, row.monthlyRentTotal, 0) || 0);
+    const monthlyMfTotal = Number(firstDefined(row.currentMonthlyMfTotal, row.monthlyMfTotal, 0) || 0);
+    group.count += 1;
+    group.contractCount += 1;
+    if (row.tenantId || row.tenantMasterName) group.uniqueTenantIds.add(row.tenantId || row.tenantMasterName);
+    group.expiringAreaSqm += Number(row.leasedAreaSqm || 0);
+    group.monthlyRentTotal += monthlyRentTotal;
+    group.monthlyMfTotal += monthlyMfTotal;
+    group.monthlyCostTotal += Number(firstDefined(row.monthlyCostTotal, row.monthlyCombinedTotal, monthlyRentTotal + monthlyMfTotal, 0) || 0);
+    group.items.push({
+      ...row,
+      monthlyRentTotal,
+      monthlyMfTotal,
+      monthlyCostTotal: Number(firstDefined(row.monthlyCostTotal, row.monthlyCombinedTotal, monthlyRentTotal + monthlyMfTotal, 0) || 0),
+      rentPerPy: firstDefined(row.currentRentPerPy, row.rentPerPy),
+      mfPerPy: firstDefined(row.currentMfPerPy, row.mfPerPy),
+      eNoc: firstDefined(row.eNoc, calculatePerPy(firstDefined(row.monthlyCostTotal, row.monthlyCombinedTotal, monthlyRentTotal + monthlyMfTotal), row.leasedAreaSqm)),
+    });
+  });
+  return [...grouped.values()]
+    .sort((a, b) => String(a.month).localeCompare(String(b.month)))
+    .map((row) => ({
+      ...row,
+      uniqueTenantCount: row.uniqueTenantIds.size,
+      uniqueTenantIds: undefined,
+    }));
+}
+
 function homePayloadFromDashboardRead(response, fallbackHome, fallbackRows = []) {
   const readData = response?.data || {};
   const summary = readData.summary || {};
   const assetOptions = assetOptionsFromDashboardReadData(readData, assetOptionsData);
   const generalRows = generalRowsFromDashboardReadData(readData, fallbackRows);
+  const tenantGroups = buildTenantContractGroups(generalRows);
+  const monthlyExpirySeries = buildMonthlyExpirySeriesFromGeneralRows(generalRows);
+  const rentTrend = buildRentTrendRowsFromDashboardReadData(readData);
+  const topContracts = tenantGroups
+    .slice()
+    .sort((a, b) => Number(b.monthlyCostTotal || 0) - Number(a.monthlyCostTotal || 0))
+    .slice(0, 20);
+  const topTenants = topContracts.map((row) => ({
+    ...row,
+    monthlyCombinedTotal: row.monthlyCostTotal,
+  }));
   const mapPoints = assetOptions.map((asset) => ({
     assetId: asset.assetId,
     assetName: asset.assetName,
@@ -534,10 +677,31 @@ function homePayloadFromDashboardRead(response, fallbackHome, fallbackRows = [])
   }));
   return {
     payload: {
-      ...fallbackHome,
+      meta: fallbackHome?.meta,
+      basis: fallbackHome?.basis,
+      generatedAt: response?.checked_at || new Date().toISOString(),
+      basisDisplay: fallbackHome?.basisDisplay,
+      payloadSource: 'dashboard/home/read',
+      dataSourceMode: 'supabase-primary-safe',
+      sourceSystem: 'Supabase ll_* read API',
       kpis: kpisFromDashboardSummary(summary),
       mapPoints,
       vacancySummary,
+      topContracts,
+      topTenants,
+      contractSummary: {
+        monthlyExpirySeries,
+        monthlyVacancy: monthlyExpirySeries,
+        upcoming: monthlyExpirySeries.flatMap((row) => row.items || []).slice(0, 20),
+        tenantCount: tenantGroups.length,
+      },
+      rentTrend,
+      composition: {
+        coldStorage: mergeUseCategoryRows(assetOptions.map((asset) => {
+          const assetRows = generalRows.filter((row) => row.assetId === asset.assetId || normalizeAssetNameKey(row.assetName) === normalizeAssetNameKey(asset.assetName));
+          return buildUseCategoryRows({ rows: assetRows, overview: asset }, asset, {});
+        })),
+      },
       __supabaseGeneralRows: generalRows,
       __supabaseAssetOptions: assetOptions,
       __dashboardRead: response,
@@ -620,6 +784,8 @@ function assetPayloadFromDashboardRead(response, fallbackPayload = {}) {
   const fallbackNormalized = normalizeAssetPayload(fallbackPayload || {});
   const rows = generalRowsFromDashboardReadData({
     assets: readData.asset ? [readData.asset] : [],
+    leases: readData.leases || [],
+    tenants: readData.tenants || [],
     lease_spaces: readData.lease_spaces || [],
   }, fallbackNormalized.normalizedRows || fallbackPayload.rows || []);
   const expiryRows = buildExpiryRowsFromRows(rows);
@@ -659,12 +825,12 @@ function assetPayloadFromDashboardRead(response, fallbackPayload = {}) {
       leaseSpaceSpecs: readData.lease_space_specs || fallbackPayload.leaseSpaceSpecs || [],
       leaseSpecialTerms: readData.lease_special_terms || fallbackPayload.leaseSpecialTerms || [],
       kpis: [
-        { key: 'gross_floor_area_total', label: 'gross_floor_area_total', value: grossFloorAreaSqm, valueType: 'area' },
-        { key: 'leased_area_total', label: 'leased_area_total', value: leasedAreaSqm, valueType: 'area' },
-        { key: 'vacancy_area_total', label: 'vacancy_area_total', value: vacancyAreaSqm, valueType: 'area' },
-        { key: 'monthly_total_cost', label: 'monthly_total_cost', value: monthlyCostTotal, valueType: 'currency' },
-        { key: 'average_e_noc', label: 'average_e_noc', value: calculateWeightedENoc(rows, fallbackNormalized.overview?.averageENoc), valueType: 'won' },
-        { key: 'unique_tenant_count', label: 'unique_tenant_count', value: tenantGroups.length, valueType: 'count' },
+        { key: 'gross_floor_area_total', label: '총 연면적', value: grossFloorAreaSqm, valueType: 'area' },
+        { key: 'leased_area_total', label: '총 임대면적', value: leasedAreaSqm, valueType: 'area' },
+        { key: 'vacancy_area_total', label: '공실면적', value: vacancyAreaSqm, valueType: 'area' },
+        { key: 'monthly_total_cost', label: '월 임관리비 총액', value: monthlyCostTotal, valueType: 'currency' },
+        { key: 'average_e_noc', label: 'E. NOC', value: calculateWeightedENoc(rows, fallbackNormalized.overview?.averageENoc), valueType: 'won' },
+        { key: 'unique_tenant_count', label: '현재 임차인 수', value: tenantGroups.length, valueType: 'count' },
       ],
       analytics: {
         ...(fallbackPayload.analytics || {}),
@@ -1935,11 +2101,16 @@ function normalizeFundLoanRowsForUi(rows) {
 function AssetProjectToggleTable({ id, title, rows, openSections, onToggle, isEditing = false, onCellChange, onAddRow, onDeleteRow }) {
   const groupedRows = rows.map((row, index) => {
     const [group] = row;
-    const isFirst = index === 0 || rows[index - 1]?.[0] !== group;
+    const shouldMergeGroup = !(id === 'investment' && group === '기타');
+    const isFirst = !shouldMergeGroup || index === 0 || rows[index - 1]?.[0] !== group;
     let rowSpan = 0;
     if (isFirst) {
-      for (let cursor = index; cursor < rows.length && rows[cursor]?.[0] === group; cursor += 1) {
-        rowSpan += 1;
+      if (!shouldMergeGroup) {
+        rowSpan = 1;
+      } else {
+        for (let cursor = index; cursor < rows.length && rows[cursor]?.[0] === group; cursor += 1) {
+          rowSpan += 1;
+        }
       }
     }
     return { row, isFirst, rowSpan, originalIndex: index };
@@ -2033,9 +2204,9 @@ function FundTrancheTable({ title, columns, rows, isEditing, onChange, onAdd, on
         {isEditing ? <button type="button" onClick={onAdd} className={`h-7 rounded-[7px] border px-2 text-[11px] font-bold ${DARK_BUTTON_CLASS}`}>행 추가</button> : null}
       </div>
       <div className="custom-scrollbar overflow-x-auto">
-        <table className="min-w-full table-fixed border-collapse text-left">
+        <table className="w-full min-w-max table-auto border-collapse text-left">
           <colgroup>
-            {columns.map((column) => <col key={column.key} style={{ width: column.width || 128 }} />)}
+            {columns.map((column) => <col key={column.key} style={{ width: column.width || 128, minWidth: column.width || 128 }} />)}
             {isEditing ? <col style={{ width: 70 }} /> : null}
           </colgroup>
           <thead className="bg-[#1F1F1E] text-[12px] font-semibold text-[#86868B]">
@@ -2052,6 +2223,7 @@ function FundTrancheTable({ title, columns, rows, isEditing, onChange, onAdd, on
                     {isEditing ? (
                       <input
                         value={row[column.key] || ''}
+                        title={String(row[column.key] || '')}
                         onChange={(event) => onChange(rowIndex, column.key, event.target.value)}
                         className="h-9 w-full rounded-[7px] border border-[#3A3A3C] bg-[#111] px-2 text-[12px] text-white outline-none focus:border-[#8E8E93]"
                       />
@@ -2148,18 +2320,18 @@ function AssetFundOverviewTable({
     { key: 'committed_amount_krw', label: '투입금액(원)', width: 150, format: (value) => (value ? formatWon(value) : '-') },
   ];
   const loanColumns = [
-    { key: 'loan_type', label: '대출유형', width: 105 },
-    { key: 'tranche', label: 'tranche', width: 110 },
-    { key: 'lender_name', label: '대주', width: 160 },
-    { key: 'committed_amount_krw', label: '인출금액(원)', width: 145, format: (value) => (value ? formatWon(value) : '-') },
-    { key: 'drawdown_date', label: '인출시점', width: 115 },
-    { key: 'maturity_date', label: '만기시점', width: 115 },
-    { key: 'interest_type', label: '이자유형', width: 100 },
-    { key: 'base_rate', label: '기준금리(%)', width: 105 },
-    { key: 'spread_rate', label: '가산금리(%)', width: 105 },
-    { key: 'loan_rate', label: '대출금리(%)', width: 105 },
-    { key: 'fee_rate', label: '수수료율(%)', width: 105 },
-    { key: 'all_in_rate', label: 'All-In(%)', width: 105 },
+    { key: 'loan_type', label: '대출유형', width: 120 },
+    { key: 'tranche', label: 'tranche', width: 120 },
+    { key: 'lender_name', label: '대주', width: 220 },
+    { key: 'committed_amount_krw', label: '인출금액(원)', width: 170, format: (value) => (value ? formatWon(value) : '-') },
+    { key: 'drawdown_date', label: '인출시점', width: 130 },
+    { key: 'maturity_date', label: '만기시점', width: 130 },
+    { key: 'interest_type', label: '이자유형', width: 120 },
+    { key: 'base_rate', label: '기준금리(%)', width: 120 },
+    { key: 'spread_rate', label: '가산금리(%)', width: 120 },
+    { key: 'loan_rate', label: '대출금리(%)', width: 120 },
+    { key: 'fee_rate', label: '수수료율(%)', width: 120 },
+    { key: 'all_in_rate', label: 'All-In(%)', width: 120 },
   ];
 
   return (
@@ -2450,7 +2622,15 @@ function AssetProjectInfoPanel({ assetName }) {
       });
       if (fundError) throw fundError;
       if (fundData?.ok === false) throw new Error(fundData.message || '펀드개요 저장 실패');
-      const nextFundRows = fundData?.data ? {
+      const hasFundResponseRows = Boolean(
+        fundData?.data
+        && (
+          Array.isArray(fundData.data.fund_info_rows)
+          || Array.isArray(fundData.data.beneficiary_rows)
+          || Array.isArray(fundData.data.loan_rows)
+        ),
+      );
+      const nextFundRows = hasFundResponseRows ? {
         fundInfo: normalizeFundInfoRowsForUi(fundData.data.fund_info_rows, fallbackFundInfoRows),
         beneficiaries: normalizeFundBeneficiaryRowsForUi(fundData.data.beneficiary_rows),
         loans: normalizeFundLoanRowsForUi(fundData.data.loan_rows),
@@ -5607,7 +5787,6 @@ function HomeDashboard() {
   const [sectorAssetSort, setSectorAssetSort] = useState('cost');
   const [sectorTenantSort, setSectorTenantSort] = useState('cost');
   const [regionMetric, setRegionMetric] = useState('cost');
-  const { rows: latestWeeklyAssetRows } = useLatestWeeklyAssetRows(permission, memberInfo);
   const allGeneralRows = useMemo(() => (homeReadBlocked ? [] : home.__supabaseGeneralRows || staticGeneralRows), [home, homeReadBlocked, staticGeneralRows]);
   const generalRows = useMemo(() => filterAssetsByPermission(allGeneralRows, permission), [allGeneralRows, permission]);
   const homeAssetOptions = useMemo(() => (
@@ -5645,34 +5824,26 @@ function HomeDashboard() {
   const latestTrendMonthlyCost = Number(latestRentTrendRow.monthlyCostTotalAdjusted || 0);
   const trendToKpiGap = canonicalMonthlyCost && latestTrendMonthlyCost ? canonicalMonthlyCost - latestTrendMonthlyCost : 0;
   const leaseSpaceToKpiGap = canonicalMonthlyCost && leaseSpaceMonthlyCost ? canonicalMonthlyCost - leaseSpaceMonthlyCost : 0;
-  const weeklyAssetRowsForFallback = useMemo(() => (
-    latestWeeklyAssetRows.length ? latestWeeklyAssetRows : normalizeWeeklyAssetRows(weeklyReportData.assetRows || [])
-  ), [latestWeeklyAssetRows]);
   const mapAssetRows = readableMapPoints.map((point) => {
     const vacancy = readableVacancyRows.find((row) => row.assetId === point.assetId || row.assetName === point.assetName) || {};
-    const payload = findAssetPayload(point.assetId, point.assetName);
-    const overview = payload?.overview || {};
     return {
       ...point,
       ...vacancy,
-      address: firstDefined(point.address, vacancy.address, overview.address),
-      grossFloorAreaSqm: firstDefined(point.grossFloorAreaSqm, vacancy.grossFloorAreaSqm, overview.grossFloorAreaSqm, overview.areaBreakdown?.grossFloorAreaSqm),
+      address: firstDefined(point.address, vacancy.address),
+      grossFloorAreaSqm: firstDefined(point.grossFloorAreaSqm, vacancy.grossFloorAreaSqm),
     };
   });
   const portfolioRows = mapAssetRows.map((row, index) => ({
     ...(() => {
-      const option = findAssetOption(row.assetId, row.assetName) || {};
-      const payload = findAssetPayload(row.assetId, row.assetName);
-      const normalized = payload ? normalizeAssetPayload(payload) : null;
-      const overview = normalized?.overview || payload?.overview || {};
-      const weeklyRow = weeklyAssetRowsForFallback.find((item) => assetMatchesPermission(row.assetName, { managedAssets: [item] }));
-      const useRows = buildUseCategoryRows(payload, option, weeklyRow);
+      const option = readableAssetOptions.find((item) => item.assetId === row.assetId || normalizeAssetNameKey(item.assetName) === normalizeAssetNameKey(row.assetName)) || {};
+      const assetRows = generalRows.filter((item) => item.assetId === row.assetId || normalizeAssetNameKey(item.assetName) === normalizeAssetNameKey(row.assetName));
+      const useRows = buildUseCategoryRows({ rows: assetRows, overview: { ...option, ...row } }, option, {});
       const coldArea = Number(useRows.find((item) => item.label === '저온창고')?.value || 0);
       const ambientArea = Number(useRows.find((item) => item.label === '상온창고')?.value || 0);
-      const weightedENoc = calculateWeightedENoc(normalized?.normalizedRows || [], firstDefined(overview.averageENoc, option.averageENoc));
+      const weightedENoc = calculateWeightedENoc(assetRows, option.averageENoc);
       const coldRatio = Number(coldArea || 0) + Number(ambientArea || 0) > 0
         ? formatPercent(Number(coldArea || 0) / (Number(coldArea || 0) + Number(ambientArea || 0)))
-        : cleanDisplay(overview.coldRatio || option.coldRatio || weeklyRow?.coldRatio, '-');
+        : cleanDisplay(option.coldRatio, '-');
       return {
         no: formatNumber(index + 1),
         assetName: row.assetName,
@@ -5789,18 +5960,16 @@ function HomeDashboard() {
     ['월 임관리비 총액', formatMetric(canonicalMonthlyCost, 'currency'), `${DASHBOARD_BASIS_LABEL} · 자산 snapshot 기준`, () => openTableModal('월 임관리비 총액 근거', ['구분', '값', '비고'], [['기준시점', DASHBOARD_BASIS_LABEL, 'Home snapshot'], ['자산 snapshot 합계', formatCurrency(assetSnapshotMonthlyCost), 'KPI/자산별 도넛 기준'], ['Lease space 합계', formatCurrency(leaseSpaceMonthlyCost), '임차인 계약 row 기준'], ['차이', formatCurrency(leaseSpaceToKpiGap), 'Data Quality reconciliation 대상'], ...monthlyCostEvidenceRows.map((row) => [row.tenantMasterName, formatCurrency(row.value), `${formatNumber(row.assetCount)}개 자산 · 최근 만기 ${formatDate(row.latestExpiry)}`])])],
   ];
   const composition = home.composition || {};
-  const selectedCompositionPayload = compositionAssetId === 'all' ? null : findAssetPayload(compositionAssetId);
-  const selectedCompositionOption = compositionAssetId === 'all' ? null : findAssetOption(compositionAssetId);
-  const selectedCompositionWeeklyRow = selectedCompositionOption
-    ? weeklyAssetRowsForFallback.find((item) => assetMatchesPermission(selectedCompositionOption.assetName, { managedAssets: [item] }))
-    : null;
+  const selectedCompositionOption = compositionAssetId === 'all' ? null : readableAssetOptions.find((item) => item.assetId === compositionAssetId);
+  const selectedCompositionRows = selectedCompositionOption
+    ? generalRows.filter((row) => row.assetId === selectedCompositionOption.assetId || normalizeAssetNameKey(row.assetName) === normalizeAssetNameKey(selectedCompositionOption.assetName))
+    : [];
   const portfolioUseCategoryRows = mergeUseCategoryRows(readableAssetOptions.map((asset) => {
-    const payload = findAssetPayload(asset.assetId, asset.assetName);
-    const weeklyRow = weeklyAssetRowsForFallback.find((item) => assetMatchesPermission(asset.assetName, { managedAssets: [item] }));
-    return buildUseCategoryRows(payload, asset, weeklyRow || {});
+    const assetRows = generalRows.filter((row) => row.assetId === asset.assetId || normalizeAssetNameKey(row.assetName) === normalizeAssetNameKey(asset.assetName));
+    return buildUseCategoryRows({ rows: assetRows, overview: asset }, asset, {});
   }));
-  const coldStorageRows = selectedCompositionPayload
-    ? buildUseCategoryRows(selectedCompositionPayload, selectedCompositionOption || {}, selectedCompositionWeeklyRow || {})
+  const coldStorageRows = selectedCompositionOption
+    ? buildUseCategoryRows({ rows: selectedCompositionRows, overview: selectedCompositionOption }, selectedCompositionOption || {}, {})
     : (sumRows(portfolioUseCategoryRows, (row) => row.value) > 0 ? portfolioUseCategoryRows : normalizeUseCategoryRows(composition.coldStorage || []));
   const coldStorageTotal = sumRows(coldStorageRows, (row) => row.value);
   const assetMonthlyCostRows = readableAssetOptions
@@ -5826,8 +5995,14 @@ function HomeDashboard() {
   );
   const monthlyCostCompositionTotal = sumRows(monthlyCostSourceRows, (row) => row.value) || canonicalMonthlyCost;
   const monthlyCostCompositionTitle = costCompositionMode === 'asset' ? '자산별 월 임관리비 비중' : '임차인별 월 임관리비 비중';
-  const sectorTopAssetsSource = sectorAssetSort === 'area' ? sectorData.rankings?.assetsByArea : sectorData.rankings?.assetsByRent;
-  const sectorTopTenantsSource = sectorTenantSort === 'area' ? sectorData.rankings?.tenantsByArea : sectorData.rankings?.tenantsByRent;
+  const sectorTopAssetsSource = readableAssetOptions.map((asset) => ({
+    ...asset,
+    monthlyRentTotal: sumRows(generalRows.filter((row) => row.assetId === asset.assetId), (row) => firstDefined(row.currentMonthlyRentTotal, row.monthlyRentTotal)),
+    monthlyMfTotal: sumRows(generalRows.filter((row) => row.assetId === asset.assetId), (row) => firstDefined(row.currentMonthlyMfTotal, row.monthlyMfTotal)),
+    monthlyCostTotal: sumRows(generalRows.filter((row) => row.assetId === asset.assetId), (row) => firstDefined(row.monthlyCostTotal, row.monthlyCombinedTotal)),
+    leasedAreaSqm: sumRows(generalRows.filter((row) => row.assetId === asset.assetId), (row) => row.leasedAreaSqm),
+  }));
+  const sectorTopTenantsSource = tenantContractGroups;
   const sectorTopAssets = filterAssetsByPermission(sectorTopAssetsSource || [], permission).slice().sort((a, b) => (
     sectorAssetSort === 'area'
       ? Number(b.leasedAreaSqm || 0) - Number(a.leasedAreaSqm || 0)
@@ -9139,6 +9314,24 @@ function AssetDashboard() {
   const buildingRegisterSource = rows.find((row) => row.asset?.sigunguCd || row.sigunguCd) || overview;
   const buildingRegisterPayload = buildBuildingRegisterPayload(buildingRegisterSource);
   const kpiByKey = kpiLookupFrom(asset.kpis);
+  const assetKpiLabels = {
+    gross_floor_area_total: '총 연면적',
+    occupancy_rate: '임대율',
+    leased_area_total: '총 임대면적',
+    vacancy_area_total: '공실면적',
+    monthly_total_cost: '월 임관리비 총액',
+    average_e_noc: 'E. NOC',
+    unique_tenant_count: '현재 임차인 수',
+  };
+  const assetKpiValueTypes = {
+    gross_floor_area_total: 'area',
+    occupancy_rate: 'percent',
+    leased_area_total: 'area',
+    vacancy_area_total: 'area',
+    monthly_total_cost: 'currency',
+    average_e_noc: 'won',
+    unique_tenant_count: 'count',
+  };
   const kpis = [
     kpiByKey.gross_floor_area_total || { key: 'gross_floor_area_total', label: '총 연면적', value: overview.grossFloorAreaSqm, valueType: 'area' },
     kpiByKey.occupancy_rate || { key: 'occupancy_rate', label: '임대율', value: 1 - Number(overview.vacancyRate || 0), valueType: 'percent' },
@@ -9149,7 +9342,8 @@ function AssetDashboard() {
     kpiByKey.unique_tenant_count || { key: 'unique_tenant_count', label: '현재 임차인 수', value: firstDefined(overview.uniqueTenantCount, rows.length), valueType: 'count' },
   ].map((item) => ({
     ...item,
-    valueType: item.key === 'average_e_noc' ? 'won' : item.valueType,
+    label: assetKpiLabels[item.key] || item.label,
+    valueType: assetKpiValueTypes[item.key] || item.valueType,
     value: item.key === 'average_e_noc'
       ? assetWeightedENoc
       : item.key === 'gross_floor_area_total'
