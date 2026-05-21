@@ -418,11 +418,23 @@ async function getContext(request: Request, origin: string): Promise<Context> {
   const serviceClient = createClient(supabaseUrl, serviceRoleKey, {
     auth: { persistSession: false, autoRefreshToken: false },
   });
-  const { data: permission } = await serviceClient
+  let { data: permission } = await serviceClient
     .from('ll_user_permissions')
     .select('*')
     .eq('user_id', userData.user.id)
     .maybeSingle();
+  if (!permission) {
+    const emailCandidates = logisticsAuthEmailCandidates(userData.user.email);
+    if (emailCandidates.length) {
+      const { data: emailPermission } = await serviceClient
+        .from('ll_user_permissions')
+        .select('*')
+        .in('email', emailCandidates)
+        .limit(1)
+        .maybeSingle();
+      permission = emailPermission || null;
+    }
+  }
 
   const role = permission?.logistics_role || 'Reader';
   return { serviceClient, user: { id: userData.user.id }, permission: permission || null, role, origin };
@@ -447,6 +459,24 @@ function managedAssetCodes(permission: Record<string, unknown> | null) {
   return Array.isArray(permission?.managed_asset_codes) ? permission.managed_asset_codes.map((item) => String(item)) : [];
 }
 
+function assetRefVariants(value: unknown) {
+  const raw = String(value || '').trim();
+  if (!raw) return [];
+  const compact = raw.replace(/\s+/gu, '');
+  const variants = new Set([raw, compact, raw.toLowerCase(), compact.toLowerCase(), raw.toUpperCase(), compact.toUpperCase()]);
+  const assetIdMatch = compact.match(/^asset[_-](.+)$/iu);
+  if (assetIdMatch?.[1]) variants.add(assetIdMatch[1].toUpperCase());
+  if (/^[A-Z]{1,2}P?\d{5,}$/iu.test(compact) || /^[AS]\d{5,}$/iu.test(compact)) {
+    variants.add(`asset_${compact.toLowerCase()}`);
+  }
+  return [...variants].filter(Boolean);
+}
+
+function hasManagedAssetRef(permission: Record<string, unknown> | null, relatedAssetId: unknown) {
+  const managedRefs = new Set(managedAssetCodes(permission).flatMap(assetRefVariants));
+  return assetRefVariants(relatedAssetId).some((item) => managedRefs.has(item));
+}
+
 function permissionFlag(permission: Record<string, unknown> | null, key: 'managed_asset_permissions' | 'other_asset_permissions', action: 'read' | 'create' | 'update' | 'delete') {
   const value = permission?.[key] as Record<string, unknown> | undefined;
   return value?.[action] === true;
@@ -467,7 +497,7 @@ function canWriteRelatedAsset(ctx: Context, relatedAssetId: unknown, relatedAsse
 function canMutateWorklog(ctx: Context, action: 'create' | 'update' | 'delete', relatedAssetId: unknown) {
   if (hasRole(ctx.role, 'Admin')) return true;
   const assetId = String(relatedAssetId || '').trim();
-  const permissionKey = assetId && managedAssetCodes(ctx.permission).includes(assetId)
+  const permissionKey = assetId && hasManagedAssetRef(ctx.permission, assetId)
     ? 'managed_asset_permissions'
     : 'other_asset_permissions';
   return permissionFlag(ctx.permission, permissionKey, action);
@@ -505,7 +535,7 @@ function canReadRelatedAsset(ctx: Context, relatedAssetId: unknown) {
   const assetId = String(relatedAssetId || '').trim();
   if (!assetId) return true;
   const otherPermissions = ctx.permission?.other_asset_permissions as Record<string, unknown> | undefined;
-  return managedAssetCodes(ctx.permission).includes(assetId) || otherPermissions?.read === true;
+  return hasManagedAssetRef(ctx.permission, assetId) || otherPermissions?.read === true;
 }
 
 function allowedDataQualityEmails() {
@@ -2012,6 +2042,29 @@ function workPlatformTaskMutationPayload(ctx: Context, payload: Record<string, u
   });
 }
 
+async function resolveWorkPlatformAssetForWrite(ctx: Context, relatedAssetId: unknown, relatedAssetName?: unknown) {
+  const assetId = safeText(relatedAssetId);
+  const assetName = safeText(relatedAssetName);
+  if (!assetId && !assetName) {
+    return { asset: null, response: fail(400, 'related_asset_id is required', ctx.origin) };
+  }
+  let query = ctx.serviceClient
+    .from('ll_assets')
+    .select('asset_id,asset_code,asset_name')
+    .limit(1);
+  if (assetId) {
+    const candidates = assetRefVariants(assetId).filter((item) => !item.includes(','));
+    query = query.or(candidates.map((item) => `asset_id.eq.${item},asset_code.eq.${item}`).join(','));
+  } else {
+    query = query.eq('asset_name', assetName);
+  }
+  const { data, error } = await query.maybeSingle();
+  if (error || !data) {
+    return { asset: null, response: fail(400, 'Selected asset is not registered in ll_assets', ctx.origin) };
+  }
+  return { asset: data as Record<string, unknown>, response: null };
+}
+
 async function listWorkPlatformTasks(ctx: Context, payload: Record<string, unknown>) {
   if (!hasRole(ctx.role, 'Reader')) return fail(403, 'Insufficient logistics permission', ctx.origin);
   const limit = Math.min(Number(payload.limit || 200), 500);
@@ -2029,8 +2082,10 @@ async function listWorkPlatformTasks(ctx: Context, payload: Record<string, unkno
 
 async function saveWorkPlatformTask(ctx: Context, payload: Record<string, unknown>) {
   if (!hasRole(ctx.role, 'Reader')) return fail(403, 'Insufficient logistics permission', ctx.origin);
-  const relatedAssetId = safeText(payload.related_asset_id);
-  if (!relatedAssetId) return fail(400, 'related_asset_id is required', ctx.origin);
+  const assetResolution = await resolveWorkPlatformAssetForWrite(ctx, payload.related_asset_id, payload.related_asset_name);
+  if (assetResolution.response) return assetResolution.response;
+  const resolvedAsset = assetResolution.asset as Record<string, unknown>;
+  const relatedAssetId = safeText(resolvedAsset.asset_id);
   if (!canMutateWorklog(ctx, 'create', relatedAssetId)) return fail(403, 'Insufficient create permission for this task asset', ctx.origin);
   const { data, error } = await ctx.serviceClient
     .from('ll_work_platform_tasks')
@@ -2038,7 +2093,7 @@ async function saveWorkPlatformTask(ctx: Context, payload: Record<string, unknow
       task_name: safeText(firstDefined(payload.task_name, payload.title), 'Task'),
       company_name: safeText(payload.company_name) || null,
       related_asset_id: relatedAssetId,
-      related_asset_name: safeText(payload.related_asset_name) || null,
+      related_asset_name: safeText(payload.related_asset_name) || safeText(resolvedAsset.asset_name) || null,
       related_tenant_id: safeText(payload.related_tenant_id) || null,
       next_action: safeText(firstDefined(payload.next_action, payload.body)) || null,
       issue: safeText(payload.issue) || null,
@@ -2080,7 +2135,15 @@ async function updateWorkPlatformTask(ctx: Context, payload: Record<string, unkn
   if (current.response) return current.response;
   const currentRow = current.data as Record<string, unknown>;
   const currentAssetId = safeText(currentRow.related_asset_id);
-  const nextAssetId = safeText(firstDefined(payload.related_asset_id, currentAssetId));
+  let nextAssetId = safeText(firstDefined(payload.related_asset_id, currentAssetId));
+  let nextAssetName = payload.related_asset_name === undefined ? safeText(currentRow.related_asset_name) : safeText(payload.related_asset_name);
+  if (payload.related_asset_id !== undefined || payload.related_asset_name !== undefined) {
+    const assetResolution = await resolveWorkPlatformAssetForWrite(ctx, firstDefined(payload.related_asset_id, currentAssetId), firstDefined(payload.related_asset_name, currentRow.related_asset_name));
+    if (assetResolution.response) return assetResolution.response;
+    const resolvedAsset = assetResolution.asset as Record<string, unknown>;
+    nextAssetId = safeText(resolvedAsset.asset_id);
+    nextAssetName = safeText(payload.related_asset_name) || safeText(resolvedAsset.asset_name);
+  }
   if (!canMutateWorklog(ctx, 'update', currentAssetId)) return fail(403, 'Insufficient update permission for existing task asset', ctx.origin);
   if (nextAssetId !== currentAssetId && !canMutateWorklog(ctx, 'update', nextAssetId)) {
     return fail(403, 'Insufficient update permission for new task asset', ctx.origin);
@@ -2091,8 +2154,6 @@ async function updateWorkPlatformTask(ctx: Context, payload: Record<string, unkn
     .update(stripUndefined({
       task_name: payload.task_name === undefined && payload.title === undefined ? undefined : safeText(firstDefined(payload.task_name, payload.title), safeText(currentRow.task_name)),
       company_name: payload.company_name === undefined ? undefined : safeText(payload.company_name) || null,
-      related_asset_id: nextAssetId || undefined,
-      related_asset_name: payload.related_asset_name === undefined ? undefined : safeText(payload.related_asset_name) || null,
       related_tenant_id: payload.related_tenant_id === undefined ? undefined : safeText(payload.related_tenant_id) || null,
       next_action: payload.next_action === undefined && payload.body === undefined ? undefined : safeText(firstDefined(payload.next_action, payload.body)) || null,
       issue: payload.issue === undefined ? undefined : safeText(payload.issue) || null,
@@ -2101,6 +2162,8 @@ async function updateWorkPlatformTask(ctx: Context, payload: Record<string, unkn
       priority: payload.priority === undefined ? undefined : safeText(payload.priority),
       status: payload.status === undefined ? undefined : safeText(payload.status),
       completed_at: safeText(payload.status) === 'completed' ? new Date().toISOString() : undefined,
+      related_asset_id: nextAssetId || undefined,
+      related_asset_name: payload.related_asset_name === undefined ? undefined : nextAssetName || null,
       payload: workPlatformTaskMutationPayload(ctx, payload, currentPayload),
       updated_at: new Date().toISOString(),
     }))
@@ -2143,8 +2206,10 @@ async function deleteWorkPlatformTask(ctx: Context, payload: Record<string, unkn
 
 async function archiveSeedWorkPlatformTask(ctx: Context, payload: Record<string, unknown>) {
   if (!hasRole(ctx.role, 'Reader')) return fail(403, 'Insufficient logistics permission', ctx.origin);
-  const relatedAssetId = safeText(payload.related_asset_id);
-  if (!relatedAssetId) return fail(400, 'related_asset_id is required', ctx.origin);
+  const assetResolution = await resolveWorkPlatformAssetForWrite(ctx, payload.related_asset_id, payload.related_asset_name);
+  if (assetResolution.response) return assetResolution.response;
+  const resolvedAsset = assetResolution.asset as Record<string, unknown>;
+  const relatedAssetId = safeText(resolvedAsset.asset_id);
   if (!canMutateWorklog(ctx, 'delete', relatedAssetId)) return fail(403, 'Insufficient delete permission for this seed task asset', ctx.origin);
   const now = new Date().toISOString();
   const { data, error } = await ctx.serviceClient
@@ -2153,7 +2218,7 @@ async function archiveSeedWorkPlatformTask(ctx: Context, payload: Record<string,
       task_name: safeText(firstDefined(payload.task_name, payload.title), 'Task'),
       company_name: safeText(payload.company_name) || null,
       related_asset_id: relatedAssetId,
-      related_asset_name: safeText(payload.related_asset_name) || null,
+      related_asset_name: safeText(payload.related_asset_name) || safeText(resolvedAsset.asset_name) || null,
       related_tenant_id: safeText(payload.related_tenant_id) || null,
       next_action: safeText(firstDefined(payload.next_action, payload.body)) || null,
       issue: safeText(payload.issue) || null,
@@ -2214,8 +2279,10 @@ async function listWorkPlatformBoardPosts(ctx: Context, payload: Record<string, 
 
 async function saveWorkPlatformBoardPost(ctx: Context, payload: Record<string, unknown>) {
   if (!hasRole(ctx.role, 'Reader')) return fail(403, 'Insufficient logistics permission', ctx.origin);
-  const relatedAssetId = safeText(payload.related_asset_id);
-  if (!relatedAssetId) return fail(400, 'related_asset_id is required', ctx.origin);
+  const assetResolution = await resolveWorkPlatformAssetForWrite(ctx, payload.related_asset_id, payload.related_asset_name);
+  if (assetResolution.response) return assetResolution.response;
+  const resolvedAsset = assetResolution.asset as Record<string, unknown>;
+  const relatedAssetId = safeText(resolvedAsset.asset_id);
   if (!canMutateWorklog(ctx, 'create', relatedAssetId)) return fail(403, 'Insufficient create permission for this board post scope', ctx.origin);
   const logId = safeText(payload.log_id, `ll_board_${crypto.randomUUID()}`);
   const { data, error } = await ctx.serviceClient
@@ -2228,7 +2295,7 @@ async function saveWorkPlatformBoardPost(ctx: Context, payload: Record<string, u
       title: safeText(firstDefined(payload.title, payload.summary), '업무 공유'),
       content: safeText(firstDefined(payload.content, payload.raw_text)),
       related_asset_id: relatedAssetId,
-      related_asset_name: safeText(payload.related_asset_name) || null,
+      related_asset_name: safeText(payload.related_asset_name) || safeText(resolvedAsset.asset_name) || null,
       triage_type: safeText(payload.triage_type, '공유'),
       issue_status: safeText(payload.issue_status, '진행중'),
       priority: safeText(payload.priority, '중간'),
@@ -2273,7 +2340,15 @@ async function updateWorkPlatformBoardPost(ctx: Context, payload: Record<string,
   if (current.response) return current.response;
   const currentRow = current.data as Record<string, unknown>;
   const currentAssetId = safeText(currentRow.related_asset_id);
-  const nextAssetId = safeText(firstDefined(payload.related_asset_id, currentAssetId));
+  let nextAssetId = safeText(firstDefined(payload.related_asset_id, currentAssetId));
+  let nextAssetName = payload.related_asset_name === undefined ? safeText(currentRow.related_asset_name) : safeText(payload.related_asset_name);
+  if (payload.related_asset_id !== undefined || payload.related_asset_name !== undefined) {
+    const assetResolution = await resolveWorkPlatformAssetForWrite(ctx, firstDefined(payload.related_asset_id, currentAssetId), firstDefined(payload.related_asset_name, currentRow.related_asset_name));
+    if (assetResolution.response) return assetResolution.response;
+    const resolvedAsset = assetResolution.asset as Record<string, unknown>;
+    nextAssetId = safeText(resolvedAsset.asset_id);
+    nextAssetName = safeText(payload.related_asset_name) || safeText(resolvedAsset.asset_name);
+  }
   if (!canMutateWorklog(ctx, 'update', currentAssetId)) return fail(403, 'Insufficient update permission for existing board post scope', ctx.origin);
   if (nextAssetId !== currentAssetId && !canMutateWorklog(ctx, 'update', nextAssetId)) {
     return fail(403, 'Insufficient update permission for new board post scope', ctx.origin);
@@ -2285,7 +2360,7 @@ async function updateWorkPlatformBoardPost(ctx: Context, payload: Record<string,
       title: payload.title === undefined && payload.summary === undefined ? undefined : safeText(firstDefined(payload.title, payload.summary), safeText(currentRow.title)),
       content: payload.content === undefined && payload.raw_text === undefined ? undefined : safeText(firstDefined(payload.content, payload.raw_text), safeText(currentRow.content)),
       related_asset_id: nextAssetId || undefined,
-      related_asset_name: payload.related_asset_name === undefined ? undefined : safeText(payload.related_asset_name) || null,
+      related_asset_name: payload.related_asset_name === undefined ? undefined : nextAssetName || null,
       triage_type: payload.triage_type === undefined ? undefined : safeText(payload.triage_type),
       issue_status: payload.issue_status === undefined ? undefined : safeText(payload.issue_status),
       priority: payload.priority === undefined ? undefined : safeText(payload.priority),

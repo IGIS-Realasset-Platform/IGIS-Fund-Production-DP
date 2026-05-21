@@ -179,10 +179,13 @@ function DarkDropdown({
 
 export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs, fetchMasterStakeholders, workspaceCode, workspaceLabel, projectOptions = null, defaultExpanded = false, editMode = false, initialData = null, onCancel = null, onSuccess = null }) {
     const isLogisticsMode = workspaceCode === 'WS_LOGISTICS';
-    const normalizedProjectOptions = (projectOptions && projectOptions.length ? projectOptions : [
+    const fallbackProjectOptions = useMemo(() => [
         { id: 'IOTA_COMMON', label: 'IOTA 공통' },
         { id: 'P00030', label: '427 PFV' },
-    ]);
+    ], []);
+    const normalizedProjectOptions = useMemo(() => (isLogisticsMode
+        ? (projectOptions || []).filter((option) => option?.id && String(option.id).startsWith('asset_'))
+        : (projectOptions && projectOptions.length ? projectOptions : fallbackProjectOptions)), [fallbackProjectOptions, isLogisticsMode, projectOptions]);
     // Form States
     const [projectId, setProjectId] = useState(normalizedProjectOptions[0]?.id || 'IOTA_COMMON');
     const [triageType, setTriageType] = useState('공유');
@@ -194,6 +197,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
     const [content, setContent] = useState('');
     const [isExpanded, setIsExpanded] = useState(defaultExpanded);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [submitError, setSubmitError] = useState('');
     
     // Stakeholder Search States
     const [companyQuery, setCompanyQuery] = useState('');
@@ -222,8 +226,12 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
     const [visibilitySearchQuery, setVisibilitySearchQuery] = useState('');
     const logisticsPeople = useMemo(() => buildLogisticsPeople(masterStakeholders), [masterStakeholders]);
     const logisticsCompanyStakeholders = useMemo(() => buildLogisticsCompanyStakeholders(masterStakeholders), [masterStakeholders]);
-    const effectiveMasterStakeholders = isLogisticsMode ? logisticsCompanyStakeholders : (masterStakeholders || []);
-    const effectivePeopleStakeholders = isLogisticsMode ? logisticsPeople : (masterStakeholders || []);
+    const effectiveMasterStakeholders = useMemo(() => (
+        isLogisticsMode ? logisticsCompanyStakeholders : (masterStakeholders || [])
+    ), [isLogisticsMode, logisticsCompanyStakeholders, masterStakeholders]);
+    const effectivePeopleStakeholders = useMemo(() => (
+        isLogisticsMode ? logisticsPeople : (masterStakeholders || [])
+    ), [isLogisticsMode, logisticsPeople, masterStakeholders]);
     const visibilityGroupOptions = isLogisticsMode
         ? LOGISTICS_VISIBILITY_GROUP_OPTIONS
         : ["PO", "Sub-PO", "CFT 책임인력", "기획추진", "사업PM", "파이낸싱-LFC", "개발관리", "기업마케팅", "상품·디지털", "펀드운용", "IPR-WG"];
@@ -240,6 +248,16 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
         availableContacts = [...new Set(effectiveMasterStakeholders.map(s => s.contact_name).filter(Boolean))];
     }
     const filteredContacts = availableContacts.filter(c => c.toLowerCase().includes(contactQuery.toLowerCase()));
+
+    useEffect(() => {
+        if (!normalizedProjectOptions.length) {
+            setProjectId('');
+            return;
+        }
+        if (!normalizedProjectOptions.some((option) => option.id === projectId)) {
+            setProjectId(normalizedProjectOptions[0].id);
+        }
+    }, [normalizedProjectOptions, projectId]);
 
     // Edit Mode Initialization
     useEffect(() => {
@@ -288,7 +306,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                 }
             }
         }
-    }, [editMode, initialData, effectiveMasterStakeholders, effectivePeopleStakeholders]);
+    }, [editMode, initialData, effectiveMasterStakeholders, effectivePeopleStakeholders, isLogisticsMode, normalizedProjectOptions]);
 
     const formatDisplayDate = (dateString) => {
         if (!dateString) return '';
@@ -429,6 +447,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
 
     const processSubmit = async () => {
         setIsSubmitting(true);
+        setSubmitError('');
         setShowNewStakeholderModal(false);
 
         try {
@@ -438,6 +457,9 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
             const writerName = isEditing ? initialData.writer_name : (memberInfo?.staff_name || '익명');
 
             const selectedProject = normalizedProjectOptions.find(option => option.id === projectId);
+            if (isLogisticsMode && !selectedProject?.id) {
+                throw new Error('저장할 담당 자산을 선택해야 합니다.');
+            }
             const logData = {
                 work_date: workDate,
                 raw_text: content,
@@ -483,7 +505,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                         },
                     },
                 });
-                if (error || !data?.ok) throw new Error(error?.message || data?.message || '협업게시판 저장 실패');
+                if (error || !data?.ok) throw new Error(data?.message || error?.message || '협업게시판 저장 실패');
 
                 if (!editMode) {
                     setTitle('');
@@ -582,7 +604,9 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
             }, 1000);
         } catch (error) {
             console.error('Error saving log:', error);
-            alert('저장 중 오류가 발생했습니다.');
+            const message = String(error?.message || '저장 중 오류가 발생했습니다.');
+            setSubmitError(message);
+            alert(message);
         } finally {
             setIsSubmitting(false);
         }
@@ -590,7 +614,11 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
 
     const handlePreSubmit = (e) => {
         if (e && e.preventDefault) e.preventDefault();
-        if (!title.trim() || !content.trim()) return;
+        setSubmitError('');
+        if (!title.trim() || !content.trim()) {
+            setSubmitError('제목과 내용을 모두 입력해야 저장할 수 있습니다.');
+            return;
+        }
         if (!isLogisticsMode && visibilityGroups.length === 0 && visibilityIndividuals.length === 0) {
             setShowPublicWarningModal(true);
         } else {
@@ -600,7 +628,11 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
 
     const handleSubmit = async (e) => {
         if (e && e.preventDefault) e.preventDefault();
-        if (!title.trim() || !content.trim()) return;
+        setSubmitError('');
+        if (!title.trim() || !content.trim()) {
+            setSubmitError('제목과 내용을 모두 입력해야 저장할 수 있습니다.');
+            return;
+        }
 
         if (isLogisticsMode) {
             setShowNewStakeholderModal(false);
@@ -1023,6 +1055,11 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                     >
                         열람권한
                     </button>
+                    {submitError ? (
+                        <div className="mr-2 max-w-[360px] rounded-[10px] border border-[#7A5C10] bg-[#2A2309] px-3 py-2 text-[12px] font-semibold text-[#F7D774]">
+                            {submitError}
+                        </div>
+                    ) : null}
                     {editMode ? (
                         <>
                             <button 

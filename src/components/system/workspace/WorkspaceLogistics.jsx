@@ -3908,6 +3908,7 @@ export default function WorkspaceLogistics({ currentPath = '' }) {
   const [taskEditTarget, setTaskEditTarget] = useState(null);
   const [taskDraft, setTaskDraft] = useState(null);
   const [pendingTaskAction, setPendingTaskAction] = useState(null);
+  const [taskSaveStatus, setTaskSaveStatus] = useState(null);
 
   const isDashboard = currentPath.startsWith(pathFor('dashboard'));
   const isPdfReport = currentPath.startsWith(pathFor('pdf-report'));
@@ -4054,6 +4055,13 @@ export default function WorkspaceLogistics({ currentPath = '' }) {
       return { ok: false, error };
     }
   };
+  const taskOperationErrorMessage = (error) => {
+    const message = String(error?.message || '');
+    if (/authorization|401|missing authorization|invalid authorization/iu.test(message)) return '로그인 세션을 확인하지 못해 저장하지 못했습니다. 새로고침 후 다시 로그인해 주세요.';
+    if (/403|permission|insufficient/iu.test(message)) return '이 자산에 대한 추가/수정/삭제 권한이 없어 저장하지 못했습니다.';
+    if (/related_asset_id|asset/iu.test(message)) return '저장할 담당 자산을 확인하지 못했습니다. 담당 자산을 다시 선택해 주세요.';
+    return message || '저장 중 오류가 발생했습니다.';
+  };
   const openTaskEdit = (task) => {
     setTaskEditTarget(task);
     setTaskDraft({
@@ -4072,6 +4080,7 @@ export default function WorkspaceLogistics({ currentPath = '' }) {
   };
   const startTaskAdd = () => {
     if (!canRegisterTask) {
+      setTaskSaveStatus({ type: 'error', message: '현재 계정에는 TASK 추가 권한이 없습니다.' });
       return;
     }
     if (isAddingTask) {
@@ -4082,10 +4091,19 @@ export default function WorkspaceLogistics({ currentPath = '' }) {
     }
     setTaskDraft(defaultLogisticsTaskDraft(permission, topAssets[0]?.assetName));
     setTaskEditTarget(null);
+    setTaskSaveStatus(null);
     setIsAddingTask(true);
   };
   const saveTaskEdit = async () => {
-    if (!taskDraft?.taskName) return;
+    if (!taskDraft?.taskName?.trim()) {
+      setTaskSaveStatus({ type: 'error', message: 'Task 제목을 입력해야 저장할 수 있습니다.' });
+      return;
+    }
+    if (!taskDraft?.assetName) {
+      setTaskSaveStatus({ type: 'error', message: '담당 자산을 선택해야 저장할 수 있습니다.' });
+      return;
+    }
+    setTaskSaveStatus({ type: 'pending', message: 'TASK를 저장하는 중입니다.' });
     const now = new Date().toISOString();
     if (taskEditTarget) {
       if (!canModifyTask(taskEditTarget)) return;
@@ -4097,7 +4115,10 @@ export default function WorkspaceLogistics({ currentPath = '' }) {
           ? { ...taskDraft, seedId: taskSeedId(taskEditTarget), source: 'weekly_report_seed' }
           : taskDraft,
       );
-      if (!result.ok) return;
+      if (!result.ok) {
+        setTaskSaveStatus({ type: 'error', message: taskOperationErrorMessage(result.error) });
+        return;
+      }
       const nextTask = result.data
         ? normalizeServerWorklogTask(result.data, permission)
         : { ...taskEditTarget, ...taskDraft, stakeholder: taskDraft.companyName || '내부업무', relatedAsset: taskDraft.assetName, createdAt: taskEditTarget.createdAt || now };
@@ -4120,12 +4141,16 @@ export default function WorkspaceLogistics({ currentPath = '' }) {
         source: 'local_pending',
       };
       const result = await submitTaskOperation('create', localTask, taskDraft);
-      if (!result.ok) return;
+      if (!result.ok) {
+        setTaskSaveStatus({ type: 'error', message: taskOperationErrorMessage(result.error) });
+        return;
+      }
       const savedTask = result.data ? normalizeServerWorklogTask(result.data, permission) : { ...localTask, id: `local-logistics-task-${Date.now()}` };
       setTaskRecords((tasks) => [savedTask, ...tasks]);
     }
     setTaskEditTarget(null);
     setTaskDraft(null);
+    setTaskSaveStatus({ type: 'success', message: 'TASK가 저장되었습니다.' });
     setIsAddingTask(false);
   };
   const completeTask = async (task) => {
@@ -4136,7 +4161,10 @@ export default function WorkspaceLogistics({ currentPath = '' }) {
       task,
       { status: 'completed', completed: true, seedId: taskSeedId(task) || undefined, source: isSeedTask(task) ? 'weekly_report_seed' : task.source },
     );
-    if (!result.ok) return;
+    if (!result.ok) {
+      setTaskSaveStatus({ type: 'error', message: taskOperationErrorMessage(result.error) });
+      return;
+    }
     const savedTask = result.data ? normalizeServerWorklogTask(result.data, permission) : nextTask;
     setTaskRecords((tasks) => tasks.map((item) => (item.id === task.id ? savedTask : item)));
   };
@@ -4147,7 +4175,10 @@ export default function WorkspaceLogistics({ currentPath = '' }) {
       task,
       { status: 'deleted', deleted: true, seedId: taskSeedId(task) || undefined, source: isSeedTask(task) ? 'weekly_report_seed' : task.source },
     );
-    if (!result.ok) return;
+    if (!result.ok) {
+      setTaskSaveStatus({ type: 'error', message: taskOperationErrorMessage(result.error) });
+      return;
+    }
     setTaskRecords((tasks) => tasks.filter((item) => item.id !== task.id));
   };
   const describeAiFunctionError = (error, data = null) => {
@@ -4445,12 +4476,24 @@ export default function WorkspaceLogistics({ currentPath = '' }) {
                     <input type="date" value={taskDraft.dueDate} onClick={(event) => event.target.showPicker && event.target.showPicker()} onChange={(event) => setTaskDraft((draft) => ({ ...draft, dueDate: event.target.value }))} className="cursor-pointer rounded-[10px] border border-[#444] bg-[#1A1A1A] px-3 py-2 text-[14px] text-[#A1A1AA] outline-none [color-scheme:dark] focus:border-[#888]" />
                   </div>
                   <div className="ml-auto flex gap-2">
-                    <button type="button" onClick={() => { setIsAddingTask(false); setTaskEditTarget(null); setTaskDraft(null); }} className="rounded-[10px] border border-[#444] bg-[#3c3c3c]/50 px-5 py-2 text-[14px] font-bold text-[#86868B] transition-colors hover:bg-[#3c3c3c] hover:text-white">취소</button>
+                    <button type="button" onClick={() => { setIsAddingTask(false); setTaskEditTarget(null); setTaskDraft(null); setTaskSaveStatus(null); }} className="rounded-[10px] border border-[#444] bg-[#3c3c3c]/50 px-5 py-2 text-[14px] font-bold text-[#86868B] transition-colors hover:bg-[#3c3c3c] hover:text-white">취소</button>
                     <button type="button" onClick={saveTaskEdit} className="rounded-[10px] border border-[#059669]/30 bg-[#059669]/20 px-5 py-2 text-[14px] font-bold text-[#34d399] transition-colors hover:bg-[#059669]/40">
                       {taskEditTarget ? '수정 완료' : '저장'}
                     </button>
                   </div>
                 </div>
+              </div>
+            ) : null}
+
+            {taskSaveStatus ? (
+              <div className={`mb-3 rounded-[12px] border px-4 py-3 text-[13px] font-semibold ${
+                taskSaveStatus.type === 'success'
+                  ? 'border-[#2E6B45] bg-[#12351F] text-[#B5E48C]'
+                  : taskSaveStatus.type === 'pending'
+                    ? 'border-[#365C91] bg-[#16253A] text-[#9CC7FF]'
+                    : 'border-[#7A5C10] bg-[#2A2309] text-[#F7D774]'
+              }`}>
+                {taskSaveStatus.message}
               </div>
             ) : null}
 
@@ -4590,7 +4633,7 @@ export default function WorkspaceLogistics({ currentPath = '' }) {
                               <input type="date" value={taskDraft.dueDate} onClick={(event) => event.target.showPicker && event.target.showPicker()} onChange={(event) => setTaskDraft((draft) => ({ ...draft, dueDate: event.target.value }))} className="cursor-pointer rounded-[10px] border border-[#444] bg-[#1A1A1A] px-3 py-2 text-[14px] text-[#A1A1AA] outline-none [color-scheme:dark] focus:border-[#888]" />
                             </div>
                             <div className="ml-auto flex gap-2">
-                              <button type="button" onClick={() => { setIsAddingTask(false); setTaskEditTarget(null); setTaskDraft(null); }} className="rounded-[10px] border border-[#444] bg-[#3c3c3c]/50 px-5 py-2 text-[14px] font-bold text-[#86868B] transition-colors hover:bg-[#3c3c3c] hover:text-white">취소</button>
+                              <button type="button" onClick={() => { setIsAddingTask(false); setTaskEditTarget(null); setTaskDraft(null); setTaskSaveStatus(null); }} className="rounded-[10px] border border-[#444] bg-[#3c3c3c]/50 px-5 py-2 text-[14px] font-bold text-[#86868B] transition-colors hover:bg-[#3c3c3c] hover:text-white">취소</button>
                               <button type="button" onClick={saveTaskEdit} className="rounded-[10px] border border-[#059669]/30 bg-[#059669]/20 px-5 py-2 text-[14px] font-bold text-[#34d399] transition-colors hover:bg-[#059669]/40">수정 완료</button>
                             </div>
                           </div>
