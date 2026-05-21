@@ -47,6 +47,8 @@ export default function DecisionLog() {
     const [showAllCrossFunctional, setShowAllCrossFunctional] = useState(false);
     const [activeCadenceTab, setActiveCadenceTab] = useState('internal');
     const [expandedCadenceRow, setExpandedCadenceRow] = useState(null);
+    const [cadenceLogs, setCadenceLogs] = useState({});
+    const [isLoadingCadenceLogs, setIsLoadingCadenceLogs] = useState(false);
 
     // Edit states
     const [editingLogId, setEditingLogId] = useState(null);
@@ -57,6 +59,32 @@ export default function DecisionLog() {
     const [commentingLogId, setCommentingLogId] = useState(null);
     const [commentContent, setCommentContent] = useState('');
     const [isSavingComment, setIsSavingComment] = useState(false);
+
+    const handleCadenceRowClick = async (rowId, meetingName) => {
+        if (expandedCadenceRow === rowId) {
+            setExpandedCadenceRow(null);
+            return;
+        }
+        setExpandedCadenceRow(rowId);
+        
+        if (!cadenceLogs[meetingName]) {
+            setIsLoadingCadenceLogs(true);
+            try {
+                const { data } = await supabase
+                    .from('iota_meeting_logs')
+                    .select('*')
+                    .eq('meeting_type', meetingName)
+                    .order('meeting_date', { ascending: false })
+                    .order('created_at', { ascending: false })
+                    .limit(3);
+                setCadenceLogs(prev => ({ ...prev, [meetingName]: data || [] }));
+            } catch (e) {
+                console.error(e);
+            } finally {
+                setIsLoadingCadenceLogs(false);
+            }
+        }
+    };
 
     const renderLogTextWithMentions = (text) => {
         if (!text) return null;
@@ -107,6 +135,23 @@ export default function DecisionLog() {
         const mm = String(d.getMonth() + 1).padStart(2, '0');
         const dd = String(d.getDate()).padStart(2, '0');
         return `${yy}.${mm}.${dd}`;
+    };
+
+    const formatDateWithTime = (dateString, timeString) => {
+        if (!timeString && !dateString) return { date: '', time: '' };
+        const dDate = new Date(dateString || timeString);
+        const yy = String(dDate.getFullYear()).slice(2);
+        const mm = String(dDate.getMonth() + 1).padStart(2, '0');
+        const dd = String(dDate.getDate()).padStart(2, '0');
+        
+        const dTime = new Date(timeString || dateString);
+        const hh = String(dTime.getHours()).padStart(2, '0');
+        const min = String(dTime.getMinutes()).padStart(2, '0');
+        
+        return {
+            date: `${yy}.${mm}.${dd}`,
+            time: `${hh}:${min}`
+        };
     };
 
     const getCellName = (name) => {
@@ -928,11 +973,8 @@ export default function DecisionLog() {
                                 return (
                                     <React.Fragment key={idx}>
                                         <tr 
-                                            className="hover:bg-[#333] transition-colors group cursor-pointer" 
-                                            onClick={() => {
-                                                const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
-                                                window.location.href = `${base}/platform/iotaseoul/meeting-logs?type=${encodeURIComponent(row.meeting)}`;
-                                            }}
+                                            className={`hover:bg-[#333] transition-colors group cursor-pointer ${isExpanded ? 'bg-[#333]' : ''}`} 
+                                            onClick={() => handleCadenceRowClick(rowId, row.meeting)}
                                         >
                                             <td className="pl-[22px] pr-[12px] py-[12px] text-[17px] text-[#E5E5E5] group-hover:text-white transition-colors text-left font-semibold whitespace-pre-wrap">{row.meeting}</td>
                                             <td className="pl-[22px] pr-[12px] py-[12px] text-[13px] transition-colors"><span className="inline-block px-[10px] py-[4px] rounded-[6px] bg-[#333] text-[#c3c2b7] group-hover:bg-[#2997ff] group-hover:text-white transition-colors whitespace-nowrap">{row.period}</span></td>
@@ -940,6 +982,70 @@ export default function DecisionLog() {
                                             <td className="pl-[42px] pr-[12px] py-[12px] text-[13px] text-[#c3c2b7] text-left group-hover:text-[#E5E5E5] transition-colors">{row.attendees}</td>
                                             <td className="pl-[22px] pr-[12px] py-[12px] text-[13px] text-[#c3c2b7] text-left group-hover:text-[#E5E5E5] transition-colors">{row.output}</td>
                                         </tr>
+                                        {isExpanded && (
+                                            <tr>
+                                                <td colSpan={5} className="bg-[#1F1F1E] p-[20px] border-b border-[#3c3c3c]">
+                                                    {isLoadingCadenceLogs && !cadenceLogs[row.meeting] ? (
+                                                        <div className="text-center text-[#86868B] text-[13px] py-[20px]">회의록 불러오는 중...</div>
+                                                    ) : (
+                                                        cadenceLogs[row.meeting]?.length === 0 ? (
+                                                            <div className="text-center text-[#86868B] text-[13px] py-[20px]">최근 등록된 회의록이 없습니다.</div>
+                                                        ) : (
+                                                            <div className="flex gap-[12px]">
+                                                                {cadenceLogs[row.meeting]?.map(log => (
+                                                                    <div 
+                                                                        key={log.id} 
+                                                                        onClick={(e) => {
+                                                                            e.stopPropagation();
+                                                                            const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
+                                                                            window.location.href = `${base}/platform/iotaseoul/meeting-logs?type=${encodeURIComponent(row.meeting)}`;
+                                                                        }}
+                                                                        className="flex-1 bg-[#262626] rounded-[12px] border border-[#333] p-[16px] hover:border-[#444] transition-colors flex flex-col justify-between max-w-[33%] cursor-pointer group"
+                                                                    >
+                                                                        <div>
+                                                                            <div className="flex justify-between items-start mb-[8px]">
+                                                                                <div className="flex items-center gap-[4px]">
+                                                                                    <span className="text-[12px] text-[#2997ff] font-bold">{formatDateWithTime(log.meeting_date, log.created_at).date}</span>
+                                                                                    <span className="text-[12px] text-[#86868B] font-medium">{formatDateWithTime(log.meeting_date, log.created_at).time}</span>
+                                                                                </div>
+                                                                                <span className="text-[11px] bg-[#333] text-[#E5E5E5] px-[6px] py-[2px] rounded-[4px]">{log.author_name}</span>
+                                                                            </div>
+                                                                            <h4 className="text-[14px] font-bold text-white mb-[8px] line-clamp-1">{log.title}</h4>
+                                                                            <p className="text-[12px] text-[#A1A1AA] line-clamp-1 leading-relaxed whitespace-pre-wrap">{log.content}</p>
+                                                                        </div>
+                                                                        <div className="mt-[12px] flex justify-between items-center">
+                                                                            {log.metadata?.attachedFiles?.length > 0 ? (
+                                                                                <div className="flex items-center gap-[4px]">
+                                                                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#86868B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
+                                                                                    <span className="text-[11px] text-[#86868B]">{log.metadata.attachedFiles.length}개 파일</span>
+                                                                                </div>
+                                                                            ) : (
+                                                                                <div></div>
+                                                                            )}
+                                                                        </div>
+                                                                    </div>
+                                                                ))}
+                                                            </div>
+                                                        )
+                                                    )}
+                                                    {cadenceLogs[row.meeting]?.length > 0 && (
+                                                        <div className="mt-[12px] flex justify-end">
+                                                            <button 
+                                                                onClick={(e) => {
+                                                                    e.stopPropagation();
+                                                                    const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
+                                                                    window.location.href = `${base}/platform/iotaseoul/meeting-logs?type=${encodeURIComponent(row.meeting)}`;
+                                                                }}
+                                                                className="flex items-center gap-[4px] text-[12px] text-[#2997ff] hover:text-[#5eb0ff] font-bold transition-colors bg-[#222] hover:bg-[#333] px-[12px] py-[6px] rounded-[6px] border border-[#333]"
+                                                            >
+                                                                {row.meeting} 전체 회의록 보기
+                                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                                                            </button>
+                                                        </div>
+                                                    )}
+                                                </td>
+                                            </tr>
+                                        )}
                                     </React.Fragment>
                                 );
                             })}

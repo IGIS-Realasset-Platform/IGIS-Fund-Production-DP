@@ -78,7 +78,10 @@ export default function GovMeetingLogs() {
     const fetchMeetingLogs = async () => {
         setIsLoading(true);
         try {
-            let query = supabase.from('iota_meeting_logs').select('*').order('meeting_date', { ascending: false });
+            let query = supabase.from('iota_meeting_logs')
+                .select('*')
+                .order('meeting_date', { ascending: false })
+                .order('created_at', { ascending: false });
             if (activeTab !== '전체') {
                 query = query.eq('meeting_type', activeTab);
             }
@@ -247,7 +250,7 @@ export default function GovMeetingLogs() {
                                                                 <span className="bg-red-500/20 text-red-500 text-[11px] px-[8px] py-[2px] rounded-full">중요도 높음</span>
                                                             )}
                                                         </div>
-                                                        <h3 className="text-white font-bold text-[18px] leading-snug">{log.title}</h3>
+                                                        <h3 className="text-white font-bold text-[18px] leading-snug translate-y-[6px] mb-[2px]">{log.title}</h3>
                                                     </div>
                                                     <div className="flex flex-col items-end">
                                                         <div className="flex items-center gap-[8px]">
@@ -272,7 +275,7 @@ export default function GovMeetingLogs() {
                                                         )}
                                                     </div>
                                                 </div>
-                                                <div className={`text-[#E5E5E5] text-[14px] leading-relaxed whitespace-pre-wrap mt-[12px] transition-all ${expandedLogs[log.id] ? '' : 'line-clamp-2'}`}>
+                                                <div className={`text-[#E5E5E5] text-[14px] leading-relaxed whitespace-pre-wrap mt-[12px] transition-all ${expandedLogs[log.id] ? '' : 'line-clamp-1'}`}>
                                                     {log.content}
                                                 </div>
                                         {log.metadata?.attachedFiles?.length > 0 && (
