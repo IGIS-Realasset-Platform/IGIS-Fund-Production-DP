@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "530452135733",
+    "project_id": "iota-seoul-cft",
+    "storage_bucket": "iota-seoul-cft.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:530452135733:android:1f41120ef506338a04967c",
+        "android_client_info": {
+          "package_name": "com.igis.igis_fund_mobile"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBOSWNCOQ6hV09bNlJOk152uYF_rar-HQM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
