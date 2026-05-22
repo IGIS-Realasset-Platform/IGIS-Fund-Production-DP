@@ -16,6 +16,10 @@ export default function SystemAdmin() {
     const [loadingHistory, setLoadingHistory] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
 
+    // Comment States
+    const [commentInputs, setCommentInputs] = useState({});
+    const [isSubmittingComment, setIsSubmittingComment] = useState(false);
+
     const AUTHORIZED_USERS = ['전기영', '이시정', '이관용'];
 
     useEffect(() => {
@@ -76,7 +80,78 @@ export default function SystemAdmin() {
     };
 
     if (loading) {
-        return (
+        const handleAddComment = async (logId, currentMetadata) => {
+        const text = commentInputs[logId]?.trim();
+        if (!text) return;
+        
+        setIsSubmittingComment(true);
+        try {
+            const comments = currentMetadata.comments || [];
+            const newComment = {
+                id: `comment_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
+                text: text,
+                author: memberInfo?.staff_name || memberInfo?.name || '관리자',
+                created_at: new Date().toISOString()
+            };
+            
+            const updatedMetadata = { ...currentMetadata, comments: [...comments, newComment] };
+            
+            const { error } = await supabase
+                .from('iota_seoul_logs')
+                .update({ metadata: updatedMetadata, updated_at: new Date().toISOString() })
+                .eq('log_id', logId);
+                
+            if (error) throw error;
+            
+            setCommentInputs(prev => ({ ...prev, [logId]: '' }));
+            
+            // Refresh Support Requests
+            const { data: supportData, error: supportError } = await supabase
+                .from('iota_seoul_logs')
+                .select('*')
+                .eq('metadata->>workspace_code', 'WS_SUPPORT')
+                .order('created_at', { ascending: false });
+            if (!supportError) {
+                setSupportRequests(supportData || []);
+            }
+        } catch (err) {
+            console.error('Error adding comment:', err);
+            alert('댓글 작성 중 오류가 발생했습니다.');
+        } finally {
+            setIsSubmittingComment(false);
+        }
+    };
+
+    const handleDeleteComment = async (logId, commentId, currentMetadata) => {
+        if (!window.confirm('정말 이 댓글을 삭제하시겠습니까?')) return;
+        
+        try {
+            const comments = (currentMetadata.comments || []).filter(c => c.id !== commentId);
+            const updatedMetadata = { ...currentMetadata, comments };
+            
+            const { error } = await supabase
+                .from('iota_seoul_logs')
+                .update({ metadata: updatedMetadata, updated_at: new Date().toISOString() })
+                .eq('log_id', logId);
+                
+            if (error) throw error;
+            
+            // Refresh Support Requests
+            const { data: supportData, error: supportError } = await supabase
+                .from('iota_seoul_logs')
+                .select('*')
+                .eq('metadata->>workspace_code', 'WS_SUPPORT')
+                .order('created_at', { ascending: false });
+            if (!supportError) {
+                setSupportRequests(supportData || []);
+            }
+        } catch (err) {
+            console.error('Error deleting comment:', err);
+            alert('댓글 삭제 중 오류가 발생했습니다.');
+        }
+    };
+
+    return (
             <div className="w-full h-screen bg-[#FDFDFD] dark:bg-[#111111] flex items-center justify-center">
                 <div className="w-6 h-6 relative mb-5 animate-spin">
                     <div className="absolute top-0 left-1/2 -ml-[3px] w-[6px] h-[6px] bg-[#111] dark:bg-white rounded-full"></div>
@@ -86,7 +161,78 @@ export default function SystemAdmin() {
     }
 
     if (accessDenied) {
-        return (
+        const handleAddComment = async (logId, currentMetadata) => {
+        const text = commentInputs[logId]?.trim();
+        if (!text) return;
+        
+        setIsSubmittingComment(true);
+        try {
+            const comments = currentMetadata.comments || [];
+            const newComment = {
+                id: `comment_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
+                text: text,
+                author: memberInfo?.staff_name || memberInfo?.name || '관리자',
+                created_at: new Date().toISOString()
+            };
+            
+            const updatedMetadata = { ...currentMetadata, comments: [...comments, newComment] };
+            
+            const { error } = await supabase
+                .from('iota_seoul_logs')
+                .update({ metadata: updatedMetadata, updated_at: new Date().toISOString() })
+                .eq('log_id', logId);
+                
+            if (error) throw error;
+            
+            setCommentInputs(prev => ({ ...prev, [logId]: '' }));
+            
+            // Refresh Support Requests
+            const { data: supportData, error: supportError } = await supabase
+                .from('iota_seoul_logs')
+                .select('*')
+                .eq('metadata->>workspace_code', 'WS_SUPPORT')
+                .order('created_at', { ascending: false });
+            if (!supportError) {
+                setSupportRequests(supportData || []);
+            }
+        } catch (err) {
+            console.error('Error adding comment:', err);
+            alert('댓글 작성 중 오류가 발생했습니다.');
+        } finally {
+            setIsSubmittingComment(false);
+        }
+    };
+
+    const handleDeleteComment = async (logId, commentId, currentMetadata) => {
+        if (!window.confirm('정말 이 댓글을 삭제하시겠습니까?')) return;
+        
+        try {
+            const comments = (currentMetadata.comments || []).filter(c => c.id !== commentId);
+            const updatedMetadata = { ...currentMetadata, comments };
+            
+            const { error } = await supabase
+                .from('iota_seoul_logs')
+                .update({ metadata: updatedMetadata, updated_at: new Date().toISOString() })
+                .eq('log_id', logId);
+                
+            if (error) throw error;
+            
+            // Refresh Support Requests
+            const { data: supportData, error: supportError } = await supabase
+                .from('iota_seoul_logs')
+                .select('*')
+                .eq('metadata->>workspace_code', 'WS_SUPPORT')
+                .order('created_at', { ascending: false });
+            if (!supportError) {
+                setSupportRequests(supportData || []);
+            }
+        } catch (err) {
+            console.error('Error deleting comment:', err);
+            alert('댓글 삭제 중 오류가 발생했습니다.');
+        }
+    };
+
+    return (
             <div className="w-full h-screen bg-[#FDFDFD] dark:bg-[#111111] flex flex-col items-center justify-center text-[#1D1D1F] dark:text-[#E5E5E5]">
                 <svg className="w-16 h-16 text-red-500 mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
@@ -186,6 +332,77 @@ export default function SystemAdmin() {
             alert('삭제 중 오류가 발생했습니다.');
         } finally {
             setIsDeleting(false);
+        }
+    };
+
+    const handleAddComment = async (logId, currentMetadata) => {
+        const text = commentInputs[logId]?.trim();
+        if (!text) return;
+        
+        setIsSubmittingComment(true);
+        try {
+            const comments = currentMetadata.comments || [];
+            const newComment = {
+                id: `comment_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
+                text: text,
+                author: memberInfo?.staff_name || memberInfo?.name || '관리자',
+                created_at: new Date().toISOString()
+            };
+            
+            const updatedMetadata = { ...currentMetadata, comments: [...comments, newComment] };
+            
+            const { error } = await supabase
+                .from('iota_seoul_logs')
+                .update({ metadata: updatedMetadata, updated_at: new Date().toISOString() })
+                .eq('log_id', logId);
+                
+            if (error) throw error;
+            
+            setCommentInputs(prev => ({ ...prev, [logId]: '' }));
+            
+            // Refresh Support Requests
+            const { data: supportData, error: supportError } = await supabase
+                .from('iota_seoul_logs')
+                .select('*')
+                .eq('metadata->>workspace_code', 'WS_SUPPORT')
+                .order('created_at', { ascending: false });
+            if (!supportError) {
+                setSupportRequests(supportData || []);
+            }
+        } catch (err) {
+            console.error('Error adding comment:', err);
+            alert('댓글 작성 중 오류가 발생했습니다.');
+        } finally {
+            setIsSubmittingComment(false);
+        }
+    };
+
+    const handleDeleteComment = async (logId, commentId, currentMetadata) => {
+        if (!window.confirm('정말 이 댓글을 삭제하시겠습니까?')) return;
+        
+        try {
+            const comments = (currentMetadata.comments || []).filter(c => c.id !== commentId);
+            const updatedMetadata = { ...currentMetadata, comments };
+            
+            const { error } = await supabase
+                .from('iota_seoul_logs')
+                .update({ metadata: updatedMetadata, updated_at: new Date().toISOString() })
+                .eq('log_id', logId);
+                
+            if (error) throw error;
+            
+            // Refresh Support Requests
+            const { data: supportData, error: supportError } = await supabase
+                .from('iota_seoul_logs')
+                .select('*')
+                .eq('metadata->>workspace_code', 'WS_SUPPORT')
+                .order('created_at', { ascending: false });
+            if (!supportError) {
+                setSupportRequests(supportData || []);
+            }
+        } catch (err) {
+            console.error('Error deleting comment:', err);
+            alert('댓글 삭제 중 오류가 발생했습니다.');
         }
     };
 
@@ -306,6 +523,67 @@ export default function SystemAdmin() {
                                             ))}
                                         </div>
                                     )}
+                                </div>
+                                
+                                {/* Admin Comments Section */}
+                                <div className="mt-4 pt-4 border-t border-black/5 dark:border-white/5 flex flex-col gap-3">
+                                    {(req.metadata?.comments || []).map(comment => (
+                                        <div key={comment.id} className="bg-[#F5F5F7] dark:bg-[#2C2C2E] rounded-xl p-3">
+                                            <div className="flex items-center justify-between mb-2">
+                                                <div className="flex items-center gap-2">
+                                                    <div className="w-[18px] h-[18px] rounded-full bg-[#E5E5E5] dark:bg-[#333] overflow-hidden">
+                                                        <img 
+                                                            src={`${import.meta.env.BASE_URL}${comment.author}.webp`} 
+                                                            alt={comment.author} 
+                                                            className="w-full h-full object-cover"
+                                                            onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }}
+                                                        />
+                                                    </div>
+                                                    <span className="text-[13px] font-bold text-[#1D1D1F] dark:text-white">{comment.author}</span>
+                                                </div>
+                                                <div className="flex items-center gap-[8px]">
+                                                    <span className="text-[12px] text-[#86868B] font-mono">
+                                                        {new Date(comment.created_at).toLocaleString('ko-KR', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                                                    </span>
+                                                    <button 
+                                                        type="button"
+                                                        onClick={() => handleDeleteComment(req.log_id, comment.id, req.metadata || {})}
+                                                        className="text-[#86868B] hover:text-[#ff3b30] transition-colors p-[2px]"
+                                                        title="삭제"
+                                                    >
+                                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <p className="text-[14px] text-[#666] dark:text-[#A1A1AA] whitespace-pre-wrap pl-[26px] leading-relaxed">
+                                                {comment.text}
+                                            </p>
+                                        </div>
+                                    ))}
+                                    
+                                    <div className="flex items-start gap-2 mt-1">
+                                        <input
+                                            type="text"
+                                            value={commentInputs[req.log_id] || ''}
+                                            onChange={(e) => setCommentInputs(prev => ({ ...prev, [req.log_id]: e.target.value }))}
+                                            onKeyDown={(e) => {
+                                                if (e.key === 'Enter' && !e.shiftKey) {
+                                                    e.preventDefault();
+                                                    handleAddComment(req.log_id, req.metadata || {});
+                                                }
+                                            }}
+                                            placeholder="답변이나 추가 의견을 남겨주세요..."
+                                            className="flex-1 bg-white dark:bg-[#1C1C1E] border border-black/10 dark:border-white/10 rounded-xl px-4 py-2.5 text-[14px] text-[#1D1D1F] dark:text-[#E5E5E5] outline-none focus:border-[#111] dark:focus:border-white transition-colors placeholder:text-[#86868B]"
+                                        />
+                                        <button
+                                            type="button"
+                                            onClick={() => handleAddComment(req.log_id, req.metadata || {})}
+                                            disabled={isSubmittingComment || !commentInputs[req.log_id]?.trim()}
+                                            className="px-5 py-2.5 bg-[#111] dark:bg-white text-white dark:text-[#111111] rounded-xl text-[14px] font-bold transition-opacity disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
+                                        >
+                                            등록
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         ))}

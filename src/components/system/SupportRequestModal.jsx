@@ -16,13 +16,18 @@ export default function SupportRequestModal({ isOpen, onClose, memberInfo }) {
     const [attachedFiles, setAttachedFiles] = useState([]);
     const [isUploadingFile, setIsUploadingFile] = useState(false);
     const fileInputRef = React.useRef(null);
+    
+    // Comments States
+    const [commentInputs, setCommentInputs] = useState({});
+    const [isSubmittingComment, setIsSubmittingComment] = useState(false);
+
 
     const fetchRequests = async () => {
         setIsLoadingRequests(true);
         try {
             const { data, error } = await supabase
                 .from('iota_seoul_logs')
-                .select('log_id, summary, raw_text, writer_name, created_at')
+                .select('log_id, summary, raw_text, writer_name, created_at, metadata')
                 .eq('metadata->>workspace_code', 'WS_SUPPORT')
                 .order('created_at', { ascending: false })
                 .limit(20);
@@ -57,6 +62,60 @@ export default function SupportRequestModal({ isOpen, onClose, memberInfo }) {
         }, 500);
         return () => clearTimeout(timeoutId);
     }, [title, content]);
+
+    const handleAddComment = async (logId, currentMetadata) => {
+        const text = commentInputs[logId]?.trim();
+        if (!text) return;
+        
+        setIsSubmittingComment(true);
+        try {
+            const comments = currentMetadata.comments || [];
+            const newComment = {
+                id: `comment_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
+                text: text,
+                author: memberInfo?.staff_name || memberInfo?.name || '익명',
+                created_at: new Date().toISOString()
+            };
+            
+            const updatedMetadata = { ...currentMetadata, comments: [...comments, newComment] };
+            
+            const { error } = await supabase
+                .from('iota_seoul_logs')
+                .update({ metadata: updatedMetadata, updated_at: new Date().toISOString() })
+                .eq('log_id', logId);
+                
+            if (error) throw error;
+            
+            setCommentInputs(prev => ({ ...prev, [logId]: '' }));
+            fetchRequests(); // Refresh the list
+        } catch (err) {
+            console.error('Error adding comment:', err);
+            alert('댓글 작성 중 오류가 발생했습니다.');
+        } finally {
+            setIsSubmittingComment(false);
+        }
+    };
+
+    const handleDeleteComment = async (logId, commentId, currentMetadata) => {
+        if (!window.confirm('정말 이 댓글을 삭제하시겠습니까?')) return;
+        
+        try {
+            const comments = (currentMetadata.comments || []).filter(c => c.id !== commentId);
+            const updatedMetadata = { ...currentMetadata, comments };
+            
+            const { error } = await supabase
+                .from('iota_seoul_logs')
+                .update({ metadata: updatedMetadata, updated_at: new Date().toISOString() })
+                .eq('log_id', logId);
+                
+            if (error) throw error;
+            
+            fetchRequests(); // Refresh the list
+        } catch (err) {
+            console.error('Error deleting comment:', err);
+            alert('댓글 삭제 중 오류가 발생했습니다.');
+        }
+    };
 
     const handleFileUpload = async (e) => {
         const files = Array.from(e.target.files);
@@ -341,6 +400,70 @@ export default function SupportRequestModal({ isOpen, onClose, memberInfo }) {
                                                 <span className="text-[12px] font-medium text-[#86868B]">
                                                     {req.writer_name}
                                                 </span>
+                                            </div>
+                                        </div>
+
+                                        {/* Comments Section */}
+                                        <div className="mt-[16px] pt-[16px] border-t border-[#333] border-dashed flex flex-col gap-[12px]">
+                                            {(req.metadata?.comments || []).map(comment => (
+                                                <div key={comment.id} className="bg-[#2a2a2c] rounded-[8px] p-[12px]">
+                                                    <div className="flex items-center justify-between mb-[6px]">
+                                                        <div className="flex items-center gap-[6px]">
+                                                            <div className="w-[16px] h-[16px] rounded-full bg-[#333] overflow-hidden">
+                                                                <img 
+                                                                    src={`${import.meta.env.BASE_URL}${comment.author}.webp`} 
+                                                                    alt={comment.author} 
+                                                                    className="w-full h-full object-cover"
+                                                                    onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }}
+                                                                />
+                                                            </div>
+                                                            <span className="text-[12px] font-bold text-[#E5E5E5]">{comment.author}</span>
+                                                        </div>
+                                                        <div className="flex items-center gap-[8px]">
+                                                            <span className="text-[11px] text-[#86868B] font-mono">
+                                                                {new Date(comment.created_at).toLocaleString()}
+                                                            </span>
+                                                            {(comment.author === memberInfo?.staff_name || comment.author === memberInfo?.name || comment.author === '익명') && (
+                                                                <button 
+                                                                    type="button"
+                                                                    onClick={() => handleDeleteComment(req.log_id, comment.id, req.metadata || {})}
+                                                                    className="text-[#86868B] hover:text-[#ff3b30] transition-colors p-[2px]"
+                                                                    title="삭제"
+                                                                >
+                                                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                                                                </button>
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                    <p className="text-[13px] text-[#A1A1AA] whitespace-pre-wrap pl-[22px] leading-relaxed">
+                                                        {comment.text}
+                                                    </p>
+                                                </div>
+                                            ))}
+                                            
+                                            {/* Comment Input */}
+                                            <div className="flex items-start gap-[8px] mt-[4px]">
+                                                <input
+                                                    type="text"
+                                                    value={commentInputs[req.log_id] || ''}
+                                                    onChange={(e) => setCommentInputs(prev => ({ ...prev, [req.log_id]: e.target.value }))}
+                                                    onKeyDown={(e) => {
+                                                        if (e.key === 'Enter' && !e.shiftKey) {
+                                                            e.preventDefault();
+                                                            handleAddComment(req.log_id, req.metadata || {});
+                                                        }
+                                                    }}
+                                                    placeholder="답변이나 추가 의견을 남겨주세요..."
+                                                    className="flex-1 bg-[#1A1A1C] border border-[#333] rounded-[8px] px-[12px] py-[8px] text-[13px] text-[#E5E5E5] outline-none focus:border-[#0071e3] transition-colors placeholder:text-[#666]"
+                                                />
+                                                <button
+                                                    type="button"
+                                                    onClick={() => handleAddComment(req.log_id, req.metadata || {})}
+                                                    disabled={isSubmittingComment || !commentInputs[req.log_id]?.trim()}
+                                                    className="px-[12px] py-[8px] bg-[#333] hover:bg-[#444] text-[#E5E5E5] rounded-[8px] text-[13px] font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
+                                                >
+                                                    등록
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
