@@ -1,61 +1,74 @@
-# Web Platform Notification Integration
+# 웹 플랫폼 알림 연동 가이드
 
-This note explains how the web platform should use the existing Supabase notification pipeline that was added for the mobile app.
+이 문서는 모바일 앱용으로 만든 Supabase 알림 구조를 웹 플랫폼에서도 함께 사용하는 방법을 정리한 것입니다.
 
-## Summary
+## 결론
 
-Use `public.iota_notifications` as the shared notification source of truth.
+웹 플랫폼도 `public.iota_notifications` 테이블을 공통 알림 원장으로 사용하면 됩니다.
 
-The intended flow is:
+전체 흐름은 아래와 같습니다.
 
 ```text
-Web platform writes a collaboration log, comment, or workspace task
--> Supabase DB trigger inserts rows into public.iota_notifications
--> Mobile push webhook sends Firebase push from those rows
--> Mobile app and web platform both read public.iota_notifications
+웹 플랫폼에서 협업 글, 댓글, task 등록
+-> Supabase DB trigger가 public.iota_notifications에 알림 row 생성
+-> iota_notifications INSERT webhook이 Edge Function 호출
+-> Edge Function이 Firebase FCM으로 모바일 푸시 발송
+-> 모바일 앱과 웹 플랫폼이 모두 public.iota_notifications를 조회
 ```
 
-Firebase is only the mobile push delivery channel. The canonical notification record should remain `public.iota_notifications`.
+Firebase는 모바일 푸시를 보내기 위한 전달 채널입니다. 알림 데이터의 기준점은 `public.iota_notifications`로 두는 것이 맞습니다.
 
-## Existing Backend Pieces
+## 이미 만들어진 백엔드 구성
 
-The mobile branch contains these backend assets:
+모바일 브랜치에는 아래 파일들이 있습니다.
 
 - `supabase/migrations/00_create_notifications.sql`
-  - Creates `public.fcm_tokens`
-  - Creates `public.iota_notifications`
-  - Adds RLS policies for users to view and update their own notifications
+  - `public.fcm_tokens` 생성
+  - `public.iota_notifications` 생성
+  - 사용자가 자기 알림만 조회하고 읽음 처리할 수 있는 RLS 정책 생성
 - `supabase/migrations/01_create_notification_events.sql`
-  - Creates DB trigger functions
-  - Inserts notification rows when collaboration logs, comments, or task rows are created
+  - DB trigger 함수 생성
+  - 협업 글, 댓글, task 생성 시 `iota_notifications`에 알림 row 생성
 - `supabase/functions/send-push-notification/index.ts`
-  - Receives webhook events from `public.iota_notifications`
-  - Looks up `public.fcm_tokens`
-  - Sends Firebase Cloud Messaging push notifications
+  - `iota_notifications` INSERT webhook 수신
+  - `fcm_tokens`에서 모바일 기기 토큰 조회
+  - Firebase Cloud Messaging 푸시 발송
 
-The web platform does not need to call Firebase directly.
+웹 플랫폼은 Firebase를 직접 호출할 필요가 없습니다.
 
-## Important ID Matching Rule
+## ID 매칭 기준
 
-`public.iota_notifications.user_id` must match `auth.users.id`.
+스크린샷 기준 DB 관계는 올바르게 잡혀 있습니다.
 
-The current SQL trigger creates notifications by matching recipient emails to Supabase Auth users:
+```text
+public.iota_notifications.user_id -> auth.users.id
+public.fcm_tokens.user_id         -> auth.users.id
+```
+
+따라서 웹 플랫폼에서는 현재 로그인한 Supabase Auth 사용자의 `user.id`를 기준으로 `iota_notifications.user_id`를 조회하면 됩니다.
+
+```js
+const { data } = await supabase.auth.getUser();
+const userId = data.user.id;
+```
+
+현재 알림 생성 SQL은 수신자 이메일을 `auth.users.email`과 매칭해서 `auth.users.id`를 `iota_notifications.user_id`에 넣는 구조입니다.
 
 ```sql
 lower(auth.users.email) = lower(iota_seoul_pilot_members.email)
 ```
 
-So the web platform will work correctly if:
+그래서 아래 조건이 맞아야 웹/앱 알림이 정상 동작합니다.
 
-1. Web users log in through the same Supabase Auth project.
-2. Their login email matches the email stored in `public.iota_seoul_pilot_members`.
-3. `public.iota_notifications.user_id` stores the matching `auth.users.id`.
+1. 웹 사용자가 같은 Supabase Auth 프로젝트로 로그인한다.
+2. 로그인 이메일이 `public.iota_seoul_pilot_members.email`과 일치한다.
+3. `public.iota_notifications.user_id`에는 해당 사용자의 `auth.users.id`가 들어간다.
 
-## SQL Editor Checks
+## SQL Editor에서 확인할 것
 
-Run these in Supabase SQL Editor. These queries need SQL Editor access because client anon/publishable keys cannot read `auth.users` directly.
+아래 쿼리는 Supabase SQL Editor에서 실행해야 합니다. 브라우저 클라이언트의 anon/publishable key로는 `auth.users`를 직접 조회할 수 없습니다.
 
-### 1. Check pilot members without matching Auth users
+### 1. pilot member 중 Auth 계정이 없는 사용자 확인
 
 ```sql
 select
@@ -72,9 +85,15 @@ where m.email is not null
 order by m.email;
 ```
 
-Expected result: zero rows, or only people who have not created/logged into accounts yet.
+기대 결과:
 
-### 2. Check Auth IDs matched to pilot members
+```text
+0 rows
+```
+
+또는 아직 Supabase Auth 계정을 만들지 않은 사용자만 나와야 합니다.
+
+### 2. pilot member와 Auth id 매칭 확인
 
 ```sql
 select
@@ -89,9 +108,13 @@ join auth.users u
 order by m.email;
 ```
 
-Expected result: each active pilot member has exactly one `auth_user_id`.
+기대 결과:
 
-### 3. Check notification rows with no matching Auth user
+```text
+활성 사용자마다 auth_user_id가 하나씩 매칭되어야 합니다.
+```
+
+### 3. 알림 row 중 Auth 사용자와 매칭되지 않는 row 확인
 
 ```sql
 select
@@ -107,9 +130,13 @@ where u.id is null
 order by n.created_at desc;
 ```
 
-Expected result: zero rows.
+기대 결과:
 
-### 4. Check notification rows joined to users
+```text
+0 rows
+```
+
+### 4. 알림 row와 사용자 이메일 매칭 확인
 
 ```sql
 select
@@ -127,9 +154,9 @@ order by n.created_at desc
 limit 50;
 ```
 
-Use this to confirm that notification ownership is landing on the expected users.
+이 쿼리로 알림이 의도한 사용자에게 들어가고 있는지 확인합니다.
 
-### 5. Check FCM tokens joined to users
+### 5. 모바일 FCM 토큰과 사용자 매칭 확인
 
 ```sql
 select
@@ -144,11 +171,15 @@ group by t.user_id, u.email
 order by latest_token_at desc;
 ```
 
-Expected result: mobile users who logged in and granted notification permission should appear here.
+기대 결과:
 
-## Required SQL For Web Reading
+```text
+모바일 앱에 로그인하고 푸시 권한을 허용한 사용자가 표시됩니다.
+```
 
-If not already applied, make sure RLS allows logged-in users to read and update only their own notifications.
+## 웹 조회를 위한 RLS 정책
+
+아래 정책이 이미 적용되어 있으면 다시 만들 필요는 없습니다. 누락되어 있으면 SQL Editor에서 적용합니다.
 
 ```sql
 alter table public.iota_notifications enable row level security;
@@ -169,19 +200,19 @@ using (auth.uid() = user_id)
 with check (auth.uid() = user_id);
 ```
 
-For realtime notifications, add the table to the realtime publication:
+웹에서 실시간 알림을 받으려면 Realtime publication에 테이블을 추가합니다.
 
 ```sql
 alter publication supabase_realtime add table public.iota_notifications;
 ```
 
-If Supabase says the table is already in the publication, no action is needed.
+이미 등록되어 있다는 에러가 나오면 무시해도 됩니다.
 
-## Web Client Implementation
+## 웹 클라이언트 구현
 
-Use the Supabase publishable/anon key in the web client. Do not put service role keys in the browser.
+웹 클라이언트에는 Supabase publishable/anon key만 사용합니다. service role key는 절대 브라우저에 넣으면 안 됩니다.
 
-### Fetch notifications
+### 알림 목록 조회
 
 ```js
 export async function fetchNotifications(supabase, limit = 50) {
@@ -196,9 +227,9 @@ export async function fetchNotifications(supabase, limit = 50) {
 }
 ```
 
-RLS should restrict results to the logged-in user's own rows.
+RLS가 적용되어 있으면 현재 로그인 사용자의 알림만 내려옵니다.
 
-### Fetch unread count
+### 안 읽은 알림 수 조회
 
 ```js
 export async function fetchUnreadNotificationCount(supabase) {
@@ -212,7 +243,7 @@ export async function fetchUnreadNotificationCount(supabase) {
 }
 ```
 
-### Mark one notification as read
+### 알림 읽음 처리
 
 ```js
 export async function markNotificationAsRead(supabase, notificationId) {
@@ -225,7 +256,7 @@ export async function markNotificationAsRead(supabase, notificationId) {
 }
 ```
 
-### Subscribe to new notifications
+### 새 알림 실시간 구독
 
 ```js
 export async function subscribeToNotifications(supabase, onInsert) {
@@ -255,7 +286,7 @@ export async function subscribeToNotifications(supabase, onInsert) {
 }
 ```
 
-Clean up the subscription when the component unmounts:
+컴포넌트 unmount 시 구독을 해제합니다.
 
 ```js
 if (channel) {
@@ -263,20 +294,20 @@ if (channel) {
 }
 ```
 
-## Suggested Web UI
+## 웹 UI 권장 구성
 
-Add a notification bell to the authenticated platform shell.
+웹 플랫폼의 로그인 이후 공통 shell 영역에 알림 버튼을 추가합니다.
 
-Minimum UI:
+최소 구성:
 
-- Bell icon in the top bar or left nav
-- Unread badge count
-- Notification dropdown or side panel
-- Latest 50 notifications
-- Click notification -> mark `is_read = true`
-- Optional toast when realtime INSERT arrives
+- 상단 또는 좌측 네비게이션의 알림 아이콘
+- 안 읽은 알림 수 badge
+- 알림 목록 드롭다운 또는 사이드 패널
+- 최신 50개 알림 표시
+- 알림 클릭 시 `is_read = true` 업데이트
+- Realtime INSERT 수신 시 toast 또는 badge count 갱신
 
-Suggested display fields:
+표시 필드:
 
 - `title`
 - `body`
@@ -284,35 +315,37 @@ Suggested display fields:
 - `created_at`
 - `is_read`
 
-## Click-Through Navigation
+## 알림 클릭 후 화면 이동
 
-The current notification trigger can create rows without a detailed reference target. If the web team wants notification click-through navigation, extend notification payloads to include a useful target.
+현재 알림 테이블에는 `reference_id`가 있습니다. 다만 실제 웹 화면 이동까지 하려면 알림이 어느 테이블/워크스페이스/라우트에 연결되는지 정보가 더 필요할 수 있습니다.
 
-Current table has:
-
-- `reference_id`
-
-Recommended future fields:
+향후 확장 추천 필드:
 
 - `reference_table`
 - `workspace_code`
 - `workspace_label`
 - `route_path`
 
-Then the web app can route from notification click to the relevant workspace, log, comment, or task.
+이 필드가 있으면 알림 클릭 시 관련 워크스페이스, 로그, 댓글, task 화면으로 이동시킬 수 있습니다.
 
-## What To Tell The Web Team
+## 웹팀에게 전달할 핵심
 
-The web platform does not need a separate notification table.
+웹 플랫폼은 별도 알림 테이블을 만들 필요가 없습니다.
 
-It should reuse `public.iota_notifications`:
+아래 구조로 기존 `public.iota_notifications`를 그대로 사용하면 됩니다.
 
 ```text
-Read: public.iota_notifications
-Unread count: public.iota_notifications where is_read = false
-Realtime: INSERT events on public.iota_notifications filtered by current auth user id
-Write trigger source: existing collaboration log, comment, and task tables
-Mobile push: handled by existing Supabase Edge Function + Firebase
+알림 목록: public.iota_notifications 조회
+안 읽은 수: public.iota_notifications where is_read = false
+실시간 수신: 현재 auth user id로 필터링한 INSERT realtime 구독
+알림 생성 원천: 기존 협업 글, 댓글, task 테이블의 DB trigger
+모바일 푸시: 기존 Supabase Edge Function + Firebase가 처리
 ```
 
-The first integration task is to verify email-to-auth-id matching in SQL Editor, then add a notification bell UI backed by `iota_notifications`.
+우선 작업 순서는 다음을 추천합니다.
+
+1. SQL Editor에서 이메일과 `auth.users.id` 매칭을 확인합니다.
+2. `iota_notifications` RLS 정책을 확인합니다.
+3. 웹 공통 shell에 알림 아이콘과 unread badge를 붙입니다.
+4. 알림 목록 조회와 읽음 처리를 붙입니다.
+5. 필요하면 Realtime 구독으로 toast와 badge 자동 갱신을 붙입니다.
