@@ -13,41 +13,58 @@ export function AuthProvider({ children }) {
 
     // Shared signout logic to avoid dependency issues in useEffect
     const handleSignOut = async () => {
-        try {
-            await supabase.auth.signOut();
-        } catch (error) {
-            console.error("Error during sign out:", error);
-        } finally {
-            const keysToRemoveLocal = [];
-            for (let i = 0; i < localStorage.length; i++) {
-                const key = localStorage.key(i);
-                if (key && key.startsWith('sb-')) {
-                    keysToRemoveLocal.push(key);
-                }
+        // 1. 즉각적인 로컬 로그아웃 처리 (무한 대기 방지)
+        const keysToRemoveLocal = [];
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            if (key && key.startsWith('sb-')) {
+                keysToRemoveLocal.push(key);
             }
-            keysToRemoveLocal.forEach(k => localStorage.removeItem(k));
-
-            const keysToRemoveSession = [];
-            for (let i = 0; i < sessionStorage.length; i++) {
-                const key = sessionStorage.key(i);
-                if (key && key.startsWith('sb-')) {
-                    keysToRemoveSession.push(key);
-                }
-            }
-            keysToRemoveSession.forEach(k => sessionStorage.removeItem(k));
-
-            localStorage.removeItem('iota_last_activity');
-            sessionStorage.removeItem('iota_last_activity');
-            setUser(null);
-            setMemberInfo(null);
-            window.location.href = import.meta.env.BASE_URL + 'auth-setup';
         }
+        keysToRemoveLocal.forEach(k => localStorage.removeItem(k));
+
+        const keysToRemoveSession = [];
+        for (let i = 0; i < sessionStorage.length; i++) {
+            const key = sessionStorage.key(i);
+            if (key && key.startsWith('sb-')) {
+                keysToRemoveSession.push(key);
+            }
+        }
+        keysToRemoveSession.forEach(k => sessionStorage.removeItem(k));
+
+        localStorage.removeItem('iota_last_activity');
+        sessionStorage.removeItem('iota_last_activity');
+        setUser(null);
+        setMemberInfo(null);
+        
+        // 2. 서버 통신은 백그라운드에서 비동기로 실행 (Fire-and-forget)
+        supabase.auth.signOut().catch(e => console.error("Background signout error:", e));
+
+        // 3. 바로 로그인 화면으로 이동
+        window.location.href = import.meta.env.BASE_URL + 'auth-setup';
     };
+
+    // 4. 데드락 방지: user 객체가 변경될 때 독립적으로 memberInfo를 업데이트하는 훅
+    useEffect(() => {
+        if (user?.email) {
+            fetchMemberInfo(user.email);
+        } else {
+            setMemberInfo(null);
+        }
+    }, [user?.email]);
 
     useEffect(() => {
         // Fetch current session and setup listener
         let subscription;
         let activityIntervalId;
+
+        // 5. 브라우저 탭 복귀 시 조용히 세션 예열 (Auto-warmup)
+        const handleVisibilityChange = () => {
+            if (document.visibilityState === 'visible') {
+                supabase.auth.refreshSession().catch(e => console.warn('Silent refresh failed', e));
+            }
+        };
+        window.addEventListener('visibilitychange', handleVisibilityChange);
 
         const initializeAuth = async () => {
             let timeoutId;
@@ -58,7 +75,7 @@ export function AuthProvider({ children }) {
                     const lastActivity = parseInt(lastActivityStr, 10);
                     if (Date.now() - lastActivity > TIMEOUT_MS) {
                         localStorage.removeItem('iota_last_activity');
-                        await handleSignOut();
+                        handleSignOut(); // await 제거: 서버 응답 기다리지 않고 즉시 강제 로컬 로그아웃
                         return; // Stop initialization
                     }
                 }
@@ -79,6 +96,7 @@ export function AuthProvider({ children }) {
 
                 if (session?.user) {
                     setUser(session.user);
+                    // 초기 부팅 시 화면 깜빡임 방지를 위해 동기적으로 1회만 조회
                     await fetchMemberInfo(session.user.email);
                 } else {
                     setUser(null);
@@ -90,21 +108,19 @@ export function AuthProvider({ children }) {
                 clearTimeout(timeoutId);
                 setLoading(false);
                 
-                // Only subscribe AFTER initial session is loaded to prevent concurrent lock conflicts
-                const { data } = supabase.auth.onAuthStateChange(async (event, session) => {
+                // 6. 데드락 핵심 수정 사항: onAuthStateChange 내부에서는 절대 DB 통신(await)을 하지 않음!
+                const { data } = supabase.auth.onAuthStateChange((event, session) => {
                     if (event === 'PASSWORD_RECOVERY') {
                         setRecoveryMode(true);
                     }
 
                     if (session?.user) {
-                        setUser(session.user);
-                        await fetchMemberInfo(session.user.email);
+                        setUser(session.user); // State만 변경. memberInfo는 위의 useEffect가 알아서 처리함
                     } else {
                         setUser(null);
-                        setMemberInfo(null);
                     }
-                    setLoading(false);
                 });
+                
                 if (data && data.subscription) {
                     subscription = data.subscription;
                 }
@@ -116,6 +132,7 @@ export function AuthProvider({ children }) {
         return () => {
             if (subscription) subscription.unsubscribe();
             if (activityIntervalId) clearInterval(activityIntervalId);
+            window.removeEventListener('visibilitychange', handleVisibilityChange);
         };
     }, []);
 

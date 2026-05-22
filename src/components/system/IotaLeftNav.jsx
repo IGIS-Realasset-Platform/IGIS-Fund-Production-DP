@@ -160,14 +160,19 @@ const getStaffTitle = (memberInfo) => {
 };
 
 export default function IotaLeftNav({ onMenuChange, currentPath = '' }) {
-    
+        const navigate = (path) => {
+        const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
+        window.history.pushState(null, '', base + (path.startsWith('/') ? path : '/' + path));
+        window.dispatchEvent(new Event('popstate'));
+    };
     const { user, memberInfo, signOut } = useAuth();
     const AUTHORIZED_ADMINS = ['전기영', '이시정', '이관용'];
     const isAdmin = AUTHORIZED_ADMINS.includes(memberInfo?.staff_name);
 
     const handleNavigation = (path) => {
-        const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
-        window.location.href = `${base}/${path}`;
+        // base 경로를 계산하지 않고 navigate에 절대경로를 주거나, 상대경로로 줄 수 있습니다.
+        // 현재 라우팅은 '/' 하위에서 모두 처리되므로 `/${path}` 형태를 사용합니다.
+        navigate(`/${path}`);
     };
     const [showProfileMenu, setShowProfileMenu] = useState(false);
     const [showContactModal, setShowContactModal] = useState(false);
@@ -587,9 +592,7 @@ export default function IotaLeftNav({ onMenuChange, currentPath = '' }) {
                             <button onClick={async () => {
                                 setShowLogoutModal(false);
                                 await signOut();
-                                localStorage.clear();
-                                sessionStorage.clear();
-                                window.location.href = import.meta.env.BASE_URL;
+                                // AuthContext의 handleSignOut에서 이미 redirection을 처리합니다.
                             }} className="flex-1 py-3.5 rounded-[16px] bg-[#FF453A] text-white font-semibold text-[16px] hover:bg-[#FF3B30] transition-colors cursor-pointer">
                                 확인
                             </button>

@@ -40,6 +40,11 @@ const getStaffTitle = (memberInfo) => {
 };
 
 export default function SystemLeftNav({ isCore, isPlatform = false }) {
+        const navigate = (path) => {
+        const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
+        window.history.pushState(null, '', base + (path.startsWith('/') ? path : '/' + path));
+        window.dispatchEvent(new Event('popstate'));
+    };
     const { isLightMode, toggleTheme } = useTheme();
     const { user, memberInfo, signOut } = useAuth();
     const [fakeLight, setFakeLight] = useState(false);
@@ -81,7 +86,7 @@ export default function SystemLeftNav({ isCore, isPlatform = false }) {
             <div className="w-full flex items-center justify-between px-[15px] pt-[18px] pb-4">
                 <span 
                     onClick={() => {
-                        window.location.href = import.meta.env.BASE_URL;
+                        navigate('/');
                     }}
                     className="font-bold text-[20px] tracking-wide font-inter ml-[5px] text-[#1D1D1F] dark:text-white transition-colors duration-300 cursor-pointer hover:text-gray-400 dark:hover:text-gray-400"
                 >IFPDP</span>
@@ -98,7 +103,7 @@ export default function SystemLeftNav({ isCore, isPlatform = false }) {
                 
                 <div
                     onClick={() => {
-                        window.location.href = import.meta.env.BASE_URL;
+                        navigate('/');
                     }}
                     className="flex items-center px-2.5 py-2 hover:bg-gray-200 dark:hover:bg-[#2C2C2E] rounded-md cursor-pointer transition-colors duration-300"
                 >
@@ -162,7 +167,7 @@ export default function SystemLeftNav({ isCore, isPlatform = false }) {
 
                 <div 
                     onClick={isPlatform ? () => {
-                        window.location.href = `${import.meta.env.BASE_URL}platform/iotaseoul`;
+                        navigate('/platform/iotaseoul');
                     } : undefined}
                     className={`flex items-center justify-between px-2.5 py-2 rounded-md mt-4 mb-2 transition-colors duration-300 border dark:border-[#3A3A3C] shadow-sm dark:bg-[#2A2A2A] group ${isPlatform ? 'hover:bg-[#18181A] dark:hover:bg-[#18181A] cursor-pointer border-gray-300 bg-white' : 'cursor-not-allowed opacity-40 border-gray-200 bg-gray-50'}`}
                 >
@@ -175,8 +180,7 @@ export default function SystemLeftNav({ isCore, isPlatform = false }) {
                 {isAdmin && (
                     <div 
                         onClick={() => {
-                            window.history.pushState(null, '', `${import.meta.env.BASE_URL}system-admin`);
-                            window.dispatchEvent(new Event('popstate'));
+                            window.open(`${import.meta.env.BASE_URL}system-admin`, '_blank');
                         }}
                         className="flex items-center justify-between px-2.5 py-2 hover:bg-[#FCEFD4] dark:hover:bg-[#4A3C2A] rounded-md cursor-pointer mt-4 transition-colors duration-300 border border-[#F5A623] text-[#F5A623]"
                     >
@@ -355,9 +359,6 @@ export default function SystemLeftNav({ isCore, isPlatform = false }) {
                             <button onClick={async () => {
                                 setShowLogoutModal(false);
                                 await signOut();
-                                localStorage.clear();
-                                sessionStorage.clear();
-                                window.location.href = import.meta.env.BASE_URL;
                             }} className="flex-1 py-3.5 rounded-[16px] bg-[#FF453A] text-white font-semibold text-[16px] hover:bg-[#FF3B30] transition-colors cursor-pointer">
                                 확인
                             </button>

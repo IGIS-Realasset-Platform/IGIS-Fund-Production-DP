@@ -15,6 +15,11 @@ const WORKSPACE_CONFIG = [
 ];
 
 export default function DecisionLog() {
+        const navigate = (path) => {
+        const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
+        window.history.pushState(null, '', base + (path.startsWith('/') ? path : '/' + path));
+        window.dispatchEvent(new Event('popstate'));
+    };
     const { memberInfo } = useAuth();
     const [logs, setLogs] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -686,8 +691,7 @@ export default function DecisionLog() {
                                                     className="cursor-pointer group overflow-hidden flex flex-col gap-[8px]"
                                                     onClick={() => {
                                                         localStorage.setItem('iota_target_task_id', task.id);
-                                                        const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
-                                                        window.location.href = `${base}/${ws.path}#task-management`;
+                                                        navigate(`/${ws.path}#task-management`);
                                                     }}
                                                 >
                                                     <h4 className="text-[20px] font-bold text-[#e2aa29] leading-none group-hover:text-[#fbf167] transition-colors truncate block w-full pt-[2px]">
@@ -974,7 +978,9 @@ export default function DecisionLog() {
                                     <React.Fragment key={idx}>
                                         <tr 
                                             className={`hover:bg-[#333] transition-colors group cursor-pointer ${isExpanded ? 'bg-[#333]' : ''}`} 
-                                            onClick={() => handleCadenceRowClick(rowId, row.meeting)}
+                                            onClick={() => {
+                                                navigate(`/platform/iotaseoul/meeting-logs?type=${encodeURIComponent(row.meeting)}`);
+                                            }}
                                         >
                                             <td className="pl-[22px] pr-[12px] py-[12px] text-[17px] text-[#E5E5E5] group-hover:text-white transition-colors text-left font-semibold whitespace-pre-wrap">{row.meeting}</td>
                                             <td className="pl-[22px] pr-[12px] py-[12px] text-[13px] transition-colors"><span className="inline-block px-[10px] py-[4px] rounded-[6px] bg-[#333] text-[#c3c2b7] group-hover:bg-[#2997ff] group-hover:text-white transition-colors whitespace-nowrap">{row.period}</span></td>
@@ -995,10 +1001,8 @@ export default function DecisionLog() {
                                                                 {cadenceLogs[row.meeting]?.map(log => (
                                                                     <div 
                                                                         key={log.id} 
-                                                                        onClick={(e) => {
-                                                                            e.stopPropagation();
-                                                                            const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
-                                                                            window.location.href = `${base}/platform/iotaseoul/meeting-logs?type=${encodeURIComponent(row.meeting)}`;
+                                                                        onClick={() => {
+                                                                            navigate(`/platform/iotaseoul/meeting-logs?type=${encodeURIComponent(row.meeting)}`);
                                                                         }}
                                                                         className="flex-1 bg-[#262626] rounded-[12px] border border-[#333] p-[16px] hover:border-[#444] transition-colors flex flex-col justify-between max-w-[33%] cursor-pointer group"
                                                                     >
@@ -1033,8 +1037,7 @@ export default function DecisionLog() {
                                                             <button 
                                                                 onClick={(e) => {
                                                                     e.stopPropagation();
-                                                                    const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
-                                                                    window.location.href = `${base}/platform/iotaseoul/meeting-logs?type=${encodeURIComponent(row.meeting)}`;
+                                                                    navigate(`/platform/iotaseoul/meeting-logs?type=${encodeURIComponent(row.meeting)}`);
                                                                 }}
                                                                 className="flex items-center gap-[4px] text-[12px] text-[#2997ff] hover:text-[#5eb0ff] font-bold transition-colors bg-[#222] hover:bg-[#333] px-[12px] py-[6px] rounded-[6px] border border-[#333]"
                                                             >

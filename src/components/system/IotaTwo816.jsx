@@ -4,6 +4,11 @@ import { supabase } from '../../utils/supabaseClient';
 import IotaTwo816DetailCard from './shared/IotaTwo816DetailCard';
 
 export default function IotaTwo816() {
+        const navigate = (path) => {
+        const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
+        window.history.pushState(null, '', base + (path.startsWith('/') ? path : '/' + path));
+        window.dispatchEvent(new Event('popstate'));
+    };
     const [marketingData, setMarketingData] = useState([]);
     const [marketingTasks, setMarketingTasks] = useState([]);
     const [ecoSpecs, setEcoSpecs] = useState([]);
@@ -261,9 +266,7 @@ export default function IotaTwo816() {
                     dbData={dbData['Refinancing'] || {}} 
                     historyData={historyData} 
                     navigateTo={(path) => {
-                        const base = import.meta.env.BASE_URL;
-                        const url = base.endsWith('/') ? `${base}${path}` : `${base}/${path}`;
-                        window.location.href = url;
+                        navigate(`/${path}`);
                     }} 
                 />
 
@@ -542,19 +545,19 @@ export default function IotaTwo816() {
                             </div>
                             <div className="flex items-start">
                                 <span className="w-[160px] shrink-0 text-[14px] font-bold text-[#86868B] mt-[1px]">자산 포지셔닝</span>
-                                <span onClick={() => { window.location.href = `${import.meta.env.BASE_URL}platform/iotaseoul/workspace/digital?card=01`; }} className="text-[15px] font-medium text-[#c3c2b7] tracking-tight leading-[22px] hover:text-[#fbf167] cursor-pointer transition-colors">City of Well Life, The New Heritage of Seoul, 호텔 Social Sanctuary</span>
+                                <span onClick={() => { navigate(`/platform/iotaseoul/workspace/digital?card=01`); }} className="text-[15px] font-medium text-[#c3c2b7] tracking-tight leading-[22px] hover:text-[#fbf167] cursor-pointer transition-colors">City of Well Life, The New Heritage of Seoul, 호텔 Social Sanctuary</span>
                             </div>
                             <div className="flex items-start">
                                 <span className="w-[160px] shrink-0 text-[14px] font-bold text-[#86868B] mt-[1px]">공간 프로그램</span>
-                                <span onClick={() => { window.location.href = `${import.meta.env.BASE_URL}platform/iotaseoul/workspace/digital?card=02`; }} className="text-[15px] font-medium text-[#c3c2b7] tracking-tight leading-[22px] hover:text-[#fbf167] cursor-pointer transition-colors">라운지, 웰니스, 갤러리, 오피스/호텔/리테일 통합 경험, 주요 POI</span>
+                                <span onClick={() => { navigate(`/platform/iotaseoul/workspace/digital?card=02`); }} className="text-[15px] font-medium text-[#c3c2b7] tracking-tight leading-[22px] hover:text-[#fbf167] cursor-pointer transition-colors">라운지, 웰니스, 갤러리, 오피스/호텔/리테일 통합 경험, 주요 POI</span>
                             </div>
                             <div className="flex items-start">
                                 <span className="w-[160px] shrink-0 text-[14px] font-bold text-[#86868B] mt-[1px]">테크 솔루션</span>
-                                <span onClick={() => { window.location.href = `${import.meta.env.BASE_URL}platform/iotaseoul/workspace/digital?card=04`; }} className="text-[15px] font-medium text-[#c3c2b7] tracking-tight leading-[22px] hover:text-[#fbf167] cursor-pointer transition-colors">Building OS 구성, AI Ready Office, 기술 도입 범위와 기대효과 검토</span>
+                                <span onClick={() => { navigate(`/platform/iotaseoul/workspace/digital?card=04`); }} className="text-[15px] font-medium text-[#c3c2b7] tracking-tight leading-[22px] hover:text-[#fbf167] cursor-pointer transition-colors">Building OS 구성, AI Ready Office, 기술 도입 범위와 기대효과 검토</span>
                             </div>
                             <div className="flex items-start">
                                 <span className="w-[160px] shrink-0 text-[14px] font-bold text-[#86868B] mt-[1px]">맴버십 서비스</span>
-                                <span onClick={() => { window.location.href = `${import.meta.env.BASE_URL}platform/iotaseoul/workspace/digital?card=07`; }} className="text-[15px] font-medium text-[#c3c2b7] tracking-tight leading-[22px] hover:text-[#fbf167] cursor-pointer transition-colors">Tenant Membership, 프리미엄 멤버십, 각종 서비스 프로그램</span>
+                                <span onClick={() => { navigate(`/platform/iotaseoul/workspace/digital?card=07`); }} className="text-[15px] font-medium text-[#c3c2b7] tracking-tight leading-[22px] hover:text-[#fbf167] cursor-pointer transition-colors">Tenant Membership, 프리미엄 멤버십, 각종 서비스 프로그램</span>
                             </div>
 
 
@@ -564,7 +567,7 @@ export default function IotaTwo816() {
                         <div className="w-full h-[54px] border-t border-[#444]/50 flex items-center pl-[32px] gap-[24px] shrink-0">
                             <div className="flex items-center gap-[12px]">
                                 <span className="text-[13px] font-bold text-[#86868B]">브랜드 담당</span>
-                                <span onClick={() => { window.location.href = `${import.meta.env.BASE_URL}platform/iotaseoul/workspace/digital`; }} className="text-[14px] font-bold text-[#E5E5E5] hover:text-[#fbf167] cursor-pointer transition-colors">공간솔루션센터</span>
+                                <span onClick={() => { navigate(`/platform/iotaseoul/workspace/digital`); }} className="text-[14px] font-bold text-[#E5E5E5] hover:text-[#fbf167] cursor-pointer transition-colors">공간솔루션센터</span>
                             </div>
                             <div className="w-[1px] h-[14px] bg-[#555]"></div>
                             <div className="flex items-center gap-[12px]">
@@ -604,21 +607,21 @@ export default function IotaTwo816() {
                                     <span className="text-[#86868B] font-medium mr-[6px] tracking-tight">[{task.status || '상태없음'}]</span>
                                     <span onClick={() => {
                                         const base = import.meta.env.BASE_URL;
-                                        window.location.href = base.endsWith('/') ? `${base}platform/iotaseoul/workspace/marketing` : `${base}/platform/iotaseoul/workspace/marketing`;
+                                        navigate('/platform/iotaseoul/workspace/marketing');
                                     }} className="text-[#c3c2b7] font-medium tracking-tight hover:text-[#fbf167] cursor-pointer transition-colors">
                                         {task.task_name || '제목없음'} 
                                     </span>
                                     <span className="text-[#666] mx-[8px]">ㅣ</span> 
                                     <span onClick={() => {
                                         const base = import.meta.env.BASE_URL;
-                                        window.location.href = base.endsWith('/') ? `${base}platform/iotaseoul/workspace/marketing` : `${base}/platform/iotaseoul/workspace/marketing`;
+                                        navigate('/platform/iotaseoul/workspace/marketing');
                                     }} className="text-[#E5E5E5] font-medium tracking-tight hover:text-[#fbf167] cursor-pointer transition-colors">
                                         {task.company_name || '내부업무'}
                                     </span>
                                     <span className="text-[#666] mx-[8px]">ㅣ</span> 
                                     <span onClick={() => {
                                         const base = import.meta.env.BASE_URL;
-                                        window.location.href = base.endsWith('/') ? `${base}platform/iotaseoul/workspace/marketing` : `${base}/platform/iotaseoul/workspace/marketing`;
+                                        navigate('/platform/iotaseoul/workspace/marketing');
                                     }} className="text-[#E5E5E5] font-medium tracking-tight hover:text-[#fbf167] cursor-pointer transition-colors">
                                         {task.next_action || '-'}
                                     </span>
@@ -638,7 +641,7 @@ export default function IotaTwo816() {
                             <span className="text-[13px] font-bold text-[#86868B]">기업세일즈 담당</span>
                             <span onClick={() => {
                                 const base = import.meta.env.BASE_URL;
-                                window.location.href = base.endsWith('/') ? `${base}platform/iotaseoul/workspace/marketing` : `${base}/platform/iotaseoul/workspace/marketing`;
+                                navigate('/platform/iotaseoul/workspace/marketing');
                             }} className="text-[14px] font-bold text-[#E5E5E5] hover:text-[#fbf167] cursor-pointer transition-colors">기업마케팅센터</span>
                         </div>
                         <div className="w-[1px] h-[14px] bg-[#555]"></div>
@@ -696,7 +699,7 @@ export default function IotaTwo816() {
                             <span className="text-[13px] font-bold text-[#86868B] mr-[12px]">마케팅 담당</span>
                             <span onClick={() => {
                                 const base = import.meta.env.BASE_URL;
-                                window.location.href = base.endsWith('/') ? `${base}platform/iotaseoul/workspace/marketing` : `${base}/platform/iotaseoul/workspace/marketing`;
+                                navigate('/platform/iotaseoul/workspace/marketing');
                             }} className="text-[14px] font-bold text-[#E5E5E5] hover:text-[#fbf167] cursor-pointer transition-colors">기업마케팅센터</span>
                         </div>
                     </div>
@@ -728,7 +731,7 @@ export default function IotaTwo816() {
                             <span className="text-[13px] font-bold text-[#86868B] mr-[12px]">플레이스메이킹 담당</span>
                             <span onClick={() => {
                                 const base = import.meta.env.BASE_URL;
-                                window.location.href = base.endsWith('/') ? `${base}platform/iotaseoul/workspace/digital` : `${base}/platform/iotaseoul/workspace/digital`;
+                                navigate('/platform/iotaseoul/workspace/marketing');
                             }} className="text-[14px] font-bold text-[#E5E5E5] hover:text-[#fbf167] cursor-pointer transition-colors">공간솔루션센터</span>
                         </div>
                     </div>
@@ -1035,7 +1038,7 @@ export default function IotaTwo816() {
                             <div className="flex flex-col gap-3">
                                 <button 
                                     onClick={() => {
-                                        window.location.href = `${import.meta.env.BASE_URL}platform/iotaseoul/workspace/marketing`;
+                                        navigate(`/platform/iotaseoul/workspace/marketing`);
                                     }} 
                                     className="w-full py-3.5 rounded-[12px] bg-[#0071E3] text-white font-semibold text-[15px] hover:bg-[#0077ED] transition-colors cursor-pointer tracking-tight"
                                 >
