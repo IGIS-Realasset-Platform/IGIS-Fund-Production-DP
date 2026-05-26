@@ -587,6 +587,33 @@ Flutter 앱의 `WorkLog.isVisibleTo(member)` 요약:
 - 기존 Supabase client/AuthContext를 재사용한다.
 - `PlatformCore` 내부 컴포넌트 로직을 재사용할 수 있으면 query/service만 공유하고, 화면은 모바일 전용 컴포넌트로 따로 두는 것이 유지보수에 유리하다.
 
+## PC Platform Notification Onboarding
+
+기존 PC 웹 플랫폼 사용자도 Web FCM 등록 절차를 한 번 거치면 Windows/macOS 시스템 알림을 받을 수 있다.
+
+권장 UX:
+
+1. 로그인 후 화면 안에 알림 안내 배너 또는 버튼을 보여준다.
+2. 문구 예시: `새 협업 글과 댓글 알림을 받을까요?`
+3. 버튼 예시: `[알림 켜기]`
+4. 사용자가 버튼을 누르면 브라우저 `Notification.requestPermission()`을 실행한다.
+5. 허용되면 Firebase Web FCM token을 발급받는다.
+6. 발급된 token을 `fcm_tokens`에 `{ user_id, fcm_token, updated_at }` 형태로 저장한다.
+7. 이후 `iota_notifications` row가 생성되면 기존 FCM 발송 파이프를 통해 PC 브라우저도 시스템 알림을 받는다.
+
+중요한 제약:
+
+- 브라우저 정책상 로그인 직후 자동으로 권한 팝업을 띄우는 방식은 피한다.
+- 반드시 사용자의 명시적 클릭 액션에서 권한 요청을 실행한다.
+- 한 번 허용한 사용자는 같은 브라우저/프로필에서 매번 다시 허용할 필요가 없다.
+- 권한이 차단된 경우에는 주소창의 사이트 설정에서 알림을 허용하도록 안내한다.
+
+권장 구현 범위:
+
+- 접속 중 알림: Supabase Realtime으로 `iota_notifications` INSERT를 구독하고 toast/badge를 갱신한다.
+- 접속 밖 시스템 알림: Firebase Web FCM token 등록 후 기존 `fcm_tokens` + Edge Function 발송 구조를 사용한다.
+- Android 앱 알림: 기존 Android FCM token 구조를 유지한다.
+
 ## Minimal Component Plan For Web Worker
 
 권장 파일 구성 예시:
