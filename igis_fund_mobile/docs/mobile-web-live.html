@@ -1,0 +1,1421 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>IOTA Seoul CFT Mobile</title>
+  <style>
+    :root {
+      --bg: #1d1d1b;
+      --panel: #242423;
+      --panel-2: #20201f;
+      --sheet: #171717;
+      --line: #3a3a39;
+      --text: #f4f4f1;
+      --muted: #a1a1aa;
+      --blue: #4c82ff;
+      --yellow: #ffc928;
+      --danger: #ff4d5f;
+      color-scheme: dark;
+      font-family: Pretendard, "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      letter-spacing: 0;
+    }
+    button, input, select, textarea { font: inherit; }
+    button { border: 0; cursor: pointer; }
+    input, select, textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel-2);
+      color: var(--text);
+      padding: 12px;
+      outline: none;
+    }
+    textarea { min-height: 112px; resize: vertical; line-height: 1.45; }
+    label {
+      display: block;
+      margin: 0 0 7px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .app {
+      min-height: 100vh;
+      max-width: 520px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      background: var(--bg);
+      position: relative;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      padding: calc(12px + env(safe-area-inset-top)) 16px 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(29, 29, 27, 0.96);
+      border-bottom: 1px solid rgba(58, 58, 57, 0.8);
+      backdrop-filter: blur(12px);
+    }
+    .brand {
+      width: 36px;
+      height: 36px;
+      border-radius: 9px;
+      border: 1px solid #30302f;
+      background: #0a0a0a;
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      color: var(--yellow);
+      flex: none;
+    }
+    .title { flex: 1; min-width: 0; }
+    .title strong { display: block; font-size: 16px; line-height: 1.2; }
+    .title span {
+      display: block;
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 11px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .icon-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      background: transparent;
+      color: var(--muted);
+    }
+    .icon-btn:active { background: #2a2a29; }
+
+    .content {
+      flex: 1;
+      padding: 14px 14px calc(92px + env(safe-area-inset-bottom));
+      overflow: auto;
+    }
+    .screen { display: none; }
+    .screen.active { display: block; }
+    .field { margin-bottom: 13px; }
+    .row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin: 8px 0 13px;
+    }
+    .row span { font-size: 13px; font-weight: 800; }
+    .switch {
+      width: 42px;
+      height: 24px;
+      border: 1px solid #4c4c4a;
+      border-radius: 99px;
+      background: #3b3b39;
+      position: relative;
+      flex: none;
+    }
+    .switch.on { background: var(--blue); border-color: var(--blue); }
+    .switch::after {
+      content: "";
+      position: absolute;
+      top: 2px;
+      left: 3px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #fff;
+    }
+    .switch.on::after { transform: translateX(17px); }
+
+    .list { display: grid; gap: 10px; }
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      padding: 15px;
+    }
+    .card-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+    }
+    .task-title {
+      margin: 8px 0 6px;
+      color: var(--yellow);
+      font-size: 16px;
+      line-height: 1.28;
+      font-weight: 900;
+    }
+    .log-title {
+      flex: 1;
+      color: var(--text);
+      font-size: 16px;
+      line-height: 1.3;
+      font-weight: 900;
+    }
+    .priority { color: var(--blue); font-size: 12px; font-weight: 900; }
+    .body {
+      margin-top: 8px;
+      color: #deded9;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+    .muted { color: var(--muted); font-size: 13px; line-height: 1.45; }
+    .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+    .chip {
+      min-height: 23px;
+      padding: 4px 7px;
+      border-radius: 6px;
+      border: 1px solid rgba(255,255,255,0.1);
+      color: #a1a1aa;
+      background: #1f1f1f;
+      font-size: 10px;
+      font-weight: 800;
+      line-height: 1;
+    }
+    .chip.blue { color: #5ba8f5; background: #1a3a5c; }
+    .chip.purple { color: #b68ae8; background: #2d1b4e; }
+    .chip.green { color: #5ec090; background: #1b3d2f; }
+    .chip.gold { color: #e0c060; background: #3d351b; }
+    .chip.person { color: #70b8e0; background: #1b2f3d; }
+    .chip.status { color: #a0d060; background: #2a3d1b; }
+    .comment-preview {
+      margin-top: 12px;
+      padding: 11px;
+      border: 1px solid #333;
+      border-radius: 8px;
+      background: #1f1f1f;
+      color: #cfcfcb;
+      font-size: 12px;
+      line-height: 1.35;
+    }
+    .notice {
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .error { color: #ff9aa5; }
+
+    .bottom-nav {
+      position: fixed;
+      left: 50%;
+      bottom: 0;
+      transform: translateX(-50%);
+      width: min(100%, 520px);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      padding: 8px 7px calc(10px + env(safe-area-inset-bottom));
+      border-top: 1px solid var(--line);
+      background: var(--panel);
+      z-index: 6;
+    }
+    .nav {
+      min-height: 58px;
+      border-radius: 8px;
+      background: transparent;
+      color: var(--muted);
+      display: grid;
+      place-items: center;
+      gap: 2px;
+      position: relative;
+    }
+    .nav b { font-size: 20px; line-height: 1; }
+    .nav span { font-size: 11px; font-weight: 800; }
+    .nav.active {
+      color: var(--blue);
+      background: rgba(76, 130, 255, 0.13);
+    }
+    .badge {
+      position: absolute;
+      top: 6px;
+      right: 16px;
+      display: none;
+      min-width: 17px;
+      height: 17px;
+      padding: 0 5px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 99px;
+      border: 2px solid var(--panel);
+      background: var(--danger);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 900;
+    }
+    .badge.show { display: inline-flex; }
+    .fab {
+      position: fixed;
+      right: max(18px, calc((100vw - 520px) / 2 + 18px));
+      bottom: calc(92px + env(safe-area-inset-bottom));
+      height: 46px;
+      padding: 0 17px;
+      border-radius: 99px;
+      background: var(--blue);
+      color: #fff;
+      font-weight: 900;
+      box-shadow: 0 14px 34px rgba(76,130,255,0.38);
+      z-index: 7;
+    }
+    .fab.hidden { display: none; }
+
+    .toast-stack {
+      position: fixed;
+      left: 50%;
+      bottom: calc(91px + env(safe-area-inset-bottom));
+      transform: translateX(-50%);
+      width: min(calc(100% - 28px), 492px);
+      display: grid;
+      gap: 8px;
+      pointer-events: none;
+      z-index: 20;
+    }
+    .toast {
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #3d5b9d;
+      background: #202c46;
+      color: #fff;
+      box-shadow: 0 16px 36px rgba(0,0,0,0.38);
+    }
+    .toast strong { display: block; margin-bottom: 4px; font-size: 13px; line-height: 1.25; }
+    .toast span { display: block; color: #d5dfff; font-size: 12px; line-height: 1.35; }
+
+    .sheet {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+      background: rgba(0,0,0,0.48);
+      z-index: 30;
+    }
+    .sheet.open { display: flex; }
+    .sheet-panel {
+      width: min(100%, 520px);
+      height: 90%;
+      border-radius: 18px 18px 0 0;
+      background: var(--sheet);
+      padding: 13px 16px calc(16px + env(safe-area-inset-bottom));
+      display: flex;
+      flex-direction: column;
+    }
+    .sheet-head { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+    .sheet-head h2 { flex: 1; margin: 0; font-size: 20px; }
+    .segment {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      padding: 4px;
+      margin-bottom: 14px;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      background: var(--panel-2);
+    }
+    .segment button {
+      min-height: 38px;
+      border-radius: 7px;
+      background: transparent;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 900;
+    }
+    .segment button.active { background: var(--blue); color: #fff; }
+    .sheet-scroll { flex: 1; overflow: auto; padding-bottom: 10px; }
+    .choices { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 16px; }
+    .choice {
+      min-height: 34px;
+      padding: 0 11px;
+      border: 1px solid var(--line);
+      border-radius: 99px;
+      background: var(--panel-2);
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 900;
+    }
+    .choice.active { border-color: var(--blue); background: var(--blue); color: #fff; }
+    .choice.locked { opacity: 0.78; cursor: default; }
+    .selected-people {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 9px 0 16px;
+    }
+    .permission-add {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 74px;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .permission-add button {
+      border-radius: 8px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 900;
+    }
+    .person-chip {
+      min-height: 30px;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 0 9px;
+      border-radius: 99px;
+      border: 1px solid #295071;
+      background: #1b2f3d;
+      color: #70b8e0;
+      font-size: 12px;
+      font-weight: 900;
+    }
+    .person-chip button {
+      width: 18px;
+      height: 18px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.12);
+      color: #fff;
+      font-size: 13px;
+      line-height: 1;
+    }
+    .save {
+      min-height: 46px;
+      border-radius: 8px;
+      background: var(--blue);
+      color: #fff;
+      font-weight: 900;
+    }
+
+    .auth {
+      min-height: 100vh;
+      padding: calc(32px + env(safe-area-inset-top)) 22px 28px;
+      display: grid;
+      align-content: center;
+      gap: 16px;
+    }
+    .auth h1 { margin: 0; font-size: 26px; line-height: 1.15; }
+    .auth p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.5; }
+    .primary {
+      min-height: 46px;
+      border-radius: 8px;
+      background: var(--blue);
+      color: #fff;
+      font-weight: 900;
+    }
+    .secondary {
+      min-height: 42px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      color: var(--text);
+      font-weight: 800;
+    }
+    .settings-grid {
+      display: grid;
+      gap: 10px;
+      margin: 12px 0 14px;
+    }
+    .settings-grid details {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      padding: 12px;
+    }
+    .settings-grid summary {
+      cursor: pointer;
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 900;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="module">
+    import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+    import { getMessaging, getToken, isSupported, onMessage } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-messaging.js";
+
+    const configKey = "iota_mobile_web_live_config";
+    const firebaseConfigKey = "iota_mobile_web_firebase_config";
+    const authStorageKey = "iota_mobile_web_live_auth";
+    const root = document.querySelector("#root");
+
+    const workspaceCatalog = [
+      { code: "WS_PM", label: "사업 PM", focusLabel: "사업 PM", taskTable: "iota_pm_tasks", orgNames: ["사업PM", "사업 PM"] },
+      { code: "WS_LFC", label: "파이낸싱-LFC", focusLabel: "파이낸싱", taskTable: "iota_financing_tasks", orgNames: ["파이낸싱"] },
+      { code: "WS_DSC", label: "개발솔루션-DSC", focusLabel: "개발솔루션", taskTable: "iota_development_tasks", orgNames: ["개발관리", "개발솔루션"] },
+      { code: "WS_EMC", label: "기업마케팅-EMC", focusLabel: "기업마케팅", taskTable: "iota_marketing_tasks", orgNames: ["기업마케팅"] },
+      { code: "WS_SSC", label: "공간솔루션-SSC", focusLabel: "공간솔루션", taskTable: "iota_digital_tasks", orgNames: ["상품·디지털", "공간솔루션"] },
+      { code: "WS_KAM", label: "펀드운용-KAM", focusLabel: "펀드운용", taskTable: "iota_fund_tasks", orgNames: ["펀드운용"] },
+      { code: "WS_IPR", label: "IPR", focusLabel: "IPR", taskTable: "iota_ipr_tasks", orgNames: ["IPR"] },
+    ];
+
+    const state = {
+      config: JSON.parse(localStorage.getItem(configKey) || "{}"),
+      firebaseConfig: JSON.parse(localStorage.getItem(firebaseConfigKey) || "{}"),
+      tab: "tasks",
+      client: null,
+      firebaseApp: null,
+      firebaseMessaging: null,
+      firebaseToken: "",
+      session: null,
+      user: null,
+      member: null,
+      members: [],
+      workspaces: [],
+      selectedTaskWorkspace: null,
+      selectedLogWorkspace: null,
+      tasks: [],
+      logs: [],
+      mine: [],
+      notifications: [],
+      unread: 0,
+      loading: false,
+      error: "",
+      realtimeChannel: null,
+      composerOpen: false,
+      composerMode: "task",
+      taskIotaOnly: false,
+      composerSharedWorkspaceCodes: [],
+      composerSelectedUserEmails: [],
+      composerPersonQuery: "",
+    };
+
+    function escapeHtml(value) {
+      return String(value ?? "").replace(/[&<>"']/g, (char) => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;",
+      }[char]));
+    }
+
+    function ymd(date = new Date()) {
+      return date.toISOString().slice(0, 10);
+    }
+
+    function formatDate(value) {
+      const date = value ? new Date(value) : null;
+      if (!date || Number.isNaN(date.getTime())) return "마감일 없음";
+      return `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, "0")}.${String(date.getDate()).padStart(2, "0")}`;
+    }
+
+    function relativeTime(value) {
+      const date = value ? new Date(value) : null;
+      if (!date || Number.isNaN(date.getTime())) return "";
+      const diff = Date.now() - date.getTime();
+      const min = Math.floor(diff / 60000);
+      if (min < 1) return "방금 전";
+      if (min < 60) return `${min}분 전`;
+      const hour = Math.floor(min / 60);
+      if (hour < 24) return `${hour}시간 전`;
+      const day = Math.floor(hour / 24);
+      if (day < 7) return `${day}일 전`;
+      return formatDate(date);
+    }
+
+    function matchesOrg(workspace, orgName) {
+      const org = (orgName || "").trim();
+      return !!org && workspace.orgNames.some((name) => org === name || org.includes(name));
+    }
+
+    function visibleWorkspacesForMember(member) {
+      if (!member) return [];
+      const role = (member.role_code || "").trim().toLowerCase();
+      const wsCode = (member.workspace_code || "").trim().toUpperCase();
+      if (role === "master" || role === "director" || wsCode === "WS_MASTER") return workspaceCatalog;
+      let own = wsCode ? workspaceCatalog.filter((ws) => ws.code === wsCode) : [];
+      if (!own.length) own = workspaceCatalog.filter((ws) => matchesOrg(ws, member.org_name));
+      return own.length ? own : [workspaceCatalog[0]];
+    }
+
+    function workspaceVisibilityGroups(workspace) {
+      return [workspace.code, workspace.label, workspace.focusLabel, ...workspace.orgNames].filter(Boolean);
+    }
+
+    function selectedCollabWorkspace() {
+      const selectedCode = document.querySelector("#collab-ws")?.value;
+      return state.workspaces.find((item) => item.code === selectedCode) || state.selectedLogWorkspace || state.workspaces[0];
+    }
+
+    function ensurePrimarySharedWorkspace(workspace = selectedCollabWorkspace()) {
+      if (!workspace) return;
+      if (!state.composerSharedWorkspaceCodes.includes(workspace.code)) {
+        state.composerSharedWorkspaceCodes = [workspace.code, ...state.composerSharedWorkspaceCodes];
+      }
+    }
+
+    function selectedPermissionWorkspaces(workspace = selectedCollabWorkspace()) {
+      ensurePrimarySharedWorkspace(workspace);
+      return state.workspaces.filter((item) => state.composerSharedWorkspaceCodes.includes(item.code));
+    }
+
+    function selectedPermissionMembers() {
+      const selected = new Set(state.composerSelectedUserEmails);
+      return state.members.filter((member) => selected.has((member.email || "").trim().toLowerCase()));
+    }
+
+    function projectName(metadata = {}) {
+      const name = metadata.project_name;
+      if (name === "IOTA 427") return "427 PFV";
+      if (name === "IOTA 816") return "816 PFV";
+      return name || "IOTA 공통";
+    }
+
+    function logTitle(log) {
+      const meta = log.metadata || {};
+      if ((meta.title || "").trim()) return meta.title.trim();
+      if ((log.summary || "").trim()) return log.summary.trim().split("\\n")[0];
+      const first = (log.raw_text || "").trim().split("\\n")[0];
+      return first || "제목 없음";
+    }
+
+    function comments(log) {
+      return Array.isArray(log.metadata?.comments) ? log.metadata.comments : [];
+    }
+
+    function isVisibleTo(log, member) {
+      const meta = log.metadata || {};
+      const perms = meta.permissions || {};
+      const groups = Array.isArray(perms.groups) ? perms.groups : [];
+      const individuals = Array.isArray(perms.individuals) ? perms.individuals : [];
+      if (!groups.length && !individuals.length) return true;
+      if (!member) return false;
+      if ((log.writer_staff_id || "").trim().toLowerCase() === (member.email || "").trim().toLowerCase()) return true;
+      if ((log.writer_name || "").trim() === (member.staff_name || "").trim()) return true;
+      if (individuals.some((item) => item === member.staff_name || item.toLowerCase?.() === member.email?.toLowerCase())) return true;
+      if (groups.includes("각 워크스페이스")) return true;
+      if (groups.includes(member.role_code)) return true;
+      if (groups.some((group) => (member.org_name || "").includes(group) || group.includes(member.org_name || "__none__"))) return true;
+      return false;
+    }
+
+    function workspaceMatchesLog(workspace, log) {
+      const meta = log.metadata || {};
+      const label = meta.workspace_label || "";
+      const code = meta.workspace_code || "";
+      return code === workspace.code || label === workspace.label || matchesOrg(workspace, label);
+    }
+
+    function isCoreAsset(task) {
+      const value = String(task.related_asset || "").toLowerCase();
+      return ["iota", "이오타", "427", "816", "421", "공통"].some((key) => value.includes(key));
+    }
+
+    function initClient() {
+      if (!state.config.url || !state.config.key) return null;
+      state.client = createClient(state.config.url, state.config.key, {
+        auth: {
+          storageKey: authStorageKey,
+          persistSession: true,
+          autoRefreshToken: true,
+          detectSessionInUrl: false,
+        },
+      });
+      return state.client;
+    }
+
+    function toast(title, body = "") {
+      const stack = document.querySelector("#toast-stack");
+      if (!stack) return;
+      const node = document.createElement("div");
+      node.className = "toast";
+      node.innerHTML = `<strong>${escapeHtml(title)}</strong><span>${escapeHtml(body)}</span>`;
+      stack.prepend(node);
+      setTimeout(() => node.remove(), 4500);
+    }
+
+    function renderAuth() {
+      const hasConfig = !!(state.config.url && state.config.key);
+      root.innerHTML = `
+        <main class="auth">
+          <div class="brand">I</div>
+          <div>
+            <h1>IOTA Seoul CFT</h1>
+            <p>기존 IOTA 웹 플랫폼에서 비밀번호 설정을 마친 계정으로 로그인합니다. Supabase 값은 이 브라우저 localStorage에만 저장됩니다.</p>
+          </div>
+          <div class="field">
+            <label>Supabase URL</label>
+            <input id="cfg-url" value="${escapeHtml(state.config.url || "")}" placeholder="https://...supabase.co" />
+          </div>
+          <div class="field">
+            <label>Supabase anon key</label>
+            <input id="cfg-key" value="${escapeHtml(state.config.key || "")}" placeholder="sb_publishable_..." />
+          </div>
+          <div class="settings-grid">
+            <details>
+              <summary>Firebase Web FCM 설정</summary>
+              <p class="muted">Firebase Console에서 Web app을 추가한 뒤 config와 Web Push certificate(VAPID public key)를 입력합니다. Android google-services.json 값만으로는 Web FCM 토큰 발급이 실패할 수 있습니다.</p>
+              <div class="field"><label>apiKey</label><input id="fb-api-key" value="${escapeHtml(state.firebaseConfig.apiKey || "")}" /></div>
+              <div class="field"><label>authDomain</label><input id="fb-auth-domain" value="${escapeHtml(state.firebaseConfig.authDomain || "")}" placeholder="iota-seoul-cft.firebaseapp.com" /></div>
+              <div class="field"><label>projectId</label><input id="fb-project-id" value="${escapeHtml(state.firebaseConfig.projectId || "")}" /></div>
+              <div class="field"><label>storageBucket</label><input id="fb-storage-bucket" value="${escapeHtml(state.firebaseConfig.storageBucket || "")}" /></div>
+              <div class="field"><label>messagingSenderId</label><input id="fb-sender-id" value="${escapeHtml(state.firebaseConfig.messagingSenderId || "")}" /></div>
+              <div class="field"><label>appId</label><input id="fb-app-id" value="${escapeHtml(state.firebaseConfig.appId || "")}" placeholder="Firebase Web app appId" /></div>
+              <div class="field"><label>VAPID public key</label><input id="fb-vapid-key" value="${escapeHtml(state.firebaseConfig.vapidKey || "")}" placeholder="Firebase Console > Cloud Messaging > Web Push certificates" /></div>
+            </details>
+          </div>
+          <div class="field">
+            <label>기존 웹 플랫폼 이메일</label>
+            <input id="login-email" type="email" autocomplete="username" />
+          </div>
+          <div class="field">
+            <label>기존 웹 플랫폼 비밀번호</label>
+            <input id="login-password" type="password" autocomplete="current-password" />
+          </div>
+          <p class="muted">아직 비밀번호를 만든 적이 없으면 PC 웹의 auth-setup 흐름에서 먼저 비밀번호를 설정해야 합니다. 이 로컬 페이지는 현재 실제 데이터 연결 테스트용이라 기존 계정 로그인만 지원합니다.</p>
+          ${state.error ? `<p class="error">${escapeHtml(state.error)}</p>` : ""}
+          <button class="primary" id="login-btn">${state.loading ? "연결 중" : hasConfig ? "로그인" : "설정 저장 후 로그인"}</button>
+          <button class="secondary" id="save-config-btn">Supabase 설정만 저장</button>
+        </main>
+      `;
+      document.querySelector("#save-config-btn").onclick = saveConfig;
+      document.querySelector("#login-btn").onclick = login;
+    }
+
+    function renderApp() {
+      const memberLabel = state.member ? `${state.member.staff_name || state.member.email} · ${state.member.role_code || "member"}` : "사용자 정보 로딩 중";
+      root.innerHTML = `
+        <main class="app">
+          <header class="topbar">
+            <div class="brand">I</div>
+            <div class="title">
+              <strong>IOTA Seoul CFT</strong>
+              <span>${escapeHtml(memberLabel)}</span>
+            </div>
+            <button class="icon-btn" id="notify-permission" title="브라우저 알림">◉</button>
+            <button class="icon-btn" id="fcm-register" title="Firebase Web FCM 등록">◆</button>
+            <button class="icon-btn" id="logout-btn" title="로그아웃">↗</button>
+          </header>
+          <section class="content">
+            <div class="screen ${state.tab === "tasks" ? "active" : ""}" data-screen="tasks">${renderTasks()}</div>
+            <div class="screen ${state.tab === "logs" ? "active" : ""}" data-screen="logs">${renderLogs("logs")}</div>
+            <div class="screen ${state.tab === "mine" ? "active" : ""}" data-screen="mine">${renderLogs("mine")}</div>
+            <div class="screen ${state.tab === "notifications" ? "active" : ""}" data-screen="notifications">${renderNotifications()}</div>
+          </section>
+          <button class="fab ${state.tab === "mine" ? "" : "hidden"}" id="compose-btn">＋ 작성</button>
+          <nav class="bottom-nav">
+            ${navButton("tasks", "▦", "주요업무")}
+            ${navButton("logs", "☰", "협업게시판")}
+            ${navButton("mine", "□", "내업무")}
+            ${navButton("notifications", "●", "알림", state.unread)}
+          </nav>
+          <div class="toast-stack" id="toast-stack"></div>
+          ${renderComposer()}
+        </main>
+      `;
+      bindAppEvents();
+    }
+
+    function navButton(tab, icon, label, badge = 0) {
+      return `
+        <button class="nav ${state.tab === tab ? "active" : ""}" data-tab="${tab}">
+          <b>${icon}</b><span>${label}</span>
+          <i class="badge ${badge > 0 ? "show" : ""}">${badge}</i>
+        </button>
+      `;
+    }
+
+    function workspaceOptions(selected) {
+      return state.workspaces.map((ws) => `<option value="${ws.code}" ${selected?.code === ws.code ? "selected" : ""}>${escapeHtml(ws.focusLabel)}</option>`).join("");
+    }
+
+    function renderTasks() {
+      if (!state.member) return `<div class="notice">사용자 정보를 불러오는 중입니다.</div>`;
+      if (!state.workspaces.length) return `<div class="notice">접근 가능한 워크스페이스가 없습니다.</div>`;
+      const selected = state.selectedTaskWorkspace || state.workspaces[0];
+      const filtered = state.taskIotaOnly ? state.tasks.filter(isCoreAsset) : state.tasks;
+      return `
+        <div class="field">
+          <label>주요업무 워크스페이스</label>
+          <select id="task-ws">${workspaceOptions(selected)}</select>
+        </div>
+        ${(selected.code === "WS_EMC" || selected.code === "WS_SSC") ? `
+          <button class="row" id="iota-only">
+            <span>이오타만 보기</span><i class="switch ${state.taskIotaOnly ? "on" : ""}"></i>
+          </button>
+        ` : ""}
+        <div class="list">
+          ${state.loading ? `<div class="notice">주요업무를 불러오는 중입니다.</div>` : ""}
+          ${filtered.length ? filtered.map((task, i) => `
+            <article class="card">
+              <div class="card-head"><span>Task ${i + 1}</span><span>목표 마감일 ${formatDate(task.due_date)}</span></div>
+              <div class="task-title">${escapeHtml(task.task_name || "Task 명 없음")}</div>
+              <div class="muted">다음액션 ${escapeHtml(task.next_action || "작성된 내용이 없습니다.")}</div>
+            </article>
+          `).join("") : `<div class="notice">표시할 Task가 없습니다.</div>`}
+        </div>
+      `;
+    }
+
+    function renderLogs(kind) {
+      const isMine = kind === "mine";
+      const selected = state.selectedLogWorkspace || state.workspaces[0];
+      const logs = isMine ? state.mine : state.logs;
+      const head = isMine ? "" : `
+        <div class="field">
+          <label>협업게시판 워크스페이스</label>
+          <select id="log-ws">${workspaceOptions(selected)}</select>
+        </div>
+      `;
+      return `
+        ${head}
+        <div class="list">
+          ${logs.length ? logs.map((log) => renderLogCard(log)).join("") : `<div class="notice">${isMine ? "내가 작성한 로그가 없습니다." : "표시할 협업 로그가 없습니다."}<br />더 오래된 내역은 PC 웹 플랫폼에서 확인하실 수 있습니다.</div>`}
+        </div>
+      `;
+    }
+
+    function renderLogCard(log) {
+      const visible = isVisibleTo(log, state.member);
+      const meta = log.metadata || {};
+      const commentItems = comments(log);
+      return `
+        <article class="card">
+          <div class="card-head">
+            <div class="log-title">${escapeHtml(logTitle(log))}</div>
+            <div class="priority">${escapeHtml(meta.priority || "중간")}</div>
+          </div>
+          <div class="body">${visible ? escapeHtml(log.raw_text || "") : "🔒 내용 열람 권한이 없습니다."}</div>
+          <div class="chips">
+            <span class="chip blue">${escapeHtml(meta.workspace_label || "공통")}</span>
+            <span class="chip purple">${escapeHtml(projectName(meta))}</span>
+            <span class="chip green">${escapeHtml(meta.triage_type || "공유")}</span>
+            <span class="chip gold">${escapeHtml(visibilityLabel(meta))}</span>
+            <span class="chip status">${escapeHtml(meta.issue_status || "진행중")}</span>
+            <span class="chip person">${escapeHtml(log.writer_name || "익명")}</span>
+            <span class="chip">댓글 ${commentItems.length}</span>
+          </div>
+          ${visible && commentItems.length ? `<div class="comment-preview">${escapeHtml(commentItems.at(-1).author || "익명")}: ${escapeHtml(commentItems.at(-1).text || "")}</div>` : ""}
+        </article>
+      `;
+    }
+
+    function visibilityLabel(meta) {
+      const perms = meta.permissions || {};
+      const groups = Array.isArray(perms.groups) ? perms.groups : [];
+      const individuals = Array.isArray(perms.individuals) ? perms.individuals : [];
+      if (!groups.length && !individuals.length) return "전체 공개";
+      if (groups.includes("각 워크스페이스")) return "워크스페이스";
+      if (groups.includes("master") || groups.includes("director")) return "관리자";
+      if (individuals.length) return "지정 인원";
+      return groups.length ? "조직" : "제한됨";
+    }
+
+    function renderNotifications() {
+      return `
+        <div class="list">
+          ${state.notifications.length ? state.notifications.map((item) => `
+            <article class="card notification-card" data-id="${escapeHtml(item.id)}" style="${item.is_read ? "" : "background:#2a2f3d;border-color:#3d5b9d"}">
+              <div class="log-title" style="font-size:14px">${escapeHtml(item.title)}</div>
+              <div class="body">${escapeHtml(item.body)}</div>
+              <div class="muted">${relativeTime(item.created_at)}</div>
+            </article>
+          `).join("") : `<div class="notice">새로운 알림이 없습니다.</div>`}
+        </div>
+      `;
+    }
+
+    function renderComposer() {
+      if (!state.composerOpen) return "";
+      return `
+        <div class="sheet open">
+          <div class="sheet-panel">
+            <div class="sheet-head">
+              <h2>작성</h2>
+              <button class="icon-btn" id="close-composer">×</button>
+            </div>
+            <div class="segment">
+              <button class="${state.composerMode === "task" ? "active" : ""}" data-mode="task">Task 등록</button>
+              <button class="${state.composerMode === "collab" ? "active" : ""}" data-mode="collab">협업 글작성</button>
+            </div>
+            <div class="sheet-scroll">
+              ${state.composerMode === "task" ? renderTaskForm() : renderCollabForm()}
+            </div>
+            <button class="save" id="save-composer">저장</button>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderTaskForm() {
+      const ws = taskWorkspaceForMember();
+      return `
+        <div class="field"><label>Task 등록 워크스페이스</label><input id="task-form-ws" value="${escapeHtml(ws.focusLabel)}" readonly /></div>
+        <div class="field"><label>업무명</label><input id="task-name" placeholder="등록할 Task를 입력하세요." /></div>
+        <div class="field"><label>회사명</label><input id="company-name" placeholder="비워두면 내부업무" /></div>
+        <div class="field"><label>관련자산</label><input id="related-asset" value="IOTA 공통" /></div>
+        <label>상태</label><div class="choices" data-choice="task-status">${choices(["아이데이션","검토중","진행중","보류","완료"], "아이데이션")}</div>
+        <label>우선순위</label><div class="choices" data-choice="priority">${choices(["높음","중간","낮음"], "중간")}</div>
+        <div class="field"><label>D-Day</label><input id="due-date" type="date" /></div>
+        <div class="field"><label>Next Action</label><textarea id="next-action"></textarea></div>
+      `;
+    }
+
+    function renderCollabForm() {
+      const selected = state.selectedLogWorkspace || state.workspaces[0];
+      ensurePrimarySharedWorkspace(selected);
+      return `
+        <div class="field"><label>협업 글작성 워크스페이스</label><select id="collab-ws">${workspaceOptions(selected)}</select></div>
+        <div class="field"><label>내용</label><textarea id="log-content" placeholder="협업게시판에 등록할 내용을 입력하세요."></textarea></div>
+        <label>프로젝트</label><div class="choices" data-choice="project">${choices(["IOTA 공통","427 PFV","816 PFV","421 Fund"], "IOTA 공통")}</div>
+        <label>목적</label><div class="choices" data-choice="triage">${choices(["공유","협업","리스크 판단","의사결정"], "공유")}</div>
+        <label>상태</label><div class="choices" data-choice="log-status">${choices(["신규","검토중","진행중","보류","완료"], "검토중")}</div>
+        <label>중요도</label><div class="choices" data-choice="priority">${choices(["높음","중간","낮음"], "중간")}</div>
+        ${renderPermissionControls(selected)}
+      `;
+    }
+
+    function renderPermissionControls(primaryWorkspace) {
+      const selectedEmails = new Set(state.composerSelectedUserEmails);
+      const selectableMembers = state.members.filter((member) => !selectedEmails.has((member.email || "").trim().toLowerCase()));
+      return `
+        <label>조회 범위 · 공유 워크스페이스</label>
+        <div class="choices permission-workspaces">
+          ${state.workspaces.map((workspace) => {
+            const primary = workspace.code === primaryWorkspace.code;
+            const active = primary || state.composerSharedWorkspaceCodes.includes(workspace.code);
+            return `<button class="choice permission-ws ${active ? "active" : ""} ${primary ? "locked" : ""}" data-ws="${workspace.code}" data-primary="${primary ? "true" : "false"}">${escapeHtml(workspace.focusLabel)}</button>`;
+          }).join("")}
+        </div>
+        <div class="field">
+          <label>조회 인원 추가</label>
+          <div class="permission-add">
+            <input id="person-query" list="member-options" placeholder="이름 또는 이메일로 검색" autocomplete="off" />
+            <button id="add-person" type="button">추가</button>
+          </div>
+          <datalist id="member-options">
+            ${selectableMembers.map((member) => `<option value="${escapeHtml((member.email || "").trim().toLowerCase())}" label="${escapeHtml(member.staff_name || member.email)} · ${escapeHtml(member.org_name || "")}"></option>`).join("")}
+          </datalist>
+        </div>
+        ${selectedPermissionMembers().length ? `
+          <div class="selected-people">
+            ${selectedPermissionMembers().map((member) => `<span class="person-chip">${escapeHtml(member.staff_name || member.email)}<button type="button" data-remove-email="${escapeHtml((member.email || "").trim().toLowerCase())}">×</button></span>`).join("")}
+          </div>
+        ` : ""}
+        <p class="muted">선택한 워크스페이스 구성원과 지정 인원이 볼 수 있습니다. 관리자 및 부문대표는 항상 조회할 수 있습니다.</p>
+      `;
+    }
+
+    function choices(values, selected) {
+      return values.map((value) => `<button class="choice ${value === selected ? "active" : ""}" data-value="${escapeHtml(value)}">${escapeHtml(value)}</button>`).join("");
+    }
+
+    function selectedChoice(name) {
+      return document.querySelector(`[data-choice="${name}"] .choice.active`)?.dataset.value || "";
+    }
+
+    function taskWorkspaceForMember() {
+      return state.workspaces.find((ws) => matchesOrg(ws, state.member?.org_name)) || state.selectedTaskWorkspace || state.workspaces[0];
+    }
+
+    function bindAppEvents() {
+      document.querySelector("#logout-btn").onclick = logout;
+      document.querySelector("#notify-permission").onclick = requestNotificationPermission;
+      document.querySelector("#fcm-register").onclick = registerFirebaseWebFcm;
+      document.querySelectorAll(".nav").forEach((btn) => btn.onclick = () => {
+        state.tab = btn.dataset.tab;
+        if (state.tab === "notifications") markAllVisibleNotificationsRead();
+        renderApp();
+      });
+      document.querySelector("#compose-btn")?.addEventListener("click", () => {
+        state.composerOpen = true;
+        state.composerMode = "task";
+        const primary = state.selectedLogWorkspace || state.workspaces[0];
+        state.composerSharedWorkspaceCodes = primary ? [primary.code] : [];
+        state.composerSelectedUserEmails = [];
+        state.composerPersonQuery = "";
+        renderApp();
+      });
+      document.querySelector("#task-ws")?.addEventListener("change", async (event) => {
+        state.selectedTaskWorkspace = state.workspaces.find((ws) => ws.code === event.target.value);
+        await loadTasks();
+        renderApp();
+      });
+      document.querySelector("#log-ws")?.addEventListener("change", async (event) => {
+        state.selectedLogWorkspace = state.workspaces.find((ws) => ws.code === event.target.value);
+        await loadLogs();
+        renderApp();
+      });
+      document.querySelector("#iota-only")?.addEventListener("click", () => {
+        state.taskIotaOnly = !state.taskIotaOnly;
+        renderApp();
+      });
+      document.querySelectorAll(".notification-card").forEach((card) => {
+        card.onclick = () => markNotificationRead(card.dataset.id);
+      });
+      document.querySelector("#close-composer")?.addEventListener("click", () => {
+        state.composerOpen = false;
+        renderApp();
+      });
+      document.querySelectorAll("[data-mode]").forEach((btn) => btn.onclick = () => {
+        state.composerMode = btn.dataset.mode;
+        renderApp();
+      });
+      document.querySelectorAll(".choice").forEach((btn) => btn.onclick = (event) => {
+        event.preventDefault();
+        if (btn.classList.contains("permission-ws")) return;
+        const wrap = btn.closest(".choices");
+        wrap.querySelectorAll(".choice").forEach((item) => item.classList.remove("active"));
+        btn.classList.add("active");
+      });
+      document.querySelector("#collab-ws")?.addEventListener("change", (event) => {
+        const workspace = state.workspaces.find((item) => item.code === event.target.value);
+        state.selectedLogWorkspace = workspace || state.selectedLogWorkspace;
+        ensurePrimarySharedWorkspace(workspace);
+        renderApp();
+      });
+      document.querySelectorAll(".permission-ws").forEach((btn) => btn.onclick = (event) => {
+        event.preventDefault();
+        if (btn.dataset.primary === "true") return;
+        const code = btn.dataset.ws;
+        if (state.composerSharedWorkspaceCodes.includes(code)) {
+          state.composerSharedWorkspaceCodes = state.composerSharedWorkspaceCodes.filter((item) => item !== code);
+        } else {
+          state.composerSharedWorkspaceCodes = [...state.composerSharedWorkspaceCodes, code];
+        }
+        ensurePrimarySharedWorkspace();
+        renderApp();
+      });
+      document.querySelector("#add-person")?.addEventListener("click", (event) => {
+        event.preventDefault();
+        const raw = document.querySelector("#person-query")?.value.trim().toLowerCase() || "";
+        const matched = state.members.find((member) => {
+          const email = (member.email || "").trim().toLowerCase();
+          const name = (member.staff_name || "").trim().toLowerCase();
+          return email === raw || name === raw || raw.includes(email);
+        });
+        const email = (matched?.email || raw).trim().toLowerCase();
+        if (email && email.includes("@") && !state.composerSelectedUserEmails.includes(email)) {
+          state.composerSelectedUserEmails = [...state.composerSelectedUserEmails, email];
+          state.composerPersonQuery = "";
+          renderApp();
+        } else if (raw) {
+          toast("인원 추가 실패", "목록에서 이메일을 선택하거나 정확한 이메일을 입력하세요.");
+        }
+      });
+      document.querySelectorAll("[data-remove-email]").forEach((btn) => btn.onclick = (event) => {
+        event.preventDefault();
+        const email = btn.dataset.removeEmail;
+        state.composerSelectedUserEmails = state.composerSelectedUserEmails.filter((item) => item !== email);
+        renderApp();
+      });
+      document.querySelector("#save-composer")?.addEventListener("click", saveComposer);
+    }
+
+    function readConfigFromForm() {
+      const rawUrl = document.querySelector("#cfg-url").value.trim();
+      state.config = {
+        url: rawUrl.replace(".supabase.com", ".supabase.co"),
+        key: document.querySelector("#cfg-key").value.trim(),
+      };
+      state.firebaseConfig = {
+        apiKey: document.querySelector("#fb-api-key")?.value.trim() || "",
+        authDomain: document.querySelector("#fb-auth-domain")?.value.trim() || "",
+        projectId: document.querySelector("#fb-project-id")?.value.trim() || "",
+        storageBucket: document.querySelector("#fb-storage-bucket")?.value.trim() || "",
+        messagingSenderId: document.querySelector("#fb-sender-id")?.value.trim() || "",
+        appId: document.querySelector("#fb-app-id")?.value.trim() || "",
+        vapidKey: document.querySelector("#fb-vapid-key")?.value.trim() || "",
+      };
+      localStorage.setItem(configKey, JSON.stringify(state.config));
+      localStorage.setItem(firebaseConfigKey, JSON.stringify(state.firebaseConfig));
+      initClient();
+    }
+
+    async function saveConfig() {
+      readConfigFromForm();
+      state.error = "설정을 저장했습니다. 이제 로그인하세요.";
+      renderAuth();
+    }
+
+    async function login() {
+      const email = document.querySelector("#login-email")?.value.trim();
+      const password = document.querySelector("#login-password")?.value || "";
+      readConfigFromForm();
+      state.loading = true;
+      state.error = "";
+      renderAuth();
+      try {
+        const { data, error } = await state.client.auth.signInWithPassword({ email, password });
+        if (error) throw error;
+        state.session = data.session;
+        state.user = data.user;
+        await bootAuthed();
+      } catch (error) {
+        state.error = error.message || "로그인 중 오류가 발생했습니다.";
+        state.loading = false;
+        renderAuth();
+      }
+    }
+
+    async function logout() {
+      await state.client?.auth.signOut();
+      if (state.realtimeChannel) await state.client.removeChannel(state.realtimeChannel);
+      Object.assign(state, {
+        session: null,
+        user: null,
+        member: null,
+        workspaces: [],
+        tasks: [],
+        logs: [],
+        mine: [],
+        notifications: [],
+        unread: 0,
+        realtimeChannel: null,
+      });
+      renderAuth();
+    }
+
+    async function boot() {
+      initClient();
+      if (!state.client) {
+        renderAuth();
+        return;
+      }
+      const { data } = await state.client.auth.getSession();
+      state.session = data.session;
+      state.user = data.session?.user || null;
+      if (!state.user) renderAuth();
+      else await bootAuthed();
+    }
+
+    async function bootAuthed() {
+      state.loading = true;
+      renderApp();
+      try {
+        await loadMember();
+        await Promise.all([loadTasks(), loadLogs(), loadNotifications(), loadMembers()]);
+        subscribeNotifications();
+        state.loading = false;
+        renderApp();
+      } catch (error) {
+        state.error = error.message || "데이터를 불러오지 못했습니다.";
+        state.loading = false;
+        renderApp();
+        toast("데이터 오류", state.error);
+      }
+    }
+
+    async function loadMember() {
+      const email = state.user?.email;
+      const { data, error } = await state.client
+        .from("iota_seoul_pilot_members")
+        .select("email, staff_name, org_name, role_code, workspace_code")
+        .eq("email", email)
+        .maybeSingle();
+      if (error) throw error;
+      state.member = data || { email, staff_name: email, org_name: "", role_code: "member", workspace_code: "" };
+      state.workspaces = visibleWorkspacesForMember(state.member);
+      state.selectedTaskWorkspace = state.selectedTaskWorkspace || state.workspaces[0];
+      state.selectedLogWorkspace = state.selectedLogWorkspace || state.workspaces[0];
+    }
+
+    async function loadMembers() {
+      const { data, error } = await state.client
+        .from("iota_seoul_pilot_members")
+        .select("email, staff_name, org_name, role_code, workspace_code")
+        .order("staff_name");
+      if (!error) state.members = data || [];
+    }
+
+    async function loadTasks() {
+      const ws = state.selectedTaskWorkspace || state.workspaces[0];
+      if (!ws) return;
+      const { data, error } = await state.client
+        .from(ws.taskTable)
+        .select("*")
+        .order("created_at", { ascending: false })
+        .limit(50);
+      if (error) throw error;
+      state.tasks = data || [];
+    }
+
+    async function loadLogs() {
+      const ws = state.selectedLogWorkspace || state.workspaces[0];
+      const { data, error } = await state.client
+        .from("iota_seoul_logs")
+        .select("*, iota_seoul_log_stakeholders(sh_name, role_category)")
+        .order("work_date", { ascending: false })
+        .order("created_at", { ascending: false })
+        .limit(2000);
+      if (error) throw error;
+      const all = data || [];
+      state.logs = all.filter((log) => workspaceMatchesLog(ws, log)).slice(0, 30);
+      state.mine = all.filter((log) => (log.writer_staff_id || "").trim().toLowerCase() === (state.member.email || "").trim().toLowerCase()).slice(0, 30);
+    }
+
+    async function loadNotifications() {
+      const { data, error } = await state.client
+        .from("iota_notifications")
+        .select("*")
+        .order("created_at", { ascending: false })
+        .limit(50);
+      if (error) throw error;
+      state.notifications = data || [];
+      state.unread = state.notifications.filter((item) => !item.is_read).length;
+    }
+
+    function subscribeNotifications() {
+      if (state.realtimeChannel || !state.user) return;
+      state.realtimeChannel = state.client
+        .channel(`iota-notifications-${state.user.id}`)
+        .on("postgres_changes", {
+          event: "INSERT",
+          schema: "public",
+          table: "iota_notifications",
+          filter: `user_id=eq.${state.user.id}`,
+        }, (payload) => {
+          const item = payload.new;
+          state.notifications = [item, ...state.notifications].slice(0, 50);
+          state.unread += 1;
+          renderApp();
+          toast(item.title, item.body);
+          navigator.vibrate?.(120);
+          if (window.Notification?.permission === "granted") {
+            new Notification(item.title, { body: item.body });
+          }
+        })
+        .subscribe((status) => {
+          if (status === "SUBSCRIBED") toast("알림 연결됨", "접속 중 새 알림을 즉시 받습니다.");
+        });
+    }
+
+    async function markNotificationRead(id) {
+      const item = state.notifications.find((row) => row.id === id);
+      if (!item || item.is_read) return;
+      item.is_read = true;
+      state.unread = Math.max(0, state.unread - 1);
+      renderApp();
+      const { error } = await state.client.from("iota_notifications").update({ is_read: true }).eq("id", id);
+      if (error) toast("읽음 처리 실패", error.message);
+    }
+
+    async function markAllVisibleNotificationsRead() {
+      const unread = state.notifications.filter((item) => !item.is_read).map((item) => item.id);
+      if (!unread.length) return;
+      state.notifications.forEach((item) => item.is_read = true);
+      state.unread = 0;
+      const { error } = await state.client.from("iota_notifications").update({ is_read: true }).in("id", unread);
+      if (error) toast("읽음 처리 실패", error.message);
+    }
+
+    async function requestNotificationPermission() {
+      if (!("Notification" in window)) {
+        toast("브라우저 알림 미지원", "화면 안 알림은 계속 동작합니다.");
+        return;
+      }
+      const result = Notification.permission === "granted" ? "granted" : await Notification.requestPermission();
+      toast("브라우저 알림", result === "granted" ? "허용되었습니다." : "허용되지 않았습니다. 화면 안 알림은 계속 동작합니다.");
+    }
+
+    async function initFirebaseMessaging() {
+      if (!await isSupported()) {
+        throw new Error("이 브라우저는 Firebase Web Messaging을 지원하지 않습니다.");
+      }
+      ensureFirebaseConfigInteractive();
+      const config = state.firebaseConfig || {};
+      const required = ["apiKey", "authDomain", "projectId", "messagingSenderId", "appId", "vapidKey"];
+      const missing = required.filter((key) => !config[key]);
+      if (missing.length) {
+        throw new Error(`Firebase Web 설정이 부족합니다: ${missing.join(", ")}`);
+      }
+      if (!state.firebaseApp) {
+        state.firebaseApp = initializeApp({
+          apiKey: config.apiKey,
+          authDomain: config.authDomain,
+          projectId: config.projectId,
+          storageBucket: config.storageBucket,
+          messagingSenderId: config.messagingSenderId,
+          appId: config.appId,
+        });
+        state.firebaseMessaging = getMessaging(state.firebaseApp);
+        onMessage(state.firebaseMessaging, (payload) => {
+          const title = payload.notification?.title || payload.data?.title || "IOTA 알림";
+          const body = payload.notification?.body || payload.data?.body || "새 알림이 있습니다.";
+          toast(title, body);
+          navigator.vibrate?.(120);
+          if (payload.data?.notification_id && !state.notifications.some((item) => item.id === payload.data.notification_id)) {
+            state.notifications = [{
+              id: payload.data.notification_id,
+              title,
+              body,
+              type: payload.data.type || "fcm",
+              reference_id: payload.data.reference_id || null,
+              is_read: false,
+              created_at: new Date().toISOString(),
+            }, ...state.notifications].slice(0, 50);
+            state.unread += 1;
+            renderApp();
+          }
+        });
+      }
+      return state.firebaseMessaging;
+    }
+
+    function ensureFirebaseConfigInteractive() {
+      const prompts = [
+        ["apiKey", "Firebase Web apiKey", state.firebaseConfig.apiKey || ""],
+        ["authDomain", "Firebase authDomain", state.firebaseConfig.authDomain || ""],
+        ["projectId", "Firebase projectId", state.firebaseConfig.projectId || ""],
+        ["storageBucket", "Firebase storageBucket", state.firebaseConfig.storageBucket || ""],
+        ["messagingSenderId", "Firebase messagingSenderId", state.firebaseConfig.messagingSenderId || ""],
+        ["appId", "Firebase Web appId", state.firebaseConfig.appId || ""],
+        ["vapidKey", "Firebase Web Push VAPID public key", state.firebaseConfig.vapidKey || ""],
+      ];
+      for (const [key, label, fallback] of prompts) {
+        if (!state.firebaseConfig[key]) {
+          const value = window.prompt(label, fallback);
+          if (value) state.firebaseConfig[key] = value.trim();
+        }
+      }
+      localStorage.setItem(firebaseConfigKey, JSON.stringify(state.firebaseConfig));
+    }
+
+    async function registerFirebaseWebFcm() {
+      try {
+        if (!state.user) throw new Error("로그인 후 등록할 수 있습니다.");
+        if (!("Notification" in window)) {
+          throw new Error("이 브라우저는 시스템 알림 API를 지원하지 않습니다. 일반 Chrome/Edge/Safari에서 테스트하세요.");
+        }
+        if (Notification.permission === "denied") {
+          throw new Error("브라우저 알림이 차단되어 있습니다. 주소창의 사이트 설정에서 알림을 허용한 뒤 새로고침하세요.");
+        }
+        const permission = Notification.permission === "granted"
+          ? "granted"
+          : await Notification.requestPermission();
+        if (permission !== "granted") {
+          throw new Error("브라우저 알림 권한이 아직 허용되지 않았습니다. 권한 팝업에서 허용을 눌러야 Web FCM token을 만들 수 있습니다.");
+        }
+        const messaging = await initFirebaseMessaging();
+        const registration = await navigator.serviceWorker.register("./firebase-messaging-sw.js", {
+          scope: "./",
+        });
+        if (registration.active) {
+          registration.active.postMessage({
+            type: "IOTA_FIREBASE_CONFIG",
+            config: state.firebaseConfig,
+          });
+        }
+        const token = await getToken(messaging, {
+          vapidKey: state.firebaseConfig.vapidKey,
+          serviceWorkerRegistration: registration,
+        });
+        if (!token) throw new Error("FCM web token을 발급받지 못했습니다.");
+        state.firebaseToken = token;
+        const { error } = await state.client.from("fcm_tokens").upsert({
+          user_id: state.user.id,
+          fcm_token: token,
+          updated_at: new Date().toISOString(),
+        });
+        if (error) throw error;
+        toast("Web FCM 등록 완료", "이 브라우저가 Firebase 알림 수신 대상으로 저장되었습니다.");
+      } catch (error) {
+        toast("Web FCM 등록 실패", error.message || String(error));
+      }
+    }
+
+    async function saveComposer() {
+      try {
+        if (state.composerMode === "task") await createTask();
+        else await createLog();
+        state.composerOpen = false;
+        await Promise.all([loadTasks(), loadLogs()]);
+        renderApp();
+        toast("저장 완료", "새 데이터가 반영되었습니다.");
+      } catch (error) {
+        toast("저장 실패", error.message || "저장하지 못했습니다.");
+      }
+    }
+
+    async function createTask() {
+      const taskName = document.querySelector("#task-name").value.trim();
+      if (!taskName) throw new Error("업무명을 입력해야 합니다.");
+      const ws = taskWorkspaceForMember();
+      const payload = {
+        task_name: taskName,
+        related_asset: document.querySelector("#related-asset").value.trim() || "IOTA 공통",
+        status: selectedChoice("task-status") || "아이데이션",
+        priority: selectedChoice("priority") || "중간",
+        due_date: document.querySelector("#due-date").value || null,
+        next_action: document.querySelector("#next-action").value.trim(),
+        created_at: new Date().toISOString(),
+      };
+      if (ws.taskTable !== "iota_digital_tasks") payload.company_name = document.querySelector("#company-name").value.trim();
+      const { error } = await state.client.from(ws.taskTable).insert(payload);
+      if (error) throw error;
+    }
+
+    async function createLog() {
+      const content = document.querySelector("#log-content").value.trim();
+      if (!content) throw new Error("작성할 내용을 입력해야 합니다.");
+      const wsCode = document.querySelector("#collab-ws").value;
+      const ws = state.workspaces.find((item) => item.code === wsCode) || state.selectedLogWorkspace || state.workspaces[0];
+      const projectLabel = selectedChoice("project") || "IOTA 공통";
+      const projectMap = { "IOTA 공통": "IOTA_COMMON", "427 PFV": "P00030", "816 PFV": "P00037", "421 Fund": "112614" };
+      const now = new Date();
+      const logId = `iota_issue_${now.getTime()}`;
+      ensurePrimarySharedWorkspace(ws);
+      const groups = [...new Set(selectedPermissionWorkspaces(ws).flatMap(workspaceVisibilityGroups))];
+      const individuals = [...new Set(state.composerSelectedUserEmails)];
+      if (!groups.length && !individuals.length) throw new Error("조회 범위를 1개 이상 선택해야 합니다.");
+      const { error: logError } = await state.client.from("iota_seoul_logs").insert({
+        log_id: logId,
+        writer_staff_id: state.member.email,
+        writer_name: state.member.staff_name || state.member.email,
+        work_date: ymd(now),
+        raw_text: content,
+        summary: content.length > 160 ? content.slice(0, 160) : content,
+        input_status: "submitted",
+        source_system: "mobile_web",
+        metadata: {
+          workspace_code: ws.code,
+          workspace_label: ws.label,
+          project_name: projectLabel,
+          triage_type: selectedChoice("triage") || "공유",
+          issue_status: selectedChoice("log-status") || "검토중",
+          priority: selectedChoice("priority") || "중간",
+          comments: [],
+          permissions: { groups, individuals },
+        },
+      });
+      if (logError) throw logError;
+      const { error: linkError } = await state.client.from("iota_seoul_log_links").insert({
+        link_id: `link_${logId}`,
+        log_id: logId,
+        proj_id: projectMap[projectLabel] || "IOTA_COMMON",
+        relation_type: "direct_input",
+      });
+      if (linkError) throw linkError;
+    }
+
+    boot();
+  </script>
+</body>
+</html>
