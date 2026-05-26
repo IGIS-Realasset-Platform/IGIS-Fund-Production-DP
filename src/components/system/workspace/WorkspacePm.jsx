@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { notifyVIPsOnTaskCreation } from '../../../utils/notificationHelpers';
 import { useAuth } from '../../../context/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { supabase } from '../../../utils/supabaseClient';
@@ -286,6 +287,7 @@ export default function WorkspacePm() {
             } else {
                 const { error } = await supabase.from('iota_pm_tasks').insert([taskToSave]);
                 if (error) throw error;
+                await notifyVIPsOnTaskCreation(taskToSave.task_name, '사업 PM');
             }
         } catch (e) {
             console.warn('Saving to local storage fallback due to error:', e);

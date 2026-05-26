@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { notifyVIPsOnTaskCreation } from '../../../utils/notificationHelpers';
 import { useAuth } from '../../../context/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import WorkspaceActivityLog from './WorkspaceActivityLog';
@@ -290,6 +291,7 @@ export default function WorkspaceFinancing() {
                 const taskToSave = { ...newTask, id: Date.now().toString(), created_at: new Date().toISOString() };
                 const { error } = await supabase.from('iota_financing_tasks').insert([taskToSave]);
                 if (error) throw error;
+                await notifyVIPsOnTaskCreation(taskToSave.task_name, '자금/Financing');
             }
         } catch (e) {
             console.warn('Error saving to Supabase:', e);

@@ -1,43 +1,14 @@
 import { createClient } from '@supabase/supabase-js';
+import dotenv from 'dotenv';
+dotenv.config({ path: '/Users/jkjeon2025/Documents/GitHub/IGIS Fund Production DP/.env' });
 
-const supabaseUrl = 'https://qgrszltduzblpvpqvkqr.supabase.co';
-const supabaseKey = 'sb_publishable_4xfLdHDF2yMobyRQruJV4A_Q4Fn9m9S';
+const supabaseUrl = process.env.VITE_SUPABASE_URL;
+const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-async function checkData() {
-    const { data, error } = await supabase
-        .from('iota_capital_stack')
-        .select('*');
-        
-    if (error) {
-        console.error("Error fetching:", error);
-        return;
-    }
-    
-    // Group by vehicle_name
-    const vehicles = {};
-    data.forEach(item => {
-        if (!vehicles[item.vehicle_name]) {
-            vehicles[item.vehicle_name] = [];
-        }
-        vehicles[item.vehicle_name].push(item);
-    });
-    
-    console.log("Found vehicles:", Object.keys(vehicles));
-    console.log("Total records:", data.length);
-    
-    // Check 421 data
-    const d421 = vehicles['421'] || [];
-    console.log("421 records:", d421.length);
-    
-    // Group 421 by tranche
-    const tranches = {};
-    d421.forEach(item => {
-        const t = item.tranche || item.type;
-        if (!tranches[t]) tranches[t] = 0;
-        tranches[t] += (item.amount || 0);
-    });
-    console.log("421 Tranche breakdown (amount):", tranches);
+async function checkSchema() {
+  const { data, error } = await supabase.from('iota_seoul_pilot_members').select('*').limit(1);
+  console.log('Members:', data);
 }
 
-checkData();
+checkSchema();

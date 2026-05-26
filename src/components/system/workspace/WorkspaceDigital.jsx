@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { notifyVIPsOnTaskCreation } from '../../../utils/notificationHelpers';
 import { supabase } from '../../../utils/supabaseClient';
 import { useAuth } from '../../../context/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -289,6 +290,7 @@ export default function WorkspaceDigital() {
             } else {
                 const { error } = await supabase.from('iota_digital_tasks').insert([{ ...newTask, created_at: taskToSave.created_at }]);
                 if (error) throw error;
+                await notifyVIPsOnTaskCreation(newTask.task_name, '공간솔루션');
                 fetchTasks();
             }
         } catch (e) {
