@@ -16,12 +16,13 @@ Android 사용자는 Flutter 앱을 배포하고, iPhone 사용자는 앱 배포
 
 ## 전달 파일
 
-이 브랜치 루트에 아래 4개 파일을 별도로 배치했다. 동료 작업자는 이 4개 파일만 먼저 열어도 모바일 web 구상과 Firebase Web FCM 테스트 흐름을 확인할 수 있다.
+이 브랜치 루트에 아래 파일을 별도로 배치했다. 동료 작업자는 이 파일들만 먼저 열어도 모바일 web 구상과 Firebase Web FCM 테스트 흐름을 확인할 수 있다.
 
 - `mobile-web-live.html`: Supabase/Firebase 연결 테스트가 가능한 모바일 web 단일 파일
 - `firebase-messaging-sw.js`: Web FCM background push 수신용 service worker
 - `mobile-web-prototype.html`: 화면 구성과 알림 흐름을 설명하는 시각화 프로토타입
 - `mobile-web-handoff.md`: main 웹 플랫폼 이식용 상세 문서
+- `mobile-web.env.example`: 실제 `.env`에 채워야 할 Supabase/Firebase 설정 항목 샘플
 
 실제 main 웹 플랫폼에 이식할 때는 `firebase-messaging-sw.js`를 web root 또는 public root에 둬야 한다. 로컬 테스트 파일의 Firebase 설정 입력 UI는 임시 장치이며, 운영에서는 `.env` 또는 배포 환경변수로 주입한다.
 
