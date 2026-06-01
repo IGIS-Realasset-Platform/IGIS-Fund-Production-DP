@@ -13,6 +13,7 @@ import AuthSetup from './components/system/AuthSetup';
 import PlatformCore from './components/system/PlatformCore';
 import WorkspaceArchive from './components/system/workspace/WorkspaceArchive';
 import SystemAdmin from './components/system/admin/SystemAdmin';
+import MobileIotaApp from './components/mobile/MobileIotaApp';
 
 export default function App() {
   // BASE_URL: '/' in dev, '/IGIS-Fund-Production-DP/' in GitHub Pages production
@@ -79,7 +80,7 @@ export default function App() {
           return;
       }
 
-      if (!loading && !user && currentPage.startsWith('platform/iotaseoul') && !recoveryMode) {
+      if (!loading && !user && (currentPage.startsWith('platform/iotaseoul') || currentPage.startsWith('mobile')) && !recoveryMode) {
           navigateTo('auth-setup');
       }
   }, [user, loading, currentPage, recoveryMode]);
@@ -119,8 +120,8 @@ export default function App() {
     <>
 
 
-      <div className={(['system-plan', 'system-bridge', 'system-chat', 'system-detail', 'system-core', 'platform', 'auth-setup', 'workspace/archive', 'system-admin'].includes(currentPage) || currentPage.startsWith('platform/iotaseoul')) ? "w-full h-screen overflow-hidden" : "hidden lg:block scroll-container font-sans"} id="scroll-container">
-        {!(['system-plan', 'system-bridge', 'system-chat', 'system-detail', 'system-core', 'platform', 'auth-setup', 'workspace/archive', 'system-admin'].includes(currentPage) || currentPage.startsWith('platform/iotaseoul')) && (
+      <div className={(['system-plan', 'system-bridge', 'system-chat', 'system-detail', 'system-core', 'platform', 'auth-setup', 'workspace/archive', 'system-admin'].includes(currentPage) || currentPage.startsWith('platform/iotaseoul') || currentPage.startsWith('mobile')) ? "w-full h-screen overflow-hidden" : "hidden lg:block scroll-container font-sans"} id="scroll-container">
+        {!(['system-plan', 'system-bridge', 'system-chat', 'system-detail', 'system-core', 'platform', 'auth-setup', 'workspace/archive', 'system-admin'].includes(currentPage) || currentPage.startsWith('platform/iotaseoul') || currentPage.startsWith('mobile')) && (
             <Header
               onNavigateToHome={() => setCurrentPage('home')}
               currentPage={currentPage}
@@ -150,6 +151,7 @@ export default function App() {
         {currentPage.startsWith('platform/iotaseoul') && !currentPage.includes('/archive') && <PlatformCore isPlatform={true} isIotaWorkspaceOverride={true} currentPath={currentPage} />}
         {(currentPage.includes('workspace/archive') || currentPage.endsWith('/archive')) && <WorkspaceArchive />}
         {currentPage === 'system-admin' && <SystemAdmin />}
+        {currentPage.startsWith('mobile') && <MobileIotaApp navigateTo={navigateTo} />}
       </div>
     </>
   );
