@@ -304,7 +304,7 @@ export default function AuthSetup({ onLogin }) {
             </style>
 
             {/* Top Navbar */}
-            <div className={`w-full flex justify-between items-center px-12 py-8 relative z-50 transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}>
+            <div className={`w-full flex justify-between items-center px-6 md:px-12 py-6 md:py-8 relative z-50 transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}>
                 <div className="text-[20px] font-bold tracking-wide text-[#1D1D1F] dark:text-white transition-colors duration-300">IFPDP</div>
                 <div className="flex gap-8 text-[17px] font-medium text-[#86868B] dark:text-[#A1A1AA] transition-colors duration-300">
                     <a href={`${import.meta.env.BASE_URL}home`} target="_blank" rel="noopener noreferrer" className="hover:text-[#111] dark:hover:text-white cursor-pointer transition-colors bg-transparent border-none outline-none p-0 font-medium no-underline">IFPDP 소개</a>
@@ -312,15 +312,15 @@ export default function AuthSetup({ onLogin }) {
             </div>
 
             {/* Main Content */}
-            <div className={`flex-1 flex flex-col items-center justify-center -mt-32 transition-all duration-[1200ms] delay-[200ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+            <div className={`flex-1 flex flex-col items-center justify-center -mt-16 md:-mt-32 px-4 transition-all duration-[1200ms] delay-[200ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
                 
-                <h1 className="text-[42px] font-bold mb-[26px] tracking-tight font-inter text-[#1D1D1F] dark:text-[#E5E5E5] transition-colors duration-300">
+                <h1 className="text-[32px] md:text-[42px] font-bold mb-[20px] md:mb-[26px] tracking-tight font-inter text-[#1D1D1F] dark:text-[#E5E5E5] text-center transition-colors duration-300">
                     IFPDP IOTA Seoul
                 </h1>
 
                 {/* Form Box */}
                 <div 
-                    className="bg-white dark:bg-transparent border border-black/10 dark:border-[#333333] rounded-[28px] p-8 w-[460px] flex flex-col shadow-xl dark:shadow-2xl transition-colors duration-300"
+                    className="w-full max-w-[460px] bg-white dark:bg-transparent border border-black/10 dark:border-[#333333] rounded-[24px] md:rounded-[28px] p-6 md:p-8 flex flex-col shadow-xl dark:shadow-2xl transition-colors duration-300"
                     style={hasError ? { animation: 'authShake 0.4s ease-in-out' } : {}}
                 >
                     
@@ -611,8 +611,8 @@ export default function AuthSetup({ onLogin }) {
 
             {/* Custom Contact Modal */}
             {showContactModal && (
-                <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/40 backdrop-blur-sm transition-opacity" onClick={() => setShowContactModal(false)}>
-                    <div className="bg-white dark:bg-[#1C1C1E] w-[420px] rounded-[24px] p-8 shadow-2xl flex flex-col items-center" onClick={e => e.stopPropagation()}>
+                <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/40 backdrop-blur-sm transition-opacity px-4" onClick={() => setShowContactModal(false)}>
+                    <div className="bg-white dark:bg-[#1C1C1E] w-full max-w-[420px] rounded-[24px] p-6 md:p-8 shadow-2xl flex flex-col items-center" onClick={e => e.stopPropagation()}>
                         <div className="w-12 h-12 rounded-full bg-gray-100 dark:bg-[#2C2C2E] flex items-center justify-center mb-5">
                             <svg className="w-6 h-6 text-[#1D1D1F] dark:text-white" fill="none" strokeWidth="2" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -631,8 +631,8 @@ export default function AuthSetup({ onLogin }) {
 
             {/* Custom Confirm Modal */}
             {showConfirmModal && (
-                <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/40 backdrop-blur-sm transition-opacity">
-                    <div className="bg-white dark:bg-[#1C1C1E] w-[400px] rounded-[24px] p-8 shadow-2xl flex flex-col items-center">
+                <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/40 backdrop-blur-sm transition-opacity px-4">
+                    <div className="bg-white dark:bg-[#1C1C1E] w-full max-w-[400px] rounded-[24px] p-6 md:p-8 shadow-2xl flex flex-col items-center">
                         <div className="w-12 h-12 rounded-full bg-gray-100 dark:bg-[#2C2C2E] flex items-center justify-center mb-5">
                             <svg className="w-6 h-6 text-[#1D1D1F] dark:text-white" fill="none" strokeWidth="2.5" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
@@ -654,8 +654,8 @@ export default function AuthSetup({ onLogin }) {
 
             {/* Password Change Success Modal */}
             {showChangeSuccessModal && (
-                <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/40 backdrop-blur-sm transition-opacity">
-                    <div className="bg-white dark:bg-[#1C1C1E] w-[400px] rounded-[24px] p-8 shadow-2xl flex flex-col items-center">
+                <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/40 backdrop-blur-sm transition-opacity px-4">
+                    <div className="bg-white dark:bg-[#1C1C1E] w-full max-w-[400px] rounded-[24px] p-6 md:p-8 shadow-2xl flex flex-col items-center">
                         <div className="w-12 h-12 rounded-full bg-green-50 dark:bg-green-900/30 flex items-center justify-center mb-5">
                             <svg className="w-6 h-6 text-green-500" fill="none" strokeWidth="2.5" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
