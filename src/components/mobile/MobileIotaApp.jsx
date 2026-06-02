@@ -102,9 +102,9 @@ export default function MobileIotaApp({ navigateTo }) {
 
     const sizeStyle = isStandalone 
         ? {
-            width: '76.92%',
-            height: '76.92%',
-            transform: 'scale(1.3)',
+            width: '66.67%',
+            height: '66.67%',
+            transform: 'scale(1.5)',
             transformOrigin: 'top left',
             position: 'absolute',
             top: 0,
