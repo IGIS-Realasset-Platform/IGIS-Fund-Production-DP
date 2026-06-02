@@ -360,10 +360,10 @@ export default function WorkspaceDevelopment() {
         setTasks(newTasks);
         
         try {
-            await supabase.from('iota_dev_tasks').update({ created_at: newCurrentTime }).eq('id', current.id);
-            await supabase.from('iota_dev_tasks').update({ created_at: newPrevTime }).eq('id', prev.id);
+            await supabase.from('iota_development_tasks').update({ created_at: newCurrentTime }).eq('id', current.id);
+            await supabase.from('iota_development_tasks').update({ created_at: newPrevTime }).eq('id', prev.id);
         } catch (e) {
-            localStorage.setItem('iota_dev_tasks_fallback', JSON.stringify(newTasks));
+            localStorage.setItem('iota_development_tasks_fallback', JSON.stringify(newTasks));
         }
     };
 
@@ -390,10 +390,10 @@ export default function WorkspaceDevelopment() {
         setTasks(newTasks);
         
         try {
-            await supabase.from('iota_dev_tasks').update({ created_at: newCurrentTime }).eq('id', current.id);
-            await supabase.from('iota_dev_tasks').update({ created_at: newNextTime }).eq('id', next.id);
+            await supabase.from('iota_development_tasks').update({ created_at: newCurrentTime }).eq('id', current.id);
+            await supabase.from('iota_development_tasks').update({ created_at: newNextTime }).eq('id', next.id);
         } catch (e) {
-            localStorage.setItem('iota_dev_tasks_fallback', JSON.stringify(newTasks));
+            localStorage.setItem('iota_development_tasks_fallback', JSON.stringify(newTasks));
         }
     };
 
