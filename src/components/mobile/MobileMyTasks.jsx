@@ -35,19 +35,19 @@ export default function MobileMyTasks({ memberInfo }) {
     };
 
     return (
-        <div className="flex flex-col w-full min-h-full pb-24 px-4 pt-4 relative">
+        <div className="flex flex-col w-full min-h-full pb-24 p-4 bg-[#1F1F1E]">
             {/* Header */}
-            <div className="flex items-center justify-between mb-4 relative z-20">
-                <h2 className="text-[20px] font-bold text-white">내업무</h2>
+            <div className="flex items-center justify-between mb-4 shrink-0 select-none">
+                <h2 className="text-[20px] font-bold text-white">내가 쓴 로그 ({logs.length})</h2>
             </div>
 
             {/* List */}
             {loading ? (
-                <div className="flex justify-center items-center py-10">
-                    <div className="animate-spin w-8 h-8 border-4 border-[#4C82FF] border-t-transparent rounded-full"></div>
+                <div className="flex justify-center items-center py-20">
+                    <div className="animate-spin w-8 h-8 border-4 border-[#3b82f6] border-t-transparent rounded-full"></div>
                 </div>
             ) : logs.length === 0 ? (
-                <div className="text-center py-16 text-[#A1A1AA] text-[15px]">작성하신 내역이 없습니다.</div>
+                <div className="text-center py-20 text-[#86868B] text-[15px] font-medium">작성하신 내역이 없습니다.</div>
             ) : (
                 <div className="flex flex-col">
                     {logs.map(log => (

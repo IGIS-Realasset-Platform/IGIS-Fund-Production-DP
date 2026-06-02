@@ -7,7 +7,10 @@ export default function MobileLogList({ memberInfo }) {
     const [workspace, setWorkspace] = useState(() => getInitialWorkspace(memberInfo));
     const [logs, setLogs] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [dropdownOpen, setDropdownOpen] = useState(false);
+
+    // Touch Swipe States
+    const [touchStart, setTouchStart] = useState({ x: 0, y: 0 });
+    const [touchEnd, setTouchEnd] = useState({ x: 0, y: 0 });
 
     useEffect(() => {
         fetchLogs();
@@ -40,58 +43,96 @@ export default function MobileLogList({ memberInfo }) {
         }
     };
 
+    // Touch handlers for swiping
+    const handleTouchStart = (e) => {
+        setTouchStart({
+            x: e.targetTouches[0].clientX,
+            y: e.targetTouches[0].clientY
+        });
+    };
+
+    const handleTouchMove = (e) => {
+        setTouchEnd({
+            x: e.targetTouches[0].clientX,
+            y: e.targetTouches[0].clientY
+        });
+    };
+
+    const handleTouchEnd = () => {
+        if (!touchStart.x || !touchEnd.x) return;
+        const xDiff = touchStart.x - touchEnd.x;
+        const yDiff = touchStart.y - touchEnd.y;
+        
+        // swipe must be horizontal
+        if (Math.abs(xDiff) > Math.abs(yDiff) && Math.abs(xDiff) > 60) {
+            const currentIndex = MOBILE_WORKSPACES.findIndex(w => w.code === workspace.code);
+            if (xDiff > 0) {
+                // Swipe Left -> Next Tab
+                if (currentIndex < MOBILE_WORKSPACES.length - 1) {
+                    setWorkspace(MOBILE_WORKSPACES[currentIndex + 1]);
+                }
+            } else {
+                // Swipe Right -> Prev Tab
+                if (currentIndex > 0) {
+                    setWorkspace(MOBILE_WORKSPACES[currentIndex - 1]);
+                }
+            }
+        }
+        setTouchStart({ x: 0, y: 0 });
+        setTouchEnd({ x: 0, y: 0 });
+    };
+
     return (
-        <div className="flex flex-col w-full min-h-full pb-24 px-4 pt-4 relative">
-            {/* Header / Workspace Selector */}
-            <div className="flex items-center justify-between mb-4 relative z-20">
-                <div className="relative">
-                    <button 
-                        onClick={() => setDropdownOpen(!dropdownOpen)}
-                        className="flex items-center gap-2 text-[20px] font-bold text-white bg-transparent outline-none"
-                    >
-                        {workspace.label}
-                        <svg className={`w-5 h-5 transition-transform ${dropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                        </svg>
-                    </button>
-                    {dropdownOpen && (
-                        <>
-                            <div className="fixed inset-0 z-10" onClick={() => setDropdownOpen(false)}></div>
-                            <div className="absolute top-full left-0 mt-2 w-[200px] bg-[#242423] border border-[#3A3A39] rounded-xl shadow-xl z-20 py-2 overflow-hidden">
-                                {MOBILE_WORKSPACES.map(w => (
-                                    <button 
-                                        key={w.code}
-                                        onClick={() => { setWorkspace(w); setDropdownOpen(false); }}
-                                        className={`w-full text-left px-4 py-3 text-[15px] font-medium transition-colors ${workspace.code === w.code ? 'text-[#4C82FF] bg-[#4C82FF]/10' : 'text-[#F4F4F1] hover:bg-[#20201F]'}`}
-                                    >
-                                        {w.label}
-                                    </button>
-                                ))}
-                            </div>
-                        </>
-                    )}
-                </div>
+        <div 
+            className="flex flex-col w-full min-h-full pb-24 bg-[#1F1F1E]"
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+        >
+            {/* Horizontal Workspace Tab Bar */}
+            <div className="flex gap-5 border-b border-[#3c3c3c] px-4 py-2 overflow-x-auto hide-scrollbar bg-[#272726] sticky top-0 z-20 shrink-0 select-none">
+                {MOBILE_WORKSPACES.map(w => {
+                    const isActive = workspace.code === w.code;
+                    return (
+                        <button
+                            key={w.code}
+                            onClick={() => {
+                                setWorkspace(w);
+                            }}
+                            className={`pb-2.5 pt-1.5 text-[15px] font-bold whitespace-nowrap transition-all relative outline-none ${
+                                isActive ? 'text-[#60a5fa]' : 'text-[#86868B] hover:text-[#E5E5E5]'
+                            }`}
+                        >
+                            {w.label}
+                            {isActive && (
+                                <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-[#3b82f6] rounded-full" />
+                            )}
+                        </button>
+                    );
+                })}
             </div>
 
             {/* List */}
-            {loading ? (
-                <div className="flex justify-center items-center py-10">
-                    <div className="animate-spin w-8 h-8 border-4 border-[#4C82FF] border-t-transparent rounded-full"></div>
-                </div>
-            ) : logs.length === 0 ? (
-                <div className="text-center py-16 text-[#A1A1AA] text-[15px]">등록된 협업 게시글이 없습니다.</div>
-            ) : (
-                <div className="flex flex-col">
-                    {logs.map(log => (
-                        <MobileLogCard 
-                            key={log.id || log.log_id} 
-                            log={log} 
-                            memberInfo={memberInfo} 
-                            onClick={(log) => alert("상세보기 모달 준비중입니다. (" + (log.metadata?.title || '제목없음') + ")")}
-                        />
-                    ))}
-                </div>
-            )}
+            <div className="flex flex-col gap-4 p-4">
+                {loading ? (
+                    <div className="flex justify-center items-center py-20">
+                        <div className="animate-spin w-8 h-8 border-4 border-[#3b82f6] border-t-transparent rounded-full"></div>
+                    </div>
+                ) : logs.length === 0 ? (
+                    <div className="text-center py-20 text-[#86868B] text-[15px] font-medium">등록된 협업 게시글이 없습니다.</div>
+                ) : (
+                    <div className="flex flex-col gap-4">
+                        {logs.map(log => (
+                            <MobileLogCard 
+                                key={log.id || log.log_id} 
+                                log={log} 
+                                memberInfo={memberInfo} 
+                                onClick={(log) => alert("상세보기 모달 준비중입니다. (" + (log.metadata?.title || '제목없음') + ")")}
+                            />
+                        ))}
+                    </div>
+                )}
+            </div>
         </div>
     );
 }

@@ -34,9 +34,9 @@ export default function MobileIotaApp({ navigateTo }) {
     };
 
     return (
-        <div className="flex flex-col w-full h-full bg-[#1D1D1B] text-[#F4F4F1] font-sans relative pb-[env(safe-area-inset-bottom)]">
+        <div className="flex flex-col w-full h-full bg-[#1F1F1E] text-[#E5E5E5] font-sans relative pb-[env(safe-area-inset-bottom)]">
             {/* App Bar */}
-            <div className="flex items-center justify-between px-4 py-3 bg-[#1D1D1B] border-b border-[#3A3A39] shrink-0">
+            <div className="flex items-center justify-between px-4 py-3 bg-[#272726] border-b border-[#3c3c3c] shrink-0">
                 <div className="flex flex-col">
                     <span className="text-[17px] font-bold text-white tracking-tight">IOTA Seoul CFT</span>
                     {memberInfo && (
@@ -45,13 +45,24 @@ export default function MobileIotaApp({ navigateTo }) {
                         </span>
                     )}
                 </div>
-                <button onClick={handleLogout} className="text-[13px] text-[#9A9A98] hover:text-white transition-colors bg-[#242423] px-3 py-1.5 rounded-full border border-[#3A3A39]">
-                    로그아웃
-                </button>
+                <div className="flex gap-2">
+                    <button 
+                        onClick={() => {
+                            localStorage.setItem('force_pc_mode', 'true');
+                            navigateTo('platform/iotaseoul/workflow');
+                        }}
+                        className="text-[12px] text-[#E5E5E5] bg-[#3c3c3c]/50 hover:bg-[#3c3c3c] transition-colors px-3 py-1.5 rounded-full border border-[#3c3c3c] font-semibold"
+                    >
+                        PC버전
+                    </button>
+                    <button onClick={handleLogout} className="text-[12px] text-[#9A9A98] hover:text-white transition-colors bg-[#272726] px-3 py-1.5 rounded-full border border-[#3c3c3c]">
+                        로그아웃
+                    </button>
+                </div>
             </div>
 
             {/* Main Content Area */}
-            <div className="flex-1 overflow-y-auto relative overscroll-y-contain">
+            <div className="flex-1 overflow-y-auto relative overscroll-y-contain bg-[#1F1F1E]">
                 {activeTab === 0 && <MobileTaskList memberInfo={memberInfo} />}
                 {activeTab === 1 && <MobileLogList memberInfo={memberInfo} />}
                 {activeTab === 2 && <MobileMyTasks memberInfo={memberInfo} />}
@@ -62,7 +73,7 @@ export default function MobileIotaApp({ navigateTo }) {
             {(activeTab === 0 || activeTab === 1 || activeTab === 2) && (
                 <button 
                     onClick={() => setIsComposerOpen(true)}
-                    className="absolute right-5 bottom-[80px] w-14 h-14 bg-[#4C82FF] rounded-full flex items-center justify-center shadow-[0_4px_12px_rgba(76,130,255,0.4)] z-10 active:scale-95 transition-transform"
+                    className="absolute right-5 bottom-[80px] w-14 h-14 bg-[#3b82f6] hover:bg-[#2563eb] rounded-full flex items-center justify-center shadow-[0_4px_12px_rgba(59,130,246,0.4)] z-10 active:scale-95 transition-all border border-[#3b82f6]/20"
                 >
                     <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
@@ -71,7 +82,7 @@ export default function MobileIotaApp({ navigateTo }) {
             )}
 
             {/* Bottom Navigation */}
-            <div className="flex w-full bg-[#242423] border-t border-[#3A3A39] shrink-0 pb-[env(safe-area-inset-bottom)]">
+            <div className="flex w-full bg-[#272726] border-t border-[#3c3c3c] shrink-0 pb-[env(safe-area-inset-bottom)]">
                 {[
                     { id: 0, label: '주요업무', icon: <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" /> },
                     { id: 1, label: '협업게시판', icon: <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /> },
@@ -81,14 +92,14 @@ export default function MobileIotaApp({ navigateTo }) {
                     <button 
                         key={tab.id}
                         onClick={() => setActiveTab(tab.id)}
-                        className={`flex-1 flex flex-col items-center justify-center py-3 relative ${activeTab === tab.id ? 'text-[#4C82FF]' : 'text-[#9A9A98]'}`}
+                        className={`flex-1 flex flex-col items-center justify-center py-3 relative ${activeTab === tab.id ? 'text-[#60a5fa]' : 'text-[#9A9A98]'}`}
                     >
                         <div className="relative">
                             <svg className={`w-[22px] h-[22px] mb-1 ${activeTab === tab.id ? 'stroke-2' : 'stroke-[1.5]'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 {tab.icon}
                             </svg>
                             {tab.id === 3 && unreadNotiCount > 0 && (
-                                <div className="absolute -top-1 -right-1.5 w-[14px] h-[14px] bg-red-500 rounded-full flex items-center justify-center text-[9px] font-bold text-white border border-[#242423]">
+                                <div className="absolute -top-1 -right-1.5 w-[14px] h-[14px] bg-red-500 rounded-full flex items-center justify-center text-[9px] font-bold text-white border border-[#272726]">
                                     {unreadNotiCount > 9 ? '9+' : unreadNotiCount}
                                 </div>
                             )}
@@ -107,6 +118,7 @@ export default function MobileIotaApp({ navigateTo }) {
                         setIsComposerOpen(false);
                         // Refresh logic here if needed (could trigger via a refresh context or key)
                     }} 
+                    activeTab={activeTab}
                 />
             )}
         </div>

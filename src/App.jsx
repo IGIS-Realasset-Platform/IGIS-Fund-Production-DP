@@ -73,7 +73,7 @@ export default function App() {
   const { lang } = useLanguage();
   const { user, loading, recoveryMode } = useAuth();
 
-  // Protect platform routes
+  // Protect platform routes & Auto-redirect mobile devices
   React.useEffect(() => {
       if (recoveryMode && currentPage !== 'auth-setup') {
           navigateTo('auth-setup');
@@ -82,6 +82,23 @@ export default function App() {
 
       if (!loading && !user && (currentPage.startsWith('platform/iotaseoul') || currentPage.startsWith('mobile')) && !recoveryMode) {
           navigateTo('auth-setup');
+          return;
+      }
+
+      // Mobile auto-redirection logic
+      if (!loading && user && !recoveryMode) {
+          const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+          const isMobileUA = /android|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent.toLowerCase());
+          const isSmallScreen = window.innerWidth < 768;
+          const isMobile = isMobileUA || isSmallScreen;
+          
+          const forcePC = localStorage.getItem('force_pc_mode') === 'true';
+
+          if (isMobile && !forcePC && currentPage.startsWith('platform/iotaseoul')) {
+              navigateTo('mobile');
+          } else if (forcePC && currentPage.startsWith('mobile')) {
+              navigateTo('platform/iotaseoul/workflow');
+          }
       }
   }, [user, loading, currentPage, recoveryMode]);
 
@@ -116,10 +133,14 @@ export default function App() {
     setTimeout(applyLanguage, 50);
   }, [currentPage, lang]);
 
+  const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+  const isMobileUA = /android|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent.toLowerCase());
+  const isSmallScreen = window.innerWidth < 768;
+  const isMobile = isMobileUA || isSmallScreen;
+  const forcePC = localStorage.getItem('force_pc_mode') === 'true';
+
   return (
     <>
-
-
       <div className={(['system-plan', 'system-bridge', 'system-chat', 'system-detail', 'system-core', 'platform', 'auth-setup', 'workspace/archive', 'system-admin'].includes(currentPage) || currentPage.startsWith('platform/iotaseoul') || currentPage.startsWith('mobile')) ? "w-full h-screen overflow-hidden" : "hidden lg:block scroll-container font-sans"} id="scroll-container">
         {!(['system-plan', 'system-bridge', 'system-chat', 'system-detail', 'system-core', 'platform', 'auth-setup', 'workspace/archive', 'system-admin'].includes(currentPage) || currentPage.startsWith('platform/iotaseoul') || currentPage.startsWith('mobile')) && (
             <Header
@@ -153,6 +174,19 @@ export default function App() {
         {currentPage === 'system-admin' && <SystemAdmin />}
         {currentPage.startsWith('mobile') && <MobileIotaApp navigateTo={navigateTo} />}
       </div>
+
+      {/* Floating back to mobile view button (Only visible on mobile devices browsing forced PC page) */}
+      {isMobile && forcePC && !currentPage.startsWith('mobile') && (
+          <button 
+              onClick={() => {
+                  localStorage.removeItem('force_pc_mode');
+                  navigateTo('mobile');
+              }}
+              className="fixed right-4 bottom-4 z-50 bg-[#3b82f6] text-white text-[12px] font-bold px-3 py-2 rounded-full shadow-lg border border-[#3b82f6]/30 active:scale-95 transition-all opacity-90 hover:opacity-100 flex items-center gap-1"
+          >
+              <span>📱 모바일 최적화 화면 보기</span>
+          </button>
+      )}
     </>
   );
 }

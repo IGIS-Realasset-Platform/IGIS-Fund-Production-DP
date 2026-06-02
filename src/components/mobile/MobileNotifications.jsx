@@ -62,39 +62,39 @@ export default function MobileNotifications({ memberInfo, onRead }) {
     };
 
     return (
-        <div className="flex flex-col w-full min-h-full pb-24 px-4 pt-4 relative">
-            <div className="flex items-center justify-between mb-4 relative z-20">
+        <div className="flex flex-col w-full min-h-full pb-24 p-4 bg-[#1F1F1E]">
+            <div className="flex items-center justify-between mb-4 shrink-0 select-none">
                 <h2 className="text-[20px] font-bold text-white">알림</h2>
             </div>
 
             {loading ? (
-                <div className="flex justify-center items-center py-10">
-                    <div className="animate-spin w-8 h-8 border-4 border-[#4C82FF] border-t-transparent rounded-full"></div>
+                <div className="flex justify-center items-center py-20">
+                    <div className="animate-spin w-8 h-8 border-4 border-[#3b82f6] border-t-transparent rounded-full"></div>
                 </div>
             ) : notifications.length === 0 ? (
-                <div className="text-center py-16 text-[#A1A1AA] text-[15px]">새로운 알림이 없습니다.</div>
+                <div className="text-center py-20 text-[#86868B] text-[15px] font-medium">새로운 알림이 없습니다.</div>
             ) : (
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-3">
                     {notifications.map(noti => (
                         <div 
                             key={noti.id} 
                             onClick={() => handleRead(noti)}
-                            className={`p-4 rounded-xl border flex flex-col gap-1 transition-colors cursor-pointer ${
+                            className={`p-4 rounded-[24px] border flex flex-col gap-1 transition-all duration-300 cursor-pointer ${
                                 noti.is_read 
-                                ? 'bg-[#242423] border-[#3A3A39]/50 opacity-70' 
-                                : 'bg-[#2A2A28] border-[#4C82FF]/30 active:bg-[#20201F]'
+                                ? 'bg-[#272726] border-[#3c3c3c]/50 opacity-70' 
+                                : 'bg-[#2f2f2e] border-[#3b82f6]/30 active:bg-[#333]'
                             }`}
                         >
                             <div className="flex justify-between items-start">
-                                <h3 className={`text-[14px] ${noti.is_read ? 'font-medium text-[#F4F4F1]' : 'font-bold text-white'}`}>
+                                <h3 className={`text-[14px] ${noti.is_read ? 'font-medium text-[#E5E5E5]' : 'font-bold text-white'}`}>
                                     {noti.title}
                                 </h3>
-                                <span className="text-[11px] text-[#A1A1AA] whitespace-nowrap ml-2">
+                                <span className="text-[11px] text-[#86868B] whitespace-nowrap ml-2">
                                     {formatDate(noti.created_at)}
                                 </span>
                             </div>
                             {noti.body && (
-                                <p className={`text-[13px] line-clamp-2 ${noti.is_read ? 'text-[#9A9A98]' : 'text-[#F4F4F1]'}`}>
+                                <p className={`text-[13px] line-clamp-2 ${noti.is_read ? 'text-[#9A9A98]' : 'text-[#E5E5E5]'}`}>
                                     {noti.body}
                                 </p>
                             )}

@@ -7,7 +7,10 @@ export default function MobileTaskList({ memberInfo }) {
     const [tasks, setTasks] = useState([]);
     const [loading, setLoading] = useState(true);
     const [iotaOnly, setIotaOnly] = useState(false);
-    const [dropdownOpen, setDropdownOpen] = useState(false);
+
+    // Touch Swipe States
+    const [touchStart, setTouchStart] = useState({ x: 0, y: 0 });
+    const [touchEnd, setTouchEnd] = useState({ x: 0, y: 0 });
 
     useEffect(() => {
         fetchTasks();
@@ -55,101 +58,160 @@ export default function MobileTaskList({ memberInfo }) {
     const getStatusColor = (status) => {
         switch(status) {
             case '완료': return 'text-green-400 bg-green-400/10 border-green-400/20';
-            case '진행중': return 'text-blue-400 bg-blue-400/10 border-blue-400/20';
+            case '진행중': return 'text-[#60a5fa] bg-[#60a5fa]/10 border-[#60a5fa]/20';
             case '보류': return 'text-red-400 bg-red-400/10 border-red-400/20';
-            default: return 'text-gray-300 bg-gray-500/10 border-gray-500/20'; // 아이데이션, 검토중 등
+            default: return 'text-gray-300 bg-gray-500/10 border-gray-500/20';
         }
     };
 
-    return (
-        <div className="flex flex-col w-full min-h-full pb-24 px-4 pt-4 relative">
-            {/* Header / Workspace Selector */}
-            <div className="flex items-center justify-between mb-4 relative z-20">
-                <div className="relative">
-                    <button 
-                        onClick={() => setDropdownOpen(!dropdownOpen)}
-                        className="flex items-center gap-2 text-[20px] font-bold text-white bg-transparent outline-none"
-                    >
-                        {workspace.label}
-                        <svg className={`w-5 h-5 transition-transform ${dropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                        </svg>
-                    </button>
-                    {dropdownOpen && (
-                        <>
-                            <div className="fixed inset-0 z-10" onClick={() => setDropdownOpen(false)}></div>
-                            <div className="absolute top-full left-0 mt-2 w-[200px] bg-[#242423] border border-[#3A3A39] rounded-xl shadow-xl z-20 py-2 overflow-hidden">
-                                {MOBILE_WORKSPACES.map(w => (
-                                    <button 
-                                        key={w.code}
-                                        onClick={() => { setWorkspace(w); setDropdownOpen(false); setIotaOnly(false); }}
-                                        className={`w-full text-left px-4 py-3 text-[15px] font-medium transition-colors ${workspace.code === w.code ? 'text-[#4C82FF] bg-[#4C82FF]/10' : 'text-[#F4F4F1] hover:bg-[#20201F]'}`}
-                                    >
-                                        {w.label}
-                                    </button>
-                                ))}
-                            </div>
-                        </>
-                    )}
-                </div>
+    // Touch handlers for swiping
+    const handleTouchStart = (e) => {
+        setTouchStart({
+            x: e.targetTouches[0].clientX,
+            y: e.targetTouches[0].clientY
+        });
+    };
 
-                {(workspace.code === 'WS_EMC' || workspace.code === 'WS_SSC') && (
-                    <label className="flex items-center gap-2 text-[13px] text-[#A1A1AA] font-medium cursor-pointer">
+    const handleTouchMove = (e) => {
+        setTouchEnd({
+            x: e.targetTouches[0].clientX,
+            y: e.targetTouches[0].clientY
+        });
+    };
+
+    const handleTouchEnd = () => {
+        if (!touchStart.x || !touchEnd.x) return;
+        const xDiff = touchStart.x - touchEnd.x;
+        const yDiff = touchStart.y - touchEnd.y;
+        
+        // swipe must be horizontal
+        if (Math.abs(xDiff) > Math.abs(yDiff) && Math.abs(xDiff) > 60) {
+            const currentIndex = MOBILE_WORKSPACES.findIndex(w => w.code === workspace.code);
+            if (xDiff > 0) {
+                // Swipe Left -> Next Tab
+                if (currentIndex < MOBILE_WORKSPACES.length - 1) {
+                    setWorkspace(MOBILE_WORKSPACES[currentIndex + 1]);
+                    setIotaOnly(false);
+                }
+            } else {
+                // Swipe Right -> Prev Tab
+                if (currentIndex > 0) {
+                    setWorkspace(MOBILE_WORKSPACES[currentIndex - 1]);
+                    setIotaOnly(false);
+                }
+            }
+        }
+        setTouchStart({ x: 0, y: 0 });
+        setTouchEnd({ x: 0, y: 0 });
+    };
+
+    return (
+        <div 
+            className="flex flex-col w-full min-h-full pb-24 bg-[#1F1F1E]"
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+        >
+            {/* Horizontal Workspace Tab Bar */}
+            <div className="flex gap-5 border-b border-[#3c3c3c] px-4 py-2 overflow-x-auto hide-scrollbar bg-[#272726] sticky top-0 z-20 shrink-0 select-none">
+                {MOBILE_WORKSPACES.map(w => {
+                    const isActive = workspace.code === w.code;
+                    return (
+                        <button
+                            key={w.code}
+                            onClick={() => {
+                                setWorkspace(w);
+                                setIotaOnly(false);
+                            }}
+                            className={`pb-2.5 pt-1.5 text-[15px] font-bold whitespace-nowrap transition-all relative outline-none ${
+                                isActive ? 'text-[#60a5fa]' : 'text-[#86868B] hover:text-[#E5E5E5]'
+                            }`}
+                        >
+                            {w.label}
+                            {isActive && (
+                                <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-[#3b82f6] rounded-full" />
+                            )}
+                        </button>
+                    );
+                })}
+            </div>
+
+            {/* Iota Filter Area */}
+            {(workspace.code === 'WS_EMC' || workspace.code === 'WS_SSC') && (
+                <div className="flex justify-end px-4 py-2.5 bg-[#1F1F1E] border-b border-[#3c3c3c]/50 shrink-0">
+                    <label className="flex items-center gap-2 text-[13px] text-[#A1A1AA] font-bold cursor-pointer select-none">
                         <span>이오타만 보기</span>
-                        <div className={`w-10 h-6 flex items-center rounded-full p-1 transition-colors ${iotaOnly ? 'bg-[#4C82FF]' : 'bg-[#3A3A39]'}`}>
+                        <div className={`w-9 h-5 flex items-center rounded-full p-0.5 transition-colors ${iotaOnly ? 'bg-[#3b82f6]' : 'bg-[#3c3c3c]'}`}>
                             <div className={`bg-white w-4 h-4 rounded-full shadow-md transform transition-transform ${iotaOnly ? 'translate-x-4' : ''}`}></div>
                         </div>
                         <input type="checkbox" className="hidden" checked={iotaOnly} onChange={(e) => setIotaOnly(e.target.checked)} />
                     </label>
-                )}
-            </div>
-
-            {/* List */}
-            {loading ? (
-                <div className="flex justify-center items-center py-10">
-                    <div className="animate-spin w-8 h-8 border-4 border-[#4C82FF] border-t-transparent rounded-full"></div>
-                </div>
-            ) : tasks.length === 0 ? (
-                <div className="text-center py-16 text-[#A1A1AA] text-[15px]">등록된 업무가 없습니다.</div>
-            ) : (
-                <div className="flex flex-col gap-3">
-                    {tasks.map((task, idx) => (
-                        <div key={task.id} className="bg-[#242423] border border-[#3A3A39] rounded-[12px] p-4 flex flex-col">
-                            <div className="flex items-center justify-between mb-2">
-                                <span className="text-[12px] font-bold text-[#FFC928]">Task {tasks.length - idx}</span>
-                                <span className={`text-[11px] font-semibold px-2 py-0.5 border rounded-full ${getStatusColor(task.status)}`}>
-                                    {task.status || '상태 없음'}
-                                </span>
-                            </div>
-                            
-                            <h3 className="text-[16px] font-bold text-[#F4F4F1] leading-snug mb-1">
-                                {task.task_name || 'Task 명 없음'}
-                            </h3>
-                            
-                            <div className="text-[13px] text-[#9A9A98] mb-3 flex items-center gap-2">
-                                <span className="text-[#4C82FF] font-medium">{task.related_asset || 'IOTA 공통'}</span>
-                                {task.company_name && (
-                                    <>
-                                        <span>|</span>
-                                        <span>{task.company_name}</span>
-                                    </>
-                                )}
-                            </div>
-
-                            <div className="bg-[#20201F] rounded-lg p-3">
-                                <div className="text-[12px] text-[#9A9A98] font-medium mb-1 flex items-center gap-1.5">
-                                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                                    목표 마감일: <span className="text-[#F4F4F1]">{formatDate(task.due_date)}</span>
-                                </div>
-                                <div className="text-[13px] text-[#F4F4F1] leading-relaxed whitespace-pre-line mt-2 line-clamp-3">
-                                    <span className="font-semibold text-[#A1A1AA] mr-2">Next:</span>
-                                    {task.next_action || '작성된 내용이 없습니다.'}
-                                </div>
-                            </div>
-                        </div>
-                    ))}
                 </div>
             )}
+
+            {/* List */}
+            <div className="flex flex-col gap-4 p-4">
+                {loading ? (
+                    <div className="flex justify-center items-center py-20">
+                        <div className="animate-spin w-8 h-8 border-4 border-[#3b82f6] border-t-transparent rounded-full"></div>
+                    </div>
+                ) : tasks.length === 0 ? (
+                    <div className="text-center py-20 text-[#86868B] text-[15px] font-medium">등록된 업무가 없습니다.</div>
+                ) : (
+                    <div className="flex flex-col gap-4">
+                        {tasks.map((task, idx) => {
+                            const isCritical = task.priority === '높음' || task.priority === '긴급';
+                            return (
+                                <div 
+                                    key={task.id} 
+                                    className={`rounded-[24px] p-5 flex flex-col transition-all duration-300 ${
+                                        isCritical 
+                                        ? 'border-[2px] border-transparent [background:linear-gradient(#272726,#272726)_padding-box,linear-gradient(to_bottom_right,#f87171,#fb923c,#facc15)_border-box]' 
+                                        : 'bg-[#272726] border border-[#3c3c3c] hover:bg-[#333]'
+                                    }`}
+                                >
+                                    <div className="flex items-center justify-between mb-3">
+                                        <div className="flex items-center gap-2">
+                                            <span className="text-[12px] font-bold text-[#fbf167]">Task {tasks.length - idx}</span>
+                                            {isCritical && (
+                                                <span className="text-[10px] font-bold text-[#f87171] bg-[#f87171]/10 px-2 py-0.5 rounded-full border border-[#f87171]/20">긴급</span>
+                                            )}
+                                        </div>
+                                        <span className={`text-[11px] font-bold px-2 py-0.5 border rounded-full ${getStatusColor(task.status)}`}>
+                                            {task.status || '상태 없음'}
+                                        </span>
+                                    </div>
+                                    
+                                    <h3 className="text-[16px] font-bold text-white leading-snug mb-1.5 font-sans">
+                                        {task.task_name || 'Task 명 없음'}
+                                    </h3>
+                                    
+                                    <div className="text-[13px] text-[#9A9A98] mb-3 flex items-center gap-2">
+                                        <span className="text-[#60a5fa] font-bold">{task.related_asset || 'IOTA 공통'}</span>
+                                        {task.company_name && (
+                                            <>
+                                                <span className="text-[#3c3c3c]">|</span>
+                                                <span className="text-[#E5E5E5] font-medium">{task.company_name}</span>
+                                            </>
+                                        )}
+                                    </div>
+
+                                    <div className="bg-[#1A1A1A] rounded-[12px] p-3.5 border border-[#3c3c3c]/30">
+                                        <div className="text-[12px] text-[#9A9A98] font-bold mb-1.5 flex items-center gap-1.5">
+                                            <svg className="w-3.5 h-3.5 text-[#86868B]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                                            목표 마감일: <span className="text-white ml-0.5">{formatDate(task.due_date)}</span>
+                                        </div>
+                                        <div className="text-[13px] text-[#E5E5E5] leading-relaxed whitespace-pre-line mt-2 line-clamp-3">
+                                            <span className="font-bold text-[#86868B] mr-2">Next:</span>
+                                            {task.next_action || '작성된 내용이 없습니다.'}
+                                        </div>
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+                )}
+            </div>
         </div>
     );
 }
