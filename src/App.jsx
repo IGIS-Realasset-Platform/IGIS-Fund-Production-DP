@@ -141,7 +141,13 @@ export default function App() {
 
   return (
     <>
-      <div className={(['system-plan', 'system-bridge', 'system-chat', 'system-detail', 'system-core', 'platform', 'auth-setup', 'workspace/archive', 'system-admin'].includes(currentPage) || currentPage.startsWith('platform/iotaseoul') || currentPage.startsWith('mobile')) ? "w-full h-screen overflow-hidden" : "hidden lg:block scroll-container font-sans"} id="scroll-container">
+      <div className={
+        currentPage.startsWith('mobile')
+          ? "w-full h-[100dvh] overflow-hidden relative"
+          : (['system-plan', 'system-bridge', 'system-chat', 'system-detail', 'system-core', 'platform', 'auth-setup', 'workspace/archive', 'system-admin'].includes(currentPage) || currentPage.startsWith('platform/iotaseoul'))
+            ? "w-full h-screen overflow-hidden"
+            : "hidden lg:block scroll-container font-sans"
+      } id="scroll-container">
         {!(['system-plan', 'system-bridge', 'system-chat', 'system-detail', 'system-core', 'platform', 'auth-setup', 'workspace/archive', 'system-admin'].includes(currentPage) || currentPage.startsWith('platform/iotaseoul') || currentPage.startsWith('mobile')) && (
             <Header
               onNavigateToHome={() => setCurrentPage('home')}
