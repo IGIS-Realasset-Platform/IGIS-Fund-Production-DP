@@ -142,7 +142,7 @@ export default function App() {
   return (
     <>
       <div className={
-        currentPage.startsWith('mobile')
+        (currentPage.startsWith('mobile') || currentPage === 'home')
           ? "w-full h-[100dvh] overflow-hidden relative"
           : (['system-plan', 'system-bridge', 'system-chat', 'system-detail', 'system-core', 'platform', 'auth-setup', 'workspace/archive', 'system-admin'].includes(currentPage) || currentPage.startsWith('platform/iotaseoul'))
             ? "w-full h-screen overflow-hidden"
