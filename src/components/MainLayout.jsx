@@ -23,6 +23,11 @@ import Section21 from './Section21';
 import Section22 from './Section22';
 
 export default function MainLayout() {
+    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+    const isMobileUA = /android|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent.toLowerCase());
+    const isSmallScreen = window.innerWidth < 768;
+    const isMobile = isMobileUA || isSmallScreen;
+
     const slidesLength = 22; // known length
     const [currentSlide, setCurrentSlide] = useState(() => {
         // Initialize from URL hash if available (persistent reload mapping)
@@ -169,11 +174,20 @@ export default function MainLayout() {
                 }
             `}</style>
             <div 
-                className="w-full h-screen overflow-hidden relative bg-white"
-            onTouchStart={onTouchStart}
-            onTouchMove={onTouchMove}
-            onTouchEnd={onTouchEnd}
-        >
+                className={`w-full ${isMobile ? 'h-full' : 'h-screen'} overflow-hidden relative bg-white`}
+                style={isMobile ? {
+                    width: '200%',
+                    height: '200%',
+                    transform: 'scale(0.5)',
+                    transformOrigin: 'top left',
+                    position: 'absolute',
+                    top: 0,
+                    left: 0
+                } : {}}
+                onTouchStart={onTouchStart}
+                onTouchMove={onTouchMove}
+                onTouchEnd={onTouchEnd}
+            >
             {slides.map((slide, index) => {
                 const isActive = index === currentSlide;
                 
