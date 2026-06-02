@@ -34,7 +34,7 @@ export default function MobileIotaApp({ navigateTo }) {
     };
 
     return (
-        <div className="flex flex-col w-full h-full bg-[#1F1F1E] text-[#E5E5E5] font-sans relative pb-[env(safe-area-inset-bottom)]">
+        <div className="flex flex-col w-full h-full bg-[#1F1F1E] text-[#E5E5E5] font-sans relative pb-[env(safe-area-inset-bottom)] overflow-hidden">
             {/* App Bar */}
             <div className="flex items-center justify-between px-4 py-3 bg-[#272726] border-b border-[#3c3c3c] shrink-0">
                 <div className="flex flex-col">
