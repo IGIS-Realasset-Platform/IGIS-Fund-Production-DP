@@ -104,8 +104,7 @@ export default function MobileIotaApp({ navigateTo }) {
         ? {
             width: '50%',
             height: '50%',
-            transform: 'scale(2.0)',
-            transformOrigin: 'top left',
+            zoom: 2.0,
             position: 'absolute',
             top: 0,
             left: 0
