@@ -13,6 +13,29 @@ export default function MobileIotaApp({ navigateTo }) {
     const [isComposerOpen, setIsComposerOpen] = useState(false);
     const [unreadNotiCount, setUnreadNotiCount] = useState(0);
 
+    // Lock html/body scrolling and reset window offset to fix mobile viewport cutoff bugs
+    useEffect(() => {
+        const originalHtmlOverflow = document.documentElement.style.overflow;
+        const originalHtmlHeight = document.documentElement.style.height;
+        const originalBodyOverflow = document.body.style.overflow;
+        const originalBodyHeight = document.body.style.height;
+
+        document.documentElement.style.overflow = 'hidden';
+        document.documentElement.style.height = '100dvh';
+        document.body.style.overflow = 'hidden';
+        document.body.style.height = '100dvh';
+        
+        // Force scroll reset
+        window.scrollTo(0, 0);
+
+        return () => {
+            document.documentElement.style.overflow = originalHtmlOverflow;
+            document.documentElement.style.height = originalHtmlHeight;
+            document.body.style.overflow = originalBodyOverflow;
+            document.body.style.height = originalBodyHeight;
+        };
+    }, []);
+
     // Fetch unread notification count
     useEffect(() => {
         if (!memberInfo?.email) return;
