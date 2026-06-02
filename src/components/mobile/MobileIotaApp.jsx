@@ -100,15 +100,25 @@ export default function MobileIotaApp({ navigateTo }) {
         }
     };
 
-    const sizeStyle = {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        width: '100%',
-        height: '100%'
-    };
+    const sizeStyle = isStandalone 
+        ? {
+            width: '76.92%',
+            height: '76.92%',
+            transform: 'scale(1.3)',
+            transformOrigin: 'top left',
+            position: 'absolute',
+            top: 0,
+            left: 0
+          }
+        : {
+            width: '111.11%',
+            height: '111.11%',
+            transform: 'scale(0.9)',
+            transformOrigin: 'top left',
+            position: 'absolute',
+            top: 0,
+            left: 0
+          };
 
     return (
         <div 
