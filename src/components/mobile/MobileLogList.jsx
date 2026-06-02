@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { supabase } from '../../utils/supabaseClient';
 import { MOBILE_WORKSPACES, getInitialWorkspace } from './mobileIotaData';
 import MobileLogCard from './MobileLogCard';
@@ -12,8 +12,23 @@ export default function MobileLogList({ memberInfo }) {
     const [touchStart, setTouchStart] = useState({ x: 0, y: 0 });
     const [touchEnd, setTouchEnd] = useState({ x: 0, y: 0 });
 
+    // Tab Scrolling Ref
+    const tabRefs = useRef({});
+
     useEffect(() => {
         fetchLogs();
+    }, [workspace]);
+
+    // Auto-scroll active tab into view center
+    useEffect(() => {
+        const activeTabEl = tabRefs.current[workspace.code];
+        if (activeTabEl) {
+            activeTabEl.scrollIntoView({
+                behavior: 'smooth',
+                block: 'nearest',
+                inline: 'center'
+            });
+        }
     }, [workspace]);
 
     const fetchLogs = async () => {
@@ -84,7 +99,7 @@ export default function MobileLogList({ memberInfo }) {
 
     return (
         <div 
-            className="flex flex-col w-full min-h-full pb-24 bg-[#1F1F1E]"
+            className="flex flex-col w-full max-w-full overflow-x-hidden min-h-full pb-24 bg-[#1F1F1E]"
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
@@ -96,6 +111,7 @@ export default function MobileLogList({ memberInfo }) {
                     return (
                         <button
                             key={w.code}
+                            ref={el => tabRefs.current[w.code] = el}
                             onClick={() => {
                                 setWorkspace(w);
                             }}

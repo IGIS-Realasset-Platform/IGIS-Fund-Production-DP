@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { supabase } from '../../utils/supabaseClient';
 import { MOBILE_WORKSPACES, getInitialWorkspace } from './mobileIotaData';
 
@@ -6,15 +6,30 @@ export default function MobileTaskList({ memberInfo }) {
     const [workspace, setWorkspace] = useState(() => getInitialWorkspace(memberInfo));
     const [tasks, setTasks] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [iotaOnly, setIotaOnly] = useState(false);
+    const [iotaOnly, setIotaOnly] = useState(true); // 디폴트 true로 변경
 
     // Touch Swipe States
     const [touchStart, setTouchStart] = useState({ x: 0, y: 0 });
     const [touchEnd, setTouchEnd] = useState({ x: 0, y: 0 });
 
+    // Tab Scrolling Ref
+    const tabRefs = useRef({});
+
     useEffect(() => {
         fetchTasks();
     }, [workspace, iotaOnly]);
+
+    // Auto-scroll active tab into view center
+    useEffect(() => {
+        const activeTabEl = tabRefs.current[workspace.code];
+        if (activeTabEl) {
+            activeTabEl.scrollIntoView({
+                behavior: 'smooth',
+                block: 'nearest',
+                inline: 'center'
+            });
+        }
+    }, [workspace]);
 
     const fetchTasks = async () => {
         setLoading(true);
@@ -91,13 +106,13 @@ export default function MobileTaskList({ memberInfo }) {
                 // Swipe Left -> Next Tab
                 if (currentIndex < MOBILE_WORKSPACES.length - 1) {
                     setWorkspace(MOBILE_WORKSPACES[currentIndex + 1]);
-                    setIotaOnly(false);
+                    setIotaOnly(true);
                 }
             } else {
                 // Swipe Right -> Prev Tab
                 if (currentIndex > 0) {
                     setWorkspace(MOBILE_WORKSPACES[currentIndex - 1]);
-                    setIotaOnly(false);
+                    setIotaOnly(true);
                 }
             }
         }
@@ -119,9 +134,10 @@ export default function MobileTaskList({ memberInfo }) {
                     return (
                         <button
                             key={w.code}
+                            ref={el => tabRefs.current[w.code] = el}
                             onClick={() => {
                                 setWorkspace(w);
-                                setIotaOnly(false);
+                                setIotaOnly(true);
                             }}
                             className={`pb-2.5 pt-1.5 text-[15px] font-bold whitespace-nowrap transition-all relative outline-none ${
                                 isActive ? 'text-[#60a5fa]' : 'text-[#86868B] hover:text-[#E5E5E5]'
