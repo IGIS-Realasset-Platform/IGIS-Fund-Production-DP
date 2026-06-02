@@ -41,6 +41,22 @@ export default function MobileIotaApp({ navigateTo }) {
         }
     }, []);
 
+    // Force correct mobile viewport meta tag configuration dynamically (critical for standalone PWA initialization)
+    useEffect(() => {
+        const setViewportMeta = () => {
+            let meta = document.querySelector('meta[name="viewport"]');
+            if (!meta) {
+                meta = document.createElement('meta');
+                meta.name = 'viewport';
+                document.getElementsByTagName('head')[0].appendChild(meta);
+            }
+            meta.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover');
+        };
+        setViewportMeta();
+        const timer = setTimeout(setViewportMeta, 300);
+        return () => clearTimeout(timer);
+    }, [isStandalone]);
+
     // Lock html/body scrolling and reset window offset to fix mobile viewport cutoff bugs
     useEffect(() => {
         const originalHtmlOverflow = document.documentElement.style.overflow;
