@@ -139,14 +139,11 @@ export default function MobileTaskList({ memberInfo }) {
                                 setWorkspace(w);
                                 setIotaOnly(true);
                             }}
-                            className={`pb-2.5 pt-1.5 text-[15px] font-bold whitespace-nowrap transition-all relative outline-none ${
+                            className={`py-2 text-[15px] font-bold whitespace-nowrap transition-all relative outline-none ${
                                 isActive ? 'text-[#60a5fa]' : 'text-[#86868B] hover:text-[#E5E5E5]'
                             }`}
                         >
                             {w.label}
-                            {isActive && (
-                                <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-[#3b82f6] rounded-full" />
-                            )}
                         </button>
                     );
                 })}

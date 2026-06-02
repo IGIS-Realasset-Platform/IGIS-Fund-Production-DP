@@ -57,7 +57,18 @@ export default function MobileIotaApp({ navigateTo }) {
     };
 
     return (
-        <div className="flex flex-col w-full h-full bg-[#1F1F1E] text-[#E5E5E5] font-sans relative overflow-hidden">
+        <div 
+            className="flex flex-col bg-[#1F1F1E] text-[#E5E5E5] font-sans relative overflow-hidden"
+            style={{
+                width: '111.11%',
+                height: '111.11%',
+                transform: 'scale(0.9)',
+                transformOrigin: 'top center',
+                position: 'absolute',
+                top: 0,
+                left: 0
+            }}
+        >
             {/* App Bar */}
             <div className="flex items-center justify-between px-4 py-3 bg-[#272726] border-b border-[#3c3c3c] shrink-0">
                 <div className="flex flex-col">
@@ -96,7 +107,7 @@ export default function MobileIotaApp({ navigateTo }) {
             {(activeTab === 0 || activeTab === 1 || activeTab === 2) && (
                 <button 
                     onClick={() => setIsComposerOpen(true)}
-                    className="absolute right-5 bottom-[125px] w-14 h-14 bg-[#3b82f6] hover:bg-[#2563eb] rounded-full flex items-center justify-center shadow-[0_4px_12px_rgba(59,130,246,0.4)] z-10 active:scale-95 transition-all border border-[#3b82f6]/20"
+                    className="absolute right-5 bottom-[110px] w-14 h-14 bg-[#3b82f6] hover:bg-[#2563eb] rounded-full flex items-center justify-center shadow-[0_4px_12px_rgba(59,130,246,0.4)] z-10 active:scale-95 transition-all border border-[#3b82f6]/20"
                 >
                     <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
@@ -105,7 +116,7 @@ export default function MobileIotaApp({ navigateTo }) {
             )}
 
             {/* Bottom Navigation */}
-            <div className="flex w-full bg-[#272726] border-t border-[#3c3c3c] shrink-0 pb-[calc(16px+env(safe-area-inset-bottom))]">
+            <div className="flex w-full bg-[#272726] border-t border-[#3c3c3c] shrink-0 pb-[calc(10px+env(safe-area-inset-bottom))]">
                 {[
                     { id: 0, label: '주요업무', icon: <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" /> },
                     { id: 1, label: '협업게시판', icon: <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /> },
