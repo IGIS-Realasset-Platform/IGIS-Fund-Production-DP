@@ -104,7 +104,12 @@ export default function MobileIotaApp({ navigateTo }) {
         ? {
             width: '50%',
             height: '50%',
-            zoom: 2.0,
+            transform: 'scale(2.0) translate3d(0,0,0)',
+            transformOrigin: 'top left',
+            WebkitFontSmoothing: 'subpixel-antialiased',
+            WebkitBackfaceVisibility: 'hidden',
+            backfaceVisibility: 'hidden',
+            textRendering: 'optimizeLegibility',
             position: 'absolute',
             top: 0,
             left: 0
