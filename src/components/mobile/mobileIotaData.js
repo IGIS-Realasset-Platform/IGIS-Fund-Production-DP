@@ -9,7 +9,8 @@ export const MOBILE_WORKSPACES = [
 ];
 
 export function getInitialWorkspace(memberInfo) {
-    if (!memberInfo) return MOBILE_WORKSPACES[0];
+    const defaultWorkspace = MOBILE_WORKSPACES.find(w => w.code === 'WS_SSC') || MOBILE_WORKSPACES[0];
+    if (!memberInfo) return defaultWorkspace;
     
     // Check code first if memberInfo has workspace_code
     if (memberInfo.workspace_code) {
@@ -23,5 +24,5 @@ export function getInitialWorkspace(memberInfo) {
         if (found) return found;
     }
     
-    return MOBILE_WORKSPACES[0];
+    return defaultWorkspace;
 }

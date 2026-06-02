@@ -159,7 +159,23 @@ export default function App() {
         {currentPage === 'action-plan' && <Notes />}
         
         {/* Navigation Handlers overriding the inline SystemPlan internal stage logic */}
-        {currentPage === 'auth-setup' && <AuthSetup onLogin={() => navigateTo('platform/iotaseoul/workflow')} />}
+        {currentPage === 'auth-setup' && (
+            <AuthSetup 
+                onLogin={() => {
+                    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+                    const isMobileUA = /android|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent.toLowerCase());
+                    const isSmallScreen = window.innerWidth < 768;
+                    const isMobile = isMobileUA || isSmallScreen;
+                    const forcePC = localStorage.getItem('force_pc_mode') === 'true';
+                    
+                    if (isMobile && !forcePC) {
+                        navigateTo('mobile');
+                    } else {
+                        navigateTo('platform/iotaseoul/workflow');
+                    }
+                }} 
+            />
+        )}
         {currentPage === 'system-plan' && <SystemLogin onLogin={() => navigateTo('system-bridge')} />}
         {['system-bridge', 'system-chat', 'system-detail'].includes(currentPage) && (
             <SystemPlan 

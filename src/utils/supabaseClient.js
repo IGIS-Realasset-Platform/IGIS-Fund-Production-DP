@@ -45,8 +45,7 @@ if (!window.__SUPABASE_CLIENT__) {
 
     window.__SUPABASE_CLIENT__ = createClient(supabaseUrl, supabaseAnonKey, {
         auth: {
-            storageKey: 'sb-iota-auth-token',
-            storage: cookieStorage
+            storageKey: 'sb-iota-auth-token'
         },
         global: {
             fetch: customFetch
