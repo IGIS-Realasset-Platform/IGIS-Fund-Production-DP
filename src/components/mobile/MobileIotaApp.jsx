@@ -195,7 +195,7 @@ export default function MobileIotaApp({ navigateTo }) {
             {/* Main Content Area */}
             <div 
                 onScroll={handleScroll}
-                className="flex-1 overflow-y-auto relative overscroll-y-contain bg-[#1F1F1E] pb-[60px]"
+                className="flex-1 min-h-0 overflow-y-auto relative overscroll-y-contain bg-[#1F1F1E] pb-[60px]"
             >
                 {activeTab === 0 && (
                     <MobileTaskList 

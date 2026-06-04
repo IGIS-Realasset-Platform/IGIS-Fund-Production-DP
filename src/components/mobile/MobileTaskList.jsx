@@ -172,7 +172,7 @@ export default function MobileTaskList({ memberInfo, initialWorkspaceCode, highl
 
     return (
         <div 
-            className="flex flex-col w-full max-w-full min-h-full pb-24 bg-[#1F1F1E]"
+            className="flex flex-col w-full max-w-full pb-24 bg-[#1F1F1E]"
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}

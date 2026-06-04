@@ -36,7 +36,7 @@ export default function MobileMyTasks({ memberInfo }) {
     };
 
     return (
-        <div className="flex flex-col w-full min-h-full pb-24 p-4 bg-[#1F1F1E]">
+        <div className="flex flex-col w-full pb-24 p-4 bg-[#1F1F1E]">
             {/* Header */}
             <div className="flex items-center justify-between mb-4 shrink-0 select-none">
                 <h2 className="text-[20px] font-bold text-white">내가 쓴 로그 ({logs.length})</h2>
