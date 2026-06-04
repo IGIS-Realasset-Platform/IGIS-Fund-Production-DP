@@ -18,6 +18,38 @@ export default function MobileIotaApp({ navigateTo }) {
     const [unreadNotiCount, setUnreadNotiCount] = useState(0);
     const [isStandalone, setIsStandalone] = useState(false);
 
+    const [showBottomNav, setShowBottomNav] = useState(true);
+    const [lastScrollTop, setLastScrollTop] = useState(0);
+
+    useEffect(() => {
+        setShowBottomNav(true);
+    }, [activeTab]);
+
+    const handleScroll = (e) => {
+        const scrollTop = e.currentTarget.scrollTop;
+        const scrollHeight = e.currentTarget.scrollHeight;
+        const clientHeight = e.currentTarget.clientHeight;
+        
+        // Prevent scroll noise at the extremes
+        if (scrollTop <= 10) {
+            setShowBottomNav(true);
+            setLastScrollTop(scrollTop);
+            return;
+        }
+        if (scrollTop + clientHeight >= scrollHeight - 10) {
+            setShowBottomNav(true);
+            setLastScrollTop(scrollTop);
+            return;
+        }
+
+        if (scrollTop > lastScrollTop && scrollTop > 50) {
+            setShowBottomNav(false);
+        } else if (scrollTop < lastScrollTop) {
+            setShowBottomNav(true);
+        }
+        setLastScrollTop(scrollTop);
+    };
+
     useEffect(() => {
         if (memberInfo?.auth_id) {
             requestFirebaseNotificationPermission(memberInfo.auth_id);
@@ -153,7 +185,10 @@ export default function MobileIotaApp({ navigateTo }) {
             </div>
 
             {/* Main Content Area */}
-            <div className="flex-1 overflow-y-auto relative overscroll-y-contain bg-[#1F1F1E]">
+            <div 
+                onScroll={handleScroll}
+                className="flex-1 overflow-y-auto relative overscroll-y-contain bg-[#1F1F1E] pb-[60px]"
+            >
                 {activeTab === 0 && (
                     <MobileTaskList 
                         memberInfo={memberInfo} 
@@ -273,7 +308,9 @@ export default function MobileIotaApp({ navigateTo }) {
             {(activeTab === 0 || activeTab === 1 || activeTab === 2) && (
                 <button 
                     onClick={() => setIsComposerOpen(true)}
-                    className="absolute right-5 bottom-[105px] w-14 h-14 bg-[#3b82f6] hover:bg-[#2563eb] rounded-full flex items-center justify-center shadow-[0_4px_12px_rgba(0,0,0,0.3)] z-10 active:scale-95 transition-all"
+                    className={`absolute right-5 w-14 h-14 bg-[#3b82f6] hover:bg-[#2563eb] rounded-full flex items-center justify-center shadow-[0_4px_12px_rgba(0,0,0,0.3)] z-10 active:scale-95 transition-all duration-300 ease-in-out ${
+                        showBottomNav ? 'bottom-[65px]' : 'bottom-5'
+                    }`}
                 >
                     <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
@@ -282,7 +319,9 @@ export default function MobileIotaApp({ navigateTo }) {
             )}
 
             {/* Bottom Navigation */}
-            <div className="flex w-full bg-[#272726] border-t border-[#3c3c3c] shrink-0 pb-[env(safe-area-inset-bottom)]">
+            <div className={`absolute bottom-0 left-0 w-full bg-[#272726] border-t border-[#3c3c3c] z-30 pb-[env(safe-area-inset-bottom)] transition-all duration-300 ease-in-out ${
+                showBottomNav ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0 pointer-events-none'
+            }`}>
                 {[
                     { id: 0, label: '주요업무', icon: <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" /> },
                     { id: 1, label: '협업게시판', icon: <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /> },
