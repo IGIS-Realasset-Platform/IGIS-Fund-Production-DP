@@ -684,7 +684,7 @@ export default function SystemAdmin({ currentPage, navigateTo }) {
 function ProjectTasksView() {
     const [searchTerm, setSearchTerm] = useState('');
     const [categoryFilter, setCategoryFilter] = useState('전체');
-    const [priorityFilter, setPriorityFilter] = useState('높음 이상');
+    const [priorityFilter, setPriorityFilter] = useState('전체');
     const [sortOrder, setSortOrder] = useState('latest'); // 'latest' or 'oldest'
     const [page, setPage] = useState(1);
     const [expandedTaskId, setExpandedTaskId] = useState(null);
@@ -707,6 +707,15 @@ function ProjectTasksView() {
         '보통': 3,
         '낮음': 2,
         '최하': 1
+    };
+
+    const getTitleColorClass = (priority) => {
+        if (priority === '최고') {
+            return 'text-red-500 dark:text-red-400';
+        } else if (priority === '높음') {
+            return 'text-amber-500 dark:text-amber-400';
+        }
+        return 'text-[#1D1D1F] dark:text-white';
     };
 
     const filteredTasks = tasksWithIndex.filter(task => {
@@ -841,13 +850,12 @@ function ProjectTasksView() {
                     <table className="w-full text-left border-collapse">
                         <thead>
                             <tr className="bg-[#F5F5F7] dark:bg-[#2C2C2E] border-b border-black/10 dark:border-white/10">
-                                <th className="py-4 px-6 text-xs font-semibold text-[#86868B] uppercase tracking-wider w-[12%]">대분류</th>
-                                <th className="py-4 px-6 text-xs font-semibold text-[#86868B] uppercase tracking-wider w-[40%]">작업 정보</th>
-                                <th className="py-4 px-6 text-xs font-semibold text-[#86868B] uppercase tracking-wider w-[10%]">우선순위</th>
-                                <th className="py-4 px-6 text-xs font-semibold text-[#86868B] uppercase tracking-wider w-[10%]">담당자</th>
+                                <th className="py-4 px-6 text-xs font-semibold text-[#86868B] uppercase tracking-wider w-[15%]">대분류</th>
+                                <th className="py-4 px-6 text-xs font-semibold text-[#86868B] uppercase tracking-wider w-[47%]">작업 정보</th>
+                                <th className="py-4 px-6 text-xs font-semibold text-[#86868B] uppercase tracking-wider w-[12%]">우선순위</th>
                                 <th className="py-4 px-6 text-xs font-semibold text-[#86868B] uppercase tracking-wider w-[12%]">마감일</th>
                                 <th className="py-4 px-6 text-xs font-semibold text-[#86868B] uppercase tracking-wider w-[10%]">상태</th>
-                                <th className="py-4 px-6 text-xs font-semibold text-[#86868B] uppercase tracking-wider w-[6%] text-center">상세</th>
+                                <th className="py-4 px-6 text-xs font-semibold text-[#86868B] uppercase tracking-wider w-[4%] text-center">상세</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-black/5 dark:divide-white/5">
@@ -866,7 +874,7 @@ function ProjectTasksView() {
                                             </td>
                                             <td className="py-4 px-6">
                                                 <div className="flex flex-col">
-                                                    <span className="text-[15px] font-semibold text-[#1D1D1F] dark:text-white leading-snug">
+                                                    <span className={`text-[15px] font-semibold leading-snug ${getTitleColorClass(task['우선순위'])}`}>
                                                         {task['작업 이름']}
                                                     </span>
                                                     <span className="text-[12px] text-[#86868B] mt-0.5 font-medium">
@@ -878,9 +886,6 @@ function ProjectTasksView() {
                                                 <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full ${getPriorityColor(task['우선순위'])}`}>
                                                     {task['우선순위']}
                                                 </span>
-                                            </td>
-                                            <td className="py-4 px-6 text-[14px] font-medium text-[#1D1D1F] dark:text-white">
-                                                {task['담당자'] || '-'}
                                             </td>
                                             <td className="py-4 px-6 text-[13px] font-mono text-[#86868B] dark:text-[#A1A1AA]">
                                                 {task['마감일'] || '-'}
@@ -905,7 +910,7 @@ function ProjectTasksView() {
                                         </tr>
                                         {isExpanded && (
                                             <tr className="bg-[#F5F5F7]/30 dark:bg-[#1C1C1E]/30">
-                                                <td colSpan="7" className="py-4 px-8 border-b border-black/5 dark:border-white/5">
+                                                <td colSpan="6" className="py-4 px-8 border-b border-black/5 dark:border-white/5">
                                                     <div className="space-y-3 py-1">
                                                         <div>
                                                             <span className="text-[12px] font-bold text-[#86868B] uppercase tracking-wider block mb-1">상세 내용</span>
@@ -934,7 +939,7 @@ function ProjectTasksView() {
                             })}
                             {paginatedTasks.length === 0 && (
                                 <tr>
-                                    <td colSpan="7" className="py-12 text-center text-[#86868B]">
+                                    <td colSpan="6" className="py-12 text-center text-[#86868B]">
                                         검색 조건에 맞는 작업 내역이 없습니다.
                                     </td>
                                 </tr>
