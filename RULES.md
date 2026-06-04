@@ -41,6 +41,7 @@
 - **기획총괄내역 자동 기록 의무화**:
   - 개발 작업이나 버그 수정이 완료되면 **반드시** iCloud 경로의 원본 CSV 파일(`/Users/jkjeon2025/Library/Mobile Documents/com~apple~CloudDocs/JK x IGIS/기획추진/IFPDP/IOTA Seoul/IFPDP_기획및구축_총괄내역서.csv`)에 관련 내역(대분류, 작업 이름, 상태, 담당자, 마감일, 우선순위, 작업 유형, URL, 내용 상세)을 규격에 맞춰 추가해야 합니다.
   - CSV 추가 후에는 즉시 프로젝트 루트에 위치한 빌드 스크립트 `node csv_to_js_esm.js`를 실행하여 `src/components/system/admin/tasksData.js`를 갱신해야 합니다.
+  - **[예외 조건]**: 단순 여백/패딩 조정, 미세 텍스트 정렬 등 사소한 UI/스타일 튜닝 조율 작업은 총괄내역 기록 대상에서 일절 제외합니다.
 - **Supabase RLS(Row Level Security) 사전 대응**:
   - 데이터 인서트, 알림 발송 등 DB 테이블과 상호작용하는 기능을 구현할 때는 Supabase의 RLS 정책(INSERT, SELECT, UPDATE, DELETE)이 유효하게 열려 있는지 사전에 검증하여 `42501 (insufficient privilege)` 등의 권한 차단 에러를 예방해야 합니다. 필요시 전용 RLS Policy 배포용 SQL을 마련하고 이를 기록해야 합니다.
 
