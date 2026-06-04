@@ -122,9 +122,9 @@ export default function MobileIotaApp({ navigateTo }) {
             left: 0
           }
         : {
-            width: '111.11%',
-            height: '111.11%',
-            transform: 'scale(0.9)',
+            width: '125%',
+            height: '125%',
+            transform: 'scale(0.8)',
             transformOrigin: 'top left',
             position: 'absolute',
             top: 0,
