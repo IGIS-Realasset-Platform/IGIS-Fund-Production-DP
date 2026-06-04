@@ -58,11 +58,13 @@ export function AuthProvider({ children }) {
         let subscription;
         let activityIntervalId;
 
-        // 5. 브라우저 탭 복귀 시 조용히 세션 예열 (Auto-warmup)
+        // 5. 브라우저 탭 복귀 시 조용히 세션 예열 (Auto-warmup) - Explicit refreshSession disabled to prevent signout on silent failures
         const handleVisibilityChange = () => {
+            /*
             if (document.visibilityState === 'visible') {
                 supabase.auth.refreshSession().catch(e => console.warn('Silent refresh failed', e));
             }
+            */
         };
         window.addEventListener('visibilitychange', handleVisibilityChange);
 
@@ -88,10 +90,11 @@ export function AuthProvider({ children }) {
                     localStorage.setItem('iota_last_activity', Date.now().toString());
                 }, 60000);
 
+                // Increase timeout threshold to 15s to handle slower mobile cell network latencies without early redirection
                 timeoutId = setTimeout(() => {
                     console.error("Auth initialization timed out! Forcing load.");
                     setLoading(false);
-                }, 5000);
+                }, 15000);
 
                 const { data: { session } } = await supabase.auth.getSession();
                 clearTimeout(timeoutId);
