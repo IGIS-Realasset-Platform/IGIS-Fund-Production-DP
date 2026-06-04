@@ -851,11 +851,10 @@ function ProjectTasksView() {
                         <thead>
                             <tr className="bg-[#F5F5F7] dark:bg-[#2C2C2E] border-b border-black/10 dark:border-white/10">
                                 <th className="py-4 px-6 text-xs font-semibold text-[#86868B] uppercase tracking-wider w-[15%]">대분류</th>
-                                <th className="py-4 px-6 text-xs font-semibold text-[#86868B] uppercase tracking-wider w-[47%]">작업 정보</th>
+                                <th className="py-4 px-6 text-xs font-semibold text-[#86868B] uppercase tracking-wider w-[51%]">작업 정보</th>
                                 <th className="py-4 px-6 text-xs font-semibold text-[#86868B] uppercase tracking-wider w-[12%]">우선순위</th>
                                 <th className="py-4 px-6 text-xs font-semibold text-[#86868B] uppercase tracking-wider w-[12%]">마감일</th>
                                 <th className="py-4 px-6 text-xs font-semibold text-[#86868B] uppercase tracking-wider w-[10%]">상태</th>
-                                <th className="py-4 px-6 text-xs font-semibold text-[#86868B] uppercase tracking-wider w-[4%] text-center">상세</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-black/5 dark:divide-white/5">
@@ -895,22 +894,10 @@ function ProjectTasksView() {
                                                     {task['상태']}
                                                 </span>
                                             </td>
-                                            <td className="py-4 px-6 text-center">
-                                                <button className="text-[#86868B] hover:text-[#1D1D1F] dark:hover:text-white p-1 rounded-full hover:bg-black/5 dark:hover:bg-white/5 transition-all">
-                                                    <svg 
-                                                        className={`w-4 h-4 transform transition-transform ${isExpanded ? 'rotate-180' : ''}`} 
-                                                        fill="none" 
-                                                        stroke="currentColor" 
-                                                        viewBox="0 0 24 24"
-                                                    >
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                                                    </svg>
-                                                </button>
-                                            </td>
                                         </tr>
                                         {isExpanded && (
                                             <tr className="bg-[#F5F5F7]/30 dark:bg-[#1C1C1E]/30">
-                                                <td colSpan="6" className="py-4 px-8 border-b border-black/5 dark:border-white/5">
+                                                <td colSpan="5" className="py-4 px-8 border-b border-black/5 dark:border-white/5">
                                                     <div className="space-y-3 py-1">
                                                         <div>
                                                             <span className="text-[12px] font-bold text-[#86868B] uppercase tracking-wider block mb-1">상세 내용</span>
@@ -939,7 +926,7 @@ function ProjectTasksView() {
                             })}
                             {paginatedTasks.length === 0 && (
                                 <tr>
-                                    <td colSpan="6" className="py-12 text-center text-[#86868B]">
+                                    <td colSpan="5" className="py-12 text-center text-[#86868B]">
                                         검색 조건에 맞는 작업 내역이 없습니다.
                                     </td>
                                 </tr>
