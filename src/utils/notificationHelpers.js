@@ -43,7 +43,7 @@ export const notifyMembersOnLogCreation = async (logId, logContent, workspace, w
         // 1. 활성화 상태이고 auth_id가 매핑된 멤버 전체 조회
         const { data: members, error: memberError } = await supabase
             .from('iota_seoul_pilot_members')
-            .select('auth_id, email, org_name, role_code, workspace_code')
+            .select('auth_id, email, staff_name, org_name, role_code, workspace_code')
             .eq('is_active', true)
             .not('auth_id', 'is', null);
 
@@ -52,7 +52,19 @@ export const notifyMembersOnLogCreation = async (logId, logContent, workspace, w
             return;
         }
 
-        // 2. 수신자 매핑 알고리즘:
+        // 2. 작성자 정보 및 멘션(@) 파싱
+        const writerMember = members.find(m => m.email && writerEmail && m.email.toLowerCase() === writerEmail.toLowerCase());
+        const writerName = writerMember ? writerMember.staff_name : '누군가';
+
+        // 본문에서 @이름 패턴 추출
+        const mentionMatches = [...logContent.matchAll(/@([가-힣a-zA-Z0-9]+)/g)].map(m => m[1]);
+        const mentionedMembers = members.filter(member => 
+            mentionMatches.includes(member.staff_name) &&
+            member.email && writerEmail && member.email.toLowerCase() !== writerEmail.toLowerCase()
+        );
+        const mentionedAuthIds = [...new Set(mentionedMembers.map(m => m.auth_id))];
+
+        // 3. 수신자 매핑 알고리즘:
         // - 소속 워크스페이스 멤버 (workspace.orgNames 가 member.org_name을 포함하거나 member.workspace_code === workspace.code)
         // - 또는 director / master 권한 보유자
         // - 단, 작성자 본인(writerEmail)은 제외
@@ -71,23 +83,44 @@ export const notifyMembersOnLogCreation = async (logId, logContent, workspace, w
 
         const uniqueRecipientIds = [...new Set(recipientIds)];
 
-        if (uniqueRecipientIds.length === 0) {
+        // 일반 알림 대상자 중에서 언급(태그) 대상자를 제외하여 중복 수신 방지
+        const ordinaryRecipientIds = uniqueRecipientIds.filter(id => !mentionedAuthIds.includes(id));
+
+        const summaryText = logContent.length > 80 ? logContent.slice(0, 80) + '...' : logContent;
+        const notificationPayload = [];
+
+        // 일반 알림 페이로드 추가
+        ordinaryRecipientIds.forEach(userId => {
+            notificationPayload.push({
+                user_id: userId,
+                title: `[${workspace.label}] 신규 협업글 등록`,
+                body: summaryText,
+                type: 'log',
+                reference_id: logId,
+                is_read: false,
+                created_at: new Date().toISOString()
+            });
+        });
+
+        // 언급(태그) 알림 페이로드 추가
+        mentionedAuthIds.forEach(userId => {
+            notificationPayload.push({
+                user_id: userId,
+                title: `[@언급] ${writerName}님이 회원님을 태그했습니다.`,
+                body: summaryText,
+                type: 'log',
+                reference_id: logId,
+                is_read: false,
+                created_at: new Date().toISOString()
+            });
+        });
+
+        if (notificationPayload.length === 0) {
             console.log('No recipients to notify for log:', logId);
             return;
         }
 
-        // 3. iota_notifications 테이블에 Bulk Insert 진행
-        const summaryText = logContent.length > 80 ? logContent.slice(0, 80) + '...' : logContent;
-        const notificationPayload = uniqueRecipientIds.map(userId => ({
-            user_id: userId,
-            title: `[${workspace.label}] 신규 협업글 등록`,
-            body: summaryText,
-            type: 'log',
-            reference_id: logId,
-            is_read: false,
-            created_at: new Date().toISOString()
-        }));
-
+        // 4. iota_notifications 테이블에 Bulk Insert 진행
         const { error: insertError } = await supabase
             .from('iota_notifications')
             .insert(notificationPayload);
@@ -95,7 +128,7 @@ export const notifyMembersOnLogCreation = async (logId, logContent, workspace, w
         if (insertError) {
             console.error('Failed to insert log notifications:', insertError);
         } else {
-            console.log(`Log notifications successfully sent to ${uniqueRecipientIds.length} users.`);
+            console.log(`Log notifications successfully sent to ${notificationPayload.length} users (Mentions: ${mentionedAuthIds.length}).`);
         }
     } catch (err) {
         console.error('Error in notifyMembersOnLogCreation:', err);

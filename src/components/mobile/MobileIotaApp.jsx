@@ -82,17 +82,17 @@ export default function MobileIotaApp({ navigateTo }) {
 
     // Fetch unread notification count
     useEffect(() => {
-        if (!memberInfo?.email) return;
+        if (!memberInfo?.auth_id) return;
         const fetchUnread = async () => {
             const { count } = await supabase
                 .from('iota_notifications')
                 .select('*', { count: 'exact', head: true })
-                .eq('user_id', memberInfo.email)
+                .eq('user_id', memberInfo.auth_id)
                 .eq('is_read', false);
             setUnreadNotiCount(count || 0);
         };
         fetchUnread();
-    }, [memberInfo?.email, activeTab]);
+    }, [memberInfo?.auth_id, activeTab]);
 
     const handleLogout = async () => {
         if (window.confirm("로그아웃 하시겠습니까?")) {

@@ -6,7 +6,7 @@ export default function MobileNotifications({ memberInfo, onRead }) {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        if (!memberInfo?.email) {
+        if (!memberInfo?.auth_id) {
             setLoading(false);
             return;
         }
@@ -19,7 +19,7 @@ export default function MobileNotifications({ memberInfo, onRead }) {
             const { data, error } = await supabase
                 .from('iota_notifications')
                 .select('*')
-                .eq('user_id', memberInfo.email)
+                .eq('user_id', memberInfo.auth_id)
                 .order('created_at', { ascending: false })
                 .limit(50);
                 
