@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { supabase } from '../../utils/supabaseClient';
 import { MOBILE_WORKSPACES, getInitialWorkspace } from './mobileIotaData';
+import { notifyMembersOnLogCreation, notifyMembersOnTaskCreation } from '../../utils/notificationHelpers';
 
 export default function MobileComposerSheet({ memberInfo, onClose, onSuccess, activeTab }) {
     const [mode, setMode] = useState(() => (activeTab === 1 ? 'log' : 'task'));
@@ -46,6 +47,9 @@ export default function MobileComposerSheet({ memberInfo, onClose, onSuccess, ac
 
                 const { error } = await supabase.from(workspace.taskTable).insert(payload);
                 if (error) throw error;
+
+                // 알림 발송 (UI 블로킹 없이 백그라운드로 처리)
+                notifyMembersOnTaskCreation(taskName.trim(), workspace, memberInfo?.email);
             } else {
                 if (!logContent.trim()) {
                     alert("내용을 입력해주세요.");
@@ -88,6 +92,9 @@ export default function MobileComposerSheet({ memberInfo, onClose, onSuccess, ac
                     proj_id: projectName === '427 PFV' ? 'P00030' : projectName === '816 PFV' ? 'P00037' : projectName === '421 Fund' ? '112614' : 'IOTA_COMMON',
                     relation_type: 'direct_input'
                 });
+
+                // 알림 발송 (UI 블로킹 없이 백그라운드로 처리)
+                notifyMembersOnLogCreation(logId, logContent, workspace, memberInfo?.email);
             }
 
             alert("저장되었습니다.");

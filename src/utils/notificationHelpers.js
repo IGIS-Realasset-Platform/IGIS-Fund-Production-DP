@@ -32,3 +32,139 @@ export const notifyVIPsOnTaskCreation = async (taskName, workspaceName) => {
         console.error('Error in notifyVIPsOnTaskCreation:', err);
     }
 };
+
+/**
+ * 협업글(Log) 생성 시 워크스페이스 소속원 및 마스터/디렉터에게 알림 전송 (비동기 백그라운드 구동 권장)
+ */
+export const notifyMembersOnLogCreation = async (logId, logContent, workspace, writerEmail) => {
+    if (!logId || !workspace?.code) return;
+
+    try {
+        // 1. 활성화 상태이고 auth_id가 매핑된 멤버 전체 조회
+        const { data: members, error: memberError } = await supabase
+            .from('iota_seoul_pilot_members')
+            .select('auth_id, email, org_name, role_code, workspace_code')
+            .eq('is_active', true)
+            .not('auth_id', 'is', null);
+
+        if (memberError) {
+            console.error('Failed to fetch members for notifications:', memberError);
+            return;
+        }
+
+        // 2. 수신자 매핑 알고리즘:
+        // - 소속 워크스페이스 멤버 (workspace.orgNames 가 member.org_name을 포함하거나 member.workspace_code === workspace.code)
+        // - 또는 director / master 권한 보유자
+        // - 단, 작성자 본인(writerEmail)은 제외
+        const recipientIds = members
+            .filter(member => {
+                const orgMatch = workspace.orgNames && workspace.orgNames.includes(member.org_name);
+                const codeMatch = member.workspace_code === workspace.code;
+                const isSameWorkspace = orgMatch || codeMatch;
+                
+                const isDirectorOrMaster = member.role_code === 'master' || member.role_code === 'director';
+                const isNotWriter = member.email && writerEmail && member.email.toLowerCase() !== writerEmail.toLowerCase();
+
+                return (isSameWorkspace || isDirectorOrMaster) && isNotWriter;
+            })
+            .map(member => member.auth_id);
+
+        const uniqueRecipientIds = [...new Set(recipientIds)];
+
+        if (uniqueRecipientIds.length === 0) {
+            console.log('No recipients to notify for log:', logId);
+            return;
+        }
+
+        // 3. iota_notifications 테이블에 Bulk Insert 진행
+        const summaryText = logContent.length > 80 ? logContent.slice(0, 80) + '...' : logContent;
+        const notificationPayload = uniqueRecipientIds.map(userId => ({
+            user_id: userId,
+            title: `[${workspace.label}] 신규 협업글 등록`,
+            body: summaryText,
+            type: 'log',
+            reference_id: logId,
+            is_read: false,
+            created_at: new Date().toISOString()
+        }));
+
+        const { error: insertError } = await supabase
+            .from('iota_notifications')
+            .insert(notificationPayload);
+
+        if (insertError) {
+            console.error('Failed to insert log notifications:', insertError);
+        } else {
+            console.log(`Log notifications successfully sent to ${uniqueRecipientIds.length} users.`);
+        }
+    } catch (err) {
+        console.error('Error in notifyMembersOnLogCreation:', err);
+    }
+};
+
+/**
+ * Task 생성 시 워크스페이스 소속원 및 마스터/디렉터에게 알림 전송 (비동기 백그라운드 구동 권장)
+ */
+export const notifyMembersOnTaskCreation = async (taskName, workspace, writerEmail) => {
+    if (!taskName || !workspace?.code) return;
+
+    try {
+        // 1. 활성화 상태이고 auth_id가 매핑된 멤버 전체 조회
+        const { data: members, error: memberError } = await supabase
+            .from('iota_seoul_pilot_members')
+            .select('auth_id, email, org_name, role_code, workspace_code')
+            .eq('is_active', true)
+            .not('auth_id', 'is', null);
+
+        if (memberError) {
+            console.error('Failed to fetch members for task notifications:', memberError);
+            return;
+        }
+
+        // 2. 수신자 매핑 알고리즘:
+        // - 소속 워크스페이스 멤버 (workspace.orgNames 가 member.org_name을 포함하거나 member.workspace_code === workspace.code)
+        // - 또는 director / master 권한 보유자
+        // - 단, 작성자 본인(writerEmail)은 제외
+        const recipientIds = members
+            .filter(member => {
+                const orgMatch = workspace.orgNames && workspace.orgNames.includes(member.org_name);
+                const codeMatch = member.workspace_code === workspace.code;
+                const isSameWorkspace = orgMatch || codeMatch;
+
+                const isDirectorOrMaster = member.role_code === 'master' || member.role_code === 'director';
+                const isNotWriter = member.email && writerEmail && member.email.toLowerCase() !== writerEmail.toLowerCase();
+
+                return (isSameWorkspace || isDirectorOrMaster) && isNotWriter;
+            })
+            .map(member => member.auth_id);
+
+        const uniqueRecipientIds = [...new Set(recipientIds)];
+
+        if (uniqueRecipientIds.length === 0) {
+            console.log('No recipients to notify for task:', taskName);
+            return;
+        }
+
+        // 3. iota_notifications 테이블에 Bulk Insert 진행
+        const notificationPayload = uniqueRecipientIds.map(userId => ({
+            user_id: userId,
+            title: `[${workspace.label}] 신규 Task 등록`,
+            body: `새로운 Task가 등록되었습니다: ${taskName}`,
+            type: 'task',
+            is_read: false,
+            created_at: new Date().toISOString()
+        }));
+
+        const { error: insertError } = await supabase
+            .from('iota_notifications')
+            .insert(notificationPayload);
+
+        if (insertError) {
+            console.error('Failed to insert task notifications:', insertError);
+        } else {
+            console.log(`Task notifications successfully sent to ${uniqueRecipientIds.length} users.`);
+        }
+    } catch (err) {
+        console.error('Error in notifyMembersOnTaskCreation:', err);
+    }
+};
