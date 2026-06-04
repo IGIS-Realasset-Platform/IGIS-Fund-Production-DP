@@ -174,7 +174,7 @@ export default function MobileIotaApp({ navigateTo }) {
             {(activeTab === 0 || activeTab === 1 || activeTab === 2) && (
                 <button 
                     onClick={() => setIsComposerOpen(true)}
-                    className="absolute right-5 bottom-[105px] w-14 h-14 bg-[#3b82f6] hover:bg-[#2563eb] rounded-full flex items-center justify-center shadow-[0_4px_12px_rgba(59,130,246,0.4)] z-10 active:scale-95 transition-all border border-[#3b82f6]/20"
+                    className="absolute right-5 bottom-[105px] w-14 h-14 bg-[#3b82f6] hover:bg-[#2563eb] rounded-full flex items-center justify-center shadow-[0_4px_12px_rgba(0,0,0,0.3)] z-10 active:scale-95 transition-all"
                 >
                     <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
