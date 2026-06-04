@@ -144,11 +144,11 @@ export default function App() {
       <div className={
         (currentPage.startsWith('mobile') || currentPage === 'home')
           ? "w-full h-[100dvh] overflow-hidden relative"
-          : (['system-plan', 'system-bridge', 'system-chat', 'system-detail', 'system-core', 'platform', 'auth-setup', 'workspace/archive', 'system-admin'].includes(currentPage) || currentPage.startsWith('platform/iotaseoul'))
+          : (['system-plan', 'system-bridge', 'system-chat', 'system-detail', 'system-core', 'platform', 'auth-setup', 'workspace/archive'].includes(currentPage) || currentPage.startsWith('system-admin') || currentPage.startsWith('platform/iotaseoul'))
             ? "w-full h-screen overflow-hidden"
             : "hidden lg:block scroll-container font-sans"
       } id="scroll-container">
-        {!(['system-plan', 'system-bridge', 'system-chat', 'system-detail', 'system-core', 'platform', 'auth-setup', 'workspace/archive', 'system-admin'].includes(currentPage) || currentPage.startsWith('platform/iotaseoul') || currentPage.startsWith('mobile')) && (
+        {!(['system-plan', 'system-bridge', 'system-chat', 'system-detail', 'system-core', 'platform', 'auth-setup', 'workspace/archive'].includes(currentPage) || currentPage.startsWith('system-admin') || currentPage.startsWith('platform/iotaseoul') || currentPage.startsWith('mobile')) && (
             <Header
               onNavigateToHome={() => setCurrentPage('home')}
               currentPage={currentPage}
@@ -193,7 +193,7 @@ export default function App() {
         {currentPage === 'platform' && <PlatformCore isPlatform={true} />}
         {currentPage.startsWith('platform/iotaseoul') && !currentPage.includes('/archive') && <PlatformCore isPlatform={true} isIotaWorkspaceOverride={true} currentPath={currentPage} />}
         {(currentPage.includes('workspace/archive') || currentPage.endsWith('/archive')) && <WorkspaceArchive />}
-        {currentPage === 'system-admin' && <SystemAdmin />}
+        {(currentPage === 'system-admin' || currentPage.startsWith('system-admin/')) && <SystemAdmin currentPage={currentPage} navigateTo={navigateTo} />}
         {currentPage.startsWith('mobile') && <MobileIotaApp navigateTo={navigateTo} />}
       </div>
 

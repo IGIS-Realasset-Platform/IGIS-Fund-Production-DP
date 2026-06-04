@@ -3,13 +3,27 @@ import { supabase } from '../../../utils/supabaseClient';
 import { useAuth } from '../../../context/AuthContext';
 import { tasksData } from './tasksData';
 
-export default function SystemAdmin() {
+export default function SystemAdmin({ currentPage, navigateTo }) {
     const { user, memberInfo } = useAuth();
     const [logs, setLogs] = useState([]);
     const [supportRequests, setSupportRequests] = useState([]);
     const [loading, setLoading] = useState(true);
     const [accessDenied, setAccessDenied] = useState(false);
-    const [activeTab, setActiveTab] = useState('access_logs');
+
+    const activeTab = currentPage === 'system-admin/support-requests' ? 'support_requests' :
+                      currentPage === 'system-admin/project-tasks' ? 'project_tasks' : 'access_logs';
+
+    const setActiveTab = (tab) => {
+        if (tab === 'support_requests') navigateTo('system-admin/support-requests');
+        else if (tab === 'project_tasks') navigateTo('system-admin/project-tasks');
+        else navigateTo('system-admin/access-logs');
+    };
+
+    useEffect(() => {
+        if (currentPage === 'system-admin') {
+            navigateTo('system-admin/access-logs');
+        }
+    }, [currentPage]);
     
     // Login History Modal State
     const [selectedUser, setSelectedUser] = useState(null);
@@ -671,12 +685,23 @@ function ProjectTasksView() {
     const [searchTerm, setSearchTerm] = useState('');
     const [categoryFilter, setCategoryFilter] = useState('전체');
     const [priorityFilter, setPriorityFilter] = useState('전체');
+    const [sortOrder, setSortOrder] = useState('latest'); // 'latest' or 'oldest'
+    const [page, setPage] = useState(1);
     const [expandedTaskId, setExpandedTaskId] = useState(null);
+
+    // Reset page and expansion when search/filter/sort parameters change
+    useEffect(() => {
+        setPage(1);
+        setExpandedTaskId(null);
+    }, [searchTerm, categoryFilter, priorityFilter, sortOrder]);
 
     const categories = ['전체', ...new Set(tasksData.map(t => t['대분류']).filter(Boolean))];
     const priorities = ['전체', '최고', '높음', '보통', '낮음', '최하'];
 
-    const filteredTasks = tasksData.filter(task => {
+    // Map tasks to include their stable originalIndex (which is their input order)
+    const tasksWithIndex = tasksData.map((task, idx) => ({ ...task, originalIndex: idx }));
+
+    const filteredTasks = tasksWithIndex.filter(task => {
         const matchesSearch = 
             (task['작업 이름'] || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
             (task['내용 상세'] || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -688,6 +713,18 @@ function ProjectTasksView() {
 
         return matchesSearch && matchesCategory && matchesPriority;
     });
+
+    const sortedTasks = [...filteredTasks].sort((a, b) => {
+        if (sortOrder === 'latest') {
+            return b.originalIndex - a.originalIndex; // descending
+        } else {
+            return a.originalIndex - b.originalIndex; // ascending
+        }
+    });
+
+    const itemsPerPage = 20;
+    const totalPages = Math.ceil(sortedTasks.length / itemsPerPage);
+    const paginatedTasks = sortedTasks.slice((page - 1) * itemsPerPage, page * itemsPerPage);
 
     const totalTasks = tasksData.length;
     const completedTasks = tasksData.filter(t => t['상태'] === '완료').length;
@@ -764,11 +801,21 @@ function ProjectTasksView() {
                             ))}
                         </select>
                     </div>
+                    <div className="flex flex-col">
+                        <select 
+                            value={sortOrder}
+                            onChange={(e) => setSortOrder(e.target.value)}
+                            className="bg-[#F5F5F7] dark:bg-[#2C2C2E] text-[#1D1D1F] dark:text-white border-transparent focus:border-black/20 dark:focus:border-white/20 rounded-xl px-4 py-2.5 text-[14px] outline-none transition-colors cursor-pointer font-semibold"
+                        >
+                            <option value="latest">최근 입력순</option>
+                            <option value="oldest">과거 입력순</option>
+                        </select>
+                    </div>
                 </div>
             </div>
 
             {/* Tasks Table */}
-            <div className="bg-white dark:bg-[#1C1C1E] border border-black/10 dark:border-white/10 rounded-2xl overflow-hidden shadow-sm">
+            <div className="bg-white dark:bg-[#1C1C1E] border border-black/10 dark:border-white/10 rounded-2xl overflow-hidden shadow-sm p-6">
                 <div className="overflow-x-auto">
                     <table className="w-full text-left border-collapse">
                         <thead>
@@ -783,12 +830,12 @@ function ProjectTasksView() {
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-black/5 dark:divide-white/5">
-                            {filteredTasks.map((task, idx) => {
-                                const isExpanded = expandedTaskId === idx;
+                            {paginatedTasks.map((task) => {
+                                const isExpanded = expandedTaskId === task.originalIndex;
                                 return (
-                                    <React.Fragment key={idx}>
+                                    <React.Fragment key={task.originalIndex}>
                                         <tr 
-                                            onClick={() => setExpandedTaskId(isExpanded ? null : idx)}
+                                            onClick={() => setExpandedTaskId(isExpanded ? null : task.originalIndex)}
                                             className="hover:bg-black/[0.02] dark:hover:bg-white/[0.02] transition-colors cursor-pointer"
                                         >
                                             <td className="py-4 px-6">
@@ -864,7 +911,7 @@ function ProjectTasksView() {
                                     </React.Fragment>
                                 );
                             })}
-                            {filteredTasks.length === 0 && (
+                            {paginatedTasks.length === 0 && (
                                 <tr>
                                     <td colSpan="7" className="py-12 text-center text-[#86868B]">
                                         검색 조건에 맞는 작업 내역이 없습니다.
@@ -874,6 +921,47 @@ function ProjectTasksView() {
                         </tbody>
                     </table>
                 </div>
+
+                {/* Pagination UI */}
+                {totalPages > 1 && (
+                    <div className="flex items-center justify-between pt-6 border-t border-black/5 dark:border-white/5 mt-4">
+                        <span className="text-[13px] text-[#86868B]">
+                            총 {sortedTasks.length}개 중 {(page - 1) * itemsPerPage + 1} - {Math.min(page * itemsPerPage, sortedTasks.length)}번째 표시
+                        </span>
+                        <div className="flex items-center gap-1.5">
+                            <button
+                                disabled={page === 1}
+                                onClick={() => setPage(p => Math.max(1, p - 1))}
+                                className="p-2 rounded-lg border border-black/10 dark:border-white/10 hover:bg-black/5 dark:hover:bg-white/5 transition-colors disabled:opacity-40 disabled:hover:bg-transparent"
+                            >
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
+                                </svg>
+                            </button>
+                            {Array.from({ length: totalPages }).map((_, i) => {
+                                const pageNum = i + 1;
+                                return (
+                                    <button
+                                        key={pageNum}
+                                        onClick={() => setPage(pageNum)}
+                                        className={`w-9 h-9 rounded-lg text-sm font-semibold transition-all ${page === pageNum ? 'bg-[#111] dark:bg-white text-white dark:text-[#111111] shadow-sm' : 'border border-black/5 dark:border-white/5 hover:bg-black/5 dark:hover:bg-white/5'}`}
+                                    >
+                                        {pageNum}
+                                    </button>
+                                );
+                            })}
+                            <button
+                                disabled={page === totalPages}
+                                onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+                                className="p-2 rounded-lg border border-black/10 dark:border-white/10 hover:bg-black/5 dark:hover:bg-white/5 transition-colors disabled:opacity-40 disabled:hover:bg-transparent"
+                            >
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );
