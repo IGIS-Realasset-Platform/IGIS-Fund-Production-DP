@@ -11,7 +11,7 @@ export default function MobileNotifications({ memberInfo, onRead, onNotification
             return;
         }
         fetchNotifications();
-    }, [memberInfo]);
+    }, [memberInfo?.auth_id]);
 
     const fetchNotifications = async () => {
         setLoading(true);
