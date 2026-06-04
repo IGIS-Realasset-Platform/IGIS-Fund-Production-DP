@@ -6,6 +6,7 @@ import MobileLogList from './MobileLogList';
 import MobileMyTasks from './MobileMyTasks';
 import MobileNotifications from './MobileNotifications';
 import MobileComposerSheet from './MobileComposerSheet';
+import { requestFirebaseNotificationPermission } from '../../utils/firebase';
 
 export default function MobileIotaApp({ navigateTo }) {
     const { user, memberInfo, signOut } = useAuth();
@@ -13,6 +14,12 @@ export default function MobileIotaApp({ navigateTo }) {
     const [isComposerOpen, setIsComposerOpen] = useState(false);
     const [unreadNotiCount, setUnreadNotiCount] = useState(0);
     const [isStandalone, setIsStandalone] = useState(false);
+
+    useEffect(() => {
+        if (memberInfo?.auth_id) {
+            requestFirebaseNotificationPermission(memberInfo.auth_id);
+        }
+    }, [memberInfo?.auth_id]);
 
     // Detect Chrome PWA "Add to Home Screen" standalone mode
     useEffect(() => {
