@@ -194,7 +194,7 @@ export default function MobileLogList({ memberInfo, highlightLogId, initialWorks
             onTouchEnd={handleTouchEnd}
         >
             {/* Horizontal Workspace Tab Bar */}
-            <div className="flex gap-5 border-b border-[#3c3c3c] px-4 py-2 overflow-x-auto hide-scrollbar bg-[#272726] sticky top-0 z-20 shrink-0 select-none">
+            <div className="flex gap-5 border-b border-[#3c3c3c] px-4 py-1 overflow-x-auto hide-scrollbar bg-[#272726] sticky top-0 z-20 shrink-0 select-none">
                 {MOBILE_WORKSPACES.map(w => {
                     const isActive = workspace.code === w.code;
                     return (
@@ -204,7 +204,7 @@ export default function MobileLogList({ memberInfo, highlightLogId, initialWorks
                             onClick={() => {
                                 setWorkspace(w);
                             }}
-                            className={`py-2 text-[15px] font-bold whitespace-nowrap transition-all relative outline-none ${
+                            className={`py-1.5 text-[15px] font-bold whitespace-nowrap transition-all relative outline-none ${
                                 isActive ? 'text-[#60a5fa]' : 'text-[#86868B] hover:text-[#E5E5E5]'
                             }`}
                         >
