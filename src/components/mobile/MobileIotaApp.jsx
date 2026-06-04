@@ -111,13 +111,10 @@ export default function MobileIotaApp({ navigateTo }) {
     };
 
     const sizeStyle = {
-        width: '111.11%',
-        height: '111.11%',
-        transform: 'scale(0.9) translate3d(0,0,0)',
-        transformOrigin: 'top left',
-        WebkitFontSmoothing: 'subpixel-antialiased',
-        WebkitBackfaceVisibility: 'hidden',
-        backfaceVisibility: 'hidden',
+        width: '100%',
+        height: '100%',
+        WebkitFontSmoothing: 'antialiased',
+        MozOsxFontSmoothing: 'grayscale',
         textRendering: 'optimizeLegibility',
         position: 'absolute',
         top: 0,
