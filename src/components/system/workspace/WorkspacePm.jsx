@@ -239,17 +239,25 @@ export default function WorkspacePm() {
     };
 
     useEffect(() => {
+        console.log('[WorkspacePm] useEffect 실행됨. isLoadingTasks:', isLoadingTasks, 'tasks.length:', tasks.length);
         if (!isLoadingTasks && tasks.length > 0) {
             autoSaveSnapshot(tasks);
             const queryParams = new URLSearchParams(window.location.search);
             let targetTaskId = queryParams.get('taskId') || localStorage.getItem('iota_target_task_id');
+            console.log('[WorkspacePm] targetTaskId 감지:', targetTaskId);
             if (targetTaskId) {
-                const targetTask = tasks.find(t => String(t.id) === String(targetTaskId));
+                const targetTask = tasks.find(t => {
+                    console.log('[WorkspacePm] tasks 비교 중... t.id:', t.id, 'String(t.id):', String(t.id), 'String(targetTaskId):', String(targetTaskId));
+                    return String(t.id) === String(targetTaskId);
+                });
+                console.log('[WorkspacePm] targetTask 찾음 결과:', targetTask);
                 if (targetTask) {
                     setProjectShowAll(true);
                     setExpandedTaskId(targetTask.id);
+                    console.log('[WorkspacePm] expandedTaskId 설정 완료:', targetTask.id);
                     setTimeout(() => {
                         const el = document.getElementById(`task-${targetTask.id}`);
+                        console.log('[WorkspacePm] DOM 엘리먼트 찾음 결과 (el):', el);
                         if (el) {
                             el.scrollIntoView({ behavior: 'smooth', block: 'start' });
                         }

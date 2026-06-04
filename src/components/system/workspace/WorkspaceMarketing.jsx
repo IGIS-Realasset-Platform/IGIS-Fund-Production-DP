@@ -233,16 +233,24 @@ export default function WorkspaceMarketing() {
     };
 
     useEffect(() => {
+        console.log('[WorkspaceMarketing] useEffect 실행됨. isLoading:', isLoading, 'tasks.length:', tasks.length);
         if (!isLoading && tasks.length > 0) {
             const queryParams = new URLSearchParams(window.location.search);
             let targetTaskId = queryParams.get('taskId') || localStorage.getItem('iota_target_task_id');
+            console.log('[WorkspaceMarketing] targetTaskId 감지:', targetTaskId);
             if (targetTaskId) {
-                const targetTask = tasks.find(t => String(t.id) === String(targetTaskId));
+                const targetTask = tasks.find(t => {
+                    console.log('[WorkspaceMarketing] tasks 비교 중... t.id:', t.id, 'String(t.id):', String(t.id), 'String(targetTaskId):', String(targetTaskId));
+                    return String(t.id) === String(targetTaskId);
+                });
+                console.log('[WorkspaceMarketing] targetTask 찾음 결과:', targetTask);
                 if (targetTask) {
                     setProjectShowAll(true);
                     setExpandedTaskId(targetTask.id);
+                    console.log('[WorkspaceMarketing] expandedTaskId 설정 완료:', targetTask.id);
                     setTimeout(() => {
                         const el = document.getElementById(`task-${targetTask.id}`);
+                        console.log('[WorkspaceMarketing] DOM 엘리먼트 찾음 결과 (el):', el);
                         if (el) {
                             el.scrollIntoView({ behavior: 'smooth', block: 'start' });
                         }
