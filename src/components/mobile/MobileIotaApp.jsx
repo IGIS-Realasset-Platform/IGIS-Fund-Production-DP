@@ -167,6 +167,8 @@ export default function MobileIotaApp({ navigateTo }) {
                     <MobileLogList 
                         memberInfo={memberInfo} 
                         highlightLogId={highlightLogId} 
+                        initialWorkspaceCode={targetMobileWorkspace}
+                        onWorkspaceReset={() => setTargetMobileWorkspace(null)}
                         onHighlightReset={() => setHighlightLogId(null)} 
                     />
                 )}
@@ -177,7 +179,17 @@ export default function MobileIotaApp({ navigateTo }) {
                         onRead={() => setUnreadNotiCount(Math.max(0, unreadNotiCount - 1))} 
                         onNotificationClick={(noti) => {
                             if (noti.type === 'log' && noti.reference_id) {
-                                setHighlightLogId(noti.reference_id);
+                                let logId = noti.reference_id;
+                                let wsCode = null;
+                                if (logId.includes('|')) {
+                                    const parts = logId.split('|');
+                                    logId = parts[0];
+                                    wsCode = parts[1];
+                                }
+                                setHighlightLogId(logId);
+                                if (wsCode) {
+                                    setTargetMobileWorkspace(wsCode);
+                                }
                                 setActiveTab(1);
                             } else if (noti.type === 'task') {
                                 let wsCode = null;

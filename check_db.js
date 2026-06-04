@@ -12,14 +12,31 @@ const supabaseUrl = env['VITE_SUPABASE_URL'];
 const supabaseKey = env['VITE_SUPABASE_ANON_KEY'];
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-async function checkSchema() {
-  const { data, error } = await supabase.from('iota_seoul_pilot_members').select('staff_name, org_name, role_code');
-  if (error) console.error(error);
-  else {
-    const orgs = [...new Set(data.map(d => d.org_name))];
-    console.log('Distinct Organizations:', orgs);
-    console.log('All members:', data);
+async function checkColumns() {
+  const { data, error } = await supabase
+    .from('iota_notifications')
+    .select('*')
+    .limit(1); // RLS might prevent this but let's check error or column list
+    
+  if (error) {
+    console.error("Direct fetch error:", error);
+  } else {
+    console.log("Direct fetch sample:", data);
+  }
+
+  // Query information_schema via RPC or check if we can query custom table or if we have another table
+  // Let's run a select on information_schema.columns if exposed.
+  // PostgREST typically doesn't expose information_schema by default, but let's see.
+  const { data: schemaData, error: schemaError } = await supabase
+    .from('information_schema.columns')
+    .select('column_name')
+    .eq('table_name', 'iota_notifications');
+    
+  if (schemaError) {
+    console.error("Schema query error (expected if blocked):", schemaError);
+  } else {
+    console.log("Schema columns:", schemaData);
   }
 }
-checkSchema();
 
+checkColumns();

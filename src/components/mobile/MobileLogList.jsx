@@ -3,7 +3,7 @@ import { supabase } from '../../utils/supabaseClient';
 import { MOBILE_WORKSPACES, getInitialWorkspace } from './mobileIotaData';
 import MobileLogCard from './MobileLogCard';
 
-export default function MobileLogList({ memberInfo, highlightLogId, onHighlightReset }) {
+export default function MobileLogList({ memberInfo, highlightLogId, initialWorkspaceCode, onWorkspaceReset, onHighlightReset }) {
     const [workspace, setWorkspace] = useState(() => getInitialWorkspace(memberInfo));
     const [logs, setLogs] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -19,9 +19,22 @@ export default function MobileLogList({ memberInfo, highlightLogId, onHighlightR
         fetchLogs();
     }, [workspace]);
 
-    // Resolve workspace code and switch tab for highlighted log
+    // Handle incoming initial workspace code redirect (0ms instant routing)
     useEffect(() => {
-        if (!highlightLogId) return;
+        if (initialWorkspaceCode) {
+            const matchedWs = MOBILE_WORKSPACES.find(w => w.code === initialWorkspaceCode);
+            if (matchedWs && workspace.code !== matchedWs.code) {
+                setWorkspace(matchedWs);
+            }
+            if (onWorkspaceReset) {
+                onWorkspaceReset();
+            }
+        }
+    }, [initialWorkspaceCode]);
+
+    // Resolve workspace code and switch tab for legacy highlighted log (fallback)
+    useEffect(() => {
+        if (!highlightLogId || initialWorkspaceCode) return;
 
         const resolveAndSwitchWorkspace = async () => {
             try {
@@ -46,23 +59,33 @@ export default function MobileLogList({ memberInfo, highlightLogId, onHighlightR
         };
 
         resolveAndSwitchWorkspace();
-    }, [highlightLogId]);
+    }, [highlightLogId, initialWorkspaceCode]);
 
-    // Scroll and highlight card when logs render
+    // Scroll and highlight card when logs render (using robust polling to ensure element is mounted)
     useEffect(() => {
         if (highlightLogId && logs.length > 0) {
             const hasLog = logs.some(l => l.log_id === highlightLogId);
             if (hasLog) {
-                setTimeout(() => {
+                let attempts = 0;
+                const maxAttempts = 30; // 3 seconds total (30 * 100ms)
+                
+                const pollInterval = setInterval(() => {
                     const el = document.getElementById(highlightLogId);
                     if (el) {
+                        clearInterval(pollInterval);
                         el.scrollIntoView({ behavior: 'smooth', block: 'center' });
                         el.classList.add('bg-blue-500/10', 'border-[#3b82f6]/50');
                         setTimeout(() => {
                             el.classList.remove('bg-blue-500/10', 'border-[#3b82f6]/50');
                         }, 2500);
                     }
-                }, 400);
+                    
+                    attempts++;
+                    if (attempts >= maxAttempts) {
+                        clearInterval(pollInterval);
+                    }
+                }, 100);
+
                 if (onHighlightReset) onHighlightReset();
             }
         }

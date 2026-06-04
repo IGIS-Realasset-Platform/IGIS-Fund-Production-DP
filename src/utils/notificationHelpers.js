@@ -96,7 +96,7 @@ export const notifyMembersOnLogCreation = async (logId, logContent, workspace, w
                 title: `[${workspace.label}] 신규 협업글 등록`,
                 body: summaryText,
                 type: 'log',
-                reference_id: logId,
+                reference_id: `${logId}|${workspace.code}`,
                 is_read: false,
                 created_at: new Date().toISOString()
             });
@@ -109,7 +109,7 @@ export const notifyMembersOnLogCreation = async (logId, logContent, workspace, w
                 title: `[@언급] ${writerName}님이 회원님을 태그했습니다.`,
                 body: summaryText,
                 type: 'log',
-                reference_id: logId,
+                reference_id: `${logId}|${workspace.code}`,
                 is_read: false,
                 created_at: new Date().toISOString()
             });

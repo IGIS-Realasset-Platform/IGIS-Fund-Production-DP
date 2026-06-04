@@ -9,37 +9,58 @@ export default function NotificationDropdown({ isOpen, onClose, notifications, u
         onClose();
 
         if (notif.type === 'log' && notif.reference_id) {
-            try {
-                // Fetch the log metadata to find workspace_code
-                const { data, error } = await supabase
-                    .from('iota_seoul_logs')
-                    .select('metadata')
-                    .eq('log_id', notif.reference_id)
-                    .single();
+            let logId = notif.reference_id;
+            let wsCode = null;
 
-                if (!error && data) {
-                    const wsCode = data.metadata?.workspace_code;
-                    const workspaceMap = {
-                        'WS_PM': 'platform/iotaseoul/workspace/pm',
-                        'WS_LFC': 'platform/iotaseoul/workspace/financing',
-                        'WS_DSC': 'platform/iotaseoul/workspace/development',
-                        'WS_EMC': 'platform/iotaseoul/workspace/marketing',
-                        'WS_SSC': 'platform/iotaseoul/workspace/digital',
-                        'WS_KAM': 'platform/iotaseoul/workspace/fund',
-                        'WS_IPR': 'platform/iotaseoul/workspace/ipr'
-                    };
+            if (logId.includes('|')) {
+                const parts = logId.split('|');
+                logId = parts[0];
+                wsCode = parts[1];
+            }
 
-                    const targetPath = workspaceMap[wsCode];
-                    if (targetPath) {
-                        const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
-                        const newUrl = `${base}/${targetPath}?logId=${notif.reference_id}`;
-                        
-                        window.history.pushState(null, '', newUrl);
-                        window.dispatchEvent(new Event('popstate'));
-                    }
+            const workspaceMap = {
+                'WS_PM': 'platform/iotaseoul/workspace/pm',
+                'WS_LFC': 'platform/iotaseoul/workspace/financing',
+                'WS_DSC': 'platform/iotaseoul/workspace/development',
+                'WS_EMC': 'platform/iotaseoul/workspace/marketing',
+                'WS_SSC': 'platform/iotaseoul/workspace/digital',
+                'WS_KAM': 'platform/iotaseoul/workspace/fund',
+                'WS_IPR': 'platform/iotaseoul/workspace/ipr'
+            };
+
+            const navigateToPath = (code, id) => {
+                const targetPath = workspaceMap[code];
+                if (targetPath) {
+                    const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
+                    const newUrl = `${base}/${targetPath}?logId=${id}`;
+                    window.history.pushState(null, '', newUrl);
+                    window.dispatchEvent(new Event('popstate'));
+                    return true;
                 }
-            } catch (err) {
-                console.error("Error navigating from log notification:", err);
+                return false;
+            };
+
+            // If wsCode is embedded in reference_id, navigate instantly (0ms latency, bypasses DB query)
+            if (wsCode) {
+                navigateToPath(wsCode, logId);
+            } else {
+                // Fallback for legacy notifications
+                try {
+                    const { data, error } = await supabase
+                        .from('iota_seoul_logs')
+                        .select('metadata')
+                        .eq('log_id', logId)
+                        .single();
+
+                    if (!error && data) {
+                        const dbWsCode = data.metadata?.workspace_code;
+                        if (dbWsCode) {
+                            navigateToPath(dbWsCode, logId);
+                        }
+                    }
+                } catch (err) {
+                    console.error("Error navigating from log notification:", err);
+                }
             }
         } else if (notif.type === 'task') {
             // Deduce workspace_code from title text
