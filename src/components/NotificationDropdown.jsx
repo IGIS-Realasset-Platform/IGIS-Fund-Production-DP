@@ -5,123 +5,185 @@ export default function NotificationDropdown({ isOpen, onClose, notifications, u
     const dropdownRef = useRef(null);
 
     const handleNotifClick = async (notif) => {
-        if (!notif.is_read) onMarkAsRead(notif.id);
-        onClose();
-
-        console.log('[NotificationDropdown] 알림 전체 정보:', notif);
-        if (notif.type === 'log') {
-            console.log('[NotificationDropdown] 협업글 알림 클릭됨. reference_id:', notif.reference_id);
-            let logId = null;
-            let wsCode = null;
-
-            if (notif.reference_id) {
-                const refStr = String(notif.reference_id);
-                if (refStr.includes('|')) {
-                    const parts = refStr.split('|');
-                    logId = parts[0];
-                    wsCode = parts[1];
-                } else {
-                    logId = refStr;
+        try {
+            if (!notif.is_read) {
+                try {
+                    onMarkAsRead(notif.id);
+                } catch (e) {
+                    console.error('[NotificationDropdown] markAsRead error:', e);
                 }
             }
+            onClose();
 
-            // Fallback: Deduce workspace_code from title text if not explicitly available
-            if (!wsCode) {
+            console.log('[NotificationDropdown] 알림 전체 정보:', notif);
+            
+            // 정밀 판정 로직: type이 log이거나 title에 [협업] 또는 [@언급]이 들어있는 경우 모두 협업글로 처리
+            const isLogNotif = notif.type === 'log' || 
+                               notif.type === 'logs' || 
+                               String(notif.type).toLowerCase() === 'log' ||
+                               (notif.title && (notif.title.includes('[협업]') || notif.title.includes('[@언급]')));
+
+            const isTaskNotif = notif.type === 'task' || 
+                                String(notif.type).toLowerCase() === 'task' ||
+                                (notif.title && (notif.title.includes('[Task]') || notif.title.includes('신규 Task')));
+
+            if (isLogNotif) {
+                console.log('[NotificationDropdown] 협업글 알림 클릭됨. reference_id:', notif.reference_id);
+                let logId = null;
+                let wsCode = null;
+
+                if (notif.reference_id) {
+                    const refStr = String(notif.reference_id);
+                    if (refStr.includes('|')) {
+                        const parts = refStr.split('|');
+                        logId = parts[0];
+                        wsCode = parts[1];
+                    } else {
+                        logId = refStr;
+                    }
+                }
+
+                // Fallback: Deduce workspace_code from title text if not explicitly available
+                if (!wsCode) {
+                    const title = notif.title || '';
+                    const body = notif.body || '';
+                    const combinedText = title + ' ' + body;
+                    if (combinedText.includes('사업 PM') || combinedText.includes('사업PM')) wsCode = 'WS_PM';
+                    else if (combinedText.includes('파이낸싱') || combinedText.includes('재원조달')) wsCode = 'WS_LFC';
+                    else if (combinedText.includes('개발') || combinedText.includes('설계')) wsCode = 'WS_DSC';
+                    else if (combinedText.includes('마케팅')) wsCode = 'WS_EMC';
+                    else if (combinedText.includes('공간') || combinedText.includes('SSC') || combinedText.includes('디지털')) wsCode = 'WS_SSC';
+                    else if (combinedText.includes('펀드') || combinedText.includes('KAM')) wsCode = 'WS_KAM';
+                    else if (combinedText.includes('IPR')) wsCode = 'WS_IPR';
+                    console.log('[NotificationDropdown] 협업글 wsCode Fallback 추론:', wsCode);
+                }
+
+                console.log('[NotificationDropdown] 파싱된 logId:', logId, 'wsCode:', wsCode);
+
+                const workspaceMap = {
+                    'WS_PM': 'platform/iotaseoul/workspace/pm',
+                    'WS_LFC': 'platform/iotaseoul/workspace/financing',
+                    'WS_DSC': 'platform/iotaseoul/workspace/development',
+                    'WS_EMC': 'platform/iotaseoul/workspace/marketing',
+                    'WS_SSC': 'platform/iotaseoul/workspace/digital',
+                    'WS_KAM': 'platform/iotaseoul/workspace/fund',
+                    'WS_IPR': 'platform/iotaseoul/workspace/ipr'
+                };
+
+                const targetPath = workspaceMap[wsCode];
+                const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
+
+                if (logId) {
+                    localStorage.setItem('iota_target_log_id', logId);
+                    console.log('[NotificationDropdown] localStorage 세팅 iota_target_log_id:', logId);
+                }
+
+                if (targetPath) {
+                    const newUrl = logId ? `${base}/${targetPath}?logId=${logId}` : `${base}/${targetPath}`;
+                    console.log('[NotificationDropdown] 협업글 워크스페이스 이동 URL:', newUrl);
+                    window.history.pushState(null, '', newUrl);
+                    window.dispatchEvent(new Event('popstate'));
+                } else {
+                    // targetPath가 없으면 통합 workflow 보드로 이동
+                    const newUrl = logId ? `${base}/platform/iotaseoul/workflow?logId=${logId}` : `${base}/platform/iotaseoul/workflow`;
+                    console.log('[NotificationDropdown] 협업글 통합 Workflow 이동 URL:', newUrl);
+                    window.history.pushState(null, '', newUrl);
+                    window.dispatchEvent(new Event('popstate'));
+                }
+            } else if (isTaskNotif) {
+                let taskId = null;
+                let wsCode = null;
+
+                if (notif.reference_id) {
+                    const refStr = String(notif.reference_id);
+                    if (refStr.includes('|')) {
+                        const parts = refStr.split('|');
+                        taskId = parts[0];
+                        wsCode = parts[1];
+                    } else {
+                        taskId = refStr;
+                    }
+                }
+
+                console.log('[NotificationDropdown] Task 알림 클릭:', notif);
+                console.log('[NotificationDropdown] 파싱된 taskId:', taskId, 'wsCode:', wsCode);
+
+                // Fallback: Deduce workspace_code from title text
+                if (!wsCode) {
+                    const title = notif.title || '';
+                    if (title.includes('사업 PM') || title.includes('사업PM')) wsCode = 'WS_PM';
+                    else if (title.includes('파이낸싱')) wsCode = 'WS_LFC';
+                    else if (title.includes('개발')) wsCode = 'WS_DSC';
+                    else if (title.includes('마케팅')) wsCode = 'WS_EMC';
+                    else if (title.includes('공간') || title.includes('SSC')) wsCode = 'WS_SSC';
+                    else if (title.includes('펀드') || title.includes('KAM')) wsCode = 'WS_KAM';
+                    else if (title.includes('IPR')) wsCode = 'WS_IPR';
+                    console.log('[NotificationDropdown] wsCode Fallback 추론:', wsCode);
+                }
+
+                const workspaceMap = {
+                    'WS_PM': 'platform/iotaseoul/workspace/pm',
+                    'WS_LFC': 'platform/iotaseoul/workspace/financing',
+                    'WS_DSC': 'platform/iotaseoul/workspace/development',
+                    'WS_EMC': 'platform/iotaseoul/workspace/marketing',
+                    'WS_SSC': 'platform/iotaseoul/workspace/digital',
+                    'WS_KAM': 'platform/iotaseoul/workspace/fund',
+                    'WS_IPR': 'platform/iotaseoul/workspace/ipr'
+                };
+
+                if (taskId) {
+                    localStorage.setItem('iota_target_task_id', taskId);
+                    console.log('[NotificationDropdown] localStorage 세팅 iota_target_task_id:', taskId);
+                }
+
+                const targetPath = workspaceMap[wsCode];
+                if (targetPath) {
+                    const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
+                    const newUrl = taskId ? `${base}/${targetPath}?taskId=${taskId}` : `${base}/${targetPath}`;
+                    console.log('[NotificationDropdown] 라우팅 실행 URL:', newUrl);
+                    window.history.pushState(null, '', newUrl);
+                    window.dispatchEvent(new Event('popstate'));
+                } else {
+                    console.warn('[NotificationDropdown] 매칭되는 targetPath가 없음 (wsCode):', wsCode);
+                }
+            }
+        } catch (globalError) {
+            console.error('[NotificationDropdown] handleNotifClick GLOBAL CRITICAL ERROR:', globalError);
+            
+            // 최후의 세이프가드 수단: Runtime Exception 시 단순 브라우저 주소창 변경 Fallback 라우팅 작동
+            try {
                 const title = notif.title || '';
                 const body = notif.body || '';
-                const combinedText = title + ' ' + body;
-                if (combinedText.includes('사업 PM') || combinedText.includes('사업PM')) wsCode = 'WS_PM';
-                else if (combinedText.includes('파이낸싱') || combinedText.includes('재원조달')) wsCode = 'WS_LFC';
-                else if (combinedText.includes('개발') || combinedText.includes('설계')) wsCode = 'WS_DSC';
-                else if (combinedText.includes('마케팅')) wsCode = 'WS_EMC';
-                else if (combinedText.includes('공간') || combinedText.includes('SSC') || combinedText.includes('디지털')) wsCode = 'WS_SSC';
-                else if (combinedText.includes('펀드') || combinedText.includes('KAM')) wsCode = 'WS_KAM';
-                else if (combinedText.includes('IPR')) wsCode = 'WS_IPR';
-                console.log('[NotificationDropdown] 협업글 wsCode Fallback 추론:', wsCode);
-            }
+                const text = title + ' ' + body;
+                let wsPath = 'platform/iotaseoul/workflow';
+                
+                if (text.includes('펀드') || text.includes('KAM')) wsPath = 'platform/iotaseoul/workspace/fund';
+                else if (text.includes('사업 PM') || text.includes('사업PM')) wsPath = 'platform/iotaseoul/workspace/pm';
+                else if (text.includes('파이낸싱') || text.includes('재원조달')) wsPath = 'platform/iotaseoul/workspace/financing';
+                else if (text.includes('개발')) wsPath = 'platform/iotaseoul/workspace/development';
+                else if (text.includes('마케팅')) wsPath = 'platform/iotaseoul/workspace/marketing';
+                else if (text.includes('공간') || text.includes('SSC') || text.includes('디지털')) wsPath = 'platform/iotaseoul/workspace/digital';
+                else if (text.includes('IPR')) wsPath = 'platform/iotaseoul/workspace/ipr';
 
-            console.log('[NotificationDropdown] 파싱된 logId:', logId, 'wsCode:', wsCode);
-
-            const workspaceMap = {
-                'WS_PM': 'platform/iotaseoul/workspace/pm',
-                'WS_LFC': 'platform/iotaseoul/workspace/financing',
-                'WS_DSC': 'platform/iotaseoul/workspace/development',
-                'WS_EMC': 'platform/iotaseoul/workspace/marketing',
-                'WS_SSC': 'platform/iotaseoul/workspace/digital',
-                'WS_KAM': 'platform/iotaseoul/workspace/fund',
-                'WS_IPR': 'platform/iotaseoul/workspace/ipr'
-            };
-
-            const targetPath = workspaceMap[wsCode];
-            const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
-
-            if (logId) {
-                localStorage.setItem('iota_target_log_id', logId);
-                console.log('[NotificationDropdown] localStorage 세팅 iota_target_log_id:', logId);
-            }
-
-            if (targetPath) {
-                const newUrl = logId ? `${base}/${targetPath}?logId=${logId}` : `${base}/${targetPath}`;
-                console.log('[NotificationDropdown] 협업글 워크스페이스 이동 URL:', newUrl);
-                window.history.pushState(null, '', newUrl);
-                window.dispatchEvent(new Event('popstate'));
-            } else {
-                // targetPath가 없으면 통합 workflow 보드로 이동
-                const newUrl = logId ? `${base}/platform/iotaseoul/workflow?logId=${logId}` : `${base}/platform/iotaseoul/workflow`;
-                console.log('[NotificationDropdown] 협업글 통합 Workflow 이동 URL:', newUrl);
-                window.history.pushState(null, '', newUrl);
-                window.dispatchEvent(new Event('popstate'));
-            }
-        } else if (notif.type === 'task') {
-            let taskId = null;
-            let wsCode = null;
-
-            if (notif.reference_id && notif.reference_id.includes('|')) {
-                const parts = notif.reference_id.split('|');
-                taskId = parts[0];
-                wsCode = parts[1];
-            }
-
-            console.log('[NotificationDropdown] Task 알림 클릭:', notif);
-            console.log('[NotificationDropdown] 파싱된 taskId:', taskId, 'wsCode:', wsCode);
-
-            // Fallback: Deduce workspace_code from title text
-            if (!wsCode) {
-                const title = notif.title || '';
-                if (title.includes('사업 PM') || title.includes('사업PM')) wsCode = 'WS_PM';
-                else if (title.includes('파이낸싱')) wsCode = 'WS_LFC';
-                else if (title.includes('개발')) wsCode = 'WS_DSC';
-                else if (title.includes('마케팅')) wsCode = 'WS_EMC';
-                else if (title.includes('공간') || title.includes('SSC')) wsCode = 'WS_SSC';
-                else if (title.includes('펀드') || title.includes('KAM')) wsCode = 'WS_KAM';
-                else if (title.includes('IPR')) wsCode = 'WS_IPR';
-                console.log('[NotificationDropdown] wsCode Fallback 추론:', wsCode);
-            }
-
-            const workspaceMap = {
-                'WS_PM': 'platform/iotaseoul/workspace/pm',
-                'WS_LFC': 'platform/iotaseoul/workspace/financing',
-                'WS_DSC': 'platform/iotaseoul/workspace/development',
-                'WS_EMC': 'platform/iotaseoul/workspace/marketing',
-                'WS_SSC': 'platform/iotaseoul/workspace/digital',
-                'WS_KAM': 'platform/iotaseoul/workspace/fund',
-                'WS_IPR': 'platform/iotaseoul/workspace/ipr'
-            };
-
-            if (taskId) {
-                localStorage.setItem('iota_target_task_id', taskId);
-                console.log('[NotificationDropdown] localStorage 세팅 iota_target_task_id:', taskId);
-            }
-
-            const targetPath = workspaceMap[wsCode];
-            if (targetPath) {
+                let logId = null;
+                if (notif.reference_id) {
+                    const refStr = String(notif.reference_id);
+                    logId = refStr.includes('|') ? refStr.split('|')[0] : refStr;
+                }
+                
+                if (logId) {
+                    localStorage.setItem('iota_target_log_id', logId);
+                    localStorage.setItem('iota_target_task_id', logId);
+                }
+                
                 const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
-                const newUrl = taskId ? `${base}/${targetPath}?taskId=${taskId}` : `${base}/${targetPath}`;
-                console.log('[NotificationDropdown] 라우팅 실행 URL:', newUrl);
-                window.history.pushState(null, '', newUrl);
+                const finalUrl = logId ? `${base}/${wsPath}?logId=${logId}` : `${base}/${wsPath}`;
+                
+                console.log('[NotificationDropdown] Global Error Fallback Redirecting to:', finalUrl);
+                window.history.pushState(null, '', finalUrl);
                 window.dispatchEvent(new Event('popstate'));
-            } else {
-                console.warn('[NotificationDropdown] 매칭되는 targetPath가 없음 (wsCode):', wsCode);
+            } catch (redirError) {
+                console.error('[NotificationDropdown] Redirect fallback failed:', redirError);
             }
         }
     };

@@ -13,25 +13,19 @@ const supabaseKey = env['VITE_SUPABASE_ANON_KEY'];
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 async function check() {
-  console.log("=== LATEST TASKS FROM iota_ipr_tasks ===");
-  const { data: iprTasks, error: iprError } = await supabase
-    .from('iota_ipr_tasks')
-    .select('id, task_name, created_at')
-    .order('created_at', { ascending: false })
-    .limit(5);
-  
-  if (iprError) console.error("IPR Tasks Error:", iprError);
-  else console.log(iprTasks);
-
-  console.log("\n=== LATEST NOTIFICATIONS FROM iota_notifications ===");
+  console.log("=== CHECK ALL NOTIFICATIONS ===");
   const { data: notifications, error: notiError } = await supabase
     .from('iota_notifications')
-    .select('id, title, type, reference_id, created_at')
+    .select('*')
     .order('created_at', { ascending: false })
-    .limit(10);
+    .limit(30);
   
   if (notiError) console.error("Noti Error:", notiError);
-  else console.log(notifications);
+  else {
+    notifications.forEach(n => {
+      console.log(`ID: ${n.id} | Title: ${n.title} | Type: ${n.type} | RefID: ${n.reference_id} | Created: ${n.created_at}`);
+    });
+  }
 }
 
 check();
