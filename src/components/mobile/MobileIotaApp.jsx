@@ -334,7 +334,7 @@ export default function MobileIotaApp({ navigateTo }) {
                         className={`flex-1 flex flex-col items-center justify-center pt-[8px] pb-[4px] relative ${activeTab === tab.id ? 'text-[#60a5fa]' : 'text-[#9A9A98]'}`}
                     >
                         <div className="relative">
-                            <svg className={`w-[20px] h-[20px] mb-0.5 ${activeTab === tab.id ? 'stroke-2' : 'stroke-[1.5]'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg className={`w-[18px] h-[18px] mb-[1px] ${activeTab === tab.id ? 'stroke-2' : 'stroke-[1.5]'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 {tab.icon}
                             </svg>
                             {tab.id === 3 && unreadNotiCount > 0 && (
@@ -343,7 +343,7 @@ export default function MobileIotaApp({ navigateTo }) {
                                 </div>
                             )}
                         </div>
-                        <span className={`text-[12px] ${activeTab === tab.id ? 'font-semibold' : 'font-medium'}`}>{tab.label}</span>
+                        <span className={`text-[11px] ${activeTab === tab.id ? 'font-semibold' : 'font-medium'}`}>{tab.label}</span>
                     </button>
                 ))}
             </div>
