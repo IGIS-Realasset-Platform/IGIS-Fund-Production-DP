@@ -58,6 +58,48 @@ export default function MobileNotifications({ memberInfo, onRead, onNotification
         }
     };
 
+    const handleDelete = async (e, notiId) => {
+        e.stopPropagation();
+        if (!window.confirm("이 알림을 삭제하시겠습니까?")) return;
+
+        setNotifications(prev => prev.filter(n => n.id !== notiId));
+        if (onRead) onRead();
+
+        try {
+            const { error } = await supabase
+                .from('iota_notifications')
+                .delete()
+                .eq('id', notiId);
+                
+            if (error) throw error;
+        } catch (err) {
+            console.error("Failed to delete notification:", err);
+            alert("알림 삭제에 실패했습니다.");
+            fetchNotifications();
+        }
+    };
+
+    const handleDeleteAll = async () => {
+        if (!window.confirm("모든 알림을 삭제하시겠습니까?")) return;
+        if (!memberInfo?.auth_id) return;
+
+        setNotifications([]);
+        if (onRead) onRead();
+
+        try {
+            const { error } = await supabase
+                .from('iota_notifications')
+                .delete()
+                .eq('user_id', memberInfo.auth_id);
+                
+            if (error) throw error;
+        } catch (err) {
+            console.error("Failed to delete all notifications:", err);
+            alert("알림 전체 삭제에 실패했습니다.");
+            fetchNotifications();
+        }
+    };
+
     const formatDate = (dateString) => {
         if (!dateString) return '';
         try {
@@ -72,6 +114,14 @@ export default function MobileNotifications({ memberInfo, onRead, onNotification
         <div className="flex flex-col w-full min-h-full pb-24 p-4 bg-[#1F1F1E]">
             <div className="flex items-center justify-between mb-4 shrink-0 select-none">
                 <h2 className="text-[20px] font-bold text-white">알림</h2>
+                {notifications.length > 0 && (
+                    <button
+                        onClick={handleDeleteAll}
+                        className="text-[12px] text-red-400 hover:text-red-300 bg-red-500/10 px-3 py-1.5 rounded-full border border-red-500/20 active:scale-95 transition-all font-semibold"
+                    >
+                        전체 삭제
+                    </button>
+                )}
             </div>
 
             {loading ? (
@@ -93,12 +143,20 @@ export default function MobileNotifications({ memberInfo, onRead, onNotification
                             }`}
                         >
                             <div className="flex justify-between items-start">
-                                <h3 className={`text-[16px] ${noti.is_read ? 'font-medium text-[#E5E5E5]' : 'font-bold text-white'}`}>
+                                <h3 className={`text-[16px] flex-1 ${noti.is_read ? 'font-medium text-[#E5E5E5]' : 'font-bold text-white'}`}>
                                     {(noti.title || '').replace('[IPR 및 투자기획]', '[IPR]')}
                                 </h3>
-                                <span className="text-[11px] text-[#86868B] whitespace-nowrap ml-2">
-                                    {formatDate(noti.created_at)}
-                                </span>
+                                <div className="flex flex-col items-end gap-2 ml-3 shrink-0">
+                                    <span className="text-[11px] text-[#86868B] whitespace-nowrap">
+                                        {formatDate(noti.created_at)}
+                                    </span>
+                                    <button
+                                        onClick={(e) => handleDelete(e, noti.id)}
+                                        className="text-[11px] text-red-400 hover:text-red-300 bg-red-500/10 px-2.5 py-1 rounded-full border border-red-500/20 active:scale-95 transition-all font-medium"
+                                    >
+                                        삭제
+                                    </button>
+                                </div>
                             </div>
                             {noti.body && (
                                 <p className={`text-[13px] line-clamp-2 ${noti.is_read ? 'text-[#9A9A98]' : 'text-[#E5E5E5]'}`}>
