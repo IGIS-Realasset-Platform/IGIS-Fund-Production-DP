@@ -240,36 +240,45 @@ export default function WorkspaceDigital() {
         }
     };
 
+    const handleTargetTask = () => {
+        const queryParams = new URLSearchParams(window.location.search);
+        let targetTaskId = queryParams.get('taskId') || localStorage.getItem('iota_target_task_id');
+        console.log('[WorkspaceDigital] handleTargetTask 실행됨. targetTaskId:', targetTaskId, 'tasks.length:', tasks.length);
+        if (targetTaskId && tasks.length > 0) {
+            const targetTask = tasks.find(t => {
+                console.log('[WorkspaceDigital] tasks 비교 중... t.id:', t.id, 'String(t.id):', String(t.id), 'String(targetTaskId):', String(targetTaskId));
+                return String(t.id) === String(targetTaskId);
+            });
+            console.log('[WorkspaceDigital] targetTask 찾음 결과:', targetTask);
+            if (targetTask) {
+                setProjectShowAll(true);
+                setExpandedTaskId(targetTask.id);
+                console.log('[WorkspaceDigital] expandedTaskId 설정 완료:', targetTask.id);
+                setTimeout(() => {
+                    const el = document.getElementById(`task-${targetTask.id}`);
+                    console.log('[WorkspaceDigital] DOM 엘리먼트 찾음 결과 (el):', el);
+                    if (el) {
+                        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                    localStorage.removeItem('iota_target_task_id');
+                    const cleanUrl = window.location.pathname + window.location.hash;
+                    window.history.replaceState(null, '', cleanUrl);
+                }, 500);
+            }
+        }
+    };
+
     useEffect(() => {
         console.log('[WorkspaceDigital] useEffect 실행됨. isLoading:', isLoading, 'tasks.length:', tasks.length);
         if (!isLoading && tasks.length > 0) {
-            const queryParams = new URLSearchParams(window.location.search);
-            let targetTaskId = queryParams.get('taskId') || localStorage.getItem('iota_target_task_id');
-            console.log('[WorkspaceDigital] targetTaskId 감지:', targetTaskId);
-            if (targetTaskId) {
-                const targetTask = tasks.find(t => {
-                    console.log('[WorkspaceDigital] tasks 비교 중... t.id:', t.id, 'String(t.id):', String(t.id), 'String(targetTaskId):', String(targetTaskId));
-                    return String(t.id) === String(targetTaskId);
-                });
-                console.log('[WorkspaceDigital] targetTask 찾음 결과:', targetTask);
-                if (targetTask) {
-                    setProjectShowAll(true);
-                    setExpandedTaskId(targetTask.id);
-                    console.log('[WorkspaceDigital] expandedTaskId 설정 완료:', targetTask.id);
-                    setTimeout(() => {
-                        const el = document.getElementById(`task-${targetTask.id}`);
-                        console.log('[WorkspaceDigital] DOM 엘리먼트 찾음 결과 (el):', el);
-                        if (el) {
-                            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                        }
-                        localStorage.removeItem('iota_target_task_id');
-                        const cleanUrl = window.location.pathname + window.location.hash;
-                        window.history.replaceState(null, '', cleanUrl);
-                    }, 500);
-                }
-            }
+            handleTargetTask();
         }
     }, [isLoading, tasks]);
+
+    useEffect(() => {
+        window.addEventListener('popstate', handleTargetTask);
+        return () => window.removeEventListener('popstate', handleTargetTask);
+    }, [tasks]);
 
     const handleEditRow = (row) => {
         setEditingTaskId(row.id);

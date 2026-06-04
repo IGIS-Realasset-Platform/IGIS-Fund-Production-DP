@@ -100,12 +100,10 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
         fetchMasterStakeholders();
     }, []);
 
-    // Handle incoming URL logId query parameters to focus and expand a specific log card
-    useEffect(() => {
-        console.log('[WorkspaceActivityLog] useEffect 실행됨. logs.length:', logs.length, 'workspaceCode:', workspaceCode);
+    const handleTargetLog = () => {
         const params = new URLSearchParams(window.location.search);
         let targetLogId = params.get('logId') || localStorage.getItem('iota_target_log_id');
-        console.log('[WorkspaceActivityLog] targetLogId 감지:', targetLogId);
+        console.log('[WorkspaceActivityLog] handleTargetLog 실행됨. targetLogId:', targetLogId, 'logs.length:', logs.length);
         if (targetLogId && logs.length > 0) {
             const targetLog = logs.find(l => {
                 console.log('[WorkspaceActivityLog] logs 비교 중... l.log_id:', l.log_id, 'String(l.log_id):', String(l.log_id), 'String(targetLogId):', String(targetLogId));
@@ -168,6 +166,16 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
                 console.warn('[WorkspaceActivityLog] logs 목록 내에 targetLogId가 존재하지 않음:', targetLogId);
             }
         }
+    };
+
+    useEffect(() => {
+        console.log('[WorkspaceActivityLog] useEffect 실행됨 (logs 변경). logs.length:', logs.length, 'workspaceCode:', workspaceCode);
+        handleTargetLog();
+    }, [logs]);
+
+    useEffect(() => {
+        window.addEventListener('popstate', handleTargetLog);
+        return () => window.removeEventListener('popstate', handleTargetLog);
     }, [logs]);
 
     const handleDelete = async (logId) => {
