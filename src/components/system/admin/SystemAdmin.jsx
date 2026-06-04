@@ -696,7 +696,7 @@ function ProjectTasksView() {
     }, [searchTerm, categoryFilter, priorityFilter, sortOrder]);
 
     const categories = ['전체', ...new Set(tasksData.map(t => t['대분류']).filter(Boolean))];
-    const priorities = ['전체', '최고', '높음 이상', '보통 이상'];
+    const priorities = ['전체', '최고', '높음 이상', '보통 이상', '낮음 이상'];
 
     // Map tasks to include their stable originalIndex (which is their input order)
     const tasksWithIndex = tasksData.map((task, idx) => ({ ...task, originalIndex: idx }));
@@ -727,6 +727,8 @@ function ProjectTasksView() {
                 matchesPriority = taskScore >= 4;
             } else if (priorityFilter === '보통 이상') {
                 matchesPriority = taskScore >= 3;
+            } else if (priorityFilter === '낮음 이상') {
+                matchesPriority = taskScore >= 2;
             }
         }
 
