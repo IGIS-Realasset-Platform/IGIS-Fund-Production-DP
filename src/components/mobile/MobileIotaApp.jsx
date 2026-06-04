@@ -178,20 +178,36 @@ export default function MobileIotaApp({ navigateTo }) {
                         memberInfo={memberInfo} 
                         onRead={() => setUnreadNotiCount(Math.max(0, unreadNotiCount - 1))} 
                         onNotificationClick={(noti) => {
-                            if (noti.type === 'log' && noti.reference_id) {
-                                let logId = noti.reference_id;
-                                let wsCode = null;
-                                if (logId.includes('|')) {
-                                    const parts = logId.split('|');
-                                    logId = parts[0];
-                                    wsCode = parts[1];
-                                }
-                                setHighlightLogId(logId);
-                                if (wsCode) {
-                                    setTargetMobileWorkspace(wsCode);
-                                }
-                                setActiveTab(1);
-                            } else if (noti.type === 'task') {
+                            try {
+                                if (noti.type === 'log' && noti.reference_id) {
+                                    let logId = String(noti.reference_id);
+                                    let wsCode = null;
+                                    
+                                    // 1. Try to extract workspace code embedded with pipe (|)
+                                    if (logId.includes('|')) {
+                                        const parts = logId.split('|');
+                                        logId = parts[0];
+                                        wsCode = parts[1];
+                                    }
+                                    
+                                    // 2. Fallback: Parse workspace code from notification title text (e.g. "[펀드운용-KAM] 신규 협업글 등록")
+                                    if (!wsCode) {
+                                        const title = String(noti.title || '');
+                                        if (title.includes('사업 PM') || title.includes('사업PM')) wsCode = 'WS_PM';
+                                        else if (title.includes('파이낸싱')) wsCode = 'WS_LFC';
+                                        else if (title.includes('개발')) wsCode = 'WS_DSC';
+                                        else if (title.includes('마케팅')) wsCode = 'WS_EMC';
+                                        else if (title.includes('공간') || title.includes('SSC')) wsCode = 'WS_SSC';
+                                        else if (title.includes('펀드') || title.includes('KAM')) wsCode = 'WS_KAM';
+                                        else if (title.includes('IPR')) wsCode = 'WS_IPR';
+                                    }
+                                    
+                                    setHighlightLogId(logId);
+                                    if (wsCode) {
+                                        setTargetMobileWorkspace(wsCode);
+                                    }
+                                    setActiveTab(1);
+                                } else if (noti.type === 'task') {
                                 let wsCode = null;
                                 const title = noti.title || '';
                                 if (title.includes('사업 PM') || title.includes('사업PM')) wsCode = 'WS_PM';
@@ -207,7 +223,10 @@ export default function MobileIotaApp({ navigateTo }) {
                                 }
                                 setActiveTab(0);
                             }
-                        }}
+                        } catch (err) {
+                            console.error("Error in onNotificationClick:", err);
+                        }
+                    }}
                     />
                 )}
             </div>

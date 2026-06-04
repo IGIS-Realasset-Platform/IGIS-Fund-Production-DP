@@ -40,7 +40,19 @@ export default function NotificationDropdown({ isOpen, onClose, notifications, u
                 return false;
             };
 
-            // If wsCode is embedded in reference_id, navigate instantly (0ms latency, bypasses DB query)
+            // Fallback: Parse workspace code from notification title text
+            if (!wsCode) {
+                const title = String(notif.title || '');
+                if (title.includes('사업 PM') || title.includes('사업PM')) wsCode = 'WS_PM';
+                else if (title.includes('파이낸싱')) wsCode = 'WS_LFC';
+                else if (title.includes('개발')) wsCode = 'WS_DSC';
+                else if (title.includes('마케팅')) wsCode = 'WS_EMC';
+                else if (title.includes('공간') || title.includes('SSC')) wsCode = 'WS_SSC';
+                else if (title.includes('펀드') || title.includes('KAM')) wsCode = 'WS_KAM';
+                else if (title.includes('IPR')) wsCode = 'WS_IPR';
+            }
+
+            // If wsCode is resolved, navigate instantly (0ms latency, bypasses DB query)
             if (wsCode) {
                 navigateToPath(wsCode, logId);
             } else {
