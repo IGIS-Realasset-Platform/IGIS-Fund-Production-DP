@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../../../utils/supabaseClient';
 import { useAuth } from '../../../context/AuthContext';
+import { tasksData } from './tasksData';
 
 export default function SystemAdmin() {
     const { user, memberInfo } = useAuth();
@@ -439,6 +440,12 @@ export default function SystemAdmin() {
                     >
                         플랫폼 개선 요청
                     </button>
+                    <button 
+                        onClick={() => setActiveTab('project_tasks')}
+                        className={`pb-3 px-2 text-[15px] font-semibold transition-colors ${activeTab === 'project_tasks' ? 'text-[#1D1D1F] dark:text-white border-b-2 border-[#111] dark:border-white translate-y-[1px]' : 'text-[#86868B] hover:text-[#1D1D1F] dark:hover:text-white'}`}
+                    >
+                        기획 및 구축 총괄 내역
+                    </button>
                 </div>
 
                 {activeTab === 'access_logs' && (
@@ -595,6 +602,10 @@ export default function SystemAdmin() {
                         )}
                     </div>
                 )}
+
+                {activeTab === 'project_tasks' && (
+                    <ProjectTasksView />
+                )}
             </div>
 
             {/* History Modal */}
@@ -652,6 +663,218 @@ export default function SystemAdmin() {
                     </div>
                 </div>
             )}
+        </div>
+    );
+}
+
+function ProjectTasksView() {
+    const [searchTerm, setSearchTerm] = useState('');
+    const [categoryFilter, setCategoryFilter] = useState('전체');
+    const [priorityFilter, setPriorityFilter] = useState('전체');
+    const [expandedTaskId, setExpandedTaskId] = useState(null);
+
+    const categories = ['전체', ...new Set(tasksData.map(t => t['대분류']).filter(Boolean))];
+    const priorities = ['전체', '최고', '높음', '보통', '낮음', '최하'];
+
+    const filteredTasks = tasksData.filter(task => {
+        const matchesSearch = 
+            (task['작업 이름'] || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+            (task['내용 상세'] || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+            (task['URL'] || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+            (task['작업 유형'] || '').toLowerCase().includes(searchTerm.toLowerCase());
+        
+        const matchesCategory = categoryFilter === '전체' || task['대분류'] === categoryFilter;
+        const matchesPriority = priorityFilter === '전체' || task['우선순위'] === priorityFilter;
+
+        return matchesSearch && matchesCategory && matchesPriority;
+    });
+
+    const totalTasks = tasksData.length;
+    const completedTasks = tasksData.filter(t => t['상태'] === '완료').length;
+    const pendingTasks = totalTasks - completedTasks;
+
+    const getPriorityColor = (p) => {
+        switch (p) {
+            case '최고': return 'bg-red-500/10 text-red-500 border border-red-500/20';
+            case '높음': return 'bg-amber-500/10 text-amber-500 border border-amber-500/20';
+            case '보통': return 'bg-blue-500/10 text-blue-500 border border-blue-500/20';
+            case '낮음': return 'bg-zinc-500/10 text-zinc-500 border border-zinc-500/20';
+            default: return 'bg-zinc-500/10 text-zinc-500 border border-zinc-500/20';
+        }
+    };
+
+    const getStatusColor = (s) => {
+        return s === '완료' 
+            ? 'bg-emerald-500/10 text-emerald-500 border border-emerald-500/20' 
+            : 'bg-blue-500/10 text-blue-500 border border-blue-500/20';
+    };
+
+    return (
+        <div className="space-y-6 animate-fade-in text-[#1D1D1F] dark:text-[#E5E5E5]">
+            {/* Stats Cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div className="bg-white dark:bg-[#1C1C1E] border border-black/10 dark:border-white/10 rounded-2xl p-5 shadow-sm">
+                    <span className="text-xs font-semibold text-[#86868B] uppercase tracking-wider">총 작업 건수</span>
+                    <h2 className="text-3xl font-bold mt-1 text-[#1D1D1F] dark:text-white">{totalTasks} <span className="text-base font-normal text-[#86868B]">건</span></h2>
+                </div>
+                <div className="bg-white dark:bg-[#1C1C1E] border border-black/10 dark:border-white/10 rounded-2xl p-5 shadow-sm">
+                    <span className="text-xs font-semibold text-[#86868B] uppercase tracking-wider">구축 완료</span>
+                    <h2 className="text-3xl font-bold mt-1 text-emerald-500">{completedTasks} <span className="text-base font-normal text-[#86868B]">건</span></h2>
+                </div>
+                <div className="bg-white dark:bg-[#1C1C1E] border border-black/10 dark:border-white/10 rounded-2xl p-5 shadow-sm">
+                    <span className="text-xs font-semibold text-[#86868B] uppercase tracking-wider">진행 중 / 대기</span>
+                    <h2 className="text-3xl font-bold mt-1 text-blue-500">{pendingTasks} <span className="text-base font-normal text-[#86868B]">건</span></h2>
+                </div>
+            </div>
+
+            {/* Filter Bar */}
+            <div className="bg-white dark:bg-[#1C1C1E] border border-black/10 dark:border-white/10 rounded-2xl p-5 shadow-sm flex flex-col md:flex-row gap-4">
+                <div className="flex-1 relative">
+                    <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#86868B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                    <input 
+                        type="text"
+                        placeholder="작업 이름, 상세 내용, 파일/URL 검색..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="w-full bg-[#F5F5F7] dark:bg-[#2C2C2E] border-transparent focus:border-black/20 dark:focus:border-white/20 rounded-xl pl-11 pr-4 py-2.5 text-[14px] text-[#1D1D1F] dark:text-[#E5E5E5] outline-none transition-colors"
+                    />
+                </div>
+                <div className="flex gap-4">
+                    <div className="flex flex-col">
+                        <select 
+                            value={categoryFilter}
+                            onChange={(e) => setCategoryFilter(e.target.value)}
+                            className="bg-[#F5F5F7] dark:bg-[#2C2C2E] text-[#1D1D1F] dark:text-white border-transparent focus:border-black/20 dark:focus:border-white/20 rounded-xl px-4 py-2.5 text-[14px] outline-none transition-colors cursor-pointer"
+                        >
+                            {categories.map(cat => (
+                                <option key={cat} value={cat}>{cat === '전체' ? '대분류: 전체' : cat}</option>
+                            ))}
+                        </select>
+                    </div>
+                    <div className="flex flex-col">
+                        <select 
+                            value={priorityFilter}
+                            onChange={(e) => setPriorityFilter(e.target.value)}
+                            className="bg-[#F5F5F7] dark:bg-[#2C2C2E] text-[#1D1D1F] dark:text-white border-transparent focus:border-black/20 dark:focus:border-white/20 rounded-xl px-4 py-2.5 text-[14px] outline-none transition-colors cursor-pointer"
+                        >
+                            {priorities.map(prio => (
+                                <option key={prio} value={prio}>{prio === '전체' ? '우선순위: 전체' : prio}</option>
+                            ))}
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            {/* Tasks Table */}
+            <div className="bg-white dark:bg-[#1C1C1E] border border-black/10 dark:border-white/10 rounded-2xl overflow-hidden shadow-sm">
+                <div className="overflow-x-auto">
+                    <table className="w-full text-left border-collapse">
+                        <thead>
+                            <tr className="bg-[#F5F5F7] dark:bg-[#2C2C2E] border-b border-black/10 dark:border-white/10">
+                                <th className="py-4 px-6 text-xs font-semibold text-[#86868B] uppercase tracking-wider w-[12%]">대분류</th>
+                                <th className="py-4 px-6 text-xs font-semibold text-[#86868B] uppercase tracking-wider w-[40%]">작업 정보</th>
+                                <th className="py-4 px-6 text-xs font-semibold text-[#86868B] uppercase tracking-wider w-[10%]">우선순위</th>
+                                <th className="py-4 px-6 text-xs font-semibold text-[#86868B] uppercase tracking-wider w-[10%]">담당자</th>
+                                <th className="py-4 px-6 text-xs font-semibold text-[#86868B] uppercase tracking-wider w-[12%]">마감일</th>
+                                <th className="py-4 px-6 text-xs font-semibold text-[#86868B] uppercase tracking-wider w-[10%]">상태</th>
+                                <th className="py-4 px-6 text-xs font-semibold text-[#86868B] uppercase tracking-wider w-[6%] text-center">상세</th>
+                            </tr>
+                        </thead>
+                        <tbody className="divide-y divide-black/5 dark:divide-white/5">
+                            {filteredTasks.map((task, idx) => {
+                                const isExpanded = expandedTaskId === idx;
+                                return (
+                                    <React.Fragment key={idx}>
+                                        <tr 
+                                            onClick={() => setExpandedTaskId(isExpanded ? null : idx)}
+                                            className="hover:bg-black/[0.02] dark:hover:bg-white/[0.02] transition-colors cursor-pointer"
+                                        >
+                                            <td className="py-4 px-6">
+                                                <span className="text-[12px] font-bold px-2 py-1 rounded bg-[#F5F5F7] dark:bg-[#2C2C2E] border border-black/5 dark:border-white/5 text-[#86868B] whitespace-nowrap">
+                                                    {task['대분류']}
+                                                </span>
+                                            </td>
+                                            <td className="py-4 px-6">
+                                                <div className="flex flex-col">
+                                                    <span className="text-[15px] font-semibold text-[#1D1D1F] dark:text-white leading-snug">
+                                                        {task['작업 이름']}
+                                                    </span>
+                                                    <span className="text-[12px] text-[#86868B] mt-0.5 font-medium">
+                                                        {task['작업 유형']} {task['URL'] && `· ${task['URL']}`}
+                                                    </span>
+                                                </div>
+                                            </td>
+                                            <td className="py-4 px-6">
+                                                <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full ${getPriorityColor(task['우선순위'])}`}>
+                                                    {task['우선순위']}
+                                                </span>
+                                            </td>
+                                            <td className="py-4 px-6 text-[14px] font-medium text-[#1D1D1F] dark:text-white">
+                                                {task['담당자'] || '-'}
+                                            </td>
+                                            <td className="py-4 px-6 text-[13px] font-mono text-[#86868B] dark:text-[#A1A1AA]">
+                                                {task['마감일'] || '-'}
+                                            </td>
+                                            <td className="py-4 px-6">
+                                                <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full ${getStatusColor(task['상태'])}`}>
+                                                    {task['상태']}
+                                                </span>
+                                            </td>
+                                            <td className="py-4 px-6 text-center">
+                                                <button className="text-[#86868B] hover:text-[#1D1D1F] dark:hover:text-white p-1 rounded-full hover:bg-black/5 dark:hover:bg-white/5 transition-all">
+                                                    <svg 
+                                                        className={`w-4 h-4 transform transition-transform ${isExpanded ? 'rotate-180' : ''}`} 
+                                                        fill="none" 
+                                                        stroke="currentColor" 
+                                                        viewBox="0 0 24 24"
+                                                    >
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                                                    </svg>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        {isExpanded && (
+                                            <tr className="bg-[#F5F5F7]/30 dark:bg-[#1C1C1E]/30">
+                                                <td colSpan="7" className="py-4 px-8 border-b border-black/5 dark:border-white/5">
+                                                    <div className="space-y-3 py-1">
+                                                        <div>
+                                                            <span className="text-[12px] font-bold text-[#86868B] uppercase tracking-wider block mb-1">상세 내용</span>
+                                                            <p className="text-[14px] leading-relaxed text-[#555] dark:text-[#C5C5C7] whitespace-pre-wrap">
+                                                                {task['내용 상세']}
+                                                            </p>
+                                                        </div>
+                                                        <div className="flex flex-wrap gap-x-8 gap-y-2 pt-2 border-t border-black/5 dark:border-white/5 text-[12px]">
+                                                            <div>
+                                                                <span className="text-[#86868B] font-medium mr-1.5">작업 구분:</span>
+                                                                <span className="font-semibold text-[#1D1D1F] dark:text-white">{task['작업 유형']}</span>
+                                                            </div>
+                                                            {task['URL'] && (
+                                                                <div>
+                                                                    <span className="text-[#86868B] font-medium mr-1.5">관련 파일/URL:</span>
+                                                                    <span className="font-semibold text-[#1D1D1F] dark:text-white font-mono">{task['URL']}</span>
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        )}
+                                    </React.Fragment>
+                                );
+                            })}
+                            {filteredTasks.length === 0 && (
+                                <tr>
+                                    <td colSpan="7" className="py-12 text-center text-[#86868B]">
+                                        검색 조건에 맞는 작업 내역이 없습니다.
+                                    </td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     );
 }
