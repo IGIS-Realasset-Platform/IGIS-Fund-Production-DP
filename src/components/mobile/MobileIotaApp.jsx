@@ -183,16 +183,28 @@ export default function MobileIotaApp({ navigateTo }) {
                         onNotificationClick={(noti) => {
                             try {
                                 console.log('[MobileIotaApp] 알림 터치 수신:', noti);
-                                if (noti.type === 'log') {
+                                const isLogNotif = noti.type === 'log' || 
+                                                   noti.type === 'logs' || 
+                                                   String(noti.type).toLowerCase() === 'log' ||
+                                                   (noti.title && (noti.title.includes('[협업]') || noti.title.includes('[@언급]')));
+
+                                const isTaskNotif = noti.type === 'task' || 
+                                                    String(noti.type).toLowerCase() === 'task' ||
+                                                    (noti.title && (noti.title.includes('[Task]') || noti.title.includes('신규 Task')));
+
+                                if (isLogNotif) {
                                     console.log('[MobileIotaApp] 협업글 알림 감지. reference_id:', noti.reference_id);
-                                    let logId = noti.reference_id ? String(noti.reference_id) : null;
+                                    let logId = null;
                                     let wsCode = null;
                                     
-                                    if (logId) {
-                                        if (logId.includes('|')) {
-                                            const parts = logId.split('|');
+                                    if (noti.reference_id) {
+                                        const refStr = String(noti.reference_id);
+                                        if (refStr.includes('|')) {
+                                            const parts = refStr.split('|');
                                             logId = parts[0];
                                             wsCode = parts[1];
+                                        } else {
+                                            logId = refStr;
                                         }
                                         setHighlightLogId(logId);
                                         console.log('[MobileIotaApp] highlightLogId 설정:', logId);
@@ -201,13 +213,15 @@ export default function MobileIotaApp({ navigateTo }) {
                                     // Fallback: Parse workspace code from notification title text
                                     if (!wsCode) {
                                         const title = String(noti.title || '');
-                                        if (title.includes('사업 PM') || title.includes('사업PM')) wsCode = 'WS_PM';
-                                        else if (title.includes('파이낸싱')) wsCode = 'WS_LFC';
-                                        else if (title.includes('개발')) wsCode = 'WS_DSC';
-                                        else if (title.includes('마케팅')) wsCode = 'WS_EMC';
-                                        else if (title.includes('공간') || title.includes('SSC')) wsCode = 'WS_SSC';
-                                        else if (title.includes('펀드') || title.includes('KAM')) wsCode = 'WS_KAM';
-                                        else if (title.includes('IPR')) wsCode = 'WS_IPR';
+                                        const body = String(noti.body || '');
+                                        const combinedText = title + ' ' + body;
+                                        if (combinedText.includes('사업 PM') || combinedText.includes('사업PM')) wsCode = 'WS_PM';
+                                        else if (combinedText.includes('파이낸싱') || combinedText.includes('재원조달')) wsCode = 'WS_LFC';
+                                        else if (combinedText.includes('개발') || combinedText.includes('설계')) wsCode = 'WS_DSC';
+                                        else if (combinedText.includes('마케팅')) wsCode = 'WS_EMC';
+                                        else if (combinedText.includes('공간') || combinedText.includes('SSC') || combinedText.includes('디지털')) wsCode = 'WS_SSC';
+                                        else if (combinedText.includes('펀드') || combinedText.includes('KAM')) wsCode = 'WS_KAM';
+                                        else if (combinedText.includes('IPR')) wsCode = 'WS_IPR';
                                         console.log('[MobileIotaApp] wsCode Fallback 추론:', wsCode);
                                     }
                                     
@@ -216,14 +230,19 @@ export default function MobileIotaApp({ navigateTo }) {
                                         console.log('[MobileIotaApp] targetMobileWorkspace 설정:', wsCode);
                                     }
                                     setActiveTab(1);
-                                } else if (noti.type === 'task') {
+                                } else if (isTaskNotif) {
                                     let taskId = null;
                                     let wsCode = null;
                                     
-                                    if (noti.reference_id && noti.reference_id.includes('|')) {
-                                        const parts = noti.reference_id.split('|');
-                                        taskId = parts[0];
-                                        wsCode = parts[1];
+                                    if (noti.reference_id) {
+                                        const refStr = String(noti.reference_id);
+                                        if (refStr.includes('|')) {
+                                            const parts = refStr.split('|');
+                                            taskId = parts[0];
+                                            wsCode = parts[1];
+                                        } else {
+                                            taskId = refStr;
+                                        }
                                     }
                                     
                                     if (!wsCode) {
