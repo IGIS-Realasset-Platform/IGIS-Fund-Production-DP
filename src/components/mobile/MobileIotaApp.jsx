@@ -11,6 +11,8 @@ import { requestFirebaseNotificationPermission } from '../../utils/firebase';
 export default function MobileIotaApp({ navigateTo }) {
     const { user, memberInfo, signOut } = useAuth();
     const [activeTab, setActiveTab] = useState(0); // 0: 주요업무, 1: 협업게시판, 2: 내업무, 3: 알림
+    const [highlightLogId, setHighlightLogId] = useState(null);
+    const [targetMobileWorkspace, setTargetMobileWorkspace] = useState(null);
     const [isComposerOpen, setIsComposerOpen] = useState(false);
     const [unreadNotiCount, setUnreadNotiCount] = useState(0);
     const [isStandalone, setIsStandalone] = useState(false);
@@ -154,10 +156,48 @@ export default function MobileIotaApp({ navigateTo }) {
 
             {/* Main Content Area */}
             <div className="flex-1 overflow-y-auto relative overscroll-y-contain bg-[#1F1F1E]">
-                {activeTab === 0 && <MobileTaskList memberInfo={memberInfo} />}
-                {activeTab === 1 && <MobileLogList memberInfo={memberInfo} />}
+                {activeTab === 0 && (
+                    <MobileTaskList 
+                        memberInfo={memberInfo} 
+                        initialWorkspaceCode={targetMobileWorkspace} 
+                        onWorkspaceReset={() => setTargetMobileWorkspace(null)} 
+                    />
+                )}
+                {activeTab === 1 && (
+                    <MobileLogList 
+                        memberInfo={memberInfo} 
+                        highlightLogId={highlightLogId} 
+                        onHighlightReset={() => setHighlightLogId(null)} 
+                    />
+                )}
                 {activeTab === 2 && <MobileMyTasks memberInfo={memberInfo} />}
-                {activeTab === 3 && <MobileNotifications memberInfo={memberInfo} onRead={() => setUnreadNotiCount(Math.max(0, unreadNotiCount - 1))} />}
+                {activeTab === 3 && (
+                    <MobileNotifications 
+                        memberInfo={memberInfo} 
+                        onRead={() => setUnreadNotiCount(Math.max(0, unreadNotiCount - 1))} 
+                        onNotificationClick={(noti) => {
+                            if (noti.type === 'log' && noti.reference_id) {
+                                setHighlightLogId(noti.reference_id);
+                                setActiveTab(1);
+                            } else if (noti.type === 'task') {
+                                let wsCode = null;
+                                const title = noti.title || '';
+                                if (title.includes('사업 PM') || title.includes('사업PM')) wsCode = 'WS_PM';
+                                else if (title.includes('파이낸싱')) wsCode = 'WS_LFC';
+                                else if (title.includes('개발')) wsCode = 'WS_DSC';
+                                else if (title.includes('마케팅')) wsCode = 'WS_EMC';
+                                else if (title.includes('공간') || title.includes('SSC')) wsCode = 'WS_SSC';
+                                else if (title.includes('펀드') || title.includes('KAM')) wsCode = 'WS_KAM';
+                                else if (title.includes('IPR')) wsCode = 'WS_IPR';
+                                
+                                if (wsCode) {
+                                    setTargetMobileWorkspace(wsCode);
+                                }
+                                setActiveTab(0);
+                            }
+                        }}
+                    />
+                )}
             </div>
 
             {/* Floating Action Button (Tasks and My Tasks) */}

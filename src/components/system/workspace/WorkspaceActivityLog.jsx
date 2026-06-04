@@ -100,6 +100,33 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
         fetchMasterStakeholders();
     }, []);
 
+    // Handle incoming URL logId query parameters to focus and expand a specific log card
+    useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        const targetLogId = params.get('logId');
+        if (targetLogId && logs.length > 0) {
+            const exists = logs.some(l => l.log_id === targetLogId);
+            if (exists) {
+                // 1. Expand the card
+                setExpandedLogs(prev => ({ ...prev, [targetLogId]: true }));
+                
+                // 2. Scroll into view and highlight after a slight render delay
+                setTimeout(() => {
+                    const el = document.getElementById(targetLogId);
+                    if (el) {
+                        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        
+                        // Apply pulse visual feedback
+                        el.classList.add('bg-blue-500/10', 'border-t', 'border-b', 'border-blue-500/40');
+                        setTimeout(() => {
+                            el.classList.remove('bg-blue-500/10', 'border-t', 'border-b', 'border-blue-500/40');
+                        }, 2500);
+                    }
+                }, 400);
+            }
+        }
+    }, [logs]);
+
     const handleDelete = async (logId) => {
         setIsDeleting(true);
         try {
@@ -535,7 +562,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
                     </div>
                 </div>
                 {displayedLogs.map((log, index) => (
-                    <div key={log.log_id} className={`relative w-full px-[20px] py-[16px] flex flex-col group transition-colors hover:bg-white/5 last:rounded-b-[24px] ${index !== displayedLogs.length - 1 ? 'border-b border-[#3c3c3c]' : ''}`}>
+                    <div id={log.log_id} key={log.log_id} className={`relative w-full px-[20px] py-[16px] flex flex-col group transition-all duration-500 hover:bg-white/5 last:rounded-b-[24px] ${index !== displayedLogs.length - 1 ? 'border-b border-[#3c3c3c]' : ''}`}>
                         {/* Main Row */}
                         <div 
                             className="w-full flex items-center justify-between cursor-pointer"

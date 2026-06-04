@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../../utils/supabaseClient';
 
-export default function MobileNotifications({ memberInfo, onRead }) {
+export default function MobileNotifications({ memberInfo, onRead, onNotificationClick }) {
     const [notifications, setNotifications] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -51,6 +51,13 @@ export default function MobileNotifications({ memberInfo, onRead }) {
         }
     };
 
+    const handleNotifClick = (noti) => {
+        handleRead(noti);
+        if (onNotificationClick) {
+            onNotificationClick(noti);
+        }
+    };
+
     const formatDate = (dateString) => {
         if (!dateString) return '';
         try {
@@ -78,7 +85,7 @@ export default function MobileNotifications({ memberInfo, onRead }) {
                     {notifications.map(noti => (
                         <div 
                             key={noti.id} 
-                            onClick={() => handleRead(noti)}
+                            onClick={() => handleNotifClick(noti)}
                             className={`p-4 rounded-[24px] border flex flex-col gap-1 transition-all duration-300 cursor-pointer ${
                                 noti.is_read 
                                 ? 'bg-[#272726] border-[#3c3c3c]/50 opacity-70' 

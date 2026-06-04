@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { supabase } from '../../utils/supabaseClient';
 import { MOBILE_WORKSPACES, getInitialWorkspace } from './mobileIotaData';
 
-export default function MobileTaskList({ memberInfo }) {
+export default function MobileTaskList({ memberInfo, initialWorkspaceCode, onWorkspaceReset }) {
     const [workspace, setWorkspace] = useState(() => getInitialWorkspace(memberInfo));
     const [tasks, setTasks] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -18,6 +18,20 @@ export default function MobileTaskList({ memberInfo }) {
     useEffect(() => {
         fetchTasks();
     }, [workspace, iotaOnly]);
+
+    // Handle incoming initial workspace code redirect from notification click
+    useEffect(() => {
+        if (initialWorkspaceCode) {
+            const matchedWs = MOBILE_WORKSPACES.find(w => w.code === initialWorkspaceCode);
+            if (matchedWs) {
+                setWorkspace(matchedWs);
+                setIotaOnly(true);
+            }
+            if (onWorkspaceReset) {
+                onWorkspaceReset();
+            }
+        }
+    }, [initialWorkspaceCode]);
 
     // Auto-scroll active tab into view center
     useEffect(() => {

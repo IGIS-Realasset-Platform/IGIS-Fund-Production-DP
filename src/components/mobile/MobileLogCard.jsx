@@ -42,6 +42,7 @@ export default function MobileLogCard({ log, memberInfo, onClick }) {
 
     return (
         <div 
+            id={log.log_id}
             onClick={() => isVisible && onClick && onClick(log)}
             className={`bg-[#272726] border border-[#3c3c3c] rounded-[24px] p-5 flex flex-col mb-3.5 transition-all duration-300 ${isVisible ? 'active:bg-[#333] cursor-pointer' : 'opacity-80'}`}
         >

@@ -3,7 +3,7 @@ import { supabase } from '../../utils/supabaseClient';
 import { MOBILE_WORKSPACES, getInitialWorkspace } from './mobileIotaData';
 import MobileLogCard from './MobileLogCard';
 
-export default function MobileLogList({ memberInfo }) {
+export default function MobileLogList({ memberInfo, highlightLogId, onHighlightReset }) {
     const [workspace, setWorkspace] = useState(() => getInitialWorkspace(memberInfo));
     const [logs, setLogs] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -18,6 +18,55 @@ export default function MobileLogList({ memberInfo }) {
     useEffect(() => {
         fetchLogs();
     }, [workspace]);
+
+    // Resolve workspace code and switch tab for highlighted log
+    useEffect(() => {
+        if (!highlightLogId) return;
+
+        const resolveAndSwitchWorkspace = async () => {
+            try {
+                const { data, error } = await supabase
+                    .from('iota_seoul_logs')
+                    .select('metadata')
+                    .eq('log_id', highlightLogId)
+                    .single();
+
+                if (!error && data) {
+                    const wsCode = data.metadata?.workspace_code;
+                    if (wsCode) {
+                        const matchedWs = MOBILE_WORKSPACES.find(w => w.code === wsCode);
+                        if (matchedWs && workspace.code !== matchedWs.code) {
+                            setWorkspace(matchedWs);
+                        }
+                    }
+                }
+            } catch (err) {
+                console.error("Error switching workspace for highlight:", err);
+            }
+        };
+
+        resolveAndSwitchWorkspace();
+    }, [highlightLogId]);
+
+    // Scroll and highlight card when logs render
+    useEffect(() => {
+        if (highlightLogId && logs.length > 0) {
+            const hasLog = logs.some(l => l.log_id === highlightLogId);
+            if (hasLog) {
+                setTimeout(() => {
+                    const el = document.getElementById(highlightLogId);
+                    if (el) {
+                        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        el.classList.add('bg-blue-500/10', 'border-[#3b82f6]/50');
+                        setTimeout(() => {
+                            el.classList.remove('bg-blue-500/10', 'border-[#3b82f6]/50');
+                        }, 2500);
+                    }
+                }, 400);
+                if (onHighlightReset) onHighlightReset();
+            }
+        }
+    }, [highlightLogId, logs]);
 
     // Auto-scroll active tab into view center
     useEffect(() => {

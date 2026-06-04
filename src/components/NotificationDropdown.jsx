@@ -1,7 +1,76 @@
 import React, { useRef, useEffect } from 'react';
+import { supabase } from '../utils/supabaseClient';
 
 export default function NotificationDropdown({ isOpen, onClose, notifications, unreadCount, onMarkAsRead, onMarkAllAsRead }) {
     const dropdownRef = useRef(null);
+
+    const handleNotifClick = async (notif) => {
+        if (!notif.is_read) onMarkAsRead(notif.id);
+        onClose();
+
+        if (notif.type === 'log' && notif.reference_id) {
+            try {
+                // Fetch the log metadata to find workspace_code
+                const { data, error } = await supabase
+                    .from('iota_seoul_logs')
+                    .select('metadata')
+                    .eq('log_id', notif.reference_id)
+                    .single();
+
+                if (!error && data) {
+                    const wsCode = data.metadata?.workspace_code;
+                    const workspaceMap = {
+                        'WS_PM': 'platform/iotaseoul/workspace/pm',
+                        'WS_LFC': 'platform/iotaseoul/workspace/financing',
+                        'WS_DSC': 'platform/iotaseoul/workspace/development',
+                        'WS_EMC': 'platform/iotaseoul/workspace/marketing',
+                        'WS_SSC': 'platform/iotaseoul/workspace/digital',
+                        'WS_KAM': 'platform/iotaseoul/workspace/fund',
+                        'WS_IPR': 'platform/iotaseoul/workspace/ipr'
+                    };
+
+                    const targetPath = workspaceMap[wsCode];
+                    if (targetPath) {
+                        const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
+                        const newUrl = `${base}/${targetPath}?logId=${notif.reference_id}`;
+                        
+                        window.history.pushState(null, '', newUrl);
+                        window.dispatchEvent(new Event('popstate'));
+                    }
+                }
+            } catch (err) {
+                console.error("Error navigating from log notification:", err);
+            }
+        } else if (notif.type === 'task') {
+            // Deduce workspace_code from title text
+            let wsCode = null;
+            const title = notif.title || '';
+            if (title.includes('사업 PM') || title.includes('사업PM')) wsCode = 'WS_PM';
+            else if (title.includes('파이낸싱')) wsCode = 'WS_LFC';
+            else if (title.includes('개발')) wsCode = 'WS_DSC';
+            else if (title.includes('마케팅')) wsCode = 'WS_EMC';
+            else if (title.includes('공간') || title.includes('SSC')) wsCode = 'WS_SSC';
+            else if (title.includes('펀드') || title.includes('KAM')) wsCode = 'WS_KAM';
+            else if (title.includes('IPR')) wsCode = 'WS_IPR';
+
+            const workspaceMap = {
+                'WS_PM': 'platform/iotaseoul/workspace/pm',
+                'WS_LFC': 'platform/iotaseoul/workspace/financing',
+                'WS_DSC': 'platform/iotaseoul/workspace/development',
+                'WS_EMC': 'platform/iotaseoul/workspace/marketing',
+                'WS_SSC': 'platform/iotaseoul/workspace/digital',
+                'WS_KAM': 'platform/iotaseoul/workspace/fund',
+                'WS_IPR': 'platform/iotaseoul/workspace/ipr'
+            };
+
+            const targetPath = workspaceMap[wsCode];
+            if (targetPath) {
+                const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
+                window.history.pushState(null, '', `${base}/${targetPath}`);
+                window.dispatchEvent(new Event('popstate'));
+            }
+        }
+    };
 
     // Close when clicking outside
     useEffect(() => {
@@ -59,9 +128,7 @@ export default function NotificationDropdown({ isOpen, onClose, notifications, u
                         {notifications.map((notif) => (
                             <div 
                                 key={notif.id}
-                                onClick={() => {
-                                    if (!notif.is_read) onMarkAsRead(notif.id);
-                                }}
+                                onClick={() => handleNotifClick(notif)}
                                 className={`px-5 py-4 border-b border-[#333] cursor-pointer transition-colors hover:bg-[#2A2A2A] ${!notif.is_read ? 'bg-[#2A2A2A]/40' : ''}`}
                             >
                                 <div className="flex gap-3">
