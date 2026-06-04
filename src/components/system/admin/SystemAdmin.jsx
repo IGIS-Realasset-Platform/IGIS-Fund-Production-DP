@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { supabase } from '../../../utils/supabaseClient';
 import { useAuth } from '../../../context/AuthContext';
 import { tasksData } from './tasksData';
@@ -686,12 +686,13 @@ function ProjectTasksView() {
     const [categoryFilter, setCategoryFilter] = useState('전체');
     const [priorityFilter, setPriorityFilter] = useState('전체');
     const [sortOrder, setSortOrder] = useState('latest'); // 'latest' or 'oldest'
-    const [page, setPage] = useState(1);
+    const [visibleCount, setVisibleCount] = useState(40);
     const [expandedTaskId, setExpandedTaskId] = useState(null);
+    const loaderRef = useRef(null);
 
-    // Reset page and expansion when search/filter/sort parameters change
+    // Reset visible count and expansion when search/filter/sort parameters change
     useEffect(() => {
-        setPage(1);
+        setVisibleCount(40);
         setExpandedTaskId(null);
     }, [searchTerm, categoryFilter, priorityFilter, sortOrder]);
 
@@ -752,9 +753,7 @@ function ProjectTasksView() {
         }
     });
 
-    const itemsPerPage = 20;
-    const totalPages = Math.ceil(sortedTasks.length / itemsPerPage);
-    const paginatedTasks = sortedTasks.slice((page - 1) * itemsPerPage, page * itemsPerPage);
+    const visibleTasks = sortedTasks.slice(0, visibleCount);
 
     const totalTasks = tasksData.length;
     const completedTasks = tasksData.filter(t => t['상태'] === '완료').length;
@@ -775,6 +774,25 @@ function ProjectTasksView() {
             ? 'bg-emerald-500/10 text-emerald-500 border border-emerald-500/20' 
             : 'bg-blue-500/10 text-blue-500 border border-blue-500/20';
     };
+
+    useEffect(() => {
+        const observer = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting && visibleCount < sortedTasks.length) {
+                setVisibleCount(prev => prev + 40);
+            }
+        }, { threshold: 0.1, rootMargin: '100px' });
+
+        const currentLoader = loaderRef.current;
+        if (currentLoader) {
+            observer.observe(currentLoader);
+        }
+
+        return () => {
+            if (currentLoader) {
+                observer.unobserve(currentLoader);
+            }
+        };
+    }, [visibleCount, sortedTasks.length]);
 
     return (
         <div className="space-y-6 animate-fade-in text-[#1D1D1F] dark:text-[#E5E5E5]">
@@ -858,7 +876,7 @@ function ProjectTasksView() {
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-black/5 dark:divide-white/5">
-                            {paginatedTasks.map((task) => {
+                            {visibleTasks.map((task) => {
                                 const isExpanded = expandedTaskId === task.originalIndex;
                                 return (
                                     <React.Fragment key={task.originalIndex}>
@@ -924,7 +942,7 @@ function ProjectTasksView() {
                                     </React.Fragment>
                                 );
                             })}
-                            {paginatedTasks.length === 0 && (
+                            {visibleTasks.length === 0 && (
                                 <tr>
                                     <td colSpan="5" className="py-12 text-center text-[#86868B]">
                                         검색 조건에 맞는 작업 내역이 없습니다.
@@ -935,46 +953,17 @@ function ProjectTasksView() {
                     </table>
                 </div>
 
-                {/* Pagination UI */}
-                {totalPages > 1 && (
-                    <div className="flex items-center justify-between pt-6 border-t border-black/5 dark:border-white/5 mt-4">
-                        <span className="text-[13px] text-[#86868B]">
-                            총 {sortedTasks.length}개 중 {(page - 1) * itemsPerPage + 1} - {Math.min(page * itemsPerPage, sortedTasks.length)}번째 표시
-                        </span>
-                        <div className="flex items-center gap-1.5">
-                            <button
-                                disabled={page === 1}
-                                onClick={() => setPage(p => Math.max(1, p - 1))}
-                                className="p-2 rounded-lg border border-black/10 dark:border-white/10 hover:bg-black/5 dark:hover:bg-white/5 transition-colors disabled:opacity-40 disabled:hover:bg-transparent"
-                            >
-                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
-                                </svg>
-                            </button>
-                            {Array.from({ length: totalPages }).map((_, i) => {
-                                const pageNum = i + 1;
-                                return (
-                                    <button
-                                        key={pageNum}
-                                        onClick={() => setPage(pageNum)}
-                                        className={`w-9 h-9 rounded-lg text-sm font-semibold transition-all ${page === pageNum ? 'bg-[#111] dark:bg-white text-white dark:text-[#111111] shadow-sm' : 'border border-black/5 dark:border-white/5 hover:bg-black/5 dark:hover:bg-white/5'}`}
-                                    >
-                                        {pageNum}
-                                    </button>
-                                );
-                            })}
-                            <button
-                                disabled={page === totalPages}
-                                onClick={() => setPage(p => Math.min(totalPages, p + 1))}
-                                className="p-2 rounded-lg border border-black/10 dark:border-white/10 hover:bg-black/5 dark:hover:bg-white/5 transition-colors disabled:opacity-40 disabled:hover:bg-transparent"
-                            >
-                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
-                                </svg>
-                            </button>
+                {/* Infinite Scroll Loader & Trigger */}
+                <div ref={loaderRef} className="py-6 flex items-center justify-center text-[#86868B] border-t border-black/5 dark:border-white/5 mt-4">
+                    {visibleCount < sortedTasks.length ? (
+                        <div className="flex items-center">
+                            <div className="w-5 h-5 border-2 border-[#111] dark:border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+                            <span className="text-sm font-medium">추가 작업 불러오는 중...</span>
                         </div>
-                    </div>
-                )}
+                    ) : (
+                        <span className="text-xs">모든 작업 내역을 불러왔습니다 (총 {sortedTasks.length}건)</span>
+                    )}
+                </div>
             </div>
         </div>
     );
