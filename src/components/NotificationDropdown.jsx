@@ -75,16 +75,26 @@ export default function NotificationDropdown({ isOpen, onClose, notifications, u
                 }
             }
         } else if (notif.type === 'task') {
-            // Deduce workspace_code from title text
+            let taskId = null;
             let wsCode = null;
-            const title = notif.title || '';
-            if (title.includes('사업 PM') || title.includes('사업PM')) wsCode = 'WS_PM';
-            else if (title.includes('파이낸싱')) wsCode = 'WS_LFC';
-            else if (title.includes('개발')) wsCode = 'WS_DSC';
-            else if (title.includes('마케팅')) wsCode = 'WS_EMC';
-            else if (title.includes('공간') || title.includes('SSC')) wsCode = 'WS_SSC';
-            else if (title.includes('펀드') || title.includes('KAM')) wsCode = 'WS_KAM';
-            else if (title.includes('IPR')) wsCode = 'WS_IPR';
+
+            if (notif.reference_id && notif.reference_id.includes('|')) {
+                const parts = notif.reference_id.split('|');
+                taskId = parts[0];
+                wsCode = parts[1];
+            }
+
+            // Fallback: Deduce workspace_code from title text
+            if (!wsCode) {
+                const title = notif.title || '';
+                if (title.includes('사업 PM') || title.includes('사업PM')) wsCode = 'WS_PM';
+                else if (title.includes('파이낸싱')) wsCode = 'WS_LFC';
+                else if (title.includes('개발')) wsCode = 'WS_DSC';
+                else if (title.includes('마케팅')) wsCode = 'WS_EMC';
+                else if (title.includes('공간') || title.includes('SSC')) wsCode = 'WS_SSC';
+                else if (title.includes('펀드') || title.includes('KAM')) wsCode = 'WS_KAM';
+                else if (title.includes('IPR')) wsCode = 'WS_IPR';
+            }
 
             const workspaceMap = {
                 'WS_PM': 'platform/iotaseoul/workspace/pm',
@@ -96,10 +106,15 @@ export default function NotificationDropdown({ isOpen, onClose, notifications, u
                 'WS_IPR': 'platform/iotaseoul/workspace/ipr'
             };
 
+            if (taskId) {
+                localStorage.setItem('iota_target_task_id', taskId);
+            }
+
             const targetPath = workspaceMap[wsCode];
             if (targetPath) {
                 const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
-                window.history.pushState(null, '', `${base}/${targetPath}`);
+                const newUrl = taskId ? `${base}/${targetPath}?taskId=${taskId}` : `${base}/${targetPath}`;
+                window.history.pushState(null, '', newUrl);
                 window.dispatchEvent(new Event('popstate'));
             }
         }

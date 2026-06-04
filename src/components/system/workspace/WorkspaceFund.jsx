@@ -245,18 +245,21 @@ export default function WorkspaceFund() {
     useEffect(() => {
         if (!isLoadingTasks && tasks.length > 0) {
             autoSaveSnapshot(tasks);
-            const targetTaskId = localStorage.getItem('iota_target_task_id');
+            const queryParams = new URLSearchParams(window.location.search);
+            let targetTaskId = queryParams.get('taskId') || localStorage.getItem('iota_target_task_id');
             if (targetTaskId) {
-                const targetTask = tasks.find(t => t.id === targetTaskId);
+                const targetTask = tasks.find(t => String(t.id) === String(targetTaskId));
                 if (targetTask) {
                     setProjectShowAll(true);
-                    setExpandedTaskId(targetTaskId);
+                    setExpandedTaskId(targetTask.id);
                     setTimeout(() => {
-                        const el = document.getElementById(`task-${targetTaskId}`);
+                        const el = document.getElementById(`task-${targetTask.id}`);
                         if (el) {
                             el.scrollIntoView({ behavior: 'smooth', block: 'start' });
                         }
                         localStorage.removeItem('iota_target_task_id');
+                        const cleanUrl = window.location.pathname + window.location.hash;
+                        window.history.replaceState(null, '', cleanUrl);
                     }, 500);
                 }
             }
@@ -291,12 +294,14 @@ export default function WorkspaceFund() {
                 if (error) throw error;
             } else {
                 const taskToSave = { ...newTask, id: Date.now().toString(), created_at: new Date().toISOString() };
-                const { error } = await supabase.from('iota_fund_tasks').insert([taskToSave]);
+                const { data, error } = await supabase.from('iota_fund_tasks').insert([taskToSave]).select();
                 if (error) throw error;
-                await notifyVIPsOnTaskCreation(taskToSave.task_name, '펀드 운용(AM)');
+                const insertedTask = data && data[0];
+                const taskId = insertedTask ? insertedTask.id : taskToSave.id;
+                await notifyVIPsOnTaskCreation(taskId, taskToSave.task_name, '펀드 운용(AM)', 'WS_KAM');
 
                 // 알림 발송 (UI 블로킹 없이 백그라운드로 처리)
-                notifyMembersOnTaskCreation(taskToSave.task_name, { code: 'WS_KAM', label: '펀드운용-KAM', orgNames: ['펀드운용'] }, memberInfo?.email);
+                notifyMembersOnTaskCreation(taskId, taskToSave.task_name, { code: 'WS_KAM', label: '펀드운용-KAM', orgNames: ['펀드운용'] }, memberInfo?.email);
             }
         } catch (e) {
             console.warn('Error saving to Supabase:', e);

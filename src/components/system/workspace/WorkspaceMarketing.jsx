@@ -234,18 +234,21 @@ export default function WorkspaceMarketing() {
 
     useEffect(() => {
         if (!isLoading && tasks.length > 0) {
-            const targetTaskId = localStorage.getItem('iota_target_task_id');
+            const queryParams = new URLSearchParams(window.location.search);
+            let targetTaskId = queryParams.get('taskId') || localStorage.getItem('iota_target_task_id');
             if (targetTaskId) {
-                const targetTask = tasks.find(t => t.id === targetTaskId);
+                const targetTask = tasks.find(t => String(t.id) === String(targetTaskId));
                 if (targetTask) {
                     setProjectShowAll(true);
-                    setExpandedTaskId(targetTaskId);
+                    setExpandedTaskId(targetTask.id);
                     setTimeout(() => {
-                        const el = document.getElementById(`task-${targetTaskId}`);
+                        const el = document.getElementById(`task-${targetTask.id}`);
                         if (el) {
                             el.scrollIntoView({ behavior: 'smooth', block: 'start' });
                         }
                         localStorage.removeItem('iota_target_task_id');
+                        const cleanUrl = window.location.pathname + window.location.hash;
+                        window.history.replaceState(null, '', cleanUrl);
                     }, 500);
                 }
             }
@@ -279,12 +282,14 @@ export default function WorkspaceMarketing() {
                 const { error } = await supabase.from('iota_marketing_tasks').update(newTask).eq('id', editingTaskId);
                 if (error) throw error;
             } else {
-                const { error } = await supabase.from('iota_marketing_tasks').insert([{...newTask, id: `temp-${Date.now()}`, created_at: new Date().toISOString()}]);
+                const { data, error } = await supabase.from('iota_marketing_tasks').insert([{...newTask, id: `temp-${Date.now()}`, created_at: new Date().toISOString()}]).select();
                 if (error) throw error;
-                await notifyVIPsOnTaskCreation(newTask.task_name, '기업마케팅');
+                const insertedTask = data && data[0];
+                const taskId = insertedTask ? insertedTask.id : `temp-${Date.now()}`;
+                await notifyVIPsOnTaskCreation(taskId, newTask.task_name, '기업마케팅', 'WS_EMC');
 
                 // 알림 발송 (UI 블로킹 없이 백그라운드로 처리)
-                notifyMembersOnTaskCreation(newTask.task_name, { code: 'WS_EMC', label: '기업마케팅-EMC', orgNames: ['기업마케팅'] }, memberInfo?.email);
+                notifyMembersOnTaskCreation(taskId, newTask.task_name, { code: 'WS_EMC', label: '기업마케팅-EMC', orgNames: ['기업마케팅'] }, memberInfo?.email);
             }
             
             setNewTask({ task_name: '', company_name: '', related_asset: 'IOTA 공통', status: '아이데이션', priority: '중간', due_date: new Date().toLocaleDateString('en-CA'), next_action: '', notes: '' });

@@ -7,6 +7,7 @@ export default function MobileLogList({ memberInfo, highlightLogId, initialWorks
     const [workspace, setWorkspace] = useState(() => getInitialWorkspace(memberInfo));
     const [logs, setLogs] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [expandedLogIds, setExpandedLogIds] = useState(new Set());
 
     // Touch Swipe States
     const [touchStart, setTouchStart] = useState({ x: 0, y: 0 });
@@ -90,6 +91,16 @@ export default function MobileLogList({ memberInfo, highlightLogId, initialWorks
             }
         }
     }, [highlightLogId, logs]);
+
+    useEffect(() => {
+        if (highlightLogId) {
+            setExpandedLogIds(prev => {
+                const next = new Set(prev);
+                next.add(highlightLogId);
+                return next;
+            });
+        }
+    }, [highlightLogId]);
 
     // Auto-scroll active tab into view center
     useEffect(() => {
@@ -207,14 +218,29 @@ export default function MobileLogList({ memberInfo, highlightLogId, initialWorks
                     <div className="text-center py-20 text-[#86868B] text-[15px] font-medium">등록된 협업 게시글이 없습니다.</div>
                 ) : (
                     <div className="flex flex-col gap-4">
-                        {logs.map(log => (
-                            <MobileLogCard 
-                                key={log.id || log.log_id} 
-                                log={log} 
-                                memberInfo={memberInfo} 
-                                onClick={(log) => alert("상세보기 모달 준비중입니다. (" + (log.metadata?.title || '제목없음') + ")")}
-                            />
-                        ))}
+                        {logs.map(log => {
+                            const logId = log.id || log.log_id;
+                            return (
+                                <MobileLogCard 
+                                    key={logId} 
+                                    log={log} 
+                                    memberInfo={memberInfo} 
+                                    isExpanded={expandedLogIds.has(logId)}
+                                    onClick={(clickedLog) => {
+                                        const id = clickedLog.id || clickedLog.log_id;
+                                        setExpandedLogIds(prev => {
+                                            const next = new Set(prev);
+                                            if (next.has(id)) {
+                                                next.delete(id);
+                                            } else {
+                                                next.add(id);
+                                            }
+                                            return next;
+                                        });
+                                    }}
+                                />
+                            );
+                        })}
                     </div>
                 )}
             </div>

@@ -242,18 +242,21 @@ export default function WorkspaceDigital() {
 
     useEffect(() => {
         if (!isLoading && tasks.length > 0) {
-            const targetTaskId = localStorage.getItem('iota_target_task_id');
+            const queryParams = new URLSearchParams(window.location.search);
+            let targetTaskId = queryParams.get('taskId') || localStorage.getItem('iota_target_task_id');
             if (targetTaskId) {
-                const targetTask = tasks.find(t => t.id === targetTaskId);
+                const targetTask = tasks.find(t => String(t.id) === String(targetTaskId));
                 if (targetTask) {
                     setProjectShowAll(true);
-                    setExpandedTaskId(targetTaskId);
+                    setExpandedTaskId(targetTask.id);
                     setTimeout(() => {
-                        const el = document.getElementById(`task-${targetTaskId}`);
+                        const el = document.getElementById(`task-${targetTask.id}`);
                         if (el) {
                             el.scrollIntoView({ behavior: 'smooth', block: 'start' });
                         }
                         localStorage.removeItem('iota_target_task_id');
+                        const cleanUrl = window.location.pathname + window.location.hash;
+                        window.history.replaceState(null, '', cleanUrl);
                     }, 500);
                 }
             }
@@ -289,12 +292,14 @@ export default function WorkspaceDigital() {
                 if (error) throw error;
                 fetchTasks();
             } else {
-                const { error } = await supabase.from('iota_digital_tasks').insert([{ ...newTask, created_at: taskToSave.created_at }]);
+                const { data, error } = await supabase.from('iota_digital_tasks').insert([{ ...newTask, created_at: taskToSave.created_at }]).select();
                 if (error) throw error;
-                await notifyVIPsOnTaskCreation(newTask.task_name, '공간솔루션');
+                const insertedTask = data && data[0];
+                const taskId = insertedTask ? insertedTask.id : `temp-${Date.now()}`;
+                await notifyVIPsOnTaskCreation(taskId, newTask.task_name, '공간솔루션', 'WS_SSC');
                 
                 // 알림 발송 (UI 블로킹 없이 백그라운드로 처리)
-                notifyMembersOnTaskCreation(newTask.task_name, { code: 'WS_SSC', label: '공간솔루션-SSC', orgNames: ['상품·디지털', '공간솔루션'] }, memberInfo?.email);
+                notifyMembersOnTaskCreation(taskId, newTask.task_name, { code: 'WS_SSC', label: '공간솔루션-SSC', orgNames: ['상품·디지털', '공간솔루션'] }, memberInfo?.email);
                 
                 fetchTasks();
             }

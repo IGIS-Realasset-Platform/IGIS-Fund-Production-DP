@@ -330,6 +330,26 @@ export default function DecisionLog() {
         return () => window.removeEventListener('refetch-data', handleRefetch);
     }, []);
 
+    useEffect(() => {
+        const queryParams = new URLSearchParams(window.location.search);
+        const logId = queryParams.get('logId');
+        if (logId && logs.length > 0) {
+            setExpandedLogs(prev => ({ ...prev, [logId]: true }));
+            setTimeout(() => {
+                const el = document.getElementById(`log-card-${logId}`);
+                if (el) {
+                    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    el.classList.add('bg-[#3b82f6]/10', 'border-[#3b82f6]/30');
+                    setTimeout(() => {
+                        el.classList.remove('bg-[#3b82f6]/10', 'border-[#3b82f6]/30');
+                    }, 2500);
+                }
+                const cleanUrl = window.location.pathname + window.location.hash;
+                window.history.replaceState(null, '', cleanUrl);
+            }, 500);
+        }
+    }, [logs]);
+
     const toggleExpand = (id) => {
         setExpandedLogs(prev => ({
             ...prev,
@@ -1177,7 +1197,7 @@ export default function DecisionLog() {
                     </div>
                 </div>
                 {displayedLogs.map((log, index) => (
-                    <div key={log.log_id} className="relative w-full px-[20px] py-[16px] flex flex-col group transition-colors hover:bg-white/5 last:rounded-b-[24px] border-b border-[#3c3c3c]">
+                    <div key={log.log_id} id={`log-card-${log.log_id}`} className="relative w-full px-[20px] py-[16px] flex flex-col group transition-colors hover:bg-white/5 last:rounded-b-[24px] border-b border-[#3c3c3c] transition-all duration-300">
                         {/* Main Row */}
                         <div 
                             className="w-full flex items-center justify-between cursor-pointer"

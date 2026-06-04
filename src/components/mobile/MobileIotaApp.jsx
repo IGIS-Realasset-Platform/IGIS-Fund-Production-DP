@@ -12,6 +12,7 @@ export default function MobileIotaApp({ navigateTo }) {
     const { user, memberInfo, signOut } = useAuth();
     const [activeTab, setActiveTab] = useState(0); // 0: 주요업무, 1: 협업게시판, 2: 내업무, 3: 알림
     const [highlightLogId, setHighlightLogId] = useState(null);
+    const [highlightTaskId, setHighlightTaskId] = useState(null);
     const [targetMobileWorkspace, setTargetMobileWorkspace] = useState(null);
     const [isComposerOpen, setIsComposerOpen] = useState(false);
     const [unreadNotiCount, setUnreadNotiCount] = useState(0);
@@ -160,7 +161,9 @@ export default function MobileIotaApp({ navigateTo }) {
                     <MobileTaskList 
                         memberInfo={memberInfo} 
                         initialWorkspaceCode={targetMobileWorkspace} 
+                        highlightTaskId={highlightTaskId}
                         onWorkspaceReset={() => setTargetMobileWorkspace(null)} 
+                        onHighlightReset={() => setHighlightTaskId(null)}
                     />
                 )}
                 {activeTab === 1 && (
@@ -208,21 +211,34 @@ export default function MobileIotaApp({ navigateTo }) {
                                     }
                                     setActiveTab(1);
                                 } else if (noti.type === 'task') {
-                                let wsCode = null;
-                                const title = noti.title || '';
-                                if (title.includes('사업 PM') || title.includes('사업PM')) wsCode = 'WS_PM';
-                                else if (title.includes('파이낸싱')) wsCode = 'WS_LFC';
-                                else if (title.includes('개발')) wsCode = 'WS_DSC';
-                                else if (title.includes('마케팅')) wsCode = 'WS_EMC';
-                                else if (title.includes('공간') || title.includes('SSC')) wsCode = 'WS_SSC';
-                                else if (title.includes('펀드') || title.includes('KAM')) wsCode = 'WS_KAM';
-                                else if (title.includes('IPR')) wsCode = 'WS_IPR';
-                                
-                                if (wsCode) {
-                                    setTargetMobileWorkspace(wsCode);
+                                    let taskId = null;
+                                    let wsCode = null;
+                                    
+                                    if (noti.reference_id && noti.reference_id.includes('|')) {
+                                        const parts = noti.reference_id.split('|');
+                                        taskId = parts[0];
+                                        wsCode = parts[1];
+                                    }
+                                    
+                                    if (!wsCode) {
+                                        const title = noti.title || '';
+                                        if (title.includes('사업 PM') || title.includes('사업PM')) wsCode = 'WS_PM';
+                                        else if (title.includes('파이낸싱')) wsCode = 'WS_LFC';
+                                        else if (title.includes('개발')) wsCode = 'WS_DSC';
+                                        else if (title.includes('마케팅')) wsCode = 'WS_EMC';
+                                        else if (title.includes('공간') || title.includes('SSC')) wsCode = 'WS_SSC';
+                                        else if (title.includes('펀드') || title.includes('KAM')) wsCode = 'WS_KAM';
+                                        else if (title.includes('IPR')) wsCode = 'WS_IPR';
+                                    }
+                                    
+                                    if (taskId) {
+                                        setHighlightTaskId(taskId);
+                                    }
+                                    if (wsCode) {
+                                        setTargetMobileWorkspace(wsCode);
+                                    }
+                                    setActiveTab(0);
                                 }
-                                setActiveTab(0);
-                            }
                         } catch (err) {
                             console.error("Error in onNotificationClick:", err);
                         }

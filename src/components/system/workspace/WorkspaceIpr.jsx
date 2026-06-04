@@ -243,18 +243,21 @@ export default function WorkspaceIpr() {
     useEffect(() => {
         if (!isLoadingTasks && tasks.length > 0) {
             autoSaveSnapshot(tasks);
-            const targetTaskId = localStorage.getItem('iota_target_task_id');
+            const queryParams = new URLSearchParams(window.location.search);
+            let targetTaskId = queryParams.get('taskId') || localStorage.getItem('iota_target_task_id');
             if (targetTaskId) {
-                const targetTask = tasks.find(t => t.id === targetTaskId);
+                const targetTask = tasks.find(t => String(t.id) === String(targetTaskId));
                 if (targetTask) {
                     setProjectShowAll(true);
-                    setExpandedTaskId(targetTaskId);
+                    setExpandedTaskId(targetTask.id);
                     setTimeout(() => {
-                        const el = document.getElementById(`task-${targetTaskId}`);
+                        const el = document.getElementById(`task-${targetTask.id}`);
                         if (el) {
                             el.scrollIntoView({ behavior: 'smooth', block: 'start' });
                         }
                         localStorage.removeItem('iota_target_task_id');
+                        const cleanUrl = window.location.pathname + window.location.hash;
+                        window.history.replaceState(null, '', cleanUrl);
                     }, 500);
                 }
             }
@@ -289,12 +292,14 @@ export default function WorkspaceIpr() {
                 if (error) throw error;
             } else {
                 const taskToSave = { ...newTask, id: Date.now().toString(), created_at: new Date().toISOString() };
-                const { error } = await supabase.from('iota_ipr_tasks').insert([taskToSave]);
+                const { data, error } = await supabase.from('iota_ipr_tasks').insert([taskToSave]).select();
                 if (error) throw error;
-                await notifyVIPsOnTaskCreation(taskToSave.task_name, 'IPR 및 투자기획');
+                const insertedTask = data && data[0];
+                const taskId = insertedTask ? insertedTask.id : taskToSave.id;
+                await notifyVIPsOnTaskCreation(taskId, taskToSave.task_name, 'IPR 및 투자기획', 'WS_IPR');
 
                 // 알림 발송 (UI 블로킹 없이 백그라운드로 처리)
-                notifyMembersOnTaskCreation(taskToSave.task_name, { code: 'WS_IPR', label: 'IPR', orgNames: ['IPR'] }, memberInfo?.email);
+                notifyMembersOnTaskCreation(taskId, taskToSave.task_name, { code: 'WS_IPR', label: 'IPR', orgNames: ['IPR'] }, memberInfo?.email);
             }
         } catch (e) {
             console.warn('Error saving to Supabase:', e);

@@ -6,7 +6,7 @@ const VIP_AUTH_IDS = [
     '9ba52276-9705-4230-a12d-984f999833f4'  // 전기영
 ];
 
-export const notifyVIPsOnTaskCreation = async (taskName, workspaceName) => {
+export const notifyVIPsOnTaskCreation = async (taskId, taskName, workspaceName, workspaceCode) => {
     if (!taskName) return;
     
     const notificationPayload = VIP_AUTH_IDS.map(userId => ({
@@ -14,6 +14,7 @@ export const notifyVIPsOnTaskCreation = async (taskName, workspaceName) => {
         title: `[${workspaceName}] 신규 Task 등록`,
         body: `새로운 Task가 등록되었습니다: ${taskName}`,
         type: 'task',
+        reference_id: taskId && workspaceCode ? `${taskId}|${workspaceCode}` : null,
         is_read: false,
         created_at: new Date().toISOString()
     }));
@@ -138,7 +139,7 @@ export const notifyMembersOnLogCreation = async (logId, logContent, workspace, w
 /**
  * Task 생성 시 워크스페이스 소속원 및 마스터/디렉터에게 알림 전송 (비동기 백그라운드 구동 권장)
  */
-export const notifyMembersOnTaskCreation = async (taskName, workspace, writerEmail) => {
+export const notifyMembersOnTaskCreation = async (taskId, taskName, workspace, writerEmail) => {
     if (!taskName || !workspace?.code) return;
 
     try {
@@ -188,6 +189,7 @@ export const notifyMembersOnTaskCreation = async (taskName, workspace, writerEma
             title: `[${workspace.label}] 신규 Task 등록`,
             body: `새로운 Task가 등록되었습니다: ${taskName}`,
             type: 'task',
+            reference_id: taskId ? `${taskId}|${workspace.code}` : null,
             is_read: false,
             created_at: new Date().toISOString()
         }));

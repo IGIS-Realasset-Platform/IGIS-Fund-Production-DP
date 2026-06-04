@@ -45,11 +45,13 @@ export default function MobileComposerSheet({ memberInfo, onClose, onSuccess, ac
                     payload.company_name = companyName.trim();
                 }
 
-                const { error } = await supabase.from(workspace.taskTable).insert(payload);
+                const { data, error } = await supabase.from(workspace.taskTable).insert(payload).select();
                 if (error) throw error;
+                const insertedTask = data && data[0];
+                const taskId = insertedTask ? insertedTask.id : null;
 
                 // 알림 발송 (UI 블로킹 없이 백그라운드로 처리)
-                notifyMembersOnTaskCreation(taskName.trim(), workspace, memberInfo?.email);
+                notifyMembersOnTaskCreation(taskId, taskName.trim(), workspace, memberInfo?.email);
             } else {
                 if (!logContent.trim()) {
                     alert("내용을 입력해주세요.");

@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function MobileLogCard({ log, memberInfo, onClick }) {
+export default function MobileLogCard({ log, memberInfo, onClick, isExpanded }) {
     const isVisibleTo = () => {
         if (!memberInfo) return false;
         if (log.writer_staff_id?.toLowerCase() === memberInfo.email?.toLowerCase()) return true;
@@ -69,23 +69,40 @@ export default function MobileLogCard({ log, memberInfo, onClick }) {
 
             {isVisible ? (
                 <>
-                    <h3 className="text-[15px] font-bold text-white leading-snug mb-1 line-clamp-2">
+                    <h3 className={`text-[15px] font-bold text-white leading-snug mb-1 ${isExpanded ? '' : 'line-clamp-2'}`}>
                         {title}
                     </h3>
-                    <p className="text-[13px] text-[#9A9A98] leading-relaxed line-clamp-3 mb-3">
+                    <p className={`text-[13px] text-[#9A9A98] leading-relaxed mb-3 whitespace-pre-wrap ${isExpanded ? '' : 'line-clamp-3'}`}>
                         {log.raw_text}
                     </p>
                     
-                    {commentsCount > 0 && (
-                        <div className="bg-[#1A1A1A] rounded-[12px] p-2.5 mb-3 flex items-start gap-2 border border-[#3c3c3c]/50">
-                            <svg className="w-4 h-4 text-[#60a5fa] mt-0.5 shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                            </svg>
-                            <div className="flex-1 min-w-0">
-                                <div className="text-[11px] font-bold text-[#86868B]">{log.metadata.comments[commentsCount - 1].author}</div>
-                                <div className="text-[12px] text-[#E5E5E5] line-clamp-1">{log.metadata.comments[commentsCount - 1].text}</div>
-                            </div>
+                    {isExpanded && commentsCount > 0 ? (
+                        <div className="flex flex-col gap-2 mb-3 mt-3">
+                            <div className="text-[11px] font-bold text-[#86868B] px-1">댓글 ({commentsCount})</div>
+                            {log.metadata.comments.map((comment, cIdx) => (
+                                <div key={cIdx} className="bg-[#1A1A1A] rounded-[12px] p-2.5 flex items-start gap-2 border border-[#3c3c3c]/50">
+                                    <svg className="w-4 h-4 text-[#60a5fa] mt-0.5 shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                                    </svg>
+                                    <div className="flex-1 min-w-0">
+                                        <div className="text-[11px] font-bold text-[#86868B]">{comment.author}</div>
+                                        <div className="text-[12px] text-[#E5E5E5] whitespace-pre-wrap">{comment.text}</div>
+                                    </div>
+                                </div>
+                            ))}
                         </div>
+                    ) : (
+                        !isExpanded && commentsCount > 0 && (
+                            <div className="bg-[#1A1A1A] rounded-[12px] p-2.5 mb-3 flex items-start gap-2 border border-[#3c3c3c]/50">
+                                <svg className="w-4 h-4 text-[#60a5fa] mt-0.5 shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                                </svg>
+                                <div className="flex-1 min-w-0">
+                                    <div className="text-[11px] font-bold text-[#86868B]">{log.metadata.comments[commentsCount - 1].author}</div>
+                                    <div className="text-[12px] text-[#E5E5E5] line-clamp-1">{log.metadata.comments[commentsCount - 1].text}</div>
+                                </div>
+                            </div>
+                        )
                     )}
 
                     <div className="flex items-center justify-between text-[11px] text-[#86868B]">

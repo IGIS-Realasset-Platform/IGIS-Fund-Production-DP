@@ -5,6 +5,7 @@ import MobileLogCard from './MobileLogCard';
 export default function MobileMyTasks({ memberInfo }) {
     const [logs, setLogs] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [expandedLogIds, setExpandedLogIds] = useState(new Set());
 
     useEffect(() => {
         if (!memberInfo?.email) {
@@ -50,14 +51,29 @@ export default function MobileMyTasks({ memberInfo }) {
                 <div className="text-center py-20 text-[#86868B] text-[15px] font-medium">작성하신 내역이 없습니다.</div>
             ) : (
                 <div className="flex flex-col">
-                    {logs.map(log => (
-                        <MobileLogCard 
-                            key={log.id || log.log_id} 
-                            log={log} 
-                            memberInfo={memberInfo} 
-                            onClick={(log) => alert("상세보기 모달 준비중입니다. (" + (log.metadata?.title || '제목없음') + ")")}
-                        />
-                    ))}
+                    {logs.map(log => {
+                        const logId = log.id || log.log_id;
+                        return (
+                            <MobileLogCard 
+                                key={logId} 
+                                log={log} 
+                                memberInfo={memberInfo} 
+                                isExpanded={expandedLogIds.has(logId)}
+                                onClick={(clickedLog) => {
+                                    const id = clickedLog.id || clickedLog.log_id;
+                                    setExpandedLogIds(prev => {
+                                        const next = new Set(prev);
+                                        if (next.has(id)) {
+                                            next.delete(id);
+                                        } else {
+                                            next.add(id);
+                                        }
+                                        return next;
+                                    });
+                                }}
+                            />
+                        );
+                    })}
                 </div>
             )}
         </div>

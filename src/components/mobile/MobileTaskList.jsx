@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { supabase } from '../../utils/supabaseClient';
 import { MOBILE_WORKSPACES, getInitialWorkspace } from './mobileIotaData';
 
-export default function MobileTaskList({ memberInfo, initialWorkspaceCode, onWorkspaceReset }) {
+export default function MobileTaskList({ memberInfo, initialWorkspaceCode, highlightTaskId, onWorkspaceReset, onHighlightReset }) {
     const [workspace, setWorkspace] = useState(() => getInitialWorkspace(memberInfo));
     const [tasks, setTasks] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -32,6 +32,36 @@ export default function MobileTaskList({ memberInfo, initialWorkspaceCode, onWor
             }
         }
     }, [initialWorkspaceCode]);
+
+    // Scroll and highlight task card when tasks render (using robust polling to ensure element is mounted)
+    useEffect(() => {
+        if (highlightTaskId && tasks.length > 0) {
+            const hasTask = tasks.some(t => String(t.id) === String(highlightTaskId));
+            if (hasTask) {
+                let attempts = 0;
+                const maxAttempts = 30; // 3 seconds total (30 * 100ms)
+                
+                const pollInterval = setInterval(() => {
+                    const el = document.getElementById(`task-${highlightTaskId}`);
+                    if (el) {
+                        clearInterval(pollInterval);
+                        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        el.classList.add('bg-blue-500/10', 'border-[#3b82f6]/50');
+                        setTimeout(() => {
+                            el.classList.remove('bg-blue-500/10', 'border-[#3b82f6]/50');
+                        }, 2500);
+                    }
+                    
+                    attempts++;
+                    if (attempts >= maxAttempts) {
+                        clearInterval(pollInterval);
+                    }
+                }, 100);
+
+                if (onHighlightReset) onHighlightReset();
+            }
+        }
+    }, [highlightTaskId, tasks]);
 
     // Auto-scroll active tab into view center
     useEffect(() => {
@@ -191,6 +221,7 @@ export default function MobileTaskList({ memberInfo, initialWorkspaceCode, onWor
                             return (
                                 <div 
                                     key={task.id} 
+                                    id={`task-${task.id}`}
                                     className={
                                         isCritical 
                                         ? 'bg-gradient-to-br from-[#f87171] via-[#fb923c] to-[#facc15] p-[2px] rounded-[24px] shadow-lg transition-all duration-300 w-full box-border' 
