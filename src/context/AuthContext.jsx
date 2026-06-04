@@ -69,7 +69,8 @@ export function AuthProvider({ children }) {
         const initializeAuth = async () => {
             let timeoutId;
             try {
-                // Check timeout before attempting to load session
+                // Inactivity timeout check disabled to prevent continuous forced logouts on mobile/background tabs
+                /*
                 const lastActivityStr = localStorage.getItem('iota_last_activity');
                 if (lastActivityStr) {
                     const lastActivity = parseInt(lastActivityStr, 10);
@@ -79,6 +80,7 @@ export function AuthProvider({ children }) {
                         return; // Stop initialization
                     }
                 }
+                */
 
                 // If we haven't timed out, update activity and start interval
                 localStorage.setItem('iota_last_activity', Date.now().toString());
