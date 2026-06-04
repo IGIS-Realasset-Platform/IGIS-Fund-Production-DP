@@ -9,71 +9,15 @@ export default function NotificationDropdown({ isOpen, onClose, notifications, u
         onClose();
 
         if (notif.type === 'log' && notif.reference_id) {
-            let logId = notif.reference_id;
-            let wsCode = null;
-
+            let logId = String(notif.reference_id);
             if (logId.includes('|')) {
-                const parts = logId.split('|');
-                logId = parts[0];
-                wsCode = parts[1];
+                logId = logId.split('|')[0];
             }
-
-            const workspaceMap = {
-                'WS_PM': 'platform/iotaseoul/workspace/pm',
-                'WS_LFC': 'platform/iotaseoul/workspace/financing',
-                'WS_DSC': 'platform/iotaseoul/workspace/development',
-                'WS_EMC': 'platform/iotaseoul/workspace/marketing',
-                'WS_SSC': 'platform/iotaseoul/workspace/digital',
-                'WS_KAM': 'platform/iotaseoul/workspace/fund',
-                'WS_IPR': 'platform/iotaseoul/workspace/ipr'
-            };
-
-            const navigateToPath = (code, id) => {
-                const targetPath = workspaceMap[code];
-                if (targetPath) {
-                    const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
-                    const newUrl = `${base}/${targetPath}?logId=${id}`;
-                    window.history.pushState(null, '', newUrl);
-                    window.dispatchEvent(new Event('popstate'));
-                    return true;
-                }
-                return false;
-            };
-
-            // Fallback: Parse workspace code from notification title text
-            if (!wsCode) {
-                const title = String(notif.title || '');
-                if (title.includes('사업 PM') || title.includes('사업PM')) wsCode = 'WS_PM';
-                else if (title.includes('파이낸싱')) wsCode = 'WS_LFC';
-                else if (title.includes('개발')) wsCode = 'WS_DSC';
-                else if (title.includes('마케팅')) wsCode = 'WS_EMC';
-                else if (title.includes('공간') || title.includes('SSC')) wsCode = 'WS_SSC';
-                else if (title.includes('펀드') || title.includes('KAM')) wsCode = 'WS_KAM';
-                else if (title.includes('IPR')) wsCode = 'WS_IPR';
-            }
-
-            // If wsCode is resolved, navigate instantly (0ms latency, bypasses DB query)
-            if (wsCode) {
-                navigateToPath(wsCode, logId);
-            } else {
-                // Fallback for legacy notifications
-                try {
-                    const { data, error } = await supabase
-                        .from('iota_seoul_logs')
-                        .select('metadata')
-                        .eq('log_id', logId)
-                        .single();
-
-                    if (!error && data) {
-                        const dbWsCode = data.metadata?.workspace_code;
-                        if (dbWsCode) {
-                            navigateToPath(dbWsCode, logId);
-                        }
-                    }
-                } catch (err) {
-                    console.error("Error navigating from log notification:", err);
-                }
-            }
+            
+            const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
+            const newUrl = `${base}/platform/iotaseoul/workflow?logId=${logId}`;
+            window.history.pushState(null, '', newUrl);
+            window.dispatchEvent(new Event('popstate'));
         } else if (notif.type === 'task') {
             let taskId = null;
             let wsCode = null;

@@ -4,7 +4,13 @@ import { MOBILE_WORKSPACES, getInitialWorkspace } from './mobileIotaData';
 import MobileLogCard from './MobileLogCard';
 
 export default function MobileLogList({ memberInfo, highlightLogId, initialWorkspaceCode, onWorkspaceReset, onHighlightReset }) {
-    const [workspace, setWorkspace] = useState(() => getInitialWorkspace(memberInfo));
+    const [workspace, setWorkspace] = useState(() => {
+        if (initialWorkspaceCode) {
+            const matched = MOBILE_WORKSPACES.find(w => w.code === initialWorkspaceCode);
+            if (matched) return matched;
+        }
+        return getInitialWorkspace(memberInfo);
+    });
     const [logs, setLogs] = useState([]);
     const [loading, setLoading] = useState(true);
     const [expandedLogIds, setExpandedLogIds] = useState(new Set());

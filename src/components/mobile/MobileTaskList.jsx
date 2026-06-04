@@ -3,7 +3,13 @@ import { supabase } from '../../utils/supabaseClient';
 import { MOBILE_WORKSPACES, getInitialWorkspace } from './mobileIotaData';
 
 export default function MobileTaskList({ memberInfo, initialWorkspaceCode, highlightTaskId, onWorkspaceReset, onHighlightReset }) {
-    const [workspace, setWorkspace] = useState(() => getInitialWorkspace(memberInfo));
+    const [workspace, setWorkspace] = useState(() => {
+        if (initialWorkspaceCode) {
+            const matched = MOBILE_WORKSPACES.find(w => w.code === initialWorkspaceCode);
+            if (matched) return matched;
+        }
+        return getInitialWorkspace(memberInfo);
+    });
     const [tasks, setTasks] = useState([]);
     const [loading, setLoading] = useState(true);
     const [iotaOnly, setIotaOnly] = useState(true); // 디폴트 true로 변경
@@ -23,7 +29,7 @@ export default function MobileTaskList({ memberInfo, initialWorkspaceCode, highl
     useEffect(() => {
         if (initialWorkspaceCode) {
             const matchedWs = MOBILE_WORKSPACES.find(w => w.code === initialWorkspaceCode);
-            if (matchedWs) {
+            if (matchedWs && workspace.code !== matchedWs.code) {
                 setWorkspace(matchedWs);
                 setIotaOnly(true);
             }
