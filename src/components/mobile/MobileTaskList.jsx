@@ -247,7 +247,7 @@ export default function MobileTaskList({ memberInfo, initialWorkspaceCode, highl
                                             </span>
                                         </div>
                                         
-                                        <h3 className="text-[16px] font-bold text-white leading-snug mb-1.5 font-sans">
+                                        <h3 className="text-[18px] font-bold text-white leading-snug mb-1.5 font-sans">
                                             {task.task_name || 'Task 명 없음'}
                                         </h3>
                                         

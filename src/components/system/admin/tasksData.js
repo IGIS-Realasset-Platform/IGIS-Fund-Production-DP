@@ -912,5 +912,16 @@ export const tasksData = [
     "작업 유형": "보안 및 정책 수립",
     "URL": "AuthContext.jsx",
     "내용 상세": "모바일 기기 백그라운드 진입 후 복귀 시 세션이 만료되던 버그를 잡기 위해 30분 미활동 로그아웃 정책을 차단하고, 세션 초기화 대기 임계치를 15초로 상향 및 불필요한 visibilitychange 강제 토큰 갱신 차단"
+  },
+  {
+    "대분류": "모바일 및 알림",
+    "작업 이름": "모바일웹 텍스트 크기 및 줄간격 정밀 UI 교정",
+    "상태": "완료",
+    "담당자": "전기영",
+    "마감일": "2026/06/04",
+    "우선순위": "보통",
+    "작업 유형": "UI/UX 설계 및 구현",
+    "URL": "MobileIotaApp.jsx / MobileTaskList.jsx / MobileLogCard.jsx / MobileNotifications.jsx",
+    "내용 상세": "하단 탭바 텍스트 및 개별 카드 제목 폰트 크기 2px 상향, 상단 CFT 헤더 줄간격 2px 긴축, 알림 제목의 IPR 레이블 단순화 및 Task 등록 불필요 안내 접두어 제거 정제 완료"
   }
 ];

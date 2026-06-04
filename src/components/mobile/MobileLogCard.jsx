@@ -69,7 +69,7 @@ export default function MobileLogCard({ log, memberInfo, onClick, isExpanded }) 
 
             {isVisible ? (
                 <>
-                    <h3 className={`text-[15px] font-bold text-white leading-snug mb-1 ${isExpanded ? '' : 'line-clamp-2'}`}>
+                    <h3 className={`text-[17px] font-bold text-white leading-snug mb-1 ${isExpanded ? '' : 'line-clamp-2'}`}>
                         {title}
                     </h3>
                     <p className={`text-[13px] text-[#9A9A98] leading-relaxed mb-3 whitespace-pre-wrap ${isExpanded ? '' : 'line-clamp-3'}`}>

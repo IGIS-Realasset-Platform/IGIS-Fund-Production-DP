@@ -134,7 +134,7 @@ export default function MobileIotaApp({ navigateTo }) {
                 <div className="flex flex-col">
                     <span className="text-[17px] font-bold text-white tracking-tight">IOTA Seoul CFT</span>
                     {memberInfo && (
-                        <span className="text-[12px] text-[#A1A1AA] font-medium mt-0.5">
+                        <span className="text-[12px] text-[#A1A1AA] font-medium mt-[-1.5px]">
                             {memberInfo.staff_name} · {memberInfo.role_code || 'member'}
                         </span>
                     )}
@@ -307,7 +307,7 @@ export default function MobileIotaApp({ navigateTo }) {
                                 </div>
                             )}
                         </div>
-                        <span className={`text-[10px] ${activeTab === tab.id ? 'font-semibold' : 'font-medium'}`}>{tab.label}</span>
+                        <span className={`text-[12px] ${activeTab === tab.id ? 'font-semibold' : 'font-medium'}`}>{tab.label}</span>
                     </button>
                 ))}
             </div>

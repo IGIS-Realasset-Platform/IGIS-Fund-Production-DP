@@ -93,8 +93,8 @@ export default function MobileNotifications({ memberInfo, onRead, onNotification
                             }`}
                         >
                             <div className="flex justify-between items-start">
-                                <h3 className={`text-[14px] ${noti.is_read ? 'font-medium text-[#E5E5E5]' : 'font-bold text-white'}`}>
-                                    {noti.title}
+                                <h3 className={`text-[16px] ${noti.is_read ? 'font-medium text-[#E5E5E5]' : 'font-bold text-white'}`}>
+                                    {(noti.title || '').replace('[IPR 및 투자기획]', '[IPR]')}
                                 </h3>
                                 <span className="text-[11px] text-[#86868B] whitespace-nowrap ml-2">
                                     {formatDate(noti.created_at)}
@@ -102,7 +102,7 @@ export default function MobileNotifications({ memberInfo, onRead, onNotification
                             </div>
                             {noti.body && (
                                 <p className={`text-[13px] line-clamp-2 ${noti.is_read ? 'text-[#9A9A98]' : 'text-[#E5E5E5]'}`}>
-                                    {noti.body}
+                                    {(noti.body || '').replace('새로운 Task가 등록되었습니다:', '').trim()}
                                 </p>
                             )}
                         </div>
