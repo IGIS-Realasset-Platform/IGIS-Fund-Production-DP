@@ -319,7 +319,7 @@ export default function MobileIotaApp({ navigateTo }) {
             )}
 
             {/* Bottom Navigation */}
-            <div className={`absolute bottom-0 left-0 w-full bg-[#272726] border-t border-[#3c3c3c] z-30 pb-[env(safe-area-inset-bottom)] transition-all duration-300 ease-in-out ${
+            <div className={`flex absolute bottom-0 left-0 w-full bg-[#272726] border-t border-[#3c3c3c] z-30 pb-[env(safe-area-inset-bottom)] transition-all duration-300 ease-in-out ${
                 showBottomNav ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0 pointer-events-none'
             }`}>
                 {[
