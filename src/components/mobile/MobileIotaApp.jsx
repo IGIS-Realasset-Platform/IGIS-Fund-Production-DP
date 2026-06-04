@@ -107,29 +107,19 @@ export default function MobileIotaApp({ navigateTo }) {
         }
     };
 
-    const sizeStyle = isStandalone 
-        ? {
-            width: '50%',
-            height: '50%',
-            transform: 'scale(2.0) translate3d(0,0,0)',
-            transformOrigin: 'top left',
-            WebkitFontSmoothing: 'subpixel-antialiased',
-            WebkitBackfaceVisibility: 'hidden',
-            backfaceVisibility: 'hidden',
-            textRendering: 'optimizeLegibility',
-            position: 'absolute',
-            top: 0,
-            left: 0
-          }
-        : {
-            width: '111.11%',
-            height: '111.11%',
-            transform: 'scale(0.9)',
-            transformOrigin: 'top left',
-            position: 'absolute',
-            top: 0,
-            left: 0
-          };
+    const sizeStyle = {
+        width: '111.11%',
+        height: '111.11%',
+        transform: 'scale(0.9) translate3d(0,0,0)',
+        transformOrigin: 'top left',
+        WebkitFontSmoothing: 'subpixel-antialiased',
+        WebkitBackfaceVisibility: 'hidden',
+        backfaceVisibility: 'hidden',
+        textRendering: 'optimizeLegibility',
+        position: 'absolute',
+        top: 0,
+        left: 0
+    };
 
     return (
         <div 
