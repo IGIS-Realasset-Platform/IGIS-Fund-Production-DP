@@ -111,6 +111,7 @@ export default function WorkspaceFund() {
     const [itemToDelete, setItemToDelete] = useState(null);
     const [isDeleting, setIsDeleting] = useState(false);
     const [showAuthAlert, setShowAuthAlert] = useState(false);
+    const [showFileSecurityModal, setShowFileSecurityModal] = useState(false);
 
     useEffect(() => {
         fetchTasks();
@@ -1207,8 +1208,8 @@ export default function WorkspaceFund() {
                                 className="hidden" 
                             />
                             <button 
-                                onClick={() => fileInputRef.current?.click()}
-                                disabled={uploadingFile}
+                                type="button"
+                                onClick={() => setShowFileSecurityModal(true)}
                                 className="px-3 py-1.5 bg-[#2A2A2A] hover:bg-[#333] text-[#A1A1AA] text-[13px] rounded-lg transition-colors flex items-center gap-2 border border-[#444] cursor-pointer"
                             >
                                 {uploadingFile ? (
@@ -1663,6 +1664,25 @@ export default function WorkspaceFund() {
                             type="button"
                             onClick={() => setShowAuthAlert(false)}
                             className="w-full py-[10px] rounded-[8px] bg-white hover:bg-gray-200 text-black text-[13px] font-bold transition-colors"
+                        >
+                            확인
+                        </button>
+                    </div>
+                </div>
+            )}
+
+            {showFileSecurityModal && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60">
+                    <div className="bg-[#222] border border-[#333] rounded-[16px] w-[320px] p-[24px] shadow-2xl flex flex-col items-center">
+                        <div className="w-[48px] h-[48px] rounded-full bg-white/10 flex items-center justify-center mb-[16px]">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fbf167" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                        </div>
+                        <h3 className="text-[16px] font-bold text-white mb-[8px] text-center font-['Inter']">기능 제한 안내</h3>
+                        <p className="text-[13px] text-[#86868B] text-center mb-[24px] leading-relaxed">파일 첨부 기능은 보안 이슈로 임시 제한되었습니다.<br/>양해 부탁드립니다.</p>
+                        <button 
+                            type="button"
+                            onClick={() => setShowFileSecurityModal(false)}
+                            className="w-full py-[10px] rounded-[8px] bg-white hover:bg-gray-200 text-black text-[13px] font-bold transition-colors cursor-pointer"
                         >
                             확인
                         </button>
