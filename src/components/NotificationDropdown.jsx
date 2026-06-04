@@ -11,25 +11,67 @@ export default function NotificationDropdown({ isOpen, onClose, notifications, u
         console.log('[NotificationDropdown] 알림 전체 정보:', notif);
         if (notif.type === 'log') {
             console.log('[NotificationDropdown] 협업글 알림 클릭됨. reference_id:', notif.reference_id);
-            let logId = notif.reference_id ? String(notif.reference_id) : null;
-            
-            if (!logId) {
-                console.warn('[NotificationDropdown] reference_id가 비어있음. 기본 workflow 페이지로 이동합니다.');
-                const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
-                window.history.pushState(null, '', `${base}/platform/iotaseoul/workflow`);
-                window.dispatchEvent(new Event('popstate'));
-                return;
+            let logId = null;
+            let wsCode = null;
+
+            if (notif.reference_id) {
+                const refStr = String(notif.reference_id);
+                if (refStr.includes('|')) {
+                    const parts = refStr.split('|');
+                    logId = parts[0];
+                    wsCode = parts[1];
+                } else {
+                    logId = refStr;
+                }
             }
 
-            if (logId.includes('|')) {
-                logId = logId.split('|')[0];
+            // Fallback: Deduce workspace_code from title text if not explicitly available
+            if (!wsCode) {
+                const title = notif.title || '';
+                const body = notif.body || '';
+                const combinedText = title + ' ' + body;
+                if (combinedText.includes('사업 PM') || combinedText.includes('사업PM')) wsCode = 'WS_PM';
+                else if (combinedText.includes('파이낸싱') || combinedText.includes('재원조달')) wsCode = 'WS_LFC';
+                else if (combinedText.includes('개발') || combinedText.includes('설계')) wsCode = 'WS_DSC';
+                else if (combinedText.includes('마케팅')) wsCode = 'WS_EMC';
+                else if (combinedText.includes('공간') || combinedText.includes('SSC') || combinedText.includes('디지털')) wsCode = 'WS_SSC';
+                else if (combinedText.includes('펀드') || combinedText.includes('KAM')) wsCode = 'WS_KAM';
+                else if (combinedText.includes('IPR')) wsCode = 'WS_IPR';
+                console.log('[NotificationDropdown] 협업글 wsCode Fallback 추론:', wsCode);
             }
-            
+
+            console.log('[NotificationDropdown] 파싱된 logId:', logId, 'wsCode:', wsCode);
+
+            const workspaceMap = {
+                'WS_PM': 'platform/iotaseoul/workspace/pm',
+                'WS_LFC': 'platform/iotaseoul/workspace/financing',
+                'WS_DSC': 'platform/iotaseoul/workspace/development',
+                'WS_EMC': 'platform/iotaseoul/workspace/marketing',
+                'WS_SSC': 'platform/iotaseoul/workspace/digital',
+                'WS_KAM': 'platform/iotaseoul/workspace/fund',
+                'WS_IPR': 'platform/iotaseoul/workspace/ipr'
+            };
+
+            const targetPath = workspaceMap[wsCode];
             const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
-            const newUrl = `${base}/platform/iotaseoul/workflow?logId=${logId}`;
-            console.log('[NotificationDropdown] 협업글 이동 URL:', newUrl);
-            window.history.pushState(null, '', newUrl);
-            window.dispatchEvent(new Event('popstate'));
+
+            if (logId) {
+                localStorage.setItem('iota_target_log_id', logId);
+                console.log('[NotificationDropdown] localStorage 세팅 iota_target_log_id:', logId);
+            }
+
+            if (targetPath) {
+                const newUrl = logId ? `${base}/${targetPath}?logId=${logId}` : `${base}/${targetPath}`;
+                console.log('[NotificationDropdown] 협업글 워크스페이스 이동 URL:', newUrl);
+                window.history.pushState(null, '', newUrl);
+                window.dispatchEvent(new Event('popstate'));
+            } else {
+                // targetPath가 없으면 통합 workflow 보드로 이동
+                const newUrl = logId ? `${base}/platform/iotaseoul/workflow?logId=${logId}` : `${base}/platform/iotaseoul/workflow`;
+                console.log('[NotificationDropdown] 협업글 통합 Workflow 이동 URL:', newUrl);
+                window.history.pushState(null, '', newUrl);
+                window.dispatchEvent(new Event('popstate'));
+            }
         } else if (notif.type === 'task') {
             let taskId = null;
             let wsCode = null;

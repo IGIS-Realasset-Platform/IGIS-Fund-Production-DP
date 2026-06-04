@@ -102,17 +102,52 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
 
     // Handle incoming URL logId query parameters to focus and expand a specific log card
     useEffect(() => {
+        console.log('[WorkspaceActivityLog] useEffect 실행됨. logs.length:', logs.length, 'workspaceCode:', workspaceCode);
         const params = new URLSearchParams(window.location.search);
-        const targetLogId = params.get('logId');
+        let targetLogId = params.get('logId') || localStorage.getItem('iota_target_log_id');
+        console.log('[WorkspaceActivityLog] targetLogId 감지:', targetLogId);
         if (targetLogId && logs.length > 0) {
-            const exists = logs.some(l => l.log_id === targetLogId);
-            if (exists) {
+            const targetLog = logs.find(l => {
+                console.log('[WorkspaceActivityLog] logs 비교 중... l.log_id:', l.log_id, 'String(l.log_id):', String(l.log_id), 'String(targetLogId):', String(targetLogId));
+                return String(l.log_id) === String(targetLogId);
+            });
+            console.log('[WorkspaceActivityLog] targetLog 찾음 결과:', targetLog);
+            if (targetLog) {
+                const logIdStr = targetLog.log_id;
+                
+                // Sync filters to guarantee target log is visible
+                setFilterStakeholder('');
+                setFilterPurpose('');
+                setFilterStatus('');
+                setFilterPriority('');
+                setLogSearchQuery('');
+                
+                const targetCell = getLogCell(targetLog);
+                setFilterCell(targetCell);
+                
+                // Calculate which page targetLog belongs to in the filtered list
+                const tempFiltered = logs.filter(log => {
+                    if (getCellName(log.writer_name) === '기타') return false;
+                    const cell = getLogCell(log);
+                    if (targetCell && cell !== targetCell) return false;
+                    return true;
+                });
+                
+                const logIndex = tempFiltered.findIndex(l => String(l.log_id) === String(targetLogId));
+                if (logIndex !== -1) {
+                    const page = Math.floor(logIndex / logsPerPage) + 1;
+                    setCurrentPage(page);
+                    console.log('[WorkspaceActivityLog] targetLog가 위치한 페이지로 이동:', page, 'index:', logIndex);
+                }
+
                 // 1. Expand the card
-                setExpandedLogs(prev => ({ ...prev, [targetLogId]: true }));
+                setExpandedLogs(prev => ({ ...prev, [logIdStr]: true }));
+                console.log('[WorkspaceActivityLog] expandedLogs 설정 완료:', logIdStr);
                 
                 // 2. Scroll into view and highlight after a slight render delay
                 setTimeout(() => {
-                    const el = document.getElementById(targetLogId);
+                    const el = document.getElementById(logIdStr);
+                    console.log('[WorkspaceActivityLog] DOM 엘리먼트 찾음 결과 (el):', el);
                     if (el) {
                         el.scrollIntoView({ behavior: 'smooth', block: 'center' });
                         
@@ -122,14 +157,15 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
                             el.classList.remove('bg-blue-500/10', 'border-t', 'border-b', 'border-blue-500/40');
                         }, 2500);
                     }
-                }, 400);
-
-                // Clean up URL logId query parameter to prevent repeated scrolling on page reload/tab re-entry
-                const newParams = new URLSearchParams(window.location.search);
-                newParams.delete('logId');
-                const newSearch = newParams.toString();
-                const newUrl = `${window.location.pathname}${newSearch ? '?' + newSearch : ''}`;
-                window.history.replaceState(null, '', newUrl);
+                    localStorage.removeItem('iota_target_log_id');
+                    const newParams = new URLSearchParams(window.location.search);
+                    newParams.delete('logId');
+                    const newSearch = newParams.toString();
+                    const newUrl = `${window.location.pathname}${newSearch ? '?' + newSearch : ''}`;
+                    window.history.replaceState(null, '', newUrl);
+                }, 500);
+            } else {
+                console.warn('[WorkspaceActivityLog] logs 목록 내에 targetLogId가 존재하지 않음:', targetLogId);
             }
         }
     }, [logs]);
