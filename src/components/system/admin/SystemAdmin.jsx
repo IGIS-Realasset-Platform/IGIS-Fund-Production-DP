@@ -684,7 +684,7 @@ export default function SystemAdmin({ currentPage, navigateTo }) {
 function ProjectTasksView() {
     const [searchTerm, setSearchTerm] = useState('');
     const [categoryFilter, setCategoryFilter] = useState('전체');
-    const [priorityFilter, setPriorityFilter] = useState('전체');
+    const [priorityFilter, setPriorityFilter] = useState('높음 이상');
     const [sortOrder, setSortOrder] = useState('latest'); // 'latest' or 'oldest'
     const [page, setPage] = useState(1);
     const [expandedTaskId, setExpandedTaskId] = useState(null);
@@ -696,10 +696,18 @@ function ProjectTasksView() {
     }, [searchTerm, categoryFilter, priorityFilter, sortOrder]);
 
     const categories = ['전체', ...new Set(tasksData.map(t => t['대분류']).filter(Boolean))];
-    const priorities = ['전체', '최고', '높음', '보통', '낮음', '최하'];
+    const priorities = ['전체', '최고', '높음 이상', '보통 이상'];
 
     // Map tasks to include their stable originalIndex (which is their input order)
     const tasksWithIndex = tasksData.map((task, idx) => ({ ...task, originalIndex: idx }));
+
+    const priorityScore = {
+        '최고': 5,
+        '높음': 4,
+        '보통': 3,
+        '낮음': 2,
+        '최하': 1
+    };
 
     const filteredTasks = tasksWithIndex.filter(task => {
         const matchesSearch = 
@@ -709,7 +717,18 @@ function ProjectTasksView() {
             (task['작업 유형'] || '').toLowerCase().includes(searchTerm.toLowerCase());
         
         const matchesCategory = categoryFilter === '전체' || task['대분류'] === categoryFilter;
-        const matchesPriority = priorityFilter === '전체' || task['우선순위'] === priorityFilter;
+        
+        let matchesPriority = true;
+        if (priorityFilter !== '전체') {
+            const taskScore = priorityScore[task['우선순위']] || 1;
+            if (priorityFilter === '최고') {
+                matchesPriority = task['우선순위'] === '최고';
+            } else if (priorityFilter === '높음 이상') {
+                matchesPriority = taskScore >= 4;
+            } else if (priorityFilter === '보통 이상') {
+                matchesPriority = taskScore >= 3;
+            }
+        }
 
         return matchesSearch && matchesCategory && matchesPriority;
     });
