@@ -8,14 +8,26 @@ export default function NotificationDropdown({ isOpen, onClose, notifications, u
         if (!notif.is_read) onMarkAsRead(notif.id);
         onClose();
 
-        if (notif.type === 'log' && notif.reference_id) {
-            let logId = String(notif.reference_id);
+        console.log('[NotificationDropdown] 알림 전체 정보:', notif);
+        if (notif.type === 'log') {
+            console.log('[NotificationDropdown] 협업글 알림 클릭됨. reference_id:', notif.reference_id);
+            let logId = notif.reference_id ? String(notif.reference_id) : null;
+            
+            if (!logId) {
+                console.warn('[NotificationDropdown] reference_id가 비어있음. 기본 workflow 페이지로 이동합니다.');
+                const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
+                window.history.pushState(null, '', `${base}/platform/iotaseoul/workflow`);
+                window.dispatchEvent(new Event('popstate'));
+                return;
+            }
+
             if (logId.includes('|')) {
                 logId = logId.split('|')[0];
             }
             
             const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
             const newUrl = `${base}/platform/iotaseoul/workflow?logId=${logId}`;
+            console.log('[NotificationDropdown] 협업글 이동 URL:', newUrl);
             window.history.pushState(null, '', newUrl);
             window.dispatchEvent(new Event('popstate'));
         } else if (notif.type === 'task') {
@@ -28,6 +40,9 @@ export default function NotificationDropdown({ isOpen, onClose, notifications, u
                 wsCode = parts[1];
             }
 
+            console.log('[NotificationDropdown] Task 알림 클릭:', notif);
+            console.log('[NotificationDropdown] 파싱된 taskId:', taskId, 'wsCode:', wsCode);
+
             // Fallback: Deduce workspace_code from title text
             if (!wsCode) {
                 const title = notif.title || '';
@@ -38,6 +53,7 @@ export default function NotificationDropdown({ isOpen, onClose, notifications, u
                 else if (title.includes('공간') || title.includes('SSC')) wsCode = 'WS_SSC';
                 else if (title.includes('펀드') || title.includes('KAM')) wsCode = 'WS_KAM';
                 else if (title.includes('IPR')) wsCode = 'WS_IPR';
+                console.log('[NotificationDropdown] wsCode Fallback 추론:', wsCode);
             }
 
             const workspaceMap = {
@@ -52,14 +68,18 @@ export default function NotificationDropdown({ isOpen, onClose, notifications, u
 
             if (taskId) {
                 localStorage.setItem('iota_target_task_id', taskId);
+                console.log('[NotificationDropdown] localStorage 세팅 iota_target_task_id:', taskId);
             }
 
             const targetPath = workspaceMap[wsCode];
             if (targetPath) {
                 const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
                 const newUrl = taskId ? `${base}/${targetPath}?taskId=${taskId}` : `${base}/${targetPath}`;
+                console.log('[NotificationDropdown] 라우팅 실행 URL:', newUrl);
                 window.history.pushState(null, '', newUrl);
                 window.dispatchEvent(new Event('popstate'));
+            } else {
+                console.warn('[NotificationDropdown] 매칭되는 targetPath가 없음 (wsCode):', wsCode);
             }
         }
     };

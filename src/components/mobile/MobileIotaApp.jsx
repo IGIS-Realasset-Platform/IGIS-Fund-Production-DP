@@ -182,18 +182,23 @@ export default function MobileIotaApp({ navigateTo }) {
                         onRead={() => setUnreadNotiCount(Math.max(0, unreadNotiCount - 1))} 
                         onNotificationClick={(noti) => {
                             try {
-                                if (noti.type === 'log' && noti.reference_id) {
-                                    let logId = String(noti.reference_id);
+                                console.log('[MobileIotaApp] 알림 터치 수신:', noti);
+                                if (noti.type === 'log') {
+                                    console.log('[MobileIotaApp] 협업글 알림 감지. reference_id:', noti.reference_id);
+                                    let logId = noti.reference_id ? String(noti.reference_id) : null;
                                     let wsCode = null;
                                     
-                                    // 1. Try to extract workspace code embedded with pipe (|)
-                                    if (logId.includes('|')) {
-                                        const parts = logId.split('|');
-                                        logId = parts[0];
-                                        wsCode = parts[1];
+                                    if (logId) {
+                                        if (logId.includes('|')) {
+                                            const parts = logId.split('|');
+                                            logId = parts[0];
+                                            wsCode = parts[1];
+                                        }
+                                        setHighlightLogId(logId);
+                                        console.log('[MobileIotaApp] highlightLogId 설정:', logId);
                                     }
                                     
-                                    // 2. Fallback: Parse workspace code from notification title text (e.g. "[펀드운용-KAM] 신규 협업글 등록")
+                                    // Fallback: Parse workspace code from notification title text
                                     if (!wsCode) {
                                         const title = String(noti.title || '');
                                         if (title.includes('사업 PM') || title.includes('사업PM')) wsCode = 'WS_PM';
@@ -203,11 +208,12 @@ export default function MobileIotaApp({ navigateTo }) {
                                         else if (title.includes('공간') || title.includes('SSC')) wsCode = 'WS_SSC';
                                         else if (title.includes('펀드') || title.includes('KAM')) wsCode = 'WS_KAM';
                                         else if (title.includes('IPR')) wsCode = 'WS_IPR';
+                                        console.log('[MobileIotaApp] wsCode Fallback 추론:', wsCode);
                                     }
                                     
-                                    setHighlightLogId(logId);
                                     if (wsCode) {
                                         setTargetMobileWorkspace(wsCode);
+                                        console.log('[MobileIotaApp] targetMobileWorkspace 설정:', wsCode);
                                     }
                                     setActiveTab(1);
                                 } else if (noti.type === 'task') {
