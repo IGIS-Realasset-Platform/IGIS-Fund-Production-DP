@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { notifyVIPsOnTaskCreation } from '../../../utils/notificationHelpers';
+import { notifyVIPsOnTaskCreation, notifyMembersOnTaskCreation } from '../../../utils/notificationHelpers';
 import { useAuth } from '../../../context/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import WorkspaceActivityLog from './WorkspaceActivityLog';
@@ -293,6 +293,9 @@ export default function WorkspaceFund() {
                 const { error } = await supabase.from('iota_fund_tasks').insert([taskToSave]);
                 if (error) throw error;
                 await notifyVIPsOnTaskCreation(taskToSave.task_name, '펀드 운용(AM)');
+
+                // 알림 발송 (UI 블로킹 없이 백그라운드로 처리)
+                notifyMembersOnTaskCreation(taskToSave.task_name, { code: 'WS_KAM', label: '펀드운용-KAM', orgNames: ['펀드운용'] }, memberInfo?.email);
             }
         } catch (e) {
             console.warn('Error saving to Supabase:', e);

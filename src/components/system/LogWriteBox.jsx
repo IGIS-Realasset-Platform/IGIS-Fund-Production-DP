@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { supabase } from '../../utils/supabaseClient';
 import { executeWithTimeout } from '../../utils/supabaseHelper';
 import { motion, AnimatePresence } from 'framer-motion';
+import { notifyMembersOnLogCreation } from '../../utils/notificationHelpers';
 
 export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs, fetchMasterStakeholders, workspaceCode, workspaceLabel, defaultExpanded = false, editMode = false, initialData = null, onCancel = null, onSuccess = null }) {
     // Form States
@@ -360,6 +361,14 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                     source_system: workspaceCode === 'WS_PM' ? 'workspace_pm_form' : 'decision_log_form',
                 }));
                 if (logError) throw logError;
+
+                // 알림 발송 (UI 블로킹 없이 백그라운드로 처리)
+                const wsInfo = {
+                    code: workspaceCode,
+                    label: workspaceLabel,
+                    orgNames: [workspaceLabel.split('-')[0].trim()]
+                };
+                notifyMembersOnLogCreation(logId, content, wsInfo, memberInfo?.email || writerId);
             }
 
             // 2. Insert into iota_seoul_log_links

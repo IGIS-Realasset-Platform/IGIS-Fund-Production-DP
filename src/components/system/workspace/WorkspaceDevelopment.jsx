@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { notifyVIPsOnTaskCreation } from '../../../utils/notificationHelpers';
+import { notifyVIPsOnTaskCreation, notifyMembersOnTaskCreation } from '../../../utils/notificationHelpers';
 import { useAuth } from '../../../context/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { supabase } from '../../../utils/supabaseClient';
@@ -292,6 +292,9 @@ export default function WorkspaceDevelopment() {
                 const { error } = await supabase.from('iota_development_tasks').insert([taskToSave]);
                 if (error) throw error;
                 await notifyVIPsOnTaskCreation(taskToSave.task_name, '개발관리');
+
+                // 알림 발송 (UI 블로킹 없이 백그라운드로 처리)
+                notifyMembersOnTaskCreation(taskToSave.task_name, { code: 'WS_DSC', label: '개발솔루션-DSC', orgNames: ['개발관리', '개발솔루션'] }, memberInfo?.email);
             }
         } catch (e) {
             console.warn('Error saving to Supabase:', e);

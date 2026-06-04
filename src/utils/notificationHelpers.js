@@ -112,7 +112,7 @@ export const notifyMembersOnTaskCreation = async (taskName, workspace, writerEma
         // 1. 활성화 상태이고 auth_id가 매핑된 멤버 전체 조회
         const { data: members, error: memberError } = await supabase
             .from('iota_seoul_pilot_members')
-            .select('auth_id, email, org_name, role_code, workspace_code')
+            .select('auth_id, email, staff_name, org_name, role_code, workspace_code')
             .eq('is_active', true)
             .not('auth_id', 'is', null);
 
@@ -124,7 +124,10 @@ export const notifyMembersOnTaskCreation = async (taskName, workspace, writerEma
         // 2. 수신자 매핑 알고리즘:
         // - 소속 워크스페이스 멤버 (workspace.orgNames 가 member.org_name을 포함하거나 member.workspace_code === workspace.code)
         // - 또는 director / master 권한 보유자
+        // - 또는 워크스페이스 무관 고정 수신 VIP (이시정, 이관용, 전기영, 이철승, 강순용, 권순일)
         // - 단, 작성자 본인(writerEmail)은 제외
+        const TASK_VIP_NAMES = ['이시정', '이관용', '전기영', '이철승', '강순용', '권순일'];
+        
         const recipientIds = members
             .filter(member => {
                 const orgMatch = workspace.orgNames && workspace.orgNames.includes(member.org_name);
@@ -132,9 +135,10 @@ export const notifyMembersOnTaskCreation = async (taskName, workspace, writerEma
                 const isSameWorkspace = orgMatch || codeMatch;
 
                 const isDirectorOrMaster = member.role_code === 'master' || member.role_code === 'director';
+                const isTaskVIP = TASK_VIP_NAMES.includes(member.staff_name);
                 const isNotWriter = member.email && writerEmail && member.email.toLowerCase() !== writerEmail.toLowerCase();
 
-                return (isSameWorkspace || isDirectorOrMaster) && isNotWriter;
+                return (isSameWorkspace || isDirectorOrMaster || isTaskVIP) && isNotWriter;
             })
             .map(member => member.auth_id);
 

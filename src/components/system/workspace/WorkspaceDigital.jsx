@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { notifyVIPsOnTaskCreation } from '../../../utils/notificationHelpers';
+import { notifyVIPsOnTaskCreation, notifyMembersOnTaskCreation } from '../../../utils/notificationHelpers';
 import { supabase } from '../../../utils/supabaseClient';
 import { useAuth } from '../../../context/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -291,6 +291,10 @@ export default function WorkspaceDigital() {
                 const { error } = await supabase.from('iota_digital_tasks').insert([{ ...newTask, created_at: taskToSave.created_at }]);
                 if (error) throw error;
                 await notifyVIPsOnTaskCreation(newTask.task_name, '공간솔루션');
+                
+                // 알림 발송 (UI 블로킹 없이 백그라운드로 처리)
+                notifyMembersOnTaskCreation(newTask.task_name, { code: 'WS_SSC', label: '공간솔루션-SSC', orgNames: ['상품·디지털', '공간솔루션'] }, memberInfo?.email);
+                
                 fetchTasks();
             }
         } catch (e) {

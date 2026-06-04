@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { notifyVIPsOnTaskCreation } from '../../../utils/notificationHelpers';
+import { notifyVIPsOnTaskCreation, notifyMembersOnTaskCreation } from '../../../utils/notificationHelpers';
 import { supabase } from '../../../utils/supabaseClient';
 import { useAuth } from '../../../context/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -281,6 +281,9 @@ export default function WorkspaceMarketing() {
                 const { error } = await supabase.from('iota_marketing_tasks').insert([{...newTask, id: `temp-${Date.now()}`, created_at: new Date().toISOString()}]);
                 if (error) throw error;
                 await notifyVIPsOnTaskCreation(newTask.task_name, '기업마케팅');
+
+                // 알림 발송 (UI 블로킹 없이 백그라운드로 처리)
+                notifyMembersOnTaskCreation(newTask.task_name, { code: 'WS_EMC', label: '기업마케팅-EMC', orgNames: ['기업마케팅'] }, memberInfo?.email);
             }
             
             setNewTask({ task_name: '', company_name: '', related_asset: 'IOTA 공통', status: '아이데이션', priority: '중간', due_date: new Date().toLocaleDateString('en-CA'), next_action: '', notes: '' });
