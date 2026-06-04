@@ -36,3 +36,9 @@
 ## 6. Functional Constraints
 - **댓글 내 파일 첨부 금지**: 워크스페이스나 게시판의 댓글(`commentContent`) 시스템에는 파일 업로드 폼이나 첨부 기능을 일절 노출하지 않으며 텍스트 기반으로만 유지합니다.
 - **상태 기반 라우팅 동기화**: SPA 구조에서 페이지 이동 시 불필요한 전체 로딩 화면을 방지하고 DOM 안정성을 확보한 후 렌더링하는 패턴을 따릅니다.
+
+## 7. Project Task Logging Rule (기획/구축 총괄 내역 자동 기록)
+- **주요 작업 자동 기록**: 향후 수행하는 모든 주요 작업(기획, 신규 개발, 디자인 개편, 버그 픽스 등)에 대해 완료 시, 반드시 다음 프로세스를 자동으로 수행합니다.
+  1. iCloud 내 CSV 파일(`/Users/jkjeon2025/Library/Mobile Documents/com~apple~CloudDocs/JK x IGIS/기획추진/IFPDP/IOTA Seoul/IFPDP_기획및구축_총괄내역서.csv`)에 작업 내역 추가.
+  2. `src/components/system/admin/tasksData.js` 파일 재생성 (변환 스크립트 실행).
+  3. 수정된 코드 및 JSON 빌드/배포 진행.
