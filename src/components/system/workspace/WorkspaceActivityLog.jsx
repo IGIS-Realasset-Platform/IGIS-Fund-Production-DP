@@ -123,6 +123,13 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
                         }, 2500);
                     }
                 }, 400);
+
+                // Clean up URL logId query parameter to prevent repeated scrolling on page reload/tab re-entry
+                const newParams = new URLSearchParams(window.location.search);
+                newParams.delete('logId');
+                const newSearch = newParams.toString();
+                const newUrl = `${window.location.pathname}${newSearch ? '?' + newSearch : ''}`;
+                window.history.replaceState(null, '', newUrl);
             }
         }
     }, [logs]);
