@@ -19,10 +19,12 @@ export default function MobileIotaApp({ navigateTo }) {
     const [isStandalone, setIsStandalone] = useState(false);
 
     const [showBottomNav, setShowBottomNav] = useState(true);
+    const [showAppBar, setShowAppBar] = useState(true);
     const [lastScrollTop, setLastScrollTop] = useState(0);
 
     useEffect(() => {
         setShowBottomNav(true);
+        setShowAppBar(true);
     }, [activeTab]);
 
     const handleScroll = (e) => {
@@ -33,19 +35,23 @@ export default function MobileIotaApp({ navigateTo }) {
         // Prevent scroll noise at the extremes
         if (scrollTop <= 10) {
             setShowBottomNav(true);
+            setShowAppBar(true);
             setLastScrollTop(scrollTop);
             return;
         }
         if (scrollTop + clientHeight >= scrollHeight - 10) {
             setShowBottomNav(true);
+            setShowAppBar(true);
             setLastScrollTop(scrollTop);
             return;
         }
 
         if (scrollTop > lastScrollTop && scrollTop > 50) {
             setShowBottomNav(false);
+            setShowAppBar(false);
         } else if (scrollTop < lastScrollTop) {
             setShowBottomNav(true);
+            setShowAppBar(true);
         }
         setLastScrollTop(scrollTop);
     };
@@ -159,7 +165,9 @@ export default function MobileIotaApp({ navigateTo }) {
             style={sizeStyle}
         >
             {/* App Bar */}
-            <div className="flex items-center justify-between px-4 py-3 bg-[#272726] border-b border-[#3c3c3c] shrink-0">
+            <div className={`flex items-center justify-between px-4 bg-[#272726] border-b border-[#3c3c3c] shrink-0 transition-all duration-300 ease-in-out ${
+                showAppBar ? 'h-12 opacity-100' : 'h-0 opacity-0 overflow-hidden border-b-0'
+            }`}>
                 <div className="flex flex-col">
                     <span className="text-[17px] font-bold text-white tracking-tight">IOTA Seoul CFT</span>
                     {memberInfo && (
