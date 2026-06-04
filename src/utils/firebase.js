@@ -26,16 +26,35 @@ export const requestFirebaseNotificationPermission = async (userId) => {
   try {
     const permission = await Notification.requestPermission();
     if (permission === "granted") {
-      const currentToken = await getToken(messaging, {
+      let tokenOptions = {
         vapidKey: import.meta.env.VITE_FIREBASE_VAPID_KEY
-      });
+      };
+
+      // Explicitly register the service worker for reliability (crucial for iOS Safari PWA standalone mode)
+      if ('serviceWorker' in navigator) {
+        try {
+          const registration = await navigator.serviceWorker.register('/firebase-messaging-sw.js');
+          tokenOptions.serviceWorkerRegistration = registration;
+          console.log("Service Worker registered successfully for FCM");
+        } catch (swErr) {
+          console.error("Failed to register Service Worker for FCM:", swErr);
+        }
+      }
+
+      const currentToken = await getToken(messaging, tokenOptions);
       if (currentToken) {
         // Save the token to Supabase
-        await supabase.from('fcm_tokens').upsert({
+        // Note: The table column is 'fcm_token' and unique constraint is 'user_id,fcm_token'
+        const { error } = await supabase.from('fcm_tokens').upsert({
           user_id: userId,
-          token: currentToken
-        }, { onConflict: 'token' });
-        console.log("FCM Token saved");
+          fcm_token: currentToken
+        }, { onConflict: 'user_id,fcm_token' });
+        
+        if (error) {
+          console.error("Failed to save FCM token to Supabase:", error);
+        } else {
+          console.log("FCM Token saved successfully");
+        }
       } else {
         console.log("No registration token available. Request permission to generate one.");
       }
