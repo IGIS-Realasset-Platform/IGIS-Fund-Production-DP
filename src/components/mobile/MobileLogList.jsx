@@ -223,7 +223,7 @@ export default function MobileLogList({ memberInfo, highlightLogId, initialWorks
                 ) : logs.length === 0 ? (
                     <div className="text-center py-20 text-[#86868B] text-[15px] font-medium">등록된 협업 게시글이 없습니다.</div>
                 ) : (
-                    <div className="flex flex-col gap-4">
+                    <div className="flex flex-col">
                         {logs.map(log => {
                             const logId = log.id || log.log_id;
                             return (
