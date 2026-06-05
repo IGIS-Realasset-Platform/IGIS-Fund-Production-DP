@@ -128,27 +128,32 @@ export default function MobileTaskList({ memberInfo, initialWorkspaceCode, highl
             if (dragDirectionRef.current === null) {
                 const absX = Math.abs(deltaX);
                 const absY = Math.abs(deltaY);
-                if (absX > 5 || absY > 5) {
-                    if (absX > absY) {
+                if (absX > 1.5 || absY > 1.5) {
+                    if (absX >= absY) {
                         dragDirectionRef.current = 'horizontal';
                         setDragDirection('horizontal');
+                        if (e.cancelable) {
+                            e.preventDefault();
+                        }
                     } else {
                         dragDirectionRef.current = 'vertical';
                         setDragDirection('vertical');
                         isDraggingRef.current = false;
                         setIsDragging(false);
+                        return;
                     }
+                } else {
+                    return;
                 }
-                return;
             }
 
             if (dragDirectionRef.current === 'vertical') {
-                return; // 세로 스크롤로 판정되면 터치 슬라이더 오프셋 업데이트 중지
+                return;
             }
 
             if (dragDirectionRef.current === 'horizontal') {
                 if (e.cancelable) {
-                    e.preventDefault(); // 가로 스와이프 중에 브라우저의 기본 수직 스크롤 완벽 방지
+                    e.preventDefault();
                 }
                 const currentIndex = MOBILE_WORKSPACES.findIndex(w => w.code === workspaceRef.current.code);
                 let offset = deltaX;
