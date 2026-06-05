@@ -253,9 +253,9 @@ export default function MobileLogList({ memberInfo, highlightLogId, initialWorks
 
     return (
         <div className="flex flex-col w-full max-w-full pb-24 bg-[#1F1F1E] relative">
-            {/* Horizontal Workspace Tab Bar (Absolute layout synchronized with showAppBar top animation) */}
+            {/* Horizontal Workspace Tab Bar (Fixed layout to stay in place regardless of scrolling) */}
             <div 
-                className="absolute left-0 w-full flex gap-5 border-b border-[#3c3c3c] px-4 py-1 overflow-x-auto hide-scrollbar bg-[#272726] z-20 shrink-0 select-none transition-all duration-300 ease-in-out"
+                className="fixed left-0 w-full flex gap-5 border-b border-[#3c3c3c] px-4 py-1 overflow-x-auto hide-scrollbar bg-[#272726] z-20 shrink-0 select-none transition-all duration-300 ease-in-out"
                 style={{ 
                     top: showAppBar ? 'calc(48px + env(safe-area-inset-top))' : 'env(safe-area-inset-top)',
                     height: '38px'
