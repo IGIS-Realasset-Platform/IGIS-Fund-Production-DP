@@ -18,43 +18,10 @@ export default function MobileIotaApp({ navigateTo }) {
     const [unreadNotiCount, setUnreadNotiCount] = useState(0);
     const [isStandalone, setIsStandalone] = useState(false);
 
-    const [showBottomNav, setShowBottomNav] = useState(true);
-    const [showAppBar, setShowAppBar] = useState(true);
-    const [lastScrollTop, setLastScrollTop] = useState(0);
-
-    useEffect(() => {
-        setShowBottomNav(true);
-        setShowAppBar(true);
-    }, [activeTab]);
-
-    const handleScroll = (e) => {
-        const scrollTop = e.currentTarget.scrollTop;
-        const scrollHeight = e.currentTarget.scrollHeight;
-        const clientHeight = e.currentTarget.clientHeight;
-        
-        // Prevent scroll noise at the extremes
-        if (scrollTop <= 10) {
-            setShowBottomNav(true);
-            setShowAppBar(true);
-            setLastScrollTop(scrollTop);
-            return;
-        }
-        if (scrollTop + clientHeight >= scrollHeight - 10) {
-            setShowBottomNav(true);
-            setShowAppBar(true);
-            setLastScrollTop(scrollTop);
-            return;
-        }
-
-        if (scrollTop > lastScrollTop && scrollTop > 50) {
-            setShowBottomNav(false);
-            setShowAppBar(false);
-        } else if (scrollTop < lastScrollTop) {
-            setShowBottomNav(true);
-            setShowAppBar(true);
-        }
-        setLastScrollTop(scrollTop);
-    };
+    // 상하단바 레이아웃 고정 (스크롤 시 리플로우로 인한 카드 튐 및 흔들림 방지)
+    const showBottomNav = true;
+    const showAppBar = true;
+    const handleScroll = () => {};
 
     useEffect(() => {
         if (memberInfo?.auth_id) {
