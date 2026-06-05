@@ -157,12 +157,17 @@ export default function MobileIotaApp({ navigateTo }) {
         top: 0,
         left: 0
     };
-
     return (
         <div 
             className="flex flex-col bg-[#1F1F1E] text-[#E5E5E5] font-sans relative overflow-hidden"
             style={sizeStyle}
         >
+            {/* Status Bar Shield to prevent card text showing through notch safe area when scrolling */}
+            <div 
+                className="fixed top-0 left-0 w-full z-45 bg-[#272726]"
+                style={{ height: 'env(safe-area-inset-top)' }}
+            />
+
             {/* App Bar (Absolute layout prevents resizing the main container during scroll) */}
             <div 
                 className={`absolute top-0 left-0 w-full flex items-center justify-between px-4 bg-[#272726] border-b border-[#3c3c3c] z-30 transition-transform duration-300 ease-in-out ${
