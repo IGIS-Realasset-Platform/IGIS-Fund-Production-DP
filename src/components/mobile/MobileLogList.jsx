@@ -15,9 +15,11 @@ export default function MobileLogList({ memberInfo, highlightLogId, initialWorks
     const [loading, setLoading] = useState(true);
     const [expandedLogIds, setExpandedLogIds] = useState(new Set());
 
-    // Touch Swipe States
+    // Touch Swipe States for Real-time Sliding & Locking
     const [touchStart, setTouchStart] = useState({ x: 0, y: 0 });
-    const [touchEnd, setTouchEnd] = useState({ x: 0, y: 0 });
+    const [dragOffset, setDragOffset] = useState(0);
+    const [isDragging, setIsDragging] = useState(false);
+    const [dragDirection, setDragDirection] = useState(null); // 'horizontal' | 'vertical' | null
 
     // Tab Scrolling Ref
     const tabRefs = useRef({});
@@ -147,43 +149,74 @@ export default function MobileLogList({ memberInfo, highlightLogId, initialWorks
         }
     };
 
-    // Touch handlers for swiping
+    // Real-time touch swipe handlers
     const handleTouchStart = (e) => {
-        setTouchStart({
-            x: e.targetTouches[0].clientX,
-            y: e.targetTouches[0].clientY
-        });
+        const touch = e.targetTouches[0];
+        setTouchStart({ x: touch.clientX, y: touch.clientY });
+        setDragOffset(0);
+        setIsDragging(true);
+        setDragDirection(null);
     };
 
     const handleTouchMove = (e) => {
-        setTouchEnd({
-            x: e.targetTouches[0].clientX,
-            y: e.targetTouches[0].clientY
-        });
+        if (!isDragging) return;
+        const touch = e.targetTouches[0];
+        const deltaX = touch.clientX - touchStart.x;
+        const deltaY = touch.clientY - touchStart.y;
+
+        if (dragDirection === null) {
+            const absX = Math.abs(deltaX);
+            const absY = Math.abs(deltaY);
+            if (absX > 8 || absY > 8) {
+                if (absX > absY) {
+                    setDragDirection('horizontal');
+                } else {
+                    setDragDirection('vertical');
+                }
+            }
+            return;
+        }
+
+        if (dragDirection === 'vertical') {
+            return; // 수직 스크롤 시 가로 드래그 차단 (기본 브라우저 세로 스크롤 허용)
+        }
+
+        if (dragDirection === 'horizontal') {
+            if (e.cancelable) {
+                e.preventDefault(); // 가로 드래그 시 브라우저 세로 스크롤 차단
+            }
+            const currentIndex = MOBILE_WORKSPACES.findIndex(w => w.code === workspace.code);
+            let offset = deltaX;
+            // 양 끝 바운더리 오프셋 저항 부여
+            if (currentIndex === 0 && deltaX > 0) {
+                offset = deltaX * 0.3;
+            } else if (currentIndex === MOBILE_WORKSPACES.length - 1 && deltaX < 0) {
+                offset = deltaX * 0.3;
+            }
+            setDragOffset(offset);
+        }
     };
 
     const handleTouchEnd = () => {
-        if (!touchStart.x || !touchEnd.x) return;
-        const xDiff = touchStart.x - touchEnd.x;
-        const yDiff = touchStart.y - touchEnd.y;
-        
-        // swipe must be horizontal
-        if (Math.abs(xDiff) > Math.abs(yDiff) && Math.abs(xDiff) > 60) {
+        if (!isDragging) return;
+        setIsDragging(false);
+
+        if (dragDirection === 'horizontal') {
+            const windowWidth = window.innerWidth;
+            const threshold = windowWidth * 0.2; // 화면 너비의 20% 초과 드래그 시 탭 이동
             const currentIndex = MOBILE_WORKSPACES.findIndex(w => w.code === workspace.code);
-            if (xDiff > 0) {
+
+            if (dragOffset < -threshold && currentIndex < MOBILE_WORKSPACES.length - 1) {
                 // Swipe Left -> Next Tab
-                if (currentIndex < MOBILE_WORKSPACES.length - 1) {
-                    setWorkspace(MOBILE_WORKSPACES[currentIndex + 1]);
-                }
-            } else {
+                setWorkspace(MOBILE_WORKSPACES[currentIndex + 1]);
+            } else if (dragOffset > threshold && currentIndex > 0) {
                 // Swipe Right -> Prev Tab
-                if (currentIndex > 0) {
-                    setWorkspace(MOBILE_WORKSPACES[currentIndex - 1]);
-                }
+                setWorkspace(MOBILE_WORKSPACES[currentIndex - 1]);
             }
         }
-        setTouchStart({ x: 0, y: 0 });
-        setTouchEnd({ x: 0, y: 0 });
+        
+        setDragOffset(0);
+        setDragDirection(null);
     };
 
     return (
@@ -217,10 +250,10 @@ export default function MobileLogList({ memberInfo, highlightLogId, initialWorks
             {/* Sliding Wrapper */}
             <div className="w-full overflow-hidden relative">
                 <div 
-                    className="flex flex-row flex-nowrap transition-transform duration-300 ease-out"
+                    className={`flex flex-row flex-nowrap ${isDragging && dragDirection === 'horizontal' ? 'transition-none' : 'transition-transform duration-300 ease-out'}`}
                     style={{ 
                         width: '700%',
-                        transform: `translateX(-${MOBILE_WORKSPACES.findIndex(w => w.code === workspace.code) * (100 / 7)}%)` 
+                        transform: `translateX(calc(-${MOBILE_WORKSPACES.findIndex(w => w.code === workspace.code) * (100 / 7)}% + ${dragOffset}px))` 
                     }}
                 >
                     {MOBILE_WORKSPACES.map(w => {
