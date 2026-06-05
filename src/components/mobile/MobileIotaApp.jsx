@@ -17,11 +17,43 @@ export default function MobileIotaApp({ navigateTo }) {
     const [isComposerOpen, setIsComposerOpen] = useState(false);
     const [unreadNotiCount, setUnreadNotiCount] = useState(0);
     const [isStandalone, setIsStandalone] = useState(false);
+    const [showBottomNav, setShowBottomNav] = useState(true);
+    const [showAppBar, setShowAppBar] = useState(true);
+    const [lastScrollTop, setLastScrollTop] = useState(0);
 
-    // 상하단바 레이아웃 고정 (스크롤 시 리플로우로 인한 카드 튐 및 흔들림 방지)
-    const showBottomNav = true;
-    const showAppBar = true;
-    const handleScroll = () => {};
+    useEffect(() => {
+        setShowBottomNav(true);
+        setShowAppBar(true);
+    }, [activeTab]);
+
+    const handleScroll = (e) => {
+        const scrollTop = e.currentTarget.scrollTop;
+        const scrollHeight = e.currentTarget.scrollHeight;
+        const clientHeight = e.currentTarget.clientHeight;
+        
+        // Prevent scroll noise at the extremes
+        if (scrollTop <= 10) {
+            setShowBottomNav(true);
+            setShowAppBar(true);
+            setLastScrollTop(scrollTop);
+            return;
+        }
+        if (scrollTop + clientHeight >= scrollHeight - 10) {
+            setShowBottomNav(true);
+            setShowAppBar(true);
+            setLastScrollTop(scrollTop);
+            return;
+        }
+
+        if (scrollTop > lastScrollTop && scrollTop > 50) {
+            setShowBottomNav(false);
+            setShowAppBar(false);
+        } else if (scrollTop < lastScrollTop) {
+            setShowBottomNav(true);
+            setShowAppBar(true);
+        }
+        setLastScrollTop(scrollTop);
+    };
 
     useEffect(() => {
         if (memberInfo?.auth_id) {
@@ -131,17 +163,14 @@ export default function MobileIotaApp({ navigateTo }) {
             className="flex flex-col bg-[#1F1F1E] text-[#E5E5E5] font-sans relative overflow-hidden"
             style={sizeStyle}
         >
-            {/* App Bar */}
+            {/* App Bar (Absolute layout prevents resizing the main container during scroll) */}
             <div 
-                className={`flex items-center justify-between px-4 bg-[#272726] border-b border-[#3c3c3c] shrink-0 transition-all duration-300 ease-in-out ${
-                    showAppBar ? 'opacity-100' : 'opacity-0 overflow-hidden border-b-0'
+                className={`absolute top-0 left-0 w-full flex items-center justify-between px-4 bg-[#272726] border-b border-[#3c3c3c] z-30 transition-transform duration-300 ease-in-out ${
+                    showAppBar ? 'translate-y-0' : '-translate-y-full'
                 }`}
-                style={showAppBar ? {
+                style={{
                     height: 'calc(48px + env(safe-area-inset-top))',
                     paddingTop: 'env(safe-area-inset-top)'
-                } : {
-                    height: '0px',
-                    paddingTop: '0px'
                 }}
             >
                 <div className="flex flex-col">
@@ -168,10 +197,14 @@ export default function MobileIotaApp({ navigateTo }) {
                 </div>
             </div>
 
-            {/* Main Content Area */}
+            {/* Main Content Area (Fixed paddings prevent content shift/jumping when bars toggle) */}
             <div 
                 onScroll={handleScroll}
-                className="flex-1 min-h-0 overflow-y-auto relative overscroll-y-contain bg-[#1F1F1E] pb-[60px]"
+                className="w-full h-full overflow-y-auto overscroll-y-contain bg-[#1F1F1E]"
+                style={{
+                    paddingTop: 'calc(48px + env(safe-area-inset-top))',
+                    paddingBottom: 'calc(60px + env(safe-area-inset-bottom) + 20px)'
+                }}
             >
                 {activeTab === 0 && (
                     <MobileTaskList 
@@ -303,8 +336,8 @@ export default function MobileIotaApp({ navigateTo }) {
             )}
 
             {/* Bottom Navigation */}
-            <div className={`flex absolute bottom-0 left-0 w-full bg-[#272726] border-t border-[#3c3c3c] z-30 pb-[env(safe-area-inset-bottom)] transition-all duration-300 ease-in-out ${
-                showBottomNav ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0 pointer-events-none'
+            <div className={`flex absolute bottom-0 left-0 w-full bg-[#272726] border-t border-[#3c3c3c] z-30 pb-[env(safe-area-inset-bottom)] transition-transform duration-300 ease-in-out ${
+                showBottomNav ? 'translate-y-0' : 'translate-y-full pointer-events-none'
             }`}>
                 {[
                     { id: 0, label: '주요업무', icon: <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" /> },
