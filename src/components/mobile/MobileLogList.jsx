@@ -15,11 +15,22 @@ export default function MobileLogList({ memberInfo, highlightLogId, initialWorks
     const [loading, setLoading] = useState(true);
     const [expandedLogIds, setExpandedLogIds] = useState(new Set());
 
-    // Touch Swipe States for Real-time Sliding & Locking
-    const [touchStart, setTouchStart] = useState({ x: 0, y: 0 });
+    // Touch Swipe States and Refs for Real-time Sliding & Locking
     const [dragOffset, setDragOffset] = useState(0);
     const [isDragging, setIsDragging] = useState(false);
     const [dragDirection, setDragDirection] = useState(null); // 'horizontal' | 'vertical' | null
+    
+    const touchStartRef = useRef({ x: 0, y: 0 });
+    const dragOffsetRef = useRef(0);
+    const isDraggingRef = useRef(false);
+    const dragDirectionRef = useRef(null);
+    const workspaceRef = useRef(workspace);
+    
+    useEffect(() => {
+        workspaceRef.current = workspace;
+    }, [workspace]);
+
+    const sliderRef = useRef(null);
 
     // Tab Scrolling Ref
     const tabRefs = useRef({});
@@ -122,6 +133,99 @@ export default function MobileLogList({ memberInfo, highlightLogId, initialWorks
         }
     }, [workspace]);
 
+    // Slider 터치 이벤트 바인딩 (non-passive)
+    useEffect(() => {
+        const sliderEl = sliderRef.current;
+        if (!sliderEl) return;
+
+        const handleStart = (e) => {
+            const touch = e.targetTouches[0];
+            touchStartRef.current = { x: touch.clientX, y: touch.clientY };
+            isDraggingRef.current = true;
+            dragDirectionRef.current = null;
+            dragOffsetRef.current = 0;
+            setIsDragging(true);
+            setDragDirection(null);
+            setDragOffset(0);
+        };
+
+        const handleMove = (e) => {
+            if (!isDraggingRef.current) return;
+            const touch = e.targetTouches[0];
+            const deltaX = touch.clientX - touchStartRef.current.x;
+            const deltaY = touch.clientY - touchStartRef.current.y;
+
+            if (dragDirectionRef.current === null) {
+                const absX = Math.abs(deltaX);
+                const absY = Math.abs(deltaY);
+                if (absX > 5 || absY > 5) {
+                    if (absX > absY) {
+                        dragDirectionRef.current = 'horizontal';
+                        setDragDirection('horizontal');
+                    } else {
+                        dragDirectionRef.current = 'vertical';
+                        setDragDirection('vertical');
+                        isDraggingRef.current = false;
+                        setIsDragging(false);
+                    }
+                }
+                return;
+            }
+
+            if (dragDirectionRef.current === 'vertical') {
+                return; // 세로 스크롤로 판정되면 터치 슬라이더 오프셋 업데이트 중지
+            }
+
+            if (dragDirectionRef.current === 'horizontal') {
+                if (e.cancelable) {
+                    e.preventDefault(); // 가로 스와이프 중에 브라우저의 기본 수직 스크롤 완벽 방지
+                }
+                const currentIndex = MOBILE_WORKSPACES.findIndex(w => w.code === workspaceRef.current.code);
+                let offset = deltaX;
+                if (currentIndex === 0 && deltaX > 0) {
+                    offset = deltaX * 0.3;
+                } else if (currentIndex === MOBILE_WORKSPACES.length - 1 && deltaX < 0) {
+                    offset = deltaX * 0.3;
+                }
+                dragOffsetRef.current = offset;
+                setDragOffset(offset);
+            }
+        };
+
+        const handleEnd = () => {
+            if (!isDraggingRef.current) return;
+            isDraggingRef.current = false;
+            setIsDragging(false);
+
+            if (dragDirectionRef.current === 'horizontal') {
+                const windowWidth = window.innerWidth;
+                const threshold = windowWidth * 0.2;
+                const currentIndex = MOBILE_WORKSPACES.findIndex(w => w.code === workspaceRef.current.code);
+
+                if (dragOffsetRef.current < -threshold && currentIndex < MOBILE_WORKSPACES.length - 1) {
+                    setWorkspace(MOBILE_WORKSPACES[currentIndex + 1]);
+                } else if (dragOffsetRef.current > threshold && currentIndex > 0) {
+                    setWorkspace(MOBILE_WORKSPACES[currentIndex - 1]);
+                }
+            }
+            
+            dragOffsetRef.current = 0;
+            dragDirectionRef.current = null;
+            setDragOffset(0);
+            setDragDirection(null);
+        };
+
+        sliderEl.addEventListener('touchstart', handleStart, { passive: true });
+        sliderEl.addEventListener('touchmove', handleMove, { passive: false });
+        sliderEl.addEventListener('touchend', handleEnd, { passive: true });
+
+        return () => {
+            sliderEl.removeEventListener('touchstart', handleStart);
+            sliderEl.removeEventListener('touchmove', handleMove);
+            sliderEl.removeEventListener('touchend', handleEnd);
+        };
+    }, []);
+
     const fetchLogs = async () => {
         setLoading(true);
         try {
@@ -149,83 +253,8 @@ export default function MobileLogList({ memberInfo, highlightLogId, initialWorks
         }
     };
 
-    // Real-time touch swipe handlers
-    const handleTouchStart = (e) => {
-        const touch = e.targetTouches[0];
-        setTouchStart({ x: touch.clientX, y: touch.clientY });
-        setDragOffset(0);
-        setIsDragging(true);
-        setDragDirection(null);
-    };
-
-    const handleTouchMove = (e) => {
-        if (!isDragging) return;
-        const touch = e.targetTouches[0];
-        const deltaX = touch.clientX - touchStart.x;
-        const deltaY = touch.clientY - touchStart.y;
-
-        if (dragDirection === null) {
-            const absX = Math.abs(deltaX);
-            const absY = Math.abs(deltaY);
-            if (absX > 8 || absY > 8) {
-                if (absX > absY) {
-                    setDragDirection('horizontal');
-                } else {
-                    setDragDirection('vertical');
-                }
-            }
-            return;
-        }
-
-        if (dragDirection === 'vertical') {
-            return; // 수직 스크롤 시 가로 드래그 차단 (기본 브라우저 세로 스크롤 허용)
-        }
-
-        if (dragDirection === 'horizontal') {
-            if (e.cancelable) {
-                e.preventDefault(); // 가로 드래그 시 브라우저 세로 스크롤 차단
-            }
-            const currentIndex = MOBILE_WORKSPACES.findIndex(w => w.code === workspace.code);
-            let offset = deltaX;
-            // 양 끝 바운더리 오프셋 저항 부여
-            if (currentIndex === 0 && deltaX > 0) {
-                offset = deltaX * 0.3;
-            } else if (currentIndex === MOBILE_WORKSPACES.length - 1 && deltaX < 0) {
-                offset = deltaX * 0.3;
-            }
-            setDragOffset(offset);
-        }
-    };
-
-    const handleTouchEnd = () => {
-        if (!isDragging) return;
-        setIsDragging(false);
-
-        if (dragDirection === 'horizontal') {
-            const windowWidth = window.innerWidth;
-            const threshold = windowWidth * 0.2; // 화면 너비의 20% 초과 드래그 시 탭 이동
-            const currentIndex = MOBILE_WORKSPACES.findIndex(w => w.code === workspace.code);
-
-            if (dragOffset < -threshold && currentIndex < MOBILE_WORKSPACES.length - 1) {
-                // Swipe Left -> Next Tab
-                setWorkspace(MOBILE_WORKSPACES[currentIndex + 1]);
-            } else if (dragOffset > threshold && currentIndex > 0) {
-                // Swipe Right -> Prev Tab
-                setWorkspace(MOBILE_WORKSPACES[currentIndex - 1]);
-            }
-        }
-        
-        setDragOffset(0);
-        setDragDirection(null);
-    };
-
     return (
-        <div 
-            className="flex flex-col w-full max-w-full pb-24 bg-[#1F1F1E]"
-            onTouchStart={handleTouchStart}
-            onTouchMove={handleTouchMove}
-            onTouchEnd={handleTouchEnd}
-        >
+        <div className="flex flex-col w-full max-w-full pb-24 bg-[#1F1F1E]">
             {/* Horizontal Workspace Tab Bar */}
             <div className="flex gap-5 border-b border-[#3c3c3c] px-4 py-1 overflow-x-auto hide-scrollbar bg-[#272726] sticky top-0 z-20 shrink-0 select-none">
                 {MOBILE_WORKSPACES.map(w => {
@@ -248,7 +277,7 @@ export default function MobileLogList({ memberInfo, highlightLogId, initialWorks
             </div>
 
             {/* Sliding Wrapper */}
-            <div className="w-full overflow-hidden relative">
+            <div className="w-full overflow-hidden relative" ref={sliderRef}>
                 <div 
                     className={`flex flex-row flex-nowrap ${isDragging && dragDirection === 'horizontal' ? 'transition-none' : 'transition-transform duration-300 ease-out'}`}
                     style={{ 
