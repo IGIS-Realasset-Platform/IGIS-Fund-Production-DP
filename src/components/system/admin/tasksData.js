@@ -978,5 +978,16 @@ export const tasksData = [
     "작업 유형": "UI/UX 설계 및 구현",
     "URL": "MobileIotaApp.jsx / MobileTaskList.jsx / MobileLogList.jsx",
     "내용 상세": "빠른 스크롤 시 React 상태 딜레이로 인해 카드 정보가 탭바 위로 겹쳐 보이는 현상을 방지하고자, 앱바를 스크롤뷰 최상단 인플로우(In-flow) 배치하고 가로 탭바를 sticky 포지션으로 최적화하여 렉을 원천 제거 완료"
+  },
+  {
+    "대분류": "모바일 및 알림",
+    "작업 이름": "Capacitor 기반 모바일 iOS 네이티브 앱 빌드 및 패키징 아키텍처 구축",
+    "상태": "완료",
+    "담당자": "전기영",
+    "마감일": "2026/06/05",
+    "우선순위": "최고",
+    "작업 유형": "인프라 연동 및 배포",
+    "URL": "capacitor.config.json / ios/*",
+    "내용 상세": "기존 React 웹앱을 iOS 디바이스에서 직접 네이티브 앱으로 구동할 수 있도록 Capacitor 프레임워크를 이식하고, ios 빌드 대상 추가 및 웹 에셋 동기화(npm run ios:sync) 파이프라인 구축 완료"
   }
 ];
