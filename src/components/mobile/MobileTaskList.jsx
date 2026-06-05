@@ -253,12 +253,13 @@ export default function MobileTaskList({ memberInfo, initialWorkspaceCode, highl
 
     return (
         <div className="flex flex-col w-full max-w-full pb-24 bg-[#1F1F1E] relative">
-            {/* Horizontal Workspace Tab Bar (Absolute layout synchronized with showAppBar translate-y) */}
+            {/* Horizontal Workspace Tab Bar (Absolute layout synchronized with showAppBar top animation) */}
             <div 
-                className={`absolute top-0 left-0 w-full flex gap-5 border-b border-[#3c3c3c] px-4 py-1 overflow-x-auto hide-scrollbar bg-[#272726] z-20 shrink-0 select-none transition-transform duration-300 ease-in-out ${
-                    showAppBar ? 'translate-y-0' : '-translate-y-[calc(100% + 48px + env(safe-area-inset-top))]'
-                }`}
-                style={{ height: '38px' }}
+                className="absolute left-0 w-full flex gap-5 border-b border-[#3c3c3c] px-4 py-1 overflow-x-auto hide-scrollbar bg-[#272726] z-20 shrink-0 select-none transition-all duration-300 ease-in-out"
+                style={{ 
+                    top: showAppBar ? 'calc(48px + env(safe-area-inset-top))' : 'env(safe-area-inset-top)',
+                    height: '38px'
+                }}
             >
                 {MOBILE_WORKSPACES.map(w => {
                     const isActive = workspace.code === w.code;
