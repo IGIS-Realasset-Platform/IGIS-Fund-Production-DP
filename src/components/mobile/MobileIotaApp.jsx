@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { supabase } from '../../utils/supabaseClient';
 import MobileTaskList from './MobileTaskList';
@@ -18,12 +18,14 @@ export default function MobileIotaApp({ navigateTo }) {
     const [unreadNotiCount, setUnreadNotiCount] = useState(0);
     const [isStandalone, setIsStandalone] = useState(false);
     const [showBottomNav, setShowBottomNav] = useState(true);
-    const [showAppBar, setShowAppBar] = useState(true);
     const [lastScrollTop, setLastScrollTop] = useState(0);
+    const contentRef = useRef(null);
 
     useEffect(() => {
         setShowBottomNav(true);
-        setShowAppBar(true);
+        if (contentRef.current) {
+            contentRef.current.scrollTop = 0;
+        }
     }, [activeTab]);
 
     const handleScroll = (e) => {
@@ -34,23 +36,19 @@ export default function MobileIotaApp({ navigateTo }) {
         // Prevent scroll noise at the extremes
         if (scrollTop <= 10) {
             setShowBottomNav(true);
-            setShowAppBar(true);
             setLastScrollTop(scrollTop);
             return;
         }
         if (scrollTop + clientHeight >= scrollHeight - 10) {
             setShowBottomNav(true);
-            setShowAppBar(true);
             setLastScrollTop(scrollTop);
             return;
         }
 
         if (scrollTop > lastScrollTop && scrollTop > 50) {
             setShowBottomNav(false);
-            setShowAppBar(false);
         } else if (scrollTop < lastScrollTop) {
             setShowBottomNav(true);
-            setShowAppBar(true);
         }
         setLastScrollTop(scrollTop);
     };
@@ -168,49 +166,46 @@ export default function MobileIotaApp({ navigateTo }) {
                 style={{ height: 'env(safe-area-inset-top)' }}
             />
 
-            {/* App Bar (Absolute layout prevents resizing the main container during scroll) */}
+            {/* Main Content Area (App Bar is now in normal flow at the top) */}
             <div 
-                className={`absolute top-0 left-0 w-full flex items-center justify-between px-4 bg-[#272726] border-b border-[#3c3c3c] z-30 transition-transform duration-300 ease-in-out ${
-                    showAppBar ? 'translate-y-0' : '-translate-y-full'
-                }`}
-                style={{
-                    height: 'calc(48px + env(safe-area-inset-top))',
-                    paddingTop: 'env(safe-area-inset-top)'
-                }}
-            >
-                <div className="flex flex-col">
-                    <span className="text-[17px] font-bold text-white tracking-tight">IOTA Seoul CFT</span>
-                    {memberInfo && (
-                        <span className="text-[12px] text-[#A1A1AA] font-medium mt-[-1.5px]">
-                            {memberInfo.staff_name} · {memberInfo.role_code || 'member'}
-                        </span>
-                    )}
-                </div>
-                <div className="flex gap-2">
-                    <button 
-                        onClick={() => {
-                            localStorage.setItem('force_pc_mode', 'true');
-                            navigateTo('platform/iotaseoul/workflow');
-                        }}
-                        className="text-[12px] text-[#E5E5E5] bg-[#3c3c3c]/50 hover:bg-[#3c3c3c] transition-colors px-3 py-1.5 rounded-full border border-[#3c3c3c] font-semibold"
-                    >
-                        PC버전
-                    </button>
-                    <button onClick={handleLogout} className="text-[12px] text-[#9A9A98] hover:text-white transition-colors bg-[#272726] px-3 py-1.5 rounded-full border border-[#3c3c3c]">
-                        로그아웃
-                    </button>
-                </div>
-            </div>
-
-            {/* Main Content Area (Fixed paddings prevent content shift/jumping when bars toggle) */}
-            <div 
+                ref={contentRef}
                 onScroll={handleScroll}
-                className="w-full h-full overflow-y-auto overscroll-y-contain bg-[#1F1F1E]"
+                className="w-full h-full overflow-y-auto overscroll-y-contain bg-[#1F1F1E] flex flex-col"
                 style={{
-                    paddingTop: 'calc(48px + env(safe-area-inset-top) + 38px)',
                     paddingBottom: 'calc(60px + env(safe-area-inset-bottom) + 20px)'
                 }}
             >
+                {/* App Bar (In-flow layout scrolls naturally) */}
+                <div 
+                    className="w-full flex items-center justify-between px-4 bg-[#272726] border-b border-[#3c3c3c] z-30 shrink-0"
+                    style={{
+                        height: 'calc(48px + env(safe-area-inset-top))',
+                        paddingTop: 'env(safe-area-inset-top)'
+                    }}
+                >
+                    <div className="flex flex-col">
+                        <span className="text-[17px] font-bold text-white tracking-tight">IOTA Seoul CFT</span>
+                        {memberInfo && (
+                            <span className="text-[12px] text-[#A1A1AA] font-medium mt-[-1.5px]">
+                                {memberInfo.staff_name} · {memberInfo.role_code || 'member'}
+                            </span>
+                        )}
+                    </div>
+                    <div className="flex gap-2">
+                        <button 
+                            onClick={() => {
+                                localStorage.setItem('force_pc_mode', 'true');
+                                navigateTo('platform/iotaseoul/workflow');
+                            }}
+                            className="text-[12px] text-[#E5E5E5] bg-[#3c3c3c]/50 hover:bg-[#3c3c3c] transition-colors px-3 py-1.5 rounded-full border border-[#3c3c3c] font-semibold"
+                        >
+                            PC버전
+                        </button>
+                        <button onClick={handleLogout} className="text-[12px] text-[#9A9A98] hover:text-white transition-colors bg-[#272726] px-3 py-1.5 rounded-full border border-[#3c3c3c]">
+                            로그아웃
+                        </button>
+                    </div>
+                </div>
                 {activeTab === 0 && (
                     <MobileTaskList 
                         memberInfo={memberInfo} 
@@ -218,7 +213,6 @@ export default function MobileIotaApp({ navigateTo }) {
                         highlightTaskId={highlightTaskId}
                         onWorkspaceReset={() => setTargetMobileWorkspace(null)} 
                         onHighlightReset={() => setHighlightTaskId(null)}
-                        showAppBar={showAppBar}
                     />
                 )}
                 {activeTab === 1 && (
@@ -228,7 +222,6 @@ export default function MobileIotaApp({ navigateTo }) {
                         initialWorkspaceCode={targetMobileWorkspace}
                         onWorkspaceReset={() => setTargetMobileWorkspace(null)}
                         onHighlightReset={() => setHighlightLogId(null)} 
-                        showAppBar={showAppBar}
                     />
                 )}
                 {activeTab === 2 && <MobileMyTasks memberInfo={memberInfo} />}

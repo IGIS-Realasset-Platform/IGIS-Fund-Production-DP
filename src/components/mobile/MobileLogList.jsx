@@ -3,7 +3,7 @@ import { supabase } from '../../utils/supabaseClient';
 import { MOBILE_WORKSPACES, getInitialWorkspace } from './mobileIotaData';
 import MobileLogCard from './MobileLogCard';
 
-export default function MobileLogList({ memberInfo, highlightLogId, initialWorkspaceCode, onWorkspaceReset, onHighlightReset, showAppBar }) {
+export default function MobileLogList({ memberInfo, highlightLogId, initialWorkspaceCode, onWorkspaceReset, onHighlightReset }) {
     const [workspace, setWorkspace] = useState(() => {
         if (initialWorkspaceCode) {
             const matched = MOBILE_WORKSPACES.find(w => w.code === initialWorkspaceCode);
@@ -253,11 +253,11 @@ export default function MobileLogList({ memberInfo, highlightLogId, initialWorks
 
     return (
         <div className="flex flex-col w-full max-w-full pb-24 bg-[#1F1F1E] relative">
-            {/* Horizontal Workspace Tab Bar (Fixed layout to stay in place regardless of scrolling) */}
+            {/* Horizontal Workspace Tab Bar (Sticky layout to stay at the top natively during scrolling) */}
             <div 
-                className="fixed left-0 w-full flex gap-5 border-b border-[#3c3c3c] px-4 py-1 overflow-x-auto hide-scrollbar bg-[#272726] z-20 shrink-0 select-none transition-all duration-300 ease-in-out"
+                className="sticky left-0 w-full flex gap-5 border-b border-[#3c3c3c] px-4 py-1 overflow-x-auto hide-scrollbar bg-[#272726] z-20 shrink-0 select-none"
                 style={{ 
-                    top: showAppBar ? 'calc(48px + env(safe-area-inset-top))' : 'env(safe-area-inset-top)',
+                    top: 'env(safe-area-inset-top)',
                     height: '38px'
                 }}
             >
@@ -280,8 +280,8 @@ export default function MobileLogList({ memberInfo, highlightLogId, initialWorks
                 })}
             </div>
 
-            {/* Main Content Body Container to prevent overlap under absolute Tab Bar */}
-            <div className="w-full pt-[38px] flex flex-col">
+            {/* Main Content Body Container */}
+            <div className="w-full flex flex-col">
                 {/* Sliding Wrapper */}
                 <div className="w-full overflow-hidden relative" ref={sliderRef}>
                 <div 
