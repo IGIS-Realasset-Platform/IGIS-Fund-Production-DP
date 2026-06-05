@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">IGIS Fund Production DP</string>
+    <string name="title_activity_main">IGIS Fund Production DP</string>
+    <string name="package_name">com.igis.fundproduction</string>
+    <string name="custom_url_scheme">com.igis.fundproduction</string>
+</resources>

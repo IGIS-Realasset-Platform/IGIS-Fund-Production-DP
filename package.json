@@ -11,9 +11,12 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
     "ios:sync": "npm run build && npx cap sync",
-    "ios:open": "npx cap open ios"
+    "ios:open": "npx cap open ios",
+    "android:sync": "npm run build && npx cap sync",
+    "android:open": "npx cap open android"
   },
   "dependencies": {
+    "@capacitor/android": "^8.4.0",
     "@capacitor/core": "^8.4.0",
     "@capacitor/ios": "^8.4.0",
     "@emailjs/browser": "^4.4.1",
