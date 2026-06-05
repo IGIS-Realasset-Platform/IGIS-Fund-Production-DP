@@ -238,14 +238,7 @@ export default function MobileLogList({ memberInfo, highlightLogId, initialWorks
                 
             if (error) throw error;
 
-            const filtered = (data || []).filter(log => {
-                const metadata = log.metadata || {};
-                return metadata.workspace_code === workspace.code || 
-                       metadata.workspace_label === workspace.label ||
-                       workspace.orgNames.includes(metadata.workspace_label);
-            });
-            
-            setLogs(filtered);
+            setLogs(data || []);
         } catch (err) {
             console.error("Failed to fetch mobile logs:", err);
         } finally {
