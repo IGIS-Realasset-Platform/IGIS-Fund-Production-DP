@@ -24,7 +24,7 @@ export default function MobileLogList({ memberInfo, highlightLogId, initialWorks
 
     useEffect(() => {
         fetchLogs();
-    }, [workspace]);
+    }, []);
 
     // Handle incoming initial workspace code redirect (0ms instant routing)
     useEffect(() => {
@@ -214,41 +214,65 @@ export default function MobileLogList({ memberInfo, highlightLogId, initialWorks
                 })}
             </div>
 
-            {/* List */}
-            <div className="flex flex-col gap-4 p-4">
-                {loading ? (
-                    <div className="flex justify-center items-center py-20">
-                        <div className="animate-spin w-8 h-8 border-4 border-[#3b82f6] border-t-transparent rounded-full"></div>
-                    </div>
-                ) : logs.length === 0 ? (
-                    <div className="text-center py-20 text-[#86868B] text-[15px] font-medium">등록된 협업 게시글이 없습니다.</div>
-                ) : (
-                    <div className="flex flex-col">
-                        {logs.map(log => {
-                            const logId = log.id || log.log_id;
-                            return (
-                                <MobileLogCard 
-                                    key={logId} 
-                                    log={log} 
-                                    memberInfo={memberInfo} 
-                                    isExpanded={expandedLogIds.has(logId)}
-                                    onClick={(clickedLog) => {
-                                        const id = clickedLog.id || clickedLog.log_id;
-                                        setExpandedLogIds(prev => {
-                                            const next = new Set(prev);
-                                            if (next.has(id)) {
-                                                next.delete(id);
-                                            } else {
-                                                next.add(id);
-                                            }
-                                            return next;
-                                        });
-                                    }}
-                                />
-                            );
-                        })}
-                    </div>
-                )}
+            {/* Sliding Wrapper */}
+            <div className="w-full overflow-hidden relative">
+                <div 
+                    className="flex flex-row flex-nowrap transition-transform duration-300 ease-out"
+                    style={{ 
+                        width: '700%',
+                        transform: `translateX(-${MOBILE_WORKSPACES.findIndex(w => w.code === workspace.code) * (100 / 7)}%)` 
+                    }}
+                >
+                    {MOBILE_WORKSPACES.map(w => {
+                        const filteredLogs = logs.filter(log => {
+                            const metadata = log.metadata || {};
+                            return metadata.workspace_code === w.code || 
+                                   metadata.workspace_label === w.label ||
+                                   w.orgNames.includes(metadata.workspace_label);
+                        });
+                        return (
+                            <div 
+                                key={w.code}
+                                className="w-[14.2857%] shrink-0 flex flex-col gap-4 p-4 box-border"
+                                style={{ width: '14.2857%' }}
+                            >
+                                {loading && logs.length === 0 ? (
+                                    <div className="flex justify-center items-center py-20">
+                                        <div className="animate-spin w-8 h-8 border-4 border-[#3b82f6] border-t-transparent rounded-full"></div>
+                                    </div>
+                                ) : filteredLogs.length === 0 ? (
+                                    <div className="text-center py-20 text-[#86868B] text-[15px] font-medium">등록된 협업 게시글이 없습니다.</div>
+                                ) : (
+                                    <div className="flex flex-col">
+                                        {filteredLogs.map(log => {
+                                            const logId = log.id || log.log_id;
+                                            return (
+                                                <MobileLogCard 
+                                                    key={logId} 
+                                                    log={log} 
+                                                    memberInfo={memberInfo} 
+                                                    isExpanded={expandedLogIds.has(logId)}
+                                                    onClick={(clickedLog) => {
+                                                        const id = clickedLog.id || clickedLog.log_id;
+                                                        setExpandedLogIds(prev => {
+                                                            const next = new Set(prev);
+                                                            if (next.has(id)) {
+                                                                next.delete(id);
+                                                            } else {
+                                                                next.add(id);
+                                                            }
+                                                            return next;
+                                                        });
+                                                    }}
+                                                />
+                                            );
+                                        })}
+                                    </div>
+                                )}
+                            </div>
+                        );
+                    })}
+                </div>
             </div>
         </div>
     );

@@ -22,28 +22,6 @@ export default function MobileIotaApp({ navigateTo }) {
     const [showAppBar, setShowAppBar] = useState(true);
     const [lastScrollTop, setLastScrollTop] = useState(0);
 
-    const touchStartX = React.useRef(0);
-    const touchStartY = React.useRef(0);
-
-    const handleTouchStart = (e) => {
-        touchStartX.current = e.touches[0].clientX;
-        touchStartY.current = e.touches[0].clientY;
-    };
-
-    const handleTouchEnd = (e) => {
-        const diffX = e.changedTouches[0].clientX - touchStartX.current;
-        const diffY = e.changedTouches[0].clientY - touchStartY.current;
-
-        // Check horizontal swipe gesture (X movement > 60px, Y movement < 40px to prevent conflict with vertical scroll)
-        if (Math.abs(diffX) > 60 && Math.abs(diffY) < 40) {
-            if (diffX < 0) {
-                if (activeTab < 3) setActiveTab(prev => prev + 1);
-            } else {
-                if (activeTab > 0) setActiveTab(prev => prev - 1);
-            }
-        }
-    };
-
     useEffect(() => {
         setShowBottomNav(true);
         setShowAppBar(true);
@@ -225,149 +203,122 @@ export default function MobileIotaApp({ navigateTo }) {
 
             {/* Main Content Area */}
             <div 
-                className="flex-1 min-h-0 relative overflow-hidden bg-[#1F1F1E]"
-                onTouchStart={handleTouchStart}
-                onTouchEnd={handleTouchEnd}
+                onScroll={handleScroll}
+                className="flex-1 min-h-0 overflow-y-auto relative overscroll-y-contain bg-[#1F1F1E] pb-[60px]"
             >
-                <div 
-                    className="flex h-full w-[400%] transition-transform duration-300 ease-out"
-                    style={{ transform: `translateX(-${activeTab * 25}%)` }}
-                >
-                    {/* Tab 0: 주요업무 */}
-                    <div 
-                        onScroll={handleScroll}
-                        className="w-1/4 h-full overflow-y-auto overscroll-y-contain pb-[80px]"
-                    >
-                        <MobileTaskList 
-                            memberInfo={memberInfo} 
-                            initialWorkspaceCode={targetMobileWorkspace} 
-                            highlightTaskId={highlightTaskId}
-                            onWorkspaceReset={() => setTargetMobileWorkspace(null)} 
-                            onHighlightReset={() => setHighlightTaskId(null)}
-                        />
-                    </div>
+                {activeTab === 0 && (
+                    <MobileTaskList 
+                        memberInfo={memberInfo} 
+                        initialWorkspaceCode={targetMobileWorkspace} 
+                        highlightTaskId={highlightTaskId}
+                        onWorkspaceReset={() => setTargetMobileWorkspace(null)} 
+                        onHighlightReset={() => setHighlightTaskId(null)}
+                    />
+                )}
+                {activeTab === 1 && (
+                    <MobileLogList 
+                        memberInfo={memberInfo} 
+                        highlightLogId={highlightLogId} 
+                        initialWorkspaceCode={targetMobileWorkspace}
+                        onWorkspaceReset={() => setTargetMobileWorkspace(null)}
+                        onHighlightReset={() => setHighlightLogId(null)} 
+                    />
+                )}
+                {activeTab === 2 && <MobileMyTasks memberInfo={memberInfo} />}
+                {activeTab === 3 && (
+                    <MobileNotifications 
+                        memberInfo={memberInfo} 
+                        onRead={() => setUnreadNotiCount(Math.max(0, unreadNotiCount - 1))} 
+                        onNotificationClick={(noti) => {
+                            try {
+                                console.log('[MobileIotaApp] 알림 터치 수신:', noti);
+                                const isLogNotif = noti.type === 'log' || 
+                                                   noti.type === 'logs' || 
+                                                   String(noti.type).toLowerCase() === 'log' ||
+                                                   (noti.title && (noti.title.includes('[협업]') || noti.title.includes('[@언급]')));
 
-                    {/* Tab 1: 협업게시판 */}
-                    <div 
-                        onScroll={handleScroll}
-                        className="w-1/4 h-full overflow-y-auto overscroll-y-contain pb-[80px]"
-                    >
-                        <MobileLogList 
-                            memberInfo={memberInfo} 
-                            highlightLogId={highlightLogId} 
-                            initialWorkspaceCode={targetMobileWorkspace}
-                            onWorkspaceReset={() => setTargetMobileWorkspace(null)}
-                            onHighlightReset={() => setHighlightLogId(null)} 
-                        />
-                    </div>
+                                const isTaskNotif = noti.type === 'task' || 
+                                                    String(noti.type).toLowerCase() === 'task' ||
+                                                    (noti.title && (noti.title.includes('[Task]') || noti.title.includes('신규 Task')));
 
-                    {/* Tab 2: 내업무 */}
-                    <div 
-                        onScroll={handleScroll}
-                        className="w-1/4 h-full overflow-y-auto overscroll-y-contain pb-[80px]"
-                    >
-                        <MobileMyTasks memberInfo={memberInfo} />
-                    </div>
-
-                    {/* Tab 3: 알림 */}
-                    <div 
-                        onScroll={handleScroll}
-                        className="w-1/4 h-full overflow-y-auto overscroll-y-contain pb-[80px]"
-                    >
-                        <MobileNotifications 
-                            memberInfo={memberInfo} 
-                            onRead={() => setUnreadNotiCount(Math.max(0, unreadNotiCount - 1))} 
-                            onNotificationClick={(noti) => {
-                                try {
-                                    console.log('[MobileIotaApp] 알림 터치 수신:', noti);
-                                    const isLogNotif = noti.type === 'log' || 
-                                                       noti.type === 'logs' || 
-                                                       String(noti.type).toLowerCase() === 'log' ||
-                                                       (noti.title && (noti.title.includes('[협업]') || noti.title.includes('[@언급]')));
-
-                                    const isTaskNotif = noti.type === 'task' || 
-                                                        String(noti.type).toLowerCase() === 'task' ||
-                                                        (noti.title && (noti.title.includes('[Task]') || noti.title.includes('신규 Task')));
-
-                                    if (isLogNotif) {
-                                        console.log('[MobileIotaApp] 협업글 알림 감지. reference_id:', noti.reference_id);
-                                        let logId = null;
-                                        let wsCode = null;
-                                        
-                                        if (noti.reference_id) {
-                                            const refStr = String(noti.reference_id);
-                                            if (refStr.includes('|')) {
-                                                const parts = refStr.split('|');
-                                                logId = parts[0];
-                                                wsCode = parts[1];
-                                            } else {
-                                                logId = refStr;
-                                            }
-                                            setHighlightLogId(logId);
-                                            console.log('[MobileIotaApp] highlightLogId 설정:', logId);
+                                if (isLogNotif) {
+                                    console.log('[MobileIotaApp] 협업글 알림 감지. reference_id:', noti.reference_id);
+                                    let logId = null;
+                                    let wsCode = null;
+                                    
+                                    if (noti.reference_id) {
+                                        const refStr = String(noti.reference_id);
+                                        if (refStr.includes('|')) {
+                                            const parts = refStr.split('|');
+                                            logId = parts[0];
+                                            wsCode = parts[1];
+                                        } else {
+                                            logId = refStr;
                                         }
-                                        
-                                        // Fallback: Parse workspace code from notification title text
-                                        if (!wsCode) {
-                                            const title = String(noti.title || '');
-                                            const body = String(noti.body || '');
-                                            const combinedText = title + ' ' + body;
-                                            if (combinedText.includes('사업 PM') || combinedText.includes('사업PM')) wsCode = 'WS_PM';
-                                            else if (combinedText.includes('파이낸싱') || combinedText.includes('재원조달')) wsCode = 'WS_LFC';
-                                            else if (combinedText.includes('개발') || combinedText.includes('설계')) wsCode = 'WS_DSC';
-                                            else if (combinedText.includes('마케팅')) wsCode = 'WS_EMC';
-                                            else if (combinedText.includes('공간') || combinedText.includes('SSC') || combinedText.includes('디지털')) wsCode = 'WS_SSC';
-                                            else if (combinedText.includes('펀드') || combinedText.includes('KAM')) wsCode = 'WS_KAM';
-                                            else if (combinedText.includes('IPR')) wsCode = 'WS_IPR';
-                                            console.log('[MobileIotaApp] wsCode Fallback 추론:', wsCode);
-                                        }
-                                        
-                                        if (wsCode) {
-                                            setTargetMobileWorkspace(wsCode);
-                                            console.log('[MobileIotaApp] targetMobileWorkspace 설정:', wsCode);
-                                        }
-                                        setActiveTab(1);
-                                    } else if (isTaskNotif) {
-                                        let taskId = null;
-                                        let wsCode = null;
-                                        
-                                        if (noti.reference_id) {
-                                            const refStr = String(noti.reference_id);
-                                            if (refStr.includes('|')) {
-                                                const parts = refStr.split('|');
-                                                taskId = parts[0];
-                                                wsCode = parts[1];
-                                            } else {
-                                                taskId = refStr;
-                                            }
-                                        }
-                                        
-                                        if (!wsCode) {
-                                            const title = noti.title || '';
-                                            if (title.includes('사업 PM') || title.includes('사업PM')) wsCode = 'WS_PM';
-                                            else if (title.includes('파이낸싱')) wsCode = 'WS_LFC';
-                                            else if (title.includes('개발')) wsCode = 'WS_DSC';
-                                            else if (title.includes('마케팅')) wsCode = 'WS_EMC';
-                                            else if (title.includes('공간') || title.includes('SSC')) wsCode = 'WS_SSC';
-                                            else if (title.includes('펀드') || title.includes('KAM')) wsCode = 'WS_KAM';
-                                            else if (title.includes('IPR')) wsCode = 'WS_IPR';
-                                        }
-                                        
-                                        if (taskId) {
-                                            setHighlightTaskId(taskId);
-                                        }
-                                        if (wsCode) {
-                                            setTargetMobileWorkspace(wsCode);
-                                        }
-                                        setActiveTab(0);
+                                        setHighlightLogId(logId);
+                                        console.log('[MobileIotaApp] highlightLogId 설정:', logId);
                                     }
-                                } catch (err) {
-                                    console.error("Error in onNotificationClick:", err);
+                                    
+                                    // Fallback: Parse workspace code from notification title text
+                                    if (!wsCode) {
+                                        const title = String(noti.title || '');
+                                        const body = String(noti.body || '');
+                                        const combinedText = title + ' ' + body;
+                                        if (combinedText.includes('사업 PM') || combinedText.includes('사업PM')) wsCode = 'WS_PM';
+                                        else if (combinedText.includes('파이낸싱') || combinedText.includes('재원조달')) wsCode = 'WS_LFC';
+                                        else if (combinedText.includes('개발') || combinedText.includes('설계')) wsCode = 'WS_DSC';
+                                        else if (combinedText.includes('마케팅')) wsCode = 'WS_EMC';
+                                        else if (combinedText.includes('공간') || combinedText.includes('SSC') || combinedText.includes('디지털')) wsCode = 'WS_SSC';
+                                        else if (combinedText.includes('펀드') || combinedText.includes('KAM')) wsCode = 'WS_KAM';
+                                        else if (combinedText.includes('IPR')) wsCode = 'WS_IPR';
+                                        console.log('[MobileIotaApp] wsCode Fallback 추론:', wsCode);
+                                    }
+                                    
+                                    if (wsCode) {
+                                        setTargetMobileWorkspace(wsCode);
+                                        console.log('[MobileIotaApp] targetMobileWorkspace 설정:', wsCode);
+                                    }
+                                    setActiveTab(1);
+                                } else if (isTaskNotif) {
+                                    let taskId = null;
+                                    let wsCode = null;
+                                    
+                                    if (noti.reference_id) {
+                                        const refStr = String(noti.reference_id);
+                                        if (refStr.includes('|')) {
+                                            const parts = refStr.split('|');
+                                            taskId = parts[0];
+                                            wsCode = parts[1];
+                                        } else {
+                                            taskId = refStr;
+                                        }
+                                    }
+                                    
+                                    if (!wsCode) {
+                                        const title = noti.title || '';
+                                        if (title.includes('사업 PM') || title.includes('사업PM')) wsCode = 'WS_PM';
+                                        else if (title.includes('파이낸싱')) wsCode = 'WS_LFC';
+                                        else if (title.includes('개발')) wsCode = 'WS_DSC';
+                                        else if (title.includes('마케팅')) wsCode = 'WS_EMC';
+                                        else if (title.includes('공간') || title.includes('SSC')) wsCode = 'WS_SSC';
+                                        else if (title.includes('펀드') || title.includes('KAM')) wsCode = 'WS_KAM';
+                                        else if (title.includes('IPR')) wsCode = 'WS_IPR';
+                                    }
+                                    
+                                    if (taskId) {
+                                        setHighlightTaskId(taskId);
+                                    }
+                                    if (wsCode) {
+                                        setTargetMobileWorkspace(wsCode);
+                                    }
+                                    setActiveTab(0);
                                 }
-                            }}
-                        />
-                    </div>
-                </div>
+                            } catch (err) {
+                                console.error("Error in onNotificationClick:", err);
+                            }
+                        }}
+                    />
+                )}
             </div>
 
             {/* Floating Action Button (Tasks and My Tasks) */}
