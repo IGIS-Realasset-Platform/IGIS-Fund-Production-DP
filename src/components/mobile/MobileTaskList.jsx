@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { supabase } from '../../utils/supabaseClient';
 import { MOBILE_WORKSPACES, getInitialWorkspace } from './mobileIotaData';
 
-export default function MobileTaskList({ memberInfo, initialWorkspaceCode, highlightTaskId, onWorkspaceReset, onHighlightReset }) {
+export default function MobileTaskList({ memberInfo, initialWorkspaceCode, highlightTaskId, onWorkspaceReset, onHighlightReset, showAppBar }) {
     const [workspace, setWorkspace] = useState(() => {
         if (initialWorkspaceCode) {
             const matched = MOBILE_WORKSPACES.find(w => w.code === initialWorkspaceCode);
@@ -252,9 +252,14 @@ export default function MobileTaskList({ memberInfo, initialWorkspaceCode, highl
     };
 
     return (
-        <div className="flex flex-col w-full max-w-full pb-24 bg-[#1F1F1E]">
-            {/* Horizontal Workspace Tab Bar */}
-            <div className="flex gap-5 border-b border-[#3c3c3c] px-4 py-1 overflow-x-auto hide-scrollbar bg-[#272726] sticky top-0 z-20 shrink-0 select-none">
+        <div className="flex flex-col w-full max-w-full pb-24 bg-[#1F1F1E] relative">
+            {/* Horizontal Workspace Tab Bar (Absolute layout synchronized with showAppBar translate-y) */}
+            <div 
+                className={`absolute top-0 left-0 w-full flex gap-5 border-b border-[#3c3c3c] px-4 py-1 overflow-x-auto hide-scrollbar bg-[#272726] z-20 shrink-0 select-none transition-transform duration-300 ease-in-out ${
+                    showAppBar ? 'translate-y-0' : '-translate-y-[calc(100% + 48px + env(safe-area-inset-top))]'
+                }`}
+                style={{ height: '38px' }}
+            >
                 {MOBILE_WORKSPACES.map(w => {
                     const isActive = workspace.code === w.code;
                     return (
@@ -275,8 +280,10 @@ export default function MobileTaskList({ memberInfo, initialWorkspaceCode, highl
                 })}
             </div>
 
-            {/* Iota Filter Area */}
-            {(workspace.code === 'WS_EMC' || workspace.code === 'WS_SSC') && (
+            {/* Main Content Body Container to prevent overlap under absolute Tab Bar */}
+            <div className="w-full pt-[38px] flex flex-col">
+                {/* Iota Filter Area */}
+                {(workspace.code === 'WS_EMC' || workspace.code === 'WS_SSC') && (
                 <div className="flex justify-end px-4 py-2.5 bg-[#1F1F1E] border-b border-[#3c3c3c]/50 shrink-0">
                     <label className="flex items-center gap-2 text-[13px] text-[#A1A1AA] font-bold cursor-pointer select-none">
                         <span>이오타만 보기</span>
@@ -373,6 +380,7 @@ export default function MobileTaskList({ memberInfo, initialWorkspaceCode, highl
                         );
                     })}
                 </div>
+            </div>
             </div>
         </div>
     );

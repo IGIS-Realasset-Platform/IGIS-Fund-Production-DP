@@ -3,7 +3,7 @@ import { supabase } from '../../utils/supabaseClient';
 import { MOBILE_WORKSPACES, getInitialWorkspace } from './mobileIotaData';
 import MobileLogCard from './MobileLogCard';
 
-export default function MobileLogList({ memberInfo, highlightLogId, initialWorkspaceCode, onWorkspaceReset, onHighlightReset }) {
+export default function MobileLogList({ memberInfo, highlightLogId, initialWorkspaceCode, onWorkspaceReset, onHighlightReset, showAppBar }) {
     const [workspace, setWorkspace] = useState(() => {
         if (initialWorkspaceCode) {
             const matched = MOBILE_WORKSPACES.find(w => w.code === initialWorkspaceCode);
@@ -252,9 +252,14 @@ export default function MobileLogList({ memberInfo, highlightLogId, initialWorks
     };
 
     return (
-        <div className="flex flex-col w-full max-w-full pb-24 bg-[#1F1F1E]">
-            {/* Horizontal Workspace Tab Bar */}
-            <div className="flex gap-5 border-b border-[#3c3c3c] px-4 py-1 overflow-x-auto hide-scrollbar bg-[#272726] sticky top-0 z-20 shrink-0 select-none">
+        <div className="flex flex-col w-full max-w-full pb-24 bg-[#1F1F1E] relative">
+            {/* Horizontal Workspace Tab Bar (Absolute layout synchronized with showAppBar translate-y) */}
+            <div 
+                className={`absolute top-0 left-0 w-full flex gap-5 border-b border-[#3c3c3c] px-4 py-1 overflow-x-auto hide-scrollbar bg-[#272726] z-20 shrink-0 select-none transition-transform duration-300 ease-in-out ${
+                    showAppBar ? 'translate-y-0' : '-translate-y-[calc(100% + 48px + env(safe-area-inset-top))]'
+                }`}
+                style={{ height: '38px' }}
+            >
                 {MOBILE_WORKSPACES.map(w => {
                     const isActive = workspace.code === w.code;
                     return (
@@ -274,8 +279,10 @@ export default function MobileLogList({ memberInfo, highlightLogId, initialWorks
                 })}
             </div>
 
-            {/* Sliding Wrapper */}
-            <div className="w-full overflow-hidden relative" ref={sliderRef}>
+            {/* Main Content Body Container to prevent overlap under absolute Tab Bar */}
+            <div className="w-full pt-[38px] flex flex-col">
+                {/* Sliding Wrapper */}
+                <div className="w-full overflow-hidden relative" ref={sliderRef}>
                 <div 
                     className={`flex flex-row flex-nowrap ${isDragging && dragDirection === 'horizontal' ? 'transition-none' : 'transition-transform duration-300 ease-out'}`}
                     style={{ 
@@ -333,6 +340,7 @@ export default function MobileLogList({ memberInfo, highlightLogId, initialWorks
                         );
                     })}
                 </div>
+            </div>
             </div>
         </div>
     );

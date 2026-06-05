@@ -202,7 +202,7 @@ export default function MobileIotaApp({ navigateTo }) {
                 onScroll={handleScroll}
                 className="w-full h-full overflow-y-auto overscroll-y-contain bg-[#1F1F1E]"
                 style={{
-                    paddingTop: 'calc(48px + env(safe-area-inset-top))',
+                    paddingTop: 'calc(48px + env(safe-area-inset-top) + 38px)',
                     paddingBottom: 'calc(60px + env(safe-area-inset-bottom) + 20px)'
                 }}
             >
@@ -213,6 +213,7 @@ export default function MobileIotaApp({ navigateTo }) {
                         highlightTaskId={highlightTaskId}
                         onWorkspaceReset={() => setTargetMobileWorkspace(null)} 
                         onHighlightReset={() => setHighlightTaskId(null)}
+                        showAppBar={showAppBar}
                     />
                 )}
                 {activeTab === 1 && (
@@ -222,6 +223,7 @@ export default function MobileIotaApp({ navigateTo }) {
                         initialWorkspaceCode={targetMobileWorkspace}
                         onWorkspaceReset={() => setTargetMobileWorkspace(null)}
                         onHighlightReset={() => setHighlightLogId(null)} 
+                        showAppBar={showAppBar}
                     />
                 )}
                 {activeTab === 2 && <MobileMyTasks memberInfo={memberInfo} />}
