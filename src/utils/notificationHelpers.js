@@ -121,16 +121,19 @@ export const notifyMembersOnLogCreation = async (logId, logContent, workspace, w
             return;
         }
 
-        // 4. iota_notifications 테이블에 Bulk Insert 진행
-        const { error: insertError } = await supabase
-            .from('iota_notifications')
-            .insert(notificationPayload);
-
-        if (insertError) {
-            console.error('Failed to insert log notifications:', insertError);
-        } else {
-            console.log(`Log notifications successfully sent to ${notificationPayload.length} users (Mentions: ${mentionedAuthIds.length}).`);
-        }
+        // 4. iota_notifications 테이블에 개별 Insert 진행 (Stale auth_id 외래키 오류 방지)
+        const insertPromises = notificationPayload.map(payload => 
+            supabase
+                .from('iota_notifications')
+                .insert(payload)
+                .then(({ error }) => {
+                    if (error) {
+                        console.error(`Failed to insert log notification for user ${payload.user_id}:`, error.message);
+                    }
+                })
+        );
+        await Promise.all(insertPromises);
+        console.log(`Log notifications successfully processed for ${notificationPayload.length} payloads (Mentions: ${mentionedAuthIds.length}).`);
     } catch (err) {
         console.error('Error in notifyMembersOnLogCreation:', err);
     }
@@ -194,15 +197,18 @@ export const notifyMembersOnTaskCreation = async (taskId, taskName, workspace, w
             created_at: new Date().toISOString()
         }));
 
-        const { error: insertError } = await supabase
-            .from('iota_notifications')
-            .insert(notificationPayload);
-
-        if (insertError) {
-            console.error('Failed to insert task notifications:', insertError);
-        } else {
-            console.log(`Task notifications successfully sent to ${uniqueRecipientIds.length} users.`);
-        }
+        const insertPromises = notificationPayload.map(payload => 
+            supabase
+                .from('iota_notifications')
+                .insert(payload)
+                .then(({ error }) => {
+                    if (error) {
+                        console.error(`Failed to insert task notification for user ${payload.user_id}:`, error.message);
+                    }
+                })
+        );
+        await Promise.all(insertPromises);
+        console.log(`Task notifications successfully processed for ${uniqueRecipientIds.length} users.`);
     } catch (err) {
         console.error('Error in notifyMembersOnTaskCreation:', err);
     }
