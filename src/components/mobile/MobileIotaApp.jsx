@@ -7,6 +7,7 @@ import MobileMyTasks from './MobileMyTasks';
 import MobileNotifications from './MobileNotifications';
 import MobileComposerSheet from './MobileComposerSheet';
 import { requestFirebaseNotificationPermission } from '../../utils/firebase';
+import { getInitialWorkspace } from './mobileIotaData';
 
 export default function MobileIotaApp({ navigateTo }) {
     const { user, memberInfo, signOut } = useAuth();
@@ -20,6 +21,17 @@ export default function MobileIotaApp({ navigateTo }) {
     const [showBottomNav, setShowBottomNav] = useState(true);
     const [lastScrollTop, setLastScrollTop] = useState(0);
     const contentRef = useRef(null);
+
+    const [selectedWorkspaceCode, setSelectedWorkspaceCode] = useState(null);
+    const [refreshTrigger, setRefreshTrigger] = useState(0);
+
+    const triggerRefresh = () => setRefreshTrigger(prev => prev + 1);
+
+    useEffect(() => {
+        if (memberInfo && !selectedWorkspaceCode) {
+            setSelectedWorkspaceCode(getInitialWorkspace(memberInfo)?.code);
+        }
+    }, [memberInfo, selectedWorkspaceCode]);
 
     useEffect(() => {
         setShowBottomNav(true);
@@ -213,6 +225,8 @@ export default function MobileIotaApp({ navigateTo }) {
                         highlightTaskId={highlightTaskId}
                         onWorkspaceReset={() => setTargetMobileWorkspace(null)} 
                         onHighlightReset={() => setHighlightTaskId(null)}
+                        onWorkspaceChange={setSelectedWorkspaceCode}
+                        refreshTrigger={refreshTrigger}
                     />
                 )}
                 {activeTab === 1 && (
@@ -222,6 +236,8 @@ export default function MobileIotaApp({ navigateTo }) {
                         initialWorkspaceCode={targetMobileWorkspace}
                         onWorkspaceReset={() => setTargetMobileWorkspace(null)}
                         onHighlightReset={() => setHighlightLogId(null)} 
+                        onWorkspaceChange={setSelectedWorkspaceCode}
+                        refreshTrigger={refreshTrigger}
                     />
                 )}
                 {activeTab === 2 && <MobileMyTasks memberInfo={memberInfo} />}
@@ -372,9 +388,10 @@ export default function MobileIotaApp({ navigateTo }) {
                     onClose={() => setIsComposerOpen(false)} 
                     onSuccess={() => {
                         setIsComposerOpen(false);
-                        // Refresh logic here if needed (could trigger via a refresh context or key)
+                        triggerRefresh();
                     }} 
                     activeTab={activeTab}
+                    initialWorkspaceCode={selectedWorkspaceCode}
                 />
             )}
         </div>

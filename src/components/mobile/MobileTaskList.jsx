@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { supabase } from '../../utils/supabaseClient';
 import { MOBILE_WORKSPACES, getInitialWorkspace } from './mobileIotaData';
 
-export default function MobileTaskList({ memberInfo, initialWorkspaceCode, highlightTaskId, onWorkspaceReset, onHighlightReset }) {
+export default function MobileTaskList({ memberInfo, initialWorkspaceCode, highlightTaskId, onWorkspaceReset, onHighlightReset, onWorkspaceChange, refreshTrigger }) {
     const [workspace, setWorkspace] = useState(() => {
         if (initialWorkspaceCode) {
             const matched = MOBILE_WORKSPACES.find(w => w.code === initialWorkspaceCode);
@@ -30,7 +30,10 @@ export default function MobileTaskList({ memberInfo, initialWorkspaceCode, highl
     
     useEffect(() => {
         workspaceRef.current = workspace;
-    }, [workspace]);
+        if (onWorkspaceChange && workspace) {
+            onWorkspaceChange(workspace.code);
+        }
+    }, [workspace, onWorkspaceChange]);
 
     const sliderRef = useRef(null);
 
@@ -41,11 +44,11 @@ export default function MobileTaskList({ memberInfo, initialWorkspaceCode, highl
         MOBILE_WORKSPACES.forEach(w => {
             fetchTasksForWorkspace(w);
         });
-    }, [iotaOnly]);
+    }, [iotaOnly, refreshTrigger]);
 
     useEffect(() => {
         fetchTasksForWorkspace(workspace);
-    }, [workspace]);
+    }, [workspace, refreshTrigger]);
 
     // Handle incoming initial workspace code redirect from notification click
     useEffect(() => {

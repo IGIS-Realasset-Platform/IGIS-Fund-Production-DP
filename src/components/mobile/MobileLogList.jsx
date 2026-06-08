@@ -3,7 +3,7 @@ import { supabase } from '../../utils/supabaseClient';
 import { MOBILE_WORKSPACES, getInitialWorkspace } from './mobileIotaData';
 import MobileLogCard from './MobileLogCard';
 
-export default function MobileLogList({ memberInfo, highlightLogId, initialWorkspaceCode, onWorkspaceReset, onHighlightReset }) {
+export default function MobileLogList({ memberInfo, highlightLogId, initialWorkspaceCode, onWorkspaceReset, onHighlightReset, onWorkspaceChange, refreshTrigger }) {
     const [workspace, setWorkspace] = useState(() => {
         if (initialWorkspaceCode) {
             const matched = MOBILE_WORKSPACES.find(w => w.code === initialWorkspaceCode);
@@ -28,7 +28,10 @@ export default function MobileLogList({ memberInfo, highlightLogId, initialWorks
     
     useEffect(() => {
         workspaceRef.current = workspace;
-    }, [workspace]);
+        if (onWorkspaceChange && workspace) {
+            onWorkspaceChange(workspace.code);
+        }
+    }, [workspace, onWorkspaceChange]);
 
     const sliderRef = useRef(null);
 
@@ -37,7 +40,7 @@ export default function MobileLogList({ memberInfo, highlightLogId, initialWorks
 
     useEffect(() => {
         fetchLogs();
-    }, []);
+    }, [refreshTrigger]);
 
     // Handle incoming initial workspace code redirect (0ms instant routing)
     useEffect(() => {

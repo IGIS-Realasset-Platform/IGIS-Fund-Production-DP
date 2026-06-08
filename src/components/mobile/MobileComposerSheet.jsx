@@ -1,12 +1,104 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { supabase } from '../../utils/supabaseClient';
 import { MOBILE_WORKSPACES, getInitialWorkspace } from './mobileIotaData';
 import { notifyMembersOnLogCreation, notifyMembersOnTaskCreation } from '../../utils/notificationHelpers';
 
-export default function MobileComposerSheet({ memberInfo, onClose, onSuccess, activeTab }) {
+export default function MobileComposerSheet({ memberInfo, onClose, onSuccess, activeTab, initialWorkspaceCode }) {
     const [mode, setMode] = useState(() => (activeTab === 1 ? 'log' : 'task'));
-    const [workspace, setWorkspace] = useState(() => getInitialWorkspace(memberInfo));
+    const [workspace, setWorkspace] = useState(() => {
+        if (initialWorkspaceCode) {
+            const matched = MOBILE_WORKSPACES.find(w => w.code === initialWorkspaceCode);
+            if (matched) return matched;
+        }
+        return getInitialWorkspace(memberInfo);
+    });
     const [loading, setLoading] = useState(false);
+
+    // Title field
+    const [logTitle, setLogTitle] = useState('');
+
+    // Mention auto-complete states
+    const [members, setMembers] = useState([]);
+    const [showMentionDropdown, setShowMentionDropdown] = useState(false);
+    const [mentionQuery, setMentionQuery] = useState('');
+    const [mentionCursorIndex, setMentionCursorIndex] = useState(0);
+    const [activeMentionField, setActiveMentionField] = useState(null); // 'log' | 'task'
+
+    // Fetch members on mount
+    useEffect(() => {
+        const fetchMembers = async () => {
+            try {
+                const { data, error } = await supabase
+                    .from('iota_seoul_pilot_members')
+                    .select('staff_name')
+                    .eq('is_active', true);
+                if (!error && data) {
+                    const uniqueNames = Array.from(new Set(data.map(m => m.staff_name).filter(Boolean)));
+                    setMembers(uniqueNames);
+                }
+            } catch (err) {
+                console.error('Failed to fetch members for autocomplete:', err);
+            }
+        };
+        fetchMembers();
+    }, []);
+
+    const handleTextareaChange = (e, fieldType) => {
+        const text = e.target.value;
+        if (fieldType === 'log') {
+            setLogContent(text);
+        } else {
+            setNextAction(text);
+        }
+
+        const cursorPosition = e.target.selectionStart;
+        const textBeforeCursor = text.slice(0, cursorPosition);
+        const mentionMatch = textBeforeCursor.match(/@([^\s@]*)$/);
+
+        if (mentionMatch) {
+            setShowMentionDropdown(true);
+            setMentionQuery(mentionMatch[1]);
+            setMentionCursorIndex(mentionMatch.index);
+            setActiveMentionField(fieldType);
+        } else {
+            setShowMentionDropdown(false);
+            setActiveMentionField(null);
+        }
+    };
+
+    const handleMentionSelect = (name) => {
+        const fieldType = activeMentionField;
+        if (!fieldType) return;
+
+        const currentValue = fieldType === 'log' ? logContent : nextAction;
+        const textBeforeMention = currentValue.slice(0, mentionCursorIndex);
+        const textAfterCursor = currentValue.slice(mentionCursorIndex + mentionQuery.length + 1);
+
+        const newText = textBeforeMention + `@${name} ` + textAfterCursor;
+
+        if (fieldType === 'log') {
+            setLogContent(newText);
+        } else {
+            setNextAction(newText);
+        }
+
+        setShowMentionDropdown(false);
+        setActiveMentionField(null);
+
+        setTimeout(() => {
+            const elId = fieldType === 'log' ? 'mobile-log-textarea' : 'mobile-task-textarea';
+            const textarea = document.getElementById(elId);
+            if (textarea) {
+                textarea.focus();
+                const newPos = mentionCursorIndex + name.length + 2; // +2 for '@' and space
+                textarea.setSelectionRange(newPos, newPos);
+            }
+        }, 50);
+    };
+
+    const filteredMentions = members.filter(name => 
+        name.toLowerCase().includes(mentionQuery.toLowerCase())
+    ).slice(0, 5);
 
     // Task fields
     const [taskName, setTaskName] = useState('');
@@ -53,6 +145,10 @@ export default function MobileComposerSheet({ memberInfo, onClose, onSuccess, ac
                 // 알림 발송 (UI 블로킹 없이 백그라운드로 처리)
                 notifyMembersOnTaskCreation(taskId, taskName.trim(), workspace, memberInfo?.email);
             } else {
+                if (!logTitle.trim()) {
+                    alert("제목을 입력해주세요.");
+                    return;
+                }
                 if (!logContent.trim()) {
                     alert("내용을 입력해주세요.");
                     return;
@@ -67,7 +163,7 @@ export default function MobileComposerSheet({ memberInfo, onClose, onSuccess, ac
                     writer_name: memberInfo?.staff_name,
                     work_date: yyyymmdd,
                     raw_text: logContent,
-                    summary: logContent.length > 160 ? logContent.slice(0, 160) : logContent,
+                    summary: logTitle.trim(),
                     input_status: 'submitted',
                     source_system: 'mobile_app',
                     metadata: {
@@ -202,14 +298,48 @@ export default function MobileComposerSheet({ memberInfo, onClose, onSuccess, ac
                             </div>
                             <div className="flex flex-col gap-1.5">
                                 <label className="text-[13px] font-bold text-[#86868B] ml-1">Next Action</label>
-                                <textarea value={nextAction} onChange={e => setNextAction(e.target.value)} placeholder="진행 상황 및 다음 행동 입력" className={`${inputClass} min-h-[120px] resize-none`} />
+                                {showMentionDropdown && activeMentionField === 'task' && filteredMentions.length > 0 && (
+                                    <div className="flex gap-2 overflow-x-auto py-2 px-1 bg-[#272726] border border-[#444] rounded-[12px] scrollbar-none mb-1">
+                                        {filteredMentions.map((name, i) => (
+                                            <button
+                                                key={i}
+                                                type="button"
+                                                onMouseDown={(e) => e.preventDefault()}
+                                                onClick={() => handleMentionSelect(name)}
+                                                className="shrink-0 bg-[#3c3c3c] active:bg-[#555] text-white text-[13px] font-bold px-3 py-1.5 rounded-full border border-[#555] transition-colors"
+                                            >
+                                                @{name}
+                                            </button>
+                                        ))}
+                                    </div>
+                                )}
+                                <textarea id="mobile-task-textarea" value={nextAction} onChange={e => handleTextareaChange(e, 'task')} placeholder="진행 상황 및 다음 행동 입력" className={`${inputClass} min-h-[120px] resize-none`} />
                             </div>
                         </>
                     ) : (
                         <>
                             <div className="flex flex-col gap-1.5">
+                                <label className="text-[13px] font-bold text-[#86868B] ml-1">제목 <span className="text-red-400">*</span></label>
+                                <input type="text" value={logTitle} onChange={e => setLogTitle(e.target.value)} placeholder="제목 입력" className={inputClass} />
+                            </div>
+                            <div className="flex flex-col gap-1.5">
                                 <label className="text-[13px] font-bold text-[#86868B] ml-1">내용 <span className="text-red-400">*</span></label>
-                                <textarea value={logContent} onChange={e => setLogContent(e.target.value)} placeholder="협업 및 기록할 내용을 상세히 작성해주세요." className={`${inputClass} min-h-[160px] resize-none`} />
+                                {showMentionDropdown && activeMentionField === 'log' && filteredMentions.length > 0 && (
+                                    <div className="flex gap-2 overflow-x-auto py-2 px-1 bg-[#272726] border border-[#444] rounded-[12px] scrollbar-none mb-1">
+                                        {filteredMentions.map((name, i) => (
+                                            <button
+                                                key={i}
+                                                type="button"
+                                                onMouseDown={(e) => e.preventDefault()}
+                                                onClick={() => handleMentionSelect(name)}
+                                                className="shrink-0 bg-[#3c3c3c] active:bg-[#555] text-white text-[13px] font-bold px-3 py-1.5 rounded-full border border-[#555] transition-colors"
+                                            >
+                                                @{name}
+                                            </button>
+                                        ))}
+                                    </div>
+                                )}
+                                <textarea id="mobile-log-textarea" value={logContent} onChange={e => handleTextareaChange(e, 'log')} placeholder="협업 및 기록할 내용을 상세히 작성해주세요." className={`${inputClass} min-h-[160px] resize-none`} />
                             </div>
                             <div className="flex gap-3">
                                 <div className="flex-1 flex flex-col gap-1.5">
