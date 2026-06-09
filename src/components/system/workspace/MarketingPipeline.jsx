@@ -39,14 +39,15 @@ export default function MarketingPipeline({ memberInfo, masterStakeholders, fetc
     // States for Expanded Pipeline & Adding Logs
     const [expandedPipelineId, setExpandedPipelineId] = useState(null);
     const [isAddingLog, setIsAddingLog] = useState(false);
-    const [newLog, setNewLog] = useState({ progress_detail: '', management_plan: '' });
+    const [newLog, setNewLog] = useState({ progress_detail: '', management_plan: '', log_date: new Date().toISOString().split('T')[0] });
     const [editingLogId, setEditingLogId] = useState(null);
 
     const handleEditLog = (log) => {
         setEditingLogId(log.id);
         setNewLog({
             progress_detail: log.progress_detail || '',
-            management_plan: log.management_plan || ''
+            management_plan: log.management_plan || '',
+            log_date: log.created_at ? log.created_at.split('T')[0] : new Date().toISOString().split('T')[0]
         });
         setIsAddingLog(true);
     };
@@ -315,8 +316,16 @@ export default function MarketingPipeline({ memberInfo, masterStakeholders, fetc
             return;
         }
         
+        const dateString = newLog.log_date 
+            ? new Date(newLog.log_date + 'T12:00:00Z').toISOString() 
+            : new Date().toISOString();
+        
         if (editingLogId) {
-            const updateData = { progress_detail: newLog.progress_detail, management_plan: newLog.management_plan };
+            const updateData = { 
+                progress_detail: newLog.progress_detail, 
+                management_plan: newLog.management_plan,
+                created_at: dateString
+            };
             try {
                 const { error } = await supabase.from('iota_marketing_pipeline_logs').update(updateData).eq('id', editingLogId);
                 if (error) {
@@ -330,7 +339,12 @@ export default function MarketingPipeline({ memberInfo, masterStakeholders, fetc
                 localStorage.setItem('iota_marketing_pipeline_logs', JSON.stringify(local));
             }
         } else {
-            const insertData = { pipeline_id: pipelineId, ...newLog, created_at: new Date().toISOString() };
+            const insertData = { 
+                pipeline_id: pipelineId, 
+                progress_detail: newLog.progress_detail, 
+                management_plan: newLog.management_plan,
+                created_at: dateString
+            };
             try {
                 const { error } = await supabase.from('iota_marketing_pipeline_logs').insert([insertData]);
                 if (error) {
@@ -346,7 +360,7 @@ export default function MarketingPipeline({ memberInfo, masterStakeholders, fetc
         }
         setIsAddingLog(false);
         setEditingLogId(null);
-        setNewLog({ progress_detail: '', management_plan: '' });
+        setNewLog({ progress_detail: '', management_plan: '', log_date: new Date().toISOString().split('T')[0] });
     };
 
     const handleDeleteLog = async (id) => {
@@ -379,7 +393,7 @@ export default function MarketingPipeline({ memberInfo, masterStakeholders, fetc
 
     const formatTime = (isoString) => {
         const d = new Date(isoString);
-        return d.toLocaleDateString('ko-KR', { month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+        return d.toLocaleDateString('ko-KR', { month: 'long', day: 'numeric' });
     };
 
     return (
@@ -733,7 +747,7 @@ export default function MarketingPipeline({ memberInfo, masterStakeholders, fetc
                                                     setIsAddingLog(!isAddingLog);
                                                     if (isAddingLog) {
                                                         setEditingLogId(null);
-                                                        setNewLog({ progress_detail: '', management_plan: '' });
+                                                        setNewLog({ progress_detail: '', management_plan: '', log_date: new Date().toISOString().split('T')[0] });
                                                     }
                                                 }}
                                                 className="text-[13px] font-bold text-[#3b82f6] hover:text-[#60a5fa] transition-all"
@@ -749,6 +763,16 @@ export default function MarketingPipeline({ memberInfo, masterStakeholders, fetc
                                             className="mb-6 p-4 bg-[#1A1A1A] rounded-[16px] border border-[#444]"
                                         >
                                             <div className="flex gap-4 mb-4">
+                                                <div className="w-[180px]">
+                                                    <label className="block text-[#86868B] text-[13px] font-bold mb-2">날짜</label>
+                                                    <input 
+                                                        type="date" 
+                                                        value={newLog.log_date}
+                                                        onChange={e => setNewLog({...newLog, log_date: e.target.value})}
+                                                        onClick={(e) => { if (e.target.showPicker) e.target.showPicker(); }}
+                                                        className="w-full bg-[#272726] border border-[#555] rounded-[8px] px-4 py-2 text-white text-[14px] outline-none focus:border-[#888] cursor-pointer"
+                                                    />
+                                                </div>
                                                 <div className="flex-1">
                                                     <label className="block text-[#86868B] text-[13px] font-bold mb-2">진행내용</label>
                                                     <input 
