@@ -383,7 +383,7 @@ export default function IotaLeftNav({ onMenuChange, currentPath = '' }) {
                         <div className="flex flex-col gap-0">
                             {[{ label: 'IGIS 내부인력', path: 'platform/iotaseoul/stakeholder/internal' },
                                 { label: 'LP / 대주 / SI', path: 'platform/iotaseoul/stakeholder/lp' },
-                                { label: '잠재 임차사 (TBD)', path: 'platform/iotaseoul/stakeholder/tenant' },
+                                { label: '잠재 임차사', path: 'platform/iotaseoul/stakeholder/tenant' },
                                 { label: '운영 파트너 (TBD)', path: 'platform/iotaseoul/stakeholder/partner' }].map((item, idx) => {
                                 const isActive = currentPath === item.path;
                                 return (
