@@ -384,19 +384,19 @@ export default function StakeTenant() {
                 <div className="flex bg-[#272726] border border-[#3c3c3c] rounded-[10px] overflow-hidden p-[3px]">
                     <button 
                         onClick={() => { setActiveTab('list'); setIsDetailDrawerOpen(false); }} 
-                        className={`px-[18px] py-[6px] text-[13px] font-bold rounded-[8px] transition-colors ${activeTab === 'list' ? 'bg-[#3c3c3c] text-white' : 'text-[#86868B] hover:text-[#E5E5E5]'}`}
+                        className={`px-[18px] py-[6px] text-[13px] font-bold rounded-[8px] transition-colors cursor-pointer ${activeTab === 'list' ? 'bg-[#3c3c3c] text-white' : 'text-[#86868B] hover:text-[#E5E5E5]'}`}
                     >
                         임차사 명부
                     </button>
                     <button 
                         onClick={() => { setActiveTab('si'); setIsDetailDrawerOpen(false); }} 
-                        className={`px-[18px] py-[6px] text-[13px] font-bold rounded-[8px] transition-colors ${activeTab === 'si' ? 'bg-[#3c3c3c] text-white' : 'text-[#86868B] hover:text-[#E5E5E5]'}`}
+                        className={`px-[18px] py-[6px] text-[13px] font-bold rounded-[8px] transition-colors cursor-pointer ${activeTab === 'si' ? 'bg-[#3c3c3c] text-white' : 'text-[#86868B] hover:text-[#E5E5E5]'}`}
                     >
                         SI 협업 파이프라인
                     </button>
                     <button 
                         onClick={() => { setActiveTab('register'); setIsDetailDrawerOpen(false); }} 
-                        className={`px-[18px] py-[6px] text-[13px] font-bold rounded-[8px] transition-colors ${activeTab === 'register' ? 'bg-[#3c3c3c] text-white' : 'text-[#86868B] hover:text-[#E5E5E5]'}`}
+                        className={`px-[18px] py-[6px] text-[13px] font-bold rounded-[8px] transition-colors cursor-pointer ${activeTab === 'register' ? 'bg-[#3c3c3c] text-white' : 'text-[#86868B] hover:text-[#E5E5E5]'}`}
                     >
                         + 신규 임차사 등록
                     </button>
@@ -886,7 +886,7 @@ export default function StakeTenant() {
                             <div className="flex items-center gap-2">
                                 <button 
                                     onClick={() => handleDeleteTenant(selectedTenant.id)}
-                                    className="text-[13px] font-bold text-[#ef4444] hover:underline px-2 py-1"
+                                    className="text-[13px] font-bold text-[#ef4444] hover:underline px-2 py-1 cursor-pointer"
                                 >
                                     삭제
                                 </button>
@@ -895,7 +895,7 @@ export default function StakeTenant() {
                                         setIsDetailDrawerOpen(false);
                                         setSelectedTenant(null);
                                     }}
-                                    className="p-1 rounded-full hover:bg-[#333] text-[#86868B] hover:text-white transition-colors"
+                                    className="p-1 rounded-full hover:bg-[#333] text-[#86868B] hover:text-white transition-colors cursor-pointer"
                                 >
                                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"/></svg>
                                 </button>
@@ -1001,7 +1001,7 @@ export default function StakeTenant() {
                                             <div key={contact.id} className="bg-[#1A1A1A] p-3 rounded-[10px] border border-[#333] relative group">
                                                 <button 
                                                     onClick={() => handleDeleteContact(contact.id)}
-                                                    className="absolute top-2.5 right-3 text-[11px] text-[#ef4444] opacity-0 group-hover:opacity-100 transition-opacity hover:underline"
+                                                    className="absolute top-2.5 right-3 text-[11px] text-[#ef4444] opacity-0 group-hover:opacity-100 transition-opacity hover:underline cursor-pointer"
                                                 >
                                                     삭제
                                                 </button>
@@ -1105,7 +1105,7 @@ export default function StakeTenant() {
                                         <button 
                                             type="button"
                                             onClick={handleAddContact}
-                                            className="px-4 py-1.5 bg-[#2997ff] text-white text-[12px] font-bold rounded-[6px] hover:bg-[#0071e3]"
+                                            className="px-4 py-1.5 bg-[#2997ff] text-white text-[12px] font-bold rounded-[6px] hover:bg-[#0071e3] cursor-pointer"
                                         >
                                             담당자 등록
                                         </button>
@@ -1188,7 +1188,7 @@ export default function StakeTenant() {
                                         <button 
                                             type="button"
                                             onClick={handleAddSiOpportunity}
-                                            className="px-4 py-1.5 bg-[#2997ff] text-white text-[12px] font-bold rounded-[6px] hover:bg-[#0071e3]"
+                                            className="px-4 py-1.5 bg-[#2997ff] text-white text-[12px] font-bold rounded-[6px] hover:bg-[#0071e3] cursor-pointer"
                                         >
                                             SI 협업 등록
                                         </button>
