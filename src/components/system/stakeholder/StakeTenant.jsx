@@ -866,7 +866,7 @@ export default function StakeTenant() {
                 <>
                     {/* Backdrop */}
                     <div 
-                        className="fixed inset-0 z-40 bg-black/55 backdrop-blur-xs transition-opacity"
+                        className="fixed inset-0 z-[120] bg-black/55 backdrop-blur-xs transition-opacity"
                         onClick={() => {
                             setIsDetailDrawerOpen(false);
                             setSelectedTenant(null);
@@ -874,7 +874,7 @@ export default function StakeTenant() {
                     ></div>
 
                     {/* Drawer Content */}
-                    <div className="fixed inset-y-0 right-0 z-50 w-[550px] bg-[#1E1E1E] border-l border-[#333] shadow-2xl flex flex-col overflow-y-auto p-6 transition-transform">
+                    <div className="fixed inset-y-0 right-0 z-[130] w-[550px] bg-[#1E1E1E] border-l border-[#333] shadow-2xl flex flex-col overflow-y-auto p-6 transition-transform">
                         
                         {/* Drawer Header */}
                         <div className="flex justify-between items-start border-b border-[#333] pb-4 mb-5">
