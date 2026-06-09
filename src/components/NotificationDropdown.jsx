@@ -21,7 +21,13 @@ export default function NotificationDropdown({ isOpen, onClose, notifications, u
             const isLogNotif = notif.type === 'log' || 
                                notif.type === 'logs' || 
                                String(notif.type).toLowerCase() === 'log' ||
-                               (notif.title && (notif.title.includes('[협업]') || notif.title.includes('[@언급]')));
+                               notif.type === 'comment' ||
+                               notif.type === 'comments' ||
+                               (notif.title && (
+                                   notif.title.includes('[협업]') || 
+                                   notif.title.includes('[@언급]') || 
+                                   notif.title.includes('댓글')
+                               ));
 
             const isTaskNotif = notif.type === 'task' || 
                                 String(notif.type).toLowerCase() === 'task' ||

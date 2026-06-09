@@ -251,7 +251,13 @@ export default function MobileIotaApp({ navigateTo }) {
                                 const isLogNotif = noti.type === 'log' || 
                                                    noti.type === 'logs' || 
                                                    String(noti.type).toLowerCase() === 'log' ||
-                                                   (noti.title && (noti.title.includes('[협업]') || noti.title.includes('[@언급]')));
+                                                   noti.type === 'comment' ||
+                                                   noti.type === 'comments' ||
+                                                   (noti.title && (
+                                                       noti.title.includes('[협업]') || 
+                                                       noti.title.includes('[@언급]') || 
+                                                       noti.title.includes('댓글')
+                                                   ));
 
                                 const isTaskNotif = noti.type === 'task' || 
                                                     String(noti.type).toLowerCase() === 'task' ||
