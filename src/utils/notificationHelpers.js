@@ -213,3 +213,132 @@ export const notifyMembersOnTaskCreation = async (taskId, taskName, workspace, w
         console.error('Error in notifyMembersOnTaskCreation:', err);
     }
 };
+
+/**
+ * 댓글(Comment) 생성 시 워크스페이스 소속원, 글 작성자 및 멘션(@) 대상자에게 알림 전송
+ */
+export const notifyMembersOnCommentCreation = async (logId, commentContent, workspace, writerEmail) => {
+    if (!logId || !workspace?.code) return;
+
+    try {
+        // 1. 활성화 상태이고 auth_id가 매핑된 멤버 전체 조회
+        const { data: members, error: memberError } = await supabase
+            .from('iota_seoul_pilot_members')
+            .select('auth_id, email, staff_name, org_name, role_code, workspace_code')
+            .eq('is_active', true)
+            .not('auth_id', 'is', null);
+
+        if (memberError) {
+            console.error('Failed to fetch members for comment notifications:', memberError);
+            return;
+        }
+
+        // 2. 작성자 정보 및 멘션(@) 파싱
+        const writerMember = members.find(m => m.email && writerEmail && m.email.toLowerCase() === writerEmail.toLowerCase());
+        const writerName = writerMember ? writerMember.staff_name : '누군가';
+
+        // 본문에서 @이름 패턴 추출
+        const mentionMatches = [...commentContent.matchAll(/@([가-힣a-zA-Z0-9]+)/g)].map(m => m[1]);
+        const mentionedMembers = members.filter(member => 
+            mentionMatches.includes(member.staff_name) &&
+            member.email && writerEmail && member.email.toLowerCase() !== writerEmail.toLowerCase()
+        );
+        const mentionedAuthIds = [...new Set(mentionedMembers.map(m => m.auth_id))];
+
+        // 3. 본 글(Log)의 작성자 추가 알림용 조회
+        const { data: logData, error: logError } = await supabase
+            .from('iota_seoul_logs')
+            .select('writer_staff_id, writer_name')
+            .eq('log_id', logId)
+            .single();
+
+        let logWriterAuthId = null;
+        if (!logError && logData) {
+            const logWriterMember = members.find(m => 
+                (m.email && logData.writer_staff_id && m.email.toLowerCase() === logData.writer_staff_id.toLowerCase()) ||
+                (m.staff_name === logData.writer_name)
+            );
+            if (logWriterMember && logWriterMember.email && writerEmail && logWriterMember.email.toLowerCase() !== writerEmail.toLowerCase()) {
+                logWriterAuthId = logWriterMember.auth_id;
+            }
+        }
+
+        // 4. 수신자 매핑 알고리즘:
+        // - 소속 워크스페이스 멤버
+        // - 또는 director / master 권한 보유자
+        // - 단, 작성자 본인(writerEmail)은 제외
+        const recipientIds = members
+            .filter(member => {
+                const orgMatch = workspace.orgNames && workspace.orgNames.includes(member.org_name);
+                const codeMatch = member.workspace_code === workspace.code;
+                const isSameWorkspace = orgMatch || codeMatch;
+                
+                const isDirectorOrMaster = member.role_code === 'master' || member.role_code === 'director';
+                const isNotWriter = member.email && writerEmail && member.email.toLowerCase() !== writerEmail.toLowerCase();
+
+                return (isSameWorkspace || isDirectorOrMaster) && isNotWriter;
+            })
+            .map(member => member.auth_id);
+
+        // 본 글 작성자도 수신자에 포함
+        if (logWriterAuthId) {
+            recipientIds.push(logWriterAuthId);
+        }
+
+        const uniqueRecipientIds = [...new Set(recipientIds)];
+
+        // 일반 알림 대상자 중에서 언급(태그) 대상자를 제외
+        const ordinaryRecipientIds = uniqueRecipientIds.filter(id => !mentionedAuthIds.includes(id));
+
+        const summaryText = commentContent.length > 80 ? commentContent.slice(0, 80) + '...' : commentContent;
+        const notificationPayload = [];
+
+        // 일반 댓글 알림 페이로드 추가
+        ordinaryRecipientIds.forEach(userId => {
+            notificationPayload.push({
+                user_id: userId,
+                title: `[${workspace.label}] 신규 댓글 등록`,
+                body: `${writerName}: ${summaryText}`,
+                type: 'log',
+                reference_id: `${logId}|${workspace.code}`,
+                is_read: false,
+                created_at: new Date().toISOString()
+            });
+        });
+
+        // 댓글 내 언급(태그) 알림 페이로드 추가
+        mentionedAuthIds.forEach(userId => {
+            notificationPayload.push({
+                user_id: userId,
+                title: `[@언급] ${writerName}님이 댓글에서 회원님을 태그했습니다.`,
+                body: summaryText,
+                type: 'log',
+                reference_id: `${logId}|${workspace.code}`,
+                is_read: false,
+                created_at: new Date().toISOString()
+            });
+        });
+
+        if (notificationPayload.length === 0) {
+            console.log('No recipients to notify for comment on log:', logId);
+            return;
+        }
+
+        // 5. iota_notifications 테이블에 개별 Insert 진행
+        const insertPromises = notificationPayload.map(payload => 
+            supabase
+                .from('iota_notifications')
+                .insert(payload)
+                .then(({ error }) => {
+                    if (error) {
+                        console.error(`Failed to insert comment notification for user ${payload.user_id}:`, error.message);
+                    }
+                })
+        );
+        await Promise.all(insertPromises);
+        console.log(`Comment notifications successfully processed for ${notificationPayload.length} payloads (Mentions: ${mentionedAuthIds.length}).`);
+    } catch (err) {
+        console.error('Error in notifyMembersOnCommentCreation:', err);
+    }
+};
+

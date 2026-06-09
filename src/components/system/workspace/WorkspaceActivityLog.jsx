@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../../../utils/supabaseClient';
 import { executeWithTimeout } from '../../../utils/supabaseHelper';
+import { notifyMembersOnCommentCreation } from '../../../utils/notificationHelpers';
 import { useAuth } from '../../../context/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import LogWriteBox from '../LogWriteBox';
@@ -43,6 +44,18 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
     const [commentingLogId, setCommentingLogId] = useState(null);
     const [commentContent, setCommentContent] = useState('');
     const [isSavingComment, setIsSavingComment] = useState(false);
+
+    // Comment Mention states
+    const [commentShowMentionDropdown, setCommentShowMentionDropdown] = useState(false);
+    const [commentMentionQuery, setCommentMentionQuery] = useState('');
+    const [commentMentionCursorIndex, setCommentMentionCursorIndex] = useState(0);
+    const [commentMentionPosition, setCommentMentionPosition] = useState({ top: 0, left: 0 });
+
+    const commentMentionCandidates = Array.from(new Set([
+        ...(masterStakeholders?.map(s => s.contact_name) || []),
+        ...(pilotMembers?.map(m => m.staff_name) || [])
+    ].filter(Boolean)));
+    const filteredCommentMentions = commentMentionCandidates.filter(name => name.toLowerCase().includes(commentMentionQuery.toLowerCase())).slice(0, 5);
 
     const renderLogTextWithMentions = (text) => {
         if (!text) return null;
@@ -218,6 +231,71 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
         }
     };
 
+    const getCaretCoordinates = (element, position) => {
+        const div = document.createElement('div');
+        const style = window.getComputedStyle(element);
+        for (const prop of style) {
+            div.style[prop] = style[prop];
+        }
+        div.style.position = 'absolute';
+        div.style.visibility = 'hidden';
+        div.style.whiteSpace = 'pre-wrap';
+        div.style.wordWrap = 'break-word';
+        div.textContent = element.value.substring(0, position);
+        const span = document.createElement('span');
+        span.textContent = element.value.substring(position) || '.';
+        div.appendChild(span);
+        document.body.appendChild(div);
+        const coordinates = {
+            top: span.offsetTop - element.scrollTop,
+            left: span.offsetLeft
+        };
+        document.body.removeChild(div);
+        return coordinates;
+    };
+
+    const handleCommentContentChange = (e, logId) => {
+        const text = e.target.value;
+        setCommentContent(text);
+
+        const cursorPosition = e.target.selectionStart;
+        const textBeforeCursor = text.slice(0, cursorPosition);
+        
+        const mentionMatch = textBeforeCursor.match(/@([^\s@]*)$/);
+
+        if (mentionMatch) {
+            setCommentShowMentionDropdown(true);
+            setCommentMentionQuery(mentionMatch[1]);
+            setCommentMentionCursorIndex(mentionMatch.index);
+            
+            const coords = getCaretCoordinates(e.target, cursorPosition);
+            setCommentMentionPosition({ 
+                top: coords.top + 24, 
+                left: coords.left     
+            });
+        } else {
+            setCommentShowMentionDropdown(false);
+        }
+    };
+
+    const handleCommentMentionSelect = (name, logId) => {
+        const textBeforeMention = commentContent.slice(0, commentMentionCursorIndex);
+        const textAfterCursor = commentContent.slice(commentMentionCursorIndex + commentMentionQuery.length + 1);
+        
+        const newText = textBeforeMention + `@${name} ` + textAfterCursor;
+        setCommentContent(newText);
+        setCommentShowMentionDropdown(false);
+        
+        setTimeout(() => {
+            const textarea = document.getElementById(`comment-textarea-${logId}`);
+            if (textarea) {
+                textarea.focus();
+                const newPos = commentMentionCursorIndex + name.length + 2; // +2 for '@' and ' '
+                textarea.setSelectionRange(newPos, newPos);
+            }
+        }, 0);
+    };
+
     const handleSaveComment = async (logId) => {
         if (!commentContent.trim()) return;
         setIsSavingComment(true);
@@ -245,6 +323,14 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
             
             setLogs(prev => prev.map(l => l.log_id === logId ? { ...l, metadata: updatedMetadata } : l));
             setCommentingLogId(null);
+            
+            // Trigger background mention notification
+            const workspace = {
+                code: workspaceCode,
+                label: workspaceLabel
+            };
+            notifyMembersOnCommentCreation(logId, commentContent, workspace, memberInfo?.email);
+            
             setCommentContent('');
         } catch (e) {
             console.error('Error saving comment:', e);
@@ -889,13 +975,31 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
 
                                     {/* Commenting Box */}
                                     {commentingLogId === log.log_id && (
-                                        <div className="w-full mt-[16px]">
+                                        <div className="w-full mt-[16px] relative">
                                             <textarea
+                                                id={`comment-textarea-${log.log_id}`}
                                                 value={commentContent}
-                                                onChange={(e) => setCommentContent(e.target.value)}
-                                                placeholder="댓글을 입력하세요..."
+                                                onChange={(e) => handleCommentContentChange(e, log.log_id)}
+                                                placeholder="댓글을 입력하세요... (@를 입력하여 담당자를 멘션할 수 있습니다)"
                                                 className="w-full bg-[#2a2a2c] border border-[#444] rounded-[8px] p-[12px] text-[14px] text-[#E5E5E5] leading-relaxed resize-y focus:outline-none focus:border-[#2997ff] min-h-[90px]"
                                             />
+                                            {/* Comment Mention Dropdown */}
+                                            {commentShowMentionDropdown && filteredCommentMentions.length > 0 && (
+                                                <div 
+                                                    className="absolute bg-[#222] border border-[#333] rounded-[8px] py-[6px] w-[180px] max-h-[150px] overflow-y-auto z-[60] shadow-xl"
+                                                    style={{ top: `${commentMentionPosition.top}px`, left: `${commentMentionPosition.left}px` }}
+                                                >
+                                                    {filteredCommentMentions.map((name, i) => (
+                                                        <div 
+                                                            key={i} 
+                                                            className="px-[12px] py-[8px] text-[13px] text-[#E5E5E5] hover:bg-[#333] cursor-pointer truncate flex items-center gap-[4px]"
+                                                            onClick={() => handleCommentMentionSelect(name, log.log_id)}
+                                                        >
+                                                            <span className="text-[#86868B]">@</span>{name}
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            )}
                                             <div className="flex justify-end gap-[8px] mt-[8px]">
                                                 <button
                                                     onClick={() => setCommentingLogId(null)}
