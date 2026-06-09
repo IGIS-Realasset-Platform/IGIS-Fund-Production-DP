@@ -728,7 +728,8 @@ export default function MarketingPipeline({ memberInfo, masterStakeholders, fetc
                                         <h4 className="text-[16px] font-bold text-white">타임라인</h4>
                                         {isAllowedEditor && (
                                             <button 
-                                                onClick={() => {
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
                                                     setIsAddingLog(!isAddingLog);
                                                     if (isAddingLog) {
                                                         setEditingLogId(null);
@@ -743,7 +744,10 @@ export default function MarketingPipeline({ memberInfo, masterStakeholders, fetc
                                     </div>
 
                                     {isAddingLog && (
-                                        <div className="mb-6 p-4 bg-[#1A1A1A] rounded-[16px] border border-[#444]">
+                                        <div 
+                                            onClick={(e) => e.stopPropagation()} 
+                                            className="mb-6 p-4 bg-[#1A1A1A] rounded-[16px] border border-[#444]"
+                                        >
                                             <div className="flex gap-4 mb-4">
                                                 <div className="flex-1">
                                                     <label className="block text-[#86868B] text-[13px] font-bold mb-2">진행내용</label>
@@ -776,7 +780,11 @@ export default function MarketingPipeline({ memberInfo, masterStakeholders, fetc
 
                                     <div className="flex flex-col gap-4">
                                         {pipeLogs.length > 0 ? pipeLogs.map(log => (
-                                            <div key={log.id} className="flex gap-6 p-4 bg-[#1e1e1e] rounded-[16px] group relative">
+                                            <div 
+                                                key={log.id} 
+                                                onClick={(e) => e.stopPropagation()} 
+                                                className="flex gap-6 p-4 bg-[#1e1e1e] rounded-[16px] group relative"
+                                            >
                                                 <div className="w-[120px] shrink-0 text-[#86868B] text-[13px] font-medium pt-1">
                                                     {formatTime(log.created_at)}
                                                 </div>
