@@ -77,11 +77,17 @@ const defaultSiOpportunities = [
     { id: 'opp-2', tenant_id: 'tenant-astrazeneca', collab_type: '시설 연계 투자', summary: 'R&D 시설 투자 유치 및 임차 연계', collab_plan: '아셈타워 인접 구획 증평 시 특수 실험용 설비 구축비 일부를 운용사 펀드에서 선투자 후, 임대료 요율 조정을 통해 회수하는 구조 검토.', status: '대기', pm_manager: '전기영 매니저', created_at: '2026-05-15T00:00:00Z', updated_at: '2026-05-15T00:00:00Z' }
 ];
 
-export default function StakeTenant() {
+export default function StakeTenant({ defaultTab = 'list' }) {
     const { memberInfo } = useAuth();
+
+    const navigateTo = (path) => {
+        const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
+        window.history.pushState(null, '', base + (path.startsWith('/') ? path : '/' + path));
+        window.dispatchEvent(new Event('popstate'));
+    };
     
     // --- State Management ---
-    const [activeTab, setActiveTab] = useState('list'); // 'list' | 'si' | 'register'
+    const [activeTab, setActiveTab] = useState(defaultTab);
     const [tenants, setTenants] = useState([]);
     const [contacts, setContacts] = useState([]);
     const [spaceNeeds, setSpaceNeeds] = useState([]);
@@ -133,6 +139,10 @@ export default function StakeTenant() {
     useEffect(() => {
         loadData();
     }, []);
+
+    useEffect(() => {
+        setActiveTab(defaultTab);
+    }, [defaultTab]);
 
     const loadData = async () => {
         setIsLoading(true);
@@ -265,7 +275,7 @@ export default function StakeTenant() {
             fixed_desks: 0, hot_desks: 0, meeting_rooms: 0, lounge_yn: 'N', storage_count: 0, parking_count: 0
         });
         
-        setActiveTab('list');
+        navigateTo('platform/iotaseoul/stakeholder/tenant/list');
     };
 
     // 2. Add Contact to Selected Tenant
@@ -383,19 +393,19 @@ export default function StakeTenant() {
                 {/* Tabs Selector */}
                 <div className="flex bg-[#272726] border border-[#3c3c3c] rounded-[10px] overflow-hidden p-[3px]">
                     <button 
-                        onClick={() => { setActiveTab('list'); setIsDetailDrawerOpen(false); }} 
+                        onClick={() => { navigateTo('platform/iotaseoul/stakeholder/tenant/list'); setIsDetailDrawerOpen(false); }} 
                         className={`px-[18px] py-[6px] text-[13px] font-bold rounded-[8px] transition-colors cursor-pointer ${activeTab === 'list' ? 'bg-[#3c3c3c] text-white' : 'text-[#86868B] hover:text-[#E5E5E5]'}`}
                     >
                         임차사 명부
                     </button>
                     <button 
-                        onClick={() => { setActiveTab('si'); setIsDetailDrawerOpen(false); }} 
+                        onClick={() => { navigateTo('platform/iotaseoul/stakeholder/tenant/si'); setIsDetailDrawerOpen(false); }} 
                         className={`px-[18px] py-[6px] text-[13px] font-bold rounded-[8px] transition-colors cursor-pointer ${activeTab === 'si' ? 'bg-[#3c3c3c] text-white' : 'text-[#86868B] hover:text-[#E5E5E5]'}`}
                     >
                         SI 협업 파이프라인
                     </button>
                     <button 
-                        onClick={() => { setActiveTab('register'); setIsDetailDrawerOpen(false); }} 
+                        onClick={() => { navigateTo('platform/iotaseoul/stakeholder/tenant/register'); setIsDetailDrawerOpen(false); }} 
                         className={`px-[18px] py-[6px] text-[13px] font-bold rounded-[8px] transition-colors cursor-pointer ${activeTab === 'register' ? 'bg-[#3c3c3c] text-white' : 'text-[#86868B] hover:text-[#E5E5E5]'}`}
                     >
                         + 신규 임차사 등록
@@ -842,7 +852,7 @@ export default function StakeTenant() {
                             <div className="flex gap-4 justify-end border-t border-[#333] pt-6 mt-2">
                                 <button 
                                     type="button" 
-                                    onClick={() => setActiveTab('list')}
+                                    onClick={() => navigateTo('platform/iotaseoul/stakeholder/tenant/list')}
                                     className="px-6 py-2.5 bg-[#3c3c3c]/50 text-[#86868B] border border-[#444] rounded-[10px] text-[14px] font-bold hover:bg-[#3c3c3c] hover:text-white transition-colors cursor-pointer"
                                 >
                                     등록 취소

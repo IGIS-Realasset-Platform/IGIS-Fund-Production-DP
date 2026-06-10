@@ -385,7 +385,7 @@ export default function IotaLeftNav({ onMenuChange, currentPath = '' }) {
                                 { label: 'LP / 대주 / SI', path: 'platform/iotaseoul/stakeholder/lp' },
                                 { label: '잠재 임차사', path: 'platform/iotaseoul/stakeholder/tenant' },
                                 { label: '운영 파트너 (TBD)', path: 'platform/iotaseoul/stakeholder/partner' }].map((item, idx) => {
-                                const isActive = currentPath === item.path;
+                                const isActive = currentPath === item.path || (item.path === 'platform/iotaseoul/stakeholder/tenant' && currentPath.startsWith('platform/iotaseoul/stakeholder/tenant/'));
                                 return (
                                 <div key={idx} onClick={() => handleNavigation(item.path)} className={`flex items-center justify-between py-[7px] rounded-xl cursor-pointer transition-colors duration-200 outline-none select-none ${isActive ? 'bg-[#151515] px-[9px] -mx-[2px]' : 'px-[7px] hover:bg-[#151515]'}`}>
                                     <div className="flex items-center">

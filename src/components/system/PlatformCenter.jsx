@@ -84,13 +84,16 @@ export default function PlatformCenter({ currentPath = '' }) {
     };
 
     const renderStakeholder = () => {
-        switch(currentPath) {
-            case 'platform/iotaseoul/stakeholder/internal': return <StakeInternal />;
-            case 'platform/iotaseoul/stakeholder/lp': return <StakeLp />;
-            case 'platform/iotaseoul/stakeholder/tenant': return <StakeTenant />;
-            case 'platform/iotaseoul/stakeholder/partner': return <StakePartner />;
-            default: return null;
+        if (currentPath === 'platform/iotaseoul/stakeholder/internal') return <StakeInternal />;
+        if (currentPath === 'platform/iotaseoul/stakeholder/lp') return <StakeLp />;
+        if (currentPath === 'platform/iotaseoul/stakeholder/tenant' || currentPath.startsWith('platform/iotaseoul/stakeholder/tenant/')) {
+            let tab = 'list';
+            if (currentPath.endsWith('/si')) tab = 'si';
+            if (currentPath.endsWith('/register')) tab = 'register';
+            return <StakeTenant defaultTab={tab} />;
         }
+        if (currentPath === 'platform/iotaseoul/stakeholder/partner') return <StakePartner />;
+        return null;
     };
 
     const renderWorkspace = () => {
