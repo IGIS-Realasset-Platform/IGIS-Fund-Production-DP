@@ -1,0 +1,15 @@
+HTTP/2 400 
+date: Wed, 17 Jun 2026 06:26:00 GMT
+content-type: application/json
+content-length: 136
+server: cloudflare
+access-control-allow-origin: *
+cf-cache-status: DYNAMIC
+nel: {"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}
+report-to: {"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=GLgPhTgk5Z%2B3LzA%2F9iDA6l%2FpuB3HdJDroEvZTK2YlIZS6Vz2rlX4N3JwfJ47r7hsCi7FaKRskUPVoduIHiTk%2Fz63p68AgJRAjCsltVTRSaPeK5oECVXlPyaV4QdkJVyd5GLt"}]}
+cf-ray: a0cffaedfd6720f6-HKG
+alt-svc: h3=":443"; ma=86400
+
+{
+ "Error": "Bad request, valid format is 'api.codetabs.com/v1/{service}?{param}=value' .Please read our docs at https://codetabs.com"
+}

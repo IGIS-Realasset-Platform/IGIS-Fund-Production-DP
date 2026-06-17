@@ -462,26 +462,192 @@ export default function WorkspaceFinancing() {
         window.dispatchEvent(new PopStateEvent('popstate'));
     };
 
-    const fetchMarketNews = async () => {
-        setNewsLoading(true);
+    // RSS 피드 가져오기 유틸리티 (로컬 프록시 및 외부 CORS 프록시 폴백 적용)
+    const fetchNewsFeed = async (query) => {
+        const targetUrl = `https://news.google.com/rss/search?q=${encodeURIComponent(query)}&hl=ko&gl=KR&ceid=KR:ko`;
+
+        // 1. 로컬 개발 서버 프록시 시도 (DEV 모드일 때만)
+        if (import.meta.env.DEV) {
+            try {
+                const localUrl = `/google-news-rss/rss/search?q=${encodeURIComponent(query)}&hl=ko&gl=KR&ceid=KR:ko`;
+                const res = await fetch(localUrl);
+                if (res.ok) {
+                    const text = await res.text();
+                    if (text && (text.trim().startsWith('<?xml') || text.trim().startsWith('<rss'))) {
+                        return text;
+                    }
+                }
+            } catch (e) {
+                console.warn(`[News Crawler] Local Dev Proxy failed for query "${query}", falling back...`, e);
+            }
+        }
+
+        // 2. 1차 프로덕션 프록시: corsproxy.io
         try {
-            // 외부 무료 프록시 서버 장애로 인해, 기존처럼 빠르고 안정적인 로컬 JSON 로드 방식으로 복원합니다.
-            // (대신 실시간 갱신 느낌을 주도록 1초 딜레이를 추가합니다)
-            await new Promise(resolve => setTimeout(resolve, 1000));
+            const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`;
+            const res = await fetch(proxyUrl);
+            if (res.ok) {
+                const text = await res.text();
+                if (!text.includes('Server-side requests are not allowed') && !text.includes('Upgrade at https://corsproxy.io/pricing')) {
+                    return text;
+                }
+            }
+        } catch (e) {
+            console.warn(`[News Crawler] corsproxy.io failed for query "${query}", trying next...`, e);
+        }
+
+        // 3. 2차 프로덕션 프록시: api.allorigins.win
+        try {
+            const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`;
+            const res = await fetch(proxyUrl);
+            if (res.ok) {
+                const data = await res.json();
+                return data.contents;
+            }
+        } catch (e) {
+            console.warn(`[News Crawler] api.allorigins.win failed for query "${query}"`, e);
+        }
+
+        throw new Error(`[News Crawler] All proxies failed to fetch feed for query: ${query}`);
+    };
+
+    // 대주사 이름에 맞는 검색 쿼리 반환
+    const getQueryForLender = (lender) => {
+        if (!lender) return '부동산 PF';
+        const cleanLender = lender.trim();
+        if (cleanLender.includes('저축은행')) return '저축은행 부동산 PF';
+        if (cleanLender.includes('캐피탈')) return '캐피탈 부동산 PF';
+        if (cleanLender.includes('자산운용') || cleanLender.includes('리얼에셋')) return '자산운용사 부동산 PF';
+        return `${cleanLender} 부동산 PF`;
+    };
+
+    // 정적 로컬 캐시 데이터 불러오기 (초기 페이지 진입 시)
+    const loadCachedMarketNews = async () => {
+        try {
             const res = await fetch(`${import.meta.env.BASE_URL}data/lfc-market-news.json?t=${new Date().getTime()}`);
             if (res.ok) {
                 const data = await res.json();
                 setMarketNews(data);
             }
         } catch (e) {
-            console.error("Failed to load market news", e);
+            console.error("Failed to load initial market news", e);
+        }
+    };
+
+    // 실시간 뉴스 업데이트 (크롤러 기동)
+    const fetchMarketNews = async () => {
+        let currentItems = marketNews?.items || [];
+        if (currentItems.length === 0) {
+            try {
+                const res = await fetch(`${import.meta.env.BASE_URL}data/lfc-market-news.json?t=${new Date().getTime()}`);
+                if (res.ok) {
+                    const data = await res.json();
+                    setMarketNews(data);
+                    currentItems = data.items || [];
+                }
+            } catch (e) {
+                console.error("Failed to load initial market news fallback before fetch", e);
+                return;
+            }
+        }
+
+        setNewsLoading(true);
+        try {
+            if (currentItems.length === 0) {
+                throw new Error("No lenders found in marketNews data.");
+            }
+
+            // 고유 검색 쿼리 수집 (중복 제거)
+            const queryToLenders = {};
+            currentItems.forEach(item => {
+                const query = getQueryForLender(item.lender);
+                if (!queryToLenders[query]) {
+                    queryToLenders[query] = [];
+                }
+                queryToLenders[query].push(item.lender);
+            });
+            const uniqueQueries = Object.keys(queryToLenders);
+
+            // 지연 시간(Staggering)을 두어 순차적 크롤링 수행 (차단 방지)
+            const queryResults = {};
+            await Promise.all(uniqueQueries.map(async (query, index) => {
+                await new Promise(resolve => setTimeout(resolve, index * 150));
+                try {
+                    const xmlText = await fetchNewsFeed(query);
+                    if (xmlText) {
+                        const parser = new DOMParser();
+                        const xmlDoc = parser.parseFromString(xmlText, "text/xml");
+                        const itemNodes = xmlDoc.querySelectorAll("item");
+                        
+                        // 상위 15개 기사를 우선 매핑한 뒤 날짜순 정렬
+                        const allArticles = Array.from(itemNodes).map(node => {
+                            const title = node.querySelector("title")?.textContent || "";
+                            const link = node.querySelector("link")?.textContent || "";
+                            const pubDate = node.querySelector("pubDate")?.textContent || "";
+                            const source = node.querySelector("source")?.textContent || "";
+                            
+                            const dateObj = new Date(pubDate);
+                            const dateStr = !isNaN(dateObj) ? dateObj.toISOString().split('T')[0] : "";
+                            
+                            return {
+                                date: dateStr,
+                                title: `[${dateStr}] ${title}`,
+                                url: link,
+                                publisher: source,
+                                matchMode: "대주명+PF키워드"
+                            };
+                        });
+                        
+                        // 날짜 내림차순(최신순) 정렬
+                        allArticles.sort((a, b) => {
+                            const timeA = a.date ? new Date(a.date).getTime() : 0;
+                            const timeB = b.date ? new Date(b.date).getTime() : 0;
+                            return timeB - timeA;
+                        });
+
+                        // 최종적으로 가장 최신 기사 3개만 추출
+                        const articles = allArticles.slice(0, 3);
+                        
+                        if (articles.length > 0) {
+                            queryResults[query] = articles;
+                        }
+                    }
+                } catch (e) {
+                    console.error(`[News Crawler] Query failed: ${query}`, e);
+                }
+            }));
+
+            // 성공한 기사만 업데이트하고 실패한 쿼리는 기존 기사 유지
+            const updatedItems = currentItems.map(item => {
+                const query = getQueryForLender(item.lender);
+                const crawledArticles = queryResults[query];
+                
+                return {
+                    ...item,
+                    articles: crawledArticles && crawledArticles.length > 0 ? crawledArticles : item.articles
+                };
+            });
+
+            setMarketNews({
+                generatedAt: new Date().toISOString(),
+                windowDays: 3,
+                items: updatedItems
+            });
+
+        } catch (e) {
+            console.error("Failed to load real-time market news, keeping cached news.", e);
         } finally {
             setNewsLoading(false);
         }
     };
 
     useEffect(() => {
-        fetchMarketNews();
+        const init = async () => {
+            await loadCachedMarketNews();
+            // 첫 진입 시 자동으로 최신 뉴스 크롤링 수행
+            fetchMarketNews();
+        };
+        init();
     }, []);
     
     const [selectedPfPlan, setSelectedPfPlan] = useState(null);

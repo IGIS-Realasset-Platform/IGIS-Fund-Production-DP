@@ -23,6 +23,13 @@ export default defineConfig(({ command }) => ({
     },
     hmr: {
       overlay: true,
+    },
+    proxy: {
+      '/google-news-rss': {
+        target: 'https://news.google.com',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/google-news-rss/, ''),
+      }
     }
   },
 }))
