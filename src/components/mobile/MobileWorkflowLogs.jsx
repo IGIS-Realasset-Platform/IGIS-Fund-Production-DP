@@ -2,13 +2,13 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { supabase } from '../../utils/supabaseClient';
 import { motion, AnimatePresence } from 'framer-motion';
 
-export default function MobileMyTasks({ memberInfo }) {
+export default function MobileWorkflowLogs({ memberInfo }) {
     const [logs, setLogs] = useState([]);
-    const [activeTab, setActiveTab] = useState('posts'); // 'posts' | 'comments' | 'mentions'
+    const [loading, setLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState('');
-    const [isLoading, setIsLoading] = useState(true);
-
-    // Modal & Popups States
+    const [selectedLine, setSelectedLine] = useState('전체'); // '전체' | 'A Line' | 'B Line' | 'C Line' | 'D Line'
+    
+    // Modal Overlay & Alerts States
     const [selectedLog, setSelectedLog] = useState(null);
     const [alertMessage, setAlertMessage] = useState('');
     const [alertType, setAlertType] = useState('error'); // 'error' | 'success'
@@ -17,13 +17,13 @@ export default function MobileMyTasks({ memberInfo }) {
     const myEmail = memberInfo?.email || '';
 
     useEffect(() => {
-        fetchIotaLogs();
+        fetchWorkflowLogs();
     }, []);
 
-    const fetchIotaLogs = async () => {
-        setIsLoading(true);
+    const fetchWorkflowLogs = async () => {
+        setLoading(true);
         try {
-            // 1. Fetch Edge Function API Logs
+            // 1. Fetch Edge Function API Logs (Notion)
             let apiLogs = [];
             try {
                 const response = await fetch('https://qvegpozwrcmspdvjokiz.supabase.co/functions/v1/iota-logs');
@@ -113,33 +113,34 @@ export default function MobileMyTasks({ memberInfo }) {
 
             setLogs(sortedLogs);
         } catch (err) {
-            console.error('Error merging logs in mobile:', err);
+            console.error('Error loading mobile workflow logs:', err);
         } finally {
-            setIsLoading(false);
+            setLoading(false);
         }
     };
 
-    const handleDeleteLog = async (logId) => {
-        if (!window.confirm('정말로 이 업무 로그를 삭제하시겠습니까?')) return;
-        
-        try {
-            await supabase.from('iota_seoul_log_links').delete().eq('log_id', logId);
-            await supabase.from('iota_seoul_log_stakeholders').delete().eq('log_id', logId);
-            
-            const { error } = await supabase.from('iota_seoul_logs').delete().eq('log_id', logId);
-            if (error) throw error;
-            
-            setLogs(prev => prev.filter(l => l.id !== logId));
-            if (selectedLog && selectedLog.id === logId) {
-                setSelectedLog(null);
-            }
-            setAlertType('success');
-            setAlertMessage('성공적으로 삭제되었습니다.');
-        } catch (err) {
-            console.error('Error deleting log:', err);
-            setAlertType('error');
-            setAlertMessage('삭제 처리 중 오류가 발생했습니다.');
+    const formatExactDate = (dateStr) => {
+        if (!dateStr) return '';
+        const d = new Date(dateStr);
+        if (isNaN(d.getTime())) return dateStr;
+        const yearStr = String(d.getFullYear()).slice(-2);
+        const monthStr = String(d.getMonth() + 1).padStart(2, '0');
+        const dayStr = String(d.getDate()).padStart(2, '0');
+        return `${yearStr}.${monthStr}.${dayStr}`;
+    };
+
+    const getLineBadgeStyle = (line) => {
+        const normLine = (line || '').toUpperCase();
+        if (normLine.includes('A')) {
+            return 'bg-[#30d158]/10 text-[#34d399] border border-[#30d158]/20';
+        } else if (normLine.includes('B')) {
+            return 'bg-[#0a84ff]/10 text-[#60a5fa] border border-[#0a84ff]/20';
+        } else if (normLine.includes('C')) {
+            return 'bg-[#bf5af2]/10 text-[#c084fc] border border-[#bf5af2]/20';
+        } else if (normLine.includes('D')) {
+            return 'bg-[#ffd60a]/10 text-[#fbbf24] border border-[#ffd60a]/20';
         }
+        return 'bg-[#8e8e93]/10 text-[#9ca3af] border border-[#8e8e93]/20';
     };
 
     const handleGoToWorkspace = async (log) => {
@@ -190,6 +191,7 @@ export default function MobileMyTasks({ memberInfo }) {
         const wsPath = pathMap[wsCode];
         if (wsPath) {
             localStorage.setItem('iota_target_log_id', log.id);
+            // Mobile environment redirection (force native react router or full navigation back to mobile with specific query)
             localStorage.setItem('force_pc_mode', 'true');
             const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
             window.history.pushState(null, '', `${base}/platform/iotaseoul/workspace/${wsPath}?logId=${log.id}`);
@@ -200,141 +202,87 @@ export default function MobileMyTasks({ memberInfo }) {
         }
     };
 
-    const formatExactDate = (dateStr) => {
-        if (!dateStr) return '';
-        const d = new Date(dateStr);
-        if (isNaN(d.getTime())) return dateStr;
-        const yearStr = String(d.getFullYear()).slice(-2);
-        const monthStr = String(d.getMonth() + 1).padStart(2, '0');
-        const dayStr = String(d.getDate()).padStart(2, '0');
-        return `${yearStr}.${monthStr}.${dayStr}`;
-    };
+    const filteredLogs = useMemo(() => {
+        let result = logs;
 
-    const getLineBadgeStyle = (line) => {
-        const normLine = (line || '').toUpperCase();
-        if (normLine.includes('A')) {
-            return 'bg-[#30d158]/10 text-[#34d399] border border-[#30d158]/20';
-        } else if (normLine.includes('B')) {
-            return 'bg-[#0a84ff]/10 text-[#60a5fa] border border-[#0a84ff]/20';
-        } else if (normLine.includes('C')) {
-            return 'bg-[#bf5af2]/10 text-[#c084fc] border border-[#bf5af2]/20';
-        } else if (normLine.includes('D')) {
-            return 'bg-[#ffd60a]/10 text-[#fbbf24] border border-[#ffd60a]/20';
-        }
-        return 'bg-[#8e8e93]/10 text-[#9ca3af] border border-[#8e8e93]/20';
-    };
-
-    const filteredData = useMemo(() => {
-        if (!myName && !myEmail) return [];
-
-        let baseFiltered = [];
-
-        if (activeTab === 'posts') {
-            baseFiltered = logs.filter(log => {
-                const isAuthor = (log.writer_staff_id && log.writer_staff_id.toLowerCase() === myEmail.toLowerCase()) || 
-                                 (log.writer_name && log.writer_name === myName);
-                return isAuthor;
-            });
-        } else if (activeTab === 'comments') {
-            baseFiltered = logs.filter(log => {
-                const comments = log.metadata?.comments || [];
-                return comments.some(c => 
-                    (c.author_email && c.author_email.toLowerCase() === myEmail.toLowerCase()) || 
-                    (c.author && c.author === myName)
-                );
-            });
-        } else if (activeTab === 'mentions') {
-            baseFiltered = logs.filter(log => {
-                const rawText = (log.raw_text || log.body_text || '').toLowerCase();
-                const summary = (log.summary || '').toLowerCase();
-                const title = (log.title || '').toLowerCase();
-                const mentionPattern = `@${myName}`.toLowerCase();
-                
-                const isTextMentioned = rawText.includes(mentionPattern) || summary.includes(mentionPattern) || title.includes(mentionPattern);
-                if (isTextMentioned) return true;
-
-                const stakeholders = log.metadata?.stakeholders || [];
-                const isStakeholderMe = stakeholders.some(sh => sh.sh_name && sh.sh_name === myName);
-                return isStakeholderMe;
+        // Line Filter
+        if (selectedLine !== '전체') {
+            result = result.filter(log => {
+                const logLine = (log.line || '').toUpperCase();
+                const selLineUpper = selectedLine.toUpperCase();
+                return logLine.includes(selLineUpper.split(' ')[0]);
             });
         }
 
+        // Search Filter
         if (searchQuery) {
-            const lowerQ = searchQuery.toLowerCase();
-            baseFiltered = baseFiltered.filter(log => 
-                (log.title && log.title.toLowerCase().includes(lowerQ)) ||
-                (log.summary && log.summary.toLowerCase().includes(lowerQ)) ||
-                (log.raw_text && log.raw_text.toLowerCase().includes(lowerQ)) ||
-                (log.writer_name && log.writer_name.toLowerCase().includes(lowerQ))
+            const query = searchQuery.toLowerCase();
+            result = result.filter(log => 
+                (log.title && log.title.toLowerCase().includes(query)) ||
+                (log.summary && log.summary.toLowerCase().includes(query)) ||
+                (log.raw_text && log.raw_text.toLowerCase().includes(query)) ||
+                (log.writer_name && log.writer_name.toLowerCase().includes(query))
             );
         }
 
-        return baseFiltered;
-    }, [logs, activeTab, searchQuery, myName, myEmail]);
+        return result;
+    }, [logs, selectedLine, searchQuery]);
 
     return (
         <div className="flex flex-col w-full bg-[#1F1F1E] min-h-screen pb-28">
-            {/* Tab selection menu */}
-            <div className="sticky top-0 bg-[#272726] border-b border-[#3c3c3c] px-4 py-3 z-25 flex flex-col gap-2.5 shrink-0 select-none">
-                {/* 3 tabs grid */}
-                <div className="grid grid-cols-3 gap-1.5 p-1 bg-[#1A1A1A] rounded-[14px]">
-                    {[
-                        { id: 'posts', label: '내가 쓴 글' },
-                        { id: 'comments', label: '내가 쓴 댓글' },
-                        { id: 'mentions', label: '언급된 글' }
-                    ].map(tab => (
-                        <button
-                            key={tab.id}
-                            onClick={() => { setActiveTab(tab.id); setSearchQuery(''); }}
-                            className={`py-2 text-[12.5px] font-bold rounded-[10px] transition-all outline-none ${
-                                activeTab === tab.id 
-                                ? 'bg-[#3b82f6] text-white' 
-                                : 'text-[#86868B] active:bg-[#2c2c2e]/40'
-                            }`}
-                        >
-                            {tab.label}
-                        </button>
-                    ))}
-                </div>
-
+            {/* Search and Filters Header */}
+            <div className="sticky top-0 bg-[#272726] border-b border-[#3c3c3c] px-4 py-3 z-25 flex flex-col gap-2.5 shrink-0">
                 {/* Search Bar */}
                 <div className="relative w-full">
                     <input 
                         type="text" 
                         value={searchQuery}
                         onChange={e => setSearchQuery(e.target.value)}
-                        placeholder="키워드로 내 업무 검색..." 
-                        className="w-full bg-[#1A1A1A] border border-[#3c3c3c] text-white text-[13px] px-3.5 py-1.5 pl-9 rounded-[12px] outline-none focus:border-[#555] transition-colors"
+                        placeholder="전체 업무 로그 키워드 검색..." 
+                        className="w-full bg-[#1A1A1A] border border-[#3c3c3c] text-white text-[13.5px] px-3.5 py-2 pl-9 rounded-[14px] outline-none focus:border-[#555] transition-colors"
                     />
-                    <svg className="w-3.5 h-3.5 absolute left-3.5 top-2.5 text-[#86868B]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    <svg className="w-4 h-4 absolute left-3 top-3 text-[#86868B]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                </div>
+
+                {/* Line Filter Chips */}
+                <div className="flex gap-2 overflow-x-auto hide-scrollbar select-none py-0.5">
+                    {['전체', 'A Line', 'B Line', 'C Line', 'D Line'].map(line => {
+                        const isSelected = selectedLine === line;
+                        return (
+                            <button
+                                key={line}
+                                onClick={() => setSelectedLine(line)}
+                                className={`px-3 py-1.5 rounded-full text-[12px] font-bold border transition-all whitespace-nowrap outline-none ${
+                                    isSelected 
+                                    ? 'bg-[#3b82f6] text-white border-transparent' 
+                                    : 'bg-[#1A1A1A]/40 text-[#9A9A98] border-[#3c3c3c] active:bg-[#2c2c2e]'
+                                }`}
+                            >
+                                {line}
+                            </button>
+                        );
+                    })}
                 </div>
             </div>
 
             {/* List Body */}
             <div className="p-4 flex flex-col gap-4">
                 <div className="text-[13px] font-bold text-[#86868B] select-none">
-                    조회 결과 ({filteredData.length}건)
+                    통합 업무 로그 ({filteredLogs.length}건)
                 </div>
 
-                {isLoading ? (
+                {loading ? (
                     <div className="flex justify-center items-center py-24">
                         <div className="animate-spin w-8 h-8 border-4 border-[#3b82f6] border-t-transparent rounded-full"></div>
                     </div>
-                ) : filteredData.length === 0 ? (
+                ) : filteredLogs.length === 0 ? (
                     <div className="text-center py-24 text-[#86868B] text-[14.5px] font-medium border border-dashed border-[#3c3c3c] rounded-[24px]">
-                        내역이 존재하지 않습니다.
+                        표시할 업무 로그가 없습니다.
                     </div>
                 ) : (
                     <div className="flex flex-col gap-3.5">
-                        {filteredData.map(log => {
-                            const isMyPost = (log.writer_staff_id && log.writer_staff_id.toLowerCase() === myEmail.toLowerCase()) || 
-                                             (log.writer_name && log.writer_name === myName);
+                        {filteredLogs.map(log => {
                             const cleanLabel = (log.metadata?.workspace_label || '공통').split('-')[0].trim();
-                            const myComments = (log.metadata?.comments || []).filter(c => 
-                                (c.author_email && c.author_email.toLowerCase() === myEmail.toLowerCase()) ||
-                                (c.author && c.author === myName)
-                            );
-
                             return (
                                 <div 
                                     key={log.id} 
@@ -368,30 +316,15 @@ export default function MobileMyTasks({ memberInfo }) {
                                         </div>
                                     )}
 
-                                    <p className="text-[13.5px] text-[#A1A1AA] leading-relaxed line-clamp-3 mb-3">
+                                    <p className="text-[13.5px] text-[#A1A1AA] leading-relaxed line-clamp-3 mb-3.5">
                                         {log.raw_text}
                                     </p>
 
-                                    {activeTab === 'comments' && myComments.length > 0 && (
-                                        <div className="flex flex-col gap-2 mt-2.5 border-t border-[#3c3c3c]/50 pt-3.5">
-                                            <span className="text-[11px] font-bold text-[#60a5fa] flex items-center gap-1">
-                                                작성한 댓글 ({myComments.length})
-                                            </span>
-                                            <div className="flex flex-col gap-1.5">
-                                                {myComments.map(c => (
-                                                    <div key={c.id} className="p-2.5 bg-[#3b82f6]/10 border border-[#3b82f6]/20 rounded-[12px]">
-                                                        <p className="text-[12.5px] text-[#E5E5E5] leading-relaxed">{c.text}</p>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    )}
-
-                                    <div className="flex justify-between items-center text-[12px] text-[#86868B] border-t border-[#3c3c3c]/50 pt-3 mt-1">
+                                    <div className="flex justify-between items-center text-[12px] text-[#86868B] border-t border-[#3c3c3c]/50 pt-3">
                                         <span className="font-bold text-[#E5E5E5]">{log.writer_name}</span>
                                         <span className="text-[#60a5fa] font-bold flex items-center gap-1">
                                             자세히 보기
-                                            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+                                            <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
                                         </span>
                                     </div>
                                 </div>
@@ -497,15 +430,6 @@ export default function MobileMyTasks({ memberInfo }) {
                                 </div>
 
                                 <div className="flex items-center gap-2 mt-2 pt-3 border-t border-[#2c2c2e] shrink-0">
-                                    {((selectedLog.writer_staff_id && selectedLog.writer_staff_id.toLowerCase() === myEmail.toLowerCase()) || 
-                                      (selectedLog.writer_name && selectedLog.writer_name === myName)) && !selectedLog.isDeleted && (
-                                        <button 
-                                            onClick={() => handleDeleteLog(selectedLog.id)}
-                                            className="px-4 py-3.5 bg-[#ff453a]/10 hover:bg-[#ff453a]/20 text-[#ff453a] text-[13px] font-bold rounded-xl transition-colors cursor-pointer border border-[#ff453a]/20 shrink-0"
-                                        >
-                                            삭제
-                                        </button>
-                                    )}
                                     <button 
                                         onClick={() => setSelectedLog(null)}
                                         className="flex-1 py-3.5 bg-[#2c2c2e] hover:bg-[#3a3a3c] text-white text-[13px] font-bold rounded-xl transition-colors cursor-pointer"
@@ -527,7 +451,7 @@ export default function MobileMyTasks({ memberInfo }) {
                 )}
             </AnimatePresence>
 
-            {/* Custom Alert Modal Popup */}
+            {/* Custom Alert Modal Popup (Replaces system alerts) */}
             <AnimatePresence>
                 {alertMessage && (
                     <div className="fixed inset-0 z-[10000] flex items-center justify-center p-6 bg-black/60 backdrop-blur-sm">
@@ -553,7 +477,7 @@ export default function MobileMyTasks({ memberInfo }) {
                             </div>
 
                             <h4 className="text-white font-bold text-[16px] mb-2">
-                                {alertType === 'success' ? '성공' : '오류'}
+                                {alertType === 'success' ? '성공' : '이동 불가'}
                             </h4>
 
                             <p className="text-[#A1A1AA] text-[13px] leading-relaxed mb-5">

@@ -1,99 +1,33 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { supabase } from '../../utils/supabaseClient';
-import { MOBILE_WORKSPACES, getInitialWorkspace } from './mobileIotaData';
-import MobileLogCard from './MobileLogCard';
+import { getInitialWorkspace } from './mobileIotaData';
+import { motion, AnimatePresence } from 'framer-motion';
 
-export default function MobileLogList({ memberInfo, highlightLogId, initialWorkspaceCode, onWorkspaceReset, onHighlightReset, onWorkspaceChange, refreshTrigger }) {
-    const [workspace, setWorkspace] = useState(() => {
-        if (initialWorkspaceCode) {
-            const matched = MOBILE_WORKSPACES.find(w => w.code === initialWorkspaceCode);
-            if (matched) return matched;
-        }
-        return getInitialWorkspace(memberInfo);
-    });
+export default function MobileLogList({ memberInfo, highlightLogId, onWorkspaceReset, onHighlightReset, refreshTrigger }) {
+    const [workspace] = useState(() => getInitialWorkspace(memberInfo));
     const [logs, setLogs] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [expandedLogIds, setExpandedLogIds] = useState(new Set());
-
-    // Touch Swipe States and Refs for Real-time Sliding & Locking
-    const [dragOffset, setDragOffset] = useState(0);
-    const [isDragging, setIsDragging] = useState(false);
-    const [dragDirection, setDragDirection] = useState(null); // 'horizontal' | 'vertical' | null
+    const [searchQuery, setSearchQuery] = useState('');
     
-    const touchStartRef = useRef({ x: 0, y: 0 });
-    const dragOffsetRef = useRef(0);
-    const isDraggingRef = useRef(false);
-    const dragDirectionRef = useRef(null);
-    const workspaceRef = useRef(workspace);
-    
-    useEffect(() => {
-        workspaceRef.current = workspace;
-        if (onWorkspaceChange && workspace) {
-            onWorkspaceChange(workspace.code);
-        }
-    }, [workspace, onWorkspaceChange]);
-
-    const sliderRef = useRef(null);
-
-    // Tab Scrolling Ref
-    const tabRefs = useRef({});
+    // Modal Overlay & Alerts States
+    const [selectedLog, setSelectedLog] = useState(null);
+    const [alertMessage, setAlertMessage] = useState('');
+    const [alertType, setAlertType] = useState('error'); // 'error' | 'success'
 
     useEffect(() => {
         fetchLogs();
     }, [refreshTrigger]);
 
-    // Handle incoming initial workspace code redirect (0ms instant routing)
-    useEffect(() => {
-        if (initialWorkspaceCode) {
-            const matchedWs = MOBILE_WORKSPACES.find(w => w.code === initialWorkspaceCode);
-            if (matchedWs && workspace.code !== matchedWs.code) {
-                setWorkspace(matchedWs);
-            }
-            if (onWorkspaceReset) {
-                onWorkspaceReset();
-            }
-        }
-    }, [initialWorkspaceCode]);
-
-    // Resolve workspace code and switch tab for legacy highlighted log (fallback)
-    useEffect(() => {
-        if (!highlightLogId || initialWorkspaceCode) return;
-
-        const resolveAndSwitchWorkspace = async () => {
-            try {
-                const { data, error } = await supabase
-                    .from('iota_seoul_logs')
-                    .select('metadata')
-                    .eq('log_id', highlightLogId)
-                    .single();
-
-                if (!error && data) {
-                    const wsCode = data.metadata?.workspace_code;
-                    if (wsCode) {
-                        const matchedWs = MOBILE_WORKSPACES.find(w => w.code === wsCode);
-                        if (matchedWs && workspace.code !== matchedWs.code) {
-                            setWorkspace(matchedWs);
-                        }
-                    }
-                }
-            } catch (err) {
-                console.error("Error switching workspace for highlight:", err);
-            }
-        };
-
-        resolveAndSwitchWorkspace();
-    }, [highlightLogId, initialWorkspaceCode]);
-
-    // Scroll and highlight card when logs render (using robust polling to ensure element is mounted)
+    // Handle highlighted log redirect/scroll on load
     useEffect(() => {
         if (highlightLogId && logs.length > 0) {
-            const hasLog = logs.some(l => l.log_id === highlightLogId);
+            const hasLog = logs.some(l => l.log_id === highlightLogId || l.id === highlightLogId);
             if (hasLog) {
                 let attempts = 0;
-                const maxAttempts = 30; // 3 seconds total (30 * 100ms)
+                const maxAttempts = 30;
                 
                 const pollInterval = setInterval(() => {
-                    const el = document.getElementById(highlightLogId);
+                    const el = document.getElementById(`log-${highlightLogId}`);
                     if (el) {
                         clearInterval(pollInterval);
                         el.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -102,7 +36,6 @@ export default function MobileLogList({ memberInfo, highlightLogId, initialWorks
                             el.classList.remove('bg-blue-500/10', 'border-[#3b82f6]/50');
                         }, 2500);
                     }
-                    
                     attempts++;
                     if (attempts >= maxAttempts) {
                         clearInterval(pollInterval);
@@ -114,138 +47,17 @@ export default function MobileLogList({ memberInfo, highlightLogId, initialWorks
         }
     }, [highlightLogId, logs]);
 
-    useEffect(() => {
-        if (highlightLogId) {
-            setExpandedLogIds(prev => {
-                const next = new Set(prev);
-                next.add(highlightLogId);
-                return next;
-            });
-        }
-    }, [highlightLogId]);
-
-    // Auto-scroll active tab into view center
-    useEffect(() => {
-        const activeTabEl = tabRefs.current[workspace.code];
-        if (activeTabEl) {
-            activeTabEl.scrollIntoView({
-                behavior: 'smooth',
-                block: 'nearest',
-                inline: 'center'
-            });
-        }
-    }, [workspace]);
-
-    // Slider 터치 이벤트 바인딩 (non-passive)
-    useEffect(() => {
-        const sliderEl = sliderRef.current;
-        if (!sliderEl) return;
-
-        const handleStart = (e) => {
-            const touch = e.targetTouches[0];
-            touchStartRef.current = { x: touch.clientX, y: touch.clientY };
-            isDraggingRef.current = true;
-            dragDirectionRef.current = null;
-            dragOffsetRef.current = 0;
-            setIsDragging(true);
-            setDragDirection(null);
-            setDragOffset(0);
-        };
-
-        const handleMove = (e) => {
-            if (!isDraggingRef.current) return;
-            const touch = e.targetTouches[0];
-            const deltaX = touch.clientX - touchStartRef.current.x;
-            const deltaY = touch.clientY - touchStartRef.current.y;
-
-            if (dragDirectionRef.current === null) {
-                const absX = Math.abs(deltaX);
-                const absY = Math.abs(deltaY);
-                if (absX > 1.5 || absY > 1.5) {
-                    if (absX >= absY) {
-                        dragDirectionRef.current = 'horizontal';
-                        setDragDirection('horizontal');
-                        if (e.cancelable) {
-                            e.preventDefault();
-                        }
-                    } else {
-                        dragDirectionRef.current = 'vertical';
-                        setDragDirection('vertical');
-                        isDraggingRef.current = false;
-                        setIsDragging(false);
-                        return;
-                    }
-                } else {
-                    return;
-                }
-            }
-
-            if (dragDirectionRef.current === 'vertical') {
-                return;
-            }
-
-            if (dragDirectionRef.current === 'horizontal') {
-                if (e.cancelable) {
-                    e.preventDefault();
-                }
-                const currentIndex = MOBILE_WORKSPACES.findIndex(w => w.code === workspaceRef.current.code);
-                let offset = deltaX;
-                if (currentIndex === 0 && deltaX > 0) {
-                    offset = deltaX * 0.3;
-                } else if (currentIndex === MOBILE_WORKSPACES.length - 1 && deltaX < 0) {
-                    offset = deltaX * 0.3;
-                }
-                dragOffsetRef.current = offset;
-                setDragOffset(offset);
-            }
-        };
-
-        const handleEnd = () => {
-            if (!isDraggingRef.current) return;
-            isDraggingRef.current = false;
-            setIsDragging(false);
-
-            if (dragDirectionRef.current === 'horizontal') {
-                const windowWidth = window.innerWidth;
-                const threshold = windowWidth * 0.2;
-                const currentIndex = MOBILE_WORKSPACES.findIndex(w => w.code === workspaceRef.current.code);
-
-                if (dragOffsetRef.current < -threshold && currentIndex < MOBILE_WORKSPACES.length - 1) {
-                    setWorkspace(MOBILE_WORKSPACES[currentIndex + 1]);
-                } else if (dragOffsetRef.current > threshold && currentIndex > 0) {
-                    setWorkspace(MOBILE_WORKSPACES[currentIndex - 1]);
-                }
-            }
-            
-            dragOffsetRef.current = 0;
-            dragDirectionRef.current = null;
-            setDragOffset(0);
-            setDragDirection(null);
-        };
-
-        sliderEl.addEventListener('touchstart', handleStart, { passive: true });
-        sliderEl.addEventListener('touchmove', handleMove, { passive: false });
-        sliderEl.addEventListener('touchend', handleEnd, { passive: true });
-
-        return () => {
-            sliderEl.removeEventListener('touchstart', handleStart);
-            sliderEl.removeEventListener('touchmove', handleMove);
-            sliderEl.removeEventListener('touchend', handleEnd);
-        };
-    }, []);
-
     const fetchLogs = async () => {
         setLoading(true);
         try {
             const { data, error } = await supabase
                 .from('iota_seoul_logs')
-                .select('*')
+                .select('*, iota_seoul_log_stakeholders(sh_name, role_category)')
                 .order('work_date', { ascending: false })
                 .order('created_at', { ascending: false })
-                .limit(200);
+                .limit(150);
                 
             if (error) throw error;
-
             setLogs(data || []);
         } catch (err) {
             console.error("Failed to fetch mobile logs:", err);
@@ -254,98 +66,372 @@ export default function MobileLogList({ memberInfo, highlightLogId, initialWorks
         }
     };
 
-    return (
-        <div className="flex flex-col w-full max-w-full pb-24 bg-[#1F1F1E] relative">
-            {/* Horizontal Workspace Tab Bar (Sticky layout to stay at the top natively during scrolling) */}
-            <div 
-                className="sticky left-0 w-full flex gap-5 border-b border-[#3c3c3c] px-4 py-1 overflow-x-auto hide-scrollbar bg-[#272726] z-20 shrink-0 select-none"
-                style={{ 
-                    top: 'env(safe-area-inset-top)',
-                    height: '38px'
-                }}
-            >
-                {MOBILE_WORKSPACES.map(w => {
-                    const isActive = workspace.code === w.code;
-                    return (
-                        <button
-                            key={w.code}
-                            ref={el => tabRefs.current[w.code] = el}
-                            onClick={() => {
-                                setWorkspace(w);
-                            }}
-                            className={`py-1.5 text-[15px] font-bold whitespace-nowrap transition-all relative outline-none ${
-                                isActive ? 'text-[#60a5fa]' : 'text-[#86868B] hover:text-[#E5E5E5]'
-                            }`}
-                        >
-                            {w.label}
-                        </button>
-                    );
-                })}
-            </div>
+    const formatExactDate = (dateStr) => {
+        if (!dateStr) return '';
+        const d = new Date(dateStr);
+        if (isNaN(d.getTime())) return dateStr;
+        const yearStr = String(d.getFullYear()).slice(-2);
+        const monthStr = String(d.getMonth() + 1).padStart(2, '0');
+        const dayStr = String(d.getDate()).padStart(2, '0');
+        return `${yearStr}.${monthStr}.${dayStr}`;
+    };
 
-            {/* Main Content Body Container */}
-            <div className="w-full flex flex-col">
-                {/* Sliding Wrapper */}
-                <div className="w-full overflow-hidden relative" ref={sliderRef}>
-                <div 
-                    className={`flex flex-row flex-nowrap ${isDragging && dragDirection === 'horizontal' ? 'transition-none' : 'transition-transform duration-300 ease-out'}`}
-                    style={{ 
-                        width: '700%',
-                        transform: `translateX(calc(-${MOBILE_WORKSPACES.findIndex(w => w.code === workspace.code) * (100 / 7)}% + ${dragOffset}px))` 
-                    }}
-                >
-                    {MOBILE_WORKSPACES.map(w => {
-                        const filteredLogs = logs.filter(log => {
-                            const metadata = log.metadata || {};
-                            return metadata.workspace_code === w.code || 
-                                   metadata.workspace_label === w.label ||
-                                   w.orgNames.includes(metadata.workspace_label);
-                        });
-                        return (
-                            <div 
-                                key={w.code}
-                                className="w-[14.2857%] shrink-0 flex flex-col gap-4 p-4 box-border"
-                                style={{ width: '14.2857%' }}
-                            >
-                                {loading && logs.length === 0 ? (
-                                    <div className="flex justify-center items-center py-20">
-                                        <div className="animate-spin w-8 h-8 border-4 border-[#3b82f6] border-t-transparent rounded-full"></div>
-                                    </div>
-                                ) : filteredLogs.length === 0 ? (
-                                    <div className="text-center py-20 text-[#86868B] text-[15px] font-medium">등록된 협업 게시글이 없습니다.</div>
-                                ) : (
-                                    <div className="flex flex-col">
-                                        {filteredLogs.map(log => {
-                                            const logId = log.id || log.log_id;
-                                            return (
-                                                <MobileLogCard 
-                                                    key={logId} 
-                                                    log={log} 
-                                                    memberInfo={memberInfo} 
-                                                    isExpanded={expandedLogIds.has(logId)}
-                                                    onClick={(clickedLog) => {
-                                                        const id = clickedLog.id || clickedLog.log_id;
-                                                        setExpandedLogIds(prev => {
-                                                            const next = new Set(prev);
-                                                            if (next.has(id)) {
-                                                                next.delete(id);
-                                                            } else {
-                                                                next.add(id);
-                                                            }
-                                                            return next;
-                                                        });
-                                                    }}
-                                                />
-                                            );
-                                        })}
-                                    </div>
-                                )}
-                            </div>
-                        );
-                    })}
+    const getLineBadgeStyle = (line) => {
+        const normLine = (line || '').toUpperCase();
+        if (normLine.includes('A')) {
+            return 'bg-[#30d158]/10 text-[#34d399] border border-[#30d158]/20';
+        } else if (normLine.includes('B')) {
+            return 'bg-[#0a84ff]/10 text-[#60a5fa] border border-[#0a84ff]/20';
+        } else if (normLine.includes('C')) {
+            return 'bg-[#bf5af2]/10 text-[#c084fc] border border-[#bf5af2]/20';
+        } else if (normLine.includes('D')) {
+            return 'bg-[#ffd60a]/10 text-[#fbbf24] border border-[#ffd60a]/20';
+        }
+        return 'bg-[#8e8e93]/10 text-[#9ca3af] border border-[#8e8e93]/20';
+    };
+
+    const handleGoToWorkspace = async (log) => {
+        if (log.source_url) {
+            window.open(log.source_url, '_blank');
+            return;
+        }
+
+        const wsCode = log.metadata?.workspace_code;
+        if (!wsCode) {
+            setAlertType('error');
+            setAlertMessage('원본 게시물로 이동할 수 없습니다. 원본 위치 정보가 올바르지 않거나 이미 삭제되었을 수 있습니다.');
+            return;
+        }
+
+        try {
+            const { data, error } = await supabase
+                .from('iota_seoul_logs')
+                .select('log_id')
+                .eq('log_id', log.log_id || log.id)
+                .maybeSingle();
+
+            if (error || !data) {
+                setAlertType('error');
+                setAlertMessage('해당 업무 로그는 이미 삭제되어 원본 게시물로 이동할 수 없습니다.');
+                setLogs(prev => prev.map(l => (l.log_id || l.id) === (log.log_id || log.id) ? { ...l, isDeleted: true } : l));
+                return;
+            }
+        } catch (err) {
+            console.error('Error verifying log:', err);
+        }
+
+        const pathMap = {
+            'WS_PM': 'pm',
+            'WS_LFC': 'financing',
+            'WS_FINANCING': 'financing',
+            'WS_DSC': 'development',
+            'WS_DEVELOPMENT': 'development',
+            'WS_EMC': 'marketing',
+            'WS_MARKETING': 'marketing',
+            'WS_SSC': 'digital',
+            'WS_DIGITAL': 'digital',
+            'WS_KAM': 'fund',
+            'WS_FUND': 'fund',
+            'WS_IPR': 'ipr'
+        };
+
+        const wsPath = pathMap[wsCode];
+        if (wsPath) {
+            localStorage.setItem('iota_target_log_id', log.log_id || log.id);
+            localStorage.setItem('force_pc_mode', 'true');
+            const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
+            window.history.pushState(null, '', `${base}/platform/iotaseoul/workspace/${wsPath}?logId=${log.log_id || log.id}`);
+            window.dispatchEvent(new Event('popstate'));
+        } else {
+            setAlertType('error');
+            setAlertMessage('원본 게시물로 이동할 수 없습니다. 해당 원본 글이 이미 삭제되었거나 위치를 찾을 수 없습니다.');
+        }
+    };
+
+    const filteredLogs = useMemo(() => {
+        // Filter by user workspace code & org names
+        let result = logs.filter(log => {
+            const metadata = log.metadata || {};
+            return metadata.workspace_code === workspace.code || 
+                   metadata.workspace_label === workspace.label ||
+                   workspace.orgNames.includes(metadata.workspace_label);
+        });
+
+        // Search Query Filter
+        if (searchQuery) {
+            const query = searchQuery.toLowerCase();
+            result = result.filter(log => 
+                (log.summary && log.summary.toLowerCase().includes(query)) ||
+                (log.raw_text && log.raw_text.toLowerCase().includes(query)) ||
+                (log.writer_name && log.writer_name.toLowerCase().includes(query))
+            );
+        }
+
+        return result;
+    }, [logs, workspace, searchQuery]);
+
+    return (
+        <div className="flex flex-col w-full bg-[#1F1F1E] min-h-screen pb-28">
+            {/* Header Sticky Info */}
+            <div className="sticky top-0 bg-[#272726] border-b border-[#3c3c3c] px-4 py-3 z-25 flex flex-col gap-2.5 shrink-0">
+                {/* Workspace Title Indicator */}
+                <div className="flex items-center justify-between select-none">
+                    <span className="text-[16px] font-bold text-white">회의록 목록</span>
+                    <span className="text-[12px] font-bold text-[#60a5fa] bg-[#3b82f6]/10 border border-[#3b82f6]/20 px-2.5 py-0.5 rounded-full">
+                        {workspace.label}
+                    </span>
+                </div>
+
+                {/* Search Input */}
+                <div className="relative w-full">
+                    <input 
+                        type="text" 
+                        value={searchQuery}
+                        onChange={e => setSearchQuery(e.target.value)}
+                        placeholder="회의록 키워드 검색..." 
+                        className="w-full bg-[#1A1A1A] border border-[#3c3c3c] text-white text-[13.5px] px-3.5 py-2 pl-9 rounded-[14px] outline-none focus:border-[#555] transition-colors"
+                    />
+                    <svg className="w-4 h-4 absolute left-3 top-3 text-[#86868B]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                 </div>
             </div>
+
+            {/* List Body */}
+            <div className="p-4 flex flex-col gap-4">
+                <div className="text-[13px] font-bold text-[#86868B] select-none">
+                    등록된 회의록 ({filteredLogs.length}건)
+                </div>
+
+                {loading ? (
+                    <div className="flex justify-center items-center py-24">
+                        <div className="animate-spin w-8 h-8 border-4 border-[#3b82f6] border-t-transparent rounded-full"></div>
+                    </div>
+                ) : filteredLogs.length === 0 ? (
+                    <div className="text-center py-24 text-[#86868B] text-[14.5px] font-medium border border-dashed border-[#3c3c3c] rounded-[24px]">
+                        등록된 회의록이 없습니다.
+                    </div>
+                ) : (
+                    <div className="flex flex-col gap-3.5">
+                        {filteredLogs.map(log => {
+                            const logId = log.log_id || log.id;
+                            const cleanLabel = (log.metadata?.workspace_label || '공통').split('-')[0].trim();
+                            const title = log.metadata?.title || (log.summary ? log.summary.split('\n')[0] : log.raw_text?.split('\n')[0] || '제목 없음');
+                            const priority = log.metadata?.priority || '중간';
+
+                            // Safe line rendering
+                            let logLine = log.line || '';
+                            if (!logLine) {
+                                const wsCode = (log.metadata?.workspace_code || '').toUpperCase();
+                                if (wsCode.includes('PM')) logLine = 'A Line';
+                                else if (wsCode.includes('FINANCING') || wsCode.includes('LFC')) logLine = 'B Line';
+                                else if (wsCode.includes('DEVELOPMENT') || wsCode.includes('DSC')) logLine = 'C Line';
+                                else if (wsCode.includes('MARKETING') || wsCode.includes('EMC')) logLine = 'D Line';
+                                else if (wsCode.includes('DIGITAL') || wsCode.includes('SSC')) logLine = 'C Line';
+                                else if (wsCode.includes('FUND') || wsCode.includes('KAM')) logLine = 'B Line';
+                                else if (wsCode.includes('IPR')) logLine = 'D Line';
+                            }
+
+                            return (
+                                <div 
+                                    key={logId} 
+                                    id={`log-${logId}`}
+                                    onClick={() => setSelectedLog(log)}
+                                    className={`bg-[#272726] border border-[#3c3c3c] rounded-[24px] p-5 flex flex-col transition-all active:bg-[#2c2c2b] relative ${log.isDeleted ? 'opacity-50' : ''}`}
+                                >
+                                    <div className="flex items-center justify-between mb-3 text-[11px] text-[#86868B]">
+                                        <div className="flex items-center gap-1.5">
+                                            <span className="text-[10px] font-bold px-[7px] py-[2.5px] rounded-[5px] bg-[#3b82f6]/20 text-[#60a5fa] border border-[#3b82f6]/30">
+                                                {cleanLabel}
+                                            </span>
+                                            {logLine && logLine !== 'Unknown Line' && (
+                                                <span className={`text-[10px] font-bold px-[7px] py-[2.5px] rounded-[5px] ${getLineBadgeStyle(logLine)}`}>
+                                                    {logLine}
+                                                </span>
+                                            )}
+                                        </div>
+                                        <span className="font-semibold">{log.isDeleted ? '삭제됨' : formatExactDate(log.work_date)}</span>
+                                    </div>
+
+                                    <h3 className="text-[16px] font-bold text-white leading-snug mb-2 line-clamp-2">
+                                        {title}
+                                    </h3>
+
+                                    {log.summary && log.summary.trim() !== (title || '').trim() && (
+                                        <div className="p-3 bg-[#e2aa29]/10 border border-[#e2aa29]/20 rounded-[12px] mb-2.5">
+                                            <span className="text-[10px] font-bold text-[#e2aa29] block mb-0.5">요약</span>
+                                            <p className="text-[13px] text-[#e2aa29] font-medium line-clamp-2">
+                                                {log.summary}
+                                            </p>
+                                        </div>
+                                    )}
+
+                                    <p className="text-[13.5px] text-[#A1A1AA] leading-relaxed line-clamp-3 mb-3.5">
+                                        {log.raw_text}
+                                    </p>
+
+                                    <div className="flex justify-between items-center text-[12px] text-[#86868B] border-t border-[#3c3c3c]/50 pt-3">
+                                        <span className="font-bold text-[#E5E5E5]">{log.writer_name}</span>
+                                        <span className="text-[#60a5fa] font-bold flex items-center gap-1">
+                                            자세히 보기
+                                            <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+                                        </span>
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+                )}
             </div>
+
+            {/* Modal Detail Overlay */}
+            <AnimatePresence>
+                {selectedLog && (
+                    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm">
+                        <motion.div 
+                            className="bg-[#1C1C1E] border border-[#2c2c2e] w-full max-w-[450px] rounded-[28px] overflow-hidden flex flex-col max-h-[82vh] shadow-2xl relative"
+                            initial={{ scale: 0.95, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0.95, opacity: 0 }}
+                            transition={{ duration: 0.15 }}
+                        >
+                            <button 
+                                onClick={() => setSelectedLog(null)}
+                                className="absolute right-5 top-5 w-[28px] h-[28px] rounded-full bg-[#2c2c2e] hover:bg-[#3a3a3c] flex items-center justify-center transition-colors cursor-pointer z-50 border border-white/5"
+                            >
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                                </svg>
+                            </button>
+
+                            <div className="p-6 flex flex-col gap-5 overflow-y-auto custom-scrollbar text-left">
+                                <div className="flex items-center gap-3 pr-8">
+                                    <div className="w-[42px] h-[42px] rounded-full bg-[#2c2c2e] overflow-hidden border border-[#444] shrink-0">
+                                        <img 
+                                            src={`${import.meta.env.BASE_URL}${selectedLog.writer_name}.webp`} 
+                                            alt={selectedLog.writer_name} 
+                                            className="w-full h-full object-cover" 
+                                            onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }} 
+                                        />
+                                    </div>
+                                    <div className="flex flex-col min-w-0">
+                                        <span className="text-white font-bold text-[14.5px] truncate">{selectedLog.writer_name}</span>
+                                        <span className="text-[#86868B] text-[11.5px] truncate">{selectedLog.writer_email}</span>
+                                    </div>
+                                </div>
+
+                                <div className="flex flex-wrap gap-1.5 items-center">
+                                    <span className="text-[10px] font-bold px-[8px] py-[3px] rounded-[5px] bg-[#3b82f6]/20 text-[#60a5fa] border border-[#3b82f6]/30">
+                                        {selectedLog.metadata?.workspace_label?.split('-')[0].trim() || '공통'}
+                                    </span>
+                                    {selectedLog.line && (
+                                        <span className={`text-[10px] font-bold px-[8px] py-[3px] rounded-[5px] ${getLineBadgeStyle(selectedLog.line)}`}>
+                                            {selectedLog.line}
+                                        </span>
+                                    )}
+                                    <span className="text-[12px] font-semibold text-[#86868b] ml-auto">
+                                        {selectedLog.isDeleted ? '삭제됨' : formatExactDate(selectedLog.work_date)}
+                                    </span>
+                                </div>
+
+                                <div className="w-full h-px bg-[#2c2c2e]" />
+
+                                <div className="flex flex-col gap-3">
+                                    <h3 className="text-[18px] font-black text-white leading-snug">
+                                        {selectedLog.metadata?.title || (selectedLog.summary ? selectedLog.summary.split('\n')[0] : selectedLog.raw_text?.split('\n')[0] || '제목 없음')}
+                                    </h3>
+                                    
+                                    {selectedLog.summary && selectedLog.summary.trim() !== (selectedLog.title || '').trim() && (
+                                        <div className="p-3.5 bg-[#e2aa29]/10 border border-[#e2aa29]/20 rounded-[14px]">
+                                            <span className="text-[11px] font-bold text-[#e2aa29] block mb-0.5">요약</span>
+                                            <p className="text-[13.5px] text-[#e2aa29] font-semibold leading-relaxed">
+                                                {selectedLog.summary}
+                                            </p>
+                                        </div>
+                                    )}
+
+                                    <div className="flex flex-col gap-1.5 mt-1.5">
+                                        <span className="text-[11.5px] font-bold text-[#86868b]">업무 기록 상세</span>
+                                        <div className="p-4 bg-[#2c2c2e]/30 border border-[#2c2c2e] rounded-[16px] max-h-[220px] overflow-y-auto custom-thin-scrollbar">
+                                            <p className="text-[13.5px] text-[#E5E5E5] leading-[1.6] whitespace-pre-wrap break-all">
+                                                {selectedLog.raw_text}
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    {/* Comments List */}
+                                    {selectedLog.metadata?.comments?.length > 0 && (
+                                        <div className="flex flex-col gap-2 mt-2 border-t border-[#2c2c2e] pt-3.5">
+                                            <span className="text-[11.5px] font-bold text-[#86868b]">댓글 ({selectedLog.metadata.comments.length})</span>
+                                            <div className="flex flex-col gap-2 max-h-[160px] overflow-y-auto pr-1">
+                                                {selectedLog.metadata.comments.map((comment, index) => (
+                                                    <div key={index} className="p-2.5 bg-[#1e1e1f] border border-[#2c2c2e] rounded-[12px]">
+                                                        <p className="text-[12.5px] text-[#E5E5E5] leading-relaxed whitespace-pre-wrap">{comment.text}</p>
+                                                        <div className="flex justify-between mt-1.5 text-[10px] text-[#86868b]">
+                                                            <span>{comment.author}</span>
+                                                            <span>{new Date(comment.created_at).toLocaleDateString('ko-KR', { month: '2-digit', day: '2-digit' })}</span>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+
+                                <div className="flex items-center gap-2 mt-2 pt-3 border-t border-[#2c2c2e] shrink-0">
+                                    <button 
+                                        onClick={() => setSelectedLog(null)}
+                                        className="flex-1 py-3.5 bg-[#2c2c2e] hover:bg-[#3a3a3c] text-white text-[13px] font-bold rounded-xl transition-colors cursor-pointer"
+                                    >
+                                        닫기
+                                    </button>
+                                    {!selectedLog.isDeleted && (selectedLog.source_url || selectedLog.metadata?.workspace_code) && (
+                                        <button 
+                                            onClick={() => { handleGoToWorkspace(selectedLog); setSelectedLog(null); }}
+                                            className="flex-1 py-3.5 bg-[#3b82f6] hover:bg-[#2563eb] text-white text-[13px] font-bold rounded-xl transition-colors cursor-pointer"
+                                        >
+                                            원문보기
+                                        </button>
+                                    )}
+                                </div>
+                            </div>
+                        </motion.div>
+                    </div>
+                )}
+            </AnimatePresence>
+
+            {/* Custom Alert Modal Popup */}
+            <AnimatePresence>
+                {alertMessage && (
+                    <div className="fixed inset-0 z-[10000] flex items-center justify-center p-6 bg-black/60 backdrop-blur-sm">
+                        <motion.div 
+                            className="bg-[#1C1C1E] border border-[#2c2c2e] w-[320px] rounded-[24px] p-6 shadow-2xl flex flex-col items-center text-center"
+                            initial={{ scale: 0.9, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0.9, opacity: 0 }}
+                            transition={{ duration: 0.15 }}
+                        >
+                            <div className="w-12 h-12 rounded-full flex items-center justify-center mb-4 bg-[#ff453a]/10 text-[#ff453a]">
+                                <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                                </svg>
+                            </div>
+
+                            <h4 className="text-white font-bold text-[16px] mb-2">이동 불가</h4>
+
+                            <p className="text-[#A1A1AA] text-[13px] leading-relaxed mb-5">
+                                {alertMessage}
+                            </p>
+
+                            <button 
+                                onClick={() => setAlertMessage('')}
+                                className="w-full py-3 bg-[#2c2c2e] hover:bg-[#3a3a3c] text-white text-[13px] font-bold rounded-xl transition-colors cursor-pointer"
+                            >
+                                확인
+                            </button>
+                        </motion.div>
+                    </div>
+                )}
+            </AnimatePresence>
         </div>
     );
 }
