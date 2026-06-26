@@ -66,7 +66,7 @@ export default function IotaMyPage() {
         const wsCode = log.metadata?.workspace_code;
         if (!wsCode) {
             setAlertType('error');
-            setAlertMessage('워크스페이스 정보가 없는 로그입니다.');
+            setAlertMessage('해당 업무 로그에 연결된 워크스페이스 코드 정보가 없어 이동할 수 없습니다. 원본 글이 이미 삭제되었을 수 있습니다.');
             return;
         }
 
@@ -108,7 +108,7 @@ export default function IotaMyPage() {
             window.dispatchEvent(new Event('popstate'));
         } else {
             setAlertType('error');
-            setAlertMessage('이동할 수 없는 워크스페이스입니다.');
+            setAlertMessage(`해당 워크스페이스 채널(${wsCode})은 원본 게시판 이동을 지원하지 않거나, 해당 원본 글이 워크스페이스에서 이미 삭제되었을 수 있습니다.`);
         }
     };
 
@@ -516,7 +516,7 @@ export default function IotaMyPage() {
                                                 <h3 className="text-[19px] font-bold text-white tracking-tight leading-snug">
                                                     {log.title || '업무 로그'}
                                                 </h3>
-                                                {log.summary && (
+                                                {log.summary && log.summary.trim() !== (log.title || '').trim() && (
                                                     <div className="p-3 bg-[#e2aa29]/10 border border-[#e2aa29]/20 rounded-[12px]">
                                                         <span className="text-[11px] font-bold text-[#e2aa29] block mb-1">한줄 요약</span>
                                                         <p className="text-[15px] text-[#e2aa29] font-semibold leading-relaxed">
@@ -655,7 +655,7 @@ export default function IotaMyPage() {
                                     <h3 className="text-[22px] font-black text-white tracking-tight leading-snug">
                                         {selectedIotaLog.title || '업무 로그'}
                                     </h3>
-                                    {selectedIotaLog.summary && (
+                                    {selectedIotaLog.summary && selectedIotaLog.summary.trim() !== (selectedIotaLog.title || '').trim() && (
                                         <div className="p-4 bg-[#e2aa29]/10 border border-[#e2aa29]/20 rounded-[16px]">
                                             <span className="text-[12px] font-bold text-[#e2aa29] block mb-1">한줄 요약</span>
                                             <p className="text-[15px] text-[#e2aa29] font-semibold leading-relaxed">
