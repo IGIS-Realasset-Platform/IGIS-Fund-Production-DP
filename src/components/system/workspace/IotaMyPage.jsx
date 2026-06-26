@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../../context/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
+import { supabase } from '../../../utils/supabaseClient';
 
 export default function IotaMyPage() {
     const { user, memberInfo } = useAuth();
@@ -47,23 +48,99 @@ export default function IotaMyPage() {
             setIsLoading(true);
             setLogsError(null);
             try {
-                const response = await fetch('https://qvegpozwrcmspdvjokiz.supabase.co/functions/v1/iota-logs');
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                // 1. Fetch Edge Function API Logs
+                let apiLogs = [];
+                try {
+                    const response = await fetch('https://qvegpozwrcmspdvjokiz.supabase.co/functions/v1/iota-logs');
+                    if (response.ok) {
+                        const apiData = await response.json();
+                        if (apiData && apiData.logs) {
+                            apiLogs = apiData.logs;
+                        }
+                    } else {
+                        console.warn(`Edge Function response warning: ${response.status}`);
+                    }
+                } catch (apiErr) {
+                    console.error('Error fetching API logs:', apiErr);
                 }
-                const data = await response.json();
-                if (data && data.logs) {
-                    const sortedLogs = [...data.logs].sort((a, b) => {
-                        const dateA = a.work_date ? new Date(a.work_date).getTime() : 0;
-                        const dateB = b.work_date ? new Date(b.work_date).getTime() : 0;
-                        return dateB - dateA;
-                    });
-                    setLogs(sortedLogs);
-                } else {
-                    throw new Error('Invalid data format received');
+
+                // 2. Fetch Supabase DB logs
+                let dbLogs = [];
+                try {
+                    const { data: dbData, error: dbError } = await supabase
+                        .from('iota_seoul_logs')
+                        .select('*, iota_seoul_log_stakeholders(sh_name, role_category)')
+                        .order('work_date', { ascending: false })
+                        .order('created_at', { ascending: false });
+
+                    if (dbError) throw dbError;
+                    if (dbData) {
+                        dbLogs = dbData;
+                    }
+                } catch (dbErr) {
+                    console.error('Error fetching DB logs:', dbErr);
                 }
+
+                // 3. Map DB Logs to match API schema
+                const mappedDbLogs = dbLogs.map(log => {
+                    const wsCode = (log.metadata?.workspace_code || '').toUpperCase();
+                    let line = log.line || '';
+                    if (!line) {
+                        if (wsCode.includes('PM')) line = 'A Line';
+                        else if (wsCode.includes('FINANCING')) line = 'B Line';
+                        else if (wsCode.includes('DEVELOPMENT')) line = 'C Line';
+                        else if (wsCode.includes('MARKETING')) line = 'D Line';
+                        else if (wsCode.includes('DIGITAL')) line = 'C Line';
+                        else if (wsCode.includes('FUND')) line = 'B Line';
+                        else if (wsCode.includes('IPR')) line = 'D Line';
+                        else line = 'Unknown Line';
+                    }
+
+                    return {
+                        id: log.log_id || log.id,
+                        work_date: log.work_date,
+                        writer_name: log.writer_name || '익명',
+                        writer_email: log.writer_staff_id || log.writer_email || '',
+                        writer_staff_id: log.writer_staff_id || log.writer_email || '',
+                        title: log.summary || log.title || '업무 로그',
+                        summary: log.summary || '',
+                        raw_text: log.raw_text || log.body_text || '',
+                        body_text: log.raw_text || log.body_text || '',
+                        line: line,
+                        metadata: {
+                            workspace_code: log.metadata?.workspace_code || '',
+                            workspace_label: log.metadata?.workspace_label || '공통',
+                            project_name: log.metadata?.project_name || '',
+                            triage_type: log.metadata?.triage_type || '',
+                            issue_status: log.metadata?.issue_status || '',
+                            priority: log.metadata?.priority || '',
+                            comments: log.metadata?.comments || [],
+                            stakeholders: log.iota_seoul_log_stakeholders || []
+                        },
+                        source_url: log.source_url || null,
+                        created_at: log.created_at
+                    };
+                });
+
+                // 4. Merge data (deduplicate by id)
+                const mergedLogsMap = new Map();
+                apiLogs.forEach(l => {
+                    if (l.id) mergedLogsMap.set(l.id, l);
+                });
+                mappedDbLogs.forEach(l => {
+                    if (l.id) mergedLogsMap.set(l.id, l);
+                });
+
+                const allLogs = Array.from(mergedLogsMap.values());
+                const sortedLogs = allLogs.sort((a, b) => {
+                    const dateA = a.work_date ? new Date(a.work_date).getTime() : 0;
+                    const dateB = b.work_date ? new Date(b.work_date).getTime() : 0;
+                    return dateB - dateA;
+                });
+
+                setLogs(sortedLogs);
             } catch (err) {
-                console.error('Error fetching iota-logs:', err);
+                console.error('Error merging logs:', err);
                 setLogsError(err.message || '로그를 불러오는 데 실패했습니다.');
             } finally {
                 setIsLoading(false);
@@ -93,10 +170,6 @@ export default function IotaMyPage() {
                     (c.author_email && c.author_email.toLowerCase() === myEmail.toLowerCase()) || 
                     (c.author && c.author === myName)
                 );
-            }).map(log => {
-                // Attach only my comments for context rendering inside map if needed,
-                // but we will render all comments or my highlighted comments in the UI.
-                return log;
             });
         } else if (activeTab === 'mentions') {
             baseFiltered = logs.filter(log => {
@@ -104,7 +177,15 @@ export default function IotaMyPage() {
                 const summary = (log.summary || '').toLowerCase();
                 const title = (log.title || '').toLowerCase();
                 const mentionPattern = `@${myName}`.toLowerCase();
-                return rawText.includes(mentionPattern) || summary.includes(mentionPattern) || title.includes(mentionPattern);
+                
+                // 1. Text mention check
+                const isTextMentioned = rawText.includes(mentionPattern) || summary.includes(mentionPattern) || title.includes(mentionPattern);
+                if (isTextMentioned) return true;
+
+                // 2. Stakeholders list check (for local DB logs)
+                const stakeholders = log.metadata?.stakeholders || [];
+                const isStakeholderMe = stakeholders.some(sh => sh.sh_name && sh.sh_name === myName);
+                return isStakeholderMe;
             });
         }
 

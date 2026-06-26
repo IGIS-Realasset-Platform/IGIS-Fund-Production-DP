@@ -1121,5 +1121,16 @@ export const tasksData = [
     "작업 유형": "통합 플랫폼 구축",
     "URL": "IotaMyPage.jsx",
     "내용 상세": "# [IOTA 서울 CFT] MY 페이지 구축 기획 및 구현 계획\n\n본 계획서는 IOTA CFT 통합 플랫폼의 왼쪽 하단 내비게이션 영역에 **\"MY\"** 전용 진입 경로를 추가하고, 사용자가 작성한 글, 작성한 댓글(원문 매칭), 그리고 멘션(@이름)된 글을 한눈에 통합 관리 및 모니터링할 수 있는 **MY Workspace** 페이지를 새로 구축하는 디자인 및 기술 계획서입니다.\n\n## UI/UX 기획 및 레이아웃 설계\n\n1. 왼쪽 하단 \"MY\" 메뉴 배치\n- 프로필 바로 위에 \"MY Workspace\" 전용 버튼 신설\n- 클릭 시 platform/iotaseoul/my-page 로 이동\n\n2. MY Page 내부 레이아웃\n- 상단 헤더: 사용자 프로필 정보 표시 대형 카드\n- 컨텐츠 분류 탭:\n  - 내가 작성한 업무: 직접 등록한 업무 로그 피드 나열\n  - 내가 단 댓글: 작성한 댓글과 댓글이 달린 로그 원문을 카드에 함께 노출하는 계층 카드 레이아웃\n  - 나를 언급한 업무: 본문에 @사용자이름이 포함되어 나를 태그한 업무 로그 목록\n\n## 기술 구현 및 데이터 쿼리 설계\n\n1. 내가 작성한 업무\n- 조건: log.writer_staff_id === memberInfo.email || log.writer_name === memberInfo.staff_name\n\n2. 내가 단 댓글 (원문 + 댓글 동시 노출)\n- 조건: log.metadata.comments 배열 내에서 comment.author_email === memberInfo.email || comment.author === memberInfo.staff_name 인 항목 필터링\n\n3. 나를 언급한 업무\n- 조건: log.raw_text 또는 log.body_text 내에 @memberInfo.staff_name 문자열 포함\n\n## 세부 변경 사항\n- IotaLeftNav.jsx: MY Workspace 버튼 신설 및 내비게이션 핸들러 연결\n- App.jsx: my-page 경로 독립 전체화면 라우팅 추가\n- IotaMyPage.jsx: 3가지 탭 뷰 전환, 실시간 Supabase 쿼리 가공, 검색바 및 모달 팝업 연동"
+  },
+  {
+    "대분류": "플랫폼 아키텍처",
+    "작업 이름": "MY Workspace 내 Supabase 로컬 로그 실시간 연동 및 데이터 병합 구현",
+    "상태": "완료",
+    "담당자": "전기영",
+    "마감일": "2026/06/26",
+    "우선순위": "최고",
+    "작업 유형": "통합 플랫폼 구축",
+    "URL": "IotaMyPage.jsx",
+    "내용 상세": "# [IOTA 서울 CFT] MY Workspace 내 Supabase 로컬 로그 연동 및 데이터 정합성 보완 계획\n\n기존 MY Workspace 페이지에서 Notion 연동 API 데이터만 노출되고 사용자가 플랫폼 내에서 직접 작성한 로그(Supabase iota_seoul_logs 테이블) 및 댓글이 유실되는 문제를 해결하기 위해, Supabase 클라이언트를 직접 연동하여 데이터를 다차원 병합 및 보강하는 기술적 개선을 수행합니다.\n\n## 주요 변경 사항\n\n1. 데이터 통합 및 중복 제거\n- API 로그(`iota-logs`)와 수파베이스 로컬 DB 로그(`iota_seoul_logs`)를 병행 페치합니다.\n- ID 값을 기준으로 중복을 원천 제거하고, 전체 로그를 `work_date` 내림차순(최신순)으로 정렬해 통합 피드를 제공합니다.\n\n2. 사용자 댓글 매칭 동기화\n- 사용자가 Supabase 로컬 글에 단 댓글 정보(`metadata.comments`)를 분석하여 \"내가 단 댓글\" 탭에서 원문 카드와 함께 하이라이트 노출되도록 데이터 매핑을 연동합니다.\n\n3. 이해관계자 멘션 탐지 보강\n- 나를 언급한 업무를 가져올 때, 본문 내 `@이름` 텍스트 매칭 검사뿐만 아니라, `iota_seoul_log_stakeholders` 테이블의 조인 데이터(이해관계자 목록)에서 내 이름이 포함되어 있는 글까지 교차 탐지하여 조회 정합성을 극대화합니다.\n\n4. 누락 배지 복원\n- 로컬에서 생성된 로그 중 `line` 필드가 누락된 경우, `workspace_code` 속성을 판별하여 적절한 Line 명칭(A Line ~ D Line)을 동적으로 자동 할당합니다."
   }
 ];
