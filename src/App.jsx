@@ -13,6 +13,7 @@ import AuthSetup from './components/system/AuthSetup';
 import PlatformCore from './components/system/PlatformCore';
 import WorkspaceArchive from './components/system/workspace/WorkspaceArchive';
 import IotaLogsArchive from './components/system/workspace/IotaLogsArchive';
+import IotaMyPage from './components/system/workspace/IotaMyPage';
 import SystemAdmin from './components/system/admin/SystemAdmin';
 import MobileIotaApp from './components/mobile/MobileIotaApp';
 
@@ -192,9 +193,10 @@ export default function App() {
         )}
         {currentPage === 'system-core' && <SystemCore isPlatform={false} />}
         {currentPage === 'platform' && <PlatformCore isPlatform={true} />}
-        {currentPage.startsWith('platform/iotaseoul') && !currentPage.includes('/archive') && !currentPage.includes('logs-archive') && <PlatformCore isPlatform={true} isIotaWorkspaceOverride={true} currentPath={currentPage} />}
-        {(currentPage.includes('workspace/archive') || (currentPage.endsWith('/archive') && !currentPage.includes('logs-archive'))) && <WorkspaceArchive />}
+        {currentPage.startsWith('platform/iotaseoul') && !currentPage.includes('/archive') && !currentPage.includes('logs-archive') && !currentPage.includes('my-page') && <PlatformCore isPlatform={true} isIotaWorkspaceOverride={true} currentPath={currentPage} />}
+        {(currentPage.includes('workspace/archive') || (currentPage.endsWith('/archive') && !currentPage.includes('logs-archive') && !currentPage.includes('my-page'))) && <WorkspaceArchive />}
         {currentPage.includes('logs-archive') && <IotaLogsArchive />}
+        {currentPage.includes('my-page') && <IotaMyPage />}
         {(currentPage === 'system-admin' || currentPage.startsWith('system-admin/')) && <SystemAdmin currentPage={currentPage} navigateTo={navigateTo} />}
         {currentPage.startsWith('mobile') && <MobileIotaApp navigateTo={navigateTo} />}
       </div>

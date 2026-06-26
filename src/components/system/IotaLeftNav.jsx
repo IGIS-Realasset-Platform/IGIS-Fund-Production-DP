@@ -429,6 +429,17 @@ export default function IotaLeftNav({ onMenuChange, currentPath = '' }) {
                 </div>
             </div>
 
+            {/* MY Workspace Button */}
+            <div className="px-[15px] pb-3 w-full">
+                <div 
+                    onClick={() => handleNavigation('platform/iotaseoul/my-page')}
+                    className={`flex items-center justify-center py-2 hover:bg-[#3b82f6]/10 rounded-md cursor-pointer transition-colors duration-300 border border-[#3b82f6]/40 text-[#60a5fa] font-bold text-[13px] ${currentPath === 'platform/iotaseoul/my-page' ? 'bg-[#3b82f6]/20' : ''}`}
+                >
+                    <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+                    <span>MY Workspace</span>
+                </div>
+            </div>
+
             {isAdmin && (
                 <div className="px-[15px] pb-3 w-full">
                     <div 
