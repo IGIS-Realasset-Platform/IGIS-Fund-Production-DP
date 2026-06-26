@@ -4,7 +4,7 @@ import { MOBILE_WORKSPACES, getInitialWorkspace } from './mobileIotaData';
 import { notifyMembersOnLogCreation, notifyMembersOnTaskCreation } from '../../utils/notificationHelpers';
 
 export default function MobileComposerSheet({ memberInfo, onClose, onSuccess, activeTab, initialWorkspaceCode }) {
-    const [mode, setMode] = useState(() => (activeTab === 1 ? 'log' : 'task'));
+    const [mode, setMode] = useState('log');
     const [workspace, setWorkspace] = useState(() => {
         if (initialWorkspaceCode) {
             const matched = MOBILE_WORKSPACES.find(w => w.code === initialWorkspaceCode);
@@ -215,7 +215,7 @@ export default function MobileComposerSheet({ memberInfo, onClose, onSuccess, ac
                 {/* Header */}
                 <div className="flex items-center justify-between px-4 py-3.5 bg-[#272726] border-b border-[#3c3c3c] rounded-t-[24px] shrink-0">
                     <button onClick={onClose} className="text-[#86868B] hover:text-[#E5E5E5] text-[15px] font-bold p-2 -ml-2 transition-colors">취소</button>
-                    <span className="text-[17px] font-bold text-white tracking-tight">새 글 작성</span>
+                    <span className="text-[17px] font-bold text-white tracking-tight">회의록 작성</span>
                     <button 
                         onClick={handleSubmit} 
                         disabled={loading}
@@ -223,24 +223,6 @@ export default function MobileComposerSheet({ memberInfo, onClose, onSuccess, ac
                     >
                         {loading ? '저장중' : '저장'}
                     </button>
-                </div>
-
-                {/* Segmented Control */}
-                <div className="px-4 pt-4 shrink-0 bg-[#1F1F1E]">
-                    <div className="flex bg-[#272726] p-1 rounded-[14px] border border-[#3c3c3c] select-none">
-                        <button 
-                            onClick={() => setMode('task')}
-                            className={`flex-1 py-2 text-[14px] font-bold rounded-[10px] transition-all duration-300 ${mode === 'task' ? 'bg-[#3c3c3c] text-white shadow-md' : 'text-[#86868B]'}`}
-                        >
-                            Task 등록
-                        </button>
-                        <button 
-                            onClick={() => setMode('log')}
-                            className={`flex-1 py-2 text-[14px] font-bold rounded-[10px] transition-all duration-300 ${mode === 'log' ? 'bg-[#3c3c3c] text-white shadow-md' : 'text-[#86868B]'}`}
-                        >
-                            협업 글작성
-                        </button>
-                    </div>
                 </div>
 
                 {/* Form Area */}

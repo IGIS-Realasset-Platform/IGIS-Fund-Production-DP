@@ -336,7 +336,7 @@ export default function MobileIotaApp({ navigateTo }) {
             </div>
 
             {/* Floating Action Button (Tasks and My Tasks) */}
-            {(activeTab === 0 || activeTab === 1 || activeTab === 2) && (
+            {(activeTab === 1 || activeTab === 2) && (
                 <button 
                     onClick={() => setIsComposerOpen(true)}
                     className={`absolute right-5 w-14 h-14 bg-[#3b82f6] hover:bg-[#2563eb] rounded-full flex items-center justify-center shadow-[0_4px_12px_rgba(0,0,0,0.3)] z-10 active:scale-95 transition-all duration-300 ease-in-out ${
