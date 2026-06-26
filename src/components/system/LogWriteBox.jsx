@@ -502,7 +502,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
 
     const displayLabel = workspaceLabel ? workspaceLabel.split('-')[0].trim() : '';
 
-    const collapsedText = displayLabel ? `${displayLabel}${getParticle(displayLabel)} 협업 및 논의가 필요한 사항, 또는 공유할 내용을 등록하세요.` : '주요 공유사항, 협업 및 논의가 필요한 내용을 등록하세요.';
+    const collapsedText = '회의록, 협업 사항, 또는 공유할 내용을 등록하세요.';
 
     return (
         <div className={`w-full rounded-[24px] p-[1px] bg-gradient-to-br from-[#d6efe9] via-[#82afb9] to-[#4c6e86] mb-[11px] ${editMode ? 'shadow-2xl' : ''}`}>
