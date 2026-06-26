@@ -66,7 +66,7 @@ export default function IotaMyPage() {
         const wsCode = log.metadata?.workspace_code;
         if (!wsCode) {
             setAlertType('error');
-            setAlertMessage('해당 업무 로그에 연결된 워크스페이스 코드 정보가 없어 이동할 수 없습니다. 원본 글이 이미 삭제되었을 수 있습니다.');
+            setAlertMessage('원본 게시물로 이동할 수 없습니다. 원본 위치 정보가 올바르지 않거나 이미 삭제되었을 수 있습니다.');
             return;
         }
 
@@ -80,7 +80,7 @@ export default function IotaMyPage() {
 
             if (error || !data) {
                 setAlertType('error');
-                setAlertMessage('해당 업무 로그는 이미 삭제되어 워크스페이스 원본으로 이동할 수 없습니다.');
+                setAlertMessage('해당 업무 로그는 이미 삭제되어 원본 게시물로 이동할 수 없습니다.');
                 // 로컬 상태에서도 해당 로그를 삭제 상태로 표시
                 setLogs(prev => prev.map(l => l.id === log.id ? { ...l, isDeleted: true } : l));
                 return;
@@ -108,7 +108,7 @@ export default function IotaMyPage() {
             window.dispatchEvent(new Event('popstate'));
         } else {
             setAlertType('error');
-            setAlertMessage(`해당 워크스페이스 채널(${wsCode})은 원본 게시판 이동을 지원하지 않거나, 해당 원본 글이 워크스페이스에서 이미 삭제되었을 수 있습니다.`);
+            setAlertMessage('원본 게시물로 이동할 수 없습니다. 해당 원본 글이 이미 삭제되었거나 위치를 찾을 수 없습니다.');
         }
     };
 
