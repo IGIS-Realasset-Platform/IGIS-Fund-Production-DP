@@ -94,7 +94,7 @@ export const notifyMembersOnLogCreation = async (logId, logContent, workspace, w
         ordinaryRecipientIds.forEach(userId => {
             notificationPayload.push({
                 user_id: userId,
-                title: `[${workspace.label}] 신규 협업글 등록`,
+                title: `[${workspace.label}] 신규 회의록 등록`,
                 body: summaryText,
                 type: 'log',
                 reference_id: `${logId}|${workspace.code}`,
@@ -107,7 +107,7 @@ export const notifyMembersOnLogCreation = async (logId, logContent, workspace, w
         mentionedAuthIds.forEach(userId => {
             notificationPayload.push({
                 user_id: userId,
-                title: `[@언급] ${writerName}님이 회원님을 태그했습니다.`,
+                title: `[@언급] ${writerName}님이 회의록에서 회원님을 태그했습니다.`,
                 body: summaryText,
                 type: 'log',
                 reference_id: `${logId}|${workspace.code}`,
@@ -297,7 +297,7 @@ export const notifyMembersOnCommentCreation = async (logId, commentContent, work
         ordinaryRecipientIds.forEach(userId => {
             notificationPayload.push({
                 user_id: userId,
-                title: `[${workspace.label}] 신규 댓글 등록`,
+                title: `[${workspace.label}] 회의록 신규 댓글 등록`,
                 body: `${writerName}: ${summaryText}`,
                 type: 'log',
                 reference_id: `${logId}|${workspace.code}`,
@@ -310,7 +310,7 @@ export const notifyMembersOnCommentCreation = async (logId, commentContent, work
         mentionedAuthIds.forEach(userId => {
             notificationPayload.push({
                 user_id: userId,
-                title: `[@언급] ${writerName}님이 댓글에서 회원님을 태그했습니다.`,
+                title: `[@언급] ${writerName}님이 회의록 댓글에서 회원님을 태그했습니다.`,
                 body: summaryText,
                 type: 'log',
                 reference_id: `${logId}|${workspace.code}`,
