@@ -29,6 +29,16 @@ export default function IotaMyPage() {
         return `${yearStr}.${mondayMonth}.${monday.getDate()}~${sundayMonth}.${sunday.getDate()}`;
     };
 
+    const formatExactDate = (dateStr) => {
+        if (!dateStr) return '';
+        const d = new Date(dateStr);
+        if (isNaN(d.getTime())) return dateStr;
+        const yearStr = String(d.getFullYear()).slice(-2);
+        const monthStr = String(d.getMonth() + 1).padStart(2, '0');
+        const dayStr = String(d.getDate()).padStart(2, '0');
+        return `${yearStr}.${monthStr}.${dayStr}`;
+    };
+
     const getLineBadgeStyle = (line) => {
         const normLine = (line || '').toUpperCase();
         if (normLine.includes('A')) {
@@ -41,6 +51,84 @@ export default function IotaMyPage() {
             return 'bg-[#ffd60a]/10 text-[#fbbf24] border border-[#ffd60a]/20';
         }
         return 'bg-[#8e8e93]/10 text-[#9ca3af] border border-[#8e8e93]/20';
+    };
+
+    const handleGoToWorkspace = async (log) => {
+        // Notion 연동 로그 중 source_url이 있으면 Notion으로 보냄
+        if (log.source_url) {
+            window.open(log.source_url, '_blank');
+            return;
+        }
+
+        // 로컬 DB 로그일 경우
+        const wsCode = log.metadata?.workspace_code;
+        if (!wsCode) {
+            alert('워크스페이스 정보가 없는 로그입니다.');
+            return;
+        }
+
+        // 실제로 Supabase DB에 이 로그가 실재하는지 검사
+        try {
+            const { data, error } = await supabase
+                .from('iota_seoul_logs')
+                .select('log_id')
+                .eq('log_id', log.id)
+                .maybeSingle();
+
+            if (error || !data) {
+                alert('이미 삭제된 글입니다.');
+                // 로컬 상태에서도 해당 로그를 삭제 상태로 표시
+                setLogs(prev => prev.map(l => l.id === log.id ? { ...l, isDeleted: true } : l));
+                return;
+            }
+        } catch (err) {
+            console.error('Error checking log existence:', err);
+        }
+
+        // 존재하면 해당 워크스페이스로 이동
+        const pathMap = {
+            'WS_PM': 'pm',
+            'WS_FINANCING': 'financing',
+            'WS_DEVELOPMENT': 'development',
+            'WS_MARKETING': 'marketing',
+            'WS_DIGITAL': 'digital',
+            'WS_FUND': 'fund',
+            'WS_IPR': 'ipr'
+        };
+
+        const wsPath = pathMap[wsCode];
+        if (wsPath) {
+            localStorage.setItem('iota_target_log_id', log.id);
+            const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
+            window.history.pushState(null, '', `${base}/platform/iotaseoul/workspace/${wsPath}?logId=${log.id}`);
+            window.dispatchEvent(new Event('popstate'));
+        } else {
+            alert('이동할 수 없는 워크스페이스입니다.');
+        }
+    };
+
+    const handleDeleteLog = async (logId) => {
+        if (!window.confirm('정말로 이 업무 로그를 삭제하시겠습니까?')) return;
+        
+        try {
+            // 1. 관계 테이블 삭제
+            await supabase.from('iota_seoul_log_links').delete().eq('log_id', logId);
+            await supabase.from('iota_seoul_log_stakeholders').delete().eq('log_id', logId);
+            
+            // 2. 메인 테이블 삭제
+            const { error } = await supabase.from('iota_seoul_logs').delete().eq('log_id', logId);
+            if (error) throw error;
+            
+            // 3. 로컬 상태 업데이트
+            setLogs(prev => prev.filter(l => l.id !== logId));
+            if (selectedIotaLog && selectedIotaLog.id === logId) {
+                setSelectedIotaLog(null);
+            }
+            alert('성공적으로 삭제되었습니다.');
+        } catch (err) {
+            console.error('Error deleting log:', err);
+            alert('삭제 처리 중 오류가 발생했습니다.');
+        }
     };
 
     useEffect(() => {
@@ -363,7 +451,6 @@ export default function IotaMyPage() {
                         ) : (
                             <div className="flex flex-col gap-6">
                                 {filteredData.map(log => {
-                                    // Identify my comments within the log (if activeTab is comments)
                                     const myComments = (log.metadata?.comments || []).filter(c => 
                                         (c.author_email && c.author_email.toLowerCase() === myEmail.toLowerCase()) ||
                                         (c.author && c.author === myName)
@@ -372,7 +459,6 @@ export default function IotaMyPage() {
                                     const isMyPost = (log.writer_staff_id && log.writer_staff_id.toLowerCase() === myEmail.toLowerCase()) || 
                                                      (log.writer_name && log.writer_name === myName);
                                     
-                                    // Color tag for workspace label
                                     const workspaceLabel = log.metadata?.workspace_label || '공통';
                                     const cleanLabel = workspaceLabel.split('-')[0].trim();
 
@@ -380,7 +466,7 @@ export default function IotaMyPage() {
                                         <div 
                                             key={log.id} 
                                             onClick={() => setSelectedIotaLog(log)}
-                                            className="w-full relative rounded-[24px] px-6 pt-[22px] pb-[22px] bg-[#272726] border border-[#3c3c3c] hover:bg-[#2c2c2b] hover:border-[#555] transition-all cursor-pointer group"
+                                            className={`w-full relative rounded-[24px] px-6 pt-[22px] pb-[22px] border transition-all cursor-pointer group ${log.isDeleted ? 'bg-[#272726]/40 border-[#3a3a3c]/30 opacity-60 hover:bg-[#272726]/40 hover:border-[#3a3a3c]/30' : 'bg-[#272726] border-[#3c3c3c] hover:bg-[#2c2c2b] hover:border-[#555]'}`}
                                         >
                                             <div className="flex justify-between items-start gap-4 mb-4">
                                                 <div className="flex items-center gap-[12px]">
@@ -402,14 +488,18 @@ export default function IotaMyPage() {
                                                 </div>
 
                                                 <div className="flex items-center gap-2.5 shrink-0">
-                                                    {/* Workspace Label Badge */}
                                                     <span className="text-[11px] font-bold px-[8px] py-[3px] rounded-[6px] bg-[#3b82f6]/20 text-[#60a5fa] border border-[#3b82f6]/30">
                                                         {cleanLabel}
                                                     </span>
                                                     <span className={`text-[11px] font-bold px-[8px] py-[3px] rounded-[6px] tracking-tight ${getLineBadgeStyle(log.line)}`}>
                                                         {log.line || 'Unknown Line'}
                                                     </span>
-                                                    <span className="text-[13px] font-semibold text-[#86868b]">{formatIotaWeekRange(log.work_date)}</span>
+                                                    {log.isDeleted && (
+                                                        <span className="text-[11px] font-bold px-[8px] py-[3px] rounded-[6px] bg-[#ff453a]/20 text-[#ff453a] border border-[#ff453a]/30">
+                                                            삭제됨
+                                                        </span>
+                                                    )}
+                                                    <span className="text-[13px] font-semibold text-[#86868b]">{log.isDeleted ? '삭제된 글' : formatExactDate(log.work_date)}</span>
                                                 </div>
                                             </div>
 
@@ -426,7 +516,6 @@ export default function IotaMyPage() {
                                                     </div>
                                                 )}
 
-                                                {/* Raw text */}
                                                 <div className="flex flex-col gap-1.5 mt-1">
                                                     <span className="text-[12px] font-bold text-[#86868b]">업무 기록 및 상세 내용</span>
                                                     <div className="p-4 bg-[#1e1e1f] border border-[#2c2c2e] rounded-[16px]">
@@ -436,7 +525,6 @@ export default function IotaMyPage() {
                                                     </div>
                                                 </div>
 
-                                                {/* If tab is comments and my comments are matched, highlight them below the post */}
                                                 {activeTab === 'comments' && myComments.length > 0 && (
                                                     <div className="flex flex-col gap-2 mt-2 border-t border-[#3a3a3c]/40 pt-4">
                                                         <span className="text-[12px] font-bold text-[#60a5fa] flex items-center gap-1.5">
@@ -460,7 +548,6 @@ export default function IotaMyPage() {
                                                 )}
                                             </div>
 
-                                            {/* Footer tools */}
                                             <div className="flex justify-between items-center mt-4 pt-3 border-t border-[#3a3a3c]/30">
                                                 <div className="flex items-center gap-1 text-[13px] font-bold text-[#60a5fa]">
                                                     <span>자세히 보기 & 댓글 작성</span>
@@ -469,17 +556,24 @@ export default function IotaMyPage() {
                                                     </svg>
                                                 </div>
 
-                                                {log.source_url && (
-                                                    <a 
-                                                        href={log.source_url}
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
-                                                        onClick={(e) => e.stopPropagation()}
-                                                        className="flex items-center gap-1.5 px-3 py-1.5 bg-[#2c2c2e] hover:bg-[#3a3a3c] text-white text-[11px] font-bold rounded-lg transition-colors cursor-pointer border border-[#3c3c3c]"
-                                                    >
-                                                        <span>Notion 원문</span>
-                                                    </a>
-                                                )}
+                                                <div className="flex items-center gap-2">
+                                                    {isMyPost && !log.isDeleted && (
+                                                        <button 
+                                                            onClick={(e) => { e.stopPropagation(); handleDeleteLog(log.id); }}
+                                                            className="flex items-center gap-1.5 px-3 py-1.5 bg-[#ff453a]/10 hover:bg-[#ff453a]/20 text-[#ff453a] text-[11px] font-bold rounded-lg transition-colors cursor-pointer border border-[#ff453a]/20"
+                                                        >
+                                                            삭제
+                                                        </button>
+                                                    )}
+                                                    {!log.isDeleted && (log.source_url || log.metadata?.workspace_code) && (
+                                                        <button 
+                                                            onClick={(e) => { e.stopPropagation(); handleGoToWorkspace(log); }}
+                                                            className="flex items-center gap-1.5 px-3 py-1.5 bg-[#2c2c2e] hover:bg-[#3a3a3c] text-white text-[11px] font-bold rounded-lg transition-colors cursor-pointer border border-[#3c3c3c]"
+                                                        >
+                                                            <span>원문보기</span>
+                                                        </button>
+                                                    )}
+                                                </div>
                                             </div>
                                         </div>
                                     );
@@ -501,7 +595,6 @@ export default function IotaMyPage() {
                             exit={{ scale: 0.95, opacity: 0 }}
                             transition={{ duration: 0.15 }}
                         >
-                            {/* Close Button */}
                             <button 
                                 onClick={() => setSelectedIotaLog(null)}
                                 className="absolute right-6 top-6 w-[32px] h-[32px] rounded-full bg-[#2c2c2e] hover:bg-[#3a3a3c] flex items-center justify-center transition-colors cursor-pointer z-50 border border-white/5"
@@ -513,7 +606,6 @@ export default function IotaMyPage() {
                             </button>
 
                             <div className="p-8 flex flex-col gap-6 overflow-y-auto max-h-[85vh] custom-scrollbar">
-                                {/* Modal Header */}
                                 <div className="flex justify-between items-start gap-4 pr-10 text-left">
                                     <div className="flex items-center gap-[14px]">
                                         <div className="w-[48px] h-[48px] rounded-full bg-[#2c2c2e] overflow-hidden border border-[#444] shrink-0">
@@ -537,13 +629,17 @@ export default function IotaMyPage() {
                                         <span className={`text-[11px] font-bold px-[10px] py-[4px] rounded-[6px] tracking-tight ${getLineBadgeStyle(selectedIotaLog.line)}`}>
                                             {selectedIotaLog.line || 'Unknown Line'}
                                         </span>
-                                        <span className="text-[13px] font-semibold text-[#86868b]">{formatIotaWeekRange(selectedIotaLog.work_date)}</span>
+                                        {selectedIotaLog.isDeleted && (
+                                            <span className="text-[11px] font-bold px-[10px] py-[4px] rounded-[6px] bg-[#ff453a]/20 text-[#ff453a] border border-[#ff453a]/30">
+                                                삭제됨
+                                            </span>
+                                        )}
+                                        <span className="text-[13px] font-semibold text-[#86868b]">{selectedIotaLog.isDeleted ? '삭제된 글' : formatExactDate(selectedIotaLog.work_date)}</span>
                                     </div>
                                 </div>
 
                                 <div className="w-full h-px bg-[#2c2c2e]" />
 
-                                {/* Content Section */}
                                 <div className="flex flex-col gap-4 text-left">
                                     <h3 className="text-[22px] font-black text-white tracking-tight leading-snug">
                                         {selectedIotaLog.title || '업무 로그'}
@@ -557,7 +653,6 @@ export default function IotaMyPage() {
                                         </div>
                                     )}
 
-                                    {/* Raw text */}
                                     <div className="flex flex-col gap-2 mt-2">
                                         <span className="text-[13px] font-bold text-[#86868b]">업무 기록 및 상세 내용</span>
                                         <div className="p-5 bg-[#2c2c2e]/40 border border-[#2c2c2e] rounded-[20px] max-h-[300px] overflow-y-auto custom-thin-scrollbar">
@@ -567,22 +662,30 @@ export default function IotaMyPage() {
                                         </div>
                                     </div>
 
-                                    {/* Notion Link */}
-                                    {selectedIotaLog.source_url && (
-                                        <div className="flex justify-end mt-2">
-                                            <a 
-                                                href={selectedIotaLog.source_url}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
+                                    <div className="flex justify-between items-center mt-2">
+                                        <div>
+                                            {((selectedIotaLog.writer_staff_id && selectedIotaLog.writer_staff_id.toLowerCase() === myEmail.toLowerCase()) || 
+                                              (selectedIotaLog.writer_name && selectedIotaLog.writer_name === myName)) && !selectedIotaLog.isDeleted && (
+                                                <button 
+                                                    onClick={() => handleDeleteLog(selectedIotaLog.id)}
+                                                    className="flex items-center gap-1.5 px-5 py-2.5 bg-[#ff453a]/10 hover:bg-[#ff453a]/20 text-[#ff453a] text-[12px] font-bold rounded-xl transition-colors cursor-pointer border border-[#ff453a]/20"
+                                                >
+                                                    삭제하기
+                                                </button>
+                                            )}
+                                        </div>
+                                        {!selectedIotaLog.isDeleted && (selectedIotaLog.source_url || selectedIotaLog.metadata?.workspace_code) && (
+                                            <button 
+                                                onClick={() => handleGoToWorkspace(selectedIotaLog)}
                                                 className="flex items-center gap-1.5 px-5 py-2.5 bg-[#2c2c2e] hover:bg-[#3a3a3c] text-white text-[12px] font-bold rounded-xl transition-colors cursor-pointer border border-[#3c3c3c]"
                                             >
                                                 <svg className="w-3.5 h-3.5 fill-current text-white" viewBox="0 0 24 24">
                                                     <path d="M4.6 2.05h14.8c1.37 0 2.5 1.13 2.5 2.5v14.8c0 1.37-1.13 2.5-2.5 2.5H4.6c-1.37 0-2.5-1.13-2.5-2.5V4.55c0-1.37 1.13-2.5 2.5-2.5zm.9 3.4c-.61 0-1.1.49-1.1 1.1v10.9c0 .61.49 1.1 1.1 1.1h12.8c.61 0 1.1-.49 1.1-1.1V6.55c0-.61-.49-1.1-1.1-1.1H5.5zm1.5 2h9.8c.28 0 .5.22.5.5v6.8c0 .28-.22.5-.5.5H7c-.28 0-.5-.22-.5-.5V7.95c0-.28.22-.5.5-.5z"/>
                                                 </svg>
-                                                <span>Notion 원문 보기</span>
-                                            </a>
-                                        </div>
-                                    )}
+                                                <span>원문보기</span>
+                                            </button>
+                                        )}
+                                    </div>
 
                                     {/* Modal Comments List */}
                                     <div className="mt-4 border-t border-[#2c2c2e] pt-6 flex flex-col gap-4">
