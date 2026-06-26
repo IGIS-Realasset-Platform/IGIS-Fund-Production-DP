@@ -11,6 +11,8 @@ export default function IotaMyPage() {
     const [isLoading, setIsLoading] = useState(true);
     const [logsError, setLogsError] = useState(null);
     const [selectedIotaLog, setSelectedIotaLog] = useState(null);
+    const [alertMessage, setAlertMessage] = useState('');
+    const [alertType, setAlertType] = useState('error'); // 'error' | 'success'
 
     const myName = memberInfo?.staff_name || memberInfo?.name || '';
     const myEmail = memberInfo?.email || user?.email || '';
@@ -63,7 +65,8 @@ export default function IotaMyPage() {
         // 로컬 DB 로그일 경우
         const wsCode = log.metadata?.workspace_code;
         if (!wsCode) {
-            alert('워크스페이스 정보가 없는 로그입니다.');
+            setAlertType('error');
+            setAlertMessage('워크스페이스 정보가 없는 로그입니다.');
             return;
         }
 
@@ -76,7 +79,8 @@ export default function IotaMyPage() {
                 .maybeSingle();
 
             if (error || !data) {
-                alert('이미 삭제된 글입니다.');
+                setAlertType('error');
+                setAlertMessage('해당 업무 로그는 이미 삭제되어 워크스페이스 원본으로 이동할 수 없습니다.');
                 // 로컬 상태에서도 해당 로그를 삭제 상태로 표시
                 setLogs(prev => prev.map(l => l.id === log.id ? { ...l, isDeleted: true } : l));
                 return;
@@ -103,7 +107,8 @@ export default function IotaMyPage() {
             window.history.pushState(null, '', `${base}/platform/iotaseoul/workspace/${wsPath}?logId=${log.id}`);
             window.dispatchEvent(new Event('popstate'));
         } else {
-            alert('이동할 수 없는 워크스페이스입니다.');
+            setAlertType('error');
+            setAlertMessage('이동할 수 없는 워크스페이스입니다.');
         }
     };
 
@@ -124,10 +129,12 @@ export default function IotaMyPage() {
             if (selectedIotaLog && selectedIotaLog.id === logId) {
                 setSelectedIotaLog(null);
             }
-            alert('성공적으로 삭제되었습니다.');
+            setAlertType('success');
+            setAlertMessage('성공적으로 삭제되었습니다.');
         } catch (err) {
             console.error('Error deleting log:', err);
-            alert('삭제 처리 중 오류가 발생했습니다.');
+            setAlertType('error');
+            setAlertMessage('삭제 처리 중 오류가 발생했습니다.');
         }
     };
 
@@ -491,9 +498,11 @@ export default function IotaMyPage() {
                                                     <span className="text-[11px] font-bold px-[8px] py-[3px] rounded-[6px] bg-[#3b82f6]/20 text-[#60a5fa] border border-[#3b82f6]/30">
                                                         {cleanLabel}
                                                     </span>
-                                                    <span className={`text-[11px] font-bold px-[8px] py-[3px] rounded-[6px] tracking-tight ${getLineBadgeStyle(log.line)}`}>
-                                                        {log.line || 'Unknown Line'}
-                                                    </span>
+                                                    {log.line && log.line !== 'Unknown Line' && (
+                                                        <span className={`text-[11px] font-bold px-[8px] py-[3px] rounded-[6px] tracking-tight ${getLineBadgeStyle(log.line)}`}>
+                                                            {log.line}
+                                                        </span>
+                                                    )}
                                                     {log.isDeleted && (
                                                         <span className="text-[11px] font-bold px-[8px] py-[3px] rounded-[6px] bg-[#ff453a]/20 text-[#ff453a] border border-[#ff453a]/30">
                                                             삭제됨
@@ -519,7 +528,7 @@ export default function IotaMyPage() {
                                                 <div className="flex flex-col gap-1.5 mt-1">
                                                     <span className="text-[12px] font-bold text-[#86868b]">업무 기록 및 상세 내용</span>
                                                     <div className="p-4 bg-[#1e1e1f] border border-[#2c2c2e] rounded-[16px]">
-                                                        <p className="text-[14.5px] text-[#E5E5E5] leading-[1.65] whitespace-pre-wrap break-all line-clamp-3 group-hover:line-clamp-none transition-all">
+                                                        <p className="text-[14.5px] text-[#E5E5E5] leading-[1.65] whitespace-pre-wrap break-all line-clamp-3">
                                                             {log.raw_text || log.body_text || '내용이 없습니다.'}
                                                         </p>
                                                     </div>
@@ -550,7 +559,7 @@ export default function IotaMyPage() {
 
                                             <div className="flex justify-between items-center mt-4 pt-3 border-t border-[#3a3a3c]/30">
                                                 <div className="flex items-center gap-1 text-[13px] font-bold text-[#60a5fa]">
-                                                    <span>자세히 보기 & 댓글 작성</span>
+                                                    <span>자세히 보기</span>
                                                     <svg className="w-3.5 h-3.5 transform translate-x-0 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 5l7 7-7 7" />
                                                     </svg>
@@ -626,9 +635,11 @@ export default function IotaMyPage() {
                                         <span className="text-[11px] font-bold px-[10px] py-[4px] rounded-[6px] bg-[#3b82f6]/20 text-[#60a5fa] border border-[#3b82f6]/30">
                                             {selectedIotaLog.metadata?.workspace_label?.split('-')[0].trim() || '공통'}
                                         </span>
-                                        <span className={`text-[11px] font-bold px-[10px] py-[4px] rounded-[6px] tracking-tight ${getLineBadgeStyle(selectedIotaLog.line)}`}>
-                                            {selectedIotaLog.line || 'Unknown Line'}
-                                        </span>
+                                        {selectedIotaLog.line && selectedIotaLog.line !== 'Unknown Line' && (
+                                            <span className={`text-[11px] font-bold px-[10px] py-[4px] rounded-[6px] tracking-tight ${getLineBadgeStyle(selectedIotaLog.line)}`}>
+                                                {selectedIotaLog.line}
+                                            </span>
+                                        )}
                                         {selectedIotaLog.isDeleted && (
                                             <span className="text-[11px] font-bold px-[10px] py-[4px] rounded-[6px] bg-[#ff453a]/20 text-[#ff453a] border border-[#ff453a]/30">
                                                 삭제됨
@@ -717,6 +728,45 @@ export default function IotaMyPage() {
                                     </div>
                                 </div>
                             </div>
+                        </motion.div>
+                    </div>
+                )}
+            </AnimatePresence>
+
+            {/* Custom Alert Layer Modal */}
+            <AnimatePresence>
+                {alertMessage && (
+                    <div className="fixed inset-0 z-[10000] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+                        <motion.div 
+                            className="bg-[#1C1C1E] border border-[#2c2c2e] w-[360px] max-w-full rounded-[24px] overflow-hidden flex flex-col p-6 shadow-2xl relative text-center"
+                            initial={{ scale: 0.95, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0.95, opacity: 0 }}
+                            transition={{ duration: 0.15 }}
+                        >
+                            <div className={`w-[56px] h-[56px] rounded-full flex items-center justify-center mx-auto mb-4 ${alertType === 'success' ? 'bg-[#30d158]/10 text-[#30d158]' : 'bg-[#ff453a]/10 text-[#ff453a]'}`}>
+                                {alertType === 'success' ? (
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                                        <polyline points="20 6 9 17 4 12" />
+                                    </svg>
+                                ) : (
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                                        <circle cx="12" cy="12" r="10" />
+                                        <line x1="12" y1="8" x2="12" y2="12" />
+                                        <line x1="12" y1="16" x2="12.01" y2="16" />
+                                    </svg>
+                                )}
+                            </div>
+                            <h4 className="text-[17px] font-bold text-white mb-2">{alertType === 'success' ? '성공' : '알림'}</h4>
+                            <p className="text-[#86868B] text-[13.5px] leading-relaxed mb-6">
+                                {alertMessage}
+                            </p>
+                            <button 
+                                onClick={() => setAlertMessage('')}
+                                className={`w-full py-3 text-white font-bold rounded-xl transition-colors cursor-pointer text-[13.5px] ${alertType === 'success' ? 'bg-[#30d158] hover:bg-[#30d158]/90' : 'bg-[#ff453a] hover:bg-[#ff453a]/90'}`}
+                            >
+                                확인
+                            </button>
                         </motion.div>
                     </div>
                 )}
