@@ -856,7 +856,7 @@ export default function DecisionLog() {
                             <button
                                 key={lineFilter}
                                 onClick={() => setIotaLogsLineFilter(lineFilter)}
-                                className={`px-[14px] py-[6px] rounded-full text-[13px] font-bold whitespace-nowrap cursor-pointer transition-colors ${
+                                className={`px-[14px] py-[2px] rounded-full text-[13px] font-bold whitespace-nowrap cursor-pointer transition-colors ${
                                     iotaLogsLineFilter === lineFilter
                                         ? 'text-white border-[1px] border-transparent [background:linear-gradient(#1F1F1E,#1F1F1E)_padding-box,linear-gradient(to_bottom_right,#d6efe9,#82afb9,#4c6e86)_border-box]'
                                         : 'bg-transparent border border-[#333] text-[#86868B] hover:text-white hover:border-[#555]'
