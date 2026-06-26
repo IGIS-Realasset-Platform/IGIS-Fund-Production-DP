@@ -1329,6 +1329,8 @@ export default function WorkspaceFund() {
             </div>
 {/* 2. Task 관리 */}
             <div className="w-full mt-0"></div>
+            {false && (
+                <>
             <div className="flex justify-between items-center mb-[10px]">
                 <div className="flex items-center gap-0">
                     <h2 id="task-management" className="text-[18px] font-bold text-white tracking-tight flex items-center">
@@ -1338,7 +1340,7 @@ export default function WorkspaceFund() {
                     <a href={`${import.meta.env.BASE_URL}platform/iotaseoul/workspace/archive?workspace=fund`} target="_blank" rel="opener" className="text-[#A1A1AA] hover:text-white bg-transparent border border-[#3c3c3c] hover:bg-[#333] text-[13px] font-normal tracking-[-0.02em] ml-[10px] mt-[2px] pl-[10px] pr-[8px] py-[3px] rounded-[6px] transition-all flex items-center gap-[4px] cursor-pointer">
                         지난 Task 관리
                         <svg className="w-[14px] h-[14px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                         </svg>
                     </a>
                     
@@ -1511,6 +1513,8 @@ export default function WorkspaceFund() {
                 )}
                 </div>
             </div>
+                </>
+            )}
 
             <div className="w-full mt-[10px]"></div>
             <WorkspaceActivityLog workspaceCode="WS_KAM" workspaceLabel="펀드운용-KAM" />

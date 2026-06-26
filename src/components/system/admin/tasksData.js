@@ -1022,5 +1022,16 @@ export const tasksData = [
     "작업 유형": "시장 및 동향 리서치",
     "URL": "tenant_stakeholder_plan.md",
     "내용 상세": "VTS, JLL, CBRE 등 글로벌 선두 프롭테크 플랫폼의 기업 임차인 TRM(Tenant Relationship Management) 관리 체계와 바이오/테크 기업 특화 공간 효율 평가지표(KPI) 및 자산운용사의 SI(전략적 투자) 펀드 연계 모델을 벤치마킹하는 상세 리서치 업무 진행 중"
+  },
+  {
+    "대분류": "플랫폼 아키텍처",
+    "작업 이름": "IOTA 워크스페이스 주요 TASK 숨김 및 실시간 통합 업무 로그 연동",
+    "상태": "진행",
+    "담당자": "전기영",
+    "마감일": "2026/06/30",
+    "우선순위": "최고",
+    "작업 유형": "통합 플랫폼 구축",
+    "URL": "DecisionLog.jsx",
+    "내용 상세": "# IOTA 워크스페이스 주요 TASK 숨김처리 및 실시간 통합 업무 로그 연동 계획\n\n현재 CFT 내 구성원들이 직접 등록하는 형태의 개별 워크스페이스 상단 \"주요 TASK 관리\" 영역의 사용을 기피함에 따라 이를 숨김 처리하고, 전체 업무 현황(Workflow) 페이지 최상단 \"이번주 포커스\" 자리에 이시정 리더가 구축한 Supabase Edge Function API를 연동하여 실시간 통합 업무 로그 피드를 표출하는 신규 UI/UX를 개발합니다.\n\n## User Review Required\n\n1. 기존 상태 및 비즈니스 로직 유지\n각 워크스페이스 컴포넌트(WorkspacePm.jsx 등 6개 파일) 및 DecisionLog.jsx 내부의 React State, 로직, 이벤트 핸들러(추가/수정/삭제 등)는 그대로 유지하고 JSX 렌더링 단계에서 숨김(false && (...)) 처리합니다. 이는 미사용 변수로 인한 ESLint 에러 및 컴파일 오류 발생을 완벽하게 방지하기 위함입니다.\n\n2. 신규 UI/UX 및 API 연동\n- API 주소: https://qvegpozwrcmspdvjokiz.supabase.co/functions/v1/iota-logs\n- 로드된 데이터(logs 배열)는 work_date를 기준으로 최신순 정렬(내림차순)하여 렌더링합니다.\n- 최신 통합 로그 약 15~20개를 살펴볼 수 있는 가로 스크롤형 카드 피드 캐러셀을 구현합니다.\n- 개별 로그 카드를 클릭하면 상세 내용을 표시하는 세련된 아코디언 혹은 모달 오버레이를 제공합니다.\n- 검색 기능 및 라인별 필터 칩(A, B, C, D Line 등)을 추가하여 로그를 쉽고 직관적으로 탐색할 수 있도록 디자인합니다.\n\n## Open Questions\n\n- 로그 목록에서 상세 내용 표시 시, 아코디언(카드 확장) 방식과 깔끔한 모달 오버레이 팝업 방식 중 어떤 것이 더 선호되시나요? (이 계획서에서는 화면 복잡도를 낮추고 Apple 스타일의 프리미엄 감성을 극대화하기 위해 모달 오버레이 팝업 방식을 기본 제안으로 구성합니다.)\n\n## Proposed Changes\n\n### 워크스페이스 주요 테스크 숨김 처리 (6개 컴포넌트)\n각 워크스페이스 상단의 \"주요 TASK 관리\" 영역을 렌더링하지 않도록 JSX 단에서 조건부 비활성화합니다.\n- WorkspacePm.jsx: lines 720~903 영역의 TASK 관리 UI 요소를 false && (...) 처리로 비활성화합니다.\n- WorkspaceFinancing.jsx: lines 1324~1509 영역의 TASK 관리 UI 요소를 false && (...) 처리로 비활성화합니다.\n- WorkspaceDevelopment.jsx: lines 653~837 영역의 TASK 관리 UI 요소를 false && (...) 처리로 비활성화합니다.\n- WorkspaceMarketing.jsx: lines 636~821 영역의 TASK 관리 UI 요소를 false && (...) 처리로 비활성화합니다.\n- WorkspaceFund.jsx: lines 1330~1514 영역의 TASK 관리 UI 요소를 false && (...) 처리로 비활성화합니다.\n- WorkspaceIpr.jsx: lines 648~832 영역의 TASK 관리 UI 요소를 false && (...) 처리로 비활성화합니다.\n\n### Workflow 페이지 (전체 업무 현황) 수정\n기존 \"이번주 포커스\" 박스를 숨기고 그 위치에 \"IOTA 실시간 통합 업무 로그\" 피드 영역을 신규 생성합니다.\n- DecisionLog.jsx:\n  - iotaLogs, isLoadingIotaLogs, iotaLogsError 상태 변수 및 API fetch 로직 추가.\n  - 기존 lines 714~828 에 위치하던 \"이번주 포커스\" 영역을 숨김/제거 처리.\n  - 그 자리에 \"IOTA CFT 통합 업무 로그\" 피드 컨테이너를 생성하여 상단 필터부(검색 창 & 라인 필터 칩), 최신 15개 가로 스크롤 캐러셀 피드 및 모달 팝업 원문 조회 연동."
   }
 ];

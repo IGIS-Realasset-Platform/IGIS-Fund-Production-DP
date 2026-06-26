@@ -717,189 +717,193 @@ export default function WorkspacePm() {
             </div>
 {/* 2. Task 관리 */}
             <div className="w-full mt-0"></div>
-            <div className="flex justify-between items-center mb-[10px]">
-                <div className="flex items-center gap-0">
-                    <h2 id="task-management" className="text-[18px] font-bold text-white tracking-tight flex items-center">
-                        <span className="mt-[2px]">사업 PM 주요 TASK 관리</span>
-                        <span className="bg-[#333] text-[#b3b0a6] px-[8px] py-[3px] rounded-[6px] ml-[10px] font-bold text-[14px] relative top-[1px]">{getCurrentWeekInfo().weekLabel}</span>
-                    </h2>
-                    <a href={`${import.meta.env.BASE_URL}platform/iotaseoul/workspace/archive?workspace=pm`} target="_blank" rel="opener" className="text-[#A1A1AA] hover:text-white bg-transparent border border-[#3c3c3c] hover:bg-[#333] text-[13px] font-normal tracking-[-0.02em] ml-[10px] mt-[2px] pl-[10px] pr-[8px] py-[3px] rounded-[6px] transition-all flex items-center gap-[4px] cursor-pointer">
-                        지난 Task 관리
-                        <svg className="w-[14px] h-[14px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                        </svg>
-                    </a>
-                    
-                </div>
-                <div className="flex gap-2 items-center">
-                    
-                    <div className="flex bg-[#272726] border border-[#3c3c3c] rounded-[8px] overflow-hidden p-[2px]">
-                        <button onClick={() => setAssetFilter('427 PFV')} className={`px-[12px] py-[4px] text-[13px] font-bold rounded-[6px] transition-colors ${assetFilter === '427 PFV' ? 'bg-[#3c3c3c] text-white' : 'text-[#86868B] hover:text-[#E5E5E5]'}`}>이오타서울만 보기</button>
-                        <button onClick={() => setAssetFilter('ALL')} className={`px-[12px] py-[4px] text-[13px] font-bold rounded-[6px] transition-colors ${assetFilter === 'ALL' ? 'bg-[#3c3c3c] text-white' : 'text-[#86868B] hover:text-[#E5E5E5]'}`}>전체 자산 보기</button>
-                    </div>
-                    <button 
-                        onClick={() => setProjectShowAll(!projectShowAll)}
-                        className="w-[80px] py-[6px] bg-[#272726] border border-[#3c3c3c] text-[#86868B] hover:text-[#E5E5E5] hover:bg-[#333] text-[13px] font-medium rounded-[8px] transition-colors cursor-pointer"
-                    >
-                        {projectShowAll ? '접기' : '전체보기'}
-                    </button>
-                    <button 
-                        onClick={handleAddClick}
-                        className="px-[14px] py-[6px] bg-[#3b82f6]/20 text-[#60a5fa] border border-[#3b82f6]/30 text-[13px] font-bold rounded-[8px] transition-all hover:bg-[#3b82f6]/30 cursor-pointer"
-                    >
-                        {isAdding ? '등록 취소' : '+ Task 등록하기'}
-                    </button>
-                </div>
-            </div>
-            <div className="-mx-[7px] p-[6px] border border-[#333] rounded-[30px] mb-[34px]">
-                <div className="w-full flex flex-col gap-[16px]">
-                {isAdding && !editingTaskId && renderEditForm()}
-                
-                {isLoadingTasks ? (
-                    <div className="text-center py-[40px] text-[#86868B]">데이터를 불러오는 중입니다...</div>
-                ) : (
-                    <div className="flex flex-col gap-[8px]">
-                        <AnimatePresence>
-                            {(projectShowAll ? sortedTasks : sortedTasks.slice(0, 5)).map((row, index) => (
-                            <motion.div 
-                                layout
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, scale: 0.95 }}
-                                transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                                key={row.id}
-                                id={`task-${row.id}`} 
-                                onClick={() => setExpandedTaskId((expandedTaskId === 'ALL' || expandedTaskId === row.id) ? null : row.id)}
-                                className={`scroll-mt-[100px] w-full relative rounded-[24px] px-6 pt-[22px] pb-[14px] cursor-pointer transition-colors duration-300 group/row ${(expandedTaskId === 'ALL' || expandedTaskId === row.id) ? 'border-[2px] border-transparent [background:linear-gradient(#272726,#272726)_padding-box,linear-gradient(to_bottom_right,#d6efe9,#82afb9,#4c6e86)_border-box]' : 'bg-[#272726] border border-[#3c3c3c] hover:bg-[#333]'}`}
-                            >
-                            {/* 삭제 및 정렬 버튼 (우측 바깥 영역) */}
-                            {isAuthorized && (
-                                <div className="absolute left-[-40px] w-[40px] pr-[8px] top-0 bottom-0 flex items-center justify-end opacity-0 group-hover/row:opacity-100 transition-opacity">
-                                        <div className="flex flex-col gap-1">
-                                            <button 
-                                                onClick={(e) => { e.stopPropagation(); handleMoveTaskUp(index); }}
-                                                disabled={index === 0}
-                                                className={`w-7 h-7 flex items-center justify-center rounded-[6px] bg-[#272726] border border-[#3c3c3c] transition-colors ${index === 0 ? 'opacity-30 cursor-not-allowed' : 'hover:bg-[#333] cursor-pointer'}`}
-                                            >
-                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#E5E5E5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
-                                            </button>
-                                            <button 
-                                                onClick={(e) => { e.stopPropagation(); handleMoveTaskDown(index); }}
-                                                disabled={index === (projectShowAll ? sortedTasks.length : Math.min(sortedTasks.length, 5)) - 1}
-                                                className={`w-7 h-7 flex items-center justify-center rounded-[6px] bg-[#272726] border border-[#3c3c3c] transition-colors ${index === (projectShowAll ? sortedTasks.length : Math.min(sortedTasks.length, 5)) - 1 ? 'opacity-30 cursor-not-allowed' : 'hover:bg-[#333] cursor-pointer'}`}
-                                            >
-                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#E5E5E5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                                            </button>
-                                        </div>
-                                </div>
-                            )}
-                            {/* 삭제 및 수정 버튼 (우측 바깥 영역) */}
-                            {isAuthorized && (
-                                <div className="absolute right-[-60px] w-[60px] pl-[8px] top-0 bottom-0 flex items-center justify-start opacity-0 group-hover/row:opacity-100 transition-opacity">
-                                    <div className="flex flex-col gap-1 w-[46px]">
-                                        <button 
-                                            onClick={(e) => { e.stopPropagation(); setItemToDelete({ id: row.id, message: '정말 삭제하시겠습니까?' }); }} 
-                                            className="w-full h-[28px] flex items-center justify-center bg-[#ef4444]/10 text-[#ef4444] border border-[#ef4444]/30 rounded-[6px] text-[12px] font-bold hover:bg-[#ef4444]/20 cursor-pointer"
-                                        >
-                                            삭제
-                                        </button>
-                                        <button 
-                                            onClick={(e) => { e.stopPropagation(); handleEditRow(row); }} 
-                                            className="w-full h-[28px] flex items-center justify-center bg-[#3b82f6]/10 text-[#3b82f6] border border-[#3b82f6]/30 rounded-[6px] text-[12px] font-bold hover:bg-[#3b82f6]/20 cursor-pointer"
-                                        >
-                                            수정
-                                        </button>
-                                    </div>
-                                </div>
-                            )}
-                            <div className="flex justify-between items-start gap-8">
-                                <div className="flex-1 flex gap-8">
-                                    <div className="w-[430px] shrink-0 flex flex-col gap-[2px] border-r border-[#444]/50 pr-8">
-                                        <div className="flex items-center gap-2 relative -top-[1px]">
-                                            <span className="text-[13px] font-bold text-[#86868B]">Task {index + 1}</span>
-                                            {row.related_asset && (
-                                                <span className="px-[5px] pt-[1px] pb-0 bg-[#333] text-[#A1A1AA] border border-[#444] rounded-[4px] text-[11px] font-bold whitespace-nowrap">
-                                                    {row.related_asset}
-                                                </span>
-                                            )}
-                                        </div>
-                                        <h3 className={`text-[21px] font-bold ${index < 5 ? 'text-[#e2aa29]' : 'text-white'} tracking-tight leading-tight`}>
-                                            {row.task_name}
-                                        </h3>
-                                    </div>
-                                    <div className="flex-1 flex flex-col gap-[2px] pr-4">
-                                        <div className="flex items-center gap-2 mb-1 -translate-y-[2px]">
-                                            <span className="text-[13px] font-bold text-[#86868B]">다음액션</span>
-                                            {row.due_date && <span className="text-[11px] font-medium text-[#A1A1AA] bg-[#2c2c2e] border border-[#3a3a3c] px-[8px] py-[2px] rounded-full tracking-tight">마감일 목표 {row.due_date}</span>}
-                                        </div>
-                                        <p className="min-h-[28px] text-[18px] text-[#bbb9af] leading-relaxed break-keep font-medium -translate-y-[6px]">
-                                            {parseNames(row.next_action)}
-                                        </p>
-                                    </div>
-                                </div>
-                                <div className="flex items-center gap-3 shrink-0">
-                                    {row.company_name && (
-                                        <span className="text-[13px] font-medium text-[#86868B]">이해관계자</span>
-                                    )}
-                                    <span className={`text-[15px] px-4 py-2 bg-[#1A1A1A] rounded-[12px] border border-[#333] ${row.company_name ? 'font-bold text-[#E5E5E5]' : 'font-normal text-[#86868B]'}`}>
-                                        {row.company_name || '내부업무'}
-                                    </span>
-                                </div>
-                            </div>
+            {false && (
+                <>
+                    <div className="flex justify-between items-center mb-[10px]">
+                        <div className="flex items-center gap-0">
+                            <h2 id="task-management" className="text-[18px] font-bold text-white tracking-tight flex items-center">
+                                <span className="mt-[2px]">사업 PM 주요 TASK 관리</span>
+                                <span className="bg-[#333] text-[#b3b0a6] px-[8px] py-[3px] rounded-[6px] ml-[10px] font-bold text-[14px] relative top-[1px]">{getCurrentWeekInfo().weekLabel}</span>
+                            </h2>
+                            <a href={`${import.meta.env.BASE_URL}platform/iotaseoul/workspace/archive?workspace=pm`} target="_blank" rel="opener" className="text-[#A1A1AA] hover:text-white bg-transparent border border-[#3c3c3c] hover:bg-[#333] text-[13px] font-normal tracking-[-0.02em] ml-[10px] mt-[2px] pl-[10px] pr-[8px] py-[3px] rounded-[6px] transition-all flex items-center gap-[4px] cursor-pointer">
+                                지난 Task 관리
+                                <svg className="w-[14px] h-[14px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                </svg>
+                            </a>
                             
-                            <div className={`overflow-hidden transition-all duration-300 ease-in-out ${(expandedTaskId === 'ALL' || expandedTaskId === row.id) ? 'max-h-[200px] mt-4 pt-4 border-t border-[#3c3c3c] opacity-100' : 'max-h-0 opacity-0'}`}>
-                                <div className="flex justify-start items-center gap-12">
-                                    <div className="flex items-center gap-3">
-                                        <span className="text-[13px] font-bold text-[#86868B]">관련 자산</span>
-                                        <span className="text-[16px] text-white font-medium">{row.related_asset}</span>
-                                    </div>
-                                    <div className="flex items-center gap-3">
-                                        <span className="text-[13px] font-bold text-[#86868B]">상태</span>
-                                        <span className={`px-2 py-1 rounded-[6px] text-[13px] font-bold w-max ${row.status === '진행중' ? 'bg-[#059669]/20 text-[#34d399]' : row.status === '검토중' ? 'bg-[#d97706]/20 text-[#fbf167]' : row.status === '완료' ? 'bg-[#2563eb]/20 text-[#60a5fa]' : 'bg-[#4b5563]/20 text-[#9ca3af]'}`}>
-                                            {row.status}
-                                        </span>
-                                    </div>
-                                    <div className="flex items-center gap-3">
-                                        <span className="text-[13px] font-bold text-[#86868B]">중요도</span>
-                                        <span className={`text-[16px] font-bold ${row.priority === '높음' ? 'text-[#ef4444]' : row.priority === '중간' ? 'text-[#3b82f6]' : 'text-[#10b981]'}`}>{row.priority}</span>
-                                    </div>
-                                    <div className="flex items-center gap-3">
-                                        <span className="text-[13px] font-bold text-[#86868B]">마감일</span>
-                                        <span className="text-[16px] text-[#A1A1AA] font-['Inter'] font-medium">{row.due_date}</span>
-                                    </div>
-                                </div>
-                                {row.notes && (
-                                <div className="flex items-start gap-4 mt-4 pt-4 border-t border-[#3c3c3c]/50">
-                                    <span className="text-[13px] font-bold text-[#86868B] shrink-0 mt-[2px]">상세 내용</span>
-                                    <span className="text-[14px] text-white font-medium break-all">
-                                        {row.notes.startsWith('http') ? <a href={row.notes} target="_blank" rel="noreferrer" className="text-[#2997ff] hover:underline">{row.notes}</a> : row.notes}
-                                    </span>
-                                </div>
-                                )}
-                                {row.file_name && row.file_url && (
-                                <div className="flex items-start gap-4 mt-4 pt-4 border-t border-[#3c3c3c]/50">
-                                    <span className="text-[13px] font-bold text-[#86868B] shrink-0 mt-[2px]">첨부파일</span>
-                                    <button 
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            handleDownloadFile(row.file_url, row.file_name);
-                                        }}
-                                        className="flex items-center gap-2 px-3 py-1.5 bg-[#2A2A2A] hover:bg-[#333] text-[#A1A1AA] text-[13px] rounded-lg transition-colors border border-[#444] cursor-pointer"
-                                    >
-                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                                        {row.file_name}
-                                    </button>
-                                </div>
-                                )}
-                                </div>
-                                {isAdding && editingTaskId === row.id && renderEditForm()}
-                            </motion.div>
-                            ))}
-                        </AnimatePresence>
+                        </div>
+                        <div className="flex gap-2 items-center">
+                            
+                            <div className="flex bg-[#272726] border border-[#3c3c3c] rounded-[8px] overflow-hidden p-[2px]">
+                                <button onClick={() => setAssetFilter('427 PFV')} className={`px-[12px] py-[4px] text-[13px] font-bold rounded-[6px] transition-colors ${assetFilter === '427 PFV' ? 'bg-[#3c3c3c] text-white' : 'text-[#86868B] hover:text-[#E5E5E5]'}`}>이오타서울만 보기</button>
+                                <button onClick={() => setAssetFilter('ALL')} className={`px-[12px] py-[4px] text-[13px] font-bold rounded-[6px] transition-colors ${assetFilter === 'ALL' ? 'bg-[#3c3c3c] text-white' : 'text-[#86868B] hover:text-[#E5E5E5]'}`}>전체 자산 보기</button>
+                            </div>
+                            <button 
+                                onClick={() => setProjectShowAll(!projectShowAll)}
+                                className="w-[80px] py-[6px] bg-[#272726] border border-[#3c3c3c] text-[#86868B] hover:text-[#E5E5E5] hover:bg-[#333] text-[13px] font-medium rounded-[8px] transition-colors cursor-pointer"
+                            >
+                                {projectShowAll ? '접기' : '전체보기'}
+                            </button>
+                            <button 
+                                onClick={handleAddClick}
+                                className="px-[14px] py-[6px] bg-[#3b82f6]/20 text-[#60a5fa] border border-[#3b82f6]/30 text-[13px] font-bold rounded-[8px] transition-all hover:bg-[#3b82f6]/30 cursor-pointer"
+                            >
+                                {isAdding ? '등록 취소' : '+ Task 등록하기'}
+                            </button>
+                        </div>
                     </div>
-                )}
-                </div>
-            </div>
+                    <div className="-mx-[7px] p-[6px] border border-[#333] rounded-[30px] mb-[34px]">
+                        <div className="w-full flex flex-col gap-[16px]">
+                        {isAdding && !editingTaskId && renderEditForm()}
+                        
+                        {isLoadingTasks ? (
+                            <div className="text-center py-[40px] text-[#86868B]">데이터를 불러오는 중입니다...</div>
+                        ) : (
+                            <div className="flex flex-col gap-[8px]">
+                                <AnimatePresence>
+                                    {(projectShowAll ? sortedTasks : sortedTasks.slice(0, 5)).map((row, index) => (
+                                    <motion.div 
+                                        layout
+                                        initial={{ opacity: 0, y: 10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        exit={{ opacity: 0, scale: 0.95 }}
+                                        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                                        key={row.id}
+                                        id={`task-${row.id}`} 
+                                        onClick={() => setExpandedTaskId((expandedTaskId === 'ALL' || expandedTaskId === row.id) ? null : row.id)}
+                                        className={`scroll-mt-[100px] w-full relative rounded-[24px] px-6 pt-[22px] pb-[14px] cursor-pointer transition-colors duration-300 group/row ${(expandedTaskId === 'ALL' || expandedTaskId === row.id) ? 'border-[2px] border-transparent [background:linear-gradient(#272726,#272726)_padding-box,linear-gradient(to_bottom_right,#d6efe9,#82afb9,#4c6e86)_border-box]' : 'bg-[#272726] border border-[#3c3c3c] hover:bg-[#333]'}`}
+                                    >
+                                    {/* 삭제 및 정렬 버튼 (우측 바깥 영역) */}
+                                    {isAuthorized && (
+                                        <div className="absolute left-[-40px] w-[40px] pr-[8px] top-0 bottom-0 flex items-center justify-end opacity-0 group-hover/row:opacity-100 transition-opacity">
+                                                <div className="flex flex-col gap-1">
+                                                    <button 
+                                                        onClick={(e) => { e.stopPropagation(); handleMoveTaskUp(index); }}
+                                                        disabled={index === 0}
+                                                        className={`w-7 h-7 flex items-center justify-center rounded-[6px] bg-[#272726] border border-[#3c3c3c] transition-colors ${index === 0 ? 'opacity-30 cursor-not-allowed' : 'hover:bg-[#333] cursor-pointer'}`}
+                                                    >
+                                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#E5E5E5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
+                                                    </button>
+                                                    <button 
+                                                        onClick={(e) => { e.stopPropagation(); handleMoveTaskDown(index); }}
+                                                        disabled={index === (projectShowAll ? sortedTasks.length : Math.min(sortedTasks.length, 5)) - 1}
+                                                        className={`w-7 h-7 flex items-center justify-center rounded-[6px] bg-[#272726] border border-[#3c3c3c] transition-colors ${index === (projectShowAll ? sortedTasks.length : Math.min(sortedTasks.length, 5)) - 1 ? 'opacity-30 cursor-not-allowed' : 'hover:bg-[#333] cursor-pointer'}`}
+                                                    >
+                                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#E5E5E5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                                    </button>
+                                                </div>
+                                        </div>
+                                    )}
+                                    {/* 삭제 및 수정 버튼 (우측 바깥 영역) */}
+                                    {isAuthorized && (
+                                        <div className="absolute right-[-60px] w-[60px] pl-[8px] top-0 bottom-0 flex items-center justify-start opacity-0 group-hover/row:opacity-100 transition-opacity">
+                                            <div className="flex flex-col gap-1 w-[46px]">
+                                                <button 
+                                                    onClick={(e) => { e.stopPropagation(); setItemToDelete({ id: row.id, message: '정말 삭제하시겠습니까?' }); }} 
+                                                    className="w-full h-[28px] flex items-center justify-center bg-[#ef4444]/10 text-[#ef4444] border border-[#ef4444]/30 rounded-[6px] text-[12px] font-bold hover:bg-[#ef4444]/20 cursor-pointer"
+                                                >
+                                                    삭제
+                                                </button>
+                                                <button 
+                                                    onClick={(e) => { e.stopPropagation(); handleEditRow(row); }} 
+                                                    className="w-full h-[28px] flex items-center justify-center bg-[#3b82f6]/10 text-[#3b82f6] border border-[#3b82f6]/30 rounded-[6px] text-[12px] font-bold hover:bg-[#3b82f6]/20 cursor-pointer"
+                                                >
+                                                    수정
+                                                </button>
+                                            </div>
+                                        </div>
+                                    )}
+                                    <div className="flex justify-between items-start gap-8">
+                                        <div className="flex-1 flex gap-8">
+                                            <div className="w-[430px] shrink-0 flex flex-col gap-[2px] border-r border-[#444]/50 pr-8">
+                                                <div className="flex items-center gap-2 relative -top-[1px]">
+                                                    <span className="text-[13px] font-bold text-[#86868B]">Task {index + 1}</span>
+                                                    {row.related_asset && (
+                                                        <span className="px-[5px] pt-[1px] pb-0 bg-[#333] text-[#A1A1AA] border border-[#444] rounded-[4px] text-[11px] font-bold whitespace-nowrap">
+                                                            {row.related_asset}
+                                                        </span>
+                                                    )}
+                                                </div>
+                                                <h3 className={`text-[21px] font-bold ${index < 5 ? 'text-[#e2aa29]' : 'text-white'} tracking-tight leading-tight`}>
+                                                    {row.task_name}
+                                                </h3>
+                                            </div>
+                                            <div className="flex-1 flex flex-col gap-[2px] pr-4">
+                                                <div className="flex items-center gap-2 mb-1 -translate-y-[2px]">
+                                                    <span className="text-[13px] font-bold text-[#86868B]">다음액션</span>
+                                                    {row.due_date && <span className="text-[11px] font-medium text-[#A1A1AA] bg-[#2c2c2e] border border-[#3a3a3c] px-[8px] py-[2px] rounded-full tracking-tight">마감일 목표 {row.due_date}</span>}
+                                                </div>
+                                                <p className="min-h-[28px] text-[18px] text-[#bbb9af] leading-relaxed break-keep font-medium -translate-y-[6px]">
+                                                    {parseNames(row.next_action)}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center gap-3 shrink-0">
+                                            {row.company_name && (
+                                                <span className="text-[13px] font-medium text-[#86868B]">이해관계자</span>
+                                            )}
+                                            <span className={`text-[15px] px-4 py-2 bg-[#1A1A1A] rounded-[12px] border border-[#333] ${row.company_name ? 'font-bold text-[#E5E5E5]' : 'font-normal text-[#86868B]'}`}>
+                                                {row.company_name || '내부업무'}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div className={`overflow-hidden transition-all duration-300 ease-in-out ${(expandedTaskId === 'ALL' || expandedTaskId === row.id) ? 'max-h-[200px] mt-4 pt-4 border-t border-[#3c3c3c] opacity-100' : 'max-h-0 opacity-0'}`}>
+                                        <div className="flex justify-start items-center gap-12">
+                                            <div className="flex items-center gap-3">
+                                                <span className="text-[13px] font-bold text-[#86868B]">관련 자산</span>
+                                                <span className="text-[16px] text-white font-medium">{row.related_asset}</span>
+                                            </div>
+                                            <div className="flex items-center gap-3">
+                                                <span className="text-[13px] font-bold text-[#86868B]">상태</span>
+                                                <span className={`px-2 py-1 rounded-[6px] text-[13px] font-bold w-max ${row.status === '진행중' ? 'bg-[#059669]/20 text-[#34d399]' : row.status === '검토중' ? 'bg-[#d97706]/20 text-[#fbf167]' : row.status === '완료' ? 'bg-[#2563eb]/20 text-[#60a5fa]' : 'bg-[#4b5563]/20 text-[#9ca3af]'}`}>
+                                                    {row.status}
+                                                </span>
+                                            </div>
+                                            <div className="flex items-center gap-3">
+                                                <span className="text-[13px] font-bold text-[#86868B]">중요도</span>
+                                                <span className={`text-[16px] font-bold ${row.priority === '높음' ? 'text-[#ef4444]' : row.priority === '중간' ? 'text-[#3b82f6]' : 'text-[#10b981]'}`}>{row.priority}</span>
+                                            </div>
+                                            <div className="flex items-center gap-3">
+                                                <span className="text-[13px] font-bold text-[#86868B]">마감일</span>
+                                                <span className="text-[16px] text-[#A1A1AA] font-['Inter'] font-medium">{row.due_date}</span>
+                                            </div>
+                                        </div>
+                                        {row.notes && (
+                                        <div className="flex items-start gap-4 mt-4 pt-4 border-t border-[#3c3c3c]/50">
+                                            <span className="text-[13px] font-bold text-[#86868B] shrink-0 mt-[2px]">상세 내용</span>
+                                            <span className="text-[14px] text-white font-medium break-all">
+                                                {row.notes.startsWith('http') ? <a href={row.notes} target="_blank" rel="noreferrer" className="text-[#2997ff] hover:underline">{row.notes}</a> : row.notes}
+                                            </span>
+                                        </div>
+                                        )}
+                                        {row.file_name && row.file_url && (
+                                        <div className="flex items-start gap-4 mt-4 pt-4 border-t border-[#3c3c3c]/50">
+                                            <span className="text-[13px] font-bold text-[#86868B] shrink-0 mt-[2px]">첨부파일</span>
+                                            <button 
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    handleDownloadFile(row.file_url, row.file_name);
+                                                }}
+                                                className="flex items-center gap-2 px-3 py-1.5 bg-[#2A2A2A] hover:bg-[#333] text-[#A1A1AA] text-[13px] rounded-lg transition-colors border border-[#444] cursor-pointer"
+                                            >
+                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                                                {row.file_name}
+                                            </button>
+                                        </div>
+                                        )}
+                                        </div>
+                                        {isAdding && editingTaskId === row.id && renderEditForm()}
+                                    </motion.div>
+                                    ))}
+                                </AnimatePresence>
+                            </div>
+                        )}
+                        </div>
+                    </div>
+                </>
+            )}
 
             <div className="w-full mt-[10px]"></div>
             <WorkspaceActivityLog workspaceCode="WS_PM" workspaceLabel="사업 PM" />

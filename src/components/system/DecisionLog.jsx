@@ -72,6 +72,14 @@ export default function DecisionLog() {
     const [commentMentionCursorIndex, setCommentMentionCursorIndex] = useState(0);
     const [commentMentionPosition, setCommentMentionPosition] = useState({ top: 0, left: 0 });
 
+    // IOTA Edge Function Logs states
+    const [iotaLogs, setIotaLogs] = useState([]);
+    const [isLoadingIotaLogs, setIsLoadingIotaLogs] = useState(true);
+    const [iotaLogsError, setIotaLogsError] = useState(null);
+    const [iotaLogsLineFilter, setIotaLogsLineFilter] = useState('전체');
+    const [iotaLogsSearchQuery, setIotaLogsSearchQuery] = useState('');
+    const [selectedIotaLog, setSelectedIotaLog] = useState(null);
+
     const handleCadenceRowClick = async (rowId, meetingName) => {
         if (expandedCadenceRow === rowId) {
             setExpandedCadenceRow(null);
@@ -235,6 +243,33 @@ export default function DecisionLog() {
         }
     };
 
+    const fetchIotaLogs = async () => {
+        setIsLoadingIotaLogs(true);
+        setIotaLogsError(null);
+        try {
+            const response = await fetch('https://qvegpozwrcmspdvjokiz.supabase.co/functions/v1/iota-logs');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+            if (data && data.logs) {
+                const sortedLogs = [...data.logs].sort((a, b) => {
+                    const dateA = a.work_date ? new Date(a.work_date).getTime() : 0;
+                    const dateB = b.work_date ? new Date(b.work_date).getTime() : 0;
+                    return dateB - dateA;
+                });
+                setIotaLogs(sortedLogs);
+            } else {
+                throw new Error('Invalid data format received');
+            }
+        } catch (err) {
+            console.error('Error fetching iota-logs:', err);
+            setIotaLogsError(err.message || '로그를 불러오는 데 실패했습니다.');
+        } finally {
+            setIsLoadingIotaLogs(false);
+        }
+    };
+
     const hasRestrictedPermissions = (log) => {
         const perms = log.metadata?.permissions;
         if (!perms) return false;
@@ -333,10 +368,12 @@ export default function DecisionLog() {
         fetchFocusTasks();
         fetchLogs();
         fetchMasterStakeholders();
+        fetchIotaLogs();
         
         const handleRefetch = () => {
             fetchLogs();
             fetchMasterStakeholders();
+            fetchIotaLogs();
         };
         window.addEventListener('refetch-data', handleRefetch);
         
@@ -698,6 +735,47 @@ export default function DecisionLog() {
         return normWriter !== normTarget;
     });
 
+    const getLineBadgeStyle = (line) => {
+        const normLine = (line || '').toUpperCase();
+        if (normLine.includes('A')) {
+            return 'bg-[#30d158]/10 text-[#34d399] border border-[#30d158]/20';
+        } else if (normLine.includes('B')) {
+            return 'bg-[#0a84ff]/10 text-[#60a5fa] border border-[#0a84ff]/20';
+        } else if (normLine.includes('C')) {
+            return 'bg-[#bf5af2]/10 text-[#c084fc] border border-[#bf5af2]/20';
+        } else if (normLine.includes('D')) {
+            return 'bg-[#ffd60a]/10 text-[#fbbf24] border border-[#ffd60a]/20';
+        }
+        return 'bg-[#8e8e93]/10 text-[#9ca3af] border border-[#8e8e93]/20';
+    };
+
+    const filteredIotaLogs = iotaLogs.filter(log => {
+        if (iotaLogsLineFilter !== '전체') {
+            const line = log.line || '';
+            if (iotaLogsLineFilter === 'A Line') {
+                if (!line.includes('A Line') && !line.includes('A-TF')) return false;
+            } else if (iotaLogsLineFilter === 'B Line') {
+                if (!line.includes('B Line')) return false;
+            } else if (iotaLogsLineFilter === 'C Line') {
+                if (!line.includes('C1 Line') && !line.includes('C2 Line') && !line.includes('C Line')) return false;
+            } else if (iotaLogsLineFilter === 'D Line') {
+                if (!line.includes('D Line') && !line.includes('D-TF')) return false;
+            }
+        }
+        if (iotaLogsSearchQuery.trim()) {
+            const query = iotaLogsSearchQuery.toLowerCase();
+            const title = (log.title || '').toLowerCase();
+            const summary = (log.summary || '').toLowerCase();
+            const rawText = (log.raw_text || '').toLowerCase();
+            const writer = (log.writer_name || '').toLowerCase();
+            const lineVal = (log.line || '').toLowerCase();
+            if (!title.includes(query) && !summary.includes(query) && !rawText.includes(query) && !writer.includes(query) && !lineVal.includes(query)) {
+                return false;
+            }
+        }
+        return true;
+    });
+
     return (
         <div className="w-full flex-1 flex flex-col pt-[50px] pb-[60px] max-w-[1200px] mx-auto">
             {/* Header Metadata */}
@@ -711,117 +789,132 @@ export default function DecisionLog() {
                 </div>
             </div>
 
-            {/* This Week's Focus */}
+            {/* IOTA CFT 실시간 통합 업무 로그 */}
             <div className="w-full mb-[44px]">
-                {/* Header with Title and Nav Links */}
-                <div className="flex items-center gap-[16px] mb-[10px]">
-                    <h2 className="text-[20px] font-bold text-white tracking-tight shrink-0">이번주 포커스</h2>
+                {/* Header with Title, Search and Line Filters */}
+                <div className="flex flex-col gap-[14px] mb-[16px]">
+                    <div className="flex justify-between items-center w-full">
+                        <h2 className="text-[20px] font-bold text-white tracking-tight shrink-0 flex items-center gap-2">
+                            <span>IOTA CFT 통합 업무 로그</span>
+                            <span className="text-[12px] bg-[#3b82f6]/20 text-[#60a5fa] px-2 py-0.5 rounded-md font-semibold font-mono animate-pulse">LIVE</span>
+                        </h2>
+                        
+                        {/* Search Input */}
+                        <div className="relative w-[280px]">
+                            <input
+                                type="text"
+                                value={iotaLogsSearchQuery}
+                                onChange={(e) => setIotaLogsSearchQuery(e.target.value)}
+                                placeholder="피드 내용 검색..."
+                                className="w-full bg-[#1A1A1A] border border-[#3c3c3c] rounded-full pl-9 pr-4 py-1.5 text-white text-[13px] outline-none focus:border-[#86868b] transition-colors"
+                            />
+                            <svg className="w-4 h-4 absolute left-3 top-2 text-[#86868b]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                            {iotaLogsSearchQuery && (
+                                <button 
+                                    onClick={() => setIotaLogsSearchQuery('')}
+                                    className="absolute right-3 top-2 text-[#86868b] hover:text-white"
+                                >
+                                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </button>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* Filter chips */}
                     <div className="flex items-center gap-[8px] overflow-x-auto scrollbar-hide">
-                        {WORKSPACE_CONFIG.map(ws => (
+                        {['전체', 'A Line', 'B Line', 'C Line', 'D Line'].map(lineFilter => (
                             <button
-                                key={ws.id}
-                                onClick={() => {
-                                    setActiveWorkspaceTab(ws.id);
-                                    const container = document.getElementById('focus-scroll-container');
-                                    const card = document.getElementById(`focus-card-${ws.id}`);
-                                    if (container && card) {
-                                        container.scrollTo({ left: card.offsetLeft - container.offsetLeft, behavior: 'smooth' });
-                                    }
-                                }}
-                                className={`px-[12px] py-[6px] rounded-full text-[13px] font-bold whitespace-nowrap cursor-pointer transition-colors ${
-                                    activeWorkspaceTab === ws.id
+                                key={lineFilter}
+                                onClick={() => setIotaLogsLineFilter(lineFilter)}
+                                className={`px-[14px] py-[6px] rounded-full text-[13px] font-bold whitespace-nowrap cursor-pointer transition-colors ${
+                                    iotaLogsLineFilter === lineFilter
                                         ? 'text-white border-[1px] border-transparent [background:linear-gradient(#1F1F1E,#1F1F1E)_padding-box,linear-gradient(to_bottom_right,#d6efe9,#82afb9,#4c6e86)_border-box]'
                                         : 'bg-transparent border border-[#333] text-[#86868B] hover:text-white hover:border-[#555]'
                                 }`}
                             >
-                                {ws.name}
+                                {lineFilter}
                             </button>
                         ))}
                     </div>
                 </div>
 
-                {isLoadingFocus ? (
-                    <div className="w-full h-[300px] flex items-center justify-center border border-[#333] rounded-[24px]">
-                        <span className="text-[#86868B] text-[15px]">데이터를 불러오는 중입니다...</span>
+                {isLoadingIotaLogs ? (
+                    <div className="w-full h-[260px] flex items-center justify-center border border-[#333] rounded-[24px]">
+                        <span className="text-[#86868B] text-[15px] animate-pulse">실시간 로그를 불러오는 중입니다...</span>
+                    </div>
+                ) : iotaLogsError ? (
+                    <div className="w-full h-[260px] flex flex-col items-center justify-center border border-[#ef4444]/30 rounded-[24px] bg-[#ef4444]/5">
+                        <span className="text-[#ef4444] text-[15px] font-bold mb-2">연동 중 에러 발생</span>
+                        <span className="text-[#86868B] text-[13px]">{iotaLogsError}</span>
+                    </div>
+                ) : filteredIotaLogs.length === 0 ? (
+                    <div className="w-full h-[260px] flex items-center justify-center border border-[#333] rounded-[24px] bg-[#1a1a1a]/50">
+                        <span className="text-[#86868B] text-[14px]">조건에 일치하는 업무 로그가 없습니다.</span>
                     </div>
                 ) : (
                     <div className="-ml-[7px] -mr-[calc(50vw-50%)] p-[6px] border-y border-l border-[#333] rounded-l-[30px]">
                         <div 
-                            id="focus-scroll-container" 
-                            className="w-full flex gap-[6px] overflow-x-auto snap-x pr-[40px] custom-thin-scrollbar rounded-l-[24px]"
-                            onScroll={(e) => {
-                                const container = e.target;
-                                const scrollLeft = container.scrollLeft;
-                                let activeId = WORKSPACE_CONFIG[0].id;
-                                let minDiff = Infinity;
-                                
-                                WORKSPACE_CONFIG.forEach(ws => {
-                                    const card = document.getElementById(`focus-card-${ws.id}`);
-                                    if (card) {
-                                        const diff = Math.abs((card.offsetLeft - container.offsetLeft) - scrollLeft);
-                                        if (diff < minDiff) {
-                                            minDiff = diff;
-                                            activeId = ws.id;
-                                        }
-                                    }
-                                });
-                                setActiveWorkspaceTab(activeId);
-                            }}
+                            className="w-full flex gap-[12px] overflow-x-auto snap-x pr-[40px] custom-thin-scrollbar rounded-l-[24px]"
                         >
-                        {WORKSPACE_CONFIG.map(ws => {
-                            const tasks = focusTasks[ws.id] || [];
-                            return (
+                            {filteredIotaLogs.slice(0, 20).map(log => (
                                 <div 
-                                    key={ws.id}
-                                    id={`focus-card-${ws.id}`}
-                                    className={`min-w-[480px] max-w-[480px] shrink-0 rounded-[24px] px-[24px] pt-[16px] pb-[26px] snap-start flex flex-col gap-[16px] min-h-[380px] transition-colors ${
-                                        activeWorkspaceTab === ws.id
-                                            ? 'border-[2px] border-transparent [background:linear-gradient(#272727,#272727)_padding-box,linear-gradient(to_bottom_right,#d6efe9,#82afb9,#4c6e86)_border-box]'
-                                            : 'bg-[#272727] border border-[#3c3c3c]'
-                                    }`}
+                                    key={log.id}
+                                    onClick={() => setSelectedIotaLog(log)}
+                                    className="min-w-[400px] max-w-[400px] shrink-0 rounded-[24px] px-[24px] pt-[20px] pb-[20px] snap-start flex flex-col gap-[14px] bg-[#272727] border border-[#3c3c3c] hover:bg-[#323232] hover:border-[#555] transition-all cursor-pointer group"
                                 >
-                                    {/* Card Title */}
-                                    <h3 className="text-[18px] font-bold text-white mb-[0]">{ws.name}</h3>
-
-                                    {tasks.length === 0 ? (
-                                        <div className="text-[#86868B] text-[14px] mt-[10px]">진행 중인 주요 테스크가 없습니다.</div>
-                                    ) : (
-                                        tasks.map((task, idx) => (
-                                            <div key={task.id} className="flex flex-col gap-[4px] mt-[8px]">
-                                                <div className="w-[calc(100%+48px)] h-[1px] bg-[#333] ml-[-24px] -mt-[10px] mb-[10px]"></div>
-                                                <div className="flex justify-between items-center mb-[2px]">
-                                                    <span className="text-[13px] font-bold text-[#86868B]">Task {idx + 1}</span>
-                                                    <span className="text-[12px] font-medium text-[#6c6c6d]">목표 마감일 {task.due_date || '미정'}</span>
-                                                </div>
-                                                <div 
-                                                    className="cursor-pointer group overflow-hidden flex flex-col gap-[8px]"
-                                                    onClick={() => {
-                                                        localStorage.setItem('iota_target_task_id', task.id);
-                                                        navigate(`/${ws.path}#task-management`);
-                                                    }}
-                                                >
-                                                    <h4 className="text-[20px] font-bold text-[#e2aa29] leading-none group-hover:text-[#fbf167] transition-colors truncate block w-full pt-[2px]">
-                                                        {task.task_name}
-                                                    </h4>
-                                                    <div className="flex items-center gap-[6px]">
-                                                        <span className="text-[15px] font-medium text-[#515151] shrink-0">다음액션</span>
-                                                        <p className="text-[15px] text-[#86868B] truncate w-full leading-none group-hover:text-[#A1A1AA] transition-colors">
-                                                            {task.next_action || '작성된 내용이 없습니다.'}
-                                                        </p>
-                                                    </div>
-                                                </div>
+                                    {/* Author & Badge */}
+                                    <div className="flex justify-between items-center">
+                                        <div className="flex items-center gap-[10px]">
+                                            <div className="w-[36px] h-[36px] rounded-full bg-[#3c3c3c] overflow-hidden border border-[#555] shrink-0">
+                                                <img 
+                                                    src={`${import.meta.env.BASE_URL}${log.writer_name}.webp`} 
+                                                    alt={log.writer_name} 
+                                                    className="w-full h-full object-cover" 
+                                                    onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }} 
+                                                />
                                             </div>
-                                        ))
-                                    )}
+                                            <div className="flex flex-col text-left">
+                                                <span className="text-white font-bold text-[13.5px] leading-tight">{log.writer_name}</span>
+                                                <span className="text-[#86868B] text-[11px] mt-[1px] leading-tight truncate max-w-[180px]">{log.writer_email}</span>
+                                            </div>
+                                        </div>
+                                        <span className={`text-[11px] font-bold px-[8px] py-[3px] rounded-[6px] tracking-tight ${getLineBadgeStyle(log.line)}`}>
+                                            {log.line || 'Unknown Line'}
+                                        </span>
+                                    </div>
+
+                                    {/* Title & Summary */}
+                                    <div className="flex flex-col gap-[6px] flex-1">
+                                        <h4 className="text-[17px] font-bold text-white leading-snug group-hover:text-[#60a5fa] transition-colors line-clamp-1 text-left">
+                                            {log.title || '업무 로그'}
+                                        </h4>
+                                        <p className="text-[14.5px] text-[#e2aa29] line-clamp-2 leading-relaxed font-medium text-left">
+                                            {log.summary || '상세 내용을 클릭하여 확인하세요.'}
+                                        </p>
+                                    </div>
+
+                                    {/* Date */}
+                                    <div className="flex justify-between items-center pt-[10px] border-t border-[#3a3a3c]/40 mt-auto">
+                                        <span className="text-[12px] font-medium text-[#86868B]">{log.work_date}</span>
+                                        <div className="flex items-center gap-1 text-[12px] font-bold text-[#60a5fa] opacity-0 group-hover:opacity-100 transition-opacity">
+                                            <span>자세히 보기</span>
+                                            <svg className="w-3.5 h-3.5 transform translate-x-0 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 5l7 7-7 7" />
+                                            </svg>
+                                        </div>
+                                    </div>
                                 </div>
-                            );
-                        })}
-                        {/* Spacer to allow the last card to snap to the left edge */}
-                        <div className="min-w-[calc(100vw-480px)] shrink-0 flex items-center justify-start px-[40px] select-none pointer-events-none box-border">
-                            <div className="text-white opacity-[0.04] font-bold leading-[0.9] tracking-tighter w-full" style={{ fontSize: 'clamp(30px, 5vw, 100px)' }}>
-                                IOTA Seoul<br />Cross Functional<br />Team
+                            ))}
+                            {/* Spacer */}
+                            <div className="min-w-[calc(100vw-400px)] shrink-0 flex items-center justify-start px-[40px] select-none pointer-events-none box-border">
+                                <div className="text-white opacity-[0.04] font-bold leading-[0.9] tracking-tighter w-full" style={{ fontSize: 'clamp(35px, 6vw, 100px)' }}>
+                                    IOTA Seoul<br />Cross Functional<br />Team
+                                </div>
                             </div>
-                        </div>
                         </div>
                     </div>
                 )}
@@ -1736,6 +1829,99 @@ export default function DecisionLog() {
                                 {isDeleting ? '삭제 중...' : '삭제'}
                             </button>
                         </div>
+                    </div>
+                </div>
+            )}
+
+            {/* IOTA Log Detail Modal */}
+            {selectedIotaLog && (
+                <div 
+                    className="fixed inset-0 z-[100] flex items-center justify-center backdrop-blur-md bg-black/75 p-4"
+                    onClick={() => setSelectedIotaLog(null)}
+                >
+                    <div 
+                        className="bg-[#1c1c1e] border border-[#2c2c2e] rounded-[32px] w-full max-w-[700px] max-h-[85vh] overflow-y-auto p-[32px] shadow-2xl flex flex-col gap-6 relative"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        {/* Close button */}
+                        <button 
+                            onClick={() => setSelectedIotaLog(null)}
+                            className="absolute top-[24px] right-[24px] w-8 h-8 rounded-full bg-[#2c2c2e] hover:bg-[#3a3a3c] flex items-center justify-center text-[#86868b] hover:text-white transition-colors cursor-pointer"
+                        >
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+
+                        {/* Modal Header */}
+                        <div className="flex justify-between items-start gap-4 pr-10">
+                            <div className="flex items-center gap-[14px]">
+                                <div className="w-[48px] h-[48px] rounded-full bg-[#2c2c2e] overflow-hidden border border-[#444] shrink-0">
+                                    <img 
+                                        src={`${import.meta.env.BASE_URL}${selectedIotaLog.writer_name}.webp`} 
+                                        alt={selectedIotaLog.writer_name} 
+                                        className="w-full h-full object-cover" 
+                                        onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }} 
+                                    />
+                                </div>
+                                <div className="flex flex-col text-left">
+                                    <span className="text-white font-bold text-[16px] leading-tight">{selectedIotaLog.writer_name}</span>
+                                    <span className="text-[#86868B] text-[13px] mt-[2px] leading-tight">{selectedIotaLog.writer_email}</span>
+                                </div>
+                            </div>
+
+                            <div className="flex flex-col items-end gap-2 shrink-0">
+                                <span className={`text-[11px] font-bold px-[10px] py-[4px] rounded-[6px] tracking-tight ${getLineBadgeStyle(selectedIotaLog.line)}`}>
+                                    {selectedIotaLog.line || 'Unknown Line'}
+                                </span>
+                                <span className="text-[13px] font-semibold text-[#86868b]">{selectedIotaLog.work_date}</span>
+                            </div>
+                        </div>
+
+                        {/* Divider */}
+                        <div className="w-full h-px bg-[#2c2c2e]" />
+
+                        {/* Modal Content */}
+                        <div className="flex flex-col gap-4 text-left">
+                            <h3 className="text-[22px] font-black text-white tracking-tight leading-snug">
+                                {selectedIotaLog.title || '업무 로그'}
+                            </h3>
+                            {selectedIotaLog.summary && (
+                                <div className="p-4 bg-[#e2aa29]/10 border border-[#e2aa29]/20 rounded-[16px]">
+                                    <span className="text-[12px] font-bold text-[#e2aa29] block mb-1">한줄 요약</span>
+                                    <p className="text-[15px] text-[#e2aa29] font-semibold leading-relaxed">
+                                        {selectedIotaLog.summary}
+                                    </p>
+                                </div>
+                            )}
+
+                            {/* Raw text */}
+                            <div className="flex flex-col gap-2 mt-2">
+                                <span className="text-[13px] font-bold text-[#86868b]">업무 기록 및 상세 내용</span>
+                                <div className="p-5 bg-[#2c2c2e]/40 border border-[#2c2c2e] rounded-[20px] max-h-[350px] overflow-y-auto custom-thin-scrollbar">
+                                    <p className="text-[15.5px] text-[#E5E5E5] leading-[1.7] whitespace-pre-wrap break-all">
+                                        {selectedIotaLog.raw_text || selectedIotaLog.body_text || '내용이 없습니다.'}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Notion Link Footer if present */}
+                        {selectedIotaLog.source_url && (
+                            <div className="flex justify-end mt-4">
+                                <a 
+                                    href={selectedIotaLog.source_url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex items-center gap-2 px-5 py-2.5 bg-[#ffffff] hover:bg-[#eaeaea] text-black text-[14px] font-bold rounded-xl transition-colors cursor-pointer"
+                                >
+                                    <svg className="w-4 h-4 text-black fill-current" viewBox="0 0 24 24">
+                                        <path d="M4.6 2.05h14.8c1.37 0 2.5 1.13 2.5 2.5v14.8c0 1.37-1.13 2.5-2.5 2.5H4.6c-1.37 0-2.5-1.13-2.5-2.5V4.55c0-1.37 1.13-2.5 2.5-2.5zm.9 3.4c-.61 0-1.1.49-1.1 1.1v10.9c0 .61.49 1.1 1.1 1.1h12.8c.61 0 1.1-.49 1.1-1.1V6.55c0-.61-.49-1.1-1.1-1.1H5.5zm1.5 2h9.8c.28 0 .5.22.5.5v6.8c0 .28-.22.5-.5.5H7c-.28 0-.5-.22-.5-.5V7.95c0-.28.22-.5.5-.5z"/>
+                                    </svg>
+                                    <span>Notion에서 원문 보기</span>
+                                </a>
+                            </div>
+                        )}
                     </div>
                 </div>
             )}

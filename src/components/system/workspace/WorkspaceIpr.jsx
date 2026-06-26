@@ -647,6 +647,8 @@ export default function WorkspaceIpr() {
             </div>
 {/* 2. Task 관리 */}
             <div className="w-full mt-0"></div>
+            {false && (
+                <>
             <div className="flex justify-between items-center mb-[10px]">
                 <div className="flex items-center gap-0">
                     <h2 id="task-management" className="text-[18px] font-bold text-white tracking-tight flex items-center">
@@ -829,6 +831,8 @@ export default function WorkspaceIpr() {
                 )}
                 </div>
             </div>
+                </>
+            )}
 
             <div className="w-full mt-[10px]"></div>
             <WorkspaceActivityLog workspaceCode="WS_IPR" workspaceLabel="IPR" />
