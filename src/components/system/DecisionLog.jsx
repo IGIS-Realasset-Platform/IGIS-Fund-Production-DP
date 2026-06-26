@@ -806,7 +806,7 @@ export default function DecisionLog() {
             {/* IOTA CFT 실시간 통합 업무 로그 */}
             <div className="w-full mb-[44px]">
                 {/* Header with Title, Search and Line Filters */}
-                <div className="flex flex-col gap-[14px] mb-[16px]">
+                <div className="flex flex-col gap-[10px] mb-[12px]">
                     <div className="flex justify-between items-center w-full">
                         <h2 className="text-[20px] font-bold text-white tracking-tight shrink-0 flex items-center gap-2">
                             <span>IOTA CFT 통합 업무 로그</span>
