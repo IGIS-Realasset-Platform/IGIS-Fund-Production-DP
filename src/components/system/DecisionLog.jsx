@@ -163,6 +163,20 @@ export default function DecisionLog() {
         return `${yy}.${mm}.${dd}`;
     };
 
+    const formatIotaWeekRange = (dateStr) => {
+        if (!dateStr) return '';
+        const d = new Date(dateStr);
+        const day = d.getDay();
+        const diff = d.getDate() - day + (day === 0 ? -6 : 1);
+        const monday = new Date(d.setDate(diff));
+        const sunday = new Date(monday);
+        sunday.setDate(monday.getDate() + 6);
+        const yearStr = String(monday.getFullYear()).slice(-2);
+        const mondayMonth = monday.getMonth() + 1;
+        const sundayMonth = sunday.getMonth() + 1;
+        return `${yearStr}.${mondayMonth}.${monday.getDate()}~${sundayMonth}.${sunday.getDate()}`;
+    };
+
     const formatDateWithTime = (dateString, timeString) => {
         if (!timeString && !dateString) return { date: '', time: '' };
         const dDate = new Date(dateString || timeString);
@@ -916,7 +930,7 @@ export default function DecisionLog() {
 
                                     {/* Date */}
                                     <div className="flex justify-between items-center pt-[10px] border-t border-[#3a3a3c]/40 mt-auto">
-                                        <span className="text-[12px] font-medium text-[#86868B]">{log.work_date}</span>
+                                        <span className="text-[12px] font-medium text-[#86868B]">{formatIotaWeekRange(log.work_date)}</span>
                                         <div className="flex items-center gap-1 text-[13px] font-bold text-[#60a5fa] opacity-0 group-hover:opacity-100 transition-opacity">
                                             <span>자세히 보기</span>
                                             <svg className="w-3.5 h-3.5 transform translate-x-0 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1891,7 +1905,7 @@ export default function DecisionLog() {
                                 <span className={`text-[11px] font-bold px-[10px] py-[4px] rounded-[6px] tracking-tight ${getLineBadgeStyle(selectedIotaLog.line)}`}>
                                     {selectedIotaLog.line || 'Unknown Line'}
                                 </span>
-                                <span className="text-[13px] font-semibold text-[#86868b]">{selectedIotaLog.work_date}</span>
+                                <span className="text-[13px] font-semibold text-[#86868b]">{formatIotaWeekRange(selectedIotaLog.work_date)}</span>
                             </div>
                         </div>
 

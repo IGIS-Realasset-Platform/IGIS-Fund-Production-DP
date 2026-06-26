@@ -31,6 +31,20 @@ export default function IotaLogsArchive() {
         return { weekLabel, range, monday };
     };
 
+    const formatIotaWeekRange = (dateStr) => {
+        if (!dateStr) return '';
+        const d = new Date(dateStr);
+        const day = d.getDay();
+        const diff = d.getDate() - day + (day === 0 ? -6 : 1);
+        const monday = new Date(d.setDate(diff));
+        const sunday = new Date(monday);
+        sunday.setDate(monday.getDate() + 6);
+        const yearStr = String(monday.getFullYear()).slice(-2);
+        const mondayMonth = monday.getMonth() + 1;
+        const sundayMonth = sunday.getMonth() + 1;
+        return `${yearStr}.${mondayMonth}.${monday.getDate()}~${sundayMonth}.${sunday.getDate()}`;
+    };
+
     useEffect(() => {
         const fetchIotaLogs = async () => {
             setIsLoading(true);
@@ -177,7 +191,7 @@ export default function IotaLogsArchive() {
                                         <span className={`text-[11px] font-bold px-[8px] py-[3px] rounded-[6px] tracking-tight ${getLineBadgeStyle(log.line)}`}>
                                             {log.line || 'Unknown Line'}
                                         </span>
-                                        <span className="text-[13px] font-semibold text-[#86868b]">{log.work_date}</span>
+                                        <span className="text-[13px] font-semibold text-[#86868b]">{formatIotaWeekRange(log.work_date)}</span>
                                     </div>
                                 </div>
 
