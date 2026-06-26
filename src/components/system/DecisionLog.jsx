@@ -892,9 +892,14 @@ export default function DecisionLog() {
                                         <h4 className="text-[17px] font-bold text-white leading-snug group-hover:text-[#60a5fa] transition-colors line-clamp-1 text-left">
                                             {log.title || '업무 로그'}
                                         </h4>
-                                        <p className="text-[14.5px] text-[#e2aa29] line-clamp-2 leading-relaxed font-medium text-left">
-                                            {log.summary || '상세 내용을 클릭하여 확인하세요.'}
+                                        <p className="text-[14px] text-[#e2aa29] line-clamp-1 leading-relaxed font-medium text-left">
+                                            {log.summary || '요약 내용이 없습니다.'}
                                         </p>
+                                        {(log.raw_text || log.body_text) && (
+                                            <p className="text-[13px] text-[#A1A1AA] line-clamp-3 leading-relaxed text-left mt-2 border-t border-[#3a3a3c]/40 pt-2 font-normal">
+                                                {log.raw_text || log.body_text}
+                                            </p>
+                                        )}
                                     </div>
 
                                     {/* Date */}
