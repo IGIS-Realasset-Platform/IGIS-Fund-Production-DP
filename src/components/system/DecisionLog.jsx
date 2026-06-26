@@ -799,28 +799,40 @@ export default function DecisionLog() {
                             <span className="text-[12px] bg-[#3b82f6]/20 text-[#60a5fa] px-2 py-0.5 rounded-md font-semibold font-mono animate-pulse">LIVE</span>
                         </h2>
                         
-                        {/* Search Input */}
-                        <div className="relative w-[280px]">
-                            <input
-                                type="text"
-                                value={iotaLogsSearchQuery}
-                                onChange={(e) => setIotaLogsSearchQuery(e.target.value)}
-                                placeholder="피드 내용 검색..."
-                                className="w-full bg-[#1A1A1A] border border-[#3c3c3c] rounded-full pl-9 pr-4 py-1.5 text-white text-[13px] outline-none focus:border-[#86868b] transition-colors"
-                            />
-                            <svg className="w-4 h-4 absolute left-3 top-2 text-[#86868b]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                            </svg>
-                            {iotaLogsSearchQuery && (
-                                <button 
-                                    onClick={() => setIotaLogsSearchQuery('')}
-                                    className="absolute right-3 top-2 text-[#86868b] hover:text-white"
-                                >
-                                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12" />
-                                    </svg>
-                                </button>
-                            )}
+                        <div className="flex items-center gap-3">
+                            <button
+                                onClick={() => navigate('platform/iotaseoul/workflow/logs-archive')}
+                                className="px-4 py-1.5 bg-[#272726] hover:bg-[#333] border border-[#3c3c3c] hover:border-[#555] rounded-full text-[13px] font-bold text-[#A1A1AA] hover:text-white transition-all flex items-center gap-1.5 cursor-pointer shrink-0"
+                            >
+                                <span>지난 로그 전체보기</span>
+                                <svg className="w-3.5 h-3.5 text-[#86868B] group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                </svg>
+                            </button>
+
+                            {/* Search Input */}
+                            <div className="relative w-[280px]">
+                                <input
+                                    type="text"
+                                    value={iotaLogsSearchQuery}
+                                    onChange={(e) => setIotaLogsSearchQuery(e.target.value)}
+                                    placeholder="피드 내용 검색..."
+                                    className="w-full bg-[#1A1A1A] border border-[#3c3c3c] rounded-full pl-9 pr-4 py-1.5 text-white text-[13px] outline-none focus:border-[#86868b] transition-colors"
+                                />
+                                <svg className="w-4 h-4 absolute left-3 top-2 text-[#86868b]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                </svg>
+                                {iotaLogsSearchQuery && (
+                                    <button 
+                                        onClick={() => setIotaLogsSearchQuery('')}
+                                        className="absolute right-3 top-2 text-[#86868b] hover:text-white"
+                                    >
+                                        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
+                                    </button>
+                                )}
+                            </div>
                         </div>
                     </div>
 
@@ -892,7 +904,7 @@ export default function DecisionLog() {
                                         <h4 className="text-[17px] font-bold text-white leading-snug group-hover:text-[#60a5fa] transition-colors line-clamp-1 text-left">
                                             {log.title || '업무 로그'}
                                         </h4>
-                                        <p className="text-[14px] text-[#e2aa29] line-clamp-1 leading-relaxed font-medium text-left">
+                                        <p className="text-[15px] text-[#e2aa29] line-clamp-1 leading-relaxed font-medium text-left">
                                             {log.summary || '요약 내용이 없습니다.'}
                                         </p>
                                         {(log.raw_text || log.body_text) && (
@@ -905,7 +917,7 @@ export default function DecisionLog() {
                                     {/* Date */}
                                     <div className="flex justify-between items-center pt-[10px] border-t border-[#3a3a3c]/40 mt-auto">
                                         <span className="text-[12px] font-medium text-[#86868B]">{log.work_date}</span>
-                                        <div className="flex items-center gap-1 text-[12px] font-bold text-[#60a5fa] opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <div className="flex items-center gap-1 text-[13px] font-bold text-[#60a5fa] opacity-0 group-hover:opacity-100 transition-opacity">
                                             <span>자세히 보기</span>
                                             <svg className="w-3.5 h-3.5 transform translate-x-0 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 5l7 7-7 7" />
