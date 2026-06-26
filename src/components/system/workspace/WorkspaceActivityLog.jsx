@@ -580,7 +580,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
         <div className="w-full flex flex-col mt-0">
             {/* Log Viewer */}
             <div className="flex justify-between items-center mt-[-14px] mb-[12px]">
-                <h2 className="text-[18px] font-bold text-white tracking-tight translate-y-[6px]">{workspaceLabel ? workspaceLabel.split('-')[0].trim() : ''} 협업게시판</h2>
+                <h2 className="text-[18px] font-bold text-white tracking-tight translate-y-[6px]">{workspaceLabel ? workspaceLabel.split('-')[0].trim() : ''} 회의록</h2>
                 <div className="flex items-center gap-[12px]">
                     {/* Search Box */}
                     <div className="relative">
