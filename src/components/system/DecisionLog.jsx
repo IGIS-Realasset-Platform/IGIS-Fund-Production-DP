@@ -902,7 +902,7 @@ export default function DecisionLog() {
                                 <div 
                                     key={log.id}
                                     onClick={() => setSelectedIotaLog(log)}
-                                    className="min-w-[400px] max-w-[400px] shrink-0 rounded-[24px] px-[24px] pt-[20px] pb-[20px] snap-start flex flex-col gap-[14px] bg-[#272727] border border-[#3c3c3c] hover:bg-[#323232] hover:border-[#555] transition-all cursor-pointer group"
+                                    className="min-w-[400px] max-w-[400px] min-h-[230px] shrink-0 rounded-[24px] px-[24px] pt-[30px] pb-[30px] snap-start flex flex-col gap-[14px] bg-[#272727] border border-[#3c3c3c] hover:bg-[#323232] hover:border-[#555] transition-all cursor-pointer group"
                                 >
                                     {/* Author & Badge */}
                                     <div className="flex justify-between items-center">
