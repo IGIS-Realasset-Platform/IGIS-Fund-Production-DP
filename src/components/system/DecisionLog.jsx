@@ -6,7 +6,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import ReactionAvatarStack from './ReactionAvatarStack';
 
 const WORKSPACE_CONFIG = [
-    { id: 'pm', name: '사업 PM', path: 'platform/iotaseoul/workspace/pm', table: 'iota_pm_tasks', color: 'bg-[#ff9f0a]' },
+    { id: 'pm1', name: '사업 PM 1', path: 'platform/iotaseoul/workspace/pm1', table: 'iota_pm_tasks', color: 'bg-[#ff9f0a]' },
+    { id: 'pm2', name: '사업 PM 2', path: 'platform/iotaseoul/workspace/pm2', table: 'iota_pm_tasks', color: 'bg-[#ff9f0a]' },
     { id: 'financing', name: '파이낸싱', path: 'platform/iotaseoul/workspace/financing', table: 'iota_financing_tasks', color: 'bg-[#30d158]' },
     { id: 'development', name: '개발솔루션', path: 'platform/iotaseoul/workspace/development', table: 'iota_development_tasks', color: 'bg-[#0a84ff]' },
     { id: 'marketing', name: '기업마케팅', path: 'platform/iotaseoul/workspace/marketing', table: 'iota_marketing_tasks', color: 'bg-[#64d2ff]' },
@@ -198,7 +199,10 @@ export default function DecisionLog() {
         const cells = {
             '전기영': '기획추진', '이시정': '기획추진', '이관용': '기획추진',
             '이철승': 'CFT 총괄', '윤관식': 'CFT 총괄', '정조민': 'CFT 총괄', '우형석': 'CFT 총괄',
-            '권순일': '사업 PM', '강순용': '사업 PM', '윤주형': '사업 PM', '김제익': '사업 PM', '류홍': '사업 PM', '박만진': '사업 PM', '박일훈': '사업 PM', '이정원': '사업 PM', '전무경': '사업 PM', '한찬호': '사업 PM', '박석제': '사업 PM', '박채현': '사업 PM', '소현준': '사업 PM', '이수정': '사업 PM', '조영비': '사업 PM', '한수정': '사업 PM',
+            // 사업 PM 1
+            '권순일': '사업 PM 1', '윤주형': '사업 PM 1', '김제익': '사업 PM 1', '류홍': '사업 PM 1', '박만진': '사업 PM 1', '박일훈': '사업 PM 1', '이정원': '사업 PM 1', '전무경': '사업 PM 1',
+            // 사업 PM 2
+            '강순용': '사업 PM 2', '한찬호': '사업 PM 2', '박석제': '사업 PM 2', '박채현': '사업 PM 2', '소현준': '사업 PM 2', '이수정': '사업 PM 2', '조영비': '사업 PM 2', '한수정': '사업 PM 2',
             '박준호': '파이낸싱-LFC', '강석민': '파이낸싱-LFC', '정리훈': '파이낸싱-LFC', '손유정': '파이낸싱-LFC', '김지우': '파이낸싱-LFC', '박현승': '파이낸싱-LFC', '이성민A': '파이낸싱-LFC', '한승환': '파이낸싱-LFC',
             '홍장군': '개발솔루션-DSC', '채원': '개발솔루션-DSC', '김보성': '개발솔루션-DSC', '전승희': '개발솔루션-DSC', '김대익': '개발솔루션-DSC', '장성진': '개발솔루션-DSC', '이정훈': '개발솔루션-DSC', '박봉서': '개발솔루션-DSC', '김형주': '개발솔루션-DSC',
             '김민지': '기업마케팅-EMC', '고아라': '기업마케팅-EMC',
@@ -211,7 +215,11 @@ export default function DecisionLog() {
     const getLogCell = (log) => {
         if (log.metadata?.workspace_code) {
             const code = log.metadata.workspace_code.toUpperCase();
-            if (code.includes('PM')) return '사업 PM';
+            if (code === 'WS_PM1' || code === 'PM1' || code === 'PM_1') return '사업 PM 1';
+            if (code === 'WS_PM2' || code === 'PM2' || code === 'PM_2') return '사업 PM 2';
+            if (code === 'WS_PM' || code === 'PM') {
+                return getCellName(log.writer_name) === '사업 PM 2' ? '사업 PM 2' : '사업 PM 1';
+            }
             if (code.includes('FINANCING') || code.includes('LFC')) return '파이낸싱-LFC';
             if (code.includes('DEVELOPMENT') || code.includes('DSC')) return '개발솔루션-DSC';
             if (code.includes('MARKETING') || code.includes('EMC')) return '기업마케팅-EMC';
@@ -221,7 +229,11 @@ export default function DecisionLog() {
         }
         if (log.metadata?.workspace_label) {
             const lbl = log.metadata.workspace_label;
-            if (lbl.includes('사업 PM') || lbl.includes('사업PM')) return '사업 PM';
+            if (lbl.includes('사업 PM 1') || lbl.includes('사업PM 1') || lbl.includes('사업PM1')) return '사업 PM 1';
+            if (lbl.includes('사업 PM 2') || lbl.includes('사업PM 2') || lbl.includes('사업PM2')) return '사업 PM 2';
+            if (lbl.includes('사업 PM') || lbl.includes('사업PM')) {
+                return getCellName(log.writer_name) === '사업 PM 2' ? '사업 PM 2' : '사업 PM 1';
+            }
             if (lbl.includes('파이낸싱')) return '파이낸싱-LFC';
             if (lbl.includes('개발솔루션')) return '개발솔루션-DSC';
             if (lbl.includes('기업마케팅')) return '기업마케팅-EMC';
@@ -862,9 +874,8 @@ export default function DecisionLog() {
                         </div>
                     </div>
 
-                    {/* Filter chips */}
                     <div className="flex items-center gap-[8px] overflow-x-auto scrollbar-hide">
-                        {['전체', '사업 PM', '파이낸싱-LFC', '개발솔루션-DSC', '기업마케팅-EMC', '공간솔루션-SSC', '펀드운용-KAM', 'IPR-WG'].map(lineFilter => (
+                        {['전체', '사업 PM 1', '사업 PM 2', '파이낸싱-LFC', '개발솔루션-DSC', '기업마케팅-EMC', '공간솔루션-SSC', '펀드운용-KAM', 'IPR-WG'].map(lineFilter => (
                             <button
                                 key={lineFilter}
                                 onClick={() => setIotaLogsLineFilter(lineFilter)}

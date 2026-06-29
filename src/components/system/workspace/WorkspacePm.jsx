@@ -5,10 +5,15 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { supabase } from '../../../utils/supabaseClient';
 import WorkspaceActivityLog from './WorkspaceActivityLog';
 
-export default function WorkspacePm() {
+export default function WorkspacePm({ part = 1 }) {
 
     const { memberInfo } = useAuth();
-    const isAuthorized = ['전기영', '강순용', '윤주형', '김제익', '류홍', '박만진', '박일훈', '이정원', '전무경', '한찬호', '박석제', '박채현', '소현준', '이수정', '조영비', '한수정'].includes(memberInfo?.staff_name);
+    const part1Members = ['권순일', '윤주형', '김제익', '류홍', '박만진', '박일훈', '이정원', '전무경'];
+    const part2Members = ['강순용', '한찬호', '박석제', '박채현', '소현준', '이수정', '조영비', '한수정'];
+    const admins = ['전기영', '이시정', '이관용', '이철승', '윤관식', '정조민', '우형석'];
+    
+    const currentPartMembers = part === 2 ? part2Members : part1Members;
+    const isAuthorized = [...admins, ...currentPartMembers].includes(memberInfo?.staff_name);
 
     // Task Management States
     const [tasks, setTasks] = useState([]);
@@ -440,7 +445,7 @@ export default function WorkspacePm() {
 
     const parseNames = (text) => {
         if (!text) return text;
-        const names = ['강순용', '권순일', '윤주형', '김제익', '박석제', '이수정'];
+        const names = ['강순용', '권순일', '윤주형', '김제익', '류홍', '박만진', '박일훈', '이정원', '전무경', '한찬호', '박석제', '박채현', '소현준', '이수정', '조영비', '한수정'];
         let result = text;
         names.forEach(name => {
             const regex = new RegExp(name, 'g');
@@ -460,17 +465,28 @@ export default function WorkspacePm() {
 
     const [expandedDecisions, setExpandedDecisions] = useState({});
 
-    const riskData = [
+    const riskData = part === 2 ? [
         { no: 1, risk: '공정 지연 (시공·인허가 복합)', cellText: '개발관리(', cellMembers: ['홍장군'], cellSuffix: ')', trigger: '2주 누적 지연', final: 'PM', status: '-' },
-        { no: 2, risk: '사업비 UW 범위 외 증가', cellText: 'PM(', cellMembers: ['강순용'], cellSuffix: ')', trigger: 'UW +5% 누적', final: 'CFT 총괄', status: '-' },
+        { no: 2, risk: '사업비 UW 범위 외 증가', cellText: '사업2파트(', cellMembers: ['강순용'], cellSuffix: ')', trigger: 'UW +5% 누적', final: 'CFT 총괄', status: '-' },
+        { no: 3, risk: '대주단 Covenants 위반', cellText: 'LFC(', cellMembers: ['박준호'], cellSuffix: ')', trigger: 'DSCR/LTV 임계점', final: 'CFT 총괄', status: '-' },
+        { no: 4, risk: '핵심 임차인 이탈/철회', cellText: 'EMC(', cellMembers: ['김민지'], cellSuffix: ')', trigger: 'LOI 철회 통보', final: 'PM', status: '-' },
+        { no: 5, risk: '금리 환경 급변(리파이낸싱 옵션 훼손)', cellText: 'LFC(', cellMembers: ['박준호'], cellSuffix: ')', trigger: '시장금리 ±50bp', final: 'CFT 총괄', status: '-' },
+        { no: 6, risk: 'LP 분배 지연 / 신뢰 하락', cellText: 'KAM(', cellMembers: ['김행단'], cellSuffix: ')', trigger: '분배 지연 30일', final: 'CFT 총괄', status: '-' },
+        { no: 7, risk: 'IPR 권순약정 협상 지연', cellText: '사업2파트(', cellMembers: ['강순용'], cellSuffix: ')', trigger: 'Stage 2 지연 60일', final: 'CFT 총괄', status: '-' },
+        { no: 8, risk: '규제·인허가 변경', cellText: '사업2파트(', cellMembers: ['강순용'], cellSuffix: ')', trigger: '법령/지침 개정', final: '부문대표', status: '-' },
+        { no: 9, risk: '외부 자문 이해상충 노출', cellText: 'CFT 총괄', cellMembers: ['이철승', '강순용'], cellSuffix: '', trigger: '감정평가 5% 차이', final: '부문대표', status: '-', hideNames: true },
+        { no: 10, risk: '평판/미디어 리스크', cellText: 'CFT 총괄', cellMembers: ['이철승', '강순용'], cellSuffix: '', trigger: '외부 매체 보도', final: '부문대표', status: '-', hideNames: true },
+    ] : [
+        { no: 1, risk: '공정 지연 (시공·인허가 복합)', cellText: '개발관리(', cellMembers: ['홍장군'], cellSuffix: ')', trigger: '2주 누적 지연', final: 'PM', status: '-' },
+        { no: 2, risk: '사업비 UW 범위 외 증가', cellText: '사업1파트(', cellMembers: ['권순일'], cellSuffix: ')', trigger: 'UW +5% 누적', final: 'CFT 총괄', status: '-' },
         { no: 3, risk: '대주단 Covenants 위반', cellText: 'LFC(', cellMembers: ['박준호'], cellSuffix: ')', trigger: 'DSCR/LTV 임계점', final: 'CFT 총괄', status: '-' },
         { no: 4, risk: '핵심 임차인 이탈/철회', cellText: 'EMC(', cellMembers: ['김민지'], cellSuffix: ')', trigger: 'LOI 철회 통보', final: 'PM', status: '-' },
         { no: 5, risk: '금리 환경 급변(리파이낸싱 옵션 훼손)', cellText: 'LFC(', cellMembers: ['박준호'], cellSuffix: ')', trigger: '시장금리 ±50bp', final: 'CFT 총괄', status: '-' },
         { no: 6, risk: 'LP 분배 지연 / 신뢰 하락', cellText: 'KAM(', cellMembers: ['김행단'], cellSuffix: ')', trigger: '분배 지연 30일', final: 'CFT 총괄', status: '-' },
         { no: 7, risk: 'IPR 권순약정 협상 지연', cellText: '프리츠 TFT(', cellMembers: ['권순일'], cellSuffix: ')', trigger: 'Stage 2 지연 60일', final: 'CFT 총괄', status: '-' },
         { no: 8, risk: '규제·인허가 변경', cellText: '사업1파트(', cellMembers: ['권순일'], cellSuffix: ')', trigger: '법령/지침 개정', final: '부문대표', status: '-' },
-        { no: 9, risk: '외부 자문 이해상충 노출', cellText: 'CFT 총괄', cellMembers: ['이철승', '권순일', '강순용'], cellSuffix: '', trigger: '감정평가 5% 차이', final: '부문대표', status: '-', hideNames: true },
-        { no: 10, risk: '평판/미디어 리스크', cellText: 'CFT 총괄', cellMembers: ['이철승', '권순일', '강순용'], cellSuffix: '', trigger: '외부 매체 보도', final: '부문대표', status: '-', hideNames: true },
+        { no: 9, risk: '외부 자문 이해상충 노출', cellText: 'CFT 총괄', cellMembers: ['이철승', '권순일'], cellSuffix: '', trigger: '감정평가 5% 차이', final: '부문대표', status: '-', hideNames: true },
+        { no: 10, risk: '평판/미디어 리스크', cellText: 'CFT 총괄', cellMembers: ['이철승', '권순일'], cellSuffix: '', trigger: '외부 매체 보도', final: '부문대표', status: '-', hideNames: true },
     ];
 
     const renderCell = (text, members, suffix, hideNames = false) => {
@@ -667,8 +683,8 @@ export default function WorkspacePm() {
             <div className="w-full flex justify-between items-center mb-[40px] gap-[40px]">
                 {/* Header Metadata */}
                 <div className="shrink-0 max-w-[300px]">
-                    <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[12px]">사업 PM</h1>
-                    <p className="text-[15px] text-[#86868B] leading-[24px]">전체 사업 일정 및 예산 통제, 변경관리 결정</p>
+                    <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[12px]">사업 PM {part}</h1>
+                    <p className="text-[15px] text-[#86868B] leading-[24px]">사업 {part}파트: 전체 일정 및 예산 통제, 변경관리 결정</p>
                 </div>
                 
                 {/* PM Team Structure */}
@@ -678,33 +694,34 @@ export default function WorkspacePm() {
                         <span className="text-[13px] font-bold text-[#86868B] mr-[16px]">Co-PM</span>
                         
                         <div className="flex items-center gap-[12px]">
-                            {/* 권순일 */}
-                            <div className="flex items-center gap-[12px] w-[116px] shrink-0">
-                                <div className="relative w-[30px] h-[30px] shrink-0 rounded-full bg-[#3c3c3c] flex items-center justify-center overflow-hidden ml-[2px]">
-                                    <img src={`${import.meta.env.BASE_URL}권순일.webp`} alt="권순일" className="w-full h-full object-cover" onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }} />
-                                    <div className="absolute inset-0 rounded-full border border-white/10 pointer-events-none"></div>
+                            {part === 1 ? (
+                                <div className="flex items-center gap-[12px] w-[116px] shrink-0">
+                                    <div className="relative w-[30px] h-[30px] shrink-0 rounded-full bg-[#3c3c3c] flex items-center justify-center overflow-hidden ml-[2px]">
+                                        <img src={`${import.meta.env.BASE_URL}권순일.webp`} alt="권순일" className="w-full h-full object-cover" onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }} />
+                                        <div className="absolute inset-0 rounded-full border border-white/10 pointer-events-none"></div>
+                                    </div>
+                                    <div className="flex flex-col text-left">
+                                        <span className="text-white font-bold text-[13px] leading-tight">권순일</span>
+                                        <span className="text-[#A1A1AA] text-[12px] mt-[1px] leading-tight">사업1파트장</span>
+                                    </div>
                                 </div>
-                                <div className="flex flex-col text-left">
-                                    <span className="text-white font-bold text-[13px] leading-tight">권순일</span>
-                                    <span className="text-[#A1A1AA] text-[12px] mt-[1px] leading-tight">사업1파트장</span>
+                            ) : (
+                                <div className="flex items-center gap-[12px] w-[116px] shrink-0">
+                                    <div className="relative w-[30px] h-[30px] shrink-0 rounded-full bg-[#3c3c3c] flex items-center justify-center overflow-hidden ml-[2px]">
+                                        <img src={`${import.meta.env.BASE_URL}강순용.webp`} alt="강순용" className="w-full h-full object-cover" onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }} />
+                                        <div className="absolute inset-0 rounded-full border border-white/10 pointer-events-none"></div>
+                                    </div>
+                                    <div className="flex flex-col text-left">
+                                        <span className="text-white font-bold text-[13px] leading-tight">강순용</span>
+                                        <span className="text-[#A1A1AA] text-[12px] mt-[1px] leading-tight">사업2파트장</span>
+                                    </div>
                                 </div>
-                            </div>
-                            {/* 강순용 */}
-                            <div className="flex items-center gap-[12px] w-[116px] shrink-0 -ml-[10px]">
-                                <div className="relative w-[30px] h-[30px] shrink-0 rounded-full bg-[#3c3c3c] flex items-center justify-center overflow-hidden ml-[2px]">
-                                    <img src={`${import.meta.env.BASE_URL}강순용.webp`} alt="강순용" className="w-full h-full object-cover" onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }} />
-                                    <div className="absolute inset-0 rounded-full border border-white/10 pointer-events-none"></div>
-                                </div>
-                                <div className="flex flex-col text-left">
-                                    <span className="text-white font-bold text-[13px] leading-tight">강순용</span>
-                                    <span className="text-[#A1A1AA] text-[12px] mt-[1px] leading-tight">사업2파트장</span>
-                                </div>
-                            </div>
+                            )}
                         </div>
                     </div>
 
                     <div className="flex items-center gap-[6px] shrink-0 ml-[10px]">
-                        {['윤주형', '김제익', '류홍', '박만진', '박일훈', '이정원', '전무경', '한찬호', '박석제', '박채현', '소현준', '이수정', '조영비', '한수정'].map(name => (
+                        {(part === 2 ? part2Members.filter(n => n !== '강순용') : part1Members.filter(n => n !== '권순일')).map(name => (
                             <div key={name} className="flex items-center gap-[6px] bg-[#222] border border-[#333] rounded-full pl-[4px] pr-[10px] py-[4px] min-w-[76px] shrink-0">
                                 <div className="w-[21px] h-[21px] shrink-0 rounded-full bg-[#3c3c3c] overflow-hidden">
                                     <img src={`${import.meta.env.BASE_URL}${name}.webp`} alt={name} className="w-full h-full object-cover" onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }} />
@@ -906,7 +923,10 @@ export default function WorkspacePm() {
             )}
 
             <div className="w-full mt-[10px]"></div>
-            <WorkspaceActivityLog workspaceCode="WS_PM" workspaceLabel="사업 PM" />
+            <WorkspaceActivityLog 
+                workspaceCode={part === 2 ? 'WS_PM2' : 'WS_PM1'} 
+                workspaceLabel={part === 2 ? '사업 PM 2' : '사업 PM 1'} 
+            />
 
 
 

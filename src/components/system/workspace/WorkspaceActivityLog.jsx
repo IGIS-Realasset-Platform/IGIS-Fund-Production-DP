@@ -463,15 +463,35 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
     };
 
     const getLogCell = (log) => {
+        if (log.metadata?.workspace_code) {
+            const code = log.metadata.workspace_code.toUpperCase();
+            if (code === 'WS_PM1' || code === 'PM1' || code === 'PM_1') return '사업 PM 1';
+            if (code === 'WS_PM2' || code === 'PM2' || code === 'PM_2') return '사업 PM 2';
+            if (code === 'WS_PM' || code === 'PM') {
+                const pm2Members = ['강순용', '한찬호', '박석제', '박채현', '소현준', '이수정', '조영비', '한수정'];
+                return pm2Members.includes(log.writer_name) ? '사업 PM 2' : '사업 PM 1';
+            }
+            if (code.includes('FINANCING') || code.includes('LFC')) return '파이낸싱-LFC';
+            if (code.includes('DEVELOPMENT') || code.includes('DSC')) return '개발솔루션-DSC';
+            if (code.includes('MARKETING') || code.includes('EMC')) return '기업마케팅-EMC';
+            if (code.includes('DIGITAL') || code.includes('SSC')) return '공간솔루션-SSC';
+            if (code.includes('FUND') || code.includes('KAM')) return '펀드운용-KAM';
+            if (code.includes('IPR')) return 'IPR-WG';
+        }
         if (log.metadata?.workspace_label) {
             const lbl = log.metadata.workspace_label;
-            if (lbl.includes('사업 PM') || lbl.includes('사업PM')) return '사업PM';
+            if (lbl.includes('사업 PM 1') || lbl.includes('사업PM 1') || lbl.includes('사업PM1')) return '사업 PM 1';
+            if (lbl.includes('사업 PM 2') || lbl.includes('사업PM 2') || lbl.includes('사업PM2')) return '사업 PM 2';
+            if (lbl.includes('사업 PM') || lbl.includes('사업PM')) {
+                const pm2Members = ['강순용', '한찬호', '박석제', '박채현', '소현준', '이수정', '조영비', '한수정'];
+                return pm2Members.includes(log.writer_name) ? '사업 PM 2' : '사업 PM 1';
+            }
             if (lbl.includes('파이낸싱')) return '파이낸싱-LFC';
             if (lbl.includes('개발솔루션')) return '개발솔루션-DSC';
             if (lbl.includes('기업마케팅')) return '기업마케팅-EMC';
             if (lbl.includes('공간솔루션') || lbl.includes('상품/디지털') || lbl.includes('상품·디지털')) return '공간솔루션-SSC';
             if (lbl.includes('펀드운용')) return '펀드운용-KAM';
-            if (lbl.includes('IPR')) return 'IPR';
+            if (lbl.includes('IPR')) return 'IPR-WG';
         }
         return getCellName(log.writer_name);
     };

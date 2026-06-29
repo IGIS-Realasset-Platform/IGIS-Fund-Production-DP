@@ -99,7 +99,8 @@ export default function PlatformCenter({ currentPath = '' }) {
     const renderWorkspace = () => {
         switch(currentPath) {
             case 'platform/iotaseoul/workspace/marketing': return <WorkspaceMarketing />;
-            case 'platform/iotaseoul/workspace/pm': return <WorkspacePm />;
+            case 'platform/iotaseoul/workspace/pm1': return <WorkspacePm part={1} />;
+            case 'platform/iotaseoul/workspace/pm2': return <WorkspacePm part={2} />;
             case 'platform/iotaseoul/workspace/financing': return <WorkspaceFinancing />;
             case 'platform/iotaseoul/workspace/development': return <WorkspaceDevelopment />;
             case 'platform/iotaseoul/workspace/digital': return <WorkspaceDigital />;
