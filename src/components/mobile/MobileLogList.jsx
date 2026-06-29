@@ -292,17 +292,14 @@ export default function MobileLogList({ memberInfo, highlightLogId, onWorkspaceR
                                         {title}
                                     </h3>
 
-                                    {log.summary && log.summary.trim() !== (title || '').trim() && (
-                                        <div className="p-3 bg-[#e2aa29]/10 border border-[#e2aa29]/20 rounded-[12px] mb-2.5">
-                                            <span className="text-[10px] font-bold text-[#e2aa29] block mb-0.5">요약</span>
-                                            <p className="text-[13px] text-[#e2aa29] font-medium line-clamp-2">
-                                                {log.summary}
-                                            </p>
-                                        </div>
-                                    )}
-
-                                    <p className="text-[13.5px] text-[#A1A1AA] leading-relaxed line-clamp-3 mb-3.5">
-                                        {log.raw_text}
+                                    <p className="text-[13.5px] text-[#A1A1AA] leading-relaxed line-clamp-3 mb-3.5 whitespace-pre-wrap">
+                                        {(() => {
+                                            const text = log.raw_text || log.body_text || '';
+                                            let formatted = text;
+                                            formatted = formatted.replace(/\s+([가-하])\.\s+/g, '\n$1. ');
+                                            formatted = formatted.replace(/\s+(\d+)\)\s+/g, '\n$1) ');
+                                            return formatted.replace(/\n+/g, '\n').trim();
+                                        })()}
                                     </p>
 
                                     <div className="flex justify-between items-center text-[12px] text-[#86868B] border-t border-[#3c3c3c]/50 pt-3">
@@ -376,21 +373,18 @@ export default function MobileLogList({ memberInfo, highlightLogId, onWorkspaceR
                                     <h3 className="text-[18px] font-black text-white leading-snug">
                                         {selectedLog.metadata?.title || (selectedLog.summary ? selectedLog.summary.split('\n')[0] : selectedLog.raw_text?.split('\n')[0] || '제목 없음')}
                                     </h3>
-                                    
-                                    {selectedLog.summary && selectedLog.summary.trim() !== (selectedLog.title || '').trim() && (
-                                        <div className="p-3.5 bg-[#e2aa29]/10 border border-[#e2aa29]/20 rounded-[14px]">
-                                            <span className="text-[11px] font-bold text-[#e2aa29] block mb-0.5">요약</span>
-                                            <p className="text-[13.5px] text-[#e2aa29] font-semibold leading-relaxed">
-                                                {selectedLog.summary}
-                                            </p>
-                                        </div>
-                                    )}
 
                                     <div className="flex flex-col gap-1.5 mt-1.5">
                                         <span className="text-[11.5px] font-bold text-[#86868b]">업무 기록 상세</span>
                                         <div className="p-4 bg-[#2c2c2e]/30 border border-[#2c2c2e] rounded-[16px] max-h-[220px] overflow-y-auto custom-thin-scrollbar">
                                             <p className="text-[13.5px] text-[#E5E5E5] leading-[1.6] whitespace-pre-wrap break-all">
-                                                {selectedLog.raw_text}
+                                                {(() => {
+                                                    const text = selectedLog.raw_text || selectedLog.body_text || '';
+                                                    let formatted = text;
+                                                    formatted = formatted.replace(/\s+([가-하])\.\s+/g, '\n$1. ');
+                                                    formatted = formatted.replace(/\s+(\d+)\)\s+/g, '\n$1) ');
+                                                    return formatted.replace(/\n+/g, '\n').trim() || '내용이 없습니다.';
+                                                })()}
                                             </p>
                                         </div>
                                     </div>

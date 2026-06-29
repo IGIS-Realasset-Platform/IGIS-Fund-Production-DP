@@ -244,21 +244,19 @@ export default function IotaLogsArchive() {
                                     <h3 className="text-[19px] font-bold text-white tracking-tight leading-snug">
                                         {log.title || '업무 로그'}
                                     </h3>
-                                    {log.summary && (
-                                        <div className="p-3 bg-[#e2aa29]/10 border border-[#e2aa29]/20 rounded-[12px]">
-                                            <span className="text-[11px] font-bold text-[#e2aa29] block mb-1">한줄 요약</span>
-                                            <p className="text-[14px] text-[#e2aa29] font-semibold leading-relaxed">
-                                                {log.summary}
-                                            </p>
-                                        </div>
-                                    )}
 
                                     {/* Raw text */}
                                     <div className="flex flex-col gap-1.5 mt-1">
                                         <span className="text-[12px] font-bold text-[#86868b]">업무 기록 및 상세 내용</span>
                                         <div className="p-4 bg-[#1e1e1f] border border-[#2c2c2e] rounded-[16px]">
                                             <p className="text-[14.5px] text-[#E5E5E5] leading-[1.65] whitespace-pre-wrap break-all">
-                                                {log.raw_text || log.body_text || '내용이 없습니다.'}
+                                                {(() => {
+                                                    const text = log.raw_text || log.body_text || '';
+                                                    let formatted = text;
+                                                    formatted = formatted.replace(/\s+([가-하])\.\s+/g, '\n$1. ');
+                                                    formatted = formatted.replace(/\s+(\d+)\)\s+/g, '\n$1) ');
+                                                    return formatted.replace(/\n+/g, '\n').trim() || '내용이 없습니다.';
+                                                })()}
                                             </p>
                                         </div>
                                     </div>

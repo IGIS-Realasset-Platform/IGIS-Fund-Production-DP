@@ -930,12 +930,15 @@ export default function DecisionLog() {
                                         <h4 className="text-[17px] font-bold text-white leading-snug group-hover:text-[#60a5fa] transition-colors line-clamp-1 text-left">
                                             {log.title || '업무 로그'}
                                         </h4>
-                                        <p className="text-[15px] text-[#e2aa29] line-clamp-1 leading-relaxed font-medium text-left">
-                                            {log.summary || '요약 내용이 없습니다.'}
-                                        </p>
                                         {(log.raw_text || log.body_text) && (
-                                            <p className="text-[13px] text-[#A1A1AA] line-clamp-3 leading-relaxed text-left mt-2 border-t border-[#3a3a3c]/40 pt-2 font-normal">
-                                                {log.raw_text || log.body_text}
+                                            <p className="text-[13px] text-[#A1A1AA] line-clamp-3 leading-relaxed text-left mt-2 border-t border-[#3a3a3c]/40 pt-2 font-normal whitespace-pre-wrap">
+                                                {(() => {
+                                                    const text = log.raw_text || log.body_text || '';
+                                                    let formatted = text;
+                                                    formatted = formatted.replace(/\s+([가-하])\.\s+/g, '\n$1. ');
+                                                    formatted = formatted.replace(/\s+(\d+)\)\s+/g, '\n$1) ');
+                                                    return formatted.replace(/\n+/g, '\n').trim();
+                                                })()}
                                             </p>
                                         )}
                                     </div>
@@ -1929,21 +1932,19 @@ export default function DecisionLog() {
                             <h3 className="text-[22px] font-black text-white tracking-tight leading-snug">
                                 {selectedIotaLog.title || '업무 로그'}
                             </h3>
-                            {selectedIotaLog.summary && (
-                                <div className="p-4 bg-[#e2aa29]/10 border border-[#e2aa29]/20 rounded-[16px]">
-                                    <span className="text-[12px] font-bold text-[#e2aa29] block mb-1">한줄 요약</span>
-                                    <p className="text-[15px] text-[#e2aa29] font-semibold leading-relaxed">
-                                        {selectedIotaLog.summary}
-                                    </p>
-                                </div>
-                            )}
 
                             {/* Raw text */}
                             <div className="flex flex-col gap-2 mt-2">
                                 <span className="text-[13px] font-bold text-[#86868b]">업무 기록 및 상세 내용</span>
                                 <div className="p-5 bg-[#2c2c2e]/40 border border-[#2c2c2e] rounded-[20px] max-h-[350px] overflow-y-auto custom-thin-scrollbar">
                                     <p className="text-[15.5px] text-[#E5E5E5] leading-[1.7] whitespace-pre-wrap break-all">
-                                        {selectedIotaLog.raw_text || selectedIotaLog.body_text || '내용이 없습니다.'}
+                                        {(() => {
+                                            const text = selectedIotaLog.raw_text || selectedIotaLog.body_text || '';
+                                            let formatted = text;
+                                            formatted = formatted.replace(/\s+([가-하])\.\s+/g, '\n$1. ');
+                                            formatted = formatted.replace(/\s+(\d+)\)\s+/g, '\n$1) ');
+                                            return formatted.replace(/\n+/g, '\n').trim() || '내용이 없습니다.';
+                                        })()}
                                     </p>
                                 </div>
                             </div>
