@@ -395,7 +395,7 @@ export default function MobileMyTasks({ memberInfo }) {
                                         {log.title}
                                     </h3>
 
-                                    <p className="text-[13.5px] text-[#A1A1AA] leading-relaxed line-clamp-3 mb-3 whitespace-pre-wrap">
+                                    <p className="text-[15.5px] text-[#A1A1AA] leading-relaxed line-clamp-3 mb-3 whitespace-pre-wrap">
                                         {(() => {
                                             const text = log.raw_text || log.body_text || '';
                                             let formatted = text;
@@ -495,7 +495,7 @@ export default function MobileMyTasks({ memberInfo }) {
                                     <div className="flex flex-col gap-1.5 mt-1.5">
                                         <span className="text-[11.5px] font-bold text-[#86868b]">업무 기록 상세</span>
                                         <div className="p-4 bg-[#2c2c2e]/30 border border-[#2c2c2e] rounded-[16px] max-h-[220px] overflow-y-auto custom-thin-scrollbar">
-                                            <p className="text-[13.5px] text-[#E5E5E5] leading-[1.6] whitespace-pre-wrap break-all">
+                                            <p className="text-[15.5px] text-[#E5E5E5] leading-[1.6] whitespace-pre-wrap break-all">
                                                 {(() => {
                                                     const text = selectedLog.raw_text || selectedLog.body_text || '';
                                                     let formatted = text;

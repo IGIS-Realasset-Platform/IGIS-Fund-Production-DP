@@ -556,7 +556,7 @@ export default function IotaMyPage() {
                                                 <div className="flex flex-col gap-1.5 mt-1">
                                                     <span className="text-[12px] font-bold text-[#86868b]">업무 기록 및 상세 내용</span>
                                                     <div className="p-4 bg-[#1e1e1f] border border-[#2c2c2e] rounded-[16px]">
-                                                        <p className="text-[14.5px] text-[#E5E5E5] leading-[1.65] whitespace-pre-wrap break-all line-clamp-3">
+                                                        <p className="text-[16.5px] text-[#E5E5E5] leading-[1.65] whitespace-pre-wrap break-all line-clamp-3">
                                                             {(() => {
                                                                 const text = log.raw_text || log.body_text || '';
                                                                 let formatted = text;
@@ -693,7 +693,7 @@ export default function IotaMyPage() {
                                     <div className="flex flex-col gap-2 mt-2">
                                         <span className="text-[13px] font-bold text-[#86868b]">업무 기록 및 상세 내용</span>
                                         <div className="p-5 bg-[#2c2c2e]/40 border border-[#2c2c2e] rounded-[20px] max-h-[300px] overflow-y-auto custom-thin-scrollbar">
-                                            <p className="text-[15.5px] text-[#E5E5E5] leading-[1.7] whitespace-pre-wrap break-all">
+                                            <p className="text-[17.5px] text-[#E5E5E5] leading-[1.7] whitespace-pre-wrap break-all">
                                                 {(() => {
                                                     const text = selectedIotaLog.raw_text || selectedIotaLog.body_text || '';
                                                     let formatted = text;

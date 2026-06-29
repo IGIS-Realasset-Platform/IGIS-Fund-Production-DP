@@ -931,7 +931,7 @@ export default function DecisionLog() {
                                             {log.title || '업무 로그'}
                                         </h4>
                                         {(log.raw_text || log.body_text) && (
-                                            <p className="text-[13px] text-[#A1A1AA] line-clamp-3 leading-relaxed text-left mt-2 border-t border-[#3a3a3c]/40 pt-2 font-normal whitespace-pre-wrap">
+                                            <p className="text-[15px] text-[#A1A1AA] line-clamp-3 leading-relaxed text-left mt-2 border-t border-[#3a3a3c]/40 pt-2 font-normal whitespace-pre-wrap">
                                                 {(() => {
                                                     const text = log.raw_text || log.body_text || '';
                                                     let formatted = text;
@@ -1937,7 +1937,7 @@ export default function DecisionLog() {
                             <div className="flex flex-col gap-2 mt-2">
                                 <span className="text-[13px] font-bold text-[#86868b]">업무 기록 및 상세 내용</span>
                                 <div className="p-5 bg-[#2c2c2e]/40 border border-[#2c2c2e] rounded-[20px] max-h-[350px] overflow-y-auto custom-thin-scrollbar">
-                                    <p className="text-[15.5px] text-[#E5E5E5] leading-[1.7] whitespace-pre-wrap break-all">
+                                    <p className="text-[17.5px] text-[#E5E5E5] leading-[1.7] whitespace-pre-wrap break-all">
                                         {(() => {
                                             const text = selectedIotaLog.raw_text || selectedIotaLog.body_text || '';
                                             let formatted = text;
