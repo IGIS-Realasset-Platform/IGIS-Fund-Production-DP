@@ -902,7 +902,7 @@ export default function DecisionLog() {
                                 <div 
                                     key={log.id}
                                     onClick={() => setSelectedIotaLog(log)}
-                                    className="min-w-[400px] max-w-[400px] min-h-[340px] shrink-0 rounded-[24px] px-[24px] pt-[30px] pb-[30px] snap-start flex flex-col gap-[14px] bg-[#272727] border border-[#3c3c3c] hover:bg-[#323232] hover:border-[#555] transition-all cursor-pointer group"
+                                    className="min-w-[400px] max-w-[400px] min-h-[360px] shrink-0 rounded-[24px] px-[24px] pt-[30px] pb-[30px] snap-start flex flex-col gap-[14px] bg-[#272727] border border-[#3c3c3c] hover:bg-[#323232] hover:border-[#555] transition-all cursor-pointer group"
                                 >
                                     {/* Author & Badge */}
                                     <div className="flex justify-between items-center">
@@ -931,7 +931,7 @@ export default function DecisionLog() {
                                             {log.title || '업무 로그'}
                                         </h4>
                                         {(log.raw_text || log.body_text) && (
-                                            <p className="text-[15px] text-[#A1A1AA] line-clamp-5 leading-relaxed text-left mt-2 border-t border-[#3a3a3c]/40 pt-2 font-normal whitespace-pre-wrap">
+                                            <p className="text-[15px] text-[#A1A1AA] line-clamp-6 leading-relaxed text-left mt-2 border-t border-[#3a3a3c]/40 pt-2 font-normal whitespace-pre-wrap">
                                                 {(() => {
                                                     const text = log.raw_text || log.body_text || '';
                                                     let formatted = text;

@@ -339,7 +339,7 @@ export default function MobileWorkflowLogs({ memberInfo }) {
                                         {log.title}
                                     </h3>
 
-                                    <p className="text-[15.5px] text-[#A1A1AA] leading-relaxed line-clamp-5 mb-3.5 whitespace-pre-wrap">
+                                    <p className="text-[15.5px] text-[#A1A1AA] leading-relaxed line-clamp-6 mb-3.5 whitespace-pre-wrap">
                                         {(() => {
                                             const text = log.raw_text || log.body_text || '';
                                             let formatted = text;
