@@ -556,7 +556,7 @@ export default function IotaMyPage() {
                                                 <div className="flex flex-col gap-1.5 mt-1">
                                                     <span className="text-[12px] font-bold text-[#86868b]">업무 기록 및 상세 내용</span>
                                                     <div className="p-4 bg-[#1e1e1f] border border-[#2c2c2e] rounded-[16px]">
-                                                        <p className="text-[16.5px] text-[#E5E5E5] leading-[1.65] whitespace-pre-wrap break-all line-clamp-3">
+                                                        <p className="text-[16.5px] text-[#E5E5E5] leading-[1.65] whitespace-pre-wrap break-all line-clamp-5">
                                                             {(() => {
                                                                 const text = log.raw_text || log.body_text || '';
                                                                 let formatted = text;
