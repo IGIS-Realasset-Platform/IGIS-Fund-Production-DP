@@ -198,26 +198,36 @@ export default function DecisionLog() {
         const cells = {
             '전기영': '기획추진', '이시정': '기획추진', '이관용': '기획추진',
             '이철승': 'CFT 총괄', '윤관식': 'CFT 총괄', '정조민': 'CFT 총괄', '우형석': 'CFT 총괄',
-            '권순일': '사업PM', '강순용': '사업PM', '윤주형': '사업PM', '김제익': '사업PM', '류홍': '사업PM', '박만진': '사업PM', '박일훈': '사업PM', '이정원': '사업PM', '전무경': '사업PM', '한찬호': '사업PM', '박석제': '사업PM', '박채현': '사업PM', '소현준': '사업PM', '이수정': '사업PM', '조영비': '사업PM', '한수정': '사업PM',
+            '권순일': '사업 PM', '강순용': '사업 PM', '윤주형': '사업 PM', '김제익': '사업 PM', '류홍': '사업 PM', '박만진': '사업 PM', '박일훈': '사업 PM', '이정원': '사업 PM', '전무경': '사업 PM', '한찬호': '사업 PM', '박석제': '사업 PM', '박채현': '사업 PM', '소현준': '사업 PM', '이수정': '사업 PM', '조영비': '사업 PM', '한수정': '사업 PM',
             '박준호': '파이낸싱-LFC', '강석민': '파이낸싱-LFC', '정리훈': '파이낸싱-LFC', '손유정': '파이낸싱-LFC', '김지우': '파이낸싱-LFC', '박현승': '파이낸싱-LFC', '이성민A': '파이낸싱-LFC', '한승환': '파이낸싱-LFC',
             '홍장군': '개발솔루션-DSC', '채원': '개발솔루션-DSC', '김보성': '개발솔루션-DSC', '전승희': '개발솔루션-DSC', '김대익': '개발솔루션-DSC', '장성진': '개발솔루션-DSC', '이정훈': '개발솔루션-DSC', '박봉서': '개발솔루션-DSC', '김형주': '개발솔루션-DSC',
             '김민지': '기업마케팅-EMC', '고아라': '기업마케팅-EMC',
             '김현수': '공간솔루션-SSC', '현철호': '공간솔루션-SSC', '신민호': '공간솔루션-SSC', '이가현': '공간솔루션-SSC', '정수명': '공간솔루션-SSC',
-            '김행단': '펀드운용-KAM', '윤용택': 'IPR'
+            '김행단': '펀드운용-KAM', '윤용택': 'IPR-WG'
         };
-        return cells[name] || '기타';
+        return cells[name] || '공통';
     };
 
     const getLogCell = (log) => {
+        if (log.metadata?.workspace_code) {
+            const code = log.metadata.workspace_code.toUpperCase();
+            if (code.includes('PM')) return '사업 PM';
+            if (code.includes('FINANCING') || code.includes('LFC')) return '파이낸싱-LFC';
+            if (code.includes('DEVELOPMENT') || code.includes('DSC')) return '개발솔루션-DSC';
+            if (code.includes('MARKETING') || code.includes('EMC')) return '기업마케팅-EMC';
+            if (code.includes('DIGITAL') || code.includes('SSC')) return '공간솔루션-SSC';
+            if (code.includes('FUND') || code.includes('KAM')) return '펀드운용-KAM';
+            if (code.includes('IPR')) return 'IPR-WG';
+        }
         if (log.metadata?.workspace_label) {
             const lbl = log.metadata.workspace_label;
-            if (lbl.includes('사업 PM') || lbl.includes('사업PM')) return '사업PM';
+            if (lbl.includes('사업 PM') || lbl.includes('사업PM')) return '사업 PM';
             if (lbl.includes('파이낸싱')) return '파이낸싱-LFC';
             if (lbl.includes('개발솔루션')) return '개발솔루션-DSC';
             if (lbl.includes('기업마케팅')) return '기업마케팅-EMC';
             if (lbl.includes('공간솔루션') || lbl.includes('상품/디지털') || lbl.includes('상품·디지털')) return '공간솔루션-SSC';
             if (lbl.includes('펀드운용')) return '펀드운용-KAM';
-            if (lbl.includes('IPR')) return 'IPR';
+            if (lbl.includes('IPR')) return 'IPR-WG';
         }
         return getCellName(log.writer_name);
     };
@@ -267,7 +277,11 @@ export default function DecisionLog() {
             }
             const data = await response.json();
             if (data && data.logs) {
-                const sortedLogs = [...data.logs].sort((a, b) => {
+                const mappedLogs = data.logs.map(log => ({
+                    ...log,
+                    line: getLogCell(log)
+                }));
+                const sortedLogs = [...mappedLogs].sort((a, b) => {
                     const dateA = a.work_date ? new Date(a.work_date).getTime() : 0;
                     const dateB = b.work_date ? new Date(b.work_date).getTime() : 0;
                     return dateB - dateA;
@@ -749,32 +763,30 @@ export default function DecisionLog() {
         return normWriter !== normTarget;
     });
 
-    const getLineBadgeStyle = (line) => {
-        const normLine = (line || '').toUpperCase();
-        if (normLine.includes('A')) {
-            return 'bg-[#30d158]/10 text-[#34d399] border border-[#30d158]/20';
-        } else if (normLine.includes('B')) {
-            return 'bg-[#0a84ff]/10 text-[#60a5fa] border border-[#0a84ff]/20';
-        } else if (normLine.includes('C')) {
-            return 'bg-[#bf5af2]/10 text-[#c084fc] border border-[#bf5af2]/20';
-        } else if (normLine.includes('D')) {
-            return 'bg-[#ffd60a]/10 text-[#fbbf24] border border-[#ffd60a]/20';
+    const getLineBadgeStyle = (cell) => {
+        const norm = (cell || '').replace(/\s+/g, '').toUpperCase();
+        if (norm.includes('PM')) {
+            return 'bg-[#30d158]/10 text-[#34d399] border border-[#30d158]/20'; // Green
+        } else if (norm.includes('LFC') || norm.includes('파이낸싱')) {
+            return 'bg-[#0a84ff]/10 text-[#60a5fa] border border-[#0a84ff]/20'; // Blue
+        } else if (norm.includes('DSC') || norm.includes('개발솔루션')) {
+            return 'bg-[#ffd60a]/10 text-[#fbbf24] border border-[#ffd60a]/20'; // Yellow
+        } else if (norm.includes('EMC') || norm.includes('기업마케팅')) {
+            return 'bg-[#ff375f]/10 text-[#ff6b8b] border border-[#ff375f]/20'; // Rose/Pink
+        } else if (norm.includes('SSC') || norm.includes('공간솔루션')) {
+            return 'bg-[#30b0c7]/10 text-[#5ac8fa] border border-[#30b0c7]/20'; // Cyan/Teal
+        } else if (norm.includes('KAM') || norm.includes('펀드운용')) {
+            return 'bg-[#34c759]/10 text-[#30d158] border border-[#34c759]/20'; // Emerald/Green
+        } else if (norm.includes('IPR')) {
+            return 'bg-[#bf5af2]/10 text-[#c084fc] border border-[#bf5af2]/20'; // Purple
         }
-        return 'bg-[#8e8e93]/10 text-[#9ca3af] border border-[#8e8e93]/20';
+        return 'bg-[#8e8e93]/10 text-[#9ca3af] border border-[#8e8e93]/20'; // Gray
     };
 
     const filteredIotaLogs = iotaLogs.filter(log => {
         if (iotaLogsLineFilter !== '전체') {
             const line = log.line || '';
-            if (iotaLogsLineFilter === 'A Line') {
-                if (!line.includes('A Line') && !line.includes('A-TF')) return false;
-            } else if (iotaLogsLineFilter === 'B Line') {
-                if (!line.includes('B Line')) return false;
-            } else if (iotaLogsLineFilter === 'C Line') {
-                if (!line.includes('C1 Line') && !line.includes('C2 Line') && !line.includes('C Line')) return false;
-            } else if (iotaLogsLineFilter === 'D Line') {
-                if (!line.includes('D Line') && !line.includes('D-TF')) return false;
-            }
+            if (line !== iotaLogsLineFilter) return false;
         }
         if (iotaLogsSearchQuery.trim()) {
             const query = iotaLogsSearchQuery.toLowerCase();
@@ -852,7 +864,7 @@ export default function DecisionLog() {
 
                     {/* Filter chips */}
                     <div className="flex items-center gap-[8px] overflow-x-auto scrollbar-hide">
-                        {['전체', 'A Line', 'B Line', 'C Line', 'D Line'].map(lineFilter => (
+                        {['전체', '사업 PM', '파이낸싱-LFC', '개발솔루션-DSC', '기업마케팅-EMC', '공간솔루션-SSC', '펀드운용-KAM', 'IPR-WG'].map(lineFilter => (
                             <button
                                 key={lineFilter}
                                 onClick={() => setIotaLogsLineFilter(lineFilter)}
