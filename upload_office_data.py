@@ -31,6 +31,8 @@ print(f"Supabase URL: {supabase_url}")
 def clean_val(val):
     if pd.isna(val) or val == "-" or val == "—":
         return None
+    if hasattr(val, 'strftime'):
+        return val.strftime("%Y-%m-%d")
     if isinstance(val, str):
         val = val.strip()
         if not val:
@@ -98,6 +100,27 @@ def normalize_name(name):
     name = re.sub(r'\[.*?\]', '', name)
     return name.strip()
 
+ALL_ASSET_KEYS = [
+    "name", "status", "submarket", "city", "district", "dong",
+    "parcel_main", "parcel_sub", "address", "latitude", "longitude",
+    "gfa_sqm", "gfa_py", "office_area_sqm", "office_area_py",
+    "standard_floor_area_py", "land_area_sqm", "main_use",
+    "completion_date", "remodeling_date", "scale", "far_pct",
+    "building_area_sqm", "bcr_pct", "parking_info", "elevators_info",
+    "efficiency_pct", "is_rent_or_headquarter", "is_aegis_asset",
+    "expected_completion_year", "expected_completion_quarter",
+    "construction_type", "floors_below", "floors_above",
+    "actual_construction_start_date", "permit_date", "rental_type",
+    "owner_developer", "trustee", "builder", "progress_status"
+]
+
+def make_full_asset(partial_dict):
+    full_dict = {key: None for key in ALL_ASSET_KEYS}
+    full_dict["is_aegis_asset"] = False
+    full_dict["custom_metadata"] = {}
+    full_dict.update(partial_dict)
+    return full_dict
+
 try:
     xl = pd.ExcelFile(file_path)
     
@@ -147,7 +170,7 @@ try:
             "elevators_info": str(clean_val(row[23])) if clean_val(row[23]) else None,
             "efficiency_pct": clean_num(row[24]) * 100 if clean_num(row[24]) and clean_num(row[24]) <= 1 else clean_num(row[24])
         }
-        assets_to_insert.append(asset)
+        assets_to_insert.append(make_full_asset(asset))
         
         quarters = [("2025-1Q", 25), ("2025-2Q", 31), ("2025-3Q", 37), ("2025-4Q", 43)]
         for q_label, start_col in quarters:
@@ -211,7 +234,7 @@ try:
             "builder": clean_val(row[23]),
             "progress_status": clean_val(row[24])
         }
-        assets_to_insert.append(asset)
+        assets_to_insert.append(make_full_asset(asset))
 
     print(f"Total Unique Assets to upload: {len(assets_to_insert)}")
     
