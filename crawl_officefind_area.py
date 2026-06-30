@@ -5,6 +5,7 @@ import os
 import time
 import json
 import random
+from bs4 import BeautifulSoup
 
 def load_env():
     env = {}
@@ -39,74 +40,119 @@ client_headers = {
     "Referer": "https://officefind.co.kr/"
 }
 
-def get_name_candidates(raw_name):
+def find_officefind_seo_url(name, dong=None, parcel_main=None):
     """
-    Generate fallback building names to handle complex parenthesized expressions
-    e.g. 'KAIT Tower(카이트타워) (구, 토마토빌딩)' -> ['KAIT Tower', '카이트타워', 'KAIT타워']
+    Search building name or address via OfficeFind search API to fetch the exact seo_url suffix.
     """
-    candidates = []
+    url = "https://officefind.co.kr/getOfficeData"
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
+        "Accept": "application/json, text/javascript, */*; q=0.01",
+        "X-Requested-With": "XMLHttpRequest"
+    }
     
-    # 1. Pure original clean name (remove parentheses completely)
-    clean_name = re.sub(r'\(.*?\)', '', raw_name).strip()
-    if clean_name and clean_name not in candidates:
-        candidates.append(clean_name)
+    # 1. Clean variations
+    variations = [name]
+    
+    # Remove outer parenthesis or bracket details
+    clean_name = re.sub(r'\(.*?\)', '', name).strip()
+    if clean_name and clean_name != name:
+        variations.append(clean_name)
         
-    # 2. Extract Korean name inside the first parenthesis
-    paren_match = re.search(r'\((.*?)\)', raw_name)
-    if paren_match:
-        paren_content = paren_match.group(1).strip()
-        # Remove '구, ' prefix if exists
-        paren_content = re.sub(r'^구,\s*', '', paren_content).strip()
-        if paren_content and paren_content not in candidates:
-            candidates.append(paren_content)
-            
-    # 3. Handle English/Korean hybrids like 'KAIT Tower' -> 'KAIT타워'
-    if "Tower" in clean_name:
-        tower_kor = clean_name.replace("Tower", "타워").replace(" ", "")
-        if tower_kor not in candidates:
-            candidates.append(tower_kor)
-            
-    # 4. Raw name itself as fallback
-    if raw_name not in candidates:
-        candidates.append(raw_name)
+    clean_name_brackets = re.sub(r'<.*?>', '', clean_name).strip()
+    if clean_name_brackets and clean_name_brackets not in variations:
+        variations.append(clean_name_brackets)
         
-    return candidates
+    # Extract first parenthesis content (like POBA강남타워 from 더피나클강남 (POBA강남타워))
+    m = re.search(r'\((.*?)\)', name)
+    if m:
+        p_content = m.group(1).strip()
+        p_content = re.sub(r'^구,\s*', '', p_content).strip()
+        if p_content and p_content not in variations:
+            variations.append(p_content)
+            
+    # Try searching variations
+    for query in variations:
+        params = {
+            "getType": "office",
+            "page": 1,
+            "search_str": query,
+            "isSearchForm": 1
+        }
+        try:
+            r = requests.get(url, params=params, headers=headers, timeout=5)
+            if r.status_code == 200:
+                data = r.json()
+                items = data if isinstance(data, list) else data.get("data", [])
+                if items:
+                    for item in items:
+                        addr = item.get("addr", "")
+                        # Address filter check to avoid mismatches
+                        if dong and dong not in addr:
+                            continue
+                        return item.get("seo_url"), item.get("subway"), item.get("M_NM")
+        except Exception as e:
+            pass
+            
+    # 2. Address fallback: dong + parcel_main
+    if dong and parcel_main:
+        query = f"{dong} {parcel_main}"
+        params = {
+            "getType": "office",
+            "page": 1,
+            "search_str": query,
+            "isSearchForm": 1
+        }
+        try:
+            r = requests.get(url, params=params, headers=headers, timeout=5)
+            if r.status_code == 200:
+                data = r.json()
+                items = data if isinstance(data, list) else data.get("data", [])
+                if items:
+                    return items[0].get("seo_url"), items[0].get("subway"), items[0].get("M_NM")
+        except Exception as e:
+            pass
+            
+    return None, None, None
 
 def parse_officefind_details(html):
     """
-    Parse standard floor area, HVAC type, and subway access from OfficeFind HTML
+    Parse standard floor area, HVAC type, and subway access from OfficeFind HTML using BeautifulSoup
     """
     standard_floor_area_py = None
     hvac_type = None
     subway_access = None
     
-    # 1. Parse standard floor area (임대 기준층 면적)
-    td_match = re.search(r'<th>기준층 면적</th>\s*<td>(.*?)</td>', html, re.DOTALL)
-    if td_match:
-        td_html = td_match.group(1)
-        # Find first data-py in the td (which is rental area)
-        py_match = re.search(r'data-py="([^"]*)"', td_html)
-        if py_match:
-            try:
-                standard_floor_area_py = float(py_match.group(1))
-            except ValueError:
-                pass
-                
-    # 2. Parse HVAC type (냉난방 방식)
-    hvac_match = re.search(r'<th>냉난방</th>\s*<td>(.*?)</td>', html, re.DOTALL)
-    if hvac_match:
-        hvac_type = hvac_match.group(1).strip()
-        
-    # 3. Parse Subway access (지하철 접근성)
-    subway_match = re.search(r'<th>지하철역</th>\s*<td>(.*?)</td>', html, re.DOTALL)
-    if subway_match:
-        subway_access = subway_match.group(1).strip()
+    try:
+        soup = BeautifulSoup(html, 'html.parser')
+        for tr in soup.find_all("tr"):
+            th = tr.find("th")
+            td = tr.find("td")
+            if th and td:
+                th_text = th.text.strip()
+                td_text = td.text.strip()
+                if "기준층 면적" in th_text:
+                    # Look for digits after "임대"
+                    match = re.search(r'임대\s*([\d,.]+)', td_text)
+                    if match:
+                        try:
+                            area_sqm = float(match.group(1).replace(",", ""))
+                            # 1 sqm = 0.3025 py (or / 3.3058)
+                            standard_floor_area_py = round(area_sqm / 3.3058, 2)
+                        except ValueError:
+                            pass
+                elif "냉난방" in th_text:
+                    hvac_type = td_text
+                elif "지하철역" in th_text:
+                    subway_access = td_text
+    except Exception as e:
+        print(f"Error parsing HTML: {e}")
         
     return standard_floor_area_py, hvac_type, subway_access
 
 def main():
     # Fetch assets from Supabase where standard_floor_area_py is NULL
-    url = f"{supabase_url}/rest/v1/office_assets?select=id,name,dong,parcel_main,parcel_sub,custom_metadata,completion_date,far_pct,efficiency_pct&standard_floor_area_py=is.null&limit=80"
+    url = f"{supabase_url}/rest/v1/office_assets?select=id,name,dong,parcel_main,parcel_sub,custom_metadata,completion_date,far_pct,efficiency_pct&standard_floor_area_py=is.null&limit=350"
     
     r = requests.get(url, headers=headers_base)
     if r.status_code != 200:
@@ -132,44 +178,46 @@ def main():
         if sub and sub not in ["0", "0000", "None"]:
             jibun += "-" + sub
             
-        if not dong or not jibun:
-            print(f"[{idx+1}/{len(assets)}] Skipping '{raw_name}': Missing dong or jibun info.")
-            continue
-            
-        candidates = get_name_candidates(raw_name)
         print(f"\n[{idx+1}/{len(assets)}] Processing '{raw_name}' ({dong} {jibun})...")
         
-        matched_url = None
-        html_content = None
+        # Resolve SEO URL via search API
+        seo_url, subway_fallback, matched_nm = find_officefind_seo_url(raw_name, dong, parcel_main)
         
-        # Try candidate URLs
-        for cand in candidates:
-            url_name = cand.replace(" ", "")
-            url = f"https://officefind.co.kr/{dong}{jibun}{url_name}"
-            try:
-                # Add slight random delay to mimic human behavior
-                time.sleep(random.uniform(1.5, 3.0))
-                res = requests.get(url, headers=client_headers, timeout=5)
-                if res.status_code == 200:
-                    matched_url = url
-                    html_content = res.text
-                    break
-            except Exception as e:
-                pass
-                
-        if not matched_url or not html_content:
-            print(f"  -> FAILED to match any URL on OfficeFind.")
+        if not seo_url:
+            print(f"  -> FAILED: Could not resolve SEO URL on OfficeFind.")
+            continue
+            
+        print(f"  -> Resolved SEO URL: {seo_url} (Matched Name: '{matched_nm}')")
+        
+        # Fetch detailed page
+        detail_url = f"https://officefind.co.kr/{seo_url}"
+        html_content = None
+        try:
+            # Throttling to bypass firewall
+            time.sleep(random.uniform(1.2, 2.5))
+            res = requests.get(detail_url, headers=client_headers, timeout=5)
+            if res.status_code == 200:
+                html_content = res.text
+            else:
+                print(f"  -> HTTP Error {res.status_code} fetching page.")
+        except Exception as e:
+            print(f"  -> Request exception: {e}")
+            
+        if not html_content:
             continue
             
         # Parse data
         area_py, hvac, subway = parse_officefind_details(html_content)
         
+        # Fallback subway from search result if page parsing didn't return it
+        if not subway and subway_fallback:
+            subway = subway_fallback
+            
         if area_py is None:
-            print(f"  -> Match found but failed to parse standard floor area.")
+            print(f"  -> FAILED: Could not parse standard floor area from page.")
             continue
             
-        print(f"  -> MATCHED: {matched_url}")
-        print(f"  -> Parsed: Standard Floor Area={area_py} py, HVAC={hvac}, Subway={subway}")
+        print(f"  -> SUCCESS: Parsed Area={area_py} py, HVAC={hvac}, Subway={subway}")
         
         # Define field origins/sources mapping
         field_sources = {
@@ -208,10 +256,10 @@ def main():
         patch_url = f"{supabase_url}/rest/v1/office_assets?id=eq.{asset_id}"
         patch_res = requests.patch(patch_url, headers=headers_base, data=json.dumps(update_payload))
         if patch_res.status_code in [200, 204]:
-            print(f"  -> SUCCESS: Updated database with OfficeFind attributes & provenance sources.")
+            print(f"  -> Database update success.")
             success_count += 1
         else:
-            print(f"  -> FAILED to update database: {patch_res.text}")
+            print(f"  -> Database update failed: {patch_res.text}")
             
     print(f"\n🎉 Crawling batch finished. Successfully updated {success_count} assets.")
 
