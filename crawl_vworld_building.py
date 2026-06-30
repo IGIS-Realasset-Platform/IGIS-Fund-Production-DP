@@ -132,7 +132,7 @@ def main():
 
     # Fetch assets from Supabase where metadata fields are NULL
     # To avoid API rate limit blocks, we can fetch up to 100 assets per run
-    url = f"{supabase_url}/rest/v1/office_assets?select=id,name,address,completion_date,far_pct&limit=100"
+    url = f"{supabase_url}/rest/v1/office_assets?select=id,name,address,completion_date,far_pct&limit=1000"
     r = requests.get(url, headers=headers)
     if r.status_code != 200:
         print(f"Error loading assets from Supabase: {r.text}")
