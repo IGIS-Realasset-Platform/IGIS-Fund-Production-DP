@@ -1,7 +1,9 @@
+# -*- coding: utf-8 -*-
 import requests
 import json
 import os
 import re
+import time
 
 def load_env():
     env = {}
@@ -18,25 +20,26 @@ def load_env():
 env = load_env()
 supabase_url = env.get("VITE_SUPABASE_URL")
 supabase_key = env.get("VITE_SUPABASE_ANON_KEY")
-vworld_key = env.get("VITE_VWORLD_API_KEY") # V-World API Key
-vworld_domain = env.get("VITE_VWORLD_DOMAIN", "http://localhost") # Domain registered with V-World
+vworld_key = env.get("VITE_VWORLD_API_KEY")
+vworld_domain = env.get("VITE_VWORLD_DOMAIN", "https://iotaseoul.cloud/")
 
 if not supabase_url or not supabase_key:
     print("Error: Supabase config not found in .env files.")
     exit(1)
 
-if not vworld_key:
-    print("WARNING: VITE_VWORLD_API_KEY not found in .env. Please register a key at https://www.vworld.kr")
-    print("Using a placeholder/mock key for draft check...")
-    vworld_key = "MOCK_KEY"
-
-headers = {
+headers_supabase = {
     "apikey": supabase_key,
     "Authorization": f"Bearer {supabase_key}",
     "Content-Type": "application/json"
 }
 
-# Date format cleaner (e.g. YYYYMMDD to YYYY-MM-DD)
+# Proper Referer/Origin headers matching the V-World registered URL
+headers_vworld = {
+    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
+    "Referer": vworld_domain,
+    "Origin": vworld_domain
+}
+
 def clean_date_str(date_val):
     if not date_val:
         return None
@@ -53,8 +56,8 @@ def fetch_pnu_and_coords(address):
         return None, None, None
         
     url = "https://api.vworld.kr/req/address"
-    # Try road address first, then parcel as fallback
-    for addr_type in ["road", "parcel"]:
+    # Try road first, then parcel (parcel returns PNU inside level4LC)
+    for addr_type in ["parcel", "road"]:
         params = {
             "service": "address",
             "request": "getcoord",
@@ -65,7 +68,7 @@ def fetch_pnu_and_coords(address):
             "key": vworld_key
         }
         try:
-            r = requests.get(url, params=params, timeout=5)
+            r = requests.get(url, params=params, headers=headers_vworld, timeout=5)
             if r.status_code == 200:
                 data = r.json()
                 if data.get("response", {}).get("status") == "OK":
@@ -74,11 +77,12 @@ def fetch_pnu_and_coords(address):
                     lat = float(point.get("y")) if point.get("y") else None
                     lng = float(point.get("x")) if point.get("x") else None
                     
-                    # Extract PNU from items list
-                    items = result.get("items", [])
+                    # Extract PNU from level4LC if parcel search
+                    refined = data["response"].get("refined", {})
+                    level4LC = refined.get("structure", {}).get("level4LC")
                     pnu = None
-                    if items:
-                        pnu = items[0].get("pnu")
+                    if level4LC and len(level4LC) == 19 and level4LC.isdigit():
+                        pnu = level4LC
                         
                     if pnu or (lat and lng):
                         return pnu, lat, lng
@@ -103,17 +107,13 @@ def fetch_building_details(pnu):
     }
     
     try:
-        r = requests.get(url, params=params, timeout=5)
+        r = requests.get(url, params=params, headers=headers_vworld, timeout=5)
         if r.status_code == 200:
             data = r.json()
-            # V-World / NSDI REST API response usually contains a root wrapper like buildingUses or fields
-            # Check response structure
             root = data.get("buildingUses", {}) or data.get("response", {})
             fields = root.get("field", [])
             if fields:
-                # Return the first building record found
                 return fields[0]
-            # Fallback check if fields are listed directly under result
             result = data.get("result", {})
             if isinstance(result, list) and result:
                 return result[0]
@@ -125,59 +125,63 @@ def fetch_building_details(pnu):
     return None
 
 def main():
-    if vworld_key == "MOCK_KEY":
-        print("Please configure VITE_VWORLD_API_KEY in your .env or .env.local file to start crawling.")
-        print("Abort crawling.")
-        return
-
-    # Fetch assets from Supabase where metadata fields are NULL
-    # To avoid API rate limit blocks, we can fetch up to 100 assets per run
-    url = f"{supabase_url}/rest/v1/office_assets?select=id,name,address,completion_date,far_pct&limit=1000"
-    r = requests.get(url, headers=headers)
+    # Fetch assets from Supabase
+    # We load columns so we can perform parcel address fallback if needed
+    url = f"{supabase_url}/rest/v1/office_assets?select=id,name,address,district,dong,parcel_main,parcel_sub,custom_metadata,completion_date,far_pct&limit=1000"
+    r = requests.get(url, headers=headers_supabase)
     if r.status_code != 200:
         print(f"Error loading assets from Supabase: {r.text}")
         return
         
     assets = r.json()
-    print(f"Loaded {len(assets)} assets. Scanning for missing details...")
+    print(f"Loaded {len(assets)} assets. Scanning for missing building details...")
     
     updated_count = 0
     
-    for asset in assets:
+    for idx, asset in enumerate(assets):
         asset_id = asset["id"]
         name = asset["name"]
         address = asset["address"]
+        district = asset["district"]
+        dong = asset["dong"]
+        parcel_main = asset["parcel_main"]
+        parcel_sub = asset["parcel_sub"]
+        existing_meta = asset.get("custom_metadata") or {}
         
-        # Check if coordinates or completion info is missing
-        print(f"\nProcessing '{name}' ({address})...")
+        print(f"\n[{idx+1}/{len(assets)}] Processing '{name}'...")
         pnu, lat, lng = fetch_pnu_and_coords(address)
         
+        # Fallback: construct parcel address if PNU is not resolved
+        if not pnu and dong and parcel_main:
+            district_str = district if district else ""
+            parcel_addr = f"서울특별시 {district_str} {dong} {parcel_main}"
+            sub = str(parcel_sub).strip()
+            if sub and sub not in ["0", "0000", "None"]:
+                parcel_addr += f"-{sub}"
+            print(f"  -> PNU fallback parcel search: {parcel_addr}")
+            pnu, _, _ = fetch_pnu_and_coords(parcel_addr)
+            
         update_payload = {}
         if lat and lng:
             update_payload["latitude"] = lat
             update_payload["longitude"] = lng
-            print(f"  -> Coords mapped: Lat={lat}, Lng={lng}")
             
         if pnu:
-            print(f"  -> PNU code mapped: {pnu}")
+            print(f"  -> Extracted PNU: {pnu}")
             details = fetch_building_details(pnu)
             if details:
-                # Map fields checking both camelCase and snake_case from the API response
-                land_area = details.get("platArea") or details.get("plat_area")
-                main_use = details.get("mainPrposCdNm") or details.get("main_prpos_cd_nm") or details.get("mainPrposNm")
-                completion = details.get("useAprvDe") or details.get("use_aprv_de") or details.get("useAprvDate")
-                far = details.get("vlRat") or details.get("vl_rat")
-                bcr = details.get("bcRat") or details.get("bc_rat")
-                bld_area = details.get("archArea") or details.get("arch_area")
+                # Map fields based on NSDI getBuildingUse actual response keys
+                land_area = details.get("buldPlotAr")
+                main_use = details.get("mainPrposCodeNm")
+                completion = details.get("useConfmDe")
+                far = details.get("measrmtRt")
+                bcr = details.get("btlRt")
+                bld_area = details.get("buldBildngAr")
+                above = details.get("groundFloorCo")
+                below = details.get("undgrndFloorCo")
+                structure = details.get("strctCodeNm")
                 
-                # Floors & scale construction
-                above = details.get("groFloorCo") or details.get("gro_floor_co") or details.get("grndFlrCnt")
-                below = details.get("undgFloorCo") or details.get("undg_floor_co") or details.get("ugrdFlrCnt")
-                
-                # Parking & Elevators
-                parking = details.get("parkingCo") or details.get("parking_co") or details.get("pkngCnt")
-                elevators = details.get("elevatorCo") or details.get("elevator_co") or details.get("elvtrCnt")
-                
+                # Assign payloads
                 if land_area: update_payload["land_area_sqm"] = float(land_area)
                 if main_use: update_payload["main_use"] = str(main_use)
                 if completion: update_payload["completion_date"] = clean_date_str(completion)
@@ -191,27 +195,47 @@ def main():
                     update_payload["floors_above"] = above_val
                     update_payload["floors_below"] = below_val
                     update_payload["scale"] = f"지하 {below_val}층 / 지상 {above_val}층"
-                    
-                if parking:
-                    update_payload["parking_info"] = f"총 {parking}대" if str(parking).isdigit() else str(parking)
-                if elevators:
-                    update_payload["elevators_info"] = f"{elevators}대" if str(elevators).isdigit() else str(elevators)
-                    
-                print(f"  -> Building details fetched: Use={main_use}, Date={completion}, FAR={far}%")
                 
+                # Provenance field sources tagging
+                field_sources = {
+                    "latitude": "V-World" if lat else None,
+                    "longitude": "V-World" if lng else None
+                }
+                
+                for f in ["completion_date", "far_pct", "bcr_pct", "building_area_sqm", "land_area_sqm", "scale"]:
+                    if update_payload.get(f) is not None:
+                        field_sources[f] = "V-World"
+                        
+                updated_meta = {**existing_meta}
+                if structure:
+                    updated_meta["main_structure"] = structure
+                    field_sources["main_structure"] = "V-World"
+                    
+                existing_sources = existing_meta.get("field_sources") or {}
+                merged_sources = {**existing_sources, **field_sources}
+                updated_meta["field_sources"] = {k: v for k, v in merged_sources.items() if v is not None}
+                
+                update_payload["custom_metadata"] = updated_meta
+                print(f"  -> SUCCESS: Retrieved details. Use={main_use}, Date={completion}, FAR={far}%")
+            else:
+                print("  -> NSDI Building Use API returned no fields.")
+        else:
+            print("  -> Could not resolve PNU code.")
+            
         if update_payload:
-            # Send patch to Supabase to update the asset info
             patch_url = f"{supabase_url}/rest/v1/office_assets?id=eq.{asset_id}"
-            res = requests.patch(patch_url, headers=headers, data=json.dumps(update_payload))
+            res = requests.patch(patch_url, headers=headers_supabase, data=json.dumps(update_payload))
             if res.status_code in [200, 204]:
-                print(f"  -> SUCCESS: Updated metadata for '{name}' in Supabase DB.")
                 updated_count += 1
             else:
-                print(f"  -> FAILED to update database: {res.text}")
+                print(f"  -> Database update failed: {res.text}")
         else:
-            print("  -> No new details found to update.")
+            print("  -> Nothing to update.")
             
-    print(f"\n🎉 Scanning and Crawling Complete. Updated {updated_count} assets.")
+        # Time sleep between requests to be gentle
+        time.sleep(0.3)
+            
+    print(f"\n🎉 V-World Crawling Complete. Updated {updated_count} assets with structural details.")
 
 if __name__ == "__main__":
     main()
