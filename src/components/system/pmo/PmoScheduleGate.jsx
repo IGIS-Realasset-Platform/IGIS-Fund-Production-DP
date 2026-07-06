@@ -6,8 +6,8 @@ const COLUMNS = [
     { key: 'm08', labelTop: '2026', labelBottom: '08' },
     { key: 'm09', labelTop: '2026', labelBottom: '09' },
     { key: 'm10', labelTop: '2026', labelBottom: '10' },
-    { key: 'm11', labelTop: '2026.11', labelBottom: 'PF 1차', highlight: true, isPfBox: true },
-    { key: 'm03', labelTop: '2027.03', labelBottom: 'PF 2차', highlight: true, isPfBox: true },
+    { key: 'm11', labelTop: '2026.11', labelBottom: 'PF 1차', highlight: true },
+    { key: 'm03', labelTop: '2027.03', labelBottom: 'PF 2차', highlight: true },
     { key: 'const_start', labelTop: '2027~', labelBottom: '착공' },
     { key: 'const_mid', labelTop: '공사~준공', labelBottom: '', highlight: true },
     { key: 'take_out', labelTop: 'Take-out', labelBottom: '운영', highlight: true }
@@ -349,13 +349,13 @@ const CATEGORY_MAP_DATA = [
 ];
 
 const R_R_CATEGORIES = [
-  'PF/금융', '인허가', '호텔/운영', '시공/원가', '도면/설계',
+  '전체보기', 'PF/금융', '인허가', '호텔/운영', '시공/원가', '도면/설계',
   '인테리어/TI', '임차/마케팅', '구조/법무/세무', '주주/보고', '준공/담보대출'
 ];
 
 export default function PmoScheduleGate() {
     const [filterCategory, setFilterCategory] = React.useState('All'); // All, Gate, Task
-    const [selectedRrCategory, setSelectedRrCategory] = React.useState('PF/금융');
+    const [selectedRrCategory, setSelectedRrCategory] = React.useState('전체보기');
     const scrollContainerRef = React.useRef(null);
 
     React.useEffect(() => {
@@ -423,8 +423,8 @@ export default function PmoScheduleGate() {
             {/* Header */}
             <div className="w-full flex justify-between items-start mb-[32px]">
                 <div>
-                    <h1 className="text-[36px] font-bold text-white tracking-tight leading-none mb-[8px]">타임라인 및 R&R</h1>
-                    <p className="text-[16px] text-[#86868B] leading-[26px]">Gate별 통제 마일스톤 및 03_카테고리맵 표준 조직 R&R 통제 보드</p>
+                    <h1 className="text-[36px] font-bold text-white tracking-tight leading-none mb-[8px]">타임라인</h1>
+                    <p className="text-[16px] text-[#86868B] leading-[26px]">Gate별 통제 마일스톤 및 주요 R&R 기능의 일정 트래커</p>
                 </div>
                 
                 {/* Segmented Filter */}
@@ -452,7 +452,7 @@ export default function PmoScheduleGate() {
 
             {/* Legend info panel */}
             <div className="w-full bg-[#272726]/60 border border-[#3c3c3c] rounded-[16px] px-6 py-4 flex items-center justify-between mb-[18px]">
-                <span className="text-[13px] text-[#86868B] font-medium">💡 일정의 최종 목표는 준공 및 Take-out/운영 전환이며, 각 업무는 Gate에서 멈춤/전환/상향보고 여부를 결정합니다.</span>
+                <span className="text-[13px] text-[#86868B] font-medium">일정의 최종 목표는 준공 및 Take-out/운영 전환입니다.</span>
                 <div className="flex items-center gap-4 shrink-0 text-[12px] font-bold">
                     <div className="flex items-center gap-1.5">
                         <span className="w-2.5 h-2.5 rounded-full bg-[#2997ff] inline-block"></span>
@@ -477,20 +477,10 @@ export default function PmoScheduleGate() {
                                     <th className="px-2 w-[110px] text-center sticky left-[350px] bg-[#272726] z-30">주관</th>
                                     <th className="px-2 w-[100px] text-center sticky left-[460px] bg-[#272726] z-30 border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)]">협업</th>
                                     {COLUMNS.map((col, cIdx) => {
-                                        const isSeparatorStart = col.key === 'm10';
-                                        const isSeparatorEnd = col.key === 'm03';
                                         return (
                                             <th key={col.key} className={`text-center font-mono text-[11px] leading-tight px-1 font-bold w-[90px] ${
-                                                col.isPfBox 
-                                                    ? 'bg-[#2997ff]/10 text-white' 
-                                                    : col.highlight 
-                                                        ? 'bg-white/[0.03] text-[#60a5fa]' 
-                                                        : 'text-[#86868B]'
-                                            } ${
-                                                isSeparatorStart || isSeparatorEnd
-                                                    ? 'border-r-4 border-[#2997ff]' 
-                                                    : 'border-r border-[#4c4c4c]/50'
-                                            }`}>
+                                                col.highlight ? 'bg-white/[0.03] text-[#60a5fa]' : 'text-[#86868B]'
+                                            } border-r border-[#4c4c4c]/50`}>
                                                 <div>{col.labelTop}</div>
                                                 {col.labelBottom && <div className="text-[11px] opacity-75 mt-0.5">{col.labelBottom}</div>}
                                             </th>
@@ -540,20 +530,10 @@ export default function PmoScheduleGate() {
                                             {/* Grid Columns */}
                                             {COLUMNS.map((col, cIdx) => {
                                                 const mark = item.schedule[col.key];
-                                                const isSeparatorStart = col.key === 'm10';
-                                                const isSeparatorEnd = col.key === 'm03';
                                                 return (
                                                     <td key={col.key} className={`text-center ${
-                                                        col.isPfBox 
-                                                            ? 'bg-[#2997ff]/[0.04] group-hover:bg-[#2997ff]/[0.09]' 
-                                                            : col.highlight 
-                                                                ? 'bg-white/[0.015] group-hover:bg-white/[0.04]' 
-                                                                : ''
-                                                    } ${
-                                                        isSeparatorStart || isSeparatorEnd
-                                                            ? 'border-r-4 border-[#2997ff]/70' 
-                                                            : 'border-r border-[#4c4c4c]/40'
-                                                    }`}>
+                                                        col.highlight ? 'bg-white/[0.015] group-hover:bg-white/[0.04]' : ''
+                                                    } border-r border-[#4c4c4c]/40`}>
                                                         {mark === '●' && (
                                                             <span className="w-3.5 h-3.5 rounded-full bg-[#2997ff] inline-block shadow-sm shadow-[#2997ff]/20"></span>
                                                         )}
@@ -580,102 +560,114 @@ export default function PmoScheduleGate() {
             </div>
 
             {/* Category Map & R&R Section */}
-            <div className="w-full flex flex-col gap-2 mt-[64px] border-t border-[#3c3c3c] pt-[48px] mb-[24px]">
-                <h2 className="text-[26px] font-bold text-white tracking-tight leading-none text-left">표준 R&R 및 카테고리 통제 맵</h2>
-                <p className="text-[14.5px] text-[#86868B] leading-[22px] text-left">03_카테고리맵 기준 대분류별 세부섹터 주관/협업 R&R 및 통제 요건</p>
+            <div className="w-full flex flex-col sm:flex-row sm:items-center justify-between gap-4 mt-[64px] border-t border-[#3c3c3c] pt-[48px] mb-[28px]">
+                <h2 className="text-[26px] font-bold text-white tracking-tight leading-none text-left">R&R</h2>
+                
+                {/* Category Selector Tabs */}
+                <div className="flex flex-wrap items-center bg-[#222] border border-[#333] rounded-[8px] p-[4px] shrink-0 max-w-full overflow-x-auto">
+                    {R_R_CATEGORIES.map(cat => {
+                        const isActive = selectedRrCategory === cat;
+                        return (
+                            <button
+                                key={cat}
+                                onClick={() => setSelectedRrCategory(cat)}
+                                className={`px-[12px] py-[5px] text-[12px] font-bold rounded-[6px] transition-colors cursor-pointer whitespace-nowrap ${
+                                    isActive ? 'bg-[#3c3c3c] text-white' : 'text-[#86868B] hover:text-white'
+                                }`}
+                            >
+                                {cat}
+                            </button>
+                        );
+                    })}
+                </div>
             </div>
 
-            {/* Category Selector Tabs */}
-            <div className="flex flex-wrap gap-[8px] mb-[28px]">
-                {R_R_CATEGORIES.map(cat => {
-                    const count = CATEGORY_MAP_DATA.filter(item => item.category === cat).length;
-                    const isActive = selectedRrCategory === cat;
-                    return (
-                        <button
-                            key={cat}
-                            onClick={() => setSelectedRrCategory(cat)}
-                            className={`px-[16px] py-[7px] rounded-full text-[13px] font-bold whitespace-nowrap cursor-pointer transition-all duration-200 border ${
-                                isActive
-                                    ? 'bg-[#2997ff]/10 border-[#2997ff]/40 text-[#60a5fa] scale-[1.02]'
-                                    : 'bg-transparent border-[#3a3a3c] text-[#86868B] hover:text-white hover:border-[#555]'
-                            }`}
-                        >
-                            {cat} <span className={`text-[11px] ml-1.5 font-semibold ${isActive ? 'text-[#60a5fa]' : 'text-[#86868B]'}`}>({count})</span>
-                        </button>
-                    );
-                })}
-            </div>
-
-            {/* R&R Grid Cards */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-[40px]">
-                {CATEGORY_MAP_DATA.filter(item => item.category === selectedRrCategory).map((item, idx) => (
+            {/* R&R Grid Cards (Full-Width Rows) */}
+            <div className="flex flex-col gap-5 mb-[40px]">
+                {CATEGORY_MAP_DATA.filter(item => selectedRrCategory === '전체보기' || item.category === selectedRrCategory).map((item, idx) => (
                     <div 
                         key={idx} 
-                        className="bg-[#272726] border border-[#3c3c3c] hover:border-[#4c4c4c] rounded-[22px] p-6 flex flex-col justify-between transition-all duration-200 shadow-sm relative group"
+                        className="bg-[#272726] border border-[#3c3c3c] hover:border-[#4c4c4c] rounded-[22px] p-6 flex flex-col gap-5 transition-all duration-200 shadow-sm relative group"
                     >
-                        <div>
-                            {/* Card Header */}
-                            <div className="flex items-start justify-between gap-4 mb-3.5">
-                                <h4 className="text-[18px] font-bold text-white tracking-tight leading-snug text-left">
+                        {/* Top row: Title + Category + Timing Badges */}
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[#3c3c3c]/60">
+                            <div className="flex items-center gap-3">
+                                {selectedRrCategory === '전체보기' && (
+                                    <span className="px-2.5 py-1 text-[11px] font-extrabold rounded bg-white/10 text-white border border-white/20 uppercase tracking-wider">
+                                        {item.category}
+                                    </span>
+                                )}
+                                <h4 className="text-[20px] font-bold text-white tracking-tight">
                                     {item.subsector}
                                 </h4>
-                                <div className="flex gap-1.5 flex-wrap shrink-0">
-                                    {item.pf && (
-                                        <span className="px-2 py-0.5 text-[10px] font-bold rounded bg-blue-500/10 text-blue-400 border border-blue-500/20 whitespace-nowrap">PF 전 필요</span>
-                                    )}
-                                    {item.const && (
-                                        <span className="px-2 py-0.5 text-[10px] font-bold rounded bg-amber-500/10 text-amber-400 border border-amber-500/20 whitespace-nowrap">착공 전 필요</span>
-                                    )}
-                                    {item.op && (
-                                        <span className="px-2 py-0.5 text-[10px] font-bold rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 whitespace-nowrap">준공 전 필요</span>
-                                    )}
-                                </div>
                             </div>
+                            
+                            {/* Timing Badges */}
+                            <div className="flex gap-2 flex-wrap">
+                                {item.pf && (
+                                    <span className="px-2.5 py-0.5 text-[11px] font-bold rounded bg-blue-500/10 text-blue-400 border border-blue-500/20">PF 전 필요</span>
+                                )}
+                                {item.const && (
+                                    <span className="px-2.5 py-0.5 text-[11px] font-bold rounded bg-amber-500/10 text-amber-400 border border-amber-500/20">착공 전 필요</span>
+                                )}
+                                {item.op && (
+                                    <span className="px-2.5 py-0.5 text-[11px] font-bold rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">준공 전 필요</span>
+                                )}
+                            </div>
+                        </div>
 
-                            {/* Representative Task Description */}
-                            <p className="text-[14px] text-[#E5E5E5] font-medium leading-relaxed mb-5 text-left">
+                        {/* Representative Task Description */}
+                        <div className="text-left">
+                            <span className="text-[12px] font-extrabold text-[#86868B] uppercase block mb-1">대표 업무</span>
+                            <p className="text-[16px] text-white font-medium leading-relaxed">
                                 {item.task}
                             </p>
+                        </div>
 
-                            {/* Standard R&R Roles */}
-                            <div className="space-y-2.5 border-t border-[#3c3c3c] pt-4 text-[12px]">
-                                <div className="flex items-center gap-3">
-                                    <span className="w-12 text-[#86868B] font-bold text-left shrink-0">주관 부서</span>
-                                    <span className="px-2.5 py-0.5 rounded font-bold bg-[#2997ff]/10 text-white border border-[#2997ff]/20">
-                                        {item.lead}
-                                    </span>
-                                </div>
-                                <div className="flex items-start gap-3">
-                                    <span className="w-12 text-[#86868B] font-bold text-left shrink-0 mt-0.5">협업 부서</span>
-                                    <div className="flex flex-wrap gap-1.5">
-                                        {item.coop.map((c, cIdx) => (
-                                            c && (
-                                                <span key={cIdx} className="px-2.5 py-0.5 rounded font-bold bg-[#1F1F1E] text-[#A1A1AA] border border-[#3c3c3c]">
-                                                    {c}
-                                                </span>
-                                            )
-                                        ))}
+                        {/* Roles, Counterparties, Needs Grid */}
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2 text-left">
+                            {/* R&R Roles */}
+                            <div className="space-y-3">
+                                <span className="text-[12px] font-extrabold text-[#86868B] uppercase block">조직 R&R</span>
+                                <div className="space-y-2 text-[14px]">
+                                    <div className="flex items-center gap-3">
+                                        <span className="w-10 text-[#86868B] font-bold shrink-0">주관</span>
+                                        <span className="px-2.5 py-0.5 rounded font-bold bg-[#2997ff]/10 text-white border border-[#2997ff]/20">
+                                            {item.lead}
+                                        </span>
+                                    </div>
+                                    <div className="flex items-start gap-3">
+                                        <span className="w-10 text-[#86868B] font-bold shrink-0 mt-0.5">협업</span>
+                                        <div className="flex flex-wrap gap-1.5">
+                                            {item.coop.map((c, cIdx) => (
+                                                c && (
+                                                    <span key={cIdx} className="px-2.5 py-0.5 rounded font-bold bg-[#1F1F1E] text-[#A1A1AA] border border-[#3c3c3c]">
+                                                        {c}
+                                                    </span>
+                                                )
+                                            ))}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
 
-                            {/* Standard Counterparties & Support requirements */}
-                            <div className="grid grid-cols-2 gap-4 mt-4 pt-4 border-t border-[#3c3c3c] text-[12px] text-left">
-                                <div>
-                                    <span className="text-[#86868B] font-bold block mb-1">외부 상대방</span>
-                                    <span className="text-[#E5E5E5] font-semibold">{item.partner || '-'}</span>
-                                </div>
-                                <div>
-                                    <span className="text-[#86868B] font-bold block mb-1">지원 필요 요건</span>
-                                    <span className="text-[#E5E5E5] font-semibold">{item.need || '-'}</span>
-                                </div>
+                            {/* External Stakeholder */}
+                            <div>
+                                <span className="text-[12px] font-extrabold text-[#86868B] uppercase block mb-2">외부 상대방</span>
+                                <span className="text-[14px] text-[#E5E5E5] font-semibold block">{item.partner || '-'}</span>
+                            </div>
+
+                            {/* Requirements */}
+                            <div>
+                                <span className="text-[12px] font-extrabold text-[#86868B] uppercase block mb-2">지원 필요 요건</span>
+                                <span className="text-[14px] text-[#E5E5E5] font-semibold block">{item.need || '-'}</span>
                             </div>
                         </div>
 
-                        {/* Control Point Bottom Bar */}
-                        <div className="mt-5 bg-amber-500/[0.04] border-l-3 border-amber-500/50 text-[#F59E0B] text-[12px] font-semibold px-4 py-2.5 rounded-r text-left">
-                            <span className="text-[#86868B] font-bold mr-1.5">관리 포인트:</span>
-                            {item.point}
+                        {/* Control Point Banner */}
+                        <div className="bg-amber-500/[0.04] border-l-[4px] border-amber-500/50 text-[#F59E0B] text-[14px] font-semibold px-4 py-3 rounded-r text-left mt-2 flex items-center">
+                            <span className="text-[#86868B] font-bold mr-2 shrink-0">관리 포인트:</span>
+                            <span>{item.point}</span>
                         </div>
                     </div>
                 ))}
