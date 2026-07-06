@@ -584,9 +584,9 @@ export default function PmoScheduleGate() {
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-[#3c3c3c]/60 text-[12px]">
-                                {CATEGORY_MAP_DATA.filter(item => selectedRrCategory === '전체보기' || item.category === selectedRrCategory).map((item, idx) => {
+                                {CATEGORY_MAP_DATA.filter(item => selectedRrCategory === '전체보기' || item.category === selectedRrCategory).map((item) => {
                                     return (
-                                        <tr key={idx} className="hover:bg-[#333] transition-colors h-11 group">
+                                        <tr key={`${item.category}-${item.subsector}-${item.task}`} className="hover:bg-[#333] transition-colors h-11 group">
                                             {/* 대분류 */}
                                             <td className="px-3 sticky left-0 bg-[#272726] group-hover:bg-[#333] transition-colors z-20 text-center font-bold text-white text-[12px] w-[110px] min-w-[110px] max-w-[110px]">
                                                 {item.category}
