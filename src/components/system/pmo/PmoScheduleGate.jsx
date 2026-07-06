@@ -91,7 +91,7 @@ export default function PmoScheduleGate() {
             {/* Timeline Matrix Grid */}
             <div className="-mr-[calc(50vw-50%)] border border-r-0 border-[#3c3c3c] bg-[#272726] rounded-l-[24px] overflow-hidden">
                 <div className="w-full overflow-x-auto pr-[50px] custom-thin-scrollbar">
-                    <table className="w-full text-left table-fixed min-w-[1600px]">
+                    <table className="w-full text-left table-fixed min-w-[1750px]">
                         <thead>
                             <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[13px] h-12">
                                 <th className="pl-6 w-[140px]">구분</th>
@@ -103,6 +103,8 @@ export default function PmoScheduleGate() {
                                         {col.label}
                                     </th>
                                 ))}
+                                {/* 우측 스크롤 마진용 빈 헤더 */}
+                                <th className="w-[150px]"></th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-[#3c3c3c] text-[13px]">
@@ -152,6 +154,9 @@ export default function PmoScheduleGate() {
                                                 </td>
                                             );
                                         })}
+                                        
+                                        {/* 우측 스크롤 마진용 빈 셀 */}
+                                        <td></td>
                                     </tr>
                                 );
                             })}
