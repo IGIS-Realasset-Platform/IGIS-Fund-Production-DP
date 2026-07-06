@@ -511,66 +511,6 @@ export default function PmoVision() {
     },
     {
         "scope": "내부",
-        "category": "협업 관리",
-        "subcategory": "화면 이동 동선",
-        "actor": "시스템",
-        "detail": "대시보드 내 활동 로그 클릭 시 해당 부서 워크스페이스로 이동함과 동시에 로컬스토리지에 저장된 ID를 기반으로 해당 업무 카드로 자동 포커싱 및 스크롤함.",
-        "main_dept": "ALL",
-        "sub_dept": "All",
-        "note": "localStorage 기반 cross-focusing"
-    },
-    {
-        "scope": "내부",
-        "category": "부서별 업무",
-        "subcategory": "우선순위 재정렬",
-        "actor": "실무자",
-        "detail": "업무 상태 그리드에서 상/하 정렬 버튼 클릭 시 백엔드 DB의 created_at 가중치를 실시간 스왑하여 업무 우선순위 노출 순서를 동적으로 변경함.",
-        "main_dept": "ALL",
-        "sub_dept": "ALL",
-        "note": "custom weight 정렬 알고리즘"
-    },
-    {
-        "scope": "내부",
-        "category": "거버넌스 관리",
-        "subcategory": "거버넌스 SSOT",
-        "actor": "사용자",
-        "detail": "전사 조직체계, 부서별 책임한계(RACI), 핵심 회의체 주기, Risk Top 10을 열람할 수 있는 거버넌스 뷰어를 구축하여 오프라인 지침을 시스템화함.",
-        "main_dept": "IT/기획",
-        "sub_dept": "ALL",
-        "note": "GovSystem / GovRaci / GovMeetings / GovRiskTop10"
-    },
-    {
-        "scope": "내부",
-        "category": "데이터 관리",
-        "subcategory": "RAG 검색 대비",
-        "actor": "시스템",
-        "detail": "실무 코멘트 등록 시 본문 텍스트와 메타데이터(인물, 자산, URL)를 Supabase DB 상에 분할 적재하여 RAG 기반 AI 검색 성능 최적화 구조를 수립함.",
-        "main_dept": "IT/기획",
-        "sub_dept": "ALL",
-        "note": "raw_text / metadata JSONB 분할 적재"
-    },
-    {
-        "scope": "내부",
-        "category": "데이터 관리",
-        "subcategory": "대외 파트너 조회",
-        "actor": "실무자",
-        "detail": "대외 파트너사 정보와 앵커 임차인(Tenant) 이전 및 매핑 상태를 조회하는 데이터 관리용 명부를 설계하여 관계사 마스터 테이블과 연동함.",
-        "main_dept": "사업 PM",
-        "sub_dept": "LFC",
-        "note": "StakeLp / StakeTenant / StakePartner"
-    },
-    {
-        "scope": "내부",
-        "category": "시계열 관리",
-        "subcategory": "핫 테스크 자동 추출",
-        "actor": "시스템",
-        "detail": "각 부서 DB 테이블에서 최근 14일 내 생성/변경된 활성 과제만 쿼리 슬라이싱하여 대시보드 첫 화면에 모아서 노출함.",
-        "main_dept": "IT/기획",
-        "sub_dept": "ALL",
-        "note": "최근 14일 기준 Date Filter"
-    },
-    {
-        "scope": "내부",
         "category": "인증/보안",
         "subcategory": "로그인 및 권한 진입",
         "actor": "사용자",
@@ -748,6 +688,66 @@ export default function PmoVision() {
         "main_dept": "사업 PM",
         "sub_dept": "LFC",
         "note": "iota_stakeholder_master"
+    },
+    {
+        "scope": "내부",
+        "category": "협업 관리",
+        "subcategory": "화면 이동 동선",
+        "actor": "시스템",
+        "detail": "대시보드 내 활동 로그 클릭 시 해당 부서 워크스페이스로 이동함과 동시에 로컬스토리지에 저장된 ID를 기반으로 해당 업무 카드로 자동 포커싱 및 스크롤함.",
+        "main_dept": "ALL",
+        "sub_dept": "All",
+        "note": "localStorage 기반 cross-focusing"
+    },
+    {
+        "scope": "내부",
+        "category": "부서별 업무",
+        "subcategory": "우선순위 재정렬",
+        "actor": "실무자",
+        "detail": "업무 상태 그리드에서 상/하 정렬 버튼 클릭 시 백엔드 DB의 created_at 가중치를 실시간 스왑하여 업무 우선순위 노출 순서를 동적으로 변경함.",
+        "main_dept": "ALL",
+        "sub_dept": "ALL",
+        "note": "custom weight 정렬 알고리즘"
+    },
+    {
+        "scope": "내부",
+        "category": "거버넌스 관리",
+        "subcategory": "거버넌스 SSOT",
+        "actor": "사용자",
+        "detail": "전사 조직체계, 부서별 책임한계(RACI), 핵심 회의체 주기, Risk Top 10을 열람할 수 있는 거버넌스 뷰어를 구축하여 오프라인 지침을 시스템화함.",
+        "main_dept": "IT/기획",
+        "sub_dept": "ALL",
+        "note": "GovSystem / GovRaci / GovMeetings / GovRiskTop10"
+    },
+    {
+        "scope": "내부",
+        "category": "데이터 관리",
+        "subcategory": "RAG 검색 대비",
+        "actor": "시스템",
+        "detail": "실무 코멘트 등록 시 본문 텍스트와 메타데이터(인물, 자산, URL)를 Supabase DB 상에 분할 적재하여 RAG 기반 AI 검색 성능 최적화 구조를 수립함.",
+        "main_dept": "IT/기획",
+        "sub_dept": "ALL",
+        "note": "raw_text / metadata JSONB 분할 적재"
+    },
+    {
+        "scope": "내부",
+        "category": "데이터 관리",
+        "subcategory": "대외 파트너 조회",
+        "actor": "실무자",
+        "detail": "대외 파트너사 정보와 앵커 임차인(Tenant) 이전 및 매핑 상태를 조회하는 데이터 관리용 명부를 설계하여 관계사 마스터 테이블과 연동함.",
+        "main_dept": "사업 PM",
+        "sub_dept": "LFC",
+        "note": "StakeLp / StakeTenant / StakePartner"
+    },
+    {
+        "scope": "내부",
+        "category": "시계열 관리",
+        "subcategory": "핫 테스크 자동 추출",
+        "actor": "시스템",
+        "detail": "각 부서 DB 테이블에서 최근 14일 내 생성/변경된 활성 과제만 쿼리 슬라이싱하여 대시보드 첫 화면에 모아서 노출함.",
+        "main_dept": "IT/기획",
+        "sub_dept": "ALL",
+        "note": "최근 14일 기준 Date Filter"
     },
     {
         "scope": "내부",
