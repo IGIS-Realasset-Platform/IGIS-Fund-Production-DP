@@ -128,7 +128,7 @@ CREATE POLICY "Allow PM2 and admin full access to pmo_tasks" ON iota_v2.iota_pmo
     USING (
         auth.jwt() ->> 'email' IN (
             SELECT email FROM public.iota_seoul_pilot_members 
-            WHERE department = '사업관리2파트' OR role_code IN ('master', 'director')
+            WHERE workspace_code = 'WS_PM' OR role_code IN ('master', 'director')
         )
     );
 
@@ -137,6 +137,6 @@ CREATE POLICY "Allow PM2 and admin full access to popup_requests" ON iota_v2.iot
     USING (
         auth.jwt() ->> 'email' IN (
             SELECT email FROM public.iota_seoul_pilot_members 
-            WHERE department = '사업관리2파트' OR role_code IN ('master', 'director')
+            WHERE workspace_code = 'WS_PM' OR role_code IN ('master', 'director')
         )
     );
