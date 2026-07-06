@@ -582,95 +582,99 @@ export default function PmoScheduleGate() {
                 </div>
             </div>
 
-            {/* R&R Grid Cards (Full-Width Rows) */}
-            <div className="flex flex-col gap-5 mb-[40px]">
-                {CATEGORY_MAP_DATA.filter(item => selectedRrCategory === '전체보기' || item.category === selectedRrCategory).map((item, idx) => (
-                    <div 
-                        key={idx} 
-                        className="bg-[#272726] border border-[#3c3c3c] hover:border-[#4c4c4c] rounded-[22px] p-6 flex flex-col gap-5 transition-all duration-200 shadow-sm relative group"
-                    >
-                        {/* Top row: Title + Category + Timing Badges */}
-                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[#3c3c3c]/60">
-                            <div className="flex items-center gap-3">
-                                {selectedRrCategory === '전체보기' && (
-                                    <span className="px-2.5 py-1 text-[11px] font-extrabold rounded bg-white/10 text-white border border-white/20 uppercase tracking-wider">
+            {/* R&R Grid Matrix Table */}
+            <div className="w-full border border-[#3c3c3c] bg-[#272726] rounded-[20px] overflow-hidden shadow-sm mb-[40px]">
+                <div className="w-full overflow-x-auto timeline-scrollbar">
+                    <table className="text-left table-fixed min-w-[1710px] w-full border-collapse">
+                        <thead>
+                            <tr className="border-b border-[#3c3c3c] bg-[#1F1F1E] text-[#86868B] font-bold text-[13px] h-12">
+                                <th className="px-3 text-left w-[110px]">대분류</th>
+                                <th className="px-3 text-left w-[140px]">세부섹터</th>
+                                <th className="px-3 text-left w-[350px]">대표 업무</th>
+                                <th className="px-2 text-center w-[80px]">PF 전</th>
+                                <th className="px-2 text-center w-[80px]">착공 전</th>
+                                <th className="px-2 text-center w-[80px]">준공 전</th>
+                                <th className="px-3 text-left w-[130px]">주관 부서</th>
+                                <th className="px-3 text-left w-[180px]">협업 부서</th>
+                                <th className="px-3 text-left w-[140px]">외부 상대방</th>
+                                <th className="px-3 text-left w-[150px]">지원 필요</th>
+                                <th className="px-3 text-left w-[300px]">관리 포인트</th>
+                            </tr>
+                        </thead>
+                        <tbody className="divide-y divide-[#3c3c3c]/60 text-[13px]">
+                            {CATEGORY_MAP_DATA.filter(item => selectedRrCategory === '전체보기' || item.category === selectedRrCategory).map((item, idx) => (
+                                <tr key={idx} className="hover:bg-[#333] transition-colors group">
+                                    {/* 대분류 */}
+                                    <td className="px-3 py-3.5 text-left font-bold text-white text-[13.5px] whitespace-nowrap">
                                         {item.category}
-                                    </span>
-                                )}
-                                <h4 className="text-[20px] font-bold text-white tracking-tight">
-                                    {item.subsector}
-                                </h4>
-                            </div>
-                            
-                            {/* Timing Badges */}
-                            <div className="flex gap-2 flex-wrap">
-                                {item.pf && (
-                                    <span className="px-2.5 py-0.5 text-[11px] font-bold rounded bg-blue-500/10 text-blue-400 border border-blue-500/20">PF 전 필요</span>
-                                )}
-                                {item.const && (
-                                    <span className="px-2.5 py-0.5 text-[11px] font-bold rounded bg-amber-500/10 text-amber-400 border border-amber-500/20">착공 전 필요</span>
-                                )}
-                                {item.op && (
-                                    <span className="px-2.5 py-0.5 text-[11px] font-bold rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">준공 전 필요</span>
-                                )}
-                            </div>
-                        </div>
-
-                        {/* Representative Task Description */}
-                        <div className="text-left">
-                            <span className="text-[12px] font-extrabold text-[#86868B] uppercase block mb-1">대표 업무</span>
-                            <p className="text-[16px] text-white font-medium leading-relaxed">
-                                {item.task}
-                            </p>
-                        </div>
-
-                        {/* Roles, Counterparties, Needs Grid */}
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2 text-left">
-                            {/* R&R Roles */}
-                            <div className="space-y-3">
-                                <span className="text-[12px] font-extrabold text-[#86868B] uppercase block">조직 R&R</span>
-                                <div className="space-y-2 text-[14px]">
-                                    <div className="flex items-center gap-3">
-                                        <span className="w-10 text-[#86868B] font-bold shrink-0">주관</span>
-                                        <span className="px-2.5 py-0.5 rounded font-bold bg-[#2997ff]/10 text-white border border-[#2997ff]/20">
+                                    </td>
+                                    {/* 세부섹터 */}
+                                    <td className="px-3 py-3.5 text-left font-bold text-[#E5E5E5] text-[13.5px]">
+                                        {item.subsector}
+                                    </td>
+                                    {/* 대표 업무 */}
+                                    <td className="px-3 py-3.5 text-left font-medium text-white text-[13.5px] leading-relaxed whitespace-normal break-all">
+                                        {item.task}
+                                    </td>
+                                    {/* PF 전 */}
+                                    <td className="px-2 py-3.5 text-center">
+                                        {item.pf ? (
+                                            <span className="px-2 py-0.5 text-[10.5px] font-bold rounded bg-blue-500/15 text-blue-400 border border-blue-500/30 whitespace-nowrap">필수</span>
+                                        ) : (
+                                            <span className="text-[#555] font-bold">-</span>
+                                        )}
+                                    </td>
+                                    {/* 착공 전 */}
+                                    <td className="px-2 py-3.5 text-center">
+                                        {item.const ? (
+                                            <span className="px-2 py-0.5 text-[10.5px] font-bold rounded bg-amber-500/15 text-amber-400 border border-amber-500/30 whitespace-nowrap">필수</span>
+                                        ) : (
+                                            <span className="text-[#555] font-bold">-</span>
+                                        )}
+                                    </td>
+                                    {/* 준공 전 */}
+                                    <td className="px-2 py-3.5 text-center">
+                                        {item.op ? (
+                                            <span className="px-2 py-0.5 text-[10.5px] font-bold rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 whitespace-nowrap">필수</span>
+                                        ) : (
+                                            <span className="text-[#555] font-bold">-</span>
+                                        )}
+                                    </td>
+                                    {/* 주관 부서 */}
+                                    <td className="px-3 py-3.5 text-left">
+                                        <span className="px-2.5 py-0.5 rounded font-bold bg-[#2997ff]/10 text-white border border-[#2997ff]/20 text-[12px] whitespace-nowrap">
                                             {item.lead}
                                         </span>
-                                    </div>
-                                    <div className="flex items-start gap-3">
-                                        <span className="w-10 text-[#86868B] font-bold shrink-0 mt-0.5">협업</span>
-                                        <div className="flex flex-wrap gap-1.5">
+                                    </td>
+                                    {/* 협업 부서 */}
+                                    <td className="px-3 py-3.5 text-left">
+                                        <div className="flex flex-wrap gap-1">
                                             {item.coop.map((c, cIdx) => (
                                                 c && (
-                                                    <span key={cIdx} className="px-2.5 py-0.5 rounded font-bold bg-[#1F1F1E] text-[#A1A1AA] border border-[#3c3c3c]">
+                                                    <span key={cIdx} className="px-2 py-0.5 rounded font-bold bg-[#1F1F1E] text-[#A1A1AA] border border-[#3c3c3c] text-[12px] whitespace-nowrap">
                                                         {c}
                                                     </span>
                                                 )
                                             ))}
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* External Stakeholder */}
-                            <div>
-                                <span className="text-[12px] font-extrabold text-[#86868B] uppercase block mb-2">외부 상대방</span>
-                                <span className="text-[14px] text-[#E5E5E5] font-semibold block">{item.partner || '-'}</span>
-                            </div>
-
-                            {/* Requirements */}
-                            <div>
-                                <span className="text-[12px] font-extrabold text-[#86868B] uppercase block mb-2">지원 필요 요건</span>
-                                <span className="text-[14px] text-[#E5E5E5] font-semibold block">{item.need || '-'}</span>
-                            </div>
-                        </div>
-
-                        {/* Control Point Banner */}
-                        <div className="bg-amber-500/[0.04] border-l-[4px] border-amber-500/50 text-[#F59E0B] text-[14px] font-semibold px-4 py-3 rounded-r text-left mt-2 flex items-center">
-                            <span className="text-[#86868B] font-bold mr-2 shrink-0">관리 포인트:</span>
-                            <span>{item.point}</span>
-                        </div>
-                    </div>
-                ))}
+                                    </td>
+                                    {/* 외부 상대방 */}
+                                    <td className="px-3 py-3.5 text-left text-[13px] text-[#A1A1AA] font-semibold whitespace-normal break-all">
+                                        {item.partner || '-'}
+                                    </td>
+                                    {/* 지원 필요 */}
+                                    <td className="px-3 py-3.5 text-left text-[13px] text-[#A1A1AA] font-semibold whitespace-normal break-all">
+                                        {item.need || '-'}
+                                    </td>
+                                    {/* 관리 포인트 */}
+                                    <td className="px-3 py-3.5 text-left text-[13.5px] text-[#F59E0B] font-semibold whitespace-normal break-all">
+                                        {item.point}
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     );
