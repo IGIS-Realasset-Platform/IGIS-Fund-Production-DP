@@ -145,7 +145,13 @@ export default function PmoScheduleGate() {
                                             
                                             {/* 주관 */}
                                             <td className="px-2 text-[#E5E5E5] font-semibold text-center sticky left-[350px] bg-[#272726] group-hover:bg-[#333] transition-colors z-20 text-[13px] leading-tight whitespace-normal break-all">
-                                                {item.lead}
+                                                {item.lead.includes(' ') ? (
+                                                    item.lead.split(' ').map((part, pIdx) => (
+                                                        <div key={pIdx}>{part}</div>
+                                                    ))
+                                                ) : (
+                                                    item.lead
+                                                )}
                                             </td>
                                             
                                             {/* 협업 */}
