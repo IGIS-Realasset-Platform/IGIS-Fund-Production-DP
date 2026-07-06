@@ -35,6 +35,25 @@ const TIMELINE_DATA = [
 
 export default function PmoScheduleGate() {
     const [filterCategory, setFilterCategory] = React.useState('All'); // All, Gate, Task
+    const scrollContainerRef = React.useRef(null);
+
+    React.useEffect(() => {
+        const container = scrollContainerRef.current;
+        if (!container) return;
+
+        const handleWheel = (e) => {
+            // Scroll vertically with mouse wheel -> translate to horizontal scroll
+            if (e.deltaY !== 0 && e.deltaX === 0) {
+                e.preventDefault();
+                container.scrollLeft += e.deltaY * 0.8; // Smooth factor 0.8
+            }
+        };
+
+        container.addEventListener('wheel', handleWheel, { passive: false });
+        return () => {
+            container.removeEventListener('wheel', handleWheel);
+        };
+    }, []);
 
     const filteredData = TIMELINE_DATA.filter(item => {
         if (filterCategory === 'All') return true;
@@ -56,6 +75,30 @@ export default function PmoScheduleGate() {
 
     return (
         <div className="w-full flex-1 flex flex-col pt-[50px] pb-[60px] max-w-[1200px] mx-auto font-sans text-white">
+            <style>{`
+                .timeline-scrollbar::-webkit-scrollbar {
+                    height: 8px;
+                }
+                .timeline-scrollbar::-webkit-scrollbar-track {
+                    background: rgba(255, 255, 255, 0.02);
+                    border-radius: 10px;
+                }
+                .timeline-scrollbar::-webkit-scrollbar-thumb {
+                    background: rgba(255, 255, 255, 0.12);
+                    border-radius: 10px;
+                    border: 2px solid transparent;
+                    background-clip: padding-box;
+                }
+                .timeline-scrollbar::-webkit-scrollbar-thumb:hover {
+                    background: rgba(255, 255, 255, 0.25);
+                    border: 2px solid transparent;
+                    background-clip: padding-box;
+                }
+                .timeline-scrollbar {
+                    scrollbar-width: thin;
+                    scrollbar-color: rgba(255, 255, 255, 0.12) rgba(255, 255, 255, 0.02);
+                }
+            `}</style>
             {/* Header */}
             <div className="w-full flex justify-between items-start mb-[32px]">
                 <div>
@@ -103,7 +146,7 @@ export default function PmoScheduleGate() {
 
             {/* Timeline Matrix Grid */}
             <div className="-mr-[calc(50vw-50%)] border border-r-0 border-[#3c3c3c] bg-[#272726] rounded-l-[24px] overflow-hidden">
-                <div className="w-full overflow-x-auto pr-0 custom-thin-scrollbar">
+                <div ref={scrollContainerRef} className="w-full overflow-x-auto pr-0 timeline-scrollbar">
                     <div className="flex items-center min-w-[2260px]">
                         <table className="text-left table-fixed min-w-[1460px] flex-1">
                             <thead>
