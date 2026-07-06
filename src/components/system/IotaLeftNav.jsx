@@ -134,18 +134,8 @@ const phase2MenuItems = [
         ]
     },
     {
-        id: 'rr-matrix',
-        label: '조직별 R&R',
-        path: 'platform/iotaseoul/rr-matrix',
-        icon: (
-            <svg className="w-4.5 h-4.5 mr-[10px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
-            </svg>
-        ),
-    },
-    {
         id: 'timeline',
-        label: '타임라인',
+        label: '타임라인 및 R&R',
         path: 'platform/iotaseoul/timeline',
         icon: (
             <svg className="w-4.5 h-4.5 mr-[10px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
