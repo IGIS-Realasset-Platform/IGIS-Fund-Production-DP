@@ -18,8 +18,8 @@ export default function PmoVision() {
         return `${info.staff_name} 부장`;
     };
 
-    // Sanomat Web primary English title font inline style
-    const sanomatFont = { fontFamily: "'Sanomat Wp', 'Sanomat Web', 'Sanomat', sans-serif" };
+    // Clean Blackstone style Inter font inline style
+    const interFont = { fontFamily: "'Inter', sans-serif" };
 
     // Static structures parsed and compiled
     const requirementsData = [
@@ -677,7 +677,7 @@ export default function PmoVision() {
 
     if (loading) {
         return (
-            <div className="w-full h-screen bg-[#FFFFFF] flex flex-col items-center justify-center text-[#1C1C1C]" style={sanomatFont}>
+            <div className="w-full h-screen bg-[#FFFFFF] flex flex-col items-center justify-center text-[#1C1C1C]" style={interFont}>
                 <div className="flex flex-col items-center gap-3">
                     <div className="w-6 h-6 border border-gray-400 border-t-transparent rounded-full animate-spin"></div>
                     <span className="text-[12px] text-gray-500 tracking-wider">VERIFYING SESSION...</span>
@@ -688,7 +688,7 @@ export default function PmoVision() {
 
     if (!isAuthorized) {
         return (
-            <div className="w-full h-screen bg-[#FFFFFF] flex flex-col items-center justify-center p-8 text-center text-[#1C1C1C] select-none" style={sanomatFont}>
+            <div className="w-full h-screen bg-[#FFFFFF] flex flex-col items-center justify-center p-8 text-center text-[#1C1C1C] select-none" style={interFont}>
                 <h2 className="text-[20px] font-bold text-black tracking-tight mb-2 uppercase">Access Restricted</h2>
                 <p className="text-[13px] text-gray-500 max-w-[420px] leading-relaxed">
                     This platform is restricted to executive management. Authorized credentials are required for entry.
@@ -704,8 +704,7 @@ export default function PmoVision() {
                 <div className="flex flex-col flex-1 overflow-y-auto hide-scrollbar p-6">
                     {/* Header Anchor */}
                     <div className="mb-8">
-                        <span className="text-[10px] font-bold text-gray-400 tracking-widest uppercase" style={sanomatFont}>AEGIS REAL ASSET</span>
-                        <h2 className="text-[16px] font-bold text-[#1C1C1C] tracking-tight mt-1 leading-tight" style={sanomatFont}>PMO VISION REPORT</h2>
+                        <h2 className="text-[16px] font-bold text-[#1C1C1C] tracking-tight mt-1 leading-tight" style={interFont}>IFPDP System Report</h2>
                         <div className="h-[1px] bg-gray-200 w-full mt-4"></div>
                     </div>
 
@@ -713,7 +712,7 @@ export default function PmoVision() {
                     <nav className="flex flex-col gap-6">
                         {navigationStructure.map((section, sIdx) => (
                             <div key={sIdx} className="flex flex-col">
-                                <h3 className="text-[10px] font-bold text-gray-400 mb-2 px-2 uppercase tracking-wider" style={sanomatFont}>
+                                <h3 className="text-[10px] font-bold text-gray-400 mb-2 px-2 uppercase tracking-wider" style={interFont}>
                                     {section.title}
                                 </h3>
                                 <div className="flex flex-col gap-0.5">
@@ -725,7 +724,7 @@ export default function PmoVision() {
                                                 onClick={() => setSelectedMenu(item.id)}
                                                 className={`text-left px-3 py-1.5 rounded-none text-[12.5px] transition-all cursor-pointer ${
                                                     isSelected 
-                                                        ? 'border-l border-black bg-white text-black font-semibold pl-2.5' 
+                                                        ? 'bg-white text-black font-semibold pl-3' 
                                                         : 'text-gray-500 hover:text-black hover:bg-gray-100/50 font-normal pl-3'
                                                 }`}
                                             >
@@ -742,14 +741,14 @@ export default function PmoVision() {
                 {/* Bottom User profile */}
                 <div className="p-6 border-t border-gray-200 flex items-center justify-between bg-white">
                     <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-none border border-gray-300 bg-gray-50 text-black flex items-center justify-center font-bold text-[12px]" style={sanomatFont}>
+                        <div className="w-8 h-8 rounded-none border border-gray-300 bg-gray-50 text-black flex items-center justify-center font-bold text-[12px]" style={interFont}>
                             {memberInfo?.staff_name ? memberInfo.staff_name.substring(0,1) : 'U'}
                         </div>
                         <div className="flex flex-col text-left">
                             <span className="text-[12px] font-bold text-black leading-tight">
                                 {getStaffTitle(memberInfo)}
                             </span>
-                            <span className="text-gray-400 text-[10px] leading-none mt-0.5 truncate max-w-[150px]" style={sanomatFont}>
+                            <span className="text-gray-400 text-[10px] leading-none mt-0.5 truncate max-w-[150px]" style={interFont}>
                                 {memberInfo?.email || 'authenticated'}
                             </span>
                         </div>
@@ -764,9 +763,9 @@ export default function PmoVision() {
                     <div className="flex-1 flex flex-col overflow-hidden">
                         <header className="h-[56px] border-b border-gray-200 px-8 flex items-center justify-between bg-white shrink-0 select-none">
                             <div className="flex items-center gap-2">
-                                <span className="text-[12px] font-semibold text-black tracking-wider uppercase" style={sanomatFont}>IFPDP</span>
+                                <span className="text-[12px] font-semibold text-black tracking-wider uppercase" style={interFont}>IFPDP</span>
                                 <span className="text-gray-300">|</span>
-                                <span className="text-[12px] text-gray-500" style={sanomatFont}>System Proposal</span>
+                                <span className="text-[12px] text-gray-500" style={interFont}>System Proposal</span>
                             </div>
                             <button onClick={() => handleCopyText(`
  | IFPDP 시스템 기획안
@@ -845,7 +844,7 @@ FM/PM 관리: 주요 하자 보수 이력 플랫폼 연동.
 
 
 
-`)} className="px-3 py-1 bg-white border border-gray-300 hover:bg-gray-50 rounded-none text-[11.5px] font-medium text-black transition-all cursor-pointer" style={sanomatFont}>
+`)} className="px-3 py-1 bg-white border border-gray-300 hover:bg-gray-50 rounded-none text-[11.5px] font-medium text-black transition-all cursor-pointer" style={interFont}>
                                 {copied ? 'Copied' : 'Copy Plain Text'}
                             </button>
                         </header>
@@ -853,15 +852,15 @@ FM/PM 관리: 주요 하자 보수 이력 플랫폼 연동.
                         <div className="flex-1 overflow-y-auto p-12 hide-scrollbar">
                             <div className="max-w-[800px] flex flex-col gap-8">
                                 <div>
-                                    <span className="text-[10px] font-bold text-gray-400 tracking-widest uppercase" style={sanomatFont}>MEMORANDUM</span>
-                                    <h1 className="text-[28px] font-bold text-black tracking-tight leading-tight mt-1" style={sanomatFont}>IFPDP 시스템 기획안</h1>
-                                    <p className="text-[13px] text-gray-500 mt-2 font-sans" style={sanomatFont}>부서 간 데이터 통합 및 의사결정 지원을 위한 전사 자산 관제 시스템 설계안</p>
+                                    <span className="text-[10px] font-bold text-gray-400 tracking-widest uppercase" style={interFont}>MEMORANDUM</span>
+                                    <h1 className="text-[28px] font-bold text-black tracking-tight leading-tight mt-1" style={interFont}>IFPDP 시스템 기획안</h1>
+                                    <p className="text-[13px] text-gray-500 mt-2 font-sans" style={interFont}>부서 간 데이터 통합 및 의사결정 지원을 위한 전사 자산 관제 시스템 설계안</p>
                                     <div className="h-[1px] bg-black w-full mt-6"></div>
                                 </div>
 
                                 {/* Section 1 */}
                                 <div className="flex flex-col gap-4 border-b border-gray-200 pb-8">
-                                    <h2 className="text-[16px] font-bold text-black uppercase tracking-wider border-b border-gray-100 pb-2" style={sanomatFont}>
+                                    <h2 className="text-[16px] font-bold text-black uppercase tracking-wider border-b border-gray-100 pb-2" style={interFont}>
                                         1. 플랫폼 기획 의도 및 목적
                                     </h2>
                                     <div className="flex flex-col gap-6 pl-1">
@@ -886,7 +885,7 @@ FM/PM 관리: 주요 하자 보수 이력 플랫폼 연동.
 
                                 {/* Section 2 */}
                                 <div className="flex flex-col gap-4 border-b border-gray-200 pb-8">
-                                    <h2 className="text-[16px] font-bold text-black uppercase tracking-wider border-b border-gray-100 pb-2" style={sanomatFont}>
+                                    <h2 className="text-[16px] font-bold text-black uppercase tracking-wider border-b border-gray-100 pb-2" style={interFont}>
                                         2. SSOT (Single Source of Truth) 코어 시스템 아키텍처
                                     </h2>
                                     <div className="flex flex-col gap-2 pl-1">
@@ -899,7 +898,7 @@ FM/PM 관리: 주요 하자 보수 이력 플랫폼 연동.
 
                                 {/* Section 3 */}
                                 <div className="flex flex-col gap-4 border-b border-gray-200 pb-8">
-                                    <h2 className="text-[16px] font-bold text-black uppercase tracking-wider border-b border-gray-100 pb-2" style={sanomatFont}>
+                                    <h2 className="text-[16px] font-bold text-black uppercase tracking-wider border-b border-gray-100 pb-2" style={interFont}>
                                         3. IFPDP 통합 플랫폼 7대 핵심 데이터베이스(DB) 모듈
                                     </h2>
                                     <p className="text-[13px] text-gray-500 -mt-2">파이프라인 실무 시트, 기능 요구사항 명세서 및 종합 자산운용사의 필수 컴플라이언스(Compliance) 요건을 모두 망라하여 구조화한 7대 데이터 모듈</p>
@@ -909,11 +908,11 @@ FM/PM 관리: 주요 하자 보수 이력 플랫폼 연동.
                                             { title: '② 자본 스택 및 수익자(LP) 관리 (Capital & LP Reporting)', desc: '파이낸싱 구조(LFC): 에쿼티/론 총액, 조달 트랜치별 금리(선순위/중순위/후순위), LTV, 리파이낸싱 스케줄. 현금흐름(CF) 및 펀드 분배: 누적 배당 현황, 예상 vs 실제 매입가/평가액 비교, 캐피탈 콜(Capital Call) 일정, 수익자 워터폴(Waterfall) 결산. 투자자(LP) 통합 연계: 기관 유형 및 투자 성향별 LP 분류, 매각/매입 주관사(SI, PB 등) 컨택 이력, 이지스 예상 수취 보수(매입/운용/매각 보수).' },
                                             { title: '③ 10단계 가치사슬 및 시계열 트래킹 (Value Chain & Time-Series)', desc: '소싱 파이프라인: 딜 티저 접수 이력, CA 검토, 실사, 우선협상자 선정에 이르는 모든 소싱 히스토리. 전체 생애주기 일정 (시계열 캘린더링): 매입(투자)일, PF 인출일, 착공일, 준공일, 대출 만기(연장)일, 펀드 만기일 및 예상 엑시트(매각) 완료 일정 등 타임라인 데이터베이스화.' },
                                             { title: '④ 개발 상품 기획 및 ESG 전략 (Product, Construction & ESG)', desc: '투자/개발 전략: Core, Value-added, Opportunistic 등 전략 분류. 부실 자산(NPL) 정상화 플랜 유무. 단일 건축안 vs 인접 부지 통합 개발안 등 복수 시나리오 타당성 비교 데이터. 하드 코스트 및 인허가: 증축, 리모델링, 철거, 관할청 사업 인허가 상황, 전력 공급 및 주요 설비(건축, 구조, 공조, 통신) 스펙. 설계 및 시공 파트너: 시공사 도급 순위, 설계사 기본 정보 및 사업 이력 현황. 공간 기획 및 ESG: 프롭테크(Space UX/Tech) 도입 현황, 친환경 설계(LEED, GRESB 등 인증), 에너지 효율화 지표.' },
-                                            { title: '⑤ 실물 운영 및 임차인 네트워크 (Asset Ops & Corporate Leasing)', desc: '임대차 및 수익률 방어: 오피스 및 리테일 MD 앵커 테넌트 입점 이력, 임대율(Occupancy), 가중평균 잔여 임대기간(WALT) 방어율, 자본적 지출(CAPEX) 내역. FM/PM 관리: 주요 하자 보수 이력 플랫폼 연동. 임차 기업 니즈(Needs) 타겟팅: 국내 Top 100 기업별 특수 임차 조건(산업 유형별 선호 면적 및 위치) 트래킹 및 당사 보유/신규 자산과의 매칭 가능성 분석 데이터.' },
+                                            { title: '⑤ 실물 운영 및 임차인 네트워크 (Asset Ops & Corporate Leasing)', desc: '임대차 및 수익률 방어: 오피스 및 리테일 MD 앵커 테넌트 입점 이력, 임대율(Occupancy), 가중평균 잔여 임대기간(WALT) 방어율, 자본적 지출(CAPEX) 내역. FM/PM/관리: 주요 하자 보수 이력 플랫폼 연동. 임차 기업 니즈(Needs) 타겟팅: 국내 Top 100 기업별 특수 임차 조건(산업 유형별 선호 면적 및 위치) 트래킹 및 당사 보유/신규 자산과의 매칭 가능성 분석 데이터.' },
                                             { title: '⑥ 거시 지표 및 부서별 성과 관리 (Macro OKR & Market)', desc: '그룹 전사 목표(OKR): 펀드 수익 및 수수료 기반의 전사 매출 달성률 현황, 하부 부서별(본부 센터) 진척도 자동 추적. 외부 마켓 인텔리전스: 주요 대형 임차인의 이탈/이동 시장 동향, 대형 시공사의 외부 재무 리스크 이슈 타임라인 모니터링.' },
                                             { title: '⑦ 의사결정 맥락 엔진 및 리스크 통제 (Context Graph & Compliance)', desc: '레드 플래그(Red Flags) 우선순위: 준공 지연, 대규모 공실 우려, 재융자 불가 등 딜 브레이커 요소를 심각도(Red/Yellow/Green) 기준으로 시각화 및 알림 표출. 의사결정 이력 (Context Graph): 론 조건 변경, 수익률 하향 조정, 매각 시기 연기 등 재단/투자위에서 중대한 결정이 내려질 당시의 배경 사유와 정성적 판단 근거 기록. 내부 통제(Compliance): 자산운용사 필수 법적 준수 요건, 이해상충 방지, 특정 문서 제출 기한 및 위원회 결재 로그 아카이빙.' }
                                         ].map((mod, idx) => (
-                                            <div key={idx} className="flex flex-col gap-1 border-l border-black pl-4 py-1">
+                                            <div key={idx} className="flex flex-col gap-1 pl-1 py-1">
                                                 <h4 className="text-[13.5px] font-bold text-black">{mod.title}</h4>
                                                 <p className="text-[13px] text-gray-600 leading-relaxed font-sans">{mod.desc}</p>
                                             </div>
@@ -923,7 +922,7 @@ FM/PM 관리: 주요 하자 보수 이력 플랫폼 연동.
 
                                 {/* Section 4 */}
                                 <div className="flex flex-col gap-4">
-                                    <h2 className="text-[16px] font-bold text-black uppercase tracking-wider border-b border-gray-100 pb-2" style={sanomatFont}>
+                                    <h2 className="text-[16px] font-bold text-black uppercase tracking-wider border-b border-gray-100 pb-2" style={interFont}>
                                         4. 시스템 설계 구현 타당성
                                     </h2>
                                     <div className="flex flex-col gap-4 pl-1">
@@ -951,11 +950,11 @@ FM/PM 관리: 주요 하자 보수 이력 플랫폼 연동.
                     <div className="flex-1 flex flex-col overflow-hidden bg-white">
                         <header className="h-[56px] border-b border-gray-200 px-8 flex items-center justify-between bg-white shrink-0 select-none">
                             <div className="flex items-center gap-2">
-                                <span className="text-[12px] font-semibold text-black tracking-wider uppercase" style={sanomatFont}>IFPDP</span>
+                                <span className="text-[12px] font-semibold text-black tracking-wider uppercase" style={interFont}>IFPDP</span>
                                 <span className="text-gray-300">|</span>
-                                <span className="text-[12px] text-gray-500" style={sanomatFont}>Functional Specifications</span>
+                                <span className="text-[12px] text-gray-500" style={interFont}>Functional Specifications</span>
                             </div>
-                            <button onClick={() => handleCopyText(requirementsData.map(r => `${r.scope} | ${r.category} | ${r.subcategory} | ${r.actor} | ${r.detail}`).join('\n'))} className="px-3 py-1 bg-white border border-gray-300 hover:bg-gray-50 rounded-none text-[11.5px] font-medium text-black transition-all cursor-pointer" style={sanomatFont}>
+                            <button onClick={() => handleCopyText(requirementsData.map(r => `${r.scope} | ${r.category} | ${r.subcategory} | ${r.actor} | ${r.detail}`).join('\n'))} className="px-3 py-1 bg-white border border-gray-300 hover:bg-gray-50 rounded-none text-[11.5px] font-medium text-black transition-all cursor-pointer" style={interFont}>
                                 {copied ? 'Copied' : 'Copy Text'}
                             </button>
                         </header>
@@ -973,7 +972,7 @@ FM/PM 관리: 주요 하자 보수 이력 플랫폼 연동.
                                                     ? 'bg-black text-white' 
                                                     : 'bg-white text-gray-600 hover:bg-gray-50'
                                             }`}
-                                            style={sanomatFont}
+                                            style={interFont}
                                         >
                                             {sc === 'all' ? 'All Scope' : sc}
                                         </button>
@@ -986,7 +985,7 @@ FM/PM 관리: 주요 하자 보수 이력 플랫폼 연동.
                                         value={reqSearchQuery}
                                         onChange={(e) => setReqSearchQuery(e.target.value)}
                                         className="w-full bg-white border border-gray-300 rounded-none px-3 py-1 text-black text-[11px] outline-none focus:border-black tracking-wider uppercase placeholder-gray-400"
-                                        style={sanomatFont}
+                                        style={interFont}
                                     />
                                 </div>
                             </div>
@@ -997,13 +996,13 @@ FM/PM 관리: 주요 하자 보수 이력 플랫폼 연동.
                                     <table className="w-full border-collapse text-[12px] text-left">
                                         <thead className="bg-[#F9F9FB] text-black font-semibold border-b border-gray-200 sticky top-0 z-10 select-none">
                                             <tr>
-                                                <th className="px-4 py-3 w-[80px]" style={sanomatFont}>구분</th>
-                                                <th className="px-4 py-3 w-[110px]" style={sanomatFont}>대분류</th>
-                                                <th className="px-4 py-3 w-[110px]" style={sanomatFont}>세부분류</th>
-                                                <th className="px-4 py-3 w-[90px]" style={sanomatFont}>엑터</th>
-                                                <th className="px-4 py-3" style={sanomatFont}>기능상세</th>
-                                                <th className="px-4 py-3 w-[100px]" style={sanomatFont}>주관부서</th>
-                                                <th className="px-4 py-3 w-[120px]" style={sanomatFont}>비고</th>
+                                                <th className="px-4 py-3 w-[80px]" style={interFont}>구분</th>
+                                                <th className="px-4 py-3 w-[110px]" style={interFont}>대분류</th>
+                                                <th className="px-4 py-3 w-[110px]" style={interFont}>세부분류</th>
+                                                <th className="px-4 py-3 w-[90px]" style={interFont}>엑터</th>
+                                                <th className="px-4 py-3" style={interFont}>기능상세</th>
+                                                <th className="px-4 py-3 w-[100px]" style={interFont}>주관부서</th>
+                                                <th className="px-4 py-3 w-[120px]" style={interFont}>비고</th>
                                             </tr>
                                         </thead>
                                         <tbody className="divide-y divide-gray-200 text-gray-700 bg-white">
@@ -1027,7 +1026,7 @@ FM/PM 관리: 주요 하자 보수 이력 플랫폼 연동.
                                         </tbody>
                                     </table>
                                 </div>
-                                <div className="py-2.5 text-[11px] text-gray-500 font-semibold flex justify-between select-none tracking-wider" style={sanomatFont}>
+                                <div className="py-2.5 text-[11px] text-gray-500 font-semibold flex justify-between select-none tracking-wider" style={interFont}>
                                     <span>TOTAL: {requirementsData.length} ITEMS</span>
                                     <span>FILTERED: {filteredReqs.length} ITEMS</span>
                                 </div>
@@ -1041,9 +1040,9 @@ FM/PM 관리: 주요 하자 보수 이력 플랫폼 연동.
                     <div className="flex-1 flex flex-col overflow-hidden bg-white">
                         <header className="h-[56px] border-b border-gray-200 px-8 flex items-center justify-between bg-white shrink-0 select-none">
                             <div className="flex items-center gap-2">
-                                <span className="text-[12px] font-semibold text-black tracking-wider uppercase" style={sanomatFont}>IFPDP</span>
+                                <span className="text-[12px] font-semibold text-black tracking-wider uppercase" style={interFont}>IFPDP</span>
                                 <span className="text-gray-300">|</span>
-                                <span className="text-[12px] text-gray-500" style={sanomatFont}>Schema Specification</span>
+                                <span className="text-[12px] text-gray-500" style={interFont}>Schema Specification</span>
                             </div>
                             <button onClick={() => handleCopyText(` | IFPDP Asset Data Schema v2.0 (다중 필드/시계열 반영)
  | 화면영역 (UI 계층) | 데이터 속성  | DB 필드명 | 데이터 구조  | 데이터 타입 | 설명 및 화면 맵핑 예제
@@ -1153,7 +1152,7 @@ FM/PM 관리: 주요 하자 보수 이력 플랫폼 연동.
 - 관리 후보자는 : "사업 : 000 / 관리 : 000"
 - 이 프로젝트의 소싱 컨텍포인트는 : "CBRE, CW" - Static / 단일구조 / String, Text, Enum
   ㄴ 각 텍스트를 클릭하면 해당 컨텍포인트사(매각자문사)의 상세페이지로 이동한다. 
-`)} className="px-3 py-1 bg-white border border-gray-300 hover:bg-gray-50 rounded-none text-[11.5px] font-medium text-black transition-all cursor-pointer" style={sanomatFont}>
+`)} className="px-3 py-1 bg-white border border-gray-300 hover:bg-gray-50 rounded-none text-[11.5px] font-medium text-black transition-all cursor-pointer" style={interFont}>
                                 {copied ? 'Copied' : 'Copy Text'}
                             </button>
                         </header>
@@ -1161,24 +1160,24 @@ FM/PM 관리: 주요 하자 보수 이력 플랫폼 연동.
                         <div className="flex-1 overflow-y-auto p-12 hide-scrollbar bg-white">
                             <div className="max-w-[900px] flex flex-col gap-8">
                                 <div>
-                                    <span className="text-[10px] font-bold text-gray-400 tracking-widest uppercase" style={sanomatFont}>DATABASE SPECIFICATION</span>
-                                    <h1 className="text-[28px] font-bold text-black tracking-tight leading-tight mt-1" style={sanomatFont}>IFPDP Asset Data Schema</h1>
-                                    <p className="text-[13px] text-gray-500 mt-2 font-sans" style={sanomatFont}>화면 영역 및 UI 계층별 메타데이터 속성 맵핑 구조 정의</p>
+                                    <span className="text-[10px] font-bold text-gray-400 tracking-widest uppercase" style={interFont}>DATABASE SPECIFICATION</span>
+                                    <h1 className="text-[28px] font-bold text-black tracking-tight leading-tight mt-1" style={interFont}>IFPDP Asset Data Schema</h1>
+                                    <p className="text-[13px] text-gray-500 mt-2 font-sans" style={interFont}>화면 영역 및 UI 계층별 메타데이터 속성 맵핑 구조 정의</p>
                                     <div className="h-[1px] bg-black w-full mt-6"></div>
                                 </div>
 
                                 <div className="flex flex-col gap-4">
-                                    <h3 className="text-[15px] font-bold text-black uppercase tracking-wider border-b border-gray-100 pb-2" style={sanomatFont}>1. UI 계층별 DB 필드 정의 및 맵핑</h3>
+                                    <h3 className="text-[15px] font-bold text-black uppercase tracking-wider border-b border-gray-100 pb-2" style={interFont}>1. UI 계층별 DB 필드 정의 및 맵핑</h3>
                                     <div className="border border-gray-200 overflow-hidden bg-white">
                                         <table className="w-full border-collapse text-[12px] text-left">
                                             <thead className="bg-[#F9F9FB] text-black font-semibold border-b border-gray-200 select-none">
                                                 <tr>
-                                                    <th className="px-4 py-2.5 w-[140px]" style={sanomatFont}>화면 영역</th>
-                                                    <th className="px-4 py-2.5 w-[130px]" style={sanomatFont}>데이터 속성</th>
-                                                    <th className="px-4 py-2.5 w-[160px] font-mono" style={sanomatFont}>DB 필드명</th>
-                                                    <th className="px-4 py-2.5 w-[110px]" style={sanomatFont}>데이터 구조</th>
-                                                    <th className="px-4 py-2.5 w-[100px] font-mono" style={sanomatFont}>데이터 타입</th>
-                                                    <th className="px-4 py-2.5" style={sanomatFont}>설명 및 화면 맵핑 예제</th>
+                                                    <th className="px-4 py-2.5 w-[140px]" style={interFont}>화면 영역</th>
+                                                    <th className="px-4 py-2.5 w-[130px]" style={interFont}>데이터 속성</th>
+                                                    <th className="px-4 py-2.5 w-[160px] font-mono" style={interFont}>DB 필드명</th>
+                                                    <th className="px-4 py-2.5 w-[110px]" style={interFont}>데이터 구조</th>
+                                                    <th className="px-4 py-2.5 w-[100px] font-mono" style={interFont}>데이터 타입</th>
+                                                    <th className="px-4 py-2.5" style={interFont}>설명 및 화면 맵핑 예제</th>
                                                 </tr>
                                             </thead>
                                             <tbody className="divide-y divide-gray-200 text-gray-700 bg-white">
@@ -1198,7 +1197,7 @@ FM/PM 관리: 주요 하자 보수 이력 플랫폼 연동.
                                 </div>
 
                                 <div className="flex flex-col gap-4 border-t border-gray-200 pt-8">
-                                    <h3 className="text-[15px] font-bold text-black uppercase tracking-wider" style={sanomatFont}>
+                                    <h3 className="text-[15px] font-bold text-black uppercase tracking-wider" style={interFont}>
                                         2. 보여줘야할 화면의 정리 (Draft - 개발자산상세 예시)
                                     </h3>
                                     <div className="grid grid-cols-1 gap-1">
@@ -1222,9 +1221,9 @@ FM/PM 관리: 주요 하자 보수 이력 플랫폼 연동.
                     <div className="flex-1 flex flex-col overflow-hidden bg-white">
                         <header className="h-[56px] border-b border-gray-200 px-8 flex items-center justify-between bg-white shrink-0 select-none">
                             <div className="flex items-center gap-2">
-                                <span className="text-[12px] font-semibold text-black tracking-wider uppercase" style={sanomatFont}>IOTA CFT Phase 1</span>
+                                <span className="text-[12px] font-semibold text-black tracking-wider uppercase" style={interFont}>IOTA CFT Phase 1</span>
                                 <span className="text-gray-300">|</span>
-                                <span className="text-[12px] text-gray-500" style={sanomatFont}>Proposal</span>
+                                <span className="text-[12px] text-gray-500" style={interFont}>Proposal</span>
                             </div>
                             <button onClick={() => handleCopyText(`
  | 이오타 CFT 플랫폼 Phase 1 기획안
@@ -1314,7 +1313,7 @@ FM/PM 관리: 주요 하자 보수 이력 플랫폼 연동.
 
 
 
-`)} className="px-3 py-1 bg-white border border-gray-300 hover:bg-gray-50 rounded-none text-[11.5px] font-medium text-black transition-all cursor-pointer" style={sanomatFont}>
+`)} className="px-3 py-1 bg-white border border-gray-300 hover:bg-gray-50 rounded-none text-[11.5px] font-medium text-black transition-all cursor-pointer" style={interFont}>
                                 {copied ? 'Copied' : 'Copy Text'}
                             </button>
                         </header>
@@ -1322,9 +1321,9 @@ FM/PM 관리: 주요 하자 보수 이력 플랫폼 연동.
                         <div className="flex-1 overflow-y-auto p-12 hide-scrollbar">
                             <div className="max-w-[800px] flex flex-col gap-8">
                                 <div>
-                                    <span className="text-[10px] font-bold text-gray-400 tracking-widest uppercase" style={sanomatFont}>MEMORANDUM</span>
-                                    <h1 className="text-[28px] font-bold text-black tracking-tight leading-tight mt-1" style={sanomatFont}>IOTA CFT 플랫폼 Phase 1 기획안</h1>
-                                    <p className="text-[13px] text-gray-500 mt-2 font-sans" style={sanomatFont}>이오타 CFT 협업 플랫폼의 초기 기틀 및 비히클 시계열 관제 기틀 수립 사양</p>
+                                    <span className="text-[10px] font-bold text-gray-400 tracking-widest uppercase" style={interFont}>MEMORANDUM</span>
+                                    <h1 className="text-[28px] font-bold text-black tracking-tight leading-tight mt-1" style={interFont}>IOTA CFT 플랫폼 Phase 1 기획안</h1>
+                                    <p className="text-[13px] text-gray-500 mt-2 font-sans" style={interFont}>이오타 CFT 협업 플랫폼의 초기 기틀 및 비히클 시계열 관제 기틀 수립 사양</p>
                                     <div className="h-[1px] bg-black w-full mt-6"></div>
                                 </div>
 
@@ -1429,9 +1428,9 @@ FM/PM 관리: 주요 하자 보수 이력 플랫폼 연동.
                     <div className="flex-1 flex flex-col overflow-hidden bg-white">
                         <header className="h-[56px] border-b border-gray-200 px-8 flex items-center justify-between bg-white shrink-0 select-none">
                             <div className="flex items-center gap-2">
-                                <span className="text-[12px] font-semibold text-black tracking-wider uppercase" style={sanomatFont}>IOTA CFT Phase 1</span>
+                                <span className="text-[12px] font-semibold text-black tracking-wider uppercase" style={interFont}>IOTA CFT Phase 1</span>
                                 <span className="text-gray-300">|</span>
-                                <span className="text-[12px] text-gray-500" style={sanomatFont}>Requirements</span>
+                                <span className="text-[12px] text-gray-500" style={interFont}>Requirements</span>
                             </div>
                             <button onClick={() => handleCopyText(`IOTA CFT Phase 1 기능요구사항 명세
 
@@ -1448,7 +1447,7 @@ FM/PM 관리: 주요 하자 보수 이력 플랫폼 연동.
 - 거래 빌딩별 LP, 시행사, 자산관리 회사 연락처 마스터 관리 (iota_stakeholder_master).
 
 4. 의사결정 맥락 기록
-- 중요 의사결정 사항의 배경 사유와 정성적 판단 근거를 기록하는 의사결정 로그(DecisionLog) 및 히스토리 잠금.`)} className="px-3 py-1 bg-white border border-gray-300 hover:bg-gray-50 rounded-none text-[11.5px] font-medium text-black transition-all cursor-pointer" style={sanomatFont}>
+- 중요 의사결정 사항의 배경 사유와 정성적 판단 근거를 기록하는 의사결정 로그(DecisionLog) 및 히스토리 잠금.`)} className="px-3 py-1 bg-white border border-gray-300 hover:bg-gray-50 rounded-none text-[11.5px] font-medium text-black transition-all cursor-pointer" style={interFont}>
                                 {copied ? 'Copied' : 'Copy Text'}
                             </button>
                         </header>
@@ -1456,9 +1455,9 @@ FM/PM 관리: 주요 하자 보수 이력 플랫폼 연동.
                         <div className="flex-1 overflow-y-auto p-12 hide-scrollbar bg-white">
                             <div className="max-w-[800px] flex flex-col gap-8">
                                 <div>
-                                    <span className="text-[10px] font-bold text-gray-400 tracking-widest uppercase" style={sanomatFont}>FUNCTIONAL SPECIFICATION</span>
-                                    <h1 className="text-[28px] font-bold text-black tracking-tight leading-tight mt-1" style={sanomatFont}>IOTA CFT Phase 1 기능요구사항</h1>
-                                    <p className="text-[13px] text-gray-500 mt-2 font-sans" style={sanomatFont}>부서별 협업 원장 통합 및 핵심 마일스톤 관제 요구조건</p>
+                                    <span className="text-[10px] font-bold text-gray-400 tracking-widest uppercase" style={interFont}>FUNCTIONAL SPECIFICATION</span>
+                                    <h1 className="text-[28px] font-bold text-black tracking-tight leading-tight mt-1" style={interFont}>IOTA CFT Phase 1 기능요구사항</h1>
+                                    <p className="text-[13px] text-gray-500 mt-2 font-sans" style={interFont}>부서별 협업 원장 통합 및 핵심 마일스톤 관제 요구조건</p>
                                     <div className="h-[1px] bg-black w-full mt-6"></div>
                                 </div>
 
@@ -1487,9 +1486,9 @@ FM/PM 관리: 주요 하자 보수 이력 플랫폼 연동.
                     <div className="flex-1 flex flex-col overflow-hidden bg-white">
                         <header className="h-[56px] border-b border-gray-200 px-8 flex items-center justify-between bg-white shrink-0 select-none">
                             <div className="flex items-center gap-2">
-                                <span className="text-[12px] font-semibold text-black tracking-wider uppercase" style={sanomatFont}>IOTA CFT Phase 1</span>
+                                <span className="text-[12px] font-semibold text-black tracking-wider uppercase" style={interFont}>IOTA CFT Phase 1</span>
                                 <span className="text-gray-300">|</span>
-                                <span className="text-[12px] text-gray-500" style={sanomatFont}>DDL Specification</span>
+                                <span className="text-[12px] text-gray-500" style={interFont}>DDL Specification</span>
                             </div>
                             <button onClick={() => handleCopyText(`-- 1. 이오타 파트별 태스크 테이블
 CREATE TABLE public.iota_pm_tasks (
@@ -1515,7 +1514,7 @@ CREATE TABLE public.iota_decision_logs (
     created_by VARCHAR,                     -- 등록자
     is_locked BOOLEAN DEFAULT false,        -- 히스토리 변경 방지 잠금
     created_at TIMESTAMPTZ DEFAULT NOW()
-);`)} className="px-3 py-1 bg-white border border-gray-300 hover:bg-gray-50 rounded-none text-[11.5px] font-medium text-black transition-all cursor-pointer" style={sanomatFont}>
+);`)} className="px-3 py-1 bg-white border border-gray-300 hover:bg-gray-50 rounded-none text-[11.5px] font-medium text-black transition-all cursor-pointer" style={interFont}>
                                 {copied ? 'Copied' : 'Copy Text'}
                             </button>
                         </header>
@@ -1523,8 +1522,8 @@ CREATE TABLE public.iota_decision_logs (
                         <div className="flex-1 overflow-y-auto p-12 hide-scrollbar">
                             <div className="max-w-[800px] flex flex-col gap-8">
                                 <div>
-                                    <span className="text-[10px] font-bold text-gray-400 tracking-widest uppercase" style={sanomatFont}>SCHEMA SPECIFICATION</span>
-                                    <h1 className="text-[28px] font-bold text-black tracking-tight leading-tight mt-1" style={sanomatFont}>IOTA CFT Phase 1 DB Schema</h1>
+                                    <span className="text-[10px] font-bold text-gray-400 tracking-widest uppercase" style={interFont}>SCHEMA SPECIFICATION</span>
+                                    <h1 className="text-[28px] font-bold text-black tracking-tight leading-tight mt-1" style={interFont}>IOTA CFT Phase 1 DB Schema</h1>
                                     <p className="text-[13px] text-gray-500 mt-2 font-sans">부서 태스크 원장 및 의사결정 로그 테이블 DDL 명세서</p>
                                     <div className="h-[1px] bg-black w-full mt-6"></div>
                                 </div>
@@ -1566,9 +1565,9 @@ CREATE TABLE public.iota_decision_logs (
                     <div className="flex-1 flex flex-col overflow-hidden bg-white">
                         <header className="h-[56px] border-b border-gray-200 px-8 flex items-center justify-between bg-white shrink-0 select-none">
                             <div className="flex items-center gap-2">
-                                <span className="text-[12px] font-semibold text-black tracking-wider uppercase" style={sanomatFont}>IOTA CFT Phase 2</span>
+                                <span className="text-[12px] font-semibold text-black tracking-wider uppercase" style={interFont}>IOTA CFT Phase 2</span>
                                 <span className="text-gray-300">|</span>
-                                <span className="text-[12px] text-gray-500" style={sanomatFont}>Proposal</span>
+                                <span className="text-[12px] text-gray-500" style={interFont}>Proposal</span>
                             </div>
                             <button onClick={() => handleCopyText(`IOTA CFT Phase 2 시스템 기획안
 
@@ -1579,7 +1578,7 @@ Phase 1에서 기술적 기틀과 데이터 모델을 정비했다면, Phase 2�
 Supabase 데이터베이스 레이어에 RLS(Row Level Security)를 활성화하여 iota_members 정보에 등록된 사용자의 소속 부서와 직무 등급에 맞추어 쓰기/수정 권한을 격리 통제합니다.
 
 3. 실시간 PMO 그리드 및 회의 연동
-업무 현황 최신화를 신속히 수행할 수 있도록 스프레드시트 방식의 인라인 편집 및 Blocker 원클릭 토글을 지원하고, 우선순위가 높거나 Blocker가 켜진 안건을 회의실 화면에 즉시 A등급으로 상단 노출시키는 실시간 대시보드 연동을 설계했습니다.`)} className="px-3 py-1 bg-white border border-gray-300 hover:bg-gray-50 rounded-none text-[11.5px] font-medium text-black transition-all cursor-pointer" style={sanomatFont}>
+업황 최신화를 신속히 수행할 수 있도록 스프레드시트 방식의 인라인 편집 및 Blocker 원클릭 토글을 지원하고, 우선순위가 높거나 Blocker가 켜진 안건을 회의실 화면에 즉시 A등급으로 상단 노출시키는 실시간 대시보드 연동을 설계했습니다.`)} className="px-3 py-1 bg-white border border-gray-300 hover:bg-gray-50 rounded-none text-[11.5px] font-medium text-black transition-all cursor-pointer" style={interFont}>
                                 {copied ? 'Copied' : 'Copy Text'}
                             </button>
                         </header>
@@ -1587,9 +1586,9 @@ Supabase 데이터베이스 레이어에 RLS(Row Level Security)를 활성화하
                         <div className="flex-1 overflow-y-auto p-12 hide-scrollbar bg-white">
                             <div className="max-w-[800px] flex flex-col gap-8">
                                 <div>
-                                    <span className="text-[10px] font-bold text-gray-400 tracking-widest uppercase" style={sanomatFont}>MEMORANDUM</span>
-                                    <h1 className="text-[28px] font-bold text-black tracking-tight leading-tight mt-1" style={sanomatFont}>IOTA CFT Phase 2 시스템 기획안</h1>
-                                    <p className="text-[13px] text-gray-500 mt-2 font-sans" style={sanomatFont}>보안 권한 제어, 스프레드시트 인라인 편집 및 실전 PMO 운영화 로드맵</p>
+                                    <span className="text-[10px] font-bold text-gray-400 tracking-widest uppercase" style={interFont}>MEMORANDUM</span>
+                                    <h1 className="text-[28px] font-bold text-black tracking-tight leading-tight mt-1" style={interFont}>IOTA CFT Phase 2 시스템 기획안</h1>
+                                    <p className="text-[13px] text-gray-500 mt-2 font-sans" style={interFont}>보안 권한 제어, 스프레드시트 인라인 편집 및 실전 PMO 운영화 로드맵</p>
                                     <div className="h-[1px] bg-black w-full mt-6"></div>
                                 </div>
 
@@ -1603,7 +1602,7 @@ Phase 1에서 기술적 기틀과 데이터 모델을 정비했다면, Phase 2�
 Supabase 데이터베이스 레이어에 RLS(Row Level Security)를 활성화하여 iota_members 정보에 등록된 사용자의 소속 부서와 직무 등급에 맞추어 쓰기/수정 권한을 격리 통제합니다.
 
 3. 실시간 PMO 그리드 및 회의 연동
-업무 현황 최신화를 신속히 수행할 수 있도록 스프레드시트 방식의 인라인 편집 및 Blocker 원클릭 토글을 지원하고, 우선순위가 높거나 Blocker가 켜진 안건을 회의실 화면에 즉시 A등급으로 상단 노출시키는 실시간 대시보드 연동을 설계했습니다.
+업황 최신화를 신속히 수행할 수 있도록 스프레드시트 방식의 인라인 편집 및 Blocker 원클릭 토글을 지원하고, 우선순위가 높거나 Blocker가 켜진 안건을 회의실 화면에 즉시 A등급으로 상단 노출시키는 실시간 대시보드 연동을 설계했습니다.
                                 </div>
                             </div>
                         </div>
@@ -1615,9 +1614,9 @@ Supabase 데이터베이스 레이어에 RLS(Row Level Security)를 활성화하
                     <div className="flex-1 flex flex-col overflow-hidden bg-white">
                         <header className="h-[56px] border-b border-gray-200 px-8 flex items-center justify-between bg-white shrink-0 select-none">
                             <div className="flex items-center gap-2">
-                                <span className="text-[12px] font-semibold text-black tracking-wider uppercase" style={sanomatFont}>IOTA CFT Phase 2</span>
+                                <span className="text-[12px] font-semibold text-black tracking-wider uppercase" style={interFont}>IOTA CFT Phase 2</span>
                                 <span className="text-gray-300">|</span>
-                                <span className="text-[12px] text-gray-500" style={sanomatFont}>Requirements</span>
+                                <span className="text-[12px] text-gray-500" style={interFont}>Requirements</span>
                             </div>
                             <button onClick={() => handleCopyText(`IOTA CFT Phase 2 기능요구사항 명세
 
@@ -1630,7 +1629,7 @@ Supabase 데이터베이스 레이어에 RLS(Row Level Security)를 활성화하
 
 3. 실시간 회의체 상정용 임원 대시보드
 - 우선순위 점수가 80점 이상이거나 의사결정필요가 참인 항목들을 'A등급 즉시 상정' 카드로 최상단 자동 정렬.
-- 현재 병목이 집중된 부서와 담당자를 막대 그래프 형태로 실시간 차트 시각화.`)} className="px-3 py-1 bg-white border border-gray-300 hover:bg-gray-50 rounded-none text-[11.5px] font-medium text-black transition-all cursor-pointer" style={sanomatFont}>
+- 현재 병목이 집중된 부서와 담당자를 막대 그래프 형태로 실시간 차트 시각화.`)} className="px-3 py-1 bg-white border border-gray-300 hover:bg-gray-50 rounded-none text-[11.5px] font-medium text-black transition-all cursor-pointer" style={interFont}>
                                 {copied ? 'Copied' : 'Copy Text'}
                             </button>
                         </header>
@@ -1638,9 +1637,9 @@ Supabase 데이터베이스 레이어에 RLS(Row Level Security)를 활성화하
                         <div className="flex-1 overflow-y-auto p-12 hide-scrollbar bg-white">
                             <div className="max-w-[800px] flex flex-col gap-8">
                                 <div>
-                                    <span className="text-[10px] font-bold text-gray-400 tracking-widest uppercase" style={sanomatFont}>FUNCTIONAL SPECIFICATION</span>
-                                    <h1 className="text-[28px] font-bold text-black tracking-tight leading-tight mt-1" style={sanomatFont}>IOTA CFT Phase 2 기능요구사항</h1>
-                                    <p className="text-[13px] text-gray-500 mt-2 font-sans" style={sanomatFont}>비즈니스 실전 가동을 위한 PMO 핵심 기능 명세 및 세부 사양</p>
+                                    <span className="text-[10px] font-bold text-gray-400 tracking-widest uppercase" style={interFont}>FUNCTIONAL SPECIFICATION</span>
+                                    <h1 className="text-[28px] font-bold text-black tracking-tight leading-tight mt-1" style={interFont}>IOTA CFT Phase 2 기능요구사항</h1>
+                                    <p className="text-[13px] text-gray-500 mt-2 font-sans" style={interFont}>비즈니스 실전 가동을 위한 PMO 핵심 기능 명세 및 세부 사양</p>
                                     <div className="h-[1px] bg-black w-full mt-6"></div>
                                 </div>
 
@@ -1668,9 +1667,9 @@ Supabase 데이터베이스 레이어에 RLS(Row Level Security)를 활성화하
                     <div className="flex-1 flex flex-col overflow-hidden bg-white">
                         <header className="h-[56px] border-b border-gray-200 px-8 flex items-center justify-between bg-white shrink-0 select-none">
                             <div className="flex items-center gap-2">
-                                <span className="text-[12px] font-semibold text-black tracking-wider uppercase" style={sanomatFont}>IOTA CFT Phase 2</span>
+                                <span className="text-[12px] font-semibold text-black tracking-wider uppercase" style={interFont}>IOTA CFT Phase 2</span>
                                 <span className="text-gray-300">|</span>
-                                <span className="text-[12px] text-gray-500" style={sanomatFont}>DDL Specification</span>
+                                <span className="text-[12px] text-gray-500" style={interFont}>DDL Specification</span>
                             </div>
                             <button onClick={() => handleCopyText(`-- 1. PMO 통합 원장 테이블 (PMO Control Ledger)
 CREATE TABLE public.iota_pmo_tasks (
@@ -1700,16 +1699,16 @@ CREATE POLICY "PM2 파트 및 어드민만 편집 가능" ON public.iota_pmo_tas
             SELECT email FROM public.iota_members 
             WHERE department = '사업관리2파트' OR role_grade IN ('임원', '어드민')
         )
-    );`)} className="px-3 py-1 bg-white border border-gray-300 hover:bg-gray-50 rounded-none text-[11.5px] font-medium text-black transition-all cursor-pointer" style={sanomatFont}>
-                                {copied ? 'Copied' : 'Copy Text'}
+    );`)} className="px-3 py-1 bg-white border border-gray-300 hover:bg-gray-50 rounded-none text-[11.5px] font-medium text-black transition-all cursor-pointer" style={interFont}>
+                                {copied ? 'Copy Text' : 'Copy Text'}
                             </button>
                         </header>
                         
                         <div className="flex-1 overflow-y-auto p-12 hide-scrollbar">
                             <div className="max-w-[800px] flex flex-col gap-8">
                                 <div>
-                                    <span className="text-[10px] font-bold text-gray-400 tracking-widest uppercase" style={sanomatFont}>SCHEMA SPECIFICATION</span>
-                                    <h1 className="text-[28px] font-bold text-black tracking-tight leading-tight mt-1" style={sanomatFont}>IOTA CFT Phase 2 DB Schema</h1>
+                                    <span className="text-[10px] font-bold text-gray-400 tracking-widest uppercase" style={interFont}>SCHEMA SPECIFICATION</span>
+                                    <h1 className="text-[28px] font-bold text-black tracking-tight leading-tight mt-1" style={interFont}>IOTA CFT Phase 2 DB Schema</h1>
                                     <p className="text-[13px] text-gray-500 mt-2 font-sans">PMO 통합 제어 테이블 및 Supabase RLS 정책 DDL 명세서</p>
                                     <div className="h-[1px] bg-black w-full mt-6"></div>
                                 </div>
