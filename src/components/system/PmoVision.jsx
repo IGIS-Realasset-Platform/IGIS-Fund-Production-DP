@@ -411,103 +411,163 @@ export default function PmoVision() {
     const phase1RequirementsData = [
     {
         "scope": "내부",
-        "category": "권한 관리",
-        "subcategory": "부서별 권한 매핑",
+        "category": "인증/보안",
+        "subcategory": "로그인 및 권한 진입",
         "actor": "사용자",
-        "detail": "로그인한 사용자의 이메일 및 직급 정보를 식별하여 사업 PM 1, 2 파트원 및 임원진 권한으로 분기 매핑함.",
+        "detail": "사전에 어드민을 통해 등록된 이지스 임직원 이메일로 보안 로그인을 수행할 수 있다.",
         "main_dept": "IT/기획",
         "sub_dept": "ALL",
-        "note": "iota_members 정보 활용"
+        "note": "iota_members 매핑"
+    },
+    {
+        "scope": "내부",
+        "category": "인증/보안",
+        "subcategory": "비인증 접근 차단",
+        "actor": "사용자",
+        "detail": "미인증 사용자 혹은 로그인 세션 만료자가 다이렉트 URL로 강제 진입 시 로그인 페이지로 리다이렉션됨을 확인할 수 있다.",
+        "main_dept": "IT/기획",
+        "sub_dept": "-",
+        "note": "보안 인증 가드 적용"
+    },
+    {
+        "scope": "내부",
+        "category": "인증/보안",
+        "subcategory": "부서별 쓰기 통제",
+        "actor": "사용자",
+        "detail": "소속 부서(사업1, 사업2 등) 권한에 맞춰 본인 주관 업무 영역만 수정/쓰기 권한이 활성화되고 타 부서 영역은 읽기만 허용됨을 확인할 수 있다.",
+        "main_dept": "IT/기획",
+        "sub_dept": "ALL",
+        "note": "Supabase RLS 규칙에 의한 차단"
+    },
+    {
+        "scope": "내부",
+        "category": "인증/보안",
+        "subcategory": "세션 폐기",
+        "actor": "사용자",
+        "detail": "로그아웃 버튼 클릭 시 사용자 토큰 및 세션 정보가 완전히 제거되고 로그인 화면으로 즉시 복귀됨을 확인할 수 있다.",
+        "main_dept": "IT/기획",
+        "sub_dept": "-",
+        "note": "완전 세션 삭제 로그"
+    },
+    {
+        "scope": "내부",
+        "category": "모바일 활용",
+        "subcategory": "모바일 태스크 확인",
+        "actor": "실무자/임원",
+        "detail": "이동 중이나 외부 미팅 시 모바일 기기를 통해 부서별 업무 상태 및 담당자를 편리하게 확인할 수 있다.",
+        "main_dept": "ALL",
+        "sub_dept": "ALL",
+        "note": "모바일 최적화 뷰"
+    },
+    {
+        "scope": "내부",
+        "category": "알림 수신",
+        "subcategory": "실시간 알림 수신",
+        "actor": "실무 담당자",
+        "detail": "담당 업무에 병목(Blocker)이 활성화되거나 신규 태스크가 지정되었을 때 실시간 알림을 받아볼 수 있다.",
+        "main_dept": "IT/기획",
+        "sub_dept": "ALL",
+        "note": "백그라운드 메시지 브릿지"
     },
     {
         "scope": "내부",
         "category": "부서별 업무",
-        "subcategory": "사업 PM 업무 관리",
-        "actor": "사업 PM",
-        "detail": "iota_pm_tasks 테이블을 통해 주관 일정, 소싱 타겟, 계약 정보 등의 현황을 상세 등록하고 조회할 수 있음.",
-        "main_dept": "사업 PM",
-        "sub_dept": "All",
-        "note": "부서 전용 필드 제공"
+        "subcategory": "실무 할일 관리",
+        "actor": "실무자",
+        "detail": "본인 부서에 배정된 주관 업무의 상태(신규/진행/완료 등)를 클릭 한 번으로 빠르게 수정할 수 있다.",
+        "main_dept": "ALL",
+        "sub_dept": "ALL",
+        "note": "그리드 내 인라인 최신화"
     },
     {
         "scope": "내부",
         "category": "부서별 업무",
-        "subcategory": "LFC 금융 업무 관리",
-        "actor": "LFC",
-        "detail": "iota_financing_tasks 테이블을 활용하여 PF 조달 구조, 금리, 금융비 및 대주단 매핑 상태를 관리함.",
+        "subcategory": "병목(Blocker) 공유",
+        "actor": "실무자",
+        "detail": "업무 진행 중 지연 리스크가 생기면 원클릭으로 Blocker 경고등을 켜서 전사에 지연 요소를 신속하게 공유할 수 있다.",
+        "main_dept": "ALL",
+        "sub_dept": "ALL",
+        "note": "적색 병목 마커 표출"
+    },
+    {
+        "scope": "내부",
+        "category": "부서별 업무",
+        "subcategory": "업무 현황 검색",
+        "actor": "실무자/임원",
+        "detail": "텍스트 검색창을 통해 수많은 할일 목록 중 특정 프로젝트나 검색어 관련 업무를 실시간으로 필터링하여 조회할 수 있다.",
+        "main_dept": "ALL",
+        "sub_dept": "ALL",
+        "note": "키워드 실시간 매칭"
+    },
+    {
+        "scope": "내부",
+        "category": "비히클 관제",
+        "subcategory": "자금 조달 구조 파악",
+        "actor": "임원/LFC",
+        "detail": "특정 펀드 및 PFV의 에쿼티 비율, 선/후순위 대주단 구성 및 조달 금리 변천사를 시계열 순서로 파악할 수 있다.",
         "main_dept": "LFC",
-        "sub_dept": "All",
-        "note": "조달 트랜치별 금리 추적"
-    },
-    {
-        "scope": "내부",
-        "category": "부서별 업무",
-        "subcategory": "개발관리 업무 관리",
-        "actor": "개발관리",
-        "detail": "iota_development_tasks 테이블을 활용하여 건축인허가 단계, 시공 도급 계약, 공사/준공 마일스톤 일정을 기록함.",
-        "main_dept": "개발관리",
-        "sub_dept": "All",
-        "note": "준공 만기일 추적"
-    },
-    {
-        "scope": "내부",
-        "category": "부서별 업무",
-        "subcategory": "마케팅/임차 관리",
-        "actor": "마케팅",
-        "detail": "iota_marketing_tasks 및 iota_fund_tasks 테이블을 통해 마케팅 타겟 테넌트 입점 이력 및 펀드 설정 정보를 관리함.",
-        "main_dept": "마케팅",
-        "sub_dept": "All",
-        "note": "임차 앵커 관리"
-    },
-    {
-        "scope": "내부",
-        "category": "시계열 관리",
-        "subcategory": "주간 스냅샷 아카이빙",
-        "actor": "시스템",
-        "detail": "매주 금요일 퇴근 시점의 실무 업무 원장 상태를 스냅샷 이미지로 아카이빙하여 시계열 변천사를 보존함.",
-        "main_dept": "IT/기획",
-        "sub_dept": "ALL",
-        "note": "iota_weekly_snapshots 활용"
-    },
-    {
-        "scope": "내부",
-        "category": "시계열 관리",
-        "subcategory": "백업 및 이중화",
-        "actor": "시스템",
-        "detail": "Supabase 네트워크 장애에 대비하기 위해 로컬 웹 스토리지에 스냅샷 데이터를 실시간 백업 기동함.",
-        "main_dept": "IT/기획",
-        "sub_dept": "-",
-        "note": "네트워크 단절 방지용 버퍼"
-    },
-    {
-        "scope": "내부",
-        "category": "의사결정",
-        "subcategory": "의사결정 로그 기록",
-        "actor": "임원/어드민",
-        "detail": "론 조건 변경, 수익률 조정, 매각 시기 연기 등 중대한 결정의 배경 사유와 정성적 판단 근거를 영구 기록함.",
-        "main_dept": "IT/기획",
-        "sub_dept": "All",
-        "note": "iota_decision_logs 활용"
-    },
-    {
-        "scope": "내부",
-        "category": "의사결정",
-        "subcategory": "히스토리 잠금",
-        "actor": "어드민",
-        "detail": "기록된 의사결정 로그가 훼손되거나 조작되지 않도록 이력 수정 방지 및 잠금 기능을 제공함.",
-        "main_dept": "IT/기획",
-        "sub_dept": "-",
-        "note": "is_locked 컬럼 RLS 제어"
+        "sub_dept": "사업 PM",
+        "note": "Capital Stack 모듈"
     },
     {
         "scope": "내부",
         "category": "협업 관리",
-        "subcategory": "실시간 액션 아이템 배정",
-        "actor": "실무자",
-        "detail": "회의 중 실시간으로 발생한 액션 아이템을 에디터 창을 통해 주관 부서 및 담당자에게 즉시 등록 및 배정함.",
+        "subcategory": "화면 이동 동선",
+        "actor": "시스템",
+        "detail": "대시보드 내 활동 로그 클릭 시 해당 부서 워크스페이스로 이동함과 동시에 로컬스토리지에 저장된 ID를 기반으로 해당 업무 카드로 자동 포커싱 및 스크롤함.",
         "main_dept": "ALL",
         "sub_dept": "All",
-        "note": "MeetingWriteBox 에디터 활용"
+        "note": "localStorage 기반 cross-focusing"
+    },
+    {
+        "scope": "내부",
+        "category": "부서별 업무",
+        "subcategory": "우선순위 재정렬",
+        "actor": "실무자",
+        "detail": "업무 상태 그리드에서 상/하 정렬 버튼 클릭 시 백엔드 DB의 created_at 가중치를 실시간 스왑하여 업무 우선순위 노출 순서를 동적으로 변경함.",
+        "main_dept": "ALL",
+        "sub_dept": "ALL",
+        "note": "custom weight 정렬 알고리즘"
+    },
+    {
+        "scope": "내부",
+        "category": "거버넌스 관리",
+        "subcategory": "거버넌스 SSOT",
+        "actor": "사용자",
+        "detail": "전사 조직체계, 부서별 책임한계(RACI), 핵심 회의체 주기, Risk Top 10을 열람할 수 있는 거버넌스 뷰어를 구축하여 오프라인 지침을 시스템화함.",
+        "main_dept": "IT/기획",
+        "sub_dept": "ALL",
+        "note": "GovSystem / GovRaci / GovMeetings / GovRiskTop10"
+    },
+    {
+        "scope": "내부",
+        "category": "데이터 관리",
+        "subcategory": "RAG 검색 대비",
+        "actor": "시스템",
+        "detail": "실무 코멘트 등록 시 본문 텍스트와 메타데이터(인물, 자산, URL)를 Supabase DB 상에 분할 적재하여 RAG 기반 AI 검색 성능 최적화 구조를 수립함.",
+        "main_dept": "IT/기획",
+        "sub_dept": "ALL",
+        "note": "raw_text / metadata JSONB 분할 적재"
+    },
+    {
+        "scope": "내부",
+        "category": "데이터 관리",
+        "subcategory": "대외 파트너 조회",
+        "actor": "실무자",
+        "detail": "대외 파트너사 정보와 앵커 임차인(Tenant) 이전 및 매핑 상태를 조회하는 데이터 관리용 명부를 설계하여 관계사 마스터 테이블과 연동함.",
+        "main_dept": "사업 PM",
+        "sub_dept": "LFC",
+        "note": "StakeLp / StakeTenant / StakePartner"
+    },
+    {
+        "scope": "내부",
+        "category": "시계열 관리",
+        "subcategory": "핫 테스크 자동 추출",
+        "actor": "시스템",
+        "detail": "각 부서 DB 테이블에서 최근 14일 내 생성/변경된 활성 과제만 쿼리 슬라이싱하여 대시보드 첫 화면에 모아서 노출함.",
+        "main_dept": "IT/기획",
+        "sub_dept": "ALL",
+        "note": "최근 14일 기준 Date Filter"
     },
     {
         "scope": "내부",
@@ -688,6 +748,66 @@ export default function PmoVision() {
         "main_dept": "사업 PM",
         "sub_dept": "LFC",
         "note": "iota_stakeholder_master"
+    },
+    {
+        "scope": "내부",
+        "category": "모바일/UX",
+        "subcategory": "자동 포커싱 화면 이동",
+        "actor": "사용자",
+        "detail": "대시보드에서 최근 업무 피드를 클릭하면 해당 부서 페이지로 이동함과 동시에 타겟 업무 카드가 화면 상단 여백 100px 위치에 자동 포커싱되어 눈의 피로 없이 즉시 확인할 수 있다.",
+        "main_dept": "ALL",
+        "sub_dept": "ALL",
+        "note": "PlatformCenter.jsx 동적 스크롤"
+    },
+    {
+        "scope": "내부",
+        "category": "인증/보안",
+        "subcategory": "뷰어/에디터 권한 분리",
+        "actor": "사용자",
+        "detail": "조회 전용 권한을 가진 유저로 로그인했을 경우, 과제 추가/편집/삭제 및 정렬 화살표 버튼들이 화면에서 자동으로 감추어짐을 확인할 수 있다.",
+        "main_dept": "IT/기획",
+        "sub_dept": "-",
+        "note": "Workspace* 권한 필터"
+    },
+    {
+        "scope": "내부",
+        "category": "거버넌스 관리",
+        "subcategory": "거버넌스 정보 열람",
+        "actor": "사용자",
+        "detail": "오프라인 책자로 찾아볼 필요 없이 플랫폼 내 거버넌스 메뉴에서 전사 조직도, 부서별 RACI 매트릭스, 경영 리스크 대응 상태를 손쉽게 확인할 수 있다.",
+        "main_dept": "IT/기획",
+        "sub_dept": "ALL",
+        "note": "GovMenu 9종 연동"
+    },
+    {
+        "scope": "내부",
+        "category": "이해관계자",
+        "subcategory": "인물 검색 자동완성",
+        "actor": "회의 참석자/실무자",
+        "detail": "회의록이나 업무 코멘트 작성 중 담당자 이름을 타이핑하면 마스터 주소록 기반 인물이 실시간 검색 및 자동 완성(Autocomplete) 매핑되는 편리함을 확인할 수 있다.",
+        "main_dept": "ALL",
+        "sub_dept": "ALL",
+        "note": "LogWriteBox 오토컴플릿"
+    },
+    {
+        "scope": "내부",
+        "category": "부서별 업무",
+        "subcategory": "최근 갱신 과제 필터",
+        "actor": "실무자/임원",
+        "detail": "첫 대시보드 화면 진입 시 전사 부서에서 최근 2주 동안 새로 갱신된 핫 테스크(Hot Tasks) 목록만 자동으로 모아서 한눈에 파악할 수 있다.",
+        "main_dept": "ALL",
+        "sub_dept": "ALL",
+        "note": "DecisionLog 최근 14일 필터"
+    },
+    {
+        "scope": "내부",
+        "category": "부서별 업무",
+        "subcategory": "활동 내역 조회",
+        "actor": "실무자",
+        "detail": "부서별 독립된 공간에서 각 태스크별로 작성된 회의 코멘트와 URL 첨부파일 등 실무 활동 이력(Activity Log)을 통합 히스토리 형태로 간편하게 파악할 수 있다.",
+        "main_dept": "ALL",
+        "sub_dept": "ALL",
+        "note": "WorkspaceActivityLog 모듈"
     }
 ];
     const schemaFieldsData = [
