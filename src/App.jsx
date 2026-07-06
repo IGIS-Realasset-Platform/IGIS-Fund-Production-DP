@@ -16,6 +16,8 @@ import IotaLogsArchive from './components/system/workspace/IotaLogsArchive';
 import IotaMyPage from './components/system/workspace/IotaMyPage';
 import SystemAdmin from './components/system/admin/SystemAdmin';
 import MobileIotaApp from './components/mobile/MobileIotaApp';
+import PmoVision from './components/system/PmoVision';
+
 
 export default function App() {
   // BASE_URL: '/' in dev, '/IGIS-Fund-Production-DP/' in GitHub Pages production
@@ -193,6 +195,7 @@ export default function App() {
         )}
         {currentPage === 'system-core' && <SystemCore isPlatform={false} />}
         {currentPage === 'platform' && <PlatformCore isPlatform={true} />}
+        {currentPage === 'platform/pmo-vision' && <PmoVision />}
         {currentPage.startsWith('platform/iotaseoul') && !currentPage.includes('/archive') && !currentPage.includes('logs-archive') && !currentPage.includes('my-page') && <PlatformCore isPlatform={true} isIotaWorkspaceOverride={true} currentPath={currentPage} />}
         {(currentPage.includes('workspace/archive') || (currentPage.endsWith('/archive') && !currentPage.includes('logs-archive') && !currentPage.includes('my-page'))) && <WorkspaceArchive />}
         {currentPage.includes('logs-archive') && <IotaLogsArchive />}
