@@ -27,6 +27,10 @@ import SystemFund421 from './SystemFund421';
 import IotaTwo816 from './IotaTwo816';
 import IotaOne427 from './IotaOne427';
 import DecisionLog from './DecisionLog';
+import PmoMeetingMain from './pmo/PmoMeetingMain';
+import PmoCategoryMap from './pmo/PmoCategoryMap';
+import PmoScheduleGate from './pmo/PmoScheduleGate';
+import PmoPopupManager from './pmo/PmoPopupManager';
 
 export default function PlatformCenter({ currentPath = '' }) {
     const scrollRef = useRef(null);
@@ -111,6 +115,10 @@ export default function PlatformCenter({ currentPath = '' }) {
             case 'platform/iotaseoul/421-fund': return <SystemFund421 />;
             case 'platform/iotaseoul/iota-one-427': return <IotaOne427 />;
             case 'platform/iotaseoul/iota-two-816': return <IotaTwo816 />;
+            case 'platform/iotaseoul/home': return <PmoMeetingMain />;
+            case 'platform/iotaseoul/rr-matrix': return <PmoCategoryMap />;
+            case 'platform/iotaseoul/timeline': return <PmoScheduleGate />;
+            case 'platform/iotaseoul/popup-requests': return <PmoPopupManager />;
             case 'platform/iotaseoul/workflow': return <DecisionLog />;
             default: return null;
         }
@@ -120,9 +128,10 @@ export default function PlatformCenter({ currentPath = '' }) {
     const stakeContent = renderStakeholder();
     const workspaceContent = renderWorkspace();
     
+    const isStaging = import.meta.env.MODE === 'staging';
     let activeContent = govContent || stakeContent || workspaceContent;
-    if (!currentPath || currentPath === '' || currentPath === 'platform/iotaseoul' || currentPath === 'platform/iotaseoul/home') {
-        activeContent = <DecisionLog />;
+    if (!currentPath || currentPath === '' || currentPath === 'platform/iotaseoul' || (currentPath === 'platform/iotaseoul/home' && !isStaging)) {
+        activeContent = isStaging ? <PmoMeetingMain /> : <DecisionLog />;
     } else if (currentPath === 'platform/iotaseoul/dashboard') {
         activeContent = <IotaDashboard />;
     }

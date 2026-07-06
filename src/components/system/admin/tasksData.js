@@ -1088,5 +1088,27 @@ export const tasksData = [
     "작업 유형": "DB 설계 및 쿼리",
     "URL": "schema_phase2_staging.sql / staging schema",
     "내용 상세": "# [IOTA 서울 CFT] IOTA CFT Phase 2 기준값 마스터 및 메인 테이블 스펙 정의 및 DB 구축\n\n동적인 기준값(99_기준값)을 데이터베이스 테이블로 구조화하고, 메인 PMO 원장 테이블과의 외래키(FK) 연동을 설계하여 Staging DB에 적용함.\n\n## 주요 작업 내역\n\n1. 기준값 마스터 테이블 스펙 정의 및 생성\n- 부서 정보(`iota_departments`), 프로젝트 정보(`iota_projects`), 외부 상대방 정보(`iota_stakeholders`) 등의 뼈대 설계.\n- 엑셀의 '99_기준값' 데이터를 추출하여 마스터 테이블에 적재.\n\n2. 메인 PMO 원장 테이블 및 RLS 적용\n- `iota_pmo_tasks`와 `iota_pmo_popup_requests` 테이블 스펙 설계 및 외래키 연동.\n- 사용자 세션 기반 부서별 쓰기 제한 RLS 정책 설정."
+  },
+  {
+    "대분류": "플랫폼 아키텍처",
+    "작업 이름": "IOTA CFT Phase 2 Staging UI/UX 5대 화면 컴포넌트 개발 및 API 연동",
+    "상태": "진행중",
+    "담당자": "전기영",
+    "마감일": "2026/07/06",
+    "우선순위": "높음",
+    "작업 유형": "UI/UX 및 API 개발",
+    "URL": "src/components/system/PmoPortal / App.jsx",
+    "내용 상세": "# [IOTA 서울 CFT] IOTA CFT Phase 2 Staging UI/UX 5대 화면 컴포넌트 개발 및 API 연동\n\nStaging 포트(8082)에서 구동되는 독립된 PMO 관제 포털 사이드바 내비게이션을 개편하고, iota_v2 스키마와 통신하는 5대 핵심 화면 컴포넌트 개발을 개시함.\n\n## 주요 작업 내역\n\n1. Staging 내비게이션 바 및 라우터 분기 설계\n- Vite staging 모드 감지 시 PMO 5대 시트 메뉴 중심의 독자적인 사이드바 노출.\n\n2. Supabase Client schema('iota_v2') API 바인딩\n- 기존 public 스키마를 사용하는 Phase 1에 영향을 주지 않도록 schema 옵션을 지정하여 staging DDB 연동."
+  },
+  {
+    "대분류": "플랫폼 아키텍처",
+    "작업 이름": "IOTA CFT Phase 2 사이드바 구조 개편 및 5대 컴포넌트 이식",
+    "상태": "진행중",
+    "담당자": "전기영",
+    "마감일": "2026/07/06",
+    "우선순위": "높음",
+    "작업 유형": "UI/UX 및 API 개발",
+    "URL": "src/components/system/PmoPortal / App.jsx",
+    "내용 상세": "# [IOTA 서울 CFT] IOTA CFT Phase 2 사이드바 구조 개편 및 5대 컴포넌트 이식\n\n부장님 피드백을 수용하여 사이드바 메뉴명 및 배치 순서(조직별 R&R, 타임라인, 단발 업무 요청 관리, 회의록 최하단화)를 적용하고, 5대 화면 컴포넌트 구현에 착수함.\n\n## 주요 작업 내역\n\n1. 사이드바 메뉴 명칭 및 배치 최적화 개편\n- 홈(01_회의메인), 전체 업무 현황(02_통합업무보드), 조직별 R&R, 타임라인, 단발 업무 요청 관리, 회의록 배치 분기.\n\n2. 5대 화면 컴포넌트 UI/UX 실무 최적화 설계 이식\n- 각 탭에 매핑되는 React 컴포넌트 마크업 및 Supabase staging schema 연동."
   }
 ];

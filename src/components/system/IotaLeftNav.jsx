@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { supabase } from '../../utils/supabaseClient';
 
-const menuItems = [
+const phase1MenuItems = [
     {
         id: 7,
         label: '전체 업무 현황',
@@ -73,6 +73,109 @@ const menuItems = [
         ),
     },
 ];
+
+const phase2MenuItems = [
+    {
+        id: 'home',
+        label: '홈',
+        path: 'platform/iotaseoul/home',
+        icon: (
+            <svg className="w-4.5 h-4.5 mr-[10px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+            </svg>
+        ),
+    },
+    {
+        id: 7,
+        label: '전체 업무 현황',
+        path: 'platform/iotaseoul/workflow',
+        icon: (
+            <svg className="w-4.5 h-4.5 mr-[10px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+        ),
+    },
+    {
+        id: 2,
+        label: 'Vehicle 정보',
+        path: 'platform/iotaseoul/vehicle-integrated',
+        icon: (
+            <svg className="w-4.5 h-4.5 mr-[10px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+            </svg>
+        ),
+        subItems: [
+            {
+                id: 'integrated',
+                label: 'Vehicle 통합구조',
+                path: 'platform/iotaseoul/vehicle-integrated'
+            },
+            {
+                id: 3,
+                label: 'IOTA One 427',
+                path: 'platform/iotaseoul/iota-one-427'
+            },
+            {
+                id: 4,
+                label: 'IOTA Two 816',
+                path: 'platform/iotaseoul/iota-two-816'
+            },
+            {
+                id: 5,
+                label: '421 Fund',
+                path: 'platform/iotaseoul/421-fund'
+            },
+            {
+                id: 'vision-book',
+                label: 'IOTA Seoul Vision Book',
+                path: 'external/vision-book',
+                externalUrl: 'https://iotaseoul.site/'
+            }
+        ]
+    },
+    {
+        id: 'rr-matrix',
+        label: '조직별 R&R',
+        path: 'platform/iotaseoul/rr-matrix',
+        icon: (
+            <svg className="w-4.5 h-4.5 mr-[10px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+            </svg>
+        ),
+    },
+    {
+        id: 'timeline',
+        label: '타임라인',
+        path: 'platform/iotaseoul/timeline',
+        icon: (
+            <svg className="w-4.5 h-4.5 mr-[10px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+        ),
+    },
+    {
+        id: 'popup-requests',
+        label: '단발 업무 요청 관리',
+        path: 'platform/iotaseoul/popup-requests',
+        icon: (
+            <svg className="w-4.5 h-4.5 mr-[10px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+        ),
+    },
+    {
+        id: 'meeting-logs',
+        label: '회의록',
+        path: 'platform/iotaseoul/meeting-logs',
+        icon: (
+            <svg className="w-4.5 h-4.5 mr-[10px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+            </svg>
+        ),
+    },
+];
+
+const menuItems = import.meta.env.MODE === 'staging' ? phase2MenuItems : phase1MenuItems;
 
 const workspaceItems = [
     {

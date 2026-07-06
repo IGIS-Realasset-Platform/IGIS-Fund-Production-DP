@@ -4,6 +4,7 @@ import { useAuth } from '../../context/AuthContext';
 import { notifyMembersOnCommentCreation } from '../../utils/notificationHelpers';
 import { motion, AnimatePresence } from 'framer-motion';
 import ReactionAvatarStack from './ReactionAvatarStack';
+import PmoTaskBoardStaging from './pmo/PmoTaskBoardStaging';
 
 const WORKSPACE_CONFIG = [
     { id: 'pm1', name: '사업 PM 1', path: 'platform/iotaseoul/workspace/pm1', table: 'iota_pm_tasks', color: 'bg-[#ff9f0a]' },
@@ -814,6 +815,8 @@ export default function DecisionLog() {
         return true;
     });
 
+    const isStaging = import.meta.env.MODE === 'staging';
+
     return (
         <div className="w-full flex-1 flex flex-col pt-[50px] pb-[60px] max-w-[1200px] mx-auto">
             {/* Header Metadata */}
@@ -827,13 +830,16 @@ export default function DecisionLog() {
                 </div>
             </div>
 
+            {/* Staging mode: PMO Master Grid */}
+            {isStaging && <PmoTaskBoardStaging />}
+
             {/* IOTA CFT 실시간 통합 업무 로그 */}
             <div className="w-full mb-[44px]">
                 {/* Header with Title, Search and Line Filters */}
                 <div className="flex flex-col gap-[10px] mb-[12px]">
                     <div className="flex justify-between items-center w-full">
                         <h2 className="text-[20px] font-bold text-white tracking-tight shrink-0 flex items-center gap-2">
-                            <span>IOTA CFT 통합 업무 로그</span>
+                            <span>{isStaging ? 'Director 주요업무 보고' : 'IOTA CFT 통합 업무 로그'}</span>
                             <span className="text-[12px] bg-[#3b82f6]/20 text-[#60a5fa] px-2 py-0.5 rounded-md font-semibold font-mono animate-pulse">LIVE</span>
                         </h2>
                         
@@ -1194,124 +1200,126 @@ export default function DecisionLog() {
             </div>
 
             {/* 주요 회의체 히스토리 */}
-            <div className="w-full flex flex-col mt-[22px] mb-[10px]">
-                <div className="flex items-center justify-between mb-[8px]">
-                    <h3 className="text-[20px] font-bold text-white tracking-tight">주요 회의체 히스토리</h3>
+            {!isStaging && (
+                <div className="w-full flex flex-col mt-[22px] mb-[10px]">
+                    <div className="flex items-center justify-between mb-[8px]">
+                        <h3 className="text-[20px] font-bold text-white tracking-tight">주요 회의체 히스토리</h3>
+                        
+                        {/* Segmented Control */}
+                        <div className="flex items-center bg-[#222] border border-[#333] rounded-[8px] p-[4px]">
+                            <button
+                                onClick={() => setActiveCadenceTab('internal')}
+                                className={`px-[16px] py-[6px] text-[13px] font-bold rounded-[6px] transition-colors cursor-pointer ${activeCadenceTab === 'internal' ? 'bg-[#3c3c3c] text-white' : 'text-[#86868B] hover:text-white'}`}
+                            >
+                                이지스 내부
+                            </button>
+                            <button
+                                onClick={() => setActiveCadenceTab('external')}
+                                className={`px-[16px] py-[6px] text-[13px] font-bold rounded-[6px] transition-colors cursor-pointer ${activeCadenceTab === 'external' ? 'bg-[#3c3c3c] text-white' : 'text-[#86868B] hover:text-white'}`}
+                            >
+                                이지스 외부
+                            </button>
+                        </div>
+                    </div>
                     
-                    {/* Segmented Control */}
-                    <div className="flex items-center bg-[#222] border border-[#333] rounded-[8px] p-[4px]">
-                        <button
-                            onClick={() => setActiveCadenceTab('internal')}
-                            className={`px-[16px] py-[6px] text-[13px] font-bold rounded-[6px] transition-colors cursor-pointer ${activeCadenceTab === 'internal' ? 'bg-[#3c3c3c] text-white' : 'text-[#86868B] hover:text-white'}`}
-                        >
-                            이지스 내부
-                        </button>
-                        <button
-                            onClick={() => setActiveCadenceTab('external')}
-                            className={`px-[16px] py-[6px] text-[13px] font-bold rounded-[6px] transition-colors cursor-pointer ${activeCadenceTab === 'external' ? 'bg-[#3c3c3c] text-white' : 'text-[#86868B] hover:text-white'}`}
-                        >
-                            이지스 외부
-                        </button>
+                    <div className="w-full border border-[#3c3c3c] bg-[#272726] rounded-[16px] overflow-hidden">
+                        <table className="w-full text-left table-fixed">
+                            <thead className="bg-transparent">
+                                <tr>
+                                    <th className="pl-[22px] pr-[12px] py-[12px] text-[14px] font-bold text-[#86868B] border-b border-[#3c3c3c] w-[210px]">회의체</th>
+                                    <th className="pl-[22px] pr-[12px] py-[12px] text-[14px] font-bold text-[#86868B] border-b border-[#3c3c3c] w-[130px]">주기</th>
+                                    <th className="pl-[22px] pr-[12px] py-[12px] text-[14px] font-bold text-[#86868B] border-b border-[#3c3c3c] w-[160px]">주재자</th>
+                                    <th className="pl-[42px] pr-[12px] py-[12px] text-[14px] font-bold text-[#86868B] border-b border-[#3c3c3c] w-[280px]">주요 참석자</th>
+                                    <th className="pl-[22px] pr-[12px] py-[12px] text-[14px] font-bold text-[#86868B] border-b border-[#3c3c3c]">핵심 산출물</th>
+                                </tr>
+                            </thead>
+                            <tbody className="divide-y divide-[#3c3c3c]">
+                                {(activeCadenceTab === 'internal' ? internalMeetings : externalMeetings).map((row, idx) => {
+                                    const rowId = `${activeCadenceTab}-${idx}`;
+                                    const isExpanded = expandedCadenceRow === rowId;
+                                    return (
+                                        <React.Fragment key={idx}>
+                                            <tr 
+                                                className={`hover:bg-[#333] transition-colors group cursor-pointer ${isExpanded ? 'bg-[#333]' : ''}`} 
+                                                onClick={() => {
+                                                    navigate(`/platform/iotaseoul/meeting-logs?type=${encodeURIComponent(row.meeting)}`);
+                                                }}
+                                            >
+                                                <td className="pl-[22px] pr-[12px] py-[12px] text-[17px] text-[#E5E5E5] group-hover:text-white transition-colors text-left font-semibold whitespace-pre-wrap">{row.meeting}</td>
+                                                <td className="pl-[22px] pr-[12px] py-[12px] text-[13px] transition-colors"><span className="inline-block px-[10px] py-[4px] rounded-[6px] bg-[#333] text-[#c3c2b7] group-hover:bg-[#2997ff] group-hover:text-white transition-colors whitespace-nowrap">{row.period}</span></td>
+                                                <td className="pl-[22px] pr-[12px] py-[12px] text-[13px] font-bold text-white whitespace-nowrap transition-colors">{row.leader}</td>
+                                                <td className="pl-[42px] pr-[12px] py-[12px] text-[13px] text-[#c3c2b7] text-left group-hover:text-[#E5E5E5] transition-colors">{row.attendees}</td>
+                                                <td className="pl-[22px] pr-[12px] py-[12px] text-[13px] text-[#c3c2b7] text-left group-hover:text-[#E5E5E5] transition-colors">{row.output}</td>
+                                            </tr>
+                                            {isExpanded && (
+                                                <tr>
+                                                    <td colSpan={5} className="bg-[#1F1F1E] p-[20px] border-b border-[#3c3c3c]">
+                                                        {isLoadingCadenceLogs && !cadenceLogs[row.meeting] ? (
+                                                            <div className="text-center text-[#86868B] text-[13px] py-[20px]">회의록 불러오는 중...</div>
+                                                        ) : (
+                                                            cadenceLogs[row.meeting]?.length === 0 ? (
+                                                                <div className="text-center text-[#86868B] text-[13px] py-[20px]">최근 등록된 회의록이 없습니다.</div>
+                                                            ) : (
+                                                                <div className="flex gap-[12px]">
+                                                                    {cadenceLogs[row.meeting]?.map(log => (
+                                                                        <div 
+                                                                            key={log.id} 
+                                                                            onClick={() => {
+                                                                                navigate(`/platform/iotaseoul/meeting-logs?type=${encodeURIComponent(row.meeting)}`);
+                                                                            }}
+                                                                            className="flex-1 bg-[#262626] rounded-[12px] border border-[#333] p-[16px] hover:border-[#444] transition-colors flex flex-col justify-between max-w-[33%] cursor-pointer group"
+                                                                        >
+                                                                            <div>
+                                                                                <div className="flex justify-between items-start mb-[8px]">
+                                                                                    <div className="flex items-center gap-[4px]">
+                                                                                        <span className="text-[12px] text-[#2997ff] font-bold">{formatDateWithTime(log.meeting_date, log.created_at).date}</span>
+                                                                                        <span className="text-[12px] text-[#86868B] font-medium">{formatDateWithTime(log.meeting_date, log.created_at).time}</span>
+                                                                                    </div>
+                                                                                    <span className="text-[11px] bg-[#333] text-[#E5E5E5] px-[6px] py-[2px] rounded-[4px]">{log.author_name}</span>
+                                                                                </div>
+                                                                                <h4 className="text-[14px] font-bold text-white mb-[8px] line-clamp-1">{log.title}</h4>
+                                                                                <p className="text-[12px] text-[#A1A1AA] line-clamp-1 leading-relaxed whitespace-pre-wrap">{log.content}</p>
+                                                                            </div>
+                                                                            <div className="mt-[12px] flex justify-between items-center">
+                                                                                {log.metadata?.attachedFiles?.length > 0 ? (
+                                                                                    <div className="flex items-center gap-[4px]">
+                                                                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#86868B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
+                                                                                        <span className="text-[11px] text-[#86868B]">{log.metadata.attachedFiles.length}개 파일</span>
+                                                                                    </div>
+                                                                                ) : (
+                                                                                    <div></div>
+                                                                                )}
+                                                                            </div>
+                                                                        </div>
+                                                                    ))}
+                                                                </div>
+                                                            )
+                                                        )}
+                                                        {cadenceLogs[row.meeting]?.length > 0 && (
+                                                            <div className="mt-[12px] flex justify-end">
+                                                                <button 
+                                                                    onClick={(e) => {
+                                                                        e.stopPropagation();
+                                                                        navigate(`/platform/iotaseoul/meeting-logs?type=${encodeURIComponent(row.meeting)}`);
+                                                                    }}
+                                                                    className="flex items-center gap-[4px] text-[12px] text-[#2997ff] hover:text-[#5eb0ff] font-bold transition-colors bg-[#222] hover:bg-[#333] px-[12px] py-[6px] rounded-[6px] border border-[#333]"
+                                                                >
+                                                                    {row.meeting} 전체 회의록 보기
+                                                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                                                                </button>
+                                                            </div>
+                                                        )}
+                                                    </td>
+                                                </tr>
+                                            )}
+                                        </React.Fragment>
+                                    );
+                                })}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-                
-                <div className="w-full border border-[#3c3c3c] bg-[#272726] rounded-[16px] overflow-hidden">
-                    <table className="w-full text-left table-fixed">
-                        <thead className="bg-transparent">
-                            <tr>
-                                <th className="pl-[22px] pr-[12px] py-[12px] text-[14px] font-bold text-[#86868B] border-b border-[#3c3c3c] w-[210px]">회의체</th>
-                                <th className="pl-[22px] pr-[12px] py-[12px] text-[14px] font-bold text-[#86868B] border-b border-[#3c3c3c] w-[130px]">주기</th>
-                                <th className="pl-[22px] pr-[12px] py-[12px] text-[14px] font-bold text-[#86868B] border-b border-[#3c3c3c] w-[160px]">주재자</th>
-                                <th className="pl-[42px] pr-[12px] py-[12px] text-[14px] font-bold text-[#86868B] border-b border-[#3c3c3c] w-[280px]">주요 참석자</th>
-                                <th className="pl-[22px] pr-[12px] py-[12px] text-[14px] font-bold text-[#86868B] border-b border-[#3c3c3c]">핵심 산출물</th>
-                            </tr>
-                        </thead>
-                        <tbody className="divide-y divide-[#3c3c3c]">
-                            {(activeCadenceTab === 'internal' ? internalMeetings : externalMeetings).map((row, idx) => {
-                                const rowId = `${activeCadenceTab}-${idx}`;
-                                const isExpanded = expandedCadenceRow === rowId;
-                                return (
-                                    <React.Fragment key={idx}>
-                                        <tr 
-                                            className={`hover:bg-[#333] transition-colors group cursor-pointer ${isExpanded ? 'bg-[#333]' : ''}`} 
-                                            onClick={() => {
-                                                navigate(`/platform/iotaseoul/meeting-logs?type=${encodeURIComponent(row.meeting)}`);
-                                            }}
-                                        >
-                                            <td className="pl-[22px] pr-[12px] py-[12px] text-[17px] text-[#E5E5E5] group-hover:text-white transition-colors text-left font-semibold whitespace-pre-wrap">{row.meeting}</td>
-                                            <td className="pl-[22px] pr-[12px] py-[12px] text-[13px] transition-colors"><span className="inline-block px-[10px] py-[4px] rounded-[6px] bg-[#333] text-[#c3c2b7] group-hover:bg-[#2997ff] group-hover:text-white transition-colors whitespace-nowrap">{row.period}</span></td>
-                                            <td className="pl-[22px] pr-[12px] py-[12px] text-[13px] font-bold text-white whitespace-nowrap transition-colors">{row.leader}</td>
-                                            <td className="pl-[42px] pr-[12px] py-[12px] text-[13px] text-[#c3c2b7] text-left group-hover:text-[#E5E5E5] transition-colors">{row.attendees}</td>
-                                            <td className="pl-[22px] pr-[12px] py-[12px] text-[13px] text-[#c3c2b7] text-left group-hover:text-[#E5E5E5] transition-colors">{row.output}</td>
-                                        </tr>
-                                        {isExpanded && (
-                                            <tr>
-                                                <td colSpan={5} className="bg-[#1F1F1E] p-[20px] border-b border-[#3c3c3c]">
-                                                    {isLoadingCadenceLogs && !cadenceLogs[row.meeting] ? (
-                                                        <div className="text-center text-[#86868B] text-[13px] py-[20px]">회의록 불러오는 중...</div>
-                                                    ) : (
-                                                        cadenceLogs[row.meeting]?.length === 0 ? (
-                                                            <div className="text-center text-[#86868B] text-[13px] py-[20px]">최근 등록된 회의록이 없습니다.</div>
-                                                        ) : (
-                                                            <div className="flex gap-[12px]">
-                                                                {cadenceLogs[row.meeting]?.map(log => (
-                                                                    <div 
-                                                                        key={log.id} 
-                                                                        onClick={() => {
-                                                                            navigate(`/platform/iotaseoul/meeting-logs?type=${encodeURIComponent(row.meeting)}`);
-                                                                        }}
-                                                                        className="flex-1 bg-[#262626] rounded-[12px] border border-[#333] p-[16px] hover:border-[#444] transition-colors flex flex-col justify-between max-w-[33%] cursor-pointer group"
-                                                                    >
-                                                                        <div>
-                                                                            <div className="flex justify-between items-start mb-[8px]">
-                                                                                <div className="flex items-center gap-[4px]">
-                                                                                    <span className="text-[12px] text-[#2997ff] font-bold">{formatDateWithTime(log.meeting_date, log.created_at).date}</span>
-                                                                                    <span className="text-[12px] text-[#86868B] font-medium">{formatDateWithTime(log.meeting_date, log.created_at).time}</span>
-                                                                                </div>
-                                                                                <span className="text-[11px] bg-[#333] text-[#E5E5E5] px-[6px] py-[2px] rounded-[4px]">{log.author_name}</span>
-                                                                            </div>
-                                                                            <h4 className="text-[14px] font-bold text-white mb-[8px] line-clamp-1">{log.title}</h4>
-                                                                            <p className="text-[12px] text-[#A1A1AA] line-clamp-1 leading-relaxed whitespace-pre-wrap">{log.content}</p>
-                                                                        </div>
-                                                                        <div className="mt-[12px] flex justify-between items-center">
-                                                                            {log.metadata?.attachedFiles?.length > 0 ? (
-                                                                                <div className="flex items-center gap-[4px]">
-                                                                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#86868B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
-                                                                                    <span className="text-[11px] text-[#86868B]">{log.metadata.attachedFiles.length}개 파일</span>
-                                                                                </div>
-                                                                            ) : (
-                                                                                <div></div>
-                                                                            )}
-                                                                        </div>
-                                                                    </div>
-                                                                ))}
-                                                            </div>
-                                                        )
-                                                    )}
-                                                    {cadenceLogs[row.meeting]?.length > 0 && (
-                                                        <div className="mt-[12px] flex justify-end">
-                                                            <button 
-                                                                onClick={(e) => {
-                                                                    e.stopPropagation();
-                                                                    navigate(`/platform/iotaseoul/meeting-logs?type=${encodeURIComponent(row.meeting)}`);
-                                                                }}
-                                                                className="flex items-center gap-[4px] text-[12px] text-[#2997ff] hover:text-[#5eb0ff] font-bold transition-colors bg-[#222] hover:bg-[#333] px-[12px] py-[6px] rounded-[6px] border border-[#333]"
-                                                            >
-                                                                {row.meeting} 전체 회의록 보기
-                                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                                                            </button>
-                                                        </div>
-                                                    )}
-                                                </td>
-                                            </tr>
-                                        )}
-                                    </React.Fragment>
-                                );
-                            })}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+            )}
 
             {/* Log Viewer */}
             <div id="log-viewer-header" className="flex justify-between items-center mt-[26px] mb-[12px] scroll-mt-[80px]">
