@@ -567,7 +567,7 @@ export default function PmoScheduleGate() {
             <div className="-mr-[calc(50vw-50%)] border border-r-0 border-[#3c3c3c] bg-[#272726] rounded-l-[24px] overflow-hidden mb-[40px] shadow-sm min-h-[1110px]">
                 <div className="w-full overflow-x-auto pr-0 timeline-scrollbar">
                     <div className="flex items-start min-w-[2386px]">
-                        <table className="text-left table-fixed min-w-[1586px] flex-1 border-collapse">
+                        <table className="text-left table-fixed min-w-[1586px] flex-1 border-collapse border-b border-[#3c3c3c]">
                             <thead>
                                 <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[12px] h-12">
                                     <th className="px-3 w-[110px] min-w-[110px] max-w-[110px] text-center sticky left-0 bg-[#272726] z-30">대분류</th>
