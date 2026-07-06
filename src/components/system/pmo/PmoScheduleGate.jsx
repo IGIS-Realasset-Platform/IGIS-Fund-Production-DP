@@ -567,9 +567,9 @@ export default function PmoScheduleGate() {
             <div className="-mr-[calc(50vw-50%)] border border-r-0 border-[#3c3c3c] bg-[#272726] rounded-l-[24px] overflow-hidden mb-[40px] shadow-sm min-h-[1110px]">
                 <div className="w-full overflow-x-auto pr-0 timeline-scrollbar">
                     <div className="flex items-start min-w-[2386px]">
-                        <table className="text-left table-fixed min-w-[1586px] flex-1 border-collapse border-b border-[#3c3c3c]">
+                        <table className="text-left table-fixed min-w-[1586px] flex-1 border-collapse border-b border-[#3c3c3c] bg-[#272726]">
                             <thead>
-                                <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[12px] h-12">
+                                <tr className="border-b border-[#3c3c3c] bg-[#272726] text-[#86868B] font-bold text-[12px] h-12">
                                     <th className="px-3 w-[110px] min-w-[110px] max-w-[110px] text-center sticky left-0 bg-[#272726] z-30">대분류</th>
                                     <th className="px-3 w-[130px] min-w-[130px] max-w-[130px] text-center sticky left-[110px] bg-[#272726] z-30">세부섹터</th>
                                     <th className="pl-3 w-[230px] min-w-[230px] max-w-[230px] sticky left-[240px] bg-[#272726] z-30 border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)]">대표 업무</th>
@@ -586,7 +586,7 @@ export default function PmoScheduleGate() {
                             <tbody className="divide-y divide-[#3c3c3c]/60 text-[12px]">
                                 {CATEGORY_MAP_DATA.filter(item => selectedRrCategory === '전체보기' || item.category === selectedRrCategory).map((item) => {
                                     return (
-                                        <tr key={`${item.category}-${item.subsector}-${item.task}`} className="hover:bg-[#333] transition-colors h-11 group">
+                                        <tr key={`${item.category}-${item.subsector}-${item.task}`} className="bg-[#272726] hover:bg-[#333] transition-colors h-11 group">
                                             {/* 대분류 */}
                                             <td className="px-3 sticky left-0 bg-[#272726] group-hover:bg-[#333] transition-colors z-20 text-center font-bold text-white text-[12px] w-[110px] min-w-[110px] max-w-[110px]">
                                                 {item.category}
