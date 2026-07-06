@@ -576,11 +576,11 @@ export default function PmoScheduleGate() {
                                     <th className="px-2 w-[75px] min-w-[75px] max-w-[75px] text-center bg-[#272726] text-[11px] leading-tight">PF 전<br />필요</th>
                                     <th className="px-2 w-[75px] min-w-[75px] max-w-[75px] text-center bg-[#272726] text-[11px] leading-tight">착공 전<br />필요</th>
                                     <th className="px-2 w-[75px] min-w-[75px] max-w-[75px] text-center bg-[#272726] text-[11px] leading-tight border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)]">준공 전<br />필요</th>
-                                    <th className="pl-[18px] w-[110px] min-w-[110px] max-w-[110px] text-left bg-[#272726]">주관 부서</th>
+                                    <th className="pl-[18px] w-[116px] min-w-[116px] max-w-[116px] text-left bg-[#272726]">주관 부서</th>
                                     <th className="pl-3 w-[140px] min-w-[140px] max-w-[140px] text-left bg-[#272726]">협업 부서</th>
                                     <th className="px-3 w-[120px] min-w-[120px] max-w-[120px] text-center bg-[#272726]">외부 상대방</th>
                                     <th className="px-3 w-[120px] min-w-[120px] max-w-[120px] text-center bg-[#272726]">지원 필요 요건</th>
-                                    <th className="px-3 w-[275px] min-w-[275px] max-w-[275px] text-left bg-[#272726] border-r border-[#3c3c3c]">관리 포인트</th>
+                                    <th className="px-3 w-[269px] min-w-[269px] max-w-[269px] text-left bg-[#272726] border-r border-[#3c3c3c]">관리 포인트</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-[#3c3c3c]/60 text-[12px]">
@@ -630,7 +630,7 @@ export default function PmoScheduleGate() {
                                             </td>
 
                                             {/* 주관 부서 */}
-                                            <td className="pl-[18px] text-left w-[110px] min-w-[110px] max-w-[110px]">
+                                            <td className="pl-[18px] text-left w-[116px] min-w-[116px] max-w-[116px]">
                                                 <span className="px-2.5 py-0.5 rounded font-bold bg-[#2997ff]/10 text-white border border-[#2997ff]/20 text-[11px] whitespace-nowrap">
                                                     {item.lead}
                                                 </span>
@@ -656,7 +656,7 @@ export default function PmoScheduleGate() {
                                             </td>
 
                                             {/* 관리 포인트 */}
-                                            <td className="px-3 text-left text-[#F59E0B] font-semibold whitespace-normal break-all w-[275px] min-w-[275px] max-w-[275px] border-r border-[#3c3c3c]">
+                                            <td className="px-3 text-left text-[#F59E0B] font-semibold whitespace-normal break-all w-[269px] min-w-[269px] max-w-[269px] border-r border-[#3c3c3c]">
                                                 {item.point}
                                             </td>
                                         </tr>
