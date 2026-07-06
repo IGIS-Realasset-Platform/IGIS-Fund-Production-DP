@@ -2104,16 +2104,26 @@ CREATE TABLE public.iota_decision_logs (
                                 <span className="text-gray-300">|</span>
                                 <span className="text-[12px] text-gray-500" style={interFont}>Proposal</span>
                             </div>
-                            <button onClick={() => handleCopyText(`IOTA CFT Phase 2 시스템 기획안
+                            <button onClick={() => handleCopyText(`IOTA CFT Phase 2 시스템 기획안: 실전 운영화 및 사용성 혁신
 
-1. 실질적 운영화 전환의 당위성
-Phase 1에서 기술적 기틀과 데이터 모델을 정비했다면, Phase 2는 이를 토대로 실무진이 매일 활용할 수 있도록 보안 등급 제어, 엑셀식 고속 셀 수정 인터페이스, 그리고 주간 회의체 즉시 연계 기능을 구축하여 실무 비즈니스를 실제로 구동 및 통제하는 것이 핵심 사명입니다.
+1. Phase 2 핵심 기획 방향 및 설계 철학
+- 기계적 그리드 렌더링 배격: 대량의 셀 데이터를 브라우저에 단순 열거하는 스프레드시트 덤프 방식을 지양함. 사용자의 직무 맥락(PM, LFC, 임원)에 필요한 정보만 시기적절하게 노출하는 사용자 중심 인터페이스로 개편함.
+- 엑셀 계산 규칙의 시스템 내재화: 대주단 금리 스택, 기금 인출(Drawdown) 시점 연계, 우선순위 계산식 등 수작업 엑셀 수식을 데이터베이스 트리거와 UI 내 가상 시뮬레이터로 자동화함.
+- 의사결정 맥락(Context) 중심의 아카이빙: 단순 텍스트 기록을 넘어, 리파이낸싱 경과나 의사결정 로그가 자산 타임라인과 연계되어 생성 즉시 자동 보호/통제되는 신뢰성 있는 협업 아키텍처를 구현함.
 
-2. 권한 및 보안 설계
-Supabase 데이터베이스 레이어에 RLS(Row Level Security)를 활성화하여 iota_members 정보에 등록된 사용자의 소속 부서와 직무 등급에 맞추어 쓰기/수정 권한을 격리 통제합니다.
+2. 사용성 기반 5대 핵심 기능 명세
+- 스프레드시트 뷰 기반 스마트 인라인 에디터 (Inline Edit): 각 부서별 태스크 그리드 내에서 상태, 마감일, 담당자, 다음 액션 등의 셀을 더블클릭하는 즉시 인라인 입력 폼으로 변환하여 수정 가능하도록 구현함. 병목 여부(Blocker) 및 의사결정 필요 여부는 마우스 원클릭 토글로 반영.
+- 다차원 비주얼 캐피탈 스택 & NOI 시뮬레이터 (Visual Capital Stack): 에쿼티 및 론 상세 내역을 연계하여 자본 구조 변화 추이를 누적 막대 차트 형태로 자동 시각화함. 금리 인상 또는 대주단 구성 변경 시, 예상 NOI와 Cap Rate의 임계치 한계를 시뮬레이션할 수 있는 인터랙티브 슬라이더 뷰 구축.
+- 맥락 인지형 인물 자동완성 연동: 업무 코멘트 및 회의록 입력 창에서 이름 초성 또는 단어 타이핑 시 iota_stakeholder_master 테이블을 백그라운드로 실시간 조회하여 매핑하는 자동완성 엔진을 구축함.
+- 자동 락킹(Auto-Locking) 의사결정 맥락 타임라인: PF 조건 변경 등 전사 차원의 결정 사항을 기록하는 iota_decision_logs에 로그가 인서트되는 즉시, 시스템 레벨에서 is_locked = true로 전환하여 무단 수정을 자동 방어함.
+- 회의체 상정 자동 필터링 대시보드 (A-Grade Escalation): 업무 우선순위 가중치가 80점 이상이거나 Blocker(병목)가 활성화된 중요 태스크를 시스템이 자동 감지하여 'A등급 즉시 상정' 카드로 최상단에 자동 배치함.
 
-3. 실시간 PMO 그리드 및 회의 연동
-업무 현황 최신화를 신속히 수행할 수 있도록 스프레드시트 방식의 인라인 편집 및 Blocker 원클릭 토글을 지원하고, 우선순위가 높거나 Blocker가 켜진 안건을 회의실 화면에 즉시 A등급으로 상단 노출시키는 실시간 대시보드 연동을 설계했습니다.`)} className="px-3 py-1 bg-white border border-gray-300 hover:bg-gray-50 rounded-none text-[11.5px] font-medium text-black transition-all cursor-pointer" style={interFont}>
+3. 모바일 활용도 극대화 및 하이브리드 알림 체계
+- 반응형 '핫 테스크' 피드 제공: 모바일 환경에서 거대한 엑셀 테이블 렌더링을 차단하고, 대신 최근 2주 동안 업데이트되었거나 Blocker가 켜진 업무들만 모아둔 카드 피드 형태로 간소화 노출함.
+- 이벤트 기반 스마트 푸시 알림: 업무 원장에 Blocker 표시가 켜지거나 실무자가 액션 아이템 배정자로 태깅되는 즉시, 연동된 이메일 또는 슬랙 브릿지를 통해 지연 리스크와 담당자 정보를 실시간 전송함.
+
+4. 데이터베이스 및 인프라 보안 강화 (RLS 수립)
+- 테이블별 RLS(행 레벨 보안) 전면 가동: RLS가 비활성화되어 외부 악성 API 요청에 취약하던 테이블들에 대해 보안 패치를 적용하여 외부 악성 API 요청으로부터 플랫폼 자산 데이터를 보호함.`)} className="px-3 py-1 bg-white border border-gray-300 hover:bg-gray-50 rounded-none text-[11.5px] font-medium text-black transition-all cursor-pointer" style={interFont}>
                                 {copied ? 'Copied' : 'Copy Text'}
                             </button>
                         </header>
@@ -2128,16 +2138,26 @@ Supabase 데이터베이스 레이어에 RLS(Row Level Security)를 활성화하
                                 </div>
 
                                 <div className="text-[13.5px] text-gray-800 leading-[26px] font-light whitespace-pre-wrap font-sans space-y-6 select-text">
-                                    IOTA CFT Phase 2 시스템 기획안
+                                    IOTA CFT Phase 2 시스템 기획안: 실전 운영화 및 사용성 혁신
 
-1. 실질적 운영화 전환의 당위성
-Phase 1에서 기술적 기틀과 데이터 모델을 정비했다면, Phase 2는 이를 토대로 실무진이 매일 활용할 수 있도록 보안 등급 제어, 엑셀식 고속 셀 수정 인터페이스, 그리고 주간 회의체 즉시 연계 기능을 구축하여 실무 비즈니스를 실제로 구동 및 통제하는 것이 핵심 사명입니다.
+1. Phase 2 핵심 기획 방향 및 설계 철학
+- 기계적 그리드 렌더링 배격: 대량의 셀 데이터를 브라우저에 단순 열거하는 스프레드시트 덤프 방식을 지양함. 사용자의 직무 맥락(PM, LFC, 임원)에 필요한 정보만 시기적절하게 노출하는 사용자 중심 인터페이스로 개편함.
+- 엑셀 계산 규칙의 시스템 내재화: 대주단 금리 스택, 기금 인출(Drawdown) 시점 연계, 우선순위 계산식 등 수작업 엑셀 수식을 데이터베이스 트리거와 UI 내 가상 시뮬레이터로 자동화함.
+- 의사결정 맥락(Context) 중심의 아카이빙: 단순 텍스트 기록을 넘어, 리파이낸싱 경과나 의사결정 로그가 자산 타임라인과 연계되어 생성 즉시 자동 보호/통제되는 신뢰성 있는 협업 아키텍처를 구현함.
 
-2. 권한 및 보안 설계
-Supabase 데이터베이스 레이어에 RLS(Row Level Security)를 활성화하여 iota_members 정보에 등록된 사용자의 소속 부서와 직무 등급에 맞추어 쓰기/수정 권한을 격리 통제합니다.
+2. 사용성 기반 5대 핵심 기능 명세
+- 스프레드시트 뷰 기반 스마트 인라인 에디터 (Inline Edit): 각 부서별 태스크 그리드 내에서 상태, 마감일, 담당자, 다음 액션 등의 셀을 더블클릭하는 즉시 인라인 입력 폼으로 변환하여 수정 가능하도록 구현함. 병목 여부(Blocker) 및 의사결정 필요 여부는 마우스 원클릭 토글로 반영.
+- 다차원 비주얼 캐피탈 스택 & NOI 시뮬레이터 (Visual Capital Stack): 에쿼티 및 론 상세 내역을 연계하여 자본 구조 변화 추이를 누적 막대 차트 형태로 자동 시각화함. 금리 인상 또는 대주단 구성 변경 시, 예상 NOI와 Cap Rate의 임계치 한계를 시뮬레이션할 수 있는 인터랙티브 슬라이더 뷰 구축.
+- 맥락 인지형 인물 자동완성 연동: 업무 코멘트 및 회의록 입력 창에서 이름 초성 또는 단어 타이핑 시 iota_stakeholder_master 테이블을 백그라운드로 실시간 조회하여 매핑하는 자동완성 엔진을 구축함.
+- 자동 락킹(Auto-Locking) 의사결정 맥락 타임라인: PF 조건 변경 등 전사 차원의 결정 사항을 기록하는 iota_decision_logs에 로그가 인서트되는 즉시, 시스템 레벨에서 is_locked = true로 전환하여 무단 수정을 자동 방어함.
+- 회의체 상정 자동 필터링 대시보드 (A-Grade Escalation): 업무 우선순위 가중치가 80점 이상이거나 Blocker(병목)가 활성화된 중요 태스크를 시스템이 자동 감지하여 'A등급 즉시 상정' 카드로 최상단에 자동 배치함.
 
-3. 실시간 PMO 그리드 및 회의 연동
-업무 현황 최신화를 신속히 수행할 수 있도록 스프레드시트 방식의 인라인 편집 및 Blocker 원클릭 토글을 지원하고, 우선순위가 높거나 Blocker가 켜진 안건을 회의실 화면에 즉시 A등급으로 상단 노출시키는 실시간 대시보드 연동을 설계했습니다.
+3. 모바일 활용도 극대화 및 하이브리드 알림 체계
+- 반응형 '핫 테스크' 피드 제공: 모바일 환경에서 거대한 엑셀 테이블 렌더링을 차단하고, 대신 최근 2주 동안 업데이트되었거나 Blocker가 켜진 업무들만 모아둔 카드 피드 형태로 간소화 노출함.
+- 이벤트 기반 스마트 푸시 알림: 업무 원장에 Blocker 표시가 켜지거나 실무자가 액션 아이템 배정자로 태깅되는 즉시, 연동된 이메일 또는 슬랙 브릿지를 통해 지연 리스크와 담당자 정보를 실시간 전송함.
+
+4. 데이터베이스 및 인프라 보안 강화 (RLS 수립)
+- 테이블별 RLS(행 레벨 보안) 전면 가동: RLS가 비활성화되어 외부 악성 API 요청에 취약하던 테이블들에 대해 보안 패치를 적용하여 외부 악성 API 요청으로부터 플랫폼 자산 데이터를 보호함.
                                 </div>
                             </div>
                         </div>
@@ -2155,16 +2175,21 @@ Supabase 데이터베이스 레이어에 RLS(Row Level Security)를 활성화하
                             </div>
                             <button onClick={() => handleCopyText(`IOTA CFT Phase 2 기능요구사항 명세
 
-1. 스프레드시트 뷰 기반 인라인 편집 (Inline Edit)
+1. 스프레드시트 뷰 기반 스마트 인라인 에디터 (Inline Edit UX)
 - 태스크 테이블의 상태, 마감일, 다음 액션을 상세 팝업 창을 켜지 않고 그리드 내부에서 더블클릭하여 즉각 수정 및 비동기 저장.
-- 병목(Blocker) 여부 및 의사결정 필요 여부 필드는 마우스 클릭 한 번으로 참/거짓 값을 토글 및 데이터베이스 즉시 반영.
+- 병목(Blocker) 여부 및 의사결정 필요 여부 필드는 마우스 클릭 한 번으로 참/거짓 값을 토글하여 데이터베이스에 실시간 즉시 반영 및 임원 대시보드 연계.
 
-2. 단발성 외부 팝업 요청 통제 (iota_pmo_popup_requests)
-- 정규 마일스톤 외부에 발생하는 수작업 업무 요청을 공식 접수, 위임, 반려, 보류할 수 있는 수집 채널 및 승인 워크플로우 지원.
+2. 다차원 비주얼 캐피탈 스택 & NOI 시뮬레이션 (Visual Capital Stack UX)
+- 에쿼티 및 론 상세 내역을 누적 막대 차트로 시각화하고 금리 변동 시 예상 NOI 및 Cap Rate의 민감도를 시뮬레이션할 수 있는 슬라이더 뷰 제공.
 
-3. 실시간 회의체 상정용 임원 대시보드
-- 우선순위 점수가 80점 이상이거나 의사결정필요가 참인 항목들을 'A등급 즉시 상정' 카드로 최상단 자동 정렬.
-- 현재 병목이 집중된 부서와 담당자를 막대 그래프 형태로 실시간 차트 시각화.`)} className="px-3 py-1 bg-white border border-gray-300 hover:bg-gray-50 rounded-none text-[11.5px] font-medium text-black transition-all cursor-pointer" style={interFont}>
+3. 맥락 인지형 인물 자동완성 연동 (Autocomplete Stakeholder Catalog)
+- 활동 로그 및 회의록 입력 창에서 이름 초성 타이핑 시 마스터 데이터베이스 주소록 기반 인물을 실시간 검색하고 Chip 태그 형태로 본문에 매핑.
+
+4. 자동 락킹(Auto-Locking) 의사결정 맥락 타임라인 (Timeline & Auto-Lock)
+- 의사결정 로그 등록 즉시 DB 단에서 is_locked = true 상태로 고정하며 임원 권한 외의 일반 유저 수정을 원천적으로 차단.
+
+5. 회의체 상정 자동 필터링 대시보드 (A-Grade Escalation Dashboard)
+- 중요도 가중치 80점 이상 혹은 Blocker 활성 업무를 최상단 A등급 영역으로 자동 정렬하여 배치하고, 부서별 지연 분포도를 막대 그래프로 자동 집계 시각화.`)} className="px-3 py-1 bg-white border border-gray-300 hover:bg-gray-50 rounded-none text-[11.5px] font-medium text-black transition-all cursor-pointer" style={interFont}>
                                 {copied ? 'Copied' : 'Copy Text'}
                             </button>
                         </header>
