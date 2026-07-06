@@ -762,6 +762,10 @@ function ProjectTasksView() {
     const phase2Tasks = visibleTasks.filter(t => (t['작업 이름'] || '').includes('Phase 2') || (t['내용 상세'] || '').includes('Phase 2'));
     const phase1Tasks = visibleTasks.filter(t => !((t['작업 이름'] || '').includes('Phase 2') || (t['내용 상세'] || '').includes('Phase 2')));
 
+    const totalTasks = tasksData.length;
+    const completedTasks = tasksData.filter(t => t['상태'] === '완료').length;
+    const pendingTasks = totalTasks - completedTasks;
+
     const getPriorityColor = (p) => {
         switch (p) {
             case '최고': return 'bg-red-500/10 text-red-500 border border-red-500/20';
