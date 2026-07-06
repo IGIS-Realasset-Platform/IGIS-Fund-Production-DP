@@ -1,3 +1,5 @@
+import React from 'react';
+
 const COLUMNS = [
     { key: 'm06', labelTop: '~2026', labelBottom: '06' },
     { key: 'm07', labelTop: '2026', labelBottom: '07' },
