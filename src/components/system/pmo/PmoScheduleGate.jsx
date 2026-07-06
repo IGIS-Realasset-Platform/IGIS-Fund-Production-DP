@@ -87,7 +87,7 @@ export default function PmoScheduleGate() {
             </div>
 
             {/* Legend info panel */}
-            <div className="w-full bg-[#272726]/60 border border-[#3c3c3c] rounded-[16px] px-6 py-4 flex items-center justify-between mb-6">
+            <div className="w-full bg-[#272726]/60 border border-[#3c3c3c] rounded-[16px] px-6 py-4 flex items-center justify-between mb-[18px]">
                 <span className="text-[13px] text-[#86868B] font-medium">💡 일정의 최종 목표는 준공 및 Take-out/운영 전환이며, 각 업무는 Gate에서 멈춤/전환/상향보고 여부를 결정합니다.</span>
                 <div className="flex items-center gap-4 shrink-0 text-[12px] font-bold">
                     <div className="flex items-center gap-1.5">
