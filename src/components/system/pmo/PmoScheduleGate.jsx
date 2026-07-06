@@ -6,11 +6,11 @@ const COLUMNS = [
     { key: 'm08', labelTop: '2026', labelBottom: '08' },
     { key: 'm09', labelTop: '2026', labelBottom: '09' },
     { key: 'm10', labelTop: '2026', labelBottom: '10' },
-    { key: 'm11', labelTop: '2026.11', labelBottom: 'PF 1차' },
-    { key: 'm03', labelTop: '2027.03', labelBottom: 'PF 2차' },
+    { key: 'm11', labelTop: '2026.11', labelBottom: 'PF 1차', highlight: true },
+    { key: 'm03', labelTop: '2027.03', labelBottom: 'PF 2차', highlight: true },
     { key: 'const_start', labelTop: '2027~', labelBottom: '착공' },
-    { key: 'const_mid', labelTop: '공사~', labelBottom: '준공' },
-    { key: 'take_out', labelTop: 'Take-out', labelBottom: '운영' }
+    { key: 'const_mid', labelTop: '공사~준공', labelBottom: '', highlight: true },
+    { key: 'take_out', labelTop: 'Take-out', labelBottom: '운영', highlight: true }
 ];
 
 const TIMELINE_DATA = [
@@ -21,7 +21,7 @@ const TIMELINE_DATA = [
     { category: 'Gate', name: 'G3 PF실행', desc: '427/816 단독 또는 통합 PF 실행', lead: 'LFC', coop: '사업관리2파트;전 부서', schedule: { m09: '●', m10: '●', m11: '◆', m03: '◆' } },
     { category: 'Gate', name: 'G4 착공/공사', desc: '착공조건, 책임착공, 공정관리 체계 전환', lead: '개발관리실', coop: '사업관리2파트;LFC', schedule: { m03: '●', const_start: '●', const_mid: '●' } },
     { category: 'Gate', name: 'G5 준공/사용승인', desc: '준공 CP, 사용승인, 리스크 증빙자료 관리', lead: '개발관리실', coop: '사업관리2파트;LFC', schedule: { const_start: '●', const_mid: '●' } },
-    { category: 'Gate', name: 'G6 담보대출/운영전환', desc: 'Take-out, 운영전환, 임대 안정화, 자산관리', lead: '사업관리2파트', coop: '공간솔루션실;기업마케팅실', schedule: { const_mid: '●', take_out: '◆' } },
+    { category: 'Gate', name: 'G6 담보대출/운영', desc: 'Take-out, 운영전환, 임대 안정화, 자산관리', lead: '사업관리2파트', coop: '공간솔루션실;기업마케팅실', schedule: { const_mid: '●', take_out: '◆' } },
     // Functions
     { category: 'Task', name: '인허가', desc: '현금기부채납·소공원로·변경인가·사용승인', lead: '개발관리실', coop: '사업관리2파트;', schedule: { m06: '●', m07: '●', m08: '●', m09: '●', const_start: '●', const_mid: '●' } },
     { category: 'Task', name: '호텔', desc: '브랜드·운영계약·운영수지·FF&E', lead: '사업관리2파트', coop: '기업마케팅실;개발관리실', schedule: { m07: '●', m08: '●', m09: '●', m10: '●', const_mid: '●' } },
@@ -92,11 +92,11 @@ export default function PmoScheduleGate() {
                 <div className="flex items-center gap-4 shrink-0 text-[12px] font-bold">
                     <div className="flex items-center gap-1.5">
                         <span className="w-2.5 h-2.5 rounded-full bg-[#2997ff] inline-block"></span>
-                        <span className="text-[#E5E5E5]">● 수행 진행 기간</span>
+                        <span className="text-[#E5E5E5]">수행 진행 기간</span>
                     </div>
                     <div className="flex items-center gap-1.5">
-                        <span className="text-[#F59E0B] font-mono text-[14px] leading-none">◆</span>
-                        <span className="text-[#E5E5E5]">◆ 의사결정 / 마일스톤 달성</span>
+                        <span className="text-[#F59E0B] font-mono text-[16px] leading-none">◆</span>
+                        <span className="text-[#E5E5E5]">의사결정 / 마일스톤 달성</span>
                     </div>
                 </div>
             </div>
@@ -111,11 +111,13 @@ export default function PmoScheduleGate() {
                                     <th className="px-2 w-[100px] text-center sticky left-0 bg-[#272726] z-30">구분</th>
                                     <th className="pl-4 w-[280px] sticky left-[100px] bg-[#272726] z-30">세부업무</th>
                                     <th className="px-2 w-[110px] text-center sticky left-[380px] bg-[#272726] z-30">주관</th>
-                                    <th className="px-2 w-[140px] text-left sticky left-[490px] bg-[#272726] z-30 border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)]">협업</th>
+                                    <th className="px-2 w-[100px] text-center sticky left-[490px] bg-[#272726] z-30 border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)]">협업</th>
                                     {COLUMNS.map(col => (
-                                        <th key={col.key} className="text-center font-mono text-[11px] leading-tight px-1 font-bold w-[90px]">
+                                        <th key={col.key} className={`text-center font-mono text-[11px] leading-tight px-1 font-bold w-[90px] border-r border-[#3c3c3c]/30 ${
+                                            col.highlight ? 'bg-white/[0.03] text-[#60a5fa] border-x border-[#3c3c3c]' : 'text-[#86868B]'
+                                        }`}>
                                             <div>{col.labelTop}</div>
-                                            <div className="text-[11px] opacity-75 mt-0.5">{col.labelBottom}</div>
+                                            {col.labelBottom && <div className="text-[11px] opacity-75 mt-0.5">{col.labelBottom}</div>}
                                         </th>
                                     ))}
                                 </tr>
@@ -147,7 +149,7 @@ export default function PmoScheduleGate() {
                                             </td>
                                             
                                             {/* 협업 */}
-                                            <td className="px-2 text-[#86868B] leading-tight text-left pr-2 whitespace-normal break-all sticky left-[490px] bg-[#272726] group-hover:bg-[#333] transition-colors z-20 border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)]">
+                                            <td className="px-2 text-[#86868B] leading-tight text-center pr-2 whitespace-normal break-all sticky left-[490px] bg-[#272726] group-hover:bg-[#333] transition-colors z-20 border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)]">
                                                 {item.coop.split(';').map((c, cIdx) => (
                                                     c && <div key={cIdx} className="text-[11px]">{c}</div>
                                                 ))}
@@ -157,12 +159,14 @@ export default function PmoScheduleGate() {
                                             {COLUMNS.map(col => {
                                                 const mark = item.schedule[col.key];
                                                 return (
-                                                    <td key={col.key} className="text-center">
+                                                    <td key={col.key} className={`text-center border-r border-[#3c3c3c]/20 ${
+                                                        col.highlight ? 'bg-white/[0.015] group-hover:bg-white/[0.04]' : ''
+                                                    }`}>
                                                         {mark === '●' && (
                                                             <span className="w-3.5 h-3.5 rounded-full bg-[#2997ff] inline-block shadow-sm shadow-[#2997ff]/20"></span>
                                                         )}
                                                         {mark === '◆' && (
-                                                            <span className="text-[#F59E0B] font-mono text-[16px] font-bold block translate-y-[-1px] animate-pulse">◆</span>
+                                                            <span className="text-[#F59E0B] font-mono text-[22px] font-extrabold block translate-y-[-1px] animate-pulse">◆</span>
                                                         )}
                                                     </td>
                                                 );
