@@ -1,16 +1,14 @@
-import React from 'react';
-
 const COLUMNS = [
-    { key: 'm06', label: '~2026.06' },
-    { key: 'm07', label: '2026.07' },
-    { key: 'm08', label: '2026.08' },
-    { key: 'm09', label: '2026.09' },
-    { key: 'm10', label: '2026.10' },
-    { key: 'm11', label: '2026.11 PF 1차' },
-    { key: 'm03', label: '2027.03 PF 2차' },
-    { key: 'const_start', label: '2027~착공' },
-    { key: 'const_mid', label: '공사~준공' },
-    { key: 'take_out', label: 'Take-out/운영' }
+    { key: 'm06', labelTop: '~2026', labelBottom: '06' },
+    { key: 'm07', labelTop: '2026', labelBottom: '07' },
+    { key: 'm08', labelTop: '2026', labelBottom: '08' },
+    { key: 'm09', labelTop: '2026', labelBottom: '09' },
+    { key: 'm10', labelTop: '2026', labelBottom: '10' },
+    { key: 'm11', labelTop: '2026.11', labelBottom: 'PF 1차' },
+    { key: 'm03', labelTop: '2027.03', labelBottom: 'PF 2차' },
+    { key: 'const_start', labelTop: '2027~', labelBottom: '착공' },
+    { key: 'const_mid', labelTop: '공사~', labelBottom: '준공' },
+    { key: 'take_out', labelTop: 'Take-out', labelBottom: '운영' }
 ];
 
 const TIMELINE_DATA = [
@@ -40,6 +38,19 @@ export default function PmoScheduleGate() {
         if (filterCategory === 'All') return true;
         return item.category === filterCategory;
     });
+
+    const renderCategoryName = (name) => {
+        if (name.startsWith('G') && name.includes(' ')) {
+            const parts = name.split(' ');
+            return (
+                <div className="leading-[1.1] text-center">
+                    <div className="text-[12px] font-bold">{parts[0]}</div>
+                    <div className="text-[9px] mt-0.5 opacity-90">{parts[1]}</div>
+                </div>
+            );
+        }
+        return <div className="text-center text-[11px] leading-tight">{name}</div>;
+    };
 
     return (
         <div className="w-full flex-1 flex flex-col pt-[50px] pb-[60px] max-w-[1200px] mx-auto select-none font-sans text-white">
@@ -91,17 +102,18 @@ export default function PmoScheduleGate() {
             {/* Timeline Matrix Grid */}
             <div className="-mr-[calc(50vw-50%)] border border-r-0 border-[#3c3c3c] bg-[#272726] rounded-l-[24px] overflow-hidden">
                 <div className="w-full overflow-x-auto pr-0 custom-thin-scrollbar">
-                    <div className="flex items-center min-w-[2600px]">
-                        <table className="text-left table-fixed min-w-[1700px] flex-1">
+                    <div className="flex items-center min-w-[2100px]">
+                        <table className="text-left table-fixed min-w-[1300px] flex-1">
                             <thead>
                                 <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[13px] h-12">
-                                    <th className="pl-6 w-[140px] sticky left-0 bg-[#272726] z-30">구분</th>
-                                    <th className="pl-4 w-[280px] sticky left-[140px] bg-[#272726] z-30">세부업무</th>
-                                    <th className="pl-4 w-[120px] sticky left-[420px] bg-[#272726] z-30">주관</th>
-                                    <th className="pl-4 w-[160px] sticky left-[540px] bg-[#272726] z-30 border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)]">협업</th>
+                                    <th className="px-2 w-[90px] text-center sticky left-0 bg-[#272726] z-30">구분</th>
+                                    <th className="pl-4 w-[280px] sticky left-[90px] bg-[#272726] z-30">세부업무</th>
+                                    <th className="px-2 w-[90px] text-center sticky left-[370px] bg-[#272726] z-30">주관</th>
+                                    <th className="px-2 w-[110px] text-left sticky left-[460px] bg-[#272726] z-30 border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)]">협업</th>
                                     {COLUMNS.map(col => (
-                                        <th key={col.key} className="text-center font-mono text-[11px] leading-tight px-1 font-bold w-[90px]">
-                                            {col.label}
+                                        <th key={col.key} className="text-center font-mono text-[11px] leading-tight px-1 font-bold w-[70px]">
+                                            <div>{col.labelTop}</div>
+                                            <div className="text-[9px] opacity-70 mt-0.5">{col.labelBottom}</div>
                                         </th>
                                     ))}
                                 </tr>
@@ -112,30 +124,30 @@ export default function PmoScheduleGate() {
                                     return (
                                         <tr key={idx} className="hover:bg-[#333] transition-colors h-14 group">
                                             {/* 구분 */}
-                                            <td className="pl-6 font-bold sticky left-0 bg-[#272726] group-hover:bg-[#333] transition-colors z-20">
-                                                <span className={`px-2.5 py-0.5 rounded-md text-[11px] font-bold ${
+                                            <td className="px-2 sticky left-0 bg-[#272726] group-hover:bg-[#333] transition-colors z-20 text-center">
+                                                <span className={`px-1.5 py-1 rounded-md font-bold block ${
                                                     isGate 
                                                         ? 'bg-[#2997ff]/10 text-[#60a5fa] border border-[#2997ff]/20' 
                                                         : 'bg-[#a1a1aa]/10 text-[#e4e4e7] border border-[#a1a1aa]/20'
                                                 }`}>
-                                                    {item.name}
+                                                    {renderCategoryName(item.name)}
                                                 </span>
                                             </td>
                                             
                                             {/* 세부업무 */}
-                                            <td className="pl-4 font-medium text-[#E5E5E5] leading-snug text-left pr-2 whitespace-normal break-all sticky left-[140px] bg-[#272726] group-hover:bg-[#333] transition-colors z-20">
+                                            <td className="pl-4 font-medium text-[#E5E5E5] leading-snug text-left pr-2 whitespace-normal break-all sticky left-[90px] bg-[#272726] group-hover:bg-[#333] transition-colors z-20">
                                                 {item.desc}
                                             </td>
                                             
                                             {/* 주관 */}
-                                            <td className="pl-4 text-[#E5E5E5] font-semibold text-left sticky left-[420px] bg-[#272726] group-hover:bg-[#333] transition-colors z-20">
+                                            <td className="px-2 text-[#E5E5E5] font-semibold text-center sticky left-[370px] bg-[#272726] group-hover:bg-[#333] transition-colors z-20 text-[12px] leading-tight whitespace-normal break-all">
                                                 {item.lead}
                                             </td>
                                             
                                             {/* 협업 */}
-                                            <td className="pl-4 text-[#86868B] leading-tight text-left pr-2 whitespace-normal break-all sticky left-[540px] bg-[#272726] group-hover:bg-[#333] transition-colors z-20 border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)]">
+                                            <td className="px-2 text-[#86868B] leading-tight text-left pr-2 whitespace-normal break-all sticky left-[460px] bg-[#272726] group-hover:bg-[#333] transition-colors z-20 border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)]">
                                                 {item.coop.split(';').map((c, cIdx) => (
-                                                    c && <div key={cIdx} className="text-[11px]">{c}</div>
+                                                    c && <div key={cIdx} className="text-[10px]">{c}</div>
                                                 ))}
                                             </td>
 
