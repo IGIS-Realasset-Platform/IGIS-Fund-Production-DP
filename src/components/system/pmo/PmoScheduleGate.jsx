@@ -566,7 +566,7 @@ export default function PmoScheduleGate() {
             {/* R&R Matrix Table */}
             <div className="-mr-[calc(50vw-50%)] border border-r-0 border-[#3c3c3c] bg-[#272726] rounded-l-[24px] overflow-hidden mb-[40px] shadow-sm min-h-[1110px]">
                 <div className="w-full overflow-x-auto pr-0 timeline-scrollbar">
-                    <div className="flex items-center min-w-[2386px]">
+                    <div className="flex items-start min-w-[2386px]">
                         <table className="text-left table-fixed min-w-[1586px] flex-1 border-collapse">
                             <thead>
                                 <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[12px] h-12">
