@@ -566,8 +566,8 @@ export default function PmoScheduleGate() {
             {/* R&R Matrix Table */}
             <div className="-mr-[calc(50vw-50%)] border border-r-0 border-[#3c3c3c] bg-[#272726] rounded-l-[24px] overflow-hidden mb-[40px] shadow-sm min-h-[1110px]">
                 <div className="w-full overflow-x-auto pr-0 timeline-scrollbar">
-                    <div className="flex items-center min-w-[2260px]">
-                        <table className="text-left table-fixed min-w-[1460px] flex-1 border-collapse">
+                    <div className="flex items-center min-w-[2316px]">
+                        <table className="text-left table-fixed min-w-[1516px] flex-1 border-collapse">
                             <thead>
                                 <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[12px] h-12">
                                     <th className="px-3 w-[110px] min-w-[110px] max-w-[110px] text-center sticky left-0 bg-[#272726] z-30">대분류</th>
@@ -580,7 +580,7 @@ export default function PmoScheduleGate() {
                                     <th className="pl-3 w-[190px] min-w-[190px] max-w-[190px] text-left bg-[#272726]">협업 부서</th>
                                     <th className="px-3 w-[120px] min-w-[120px] max-w-[120px] text-center bg-[#272726]">외부 상대방</th>
                                     <th className="px-3 w-[120px] min-w-[120px] max-w-[120px] text-center bg-[#272726]">지원 필요 요건</th>
-                                    <th className="px-3 w-[219px] min-w-[219px] max-w-[219px] text-left bg-[#272726] border-r border-[#3c3c3c]">관리 포인트</th>
+                                    <th className="px-3 w-[275px] min-w-[275px] max-w-[275px] text-left bg-[#272726] border-r border-[#3c3c3c]">관리 포인트</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-[#3c3c3c]/60 text-[12px]">
@@ -656,7 +656,7 @@ export default function PmoScheduleGate() {
                                             </td>
 
                                             {/* 관리 포인트 */}
-                                            <td className="px-3 text-left text-[#F59E0B] font-semibold whitespace-normal break-all w-[219px] min-w-[219px] max-w-[219px] border-r border-[#3c3c3c]">
+                                            <td className="px-3 text-left text-[#F59E0B] font-semibold whitespace-normal break-all w-[275px] min-w-[275px] max-w-[275px] border-r border-[#3c3c3c]">
                                                 {item.point}
                                             </td>
                                         </tr>
