@@ -661,7 +661,7 @@ export default function PmoVision() {
     },
     {
         "scope": "내부",
-        "category": "사용자 관점 - 스냅샷/백업",
+        "category": "사용자 관점 - 스냅샷/알림",
         "subcategory": "주간 단위 상태 비교",
         "actor": "임원/어드민",
         "detail": "매주 금요일 퇴근 시점 기준으로 전사 업무 현황 원장이 자동 캡처 보존되므로 주간 단위 업무 변동 내역을 편리하게 비교 파악할 수 있다.",
@@ -671,7 +671,7 @@ export default function PmoVision() {
     },
     {
         "scope": "내부",
-        "category": "사용자 관점 - 스냅샷/백업",
+        "category": "사용자 관점 - 스냅샷/알림",
         "subcategory": "네트워크 단절 방지",
         "actor": "사용자",
         "detail": "네트워크 단절이나 데이터베이스 장애 시에도 로컬 브라우저에 저장된 데이터 버퍼를 통해 실시간으로 작업 내역을 백업 보존할 수 있다.",
