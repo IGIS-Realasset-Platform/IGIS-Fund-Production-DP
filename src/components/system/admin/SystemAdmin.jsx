@@ -759,9 +759,8 @@ function ProjectTasksView() {
 
     const visibleTasks = sortedTasks.slice(0, visibleCount);
 
-    const totalTasks = tasksData.length;
-    const completedTasks = tasksData.filter(t => t['상태'] === '완료').length;
-    const pendingTasks = totalTasks - completedTasks;
+    const phase2Tasks = visibleTasks.filter(t => (t['작업 이름'] || '').includes('Phase 2') || (t['내용 상세'] || '').includes('Phase 2'));
+    const phase1Tasks = visibleTasks.filter(t => !((t['작업 이름'] || '').includes('Phase 2') || (t['내용 상세'] || '').includes('Phase 2')));
 
     const getPriorityColor = (p) => {
         switch (p) {
@@ -777,6 +776,73 @@ function ProjectTasksView() {
         return s === '완료' 
             ? 'bg-emerald-500/10 text-emerald-500 border border-emerald-500/20' 
             : 'bg-blue-500/10 text-blue-500 border border-blue-500/20';
+    };
+
+    const renderTaskRow = (task) => {
+        const isExpanded = expandedTaskId === task.originalIndex;
+        return (
+            <React.Fragment key={task.originalIndex}>
+                <tr 
+                    onClick={() => setExpandedTaskId(isExpanded ? null : task.originalIndex)}
+                    className="hover:bg-black/[0.02] dark:hover:bg-white/[0.02] transition-colors cursor-pointer"
+                >
+                    <td className="py-4 px-6">
+                        <span className="text-[12px] font-bold px-2 py-1 rounded bg-[#F5F5F7] dark:bg-[#2C2C2E] border border-black/5 dark:border-white/5 text-[#86868B] whitespace-nowrap">
+                            {task['대분류']}
+                        </span>
+                    </td>
+                    <td className="py-4 px-6">
+                        <div className="flex flex-col">
+                            <span className={`text-[15px] font-semibold leading-snug ${getTitleColorClass(task['우선순위'])}`}>
+                                {task['작업 이름']}
+                            </span>
+                            <span className="text-[12px] text-[#86868B] mt-0.5 font-medium">
+                                {task['작업 유형']} {task['URL'] && `· ${task['URL']}`}
+                            </span>
+                        </div>
+                    </td>
+                    <td className="py-4 px-6">
+                        <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full ${getPriorityColor(task['우선순위'])}`}>
+                            {task['우선순위']}
+                        </span>
+                    </td>
+                    <td className="py-4 px-6 text-[13px] font-mono text-[#86868B] dark:text-[#A1A1AA]">
+                        {task['마감일'] || '-'}
+                    </td>
+                    <td className="py-4 px-6">
+                        <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full ${getStatusColor(task['상태'])}`}>
+                            {task['상태']}
+                        </span>
+                    </td>
+                </tr>
+                {isExpanded && (
+                    <tr className="bg-[#F5F5F7]/30 dark:bg-[#1C1C1E]/30">
+                        <td colSpan="5" className="py-4 px-8 border-b border-black/5 dark:border-white/5">
+                            <div className="space-y-3 py-1">
+                                <div>
+                                    <span className="text-[12px] font-bold text-[#86868B] uppercase tracking-wider block mb-1">상세 내용</span>
+                                    <p className="text-[14px] leading-relaxed text-[#555] dark:text-[#C5C5C7] whitespace-pre-wrap">
+                                        {task['내용 상세']}
+                                    </p>
+                                </div>
+                                <div className="flex flex-wrap gap-x-8 gap-y-2 pt-2 border-t border-black/5 dark:border-white/5 text-[12px]">
+                                    <div>
+                                        <span className="text-[#86868B] font-medium mr-1.5">작업 구분:</span>
+                                        <span className="font-semibold text-[#1D1D1F] dark:text-white">{task['작업 유형']}</span>
+                                    </div>
+                                    {task['URL'] && (
+                                        <div>
+                                            <span className="text-[#86868B] font-medium mr-1.5">관련 파일/URL:</span>
+                                            <span className="font-semibold text-[#1D1D1F] dark:text-white font-mono">{task['URL']}</span>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                )}
+            </React.Fragment>
+        );
     };
 
     useEffect(() => {
@@ -891,79 +957,28 @@ function ProjectTasksView() {
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-black/5 dark:divide-white/5">
-                            {visibleTasks.map((task) => {
-                                const isExpanded = expandedTaskId === task.originalIndex;
-                                return (
-                                    <React.Fragment key={task.originalIndex}>
-                                        <tr 
-                                            onClick={() => setExpandedTaskId(isExpanded ? null : task.originalIndex)}
-                                            className="hover:bg-black/[0.02] dark:hover:bg-white/[0.02] transition-colors cursor-pointer"
-                                        >
-                                            <td className="py-4 px-6">
-                                                <span className="text-[12px] font-bold px-2 py-1 rounded bg-[#F5F5F7] dark:bg-[#2C2C2E] border border-black/5 dark:border-white/5 text-[#86868B] whitespace-nowrap">
-                                                    {task['대분류']}
-                                                </span>
-                                            </td>
-                                            <td className="py-4 px-6">
-                                                <div className="flex flex-col">
-                                                    <div className="flex items-center gap-2 flex-wrap">
-                                                        <span className={`text-[15px] font-semibold leading-snug ${getTitleColorClass(task['우선순위'])}`}>
-                                                            {task['작업 이름']}
-                                                        </span>
-                                                        {((task['작업 이름'] || '').includes('Phase 2') || (task['내용 상세'] || '').includes('Phase 2')) ? (
-                                                            <span className="px-1.5 py-0.5 text-[10px] font-bold rounded bg-blue-500/10 text-blue-500 border border-blue-500/20 whitespace-nowrap">Phase 2</span>
-                                                        ) : (
-                                                            <span className="px-1.5 py-0.5 text-[10px] font-bold rounded bg-zinc-500/10 text-zinc-500 border border-zinc-500/20 whitespace-nowrap">Phase 1</span>
-                                                        )}
-                                                    </div>
-                                                    <span className="text-[12px] text-[#86868B] mt-0.5 font-medium">
-                                                        {task['작업 유형']} {task['URL'] && `· ${task['URL']}`}
-                                                    </span>
-                                                </div>
-                                            </td>
-                                            <td className="py-4 px-6">
-                                                <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full ${getPriorityColor(task['우선순위'])}`}>
-                                                    {task['우선순위']}
-                                                </span>
-                                            </td>
-                                            <td className="py-4 px-6 text-[13px] font-mono text-[#86868B] dark:text-[#A1A1AA]">
-                                                {task['마감일'] || '-'}
-                                            </td>
-                                            <td className="py-4 px-6">
-                                                <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full ${getStatusColor(task['상태'])}`}>
-                                                    {task['상태']}
-                                                </span>
+                            {phaseFilter === '전체' ? (
+                                <>
+                                    {phase2Tasks.length > 0 && (
+                                        <tr className="bg-[#F5F5F7]/40 dark:bg-[#2C2C2E]/40 pointer-events-none">
+                                            <td colSpan="5" className="py-2.5 px-6 border-b border-black/5 dark:border-white/5">
+                                                <span className="text-[11px] font-bold text-[#0A84FF] tracking-wider uppercase">Phase 2 (Staging)</span>
                                             </td>
                                         </tr>
-                                        {isExpanded && (
-                                            <tr className="bg-[#F5F5F7]/30 dark:bg-[#1C1C1E]/30">
-                                                <td colSpan="5" className="py-4 px-8 border-b border-black/5 dark:border-white/5">
-                                                    <div className="space-y-3 py-1">
-                                                        <div>
-                                                            <span className="text-[12px] font-bold text-[#86868B] uppercase tracking-wider block mb-1">상세 내용</span>
-                                                            <p className="text-[14px] leading-relaxed text-[#555] dark:text-[#C5C5C7] whitespace-pre-wrap">
-                                                                {task['내용 상세']}
-                                                            </p>
-                                                        </div>
-                                                        <div className="flex flex-wrap gap-x-8 gap-y-2 pt-2 border-t border-black/5 dark:border-white/5 text-[12px]">
-                                                            <div>
-                                                                <span className="text-[#86868B] font-medium mr-1.5">작업 구분:</span>
-                                                                <span className="font-semibold text-[#1D1D1F] dark:text-white">{task['작업 유형']}</span>
-                                                            </div>
-                                                            {task['URL'] && (
-                                                                <div>
-                                                                    <span className="text-[#86868B] font-medium mr-1.5">관련 파일/URL:</span>
-                                                                    <span className="font-semibold text-[#1D1D1F] dark:text-white font-mono">{task['URL']}</span>
-                                                                </div>
-                                                            )}
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        )}
-                                    </React.Fragment>
-                                );
-                            })}
+                                    )}
+                                    {phase2Tasks.map(renderTaskRow)}
+                                    {phase1Tasks.length > 0 && (
+                                        <tr className="bg-[#F5F5F7]/40 dark:bg-[#2C2C2E]/40 border-t-[3px] border-[#0A84FF]/40 pointer-events-none">
+                                            <td colSpan="5" className="py-2.5 px-6 border-b border-black/5 dark:border-white/5">
+                                                <span className="text-[11px] font-bold text-[#86868B] tracking-wider uppercase">Phase 1 (Production)</span>
+                                            </td>
+                                        </tr>
+                                    )}
+                                    {phase1Tasks.map(renderTaskRow)}
+                                </>
+                            ) : (
+                                visibleTasks.map(renderTaskRow)
+                            )}
                             {visibleTasks.length === 0 && (
                                 <tr>
                                     <td colSpan="5" className="py-12 text-center text-[#86868B]">
