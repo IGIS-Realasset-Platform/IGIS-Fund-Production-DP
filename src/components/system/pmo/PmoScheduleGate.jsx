@@ -358,30 +358,6 @@ export default function PmoScheduleGate() {
     const [selectedRrCategory, setSelectedRrCategory] = React.useState('전체보기');
     const scrollContainerRef = React.useRef(null);
 
-    const getRrScheduleMark = (item, colKey) => {
-        if (item.pf) {
-            if (['m06', 'm07', 'm08', 'm09', 'm10'].includes(colKey)) {
-                if (colKey === 'm06') {
-                    if (['인허가', '도면/설계', 'PF/금융', '구조/법무/세무'].includes(item.category)) return '●';
-                    return '';
-                }
-                if (item.category === '준공/담보대출') return '';
-                return '●';
-            }
-            if (['m11', 'm03'].includes(colKey)) {
-                return '◆';
-            }
-        }
-        if (item.const) {
-            if (colKey === 'const_start') return '●';
-            if (colKey === 'm03' && !item.pf) return '●';
-        }
-        if (item.op) {
-            if (colKey === 'const_mid') return '●';
-            if (colKey === 'take_out' && item.subsector === 'Take-out') return '◆';
-        }
-        return '';
-    };
 
     React.useEffect(() => {
         const container = scrollContainerRef.current;
@@ -608,109 +584,105 @@ export default function PmoScheduleGate() {
             </div>
 
             {/* R&R Matrix Table */}
-            <div className="-mr-[calc(50vw-50%)] border border-r-0 border-[#3c3c3c] bg-[#272726] rounded-l-[24px] overflow-hidden mb-[40px]">
-                <div className="w-full overflow-x-auto pr-0 timeline-scrollbar">
-                    <div className="flex items-center min-w-[2260px]">
-                        <table className="text-left table-fixed min-w-[1460px] flex-1">
-                            <thead>
-                                <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[12px] h-12">
-                                    <th className="px-2 w-[100px] text-center sticky left-0 bg-[#272726] z-30">대분류</th>
-                                    <th className="px-2 w-[130px] text-center sticky left-[100px] bg-[#272726] z-30">세부섹터</th>
-                                    <th className="pl-3 w-[220px] sticky left-[230px] bg-[#272726] z-30 border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)]">대표 업무</th>
-                                    <th className="px-2 w-[100px] text-center bg-[#272726]">주관</th>
-                                    <th className="px-2 w-[130px] text-center bg-[#272726]">협업</th>
-                                    <th className="px-2 w-[110px] text-center bg-[#272726]">외부 상대방</th>
-                                    <th className="px-2 w-[110px] text-center bg-[#272726]">지원 필요</th>
-                                    <th className="px-2 w-[230px] text-center bg-[#272726] border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)]">관리 포인트</th>
-                                    {COLUMNS.map((col) => (
-                                        <th key={col.key} className={`text-center font-mono text-[11px] leading-tight px-1 font-bold w-[90px] ${
-                                            col.highlight ? 'bg-white/[0.03] text-[#60a5fa]' : 'text-[#86868B]'
-                                        } border-r border-[#4c4c4c]/50`}>
-                                            <div>{col.labelTop}</div>
-                                            {col.labelBottom && <div className="text-[11px] opacity-75 mt-0.5">{col.labelBottom}</div>}
-                                        </th>
-                                    ))}
-                                </tr>
-                            </thead>
-                            <tbody className="divide-y divide-[#3c3c3c] text-[12px]">
-                                {CATEGORY_MAP_DATA.filter(item => selectedRrCategory === '전체보기' || item.category === selectedRrCategory).map((item, idx) => {
-                                    return (
-                                        <tr key={idx} className="hover:bg-[#333] transition-colors h-14 group">
-                                            {/* 대분류 */}
-                                            <td className="px-2 sticky left-0 bg-[#272726] group-hover:bg-[#333] transition-colors z-20 text-center font-bold text-white text-[12px]">
-                                                {item.category}
-                                            </td>
-                                            
-                                            {/* 세부섹터 */}
-                                            <td className="px-2 sticky left-[100px] bg-[#272726] group-hover:bg-[#333] transition-colors z-20 text-center font-bold text-[#E5E5E5] text-[12px] whitespace-normal break-all">
-                                                {item.subsector}
-                                            </td>
-                                            
-                                            {/* 대표 업무 */}
-                                            <td className="pl-3 font-medium text-[#E5E5E5] leading-snug text-left pr-2 whitespace-normal break-all sticky left-[230px] bg-[#272726] group-hover:bg-[#333] transition-colors z-20 border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)] text-[12px]">
-                                                {item.task}
-                                            </td>
-                                            
-                                            {/* 주관 */}
-                                            <td className="px-2 text-[#E5E5E5] font-semibold text-center text-[12px] leading-tight whitespace-normal break-all bg-[#272726] group-hover:bg-[#333] transition-colors">
-                                                <span className="px-1.5 py-0.5 rounded font-bold bg-[#2997ff]/10 text-white border border-[#2997ff]/20 text-[11px]">
-                                                    {item.lead}
-                                                </span>
-                                            </td>
-                                            
-                                            {/* 협업 */}
-                                            <td className="px-2 text-[#86868B] leading-tight text-center pr-2 whitespace-normal break-all bg-[#272726] group-hover:bg-[#333] transition-colors text-[12px]">
-                                                <div className="flex flex-col gap-0.5 justify-center items-center">
-                                                    {item.coop.map((c, cIdx) => (
-                                                        c && <span key={cIdx} className="px-1.5 py-0.5 rounded bg-[#1F1F1E] text-[#A1A1AA] border border-[#3c3c3c] text-[10px] whitespace-nowrap">{c}</span>
-                                                    ))}
-                                                </div>
-                                            </td>
+            <div className="w-full border border-[#3c3c3c] bg-[#272726] rounded-[24px] overflow-hidden mb-[40px] shadow-sm">
+                <div className="w-full overflow-x-auto timeline-scrollbar">
+                    <table className="text-left table-fixed min-w-[1620px] w-full border-collapse">
+                        <thead>
+                            <tr className="border-b border-[#3c3c3c] bg-[#1F1F1E] text-[#86868B] font-bold text-[12px] h-12">
+                                <th className="px-3 w-[100px] text-center sticky left-0 bg-[#1F1F1E] z-30">대분류</th>
+                                <th className="px-3 w-[130px] text-center sticky left-[100px] bg-[#1F1F1E] z-30">세부섹터</th>
+                                <th className="pl-3 w-[300px] sticky left-[230px] bg-[#1F1F1E] z-30 border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)]">대표 업무</th>
+                                <th className="px-2 w-[90px] text-center bg-[#1F1F1E]">PF 전 필요</th>
+                                <th className="px-2 w-[90px] text-center bg-[#1F1F1E]">착공 전 필요</th>
+                                <th className="px-2 w-[90px] text-center bg-[#1F1F1E] border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)]">준공 전 필요</th>
+                                <th className="px-3 w-[110px] text-center bg-[#1F1F1E]">주관 부서</th>
+                                <th className="px-3 w-[140px] text-center bg-[#1F1F1E]">협업 부서</th>
+                                <th className="px-3 w-[130px] text-center bg-[#1F1F1E]">외부 상대방</th>
+                                <th className="px-3 w-[140px] text-center bg-[#1F1F1E]">지원 필요 요건</th>
+                                <th className="px-3 w-[300px] text-left bg-[#1F1F1E]">관리 포인트</th>
+                            </tr>
+                        </thead>
+                        <tbody className="divide-y divide-[#3c3c3c]/60 text-[12px]">
+                            {CATEGORY_MAP_DATA.filter(item => selectedRrCategory === '전체보기' || item.category === selectedRrCategory).map((item, idx) => {
+                                return (
+                                    <tr key={idx} className="hover:bg-[#333] transition-colors h-14 group">
+                                        {/* 대분류 */}
+                                        <td className="px-3 sticky left-0 bg-[#272726] group-hover:bg-[#333] transition-colors z-20 text-center font-bold text-white text-[12px]">
+                                            {item.category}
+                                        </td>
+                                        
+                                        {/* 세부섹터 */}
+                                        <td className="px-3 sticky left-[100px] bg-[#272726] group-hover:bg-[#333] transition-colors z-20 text-center font-bold text-[#E5E5E5] text-[12px] whitespace-normal break-all">
+                                            {item.subsector}
+                                        </td>
+                                        
+                                        {/* 대표 업무 */}
+                                        <td className="pl-3 font-medium text-[#E5E5E5] leading-snug text-left pr-2 whitespace-normal break-all sticky left-[230px] bg-[#272726] group-hover:bg-[#333] transition-colors z-20 border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)] text-[12px]">
+                                            {item.task}
+                                        </td>
+                                        
+                                        {/* PF 전 필요 */}
+                                        <td className="px-2 text-center">
+                                            {item.pf ? (
+                                                <span className="px-2 py-0.5 text-[10.5px] font-bold rounded bg-blue-500/15 text-blue-400 border border-blue-500/30 whitespace-nowrap">필수</span>
+                                            ) : (
+                                                <span className="text-[#555] font-bold">-</span>
+                                            )}
+                                        </td>
 
-                                            {/* 외부 상대방 */}
-                                            <td className="px-2 text-[#A1A1AA] text-center text-[12px] leading-tight whitespace-normal break-all bg-[#272726] group-hover:bg-[#333] transition-colors font-medium">
-                                                {item.partner || '-'}
-                                            </td>
+                                        {/* 착공 전 필요 */}
+                                        <td className="px-2 text-center">
+                                            {item.const ? (
+                                                <span className="px-2 py-0.5 text-[10.5px] font-bold rounded bg-amber-500/15 text-amber-400 border border-amber-500/30 whitespace-nowrap">필수</span>
+                                            ) : (
+                                                <span className="text-[#555] font-bold">-</span>
+                                            )}
+                                        </td>
 
-                                            {/* 지원 필요 */}
-                                            <td className="px-2 text-[#A1A1AA] text-center text-[12px] leading-tight whitespace-normal break-all bg-[#272726] group-hover:bg-[#333] transition-colors font-medium">
-                                                {item.need || '-'}
-                                            </td>
+                                        {/* 준공 전 필요 */}
+                                        <td className="px-2 text-center border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)]">
+                                            {item.op ? (
+                                                <span className="px-2 py-0.5 text-[10.5px] font-bold rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 whitespace-nowrap">필수</span>
+                                            ) : (
+                                                <span className="text-[#555] font-bold">-</span>
+                                            )}
+                                        </td>
 
-                                            {/* 관리 포인트 */}
-                                            <td className="px-2 text-[#F59E0B] text-left text-[12px] leading-tight whitespace-normal break-all bg-[#272726] group-hover:bg-[#333] transition-colors font-semibold border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)]">
-                                                {item.point}
-                                            </td>
+                                        {/* 주관 부서 */}
+                                        <td className="px-3 text-center">
+                                            <span className="px-2.5 py-0.5 rounded font-bold bg-[#2997ff]/10 text-white border border-[#2997ff]/20 text-[11px] whitespace-nowrap">
+                                                {item.lead}
+                                            </span>
+                                        </td>
+                                        
+                                        {/* 협업 부서 */}
+                                        <td className="px-3 text-center">
+                                            <div className="flex flex-wrap gap-1 justify-center">
+                                                {item.coop.map((c, cIdx) => (
+                                                    c && <span key={cIdx} className="px-2 py-0.5 rounded bg-[#1F1F1E] text-[#A1A1AA] border border-[#3c3c3c] text-[11px] whitespace-nowrap">{c}</span>
+                                                ))}
+                                            </div>
+                                        </td>
 
-                                            {/* Grid Columns */}
-                                            {COLUMNS.map((col) => {
-                                                const mark = getRrScheduleMark(item, col.key);
-                                                return (
-                                                    <td key={col.key} className={`text-center ${
-                                                        col.highlight ? 'bg-white/[0.015] group-hover:bg-white/[0.04]' : ''
-                                                    } border-r border-[#4c4c4c]/40`}>
-                                                        {mark === '●' && (
-                                                            <span className="w-3.5 h-3.5 rounded-full bg-[#2997ff] inline-block shadow-sm shadow-[#2997ff]/20"></span>
-                                                        )}
-                                                        {mark === '◆' && (
-                                                            <span className="text-[#F59E0B] font-mono text-[22px] font-extrabold block translate-y-[-1px]">◆</span>
-                                                        )}
-                                                    </td>
-                                                );
-                                            })}
-                                        </tr>
-                                    );
-                                })}
-                            </tbody>
-                        </table>
-                        
-                        {/* 우측 워터마크 영역 */}
-                        <div className="w-[230px] shrink-0 flex items-center justify-start pl-8 pr-4 select-none pointer-events-none box-border">
-                            <div className="text-white opacity-[0.02] font-bold leading-[0.9] tracking-tighter w-full whitespace-nowrap" style={{ fontSize: 'clamp(20px, 3.5vw, 45px)' }}>
-                                R&R Matrix<br />CF Team
-                            </div>
-                        </div>
-                    </div>
+                                        {/* 외부 상대방 */}
+                                        <td className="px-3 text-center text-[#A1A1AA] font-semibold whitespace-normal break-all">
+                                            {item.partner || '-'}
+                                        </td>
+
+                                        {/* 지원 필요 요건 */}
+                                        <td className="px-3 text-center text-[#A1A1AA] font-semibold whitespace-normal break-all">
+                                            {item.need || '-'}
+                                        </td>
+
+                                        {/* 관리 포인트 */}
+                                        <td className="px-3 text-left text-[#F59E0B] font-semibold whitespace-normal break-all">
+                                            {item.point}
+                                        </td>
+                                    </tr>
+                                );
+                            })}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
