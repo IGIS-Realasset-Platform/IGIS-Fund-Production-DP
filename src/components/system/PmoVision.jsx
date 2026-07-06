@@ -511,106 +511,6 @@ export default function PmoVision() {
     },
     {
         "scope": "내부",
-        "category": "인증/보안",
-        "subcategory": "로그인 및 권한 진입",
-        "actor": "사용자",
-        "detail": "사전에 어드민을 통해 등록된 이지스 임직원 이메일로 보안 로그인을 수행할 수 있다.",
-        "main_dept": "IT/기획",
-        "sub_dept": "ALL",
-        "note": "iota_members 매핑"
-    },
-    {
-        "scope": "내부",
-        "category": "인증/보안",
-        "subcategory": "비인증 접근 차단",
-        "actor": "사용자",
-        "detail": "미인증 사용자 혹은 로그인 세션 만료자가 다이렉트 URL로 강제 진입 시 로그인 페이지로 리다이렉션됨을 확인할 수 있다.",
-        "main_dept": "IT/기획",
-        "sub_dept": "-",
-        "note": "보안 인증 가드 적용"
-    },
-    {
-        "scope": "내부",
-        "category": "인증/보안",
-        "subcategory": "부서별 쓰기 통제",
-        "actor": "사용자",
-        "detail": "소속 부서(사업1, 사업2 등) 권한에 맞춰 본인 주관 업무 영역만 수정/쓰기 권한이 활성화되고 타 부서 영역은 읽기만 허용됨을 확인할 수 있다.",
-        "main_dept": "IT/기획",
-        "sub_dept": "ALL",
-        "note": "Supabase RLS 규칙에 의한 차단"
-    },
-    {
-        "scope": "내부",
-        "category": "인증/보안",
-        "subcategory": "세션 폐기",
-        "actor": "사용자",
-        "detail": "로그아웃 버튼 클릭 시 사용자 토큰 및 세션 정보가 완전히 제거되고 로그인 화면으로 즉시 복귀됨을 확인할 수 있다.",
-        "main_dept": "IT/기획",
-        "sub_dept": "-",
-        "note": "완전 세션 삭제 로그"
-    },
-    {
-        "scope": "내부",
-        "category": "모바일 활용",
-        "subcategory": "모바일 태스크 확인",
-        "actor": "실무자/임원",
-        "detail": "이동 중이나 외부 미팅 시 모바일 기기를 통해 부서별 업무 상태 및 담당자를 편리하게 확인할 수 있다.",
-        "main_dept": "ALL",
-        "sub_dept": "ALL",
-        "note": "모바일 최적화 뷰"
-    },
-    {
-        "scope": "내부",
-        "category": "알림 수신",
-        "subcategory": "실시간 알림 수신",
-        "actor": "실무 담당자",
-        "detail": "담당 업무에 병목(Blocker)이 활성화되거나 신규 태스크가 지정되었을 때 실시간 알림을 받아볼 수 있다.",
-        "main_dept": "IT/기획",
-        "sub_dept": "ALL",
-        "note": "백그라운드 메시지 브릿지"
-    },
-    {
-        "scope": "내부",
-        "category": "부서별 업무",
-        "subcategory": "실무 할일 관리",
-        "actor": "실무자",
-        "detail": "본인 부서에 배정된 주관 업무의 상태(신규/진행/완료 등)를 클릭 한 번으로 빠르게 수정할 수 있다.",
-        "main_dept": "ALL",
-        "sub_dept": "ALL",
-        "note": "그리드 내 인라인 최신화"
-    },
-    {
-        "scope": "내부",
-        "category": "부서별 업무",
-        "subcategory": "병목(Blocker) 공유",
-        "actor": "실무자",
-        "detail": "업무 진행 중 지연 리스크가 생기면 원클릭으로 Blocker 경고등을 켜서 전사에 지연 요소를 신속하게 공유할 수 있다.",
-        "main_dept": "ALL",
-        "sub_dept": "ALL",
-        "note": "적색 병목 마커 표출"
-    },
-    {
-        "scope": "내부",
-        "category": "부서별 업무",
-        "subcategory": "업무 현황 검색",
-        "actor": "실무자/임원",
-        "detail": "텍스트 검색창을 통해 수많은 할일 목록 중 특정 프로젝트나 검색어 관련 업무를 실시간으로 필터링하여 조회할 수 있다.",
-        "main_dept": "ALL",
-        "sub_dept": "ALL",
-        "note": "키워드 실시간 매칭"
-    },
-    {
-        "scope": "내부",
-        "category": "비히클 관제",
-        "subcategory": "자금 조달 구조 파악",
-        "actor": "임원/LFC",
-        "detail": "특정 펀드 및 PFV의 에쿼티 비율, 선/후순위 대주단 구성 및 조달 금리 변천사를 시계열 순서로 파악할 수 있다.",
-        "main_dept": "LFC",
-        "sub_dept": "사업 PM",
-        "note": "Capital Stack 모듈"
-    },
-    {
-        "scope": "내부",
         "category": "비히클 관제",
         "subcategory": "재무 리스크 모니터링",
         "actor": "임원/LFC",
@@ -688,6 +588,126 @@ export default function PmoVision() {
         "main_dept": "사업 PM",
         "sub_dept": "LFC",
         "note": "iota_stakeholder_master"
+    },
+    {
+        "scope": "내부",
+        "category": "권한 관리",
+        "subcategory": "부서별 권한 매핑",
+        "actor": "사용자",
+        "detail": "로그인한 사용자의 이메일 및 직급 정보를 식별하여 사업 PM 1, 2 파트원 및 임원진 권한으로 분기 매핑함.",
+        "main_dept": "IT/기획",
+        "sub_dept": "ALL",
+        "note": "iota_members 정보 활용"
+    },
+    {
+        "scope": "내부",
+        "category": "부서별 업무",
+        "subcategory": "사업 PM 업무 관리",
+        "actor": "사업 PM",
+        "detail": "iota_pm_tasks 테이블을 통해 주관 일정, 소싱 타겟, 계약 정보 등의 현황을 상세 등록하고 조회할 수 있음.",
+        "main_dept": "사업 PM",
+        "sub_dept": "All",
+        "note": "부서 전용 필드 제공"
+    },
+    {
+        "scope": "내부",
+        "category": "부서별 업무",
+        "subcategory": "LFC 금융 업무 관리",
+        "actor": "LFC",
+        "detail": "iota_financing_tasks 테이블을 활용하여 PF 조달 구조, 금리, 금융비 및 대주단 매핑 상태를 관리함.",
+        "main_dept": "LFC",
+        "sub_dept": "All",
+        "note": "조달 트랜치별 금리 추적"
+    },
+    {
+        "scope": "내부",
+        "category": "부서별 업무",
+        "subcategory": "개발관리 업무 관리",
+        "actor": "개발관리",
+        "detail": "iota_development_tasks 테이블을 활용하여 건축인허가 단계, 시공 도급 계약, 공사/준공 마일스톤 일정을 기록함.",
+        "main_dept": "개발관리",
+        "sub_dept": "All",
+        "note": "준공 만기일 추적"
+    },
+    {
+        "scope": "내부",
+        "category": "부서별 업무",
+        "subcategory": "마케팅/임차 관리",
+        "actor": "마케팅",
+        "detail": "iota_marketing_tasks 및 iota_fund_tasks 테이블을 통해 마케팅 타겟 테넌트 입점 이력 및 펀드 설정 정보를 관리함.",
+        "main_dept": "마케팅",
+        "sub_dept": "All",
+        "note": "임차 앵커 관리"
+    },
+    {
+        "scope": "내부",
+        "category": "시계열 관리",
+        "subcategory": "주간 스냅샷 아카이빙",
+        "actor": "시스템",
+        "detail": "매주 금요일 퇴근 시점의 실무 업무 원장 상태를 스냅샷 이미지로 아카이빙하여 시계열 변천사를 보존함.",
+        "main_dept": "IT/기획",
+        "sub_dept": "ALL",
+        "note": "iota_weekly_snapshots 활용"
+    },
+    {
+        "scope": "내부",
+        "category": "시계열 관리",
+        "subcategory": "백업 및 이중화",
+        "actor": "시스템",
+        "detail": "Supabase 네트워크 장애에 대비하기 위해 로컬 웹 스토리지에 스냅샷 데이터를 실시간 백업 기동함.",
+        "main_dept": "IT/기획",
+        "sub_dept": "-",
+        "note": "네트워크 단절 방지용 버퍼"
+    },
+    {
+        "scope": "내부",
+        "category": "의사결정",
+        "subcategory": "의사결정 로그 기록",
+        "actor": "임원/어드민",
+        "detail": "론 조건 변경, 수익률 조정, 매각 시기 연기 등 중대한 결정의 배경 사유와 정성적 판단 근거를 영구 기록함.",
+        "main_dept": "IT/기획",
+        "sub_dept": "All",
+        "note": "iota_decision_logs 활용"
+    },
+    {
+        "scope": "내부",
+        "category": "의사결정",
+        "subcategory": "히스토리 잠금",
+        "actor": "어드민",
+        "detail": "기록된 의사결정 로그가 훼손되거나 조작되지 않도록 이력 수정 방지 및 잠금 기능을 제공함.",
+        "main_dept": "IT/기획",
+        "sub_dept": "-",
+        "note": "is_locked 컬럼 RLS 제어"
+    },
+    {
+        "scope": "내부",
+        "category": "협업 관리",
+        "subcategory": "실시간 액션 아이템 배정",
+        "actor": "실무자",
+        "detail": "회의 중 실시간으로 발생한 액션 아이템을 에디터 창을 통해 주관 부서 및 담당자에게 즉시 등록 및 배정함.",
+        "main_dept": "ALL",
+        "sub_dept": "All",
+        "note": "MeetingWriteBox 에디터 활용"
+    },
+    {
+        "scope": "외부",
+        "category": "알림 연동",
+        "subcategory": "스마트 알림 발송",
+        "actor": "시스템",
+        "detail": "업무 원장에 새로운 태스크나 지연 요소(Blocker) 등록 시 지정 부서원 및 임원진에게 메일/메시지를 백그라운드로 발송함.",
+        "main_dept": "IT/기획",
+        "sub_dept": "ALL",
+        "note": "백그라운드 알림 대기열"
+    },
+    {
+        "scope": "외부",
+        "category": "대외 연계",
+        "subcategory": "이해관계자 관리",
+        "actor": "실무자",
+        "detail": "빌딩별 출자자(LP), 시행사, 자산관리 회사 등 주요 파트너 연락처 및 컨택 히스토리를 마스터 테이블로 조회함.",
+        "main_dept": "사업 PM",
+        "sub_dept": "LFC",
+        "note": "iota_stakeholder_master 활용"
     },
     {
         "scope": "내부",
