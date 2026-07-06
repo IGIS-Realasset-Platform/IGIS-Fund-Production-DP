@@ -91,77 +91,81 @@ export default function PmoScheduleGate() {
             {/* Timeline Matrix Grid */}
             <div className="-mr-[calc(50vw-50%)] border border-r-0 border-[#3c3c3c] bg-[#272726] rounded-l-[24px] overflow-hidden">
                 <div className="w-full overflow-x-auto pr-[50px] custom-thin-scrollbar">
-                    <table className="w-full text-left table-fixed min-w-[1750px]">
-                        <thead>
-                            <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[13px] h-12">
-                                <th className="pl-6 w-[140px]">구분</th>
-                                <th className="pl-4 w-[280px]">세부업무</th>
-                                <th className="pl-4 w-[120px]">주관</th>
-                                <th className="pl-4 w-[160px]">협업</th>
-                                {COLUMNS.map(col => (
-                                    <th key={col.key} className="text-center font-mono text-[11px] leading-tight px-1 font-bold w-[90px]">
-                                        {col.label}
-                                    </th>
-                                ))}
-                                {/* 우측 스크롤 마진용 빈 헤더 */}
-                                <th className="w-[150px]"></th>
-                            </tr>
-                        </thead>
-                        <tbody className="divide-y divide-[#3c3c3c] text-[13px]">
-                            {filteredData.map((item, idx) => {
-                                const isGate = item.category === 'Gate';
-                                return (
-                                    <tr key={idx} className="hover:bg-[#333] transition-colors h-14">
-                                        {/* 구분 */}
-                                        <td className="pl-6 font-bold">
-                                            <span className={`px-2.5 py-0.5 rounded-md text-[11px] font-bold ${
-                                                isGate 
-                                                    ? 'bg-[#2997ff]/10 text-[#60a5fa] border border-[#2997ff]/20' 
-                                                    : 'bg-[#a1a1aa]/10 text-[#e4e4e7] border border-[#a1a1aa]/20'
-                                            }`}>
-                                                {item.name}
-                                            </span>
-                                        </td>
-                                        
-                                        {/* 세부업무 */}
-                                        <td className="pl-4 font-medium text-[#E5E5E5] leading-snug text-left pr-2 whitespace-normal break-all">
-                                            {item.desc}
-                                        </td>
-                                        
-                                        {/* 주관 */}
-                                        <td className="pl-4 text-[#E5E5E5] font-semibold text-left">
-                                            {item.lead}
-                                        </td>
-                                        
-                                        {/* 협업 */}
-                                        <td className="pl-4 text-[#86868B] leading-tight text-left pr-2 whitespace-normal break-all">
-                                            {item.coop.split(';').map((c, cIdx) => (
-                                                c && <div key={cIdx} className="text-[11px]">{c}</div>
-                                            ))}
-                                        </td>
+                    <div className="flex items-center min-w-[2100px]">
+                        <table className="text-left table-fixed min-w-[1700px] flex-1">
+                            <thead>
+                                <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[13px] h-12">
+                                    <th className="pl-6 w-[140px]">구분</th>
+                                    <th className="pl-4 w-[280px]">세부업무</th>
+                                    <th className="pl-4 w-[120px]">주관</th>
+                                    <th className="pl-4 w-[160px]">협업</th>
+                                    {COLUMNS.map(col => (
+                                        <th key={col.key} className="text-center font-mono text-[11px] leading-tight px-1 font-bold w-[90px]">
+                                            {col.label}
+                                        </th>
+                                    ))}
+                                </tr>
+                            </thead>
+                            <tbody className="divide-y divide-[#3c3c3c] text-[13px]">
+                                {filteredData.map((item, idx) => {
+                                    const isGate = item.category === 'Gate';
+                                    return (
+                                        <tr key={idx} className="hover:bg-[#333] transition-colors h-14">
+                                            {/* 구분 */}
+                                            <td className="pl-6 font-bold">
+                                                <span className={`px-2.5 py-0.5 rounded-md text-[11px] font-bold ${
+                                                    isGate 
+                                                        ? 'bg-[#2997ff]/10 text-[#60a5fa] border border-[#2997ff]/20' 
+                                                        : 'bg-[#a1a1aa]/10 text-[#e4e4e7] border border-[#a1a1aa]/20'
+                                                }`}>
+                                                    {item.name}
+                                                </span>
+                                            </td>
+                                            
+                                            {/* 세부업무 */}
+                                            <td className="pl-4 font-medium text-[#E5E5E5] leading-snug text-left pr-2 whitespace-normal break-all">
+                                                {item.desc}
+                                            </td>
+                                            
+                                            {/* 주관 */}
+                                            <td className="pl-4 text-[#E5E5E5] font-semibold text-left">
+                                                {item.lead}
+                                            </td>
+                                            
+                                            {/* 협업 */}
+                                            <td className="pl-4 text-[#86868B] leading-tight text-left pr-2 whitespace-normal break-all">
+                                                {item.coop.split(';').map((c, cIdx) => (
+                                                    c && <div key={cIdx} className="text-[11px]">{c}</div>
+                                                ))}
+                                            </td>
 
-                                        {/* Grid Columns */}
-                                        {COLUMNS.map(col => {
-                                            const mark = item.schedule[col.key];
-                                            return (
-                                                <td key={col.key} className="text-center">
-                                                    {mark === '●' && (
-                                                        <span className="w-3.5 h-3.5 rounded-full bg-[#2997ff] inline-block shadow-sm shadow-[#2997ff]/20"></span>
-                                                    )}
-                                                    {mark === '◆' && (
-                                                        <span className="text-[#F59E0B] font-mono text-[16px] font-bold block translate-y-[-1px] animate-pulse">◆</span>
-                                                    )}
-                                                </td>
-                                            );
-                                        })}
-                                        
-                                        {/* 우측 스크롤 마진용 빈 셀 */}
-                                        <td></td>
-                                    </tr>
-                                );
-                            })}
-                        </tbody>
-                    </table>
+                                            {/* Grid Columns */}
+                                            {COLUMNS.map(col => {
+                                                const mark = item.schedule[col.key];
+                                                return (
+                                                    <td key={col.key} className="text-center">
+                                                        {mark === '●' && (
+                                                            <span className="w-3.5 h-3.5 rounded-full bg-[#2997ff] inline-block shadow-sm shadow-[#2997ff]/20"></span>
+                                                        )}
+                                                        {mark === '◆' && (
+                                                            <span className="text-[#F59E0B] font-mono text-[16px] font-bold block translate-y-[-1px] animate-pulse">◆</span>
+                                                        )}
+                                                    </td>
+                                                );
+                                            })}
+                                        </tr>
+                                    );
+                                })}
+                            </tbody>
+                        </table>
+                        
+                        {/* 우측 워터마크 영역 */}
+                        <div className="w-[350px] shrink-0 flex items-center justify-start pl-10 select-none pointer-events-none box-border">
+                            <div className="text-white opacity-[0.04] font-bold leading-[0.9] tracking-tighter w-full" style={{ fontSize: 'clamp(25px, 3.5vw, 65px)' }}>
+                                IOTA Seoul<br />Cross Functional<br />Team
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
