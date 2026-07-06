@@ -510,41 +510,21 @@ export default function PmoVision() {
         "note": "MeetingWriteBox 에디터 활용"
     },
     {
-        "scope": "외부",
-        "category": "알림 연동",
-        "subcategory": "스마트 알림 발송",
-        "actor": "시스템",
-        "detail": "업무 원장에 새로운 태스크나 지연 요소(Blocker) 등록 시 지정 부서원 및 임원진에게 메일/메시지를 백그라운드로 발송함.",
-        "main_dept": "IT/기획",
-        "sub_dept": "ALL",
-        "note": "백그라운드 알림 대기열"
-    },
-    {
-        "scope": "외부",
-        "category": "대외 연계",
-        "subcategory": "이해관계자 관리",
-        "actor": "실무자",
-        "detail": "빌딩별 출자자(LP), 시행사, 자산관리 회사 등 주요 파트너 연락처 및 컨택 히스토리를 마스터 테이블로 조회함.",
-        "main_dept": "사업 PM",
-        "sub_dept": "LFC",
-        "note": "iota_stakeholder_master 활용"
-    },
-    {
         "scope": "내부",
         "category": "사용자 관점 - 인증/보안",
-        "subcategory": "사전 사용자 등록",
+        "subcategory": "로그인 및 권한 진입",
         "actor": "사용자",
-        "detail": "어드민을 통해 사전 등록된 사용자 이메일에 한하여 로그인 및 플랫폼 입장이 가능하다.",
+        "detail": "사전에 어드민을 통해 등록된 이지스 임직원 이메일로 보안 로그인을 수행할 수 있다.",
         "main_dept": "IT/기획",
         "sub_dept": "ALL",
-        "note": "iota_members 테이블과 동치 검증"
+        "note": "iota_members 매핑"
     },
     {
         "scope": "내부",
         "category": "사용자 관점 - 인증/보안",
         "subcategory": "비인증 접근 차단",
         "actor": "사용자",
-        "detail": "미인증 사용자 혹은 로그인 세션 만료자가 다이렉트 URL로 강제 진입 시 로그인 페이지로 리다이렉션된다.",
+        "detail": "미인증 사용자 혹은 로그인 세션 만료자가 다이렉트 URL로 강제 진입 시 로그인 페이지로 리다이렉션됨을 확인할 수 있다.",
         "main_dept": "IT/기획",
         "sub_dept": "-",
         "note": "보안 인증 가드 적용"
@@ -554,7 +534,7 @@ export default function PmoVision() {
         "category": "사용자 관점 - 인증/보안",
         "subcategory": "부서별 쓰기 통제",
         "actor": "사용자",
-        "detail": "소속 부서(사업1, 사업2 등) 권한에 맞춰 본인 주관 업무 영역만 수정/쓰기 권한이 활성화되고 타 부서 영역은 읽기만 허용된다.",
+        "detail": "소속 부서(사업1, 사업2 등) 권한에 맞춰 본인 주관 업무 영역만 수정/쓰기 권한이 활성화되고 타 부서 영역은 읽기만 허용됨을 확인할 수 있다.",
         "main_dept": "IT/기획",
         "sub_dept": "ALL",
         "note": "Supabase RLS 규칙에 의한 차단"
@@ -564,107 +544,107 @@ export default function PmoVision() {
         "category": "사용자 관점 - 인증/보안",
         "subcategory": "세션 폐기",
         "actor": "사용자",
-        "detail": "로그아웃 버튼 클릭 시 사용자 토큰 및 세션 정보가 완전히 제거되고 로그인 화면으로 즉시 복귀한다.",
+        "detail": "로그아웃 버튼 클릭 시 사용자 토큰 및 세션 정보가 완전히 제거되고 로그인 화면으로 즉시 복귀됨을 확인할 수 있다.",
         "main_dept": "IT/기획",
         "sub_dept": "-",
         "note": "완전 세션 삭제 로그"
     },
     {
         "scope": "내부",
-        "category": "사용자 관점 - 부서별 업무",
-        "subcategory": "신규 태스크 등록",
-        "actor": "실무자",
-        "detail": "본인 부서 워크스페이스 그리드 상에서 업무명, 마감일, 담당자, 진행 현황을 즉시 추가 및 등록할 수 있다.",
+        "category": "사용자 관점 - 모바일 활용",
+        "subcategory": "모바일 태스크 확인",
+        "actor": "실무자/임원",
+        "detail": "이동 중이나 외부 미팅 시 모바일 기기를 통해 부서별 업무 상태 및 담당자를 편리하게 확인할 수 있다.",
         "main_dept": "ALL",
-        "sub_dept": "All",
-        "note": "인라인 등록 컴포넌트 연동"
+        "sub_dept": "ALL",
+        "note": "모바일 최적화 뷰"
+    },
+    {
+        "scope": "내부",
+        "category": "사용자 관점 - 알림 수신",
+        "subcategory": "실시간 알림 수신",
+        "actor": "실무 담당자",
+        "detail": "담당 업무에 병목(Blocker)이 활성화되거나 신규 태스크가 지정되었을 때 실시간 알림을 받아볼 수 있다.",
+        "main_dept": "IT/기획",
+        "sub_dept": "ALL",
+        "note": "백그라운드 메시지 브릿지"
     },
     {
         "scope": "내부",
         "category": "사용자 관점 - 부서별 업무",
-        "subcategory": "업무 상태 편집",
+        "subcategory": "실무 할일 관리",
         "actor": "실무자",
-        "detail": "업무 진행 상태(신규/진행중/보류/완료)를 상세 창을 켜지 않고 메인 화면 드롭다운 클릭만으로 고속 최신화한다.",
+        "detail": "본인 부서에 배정된 주관 업무의 상태(신규/진행/완료 등)를 클릭 한 번으로 빠르게 수정할 수 있다.",
         "main_dept": "ALL",
-        "sub_dept": "All",
-        "note": "비동기 실시간 저장 연동"
+        "sub_dept": "ALL",
+        "note": "그리드 내 인라인 최신화"
     },
     {
         "scope": "내부",
         "category": "사용자 관점 - 부서별 업무",
-        "subcategory": "병목(Blocker) 경고",
+        "subcategory": "병목(Blocker) 공유",
         "actor": "실무자",
-        "detail": "지연 리스크가 높거나 타 부서 협업이 지연되는 안건에 'Blocker' 표시를 활성화하여 대시보드에 즉시 경고등을 표출한다.",
+        "detail": "업무 진행 중 지연 리스크가 생기면 원클릭으로 Blocker 경고등을 켜서 전사에 지연 요소를 신속하게 공유할 수 있다.",
         "main_dept": "ALL",
-        "sub_dept": "All",
-        "note": "적색 위험 마커 표시"
+        "sub_dept": "ALL",
+        "note": "적색 병목 마커 표출"
     },
     {
         "scope": "내부",
         "category": "사용자 관점 - 부서별 업무",
-        "subcategory": "지연 리스크 환기",
-        "actor": "실무자",
-        "detail": "마감 기한이 초과된 미완료 업무는 상태 필드가 적색 경고 테두리로 시각화되어 리스크가 직관적으로 부각된다.",
+        "subcategory": "업무 현황 검색",
+        "actor": "실무자/임원",
+        "detail": "텍스트 검색창을 통해 수많은 할일 목록 중 특정 프로젝트나 검색어 관련 업무를 실시간으로 필터링하여 조회할 수 있다.",
         "main_dept": "ALL",
-        "sub_dept": "All",
-        "note": "마감 계산 조건부 서식"
-    },
-    {
-        "scope": "내부",
-        "category": "사용자 관점 - 부서별 업무",
-        "subcategory": "실시간 검색",
-        "actor": "실무자",
-        "detail": "업무량이 많을 경우 검색창에 키워드를 입력하여 관련 태스크와 마일스톤을 타이핑 즉시 필터링 조회한다.",
-        "main_dept": "ALL",
-        "sub_dept": "All",
-        "note": "검색 및 스코프 복합 필터링"
+        "sub_dept": "ALL",
+        "note": "키워드 실시간 매칭"
     },
     {
         "scope": "내부",
         "category": "사용자 관점 - 비히클 관제",
-        "subcategory": "에쿼티/대출 스택 추적",
+        "subcategory": "자금 조달 구조 파악",
         "actor": "임원/LFC",
-        "detail": "특정 PFV나 펀드를 선택하면 브릿지론에서 본 PF, 리파이낸싱으로 전환되는 구조를 시간 순서대로 영구 추적한다.",
+        "detail": "특정 펀드 및 PFV의 에쿼티 비율, 선/후순위 대주단 구성 및 조달 금리 변천사를 시계열 순서로 파악할 수 있다.",
         "main_dept": "LFC",
         "sub_dept": "사업 PM",
-        "note": "Capital Stack 모듈 활용"
+        "note": "Capital Stack 모듈"
     },
     {
         "scope": "내부",
         "category": "사용자 관점 - 비히클 관제",
-        "subcategory": "조달 금리 및 보수 모니터링",
+        "subcategory": "재무 리스크 모니터링",
         "actor": "임원/LFC",
-        "detail": "비히클별 조달 금리 이력과 금융사 참여율을 도표로 조회하여 금융비 리스크 및 보수 수익 타당성을 역산한다.",
+        "detail": "비히클별 기금 인출(Drawdown) 시점과 이자 납입 일정을 연계하여 재무적 리스크를 선제적으로 모니터링할 수 있다.",
         "main_dept": "LFC",
         "sub_dept": "ALL",
-        "note": "금리 변천사 누적 히스토리"
+        "note": "인출 스케줄 아카이브"
     },
     {
         "scope": "내부",
         "category": "사용자 관점 - 비히클 관제",
-        "subcategory": "생애주기 일정 관리",
+        "subcategory": "자산 마일스톤 점검",
         "actor": "임원/사업",
-        "detail": "토지 매입일, 착공일, 준공 예정일, 대출 만기일 등 자산 생애주기 일정을 아카이브 캘린더를 통해 점검한다.",
+        "detail": "토지 매입일, 착공일, 준공 예정일, 대출 만기일 등 자산 생애주기 일정을 한눈에 점검할 수 있다.",
         "main_dept": "사업 PM",
         "sub_dept": "개발관리",
-        "note": "일정 경과 시계열 알림"
+        "note": "시계열 일정 아카이브"
     },
     {
         "scope": "내부",
         "category": "사용자 관점 - 의사결정 맥락",
-        "subcategory": "의사결정 정성적 근거 기록",
+        "subcategory": "의사결정 판단 근거 기록",
         "actor": "실무자/임원",
-        "detail": "PF 금리 인상, 시공 도급 조건 변경 등 핵심 조건 변경 시 배경 사유와 정성적 판단 근거를 텍스트로 보존한다.",
+        "detail": "PF 금리 인상, 시공 도급 조건 변경 등 핵심 조건 변경 시 배경 사유와 정성적인 의사결정 판단 근거를 기록할 수 있다.",
         "main_dept": "ALL",
         "sub_dept": "ALL",
-        "note": "Context Graph 구현 기초"
+        "note": "Context Graph 엔진"
     },
     {
         "scope": "내부",
         "category": "사용자 관점 - 의사결정 맥락",
-        "subcategory": "이력 위변조 방지 잠금",
+        "subcategory": "기록 위변조 방지",
         "actor": "어드민",
-        "detail": "등록 완료된 의사결정 기록은 RLS 정책에 의해 자동 잠금 처리되어 위변조가 방지되고 어드민만 잠금을 해제할 수 있다.",
+        "detail": "중요 결정 사안의 임의 조작을 막기 위해 의사결정 로그가 작성되는 즉시 이력을 자동 잠금(Lock)할 수 있다.",
         "main_dept": "IT/기획",
         "sub_dept": "-",
         "note": "is_locked 컬럼 기반 RLS"
@@ -672,42 +652,42 @@ export default function PmoVision() {
     {
         "scope": "내부",
         "category": "사용자 관점 - 의사결정 맥락",
-        "subcategory": "회의록 액션 배정",
-        "actor": "실무자",
-        "detail": "회의 중 발생한 의결 사항을 회의록 창에서 즉시 부서 태스크로 연동 내보내기하여 실무자에게 할당한다.",
+        "subcategory": "회의록 태스크 배정",
+        "actor": "회의 참석자",
+        "detail": "회의 진행 중 즉석에서 액션 아이템을 주관 부서와 담당자에게 등록 및 배정하여 실무 테이블로 보낼 수 있다.",
         "main_dept": "ALL",
-        "sub_dept": "All",
+        "sub_dept": "ALL",
         "note": "MeetingWriteBox 연동"
     },
     {
         "scope": "내부",
-        "category": "사용자 관점 - 스냅샷/알림",
-        "subcategory": "주간 상태 아카이빙",
-        "actor": "임원",
-        "detail": "매주 금요일 퇴근 시점 기준으로 전 부서의 업무 원장이 자동 캡처 보존되므로, 매주 변동 내역을 월요일 오전에 자동 비교한다.",
+        "category": "사용자 관점 - 스냅샷/백업",
+        "subcategory": "주간 단위 상태 비교",
+        "actor": "임원/어드민",
+        "detail": "매주 금요일 퇴근 시점 기준으로 전사 업무 현황 원장이 자동 캡처 보존되므로 주간 단위 업무 변동 내역을 편리하게 비교 파악할 수 있다.",
         "main_dept": "IT/기획",
         "sub_dept": "ALL",
-        "note": "iota_weekly_snapshots 자동 백업"
+        "note": "iota_weekly_snapshots"
     },
     {
         "scope": "내부",
-        "category": "사용자 관점 - 스냅샷/알림",
-        "subcategory": "실시간 알림 발송",
-        "actor": "실무자",
-        "detail": "Blocker가 체크되거나 중요 마일스톤이 변경되었을 때, 담당자에게 메일/메시지가 실시간 백그라운드로 자동 발송된다.",
+        "category": "사용자 관점 - 스냅샷/백업",
+        "subcategory": "네트워크 단절 방지",
+        "actor": "사용자",
+        "detail": "네트워크 단절이나 데이터베이스 장애 시에도 로컬 브라우저에 저장된 데이터 버퍼를 통해 실시간으로 작업 내역을 백업 보존할 수 있다.",
         "main_dept": "IT/기획",
-        "sub_dept": "ALL",
-        "note": "스마트 푸시 알림 연동"
+        "sub_dept": "-",
+        "note": "로컬 웹 스토리지 백업"
     },
     {
         "scope": "내부",
         "category": "사용자 관점 - 이해관계자",
-        "subcategory": "대외 인물 마스터 브릿지",
+        "subcategory": "파트너 연락처 조회",
         "actor": "실무자",
-        "detail": "자산 시행사, PM사, 대주단 금융 기관, 주요 출자자(LP) 연락처 및 컨택 역사를 마스터 카드 형태 팝업으로 통합 조회한다.",
+        "detail": "자산별 시행사, 설계사, 대주단 금융기관 등 주요 이해관계자들의 비상 연락처 및 특이사항을 빠르게 조회할 수 있다.",
         "main_dept": "사업 PM",
         "sub_dept": "LFC",
-        "note": "iota_stakeholder_master 연동"
+        "note": "iota_stakeholder_master"
     }
 ];
     const schemaFieldsData = [
