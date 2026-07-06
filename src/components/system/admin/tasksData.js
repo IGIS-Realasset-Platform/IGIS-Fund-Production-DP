@@ -1077,5 +1077,16 @@ export const tasksData = [
     "작업 유형": "인프라 및 배포",
     "URL": "archive/phase1-stable / .env.staging",
     "내용 상세": "# [IOTA 서울 CFT] IOTA CFT Phase 2 독립 Staging 테스트 환경 구축 및 브랜치 백업\n\nPhase 2의 전면적 UX 개편을 상용 가동 환경 및 데이터베이스와 격리하여 검증할 수 있도록 Staging 샌드박스를 구축함.\n\n## 주요 작업 내역\n\n1. 기존 Phase 1 상용 안정 소스 코드 브랜치 백업\n- 현재 `main` 브랜치를 기준으로 `archive/phase1-stable` 브랜치를 분리 및 동결 백업 완료.\n\n2. 로컬 테스트 및 Staging 개발 환경 격리\n- Vite 개발 포트를 기존 `8081`과 겹치지 않는 `8082` Staging 전용 포트로 분리 세팅."
+  },
+  {
+    "대분류": "플랫폼 아키텍처",
+    "작업 이름": "IOTA CFT Phase 2 기준값 마스터 및 메인 테이블 스펙 정의 및 DB 구축",
+    "상태": "진행중",
+    "담당자": "전기영",
+    "마감일": "2026/07/06",
+    "우선순위": "최고",
+    "작업 유형": "DB 설계 및 쿼리",
+    "URL": "schema_phase2_staging.sql / staging schema",
+    "내용 상세": "# [IOTA 서울 CFT] IOTA CFT Phase 2 기준값 마스터 및 메인 테이블 스펙 정의 및 DB 구축\n\n동적인 기준값(99_기준값)을 데이터베이스 테이블로 구조화하고, 메인 PMO 원장 테이블과의 외래키(FK) 연동을 설계하여 Staging DB에 적용함.\n\n## 주요 작업 내역\n\n1. 기준값 마스터 테이블 스펙 정의 및 생성\n- 부서 정보(`iota_departments`), 프로젝트 정보(`iota_projects`), 외부 상대방 정보(`iota_stakeholders`) 등의 뼈대 설계.\n- 엑셀의 '99_기준값' 데이터를 추출하여 마스터 테이블에 적재.\n\n2. 메인 PMO 원장 테이블 및 RLS 적용\n- `iota_pmo_tasks`와 `iota_pmo_popup_requests` 테이블 스펙 설계 및 외래키 연동.\n- 사용자 세션 기반 부서별 쓰기 제한 RLS 정책 설정."
   }
 ];
