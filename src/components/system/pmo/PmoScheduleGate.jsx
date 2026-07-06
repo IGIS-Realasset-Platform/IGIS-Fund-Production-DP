@@ -115,7 +115,7 @@ export default function PmoScheduleGate() {
                                     {COLUMNS.map((col, cIdx) => (
                                         <th key={col.key} className={`text-center font-mono text-[11px] leading-tight px-1 font-bold w-[90px] border-r border-[#4c4c4c]/50 ${
                                             col.highlight ? 'bg-white/[0.03] text-[#60a5fa] border-x border-[#4c4c4c]' : 'text-[#86868B]'
-                                        } ${cIdx === COLUMNS.length - 1 ? 'border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)]' : ''}`}>
+                                        } ${cIdx === COLUMNS.length - 1 ? 'border-r border-[#3c3c3c]' : ''}`}>
                                             <div>{col.labelTop}</div>
                                             {col.labelBottom && <div className="text-[11px] opacity-75 mt-0.5">{col.labelBottom}</div>}
                                         </th>
@@ -161,7 +161,7 @@ export default function PmoScheduleGate() {
                                                 return (
                                                     <td key={col.key} className={`text-center border-r border-[#4c4c4c]/40 ${
                                                         col.highlight ? 'bg-white/[0.015] group-hover:bg-white/[0.04]' : ''
-                                                    } ${cIdx === COLUMNS.length - 1 ? 'border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)]' : ''}`}>
+                                                    } ${cIdx === COLUMNS.length - 1 ? 'border-r border-[#3c3c3c]' : ''}`}>
                                                         {mark === '●' && (
                                                             <span className="w-3.5 h-3.5 rounded-full bg-[#2997ff] inline-block shadow-sm shadow-[#2997ff]/20"></span>
                                                         )}
