@@ -2,9 +2,23 @@ import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 
 export default function PmoVision() {
-    const { memberInfo } = useAuth();
+    const { memberInfo, loading } = useAuth();
     const [selectedMenu, setSelectedMenu] = useState('ifpdp-proposal');
     const [copied, setCopied] = useState(false);
+
+    // Debugging print to help trace if auth fails or is empty
+    console.log("PmoVision Auth Info:", { loading, memberInfo });
+
+    if (loading) {
+        return (
+            <div className="w-full h-screen bg-[#08080A] flex flex-col items-center justify-center text-[#E5E5E5] font-sans">
+                <div className="flex flex-col items-center gap-3">
+                    <div className="w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                    <span className="text-[13px] text-gray-500">인증 세션 확인 중...</span>
+                </div>
+            </div>
+        );
+    }
 
     // Only allow '전기영' to access this page
     const isAuthorized = memberInfo?.staff_name === '전기영';

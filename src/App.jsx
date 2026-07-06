@@ -84,7 +84,7 @@ export default function App() {
           return;
       }
 
-      if (!loading && !user && (currentPage.startsWith('platform/iotaseoul') || currentPage.startsWith('mobile')) && !recoveryMode) {
+      if (!loading && !user && (currentPage.startsWith('platform') || currentPage.startsWith('mobile')) && !recoveryMode) {
           navigateTo('auth-setup');
           return;
       }
@@ -98,7 +98,7 @@ export default function App() {
           
           const forcePC = localStorage.getItem('force_pc_mode') === 'true';
 
-          if (isMobile && !forcePC && currentPage.startsWith('platform/iotaseoul')) {
+          if (isMobile && !forcePC && currentPage.startsWith('platform')) {
               navigateTo('mobile');
           } else if (forcePC && currentPage.startsWith('mobile')) {
               navigateTo('platform/iotaseoul/workflow');
