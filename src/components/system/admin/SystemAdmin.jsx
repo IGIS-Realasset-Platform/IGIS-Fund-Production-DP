@@ -685,6 +685,7 @@ function ProjectTasksView() {
     const [searchTerm, setSearchTerm] = useState('');
     const [categoryFilter, setCategoryFilter] = useState('전체');
     const [priorityFilter, setPriorityFilter] = useState('전체');
+    const [phaseFilter, setPhaseFilter] = useState('전체');
     const [sortOrder, setSortOrder] = useState('latest'); // 'latest' or 'oldest'
     const [visibleCount, setVisibleCount] = useState(40);
     const [expandedTaskId, setExpandedTaskId] = useState(null);
@@ -694,7 +695,7 @@ function ProjectTasksView() {
     useEffect(() => {
         setVisibleCount(40);
         setExpandedTaskId(null);
-    }, [searchTerm, categoryFilter, priorityFilter, sortOrder]);
+    }, [searchTerm, categoryFilter, priorityFilter, phaseFilter, sortOrder]);
 
     const categories = ['전체', ...new Set(tasksData.map(t => t['대분류']).filter(Boolean))];
     const priorities = ['전체', '최고', '높음 이상', '보통 이상', '낮음 이상'];
@@ -742,7 +743,10 @@ function ProjectTasksView() {
             }
         }
 
-        return matchesSearch && matchesCategory && matchesPriority;
+        const isP2 = (task['작업 이름'] || '').includes('Phase 2') || (task['내용 상세'] || '').includes('Phase 2');
+        const matchesPhase = phaseFilter === '전체' || (phaseFilter === 'Phase 2' && isP2) || (phaseFilter === 'Phase 1' && !isP2);
+
+        return matchesSearch && matchesCategory && matchesPriority && matchesPhase;
     });
 
     const sortedTasks = [...filteredTasks].sort((a, b) => {
@@ -813,7 +817,7 @@ function ProjectTasksView() {
             </div>
 
             {/* Filter Bar */}
-            <div className="bg-white dark:bg-[#1C1C1E] border border-black/10 dark:border-white/10 rounded-2xl p-5 shadow-sm flex flex-col md:flex-row gap-4">
+            <div className="bg-white dark:bg-[#1C1C1E] border border-black/10 dark:border-white/10 rounded-2xl p-5 shadow-sm flex flex-col lg:flex-row gap-4">
                 <div className="flex-1 relative">
                     <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#86868B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -826,7 +830,18 @@ function ProjectTasksView() {
                         className="w-full bg-[#F5F5F7] dark:bg-[#2C2C2E] border-transparent focus:border-black/20 dark:focus:border-white/20 rounded-xl pl-11 pr-4 py-2.5 text-[14px] text-[#1D1D1F] dark:text-[#E5E5E5] outline-none transition-colors"
                     />
                 </div>
-                <div className="flex gap-4">
+                <div className="flex flex-wrap gap-3">
+                    <div className="flex flex-col">
+                        <select 
+                            value={phaseFilter}
+                            onChange={(e) => setPhaseFilter(e.target.value)}
+                            className="bg-[#F5F5F7] dark:bg-[#2C2C2E] text-[#1D1D1F] dark:text-white border-transparent focus:border-black/20 dark:focus:border-white/20 rounded-xl px-4 py-2.5 text-[14px] outline-none transition-colors cursor-pointer font-semibold"
+                        >
+                            <option value="전체">구분: 전체</option>
+                            <option value="Phase 1">Phase 1 (Production)</option>
+                            <option value="Phase 2">Phase 2 (Staging)</option>
+                        </select>
+                    </div>
                     <div className="flex flex-col">
                         <select 
                             value={categoryFilter}
@@ -891,9 +906,16 @@ function ProjectTasksView() {
                                             </td>
                                             <td className="py-4 px-6">
                                                 <div className="flex flex-col">
-                                                    <span className={`text-[15px] font-semibold leading-snug ${getTitleColorClass(task['우선순위'])}`}>
-                                                        {task['작업 이름']}
-                                                    </span>
+                                                    <div className="flex items-center gap-2 flex-wrap">
+                                                        <span className={`text-[15px] font-semibold leading-snug ${getTitleColorClass(task['우선순위'])}`}>
+                                                            {task['작업 이름']}
+                                                        </span>
+                                                        {((task['작업 이름'] || '').includes('Phase 2') || (task['내용 상세'] || '').includes('Phase 2')) ? (
+                                                            <span className="px-1.5 py-0.5 text-[10px] font-bold rounded bg-blue-500/10 text-blue-500 border border-blue-500/20 whitespace-nowrap">Phase 2</span>
+                                                        ) : (
+                                                            <span className="px-1.5 py-0.5 text-[10px] font-bold rounded bg-zinc-500/10 text-zinc-500 border border-zinc-500/20 whitespace-nowrap">Phase 1</span>
+                                                        )}
+                                                    </div>
                                                     <span className="text-[12px] text-[#86868B] mt-0.5 font-medium">
                                                         {task['작업 유형']} {task['URL'] && `· ${task['URL']}`}
                                                     </span>
