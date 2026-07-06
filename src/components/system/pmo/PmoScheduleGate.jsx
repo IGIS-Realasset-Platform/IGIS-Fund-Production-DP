@@ -91,7 +91,7 @@ export default function PmoScheduleGate() {
             {/* Timeline Matrix Grid */}
             <div className="-mr-[calc(50vw-50%)] border border-r-0 border-[#3c3c3c] bg-[#272726] rounded-l-[24px] overflow-hidden">
                 <div className="w-full overflow-x-auto pr-[50px] custom-thin-scrollbar">
-                    <div className="flex items-center min-w-[2100px]">
+                    <div className="flex items-center min-w-[2400px]">
                         <table className="text-left table-fixed min-w-[1700px] flex-1">
                             <thead>
                                 <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[13px] h-12">
@@ -160,8 +160,8 @@ export default function PmoScheduleGate() {
                         </table>
                         
                         {/* 우측 워터마크 영역 */}
-                        <div className="w-[350px] shrink-0 flex items-center justify-start pl-10 select-none pointer-events-none box-border">
-                            <div className="text-white opacity-[0.04] font-bold leading-[0.9] tracking-tighter w-full" style={{ fontSize: 'clamp(25px, 3.5vw, 65px)' }}>
+                        <div className="w-[600px] shrink-0 flex items-center justify-start pl-16 pr-8 select-none pointer-events-none box-border">
+                            <div className="text-white opacity-[0.04] font-bold leading-[0.9] tracking-tighter w-full" style={{ fontSize: 'clamp(35px, 6vw, 100px)' }}>
                                 IOTA Seoul<br />Cross Functional<br />Team
                             </div>
                         </div>
