@@ -45,13 +45,13 @@ export default function PmoScheduleGate() {
         if (name.startsWith('G') && name.includes(' ')) {
             const parts = name.split(' ');
             return (
-                <div className="leading-[1.1] text-center">
-                    <div className="text-[12px] font-bold">{parts[0]}</div>
-                    <div className="text-[9px] mt-0.5 opacity-90">{parts[1]}</div>
+                <div className="leading-[1.2] text-center">
+                    <div className="text-[11px] font-bold">{parts[0]}</div>
+                    <div className="text-[11px] font-bold mt-0.5 opacity-90">{parts[1]}</div>
                 </div>
             );
         }
-        return <div className="text-center text-[11px] leading-tight">{name}</div>;
+        return <div className="text-center text-[11px] font-bold">{name}</div>;
     };
 
     return (
@@ -104,18 +104,18 @@ export default function PmoScheduleGate() {
             {/* Timeline Matrix Grid */}
             <div className="-mr-[calc(50vw-50%)] border border-r-0 border-[#3c3c3c] bg-[#272726] rounded-l-[24px] overflow-hidden">
                 <div className="w-full overflow-x-auto pr-0 custom-thin-scrollbar">
-                    <div className="flex items-center min-w-[2100px]">
-                        <table className="text-left table-fixed min-w-[1300px] flex-1">
+                    <div className="flex items-center min-w-[2350px]">
+                        <table className="text-left table-fixed min-w-[1550px] flex-1">
                             <thead>
                                 <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[13px] h-12">
-                                    <th className="px-2 w-[90px] text-center sticky left-0 bg-[#272726] z-30">구분</th>
-                                    <th className="pl-4 w-[280px] sticky left-[90px] bg-[#272726] z-30">세부업무</th>
-                                    <th className="px-2 w-[90px] text-center sticky left-[370px] bg-[#272726] z-30">주관</th>
-                                    <th className="px-2 w-[110px] text-left sticky left-[460px] bg-[#272726] z-30 border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)]">협업</th>
+                                    <th className="px-2 w-[100px] text-center sticky left-0 bg-[#272726] z-30">구분</th>
+                                    <th className="pl-4 w-[280px] sticky left-[100px] bg-[#272726] z-30">세부업무</th>
+                                    <th className="px-2 w-[110px] text-center sticky left-[380px] bg-[#272726] z-30">주관</th>
+                                    <th className="px-2 w-[140px] text-left sticky left-[490px] bg-[#272726] z-30 border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)]">협업</th>
                                     {COLUMNS.map(col => (
-                                        <th key={col.key} className="text-center font-mono text-[11px] leading-tight px-1 font-bold w-[70px]">
+                                        <th key={col.key} className="text-center font-mono text-[11px] leading-tight px-1 font-bold w-[90px]">
                                             <div>{col.labelTop}</div>
-                                            <div className="text-[9px] opacity-70 mt-0.5">{col.labelBottom}</div>
+                                            <div className="text-[11px] opacity-75 mt-0.5">{col.labelBottom}</div>
                                         </th>
                                     ))}
                                 </tr>
@@ -137,19 +137,19 @@ export default function PmoScheduleGate() {
                                             </td>
                                             
                                             {/* 세부업무 */}
-                                            <td className="pl-4 font-medium text-[#E5E5E5] leading-snug text-left pr-2 whitespace-normal break-all sticky left-[90px] bg-[#272726] group-hover:bg-[#333] transition-colors z-20">
+                                            <td className="pl-4 font-medium text-[#E5E5E5] leading-snug text-left pr-2 whitespace-normal break-all sticky left-[100px] bg-[#272726] group-hover:bg-[#333] transition-colors z-20">
                                                 {item.desc}
                                             </td>
                                             
                                             {/* 주관 */}
-                                            <td className="px-2 text-[#E5E5E5] font-semibold text-center sticky left-[370px] bg-[#272726] group-hover:bg-[#333] transition-colors z-20 text-[12px] leading-tight whitespace-normal break-all">
+                                            <td className="px-2 text-[#E5E5E5] font-semibold text-center sticky left-[380px] bg-[#272726] group-hover:bg-[#333] transition-colors z-20 text-[13px] leading-tight whitespace-normal break-all">
                                                 {item.lead}
                                             </td>
                                             
                                             {/* 협업 */}
-                                            <td className="px-2 text-[#86868B] leading-tight text-left pr-2 whitespace-normal break-all sticky left-[460px] bg-[#272726] group-hover:bg-[#333] transition-colors z-20 border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)]">
+                                            <td className="px-2 text-[#86868B] leading-tight text-left pr-2 whitespace-normal break-all sticky left-[490px] bg-[#272726] group-hover:bg-[#333] transition-colors z-20 border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)]">
                                                 {item.coop.split(';').map((c, cIdx) => (
-                                                    c && <div key={cIdx} className="text-[10px]">{c}</div>
+                                                    c && <div key={cIdx} className="text-[11px]">{c}</div>
                                                 ))}
                                             </td>
 
