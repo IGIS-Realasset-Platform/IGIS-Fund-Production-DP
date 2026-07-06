@@ -541,7 +541,7 @@ export default function PmoScheduleGate() {
             </div>
 
             {/* Category Map & R&R Section */}
-            <div className="w-full flex flex-col sm:flex-row sm:items-center justify-between gap-4 mt-[64px] border-t border-[#3c3c3c] pt-[48px] mb-[28px]">
+            <div className="w-full flex flex-col sm:flex-row sm:items-center justify-between gap-4 mt-[48px] mb-[20px]">
                 <h2 className="text-[26px] font-bold text-white tracking-tight leading-none text-left">R&R</h2>
                 
                 {/* Category Selector Tabs */}
@@ -564,23 +564,23 @@ export default function PmoScheduleGate() {
             </div>
 
             {/* R&R Matrix Table */}
-            <div className="-mr-[calc(50vw-50%)] border border-r-0 border-[#3c3c3c] bg-[#272726] rounded-l-[24px] overflow-hidden mb-[40px] shadow-sm">
+            <div className="-mr-[calc(50vw-50%)] border border-r-0 border-[#3c3c3c] bg-[#272726] rounded-l-[24px] overflow-hidden mb-[40px] shadow-sm min-h-[1110px]">
                 <div className="w-full overflow-x-auto pr-0 timeline-scrollbar">
-                    <div className="flex items-center min-w-[2260px]">
-                        <table className="text-left table-fixed min-w-[1460px] flex-1 border-collapse">
+                    <div className="flex items-center min-w-[2245px]">
+                        <table className="text-left table-fixed min-w-[1445px] flex-1 border-collapse">
                             <thead>
-                                <tr className="border-b border-[#3c3c3c] bg-[#1F1F1E] text-[#86868B] font-bold text-[12px] h-12">
-                                    <th className="px-3 w-[100px] text-center sticky left-0 bg-[#1F1F1E] z-30">대분류</th>
-                                    <th className="px-3 w-[120px] text-center sticky left-[100px] bg-[#1F1F1E] z-30">세부섹터</th>
-                                    <th className="pl-3 w-[230px] sticky left-[220px] bg-[#1F1F1E] z-30 border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)]">대표 업무</th>
-                                    <th className="px-2 w-[90px] text-center bg-[#1F1F1E]">PF 전 필요</th>
-                                    <th className="px-2 w-[90px] text-center bg-[#1F1F1E]">착공 전 필요</th>
-                                    <th className="px-2 w-[90px] text-center bg-[#1F1F1E] border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)]">준공 전 필요</th>
-                                    <th className="pl-3 w-[110px] text-left bg-[#1F1F1E]">주관 부서</th>
-                                    <th className="pl-3 w-[140px] text-left bg-[#1F1F1E]">협업 부서</th>
-                                    <th className="px-3 w-[110px] text-center bg-[#1F1F1E]">외부 상대방</th>
-                                    <th className="px-3 w-[120px] text-center bg-[#1F1F1E]">지원 필요 요건</th>
-                                    <th className="px-3 w-[260px] text-left bg-[#1F1F1E]">관리 포인트</th>
+                                <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[12px] h-12">
+                                    <th className="px-3 w-[110px] min-w-[110px] max-w-[110px] text-center sticky left-0 bg-[#272726] z-30">대분류</th>
+                                    <th className="px-3 w-[130px] min-w-[130px] max-w-[130px] text-center sticky left-[110px] bg-[#272726] z-30">세부섹터</th>
+                                    <th className="pl-3 w-[230px] min-w-[230px] max-w-[230px] sticky left-[240px] bg-[#272726] z-30 border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)]">대표 업무</th>
+                                    <th className="px-2 w-[75px] min-w-[75px] max-w-[75px] text-center bg-[#272726] text-[11px] leading-tight">PF 전<br />필요</th>
+                                    <th className="px-2 w-[75px] min-w-[75px] max-w-[75px] text-center bg-[#272726] text-[11px] leading-tight">착공 전<br />필요</th>
+                                    <th className="px-2 w-[75px] min-w-[75px] max-w-[75px] text-center bg-[#272726] text-[11px] leading-tight border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)]">준공 전<br />필요</th>
+                                    <th className="pl-3 w-[110px] min-w-[110px] max-w-[110px] text-left bg-[#272726]">주관 부서</th>
+                                    <th className="pl-3 w-[140px] min-w-[140px] max-w-[140px] text-left bg-[#272726]">협업 부서</th>
+                                    <th className="px-3 w-[120px] min-w-[120px] max-w-[120px] text-center bg-[#272726]">외부 상대방</th>
+                                    <th className="px-3 w-[120px] min-w-[120px] max-w-[120px] text-center bg-[#272726]">지원 필요 요건</th>
+                                    <th className="px-3 w-[260px] min-w-[260px] max-w-[260px] text-left bg-[#272726]">관리 포인트</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-[#3c3c3c]/60 text-[12px]">
@@ -588,22 +588,22 @@ export default function PmoScheduleGate() {
                                     return (
                                         <tr key={idx} className="hover:bg-[#333] transition-colors h-11 group">
                                             {/* 대분류 */}
-                                            <td className="px-3 sticky left-0 bg-[#272726] group-hover:bg-[#333] transition-colors z-20 text-center font-bold text-white text-[12px]">
+                                            <td className="px-3 sticky left-0 bg-[#272726] group-hover:bg-[#333] transition-colors z-20 text-center font-bold text-white text-[12px] w-[110px] min-w-[110px] max-w-[110px]">
                                                 {item.category}
                                             </td>
                                             
                                             {/* 세부섹터 */}
-                                            <td className="px-3 sticky left-[100px] bg-[#272726] group-hover:bg-[#333] transition-colors z-20 text-center font-bold text-[#E5E5E5] text-[12px] whitespace-normal break-all">
+                                            <td className="px-3 sticky left-[110px] bg-[#272726] group-hover:bg-[#333] transition-colors z-20 text-center font-bold text-[#E5E5E5] text-[12px] whitespace-normal break-all w-[130px] min-w-[130px] max-w-[130px]">
                                                 {item.subsector}
                                             </td>
                                             
                                             {/* 대표 업무 */}
-                                            <td className="pl-3 font-medium text-[#E5E5E5] leading-snug text-left pr-2 whitespace-normal break-all sticky left-[220px] bg-[#272726] group-hover:bg-[#333] transition-colors z-20 border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)] text-[12px]">
+                                            <td className="pl-3 font-medium text-[#E5E5E5] leading-snug text-left pr-2 whitespace-normal break-all sticky left-[240px] bg-[#272726] group-hover:bg-[#333] transition-colors z-20 border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)] text-[12px] w-[230px] min-w-[230px] max-w-[230px]">
                                                 {item.task}
                                             </td>
                                             
                                             {/* PF 전 필요 */}
-                                            <td className="px-2 text-center">
+                                            <td className="px-2 text-center w-[75px] min-w-[75px] max-w-[75px]">
                                                 {item.pf ? (
                                                     <span className="px-2 py-0.5 text-[10.5px] font-bold rounded bg-blue-500/15 text-blue-400 border border-blue-500/30 whitespace-nowrap">필수</span>
                                                 ) : (
@@ -612,7 +612,7 @@ export default function PmoScheduleGate() {
                                             </td>
 
                                             {/* 착공 전 필요 */}
-                                            <td className="px-2 text-center">
+                                            <td className="px-2 text-center w-[75px] min-w-[75px] max-w-[75px]">
                                                 {item.const ? (
                                                     <span className="px-2 py-0.5 text-[10.5px] font-bold rounded bg-amber-500/15 text-amber-400 border border-amber-500/30 whitespace-nowrap">필수</span>
                                                 ) : (
@@ -621,7 +621,7 @@ export default function PmoScheduleGate() {
                                             </td>
 
                                             {/* 준공 전 필요 */}
-                                            <td className="px-2 text-center border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)]">
+                                            <td className="px-2 text-center border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)] w-[75px] min-w-[75px] max-w-[75px]">
                                                 {item.op ? (
                                                     <span className="px-2 py-0.5 text-[10.5px] font-bold rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 whitespace-nowrap">필수</span>
                                                 ) : (
@@ -630,14 +630,14 @@ export default function PmoScheduleGate() {
                                             </td>
 
                                             {/* 주관 부서 */}
-                                            <td className="pl-3 text-left">
+                                            <td className="pl-3 text-left w-[110px] min-w-[110px] max-w-[110px]">
                                                 <span className="px-2.5 py-0.5 rounded font-bold bg-[#2997ff]/10 text-white border border-[#2997ff]/20 text-[11px] whitespace-nowrap">
                                                     {item.lead}
                                                 </span>
                                             </td>
                                             
                                             {/* 협업 부서 */}
-                                            <td className="pl-3 text-left">
+                                            <td className="pl-3 text-left w-[140px] min-w-[140px] max-w-[140px]">
                                                 <div className="flex flex-row gap-1.5 justify-start items-center whitespace-nowrap">
                                                     {item.coop.map((c, cIdx) => (
                                                         c && <span key={cIdx} className="px-2 py-0.5 rounded bg-[#1F1F1E] text-[#A1A1AA] border border-[#3c3c3c] text-[11px] whitespace-nowrap">{c}</span>
@@ -646,17 +646,17 @@ export default function PmoScheduleGate() {
                                             </td>
 
                                             {/* 외부 상대방 */}
-                                            <td className="px-3 text-center text-[#A1A1AA] font-semibold whitespace-normal break-all">
+                                            <td className="px-3 text-center text-[#A1A1AA] font-semibold whitespace-normal break-all w-[120px] min-w-[120px] max-w-[120px]">
                                                 {item.partner || '-'}
                                             </td>
 
                                             {/* 지원 필요 요건 */}
-                                            <td className="px-3 text-center text-[#A1A1AA] font-semibold whitespace-normal break-all">
+                                            <td className="px-3 text-center text-[#A1A1AA] font-semibold whitespace-normal break-all w-[120px] min-w-[120px] max-w-[120px]">
                                                 {item.need || '-'}
                                             </td>
 
                                             {/* 관리 포인트 */}
-                                            <td className="px-3 text-left text-[#F59E0B] font-semibold whitespace-normal break-all">
+                                            <td className="px-3 text-left text-[#F59E0B] font-semibold whitespace-normal break-all w-[260px] min-w-[260px] max-w-[260px]">
                                                 {item.point}
                                             </td>
                                         </tr>
