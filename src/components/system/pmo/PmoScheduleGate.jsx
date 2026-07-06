@@ -596,8 +596,8 @@ export default function PmoScheduleGate() {
                                     <th className="px-2 w-[90px] text-center bg-[#1F1F1E]">PF 전 필요</th>
                                     <th className="px-2 w-[90px] text-center bg-[#1F1F1E]">착공 전 필요</th>
                                     <th className="px-2 w-[90px] text-center bg-[#1F1F1E] border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)]">준공 전 필요</th>
-                                    <th className="px-3 w-[110px] text-center bg-[#1F1F1E]">주관 부서</th>
-                                    <th className="px-3 w-[140px] text-center bg-[#1F1F1E]">협업 부서</th>
+                                    <th className="pl-3 w-[110px] text-left bg-[#1F1F1E]">주관 부서</th>
+                                    <th className="pl-3 w-[140px] text-left bg-[#1F1F1E]">협업 부서</th>
                                     <th className="px-3 w-[110px] text-center bg-[#1F1F1E]">외부 상대방</th>
                                     <th className="px-3 w-[120px] text-center bg-[#1F1F1E]">지원 필요 요건</th>
                                     <th className="px-3 w-[260px] text-left bg-[#1F1F1E]">관리 포인트</th>
@@ -650,15 +650,15 @@ export default function PmoScheduleGate() {
                                             </td>
 
                                             {/* 주관 부서 */}
-                                            <td className="px-3 text-center">
+                                            <td className="pl-3 text-left">
                                                 <span className="px-2.5 py-0.5 rounded font-bold bg-[#2997ff]/10 text-white border border-[#2997ff]/20 text-[11px] whitespace-nowrap">
                                                     {item.lead}
                                                 </span>
                                             </td>
                                             
                                             {/* 협업 부서 */}
-                                            <td className="px-3 text-center">
-                                                <div className="flex flex-row gap-1.5 justify-center items-center whitespace-nowrap">
+                                            <td className="pl-3 text-left">
+                                                <div className="flex flex-row gap-1.5 justify-start items-center whitespace-nowrap">
                                                     {item.coop.map((c, cIdx) => (
                                                         c && <span key={cIdx} className="px-2 py-0.5 rounded bg-[#1F1F1E] text-[#A1A1AA] border border-[#3c3c3c] text-[11px] whitespace-nowrap">{c}</span>
                                                     ))}
