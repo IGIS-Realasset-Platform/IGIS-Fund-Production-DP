@@ -90,15 +90,15 @@ export default function PmoScheduleGate() {
 
             {/* Timeline Matrix Grid */}
             <div className="-mr-[calc(50vw-50%)] border border-r-0 border-[#3c3c3c] bg-[#272726] rounded-l-[24px] overflow-hidden">
-                <div className="w-full overflow-x-auto pr-[50px] custom-thin-scrollbar">
+                <div className="w-full overflow-x-auto pr-0 custom-thin-scrollbar">
                     <div className="flex items-center min-w-[2600px]">
                         <table className="text-left table-fixed min-w-[1700px] flex-1">
                             <thead>
                                 <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[13px] h-12">
-                                    <th className="pl-6 w-[140px]">구분</th>
-                                    <th className="pl-4 w-[280px]">세부업무</th>
-                                    <th className="pl-4 w-[120px]">주관</th>
-                                    <th className="pl-4 w-[160px]">협업</th>
+                                    <th className="pl-6 w-[140px] sticky left-0 bg-[#272726] z-30">구분</th>
+                                    <th className="pl-4 w-[280px] sticky left-[140px] bg-[#272726] z-30">세부업무</th>
+                                    <th className="pl-4 w-[120px] sticky left-[420px] bg-[#272726] z-30">주관</th>
+                                    <th className="pl-4 w-[160px] sticky left-[540px] bg-[#272726] z-30 border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)]">협업</th>
                                     {COLUMNS.map(col => (
                                         <th key={col.key} className="text-center font-mono text-[11px] leading-tight px-1 font-bold w-[90px]">
                                             {col.label}
@@ -110,9 +110,9 @@ export default function PmoScheduleGate() {
                                 {filteredData.map((item, idx) => {
                                     const isGate = item.category === 'Gate';
                                     return (
-                                        <tr key={idx} className="hover:bg-[#333] transition-colors h-14">
+                                        <tr key={idx} className="hover:bg-[#333] transition-colors h-14 group">
                                             {/* 구분 */}
-                                            <td className="pl-6 font-bold">
+                                            <td className="pl-6 font-bold sticky left-0 bg-[#272726] group-hover:bg-[#333] transition-colors z-20">
                                                 <span className={`px-2.5 py-0.5 rounded-md text-[11px] font-bold ${
                                                     isGate 
                                                         ? 'bg-[#2997ff]/10 text-[#60a5fa] border border-[#2997ff]/20' 
@@ -123,17 +123,17 @@ export default function PmoScheduleGate() {
                                             </td>
                                             
                                             {/* 세부업무 */}
-                                            <td className="pl-4 font-medium text-[#E5E5E5] leading-snug text-left pr-2 whitespace-normal break-all">
+                                            <td className="pl-4 font-medium text-[#E5E5E5] leading-snug text-left pr-2 whitespace-normal break-all sticky left-[140px] bg-[#272726] group-hover:bg-[#333] transition-colors z-20">
                                                 {item.desc}
                                             </td>
                                             
                                             {/* 주관 */}
-                                            <td className="pl-4 text-[#E5E5E5] font-semibold text-left">
+                                            <td className="pl-4 text-[#E5E5E5] font-semibold text-left sticky left-[420px] bg-[#272726] group-hover:bg-[#333] transition-colors z-20">
                                                 {item.lead}
                                             </td>
                                             
                                             {/* 협업 */}
-                                            <td className="pl-4 text-[#86868B] leading-tight text-left pr-2 whitespace-normal break-all">
+                                            <td className="pl-4 text-[#86868B] leading-tight text-left pr-2 whitespace-normal break-all sticky left-[540px] bg-[#272726] group-hover:bg-[#333] transition-colors z-20 border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)]">
                                                 {item.coop.split(';').map((c, cIdx) => (
                                                     c && <div key={cIdx} className="text-[11px]">{c}</div>
                                                 ))}
@@ -160,7 +160,7 @@ export default function PmoScheduleGate() {
                         </table>
                         
                         {/* 우측 워터마크 영역 */}
-                        <div className="w-[900px] shrink-0 flex items-center justify-start pl-20 pr-8 select-none pointer-events-none box-border">
+                        <div className="w-[800px] shrink-0 flex items-center justify-start pl-20 pr-8 select-none pointer-events-none box-border">
                             <div className="text-white opacity-[0.04] font-bold leading-[0.9] tracking-tighter w-full whitespace-nowrap" style={{ fontSize: 'clamp(45px, 8.5vw, 135px)' }}>
                                 IOTA Seoul<br />Cross Functional<br />Team
                             </div>
