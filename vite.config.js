@@ -10,8 +10,8 @@ export default defineConfig(({ command }) => ({
     tailwindcss(),
   ],
   server: {
-    port: 8081,
-    strictPort: true, // 포트 꼬임 방지 (8081이 아니면 차라리 에러를 띄움)
+    port: mode === 'staging' ? 8082 : 8081,
+    strictPort: true, // 포트 꼬임 방지 (8081/8082가 아니면 차라리 에러를 띄움)
     headers: {
       'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0',
       'Pragma': 'no-cache',
