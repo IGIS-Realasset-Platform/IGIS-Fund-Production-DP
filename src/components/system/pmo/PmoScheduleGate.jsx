@@ -89,17 +89,17 @@ export default function PmoScheduleGate() {
             </div>
 
             {/* Timeline Matrix Grid */}
-            <div className="w-full border border-[#3c3c3c] bg-[#272726] rounded-[24px] overflow-hidden">
-                <div className="w-full overflow-x-auto">
-                    <table className="w-full text-left table-fixed min-w-[1100px]">
+            <div className="-mr-[calc(50vw-50%)] border border-r-0 border-[#3c3c3c] bg-[#272726] rounded-l-[24px] overflow-hidden">
+                <div className="w-full overflow-x-auto pr-[50px] custom-thin-scrollbar">
+                    <table className="w-full text-left table-fixed min-w-[1600px]">
                         <thead>
                             <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[13px] h-12">
-                                <th className="pl-6 w-32">구분</th>
-                                <th className="pl-4 w-52">세부업무</th>
-                                <th className="pl-4 w-28">주관</th>
-                                <th className="pl-4 w-36">협업</th>
+                                <th className="pl-6 w-[140px]">구분</th>
+                                <th className="pl-4 w-[280px]">세부업무</th>
+                                <th className="pl-4 w-[120px]">주관</th>
+                                <th className="pl-4 w-[160px]">협업</th>
                                 {COLUMNS.map(col => (
-                                    <th key={col.key} className="text-center font-mono text-[11px] leading-tight px-1 font-bold">
+                                    <th key={col.key} className="text-center font-mono text-[11px] leading-tight px-1 font-bold w-[90px]">
                                         {col.label}
                                     </th>
                                 ))}
