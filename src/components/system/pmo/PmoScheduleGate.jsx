@@ -160,9 +160,9 @@ export default function PmoScheduleGate() {
                         </table>
                         
                         {/* 우측 워터마크 영역 */}
-                        <div className="w-[800px] shrink-0 flex items-center justify-start pl-20 pr-8 select-none pointer-events-none box-border">
-                            <div className="text-white opacity-[0.04] font-bold leading-[0.9] tracking-tighter w-full" style={{ fontSize: 'clamp(45px, 8.5vw, 135px)' }}>
-                                Cross Functional<br />IOTA Seoul<br />Team
+                        <div className="w-[900px] shrink-0 flex items-center justify-start pl-20 pr-8 select-none pointer-events-none box-border">
+                            <div className="text-white opacity-[0.04] font-bold leading-[0.9] tracking-tighter w-full whitespace-nowrap" style={{ fontSize: 'clamp(45px, 8.5vw, 135px)' }}>
+                                IOTA Seoul<br />Cross Functional<br />Team
                             </div>
                         </div>
                     </div>
