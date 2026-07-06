@@ -155,14 +155,23 @@ export default function PmoScheduleGate() {
                                     <th className="pl-4 w-[250px] sticky left-[100px] bg-[#272726] z-30">세부업무</th>
                                     <th className="px-2 w-[110px] text-center sticky left-[350px] bg-[#272726] z-30">주관</th>
                                     <th className="px-2 w-[100px] text-center sticky left-[460px] bg-[#272726] z-30 border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)]">협업</th>
-                                    {COLUMNS.map((col, cIdx) => (
-                                        <th key={col.key} className={`text-center font-mono text-[11px] leading-tight px-1 font-bold w-[90px] border-r border-[#4c4c4c]/50 ${
-                                            col.highlight ? 'bg-white/[0.03] text-[#60a5fa] border-x border-[#4c4c4c]' : 'text-[#86868B]'
-                                        } ${cIdx === COLUMNS.length - 1 ? 'border-r border-[#3c3c3c]' : ''}`}>
-                                            <div>{col.labelTop}</div>
-                                            {col.labelBottom && <div className="text-[11px] opacity-75 mt-0.5">{col.labelBottom}</div>}
-                                        </th>
-                                    ))}
+                                    {COLUMNS.map((col, cIdx) => {
+                                        const isPhaseSeparator = col.key === 'm11';
+                                        return (
+                                            <th key={col.key} className={`text-center font-mono text-[11px] leading-tight px-1 font-bold w-[90px] ${
+                                                col.highlight ? 'bg-white/[0.03] text-[#60a5fa]' : 'text-[#86868B]'
+                                            } ${
+                                                isPhaseSeparator 
+                                                    ? 'border-r-4 border-[#2997ff]' 
+                                                    : cIdx === COLUMNS.length - 1 
+                                                        ? 'border-r border-[#3c3c3c]' 
+                                                        : 'border-r border-[#4c4c4c]/50'
+                                            }`}>
+                                                <div>{col.labelTop}</div>
+                                                {col.labelBottom && <div className="text-[11px] opacity-75 mt-0.5">{col.labelBottom}</div>}
+                                            </th>
+                                        );
+                                    })}
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-[#3c3c3c] text-[13px]">
@@ -207,10 +216,17 @@ export default function PmoScheduleGate() {
                                             {/* Grid Columns */}
                                             {COLUMNS.map((col, cIdx) => {
                                                 const mark = item.schedule[col.key];
+                                                const isPhaseSeparator = col.key === 'm11';
                                                 return (
-                                                    <td key={col.key} className={`text-center border-r border-[#4c4c4c]/40 ${
+                                                    <td key={col.key} className={`text-center ${
                                                         col.highlight ? 'bg-white/[0.015] group-hover:bg-white/[0.04]' : ''
-                                                    } ${cIdx === COLUMNS.length - 1 ? 'border-r border-[#3c3c3c]' : ''}`}>
+                                                    } ${
+                                                        isPhaseSeparator 
+                                                            ? 'border-r-4 border-[#2997ff]/60' 
+                                                            : cIdx === COLUMNS.length - 1 
+                                                                ? 'border-r border-[#3c3c3c]' 
+                                                                : 'border-r border-[#4c4c4c]/40'
+                                                    }`}>
                                                         {mark === '●' && (
                                                             <span className="w-3.5 h-3.5 rounded-full bg-[#2997ff] inline-block shadow-sm shadow-[#2997ff]/20"></span>
                                                         )}
