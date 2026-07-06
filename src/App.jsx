@@ -148,11 +148,11 @@ export default function App() {
       <div className={
         (currentPage.startsWith('mobile') || currentPage === 'home')
           ? "w-full h-[100dvh] overflow-hidden relative"
-          : (['system-plan', 'system-bridge', 'system-chat', 'system-detail', 'system-core', 'platform', 'auth-setup', 'workspace/archive'].includes(currentPage) || currentPage.startsWith('system-admin') || currentPage.startsWith('platform/iotaseoul'))
+          : (['system-plan', 'system-bridge', 'system-chat', 'system-detail', 'system-core', 'platform', 'auth-setup', 'workspace/archive'].includes(currentPage) || currentPage.startsWith('system-admin') || currentPage.startsWith('platform'))
             ? "w-full h-screen overflow-hidden"
             : "hidden lg:block scroll-container font-sans"
       } id="scroll-container">
-        {!(['system-plan', 'system-bridge', 'system-chat', 'system-detail', 'system-core', 'platform', 'auth-setup', 'workspace/archive'].includes(currentPage) || currentPage.startsWith('system-admin') || currentPage.startsWith('platform/iotaseoul') || currentPage.startsWith('mobile')) && (
+        {!(['system-plan', 'system-bridge', 'system-chat', 'system-detail', 'system-core', 'platform', 'auth-setup', 'workspace/archive'].includes(currentPage) || currentPage.startsWith('system-admin') || currentPage.startsWith('platform') || currentPage.startsWith('mobile')) && (
             <Header
               onNavigateToHome={() => setCurrentPage('home')}
               currentPage={currentPage}
