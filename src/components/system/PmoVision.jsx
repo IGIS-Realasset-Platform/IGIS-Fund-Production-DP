@@ -959,7 +959,7 @@ FM/PM 관리: 주요 하자 보수 이력 플랫폼 연동.
                             </button>
                         </header>
                         
-                        <div className="flex-1 flex flex-col overflow-hidden p-8 gap-4">
+                        <div className="flex-1 flex flex-col overflow-hidden p-12 gap-4 max-w-[900px] w-full">
                             {/* Filter Bar - Dry Blackstone Style */}
                             <div className="flex flex-col sm:flex-row justify-between items-center gap-4 border-b border-gray-200 pb-4 shrink-0">
                                 <div className="flex border border-gray-300 divide-x divide-gray-300">
