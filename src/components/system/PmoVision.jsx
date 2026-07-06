@@ -700,7 +700,7 @@ export default function PmoVision() {
     return (
         <div className="w-full h-screen bg-[#FFFFFF] text-[#1C1C1C] font-sans flex overflow-hidden">
             {/* Sidebar Navigator - Clean Blackstone Light Style */}
-            <aside className="w-[280px] border-r border-gray-200 bg-[#F9F9FB] flex flex-col justify-between shrink-0 select-none">
+            <aside className="w-[230px] border-r border-gray-200 bg-[#F9F9FB] flex flex-col justify-between shrink-0 select-none">
                 <div className="flex flex-col flex-1 overflow-y-auto hide-scrollbar p-6">
                     {/* Header Anchor */}
                     <div className="mb-8">
@@ -959,7 +959,7 @@ FM/PM 관리: 주요 하자 보수 이력 플랫폼 연동.
                             </button>
                         </header>
                         
-                        <div className="flex-1 flex flex-col overflow-hidden p-12 gap-4 max-w-[900px] w-full">
+                        <div className="flex-1 flex flex-col overflow-hidden p-12 gap-4 max-w-[1000px] w-full">
                             {/* Filter Bar - Dry Blackstone Style */}
                             <div className="flex flex-col sm:flex-row justify-between items-center gap-4 border-b border-gray-200 pb-4 shrink-0">
                                 <div className="flex border border-gray-300 divide-x divide-gray-300">
@@ -1158,7 +1158,7 @@ FM/PM 관리: 주요 하자 보수 이력 플랫폼 연동.
                         </header>
                         
                         <div className="flex-1 overflow-y-auto p-12 hide-scrollbar bg-white">
-                            <div className="max-w-[900px] flex flex-col gap-8">
+                            <div className="max-w-[1000px] flex flex-col gap-8">
                                 <div>
                                     <span className="text-[10px] font-bold text-gray-400 tracking-widest uppercase" style={interFont}>DATABASE SPECIFICATION</span>
                                     <h1 className="text-[28px] font-bold text-black tracking-tight leading-tight mt-1" style={interFont}>IFPDP Asset Data Schema</h1>
@@ -1453,7 +1453,7 @@ FM/PM 관리: 주요 하자 보수 이력 플랫폼 연동.
                         </header>
                         
                         <div className="flex-1 overflow-y-auto p-12 hide-scrollbar bg-white">
-                            <div className="max-w-[800px] flex flex-col gap-8">
+                            <div className="max-w-[1000px] flex flex-col gap-8">
                                 <div>
                                     <span className="text-[10px] font-bold text-gray-400 tracking-widest uppercase" style={interFont}>FUNCTIONAL SPECIFICATION</span>
                                     <h1 className="text-[28px] font-bold text-black tracking-tight leading-tight mt-1" style={interFont}>IOTA CFT Phase 1 기능요구사항</h1>
@@ -1520,7 +1520,7 @@ CREATE TABLE public.iota_decision_logs (
                         </header>
                         
                         <div className="flex-1 overflow-y-auto p-12 hide-scrollbar">
-                            <div className="max-w-[800px] flex flex-col gap-8">
+                            <div className="max-w-[1000px] flex flex-col gap-8">
                                 <div>
                                     <span className="text-[10px] font-bold text-gray-400 tracking-widest uppercase" style={interFont}>SCHEMA SPECIFICATION</span>
                                     <h1 className="text-[28px] font-bold text-black tracking-tight leading-tight mt-1" style={interFont}>IOTA CFT Phase 1 DB Schema</h1>
@@ -1635,7 +1635,7 @@ Supabase 데이터베이스 레이어에 RLS(Row Level Security)를 활성화하
                         </header>
                         
                         <div className="flex-1 overflow-y-auto p-12 hide-scrollbar bg-white">
-                            <div className="max-w-[800px] flex flex-col gap-8">
+                            <div className="max-w-[1000px] flex flex-col gap-8">
                                 <div>
                                     <span className="text-[10px] font-bold text-gray-400 tracking-widest uppercase" style={interFont}>FUNCTIONAL SPECIFICATION</span>
                                     <h1 className="text-[28px] font-bold text-black tracking-tight leading-tight mt-1" style={interFont}>IOTA CFT Phase 2 기능요구사항</h1>
@@ -1705,7 +1705,7 @@ CREATE POLICY "PM2 파트 및 어드민만 편집 가능" ON public.iota_pmo_tas
                         </header>
                         
                         <div className="flex-1 overflow-y-auto p-12 hide-scrollbar">
-                            <div className="max-w-[800px] flex flex-col gap-8">
+                            <div className="max-w-[1000px] flex flex-col gap-8">
                                 <div>
                                     <span className="text-[10px] font-bold text-gray-400 tracking-widest uppercase" style={interFont}>SCHEMA SPECIFICATION</span>
                                     <h1 className="text-[28px] font-bold text-black tracking-tight leading-tight mt-1" style={interFont}>IOTA CFT Phase 2 DB Schema</h1>
