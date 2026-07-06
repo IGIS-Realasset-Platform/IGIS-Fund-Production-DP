@@ -376,7 +376,7 @@ export default function PmoScheduleGate() {
     };
 
     return (
-        <div className="w-full flex-1 flex flex-col pt-[50px] pb-[60px] max-w-[1200px] mx-auto font-sans text-white">
+        <div className="w-full flex-1 flex flex-col pt-[50px] pb-[60px] pl-[100px] pr-[40px] font-sans text-white text-left">
             <style>{`
                 .timeline-scrollbar::-webkit-scrollbar {
                     height: 8px;
