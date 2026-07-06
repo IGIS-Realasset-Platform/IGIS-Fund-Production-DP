@@ -55,7 +55,7 @@ export default function PmoScheduleGate() {
     };
 
     return (
-        <div className="w-full flex-1 flex flex-col pt-[50px] pb-[60px] max-w-[1200px] mx-auto select-none font-sans text-white">
+        <div className="w-full flex-1 flex flex-col pt-[50px] pb-[60px] max-w-[1200px] mx-auto font-sans text-white">
             {/* Header */}
             <div className="w-full flex justify-between items-start mb-[32px]">
                 <div>
