@@ -6,11 +6,11 @@ const COLUMNS = [
     { key: 'm08', labelTop: '2026', labelBottom: '08' },
     { key: 'm09', labelTop: '2026', labelBottom: '09' },
     { key: 'm10', labelTop: '2026', labelBottom: '10' },
-    { key: 'm11', labelTop: '2026.11', labelBottom: 'PF 1차', highlight: true },
-    { key: 'm03', labelTop: '2027.03', labelBottom: 'PF 2차', highlight: true, isPhase2: true },
-    { key: 'const_start', labelTop: '2027~', labelBottom: '착공', isPhase2: true },
-    { key: 'const_mid', labelTop: '공사~준공', labelBottom: '', highlight: true, isPhase2: true },
-    { key: 'take_out', labelTop: 'Take-out', labelBottom: '운영', highlight: true, isPhase2: true }
+    { key: 'm11', labelTop: '2026.11', labelBottom: 'PF 1차', highlight: true, isPfBox: true },
+    { key: 'm03', labelTop: '2027.03', labelBottom: 'PF 2차', highlight: true, isPfBox: true },
+    { key: 'const_start', labelTop: '2027~', labelBottom: '착공' },
+    { key: 'const_mid', labelTop: '공사~준공', labelBottom: '', highlight: true },
+    { key: 'take_out', labelTop: 'Take-out', labelBottom: '운영', highlight: true }
 ];
 
 const TIMELINE_DATA = [
@@ -156,11 +156,11 @@ export default function PmoScheduleGate() {
                                     <th className="px-2 w-[110px] text-center sticky left-[350px] bg-[#272726] z-30">주관</th>
                                     <th className="px-2 w-[100px] text-center sticky left-[460px] bg-[#272726] z-30 border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)]">협업</th>
                                     {COLUMNS.map((col, cIdx) => {
-                                        const isSeparatorStart = col.key === 'm11';
-                                        const isSeparatorEnd = col.key === 'take_out';
+                                        const isSeparatorStart = col.key === 'm10';
+                                        const isSeparatorEnd = col.key === 'm03';
                                         return (
                                             <th key={col.key} className={`text-center font-mono text-[11px] leading-tight px-1 font-bold w-[90px] ${
-                                                col.isPhase2 
+                                                col.isPfBox 
                                                     ? 'bg-[#2997ff]/10 text-white' 
                                                     : col.highlight 
                                                         ? 'bg-white/[0.03] text-[#60a5fa]' 
@@ -219,11 +219,11 @@ export default function PmoScheduleGate() {
                                             {/* Grid Columns */}
                                             {COLUMNS.map((col, cIdx) => {
                                                 const mark = item.schedule[col.key];
-                                                const isSeparatorStart = col.key === 'm11';
-                                                const isSeparatorEnd = col.key === 'take_out';
+                                                const isSeparatorStart = col.key === 'm10';
+                                                const isSeparatorEnd = col.key === 'm03';
                                                 return (
                                                     <td key={col.key} className={`text-center ${
-                                                        col.isPhase2 
+                                                        col.isPfBox 
                                                             ? 'bg-[#2997ff]/[0.04] group-hover:bg-[#2997ff]/[0.09]' 
                                                             : col.highlight 
                                                                 ? 'bg-white/[0.015] group-hover:bg-white/[0.04]' 
