@@ -7,10 +7,10 @@ const COLUMNS = [
     { key: 'm09', labelTop: '2026', labelBottom: '09' },
     { key: 'm10', labelTop: '2026', labelBottom: '10' },
     { key: 'm11', labelTop: '2026.11', labelBottom: 'PF 1차', highlight: true },
-    { key: 'm03', labelTop: '2027.03', labelBottom: 'PF 2차', highlight: true },
-    { key: 'const_start', labelTop: '2027~', labelBottom: '착공' },
-    { key: 'const_mid', labelTop: '공사~준공', labelBottom: '', highlight: true },
-    { key: 'take_out', labelTop: 'Take-out', labelBottom: '운영', highlight: true }
+    { key: 'm03', labelTop: '2027.03', labelBottom: 'PF 2차', highlight: true, isPhase2: true },
+    { key: 'const_start', labelTop: '2027~', labelBottom: '착공', isPhase2: true },
+    { key: 'const_mid', labelTop: '공사~준공', labelBottom: '', highlight: true, isPhase2: true },
+    { key: 'take_out', labelTop: 'Take-out', labelBottom: '운영', highlight: true, isPhase2: true }
 ];
 
 const TIMELINE_DATA = [
@@ -156,16 +156,19 @@ export default function PmoScheduleGate() {
                                     <th className="px-2 w-[110px] text-center sticky left-[350px] bg-[#272726] z-30">주관</th>
                                     <th className="px-2 w-[100px] text-center sticky left-[460px] bg-[#272726] z-30 border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)]">협업</th>
                                     {COLUMNS.map((col, cIdx) => {
-                                        const isPhaseSeparator = col.key === 'm11';
+                                        const isSeparatorStart = col.key === 'm11';
+                                        const isSeparatorEnd = col.key === 'take_out';
                                         return (
                                             <th key={col.key} className={`text-center font-mono text-[11px] leading-tight px-1 font-bold w-[90px] ${
-                                                col.highlight ? 'bg-white/[0.03] text-[#60a5fa]' : 'text-[#86868B]'
+                                                col.isPhase2 
+                                                    ? 'bg-[#2997ff]/10 text-white' 
+                                                    : col.highlight 
+                                                        ? 'bg-white/[0.03] text-[#60a5fa]' 
+                                                        : 'text-[#86868B]'
                                             } ${
-                                                isPhaseSeparator 
+                                                isSeparatorStart || isSeparatorEnd
                                                     ? 'border-r-4 border-[#2997ff]' 
-                                                    : cIdx === COLUMNS.length - 1 
-                                                        ? 'border-r border-[#3c3c3c]' 
-                                                        : 'border-r border-[#4c4c4c]/50'
+                                                    : 'border-r border-[#4c4c4c]/50'
                                             }`}>
                                                 <div>{col.labelTop}</div>
                                                 {col.labelBottom && <div className="text-[11px] opacity-75 mt-0.5">{col.labelBottom}</div>}
@@ -216,16 +219,19 @@ export default function PmoScheduleGate() {
                                             {/* Grid Columns */}
                                             {COLUMNS.map((col, cIdx) => {
                                                 const mark = item.schedule[col.key];
-                                                const isPhaseSeparator = col.key === 'm11';
+                                                const isSeparatorStart = col.key === 'm11';
+                                                const isSeparatorEnd = col.key === 'take_out';
                                                 return (
                                                     <td key={col.key} className={`text-center ${
-                                                        col.highlight ? 'bg-white/[0.015] group-hover:bg-white/[0.04]' : ''
+                                                        col.isPhase2 
+                                                            ? 'bg-[#2997ff]/[0.04] group-hover:bg-[#2997ff]/[0.09]' 
+                                                            : col.highlight 
+                                                                ? 'bg-white/[0.015] group-hover:bg-white/[0.04]' 
+                                                                : ''
                                                     } ${
-                                                        isPhaseSeparator 
-                                                            ? 'border-r-4 border-[#2997ff]/60' 
-                                                            : cIdx === COLUMNS.length - 1 
-                                                                ? 'border-r border-[#3c3c3c]' 
-                                                                : 'border-r border-[#4c4c4c]/40'
+                                                        isSeparatorStart || isSeparatorEnd
+                                                            ? 'border-r-4 border-[#2997ff]/70' 
+                                                            : 'border-r border-[#4c4c4c]/40'
                                                     }`}>
                                                         {mark === '●' && (
                                                             <span className="w-3.5 h-3.5 rounded-full bg-[#2997ff] inline-block shadow-sm shadow-[#2997ff]/20"></span>
