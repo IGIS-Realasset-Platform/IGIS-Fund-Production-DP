@@ -606,7 +606,7 @@ export default function PmoScheduleGate() {
                             <tbody className="divide-y divide-[#3c3c3c]/60 text-[12px]">
                                 {CATEGORY_MAP_DATA.filter(item => selectedRrCategory === '전체보기' || item.category === selectedRrCategory).map((item, idx) => {
                                     return (
-                                        <tr key={idx} className="hover:bg-[#333] transition-colors h-14 group">
+                                        <tr key={idx} className="hover:bg-[#333] transition-colors h-11 group">
                                             {/* 대분류 */}
                                             <td className="px-3 sticky left-0 bg-[#272726] group-hover:bg-[#333] transition-colors z-20 text-center font-bold text-white text-[12px]">
                                                 {item.category}
@@ -658,7 +658,7 @@ export default function PmoScheduleGate() {
                                             
                                             {/* 협업 부서 */}
                                             <td className="px-3 text-center">
-                                                <div className="flex flex-wrap gap-1 justify-center">
+                                                <div className="flex flex-row gap-1.5 justify-center items-center whitespace-nowrap">
                                                     {item.coop.map((c, cIdx) => (
                                                         c && <span key={cIdx} className="px-2 py-0.5 rounded bg-[#1F1F1E] text-[#A1A1AA] border border-[#3c3c3c] text-[11px] whitespace-nowrap">{c}</span>
                                                     ))}
