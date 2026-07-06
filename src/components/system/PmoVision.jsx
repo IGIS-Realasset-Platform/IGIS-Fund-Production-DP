@@ -372,7 +372,7 @@ CREATE POLICY "PM2 파트 및 어드민만 편집 가능" ON public.iota_pmo_tas
 
                         {/* Content text */}
                         <div className="text-[15px] text-[#A1A1AA] leading-[28px] font-light whitespace-pre-wrap font-sans space-y-6">
-                            {activeData.id.endsWith('schema') ? (
+                            {selectedMenu.endsWith('schema') ? (
                                 <pre className="bg-[#141416] p-6 rounded-2xl border border-[#1C1C1E] text-[13px] font-mono text-blue-300 overflow-x-auto whitespace-pre leading-relaxed select-text">
                                     <code>{activeData.content}</code>
                                 </pre>
