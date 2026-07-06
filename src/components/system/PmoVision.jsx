@@ -511,7 +511,7 @@ export default function PmoVision() {
     },
     {
         "scope": "내부",
-        "category": "사용자 관점 - 인증/보안",
+        "category": "인증/보안",
         "subcategory": "로그인 및 권한 진입",
         "actor": "사용자",
         "detail": "사전에 어드민을 통해 등록된 이지스 임직원 이메일로 보안 로그인을 수행할 수 있다.",
@@ -521,7 +521,7 @@ export default function PmoVision() {
     },
     {
         "scope": "내부",
-        "category": "사용자 관점 - 인증/보안",
+        "category": "인증/보안",
         "subcategory": "비인증 접근 차단",
         "actor": "사용자",
         "detail": "미인증 사용자 혹은 로그인 세션 만료자가 다이렉트 URL로 강제 진입 시 로그인 페이지로 리다이렉션됨을 확인할 수 있다.",
@@ -531,7 +531,7 @@ export default function PmoVision() {
     },
     {
         "scope": "내부",
-        "category": "사용자 관점 - 인증/보안",
+        "category": "인증/보안",
         "subcategory": "부서별 쓰기 통제",
         "actor": "사용자",
         "detail": "소속 부서(사업1, 사업2 등) 권한에 맞춰 본인 주관 업무 영역만 수정/쓰기 권한이 활성화되고 타 부서 영역은 읽기만 허용됨을 확인할 수 있다.",
@@ -541,7 +541,7 @@ export default function PmoVision() {
     },
     {
         "scope": "내부",
-        "category": "사용자 관점 - 인증/보안",
+        "category": "인증/보안",
         "subcategory": "세션 폐기",
         "actor": "사용자",
         "detail": "로그아웃 버튼 클릭 시 사용자 토큰 및 세션 정보가 완전히 제거되고 로그인 화면으로 즉시 복귀됨을 확인할 수 있다.",
@@ -551,7 +551,7 @@ export default function PmoVision() {
     },
     {
         "scope": "내부",
-        "category": "사용자 관점 - 모바일 활용",
+        "category": "모바일 활용",
         "subcategory": "모바일 태스크 확인",
         "actor": "실무자/임원",
         "detail": "이동 중이나 외부 미팅 시 모바일 기기를 통해 부서별 업무 상태 및 담당자를 편리하게 확인할 수 있다.",
@@ -561,7 +561,7 @@ export default function PmoVision() {
     },
     {
         "scope": "내부",
-        "category": "사용자 관점 - 알림 수신",
+        "category": "알림 수신",
         "subcategory": "실시간 알림 수신",
         "actor": "실무 담당자",
         "detail": "담당 업무에 병목(Blocker)이 활성화되거나 신규 태스크가 지정되었을 때 실시간 알림을 받아볼 수 있다.",
@@ -571,7 +571,7 @@ export default function PmoVision() {
     },
     {
         "scope": "내부",
-        "category": "사용자 관점 - 부서별 업무",
+        "category": "부서별 업무",
         "subcategory": "실무 할일 관리",
         "actor": "실무자",
         "detail": "본인 부서에 배정된 주관 업무의 상태(신규/진행/완료 등)를 클릭 한 번으로 빠르게 수정할 수 있다.",
@@ -581,7 +581,7 @@ export default function PmoVision() {
     },
     {
         "scope": "내부",
-        "category": "사용자 관점 - 부서별 업무",
+        "category": "부서별 업무",
         "subcategory": "병목(Blocker) 공유",
         "actor": "실무자",
         "detail": "업무 진행 중 지연 리스크가 생기면 원클릭으로 Blocker 경고등을 켜서 전사에 지연 요소를 신속하게 공유할 수 있다.",
@@ -591,7 +591,7 @@ export default function PmoVision() {
     },
     {
         "scope": "내부",
-        "category": "사용자 관점 - 부서별 업무",
+        "category": "부서별 업무",
         "subcategory": "업무 현황 검색",
         "actor": "실무자/임원",
         "detail": "텍스트 검색창을 통해 수많은 할일 목록 중 특정 프로젝트나 검색어 관련 업무를 실시간으로 필터링하여 조회할 수 있다.",
@@ -601,7 +601,7 @@ export default function PmoVision() {
     },
     {
         "scope": "내부",
-        "category": "사용자 관점 - 비히클 관제",
+        "category": "비히클 관제",
         "subcategory": "자금 조달 구조 파악",
         "actor": "임원/LFC",
         "detail": "특정 펀드 및 PFV의 에쿼티 비율, 선/후순위 대주단 구성 및 조달 금리 변천사를 시계열 순서로 파악할 수 있다.",
@@ -611,7 +611,7 @@ export default function PmoVision() {
     },
     {
         "scope": "내부",
-        "category": "사용자 관점 - 비히클 관제",
+        "category": "비히클 관제",
         "subcategory": "재무 리스크 모니터링",
         "actor": "임원/LFC",
         "detail": "비히클별 기금 인출(Drawdown) 시점과 이자 납입 일정을 연계하여 재무적 리스크를 선제적으로 모니터링할 수 있다.",
@@ -621,7 +621,7 @@ export default function PmoVision() {
     },
     {
         "scope": "내부",
-        "category": "사용자 관점 - 비히클 관제",
+        "category": "비히클 관제",
         "subcategory": "자산 마일스톤 점검",
         "actor": "임원/사업",
         "detail": "토지 매입일, 착공일, 준공 예정일, 대출 만기일 등 자산 생애주기 일정을 한눈에 점검할 수 있다.",
@@ -631,7 +631,7 @@ export default function PmoVision() {
     },
     {
         "scope": "내부",
-        "category": "사용자 관점 - 의사결정 맥락",
+        "category": "의사결정 맥락",
         "subcategory": "의사결정 판단 근거 기록",
         "actor": "실무자/임원",
         "detail": "PF 금리 인상, 시공 도급 조건 변경 등 핵심 조건 변경 시 배경 사유와 정성적인 의사결정 판단 근거를 기록할 수 있다.",
@@ -641,7 +641,7 @@ export default function PmoVision() {
     },
     {
         "scope": "내부",
-        "category": "사용자 관점 - 의사결정 맥락",
+        "category": "의사결정 맥락",
         "subcategory": "기록 위변조 방지",
         "actor": "어드민",
         "detail": "중요 결정 사안의 임의 조작을 막기 위해 의사결정 로그가 작성되는 즉시 이력을 자동 잠금(Lock)할 수 있다.",
@@ -651,7 +651,7 @@ export default function PmoVision() {
     },
     {
         "scope": "내부",
-        "category": "사용자 관점 - 의사결정 맥락",
+        "category": "의사결정 맥락",
         "subcategory": "회의록 태스크 배정",
         "actor": "회의 참석자",
         "detail": "회의 진행 중 즉석에서 액션 아이템을 주관 부서와 담당자에게 등록 및 배정하여 실무 테이블로 보낼 수 있다.",
@@ -661,7 +661,7 @@ export default function PmoVision() {
     },
     {
         "scope": "내부",
-        "category": "사용자 관점 - 스냅샷/알림",
+        "category": "스냅샷/알림",
         "subcategory": "주간 단위 상태 비교",
         "actor": "임원/어드민",
         "detail": "매주 금요일 퇴근 시점 기준으로 전사 업무 현황 원장이 자동 캡처 보존되므로 주간 단위 업무 변동 내역을 편리하게 비교 파악할 수 있다.",
@@ -671,7 +671,7 @@ export default function PmoVision() {
     },
     {
         "scope": "내부",
-        "category": "사용자 관점 - 스냅샷/알림",
+        "category": "스냅샷/알림",
         "subcategory": "네트워크 단절 방지",
         "actor": "사용자",
         "detail": "네트워크 단절이나 데이터베이스 장애 시에도 로컬 브라우저에 저장된 데이터 버퍼를 통해 실시간으로 작업 내역을 백업 보존할 수 있다.",
@@ -681,7 +681,7 @@ export default function PmoVision() {
     },
     {
         "scope": "내부",
-        "category": "사용자 관점 - 이해관계자",
+        "category": "이해관계자",
         "subcategory": "파트너 연락처 조회",
         "actor": "실무자",
         "detail": "자산별 시행사, 설계사, 대주단 금융기관 등 주요 이해관계자들의 비상 연락처 및 특이사항을 빠르게 조회할 수 있다.",
