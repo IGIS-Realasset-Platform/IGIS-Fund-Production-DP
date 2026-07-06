@@ -356,26 +356,6 @@ const R_R_CATEGORIES = [
 export default function PmoScheduleGate() {
     const [filterCategory, setFilterCategory] = React.useState('All'); // All, Gate, Task
     const [selectedRrCategory, setSelectedRrCategory] = React.useState('전체보기');
-    const scrollContainerRef = React.useRef(null);
-
-
-    React.useEffect(() => {
-        const container = scrollContainerRef.current;
-        if (!container) return;
-
-        const handleWheel = (e) => {
-            // Scroll vertically with mouse wheel -> translate to horizontal scroll
-            if (e.deltaY !== 0 && e.deltaX === 0) {
-                e.preventDefault();
-                container.scrollLeft += e.deltaY * 0.8; // Smooth factor 0.8
-            }
-        };
-
-        container.addEventListener('wheel', handleWheel, { passive: false });
-        return () => {
-            container.removeEventListener('wheel', handleWheel);
-        };
-    }, []);
 
     const filteredData = TIMELINE_DATA.filter(item => {
         if (filterCategory === 'All') return true;
@@ -468,7 +448,7 @@ export default function PmoScheduleGate() {
 
             {/* Timeline Matrix Grid */}
             <div className="-mr-[calc(50vw-50%)] border border-r-0 border-[#3c3c3c] bg-[#272726] rounded-l-[24px] overflow-hidden">
-                <div ref={scrollContainerRef} className="w-full overflow-x-auto pr-0 timeline-scrollbar">
+                <div className="w-full overflow-x-auto pr-0 timeline-scrollbar">
                     <div className="flex items-center min-w-[2260px]">
                         <table className="text-left table-fixed min-w-[1460px] flex-1">
                             <thead>
