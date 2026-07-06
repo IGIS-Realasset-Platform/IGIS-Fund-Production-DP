@@ -16,7 +16,7 @@ const COLUMNS = [
 const TIMELINE_DATA = [
     // Gates
     { category: 'Gate', name: 'G0 현황정리', desc: '업무원장·카테고리·우선순위 기준 확정', lead: '사업관리2파트', coop: '전 부서', schedule: { m06: '●', m07: '●' } },
-    { category: 'Gate', name: 'G1 방향결정', desc: '단독/통합 PF 방향, 호텔 브랜드, 시공사 조건 결정', lead: '사업관리2파트', coop: 'LFC;기업마케팅실;개발관리실', schedule: { m07: '●', m08: '●' } },
+    { category: 'Gate', name: 'G1 방향결정', desc: '단독/통합 PF 방향, 호텔 브랜드, 시공사 조건', lead: '사업관리2파트', coop: 'LFC;기업마케팅실;개발관리실', schedule: { m07: '●', m08: '●' } },
     { category: 'Gate', name: 'G2 PF준비도', desc: '인허가·도면·임차·금융·법무 CP 준비', lead: '사업관리2파트', coop: '전 부서', schedule: { m07: '●', m08: '●', m09: '●', m10: '●' } },
     { category: 'Gate', name: 'G3 PF실행', desc: '427/816 단독 또는 통합 PF 실행', lead: 'LFC', coop: '사업관리2파트;전 부서', schedule: { m09: '●', m10: '●', m11: '◆', m03: '◆' } },
     { category: 'Gate', name: 'G4 착공/공사', desc: '착공조건, 책임착공, 공정관리 체계 전환', lead: '개발관리실', coop: '사업관리2파트;LFC', schedule: { m03: '●', const_start: '●', const_mid: '●' } },
@@ -104,18 +104,18 @@ export default function PmoScheduleGate() {
             {/* Timeline Matrix Grid */}
             <div className="-mr-[calc(50vw-50%)] border border-r-0 border-[#3c3c3c] bg-[#272726] rounded-l-[24px] overflow-hidden">
                 <div className="w-full overflow-x-auto pr-0 custom-thin-scrollbar">
-                    <div className="flex items-center min-w-[2350px]">
-                        <table className="text-left table-fixed min-w-[1550px] flex-1">
+                    <div className="flex items-center min-w-[2250px]">
+                        <table className="text-left table-fixed min-w-[1450px] flex-1">
                             <thead>
                                 <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[13px] h-12">
                                     <th className="px-2 w-[100px] text-center sticky left-0 bg-[#272726] z-30">구분</th>
-                                    <th className="pl-4 w-[280px] sticky left-[100px] bg-[#272726] z-30">세부업무</th>
-                                    <th className="px-2 w-[110px] text-center sticky left-[380px] bg-[#272726] z-30">주관</th>
-                                    <th className="px-2 w-[100px] text-center sticky left-[490px] bg-[#272726] z-30 border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)]">협업</th>
-                                    {COLUMNS.map(col => (
-                                        <th key={col.key} className={`text-center font-mono text-[11px] leading-tight px-1 font-bold w-[90px] border-r border-[#3c3c3c]/30 ${
-                                            col.highlight ? 'bg-white/[0.03] text-[#60a5fa] border-x border-[#3c3c3c]' : 'text-[#86868B]'
-                                        }`}>
+                                    <th className="pl-4 w-[240px] sticky left-[100px] bg-[#272726] z-30">세부업무</th>
+                                    <th className="px-2 w-[110px] text-center sticky left-[340px] bg-[#272726] z-30">주관</th>
+                                    <th className="px-2 w-[100px] text-center sticky left-[450px] bg-[#272726] z-30 border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)]">협업</th>
+                                    {COLUMNS.map((col, cIdx) => (
+                                        <th key={col.key} className={`text-center font-mono text-[11px] leading-tight px-1 font-bold w-[90px] border-r border-[#4c4c4c]/50 ${
+                                            col.highlight ? 'bg-white/[0.03] text-[#60a5fa] border-x border-[#4c4c4c]' : 'text-[#86868B]'
+                                        } ${cIdx === COLUMNS.length - 1 ? 'border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)]' : ''}`}>
                                             <div>{col.labelTop}</div>
                                             {col.labelBottom && <div className="text-[11px] opacity-75 mt-0.5">{col.labelBottom}</div>}
                                         </th>
@@ -144,29 +144,29 @@ export default function PmoScheduleGate() {
                                             </td>
                                             
                                             {/* 주관 */}
-                                            <td className="px-2 text-[#E5E5E5] font-semibold text-center sticky left-[380px] bg-[#272726] group-hover:bg-[#333] transition-colors z-20 text-[13px] leading-tight whitespace-normal break-all">
+                                            <td className="px-2 text-[#E5E5E5] font-semibold text-center sticky left-[340px] bg-[#272726] group-hover:bg-[#333] transition-colors z-20 text-[13px] leading-tight whitespace-normal break-all">
                                                 {item.lead}
                                             </td>
                                             
                                             {/* 협업 */}
-                                            <td className="px-2 text-[#86868B] leading-tight text-center pr-2 whitespace-normal break-all sticky left-[490px] bg-[#272726] group-hover:bg-[#333] transition-colors z-20 border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)]">
+                                            <td className="px-2 text-[#86868B] leading-tight text-center pr-2 whitespace-normal break-all sticky left-[450px] bg-[#272726] group-hover:bg-[#333] transition-colors z-20 border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)]">
                                                 {item.coop.split(';').map((c, cIdx) => (
                                                     c && <div key={cIdx} className="text-[11px]">{c}</div>
                                                 ))}
                                             </td>
 
                                             {/* Grid Columns */}
-                                            {COLUMNS.map(col => {
+                                            {COLUMNS.map((col, cIdx) => {
                                                 const mark = item.schedule[col.key];
                                                 return (
-                                                    <td key={col.key} className={`text-center border-r border-[#3c3c3c]/20 ${
+                                                    <td key={col.key} className={`text-center border-r border-[#4c4c4c]/40 ${
                                                         col.highlight ? 'bg-white/[0.015] group-hover:bg-white/[0.04]' : ''
-                                                    }`}>
+                                                    } ${cIdx === COLUMNS.length - 1 ? 'border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)]' : ''}`}>
                                                         {mark === '●' && (
                                                             <span className="w-3.5 h-3.5 rounded-full bg-[#2997ff] inline-block shadow-sm shadow-[#2997ff]/20"></span>
                                                         )}
                                                         {mark === '◆' && (
-                                                            <span className="text-[#F59E0B] font-mono text-[22px] font-extrabold block translate-y-[-1px] animate-pulse">◆</span>
+                                                            <span className="text-[#F59E0B] font-mono text-[28px] font-extrabold block translate-y-[-1px] animate-pulse">◆</span>
                                                         )}
                                                     </td>
                                                 );
