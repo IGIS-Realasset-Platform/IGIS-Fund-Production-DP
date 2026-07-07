@@ -848,6 +848,29 @@ export default function DecisionLog() {
                                 </button>
                             )}
                         </div>
+                        {/* View mode toggle button group */}
+                        <div className="flex bg-[#2c2c2b] border border-[#3c3c3c] rounded-[10px] p-0.5 ml-3 self-center shrink-0">
+                            <button
+                                onClick={() => setViewMode('key')}
+                                className={`px-3 py-1 rounded-[8px] text-[12px] font-bold transition-all cursor-pointer ${
+                                    viewMode === 'key' 
+                                        ? 'bg-[#2997ff] text-white shadow-sm' 
+                                        : 'text-[#86868B] hover:text-white'
+                                }`}
+                            >
+                                주요내용보기
+                            </button>
+                            <button
+                                onClick={() => setViewMode('all')}
+                                className={`px-3 py-1 rounded-[8px] text-[12px] font-bold transition-all cursor-pointer ${
+                                    viewMode === 'all' 
+                                        ? 'bg-[#2997ff] text-white shadow-sm' 
+                                        : 'text-[#86868B] hover:text-white'
+                                }`}
+                            >
+                                전체보기
+                            </button>
+                        </div>
                     </div>
                     {/* Right: Date Pill (shifted down by 10px, aligned to right padding boundary) */}
                     <span className="text-[15px] font-bold text-[#86868B] tracking-tight bg-[#222] px-[16px] py-[6px] rounded-full shadow-sm leading-none transform translate-y-[4px]">
