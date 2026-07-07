@@ -1711,7 +1711,7 @@ export default function PmoTaskBoardStaging() {
                         <div className="flex items-center min-w-[4725px]">
                             <table className="text-left table-fixed min-w-[3925px] flex-1 border-collapse bg-[#272726]">
                                 <thead>
-                                    <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[13px] h-11 select-none">
+                                    <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[13px] h-11">
                                         <th className="pl-[10px] text-center w-[80px] min-w-[80px] max-w-[80px]">ID</th>
                                         <th className="pl-4 w-[90px] min-w-[90px] max-w-[90px]">프로젝트</th>
                                         <th className="pl-4 w-[110px] min-w-[110px] max-w-[110px]">대분류</th>
@@ -1791,7 +1791,7 @@ export default function PmoTaskBoardStaging() {
                                             return (
                                                 <tr key={t.id || `task-${idx}`} className="hover:bg-[#333]/50 transition-colors h-12">
                                                     {/* 1. ID */}
-                                                    <td className="pl-[10px] text-center text-[#86868B] font-mono select-none w-[80px] min-w-[80px] max-w-[80px] truncate">
+                                                    <td className="pl-[10px] text-center text-[#86868B] font-mono w-[80px] min-w-[80px] max-w-[80px] truncate">
                                                         {t.id && !t.id.includes('-') ? t.id : (fallbackItem.id || `T-${String(idx+1).padStart(3, '0')}`)}
                                                     </td>
                                                     
