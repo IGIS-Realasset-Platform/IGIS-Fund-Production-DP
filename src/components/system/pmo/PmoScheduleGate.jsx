@@ -1,4 +1,6 @@
 import React from 'react';
+import { supabase } from '../../../utils/supabaseClient';
+import { useAuth } from '../../../context/AuthContext';
 
 const COLUMNS = [
     { key: 'm06', labelTop: '~2026', labelBottom: '06' },
@@ -354,10 +356,277 @@ const R_R_CATEGORIES = [
 ];
 
 export default function PmoScheduleGate() {
+    const { memberInfo } = useAuth();
     const [filterCategory, setFilterCategory] = React.useState('All'); // All, Gate, Task
     const [selectedRrCategory, setSelectedRrCategory] = React.useState('전체보기');
     const [selectedRrLead, setSelectedRrLead] = React.useState('전체보기');
     const [selectedRrCoop, setSelectedRrCoop] = React.useState('전체보기');
+
+    const [rrData, setRrData] = React.useState([]);
+    const [isDbMode, setIsDbMode] = React.useState(false);
+    const [departments, setDepartments] = React.useState([]);
+    const [stakeholders, setStakeholders] = React.useState([]);
+
+    const [isModalOpen, setIsModalOpen] = React.useState(false);
+    const [editingItem, setEditingItem] = React.useState(null);
+
+    const [formCategory, setFormCategory] = React.useState('');
+    const [formSubsector, setFormSubsector] = React.useState('');
+    const [formTask, setFormTask] = React.useState('');
+    const [formPf, setFormPf] = React.useState(false);
+    const [formConst, setFormConst] = React.useState(false);
+    const [formOp, setFormOp] = React.useState(false);
+    const [formLead, setFormLead] = React.useState('');
+    const [formCoop, setFormCoop] = React.useState([]);
+    const [formNeed, setFormNeed] = React.useState('');
+    const [formPartner, setFormPartner] = React.useState('');
+    const [formPoint, setFormPoint] = React.useState('');
+
+    const isAuthorized = React.useMemo(() => {
+        if (!memberInfo) return false;
+        const org = memberInfo.org_name || '';
+        const workspace = memberInfo.workspace_code || '';
+        const role = memberInfo.role_code || '';
+        return (
+            org.includes('사업관리2파트') || 
+            org.includes('기획추진') ||
+            workspace === 'WS_PM' ||
+            role === 'master' ||
+            role === 'director'
+        );
+    }, [memberInfo]);
+
+    React.useEffect(() => {
+        async function loadData() {
+            try {
+                // 1. Fetch departments
+                const { data: deptData } = await supabase
+                    .schema('iota_v2')
+                    .from('iota_departments')
+                    .select('*');
+                if (deptData) setDepartments(deptData);
+
+                // 2. Fetch stakeholders
+                const { data: stakeData } = await supabase
+                    .schema('iota_v2')
+                    .from('iota_stakeholders')
+                    .select('*');
+                if (stakeData) setStakeholders(stakeData);
+
+                // 3. Fetch tasks
+                const { data: tasks, error } = await supabase
+                    .schema('iota_v2')
+                    .from('iota_pmo_tasks')
+                    .select(`
+                        *,
+                        lead_dept:iota_departments!lead_dept_code(dept_name),
+                        external_party:iota_stakeholders!external_party_code(stakeholder_name)
+                    `)
+                    .order('created_at', { ascending: true });
+
+                if (error) throw error;
+                
+                if (tasks && tasks.length > 0) {
+                    const mapped = tasks.map(t => ({
+                        id: t.id,
+                        category: t.category_main,
+                        subsector: t.sector_detail,
+                        task: t.task_name,
+                        pf: t.gate_stage === 'G0',
+                        const: t.gate_stage === 'G1',
+                        op: t.gate_stage === 'G2',
+                        lead: t.lead_dept?.dept_name || t.lead_dept_code || '',
+                        coop: t.coop_dept_codes ? t.coop_dept_codes.split(';') : [],
+                        need: t.deliverables || '',
+                        partner: t.external_party?.stakeholder_name || t.external_party_code || '',
+                        point: t.task_purpose || t.next_action || '',
+                        lead_dept_code: t.lead_dept_code,
+                        external_party_code: t.external_party_code,
+                        gate_stage: t.gate_stage
+                    }));
+                    setRrData(mapped);
+                    setIsDbMode(true);
+                } else {
+                    setRrData(CATEGORY_MAP_DATA.map((item, idx) => ({ ...item, id: `mock-${idx}` })));
+                    setIsDbMode(false);
+                }
+            } catch (err) {
+                console.warn("Using offline/fallback data for R&R:", err.message);
+                setRrData(CATEGORY_MAP_DATA.map((item, idx) => ({ ...item, id: `mock-${idx}` })));
+                setIsDbMode(false);
+            }
+        }
+        loadData();
+    }, []);
+
+    const handleAddClick = () => {
+        setEditingItem(null);
+        setFormCategory(R_R_CATEGORIES[1]); // default to first category
+        setFormSubsector('');
+        setFormTask('');
+        setFormPf(false);
+        setFormConst(false);
+        setFormOp(false);
+        setFormLead(departments[0]?.dept_name || '사업관리2파트');
+        setFormCoop([]);
+        setFormNeed('');
+        setFormPartner('');
+        setFormPoint('');
+        setIsModalOpen(true);
+    };
+
+    const handleEditClick = (item) => {
+        setEditingItem(item);
+        setFormCategory(item.category);
+        setFormSubsector(item.subsector);
+        setFormTask(item.task);
+        setFormPf(item.pf);
+        setFormConst(item.const);
+        setFormOp(item.op);
+        setFormLead(item.lead);
+        setFormCoop(item.coop || []);
+        setFormNeed(item.need);
+        setFormPartner(item.partner);
+        setFormPoint(item.point);
+        setIsModalOpen(true);
+    };
+
+    const handleFormSubmit = async (e) => {
+        e.preventDefault();
+        
+        // Find dept code and stakeholder code if in DB mode
+        let lead_dept_code = formLead;
+        let external_party_code = formPartner;
+        
+        if (isDbMode) {
+            const dept = departments.find(d => d.dept_name === formLead || d.dept_code === formLead);
+            if (dept) lead_dept_code = dept.dept_code;
+            
+            const stake = stakeholders.find(s => s.stakeholder_name === formPartner || s.stakeholder_code === formPartner);
+            if (stake) external_party_code = stake.stakeholder_code;
+        }
+
+        const gate_stage = formPf ? 'G0' : (formConst ? 'G1' : (formOp ? 'G2' : null));
+        const coop_dept_codes = formCoop.join(';');
+
+        if (editingItem) {
+            // EDITING
+            if (isDbMode) {
+                try {
+                    const { error } = await supabase
+                        .schema('iota_v2')
+                        .from('iota_pmo_tasks')
+                        .update({
+                            category_main: formCategory,
+                            sector_detail: formSubsector,
+                            task_name: formTask,
+                            deliverables: formNeed,
+                            task_purpose: formPoint,
+                            gate_stage,
+                            lead_dept_code,
+                            coop_dept_codes,
+                            external_party_code
+                        })
+                        .eq('id', editingItem.id);
+
+                    if (error) throw error;
+                } catch (err) {
+                    console.error("Failed to update task in DB:", err);
+                    alert("DB 수정에 실패했습니다. 권한이 없거나 필수 값이 누락되었을 수 있습니다.");
+                    return;
+                }
+            }
+
+            // Update local state
+            setRrData(prev => prev.map(item => item.id === editingItem.id ? {
+                ...item,
+                category: formCategory,
+                subsector: formSubsector,
+                task: formTask,
+                pf: formPf,
+                const: formConst,
+                op: formOp,
+                lead: formLead,
+                coop: formCoop,
+                need: formNeed,
+                partner: formPartner,
+                point: formPoint
+            } : item));
+        } else {
+            // ADDING
+            let newId = `mock-${Date.now()}`;
+            if (isDbMode) {
+                try {
+                    const { data, error } = await supabase
+                        .schema('iota_v2')
+                        .from('iota_pmo_tasks')
+                        .insert([{
+                            project_code: 'IOTA_SEOUL',
+                            category_main: formCategory,
+                            sector_detail: formSubsector,
+                            task_name: formTask,
+                            deliverables: formNeed,
+                            task_purpose: formPoint,
+                            gate_stage,
+                            lead_dept_code,
+                            coop_dept_codes,
+                            external_party_code
+                        }])
+                        .select();
+
+                    if (error) throw error;
+                    if (data && data[0]) {
+                        newId = data[0].id;
+                    }
+                } catch (err) {
+                    console.error("Failed to insert task in DB:", err);
+                    alert("DB 추가에 실패했습니다. 권한이 없거나 필수 값이 누락되었을 수 있습니다.");
+                    return;
+                }
+            }
+
+            const newItem = {
+                id: newId,
+                category: formCategory,
+                subsector: formSubsector,
+                task: formTask,
+                pf: formPf,
+                const: formConst,
+                op: formOp,
+                lead: formLead,
+                coop: formCoop,
+                need: formNeed,
+                partner: formPartner,
+                point: formPoint
+            };
+
+            setRrData(prev => [...prev, newItem]);
+        }
+
+        setIsModalOpen(false);
+    };
+
+    const handleDeleteClick = async (id) => {
+        if (!window.confirm("정말로 이 항목을 삭제하시겠습니까?")) return;
+
+        if (isDbMode) {
+            try {
+                const { error } = await supabase
+                    .schema('iota_v2')
+                    .from('iota_pmo_tasks')
+                    .delete()
+                    .eq('id', id);
+
+                if (error) throw error;
+            } catch (err) {
+                console.error("Failed to delete task in DB:", err);
+                alert("DB 삭제에 실패했습니다. 권한이 없거나 문제가 발생했습니다.");
+                return;
+            }
+        }
+
+        setRrData(prev => prev.filter(item => item.id !== id));
+    };
 
     const getSelectWidth = (value, defaultLabel) => {
         const text = value === '전체보기' ? defaultLabel : value;
@@ -371,14 +640,14 @@ export default function PmoScheduleGate() {
     };
 
     const R_R_LEADS = React.useMemo(() => {
-        const leads = CATEGORY_MAP_DATA.map(item => item.lead).filter(Boolean);
+        const leads = rrData.map(item => item.lead).filter(Boolean);
         return ['전체보기', ...Array.from(new Set(leads))];
-    }, []);
+    }, [rrData]);
 
     const R_R_COOPS = React.useMemo(() => {
-        const coops = CATEGORY_MAP_DATA.flatMap(item => item.coop).filter(Boolean);
+        const coops = rrData.flatMap(item => item.coop).filter(Boolean);
         return ['전체보기', ...Array.from(new Set(coops))];
-    }, []);
+    }, [rrData]);
 
     const filteredData = TIMELINE_DATA.filter(item => {
         if (filterCategory === 'All') return true;
@@ -565,6 +834,14 @@ export default function PmoScheduleGate() {
             {/* Category Map & R&R Section */}
             <div className="w-full flex items-center justify-between mt-[48px] mb-[14px]">
                 <h2 className="text-[26px] font-bold text-white tracking-tight leading-none text-left">R&R 및 필요산출물</h2>
+                {isAuthorized && (
+                    <button 
+                        onClick={handleAddClick}
+                        className="px-4 py-1.5 bg-[#2997ff] hover:bg-[#147ce5] text-white rounded-full text-[13px] font-bold transition-colors cursor-pointer shadow-sm shadow-[#2997ff]/20 flex items-center gap-1 mr-[calc(50vw-50%+24px)]"
+                    >
+                        <span>➕ 업무 추가</span>
+                    </button>
+                )}
             </div>
 
             {/* R&R Matrix Table */}
@@ -635,18 +912,19 @@ export default function PmoScheduleGate() {
                                     </th>
                                     <th className="px-3 w-[120px] min-w-[120px] max-w-[120px] text-center bg-[#272726]">외부 상대방</th>
                                     <th className="px-3 w-[120px] min-w-[120px] max-w-[120px] text-center bg-[#272726]">필요산출물</th>
-                                    <th className="px-3 w-[195px] min-w-[195px] max-w-[195px] text-left bg-[#272726] border-r border-[#3c3c3c]">관리 포인트</th>
+                                    <th className="px-3 w-[115px] min-w-[115px] max-w-[115px] text-left bg-[#272726]">관리 포인트</th>
+                                    <th className="px-2 w-[80px] min-w-[80px] max-w-[80px] text-center bg-[#272726] border-r border-[#3c3c3c]">관리</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-[#3c3c3c]/60 text-[12px]">
-                                {CATEGORY_MAP_DATA.filter(item => {
+                                {rrData.filter(item => {
                                     const matchCat = selectedRrCategory === '전체보기' || item.category === selectedRrCategory;
                                     const matchLead = selectedRrLead === '전체보기' || item.lead === selectedRrLead;
                                     const matchCoop = selectedRrCoop === '전체보기' || item.coop.includes(selectedRrCoop);
                                     return matchCat && matchLead && matchCoop;
                                 }).map((item) => {
                                     return (
-                                        <tr key={`${item.category}-${item.subsector}-${item.task}`} className="bg-[#272726] hover:bg-[#333] transition-colors h-11 group">
+                                        <tr key={item.id} className="bg-[#272726] hover:bg-[#333] transition-colors h-11 group">
                                             {/* 대분류 */}
                                             <td className="px-3 sticky left-0 bg-[#272726] group-hover:bg-[#333] transition-colors z-20 text-center font-bold text-white text-[12px] w-[104px] min-w-[104px] max-w-[104px]">
                                                 {item.category}
@@ -716,8 +994,31 @@ export default function PmoScheduleGate() {
                                             </td>
 
                                             {/* 관리 포인트 */}
-                                            <td className="px-3 text-left text-[#F59E0B] font-semibold whitespace-normal break-all w-[195px] min-w-[195px] max-w-[195px] border-r border-[#3c3c3c]">
+                                            <td className="px-3 text-left text-[#F59E0B] font-semibold whitespace-normal break-all w-[115px] min-w-[115px] max-w-[115px]">
                                                 {item.point}
+                                            </td>
+
+                                            {/* 관리 */}
+                                            <td className="px-2 text-center w-[80px] min-w-[80px] max-w-[80px] border-r border-[#3c3c3c]">
+                                                {isAuthorized ? (
+                                                    <div className="flex items-center justify-center gap-1.5">
+                                                        <button 
+                                                            onClick={() => handleEditClick(item)}
+                                                            className="text-blue-400 hover:text-blue-300 font-bold text-[11px] cursor-pointer"
+                                                        >
+                                                            수정
+                                                        </button>
+                                                        <span className="text-[#555] select-none">|</span>
+                                                        <button 
+                                                            onClick={() => handleDeleteClick(item.id)}
+                                                            className="text-red-400 hover:text-red-300 font-bold text-[11px] cursor-pointer"
+                                                        >
+                                                            삭제
+                                                        </button>
+                                                    </div>
+                                                ) : (
+                                                    <span className="text-[#555] text-[11px]">🔒</span>
+                                                )}
                                             </td>
                                         </tr>
                                     );
@@ -734,6 +1035,201 @@ export default function PmoScheduleGate() {
                     </div>
                 </div>
             </div>
+            
+            {/* Form Modal */}
+            {isModalOpen && (
+                <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[9999] flex items-center justify-center p-4">
+                    <div className="bg-[#272726] border border-[#3c3c3c] rounded-[24px] w-full max-w-[650px] overflow-hidden shadow-2xl flex flex-col max-h-[90vh]">
+                        {/* Modal Header */}
+                        <div className="px-6 py-4 border-b border-[#3c3c3c] flex justify-between items-center bg-[#2c2c2b]">
+                            <h3 className="text-[18px] font-bold text-white">
+                                {editingItem ? 'R&R 및 필요산출물 수정' : 'R&R 및 필요산출물 추가'}
+                            </h3>
+                            <button 
+                                onClick={() => setIsModalOpen(false)}
+                                className="text-[#86868B] hover:text-white font-bold text-[18px] cursor-pointer"
+                            >
+                                ✕
+                            </button>
+                        </div>
+                        
+                        {/* Modal Body */}
+                        <form onSubmit={handleFormSubmit} className="flex-1 overflow-y-auto p-6 space-y-4 text-left">
+                            <div className="grid grid-cols-2 gap-4">
+                                {/* 대분류 */}
+                                <div className="flex flex-col gap-1.5">
+                                    <label className="text-[12px] font-bold text-[#86868B]">대분류</label>
+                                    <select 
+                                        value={formCategory}
+                                        onChange={e => setFormCategory(e.target.value)}
+                                        className="bg-[#1a1a1a] border border-[#3c3c3c] text-white rounded-[8px] px-3 py-2 text-[13px] outline-none focus:border-[#2997ff]"
+                                        required
+                                    >
+                                        {R_R_CATEGORIES.slice(1).map(cat => (
+                                            <option key={cat} value={cat}>{cat}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                                
+                                {/* 세부섹터 */}
+                                <div className="flex flex-col gap-1.5">
+                                    <label className="text-[12px] font-bold text-[#86868B]">세부섹터</label>
+                                    <input 
+                                        type="text"
+                                        value={formSubsector}
+                                        onChange={e => setFormSubsector(e.target.value)}
+                                        className="bg-[#1a1a1a] border border-[#3c3c3c] text-white rounded-[8px] px-3 py-2 text-[13px] outline-none focus:border-[#2997ff]"
+                                        placeholder="예: 현금기부채납"
+                                        required
+                                    />
+                                </div>
+                            </div>
+
+                            {/* 대표 업무 */}
+                            <div className="flex flex-col gap-1.5">
+                                <label className="text-[12px] font-bold text-[#86868B]">대표 업무</label>
+                                <input 
+                                    type="text"
+                                    value={formTask}
+                                    onChange={e => setFormTask(e.target.value)}
+                                    className="bg-[#1a1a1a] border border-[#3c3c3c] text-white rounded-[8px] px-3 py-2 text-[13px] outline-none focus:border-[#2997ff] w-full"
+                                    placeholder="업무 내용을 입력하세요"
+                                    required
+                                />
+                            </div>
+
+                            {/* 필수 여부 체크박스 (Gates) */}
+                            <div className="flex items-center gap-6 py-2 border-y border-[#3c3c3c]/50">
+                                <label className="text-[12px] font-bold text-[#86868B]">필수 지정:</label>
+                                <label className="flex items-center gap-2 text-[13px] text-white cursor-pointer select-none">
+                                    <input 
+                                        type="checkbox"
+                                        checked={formPf}
+                                        onChange={e => setFormPf(e.target.checked)}
+                                        className="rounded border-[#3c3c3c] bg-[#1a1a1a] text-[#2997ff] focus:ring-0 focus:ring-offset-0"
+                                    />
+                                    <span>PF 전 필요</span>
+                                </label>
+                                <label className="flex items-center gap-2 text-[13px] text-white cursor-pointer select-none">
+                                    <input 
+                                        type="checkbox"
+                                        checked={formConst}
+                                        onChange={e => setFormConst(e.target.checked)}
+                                        className="rounded border-[#3c3c3c] bg-[#1a1a1a] text-[#2997ff] focus:ring-0 focus:ring-offset-0"
+                                    />
+                                    <span>착공 전 필요</span>
+                                </label>
+                                <label className="flex items-center gap-2 text-[13px] text-white cursor-pointer select-none">
+                                    <input 
+                                        type="checkbox"
+                                        checked={formOp}
+                                        onChange={e => setFormOp(e.target.checked)}
+                                        className="rounded border-[#3c3c3c] bg-[#1a1a1a] text-[#2997ff] focus:ring-0 focus:ring-offset-0"
+                                    />
+                                    <span>준공 전 필요</span>
+                                </label>
+                            </div>
+
+                            <div className="grid grid-cols-2 gap-4">
+                                {/* 주관 부서 */}
+                                <div className="flex flex-col gap-1.5">
+                                    <label className="text-[12px] font-bold text-[#86868B]">주관 부서</label>
+                                    <select 
+                                        value={formLead}
+                                        onChange={e => setFormLead(e.target.value)}
+                                        className="bg-[#1a1a1a] border border-[#3c3c3c] text-white rounded-[8px] px-3 py-2 text-[13px] outline-none focus:border-[#2997ff]"
+                                        required
+                                    >
+                                        {(departments.length > 0 ? departments.map(d => d.dept_name) : ['개발관리실', '공간솔루션실', '사업관리2파트', '사업관리1파트', 'LFC', '법무/세무자문', '기업마케팅실', '기획추진']).map(dept => (
+                                            <option key={dept} value={dept}>{dept}</option>
+                                        ))}
+                                    </select>
+                                </div>
+
+                                {/* 외부 상대방 */}
+                                <div className="flex flex-col gap-1.5">
+                                    <label className="text-[12px] font-bold text-[#86868B]">외부 상대방</label>
+                                    <input 
+                                        type="text"
+                                        value={formPartner}
+                                        onChange={e => setFormPartner(e.target.value)}
+                                        className="bg-[#1a1a1a] border border-[#3c3c3c] text-white rounded-[8px] px-3 py-2 text-[13px] outline-none focus:border-[#2997ff]"
+                                        placeholder="예: 서울시/중구청, 현대건설"
+                                    />
+                                </div>
+                            </div>
+
+                            {/* 협업 부서 (Checkboxes) */}
+                            <div className="flex flex-col gap-2">
+                                <label className="text-[12px] font-bold text-[#86868B]">협업 부서</label>
+                                <div className="grid grid-cols-3 gap-2 bg-[#1a1a1a] p-3 rounded-[8px] border border-[#3c3c3c]">
+                                    {(departments.length > 0 ? departments.map(d => d.dept_name) : ['개발관리실', '공간솔루션실', '사업관리2파트', '사업관리1파트', 'LFC', '법무/세무자문', '기업마케팅실', '기획추진']).map(dept => {
+                                        const isChecked = formCoop.includes(dept);
+                                        return (
+                                            <label key={dept} className="flex items-center gap-2 text-[12px] text-white cursor-pointer select-none">
+                                                <input 
+                                                    type="checkbox"
+                                                    checked={isChecked}
+                                                    onChange={e => {
+                                                        if (e.target.checked) {
+                                                            setFormCoop(prev => [...prev, dept]);
+                                                        } else {
+                                                            setFormCoop(prev => prev.filter(d => d !== dept));
+                                                        }
+                                                    }}
+                                                    className="rounded border-[#3c3c3c] bg-[#1a1a1a] text-[#2997ff] focus:ring-0 focus:ring-offset-0"
+                                                />
+                                                <span>{dept}</span>
+                                            </label>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+
+                            {/* 필요산출물 */}
+                            <div className="flex flex-col gap-1.5">
+                                <label className="text-[12px] font-bold text-[#86868B]">필요산출물</label>
+                                <input 
+                                    type="text"
+                                    value={formNeed}
+                                    onChange={e => setFormNeed(e.target.value)}
+                                    className="bg-[#1a1a1a] border border-[#3c3c3c] text-white rounded-[8px] px-3 py-2 text-[13px] outline-none focus:border-[#2997ff] w-full"
+                                    placeholder="예: 관청 협의결과"
+                                />
+                            </div>
+
+                            {/* 관리 포인트 */}
+                            <div className="flex flex-col gap-1.5">
+                                <label className="text-[12px] font-bold text-[#86868B]">관리 포인트</label>
+                                <input 
+                                    type="text"
+                                    value={formPoint}
+                                    onChange={e => setFormPoint(e.target.value)}
+                                    className="bg-[#1a1a1a] border border-[#3c3c3c] text-white rounded-[8px] px-3 py-2 text-[13px] outline-none focus:border-[#2997ff] w-full"
+                                    placeholder="관리 및 점검 포인트를 입력하세요"
+                                />
+                            </div>
+
+                            {/* Modal Footer */}
+                            <div className="pt-4 border-t border-[#3c3c3c] flex justify-end gap-3 mt-6">
+                                <button 
+                                    type="button"
+                                    onClick={() => setIsModalOpen(false)}
+                                    className="px-4 py-2 rounded-[8px] bg-[#333] hover:bg-[#444] text-[13px] font-bold text-white transition-colors cursor-pointer"
+                                >
+                                    취소
+                                </button>
+                                <button 
+                                    type="submit"
+                                    className="px-5 py-2 rounded-[8px] bg-[#2997ff] hover:bg-[#147ce5] text-[13px] font-bold text-white transition-colors cursor-pointer"
+                                >
+                                    저장
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
