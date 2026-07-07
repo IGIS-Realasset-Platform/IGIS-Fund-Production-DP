@@ -975,26 +975,6 @@ export default function PmoTaskBoardStaging() {
         }
     };
 
-    const handleToggleBadge = async (rowId, colName, currentValue) => {
-        const nextValue = !currentValue;
-        // Update local state
-        setTasks(prev => prev.map(t => t.id === rowId ? { ...t, [colName]: nextValue } : t));
-
-        if (isDbMode) {
-            try {
-                const { error } = await supabase
-                    .schema('iota_v2')
-                    .from('iota_pmo_tasks')
-                    .update({ [colName]: nextValue })
-                    .eq('id', rowId);
-
-                if (error) throw error;
-            } catch (err) {
-                console.error("Failed to toggle badge in DB:", err);
-            }
-        }
-    };
-
     return (
         <div className="w-full flex flex-col select-none mb-10">
             {/* Sub-Header */}
@@ -1017,8 +997,8 @@ export default function PmoTaskBoardStaging() {
             ) : (
                 <div className="-mr-[calc(50vw-50%)] border border-r-0 border-[#3c3c3c] bg-[#272726] rounded-l-[24px] overflow-hidden mb-[40px] shadow-sm select-text">
                     <div className="w-full overflow-x-auto pr-0 timeline-scrollbar">
-                        <div className="flex items-center min-w-[2380px]">
-                            <table className="text-left table-fixed min-w-[1580px] flex-1 border-collapse bg-[#272726]">
+                        <div className="flex items-center min-w-[3200px]">
+                            <table className="text-left table-fixed min-w-[2400px] flex-1 border-collapse bg-[#272726]">
                                 <thead>
                                     <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[13px] h-11 select-none">
                                         <th className="pl-4 text-center w-[80px] min-w-[80px] max-w-[80px]">ID</th>
@@ -1026,36 +1006,60 @@ export default function PmoTaskBoardStaging() {
                                         <th className="pl-4 w-[120px] min-w-[120px] max-w-[120px]">대분류</th>
                                         <th className="pl-4 w-[140px] min-w-[140px] max-w-[140px]">세부섹터</th>
                                         <th className="pl-4 w-[280px] min-w-[280px] max-w-[280px]">업무명 (더블클릭 편집)</th>
-                                        <th className="pl-4 w-[130px] min-w-[130px] max-w-[130px]">주관부서</th>
-                                        <th className="pl-4 w-[150px] min-w-[150px] max-w-[150px]">협업부서</th>
-                                        <th className="pl-4 w-[110px] min-w-[110px] max-w-[110px]">담당자</th>
-                                        <th className="pl-4 w-[120px] min-w-[120px] max-w-[120px]">기한</th>
-                                        <th className="pl-4 w-[100px] min-w-[100px] max-w-[100px] text-center">진행상태</th>
-                                        <th className="pl-4 w-[85px] min-w-[85px] max-w-[85px] text-center">Blocker</th>
-                                        <th className="pl-4 w-[85px] min-w-[85px] max-w-[85px] text-center">의사결정</th>
-                                        <th className="pl-4 w-[200px] min-w-[200px] max-w-[200px]">다음 액션</th>
+                                        <th className="pl-4 w-[280px] min-w-[280px] max-w-[280px]">업무목적 / PF·준공 영향 (더블클릭 편집)</th>
+                                        <th className="pl-4 w-[220px] min-w-[220px] max-w-[220px]">필요 산출물 (더블클릭 편집)</th>
+                                        <th className="pl-4 w-[110px] min-w-[110px] max-w-[110px]">최종 목표축</th>
+                                        <th className="pl-4 w-[120px] min-w-[120px] max-w-[120px]">Gate</th>
+                                        <th className="pl-4 w-[120px] min-w-[120px] max-w-[120px]">PMO총괄</th>
+                                        <th className="pl-4 w-[130px] min-w-[130px] max-w-[130px]">실무 주관부서</th>
+                                        <th className="pl-4 w-[180px] min-w-[180px] max-w-[180px]">협업부서</th>
+                                        <th className="pl-4 w-[110px] min-w-[110px] max-w-[110px]">담당자 (더블클릭 편집)</th>
+                                        <th className="pl-4 w-[140px] min-w-[140px] max-w-[140px]">외부상대방</th>
+                                        <th className="pl-4 w-[180px] min-w-[180px] max-w-[180px]">지원필요</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-[#3c3c3c] text-[13px] text-white">
                                     {tasks.length === 0 ? (
                                         <tr>
-                                            <td colSpan="13" className="text-center py-20 text-[#86868B]">
+                                            <td colSpan="15" className="text-center py-20 text-[#86868B]">
                                                 등록된 통합 업무 보드 정보가 없습니다.
                                             </td>
                                         </tr>
                                     ) : (
                                         tasks.map((t, idx) => {
-                                            const leadDeptName = t.lead_dept?.dept_name || t.lead_dept || t.lead_dept_code || '';
-                                            const coopDeptNames = t.coop_dept_codes || t.coop_depts || '';
+                                            const fallbackItem = FALLBACK_BOARD_TASKS.find(item => item.task_name === t.task_name) || {};
+                                            
+                                            // Data mapping
+                                            const leadDeptName = t.lead_dept?.dept_name || t.lead_dept || t.lead_dept_code || fallbackItem.lead_dept || '';
+                                            const coopDeptNames = t.coop_dept_codes || t.coop_depts || fallbackItem.coop_depts || '';
+                                            const extPartyName = t.external_party?.stakeholder_name || t.external_party || t.external_party_code || fallbackItem.external_party || '';
+                                            const targetAxis = t.target_axis || fallbackItem.target_axis || '준공/운영';
+                                            const gateStageVal = t.gate_stage || fallbackItem.gate_stage || 'G0';
+                                            const supportNeeded = t.support_needed || fallbackItem.support_needed || '';
                                             
                                             return (
                                                 <tr key={t.id || `task-${idx}`} className="hover:bg-[#333]/50 transition-colors h-12">
-                                                    <td className="pl-4 text-center text-[#86868B] font-mono select-none w-[80px] min-w-[80px] max-w-[80px] truncate">{t.id || `T-${String(idx+1).padStart(3, '0')}`}</td>
-                                                    <td className="pl-4 font-bold text-[#E5E5E5] w-[100px] min-w-[100px] max-w-[100px] truncate">{t.project || t.project_code || '공통'}</td>
-                                                    <td className="pl-4 font-bold text-[#E5E5E5] w-[120px] min-w-[120px] max-w-[120px] truncate">{t.category_main}</td>
-                                                    <td className="pl-4 text-[#A1A1AA] w-[140px] min-w-[140px] max-w-[140px] truncate">{t.sector_detail}</td>
+                                                    {/* 1. ID */}
+                                                    <td className="pl-4 text-center text-[#86868B] font-mono select-none w-[80px] min-w-[80px] max-w-[80px] truncate">
+                                                        {t.id && !t.id.includes('-') ? t.id : (fallbackItem.id || `T-${String(idx+1).padStart(3, '0')}`)}
+                                                    </td>
                                                     
-                                                    {/* Inline Edit for Task Name */}
+                                                    {/* 2. 프로젝트 */}
+                                                    <td className="pl-4 font-bold text-[#E5E5E5] w-[100px] min-w-[100px] max-w-[100px] truncate">
+                                                        {t.project || t.project_code || fallbackItem.project || '공통'}
+                                                    </td>
+                                                    
+                                                    {/* 3. 대분류 */}
+                                                    <td className="pl-4 font-bold text-[#E5E5E5] w-[120px] min-w-[120px] max-w-[120px] truncate">
+                                                        {t.category_main}
+                                                    </td>
+                                                    
+                                                    {/* 4. 세부섹터 */}
+                                                    <td className="pl-4 text-[#A1A1AA] w-[140px] min-w-[140px] max-w-[140px] truncate">
+                                                        {t.sector_detail}
+                                                    </td>
+                                                    
+                                                    {/* 5. 업무명 (더블클릭 편집) */}
                                                     <td 
                                                         className="pl-4 font-medium text-white cursor-pointer truncate w-[280px] min-w-[280px] max-w-[280px]"
                                                         onDoubleClick={() => handleDoubleClick(t.id, 'task_name', t.task_name)}
@@ -1075,10 +1079,62 @@ export default function PmoTaskBoardStaging() {
                                                         )}
                                                     </td>
 
-                                                    <td className="pl-4 text-[#A1A1AA] w-[130px] min-w-[130px] max-w-[130px] truncate">{leadDeptName || '-'}</td>
-                                                    <td className="pl-4 text-[#86868B] w-[150px] min-w-[150px] max-w-[150px] truncate">{coopDeptNames || '-'}</td>
+                                                    {/* 6. 업무목적 / PF·준공 영향 (더블클릭 편집) */}
+                                                    <td 
+                                                        className="pl-4 text-[#A1A1AA] cursor-pointer truncate w-[280px] min-w-[280px] max-w-[280px]"
+                                                        onDoubleClick={() => handleDoubleClick(t.id, 'task_purpose', t.task_purpose || fallbackItem.task_purpose)}
+                                                    >
+                                                        {editingCell?.rowId === t.id && editingCell?.colName === 'task_purpose' ? (
+                                                            <input 
+                                                                type="text" 
+                                                                value={tempValue} 
+                                                                onChange={e => setTempValue(e.target.value)}
+                                                                onBlur={() => handleSaveCell(t.id, 'task_purpose')}
+                                                                onKeyDown={e => e.key === 'Enter' && handleSaveCell(t.id, 'task_purpose')}
+                                                                className="w-[90%] bg-[#1a1a1a] border border-[#2997ff] rounded px-2 py-0.5 text-white outline-none"
+                                                                autoFocus
+                                                            />
+                                                        ) : (
+                                                            <span className="hover:text-[#2997ff] transition-colors">{t.task_purpose || fallbackItem.task_purpose || '-'}</span>
+                                                        )}
+                                                    </td>
 
-                                                    {/* Inline Edit for Assignee */}
+                                                    {/* 7. 필요 산출물 (더블클릭 편집) */}
+                                                    <td 
+                                                        className="pl-4 text-[#A1A1AA] cursor-pointer truncate w-[220px] min-w-[220px] max-w-[220px]"
+                                                        onDoubleClick={() => handleDoubleClick(t.id, 'deliverables', t.deliverables || fallbackItem.deliverables)}
+                                                    >
+                                                        {editingCell?.rowId === t.id && editingCell?.colName === 'deliverables' ? (
+                                                            <input 
+                                                                type="text" 
+                                                                value={tempValue} 
+                                                                onChange={e => setTempValue(e.target.value)}
+                                                                onBlur={() => handleSaveCell(t.id, 'deliverables')}
+                                                                onKeyDown={e => e.key === 'Enter' && handleSaveCell(t.id, 'deliverables')}
+                                                                className="w-[90%] bg-[#1a1a1a] border border-[#2997ff] rounded px-2 py-0.5 text-white outline-none"
+                                                                autoFocus
+                                                            />
+                                                        ) : (
+                                                            <span className="hover:text-[#2997ff] transition-colors">{t.deliverables || fallbackItem.deliverables || '-'}</span>
+                                                        )}
+                                                    </td>
+
+                                                    {/* 8. 최종 목표축 */}
+                                                    <td className="pl-4 text-[#A1A1AA] w-[110px] min-w-[110px] max-w-[110px] truncate">{targetAxis}</td>
+
+                                                    {/* 9. Gate */}
+                                                    <td className="pl-4 text-[#A1A1AA] w-[120px] min-w-[120px] max-w-[120px] truncate">{gateStageVal}</td>
+
+                                                    {/* 10. PMO총괄 */}
+                                                    <td className="pl-4 text-[#A1A1AA] w-[120px] min-w-[120px] max-w-[120px] truncate">{t.pmo_manager || fallbackItem.pmo_manager || '사업관리2파트'}</td>
+
+                                                    {/* 11. 실무 주관부서 */}
+                                                    <td className="pl-4 text-[#A1A1AA] w-[130px] min-w-[130px] max-w-[130px] truncate">{leadDeptName || '-'}</td>
+
+                                                    {/* 12. 협업부서 */}
+                                                    <td className="pl-4 text-[#86868B] w-[180px] min-w-[180px] max-w-[180px] truncate">{coopDeptNames || '-'}</td>
+
+                                                    {/* 13. 담당자 (더블클릭 편집) */}
                                                     <td 
                                                         className="pl-4 text-[#A1A1AA] cursor-pointer w-[110px] min-w-[110px] max-w-[110px]"
                                                         onDoubleClick={() => handleDoubleClick(t.id, 'assignee', t.assignee)}
@@ -1097,85 +1153,11 @@ export default function PmoTaskBoardStaging() {
                                                         )}
                                                     </td>
 
-                                                    {/* Inline Edit for Due Date */}
-                                                    <td 
-                                                        className="pl-4 text-[#A1A1AA] font-mono cursor-pointer w-[120px] min-w-[120px] max-w-[120px]"
-                                                        onDoubleClick={() => handleDoubleClick(t.id, 'due_date', t.due_date)}
-                                                    >
-                                                        {editingCell?.rowId === t.id && editingCell?.colName === 'due_date' ? (
-                                                            <input 
-                                                                type="date" 
-                                                                value={tempValue} 
-                                                                onChange={e => setTempValue(e.target.value)}
-                                                                onBlur={() => handleSaveCell(t.id, 'due_date')}
-                                                                className="w-[90%] bg-[#1a1a1a] border border-[#2997ff] rounded px-1.5 py-0.5 text-white outline-none"
-                                                                autoFocus
-                                                            />
-                                                        ) : (
-                                                            <span className="hover:text-[#2997ff] transition-colors">{t.due_date || '-'}</span>
-                                                        )}
-                                                    </td>
+                                                    {/* 14. 외부상대방 */}
+                                                    <td className="pl-4 text-[#A1A1AA] w-[140px] min-w-[140px] max-w-[140px] truncate">{extPartyName || '-'}</td>
 
-                                                    {/* Status Dropdown */}
-                                                    <td className="pl-4 text-center select-none w-[100px] min-w-[100px] max-w-[100px]">
-                                                        <select 
-                                                            value={t.status || '미착수'}
-                                                            onChange={e => handleSaveCell(t.id, 'status', e.target.value)}
-                                                            className="bg-[#222] border border-[#333] text-white rounded-[6px] px-2 py-0.5 text-[11px] font-bold outline-none cursor-pointer hover:border-[#555] transition-colors"
-                                                        >
-                                                            <option value="미착수">미착수</option>
-                                                            <option value="진행중">진행중</option>
-                                                            <option value="완료">완료</option>
-                                                            <option value="지연">지연</option>
-                                                        </select>
-                                                    </td>
-
-                                                    {/* Toggle Blocker Badge */}
-                                                    <td className="pl-4 text-center select-none w-[85px] min-w-[85px] max-w-[85px]">
-                                                        <button 
-                                                            onClick={() => handleToggleBadge(t.id, 'is_blocker', t.is_blocker)}
-                                                            className={`w-7 h-7 rounded-full flex items-center justify-center font-bold text-[11px] cursor-pointer transition-all mx-auto ${
-                                                                t.is_blocker 
-                                                                    ? 'bg-[#EF4444] text-white shadow-md shadow-[#EF4444]/20' 
-                                                                    : 'bg-[#333] text-[#86868B] hover:bg-[#444]'
-                                                            }`}
-                                                        >
-                                                            B
-                                                        </button>
-                                                    </td>
-
-                                                    {/* Toggle Decision Badge */}
-                                                    <td className="pl-4 text-center select-none w-[85px] min-w-[85px] max-w-[85px]">
-                                                        <button 
-                                                            onClick={() => handleToggleBadge(t.id, 'needs_decision', t.needs_decision)}
-                                                            className={`w-7 h-7 rounded-full flex items-center justify-center font-bold text-[11px] cursor-pointer transition-all mx-auto ${
-                                                                t.needs_decision 
-                                                                    ? 'bg-[#F59E0B] text-white shadow-md shadow-[#F59E0B]/20' 
-                                                                    : 'bg-[#333] text-[#86868B] hover:bg-[#444]'
-                                                            }`}
-                                                        >
-                                                            D
-                                                        </button>
-                                                    </td>
-
-                                                    {/* Next Action Cell */}
-                                                    <td 
-                                                        className="pl-4 text-[#A1A1AA] truncate cursor-pointer w-[200px] min-w-[200px] max-w-[200px]"
-                                                        onDoubleClick={() => handleDoubleClick(t.id, 'next_action', t.next_action)}
-                                                    >
-                                                        {editingCell?.rowId === t.id && editingCell?.colName === 'next_action' ? (
-                                                            <input 
-                                                                type="text" 
-                                                                value={tempValue} 
-                                                                onChange={e => setTempValue(e.target.value)}
-                                                                onBlur={() => handleSaveCell(t.id, 'next_action')}
-                                                                className="w-[90%] bg-[#1a1a1a] border border-[#2997ff] rounded px-2 py-0.5 text-white outline-none"
-                                                                autoFocus
-                                                            />
-                                                        ) : (
-                                                            <span className="hover:text-[#2997ff] transition-colors">{t.next_action || '-'}</span>
-                                                        )}
-                                                    </td>
+                                                    {/* 15. 지원필요 */}
+                                                    <td className="pl-4 text-[#86868B] w-[180px] min-w-[180px] max-w-[180px] truncate">{supportNeeded || '-'}</td>
                                                 </tr>
                                             );
                                         })
