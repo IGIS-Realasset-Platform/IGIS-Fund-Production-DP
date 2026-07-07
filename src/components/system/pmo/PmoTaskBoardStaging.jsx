@@ -2112,8 +2112,8 @@ export default function PmoTaskBoardStaging() {
                                         <th className="pl-4 w-[220px] min-w-[220px] max-w-[220px]">필요 산출물</th>
 
                                         {/* 최종 목표축 */}
-                                        <th className="pl-4 w-[91px] min-w-[91px] max-w-[91px]">
-                                            <div className="relative inline-flex items-center justify-start bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[76px] overflow-hidden">
+                                        <th className="w-[91px] min-w-[91px] max-w-[91px] text-center">
+                                            <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[76px] overflow-hidden mx-auto">
                                                 <span className={`font-bold text-[11px] whitespace-nowrap truncate ${selectedTargetAxis === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
                                                     {selectedTargetAxis === '전체보기' ? '최종목표' : selectedTargetAxis}
                                                 </span>
@@ -2132,8 +2132,8 @@ export default function PmoTaskBoardStaging() {
                                         </th>
 
                                         {/* Gate */}
-                                        <th className="pl-4 w-[90px] min-w-[90px] max-w-[90px]">
-                                            <div className="relative inline-flex items-center justify-start bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[75px] overflow-hidden">
+                                        <th className="w-[90px] min-w-[90px] max-w-[90px] text-center">
+                                            <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[75px] overflow-hidden mx-auto">
                                                 <span className={`font-bold text-[11px] whitespace-nowrap truncate ${selectedGateStage === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
                                                     {selectedGateStage === '전체보기' ? 'GATE' : selectedGateStage}
                                                 </span>
