@@ -25,6 +25,7 @@ export default function DecisionLog() {
     };
     const { memberInfo } = useAuth();
     const [searchQuery, setSearchQuery] = useState('');
+    const [viewMode, setViewMode] = useState('key');
     const [logs, setLogs] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [expandedLogs, setExpandedLogs] = useState({});
@@ -856,7 +857,7 @@ export default function DecisionLog() {
             </div>
 
             {/* 통합 업무 보드 */}
-            <PmoTaskBoardStaging searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+            <PmoTaskBoardStaging searchQuery={searchQuery} setSearchQuery={setSearchQuery} viewMode={viewMode} setViewMode={setViewMode} />
 
             {/* IOTA CFT 실시간 통합 업무 로그 */}
             <div className="w-full mb-[44px]">
