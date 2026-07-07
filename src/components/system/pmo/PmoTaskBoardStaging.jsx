@@ -2389,7 +2389,7 @@ export default function PmoTaskBoardStaging() {
                                                     </td>
 
                                                     {/* 우선순위점수 */}
-                                                    <td className="pl-4 text-center font-mono w-[100px] min-w-[100px] max-w-[100px] font-bold text-[#E5E5E5]">{priorityScore}</td>
+                                                    <td className={`pl-4 text-center font-mono w-[100px] min-w-[100px] max-w-[100px] font-bold ${priorityScore >= 70 ? 'text-[#FF453A]' : priorityScore >= 50 ? 'text-[#FF9F0A]' : 'text-[#86868B]'}`}>{priorityScore}</td>
 
                                                     {/* 6. 업무목적 / PF·준공 영향 */}
                                                     <td className="pl-4 text-[#A1A1AA] truncate w-[220px] min-w-[220px] max-w-[220px]">
@@ -2479,8 +2479,7 @@ export default function PmoTaskBoardStaging() {
                                                     {/* 22. 다음 액션 */}
                                                     <td className="pl-4 text-[#A1A1AA] truncate w-[200px] min-w-[200px] max-w-[200px]">{nextActionVal || '-'}</td>
 
-                                                    {/* 23. 우선순위점수 */}
-                                                    <td className="pl-4 text-center font-mono w-[100px] min-w-[100px] max-w-[100px] font-bold text-[#E5E5E5]">{priorityScore}</td>
+                                                    
 
                                                     {/* 24. 회의상정등급 */}
                                                     <td className="pl-4 text-center w-[115px] min-w-[115px] max-w-[115px] truncate">
