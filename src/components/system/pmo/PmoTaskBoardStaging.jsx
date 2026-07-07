@@ -1989,7 +1989,7 @@ export default function PmoTaskBoardStaging() {
                                         </th>
 
                                         <th className="pl-4 w-[104px] min-w-[104px] max-w-[104px] sticky left-[265px] bg-[#272726] z-30">세부섹터</th>
-                                        <th className="pl-4 w-[270px] min-w-[270px] max-w-[270px] sticky left-[369px] bg-[#272726] z-30 border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)]">업무명</th>
+                                        <th className="pl-4 w-[270px] min-w-[270px] max-w-[270px] sticky left-[369px] bg-[#272726] z-30 shadow-[inset_-1px_0_0_0_#3c3c3c]">업무명</th>
                                         <th className="pl-4 w-[280px] min-w-[280px] max-w-[280px]">업무목적 / PF·준공 영향</th>
                                         <th className="pl-4 w-[220px] min-w-[220px] max-w-[220px]">필요 산출물</th>
 
@@ -2258,7 +2258,7 @@ export default function PmoTaskBoardStaging() {
                                                     </td>
                                                     
                                                     {/* 5. 업무명 */}
-                                                    <td className="pl-4 font-bold text-[#F59E0B] w-[270px] min-w-[270px] max-w-[270px] sticky left-[369px] bg-[#272726] group-hover:bg-[#2d2d2c] transition-colors z-10 border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)] overflow-visible">
+                                                    <td className="pl-4 font-bold text-[#F59E0B] w-[270px] min-w-[270px] max-w-[270px] sticky left-[369px] bg-[#272726] group-hover:bg-[#2d2d2c] transition-colors z-10 shadow-[inset_-1px_0_0_0_#3c3c3c]">
                                                         <div className="truncate w-full">{t.task_name}</div>
                                                     </td>
 
