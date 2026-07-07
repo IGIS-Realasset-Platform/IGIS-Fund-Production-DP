@@ -376,6 +376,7 @@ export default function PmoScheduleGate() {
     const [isModalOpen, setIsModalOpen] = React.useState(false);
     const [showAuthInfoModal, setShowAuthInfoModal] = React.useState(false);
     const [editingItem, setEditingItem] = React.useState(null);
+    const [deleteConfirmId, setDeleteConfirmId] = React.useState(null);
 
     const [formCategory, setFormCategory] = React.useState('');
     const [formSubsector, setFormSubsector] = React.useState('');
@@ -638,9 +639,11 @@ export default function PmoScheduleGate() {
         setIsModalOpen(false);
     };
 
-    const handleDeleteClick = async (id) => {
-        if (!window.confirm("정말로 이 항목을 삭제하시겠습니까?")) return;
+    const handleDeleteClick = (id) => {
+        setDeleteConfirmId(id);
+    };
 
+    const confirmDelete = async (id) => {
         if (isDbMode) {
             try {
                 const { error } = await supabase
@@ -1120,6 +1123,36 @@ export default function PmoScheduleGate() {
                 </div>
             </div>
             
+            {/* Delete Confirmation Modal */}
+            {deleteConfirmId && (
+                <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[10000] flex items-center justify-center p-4" onClick={() => setDeleteConfirmId(null)}>
+                    <div className="bg-[#272726] border border-[#3c3c3c] rounded-[20px] p-6 w-full max-w-[400px] shadow-2xl transform transition-all scale-100 flex flex-col text-left" onClick={(e) => e.stopPropagation()}>
+                        <h3 className="text-[17px] font-bold text-white mb-2">항목 삭제 확인</h3>
+                        <p className="text-[13px] text-[#86868B] mb-6 leading-relaxed">
+                            정말로 이 R&R 및 필요산출물 항목을 삭제하시겠습니까?<br />
+                            삭제된 데이터는 원장에서 즉시 제거되며 복구할 수 없습니다.
+                        </p>
+                        <div className="flex gap-3 justify-end">
+                            <button
+                                onClick={() => setDeleteConfirmId(null)}
+                                className="px-4 py-2 rounded-[8px] bg-white/5 hover:bg-white/10 text-white border border-[#3c3c3c] text-[13px] font-bold cursor-pointer transition-all"
+                            >
+                                취소
+                            </button>
+                            <button
+                                onClick={() => {
+                                    confirmDelete(deleteConfirmId);
+                                    setDeleteConfirmId(null);
+                                }}
+                                className="px-4 py-2 rounded-[8px] bg-[#FF453A] hover:bg-[#FF453A]/90 text-white text-[13px] font-bold cursor-pointer transition-all shadow-md shadow-[#FF453A]/10"
+                            >
+                                삭제
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             {/* Form Modal */}
             {isModalOpen && (
                 <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[9999] flex items-center justify-center p-4">
