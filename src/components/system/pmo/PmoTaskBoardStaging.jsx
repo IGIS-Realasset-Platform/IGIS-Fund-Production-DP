@@ -16,7 +16,7 @@ const FALLBACK_BOARD_TASKS = [
     "pmo_manager": "사업관리2파트",
     "lead_dept": "사업관리2파트",
     "coop_depts": "사업관리1파트;개발관리실;공간솔루션실;기업마케팅실;LFC",
-    "assignee": "파트장",
+    "assignee": "미정",
     "external_party": "내부 전체",
     "support_needed": "부서별 담당자 입력",
     "is_blocker": "N",
@@ -973,7 +973,7 @@ const FALLBACK_BOARD_TASKS = [
     "pmo_manager": "사업관리2파트",
     "lead_dept": "사업관리2파트",
     "coop_depts": "개발관리실",
-    "assignee": "찬호",
+    "assignee": "미정",
     "external_party": "대표/본부장/파트장",
     "support_needed": "회의 일정 확정",
     "is_blocker": "N",
@@ -1002,7 +1002,7 @@ const FALLBACK_BOARD_TASKS = [
     "pmo_manager": "사업관리2파트",
     "lead_dept": "사업관리2파트",
     "coop_depts": "LFC;사업관리1파트;법무/세무 외부자문",
-    "assignee": "찬호",
+    "assignee": "미정",
     "external_party": "주주사",
     "support_needed": "숫자/법무 검토",
     "is_blocker": "N",
@@ -1031,7 +1031,7 @@ const FALLBACK_BOARD_TASKS = [
     "pmo_manager": "사업관리2파트",
     "lead_dept": "사업관리2파트",
     "coop_depts": "전 부서",
-    "assignee": "찬호",
+    "assignee": "미정",
     "external_party": "내부 전체",
     "support_needed": "부서별 피드백",
     "is_blocker": "N",
@@ -1410,7 +1410,7 @@ export default function PmoTaskBoardStaging() {
     const [formPmoManager, setFormPmoManager] = useState('사업관리2파트');
     const [formLeadDept, setFormLeadDept] = useState('사업관리2파트');
     const [formCoopDepts, setFormCoopDepts] = useState('');
-    const [formAssignee, setFormAssignee] = useState('');
+    const [formAssignee, setFormAssignee] = useState('미정');
     const [formExternalParty, setFormExternalParty] = useState('');
     const [formSupportNeeded, setFormSupportNeeded] = useState('');
     const [formIsBlocker, setFormIsBlocker] = useState(false);
@@ -1780,7 +1780,7 @@ export default function PmoTaskBoardStaging() {
         setFormPmoManager('사업관리2파트');
         setFormLeadDept(departments[0]?.dept_name || '사업관리2파트');
         setFormCoopDepts('');
-        setFormAssignee('');
+        setFormAssignee('미정');
         setFormExternalParty('');
         setFormSupportNeeded('');
         setFormIsBlocker(false);
@@ -1817,7 +1817,7 @@ export default function PmoTaskBoardStaging() {
         setFormPmoManager(item.pmo_manager || fallbackItem.pmo_manager || '사업관리2파트');
         setFormLeadDept(item.lead_dept?.dept_name || item.lead_dept || item.lead_dept_code || fallbackItem.lead_dept || '사업관리2파트');
         setFormCoopDepts(item.coop_dept_codes || item.coop_depts || fallbackItem.coop_depts || '');
-        setFormAssignee(item.assignee || '');
+        setFormAssignee(item.assignee || '미정');
         setFormExternalParty(item.external_party?.stakeholder_name || item.external_party || item.external_party_code || fallbackItem.external_party || '');
         setFormSupportNeeded(item.support_needed || fallbackItem.support_needed || '');
         
@@ -2205,7 +2205,7 @@ export default function PmoTaskBoardStaging() {
                                             </div>
                                         </th>
 
-                                        <th className="pl-4 w-[100px] min-w-[100px] max-w-[100px]">담당자</th>
+                                        <th className="w-[100px] min-w-[100px] max-w-[100px] text-center">담당자</th>
                                         <th className="pl-4 w-[120px] min-w-[120px] max-w-[120px]">외부상대방</th>
                                         <th className="pl-4 w-[180px] min-w-[180px] max-w-[180px]">지원필요</th>
 
@@ -2446,7 +2446,7 @@ export default function PmoTaskBoardStaging() {
                                                     </td>
 
                                                     {/* 13. 담당자 */}
-                                                    <td className="pl-4 text-[#A1A1AA] w-[100px] min-w-[100px] max-w-[100px] truncate">{t.assignee || '-'}</td>
+                                                    <td className="text-center text-[#A1A1AA] w-[100px] min-w-[100px] max-w-[100px] truncate">{t.assignee || '미정'}</td>
 
                                                     {/* 14. 외부상대방 */}
                                                     <td className="pl-4 text-[#A1A1AA] w-[120px] min-w-[120px] max-w-[120px] truncate">{extPartyName || '-'}</td>
