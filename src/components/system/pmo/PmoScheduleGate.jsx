@@ -356,6 +356,18 @@ const R_R_CATEGORIES = [
 export default function PmoScheduleGate() {
     const [filterCategory, setFilterCategory] = React.useState('All'); // All, Gate, Task
     const [selectedRrCategory, setSelectedRrCategory] = React.useState('전체보기');
+    const [selectedRrLead, setSelectedRrLead] = React.useState('전체보기');
+    const [selectedRrCoop, setSelectedRrCoop] = React.useState('전체보기');
+
+    const R_R_LEADS = React.useMemo(() => {
+        const leads = CATEGORY_MAP_DATA.map(item => item.lead).filter(Boolean);
+        return ['전체보기', ...Array.from(new Set(leads))];
+    }, []);
+
+    const R_R_COOPS = React.useMemo(() => {
+        const coops = CATEGORY_MAP_DATA.flatMap(item => item.coop).filter(Boolean);
+        return ['전체보기', ...Array.from(new Set(coops))];
+    }, []);
 
     const filteredData = TIMELINE_DATA.filter(item => {
         if (filterCategory === 'All') return true;
@@ -541,25 +553,52 @@ export default function PmoScheduleGate() {
             </div>
 
             {/* Category Map & R&R Section */}
-            <div className="w-full flex flex-col sm:flex-row sm:items-center justify-between gap-4 mt-[48px] mb-[20px]">
+            <div className="w-full flex flex-col sm:flex-row sm:items-center justify-between gap-4 mt-[42px] mb-[20px]">
                 <h2 className="text-[26px] font-bold text-white tracking-tight leading-none text-left">R&R</h2>
                 
-                {/* Category Selector Tabs */}
-                <div className="flex flex-wrap items-center bg-[#222] border border-[#333] rounded-[8px] p-[4px] shrink-0 max-w-full overflow-x-auto">
-                    {R_R_CATEGORIES.map(cat => {
-                        const isActive = selectedRrCategory === cat;
-                        return (
-                            <button
-                                key={cat}
-                                onClick={() => setSelectedRrCategory(cat)}
-                                className={`px-[12px] py-[5px] text-[12px] font-bold rounded-[6px] transition-colors cursor-pointer whitespace-nowrap ${
-                                    isActive ? 'bg-[#3c3c3c] text-white' : 'text-[#86868B] hover:text-white'
-                                }`}
-                            >
-                                {cat}
-                            </button>
-                        );
-                    })}
+                {/* Filters Row */}
+                <div className="flex flex-wrap items-center gap-6 shrink-0 max-w-full">
+                    {/* 대분류 Select */}
+                    <div className="flex items-center gap-2">
+                        <span className="text-[12px] font-bold text-[#86868B]">대분류</span>
+                        <select
+                            value={selectedRrCategory}
+                            onChange={(e) => setSelectedRrCategory(e.target.value)}
+                            className="bg-[#222] border border-[#333] text-white text-[12px] font-bold rounded-[6px] px-[12px] py-[6px] outline-none cursor-pointer hover:border-[#444] transition-colors"
+                        >
+                            {R_R_CATEGORIES.map(cat => (
+                                <option key={cat} value={cat} className="bg-[#222] text-white">{cat}</option>
+                            ))}
+                        </select>
+                    </div>
+
+                    {/* 주관부서 Select */}
+                    <div className="flex items-center gap-2">
+                        <span className="text-[12px] font-bold text-[#86868B]">주관부서</span>
+                        <select
+                            value={selectedRrLead}
+                            onChange={(e) => setSelectedRrLead(e.target.value)}
+                            className="bg-[#222] border border-[#333] text-white text-[12px] font-bold rounded-[6px] px-[12px] py-[6px] outline-none cursor-pointer hover:border-[#444] transition-colors"
+                        >
+                            {R_R_LEADS.map(lead => (
+                                <option key={lead} value={lead} className="bg-[#222] text-white">{lead}</option>
+                            ))}
+                        </select>
+                    </div>
+
+                    {/* 협업부서 Select */}
+                    <div className="flex items-center gap-2">
+                        <span className="text-[12px] font-bold text-[#86868B]">협업부서</span>
+                        <select
+                            value={selectedRrCoop}
+                            onChange={(e) => setSelectedRrCoop(e.target.value)}
+                            className="bg-[#222] border border-[#333] text-white text-[12px] font-bold rounded-[6px] px-[12px] py-[6px] outline-none cursor-pointer hover:border-[#444] transition-colors"
+                        >
+                            {R_R_COOPS.map(coop => (
+                                <option key={coop} value={coop} className="bg-[#222] text-white">{coop}</option>
+                            ))}
+                        </select>
+                    </div>
                 </div>
             </div>
 
@@ -576,7 +615,7 @@ export default function PmoScheduleGate() {
                                     <th className="px-2 w-[75px] min-w-[75px] max-w-[75px] text-center bg-[#272726] text-[11px] leading-tight">PF 전<br />필요</th>
                                     <th className="px-2 w-[75px] min-w-[75px] max-w-[75px] text-center bg-[#272726] text-[11px] leading-tight">착공 전<br />필요</th>
                                     <th className="px-2 w-[75px] min-w-[75px] max-w-[75px] text-center bg-[#272726] text-[11px] leading-tight border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)]">준공 전<br />필요</th>
-                                    <th className="pl-[18px] w-[116px] min-w-[116px] max-w-[116px] text-left bg-[#272726]">주관 부서</th>
+                                    <th className="w-[116px] min-w-[116px] max-w-[116px] text-center bg-[#272726]">주관 부서</th>
                                     <th className="pl-3 w-[260px] min-w-[260px] max-w-[260px] text-left bg-[#272726]">협업 부서</th>
                                     <th className="px-3 w-[120px] min-w-[120px] max-w-[120px] text-center bg-[#272726]">외부 상대방</th>
                                     <th className="px-3 w-[120px] min-w-[120px] max-w-[120px] text-center bg-[#272726]">지원 필요 요건</th>
@@ -584,7 +623,12 @@ export default function PmoScheduleGate() {
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-[#3c3c3c]/60 text-[12px]">
-                                {CATEGORY_MAP_DATA.filter(item => selectedRrCategory === '전체보기' || item.category === selectedRrCategory).map((item) => {
+                                {CATEGORY_MAP_DATA.filter(item => {
+                                    const matchCat = selectedRrCategory === '전체보기' || item.category === selectedRrCategory;
+                                    const matchLead = selectedRrLead === '전체보기' || item.lead === selectedRrLead;
+                                    const matchCoop = selectedRrCoop === '전체보기' || item.coop.includes(selectedRrCoop);
+                                    return matchCat && matchLead && matchCoop;
+                                }).map((item) => {
                                     return (
                                         <tr key={`${item.category}-${item.subsector}-${item.task}`} className="bg-[#272726] hover:bg-[#333] transition-colors h-11 group">
                                             {/* 대분류 */}
@@ -630,8 +674,8 @@ export default function PmoScheduleGate() {
                                             </td>
 
                                             {/* 주관 부서 */}
-                                            <td className="pl-[18px] text-left w-[116px] min-w-[116px] max-w-[116px]">
-                                                <span className="px-2.5 py-0.5 rounded font-bold bg-[#2997ff]/10 text-white border border-[#2997ff]/20 text-[11px] whitespace-nowrap">
+                                            <td className="text-center w-[116px] min-w-[116px] max-w-[116px]">
+                                                <span className="px-2.5 py-0.5 rounded font-bold bg-[#2997ff]/10 text-white border border-[#2997ff]/20 text-[11px] whitespace-nowrap inline-block">
                                                     {item.lead}
                                                 </span>
                                             </td>
