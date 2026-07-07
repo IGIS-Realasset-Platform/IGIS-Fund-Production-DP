@@ -571,8 +571,8 @@ export default function PmoScheduleGate() {
             {/* R&R Matrix Table */}
             <div className="-mr-[calc(50vw-50%)] border border-r-0 border-[#3c3c3c] bg-[#272726] rounded-l-[24px] overflow-hidden mb-[40px] shadow-sm min-h-[1110px]">
                 <div className="w-full overflow-x-auto pr-0 timeline-scrollbar">
-                    <div className="flex items-start min-w-[2392px]">
-                        <table className="text-left table-fixed min-w-[1592px] flex-1 border-collapse border-b border-[#3c3c3c] bg-[#272726]">
+                    <div className="flex items-start min-w-[2386px]">
+                        <table className="text-left table-fixed min-w-[1586px] flex-1 border-collapse border-b border-[#3c3c3c] bg-[#272726]">
                             <thead>
                                 <tr className="border-b border-[#3c3c3c] bg-[#272726] text-[#86868B] font-bold text-[12px] h-[52px]">
                                     <th className="px-3 w-[110px] min-w-[110px] max-w-[110px] text-center sticky left-0 bg-[#272726] z-30">
@@ -595,9 +595,9 @@ export default function PmoScheduleGate() {
                                     <th className="pl-3 w-[230px] min-w-[230px] max-w-[230px] sticky left-[240px] bg-[#272726] z-30 border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)]">대표 업무</th>
                                     <th className="px-2 w-[75px] min-w-[75px] max-w-[75px] text-center bg-[#272726] text-[11px] leading-tight">PF 전<br />필요</th>
                                     <th className="px-2 w-[75px] min-w-[75px] max-w-[75px] text-center bg-[#272726] text-[11px] leading-tight">착공 전<br />필요</th>
-                                    <th className="px-2 w-[81px] min-w-[81px] max-w-[81px] text-center bg-[#272726] text-[11px] leading-tight border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)]">준공 전<br />필요</th>
+                                    <th className="px-2 w-[75px] min-w-[75px] max-w-[75px] text-center bg-[#272726] text-[11px] leading-tight border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)]">준공 전<br />필요</th>
                                     <th className="w-[116px] min-w-[116px] max-w-[116px] text-center bg-[#272726]">
-                                        <div className="inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2 py-1 gap-1.5 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b]">
+                                        <div className="inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2 py-1 gap-1.5 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] translate-x-[6px]">
                                             <select
                                                 value={selectedRrLead}
                                                 onChange={(e) => setSelectedRrLead(e.target.value)}
@@ -676,7 +676,7 @@ export default function PmoScheduleGate() {
                                             </td>
 
                                             {/* 준공 전 필요 */}
-                                            <td className="px-2 text-center border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)] w-[81px] min-w-[81px] max-w-[81px]">
+                                            <td className="px-2 text-center border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)] w-[75px] min-w-[75px] max-w-[75px]">
                                                 {item.op ? (
                                                     <span className="px-2 py-0.5 text-[10.5px] font-bold rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 whitespace-nowrap">필수</span>
                                                 ) : (
@@ -686,7 +686,7 @@ export default function PmoScheduleGate() {
 
                                             {/* 주관 부서 */}
                                             <td className="text-center w-[116px] min-w-[116px] max-w-[116px]">
-                                                <span className="px-2.5 py-0.5 rounded font-bold bg-[#2997ff]/10 text-white border border-[#2997ff]/20 text-[11px] whitespace-nowrap inline-block">
+                                                <span className="px-2.5 py-0.5 rounded font-bold bg-[#2997ff]/10 text-white border border-[#2997ff]/20 text-[11px] whitespace-nowrap inline-block translate-x-[6px]">
                                                     {item.lead}
                                                 </span>
                                             </td>
