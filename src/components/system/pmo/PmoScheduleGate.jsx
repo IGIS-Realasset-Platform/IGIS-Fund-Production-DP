@@ -901,14 +901,6 @@ export default function PmoScheduleGate() {
             {/* Category Map & R&R Section */}
             <div className="w-full flex items-center justify-between mb-[14px]">
                 <h2 className="text-[26px] font-bold text-white tracking-tight leading-none text-left">R&R 및 필요산출물</h2>
-                {isAuthorized && (
-                    <button 
-                        onClick={handleAddClick}
-                        className="px-4 py-1.5 bg-[#272726] hover:bg-[#333] border border-[#3c3c3c] hover:border-[#555] rounded-full text-[13px] font-bold text-[#A1A1AA] hover:text-white transition-all cursor-pointer flex items-center gap-1.5 mr-[calc(50vw-50%+24px)]"
-                    >
-                        <span>+ 업무 추가</span>
-                    </button>
-                )}
             </div>
 
             {/* R&R Matrix Table */}
@@ -1100,6 +1092,21 @@ export default function PmoScheduleGate() {
                                         </tr>
                                     );
                                 })}
+                                {isAuthorized && (
+                                    <tr className="bg-[#272726] hover:bg-[#333]/50 transition-colors h-11 border-t border-[#3c3c3c]/50">
+                                        <td className="sticky left-0 bg-[#272726] z-20"></td>
+                                        <td className="sticky left-[104px] bg-[#272726] z-20"></td>
+                                        <td className="pl-3 text-left sticky left-[234px] bg-[#272726] z-20 border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)]">
+                                            <button 
+                                                onClick={handleAddClick}
+                                                className="px-3 py-1 bg-[#272726] hover:bg-[#333] border border-[#3c3c3c] hover:border-[#555] rounded-[6px] text-[12px] font-bold text-[#A1A1AA] hover:text-white transition-all cursor-pointer flex items-center gap-1.5"
+                                            >
+                                                <span>+ 새 업무 추가</span>
+                                            </button>
+                                        </td>
+                                        <td colSpan={9} className="border-r border-[#3c3c3c]"></td>
+                                    </tr>
+                                )}
                             </tbody>
                         </table>
                         
