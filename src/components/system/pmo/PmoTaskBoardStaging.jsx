@@ -2280,11 +2280,11 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                             </div>
                                         </th>
 
-                                        {/* 의사결정필요 */}
+                                        {/* 결정필요 */}
                                         <th className="w-[70px] min-w-[70px] max-w-[70px] text-center">
                                             <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-0.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[56px] overflow-hidden mx-auto">
                                                 <span className={`font-bold text-[11px] whitespace-nowrap ${selectedNeedsDecision === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
-                                                    {selectedNeedsDecision === '전체보기' ? '의사결정' : selectedNeedsDecision}
+                                                    {selectedNeedsDecision === '전체보기' ? '결정필요' : selectedNeedsDecision}
                                                 </span>
                                                 <span className="text-[8px] text-[#86868B]/70 pointer-events-none select-none translate-y-[0.5px] ml-0.5 shrink-0">▼</span>
                                                 <select
@@ -2519,7 +2519,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                                         </span>
                                                     </td>
 
-                                                    {/* 17. 의사결정필요 */}
+                                                    {/* 17. 결정필요 */}
                                                     <td className="text-center w-[70px] min-w-[70px] max-w-[70px]">
                                                         <span className={`px-2 py-0.5 rounded text-[11px] font-bold ${
                                                             needsDecisionVal ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20' : 'text-gray-500'
@@ -2709,10 +2709,10 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                         <td className="px-4 py-2 text-center text-gray-400">Blocker</td>
                                     </tr>
                                     <tr className="hover:bg-white/[0.02] h-10">
-                                        <td className="px-4 py-2 font-bold text-white">의사결정필요</td>
+                                        <td className="px-4 py-2 font-bold text-white">결정필요</td>
                                         <td className="px-4 py-2 text-center font-mono text-[#F59E0B] font-bold">20</td>
                                         <td className="px-4 py-2 text-gray-400">대표/본부장/파트장 판단 필요</td>
-                                        <td className="px-4 py-2 text-center text-gray-400">의사결정</td>
+                                        <td className="px-4 py-2 text-center text-gray-400">결정필요</td>
                                     </tr>
                                     <tr className="hover:bg-white/[0.02] h-10">
                                         <td className="px-4 py-2 font-bold text-white">지원필요</td>
@@ -3030,7 +3030,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                             </select>
                                         </div>
                                         <div className="flex-1">
-                                            <label className="block text-[12px] font-bold text-[#86868B] mb-1">의사결정필요</label>
+                                            <label className="block text-[12px] font-bold text-[#86868B] mb-1">결정필요</label>
                                             <select value={formNeedsDecision ? 'Y' : 'N'} onChange={e => setFormNeedsDecision(e.target.value === 'Y')} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] cursor-pointer">
                                                 <option value="N">N (아니오)</option>
                                                 <option value="Y">Y (예)</option>
