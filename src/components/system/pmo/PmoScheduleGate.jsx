@@ -837,9 +837,9 @@ export default function PmoScheduleGate() {
                 {isAuthorized && (
                     <button 
                         onClick={handleAddClick}
-                        className="px-4 py-1.5 bg-[#2997ff] hover:bg-[#147ce5] text-white rounded-full text-[13px] font-bold transition-colors cursor-pointer shadow-sm shadow-[#2997ff]/20 flex items-center gap-1 mr-[calc(50vw-50%+24px)]"
+                        className="px-4 py-1.5 bg-[#272726] hover:bg-[#333] border border-[#3c3c3c] hover:border-[#555] rounded-full text-[13px] font-bold text-[#A1A1AA] hover:text-white transition-all cursor-pointer flex items-center gap-1.5 mr-[calc(50vw-50%+24px)]"
                     >
-                        <span>➕ 업무 추가</span>
+                        <span>+ 업무 추가</span>
                     </button>
                 )}
             </div>
