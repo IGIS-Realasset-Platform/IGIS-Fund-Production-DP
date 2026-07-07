@@ -1093,18 +1093,15 @@ export default function PmoScheduleGate() {
                                     );
                                 })}
                                 {isAuthorized && (
-                                    <tr className="bg-[#272726] hover:bg-[#333]/50 transition-colors h-11 border-t border-[#3c3c3c]/50">
-                                        <td className="sticky left-0 bg-[#272726] z-20"></td>
-                                        <td className="sticky left-[104px] bg-[#272726] z-20"></td>
-                                        <td className="pl-3 text-left sticky left-[234px] bg-[#272726] z-20 border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)]">
+                                    <tr className="bg-[#272726] hover:bg-[#333]/30 transition-colors h-12 border-t border-[#3c3c3c]/50">
+                                        <td colSpan={12} className="px-3 text-center border-r border-[#3c3c3c] py-2">
                                             <button 
                                                 onClick={handleAddClick}
-                                                className="px-3 py-1 bg-[#272726] hover:bg-[#333] border border-[#3c3c3c] hover:border-[#555] rounded-[6px] text-[12px] font-bold text-[#A1A1AA] hover:text-white transition-all cursor-pointer flex items-center gap-1.5"
+                                                className="inline-flex items-center justify-center gap-1.5 px-5 py-1.5 bg-[#1F1F1E] hover:bg-[#333] border border-[#3c3c3c] hover:border-[#2997ff]/40 rounded-[6px] text-[12px] font-bold text-[#2997ff] hover:text-[#147ce5] transition-all cursor-pointer"
                                             >
                                                 <span>+ 새 업무 추가</span>
                                             </button>
                                         </td>
-                                        <td colSpan={9} className="border-r border-[#3c3c3c]"></td>
                                     </tr>
                                 )}
                             </tbody>
