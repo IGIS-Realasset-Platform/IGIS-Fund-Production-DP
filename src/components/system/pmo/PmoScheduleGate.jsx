@@ -895,8 +895,11 @@ export default function PmoScheduleGate() {
                 </div>
             </div>
 
+            {/* Divider Line */}
+            <div className="w-full h-[1px] bg-[#3c3c3c] mt-[64px] mb-[48px]" />
+
             {/* Category Map & R&R Section */}
-            <div className="w-full flex items-center justify-between mt-[48px] mb-[14px]">
+            <div className="w-full flex items-center justify-between mb-[14px]">
                 <h2 className="text-[26px] font-bold text-white tracking-tight leading-none text-left">R&R 및 필요산출물</h2>
                 {isAuthorized && (
                     <button 
