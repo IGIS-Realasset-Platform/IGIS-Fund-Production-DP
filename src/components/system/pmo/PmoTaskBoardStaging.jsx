@@ -1385,85 +1385,61 @@ export default function PmoTaskBoardStaging() {
         return Array.from(new Set(opts));
     }, [tasks, supportOptions]);
 
-    // Unique filter options for table header dropdowns
+    // Unique filter options for table header dropdowns (Standardized static/hybrid lists)
     const uniqueProjectsFilter = useMemo(() => {
-        const mapped = tasks.map(t => {
-            const fallbackItem = FALLBACK_BOARD_TASKS.find(item => item.task_name === t.task_name) || {};
-            const projObj = projects.find(p => p.project_code === t.project_code);
-            const rawProj = projObj ? projObj.project_name : (t.project || fallbackItem.project || '공통');
-            return normalizeProjectName(rawProj);
-        });
-        return Array.from(new Set(mapped.filter(Boolean)));
-    }, [tasks, projects]);
+        return ['IOTA 공통', '427 PFV', '816 PFV', '421Fund', '외부'];
+    }, []);
 
     const uniqueCategoryMainFilter = useMemo(() => {
-        return Array.from(new Set(tasks.map(t => t.category_main).filter(Boolean)));
-    }, [tasks]);
+        return ['공통 PMO', '인허가', '호텔/운영', '시공/원가', '도면/설계', '인테리어/TI', '임차/마케팅', 'PF/금융', '구조/법무/세무', '주주/보고', '준공/담보대출', '팝업/단발'];
+    }, []);
 
     const uniqueTargetAxisFilter = useMemo(() => {
-        const mapped = tasks.map(t => {
-            const fallbackItem = FALLBACK_BOARD_TASKS.find(item => item.task_name === t.task_name) || {};
-            return t.target_axis || fallbackItem.target_axis || '준공/운영';
-        });
-        return Array.from(new Set(mapped.filter(Boolean)));
-    }, [tasks]);
+        return ['PF', '착공', '공사관리', '준공/사용승인', '담보대출/Take-out', '운영전환', '공통 PMO'];
+    }, []);
 
     const uniqueGateStageFilter = useMemo(() => {
-        const mapped = tasks.map(t => {
-            const fallbackItem = FALLBACK_BOARD_TASKS.find(item => item.task_name === t.task_name) || {};
-            const rawGate = t.gate_stage || fallbackItem.gate_stage || 'G0';
-            return rawGate.includes(' ') ? rawGate : gateMapToUi(rawGate);
-        });
-        return Array.from(new Set(mapped.filter(Boolean)));
-    }, [tasks]);
+        return ['G0 현황정리', 'G1 방향결정', 'G2 PF준비도', 'G3 PF실행', 'G4 착공/공사', 'G5 준공', 'G6 담보대출/운영전환'];
+    }, []);
 
     const uniqueLeadDeptFilter = useMemo(() => {
-        const mapped = tasks.map(t => {
+        const formal = ['사업관리2파트', 'LFC(금융)', '개발관리실', '설계실', '마케팅팀'];
+        const dbNames = departments.map(d => d.dept_name);
+        const taskNames = tasks.map(t => {
             const fallbackItem = FALLBACK_BOARD_TASKS.find(item => item.task_name === t.task_name) || {};
             return t.lead_dept?.dept_name || t.lead_dept || t.lead_dept_code || fallbackItem.lead_dept || '';
-        });
-        return Array.from(new Set(mapped.filter(Boolean)));
-    }, [tasks]);
+        }).filter(Boolean);
+        return Array.from(new Set([...formal, ...dbNames, ...taskNames]));
+    }, [departments, tasks]);
 
     const uniqueCoopDeptFilter = useMemo(() => {
-        const all = [];
+        const formal = ['사업관리2파트', 'LFC(금융)', '개발관리실', '설계실', '마케팅팀'];
+        const dbNames = departments.map(d => d.dept_name);
+        const taskNames = [];
         tasks.forEach(t => {
             const fallbackItem = FALLBACK_BOARD_TASKS.find(item => item.task_name === t.task_name) || {};
             const coopStr = t.coop_dept_codes || t.coop_depts || fallbackItem.coop_depts || '';
             if (coopStr) {
                 coopStr.split(';').forEach(c => {
                     const clean = c.trim();
-                    if (clean) all.push(clean);
+                    if (clean) taskNames.push(clean);
                 });
             }
         });
-        return Array.from(new Set(all));
-    }, [tasks]);
+        return Array.from(new Set([...formal, ...dbNames, ...taskNames]));
+    }, [departments, tasks]);
 
     const uniqueStatusFilter = useMemo(() => {
-        const mapped = tasks.map(t => {
-            const fallbackItem = FALLBACK_BOARD_TASKS.find(item => item.task_name === t.task_name) || {};
-            return t.status || fallbackItem.status || '진행중';
-        });
-        return Array.from(new Set(mapped.filter(Boolean)));
-    }, [tasks]);
+        return ['미착수', '진행중', '검토중', '대기', '지연', '완료', '보류', '중단'];
+    }, []);
 
     const uniqueImportanceFilter = useMemo(() => {
-        const mapped = tasks.map(t => {
-            const fallbackItem = FALLBACK_BOARD_TASKS.find(item => item.task_name === t.task_name) || {};
-            return t.importance_level || fallbackItem.importance_level || '일반';
-        });
-        return Array.from(new Set(mapped.filter(Boolean)));
-    }, [tasks]);
+        return ['PF필수', '준공필수', '높음', '중간', '낮음'];
+    }, []);
 
     const uniqueMeetingGradeFilter = useMemo(() => {
-        const mapped = tasks.map(t => {
-            const fallbackItem = FALLBACK_BOARD_TASKS.find(item => item.task_name === t.task_name) || {};
-            const rawGrade = t.meeting_grade || fallbackItem.meeting_grade || 'B';
-            return rawGrade.includes('_') ? rawGrade : gradeMapToUi(rawGrade);
-        });
-        return Array.from(new Set(mapped.filter(Boolean)));
-    }, [tasks]);
+        return ['A_즉시상정', 'B_회의점검'];
+    }, []);
 
     async function fetchTasks() {
         try {
