@@ -367,7 +367,7 @@ export default function PmoScheduleGate() {
             if (code >= 0 && code <= 128) len += 6.5;
             else len += 12.0;
         }
-        return `${Math.max(len, 20)}px`;
+        return `${Math.max(len - 4, 16)}px`;
     };
 
     const R_R_LEADS = React.useMemo(() => {
