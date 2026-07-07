@@ -35,10 +35,12 @@ CREATE TABLE iota_v2.iota_stakeholders (
 
 -- A) 프로젝트 마스터 데이터 적재
 INSERT INTO iota_v2.iota_projects (project_code, project_name) VALUES
-('IOTA_SEOUL', '이오타 서울'),
+('IOTA_SEOUL', 'IOTA 공통'),
 ('PFV_427', '427 PFV'),
-('FUND_421', '421 펀드')
-ON CONFLICT (project_code) DO NOTHING;
+('PFV_816', '816 PFV'),
+('FUND_421', '421Fund'),
+('EXTERNAL', '외부')
+ON CONFLICT (project_code) DO UPDATE SET project_name = EXCLUDED.project_name;
 
 -- B) 부서 마스터 데이터 적재
 INSERT INTO iota_v2.iota_departments (dept_code, dept_name) VALUES

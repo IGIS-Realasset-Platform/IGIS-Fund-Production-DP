@@ -1240,9 +1240,11 @@ export default function PmoTaskBoardStaging() {
 
     // Masters loaded from DB
     const [projects, setProjects] = useState([
-        { project_code: 'IOTA_SEOUL', project_name: '공통' },
-        { project_code: 'PFV_427', project_name: '427PFV' },
-        { project_code: 'FUND_421', project_name: '421펀드' }
+        { project_code: 'IOTA_SEOUL', project_name: 'IOTA 공통' },
+        { project_code: 'PFV_427', project_name: '427 PFV' },
+        { project_code: 'PFV_816', project_name: '816 PFV' },
+        { project_code: 'FUND_421', project_name: '421Fund' },
+        { project_code: 'EXTERNAL', project_name: '외부' }
     ]);
     const [departments, setDepartments] = useState([
         { dept_code: 'DEPT_PM2', dept_name: '사업관리2파트' },
@@ -1480,9 +1482,11 @@ export default function PmoTaskBoardStaging() {
     async function resolveProjectCode(projectName) {
         if (!projectName) return 'IOTA_SEOUL';
         let searchCode = projectName.toUpperCase();
-        if (projectName === '공통') searchCode = 'IOTA_SEOUL';
-        if (projectName === '427PFV') searchCode = 'PFV_427';
-        if (projectName === '816PFV') searchCode = 'PFV_816';
+        if (projectName === '공통' || projectName === 'IOTA 공통') searchCode = 'IOTA_SEOUL';
+        if (projectName === '427PFV' || projectName === '427 PFV') searchCode = 'PFV_427';
+        if (projectName === '816PFV' || projectName === '816 PFV') searchCode = 'PFV_816';
+        if (projectName === '421펀드' || projectName === '421FUND' || projectName === '421Fund') searchCode = 'FUND_421';
+        if (projectName === '외부') searchCode = 'EXTERNAL';
 
         let proj = projects.find(p => p.project_code === searchCode);
         if (!proj) {
@@ -1711,7 +1715,7 @@ export default function PmoTaskBoardStaging() {
                         <div className="flex items-center min-w-[4725px]">
                             <table className="text-left table-fixed min-w-[3925px] flex-1 border-collapse bg-[#272726]">
                                 <thead>
-                                    <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[13px] h-11">
+                                    <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[13px] h-11 select-none">
                                         <th className="pl-[10px] text-center w-[80px] min-w-[80px] max-w-[80px]">ID</th>
                                         <th className="pl-4 w-[90px] min-w-[90px] max-w-[90px]">프로젝트</th>
                                         <th className="pl-4 w-[110px] min-w-[110px] max-w-[110px]">대분류</th>
@@ -1791,7 +1795,7 @@ export default function PmoTaskBoardStaging() {
                                             return (
                                                 <tr key={t.id || `task-${idx}`} className="hover:bg-[#333]/50 transition-colors h-12">
                                                     {/* 1. ID */}
-                                                    <td className="pl-[10px] text-center text-[#86868B] font-mono w-[80px] min-w-[80px] max-w-[80px] truncate">
+                                                    <td className="pl-[10px] text-center text-[#86868B] font-mono select-none w-[80px] min-w-[80px] max-w-[80px] truncate">
                                                         {t.id && !t.id.includes('-') ? t.id : (fallbackItem.id || `T-${String(idx+1).padStart(3, '0')}`)}
                                                     </td>
                                                     
@@ -2243,68 +2247,10 @@ export default function PmoTaskBoardStaging() {
                                     <div className="flex gap-4">
                                         <div className="flex-1">
                                             <label className="block text-[12px] font-bold text-[#86868B] mb-1">진행 상태</label>
-                                            <select value={formStatus} onChange={e => setFormStatus(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] cursor-pointer">
-                                                <option value="미착수">미착수</option>
-                                                <option value="진행중">진행중</option>
-                                                <option value="완료">완료</option>
-                                                <option value="지연">지연</option>
-                                            </select>
+                                            <select value={formStatus} onChange={e => setFormStatus(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] cursor-pointer" />
                                         </div>
-                                        <div className="flex-1">
-                                            <label className="block text-[12px] font-bold text-[#86868B] mb-1">중요도</label>
-                                            <select value={formImportanceLevel} onChange={e => setFormImportanceLevel(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] cursor-pointer">
-                                                <option value="일반">일반</option>
-                                                <option value="PF필수">PF필수</option>
-                                                <option value="준공필수">준공필수</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <label className="block text-[12px] font-bold text-[#86868B] mb-1">업무유형</label>
-                                        <select value={formTaskType} onChange={e => setFormTaskType(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] cursor-pointer">
-                                            <option value="정규">정규</option>
-                                            <option value="팝업">팝업</option>
-                                        </select>
-                                    </div>
-                                    <div>
-                                        <label className="block text-[12px] font-bold text-[#86868B] mb-1">다음 액션</label>
-                                        <textarea value={formNextAction} onChange={e => setFormNextAction(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] h-16 resize-none" />
-                                    </div>
-                                    <div className="flex gap-4">
-                                        <div className="flex-1">
-                                            <label className="block text-[12px] font-bold text-[#86868B] mb-1">우선순위점수</label>
-                                            <input type="number" value={formPriorityScore} onChange={e => setFormPriorityScore(parseInt(e.target.value) || 0)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff]" />
-                                        </div>
-                                        <div className="flex-1">
-                                            <label className="block text-[12px] font-bold text-[#86868B] mb-1">회의상정등급</label>
-                                            <select value={formMeetingGrade} onChange={e => setFormMeetingGrade(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] cursor-pointer">
-                                                <option value="B_회의점검">B_회의점검</option>
-                                                <option value="A_즉시상정">A_즉시상정</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <label className="block text-[12px] font-bold text-[#86868B] mb-1">상정사유</label>
-                                        <textarea value={formAgendaReason} onChange={e => setFormAgendaReason(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] h-16 resize-none" />
-                                    </div>
-                                    <div>
-                                        <label className="block text-[12px] font-bold text-[#86868B] mb-1">정렬키</label>
-                                        <input type="text" value={formSortKey} onChange={e => setFormSortKey(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff]" />
-                                    </div>
-                                    <div>
-                                        <label className="block text-[12px] font-bold text-[#86868B] mb-1">비고</label>
-                                        <textarea value={formNotes} onChange={e => setFormNotes(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] h-16 resize-none" />
                                     </div>
                                 </div>
-                            </div>
-
-                            <div className="pt-4 border-t border-[#3c3c3c] flex justify-end gap-3 mt-6">
-                                <button type="button" onClick={() => setIsModalOpen(false)} className="px-4 py-2 rounded-[8px] bg-[#333] hover:bg-[#444] text-[13px] font-bold text-white transition-colors cursor-pointer">
-                                    취소
-                                </button>
-                                <button type="submit" className="px-5 py-2 rounded-[8px] bg-[#2997ff] hover:bg-[#147ce5] text-[13px] font-bold text-white transition-colors cursor-pointer">
-                                    저장
-                                </button>
                             </div>
                         </form>
                     </div>
