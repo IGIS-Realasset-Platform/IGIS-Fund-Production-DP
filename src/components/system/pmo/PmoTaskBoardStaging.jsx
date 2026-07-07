@@ -2282,11 +2282,11 @@ export default function PmoTaskBoardStaging() {
                                                     {/* 2. 프로젝트 */}
                                                     <td className="text-center font-bold text-[#E5E5E5] w-[90px] min-w-[90px] max-w-[90px] truncate sticky left-[60px] bg-[#272726] group-hover:bg-[#2d2d2c] transition-colors z-10">
                                                          <span className={`px-1.5 py-0.5 rounded text-[11px] font-bold border inline-block max-w-full truncate ${
-                                                             projectVal === 'IOTA 공통' ? 'bg-blue-500/10 text-blue-400 border-blue-500/20' :
-                                                             projectVal === '427 PFV' ? 'bg-orange-500/10 text-[#F59E0B] border-orange-500/20' :
-                                                             projectVal === '816 PFV' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' :
-                                                             projectVal === '421Fund' ? 'bg-indigo-500/10 text-indigo-400 border-indigo-500/20' :
-                                                             'bg-gray-500/10 text-gray-400 border-gray-500/20'
+                                                             projectVal === 'IOTA 공통' ? 'bg-[#323233] text-[#F5F5F7] border-[#424243]' :
+                                                             projectVal === '427 PFV' ? 'bg-[#3A3A3C] text-[#FFFFFF] border-[#48484A]' :
+                                                             projectVal === '816 PFV' ? 'bg-[#2C2C2E] text-[#E5E5EA] border-[#3A3A3C]' :
+                                                             projectVal === '421Fund' ? 'bg-[#242426] text-[#D1D1D6] border-[#323234]' :
+                                                             'bg-[#1C1C1E] text-[#AEAEB2] border-[#2C2C2E]'
                                                          }`}>
                                                              {projectVal}
                                                          </span>
