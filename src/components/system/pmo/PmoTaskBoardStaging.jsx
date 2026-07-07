@@ -2186,8 +2186,8 @@ export default function PmoTaskBoardStaging() {
                                         </th>
 
                                         {/* 협업부서 */}
-                                        <th className="pl-4 w-[180px] min-w-[180px] max-w-[180px]">
-                                            <div className="relative inline-flex items-center justify-start bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[165px] overflow-hidden">
+                                        <th className="w-[180px] min-w-[180px] max-w-[180px] text-center">
+                                            <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[165px] overflow-hidden mx-auto">
                                                 <span className={`font-bold text-[11px] whitespace-nowrap truncate ${selectedCoopDept === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
                                                     {selectedCoopDept === '전체보기' ? '협업부서' : selectedCoopDept}
                                                 </span>
@@ -2424,10 +2424,26 @@ export default function PmoTaskBoardStaging() {
                                                     
 
                                                     {/* 11. 실무 주관부서 */}
-                                                    <td className="text-center text-[#A1A1AA] w-[80px] min-w-[80px] max-w-[80px] truncate">{leadDeptName || '-'}</td>
+                                                    <td className="text-center w-[80px] min-w-[80px] max-w-[80px] overflow-hidden">
+                                                        {leadDeptName ? (
+                                                            <span className="inline-flex items-center justify-center px-2 py-0.5 bg-[#1d4ed8]/10 text-[#2997ff] border border-[#1d4ed8]/35 rounded-[4px] text-[11px] font-medium max-w-full truncate">
+                                                                {leadDeptName}
+                                                            </span>
+                                                        ) : '-'}
+                                                    </td>
 
                                                     {/* 12. 협업부서 */}
-                                                    <td className="pl-4 text-[#86868B] w-[180px] min-w-[180px] max-w-[180px] truncate">{coopDeptNames || '-'}</td>
+                                                    <td className="text-center w-[180px] min-w-[180px] max-w-[180px] overflow-hidden">
+                                                        {coopDeptNames ? (
+                                                            <div className="flex flex-wrap gap-1 justify-center items-center">
+                                                                {coopDeptNames.split(',').map(c => c.trim()).filter(Boolean).map((c, i) => (
+                                                                    <span key={i} className="inline-flex items-center justify-center px-2 py-0.5 bg-[#27272a] text-[#d4d4d8] border border-[#3f3f46] rounded-[4px] text-[11px] font-medium whitespace-nowrap">
+                                                                        {c}
+                                                                    </span>
+                                                                ))}
+                                                            </div>
+                                                        ) : '-'}
+                                                    </td>
 
                                                     {/* 13. 담당자 */}
                                                     <td className="pl-4 text-[#A1A1AA] w-[100px] min-w-[100px] max-w-[100px] truncate">{t.assignee || '-'}</td>
