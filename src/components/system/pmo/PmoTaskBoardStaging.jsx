@@ -2238,28 +2238,28 @@ export default function PmoTaskBoardStaging() {
                                             return (
                                                 <tr key={t.id || `task-${idx}`} className="group hover:bg-[#333]/50 transition-colors h-12">
                                                     {/* 1. ID */}
-                                                    <td className="pl-[10px] text-center text-[#86868B] font-mono select-none w-[80px] min-w-[80px] max-w-[80px] truncate sticky left-0 bg-[#272726] group-hover:bg-[#333]/50 transition-colors z-10">
+                                                    <td className="pl-[10px] text-center text-[#86868B] font-mono select-none w-[80px] min-w-[80px] max-w-[80px] truncate sticky left-0 bg-[#272726] group-hover:bg-[#2d2d2c] transition-colors z-10">
                                                         {t.id && !t.id.includes('-') ? t.id : (fallbackItem.id || `T-${String(idx+1).padStart(3, '0')}`)}
                                                     </td>
                                                     
                                                     {/* 2. 프로젝트 */}
-                                                    <td className="text-center font-bold text-[#E5E5E5] w-[90px] min-w-[90px] max-w-[90px] truncate sticky left-[80px] bg-[#272726] group-hover:bg-[#333]/50 transition-colors z-10">
+                                                    <td className="text-center font-bold text-[#E5E5E5] w-[90px] min-w-[90px] max-w-[90px] truncate sticky left-[80px] bg-[#272726] group-hover:bg-[#2d2d2c] transition-colors z-10">
                                                         {projectVal}
                                                     </td>
                                                     
                                                     {/* 3. 대분류 */}
-                                                    <td className="pl-4 font-bold text-[#E5E5E5] w-[95px] min-w-[95px] max-w-[95px] truncate sticky left-[170px] bg-[#272726] group-hover:bg-[#333]/50 transition-colors z-10">
+                                                    <td className="pl-4 font-bold text-[#E5E5E5] w-[95px] min-w-[95px] max-w-[95px] truncate sticky left-[170px] bg-[#272726] group-hover:bg-[#2d2d2c] transition-colors z-10">
                                                         {t.category_main}
                                                     </td>
                                                     
                                                     {/* 4. 세부섹터 */}
-                                                    <td className="pl-4 text-[#A1A1AA] w-[104px] min-w-[104px] max-w-[104px] truncate sticky left-[265px] bg-[#272726] group-hover:bg-[#333]/50 transition-colors z-10">
+                                                    <td className="pl-4 text-[#A1A1AA] w-[104px] min-w-[104px] max-w-[104px] truncate sticky left-[265px] bg-[#272726] group-hover:bg-[#2d2d2c] transition-colors z-10">
                                                         {t.sector_detail}
                                                     </td>
                                                     
                                                     {/* 5. 업무명 */}
-                                                    <td className="pl-4 font-bold text-[#F59E0B] truncate w-[270px] min-w-[270px] max-w-[270px] sticky left-[369px] bg-[#272726] group-hover:bg-[#333]/50 transition-colors z-10 border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)]">
-                                                        {t.task_name}
+                                                    <td className="pl-4 font-bold text-[#F59E0B] w-[270px] min-w-[270px] max-w-[270px] sticky left-[369px] bg-[#272726] group-hover:bg-[#2d2d2c] transition-colors z-10 border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)] overflow-visible">
+                                                        <div className="truncate w-full">{t.task_name}</div>
                                                     </td>
 
                                                     {/* 6. 업무목적 / PF·준공 영향 */}
