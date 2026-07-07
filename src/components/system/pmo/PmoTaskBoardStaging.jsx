@@ -2086,8 +2086,8 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
             ) : (
                 <div className="-mr-[calc(50vw-50%)] border border-r-0 border-[#3c3c3c] bg-[#272726] rounded-l-[24px] overflow-hidden mb-[40px] shadow-sm select-text">
                     <div className="w-full overflow-x-auto pr-0 timeline-scrollbar">
-                        <div className={`flex items-center transition-all duration-150 ease-out ${isAll ? 'min-w-[3615px]' : 'min-w-[2690px]'}`}>
-                            <table className={`text-left table-fixed flex-1 border-collapse bg-[#272726] transition-all duration-150 ease-out ${isAll ? 'min-w-[2815px]' : 'min-w-[1890px]'}`}>
+                        <div className={`flex items-center transition-all duration-150 ease-out ${isAll ? 'min-w-[3615px]' : 'min-w-[2620px]'}`}>
+                            <table className={`text-left table-fixed flex-1 border-collapse bg-[#272726] transition-all duration-150 ease-out ${isAll ? 'min-w-[2815px]' : 'min-w-[1820px]'}`}>
                                 <thead>
                                     <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[13px] h-11">
                                         <th className="pl-[10px] text-center w-[60px] min-w-[60px] max-w-[60px] sticky left-0 bg-[#272726] z-30">ID</th>
@@ -2257,7 +2257,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                             </div>
                                         </th>
 
-                                        <th className="w-[70px] min-w-[70px] max-w-[70px] text-center">담당자</th>
+                                        <th className={`text-center transition-all duration-150 ease-out ${isAll ? 'w-[70px]' : 'w-0 min-w-0 max-w-0 opacity-0 overflow-hidden'}`}>{isAll && "담당자"}</th>
                                         <th className="pl-4 w-[120px] min-w-[120px] max-w-[120px]">외부상대방</th>
                                         <th className="w-[80px] min-w-[80px] max-w-[80px] text-center">지원필요</th>
 
@@ -2502,7 +2502,9 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                                     </td>
 
                                                     {/* 13. 담당자 */}
-                                                    <td className="text-center text-[#A1A1AA] w-[70px] min-w-[70px] max-w-[70px] truncate">{t.assignee || '미정'}</td>
+                                                    <td className={`text-center text-[#A1A1AA] truncate transition-all duration-150 ease-out ${isAll ? 'w-[70px] min-w-[70px] max-w-[70px] opacity-100' : 'w-0 min-w-0 max-w-0 opacity-0 overflow-hidden'}`}>
+                                                        {isAll && (t.assignee || '미정')}
+                                                    </td>
 
                                                     {/* 14. 외부상대방 */}
                                                     <td className="pl-4 text-[#A1A1AA] w-[120px] min-w-[120px] max-w-[120px] truncate">{extPartyName || '-'}</td>
@@ -2594,7 +2596,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                         {/* Empty cells covering the columns before "업무명" (ID, 프로젝트, 대분류, 세부섹터) */}
                                         <td colSpan={isAll ? 4 : 3} className="bg-[#272726]"></td>
                                         {/* Cell for "업무명" column where the button is aligned */}
-                                        <td colSpan={isAll ? 19 : 14} className={`pl-4 py-2 text-left sticky bg-[#272726] z-10 transition-all duration-150 ease-out ${isAll ? 'left-[349px]' : 'left-[245px]'}`}>
+                                        <td colSpan={isAll ? 19 : 13} className={`pl-4 py-2 text-left sticky bg-[#272726] z-10 transition-all duration-150 ease-out ${isAll ? 'left-[349px]' : 'left-[245px]'}`}>
                                             <button 
                                                 onClick={isAuthorized ? handleAddNewClick : () => setShowAuthInfoModal(true)}
                                                 className="px-6 py-[6.5px] border border-[#ff9f0a]/30 hover:border-[#ff9f0a] rounded-[8px] text-[13px] font-bold text-[#ff9f0a] hover:bg-[#ff9f0a]/10 transition-colors cursor-pointer whitespace-nowrap"
