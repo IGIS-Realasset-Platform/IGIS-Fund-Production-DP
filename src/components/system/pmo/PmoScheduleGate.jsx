@@ -1093,11 +1093,11 @@ export default function PmoScheduleGate() {
                                     );
                                 })}
                                 {isAuthorized && (
-                                    <tr className="bg-[#272726] hover:bg-[#333]/30 transition-colors h-12 border-t border-[#3c3c3c]/50">
-                                        <td colSpan={12} className="px-3 text-center border-r border-[#3c3c3c] py-2">
+                                    <tr className="bg-[#272726] hover:bg-[#333]/30 transition-colors h-11 border-t border-[#3c3c3c]/50">
+                                        <td colSpan={12} className="px-3 text-center border-r border-[#3c3c3c]">
                                             <button 
                                                 onClick={handleAddClick}
-                                                className="inline-flex items-center justify-center gap-1.5 px-5 py-1.5 bg-transparent hover:bg-[#2997ff]/10 border border-[#2997ff]/30 hover:border-[#2997ff]/50 rounded-[6px] text-[12px] font-bold text-[#2997ff] transition-all cursor-pointer"
+                                                className="inline-flex items-center justify-center gap-1.5 px-5 py-0.5 bg-transparent hover:bg-[#2997ff]/10 border border-[#2997ff]/30 hover:border-[#2997ff]/50 rounded-[6px] text-[12px] font-bold text-[#2997ff] transition-all cursor-pointer h-7"
                                             >
                                                 <span>+ 새 업무 추가</span>
                                             </button>
