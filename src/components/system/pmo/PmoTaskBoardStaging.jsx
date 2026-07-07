@@ -2167,11 +2167,11 @@ export default function PmoTaskBoardStaging() {
 
                                         {/* 주관부서 (실무주관부서->주관부서) */}
                                         <th className="w-[80px] min-w-[80px] max-w-[80px] text-center">
-                                            <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[65px] overflow-hidden mx-auto">
-                                                <span className={`font-bold text-[11px] whitespace-nowrap truncate ${selectedLeadDept === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
+                                            <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-1 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[76px] overflow-hidden mx-auto">
+                                                <span className={`font-bold text-[11px] whitespace-nowrap ${selectedLeadDept === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
                                                     {selectedLeadDept === '전체보기' ? '주관부서' : selectedLeadDept}
                                                 </span>
-                                                <span className="text-[8px] text-[#86868B]/70 pointer-events-none select-none translate-y-[0.5px] ml-1 shrink-0">▼</span>
+                                                <span className="text-[8px] text-[#86868B]/70 pointer-events-none select-none translate-y-[0.5px] ml-0.5 shrink-0">▼</span>
                                                 <select
                                                     value={selectedLeadDept}
                                                     onChange={(e) => setSelectedLeadDept(e.target.value)}
