@@ -352,7 +352,7 @@ pf: false,
 
 const R_R_CATEGORIES = [
   '전체보기', 'PF/금융', '인허가', '호텔/운영', '시공/원가', '도면/설계',
-  '인테리어/TI', '임차/마케팅', '구조/법무/세무', '주주/보고', '준공/담보대출'
+  '인테리어/TI', '임차/마케팅', '구조/법무/세무', '주주/보고', '준공/담보대출', '팝업/단발'
 ];
 
 export default function PmoScheduleGate() {
@@ -912,9 +912,19 @@ export default function PmoScheduleGate() {
                                                 className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                                             >
                                                 <option value="전체보기" className="bg-[#222] text-[#86868B]">전체보기</option>
-                                                {R_R_CATEGORIES.slice(1).map(cat => (
-                                                    <option key={cat} value={cat} className="bg-[#222] text-white">{cat}</option>
-                                                ))}
+                                                {R_R_CATEGORIES.slice(1).map(cat => {
+                                                    const isAdHoc = cat === '팝업/단발';
+                                                    return (
+                                                        <option 
+                                                            key={cat} 
+                                                            value={cat} 
+                                                            disabled={isAdHoc} 
+                                                            className={isAdHoc ? 'text-[#555] bg-[#222]' : 'bg-[#222] text-white'}
+                                                        >
+                                                            {cat} {isAdHoc && '(준비중)'}
+                                                        </option>
+                                                    );
+                                                })}
                                             </select>
                                         </div>
                                     </th>
@@ -1114,9 +1124,19 @@ export default function PmoScheduleGate() {
                                         className="bg-[#1a1a1a] border border-[#3c3c3c] text-white rounded-[8px] px-3 py-2 text-[13px] outline-none focus:border-[#2997ff]"
                                         required
                                     >
-                                        {R_R_CATEGORIES.slice(1).map(cat => (
-                                            <option key={cat} value={cat}>{cat}</option>
-                                        ))}
+                                        {R_R_CATEGORIES.slice(1).map(cat => {
+                                            const isAdHoc = cat === '팝업/단발';
+                                            return (
+                                                <option 
+                                                    key={cat} 
+                                                    value={cat} 
+                                                    disabled={isAdHoc} 
+                                                    className={isAdHoc ? 'text-[#555] bg-[#1a1a1a]' : 'bg-[#1a1a1a] text-white'}
+                                                >
+                                                    {cat} {isAdHoc && '(준비중)'}
+                                                </option>
+                                            );
+                                        })}
                                     </select>
                                 </div>
                                 
