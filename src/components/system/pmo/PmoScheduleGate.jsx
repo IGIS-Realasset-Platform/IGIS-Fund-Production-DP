@@ -705,7 +705,7 @@ export default function PmoScheduleGate() {
                                             </td>
 
                                             {/* 지원 필요 */}
-                                            <td className="px-3 text-center text-[#A1A1AA] font-semibold whitespace-normal break-all w-[120px] min-w-[120px] max-w-[120px]">
+                                            <td className="px-3 text-center text-[#F59E0B] font-semibold whitespace-normal break-all w-[120px] min-w-[120px] max-w-[120px]">
                                                 {item.need || '-'}
                                             </td>
 
