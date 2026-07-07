@@ -1391,6 +1391,7 @@ export default function PmoTaskBoardStaging() {
     const [isCriteriaModalOpen, setIsCriteriaModalOpen] = useState(false);
     const [prioritySortOrder, setPrioritySortOrder] = useState('desc'); // default: highest first
     const [showAuthInfoModal, setShowAuthInfoModal] = useState(false);
+    const [searchQuery, setSearchQuery] = useState('');
     const [editingItem, setEditingItem] = useState(null);
 
     // Suggestions panels
@@ -2026,9 +2027,31 @@ export default function PmoTaskBoardStaging() {
             const meetingGrade = rawGrade.includes('_') ? rawGrade : gradeMapToUi(rawGrade);
             if (selectedMeetingGrade !== '전체보기' && meetingGrade !== selectedMeetingGrade) return false;
 
+            // Search query match
+            if (searchQuery.trim() !== '') {
+                const query = searchQuery.toLowerCase().trim();
+                const extPartyName = t.external_party?.name || t.external_party || fallbackItem.external_party || '';
+                const nextActionVal = t.next_action || fallbackItem.next_action || '';
+                const supportNeeded = t.support_needed || fallbackItem.support_needed || '';
+                
+                const nameMatch = (t.task_name || '').toLowerCase().includes(query);
+                const assigneeMatch = (t.assignee || '').toLowerCase().includes(query);
+                const leadDeptMatch = leadDeptName.toLowerCase().includes(query);
+                const coopDeptMatch = coopDeptNames.toLowerCase().includes(query);
+                const extPartyMatch = (extPartyName || '').toLowerCase().includes(query);
+                const purposeMatch = (t.task_purpose || fallbackItem.task_purpose || '').toLowerCase().includes(query);
+                const deliverablesMatch = (t.deliverables || fallbackItem.deliverables || '').toLowerCase().includes(query);
+                const nextActionMatch = (nextActionVal || '').toLowerCase().includes(query);
+                const supportMatch = (supportNeeded || '').toLowerCase().includes(query);
+                
+                if (!nameMatch && !assigneeMatch && !leadDeptMatch && !coopDeptMatch && !extPartyMatch && !purposeMatch && !deliverablesMatch && !nextActionMatch && !supportMatch) {
+                    return false;
+                }
+            }
+
             return true;
         });
-    }, [tasks, projects, selectedProject, selectedCategoryMain, selectedTargetAxis, selectedGateStage, selectedLeadDept, selectedCoopDept, selectedIsBlocker, selectedNeedsDecision, selectedStatus, selectedImportanceLevel, selectedMeetingGrade]);
+    }, [tasks, projects, selectedProject, selectedCategoryMain, selectedTargetAxis, selectedGateStage, selectedLeadDept, selectedCoopDept, selectedIsBlocker, selectedNeedsDecision, selectedStatus, selectedImportanceLevel, selectedMeetingGrade, searchQuery]);
 
     // Sort tasks by priority score (default: descending)
     const sortedAndFilteredTasks = useMemo(() => {
@@ -2056,7 +2079,36 @@ export default function PmoTaskBoardStaging() {
                     <span className="text-[#86868B] text-[15px] animate-pulse">원장 정보를 불러오는 중입니다...</span>
                 </div>
             ) : (
-                <div className="-mr-[calc(50vw-50%)] border border-r-0 border-[#3c3c3c] bg-[#272726] rounded-l-[24px] overflow-hidden mb-[40px] shadow-sm select-text">
+                <>
+                    {/* Toolbar Search Section */}
+                    <div className="flex justify-between items-center mb-4 pr-[calc(50vw-50%)]">
+                        <div className="text-[15px] font-bold text-white flex items-center gap-2">
+                            <span className="w-1.5 h-1.5 rounded-full bg-[#2997ff]" />
+                            통합 업무 보드
+                        </div>
+                        <div className="relative w-[280px]">
+                            <input 
+                                type="text" 
+                                placeholder="업무명, 담당자, 부서, 산출물 검색..."
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                className="w-full bg-[#1c1c1e]/60 border border-[#3c3c3c] rounded-[10px] pl-9 pr-8 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] focus:ring-1 focus:ring-[#2997ff] transition-all placeholder-[#86868B]"
+                            />
+                            <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#86868B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                            {searchQuery && (
+                                <button 
+                                    onClick={() => setSearchQuery('')}
+                                    className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#86868B] hover:text-white text-[11px] font-bold bg-white/5 hover:bg-white/10 rounded-full w-4.5 h-4.5 flex items-center justify-center cursor-pointer transition-colors"
+                                >
+                                    ✕
+                                </button>
+                            )}
+                        </div>
+                    </div>
+                    
+                    <div className="-mr-[calc(50vw-50%)] border border-r-0 border-[#3c3c3c] bg-[#272726] rounded-l-[24px] overflow-hidden mb-[40px] shadow-sm select-text">
                     <div className="w-full overflow-x-auto pr-0 timeline-scrollbar">
                         <div className="flex items-center min-w-[3615px]">
                             <table className="text-left table-fixed min-w-[2815px] flex-1 border-collapse bg-[#272726]">
@@ -2578,6 +2630,7 @@ export default function PmoTaskBoardStaging() {
                         </div>
                     </div>
                 </div>
+                </>
             )}
 
             {/* R&R 관리 권한 안내 모달 */}
