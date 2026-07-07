@@ -822,15 +822,10 @@ export default function DecisionLog() {
         <div className="w-full flex-1 flex flex-col pt-[48px] pb-[60px] pl-[60px] pr-[60px] box-border">
             {/* Header Metadata */}
             <div className="w-full flex flex-col mb-[16px] gap-[10px]">
-                <div className="flex justify-between items-end gap-[16px] w-full">
-                    <div className="flex items-end gap-[16px]">
-                        <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter']">통합 업무 보드</h1>
-                        <span className="text-[15px] font-bold text-[#86868B] tracking-tight bg-[#222] px-[16px] py-[6px] rounded-full shadow-sm leading-none mb-[-2px]">
-                            {formattedDate}
-                        </span>
-                    </div>
-                    {/* Search Input Box on the Right of Title */}
-                    <div className="relative w-[280px]">
+                <div className="flex items-center gap-[16px] flex-wrap">
+                    <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter']">통합 업무 보드</h1>
+                    {/* Search Input Box directly to the right of title */}
+                    <div className="relative w-[280px] self-center">
                         <input 
                             type="text" 
                             placeholder="업무명, 담당자, 부서, 산출물 검색..."
@@ -850,6 +845,10 @@ export default function DecisionLog() {
                             </button>
                         )}
                     </div>
+                    {/* Date Pill to the right of search input */}
+                    <span className="text-[15px] font-bold text-[#86868B] tracking-tight bg-[#222] px-[16px] py-[6px] rounded-full shadow-sm leading-none self-center">
+                        {formattedDate}
+                    </span>
                 </div>
             </div>
 
