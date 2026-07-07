@@ -367,6 +367,11 @@ export default function PmoScheduleGate() {
     const [departments, setDepartments] = React.useState([]);
     const [stakeholders, setStakeholders] = React.useState([]);
 
+    // Existing schemas & autocomplete states
+    const [masterStakeholders, setMasterStakeholders] = React.useState([]);
+    const [pilotDepartments, setPilotDepartments] = React.useState([]);
+    const [showStakeholderSuggestions, setShowStakeholderSuggestions] = React.useState(false);
+
     const [isModalOpen, setIsModalOpen] = React.useState(false);
     const [editingItem, setEditingItem] = React.useState(null);
 
@@ -398,6 +403,29 @@ export default function PmoScheduleGate() {
 
     React.useEffect(() => {
         async function loadData() {
+            try {
+                // Fetch pilot members' organizations for existing department schema
+                const { data: memberData } = await supabase
+                    .from('iota_seoul_pilot_members')
+                    .select('org_name');
+                if (memberData) {
+                    const uniqueOrgs = Array.from(new Set(memberData.map(m => m.org_name).filter(Boolean)));
+                    setPilotDepartments(uniqueOrgs);
+                }
+            } catch (err) {
+                console.warn("Failed to fetch pilot departments:", err);
+            }
+
+            try {
+                // Fetch master stakeholders (existing logic used in meeting logs & board posting)
+                const { data: shData } = await supabase
+                    .from('iota_stakeholder_master')
+                    .select('*');
+                if (shData) setMasterStakeholders(shData);
+            } catch (err) {
+                console.warn("Failed to fetch master stakeholders:", err);
+            }
+
             try {
                 // 1. Fetch departments
                 const { data: deptData } = await supabase
@@ -648,6 +676,27 @@ export default function PmoScheduleGate() {
         const coops = rrData.flatMap(item => item.coop).filter(Boolean);
         return ['전체보기', ...Array.from(new Set(coops))];
     }, [rrData]);
+
+    const deptOptions = React.useMemo(() => {
+        const set = new Set([
+            '사업관리2파트', 
+            '기획추진', 
+            '개발관리실', 
+            '공간솔루션실', 
+            '사업관리1파트', 
+            'LFC', 
+            '법무/세무자문', 
+            '기업마케팅실',
+            ...pilotDepartments,
+            ...departments.map(d => d.dept_name)
+        ]);
+        return Array.from(set);
+    }, [pilotDepartments, departments]);
+
+    const uniqueStakeholderNames = React.useMemo(() => {
+        const names = masterStakeholders.map(s => s.company_name).filter(Boolean);
+        return Array.from(new Set(names));
+    }, [masterStakeholders]);
 
     const filteredData = TIMELINE_DATA.filter(item => {
         if (filterCategory === 'All') return true;
@@ -1140,22 +1189,74 @@ export default function PmoScheduleGate() {
                                         className="bg-[#1a1a1a] border border-[#3c3c3c] text-white rounded-[8px] px-3 py-2 text-[13px] outline-none focus:border-[#2997ff]"
                                         required
                                     >
-                                        {(departments.length > 0 ? departments.map(d => d.dept_name) : ['개발관리실', '공간솔루션실', '사업관리2파트', '사업관리1파트', 'LFC', '법무/세무자문', '기업마케팅실', '기획추진']).map(dept => (
+                                        {deptOptions.map(dept => (
                                             <option key={dept} value={dept}>{dept}</option>
                                         ))}
                                     </select>
                                 </div>
 
                                 {/* 외부 상대방 */}
-                                <div className="flex flex-col gap-1.5">
+                                <div className="relative flex flex-col gap-1.5">
                                     <label className="text-[12px] font-bold text-[#86868B]">외부 상대방</label>
                                     <input 
                                         type="text"
                                         value={formPartner}
-                                        onChange={e => setFormPartner(e.target.value)}
+                                        onChange={e => {
+                                            setFormPartner(e.target.value);
+                                            setShowStakeholderSuggestions(true);
+                                        }}
+                                        onFocus={() => setShowStakeholderSuggestions(true)}
+                                        onBlur={() => setTimeout(() => setShowStakeholderSuggestions(false), 200)}
                                         className="bg-[#1a1a1a] border border-[#3c3c3c] text-white rounded-[8px] px-3 py-2 text-[13px] outline-none focus:border-[#2997ff]"
-                                        placeholder="예: 서울시/중구청, 현대건설"
+                                        placeholder="예: 현대건설 (검색 또는 직접 입력)"
                                     />
+                                    {showStakeholderSuggestions && formPartner && (
+                                        <div className="absolute top-[60px] left-0 w-full bg-[#222] border border-[#3c3c3c] rounded-[8px] py-1 max-h-[160px] overflow-y-auto z-[10000] shadow-xl">
+                                            {uniqueStakeholderNames
+                                                .filter(name => name.toLowerCase().includes(formPartner.toLowerCase()))
+                                                .map((name, i) => (
+                                                    <div 
+                                                        key={i} 
+                                                        className="px-3 py-2 text-[13px] text-[#E5E5E5] hover:bg-[#333] cursor-pointer truncate"
+                                                        onClick={() => {
+                                                            setFormPartner(name);
+                                                            setShowStakeholderSuggestions(false);
+                                                        }}
+                                                    >
+                                                        {name}
+                                                    </div>
+                                                ))}
+                                            {!uniqueStakeholderNames.some(name => name.toLowerCase() === formPartner.toLowerCase()) && (
+                                                <div 
+                                                    className="px-3 py-2 text-[13px] text-[#2997ff] hover:bg-[#333] cursor-pointer font-bold border-t border-[#3c3c3c]/50"
+                                                    onClick={async () => {
+                                                        const nameToRegister = formPartner;
+                                                        if (window.confirm(`'${nameToRegister}'을(를) 이해관계자 마스터에 새로 등록하시겠습니까?`)) {
+                                                            try {
+                                                                const { error } = await supabase
+                                                                    .from('iota_stakeholder_master')
+                                                                    .insert({
+                                                                        company_name: nameToRegister,
+                                                                        role_category: '기타'
+                                                                    });
+                                                                if (error) throw error;
+                                                                
+                                                                // Add to local state so it autocomplete updates
+                                                                setMasterStakeholders(prev => [...prev, { company_name: nameToRegister, role_category: '기타' }]);
+                                                                alert('새 이해관계자가 등록되었습니다.');
+                                                            } catch (err) {
+                                                                console.error("Failed to register new stakeholder:", err);
+                                                                alert("등록에 실패했습니다.");
+                                                            }
+                                                        }
+                                                        setShowStakeholderSuggestions(false);
+                                                    }}
+                                                >
+                                                    ➕ 새 상대방 등록: "{formPartner}"
+                                                </div>
+                                            )}
+                                        </div>
+                                    )}
                                 </div>
                             </div>
 
@@ -1163,7 +1264,7 @@ export default function PmoScheduleGate() {
                             <div className="flex flex-col gap-2">
                                 <label className="text-[12px] font-bold text-[#86868B]">협업 부서</label>
                                 <div className="grid grid-cols-3 gap-2 bg-[#1a1a1a] p-3 rounded-[8px] border border-[#3c3c3c]">
-                                    {(departments.length > 0 ? departments.map(d => d.dept_name) : ['개발관리실', '공간솔루션실', '사업관리2파트', '사업관리1파트', 'LFC', '법무/세무자문', '기업마케팅실', '기획추진']).map(dept => {
+                                    {deptOptions.map(dept => {
                                         const isChecked = formCoop.includes(dept);
                                         return (
                                             <label key={dept} className="flex items-center gap-2 text-[12px] text-white cursor-pointer select-none">
