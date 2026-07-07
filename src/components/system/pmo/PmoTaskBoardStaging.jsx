@@ -3118,6 +3118,23 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                     </div>
                                 </div>
                             </div>
+
+                            {/* Modal Footer */}
+                            <div className="pt-4 border-t border-[#3c3c3c] flex justify-end gap-3 mt-4">
+                                <button 
+                                    type="button"
+                                    onClick={() => setIsModalOpen(false)}
+                                    className="px-4 py-2 rounded-[8px] bg-white/5 hover:bg-white/10 text-white border border-[#3c3c3c] text-[13px] font-bold cursor-pointer transition-all"
+                                >
+                                    취소
+                                </button>
+                                <button 
+                                    type="submit"
+                                    className="px-5 py-2 rounded-[8px] bg-[#2997ff] hover:bg-[#2997ff]/90 text-[13px] font-bold text-white cursor-pointer transition-all shadow-md shadow-[#2997ff]/10"
+                                >
+                                    저장
+                                </button>
+                            </div>
                         </form>
                     </div>
                 </div>
