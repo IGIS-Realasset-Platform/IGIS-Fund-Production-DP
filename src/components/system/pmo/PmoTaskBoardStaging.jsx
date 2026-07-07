@@ -2106,12 +2106,10 @@ export default function PmoTaskBoardStaging() {
 
                                         <th className="pl-4 w-[104px] min-w-[104px] max-w-[104px] sticky left-[245px] bg-[#272726] z-30">세부섹터</th>
                                         <th className="pl-4 w-[270px] min-w-[270px] max-w-[270px] sticky left-[349px] bg-[#272726] z-30 shadow-[inset_-1px_0_0_0_#3c3c3c]">업무명</th>
-                                        <th className="pl-4 w-[100px] min-w-[100px] max-w-[100px] text-center select-none cursor-pointer hover:text-white transition-colors" onClick={() => setPrioritySortOrder(prev => prev === 'desc' ? 'asc' : 'desc')}>
+                                        <th className="w-[75px] min-w-[75px] max-w-[75px] text-center select-none cursor-pointer hover:text-white transition-colors" onClick={() => setPrioritySortOrder(prev => prev === 'desc' ? 'asc' : 'desc')}>
                                             <div className="flex items-center justify-center gap-1">
-                                                <span className="leading-tight">우선순위</span>
-                                                <span className="text-[10px] text-[#2997ff]">{prioritySortOrder === 'desc' ? '▼' : '▲'}</span>
                                                 <span 
-                                                    className="inline-flex items-center justify-center w-3.5 h-3.5 rounded-full bg-white/10 hover:bg-white/20 text-[10px] text-[#86868B] hover:text-white ml-0.5 font-bold cursor-pointer"
+                                                    className="inline-flex items-center justify-center w-3.5 h-3.5 rounded-full bg-white/10 hover:bg-white/20 text-[10px] text-[#86868B] hover:text-white font-bold cursor-pointer"
                                                     onClick={(e) => {
                                                         e.stopPropagation();
                                                         setIsCriteriaModalOpen(true);
@@ -2120,6 +2118,8 @@ export default function PmoTaskBoardStaging() {
                                                 >
                                                     ?
                                                 </span>
+                                                <span className="leading-tight text-[11px]">우선순위</span>
+                                                <span className="text-[10px] text-[#2997ff] ml-0.5">{prioritySortOrder === 'desc' ? '▼' : '▲'}</span>
                                             </div>
                                         </th>
                                         <th className="pl-4 w-[220px] min-w-[220px] max-w-[220px]">업무목적 / PF·준공 영향</th>
@@ -2400,7 +2400,7 @@ export default function PmoTaskBoardStaging() {
                                                     </td>
 
                                                     {/* 우선순위점수 */}
-                                                    <td className={`pl-4 text-center font-mono w-[100px] min-w-[100px] max-w-[100px] font-bold ${priorityScore >= 70 ? 'text-[#FF453A]' : priorityScore >= 50 ? 'text-[#FF9F0A]' : 'text-[#86868B]'}`}>{priorityScore}</td>
+                                                    <td className={`text-center font-mono w-[75px] min-w-[75px] max-w-[75px] font-bold ${priorityScore >= 70 ? 'text-[#FF453A]' : priorityScore >= 50 ? 'text-[#FF9F0A]' : 'text-[#86868B]'}`}>{priorityScore}</td>
 
                                                     {/* 6. 업무목적 / PF·준공 영향 */}
                                                     <td className="pl-4 text-[#A1A1AA] truncate w-[220px] min-w-[220px] max-w-[220px]">
