@@ -849,23 +849,23 @@ export default function DecisionLog() {
                             )}
                         </div>
                         {/* View mode toggle button group */}
-                        <div className="flex bg-[#2c2c2b] border border-[#3c3c3c] rounded-[10px] p-0.5 ml-3 self-center shrink-0">
+                        <div className="flex bg-[#1c1c1e]/60 border border-[#3c3c3c] rounded-[10px] p-0.5 ml-3 self-center shrink-0">
                             <button
                                 onClick={() => setViewMode('key')}
-                                className={`px-3 py-1 rounded-[8px] text-[12px] font-bold transition-all cursor-pointer ${
+                                className={`px-3 py-1.5 rounded-[8px] text-[12px] font-bold transition-all cursor-pointer ${
                                     viewMode === 'key' 
-                                        ? 'bg-[#2997ff] text-white shadow-sm' 
-                                        : 'text-[#86868B] hover:text-white'
+                                        ? 'bg-[#3a3a3c] text-white shadow-sm' 
+                                        : 'text-[#86868B] hover:text-[#f5f5f7] bg-transparent'
                                 }`}
                             >
-                                주요내용보기
+                                간추려보기
                             </button>
                             <button
                                 onClick={() => setViewMode('all')}
-                                className={`px-3 py-1 rounded-[8px] text-[12px] font-bold transition-all cursor-pointer ${
+                                className={`px-3 py-1.5 rounded-[8px] text-[12px] font-bold transition-all cursor-pointer ${
                                     viewMode === 'all' 
-                                        ? 'bg-[#2997ff] text-white shadow-sm' 
-                                        : 'text-[#86868B] hover:text-white'
+                                        ? 'bg-[#3a3a3c] text-white shadow-sm' 
+                                        : 'text-[#86868B] hover:text-[#f5f5f7] bg-transparent'
                                 }`}
                             >
                                 자세히보기
