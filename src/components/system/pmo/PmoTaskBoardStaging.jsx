@@ -1949,8 +1949,8 @@ export default function PmoTaskBoardStaging() {
                                         <th className="pl-[10px] text-center w-[80px] min-w-[80px] max-w-[80px]">ID</th>
                                         
                                         {/* 프로젝트 */}
-                                        <th className="pl-4 w-[90px] min-w-[90px] max-w-[90px]">
-                                            <div className="relative inline-flex items-center justify-start bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[75px] overflow-hidden">
+                                        <th className="text-center w-[90px] min-w-[90px] max-w-[90px]">
+                                            <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[75px] overflow-hidden mx-auto">
                                                 <span className={`font-bold text-[11px] whitespace-nowrap truncate ${selectedProject === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
                                                     {selectedProject === '전체보기' ? '프로젝트' : selectedProject}
                                                 </span>
@@ -2244,7 +2244,7 @@ export default function PmoTaskBoardStaging() {
                                                     </td>
                                                     
                                                     {/* 2. 프로젝트 */}
-                                                    <td className="pl-4 font-bold text-[#E5E5E5] w-[90px] min-w-[90px] max-w-[90px] truncate">
+                                                    <td className="text-center font-bold text-[#E5E5E5] w-[90px] min-w-[90px] max-w-[90px] truncate">
                                                         {projectVal}
                                                     </td>
                                                     
