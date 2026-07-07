@@ -2093,7 +2093,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                         <div className={`flex items-center transition-all duration-300 ease-out ${isAll ? 'min-w-[3615px]' : 'min-w-[2440px]'}`}>
                             <table className={`text-left table-fixed flex-1 border-collapse bg-[#272726] transition-all duration-300 ease-out ${isAll ? 'min-w-[2815px]' : 'min-w-[1640px]'}`}>
                                 <thead>
-                                    <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[13px] h-11">
+                                    <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[13px] h-[46px]">
                                         <th className="pl-[10px] text-center w-[60px] min-w-[60px] max-w-[60px] sticky left-0 bg-[#272726] z-30">ID</th>
                                         
                                         {/* 프로젝트 */}
@@ -2428,7 +2428,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                             const sortKeyVal = t.sort_key || fallbackItem.sort_key || '';
                                             const notesVal = t.notes || fallbackItem.notes || '';
                                             return (
-                                                <tr key={t.id || `task-${idx}`} className="group hover:bg-[#333]/50 transition-colors h-12">
+                                                <tr key={t.id || `task-${idx}`} className="group hover:bg-[#333]/50 transition-colors h-[50px]">
                                                     
                                                     {/* 1. ID */}
                                                     <td className="pl-[10px] text-center text-[#86868B] text-[11px] font-mono select-none w-[60px] min-w-[60px] max-w-[60px] truncate sticky left-0 bg-[#272726] group-hover:bg-[#2d2d2c] transition-colors z-10">
@@ -2650,7 +2650,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                             );
                                         })
                                     )}
-                                    <tr className="bg-[#272726] hover:bg-[#333]/30 transition-colors h-11 border-t border-[#3c3c3c]/50">
+                                    <tr className="bg-[#272726] hover:bg-[#333]/30 transition-colors h-[46px] border-t border-[#3c3c3c]/50">
                                         {/* Empty cells covering the columns before "업무명" (ID, 프로젝트, 대분류, 세부섹터) */}
                                         <td colSpan={isAll ? 4 : 3} className="bg-[#272726]"></td>
                                         {/* Cell for "업무명" column where the button is aligned */}
