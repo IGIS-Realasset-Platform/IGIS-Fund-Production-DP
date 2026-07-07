@@ -525,7 +525,7 @@ export default function PmoScheduleGate() {
                                             </td>
                                             
                                             {/* 협업 */}
-                                            <td className="px-2 text-[#86868B] leading-tight text-center pr-2 whitespace-normal break-all sticky left-[480px] bg-[#272726] group-hover:bg-[#333] transition-colors z-20 border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)] w-[100px] min-w-[100px] max-w-[100px]">
+                                            <td className="px-2 text-[#c2c2c6] leading-tight text-center pr-2 whitespace-normal break-all sticky left-[480px] bg-[#272726] group-hover:bg-[#333] transition-colors z-20 border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)] w-[100px] min-w-[100px] max-w-[100px]">
                                                 {item.coop.split(';').map((c, cIdx) => (
                                                     c && <div key={cIdx} className="text-[11px]">{c}</div>
                                                 ))}
@@ -695,7 +695,7 @@ export default function PmoScheduleGate() {
                                             <td className="pl-3 text-left w-[260px] min-w-[260px] max-w-[260px]">
                                                 <div className="flex flex-row gap-1.5 justify-start items-center whitespace-nowrap">
                                                     {item.coop.map((c, cIdx) => (
-                                                        c && <span key={cIdx} className="px-2 py-0.5 rounded bg-[#1F1F1E] text-[#A1A1AA] border border-[#3c3c3c] text-[11px] whitespace-nowrap">{c}</span>
+                                                        c && <span key={cIdx} className="px-2 py-0.5 rounded bg-[#1F1F1E] text-[#C2C2C6] border border-[#3c3c3c] text-[11px] whitespace-nowrap">{c}</span>
                                                     ))}
                                                 </div>
                                             </td>
