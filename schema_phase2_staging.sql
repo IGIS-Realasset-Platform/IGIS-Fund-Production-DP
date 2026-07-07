@@ -66,7 +66,10 @@ ON CONFLICT (stakeholder_code) DO NOTHING;
 CREATE TABLE iota_v2.iota_pmo_tasks (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     project_code VARCHAR(50) REFERENCES iota_v2.iota_projects(project_code),
-    category_main VARCHAR(100) NOT NULL,                                     -- 대분류 (PMO, 호텔, 인허가 등)
+    category_main VARCHAR(100) NOT NULL CHECK (category_main IN (
+        '공통 PMO', '인허가', '호텔/운영', '시공/원가', '도면/설계', '인테리어/TI',
+        '임차/마케팅', 'PF/금융', '구조/법무/세무', '주주/보고', '준공/담보대출', '팝업/단발'
+    )),                                                                     -- 대분류 (공통 PMO, 인허가 등)
     sector_detail VARCHAR(100),                                              -- 세부섹터
     task_name VARCHAR(255) NOT NULL,                                         -- 업무명
     task_purpose TEXT,                                                       -- 업무목적 및 PF/준공 영향

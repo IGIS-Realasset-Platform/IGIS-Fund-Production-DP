@@ -2049,7 +2049,26 @@ export default function PmoTaskBoardStaging() {
                                     </div>
                                     <div>
                                         <label className="block text-[12px] font-bold text-[#86868B] mb-1">대분류</label>
-                                        <input type="text" value={formCategoryMain} onChange={e => setFormCategoryMain(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff]" required />
+                                        <select 
+                                            value={formCategoryMain} 
+                                            onChange={e => setFormCategoryMain(e.target.value)} 
+                                            className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] cursor-pointer"
+                                            required
+                                        >
+                                            <option value="">대분류 선택</option>
+                                            <option value="공통 PMO">공통 PMO</option>
+                                            <option value="인허가">인허가</option>
+                                            <option value="호텔/운영">호텔/운영</option>
+                                            <option value="시공/원가">시공/원가</option>
+                                            <option value="도면/설계">도면/설계</option>
+                                            <option value="인테리어/TI">인테리어/TI</option>
+                                            <option value="임차/마케팅">임차/마케팅</option>
+                                            <option value="PF/금융">PF/금융</option>
+                                            <option value="구조/법무/세무">구조/법무/세무</option>
+                                            <option value="주주/보고">주주/보고</option>
+                                            <option value="준공/담보대출">준공/담보대출</option>
+                                            <option value="팝업/단발">팝업/단발</option>
+                                        </select>
                                     </div>
                                     
                                     {/* 세부섹터 (Autocomplete Suggestions) */}
