@@ -2423,7 +2423,11 @@ export default function PmoTaskBoardStaging() {
                                                     {/* 24. 회의상정등급 */}
                                                     <td className="text-center w-[80px] min-w-[80px] max-w-[80px] truncate">
                                                         <span className={`px-2 py-0.5 rounded text-[11px] font-bold ${
-                                                            meetingGrade.startsWith('A') ? 'bg-[#ff453a]/15 text-[#ff453a] border border-[#ff453a]/25' : 'bg-gray-500/10 text-gray-400'
+                                                            meetingGrade.startsWith('A') 
+                                                                ? 'bg-[#ff453a]/15 text-[#ff453a] border border-[#ff453a]/25' 
+                                                                : (meetingGrade === 'B_회의점검' || meetingGrade.startsWith('B'))
+                                                                    ? 'bg-[#ff9f0a]/15 text-[#ff9f0a] border border-[#ff9f0a]/25'
+                                                                    : 'bg-gray-500/10 text-gray-400 border border-gray-500/20'
                                                         }`}>
                                                             {meetingGrade}
                                                         </span>
