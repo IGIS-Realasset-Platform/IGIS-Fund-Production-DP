@@ -905,7 +905,7 @@ export default function PmoScheduleGate() {
             <div className="-mx-[60px] h-[1px] bg-[#2C2C2E] mt-[64px] mb-[48px]" />
 
             {/* Category Map & R&R Section */}
-            <div className="w-full flex items-center justify-start gap-4 mb-[14px]">
+            <div className="w-full flex items-center justify-start gap-4 mb-[18px]">
                 <h2 className="text-[36px] font-bold text-white tracking-tight leading-none text-left">R&R 및 필요산출물</h2>
                 <button 
                     onClick={() => setShowAuthInfoModal(true)}
