@@ -553,7 +553,7 @@ export default function PmoScheduleGate() {
             </div>
 
             {/* Category Map & R&R Section */}
-            <div className="w-full flex flex-col sm:flex-row sm:items-center justify-between gap-4 mt-[42px] mb-[20px]">
+            <div className="w-full flex flex-col sm:flex-row sm:items-center justify-between gap-4 mt-[48px] mb-[14px]">
                 <h2 className="text-[26px] font-bold text-white tracking-tight leading-none text-left">R&R</h2>
                 
                 {/* Filters Row */}
