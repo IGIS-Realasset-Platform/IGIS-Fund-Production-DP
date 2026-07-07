@@ -425,7 +425,7 @@ export default function PmoScheduleGate() {
                 }
             `}</style>
             {/* Header */}
-            <div className="w-full flex justify-between items-end mb-[24px]">
+            <div className="w-full flex justify-between items-end mb-[16px]">
                 <div className="flex flex-col text-left">
                     <h1 className="text-[36px] font-bold text-white tracking-tight leading-none mb-[8px]">타임라인</h1>
                     <p className="text-[16px] text-[#86868B] leading-[26px]">마일스톤의 최종 목표는 준공 및 Take-out/운영 전환입니다.</p>
