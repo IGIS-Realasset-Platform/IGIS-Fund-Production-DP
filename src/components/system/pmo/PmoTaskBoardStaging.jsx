@@ -1194,6 +1194,44 @@ const FALLBACK_BOARD_TASKS = [
   }
 ];
 
+// Boolean parsing helper
+const parseBool = (val) => {
+    if (val === true || val === 'Y' || val === 'y' || val === 'yes' || val === 1 || val === '1' || val === 'true') return true;
+    return false;
+};
+
+// Gate string mapping (UI/Excel <-> DB)
+const gateMapToDb = (uiVal) => {
+    if (!uiVal) return 'G0';
+    if (uiVal.startsWith('G0')) return 'G0';
+    if (uiVal.startsWith('G1')) return 'G1';
+    if (uiVal.startsWith('G2')) return 'G2';
+    if (uiVal.startsWith('G3')) return 'G3';
+    if (uiVal.startsWith('G4')) return 'G4';
+    return 'G0';
+};
+
+const gateMapToUi = (dbVal) => {
+    if (dbVal === 'G0') return 'G0 현황정리';
+    if (dbVal === 'G1') return 'G1 방향결정';
+    if (dbVal === 'G2') return 'G2 PF준비도';
+    if (dbVal === 'G3') return 'G3 계약/동의';
+    if (dbVal === 'G4') return 'G4 착공/공사';
+    return dbVal || 'G0 현황정리';
+};
+
+// Meeting grade mapping (UI/Excel <-> DB)
+const gradeMapToDb = (uiVal) => {
+    if (!uiVal) return 'B';
+    return uiVal.startsWith('A') ? 'A' : 'B';
+};
+
+const gradeMapToUi = (dbVal) => {
+    if (dbVal === 'A') return 'A_즉시상정';
+    if (dbVal === 'B') return 'B_회의점검';
+    return dbVal || 'B_회의점검';
+};
+
 export default function PmoTaskBoardStaging() {
     const { memberInfo } = useAuth();
     const [tasks, setTasks] = useState([]);
@@ -1202,9 +1240,9 @@ export default function PmoTaskBoardStaging() {
 
     // Masters loaded from DB
     const [projects, setProjects] = useState([
-        { project_code: 'IOTA_SEOUL', project_name: '이오타 서울' },
-        { project_code: 'PFV_427', project_name: '427 PFV' },
-        { project_code: 'FUND_421', project_name: '421 펀드' }
+        { project_code: 'IOTA_SEOUL', project_name: '공통' },
+        { project_code: 'PFV_427', project_name: '427PFV' },
+        { project_code: 'FUND_421', project_name: '421펀드' }
     ]);
     const [departments, setDepartments] = useState([
         { dept_code: 'DEPT_PM2', dept_name: '사업관리2파트' },
@@ -1238,7 +1276,7 @@ export default function PmoTaskBoardStaging() {
     const [formTaskPurpose, setFormTaskPurpose] = useState('');
     const [formDeliverables, setFormDeliverables] = useState('');
     const [formTargetAxis, setFormTargetAxis] = useState('준공/운영');
-    const [formGateStage, setFormGateStage] = useState('G0');
+    const [formGateStage, setFormGateStage] = useState('G0 현황정리');
     const [formPmoManager, setFormPmoManager] = useState('사업관리2파트');
     const [formLeadDept, setFormLeadDept] = useState('사업관리2파트');
     const [formCoopDepts, setFormCoopDepts] = useState('');
@@ -1253,7 +1291,7 @@ export default function PmoTaskBoardStaging() {
     const [formTaskType, setFormTaskType] = useState('정규');
     const [formNextAction, setFormNextAction] = useState('');
     const [formPriorityScore, setFormPriorityScore] = useState(0);
-    const [formMeetingGrade, setFormMeetingGrade] = useState('B');
+    const [formMeetingGrade, setFormMeetingGrade] = useState('B_회의점검');
     const [formAgendaReason, setFormAgendaReason] = useState('');
     const [formSortKey, setFormSortKey] = useState('');
     const [formNotes, setFormNotes] = useState('');
@@ -1438,6 +1476,38 @@ export default function PmoTaskBoardStaging() {
         return stake.stakeholder_code;
     }
 
+    // Project code resolver & on-the-fly register
+    async function resolveProjectCode(projectName) {
+        if (!projectName) return 'IOTA_SEOUL';
+        let searchCode = projectName.toUpperCase();
+        if (projectName === '공통') searchCode = 'IOTA_SEOUL';
+        if (projectName === '427PFV') searchCode = 'PFV_427';
+        if (projectName === '816PFV') searchCode = 'PFV_816';
+
+        let proj = projects.find(p => p.project_code === searchCode);
+        if (!proj) {
+            const name = projectName.includes('PFV') ? `${projectName.replace('PFV', '')} PFV` : projectName;
+            if (isDbMode) {
+                try {
+                    const { data, error } = await supabase
+                        .schema('iota_v2')
+                        .from('iota_projects')
+                        .insert({ project_code: searchCode, project_name: name })
+                        .select()
+                        .single();
+                    if (!error && data) {
+                        setProjects(prev => [...prev, data]);
+                        return searchCode;
+                    }
+                } catch (err) {
+                    console.error("Failed to insert project on-the-fly:", err);
+                }
+            }
+            return 'IOTA_SEOUL';
+        }
+        return proj.project_code;
+    }
+
     const handleAddNewClick = () => {
         setEditingItem(null);
         setFormProject(projects[0]?.project_code || 'IOTA_SEOUL');
@@ -1447,7 +1517,7 @@ export default function PmoTaskBoardStaging() {
         setFormTaskPurpose('');
         setFormDeliverables('');
         setFormTargetAxis('준공/운영');
-        setFormGateStage('G0');
+        setFormGateStage('G0 현황정리');
         setFormPmoManager('사업관리2파트');
         setFormLeadDept(departments[0]?.dept_name || '사업관리2파트');
         setFormCoopDepts('');
@@ -1462,7 +1532,7 @@ export default function PmoTaskBoardStaging() {
         setFormTaskType('정규');
         setFormNextAction('');
         setFormPriorityScore(0);
-        setFormMeetingGrade('B');
+        setFormMeetingGrade('B_회의점검');
         setFormAgendaReason('');
         setFormSortKey('');
         setFormNotes('');
@@ -1480,22 +1550,36 @@ export default function PmoTaskBoardStaging() {
         setFormTaskPurpose(item.task_purpose || fallbackItem.task_purpose || '');
         setFormDeliverables(item.deliverables || fallbackItem.deliverables || '');
         setFormTargetAxis(item.target_axis || fallbackItem.target_axis || '준공/운영');
-        setFormGateStage(item.gate_stage || fallbackItem.gate_stage || 'G0');
+        
+        // Gate stage mapping
+        const gateVal = item.gate_stage || fallbackItem.gate_stage || 'G0';
+        setFormGateStage(gateVal.includes(' ') ? gateVal : gateMapToUi(gateVal));
+
         setFormPmoManager(item.pmo_manager || fallbackItem.pmo_manager || '사업관리2파트');
         setFormLeadDept(item.lead_dept?.dept_name || item.lead_dept || item.lead_dept_code || fallbackItem.lead_dept || '사업관리2파트');
         setFormCoopDepts(item.coop_dept_codes || item.coop_depts || fallbackItem.coop_depts || '');
         setFormAssignee(item.assignee || '');
         setFormExternalParty(item.external_party?.stakeholder_name || item.external_party || item.external_party_code || fallbackItem.external_party || '');
         setFormSupportNeeded(item.support_needed || fallbackItem.support_needed || '');
-        setFormIsBlocker(item.is_blocker !== undefined ? item.is_blocker : fallbackItem.is_blocker);
-        setFormNeedsDecision(item.needs_decision !== undefined ? item.needs_decision : fallbackItem.needs_decision);
-        setFormDueDate(item.due_date || fallbackItem.due_date || '');
+        
+        // Boolean conversion fix (checking string 'Y' / 'N' as well)
+        setFormIsBlocker(parseBool(item.is_blocker !== undefined ? item.is_blocker : fallbackItem.is_blocker));
+        setFormNeedsDecision(parseBool(item.needs_decision !== undefined ? item.needs_decision : fallbackItem.needs_decision));
+
+        // Date string fix (limiting to YYYY-MM-DD)
+        const rawDate = item.due_date || fallbackItem.due_date || '';
+        setFormDueDate(rawDate ? rawDate.substring(0, 10) : '');
+
         setFormStatus(item.status || fallbackItem.status || '진행중');
         setFormImportanceLevel(item.importance_level || fallbackItem.importance_level || '일반');
         setFormTaskType(item.task_type || fallbackItem.task_type || '정규');
         setFormNextAction(item.next_action || fallbackItem.next_action || '');
         setFormPriorityScore(item.priority_score !== undefined ? item.priority_score : (fallbackItem.priority_score || 0));
-        setFormMeetingGrade(item.meeting_grade || fallbackItem.meeting_grade || 'B');
+
+        // Meeting grade mapping
+        const gradeVal = item.meeting_grade || fallbackItem.meeting_grade || 'B';
+        setFormMeetingGrade(gradeVal.includes('_') ? gradeVal : gradeMapToUi(gradeVal));
+
         setFormAgendaReason(item.agenda_reason || fallbackItem.agenda_reason || '');
         setFormSortKey(item.sort_key || fallbackItem.sort_key || '');
         setFormNotes(item.notes || fallbackItem.notes || '');
@@ -1526,18 +1610,23 @@ export default function PmoTaskBoardStaging() {
     const handleFormSubmit = async (e) => {
         e.preventDefault();
 
-        // Resolve FK codes
+        // Resolve codes
+        const resolvedProjectCode = await resolveProjectCode(formProject);
         const resolvedLeadDeptCode = await resolveDeptCode(formLeadDept);
         const resolvedExtPartyCode = await resolveStakeholderCode(formExternalParty);
 
+        // Convert UI gate and grade values to DB codes
+        const dbGateCode = gateMapToDb(formGateStage);
+        const dbMeetingGrade = gradeMapToDb(formMeetingGrade);
+
         const updatedData = {
-            project_code: formProject,
+            project_code: resolvedProjectCode,
             category_main: formCategoryMain,
             sector_detail: formSectorDetail,
             task_name: formTaskName,
             task_purpose: formTaskPurpose,
             deliverables: formDeliverables,
-            gate_stage: formGateStage,
+            gate_stage: dbGateCode,
             pmo_manager: formPmoManager,
             lead_dept_code: resolvedLeadDeptCode,
             coop_dept_codes: formCoopDepts,
@@ -1548,16 +1637,18 @@ export default function PmoTaskBoardStaging() {
             due_date: formDueDate || null,
             status: formStatus,
             priority_score: formPriorityScore,
-            meeting_grade: formMeetingGrade,
+            meeting_grade: dbMeetingGrade,
             next_action: formNextAction
         };
 
         const localMapping = {
             ...updatedData,
-            project: projects.find(p => p.project_code === formProject)?.project_name || formProject,
+            project: projects.find(p => p.project_code === resolvedProjectCode)?.project_name || formProject,
             lead_dept: { dept_name: formLeadDept },
             external_party: { stakeholder_name: formExternalParty },
             target_axis: formTargetAxis,
+            gate_stage: formGateStage, // Preserve full string locally
+            meeting_grade: formMeetingGrade,
             support_needed: formSupportNeeded,
             importance_level: formImportanceLevel,
             task_type: formTaskType,
@@ -1598,7 +1689,7 @@ export default function PmoTaskBoardStaging() {
                         .insert([updatedData]);
 
                     if (error) throw error;
-                    fetchTasks(); // Reload to fetch correct DB rows
+                    fetchTasks(); // Reload from DB
                 } catch (err) {
                     console.error("Failed to insert task in DB:", err);
                 }
@@ -1684,17 +1775,28 @@ export default function PmoTaskBoardStaging() {
                                             const coopDeptNames = t.coop_dept_codes || t.coop_depts || fallbackItem.coop_depts || '';
                                             const extPartyName = t.external_party?.stakeholder_name || t.external_party || t.external_party_code || fallbackItem.external_party || '';
                                             const targetAxis = t.target_axis || fallbackItem.target_axis || '준공/운영';
-                                            const gateStageVal = t.gate_stage || fallbackItem.gate_stage || 'G0';
+                                            
+                                            // Gate stage mapping
+                                            const rawGate = t.gate_stage || fallbackItem.gate_stage || 'G0';
+                                            const gateStageVal = rawGate.includes(' ') ? rawGate : gateMapToUi(rawGate);
+
                                             const supportNeeded = t.support_needed || fallbackItem.support_needed || '';
-                                            const isBlockerVal = t.is_blocker !== undefined ? t.is_blocker : fallbackItem.is_blocker;
-                                            const needsDecisionVal = t.needs_decision !== undefined ? t.needs_decision : fallbackItem.needs_decision;
+                                            
+                                            // Boolean normalization fixes
+                                            const isBlockerVal = parseBool(t.is_blocker !== undefined ? t.is_blocker : fallbackItem.is_blocker);
+                                            const needsDecisionVal = parseBool(t.needs_decision !== undefined ? t.needs_decision : fallbackItem.needs_decision);
+                                            
                                             const dueDateVal = t.due_date || fallbackItem.due_date || '';
                                             const statusVal = t.status || fallbackItem.status || '진행중';
                                             const importanceLevel = t.importance_level || fallbackItem.importance_level || '일반';
                                             const taskType = t.task_type || fallbackItem.task_type || '정규';
                                             const nextActionVal = t.next_action || fallbackItem.next_action || '';
                                             const priorityScore = t.priority_score !== undefined ? t.priority_score : (fallbackItem.priority_score || 0);
-                                            const meetingGrade = t.meeting_grade || fallbackItem.meeting_grade || 'B';
+                                            
+                                            // Meeting grade mapping
+                                            const rawGrade = t.meeting_grade || fallbackItem.meeting_grade || 'B';
+                                            const meetingGrade = rawGrade.includes('_') ? rawGrade : gradeMapToUi(rawGrade);
+
                                             const agendaReason = t.agenda_reason || fallbackItem.agenda_reason || '';
                                             const sortKeyVal = t.sort_key || fallbackItem.sort_key || '';
                                             const notesVal = t.notes || fallbackItem.notes || '';
@@ -1820,9 +1922,9 @@ export default function PmoTaskBoardStaging() {
                                                     {/* 24. 회의상정등급 */}
                                                     <td className="pl-4 text-center w-[110px] min-w-[110px] max-w-[110px] truncate">
                                                         <span className={`px-2 py-0.5 rounded text-[11px] font-bold ${
-                                                            meetingGrade === 'A' ? 'bg-[#ff453a]/15 text-[#ff453a] border border-[#ff453a]/25' : 'bg-gray-500/10 text-gray-400'
+                                                            meetingGrade.startsWith('A') ? 'bg-[#ff453a]/15 text-[#ff453a] border border-[#ff453a]/25' : 'bg-gray-500/10 text-gray-400'
                                                         }`}>
-                                                            {meetingGrade === 'A' ? 'A_즉시상정' : 'B_회의점검'}
+                                                            {meetingGrade}
                                                         </span>
                                                     </td>
 
@@ -2033,11 +2135,11 @@ export default function PmoTaskBoardStaging() {
                                             onChange={e => setFormGateStage(e.target.value)} 
                                             className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] cursor-pointer"
                                         >
-                                            <option value="G0">G0 현황정리</option>
-                                            <option value="G1">G1 방향결정</option>
-                                            <option value="G2">G2 PF준비도</option>
-                                            <option value="G3">G3 계약/동의</option>
-                                            <option value="G4">G4 착공/공사</option>
+                                            <option value="G0 현황정리">G0 현황정리</option>
+                                            <option value="G1 방향결정">G1 방향결정</option>
+                                            <option value="G2 PF준비도">G2 PF준비도</option>
+                                            <option value="G3 계약/동의">G3 계약/동의</option>
+                                            <option value="G4 착공/공사">G4 착공/공사</option>
                                         </select>
                                     </div>
                                     <div>
@@ -2189,8 +2291,8 @@ export default function PmoTaskBoardStaging() {
                                         <div className="flex-1">
                                             <label className="block text-[12px] font-bold text-[#86868B] mb-1">회의상정등급</label>
                                             <select value={formMeetingGrade} onChange={e => setFormMeetingGrade(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] cursor-pointer">
-                                                <option value="B">B_회의점검</option>
-                                                <option value="A">A_즉시상정</option>
+                                                <option value="B_회의점검">B_회의점검</option>
+                                                <option value="A_즉시상정">A_즉시상정</option>
                                             </select>
                                         </div>
                                     </div>
