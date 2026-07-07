@@ -2065,7 +2065,7 @@ export default function PmoTaskBoardStaging() {
                                         <th className="pl-[10px] text-center w-[60px] min-w-[60px] max-w-[60px] sticky left-0 bg-[#272726] z-30">ID</th>
                                         
                                         {/* 프로젝트 */}
-                                        <th className="text-center w-[90px] min-w-[90px] max-w-[90px] sticky left-[60px] bg-[#272726] z-30">
+                                        <th className="text-center w-[90px] min-w-[90px] max-w-[100px] sticky left-[60px] bg-[#272726] z-30">
                                             <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[75px] overflow-hidden mx-auto">
                                                 <span className={`font-bold text-[11px] whitespace-nowrap truncate ${selectedProject === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
                                                     {selectedProject === '전체보기' ? '프로젝트' : selectedProject}
@@ -2146,7 +2146,7 @@ export default function PmoTaskBoardStaging() {
                                         </th>
 
                                         {/* Gate */}
-                                        <th className="w-[90px] min-w-[90px] max-w-[90px] text-center">
+                                        <th className="w-[90px] min-w-[90px] max-w-[100px] text-center">
                                             <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[75px] overflow-hidden mx-auto">
                                                 <span className={`font-bold text-[11px] whitespace-nowrap truncate ${selectedGateStage === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
                                                     {selectedGateStage === '전체보기' ? 'GATE' : selectedGateStage}
@@ -2372,7 +2372,7 @@ export default function PmoTaskBoardStaging() {
                                                     </td>
                                                     
                                                     {/* 2. 프로젝트 */}
-                                                    <td className="text-center font-bold text-[#E5E5E5] w-[90px] min-w-[90px] max-w-[90px] truncate sticky left-[60px] bg-[#272726] group-hover:bg-[#2d2d2c] transition-colors z-10">
+                                                    <td className="text-center font-bold text-[#E5E5E5] w-[90px] min-w-[90px] max-w-[100px] truncate sticky left-[60px] bg-[#272726] group-hover:bg-[#2d2d2c] transition-colors z-10">
                                                          <span className={`px-1.5 py-0.5 rounded text-[11px] font-bold border inline-block max-w-full truncate ${
                                                              projectVal === 'IOTA 공통' ? 'bg-[#323233] text-[#F5F5F7] border-[#424243]' :
                                                              projectVal === '427 PFV' ? 'bg-[#3A3A3C] text-[#FFFFFF] border-[#48484A]' :
@@ -2416,7 +2416,7 @@ export default function PmoTaskBoardStaging() {
                                                     <td className="text-center text-[#A1A1AA] w-[91px] min-w-[91px] max-w-[91px] truncate">{targetAxis}</td>
 
                                                     {/* 9. Gate */}
-                                                    <td className="text-center text-[#A1A1AA] w-[90px] min-w-[90px] max-w-[90px] truncate">{gateStageVal}</td>
+                                                    <td className="text-center text-[#A1A1AA] w-[90px] min-w-[90px] max-w-[100px] truncate">{gateStageVal}</td>
 
                                                     
 
@@ -2448,12 +2448,12 @@ export default function PmoTaskBoardStaging() {
                                                             <div className="flex flex-nowrap gap-1 justify-start items-center overflow-hidden w-full">
                                                                 {(() => {
                                                                     const depts = coopDeptNames.split(',').map(c => c.trim()).filter(Boolean);
-                                                                    const displayDepts = depts.slice(0, 2);
-                                                                    const hasMore = depts.length > 2;
+                                                                    const displayDepts = depts.length > 3 ? depts.slice(0, 2) : depts;
+                                                                    const hasMore = depts.length > 3;
                                                                     return (
                                                                         <>
                                                                             {displayDepts.map((c, i) => (
-                                                                                <span key={i} className="inline-flex items-center justify-center px-2 py-0.5 bg-[#27272a] text-[#d4d4d8] border border-[#3f3f46] rounded-[4px] text-[11px] font-medium whitespace-nowrap shrink-0 max-w-[90px] truncate">
+                                                                                <span key={i} className="inline-flex items-center justify-center px-2 py-0.5 bg-[#27272a] text-[#d4d4d8] border border-[#3f3f46] rounded-[4px] text-[11px] font-medium whitespace-nowrap shrink-0 max-w-[100px] truncate">
                                                                                     {c}
                                                                                 </span>
                                                                             ))}
