@@ -564,7 +564,7 @@ export default function PmoScheduleGate() {
 
             {/* Category Map & R&R Section */}
             <div className="w-full flex items-center justify-between mt-[48px] mb-[14px]">
-                <h2 className="text-[26px] font-bold text-white tracking-tight leading-none text-left">R&R</h2>
+                <h2 className="text-[26px] font-bold text-white tracking-tight leading-none text-left">R&R과 필요산출물</h2>
             </div>
 
             {/* R&R Matrix Table */}
