@@ -927,7 +927,7 @@ export default function PmoScheduleGate() {
                                                             disabled={isAdHoc} 
                                                             className={isAdHoc ? 'text-[#555] bg-[#222]' : 'bg-[#222] text-white'}
                                                         >
-                                                            {cat} {isAdHoc && '(준비중)'}
+                                                            {cat} {isAdHoc && ' (본 페이지 대상 아님)'}
                                                         </option>
                                                     );
                                                 })}
@@ -1139,7 +1139,7 @@ export default function PmoScheduleGate() {
                                                     disabled={isAdHoc} 
                                                     className={isAdHoc ? 'text-[#555] bg-[#1a1a1a]' : 'bg-[#1a1a1a] text-white'}
                                                 >
-                                                    {cat} {isAdHoc && '(준비중)'}
+                                                    {cat} {isAdHoc && ' (본 페이지 등록 불가)'}
                                                 </option>
                                             );
                                         })}
