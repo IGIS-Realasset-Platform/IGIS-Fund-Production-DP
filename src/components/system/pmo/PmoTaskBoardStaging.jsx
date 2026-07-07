@@ -1199,14 +1199,39 @@ export default function PmoTaskBoardStaging() {
     const [tasks, setTasks] = useState([]);
     const [loading, setLoading] = useState(true);
     const [isDbMode, setIsDbMode] = useState(false);
-    
+
+    // Masters loaded from DB
+    const [projects, setProjects] = useState([
+        { project_code: 'IOTA_SEOUL', project_name: '이오타 서울' },
+        { project_code: 'PFV_427', project_name: '427 PFV' },
+        { project_code: 'FUND_421', project_name: '421 펀드' }
+    ]);
+    const [departments, setDepartments] = useState([
+        { dept_code: 'DEPT_PM2', dept_name: '사업관리2파트' },
+        { dept_code: 'DEPT_LFC', dept_name: 'LFC(금융)' },
+        { dept_code: 'DEPT_DEV', dept_name: '개발관리실' },
+        { dept_code: 'DEPT_DESIGN', dept_name: '설계실' },
+        { dept_code: 'DEPT_MKT', dept_name: '마케팅팀' }
+    ]);
+    const [stakeholders, setStakeholders] = useState([
+        { stakeholder_code: 'SH_LP_01', stakeholder_name: '이지스자산운용' },
+        { stakeholder_code: 'SH_DEV_01', stakeholder_name: '이오타시행사' },
+        { stakeholder_code: 'SH_CON_01', stakeholder_name: '이지스건설' },
+        { stakeholder_code: 'SH_FIN_01', stakeholder_name: '한국대주은행' }
+    ]);
+    const [masterStakeholders, setMasterStakeholders] = useState([]);
+
     // Modal states
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [showAuthInfoModal, setShowAuthInfoModal] = useState(false);
     const [editingItem, setEditingItem] = useState(null);
 
+    // Suggestions panels
+    const [showSubsectorSuggestions, setShowSubsectorSuggestions] = useState(false);
+    const [showStakeholderSuggestions, setShowStakeholderSuggestions] = useState(false);
+
     // Form states
-    const [formProject, setFormProject] = useState('공통');
+    const [formProject, setFormProject] = useState('IOTA_SEOUL');
     const [formCategoryMain, setFormCategoryMain] = useState('');
     const [formSectorDetail, setFormSectorDetail] = useState('');
     const [formTaskName, setFormTaskName] = useState('');
@@ -1215,7 +1240,7 @@ export default function PmoTaskBoardStaging() {
     const [formTargetAxis, setFormTargetAxis] = useState('준공/운영');
     const [formGateStage, setFormGateStage] = useState('G0');
     const [formPmoManager, setFormPmoManager] = useState('사업관리2파트');
-    const [formLeadDept, setFormLeadDept] = useState('');
+    const [formLeadDept, setFormLeadDept] = useState('사업관리2파트');
     const [formCoopDepts, setFormCoopDepts] = useState('');
     const [formAssignee, setFormAssignee] = useState('');
     const [formExternalParty, setFormExternalParty] = useState('');
@@ -1223,7 +1248,7 @@ export default function PmoTaskBoardStaging() {
     const [formIsBlocker, setFormIsBlocker] = useState(false);
     const [formNeedsDecision, setFormNeedsDecision] = useState(false);
     const [formDueDate, setFormDueDate] = useState('');
-    const [formStatus, setFormStatus] = useState('미착수');
+    const [formStatus, setFormStatus] = useState('진행중');
     const [formImportanceLevel, setFormImportanceLevel] = useState('일반');
     const [formTaskType, setFormTaskType] = useState('정규');
     const [formNextAction, setFormNextAction] = useState('');
@@ -1250,9 +1275,76 @@ export default function PmoTaskBoardStaging() {
         );
     }, [memberInfo]);
 
+    // Unique arrays for Autocomplete Suggestions
+    const uniqueSubsectors = useMemo(() => {
+        const defaultSubs = [
+            '업무관리 체계', '현금기부채납', '소공원로', '변경인가', '사용승인', '브랜드', '계약구조',
+            '운영수지/FF&E', '현대건설', '삼성물산', '공사비/VE', 'PF 기준도면', '면적표',
+            '오피스 TI', '호텔 인테리어', '광장', 'KB/금융권', '삼성/이지스', '단독 PF',
+            '통합 PF', '재무모델', '리츠 전환', 'Asset/Share/합병', '의사결정', 'Take-out'
+        ];
+        const subs = [
+            ...defaultSubs,
+            ...tasks.map(item => item.sector_detail).filter(Boolean)
+        ];
+        return Array.from(new Set(subs));
+    }, [tasks]);
+
+    const uniqueStakeholderNames = useMemo(() => {
+        const names = [
+            ...stakeholders.map(s => s.stakeholder_name),
+            ...masterStakeholders.map(s => s.company_name)
+        ];
+        return Array.from(new Set(names.filter(Boolean)));
+    }, [stakeholders, masterStakeholders]);
+
     async function fetchTasks() {
         try {
             setLoading(true);
+            
+            // Load base projects
+            try {
+                const { data: projData } = await supabase
+                    .schema('iota_v2')
+                    .from('iota_projects')
+                    .select('*');
+                if (projData && projData.length > 0) setProjects(projData);
+            } catch (e) {
+                console.warn("Projects load failed, using defaults:", e);
+            }
+
+            // Load departments
+            try {
+                const { data: deptData } = await supabase
+                    .schema('iota_v2')
+                    .from('iota_departments')
+                    .select('*');
+                if (deptData && deptData.length > 0) setDepartments(deptData);
+            } catch (e) {
+                console.warn("Departments load failed, using defaults:", e);
+            }
+
+            // Load iota_v2 stakeholders
+            try {
+                const { data: stakeData } = await supabase
+                    .schema('iota_v2')
+                    .from('iota_stakeholders')
+                    .select('*');
+                if (stakeData && stakeData.length > 0) setStakeholders(stakeData);
+            } catch (e) {
+                console.warn("iota_v2 stakeholders load failed, using defaults:", e);
+            }
+
+            // Load master public stakeholders
+            try {
+                const { data: shData } = await supabase
+                    .from('iota_stakeholder_master')
+                    .select('*');
+                if (shData) setMasterStakeholders(shData);
+            } catch (e) {
+                console.warn("master stakeholders load failed:", e);
+            }
+
             const { data, error } = await supabase
                 .schema('iota_v2')
                 .from('iota_pmo_tasks')
@@ -1285,9 +1377,70 @@ export default function PmoTaskBoardStaging() {
         fetchTasks();
     }, []);
 
+    // Department code resolver & on-the-fly register
+    async function resolveDeptCode(deptName) {
+        if (!deptName) return null;
+        let dept = departments.find(d => d.dept_name === deptName);
+        if (!dept) {
+            const code = `DEPT_${Date.now()}`;
+            if (isDbMode) {
+                try {
+                    const { data, error } = await supabase
+                        .schema('iota_v2')
+                        .from('iota_departments')
+                        .insert({ dept_code: code, dept_name: deptName })
+                        .select()
+                        .single();
+                    if (!error && data) {
+                        setDepartments(prev => [...prev, data]);
+                        return code;
+                    }
+                } catch (err) {
+                    console.error("Failed to insert department on-the-fly:", err);
+                }
+            }
+            return null;
+        }
+        return dept.dept_code;
+    }
+
+    // Stakeholder code resolver & on-the-fly register
+    async function resolveStakeholderCode(stakeholderName) {
+        if (!stakeholderName) return null;
+        let stake = stakeholders.find(s => s.stakeholder_name === stakeholderName);
+        if (!stake) {
+            const code = `SH_AUTO_${Date.now()}`;
+            if (isDbMode) {
+                try {
+                    // Register in iota_v2.iota_stakeholders
+                    const { data, error } = await supabase
+                        .schema('iota_v2')
+                        .from('iota_stakeholders')
+                        .insert({ stakeholder_code: code, stakeholder_name: stakeholderName, category: '기타' })
+                        .select()
+                        .single();
+                    
+                    // Register in public.iota_stakeholder_master
+                    await supabase
+                        .from('iota_stakeholder_master')
+                        .insert({ company_name: stakeholderName, role_category: '기타' });
+                        
+                    if (!error && data) {
+                        setStakeholders(prev => [...prev, data]);
+                        return code;
+                    }
+                } catch (err) {
+                    console.error("Failed to insert stakeholder on-the-fly:", err);
+                }
+            }
+            return null;
+        }
+        return stake.stakeholder_code;
+    }
+
     const handleAddNewClick = () => {
         setEditingItem(null);
-        setFormProject('공통');
+        setFormProject(projects[0]?.project_code || 'IOTA_SEOUL');
         setFormCategoryMain('');
         setFormSectorDetail('');
         setFormTaskName('');
@@ -1296,7 +1449,7 @@ export default function PmoTaskBoardStaging() {
         setFormTargetAxis('준공/운영');
         setFormGateStage('G0');
         setFormPmoManager('사업관리2파트');
-        setFormLeadDept('');
+        setFormLeadDept(departments[0]?.dept_name || '사업관리2파트');
         setFormCoopDepts('');
         setFormAssignee('');
         setFormExternalParty('');
@@ -1304,7 +1457,7 @@ export default function PmoTaskBoardStaging() {
         setFormIsBlocker(false);
         setFormNeedsDecision(false);
         setFormDueDate('');
-        setFormStatus('미착수');
+        setFormStatus('진행중');
         setFormImportanceLevel('일반');
         setFormTaskType('정규');
         setFormNextAction('');
@@ -1320,7 +1473,7 @@ export default function PmoTaskBoardStaging() {
         const fallbackItem = FALLBACK_BOARD_TASKS.find(fallback => fallback.task_name === item.task_name) || {};
         
         setEditingItem(item);
-        setFormProject(item.project || item.project_code || fallbackItem.project || '공통');
+        setFormProject(item.project_code || item.project || fallbackItem.project || 'IOTA_SEOUL');
         setFormCategoryMain(item.category_main || '');
         setFormSectorDetail(item.sector_detail || '');
         setFormTaskName(item.task_name || '');
@@ -1329,7 +1482,7 @@ export default function PmoTaskBoardStaging() {
         setFormTargetAxis(item.target_axis || fallbackItem.target_axis || '준공/운영');
         setFormGateStage(item.gate_stage || fallbackItem.gate_stage || 'G0');
         setFormPmoManager(item.pmo_manager || fallbackItem.pmo_manager || '사업관리2파트');
-        setFormLeadDept(item.lead_dept?.dept_name || item.lead_dept || item.lead_dept_code || fallbackItem.lead_dept || '');
+        setFormLeadDept(item.lead_dept?.dept_name || item.lead_dept || item.lead_dept_code || fallbackItem.lead_dept || '사업관리2파트');
         setFormCoopDepts(item.coop_dept_codes || item.coop_depts || fallbackItem.coop_depts || '');
         setFormAssignee(item.assignee || '');
         setFormExternalParty(item.external_party?.stakeholder_name || item.external_party || item.external_party_code || fallbackItem.external_party || '');
@@ -1352,7 +1505,6 @@ export default function PmoTaskBoardStaging() {
     const handleDeleteClick = async (rowId) => {
         if (!window.confirm("정말로 이 업무를 삭제하시겠습니까?")) return;
 
-        // Local state update first
         setTasks(prev => prev.filter(t => t.id !== rowId));
 
         if (isDbMode) {
@@ -1374,7 +1526,12 @@ export default function PmoTaskBoardStaging() {
     const handleFormSubmit = async (e) => {
         e.preventDefault();
 
+        // Resolve FK codes
+        const resolvedLeadDeptCode = await resolveDeptCode(formLeadDept);
+        const resolvedExtPartyCode = await resolveStakeholderCode(formExternalParty);
+
         const updatedData = {
+            project_code: formProject,
             category_main: formCategoryMain,
             sector_detail: formSectorDetail,
             task_name: formTaskName,
@@ -1382,7 +1539,10 @@ export default function PmoTaskBoardStaging() {
             deliverables: formDeliverables,
             gate_stage: formGateStage,
             pmo_manager: formPmoManager,
+            lead_dept_code: resolvedLeadDeptCode,
+            coop_dept_codes: formCoopDepts,
             assignee: formAssignee,
+            external_party_code: resolvedExtPartyCode,
             is_blocker: formIsBlocker,
             needs_decision: formNeedsDecision,
             due_date: formDueDate || null,
@@ -1392,23 +1552,23 @@ export default function PmoTaskBoardStaging() {
             next_action: formNextAction
         };
 
+        const localMapping = {
+            ...updatedData,
+            project: projects.find(p => p.project_code === formProject)?.project_name || formProject,
+            lead_dept: { dept_name: formLeadDept },
+            external_party: { stakeholder_name: formExternalParty },
+            target_axis: formTargetAxis,
+            support_needed: formSupportNeeded,
+            importance_level: formImportanceLevel,
+            task_type: formTaskType,
+            agenda_reason: formAgendaReason,
+            sort_key: formSortKey,
+            notes: formNotes
+        };
+
         if (editingItem) {
             // EDITING
-            setTasks(prev => prev.map(t => t.id === editingItem.id ? { 
-                ...t, 
-                ...updatedData,
-                project: formProject,
-                lead_dept: formLeadDept,
-                coop_depts: formCoopDepts,
-                external_party: formExternalParty,
-                target_axis: formTargetAxis,
-                support_needed: formSupportNeeded,
-                importance_level: formImportanceLevel,
-                task_type: formTaskType,
-                agenda_reason: formAgendaReason,
-                sort_key: formSortKey,
-                notes: formNotes
-            } : t));
+            setTasks(prev => prev.map(t => t.id === editingItem.id ? { ...t, ...localMapping } : t));
 
             if (isDbMode) {
                 try {
@@ -1426,21 +1586,7 @@ export default function PmoTaskBoardStaging() {
         } else {
             // ADDING
             const newId = `mock-${Date.now()}`;
-            const newItem = {
-                id: newId,
-                project: formProject,
-                lead_dept: formLeadDept,
-                coop_depts: formCoopDepts,
-                external_party: formExternalParty,
-                target_axis: formTargetAxis,
-                support_needed: formSupportNeeded,
-                importance_level: formImportanceLevel,
-                task_type: formTaskType,
-                agenda_reason: formAgendaReason,
-                sort_key: formSortKey,
-                notes: formNotes,
-                ...updatedData
-            };
+            const newItem = { id: newId, ...localMapping };
 
             setTasks(prev => [...prev, newItem]);
 
@@ -1449,13 +1595,10 @@ export default function PmoTaskBoardStaging() {
                     const { error } = await supabase
                         .schema('iota_v2')
                         .from('iota_pmo_tasks')
-                        .insert([{
-                            project_code: formProject === '공통' ? 'IOTA_SEOUL' : formProject,
-                            ...updatedData
-                        }]);
+                        .insert([updatedData]);
 
                     if (error) throw error;
-                    fetchTasks(); // Reload to get database ID
+                    fetchTasks(); // Reload to fetch correct DB rows
                 } catch (err) {
                     console.error("Failed to insert task in DB:", err);
                 }
@@ -1532,6 +1675,10 @@ export default function PmoTaskBoardStaging() {
                                         tasks.map((t, idx) => {
                                             const fallbackItem = FALLBACK_BOARD_TASKS.find(item => item.task_name === t.task_name) || {};
                                             
+                                            // Project mapping
+                                            const projObj = projects.find(p => p.project_code === t.project_code);
+                                            const projectVal = projObj ? projObj.project_name : (t.project || fallbackItem.project || '공통');
+
                                             // Data mapping
                                             const leadDeptName = t.lead_dept?.dept_name || t.lead_dept || t.lead_dept_code || fallbackItem.lead_dept || '';
                                             const coopDeptNames = t.coop_dept_codes || t.coop_depts || fallbackItem.coop_depts || '';
@@ -1561,7 +1708,7 @@ export default function PmoTaskBoardStaging() {
                                                     
                                                     {/* 2. 프로젝트 */}
                                                     <td className="pl-4 font-bold text-[#E5E5E5] w-[90px] min-w-[90px] max-w-[90px] truncate">
-                                                        {t.project || t.project_code || fallbackItem.project || '공통'}
+                                                        {projectVal}
                                                     </td>
                                                     
                                                     {/* 3. 대분류 */}
@@ -1797,16 +1944,64 @@ export default function PmoTaskBoardStaging() {
                                 <div className="space-y-4">
                                     <div>
                                         <label className="block text-[12px] font-bold text-[#86868B] mb-1">프로젝트</label>
-                                        <input type="text" value={formProject} onChange={e => setFormProject(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff]" />
+                                        <select 
+                                            value={formProject} 
+                                            onChange={e => setFormProject(e.target.value)} 
+                                            className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] cursor-pointer"
+                                        >
+                                            {projects.map(p => (
+                                                <option key={p.project_code} value={p.project_code}>{p.project_name}</option>
+                                            ))}
+                                        </select>
                                     </div>
                                     <div>
                                         <label className="block text-[12px] font-bold text-[#86868B] mb-1">대분류</label>
                                         <input type="text" value={formCategoryMain} onChange={e => setFormCategoryMain(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff]" required />
                                     </div>
-                                    <div>
-                                        <label className="block text-[12px] font-bold text-[#86868B] mb-1">세부섹터</label>
-                                        <input type="text" value={formSectorDetail} onChange={e => setFormSectorDetail(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff]" />
+                                    
+                                    {/* 세부섹터 (Autocomplete Suggestions) */}
+                                    <div className="relative flex flex-col">
+                                        <label className="text-[12px] font-bold text-[#86868B] mb-1">세부섹터</label>
+                                        <input 
+                                            type="text" 
+                                            value={formSectorDetail} 
+                                            onChange={e => {
+                                                setFormSectorDetail(e.target.value);
+                                                setShowSubsectorSuggestions(true);
+                                            }}
+                                            onFocus={() => setShowSubsectorSuggestions(true)}
+                                            onBlur={() => setTimeout(() => setShowSubsectorSuggestions(false), 200)}
+                                            className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff]" 
+                                            placeholder="검색 또는 입력"
+                                        />
+                                        {showSubsectorSuggestions && formSectorDetail && (
+                                            <div className="absolute top-[58px] left-0 w-full bg-[#222] border border-[#3c3c3c] rounded-[8px] py-1 max-h-[160px] overflow-y-auto z-[10005] shadow-xl">
+                                                {uniqueSubsectors
+                                                    .filter(name => name.toLowerCase().includes(formSectorDetail.toLowerCase()))
+                                                    .map((name, i) => (
+                                                        <div 
+                                                            key={i} 
+                                                            className="px-3 py-2 text-[13px] text-[#E5E5E5] hover:bg-[#333] cursor-pointer truncate"
+                                                            onClick={() => {
+                                                                setFormSectorDetail(name);
+                                                                setShowSubsectorSuggestions(false);
+                                                            }}
+                                                        >
+                                                            {name}
+                                                        </div>
+                                                    ))}
+                                                {!uniqueSubsectors.some(name => name.toLowerCase() === formSectorDetail.toLowerCase()) && (
+                                                    <div 
+                                                        className="px-3 py-2 text-[13px] text-[#2997ff] hover:bg-[#333] cursor-pointer font-bold border-t border-[#3c3c3c]/50"
+                                                        onClick={() => setShowSubsectorSuggestions(false)}
+                                                    >
+                                                        ➕ 새 세부섹터 추가: "{formSectorDetail}"
+                                                    </div>
+                                                )}
+                                            </div>
+                                        )}
                                     </div>
+
                                     <div>
                                         <label className="block text-[12px] font-bold text-[#86868B] mb-1">업무명</label>
                                         <textarea value={formTaskName} onChange={e => setFormTaskName(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] h-16 resize-none" required />
@@ -1821,31 +2016,112 @@ export default function PmoTaskBoardStaging() {
                                     </div>
                                     <div>
                                         <label className="block text-[12px] font-bold text-[#86868B] mb-1">최종 목표축</label>
-                                        <input type="text" value={formTargetAxis} onChange={e => setFormTargetAxis(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff]" />
+                                        <select 
+                                            value={formTargetAxis} 
+                                            onChange={e => setFormTargetAxis(e.target.value)} 
+                                            className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] cursor-pointer"
+                                        >
+                                            <option value="PF">PF</option>
+                                            <option value="착공">착공</option>
+                                            <option value="준공/운영">준공/운영</option>
+                                        </select>
                                     </div>
                                     <div>
                                         <label className="block text-[12px] font-bold text-[#86868B] mb-1">Gate</label>
-                                        <input type="text" value={formGateStage} onChange={e => setFormGateStage(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff]" />
+                                        <select 
+                                            value={formGateStage} 
+                                            onChange={e => setFormGateStage(e.target.value)} 
+                                            className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] cursor-pointer"
+                                        >
+                                            <option value="G0">G0 현황정리</option>
+                                            <option value="G1">G1 방향결정</option>
+                                            <option value="G2">G2 PF준비도</option>
+                                            <option value="G3">G3 계약/동의</option>
+                                            <option value="G4">G4 착공/공사</option>
+                                        </select>
                                     </div>
                                     <div>
                                         <label className="block text-[12px] font-bold text-[#86868B] mb-1">PMO총괄</label>
-                                        <input type="text" value={formPmoManager} onChange={e => setFormPmoManager(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff]" />
+                                        <select 
+                                            value={formPmoManager} 
+                                            onChange={e => setFormPmoManager(e.target.value)} 
+                                            className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] cursor-pointer"
+                                        >
+                                            <option value="사업관리2파트">사업관리2파트</option>
+                                            <option value="기획추진">기획추진</option>
+                                            <option value="시스템 관리자(기획추진)">시스템 관리자(기획추진)</option>
+                                            <option value="LFC">LFC</option>
+                                        </select>
                                     </div>
                                     <div>
                                         <label className="block text-[12px] font-bold text-[#86868B] mb-1">실무 주관부서</label>
-                                        <input type="text" value={formLeadDept} onChange={e => setFormLeadDept(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff]" />
+                                        <select 
+                                            value={formLeadDept} 
+                                            onChange={e => setFormLeadDept(e.target.value)} 
+                                            className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] cursor-pointer"
+                                        >
+                                            {departments.map(d => (
+                                                <option key={d.dept_code} value={d.dept_name}>{d.dept_name}</option>
+                                            ))}
+                                        </select>
                                     </div>
                                     <div>
                                         <label className="block text-[12px] font-bold text-[#86868B] mb-1">협업부서</label>
-                                        <input type="text" value={formCoopDepts} onChange={e => setFormCoopDepts(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff]" />
+                                        <input type="text" value={formCoopDepts} onChange={e => setFormCoopDepts(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff]" placeholder="부서 구분은 세미콜론(;) 사용" />
                                     </div>
                                     <div>
                                         <label className="block text-[12px] font-bold text-[#86868B] mb-1">담당자</label>
                                         <input type="text" value={formAssignee} onChange={e => setFormAssignee(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff]" />
                                     </div>
-                                    <div>
-                                        <label className="block text-[12px] font-bold text-[#86868B] mb-1">외부상대방</label>
-                                        <input type="text" value={formExternalParty} onChange={e => setFormExternalParty(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff]" />
+                                    
+                                    {/* 외부상대방 (Autocomplete Suggestions) */}
+                                    <div className="relative flex flex-col">
+                                        <label className="text-[12px] font-bold text-[#86868B] mb-1">외부상대방</label>
+                                        <input 
+                                            type="text" 
+                                            value={formExternalParty} 
+                                            onChange={e => {
+                                                setFormExternalParty(e.target.value);
+                                                setShowStakeholderSuggestions(true);
+                                            }}
+                                            onFocus={() => setShowStakeholderSuggestions(true)}
+                                            onBlur={() => setTimeout(() => setShowStakeholderSuggestions(false), 200)}
+                                            className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff]" 
+                                            placeholder="검색 또는 입력"
+                                        />
+                                        {showStakeholderSuggestions && formExternalParty && (
+                                            <div className="absolute top-[58px] left-0 w-full bg-[#222] border border-[#3c3c3c] rounded-[8px] py-1 max-h-[160px] overflow-y-auto z-[10005] shadow-xl">
+                                                {uniqueStakeholderNames
+                                                    .filter(name => name.toLowerCase().includes(formExternalParty.toLowerCase()))
+                                                    .map((name, i) => (
+                                                        <div 
+                                                            key={i} 
+                                                            className="px-3 py-2 text-[13px] text-[#E5E5E5] hover:bg-[#333] cursor-pointer truncate"
+                                                            onClick={() => {
+                                                                setFormExternalParty(name);
+                                                                setShowStakeholderSuggestions(false);
+                                                            }}
+                                                        >
+                                                            {name}
+                                                        </div>
+                                                    ))}
+                                                {!uniqueStakeholderNames.some(name => name.toLowerCase() === formExternalParty.toLowerCase()) && (
+                                                    <div 
+                                                        className="px-3 py-2 text-[13px] text-[#2997ff] hover:bg-[#333] cursor-pointer font-bold border-t border-[#3c3c3c]/50"
+                                                        onClick={async () => {
+                                                            const nameToRegister = formExternalParty;
+                                                            if (window.confirm(`'${nameToRegister}'을(를) 이해관계자 마스터에 새로 등록하시겠습니까?`)) {
+                                                                await resolveStakeholderCode(nameToRegister);
+                                                                alert('이해관계자가 등록되었습니다.');
+                                                            }
+                                                            setShowStakeholderSuggestions(false);
+                                                        }}
+                                                    >
+                                                        ➕ 새 상대방 등록: "{formExternalParty}"
+                                                    </div>
+                                                )}
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
 
@@ -1858,14 +2134,14 @@ export default function PmoTaskBoardStaging() {
                                     <div className="flex gap-4">
                                         <div className="flex-1">
                                             <label className="block text-[12px] font-bold text-[#86868B] mb-1">Blocker</label>
-                                            <select value={formIsBlocker ? 'Y' : 'N'} onChange={e => setFormIsBlocker(e.target.value === 'Y')} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff]">
+                                            <select value={formIsBlocker ? 'Y' : 'N'} onChange={e => setFormIsBlocker(e.target.value === 'Y')} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] cursor-pointer">
                                                 <option value="N">N (아니오)</option>
                                                 <option value="Y">Y (예)</option>
                                             </select>
                                         </div>
                                         <div className="flex-1">
                                             <label className="block text-[12px] font-bold text-[#86868B] mb-1">의사결정필요</label>
-                                            <select value={formNeedsDecision ? 'Y' : 'N'} onChange={e => setFormNeedsDecision(e.target.value === 'Y')} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff]">
+                                            <select value={formNeedsDecision ? 'Y' : 'N'} onChange={e => setFormNeedsDecision(e.target.value === 'Y')} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] cursor-pointer">
                                                 <option value="N">N (아니오)</option>
                                                 <option value="Y">Y (예)</option>
                                             </select>
@@ -1873,12 +2149,12 @@ export default function PmoTaskBoardStaging() {
                                     </div>
                                     <div>
                                         <label className="block text-[12px] font-bold text-[#86868B] mb-1">기한</label>
-                                        <input type="date" value={formDueDate} onChange={e => setFormDueDate(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff]" />
+                                        <input type="date" value={formDueDate} onChange={e => setFormDueDate(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] cursor-pointer" />
                                     </div>
                                     <div className="flex gap-4">
                                         <div className="flex-1">
                                             <label className="block text-[12px] font-bold text-[#86868B] mb-1">진행 상태</label>
-                                            <select value={formStatus} onChange={e => setFormStatus(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff]">
+                                            <select value={formStatus} onChange={e => setFormStatus(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] cursor-pointer">
                                                 <option value="미착수">미착수</option>
                                                 <option value="진행중">진행중</option>
                                                 <option value="완료">완료</option>
@@ -1887,7 +2163,7 @@ export default function PmoTaskBoardStaging() {
                                         </div>
                                         <div className="flex-1">
                                             <label className="block text-[12px] font-bold text-[#86868B] mb-1">중요도</label>
-                                            <select value={formImportanceLevel} onChange={e => setFormImportanceLevel(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff]">
+                                            <select value={formImportanceLevel} onChange={e => setFormImportanceLevel(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] cursor-pointer">
                                                 <option value="일반">일반</option>
                                                 <option value="PF필수">PF필수</option>
                                                 <option value="준공필수">준공필수</option>
@@ -1896,7 +2172,7 @@ export default function PmoTaskBoardStaging() {
                                     </div>
                                     <div>
                                         <label className="block text-[12px] font-bold text-[#86868B] mb-1">업무유형</label>
-                                        <select value={formTaskType} onChange={e => setFormTaskType(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff]">
+                                        <select value={formTaskType} onChange={e => setFormTaskType(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] cursor-pointer">
                                             <option value="정규">정규</option>
                                             <option value="팝업">팝업</option>
                                         </select>
@@ -1912,7 +2188,7 @@ export default function PmoTaskBoardStaging() {
                                         </div>
                                         <div className="flex-1">
                                             <label className="block text-[12px] font-bold text-[#86868B] mb-1">회의상정등급</label>
-                                            <select value={formMeetingGrade} onChange={e => setFormMeetingGrade(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff]">
+                                            <select value={formMeetingGrade} onChange={e => setFormMeetingGrade(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] cursor-pointer">
                                                 <option value="B">B_회의점검</option>
                                                 <option value="A">A_즉시상정</option>
                                             </select>
