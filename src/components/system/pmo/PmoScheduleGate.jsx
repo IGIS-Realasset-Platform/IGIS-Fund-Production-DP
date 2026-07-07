@@ -906,7 +906,7 @@ export default function PmoScheduleGate() {
 
             {/* Category Map & R&R Section */}
             <div className="w-full flex items-center justify-start gap-4 mb-[14px]">
-                <h2 className="text-[26px] font-bold text-white tracking-tight leading-none text-left">R&R 및 필요산출물</h2>
+                <h2 className="text-[36px] font-bold text-white tracking-tight leading-none text-left">R&R 및 필요산출물</h2>
                 <button 
                     onClick={() => setShowAuthInfoModal(true)}
                     className="px-3 py-1 bg-[#2C2C2E]/40 hover:bg-[#2C2C2E] border border-[#2C2C2E]/80 hover:border-[#2997ff]/40 rounded-full text-[12px] font-bold text-[#86868B] hover:text-[#2997ff] transition-all cursor-pointer"
@@ -921,7 +921,7 @@ export default function PmoScheduleGate() {
                     <div className="flex items-center min-w-[2380px]">
                         <table className="text-left table-fixed min-w-[1580px] flex-1 border-collapse border-b border-[#3c3c3c] bg-[#272726]">
                             <thead>
-                                <tr className="border-b border-[#3c3c3c] bg-[#272726] text-[#86868B] font-bold text-[12px] h-[52px]">
+                                <tr className="border-b border-[#3c3c3c] bg-[#272726] text-[#86868B] font-bold text-[12px] h-[56px]">
                                     <th className="px-3 w-[104px] min-w-[104px] max-w-[104px] text-center sticky left-0 bg-[#272726] z-30">
                                         <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b]">
                                             <span className={`font-bold text-[12px] whitespace-nowrap ${selectedRrCategory === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
@@ -1005,7 +1005,7 @@ export default function PmoScheduleGate() {
                                     return matchCat && matchLead && matchCoop;
                                 }).map((item) => {
                                     return (
-                                        <tr key={item.id} className="bg-[#272726] hover:bg-[#333] transition-colors h-11 group">
+                                        <tr key={item.id} className="bg-[#272726] hover:bg-[#333] transition-colors h-12 group">
                                             {/* 대분류 */}
                                             <td className="px-3 sticky left-0 bg-[#272726] group-hover:bg-[#333] transition-colors z-20 text-center font-bold text-white text-[12px] w-[104px] min-w-[104px] max-w-[104px]">
                                                 {item.category}
@@ -1100,7 +1100,7 @@ export default function PmoScheduleGate() {
                                         </tr>
                                     );
                                 })}
-                                <tr className="bg-[#272726] hover:bg-[#333]/30 transition-colors h-11 border-t border-[#3c3c3c]/50">
+                                <tr className="bg-[#272726] hover:bg-[#333]/30 transition-colors h-12 border-t border-[#3c3c3c]/50">
                                     <td colSpan={12} className="px-3 text-center border-r border-[#3c3c3c]">
                                         <button 
                                             onClick={isAuthorized ? handleAddClick : () => setShowAuthInfoModal(true)}
