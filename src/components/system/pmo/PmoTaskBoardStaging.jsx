@@ -2582,13 +2582,15 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                         })
                                     )}
                                     <tr className="bg-[#272726] hover:bg-[#333]/30 transition-colors h-11 border-t border-[#3c3c3c]/50">
-                                        <td colSpan="23" className="text-center py-2 bg-[#2c2c2b]/30">
-                                            <button 
-                                                onClick={isAuthorized ? handleAddNewClick : () => setShowAuthInfoModal(true)}
-                                                className="px-6 py-2 border border-[#444] rounded-[8px] text-[13px] font-bold text-[#A1A1AA] hover:text-white hover:border-[#666] transition-colors cursor-pointer"
-                                            >
-                                                + 새 업무 추가
-                                            </button>
+                                        <td colSpan="23" className="py-2 bg-[#2c2c2b]/30 p-0">
+                                            <div className="sticky left-0 w-[calc(100vw-60px)] flex justify-center py-2 box-border">
+                                                <button 
+                                                    onClick={isAuthorized ? handleAddNewClick : () => setShowAuthInfoModal(true)}
+                                                    className="px-6 py-2 border border-[#444] rounded-[8px] text-[13px] font-bold text-[#A1A1AA] hover:text-white hover:border-[#666] transition-colors cursor-pointer whitespace-nowrap"
+                                                >
+                                                    + 새 업무 추가
+                                                </button>
+                                            </div>
                                         </td>
                                     </tr>
                                 </tbody>
