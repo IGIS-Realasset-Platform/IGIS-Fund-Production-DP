@@ -634,7 +634,7 @@ export default function PmoScheduleGate() {
                                         </div>
                                     </th>
                                     <th className="px-3 w-[120px] min-w-[120px] max-w-[120px] text-center bg-[#272726]">외부 상대방</th>
-                                    <th className="px-3 w-[120px] min-w-[120px] max-w-[120px] text-center bg-[#272726]">지원 필요</th>
+                                    <th className="px-3 w-[120px] min-w-[120px] max-w-[120px] text-center bg-[#272726]">필요산출물</th>
                                     <th className="px-3 w-[195px] min-w-[195px] max-w-[195px] text-left bg-[#272726] border-r border-[#3c3c3c]">관리 포인트</th>
                                 </tr>
                             </thead>
@@ -710,7 +710,7 @@ export default function PmoScheduleGate() {
                                                 {item.partner || '-'}
                                             </td>
 
-                                            {/* 지원 필요 */}
+                                            {/* 필요산출물 */}
                                             <td className="px-3 text-center text-[#F59E0B] font-semibold whitespace-normal break-all w-[120px] min-w-[120px] max-w-[120px]">
                                                 {item.need || '-'}
                                             </td>
