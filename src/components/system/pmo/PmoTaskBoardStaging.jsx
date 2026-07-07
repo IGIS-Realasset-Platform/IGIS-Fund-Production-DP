@@ -1700,9 +1700,9 @@ export default function PmoTaskBoardStaging() {
     };
 
     return (
-        <div className="w-full flex flex-col select-none mb-10">
+        <div className="w-full flex flex-col mb-10 text-left">
             {/* Sub-Header */}
-            <div className="flex justify-between items-center mb-[16px]">
+            <div className="flex justify-between items-center mb-[8px]">
                 <h2 className="text-[20px] font-bold text-white tracking-tight shrink-0 flex items-center gap-2">
                     <span>통합 업무 보드</span>
                 </h2>
