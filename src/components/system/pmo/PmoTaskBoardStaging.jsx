@@ -2086,8 +2086,8 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
             ) : (
                 <div className="-mr-[calc(50vw-50%)] border border-r-0 border-[#3c3c3c] bg-[#272726] rounded-l-[24px] overflow-hidden mb-[40px] shadow-sm select-text">
                     <div className="w-full overflow-x-auto pr-0 timeline-scrollbar">
-                        <div className={`flex items-center ${isAll ? 'min-w-[3615px]' : 'min-w-[2690px]'}`}>
-                            <table className={`text-left table-fixed flex-1 border-collapse bg-[#272726] ${isAll ? 'min-w-[2815px]' : 'min-w-[1890px]'}`}>
+                        <div className={`flex items-center transition-all duration-150 ease-out ${isAll ? 'min-w-[3615px]' : 'min-w-[2690px]'}`}>
+                            <table className={`text-left table-fixed flex-1 border-collapse bg-[#272726] transition-all duration-150 ease-out ${isAll ? 'min-w-[2815px]' : 'min-w-[1890px]'}`}>
                                 <thead>
                                     <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[13px] h-11">
                                         <th className="pl-[10px] text-center w-[60px] min-w-[60px] max-w-[60px] sticky left-0 bg-[#272726] z-30">ID</th>
@@ -2132,8 +2132,8 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                             </div>
                                         </th>
 
-                                        {isAll && <th className="pl-4 w-[104px] min-w-[104px] max-w-[104px] sticky left-[245px] bg-[#272726] z-30">세부섹터</th>}
-                                        <th className={"pl-4 w-[270px] min-w-[270px] max-w-[270px] sticky bg-[#272726] z-30 shadow-[inset_-1px_0_0_0_#3c3c3c] " + (isAll ? "left-[349px]" : "left-[245px]")}>업무명</th>
+                                        <th className={`sticky left-[245px] bg-[#272726] z-30 transition-all duration-150 ease-out ${isAll ? 'w-[104px] min-w-[104px] max-w-[104px] pl-4 opacity-100' : 'w-0 min-w-0 max-w-0 pl-0 opacity-0 overflow-hidden'}`}>{isAll && "세부섹터"}</th>
+                                        <th className={"pl-4 w-[270px] min-w-[270px] max-w-[270px] sticky bg-[#272726] z-30 shadow-[inset_-1px_0_0_0_#3c3c3c] transition-all duration-150 ease-out " + (isAll ? "left-[349px]" : "left-[245px]")}>업무명</th>
                                         <th className="w-[75px] min-w-[75px] max-w-[75px] text-center select-none cursor-pointer hover:text-white transition-colors" onClick={() => setPrioritySortOrder(prev => prev === 'desc' ? 'asc' : 'desc')}>
                                             <div className="flex items-center justify-center gap-1">
                                                 <span 
@@ -2150,48 +2150,52 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                                 <span className="text-[10px] text-[#2997ff] ml-0.5">{prioritySortOrder === 'desc' ? '▼' : '▲'}</span>
                                             </div>
                                         </th>
-                                        {isAll && <th className="pl-4 w-[220px] min-w-[220px] max-w-[220px]">업무목적 / PF·준공 영향</th>}
-                                        {isAll && <th className="pl-4 w-[220px] min-w-[220px] max-w-[220px]">필요 산출물</th>}
+                                        <th className={`transition-all duration-150 ease-out ${isAll ? 'w-[220px] min-w-[220px] max-w-[220px] pl-4 opacity-100' : 'w-0 min-w-0 max-w-0 pl-0 opacity-0 overflow-hidden'}`}>{isAll && "업무목적 / PF·준공 영향"}</th>
+                                        <th className={`transition-all duration-150 ease-out ${isAll ? 'w-[220px] min-w-[220px] max-w-[220px] pl-4 opacity-100' : 'w-0 min-w-0 max-w-0 pl-0 opacity-0 overflow-hidden'}`}>{isAll && "필요 산출물"}</th>
 
                                         {/* 최종 목표축 */}
-                                        {isAll && <th className="w-[91px] min-w-[91px] max-w-[91px] text-center">
-                                            <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[76px] overflow-hidden mx-auto">
-                                                <span className={"font-bold text-[11px] whitespace-nowrap truncate " + (selectedTargetAxis === "전체보기" ? "text-[#86868B]" : "text-[#2997ff]")}>
-                                                    {selectedTargetAxis === '전체보기' ? '최종목표' : selectedTargetAxis}
-                                                </span>
-                                                <span className="text-[8px] text-[#86868B]/70 pointer-events-none select-none translate-y-[0.5px] ml-1 shrink-0">▼</span>
-                                                <select
-                                                    value={selectedTargetAxis}
-                                                    onChange={(e) => setSelectedTargetAxis(e.target.value)}
-                                                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                                                >
-                                                    <option value="전체보기" className="bg-[#222] text-[#86868B]">전체보기</option>
-                                                    {uniqueTargetAxisFilter.map(axis => (
-                                                        <option key={axis} value={axis} className="bg-[#222] text-white">{axis}</option>
-                                                    ))}
-                                                </select>
-                                            </div>
-                                        </th>}
+                                        <th className={`text-center transition-all duration-150 ease-out ${isAll ? 'w-[91px] min-w-[91px] max-w-[91px] opacity-100' : 'w-0 min-w-0 max-w-0 opacity-0 overflow-hidden'}`}>
+                                            {isAll && (
+                                                <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[76px] overflow-hidden mx-auto">
+                                                    <span className={"font-bold text-[11px] whitespace-nowrap truncate " + (selectedTargetAxis === "전체보기" ? "text-[#86868B]" : "text-[#2997ff]")}>
+                                                        {selectedTargetAxis === '전체보기' ? '최종목표' : selectedTargetAxis}
+                                                    </span>
+                                                    <span className="text-[8px] text-[#86868B]/70 pointer-events-none select-none translate-y-[0.5px] ml-1 shrink-0">▼</span>
+                                                    <select
+                                                        value={selectedTargetAxis}
+                                                        onChange={(e) => setSelectedTargetAxis(e.target.value)}
+                                                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                                    >
+                                                        <option value="전체보기" className="bg-[#222] text-[#86868B]">전체보기</option>
+                                                        {uniqueTargetAxisFilter.map(axis => (
+                                                            <option key={axis} value={axis} className="bg-[#222] text-white">{axis}</option>
+                                                        ))}
+                                                    </select>
+                                                </div>
+                                            )}
+                                        </th>
 
                                         {/* Gate */}
-                                        {isAll && <th className="w-[90px] min-w-[90px] max-w-[100px] text-center">
-                                            <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[75px] overflow-hidden mx-auto">
-                                                <span className={"font-bold text-[11px] whitespace-nowrap truncate " + (selectedGateStage === "전체보기" ? "text-[#86868B]" : "text-[#2997ff]")}>
-                                                    {selectedGateStage === '전체보기' ? 'GATE' : selectedGateStage}
-                                                </span>
-                                                <span className="text-[8px] text-[#86868B]/70 pointer-events-none select-none translate-y-[0.5px] ml-1 shrink-0">▼</span>
-                                                <select
-                                                    value={selectedGateStage}
-                                                    onChange={(e) => setSelectedGateStage(e.target.value)}
-                                                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                                                >
-                                                    <option value="전체보기" className="bg-[#222] text-[#86868B]">전체보기</option>
-                                                    {uniqueGateStageFilter.map(gate => (
-                                                        <option key={gate} value={gate} className="bg-[#222] text-white">{gate}</option>
-                                                    ))}
-                                                </select>
-                                            </div>
-                                        </th>}
+                                        <th className={`text-center transition-all duration-150 ease-out ${isAll ? 'w-[90px] min-w-[90px] max-w-[100px] opacity-100' : 'w-0 min-w-0 max-w-0 opacity-0 overflow-hidden'}`}>
+                                            {isAll && (
+                                                <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[75px] overflow-hidden mx-auto">
+                                                    <span className={"font-bold text-[11px] whitespace-nowrap truncate " + (selectedGateStage === "전체보기" ? "text-[#86868B]" : "text-[#2997ff]")}>
+                                                        {selectedGateStage === '전체보기' ? 'GATE' : selectedGateStage}
+                                                    </span>
+                                                    <span className="text-[8px] text-[#86868B]/70 pointer-events-none select-none translate-y-[0.5px] ml-1 shrink-0">▼</span>
+                                                    <select
+                                                        value={selectedGateStage}
+                                                        onChange={(e) => setSelectedGateStage(e.target.value)}
+                                                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                                    >
+                                                        <option value="전체보기" className="bg-[#222] text-[#86868B]">전체보기</option>
+                                                        {uniqueGateStageFilter.map(gate => (
+                                                            <option key={gate} value={gate} className="bg-[#222] text-white">{gate}</option>
+                                                        ))}
+                                                    </select>
+                                                </div>
+                                            )}
+                                        </th>
 
                                         {/* 회의상정등급 */}
                                         <th className="w-[80px] min-w-[80px] max-w-[80px] text-center">
@@ -2295,7 +2299,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                             </div>
                                         </th>
 
-                                        {isAll && <th className="pl-4 w-[200px] min-w-[200px] max-w-[200px]">다음 액션</th>}
+                                        <th className={`transition-all duration-150 ease-out ${isAll ? 'w-[200px] min-w-[200px] max-w-[200px] pl-4 opacity-100' : 'w-0 min-w-0 max-w-0 pl-0 opacity-0 overflow-hidden'}`}>{isAll && "다음 액션"}</th>
 
                                         {/* 상태 */}
                                         <th className="w-[80px] min-w-[80px] max-w-[80px] text-center">
@@ -2418,14 +2422,12 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                                     </td>
                                                     
                                                     {/* 4. 세부섹터 */}
-                                                    {isAll && (
-                                                        <td className="pl-4 text-[#A1A1AA] w-[104px] min-w-[104px] max-w-[104px] truncate sticky left-[245px] bg-[#272726] group-hover:bg-[#2d2d2c] transition-colors z-10">
-                                                            {t.sector_detail}
-                                                        </td>
-                                                    )}
+                                                    <td className={`text-[#A1A1AA] truncate sticky left-[245px] bg-[#272726] group-hover:bg-[#2d2d2c] z-10 transition-all duration-150 ease-out ${isAll ? 'w-[104px] min-w-[104px] max-w-[104px] pl-4 opacity-100' : 'w-0 min-w-0 max-w-0 pl-0 opacity-0 overflow-hidden'}`}>
+                                                        {isAll && t.sector_detail}
+                                                    </td>
                                                     
                                                     {/* 5. 업무명 */}
-                                                    <td className={"pl-4 font-bold text-[#F59E0B] w-[270px] min-w-[270px] max-w-[270px] sticky bg-[#272726] group-hover:bg-[#2d2d2c] transition-colors z-10 shadow-[inset_-1px_0_0_0_#3c3c3c] " + (isAll ? "left-[349px]" : "left-[245px]")}>
+                                                    <td className={"pl-4 font-bold text-[#F59E0B] w-[270px] min-w-[270px] max-w-[270px] sticky bg-[#272726] group-hover:bg-[#2d2d2c] transition-colors z-10 shadow-[inset_-1px_0_0_0_#3c3c3c] transition-all duration-150 ease-out " + (isAll ? "left-[349px]" : "left-[245px]")}>
                                                         <div className="truncate w-full">{t.task_name}</div>
                                                     </td>
 
@@ -2433,24 +2435,20 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                                     <td className={`text-center font-mono w-[75px] min-w-[75px] max-w-[75px] font-bold ${priorityScore >= 70 ? 'text-[#FF453A]' : priorityScore >= 50 ? 'text-[#FF9F0A]' : 'text-[#86868B]'}`}>{priorityScore}</td>
 
                                                     {/* 6. 업무목적 / PF·준공 영향 */}
-                                                    {isAll && (
-                                                        <td className="pl-4 text-[#A1A1AA] truncate w-[220px] min-w-[220px] max-w-[220px]">
-                                                            {t.task_purpose || fallbackItem.task_purpose || '-'}
-                                                        </td>
-                                                    )}
+                                                    <td className={`text-[#A1A1AA] truncate transition-all duration-150 ease-out ${isAll ? 'w-[220px] min-w-[220px] max-w-[220px] pl-4 opacity-100' : 'w-0 min-w-0 max-w-0 pl-0 opacity-0 overflow-hidden'}`}>
+                                                        {isAll && (t.task_purpose || fallbackItem.task_purpose || '-')}
+                                                    </td>
 
                                                     {/* 7. 필요 산출물 */}
-                                                    {isAll && (
-                                                        <td className="pl-4 text-[#A1A1AA] truncate w-[220px] min-w-[220px] max-w-[220px]">
-                                                            {t.deliverables || fallbackItem.deliverables || '-'}
-                                                        </td>
-                                                    )}
+                                                    <td className={`text-[#A1A1AA] truncate transition-all duration-150 ease-out ${isAll ? 'w-[220px] min-w-[220px] max-w-[220px] pl-4 opacity-100' : 'w-0 min-w-0 max-w-0 pl-0 opacity-0 overflow-hidden'}`}>
+                                                        {isAll && (t.deliverables || fallbackItem.deliverables || '-')}
+                                                    </td>
 
                                                     {/* 8. 최종 목표축 */}
-                                                    {isAll && <td className="text-center text-[#A1A1AA] w-[91px] min-w-[91px] max-w-[91px] truncate">{targetAxis}</td>}
+                                                    <td className={`text-center text-[#A1A1AA] truncate transition-all duration-150 ease-out ${isAll ? 'w-[91px] min-w-[91px] max-w-[91px] opacity-100' : 'w-0 min-w-0 max-w-0 opacity-0 overflow-hidden'}`}>{isAll && targetAxis}</td>
 
                                                     {/* 9. Gate */}
-                                                    {isAll && <td className="text-center text-[#A1A1AA] w-[90px] min-w-[90px] max-w-[100px] truncate">{gateStageVal}</td>}
+                                                    <td className={`text-center text-[#A1A1AA] truncate transition-all duration-150 ease-out ${isAll ? 'w-[90px] min-w-[90px] max-w-[100px] opacity-100' : 'w-0 min-w-0 max-w-0 opacity-0 overflow-hidden'}`}>{isAll && gateStageVal}</td>
 
                                                     
 
@@ -2531,9 +2529,9 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                                     </td>
 
                                                     {/* 18. 다음 액션 */}
-                                                    {isAll && (
-                                                        <td className="pl-4 text-[#A1A1AA] truncate w-[200px] min-w-[200px] max-w-[200px]">{nextActionVal || '-'}</td>
-                                                    )}
+                                                    <td className={`text-[#A1A1AA] truncate transition-all duration-150 ease-out ${isAll ? 'w-[200px] min-w-[200px] max-w-[200px] pl-4 opacity-100' : 'w-0 min-w-0 max-w-0 pl-0 opacity-0 overflow-hidden'}`}>
+                                                        {isAll && (nextActionVal || '-')}
+                                                    </td>
 
                                                     {/* 19. 상태 */}
                                                     <td className="text-center w-[80px] min-w-[80px] max-w-[80px]">
@@ -2596,7 +2594,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                         {/* Empty cells covering the columns before "업무명" (ID, 프로젝트, 대분류, 세부섹터) */}
                                         <td colSpan={isAll ? 4 : 3} className="bg-[#272726]"></td>
                                         {/* Cell for "업무명" column where the button is aligned */}
-                                        <td colSpan={isAll ? 19 : 14} className={`pl-4 py-2 text-left sticky bg-[#272726] z-10 ${isAll ? 'left-[349px]' : 'left-[245px]'}`}>
+                                        <td colSpan={isAll ? 19 : 14} className={`pl-4 py-2 text-left sticky bg-[#272726] z-10 transition-all duration-150 ease-out ${isAll ? 'left-[349px]' : 'left-[245px]'}`}>
                                             <button 
                                                 onClick={isAuthorized ? handleAddNewClick : () => setShowAuthInfoModal(true)}
                                                 className="px-6 py-[6.5px] border border-[#ff9f0a]/30 hover:border-[#ff9f0a] rounded-[8px] text-[13px] font-bold text-[#ff9f0a] hover:bg-[#ff9f0a]/10 transition-colors cursor-pointer whitespace-nowrap"

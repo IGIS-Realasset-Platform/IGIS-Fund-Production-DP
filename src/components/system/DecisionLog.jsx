@@ -868,7 +868,7 @@ export default function DecisionLog() {
                                         : 'text-[#86868B] hover:text-white'
                                 }`}
                             >
-                                전체보기
+                                자세히보기
                             </button>
                         </div>
                     </div>
