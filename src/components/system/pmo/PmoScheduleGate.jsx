@@ -29,7 +29,7 @@ const TIMELINE_DATA = [
     { category: 'Task', name: '도면/설계', desc: 'PF 기준도면·면적표·실사자료', lead: '개발관리실', coop: '기업마케팅실;공간솔루션실', schedule: { m06: '●', m07: '●', m08: '●', m09: '●', const_start: '●', const_mid: '●' } },
     { category: 'Task', name: '임차/마케팅', desc: '광장·KB·삼성/이지스·선임차', lead: '사업관리2파트', coop: '기업마케팅실; 공간솔루션실', schedule: { m07: '●', m08: '●', m09: '●', m10: '●', m11: '◆', m03: '◆', const_start: '●', const_mid: '●' } },
     { category: 'Task', name: 'PF/금융', desc: 'Term Sheet·대주단·재무모델·CP', lead: 'LFC', coop: '사업관리2파트;전 부서', schedule: { m06: '●', m07: '●', m08: '●', m09: '●', m10: '●', m11: '◆', m03: '◆', take_out: '◆' } },
-    { category: 'Task', name: '법무/세무/구조', desc: '리츠·Asset/Share·합병·주주승인', lead: '법무/세무 외부자문', coop: '사업관리2파트;LFC', schedule: { m06: '●', m07: '●', m08: '●', m09: '●' } },
+    { category: 'Task', name: '법무/세무/구조', desc: '리츠·Asset/Share·합병·주주승인', lead: '법무/세무자문', coop: '사업관리2파트;LFC', schedule: { m06: '●', m07: '●', m08: '●', m09: '●' } },
     { category: 'Task', name: '팝업업무', desc: '단발 요청 접수/위임/보류/반려', lead: '사업관리2파트', coop: '요청부서', schedule: { m06: '●', m07: '●', m08: '●', m09: '●', m10: '●', m11: '●', m03: '●', const_start: '●', const_mid: '●', take_out: '●' } }
 ];
 
@@ -94,7 +94,7 @@ const CATEGORY_MAP_DATA = [
     const: false,
     op: false,
     lead: "사업관리2파트",
-    coop: ["기업마케팅실", "LFC", "법무/세무 외부자문"],
+    coop: ["기업마케팅실", "LFC", "법무/세무자문"],
     need: "자문 의견",
     partner: "Marriott/소노 등",
     point: "PF 실행의 필수 전제조건"
@@ -107,7 +107,7 @@ const CATEGORY_MAP_DATA = [
     const: false,
     op: false,
     lead: "사업관리2파트",
-    coop: ["LFC", "법무/세무 외부자문"],
+    coop: ["LFC", "법무/세무자문"],
     need: "계약 리스크",
     partner: "브랜드사",
     point: "Owner control과 termination"
@@ -276,7 +276,7 @@ const CATEGORY_MAP_DATA = [
     const: false,
     op: false,
     lead: "LFC",
-    coop: ["사업관리2파트", "법무/세무 외부자문"],
+    coop: ["사업관리2파트", "법무/세무자문"],
     need: "금융/법무 검토",
     partner: "대주단",
     point: "구조 전환 의사결정"
@@ -302,7 +302,7 @@ const CATEGORY_MAP_DATA = [
     const: false,
     op: false,
     lead: "사업관리2파트",
-    coop: ["LFC", "법무/세무 외부자문", "사업관리1파트"],
+    coop: ["LFC", "법무/세무자문", "사업관리1파트"],
     need: "자문결과",
     partner: "법무/세무법인",
     point: "기본 구조 재정의"
@@ -314,7 +314,7 @@ const CATEGORY_MAP_DATA = [
     pf: true,
     const: false,
     op: false,
-    lead: "법무/세무 외부자문",
+    lead: "법무/세무자문",
     coop: ["사업관리2파트", "LFC"],
     need: "자문결과",
     partner: "법무/세무법인",
@@ -364,10 +364,10 @@ export default function PmoScheduleGate() {
         let len = 0;
         for (let i = 0; i < text.length; i++) {
             const code = text.charCodeAt(i);
-            if (code >= 0 && code <= 128) len += 7.2;
-            else len += 12.5;
+            if (code >= 0 && code <= 128) len += 6.5;
+            else len += 12.0;
         }
-        return `${Math.max(len + 4, 30)}px`;
+        return `${Math.max(len, 20)}px`;
     };
 
     const R_R_LEADS = React.useMemo(() => {
@@ -576,11 +576,11 @@ export default function PmoScheduleGate() {
                             <thead>
                                 <tr className="border-b border-[#3c3c3c] bg-[#272726] text-[#86868B] font-bold text-[12px] h-[52px]">
                                     <th className="px-3 w-[110px] min-w-[110px] max-w-[110px] text-center sticky left-0 bg-[#272726] z-30">
-                                        <div className="inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2 py-1 gap-1.5 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b]">
+                                        <div className="inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2 py-1 gap-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b]">
                                             <select
                                                 value={selectedRrCategory}
                                                 onChange={(e) => setSelectedRrCategory(e.target.value)}
-                                                className={`bg-transparent border-none font-bold text-[12px] outline-none cursor-pointer text-center appearance-none ${selectedRrCategory === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}
+                                                className={`bg-transparent border-none font-bold text-[12px] outline-none cursor-pointer text-center appearance-none p-0 m-0 ${selectedRrCategory === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}
                                                 style={{ width: getSelectWidth(selectedRrCategory, '대분류'), textAlignLast: 'center' }}
                                             >
                                                 <option value="전체보기" className="bg-[#222] text-[#86868B]">{selectedRrCategory === '전체보기' ? '대분류' : '전체보기'}</option>
@@ -597,11 +597,11 @@ export default function PmoScheduleGate() {
                                     <th className="px-2 w-[75px] min-w-[75px] max-w-[75px] text-center bg-[#272726] text-[11px] leading-tight">착공 전<br />필요</th>
                                     <th className="px-2 w-[75px] min-w-[75px] max-w-[75px] text-center bg-[#272726] text-[11px] leading-tight border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)]">준공 전<br />필요</th>
                                     <th className="w-[116px] min-w-[116px] max-w-[116px] text-center bg-[#272726]">
-                                        <div className="inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2 py-1 gap-1.5 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] translate-x-[6px]">
+                                        <div className="inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2 py-1 gap-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] translate-x-[6px]">
                                             <select
                                                 value={selectedRrLead}
                                                 onChange={(e) => setSelectedRrLead(e.target.value)}
-                                                className={`bg-transparent border-none font-bold text-[12px] outline-none cursor-pointer text-center appearance-none ${selectedRrLead === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}
+                                                className={`bg-transparent border-none font-bold text-[12px] outline-none cursor-pointer text-center appearance-none p-0 m-0 ${selectedRrLead === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}
                                                 style={{ width: getSelectWidth(selectedRrLead, '주관 부서'), textAlignLast: 'center' }}
                                             >
                                                 <option value="전체보기" className="bg-[#222] text-[#86868B]">{selectedRrLead === '전체보기' ? '주관 부서' : '전체보기'}</option>
@@ -613,11 +613,11 @@ export default function PmoScheduleGate() {
                                         </div>
                                     </th>
                                     <th className="pl-3 w-[260px] min-w-[260px] max-w-[260px] text-left bg-[#272726]">
-                                        <div className="inline-flex items-center justify-start bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 py-1 gap-1.5 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b]">
+                                        <div className="inline-flex items-center justify-start bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 py-1 gap-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b]">
                                             <select
                                                 value={selectedRrCoop}
                                                 onChange={(e) => setSelectedRrCoop(e.target.value)}
-                                                className={`bg-transparent border-none font-bold text-[12px] outline-none cursor-pointer text-left appearance-none ${selectedRrCoop === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}
+                                                className={`bg-transparent border-none font-bold text-[12px] outline-none cursor-pointer text-left appearance-none p-0 m-0 ${selectedRrCoop === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}
                                                 style={{ width: getSelectWidth(selectedRrCoop, '협업 부서'), textAlignLast: 'left' }}
                                             >
                                                 <option value="전체보기" className="bg-[#222] text-[#86868B]">{selectedRrCoop === '전체보기' ? '협업 부서' : '전체보기'}</option>
