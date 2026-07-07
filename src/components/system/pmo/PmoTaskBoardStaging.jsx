@@ -1701,19 +1701,6 @@ export default function PmoTaskBoardStaging() {
 
     return (
         <div className="w-full flex flex-col mb-10 text-left">
-            {/* Sub-Header */}
-            <div className="flex justify-between items-center mb-[8px]">
-                <h2 className="text-[20px] font-bold text-white tracking-tight shrink-0 flex items-center gap-2">
-                    <span>통합 업무 보드</span>
-                </h2>
-                <button 
-                    onClick={fetchTasks}
-                    className="px-4 py-1.5 bg-[#272726] hover:bg-[#333] border border-[#3c3c3c] hover:border-[#555] rounded-full text-[13px] font-bold text-[#A1A1AA] hover:text-white transition-all cursor-pointer"
-                >
-                    🔄 새로고침
-                </button>
-            </div>
-
             {loading ? (
                 <div className="w-full h-[260px] flex items-center justify-center border border-[#333] rounded-[24px]">
                     <span className="text-[#86868B] text-[15px] animate-pulse">원장 정보를 불러오는 중입니다...</span>
