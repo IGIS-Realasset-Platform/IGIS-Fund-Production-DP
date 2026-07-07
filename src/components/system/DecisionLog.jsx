@@ -820,14 +820,13 @@ export default function DecisionLog() {
     return (
         <div className="w-full flex-1 flex flex-col pt-[48px] pb-[60px] pl-[60px] pr-[60px] box-border">
             {/* Header Metadata */}
-            <div className="w-full flex flex-col mb-[32px] gap-[10px]">
+            <div className="w-full flex flex-col mb-[16px] gap-[10px]">
                 <div className="flex items-end gap-[16px]">
                     <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter']">통합 업무 보드</h1>
                     <span className="text-[15px] font-bold text-[#86868B] tracking-tight bg-[#222] px-[16px] py-[6px] rounded-full shadow-sm leading-none mb-[-2px]">
                         {formattedDate}
                     </span>
                 </div>
-                <p className="text-[16px] text-[#86868B] leading-[26px]">IOTA CFT의 통합 업무 보드를 한 화면에서 모아 봅니다.</p>
             </div>
 
             {/* 통합 업무 보드 */}
