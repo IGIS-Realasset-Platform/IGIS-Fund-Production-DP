@@ -2058,8 +2058,8 @@ export default function PmoTaskBoardStaging() {
             ) : (
                 <div className="-mr-[calc(50vw-50%)] border border-r-0 border-[#3c3c3c] bg-[#272726] rounded-l-[24px] overflow-hidden mb-[40px] shadow-sm select-text">
                     <div className="w-full overflow-x-auto pr-0 timeline-scrollbar">
-                        <div className="flex items-center min-w-[4470px]">
-                            <table className="text-left table-fixed min-w-[3670px] flex-1 border-collapse bg-[#272726]">
+                        <div className="flex items-center min-w-[4450px]">
+                            <table className="text-left table-fixed min-w-[3650px] flex-1 border-collapse bg-[#272726]">
                                 <thead>
                                     <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[13px] h-11">
                                         <th className="pl-[10px] text-center w-[60px] min-w-[60px] max-w-[60px] sticky left-0 bg-[#272726] z-30">ID</th>
@@ -2205,7 +2205,7 @@ export default function PmoTaskBoardStaging() {
                                             </div>
                                         </th>
 
-                                        <th className="w-[100px] min-w-[100px] max-w-[100px] text-center">담당자</th>
+                                        <th className="w-[80px] min-w-[80px] max-w-[80px] text-center">담당자</th>
                                         <th className="pl-4 w-[120px] min-w-[120px] max-w-[120px]">외부상대방</th>
                                         <th className="pl-4 w-[180px] min-w-[180px] max-w-[180px]">지원필요</th>
 
@@ -2433,9 +2433,9 @@ export default function PmoTaskBoardStaging() {
                                                     </td>
 
                                                     {/* 12. 협업부서 */}
-                                                    <td className="text-center w-[180px] min-w-[180px] max-w-[180px] overflow-hidden">
+                                                    <td className="pl-4 text-left w-[180px] min-w-[180px] max-w-[180px] overflow-hidden">
                                                         {coopDeptNames ? (
-                                                            <div className="flex flex-wrap gap-1 justify-center items-center">
+                                                            <div className="flex flex-wrap gap-1 justify-start items-center">
                                                                 {coopDeptNames.split(',').map(c => c.trim()).filter(Boolean).map((c, i) => (
                                                                     <span key={i} className="inline-flex items-center justify-center px-2 py-0.5 bg-[#27272a] text-[#d4d4d8] border border-[#3f3f46] rounded-[4px] text-[11px] font-medium whitespace-nowrap">
                                                                         {c}
@@ -2446,7 +2446,7 @@ export default function PmoTaskBoardStaging() {
                                                     </td>
 
                                                     {/* 13. 담당자 */}
-                                                    <td className="text-center text-[#A1A1AA] w-[100px] min-w-[100px] max-w-[100px] truncate">{t.assignee || '미정'}</td>
+                                                    <td className="text-center text-[#A1A1AA] w-[80px] min-w-[80px] max-w-[80px] truncate">{t.assignee || '미정'}</td>
 
                                                     {/* 14. 외부상대방 */}
                                                     <td className="pl-4 text-[#A1A1AA] w-[120px] min-w-[120px] max-w-[120px] truncate">{extPartyName || '-'}</td>
