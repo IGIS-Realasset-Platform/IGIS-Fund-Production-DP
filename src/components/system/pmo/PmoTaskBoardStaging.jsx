@@ -1942,8 +1942,8 @@ export default function PmoTaskBoardStaging() {
             ) : (
                 <div className="-mr-[calc(50vw-50%)] border border-r-0 border-[#3c3c3c] bg-[#272726] rounded-l-[24px] overflow-hidden mb-[40px] shadow-sm select-text">
                     <div className="w-full overflow-x-auto pr-0 timeline-scrollbar">
-                        <div className="flex items-center min-w-[4790px]">
-                            <table className="text-left table-fixed min-w-[3990px] flex-1 border-collapse bg-[#272726]">
+                        <div className="flex items-center min-w-[4774px]">
+                            <table className="text-left table-fixed min-w-[3974px] flex-1 border-collapse bg-[#272726]">
                                 <thead>
                                     <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[13px] h-11">
                                         <th className="pl-[10px] text-center w-[80px] min-w-[80px] max-w-[80px]">ID</th>
@@ -1988,8 +1988,8 @@ export default function PmoTaskBoardStaging() {
                                             </div>
                                         </th>
 
-                                        <th className="pl-4 w-[120px] min-w-[120px] max-w-[120px]">세부섹터</th>
-                                        <th className="pl-4 w-[280px] min-w-[280px] max-w-[280px]">업무명</th>
+                                        <th className="pl-4 w-[114px] min-w-[114px] max-w-[114px]">세부섹터</th>
+                                        <th className="pl-4 w-[270px] min-w-[270px] max-w-[270px]">업무명</th>
                                         <th className="pl-4 w-[280px] min-w-[280px] max-w-[280px]">업무목적 / PF·준공 영향</th>
                                         <th className="pl-4 w-[220px] min-w-[220px] max-w-[220px]">필요 산출물</th>
 
@@ -2254,12 +2254,12 @@ export default function PmoTaskBoardStaging() {
                                                     </td>
                                                     
                                                     {/* 4. 세부섹터 */}
-                                                    <td className="pl-4 text-[#A1A1AA] w-[120px] min-w-[120px] max-w-[120px] truncate">
+                                                    <td className="pl-4 text-[#A1A1AA] w-[114px] min-w-[114px] max-w-[114px] truncate">
                                                         {t.sector_detail}
                                                     </td>
                                                     
                                                     {/* 5. 업무명 */}
-                                                    <td className="pl-4 font-medium text-white truncate w-[280px] min-w-[280px] max-w-[280px]">
+                                                    <td className="pl-4 font-bold text-[#F59E0B] truncate w-[270px] min-w-[270px] max-w-[270px]">
                                                         {t.task_name}
                                                     </td>
 
