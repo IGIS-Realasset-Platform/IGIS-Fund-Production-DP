@@ -2945,13 +2945,69 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                             ))}
                                         </select>
                                     </div>
-                                    <div>
-                                        <label className="block text-[12px] font-bold text-[#86868B] mb-1">협업부서</label>
-                                        <input type="text" value={formCoopDepts} onChange={e => setFormCoopDepts(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff]" placeholder="부서 구분은 세미콜론(;) 사용" />
+                                    <div className="flex flex-col gap-1.5">
+                                        <label className="block text-[12px] font-bold text-[#86868B] mb-1">협업부서 선택 (다중 선택 가능)</label>
+                                        <div className="flex flex-wrap gap-1.5 bg-[#2c2c2b] p-3.5 rounded-[8px] border border-[#3c3c3c] max-h-[140px] overflow-y-auto">
+                                            {['PO', 'Sub-PO', 'CFT 책임인력', '기획추진', '사업PM', '파이낸싱-LFC', '개발관리', '기업마케팅', '공간솔루션', '펀드운용', 'IPR-WG'].map(dept => {
+                                                const coopDeptsList = formCoopDepts ? formCoopDepts.split(';').filter(Boolean) : [];
+                                                const isSelected = coopDeptsList.includes(dept);
+                                                return (
+                                                    <button 
+                                                        key={dept}
+                                                        type="button"
+                                                        onClick={() => {
+                                                            let newList;
+                                                            if (isSelected) {
+                                                                newList = coopDeptsList.filter(d => d !== dept);
+                                                            } else {
+                                                                 newList = [...coopDeptsList, dept];
+                                                            }
+                                                            setFormCoopDepts(newList.join(';'));
+                                                        }}
+                                                        className={`px-3 py-1.5 rounded-[6px] text-[11px] font-bold transition-all cursor-pointer border ${
+                                                            isSelected 
+                                                                ? 'bg-[#2997ff] text-white border-[#2997ff] shadow-sm' 
+                                                                : 'bg-[#1a1a1a] text-[#86868B] border-[#444] hover:border-[#666] hover:text-white'
+                                                        }`}
+                                                    >
+                                                        {dept}
+                                                    </button>
+                                                );
+                                            })}
+                                        </div>
                                     </div>
-                                    <div>
+                                    <div className="relative flex flex-col">
                                         <label className="block text-[12px] font-bold text-[#86868B] mb-1">담당자</label>
-                                        <input type="text" value={formAssignee} onChange={e => setFormAssignee(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff]" />
+                                        <input 
+                                            type="text" 
+                                            value={formAssignee} 
+                                            onChange={e => {
+                                                setFormAssignee(e.target.value);
+                                                setShowAssigneeDropdown(true);
+                                            }} 
+                                            onFocus={() => setShowAssigneeDropdown(true)}
+                                            onBlur={() => setTimeout(() => setShowAssigneeDropdown(false), 200)}
+                                            placeholder="담당자명 검색/입력"
+                                            className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff]" 
+                                        />
+                                        {showAssigneeDropdown && (
+                                            <div className="absolute top-[58px] left-0 w-full bg-[#222] border border-[#3c3c3c] rounded-[8px] py-1 max-h-[160px] overflow-y-auto z-[10005] shadow-xl">
+                                                {Array.from(new Set(masterStakeholders.map(s => s.contact_name).filter(Boolean)))
+                                                    .filter(name => !formAssignee || name.toLowerCase().includes(formAssignee.toLowerCase()))
+                                                    .map((name, i) => (
+                                                        <div 
+                                                            key={i} 
+                                                            className="px-3 py-2 text-[13px] text-[#E5E5E5] hover:bg-[#333] cursor-pointer truncate text-left"
+                                                            onClick={() => {
+                                                                setFormAssignee(name);
+                                                                setShowAssigneeDropdown(false);
+                                                            }}
+                                                        >
+                                                            {name}
+                                                        </div>
+                                                    ))}
+                                            </div>
+                                        )}
                                     </div>
                                     
                                     {/* 외부상대방 (Autocomplete Suggestions) */}
@@ -2967,16 +3023,16 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                             onFocus={() => setShowStakeholderSuggestions(true)}
                                             onBlur={() => setTimeout(() => setShowStakeholderSuggestions(false), 200)}
                                             className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff]" 
-                                            placeholder="검색 또는 입력"
+                                            placeholder="회사명 검색/입력"
                                         />
-                                        {showStakeholderSuggestions && formExternalParty && (
+                                        {showStakeholderSuggestions && (
                                             <div className="absolute top-[58px] left-0 w-full bg-[#222] border border-[#3c3c3c] rounded-[8px] py-1 max-h-[160px] overflow-y-auto z-[10005] shadow-xl">
                                                 {uniqueStakeholderNames
-                                                    .filter(name => name.toLowerCase().includes(formExternalParty.toLowerCase()))
+                                                    .filter(name => !formExternalParty || name.toLowerCase().includes(formExternalParty.toLowerCase()))
                                                     .map((name, i) => (
                                                         <div 
                                                             key={i} 
-                                                            className="px-3 py-2 text-[13px] text-[#E5E5E5] hover:bg-[#333] cursor-pointer truncate"
+                                                            className="px-3 py-2 text-[13px] text-[#E5E5E5] hover:bg-[#333] cursor-pointer truncate text-left"
                                                             onClick={() => {
                                                                 setFormExternalParty(name);
                                                                 setShowStakeholderSuggestions(false);
