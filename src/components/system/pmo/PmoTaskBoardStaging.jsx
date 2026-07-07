@@ -2136,7 +2136,9 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                             </div>
                                         </th>
 
-                                        <th className={`sticky left-[245px] bg-[#272726] z-30 transition-all duration-300 ease-out ${isAll ? 'w-[104px] min-w-[104px] max-w-[104px] pl-4 opacity-100' : 'w-0 min-w-0 max-w-0 pl-0 opacity-0 overflow-hidden'}`}>{isAll && "세부섹터"}</th>
+                                        <th className={`sticky left-[245px] bg-[#272726] z-30 transition-all duration-300 ease-out ${isAll ? 'w-[104px] min-w-[104px] max-w-[104px] pl-4 opacity-100' : 'w-0 min-w-0 max-w-0 pl-0 opacity-0 overflow-hidden'}`}>
+                                            <span className={`transition-opacity duration-300 ${isAll ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>세부섹터</span>
+                                        </th>
                                         <th className={"pl-4 w-[270px] min-w-[270px] max-w-[270px] sticky bg-[#272726] z-30 shadow-[inset_-1px_0_0_0_#3c3c3c] transition-all duration-300 ease-out " + (isAll ? "left-[349px]" : "left-[245px]")}>업무명</th>
                                         <th className="w-[75px] min-w-[75px] max-w-[75px] text-center select-none cursor-pointer hover:text-white transition-colors" onClick={() => setPrioritySortOrder(prev => prev === 'desc' ? 'asc' : 'desc')}>
                                             <div className="flex items-center justify-center gap-1">
@@ -2154,12 +2156,16 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                                 <span className="text-[10px] text-[#2997ff] ml-0.5">{prioritySortOrder === 'desc' ? '▼' : '▲'}</span>
                                             </div>
                                         </th>
-                                        <th className={`transition-all duration-300 ease-out ${isAll ? 'w-[220px] min-w-[220px] max-w-[220px] pl-4 opacity-100' : 'w-0 min-w-0 max-w-0 pl-0 opacity-0 overflow-hidden'}`}>{isAll && "업무목적 / PF·준공 영향"}</th>
-                                        <th className={`transition-all duration-300 ease-out ${isAll ? 'w-[220px] min-w-[220px] max-w-[220px] pl-4 opacity-100' : 'w-0 min-w-0 max-w-0 pl-0 opacity-0 overflow-hidden'}`}>{isAll && "필요 산출물"}</th>
+                                        <th className={`transition-all duration-300 ease-out ${isAll ? 'w-[220px] min-w-[220px] max-w-[220px] pl-4 opacity-100' : 'w-0 min-w-0 max-w-0 pl-0 opacity-0 overflow-hidden'}`}>
+                                            <span className={`transition-opacity duration-300 ${isAll ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>업무목적 / PF·준공 영향</span>
+                                        </th>
+                                        <th className={`transition-all duration-300 ease-out ${isAll ? 'w-[220px] min-w-[220px] max-w-[220px] pl-4 opacity-100' : 'w-0 min-w-0 max-w-0 pl-0 opacity-0 overflow-hidden'}`}>
+                                            <span className={`transition-opacity duration-300 ${isAll ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>필요 산출물</span>
+                                        </th>
 
                                         {/* 최종 목표축 */}
                                         <th className={`text-center transition-all duration-300 ease-out ${isAll ? 'w-[91px] min-w-[91px] max-w-[91px] opacity-100' : 'w-0 min-w-0 max-w-0 opacity-0 overflow-hidden'}`}>
-                                            {isAll && (
+                                            <div className={`transition-opacity duration-300 ${isAll ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
                                                 <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[76px] overflow-hidden mx-auto">
                                                     <span className={"font-bold text-[11px] whitespace-nowrap truncate " + (selectedTargetAxis === "전체보기" ? "text-[#86868B]" : "text-[#2997ff]")}>
                                                         {selectedTargetAxis === '전체보기' ? '최종목표' : selectedTargetAxis}
@@ -2176,12 +2182,12 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                                         ))}
                                                     </select>
                                                 </div>
-                                            )}
+                                            </div>
                                         </th>
 
                                         {/* Gate */}
                                         <th className={`text-center transition-all duration-300 ease-out ${isAll ? 'w-[90px] min-w-[90px] max-w-[100px] opacity-100' : 'w-0 min-w-0 max-w-0 opacity-0 overflow-hidden'}`}>
-                                            {isAll && (
+                                            <div className={`transition-opacity duration-300 ${isAll ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
                                                 <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[75px] overflow-hidden mx-auto">
                                                     <span className={"font-bold text-[11px] whitespace-nowrap truncate " + (selectedGateStage === "전체보기" ? "text-[#86868B]" : "text-[#2997ff]")}>
                                                         {selectedGateStage === '전체보기' ? 'GATE' : selectedGateStage}
@@ -2198,7 +2204,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                                         ))}
                                                     </select>
                                                 </div>
-                                            )}
+                                            </div>
                                         </th>
 
                                         {/* 회의상정등급 */}
@@ -2261,9 +2267,13 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                             </div>
                                         </th>
 
-                                        <th className={`text-center transition-all duration-300 ease-out ${isAll ? 'w-[70px]' : 'w-0 min-w-0 max-w-0 opacity-0 overflow-hidden'}`}>{isAll && "담당자"}</th>
+                                        <th className={`text-center transition-all duration-300 ease-out ${isAll ? 'w-[70px] min-w-[70px] max-w-[70px] opacity-100' : 'w-0 min-w-0 max-w-0 opacity-0 overflow-hidden'}`}>
+                                            <span className={`transition-opacity duration-300 ${isAll ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>담당자</span>
+                                        </th>
                                         <th className="pl-4 w-[120px] min-w-[120px] max-w-[120px]">외부상대방</th>
-                                        <th className={`text-center transition-all duration-300 ease-out ${isAll ? 'w-[80px] min-w-[80px] max-w-[80px] opacity-100' : 'w-0 min-w-0 max-w-0 opacity-0 overflow-hidden'}`}>{isAll && "지원필요"}</th>
+                                        <th className={`text-center transition-all duration-300 ease-out ${isAll ? 'w-[80px] min-w-[80px] max-w-[80px] opacity-100' : 'w-0 min-w-0 max-w-0 opacity-0 overflow-hidden'}`}>
+                                            <span className={`transition-opacity duration-300 ${isAll ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>지원필요</span>
+                                        </th>
 
                                         {/* Blocker */}
                                         <th className="w-[65px] min-w-[65px] max-w-[65px] text-center">
@@ -2303,7 +2313,9 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                             </div>
                                         </th>
 
-                                        <th className={`transition-all duration-300 ease-out ${isAll ? 'w-[200px] min-w-[200px] max-w-[200px] pl-4 opacity-100' : 'w-0 min-w-0 max-w-0 pl-0 opacity-0 overflow-hidden'}`}>{isAll && "다음 액션"}</th>
+                                        <th className={`transition-all duration-300 ease-out ${isAll ? 'w-[200px] min-w-[200px] max-w-[200px] pl-4 opacity-100' : 'w-0 min-w-0 max-w-0 pl-0 opacity-0 overflow-hidden'}`}>
+                                            <span className={`transition-opacity duration-300 ${isAll ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>다음 액션</span>
+                                        </th>
 
                                         {/* 상태 */}
                                         <th className="w-[80px] min-w-[80px] max-w-[80px] text-center">
@@ -2345,7 +2357,9 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                             </div>
                                         </th>
 
-                                        <th className={`text-center transition-all duration-300 ease-out ${isAll ? 'w-[100px] min-w-[100px] max-w-[100px] opacity-100' : 'w-0 min-w-0 max-w-0 opacity-0 overflow-hidden'}`}>{isAll && "기한"}</th>
+                                        <th className={`text-center transition-all duration-300 ease-out ${isAll ? 'w-[100px] min-w-[100px] max-w-[100px] opacity-100' : 'w-0 min-w-0 max-w-0 opacity-0 overflow-hidden'}`}>
+                                            <span className={`transition-opacity duration-300 ${isAll ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>기한</span>
+                                        </th>
 
 
                                         <th className="px-2 text-center w-[85px] min-w-[85px] max-w-[85px] border-l border-r border-[#3c3c3c]">관리</th>
@@ -2427,7 +2441,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                                     
                                                     {/* 4. 세부섹터 */}
                                                     <td className={`text-[#A1A1AA] truncate sticky left-[245px] bg-[#272726] group-hover:bg-[#2d2d2c] z-10 transition-all duration-300 ease-out ${isAll ? 'w-[104px] min-w-[104px] max-w-[104px] pl-4 opacity-100' : 'w-0 min-w-0 max-w-0 pl-0 opacity-0 overflow-hidden'}`}>
-                                                        {isAll && t.sector_detail}
+                                                        <span className={`transition-opacity duration-300 ${isAll ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>{t.sector_detail}</span>
                                                     </td>
                                                     
                                                     {/* 5. 업무명 */}
@@ -2440,19 +2454,23 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
 
                                                     {/* 6. 업무목적 / PF·준공 영향 */}
                                                     <td className={`text-[#A1A1AA] truncate transition-all duration-300 ease-out ${isAll ? 'w-[220px] min-w-[220px] max-w-[220px] pl-4 opacity-100' : 'w-0 min-w-0 max-w-0 pl-0 opacity-0 overflow-hidden'}`}>
-                                                        {isAll && (t.task_purpose || fallbackItem.task_purpose || '-')}
+                                                        <span className={`transition-opacity duration-300 ${isAll ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>{t.task_purpose || fallbackItem.task_purpose || '-'}</span>
                                                     </td>
 
                                                     {/* 7. 필요 산출물 */}
                                                     <td className={`text-[#A1A1AA] truncate transition-all duration-300 ease-out ${isAll ? 'w-[220px] min-w-[220px] max-w-[220px] pl-4 opacity-100' : 'w-0 min-w-0 max-w-0 pl-0 opacity-0 overflow-hidden'}`}>
-                                                        {isAll && (t.deliverables || fallbackItem.deliverables || '-')}
+                                                        <span className={`transition-opacity duration-300 ${isAll ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>{t.deliverables || fallbackItem.deliverables || '-'}</span>
                                                     </td>
 
                                                     {/* 8. 최종 목표축 */}
-                                                    <td className={`text-center text-[#A1A1AA] truncate transition-all duration-300 ease-out ${isAll ? 'w-[91px] min-w-[91px] max-w-[91px] opacity-100' : 'w-0 min-w-0 max-w-0 opacity-0 overflow-hidden'}`}>{isAll && targetAxis}</td>
+                                                    <td className={`text-center text-[#A1A1AA] truncate transition-all duration-300 ease-out ${isAll ? 'w-[91px] min-w-[91px] max-w-[91px] opacity-100' : 'w-0 min-w-0 max-w-0 opacity-0 overflow-hidden'}`}>
+                                                        <span className={`transition-opacity duration-300 ${isAll ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>{targetAxis}</span>
+                                                    </td>
 
                                                     {/* 9. Gate */}
-                                                    <td className={`text-center text-[#A1A1AA] truncate transition-all duration-300 ease-out ${isAll ? 'w-[90px] min-w-[90px] max-w-[100px] opacity-100' : 'w-0 min-w-0 max-w-0 opacity-0 overflow-hidden'}`}>{isAll && gateStageVal}</td>
+                                                    <td className={`text-center text-[#A1A1AA] truncate transition-all duration-300 ease-out ${isAll ? 'w-[90px] min-w-[90px] max-w-[100px] opacity-100' : 'w-0 min-w-0 max-w-0 opacity-0 overflow-hidden'}`}>
+                                                        <span className={`transition-opacity duration-300 ${isAll ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>{gateStageVal}</span>
+                                                    </td>
 
                                                     
 
@@ -2507,7 +2525,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
 
                                                     {/* 13. 담당자 */}
                                                     <td className={`text-center text-[#A1A1AA] truncate transition-all duration-300 ease-out ${isAll ? 'w-[70px] min-w-[70px] max-w-[70px] opacity-100' : 'w-0 min-w-0 max-w-0 opacity-0 overflow-hidden'}`}>
-                                                        {isAll && (t.assignee || '미정')}
+                                                        <span className={`transition-opacity duration-300 ${isAll ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>{t.assignee || '미정'}</span>
                                                     </td>
 
                                                     {/* 14. 외부상대방 */}
@@ -2515,7 +2533,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
 
                                                     {/* 15. 지원필요 */}
                                                     <td className={`text-center text-[#86868B] truncate transition-all duration-300 ease-out ${isAll ? 'w-[80px] min-w-[80px] max-w-[80px] opacity-100' : 'w-0 min-w-0 max-w-0 opacity-0 overflow-hidden'}`}>
-                                                        {isAll && (supportNeeded || '-')}
+                                                        <span className={`transition-opacity duration-300 ${isAll ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>{supportNeeded || '-'}</span>
                                                     </td>
 
                                                     {/* 16. Blocker */}
@@ -2538,7 +2556,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
 
                                                     {/* 18. 다음 액션 */}
                                                     <td className={`text-[#A1A1AA] truncate transition-all duration-300 ease-out ${isAll ? 'w-[200px] min-w-[200px] max-w-[200px] pl-4 opacity-100' : 'w-0 min-w-0 max-w-0 pl-0 opacity-0 overflow-hidden'}`}>
-                                                        {isAll && (nextActionVal || '-')}
+                                                        <span className={`transition-opacity duration-300 ${isAll ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>{nextActionVal || '-'}</span>
                                                     </td>
 
                                                     {/* 19. 상태 */}
@@ -2569,7 +2587,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
 
                                                     {/* 22. 기한 */}
                                                     <td className={`text-center text-[#A1A1AA] font-mono truncate transition-all duration-300 ease-out ${isAll ? 'w-[100px] min-w-[100px] max-w-[100px] opacity-100' : 'w-0 min-w-0 max-w-0 opacity-0 overflow-hidden'}`}>
-                                                        {isAll && (dueDateVal || '-')}
+                                                        <span className={`transition-opacity duration-300 ${isAll ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>{dueDateVal || '-'}</span>
                                                     </td>
 
                                                     
