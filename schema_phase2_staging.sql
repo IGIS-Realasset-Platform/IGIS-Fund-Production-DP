@@ -74,6 +74,21 @@ INSERT INTO iota_v2.iota_subsectors (subsector_name) VALUES
 ('재무모델'), ('리츠 전환'), ('Asset/Share/합병'), ('의사결정'), ('Take-out')
 ON CONFLICT (subsector_name) DO NOTHING;
 
+-- E) 지원필요 기준 정보 테이블
+CREATE TABLE iota_v2.iota_support_options (
+    option_name VARCHAR(100) PRIMARY KEY,
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- E) 지원필요 마스터 데이터 적재
+INSERT INTO iota_v2.iota_support_options (option_name) VALUES
+('없음'), ('부서별 담당자 입력'), ('파트장 확인'), ('의사결정'), ('법무 검토'),
+('외부 법무 검토'), ('외부 회신'), ('관청 협의 결과'), ('도면-관청의견 필요'),
+('시공사 Term 회신'), ('삼성 조건 회신'), ('도면 기준 정리'), ('임차조건 회신'),
+('내부/삼성 협의'), ('Term Sheet 필요'), ('금융/법무 검토'), ('외부 자문'),
+('모델 입력값'), ('일정 확정')
+ON CONFLICT (option_name) DO NOTHING;
+
 
 -- 4. 메인 실행 테이블 스펙 정의 및 생성 (외래키 제약조건 포함)
 
@@ -84,23 +99,38 @@ CREATE TABLE iota_v2.iota_pmo_tasks (
     category_main VARCHAR(100) NOT NULL CHECK (category_main IN (
         '공통 PMO', '인허가', '호텔/운영', '시공/원가', '도면/설계', '인테리어/TI',
         '임차/마케팅', 'PF/금융', '구조/법무/세무', '주주/보고', '준공/담보대출', '팝업/단발'
-    )),                                                                     -- 대분류 (공통 PMO, 인허가 등)
+    )),                                                                     -- 대분류
     sector_detail VARCHAR(100) REFERENCES iota_v2.iota_subsectors(subsector_name), -- 세부섹터 외래키
     task_name VARCHAR(255) NOT NULL,                                         -- 업무명
     task_purpose TEXT,                                                       -- 업무목적 및 PF/준공 영향
     deliverables TEXT,                                                       -- 필요 산출물
-    gate_stage VARCHAR(10) CHECK (gate_stage IN ('G0', 'G1', 'G2', 'G3', 'G4')), -- G0~G4 마일스톤 단계
+    target_axis VARCHAR(100) NOT NULL CHECK (target_axis IN (
+        'PF', '착공', '공사관리', '준공/사용승인', '담보대출/Take-out', '운영전환', '공통 PMO'
+    )),                                                                     -- 최종 목표축
+    gate_stage VARCHAR(10) CHECK (gate_stage IN ('G0', 'G1', 'G2', 'G3', 'G4', 'G5', 'G6')), -- G0~G6 마일스톤 단계
     pmo_manager VARCHAR(100) DEFAULT '사업관리2파트',                         -- PMO 총괄 담당
     lead_dept_code VARCHAR(50) REFERENCES iota_v2.iota_departments(dept_code), -- 주관부서 외래키
-    coop_dept_codes VARCHAR(255),                                            -- 협업부서 (세미콜론 구분)
+    coop_dept_codes VARCHAR(255),                                            -- 협업부서
     assignee VARCHAR(100),                                                   -- 담당자
     external_party_code VARCHAR(50) REFERENCES iota_v2.iota_stakeholders(stakeholder_code), -- 외부상대방 외래키
-    is_blocker BOOLEAN DEFAULT false,                                        -- Blocker 지연 리스크 여부
+    support_needed VARCHAR(100) REFERENCES iota_v2.iota_support_options(option_name), -- 지원필요 외래키
+    is_blocker BOOLEAN DEFAULT false,                                        -- Blocker 여부
     needs_decision BOOLEAN DEFAULT false,                                    -- 의사결정 필요 여부
     due_date DATE,                                                           -- 기한
-    status VARCHAR(50) DEFAULT '미착수' CHECK (status IN ('미착수', '진행중', '완료', '지연')), -- 진행 상태
+    status VARCHAR(50) DEFAULT '미착수' CHECK (status IN (
+        '미착수', '진행중', '검토중', '대기', '지연', '완료', '보류', '중단'
+    )),                                                                     -- 진행 상태
+    importance_level VARCHAR(20) DEFAULT '중간' CHECK (importance_level IN (
+        'PF필수', '준공필수', '높음', '중간', '낮음'
+    )),                                                                     -- 중요도
+    task_type VARCHAR(20) DEFAULT '정규' CHECK (task_type IN (
+        '정규', '팝업', '회의후속', '외부요청', '보고'
+    )),                                                                     -- 업무 유형
     priority_score INTEGER DEFAULT 0,                                        -- 우선순위 가중치 점수
-    meeting_grade VARCHAR(10) DEFAULT 'B' CHECK (meeting_grade IN ('A', 'B')), -- 회의상정등급 (A_즉시상정, B_회의점검)
+    meeting_grade VARCHAR(10) DEFAULT 'B' CHECK (meeting_grade IN ('A', 'B')), -- 회의상정등급
+    agenda_reason TEXT,                                                      -- 상정근거
+    sort_key VARCHAR(100),                                                   -- 정렬순서
+    notes TEXT,                                                              -- 비고
     next_action TEXT,                                                        -- 다음 액션
     created_at TIMESTAMPTZ DEFAULT NOW()
 );

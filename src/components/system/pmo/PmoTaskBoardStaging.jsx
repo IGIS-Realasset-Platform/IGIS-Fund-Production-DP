@@ -1208,6 +1208,8 @@ const gateMapToDb = (uiVal) => {
     if (uiVal.startsWith('G2')) return 'G2';
     if (uiVal.startsWith('G3')) return 'G3';
     if (uiVal.startsWith('G4')) return 'G4';
+    if (uiVal.startsWith('G5')) return 'G5';
+    if (uiVal.startsWith('G6')) return 'G6';
     return 'G0';
 };
 
@@ -1215,8 +1217,10 @@ const gateMapToUi = (dbVal) => {
     if (dbVal === 'G0') return 'G0 현황정리';
     if (dbVal === 'G1') return 'G1 방향결정';
     if (dbVal === 'G2') return 'G2 PF준비도';
-    if (dbVal === 'G3') return 'G3 계약/동의';
+    if (dbVal === 'G3') return 'G3 PF실행';
     if (dbVal === 'G4') return 'G4 착공/공사';
+    if (dbVal === 'G5') return 'G5 준공';
+    if (dbVal === 'G6') return 'G6 담보대출/운영전환';
     return dbVal || 'G0 현황정리';
 };
 
@@ -1261,6 +1265,7 @@ export default function PmoTaskBoardStaging() {
     ]);
     const [masterStakeholders, setMasterStakeholders] = useState([]);
     const [subsectors, setSubsectors] = useState([]);
+    const [supportOptions, setSupportOptions] = useState([]);
 
     // Modal states
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -1270,6 +1275,7 @@ export default function PmoTaskBoardStaging() {
     // Suggestions panels
     const [showSubsectorSuggestions, setShowSubsectorSuggestions] = useState(false);
     const [showStakeholderSuggestions, setShowStakeholderSuggestions] = useState(false);
+    const [showSupportSuggestions, setShowSupportSuggestions] = useState(false);
 
     // Form states
     const [formProject, setFormProject] = useState('IOTA_SEOUL');
@@ -1339,6 +1345,21 @@ export default function PmoTaskBoardStaging() {
         return Array.from(new Set(names.filter(Boolean)));
     }, [stakeholders, masterStakeholders]);
 
+    const uniqueSupportOptions = useMemo(() => {
+        const defaultOpts = supportOptions.length > 0 ? supportOptions : [
+            '없음', '부서별 담당자 입력', '파트장 확인', '의사결정', '법무 검토',
+            '외부 법무 검토', '외부 회신', '관청 협의 결과', '도면-관청의견 필요',
+            '시공사 Term 회신', '삼성 조건 회신', '도면 기준 정리', '임차조건 회신',
+            '내부/삼성 협의', 'Term Sheet 필요', '금융/법무 검토', '외부 자문',
+            '모델 입력값', '일정 확정'
+        ];
+        const opts = [
+            ...defaultOpts,
+            ...tasks.map(item => item.support_needed).filter(Boolean)
+        ];
+        return Array.from(new Set(opts));
+    }, [tasks, supportOptions]);
+
     async function fetchTasks() {
         try {
             setLoading(true);
@@ -1397,6 +1418,19 @@ export default function PmoTaskBoardStaging() {
                 }
             } catch (e) {
                 console.warn("Subsectors load failed, using defaults:", e);
+            }
+
+            // Load support options
+            try {
+                const { data: supportData } = await supabase
+                    .schema('iota_v2')
+                    .from('iota_support_options')
+                    .select('option_name');
+                if (supportData) {
+                    setSupportOptions(supportData.map(o => o.option_name));
+                }
+            } catch (e) {
+                console.warn("Support options load failed, using defaults:", e);
             }
 
             const { data, error } = await supabase
@@ -1543,6 +1577,23 @@ export default function PmoTaskBoardStaging() {
         }
     }
 
+    // Support option on-the-fly register
+    async function resolveSupportNeeded(optionName) {
+        if (!optionName) return;
+        const exists = supportOptions.includes(optionName);
+        if (!exists && isDbMode) {
+            try {
+                await supabase
+                    .schema('iota_v2')
+                    .from('iota_support_options')
+                    .insert({ option_name: optionName });
+                setSupportOptions(prev => [...prev, optionName]);
+            } catch (err) {
+                console.error("Failed to insert support option on-the-fly:", err);
+            }
+        }
+    }
+
     const handleAddNewClick = () => {
         setEditingItem(null);
         setFormProject(projects[0]?.project_code || 'IOTA_SEOUL');
@@ -1650,6 +1701,7 @@ export default function PmoTaskBoardStaging() {
         const resolvedLeadDeptCode = await resolveDeptCode(formLeadDept);
         const resolvedExtPartyCode = await resolveStakeholderCode(formExternalParty);
         await resolveSubsector(formSectorDetail);
+        await resolveSupportNeeded(formSupportNeeded);
 
         // Convert UI gate and grade values to DB codes
         const dbGateCode = gateMapToDb(formGateStage);
@@ -2167,7 +2219,11 @@ export default function PmoTaskBoardStaging() {
                                         >
                                             <option value="PF">PF</option>
                                             <option value="착공">착공</option>
-                                            <option value="준공/운영">준공/운영</option>
+                                            <option value="공사관리">공사관리</option>
+                                            <option value="준공/사용승인">준공/사용승인</option>
+                                            <option value="담보대출/Take-out">담보대출/Take-out</option>
+                                            <option value="운영전환">운영전환</option>
+                                            <option value="공통 PMO">공통 PMO</option>
                                         </select>
                                     </div>
                                     <div>
@@ -2180,8 +2236,10 @@ export default function PmoTaskBoardStaging() {
                                             <option value="G0 현황정리">G0 현황정리</option>
                                             <option value="G1 방향결정">G1 방향결정</option>
                                             <option value="G2 PF준비도">G2 PF준비도</option>
-                                            <option value="G3 계약/동의">G3 계약/동의</option>
+                                            <option value="G3 PF실행">G3 PF실행</option>
                                             <option value="G4 착공/공사">G4 착공/공사</option>
+                                            <option value="G5 준공">G5 준공</option>
+                                            <option value="G6 담보대출/운영전환">G6 담보대출/운영전환</option>
                                         </select>
                                     </div>
                                     <div>
@@ -2271,9 +2329,54 @@ export default function PmoTaskBoardStaging() {
 
                                 {/* Col 2 */}
                                 <div className="space-y-4">
-                                    <div>
-                                        <label className="block text-[12px] font-bold text-[#86868B] mb-1">지원필요</label>
-                                        <textarea value={formSupportNeeded} onChange={e => setFormSupportNeeded(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] h-16 resize-none" />
+                                    {/* 지원필요 (Autocomplete Suggestions) */}
+                                    <div className="relative flex flex-col">
+                                        <label className="text-[12px] font-bold text-[#86868B] mb-1">지원필요</label>
+                                        <input 
+                                            type="text" 
+                                            value={formSupportNeeded} 
+                                            onChange={e => {
+                                                setFormSupportNeeded(e.target.value);
+                                                setShowSupportSuggestions(true);
+                                            }}
+                                            onFocus={() => setShowSupportSuggestions(true)}
+                                            onBlur={() => setTimeout(() => setShowSupportSuggestions(false), 200)}
+                                            className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff]" 
+                                            placeholder="검색 또는 입력"
+                                        />
+                                        {showSupportSuggestions && formSupportNeeded && (
+                                            <div className="absolute top-[58px] left-0 w-full bg-[#222] border border-[#3c3c3c] rounded-[8px] py-1 max-h-[160px] overflow-y-auto z-[10005] shadow-xl">
+                                                {uniqueSupportOptions
+                                                    .filter(opt => opt.toLowerCase().includes(formSupportNeeded.toLowerCase()))
+                                                    .map((opt, i) => (
+                                                        <div 
+                                                            key={i} 
+                                                            className="px-3 py-2 text-[13px] text-[#E5E5E5] hover:bg-[#333] cursor-pointer truncate"
+                                                            onClick={() => {
+                                                                setFormSupportNeeded(opt);
+                                                                setShowSupportSuggestions(false);
+                                                            }}
+                                                        >
+                                                            {opt}
+                                                        </div>
+                                                    ))}
+                                                {!uniqueSupportOptions.some(opt => opt.toLowerCase() === formSupportNeeded.toLowerCase()) && (
+                                                    <div 
+                                                        className="px-3 py-2 text-[13px] text-[#2997ff] hover:bg-[#333] cursor-pointer font-bold border-t border-[#3c3c3c]/50"
+                                                        onClick={async () => {
+                                                            const optToRegister = formSupportNeeded;
+                                                            if (window.confirm(`'${optToRegister}'을(를) 지원필요 마스터에 새로 등록하시겠습니까?`)) {
+                                                                await resolveSupportNeeded(optToRegister);
+                                                                alert('등록되었습니다.');
+                                                            }
+                                                            setShowSupportSuggestions(false);
+                                                        }}
+                                                    >
+                                                        ➕ 새 항목 등록: "{formSupportNeeded}"
+                                                    </div>
+                                                )}
+                                            </div>
+                                        )}
                                     </div>
                                     <div className="flex gap-4">
                                         <div className="flex-1">
@@ -2291,14 +2394,49 @@ export default function PmoTaskBoardStaging() {
                                             </select>
                                         </div>
                                     </div>
-                                    <div>
-                                        <label className="block text-[12px] font-bold text-[#86868B] mb-1">기한</label>
-                                        <input type="date" value={formDueDate} onChange={e => setFormDueDate(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] cursor-pointer" />
+                                    <div className="flex gap-4">
+                                        <div className="flex-1">
+                                            <label className="block text-[12px] font-bold text-[#86868B] mb-1">중요도</label>
+                                            <select value={formImportanceLevel} onChange={e => setFormImportanceLevel(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] cursor-pointer">
+                                                <option value="PF필수">PF필수</option>
+                                                <option value="준공필수">준공필수</option>
+                                                <option value="높음">높음</option>
+                                                <option value="중간">중간</option>
+                                                <option value="낮음">낮음</option>
+                                            </select>
+                                        </div>
+                                        <div className="flex-1">
+                                            <label className="block text-[12px] font-bold text-[#86868B] mb-1">업무유형</label>
+                                            <select value={formTaskType} onChange={e => setFormTaskType(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] cursor-pointer">
+                                                <option value="정규">정규</option>
+                                                <option value="팝업">팝업</option>
+                                                <option value="회의후속">회의후속</option>
+                                                <option value="외부요청">외부요청</option>
+                                                <option value="보고">보고</option>
+                                            </select>
+                                        </div>
                                     </div>
                                     <div className="flex gap-4">
                                         <div className="flex-1">
+                                            <label className="block text-[12px] font-bold text-[#86868B] mb-1">기한</label>
+                                            <input type="date" value={formDueDate} onChange={e => setFormDueDate(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] cursor-pointer" />
+                                        </div>
+                                        <div className="flex-1">
                                             <label className="block text-[12px] font-bold text-[#86868B] mb-1">진행 상태</label>
-                                            <select value={formStatus} onChange={e => setFormStatus(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] cursor-pointer" />
+                                            <select 
+                                                value={formStatus} 
+                                                onChange={e => setFormStatus(e.target.value)} 
+                                                className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] cursor-pointer"
+                                            >
+                                                <option value="미착수">미착수</option>
+                                                <option value="진행중">진행중</option>
+                                                <option value="검토중">검토중</option>
+                                                <option value="대기">대기</option>
+                                                <option value="지연">지연</option>
+                                                <option value="완료">완료</option>
+                                                <option value="보류">보류</option>
+                                                <option value="중단">중단</option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
