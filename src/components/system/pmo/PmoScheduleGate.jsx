@@ -1319,12 +1319,12 @@ export default function PmoScheduleGate() {
                                         onFocus={() => setShowStakeholderSuggestions(true)}
                                         onBlur={() => setTimeout(() => setShowStakeholderSuggestions(false), 200)}
                                         className="bg-[#1a1a1a] border border-[#3c3c3c] text-white rounded-[8px] px-3 py-2 text-[13px] outline-none focus:border-[#2997ff]"
-                                        placeholder="예: 현대건설 (검색 또는 직접 입력)"
+                                        placeholder="회사명 검색/입력"
                                     />
-                                    {showStakeholderSuggestions && formPartner && (
+                                    {showStakeholderSuggestions && (
                                         <div className="absolute top-[60px] left-0 w-full bg-[#222] border border-[#3c3c3c] rounded-[8px] py-1 max-h-[160px] overflow-y-auto z-[10000] shadow-xl">
                                             {uniqueStakeholderNames
-                                                .filter(name => name.toLowerCase().includes(formPartner.toLowerCase()))
+                                                .filter(name => !formPartner || name.toLowerCase().includes(formPartner.toLowerCase()))
                                                 .map((name, i) => (
                                                     <div 
                                                         key={i} 

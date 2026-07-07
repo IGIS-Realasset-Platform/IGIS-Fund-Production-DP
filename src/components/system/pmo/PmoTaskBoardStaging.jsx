@@ -1399,6 +1399,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
     const isAll = viewMode === 'all';
     const [editingItem, setEditingItem] = useState(null);
     const [deleteConfirmId, setDeleteConfirmId] = useState(null);
+    const [showAssigneeDropdown, setShowAssigneeDropdown] = useState(false);
 
     // Suggestions panels
     const [showSubsectorSuggestions, setShowSubsectorSuggestions] = useState(false);
