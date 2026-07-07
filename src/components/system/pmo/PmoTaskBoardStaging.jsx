@@ -1942,8 +1942,8 @@ export default function PmoTaskBoardStaging() {
             ) : (
                 <div className="-mr-[calc(50vw-50%)] border border-r-0 border-[#3c3c3c] bg-[#272726] rounded-l-[24px] overflow-hidden mb-[40px] shadow-sm select-text">
                     <div className="w-full overflow-x-auto pr-0 timeline-scrollbar">
-                        <div className="flex items-center min-w-[4800px]">
-                            <table className="text-left table-fixed min-w-[4000px] flex-1 border-collapse bg-[#272726]">
+                        <div className="flex items-center min-w-[4790px]">
+                            <table className="text-left table-fixed min-w-[3990px] flex-1 border-collapse bg-[#272726]">
                                 <thead>
                                     <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[13px] h-11">
                                         <th className="pl-[10px] text-center w-[80px] min-w-[80px] max-w-[80px]">ID</th>
@@ -1969,8 +1969,8 @@ export default function PmoTaskBoardStaging() {
                                         </th>
 
                                         {/* 대분류 */}
-                                        <th className="pl-4 w-[105px] min-w-[105px] max-w-[105px]">
-                                            <div className="relative inline-flex items-center justify-start bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[90px] overflow-hidden">
+                                        <th className="pl-4 w-[95px] min-w-[95px] max-w-[95px]">
+                                            <div className="relative inline-flex items-center justify-start bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[80px] overflow-hidden">
                                                 <span className={`font-bold text-[11px] whitespace-nowrap truncate ${selectedCategoryMain === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
                                                     {selectedCategoryMain === '전체보기' ? '대분류' : selectedCategoryMain}
                                                 </span>
@@ -2249,7 +2249,7 @@ export default function PmoTaskBoardStaging() {
                                                     </td>
                                                     
                                                     {/* 3. 대분류 */}
-                                                    <td className="pl-4 font-bold text-[#E5E5E5] w-[105px] min-w-[105px] max-w-[105px] truncate">
+                                                    <td className="pl-4 font-bold text-[#E5E5E5] w-[95px] min-w-[95px] max-w-[95px] truncate">
                                                         {t.category_main}
                                                     </td>
                                                     
