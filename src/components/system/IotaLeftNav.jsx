@@ -135,7 +135,7 @@ const phase2MenuItems = [
     },
     {
         id: 'timeline',
-        label: '타임라인 및 R&R',
+        label: '마일스톤 및 R&R',
         path: 'platform/iotaseoul/timeline',
         icon: (
             <svg className="w-4.5 h-4.5 mr-[10px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
