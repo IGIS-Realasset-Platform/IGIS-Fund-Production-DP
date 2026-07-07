@@ -2528,8 +2528,10 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                                         </span>
                                                     </td>
 
-                                                    {/* 18. 기한 */}
-                                                    <td className="pl-4 text-[#A1A1AA] truncate w-[200px] min-w-[200px] max-w-[200px]">{nextActionVal || '-'}</td>
+                                                    {/* 18. 다음 액션 */}
+                                                    {isAll && (
+                                                        <td className="pl-4 text-[#A1A1AA] truncate w-[200px] min-w-[200px] max-w-[200px]">{nextActionVal || '-'}</td>
+                                                    )}
 
                                                     {/* 19. 상태 */}
                                                     <td className="text-center w-[80px] min-w-[80px] max-w-[80px]">
@@ -2557,7 +2559,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                                     </td>
 
 
-                                                    {/* 22. 다음 액션 */}
+                                                    {/* 22. 기한 */}
                                                     <td className="text-center text-[#A1A1AA] font-mono w-[100px] min-w-[100px] max-w-[100px] truncate">{dueDateVal || '-'}</td>
 
                                                     
