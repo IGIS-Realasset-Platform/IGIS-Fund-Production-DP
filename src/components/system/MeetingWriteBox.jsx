@@ -93,6 +93,7 @@ export default function MeetingWriteBox({ memberInfo, masterStakeholders, fetchL
                 else if (meta.project_name === '427 PFV') setProjectId('P00030');
                 else if (meta.project_name === '816 PFV') setProjectId('P00037');
                 else if (meta.project_name === '421 Fund') setProjectId('112614');
+                else if (meta.project_name === '외부') setProjectId('EXTERNAL');
                 
                 if (meta.triage_type) setTriageType(meta.triage_type);
                 if (meta.issue_status) setIssueStatus(meta.issue_status);
@@ -333,7 +334,7 @@ export default function MeetingWriteBox({ memberInfo, masterStakeholders, fetchL
                     ...(isEditing ? initialData.metadata : {}),
                     workspace_code: workspaceCode,
                     workspace_label: workspaceLabel,
-                    project_name: projectId === 'IOTA_COMMON' ? 'IOTA 공통' : projectId === 'P00030' ? '427 PFV' : projectId === 'P00037' ? '816 PFV' : '421 Fund',
+                    project_name: projectId === 'IOTA_COMMON' ? 'IOTA 공통' : projectId === 'P00030' ? '427 PFV' : projectId === 'P00037' ? '816 PFV' : projectId === 'EXTERNAL' ? '외부' : '421 Fund',
                     issue_status: issueStatus,
                     priority: priority,
                     permissions: {
@@ -537,6 +538,7 @@ export default function MeetingWriteBox({ memberInfo, masterStakeholders, fetchL
                             <option value="P00030">427 PFV</option>
                             <option value="P00037">816 PFV</option>
                             <option value="112614">421 Fund</option>
+                            <option value="EXTERNAL">외부</option>
                         </select>
 
                         <div className="w-px h-[14px] bg-[#333] mx-[2px]"></div>
@@ -635,6 +637,7 @@ export default function MeetingWriteBox({ memberInfo, masterStakeholders, fetchL
                                 <option value="P00030">427 PFV</option>
                                 <option value="P00037">816 PFV</option>
                                 <option value="112614">421 Fund</option>
+                                <option value="EXTERNAL">외부</option>
                             </select>
 
                             <select value={triageType} onChange={(e) => setTriageType(e.target.value)} className="bg-[#222] border border-[#444] rounded-[8px] px-[12px] py-[6px] text-[#E5E5E5] text-[13px] outline-none cursor-pointer appearance-none pr-[28px]" style={{ backgroundImage: iconChevronDark, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 8px center' }}>

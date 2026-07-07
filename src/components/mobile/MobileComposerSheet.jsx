@@ -187,7 +187,7 @@ export default function MobileComposerSheet({ memberInfo, onClose, onSuccess, ac
                 await supabase.from('iota_seoul_log_links').insert({
                     link_id: `link_${logId}`,
                     log_id: logId,
-                    proj_id: projectName === '427 PFV' ? 'P00030' : projectName === '816 PFV' ? 'P00037' : projectName === '421 Fund' ? '112614' : 'IOTA_COMMON',
+                    proj_id: projectName === '427 PFV' ? 'P00030' : projectName === '816 PFV' ? 'P00037' : projectName === '421 Fund' ? '112614' : projectName === '외부' ? 'EXTERNAL' : 'IOTA_COMMON',
                     relation_type: 'direct_input'
                 });
 
@@ -327,7 +327,7 @@ export default function MobileComposerSheet({ memberInfo, onClose, onSuccess, ac
                                 <div className="flex-1 flex flex-col gap-1.5">
                                     <label className="text-[13px] font-bold text-[#86868B] ml-1">프로젝트</label>
                                     <select value={projectName} onChange={e => setProjectName(e.target.value)} className={selectClass}>
-                                        {['IOTA 공통', '427 PFV', '816 PFV', '421 Fund'].map(s => <option key={s} value={s}>{s}</option>)}
+                                        {['IOTA 공통', '427 PFV', '816 PFV', '421 Fund', '외부'].map(s => <option key={s} value={s}>{s}</option>)}
                                     </select>
                                 </div>
                                 <div className="flex-1 flex flex-col gap-1.5">
