@@ -374,6 +374,7 @@ export default function PmoScheduleGate() {
     const [showSubsectorSuggestions, setShowSubsectorSuggestions] = React.useState(false);
 
     const [isModalOpen, setIsModalOpen] = React.useState(false);
+    const [showAuthInfoModal, setShowAuthInfoModal] = React.useState(false);
     const [editingItem, setEditingItem] = React.useState(null);
 
     const [formCategory, setFormCategory] = React.useState('');
@@ -396,6 +397,8 @@ export default function PmoScheduleGate() {
         return (
             org.includes('사업관리2파트') || 
             org.includes('기획추진') ||
+            org.includes('시스템 관리자(기획추진)') ||
+            role.toUpperCase().includes('PO') ||
             workspace === 'WS_PM' ||
             role === 'master' ||
             role === 'director'
@@ -899,8 +902,14 @@ export default function PmoScheduleGate() {
             <div className="-mx-[60px] h-[1px] bg-[#2C2C2E] mt-[64px] mb-[48px]" />
 
             {/* Category Map & R&R Section */}
-            <div className="w-full flex items-center justify-between mb-[14px]">
+            <div className="w-full flex items-center justify-start gap-4 mb-[14px]">
                 <h2 className="text-[26px] font-bold text-white tracking-tight leading-none text-left">R&R 및 필요산출물</h2>
+                <button 
+                    onClick={() => setShowAuthInfoModal(true)}
+                    className="px-3 py-1 bg-[#2C2C2E]/40 hover:bg-[#2C2C2E] border border-[#2C2C2E]/80 hover:border-[#2997ff]/40 rounded-full text-[12px] font-bold text-[#86868B] hover:text-[#2997ff] transition-all cursor-pointer flex items-center gap-1.5"
+                >
+                    <span>🛡️ R&R 관리 권한</span>
+                </button>
             </div>
 
             {/* R&R Matrix Table */}
@@ -1069,41 +1078,35 @@ export default function PmoScheduleGate() {
 
                                             {/* 관리 */}
                                             <td className="px-2 text-center w-[80px] min-w-[80px] max-w-[80px] border-r border-[#3c3c3c]">
-                                                {isAuthorized ? (
-                                                    <div className="flex items-center justify-center gap-1.5">
-                                                        <button 
-                                                            onClick={() => handleEditClick(item)}
-                                                            className="text-blue-400 hover:text-blue-300 font-bold text-[11px] cursor-pointer"
-                                                        >
-                                                            수정
-                                                        </button>
-                                                        <span className="text-[#555] select-none">|</span>
-                                                        <button 
-                                                            onClick={() => handleDeleteClick(item.id)}
-                                                            className="text-red-400 hover:text-red-300 font-bold text-[11px] cursor-pointer"
-                                                        >
-                                                            삭제
-                                                        </button>
-                                                    </div>
-                                                ) : (
-                                                    <span className="text-[#555] text-[11px]">🔒</span>
-                                                )}
+                                                <div className="flex items-center justify-center gap-1.5">
+                                                    <button 
+                                                        onClick={isAuthorized ? () => handleEditClick(item) : () => setShowAuthInfoModal(true)}
+                                                        className="text-blue-400 hover:text-blue-300 font-bold text-[11px] cursor-pointer"
+                                                    >
+                                                        수정
+                                                    </button>
+                                                    <span className="text-[#555] select-none">|</span>
+                                                    <button 
+                                                        onClick={isAuthorized ? () => handleDeleteClick(item.id) : () => setShowAuthInfoModal(true)}
+                                                        className="text-red-400 hover:text-red-300 font-bold text-[11px] cursor-pointer"
+                                                    >
+                                                        삭제
+                                                    </button>
+                                                </div>
                                             </td>
                                         </tr>
                                     );
                                 })}
-                                {isAuthorized && (
-                                    <tr className="bg-[#272726] hover:bg-[#333]/30 transition-colors h-11 border-t border-[#3c3c3c]/50">
-                                        <td colSpan={12} className="px-3 text-center border-r border-[#3c3c3c]">
-                                            <button 
-                                                onClick={handleAddClick}
-                                                className="inline-flex items-center justify-center gap-1.5 px-5 py-0.5 bg-transparent hover:bg-[#2997ff]/10 border border-[#2997ff]/30 hover:border-[#2997ff]/50 rounded-[6px] text-[12px] font-bold text-[#2997ff] transition-all cursor-pointer h-7"
-                                            >
-                                                <span>+ 새 업무 추가</span>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                )}
+                                <tr className="bg-[#272726] hover:bg-[#333]/30 transition-colors h-11 border-t border-[#3c3c3c]/50">
+                                    <td colSpan={12} className="px-3 text-center border-r border-[#3c3c3c]">
+                                        <button 
+                                            onClick={isAuthorized ? handleAddClick : () => setShowAuthInfoModal(true)}
+                                            className="inline-flex items-center justify-center gap-1.5 px-5 py-0.5 bg-transparent hover:bg-[#2997ff]/10 border border-[#2997ff]/30 hover:border-[#2997ff]/50 rounded-[6px] text-[12px] font-bold text-[#2997ff] transition-all cursor-pointer h-7"
+                                        >
+                                            <span>+ 새 업무 추가</span>
+                                        </button>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                         
@@ -1403,6 +1406,47 @@ export default function PmoScheduleGate() {
                                 </button>
                             </div>
                         </form>
+                    </div>
+                </div>
+            )}
+
+            {/* R&R 관리 권한 안내 모달 */}
+            {showAuthInfoModal && (
+                <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[11000] p-4">
+                    <div className="bg-[#1C1C1E] border border-[#2C2C2E] rounded-[16px] w-full max-w-[400px] shadow-2xl p-6 relative">
+                        <h3 className="text-[17px] font-bold text-white mb-4 flex items-center gap-2">
+                            <span>🛡️</span> R&R 및 필요산출물 관리 권한 안내
+                        </h3>
+                        <p className="text-[13px] text-[#A1A1AA] leading-relaxed mb-5">
+                            해당 영역은 주요 R&R 일정 및 산출물을 관리하는 판으로, 지정된 관리 권한을 가진 인원 및 조직만 추가/수정/삭제를 수행할 수 있습니다.
+                        </p>
+                        
+                        <div className="bg-[#2C2C2E]/40 border border-[#2C2C2E] rounded-[8px] p-4 space-y-3 mb-6">
+                            <div className="flex items-start gap-3">
+                                <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-[#2997ff]/10 text-[#2997ff] border border-[#2997ff]/20 mt-0.5">조직</span>
+                                <div className="text-[13px] text-white font-medium">
+                                    사업관리2파트<br />
+                                    시스템 관리자(기획추진)
+                                </div>
+                            </div>
+                            <div className="h-[1px] bg-[#2C2C2E]" />
+                            <div className="flex items-start gap-3">
+                                <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-[#6366F1]/10 text-[#A5B4FC] border border-[#6366F1]/20 mt-0.5">역할</span>
+                                <div className="text-[13px] text-white font-medium">
+                                    PO (Project Owner)<br />
+                                    프로젝트 디렉터 및 마스터
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="flex justify-end">
+                            <button 
+                                onClick={() => setShowAuthInfoModal(false)}
+                                className="px-5 py-2 rounded-[8px] bg-[#2997ff] hover:bg-[#147ce5] text-[13px] font-bold text-white transition-colors cursor-pointer w-full"
+                            >
+                                확인
+                            </button>
+                        </div>
                     </div>
                 </div>
             )}
