@@ -2418,9 +2418,11 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                                     </td>
                                                     
                                                     {/* 4. 세부섹터 */}
-                                                    <td className="pl-4 text-[#A1A1AA] w-[104px] min-w-[104px] max-w-[104px] truncate sticky left-[245px] bg-[#272726] group-hover:bg-[#2d2d2c] transition-colors z-10">
-                                                        {t.sector_detail}
-                                                    </td>
+                                                    {isAll && (
+                                                        <td className="pl-4 text-[#A1A1AA] w-[104px] min-w-[104px] max-w-[104px] truncate sticky left-[245px] bg-[#272726] group-hover:bg-[#2d2d2c] transition-colors z-10">
+                                                            {t.sector_detail}
+                                                        </td>
+                                                    )}
                                                     
                                                     {/* 5. 업무명 */}
                                                     <td className={"pl-4 font-bold text-[#F59E0B] w-[270px] min-w-[270px] max-w-[270px] sticky bg-[#272726] group-hover:bg-[#2d2d2c] transition-colors z-10 shadow-[inset_-1px_0_0_0_#3c3c3c] " + (isAll ? "left-[349px]" : "left-[245px]")}>
