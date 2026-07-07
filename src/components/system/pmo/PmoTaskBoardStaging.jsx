@@ -1963,8 +1963,8 @@ export default function PmoTaskBoardStaging() {
             ) : (
                 <div className="-mr-[calc(50vw-50%)] border border-r-0 border-[#3c3c3c] bg-[#272726] rounded-l-[24px] overflow-hidden mb-[40px] shadow-sm select-text">
                     <div className="w-full overflow-x-auto pr-0 timeline-scrollbar">
-                        <div className="flex items-center min-w-[4744px]">
-                            <table className="text-left table-fixed min-w-[3944px] flex-1 border-collapse bg-[#272726]">
+                        <div className="flex items-center min-w-[4684px]">
+                            <table className="text-left table-fixed min-w-[3884px] flex-1 border-collapse bg-[#272726]">
                                 <thead>
                                     <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[13px] h-11">
                                         <th className="pl-[10px] text-center w-[60px] min-w-[60px] max-w-[60px] sticky left-0 bg-[#272726] z-30">ID</th>
@@ -2027,7 +2027,7 @@ export default function PmoTaskBoardStaging() {
                                                 </span>
                                             </div>
                                         </th>
-                                        <th className="pl-4 w-[280px] min-w-[280px] max-w-[280px]">업무목적 / PF·준공 영향</th>
+                                        <th className="pl-4 w-[220px] min-w-[220px] max-w-[220px]">업무목적 / PF·준공 영향</th>
                                         <th className="pl-4 w-[220px] min-w-[220px] max-w-[220px]">필요 산출물</th>
 
                                         {/* 최종 목표축 */}
@@ -2303,7 +2303,7 @@ export default function PmoTaskBoardStaging() {
                                                     <td className="pl-4 text-center font-mono w-[100px] min-w-[100px] max-w-[100px] font-bold text-[#E5E5E5]">{priorityScore}</td>
 
                                                     {/* 6. 업무목적 / PF·준공 영향 */}
-                                                    <td className="pl-4 text-[#A1A1AA] truncate w-[280px] min-w-[280px] max-w-[280px]">
+                                                    <td className="pl-4 text-[#A1A1AA] truncate w-[220px] min-w-[220px] max-w-[220px]">
                                                         {t.task_purpose || fallbackItem.task_purpose || '-'}
                                                     </td>
 
