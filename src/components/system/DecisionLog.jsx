@@ -825,7 +825,7 @@ export default function DecisionLog() {
                 <div className="flex items-center gap-[16px] flex-wrap">
                     <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter']">통합 업무 보드</h1>
                     {/* Search Input Box directly to the right of title */}
-                    <div className="relative w-[280px] self-center">
+                    <div className="relative w-[280px] self-center ml-[10px]">
                         <input 
                             type="text" 
                             placeholder="업무명, 담당자, 부서, 산출물 검색..."
