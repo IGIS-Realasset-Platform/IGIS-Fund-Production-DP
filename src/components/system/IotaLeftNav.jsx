@@ -5,7 +5,7 @@ import { supabase } from '../../utils/supabaseClient';
 const phase1MenuItems = [
     {
         id: 7,
-        label: '전체 업무 현황',
+        label: '통합 업무 보드',
         path: 'platform/iotaseoul/workflow',
         icon: (
             <svg className="w-4.5 h-4.5 mr-[10px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -87,7 +87,7 @@ const phase2MenuItems = [
     },
     {
         id: 7,
-        label: '전체 업무 현황',
+        label: '통합 업무 보드',
         path: 'platform/iotaseoul/workflow',
         icon: (
             <svg className="w-4.5 h-4.5 mr-[10px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
