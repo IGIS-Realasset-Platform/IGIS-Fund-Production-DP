@@ -2090,8 +2090,8 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
             ) : (
                 <div className="-mr-[calc(50vw-50%)] border border-r-0 border-[#3c3c3c] bg-[#272726] rounded-l-[24px] overflow-hidden mb-[40px] shadow-sm select-text">
                     <div className="w-full overflow-x-auto pr-0 timeline-scrollbar">
-                        <div className={`flex items-center transition-all duration-300 ease-out ${isAll ? 'min-w-[3615px]' : 'min-w-[2620px]'}`}>
-                            <table className={`text-left table-fixed flex-1 border-collapse bg-[#272726] transition-all duration-300 ease-out ${isAll ? 'min-w-[2815px]' : 'min-w-[1820px]'}`}>
+                        <div className={`flex items-center transition-all duration-300 ease-out ${isAll ? 'min-w-[3615px]' : 'min-w-[2440px]'}`}>
+                            <table className={`text-left table-fixed flex-1 border-collapse bg-[#272726] transition-all duration-300 ease-out ${isAll ? 'min-w-[2815px]' : 'min-w-[1640px]'}`}>
                                 <thead>
                                     <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[13px] h-11">
                                         <th className="pl-[10px] text-center w-[60px] min-w-[60px] max-w-[60px] sticky left-0 bg-[#272726] z-30">ID</th>
@@ -2205,7 +2205,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                         <th className="w-[80px] min-w-[80px] max-w-[80px] text-center">
                                             <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-0.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[65px] overflow-hidden mx-auto">
                                                 <span className={`font-bold text-[11px] whitespace-nowrap ${selectedMeetingGrade === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
-                                                    {selectedMeetingGrade === '전체보기' ? '상정등급' : selectedMeetingGrade}
+                                                    {selectedMeetingGrade === '전체보기' ? '회의상정' : selectedMeetingGrade}
                                                 </span>
                                                 <span className="text-[8px] text-[#86868B]/70 pointer-events-none select-none translate-y-[0.5px] ml-0.5 shrink-0">▼</span>
                                                 <select
@@ -2263,7 +2263,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
 
                                         <th className={`text-center transition-all duration-300 ease-out ${isAll ? 'w-[70px]' : 'w-0 min-w-0 max-w-0 opacity-0 overflow-hidden'}`}>{isAll && "담당자"}</th>
                                         <th className="pl-4 w-[120px] min-w-[120px] max-w-[120px]">외부상대방</th>
-                                        <th className="w-[80px] min-w-[80px] max-w-[80px] text-center">지원필요</th>
+                                        <th className={`text-center transition-all duration-300 ease-out ${isAll ? 'w-[80px] min-w-[80px] max-w-[80px] opacity-100' : 'w-0 min-w-0 max-w-0 opacity-0 overflow-hidden'}`}>{isAll && "지원필요"}</th>
 
                                         {/* Blocker */}
                                         <th className="w-[65px] min-w-[65px] max-w-[65px] text-center">
@@ -2345,7 +2345,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                             </div>
                                         </th>
 
-                                        <th className="w-[100px] min-w-[100px] max-w-[100px] text-center">기한</th>
+                                        <th className={`text-center transition-all duration-300 ease-out ${isAll ? 'w-[100px] min-w-[100px] max-w-[100px] opacity-100' : 'w-0 min-w-0 max-w-0 opacity-0 overflow-hidden'}`}>{isAll && "기한"}</th>
 
 
                                         <th className="px-2 text-center w-[85px] min-w-[85px] max-w-[85px] border-l border-r border-[#3c3c3c]">관리</th>
@@ -2354,7 +2354,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                 <tbody className="divide-y divide-[#3c3c3c] text-[13px] text-white">
                                     {sortedAndFilteredTasks.length === 0 ? (
                                         <tr>
-                                            <td colSpan={isAll ? 23 : 17} className="text-center py-20 text-[#86868B]">
+                                            <td colSpan={isAll ? 23 : 14} className="text-center py-20 text-[#86868B]">
                                                 등록된 통합 업무 보드 정보가 없습니다.
                                             </td>
                                         </tr>
@@ -2514,7 +2514,9 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                                     <td className="pl-4 text-[#A1A1AA] w-[120px] min-w-[120px] max-w-[120px] truncate">{extPartyName || '-'}</td>
 
                                                     {/* 15. 지원필요 */}
-                                                    <td className="text-center text-[#86868B] w-[80px] min-w-[80px] max-w-[80px] truncate">{supportNeeded || '-'}</td>
+                                                    <td className={`text-center text-[#86868B] truncate transition-all duration-300 ease-out ${isAll ? 'w-[80px] min-w-[80px] max-w-[80px] opacity-100' : 'w-0 min-w-0 max-w-0 opacity-0 overflow-hidden'}`}>
+                                                        {isAll && (supportNeeded || '-')}
+                                                    </td>
 
                                                     {/* 16. Blocker */}
                                                     <td className="text-center w-[65px] min-w-[65px] max-w-[65px]">
@@ -2566,7 +2568,9 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
 
 
                                                     {/* 22. 기한 */}
-                                                    <td className="text-center text-[#A1A1AA] font-mono w-[100px] min-w-[100px] max-w-[100px] truncate">{dueDateVal || '-'}</td>
+                                                    <td className={`text-center text-[#A1A1AA] font-mono truncate transition-all duration-300 ease-out ${isAll ? 'w-[100px] min-w-[100px] max-w-[100px] opacity-100' : 'w-0 min-w-0 max-w-0 opacity-0 overflow-hidden'}`}>
+                                                        {isAll && (dueDateVal || '-')}
+                                                    </td>
 
                                                     
 
@@ -2600,7 +2604,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                         {/* Empty cells covering the columns before "업무명" (ID, 프로젝트, 대분류, 세부섹터) */}
                                         <td colSpan={isAll ? 4 : 3} className="bg-[#272726]"></td>
                                         {/* Cell for "업무명" column where the button is aligned */}
-                                        <td colSpan={isAll ? 19 : 13} className={`pl-4 py-2 text-left sticky bg-[#272726] z-10 transition-all duration-300 ease-out ${isAll ? 'left-[349px]' : 'left-[245px]'}`}>
+                                        <td colSpan={isAll ? 19 : 11} className={`pl-4 py-2 text-left sticky bg-[#272726] z-10 transition-all duration-300 ease-out ${isAll ? 'left-[349px]' : 'left-[245px]'}`}>
                                             <button 
                                                 onClick={isAuthorized ? handleAddNewClick : () => setShowAuthInfoModal(true)}
                                                 className="px-6 py-[6.5px] border border-[#ff9f0a]/30 hover:border-[#ff9f0a] rounded-[8px] text-[13px] font-bold text-[#ff9f0a] hover:bg-[#ff9f0a]/10 transition-colors cursor-pointer whitespace-nowrap"
