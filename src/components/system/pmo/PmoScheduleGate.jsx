@@ -337,7 +337,7 @@ const CATEGORY_MAP_DATA = [
     category: "준공/담보대출",
     subsector: "Take-out",
     task: "준공 후 담보대출/운영전환 전략",
-    pf: false,
+pf: false,
     const: false,
     op: true,
     lead: "LFC",
@@ -425,46 +425,45 @@ export default function PmoScheduleGate() {
                 }
             `}</style>
             {/* Header */}
-            <div className="w-full flex justify-between items-start mb-[32px]">
-                <div>
+            <div className="w-full flex justify-between items-end mb-[24px]">
+                <div className="flex flex-col text-left">
                     <h1 className="text-[36px] font-bold text-white tracking-tight leading-none mb-[8px]">타임라인</h1>
-                    <p className="text-[16px] text-[#86868B] leading-[26px]">Gate별 통제 마일스톤 및 주요 R&R 기능의 일정 트래커</p>
+                    <p className="text-[16px] text-[#86868B] leading-[26px]">마일스톤의 최종 목표는 준공 및 Take-out/운영 전환입니다.</p>
                 </div>
                 
-                {/* Segmented Filter */}
-                <div className="flex items-center bg-[#222] border border-[#333] rounded-[8px] p-[4px]">
-                    <button
-                        onClick={() => setFilterCategory('All')}
-                        className={`px-[16px] py-[6px] text-[13px] font-bold rounded-[6px] transition-colors cursor-pointer ${filterCategory === 'All' ? 'bg-[#3c3c3c] text-white' : 'text-[#86868B] hover:text-white'}`}
-                    >
-                        전체보기
-                    </button>
-                    <button
-                        onClick={() => setFilterCategory('Gate')}
-                        className={`px-[16px] py-[6px] text-[13px] font-bold rounded-[6px] transition-colors cursor-pointer ${filterCategory === 'Gate' ? 'bg-[#3c3c3c] text-white' : 'text-[#86868B] hover:text-white'}`}
-                    >
-                        의사결정 Gate
-                    </button>
-                    <button
-                        onClick={() => setFilterCategory('Task')}
-                        className={`px-[16px] py-[6px] text-[13px] font-bold rounded-[6px] transition-colors cursor-pointer ${filterCategory === 'Task' ? 'bg-[#3c3c3c] text-white' : 'text-[#86868B] hover:text-white'}`}
-                    >
-                        기능별 업무
-                    </button>
-                </div>
-            </div>
-
-            {/* Legend info panel */}
-            <div className="w-full bg-[#272726]/60 border border-[#3c3c3c] rounded-[16px] px-6 py-4 flex items-center justify-between mb-[18px]">
-                <span className="text-[13px] text-[#86868B] font-medium">일정의 최종 목표는 준공 및 Take-out/운영 전환입니다.</span>
-                <div className="flex items-center gap-4 shrink-0 text-[12px] font-bold">
-                    <div className="flex items-center gap-1.5">
-                        <span className="w-2.5 h-2.5 rounded-full bg-[#2997ff] inline-block"></span>
-                        <span className="text-[#E5E5E5]">수행 진행 기간</span>
+                <div className="flex items-center gap-6">
+                    {/* Legend info */}
+                    <div className="flex items-center gap-4 text-[12px] font-bold">
+                        <div className="flex items-center gap-1.5">
+                            <span className="w-2.5 h-2.5 rounded-full bg-[#2997ff] inline-block"></span>
+                            <span className="text-[#E5E5E5]">수행 진행 기간</span>
+                        </div>
+                        <div className="flex items-center gap-1.5">
+                            <span className="text-[#F59E0B] font-mono text-[16px] leading-none">◆</span>
+                            <span className="text-[#E5E5E5]">의사결정 / 마일스톤 달성</span>
+                        </div>
                     </div>
-                    <div className="flex items-center gap-1.5">
-                        <span className="text-[#F59E0B] font-mono text-[16px] leading-none">◆</span>
-                        <span className="text-[#E5E5E5]">의사결정 / 마일스톤 달성</span>
+
+                    {/* Segmented Filter */}
+                    <div className="flex items-center bg-[#222] border border-[#333] rounded-[8px] p-[4px]">
+                        <button
+                            onClick={() => setFilterCategory('All')}
+                            className={`px-[16px] py-[6px] text-[13px] font-bold rounded-[6px] transition-colors cursor-pointer ${filterCategory === 'All' ? 'bg-[#3c3c3c] text-white' : 'text-[#86868B] hover:text-white'}`}
+                        >
+                            전체보기
+                        </button>
+                        <button
+                            onClick={() => setFilterCategory('Gate')}
+                            className={`px-[16px] py-[6px] text-[13px] font-bold rounded-[6px] transition-colors cursor-pointer ${filterCategory === 'Gate' ? 'bg-[#3c3c3c] text-white' : 'text-[#86868B] hover:text-white'}`}
+                        >
+                            의사결정 Gate
+                        </button>
+                        <button
+                            onClick={() => setFilterCategory('Task')}
+                            className={`px-[16px] py-[6px] text-[13px] font-bold rounded-[6px] transition-colors cursor-pointer ${filterCategory === 'Task' ? 'bg-[#3c3c3c] text-white' : 'text-[#86868B] hover:text-white'}`}
+                        >
+                            기능별 업무
+                        </button>
                     </div>
                 </div>
             </div>
