@@ -2522,11 +2522,11 @@ export default function PmoTaskBoardStaging() {
                         <div className="overflow-hidden border border-[#2c2c2b] rounded-[8px] bg-[#121214]">
                             <table className="w-full text-left text-[12px] border-collapse">
                                 <thead>
-                                    <tr className="bg-[#1C1C1E] border-b border-[#2c2c2b] text-[#86868B] font-bold h-10">
+                                    <tr className="bg-[#1C1C1E] border-b border-[#2c2c2b] text-[#86868B] font-bold h-10 whitespace-nowrap">
                                         <th className="px-4 py-2">우선순위 산정항목</th>
-                                        <th className="px-4 py-2 text-center w-[80px]">점수</th>
+                                        <th className="px-4 py-2 text-center w-[95px]">점수</th>
                                         <th className="px-4 py-2">의미</th>
-                                        <th className="px-4 py-2 text-center w-[90px]">입력 위치</th>
+                                        <th className="px-4 py-2 text-center w-[110px]">입력 위치</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-[#2c2c2b] text-gray-300">
@@ -2578,7 +2578,7 @@ export default function PmoTaskBoardStaging() {
                                         <td className="px-4 py-2 text-gray-400">정규업무 침식 가능</td>
                                         <td className="px-4 py-2 text-center text-gray-400">업무유형</td>
                                     </tr>
-                                    <tr className="bg-white/[0.01] h-10 font-bold border-t border-[#2c2c2b]">
+                                    <tr className="bg-white/[0.01] h-10 font-bold border-t border-[#2c2c2b] whitespace-nowrap">
                                         <td className="px-4 py-2 text-[#2997ff]">회의상정 기준</td>
                                         <td className="px-4 py-2 text-center text-[#2997ff]">50점 이상</td>
                                         <td className="px-4 py-2 text-[#2997ff]/80">01_회의메인 자동 노출 기준</td>
