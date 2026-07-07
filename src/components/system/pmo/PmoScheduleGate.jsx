@@ -471,8 +471,8 @@ export default function PmoScheduleGate() {
             {/* Timeline Matrix Grid */}
             <div className="-mr-[calc(50vw-50%)] border border-r-0 border-[#3c3c3c] bg-[#272726] rounded-l-[24px] overflow-hidden">
                 <div className="w-full overflow-x-auto pr-0 timeline-scrollbar">
-                    <div className="flex items-center min-w-[2280px]">
-                        <table className="text-left table-fixed min-w-[1480px] flex-1">
+                    <div className="flex items-center min-w-[2300px]">
+                        <table className="text-left table-fixed min-w-[1500px] flex-1">
                             <thead>
                                 <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[13px] h-12">
                                     <th className="px-2 w-[100px] text-center sticky left-0 bg-[#272726] z-30">구분</th>
@@ -481,7 +481,7 @@ export default function PmoScheduleGate() {
                                     <th className="px-2 w-[100px] text-center sticky left-[480px] bg-[#272726] z-30 border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)]">협업</th>
                                     {COLUMNS.map((col, cIdx) => {
                                         return (
-                                            <th key={col.key} className={`text-center font-mono text-[11px] leading-tight px-1 font-bold w-[90px] ${
+                                            <th key={col.key} className={`text-center font-mono text-[11px] leading-tight px-1 font-bold w-[92px] ${
                                                 col.highlight ? 'bg-white/[0.03] text-[#60a5fa]' : 'text-[#86868B]'
                                             } border-r border-[#4c4c4c]/50`}>
                                                 <div>{col.labelTop}</div>
@@ -536,7 +536,7 @@ export default function PmoScheduleGate() {
                                                 return (
                                                     <td key={col.key} className={`text-center ${
                                                         col.highlight ? 'bg-white/[0.015] group-hover:bg-white/[0.04]' : ''
-                                                    } border-r border-[#4c4c4c]/40`}>
+                                                    } border-r border-[#4c4c4c]/40 w-[92px] min-w-[92px] max-w-[92px]`}>
                                                         {mark === '●' && (
                                                             <span className="w-3.5 h-3.5 rounded-full bg-[#2997ff] inline-block shadow-sm shadow-[#2997ff]/20"></span>
                                                         )}
@@ -570,8 +570,8 @@ export default function PmoScheduleGate() {
             {/* R&R Matrix Table */}
             <div className="-mr-[calc(50vw-50%)] border border-r-0 border-[#3c3c3c] bg-[#272726] rounded-l-[24px] overflow-hidden mb-[40px] shadow-sm min-h-[1110px]">
                 <div className="w-full overflow-x-auto pr-0 timeline-scrollbar">
-                    <div className="flex items-start min-w-[2280px]">
-                        <table className="text-left table-fixed min-w-[1480px] flex-1 border-collapse border-b border-[#3c3c3c] bg-[#272726]">
+                    <div className="flex items-start min-w-[2300px]">
+                        <table className="text-left table-fixed min-w-[1500px] flex-1 border-collapse border-b border-[#3c3c3c] bg-[#272726]">
                             <thead>
                                 <tr className="border-b border-[#3c3c3c] bg-[#272726] text-[#86868B] font-bold text-[12px] h-[52px]">
                                     <th className="px-3 w-[104px] min-w-[104px] max-w-[104px] text-center sticky left-0 bg-[#272726] z-30">
@@ -635,7 +635,7 @@ export default function PmoScheduleGate() {
                                     </th>
                                     <th className="px-3 w-[120px] min-w-[120px] max-w-[120px] text-center bg-[#272726]">외부 상대방</th>
                                     <th className="px-3 w-[120px] min-w-[120px] max-w-[120px] text-center bg-[#272726]">지원 필요</th>
-                                    <th className="px-3 w-[175px] min-w-[175px] max-w-[175px] text-left bg-[#272726] border-r border-[#3c3c3c]">관리 포인트</th>
+                                    <th className="px-3 w-[195px] min-w-[195px] max-w-[195px] text-left bg-[#272726] border-r border-[#3c3c3c]">관리 포인트</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-[#3c3c3c]/60 text-[12px]">
@@ -716,7 +716,7 @@ export default function PmoScheduleGate() {
                                             </td>
 
                                             {/* 관리 포인트 */}
-                                            <td className="px-3 text-left text-[#F59E0B] font-semibold whitespace-normal break-all w-[175px] min-w-[175px] max-w-[175px] border-r border-[#3c3c3c]">
+                                            <td className="px-3 text-left text-[#F59E0B] font-semibold whitespace-normal break-all w-[195px] min-w-[195px] max-w-[195px] border-r border-[#3c3c3c]">
                                                 {item.point}
                                             </td>
                                         </tr>
