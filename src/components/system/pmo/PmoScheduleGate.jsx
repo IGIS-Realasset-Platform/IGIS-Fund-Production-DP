@@ -1423,11 +1423,11 @@ export default function PmoScheduleGate() {
                                 <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-[#2997ff]/10 text-[#2997ff] border border-[#2997ff]/20 shrink-0">조직</span>
                                 <div className="text-[13px] text-[#E5E5E5] font-medium space-y-1">
                                     <div className="flex items-center gap-1.5">
-                                        <span className="w-1 h-1 rounded-full bg-[#86868B] shrink-0" />
+                                        <span className="w-[3px] h-[3px] rounded-full bg-[#86868B] shrink-0" />
                                         <span>사업관리2파트</span>
                                     </div>
                                     <div className="flex items-center gap-1.5">
-                                        <span className="w-1 h-1 rounded-full bg-[#86868B] shrink-0" />
+                                        <span className="w-[3px] h-[3px] rounded-full bg-[#86868B] shrink-0" />
                                         <span>시스템 관리자(기획추진)</span>
                                     </div>
                                 </div>
@@ -1437,11 +1437,11 @@ export default function PmoScheduleGate() {
                                 <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-[#6366F1]/10 text-[#A5B4FC] border border-[#6366F1]/20 shrink-0">역할</span>
                                 <div className="text-[13px] text-[#E5E5E5] font-medium space-y-1">
                                     <div className="flex items-center gap-1.5">
-                                        <span className="w-1 h-1 rounded-full bg-[#86868B] shrink-0" />
+                                        <span className="w-[3px] h-[3px] rounded-full bg-[#86868B] shrink-0" />
                                         <span>PO (Project Owner)</span>
                                     </div>
                                     <div className="flex items-center gap-1.5">
-                                        <span className="w-1 h-1 rounded-full bg-[#86868B] shrink-0" />
+                                        <span className="w-[3px] h-[3px] rounded-full bg-[#86868B] shrink-0" />
                                         <span>프로젝트 디렉터 및 PM</span>
                                     </div>
                                 </div>
