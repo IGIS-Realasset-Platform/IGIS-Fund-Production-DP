@@ -1242,6 +1242,19 @@ export default function PmoTaskBoardStaging() {
     const [loading, setLoading] = useState(true);
     const [isDbMode, setIsDbMode] = useState(false);
 
+    // Table header filters state
+    const [selectedProject, setSelectedProject] = useState('전체보기');
+    const [selectedCategoryMain, setSelectedCategoryMain] = useState('전체보기');
+    const [selectedTargetAxis, setSelectedTargetAxis] = useState('전체보기');
+    const [selectedGateStage, setSelectedGateStage] = useState('전체보기');
+    const [selectedLeadDept, setSelectedLeadDept] = useState('전체보기');
+    const [selectedCoopDept, setSelectedCoopDept] = useState('전체보기');
+    const [selectedIsBlocker, setSelectedIsBlocker] = useState('전체보기');
+    const [selectedNeedsDecision, setSelectedNeedsDecision] = useState('전체보기');
+    const [selectedStatus, setSelectedStatus] = useState('전체보기');
+    const [selectedImportanceLevel, setSelectedImportanceLevel] = useState('전체보기');
+    const [selectedMeetingGrade, setSelectedMeetingGrade] = useState('전체보기');
+
     // Masters loaded from DB
     const [projects, setProjects] = useState([
         { project_code: 'IOTA_SEOUL', project_name: 'IOTA 공통' },
@@ -1359,6 +1372,85 @@ export default function PmoTaskBoardStaging() {
         ];
         return Array.from(new Set(opts));
     }, [tasks, supportOptions]);
+
+    // Unique filter options for table header dropdowns
+    const uniqueProjectsFilter = useMemo(() => {
+        const mapped = tasks.map(t => {
+            const fallbackItem = FALLBACK_BOARD_TASKS.find(item => item.task_name === t.task_name) || {};
+            const projObj = projects.find(p => p.project_code === t.project_code);
+            return projObj ? projObj.project_name : (t.project || fallbackItem.project || '공통');
+        });
+        return Array.from(new Set(mapped.filter(Boolean)));
+    }, [tasks, projects]);
+
+    const uniqueCategoryMainFilter = useMemo(() => {
+        return Array.from(new Set(tasks.map(t => t.category_main).filter(Boolean)));
+    }, [tasks]);
+
+    const uniqueTargetAxisFilter = useMemo(() => {
+        const mapped = tasks.map(t => {
+            const fallbackItem = FALLBACK_BOARD_TASKS.find(item => item.task_name === t.task_name) || {};
+            return t.target_axis || fallbackItem.target_axis || '준공/운영';
+        });
+        return Array.from(new Set(mapped.filter(Boolean)));
+    }, [tasks]);
+
+    const uniqueGateStageFilter = useMemo(() => {
+        const mapped = tasks.map(t => {
+            const fallbackItem = FALLBACK_BOARD_TASKS.find(item => item.task_name === t.task_name) || {};
+            const rawGate = t.gate_stage || fallbackItem.gate_stage || 'G0';
+            return rawGate.includes(' ') ? rawGate : gateMapToUi(rawGate);
+        });
+        return Array.from(new Set(mapped.filter(Boolean)));
+    }, [tasks]);
+
+    const uniqueLeadDeptFilter = useMemo(() => {
+        const mapped = tasks.map(t => {
+            const fallbackItem = FALLBACK_BOARD_TASKS.find(item => item.task_name === t.task_name) || {};
+            return t.lead_dept?.dept_name || t.lead_dept || t.lead_dept_code || fallbackItem.lead_dept || '';
+        });
+        return Array.from(new Set(mapped.filter(Boolean)));
+    }, [tasks]);
+
+    const uniqueCoopDeptFilter = useMemo(() => {
+        const all = [];
+        tasks.forEach(t => {
+            const fallbackItem = FALLBACK_BOARD_TASKS.find(item => item.task_name === t.task_name) || {};
+            const coopStr = t.coop_dept_codes || t.coop_depts || fallbackItem.coop_depts || '';
+            if (coopStr) {
+                coopStr.split(';').forEach(c => {
+                    const clean = c.trim();
+                    if (clean) all.push(clean);
+                });
+            }
+        });
+        return Array.from(new Set(all));
+    }, [tasks]);
+
+    const uniqueStatusFilter = useMemo(() => {
+        const mapped = tasks.map(t => {
+            const fallbackItem = FALLBACK_BOARD_TASKS.find(item => item.task_name === t.task_name) || {};
+            return t.status || fallbackItem.status || '진행중';
+        });
+        return Array.from(new Set(mapped.filter(Boolean)));
+    }, [tasks]);
+
+    const uniqueImportanceFilter = useMemo(() => {
+        const mapped = tasks.map(t => {
+            const fallbackItem = FALLBACK_BOARD_TASKS.find(item => item.task_name === t.task_name) || {};
+            return t.importance_level || fallbackItem.importance_level || '일반';
+        });
+        return Array.from(new Set(mapped.filter(Boolean)));
+    }, [tasks]);
+
+    const uniqueMeetingGradeFilter = useMemo(() => {
+        const mapped = tasks.map(t => {
+            const fallbackItem = FALLBACK_BOARD_TASKS.find(item => item.task_name === t.task_name) || {};
+            const rawGrade = t.meeting_grade || fallbackItem.meeting_grade || 'B';
+            return rawGrade.includes('_') ? rawGrade : gradeMapToUi(rawGrade);
+        });
+        return Array.from(new Set(mapped.filter(Boolean)));
+    }, [tasks]);
 
     async function fetchTasks() {
         try {
@@ -1787,6 +1879,70 @@ export default function PmoTaskBoardStaging() {
         setIsModalOpen(false);
     };
 
+    // Filter tasks based on table header selectbox choices
+    const filteredTasks = useMemo(() => {
+        return tasks.filter(t => {
+            const fallbackItem = FALLBACK_BOARD_TASKS.find(item => item.task_name === t.task_name) || {};
+            
+            // Project match
+            const projObj = projects.find(p => p.project_code === t.project_code);
+            const projectVal = projObj ? projObj.project_name : (t.project || fallbackItem.project || '공통');
+            if (selectedProject !== '전체보기' && projectVal !== selectedProject) return false;
+
+            // Category main match
+            if (selectedCategoryMain !== '전체보기' && t.category_main !== selectedCategoryMain) return false;
+
+            // Target axis match
+            const targetAxis = t.target_axis || fallbackItem.target_axis || '준공/운영';
+            if (selectedTargetAxis !== '전체보기' && targetAxis !== selectedTargetAxis) return false;
+
+            // Gate stage match
+            const rawGate = t.gate_stage || fallbackItem.gate_stage || 'G0';
+            const gateStageVal = rawGate.includes(' ') ? rawGate : gateMapToUi(rawGate);
+            if (selectedGateStage !== '전체보기' && gateStageVal !== selectedGateStage) return false;
+
+            // Lead dept match
+            const leadDeptName = t.lead_dept?.dept_name || t.lead_dept || t.lead_dept_code || fallbackItem.lead_dept || '';
+            if (selectedLeadDept !== '전체보기' && leadDeptName !== selectedLeadDept) return false;
+
+            // Coop dept match
+            const coopDeptNames = t.coop_dept_codes || t.coop_depts || fallbackItem.coop_depts || '';
+            if (selectedCoopDept !== '전체보기') {
+                const coops = coopDeptNames.split(';').map(c => c.trim());
+                if (!coops.includes(selectedCoopDept)) return false;
+            }
+
+            // Blocker match
+            const isBlockerVal = parseBool(t.is_blocker !== undefined ? t.is_blocker : fallbackItem.is_blocker);
+            if (selectedIsBlocker !== '전체보기') {
+                const blockerFilterVal = selectedIsBlocker === 'Y (예)';
+                if (isBlockerVal !== blockerFilterVal) return false;
+            }
+
+            // Needs decision match
+            const needsDecisionVal = parseBool(t.needs_decision !== undefined ? t.needs_decision : fallbackItem.needs_decision);
+            if (selectedNeedsDecision !== '전체보기') {
+                const decisionFilterVal = selectedNeedsDecision === 'Y (예)';
+                if (needsDecisionVal !== decisionFilterVal) return false;
+            }
+
+            // Status match
+            const statusVal = t.status || fallbackItem.status || '진행중';
+            if (selectedStatus !== '전체보기' && statusVal !== selectedStatus) return false;
+
+            // Importance match
+            const importanceLevel = t.importance_level || fallbackItem.importance_level || '일반';
+            if (selectedImportanceLevel !== '전체보기' && importanceLevel !== selectedImportanceLevel) return false;
+
+            // Meeting grade match
+            const rawGrade = t.meeting_grade || fallbackItem.meeting_grade || 'B';
+            const meetingGrade = rawGrade.includes('_') ? rawGrade : gradeMapToUi(rawGrade);
+            if (selectedMeetingGrade !== '전체보기' && meetingGrade !== selectedMeetingGrade) return false;
+
+            return true;
+        });
+    }, [tasks, projects, selectedProject, selectedCategoryMain, selectedTargetAxis, selectedGateStage, selectedLeadDept, selectedCoopDept, selectedIsBlocker, selectedNeedsDecision, selectedStatus, selectedImportanceLevel, selectedMeetingGrade]);
+
     return (
         <div className="w-full flex flex-col mb-10 text-left">
             {loading ? (
@@ -1796,34 +1952,247 @@ export default function PmoTaskBoardStaging() {
             ) : (
                 <div className="-mr-[calc(50vw-50%)] border border-r-0 border-[#3c3c3c] bg-[#272726] rounded-l-[24px] overflow-hidden mb-[40px] shadow-sm select-text">
                     <div className="w-full overflow-x-auto pr-0 timeline-scrollbar">
-                        <div className="flex items-center min-w-[4725px]">
-                            <table className="text-left table-fixed min-w-[3925px] flex-1 border-collapse bg-[#272726]">
+                        <div className="flex items-center min-w-[4830px]">
+                            <table className="text-left table-fixed min-w-[4030px] flex-1 border-collapse bg-[#272726]">
                                 <thead>
-                                    <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[13px] h-11 select-none">
+                                    <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[13px] h-11">
                                         <th className="pl-[10px] text-center w-[80px] min-w-[80px] max-w-[80px]">ID</th>
-                                        <th className="pl-4 w-[90px] min-w-[90px] max-w-[90px]">프로젝트</th>
-                                        <th className="pl-4 w-[110px] min-w-[110px] max-w-[110px]">대분류</th>
+                                        
+                                        {/* 프로젝트 */}
+                                        <th className="pl-4 w-[110px] min-w-[110px] max-w-[110px]">
+                                            <div className="relative inline-flex items-center justify-start bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[95px] overflow-hidden">
+                                                <span className={`font-bold text-[11px] whitespace-nowrap truncate ${selectedProject === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
+                                                    {selectedProject === '전체보기' ? '프로젝트' : selectedProject}
+                                                </span>
+                                                <span className="text-[8px] text-[#86868B]/70 pointer-events-none select-none translate-y-[0.5px] ml-1 shrink-0">▼</span>
+                                                <select
+                                                    value={selectedProject}
+                                                    onChange={(e) => setSelectedProject(e.target.value)}
+                                                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                                >
+                                                    <option value="전체보기" className="bg-[#222] text-[#86868B]">전체보기</option>
+                                                    {uniqueProjectsFilter.map(proj => (
+                                                        <option key={proj} value={proj} className="bg-[#222] text-white">{proj}</option>
+                                                    ))}
+                                                </select>
+                                            </div>
+                                        </th>
+
+                                        {/* 대분류 */}
+                                        <th className="pl-4 w-[115px] min-w-[115px] max-w-[115px]">
+                                            <div className="relative inline-flex items-center justify-start bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[100px] overflow-hidden">
+                                                <span className={`font-bold text-[11px] whitespace-nowrap truncate ${selectedCategoryMain === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
+                                                    {selectedCategoryMain === '전체보기' ? '대분류' : selectedCategoryMain}
+                                                </span>
+                                                <span className="text-[8px] text-[#86868B]/70 pointer-events-none select-none translate-y-[0.5px] ml-1 shrink-0">▼</span>
+                                                <select
+                                                    value={selectedCategoryMain}
+                                                    onChange={(e) => setSelectedCategoryMain(e.target.value)}
+                                                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                                >
+                                                    <option value="전체보기" className="bg-[#222] text-[#86868B]">전체보기</option>
+                                                    {uniqueCategoryMainFilter.map(cat => (
+                                                        <option key={cat} value={cat} className="bg-[#222] text-white">{cat}</option>
+                                                    ))}
+                                                </select>
+                                            </div>
+                                        </th>
+
                                         <th className="pl-4 w-[120px] min-w-[120px] max-w-[120px]">세부섹터</th>
                                         <th className="pl-4 w-[280px] min-w-[280px] max-w-[280px]">업무명</th>
                                         <th className="pl-4 w-[280px] min-w-[280px] max-w-[280px]">업무목적 / PF·준공 영향</th>
                                         <th className="pl-4 w-[220px] min-w-[220px] max-w-[220px]">필요 산출물</th>
-                                        <th className="pl-4 w-[100px] min-w-[100px] max-w-[100px]">최종 목표축</th>
-                                        <th className="pl-4 w-[110px] min-w-[110px] max-w-[110px]">Gate</th>
+
+                                        {/* 최종 목표축 */}
+                                        <th className="pl-4 w-[125px] min-w-[125px] max-w-[125px]">
+                                            <div className="relative inline-flex items-center justify-start bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[110px] overflow-hidden">
+                                                <span className={`font-bold text-[11px] whitespace-nowrap truncate ${selectedTargetAxis === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
+                                                    {selectedTargetAxis === '전체보기' ? '최종 목표축' : selectedTargetAxis}
+                                                </span>
+                                                <span className="text-[8px] text-[#86868B]/70 pointer-events-none select-none translate-y-[0.5px] ml-1 shrink-0">▼</span>
+                                                <select
+                                                    value={selectedTargetAxis}
+                                                    onChange={(e) => setSelectedTargetAxis(e.target.value)}
+                                                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                                >
+                                                    <option value="전체보기" className="bg-[#222] text-[#86868B]">전체보기</option>
+                                                    {uniqueTargetAxisFilter.map(axis => (
+                                                        <option key={axis} value={axis} className="bg-[#222] text-white">{axis}</option>
+                                                    ))}
+                                                </select>
+                                            </div>
+                                        </th>
+
+                                        {/* Gate */}
+                                        <th className="pl-4 w-[120px] min-w-[120px] max-w-[120px]">
+                                            <div className="relative inline-flex items-center justify-start bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[105px] overflow-hidden">
+                                                <span className={`font-bold text-[11px] whitespace-nowrap truncate ${selectedGateStage === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
+                                                    {selectedGateStage === '전체보기' ? 'Gate' : selectedGateStage}
+                                                </span>
+                                                <span className="text-[8px] text-[#86868B]/70 pointer-events-none select-none translate-y-[0.5px] ml-1 shrink-0">▼</span>
+                                                <select
+                                                    value={selectedGateStage}
+                                                    onChange={(e) => setSelectedGateStage(e.target.value)}
+                                                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                                >
+                                                    <option value="전체보기" className="bg-[#222] text-[#86868B]">전체보기</option>
+                                                    {uniqueGateStageFilter.map(gate => (
+                                                        <option key={gate} value={gate} className="bg-[#222] text-white">{gate}</option>
+                                                    ))}
+                                                </select>
+                                            </div>
+                                        </th>
+
                                         <th className="pl-4 w-[110px] min-w-[110px] max-w-[110px]">PMO총괄</th>
-                                        <th className="pl-4 w-[120px] min-w-[120px] max-w-[120px]">실무 주관부서</th>
-                                        <th className="pl-4 w-[180px] min-w-[180px] max-w-[180px]">협업부서</th>
+
+                                        {/* 주관부서 (실무주관부서->주관부서) */}
+                                        <th className="pl-4 w-[120px] min-w-[120px] max-w-[120px]">
+                                            <div className="relative inline-flex items-center justify-start bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[105px] overflow-hidden">
+                                                <span className={`font-bold text-[11px] whitespace-nowrap truncate ${selectedLeadDept === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
+                                                    {selectedLeadDept === '전체보기' ? '주관부서' : selectedLeadDept}
+                                                </span>
+                                                <span className="text-[8px] text-[#86868B]/70 pointer-events-none select-none translate-y-[0.5px] ml-1 shrink-0">▼</span>
+                                                <select
+                                                    value={selectedLeadDept}
+                                                    onChange={(e) => setSelectedLeadDept(e.target.value)}
+                                                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                                >
+                                                    <option value="전체보기" className="bg-[#222] text-[#86868B]">전체보기</option>
+                                                    {uniqueLeadDeptFilter.map(dept => (
+                                                        <option key={dept} value={dept} className="bg-[#222] text-white">{dept}</option>
+                                                    ))}
+                                                </select>
+                                            </div>
+                                        </th>
+
+                                        {/* 협업부서 */}
+                                        <th className="pl-4 w-[180px] min-w-[180px] max-w-[180px]">
+                                            <div className="relative inline-flex items-center justify-start bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[165px] overflow-hidden">
+                                                <span className={`font-bold text-[11px] whitespace-nowrap truncate ${selectedCoopDept === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
+                                                    {selectedCoopDept === '전체보기' ? '협업부서' : selectedCoopDept}
+                                                </span>
+                                                <span className="text-[8px] text-[#86868B]/70 pointer-events-none select-none translate-y-[0.5px] ml-1 shrink-0">▼</span>
+                                                <select
+                                                    value={selectedCoopDept}
+                                                    onChange={(e) => setSelectedCoopDept(e.target.value)}
+                                                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                                >
+                                                    <option value="전체보기" className="bg-[#222] text-[#86868B]">전체보기</option>
+                                                    {uniqueCoopDeptFilter.map(dept => (
+                                                        <option key={dept} value={dept} className="bg-[#222] text-white">{dept}</option>
+                                                    ))}
+                                                </select>
+                                            </div>
+                                        </th>
+
                                         <th className="pl-4 w-[100px] min-w-[100px] max-w-[100px]">담당자</th>
                                         <th className="pl-4 w-[120px] min-w-[120px] max-w-[120px]">외부상대방</th>
                                         <th className="pl-4 w-[180px] min-w-[180px] max-w-[180px]">지원필요</th>
-                                        <th className="pl-4 w-[85px] min-w-[85px] max-w-[85px] text-center">Blocker</th>
-                                        <th className="pl-4 w-[100px] min-w-[100px] max-w-[100px] text-center">의사결정필요</th>
+
+                                        {/* Blocker */}
+                                        <th className="pl-4 w-[90px] min-w-[90px] max-w-[90px] text-center">
+                                            <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[75px] overflow-hidden">
+                                                <span className={`font-bold text-[11px] whitespace-nowrap truncate ${selectedIsBlocker === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
+                                                    {selectedIsBlocker === '전체보기' ? 'Blocker' : selectedIsBlocker}
+                                                </span>
+                                                <span className="text-[8px] text-[#86868B]/70 pointer-events-none select-none translate-y-[0.5px] ml-1 shrink-0">▼</span>
+                                                <select
+                                                    value={selectedIsBlocker}
+                                                    onChange={(e) => setSelectedIsBlocker(e.target.value)}
+                                                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                                >
+                                                    <option value="전체보기" className="bg-[#222] text-[#86868B]">전체보기</option>
+                                                    <option value="Y (예)" className="bg-[#222] text-white">Y (예)</option>
+                                                    <option value="N (아니오)" className="bg-[#222] text-white">N (아니오)</option>
+                                                </select>
+                                            </div>
+                                        </th>
+
+                                        {/* 의사결정필요 */}
+                                        <th className="pl-4 w-[115px] min-w-[115px] max-w-[115px] text-center">
+                                            <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[100px] overflow-hidden">
+                                                <span className={`font-bold text-[11px] whitespace-nowrap truncate ${selectedNeedsDecision === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
+                                                    {selectedNeedsDecision === '전체보기' ? '의사결정필요' : selectedNeedsDecision}
+                                                </span>
+                                                <span className="text-[8px] text-[#86868B]/70 pointer-events-none select-none translate-y-[0.5px] ml-1 shrink-0">▼</span>
+                                                <select
+                                                    value={selectedNeedsDecision}
+                                                    onChange={(e) => setSelectedNeedsDecision(e.target.value)}
+                                                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                                >
+                                                    <option value="전체보기" className="bg-[#222] text-[#86868B]">전체보기</option>
+                                                    <option value="Y (예)" className="bg-[#222] text-white">Y (예)</option>
+                                                    <option value="N (아니오)" className="bg-[#222] text-white">N (아니오)</option>
+                                                </select>
+                                            </div>
+                                        </th>
+
                                         <th className="pl-4 w-[120px] min-w-[120px] max-w-[120px]">기한</th>
-                                        <th className="pl-4 w-[100px] min-w-[100px] max-w-[100px] text-center">상태</th>
-                                        <th className="pl-4 w-[100px] min-w-[100px] max-w-[100px] text-center">중요도</th>
+
+                                        {/* 상태 */}
+                                        <th className="pl-4 w-[110px] min-w-[110px] max-w-[110px] text-center">
+                                            <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[95px] overflow-hidden">
+                                                <span className={`font-bold text-[11px] whitespace-nowrap truncate ${selectedStatus === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
+                                                    {selectedStatus === '전체보기' ? '상태' : selectedStatus}
+                                                </span>
+                                                <span className="text-[8px] text-[#86868B]/70 pointer-events-none select-none translate-y-[0.5px] ml-1 shrink-0">▼</span>
+                                                <select
+                                                    value={selectedStatus}
+                                                    onChange={(e) => setSelectedStatus(e.target.value)}
+                                                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                                >
+                                                    <option value="전체보기" className="bg-[#222] text-[#86868B]">전체보기</option>
+                                                    {uniqueStatusFilter.map(stat => (
+                                                        <option key={stat} value={stat} className="bg-[#222] text-white">{stat}</option>
+                                                    ))}
+                                                </select>
+                                            </div>
+                                        </th>
+
+                                        {/* 중요도 */}
+                                        <th className="pl-4 w-[110px] min-w-[110px] max-w-[110px] text-center">
+                                            <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[95px] overflow-hidden">
+                                                <span className={`font-bold text-[11px] whitespace-nowrap truncate ${selectedImportanceLevel === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
+                                                    {selectedImportanceLevel === '전체보기' ? '중요도' : selectedImportanceLevel}
+                                                </span>
+                                                <span className="text-[8px] text-[#86868B]/70 pointer-events-none select-none translate-y-[0.5px] ml-1 shrink-0">▼</span>
+                                                <select
+                                                    value={selectedImportanceLevel}
+                                                    onChange={(e) => setSelectedImportanceLevel(e.target.value)}
+                                                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                                >
+                                                    <option value="전체보기" className="bg-[#222] text-[#86868B]">전체보기</option>
+                                                    {uniqueImportanceFilter.map(imp => (
+                                                        <option key={imp} value={imp} className="bg-[#222] text-white">{imp}</option>
+                                                    ))}
+                                                </select>
+                                            </div>
+                                        </th>
+
                                         <th className="pl-4 w-[100px] min-w-[100px] max-w-[100px] text-center">업무유형</th>
                                         <th className="pl-4 w-[200px] min-w-[200px] max-w-[200px]">다음 액션</th>
                                         <th className="pl-4 w-[100px] min-w-[100px] max-w-[100px] text-center">우선순위점수</th>
-                                        <th className="pl-4 w-[110px] min-w-[110px] max-w-[110px] text-center">회의상정등급</th>
+
+                                        {/* 회의상정등급 */}
+                                        <th className="pl-4 w-[115px] min-w-[115px] max-w-[115px] text-center">
+                                            <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[100px] overflow-hidden">
+                                                <span className={`font-bold text-[11px] whitespace-nowrap truncate ${selectedMeetingGrade === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
+                                                    {selectedMeetingGrade === '전체보기' ? '회의상정등급' : selectedMeetingGrade}
+                                                </span>
+                                                <span className="text-[8px] text-[#86868B]/70 pointer-events-none select-none translate-y-[0.5px] ml-1 shrink-0">▼</span>
+                                                <select
+                                                    value={selectedMeetingGrade}
+                                                    onChange={(e) => setSelectedMeetingGrade(e.target.value)}
+                                                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                                >
+                                                    <option value="전체보기" className="bg-[#222] text-[#86868B]">전체보기</option>
+                                                    {uniqueMeetingGradeFilter.map(grade => (
+                                                        <option key={grade} value={grade} className="bg-[#222] text-white">{grade}</option>
+                                                    ))}
+                                                </select>
+                                            </div>
+                                        </th>
+
                                         <th className="pl-4 w-[180px] min-w-[180px] max-w-[180px]">상정사유</th>
                                         <th className="pl-4 w-[100px] min-w-[100px] max-w-[100px] text-center">정렬키</th>
                                         <th className="pl-4 w-[180px] min-w-[180px] max-w-[180px]">비고</th>
@@ -1831,14 +2200,14 @@ export default function PmoTaskBoardStaging() {
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-[#3c3c3c] text-[13px] text-white">
-                                    {tasks.length === 0 ? (
+                                    {filteredTasks.length === 0 ? (
                                         <tr>
                                             <td colSpan="28" className="text-center py-20 text-[#86868B]">
                                                 등록된 통합 업무 보드 정보가 없습니다.
                                             </td>
                                         </tr>
                                     ) : (
-                                        tasks.map((t, idx) => {
+                                        filteredTasks.map((t, idx) => {
                                             const fallbackItem = FALLBACK_BOARD_TASKS.find(item => item.task_name === t.task_name) || {};
                                             
                                             // Project mapping
@@ -1884,12 +2253,12 @@ export default function PmoTaskBoardStaging() {
                                                     </td>
                                                     
                                                     {/* 2. 프로젝트 */}
-                                                    <td className="pl-4 font-bold text-[#E5E5E5] w-[90px] min-w-[90px] max-w-[90px] truncate">
+                                                    <td className="pl-4 font-bold text-[#E5E5E5] w-[110px] min-w-[110px] max-w-[110px] truncate">
                                                         {projectVal}
                                                     </td>
                                                     
                                                     {/* 3. 대분류 */}
-                                                    <td className="pl-4 font-bold text-[#E5E5E5] w-[110px] min-w-[110px] max-w-[110px] truncate">
+                                                    <td className="pl-4 font-bold text-[#E5E5E5] w-[115px] min-w-[115px] max-w-[115px] truncate">
                                                         {t.category_main}
                                                     </td>
                                                     
@@ -1914,10 +2283,10 @@ export default function PmoTaskBoardStaging() {
                                                     </td>
 
                                                     {/* 8. 최종 목표축 */}
-                                                    <td className="pl-4 text-[#A1A1AA] w-[100px] min-w-[100px] max-w-[100px] truncate">{targetAxis}</td>
+                                                    <td className="pl-4 text-[#A1A1AA] w-[125px] min-w-[125px] max-w-[125px] truncate">{targetAxis}</td>
 
                                                     {/* 9. Gate */}
-                                                    <td className="pl-4 text-[#A1A1AA] w-[110px] min-w-[110px] max-w-[110px] truncate">{gateStageVal}</td>
+                                                    <td className="pl-4 text-[#A1A1AA] w-[120px] min-w-[120px] max-w-[120px] truncate">{gateStageVal}</td>
 
                                                     {/* 10. PMO총괄 */}
                                                     <td className="pl-4 text-[#A1A1AA] w-[110px] min-w-[110px] max-w-[110px] truncate">{t.pmo_manager || fallbackItem.pmo_manager || '사업관리2파트'}</td>
@@ -1938,7 +2307,7 @@ export default function PmoTaskBoardStaging() {
                                                     <td className="pl-4 text-[#86868B] w-[180px] min-w-[180px] max-w-[180px] truncate">{supportNeeded || '-'}</td>
 
                                                     {/* 16. Blocker */}
-                                                    <td className="pl-4 text-center w-[85px] min-w-[85px] max-w-[85px]">
+                                                    <td className="pl-4 text-center w-[90px] min-w-[90px] max-w-[90px]">
                                                         <span className={`px-2 py-0.5 rounded text-[11px] font-bold ${
                                                             isBlockerVal ? 'bg-red-500/10 text-red-400 border border-red-500/20' : 'text-gray-500'
                                                         }`}>
@@ -1947,7 +2316,7 @@ export default function PmoTaskBoardStaging() {
                                                     </td>
 
                                                     {/* 17. 의사결정필요 */}
-                                                    <td className="pl-4 text-center w-[100px] min-w-[100px] max-w-[100px]">
+                                                    <td className="pl-4 text-center w-[115px] min-w-[115px] max-w-[115px]">
                                                         <span className={`px-2 py-0.5 rounded text-[11px] font-bold ${
                                                             needsDecisionVal ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20' : 'text-gray-500'
                                                         }`}>
@@ -1959,7 +2328,7 @@ export default function PmoTaskBoardStaging() {
                                                     <td className="pl-4 text-[#A1A1AA] font-mono w-[120px] min-w-[120px] max-w-[120px] truncate">{dueDateVal || '-'}</td>
 
                                                     {/* 19. 상태 */}
-                                                    <td className="pl-4 text-center w-[100px] min-w-[100px] max-w-[100px]">
+                                                    <td className="pl-4 text-center w-[110px] min-w-[110px] max-w-[110px]">
                                                         <span className={`px-2 py-0.5 rounded text-[11px] font-bold ${
                                                             statusVal === '완료' ? 'bg-green-500/10 text-green-400 border border-green-500/20' :
                                                             statusVal === '진행중' ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20' :
@@ -1971,7 +2340,7 @@ export default function PmoTaskBoardStaging() {
                                                     </td>
 
                                                     {/* 20. 중요도 */}
-                                                    <td className="pl-4 text-center w-[100px] min-w-[100px] max-w-[100px] truncate">
+                                                    <td className="pl-4 text-center w-[110px] min-w-[110px] max-w-[110px] truncate">
                                                         <span className={`px-2 py-0.5 rounded text-[11px] font-bold ${
                                                             importanceLevel === 'PF필수' 
                                                                 ? 'bg-[#ff453a]/15 text-[#ff453a] border border-[#ff453a]/25' 
@@ -1995,7 +2364,7 @@ export default function PmoTaskBoardStaging() {
                                                     <td className="pl-4 text-center font-mono w-[100px] min-w-[100px] max-w-[100px] font-bold text-[#E5E5E5]">{priorityScore}</td>
 
                                                     {/* 24. 회의상정등급 */}
-                                                    <td className="pl-4 text-center w-[110px] min-w-[110px] max-w-[110px] truncate">
+                                                    <td className="pl-4 text-center w-[115px] min-w-[115px] max-w-[115px] truncate">
                                                         <span className={`px-2 py-0.5 rounded text-[11px] font-bold ${
                                                             meetingGrade.startsWith('A') ? 'bg-[#ff453a]/15 text-[#ff453a] border border-[#ff453a]/25' : 'bg-gray-500/10 text-gray-400'
                                                         }`}>
