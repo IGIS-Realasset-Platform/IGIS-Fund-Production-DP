@@ -700,7 +700,16 @@ export default function PmoScheduleGate() {
     }, [masterStakeholders]);
 
     const uniqueSubsectors = React.useMemo(() => {
-        const subs = rrData.map(item => item.subsector).filter(Boolean);
+        const defaultSubs = [
+            '현금기부채납', '소공원로', '변경인가', '사용승인', '브랜드', '계약구조',
+            '운영수지/FF&E', '현대건설', '삼성물산', '공사비/VE', 'PF 기준도면', '면적표',
+            '오피스 TI', '호텔 인테리어', '광장', 'KB/금융권', '삼성/이지스', '단독 PF',
+            '통합 PF', '재무모델', '리츠 전환', 'Asset/Share/합병', '의사결정', 'Take-out'
+        ];
+        const subs = [
+            ...defaultSubs,
+            ...rrData.map(item => item.subsector).filter(Boolean)
+        ];
         return Array.from(new Set(subs));
     }, [rrData]);
 
