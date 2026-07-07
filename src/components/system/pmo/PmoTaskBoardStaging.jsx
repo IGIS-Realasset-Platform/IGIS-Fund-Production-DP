@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { supabase } from '../../../utils/supabaseClient';
+import { useAuth } from '../../../context/AuthContext';
 
 const FALLBACK_BOARD_TASKS = [
   {
@@ -1194,11 +1195,60 @@ const FALLBACK_BOARD_TASKS = [
 ];
 
 export default function PmoTaskBoardStaging() {
+    const { memberInfo } = useAuth();
     const [tasks, setTasks] = useState([]);
     const [loading, setLoading] = useState(true);
     const [isDbMode, setIsDbMode] = useState(false);
-    const [editingCell, setEditingCell] = useState(null); // { rowId, colName }
-    const [tempValue, setTempValue] = useState('');
+    
+    // Modal states
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [showAuthInfoModal, setShowAuthInfoModal] = useState(false);
+    const [editingItem, setEditingItem] = useState(null);
+
+    // Form states
+    const [formProject, setFormProject] = useState('공통');
+    const [formCategoryMain, setFormCategoryMain] = useState('');
+    const [formSectorDetail, setFormSectorDetail] = useState('');
+    const [formTaskName, setFormTaskName] = useState('');
+    const [formTaskPurpose, setFormTaskPurpose] = useState('');
+    const [formDeliverables, setFormDeliverables] = useState('');
+    const [formTargetAxis, setFormTargetAxis] = useState('준공/운영');
+    const [formGateStage, setFormGateStage] = useState('G0');
+    const [formPmoManager, setFormPmoManager] = useState('사업관리2파트');
+    const [formLeadDept, setFormLeadDept] = useState('');
+    const [formCoopDepts, setFormCoopDepts] = useState('');
+    const [formAssignee, setFormAssignee] = useState('');
+    const [formExternalParty, setFormExternalParty] = useState('');
+    const [formSupportNeeded, setFormSupportNeeded] = useState('');
+    const [formIsBlocker, setFormIsBlocker] = useState(false);
+    const [formNeedsDecision, setFormNeedsDecision] = useState(false);
+    const [formDueDate, setFormDueDate] = useState('');
+    const [formStatus, setFormStatus] = useState('미착수');
+    const [formImportanceLevel, setFormImportanceLevel] = useState('일반');
+    const [formTaskType, setFormTaskType] = useState('정규');
+    const [formNextAction, setFormNextAction] = useState('');
+    const [formPriorityScore, setFormPriorityScore] = useState(0);
+    const [formMeetingGrade, setFormMeetingGrade] = useState('B');
+    const [formAgendaReason, setFormAgendaReason] = useState('');
+    const [formSortKey, setFormSortKey] = useState('');
+    const [formNotes, setFormNotes] = useState('');
+
+    // Authority memo
+    const isAuthorized = useMemo(() => {
+        if (!memberInfo) return false;
+        const org = memberInfo.org_name || '';
+        const workspace = memberInfo.workspace_code || '';
+        const role = memberInfo.role_code || '';
+        return (
+            org.includes('사업관리2파트') || 
+            org.includes('기획추진') ||
+            org.includes('시스템 관리자(기획추진)') ||
+            role.toUpperCase().includes('PO') ||
+            workspace === 'WS_PM' ||
+            role === 'master' ||
+            role === 'director'
+        );
+    }, [memberInfo]);
 
     async function fetchTasks() {
         try {
@@ -1235,60 +1285,184 @@ export default function PmoTaskBoardStaging() {
         fetchTasks();
     }, []);
 
-    const handleDoubleClick = (rowId, colName, currentValue) => {
-        setEditingCell({ rowId, colName });
-        setTempValue(currentValue || '');
+    const handleAddNewClick = () => {
+        setEditingItem(null);
+        setFormProject('공통');
+        setFormCategoryMain('');
+        setFormSectorDetail('');
+        setFormTaskName('');
+        setFormTaskPurpose('');
+        setFormDeliverables('');
+        setFormTargetAxis('준공/운영');
+        setFormGateStage('G0');
+        setFormPmoManager('사업관리2파트');
+        setFormLeadDept('');
+        setFormCoopDepts('');
+        setFormAssignee('');
+        setFormExternalParty('');
+        setFormSupportNeeded('');
+        setFormIsBlocker(false);
+        setFormNeedsDecision(false);
+        setFormDueDate('');
+        setFormStatus('미착수');
+        setFormImportanceLevel('일반');
+        setFormTaskType('정규');
+        setFormNextAction('');
+        setFormPriorityScore(0);
+        setFormMeetingGrade('B');
+        setFormAgendaReason('');
+        setFormSortKey('');
+        setFormNotes('');
+        setIsModalOpen(true);
     };
 
-    const handleSaveCell = async (rowId, colName, specificValue = null) => {
-        const saveValue = specificValue !== null ? specificValue : tempValue;
+    const handleEditClick = (item) => {
+        const fallbackItem = FALLBACK_BOARD_TASKS.find(fallback => fallback.task_name === item.task_name) || {};
         
-        // Update state locally first for immediate feedback
-        setTasks(prev => prev.map(t => t.id === rowId ? { ...t, [colName]: saveValue } : t));
-        setEditingCell(null);
-
-        if (isDbMode) {
-            // Only update columns that exist in the DB schema
-            const dbColumns = [
-                'task_name', 'task_purpose', 'deliverables', 'assignee', 'due_date', 
-                'status', 'is_blocker', 'needs_decision', 'next_action', 'priority_score', 
-                'meeting_grade'
-            ];
-            
-            if (dbColumns.includes(colName)) {
-                try {
-                    const { error } = await supabase
-                        .schema('iota_v2')
-                        .from('iota_pmo_tasks')
-                        .update({ [colName]: saveValue })
-                        .eq('id', rowId);
-
-                    if (error) throw error;
-                } catch (err) {
-                    console.error("Failed to save cell to DB:", err);
-                }
-            }
-        }
+        setEditingItem(item);
+        setFormProject(item.project || item.project_code || fallbackItem.project || '공통');
+        setFormCategoryMain(item.category_main || '');
+        setFormSectorDetail(item.sector_detail || '');
+        setFormTaskName(item.task_name || '');
+        setFormTaskPurpose(item.task_purpose || fallbackItem.task_purpose || '');
+        setFormDeliverables(item.deliverables || fallbackItem.deliverables || '');
+        setFormTargetAxis(item.target_axis || fallbackItem.target_axis || '준공/운영');
+        setFormGateStage(item.gate_stage || fallbackItem.gate_stage || 'G0');
+        setFormPmoManager(item.pmo_manager || fallbackItem.pmo_manager || '사업관리2파트');
+        setFormLeadDept(item.lead_dept?.dept_name || item.lead_dept || item.lead_dept_code || fallbackItem.lead_dept || '');
+        setFormCoopDepts(item.coop_dept_codes || item.coop_depts || fallbackItem.coop_depts || '');
+        setFormAssignee(item.assignee || '');
+        setFormExternalParty(item.external_party?.stakeholder_name || item.external_party || item.external_party_code || fallbackItem.external_party || '');
+        setFormSupportNeeded(item.support_needed || fallbackItem.support_needed || '');
+        setFormIsBlocker(item.is_blocker !== undefined ? item.is_blocker : fallbackItem.is_blocker);
+        setFormNeedsDecision(item.needs_decision !== undefined ? item.needs_decision : fallbackItem.needs_decision);
+        setFormDueDate(item.due_date || fallbackItem.due_date || '');
+        setFormStatus(item.status || fallbackItem.status || '진행중');
+        setFormImportanceLevel(item.importance_level || fallbackItem.importance_level || '일반');
+        setFormTaskType(item.task_type || fallbackItem.task_type || '정규');
+        setFormNextAction(item.next_action || fallbackItem.next_action || '');
+        setFormPriorityScore(item.priority_score !== undefined ? item.priority_score : (fallbackItem.priority_score || 0));
+        setFormMeetingGrade(item.meeting_grade || fallbackItem.meeting_grade || 'B');
+        setFormAgendaReason(item.agenda_reason || fallbackItem.agenda_reason || '');
+        setFormSortKey(item.sort_key || fallbackItem.sort_key || '');
+        setFormNotes(item.notes || fallbackItem.notes || '');
+        setIsModalOpen(true);
     };
 
-    const handleToggleBadge = async (rowId, colName, currentValue) => {
-        const nextValue = !currentValue;
-        // Update local state
-        setTasks(prev => prev.map(t => t.id === rowId ? { ...t, [colName]: nextValue } : t));
+    const handleDeleteClick = async (rowId) => {
+        if (!window.confirm("정말로 이 업무를 삭제하시겠습니까?")) return;
+
+        // Local state update first
+        setTasks(prev => prev.filter(t => t.id !== rowId));
 
         if (isDbMode) {
             try {
                 const { error } = await supabase
                     .schema('iota_v2')
                     .from('iota_pmo_tasks')
-                    .update({ [colName]: nextValue })
+                    .delete()
                     .eq('id', rowId);
 
                 if (error) throw error;
             } catch (err) {
-                console.error("Failed to toggle badge in DB:", err);
+                console.error("Failed to delete task from DB:", err);
+                alert("DB 삭제에 실패했습니다.");
             }
         }
+    };
+
+    const handleFormSubmit = async (e) => {
+        e.preventDefault();
+
+        const updatedData = {
+            category_main: formCategoryMain,
+            sector_detail: formSectorDetail,
+            task_name: formTaskName,
+            task_purpose: formTaskPurpose,
+            deliverables: formDeliverables,
+            gate_stage: formGateStage,
+            pmo_manager: formPmoManager,
+            assignee: formAssignee,
+            is_blocker: formIsBlocker,
+            needs_decision: formNeedsDecision,
+            due_date: formDueDate || null,
+            status: formStatus,
+            priority_score: formPriorityScore,
+            meeting_grade: formMeetingGrade,
+            next_action: formNextAction
+        };
+
+        if (editingItem) {
+            // EDITING
+            setTasks(prev => prev.map(t => t.id === editingItem.id ? { 
+                ...t, 
+                ...updatedData,
+                project: formProject,
+                lead_dept: formLeadDept,
+                coop_depts: formCoopDepts,
+                external_party: formExternalParty,
+                target_axis: formTargetAxis,
+                support_needed: formSupportNeeded,
+                importance_level: formImportanceLevel,
+                task_type: formTaskType,
+                agenda_reason: formAgendaReason,
+                sort_key: formSortKey,
+                notes: formNotes
+            } : t));
+
+            if (isDbMode) {
+                try {
+                    const { error } = await supabase
+                        .schema('iota_v2')
+                        .from('iota_pmo_tasks')
+                        .update(updatedData)
+                        .eq('id', editingItem.id);
+
+                    if (error) throw error;
+                } catch (err) {
+                    console.error("Failed to update task in DB:", err);
+                }
+            }
+        } else {
+            // ADDING
+            const newId = `mock-${Date.now()}`;
+            const newItem = {
+                id: newId,
+                project: formProject,
+                lead_dept: formLeadDept,
+                coop_depts: formCoopDepts,
+                external_party: formExternalParty,
+                target_axis: formTargetAxis,
+                support_needed: formSupportNeeded,
+                importance_level: formImportanceLevel,
+                task_type: formTaskType,
+                agenda_reason: formAgendaReason,
+                sort_key: formSortKey,
+                notes: formNotes,
+                ...updatedData
+            };
+
+            setTasks(prev => [...prev, newItem]);
+
+            if (isDbMode) {
+                try {
+                    const { error } = await supabase
+                        .schema('iota_v2')
+                        .from('iota_pmo_tasks')
+                        .insert([{
+                            project_code: formProject === '공통' ? 'IOTA_SEOUL' : formProject,
+                            ...updatedData
+                        }]);
+
+                    if (error) throw error;
+                    fetchTasks(); // Reload to get database ID
+                } catch (err) {
+                    console.error("Failed to insert task in DB:", err);
+                }
+            }
+        }
+
+        setIsModalOpen(false);
     };
 
     return (
@@ -1313,43 +1487,44 @@ export default function PmoTaskBoardStaging() {
             ) : (
                 <div className="-mr-[calc(50vw-50%)] border border-r-0 border-[#3c3c3c] bg-[#272726] rounded-l-[24px] overflow-hidden mb-[40px] shadow-sm select-text">
                     <div className="w-full overflow-x-auto pr-0 timeline-scrollbar">
-                        <div className="flex items-center min-w-[4640px]">
-                            <table className="text-left table-fixed min-w-[3840px] flex-1 border-collapse bg-[#272726]">
+                        <div className="flex items-center min-w-[4725px]">
+                            <table className="text-left table-fixed min-w-[3925px] flex-1 border-collapse bg-[#272726]">
                                 <thead>
                                     <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[13px] h-11 select-none">
                                         <th className="pl-4 text-center w-[80px] min-w-[80px] max-w-[80px]">ID</th>
                                         <th className="pl-4 w-[90px] min-w-[90px] max-w-[90px]">프로젝트</th>
                                         <th className="pl-4 w-[110px] min-w-[110px] max-w-[110px]">대분류</th>
                                         <th className="pl-4 w-[120px] min-w-[120px] max-w-[120px]">세부섹터</th>
-                                        <th className="pl-4 w-[280px] min-w-[280px] max-w-[280px]">업무명 (더블클릭 편집)</th>
-                                        <th className="pl-4 w-[280px] min-w-[280px] max-w-[280px]">업무목적 / PF·준공 영향 (더블클릭 편집)</th>
-                                        <th className="pl-4 w-[220px] min-w-[220px] max-w-[220px]">필요 산출물 (더블클릭 편집)</th>
+                                        <th className="pl-4 w-[280px] min-w-[280px] max-w-[280px]">업무명</th>
+                                        <th className="pl-4 w-[280px] min-w-[280px] max-w-[280px]">업무목적 / PF·준공 영향</th>
+                                        <th className="pl-4 w-[220px] min-w-[220px] max-w-[220px]">필요 산출물</th>
                                         <th className="pl-4 w-[100px] min-w-[100px] max-w-[100px]">최종 목표축</th>
                                         <th className="pl-4 w-[110px] min-w-[110px] max-w-[110px]">Gate</th>
                                         <th className="pl-4 w-[110px] min-w-[110px] max-w-[110px]">PMO총괄</th>
                                         <th className="pl-4 w-[120px] min-w-[120px] max-w-[120px]">실무 주관부서</th>
                                         <th className="pl-4 w-[180px] min-w-[180px] max-w-[180px]">협업부서</th>
-                                        <th className="pl-4 w-[100px] min-w-[100px] max-w-[100px]">담당자 (더블클릭 편집)</th>
+                                        <th className="pl-4 w-[100px] min-w-[100px] max-w-[100px]">담당자</th>
                                         <th className="pl-4 w-[120px] min-w-[120px] max-w-[120px]">외부상대방</th>
                                         <th className="pl-4 w-[180px] min-w-[180px] max-w-[180px]">지원필요</th>
                                         <th className="pl-4 w-[85px] min-w-[85px] max-w-[85px] text-center">Blocker</th>
                                         <th className="pl-4 w-[100px] min-w-[100px] max-w-[100px] text-center">의사결정필요</th>
-                                        <th className="pl-4 w-[120px] min-w-[120px] max-w-[120px]">기한 (더블클릭 편집)</th>
+                                        <th className="pl-4 w-[120px] min-w-[120px] max-w-[120px]">기한</th>
                                         <th className="pl-4 w-[100px] min-w-[100px] max-w-[100px] text-center">상태</th>
                                         <th className="pl-4 w-[100px] min-w-[100px] max-w-[100px] text-center">중요도</th>
                                         <th className="pl-4 w-[100px] min-w-[100px] max-w-[100px] text-center">업무유형</th>
-                                        <th className="pl-4 w-[200px] min-w-[200px] max-w-[200px]">다음 액션 (더블클릭 편집)</th>
-                                        <th className="pl-4 w-[100px] min-w-[100px] max-w-[100px] text-center">우선순위점수 (더블클릭 편집)</th>
+                                        <th className="pl-4 w-[200px] min-w-[200px] max-w-[200px]">다음 액션</th>
+                                        <th className="pl-4 w-[100px] min-w-[100px] max-w-[100px] text-center">우선순위점수</th>
                                         <th className="pl-4 w-[110px] min-w-[110px] max-w-[110px] text-center">회의상정등급</th>
-                                        <th className="pl-4 w-[180px] min-w-[180px] max-w-[180px]">상정사유 (더블클릭 편집)</th>
+                                        <th className="pl-4 w-[180px] min-w-[180px] max-w-[180px]">상정사유</th>
                                         <th className="pl-4 w-[100px] min-w-[100px] max-w-[100px] text-center">정렬키</th>
-                                        <th className="pl-4 w-[180px] min-w-[180px] max-w-[180px]">비고 (더블클릭 편집)</th>
+                                        <th className="pl-4 w-[180px] min-w-[180px] max-w-[180px]">비고</th>
+                                        <th className="px-2 text-center w-[85px] min-w-[85px] max-w-[85px] border-r border-[#3c3c3c]">관리</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-[#3c3c3c] text-[13px] text-white">
                                     {tasks.length === 0 ? (
                                         <tr>
-                                            <td colSpan="27" className="text-center py-20 text-[#86868B]">
+                                            <td colSpan="28" className="text-center py-20 text-[#86868B]">
                                                 등록된 통합 업무 보드 정보가 없습니다.
                                             </td>
                                         </tr>
@@ -1399,64 +1574,19 @@ export default function PmoTaskBoardStaging() {
                                                         {t.sector_detail}
                                                     </td>
                                                     
-                                                    {/* 5. 업무명 (더블클릭 편집) */}
-                                                    <td 
-                                                        className="pl-4 font-medium text-white cursor-pointer truncate w-[280px] min-w-[280px] max-w-[280px]"
-                                                        onDoubleClick={() => handleDoubleClick(t.id, 'task_name', t.task_name)}
-                                                    >
-                                                        {editingCell?.rowId === t.id && editingCell?.colName === 'task_name' ? (
-                                                            <input 
-                                                                type="text" 
-                                                                value={tempValue} 
-                                                                onChange={e => setTempValue(e.target.value)}
-                                                                onBlur={() => handleSaveCell(t.id, 'task_name')}
-                                                                onKeyDown={e => e.key === 'Enter' && handleSaveCell(t.id, 'task_name')}
-                                                                className="w-[90%] bg-[#1a1a1a] border border-[#2997ff] rounded px-2 py-0.5 text-white outline-none"
-                                                                autoFocus
-                                                            />
-                                                        ) : (
-                                                            <span className="hover:text-[#2997ff] transition-colors">{t.task_name}</span>
-                                                        )}
+                                                    {/* 5. 업무명 */}
+                                                    <td className="pl-4 font-medium text-white truncate w-[280px] min-w-[280px] max-w-[280px]">
+                                                        {t.task_name}
                                                     </td>
 
-                                                    {/* 6. 업무목적 / PF·준공 영향 (더블클릭 편집) */}
-                                                    <td 
-                                                        className="pl-4 text-[#A1A1AA] cursor-pointer truncate w-[280px] min-w-[280px] max-w-[280px]"
-                                                        onDoubleClick={() => handleDoubleClick(t.id, 'task_purpose', t.task_purpose || fallbackItem.task_purpose)}
-                                                    >
-                                                        {editingCell?.rowId === t.id && editingCell?.colName === 'task_purpose' ? (
-                                                            <input 
-                                                                type="text" 
-                                                                value={tempValue} 
-                                                                onChange={e => setTempValue(e.target.value)}
-                                                                onBlur={() => handleSaveCell(t.id, 'task_purpose')}
-                                                                onKeyDown={e => e.key === 'Enter' && handleSaveCell(t.id, 'task_purpose')}
-                                                                className="w-[90%] bg-[#1a1a1a] border border-[#2997ff] rounded px-2 py-0.5 text-white outline-none"
-                                                                autoFocus
-                                                            />
-                                                        ) : (
-                                                            <span className="hover:text-[#2997ff] transition-colors">{t.task_purpose || fallbackItem.task_purpose || '-'}</span>
-                                                        )}
+                                                    {/* 6. 업무목적 / PF·준공 영향 */}
+                                                    <td className="pl-4 text-[#A1A1AA] truncate w-[280px] min-w-[280px] max-w-[280px]">
+                                                        {t.task_purpose || fallbackItem.task_purpose || '-'}
                                                     </td>
 
-                                                    {/* 7. 필요 산출물 (더블클릭 편집) */}
-                                                    <td 
-                                                        className="pl-4 text-[#A1A1AA] cursor-pointer truncate w-[220px] min-w-[220px] max-w-[220px]"
-                                                        onDoubleClick={() => handleDoubleClick(t.id, 'deliverables', t.deliverables || fallbackItem.deliverables)}
-                                                    >
-                                                        {editingCell?.rowId === t.id && editingCell?.colName === 'deliverables' ? (
-                                                            <input 
-                                                                type="text" 
-                                                                value={tempValue} 
-                                                                onChange={e => setTempValue(e.target.value)}
-                                                                onBlur={() => handleSaveCell(t.id, 'deliverables')}
-                                                                onKeyDown={e => e.key === 'Enter' && handleSaveCell(t.id, 'deliverables')}
-                                                                className="w-[90%] bg-[#1a1a1a] border border-[#2997ff] rounded px-2 py-0.5 text-white outline-none"
-                                                                autoFocus
-                                                            />
-                                                        ) : (
-                                                            <span className="hover:text-[#2997ff] transition-colors">{t.deliverables || fallbackItem.deliverables || '-'}</span>
-                                                        )}
+                                                    {/* 7. 필요 산출물 */}
+                                                    <td className="pl-4 text-[#A1A1AA] truncate w-[220px] min-w-[220px] max-w-[220px]">
+                                                        {t.deliverables || fallbackItem.deliverables || '-'}
                                                     </td>
 
                                                     {/* 8. 최종 목표축 */}
@@ -1474,24 +1604,8 @@ export default function PmoTaskBoardStaging() {
                                                     {/* 12. 협업부서 */}
                                                     <td className="pl-4 text-[#86868B] w-[180px] min-w-[180px] max-w-[180px] truncate">{coopDeptNames || '-'}</td>
 
-                                                    {/* 13. 담당자 (더블클릭 편집) */}
-                                                    <td 
-                                                        className="pl-4 text-[#A1A1AA] cursor-pointer w-[100px] min-w-[100px] max-w-[100px]"
-                                                        onDoubleClick={() => handleDoubleClick(t.id, 'assignee', t.assignee)}
-                                                    >
-                                                        {editingCell?.rowId === t.id && editingCell?.colName === 'assignee' ? (
-                                                            <input 
-                                                                type="text" 
-                                                                value={tempValue} 
-                                                                onChange={e => setTempValue(e.target.value)}
-                                                                onBlur={() => handleSaveCell(t.id, 'assignee')}
-                                                                className="w-[90%] bg-[#1a1a1a] border border-[#2997ff] rounded px-2 py-0.5 text-white outline-none"
-                                                                autoFocus
-                                                            />
-                                                        ) : (
-                                                            <span className="hover:text-[#2997ff] transition-colors">{t.assignee || '-'}</span>
-                                                        )}
-                                                    </td>
+                                                    {/* 13. 담당자 */}
+                                                    <td className="pl-4 text-[#A1A1AA] w-[100px] min-w-[100px] max-w-[100px] truncate">{t.assignee || '-'}</td>
 
                                                     {/* 14. 외부상대방 */}
                                                     <td className="pl-4 text-[#A1A1AA] w-[120px] min-w-[120px] max-w-[120px] truncate">{extPartyName || '-'}</td>
@@ -1500,68 +1614,40 @@ export default function PmoTaskBoardStaging() {
                                                     <td className="pl-4 text-[#86868B] w-[180px] min-w-[180px] max-w-[180px] truncate">{supportNeeded || '-'}</td>
 
                                                     {/* 16. Blocker */}
-                                                    <td className="pl-4 text-center select-none w-[85px] min-w-[85px] max-w-[85px]">
-                                                        <button 
-                                                            onClick={() => handleToggleBadge(t.id, 'is_blocker', isBlockerVal)}
-                                                            className={`w-7 h-7 rounded-full flex items-center justify-center font-bold text-[11px] cursor-pointer transition-all mx-auto ${
-                                                                isBlockerVal 
-                                                                    ? 'bg-[#EF4444] text-white shadow-md shadow-[#EF4444]/20' 
-                                                                    : 'bg-[#333] text-[#86868B] hover:bg-[#444]'
-                                                            }`}
-                                                        >
+                                                    <td className="pl-4 text-center w-[85px] min-w-[85px] max-w-[85px]">
+                                                        <span className={`px-2 py-0.5 rounded text-[11px] font-bold ${
+                                                            isBlockerVal ? 'bg-red-500/10 text-red-400 border border-red-500/20' : 'text-gray-500'
+                                                        }`}>
                                                             {isBlockerVal ? 'Y' : 'N'}
-                                                        </button>
+                                                        </span>
                                                     </td>
 
                                                     {/* 17. 의사결정필요 */}
-                                                    <td className="pl-4 text-center select-none w-[100px] min-w-[100px] max-w-[100px]">
-                                                        <button 
-                                                            onClick={() => handleToggleBadge(t.id, 'needs_decision', needsDecisionVal)}
-                                                            className={`w-7 h-7 rounded-full flex items-center justify-center font-bold text-[11px] cursor-pointer transition-all mx-auto ${
-                                                                needsDecisionVal 
-                                                                    ? 'bg-[#F59E0B] text-white shadow-md shadow-[#F59E0B]/20' 
-                                                                    : 'bg-[#333] text-[#86868B] hover:bg-[#444]'
-                                                            }`}
-                                                        >
+                                                    <td className="pl-4 text-center w-[100px] min-w-[100px] max-w-[100px]">
+                                                        <span className={`px-2 py-0.5 rounded text-[11px] font-bold ${
+                                                            needsDecisionVal ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20' : 'text-gray-500'
+                                                        }`}>
                                                             {needsDecisionVal ? 'Y' : 'N'}
-                                                        </button>
+                                                        </span>
                                                     </td>
 
-                                                    {/* 18. 기한 (더블클릭 편집) */}
-                                                    <td 
-                                                        className="pl-4 text-[#A1A1AA] font-mono cursor-pointer w-[120px] min-w-[120px] max-w-[120px]"
-                                                        onDoubleClick={() => handleDoubleClick(t.id, 'due_date', dueDateVal)}
-                                                    >
-                                                        {editingCell?.rowId === t.id && editingCell?.colName === 'due_date' ? (
-                                                            <input 
-                                                                type="date" 
-                                                                value={tempValue} 
-                                                                onChange={e => setTempValue(e.target.value)}
-                                                                onBlur={() => handleSaveCell(t.id, 'due_date')}
-                                                                className="w-[90%] bg-[#1a1a1a] border border-[#2997ff] rounded px-1.5 py-0.5 text-white outline-none"
-                                                                autoFocus
-                                                            />
-                                                        ) : (
-                                                            <span className="hover:text-[#2997ff] transition-colors">{dueDateVal || '-'}</span>
-                                                        )}
-                                                    </td>
+                                                    {/* 18. 기한 */}
+                                                    <td className="pl-4 text-[#A1A1AA] font-mono w-[120px] min-w-[120px] max-w-[120px] truncate">{dueDateVal || '-'}</td>
 
                                                     {/* 19. 상태 */}
-                                                    <td className="pl-4 text-center select-none w-[100px] min-w-[100px] max-w-[100px]">
-                                                        <select 
-                                                            value={statusVal}
-                                                            onChange={e => handleSaveCell(t.id, 'status', e.target.value)}
-                                                            className="bg-[#222] border border-[#333] text-white rounded-[6px] px-2 py-0.5 text-[11px] font-bold outline-none cursor-pointer hover:border-[#555] transition-colors"
-                                                        >
-                                                            <option value="미착수">미착수</option>
-                                                            <option value="진행중">진행중</option>
-                                                            <option value="완료">완료</option>
-                                                            <option value="지연">지연</option>
-                                                        </select>
+                                                    <td className="pl-4 text-center w-[100px] min-w-[100px] max-w-[100px]">
+                                                        <span className={`px-2 py-0.5 rounded text-[11px] font-bold ${
+                                                            statusVal === '완료' ? 'bg-green-500/10 text-green-400 border border-green-500/20' :
+                                                            statusVal === '진행중' ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20' :
+                                                            statusVal === '지연' ? 'bg-red-500/10 text-red-400 border border-red-500/20' :
+                                                            'bg-gray-500/10 text-gray-400 border border-gray-500/20'
+                                                        }`}>
+                                                            {statusVal}
+                                                        </span>
                                                     </td>
 
                                                     {/* 20. 중요도 */}
-                                                    <td className="pl-4 text-center select-none w-[100px] min-w-[100px] max-w-[100px] truncate">
+                                                    <td className="pl-4 text-center w-[100px] min-w-[100px] max-w-[100px] truncate">
                                                         <span className={`px-2 py-0.5 rounded text-[11px] font-bold ${
                                                             importanceLevel === 'PF필수' 
                                                                 ? 'bg-[#ff453a]/15 text-[#ff453a] border border-[#ff453a]/25' 
@@ -1578,100 +1664,62 @@ export default function PmoTaskBoardStaging() {
                                                         <span className="text-[#86868B] font-medium">{taskType}</span>
                                                     </td>
 
-                                                    {/* 22. 다음 액션 (더블클릭 편집) */}
-                                                    <td 
-                                                        className="pl-4 text-[#A1A1AA] truncate cursor-pointer w-[200px] min-w-[200px] max-w-[200px]"
-                                                        onDoubleClick={() => handleDoubleClick(t.id, 'next_action', nextActionVal)}
-                                                    >
-                                                        {editingCell?.rowId === t.id && editingCell?.colName === 'next_action' ? (
-                                                            <input 
-                                                                type="text" 
-                                                                value={tempValue} 
-                                                                onChange={e => setTempValue(e.target.value)}
-                                                                onBlur={() => handleSaveCell(t.id, 'next_action')}
-                                                                className="w-[90%] bg-[#1a1a1a] border border-[#2997ff] rounded px-2 py-0.5 text-white outline-none"
-                                                                autoFocus
-                                                            />
-                                                        ) : (
-                                                            <span className="hover:text-[#2997ff] transition-colors">{nextActionVal || '-'}</span>
-                                                        )}
-                                                    </td>
+                                                    {/* 22. 다음 액션 */}
+                                                    <td className="pl-4 text-[#A1A1AA] truncate w-[200px] min-w-[200px] max-w-[200px]">{nextActionVal || '-'}</td>
 
-                                                    {/* 23. 우선순위점수 (더블클릭 편집) */}
-                                                    <td 
-                                                        className="pl-4 text-center font-mono cursor-pointer w-[100px] min-w-[100px] max-w-[100px]"
-                                                        onDoubleClick={() => handleDoubleClick(t.id, 'priority_score', String(priorityScore))}
-                                                    >
-                                                        {editingCell?.rowId === t.id && editingCell?.colName === 'priority_score' ? (
-                                                            <input 
-                                                                type="number" 
-                                                                value={tempValue} 
-                                                                onChange={e => setTempValue(e.target.value)}
-                                                                onBlur={() => handleSaveCell(t.id, 'priority_score', parseInt(tempValue) || 0)}
-                                                                className="w-[80px] bg-[#1a1a1a] border border-[#2997ff] rounded px-1.5 py-0.5 text-white outline-none text-center"
-                                                                autoFocus
-                                                            />
-                                                        ) : (
-                                                            <span className="hover:text-[#2997ff] font-bold text-[#E5E5E5]">{priorityScore}</span>
-                                                        )}
-                                                    </td>
+                                                    {/* 23. 우선순위점수 */}
+                                                    <td className="pl-4 text-center font-mono w-[100px] min-w-[100px] max-w-[100px] font-bold text-[#E5E5E5]">{priorityScore}</td>
 
                                                     {/* 24. 회의상정등급 */}
-                                                    <td className="pl-4 text-center select-none w-[110px] min-w-[110px] max-w-[110px]">
-                                                        <select 
-                                                            value={meetingGrade}
-                                                            onChange={e => handleSaveCell(t.id, 'meeting_grade', e.target.value)}
-                                                            className="bg-[#222] border border-[#333] text-white rounded-[6px] px-2 py-0.5 text-[11px] font-bold outline-none cursor-pointer hover:border-[#555] transition-colors"
-                                                        >
-                                                            <option value="A">A_즉시상정</option>
-                                                            <option value="B">B_회의점검</option>
-                                                        </select>
+                                                    <td className="pl-4 text-center w-[110px] min-w-[110px] max-w-[110px] truncate">
+                                                        <span className={`px-2 py-0.5 rounded text-[11px] font-bold ${
+                                                            meetingGrade === 'A' ? 'bg-[#ff453a]/15 text-[#ff453a] border border-[#ff453a]/25' : 'bg-gray-500/10 text-gray-400'
+                                                        }`}>
+                                                            {meetingGrade === 'A' ? 'A_즉시상정' : 'B_회의점검'}
+                                                        </span>
                                                     </td>
 
-                                                    {/* 25. 상정사유 (더블클릭 편집) */}
-                                                    <td 
-                                                        className="pl-4 text-[#A1A1AA] truncate cursor-pointer w-[180px] min-w-[180px] max-w-[180px]"
-                                                        onDoubleClick={() => handleDoubleClick(t.id, 'agenda_reason', agendaReason)}
-                                                    >
-                                                        {editingCell?.rowId === t.id && editingCell?.colName === 'agenda_reason' ? (
-                                                            <input 
-                                                                type="text" 
-                                                                value={tempValue} 
-                                                                onChange={e => setTempValue(e.target.value)}
-                                                                onBlur={() => handleSaveCell(t.id, 'agenda_reason')}
-                                                                className="w-[90%] bg-[#1a1a1a] border border-[#2997ff] rounded px-2 py-0.5 text-white outline-none"
-                                                                autoFocus
-                                                            />
-                                                        ) : (
-                                                            <span className="hover:text-[#2997ff] transition-colors">{agendaReason || '-'}</span>
-                                                        )}
-                                                    </td>
+                                                    {/* 25. 상정사유 */}
+                                                    <td className="pl-4 text-[#A1A1AA] truncate w-[180px] min-w-[180px] max-w-[180px]">{agendaReason || '-'}</td>
 
                                                     {/* 26. 정렬키 */}
                                                     <td className="pl-4 text-center w-[100px] min-w-[100px] max-w-[100px] font-mono text-[#86868B] truncate">{sortKeyVal || '-'}</td>
 
-                                                    {/* 27. 비고 (더블클릭 편집) */}
-                                                    <td 
-                                                        className="pl-4 text-[#86868B] truncate cursor-pointer w-[180px] min-w-[180px] max-w-[180px]"
-                                                        onDoubleClick={() => handleDoubleClick(t.id, 'notes', notesVal)}
-                                                    >
-                                                        {editingCell?.rowId === t.id && editingCell?.colName === 'notes' ? (
-                                                            <input 
-                                                                type="text" 
-                                                                value={tempValue} 
-                                                                onChange={e => setTempValue(e.target.value)}
-                                                                onBlur={() => handleSaveCell(t.id, 'notes')}
-                                                                className="w-[90%] bg-[#1a1a1a] border border-[#2997ff] rounded px-2 py-0.5 text-white outline-none"
-                                                                autoFocus
-                                                            />
-                                                        ) : (
-                                                            <span className="hover:text-[#2997ff] transition-colors">{notesVal || '-'}</span>
-                                                        )}
+                                                    {/* 27. 비고 */}
+                                                    <td className="pl-4 text-[#86868B] truncate w-[180px] min-w-[180px] max-w-[180px]">{notesVal || '-'}</td>
+                                                    
+                                                    {/* 관리 */}
+                                                    <td className="px-2 text-center w-[85px] min-w-[85px] max-w-[85px] border-r border-[#3c3c3c]">
+                                                        <div className="flex items-center justify-center gap-1.5">
+                                                            <button 
+                                                                onClick={isAuthorized ? () => handleEditClick(t) : () => setShowAuthInfoModal(true)}
+                                                                className="text-blue-400 hover:text-blue-300 font-bold text-[11px] cursor-pointer"
+                                                            >
+                                                                수정
+                                                            </button>
+                                                            <span className="text-[#555] select-none">|</span>
+                                                            <button 
+                                                                onClick={isAuthorized ? () => handleDeleteClick(t.id) : () => setShowAuthInfoModal(true)}
+                                                                className="text-red-400 hover:text-red-300 font-bold text-[11px] cursor-pointer"
+                                                            >
+                                                                삭제
+                                                            </button>
+                                                        </div>
                                                     </td>
                                                 </tr>
                                             );
                                         })
                                     )}
+                                    <tr className="bg-[#272726] hover:bg-[#333]/30 transition-colors h-11 border-t border-[#3c3c3c]/50">
+                                        <td colSpan="28" className="text-center py-2 bg-[#2c2c2b]/30">
+                                            <button 
+                                                onClick={isAuthorized ? handleAddNewClick : () => setShowAuthInfoModal(true)}
+                                                className="px-6 py-2 border border-[#444] rounded-[8px] text-[13px] font-bold text-[#A1A1AA] hover:text-white hover:border-[#666] transition-colors cursor-pointer"
+                                            >
+                                                + 새 업무 추가
+                                            </button>
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
                             
@@ -1682,6 +1730,218 @@ export default function PmoTaskBoardStaging() {
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            )}
+
+            {/* R&R 관리 권한 안내 모달 */}
+            {showAuthInfoModal && (
+                <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[11000] p-4">
+                    <div className="bg-[#1C1C1E] border border-[#2C2C2E] rounded-[16px] w-full max-w-[400px] shadow-2xl p-6 relative">
+                        <h3 className="text-[17px] font-bold text-white mb-5 text-left">
+                            R&R 및 필요산출물 관리 권한
+                        </h3>
+                        
+                        <div className="bg-[#2C2C2E]/40 border border-[#2C2C2E] rounded-[8px] p-4 space-y-3 mb-6 text-left">
+                            <div className="flex items-center gap-3">
+                                <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-[#2997ff]/10 text-[#2997ff] border border-[#2997ff]/20 shrink-0">조직</span>
+                                <div className="text-[13px] text-[#E5E5E5] font-medium space-y-1">
+                                    <div className="flex items-center gap-1.5">
+                                        <span className="w-[3px] h-[3px] rounded-full bg-[#86868B] shrink-0" />
+                                        <span>사업관리2파트</span>
+                                    </div>
+                                    <div className="flex items-center gap-1.5">
+                                        <span className="w-[3px] h-[3px] rounded-full bg-[#86868B] shrink-0" />
+                                        <span>시스템 관리자(기획추진)</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="h-[1px] bg-[#2C2C2E]" />
+                            <div className="flex items-center gap-3">
+                                <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-[#6366F1]/10 text-[#A5B4FC] border border-[#6366F1]/20 shrink-0">역할</span>
+                                <div className="text-[13px] text-[#E5E5E5] font-medium space-y-1">
+                                    <div className="flex items-center gap-1.5">
+                                        <span className="w-[3px] h-[3px] rounded-full bg-[#86868B] shrink-0" />
+                                        <span>PO (Project Owner)</span>
+                                    </div>
+                                    <div className="flex items-center gap-1.5">
+                                        <span className="w-[3px] h-[3px] rounded-full bg-[#86868B] shrink-0" />
+                                        <span>프로젝트 디렉터 및 PM</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="flex justify-end">
+                            <button 
+                                onClick={() => setShowAuthInfoModal(false)}
+                                className="px-5 py-2 rounded-[8px] bg-[#2997ff] hover:bg-[#147ce5] text-[13px] font-bold text-white transition-colors cursor-pointer w-full"
+                            >
+                                확인
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Add / Edit Task Modal */}
+            {isModalOpen && (
+                <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[10000] p-4">
+                    <div className="bg-[#1C1C1E] border border-[#2C2C2E] rounded-[16px] w-full max-w-[800px] shadow-2xl p-6 relative">
+                        <h3 className="text-[18px] font-bold text-white mb-4 text-left">
+                            {editingItem ? '통합 업무 보드 수정' : '통합 업무 보드 추가'}
+                        </h3>
+                        <form onSubmit={handleFormSubmit} className="space-y-4">
+                            <div className="grid grid-cols-2 gap-4 max-h-[60vh] overflow-y-auto pr-2 text-left">
+                                {/* Col 1 */}
+                                <div className="space-y-4">
+                                    <div>
+                                        <label className="block text-[12px] font-bold text-[#86868B] mb-1">프로젝트</label>
+                                        <input type="text" value={formProject} onChange={e => setFormProject(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff]" />
+                                    </div>
+                                    <div>
+                                        <label className="block text-[12px] font-bold text-[#86868B] mb-1">대분류</label>
+                                        <input type="text" value={formCategoryMain} onChange={e => setFormCategoryMain(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff]" required />
+                                    </div>
+                                    <div>
+                                        <label className="block text-[12px] font-bold text-[#86868B] mb-1">세부섹터</label>
+                                        <input type="text" value={formSectorDetail} onChange={e => setFormSectorDetail(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff]" />
+                                    </div>
+                                    <div>
+                                        <label className="block text-[12px] font-bold text-[#86868B] mb-1">업무명</label>
+                                        <textarea value={formTaskName} onChange={e => setFormTaskName(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] h-16 resize-none" required />
+                                    </div>
+                                    <div>
+                                        <label className="block text-[12px] font-bold text-[#86868B] mb-1">업무목적 / PF·준공 영향</label>
+                                        <textarea value={formTaskPurpose} onChange={e => setFormTaskPurpose(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] h-16 resize-none" />
+                                    </div>
+                                    <div>
+                                        <label className="block text-[12px] font-bold text-[#86868B] mb-1">필요 산출물</label>
+                                        <textarea value={formDeliverables} onChange={e => setFormDeliverables(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] h-16 resize-none" />
+                                    </div>
+                                    <div>
+                                        <label className="block text-[12px] font-bold text-[#86868B] mb-1">최종 목표축</label>
+                                        <input type="text" value={formTargetAxis} onChange={e => setFormTargetAxis(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff]" />
+                                    </div>
+                                    <div>
+                                        <label className="block text-[12px] font-bold text-[#86868B] mb-1">Gate</label>
+                                        <input type="text" value={formGateStage} onChange={e => setFormGateStage(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff]" />
+                                    </div>
+                                    <div>
+                                        <label className="block text-[12px] font-bold text-[#86868B] mb-1">PMO총괄</label>
+                                        <input type="text" value={formPmoManager} onChange={e => setFormPmoManager(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff]" />
+                                    </div>
+                                    <div>
+                                        <label className="block text-[12px] font-bold text-[#86868B] mb-1">실무 주관부서</label>
+                                        <input type="text" value={formLeadDept} onChange={e => setFormLeadDept(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff]" />
+                                    </div>
+                                    <div>
+                                        <label className="block text-[12px] font-bold text-[#86868B] mb-1">협업부서</label>
+                                        <input type="text" value={formCoopDepts} onChange={e => setFormCoopDepts(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff]" />
+                                    </div>
+                                    <div>
+                                        <label className="block text-[12px] font-bold text-[#86868B] mb-1">담당자</label>
+                                        <input type="text" value={formAssignee} onChange={e => setFormAssignee(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff]" />
+                                    </div>
+                                    <div>
+                                        <label className="block text-[12px] font-bold text-[#86868B] mb-1">외부상대방</label>
+                                        <input type="text" value={formExternalParty} onChange={e => setFormExternalParty(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff]" />
+                                    </div>
+                                </div>
+
+                                {/* Col 2 */}
+                                <div className="space-y-4">
+                                    <div>
+                                        <label className="block text-[12px] font-bold text-[#86868B] mb-1">지원필요</label>
+                                        <textarea value={formSupportNeeded} onChange={e => setFormSupportNeeded(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] h-16 resize-none" />
+                                    </div>
+                                    <div className="flex gap-4">
+                                        <div className="flex-1">
+                                            <label className="block text-[12px] font-bold text-[#86868B] mb-1">Blocker</label>
+                                            <select value={formIsBlocker ? 'Y' : 'N'} onChange={e => setFormIsBlocker(e.target.value === 'Y')} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff]">
+                                                <option value="N">N (아니오)</option>
+                                                <option value="Y">Y (예)</option>
+                                            </select>
+                                        </div>
+                                        <div className="flex-1">
+                                            <label className="block text-[12px] font-bold text-[#86868B] mb-1">의사결정필요</label>
+                                            <select value={formNeedsDecision ? 'Y' : 'N'} onChange={e => setFormNeedsDecision(e.target.value === 'Y')} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff]">
+                                                <option value="N">N (아니오)</option>
+                                                <option value="Y">Y (예)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label className="block text-[12px] font-bold text-[#86868B] mb-1">기한</label>
+                                        <input type="date" value={formDueDate} onChange={e => setFormDueDate(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff]" />
+                                    </div>
+                                    <div className="flex gap-4">
+                                        <div className="flex-1">
+                                            <label className="block text-[12px] font-bold text-[#86868B] mb-1">진행 상태</label>
+                                            <select value={formStatus} onChange={e => setFormStatus(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff]">
+                                                <option value="미착수">미착수</option>
+                                                <option value="진행중">진행중</option>
+                                                <option value="완료">완료</option>
+                                                <option value="지연">지연</option>
+                                            </select>
+                                        </div>
+                                        <div className="flex-1">
+                                            <label className="block text-[12px] font-bold text-[#86868B] mb-1">중요도</label>
+                                            <select value={formImportanceLevel} onChange={e => setFormImportanceLevel(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff]">
+                                                <option value="일반">일반</option>
+                                                <option value="PF필수">PF필수</option>
+                                                <option value="준공필수">준공필수</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label className="block text-[12px] font-bold text-[#86868B] mb-1">업무유형</label>
+                                        <select value={formTaskType} onChange={e => setFormTaskType(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff]">
+                                            <option value="정규">정규</option>
+                                            <option value="팝업">팝업</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label className="block text-[12px] font-bold text-[#86868B] mb-1">다음 액션</label>
+                                        <textarea value={formNextAction} onChange={e => setFormNextAction(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] h-16 resize-none" />
+                                    </div>
+                                    <div className="flex gap-4">
+                                        <div className="flex-1">
+                                            <label className="block text-[12px] font-bold text-[#86868B] mb-1">우선순위점수</label>
+                                            <input type="number" value={formPriorityScore} onChange={e => setFormPriorityScore(parseInt(e.target.value) || 0)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff]" />
+                                        </div>
+                                        <div className="flex-1">
+                                            <label className="block text-[12px] font-bold text-[#86868B] mb-1">회의상정등급</label>
+                                            <select value={formMeetingGrade} onChange={e => setFormMeetingGrade(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff]">
+                                                <option value="B">B_회의점검</option>
+                                                <option value="A">A_즉시상정</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label className="block text-[12px] font-bold text-[#86868B] mb-1">상정사유</label>
+                                        <textarea value={formAgendaReason} onChange={e => setFormAgendaReason(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] h-16 resize-none" />
+                                    </div>
+                                    <div>
+                                        <label className="block text-[12px] font-bold text-[#86868B] mb-1">정렬키</label>
+                                        <input type="text" value={formSortKey} onChange={e => setFormSortKey(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff]" />
+                                    </div>
+                                    <div>
+                                        <label className="block text-[12px] font-bold text-[#86868B] mb-1">비고</label>
+                                        <textarea value={formNotes} onChange={e => setFormNotes(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] h-16 resize-none" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="pt-4 border-t border-[#3c3c3c] flex justify-end gap-3 mt-6">
+                                <button type="button" onClick={() => setIsModalOpen(false)} className="px-4 py-2 rounded-[8px] bg-[#333] hover:bg-[#444] text-[13px] font-bold text-white transition-colors cursor-pointer">
+                                    취소
+                                </button>
+                                <button type="submit" className="px-5 py-2 rounded-[8px] bg-[#2997ff] hover:bg-[#147ce5] text-[13px] font-bold text-white transition-colors cursor-pointer">
+                                    저장
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             )}
