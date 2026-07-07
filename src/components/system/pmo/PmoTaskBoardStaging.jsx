@@ -1294,6 +1294,8 @@ export default function PmoTaskBoardStaging() {
 
     // Modal states
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isCriteriaModalOpen, setIsCriteriaModalOpen] = useState(false);
+    const [prioritySortOrder, setPrioritySortOrder] = useState('desc'); // default: highest first
     const [showAuthInfoModal, setShowAuthInfoModal] = useState(false);
     const [editingItem, setEditingItem] = useState(null);
 
@@ -1933,6 +1935,25 @@ export default function PmoTaskBoardStaging() {
         });
     }, [tasks, projects, selectedProject, selectedCategoryMain, selectedTargetAxis, selectedGateStage, selectedLeadDept, selectedCoopDept, selectedIsBlocker, selectedNeedsDecision, selectedStatus, selectedImportanceLevel, selectedMeetingGrade]);
 
+    // Sort tasks by priority score (default: descending)
+    const sortedAndFilteredTasks = useMemo(() => {
+        const list = [...filteredTasks];
+        list.sort((a, b) => {
+            const fallbackA = FALLBACK_BOARD_TASKS.find(item => item.task_name === a.task_name) || {};
+            const scoreA = Number(a.priority_score !== undefined ? a.priority_score : (fallbackA.priority_score || 0));
+            
+            const fallbackB = FALLBACK_BOARD_TASKS.find(item => item.task_name === b.task_name) || {};
+            const scoreB = Number(b.priority_score !== undefined ? b.priority_score : (fallbackB.priority_score || 0));
+            
+            if (prioritySortOrder === 'desc') {
+                return scoreB - scoreA;
+            } else {
+                return scoreA - scoreB;
+            }
+        });
+        return list;
+    }, [filteredTasks, prioritySortOrder]);
+
     return (
         <div className="w-full flex flex-col mb-10 text-left">
             {loading ? (
@@ -1990,6 +2011,22 @@ export default function PmoTaskBoardStaging() {
 
                                         <th className="pl-4 w-[104px] min-w-[104px] max-w-[104px] sticky left-[245px] bg-[#272726] z-30">세부섹터</th>
                                         <th className="pl-4 w-[270px] min-w-[270px] max-w-[270px] sticky left-[349px] bg-[#272726] z-30 shadow-[inset_-1px_0_0_0_#3c3c3c]">업무명</th>
+                                        <th className="pl-4 w-[100px] min-w-[100px] max-w-[100px] text-center select-none cursor-pointer hover:text-white transition-colors" onClick={() => setPrioritySortOrder(prev => prev === 'desc' ? 'asc' : 'desc')}>
+                                            <div className="flex items-center justify-center gap-1">
+                                                <span className="leading-tight">우선순위<br />Score</span>
+                                                <span className="text-[10px] text-[#2997ff]">{prioritySortOrder === 'desc' ? '▼' : '▲'}</span>
+                                                <span 
+                                                    className="inline-flex items-center justify-center w-3.5 h-3.5 rounded-full bg-white/10 hover:bg-white/20 text-[10px] text-[#86868B] hover:text-white ml-0.5 font-bold cursor-pointer"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        setIsCriteriaModalOpen(true);
+                                                    }}
+                                                    title="우선순위 산정 기준 보기"
+                                                >
+                                                    ?
+                                                </span>
+                                            </div>
+                                        </th>
                                         <th className="pl-4 w-[280px] min-w-[280px] max-w-[280px]">업무목적 / PF·준공 영향</th>
                                         <th className="pl-4 w-[220px] min-w-[220px] max-w-[220px]">필요 산출물</th>
 
@@ -2161,7 +2198,6 @@ export default function PmoTaskBoardStaging() {
 
                                         <th className="pl-4 w-[100px] min-w-[100px] max-w-[100px] text-center">업무유형</th>
                                         <th className="pl-4 w-[200px] min-w-[200px] max-w-[200px]">다음 액션</th>
-                                        <th className="pl-4 w-[100px] min-w-[100px] max-w-[100px] text-center">우선순위점수</th>
 
                                         {/* 회의상정등급 */}
                                         <th className="pl-4 w-[115px] min-w-[115px] max-w-[115px] text-center">
@@ -2190,14 +2226,14 @@ export default function PmoTaskBoardStaging() {
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-[#3c3c3c] text-[13px] text-white">
-                                    {filteredTasks.length === 0 ? (
+                                    {sortedAndFilteredTasks.length === 0 ? (
                                         <tr>
                                             <td colSpan="28" className="text-center py-20 text-[#86868B]">
                                                 등록된 통합 업무 보드 정보가 없습니다.
                                             </td>
                                         </tr>
                                     ) : (
-                                        filteredTasks.map((t, idx) => {
+                                        sortedAndFilteredTasks.map((t, idx) => {
                                             const fallbackItem = FALLBACK_BOARD_TASKS.find(item => item.task_name === t.task_name) || {};
                                             
                                             // Project mapping
@@ -2237,6 +2273,7 @@ export default function PmoTaskBoardStaging() {
                                             const notesVal = t.notes || fallbackItem.notes || '';
                                             return (
                                                 <tr key={t.id || `task-${idx}`} className="group hover:bg-[#333]/50 transition-colors h-12">
+                                                    
                                                     {/* 1. ID */}
                                                     <td className="pl-[10px] text-center text-[#86868B] text-[11px] font-mono select-none w-[60px] min-w-[60px] max-w-[60px] truncate sticky left-0 bg-[#272726] group-hover:bg-[#2d2d2c] transition-colors z-10">
                                                         {t.id && !t.id.includes('-') ? t.id : (fallbackItem.id || `T-${String(idx+1).padStart(3, '0')}`)}
@@ -2261,6 +2298,9 @@ export default function PmoTaskBoardStaging() {
                                                     <td className="pl-4 font-bold text-[#F59E0B] w-[270px] min-w-[270px] max-w-[270px] sticky left-[349px] bg-[#272726] group-hover:bg-[#2d2d2c] transition-colors z-10 shadow-[inset_-1px_0_0_0_#3c3c3c]">
                                                         <div className="truncate w-full">{t.task_name}</div>
                                                     </td>
+
+                                                    {/* 우선순위점수 */}
+                                                    <td className="pl-4 text-center font-mono w-[100px] min-w-[100px] max-w-[100px] font-bold text-[#E5E5E5]">{priorityScore}</td>
 
                                                     {/* 6. 업무목적 / PF·준공 영향 */}
                                                     <td className="pl-4 text-[#A1A1AA] truncate w-[280px] min-w-[280px] max-w-[280px]">
@@ -2462,6 +2502,90 @@ export default function PmoTaskBoardStaging() {
                             >
                                 확인
                             </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {isCriteriaModalOpen && (
+                <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[10000] p-4" onClick={() => setIsCriteriaModalOpen(false)}>
+                    <div className="bg-[#1C1C1E] border border-[#2C2C2E] rounded-[16px] w-full max-w-[650px] shadow-2xl p-6 relative" onClick={(e) => e.stopPropagation()}>
+                        <button
+                            onClick={() => setIsCriteriaModalOpen(false)}
+                            className="absolute top-4 right-4 text-gray-400 hover:text-white font-bold text-[18px] cursor-pointer"
+                        >
+                            ✕
+                        </button>
+                        <h3 className="text-[18px] font-bold text-white mb-6 text-center flex items-center justify-center gap-2">
+                            <span className="text-[#2997ff]">③</span> 우선순위 산정 기준
+                        </h3>
+                        <div className="overflow-hidden border border-[#2c2c2b] rounded-[8px] bg-[#121214]">
+                            <table className="w-full text-left text-[12px] border-collapse">
+                                <thead>
+                                    <tr className="bg-[#1C1C1E] border-b border-[#2c2c2b] text-[#86868B] font-bold h-10">
+                                        <th className="px-4 py-2">우선순위 산정항목</th>
+                                        <th className="px-4 py-2 text-center w-[80px]">점수</th>
+                                        <th className="px-4 py-2">의미</th>
+                                        <th className="px-4 py-2 text-center w-[90px]">입력 위치</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="divide-y divide-[#2c2c2b] text-gray-300">
+                                    <tr className="hover:bg-white/[0.02] h-10">
+                                        <td className="px-4 py-2 font-bold text-white">준공필수</td>
+                                        <td className="px-4 py-2 text-center font-mono text-[#F59E0B] font-bold">35</td>
+                                        <td className="px-4 py-2 text-gray-400">준공/사용승인/담보대출과 직결</td>
+                                        <td className="px-4 py-2 text-center text-gray-400">중요도</td>
+                                    </tr>
+                                    <tr className="hover:bg-white/[0.02] h-10">
+                                        <td className="px-4 py-2 font-bold text-white">PF필수</td>
+                                        <td className="px-4 py-2 text-center font-mono text-[#F59E0B] font-bold">30</td>
+                                        <td className="px-4 py-2 text-gray-400">PF 실행 전 선결조건</td>
+                                        <td className="px-4 py-2 text-center text-gray-400">중요도</td>
+                                    </tr>
+                                    <tr className="hover:bg-white/[0.02] h-10">
+                                        <td className="px-4 py-2 font-bold text-white">Blocker</td>
+                                        <td className="px-4 py-2 text-center font-mono text-[#F59E0B] font-bold">25</td>
+                                        <td className="px-4 py-2 text-gray-400">막혀서 일정/판단 지연</td>
+                                        <td className="px-4 py-2 text-center text-gray-400">Blocker</td>
+                                    </tr>
+                                    <tr className="hover:bg-white/[0.02] h-10">
+                                        <td className="px-4 py-2 font-bold text-white">의사결정필요</td>
+                                        <td className="px-4 py-2 text-center font-mono text-[#F59E0B] font-bold">20</td>
+                                        <td className="px-4 py-2 text-gray-400">대표/본부장/파트장 판단 필요</td>
+                                        <td className="px-4 py-2 text-center text-gray-400">의사결정</td>
+                                    </tr>
+                                    <tr className="hover:bg-white/[0.02] h-10">
+                                        <td className="px-4 py-2 font-bold text-white">지원필요</td>
+                                        <td className="px-4 py-2 text-center font-mono text-[#F59E0B] font-bold">15</td>
+                                        <td className="px-4 py-2 text-gray-400">협력부서 산출물 또는 외부 회신 필요</td>
+                                        <td className="px-4 py-2 text-center text-gray-400">지원필요</td>
+                                    </tr>
+                                    <tr className="hover:bg-white/[0.02] h-10">
+                                        <td className="px-4 py-2 font-bold text-white">기한임박</td>
+                                        <td className="px-4 py-2 text-center font-mono text-[#F59E0B] font-bold">10</td>
+                                        <td className="px-4 py-2 text-gray-400">7일 이내 기한 도래</td>
+                                        <td className="px-4 py-2 text-center text-gray-400">기한</td>
+                                    </tr>
+                                    <tr className="hover:bg-white/[0.02] h-10">
+                                        <td className="px-4 py-2 font-bold text-white">지연</td>
+                                        <td className="px-4 py-2 text-center font-mono text-[#F59E0B] font-bold">15</td>
+                                        <td className="px-4 py-2 text-gray-400">상태가 지연</td>
+                                        <td className="px-4 py-2 text-center text-gray-400">상태</td>
+                                    </tr>
+                                    <tr className="hover:bg-white/[0.02] h-10">
+                                        <td className="px-4 py-2 font-bold text-white">팝업업무</td>
+                                        <td className="px-4 py-2 text-center font-mono text-[#F59E0B] font-bold">5</td>
+                                        <td className="px-4 py-2 text-gray-400">정규업무 침식 가능</td>
+                                        <td className="px-4 py-2 text-center text-gray-400">업무유형</td>
+                                    </tr>
+                                    <tr className="bg-white/[0.01] h-10 font-bold border-t border-[#2c2c2b]">
+                                        <td className="px-4 py-2 text-[#2997ff]">회의상정 기준</td>
+                                        <td className="px-4 py-2 text-center text-[#2997ff]">50점 이상</td>
+                                        <td className="px-4 py-2 text-[#2997ff]/80">01_회의메인 자동 노출 기준</td>
+                                        <td className="px-4 py-2 text-center text-gray-500 font-normal">우선순위점수</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
