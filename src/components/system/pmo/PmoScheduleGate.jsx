@@ -472,14 +472,14 @@ export default function PmoScheduleGate() {
             {/* Timeline Matrix Grid */}
             <div className="-mr-[calc(50vw-50%)] border border-r-0 border-[#3c3c3c] bg-[#272726] rounded-l-[24px] overflow-hidden">
                 <div className="w-full overflow-x-auto pr-0 timeline-scrollbar">
-                    <div className="flex items-center min-w-[2270px]">
-                        <table className="text-left table-fixed min-w-[1470px] flex-1">
+                    <div className="flex items-center min-w-[2280px]">
+                        <table className="text-left table-fixed min-w-[1480px] flex-1">
                             <thead>
                                 <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[13px] h-12">
                                     <th className="px-2 w-[100px] text-center sticky left-0 bg-[#272726] z-30">구분</th>
-                                    <th className="pl-4 w-[260px] sticky left-[100px] bg-[#272726] z-30">세부업무</th>
-                                    <th className="px-2 w-[110px] text-center sticky left-[360px] bg-[#272726] z-30">주관</th>
-                                    <th className="px-2 w-[100px] text-center sticky left-[470px] bg-[#272726] z-30 border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)]">협업</th>
+                                    <th className="pl-4 w-[270px] sticky left-[100px] bg-[#272726] z-30">세부업무</th>
+                                    <th className="px-2 w-[110px] text-center sticky left-[370px] bg-[#272726] z-30">주관</th>
+                                    <th className="px-2 w-[100px] text-center sticky left-[480px] bg-[#272726] z-30 border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)]">협업</th>
                                     {COLUMNS.map((col, cIdx) => {
                                         return (
                                             <th key={col.key} className={`text-center font-mono text-[11px] leading-tight px-1 font-bold w-[90px] ${
@@ -509,12 +509,12 @@ export default function PmoScheduleGate() {
                                             </td>
                                             
                                             {/* 세부업무 */}
-                                            <td className="pl-4 font-medium text-[#E5E5E5] leading-snug text-left pr-2 whitespace-normal break-all sticky left-[100px] bg-[#272726] group-hover:bg-[#333] transition-colors z-20 text-[14px] w-[260px] min-w-[260px] max-w-[260px]">
+                                            <td className="pl-4 font-medium text-[#E5E5E5] leading-snug text-left pr-2 whitespace-normal break-all sticky left-[100px] bg-[#272726] group-hover:bg-[#333] transition-colors z-20 text-[14px] w-[270px] min-w-[270px] max-w-[270px]">
                                                 {item.desc}
                                             </td>
                                             
                                             {/* 주관 */}
-                                            <td className="px-2 text-[#E5E5E5] font-semibold text-center sticky left-[360px] bg-[#272726] group-hover:bg-[#333] transition-colors z-20 text-[13px] leading-tight whitespace-normal break-all w-[110px] min-w-[110px] max-w-[110px]">
+                                            <td className="px-2 text-[#E5E5E5] font-semibold text-center sticky left-[370px] bg-[#272726] group-hover:bg-[#333] transition-colors z-20 text-[13px] leading-tight whitespace-normal break-all w-[110px] min-w-[110px] max-w-[110px]">
                                                 {item.lead.includes(' ') ? (
                                                     item.lead.split(' ').map((part, pIdx) => (
                                                         <div key={pIdx}>{part}</div>
@@ -525,7 +525,7 @@ export default function PmoScheduleGate() {
                                             </td>
                                             
                                             {/* 협업 */}
-                                            <td className="px-2 text-[#86868B] leading-tight text-center pr-2 whitespace-normal break-all sticky left-[470px] bg-[#272726] group-hover:bg-[#333] transition-colors z-20 border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)] w-[100px] min-w-[100px] max-w-[100px]">
+                                            <td className="px-2 text-[#86868B] leading-tight text-center pr-2 whitespace-normal break-all sticky left-[480px] bg-[#272726] group-hover:bg-[#333] transition-colors z-20 border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)] w-[100px] min-w-[100px] max-w-[100px]">
                                                 {item.coop.split(';').map((c, cIdx) => (
                                                     c && <div key={cIdx} className="text-[11px]">{c}</div>
                                                 ))}
