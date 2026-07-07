@@ -2582,15 +2582,16 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                         })
                                     )}
                                     <tr className="bg-[#272726] hover:bg-[#333]/30 transition-colors h-11 border-t border-[#3c3c3c]/50">
-                                        <td colSpan="23" className="py-2 bg-[#2c2c2b]/30 p-0 text-left">
-                                            <div className="sticky left-[349px] pl-4 py-2 box-border inline-block">
-                                                <button 
-                                                    onClick={isAuthorized ? handleAddNewClick : () => setShowAuthInfoModal(true)}
-                                                    className="font-bold text-[13px] text-[#ff9f0a] hover:text-[#ffb03a] transition-colors cursor-pointer flex items-center"
-                                                >
-                                                    + 새 업무 추가
-                                                </button>
-                                            </div>
+                                        {/* Empty cells covering the columns before "업무명" (ID, 프로젝트, 대분류, 세부섹터) */}
+                                        <td colSpan="4" className="bg-[#272726]"></td>
+                                        {/* Cell for "업무명" column where the button is aligned */}
+                                        <td colSpan="19" className="pl-4 py-2 text-left sticky left-[349px] bg-[#272726] z-10">
+                                            <button 
+                                                onClick={isAuthorized ? handleAddNewClick : () => setShowAuthInfoModal(true)}
+                                                className="px-6 py-2 border border-[#ff9f0a]/30 hover:border-[#ff9f0a] rounded-[8px] text-[13px] font-bold text-[#ff9f0a] hover:bg-[#ff9f0a]/10 transition-colors cursor-pointer whitespace-nowrap"
+                                            >
+                                                + 새 업무 추가
+                                            </button>
                                         </td>
                                     </tr>
                                 </tbody>
