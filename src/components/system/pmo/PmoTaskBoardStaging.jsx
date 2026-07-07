@@ -2058,8 +2058,8 @@ export default function PmoTaskBoardStaging() {
             ) : (
                 <div className="-mr-[calc(50vw-50%)] border border-r-0 border-[#3c3c3c] bg-[#272726] rounded-l-[24px] overflow-hidden mb-[40px] shadow-sm select-text">
                     <div className="w-full overflow-x-auto pr-0 timeline-scrollbar">
-                        <div className="flex items-center min-w-[4510px]">
-                            <table className="text-left table-fixed min-w-[3710px] flex-1 border-collapse bg-[#272726]">
+                        <div className="flex items-center min-w-[4470px]">
+                            <table className="text-left table-fixed min-w-[3670px] flex-1 border-collapse bg-[#272726]">
                                 <thead>
                                     <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[13px] h-11">
                                         <th className="pl-[10px] text-center w-[60px] min-w-[60px] max-w-[60px] sticky left-0 bg-[#272726] z-30">ID</th>
@@ -2166,8 +2166,8 @@ export default function PmoTaskBoardStaging() {
                                         </th>
 
                                         {/* 주관부서 (실무주관부서->주관부서) */}
-                                        <th className="pl-4 w-[120px] min-w-[120px] max-w-[120px]">
-                                            <div className="relative inline-flex items-center justify-start bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[105px] overflow-hidden">
+                                        <th className="w-[80px] min-w-[80px] max-w-[80px] text-center">
+                                            <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[65px] overflow-hidden mx-auto">
                                                 <span className={`font-bold text-[11px] whitespace-nowrap truncate ${selectedLeadDept === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
                                                     {selectedLeadDept === '전체보기' ? '주관부서' : selectedLeadDept}
                                                 </span>
@@ -2424,7 +2424,7 @@ export default function PmoTaskBoardStaging() {
                                                     
 
                                                     {/* 11. 실무 주관부서 */}
-                                                    <td className="pl-4 text-[#A1A1AA] w-[120px] min-w-[120px] max-w-[120px] truncate">{leadDeptName || '-'}</td>
+                                                    <td className="text-center text-[#A1A1AA] w-[80px] min-w-[80px] max-w-[80px] truncate">{leadDeptName || '-'}</td>
 
                                                     {/* 12. 협업부서 */}
                                                     <td className="pl-4 text-[#86868B] w-[180px] min-w-[180px] max-w-[180px] truncate">{coopDeptNames || '-'}</td>
