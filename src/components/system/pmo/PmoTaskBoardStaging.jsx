@@ -1266,6 +1266,34 @@ const calculatePriorityScore = (task, fallbackItem) => {
     return score;
 };
 
+// Department name normalization helper
+const normalizeDeptName = (name, isCoop = false) => {
+    if (!name) return isCoop ? '' : '사업2파트';
+    const clean = String(name).trim();
+    
+    if (clean.includes('LFC') || clean.includes('lfc') || clean.includes('금융')) return 'LFC';
+    if (clean.includes('사업관리1') || clean.includes('사업1') || clean.includes('관리1')) return '사업1파트';
+    if (clean.includes('사업관리2') || clean.includes('사업2') || clean.includes('관리2')) return '사업2파트';
+    if (clean.includes('개발관리') || clean.includes('개발솔루션') || clean.includes('개발')) return '개발솔루션';
+    if (clean.includes('기업마케팅') || clean.includes('마케팅') || clean.includes('홍보')) return '기업마케팅';
+    if (clean.includes('공간솔루션') || clean.includes('설계') || clean.includes('공간')) return '공간솔루션';
+    if (clean.toUpperCase().includes('KAM') || clean.toUpperCase().includes('kam') || clean.includes('자산') || clean.includes('에셋')) return 'KAM';
+    if (clean.includes('전부서') || clean.includes('전 부서') || clean.includes('전체')) {
+        return isCoop ? '전부서' : '사업2파트';
+    }
+    if (clean.includes('외부') || clean.includes('법무') || clean.includes('세무') || clean.includes('자문')) return 'KAM';
+    
+    return isCoop ? '전부서' : '사업2파트';
+};
+
+const normalizeCoopDepts = (deptsStr) => {
+    if (!deptsStr) return '';
+    const parts = deptsStr.split(/[,;/]+/).map(p => p.trim()).filter(Boolean);
+    const normalized = parts.map(p => normalizeDeptName(p, true));
+    const unique = [...new Set(normalized)];
+    return unique.filter(Boolean).join(', ');
+};
+
 // Project name normalization helper
 const normalizeProjectName = (name) => {
     if (!name) return 'IOTA 공통';
@@ -1486,31 +1514,12 @@ export default function PmoTaskBoardStaging() {
     }, []);
 
     const uniqueLeadDeptFilter = useMemo(() => {
-        const formal = ['사업관리2파트', 'LFC(금융)', '개발관리실', '설계실', '마케팅팀'];
-        const dbNames = departments.map(d => d.dept_name);
-        const taskNames = tasks.map(t => {
-            const fallbackItem = FALLBACK_BOARD_TASKS.find(item => item.task_name === t.task_name) || {};
-            return t.lead_dept?.dept_name || t.lead_dept || t.lead_dept_code || fallbackItem.lead_dept || '';
-        }).filter(Boolean);
-        return Array.from(new Set([...formal, ...dbNames, ...taskNames]));
-    }, [departments, tasks]);
+        return ['사업1파트', '사업2파트', 'LFC', '개발솔루션', '기업마케팅', '공간솔루션', 'KAM'];
+    }, []);
 
     const uniqueCoopDeptFilter = useMemo(() => {
-        const formal = ['사업관리2파트', 'LFC(금융)', '개발관리실', '설계실', '마케팅팀'];
-        const dbNames = departments.map(d => d.dept_name);
-        const taskNames = [];
-        tasks.forEach(t => {
-            const fallbackItem = FALLBACK_BOARD_TASKS.find(item => item.task_name === t.task_name) || {};
-            const coopStr = t.coop_dept_codes || t.coop_depts || fallbackItem.coop_depts || '';
-            if (coopStr) {
-                coopStr.split(';').forEach(c => {
-                    const clean = c.trim();
-                    if (clean) taskNames.push(clean);
-                });
-            }
-        });
-        return Array.from(new Set([...formal, ...dbNames, ...taskNames]));
-    }, [departments, tasks]);
+        return ['전부서', '사업1파트', '사업2파트', 'LFC', '개발솔루션', '기업마케팅', '공간솔루션', 'KAM'];
+    }, []);
 
     const uniqueStatusFilter = useMemo(() => {
         return ['미착수', '진행중', '검토중', '대기', '지연', '완료', '보류', '중단'];
@@ -1881,7 +1890,10 @@ export default function PmoTaskBoardStaging() {
             gate_stage: dbGateCode,
             pmo_manager: formPmoManager,
             lead_dept_code: resolvedLeadDeptCode,
-            coop_dept_codes: formCoopDepts,
+            coop_dept_codes: (() => {
+                const cleanedCoop = formCoopDepts.split(/[,;/]+/).map(c => normalizeDeptName(c.trim(), true)).filter(Boolean);
+                return [...new Set(cleanedCoop)].join('; ');
+            })(),
             assignee: formAssignee,
             external_party_code: resolvedExtPartyCode,
             is_blocker: formIsBlocker,
@@ -1975,13 +1987,15 @@ export default function PmoTaskBoardStaging() {
             if (selectedGateStage !== '전체보기' && gateStageVal !== selectedGateStage) return false;
 
             // Lead dept match
-            const leadDeptName = t.lead_dept?.dept_name || t.lead_dept || t.lead_dept_code || fallbackItem.lead_dept || '';
+            const rawLead = t.lead_dept?.dept_name || t.lead_dept || t.lead_dept_code || fallbackItem.lead_dept || '';
+            const leadDeptName = normalizeDeptName(rawLead, false);
             if (selectedLeadDept !== '전체보기' && leadDeptName !== selectedLeadDept) return false;
 
             // Coop dept match
-            const coopDeptNames = t.coop_dept_codes || t.coop_depts || fallbackItem.coop_depts || '';
+            const rawCoop = t.coop_dept_codes || t.coop_depts || fallbackItem.coop_depts || '';
+            const coopDeptNames = normalizeCoopDepts(rawCoop);
             if (selectedCoopDept !== '전체보기') {
-                const coops = coopDeptNames.split(';').map(c => c.trim());
+                const coops = coopDeptNames.split(',').map(c => c.trim());
                 if (!coops.includes(selectedCoopDept)) return false;
             }
 
@@ -2321,8 +2335,10 @@ export default function PmoTaskBoardStaging() {
                                             const projectVal = normalizeProjectName(rawProj);
 
                                             // Data mapping
-                                            const leadDeptName = t.lead_dept?.dept_name || t.lead_dept || t.lead_dept_code || fallbackItem.lead_dept || '';
-                                            const coopDeptNames = t.coop_dept_codes || t.coop_depts || fallbackItem.coop_depts || '';
+                                            const rawLeadVal = t.lead_dept?.dept_name || t.lead_dept || t.lead_dept_code || fallbackItem.lead_dept || '';
+                                            const leadDeptName = normalizeDeptName(rawLeadVal, false);
+                                            const rawCoopVal = t.coop_dept_codes || t.coop_depts || fallbackItem.coop_depts || '';
+                                            const coopDeptNames = normalizeCoopDepts(rawCoopVal);
                                             const extPartyName = t.external_party?.stakeholder_name || t.external_party || t.external_party_code || fallbackItem.external_party || '';
                                             const targetAxis = t.target_axis || fallbackItem.target_axis || '준공/운영';
                                             
@@ -2830,8 +2846,8 @@ export default function PmoTaskBoardStaging() {
                                             onChange={e => setFormLeadDept(e.target.value)} 
                                             className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] cursor-pointer"
                                         >
-                                            {departments.map(d => (
-                                                <option key={d.dept_code} value={d.dept_name}>{d.dept_name}</option>
+                                            {['사업1파트', '사업2파트', 'LFC', '개발솔루션', '기업마케팅', '공간솔루션', 'KAM'].map(name => (
+                                                <option key={name} value={name}>{name}</option>
                                             ))}
                                         </select>
                                     </div>
