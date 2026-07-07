@@ -2058,8 +2058,8 @@ export default function PmoTaskBoardStaging() {
             ) : (
                 <div className="-mr-[calc(50vw-50%)] border border-r-0 border-[#3c3c3c] bg-[#272726] rounded-l-[24px] overflow-hidden mb-[40px] shadow-sm select-text">
                     <div className="w-full overflow-x-auto pr-0 timeline-scrollbar">
-                        <div className="flex items-center min-w-[4450px]">
-                            <table className="text-left table-fixed min-w-[3650px] flex-1 border-collapse bg-[#272726]">
+                        <div className="flex items-center min-w-[3640px]">
+                            <table className="text-left table-fixed min-w-[2840px] flex-1 border-collapse bg-[#272726]">
                                 <thead>
                                     <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[13px] h-11">
                                         <th className="pl-[10px] text-center w-[60px] min-w-[60px] max-w-[60px] sticky left-0 bg-[#272726] z-30">ID</th>
@@ -2207,15 +2207,15 @@ export default function PmoTaskBoardStaging() {
 
                                         <th className="w-[80px] min-w-[80px] max-w-[80px] text-center">담당자</th>
                                         <th className="pl-4 w-[120px] min-w-[120px] max-w-[120px]">외부상대방</th>
-                                        <th className="pl-4 w-[180px] min-w-[180px] max-w-[180px]">지원필요</th>
+                                        <th className="w-[80px] min-w-[80px] max-w-[80px] text-center">지원필요</th>
 
                                         {/* Blocker */}
-                                        <th className="pl-4 w-[90px] min-w-[90px] max-w-[90px] text-center">
-                                            <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[75px] overflow-hidden">
-                                                <span className={`font-bold text-[11px] whitespace-nowrap truncate ${selectedIsBlocker === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
-                                                    {selectedIsBlocker === '전체보기' ? 'Blocker' : selectedIsBlocker}
+                                        <th className="w-[65px] min-w-[65px] max-w-[65px] text-center">
+                                            <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-0.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[52px] overflow-hidden mx-auto">
+                                                <span className={`font-bold text-[11px] whitespace-nowrap ${selectedIsBlocker === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
+                                                    {selectedIsBlocker === '전체보기' ? 'Block' : selectedIsBlocker}
                                                 </span>
-                                                <span className="text-[8px] text-[#86868B]/70 pointer-events-none select-none translate-y-[0.5px] ml-1 shrink-0">▼</span>
+                                                <span className="text-[8px] text-[#86868B]/70 pointer-events-none select-none translate-y-[0.5px] ml-0.5 shrink-0">▼</span>
                                                 <select
                                                     value={selectedIsBlocker}
                                                     onChange={(e) => setSelectedIsBlocker(e.target.value)}
@@ -2229,12 +2229,12 @@ export default function PmoTaskBoardStaging() {
                                         </th>
 
                                         {/* 의사결정필요 */}
-                                        <th className="pl-4 w-[115px] min-w-[115px] max-w-[115px] text-center">
-                                            <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[100px] overflow-hidden">
-                                                <span className={`font-bold text-[11px] whitespace-nowrap truncate ${selectedNeedsDecision === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
-                                                    {selectedNeedsDecision === '전체보기' ? '의사결정필요' : selectedNeedsDecision}
+                                        <th className="w-[70px] min-w-[70px] max-w-[70px] text-center">
+                                            <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-0.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[56px] overflow-hidden mx-auto">
+                                                <span className={`font-bold text-[11px] whitespace-nowrap ${selectedNeedsDecision === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
+                                                    {selectedNeedsDecision === '전체보기' ? '의사결정' : selectedNeedsDecision}
                                                 </span>
-                                                <span className="text-[8px] text-[#86868B]/70 pointer-events-none select-none translate-y-[0.5px] ml-1 shrink-0">▼</span>
+                                                <span className="text-[8px] text-[#86868B]/70 pointer-events-none select-none translate-y-[0.5px] ml-0.5 shrink-0">▼</span>
                                                 <select
                                                     value={selectedNeedsDecision}
                                                     onChange={(e) => setSelectedNeedsDecision(e.target.value)}
@@ -2247,11 +2247,11 @@ export default function PmoTaskBoardStaging() {
                                             </div>
                                         </th>
 
-                                        <th className="pl-4 w-[120px] min-w-[120px] max-w-[120px]">기한</th>
+                                        <th className="w-[100px] min-w-[100px] max-w-[100px] text-center">기한</th>
 
                                         {/* 상태 */}
-                                        <th className="pl-4 w-[110px] min-w-[110px] max-w-[110px] text-center">
-                                            <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[95px] overflow-hidden">
+                                        <th className="w-[80px] min-w-[80px] max-w-[80px] text-center">
+                                            <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-1 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[66px] overflow-hidden mx-auto">
                                                 <span className={`font-bold text-[11px] whitespace-nowrap truncate ${selectedStatus === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
                                                     {selectedStatus === '전체보기' ? '상태' : selectedStatus}
                                                 </span>
@@ -2270,8 +2270,8 @@ export default function PmoTaskBoardStaging() {
                                         </th>
 
                                         {/* 중요도 */}
-                                        <th className="pl-4 w-[110px] min-w-[110px] max-w-[110px] text-center">
-                                            <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[95px] overflow-hidden">
+                                        <th className="w-[80px] min-w-[80px] max-w-[80px] text-center">
+                                            <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-1 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[66px] overflow-hidden mx-auto">
                                                 <span className={`font-bold text-[11px] whitespace-nowrap truncate ${selectedImportanceLevel === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
                                                     {selectedImportanceLevel === '전체보기' ? '중요도' : selectedImportanceLevel}
                                                 </span>
@@ -2289,7 +2289,6 @@ export default function PmoTaskBoardStaging() {
                                             </div>
                                         </th>
 
-                                        <th className="pl-4 w-[100px] min-w-[100px] max-w-[100px] text-center">업무유형</th>
                                         <th className="pl-4 w-[200px] min-w-[200px] max-w-[200px]">다음 액션</th>
 
                                         {/* 회의상정등급 */}
@@ -2312,16 +2311,13 @@ export default function PmoTaskBoardStaging() {
                                             </div>
                                         </th>
 
-                                        <th className="pl-4 w-[180px] min-w-[180px] max-w-[180px]">상정사유</th>
-                                        <th className="pl-4 w-[100px] min-w-[100px] max-w-[100px] text-center">정렬키</th>
-                                        <th className="pl-4 w-[180px] min-w-[180px] max-w-[180px]">비고</th>
                                         <th className="px-2 text-center w-[85px] min-w-[85px] max-w-[85px] border-r border-[#3c3c3c]">관리</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-[#3c3c3c] text-[13px] text-white">
                                     {sortedAndFilteredTasks.length === 0 ? (
                                         <tr>
-                                            <td colSpan="28" className="text-center py-20 text-[#86868B]">
+                                            <td colSpan="23" className="text-center py-20 text-[#86868B]">
                                                 등록된 통합 업무 보드 정보가 없습니다.
                                             </td>
                                         </tr>
@@ -2466,10 +2462,10 @@ export default function PmoTaskBoardStaging() {
                                                     <td className="pl-4 text-[#A1A1AA] w-[120px] min-w-[120px] max-w-[120px] truncate">{extPartyName || '-'}</td>
 
                                                     {/* 15. 지원필요 */}
-                                                    <td className="pl-4 text-[#86868B] w-[180px] min-w-[180px] max-w-[180px] truncate">{supportNeeded || '-'}</td>
+                                                    <td className="text-center text-[#86868B] w-[80px] min-w-[80px] max-w-[80px] truncate">{supportNeeded || '-'}</td>
 
                                                     {/* 16. Blocker */}
-                                                    <td className="pl-4 text-center w-[90px] min-w-[90px] max-w-[90px]">
+                                                    <td className="text-center w-[65px] min-w-[65px] max-w-[65px]">
                                                         <span className={`px-2 py-0.5 rounded text-[11px] font-bold ${
                                                             isBlockerVal ? 'bg-red-500/10 text-red-400 border border-red-500/20' : 'text-gray-500'
                                                         }`}>
@@ -2478,7 +2474,7 @@ export default function PmoTaskBoardStaging() {
                                                     </td>
 
                                                     {/* 17. 의사결정필요 */}
-                                                    <td className="pl-4 text-center w-[115px] min-w-[115px] max-w-[115px]">
+                                                    <td className="text-center w-[70px] min-w-[70px] max-w-[70px]">
                                                         <span className={`px-2 py-0.5 rounded text-[11px] font-bold ${
                                                             needsDecisionVal ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20' : 'text-gray-500'
                                                         }`}>
@@ -2487,10 +2483,10 @@ export default function PmoTaskBoardStaging() {
                                                     </td>
 
                                                     {/* 18. 기한 */}
-                                                    <td className="pl-4 text-[#A1A1AA] font-mono w-[120px] min-w-[120px] max-w-[120px] truncate">{dueDateVal || '-'}</td>
+                                                    <td className="text-center text-[#A1A1AA] font-mono w-[100px] min-w-[100px] max-w-[100px] truncate">{dueDateVal || '-'}</td>
 
                                                     {/* 19. 상태 */}
-                                                    <td className="pl-4 text-center w-[110px] min-w-[110px] max-w-[110px]">
+                                                    <td className="text-center w-[80px] min-w-[80px] max-w-[80px]">
                                                         <span className={`px-2 py-0.5 rounded text-[11px] font-bold ${
                                                             statusVal === '완료' ? 'bg-green-500/10 text-green-400 border border-green-500/20' :
                                                             statusVal === '진행중' ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20' :
@@ -2502,7 +2498,7 @@ export default function PmoTaskBoardStaging() {
                                                     </td>
 
                                                     {/* 20. 중요도 */}
-                                                    <td className="pl-4 text-center w-[110px] min-w-[110px] max-w-[110px] truncate">
+                                                    <td className="text-center w-[80px] min-w-[80px] max-w-[80px] truncate">
                                                         <span className={`px-2 py-0.5 rounded text-[11px] font-bold ${
                                                             importanceLevel === 'PF필수' 
                                                                 ? 'bg-[#ff453a]/15 text-[#ff453a] border border-[#ff453a]/25' 
@@ -2514,10 +2510,6 @@ export default function PmoTaskBoardStaging() {
                                                         </span>
                                                     </td>
 
-                                                    {/* 21. 업무유형 */}
-                                                    <td className="pl-4 text-center w-[100px] min-w-[100px] max-w-[100px] truncate">
-                                                        <span className="text-[#86868B] font-medium">{taskType}</span>
-                                                    </td>
 
                                                     {/* 22. 다음 액션 */}
                                                     <td className="pl-4 text-[#A1A1AA] truncate w-[200px] min-w-[200px] max-w-[200px]">{nextActionVal || '-'}</td>
@@ -2533,14 +2525,8 @@ export default function PmoTaskBoardStaging() {
                                                         </span>
                                                     </td>
 
-                                                    {/* 25. 상정사유 */}
-                                                    <td className="pl-4 text-[#A1A1AA] truncate w-[180px] min-w-[180px] max-w-[180px]">{agendaReason || '-'}</td>
 
-                                                    {/* 26. 정렬키 */}
-                                                    <td className="pl-4 text-center w-[100px] min-w-[100px] max-w-[100px] font-mono text-[#86868B] truncate">{sortKeyVal || '-'}</td>
 
-                                                    {/* 27. 비고 */}
-                                                    <td className="pl-4 text-[#86868B] truncate w-[180px] min-w-[180px] max-w-[180px]">{notesVal || '-'}</td>
                                                     
                                                     {/* 관리 */}
                                                     <td className="px-2 text-center w-[85px] min-w-[85px] max-w-[85px] border-r border-[#3c3c3c]">
@@ -2565,7 +2551,7 @@ export default function PmoTaskBoardStaging() {
                                         })
                                     )}
                                     <tr className="bg-[#272726] hover:bg-[#333]/30 transition-colors h-11 border-t border-[#3c3c3c]/50">
-                                        <td colSpan="28" className="text-center py-2 bg-[#2c2c2b]/30">
+                                        <td colSpan="23" className="text-center py-2 bg-[#2c2c2b]/30">
                                             <button 
                                                 onClick={isAuthorized ? handleAddNewClick : () => setShowAuthInfoModal(true)}
                                                 className="px-6 py-2 border border-[#444] rounded-[8px] text-[13px] font-bold text-[#A1A1AA] hover:text-white hover:border-[#666] transition-colors cursor-pointer"
