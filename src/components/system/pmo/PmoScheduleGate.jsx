@@ -906,9 +906,9 @@ export default function PmoScheduleGate() {
                 <h2 className="text-[26px] font-bold text-white tracking-tight leading-none text-left">R&R 및 필요산출물</h2>
                 <button 
                     onClick={() => setShowAuthInfoModal(true)}
-                    className="px-3 py-1 bg-[#2C2C2E]/40 hover:bg-[#2C2C2E] border border-[#2C2C2E]/80 hover:border-[#2997ff]/40 rounded-full text-[12px] font-bold text-[#86868B] hover:text-[#2997ff] transition-all cursor-pointer flex items-center gap-1.5"
+                    className="px-3 py-1 bg-[#2C2C2E]/40 hover:bg-[#2C2C2E] border border-[#2C2C2E]/80 hover:border-[#2997ff]/40 rounded-full text-[12px] font-bold text-[#86868B] hover:text-[#2997ff] transition-all cursor-pointer"
                 >
-                    <span>🛡️ R&R 관리 권한</span>
+                    <span>R&R 관리 권한</span>
                 </button>
             </div>
 
@@ -1414,14 +1414,11 @@ export default function PmoScheduleGate() {
             {showAuthInfoModal && (
                 <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[11000] p-4">
                     <div className="bg-[#1C1C1E] border border-[#2C2C2E] rounded-[16px] w-full max-w-[400px] shadow-2xl p-6 relative">
-                        <h3 className="text-[17px] font-bold text-white mb-4 flex items-center gap-2">
-                            <span>🛡️</span> R&R 및 필요산출물 관리 권한 안내
+                        <h3 className="text-[17px] font-bold text-white mb-5 text-left">
+                            R&R 및 필요산출물 관리 권한 안내
                         </h3>
-                        <p className="text-[13px] text-[#A1A1AA] leading-relaxed mb-5">
-                            해당 영역은 주요 R&R 일정 및 산출물을 관리하는 판으로, 지정된 관리 권한을 가진 인원 및 조직만 추가/수정/삭제를 수행할 수 있습니다.
-                        </p>
                         
-                        <div className="bg-[#2C2C2E]/40 border border-[#2C2C2E] rounded-[8px] p-4 space-y-3 mb-6">
+                        <div className="bg-[#2C2C2E]/40 border border-[#2C2C2E] rounded-[8px] p-4 space-y-3 mb-6 text-left">
                             <div className="flex items-start gap-3">
                                 <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-[#2997ff]/10 text-[#2997ff] border border-[#2997ff]/20 mt-0.5">조직</span>
                                 <div className="text-[13px] text-white font-medium">
@@ -1434,7 +1431,7 @@ export default function PmoScheduleGate() {
                                 <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-[#6366F1]/10 text-[#A5B4FC] border border-[#6366F1]/20 mt-0.5">역할</span>
                                 <div className="text-[13px] text-white font-medium">
                                     PO (Project Owner)<br />
-                                    프로젝트 디렉터 및 마스터
+                                    프로젝트 디렉터 및 PM
                                 </div>
                             </div>
                         </div>
