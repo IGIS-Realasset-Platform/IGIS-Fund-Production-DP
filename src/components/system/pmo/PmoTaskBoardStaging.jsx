@@ -2013,7 +2013,7 @@ export default function PmoTaskBoardStaging() {
                                         <th className="pl-4 w-[270px] min-w-[270px] max-w-[270px] sticky left-[349px] bg-[#272726] z-30 shadow-[inset_-1px_0_0_0_#3c3c3c]">업무명</th>
                                         <th className="pl-4 w-[100px] min-w-[100px] max-w-[100px] text-center select-none cursor-pointer hover:text-white transition-colors" onClick={() => setPrioritySortOrder(prev => prev === 'desc' ? 'asc' : 'desc')}>
                                             <div className="flex items-center justify-center gap-1">
-                                                <span className="leading-tight">우선순위<br />Score</span>
+                                                <span className="leading-tight">우선순위</span>
                                                 <span className="text-[10px] text-[#2997ff]">{prioritySortOrder === 'desc' ? '▼' : '▲'}</span>
                                                 <span 
                                                     className="inline-flex items-center justify-center w-3.5 h-3.5 rounded-full bg-white/10 hover:bg-white/20 text-[10px] text-[#86868B] hover:text-white ml-0.5 font-bold cursor-pointer"
