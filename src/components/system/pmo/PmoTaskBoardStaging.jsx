@@ -2435,12 +2435,26 @@ export default function PmoTaskBoardStaging() {
                                                     {/* 12. 협업부서 */}
                                                     <td className="pl-4 text-left w-[180px] min-w-[180px] max-w-[180px] overflow-hidden">
                                                         {coopDeptNames ? (
-                                                            <div className="flex flex-wrap gap-1 justify-start items-center">
-                                                                {coopDeptNames.split(',').map(c => c.trim()).filter(Boolean).map((c, i) => (
-                                                                    <span key={i} className="inline-flex items-center justify-center px-2 py-0.5 bg-[#27272a] text-[#d4d4d8] border border-[#3f3f46] rounded-[4px] text-[11px] font-medium whitespace-nowrap">
-                                                                        {c}
-                                                                    </span>
-                                                                ))}
+                                                            <div className="flex flex-nowrap gap-1 justify-start items-center overflow-hidden w-full">
+                                                                {(() => {
+                                                                    const depts = coopDeptNames.split(',').map(c => c.trim()).filter(Boolean);
+                                                                    const displayDepts = depts.slice(0, 2);
+                                                                    const hasMore = depts.length > 2;
+                                                                    return (
+                                                                        <>
+                                                                            {displayDepts.map((c, i) => (
+                                                                                <span key={i} className="inline-flex items-center justify-center px-2 py-0.5 bg-[#27272a] text-[#d4d4d8] border border-[#3f3f46] rounded-[4px] text-[11px] font-medium whitespace-nowrap shrink-0 max-w-[90px] truncate">
+                                                                                    {c}
+                                                                                </span>
+                                                                            ))}
+                                                                            {hasMore && (
+                                                                                <span className="inline-flex items-center justify-center px-1.5 py-0.5 bg-[#27272a] text-[#86868B] border border-[#3f3f46]/50 rounded-[4px] text-[11px] font-bold shrink-0">
+                                                                                    ...
+                                                                                </span>
+                                                                            )}
+                                                                        </>
+                                                                    );
+                                                                })()}
                                                             </div>
                                                         ) : '-'}
                                                     </td>
