@@ -575,19 +575,21 @@ export default function PmoScheduleGate() {
                             <thead>
                                 <tr className="border-b border-[#3c3c3c] bg-[#272726] text-[#86868B] font-bold text-[12px] h-[52px]">
                                     <th className="px-3 w-[110px] min-w-[110px] max-w-[110px] text-center sticky left-0 bg-[#272726] z-30">
-                                        <div className="inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2 py-1 gap-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b]">
+                                        <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b]">
+                                            <span className={`font-bold text-[12px] whitespace-nowrap ${selectedRrCategory === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
+                                                {selectedRrCategory === '전체보기' ? '대분류' : selectedRrCategory}
+                                            </span>
+                                            <span className="text-[8px] text-[#86868B]/70 pointer-events-none select-none translate-y-[0.5px] ml-1">▼</span>
                                             <select
                                                 value={selectedRrCategory}
                                                 onChange={(e) => setSelectedRrCategory(e.target.value)}
-                                                className={`bg-transparent border-none font-bold text-[12px] outline-none cursor-pointer text-center appearance-none p-0 m-0 ${selectedRrCategory === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}
-                                                style={{ width: getSelectWidth(selectedRrCategory, '대분류'), textAlignLast: 'center' }}
+                                                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                                             >
-                                                <option value="전체보기" className="bg-[#222] text-[#86868B]">{selectedRrCategory === '전체보기' ? '대분류' : '전체보기'}</option>
+                                                <option value="전체보기" className="bg-[#222] text-[#86868B]">전체보기</option>
                                                 {R_R_CATEGORIES.slice(1).map(cat => (
                                                     <option key={cat} value={cat} className="bg-[#222] text-white">{cat}</option>
                                                 ))}
                                             </select>
-                                            <span className="text-[8px] text-[#86868B]/70 pointer-events-none select-none translate-y-[0.5px]">▼</span>
                                         </div>
                                     </th>
                                     <th className="px-3 w-[130px] min-w-[130px] max-w-[130px] text-center sticky left-[110px] bg-[#272726] z-30">세부섹터</th>
@@ -596,35 +598,39 @@ export default function PmoScheduleGate() {
                                     <th className="px-2 w-[75px] min-w-[75px] max-w-[75px] text-center bg-[#272726] text-[11px] leading-tight">착공 전<br />필요</th>
                                     <th className="px-2 w-[75px] min-w-[75px] max-w-[75px] text-center bg-[#272726] text-[11px] leading-tight border-r border-[#3c3c3c]">준공 전<br />필요</th>
                                     <th className="w-[116px] min-w-[116px] max-w-[116px] text-center bg-[#272726]">
-                                        <div className="inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2 py-1 gap-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] translate-x-[6px]">
+                                        <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] translate-x-[6px]">
+                                            <span className={`font-bold text-[12px] whitespace-nowrap ${selectedRrLead === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
+                                                {selectedRrLead === '전체보기' ? '주관 부서' : selectedRrLead}
+                                            </span>
+                                            <span className="text-[8px] text-[#86868B]/70 pointer-events-none select-none translate-y-[0.5px] ml-1">▼</span>
                                             <select
                                                 value={selectedRrLead}
                                                 onChange={(e) => setSelectedRrLead(e.target.value)}
-                                                className={`bg-transparent border-none font-bold text-[12px] outline-none cursor-pointer text-center appearance-none p-0 m-0 ${selectedRrLead === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}
-                                                style={{ width: getSelectWidth(selectedRrLead, '주관 부서'), textAlignLast: 'center' }}
+                                                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                                             >
-                                                <option value="전체보기" className="bg-[#222] text-[#86868B]">{selectedRrLead === '전체보기' ? '주관 부서' : '전체보기'}</option>
+                                                <option value="전체보기" className="bg-[#222] text-[#86868B]">전체보기</option>
                                                 {R_R_LEADS.slice(1).map(lead => (
                                                     <option key={lead} value={lead} className="bg-[#222] text-white">{lead}</option>
                                                 ))}
                                             </select>
-                                            <span className="text-[8px] text-[#86868B]/70 pointer-events-none select-none translate-y-[0.5px]">▼</span>
                                         </div>
                                     </th>
                                     <th className="pl-3 w-[260px] min-w-[260px] max-w-[260px] text-left bg-[#272726] border-r border-[#3c3c3c]">
-                                        <div className="inline-flex items-center justify-start bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 py-1 gap-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b]">
+                                        <div className="relative inline-flex items-center justify-start bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b]">
+                                            <span className={`font-bold text-[12px] whitespace-nowrap ${selectedRrCoop === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
+                                                {selectedRrCoop === '전체보기' ? '협업 부서' : selectedRrCoop}
+                                            </span>
+                                            <span className="text-[8px] text-[#86868B]/70 pointer-events-none select-none translate-y-[0.5px] ml-1">▼</span>
                                             <select
                                                 value={selectedRrCoop}
                                                 onChange={(e) => setSelectedRrCoop(e.target.value)}
-                                                className={`bg-transparent border-none font-bold text-[12px] outline-none cursor-pointer text-left appearance-none p-0 m-0 ${selectedRrCoop === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}
-                                                style={{ width: getSelectWidth(selectedRrCoop, '협업 부서'), textAlignLast: 'left' }}
+                                                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                                             >
-                                                <option value="전체보기" className="bg-[#222] text-[#86868B]">{selectedRrCoop === '전체보기' ? '협업 부서' : '전체보기'}</option>
+                                                <option value="전체보기" className="bg-[#222] text-[#86868B]">전체보기</option>
                                                 {R_R_COOPS.slice(1).map(coop => (
                                                     <option key={coop} value={coop} className="bg-[#222] text-white">{coop}</option>
                                                 ))}
                                             </select>
-                                            <span className="text-[8px] text-[#86868B]/70 pointer-events-none select-none translate-y-[0.5px]">▼</span>
                                         </div>
                                     </th>
                                     <th className="px-3 w-[120px] min-w-[120px] max-w-[120px] text-center bg-[#272726]">외부 상대방</th>
