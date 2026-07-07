@@ -1200,6 +1200,72 @@ const parseBool = (val) => {
     return false;
 };
 
+// Dynamic Priority Score Calculator
+const calculatePriorityScore = (task, fallbackItem) => {
+    if (!task) return 0;
+    
+    let score = 0;
+    
+    // 1. 준공필수 (35) / PF필수 (30) -> importance_level
+    const importance = task.importance_level || fallbackItem?.importance_level || '일반';
+    if (importance === '준공필수') {
+        score += 35;
+    } else if (importance === 'PF필수') {
+        score += 30;
+    }
+    
+    // 2. Blocker (25) -> is_blocker
+    const isBlocker = parseBool(task.is_blocker !== undefined ? task.is_blocker : fallbackItem?.is_blocker);
+    if (isBlocker) {
+        score += 25;
+    }
+    
+    // 3. 의사결정 (20) -> needs_decision
+    const needsDecision = parseBool(task.needs_decision !== undefined ? task.needs_decision : fallbackItem?.needs_decision);
+    if (needsDecision) {
+        score += 20;
+    }
+    
+    // 4. 지원필요 (15) -> support_needed
+    const support = task.support_needed || fallbackItem?.support_needed || '';
+    if (support.trim() !== '') {
+        score += 15;
+    }
+    
+    // 5. 기한임박 (10) -> due_date <= TODAY() + 7 && status !== '완료'
+    const dueDateStr = task.due_date || fallbackItem?.due_date || '';
+    const status = task.status || fallbackItem?.status || '진행중';
+    if (dueDateStr.trim() !== '' && status !== '완료') {
+        try {
+            const dueDate = new Date(dueDateStr);
+            if (!isNaN(dueDate.getTime())) {
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                const limitDate = new Date(today);
+                limitDate.setDate(today.getDate() + 7);
+                if (dueDate <= limitDate) {
+                    score += 10;
+                }
+            }
+        } catch (e) {
+            // Ignore parse errors
+        }
+    }
+    
+    // 6. 지연 (15) -> status === '지연'
+    if (status === '지연') {
+        score += 15;
+    }
+    
+    // 7. 팝업업무 (5) -> task_type === '팝업'
+    const taskType = task.task_type || fallbackItem?.task_type || '정규';
+    if (taskType === '팝업') {
+        score += 5;
+    }
+    
+    return score;
+};
+
 // Project name normalization helper
 const normalizeProjectName = (name) => {
     if (!name) return 'IOTA 공통';
@@ -1331,6 +1397,21 @@ export default function PmoTaskBoardStaging() {
     const [formAgendaReason, setFormAgendaReason] = useState('');
     const [formSortKey, setFormSortKey] = useState('');
     const [formNotes, setFormNotes] = useState('');
+
+    // Automatically calculate priority score in Edit form
+    useEffect(() => {
+        const tempTask = {
+            importance_level: formImportanceLevel,
+            is_blocker: formIsBlocker,
+            needs_decision: formNeedsDecision,
+            support_needed: formSupportNeeded,
+            due_date: formDueDate,
+            status: formStatus,
+            task_type: formTaskType
+        };
+        const calculated = calculatePriorityScore(tempTask, {});
+        setFormPriorityScore(calculated);
+    }, [formImportanceLevel, formIsBlocker, formNeedsDecision, formSupportNeeded, formDueDate, formStatus, formTaskType]);
 
     // Authority memo
     const isAuthorized = useMemo(() => {
@@ -1940,10 +2021,10 @@ export default function PmoTaskBoardStaging() {
         const list = [...filteredTasks];
         list.sort((a, b) => {
             const fallbackA = FALLBACK_BOARD_TASKS.find(item => item.task_name === a.task_name) || {};
-            const scoreA = Number(a.priority_score !== undefined ? a.priority_score : (fallbackA.priority_score || 0));
+            const scoreA = calculatePriorityScore(a, fallbackA);
             
             const fallbackB = FALLBACK_BOARD_TASKS.find(item => item.task_name === b.task_name) || {};
-            const scoreB = Number(b.priority_score !== undefined ? b.priority_score : (fallbackB.priority_score || 0));
+            const scoreB = calculatePriorityScore(b, fallbackB);
             
             if (prioritySortOrder === 'desc') {
                 return scoreB - scoreA;
@@ -2262,7 +2343,7 @@ export default function PmoTaskBoardStaging() {
                                             const importanceLevel = t.importance_level || fallbackItem.importance_level || '일반';
                                             const taskType = t.task_type || fallbackItem.task_type || '정규';
                                             const nextActionVal = t.next_action || fallbackItem.next_action || '';
-                                            const priorityScore = t.priority_score !== undefined ? t.priority_score : (fallbackItem.priority_score || 0);
+                                            const priorityScore = calculatePriorityScore(t, fallbackItem);
                                             
                                             // Meeting grade mapping
                                             const rawGrade = t.meeting_grade || fallbackItem.meeting_grade || 'B';
