@@ -2058,8 +2058,8 @@ export default function PmoTaskBoardStaging() {
             ) : (
                 <div className="-mr-[calc(50vw-50%)] border border-r-0 border-[#3c3c3c] bg-[#272726] rounded-l-[24px] overflow-hidden mb-[40px] shadow-sm select-text">
                     <div className="w-full overflow-x-auto pr-0 timeline-scrollbar">
-                        <div className="flex items-center min-w-[3650px]">
-                            <table className="text-left table-fixed min-w-[2850px] flex-1 border-collapse bg-[#272726]">
+                        <div className="flex items-center min-w-[3615px]">
+                            <table className="text-left table-fixed min-w-[2815px] flex-1 border-collapse bg-[#272726]">
                                 <thead>
                                     <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[13px] h-11">
                                         <th className="pl-[10px] text-center w-[60px] min-w-[60px] max-w-[60px] sticky left-0 bg-[#272726] z-30">ID</th>
@@ -2160,6 +2160,26 @@ export default function PmoTaskBoardStaging() {
                                                     <option value="전체보기" className="bg-[#222] text-[#86868B]">전체보기</option>
                                                     {uniqueGateStageFilter.map(gate => (
                                                         <option key={gate} value={gate} className="bg-[#222] text-white">{gate}</option>
+                                                    ))}
+                                                </select>
+                                            </div>
+                                        </th>
+
+                                        {/* 회의상정등급 */}
+                                        <th className="w-[80px] min-w-[80px] max-w-[80px] text-center">
+                                            <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-0.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[65px] overflow-hidden mx-auto">
+                                                <span className={`font-bold text-[11px] whitespace-nowrap ${selectedMeetingGrade === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
+                                                    {selectedMeetingGrade === '전체보기' ? '상정등급' : selectedMeetingGrade}
+                                                </span>
+                                                <span className="text-[8px] text-[#86868B]/70 pointer-events-none select-none translate-y-[0.5px] ml-0.5 shrink-0">▼</span>
+                                                <select
+                                                    value={selectedMeetingGrade}
+                                                    onChange={(e) => setSelectedMeetingGrade(e.target.value)}
+                                                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                                >
+                                                    <option value="전체보기" className="bg-[#222] text-[#86868B]">전체보기</option>
+                                                    {uniqueMeetingGradeFilter.map(grade => (
+                                                        <option key={grade} value={grade} className="bg-[#222] text-white">{grade}</option>
                                                     ))}
                                                 </select>
                                             </div>
@@ -2291,25 +2311,6 @@ export default function PmoTaskBoardStaging() {
 
                                         <th className="pl-4 w-[200px] min-w-[200px] max-w-[200px]">다음 액션</th>
 
-                                        {/* 회의상정등급 */}
-                                        <th className="pl-4 w-[115px] min-w-[115px] max-w-[115px] text-center">
-                                            <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[100px] overflow-hidden">
-                                                <span className={`font-bold text-[11px] whitespace-nowrap truncate ${selectedMeetingGrade === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
-                                                    {selectedMeetingGrade === '전체보기' ? '회의상정등급' : selectedMeetingGrade}
-                                                </span>
-                                                <span className="text-[8px] text-[#86868B]/70 pointer-events-none select-none translate-y-[0.5px] ml-1 shrink-0">▼</span>
-                                                <select
-                                                    value={selectedMeetingGrade}
-                                                    onChange={(e) => setSelectedMeetingGrade(e.target.value)}
-                                                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                                                >
-                                                    <option value="전체보기" className="bg-[#222] text-[#86868B]">전체보기</option>
-                                                    {uniqueMeetingGradeFilter.map(grade => (
-                                                        <option key={grade} value={grade} className="bg-[#222] text-white">{grade}</option>
-                                                    ))}
-                                                </select>
-                                            </div>
-                                        </th>
 
                                         <th className="px-2 text-center w-[85px] min-w-[85px] max-w-[85px] border-r border-[#3c3c3c]">관리</th>
                                     </tr>
@@ -2419,6 +2420,15 @@ export default function PmoTaskBoardStaging() {
 
                                                     
 
+                                                    {/* 24. 회의상정등급 */}
+                                                    <td className="text-center w-[80px] min-w-[80px] max-w-[80px] truncate">
+                                                        <span className={`px-2 py-0.5 rounded text-[11px] font-bold ${
+                                                            meetingGrade.startsWith('A') ? 'bg-[#ff453a]/15 text-[#ff453a] border border-[#ff453a]/25' : 'bg-gray-500/10 text-gray-400'
+                                                        }`}>
+                                                            {meetingGrade}
+                                                        </span>
+                                                    </td>
+
                                                     {/* 11. 실무 주관부서 */}
                                                     <td className="text-center w-[80px] min-w-[80px] max-w-[80px] overflow-hidden">
                                                         {leadDeptName ? (
@@ -2516,14 +2526,6 @@ export default function PmoTaskBoardStaging() {
 
                                                     
 
-                                                    {/* 24. 회의상정등급 */}
-                                                    <td className="pl-4 text-center w-[115px] min-w-[115px] max-w-[115px] truncate">
-                                                        <span className={`px-2 py-0.5 rounded text-[11px] font-bold ${
-                                                            meetingGrade.startsWith('A') ? 'bg-[#ff453a]/15 text-[#ff453a] border border-[#ff453a]/25' : 'bg-gray-500/10 text-gray-400'
-                                                        }`}>
-                                                            {meetingGrade}
-                                                        </span>
-                                                    </td>
 
 
 
