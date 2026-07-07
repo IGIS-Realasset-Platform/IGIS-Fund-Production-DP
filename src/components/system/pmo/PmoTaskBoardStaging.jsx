@@ -2044,8 +2044,8 @@ export default function PmoTaskBoardStaging() {
             ) : (
                 <div className="-mr-[calc(50vw-50%)] border border-r-0 border-[#3c3c3c] bg-[#272726] rounded-l-[24px] overflow-hidden mb-[40px] shadow-sm select-text">
                     <div className="w-full overflow-x-auto pr-0 timeline-scrollbar">
-                        <div className="flex items-center min-w-[4650px]">
-                            <table className="text-left table-fixed min-w-[3850px] flex-1 border-collapse bg-[#272726]">
+                        <div className="flex items-center min-w-[4510px]">
+                            <table className="text-left table-fixed min-w-[3710px] flex-1 border-collapse bg-[#272726]">
                                 <thead>
                                     <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[13px] h-11">
                                         <th className="pl-[10px] text-center w-[60px] min-w-[60px] max-w-[60px] sticky left-0 bg-[#272726] z-30">ID</th>
@@ -2132,10 +2132,10 @@ export default function PmoTaskBoardStaging() {
                                         </th>
 
                                         {/* Gate */}
-                                        <th className="pl-4 w-[120px] min-w-[120px] max-w-[120px]">
-                                            <div className="relative inline-flex items-center justify-start bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[105px] overflow-hidden">
+                                        <th className="pl-4 w-[90px] min-w-[90px] max-w-[90px]">
+                                            <div className="relative inline-flex items-center justify-start bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[75px] overflow-hidden">
                                                 <span className={`font-bold text-[11px] whitespace-nowrap truncate ${selectedGateStage === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
-                                                    {selectedGateStage === '전체보기' ? 'Gate' : selectedGateStage}
+                                                    {selectedGateStage === '전체보기' ? 'GATE' : selectedGateStage}
                                                 </span>
                                                 <span className="text-[8px] text-[#86868B]/70 pointer-events-none select-none translate-y-[0.5px] ml-1 shrink-0">▼</span>
                                                 <select
@@ -2150,8 +2150,6 @@ export default function PmoTaskBoardStaging() {
                                                 </select>
                                             </div>
                                         </th>
-
-                                        <th className="pl-4 w-[110px] min-w-[110px] max-w-[110px]">PMO총괄</th>
 
                                         {/* 주관부서 (실무주관부서->주관부서) */}
                                         <th className="pl-4 w-[120px] min-w-[120px] max-w-[120px]">
@@ -2405,10 +2403,9 @@ export default function PmoTaskBoardStaging() {
                                                     <td className="text-center text-[#A1A1AA] w-[91px] min-w-[91px] max-w-[91px] truncate">{targetAxis}</td>
 
                                                     {/* 9. Gate */}
-                                                    <td className="pl-4 text-[#A1A1AA] w-[120px] min-w-[120px] max-w-[120px] truncate">{gateStageVal}</td>
+                                                    <td className="text-center text-[#A1A1AA] w-[90px] min-w-[90px] max-w-[90px] truncate">{gateStageVal}</td>
 
-                                                    {/* 10. PMO총괄 */}
-                                                    <td className="pl-4 text-[#A1A1AA] w-[110px] min-w-[110px] max-w-[110px] truncate">{t.pmo_manager || fallbackItem.pmo_manager || '사업관리2파트'}</td>
+                                                    
 
                                                     {/* 11. 실무 주관부서 */}
                                                     <td className="pl-4 text-[#A1A1AA] w-[120px] min-w-[120px] max-w-[120px] truncate">{leadDeptName || '-'}</td>
