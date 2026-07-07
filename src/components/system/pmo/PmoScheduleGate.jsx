@@ -371,6 +371,7 @@ export default function PmoScheduleGate() {
     const [masterStakeholders, setMasterStakeholders] = React.useState([]);
     const [pilotDepartments, setPilotDepartments] = React.useState([]);
     const [showStakeholderSuggestions, setShowStakeholderSuggestions] = React.useState(false);
+    const [showSubsectorSuggestions, setShowSubsectorSuggestions] = React.useState(false);
 
     const [isModalOpen, setIsModalOpen] = React.useState(false);
     const [editingItem, setEditingItem] = React.useState(null);
@@ -697,6 +698,11 @@ export default function PmoScheduleGate() {
         const names = masterStakeholders.map(s => s.company_name).filter(Boolean);
         return Array.from(new Set(names));
     }, [masterStakeholders]);
+
+    const uniqueSubsectors = React.useMemo(() => {
+        const subs = rrData.map(item => item.subsector).filter(Boolean);
+        return Array.from(new Set(subs));
+    }, [rrData]);
 
     const filteredData = TIMELINE_DATA.filter(item => {
         if (filterCategory === 'All') return true;
@@ -1141,16 +1147,49 @@ export default function PmoScheduleGate() {
                                 </div>
                                 
                                 {/* 세부섹터 */}
-                                <div className="flex flex-col gap-1.5">
+                                <div className="relative flex flex-col gap-1.5">
                                     <label className="text-[12px] font-bold text-[#86868B]">세부섹터</label>
                                     <input 
                                         type="text"
                                         value={formSubsector}
-                                        onChange={e => setFormSubsector(e.target.value)}
+                                        onChange={e => {
+                                            setFormSubsector(e.target.value);
+                                            setShowSubsectorSuggestions(true);
+                                        }}
+                                        onFocus={() => setShowSubsectorSuggestions(true)}
+                                        onBlur={() => setTimeout(() => setShowSubsectorSuggestions(false), 200)}
                                         className="bg-[#1a1a1a] border border-[#3c3c3c] text-white rounded-[8px] px-3 py-2 text-[13px] outline-none focus:border-[#2997ff]"
-                                        placeholder="예: 현금기부채납"
+                                        placeholder="예: 현금기부채납 (검색 또는 직접 입력)"
                                         required
                                     />
+                                    {showSubsectorSuggestions && formSubsector && (
+                                        <div className="absolute top-[60px] left-0 w-full bg-[#222] border border-[#3c3c3c] rounded-[8px] py-1 max-h-[160px] overflow-y-auto z-[10000] shadow-xl">
+                                            {uniqueSubsectors
+                                                .filter(name => name.toLowerCase().includes(formSubsector.toLowerCase()))
+                                                .map((name, i) => (
+                                                    <div 
+                                                        key={i} 
+                                                        className="px-3 py-2 text-[13px] text-[#E5E5E5] hover:bg-[#333] cursor-pointer truncate"
+                                                        onClick={() => {
+                                                            setFormSubsector(name);
+                                                            setShowSubsectorSuggestions(false);
+                                                        }}
+                                                    >
+                                                        {name}
+                                                    </div>
+                                                ))}
+                                            {!uniqueSubsectors.some(name => name.toLowerCase() === formSubsector.toLowerCase()) && (
+                                                <div 
+                                                    className="px-3 py-2 text-[13px] text-[#2997ff] hover:bg-[#333] cursor-pointer font-bold border-t border-[#3c3c3c]/50"
+                                                    onClick={() => {
+                                                        setShowSubsectorSuggestions(false);
+                                                    }}
+                                                >
+                                                    ➕ 새 세부섹터 추가: "{formSubsector}"
+                                                </div>
+                                            )}
+                                        </div>
+                                    )}
                                 </div>
                             </div>
 
