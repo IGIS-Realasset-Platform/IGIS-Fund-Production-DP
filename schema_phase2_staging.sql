@@ -164,6 +164,8 @@ CREATE TABLE iota_v2.iota_pmo_popup_requests (
 ALTER TABLE iota_v2.iota_projects ENABLE ROW LEVEL SECURITY;
 ALTER TABLE iota_v2.iota_departments ENABLE ROW LEVEL SECURITY;
 ALTER TABLE iota_v2.iota_stakeholders ENABLE ROW LEVEL SECURITY;
+ALTER TABLE iota_v2.iota_subsectors ENABLE ROW LEVEL SECURITY;
+ALTER TABLE iota_v2.iota_support_options ENABLE ROW LEVEL SECURITY;
 ALTER TABLE iota_v2.iota_pmo_tasks ENABLE ROW LEVEL SECURITY;
 ALTER TABLE iota_v2.iota_pmo_popup_requests ENABLE ROW LEVEL SECURITY;
 
@@ -171,10 +173,18 @@ ALTER TABLE iota_v2.iota_pmo_popup_requests ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Allow authenticated read to projects" ON iota_v2.iota_projects FOR SELECT TO authenticated USING (true);
 CREATE POLICY "Allow authenticated read to departments" ON iota_v2.iota_departments FOR SELECT TO authenticated USING (true);
 CREATE POLICY "Allow authenticated read to stakeholders" ON iota_v2.iota_stakeholders FOR SELECT TO authenticated USING (true);
+CREATE POLICY "Allow authenticated read to subsectors" ON iota_v2.iota_subsectors FOR SELECT TO authenticated USING (true);
+CREATE POLICY "Allow authenticated read to support_options" ON iota_v2.iota_support_options FOR SELECT TO authenticated USING (true);
 CREATE POLICY "Allow authenticated read to pmo_tasks" ON iota_v2.iota_pmo_tasks FOR SELECT TO authenticated USING (true);
 CREATE POLICY "Allow authenticated read to popup_requests" ON iota_v2.iota_pmo_popup_requests FOR SELECT TO authenticated USING (true);
 
--- B) 사업관리2파트 및 임원진/어드민 대상 전체 편집 권한 부여 정책 (useAuth 연동)
+-- B) 온더플라이(On-the-fly) 실시간 등록 지원을 위한 쓰기 정책 (인증 회원 공통)
+CREATE POLICY "Allow authenticated insert to projects" ON iota_v2.iota_projects FOR INSERT TO authenticated WITH CHECK (true);
+CREATE POLICY "Allow authenticated insert to stakeholders" ON iota_v2.iota_stakeholders FOR INSERT TO authenticated WITH CHECK (true);
+CREATE POLICY "Allow authenticated insert to subsectors" ON iota_v2.iota_subsectors FOR INSERT TO authenticated WITH CHECK (true);
+CREATE POLICY "Allow authenticated insert to support_options" ON iota_v2.iota_support_options FOR INSERT TO authenticated WITH CHECK (true);
+
+-- C) 사업관리2파트 및 임원진/어드민 대상 전체 편집 권한 부여 정책 (useAuth 연동)
 -- iota_seoul_pilot_members 테이블(기성)을 조회하여 소속 및 직무 검증 수행
 CREATE POLICY "Allow PM2 and admin full access to pmo_tasks" ON iota_v2.iota_pmo_tasks
     FOR ALL TO authenticated
