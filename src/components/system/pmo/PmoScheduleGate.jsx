@@ -1097,7 +1097,7 @@ export default function PmoScheduleGate() {
                                         <td colSpan={12} className="px-3 text-center border-r border-[#3c3c3c] py-2">
                                             <button 
                                                 onClick={handleAddClick}
-                                                className="inline-flex items-center justify-center gap-1.5 px-5 py-1.5 bg-[#1F1F1E] hover:bg-[#333] border border-[#3c3c3c] hover:border-[#2997ff]/40 rounded-[6px] text-[12px] font-bold text-[#2997ff] hover:text-[#147ce5] transition-all cursor-pointer"
+                                                className="inline-flex items-center justify-center gap-1.5 px-5 py-1.5 bg-transparent hover:bg-[#2997ff]/10 border border-[#2997ff]/30 hover:border-[#2997ff]/50 rounded-[6px] text-[12px] font-bold text-[#2997ff] transition-all cursor-pointer"
                                             >
                                                 <span>+ 새 업무 추가</span>
                                             </button>
