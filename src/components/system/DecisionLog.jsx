@@ -849,7 +849,7 @@ export default function DecisionLog() {
                         </div>
                     </div>
                     {/* Right: Date Pill (shifted down by 10px, aligned to right padding boundary) */}
-                    <span className="text-[15px] font-bold text-[#86868B] tracking-tight bg-[#222] px-[16px] py-[6px] rounded-full shadow-sm leading-none transform translate-y-[10px]">
+                    <span className="text-[15px] font-bold text-[#86868B] tracking-tight bg-[#222] px-[16px] py-[6px] rounded-full shadow-sm leading-none transform translate-y-[4px]">
                         {formattedDate}
                     </span>
                 </div>
