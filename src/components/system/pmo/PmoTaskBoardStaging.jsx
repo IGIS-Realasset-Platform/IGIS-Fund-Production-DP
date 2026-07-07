@@ -2044,8 +2044,8 @@ export default function PmoTaskBoardStaging() {
             ) : (
                 <div className="-mr-[calc(50vw-50%)] border border-r-0 border-[#3c3c3c] bg-[#272726] rounded-l-[24px] overflow-hidden mb-[40px] shadow-sm select-text">
                     <div className="w-full overflow-x-auto pr-0 timeline-scrollbar">
-                        <div className="flex items-center min-w-[4684px]">
-                            <table className="text-left table-fixed min-w-[3884px] flex-1 border-collapse bg-[#272726]">
+                        <div className="flex items-center min-w-[4654px]">
+                            <table className="text-left table-fixed min-w-[3854px] flex-1 border-collapse bg-[#272726]">
                                 <thead>
                                     <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[13px] h-11">
                                         <th className="pl-[10px] text-center w-[60px] min-w-[60px] max-w-[60px] sticky left-0 bg-[#272726] z-30">ID</th>
@@ -2112,10 +2112,10 @@ export default function PmoTaskBoardStaging() {
                                         <th className="pl-4 w-[220px] min-w-[220px] max-w-[220px]">필요 산출물</th>
 
                                         {/* 최종 목표축 */}
-                                        <th className="pl-4 w-[125px] min-w-[125px] max-w-[125px]">
-                                            <div className="relative inline-flex items-center justify-start bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[110px] overflow-hidden">
+                                        <th className="pl-4 w-[95px] min-w-[95px] max-w-[95px]">
+                                            <div className="relative inline-flex items-center justify-start bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[80px] overflow-hidden">
                                                 <span className={`font-bold text-[11px] whitespace-nowrap truncate ${selectedTargetAxis === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
-                                                    {selectedTargetAxis === '전체보기' ? '최종 목표축' : selectedTargetAxis}
+                                                    {selectedTargetAxis === '전체보기' ? '최종목표' : selectedTargetAxis}
                                                 </span>
                                                 <span className="text-[8px] text-[#86868B]/70 pointer-events-none select-none translate-y-[0.5px] ml-1 shrink-0">▼</span>
                                                 <select
@@ -2402,7 +2402,7 @@ export default function PmoTaskBoardStaging() {
                                                     </td>
 
                                                     {/* 8. 최종 목표축 */}
-                                                    <td className="pl-4 text-[#A1A1AA] w-[125px] min-w-[125px] max-w-[125px] truncate">{targetAxis}</td>
+                                                    <td className="text-center text-[#A1A1AA] w-[95px] min-w-[95px] max-w-[95px] truncate">{targetAxis}</td>
 
                                                     {/* 9. Gate */}
                                                     <td className="pl-4 text-[#A1A1AA] w-[120px] min-w-[120px] max-w-[120px] truncate">{gateStageVal}</td>
