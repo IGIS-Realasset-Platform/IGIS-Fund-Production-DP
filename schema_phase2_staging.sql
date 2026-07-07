@@ -30,6 +30,12 @@ CREATE TABLE iota_v2.iota_stakeholders (
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
+-- D) 세부섹터 기준 정보 테이블
+CREATE TABLE iota_v2.iota_subsectors (
+    subsector_name VARCHAR(100) PRIMARY KEY,
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
 
 -- 3. 기준값 데이터 적재 (Seed Data - 99_기준값 연동)
 
@@ -59,6 +65,15 @@ INSERT INTO iota_v2.iota_stakeholders (stakeholder_code, stakeholder_name, categ
 ('SH_FIN_01', '한국대주은행', '대주단')
 ON CONFLICT (stakeholder_code) DO NOTHING;
 
+-- D) 세부섹터 마스터 데이터 적재
+INSERT INTO iota_v2.iota_subsectors (subsector_name) VALUES
+('업무관리 체계'), ('현금기부채납'), ('소공원로'), ('변경인가'), ('사용승인'),
+('브랜드'), ('계약구조'), ('운영수지/FF&E'), ('현대건설'), ('삼성물산'),
+('공사비/VE'), ('PF 기준도면'), ('면적표'), ('오피스 TI'), ('호텔 인테리어'),
+('광장'), ('KB/금융권'), ('삼성/이지스'), ('단독 PF'), ('통합 PF'),
+('재무모델'), ('리츠 전환'), ('Asset/Share/합병'), ('의사결정'), ('Take-out')
+ON CONFLICT (subsector_name) DO NOTHING;
+
 
 -- 4. 메인 실행 테이블 스펙 정의 및 생성 (외래키 제약조건 포함)
 
@@ -70,7 +85,7 @@ CREATE TABLE iota_v2.iota_pmo_tasks (
         '공통 PMO', '인허가', '호텔/운영', '시공/원가', '도면/설계', '인테리어/TI',
         '임차/마케팅', 'PF/금융', '구조/법무/세무', '주주/보고', '준공/담보대출', '팝업/단발'
     )),                                                                     -- 대분류 (공통 PMO, 인허가 등)
-    sector_detail VARCHAR(100),                                              -- 세부섹터
+    sector_detail VARCHAR(100) REFERENCES iota_v2.iota_subsectors(subsector_name), -- 세부섹터 외래키
     task_name VARCHAR(255) NOT NULL,                                         -- 업무명
     task_purpose TEXT,                                                       -- 업무목적 및 PF/준공 영향
     deliverables TEXT,                                                       -- 필요 산출물
@@ -96,7 +111,10 @@ CREATE TABLE iota_v2.iota_pmo_popup_requests (
     request_date DATE DEFAULT CURRENT_DATE,                                   -- 접수일
     requester VARCHAR(100) NOT NULL,                                         -- 요청자 및 소속 부서
     project_code VARCHAR(50) REFERENCES iota_v2.iota_projects(project_code), -- 프로젝트 구분 외래키
-    category_name VARCHAR(100),                                              -- 카테고리
+    category_name VARCHAR(100) CHECK (category_name IN (
+        '공통 PMO', '인허가', '호텔/운영', '시공/원가', '도면/설계', '인테리어/TI',
+        '임차/마케팅', 'PF/금융', '구조/법무/세무', '주주/보고', '준공/담보대출', '팝업/단발'
+    )),                                                                     -- 카테고리 (대분류 대응)
     request_detail TEXT NOT NULL,                                            -- 요청 업무 상세
     purpose TEXT,                                                            -- 요청 목적
     deliverables TEXT,                                                       -- 필요 산출물

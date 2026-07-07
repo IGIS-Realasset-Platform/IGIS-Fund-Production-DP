@@ -1260,6 +1260,7 @@ export default function PmoTaskBoardStaging() {
         { stakeholder_code: 'SH_FIN_01', stakeholder_name: '한국대주은행' }
     ]);
     const [masterStakeholders, setMasterStakeholders] = useState([]);
+    const [subsectors, setSubsectors] = useState([]);
 
     // Modal states
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -1317,7 +1318,7 @@ export default function PmoTaskBoardStaging() {
 
     // Unique arrays for Autocomplete Suggestions
     const uniqueSubsectors = useMemo(() => {
-        const defaultSubs = [
+        const defaultSubs = subsectors.length > 0 ? subsectors : [
             '업무관리 체계', '현금기부채납', '소공원로', '변경인가', '사용승인', '브랜드', '계약구조',
             '운영수지/FF&E', '현대건설', '삼성물산', '공사비/VE', 'PF 기준도면', '면적표',
             '오피스 TI', '호텔 인테리어', '광장', 'KB/금융권', '삼성/이지스', '단독 PF',
@@ -1328,7 +1329,7 @@ export default function PmoTaskBoardStaging() {
             ...tasks.map(item => item.sector_detail).filter(Boolean)
         ];
         return Array.from(new Set(subs));
-    }, [tasks]);
+    }, [tasks, subsectors]);
 
     const uniqueStakeholderNames = useMemo(() => {
         const names = [
@@ -1383,6 +1384,19 @@ export default function PmoTaskBoardStaging() {
                 if (shData) setMasterStakeholders(shData);
             } catch (e) {
                 console.warn("master stakeholders load failed:", e);
+            }
+
+            // Load subsectors
+            try {
+                const { data: subData } = await supabase
+                    .schema('iota_v2')
+                    .from('iota_subsectors')
+                    .select('subsector_name');
+                if (subData) {
+                    setSubsectors(subData.map(s => s.subsector_name));
+                }
+            } catch (e) {
+                console.warn("Subsectors load failed, using defaults:", e);
             }
 
             const { data, error } = await supabase
@@ -1512,6 +1526,23 @@ export default function PmoTaskBoardStaging() {
         return proj.project_code;
     }
 
+    // Subsector on-the-fly register
+    async function resolveSubsector(subsectorName) {
+        if (!subsectorName) return;
+        const exists = subsectors.includes(subsectorName);
+        if (!exists && isDbMode) {
+            try {
+                await supabase
+                    .schema('iota_v2')
+                    .from('iota_subsectors')
+                    .insert({ subsector_name: subsectorName });
+                setSubsectors(prev => [...prev, subsectorName]);
+            } catch (err) {
+                console.error("Failed to insert subsector on-the-fly:", err);
+            }
+        }
+    }
+
     const handleAddNewClick = () => {
         setEditingItem(null);
         setFormProject(projects[0]?.project_code || 'IOTA_SEOUL');
@@ -1618,6 +1649,7 @@ export default function PmoTaskBoardStaging() {
         const resolvedProjectCode = await resolveProjectCode(formProject);
         const resolvedLeadDeptCode = await resolveDeptCode(formLeadDept);
         const resolvedExtPartyCode = await resolveStakeholderCode(formExternalParty);
+        await resolveSubsector(formSectorDetail);
 
         // Convert UI gate and grade values to DB codes
         const dbGateCode = gateMapToDb(formGateStage);
