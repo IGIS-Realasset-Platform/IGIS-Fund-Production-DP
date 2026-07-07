@@ -820,7 +820,7 @@ export default function DecisionLog() {
     const isStaging = import.meta.env.MODE === 'staging';
 
     return (
-        <div className="w-full flex-1 flex flex-col pt-[48px] pb-[60px] pl-[60px] pr-[60px] box-border">
+        <div className="w-full max-w-full overflow-x-hidden flex-1 flex flex-col pt-[48px] pb-[60px] pl-[60px] pr-[60px] box-border">
             {/* Header Metadata */}
             <div className="w-full flex flex-col mb-[16px] gap-[10px]">
                 <div className="flex justify-between items-end w-full">
