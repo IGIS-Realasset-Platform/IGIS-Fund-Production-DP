@@ -1200,6 +1200,18 @@ const parseBool = (val) => {
     return false;
 };
 
+// Project name normalization helper
+const normalizeProjectName = (name) => {
+    if (!name) return 'IOTA 공통';
+    const clean = String(name).trim().toUpperCase();
+    if (clean === 'IOTA_SEOUL' || clean === 'IOTA 공통' || clean === '공통' || clean === 'IOTA공통') return 'IOTA 공통';
+    if (clean === 'PFV_427' || clean === '427 PFV' || clean === '427PFV' || clean === '427') return '427 PFV';
+    if (clean === 'PFV_816' || clean === '816 PFV' || clean === '816PFV' || clean === '816') return '816 PFV';
+    if (clean === 'FUND_421' || clean === '421FUND' || clean === '421 FUND' || clean === '421펀드' || clean === '421') return '421Fund';
+    if (clean === 'EXTERNAL' || clean === '외부') return '외부';
+    return name;
+};
+
 // Gate string mapping (UI/Excel <-> DB)
 const gateMapToDb = (uiVal) => {
     if (!uiVal) return 'G0';
@@ -1378,7 +1390,8 @@ export default function PmoTaskBoardStaging() {
         const mapped = tasks.map(t => {
             const fallbackItem = FALLBACK_BOARD_TASKS.find(item => item.task_name === t.task_name) || {};
             const projObj = projects.find(p => p.project_code === t.project_code);
-            return projObj ? projObj.project_name : (t.project || fallbackItem.project || '공통');
+            const rawProj = projObj ? projObj.project_name : (t.project || fallbackItem.project || '공통');
+            return normalizeProjectName(rawProj);
         });
         return Array.from(new Set(mapped.filter(Boolean)));
     }, [tasks, projects]);
@@ -1886,7 +1899,8 @@ export default function PmoTaskBoardStaging() {
             
             // Project match
             const projObj = projects.find(p => p.project_code === t.project_code);
-            const projectVal = projObj ? projObj.project_name : (t.project || fallbackItem.project || '공통');
+            const rawProj = projObj ? projObj.project_name : (t.project || fallbackItem.project || '공통');
+            const projectVal = normalizeProjectName(rawProj);
             if (selectedProject !== '전체보기' && projectVal !== selectedProject) return false;
 
             // Category main match
@@ -2212,7 +2226,8 @@ export default function PmoTaskBoardStaging() {
                                             
                                             // Project mapping
                                             const projObj = projects.find(p => p.project_code === t.project_code);
-                                            const projectVal = projObj ? projObj.project_name : (t.project || fallbackItem.project || '공통');
+                                            const rawProj = projObj ? projObj.project_name : (t.project || fallbackItem.project || '공통');
+                                            const projectVal = normalizeProjectName(rawProj);
 
                                             // Data mapping
                                             const leadDeptName = t.lead_dept?.dept_name || t.lead_dept || t.lead_dept_code || fallbackItem.lead_dept || '';
