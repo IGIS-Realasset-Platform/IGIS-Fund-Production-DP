@@ -594,7 +594,7 @@ export default function PmoScheduleGate() {
                                     <th className="pl-3 w-[230px] min-w-[230px] max-w-[230px] sticky left-[240px] bg-[#272726] z-30 border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)]">대표 업무</th>
                                     <th className="px-2 w-[75px] min-w-[75px] max-w-[75px] text-center bg-[#272726] text-[11px] leading-tight">PF 전<br />필요</th>
                                     <th className="px-2 w-[75px] min-w-[75px] max-w-[75px] text-center bg-[#272726] text-[11px] leading-tight">착공 전<br />필요</th>
-                                    <th className="px-2 w-[75px] min-w-[75px] max-w-[75px] text-center bg-[#272726] text-[11px] leading-tight border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)]">준공 전<br />필요</th>
+                                    <th className="px-2 w-[75px] min-w-[75px] max-w-[75px] text-center bg-[#272726] text-[11px] leading-tight border-r border-[#3c3c3c]">준공 전<br />필요</th>
                                     <th className="w-[116px] min-w-[116px] max-w-[116px] text-center bg-[#272726]">
                                         <div className="inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2 py-1 gap-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] translate-x-[6px]">
                                             <select
@@ -611,7 +611,7 @@ export default function PmoScheduleGate() {
                                             <span className="text-[8px] text-[#86868B]/70 pointer-events-none select-none translate-y-[0.5px]">▼</span>
                                         </div>
                                     </th>
-                                    <th className="pl-3 w-[260px] min-w-[260px] max-w-[260px] text-left bg-[#272726]">
+                                    <th className="pl-3 w-[260px] min-w-[260px] max-w-[260px] text-left bg-[#272726] border-r border-[#3c3c3c]">
                                         <div className="inline-flex items-center justify-start bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 py-1 gap-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b]">
                                             <select
                                                 value={selectedRrCoop}
@@ -675,7 +675,7 @@ export default function PmoScheduleGate() {
                                             </td>
 
                                             {/* 준공 전 필요 */}
-                                            <td className="px-2 text-center border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)] w-[75px] min-w-[75px] max-w-[75px]">
+                                            <td className="px-2 text-center border-r border-[#3c3c3c] w-[75px] min-w-[75px] max-w-[75px]">
                                                 {item.op ? (
                                                     <span className="px-2 py-0.5 text-[10.5px] font-bold rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 whitespace-nowrap">필수</span>
                                                 ) : (
@@ -691,7 +691,7 @@ export default function PmoScheduleGate() {
                                             </td>
                                             
                                             {/* 협업 부서 */}
-                                            <td className="pl-3 text-left w-[260px] min-w-[260px] max-w-[260px]">
+                                            <td className="pl-3 text-left w-[260px] min-w-[260px] max-w-[260px] border-r border-[#3c3c3c]">
                                                 <div className="flex flex-row gap-1.5 justify-start items-center whitespace-nowrap">
                                                     {item.coop.map((c, cIdx) => (
                                                         c && <span key={cIdx} className="px-2 py-0.5 rounded bg-[#1F1F1E] text-[#C2C2C6] border border-[#3c3c3c] text-[11px] whitespace-nowrap">{c}</span>
