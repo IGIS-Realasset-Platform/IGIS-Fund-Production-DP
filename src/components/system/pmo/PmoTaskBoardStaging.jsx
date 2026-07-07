@@ -2292,7 +2292,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                             </div>
                                         </th>
 
-                                        <th className="w-[100px] min-w-[100px] max-w-[100px] text-center">기한</th>
+                                        <th className="pl-4 w-[200px] min-w-[200px] max-w-[200px]">다음 액션</th>
 
                                         {/* 상태 */}
                                         <th className="w-[80px] min-w-[80px] max-w-[80px] text-center">
@@ -2334,10 +2334,10 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                             </div>
                                         </th>
 
-                                        <th className="pl-4 w-[200px] min-w-[200px] max-w-[200px]">다음 액션</th>
+                                        <th className="w-[100px] min-w-[100px] max-w-[100px] text-center">기한</th>
 
 
-                                        <th className="px-2 text-center w-[85px] min-w-[85px] max-w-[85px] border-r border-[#3c3c3c]">관리</th>
+                                        <th className="px-2 text-center w-[85px] min-w-[85px] max-w-[85px] border-l border-r border-[#3c3c3c]">관리</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-[#3c3c3c] text-[13px] text-white">
@@ -2522,7 +2522,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                                     </td>
 
                                                     {/* 18. 기한 */}
-                                                    <td className="text-center text-[#A1A1AA] font-mono w-[100px] min-w-[100px] max-w-[100px] truncate">{dueDateVal || '-'}</td>
+                                                    <td className="pl-4 text-[#A1A1AA] truncate w-[200px] min-w-[200px] max-w-[200px]">{nextActionVal || '-'}</td>
 
                                                     {/* 19. 상태 */}
                                                     <td className="text-center w-[80px] min-w-[80px] max-w-[80px]">
@@ -2551,7 +2551,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
 
 
                                                     {/* 22. 다음 액션 */}
-                                                    <td className="pl-4 text-[#A1A1AA] truncate w-[200px] min-w-[200px] max-w-[200px]">{nextActionVal || '-'}</td>
+                                                    <td className="text-center text-[#A1A1AA] font-mono w-[100px] min-w-[100px] max-w-[100px] truncate">{dueDateVal || '-'}</td>
 
                                                     
 
@@ -2560,7 +2560,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
 
                                                     
                                                     {/* 관리 */}
-                                                    <td className="px-2 text-center w-[85px] min-w-[85px] max-w-[85px] border-r border-[#3c3c3c]">
+                                                    <td className="px-2 text-center w-[85px] min-w-[85px] max-w-[85px] border-l border-r border-[#3c3c3c]">
                                                         <div className="flex items-center justify-center gap-1.5">
                                                             <button 
                                                                 onClick={isAuthorized ? () => handleEditClick(t) : () => setShowAuthInfoModal(true)}
