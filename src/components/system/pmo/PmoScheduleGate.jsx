@@ -896,7 +896,7 @@ export default function PmoScheduleGate() {
             </div>
 
             {/* Divider Line */}
-            <div className="w-full h-[1px] bg-[#3c3c3c] mt-[64px] mb-[48px]" />
+            <div className="-mx-[60px] h-[1px] bg-[#2C2C2E] mt-[64px] mb-[48px]" />
 
             {/* Category Map & R&R Section */}
             <div className="w-full flex items-center justify-between mb-[14px]">
