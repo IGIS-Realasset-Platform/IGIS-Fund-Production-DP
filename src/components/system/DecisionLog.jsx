@@ -818,7 +818,7 @@ export default function DecisionLog() {
     const isStaging = import.meta.env.MODE === 'staging';
 
     return (
-        <div className="w-full flex-1 flex flex-col pt-[50px] pb-[60px] max-w-[1200px] mx-auto">
+        <div className="w-full flex-1 flex flex-col pt-[48px] pb-[60px] pl-[60px] pr-[60px] box-border">
             {/* Header Metadata */}
             <div className="w-full flex justify-between items-start mb-[32px]">
                 <div>
@@ -830,8 +830,8 @@ export default function DecisionLog() {
                 </div>
             </div>
 
-            {/* Staging mode: PMO Master Grid */}
-            {isStaging && <PmoTaskBoardStaging />}
+            {/* 통합 업무 보드 */}
+            <PmoTaskBoardStaging />
 
             {/* IOTA CFT 실시간 통합 업무 로그 */}
             <div className="w-full mb-[44px]">
