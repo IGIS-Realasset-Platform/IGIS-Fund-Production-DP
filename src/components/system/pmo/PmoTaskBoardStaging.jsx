@@ -1942,14 +1942,14 @@ export default function PmoTaskBoardStaging() {
             ) : (
                 <div className="-mr-[calc(50vw-50%)] border border-r-0 border-[#3c3c3c] bg-[#272726] rounded-l-[24px] overflow-hidden mb-[40px] shadow-sm select-text">
                     <div className="w-full overflow-x-auto pr-0 timeline-scrollbar">
-                        <div className="flex items-center min-w-[4764px]">
-                            <table className="text-left table-fixed min-w-[3964px] flex-1 border-collapse bg-[#272726]">
+                        <div className="flex items-center min-w-[4744px]">
+                            <table className="text-left table-fixed min-w-[3944px] flex-1 border-collapse bg-[#272726]">
                                 <thead>
                                     <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[13px] h-11">
-                                        <th className="pl-[10px] text-center w-[80px] min-w-[80px] max-w-[80px] sticky left-0 bg-[#272726] z-30">ID</th>
+                                        <th className="pl-[10px] text-center w-[60px] min-w-[60px] max-w-[60px] sticky left-0 bg-[#272726] z-30">ID</th>
                                         
                                         {/* 프로젝트 */}
-                                        <th className="text-center w-[90px] min-w-[90px] max-w-[90px] sticky left-[80px] bg-[#272726] z-30">
+                                        <th className="text-center w-[90px] min-w-[90px] max-w-[90px] sticky left-[60px] bg-[#272726] z-30">
                                             <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[75px] overflow-hidden mx-auto">
                                                 <span className={`font-bold text-[11px] whitespace-nowrap truncate ${selectedProject === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
                                                     {selectedProject === '전체보기' ? '프로젝트' : selectedProject}
@@ -1969,7 +1969,7 @@ export default function PmoTaskBoardStaging() {
                                         </th>
 
                                         {/* 대분류 */}
-                                        <th className="pl-4 w-[95px] min-w-[95px] max-w-[95px] sticky left-[170px] bg-[#272726] z-30">
+                                        <th className="pl-4 w-[95px] min-w-[95px] max-w-[95px] sticky left-[150px] bg-[#272726] z-30">
                                             <div className="relative inline-flex items-center justify-start bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[80px] overflow-hidden">
                                                 <span className={`font-bold text-[11px] whitespace-nowrap truncate ${selectedCategoryMain === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
                                                     {selectedCategoryMain === '전체보기' ? '대분류' : selectedCategoryMain}
@@ -1988,8 +1988,8 @@ export default function PmoTaskBoardStaging() {
                                             </div>
                                         </th>
 
-                                        <th className="pl-4 w-[104px] min-w-[104px] max-w-[104px] sticky left-[265px] bg-[#272726] z-30">세부섹터</th>
-                                        <th className="pl-4 w-[270px] min-w-[270px] max-w-[270px] sticky left-[369px] bg-[#272726] z-30 shadow-[inset_-1px_0_0_0_#3c3c3c]">업무명</th>
+                                        <th className="pl-4 w-[104px] min-w-[104px] max-w-[104px] sticky left-[245px] bg-[#272726] z-30">세부섹터</th>
+                                        <th className="pl-4 w-[270px] min-w-[270px] max-w-[270px] sticky left-[349px] bg-[#272726] z-30 shadow-[inset_-1px_0_0_0_#3c3c3c]">업무명</th>
                                         <th className="pl-4 w-[280px] min-w-[280px] max-w-[280px]">업무목적 / PF·준공 영향</th>
                                         <th className="pl-4 w-[220px] min-w-[220px] max-w-[220px]">필요 산출물</th>
 
@@ -2238,27 +2238,27 @@ export default function PmoTaskBoardStaging() {
                                             return (
                                                 <tr key={t.id || `task-${idx}`} className="group hover:bg-[#333]/50 transition-colors h-12">
                                                     {/* 1. ID */}
-                                                    <td className="pl-[10px] text-center text-[#86868B] font-mono select-none w-[80px] min-w-[80px] max-w-[80px] truncate sticky left-0 bg-[#272726] group-hover:bg-[#2d2d2c] transition-colors z-10">
+                                                    <td className="pl-[10px] text-center text-[#86868B] text-[11px] font-mono select-none w-[60px] min-w-[60px] max-w-[60px] truncate sticky left-0 bg-[#272726] group-hover:bg-[#2d2d2c] transition-colors z-10">
                                                         {t.id && !t.id.includes('-') ? t.id : (fallbackItem.id || `T-${String(idx+1).padStart(3, '0')}`)}
                                                     </td>
                                                     
                                                     {/* 2. 프로젝트 */}
-                                                    <td className="text-center font-bold text-[#E5E5E5] w-[90px] min-w-[90px] max-w-[90px] truncate sticky left-[80px] bg-[#272726] group-hover:bg-[#2d2d2c] transition-colors z-10">
+                                                    <td className="text-center font-bold text-[#E5E5E5] w-[90px] min-w-[90px] max-w-[90px] truncate sticky left-[60px] bg-[#272726] group-hover:bg-[#2d2d2c] transition-colors z-10">
                                                         {projectVal}
                                                     </td>
                                                     
                                                     {/* 3. 대분류 */}
-                                                    <td className="pl-4 font-bold text-[#E5E5E5] w-[95px] min-w-[95px] max-w-[95px] truncate sticky left-[170px] bg-[#272726] group-hover:bg-[#2d2d2c] transition-colors z-10">
+                                                    <td className="pl-4 font-bold text-[#E5E5E5] w-[95px] min-w-[95px] max-w-[95px] truncate sticky left-[150px] bg-[#272726] group-hover:bg-[#2d2d2c] transition-colors z-10">
                                                         {t.category_main}
                                                     </td>
                                                     
                                                     {/* 4. 세부섹터 */}
-                                                    <td className="pl-4 text-[#A1A1AA] w-[104px] min-w-[104px] max-w-[104px] truncate sticky left-[265px] bg-[#272726] group-hover:bg-[#2d2d2c] transition-colors z-10">
+                                                    <td className="pl-4 text-[#A1A1AA] w-[104px] min-w-[104px] max-w-[104px] truncate sticky left-[245px] bg-[#272726] group-hover:bg-[#2d2d2c] transition-colors z-10">
                                                         {t.sector_detail}
                                                     </td>
                                                     
                                                     {/* 5. 업무명 */}
-                                                    <td className="pl-4 font-bold text-[#F59E0B] w-[270px] min-w-[270px] max-w-[270px] sticky left-[369px] bg-[#272726] group-hover:bg-[#2d2d2c] transition-colors z-10 shadow-[inset_-1px_0_0_0_#3c3c3c]">
+                                                    <td className="pl-4 font-bold text-[#F59E0B] w-[270px] min-w-[270px] max-w-[270px] sticky left-[349px] bg-[#272726] group-hover:bg-[#2d2d2c] transition-colors z-10 shadow-[inset_-1px_0_0_0_#3c3c3c]">
                                                         <div className="truncate w-full">{t.task_name}</div>
                                                     </td>
 
