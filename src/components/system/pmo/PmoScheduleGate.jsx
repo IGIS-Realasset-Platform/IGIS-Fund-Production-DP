@@ -563,19 +563,20 @@ export default function PmoScheduleGate() {
                     <div className="flex items-start min-w-[2386px]">
                         <table className="text-left table-fixed min-w-[1586px] flex-1 border-collapse border-b border-[#3c3c3c] bg-[#272726]">
                             <thead>
-                                <tr className="border-b border-[#3c3c3c] bg-[#272726] text-[#86868B] font-bold text-[12px] h-[60px]">
+                                <tr className="border-b border-[#3c3c3c] bg-[#272726] text-[#86868B] font-bold text-[12px] h-12">
                                     <th className="px-3 w-[110px] min-w-[110px] max-w-[110px] text-center sticky left-0 bg-[#272726] z-30">
-                                        <div className="flex flex-col items-center justify-center gap-1 py-1">
-                                            <span>대분류</span>
+                                        <div className="flex items-center justify-center gap-1 cursor-pointer">
                                             <select
                                                 value={selectedRrCategory}
                                                 onChange={(e) => setSelectedRrCategory(e.target.value)}
-                                                className="w-full bg-[#2c2c2b] border border-[#3c3c3c] text-white text-[10.5px] font-bold rounded-[4px] px-1 py-0.5 outline-none cursor-pointer hover:border-[#4c4c4c] transition-colors text-center"
+                                                className="bg-transparent border-none text-[#86868B] font-bold text-[12px] outline-none cursor-pointer text-center appearance-none pr-1 w-auto"
                                             >
-                                                {R_R_CATEGORIES.map(cat => (
+                                                <option value="전체보기" className="bg-[#222] text-[#86868B]">{selectedRrCategory === '전체보기' ? '대분류' : '전체보기'}</option>
+                                                {R_R_CATEGORIES.slice(1).map(cat => (
                                                     <option key={cat} value={cat} className="bg-[#222] text-white">{cat}</option>
                                                 ))}
                                             </select>
+                                            <span className="text-[9px] text-[#86868B]/70 pointer-events-none">▼</span>
                                         </div>
                                     </th>
                                     <th className="px-3 w-[130px] min-w-[130px] max-w-[130px] text-center sticky left-[110px] bg-[#272726] z-30">세부섹터</th>
@@ -584,31 +585,33 @@ export default function PmoScheduleGate() {
                                     <th className="px-2 w-[75px] min-w-[75px] max-w-[75px] text-center bg-[#272726] text-[11px] leading-tight">착공 전<br />필요</th>
                                     <th className="px-2 w-[75px] min-w-[75px] max-w-[75px] text-center bg-[#272726] text-[11px] leading-tight border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)]">준공 전<br />필요</th>
                                     <th className="w-[116px] min-w-[116px] max-w-[116px] text-center bg-[#272726]">
-                                        <div className="flex flex-col items-center justify-center gap-1 py-1">
-                                            <span>주관 부서</span>
+                                        <div className="flex items-center justify-center gap-1 cursor-pointer">
                                             <select
                                                 value={selectedRrLead}
                                                 onChange={(e) => setSelectedRrLead(e.target.value)}
-                                                className="w-full bg-[#2c2c2b] border border-[#3c3c3c] text-white text-[10.5px] font-bold rounded-[4px] px-1 py-0.5 outline-none cursor-pointer hover:border-[#4c4c4c] transition-colors text-center"
+                                                className="bg-transparent border-none text-[#86868B] font-bold text-[12px] outline-none cursor-pointer text-center appearance-none pr-1 w-auto"
                                             >
-                                                {R_R_LEADS.map(lead => (
+                                                <option value="전체보기" className="bg-[#222] text-[#86868B]">{selectedRrLead === '전체보기' ? '주관 부서' : '전체보기'}</option>
+                                                {R_R_LEADS.slice(1).map(lead => (
                                                     <option key={lead} value={lead} className="bg-[#222] text-white">{lead}</option>
                                                 ))}
                                             </select>
+                                            <span className="text-[9px] text-[#86868B]/70 pointer-events-none">▼</span>
                                         </div>
                                     </th>
                                     <th className="pl-3 w-[260px] min-w-[260px] max-w-[260px] text-left bg-[#272726]">
-                                        <div className="flex flex-col items-start justify-center gap-1 py-1 pr-3">
-                                            <span>협업 부서</span>
+                                        <div className="flex items-center justify-start gap-1 cursor-pointer">
                                             <select
                                                 value={selectedRrCoop}
                                                 onChange={(e) => setSelectedRrCoop(e.target.value)}
-                                                className="w-full bg-[#2c2c2b] border border-[#3c3c3c] text-white text-[10.5px] font-bold rounded-[4px] px-1.5 py-0.5 outline-none cursor-pointer hover:border-[#4c4c4c] transition-colors text-left"
+                                                className="bg-transparent border-none text-[#86868B] font-bold text-[12px] outline-none cursor-pointer text-left appearance-none pr-1 w-auto"
                                             >
-                                                {R_R_COOPS.map(coop => (
+                                                <option value="전체보기" className="bg-[#222] text-[#86868B]">{selectedRrCoop === '전체보기' ? '협업 부서' : '전체보기'}</option>
+                                                {R_R_COOPS.slice(1).map(coop => (
                                                     <option key={coop} value={coop} className="bg-[#222] text-white">{coop}</option>
                                                 ))}
                                             </select>
+                                            <span className="text-[9px] text-[#86868B]/70 pointer-events-none">▼</span>
                                         </div>
                                     </th>
                                     <th className="px-3 w-[120px] min-w-[120px] max-w-[120px] text-center bg-[#272726]">외부 상대방</th>
