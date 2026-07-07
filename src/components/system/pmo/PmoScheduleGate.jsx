@@ -1415,23 +1415,35 @@ export default function PmoScheduleGate() {
                 <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[11000] p-4">
                     <div className="bg-[#1C1C1E] border border-[#2C2C2E] rounded-[16px] w-full max-w-[400px] shadow-2xl p-6 relative">
                         <h3 className="text-[17px] font-bold text-white mb-5 text-left">
-                            R&R 및 필요산출물 관리 권한 안내
+                            R&R 및 필요산출물 관리 권한
                         </h3>
                         
                         <div className="bg-[#2C2C2E]/40 border border-[#2C2C2E] rounded-[8px] p-4 space-y-3 mb-6 text-left">
-                            <div className="flex items-start gap-3">
-                                <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-[#2997ff]/10 text-[#2997ff] border border-[#2997ff]/20 mt-0.5">조직</span>
-                                <div className="text-[13px] text-white font-medium">
-                                    사업관리2파트<br />
-                                    시스템 관리자(기획추진)
+                            <div className="flex items-center gap-3">
+                                <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-[#2997ff]/10 text-[#2997ff] border border-[#2997ff]/20 shrink-0">조직</span>
+                                <div className="text-[13px] text-[#E5E5E5] font-medium space-y-1">
+                                    <div className="flex items-center gap-1.5">
+                                        <span className="w-1 h-1 rounded-full bg-[#86868B] shrink-0" />
+                                        <span>사업관리2파트</span>
+                                    </div>
+                                    <div className="flex items-center gap-1.5">
+                                        <span className="w-1 h-1 rounded-full bg-[#86868B] shrink-0" />
+                                        <span>시스템 관리자(기획추진)</span>
+                                    </div>
                                 </div>
                             </div>
                             <div className="h-[1px] bg-[#2C2C2E]" />
-                            <div className="flex items-start gap-3">
-                                <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-[#6366F1]/10 text-[#A5B4FC] border border-[#6366F1]/20 mt-0.5">역할</span>
-                                <div className="text-[13px] text-white font-medium">
-                                    PO (Project Owner)<br />
-                                    프로젝트 디렉터 및 PM
+                            <div className="flex items-center gap-3">
+                                <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-[#6366F1]/10 text-[#A5B4FC] border border-[#6366F1]/20 shrink-0">역할</span>
+                                <div className="text-[13px] text-[#E5E5E5] font-medium space-y-1">
+                                    <div className="flex items-center gap-1.5">
+                                        <span className="w-1 h-1 rounded-full bg-[#86868B] shrink-0" />
+                                        <span>PO (Project Owner)</span>
+                                    </div>
+                                    <div className="flex items-center gap-1.5">
+                                        <span className="w-1 h-1 rounded-full bg-[#86868B] shrink-0" />
+                                        <span>프로젝트 디렉터 및 PM</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
