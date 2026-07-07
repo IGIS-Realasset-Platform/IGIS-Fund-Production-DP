@@ -18,11 +18,18 @@ const FALLBACK_BOARD_TASKS = [
     "assignee": "파트장",
     "external_party": "내부 전체",
     "support_needed": "부서별 담당자 입력",
-    "is_blocker": false,
-    "needs_decision": false,
-    "due_date": "2026-12-31",
+    "is_blocker": "N",
+    "needs_decision": "Y",
+    "due_date": "2026-07-03",
     "status": "진행중",
-    "next_action": ""
+    "importance_level": "준공필수",
+    "task_type": "정규",
+    "next_action": "회의체 운영원칙 확정 후 부서 배포",
+    "priority_score": 70,
+    "meeting_grade": "A_즉시상정",
+    "agenda_reason": "준공필수 / 의사결정 / 지원:부서별 담당자 입력",
+    "sort_key": 70.0997,
+    "notes": "사업관리2파트가 PMO"
   },
   {
     "id": "T-002",
@@ -40,11 +47,18 @@ const FALLBACK_BOARD_TASKS = [
     "assignee": "미정",
     "external_party": "내부 전체",
     "support_needed": "파트장 확인",
-    "is_blocker": false,
-    "needs_decision": false,
-    "due_date": "2026-12-31",
+    "is_blocker": "N",
+    "needs_decision": "Y",
+    "due_date": "2026-07-03",
     "status": "진행중",
-    "next_action": ""
+    "importance_level": "PF필수",
+    "task_type": "정규",
+    "next_action": "회의에서 점수 기준 합의",
+    "priority_score": 65,
+    "meeting_grade": "B_회의점검",
+    "agenda_reason": "PF필수 / 의사결정 / 지원:파트장 확인",
+    "sort_key": 65.0996,
+    "notes": null
   },
   {
     "id": "T-003",
@@ -62,11 +76,18 @@ const FALLBACK_BOARD_TASKS = [
     "assignee": "미정",
     "external_party": "Marriott;대명소노",
     "support_needed": "호텔 담당/법무 검토",
-    "is_blocker": false,
-    "needs_decision": false,
-    "due_date": "2026-12-31",
-    "status": "진행중",
-    "next_action": ""
+    "is_blocker": "Y",
+    "needs_decision": "Y",
+    "due_date": "2026-07-15",
+    "status": "지연",
+    "importance_level": "PF필수",
+    "task_type": "정규",
+    "next_action": "리츠칼튼 우선협상권 및 소노 협약 충돌 가능성 정리 , 소노 단독 액션플랜 정리",
+    "priority_score": 105,
+    "meeting_grade": "A_즉시상정",
+    "agenda_reason": "PF필수 / Blocker / 의사결정 / 지원:호텔 담당/법무 검토 / 지연",
+    "sort_key": 105.0995,
+    "notes": "핵심 Blocker"
   },
   {
     "id": "T-004",
@@ -84,11 +105,18 @@ const FALLBACK_BOARD_TASKS = [
     "assignee": "미정",
     "external_party": "Marriott;대명소노",
     "support_needed": "외부 법무 검토",
-    "is_blocker": false,
-    "needs_decision": false,
-    "due_date": "2026-12-31",
-    "status": "진행중",
-    "next_action": ""
+    "is_blocker": "N",
+    "needs_decision": "Y",
+    "due_date": "2026-07-31",
+    "status": "미착수",
+    "importance_level": "PF필수",
+    "task_type": "정규",
+    "next_action": "계약 유형별 대주단 수용성 확인",
+    "priority_score": 65,
+    "meeting_grade": "B_회의점검",
+    "agenda_reason": "PF필수 / 의사결정 / 지원:외부 법무 검토",
+    "sort_key": 65.0994,
+    "notes": null
   },
   {
     "id": "T-005",
@@ -106,11 +134,18 @@ const FALLBACK_BOARD_TASKS = [
     "assignee": "미정",
     "external_party": "호텔 브랜드사",
     "support_needed": "운영자료 필요",
-    "is_blocker": false,
-    "needs_decision": false,
-    "due_date": "2026-12-31",
-    "status": "진행중",
-    "next_action": ""
+    "is_blocker": "N",
+    "needs_decision": "N",
+    "due_date": "2026-08-15",
+    "status": "미착수",
+    "importance_level": "PF필수",
+    "task_type": "정규",
+    "next_action": "브랜드 후보로부터 기준자료 수령",
+    "priority_score": 45,
+    "meeting_grade": "C_주간관리",
+    "agenda_reason": "PF필수 / 지원:운영자료 필요",
+    "sort_key": 45.0993,
+    "notes": null
   },
   {
     "id": "T-006",
@@ -128,11 +163,18 @@ const FALLBACK_BOARD_TASKS = [
     "assignee": "미정",
     "external_party": "서울시/중구청",
     "support_needed": "관청 협의 결과",
-    "is_blocker": false,
-    "needs_decision": false,
-    "due_date": "2026-12-31",
+    "is_blocker": "Y",
+    "needs_decision": "Y",
+    "due_date": "2026-07-19",
     "status": "진행중",
-    "next_action": ""
+    "importance_level": "PF필수",
+    "task_type": "정규",
+    "next_action": "협약 시나리오정리/인허관청 미팅 논의",
+    "priority_score": 90,
+    "meeting_grade": "A_즉시상정",
+    "agenda_reason": "PF필수 / Blocker / 의사결정 / 지원:관청 협의 결과",
+    "sort_key": 90.0992,
+    "notes": null
   },
   {
     "id": "T-007",
@@ -150,11 +192,18 @@ const FALLBACK_BOARD_TASKS = [
     "assignee": "미정",
     "external_party": "서울시/중구청",
     "support_needed": "도면·관청의견 필요",
-    "is_blocker": false,
-    "needs_decision": false,
-    "due_date": "2026-12-31",
+    "is_blocker": "Y",
+    "needs_decision": "Y",
+    "due_date": "2026-07-26",
     "status": "진행중",
-    "next_action": ""
+    "importance_level": "PF필수",
+    "task_type": "정규",
+    "next_action": "소공원로 관련 도면 및 협의주체 확인",
+    "priority_score": 90,
+    "meeting_grade": "A_즉시상정",
+    "agenda_reason": "PF필수 / Blocker / 의사결정 / 지원:도면·관청의견 필요",
+    "sort_key": 90.0991,
+    "notes": null
   },
   {
     "id": "T-008",
@@ -172,11 +221,18 @@ const FALLBACK_BOARD_TASKS = [
     "assignee": "미정",
     "external_party": "서울시/중구청;삼성물산",
     "support_needed": "인허가/설계 검토",
-    "is_blocker": false,
-    "needs_decision": false,
-    "due_date": "2026-12-31",
+    "is_blocker": "N",
+    "needs_decision": "Y",
+    "due_date": "2026-07-31",
     "status": "진행중",
-    "next_action": ""
+    "importance_level": "PF필수",
+    "task_type": "정규",
+    "next_action": "주거전환 시 인허가 변경기간 및 조건 산정",
+    "priority_score": 65,
+    "meeting_grade": "B_회의점검",
+    "agenda_reason": "PF필수 / 의사결정 / 지원:인허가/설계 검토",
+    "sort_key": 65.099,
+    "notes": null
   },
   {
     "id": "T-009",
@@ -194,11 +250,18 @@ const FALLBACK_BOARD_TASKS = [
     "assignee": "미정",
     "external_party": "서울시/중구청",
     "support_needed": "인허가 판단",
-    "is_blocker": false,
-    "needs_decision": false,
-    "due_date": "2026-12-31",
-    "status": "진행중",
-    "next_action": ""
+    "is_blocker": "N",
+    "needs_decision": "N",
+    "due_date": "2026-08-15",
+    "status": "미착수",
+    "importance_level": "PF필수",
+    "task_type": "정규",
+    "next_action": "호텔 프로그램 확정 이후 필요 변경범위 확인",
+    "priority_score": 45,
+    "meeting_grade": "C_주간관리",
+    "agenda_reason": "PF필수 / 지원:인허가 판단",
+    "sort_key": 45.0989,
+    "notes": null
   },
   {
     "id": "T-010",
@@ -216,11 +279,18 @@ const FALLBACK_BOARD_TASKS = [
     "assignee": "미정",
     "external_party": "서울시/중구청",
     "support_needed": "장기 일정 입력",
-    "is_blocker": false,
-    "needs_decision": false,
-    "due_date": "2026-12-31",
-    "status": "진행중",
-    "next_action": ""
+    "is_blocker": "N",
+    "needs_decision": "N",
+    "due_date": "2026-09-30",
+    "status": "미착수",
+    "importance_level": "준공필수",
+    "task_type": "정규",
+    "next_action": "PF 이후 공사·준공 CP로 연결",
+    "priority_score": 50,
+    "meeting_grade": "B_회의점검",
+    "agenda_reason": "준공필수 / 지원:장기 일정 입력",
+    "sort_key": 50.0988,
+    "notes": null
   },
   {
     "id": "T-011",
@@ -238,11 +308,18 @@ const FALLBACK_BOARD_TASKS = [
     "assignee": "미정",
     "external_party": "현대건설",
     "support_needed": "시공사 Term 회신",
-    "is_blocker": false,
-    "needs_decision": false,
-    "due_date": "2026-12-31",
+    "is_blocker": "N",
+    "needs_decision": "Y",
+    "due_date": "2026-07-31",
     "status": "진행중",
-    "next_action": ""
+    "importance_level": "PF필수",
+    "task_type": "정규",
+    "next_action": "현대건설과 도급/신용공여 핵심 조건 테이블화",
+    "priority_score": 65,
+    "meeting_grade": "B_회의점검",
+    "agenda_reason": "PF필수 / 의사결정 / 지원:시공사 Term 회신",
+    "sort_key": 65.0987,
+    "notes": null
   },
   {
     "id": "T-012",
@@ -260,11 +337,18 @@ const FALLBACK_BOARD_TASKS = [
     "assignee": "미정",
     "external_party": "삼성물산",
     "support_needed": "삼성 조건 회신",
-    "is_blocker": false,
-    "needs_decision": false,
-    "due_date": "2026-12-31",
+    "is_blocker": "Y",
+    "needs_decision": "Y",
+    "due_date": "2026-07-31",
     "status": "진행중",
-    "next_action": ""
+    "importance_level": "PF필수",
+    "task_type": "정규",
+    "next_action": "삼성물산의 주주/시공사 이중 지위 고려해 협상안 작성",
+    "priority_score": 90,
+    "meeting_grade": "A_즉시상정",
+    "agenda_reason": "PF필수 / Blocker / 의사결정 / 지원:삼성 조건 회신",
+    "sort_key": 90.0986,
+    "notes": null
   },
   {
     "id": "T-013",
@@ -282,11 +366,18 @@ const FALLBACK_BOARD_TASKS = [
     "assignee": "미정",
     "external_party": "현대건설;삼성물산",
     "support_needed": "견적 상세내역",
-    "is_blocker": false,
-    "needs_decision": false,
-    "due_date": "2026-12-31",
+    "is_blocker": "Y",
+    "needs_decision": "N",
+    "due_date": "2026-08-15",
     "status": "진행중",
-    "next_action": ""
+    "importance_level": "PF필수",
+    "task_type": "정규",
+    "next_action": "공사비 상승 근거와 절감 가능항목 분리",
+    "priority_score": 70,
+    "meeting_grade": "A_즉시상정",
+    "agenda_reason": "PF필수 / Blocker / 지원:견적 상세내역",
+    "sort_key": 70.0985,
+    "notes": null
   },
   {
     "id": "T-014",
@@ -304,11 +395,18 @@ const FALLBACK_BOARD_TASKS = [
     "assignee": "미정",
     "external_party": "현대건설;삼성물산",
     "support_needed": "시공사 공정표",
-    "is_blocker": false,
-    "needs_decision": false,
-    "due_date": "2026-12-31",
-    "status": "진행중",
-    "next_action": ""
+    "is_blocker": "N",
+    "needs_decision": "N",
+    "due_date": "2026-09-15",
+    "status": "미착수",
+    "importance_level": "준공필수",
+    "task_type": "정규",
+    "next_action": "PF Term과 착공 조건 연결",
+    "priority_score": 50,
+    "meeting_grade": "B_회의점검",
+    "agenda_reason": "준공필수 / 지원:시공사 공정표",
+    "sort_key": 50.0984,
+    "notes": null
   },
   {
     "id": "T-015",
@@ -326,11 +424,18 @@ const FALLBACK_BOARD_TASKS = [
     "assignee": "미정",
     "external_party": "설계사/CM",
     "support_needed": "도면 기준 정리",
-    "is_blocker": false,
-    "needs_decision": false,
-    "due_date": "2026-12-31",
+    "is_blocker": "Y",
+    "needs_decision": "Y",
+    "due_date": "2026-07-26",
     "status": "진행중",
-    "next_action": ""
+    "importance_level": "PF필수",
+    "task_type": "정규",
+    "next_action": "427/816 공통 기준도면 양식 확정",
+    "priority_score": 90,
+    "meeting_grade": "A_즉시상정",
+    "agenda_reason": "PF필수 / Blocker / 의사결정 / 지원:도면 기준 정리",
+    "sort_key": 90.0983,
+    "notes": null
   },
   {
     "id": "T-016",
@@ -348,11 +453,18 @@ const FALLBACK_BOARD_TASKS = [
     "assignee": "미정",
     "external_party": "설계사/CM",
     "support_needed": "도면/면적자료",
-    "is_blocker": false,
-    "needs_decision": false,
-    "due_date": "2026-12-31",
+    "is_blocker": "N",
+    "needs_decision": "N",
+    "due_date": "2026-07-31",
     "status": "진행중",
-    "next_action": ""
+    "importance_level": "PF필수",
+    "task_type": "정규",
+    "next_action": "임차 제안서와 모델 입력값 일치 확인",
+    "priority_score": 45,
+    "meeting_grade": "C_주간관리",
+    "agenda_reason": "PF필수 / 지원:도면/면적자료",
+    "sort_key": 45.0982,
+    "notes": null
   },
   {
     "id": "T-017",
@@ -370,11 +482,18 @@ const FALLBACK_BOARD_TASKS = [
     "assignee": "미정",
     "external_party": "호텔 브랜드사;설계사",
     "support_needed": "브랜드 기준자료",
-    "is_blocker": false,
-    "needs_decision": false,
-    "due_date": "2026-12-31",
-    "status": "진행중",
-    "next_action": ""
+    "is_blocker": "N",
+    "needs_decision": "N",
+    "due_date": "2026-08-15",
+    "status": "미착수",
+    "importance_level": "PF필수",
+    "task_type": "정규",
+    "next_action": "브랜드 후보별 프로그램 요구사항 수령",
+    "priority_score": 45,
+    "meeting_grade": "C_주간관리",
+    "agenda_reason": "PF필수 / 지원:브랜드 기준자료",
+    "sort_key": 45.0981,
+    "notes": null
   },
   {
     "id": "T-018",
@@ -392,11 +511,18 @@ const FALLBACK_BOARD_TASKS = [
     "assignee": "미정",
     "external_party": "잠재 임차인",
     "support_needed": "TI 시장자료",
-    "is_blocker": false,
-    "needs_decision": false,
-    "due_date": "2026-12-31",
+    "is_blocker": "N",
+    "needs_decision": "N",
+    "due_date": "2026-08-15",
     "status": "진행중",
-    "next_action": ""
+    "importance_level": "PF필수",
+    "task_type": "정규",
+    "next_action": "임차 제안서와 비용모델 연동",
+    "priority_score": 45,
+    "meeting_grade": "C_주간관리",
+    "agenda_reason": "PF필수 / 지원:TI 시장자료",
+    "sort_key": 45.098,
+    "notes": null
   },
   {
     "id": "T-019",
@@ -414,11 +540,18 @@ const FALLBACK_BOARD_TASKS = [
     "assignee": "미정",
     "external_party": "호텔 브랜드사",
     "support_needed": "브랜드 기준자료",
-    "is_blocker": false,
-    "needs_decision": false,
-    "due_date": "2026-12-31",
-    "status": "진행중",
-    "next_action": ""
+    "is_blocker": "N",
+    "needs_decision": "N",
+    "due_date": "2026-08-31",
+    "status": "미착수",
+    "importance_level": "PF필수",
+    "task_type": "정규",
+    "next_action": "브랜드 결정 후 Cost Book 작성",
+    "priority_score": 45,
+    "meeting_grade": "C_주간관리",
+    "agenda_reason": "PF필수 / 지원:브랜드 기준자료",
+    "sort_key": 45.0979,
+    "notes": null
   },
   {
     "id": "T-020",
@@ -436,11 +569,18 @@ const FALLBACK_BOARD_TASKS = [
     "assignee": "미정",
     "external_party": "광장;KB;삼성 등",
     "support_needed": "임차인 요구사항",
-    "is_blocker": false,
-    "needs_decision": false,
-    "due_date": "2026-12-31",
+    "is_blocker": "N",
+    "needs_decision": "N",
+    "due_date": "2026-07-31",
     "status": "진행중",
-    "next_action": ""
+    "importance_level": "PF필수",
+    "task_type": "정규",
+    "next_action": "임차인별 니즈를 도면·조건에 반영",
+    "priority_score": 45,
+    "meeting_grade": "C_주간관리",
+    "agenda_reason": "PF필수 / 지원:임차인 요구사항",
+    "sort_key": 45.0978,
+    "notes": null
   },
   {
     "id": "T-021",
@@ -458,11 +598,18 @@ const FALLBACK_BOARD_TASKS = [
     "assignee": "미정",
     "external_party": "광장",
     "support_needed": "임차조건 회신",
-    "is_blocker": false,
-    "needs_decision": false,
-    "due_date": "2026-12-31",
+    "is_blocker": "Y",
+    "needs_decision": "Y",
+    "due_date": "2026-07-19",
     "status": "진행중",
-    "next_action": ""
+    "importance_level": "PF필수",
+    "task_type": "정규",
+    "next_action": "임차 조건과 PF 반영 가능성 확인",
+    "priority_score": 90,
+    "meeting_grade": "A_즉시상정",
+    "agenda_reason": "PF필수 / Blocker / 의사결정 / 지원:임차조건 회신",
+    "sort_key": 90.0977,
+    "notes": null
   },
   {
     "id": "T-022",
@@ -480,11 +627,18 @@ const FALLBACK_BOARD_TASKS = [
     "assignee": "미정",
     "external_party": "KB증권 등",
     "support_needed": "임차 후보 접촉",
-    "is_blocker": false,
-    "needs_decision": false,
-    "due_date": "2026-12-31",
+    "is_blocker": "N",
+    "needs_decision": "N",
+    "due_date": "2026-07-31",
     "status": "진행중",
-    "next_action": ""
+    "importance_level": "PF필수",
+    "task_type": "정규",
+    "next_action": "금융권 임차 후보 우선순위화",
+    "priority_score": 45,
+    "meeting_grade": "C_주간관리",
+    "agenda_reason": "PF필수 / 지원:임차 후보 접촉",
+    "sort_key": 45.0976,
+    "notes": null
   },
   {
     "id": "T-023",
@@ -502,11 +656,18 @@ const FALLBACK_BOARD_TASKS = [
     "assignee": "미정",
     "external_party": "삼성물산;이지스",
     "support_needed": "내부/삼성 협의",
-    "is_blocker": false,
-    "needs_decision": false,
-    "due_date": "2026-12-31",
+    "is_blocker": "Y",
+    "needs_decision": "Y",
+    "due_date": "2026-07-31",
     "status": "진행중",
-    "next_action": ""
+    "importance_level": "PF필수",
+    "task_type": "정규",
+    "next_action": "816 선임차 유지 vs 427 이전 비교",
+    "priority_score": 90,
+    "meeting_grade": "A_즉시상정",
+    "agenda_reason": "PF필수 / Blocker / 의사결정 / 지원:내부/삼성 협의",
+    "sort_key": 90.0975,
+    "notes": null
   },
   {
     "id": "T-024",
@@ -524,11 +685,18 @@ const FALLBACK_BOARD_TASKS = [
     "assignee": "미정",
     "external_party": "잠재 임차인",
     "support_needed": "시장자료",
-    "is_blocker": false,
-    "needs_decision": false,
-    "due_date": "2026-12-31",
+    "is_blocker": "N",
+    "needs_decision": "N",
+    "due_date": "2026-08-15",
     "status": "진행중",
-    "next_action": ""
+    "importance_level": "PF필수",
+    "task_type": "정규",
+    "next_action": "임차조건 산식 단순화 및 내부 기준화",
+    "priority_score": 45,
+    "meeting_grade": "C_주간관리",
+    "agenda_reason": "PF필수 / 지원:시장자료",
+    "sort_key": 45.0974,
+    "notes": null
   },
   {
     "id": "T-025",
@@ -546,11 +714,18 @@ const FALLBACK_BOARD_TASKS = [
     "assignee": "미정",
     "external_party": "대주단",
     "support_needed": "Term Sheet 필요",
-    "is_blocker": false,
-    "needs_decision": false,
-    "due_date": "2026-12-31",
+    "is_blocker": "Y",
+    "needs_decision": "Y",
+    "due_date": "2026-07-31",
     "status": "진행중",
-    "next_action": ""
+    "importance_level": "PF필수",
+    "task_type": "정규",
+    "next_action": "단독 PF 가능/불가 조건을 수치화",
+    "priority_score": 90,
+    "meeting_grade": "A_즉시상정",
+    "agenda_reason": "PF필수 / Blocker / 의사결정 / 지원:Term Sheet 필요",
+    "sort_key": 90.0973,
+    "notes": null
   },
   {
     "id": "T-026",
@@ -568,11 +743,18 @@ const FALLBACK_BOARD_TASKS = [
     "assignee": "미정",
     "external_party": "대주단",
     "support_needed": "금융/법무 검토",
-    "is_blocker": false,
-    "needs_decision": false,
-    "due_date": "2026-12-31",
+    "is_blocker": "Y",
+    "needs_decision": "Y",
+    "due_date": "2026-07-31",
     "status": "진행중",
-    "next_action": ""
+    "importance_level": "PF필수",
+    "task_type": "정규",
+    "next_action": "단독 vs 통합 의사결정용 비교표 작성",
+    "priority_score": 90,
+    "meeting_grade": "A_즉시상정",
+    "agenda_reason": "PF필수 / Blocker / 의사결정 / 지원:금융/법무 검토",
+    "sort_key": 90.0972,
+    "notes": null
   },
   {
     "id": "T-027",
@@ -590,11 +772,18 @@ const FALLBACK_BOARD_TASKS = [
     "assignee": "미정",
     "external_party": "회계법인/대주단",
     "support_needed": "업데이트 입력값",
-    "is_blocker": false,
-    "needs_decision": false,
-    "due_date": "2026-12-31",
+    "is_blocker": "Y",
+    "needs_decision": "N",
+    "due_date": "2026-08-15",
     "status": "진행중",
-    "next_action": ""
+    "importance_level": "PF필수",
+    "task_type": "정규",
+    "next_action": "각 부서 입력값 마감일 설정",
+    "priority_score": 70,
+    "meeting_grade": "A_즉시상정",
+    "agenda_reason": "PF필수 / Blocker / 지원:업데이트 입력값",
+    "sort_key": 70.0971,
+    "notes": null
   },
   {
     "id": "T-028",
@@ -612,11 +801,18 @@ const FALLBACK_BOARD_TASKS = [
     "assignee": "미정",
     "external_party": "삼성물산;대주단",
     "support_needed": "삼성 조건 확정",
-    "is_blocker": false,
-    "needs_decision": false,
-    "due_date": "2026-12-31",
+    "is_blocker": "N",
+    "needs_decision": "Y",
+    "due_date": "2026-08-15",
     "status": "진행중",
-    "next_action": ""
+    "importance_level": "PF필수",
+    "task_type": "정규",
+    "next_action": "단독 PF 시 비용절감 논리 재검증",
+    "priority_score": 65,
+    "meeting_grade": "B_회의점검",
+    "agenda_reason": "PF필수 / 의사결정 / 지원:삼성 조건 확정",
+    "sort_key": 65.097,
+    "notes": null
   },
   {
     "id": "T-029",
@@ -634,11 +830,18 @@ const FALLBACK_BOARD_TASKS = [
     "assignee": "미정",
     "external_party": "대주단",
     "support_needed": "각 부서 산출물",
-    "is_blocker": false,
-    "needs_decision": false,
-    "due_date": "2026-12-31",
-    "status": "진행중",
-    "next_action": ""
+    "is_blocker": "N",
+    "needs_decision": "Y",
+    "due_date": "2026-08-31",
+    "status": "미착수",
+    "importance_level": "PF필수",
+    "task_type": "정규",
+    "next_action": "부서별 CP owner 지정",
+    "priority_score": 65,
+    "meeting_grade": "B_회의점검",
+    "agenda_reason": "PF필수 / 의사결정 / 지원:각 부서 산출물",
+    "sort_key": 65.0969,
+    "notes": null
   },
   {
     "id": "T-030",
@@ -656,11 +859,18 @@ const FALLBACK_BOARD_TASKS = [
     "assignee": "미정",
     "external_party": "법무법인;세무법인",
     "support_needed": "외부 자문",
-    "is_blocker": false,
-    "needs_decision": false,
-    "due_date": "2026-12-31",
+    "is_blocker": "Y",
+    "needs_decision": "Y",
+    "due_date": "2026-07-31",
     "status": "진행중",
-    "next_action": ""
+    "importance_level": "PF필수",
+    "task_type": "정규",
+    "next_action": "기본안 유지/폐기/보류 판단",
+    "priority_score": 90,
+    "meeting_grade": "A_즉시상정",
+    "agenda_reason": "PF필수 / Blocker / 의사결정 / 지원:외부 자문",
+    "sort_key": 90.0968,
+    "notes": null
   },
   {
     "id": "T-031",
@@ -678,11 +888,18 @@ const FALLBACK_BOARD_TASKS = [
     "assignee": "미정",
     "external_party": "법무법인;세무법인",
     "support_needed": "자문결과 필요",
-    "is_blocker": false,
-    "needs_decision": false,
-    "due_date": "2026-12-31",
+    "is_blocker": "N",
+    "needs_decision": "Y",
+    "due_date": "2026-07-31",
     "status": "진행중",
-    "next_action": ""
+    "importance_level": "PF필수",
+    "task_type": "정규",
+    "next_action": "구조별 의사결정 기준 명확화",
+    "priority_score": 65,
+    "meeting_grade": "B_회의점검",
+    "agenda_reason": "PF필수 / 의사결정 / 지원:자문결과 필요",
+    "sort_key": 65.0967,
+    "notes": null
   },
   {
     "id": "T-032",
@@ -700,11 +917,18 @@ const FALLBACK_BOARD_TASKS = [
     "assignee": "미정",
     "external_party": "수익자;신탁사",
     "support_needed": "펀드자료 확인",
-    "is_blocker": false,
-    "needs_decision": false,
-    "due_date": "2026-12-31",
+    "is_blocker": "N",
+    "needs_decision": "N",
+    "due_date": "2026-08-15",
     "status": "진행중",
-    "next_action": ""
+    "importance_level": "PF필수",
+    "task_type": "정규",
+    "next_action": "구조전환 시 수익자 동의/통지 필요성 확인",
+    "priority_score": 45,
+    "meeting_grade": "C_주간관리",
+    "agenda_reason": "PF필수 / 지원:펀드자료 확인",
+    "sort_key": 45.0966,
+    "notes": null
   },
   {
     "id": "T-033",
@@ -722,11 +946,18 @@ const FALLBACK_BOARD_TASKS = [
     "assignee": "미정",
     "external_party": "현대건설;삼성물산;신한;NH 등",
     "support_needed": "주주 구조 확인",
-    "is_blocker": false,
-    "needs_decision": false,
-    "due_date": "2026-12-31",
+    "is_blocker": "N",
+    "needs_decision": "Y",
+    "due_date": "2026-08-15",
     "status": "진행중",
-    "next_action": ""
+    "importance_level": "PF필수",
+    "task_type": "정규",
+    "next_action": "주주별 이해관계와 설득논리 정리",
+    "priority_score": 65,
+    "meeting_grade": "B_회의점검",
+    "agenda_reason": "PF필수 / 의사결정 / 지원:주주 구조 확인",
+    "sort_key": 65.0965,
+    "notes": null
   },
   {
     "id": "T-034",
@@ -744,11 +975,18 @@ const FALLBACK_BOARD_TASKS = [
     "assignee": "찬호",
     "external_party": "대표/본부장/파트장",
     "support_needed": "회의 일정 확정",
-    "is_blocker": false,
-    "needs_decision": false,
-    "due_date": "2026-12-31",
+    "is_blocker": "N",
+    "needs_decision": "Y",
+    "due_date": "2026-07-12",
     "status": "진행중",
-    "next_action": ""
+    "importance_level": "PF필수",
+    "task_type": "정규",
+    "next_action": "회의 전 부서별 산출물 마감 설정",
+    "priority_score": 65,
+    "meeting_grade": "B_회의점검",
+    "agenda_reason": "PF필수 / 의사결정 / 지원:회의 일정 확정",
+    "sort_key": 65.0964,
+    "notes": null
   },
   {
     "id": "T-035",
@@ -766,11 +1004,18 @@ const FALLBACK_BOARD_TASKS = [
     "assignee": "찬호",
     "external_party": "주주사",
     "support_needed": "숫자/법무 검토",
-    "is_blocker": false,
-    "needs_decision": false,
-    "due_date": "2026-12-31",
-    "status": "진행중",
-    "next_action": ""
+    "is_blocker": "N",
+    "needs_decision": "Y",
+    "due_date": "2026-08-31",
+    "status": "미착수",
+    "importance_level": "PF필수",
+    "task_type": "정규",
+    "next_action": "보고자료와 내부 의사결정안 분리",
+    "priority_score": 65,
+    "meeting_grade": "B_회의점검",
+    "agenda_reason": "PF필수 / 의사결정 / 지원:숫자/법무 검토",
+    "sort_key": 65.0963,
+    "notes": null
   },
   {
     "id": "T-036",
@@ -788,11 +1033,18 @@ const FALLBACK_BOARD_TASKS = [
     "assignee": "찬호",
     "external_party": "내부 전체",
     "support_needed": "부서별 피드백",
-    "is_blocker": false,
-    "needs_decision": false,
-    "due_date": "2026-12-31",
+    "is_blocker": "N",
+    "needs_decision": "N",
+    "due_date": "2026-07-05",
     "status": "진행중",
-    "next_action": ""
+    "importance_level": "중요",
+    "task_type": "정규",
+    "next_action": "주간 업데이트 루틴 확정",
+    "priority_score": 15,
+    "meeting_grade": "D_대기",
+    "agenda_reason": "지원:부서별 피드백",
+    "sort_key": 15.0962,
+    "notes": null
   },
   {
     "id": "T-037",
@@ -810,11 +1062,18 @@ const FALLBACK_BOARD_TASKS = [
     "assignee": "미정",
     "external_party": "시공사/CM",
     "support_needed": "장기 KPI 설계",
-    "is_blocker": false,
-    "needs_decision": false,
-    "due_date": "2026-12-31",
-    "status": "진행중",
-    "next_action": ""
+    "is_blocker": "N",
+    "needs_decision": "N",
+    "due_date": "2026-10-31",
+    "status": "미착수",
+    "importance_level": "준공필수",
+    "task_type": "정규",
+    "next_action": "PF CP 이후 공사관리 체계로 전환",
+    "priority_score": 50,
+    "meeting_grade": "B_회의점검",
+    "agenda_reason": "준공필수 / 지원:장기 KPI 설계",
+    "sort_key": 50.0961,
+    "notes": null
   },
   {
     "id": "T-038",
@@ -832,11 +1091,18 @@ const FALLBACK_BOARD_TASKS = [
     "assignee": "미정",
     "external_party": "관청;대주단",
     "support_needed": "장기 자료요건",
-    "is_blocker": false,
-    "needs_decision": false,
-    "due_date": "2026-12-31",
-    "status": "진행중",
-    "next_action": ""
+    "is_blocker": "N",
+    "needs_decision": "N",
+    "due_date": "2027-03-31",
+    "status": "미착수",
+    "importance_level": "준공필수",
+    "task_type": "정규",
+    "next_action": "장기 과제로 별도 로드맵 관리",
+    "priority_score": 50,
+    "meeting_grade": "B_회의점검",
+    "agenda_reason": "준공필수 / 지원:장기 자료요건",
+    "sort_key": 50.096,
+    "notes": null
   },
   {
     "id": "T-039",
@@ -854,11 +1120,18 @@ const FALLBACK_BOARD_TASKS = [
     "assignee": "미정",
     "external_party": "금융기관",
     "support_needed": "장기 금융전략",
-    "is_blocker": false,
-    "needs_decision": false,
-    "due_date": "2026-12-31",
-    "status": "진행중",
-    "next_action": ""
+    "is_blocker": "N",
+    "needs_decision": "N",
+    "due_date": "2027-03-31",
+    "status": "미착수",
+    "importance_level": "준공필수",
+    "task_type": "정규",
+    "next_action": "PF 조건과 준공 후 담보대출 연결",
+    "priority_score": 50,
+    "meeting_grade": "B_회의점검",
+    "agenda_reason": "준공필수 / 지원:장기 금융전략",
+    "sort_key": 50.0959,
+    "notes": null
   },
   {
     "id": "T-040",
@@ -876,11 +1149,18 @@ const FALLBACK_BOARD_TASKS = [
     "assignee": "미정",
     "external_party": "운영사/임차인",
     "support_needed": "운영정책 필요",
-    "is_blocker": false,
-    "needs_decision": false,
-    "due_date": "2026-12-31",
-    "status": "진행중",
-    "next_action": ""
+    "is_blocker": "N",
+    "needs_decision": "N",
+    "due_date": "2027-03-31",
+    "status": "미착수",
+    "importance_level": "준공필수",
+    "task_type": "정규",
+    "next_action": "장기 과제로 초기부터 관리",
+    "priority_score": 50,
+    "meeting_grade": "B_회의점검",
+    "agenda_reason": "준공필수 / 지원:운영정책 필요",
+    "sort_key": 50.0958,
+    "notes": null
   },
   {
     "id": "T-041",
@@ -898,11 +1178,18 @@ const FALLBACK_BOARD_TASKS = [
     "assignee": "미정",
     "external_party": "내부/외부 요청자",
     "support_needed": "목적·기한 확인",
-    "is_blocker": false,
-    "needs_decision": false,
-    "due_date": "2026-12-31",
-    "status": "진행중",
-    "next_action": ""
+    "is_blocker": "N",
+    "needs_decision": "N",
+    "due_date": "2026-07-05",
+    "status": "미착수",
+    "importance_level": "중요",
+    "task_type": "팝업",
+    "next_action": "팝업요청관리 시트로 이관",
+    "priority_score": 20,
+    "meeting_grade": "D_대기",
+    "agenda_reason": "지원:목적·기한 확인 / 팝업",
+    "sort_key": 20.0957,
+    "notes": "샘플"
   }
 ];
 
@@ -961,16 +1248,45 @@ export default function PmoTaskBoardStaging() {
         setEditingCell(null);
 
         if (isDbMode) {
+            // Only update columns that exist in the DB schema
+            const dbColumns = [
+                'task_name', 'task_purpose', 'deliverables', 'assignee', 'due_date', 
+                'status', 'is_blocker', 'needs_decision', 'next_action', 'priority_score', 
+                'meeting_grade'
+            ];
+            
+            if (dbColumns.includes(colName)) {
+                try {
+                    const { error } = await supabase
+                        .schema('iota_v2')
+                        .from('iota_pmo_tasks')
+                        .update({ [colName]: saveValue })
+                        .eq('id', rowId);
+
+                    if (error) throw error;
+                } catch (err) {
+                    console.error("Failed to save cell to DB:", err);
+                }
+            }
+        }
+    };
+
+    const handleToggleBadge = async (rowId, colName, currentValue) => {
+        const nextValue = !currentValue;
+        // Update local state
+        setTasks(prev => prev.map(t => t.id === rowId ? { ...t, [colName]: nextValue } : t));
+
+        if (isDbMode) {
             try {
                 const { error } = await supabase
                     .schema('iota_v2')
                     .from('iota_pmo_tasks')
-                    .update({ [colName]: saveValue })
+                    .update({ [colName]: nextValue })
                     .eq('id', rowId);
 
                 if (error) throw error;
             } catch (err) {
-                console.error("Failed to save cell to DB:", err);
+                console.error("Failed to toggle badge in DB:", err);
             }
         }
     };
@@ -997,31 +1313,43 @@ export default function PmoTaskBoardStaging() {
             ) : (
                 <div className="-mr-[calc(50vw-50%)] border border-r-0 border-[#3c3c3c] bg-[#272726] rounded-l-[24px] overflow-hidden mb-[40px] shadow-sm select-text">
                     <div className="w-full overflow-x-auto pr-0 timeline-scrollbar">
-                        <div className="flex items-center min-w-[3200px]">
-                            <table className="text-left table-fixed min-w-[2400px] flex-1 border-collapse bg-[#272726]">
+                        <div className="flex items-center min-w-[4640px]">
+                            <table className="text-left table-fixed min-w-[3840px] flex-1 border-collapse bg-[#272726]">
                                 <thead>
                                     <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[13px] h-11 select-none">
                                         <th className="pl-4 text-center w-[80px] min-w-[80px] max-w-[80px]">ID</th>
-                                        <th className="pl-4 w-[100px] min-w-[100px] max-w-[100px]">프로젝트</th>
-                                        <th className="pl-4 w-[120px] min-w-[120px] max-w-[120px]">대분류</th>
-                                        <th className="pl-4 w-[140px] min-w-[140px] max-w-[140px]">세부섹터</th>
+                                        <th className="pl-4 w-[90px] min-w-[90px] max-w-[90px]">프로젝트</th>
+                                        <th className="pl-4 w-[110px] min-w-[110px] max-w-[110px]">대분류</th>
+                                        <th className="pl-4 w-[120px] min-w-[120px] max-w-[120px]">세부섹터</th>
                                         <th className="pl-4 w-[280px] min-w-[280px] max-w-[280px]">업무명 (더블클릭 편집)</th>
                                         <th className="pl-4 w-[280px] min-w-[280px] max-w-[280px]">업무목적 / PF·준공 영향 (더블클릭 편집)</th>
                                         <th className="pl-4 w-[220px] min-w-[220px] max-w-[220px]">필요 산출물 (더블클릭 편집)</th>
-                                        <th className="pl-4 w-[110px] min-w-[110px] max-w-[110px]">최종 목표축</th>
-                                        <th className="pl-4 w-[120px] min-w-[120px] max-w-[120px]">Gate</th>
-                                        <th className="pl-4 w-[120px] min-w-[120px] max-w-[120px]">PMO총괄</th>
-                                        <th className="pl-4 w-[130px] min-w-[130px] max-w-[130px]">실무 주관부서</th>
+                                        <th className="pl-4 w-[100px] min-w-[100px] max-w-[100px]">최종 목표축</th>
+                                        <th className="pl-4 w-[110px] min-w-[110px] max-w-[110px]">Gate</th>
+                                        <th className="pl-4 w-[110px] min-w-[110px] max-w-[110px]">PMO총괄</th>
+                                        <th className="pl-4 w-[120px] min-w-[120px] max-w-[120px]">실무 주관부서</th>
                                         <th className="pl-4 w-[180px] min-w-[180px] max-w-[180px]">협업부서</th>
-                                        <th className="pl-4 w-[110px] min-w-[110px] max-w-[110px]">담당자 (더블클릭 편집)</th>
-                                        <th className="pl-4 w-[140px] min-w-[140px] max-w-[140px]">외부상대방</th>
+                                        <th className="pl-4 w-[100px] min-w-[100px] max-w-[100px]">담당자 (더블클릭 편집)</th>
+                                        <th className="pl-4 w-[120px] min-w-[120px] max-w-[120px]">외부상대방</th>
                                         <th className="pl-4 w-[180px] min-w-[180px] max-w-[180px]">지원필요</th>
+                                        <th className="pl-4 w-[85px] min-w-[85px] max-w-[85px] text-center">Blocker</th>
+                                        <th className="pl-4 w-[100px] min-w-[100px] max-w-[100px] text-center">의사결정필요</th>
+                                        <th className="pl-4 w-[120px] min-w-[120px] max-w-[120px]">기한 (더블클릭 편집)</th>
+                                        <th className="pl-4 w-[100px] min-w-[100px] max-w-[100px] text-center">상태</th>
+                                        <th className="pl-4 w-[100px] min-w-[100px] max-w-[100px] text-center">중요도</th>
+                                        <th className="pl-4 w-[100px] min-w-[100px] max-w-[100px] text-center">업무유형</th>
+                                        <th className="pl-4 w-[200px] min-w-[200px] max-w-[200px]">다음 액션 (더블클릭 편집)</th>
+                                        <th className="pl-4 w-[100px] min-w-[100px] max-w-[100px] text-center">우선순위점수 (더블클릭 편집)</th>
+                                        <th className="pl-4 w-[110px] min-w-[110px] max-w-[110px] text-center">회의상정등급</th>
+                                        <th className="pl-4 w-[180px] min-w-[180px] max-w-[180px]">상정사유 (더블클릭 편집)</th>
+                                        <th className="pl-4 w-[100px] min-w-[100px] max-w-[100px] text-center">정렬키</th>
+                                        <th className="pl-4 w-[180px] min-w-[180px] max-w-[180px]">비고 (더블클릭 편집)</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-[#3c3c3c] text-[13px] text-white">
                                     {tasks.length === 0 ? (
                                         <tr>
-                                            <td colSpan="15" className="text-center py-20 text-[#86868B]">
+                                            <td colSpan="27" className="text-center py-20 text-[#86868B]">
                                                 등록된 통합 업무 보드 정보가 없습니다.
                                             </td>
                                         </tr>
@@ -1036,6 +1364,18 @@ export default function PmoTaskBoardStaging() {
                                             const targetAxis = t.target_axis || fallbackItem.target_axis || '준공/운영';
                                             const gateStageVal = t.gate_stage || fallbackItem.gate_stage || 'G0';
                                             const supportNeeded = t.support_needed || fallbackItem.support_needed || '';
+                                            const isBlockerVal = t.is_blocker !== undefined ? t.is_blocker : fallbackItem.is_blocker;
+                                            const needsDecisionVal = t.needs_decision !== undefined ? t.needs_decision : fallbackItem.needs_decision;
+                                            const dueDateVal = t.due_date || fallbackItem.due_date || '';
+                                            const statusVal = t.status || fallbackItem.status || '진행중';
+                                            const importanceLevel = t.importance_level || fallbackItem.importance_level || '일반';
+                                            const taskType = t.task_type || fallbackItem.task_type || '정규';
+                                            const nextActionVal = t.next_action || fallbackItem.next_action || '';
+                                            const priorityScore = t.priority_score !== undefined ? t.priority_score : (fallbackItem.priority_score || 0);
+                                            const meetingGrade = t.meeting_grade || fallbackItem.meeting_grade || 'B';
+                                            const agendaReason = t.agenda_reason || fallbackItem.agenda_reason || '';
+                                            const sortKeyVal = t.sort_key || fallbackItem.sort_key || '';
+                                            const notesVal = t.notes || fallbackItem.notes || '';
                                             
                                             return (
                                                 <tr key={t.id || `task-${idx}`} className="hover:bg-[#333]/50 transition-colors h-12">
@@ -1045,17 +1385,17 @@ export default function PmoTaskBoardStaging() {
                                                     </td>
                                                     
                                                     {/* 2. 프로젝트 */}
-                                                    <td className="pl-4 font-bold text-[#E5E5E5] w-[100px] min-w-[100px] max-w-[100px] truncate">
+                                                    <td className="pl-4 font-bold text-[#E5E5E5] w-[90px] min-w-[90px] max-w-[90px] truncate">
                                                         {t.project || t.project_code || fallbackItem.project || '공통'}
                                                     </td>
                                                     
                                                     {/* 3. 대분류 */}
-                                                    <td className="pl-4 font-bold text-[#E5E5E5] w-[120px] min-w-[120px] max-w-[120px] truncate">
+                                                    <td className="pl-4 font-bold text-[#E5E5E5] w-[110px] min-w-[110px] max-w-[110px] truncate">
                                                         {t.category_main}
                                                     </td>
                                                     
                                                     {/* 4. 세부섹터 */}
-                                                    <td className="pl-4 text-[#A1A1AA] w-[140px] min-w-[140px] max-w-[140px] truncate">
+                                                    <td className="pl-4 text-[#A1A1AA] w-[120px] min-w-[120px] max-w-[120px] truncate">
                                                         {t.sector_detail}
                                                     </td>
                                                     
@@ -1120,23 +1460,23 @@ export default function PmoTaskBoardStaging() {
                                                     </td>
 
                                                     {/* 8. 최종 목표축 */}
-                                                    <td className="pl-4 text-[#A1A1AA] w-[110px] min-w-[110px] max-w-[110px] truncate">{targetAxis}</td>
+                                                    <td className="pl-4 text-[#A1A1AA] w-[100px] min-w-[100px] max-w-[100px] truncate">{targetAxis}</td>
 
                                                     {/* 9. Gate */}
-                                                    <td className="pl-4 text-[#A1A1AA] w-[120px] min-w-[120px] max-w-[120px] truncate">{gateStageVal}</td>
+                                                    <td className="pl-4 text-[#A1A1AA] w-[110px] min-w-[110px] max-w-[110px] truncate">{gateStageVal}</td>
 
                                                     {/* 10. PMO총괄 */}
-                                                    <td className="pl-4 text-[#A1A1AA] w-[120px] min-w-[120px] max-w-[120px] truncate">{t.pmo_manager || fallbackItem.pmo_manager || '사업관리2파트'}</td>
+                                                    <td className="pl-4 text-[#A1A1AA] w-[110px] min-w-[110px] max-w-[110px] truncate">{t.pmo_manager || fallbackItem.pmo_manager || '사업관리2파트'}</td>
 
                                                     {/* 11. 실무 주관부서 */}
-                                                    <td className="pl-4 text-[#A1A1AA] w-[130px] min-w-[130px] max-w-[130px] truncate">{leadDeptName || '-'}</td>
+                                                    <td className="pl-4 text-[#A1A1AA] w-[120px] min-w-[120px] max-w-[120px] truncate">{leadDeptName || '-'}</td>
 
                                                     {/* 12. 협업부서 */}
                                                     <td className="pl-4 text-[#86868B] w-[180px] min-w-[180px] max-w-[180px] truncate">{coopDeptNames || '-'}</td>
 
                                                     {/* 13. 담당자 (더블클릭 편집) */}
                                                     <td 
-                                                        className="pl-4 text-[#A1A1AA] cursor-pointer w-[110px] min-w-[110px] max-w-[110px]"
+                                                        className="pl-4 text-[#A1A1AA] cursor-pointer w-[100px] min-w-[100px] max-w-[100px]"
                                                         onDoubleClick={() => handleDoubleClick(t.id, 'assignee', t.assignee)}
                                                     >
                                                         {editingCell?.rowId === t.id && editingCell?.colName === 'assignee' ? (
@@ -1154,10 +1494,180 @@ export default function PmoTaskBoardStaging() {
                                                     </td>
 
                                                     {/* 14. 외부상대방 */}
-                                                    <td className="pl-4 text-[#A1A1AA] w-[140px] min-w-[140px] max-w-[140px] truncate">{extPartyName || '-'}</td>
+                                                    <td className="pl-4 text-[#A1A1AA] w-[120px] min-w-[120px] max-w-[120px] truncate">{extPartyName || '-'}</td>
 
                                                     {/* 15. 지원필요 */}
                                                     <td className="pl-4 text-[#86868B] w-[180px] min-w-[180px] max-w-[180px] truncate">{supportNeeded || '-'}</td>
+
+                                                    {/* 16. Blocker */}
+                                                    <td className="pl-4 text-center select-none w-[85px] min-w-[85px] max-w-[85px]">
+                                                        <button 
+                                                            onClick={() => handleToggleBadge(t.id, 'is_blocker', isBlockerVal)}
+                                                            className={`w-7 h-7 rounded-full flex items-center justify-center font-bold text-[11px] cursor-pointer transition-all mx-auto ${
+                                                                isBlockerVal 
+                                                                    ? 'bg-[#EF4444] text-white shadow-md shadow-[#EF4444]/20' 
+                                                                    : 'bg-[#333] text-[#86868B] hover:bg-[#444]'
+                                                            }`}
+                                                        >
+                                                            {isBlockerVal ? 'Y' : 'N'}
+                                                        </button>
+                                                    </td>
+
+                                                    {/* 17. 의사결정필요 */}
+                                                    <td className="pl-4 text-center select-none w-[100px] min-w-[100px] max-w-[100px]">
+                                                        <button 
+                                                            onClick={() => handleToggleBadge(t.id, 'needs_decision', needsDecisionVal)}
+                                                            className={`w-7 h-7 rounded-full flex items-center justify-center font-bold text-[11px] cursor-pointer transition-all mx-auto ${
+                                                                needsDecisionVal 
+                                                                    ? 'bg-[#F59E0B] text-white shadow-md shadow-[#F59E0B]/20' 
+                                                                    : 'bg-[#333] text-[#86868B] hover:bg-[#444]'
+                                                            }`}
+                                                        >
+                                                            {needsDecisionVal ? 'Y' : 'N'}
+                                                        </button>
+                                                    </td>
+
+                                                    {/* 18. 기한 (더블클릭 편집) */}
+                                                    <td 
+                                                        className="pl-4 text-[#A1A1AA] font-mono cursor-pointer w-[120px] min-w-[120px] max-w-[120px]"
+                                                        onDoubleClick={() => handleDoubleClick(t.id, 'due_date', dueDateVal)}
+                                                    >
+                                                        {editingCell?.rowId === t.id && editingCell?.colName === 'due_date' ? (
+                                                            <input 
+                                                                type="date" 
+                                                                value={tempValue} 
+                                                                onChange={e => setTempValue(e.target.value)}
+                                                                onBlur={() => handleSaveCell(t.id, 'due_date')}
+                                                                className="w-[90%] bg-[#1a1a1a] border border-[#2997ff] rounded px-1.5 py-0.5 text-white outline-none"
+                                                                autoFocus
+                                                            />
+                                                        ) : (
+                                                            <span className="hover:text-[#2997ff] transition-colors">{dueDateVal || '-'}</span>
+                                                        )}
+                                                    </td>
+
+                                                    {/* 19. 상태 */}
+                                                    <td className="pl-4 text-center select-none w-[100px] min-w-[100px] max-w-[100px]">
+                                                        <select 
+                                                            value={statusVal}
+                                                            onChange={e => handleSaveCell(t.id, 'status', e.target.value)}
+                                                            className="bg-[#222] border border-[#333] text-white rounded-[6px] px-2 py-0.5 text-[11px] font-bold outline-none cursor-pointer hover:border-[#555] transition-colors"
+                                                        >
+                                                            <option value="미착수">미착수</option>
+                                                            <option value="진행중">진행중</option>
+                                                            <option value="완료">완료</option>
+                                                            <option value="지연">지연</option>
+                                                        </select>
+                                                    </td>
+
+                                                    {/* 20. 중요도 */}
+                                                    <td className="pl-4 text-center select-none w-[100px] min-w-[100px] max-w-[100px] truncate">
+                                                        <span className={`px-2 py-0.5 rounded text-[11px] font-bold ${
+                                                            importanceLevel === 'PF필수' 
+                                                                ? 'bg-[#ff453a]/15 text-[#ff453a] border border-[#ff453a]/25' 
+                                                                : importanceLevel === '준공필수'
+                                                                    ? 'bg-[#ff9f0a]/15 text-[#ff9f0a] border border-[#ff9f0a]/25'
+                                                                    : 'bg-[#86868B]/15 text-[#86868B] border border-[#86868B]/25'
+                                                        }`}>
+                                                            {importanceLevel}
+                                                        </span>
+                                                    </td>
+
+                                                    {/* 21. 업무유형 */}
+                                                    <td className="pl-4 text-center w-[100px] min-w-[100px] max-w-[100px] truncate">
+                                                        <span className="text-[#86868B] font-medium">{taskType}</span>
+                                                    </td>
+
+                                                    {/* 22. 다음 액션 (더블클릭 편집) */}
+                                                    <td 
+                                                        className="pl-4 text-[#A1A1AA] truncate cursor-pointer w-[200px] min-w-[200px] max-w-[200px]"
+                                                        onDoubleClick={() => handleDoubleClick(t.id, 'next_action', nextActionVal)}
+                                                    >
+                                                        {editingCell?.rowId === t.id && editingCell?.colName === 'next_action' ? (
+                                                            <input 
+                                                                type="text" 
+                                                                value={tempValue} 
+                                                                onChange={e => setTempValue(e.target.value)}
+                                                                onBlur={() => handleSaveCell(t.id, 'next_action')}
+                                                                className="w-[90%] bg-[#1a1a1a] border border-[#2997ff] rounded px-2 py-0.5 text-white outline-none"
+                                                                autoFocus
+                                                            />
+                                                        ) : (
+                                                            <span className="hover:text-[#2997ff] transition-colors">{nextActionVal || '-'}</span>
+                                                        )}
+                                                    </td>
+
+                                                    {/* 23. 우선순위점수 (더블클릭 편집) */}
+                                                    <td 
+                                                        className="pl-4 text-center font-mono cursor-pointer w-[100px] min-w-[100px] max-w-[100px]"
+                                                        onDoubleClick={() => handleDoubleClick(t.id, 'priority_score', String(priorityScore))}
+                                                    >
+                                                        {editingCell?.rowId === t.id && editingCell?.colName === 'priority_score' ? (
+                                                            <input 
+                                                                type="number" 
+                                                                value={tempValue} 
+                                                                onChange={e => setTempValue(e.target.value)}
+                                                                onBlur={() => handleSaveCell(t.id, 'priority_score', parseInt(tempValue) || 0)}
+                                                                className="w-[80px] bg-[#1a1a1a] border border-[#2997ff] rounded px-1.5 py-0.5 text-white outline-none text-center"
+                                                                autoFocus
+                                                            />
+                                                        ) : (
+                                                            <span className="hover:text-[#2997ff] font-bold text-[#E5E5E5]">{priorityScore}</span>
+                                                        )}
+                                                    </td>
+
+                                                    {/* 24. 회의상정등급 */}
+                                                    <td className="pl-4 text-center select-none w-[110px] min-w-[110px] max-w-[110px]">
+                                                        <select 
+                                                            value={meetingGrade}
+                                                            onChange={e => handleSaveCell(t.id, 'meeting_grade', e.target.value)}
+                                                            className="bg-[#222] border border-[#333] text-white rounded-[6px] px-2 py-0.5 text-[11px] font-bold outline-none cursor-pointer hover:border-[#555] transition-colors"
+                                                        >
+                                                            <option value="A">A_즉시상정</option>
+                                                            <option value="B">B_회의점검</option>
+                                                        </select>
+                                                    </td>
+
+                                                    {/* 25. 상정사유 (더블클릭 편집) */}
+                                                    <td 
+                                                        className="pl-4 text-[#A1A1AA] truncate cursor-pointer w-[180px] min-w-[180px] max-w-[180px]"
+                                                        onDoubleClick={() => handleDoubleClick(t.id, 'agenda_reason', agendaReason)}
+                                                    >
+                                                        {editingCell?.rowId === t.id && editingCell?.colName === 'agenda_reason' ? (
+                                                            <input 
+                                                                type="text" 
+                                                                value={tempValue} 
+                                                                onChange={e => setTempValue(e.target.value)}
+                                                                onBlur={() => handleSaveCell(t.id, 'agenda_reason')}
+                                                                className="w-[90%] bg-[#1a1a1a] border border-[#2997ff] rounded px-2 py-0.5 text-white outline-none"
+                                                                autoFocus
+                                                            />
+                                                        ) : (
+                                                            <span className="hover:text-[#2997ff] transition-colors">{agendaReason || '-'}</span>
+                                                        )}
+                                                    </td>
+
+                                                    {/* 26. 정렬키 */}
+                                                    <td className="pl-4 text-center w-[100px] min-w-[100px] max-w-[100px] font-mono text-[#86868B] truncate">{sortKeyVal || '-'}</td>
+
+                                                    {/* 27. 비고 (더블클릭 편집) */}
+                                                    <td 
+                                                        className="pl-4 text-[#86868B] truncate cursor-pointer w-[180px] min-w-[180px] max-w-[180px]"
+                                                        onDoubleClick={() => handleDoubleClick(t.id, 'notes', notesVal)}
+                                                    >
+                                                        {editingCell?.rowId === t.id && editingCell?.colName === 'notes' ? (
+                                                            <input 
+                                                                type="text" 
+                                                                value={tempValue} 
+                                                                onChange={e => setTempValue(e.target.value)}
+                                                                onBlur={() => handleSaveCell(t.id, 'notes')}
+                                                                className="w-[90%] bg-[#1a1a1a] border border-[#2997ff] rounded px-2 py-0.5 text-white outline-none"
+                                                                autoFocus
+                                                            />
+                                                        ) : (
+                                                            <span className="hover:text-[#2997ff] transition-colors">{notesVal || '-'}</span>
+                                                        )}
+                                                    </td>
                                                 </tr>
                                             );
                                         })
