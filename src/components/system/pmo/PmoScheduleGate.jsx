@@ -1017,7 +1017,7 @@ export default function PmoScheduleGate() {
                                             </td>
                                             
                                             {/* 대표 업무 */}
-                                            <td className="pl-3 font-medium text-[#E5E5E5] leading-snug text-left pr-2 whitespace-normal break-all sticky left-[234px] bg-[#272726] group-hover:bg-[#333] transition-colors z-20 border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)] text-[13px] w-[230px] min-w-[230px] max-w-[230px]">
+                                            <td className="pl-3 font-bold text-[#F59E0B] leading-snug text-left pr-2 whitespace-normal break-all sticky left-[234px] bg-[#272726] group-hover:bg-[#333] transition-colors z-20 border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)] text-[13px] w-[230px] min-w-[230px] max-w-[230px]">
                                                 {item.task}
                                             </td>
                                             
@@ -1075,7 +1075,7 @@ export default function PmoScheduleGate() {
                                             </td>
 
                                             {/* 관리 포인트 */}
-                                            <td className="px-3 text-left text-[#F59E0B] font-semibold whitespace-normal break-all w-[195px] min-w-[195px] max-w-[195px] border-r border-[#3c3c3c]">
+                                            <td className="px-3 text-left text-[#E5E5E5] font-normal whitespace-normal break-all w-[195px] min-w-[195px] max-w-[195px] border-r border-[#3c3c3c]">
                                                 {item.point}
                                             </td>
 
