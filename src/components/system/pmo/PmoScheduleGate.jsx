@@ -574,7 +574,7 @@ export default function PmoScheduleGate() {
                         <table className="text-left table-fixed min-w-[1586px] flex-1 border-collapse border-b border-[#3c3c3c] bg-[#272726]">
                             <thead>
                                 <tr className="border-b border-[#3c3c3c] bg-[#272726] text-[#86868B] font-bold text-[12px] h-[52px]">
-                                    <th className="px-3 w-[110px] min-w-[110px] max-w-[110px] text-center sticky left-0 bg-[#272726] z-30">
+                                    <th className="px-[6px] w-[110px] min-w-[110px] max-w-[110px] text-center sticky left-0 bg-[#272726] z-30">
                                         <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b]">
                                             <span className={`font-bold text-[12px] whitespace-nowrap ${selectedRrCategory === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
                                                 {selectedRrCategory === '전체보기' ? '대분류' : selectedRrCategory}
@@ -648,7 +648,7 @@ export default function PmoScheduleGate() {
                                     return (
                                         <tr key={`${item.category}-${item.subsector}-${item.task}`} className="bg-[#272726] hover:bg-[#333] transition-colors h-11 group">
                                             {/* 대분류 */}
-                                            <td className="px-3 sticky left-0 bg-[#272726] group-hover:bg-[#333] transition-colors z-20 text-center font-bold text-white text-[12px] w-[110px] min-w-[110px] max-w-[110px]">
+                                            <td className="px-[6px] sticky left-0 bg-[#272726] group-hover:bg-[#333] transition-colors z-20 text-center font-bold text-white text-[12px] w-[110px] min-w-[110px] max-w-[110px]">
                                                 {item.category}
                                             </td>
                                             
