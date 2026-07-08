@@ -102,7 +102,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
             
             let logsList = data || [];
             if (isTaskBoard && taskId) {
-                logsList = logsList.filter(log => log.metadata?.task_id === taskId);
+                logsList = logsList.filter(log => String(log.metadata?.task_id) === String(taskId));
             }
             setLogs(logsList);
         } catch (e) {

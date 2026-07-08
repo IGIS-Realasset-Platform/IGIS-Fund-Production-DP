@@ -2062,50 +2062,68 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                     const oldStatus = editingItem.status || '미착수';
                     const newStatus = formStatus || '미착수';
                     if (oldStatus !== newStatus) {
-                        changes.push(`• 상태: ${oldStatus} ➔ ${newStatus}`);
+                        changes.push(`상태가 "${oldStatus}"에서 "${newStatus}"으로 변경되었습니다.`);
                     }
 
                     const oldImportance = editingItem.importance_level || '중간';
                     const newImportance = formImportanceLevel || '중간';
+
+                    const getGradeText = (gradeVal) => {
+                        if (!gradeVal) return 'D_대기';
+                        if (gradeVal === 'A') return 'A_즉시상정';
+                        if (gradeVal === 'B') return 'B_회의점검';
+                        return gradeVal;
+                    };
+                    const oldGradeText = getGradeText(editingItem.meeting_grade);
+                    const newGradeText = getGradeText(formMeetingGrade);
+
                     if (oldImportance !== newImportance) {
-                        changes.push(`• 중요도: ${oldImportance} ➔ ${newImportance}`);
+                        let msg = `중요도가 "${oldImportance}"에서 "${newImportance}"으로`;
+                        if (oldGradeText !== newGradeText) {
+                            msg += `, 그에따라 회의 상정 기준이 "${oldGradeText.replace(/^[A-D]_/, '')}"에서 "${newGradeText.replace(/^[A-D]_/, '')}"으로 변경되었습니다.`;
+                        } else {
+                            msg += ` 변경되었습니다.`;
+                        }
+                        changes.push(msg);
+                    } else if (oldGradeText !== newGradeText) {
+                        changes.push(`회의 상정 기준이 "${oldGradeText.replace(/^[A-D]_/, '')}"에서 "${newGradeText.replace(/^[A-D]_/, '')}"으로 변경되었습니다.`);
                     }
 
                     const oldBlocker = parseBool(editingItem.is_blocker) ? '활성화' : '비활성화';
                     const newBlocker = formIsBlocker ? '활성화' : '비활성화';
                     if (oldBlocker !== newBlocker) {
-                        changes.push(`• 병목(Blocker): ${oldBlocker} ➔ ${newBlocker}`);
+                        changes.push(`병목(Blocker)이 "${oldBlocker}"에서 "${newBlocker}"으로 변경되었습니다.`);
                     }
 
                     const oldAssignee = editingItem.assignee || '미지정';
                     const newAssignee = formAssignee || '미지정';
                     if (oldAssignee !== newAssignee) {
-                        changes.push(`• 담당자: ${oldAssignee} ➔ ${newAssignee}`);
+                        changes.push(`담당자가 "${oldAssignee}"에서 "${newAssignee}"으로 변경되었습니다.`);
                     }
 
                     const oldExt = editingItem.external_party?.stakeholder_name || '';
                     const newExt = formExternalParty || '';
                     if (oldExt !== newExt) {
-                        changes.push(`• 외부상대방: ${oldExt || '미지정'} ➔ ${newExt || '미지정'}`);
+                        changes.push(`외부상대방이 "${oldExt || '미지정'}"에서 "${newExt || '미지정'}"으로 변경되었습니다.`);
                     }
 
                     const oldCoop = editingItem.coop_dept_codes || '';
                     const cleanedCoop = formCoopDepts.split(/[,;/]+/).map(c => normalizeDeptName(c.trim(), true)).filter(Boolean);
                     const newCoop = [...new Set(cleanedCoop)].join('; ');
                     if (oldCoop !== newCoop) {
-                        changes.push(`• 협조부서: ${oldCoop || '없음'} ➔ ${newCoop || '없음'}`);
+                        changes.push(`협조부서가 "${oldCoop || '없음'}"에서 "${newCoop || '없음'}"으로 변경되었습니다.`);
                     }
 
                     const oldDue = editingItem.due_date || '';
                     const newDue = formDueDate || '';
                     if (oldDue !== newDue) {
-                        changes.push(`• 마감기한: ${oldDue || '미지정'} ➔ ${newDue || '미지정'}`);
+                        changes.push(`마감기한이 "${oldDue || '미지정'}"에서 "${newDue || '미지정'}"으로 변경되었습니다.`);
                     }
 
                     const oldDecision = parseBool(editingItem.needs_decision) ? '필요' : '불필요';
                     const newDecision = formNeedsDecision ? '필요' : '불필요';
                     if (oldDecision !== newDecision) {
-                        changes.push(`• 의사결정 필요: ${oldDecision} ➔ ${newDecision}`);
+                        changes.push(`의사결정 필요 여부가 "${oldDecision}"에서 "${newDecision}"으로 변경되었습니다.`);
                     }
 
                     if (changes.length > 0) {
@@ -2122,11 +2140,9 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                             }
                         };
                         const { error: logErr } = await supabase.from('iota_seoul_logs').insert(logData);
-                        if (logErr) {
-                            console.error("Failed to insert change log in DB:", logErr);
-                        } else {
-                            window.dispatchEvent(new CustomEvent('iota_log_updated', { detail: { taskId: editingItem.id } }));
-                        }
+                        if (logErr) throw logErr;
+
+                        window.dispatchEvent(new CustomEvent('iota_log_updated', { detail: { taskId: editingItem.id } }));
                     }
                 } catch (err) {
                     console.error("Failed to update task in DB:", err);
