@@ -2640,7 +2640,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                                     
                                                     {/* 관리 */}
                                                     <td className="px-2 text-center w-[85px] min-w-[85px] max-w-[85px] border-l border-r border-[#3c3c3c]">
-                                                        <div className="flex items-center justify-center gap-1.5">
+                                                        <div className="flex items-center justify-center gap-3">
                                                             <button 
                                                                 onClick={isAuthorized ? () => handleEditClick(t) : () => setShowAuthInfoModal(true)}
                                                                 className="text-blue-400 hover:text-blue-300 font-bold text-[11px] cursor-pointer"
