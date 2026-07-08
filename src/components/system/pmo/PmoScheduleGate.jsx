@@ -784,27 +784,7 @@ export default function PmoScheduleGate() {
                         </div>
                     </div>
 
-                    {/* Segmented Filter */}
-                    <div className="flex items-center bg-[#222] border border-[#333] rounded-[8px] p-[4px]">
-                        <button
-                            onClick={() => setFilterCategory('All')}
-                            className={`px-[16px] py-[6px] text-[13px] font-bold rounded-[6px] transition-colors cursor-pointer ${filterCategory === 'All' ? 'bg-[#3c3c3c] text-white' : 'text-[#86868B] hover:text-white'}`}
-                        >
-                            전체보기
-                        </button>
-                        <button
-                            onClick={() => setFilterCategory('Gate')}
-                            className={`px-[16px] py-[6px] text-[13px] font-bold rounded-[6px] transition-colors cursor-pointer ${filterCategory === 'Gate' ? 'bg-[#3c3c3c] text-white' : 'text-[#86868B] hover:text-white'}`}
-                        >
-                            의사결정 Gate
-                        </button>
-                        <button
-                            onClick={() => setFilterCategory('Task')}
-                            className={`px-[16px] py-[6px] text-[13px] font-bold rounded-[6px] transition-colors cursor-pointer ${filterCategory === 'Task' ? 'bg-[#3c3c3c] text-white' : 'text-[#86868B] hover:text-white'}`}
-                        >
-                            기능별 업무
-                        </button>
-                    </div>
+
                 </div>
             </div>
 
@@ -821,7 +801,7 @@ export default function PmoScheduleGate() {
                         return (
                             <div 
                                 style={{ left: `${x}px`, opacity }} 
-                                className="absolute -translate-x-1/2 bg-[#ff9f0a] text-[#1c1c1e] rounded-[6px] text-[10px] font-bold shadow-lg text-center leading-tight w-[70px] h-[54px] flex flex-col justify-center items-center pointer-events-auto"
+                                className="absolute -translate-x-1/2 bg-[#ff9f0a] text-[#1c1c1e] rounded-[6px] text-[11px] font-bold shadow-lg text-center leading-tight w-[70px] h-[54px] flex flex-col justify-center items-center pointer-events-auto"
                             >
                                 <div>PF 달성</div>
                                 <div>1차목표</div>
@@ -838,7 +818,7 @@ export default function PmoScheduleGate() {
                         return (
                             <div 
                                 style={{ left: `${x}px`, opacity }} 
-                                className="absolute -translate-x-1/2 bg-[#2c2c2e] text-white border border-[#3c3c3c] rounded-[6px] text-[10px] font-bold shadow-lg text-center leading-tight w-[70px] h-[54px] flex flex-col justify-center items-center pointer-events-auto"
+                                className="absolute -translate-x-1/2 bg-[#2c2c2e] text-white border border-[#3c3c3c] rounded-[6px] text-[11px] font-bold shadow-lg text-center leading-tight w-[70px] h-[54px] flex flex-col justify-center items-center pointer-events-auto"
                             >
                                 <div>1차목표</div>
                                 <div>미달성시</div>
@@ -852,7 +832,7 @@ export default function PmoScheduleGate() {
 
                 <div className="w-full overflow-x-auto overflow-y-hidden pr-0 timeline-scrollbar rounded-l-[32px]" onScroll={(e) => setScrollLeft(e.target.scrollLeft)}>
                     <div className="flex items-center min-w-[2300px] overflow-visible">
-                        <table className="text-left table-fixed min-w-[1500px] flex-1">
+                        <table className="text-left table-fixed w-[1500px] min-w-[1500px] max-w-[1500px]">
                             <thead>
                                 <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[13px] h-12">
                                     <th className="px-2 w-[100px] text-center sticky left-0 bg-[#272726] z-30 rounded-tl-[31px]">구분</th>
@@ -965,7 +945,7 @@ export default function PmoScheduleGate() {
             <div className="-mr-[calc(50vw-50%)] border border-r-0 border-[#3c3c3c] bg-[#272726] rounded-l-[24px] overflow-hidden mb-[40px] shadow-sm min-h-[1110px]">
                 <div className="w-full overflow-x-auto overflow-y-visible pr-0 timeline-scrollbar" style={{ minHeight: "250px" }}>
                     <div className="flex items-center min-w-[2380px]">
-                        <table className="text-left table-fixed min-w-[1580px] flex-1 border-collapse border-b border-[#3c3c3c] bg-[#272726]">
+                        <table className="text-left table-fixed w-[1580px] min-w-[1580px] max-w-[1580px] border-collapse border-b border-[#3c3c3c] bg-[#272726]">
                             <thead>
                                 <tr className="border-b border-[#3c3c3c] bg-[#272726] text-[#86868B] font-bold text-[12px] h-[56px]">
                                     <th className="px-3 w-[104px] min-w-[104px] max-w-[104px] text-center sticky left-0 bg-[#272726] z-30">
