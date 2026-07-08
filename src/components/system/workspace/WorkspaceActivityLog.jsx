@@ -1389,8 +1389,11 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                     );
                 })}
                 {displayedLogs.length === 0 && (
-                    <div className="py-[60px] text-center text-[14px] text-[#86868B]">
-                        {isLoading ? '데이터를 불러오는 중입니다...' : '등록된 업무가 없습니다.'}
+                    <div className={isTaskBoard 
+                        ? "py-[40px] text-center text-[14px] text-[#86868B] bg-[#1c1c1e] border border-[#2c2c2e] rounded-[16px] w-full"
+                        : "py-[60px] text-center text-[14px] text-[#86868B]"
+                    }>
+                        {isLoading ? '데이터를 불러오는 중입니다...' : (isTaskBoard ? '등록된 글이 없습니다.' : '등록된 업무가 없습니다.')}
                     </div>
                 )}
 
