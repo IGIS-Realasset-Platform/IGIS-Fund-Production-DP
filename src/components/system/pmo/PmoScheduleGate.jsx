@@ -377,6 +377,7 @@ export default function PmoScheduleGate() {
     const [showAuthInfoModal, setShowAuthInfoModal] = React.useState(false);
     const [editingItem, setEditingItem] = React.useState(null);
     const [deleteConfirmId, setDeleteConfirmId] = React.useState(null);
+    const [scrollLeft, setScrollLeft] = React.useState(0);
 
     const [formCategory, setFormCategory] = React.useState('');
     const [formSubsector, setFormSubsector] = React.useState('');
@@ -808,50 +809,62 @@ export default function PmoScheduleGate() {
             </div>
 
             {/* Timeline Matrix Grid */}
-            <div className="-mr-[calc(50vw-50%)] border border-r-0 border-[#3c3c3c] bg-[#272726] rounded-l-[24px] overflow-visible">
-                <div className="w-full overflow-x-auto overflow-y-visible pr-0 timeline-scrollbar" style={{ minHeight: "250px" }}>
-                    <div className="flex items-start min-w-[2300px] overflow-visible">
-                        <div className="flex-1 flex flex-col overflow-visible">
-                            <div style={{ height: '60px' }} className="w-full flex-shrink-0"></div>
-                            <table className="text-left table-fixed min-w-[1500px] flex-1">
+            <div className="-mr-[calc(50vw-50%)] border border-r-0 border-[#3c3c3c] bg-[#272726] rounded-l-[32px] overflow-visible relative">
+                
+                {/* Speech Bubbles Overlay (Rendered OUTSIDE scroll container to prevent clipping, synced with onScroll) */}
+                <div className="absolute top-[-64px] left-0 w-[calc(100%-800px)] h-[36px] pointer-events-none z-50 overflow-visible">
+                    {/* PF 1차 */}
+                    {(() => {
+                        const x = 1086 - scrollLeft;
+                        const opacity = x < 580 ? Math.max(0, Math.min(1, (x - 520) / 60)) : 1;
+                        if (opacity <= 0) return null;
+                        return (
+                            <div 
+                                style={{ left: `${x}px`, opacity }} 
+                                className="absolute -translate-x-1/2 bg-[#ff9f0a] text-[#1c1c1e] rounded-[6px] text-[10px] font-bold shadow-lg text-center leading-tight w-[70px] h-[54px] flex flex-col justify-center items-center pointer-events-auto"
+                            >
+                                <div>PF 달성</div>
+                                <div>1차목표</div>
+                                <div className="absolute bottom-[-4px] left-1/2 -translate-x-1/2 w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-t-[4px] border-t-[#ff9f0a]"></div>
+                            </div>
+                        );
+                    })()}
+                    
+                    {/* PF 2차 */}
+                    {(() => {
+                        const x = 1178 - scrollLeft;
+                        const opacity = x < 580 ? Math.max(0, Math.min(1, (x - 520) / 60)) : 1;
+                        if (opacity <= 0) return null;
+                        return (
+                            <div 
+                                style={{ left: `${x}px`, opacity }} 
+                                className="absolute -translate-x-1/2 bg-[#2c2c2e] text-white border border-[#3c3c3c] rounded-[6px] text-[10px] font-bold shadow-lg text-center leading-tight w-[70px] h-[54px] flex flex-col justify-center items-center pointer-events-auto"
+                            >
+                                <div>1차목표</div>
+                                <div>미달성시</div>
+                                <div>2차목표</div>
+                                <div className="absolute bottom-[-4px] left-1/2 -translate-x-1/2 w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-t-[4px] border-t-[#2c2c2e]"></div>
+                                <div className="absolute bottom-[-5px] left-1/2 -translate-x-1/2 w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-t-[4px] border-t-[#3c3c3c] z-[-1]"></div>
+                            </div>
+                        );
+                    })()}
+                </div>
+
+                <div className="w-full overflow-x-auto overflow-y-hidden pr-0 timeline-scrollbar rounded-l-[32px]" onScroll={(e) => setScrollLeft(e.target.scrollLeft)}>
+                    <div className="flex items-center min-w-[2300px] overflow-visible">
+                        <table className="text-left table-fixed min-w-[1500px] flex-1">
                             <thead>
                                 <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[13px] h-12">
-                                    <th className="px-2 w-[100px] text-center sticky left-0 bg-[#272726] z-30">구분</th>
+                                    <th className="px-2 w-[100px] text-center sticky left-0 bg-[#272726] z-30 rounded-tl-[31px]">구분</th>
                                     <th className="pl-4 w-[270px] sticky left-[100px] bg-[#272726] z-30">세부업무</th>
                                     <th className="px-2 w-[110px] text-center sticky left-[370px] bg-[#272726] z-30">주관</th>
                                     <th className="px-2 w-[100px] text-center sticky left-[480px] bg-[#272726] z-30 border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)]">협업</th>
                                     {COLUMNS.map((col, cIdx) => {
-                                        const hasCustomTop = col.key === 'm11' || col.key === 'm03';
-                                        const topText = col.key === 'm11' ? 'PF 달성 1차 목표' : '1차 목표 미달성시 2차 목표';
-                                        const borderClass = col.key === 'm11' 
-                                            ? 'border-r-2 border-[#ff9f0a]/50 bg-[#ff9f0a]/[0.02]' 
-                                            : col.key === 'm03'
-                                                ? 'border-r-2 border-[#86868b]/50 bg-white/[0.015]'
-                                                : col.highlight
-                                                    ? 'bg-white/[0.03] text-[#60a5fa] border-r border-[#4c4c4c]/50'
-                                                    : 'text-[#86868B] border-r border-[#4c4c4c]/50';
+                                        const borderClass = col.highlight
+                                            ? 'bg-white/[0.03] text-[#60a5fa] border-r border-[#4c4c4c]/50'
+                                            : 'text-[#86868B] border-r border-[#4c4c4c]/50';
                                         return (
-                                            <th key={col.key} className={`text-center font-mono text-[11px] leading-tight px-1 font-bold w-[92px] relative overflow-visible ${borderClass}`}>
-                                                {hasCustomTop && (
-                                                    <div className="absolute bottom-[100%] left-1/2 -translate-x-1/2 mb-[10px] pointer-events-none z-50">
-                                                        {/* Speech Bubble */}
-                                                        <div className={`relative px-2.5 py-1.5 rounded-[8px] text-[10px] font-bold shadow-lg border leading-tight ${
-                                                            col.key === 'm11' 
-                                                                ? 'bg-[#ff9f0a] text-[#1c1c1e] border-[#ff9f0a]' 
-                                                                : 'bg-[#2c2c2e] text-white border-[#3c3c3c]'
-                                                        }`}>
-                                                            {topText}
-                                                            {/* Bubble Tail */}
-                                                            <div className={`absolute bottom-[-5px] left-1/2 -translate-x-1/2 w-0 h-0 border-l-[5px] border-l-transparent border-r-[5px] border-r-transparent border-t-[5px] ${
-                                                                col.key === 'm11' ? 'border-t-[#ff9f0a]' : 'border-t-[#2c2c2e]'
-                                                            }`}></div>
-                                                            {/* Bubble Tail border overlay */}
-                                                            {col.key !== 'm11' && (
-                                                                <div className="absolute bottom-[-6px] left-1/2 -translate-x-1/2 w-0 h-0 border-l-[5px] border-l-transparent border-r-[5px] border-r-transparent border-t-[5px] border-t-[#3c3c3c] z-[-1]"></div>
-                                                            )}
-                                                        </div>
-                                                    </div>
-                                                )}
+                                            <th key={col.key} className={`text-center font-mono text-[11px] leading-tight px-1 font-bold w-[92px] ${borderClass}`}>
                                                 <div>{col.labelTop}</div>
                                                 {col.labelBottom && <div className="text-[11px] opacity-75 mt-0.5">{col.labelBottom}</div>}
                                             </th>
@@ -862,10 +875,13 @@ export default function PmoScheduleGate() {
                             <tbody className="divide-y divide-[#3c3c3c] text-[13px]">
                                 {filteredData.map((item, idx) => {
                                     const isGate = item.category === 'Gate';
+                                    const isLastRow = idx === filteredData.length - 1;
                                     return (
                                         <tr key={idx} className="hover:bg-[#333] transition-colors h-14 group">
                                             {/* 구분 */}
-                                            <td className="px-2 sticky left-0 bg-[#272726] group-hover:bg-[#333] transition-colors z-20 text-center w-[100px] min-w-[100px] max-w-[100px]">
+                                            <td className={`px-2 sticky left-0 bg-[#272726] group-hover:bg-[#333] transition-colors z-20 text-center w-[100px] min-w-[100px] max-w-[100px] ${
+                                                isLastRow ? 'rounded-bl-[31px]' : ''
+                                            }`}>
                                                 <span className={`px-1.5 py-1 rounded-md font-bold block ${
                                                     isGate 
                                                         ? 'bg-[#2997ff]/10 text-[#60a5fa] border border-[#2997ff]/20' 
@@ -901,11 +917,7 @@ export default function PmoScheduleGate() {
                                             {/* Grid Columns */}
                                             {COLUMNS.map((col, cIdx) => {
                                                 const mark = item.schedule[col.key];
-                                                const borderClass = col.key === 'm11' 
-                                                    ? 'border-r-2 border-[#ff9f0a]/30 bg-[#ff9f0a]/[0.005]' 
-                                                    : col.key === 'm03'
-                                                        ? 'border-r-2 border-[#86868b]/30 bg-white/[0.005]'
-                                                        : 'border-r border-[#4c4c4c]/40';
+                                                const borderClass = 'border-r border-[#4c4c4c]/40';
                                                 return (
                                                     <td key={col.key} className={`text-center ${
                                                         col.highlight ? 'bg-white/[0.015] group-hover:bg-white/[0.04]' : ''
@@ -924,7 +936,6 @@ export default function PmoScheduleGate() {
                                 })}
                             </tbody>
                         </table>
-                        </div>
                         
                         {/* 우측 워터마크 영역 */}
                         <div className="w-[800px] shrink-0 flex items-center justify-start pl-20 pr-8 select-none pointer-events-none box-border self-center">
