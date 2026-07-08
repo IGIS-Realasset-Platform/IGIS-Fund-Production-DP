@@ -2980,7 +2980,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                         <select 
                                             value={formProject} 
                                             onChange={e => setFormProject(e.target.value)} 
-                                            className="bg-[#2a2a2c] border border-[#3c3c3c] rounded px-2.5 py-1 text-[12px] text-white outline-none cursor-pointer font-bold"
+                                            className="bg-[#2a2a2c] border border-red-500/30 focus:border-red-500 rounded px-2.5 py-1 text-[12px] text-white outline-none cursor-pointer font-bold"
                                             style={{ appearance: 'auto' }}
                                         >
                                             {projects.map(p => (
@@ -2995,7 +2995,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                         <select 
                                             value={formCategoryMain} 
                                             onChange={e => setFormCategoryMain(e.target.value)} 
-                                            className="bg-[#2a2a2c] border border-[#3c3c3c] rounded px-2.5 py-1 text-[12px] text-white outline-none cursor-pointer font-bold"
+                                            className="bg-[#2a2a2c] border border-red-500/30 focus:border-red-500 rounded px-2.5 py-1 text-[12px] text-white outline-none cursor-pointer font-bold"
                                             style={{ appearance: 'auto' }}
                                             required
                                         >
@@ -3057,7 +3057,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                     <textarea
                                         value={formTaskName}
                                         onChange={e => setFormTaskName(e.target.value)}
-                                        className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-2 text-[15px] text-[#ff9f0a] font-bold outline-none focus:border-[#2997ff] h-16 resize-y"
+                                        className="w-full bg-[#2c2c2b] border border-red-500/30 focus:border-red-500 rounded-[6px] px-3 py-2 text-[15px] text-[#ff9f0a] font-bold outline-none h-16 resize-y"
                                         required
                                     />
                                 </div>
@@ -3069,7 +3069,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                         <select 
                                             value={formStatus} 
                                             onChange={e => setFormStatus(e.target.value)} 
-                                            className="bg-[#2a2a2c] border border-[#3c3c3c] rounded px-2.5 py-1 text-[11.5px] font-bold text-white outline-none cursor-pointer"
+                                            className="bg-[#2a2a2c] border border-red-500/30 focus:border-red-500 rounded px-2.5 py-1 text-[11.5px] font-bold text-white outline-none cursor-pointer"
                                             style={{ appearance: 'auto' }}
                                         >
                                             <option value="미착수">미착수</option>
@@ -3088,7 +3088,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                         <select 
                                             value={formImportanceLevel} 
                                             onChange={e => setFormImportanceLevel(e.target.value)} 
-                                            className="bg-[#2a2a2c] border border-[#3c3c3c] rounded px-2.5 py-1 text-[11.5px] font-bold text-white outline-none cursor-pointer"
+                                            className="bg-[#2a2a2c] border border-red-500/30 focus:border-red-500 rounded px-2.5 py-1 text-[11.5px] font-bold text-white outline-none cursor-pointer"
                                             style={{ appearance: 'auto' }}
                                         >
                                             <option value="일반">일반</option>
@@ -3105,7 +3105,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                         <select 
                                             value={formTaskType} 
                                             onChange={e => setFormTaskType(e.target.value)} 
-                                            className="bg-[#2a2a2c] border border-[#3c3c3c] rounded px-2.5 py-1 text-[11.5px] font-bold text-white outline-none cursor-pointer"
+                                            className="bg-[#2a2a2c] border border-red-500/30 focus:border-red-500 rounded px-2.5 py-1 text-[11.5px] font-bold text-white outline-none cursor-pointer"
                                             style={{ appearance: 'auto' }}
                                         >
                                             <option value="정규">정규</option>
@@ -3136,7 +3136,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                             <select 
                                                 value={formLeadDept} 
                                                 onChange={e => setFormLeadDept(e.target.value)} 
-                                                className="bg-[#2c2c2b] border border-[#3c3c3c] rounded px-3 py-1.5 text-[13px] text-white w-full outline-none focus:border-[#2997ff] cursor-pointer font-bold"
+                                                className="bg-[#2c2c2b] border border-red-500/30 focus:border-red-500 rounded px-3 py-1.5 text-[13px] text-white w-full outline-none cursor-pointer font-bold"
                                                 style={{ appearance: 'auto' }}
                                             >
                                                 {['사업2파트', '사업1파트', 'LFC', '개발솔루션', '기업마케팅', '공간솔루션', 'KAM'].map(name => (
@@ -3156,7 +3156,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                                 onFocus={() => setShowAssigneeDropdown(true)}
                                                 onBlur={() => setTimeout(() => setShowAssigneeDropdown(false), 200)}
                                                 placeholder="담당자명 검색/입력"
-                                                className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff]" 
+                                                className="w-full bg-[#2c2c2b] border border-red-500/30 focus:border-red-500 rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none" 
                                             />
                                             {showAssigneeDropdown && (
                                                 <div className="absolute top-[58px] left-0 w-full bg-[#222] border border-[#3c3c3c] rounded-[8px] py-1 max-h-[160px] overflow-y-auto z-[200005] shadow-xl">
@@ -3179,7 +3179,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                         </div>
                                         <div className="space-y-1 col-span-2">
                                             <span className="text-[#86868B] text-[11px] block">협조 부서 (다중 선택 가능)</span>
-                                            <div className="flex flex-wrap gap-1.5 bg-[#2c2c2b] p-3 rounded-[8px] border border-[#3c3c3c] max-h-[120px] overflow-y-auto">
+                                            <div className="flex flex-wrap gap-1.5 bg-[#2c2c2b] p-3 rounded-[8px] border border-red-500/30 max-h-[120px] overflow-y-auto">
                                                 {['PO', 'Sub-PO', 'CFT 책임인력', '기획추진', '사업PM', '파이낸싱-LFC', '개발관리', '기업마케팅', '공간솔루션', '펀드운용', 'IPR-WG'].map(dept => {
                                                     const isSelected = isCoopDeptSelected(dept, formCoopDepts);
                                                     return (
@@ -3241,7 +3241,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                             <select 
                                                 value={formGateStage} 
                                                 onChange={e => setFormGateStage(e.target.value)} 
-                                                className="bg-[#2c2c2b] border border-[#3c3c3c] rounded px-3 py-1.5 text-[13px] text-white w-full outline-none focus:border-[#2997ff] cursor-pointer font-bold"
+                                                className="bg-[#2c2c2b] border border-red-500/30 focus:border-red-500 rounded px-3 py-1.5 text-[13px] text-white w-full outline-none cursor-pointer font-bold"
                                                 style={{ appearance: 'auto' }}
                                             >
                                                 <option value="G0 현황정리">G0 현황정리</option>
@@ -3324,7 +3324,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                             <select 
                                                 value={formTargetAxis} 
                                                 onChange={e => setFormTargetAxis(e.target.value)} 
-                                                className="bg-[#2c2c2b] border border-[#3c3c3c] rounded px-3 py-1.5 text-[13px] text-white w-full outline-none focus:border-[#2997ff] cursor-pointer font-bold"
+                                                className="bg-[#2c2c2b] border border-red-500/30 focus:border-red-500 rounded px-3 py-1.5 text-[13px] text-white w-full outline-none cursor-pointer font-bold"
                                                 style={{ appearance: 'auto' }}
                                             >
                                                 <option value="PF">PF</option>
@@ -3342,7 +3342,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                                 type="date" 
                                                 value={formDueDate} 
                                                 onChange={e => setFormDueDate(e.target.value)} 
-                                                className="bg-[#2c2c2b] border border-[#3c3c3c] rounded px-3 py-1.5 text-[13px] text-white w-full outline-none focus:border-[#2997ff] font-bold cursor-pointer" 
+                                                className="bg-[#2c2c2b] border border-red-500/30 focus:border-red-500 rounded px-3 py-1.5 text-[13px] text-white w-full outline-none font-bold cursor-pointer" 
                                             />
                                         </div>
                                         <div className="space-y-1">
@@ -3350,7 +3350,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                             <select 
                                                 value={formNeedsDecision ? '필요' : '불필요'} 
                                                 onChange={e => setFormNeedsDecision(e.target.value === '필요')} 
-                                                className="bg-[#2c2c2b] border border-[#3c3c3c] rounded px-3 py-1.5 text-[13px] text-white w-full outline-none focus:border-[#2997ff] cursor-pointer font-bold"
+                                                className="bg-[#2c2c2b] border border-red-500/30 focus:border-red-500 rounded px-3 py-1.5 text-[13px] text-white w-full outline-none cursor-pointer font-bold"
                                                 style={{ appearance: 'auto' }}
                                             >
                                                 <option value="필요">필요</option>
@@ -3368,7 +3368,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                         <textarea 
                                             value={formTaskPurpose} 
                                             onChange={e => setFormTaskPurpose(e.target.value)} 
-                                            className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] h-20 resize-y font-bold" 
+                                            className="w-full bg-[#2c2c2b] border border-red-500/30 focus:border-red-500 rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none h-20 resize-y font-bold" 
                                         />
                                     </div>
                                     
@@ -3409,7 +3409,11 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                             </div>
 
                             {/* Modal Footer */}
-                            <div className="pt-4 border-t border-[#3c3c3c] flex justify-end gap-3 mt-4">
+                            <div className="pt-4 border-t border-[#3c3c3c] flex items-center justify-between mt-4">
+                                <span className="text-red-400 text-[11.5px] font-bold">
+                                    * 붉은 박스는 필수입력
+                                </span>
+                                <div className="flex gap-3">
                                 <button 
                                     type="button"
                                     onClick={() => setIsModalOpen(false)}
@@ -3423,6 +3427,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                 >
                                     저장
                                 </button>
+                                </div>
                             </div>
                         </form>
                     </div>
