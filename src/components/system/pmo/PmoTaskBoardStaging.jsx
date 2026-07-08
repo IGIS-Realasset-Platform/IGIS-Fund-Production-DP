@@ -3049,22 +3049,6 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                             </div>
                                         )}
                                     </div>
-
-                                    {/* PMO총괄 Select */}
-                                    <div className="flex items-center gap-1.5">
-                                        <span className="text-[#86868B]">PMO총괄:</span>
-                                        <select 
-                                            value={formPmoManager} 
-                                            onChange={e => setFormPmoManager(e.target.value)} 
-                                            className="bg-[#2a2a2c] border border-[#3c3c3c] rounded px-2.5 py-1 text-[12px] text-white outline-none cursor-pointer font-bold"
-                                            style={{ appearance: 'auto' }}
-                                        >
-                                            <option value="사업2파트">사업2파트</option>
-                                            <option value="기획추진">기획추진</option>
-                                            <option value="시스템 관리자(기획추진)">시스템 관리자(기획추진)</option>
-                                            <option value="LFC">LFC</option>
-                                        </select>
-                                    </div>
                                 </div>
 
                                 {/* Task Name Title Textarea */}
