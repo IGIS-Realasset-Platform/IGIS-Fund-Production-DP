@@ -1456,7 +1456,16 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
         setFormPriorityScore(score);
 
         // Grade calculation
-        const grade = score >= 50 ? 'A_즉시상정' : 'B_회의점검';
+        let grade = 'D_대기';
+        if (score >= 70) {
+            grade = 'A_즉시상정';
+        } else if (score >= 50) {
+            grade = 'B_회의점검';
+        } else if (score >= 30) {
+            grade = 'C_주간관리';
+        } else {
+            grade = 'D_대기';
+        }
         setFormMeetingGrade(grade);
 
         // Agenda reason calculation
@@ -3211,9 +3220,11 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                                     <span className={`px-2.5 py-1 rounded-[4px] text-[11.5px] font-bold ${
                                                         formMeetingGrade.startsWith('A') 
                                                             ? 'bg-[#ff453a]/15 text-[#ff453a] border border-[#ff453a]/25' 
-                                                            : 'bg-[#ff9f0a]/15 text-[#ff9f0a] border border-[#ff9f0a]/25'
+                                                            : formMeetingGrade.startsWith('B')
+                                                                ? 'bg-[#ff9f0a]/15 text-[#ff9f0a] border border-[#ff9f0a]/25'
+                                                                : 'bg-gray-500/10 text-gray-400 border border-gray-500/20'
                                                     }`}>
-                                                        {formMeetingGrade === 'A_즉시상정' ? 'A_즉시상정' : 'B_회의점검'}
+                                                        {formMeetingGrade}
                                                     </span>
                                                 </div>
                                             </div>
