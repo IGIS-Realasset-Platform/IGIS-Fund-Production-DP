@@ -808,8 +808,8 @@ export default function PmoScheduleGate() {
             </div>
 
             {/* Timeline Matrix Grid */}
-            <div className="-mr-[calc(50vw-50%)] border border-r-0 border-[#3c3c3c] bg-[#272726] rounded-l-[24px] overflow-hidden">
-                <div className="w-full overflow-x-auto pr-0 timeline-scrollbar">
+            <div className="-mr-[calc(50vw-50%)] border border-r-0 border-[#3c3c3c] bg-[#272726] rounded-l-[24px] overflow-visible">
+                <div className="w-full overflow-x-auto overflow-y-visible pr-0 timeline-scrollbar" style={{ minHeight: "250px" }}>
                     <div className="flex items-start min-w-[2300px] overflow-visible">
                         <div className="flex-1 flex flex-col overflow-visible">
                             <div style={{ height: '60px' }} className="w-full flex-shrink-0"></div>
@@ -952,7 +952,7 @@ export default function PmoScheduleGate() {
 
             {/* R&R Matrix Table */}
             <div className="-mr-[calc(50vw-50%)] border border-r-0 border-[#3c3c3c] bg-[#272726] rounded-l-[24px] overflow-hidden mb-[40px] shadow-sm min-h-[1110px]">
-                <div className="w-full overflow-x-auto pr-0 timeline-scrollbar">
+                <div className="w-full overflow-x-auto overflow-y-visible pr-0 timeline-scrollbar" style={{ minHeight: "250px" }}>
                     <div className="flex items-center min-w-[2380px]">
                         <table className="text-left table-fixed min-w-[1580px] flex-1 border-collapse border-b border-[#3c3c3c] bg-[#272726]">
                             <thead>
