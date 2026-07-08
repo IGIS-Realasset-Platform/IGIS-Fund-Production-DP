@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import LogWriteBox from '../LogWriteBox';
 import ReactionAvatarStack from '../ReactionAvatarStack';
 
-export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) {
+export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, isTaskBoard = false, taskId = null, taskProject = null }) {
     const { memberInfo } = useAuth();
     
     // Logs State
@@ -100,7 +100,11 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
                 .order('created_at', { ascending: false });
             if (error) throw error;
             
-            setLogs(data || []);
+            let logsList = data || [];
+            if (isTaskBoard && taskId) {
+                logsList = logsList.filter(log => log.metadata?.task_id === taskId);
+            }
+            setLogs(logsList);
         } catch (e) {
             console.error('Error fetching logs:', e);
         } finally {
@@ -573,6 +577,16 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
     };
 
     const filteredLogs = logs.filter(log => {
+        if (isTaskBoard) {
+            if (log.metadata?.task_id !== taskId) return false;
+            if (filterStakeholder && log.iota_seoul_log_stakeholders?.[0]?.role_category !== filterStakeholder) return false;
+            if (!logSearchQuery) return true;
+            const query = logSearchQuery.toLowerCase();
+            return (
+                log.raw_text?.toLowerCase().includes(query) ||
+                log.writer_name?.toLowerCase().includes(query)
+            );
+        }
         // Filter out non-members
         if (getCellName(log.writer_name) === '기타') return false;
 
@@ -600,7 +614,9 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
         <div className="w-full flex flex-col mt-0">
             {/* Log Viewer */}
             <div className="flex justify-between items-center mt-[-14px] mb-[12px]">
-                <h2 className="text-[18px] font-bold text-white tracking-tight translate-y-[6px]">{workspaceLabel ? workspaceLabel.split('-')[0].trim() : ''} 회의록</h2>
+                <h2 className="text-[16px] font-bold text-white tracking-tight translate-y-[6px]">
+                    {isTaskBoard ? '협업 게시판' : (workspaceLabel ? workspaceLabel.split('-')[0].trim() + ' 회의록' : '')}
+                </h2>
                 <div className="flex items-center gap-[12px]">
                     {/* Search Box */}
                     <div className="relative">
@@ -615,18 +631,20 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
                             className="bg-[#222] border border-[#333] hover:border-[#444] rounded-[8px] pl-[32px] pr-[12px] py-[6px] text-[12px] text-white w-[180px] focus:outline-none focus:border-[#2997ff] transition-all"
                         />
                     </div>
-                    <button 
-                        type="button"
-                        onClick={() => { setLogsViewMode(prev => prev === 'summary' ? 'full' : 'summary'); setCurrentPage(1); }} 
-                        className="px-[12px] py-[6px] rounded-[8px] bg-[#222] border border-[#333] text-[12px] text-[#A1A1AA] hover:text-white hover:border-[#444] transition-all font-medium"
-                    >
-                        {logsViewMode === 'summary' ? '전체보기' : '간략히 보기'}
-                    </button>
+                    {!isTaskBoard && (
+                        <button 
+                            type="button"
+                            onClick={() => { setLogsViewMode(prev => prev === 'summary' ? 'full' : 'summary'); setCurrentPage(1); }} 
+                            className="px-[12px] py-[6px] rounded-[8px] bg-[#222] border border-[#333] text-[12px] text-[#A1A1AA] hover:text-white hover:border-[#444] transition-all font-medium"
+                        >
+                            {logsViewMode === 'summary' ? '전체보기' : '간략히 보기'}
+                        </button>
+                    )}
                 </div>
             </div>
             
             
-            <div className="-mx-[7px] p-[6px] border border-[#333] rounded-[30px] mb-[40px]">
+            <div className={isTaskBoard ? "p-[6px] border border-[#333] rounded-[24px] mb-[24px]" : "-mx-[7px] p-[6px] border border-[#333] rounded-[30px] mb-[40px]"}>
                 <div className="w-full flex flex-col mt-0">{/* Task Input Form */}
             <LogWriteBox 
                 memberInfo={memberInfo}
@@ -635,16 +653,21 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
                 fetchMasterStakeholders={fetchMasterStakeholders}
                 workspaceCode={workspaceCode}
                 workspaceLabel={workspaceLabel}
+                isTaskBoard={isTaskBoard}
+                taskId={taskId}
+                taskProject={taskProject}
             />
             <div className="w-full border border-[#3c3c3c] rounded-[24px] flex flex-col bg-[#252525]">
                 {/* Header Row */}
                 <div className="w-full px-[20px] py-[12px] flex items-center border-b border-[#3c3c3c] bg-transparent rounded-t-[24px]">
                     {/* Left Section */}
                     <div className="flex flex-1 min-w-0">
-                        <div className="w-[86px] mr-[16px] text-center">
-                            <span className="text-[13px] font-bold text-[#86868B]">프로젝트</span>
-                        </div>
-                        <div className="flex flex-1 min-w-0 translate-x-[-20px]">
+                        {!isTaskBoard && (
+                            <div className="w-[86px] mr-[16px] text-center">
+                                <span className="text-[13px] font-bold text-[#86868B]">프로젝트</span>
+                            </div>
+                        )}
+                        <div className={`flex flex-1 min-w-0 ${isTaskBoard ? '' : 'translate-x-[-20px]'}`}>
                             <div className="w-[80px] shrink-0 translate-x-[4px] flex justify-center">
                                 <div className="text-[13px] font-bold text-[#86868B] px-[2px] py-[4px] text-center w-[60px]">
                                     기능셀
@@ -674,45 +697,49 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
                                 ))}
                             </select>
                         </div>
-                        <div className="w-[60px] flex items-center justify-center translate-x-[6px]">
-                            <select 
-                                value={filterPurpose}
-                                onChange={e => { setFilterPurpose(e.target.value); setCurrentPage(1); }}
-                                className={`bg-white/5 border border-transparent text-[12px] font-bold cursor-pointer appearance-none focus:outline-none w-[44px] hover:text-white hover:bg-white/10 rounded-[8px] px-[2px] py-[4px] transition-colors ${filterPurpose ? 'text-[#fbf167]' : 'text-[#A1A1AA]'}`}
-                                style={{ textAlignLast: 'center' }}
-                            >
-                                <option value="" className="bg-[#222] text-[#E5E5E5]">목적</option>
-                                {['공유', '협업', '리스크 판단', '의사결정'].map(val => (
-                                    <option key={val} value={val} className="bg-[#222] text-[#E5E5E5]">{val}</option>
-                                ))}
-                            </select>
-                        </div>
-                        <div className="w-[60px] flex items-center justify-center">
-                            <select 
-                                value={filterStatus}
-                                onChange={e => { setFilterStatus(e.target.value); setCurrentPage(1); }}
-                                className={`bg-white/5 border border-transparent text-[12px] font-bold cursor-pointer appearance-none focus:outline-none w-[54px] hover:text-white hover:bg-white/10 rounded-[8px] px-[2px] py-[4px] transition-colors ${filterStatus ? 'text-[#fbf167]' : 'text-[#A1A1AA]'}`}
-                                style={{ textAlignLast: 'center' }}
-                            >
-                                <option value="" className="bg-[#222] text-[#E5E5E5]">진행상태</option>
-                                {['신규', '검토중', '진행중', '보류', '완료'].map(val => (
-                                    <option key={val} value={val} className="bg-[#222] text-[#E5E5E5]">{val}</option>
-                                ))}
-                            </select>
-                        </div>
-                        <div className="w-[40px] flex items-center justify-center">
-                            <select 
-                                value={filterPriority}
-                                onChange={e => { setFilterPriority(e.target.value); setCurrentPage(1); }}
-                                className={`bg-white/5 border border-transparent text-[12px] font-bold cursor-pointer appearance-none focus:outline-none w-[50px] hover:text-white hover:bg-white/10 rounded-[8px] px-[2px] py-[4px] transition-colors ${filterPriority ? 'text-[#fbf167]' : 'text-[#A1A1AA]'}`}
-                                style={{ textAlignLast: 'center' }}
-                            >
-                                <option value="" className="bg-[#222] text-[#E5E5E5]">중요도</option>
-                                {['높음', '중간', '낮음'].map(val => (
-                                    <option key={val} value={val} className="bg-[#222] text-[#E5E5E5]">{val}</option>
-                                ))}
-                            </select>
-                        </div>
+                        {!isTaskBoard && (
+                            <>
+                                <div className="w-[60px] flex items-center justify-center translate-x-[6px]">
+                                    <select 
+                                        value={filterPurpose}
+                                        onChange={e => { setFilterPurpose(e.target.value); setCurrentPage(1); }}
+                                        className={`bg-white/5 border border-transparent text-[12px] font-bold cursor-pointer appearance-none focus:outline-none w-[44px] hover:text-white hover:bg-white/10 rounded-[8px] px-[2px] py-[4px] transition-colors ${filterPurpose ? 'text-[#fbf167]' : 'text-[#A1A1AA]'}`}
+                                        style={{ textAlignLast: 'center' }}
+                                    >
+                                        <option value="" className="bg-[#222] text-[#E5E5E5]">목적</option>
+                                        {['공유', '협업', '리스크 판단', '의사결정'].map(val => (
+                                            <option key={val} value={val} className="bg-[#222] text-[#E5E5E5]">{val}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <div className="w-[60px] flex items-center justify-center">
+                                    <select 
+                                        value={filterStatus}
+                                        onChange={e => { setFilterStatus(e.target.value); setCurrentPage(1); }}
+                                        className={`bg-white/5 border border-transparent text-[12px] font-bold cursor-pointer appearance-none focus:outline-none w-[54px] hover:text-white hover:bg-white/10 rounded-[8px] px-[2px] py-[4px] transition-colors ${filterStatus ? 'text-[#fbf167]' : 'text-[#A1A1AA]'}`}
+                                        style={{ textAlignLast: 'center' }}
+                                    >
+                                        <option value="" className="bg-[#222] text-[#E5E5E5]">진행상태</option>
+                                        {['신규', '검토중', '진행중', '보류', '완료'].map(val => (
+                                            <option key={val} value={val} className="bg-[#222] text-[#E5E5E5]">{val}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <div className="w-[40px] flex items-center justify-center">
+                                    <select 
+                                        value={filterPriority}
+                                        onChange={e => { setFilterPriority(e.target.value); setCurrentPage(1); }}
+                                        className={`bg-white/5 border border-transparent text-[12px] font-bold cursor-pointer appearance-none focus:outline-none w-[50px] hover:text-white hover:bg-white/10 rounded-[8px] px-[2px] py-[4px] transition-colors ${filterPriority ? 'text-[#fbf167]' : 'text-[#A1A1AA]'}`}
+                                        style={{ textAlignLast: 'center' }}
+                                    >
+                                        <option value="" className="bg-[#222] text-[#E5E5E5]">중요도</option>
+                                        {['높음', '중간', '낮음'].map(val => (
+                                            <option key={val} value={val} className="bg-[#222] text-[#E5E5E5]">{val}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                            </>
+                        )}
                         <div className="w-[60px] text-center flex items-center justify-center">
                             <span className="text-[13px] font-bold text-[#86868B] px-[4px]">등록일</span>
                         </div>
@@ -728,7 +755,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
                             {/* Left Section */}
                             <div className="flex items-center flex-1 min-w-0">
                                 {/* Project Button */}
-                                {(() => {
+                                {!isTaskBoard && (() => {
                                     let projName = '427 PFV';
                                     if (log.metadata?.project_name) {
                                         let name = log.metadata.project_name;
@@ -753,7 +780,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
                                     );
                                 })()}
 
-                                <div className="flex items-center flex-1 min-w-0 translate-x-[-20px]">
+                                <div className={`flex items-center flex-1 min-w-0 ${isTaskBoard ? '' : 'translate-x-[-20px]'}`}>
                                     {/* Cell Name */}
                                     <div className="w-[80px] shrink-0 translate-x-[4px] flex justify-center">
                                         <span className="text-[13px] font-medium text-[#86868B]">
@@ -825,13 +852,17 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
                                         </span>
                                     )}
                                 </div>
-                                <div className="h-[24px] flex items-center w-[60px] justify-center translate-x-[6px]"><span className="text-[13px] text-[#A1A1AA] truncate">{log.metadata?.triage_type || '공유'}</span></div>
-                                <div className="h-[24px] flex items-center w-[60px] justify-center"><span className="text-[13px] text-[#E5E5E5]">{log.metadata?.issue_status || '진행중'}</span></div>
-                                <div className="h-[24px] flex items-center w-[40px] justify-center">
-                                    <span className={`text-[13px] font-bold ${log.metadata?.priority === '높음' ? 'text-[#FF453A]' : (log.metadata?.priority === '낮음' ? 'text-[#86868B]' : 'text-[#3b82f6]')}`}>
-                                        {log.metadata?.priority || '중간'}
-                                    </span>
-                                </div>
+                                {!isTaskBoard && (
+                                    <>
+                                        <div className="h-[24px] flex items-center w-[60px] justify-center translate-x-[6px]"><span className="text-[13px] text-[#A1A1AA] truncate">{log.metadata?.triage_type || '공유'}</span></div>
+                                        <div className="h-[24px] flex items-center w-[60px] justify-center"><span className="text-[13px] text-[#E5E5E5]">{log.metadata?.issue_status || '진행중'}</span></div>
+                                        <div className="h-[24px] flex items-center w-[40px] justify-center">
+                                            <span className={`text-[13px] font-bold ${log.metadata?.priority === '높음' ? 'text-[#FF453A]' : (log.metadata?.priority === '낮음' ? 'text-[#86868B]' : 'text-[#3b82f6]')}`}>
+                                                {log.metadata?.priority || '중간'}
+                                            </span>
+                                        </div>
+                                    </>
+                                )}
                                 <div className="relative flex flex-col items-center w-[60px] shrink-0 justify-center">
                                     <span className="text-[13px] text-[#86868B] font-['Inter'] leading-tight">
                                         {formatDateYYMMDD(log.work_date)}
@@ -1147,6 +1178,9 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel }) 
                             initialData={logs.find(l => l.log_id === editingLogId)}
                             onCancel={() => setEditingLogId(null)}
                             onSuccess={() => setEditingLogId(null)}
+                            isTaskBoard={isTaskBoard}
+                            taskId={taskId}
+                            taskProject={taskProject}
                         />
                     </div>
                 </div>

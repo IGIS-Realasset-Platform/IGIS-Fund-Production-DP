@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { supabase } from '../../../utils/supabaseClient';
 import { useAuth } from '../../../context/AuthContext';
+import WorkspaceActivityLog from '../workspace/WorkspaceActivityLog';
 
 const FALLBACK_BOARD_TASKS = [
   {
@@ -3687,6 +3688,17 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                                 </div>
                                             </>
                                         )}
+                                    </div>
+
+                                    {/* 업무 협업 게시판 */}
+                                    <div className="mt-8 pt-8 border-t border-[#3c3c3c]/50">
+                                        <WorkspaceActivityLog 
+                                            isTaskBoard={true} 
+                                            taskId={t.id && !t.id.includes('-') ? t.id : (fallbackItem.id || 'T-XXX')} 
+                                            taskProject={t.project_code || t.project || fallbackItem.project || 'IOTA_SEOUL'}
+                                            workspaceCode="WS_DSC" 
+                                            workspaceLabel="개발솔루션-DSC" 
+                                        />
                                     </div>
                                 </div>
                                 

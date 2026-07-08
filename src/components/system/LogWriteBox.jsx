@@ -4,7 +4,7 @@ import { executeWithTimeout } from '../../utils/supabaseHelper';
 import { motion, AnimatePresence } from 'framer-motion';
 import { notifyMembersOnLogCreation } from '../../utils/notificationHelpers';
 
-export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs, fetchMasterStakeholders, workspaceCode, workspaceLabel, defaultExpanded = false, editMode = false, initialData = null, onCancel = null, onSuccess = null }) {
+export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs, fetchMasterStakeholders, workspaceCode, workspaceLabel, defaultExpanded = false, editMode = false, initialData = null, onCancel = null, onSuccess = null, isTaskBoard = false, taskId = null, taskProject = null }) {
     // Form States
     const [projectId, setProjectId] = useState('IOTA_COMMON');
     const [triageType, setTriageType] = useState('공유');
@@ -78,6 +78,25 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
             } catch(e) {}
         }
     }, [editMode]);
+
+    useEffect(() => {
+        if (isTaskBoard && taskProject) {
+            const clean = String(taskProject).trim().toUpperCase();
+            if (clean === 'IOTA_SEOUL' || clean === 'IOTA 공통' || clean === '공통' || clean === 'IOTA공통') {
+                setProjectId('IOTA_COMMON');
+            } else if (clean === 'PFV_427' || clean === '427 PFV' || clean === '427PFV' || clean === '427') {
+                setProjectId('P00030');
+            } else if (clean === 'PFV_816' || clean === '816 PFV' || clean === '816PFV' || clean === '816') {
+                setProjectId('P00037');
+            } else if (clean === 'FUND_421' || clean === '421FUND' || clean === '421 FUND' || clean === '421펀드' || clean === '421') {
+                setProjectId('112614');
+            } else if (clean === 'EXTERNAL' || clean === '외부') {
+                setProjectId('EXTERNAL');
+            } else {
+                setProjectId('IOTA_COMMON');
+            }
+        }
+    }, [isTaskBoard, taskProject]);
 
     // Edit Mode Initialization
     useEffect(() => {
@@ -341,7 +360,8 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                         groups: visibilityGroups,
                         individuals: visibilityIndividuals.map(i => i.contact_name)
                     },
-                    attachedFiles: attachedFiles
+                    attachedFiles: attachedFiles,
+                    task_id: isTaskBoard ? taskId : (isEditing ? initialData.metadata?.task_id : undefined)
                 }
             };
 
@@ -359,7 +379,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                     writer_staff_id: writerId,
                     writer_name: writerName,
                     input_status: 'submitted',
-                    source_system: workspaceCode === 'WS_PM' ? 'workspace_pm_form' : 'decision_log_form',
+                    source_system: isTaskBoard ? 'task_board' : (workspaceCode === 'WS_PM' ? 'workspace_pm_form' : 'decision_log_form'),
                 }));
                 if (logError) throw logError;
 
@@ -608,27 +628,31 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
 
                     <div className="flex-1"></div>
 
-                    {/* Date Picker */}
-                    <label 
-                        className="relative inline-flex items-center gap-[8px] cursor-pointer group"
-                        onClick={(e) => { const input = e.currentTarget.querySelector('input'); if (input && input.showPicker) input.showPicker(); }}
-                    >
-                        <span className="text-[#E5E5E5] text-[14px] font-medium tracking-wide group-hover:text-white transition-colors">{formatDisplayDate(workDate)}</span>
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#A1A1AA" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:stroke-white transition-colors pointer-events-none">
-                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                            <line x1="16" y1="2" x2="16" y2="6"></line>
-                            <line x1="8" y1="2" x2="8" y2="6"></line>
-                            <line x1="3" y1="10" x2="21" y2="10"></line>
-                        </svg>
-                        <input 
-                            type="date" 
-                            value={workDate}
-                            onChange={(e) => setWorkDate(e.target.value)}
-                            onClick={(e) => { if (e.target.showPicker) e.target.showPicker(); }}
-                            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                        />
-                    </label>
-                    <div className="w-px h-[14px] bg-[#333] mx-[4px]"></div>
+                    {!isTaskBoard && (
+                        <>
+                            {/* Date Picker */}
+                            <label 
+                                className="relative inline-flex items-center gap-[8px] cursor-pointer group"
+                                onClick={(e) => { const input = e.currentTarget.querySelector('input'); if (input && input.showPicker) input.showPicker(); }}
+                            >
+                                <span className="text-[#E5E5E5] text-[14px] font-medium tracking-wide group-hover:text-white transition-colors">{formatDisplayDate(workDate)}</span>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#A1A1AA" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:stroke-white transition-colors pointer-events-none">
+                                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                                </svg>
+                                <input 
+                                    type="date" 
+                                    value={workDate}
+                                    onChange={(e) => setWorkDate(e.target.value)}
+                                    onClick={(e) => { if (e.target.showPicker) e.target.showPicker(); }}
+                                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                />
+                            </label>
+                            <div className="w-px h-[14px] bg-[#333] mx-[4px]"></div>
+                        </>
+                    )}
                             <div className="rounded-[8px] p-[1px] bg-gradient-to-br from-[#d6efe9] via-[#82afb9] to-[#4c6e86]">
                                 <button
                                     type="button"
@@ -665,34 +689,38 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                     
                     {editMode && (
                         <div className="w-full flex items-center gap-[12px] mb-[20px] overflow-x-auto pb-[4px]">
-                            <select value={projectId} onChange={(e) => setProjectId(e.target.value)} className="bg-[#222] border border-[#444] rounded-[8px] px-[12px] py-[6px] text-white font-medium text-[13px] outline-none cursor-pointer appearance-none pr-[28px] relative" style={{ backgroundImage: iconChevronGray, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 8px center' }}>
-                                <option value="IOTA_COMMON">IOTA 공통</option>
-                                <option value="P00030">427 PFV</option>
-                                <option value="P00037">816 PFV</option>
-                                <option value="112614">421 Fund</option>
-                                <option value="EXTERNAL">외부</option>
-                            </select>
+                            {!isTaskBoard && (
+                                <>
+                                    <select value={projectId} onChange={(e) => setProjectId(e.target.value)} className="bg-[#222] border border-[#444] rounded-[8px] px-[12px] py-[6px] text-white font-medium text-[13px] outline-none cursor-pointer appearance-none pr-[28px] relative" style={{ backgroundImage: iconChevronGray, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 8px center' }}>
+                                        <option value="IOTA_COMMON">IOTA 공통</option>
+                                        <option value="P00030">427 PFV</option>
+                                        <option value="P00037">816 PFV</option>
+                                        <option value="112614">421 Fund</option>
+                                        <option value="EXTERNAL">외부</option>
+                                    </select>
 
-                            <select value={triageType} onChange={(e) => setTriageType(e.target.value)} className="bg-[#222] border border-[#444] rounded-[8px] px-[12px] py-[6px] text-[#E5E5E5] text-[13px] outline-none cursor-pointer appearance-none pr-[28px]" style={{ backgroundImage: iconChevronDark, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 8px center' }}>
-                                <option value="공유">공유</option>
-                                <option value="협업">협업</option>
-                                <option value="리스크 판단">리스크 판단</option>
-                                <option value="의사결정">의사결정</option>
-                            </select>
+                                    <select value={triageType} onChange={(e) => setTriageType(e.target.value)} className="bg-[#222] border border-[#444] rounded-[8px] px-[12px] py-[6px] text-[#E5E5E5] text-[13px] outline-none cursor-pointer appearance-none pr-[28px]" style={{ backgroundImage: iconChevronDark, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 8px center' }}>
+                                        <option value="공유">공유</option>
+                                        <option value="협업">협업</option>
+                                        <option value="리스크 판단">리스크 판단</option>
+                                        <option value="의사결정">의사결정</option>
+                                    </select>
 
-                            <select value={issueStatus} onChange={(e) => setIssueStatus(e.target.value)} className="bg-[#222] border border-[#444] rounded-[8px] px-[12px] py-[6px] text-[#E5E5E5] text-[13px] outline-none cursor-pointer appearance-none pr-[28px]" style={{ backgroundImage: iconChevronDark, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 8px center' }}>
-                                <option value="신규">신규</option>
-                                <option value="검토중">검토중</option>
-                                <option value="진행중">진행중</option>
-                                <option value="보류">보류</option>
-                                <option value="완료">완료</option>
-                            </select>
+                                    <select value={issueStatus} onChange={(e) => setIssueStatus(e.target.value)} className="bg-[#222] border border-[#444] rounded-[8px] px-[12px] py-[6px] text-[#E5E5E5] text-[13px] outline-none cursor-pointer appearance-none pr-[28px]" style={{ backgroundImage: iconChevronDark, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 8px center' }}>
+                                        <option value="신규">신규</option>
+                                        <option value="검토중">검토중</option>
+                                        <option value="진행중">진행중</option>
+                                        <option value="보류">보류</option>
+                                        <option value="완료">완료</option>
+                                    </select>
 
-                            <select value={priority} onChange={(e) => setPriority(e.target.value)} className="bg-[#222] border border-[#444] rounded-[8px] px-[12px] py-[6px] text-[#E5E5E5] text-[13px] outline-none cursor-pointer appearance-none pr-[28px]" style={{ backgroundImage: iconChevronDark, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 8px center' }}>
-                                <option value="높음">높음</option>
-                                <option value="중간">중간</option>
-                                <option value="낮음">낮음</option>
-                            </select>
+                                    <select value={priority} onChange={(e) => setPriority(e.target.value)} className="bg-[#222] border border-[#444] rounded-[8px] px-[12px] py-[6px] text-[#E5E5E5] text-[13px] outline-none cursor-pointer appearance-none pr-[28px]" style={{ backgroundImage: iconChevronDark, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 8px center' }}>
+                                        <option value="높음">높음</option>
+                                        <option value="중간">중간</option>
+                                        <option value="낮음">낮음</option>
+                                    </select>
+                                </>
+                            )}
                             
                             <select value={stakeholderCat} onChange={(e) => setStakeholderCat(e.target.value)} className="bg-[#222] border border-[#444] rounded-[8px] px-[12px] py-[6px] text-[#E5E5E5] text-[13px] outline-none cursor-pointer appearance-none pr-[28px]" style={{ backgroundImage: iconChevronDark, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 8px center' }}>
                                 <option value="">이해관계자 분류 안 함</option>
@@ -702,10 +730,12 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                                 <option value="IGIS 내부인력">IGIS 내부인력</option>
                             </select>
 
-                            <label className="relative inline-flex items-center gap-[6px] cursor-pointer bg-[#222] border border-[#444] rounded-[8px] px-[12px] py-[6px]">
-                                <span className="text-[#E5E5E5] text-[13px]">{formatDisplayDate(workDate)}</span>
-                                <input type="date" value={workDate} onChange={(e) => setWorkDate(e.target.value)} onClick={(e) => { if (e.target.showPicker) e.target.showPicker(); }} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
-                            </label>
+                            {!isTaskBoard && (
+                                <label className="relative inline-flex items-center gap-[6px] cursor-pointer bg-[#222] border border-[#444] rounded-[8px] px-[12px] py-[6px]">
+                                    <span className="text-[#E5E5E5] text-[13px]">{formatDisplayDate(workDate)}</span>
+                                    <input type="date" value={workDate} onChange={(e) => setWorkDate(e.target.value)} onClick={(e) => { if (e.target.showPicker) e.target.showPicker(); }} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
+                                </label>
+                            )}
                         </div>
                     )}
 
