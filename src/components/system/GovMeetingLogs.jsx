@@ -181,6 +181,7 @@ export default function GovMeetingLogs() {
                                 className="bg-[#222] border border-[#333] rounded-[8px] px-[16px] py-[8px] text-[13px] font-bold text-white outline-none cursor-pointer appearance-none pr-[30px]"
                                 style={{ backgroundImage: 'url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%23A1A1AA\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3e%3cpolyline points=\'6 9 12 15 18 9\'%3e%3c/polyline%3e%3c/svg%3e")', backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center', backgroundSize: '16px' }}
                             >
+                                <option disabled value="" className="bg-[#222] text-[#86868B] font-bold">[ 회의록 유형 ]</option>
                                 <option value="전체">모든 회의록 보기</option>
                                 <optgroup label="이지스 내부">
                                     {internalMeetings.map(m => <option key={m.meeting} value={m.meeting}>{m.meeting}</option>)}

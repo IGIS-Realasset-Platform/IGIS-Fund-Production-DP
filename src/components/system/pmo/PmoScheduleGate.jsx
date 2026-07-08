@@ -933,6 +933,7 @@ export default function PmoScheduleGate() {
                                                 onChange={(e) => setSelectedRrCategory(e.target.value)}
                                                 className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                                             >
+                                                <option disabled value="" className="bg-[#222] text-[#86868B] font-bold">[ 대분류 ]</option>
                                                 <option value="전체보기" className="bg-[#222] text-[#86868B]">전체보기</option>
                                                 {R_R_CATEGORIES.slice(1).map(cat => {
                                                     const isAdHoc = cat === '팝업/단발';
@@ -966,6 +967,7 @@ export default function PmoScheduleGate() {
                                                 onChange={(e) => setSelectedRrLead(e.target.value)}
                                                 className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                                             >
+                                                <option disabled value="" className="bg-[#222] text-[#86868B] font-bold">[ 주관 부서 ]</option>
                                                 <option value="전체보기" className="bg-[#222] text-[#86868B]">전체보기</option>
                                                 {R_R_LEADS.slice(1).map(lead => (
                                                     <option key={lead} value={lead} className="bg-[#222] text-white">{lead}</option>
@@ -984,6 +986,7 @@ export default function PmoScheduleGate() {
                                                 onChange={(e) => setSelectedRrCoop(e.target.value)}
                                                 className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                                             >
+                                                <option disabled value="" className="bg-[#222] text-[#86868B] font-bold">[ 협업 부서 ]</option>
                                                 <option value="전체보기" className="bg-[#222] text-[#86868B]">전체보기</option>
                                                 {R_R_COOPS.slice(1).map(coop => (
                                                     <option key={coop} value={coop} className="bg-[#222] text-white">{coop}</option>

@@ -1415,7 +1415,8 @@ export default function DecisionLog() {
                                     className={`bg-white/5 border border-transparent text-[12px] font-bold cursor-pointer appearance-none focus:outline-none w-[60px] hover:text-white hover:bg-white/10 rounded-[8px] px-[2px] py-[4px] transition-colors ${filterCell ? 'text-[#fbf167]' : 'text-[#A1A1AA]'}`}
                                     style={{ textAlignLast: 'center' }}
                                 >
-                                    <option value="" className="bg-[#222] text-[#E5E5E5]">기능셀</option>
+                                    <option disabled value="" className="bg-[#222] text-[#86868B] font-bold">[ 기능셀 ]</option>
+                                    <option value="" className="bg-[#222] text-[#E5E5E5]">전체보기</option>
                                     {['사업PM', '파이낸싱-LFC', '개발솔루션-DSC', '기업마케팅-EMC', '공간솔루션-SSC', '펀드운용-KAM', 'IPR', '기획추진', 'CFT 총괄'].map(val => (
                                         <option key={val} value={val} className="bg-[#222] text-[#E5E5E5]">{val}</option>
                                     ))}
@@ -1439,7 +1440,8 @@ export default function DecisionLog() {
                                 className={`bg-white/5 border border-transparent text-[12px] font-bold cursor-pointer appearance-none focus:outline-none w-[76px] hover:text-white hover:bg-white/10 rounded-[8px] px-[2px] py-[4px] transition-colors ${filterStakeholder ? 'text-[#fbf167]' : 'text-[#A1A1AA]'}`}
                                 style={{ textAlignLast: 'center' }}
                             >
-                                <option value="" className="bg-[#222] text-[#E5E5E5]">이해관계자</option>
+                                <option disabled value="" className="bg-[#222] text-[#86868B] font-bold">[ 이해관계자 ]</option>
+                                <option value="" className="bg-[#222] text-[#E5E5E5]">전체보기</option>
                                 {['투자자', '대주', 'SI', '잠재임차자', '운영 파트너', 'IGIS 내부인력'].map(val => (
                                     <option key={val} value={val} className="bg-[#222] text-[#E5E5E5]">{val}</option>
                                 ))}
@@ -1452,7 +1454,8 @@ export default function DecisionLog() {
                                 className={`bg-white/5 border border-transparent text-[12px] font-bold cursor-pointer appearance-none focus:outline-none w-[44px] hover:text-white hover:bg-white/10 rounded-[8px] px-[2px] py-[4px] transition-colors ${filterPurpose ? 'text-[#fbf167]' : 'text-[#A1A1AA]'}`}
                                 style={{ textAlignLast: 'center' }}
                             >
-                                <option value="" className="bg-[#222] text-[#E5E5E5]">목적</option>
+                                <option disabled value="" className="bg-[#222] text-[#86868B] font-bold">[ 목적 ]</option>
+                                <option value="" className="bg-[#222] text-[#E5E5E5]">전체보기</option>
                                 {['공유', '협업', '리스크 판단', '의사결정'].map(val => (
                                     <option key={val} value={val} className="bg-[#222] text-[#E5E5E5]">{val}</option>
                                 ))}
@@ -1465,7 +1468,8 @@ export default function DecisionLog() {
                                 className={`bg-white/5 border border-transparent text-[12px] font-bold cursor-pointer appearance-none focus:outline-none w-[54px] hover:text-white hover:bg-white/10 rounded-[8px] px-[2px] py-[4px] transition-colors ${filterStatus ? 'text-[#fbf167]' : 'text-[#A1A1AA]'}`}
                                 style={{ textAlignLast: 'center' }}
                             >
-                                <option value="" className="bg-[#222] text-[#E5E5E5]">진행상태</option>
+                                <option disabled value="" className="bg-[#222] text-[#86868B] font-bold">[ 진행상태 ]</option>
+                                <option value="" className="bg-[#222] text-[#E5E5E5]">전체보기</option>
                                 {['신규', '검토중', '진행중', '보류', '완료'].map(val => (
                                     <option key={val} value={val} className="bg-[#222] text-[#E5E5E5]">{val}</option>
                                 ))}
@@ -1478,7 +1482,8 @@ export default function DecisionLog() {
                                 className={`bg-white/5 border border-transparent text-[12px] font-bold cursor-pointer appearance-none focus:outline-none w-[50px] hover:text-white hover:bg-white/10 rounded-[8px] px-[2px] py-[4px] transition-colors ${filterPriority ? 'text-[#fbf167]' : 'text-[#A1A1AA]'}`}
                                 style={{ textAlignLast: 'center' }}
                             >
-                                <option value="" className="bg-[#222] text-[#E5E5E5]">중요도</option>
+                                <option disabled value="" className="bg-[#222] text-[#86868B] font-bold">[ 중요도 ]</option>
+                                <option value="" className="bg-[#222] text-[#E5E5E5]">전체보기</option>
                                 {['높음', '중간', '낮음'].map(val => (
                                     <option key={val} value={val} className="bg-[#222] text-[#E5E5E5]">{val}</option>
                                 ))}
