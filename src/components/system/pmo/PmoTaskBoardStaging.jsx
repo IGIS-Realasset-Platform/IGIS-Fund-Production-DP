@@ -2017,7 +2017,13 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
             status: formStatus,
             priority_score: formPriorityScore,
             meeting_grade: dbMeetingGrade,
-            next_action: formNextAction
+            next_action: formNextAction,
+            importance_level: formImportanceLevel,
+            task_type: formTaskType,
+            support_needed: formSupportNeeded || null,
+            notes: formNotes,
+            sort_key: formSortKey,
+            agenda_reason: formAgendaReason
         };
 
         const localMapping = {
@@ -2115,8 +2121,12 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                 task_project: resolvedProjectCode || 'IOTA_SEOUL'
                             }
                         };
-                        await supabase.from('iota_seoul_logs').insert(logData);
-                        window.dispatchEvent(new CustomEvent('iota_log_updated', { detail: { taskId: editingItem.id } }));
+                        const { error: logErr } = await supabase.from('iota_seoul_logs').insert(logData);
+                        if (logErr) {
+                            console.error("Failed to insert change log in DB:", logErr);
+                        } else {
+                            window.dispatchEvent(new CustomEvent('iota_log_updated', { detail: { taskId: editingItem.id } }));
+                        }
                     }
                 } catch (err) {
                     console.error("Failed to update task in DB:", err);
@@ -3785,7 +3795,6 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                         type="button"
                                         onClick={() => {
                                             if (isAuthorized) {
-                                                setSelectedTaskDetail(null);
                                                 handleEditClick(t, true);
                                             } else {
                                                 setShowAuthInfoModal(true);
