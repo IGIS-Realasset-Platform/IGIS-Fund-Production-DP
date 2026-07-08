@@ -987,7 +987,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                         <button 
                             type="button"
                             onClick={() => setShowVisibilityModal(true)}
-                            className={`px-[16px] ${btnPadding} ${btnRounding} border border-red-500/50 text-red-500 font-bold text-[13px] hover:bg-red-500/10 hover:border-red-500 hover:text-red-400 transition-colors cursor-pointer whitespace-nowrap`}
+                            className={`px-[16px] ${btnPadding} ${btnRounding} border ${isTaskBoard ? 'border-[#444] text-[#E5E5E5]' : 'border-red-500/50 text-red-500'} font-bold text-[13px] ${isTaskBoard ? 'hover:bg-[#333] hover:border-[#555]' : 'hover:bg-red-500/10 hover:border-red-500 hover:text-red-400'} transition-colors cursor-pointer whitespace-nowrap`}
                         >
                             열람권한
                         </button>
