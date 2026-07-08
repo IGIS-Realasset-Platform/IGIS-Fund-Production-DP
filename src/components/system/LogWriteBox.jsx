@@ -557,11 +557,11 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                                         <span className="text-[#bcdbdb] font-bold text-[16px]">{collapsedText}</span>
                                     </div>
                                 )}
-                                <div className={`rounded-[8px] p-[1px] bg-gradient-to-br from-[#d6efe9] via-[#82afb9] to-[#4c6e86] ${isTaskBoard ? '' : 'ml-[14px]'}`}>
+                                <div className={`rounded-[12px] p-[1px] bg-gradient-to-br from-[#d6efe9] via-[#82afb9] to-[#4c6e86] ${isTaskBoard ? '' : 'ml-[14px]'}`}>
                                     <button
                                         type="button"
                                         onClick={(e) => { e.stopPropagation(); setIsExpanded(true); }}
-                                        className="flex items-center px-[12px] py-[6px] rounded-[7px] text-[12px] font-bold cursor-pointer transition-colors bg-[#222] text-[#E5E5E5] hover:bg-[#333]"
+                                        className="flex items-center px-[12px] py-[6px] rounded-[11px] text-[12px] font-bold cursor-pointer transition-colors bg-[#222] text-[#E5E5E5] hover:bg-[#333]"
                                     >
                                         글작성하기
                                     </button>

@@ -458,6 +458,12 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
     };
 
     const getCellName = (name) => {
+        if (pilotMembers && pilotMembers.length > 0) {
+            const member = pilotMembers.find(m => m.staff_name === name);
+            if (member && member.org_name) {
+                return member.org_name;
+            }
+        }
         if (!masterStakeholders || masterStakeholders.length === 0) return '기타';
         const stakeholder = masterStakeholders.find(s => s.contact_name === name);
         if (stakeholder && stakeholder.role_category && stakeholder.role_category !== 'IGIS 내부인력') {
@@ -467,6 +473,9 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
     };
 
     const getLogCell = (log) => {
+        if (isTaskBoard) {
+            return getCellName(log.writer_name);
+        }
         if (log.metadata?.workspace_code) {
             const code = log.metadata.workspace_code.toUpperCase();
             if (code === 'WS_PM1' || code === 'PM1' || code === 'PM_1') return '사업 PM 1';
@@ -820,7 +829,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                 </div>
                                 
                                 {/* Card Footer - Interactions (Reactions & Comments) */}
-                                <div className="flex items-center justify-between pl-[42px] mt-1 pt-2 border-t border-[#333]/20">
+                                <div className="flex items-center justify-between pl-[42px] mt-[-2px] pt-2 border-t border-[#333]/20">
                                     <div className="flex items-center gap-[12px]">
                                         {/* Like Reaction Button */}
                                         <button
