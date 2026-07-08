@@ -1176,5 +1176,16 @@ export const tasksData = [
     "작업 유형": "퍼포먼스 및 UIUX",
     "URL": "PlatformCenter.jsx / ConfirmModal.jsx",
     "내용 상세": "# [IOTA 서울 CFT] 플랫폼 공통 레이아웃 왜곡 방지 및 삭제 확인용 커스텀 모달 개발\n\n화면이 가로로 늘어날 때 내부 요소가 찌그러지는 버그를 고치고, 브라우저 기본 알림창(window.confirm)을 대체하는 프리미엄 다크 테마 커스텀 모달 구축 완료.\n\n## 주요 작업 내역\n\n1. 컨테이너 영역 격리 및 스크롤바 제어\n- 페이지 전환 시 가로폭 붕괴 버그를 해결하기 위해 `PlatformCenter` 레이아웃 래퍼에서 `min-h-full` 세팅을 조율하여 하부 스크롤 바인딩을 통일함.\n- 사이드바 밑으로 메인 테이블이 밀려 들어가지 않도록 컨테이너 레이어 간 Z-Index 및 가로폭 상한선 고정.\n\n2. 다크 글래스모피즘 삭제 확인 모달\n- 단순 브라우저 alert/confirm 창을 제거하고, 시스템 고유의 어두운 무광 테마와 반투명 효과(backdrop-blur)를 적용한 프리미엄 삭제 재확인 팝업을 연계하여 삭제 조작 시의 UX 일관성 유지."
+  },
+  {
+    "대분류": "플랫폼 아키텍처",
+    "작업 이름": "기준 정보(부서/이해관계자) DB 스키마 보완 및 Supabase 동기화",
+    "상태": "완료",
+    "담당자": "전기영",
+    "마감일": "2026/07/08",
+    "우선순위": "높음",
+    "작업 유형": "데이터베이스 구축",
+    "URL": "sync_stakeholders.cjs / migrate_depts.mjs / unify_departments.py",
+    "내용 상세": "# [IOTA 서울 CFT] 기준 정보(부서/이해관계자) DB 스키마 보완 및 Supabase 동기화\n\n기존 public 스키마와 iota_v2 스키마 간 흩어져 있던 부서 마스터(iota_departments) 및 이해관계자 마스터(iota_stakeholders/iota_stakeholder_master) 데이터 정제 및 동기화 완료.\n\n## 주요 작업 내역\n\n1. 부서 기준정보 단일화 (Unification)\n- 수작업으로 등록되어 파편화되어 있던 부서명칭들을 `iota_departments` 마스터 테이블 기준으로 일원화 매핑 및 마이그레이션 적용.\n\n2. 실시간 자동완성용 외부상대방 동기화 파이프라인\n- 업무 원장과 기획총괄 내의 모든 외부상대방(Marriott, 대명소노 등)을 수집하여 `public.iota_stakeholder_master`에 누락 없이 적재하는 Node.js 기반 동기화 스크립트(`sync_stakeholders.cjs`) 구축 및 가동.\n- 이를 통해 신규 협력사 등록 시 프론트엔드 자동완성 필터 목록에 실시간 반영되는 인프라 완성."
   }
 ];
