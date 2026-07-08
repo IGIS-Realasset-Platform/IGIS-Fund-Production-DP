@@ -3691,7 +3691,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                     </div>
 
                                     {/* 업무 협업 게시판 */}
-                                    <div className="mt-8 pt-8 border-t border-[#3c3c3c]/50">
+                                    <div className="mt-8">
                                         <WorkspaceActivityLog 
                                             isTaskBoard={true} 
                                             taskId={t.id && !t.id.includes('-') ? t.id : (fallbackItem.id || 'T-XXX')} 

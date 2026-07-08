@@ -468,7 +468,9 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
             resolvedTitle = content.trim().split('\n')[0].slice(0, 50) || '업무 로그';
         }
         if (!resolvedTitle.trim() || !content.trim()) return;
-        if (visibilityGroups.length === 0 && visibilityIndividuals.length === 0) {
+        if (isTaskBoard) {
+            handleSubmit(e);
+        } else if (visibilityGroups.length === 0 && visibilityIndividuals.length === 0) {
             setShowPublicWarningModal(true);
         } else {
             handleSubmit(e);
@@ -624,19 +626,21 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                                     </>
                                 )}
 
-                    <label className="relative flex items-center gap-[8px] cursor-pointer group">
-                        <span className="text-[#86868B] text-[14px] font-medium shrink-0 group-hover:text-white transition-colors">이해관계자 분류</span>
-                        <div className="inline-flex items-center text-[#E5E5E5] text-[14px] pr-[16px] group-hover:text-white transition-colors" style={{ backgroundImage: iconChevronDark, backgroundRepeat: 'no-repeat', backgroundPosition: 'right center' }}>
-                            {stakeholderCat === 'SI' ? 'LP I 대주 I SI' : stakeholderCat || '선택 안 함'}
-                        </div>
-                        <select value={stakeholderCat} onChange={(e) => setStakeholderCat(e.target.value)} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer appearance-none">
-                            <option value="">선택 안 함</option>
-                            <option value="SI">LP I 대주 I SI</option>
-                            <option value="잠재임차사">잠재임차사</option>
-                            <option value="운영 파트너">운영 파트너</option>
-                            <option value="IGIS 내부인력">IGIS 내부인력</option>
-                        </select>
-                    </label>
+                    {!isTaskBoard && (
+                        <label className="relative flex items-center gap-[8px] cursor-pointer group">
+                            <span className="text-[#86868B] text-[14px] font-medium shrink-0 group-hover:text-white transition-colors">이해관계자 분류</span>
+                            <div className="inline-flex items-center text-[#E5E5E5] text-[14px] pr-[16px] group-hover:text-white transition-colors" style={{ backgroundImage: iconChevronDark, backgroundRepeat: 'no-repeat', backgroundPosition: 'right center' }}>
+                                {stakeholderCat === 'SI' ? 'LP I 대주 I SI' : stakeholderCat || '선택 안 함'}
+                            </div>
+                            <select value={stakeholderCat} onChange={(e) => setStakeholderCat(e.target.value)} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer appearance-none">
+                                <option value="">선택 안 함</option>
+                                <option value="SI">LP I 대주 I SI</option>
+                                <option value="잠재임차사">잠재임차사</option>
+                                <option value="운영 파트너">운영 파트너</option>
+                                <option value="IGIS 내부인력">IGIS 내부인력</option>
+                            </select>
+                        </label>
+                    )}
 
                     <div className="flex-1"></div>
 
@@ -734,13 +738,15 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                                 </>
                             )}
                             
-                            <select value={stakeholderCat} onChange={(e) => setStakeholderCat(e.target.value)} className="bg-[#222] border border-[#444] rounded-[8px] px-[12px] py-[6px] text-[#E5E5E5] text-[13px] outline-none cursor-pointer appearance-none pr-[28px]" style={{ backgroundImage: iconChevronDark, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 8px center' }}>
-                                <option value="">이해관계자 분류 안 함</option>
-                                <option value="SI">LP I 대주 I SI</option>
-                                <option value="잠재임차사">잠재임차사</option>
-                                <option value="운영 파트너">운영 파트너</option>
-                                <option value="IGIS 내부인력">IGIS 내부인력</option>
-                            </select>
+                            {!isTaskBoard && (
+                                <select value={stakeholderCat} onChange={(e) => setStakeholderCat(e.target.value)} className="bg-[#222] border border-[#444] rounded-[8px] px-[12px] py-[6px] text-[#E5E5E5] text-[13px] outline-none cursor-pointer appearance-none pr-[28px]" style={{ backgroundImage: iconChevronDark, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 8px center' }}>
+                                    <option value="">이해관계자 분류 안 함</option>
+                                    <option value="SI">LP I 대주 I SI</option>
+                                    <option value="잠재임차사">잠재임차사</option>
+                                    <option value="운영 파트너">운영 파트너</option>
+                                    <option value="IGIS 내부인력">IGIS 내부인력</option>
+                                </select>
+                            )}
 
                             {!isTaskBoard && (
                                 <label className="relative inline-flex items-center gap-[6px] cursor-pointer bg-[#222] border border-[#444] rounded-[8px] px-[12px] py-[6px]">

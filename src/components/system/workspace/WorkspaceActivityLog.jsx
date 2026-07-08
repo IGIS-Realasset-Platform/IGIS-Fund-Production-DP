@@ -613,25 +613,25 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
     return (
         <div className="w-full flex flex-col mt-0">
             {/* Log Viewer */}
-            <div className="flex justify-between items-center mt-[-14px] mb-[12px]">
-                <h2 className="text-[16px] font-bold text-white tracking-tight translate-y-[6px]">
-                    {isTaskBoard ? '협업 게시판' : (workspaceLabel ? workspaceLabel.split('-')[0].trim() + ' 회의록' : '')}
-                </h2>
-                <div className="flex items-center gap-[12px]">
-                    {/* Search Box */}
-                    <div className="relative">
-                        <div className="absolute inset-y-0 left-[12px] flex items-center pointer-events-none">
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#86868B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            {!isTaskBoard && (
+                <div className="flex justify-between items-center mt-[-14px] mb-[12px]">
+                    <h2 className="text-[16px] font-bold text-white tracking-tight translate-y-[6px]">
+                        {workspaceLabel ? workspaceLabel.split('-')[0].trim() + ' 회의록' : ''}
+                    </h2>
+                    <div className="flex items-center gap-[12px]">
+                        {/* Search Box */}
+                        <div className="relative">
+                            <div className="absolute inset-y-0 left-[12px] flex items-center pointer-events-none">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#86868B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                            </div>
+                            <input 
+                                type="text" 
+                                placeholder="검색어 입력..." 
+                                value={logSearchQuery}
+                                onChange={(e) => setLogSearchQuery(e.target.value)}
+                                className="bg-[#222] border border-[#333] hover:border-[#444] rounded-[8px] pl-[32px] pr-[12px] py-[6px] text-[12px] text-white w-[180px] focus:outline-none focus:border-[#2997ff] transition-all"
+                            />
                         </div>
-                        <input 
-                            type="text" 
-                            placeholder="검색어 입력..." 
-                            value={logSearchQuery}
-                            onChange={(e) => setLogSearchQuery(e.target.value)}
-                            className="bg-[#222] border border-[#333] hover:border-[#444] rounded-[8px] pl-[32px] pr-[12px] py-[6px] text-[12px] text-white w-[180px] focus:outline-none focus:border-[#2997ff] transition-all"
-                        />
-                    </div>
-                    {!isTaskBoard && (
                         <button 
                             type="button"
                             onClick={() => { setLogsViewMode(prev => prev === 'summary' ? 'full' : 'summary'); setCurrentPage(1); }} 
@@ -639,9 +639,9 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                         >
                             {logsViewMode === 'summary' ? '전체보기' : '간략히 보기'}
                         </button>
-                    )}
+                    </div>
                 </div>
-            </div>
+            )}
             
             
             <div className={isTaskBoard ? "p-[6px] border border-[#333] rounded-[24px] mb-[24px]" : "-mx-[7px] p-[6px] border border-[#333] rounded-[30px] mb-[40px]"}>
