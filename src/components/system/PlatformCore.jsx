@@ -60,7 +60,7 @@ export default function PlatformCore({ isPlatform = true, isIotaWorkspaceOverrid
             </div>
             
             {/* Notification Bell Button */}
-            <div className="fixed top-[16px] right-[60px] z-[90]">
+            <div id="global-notification-bell" className="fixed top-[16px] right-[60px] z-[90]">
                 <button
                     onClick={() => setIsNotificationOpen(!isNotificationOpen)}
                     className="w-[36px] h-[36px] bg-transparent hover:bg-[#2A2A2A] border border-transparent hover:border-[#444] text-[#86868B] hover:text-[#0071e3] rounded-full flex items-center justify-center transition-all hover:scale-110 cursor-pointer group relative"
@@ -91,6 +91,7 @@ export default function PlatformCore({ isPlatform = true, isIotaWorkspaceOverrid
 
             {/* Floating Action Button for Support Request */}
             <button
+                id="global-support-button"
                 onClick={() => setIsSupportModalOpen(true)}
                 className="fixed top-[16px] right-[16px] z-[90] w-[36px] h-[36px] bg-transparent hover:bg-[#2A2A2A] border border-transparent hover:border-[#444] text-[#86868B] hover:text-[#0071e3] rounded-full flex items-center justify-center transition-all hover:scale-110 cursor-pointer group"
                 style={{ cursor: 'pointer' }}

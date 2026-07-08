@@ -2194,7 +2194,8 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
     return (
         <div>
             <style>{`
-                body.drawer-open .fixed.top-\[16px\] {
+                body.drawer-open #global-notification-bell,
+                body.drawer-open #global-support-button {
                     display: none !important;
                 }
             `}</style>
