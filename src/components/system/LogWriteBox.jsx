@@ -541,21 +541,23 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                 {/* Header */}
                 {!editMode && (
                     <div 
-                        className={`w-full px-[20px] py-[10px] border-b border-[#333] flex items-center gap-[12px] ${!isExpanded ? 'cursor-pointer hover:bg-[#2a2a2a] transition-colors' : ''}`}
+                        className={`w-full px-[20px] ${isTaskBoard && !isExpanded ? 'py-[7px]' : 'py-[10px]'} ${isExpanded || editMode ? 'border-b border-[#333]' : 'border-b-0'} flex items-center ${isTaskBoard && !isExpanded ? 'justify-center' : ''} gap-[12px] ${!isExpanded ? 'cursor-pointer hover:bg-[#2a2a2a] transition-colors' : ''}`}
                         onClick={() => {
                             if (!isExpanded) setIsExpanded(true);
                         }}
                     >
-                        <div className="relative w-[40px] h-[40px] shrink-0 rounded-full bg-[#3c3c3c] flex items-center justify-center overflow-hidden border border-white/10">
+                        <div className={`relative shrink-0 rounded-full bg-[#3c3c3c] flex items-center justify-center overflow-hidden border border-white/10 ${isTaskBoard ? 'w-[32px] h-[32px]' : 'w-[40px] h-[40px]'}`}>
                             <img src={`${import.meta.env.BASE_URL}${memberInfo?.staff_name || 'default'}.webp`} alt="User" className="w-full h-full object-cover" onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }} />
                         </div>
 
                         {!isExpanded ? (
                             <>
-                                <div className="pl-[8px]">
-                                    <span className="text-[#bcdbdb] font-bold text-[16px]">{collapsedText}</span>
-                                </div>
-                                <div className="rounded-[8px] p-[1px] bg-gradient-to-br from-[#d6efe9] via-[#82afb9] to-[#4c6e86] ml-[14px]">
+                                {!isTaskBoard && (
+                                    <div className="pl-[8px]">
+                                        <span className="text-[#bcdbdb] font-bold text-[16px]">{collapsedText}</span>
+                                    </div>
+                                )}
+                                <div className={`rounded-[8px] p-[1px] bg-gradient-to-br from-[#d6efe9] via-[#82afb9] to-[#4c6e86] ${isTaskBoard ? '' : 'ml-[14px]'}`}>
                                     <button
                                         type="button"
                                         onClick={(e) => { e.stopPropagation(); setIsExpanded(true); }}
