@@ -346,7 +346,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
             const logData = {
                 work_date: workDate,
                 raw_text: content,
-                summary: title,
+                summary: isTaskBoard && !title.trim() ? (content.trim().split('\n')[0].slice(0, 50) || '업무 로그') : title,
                 updated_at: new Date().toISOString(),
                 metadata: {
                     ...(isEditing ? initialData.metadata : {}),
@@ -463,7 +463,11 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
 
     const handlePreSubmit = (e) => {
         if (e && e.preventDefault) e.preventDefault();
-        if (!title.trim() || !content.trim()) return;
+        let resolvedTitle = title;
+        if (isTaskBoard && !title.trim()) {
+            resolvedTitle = content.trim().split('\n')[0].slice(0, 50) || '업무 로그';
+        }
+        if (!resolvedTitle.trim() || !content.trim()) return;
         if (visibilityGroups.length === 0 && visibilityIndividuals.length === 0) {
             setShowPublicWarningModal(true);
         } else {
@@ -473,7 +477,11 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
 
     const handleSubmit = async (e) => {
         if (e && e.preventDefault) e.preventDefault();
-        if (!title.trim() || !content.trim()) return;
+        let resolvedTitle = title;
+        if (isTaskBoard && !title.trim()) {
+            resolvedTitle = content.trim().split('\n')[0].slice(0, 50) || '업무 로그';
+        }
+        if (!resolvedTitle.trim() || !content.trim()) return;
 
         if (!companyQuery && contactQuery) {
             setShowCompanyWarningModal(true);
@@ -557,60 +565,64 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                             </>
                         ) : (
                             <>
-                                <select value={projectId} onChange={(e) => setProjectId(e.target.value)} className="bg-transparent border border-[#333] rounded-[16px] px-[16px] py-[8px] ml-[-2px] text-white font-semibold text-[14px] outline-none cursor-pointer appearance-none pr-[32px] relative" style={{ backgroundImage: iconChevronGray, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center' }}>
-                            <option value="IOTA_COMMON">IOTA 공통</option>
-                            <option value="P00030">427 PFV</option>
-                            <option value="P00037">816 PFV</option>
-                            <option value="112614">421 Fund</option>
-                            <option value="EXTERNAL">외부</option>
-                        </select>
-
+                                {!isTaskBoard && (
+                                    <>
+                                    <select value={projectId} onChange={(e) => setProjectId(e.target.value)} className="bg-transparent border border-[#333] rounded-[16px] px-[16px] py-[8px] ml-[-2px] text-white font-semibold text-[14px] outline-none cursor-pointer appearance-none pr-[32px] relative" style={{ backgroundImage: iconChevronGray, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center' }}>
+                                <option value="IOTA_COMMON">IOTA 공통</option>
+                                <option value="P00030">427 PFV</option>
+                                <option value="P00037">816 PFV</option>
+                                <option value="112614">421 Fund</option>
+                                <option value="EXTERNAL">외부</option>
+                            </select>
+    
+                            <div className="w-px h-[14px] bg-[#333] mx-[2px]"></div>
+    
+                        <label className="relative flex items-center gap-[8px] cursor-pointer group">
+                            <span className="text-[#86868B] text-[14px] font-medium shrink-0 group-hover:text-white transition-colors">활용목적</span>
+                            <div className="inline-flex items-center text-[#E5E5E5] text-[14px] pr-[16px] group-hover:text-white transition-colors" style={{ backgroundImage: iconChevronDark, backgroundRepeat: 'no-repeat', backgroundPosition: 'right center' }}>
+                                {triageType}
+                            </div>
+                            <select value={triageType} onChange={(e) => setTriageType(e.target.value)} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer appearance-none">
+                                <option value="공유">공유</option>
+                                <option value="협업">협업</option>
+                                <option value="리스크 판단">리스크 판단</option>
+                                <option value="의사결정">의사결정</option>
+                            </select>
+                        </label>
+    
                         <div className="w-px h-[14px] bg-[#333] mx-[2px]"></div>
-
-                    <label className="relative flex items-center gap-[8px] cursor-pointer group">
-                        <span className="text-[#86868B] text-[14px] font-medium shrink-0 group-hover:text-white transition-colors">활용목적</span>
-                        <div className="inline-flex items-center text-[#E5E5E5] text-[14px] pr-[16px] group-hover:text-white transition-colors" style={{ backgroundImage: iconChevronDark, backgroundRepeat: 'no-repeat', backgroundPosition: 'right center' }}>
-                            {triageType}
-                        </div>
-                        <select value={triageType} onChange={(e) => setTriageType(e.target.value)} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer appearance-none">
-                            <option value="공유">공유</option>
-                            <option value="협업">협업</option>
-                            <option value="리스크 판단">리스크 판단</option>
-                            <option value="의사결정">의사결정</option>
-                        </select>
-                    </label>
-
-                    <div className="w-px h-[14px] bg-[#333] mx-[2px]"></div>
-
-                    <label className="relative flex items-center gap-[8px] cursor-pointer group">
-                        <span className="text-[#86868B] text-[14px] font-medium shrink-0 group-hover:text-white transition-colors">진행상태</span>
-                        <div className="inline-flex items-center text-[#E5E5E5] text-[14px] pr-[16px] group-hover:text-white transition-colors" style={{ backgroundImage: iconChevronDark, backgroundRepeat: 'no-repeat', backgroundPosition: 'right center' }}>
-                            {issueStatus}
-                        </div>
-                        <select value={issueStatus} onChange={(e) => setIssueStatus(e.target.value)} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer appearance-none">
-                            <option value="신규">신규</option>
-                            <option value="검토중">검토중</option>
-                            <option value="진행중">진행중</option>
-                            <option value="보류">보류</option>
-                            <option value="완료">완료</option>
-                        </select>
-                    </label>
-
-                    <div className="w-px h-[14px] bg-[#333] mx-[2px]"></div>
-
-                    <label className="relative flex items-center gap-[8px] cursor-pointer group">
-                        <span className="text-[#86868B] text-[14px] font-medium shrink-0 group-hover:text-white transition-colors">중요도</span>
-                        <div className={`inline-flex items-center text-[14px] font-bold pr-[16px] ${priority === '높음' ? 'text-[#FF453A]' : priority === '중간' ? 'text-[#3b82f6]' : 'text-[#34d399]'} group-hover:opacity-80 transition-colors`} style={{ backgroundImage: iconChevronDark, backgroundRepeat: 'no-repeat', backgroundPosition: 'right center' }}>
-                            {priority}
-                        </div>
-                        <select value={priority} onChange={(e) => setPriority(e.target.value)} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer appearance-none">
-                            <option value="높음">높음</option>
-                            <option value="중간">중간</option>
-                            <option value="낮음">낮음</option>
-                        </select>
-                    </label>
-
-                    <div className="w-px h-[14px] bg-[#333] mx-[2px]"></div>
+    
+                        <label className="relative flex items-center gap-[8px] cursor-pointer group">
+                            <span className="text-[#86868B] text-[14px] font-medium shrink-0 group-hover:text-white transition-colors">진행상태</span>
+                            <div className="inline-flex items-center text-[#E5E5E5] text-[14px] pr-[16px] group-hover:text-white transition-colors" style={{ backgroundImage: iconChevronDark, backgroundRepeat: 'no-repeat', backgroundPosition: 'right center' }}>
+                                {issueStatus}
+                            </div>
+                            <select value={issueStatus} onChange={(e) => setIssueStatus(e.target.value)} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer appearance-none">
+                                <option value="신규">신규</option>
+                                <option value="검토중">검토중</option>
+                                <option value="진행중">진행중</option>
+                                <option value="보류">보류</option>
+                                <option value="완료">완료</option>
+                            </select>
+                        </label>
+    
+                        <div className="w-px h-[14px] bg-[#333] mx-[2px]"></div>
+    
+                        <label className="relative flex items-center gap-[8px] cursor-pointer group">
+                            <span className="text-[#86868B] text-[14px] font-medium shrink-0 group-hover:text-white transition-colors">중요도</span>
+                            <div className={`inline-flex items-center text-[14px] font-bold pr-[16px] ${priority === '높음' ? 'text-[#FF453A]' : priority === '중간' ? 'text-[#3b82f6]' : 'text-[#34d399]'} group-hover:opacity-80 transition-colors`} style={{ backgroundImage: iconChevronDark, backgroundRepeat: 'no-repeat', backgroundPosition: 'right center' }}>
+                                {priority}
+                            </div>
+                            <select value={priority} onChange={(e) => setPriority(e.target.value)} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer appearance-none">
+                                <option value="높음">높음</option>
+                                <option value="중간">중간</option>
+                                <option value="낮음">낮음</option>
+                            </select>
+                        </label>
+    
+                        <div className="w-px h-[14px] bg-[#333] mx-[2px]"></div>
+                                    </>
+                                )}
 
                     <label className="relative flex items-center gap-[8px] cursor-pointer group">
                         <span className="text-[#86868B] text-[14px] font-medium shrink-0 group-hover:text-white transition-colors">이해관계자 분류</span>
@@ -739,14 +751,16 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                         </div>
                     )}
 
-                    <input
-                        type="text"
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                        placeholder="제목을 입력하세요"
-                        className="w-full bg-transparent text-[#E5E5E5] text-[16px] font-bold outline-none mb-[12px] border-b border-[#333] pb-[12px]"
-                        required
-                    />
+                    {!isTaskBoard && (
+                        <input
+                            type="text"
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
+                            placeholder="제목을 입력하세요"
+                            className="w-full bg-transparent text-[#E5E5E5] text-[16px] font-bold outline-none mb-[12px] border-b border-[#333] pb-[12px]"
+                            required
+                        />
+                    )}
                     
                     <div className="relative w-full">
                         {/* Background Div for Highlights */}
@@ -812,8 +826,8 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                 </div>
 
                 {/* Footer */}
-                <div className="w-full pl-[20px] pr-[12px] py-[10px] border-t border-[#333] flex justify-between items-center">
-                    <div className="flex items-center gap-[12px] flex-1">
+                <div className="w-full pl-[20px] pr-[12px] py-[10px] border-t border-[#333] flex justify-between items-center gap-4">
+                    <div className="flex items-center gap-[12px] flex-1 min-w-0">
                         <span className="text-[#86868B] text-[14px] font-medium shrink-0">이해관계자</span>
                         
                         {/* Company Search Box */}
@@ -920,56 +934,58 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                             </span>
                         </div>
                     )}
-                    <input 
-                        type="file" 
-                        ref={fileInputRef} 
-                        onChange={handleFileUpload} 
-                        className="hidden" 
-                        multiple 
-                    />
-                    <button 
-                        type="button"
-                        onClick={() => setShowFileSecurityModal(true)}
-                        disabled={isUploadingFile}
-                        className="px-[16px] py-[10px] rounded-[10px] border border-[#444] text-[#A1A1AA] font-bold text-[13px] hover:bg-[#333] hover:text-[#E5E5E5] transition-colors cursor-pointer mr-2 flex items-center gap-2"
-                    >
-                        {isUploadingFile ? '업로드 중...' : '파일 첨부'}
-                    </button>
-                    <button 
-                        type="button"
-                        onClick={() => setShowVisibilityModal(true)}
-                        className="px-[16px] py-[10px] rounded-[10px] border border-red-500/50 text-red-500 font-bold text-[13px] hover:bg-red-500/10 hover:border-red-500 hover:text-red-400 transition-colors cursor-pointer mr-2"
-                    >
-                        열람권한
-                    </button>
-                    {editMode ? (
-                        <>
-                            <button 
-                                type="button"
-                                onClick={() => { if (onCancel) onCancel(); }}
-                                className="px-[24px] py-[10px] rounded-[10px] border border-[#444] text-[#E5E5E5] font-bold text-[13px] hover:bg-[#333] transition-all cursor-pointer mr-[8px]"
-                            >
-                                취소
-                            </button>
+                    <div className="flex items-center gap-2 shrink-0">
+                        <input 
+                            type="file" 
+                            ref={fileInputRef} 
+                            onChange={handleFileUpload} 
+                            className="hidden" 
+                            multiple 
+                        />
+                        <button 
+                            type="button"
+                            onClick={() => setShowFileSecurityModal(true)}
+                            disabled={isUploadingFile}
+                            className="px-[16px] py-[10px] rounded-[10px] border border-[#444] text-[#A1A1AA] font-bold text-[13px] hover:bg-[#333] hover:text-[#E5E5E5] transition-colors cursor-pointer flex items-center gap-2 whitespace-nowrap"
+                        >
+                            {isUploadingFile ? '업로드 중...' : '파일 첨부'}
+                        </button>
+                        <button 
+                            type="button"
+                            onClick={() => setShowVisibilityModal(true)}
+                            className="px-[16px] py-[10px] rounded-[10px] border border-red-500/50 text-red-500 font-bold text-[13px] hover:bg-red-500/10 hover:border-red-500 hover:text-red-400 transition-colors cursor-pointer whitespace-nowrap"
+                        >
+                            열람권한
+                        </button>
+                        {editMode ? (
+                            <>
+                                <button 
+                                    type="button"
+                                    onClick={() => { if (onCancel) onCancel(); }}
+                                    className="px-[24px] py-[10px] rounded-[10px] border border-[#444] text-[#E5E5E5] font-bold text-[13px] hover:bg-[#333] transition-all cursor-pointer whitespace-nowrap"
+                                >
+                                    취소
+                                </button>
+                                <button 
+                                    type="button"
+                                    onClick={handlePreSubmit}
+                                    disabled={isSubmitting}
+                                    className={`px-[32px] py-[10px] rounded-[10px] border border-transparent bg-[#2997ff] text-white font-bold text-[13px] transition-all duration-200 whitespace-nowrap ${isSubmitting ? 'opacity-50 cursor-not-allowed' : 'hover:bg-[#0071e3] cursor-pointer'}`}
+                                >
+                                    {isSubmitting ? '저장 중...' : '수정 완료'}
+                                </button>
+                            </>
+                        ) : (
                             <button 
                                 type="button"
                                 onClick={handlePreSubmit}
                                 disabled={isSubmitting}
-                                className={`px-[32px] py-[10px] rounded-[10px] border border-transparent bg-[#2997ff] text-white font-bold text-[13px] transition-all duration-200 ${isSubmitting ? 'opacity-50 cursor-not-allowed' : 'hover:bg-[#0071e3] cursor-pointer'}`}
+                                className={`px-[32px] py-[10px] rounded-[10px] border border-[#444] text-[#E5E5E5] font-bold text-[13px] transition-all duration-200 whitespace-nowrap ${isSubmitting ? 'opacity-50 cursor-not-allowed' : 'hover:bg-[#333] hover:border-[#555] cursor-pointer'}`}
                             >
-                                {isSubmitting ? '저장 중...' : '수정 완료'}
+                                {isSubmitting ? '저장 중...' : '작성하기'}
                             </button>
-                        </>
-                    ) : (
-                        <button 
-                            type="button"
-                            onClick={handlePreSubmit}
-                            disabled={isSubmitting}
-                            className={`px-[32px] py-[10px] rounded-[10px] border border-[#444] text-[#E5E5E5] font-bold text-[13px] transition-all duration-200 ${isSubmitting ? 'opacity-50 cursor-not-allowed' : 'hover:bg-[#333] hover:border-[#555] cursor-pointer'}`}
-                        >
-                            {isSubmitting ? '저장 중...' : '작성하기'}
-                        </button>
-                    )}
+                        )}
+                    </div>
                 </div>
             
                         </motion.div>
