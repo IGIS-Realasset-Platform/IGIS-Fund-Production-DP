@@ -1208,7 +1208,7 @@ const calculatePriorityScore = (task, fallbackItem) => {
     let score = 0;
     
     // 1. 준공필수 (35) / PF필수 (30) -> importance_level
-    const importance = task.importance_level || fallbackItem?.importance_level || '일반';
+    const importance = task.importance_level || fallbackItem?.importance_level || '중간';
     if (importance === '준공필수') {
         score += 35;
     } else if (importance === 'PF필수') {
@@ -1428,7 +1428,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
     const [formNeedsDecision, setFormNeedsDecision] = useState(false);
     const [formDueDate, setFormDueDate] = useState('');
     const [formStatus, setFormStatus] = useState('진행중');
-    const [formImportanceLevel, setFormImportanceLevel] = useState('일반');
+    const [formImportanceLevel, setFormImportanceLevel] = useState('중간');
     const [formTaskType, setFormTaskType] = useState('정규');
     const [formNextAction, setFormNextAction] = useState('');
     const [formPriorityScore, setFormPriorityScore] = useState(0);
@@ -1457,12 +1457,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
     // Automatically calculate priority score, meeting grade, and agenda reason in Edit form
     useEffect(() => {
         const tempTask = {
-            importance_level: (() => {
-                const val = formImportanceLevel;
-                if (['PF필수', '준공필수', '높음', '중간', '낮음'].includes(val)) return val;
-                if (val === '중요') return '높음';
-                return '중간';
-            })(),
+            importance_level: formImportanceLevel,
             is_blocker: formIsBlocker,
             needs_decision: formNeedsDecision,
             support_needed: formSupportNeeded,
@@ -1488,7 +1483,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
 
         // Agenda reason calculation
         const agendaParts = [];
-        const importance = formImportanceLevel || '일반';
+        const importance = formImportanceLevel || '중간';
         if (importance === 'PF필수' || importance === '준공필수') {
             agendaParts.push(importance);
         }
@@ -1899,7 +1894,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
         setFormNeedsDecision(false);
         setFormDueDate('');
         setFormStatus('진행중');
-        setFormImportanceLevel('일반');
+        setFormImportanceLevel('중간');
         setFormTaskType('정규');
         setFormNextAction('');
         setFormPriorityScore(0);
@@ -1942,7 +1937,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
         setFormDueDate(rawDate ? rawDate.substring(0, 10) : '');
 
         setFormStatus(item.status || fallbackItem.status || '진행중');
-        setFormImportanceLevel(item.importance_level || fallbackItem.importance_level || '일반');
+        setFormImportanceLevel(item.importance_level || fallbackItem.importance_level || '중간');
         setFormTaskType(item.task_type || fallbackItem.task_type || '정규');
         setFormNextAction(item.next_action || fallbackItem.next_action || '');
         setFormPriorityScore(item.priority_score !== undefined ? item.priority_score : (fallbackItem.priority_score || 0));
@@ -2023,12 +2018,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
             priority_score: formPriorityScore,
             meeting_grade: dbMeetingGrade,
             next_action: formNextAction,
-            importance_level: (() => {
-                const val = formImportanceLevel;
-                if (['PF필수', '준공필수', '높음', '중간', '낮음'].includes(val)) return val;
-                if (val === '중요') return '높음';
-                return '중간';
-            })(),
+            importance_level: formImportanceLevel,
             task_type: formTaskType,
             support_needed: formSupportNeeded || null,
             notes: formNotes,
@@ -2045,12 +2035,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
             gate_stage: formGateStage, // Preserve full string locally
             meeting_grade: formMeetingGrade,
             support_needed: formSupportNeeded,
-            importance_level: (() => {
-                const val = formImportanceLevel;
-                if (['PF필수', '준공필수', '높음', '중간', '낮음'].includes(val)) return val;
-                if (val === '중요') return '높음';
-                return '중간';
-            })(),
+            importance_level: formImportanceLevel,
             task_type: formTaskType,
             agenda_reason: formAgendaReason,
             sort_key: formSortKey,
@@ -2080,8 +2065,8 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                         changes.push(`• 상태: ${oldStatus} ➔ ${newStatus}`);
                     }
 
-                    const oldImportance = editingItem.importance_level || '일반';
-                    const newImportance = formImportanceLevel || '일반';
+                    const oldImportance = editingItem.importance_level || '중간';
+                    const newImportance = formImportanceLevel || '중간';
                     if (oldImportance !== newImportance) {
                         changes.push(`• 중요도: ${oldImportance} ➔ ${newImportance}`);
                     }
@@ -2235,7 +2220,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
             if (selectedStatus !== '전체보기' && statusVal !== selectedStatus) return false;
 
             // Importance match
-            const importanceLevel = t.importance_level || fallbackItem.importance_level || '일반';
+            const importanceLevel = t.importance_level || fallbackItem.importance_level || '중간';
             if (selectedImportanceLevel !== '전체보기' && importanceLevel !== selectedImportanceLevel) return false;
 
             // Meeting grade match
@@ -2640,7 +2625,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                             
                                             const dueDateVal = t.due_date || fallbackItem.due_date || '';
                                             const statusVal = t.status || fallbackItem.status || '진행중';
-                                            const importanceLevel = t.importance_level || fallbackItem.importance_level || '일반';
+                                            const importanceLevel = t.importance_level || fallbackItem.importance_level || '중간';
                                             const taskType = t.task_type || fallbackItem.task_type || '정규';
                                             const nextActionVal = t.next_action || fallbackItem.next_action || '';
                                             const priorityScore = calculatePriorityScore(t, fallbackItem);
@@ -3211,7 +3196,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                             className="bg-[#2a2a2c] border border-red-500/30 focus:border-red-500 rounded px-2.5 py-1 text-[11.5px] font-bold text-white outline-none cursor-pointer"
                                             style={{ appearance: 'auto' }}
                                         >
-                                            <option value="일반">일반</option>
+                                            
                                             <option value="PF필수">PF필수</option>
                                             <option value="준공필수">준공필수</option>
                                             <option value="높음">높음</option>
@@ -3559,7 +3544,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                 const isBlockerVal = parseBool(t.is_blocker !== undefined ? t.is_blocker : fallbackItem.is_blocker);
                 const needsDecisionVal = parseBool(t.needs_decision !== undefined ? t.needs_decision : fallbackItem.needs_decision);
                 const statusVal = t.status || fallbackItem.status || '진행중';
-                const importanceLevel = t.importance_level || fallbackItem.importance_level || '일반';
+                const importanceLevel = t.importance_level || fallbackItem.importance_level || '중간';
                 const priorityScore = calculatePriorityScore(t, fallbackItem);
                 const rawGrade = t.meeting_grade || fallbackItem.meeting_grade || 'B';
                 const meetingGrade = rawGrade.includes('_') ? rawGrade : gradeMapToUi(rawGrade);
