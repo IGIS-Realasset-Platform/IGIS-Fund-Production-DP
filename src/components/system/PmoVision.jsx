@@ -2257,7 +2257,7 @@ CREATE POLICY "PM2 파트 및 어드민만 편집 가능" ON public.iota_pmo_tas
     USING (
         auth.jwt() ->> 'email' IN (
             SELECT email FROM public.iota_members 
-            WHERE department = '사업관리2파트' OR role_grade IN ('임원', '어드민')
+            WHERE department = '사업2파트' OR role_grade IN ('임원', '어드민')
         )
     );`)} className="px-3 py-1 bg-white border border-gray-300 hover:bg-gray-50 rounded-none text-[11.5px] font-medium text-black transition-all cursor-pointer" style={interFont}>
                                 {copied ? 'Copy Text' : 'Copy Text'}
@@ -2300,7 +2300,7 @@ CREATE POLICY "PM2 파트 및 어드민만 편집 가능" ON public.iota_pmo_tas
     USING (
         auth.jwt() ->> 'email' IN (
             SELECT email FROM public.iota_members 
-            WHERE department = '사업관리2파트' OR role_grade IN ('임원', '어드민')
+            WHERE department = '사업2파트' OR role_grade IN ('임원', '어드민')
         )
     );`}</code>
                                 </pre>

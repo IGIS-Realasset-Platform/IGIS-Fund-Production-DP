@@ -17,22 +17,22 @@ const COLUMNS = [
 
 const TIMELINE_DATA = [
     // Gates
-    { category: 'Gate', name: 'G0 현황정리', desc: '업무원장·카테고리·우선순위 기준 확정', lead: '사업관리2파트', coop: '전 부서', schedule: { m06: '●', m07: '●' } },
-    { category: 'Gate', name: 'G1 방향결정', desc: '단독/통합 PF 방향, 호텔 브랜드, 시공사 조건', lead: '사업관리2파트', coop: 'LFC;기업마케팅실;개발관리실', schedule: { m07: '●', m08: '●' } },
-    { category: 'Gate', name: 'G2 PF준비도', desc: '인허가·도면·임차·금융·법무 CP 준비', lead: '사업관리2파트', coop: '전 부서', schedule: { m07: '●', m08: '●', m09: '●', m10: '●' } },
-    { category: 'Gate', name: 'G3 PF실행', desc: '427/816 단독 또는 통합 PF 실행', lead: 'LFC', coop: '사업관리2파트;전 부서', schedule: { m09: '●', m10: '●', m11: '◆', m03: '◆' } },
-    { category: 'Gate', name: 'G4 착공/공사', desc: '착공조건, 책임착공, 공정관리 체계 전환', lead: '개발관리실', coop: '사업관리2파트;LFC', schedule: { m03: '●', const_start: '●', const_mid: '●' } },
-    { category: 'Gate', name: 'G5 준공/사용승인', desc: '준공 CP, 사용승인, 리스크 증빙자료 관리', lead: '개발관리실', coop: '사업관리2파트;LFC', schedule: { const_start: '●', const_mid: '●' } },
-    { category: 'Gate', name: 'G6 담보대출/운영', desc: 'Take-out, 운영전환, 임대 안정화, 자산관리', lead: '사업관리2파트', coop: '공간솔루션실;기업마케팅실', schedule: { const_mid: '●', take_out: '◆' } },
+    { category: 'Gate', name: 'G0 현황정리', desc: '업무원장·카테고리·우선순위 기준 확정', lead: '사업2파트', coop: '전 부서', schedule: { m06: '●', m07: '●' } },
+    { category: 'Gate', name: 'G1 방향결정', desc: '단독/통합 PF 방향, 호텔 브랜드, 시공사 조건', lead: '사업2파트', coop: 'LFC;기업마케팅실;개발관리실', schedule: { m07: '●', m08: '●' } },
+    { category: 'Gate', name: 'G2 PF준비도', desc: '인허가·도면·임차·금융·법무 CP 준비', lead: '사업2파트', coop: '전 부서', schedule: { m07: '●', m08: '●', m09: '●', m10: '●' } },
+    { category: 'Gate', name: 'G3 PF실행', desc: '427/816 단독 또는 통합 PF 실행', lead: 'LFC', coop: '사업2파트;전 부서', schedule: { m09: '●', m10: '●', m11: '◆', m03: '◆' } },
+    { category: 'Gate', name: 'G4 착공/공사', desc: '착공조건, 책임착공, 공정관리 체계 전환', lead: '개발관리실', coop: '사업2파트;LFC', schedule: { m03: '●', const_start: '●', const_mid: '●' } },
+    { category: 'Gate', name: 'G5 준공/사용승인', desc: '준공 CP, 사용승인, 리스크 증빙자료 관리', lead: '개발관리실', coop: '사업2파트;LFC', schedule: { const_start: '●', const_mid: '●' } },
+    { category: 'Gate', name: 'G6 담보대출/운영', desc: 'Take-out, 운영전환, 임대 안정화, 자산관리', lead: '사업2파트', coop: '공간솔루션실;기업마케팅실', schedule: { const_mid: '●', take_out: '◆' } },
     // Functions
-    { category: 'Task', name: '인허가', desc: '현금기부채납·소공원로·변경인가·사용승인', lead: '개발관리실', coop: '사업관리2파트;', schedule: { m06: '●', m07: '●', m08: '●', m09: '●', const_start: '●', const_mid: '●' } },
-    { category: 'Task', name: '호텔', desc: '브랜드·운영계약·운영수지·FF&E', lead: '사업관리2파트', coop: '기업마케팅실;개발관리실', schedule: { m07: '●', m08: '●', m09: '●', m10: '●', const_mid: '●' } },
-    { category: 'Task', name: '시공/원가', desc: '현대/삼성 도급조건·공사비·신용공여', lead: '사업관리2파트', coop: '개발관리실;LFC', schedule: { m07: '●', m08: '●', m09: '●', m10: '●', m11: '◆', m03: '◆', const_start: '●', const_mid: '●' } },
+    { category: 'Task', name: '인허가', desc: '현금기부채납·소공원로·변경인가·사용승인', lead: '개발관리실', coop: '사업2파트;', schedule: { m06: '●', m07: '●', m08: '●', m09: '●', const_start: '●', const_mid: '●' } },
+    { category: 'Task', name: '호텔', desc: '브랜드·운영계약·운영수지·FF&E', lead: '사업2파트', coop: '기업마케팅실;개발관리실', schedule: { m07: '●', m08: '●', m09: '●', m10: '●', const_mid: '●' } },
+    { category: 'Task', name: '시공/원가', desc: '현대/삼성 도급조건·공사비·신용공여', lead: '사업2파트', coop: '개발관리실;LFC', schedule: { m07: '●', m08: '●', m09: '●', m10: '●', m11: '◆', m03: '◆', const_start: '●', const_mid: '●' } },
     { category: 'Task', name: '도면/설계', desc: 'PF 기준도면·면적표·실사자료', lead: '개발관리실', coop: '기업마케팅실;공간솔루션실', schedule: { m06: '●', m07: '●', m08: '●', m09: '●', const_start: '●', const_mid: '●' } },
-    { category: 'Task', name: '임차/마케팅', desc: '광장·KB·삼성/이지스·선임차', lead: '사업관리2파트', coop: '기업마케팅실; 공간솔루션실', schedule: { m07: '●', m08: '●', m09: '●', m10: '●', m11: '◆', m03: '◆', const_start: '●', const_mid: '●' } },
-    { category: 'Task', name: 'PF/금융', desc: 'Term Sheet·대주단·재무모델·CP', lead: 'LFC', coop: '사업관리2파트;전 부서', schedule: { m06: '●', m07: '●', m08: '●', m09: '●', m10: '●', m11: '◆', m03: '◆', take_out: '◆' } },
-    { category: 'Task', name: '법무/세무/구조', desc: '리츠·Asset/Share·합병·주주승인', lead: '법무/세무자문', coop: '사업관리2파트;LFC', schedule: { m06: '●', m07: '●', m08: '●', m09: '●' } },
-    { category: 'Task', name: '팝업업무', desc: '단발 요청 접수/위임/보류/반려', lead: '사업관리2파트', coop: '요청부서', schedule: { m06: '●', m07: '●', m08: '●', m09: '●', m10: '●', m11: '●', m03: '●', const_start: '●', const_mid: '●', take_out: '●' } }
+    { category: 'Task', name: '임차/마케팅', desc: '광장·KB·삼성/이지스·선임차', lead: '사업2파트', coop: '기업마케팅실; 공간솔루션실', schedule: { m07: '●', m08: '●', m09: '●', m10: '●', m11: '◆', m03: '◆', const_start: '●', const_mid: '●' } },
+    { category: 'Task', name: 'PF/금융', desc: 'Term Sheet·대주단·재무모델·CP', lead: 'LFC', coop: '사업2파트;전 부서', schedule: { m06: '●', m07: '●', m08: '●', m09: '●', m10: '●', m11: '◆', m03: '◆', take_out: '◆' } },
+    { category: 'Task', name: '법무/세무/구조', desc: '리츠·Asset/Share·합병·주주승인', lead: '법무/세무자문', coop: '사업2파트;LFC', schedule: { m06: '●', m07: '●', m08: '●', m09: '●' } },
+    { category: 'Task', name: '팝업업무', desc: '단발 요청 접수/위임/보류/반려', lead: '사업2파트', coop: '요청부서', schedule: { m06: '●', m07: '●', m08: '●', m09: '●', m10: '●', m11: '●', m03: '●', const_start: '●', const_mid: '●', take_out: '●' } }
 ];
 
 const CATEGORY_MAP_DATA = [
@@ -44,7 +44,7 @@ const CATEGORY_MAP_DATA = [
     const: false,
     op: false,
     lead: "개발관리실",
-    coop: ["사업관리2파트", "사업관리1파트"],
+    coop: ["사업2파트", "사업관리1파트"],
     need: "관청 협의결과",
     partner: "서울시/중구청",
     point: "사업비 및 PF 조건에 직접 반영"
@@ -57,7 +57,7 @@ const CATEGORY_MAP_DATA = [
     const: false,
     op: false,
     lead: "개발관리실",
-    coop: ["공간솔루션실", "사업관리2파트"],
+    coop: ["공간솔루션실", "사업2파트"],
     need: "인허가 지원",
     partner: "서울시/중구청",
     point: "인허가 마감 및 대주 조건"
@@ -70,7 +70,7 @@ const CATEGORY_MAP_DATA = [
     const: true,
     op: false,
     lead: "개발관리실",
-    coop: ["공간솔루션실", "사업관리2파트"],
+    coop: ["공간솔루션실", "사업2파트"],
     need: "설계 변경",
     partner: "중구청/서울시",
     point: "착공 일정의 선결 요건"
@@ -83,7 +83,7 @@ const CATEGORY_MAP_DATA = [
     const: false,
     op: true,
     lead: "개발관리실",
-    coop: ["사업관리2파트", "사업관리1파트"],
+    coop: ["사업2파트", "사업관리1파트"],
     need: "행정 지원",
     partner: "중구청",
     point: "운영전환 및 담보대출 전제"
@@ -95,7 +95,7 @@ const CATEGORY_MAP_DATA = [
     pf: true,
     const: false,
     op: false,
-    lead: "사업관리2파트",
+    lead: "사업2파트",
     coop: ["기업마케팅실", "LFC", "법무/세무자문"],
     need: "자문 의견",
     partner: "Marriott/소노 등",
@@ -108,7 +108,7 @@ const CATEGORY_MAP_DATA = [
     pf: true,
     const: false,
     op: false,
-    lead: "사업관리2파트",
+    lead: "사업2파트",
     coop: ["LFC", "법무/세무자문"],
     need: "계약 리스크",
     partner: "브랜드사",
@@ -121,7 +121,7 @@ const CATEGORY_MAP_DATA = [
     pf: true,
     const: false,
     op: false,
-    lead: "사업관리2파트",
+    lead: "사업2파트",
     coop: ["LFC", "사업관리1파트"],
     need: "운영자료",
     partner: "브랜드사",
@@ -134,7 +134,7 @@ const CATEGORY_MAP_DATA = [
     pf: true,
     const: true,
     op: false,
-    lead: "사업관리2파트",
+    lead: "사업2파트",
     coop: ["사업관리1파트", "개발관리실"],
     need: "현대 Term",
     partner: "현대건설",
@@ -147,7 +147,7 @@ const CATEGORY_MAP_DATA = [
     pf: true,
     const: true,
     op: false,
-    lead: "사업관리2파트",
+    lead: "사업2파트",
     coop: ["사업관리1파트", "개발관리실"],
     need: "삼성 Term",
     partner: "삼성물산",
@@ -161,7 +161,7 @@ const CATEGORY_MAP_DATA = [
     const: true,
     op: true,
     lead: "개발관리실",
-    coop: ["사업관리2파트"],
+    coop: ["사업2파트"],
     need: "공사비 상세",
     partner: "시공사/CM",
     point: "원가 부담 완화"
@@ -174,7 +174,7 @@ const CATEGORY_MAP_DATA = [
     const: false,
     op: false,
     lead: "개발관리실",
-    coop: ["공간솔루션실", "사업관리2파트"],
+    coop: ["공간솔루션실", "사업2파트"],
     need: "도면기준",
     partner: "설계사/CM",
     point: "모든 자료의 기준"
@@ -213,7 +213,7 @@ const CATEGORY_MAP_DATA = [
     const: true,
     op: true,
     lead: "공간솔루션실",
-    coop: ["사업관리2파트", "LFC"],
+    coop: ["사업2파트", "LFC"],
     need: "브랜드 기준",
     partner: "브랜드사",
     point: "CAPEX 리스크"
@@ -226,7 +226,7 @@ const CATEGORY_MAP_DATA = [
     const: false,
     op: false,
     lead: "기업마케팅실",
-    coop: ["사업관리2파트", "공간솔루션실", "LFC"],
+    coop: ["사업2파트", "공간솔루션실", "LFC"],
     need: "임차조건",
     partner: "광장",
     point: "PF 스토리 핵심"
@@ -239,7 +239,7 @@ const CATEGORY_MAP_DATA = [
     const: false,
     op: false,
     lead: "기업마케팅실",
-    coop: ["사업관리2파트", "공간솔루션실", "LFC"],
+    coop: ["사업2파트", "공간솔루션실", "LFC"],
     need: "후보 접촉",
     partner: "KB 등",
     point: "선임차 확보"
@@ -252,7 +252,7 @@ const CATEGORY_MAP_DATA = [
     const: false,
     op: false,
     lead: "기업마케팅실",
-    coop: ["사업관리2파트", "LFC"],
+    coop: ["사업2파트", "LFC"],
     need: "내부/삼성 협의",
     partner: "삼성물산;이지스",
     point: "단독/통합 구조와 연결"
@@ -265,7 +265,7 @@ const CATEGORY_MAP_DATA = [
     const: false,
     op: false,
     lead: "LFC",
-    coop: ["사업관리2파트", "사업관리1파트"],
+    coop: ["사업2파트", "사업관리1파트"],
     need: "대주단 Term",
     partner: "대주단",
     point: "단독 가능성 기준"
@@ -278,7 +278,7 @@ const CATEGORY_MAP_DATA = [
     const: false,
     op: false,
     lead: "LFC",
-    coop: ["사업관리2파트", "법무/세무자문"],
+    coop: ["사업2파트", "법무/세무자문"],
     need: "금융/법무 검토",
     partner: "대주단",
     point: "구조 전환 의사결정"
@@ -303,7 +303,7 @@ const CATEGORY_MAP_DATA = [
     pf: true,
     const: false,
     op: false,
-    lead: "사업관리2파트",
+    lead: "사업2파트",
     coop: ["LFC", "법무/세무자문", "사업관리1파트"],
     need: "자문결과",
     partner: "법무/세무법인",
@@ -317,7 +317,7 @@ const CATEGORY_MAP_DATA = [
     const: false,
     op: false,
     lead: "법무/세무자문",
-    coop: ["사업관리2파트", "LFC"],
+    coop: ["사업2파트", "LFC"],
     need: "자문결과",
     partner: "법무/세무법인",
     point: "실행가능성 중심"
@@ -329,7 +329,7 @@ const CATEGORY_MAP_DATA = [
     pf: true,
     const: false,
     op: false,
-    lead: "사업관리2파트",
+    lead: "사업2파트",
     coop: ["전 부서"],
     need: "부서별 산출물",
     partner: "대표/본부장",
@@ -343,7 +343,7 @@ pf: false,
     const: false,
     op: true,
     lead: "LFC",
-    coop: ["사업관리2파트", "기업마케팅실", "개발관리실"],
+    coop: ["사업2파트", "기업마케팅실", "개발관리실"],
     need: "장기 금융전략",
     partner: "금융기관",
     point: "PF 조건과 연결"
@@ -397,7 +397,7 @@ export default function PmoScheduleGate() {
         const workspace = memberInfo.workspace_code || '';
         const role = memberInfo.role_code || '';
         return (
-            org.includes('사업관리2파트') || 
+            org.includes('사업2파트') || 
             org.includes('기획추진') ||
             org.includes('시스템 관리자(기획추진)') ||
             role.toUpperCase().includes('PO') ||
@@ -501,7 +501,7 @@ export default function PmoScheduleGate() {
         setFormPf(false);
         setFormConst(false);
         setFormOp(false);
-        setFormLead(departments[0]?.dept_name || '사업관리2파트');
+        setFormLead(departments[0]?.dept_name || '사업2파트');
         setFormCoop([]);
         setFormNeed('');
         setFormPartner('');
@@ -687,7 +687,7 @@ export default function PmoScheduleGate() {
 
     const deptOptions = React.useMemo(() => {
         const set = new Set([
-            '사업관리2파트', 
+            '사업2파트', 
             '기획추진', 
             '개발관리실', 
             '공간솔루션실', 
@@ -1486,7 +1486,7 @@ export default function PmoScheduleGate() {
                                 <div className="text-[13px] text-[#E5E5E5] font-medium space-y-1">
                                     <div className="flex items-center gap-1.5">
                                         <span className="w-[3px] h-[3px] rounded-full bg-[#86868B] shrink-0" />
-                                        <span>사업관리2파트</span>
+                                        <span>사업2파트</span>
                                     </div>
                                     <div className="flex items-center gap-1.5">
                                         <span className="w-[3px] h-[3px] rounded-full bg-[#86868B] shrink-0" />

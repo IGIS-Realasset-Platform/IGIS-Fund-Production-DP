@@ -7,28 +7,28 @@ export default function PmoCategoryMap() {
 
     const matrixData = {
         'PMO': {
-            lead: '사업관리2파트',
+            lead: '사업2파트',
             coop: ['LFC(금융)', '설계실'],
             deliverables: ['주간 공정율 통계', 'Blocker 의사결정 원장', '사업성 지표 스냅샷']
         },
         '호텔/운영': {
             lead: '마케팅팀',
-            coop: ['사업관리2파트', '설계실'],
+            coop: ['사업2파트', '설계실'],
             deliverables: ['브랜드 제안서', '앵커 테넌트 LOI', 'MD 기획 도면']
         },
         '인허가': {
             lead: '개발관리실',
-            coop: ['설계실', '사업관리2파트'],
+            coop: ['설계실', '사업2파트'],
             deliverables: ['건축 허가 신청서', '지방심의 의결로그', '민원 협의록']
         },
         '금융/LFC': {
             lead: 'LFC(금융)',
-            coop: ['사업관리2파트'],
+            coop: ['사업2파트'],
             deliverables: ['PF 인출 스케줄', '대주단 선/후순위 확정서', '리파이낸싱 약정서']
         },
         '마케팅': {
             lead: '마케팅팀',
-            coop: ['사업관리2파트'],
+            coop: ['사업2파트'],
             deliverables: ['테넌트 유치 브로셔', '가중평균 잔여 임대기간(WALT) 시트', '임차의향서(LOI)']
         }
     };

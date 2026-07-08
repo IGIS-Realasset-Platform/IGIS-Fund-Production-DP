@@ -13,8 +13,8 @@ const FALLBACK_BOARD_TASKS = [
     "deliverables": "통합업무보드, 회의메인, Action Item 운영기준",
     "target_axis": "준공/운영",
     "gate_stage": "G0 현황정리",
-    "pmo_manager": "사업관리2파트",
-    "lead_dept": "사업관리2파트",
+    "pmo_manager": "사업2파트",
+    "lead_dept": "사업2파트",
     "coop_depts": "사업관리1파트;개발관리실;공간솔루션실;기업마케팅실;LFC",
     "assignee": "미정",
     "external_party": "내부 전체",
@@ -30,7 +30,7 @@ const FALLBACK_BOARD_TASKS = [
     "meeting_grade": "A_즉시상정",
     "agenda_reason": "준공필수 / 의사결정 / 지원:부서별 담당자 입력",
     "sort_key": 70.0997,
-    "notes": "사업관리2파트가 PMO"
+    "notes": "사업2파트가 PMO"
   },
   {
     "id": "T-002",
@@ -42,8 +42,8 @@ const FALLBACK_BOARD_TASKS = [
     "deliverables": "우선순위 기준표, 회의상정 기준, 상정사유",
     "target_axis": "PF",
     "gate_stage": "G1 방향결정",
-    "pmo_manager": "사업관리2파트",
-    "lead_dept": "사업관리2파트",
+    "pmo_manager": "사업2파트",
+    "lead_dept": "사업2파트",
     "coop_depts": "LFC;개발관리실",
     "assignee": "미정",
     "external_party": "내부 전체",
@@ -71,8 +71,8 @@ const FALLBACK_BOARD_TASKS = [
     "deliverables": "리츠칼튼/소노/대안 브랜드 비교표, 추천안",
     "target_axis": "PF",
     "gate_stage": "G1 방향결정",
-    "pmo_manager": "사업관리2파트",
-    "lead_dept": "사업관리2파트",
+    "pmo_manager": "사업2파트",
+    "lead_dept": "사업2파트",
     "coop_depts": "기업마케팅실;LFC;법무/세무 외부자문",
     "assignee": "미정",
     "external_party": "Marriott, 대명소노",
@@ -100,8 +100,8 @@ const FALLBACK_BOARD_TASKS = [
     "deliverables": "HMA/프랜차이즈/운영위탁 구조별 Term 비교",
     "target_axis": "PF",
     "gate_stage": "G2 PF준비도",
-    "pmo_manager": "사업관리2파트",
-    "lead_dept": "사업관리2파트",
+    "pmo_manager": "사업2파트",
+    "lead_dept": "사업2파트",
     "coop_depts": "LFC;법무/세무 외부자문;기업마케팅실",
     "assignee": "미정",
     "external_party": "Marriott, 대명소노",
@@ -129,9 +129,9 @@ const FALLBACK_BOARD_TASKS = [
     "deliverables": "호텔 운영수지, FF&E, Capex, 안정화 기간 가정",
     "target_axis": "PF",
     "gate_stage": "G2 PF준비도",
-    "pmo_manager": "사업관리2파트",
+    "pmo_manager": "사업2파트",
     "lead_dept": "LFC",
-    "coop_depts": "사업관리2파트;기업마케팅실;공간솔루션실",
+    "coop_depts": "사업2파트;기업마케팅실;공간솔루션실",
     "assignee": "미정",
     "external_party": "호텔 브랜드사",
     "support_needed": "운영자료 필요",
@@ -158,9 +158,9 @@ const FALLBACK_BOARD_TASKS = [
     "deliverables": "관청 협의현황, 비용반영표, 쟁점 및 협상안",
     "target_axis": "PF",
     "gate_stage": "G2 PF준비도",
-    "pmo_manager": "사업관리2파트",
+    "pmo_manager": "사업2파트",
     "lead_dept": "개발관리실",
-    "coop_depts": "사업관리2파트;LFC",
+    "coop_depts": "사업2파트;LFC",
     "assignee": "미정",
     "external_party": "서울시/중구청",
     "support_needed": "관청 협의 결과",
@@ -187,9 +187,9 @@ const FALLBACK_BOARD_TASKS = [
     "deliverables": "소공원로 협의안, 일정표, 리스크표",
     "target_axis": "착공",
     "gate_stage": "G2 PF준비도",
-    "pmo_manager": "사업관리2파트",
+    "pmo_manager": "사업2파트",
     "lead_dept": "개발관리실",
-    "coop_depts": "사업관리2파트;공간솔루션실",
+    "coop_depts": "사업2파트;공간솔루션실",
     "assignee": "미정",
     "external_party": "서울시/중구청",
     "support_needed": "도면·관청의견 필요",
@@ -216,9 +216,9 @@ const FALLBACK_BOARD_TASKS = [
     "deliverables": "주거전환 가능성 검토서, 일정/리스크/사업성 비교",
     "target_axis": "PF",
     "gate_stage": "G1 방향결정",
-    "pmo_manager": "사업관리2파트",
+    "pmo_manager": "사업2파트",
     "lead_dept": "개발관리실",
-    "coop_depts": "사업관리2파트;LFC;공간솔루션실",
+    "coop_depts": "사업2파트;LFC;공간솔루션실",
     "assignee": "미정",
     "external_party": "서울시/중구청, 삼성물산",
     "support_needed": "인허가/설계 검토",
@@ -245,9 +245,9 @@ const FALLBACK_BOARD_TASKS = [
     "deliverables": "427 변경인가 쟁점표, 필요 인허가 목록",
     "target_axis": "PF",
     "gate_stage": "G2 PF준비도",
-    "pmo_manager": "사업관리2파트",
+    "pmo_manager": "사업2파트",
     "lead_dept": "개발관리실",
-    "coop_depts": "사업관리2파트;공간솔루션실",
+    "coop_depts": "사업2파트;공간솔루션실",
     "assignee": "미정",
     "external_party": "서울시/중구청",
     "support_needed": "인허가 판단",
@@ -274,9 +274,9 @@ const FALLBACK_BOARD_TASKS = [
     "deliverables": "사용승인 체크리스트, 준공 CP, 관계기관 일정표",
     "target_axis": "준공/운영",
     "gate_stage": "G5 준공",
-    "pmo_manager": "사업관리2파트",
+    "pmo_manager": "사업2파트",
     "lead_dept": "개발관리실",
-    "coop_depts": "사업관리2파트;LFC",
+    "coop_depts": "사업2파트;LFC",
     "assignee": "미정",
     "external_party": "서울시/중구청",
     "support_needed": "장기 일정 입력",
@@ -303,8 +303,8 @@ const FALLBACK_BOARD_TASKS = [
     "deliverables": "현대건설 Term, 도급조건, 신용공여 범위",
     "target_axis": "PF",
     "gate_stage": "G2 PF준비도",
-    "pmo_manager": "사업관리2파트",
-    "lead_dept": "사업관리2파트",
+    "pmo_manager": "사업2파트",
+    "lead_dept": "사업2파트",
     "coop_depts": "LFC;개발관리실",
     "assignee": "미정",
     "external_party": "현대건설",
@@ -332,8 +332,8 @@ const FALLBACK_BOARD_TASKS = [
     "deliverables": "삼성물산 Term, LOC, 책임임차, 공사비 비교",
     "target_axis": "PF",
     "gate_stage": "G1 방향결정",
-    "pmo_manager": "사업관리2파트",
-    "lead_dept": "사업관리2파트",
+    "pmo_manager": "사업2파트",
+    "lead_dept": "사업2파트",
     "coop_depts": "LFC;개발관리실;기업마케팅실",
     "assignee": "미정",
     "external_party": "삼성물산",
@@ -361,9 +361,9 @@ const FALLBACK_BOARD_TASKS = [
     "deliverables": "공사비 비교표, VE 목록, 공사비 민감도",
     "target_axis": "PF",
     "gate_stage": "G2 PF준비도",
-    "pmo_manager": "사업관리2파트",
+    "pmo_manager": "사업2파트",
     "lead_dept": "개발관리실",
-    "coop_depts": "사업관리2파트;LFC;공간솔루션실",
+    "coop_depts": "사업2파트;LFC;공간솔루션실",
     "assignee": "미정",
     "external_party": "현대건설, 삼성물산",
     "support_needed": "견적 상세내역",
@@ -390,9 +390,9 @@ const FALLBACK_BOARD_TASKS = [
     "deliverables": "착공조건표, 공기 시나리오, 책임착공 리스크표",
     "target_axis": "착공",
     "gate_stage": "G4 착공/공사",
-    "pmo_manager": "사업관리2파트",
+    "pmo_manager": "사업2파트",
     "lead_dept": "개발관리실",
-    "coop_depts": "사업관리2파트;LFC",
+    "coop_depts": "사업2파트;LFC",
     "assignee": "미정",
     "external_party": "현대건설, 삼성물산",
     "support_needed": "시공사 공정표",
@@ -419,9 +419,9 @@ const FALLBACK_BOARD_TASKS = [
     "deliverables": "PF 기준도면, 면적표, 변경이력표",
     "target_axis": "PF",
     "gate_stage": "G2 PF준비도",
-    "pmo_manager": "사업관리2파트",
+    "pmo_manager": "사업2파트",
     "lead_dept": "공간솔루션실",
-    "coop_depts": "개발관리실;사업관리2파트;LFC",
+    "coop_depts": "개발관리실;사업2파트;LFC",
     "assignee": "미정",
     "external_party": "설계사/CM",
     "support_needed": "도면 기준 정리",
@@ -448,7 +448,7 @@ const FALLBACK_BOARD_TASKS = [
     "deliverables": "면적표, 전용률, 임대가능면적, 변경 이력",
     "target_axis": "PF",
     "gate_stage": "G2 PF준비도",
-    "pmo_manager": "사업관리2파트",
+    "pmo_manager": "사업2파트",
     "lead_dept": "개발관리실",
     "coop_depts": "공간솔루션실;기업마케팅실",
     "assignee": "미정",
@@ -477,9 +477,9 @@ const FALLBACK_BOARD_TASKS = [
     "deliverables": "호텔 프로그램 도면, 면적/동선 검토표",
     "target_axis": "PF",
     "gate_stage": "G2 PF준비도",
-    "pmo_manager": "사업관리2파트",
+    "pmo_manager": "사업2파트",
     "lead_dept": "공간솔루션실",
-    "coop_depts": "사업관리2파트;기업마케팅실",
+    "coop_depts": "사업2파트;기업마케팅실",
     "assignee": "미정",
     "external_party": "호텔 브랜드사, 설계사",
     "support_needed": "브랜드 기준자료",
@@ -506,9 +506,9 @@ const FALLBACK_BOARD_TASKS = [
     "deliverables": "오피스 TI 기준표, 비용범위, 부담주체",
     "target_axis": "PF",
     "gate_stage": "G2 PF준비도",
-    "pmo_manager": "사업관리2파트",
+    "pmo_manager": "사업2파트",
     "lead_dept": "공간솔루션실",
-    "coop_depts": "기업마케팅실;LFC;사업관리2파트",
+    "coop_depts": "기업마케팅실;LFC;사업2파트",
     "assignee": "미정",
     "external_party": "잠재 임차인",
     "support_needed": "TI 시장자료",
@@ -535,7 +535,7 @@ const FALLBACK_BOARD_TASKS = [
     "deliverables": "호텔 인테리어 Scope, FF&E, Owner 부담범위",
     "target_axis": "PF",
     "gate_stage": "G2 PF준비도",
-    "pmo_manager": "사업관리2파트",
+    "pmo_manager": "사업2파트",
     "lead_dept": "개발관리실",
     "coop_depts": "공간솔루션실;기업마케팅실",
     "assignee": "미정",
@@ -564,9 +564,9 @@ const FALLBACK_BOARD_TASKS = [
     "deliverables": "광장/KB/삼성 등 임차 제안 패키지",
     "target_axis": "PF",
     "gate_stage": "G1 방향결정",
-    "pmo_manager": "사업관리2파트",
+    "pmo_manager": "사업2파트",
     "lead_dept": "공간솔루션실",
-    "coop_depts": "기업마케팅실;사업관리2파트",
+    "coop_depts": "기업마케팅실;사업2파트",
     "assignee": "미정",
     "external_party": "광장, KB, 삼성 등",
     "support_needed": "임차인 요구사항",
@@ -593,9 +593,9 @@ const FALLBACK_BOARD_TASKS = [
     "deliverables": "임차 Term Sheet, 면적, 임대료, 인센티브",
     "target_axis": "PF",
     "gate_stage": "G1 방향결정",
-    "pmo_manager": "사업관리2파트",
+    "pmo_manager": "사업2파트",
     "lead_dept": "기업마케팅실",
-    "coop_depts": "사업관리2파트;공간솔루션실;LFC",
+    "coop_depts": "사업2파트;공간솔루션실;LFC",
     "assignee": "미정",
     "external_party": "광장",
     "support_needed": "임차조건 회신",
@@ -622,9 +622,9 @@ const FALLBACK_BOARD_TASKS = [
     "deliverables": "후보별 면적/조건/의사결정 단계표",
     "target_axis": "PF",
     "gate_stage": "G1 방향결정",
-    "pmo_manager": "사업관리2파트",
+    "pmo_manager": "사업2파트",
     "lead_dept": "기업마케팅실",
-    "coop_depts": "사업관리2파트;공간솔루션실;LFC",
+    "coop_depts": "사업2파트;공간솔루션실;LFC",
     "assignee": "미정",
     "external_party": "KB증권 등",
     "support_needed": "임차 후보 접촉",
@@ -651,9 +651,9 @@ const FALLBACK_BOARD_TASKS = [
     "deliverables": "삼성/이지스 임차 조건표, LOC/책임범위",
     "target_axis": "PF",
     "gate_stage": "G1 방향결정",
-    "pmo_manager": "사업관리2파트",
+    "pmo_manager": "사업2파트",
     "lead_dept": "기업마케팅실",
-    "coop_depts": "사업관리2파트;LFC;삼성물산",
+    "coop_depts": "사업2파트;LFC;삼성물산",
     "assignee": "미정",
     "external_party": "삼성물산, 이지스",
     "support_needed": "내부/삼성 협의",
@@ -680,9 +680,9 @@ const FALLBACK_BOARD_TASKS = [
     "deliverables": "임대료, 관리비, RF, TI, NOC 계산 기준표",
     "target_axis": "PF",
     "gate_stage": "G2 PF준비도",
-    "pmo_manager": "사업관리2파트",
+    "pmo_manager": "사업2파트",
     "lead_dept": "기업마케팅실",
-    "coop_depts": "LFC;공간솔루션실;사업관리2파트",
+    "coop_depts": "LFC;공간솔루션실;사업2파트",
     "assignee": "미정",
     "external_party": "잠재 임차인",
     "support_needed": "시장자료",
@@ -709,8 +709,8 @@ const FALLBACK_BOARD_TASKS = [
     "deliverables": "427 단독 Term, 816 단독 Term, 민감도",
     "target_axis": "PF",
     "gate_stage": "G1 방향결정",
-    "pmo_manager": "사업관리2파트",
-    "lead_dept": "사업관리2파트",
+    "pmo_manager": "사업2파트",
+    "lead_dept": "사업2파트",
     "coop_depts": "사업관리1파트;LFC",
     "assignee": "미정",
     "external_party": "대주단",
@@ -738,9 +738,9 @@ const FALLBACK_BOARD_TASKS = [
     "deliverables": "통합 PF 구조도, 대주단 전략, 담보 제공안",
     "target_axis": "PF",
     "gate_stage": "G1 방향결정",
-    "pmo_manager": "사업관리2파트",
+    "pmo_manager": "사업2파트",
     "lead_dept": "LFC",
-    "coop_depts": "사업관리2파트;법무/세무 외부자문;사업관리1파트",
+    "coop_depts": "사업2파트;법무/세무 외부자문;사업관리1파트",
     "assignee": "미정",
     "external_party": "대주단",
     "support_needed": "금융/법무 검토",
@@ -767,9 +767,9 @@ const FALLBACK_BOARD_TASKS = [
     "deliverables": "통합 재무모델, 사업비, 금융비용, 민감도",
     "target_axis": "PF",
     "gate_stage": "G2 PF준비도",
-    "pmo_manager": "사업관리2파트",
+    "pmo_manager": "사업2파트",
     "lead_dept": "LFC",
-    "coop_depts": "사업관리2파트;기업마케팅실;개발관리실",
+    "coop_depts": "사업2파트;기업마케팅실;개발관리실",
     "assignee": "미정",
     "external_party": "회계법인/대주단",
     "support_needed": "업데이트 입력값",
@@ -796,9 +796,9 @@ const FALLBACK_BOARD_TASKS = [
     "deliverables": "LOC 수수료, 책임임차 비용, 이지스 부담 비교",
     "target_axis": "PF",
     "gate_stage": "G2 PF준비도",
-    "pmo_manager": "사업관리2파트",
+    "pmo_manager": "사업2파트",
     "lead_dept": "LFC",
-    "coop_depts": "사업관리2파트;기업마케팅실",
+    "coop_depts": "사업2파트;기업마케팅실",
     "assignee": "미정",
     "external_party": "삼성물산, 대주단",
     "support_needed": "삼성 조건 확정",
@@ -825,9 +825,9 @@ const FALLBACK_BOARD_TASKS = [
     "deliverables": "PF CP checklist, 담당/기한/증빙자료 목록",
     "target_axis": "PF",
     "gate_stage": "G2 PF준비도",
-    "pmo_manager": "사업관리2파트",
+    "pmo_manager": "사업2파트",
     "lead_dept": "LFC",
-    "coop_depts": "사업관리2파트;개발관리실;공간솔루션실;기업마케팅실",
+    "coop_depts": "사업2파트;개발관리실;공간솔루션실;기업마케팅실",
     "assignee": "미정",
     "external_party": "대주단",
     "support_needed": "각 부서 산출물",
@@ -854,8 +854,8 @@ const FALLBACK_BOARD_TASKS = [
     "deliverables": "리츠 전환 구조도, 절차, 세무/법무 쟁점",
     "target_axis": "PF",
     "gate_stage": "G1 방향결정",
-    "pmo_manager": "사업관리2파트",
-    "lead_dept": "사업관리2파트",
+    "pmo_manager": "사업2파트",
+    "lead_dept": "사업2파트",
     "coop_depts": "법무/세무 외부자문;LFC;사업관리1파트",
     "assignee": "미정",
     "external_party": "법무법인, 세무법인",
@@ -883,9 +883,9 @@ const FALLBACK_BOARD_TASKS = [
     "deliverables": "구조별 비교표, 장단점, 세금/승인 이슈",
     "target_axis": "PF",
     "gate_stage": "G1 방향결정",
-    "pmo_manager": "사업관리2파트",
+    "pmo_manager": "사업2파트",
     "lead_dept": "법무/세무 외부자문",
-    "coop_depts": "사업관리2파트;LFC",
+    "coop_depts": "사업2파트;LFC",
     "assignee": "미정",
     "external_party": "법무법인, 세무법인",
     "support_needed": "자문결과 필요",
@@ -912,9 +912,9 @@ const FALLBACK_BOARD_TASKS = [
     "deliverables": "421호 투자자/수익권/배당구조 요약표",
     "target_axis": "PF",
     "gate_stage": "G1 방향결정",
-    "pmo_manager": "사업관리2파트",
+    "pmo_manager": "사업2파트",
     "lead_dept": "사업관리1파트",
-    "coop_depts": "사업관리2파트;LFC;법무/세무 외부자문",
+    "coop_depts": "사업2파트;LFC;법무/세무 외부자문",
     "assignee": "미정",
     "external_party": "수익자, 신탁사",
     "support_needed": "펀드자료 확인",
@@ -941,9 +941,9 @@ const FALLBACK_BOARD_TASKS = [
     "deliverables": "주주별 권리/동의필요/협상 포인트",
     "target_axis": "PF",
     "gate_stage": "G2 PF준비도",
-    "pmo_manager": "사업관리2파트",
+    "pmo_manager": "사업2파트",
     "lead_dept": "사업관리1파트",
-    "coop_depts": "사업관리2파트;법무/세무 외부자문",
+    "coop_depts": "사업2파트;법무/세무 외부자문",
     "assignee": "미정",
     "external_party": "현대건설, 삼성물산, 신한, NH 등",
     "support_needed": "주주 구조 확인",
@@ -970,8 +970,8 @@ const FALLBACK_BOARD_TASKS = [
     "deliverables": "의사결정 안건지, 옵션 비교표, 추천안",
     "target_axis": "PF",
     "gate_stage": "G1 방향결정",
-    "pmo_manager": "사업관리2파트",
-    "lead_dept": "사업관리2파트",
+    "pmo_manager": "사업2파트",
+    "lead_dept": "사업2파트",
     "coop_depts": "개발관리실",
     "assignee": "미정",
     "external_party": "대표/본부장/파트장",
@@ -999,8 +999,8 @@ const FALLBACK_BOARD_TASKS = [
     "deliverables": "주주사 보고자료, Q&A, 리스크 대응문안",
     "target_axis": "PF",
     "gate_stage": "G2 PF준비도",
-    "pmo_manager": "사업관리2파트",
-    "lead_dept": "사업관리2파트",
+    "pmo_manager": "사업2파트",
+    "lead_dept": "사업2파트",
     "coop_depts": "LFC;사업관리1파트;법무/세무 외부자문",
     "assignee": "미정",
     "external_party": "주주사",
@@ -1028,8 +1028,8 @@ const FALLBACK_BOARD_TASKS = [
     "deliverables": "회의록, Action Item, 미완료/지원요청 목록",
     "target_axis": "준공/운영",
     "gate_stage": "G0 현황정리",
-    "pmo_manager": "사업관리2파트",
-    "lead_dept": "사업관리2파트",
+    "pmo_manager": "사업2파트",
+    "lead_dept": "사업2파트",
     "coop_depts": "전 부서",
     "assignee": "미정",
     "external_party": "내부 전체",
@@ -1057,9 +1057,9 @@ const FALLBACK_BOARD_TASKS = [
     "deliverables": "공정률, 원가, 변경, 리스크 KPI 대시보드",
     "target_axis": "착공",
     "gate_stage": "G4 착공/공사",
-    "pmo_manager": "사업관리2파트",
+    "pmo_manager": "사업2파트",
     "lead_dept": "개발관리실",
-    "coop_depts": "사업관리2파트;LFC;공간솔루션실",
+    "coop_depts": "사업2파트;LFC;공간솔루션실",
     "assignee": "미정",
     "external_party": "시공사/CM",
     "support_needed": "장기 KPI 설계",
@@ -1086,9 +1086,9 @@ const FALLBACK_BOARD_TASKS = [
     "deliverables": "준공 CP, 사용승인 증빙, 담보대출 요구자료 목록",
     "target_axis": "준공/운영",
     "gate_stage": "G5 준공",
-    "pmo_manager": "사업관리2파트",
+    "pmo_manager": "사업2파트",
     "lead_dept": "개발관리실",
-    "coop_depts": "사업관리2파트;LFC",
+    "coop_depts": "사업2파트;LFC",
     "assignee": "미정",
     "external_party": "관청, 대주단",
     "support_needed": "장기 자료요건",
@@ -1115,9 +1115,9 @@ const FALLBACK_BOARD_TASKS = [
     "deliverables": "Take-out 대출 전략, 담보가치, DSCR, 임대안정화 계획",
     "target_axis": "준공/운영",
     "gate_stage": "G6 담보대출/운영전환",
-    "pmo_manager": "사업관리2파트",
+    "pmo_manager": "사업2파트",
     "lead_dept": "LFC",
-    "coop_depts": "사업관리2파트;기업마케팅실;개발관리실",
+    "coop_depts": "사업2파트;기업마케팅실;개발관리실",
     "assignee": "미정",
     "external_party": "금융기관",
     "support_needed": "장기 금융전략",
@@ -1144,8 +1144,8 @@ const FALLBACK_BOARD_TASKS = [
     "deliverables": "운영전환 체크리스트, 임대운영/호텔운영 업무분장",
     "target_axis": "준공/운영",
     "gate_stage": "G6 담보대출/운영전환",
-    "pmo_manager": "사업관리2파트",
-    "lead_dept": "사업관리2파트",
+    "pmo_manager": "사업2파트",
+    "lead_dept": "사업2파트",
     "coop_depts": "기업마케팅실;공간솔루션실;LFC",
     "assignee": "미정",
     "external_party": "운영사/임차인",
@@ -1173,8 +1173,8 @@ const FALLBACK_BOARD_TASKS = [
     "deliverables": "요청 목적/기한/원 수행부서 확인 후 접수 또는 위임",
     "target_axis": "PF",
     "gate_stage": "G0 현황정리",
-    "pmo_manager": "사업관리2파트",
-    "lead_dept": "사업관리2파트",
+    "pmo_manager": "사업2파트",
+    "lead_dept": "사업2파트",
     "coop_depts": "요청부서",
     "assignee": "미정",
     "external_party": "내부/외부 요청자",
@@ -1370,7 +1370,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
         { project_code: 'EXTERNAL', project_name: '외부' }
     ]);
     const [departments, setDepartments] = useState([
-        { dept_code: 'DEPT_PM2', dept_name: '사업관리2파트' },
+        { dept_code: 'DEPT_PM2', dept_name: '사업2파트' },
         { dept_code: 'DEPT_LFC', dept_name: 'LFC(금융)' },
         { dept_code: 'DEPT_DEV', dept_name: '개발관리실' },
         { dept_code: 'DEPT_DESIGN', dept_name: '설계실' },
@@ -1417,8 +1417,8 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
     const [formDeliverables, setFormDeliverables] = useState('');
     const [formTargetAxis, setFormTargetAxis] = useState('준공/운영');
     const [formGateStage, setFormGateStage] = useState('G0 현황정리');
-    const [formPmoManager, setFormPmoManager] = useState('사업관리2파트');
-    const [formLeadDept, setFormLeadDept] = useState('사업관리2파트');
+    const [formPmoManager, setFormPmoManager] = useState('사업2파트');
+    const [formLeadDept, setFormLeadDept] = useState('사업2파트');
     const [formCoopDepts, setFormCoopDepts] = useState('');
     const [formAssignee, setFormAssignee] = useState('미정');
     const [formExternalParty, setFormExternalParty] = useState('');
@@ -1467,7 +1467,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
         const workspace = memberInfo.workspace_code || '';
         const role = memberInfo.role_code || '';
         return (
-            org.includes('사업관리2파트') || 
+            org.includes('사업2파트') || 
             org.includes('기획추진') ||
             org.includes('시스템 관리자(기획추진)') ||
             role.toUpperCase().includes('PO') ||
@@ -1796,8 +1796,8 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
         setFormDeliverables('');
         setFormTargetAxis('준공/운영');
         setFormGateStage('G0 현황정리');
-        setFormPmoManager('사업관리2파트');
-        setFormLeadDept(departments[0]?.dept_name || '사업관리2파트');
+        setFormPmoManager('사업2파트');
+        setFormLeadDept(departments[0]?.dept_name || '사업2파트');
         setFormCoopDepts('');
         setFormAssignee('미정');
         setFormExternalParty('');
@@ -1833,8 +1833,8 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
         const gateVal = String(item.gate_stage || fallbackItem.gate_stage || 'G0');
         setFormGateStage(gateVal.includes(' ') ? gateVal : gateMapToUi(gateVal));
 
-        setFormPmoManager(item.pmo_manager || fallbackItem.pmo_manager || '사업관리2파트');
-        setFormLeadDept(item.lead_dept?.dept_name || item.lead_dept || item.lead_dept_code || fallbackItem.lead_dept || '사업관리2파트');
+        setFormPmoManager(item.pmo_manager || fallbackItem.pmo_manager || '사업2파트');
+        setFormLeadDept(item.lead_dept?.dept_name || item.lead_dept || item.lead_dept_code || fallbackItem.lead_dept || '사업2파트');
         setFormCoopDepts(item.coop_dept_codes || item.coop_depts || fallbackItem.coop_depts || '');
         setFormAssignee(item.assignee || '미정');
         setFormExternalParty(item.external_party?.stakeholder_name || item.external_party || item.external_party_code || fallbackItem.external_party || '');
@@ -2731,7 +2731,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                 <div className="text-[13px] text-[#E5E5E5] font-medium space-y-1">
                                     <div className="flex items-center gap-1.5">
                                         <span className="w-[3px] h-[3px] rounded-full bg-[#86868B] shrink-0" />
-                                        <span>사업관리2파트</span>
+                                        <span>사업2파트</span>
                                     </div>
                                     <div className="flex items-center gap-1.5">
                                         <span className="w-[3px] h-[3px] rounded-full bg-[#86868B] shrink-0" />
@@ -3021,7 +3021,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                             onChange={e => setFormPmoManager(e.target.value)} 
                                             className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] cursor-pointer"
                                         >
-                                            <option value="사업관리2파트">사업관리2파트</option>
+                                            <option value="사업2파트">사업2파트</option>
                                             <option value="기획추진">기획추진</option>
                                             <option value="시스템 관리자(기획추진)">시스템 관리자(기획추진)</option>
                                             <option value="LFC">LFC</option>
@@ -3322,57 +3322,13 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                             {t.id && !t.id.includes('-') ? t.id : (fallbackItem.id || 'T-XXX')}
                                         </span>
                                         <span className="text-[12px] font-bold px-2 py-0.5 rounded border border-[#3c3c3c] bg-[#3A3A3C] text-white">
-                                            {isDrawerEditing ? (
-                                                <select 
-                                                    value={formProject} 
-                                                    onChange={e => setFormProject(e.target.value)} 
-                                                    className="bg-[#2c2c2b] border-none text-white text-[12px] outline-none cursor-pointer"
-                                                >
-                                                    {projects.map(p => (
-                                                        <option key={p.project_code} value={p.project_code}>{p.project_name}</option>
-                                                    ))}
-                                                </select>
-                                            ) : (
-                                                t.project_code || t.project || fallbackItem.project || 'IOTA 서울'
-                                            )}
+                                            {t.project_code || t.project || fallbackItem.project || 'IOTA 서울'}
                                         </span>
                                         <span className="text-[12px] font-bold px-2 py-0.5 rounded border border-[#3c3c3c] bg-white/5 text-[#E5E5E5]">
-                                            {isDrawerEditing ? (
-                                                <select 
-                                                    value={formCategoryMain} 
-                                                    onChange={e => setFormCategoryMain(e.target.value)} 
-                                                    className="bg-[#2c2c2b] border-none text-white text-[12px] outline-none cursor-pointer"
-                                                    required
-                                                >
-                                                    <option value="공통 PMO">공통 PMO</option>
-                                                    <option value="인허가">인허가</option>
-                                                    <option value="호텔/운영">호텔/운영</option>
-                                                    <option value="시공/원가">시공/원가</option>
-                                                    <option value="도면/설계">도면/설계</option>
-                                                    <option value="인테리어/TI">인테리어/TI</option>
-                                                    <option value="임차/마케팅">임차/마케팅</option>
-                                                    <option value="PF/금융">PF/금융</option>
-                                                    <option value="구조/법무/세무">구조/법무/세무</option>
-                                                    <option value="주주/보고">주주/보고</option>
-                                                    <option value="준공/담보대출">준공/담보대출</option>
-                                                    <option value="팝업/단발">팝업/단발</option>
-                                                </select>
-                                            ) : (
-                                                t.category_main || fallbackItem.category_main || '-'
-                                            )}
+                                            {t.category_main || fallbackItem.category_main || '-'}
                                         </span>
                                         <span className="text-[12px] font-bold px-2 py-0.5 rounded border border-[#3c3c3c] bg-white/5 text-[#E5E5E5]">
-                                            {isDrawerEditing ? (
-                                                <input 
-                                                    type="text" 
-                                                    value={formSectorDetail} 
-                                                    onChange={e => setFormSectorDetail(e.target.value)} 
-                                                    className="bg-[#2c2c2b] border-none text-white text-[12px] outline-none w-[100px]" 
-                                                    placeholder="세부섹터 입력"
-                                                />
-                                            ) : (
-                                                t.sector_detail || fallbackItem.sector_detail || '-'
-                                            )}
+                                            {t.sector_detail || fallbackItem.sector_detail || '-'}
                                         </span>
                                     </div>
                                     <button 
@@ -3388,90 +3344,40 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                 <div className="flex-1 overflow-y-auto px-6 py-6 space-y-6 timeline-scrollbar">
                                     {/* Task Name */}
                                     <div className="space-y-2">
-                                        {isDrawerEditing ? (
-                                            <textarea
-                                                value={formTaskName}
-                                                onChange={e => setFormTaskName(e.target.value)}
-                                                className="w-full bg-[#2c2c2b] border border-[#3c3c3c]/60 rounded-[8px] px-3.5 py-2 text-[18px] text-[#ff9f0a] font-bold outline-none focus:border-[#2997ff] h-20 resize-y"
-                                                required
-                                            />
-                                        ) : (
-                                            <h2 className="text-[22px] font-bold text-[#ff9f0a] leading-snug">
-                                                {t.task_name || ''}
-                                            </h2>
-                                        )}
+                                        <h2 className="text-[22px] font-bold text-[#ff9f0a] leading-snug">
+                                            {t.task_name || ''}
+                                        </h2>
                                         <div className="flex flex-wrap gap-2 text-[12px] pt-1">
-                                            {isDrawerEditing ? (
-                                                <select 
-                                                    value={formStatus} 
-                                                    onChange={e => setFormStatus(e.target.value)} 
-                                                    className="bg-[#2c2c2b] border border-[#3c3c3c] rounded px-1.5 py-0.5 text-[11px] font-bold text-white outline-none cursor-pointer"
-                                                >
-                                                    <option value="미착수">미착수</option>
-                                                    <option value="진행중">진행중</option>
-                                                    <option value="검토중">검토중</option>
-                                                    <option value="대기">대기</option>
-                                                    <option value="지연">지연</option>
-                                                    <option value="완료">완료</option>
-                                                    <option value="보류">보류</option>
-                                                    <option value="중단">중단</option>
-                                                </select>
-                                            ) : (
-                                                <span className={`px-2 py-0.5 rounded-[4px] font-bold text-[11px] ${
-                                                    statusVal === '완료' ? 'bg-green-500/10 text-green-400 border border-green-500/20' :
-                                                    statusVal === '지연' ? 'bg-red-500/10 text-red-400 border border-red-500/20' :
-                                                    'bg-blue-500/10 text-blue-400 border border-blue-500/20'
-                                                }`}>
-                                                    {statusVal}
-                                                </span>
-                                            )}
+                                            <span className={`px-2 py-0.5 rounded-[4px] font-bold text-[11px] ${
+                                                statusVal === '완료' ? 'bg-green-500/10 text-green-400 border border-green-500/20' :
+                                                statusVal === '지연' ? 'bg-red-500/10 text-red-400 border border-red-500/20' :
+                                                'bg-blue-500/10 text-blue-400 border border-blue-500/20'
+                                            }`}>
+                                                {statusVal}
+                                            </span>
                                             
-                                            {isDrawerEditing ? (
-                                                <select 
-                                                    value={formImportanceLevel} 
-                                                    onChange={e => setFormImportanceLevel(e.target.value)} 
-                                                    className="bg-[#2c2c2b] border border-[#3c3c3c] rounded px-1.5 py-0.5 text-[11px] font-bold text-white outline-none cursor-pointer"
-                                                >
-                                                    <option value="일반">일반</option>
-                                                    <option value="PF필수">PF필수</option>
-                                                    <option value="준공필수">준공필수</option>
-                                                </select>
-                                            ) : (
-                                                <span className={`px-2 py-0.5 rounded-[4px] font-bold text-[11px] ${
-                                                    importanceLevel === 'PF필수' ? 'bg-[#ff453a]/15 text-[#ff453a] border border-[#ff453a]/25' :
-                                                    importanceLevel === '준공필수' ? 'bg-[#ff9f0a]/15 text-[#ff9f0a] border border-[#ff9f0a]/25' :
-                                                    'bg-white/5 text-[#86868B] border border-white/10'
-                                                }`}>
-                                                    중요도: {importanceLevel}
-                                                </span>
-                                            )}
+                                            <span className={`px-2 py-0.5 rounded-[4px] font-bold text-[11px] ${
+                                                importanceLevel === 'PF필수' ? 'bg-[#ff453a]/15 text-[#ff453a] border border-[#ff453a]/25' :
+                                                importanceLevel === '준공필수' ? 'bg-[#ff9f0a]/15 text-[#ff9f0a] border border-[#ff9f0a]/25' :
+                                                'bg-white/5 text-[#86868B] border border-white/10'
+                                            }`}>
+                                                중요도: {importanceLevel}
+                                            </span>
                                             
-                                            {isDrawerEditing ? (
-                                                <label className="flex items-center gap-1.5 text-[11px] font-bold text-red-400 border border-red-500/20 bg-red-500/10 rounded px-2 py-0.5 cursor-pointer">
-                                                    <input 
-                                                        type="checkbox" 
-                                                        checked={formIsBlocker} 
-                                                        onChange={e => setFormIsBlocker(e.target.checked)} 
-                                                        className="rounded text-red-500 bg-transparent border-red-500/30"
-                                                    />
-                                                    병목(Blocker)
-                                                </label>
-                                            ) : (
-                                                <span className={`px-2 py-0.5 rounded-[4px] font-bold text-[11px] ${
-                                                    priorityScore >= 70 
-                                                        ? 'bg-[#ff453a]/15 text-[#ff453a] border border-[#ff453a]/25' 
-                                                        : priorityScore >= 50 
-                                                            ? 'bg-[#ff9f0a]/15 text-[#ff9f0a] border border-[#ff9f0a]/25' 
-                                                            : 'bg-white/5 text-[#86868B] border border-white/10'
-                                                }`}>
-                                                    우선순위: {priorityScore}점 ({meetingGrade})
-                                                </span>
-                                            )}
+                                            <span className={`px-2 py-0.5 rounded-[4px] font-bold text-[11px] ${
+                                                priorityScore >= 70 
+                                                    ? 'bg-[#ff453a]/15 text-[#ff453a] border border-[#ff453a]/25' 
+                                                    : priorityScore >= 50 
+                                                        ? 'bg-[#ff9f0a]/15 text-[#ff9f0a] border border-[#ff9f0a]/25' 
+                                                        : 'bg-white/5 text-[#86868B] border border-white/10'
+                                            }`}>
+                                                우선순위: {priorityScore}점 ({meetingGrade})
+                                            </span>
                                         </div>
                                     </div>
                                     
                                     {/* Blocker Alert Banner */}
-                                    {!isDrawerEditing && isBlockerVal && (
+                                    {isBlockerVal && (
                                         <div className="p-4 rounded-[12px] bg-red-500/10 border border-red-500/20 flex items-start gap-3">
                                             <div className="space-y-1">
                                                 <h4 className="text-[13px] font-bold text-red-400">현재 진행 병목(Blocker) 상황</h4>
@@ -3489,39 +3395,23 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                             <div className="space-y-1">
                                                 <span className="text-[#86868B] text-[11px] block">주관 부서</span>
                                                 <span className="font-bold text-[#E5E5E5] block">
-                                                    {isDrawerEditing ? (
-                                                        <select value={formLeadDept} onChange={e => setFormLeadDept(e.target.value)} className="bg-[#2c2c2b] border border-[#3c3c3c] rounded px-2 py-1 text-[13px] text-white w-full outline-none">
-                                                            {['사업관리2파트', '사업1파트', '사업2파트', 'LFC', '개발솔루션', '기업마케팅', '공간솔루션', 'KAM'].map(name => (
-                                                                <option key={name} value={name}>{name}</option>
-                                                            ))}
-                                                        </select>
-                                                    ) : (
-                                                        t.lead_dept?.dept_name || t.lead_dept || t.lead_dept_code || fallbackItem.lead_dept || '사업관리2파트'
-                                                    )}
+                                                    {t.lead_dept?.dept_name || t.lead_dept || t.lead_dept_code || fallbackItem.lead_dept || '사업2파트'}
                                                 </span>
                                             </div>
                                             <div className="space-y-1">
                                                 <span className="text-[#86868B] text-[11px] block">담당자</span>
                                                 <span className="font-bold text-[#E5E5E5] block">
-                                                    {isDrawerEditing ? (
-                                                        <input type="text" value={formAssignee} onChange={e => setFormAssignee(e.target.value)} className="bg-[#2c2c2b] border border-[#3c3c3c] rounded px-2 py-1 text-[13px] text-white w-full outline-none" />
-                                                    ) : (
-                                                        t.assignee || '미정'
-                                                    )}
+                                                    {t.assignee || '미정'}
                                                 </span>
                                             </div>
                                             <div className="space-y-1 col-span-2">
                                                 <span className="text-[#86868B] text-[11px] block">협조 부서</span>
                                                 <div className="flex flex-wrap gap-1.5 mt-0.5">
-                                                    {isDrawerEditing ? (
-                                                        <input type="text" value={formCoopDepts} onChange={e => setFormCoopDepts(e.target.value)} placeholder="쉼표(,)나 세미콜론(;)으로 구분" className="bg-[#2c2c2b] border border-[#3c3c3c] rounded px-2 py-1 text-[13px] text-white w-full outline-none" />
-                                                    ) : (
-                                                        coopDeptsVal ? coopDeptsVal.split(';').map((dept, i) => (
-                                                            <span key={i} className="px-2 py-0.5 rounded bg-white/5 border border-white/10 text-gray-300 text-[11px]">
-                                                                {dept.trim()}
-                                                            </span>
-                                                        )) : <span className="text-[#555]">-</span>
-                                                    )}
+                                                    {coopDeptsVal ? coopDeptsVal.split(';').map((dept, i) => (
+                                                        <span key={i} className="px-2 py-0.5 rounded bg-white/5 border border-white/10 text-gray-300 text-[11px]">
+                                                            {dept.trim()}
+                                                        </span>
+                                                    )) : <span className="text-[#555]">-</span>}
                                                 </div>
                                             </div>
                                         </div>
@@ -3531,43 +3421,23 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                             <div className="space-y-1 col-span-1">
                                                 <span className="text-[#86868B] text-[11px] block">지원필요</span>
                                                 <span className="font-bold text-[#ff9f0a] block">
-                                                    {isDrawerEditing ? (
-                                                        <input type="text" value={formSupportNeeded} onChange={e => setFormSupportNeeded(e.target.value)} className="bg-[#2c2c2b] border border-[#3c3c3c] rounded px-2 py-1 text-[13px] text-white w-full outline-none" />
-                                                    ) : (
-                                                        t.support_needed || fallbackItem.support_needed || '-'
-                                                    )}
+                                                    {t.support_needed || fallbackItem.support_needed || '-'}
                                                 </span>
                                             </div>
                                             <div className="space-y-1 col-span-1">
                                                 <span className="text-[#86868B] text-[11px] block">GATE 단계</span>
                                                 <span className="font-bold text-[#E5E5E5] block">
-                                                    {isDrawerEditing ? (
-                                                        <select value={formGateStage} onChange={e => setFormGateStage(e.target.value)} className="bg-[#2c2c2b] border border-[#3c3c3c] rounded px-2 py-1 text-[13px] text-white w-full outline-none">
-                                                            <option value="G0 현황정리">G0 현황정리</option>
-                                                            <option value="G1 방향결정">G1 방향결정</option>
-                                                            <option value="G2 PF준비도">G2 PF준비도</option>
-                                                            <option value="G3 PF실행">G3 PF실행</option>
-                                                            <option value="G4 착공/공사">G4 착공/공사</option>
-                                                            <option value="G5 준공">G5 준공</option>
-                                                            <option value="G6 담보대출/운영전환">G6 담보대출/운영전환</option>
-                                                        </select>
-                                                    ) : (
-                                                        t.gate_stage || fallbackItem.gate_stage || '-'
-                                                    )}
+                                                    {t.gate_stage || fallbackItem.gate_stage || '-'}
                                                 </span>
                                             </div>
                                             <div className="space-y-1 col-span-2">
                                                 <span className="text-[#86868B] text-[11px] block">외부 상대방</span>
                                                 <div className="flex flex-wrap gap-1.5 mt-0.5">
-                                                    {isDrawerEditing ? (
-                                                        <input type="text" value={formExternalParty} onChange={e => setFormExternalParty(e.target.value)} className="bg-[#2c2c2b] border border-[#3c3c3c] rounded px-2 py-1 text-[13px] text-white w-full outline-none" />
-                                                    ) : (
-                                                        externalPartyVal ? externalPartyVal.split(',').map((party, i) => (
-                                                            <span key={i} className="px-2 py-0.5 rounded bg-[#2997ff]/10 border border-[#2997ff]/20 text-[#2997ff] text-[11px] font-bold">
-                                                                {party.trim()}
-                                                            </span>
-                                                        )) : <span className="text-[#555]">-</span>
-                                                    )}
+                                                    {externalPartyVal ? externalPartyVal.split(',').map((party, i) => (
+                                                        <span key={i} className="px-2 py-0.5 rounded bg-[#2997ff]/10 border border-[#2997ff]/20 text-[#2997ff] text-[11px] font-bold">
+                                                            {party.trim()}
+                                                        </span>
+                                                    )) : <span className="text-[#555]">-</span>}
                                                 </div>
                                             </div>
                                         </div>
@@ -3576,67 +3446,36 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                         <div className="grid grid-cols-4 gap-4">
                                             <div className="space-y-1">
                                                 <span className="text-[#86868B] text-[11px] block">회의상정등급</span>
-                                                {isDrawerEditing ? (
-                                                    <select value={formMeetingGrade} onChange={e => setFormMeetingGrade(e.target.value)} className="bg-[#2c2c2b] border border-[#3c3c3c] rounded px-2 py-1 text-[13px] text-white w-full outline-none mt-1">
-                                                        <option value="A_즉시상정">A_즉시상정</option>
-                                                        <option value="B_회의점검">B_회의점검</option>
-                                                        <option value="C_일반관리">C_일반관리</option>
-                                                    </select>
-                                                ) : (
-                                                    <div className="mt-1">
-                                                        <span className={`px-2 py-0.5 rounded text-[11px] font-bold ${
-                                                            meetingGrade.startsWith('A') 
-                                                                ? 'bg-[#ff453a]/15 text-[#ff453a] border border-[#ff453a]/25' 
-                                                                : (meetingGrade === 'B_회의점검' || meetingGrade.startsWith('B'))
-                                                                    ? 'bg-[#ff9f0a]/15 text-[#ff9f0a] border border-[#ff9f0a]/25'
-                                                                    : 'bg-gray-500/10 text-gray-400 border border-gray-500/20'
-                                                        }`}>
-                                                            {meetingGrade}
-                                                        </span>
-                                                    </div>
-                                                )}
+                                                <div className="mt-1">
+                                                    <span className={`px-2 py-0.5 rounded text-[11px] font-bold ${
+                                                        meetingGrade.startsWith('A') 
+                                                            ? 'bg-[#ff453a]/15 text-[#ff453a] border border-[#ff453a]/25' 
+                                                            : (meetingGrade === 'B_회의점검' || meetingGrade.startsWith('B'))
+                                                                ? 'bg-[#ff9f0a]/15 text-[#ff9f0a] border border-[#ff9f0a]/25'
+                                                                : 'bg-gray-500/10 text-gray-400 border border-gray-500/20'
+                                                    }`}>
+                                                        {meetingGrade}
+                                                    </span>
+                                                </div>
                                             </div>
                                             <div className="space-y-1">
                                                 <span className="text-[#86868B] text-[11px] block">최종목표</span>
                                                 <span className="font-bold text-[#E5E5E5] block">
-                                                    {isDrawerEditing ? (
-                                                        <select value={formTargetAxis} onChange={e => setFormTargetAxis(e.target.value)} className="bg-[#2c2c2b] border border-[#3c3c3c] rounded px-2 py-1 text-[13px] text-white w-full outline-none">
-                                                            <option value="PF">PF</option>
-                                                            <option value="착공">착공</option>
-                                                            <option value="공사관리">공사관리</option>
-                                                            <option value="준공/사용승인">준공/사용승인</option>
-                                                            <option value="담보대출/Take-out">담보대출/Take-out</option>
-                                                            <option value="운영전환">운영전환</option>
-                                                            <option value="공통 PMO">공통 PMO</option>
-                                                        </select>
-                                                    ) : (
-                                                        targetAxis
-                                                    )}
+                                                    {targetAxis}
                                                 </span>
                                             </div>
                                             <div className="space-y-1">
                                                 <span className="text-[#86868B] text-[11px] block">마감 기한</span>
                                                 <span className="font-bold text-[#E5E5E5] block">
-                                                    {isDrawerEditing ? (
-                                                        <input type="date" value={formDueDate} onChange={e => setFormDueDate(e.target.value)} className="bg-[#2c2c2b] border border-[#3c3c3c] rounded px-2 py-1 text-[13px] text-white w-full outline-none" />
-                                                    ) : (
-                                                        t.due_date || fallbackItem.due_date || '-'
-                                                    )}
+                                                    {t.due_date || fallbackItem.due_date || '-'}
                                                 </span>
                                             </div>
                                             <div className="space-y-1">
                                                 <span className="text-[#86868B] text-[11px] block">의사결정필요</span>
                                                 <span className="font-bold block">
-                                                    {isDrawerEditing ? (
-                                                        <select value={formNeedsDecision ? '필요' : '불필요'} onChange={e => setFormNeedsDecision(e.target.value === '필요')} className="bg-[#2c2c2b] border border-[#3c3c3c] rounded px-2 py-1 text-[13px] text-white w-full outline-none">
-                                                            <option value="필요">필요</option>
-                                                            <option value="불필요">불필요</option>
-                                                        </select>
-                                                    ) : (
-                                                        <span className={needsDecisionVal ? 'text-[#ff453a]' : 'text-gray-400'}>
-                                                            {needsDecisionVal ? '필요' : '불필요'}
-                                                        </span>
-                                                    )}
+                                                    <span className={needsDecisionVal ? 'text-[#ff453a]' : 'text-gray-400'}>
+                                                        {needsDecisionVal ? '필요' : '불필요'}
+                                                    </span>
                                                 </span>
                                             </div>
                                         </div>
@@ -3647,13 +3486,9 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                         {/* 업무 목적 */}
                                         <div className="space-y-0">
                                             <h4 className="text-[11px] font-bold text-[#86868B]">업무 목적</h4>
-                                            {isDrawerEditing ? (
-                                                <textarea value={formTaskPurpose} onChange={e => setFormTaskPurpose(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c]/60 rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] h-20 resize-y mt-1.5" />
-                                            ) : (
-                                                <p className="text-[13px] text-[#E5E5E5] leading-relaxed whitespace-pre-line">
-                                                    {t.task_purpose || fallbackItem.task_purpose || '등록된 내용이 없습니다.'}
-                                                </p>
-                                            )}
+                                            <p className="text-[13px] text-[#E5E5E5] leading-relaxed whitespace-pre-line mt-1">
+                                                {t.task_purpose || fallbackItem.task_purpose || '등록된 내용이 없습니다.'}
+                                            </p>
                                         </div>
                                         
                                         <div className="h-[1px] bg-[#3c3c3c]/30"></div>
@@ -3661,13 +3496,9 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                         {/* 필요 산출물 */}
                                         <div className="space-y-0">
                                             <h4 className="text-[11px] font-bold text-[#86868B]">필요 산출물</h4>
-                                            {isDrawerEditing ? (
-                                                <textarea value={formDeliverables} onChange={e => setFormDeliverables(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c]/60 rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] h-20 resize-y mt-1.5" />
-                                            ) : (
-                                                <p className="text-[13px] text-[#E5E5E5] leading-relaxed whitespace-pre-line">
-                                                    {t.deliverables || fallbackItem.deliverables || '등록된 내용이 없습니다.'}
-                                                </p>
-                                            )}
+                                            <p className="text-[13px] text-[#E5E5E5] leading-relaxed whitespace-pre-line mt-1">
+                                                {t.deliverables || fallbackItem.deliverables || '등록된 내용이 없습니다.'}
+                                            </p>
                                         </div>
                                         
                                         <div className="h-[1px] bg-[#3c3c3c]/30"></div>
@@ -3675,95 +3506,54 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                         {/* 다음 액션 */}
                                         <div className="space-y-0">
                                             <h4 className="text-[11px] font-bold text-[#86868B]">다음 액션</h4>
-                                            {isDrawerEditing ? (
-                                                <textarea value={formNextAction} onChange={e => setFormNextAction(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c]/60 rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] h-20 resize-y mt-1.5" />
-                                            ) : (
-                                                <p className="text-[13px] text-[#E5E5E5] leading-relaxed whitespace-pre-line">
-                                                    {nextActionVal || '등록된 내용이 없습니다.'}
-                                                </p>
-                                            )}
+                                            <p className="text-[13px] text-[#E5E5E5] leading-relaxed whitespace-pre-line mt-1">
+                                                {nextActionVal || '등록된 내용이 없습니다.'}
+                                            </p>
                                         </div>
 
-                                        {isDrawerEditing ? (
+                                        {agendaReason && (
                                             <>
                                                 <div className="h-[1px] bg-[#3c3c3c]/30"></div>
                                                 {/* 회의 상정 사유 */}
                                                 <div className="space-y-0">
                                                     <h4 className="text-[11px] font-bold text-[#86868B]">회의 상정 사유 (Agenda Context)</h4>
-                                                    <textarea value={formAgendaReason} onChange={e => setFormAgendaReason(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c]/60 rounded-[6px] px-3 py-1.5 text-[13px] text-[#ff9f0a] outline-none focus:border-[#2997ff] h-20 resize-y mt-1.5" />
+                                                    <p className="text-[13px] text-[#E5E5E5] leading-relaxed whitespace-pre-line mt-1">
+                                                        {agendaReason}
+                                                    </p>
                                                 </div>
                                             </>
-                                        ) : (
-                                            agendaReason && (
-                                                <>
-                                                    <div className="h-[1px] bg-[#3c3c3c]/30"></div>
-                                                    {/* 회의 상정 사유 */}
-                                                    <div className="space-y-0">
-                                                        <h4 className="text-[11px] font-bold text-[#86868B]">회의 상정 사유 (Agenda Context)</h4>
-                                                        <p className="text-[13px] text-[#E5E5E5] leading-relaxed whitespace-pre-line">
-                                                            {agendaReason}
-                                                        </p>
-                                                    </div>
-                                                </>
-                                            )
                                         )}
                                     </div>
                                 </div>
                                 
                                 {/* Footer Action Buttons */}
                                 <div className="px-6 py-4 border-t border-[#3c3c3c]/80 flex justify-end gap-3 bg-[#1c1c1e]/90">
-                                    {isDrawerEditing ? (
-                                        <>
-                                            <button 
-                                                type="button"
-                                                onClick={() => setIsDrawerEditing(false)}
-                                                className="px-4 py-2 rounded-[8px] bg-white/5 hover:bg-white/10 text-white border border-[#3c3c3c] text-[13px] font-bold cursor-pointer transition-all"
-                                            >
-                                                취소
-                                            </button>
-                                            <button 
-                                                type="submit"
-                                                className="px-5 py-2 rounded-[8px] bg-[#2997ff] hover:bg-[#2997ff]/90 text-[13px] font-bold text-white cursor-pointer transition-all shadow-md shadow-[#2997ff]/10"
-                                            >
-                                                저장
-                                            </button>
-                                        </>
-                                    ) : (
-                                        <>
-                                            <button 
-                                                type="button"
-                                                onClick={() => setSelectedTaskDetail(null)}
-                                                className="px-4 py-2 rounded-[8px] bg-white/5 hover:bg-white/10 text-white border border-[#3c3c3c] text-[13px] font-bold cursor-pointer transition-all"
-                                            >
-                                                닫기
-                                            </button>
-                                            <button 
-                                                type="button"
-                                                onClick={() => {
-                                                    try {
-                                                        if (isAuthorized) {
-                                                            handleEditClick(t, false);
-                                                            setIsDrawerEditing(true);
-                                                        } else {
-                                                            setShowAuthInfoModal(true);
-                                                        }
-                                                    } catch (err) {
-                                                        console.error("TaskBoardStaging: onClick edit error:", err);
-                                                        alert("수정 진입 에러: " + err.message);
-                                                    }
-                                                }}
-                                                className="px-5 py-2 rounded-[8px] bg-[#2997ff] hover:bg-[#2997ff]/90 text-[13px] font-bold text-white cursor-pointer transition-all shadow-md shadow-[#2997ff]/10"
-                                            >
-                                                업무 수정하기
-                                            </button>
-                                        </>
-                                    )}
+                                    <button 
+                                        type="button"
+                                        onClick={() => setSelectedTaskDetail(null)}
+                                        className="px-4 py-2 rounded-[8px] bg-white/5 hover:bg-white/10 text-white border border-[#3c3c3c] text-[13px] font-bold cursor-pointer transition-all"
+                                    >
+                                        닫기
+                                    </button>
+                                    <button 
+                                        type="button"
+                                        onClick={() => {
+                                            if (isAuthorized) {
+                                                setSelectedTaskDetail(null);
+                                                handleEditClick(t, true);
+                                            } else {
+                                                setShowAuthInfoModal(true);
+                                            }
+                                        }}
+                                        className="px-5 py-2 rounded-[8px] bg-[#2997ff] hover:bg-[#2997ff]/90 text-[13px] font-bold text-white cursor-pointer transition-all shadow-md shadow-[#2997ff]/10"
+                                    >
+                                        업무 수정하기
+                                    </button>
                                 </div>
                             </form>
                         </div>
                     </div>
                 );
-            })()}
-        </div>
+            })()}        </div>
     );
 }
