@@ -743,7 +743,7 @@ function ProjectTasksView() {
             }
         }
 
-        const isP2 = (task['작업 이름'] || '').includes('Phase 2') || (task['내용 상세'] || '').includes('Phase 2');
+        const isP2 = (task['작업 이름'] || '').includes('Phase 2') || (task['내용 상세'] || '').includes('Phase 2') || (task['마감일'] && task['마감일'] >= '2026/07/01');
         const matchesPhase = phaseFilter === '전체' || (phaseFilter === 'Phase 2' && isP2) || (phaseFilter === 'Phase 1' && !isP2);
 
         return matchesSearch && matchesCategory && matchesPriority && matchesPhase;
@@ -759,8 +759,8 @@ function ProjectTasksView() {
 
     const visibleTasks = sortedTasks.slice(0, visibleCount);
 
-    const phase2Tasks = visibleTasks.filter(t => (t['작업 이름'] || '').includes('Phase 2') || (t['내용 상세'] || '').includes('Phase 2'));
-    const phase1Tasks = visibleTasks.filter(t => !((t['작업 이름'] || '').includes('Phase 2') || (t['내용 상세'] || '').includes('Phase 2')));
+    const phase2Tasks = visibleTasks.filter(t => (t['작업 이름'] || '').includes('Phase 2') || (t['내용 상세'] || '').includes('Phase 2') || (t['마감일'] && t['마감일'] >= '2026/07/01'));
+    const phase1Tasks = visibleTasks.filter(t => !((t['작업 이름'] || '').includes('Phase 2') || (t['내용 상세'] || '').includes('Phase 2') || (t['마감일'] && t['마감일'] >= '2026/07/01')));
 
     const totalTasks = tasksData.length;
     const completedTasks = tasksData.filter(t => t['상태'] === '완료').length;
