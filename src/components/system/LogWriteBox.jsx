@@ -48,6 +48,17 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
     const [visibilityIndividuals, setVisibilityIndividuals] = useState([]);
     const [showVisibilityModal, setShowVisibilityModal] = useState(false);
     const [showPublicWarningModal, setShowPublicWarningModal] = useState(false);
+    
+    const resolvedDept = memberInfo?.org_name || (() => {
+        const name = memberInfo?.staff_name || memberInfo?.name;
+        if (name && masterStakeholders && masterStakeholders.length > 0) {
+            const sh = masterStakeholders.find(s => s.contact_name === name);
+            if (sh && sh.role_category && sh.role_category !== 'IGIS 내부인력') {
+                return sh.role_category;
+            }
+        }
+        return '기타';
+    })();
     const [visibilitySearchQuery, setVisibilitySearchQuery] = useState('');
     const visibilityGroupOptions = ["PO", "Sub-PO", "CFT 책임인력", "기획추진", "사업PM", "파이낸싱-LFC", "개발관리", "기업마케팅", "공간솔루션", "펀드운용", "IPR-WG"];
     const iconChevronGray = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' fill='none' stroke='%23A1A1AA' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' viewBox='0 0 24 24'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")`;
