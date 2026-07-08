@@ -2149,19 +2149,20 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                     const logId = `iota_issue_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
                     const logData = {
                         log_id: logId,
-                        writer_name: memberInfo?.staff_name || memberInfo?.name || '시스템',
-                        writer_staff_id: memberInfo?.email || 'system',
+                        writer_name: '시스템',
+                        writer_staff_id: 'system',
                         work_date: new Date().toISOString().slice(0, 10),
                         summary: '업무 변경 이력',
-                        raw_text: `🔧 업무 정보가 변경되었습니다.\n\n${changes.join('\n')}`,
+                        raw_text: `${changes.join('\n')}`,
                         input_status: 'submitted',
                         source_system: 'task_board',
                         metadata: {
                             is_task_board: true,
                             task_id: editingItem.id,
                             task_project: resolvedProjectCode || 'IOTA_SEOUL',
-                            workspace_code: 'WS_DSC',
-                            workspace_label: '개발솔루션-DSC'
+                            workspace_code: memberInfo?.workspace_code || 'WS_PM2',
+                            workspace_label: memberInfo?.workspace_label || '기획추진-PM2',
+                            editor_name: memberInfo?.staff_name || memberInfo?.name || '시스템'
                         }
                     };
                     const { error: logErr } = await supabase.from('iota_seoul_logs').insert(logData);

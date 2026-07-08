@@ -483,6 +483,9 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
     };
 
     const getLogCell = (log) => {
+        if (log.writer_name === '시스템') {
+            return '변경이력';
+        }
         if (isTaskBoard) {
             return getCellName(log.writer_name);
         }
@@ -768,18 +771,26 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                 {/* Card Header */}
                                 <div className="w-full flex items-center justify-between">
                                     <div className="flex items-center gap-[10px]">
-                                        <div className="w-[32px] h-[32px] rounded-full bg-[#333] overflow-hidden border border-[#444] shrink-0">
-                                            <img 
-                                                src={`${import.meta.env.BASE_URL}${log.writer_name}.webp`} 
-                                                alt={log.writer_name} 
-                                                className="w-full h-full object-cover"
-                                                onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }}
-                                            />
+                                        <div className="w-[32px] h-[32px] rounded-full bg-[#2c2c2e] flex items-center justify-center border border-[#3c3c3c] shrink-0 overflow-hidden">
+                                            {log.writer_name === '시스템' ? (
+                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#30d158" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                                            ) : (
+                                                <img 
+                                                    src={`${import.meta.env.BASE_URL}${log.writer_name}.webp`} 
+                                                    alt={log.writer_name} 
+                                                    className="w-full h-full object-cover rounded-full"
+                                                    onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }}
+                                                />
+                                            )}
                                         </div>
                                         <div className="flex flex-col">
                                             <div className="flex items-center gap-1.5">
                                                 <span className="text-[14px] font-bold text-white leading-tight">{log.writer_name}</span>
-                                                <span className="text-[11px] font-bold text-[#82afb9] bg-[#82afb9]/10 px-1.5 py-0.5 rounded">
+                                                <span className={`text-[11px] font-bold px-1.5 py-0.5 rounded ${
+                                                    log.writer_name === '시스템'
+                                                        ? 'text-[#30d158] bg-[#30d158]/10'
+                                                        : 'text-[#82afb9] bg-[#82afb9]/10'
+                                                }`}>
                                                     {getLogCell(log).replace(/-(LFC|DSC|EMC|SSC|KAM)$/, '')}
                                                 </span>
                                             </div>
@@ -813,7 +824,22 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                     )}
                                     {checkUserAccess(log) ? (
                                         <div className="text-[#E5E5E5]">
-                                            {renderLogTextWithMentions(log.raw_text)}
+                                            {log.writer_name === '시스템' ? (
+                                                <div className="flex flex-col gap-2.5">
+                                                    <div className="flex items-center gap-1.5 text-[13px] text-[#A1A1AA] bg-white/5 border border-white/10 px-2.5 py-1.5 rounded-[8px] w-max select-none">
+                                                        <span>변경자:</span>
+                                                        <span className="font-bold text-white text-[13px]">{log.metadata?.editor_name || '시스템'}</span>
+                                                        <span className="text-[10px] font-bold text-[#82afb9] bg-[#82afb9]/10 px-1.5 py-0.5 rounded">
+                                                            {log.metadata?.editor_name ? getCellName(log.metadata.editor_name).replace(/-(LFC|DSC|EMC|SSC|KAM)$/, '') : '이력'}
+                                                        </span>
+                                                    </div>
+                                                    <div className="text-[#E5E5E5] mt-1 pl-[4px]">
+                                                        {renderLogTextWithMentions(log.raw_text)}
+                                                    </div>
+                                                </div>
+                                            ) : (
+                                                renderLogTextWithMentions(log.raw_text)
+                                            )}
                                         </div>
                                     ) : (
                                         <div className="text-[#86868B] text-[13px] italic py-2 text-center border border-[#333] rounded-[8px] bg-[#1a1a1a]">
