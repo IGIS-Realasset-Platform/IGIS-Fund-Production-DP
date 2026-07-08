@@ -813,16 +813,30 @@ export default function PmoScheduleGate() {
                     <div className="flex items-center min-w-[2300px]">
                         <table className="text-left table-fixed min-w-[1500px] flex-1">
                             <thead>
-                                <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[13px] h-12">
+                                <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[13px] h-[72px]">
                                     <th className="px-2 w-[100px] text-center sticky left-0 bg-[#272726] z-30">구분</th>
                                     <th className="pl-4 w-[270px] sticky left-[100px] bg-[#272726] z-30">세부업무</th>
                                     <th className="px-2 w-[110px] text-center sticky left-[370px] bg-[#272726] z-30">주관</th>
                                     <th className="px-2 w-[100px] text-center sticky left-[480px] bg-[#272726] z-30 border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)]">협업</th>
                                     {COLUMNS.map((col, cIdx) => {
+                                        const hasCustomTop = col.key === 'm11' || col.key === 'm03';
+                                        const topText = col.key === 'm11' ? 'PF 달성 1차 목표' : '1차 목표 미달성시 2차 목표';
+                                        const lineColor = col.key === 'm11' ? 'border-[#ff9f0a]' : 'border-[#86868b]';
+                                        const textColor = col.key === 'm11' ? 'text-[#ff9f0a]' : 'text-[#86868b]';
                                         return (
                                             <th key={col.key} className={`text-center font-mono text-[11px] leading-tight px-1 font-bold w-[92px] ${
                                                 col.highlight ? 'bg-white/[0.03] text-[#60a5fa]' : 'text-[#86868B]'
-                                            } border-r border-[#4c4c4c]/50`}>
+                                            } border-r border-[#4c4c4c]/50 pb-2 align-bottom`}>
+                                                {hasCustomTop ? (
+                                                    <div className="flex flex-col items-center mb-2 pt-1">
+                                                        <span className={`text-[8.5px] font-bold ${textColor} whitespace-nowrap mb-1.5 scale-[0.88] origin-bottom`}>
+                                                            {topText}
+                                                        </span>
+                                                        <div className={`w-full border-t-2 ${lineColor}`}></div>
+                                                    </div>
+                                                ) : (
+                                                    <div className="h-[24px] mb-2"></div>
+                                                )}
                                                 <div>{col.labelTop}</div>
                                                 {col.labelBottom && <div className="text-[11px] opacity-75 mt-0.5">{col.labelBottom}</div>}
                                             </th>
