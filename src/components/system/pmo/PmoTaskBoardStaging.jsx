@@ -1967,6 +1967,10 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
     const handleFormSubmit = async (e) => {
         e.preventDefault();
 
+        if (!window.confirm("저장하시겠습니까?")) {
+            return;
+        }
+
         // Resolve codes
         const resolvedProjectCode = await resolveProjectCode(formProject);
         const resolvedLeadDeptCode = await resolveDeptCode(formLeadDept);
