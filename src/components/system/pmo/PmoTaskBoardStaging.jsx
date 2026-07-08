@@ -1399,6 +1399,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
     const isAll = viewMode === 'all';
     const [editingItem, setEditingItem] = useState(null);
     const [deleteConfirmId, setDeleteConfirmId] = useState(null);
+    const [selectedTaskDetail, setSelectedTaskDetail] = useState(null);
     const [showAssigneeDropdown, setShowAssigneeDropdown] = useState(false);
 
     // Suggestions panels
@@ -2410,6 +2411,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                             const leadDeptName = normalizeDeptName(rawLeadVal, false);
                                             const rawCoopVal = t.coop_dept_codes || t.coop_depts || fallbackItem.coop_depts || '';
                                             const coopDeptNames = normalizeCoopDepts(rawCoopVal);
+                                            const isSelected = selectedTaskDetail && selectedTaskDetail.id === t.id;
                                             const extPartyName = t.external_party?.stakeholder_name || t.external_party || t.external_party_code || fallbackItem.external_party || '';
                                             const targetAxis = t.target_axis || fallbackItem.target_axis || '준공/운영';
                                             
@@ -2438,15 +2440,19 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                             const sortKeyVal = t.sort_key || fallbackItem.sort_key || '';
                                             const notesVal = t.notes || fallbackItem.notes || '';
                                             return (
-                                                <tr key={t.id || `task-${idx}`} className="group hover:bg-[#333]/50 transition-colors h-[50px]">
+                                                <tr 
+                                                    key={t.id || `task-${idx}`} 
+                                                    className={`group hover:bg-[#333]/50 transition-colors h-[50px] cursor-pointer ${isSelected ? 'bg-[#3c3c3a] hover:bg-[#3c3c3a]' : ''}`}
+                                                    onClick={() => setSelectedTaskDetail(t)}
+                                                >
                                                     
                                                     {/* 1. ID */}
-                                                    <td className="pl-[10px] text-center text-[#86868B] text-[11px] font-mono select-none w-[50px] min-w-[50px] max-w-[50px] truncate sticky left-0 bg-[#272726] group-hover:bg-[#2d2d2c] transition-colors z-10">
+                                                    <td className={`pl-[10px] text-center text-[#86868B] text-[11px] font-mono select-none w-[50px] min-w-[50px] max-w-[50px] truncate sticky left-0 transition-colors z-10 ${isSelected ? 'bg-[#3c3c3a] group-hover:bg-[#3c3c3a]' : 'bg-[#272726] group-hover:bg-[#2d2d2c]'}`}>
                                                         {t.id && !t.id.includes('-') ? t.id : (fallbackItem.id || `T-${String(idx+1).padStart(3, '0')}`)}
                                                     </td>
                                                     
                                                     {/* 2. 프로젝트 */}
-                                                    <td className="text-center font-bold text-[#E5E5E5] w-[80px] min-w-[80px] max-w-[80px] truncate sticky left-[50px] bg-[#272726] group-hover:bg-[#2d2d2c] transition-colors z-10">
+                                                    <td className={`text-center font-bold text-[#E5E5E5] w-[80px] min-w-[80px] max-w-[80px] truncate sticky left-[50px] transition-colors z-10 ${isSelected ? 'bg-[#3c3c3a] group-hover:bg-[#3c3c3a]' : 'bg-[#272726] group-hover:bg-[#2d2d2c]'}`}>
                                                          <span className={`px-1.5 py-0.5 rounded text-[11px] font-bold border inline-block max-w-full truncate ${
                                                              projectVal === 'IOTA 공통' ? 'bg-[#323233] text-[#F5F5F7] border-[#424243]' :
                                                              projectVal === '427 PFV' ? 'bg-[#3A3A3C] text-[#FFFFFF] border-[#48484A]' :
@@ -2459,19 +2465,19 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                                     </td>
                                                     
                                                     {/* 3. 대분류 */}
-                                                    <td className="pl-4 font-bold text-[#E5E5E5] w-[85px] min-w-[85px] max-w-[85px] truncate sticky left-[130px] bg-[#272726] group-hover:bg-[#2d2d2c] transition-colors z-10">
+                                                    <td className={`pl-4 font-bold text-[#E5E5E5] w-[85px] min-w-[85px] max-w-[85px] truncate sticky left-[130px] transition-colors z-10 ${isSelected ? 'bg-[#3c3c3a] group-hover:bg-[#3c3c3a]' : 'bg-[#272726] group-hover:bg-[#2d2d2c]'}`}>
                                                         {t.category_main}
                                                     </td>
                                                     
                                                     {/* 4. 세부섹터 */}
-                                                    <td className={`text-[#A1A1AA] truncate sticky left-[215px] bg-[#272726] group-hover:bg-[#2d2d2c] z-10 transition-all duration-300 ease-out ${isAll ? 'w-[90px] min-w-[90px] max-w-[90px] pl-4 opacity-100' : 'w-0 min-w-0 max-w-0 pl-0 opacity-0 overflow-hidden'}`}>
+                                                    <td className={`text-[#A1A1AA] truncate sticky left-[215px] z-10 transition-all duration-300 ease-out ${isAll ? 'w-[90px] min-w-[90px] max-w-[90px] pl-4 opacity-100' : 'w-0 min-w-0 max-w-0 pl-0 opacity-0 overflow-hidden'} ${isSelected ? 'bg-[#3c3c3a] group-hover:bg-[#3c3c3a]' : 'bg-[#272726] group-hover:bg-[#2d2d2c]'}`}>
                                                         <div className={`transition-all duration-300 ease-out overflow-hidden whitespace-nowrap ${isAll ? 'w-[90px] opacity-100' : 'w-0 opacity-0 pointer-events-none'}`}>
                                                             {t.sector_detail}
                                                         </div>
                                                     </td>
                                                     
                                                     {/* 5. 업무명 */}
-                                                    <td className={"pl-4 font-bold text-[#F59E0B] w-[270px] min-w-[270px] max-w-[270px] sticky bg-[#272726] group-hover:bg-[#2d2d2c] transition-colors z-10 shadow-[inset_-1px_0_0_0_#3c3c3c] transition-all duration-300 ease-out " + (isAll ? "left-[305px]" : "left-[215px]")}>
+                                                    <td className={`pl-4 font-bold text-[#F59E0B] w-[270px] min-w-[270px] max-w-[270px] sticky z-10 shadow-[inset_-1px_0_0_0_#3c3c3c] transition-all duration-300 ease-out ${isAll ? 'left-[305px]' : 'left-[215px]'} ${isSelected ? 'bg-[#3c3c3a] group-hover:bg-[#3c3c3a]' : 'bg-[#272726] group-hover:bg-[#2d2d2c]'}`}>
                                                         <div className="truncate w-full">{t.task_name}</div>
                                                     </td>
 
@@ -2642,14 +2648,20 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                                     <td className="px-2 text-center w-[85px] min-w-[85px] max-w-[85px] border-l border-r border-[#3c3c3c]">
                                                         <div className="flex items-center justify-center gap-3">
                                                             <button 
-                                                                onClick={isAuthorized ? () => handleEditClick(t) : () => setShowAuthInfoModal(true)}
+                                                                onClick={(e) => {
+                                                                    e.stopPropagation();
+                                                                    isAuthorized ? handleEditClick(t) : setShowAuthInfoModal(true);
+                                                                }}
                                                                 className="text-blue-400 hover:text-blue-300 font-bold text-[11px] cursor-pointer"
                                                             >
                                                                 수정
                                                             </button>
                                                             <span className="text-[#555] select-none">|</span>
                                                             <button 
-                                                                onClick={isAuthorized ? () => handleDeleteClick(t.id) : () => setShowAuthInfoModal(true)}
+                                                                onClick={(e) => {
+                                                                    e.stopPropagation();
+                                                                    isAuthorized ? handleDeleteClick(t.id) : setShowAuthInfoModal(true);
+                                                                }}
                                                                 className="text-red-400 hover:text-red-300 font-bold text-[11px] cursor-pointer"
                                                             >
                                                                 삭제
@@ -3260,6 +3272,218 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                     </div>
                 </div>
             )}
+
+            {/* Task Detail Slide-Over Drawer */}
+            {selectedTaskDetail && (() => {
+                const t = selectedTaskDetail;
+                const fallbackItem = FALLBACK_BOARD_TASKS.find(fb => fb.task_name === t.task_name) || {};
+                
+                const isBlockerVal = parseBool(t.is_blocker !== undefined ? t.is_blocker : fallbackItem.is_blocker);
+                const needsDecisionVal = parseBool(t.needs_decision !== undefined ? t.needs_decision : fallbackItem.needs_decision);
+                const statusVal = t.status || fallbackItem.status || '진행중';
+                const importanceLevel = t.importance_level || fallbackItem.importance_level || '일반';
+                const priorityScore = calculatePriorityScore(t, fallbackItem);
+                const rawGrade = t.meeting_grade || fallbackItem.meeting_grade || 'B';
+                const meetingGrade = rawGrade.includes('_') ? rawGrade : gradeMapToUi(rawGrade);
+                
+                const coopDeptsVal = t.coop_dept_codes || t.coop_depts || fallbackItem.coop_depts || '';
+                const externalPartyVal = t.external_party?.stakeholder_name || t.external_party || t.external_party_code || fallbackItem.external_party || '';
+                
+                const agendaReason = t.agenda_reason || fallbackItem.agenda_reason || '';
+
+                return (
+                    <div className="fixed inset-0 z-[9000] overflow-hidden pointer-events-none">
+                        <div className="absolute inset-y-0 right-0 max-w-full flex pl-10 pointer-events-auto">
+                            <div className="w-screen max-w-[650px] transform transition-transform duration-300 ease-in-out shadow-2xl flex flex-col h-full bg-[#1c1c1e]/95 backdrop-blur-xl border-l border-[#3c3c3c]/80 text-white select-text">
+                                {/* Header */}
+                                <div className="px-6 py-5 border-b border-[#3c3c3c]/80 flex items-center justify-between bg-[#1c1c1e]/80 sticky top-0 z-20">
+                                    <div className="flex items-center gap-3">
+                                        <span className="font-mono text-[12px] font-bold px-2 py-0.5 rounded bg-white/10 text-[#86868B]">
+                                            {t.id && !t.id.includes('-') ? t.id : (fallbackItem.id || 'T-XXX')}
+                                        </span>
+                                        <span className="text-[12px] font-bold px-2 py-0.5 rounded border border-[#48484A] bg-[#3A3A3C] text-white">
+                                            {t.project_code || t.project || fallbackItem.project || 'IOTA 서울'}
+                                        </span>
+                                    </div>
+                                    <button 
+                                        onClick={() => setSelectedTaskDetail(null)}
+                                        className="text-[#86868B] hover:text-white text-[20px] font-bold transition-colors cursor-pointer"
+                                    >
+                                        ✕
+                                    </button>
+                                </div>
+                                
+                                {/* Content Body */}
+                                <div className="flex-1 overflow-y-auto px-6 py-6 space-y-6 timeline-scrollbar">
+                                    {/* Task Name */}
+                                    <div className="space-y-2">
+                                        <h2 className="text-[22px] font-bold text-[#ff9f0a] leading-snug">
+                                            {t.task_name || ''}
+                                        </h2>
+                                        <div className="flex flex-wrap gap-2 text-[12px] pt-1">
+                                            <span className={`px-2 py-0.5 rounded-[4px] font-bold text-[11px] ${
+                                                statusVal === '완료' ? 'bg-green-500/10 text-green-400 border border-green-500/20' :
+                                                statusVal === '지연' ? 'bg-red-500/10 text-red-400 border border-red-500/20' :
+                                                'bg-blue-500/10 text-blue-400 border border-blue-500/20'
+                                            }`}>
+                                                {statusVal}
+                                            </span>
+                                            <span className={`px-2 py-0.5 rounded-[4px] font-bold text-[11px] ${
+                                                importanceLevel === 'PF필수' ? 'bg-[#ff453a]/15 text-[#ff453a] border border-[#ff453a]/25' :
+                                                importanceLevel === '준공필수' ? 'bg-[#ff9f0a]/15 text-[#ff9f0a] border border-[#ff9f0a]/25' :
+                                                'bg-white/5 text-[#86868B] border border-white/10'
+                                            }`}>
+                                                중요도: {importanceLevel}
+                                            </span>
+                                            <span className="px-2 py-0.5 rounded-[4px] font-bold text-[11px] bg-white/5 text-[#86868B] border border-white/10">
+                                                우선순위: {priorityScore}점 ({meetingGrade})
+                                            </span>
+                                        </div>
+                                    </div>
+                                    
+                                    {/* Blocker Alert Banner */}
+                                    {isBlockerVal && (
+                                        <div className="p-4 rounded-[12px] bg-red-500/10 border border-red-500/20 flex items-start gap-3">
+                                            <span className="text-[20px] leading-none">🚨</span>
+                                            <div className="space-y-1">
+                                                <h4 className="text-[13px] font-bold text-red-400">현재 진행 병목(Blocker) 상황</h4>
+                                                <p className="text-[12px] text-gray-300 leading-relaxed">
+                                                    이 업무는 현재 병목 현상이 활성화되어 주요 보고 및 모니터링 대상으로 지정되어 있습니다.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    )}
+                                    
+                                    {/* Divider */}
+                                    <div className="h-[1px] bg-[#3c3c3c]/50"></div>
+                                    
+                                    {/* Grid metadata */}
+                                    <div className="grid grid-cols-2 gap-x-6 gap-y-4 text-[13px]">
+                                        <div className="space-y-1">
+                                            <span className="text-[#86868B] text-[11px] uppercase tracking-wider block">주관 부서</span>
+                                            <span className="font-bold text-[#E5E5E5] block">
+                                                {t.lead_dept?.dept_name || t.lead_dept || t.lead_dept_code || fallbackItem.lead_dept || '사업관리2파트'}
+                                            </span>
+                                        </div>
+                                        <div className="space-y-1">
+                                            <span className="text-[#86868B] text-[11px] uppercase tracking-wider block">협조 부서</span>
+                                            <div className="flex flex-wrap gap-1.5 mt-0.5">
+                                                {coopDeptsVal ? coopDeptsVal.split(';').map((dept, i) => (
+                                                    <span key={i} className="px-2 py-0.5 rounded bg-white/5 border border-white/10 text-gray-300 text-[11px]">
+                                                        {dept.trim()}
+                                                    </span>
+                                                )) : <span className="text-[#555]">-</span>}
+                                            </div>
+                                        </div>
+                                        <div className="space-y-1">
+                                            <span className="text-[#86868B] text-[11px] uppercase tracking-wider block">담당 PMO</span>
+                                            <span className="font-bold text-[#E5E5E5] block">
+                                                {t.pmo_manager || fallbackItem.pmo_manager || '사업관리2파트'}
+                                            </span>
+                                        </div>
+                                        <div className="space-y-1">
+                                            <span className="text-[#86868B] text-[11px] uppercase tracking-wider block">담당자</span>
+                                            <span className="font-bold text-[#E5E5E5] block">
+                                                {t.assignee || '미정'}
+                                            </span>
+                                        </div>
+                                        <div className="space-y-1">
+                                            <span className="text-[#86868B] text-[11px] uppercase tracking-wider block">외부 상대방</span>
+                                            <div className="flex flex-wrap gap-1.5 mt-0.5">
+                                                {externalPartyVal ? externalPartyVal.split(',').map((party, i) => (
+                                                    <span key={i} className="px-2 py-0.5 rounded bg-[#2997ff]/10 border border-[#2997ff]/20 text-[#2997ff] text-[11px] font-bold">
+                                                        {party.trim()}
+                                                    </span>
+                                                )) : <span className="text-[#555]">-</span>}
+                                            </div>
+                                        </div>
+                                        <div className="space-y-1">
+                                            <span className="text-[#86868B] text-[11px] uppercase tracking-wider block">마감 기한</span>
+                                            <span className="font-bold text-[#E5E5E5] block">
+                                                {t.due_date || fallbackItem.due_date || '-'}
+                                            </span>
+                                        </div>
+                                        <div className="space-y-1">
+                                            <span className="text-[#86868B] text-[11px] uppercase tracking-wider block">GATE 단계</span>
+                                            <span className="font-bold text-[#E5E5E5] block">
+                                                {t.gate_stage || fallbackItem.gate_stage || '-'}
+                                            </span>
+                                        </div>
+                                        <div className="space-y-1">
+                                            <span className="text-[#86868B] text-[11px] uppercase tracking-wider block">회의 상정 구분</span>
+                                            <span className="font-bold text-[#E5E5E5] block">
+                                                {meetingGrade}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    
+                                    {/* Divider */}
+                                    <div className="h-[1px] bg-[#3c3c3c]/50"></div>
+                                    
+                                    {/* Deep Dive Narrative Cards */}
+                                    <div className="space-y-5">
+                                        {/* 업무 목적 및 배경 */}
+                                        <div className="p-4 rounded-[12px] bg-white/[0.02] border border-[#2c2c2e]">
+                                            <h4 className="text-[12px] font-bold text-[#86868B] uppercase tracking-wider mb-2">업무 목적 및 추진 배경</h4>
+                                            <p className="text-[13px] text-[#E5E5E5] leading-relaxed whitespace-pre-line">
+                                                {t.task_purpose || fallbackItem.task_purpose || '등록된 내용이 없습니다.'}
+                                            </p>
+                                        </div>
+                                        
+                                        {/* 필요 산출물 및 R&R */}
+                                        <div className="p-4 rounded-[12px] bg-white/[0.02] border border-[#2c2c2e]">
+                                            <h4 className="text-[12px] font-bold text-[#86868B] uppercase tracking-wider mb-2">주요 R&R 및 필요 산출물</h4>
+                                            <p className="text-[13px] text-[#E5E5E5] leading-relaxed whitespace-pre-line">
+                                                {t.deliverables || fallbackItem.deliverables || '등록된 내용이 없습니다.'}
+                                            </p>
+                                        </div>
+                                        
+                                        {/* 현안 및 다음 조치 */}
+                                        <div className="p-4 rounded-[12px] bg-white/[0.02] border border-[#2c2c2e]">
+                                            <h4 className="text-[12px] font-bold text-[#86868B] uppercase tracking-wider mb-2">현안 및 다음 조치 사항 (Support Needed)</h4>
+                                            <p className="text-[13px] text-[#E5E5E5] leading-relaxed whitespace-pre-line">
+                                                {t.support_needed || fallbackItem.support_needed || '등록된 내용이 없습니다.'}
+                                            </p>
+                                        </div>
+
+                                        {/* 회의체 상정 사유 */}
+                                        {agendaReason && (
+                                            <div className="p-4 rounded-[12px] bg-white/[0.02] border border-[#2c2c2e]">
+                                                <h4 className="text-[12px] font-bold text-[#86868B] uppercase tracking-wider mb-2">회의 상정 사유 (Agenda Context)</h4>
+                                                <p className="text-[13px] text-[#E5E5E5] leading-relaxed whitespace-pre-line">
+                                                    {agendaReason}
+                                                </p>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                                
+                                {/* Footer Action Buttons */}
+                                <div className="px-6 py-4 border-t border-[#3c3c3c]/80 flex justify-end gap-3 bg-[#1c1c1e]/90">
+                                    <button 
+                                        type="button"
+                                        onClick={() => setSelectedTaskDetail(null)}
+                                        className="px-4 py-2 rounded-[8px] bg-white/5 hover:bg-white/10 text-white border border-[#3c3c3c] text-[13px] font-bold cursor-pointer transition-all"
+                                    >
+                                        닫기
+                                    </button>
+                                    <button 
+                                        type="button"
+                                        onClick={() => {
+                                            const itemToEdit = t;
+                                            setSelectedTaskDetail(null);
+                                            isAuthorized ? handleEditClick(itemToEdit) : setShowAuthInfoModal(true);
+                                        }}
+                                        className="px-5 py-2 rounded-[8px] bg-[#2997ff] hover:bg-[#2997ff]/90 text-[13px] font-bold text-white cursor-pointer transition-all shadow-md shadow-[#2997ff]/10"
+                                    >
+                                        업무 수정하기
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                );
+            })()}
         </div>
     );
 }
