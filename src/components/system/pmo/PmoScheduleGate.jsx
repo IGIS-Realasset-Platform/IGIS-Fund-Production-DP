@@ -810,8 +810,10 @@ export default function PmoScheduleGate() {
             {/* Timeline Matrix Grid */}
             <div className="-mr-[calc(50vw-50%)] border border-r-0 border-[#3c3c3c] bg-[#272726] rounded-l-[24px] overflow-hidden">
                 <div className="w-full overflow-x-auto pr-0 timeline-scrollbar">
-                    <div className="flex items-start min-w-[2300px] pt-[60px] overflow-visible">
-                        <table className="text-left table-fixed min-w-[1500px] flex-1">
+                    <div className="flex items-start min-w-[2300px] overflow-visible">
+                        <div className="flex-1 flex flex-col overflow-visible">
+                            <div style={{ height: '60px' }} className="w-full flex-shrink-0"></div>
+                            <table className="text-left table-fixed min-w-[1500px] flex-1">
                             <thead>
                                 <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[13px] h-12">
                                     <th className="px-2 w-[100px] text-center sticky left-0 bg-[#272726] z-30">구분</th>
@@ -922,6 +924,7 @@ export default function PmoScheduleGate() {
                                 })}
                             </tbody>
                         </table>
+                        </div>
                         
                         {/* 우측 워터마크 영역 */}
                         <div className="w-[800px] shrink-0 flex items-center justify-start pl-20 pr-8 select-none pointer-events-none box-border self-center">
