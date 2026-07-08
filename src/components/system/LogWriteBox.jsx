@@ -552,7 +552,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                         {isExpanded && isTaskBoard && (
                             <div className="pl-[8px]">
                                 <span className="text-white text-[14px] font-bold">
-                                    {getCellName(memberInfo?.staff_name || memberInfo?.name)} {memberInfo?.staff_name || memberInfo?.name}
+                                    {resolvedDept} {memberInfo?.staff_name || memberInfo?.name}
                                 </span>
                             </div>
                         )}
