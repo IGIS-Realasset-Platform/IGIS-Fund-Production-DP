@@ -115,7 +115,17 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
     useEffect(() => {
         fetchLogs();
         fetchMasterStakeholders();
-    }, []);
+    }, [taskId]);
+
+    useEffect(() => {
+        const handleUpdate = (e) => {
+            if (e.detail?.taskId === taskId) {
+                fetchLogs();
+            }
+        };
+        window.addEventListener('iota_log_updated', handleUpdate);
+        return () => window.removeEventListener('iota_log_updated', handleUpdate);
+    }, [taskId]);
 
     const handleTargetLog = () => {
         const params = new URLSearchParams(window.location.search);

@@ -2049,6 +2049,75 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                         .eq('id', editingItem.id);
 
                     if (error) throw error;
+
+                    // Track changes for logs
+                    const changes = [];
+
+                    const oldStatus = editingItem.status || '미착수';
+                    const newStatus = formStatus || '미착수';
+                    if (oldStatus !== newStatus) {
+                        changes.push(`• 상태: ${oldStatus} ➔ ${newStatus}`);
+                    }
+
+                    const oldImportance = editingItem.importance_level || '일반';
+                    const newImportance = formImportanceLevel || '일반';
+                    if (oldImportance !== newImportance) {
+                        changes.push(`• 중요도: ${oldImportance} ➔ ${newImportance}`);
+                    }
+
+                    const oldBlocker = parseBool(editingItem.is_blocker) ? '활성화' : '비활성화';
+                    const newBlocker = formIsBlocker ? '활성화' : '비활성화';
+                    if (oldBlocker !== newBlocker) {
+                        changes.push(`• 병목(Blocker): ${oldBlocker} ➔ ${newBlocker}`);
+                    }
+
+                    const oldAssignee = editingItem.assignee || '미지정';
+                    const newAssignee = formAssignee || '미지정';
+                    if (oldAssignee !== newAssignee) {
+                        changes.push(`• 담당자: ${oldAssignee} ➔ ${newAssignee}`);
+                    }
+
+                    const oldExt = editingItem.external_party?.stakeholder_name || '';
+                    const newExt = formExternalParty || '';
+                    if (oldExt !== newExt) {
+                        changes.push(`• 외부상대방: ${oldExt || '미지정'} ➔ ${newExt || '미지정'}`);
+                    }
+
+                    const oldCoop = editingItem.coop_dept_codes || '';
+                    const cleanedCoop = formCoopDepts.split(/[,;/]+/).map(c => normalizeDeptName(c.trim(), true)).filter(Boolean);
+                    const newCoop = [...new Set(cleanedCoop)].join('; ');
+                    if (oldCoop !== newCoop) {
+                        changes.push(`• 협조부서: ${oldCoop || '없음'} ➔ ${newCoop || '없음'}`);
+                    }
+
+                    const oldDue = editingItem.due_date || '';
+                    const newDue = formDueDate || '';
+                    if (oldDue !== newDue) {
+                        changes.push(`• 마감기한: ${oldDue || '미지정'} ➔ ${newDue || '미지정'}`);
+                    }
+
+                    const oldDecision = parseBool(editingItem.needs_decision) ? '필요' : '불필요';
+                    const newDecision = formNeedsDecision ? '필요' : '불필요';
+                    if (oldDecision !== newDecision) {
+                        changes.push(`• 의사결정 필요: ${oldDecision} ➔ ${newDecision}`);
+                    }
+
+                    if (changes.length > 0) {
+                        const logData = {
+                            writer_name: memberInfo?.staff_name || memberInfo?.name || '시스템',
+                            writer_staff_id: memberInfo?.email || 'system',
+                            work_date: new Date().toISOString().slice(0, 10),
+                            title: '업무 변경 이력',
+                            content: `🔧 업무 정보가 변경되었습니다.\n\n${changes.join('\n')}`,
+                            metadata: {
+                                is_task_board: true,
+                                task_id: editingItem.id,
+                                task_project: resolvedProjectCode || 'IOTA_SEOUL'
+                            }
+                        };
+                        await supabase.from('iota_seoul_logs').insert(logData);
+                        window.dispatchEvent(new CustomEvent('iota_log_updated', { detail: { taskId: editingItem.id } }));
+                    }
                 } catch (err) {
                     console.error("Failed to update task in DB:", err);
                 }
@@ -2059,6 +2128,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                 setSelectedTaskDetail({ id: editingItem.id, ...localMapping });
                 setIsDrawerEditing(false);
             }
+            window.dispatchEvent(new CustomEvent('iota_log_updated', { detail: { taskId: editingItem.id } }));
         } else {
             // ADDING
             const newId = `mock-${Date.now()}`;
