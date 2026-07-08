@@ -657,140 +657,97 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                 taskId={taskId}
                 taskProject={taskProject}
             />
-            <div className="w-full border border-[#3c3c3c] rounded-[24px] flex flex-col bg-[#252525]">
-                {/* Header Row */}
-                <div className="w-full px-[20px] py-[12px] flex items-center border-b border-[#3c3c3c] bg-transparent rounded-t-[24px]">
-                    {/* Left Section */}
-                    <div className="flex flex-1 min-w-0">
-                        {!isTaskBoard && (
+            <div className={isTaskBoard ? "w-full flex flex-col gap-4 bg-transparent border-0 rounded-none shadow-none" : "w-full border border-[#3c3c3c] rounded-[24px] flex flex-col bg-[#252525]"}>
+                {/* Header Row (Only for workspace mode) */}
+                {!isTaskBoard && (
+                    <div className="w-full px-[20px] py-[12px] flex items-center border-b border-[#3c3c3c] bg-transparent rounded-t-[24px]">
+                        <div className="flex flex-1 min-w-0">
                             <div className="w-[86px] mr-[16px] text-center">
                                 <span className="text-[13px] font-bold text-[#86868B]">프로젝트</span>
                             </div>
-                        )}
-                        <div className={`flex flex-1 min-w-0 ${isTaskBoard ? '' : 'translate-x-[-20px]'}`}>
-                            <div className="w-[80px] shrink-0 translate-x-[4px] flex justify-center">
-                                <div className="text-[13px] font-bold text-[#86868B] px-[2px] py-[4px] text-center w-[60px]">
-                                    기능셀
-                                </div>
-                            </div>
-                            <div className="w-[110px] shrink-0 translate-x-[10px] flex items-center">
-                                <span className="text-[13px] font-bold text-[#86868B] pl-[20px]">등록자</span>
-                            </div>
-                            <div className="flex-1 min-w-0 translate-x-[2px] flex items-center">
-                                <span className="text-[13px] font-bold text-[#86868B] px-[4px]">내용</span>
-                            </div>
-                        </div>
-                    </div>
-                    {/* Right Section */}
-                    <div className="flex gap-[12px] shrink-0 ml-[12px] justify-end items-center">
-                        <div className="w-[90px] shrink-0"></div>
-                        <div className="w-[110px] mr-[4px] text-center flex items-center justify-center">
-                            <select 
-                                value={filterStakeholder}
-                                onChange={e => { setFilterStakeholder(e.target.value); setCurrentPage(1); }}
-                                className={`bg-white/5 border border-transparent text-[12px] font-bold cursor-pointer appearance-none focus:outline-none w-[76px] hover:text-white hover:bg-white/10 rounded-[8px] px-[2px] py-[4px] transition-colors ${filterStakeholder ? 'text-[#fbf167]' : 'text-[#A1A1AA]'}`}
-                                style={{ textAlignLast: 'center' }}
-                            >
-                                <option value="" className="bg-[#222] text-[#E5E5E5]">이해관계자</option>
-                                {['투자자', '대주', 'SI', '잠재임차자', '운영 파트너', 'IGIS 내부인력'].map(val => (
-                                    <option key={val} value={val} className="bg-[#222] text-[#E5E5E5]">{val}</option>
-                                ))}
-                            </select>
-                        </div>
-                        {!isTaskBoard && (
-                            <>
-                                <div className="w-[60px] flex items-center justify-center translate-x-[6px]">
-                                    <select 
-                                        value={filterPurpose}
-                                        onChange={e => { setFilterPurpose(e.target.value); setCurrentPage(1); }}
-                                        className={`bg-white/5 border border-transparent text-[12px] font-bold cursor-pointer appearance-none focus:outline-none w-[44px] hover:text-white hover:bg-white/10 rounded-[8px] px-[2px] py-[4px] transition-colors ${filterPurpose ? 'text-[#fbf167]' : 'text-[#A1A1AA]'}`}
-                                        style={{ textAlignLast: 'center' }}
-                                    >
-                                        <option value="" className="bg-[#222] text-[#E5E5E5]">목적</option>
-                                        {['공유', '협업', '리스크 판단', '의사결정'].map(val => (
-                                            <option key={val} value={val} className="bg-[#222] text-[#E5E5E5]">{val}</option>
-                                        ))}
-                                    </select>
-                                </div>
-                                <div className="w-[60px] flex items-center justify-center">
-                                    <select 
-                                        value={filterStatus}
-                                        onChange={e => { setFilterStatus(e.target.value); setCurrentPage(1); }}
-                                        className={`bg-white/5 border border-transparent text-[12px] font-bold cursor-pointer appearance-none focus:outline-none w-[54px] hover:text-white hover:bg-white/10 rounded-[8px] px-[2px] py-[4px] transition-colors ${filterStatus ? 'text-[#fbf167]' : 'text-[#A1A1AA]'}`}
-                                        style={{ textAlignLast: 'center' }}
-                                    >
-                                        <option value="" className="bg-[#222] text-[#E5E5E5]">진행상태</option>
-                                        {['신규', '검토중', '진행중', '보류', '완료'].map(val => (
-                                            <option key={val} value={val} className="bg-[#222] text-[#E5E5E5]">{val}</option>
-                                        ))}
-                                    </select>
-                                </div>
-                                <div className="w-[40px] flex items-center justify-center">
-                                    <select 
-                                        value={filterPriority}
-                                        onChange={e => { setFilterPriority(e.target.value); setCurrentPage(1); }}
-                                        className={`bg-white/5 border border-transparent text-[12px] font-bold cursor-pointer appearance-none focus:outline-none w-[50px] hover:text-white hover:bg-white/10 rounded-[8px] px-[2px] py-[4px] transition-colors ${filterPriority ? 'text-[#fbf167]' : 'text-[#A1A1AA]'}`}
-                                        style={{ textAlignLast: 'center' }}
-                                    >
-                                        <option value="" className="bg-[#222] text-[#E5E5E5]">중요도</option>
-                                        {['높음', '중간', '낮음'].map(val => (
-                                            <option key={val} value={val} className="bg-[#222] text-[#E5E5E5]">{val}</option>
-                                        ))}
-                                    </select>
-                                </div>
-                            </>
-                        )}
-                        <div className="w-[60px] text-center flex items-center justify-center">
-                            <span className="text-[13px] font-bold text-[#86868B] px-[4px]">등록일</span>
-                        </div>
-                    </div>
-                </div>
-                {displayedLogs.map((log, index) => (
-                    <div id={log.log_id} key={log.log_id} className={`relative w-full px-[20px] py-[16px] flex flex-col group transition-all duration-500 hover:bg-white/5 last:rounded-b-[24px] ${index !== displayedLogs.length - 1 ? 'border-b border-[#3c3c3c]' : ''}`}>
-                        {/* Main Row */}
-                        <div 
-                            className="w-full flex items-center justify-between cursor-pointer"
-                            onClick={() => toggleExpand(log.log_id)}
-                        >
-                            {/* Left Section */}
-                            <div className="flex items-center flex-1 min-w-0">
-                                {/* Project Button */}
-                                {!isTaskBoard && (() => {
-                                    let projName = '427 PFV';
-                                    if (log.metadata?.project_name) {
-                                        let name = log.metadata.project_name;
-                                        if (name === 'IOTA 427') name = '427 PFV';
-                                        if (name === 'IOTA 816') name = '816 PFV';
-                                        projName = name;
-                                    } else {
-                                        const text = log.metadata?.workspace_label || log.metadata?.source_project_text || '';
-                                        if (text.includes('816') || text.includes('서울 2') || text.includes('IOTA 2') || text.includes('Two')) projName = '816 PFV';
-                                        else if (text.includes('421')) projName = '421 Fund';
-                                    }
-                                    
-                                    let textColorClass = 'text-[#E5E5E5] border-[#444]'; // 427 PFV (Lightest)
-                                    if (projName === '816 PFV') textColorClass = 'text-[#A1A1AA] border-[#333]'; // 816 PFV (Medium)
-                                    else if (projName === '421 Fund') textColorClass = 'text-[#737373] border-[#222]'; // 421 Fund (Darkest)
-                                    else if (projName === 'IOTA 공통') textColorClass = 'text-[#A1A1AA] border-[#333]';
-                                    
-                                    return (
-                                        <div className={`py-[6px] border rounded-[8px] text-[12px] font-bold ${textColorClass} shrink-0 mr-[16px] w-[86px] text-center bg-transparent`}>
-                                            {projName}
-                                        </div>
-                                    );
-                                })()}
-
-                                <div className={`flex items-center flex-1 min-w-0 ${isTaskBoard ? '' : 'translate-x-[-20px]'}`}>
-                                    {/* Cell Name */}
-                                    <div className="w-[80px] shrink-0 translate-x-[4px] flex justify-center">
-                                        <span className="text-[13px] font-medium text-[#86868B]">
-                                            {getLogCell(log).replace(/-(LFC|DSC|EMC|SSC|KAM)$/, '')}
-                                        </span>
+                            <div className="flex flex-1 min-w-0 translate-x-[-20px]">
+                                <div className="w-[80px] shrink-0 translate-x-[4px] flex justify-center">
+                                    <div className="text-[13px] font-bold text-[#86868B] px-[2px] py-[4px] text-center w-[60px]">
+                                        기능셀
                                     </div>
+                                </div>
+                                <div className="w-[110px] shrink-0 translate-x-[10px] flex items-center">
+                                    <span className="text-[13px] font-bold text-[#86868B] pl-[20px]">등록자</span>
+                                </div>
+                                <div className="flex-1 min-w-0 translate-x-[2px] flex items-center">
+                                    <span className="text-[13px] font-bold text-[#86868B] px-[4px]">내용</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="flex gap-[12px] shrink-0 ml-[12px] justify-end items-center">
+                            <div className="w-[90px] shrink-0"></div>
+                            <div className="w-[110px] mr-[4px] text-center flex items-center justify-center">
+                                <select 
+                                    value={filterStakeholder}
+                                    onChange={e => { setFilterStakeholder(e.target.value); setCurrentPage(1); }}
+                                    className={`bg-white/5 border border-transparent text-[12px] font-bold cursor-pointer appearance-none focus:outline-none w-[76px] hover:text-white hover:bg-white/10 rounded-[8px] px-[2px] py-[4px] transition-colors ${filterStakeholder ? 'text-[#fbf167]' : 'text-[#A1A1AA]'}`}
+                                    style={{ textAlignLast: 'center' }}
+                                >
+                                    <option value="" className="bg-[#222] text-[#E5E5E5]">이해관계자</option>
+                                    {['투자자', '대주', 'SI', '잠재임차자', '운영 파트너', 'IGIS 내부인력'].map(val => (
+                                        <option key={val} value={val} className="bg-[#222] text-[#E5E5E5]">{val}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div className="w-[60px] flex items-center justify-center translate-x-[6px]">
+                                <select 
+                                    value={filterPurpose}
+                                    onChange={e => { setFilterPurpose(e.target.value); setCurrentPage(1); }}
+                                    className={`bg-white/5 border border-transparent text-[12px] font-bold cursor-pointer appearance-none focus:outline-none w-[44px] hover:text-white hover:bg-white/10 rounded-[8px] px-[2px] py-[4px] transition-colors ${filterPurpose ? 'text-[#fbf167]' : 'text-[#A1A1AA]'}`}
+                                    style={{ textAlignLast: 'center' }}
+                                >
+                                    <option value="" className="bg-[#222] text-[#E5E5E5]">목적</option>
+                                    {['공유', '협업', '리스크 판단', '의사결정'].map(val => (
+                                        <option key={val} value={val} className="bg-[#222] text-[#E5E5E5]">{val}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div className="w-[60px] flex items-center justify-center">
+                                <select 
+                                    value={filterStatus}
+                                    onChange={e => { setFilterStatus(e.target.value); setCurrentPage(1); }}
+                                    className={`bg-white/5 border border-transparent text-[12px] font-bold cursor-pointer appearance-none focus:outline-none w-[54px] hover:text-white hover:bg-white/10 rounded-[8px] px-[2px] py-[4px] transition-colors ${filterStatus ? 'text-[#fbf167]' : 'text-[#A1A1AA]'}`}
+                                    style={{ textAlignLast: 'center' }}
+                                >
+                                    <option value="" className="bg-[#222] text-[#E5E5E5]">진행상태</option>
+                                    {['신규', '검토중', '진행중', '보류', '완료'].map(val => (
+                                        <option key={val} value={val} className="bg-[#222] text-[#E5E5E5]">{val}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div className="w-[40px] flex items-center justify-center">
+                                <select 
+                                    value={filterPriority}
+                                    onChange={e => { setFilterPriority(e.target.value); setCurrentPage(1); }}
+                                    className={`bg-white/5 border border-transparent text-[12px] font-bold cursor-pointer appearance-none focus:outline-none w-[50px] hover:text-white hover:bg-white/10 rounded-[8px] px-[2px] py-[4px] transition-colors ${filterPriority ? 'text-[#fbf167]' : 'text-[#A1A1AA]'}`}
+                                    style={{ textAlignLast: 'center' }}
+                                >
+                                    <option value="" className="bg-[#222] text-[#E5E5E5]">중요도</option>
+                                    {['높음', '중간', '낮음'].map(val => (
+                                        <option key={val} value={val} className="bg-[#222] text-[#E5E5E5]">{val}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div className="w-[60px] text-center flex items-center justify-center">
+                                <span className="text-[13px] font-bold text-[#86868B] px-[4px]">등록일</span>
+                            </div>
+                        </div>
+                    </div>
+                )}
 
-                                    {/* Avatar & Name */}
-                                    <div className="flex items-center gap-[8px] w-[110px] shrink-0 translate-x-[10px]">
-                                        <div className="w-[28px] h-[28px] rounded-full bg-[#333] overflow-hidden border border-[#444]">
+                {displayedLogs.map((log, index) => {
+                    if (isTaskBoard) {
+                        return (
+                            <div id={log.log_id} key={log.log_id} className="w-full flex flex-col gap-[12px] p-[20px] bg-[#1c1c1e] border border-[#2c2c2e] rounded-[16px] transition-all hover:border-[#444] relative group">
+                                {/* Card Header */}
+                                <div className="w-full flex items-center justify-between">
+                                    <div className="flex items-center gap-[10px]">
+                                        <div className="w-[32px] h-[32px] rounded-full bg-[#333] overflow-hidden border border-[#444] shrink-0">
                                             <img 
                                                 src={`${import.meta.env.BASE_URL}${log.writer_name}.webp`} 
                                                 alt={log.writer_name} 
@@ -798,244 +755,211 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                                 onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }}
                                             />
                                         </div>
-                                        <span className="text-[14px] font-bold text-white">{log.writer_name}</span>
-                                    </div>
-
-                                    {/* Content */}
-                                    <div className="flex-1 min-w-0 pr-0 flex items-center gap-[8px] translate-x-[2px]">
-                                        <div 
-                                            className="flex-1 min-w-0 text-[14px] text-[#E5E5E5] hover:text-white transition-colors flex items-center gap-[6px]"
-                                        >
-                                            {hasRestrictedPermissions(log) && (
-                                                <div className="group relative flex items-center gap-[4px] shrink-0 cursor-default">
-                                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                                                    <span className="text-[#ef4444] text-[12px] font-bold">[{getShortPermissionString(log)}]</span>
-                                                    <div className="absolute left-0 bottom-[100%] mb-[8px] hidden group-hover:flex bg-[#222] border border-[#333] px-[10px] py-[6px] rounded-[6px] whitespace-nowrap text-[12px] text-[#E5E5E5] shadow-xl z-[99] pointer-events-none font-medium">
-                                                        🔒 열람 권한: {getPermissionString(log)}
-                                                    </div>
-                                                </div>
-                                            )}
-                                            <span className="truncate">{log.summary || (log.raw_text ? log.raw_text.split('\n')[0] : '')}</span>
-                                            {log.metadata?.comments?.length > 0 && <span className="text-[#3b82f6] ml-[6px] font-bold text-[13px] shrink-0">({log.metadata.comments.length})</span>}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Right Section */}
-                            <div className="flex items-center gap-[12px] shrink-0 ml-[12px] justify-end">
-                                {/* Reactions Indicator */}
-                                <div className="shrink-0 flex items-center justify-end gap-[6px] w-[90px]">
-                                    {(log.metadata?.reactions?.like?.length > 0 || log.metadata?.reactions?.check?.length > 0) && (
-                                        <div className="flex items-center gap-[8px]">
-                                            {log.metadata?.reactions?.like?.length > 0 && (
-                                                <div className="flex items-center gap-[4px]">
-                                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="#ff3b30" stroke="#ff3b30" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
-                                                    <ReactionAvatarStack reactionEmails={log.metadata.reactions.like} pilotMembers={pilotMembers} />
-                                                </div>
-                                            )}
-                                            {log.metadata?.reactions?.check?.length > 0 && (
-                                                <div className="flex items-center gap-[4px]">
-                                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#2997ff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-                                                    <ReactionAvatarStack reactionEmails={log.metadata.reactions.check} pilotMembers={pilotMembers} />
-                                                </div>
-                                            )}
-                                        </div>
-                                    )}
-                                </div>
-                                
-                                {/* Stakeholder Info */}
-                                <div className="shrink-0 flex justify-center w-[110px] mr-[4px]">
-                                    {checkUserAccess(log) && log.iota_seoul_log_stakeholders?.[0]?.sh_name && (
-                                        <span className="text-[13px] text-[#A1A1AA] text-center truncate" title={log.iota_seoul_log_stakeholders[0].sh_name.split(' - ')[0]}>
-                                            {log.iota_seoul_log_stakeholders[0].sh_name.split(' - ')[0]}
-                                        </span>
-                                    )}
-                                </div>
-                                {!isTaskBoard && (
-                                    <>
-                                        <div className="h-[24px] flex items-center w-[60px] justify-center translate-x-[6px]"><span className="text-[13px] text-[#A1A1AA] truncate">{log.metadata?.triage_type || '공유'}</span></div>
-                                        <div className="h-[24px] flex items-center w-[60px] justify-center"><span className="text-[13px] text-[#E5E5E5]">{log.metadata?.issue_status || '진행중'}</span></div>
-                                        <div className="h-[24px] flex items-center w-[40px] justify-center">
-                                            <span className={`text-[13px] font-bold ${log.metadata?.priority === '높음' ? 'text-[#FF453A]' : (log.metadata?.priority === '낮음' ? 'text-[#86868B]' : 'text-[#3b82f6]')}`}>
-                                                {log.metadata?.priority || '중간'}
+                                        <div className="flex flex-col">
+                                            <div className="flex items-center gap-1.5">
+                                                <span className="text-[14px] font-bold text-white leading-tight">{log.writer_name}</span>
+                                                <span className="text-[11px] font-bold text-[#82afb9] bg-[#82afb9]/10 px-1.5 py-0.5 rounded">
+                                                    {getLogCell(log).replace(/-(LFC|DSC|EMC|SSC|KAM)$/, '')}
+                                                </span>
+                                            </div>
+                                            <span className="text-[11px] text-[#86868B] font-['Inter'] mt-0.5">
+                                                {formatDateYYMMDD(log.work_date)} {log.created_at && new Date(log.created_at).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', hour12: false })}
                                             </span>
                                         </div>
-                                    </>
-                                )}
-                                <div className="relative flex flex-col items-center w-[60px] shrink-0 justify-center">
-                                    <span className="text-[13px] text-[#86868B] font-['Inter'] leading-tight">
-                                        {formatDateYYMMDD(log.work_date)}
-                                    </span>
-                                    {expandedLogs[log.log_id] && log.created_at && (
-                                        <span className="absolute top-[100%] text-[11px] text-[#555] font-['Inter'] leading-tight mt-[2px] whitespace-nowrap">
-                                            {new Date(log.created_at).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })}
-                                        </span>
-                                    )}
-                                </div>
-                                
-                                {/* Delete Button (Absolute positioned outside content flow) */}
-                                {log.writer_staff_id === memberInfo?.email && (
-                                    <button 
-                                        type="button"
-                                        onClick={(e) => { e.stopPropagation(); setLogToDelete(log); }}
-                                        className="absolute right-[-24px] top-1/2 -translate-y-1/2 w-[24px] h-[24px] bg-black rounded-none flex items-center justify-center transition-opacity opacity-100 border border-[#333] shadow-none cursor-pointer hover:bg-[#222]"
-                                        title="삭제"
-                                    >
-                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                                    </button>
-                                )}
-                            </div>
-                        </div>
-
-                        {/* Expanded Box */}
-                        <AnimatePresence>
-                            {expandedLogs[log.log_id] && (
-                                <motion.div 
-                                    className="w-full flex overflow-hidden"
-                                    initial={{ height: 0, opacity: 0, marginTop: 0 }}
-                                    animate={{ height: 'auto', opacity: 1, marginTop: 14 }}
-                                    exit={{ height: 0, opacity: 0, marginTop: 0 }}
-                                    transition={{ duration: 0.2, ease: "easeInOut" }}
-                                >
-                                <div 
-                                    className="rounded-[12px] p-[1px] bg-gradient-to-br from-[#d6efe9] via-[#82afb9] to-[#4c6e86] flex-1"
-                                    style={{ marginLeft: '166px', marginRight: '72px' }}
-                                >
-                                    <div className="bg-[#1c1c1e] rounded-[11px] p-[16px] w-full h-full">
-                                    {/* Right Floating Badges */}
-                                    <div className="float-right ml-[16px] mb-[12px] flex flex-col items-end gap-[12px]">
-                                        {hasRestrictedPermissions(log) && (
-                                            <div className="flex flex-col items-end gap-[4px]">
-                                                <span className="text-[11px] font-bold text-[#86868B] pr-[14px]">열람 권한</span>
-                                                <div className="bg-[#1e293b] border border-[#334155] rounded-full pl-[8px] pr-[12px] py-[4px] flex items-center gap-[6px]">
-                                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                                                    <span className="text-[12px] font-medium text-[#e2e8f0]">
-                                                        제한됨: {getPermissionString(log)}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        )}
-                                        
-                                        {checkUserAccess(log) && log.iota_seoul_log_stakeholders?.[0]?.sh_name && (
-                                            <div className="flex flex-col items-end gap-[4px]">
-                                                <span className="text-[11px] font-bold text-[#86868B] pr-[14px]">이해관계자</span>
-                                                <div className="bg-[#2a2a2c] border border-[#444] rounded-full pl-[8px] pr-[12px] py-[4px] flex items-center gap-[6px]">
-                                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#A1A1AA" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                                                    <span className="text-[12px] font-medium text-[#E5E5E5]">
-                                                        {log.iota_seoul_log_stakeholders[0].sh_name.split(' - ')[0]}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        )}
                                     </div>
                                     
-                                    {/* Original Text */}
-                                    {checkUserAccess(log) ? (
-                                            <div className={`whitespace-pre-wrap break-words text-[15px] leading-relaxed ${commentingLogId === log.log_id ? 'text-[#86868B] opacity-70' : 'text-[#E5E5E5]'}`}>
-                                                {renderLogTextWithMentions(log.raw_text)}
-                                            </div>
-                                        ) : (
-                                            <div className="text-[#86868B] text-[14px] italic py-[20px] text-center border border-[#333] rounded-[8px] bg-[#1a1a1a]">
-                                                🔒 열람 권한이 없습니다.
-                                            </div>
+                                    <div className="flex items-center gap-2 shrink-0">
+                                        {/* Delete Button (Writer only) */}
+                                        {log.writer_staff_id === memberInfo?.email && (
+                                            <button 
+                                                type="button"
+                                                onClick={(e) => { e.stopPropagation(); setLogToDelete(log); }}
+                                                className="w-[24px] h-[24px] rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-[#86868B] hover:text-[#FF453A] hover:bg-[#FF453A]/10 hover:border-[#FF453A]/30 transition-all cursor-pointer"
+                                                title="삭제"
+                                            >
+                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                                            </button>
                                         )}
-                                    <div className="clear-both mb-[16px]"></div>
-                                    
-                                    {/* Attached Files List */}
-                                    {checkUserAccess(log) && log.metadata?.attachedFiles && log.metadata.attachedFiles.length > 0 && (
-                                        <div className="flex flex-col gap-[8px] mb-[16px] border-t border-[#333] pt-[12px]">
-                                            <div className="text-[12px] font-bold text-[#86868B] mb-[4px]">첨부파일</div>
-                                            <div className="flex flex-wrap gap-[8px]">
-                                                {log.metadata.attachedFiles.map((file, idx) => (
-                                                    <button 
-                                                        key={idx} 
-                                                        type="button"
-                                                        className="flex items-center gap-[6px] bg-[#222] hover:bg-[#333] border border-[#444] rounded-[8px] px-[12px] py-[8px] transition-colors group cursor-pointer"
-                                                        onClick={(e) => handleDownloadFile(e, file.path, file.name)}
-                                                    >
-                                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#A1A1AA" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:stroke-white transition-colors"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
-                                                        <span className="text-[12px] text-[#A1A1AA] group-hover:text-[#E5E5E5] transition-colors truncate max-w-[200px]" title={file.name}>{file.name}</span>
-                                                        <span className="text-[10px] text-[#555] ml-[4px]">{file.size ? (file.size / 1024 / 1024).toFixed(2) : '0.00'}MB</span>
-                                                    </button>
-                                                ))}
-                                            </div>
+                                    </div>
+                                </div>
+                                
+                                {/* Card Body - Content */}
+                                <div className="text-[14px] text-[#E5E5E5] leading-relaxed whitespace-pre-wrap pl-[42px] pr-[10px] break-words">
+                                    {hasRestrictedPermissions(log) && (
+                                        <div className="inline-flex items-center gap-[4px] cursor-default text-[#ef4444] text-[12px] font-bold mb-[6px]">
+                                            🔒 [{getShortPermissionString(log)}]
                                         </div>
                                     )}
-
-                                    {/* Comments List */}
-                                    {checkUserAccess(log) && log.metadata?.comments && log.metadata.comments.length > 0 && (
-                                        <div className="flex flex-col gap-[8px] mb-[16px] border-t border-[#333] pt-[12px]">
-                                            {log.metadata.comments.map(comment => (
-                                                <div key={comment.id} className="bg-[#222] rounded-[8px] p-[12px] flex justify-between group">
-                                                    <div className="flex-1 min-w-0 pr-[16px]">
-                                                        <div className="flex items-center gap-[8px] mb-[4px]">
-                                                            <div className="w-[28px] h-[28px] rounded-full bg-[#333] overflow-hidden border border-[#444] shrink-0">
-                                                                <img 
-                                                                    src={`${import.meta.env.BASE_URL}${comment.author}.webp`} 
-                                                                    alt={comment.author} 
-                                                                    className="w-full h-full object-cover"
-                                                                    onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }}
-                                                                />
-                                                            </div>
-                                                            <span className="text-[13px] font-bold text-[#E5E5E5]">{comment.author}</span>
-                                                            <span className="text-[11px] text-[#86868B]">
-                                                                {new Date(comment.created_at).toLocaleString('ko-KR', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })}
-                                                            </span>
-                                                        </div>
-                                                        <div className="text-[13px] text-[#A1A1AA] whitespace-pre-wrap break-words ml-[36px] mb-[6px]">{comment.text}</div>
-                                                        <div className="flex items-center gap-[8px] ml-[36px]">
-                                                            <button
-                                                                type="button"
-                                                                onClick={(e) => { e.stopPropagation(); handleToggleReaction(log.log_id, 'like', comment.id); }}
-                                                                className={`flex items-center gap-[4px] transition-colors cursor-pointer ${comment.reactions?.like?.includes(memberInfo?.email) ? 'text-[#ff3b30]' : 'text-[#86868B] hover:text-[#A1A1AA]'}`}
-                                                            >
-                                                                <svg width="12" height="12" viewBox="0 0 24 24" fill={comment.reactions?.like?.includes(memberInfo?.email) ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
-                                                                {comment.reactions?.like?.length > 0 ? (
-                                                                    <ReactionAvatarStack reactionEmails={comment.reactions.like} pilotMembers={pilotMembers} />
-                                                                ) : (
-                                                                    <span className="text-[11px] font-medium">좋아요</span>
-                                                                )}
-                                                            </button>
-                                                            <button
-                                                                type="button"
-                                                                onClick={(e) => { e.stopPropagation(); handleToggleReaction(log.log_id, 'check', comment.id); }}
-                                                                className={`flex items-center gap-[4px] transition-colors cursor-pointer ${comment.reactions?.check?.includes(memberInfo?.email) ? 'text-[#2997ff]' : 'text-[#86868B] hover:text-[#A1A1AA]'}`}
-                                                            >
-                                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-                                                                {comment.reactions?.check?.length > 0 ? (
-                                                                    <ReactionAvatarStack reactionEmails={comment.reactions.check} pilotMembers={pilotMembers} />
-                                                                ) : (
-                                                                    <span className="text-[11px] font-medium">확인</span>
-                                                                )}
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                    {comment.author_email === memberInfo?.email && (
-                                                        <button
-                                                            onClick={(e) => { e.stopPropagation(); setCommentToDelete({ logId: log.log_id, commentId: comment.id }); }}
-                                                            className="text-[12px] text-[#FF453A] opacity-0 group-hover:opacity-100 transition-opacity hover:underline cursor-pointer"
-                                                        >
-                                                            삭제
-                                                        </button>
-                                                    )}
-                                                </div>
+                                    {checkUserAccess(log) ? (
+                                        <div className="text-[#E5E5E5]">
+                                            {renderLogTextWithMentions(log.raw_text)}
+                                        </div>
+                                    ) : (
+                                        <div className="text-[#86868B] text-[13px] italic py-2 text-center border border-[#333] rounded-[8px] bg-[#1a1a1a]">
+                                            🔒 열람 권한이 없습니다.
+                                        </div>
+                                    )}
+                                    
+                                    {/* File Attachments Summary */}
+                                    {checkUserAccess(log) && log.metadata?.attachedFiles && log.metadata.attachedFiles.length > 0 && (
+                                        <div className="mt-3 flex flex-wrap gap-2 pt-2 border-t border-[#333]/30">
+                                            {log.metadata.attachedFiles.map((file, idx) => (
+                                                <button 
+                                                    key={idx} 
+                                                    type="button"
+                                                    className="flex items-center gap-[6px] bg-white/5 hover:bg-white/10 border border-white/10 rounded-[8px] px-[10px] py-[6px] transition-colors group cursor-pointer"
+                                                    onClick={(e) => handleDownloadFile(e, file.path, file.name)}
+                                                >
+                                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#86868B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:stroke-white transition-colors"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
+                                                    <span className="text-[11px] text-[#A1A1AA] group-hover:text-white transition-colors truncate max-w-[150px] font-medium" title={file.name}>{file.name}</span>
+                                                    <span className="text-[9px] text-[#555] ml-[2px]">{(file.size ? file.size / 1024 / 1024 : 0).toFixed(2)}MB</span>
+                                                </button>
                                             ))}
                                         </div>
                                     )}
-
-                                    {/* Commenting Box */}
-                                    {commentingLogId === log.log_id && (
-                                        <div className="w-full mt-[16px] relative">
+                                </div>
+                                
+                                {/* Card Footer - Interactions (Reactions & Comments) */}
+                                <div className="flex items-center justify-between pl-[42px] mt-1 pt-2 border-t border-[#333]/20">
+                                    <div className="flex items-center gap-[12px]">
+                                        {/* Like Reaction Button */}
+                                        <button
+                                            type="button"
+                                            onClick={(e) => { e.stopPropagation(); handleToggleReaction(log.log_id, 'like'); }}
+                                            className={`flex items-center gap-[4px] px-[8px] py-[4px] rounded-[6px] transition-colors border cursor-pointer text-[12px] ${log.metadata?.reactions?.like?.includes(memberInfo?.email) ? 'bg-[#ff3b30]/10 border-[#ff3b30]/30 text-[#ff3b30]' : 'bg-transparent border-[#333] hover:border-[#444] text-[#86868B] hover:text-[#E5E5E5]'}`}
+                                        >
+                                            <svg width="12" height="12" viewBox="0 0 24 24" fill={log.metadata?.reactions?.like?.includes(memberInfo?.email) ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                                            <span className="font-semibold">{log.metadata?.reactions?.like?.length || 0}</span>
+                                        </button>
+                                        
+                                        {/* Check Reaction Button */}
+                                        <button
+                                            type="button"
+                                            onClick={(e) => { e.stopPropagation(); handleToggleReaction(log.log_id, 'check'); }}
+                                            className={`flex items-center gap-[4px] px-[8px] py-[4px] rounded-[6px] transition-colors border cursor-pointer text-[12px] ${log.metadata?.reactions?.check?.includes(memberInfo?.email) ? 'bg-[#2997ff]/10 border-[#2997ff]/30 text-[#2997ff]' : 'bg-transparent border-[#333] hover:border-[#444] text-[#86868B] hover:text-[#E5E5E5]'}`}
+                                        >
+                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                                            <span className="font-semibold">{log.metadata?.reactions?.check?.length || 0}</span>
+                                        </button>
+                                        
+                                        {/* Comment Thread Toggle Button */}
+                                        <button
+                                            type="button"
+                                            onClick={(e) => { 
+                                                e.stopPropagation(); 
+                                                toggleExpand(log.log_id);
+                                            }}
+                                            className={`flex items-center gap-[6px] px-[10px] py-[4px] rounded-[6px] border text-[12px] font-medium transition-all cursor-pointer ${expandedLogs[log.log_id] ? 'bg-[#2997ff]/10 border-[#2997ff]/30 text-[#2997ff]' : 'bg-transparent border-[#333] hover:border-[#444] text-[#86868B] hover:text-white'}`}
+                                        >
+                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                                            <span>댓글 {log.metadata?.comments?.length || 0}</span>
+                                        </button>
+                                    </div>
+                                    
+                                    <div className="flex items-center gap-[8px]">
+                                        {/* Edit Post Button (Owner only) */}
+                                        {!editingLogId && (memberInfo?.email === log.writer_staff_id || memberInfo?.name === log.writer_name) && (
+                                            <button
+                                                type="button"
+                                                onClick={(e) => { 
+                                                    e.stopPropagation(); 
+                                                    setEditingLogId(log.log_id);
+                                                    setCommentingLogId(null);
+                                                }}
+                                                className="text-[12px] text-[#A1A1AA] hover:text-white font-medium cursor-pointer transition-colors"
+                                            >
+                                                수정하기
+                                            </button>
+                                        )}
+                                    </div>
+                                </div>
+                                
+                                {/* Nested Expanded Comments/Replies Inside Card */}
+                                {expandedLogs[log.log_id] && (
+                                    <div className="mt-3 pl-[42px] border-t border-[#333]/20 pt-3 w-full flex flex-col gap-3">
+                                        {/* Comments list */}
+                                        {checkUserAccess(log) && log.metadata?.comments && log.metadata.comments.length > 0 && (
+                                            <div className="flex flex-col gap-[8px] w-full">
+                                                {log.metadata.comments.map(comment => (
+                                                    <div key={comment.id} className="bg-white/[0.02] border border-[#2c2c2e] rounded-[8px] p-[10px] flex justify-between group">
+                                                        <div className="flex-1 min-w-0 pr-[16px]">
+                                                            <div className="flex items-center gap-[8px] mb-[4px]">
+                                                                <div className="w-[24px] h-[24px] rounded-full bg-[#333] overflow-hidden border border-[#444] shrink-0">
+                                                                    <img 
+                                                                        src={`${import.meta.env.BASE_URL}${comment.author}.webp`} 
+                                                                        alt={comment.author} 
+                                                                        className="w-full h-full object-cover"
+                                                                        onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }}
+                                                                    />
+                                                                </div>
+                                                                <span className="text-[12px] font-bold text-white">{comment.author}</span>
+                                                                <span className="text-[10px] text-[#86868B]">
+                                                                    {new Date(comment.created_at).toLocaleString('ko-KR', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false })}
+                                                                </span>
+                                                            </div>
+                                                            <div className="text-[13px] text-[#A1A1AA] whitespace-pre-wrap break-words ml-[32px] mb-[6px]">{comment.text}</div>
+                                                            <div className="flex items-center gap-[8px] ml-[32px]">
+                                                                <button
+                                                                    type="button"
+                                                                    onClick={(e) => { e.stopPropagation(); handleToggleReaction(log.log_id, 'like', comment.id); }}
+                                                                    className={`flex items-center gap-[4px] transition-colors cursor-pointer ${comment.reactions?.like?.includes(memberInfo?.email) ? 'text-[#ff3b30]' : 'text-[#86868B] hover:text-[#A1A1AA]'}`}
+                                                                >
+                                                                    <svg width="10" height="10" viewBox="0 0 24 24" fill={comment.reactions?.like?.includes(memberInfo?.email) ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                                                                    <span className="text-[10px]">{comment.reactions?.like?.length || 0}</span>
+                                                                </button>
+                                                                <button
+                                                                    type="button"
+                                                                    onClick={(e) => { e.stopPropagation(); handleToggleReaction(log.log_id, 'check', comment.id); }}
+                                                                    className={`flex items-center gap-[4px] transition-colors cursor-pointer ${comment.reactions?.check?.includes(memberInfo?.email) ? 'text-[#2997ff]' : 'text-[#86868B] hover:text-[#A1A1AA]'}`}
+                                                                >
+                                                                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                                                                    <span className="text-[10px]">{comment.reactions?.check?.length || 0}</span>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                        {comment.author_email === memberInfo?.email && (
+                                                            <button
+                                                                onClick={(e) => { e.stopPropagation(); setCommentToDelete({ logId: log.log_id, commentId: comment.id }); }}
+                                                                className="text-[11px] text-[#FF453A] opacity-0 group-hover:opacity-100 transition-opacity hover:underline cursor-pointer align-self-start"
+                                                            >
+                                                                삭제
+                                                            </button>
+                                                        )}
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
+                                        
+                                        {/* Reply write box */}
+                                        <div className="w-full relative mt-1">
                                             <textarea
                                                 id={`comment-textarea-${log.log_id}`}
-                                                value={commentContent}
+                                                value={commentingLogId === log.log_id ? commentContent : ''}
                                                 onChange={(e) => handleCommentContentChange(e, log.log_id)}
+                                                onFocus={() => setCommentingLogId(log.log_id)}
                                                 placeholder="댓글을 입력하세요... (@를 입력하여 담당자를 멘션할 수 있습니다)"
-                                                className="w-full bg-[#2a2a2c] border border-[#444] rounded-[8px] p-[12px] text-[14px] text-[#E5E5E5] leading-relaxed resize-y focus:outline-none focus:border-[#2997ff] min-h-[90px]"
+                                                className="w-full bg-[#2a2a2c]/50 border border-[#333] rounded-[8px] p-[10px] text-[13px] text-[#E5E5E5] leading-relaxed resize-y focus:outline-none focus:border-[#2997ff] min-h-[60px]"
                                             />
-                                            {/* Comment Mention Dropdown */}
-                                            {commentShowMentionDropdown && filteredCommentMentions.length > 0 && (
+                                            {commentingLogId === log.log_id && (
+                                                <div className="flex justify-end gap-[8px] mt-[6px]">
+                                                    <button
+                                                        onClick={() => { setCommentingLogId(null); setCommentContent(''); }}
+                                                        className="px-[10px] py-[4px] bg-transparent border border-[#444] rounded-[6px] text-[11px] text-[#A1A1AA] hover:text-[#E5E5E5] transition-colors cursor-pointer"
+                                                    >
+                                                        취소
+                                                    </button>
+                                                    <button
+                                                        onClick={() => handleSaveComment(log.log_id)}
+                                                        disabled={isSavingComment}
+                                                        className="px-[12px] py-[4px] bg-[#2997ff] hover:bg-[#0071e3] border border-transparent rounded-[6px] text-[11px] text-white font-bold transition-colors disabled:opacity-50 cursor-pointer"
+                                                    >
+                                                        {isSavingComment ? '등록 중...' : '댓글 등록'}
+                                                    </button>
+                                                </div>
+                                            )}
+                                            
+                                            {/* Mention Dropdown inside card reply */}
+                                            {commentingLogId === log.log_id && commentShowMentionDropdown && filteredCommentMentions.length > 0 && (
                                                 <div 
                                                     className="absolute bg-[#222] border border-[#333] rounded-[8px] py-[6px] w-[180px] max-h-[150px] overflow-y-auto z-[60] shadow-xl"
                                                     style={{ top: `${commentMentionPosition.top}px`, left: `${commentMentionPosition.left}px` }}
@@ -1051,95 +975,410 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                                     ))}
                                                 </div>
                                             )}
-                                            <div className="flex justify-end gap-[8px] mt-[8px]">
-                                                <button
-                                                    onClick={() => setCommentingLogId(null)}
-                                                    className="px-[12px] py-[6px] bg-transparent border border-[#444] rounded-[6px] text-[12px] text-[#A1A1AA] hover:text-[#E5E5E5] transition-colors cursor-pointer"
-                                                >
-                                                    취소
-                                                </button>
-                                                <button
-                                                    onClick={() => handleSaveComment(log.log_id)}
-                                                    disabled={isSavingComment}
-                                                    className="px-[12px] py-[6px] bg-[#2997ff] hover:bg-[#0071e3] border border-transparent rounded-[6px] text-[12px] text-white font-bold transition-colors disabled:opacity-50 cursor-pointer"
-                                                >
-                                                    {isSavingComment ? '저장 중...' : '등록'}
-                                                </button>
-                                            </div>
                                         </div>
-                                    )}
-                                    
-                                    <div className="mt-[14px] flex items-end justify-between">
-                                        <div className="text-[12px] text-[#555] font-medium">
-                                            수정일자: {log.updated_at ? new Date(log.updated_at).toLocaleString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }) : new Date(log.created_at || log.work_date).toLocaleString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })}
-                                        </div>
-                                        {checkUserAccess(log) && (
-                                            <div className="flex items-center gap-[8px]">
-                                                {/* Post Reactions */}
-                                                <div className="flex items-center gap-[6px] mr-[8px]">
-                                                    <button
-                                                        type="button"
-                                                        onClick={(e) => { e.stopPropagation(); handleToggleReaction(log.log_id, 'like'); }}
-                                                        className={`flex items-center gap-[4px] px-[8px] py-[4px] rounded-[6px] transition-colors border cursor-pointer ${log.metadata?.reactions?.like?.includes(memberInfo?.email) ? 'bg-[#ff3b30]/10 border-[#ff3b30]/30 text-[#ff3b30]' : 'bg-[#222] border-[#333] hover:border-[#444] text-[#A1A1AA] hover:text-[#E5E5E5]'}`}
-                                                    >
-                                                        <svg width="14" height="14" viewBox="0 0 24 24" fill={log.metadata?.reactions?.like?.includes(memberInfo?.email) ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
-                                                        {log.metadata?.reactions?.like?.length > 0 ? (
-                                                            <ReactionAvatarStack reactionEmails={log.metadata.reactions.like} pilotMembers={pilotMembers} />
-                                                        ) : (
-                                                            <span className="text-[12px] font-medium">0</span>
-                                                        )}
-                                                    </button>
-                                                    <button
-                                                        type="button"
-                                                        onClick={(e) => { e.stopPropagation(); handleToggleReaction(log.log_id, 'check'); }}
-                                                        className={`flex items-center gap-[4px] px-[8px] py-[4px] rounded-[6px] transition-colors border cursor-pointer ${log.metadata?.reactions?.check?.includes(memberInfo?.email) ? 'bg-[#2997ff]/10 border-[#2997ff]/30 text-[#2997ff]' : 'bg-[#222] border-[#333] hover:border-[#444] text-[#A1A1AA] hover:text-[#E5E5E5]'}`}
-                                                    >
-                                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-                                                        {log.metadata?.reactions?.check?.length > 0 ? (
-                                                            <ReactionAvatarStack reactionEmails={log.metadata.reactions.check} pilotMembers={pilotMembers} />
-                                                        ) : (
-                                                            <span className="text-[12px] font-medium">0</span>
-                                                        )}
-                                                    </button>
-                                                </div>
-                                                {!editingLogId && (
-                                                    <button
-                                                        type="button"
-                                                        onClick={(e) => { 
-                                                            e.stopPropagation(); 
-                                                            setCommentingLogId(log.log_id);
-                                                            setCommentContent('');
-                                                            setEditingLogId(null);
-                                                        }}
-                                                        className="px-[12px] py-[6px] bg-[#222] hover:bg-[#333] border border-[#333] hover:border-[#444] rounded-[6px] text-[12px] text-[#A1A1AA] hover:text-[#E5E5E5] font-medium transition-all flex items-center gap-[6px] cursor-pointer"
-                                                    >
-                                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-                                                        댓글
-                                                    </button>
-                                                )}
-                                                {!editingLogId && (memberInfo?.email === log.writer_staff_id || memberInfo?.name === log.writer_name) && (
-                                                    <button
-                                                        type="button"
-                                                        onClick={(e) => { 
-                                                            e.stopPropagation(); 
-                                                            setEditingLogId(log.log_id);
-                                                            setCommentingLogId(null);
-                                                        }}
-                                                        className="px-[12px] py-[6px] bg-[#222] hover:bg-[#333] border border-[#333] hover:border-[#444] rounded-[6px] text-[12px] text-[#A1A1AA] hover:text-[#E5E5E5] font-medium transition-all cursor-pointer"
-                                                    >
-                                                        수정하기
-                                                    </button>
-                                                )}
+                                    </div>
+                                )}
+                            </div>
+                        );
+                    }
+
+                    // Render original workspace table-row layout
+                    return (
+                        <div id={log.log_id} key={log.log_id} className={`relative w-full px-[20px] py-[16px] flex flex-col group transition-all duration-500 hover:bg-white/5 last:rounded-b-[24px] ${index !== displayedLogs.length - 1 ? 'border-b border-[#3c3c3c]' : ''}`}>
+                            {/* Main Row */}
+                            <div 
+                                className="w-full flex items-center justify-between cursor-pointer"
+                                onClick={() => toggleExpand(log.log_id)}
+                            >
+                                {/* Left Section */}
+                                <div className="flex items-center flex-1 min-w-0">
+                                    {/* Project Button */}
+                                    {!isTaskBoard && (() => {
+                                        let projName = '427 PFV';
+                                        if (log.metadata?.project_name) {
+                                            let name = log.metadata.project_name;
+                                            if (name === 'IOTA 427') name = '427 PFV';
+                                            if (name === 'IOTA 816') name = '816 PFV';
+                                            projName = name;
+                                        } else {
+                                            const text = log.metadata?.workspace_label || log.metadata?.source_project_text || '';
+                                            if (text.includes('816') || text.includes('서울 2') || text.includes('IOTA 2') || text.includes('Two')) projName = '816 PFV';
+                                            else if (text.includes('421')) projName = '421 Fund';
+                                        }
+                                        
+                                        let textColorClass = 'text-[#E5E5E5] border-[#444]'; // 427 PFV (Lightest)
+                                        if (projName === '816 PFV') textColorClass = 'text-[#A1A1AA] border-[#333]'; // 816 PFV (Medium)
+                                        else if (projName === '421 Fund') textColorClass = 'text-[#737373] border-[#222]'; // 421 Fund (Darkest)
+                                        else if (projName === 'IOTA 공통') textColorClass = 'text-[#A1A1AA] border-[#333]';
+                                        
+                                        return (
+                                            <div className={`py-[6px] border rounded-[8px] text-[12px] font-bold ${textColorClass} shrink-0 mr-[16px] w-[86px] text-center bg-transparent`}>
+                                                {projName}
                                             </div>
-                                        )}
+                                        );
+                                    })()}
+
+                                    <div className={`flex items-center flex-1 min-w-0 ${isTaskBoard ? '' : 'translate-x-[-20px]'}`}>
+                                        {/* Cell Name */}
+                                        <div className="w-[80px] shrink-0 translate-x-[4px] flex justify-center">
+                                            <span className="text-[13px] font-medium text-[#86868B]">
+                                                {getLogCell(log).replace(/-(LFC|DSC|EMC|SSC|KAM)$/, '')}
+                                            </span>
+                                        </div>
+
+                                        {/* Avatar & Name */}
+                                        <div className="flex items-center gap-[8px] w-[110px] shrink-0 translate-x-[10px]">
+                                            <div className="w-[28px] h-[28px] rounded-full bg-[#333] overflow-hidden border border-[#444]">
+                                                <img 
+                                                    src={`${import.meta.env.BASE_URL}${log.writer_name}.webp`} 
+                                                    alt={log.writer_name} 
+                                                    className="w-full h-full object-cover"
+                                                    onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }}
+                                                />
+                                            </div>
+                                            <span className="text-[14px] font-bold text-white">{log.writer_name}</span>
+                                        </div>
+
+                                        {/* Content */}
+                                        <div className="flex-1 min-w-0 pr-0 flex items-center gap-[8px] translate-x-[2px]">
+                                            <div 
+                                                className="flex-1 min-w-0 text-[14px] text-[#E5E5E5] hover:text-white transition-colors flex items-center gap-[6px]"
+                                            >
+                                                {hasRestrictedPermissions(log) && (
+                                                    <div className="group relative flex items-center gap-[4px] shrink-0 cursor-default">
+                                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                                                        <span className="text-[#ef4444] text-[12px] font-bold">[{getShortPermissionString(log)}]</span>
+                                                        <div className="absolute left-0 bottom-[100%] mb-[8px] hidden group-hover:flex bg-[#222] border border-[#333] px-[10px] py-[6px] rounded-[6px] whitespace-nowrap text-[12px] text-[#E5E5E5] shadow-xl z-[99] pointer-events-none font-medium">
+                                                            🔒 열람 권한: {getPermissionString(log)}
+                                                        </div>
+                                                    </div>
+                                                )}
+                                                <span className="truncate">{log.summary || (log.raw_text ? log.raw_text.split('\n')[0] : '')}</span>
+                                                {log.metadata?.comments?.length > 0 && <span className="text-[#3b82f6] ml-[6px] font-bold text-[13px] shrink-0">({log.metadata.comments.length})</span>}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                </motion.div>
-                            )}
-                        </AnimatePresence>
-                    </div>
-                ))}
+
+                                {/* Right Section */}
+                                <div className="flex items-center gap-[12px] shrink-0 ml-[12px] justify-end">
+                                    {/* Reactions Indicator */}
+                                    <div className="shrink-0 flex items-center justify-end gap-[6px] w-[90px]">
+                                        {(log.metadata?.reactions?.like?.length > 0 || log.metadata?.reactions?.check?.length > 0) && (
+                                            <div className="flex items-center gap-[8px]">
+                                                {log.metadata?.reactions?.like?.length > 0 && (
+                                                    <div className="flex items-center gap-[4px]">
+                                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="#ff3b30" stroke="#ff3b30" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                                                        <ReactionAvatarStack reactionEmails={log.metadata.reactions.like} pilotMembers={pilotMembers} />
+                                                    </div>
+                                                )}
+                                                {log.metadata?.reactions?.check?.length > 0 && (
+                                                    <div className="flex items-center gap-[4px]">
+                                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#2997ff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                                                        <ReactionAvatarStack reactionEmails={log.metadata.reactions.check} pilotMembers={pilotMembers} />
+                                                    </div>
+                                                )}
+                                            </div>
+                                        )}
+                                    </div>
+                                    
+                                    {/* Stakeholder Info */}
+                                    <div className="shrink-0 flex justify-center w-[110px] mr-[4px]">
+                                        {checkUserAccess(log) && log.iota_seoul_log_stakeholders?.[0]?.sh_name && (
+                                            <span className="text-[13px] text-[#A1A1AA] text-center truncate" title={log.iota_seoul_log_stakeholders[0].sh_name.split(' - ')[0]}>
+                                                {log.iota_seoul_log_stakeholders[0].sh_name.split(' - ')[0]}
+                                            </span>
+                                        )}
+                                    </div>
+                                    {!isTaskBoard && (
+                                        <>
+                                            <div className="h-[24px] flex items-center w-[60px] justify-center translate-x-[6px]"><span className="text-[13px] text-[#A1A1AA] truncate">{log.metadata?.triage_type || '공유'}</span></div>
+                                            <div className="h-[24px] flex items-center w-[60px] justify-center"><span className="text-[13px] text-[#E5E5E5]">{log.metadata?.issue_status || '진행중'}</span></div>
+                                            <div className="h-[24px] flex items-center w-[40px] justify-center">
+                                                <span className={`text-[13px] font-bold ${log.metadata?.priority === '높음' ? 'text-[#FF453A]' : (log.metadata?.priority === '낮음' ? 'text-[#86868B]' : 'text-[#3b82f6]')}`}>
+                                                    {log.metadata?.priority || '중간'}
+                                                </span>
+                                            </div>
+                                        </>
+                                    )}
+                                    <div className="relative flex flex-col items-center w-[60px] shrink-0 justify-center">
+                                        <span className="text-[13px] text-[#86868B] font-['Inter'] leading-tight">
+                                            {formatDateYYMMDD(log.work_date)}
+                                        </span>
+                                        {expandedLogs[log.log_id] && log.created_at && (
+                                            <span className="absolute top-[100%] text-[11px] text-[#555] font-['Inter'] leading-tight mt-[2px] whitespace-nowrap">
+                                                {new Date(log.created_at).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })}
+                                            </span>
+                                        )}
+                                    </div>
+                                    
+                                    {/* Delete Button (Absolute positioned outside content flow) */}
+                                    {log.writer_staff_id === memberInfo?.email && (
+                                        <button 
+                                            type="button"
+                                            onClick={(e) => { e.stopPropagation(); setLogToDelete(log); }}
+                                            className="absolute right-[-24px] top-1/2 -translate-y-1/2 w-[24px] h-[24px] bg-black rounded-none flex items-center justify-center transition-opacity opacity-100 border border-[#333] shadow-none cursor-pointer hover:bg-[#222]"
+                                            title="삭제"
+                                        >
+                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                                        </button>
+                                    )}
+                                </div>
+                            </div>
+
+                            {/* Expanded Box */}
+                            <AnimatePresence>
+                                {expandedLogs[log.log_id] && (
+                                    <motion.div 
+                                        className="w-full flex overflow-hidden"
+                                        initial={{ height: 0, opacity: 0, marginTop: 0 }}
+                                        animate={{ height: 'auto', opacity: 1, marginTop: 14 }}
+                                        exit={{ height: 0, opacity: 0, marginTop: 0 }}
+                                        transition={{ duration: 0.2, ease: "easeInOut" }}
+                                    >
+                                    <div 
+                                        className="rounded-[12px] p-[1px] bg-gradient-to-br from-[#d6efe9] via-[#82afb9] to-[#4c6e86] flex-1"
+                                        style={{ marginLeft: '166px', marginRight: '72px' }}
+                                    >
+                                        <div className="bg-[#1c1c1e] rounded-[11px] p-[16px] w-full h-full">
+                                        {/* Right Floating Badges */}
+                                        <div className="float-right ml-[16px] mb-[12px] flex flex-col items-end gap-[12px]">
+                                            {hasRestrictedPermissions(log) && (
+                                                <div className="flex flex-col items-end gap-[4px]">
+                                                    <span className="text-[11px] font-bold text-[#86868B] pr-[14px]">열람 권한</span>
+                                                    <div className="bg-[#1e293b] border border-[#334155] rounded-full pl-[8px] pr-[12px] py-[4px] flex items-center gap-[6px]">
+                                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                                                        <span className="text-[12px] font-medium text-[#e2e8f0]">
+                                                            제한됨: {getPermissionString(log)}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            )}
+                                            
+                                            {checkUserAccess(log) && log.iota_seoul_log_stakeholders?.[0]?.sh_name && (
+                                                <div className="flex flex-col items-end gap-[4px]">
+                                                    <span className="text-[11px] font-bold text-[#86868B] pr-[14px]">이해관계자</span>
+                                                    <div className="bg-[#2a2a2c] border border-[#444] rounded-full pl-[8px] pr-[12px] py-[4px] flex items-center gap-[6px]">
+                                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#A1A1AA" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                                                        <span className="text-[12px] font-medium text-[#E5E5E5]">
+                                                            {log.iota_seoul_log_stakeholders[0].sh_name.split(' - ')[0]}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+                                        
+                                        {/* Original Text */}
+                                        {checkUserAccess(log) ? (
+                                                <div className={`whitespace-pre-wrap break-words text-[15px] leading-relaxed ${commentingLogId === log.log_id ? 'text-[#86868B] opacity-70' : 'text-[#E5E5E5]'}`}>
+                                                    {renderLogTextWithMentions(log.raw_text)}
+                                                </div>
+                                            ) : (
+                                                <div className="text-[#86868B] text-[14px] italic py-[20px] text-center border border-[#333] rounded-[8px] bg-[#1a1a1a]">
+                                                    🔒 열람 권한이 없습니다.
+                                                </div>
+                                            )}
+                                        <div className="clear-both mb-[16px]"></div>
+                                        
+                                        {/* Attached Files List */}
+                                        {checkUserAccess(log) && log.metadata?.attachedFiles && log.metadata.attachedFiles.length > 0 && (
+                                            <div className="flex flex-col gap-[8px] mb-[16px] border-t border-[#333] pt-[12px]">
+                                                <div className="text-[12px] font-bold text-[#86868B] mb-[4px]">첨부파일</div>
+                                                <div className="flex flex-wrap gap-[8px]">
+                                                    {log.metadata.attachedFiles.map((file, idx) => (
+                                                        <button 
+                                                            key={idx} 
+                                                            type="button"
+                                                            className="flex items-center gap-[6px] bg-[#222] hover:bg-[#333] border border-[#444] rounded-[8px] px-[12px] py-[8px] transition-colors group cursor-pointer"
+                                                            onClick={(e) => handleDownloadFile(e, file.path, file.name)}
+                                                        >
+                                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#A1A1AA" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:stroke-white transition-colors"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
+                                                            <span className="text-[12px] text-[#A1A1AA] group-hover:text-[#E5E5E5] transition-colors truncate max-w-[200px]" title={file.name}>{file.name}</span>
+                                                            <span className="text-[10px] text-[#555] ml-[4px]">{(file.size ? file.size / 1024 / 1024 : 0).toFixed(2)}MB</span>
+                                                        </button>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        {/* Comments List */}
+                                        {checkUserAccess(log) && log.metadata?.comments && log.metadata.comments.length > 0 && (
+                                            <div className="flex flex-col gap-[8px] mb-[16px] border-t border-[#333] pt-[12px]">
+                                                {log.metadata.comments.map(comment => (
+                                                    <div key={comment.id} className="bg-[#222] rounded-[8px] p-[12px] flex justify-between group">
+                                                        <div className="flex-1 min-w-0 pr-[16px]">
+                                                            <div className="flex items-center gap-[8px] mb-[4px]">
+                                                                <div className="w-[28px] h-[28px] rounded-full bg-[#333] overflow-hidden border border-[#444] shrink-0">
+                                                                    <img 
+                                                                        src={`${import.meta.env.BASE_URL}${comment.author}.webp`} 
+                                                                        alt={comment.author} 
+                                                                        className="w-full h-full object-cover"
+                                                                        onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }}
+                                                                    />
+                                                                </div>
+                                                                <span className="text-[13px] font-bold text-[#E5E5E5]">{comment.author}</span>
+                                                                <span className="text-[11px] text-[#86868B]">
+                                                                    {new Date(comment.created_at).toLocaleString('ko-KR', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false })}
+                                                                </span>
+                                                            </div>
+                                                            <div className="text-[13px] text-[#A1A1AA] whitespace-pre-wrap break-words ml-[36px] mb-[6px]">{comment.text}</div>
+                                                            <div className="flex items-center gap-[8px] ml-[36px]">
+                                                                <button
+                                                                    type="button"
+                                                                    onClick={(e) => { e.stopPropagation(); handleToggleReaction(log.log_id, 'like', comment.id); }}
+                                                                    className={`flex items-center gap-[4px] transition-colors cursor-pointer ${comment.reactions?.like?.includes(memberInfo?.email) ? 'text-[#ff3b30]' : 'text-[#86868B] hover:text-[#A1A1AA]'}`}
+                                                                >
+                                                                    <svg width="12" height="12" viewBox="0 0 24 24" fill={comment.reactions?.like?.includes(memberInfo?.email) ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                                                                    {comment.reactions?.like?.length > 0 ? (
+                                                                        <ReactionAvatarStack reactionEmails={comment.reactions.like} pilotMembers={pilotMembers} />
+                                                                    ) : (
+                                                                        <span className="text-[11px] font-medium">좋아요</span>
+                                                                    )}
+                                                                </button>
+                                                                <button
+                                                                    type="button"
+                                                                    onClick={(e) => { e.stopPropagation(); handleToggleReaction(log.log_id, 'check', comment.id); }}
+                                                                    className={`flex items-center gap-[4px] transition-colors cursor-pointer ${comment.reactions?.check?.includes(memberInfo?.email) ? 'text-[#2997ff]' : 'text-[#86868B] hover:text-[#A1A1AA]'}`}
+                                                                >
+                                                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                                                                    {comment.reactions?.check?.length > 0 ? (
+                                                                        <ReactionAvatarStack reactionEmails={comment.reactions.check} pilotMembers={pilotMembers} />
+                                                                    ) : (
+                                                                        <span className="text-[11px] font-medium">확인</span>
+                                                                    )}
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                        {comment.author_email === memberInfo?.email && (
+                                                            <button
+                                                                onClick={(e) => { e.stopPropagation(); setCommentToDelete({ logId: log.log_id, commentId: comment.id }); }}
+                                                                className="text-[12px] text-[#FF453A] opacity-0 group-hover:opacity-100 transition-opacity hover:underline cursor-pointer"
+                                                            >
+                                                                삭제
+                                                            </button>
+                                                        )}
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
+
+                                        {/* Commenting Box */}
+                                        {commentingLogId === log.log_id && (
+                                            <div className="w-full mt-[16px] relative">
+                                                <textarea
+                                                    id={`comment-textarea-${log.log_id}`}
+                                                    value={commentContent}
+                                                    onChange={(e) => handleCommentContentChange(e, log.log_id)}
+                                                    placeholder="댓글을 입력하세요... (@를 입력하여 담당자를 멘션할 수 있습니다)"
+                                                    className="w-full bg-[#2a2a2c] border border-[#444] rounded-[8px] p-[12px] text-[14px] text-[#E5E5E5] leading-relaxed resize-y focus:outline-none focus:border-[#2997ff] min-h-[90px]"
+                                                />
+                                                {/* Comment Mention Dropdown */}
+                                                {commentShowMentionDropdown && filteredCommentMentions.length > 0 && (
+                                                    <div 
+                                                        className="absolute bg-[#222] border border-[#333] rounded-[8px] py-[6px] w-[180px] max-h-[150px] overflow-y-auto z-[60] shadow-xl"
+                                                        style={{ top: `${commentMentionPosition.top}px`, left: `${commentMentionPosition.left}px` }}
+                                                    >
+                                                        {filteredCommentMentions.map((name, i) => (
+                                                            <div 
+                                                                key={i} 
+                                                                className="px-[12px] py-[8px] text-[13px] text-[#E5E5E5] hover:bg-[#333] cursor-pointer truncate flex items-center gap-[4px]"
+                                                                onClick={() => handleCommentMentionSelect(name, log.log_id)}
+                                                            >
+                                                                <span className="text-[#86868B]">@</span>{name}
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                )}
+                                                <div className="flex justify-end gap-[8px] mt-[8px]">
+                                                    <button
+                                                        onClick={() => setCommentingLogId(null)}
+                                                        className="px-[12px] py-[6px] bg-transparent border border-[#444] rounded-[6px] text-[12px] text-[#A1A1AA] hover:text-[#E5E5E5] transition-colors cursor-pointer"
+                                                    >
+                                                        취소
+                                                    </button>
+                                                    <button
+                                                        onClick={() => handleSaveComment(log.log_id)}
+                                                        disabled={isSavingComment}
+                                                        className="px-[12px] py-[6px] bg-[#2997ff] hover:bg-[#0071e3] border border-transparent rounded-[6px] text-[12px] text-white font-bold transition-colors disabled:opacity-50 cursor-pointer"
+                                                    >
+                                                        {isSavingComment ? '저장 중...' : '등록'}
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        )}
+                                        
+                                        <div className="mt-[14px] flex items-end justify-between">
+                                            <div className="text-[12px] text-[#555] font-medium">
+                                                수정일자: {log.updated_at ? new Date(log.updated_at).toLocaleString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }) : new Date(log.created_at || log.work_date).toLocaleString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })}
+                                            </div>
+                                            {checkUserAccess(log) && (
+                                                <div className="flex items-center gap-[8px]">
+                                                    {/* Post Reactions */}
+                                                    <div className="flex items-center gap-[6px] mr-[8px]">
+                                                        <button
+                                                            type="button"
+                                                            onClick={(e) => { e.stopPropagation(); handleToggleReaction(log.log_id, 'like'); }}
+                                                            className={`flex items-center gap-[4px] px-[8px] py-[4px] rounded-[6px] transition-colors border cursor-pointer ${log.metadata?.reactions?.like?.includes(memberInfo?.email) ? 'bg-[#ff3b30]/10 border-[#ff3b30]/30 text-[#ff3b30]' : 'bg-[#222] border-[#333] hover:border-[#444] text-[#A1A1AA] hover:text-[#E5E5E5]'}`}
+                                                        >
+                                                            <svg width="14" height="14" viewBox="0 0 24 24" fill={log.metadata?.reactions?.like?.includes(memberInfo?.email) ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                                                            {log.metadata?.reactions?.like?.length > 0 ? (
+                                                                <ReactionAvatarStack reactionEmails={log.metadata.reactions.like} pilotMembers={pilotMembers} />
+                                                            ) : (
+                                                                <span className="text-[12px] font-medium">0</span>
+                                                            )}
+                                                        </button>
+                                                        <button
+                                                            type="button"
+                                                            onClick={(e) => { e.stopPropagation(); handleToggleReaction(log.log_id, 'check'); }}
+                                                            className={`flex items-center gap-[4px] px-[8px] py-[4px] rounded-[6px] transition-colors border cursor-pointer ${log.metadata?.reactions?.check?.includes(memberInfo?.email) ? 'bg-[#2997ff]/10 border-[#2997ff]/30 text-[#2997ff]' : 'bg-[#222] border-[#333] hover:border-[#444] text-[#A1A1AA] hover:text-[#E5E5E5]'}`}
+                                                        >
+                                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                                                            {log.metadata?.reactions?.check?.length > 0 ? (
+                                                                <ReactionAvatarStack reactionEmails={log.metadata.reactions.check} pilotMembers={pilotMembers} />
+                                                            ) : (
+                                                                <span className="text-[12px] font-medium">0</span>
+                                                            )}
+                                                        </button>
+                                                    </div>
+                                                    {!editingLogId && (
+                                                        <button
+                                                            type="button"
+                                                            onClick={(e) => { 
+                                                                e.stopPropagation(); 
+                                                                setCommentingLogId(log.log_id);
+                                                                setCommentContent('');
+                                                                setEditingLogId(null);
+                                                            }}
+                                                            className="px-[12px] py-[6px] bg-[#222] hover:bg-[#333] border border-[#333] hover:border-[#444] rounded-[6px] text-[12px] text-[#A1A1AA] hover:text-[#E5E5E5] font-medium transition-all flex items-center gap-[6px] cursor-pointer"
+                                                        >
+                                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                                                            댓글
+                                                        </button>
+                                                    )}
+                                                    {!editingLogId && (memberInfo?.email === log.writer_staff_id || memberInfo?.name === log.writer_name) && (
+                                                        <button
+                                                            type="button"
+                                                            onClick={(e) => { 
+                                                                e.stopPropagation(); 
+                                                                setEditingLogId(log.log_id);
+                                                                setCommentingLogId(null);
+                                                            }}
+                                                            className="px-[12px] py-[6px] bg-[#222] hover:bg-[#333] border border-[#333] hover:border-[#444] rounded-[6px] text-[12px] text-[#A1A1AA] hover:text-[#E5E5E5] font-medium transition-all cursor-pointer"
+                                                        >
+                                                            수정하기
+                                                        </button>
+                                                    )}
+                                                </div>
+                                            )}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+                        </div>
+                    );
+                })}
                 {displayedLogs.length === 0 && (
                     <div className="py-[60px] text-center text-[14px] text-[#86868B]">
                         {isLoading ? '데이터를 불러오는 중입니다...' : '등록된 업무가 없습니다.'}

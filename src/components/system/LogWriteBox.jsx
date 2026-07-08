@@ -827,7 +827,8 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
 
                 {/* Footer */}
                 <div className="w-full pl-[20px] pr-[12px] py-[10px] border-t border-[#333] flex justify-between items-center gap-4">
-                    <div className="flex items-center gap-[12px] flex-1 min-w-0">
+                    {!isTaskBoard ? (
+                        <div className="flex items-center gap-[12px] flex-1 min-w-0">
                         <span className="text-[#86868B] text-[14px] font-medium shrink-0">이해관계자</span>
                         
                         {/* Company Search Box */}
@@ -922,6 +923,9 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                             )}
                         </div>
                     </div>
+                    ) : (
+                        <div className="flex-1" />
+                    )}
                     {(visibilityGroups.length > 0 || visibilityIndividuals.length > 0) && (
                         <div className="flex items-center mr-2 max-w-[250px]">
                             <span 
