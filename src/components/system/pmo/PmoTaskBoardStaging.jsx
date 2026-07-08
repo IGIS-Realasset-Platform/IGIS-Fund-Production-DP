@@ -2884,377 +2884,96 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
             {isModalOpen && (
                 <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[200000] p-4">
                     <div className="bg-[#1C1C1E] border border-[#2C2C2E] rounded-[16px] w-full max-w-[800px] shadow-2xl p-6 relative">
-                        <h3 className="text-[18px] font-bold text-white mb-4 text-left">
-                            {editingItem ? '통합 업무 보드 수정' : '통합 업무 보드 추가'}
+                        <h3 className="text-[18px] font-bold text-white mb-5 text-left border-b border-[#2C2C2E] pb-3">
+                            {editingItem ? '✏️ 통합 업무 수정' : '➕ 통합 업무 추가'}
                         </h3>
-                        <form onSubmit={handleFormSubmit} className="space-y-4">
-                            <div className="grid grid-cols-2 gap-4 max-h-[60vh] overflow-y-auto pr-2 text-left">
-                                {/* Col 1 */}
-                                <div className="space-y-4">
-                                    <div>
-                                        <label className="block text-[12px] font-bold text-[#86868B] mb-1">프로젝트</label>
-                                        <select 
-                                            value={formProject} 
-                                            onChange={e => setFormProject(e.target.value)} 
-                                            className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] cursor-pointer"
-                                        >
-                                            {projects.map(p => (
-                                                <option key={p.project_code} value={p.project_code}>{p.project_name}</option>
-                                            ))}
-                                        </select>
+                        
+                        {editingItem ? (
+                            /* Drawer Layout style form for Editing */
+                            <form onSubmit={handleFormSubmit} className="space-y-5">
+                                <div className="max-h-[65vh] overflow-y-auto pr-2 space-y-5 text-left timeline-scrollbar">
+                                    {/* Top Header Row */}
+                                    <div className="flex items-center gap-4 flex-wrap text-[12px] font-bold bg-white/5 p-3 rounded-[12px] border border-[#3c3c3c]/50">
+                                        <div className="flex items-center gap-1.5">
+                                            <span className="text-[#86868B]">업무 ID:</span>
+                                            <span className="font-mono px-2 py-0.5 rounded bg-white/10 text-gray-300">
+                                                {editingItem.id && !editingItem.id.includes('-') ? editingItem.id : 'T-XXX'}
+                                            </span>
+                                        </div>
+                                        
+                                        {/* Project Select */}
+                                        <div className="flex items-center gap-1.5">
+                                            <span className="text-[#86868B]">프로젝트:</span>
+                                            <select 
+                                                value={formProject} 
+                                                onChange={e => setFormProject(e.target.value)} 
+                                                className="bg-[#2a2a2c] border border-[#2997ff]/50 rounded px-2.5 py-1 text-[12px] text-white outline-none cursor-pointer font-bold"
+                                                style={{ appearance: 'auto' }}
+                                            >
+                                                {projects.map(p => (
+                                                    <option key={p.project_code} value={p.project_code}>{p.project_name}</option>
+                                                ))}
+                                            </select>
+                                        </div>
+
+                                        {/* Category Select */}
+                                        <div className="flex items-center gap-1.5">
+                                            <span className="text-[#86868B]">대분류:</span>
+                                            <select 
+                                                value={formCategoryMain} 
+                                                onChange={e => setFormCategoryMain(e.target.value)} 
+                                                className="bg-[#2a2a2c] border border-[#2997ff]/50 rounded px-2.5 py-1 text-[12px] text-white outline-none cursor-pointer font-bold"
+                                                style={{ appearance: 'auto' }}
+                                                required
+                                            >
+                                                <option value="공통 PMO">공통 PMO</option>
+                                                <option value="인허가">인허가</option>
+                                                <option value="호텔/운영">호텔/운영</option>
+                                                <option value="시공/원가">시공/원가</option>
+                                                <option value="도면/설계">도면/설계</option>
+                                                <option value="인테리어/TI">인테리어/TI</option>
+                                                <option value="임차/마케팅">임차/마케팅</option>
+                                                <option value="PF/금융">PF/금융</option>
+                                                <option value="구조/법무/세무">구조/법무/세무</option>
+                                                <option value="주주/보고">주주/보고</option>
+                                                <option value="준공/담보대출">준공/담보대출</option>
+                                                <option value="팝업/단발">팝업/단발</option>
+                                            </select>
+                                        </div>
+
+                                        {/* Sector Detail Input */}
+                                        <div className="flex items-center gap-1.5">
+                                            <span className="text-[#86868B]">세부섹터:</span>
+                                            <input 
+                                                type="text" 
+                                                value={formSectorDetail} 
+                                                onChange={e => setFormSectorDetail(e.target.value)} 
+                                                className="bg-[#2a2a2c] border border-[#2997ff]/50 rounded px-2 py-0.5 text-[12px] text-white outline-none w-[120px] font-bold text-center" 
+                                                placeholder="세부섹터 입력"
+                                            />
+                                        </div>
                                     </div>
-                                    <div>
-                                        <label className="block text-[12px] font-bold text-[#86868B] mb-1">대분류</label>
-                                        <select 
-                                            value={formCategoryMain} 
-                                            onChange={e => setFormCategoryMain(e.target.value)} 
-                                            className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] cursor-pointer"
+
+                                    {/* Task Name Title Textarea */}
+                                    <div className="space-y-1">
+                                        <span className="text-[#2997ff] text-[11px] font-bold block">업무명 ✏️</span>
+                                        <textarea
+                                            value={formTaskName}
+                                            onChange={e => setFormTaskName(e.target.value)}
+                                            className="w-full bg-[#2a2a2c] border-2 border-[#2997ff] rounded-[8px] px-3.5 py-2.5 text-[16px] text-[#ff9f0a] font-bold outline-none focus:ring-2 focus:ring-[#2997ff]/20 h-20 resize-y"
                                             required
-                                        >
-                                            <option value="">대분류 선택</option>
-                                            <option value="공통 PMO">공통 PMO</option>
-                                            <option value="인허가">인허가</option>
-                                            <option value="호텔/운영">호텔/운영</option>
-                                            <option value="시공/원가">시공/원가</option>
-                                            <option value="도면/설계">도면/설계</option>
-                                            <option value="인테리어/TI">인테리어/TI</option>
-                                            <option value="임차/마케팅">임차/마케팅</option>
-                                            <option value="PF/금융">PF/금융</option>
-                                            <option value="구조/법무/세무">구조/법무/세무</option>
-                                            <option value="주주/보고">주주/보고</option>
-                                            <option value="준공/담보대출">준공/담보대출</option>
-                                            <option value="팝업/단발">팝업/단발</option>
-                                        </select>
-                                    </div>
-                                    
-                                    {/* 세부섹터 (Autocomplete Suggestions) */}
-                                    <div className="relative flex flex-col">
-                                        <label className="text-[12px] font-bold text-[#86868B] mb-1">세부섹터</label>
-                                        <input 
-                                            type="text" 
-                                            value={formSectorDetail} 
-                                            onChange={e => {
-                                                setFormSectorDetail(e.target.value);
-                                                setShowSubsectorSuggestions(true);
-                                            }}
-                                            onFocus={() => setShowSubsectorSuggestions(true)}
-                                            onBlur={() => setTimeout(() => setShowSubsectorSuggestions(false), 200)}
-                                            className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff]" 
-                                            placeholder="검색 또는 입력"
                                         />
-                                        {showSubsectorSuggestions && formSectorDetail && (
-                                            <div className="absolute top-[58px] left-0 w-full bg-[#222] border border-[#3c3c3c] rounded-[8px] py-1 max-h-[160px] overflow-y-auto z-[10005] shadow-xl">
-                                                {uniqueSubsectors
-                                                    .filter(name => name.toLowerCase().includes(formSectorDetail.toLowerCase()))
-                                                    .map((name, i) => (
-                                                        <div 
-                                                            key={i} 
-                                                            className="px-3 py-2 text-[13px] text-[#E5E5E5] hover:bg-[#333] cursor-pointer truncate"
-                                                            onClick={() => {
-                                                                setFormSectorDetail(name);
-                                                                setShowSubsectorSuggestions(false);
-                                                            }}
-                                                        >
-                                                            {name}
-                                                        </div>
-                                                    ))}
-                                                {!uniqueSubsectors.some(name => name.toLowerCase() === formSectorDetail.toLowerCase()) && (
-                                                    <div 
-                                                        className="px-3 py-2 text-[13px] text-[#2997ff] hover:bg-[#333] cursor-pointer font-bold border-t border-[#3c3c3c]/50"
-                                                        onClick={() => setShowSubsectorSuggestions(false)}
-                                                    >
-                                                        ➕ 새 세부섹터 추가: "{formSectorDetail}"
-                                                    </div>
-                                                )}
-                                            </div>
-                                        )}
                                     </div>
 
-                                    <div>
-                                        <label className="block text-[12px] font-bold text-[#86868B] mb-1">업무명</label>
-                                        <textarea value={formTaskName} onChange={e => setFormTaskName(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] h-16 resize-none" required />
-                                    </div>
-                                    <div>
-                                        <label className="block text-[12px] font-bold text-[#86868B] mb-1">업무목적 / PF·준공 영향</label>
-                                        <textarea value={formTaskPurpose} onChange={e => setFormTaskPurpose(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] h-16 resize-none" />
-                                    </div>
-                                    <div>
-                                        <label className="block text-[12px] font-bold text-[#86868B] mb-1">필요 산출물</label>
-                                        <textarea value={formDeliverables} onChange={e => setFormDeliverables(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] h-16 resize-none" />
-                                    </div>
-                                    <div>
-                                        <label className="block text-[12px] font-bold text-[#86868B] mb-1">최종 목표축</label>
-                                        <select 
-                                            value={formTargetAxis} 
-                                            onChange={e => setFormTargetAxis(e.target.value)} 
-                                            className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] cursor-pointer"
-                                        >
-                                            <option value="PF">PF</option>
-                                            <option value="착공">착공</option>
-                                            <option value="공사관리">공사관리</option>
-                                            <option value="준공/사용승인">준공/사용승인</option>
-                                            <option value="담보대출/Take-out">담보대출/Take-out</option>
-                                            <option value="운영전환">운영전환</option>
-                                            <option value="공통 PMO">공통 PMO</option>
-                                        </select>
-                                    </div>
-                                    <div>
-                                        <label className="block text-[12px] font-bold text-[#86868B] mb-1">Gate</label>
-                                        <select 
-                                            value={formGateStage} 
-                                            onChange={e => setFormGateStage(e.target.value)} 
-                                            className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] cursor-pointer"
-                                        >
-                                            <option value="G0 현황정리">G0 현황정리</option>
-                                            <option value="G1 방향결정">G1 방향결정</option>
-                                            <option value="G2 PF준비도">G2 PF준비도</option>
-                                            <option value="G3 PF실행">G3 PF실행</option>
-                                            <option value="G4 착공/공사">G4 착공/공사</option>
-                                            <option value="G5 준공">G5 준공</option>
-                                            <option value="G6 담보대출/운영전환">G6 담보대출/운영전환</option>
-                                        </select>
-                                    </div>
-                                    <div>
-                                        <label className="block text-[12px] font-bold text-[#86868B] mb-1">PMO총괄</label>
-                                        <select 
-                                            value={formPmoManager} 
-                                            onChange={e => setFormPmoManager(e.target.value)} 
-                                            className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] cursor-pointer"
-                                        >
-                                            <option value="사업2파트">사업2파트</option>
-                                            <option value="기획추진">기획추진</option>
-                                            <option value="시스템 관리자(기획추진)">시스템 관리자(기획추진)</option>
-                                            <option value="LFC">LFC</option>
-                                        </select>
-                                    </div>
-                                    <div>
-                                        <label className="block text-[12px] font-bold text-[#86868B] mb-1">실무 주관부서</label>
-                                        <select 
-                                            value={formLeadDept} 
-                                            onChange={e => setFormLeadDept(e.target.value)} 
-                                            className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] cursor-pointer"
-                                        >
-                                            {['사업1파트', '사업2파트', 'LFC', '개발솔루션', '기업마케팅', '공간솔루션', 'KAM'].map(name => (
-                                                <option key={name} value={name}>{name}</option>
-                                            ))}
-                                        </select>
-                                    </div>
-                                    <div className="flex flex-col gap-1.5">
-                                        <label className="block text-[12px] font-bold text-[#86868B] mb-1">협업부서 선택 (다중 선택 가능)</label>
-                                        <div className="flex flex-wrap gap-1.5 bg-[#2c2c2b] p-3.5 rounded-[8px] border border-[#3c3c3c] max-h-[140px] overflow-y-auto">
-                                            {['PO', 'Sub-PO', 'CFT 책임인력', '기획추진', '사업PM', '파이낸싱-LFC', '개발관리', '기업마케팅', '공간솔루션', '펀드운용', 'IPR-WG'].map(dept => {
-                                                const coopDeptsList = formCoopDepts ? formCoopDepts.split(';').filter(Boolean) : [];
-                                                const isSelected = coopDeptsList.includes(dept);
-                                                return (
-                                                    <button 
-                                                        key={dept}
-                                                        type="button"
-                                                        onClick={() => {
-                                                            let newList;
-                                                            if (isSelected) {
-                                                                newList = coopDeptsList.filter(d => d !== dept);
-                                                            } else {
-                                                                 newList = [...coopDeptsList, dept];
-                                                            }
-                                                            setFormCoopDepts(newList.join(';'));
-                                                        }}
-                                                        className={`px-3 py-1.5 rounded-[6px] text-[11px] font-bold transition-all cursor-pointer border ${
-                                                            isSelected 
-                                                                ? 'bg-[#2997ff] text-white border-[#2997ff] shadow-sm' 
-                                                                : 'bg-[#1a1a1a] text-[#86868B] border-[#444] hover:border-[#666] hover:text-white'
-                                                        }`}
-                                                    >
-                                                        {dept}
-                                                    </button>
-                                                );
-                                            })}
-                                        </div>
-                                    </div>
-                                    <div className="relative flex flex-col">
-                                        <label className="block text-[12px] font-bold text-[#86868B] mb-1">담당자</label>
-                                        <input 
-                                            type="text" 
-                                            value={formAssignee} 
-                                            onChange={e => {
-                                                setFormAssignee(e.target.value);
-                                                setShowAssigneeDropdown(true);
-                                            }} 
-                                            onFocus={() => setShowAssigneeDropdown(true)}
-                                            onBlur={() => setTimeout(() => setShowAssigneeDropdown(false), 200)}
-                                            placeholder="담당자명 검색/입력"
-                                            className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff]" 
-                                        />
-                                        {showAssigneeDropdown && (
-                                            <div className="absolute top-[58px] left-0 w-full bg-[#222] border border-[#3c3c3c] rounded-[8px] py-1 max-h-[160px] overflow-y-auto z-[10005] shadow-xl">
-                                                {Array.from(new Set(masterStakeholders.map(s => s.contact_name).filter(Boolean)))
-                                                    .filter(name => !formAssignee || name.toLowerCase().includes(formAssignee.toLowerCase()))
-                                                    .map((name, i) => (
-                                                        <div 
-                                                            key={i} 
-                                                            className="px-3 py-2 text-[13px] text-[#E5E5E5] hover:bg-[#333] cursor-pointer truncate text-left"
-                                                            onClick={() => {
-                                                                setFormAssignee(name);
-                                                                setShowAssigneeDropdown(false);
-                                                            }}
-                                                        >
-                                                            {name}
-                                                        </div>
-                                                    ))}
-                                            </div>
-                                        )}
-                                    </div>
-                                    
-                                    {/* 외부상대방 (Autocomplete Suggestions) */}
-                                    <div className="relative flex flex-col">
-                                        <label className="text-[12px] font-bold text-[#86868B] mb-1">외부상대방</label>
-                                        <input 
-                                            type="text" 
-                                            value={formExternalParty} 
-                                            onChange={e => {
-                                                setFormExternalParty(e.target.value);
-                                                setShowStakeholderSuggestions(true);
-                                            }}
-                                            onFocus={() => setShowStakeholderSuggestions(true)}
-                                            onBlur={() => setTimeout(() => setShowStakeholderSuggestions(false), 200)}
-                                            className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff]" 
-                                            placeholder="회사명 검색/입력"
-                                        />
-                                        {showStakeholderSuggestions && (
-                                            <div className="absolute top-[58px] left-0 w-full bg-[#222] border border-[#3c3c3c] rounded-[8px] py-1 max-h-[160px] overflow-y-auto z-[10005] shadow-xl">
-                                                {uniqueStakeholderNames
-                                                    .filter(name => !formExternalParty || name.toLowerCase().includes(formExternalParty.toLowerCase()))
-                                                    .map((name, i) => (
-                                                        <div 
-                                                            key={i} 
-                                                            className="px-3 py-2 text-[13px] text-[#E5E5E5] hover:bg-[#333] cursor-pointer truncate text-left"
-                                                            onClick={() => {
-                                                                setFormExternalParty(name);
-                                                                setShowStakeholderSuggestions(false);
-                                                            }}
-                                                        >
-                                                            {name}
-                                                        </div>
-                                                    ))}
-                                                {!uniqueStakeholderNames.some(name => name.toLowerCase() === formExternalParty.toLowerCase()) && (
-                                                    <div 
-                                                        className="px-3 py-2 text-[13px] text-[#2997ff] hover:bg-[#333] cursor-pointer font-bold border-t border-[#3c3c3c]/50"
-                                                        onClick={async () => {
-                                                            const nameToRegister = formExternalParty;
-                                                            if (window.confirm(`'${nameToRegister}'을(를) 이해관계자 마스터에 새로 등록하시겠습니까?`)) {
-                                                                await resolveStakeholderCode(nameToRegister);
-                                                                alert('이해관계자가 등록되었습니다.');
-                                                            }
-                                                            setShowStakeholderSuggestions(false);
-                                                        }}
-                                                    >
-                                                        ➕ 새 상대방 등록: "{formExternalParty}"
-                                                    </div>
-                                                )}
-                                            </div>
-                                        )}
-                                    </div>
-                                </div>
-
-                                {/* Col 2 */}
-                                <div className="space-y-4">
-                                    {/* 지원필요 (Autocomplete Suggestions) */}
-                                    <div className="relative flex flex-col">
-                                        <label className="text-[12px] font-bold text-[#86868B] mb-1">지원필요</label>
-                                        <input 
-                                            type="text" 
-                                            value={formSupportNeeded} 
-                                            onChange={e => {
-                                                setFormSupportNeeded(e.target.value);
-                                                setShowSupportSuggestions(true);
-                                            }}
-                                            onFocus={() => setShowSupportSuggestions(true)}
-                                            onBlur={() => setTimeout(() => setShowSupportSuggestions(false), 200)}
-                                            className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff]" 
-                                            placeholder="검색 또는 입력"
-                                        />
-                                        {showSupportSuggestions && formSupportNeeded && (
-                                            <div className="absolute top-[58px] left-0 w-full bg-[#222] border border-[#3c3c3c] rounded-[8px] py-1 max-h-[160px] overflow-y-auto z-[10005] shadow-xl">
-                                                {uniqueSupportOptions
-                                                    .filter(opt => opt.toLowerCase().includes(formSupportNeeded.toLowerCase()))
-                                                    .map((opt, i) => (
-                                                        <div 
-                                                            key={i} 
-                                                            className="px-3 py-2 text-[13px] text-[#E5E5E5] hover:bg-[#333] cursor-pointer truncate"
-                                                            onClick={() => {
-                                                                setFormSupportNeeded(opt);
-                                                                setShowSupportSuggestions(false);
-                                                            }}
-                                                        >
-                                                            {opt}
-                                                        </div>
-                                                    ))}
-                                                {!uniqueSupportOptions.some(opt => opt.toLowerCase() === formSupportNeeded.toLowerCase()) && (
-                                                    <div 
-                                                        className="px-3 py-2 text-[13px] text-[#2997ff] hover:bg-[#333] cursor-pointer font-bold border-t border-[#3c3c3c]/50"
-                                                        onClick={async () => {
-                                                            const optToRegister = formSupportNeeded;
-                                                            if (window.confirm(`'${optToRegister}'을(를) 지원필요 마스터에 새로 등록하시겠습니까?`)) {
-                                                                await resolveSupportNeeded(optToRegister);
-                                                                alert('등록되었습니다.');
-                                                            }
-                                                            setShowSupportSuggestions(false);
-                                                        }}
-                                                    >
-                                                        ➕ 새 항목 등록: "{formSupportNeeded}"
-                                                    </div>
-                                                )}
-                                            </div>
-                                        )}
-                                    </div>
-                                    <div className="flex gap-4">
-                                        <div className="flex-1">
-                                            <label className="block text-[12px] font-bold text-[#86868B] mb-1">Blocker</label>
-                                            <select value={formIsBlocker ? 'Y' : 'N'} onChange={e => setFormIsBlocker(e.target.value === 'Y')} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] cursor-pointer">
-                                                <option value="N">N (아니오)</option>
-                                                <option value="Y">Y (예)</option>
-                                            </select>
-                                        </div>
-                                        <div className="flex-1">
-                                            <label className="block text-[12px] font-bold text-[#86868B] mb-1">결정필요</label>
-                                            <select value={formNeedsDecision ? 'Y' : 'N'} onChange={e => setFormNeedsDecision(e.target.value === 'Y')} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] cursor-pointer">
-                                                <option value="N">N (아니오)</option>
-                                                <option value="Y">Y (예)</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div className="flex gap-4">
-                                        <div className="flex-1">
-                                            <label className="block text-[12px] font-bold text-[#86868B] mb-1">중요도</label>
-                                            <select value={formImportanceLevel} onChange={e => setFormImportanceLevel(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] cursor-pointer">
-                                                <option value="PF필수">PF필수</option>
-                                                <option value="준공필수">준공필수</option>
-                                                <option value="높음">높음</option>
-                                                <option value="중간">중간</option>
-                                                <option value="낮음">낮음</option>
-                                            </select>
-                                        </div>
-                                        <div className="flex-1">
-                                            <label className="block text-[12px] font-bold text-[#86868B] mb-1">업무유형</label>
-                                            <select value={formTaskType} onChange={e => setFormTaskType(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] cursor-pointer">
-                                                <option value="정규">정규</option>
-                                                <option value="팝업">팝업</option>
-                                                <option value="회의후속">회의후속</option>
-                                                <option value="외부요청">외부요청</option>
-                                                <option value="보고">보고</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div className="flex gap-4">
-                                        <div className="flex-1">
-                                            <label className="block text-[12px] font-bold text-[#86868B] mb-1">기한</label>
-                                            <input type="date" value={formDueDate} onChange={e => setFormDueDate(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] cursor-pointer" />
-                                        </div>
-                                        <div className="flex-1">
-                                            <label className="block text-[12px] font-bold text-[#86868B] mb-1">진행 상태</label>
+                                    {/* Badges row (Status, Importance, Blocker) */}
+                                    <div className="flex flex-wrap gap-4 text-[12px] font-bold">
+                                        <div className="flex items-center gap-1.5">
+                                            <span className="text-gray-400">상태:</span>
                                             <select 
                                                 value={formStatus} 
                                                 onChange={e => setFormStatus(e.target.value)} 
-                                                className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] cursor-pointer"
+                                                className="bg-[#2a2a2c] border border-[#2997ff] rounded px-2.5 py-1 text-[11.5px] font-bold text-white outline-none cursor-pointer"
+                                                style={{ appearance: 'auto' }}
                                             >
                                                 <option value="미착수">미착수</option>
                                                 <option value="진행중">진행중</option>
@@ -3266,33 +2985,640 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                                 <option value="중단">중단</option>
                                             </select>
                                         </div>
+
+                                        <div className="flex items-center gap-1.5">
+                                            <span className="text-gray-400">중요도:</span>
+                                            <select 
+                                                value={formImportanceLevel} 
+                                                onChange={e => setFormImportanceLevel(e.target.value)} 
+                                                className="bg-[#2a2a2c] border border-[#2997ff] rounded px-2.5 py-1 text-[11.5px] font-bold text-white outline-none cursor-pointer"
+                                                style={{ appearance: 'auto' }}
+                                            >
+                                                <option value="PF필수">PF필수</option>
+                                                <option value="준공필수">준공필수</option>
+                                                <option value="높음">높음</option>
+                                                <option value="중간">중간</option>
+                                                <option value="낮음">낮음</option>
+                                            </select>
+                                        </div>
+
+                                        <label className="flex items-center gap-1.5 text-[11px] font-bold text-red-400 border border-[#2997ff]/40 bg-red-500/10 rounded px-2.5 py-0.5 cursor-pointer">
+                                            <input 
+                                                type="checkbox" 
+                                                checked={formIsBlocker} 
+                                                onChange={e => setFormIsBlocker(e.target.checked)} 
+                                                className="rounded text-red-500 bg-transparent border-red-500/30"
+                                            />
+                                            병목(Blocker) 상황 설정
+                                        </label>
+                                    </div>
+
+                                    {/* Metadata Card Box */}
+                                    <div className="p-5 rounded-[16px] bg-[#2997ff]/5 border border-[#2997ff]/40 space-y-4 text-[13px]">
+                                        {/* Row 1: 주관부서, 담당자, 협조부서 */}
+                                        <div className="grid grid-cols-4 gap-4 items-end">
+                                            <div className="space-y-1">
+                                                <span className="text-[#2997ff] text-[11px] font-bold block">주관 부서 ✏️</span>
+                                                <select 
+                                                    value={formLeadDept} 
+                                                    onChange={e => setFormLeadDept(e.target.value)} 
+                                                    className="bg-[#2a2a2c] border border-[#2997ff] rounded px-2.5 py-1.5 text-[13px] text-white w-full outline-none focus:ring-1 focus:ring-[#2997ff]/30 cursor-pointer font-bold"
+                                                    style={{ appearance: 'auto' }}
+                                                >
+                                                    {['사업2파트', '사업1파트', 'LFC', '개발솔루션', '기업마케팅', '공간솔루션', 'KAM'].map(name => (
+                                                        <option key={name} value={name}>{name}</option>
+                                                    ))}
+                                                </select>
+                                            </div>
+                                            <div className="space-y-1">
+                                                <span className="text-[#2997ff] text-[11px] font-bold block">담당자 ✏️</span>
+                                                <input 
+                                                    type="text" 
+                                                    value={formAssignee} 
+                                                    onChange={e => setFormAssignee(e.target.value)} 
+                                                    className="bg-[#2a2a2c] border border-[#2997ff] rounded px-2.5 py-1.5 text-[13px] text-white w-full outline-none focus:ring-1 focus:ring-[#2997ff]/30 font-bold" 
+                                                />
+                                            </div>
+                                            <div className="space-y-1 col-span-2">
+                                                <span className="text-[#2997ff] text-[11px] font-bold block">협조 부서 (세미콜론 ; 구분) ✏️</span>
+                                                <input 
+                                                    type="text" 
+                                                    value={formCoopDepts} 
+                                                    onChange={e => setFormCoopDepts(e.target.value)} 
+                                                    placeholder="LFC;개발관리실;마케팅팀 등" 
+                                                    className="bg-[#2a2a2c] border border-[#2997ff] rounded px-2.5 py-1.5 text-[13px] text-white w-full outline-none focus:ring-1 focus:ring-[#2997ff]/30 font-bold" 
+                                                />
+                                            </div>
+                                        </div>
+
+                                        {/* Row 2: 지원필요, GATE 단계, 외부상대방 */}
+                                        <div className="grid grid-cols-4 gap-4 items-end">
+                                            <div className="space-y-1 col-span-1">
+                                                <span className="text-[#2997ff] text-[11px] font-bold block">지원필요 ✏️</span>
+                                                <input 
+                                                    type="text" 
+                                                    value={formSupportNeeded} 
+                                                    onChange={e => setFormSupportNeeded(e.target.value)} 
+                                                    className="bg-[#2a2a2c] border border-[#2997ff] rounded px-2.5 py-1.5 text-[13px] text-[#ff9f0a] w-full outline-none focus:ring-1 focus:ring-[#2997ff]/30 font-bold" 
+                                                />
+                                            </div>
+                                            <div className="space-y-1 col-span-1">
+                                                <span className="text-[#2997ff] text-[11px] font-bold block">GATE 단계 ✏️</span>
+                                                <select 
+                                                    value={formGateStage} 
+                                                    onChange={e => setFormGateStage(e.target.value)} 
+                                                    className="bg-[#2a2a2c] border border-[#2997ff] rounded px-2.5 py-1.5 text-[13px] text-white w-full outline-none focus:ring-1 focus:ring-[#2997ff]/30 cursor-pointer font-bold"
+                                                    style={{ appearance: 'auto' }}
+                                                >
+                                                    <option value="G0 현황정리">G0 현황정리</option>
+                                                    <option value="G1 방향결정">G1 방향결정</option>
+                                                    <option value="G2 PF준비도">G2 PF준비도</option>
+                                                    <option value="G3 PF실행">G3 PF실행</option>
+                                                    <option value="G4 착공/공사">G4 착공/공사</option>
+                                                    <option value="G5 준공">G5 준공</option>
+                                                    <option value="G6 담보대출/운영전환">G6 담보대출/운영전환</option>
+                                                </select>
+                                            </div>
+                                            <div className="space-y-1 col-span-2">
+                                                <span className="text-[#2997ff] text-[11px] font-bold block">외부 상대방 (쉼표 , 구분) ✏️</span>
+                                                <input 
+                                                    type="text" 
+                                                    value={formExternalParty} 
+                                                    onChange={e => setFormExternalParty(e.target.value)} 
+                                                    className="bg-[#2a2a2c] border border-[#2997ff] rounded px-2.5 py-1.5 text-[13px] text-white w-full outline-none focus:ring-1 focus:ring-[#2997ff]/30 font-bold" 
+                                                />
+                                            </div>
+                                        </div>
+
+                                        {/* Row 3: 회의상정등급, 최종목표, 마감 기한, 의사결정필요 */}
+                                        <div className="grid grid-cols-4 gap-4 items-end">
+                                            <div className="space-y-1">
+                                                <span className="text-[#2997ff] text-[11px] font-bold block">회의상정등급 ✏️</span>
+                                                <select 
+                                                    value={formMeetingGrade} 
+                                                    onChange={e => setFormMeetingGrade(e.target.value)} 
+                                                    className="bg-[#2a2a2c] border border-[#2997ff] rounded px-2.5 py-1.5 text-[13px] text-white w-full outline-none focus:ring-1 focus:ring-[#2997ff]/30 cursor-pointer font-bold mt-1"
+                                                    style={{ appearance: 'auto' }}
+                                                >
+                                                    <option value="A_즉시상정">A_즉시상정</option>
+                                                    <option value="B_회의점검">B_회의점검</option>
+                                                    <option value="C_일반관리">C_일반관리</option>
+                                                </select>
+                                            </div>
+                                            <div className="space-y-1">
+                                                <span className="text-[#2997ff] text-[11px] font-bold block">최종목표 ✏️</span>
+                                                <select 
+                                                    value={formTargetAxis} 
+                                                    onChange={e => setFormTargetAxis(e.target.value)} 
+                                                    className="bg-[#2a2a2c] border border-[#2997ff] rounded px-2.5 py-1.5 text-[13px] text-white w-full outline-none focus:ring-1 focus:ring-[#2997ff]/30 cursor-pointer font-bold"
+                                                    style={{ appearance: 'auto' }}
+                                                >
+                                                    <option value="PF">PF</option>
+                                                    <option value="착공">착공</option>
+                                                    <option value="공사관리">공사관리</option>
+                                                    <option value="준공/사용승인">준공/사용승인</option>
+                                                    <option value="담보대출/Take-out">담보대출/Take-out</option>
+                                                    <option value="운영전환">운영전환</option>
+                                                    <option value="공통 PMO">공통 PMO</option>
+                                                </select>
+                                            </div>
+                                            <div className="space-y-1">
+                                                <span className="text-[#2997ff] text-[11px] font-bold block">마감 기한 ✏️</span>
+                                                <input 
+                                                    type="date" 
+                                                    value={formDueDate} 
+                                                    onChange={e => setFormDueDate(e.target.value)} 
+                                                    className="bg-[#2a2a2c] border border-[#2997ff] rounded px-2.5 py-1.5 text-[13px] text-white w-full outline-none focus:ring-1 focus:ring-[#2997ff]/30 font-bold" 
+                                                />
+                                            </div>
+                                            <div className="space-y-1">
+                                                <span className="text-[#2997ff] text-[11px] font-bold block">의사결정필요 ✏️</span>
+                                                <select 
+                                                    value={formNeedsDecision ? '필요' : '불필요'} 
+                                                    onChange={e => setFormNeedsDecision(e.target.value === '필요')} 
+                                                    className="bg-[#2a2a2c] border border-[#2997ff] rounded px-2.5 py-1.5 text-[13px] text-white w-full outline-none focus:ring-1 focus:ring-[#2997ff]/30 cursor-pointer font-bold"
+                                                    style={{ appearance: 'auto' }}
+                                                >
+                                                    <option value="필요">필요</option>
+                                                    <option value="불필요">불필요</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Narrative Card Box */}
+                                    <div className="p-5 rounded-[16px] bg-[#2997ff]/5 border border-[#2997ff]/40 space-y-4">
+                                        {/* 업무 목적 */}
+                                        <div className="space-y-1">
+                                            <h4 className="text-[11px] font-bold text-[#2997ff]">업무 목적 ✏️</h4>
+                                            <textarea 
+                                                value={formTaskPurpose} 
+                                                onChange={e => setFormTaskPurpose(e.target.value)} 
+                                                className="w-full bg-[#2a2a2c] border border-[#2997ff] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:ring-1 focus:ring-[#2997ff]/30 h-20 resize-y font-bold" 
+                                            />
+                                        </div>
+                                        
+                                        <div className="h-[1px] bg-[#3c3c3c]/30"></div>
+                                        
+                                        {/* 필요 산출물 */}
+                                        <div className="space-y-1">
+                                            <h4 className="text-[11px] font-bold text-[#2997ff]">필요 산출물 ✏️</h4>
+                                            <textarea 
+                                                value={formDeliverables} 
+                                                onChange={e => setFormDeliverables(e.target.value)} 
+                                                className="w-full bg-[#2a2a2c] border border-[#2997ff] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:ring-1 focus:ring-[#2997ff]/30 h-20 resize-y font-bold" 
+                                            />
+                                        </div>
+                                        
+                                        <div className="h-[1px] bg-[#3c3c3c]/30"></div>
+                                        
+                                        {/* 다음 액션 */}
+                                        <div className="space-y-1">
+                                            <h4 className="text-[11px] font-bold text-[#2997ff]">다음 액션 ✏️</h4>
+                                            <textarea 
+                                                value={formNextAction} 
+                                                onChange={e => setFormNextAction(e.target.value)} 
+                                                className="w-full bg-[#2a2a2c] border border-[#2997ff] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:ring-1 focus:ring-[#2997ff]/30 h-20 resize-y font-bold" 
+                                            />
+                                        </div>
+
+                                        <div className="h-[1px] bg-[#3c3c3c]/30"></div>
+
+                                        {/* 회의 상정 사유 */}
+                                        <div className="space-y-1">
+                                            <h4 className="text-[#2997ff] text-[11px] font-bold">회의 상정 사유 (Agenda Context) ✏️</h4>
+                                            <textarea 
+                                                value={formAgendaReason} 
+                                                onChange={e => setFormAgendaReason(e.target.value)} 
+                                                className="w-full bg-[#2a2a2c] border border-[#2997ff] rounded-[6px] px-3 py-1.5 text-[13px] text-[#ff9f0a] outline-none focus:ring-1 focus:ring-[#2997ff]/30 h-20 resize-y mt-1.5 font-bold" 
+                                            />
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            {/* Modal Footer */}
-                            <div className="pt-4 border-t border-[#3c3c3c] flex justify-end gap-3 mt-4">
-                                <button 
-                                    type="button"
-                                    onClick={() => setIsModalOpen(false)}
-                                    className="px-4 py-2 rounded-[8px] bg-white/5 hover:bg-white/10 text-white border border-[#3c3c3c] text-[13px] font-bold cursor-pointer transition-all"
-                                >
-                                    취소
-                                </button>
-                                <button 
-                                    type="submit"
-                                    className="px-5 py-2 rounded-[8px] bg-[#2997ff] hover:bg-[#2997ff]/90 text-[13px] font-bold text-white cursor-pointer transition-all shadow-md shadow-[#2997ff]/10"
-                                >
-                                    저장
-                                </button>
-                            </div>
-                        </form>
+                                {/* Modal Footer */}
+                                <div className="pt-4 border-t border-[#3c3c3c] flex justify-end gap-3 mt-4">
+                                    <button 
+                                        type="button"
+                                        onClick={() => setIsModalOpen(false)}
+                                        className="px-4 py-2 rounded-[8px] bg-white/5 hover:bg-white/10 text-white border border-[#3c3c3c] text-[13px] font-bold cursor-pointer transition-all"
+                                    >
+                                        취소
+                                    </button>
+                                    <button 
+                                        type="submit"
+                                        className="px-5 py-2 rounded-[8px] bg-[#2997ff] hover:bg-[#2997ff]/90 text-[13px] font-bold text-white cursor-pointer transition-all shadow-md shadow-[#2997ff]/10"
+                                    >
+                                        저장
+                                    </button>
+                                </div>
+                            </form>
+                        ) : (
+                            /* Add Form (Original 2 columns) */
+                            <form onSubmit={handleFormSubmit} className="space-y-4">
+                                <div className="grid grid-cols-2 gap-4 max-h-[60vh] overflow-y-auto pr-2 text-left">
+                                    {/* Col 1 */}
+                                    <div className="space-y-4">
+                                        <div>
+                                            <label className="block text-[12px] font-bold text-[#86868B] mb-1">프로젝트</label>
+                                            <select 
+                                                value={formProject} 
+                                                onChange={e => setFormProject(e.target.value)} 
+                                                className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] cursor-pointer"
+                                            >
+                                                {projects.map(p => (
+                                                    <option key={p.project_code} value={p.project_code}>{p.project_name}</option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label className="block text-[12px] font-bold text-[#86868B] mb-1">대분류</label>
+                                            <select 
+                                                value={formCategoryMain} 
+                                                onChange={e => setFormCategoryMain(e.target.value)} 
+                                                className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] cursor-pointer"
+                                                required
+                                            >
+                                                <option value="">대분류 선택</option>
+                                                <option value="공통 PMO">공통 PMO</option>
+                                                <option value="인허가">인허가</option>
+                                                <option value="호텔/운영">호텔/운영</option>
+                                                <option value="시공/원가">시공/원가</option>
+                                                <option value="도면/설계">도면/설계</option>
+                                                <option value="인테리어/TI">인테리어/TI</option>
+                                                <option value="임차/마케팅">임차/마케팅</option>
+                                                <option value="PF/금융">PF/금융</option>
+                                                <option value="구조/법무/세무">구조/법무/세무</option>
+                                                <option value="주주/보고">주주/보고</option>
+                                                <option value="준공/담보대출">준공/담보대출</option>
+                                                <option value="팝업/단발">팝업/단발</option>
+                                            </select>
+                                        </div>
+                                        
+                                        {/* 세부섹터 */}
+                                        <div className="relative flex flex-col">
+                                            <label className="text-[12px] font-bold text-[#86868B] mb-1">세부섹터</label>
+                                            <input 
+                                                type="text" 
+                                                value={formSectorDetail} 
+                                                onChange={e => {
+                                                    setFormSectorDetail(e.target.value);
+                                                    setShowSubsectorSuggestions(true);
+                                                }}
+                                                onFocus={() => setShowSubsectorSuggestions(true)}
+                                                onBlur={() => setTimeout(() => setShowSubsectorSuggestions(false), 200)}
+                                                className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff]" 
+                                                placeholder="검색 또는 입력"
+                                            />
+                                            {showSubsectorSuggestions && formSectorDetail && (
+                                                <div className="absolute top-[58px] left-0 w-full bg-[#222] border border-[#3c3c3c] rounded-[8px] py-1 max-h-[160px] overflow-y-auto z-[10005] shadow-xl">
+                                                    {uniqueSubsectors
+                                                        .filter(name => name.toLowerCase().includes(formSectorDetail.toLowerCase()))
+                                                        .map((name, i) => (
+                                                            <div 
+                                                                key={i} 
+                                                                className="px-3 py-2 text-[13px] text-[#E5E5E5] hover:bg-[#333] cursor-pointer truncate"
+                                                                onClick={() => {
+                                                                    setFormSectorDetail(name);
+                                                                    setShowSubsectorSuggestions(false);
+                                                                }}
+                                                            >
+                                                                {name}
+                                                            </div>
+                                                        ))}
+                                                    {!uniqueSubsectors.some(name => name.toLowerCase() === formSectorDetail.toLowerCase()) && (
+                                                        <div 
+                                                            className="px-3 py-2 text-[13px] text-[#2997ff] hover:bg-[#333] cursor-pointer font-bold border-t border-[#3c3c3c]/50"
+                                                            onClick={() => setShowSubsectorSuggestions(false)}
+                                                        >
+                                                            ➕ 새 세부섹터 추가: "{formSectorDetail}"
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        <div>
+                                            <label className="block text-[12px] font-bold text-[#86868B] mb-1">업무명</label>
+                                            <textarea value={formTaskName} onChange={e => setFormTaskName(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] h-16 resize-none" required />
+                                        </div>
+                                        <div>
+                                            <label className="block text-[12px] font-bold text-[#86868B] mb-1">업무목적 / PF·준공 영향</label>
+                                            <textarea value={formTaskPurpose} onChange={e => setFormTaskPurpose(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] h-16 resize-none" />
+                                        </div>
+                                        <div>
+                                            <label className="block text-[12px] font-bold text-[#86868B] mb-1">필요 산출물</label>
+                                            <textarea value={formDeliverables} onChange={e => setFormDeliverables(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] h-16 resize-none" />
+                                        </div>
+                                        <div>
+                                            <label className="block text-[12px] font-bold text-[#86868B] mb-1">최종 목표축</label>
+                                            <select 
+                                                value={formTargetAxis} 
+                                                onChange={e => setFormTargetAxis(e.target.value)} 
+                                                className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] cursor-pointer"
+                                            >
+                                                <option value="PF">PF</option>
+                                                <option value="착공">착공</option>
+                                                <option value="공사관리">공사관리</option>
+                                                <option value="준공/사용승인">준공/사용승인</option>
+                                                <option value="담보대출/Take-out">담보대출/Take-out</option>
+                                                <option value="운영전환">운영전환</option>
+                                                <option value="공통 PMO">공통 PMO</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label className="block text-[12px] font-bold text-[#86868B] mb-1">Gate</label>
+                                            <select 
+                                                value={formGateStage} 
+                                                onChange={e => setFormGateStage(e.target.value)} 
+                                                className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] cursor-pointer"
+                                            >
+                                                <option value="G0 현황정리">G0 현황정리</option>
+                                                <option value="G1 방향결정">G1 방향결정</option>
+                                                <option value="G2 PF준비도">G2 PF준비도</option>
+                                                <option value="G3 PF실행">G3 PF실행</option>
+                                                <option value="G4 착공/공사">G4 착공/공사</option>
+                                                <option value="G5 준공">G5 준공</option>
+                                                <option value="G6 담보대출/운영전환">G6 담보대출/운영전환</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label className="block text-[12px] font-bold text-[#86868B] mb-1">PMO총괄</label>
+                                            <select 
+                                                value={formPmoManager} 
+                                                onChange={e => setFormPmoManager(e.target.value)} 
+                                                className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] cursor-pointer"
+                                            >
+                                                <option value="사업2파트">사업2파트</option>
+                                                <option value="기획추진">기획추진</option>
+                                                <option value="시스템 관리자(기획추진)">시스템 관리자(기획추진)</option>
+                                                <option value="LFC">LFC</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label className="block text-[12px] font-bold text-[#86868B] mb-1">실무 주관부서</label>
+                                            <select 
+                                                value={formLeadDept} 
+                                                onChange={e => setFormLeadDept(e.target.value)} 
+                                                className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] cursor-pointer"
+                                            >
+                                                {['사업1파트', '사업2파트', 'LFC', '개발솔루션', '기업마케팅', '공간솔루션', 'KAM'].map(name => (
+                                                    <option key={name} value={name}>{name}</option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                        <div className="flex flex-col gap-1.5">
+                                            <label className="block text-[12px] font-bold text-[#86868B] mb-1">협업부서 선택 (다중 선택 가능)</label>
+                                            <div className="flex flex-wrap gap-1.5 bg-[#2c2c2b] p-3.5 rounded-[8px] border border-[#3c3c3c] max-h-[140px] overflow-y-auto">
+                                                {['PO', 'Sub-PO', 'CFT 책임인력', '기획추진', '사업PM', '파이낸싱-LFC', '개발관리', '기업마케팅', '공간솔루션', '펀드운용', 'IPR-WG'].map(dept => {
+                                                    const coopDeptsList = formCoopDepts ? formCoopDepts.split(';').filter(Boolean) : [];
+                                                    const isSelected = coopDeptsList.includes(dept);
+                                                    return (
+                                                        <button 
+                                                            key={dept}
+                                                            type="button"
+                                                            onClick={() => {
+                                                                let newList;
+                                                                if (isSelected) {
+                                                                    newList = coopDeptsList.filter(d => d !== dept);
+                                                                } else {
+                                                                    newList = [...coopDeptsList, dept];
+                                                                }
+                                                                setFormCoopDepts(newList.join(';'));
+                                                            }}
+                                                            className={`px-3 py-1.5 rounded-[6px] text-[11px] font-bold transition-all cursor-pointer border ${
+                                                                isSelected 
+                                                                    ? 'bg-[#2997ff] text-white border-[#2997ff] shadow-sm' 
+                                                                    : 'bg-[#1a1a1a] text-[#86868B] border-[#444] hover:border-[#666] hover:text-white'
+                                                            }`}
+                                                        >
+                                                            {dept}
+                                                        </button>
+                                                    );
+                                                })}
+                                            </div>
+                                        </div>
+                                        <div className="relative flex flex-col">
+                                            <label className="block text-[12px] font-bold text-[#86868B] mb-1">담당자</label>
+                                            <input 
+                                                type="text" 
+                                                value={formAssignee} 
+                                                onChange={e => {
+                                                    setFormAssignee(e.target.value);
+                                                    setShowAssigneeDropdown(true);
+                                                }} 
+                                                onFocus={() => setShowAssigneeDropdown(true)}
+                                                onBlur={() => setTimeout(() => setShowAssigneeDropdown(false), 200)}
+                                                placeholder="담당자명 검색/입력"
+                                                className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff]" 
+                                            />
+                                            {showAssigneeDropdown && (
+                                                <div className="absolute top-[58px] left-0 w-full bg-[#222] border border-[#3c3c3c] rounded-[8px] py-1 max-h-[160px] overflow-y-auto z-[10005] shadow-xl">
+                                                    {Array.from(new Set(masterStakeholders.map(s => s.contact_name).filter(Boolean)))
+                                                        .filter(name => !formAssignee || name.toLowerCase().includes(formAssignee.toLowerCase()))
+                                                        .map((name, i) => (
+                                                            <div 
+                                                                key={i} 
+                                                                className="px-3 py-2 text-[13px] text-[#E5E5E5] hover:bg-[#333] cursor-pointer truncate text-left"
+                                                                onClick={() => {
+                                                                    setFormAssignee(name);
+                                                                    setShowAssigneeDropdown(false);
+                                                                }}
+                                                            >
+                                                                {name}
+                                                            </div>
+                                                        ))}
+                                                </div>
+                                            )}
+                                        </div>
+                                        
+                                        {/* 외부상대방 */}
+                                        <div className="relative flex flex-col">
+                                            <label className="text-[12px] font-bold text-[#86868B] mb-1">외부상대방</label>
+                                            <input 
+                                                type="text" 
+                                                value={formExternalParty} 
+                                                onChange={e => {
+                                                    setFormExternalParty(e.target.value);
+                                                    setShowStakeholderSuggestions(true);
+                                                }}
+                                                onFocus={() => setShowStakeholderSuggestions(true)}
+                                                onBlur={() => setTimeout(() => setShowStakeholderSuggestions(false), 200)}
+                                                className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff]" 
+                                                placeholder="회사명 검색/입력"
+                                            />
+                                            {showStakeholderSuggestions && (
+                                                <div className="absolute top-[58px] left-0 w-full bg-[#222] border border-[#3c3c3c] rounded-[8px] py-1 max-h-[160px] overflow-y-auto z-[10005] shadow-xl">
+                                                    {uniqueStakeholderNames
+                                                        .filter(name => !formExternalParty || name.toLowerCase().includes(formExternalParty.toLowerCase()))
+                                                        .map((name, i) => (
+                                                            <div 
+                                                                key={i} 
+                                                                className="px-3 py-2 text-[13px] text-[#E5E5E5] hover:bg-[#333] cursor-pointer truncate text-left"
+                                                                onClick={() => {
+                                                                    setFormExternalParty(name);
+                                                                    setShowStakeholderSuggestions(false);
+                                                                }}
+                                                            >
+                                                                {name}
+                                                            </div>
+                                                        ))}
+                                                    {!uniqueStakeholderNames.some(name => name.toLowerCase() === formExternalParty.toLowerCase()) && (
+                                                        <div 
+                                                            className="px-3 py-2 text-[13px] text-[#2997ff] hover:bg-[#333] cursor-pointer font-bold border-t border-[#3c3c3c]/50"
+                                                            onClick={async () => {
+                                                                const nameToRegister = formExternalParty;
+                                                                if (window.confirm(`'${nameToRegister}'을(를) 이해관계자 마스터에 새로 등록하시겠습니까?`)) {
+                                                                    await resolveStakeholderCode(nameToRegister);
+                                                                    alert('이해관계자가 등록되었습니다.');
+                                                                }
+                                                                setShowStakeholderSuggestions(false);
+                                                            }}
+                                                        >
+                                                            ➕ 새 상대방 등록: "{formExternalParty}"
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+
+                                    {/* Col 2 */}
+                                    <div className="space-y-4">
+                                        {/* 지원필요 */}
+                                        <div className="relative flex flex-col">
+                                            <label className="text-[12px] font-bold text-[#86868B] mb-1">지원필요</label>
+                                            <input 
+                                                type="text" 
+                                                value={formSupportNeeded} 
+                                                onChange={e => {
+                                                    setFormSupportNeeded(e.target.value);
+                                                    setShowSupportSuggestions(true);
+                                                }}
+                                                onFocus={() => setShowSupportSuggestions(true)}
+                                                onBlur={() => setTimeout(() => setShowSupportSuggestions(false), 200)}
+                                                className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff]" 
+                                                placeholder="검색 또는 입력"
+                                            />
+                                            {showSupportSuggestions && formSupportNeeded && (
+                                                <div className="absolute top-[58px] left-0 w-full bg-[#222] border border-[#3c3c3c] rounded-[8px] py-1 max-h-[160px] overflow-y-auto z-[10005] shadow-xl">
+                                                    {uniqueSupportOptions
+                                                        .filter(opt => opt.toLowerCase().includes(formSupportNeeded.toLowerCase()))
+                                                        .map((opt, i) => (
+                                                            <div 
+                                                                key={i} 
+                                                                className="px-3 py-2 text-[13px] text-[#E5E5E5] hover:bg-[#333] cursor-pointer truncate"
+                                                                onClick={() => {
+                                                                    setFormSupportNeeded(opt);
+                                                                    setShowSupportSuggestions(false);
+                                                                }}
+                                                            >
+                                                                {opt}
+                                                            </div>
+                                                        ))}
+                                                    {!uniqueSupportOptions.some(opt => opt.toLowerCase() === formSupportNeeded.toLowerCase()) && (
+                                                        <div 
+                                                            className="px-3 py-2 text-[13px] text-[#2997ff] hover:bg-[#333] cursor-pointer font-bold border-t border-[#3c3c3c]/50"
+                                                            onClick={async () => {
+                                                                const optToRegister = formSupportNeeded;
+                                                                if (window.confirm(`'${optToRegister}'을(를) 지원필요 마스터에 새로 등록하시겠습니까?`)) {
+                                                                    await resolveSupportNeeded(optToRegister);
+                                                                    alert('등록되었습니다.');
+                                                                }
+                                                                setShowSupportSuggestions(false);
+                                                            }}
+                                                        >
+                                                            ➕ 새 항목 등록: "{formSupportNeeded}"
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            )}
+                                        </div>
+                                        <div className="flex gap-4">
+                                            <div className="flex-1">
+                                                <label className="block text-[12px] font-bold text-[#86868B] mb-1">Blocker</label>
+                                                <select value={formIsBlocker ? 'Y' : 'N'} onChange={e => setFormIsBlocker(e.target.value === 'Y')} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] cursor-pointer">
+                                                    <option value="N">N (아니오)</option>
+                                                    <option value="Y">Y (예)</option>
+                                                </select>
+                                            </div>
+                                            <div className="flex-1">
+                                                <label className="block text-[12px] font-bold text-[#86868B] mb-1">결정필요</label>
+                                                <select value={formNeedsDecision ? 'Y' : 'N'} onChange={e => setFormNeedsDecision(e.target.value === 'Y')} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] cursor-pointer">
+                                                    <option value="N">N (아니오)</option>
+                                                    <option value="Y">Y (예)</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div className="flex gap-4">
+                                            <div className="flex-1">
+                                                <label className="block text-[12px] font-bold text-[#86868B] mb-1">중요도</label>
+                                                <select value={formImportanceLevel} onChange={e => setFormImportanceLevel(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] cursor-pointer">
+                                                    <option value="PF필수">PF필수</option>
+                                                    <option value="준공필수">준공필수</option>
+                                                    <option value="높음">높음</option>
+                                                    <option value="중간">중간</option>
+                                                    <option value="낮음">낮음</option>
+                                                </select>
+                                            </div>
+                                            <div className="flex-1">
+                                                <label className="block text-[12px] font-bold text-[#86868B] mb-1">업무유형</label>
+                                                <select value={formTaskType} onChange={e => setFormTaskType(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] cursor-pointer">
+                                                    <option value="정규">정규</option>
+                                                    <option value="팝업">팝업</option>
+                                                    <option value="회의후속">회의후속</option>
+                                                    <option value="외부요청">외부요청</option>
+                                                    <option value="보고">보고</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div className="flex gap-4">
+                                            <div className="flex-1">
+                                                <label className="block text-[12px] font-bold text-[#86868B] mb-1">기한</label>
+                                                <input type="date" value={formDueDate} onChange={e => setFormDueDate(e.target.value)} className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] cursor-pointer" />
+                                            </div>
+                                            <div className="flex-1">
+                                                <label className="block text-[12px] font-bold text-[#86868B] mb-1">진행 상태</label>
+                                                <select 
+                                                    value={formStatus} 
+                                                    onChange={e => setFormStatus(e.target.value)} 
+                                                    className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] cursor-pointer"
+                                                >
+                                                    <option value="미착수">미착수</option>
+                                                    <option value="진행중">진행중</option>
+                                                    <option value="검토중">검토중</option>
+                                                    <option value="대기">대기</option>
+                                                    <option value="지연">지연</option>
+                                                    <option value="완료">완료</option>
+                                                    <option value="보류">보류</option>
+                                                    <option value="중단">중단</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Modal Footer */}
+                                <div className="pt-4 border-t border-[#3c3c3c] flex justify-end gap-3 mt-4">
+                                    <button 
+                                        type="button"
+                                        onClick={() => setIsModalOpen(false)}
+                                        className="px-4 py-2 rounded-[8px] bg-white/5 hover:bg-white/10 text-white border border-[#3c3c3c] text-[13px] font-bold cursor-pointer transition-all"
+                                    >
+                                        취소
+                                    </button>
+                                    <button 
+                                        type="submit"
+                                        className="px-5 py-2 rounded-[8px] bg-[#2997ff] hover:bg-[#2997ff]/90 text-[13px] font-bold text-white cursor-pointer transition-all shadow-md shadow-[#2997ff]/10"
+                                    >
+                                        저장
+                                    </button>
+                                </div>
+                            </form>
+                        )}
                     </div>
                 </div>
-            )}
-
-            {/* Task Detail Slide-Over Drawer */}
-            {selectedTaskDetail && (() => {
+            )}            {selectedTaskDetail && (() => {
                 const t = selectedTaskDetail;
                 const fallbackItem = FALLBACK_BOARD_TASKS.find(fb => fb.task_name === t.task_name) || {};
                 
