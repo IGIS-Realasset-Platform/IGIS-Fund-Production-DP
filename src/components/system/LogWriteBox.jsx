@@ -236,7 +236,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
 
     const renderHighlightedText = () => {
         if (!content) {
-            return <span className="text-[#bbb9af]">진행 이력, 협업 요청, 리스크 판단 필요사항, 의사결정 필요항목을 입력하세요. (@를 입력하여 담당자를 멘션할 수 있습니다)</span>;
+            return <span className="text-[#bbb9af] text-[14px]">진행 이력, 협업 요청, 리스크 판단 필요사항, 의사결정 필요항목을 입력하세요. (@를 입력하여 담당자를 멘션할 수 있습니다)</span>;
         }
 
         if (mentionedNames.length === 0) {
@@ -549,10 +549,10 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
     const collapsedText = '회의록, 협업 사항, 또는 공유할 내용을 등록하세요.';
 
     return (
-        <div className={`w-full ${isTaskBoard ? 'rounded-[16px]' : 'rounded-[24px]'} p-[1px] bg-gradient-to-br from-[#d6efe9] via-[#82afb9] to-[#4c6e86] mb-[11px] ${editMode ? 'shadow-2xl' : ''}`}>
+        <div className={`w-full ${isTaskBoard ? 'rounded-[16px] bg-[#5d5d5d]' : 'rounded-[24px] bg-gradient-to-br from-[#d6efe9] via-[#82afb9] to-[#4c6e86]'} p-[1px] mb-[11px] ${editMode ? 'shadow-2xl' : ''}`}>
             <div className={`w-full h-full bg-[#262626] ${isTaskBoard ? 'rounded-[15px]' : 'rounded-[23px]'} overflow-hidden`}>
                 {/* Header */}
-                {!editMode && (
+                {!editMode && !isTaskBoard && (
                     <div 
                         className={`w-full px-[20px] ${isTaskBoard && !isExpanded ? 'py-[7px]' : 'py-[10px]'} ${isExpanded || editMode ? 'border-b border-[#333]' : 'border-b-0'} flex items-center ${isTaskBoard && !isExpanded ? 'justify-center' : ''} gap-[12px] ${!isExpanded ? 'cursor-pointer hover:bg-[#2a2a2a] transition-colors' : ''}`}
                         onClick={() => {
@@ -974,14 +974,16 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                             className="hidden" 
                             multiple 
                         />
-                        <button 
-                            type="button"
-                            onClick={() => setShowFileSecurityModal(true)}
-                            disabled={isUploadingFile}
-                            className={`px-[16px] ${btnPadding} ${btnRounding} border border-[#444] text-[#A1A1AA] font-bold text-[13px] hover:bg-[#333] hover:text-[#E5E5E5] transition-colors cursor-pointer flex items-center gap-2 whitespace-nowrap`}
-                        >
-                            {isUploadingFile ? '업로드 중...' : '파일 첨부'}
-                        </button>
+                        {!isTaskBoard && (
+                            <button 
+                                type="button"
+                                onClick={() => setShowFileSecurityModal(true)}
+                                disabled={isUploadingFile}
+                                className={`px-[16px] ${btnPadding} ${btnRounding} border border-[#444] text-[#A1A1AA] font-bold text-[13px] hover:bg-[#333] hover:text-[#E5E5E5] transition-colors cursor-pointer flex items-center gap-2 whitespace-nowrap`}
+                            >
+                                {isUploadingFile ? '업로드 중...' : '파일 첨부'}
+                            </button>
+                        )}
                         <button 
                             type="button"
                             onClick={() => setShowVisibilityModal(true)}

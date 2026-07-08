@@ -96,8 +96,8 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
             const { data, error } = await supabase
                 .from('iota_seoul_logs')
                 .select('*, iota_seoul_log_stakeholders(sh_name, role_category)')
-                .order('work_date', { ascending: false })
-                .order('created_at', { ascending: false });
+                .order('work_date', { ascending: isTaskBoard })
+                .order('created_at', { ascending: isTaskBoard });
             if (error) throw error;
             
             let logsList = data || [];
@@ -655,17 +655,19 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
             
             <div className={isTaskBoard ? "mt-[-8px] mb-[24px]" : "-mx-[7px] p-[6px] border border-[#333] rounded-[30px] mb-[40px]"}>
                 <div className="w-full flex flex-col mt-0">{/* Task Input Form */}
-            <LogWriteBox 
-                memberInfo={memberInfo}
-                masterStakeholders={masterStakeholders}
-                fetchLogs={fetchLogs}
-                fetchMasterStakeholders={fetchMasterStakeholders}
-                workspaceCode={workspaceCode}
-                workspaceLabel={workspaceLabel}
-                isTaskBoard={isTaskBoard}
-                taskId={taskId}
-                taskProject={taskProject}
-            />
+            {!isTaskBoard && (
+                <LogWriteBox 
+                    memberInfo={memberInfo}
+                    masterStakeholders={masterStakeholders}
+                    fetchLogs={fetchLogs}
+                    fetchMasterStakeholders={fetchMasterStakeholders}
+                    workspaceCode={workspaceCode}
+                    workspaceLabel={workspaceLabel}
+                    isTaskBoard={isTaskBoard}
+                    taskId={taskId}
+                    taskProject={taskProject}
+                />
+            )}
             <div className={isTaskBoard ? "w-full flex flex-col gap-4 bg-transparent border-0 rounded-none shadow-none" : "w-full border border-[#3c3c3c] rounded-[24px] flex flex-col bg-[#252525]"}>
                 {/* Header Row (Only for workspace mode) */}
                 {!isTaskBoard && (
@@ -1413,6 +1415,23 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                     </div>
                 )}
             </div>
+
+            {isTaskBoard && (
+                <div className="mt-[20px] w-full">
+                    <LogWriteBox 
+                        memberInfo={memberInfo}
+                        masterStakeholders={masterStakeholders}
+                        fetchLogs={fetchLogs}
+                        fetchMasterStakeholders={fetchMasterStakeholders}
+                        workspaceCode={workspaceCode}
+                        workspaceLabel={workspaceLabel}
+                        isTaskBoard={true}
+                        taskId={taskId}
+                        taskProject={taskProject}
+                        defaultExpanded={true}
+                    />
+                </div>
+            )}
 
             {/* Edit Modal */}
             {editingLogId && (
