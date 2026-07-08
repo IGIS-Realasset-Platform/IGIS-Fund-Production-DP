@@ -549,6 +549,13 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                         <div className={`relative shrink-0 rounded-full bg-[#3c3c3c] flex items-center justify-center overflow-hidden border border-white/10 ${isTaskBoard ? 'w-[32px] h-[32px]' : 'w-[40px] h-[40px]'}`}>
                             <img src={`${import.meta.env.BASE_URL}${memberInfo?.staff_name || 'default'}.webp`} alt="User" className="w-full h-full object-cover" onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }} />
                         </div>
+                        {isExpanded && isTaskBoard && (
+                            <div className="pl-[8px]">
+                                <span className="text-white text-[14px] font-bold">
+                                    {getCellName(memberInfo?.staff_name || memberInfo?.name)} {memberInfo?.staff_name || memberInfo?.name}
+                                </span>
+                            </div>
+                        )}
 
                         {!isExpanded ? (
                             <>
@@ -695,7 +702,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                             className="overflow-hidden w-full flex flex-col"
                         >
 {/* Text Area */}
-                <div className={`w-full px-[20px] pt-[20px] pb-[24px] bg-transparent ${editMode ? 'border-b border-[#333] pb-[20px] mb-[0]' : ''}`}>
+                <div className={`w-full px-[20px] ${isTaskBoard ? 'pt-[16px] pb-[18px]' : 'pt-[20px] pb-[24px]'} bg-transparent ${editMode ? 'border-b border-[#333] pb-[20px] mb-[0]' : ''}`}>
                     {editMode && (
                         <div className="w-full flex items-center justify-between mb-[20px]">
                             <h3 className="text-[18px] font-bold text-white">업무 수정하기</h3>
@@ -789,7 +796,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                             const bg = document.getElementById(`highlight-bg-${workspaceCode}`);
                             if (bg) bg.scrollTop = e.target.scrollTop;
                         }}
-                        className="w-full bg-transparent text-transparent caret-white outline-none resize-y min-h-[120px] leading-relaxed text-[15px] relative z-10 font-sans"
+                        className={`w-full bg-transparent text-transparent caret-white outline-none resize-y ${isTaskBoard ? 'min-h-[80px]' : 'min-h-[120px]'} leading-relaxed text-[15px] relative z-10 font-sans`}
                         style={{ caretColor: '#E5E5E5' }}
                         required
                     ></textarea>
@@ -834,7 +841,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                 </div>
 
                 {/* Footer */}
-                <div className="w-full pl-[20px] pr-[12px] py-[10px] border-t border-[#333] flex justify-between items-center gap-4">
+                <div className={`w-full pl-[20px] pr-[12px] ${isTaskBoard ? 'py-[6px]' : 'py-[10px]'} border-t border-[#333] flex justify-between items-center gap-4`}>
                     {!isTaskBoard ? (
                         <div className="flex items-center gap-[12px] flex-1 min-w-0">
                         <span className="text-[#86868B] text-[14px] font-medium shrink-0">이해관계자</span>
@@ -958,14 +965,14 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                             type="button"
                             onClick={() => setShowFileSecurityModal(true)}
                             disabled={isUploadingFile}
-                            className="px-[16px] py-[10px] rounded-[10px] border border-[#444] text-[#A1A1AA] font-bold text-[13px] hover:bg-[#333] hover:text-[#E5E5E5] transition-colors cursor-pointer flex items-center gap-2 whitespace-nowrap"
+                            className={`px-[16px] ${btnPadding} ${btnRounding} border border-[#444] text-[#A1A1AA] font-bold text-[13px] hover:bg-[#333] hover:text-[#E5E5E5] transition-colors cursor-pointer flex items-center gap-2 whitespace-nowrap`}
                         >
                             {isUploadingFile ? '업로드 중...' : '파일 첨부'}
                         </button>
                         <button 
                             type="button"
                             onClick={() => setShowVisibilityModal(true)}
-                            className="px-[16px] py-[10px] rounded-[10px] border border-red-500/50 text-red-500 font-bold text-[13px] hover:bg-red-500/10 hover:border-red-500 hover:text-red-400 transition-colors cursor-pointer whitespace-nowrap"
+                            className={`px-[16px] ${btnPadding} ${btnRounding} border border-red-500/50 text-red-500 font-bold text-[13px] hover:bg-red-500/10 hover:border-red-500 hover:text-red-400 transition-colors cursor-pointer whitespace-nowrap`}
                         >
                             열람권한
                         </button>
@@ -974,7 +981,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                                 <button 
                                     type="button"
                                     onClick={() => { if (onCancel) onCancel(); }}
-                                    className="px-[24px] py-[10px] rounded-[10px] border border-[#444] text-[#E5E5E5] font-bold text-[13px] hover:bg-[#333] transition-all cursor-pointer whitespace-nowrap"
+                                    className={`px-[24px] ${btnPadding} ${btnRounding} border border-[#444] text-[#E5E5E5] font-bold text-[13px] hover:bg-[#333] transition-all cursor-pointer whitespace-nowrap`}
                                 >
                                     취소
                                 </button>
@@ -982,7 +989,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                                     type="button"
                                     onClick={handlePreSubmit}
                                     disabled={isSubmitting}
-                                    className={`px-[32px] py-[10px] rounded-[10px] border border-transparent bg-[#2997ff] text-white font-bold text-[13px] transition-all duration-200 whitespace-nowrap ${isSubmitting ? 'opacity-50 cursor-not-allowed' : 'hover:bg-[#0071e3] cursor-pointer'}`}
+                                    className={`px-[32px] ${btnPadding} ${btnRounding} border border-transparent bg-[#2997ff] text-white font-bold text-[13px] transition-all duration-200 whitespace-nowrap ${isSubmitting ? 'opacity-50 cursor-not-allowed' : 'hover:bg-[#0071e3] cursor-pointer'}`}
                                 >
                                     {isSubmitting ? '저장 중...' : '수정 완료'}
                                 </button>
@@ -992,7 +999,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                                 type="button"
                                 onClick={handlePreSubmit}
                                 disabled={isSubmitting}
-                                className={`px-[32px] py-[10px] rounded-[10px] border border-[#444] text-[#E5E5E5] font-bold text-[13px] transition-all duration-200 whitespace-nowrap ${isSubmitting ? 'opacity-50 cursor-not-allowed' : 'hover:bg-[#333] hover:border-[#555] cursor-pointer'}`}
+                                className={`px-[32px] ${btnPadding} ${btnRounding} border border-[#444] text-[#E5E5E5] font-bold text-[13px] transition-all duration-200 whitespace-nowrap ${isSubmitting ? 'opacity-50 cursor-not-allowed' : 'hover:bg-[#333] hover:border-[#555] cursor-pointer'}`}
                             >
                                 {isSubmitting ? '저장 중...' : '작성하기'}
                             </button>
