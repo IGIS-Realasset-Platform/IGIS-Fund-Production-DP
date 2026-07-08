@@ -2558,7 +2558,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                             return (
                                                 <tr 
                                                     key={t.id || `task-${idx}`} 
-                                                    className={`group hover:bg-[#333]/50 transition-colors h-[50px] cursor-pointer ${isSelected ? 'bg-[#3c3c3a] hover:bg-[#3c3c3a]' : ''}`}
+                                                    className={`group hover:bg-[#333]/50 transition-colors h-[42px] cursor-pointer ${isSelected ? 'bg-[#3c3c3a] hover:bg-[#3c3c3a]' : ''}`}
                                                     onClick={() => setSelectedTaskDetail(t)}
                                                 >
                                                     
