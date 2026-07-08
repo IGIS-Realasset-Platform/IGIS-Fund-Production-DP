@@ -2558,7 +2558,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                             return (
                                                 <tr 
                                                     key={t.id || `task-${idx}`} 
-                                                    className={`group hover:bg-[#333]/50 transition-colors h-[42px] cursor-pointer ${isSelected ? 'bg-[#3c3c3a] hover:bg-[#3c3c3a]' : ''}`}
+                                                    className={`group hover:bg-[#333]/50 transition-colors h-[50px] cursor-pointer ${isSelected ? 'bg-[#3c3c3a] hover:bg-[#3c3c3a]' : ''}`}
                                                     onClick={() => setSelectedTaskDetail(t)}
                                                 >
                                                     
@@ -3480,7 +3480,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                         <div className="absolute inset-y-0 right-0 max-w-full flex pl-10 pointer-events-auto">
                             <form onSubmit={handleFormSubmit} className="w-screen max-w-[650px] transform transition-transform duration-300 ease-in-out shadow-2xl flex flex-col h-full bg-[#1c1c1e]/95 backdrop-blur-xl border-l border-[#3c3c3c]/80 text-white select-text">
                                 {/* Header */}
-                                <div className="px-6 py-5 border-b border-[#3c3c3c]/80 flex items-center justify-between bg-[#1c1c1e]/80 sticky top-0 z-20">
+                                <div className="px-6 py-4 border-b border-[#3c3c3c]/80 flex items-center justify-between bg-[#1c1c1e]/80 sticky top-0 z-20">
                                     <div className="flex items-center gap-3 flex-wrap">
                                         <span className="font-mono text-[12px] font-bold px-2 py-0.5 rounded bg-white/10 text-[#86868B]">
                                             {t.id && !t.id.includes('-') ? t.id : (fallbackItem.id || 'T-XXX')}
