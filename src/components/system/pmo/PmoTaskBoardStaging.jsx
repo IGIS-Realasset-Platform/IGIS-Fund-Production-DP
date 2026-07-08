@@ -1457,7 +1457,12 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
     // Automatically calculate priority score, meeting grade, and agenda reason in Edit form
     useEffect(() => {
         const tempTask = {
-            importance_level: formImportanceLevel,
+            importance_level: (() => {
+                const val = formImportanceLevel;
+                if (['PF필수', '준공필수', '높음', '중간', '낮음'].includes(val)) return val;
+                if (val === '중요') return '높음';
+                return '중간';
+            })(),
             is_blocker: formIsBlocker,
             needs_decision: formNeedsDecision,
             support_needed: formSupportNeeded,
@@ -2018,7 +2023,12 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
             priority_score: formPriorityScore,
             meeting_grade: dbMeetingGrade,
             next_action: formNextAction,
-            importance_level: formImportanceLevel,
+            importance_level: (() => {
+                const val = formImportanceLevel;
+                if (['PF필수', '준공필수', '높음', '중간', '낮음'].includes(val)) return val;
+                if (val === '중요') return '높음';
+                return '중간';
+            })(),
             task_type: formTaskType,
             support_needed: formSupportNeeded || null,
             notes: formNotes,
@@ -2035,7 +2045,12 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
             gate_stage: formGateStage, // Preserve full string locally
             meeting_grade: formMeetingGrade,
             support_needed: formSupportNeeded,
-            importance_level: formImportanceLevel,
+            importance_level: (() => {
+                const val = formImportanceLevel;
+                if (['PF필수', '준공필수', '높음', '중간', '낮음'].includes(val)) return val;
+                if (val === '중요') return '높음';
+                return '중간';
+            })(),
             task_type: formTaskType,
             agenda_reason: formAgendaReason,
             sort_key: formSortKey,
@@ -2130,6 +2145,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                     }
                 } catch (err) {
                     console.error("Failed to update task in DB:", err);
+                    alert("DB 저장에 실패했습니다: " + (err.message || err));
                 }
             }
 
