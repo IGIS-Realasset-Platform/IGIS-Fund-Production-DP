@@ -2133,20 +2133,35 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                 }
 
                 if (changes.length > 0) {
+                    const logId = `iota_issue_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
                     const logData = {
+                        log_id: logId,
                         writer_name: memberInfo?.staff_name || memberInfo?.name || '시스템',
                         writer_staff_id: memberInfo?.email || 'system',
                         work_date: new Date().toISOString().slice(0, 10),
-                        title: '업무 변경 이력',
-                        content: `🔧 업무 정보가 변경되었습니다.\n\n${changes.join('\n')}`,
+                        summary: '업무 변경 이력',
+                        raw_text: `🔧 업무 정보가 변경되었습니다.\n\n${changes.join('\n')}`,
+                        input_status: 'submitted',
+                        source_system: 'task_board',
                         metadata: {
                             is_task_board: true,
                             task_id: editingItem.id,
-                            task_project: resolvedProjectCode || 'IOTA_SEOUL'
+                            task_project: resolvedProjectCode || 'IOTA_SEOUL',
+                            workspace_code: 'WS_DSC',
+                            workspace_label: '개발솔루션-DSC'
                         }
                     };
                     const { error: logErr } = await supabase.from('iota_seoul_logs').insert(logData);
                     if (logErr) throw logErr;
+
+                    // Insert log link to match LogWriteBox structure
+                    const { error: linkErr } = await supabase.from('iota_seoul_log_links').insert({
+                        link_id: `link_${logId}`,
+                        log_id: logId,
+                        proj_id: resolvedProjectCode || 'IOTA_SEOUL',
+                        relation_type: 'direct_input'
+                    });
+                    if (linkErr) throw linkErr;
 
                     window.dispatchEvent(new CustomEvent('iota_log_updated', { detail: { taskId: editingItem.id } }));
                 }
