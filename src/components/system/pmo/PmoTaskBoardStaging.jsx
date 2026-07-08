@@ -1441,6 +1441,18 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
         setIsDrawerEditing(false);
     }, [selectedTaskDetail]);
 
+    // Toggle body class to hide global header buttons when drawer is open
+    useEffect(() => {
+        if (selectedTaskDetail) {
+            document.body.classList.add('drawer-open');
+        } else {
+            document.body.classList.remove('drawer-open');
+        }
+        return () => {
+            document.body.classList.remove('drawer-open');
+        };
+    }, [selectedTaskDetail]);
+
     // Automatically calculate priority score, meeting grade, and agenda reason in Edit form
     useEffect(() => {
         const tempTask = {
@@ -2180,7 +2192,13 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
     }, [filteredTasks, prioritySortOrder]);
 
     return (
-        <div className="w-full flex flex-col mb-10 text-left">
+        <div>
+            <style>{`
+                body.drawer-open .fixed.top-\[16px\] {
+                    display: none !important;
+                }
+            `}</style>
+            <div className="w-full flex flex-col mb-10 text-left">
             {loading ? (
                 <div className="w-full h-[260px] flex items-center justify-center border border-[#333] rounded-[24px]">
                     <span className="text-[#86868B] text-[15px] animate-pulse">원장 정보를 불러오는 중입니다...</span>
@@ -3454,6 +3472,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                 const agendaReason = t.agenda_reason || fallbackItem.agenda_reason || '';
                 const nextActionVal = t.next_action || fallbackItem.next_action || '';
                 const targetAxis = t.target_axis || fallbackItem.target_axis || '준공/운영';
+                const projObj = projects.find(p => p.project_code === t.project_code);
 
                 return (
                     <div className="fixed inset-0 z-[100000] overflow-hidden pointer-events-none">
@@ -3466,7 +3485,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                             {t.id && !t.id.includes('-') ? t.id : (fallbackItem.id || 'T-XXX')}
                                         </span>
                                         <span className="text-[12px] font-bold px-2 py-0.5 rounded border border-[#3c3c3c] bg-[#3A3A3C] text-white">
-                                            {t.project_code || t.project || fallbackItem.project || 'IOTA 서울'}
+                                            {normalizeProjectName(projObj ? projObj.project_name : (t.project || fallbackItem.project || 'IOTA_SEOUL'))}
                                         </span>
                                         <span className="text-[12px] font-bold px-2 py-0.5 rounded border border-[#3c3c3c] bg-white/5 text-[#E5E5E5]">
                                             {t.category_main || fallbackItem.category_main || '-'}
@@ -3698,6 +3717,6 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                         </div>
                     </div>
                 );
-            })()}        </div>
+            })()}        </div></div>
     );
 }
