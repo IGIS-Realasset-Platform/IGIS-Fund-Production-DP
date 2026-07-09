@@ -3029,7 +3029,10 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                     <tfoot className="border-none bg-[#272726]">
                                         <tr className="bg-[#272726] h-[46px] select-none ">
                                             {/* 1. ID */}
-                                            <td className="pl-[10px] text-center w-[50px] min-w-[50px] max-w-[50px] sticky left-0 transition-colors z-10 bg-[#272726]"></td>
+                                            <td className="pl-[10px] text-center w-[50px] min-w-[50px] max-w-[50px] sticky left-0 transition-colors z-30 bg-[#272726] relative">
+                                                {/* Top border line extending to the right edge of browser screen with solid color */}
+                                                <div className="absolute top-0 left-0 border-t border-[#3c3c3c] pointer-events-none z-30" style={{ width: 'calc(100vw - 260px)' }} />
+                                            </td>
                                             
                                             {/* 2. 프로젝트 */}
                                             <td className="text-center w-[80px] min-w-[80px] max-w-[80px] sticky left-[50px] transition-colors z-10 bg-[#272726]"></td>
@@ -3041,10 +3044,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                             <td className={`sticky left-[201px] z-10 transition-all duration-300 ease-out bg-[#272726] ${isAll ? 'w-[90px] min-w-[90px] max-w-[90px] pl-4 opacity-100' : 'w-0 min-w-0 max-w-0 pl-0 opacity-0 overflow-hidden'}`}></td>
                                             
                                             {/* 5. 업무명 (Centered Pagination) */}
-                                            <td className={`pl-4 font-bold text-white sticky relative transition-all duration-300 ease-out bg-[#272726] z-20 w-[240px] min-w-[240px] max-w-[240px] ${isAll ? 'left-[291px]' : 'left-[201px]'}`}>
-                                                {/* Top border line extending to the right edge of browser screen */}
-                                                <div className="absolute top-0 border-t border-[#3c3c3c]/50 pointer-events-none z-30" style={{ left: isAll ? '-291px' : '-201px', width: 'calc(100vw - 260px)' }} />
-                                                
+                                            <td className={`pl-4 font-bold text-white sticky relative transition-all duration-300 ease-out bg-[#272726] z-10 w-[240px] min-w-[240px] max-w-[240px] ${isAll ? 'left-[291px]' : 'left-[201px]'}`}>
                                                 {/* Centered Pagination Wrapper */}
                                                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-visible z-20">
                                                     <div className="flex items-center justify-center select-none pointer-events-auto" style={{ left: isAll ? '-351px' : '-261px', width: 'calc(100vw - 200px)', position: 'absolute', top: 0, bottom: 0 }}>
