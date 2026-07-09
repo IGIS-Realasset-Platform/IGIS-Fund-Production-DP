@@ -2444,7 +2444,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
             ) : (
                 <div className="-mr-[calc(50vw-50%)] border border-r-0 border-[#3c3c3c] bg-[#272726] rounded-l-[24px] overflow-hidden mb-[10px] shadow-sm select-text">
                     <div className="w-full overflow-x-auto pr-0 timeline-scrollbar pb-1">
-                        <div className={`flex items-center transition-all duration-300 ease-out ${isAll ? 'min-w-[3499px]' : 'min-w-[2324px]'}`}>
+                        <div className={`flex items-start transition-all duration-300 ease-out ${isAll ? 'min-w-[3499px]' : 'min-w-[2324px]'}`}>
                             <table className={`text-left table-fixed flex-1 border-collapse bg-[#272726] transition-all duration-300 ease-out ${isAll ? 'min-w-[2699px]' : 'min-w-[1524px]'}`}>
                                 <thead>
                                     <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[13px] h-[46px]">
