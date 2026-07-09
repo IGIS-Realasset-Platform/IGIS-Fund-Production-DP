@@ -825,34 +825,55 @@ export default function DecisionLog() {
         <div className="w-full flex-1 flex flex-col pt-[48px] pb-[60px] pl-[60px] pr-[60px] box-border">
             {/* Header Metadata (Staging Only) */}
             {isStaging && (
-                <div className="w-full flex flex-col mb-[16px] gap-[10px]">
-                    <div className="flex justify-between items-end w-full">
-                        {/* Left: Title & Search Box */}
-                        <div className="flex items-center gap-[16px]">
-                            <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter']">통합 업무 보드</h1>
-                            {/* Search Input Box directly to the right of title */}
-                            <div className="relative w-[280px] self-center ml-[10px]">
-                                <input 
-                                    type="text" 
-                                    placeholder="업무명, 담당자, 부서, 산출물 검색..."
-                                    value={searchQuery}
-                                    onChange={(e) => setSearchQuery(e.target.value)}
-                                    className="w-full bg-[#1c1c1e]/60 border border-[#3c3c3c] rounded-[10px] pl-9 pr-8 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] focus:ring-1 focus:ring-[#2997ff] transition-all placeholder-[#86868B]"
-                                />
-                                <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#86868B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                                </svg>
-                                {searchQuery && (
-                                    <button 
-                                        onClick={() => setSearchQuery('')}
-                                        className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#86868B] hover:text-white text-[11px] font-bold bg-white/5 hover:bg-white/10 rounded-full w-4.5 h-4.5 flex items-center justify-center cursor-pointer transition-colors"
-                                    >
-                                        ✕
-                                    </button>
-                                )}
-                            </div>
+                <div className="w-full flex flex-col mb-[24px] gap-[16px] select-none">
+                    {/* First Row: Title & Action Buttons */}
+                    <div className="flex justify-between items-center w-full">
+                        <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter']">통합 업무 보드</h1>
+                        
+                        <div className="flex items-center gap-3 shrink-0">
+                            {/* 새 업무 추가 버튼 */}
+                            <button
+                                onClick={() => setAddNewTaskTrigger(prev => prev + 1)}
+                                className="px-4 py-2 bg-[#ff9f0a]/10 hover:bg-[#ff9f0a]/20 border border-[#ff9f0a]/30 hover:border-[#ff9f0a] rounded-[10px] text-[13px] font-bold text-[#ff9f0a] transition-all cursor-pointer flex items-center gap-1.5 shadow-sm"
+                            >
+                                <span>+ 새 업무 추가</span>
+                            </button>
+                            
+                            {/* Right: Date Pill */}
+                            <span className="text-[15px] font-bold text-[#86868B] tracking-tight bg-[#222] px-[16px] py-[8px] rounded-full shadow-sm leading-none">
+                                {formattedDate}
+                            </span>
+                        </div>
+                    </div>
+                    
+                    {/* Second Row: Filters, Search, & View Toggles */}
+                    <div className="flex flex-wrap items-center justify-between gap-4 w-full border-b border-[#3c3c3c]/20 pb-4">
+                        {/* Left: Search Box */}
+                        <div className="relative w-[320px] shrink-0">
+                            <input 
+                                type="text" 
+                                placeholder="업무명, 담당자, 부서, 산출물 검색..."
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                className="w-full bg-[#1c1c1e]/60 border border-[#3c3c3c] rounded-[10px] pl-9 pr-8 py-2 text-[13px] text-white outline-none focus:border-[#2997ff] focus:ring-1 focus:ring-[#2997ff] transition-all placeholder-[#86868B]"
+                            />
+                            <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#86868B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                            {searchQuery && (
+                                <button 
+                                    onClick={() => setSearchQuery('')}
+                                    className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#86868B] hover:text-white text-[11px] font-bold bg-white/5 hover:bg-white/10 rounded-full w-4.5 h-4.5 flex items-center justify-center cursor-pointer transition-colors"
+                                >
+                                    ✕
+                                </button>
+                            )}
+                        </div>
+                        
+                        {/* Right: Toggle Buttons */}
+                        <div className="flex items-center gap-3 flex-wrap">
                             {/* View mode toggle button group */}
-                            <div className="flex bg-[#1c1c1e]/60 border border-[#3c3c3c] rounded-[10px] p-0.5 ml-3 self-center shrink-0">
+                            <div className="flex bg-[#1c1c1e]/60 border border-[#3c3c3c] rounded-[10px] p-0.5 shrink-0">
                                 <button
                                     onClick={() => setViewMode('key')}
                                     className={`px-3 py-1.5 rounded-[8px] text-[12px] font-bold transition-all cursor-pointer ${
@@ -876,7 +897,7 @@ export default function DecisionLog() {
                             </div>
 
                             {/* Page size toggle button group */}
-                            <div className="flex bg-[#1c1c1e]/60 border border-[#3c3c3c] rounded-[10px] p-0.5 ml-3 self-center shrink-0">
+                            <div className="flex bg-[#1c1c1e]/60 border border-[#3c3c3c] rounded-[10px] p-0.5 shrink-0">
                                 <button
                                     onClick={() => setPageSize(10)}
                                     className={`px-3 py-1.5 rounded-[8px] text-[12px] font-bold transition-all cursor-pointer ${
@@ -898,19 +919,7 @@ export default function DecisionLog() {
                                     20개씩 보기
                                 </button>
                             </div>
-
-                            {/* 새 업무 추가 버튼 */}
-                            <button
-                                onClick={() => setAddNewTaskTrigger(prev => prev + 1)}
-                                className="px-4 py-1.5 bg-[#ff9f0a]/10 hover:bg-[#ff9f0a]/20 border border-[#ff9f0a]/30 hover:border-[#ff9f0a] rounded-[10px] text-[12px] font-bold text-[#ff9f0a] transition-all cursor-pointer ml-3 flex items-center gap-1.5 shrink-0"
-                            >
-                                <span>+ 새 업무 추가</span>
-                            </button>
                         </div>
-                        {/* Right: Date Pill (shifted down by 10px, aligned to right padding boundary) */}
-                        <span className="text-[15px] font-bold text-[#86868B] tracking-tight bg-[#222] px-[16px] py-[6px] rounded-full shadow-sm leading-none transform translate-y-[4px]">
-                            {formattedDate}
-                        </span>
                     </div>
                 </div>
             )}

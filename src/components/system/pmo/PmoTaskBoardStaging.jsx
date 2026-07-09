@@ -2426,6 +2426,12 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                 body.drawer-open #global-support-button {
                     display: none !important;
                 }
+                body.drawer-open {
+                    overflow: hidden !important;
+                }
+                body.drawer-open .hide-scrollbar {
+                    overflow-y: hidden !important;
+                }
             `}</style>
             <div className="w-full flex flex-col mb-10 text-left">
             {loading ? (
