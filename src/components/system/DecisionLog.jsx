@@ -1158,9 +1158,18 @@ export default function DecisionLog() {
                                             <div className="flex flex-col items-center justify-center flex-1 w-0">
                                                 <span className="text-[11px] font-bold text-[#A1A1AA] mb-[4px] truncate w-full text-center">{normWriter}</span>
                                                 <div className="flex items-center gap-[4px] justify-center w-full min-w-0">
-                                                    <div className="w-[20px] h-[20px] rounded-full bg-[#333] overflow-hidden border border-[#444] shrink-0">
-                                                        <img src={`${import.meta.env.BASE_URL}${log.writer_name}.webp`} alt={log.writer_name} className="w-full h-full object-cover" onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }} />
-                                                    </div>
+                                                    {log.writer_name === '시스템' ? (
+                                                        <div className="w-[20px] h-[20px] rounded-full bg-[#1e2d24] border border-[#2e5c3e] flex items-center justify-center shrink-0">
+                                                            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#30d158" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="w-[11px] h-[11px]">
+                                                                <circle cx="12" cy="12" r="3"></circle>
+                                                                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                                                            </svg>
+                                                        </div>
+                                                    ) : (
+                                                        <div className="w-[20px] h-[20px] rounded-full bg-[#333] overflow-hidden border border-[#444] shrink-0">
+                                                            <img src={`${import.meta.env.BASE_URL}${log.writer_name}.webp`} alt={log.writer_name} className="w-full h-full object-cover" onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }} />
+                                                        </div>
+                                                    )}
                                                     <span className="text-[13px] font-bold text-white truncate">{log.writer_name}</span>
                                                 </div>
                                             </div>
