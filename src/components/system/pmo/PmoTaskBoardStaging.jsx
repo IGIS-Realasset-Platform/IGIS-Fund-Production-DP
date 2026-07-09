@@ -4135,8 +4135,8 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                             isTaskBoard={true} 
                                             taskId={t.id && !t.id.includes('-') ? t.id : (fallbackItem.id || 'T-XXX')} 
                                             taskProject={t.project_code || t.project || fallbackItem.project || 'IOTA_SEOUL'}
-                                            workspaceCode="WS_DSC" 
-                                            workspaceLabel="개발솔루션-DSC" 
+                                            workspaceCode="WS_PMO" 
+                                            workspaceLabel="통합업무보드" 
                                         />
                                     </div>
                                 </div>
