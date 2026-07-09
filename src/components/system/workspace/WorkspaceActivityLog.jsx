@@ -1048,21 +1048,21 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                         return (
                             <div id={log.log_id} key={log.log_id} className="w-full flex flex-col gap-[12px] p-[20px] bg-[#1c1c1e] border border-[#2c2c2e] rounded-[16px] transition-all hover:border-[#444] relative group">
                                 {/* Card Header */}
-                                <div className="w-full flex items-center justify-between">
-                                    <div className="flex items-center gap-[10px]">
-                                        <div className="w-[32px] h-[32px] rounded-full bg-[#2c2c2e] flex items-center justify-center border border-[#3c3c3c] shrink-0 overflow-hidden">
-                                            {log.writer_name === '시스템' ? (
-                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#30d158" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
-                                            ) : (
-                                                <img 
-                                                    src={`${import.meta.env.BASE_URL}${log.writer_name}.webp`} 
-                                                    alt={log.writer_name} 
-                                                    className="w-full h-full object-cover rounded-full"
-                                                    onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }}
-                                                />
-                                            )}
-                                        </div>
-                                        <div className="flex flex-col">
+                                <div className="w-full flex items-start gap-[10px]">
+                                    <div className="w-[32px] h-[32px] rounded-full bg-[#2c2c2e] flex items-center justify-center border border-[#3c3c3c] shrink-0 overflow-hidden mt-[2px]">
+                                        {log.writer_name === '시스템' ? (
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#30d158" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                                        ) : (
+                                            <img 
+                                                src={`${import.meta.env.BASE_URL}${log.writer_name}.webp`} 
+                                                alt={log.writer_name} 
+                                                className="w-full h-full object-cover rounded-full"
+                                                onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }}
+                                            />
+                                        )}
+                                    </div>
+                                    <div className="flex-1 flex flex-col min-w-0">
+                                        <div className="w-full flex items-center justify-between">
                                             <div className="flex items-center gap-1.5">
                                                 <span className="text-[14px] font-bold text-white leading-tight">{log.writer_name}</span>
                                                 <span className={`text-[11px] font-bold px-1.5 py-0.5 rounded ${
@@ -1073,33 +1073,32 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                                     {getLogCell(log).replace(/-(LFC|DSC|EMC|SSC|KAM)$/, '')}
                                                 </span>
                                             </div>
-                                            <span className="text-[11px] text-[#86868B] font-['Inter'] mt-0.5">
-                                                {formatDateYYMMDD(log.work_date)} {log.created_at && new Date(log.created_at).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', hour12: false })}
-                                            </span>
-                                        </div>
-                                    </div>
-                                    
-                                    <div className="flex items-center gap-3 shrink-0">
-                                        {log.writer_name === '시스템' && (
-                                            <div className="flex items-center gap-1.5 text-[12px] text-[#86868B] select-none">
-                                                <span>변경자:</span>
-                                                <span className="font-bold text-white">{log.metadata?.editor_name || '시스템'}</span>
-                                                <span className="text-[10px] font-bold text-[#82afb9] bg-[#82afb9]/10 px-1.5 py-0.5 rounded">
-                                                    {log.metadata?.editor_name ? getCellName(log.metadata.editor_name).replace(/-(LFC|DSC|EMC|SSC|KAM)$/, '') : '이력'}
-                                                </span>
+                                            <div className="flex items-center gap-3 shrink-0">
+                                                {log.writer_name === '시스템' && (
+                                                    <div className="flex items-center gap-1.5 text-[12px] text-[#86868B] select-none">
+                                                        <span>변경자:</span>
+                                                        <span className="font-bold text-white">{log.metadata?.editor_name || '시스템'}</span>
+                                                        <span className="text-[10px] font-bold text-[#82afb9] bg-[#82afb9]/10 px-1.5 py-0.5 rounded">
+                                                            {log.metadata?.editor_name ? getCellName(log.metadata.editor_name).replace(/-(LFC|DSC|EMC|SSC|KAM)$/, '') : '이력'}
+                                                        </span>
+                                                    </div>
+                                                )}
+                                                {/* Delete Button (Writer only) */}
+                                                {log.writer_staff_id === memberInfo?.email && (
+                                                    <button 
+                                                        type="button"
+                                                        onClick={(e) => { e.stopPropagation(); setLogToDelete(log); }}
+                                                        className="w-[24px] h-[24px] rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-[#86868B] hover:text-[#FF453A] hover:bg-[#FF453A]/10 hover:border-[#FF453A]/30 transition-all cursor-pointer"
+                                                        title="삭제"
+                                                    >
+                                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                                                    </button>
+                                                )}
                                             </div>
-                                        )}
-                                        {/* Delete Button (Writer only) */}
-                                        {log.writer_staff_id === memberInfo?.email && (
-                                            <button 
-                                                type="button"
-                                                onClick={(e) => { e.stopPropagation(); setLogToDelete(log); }}
-                                                className="w-[24px] h-[24px] rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-[#86868B] hover:text-[#FF453A] hover:bg-[#FF453A]/10 hover:border-[#FF453A]/30 transition-all cursor-pointer"
-                                                title="삭제"
-                                            >
-                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                                            </button>
-                                        )}
+                                        </div>
+                                        <span className="text-[11px] text-[#86868B] font-['Inter'] mt-0.5">
+                                            {formatDateYYMMDD(log.work_date)} {log.created_at && new Date(log.created_at).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', hour12: false })}
+                                        </span>
                                     </div>
                                 </div>
                                 
