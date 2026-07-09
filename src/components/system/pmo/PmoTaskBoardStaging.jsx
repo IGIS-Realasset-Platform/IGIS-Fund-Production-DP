@@ -2261,11 +2261,11 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                 alert("이력 로그 저장에 실패했습니다: " + (err.message || err));
             }
 
-            // Update drawer detail viewer if we are inline editing inside the drawer
-            if (isDrawerEditing) {
+            // Update drawer detail viewer if the currently viewed task was edited
+            if (selectedTaskDetail && selectedTaskDetail.id === editingItem.id) {
                 setSelectedTaskDetail({ id: editingItem.id, ...localMapping });
-                setIsDrawerEditing(false);
             }
+            setIsDrawerEditing(false);
             window.dispatchEvent(new CustomEvent('iota_log_updated', { detail: { taskId: editingItem.id } }));
         } else {
             // ADDING
