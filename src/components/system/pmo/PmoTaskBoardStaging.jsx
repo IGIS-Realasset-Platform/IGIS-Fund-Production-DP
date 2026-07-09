@@ -3039,9 +3039,9 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                             <td className={`sticky left-[201px] z-10 transition-all duration-300 ease-out bg-[#272726] ${isAll ? 'w-[90px] min-w-[90px] max-w-[90px] pl-4 opacity-100' : 'w-0 min-w-0 max-w-0 pl-0 opacity-0 overflow-hidden'}`}></td>
                                             
                                             {/* 5. 업무명 (Centered Pagination) */}
-                                            <td className={`pl-4 font-bold text-white relative transition-all duration-300 ease-out shadow-[inset_-1px_0_0_0_#3c3c3c] bg-[#272726] z-20 w-[240px] min-w-[240px] max-w-[240px] ${isAll ? 'left-[291px]' : 'left-[201px]'}`}>
+                                            <td className={`pl-4 font-bold text-white relative transition-all duration-300 ease-out bg-[#272726] z-20 w-[240px] min-w-[240px] max-w-[240px] ${isAll ? 'left-[291px]' : 'left-[201px]'}`}>
                                                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-visible z-20">
-                                                    <div className="flex items-center justify-center select-none h-full pointer-events-auto" style={{ left: isAll ? '-291px' : '-201px', width: 'calc(100vw - 260px)', position: 'absolute' }}>
+                                                    <div className="flex items-center justify-center select-none h-full pointer-events-auto" style={{ left: isAll ? '-551px' : '-461px', width: '100vw', position: 'absolute' }}>
                                                         <div className="flex items-center gap-1">
                                                             {/* Prev Button */}
                                                             <button
@@ -3150,7 +3150,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                             <td className={`text-center transition-all duration-300 ease-out bg-[#272726] ${isAll ? 'w-[100px] min-w-[100px] max-w-[100px] opacity-100' : 'w-0 min-w-0 max-w-0 opacity-0 overflow-hidden'}`}></td>
                                             
                                             {/* 23. 관리 */}
-                                            <td className="w-[85px] min-w-[85px] max-w-[85px] border-l border-r border-[#3c3c3c] bg-[#272726]"></td>
+                                            <td className="w-[85px] min-w-[85px] max-w-[85px] bg-[#272726]"></td>
                                         </tr>
                                     )}
                                 </tbody>
