@@ -4,7 +4,7 @@ import { useAuth } from '../../context/AuthContext';
 import { notifyMembersOnCommentCreation } from '../../utils/notificationHelpers';
 import { motion, AnimatePresence } from 'framer-motion';
 import ReactionAvatarStack from './ReactionAvatarStack';
-import PmoTaskBoardStaging from './pmo/PmoTaskBoardStaging';
+import PmoTaskBoardStaging, { FALLBACK_BOARD_TASKS } from './pmo/PmoTaskBoardStaging';
 
 const WORKSPACE_CONFIG = [
     { id: 'pm1', name: '사업 PM 1', path: 'platform/iotaseoul/workspace/pm1', table: 'iota_pm_tasks', color: 'bg-[#bdbba7]' },
@@ -58,6 +58,7 @@ export default function DecisionLog() {
     const [pilotMembers, setPilotMembers] = useState([]);
     const [showAllCrossFunctional, setShowAllCrossFunctional] = useState(false);
     const [activeCadenceTab, setActiveCadenceTab] = useState('internal');
+    const [pmoTasks, setPmoTasks] = useState([]);
     const [expandedCadenceRow, setExpandedCadenceRow] = useState(null);
     const [cadenceLogs, setCadenceLogs] = useState({});
     const [isLoadingCadenceLogs, setIsLoadingCadenceLogs] = useState(false);
@@ -277,6 +278,18 @@ export default function DecisionLog() {
             
             const validLogs = (data || []).filter(log => getCellName(log.writer_name) !== '기타');
             setLogs(validLogs);
+
+            try {
+                const { data: taskData, error: taskError } = await supabase
+                    .schema('iota_v2')
+                    .from('iota_pmo_tasks')
+                    .select('*');
+                if (!taskError && taskData) {
+                    setPmoTasks(taskData);
+                }
+            } catch (err) {
+                console.warn("Failed to fetch PMO tasks in DecisionLog:", err);
+            }
         } catch (e) {
             console.error('Error fetching logs:', e);
         } finally {
@@ -1102,11 +1115,15 @@ export default function DecisionLog() {
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-[8px] items-start">
                         {(showAllCrossFunctional ? crossFunctionalLogs : crossFunctionalLogs.slice(0, 6)).map(log => {
+                            const isTaskLog = !!log.metadata?.task_id;
                             const normWriter = getCellName(log.writer_name).replace(/-(LFC|DSC|EMC|SSC|KAM)$/, '');
-                            const normTarget = getLogCell(log).replace(/-(LFC|DSC|EMC|SSC|KAM)$/, '');
+                            const normTarget = isTaskLog ? "통합업무보드" : getLogCell(log).replace(/-(LFC|DSC|EMC|SSC|KAM)$/, '');
                             const targetRep = CELL_REPRESENTATIVES[normTarget];
                             const isRestricted = hasRestrictedPermissions(log);
                             
+                            const taskId = log.metadata?.task_id;
+                            const matchedTask = taskId ? (pmoTasks.find(t => String(t.id) === String(taskId)) || FALLBACK_BOARD_TASKS.find(t => String(t.id) === String(taskId))) : null;
+
                             return (
                                 <div key={log.log_id} className="bg-[#292928] border border-[#3c3c3c] hover:border-[#82afb9]/50 rounded-[24px] p-[16px] px-[20px] transition-all cursor-pointer group flex flex-col h-auto" onClick={() => toggleExpand(log.log_id)}>
                                     <div className="flex items-start gap-[20px]">
@@ -1143,6 +1160,16 @@ export default function DecisionLog() {
 
                                         {/* Title and Metadata on the right */}
                                         <div className="flex-1 flex flex-col pt-[4px]">
+                                            {matchedTask && (
+                                                <div className="text-[12px] text-[#82afb9] font-bold mb-[6px] flex items-center gap-[6px]">
+                                                    <span className="bg-[#82afb9]/10 border border-[#82afb9]/20 px-[6px] py-[1.5px] rounded-[4px] text-[10px] font-mono shrink-0">
+                                                        {matchedTask.id}
+                                                    </span>
+                                                    <span className="truncate max-w-[200px]" title={matchedTask.task_name}>
+                                                        {matchedTask.task_name}
+                                                    </span>
+                                                </div>
+                                            )}
                                             <div className="text-[15px] font-bold text-[#E5E5E5] line-clamp-2 leading-snug group-hover:text-white transition-colors mb-[12px]">
                                                 {log.summary || (log.raw_text ? log.raw_text.split('\n')[0] : '')}
                                             </div>
@@ -1156,7 +1183,20 @@ export default function DecisionLog() {
                                                         </span>
                                                     )}
                                                 </div>
-                                                <span className="text-[12px] text-[#2997ff] font-medium opacity-0 group-hover:opacity-100 transition-opacity">자세히 보기</span>
+                                                <div className="flex items-center gap-[12px]">
+                                                    {log.metadata?.task_id && (
+                                                        <button
+                                                            onClick={(e) => {
+                                                                e.stopPropagation();
+                                                                window.location.href = `${import.meta.env.BASE_URL}platform/iotaseoul/workflow?taskId=${log.metadata.task_id}`;
+                                                            }}
+                                                            className="text-[11px] text-[#82afb9] hover:text-white font-bold bg-[#82afb9]/10 border border-[#82afb9]/25 hover:bg-[#82afb9]/20 px-[8px] py-[3.5px] rounded-[6px] transition-all cursor-pointer whitespace-nowrap"
+                                                        >
+                                                            원문보기 ↗
+                                                        </button>
+                                                    )}
+                                                    <span className="text-[12px] text-[#2997ff] font-medium opacity-0 group-hover:opacity-100 transition-opacity">자세히 보기</span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
