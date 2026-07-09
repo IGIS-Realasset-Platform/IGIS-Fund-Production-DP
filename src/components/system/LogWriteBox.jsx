@@ -723,8 +723,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
 {/* Text Area */}
                 <div className={`w-full px-[20px] ${isTaskBoard ? 'pt-[16px] pb-[18px]' : 'pt-[20px] pb-[24px]'} bg-transparent ${editMode ? 'border-b border-[#333] pb-[20px] mb-[0]' : ''}`}>
                     {editMode && (
-                        <div className="w-full flex items-center justify-between mb-[20px]">
-                            <h3 className="text-[18px] font-bold text-white">업무 수정하기</h3>
+                        <div className="w-full flex items-center justify-end mb-[20px]">
                             <button onClick={() => { if (onCancel) onCancel(); }} className="text-[#86868B] hover:text-white transition-colors cursor-pointer">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                             </button>
