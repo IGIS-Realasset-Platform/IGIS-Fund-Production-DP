@@ -69,9 +69,13 @@ export default function AuthSetup({ onLogin }) {
                 .eq('email', email.trim().toLowerCase())
                 .single());
 
-            if (error || !data) {
+            if (error && error.code !== 'PGRST116') {
                 console.error("Login email lookup error:", error);
-                triggerError(error ? `서버 오류: ${error.message}` : '등록되지 않은 사용자입니다. 관리팀에 문의해주세요.');
+                triggerError(`서버 오류: ${error.message}`);
+                return;
+            }
+            if (!data) {
+                triggerError('등록되지 않은 사용자입니다. 관리팀에 문의해주세요.');
                 return;
             }
 
