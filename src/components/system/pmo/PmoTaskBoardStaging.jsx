@@ -1401,6 +1401,8 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
     const isAll = viewMode === 'all';
     const [editingItem, setEditingItem] = useState(null);
     const [deleteConfirmId, setDeleteConfirmId] = useState(null);
+    const [isSaveConfirmOpen, setIsSaveConfirmOpen] = useState(false);
+    const [isSaveSuccessOpen, setIsSaveSuccessOpen] = useState(false);
     const [selectedTaskDetail, setSelectedTaskDetail] = useState(null);
     const initialUrlCheckedRef = useRef(false);
     const [showAssigneeDropdown, setShowAssigneeDropdown] = useState(false);
@@ -2025,12 +2027,13 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
         }
     };
 
-    const handleFormSubmit = async (e) => {
+    const handleFormSubmit = (e) => {
         e.preventDefault();
+        setIsSaveConfirmOpen(true);
+    };
 
-        if (!window.confirm("저장하시겠습니까?")) {
-            return;
-        }
+    const executeSave = async () => {
+        setIsSaveConfirmOpen(false);
 
         // Resolve codes
         const resolvedProjectCode = await resolveProjectCode(formProject);
@@ -2260,7 +2263,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
             }
         }
 
-        setIsModalOpen(false);
+        setIsSaveSuccessOpen(true);
     };
 
     // Filter tasks based on table header selectbox choices
@@ -3249,6 +3252,56 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                 className="px-4 py-2 rounded-[8px] bg-[#FF453A] hover:bg-[#FF453A]/90 text-white text-[13px] font-bold cursor-pointer transition-all shadow-md shadow-[#FF453A]/10"
                             >
                                 삭제
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {isSaveConfirmOpen && (
+                <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[200001] flex items-center justify-center p-4" onClick={() => setIsSaveConfirmOpen(false)}>
+                    <div className="bg-[#272726] border border-[#3c3c3c] rounded-[20px] p-6 w-full max-w-[400px] shadow-2xl transform transition-all scale-100 flex flex-col text-left" onClick={(e) => e.stopPropagation()}>
+                        <h3 className="text-[17px] font-bold text-white mb-2">업무 저장 확인</h3>
+                        <p className="text-[13px] text-[#86868B] mb-6 leading-relaxed">
+                            입력한 내용으로 업무 정보를 저장하시겠습니까?
+                        </p>
+                        <div className="flex gap-3 justify-end">
+                            <button
+                                onClick={() => setIsSaveConfirmOpen(false)}
+                                className="px-4 py-2 rounded-[8px] bg-white/5 hover:bg-white/10 text-white border border-[#3c3c3c] text-[13px] font-bold cursor-pointer transition-all"
+                            >
+                                취소
+                            </button>
+                            <button
+                                onClick={executeSave}
+                                className="px-4 py-2 rounded-[8px] bg-[#bdbba7] hover:bg-[#bdbba7]/90 text-black text-[13px] font-bold cursor-pointer transition-all shadow-md shadow-[#bdbba7]/10"
+                            >
+                                저장
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {isSaveSuccessOpen && (
+                <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[200001] flex items-center justify-center p-4" onClick={() => {
+                    setIsSaveSuccessOpen(false);
+                    setIsModalOpen(false);
+                }}>
+                    <div className="bg-[#272726] border border-[#3c3c3c] rounded-[20px] p-6 w-full max-w-[400px] shadow-2xl transform transition-all scale-100 flex flex-col text-left" onClick={(e) => e.stopPropagation()}>
+                        <h3 className="text-[17px] font-bold text-white mb-2">저장 완료</h3>
+                        <p className="text-[13px] text-[#86868B] mb-6 leading-relaxed">
+                            업무 정보가 성공적으로 저장되었습니다.
+                        </p>
+                        <div className="flex justify-end">
+                            <button
+                                onClick={() => {
+                                    setIsSaveSuccessOpen(false);
+                                    setIsModalOpen(false);
+                                }}
+                                className="px-5 py-2 rounded-[8px] bg-[#bdbba7] hover:bg-[#bdbba7]/90 text-black text-[13px] font-bold cursor-pointer transition-all shadow-md shadow-[#bdbba7]/10 w-full text-center"
+                            >
+                                확인
                             </button>
                         </div>
                     </div>
