@@ -1187,5 +1187,16 @@ export const tasksData = [
     "작업 유형": "데이터베이스 구축",
     "URL": "sync_stakeholders.cjs / migrate_depts.mjs / unify_departments.py",
     "내용 상세": "# [IOTA 서울 CFT] 기준 정보(부서/이해관계자) DB 스키마 보완 및 Supabase 동기화\n\n기존 public 스키마와 iota_v2 스키마 간 흩어져 있던 부서 마스터(iota_departments) 및 이해관계자 마스터(iota_stakeholders/iota_stakeholder_master) 데이터 정제 및 동기화 완료.\n\n## 주요 작업 내역\n\n1. 부서 기준정보 단일화 (Unification)\n- 수작업으로 등록되어 파편화되어 있던 부서명칭들을 `iota_departments` 마스터 테이블 기준으로 일원화 매핑 및 마이그레이션 적용.\n\n2. 실시간 자동완성용 외부상대방 동기화 파이프라인\n- 업무 원장과 기획총괄 내의 모든 외부상대방(Marriott, 대명소노 등)을 수집하여 `public.iota_stakeholder_master`에 누락 없이 적재하는 Node.js 기반 동기화 스크립트(`sync_stakeholders.cjs`) 구축 및 가동.\n- 이를 통해 신규 협력사 등록 시 프론트엔드 자동완성 필터 목록에 실시간 반영되는 인프라 완성."
+  },
+  {
+    "대분류": "보안/접근제어",
+    "작업 이름": "이오타 샌드박스 비인가 계정 접근 에러 수정",
+    "상태": "완료",
+    "담당자": "도민영(AI)",
+    "마감일": "2026/07/09",
+    "우선순위": "높음",
+    "작업 유형": "버그 수정",
+    "URL": "AuthSetup.jsx",
+    "내용 상세": "로그인 시 비인가 계정이 .single() 쿼리를 호출할 때 발생하는 PGRST116 에러를 예외 처리하여, 서버 에러 대신 명확한 미등록 안내 메시지가 표출되도록 수정"
   }
 ];
