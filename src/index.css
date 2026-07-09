@@ -558,24 +558,3 @@ html[lang="kr"] .font-light {
     scrollbar-width: thin;
     scrollbar-color: rgba(0, 0, 0, 0.4) transparent;
 }
-
-/* Timeline Scrollbar specifically for horizontal table scrolling */
-.timeline-scrollbar::-webkit-scrollbar {
-    height: 10px;
-}
-.timeline-scrollbar::-webkit-scrollbar-track {
-    background: rgba(39, 39, 38, 0.5);
-    border-radius: 8px;
-}
-.timeline-scrollbar::-webkit-scrollbar-thumb {
-    background: rgba(134, 134, 139, 0.6);
-    border-radius: 8px;
-    border: 2px solid rgba(39, 39, 38, 0.5);
-}
-.timeline-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: rgba(161, 161, 170, 0.8);
-}
-.timeline-scrollbar {
-    scrollbar-width: thin;
-    scrollbar-color: rgba(134, 134, 139, 0.6) rgba(39, 39, 38, 0.5);
-}
