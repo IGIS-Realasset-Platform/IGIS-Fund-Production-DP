@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { notifyMembersOnLogCreation } from '../../utils/notificationHelpers';
 
 export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs, fetchMasterStakeholders, workspaceCode, workspaceLabel, defaultExpanded = false, editMode = false, initialData = null, onCancel = null, onSuccess = null, isTaskBoard = false, taskId = null, taskProject = null }) {
+    const uniqueIdSuffix = editMode ? `${workspaceCode}-edit` : workspaceCode;
     // Form States
     const [projectId, setProjectId] = useState('IOTA_COMMON');
     const [triageType, setTriageType] = useState('공유');
@@ -159,6 +160,14 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
         }
     }, [editMode, initialData, masterStakeholders]);
 
+    useEffect(() => {
+        const textarea = document.getElementById(`log-textarea-${uniqueIdSuffix}`);
+        const bg = document.getElementById(`highlight-bg-${uniqueIdSuffix}`);
+        if (textarea && bg) {
+            bg.scrollTop = textarea.scrollTop;
+        }
+    });
+
     const formatDisplayDate = (dateString) => {
         if (!dateString) return '';
         const d = new Date(dateString);
@@ -226,7 +235,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
         }
         
         setTimeout(() => {
-            const textarea = document.getElementById(`log-textarea-${workspaceCode}`);
+            const textarea = document.getElementById(`log-textarea-${uniqueIdSuffix}`);
             if (textarea) {
                 textarea.focus();
                 const newPos = mentionCursorIndex + name.length + 1;
@@ -801,24 +810,24 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                     <div className="relative w-full">
                         {/* Background Div for Highlights */}
                         <div 
-                            id={`highlight-bg-${workspaceCode}`}
-                            className="absolute inset-0 pointer-events-none whitespace-pre-wrap break-words text-[15px] leading-relaxed overflow-hidden font-sans"
-                            aria-hidden="true"
-                        >
+                        id={`highlight-bg-${uniqueIdSuffix}`}
+                        className="absolute inset-0 pointer-events-none whitespace-pre-wrap break-words text-[15px] leading-relaxed overflow-hidden font-sans p-2"
+                        aria-hidden="true"
+                    >
                         {renderHighlightedText()}
                     </div>
 
                     {/* Actual Textarea */}
                     <textarea
                         ref={textareaRef}
-                        id={`log-textarea-${workspaceCode}`}
+                        id={`log-textarea-${uniqueIdSuffix}`}
                         value={content}
                         onChange={handleContentChange}
                         onScroll={(e) => {
-                            const bg = document.getElementById(`highlight-bg-${workspaceCode}`);
+                            const bg = document.getElementById(`highlight-bg-${uniqueIdSuffix}`);
                             if (bg) bg.scrollTop = e.target.scrollTop;
                         }}
-                        className={`w-full bg-transparent text-transparent caret-white outline-none resize-y h-[200px] leading-relaxed text-[15px] relative z-10 font-sans`}
+                        className={`w-full bg-transparent text-transparent caret-white outline-none resize-y h-[200px] leading-relaxed text-[15px] relative z-10 font-sans p-2`}
                         style={{ caretColor: '#E5E5E5' }}
                         required
                     ></textarea>
