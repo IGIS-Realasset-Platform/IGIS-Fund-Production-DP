@@ -821,66 +821,70 @@ export default function DecisionLog() {
 
     return (
         <div className="w-full flex-1 flex flex-col pt-[48px] pb-[60px] pl-[60px] pr-[60px] box-border">
-            {/* Header Metadata */}
-            <div className="w-full flex flex-col mb-[16px] gap-[10px]">
-                <div className="flex justify-between items-end w-full">
-                    {/* Left: Title & Search Box */}
-                    <div className="flex items-center gap-[16px]">
-                        <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter']">통합 업무 보드</h1>
-                        {/* Search Input Box directly to the right of title */}
-                        <div className="relative w-[280px] self-center ml-[10px]">
-                            <input 
-                                type="text" 
-                                placeholder="업무명, 담당자, 부서, 산출물 검색..."
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                                className="w-full bg-[#1c1c1e]/60 border border-[#3c3c3c] rounded-[10px] pl-9 pr-8 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] focus:ring-1 focus:ring-[#2997ff] transition-all placeholder-[#86868B]"
-                            />
-                            <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#86868B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                            </svg>
-                            {searchQuery && (
-                                <button 
-                                    onClick={() => setSearchQuery('')}
-                                    className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#86868B] hover:text-white text-[11px] font-bold bg-white/5 hover:bg-white/10 rounded-full w-4.5 h-4.5 flex items-center justify-center cursor-pointer transition-colors"
+            {/* Header Metadata (Staging Only) */}
+            {isStaging && (
+                <div className="w-full flex flex-col mb-[16px] gap-[10px]">
+                    <div className="flex justify-between items-end w-full">
+                        {/* Left: Title & Search Box */}
+                        <div className="flex items-center gap-[16px]">
+                            <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter']">통합 업무 보드</h1>
+                            {/* Search Input Box directly to the right of title */}
+                            <div className="relative w-[280px] self-center ml-[10px]">
+                                <input 
+                                    type="text" 
+                                    placeholder="업무명, 담당자, 부서, 산출물 검색..."
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                    className="w-full bg-[#1c1c1e]/60 border border-[#3c3c3c] rounded-[10px] pl-9 pr-8 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] focus:ring-1 focus:ring-[#2997ff] transition-all placeholder-[#86868B]"
+                                />
+                                <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#86868B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                </svg>
+                                {searchQuery && (
+                                    <button 
+                                        onClick={() => setSearchQuery('')}
+                                        className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#86868B] hover:text-white text-[11px] font-bold bg-white/5 hover:bg-white/10 rounded-full w-4.5 h-4.5 flex items-center justify-center cursor-pointer transition-colors"
+                                    >
+                                        ✕
+                                    </button>
+                                )}
+                            </div>
+                            {/* View mode toggle button group */}
+                            <div className="flex bg-[#1c1c1e]/60 border border-[#3c3c3c] rounded-[10px] p-0.5 ml-3 self-center shrink-0">
+                                <button
+                                    onClick={() => setViewMode('key')}
+                                    className={`px-3 py-1.5 rounded-[8px] text-[12px] font-bold transition-all cursor-pointer ${
+                                        viewMode === 'key' 
+                                            ? 'bg-[#3a3a3c] text-white shadow-sm' 
+                                            : 'text-[#86868B] hover:text-[#f5f5f7] bg-transparent'
+                                    }`}
                                 >
-                                    ✕
+                                    간추려보기
                                 </button>
-                            )}
+                                <button
+                                    onClick={() => setViewMode('all')}
+                                    className={`px-3 py-1.5 rounded-[8px] text-[12px] font-bold transition-all cursor-pointer ${
+                                        viewMode === 'all' 
+                                            ? 'bg-[#3a3a3c] text-white shadow-sm' 
+                                            : 'text-[#86868B] hover:text-[#f5f5f7] bg-transparent'
+                                    }`}
+                                >
+                                    자세히보기
+                                </button>
+                            </div>
                         </div>
-                        {/* View mode toggle button group */}
-                        <div className="flex bg-[#1c1c1e]/60 border border-[#3c3c3c] rounded-[10px] p-0.5 ml-3 self-center shrink-0">
-                            <button
-                                onClick={() => setViewMode('key')}
-                                className={`px-3 py-1.5 rounded-[8px] text-[12px] font-bold transition-all cursor-pointer ${
-                                    viewMode === 'key' 
-                                        ? 'bg-[#3a3a3c] text-white shadow-sm' 
-                                        : 'text-[#86868B] hover:text-[#f5f5f7] bg-transparent'
-                                }`}
-                            >
-                                간추려보기
-                            </button>
-                            <button
-                                onClick={() => setViewMode('all')}
-                                className={`px-3 py-1.5 rounded-[8px] text-[12px] font-bold transition-all cursor-pointer ${
-                                    viewMode === 'all' 
-                                        ? 'bg-[#3a3a3c] text-white shadow-sm' 
-                                        : 'text-[#86868B] hover:text-[#f5f5f7] bg-transparent'
-                                }`}
-                            >
-                                자세히보기
-                            </button>
-                        </div>
+                        {/* Right: Date Pill (shifted down by 10px, aligned to right padding boundary) */}
+                        <span className="text-[15px] font-bold text-[#86868B] tracking-tight bg-[#222] px-[16px] py-[6px] rounded-full shadow-sm leading-none transform translate-y-[4px]">
+                            {formattedDate}
+                        </span>
                     </div>
-                    {/* Right: Date Pill (shifted down by 10px, aligned to right padding boundary) */}
-                    <span className="text-[15px] font-bold text-[#86868B] tracking-tight bg-[#222] px-[16px] py-[6px] rounded-full shadow-sm leading-none transform translate-y-[4px]">
-                        {formattedDate}
-                    </span>
                 </div>
-            </div>
+            )}
 
-            {/* 통합 업무 보드 */}
-            <PmoTaskBoardStaging searchQuery={searchQuery} setSearchQuery={setSearchQuery} viewMode={viewMode} setViewMode={setViewMode} />
+            {/* 통합 업무 보드 (Staging Only) */}
+            {isStaging && (
+                <PmoTaskBoardStaging searchQuery={searchQuery} setSearchQuery={setSearchQuery} viewMode={viewMode} setViewMode={setViewMode} />
+            )}
 
             {/* IOTA CFT 실시간 통합 업무 로그 */}
             <div className="w-full mb-[44px]">
