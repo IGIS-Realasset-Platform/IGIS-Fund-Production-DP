@@ -22,6 +22,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
     const [isUploadingFile, setIsUploadingFile] = useState(false);
     const [showFileSecurityModal, setShowFileSecurityModal] = useState(false);
     const fileInputRef = React.useRef(null);
+    const textareaRef = React.useRef(null);
 
     
     // Stakeholder Search States
@@ -157,6 +158,19 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
             }
         }
     }, [editMode, initialData, masterStakeholders]);
+
+    useEffect(() => {
+        if (textareaRef.current) {
+            textareaRef.current.style.height = 'auto';
+            textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+            
+            // Sync background highlight scroll position
+            const bg = document.getElementById(`highlight-bg-${workspaceCode}`);
+            if (bg) {
+                bg.scrollTop = textareaRef.current.scrollTop;
+            }
+        }
+    }, [content, workspaceCode]);
 
     const formatDisplayDate = (dateString) => {
         if (!dateString) return '';
@@ -807,6 +821,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
 
                     {/* Actual Textarea */}
                     <textarea
+                        ref={textareaRef}
                         id={`log-textarea-${workspaceCode}`}
                         value={content}
                         onChange={handleContentChange}
@@ -814,7 +829,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                             const bg = document.getElementById(`highlight-bg-${workspaceCode}`);
                             if (bg) bg.scrollTop = e.target.scrollTop;
                         }}
-                        className={`w-full bg-transparent text-transparent caret-white outline-none resize-y ${isTaskBoard ? 'min-h-[80px]' : 'min-h-[120px]'} leading-relaxed text-[15px] relative z-10 font-sans`}
+                        className={`w-full bg-transparent text-transparent caret-white outline-none resize-none ${isTaskBoard ? 'min-h-[80px]' : 'min-h-[120px]'} leading-relaxed text-[15px] relative z-10 font-sans overflow-hidden`}
                         style={{ caretColor: '#E5E5E5' }}
                         required
                     ></textarea>

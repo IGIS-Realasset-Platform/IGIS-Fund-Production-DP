@@ -1767,11 +1767,15 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
             {/* Edit Modal */}
             {editingLogId && (
                 <div 
-                    className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 p-[40px]"
+                    className="fixed inset-0 z-[100] flex items-start justify-center bg-black/60 p-[40px] overflow-y-auto"
                     onWheel={(e) => e.stopPropagation()}
                     onTouchMove={(e) => e.stopPropagation()}
+                    onClick={() => setEditingLogId(null)}
                 >
-                    <div className="w-full max-w-[1000px] max-h-[90vh] overflow-y-auto rounded-[24px] p-[2px]">
+                    <div 
+                        className="w-full max-w-[1000px] rounded-[24px] p-[2px] my-auto"
+                        onClick={(e) => e.stopPropagation()}
+                    >
                         <LogWriteBox 
                             memberInfo={memberInfo}
                             masterStakeholders={masterStakeholders}
