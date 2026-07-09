@@ -3025,7 +3025,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                     )}
                                     
                                     {totalPages > 1 && (
-                                        <tr className="bg-[#272726] h-[46px] border-t border-[#3c3c3c]/50 select-none">
+                                        <tr className="bg-[#272726] h-[46px] select-none">
                                             {/* 1. ID */}
                                             <td className="pl-[10px] text-center w-[50px] min-w-[50px] max-w-[50px] sticky left-0 transition-colors z-10 bg-[#272726]"></td>
                                             
@@ -3040,8 +3040,12 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                             
                                             {/* 5. 업무명 (Centered Pagination) */}
                                             <td className={`pl-4 font-bold text-white relative transition-all duration-300 ease-out bg-[#272726] z-20 w-[240px] min-w-[240px] max-w-[240px] ${isAll ? 'left-[291px]' : 'left-[201px]'}`}>
+                                                {/* Top border line extending to the right edge of browser screen */}
+                                                <div className="absolute top-0 border-t border-[#3c3c3c]/50 pointer-events-none z-30" style={{ left: isAll ? '-551px' : '-461px', width: '100vw' }} />
+                                                
+                                                {/* Centered Pagination Wrapper */}
                                                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-visible z-20">
-                                                    <div className="flex items-center justify-center select-none h-full pointer-events-auto" style={{ left: isAll ? '-551px' : '-461px', width: '100vw', position: 'absolute' }}>
+                                                    <div className="flex items-center justify-center select-none pointer-events-auto" style={{ left: isAll ? '-291px' : '-201px', width: isAll ? '2193px' : '1152px', position: 'absolute', top: 0, bottom: 0 }}>
                                                         <div className="flex items-center gap-1">
                                                             {/* Prev Button */}
                                                             <button
