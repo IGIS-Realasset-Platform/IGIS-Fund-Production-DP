@@ -2828,12 +2828,12 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                                     </td>
                                                     
                                                     {/* 5. 업무명 */}
-                                                    <td className={`pl-4 font-bold text-[#F59E0B] w-[240px] min-w-[240px] max-w-[240px] sticky z-10 shadow-[inset_-1px_0_0_0_#3c3c3c] transition-all duration-300 ease-out ${isAll ? 'left-[291px]' : 'left-[201px]'} ${isSelected ? 'bg-[#3c3c3a] group-hover:bg-[#3c3c3a]' : 'bg-[#272726] group-hover:bg-[#2d2d2c]'}`}>
+                                                    <td className={`pl-4 font-bold text-[#c3c2b7] w-[240px] min-w-[240px] max-w-[240px] sticky z-10 shadow-[inset_-1px_0_0_0_#3c3c3c] transition-all duration-300 ease-out ${isAll ? 'left-[291px]' : 'left-[201px]'} ${isSelected ? 'bg-[#3c3c3a] group-hover:bg-[#3c3c3a]' : 'bg-[#272726] group-hover:bg-[#2d2d2c]'}`}>
                                                         <div className="truncate w-full">{t.task_name}</div>
                                                     </td>
 
                                                     {/* 우선순위점수 */}
-                                                    <td className={`text-center font-mono w-[71px] min-w-[71px] max-w-[71px] font-bold ${priorityScore >= 70 ? 'text-[#FF453A]' : priorityScore >= 50 ? 'text-[#FF9F0A]' : 'text-[#86868B]'}`}>{priorityScore}</td>
+                                                    <td className={`text-center font-mono w-[71px] min-w-[71px] max-w-[71px] font-bold ${priorityScore >= 70 ? 'text-[#FF453A]' : priorityScore >= 50 ? 'text-[#c3c2b7]' : 'text-[#86868B]'}`}>{priorityScore}</td>
 
                                                     {/* 6. 업무목적 / PF·준공 영향 */}
                                                     <td className={`text-[#A1A1AA] truncate transition-all duration-300 ease-out ${isAll ? 'w-[220px] min-w-[220px] max-w-[220px] pl-4 opacity-100' : 'w-0 min-w-0 max-w-0 pl-0 opacity-0 overflow-hidden'}`}>
@@ -2871,7 +2871,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                                             meetingGrade.startsWith('A') 
                                                                 ? 'bg-[#ff453a]/15 text-[#ff453a] border border-[#ff453a]/25' 
                                                                 : (meetingGrade === 'B_회의점검' || meetingGrade.startsWith('B'))
-                                                                    ? 'bg-[#ff9f0a]/15 text-[#ff9f0a] border border-[#ff9f0a]/25'
+                                                                    ? 'bg-[#c3c2b7]/15 text-[#c3c2b7] border border-[#c3c2b7]/25'
                                                                     : 'bg-gray-500/10 text-gray-400 border border-gray-500/20'
                                                         }`}>
                                                             {meetingGrade}
@@ -2974,7 +2974,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                                             importanceLevel === 'PF필수' 
                                                                 ? 'bg-[#ff453a]/15 text-[#ff453a] border border-[#ff453a]/25' 
                                                                 : importanceLevel === '준공필수'
-                                                                    ? 'bg-[#ff9f0a]/15 text-[#ff9f0a] border border-[#ff9f0a]/25'
+                                                                    ? 'bg-[#c3c2b7]/15 text-[#c3c2b7] border border-[#c3c2b7]/25'
                                                                     : 'bg-[#86868B]/15 text-[#86868B] border border-[#86868B]/25'
                                                         }`}>
                                                             {importanceLevel}
@@ -3077,7 +3077,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                                                         }}
                                                                         className={`w-7 h-7 rounded-[6px] text-[12px] font-bold transition-all cursor-pointer ${
                                                                             isCurrent
-                                                                                ? 'bg-[#ff9f0a] text-black shadow-sm'
+                                                                                ? 'bg-[#c3c2b7] text-black shadow-sm'
                                                                                 : 'bg-transparent text-[#86868B] hover:text-white hover:bg-white/5 border border-transparent hover:border-[#3c3c3c]'
                                                                         }`}
                                                                     >
@@ -3278,49 +3278,49 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                 <tbody className="divide-y divide-[#2c2c2b] text-gray-300">
                                     <tr className="hover:bg-white/[0.02] h-10">
                                         <td className="px-4 py-2 font-bold text-white">준공필수</td>
-                                        <td className="px-4 py-2 text-center font-mono text-[#F59E0B] font-bold">35</td>
+                                        <td className="px-4 py-2 text-center font-mono text-[#c3c2b7] font-bold">35</td>
                                         <td className="px-4 py-2 text-gray-400">준공/사용승인/담보대출과 직결</td>
                                         <td className="px-4 py-2 text-center text-gray-400">중요도</td>
                                     </tr>
                                     <tr className="hover:bg-white/[0.02] h-10">
                                         <td className="px-4 py-2 font-bold text-white">PF필수</td>
-                                        <td className="px-4 py-2 text-center font-mono text-[#F59E0B] font-bold">30</td>
+                                        <td className="px-4 py-2 text-center font-mono text-[#c3c2b7] font-bold">30</td>
                                         <td className="px-4 py-2 text-gray-400">PF 실행 전 선결조건</td>
                                         <td className="px-4 py-2 text-center text-gray-400">중요도</td>
                                     </tr>
                                     <tr className="hover:bg-white/[0.02] h-10">
                                         <td className="px-4 py-2 font-bold text-white">Blocker</td>
-                                        <td className="px-4 py-2 text-center font-mono text-[#F59E0B] font-bold">25</td>
+                                        <td className="px-4 py-2 text-center font-mono text-[#c3c2b7] font-bold">25</td>
                                         <td className="px-4 py-2 text-gray-400">막혀서 일정/판단 지연</td>
                                         <td className="px-4 py-2 text-center text-gray-400">Blocker</td>
                                     </tr>
                                     <tr className="hover:bg-white/[0.02] h-10">
                                         <td className="px-4 py-2 font-bold text-white">결정필요</td>
-                                        <td className="px-4 py-2 text-center font-mono text-[#F59E0B] font-bold">20</td>
+                                        <td className="px-4 py-2 text-center font-mono text-[#c3c2b7] font-bold">20</td>
                                         <td className="px-4 py-2 text-gray-400">대표/본부장/파트장 판단 필요</td>
                                         <td className="px-4 py-2 text-center text-gray-400">결정필요</td>
                                     </tr>
                                     <tr className="hover:bg-white/[0.02] h-10">
                                         <td className="px-4 py-2 font-bold text-white">지원필요</td>
-                                        <td className="px-4 py-2 text-center font-mono text-[#F59E0B] font-bold">15</td>
+                                        <td className="px-4 py-2 text-center font-mono text-[#c3c2b7] font-bold">15</td>
                                         <td className="px-4 py-2 text-gray-400">협력부서 산출물 또는 외부 회신 필요</td>
                                         <td className="px-4 py-2 text-center text-gray-400">지원필요</td>
                                     </tr>
                                     <tr className="hover:bg-white/[0.02] h-10">
                                         <td className="px-4 py-2 font-bold text-white">기한임박</td>
-                                        <td className="px-4 py-2 text-center font-mono text-[#F59E0B] font-bold">10</td>
+                                        <td className="px-4 py-2 text-center font-mono text-[#c3c2b7] font-bold">10</td>
                                         <td className="px-4 py-2 text-gray-400">7일 이내 기한 도래</td>
                                         <td className="px-4 py-2 text-center text-gray-400">기한</td>
                                     </tr>
                                     <tr className="hover:bg-white/[0.02] h-10">
                                         <td className="px-4 py-2 font-bold text-white">지연</td>
-                                        <td className="px-4 py-2 text-center font-mono text-[#F59E0B] font-bold">15</td>
+                                        <td className="px-4 py-2 text-center font-mono text-[#c3c2b7] font-bold">15</td>
                                         <td className="px-4 py-2 text-gray-400">상태가 지연</td>
                                         <td className="px-4 py-2 text-center text-gray-400">상태</td>
                                     </tr>
                                     <tr className="hover:bg-white/[0.02] h-10">
                                         <td className="px-4 py-2 font-bold text-white">팝업업무</td>
-                                        <td className="px-4 py-2 text-center font-mono text-[#F59E0B] font-bold">5</td>
+                                        <td className="px-4 py-2 text-center font-mono text-[#c3c2b7] font-bold">5</td>
                                         <td className="px-4 py-2 text-gray-400">정규업무 침식 가능</td>
                                         <td className="px-4 py-2 text-center text-gray-400">업무유형</td>
                                     </tr>
@@ -3439,7 +3439,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                     <textarea
                                         value={formTaskName}
                                         onChange={e => setFormTaskName(e.target.value)}
-                                        className="w-full bg-[#2c2c2b] border border-red-500/30 focus:border-red-500 rounded-[6px] px-3 py-2 text-[15px] text-[#ff9f0a] font-bold outline-none h-16 resize-y"
+                                        className="w-full bg-[#2c2c2b] border border-red-500/30 focus:border-red-500 rounded-[6px] px-3 py-2 text-[15px] text-[#c3c2b7] font-bold outline-none h-16 resize-y"
                                         required
                                     />
                                 </div>
@@ -3596,7 +3596,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                                 }} 
                                                 onFocus={() => setShowSupportSuggestions(true)}
                                                 onBlur={() => setTimeout(() => setShowSupportSuggestions(false), 200)}
-                                                className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-[#ff9f0a] outline-none focus:border-[#2997ff] font-bold" 
+                                                className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-[#c3c2b7] outline-none focus:border-[#2997ff] font-bold" 
                                                 placeholder="검색/입력"
                                             />
                                             {showSupportSuggestions && formSupportNeeded && (
@@ -3694,7 +3694,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                                     formMeetingGrade.startsWith('A') 
                                                         ? 'bg-[#ff453a]/15 text-[#ff453a] border border-[#ff453a]/25' 
                                                         : formMeetingGrade.startsWith('B')
-                                                            ? 'bg-[#ff9f0a]/15 text-[#ff9f0a] border border-[#ff9f0a]/25'
+                                                            ? 'bg-[#c3c2b7]/15 text-[#c3c2b7] border border-[#c3c2b7]/25'
                                                             : 'bg-gray-500/10 text-gray-400 border border-gray-500/20'
                                                 }`}>
                                                     {formMeetingGrade}
@@ -3867,7 +3867,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                 <div className="flex-1 overflow-y-auto px-6 py-6 space-y-6 timeline-scrollbar">
                                     {/* Task Name */}
                                     <div className="space-y-2">
-                                        <h2 className="text-[22px] font-bold text-[#ff9f0a] leading-snug">
+                                        <h2 className="text-[22px] font-bold text-[#c3c2b7] leading-snug">
                                             {t.task_name || ''}
                                         </h2>
                                         <div className="flex flex-wrap gap-2 text-[12px] pt-1">
@@ -3881,7 +3881,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                             
                                             <span className={`px-2 py-0.5 rounded-[4px] font-bold text-[11px] ${
                                                 importanceLevel === 'PF필수' ? 'bg-[#ff453a]/15 text-[#ff453a] border border-[#ff453a]/25' :
-                                                importanceLevel === '준공필수' ? 'bg-[#ff9f0a]/15 text-[#ff9f0a] border border-[#ff9f0a]/25' :
+                                                importanceLevel === '준공필수' ? 'bg-[#c3c2b7]/15 text-[#c3c2b7] border border-[#c3c2b7]/25' :
                                                 'bg-white/5 text-[#86868B] border border-white/10'
                                             }`}>
                                                 중요도: {importanceLevel}
@@ -3891,7 +3891,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                                 priorityScore >= 70 
                                                     ? 'bg-[#ff453a]/15 text-[#ff453a] border border-[#ff453a]/25' 
                                                     : priorityScore >= 50 
-                                                        ? 'bg-[#ff9f0a]/15 text-[#ff9f0a] border border-[#ff9f0a]/25' 
+                                                        ? 'bg-[#c3c2b7]/15 text-[#c3c2b7] border border-[#c3c2b7]/25' 
                                                         : 'bg-white/5 text-[#86868B] border border-white/10'
                                             }`}>
                                                 우선순위: {priorityScore}점 ({meetingGrade})
@@ -3943,7 +3943,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                         <div className="grid grid-cols-4 gap-4">
                                             <div className="space-y-1 col-span-1">
                                                 <span className="text-[#86868B] text-[11px] block">지원필요</span>
-                                                <span className="font-bold text-[#ff9f0a] block">
+                                                <span className="font-bold text-[#c3c2b7] block">
                                                     {t.support_needed || fallbackItem.support_needed || '-'}
                                                 </span>
                                             </div>
@@ -3974,7 +3974,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                                         meetingGrade.startsWith('A') 
                                                             ? 'bg-[#ff453a]/15 text-[#ff453a] border border-[#ff453a]/25' 
                                                             : (meetingGrade === 'B_회의점검' || meetingGrade.startsWith('B'))
-                                                                ? 'bg-[#ff9f0a]/15 text-[#ff9f0a] border border-[#ff9f0a]/25'
+                                                                ? 'bg-[#c3c2b7]/15 text-[#c3c2b7] border border-[#c3c2b7]/25'
                                                                 : 'bg-gray-500/10 text-gray-400 border border-gray-500/20'
                                                     }`}>
                                                         {meetingGrade}

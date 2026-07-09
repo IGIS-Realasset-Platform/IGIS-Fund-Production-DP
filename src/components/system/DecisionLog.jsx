@@ -7,8 +7,8 @@ import ReactionAvatarStack from './ReactionAvatarStack';
 import PmoTaskBoardStaging from './pmo/PmoTaskBoardStaging';
 
 const WORKSPACE_CONFIG = [
-    { id: 'pm1', name: '사업 PM 1', path: 'platform/iotaseoul/workspace/pm1', table: 'iota_pm_tasks', color: 'bg-[#ff9f0a]' },
-    { id: 'pm2', name: '사업 PM 2', path: 'platform/iotaseoul/workspace/pm2', table: 'iota_pm_tasks', color: 'bg-[#ff9f0a]' },
+    { id: 'pm1', name: '사업 PM 1', path: 'platform/iotaseoul/workspace/pm1', table: 'iota_pm_tasks', color: 'bg-[#c3c2b7]' },
+    { id: 'pm2', name: '사업 PM 2', path: 'platform/iotaseoul/workspace/pm2', table: 'iota_pm_tasks', color: 'bg-[#c3c2b7]' },
     { id: 'financing', name: '파이낸싱', path: 'platform/iotaseoul/workspace/financing', table: 'iota_financing_tasks', color: 'bg-[#30d158]' },
     { id: 'development', name: '개발솔루션', path: 'platform/iotaseoul/workspace/development', table: 'iota_development_tasks', color: 'bg-[#0a84ff]' },
     { id: 'marketing', name: '기업마케팅', path: 'platform/iotaseoul/workspace/marketing', table: 'iota_marketing_tasks', color: 'bg-[#64d2ff]' },
@@ -902,7 +902,7 @@ export default function DecisionLog() {
                             {/* 새 업무 추가 버튼 */}
                             <button
                                 onClick={() => setAddNewTaskTrigger(prev => prev + 1)}
-                                className="px-4 py-1.5 bg-[#ff9f0a]/10 hover:bg-[#ff9f0a]/20 border border-[#ff9f0a]/30 hover:border-[#ff9f0a] rounded-[10px] text-[12px] font-bold text-[#ff9f0a] transition-all cursor-pointer ml-3 flex items-center gap-1.5 shrink-0"
+                                className="px-4 py-1.5 bg-[#c3c2b7]/10 hover:bg-[#c3c2b7]/20 border border-[#c3c2b7]/30 hover:border-[#c3c2b7] rounded-[10px] text-[12px] font-bold text-[#c3c2b7] transition-all cursor-pointer ml-3 flex items-center gap-1.5 shrink-0"
                             >
                                 <span>+ 새 업무 추가</span>
                             </button>
