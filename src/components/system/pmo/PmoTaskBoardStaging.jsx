@@ -2441,8 +2441,8 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
             ) : (
                 <div className="-mr-[calc(50vw-50%)] border border-r-0 border-[#3c3c3c] bg-[#272726] rounded-l-[24px] overflow-hidden mb-[10px] shadow-sm select-text">
                     <div className="w-full overflow-x-auto pr-0 timeline-scrollbar pb-1">
-                        <div className={`flex items-center transition-all duration-300 ease-out ${isAll ? 'min-w-[3533px]' : 'min-w-[2358px]'}`}>
-                            <table className={`text-left table-fixed flex-1 border-collapse bg-[#272726] transition-all duration-300 ease-out ${isAll ? 'min-w-[2733px]' : 'min-w-[1558px]'}`}>
+                        <div className={`flex items-center transition-all duration-300 ease-out ${isAll ? 'min-w-[3499px]' : 'min-w-[2324px]'}`}>
+                            <table className={`text-left table-fixed flex-1 border-collapse bg-[#272726] transition-all duration-300 ease-out ${isAll ? 'min-w-[2699px]' : 'min-w-[1524px]'}`}>
                                 <thead>
                                     <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[13px] h-[46px]">
                                         <th className="pl-[10px] text-center w-[50px] min-w-[50px] max-w-[50px] sticky left-0 bg-[#272726] z-30">ID</th>
@@ -2469,7 +2469,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                         </th>
 
                                         {/* 대분류 */}
-                                        <th className="pl-4 w-[81px] min-w-[81px] max-w-[81px] sticky left-[130px] bg-[#272726] z-30">
+                                        <th className="pl-4 w-[71px] min-w-[71px] max-w-[71px] sticky left-[130px] bg-[#272726] z-30">
                                             <div className="relative inline-flex items-center justify-start bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-1.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[74px] overflow-hidden">
                                                 <span className={`font-bold text-[11px] whitespace-nowrap truncate ${selectedCategoryMain === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
                                                     {selectedCategoryMain === '전체보기' ? '대분류' : selectedCategoryMain}
@@ -2489,13 +2489,13 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                             </div>
                                         </th>
 
-                                        <th className={`sticky left-[211px] bg-[#272726] z-30 transition-all duration-300 ease-out ${isAll ? 'w-[90px] min-w-[90px] max-w-[90px] pl-4 opacity-100' : 'w-0 min-w-0 max-w-0 pl-0 opacity-0 overflow-hidden'}`}>
+                                        <th className={`sticky left-[201px] bg-[#272726] z-30 transition-all duration-300 ease-out ${isAll ? 'w-[90px] min-w-[90px] max-w-[90px] pl-4 opacity-100' : 'w-0 min-w-0 max-w-0 pl-0 opacity-0 overflow-hidden'}`}>
                                             <div className={`transition-all duration-300 ease-out overflow-hidden whitespace-nowrap ${isAll ? 'w-[90px] opacity-100' : 'w-0 opacity-0 pointer-events-none'}`}>
                                                 세부섹터
                                             </div>
                                         </th>
-                                        <th className={"pl-4 w-[240px] min-w-[240px] max-w-[240px] sticky bg-[#272726] z-30 shadow-[inset_-1px_0_0_0_#3c3c3c] transition-all duration-300 ease-out " + (isAll ? "left-[301px]" : "left-[211px]")}>업무명</th>
-                                        <th className="w-[75px] min-w-[75px] max-w-[75px] text-center select-none cursor-pointer hover:text-white transition-colors" onClick={() => setPrioritySortOrder(prev => prev === 'desc' ? 'asc' : 'desc')}>
+                                        <th className={"pl-4 w-[240px] min-w-[240px] max-w-[240px] sticky bg-[#272726] z-30 shadow-[inset_-1px_0_0_0_#3c3c3c] transition-all duration-300 ease-out " + (isAll ? "left-[291px]" : "left-[201px]")}>업무명</th>
+                                        <th className="w-[71px] min-w-[71px] max-w-[71px] text-center select-none cursor-pointer hover:text-white transition-colors" onClick={() => setPrioritySortOrder(prev => prev === 'desc' ? 'asc' : 'desc')}>
                                             <div className="flex items-center justify-center gap-1">
                                                 <span 
                                                     className="inline-flex items-center justify-center w-3.5 h-3.5 rounded-full bg-white/10 hover:bg-white/20 text-[10px] text-[#86868B] hover:text-white font-bold cursor-pointer"
@@ -2610,8 +2610,8 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                         </th>
 
                                         {/* 협업부서 */}
-                                        <th className="w-[180px] min-w-[180px] max-w-[180px] text-center">
-                                            <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[165px] overflow-hidden mx-auto">
+                                        <th className="w-[160px] min-w-[160px] max-w-[160px] text-center">
+                                            <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[145px] overflow-hidden mx-auto">
                                                 <span className={`font-bold text-[11px] whitespace-nowrap truncate ${selectedCoopDept === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
                                                     {selectedCoopDept === '전체보기' ? '협업부서' : selectedCoopDept}
                                                 </span>
@@ -2816,24 +2816,24 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                                     </td>
                                                     
                                                     {/* 3. 대분류 */}
-                                                    <td className={`pl-4 font-bold text-[#E5E5E5] w-[81px] min-w-[81px] max-w-[81px] truncate sticky left-[130px] transition-colors z-10 ${isSelected ? 'bg-[#3c3c3a] group-hover:bg-[#3c3c3a]' : 'bg-[#272726] group-hover:bg-[#2d2d2c]'}`}>
+                                                    <td className={`pl-4 font-bold text-[#E5E5E5] w-[71px] min-w-[71px] max-w-[71px] truncate sticky left-[130px] transition-colors z-10 ${isSelected ? 'bg-[#3c3c3a] group-hover:bg-[#3c3c3a]' : 'bg-[#272726] group-hover:bg-[#2d2d2c]'}`}>
                                                         {t.category_main}
                                                     </td>
                                                     
                                                     {/* 4. 세부섹터 */}
-                                                    <td className={`text-[#A1A1AA] truncate sticky left-[211px] z-10 transition-all duration-300 ease-out ${isAll ? 'w-[90px] min-w-[90px] max-w-[90px] pl-4 opacity-100' : 'w-0 min-w-0 max-w-0 pl-0 opacity-0 overflow-hidden'} ${isSelected ? 'bg-[#3c3c3a] group-hover:bg-[#3c3c3a]' : 'bg-[#272726] group-hover:bg-[#2d2d2c]'}`}>
+                                                    <td className={`text-[#A1A1AA] truncate sticky left-[201px] z-10 transition-all duration-300 ease-out ${isAll ? 'w-[90px] min-w-[90px] max-w-[90px] pl-4 opacity-100' : 'w-0 min-w-0 max-w-0 pl-0 opacity-0 overflow-hidden'} ${isSelected ? 'bg-[#3c3c3a] group-hover:bg-[#3c3c3a]' : 'bg-[#272726] group-hover:bg-[#2d2d2c]'}`}>
                                                         <div className={`transition-all duration-300 ease-out overflow-hidden whitespace-nowrap ${isAll ? 'w-[90px] opacity-100' : 'w-0 opacity-0 pointer-events-none'}`}>
                                                             {t.sector_detail}
                                                         </div>
                                                     </td>
                                                     
                                                     {/* 5. 업무명 */}
-                                                    <td className={`pl-4 font-bold text-[#F59E0B] w-[240px] min-w-[240px] max-w-[240px] sticky z-10 shadow-[inset_-1px_0_0_0_#3c3c3c] transition-all duration-300 ease-out ${isAll ? 'left-[301px]' : 'left-[211px]'} ${isSelected ? 'bg-[#3c3c3a] group-hover:bg-[#3c3c3a]' : 'bg-[#272726] group-hover:bg-[#2d2d2c]'}`}>
+                                                    <td className={`pl-4 font-bold text-[#F59E0B] w-[240px] min-w-[240px] max-w-[240px] sticky z-10 shadow-[inset_-1px_0_0_0_#3c3c3c] transition-all duration-300 ease-out ${isAll ? 'left-[291px]' : 'left-[201px]'} ${isSelected ? 'bg-[#3c3c3a] group-hover:bg-[#3c3c3a]' : 'bg-[#272726] group-hover:bg-[#2d2d2c]'}`}>
                                                         <div className="truncate w-full">{t.task_name}</div>
                                                     </td>
 
                                                     {/* 우선순위점수 */}
-                                                    <td className={`text-center font-mono w-[75px] min-w-[75px] max-w-[75px] font-bold ${priorityScore >= 70 ? 'text-[#FF453A]' : priorityScore >= 50 ? 'text-[#FF9F0A]' : 'text-[#86868B]'}`}>{priorityScore}</td>
+                                                    <td className={`text-center font-mono w-[71px] min-w-[71px] max-w-[71px] font-bold ${priorityScore >= 70 ? 'text-[#FF453A]' : priorityScore >= 50 ? 'text-[#FF9F0A]' : 'text-[#86868B]'}`}>{priorityScore}</td>
 
                                                     {/* 6. 업무목적 / PF·준공 영향 */}
                                                     <td className={`text-[#A1A1AA] truncate transition-all duration-300 ease-out ${isAll ? 'w-[220px] min-w-[220px] max-w-[220px] pl-4 opacity-100' : 'w-0 min-w-0 max-w-0 pl-0 opacity-0 overflow-hidden'}`}>
@@ -2888,7 +2888,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                                     </td>
 
                                                     {/* 12. 협업부서 */}
-                                                    <td className="pl-4 text-left w-[180px] min-w-[180px] max-w-[180px] overflow-hidden">
+                                                    <td className="pl-4 text-left w-[160px] min-w-[160px] max-w-[160px] overflow-hidden">
                                                         {coopDeptNames ? (
                                                             <div className="flex flex-nowrap gap-1 justify-start items-center overflow-hidden w-full">
                                                                 {(() => {
@@ -3033,15 +3033,15 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                             <td className="text-center w-[80px] min-w-[80px] max-w-[80px] sticky left-[50px] transition-colors z-10 bg-[#272726]"></td>
                                             
                                             {/* 3. 대분류 */}
-                                            <td className="pl-4 w-[81px] min-w-[81px] max-w-[81px] sticky left-[130px] transition-colors z-10 bg-[#272726]"></td>
+                                            <td className="pl-4 w-[71px] min-w-[71px] max-w-[71px] sticky left-[130px] transition-colors z-10 bg-[#272726]"></td>
                                             
                                             {/* 4. 세부섹터 */}
-                                            <td className={`sticky left-[211px] z-10 transition-all duration-300 ease-out bg-[#272726] ${isAll ? 'w-[90px] min-w-[90px] max-w-[90px] pl-4 opacity-100' : 'w-0 min-w-0 max-w-0 pl-0 opacity-0 overflow-hidden'}`}></td>
+                                            <td className={`sticky left-[201px] z-10 transition-all duration-300 ease-out bg-[#272726] ${isAll ? 'w-[90px] min-w-[90px] max-w-[90px] pl-4 opacity-100' : 'w-0 min-w-0 max-w-0 pl-0 opacity-0 overflow-hidden'}`}></td>
                                             
                                             {/* 5. 업무명 (Centered Pagination) */}
-                                            <td className={`pl-4 font-bold text-white relative transition-all duration-300 ease-out shadow-[inset_-1px_0_0_0_#3c3c3c] bg-[#272726] z-20 w-[240px] min-w-[240px] max-w-[240px] ${isAll ? 'left-[301px]' : 'left-[211px]'}`}>
+                                            <td className={`pl-4 font-bold text-white relative transition-all duration-300 ease-out shadow-[inset_-1px_0_0_0_#3c3c3c] bg-[#272726] z-20 w-[240px] min-w-[240px] max-w-[240px] ${isAll ? 'left-[291px]' : 'left-[201px]'}`}>
                                                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-visible z-20">
-                                                    <div className="flex items-center justify-center select-none h-full pointer-events-auto" style={{ left: isAll ? '-301px' : '-211px', width: 'calc(100vw - 260px)', position: 'absolute' }}>
+                                                    <div className="flex items-center justify-center select-none h-full pointer-events-auto" style={{ left: isAll ? '-291px' : '-201px', width: 'calc(100vw - 260px)', position: 'absolute' }}>
                                                         <div className="flex items-center gap-1">
                                                             {/* Prev Button */}
                                                             <button
@@ -3099,7 +3099,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                             </td>
                                             
                                             {/* 6. 우선순위점수 */}
-                                            <td className="w-[75px] min-w-[75px] max-w-[75px] bg-[#272726]"></td>
+                                            <td className="w-[71px] min-w-[71px] max-w-[71px] bg-[#272726]"></td>
                                             
                                             {/* 7. 업무목적 */}
                                             <td className={`transition-all duration-300 ease-out bg-[#272726] ${isAll ? 'w-[220px] min-w-[220px] max-w-[220px] pl-4 opacity-100' : 'w-0 min-w-0 max-w-0 pl-0 opacity-0 overflow-hidden'}`}></td>
@@ -3120,7 +3120,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                             <td className="w-[76px] min-w-[76px] max-w-[76px] bg-[#272726]"></td>
                                             
                                             {/* 13. 협업부서 */}
-                                            <td className="w-[180px] min-w-[180px] max-w-[180px] bg-[#272726]"></td>
+                                            <td className="w-[160px] min-w-[160px] max-w-[160px] bg-[#272726]"></td>
                                             
                                             {/* 14. 담당자 */}
                                             <td className={`transition-all duration-300 ease-out bg-[#272726] ${isAll ? 'w-[70px] min-w-[70px] max-w-[70px] opacity-100' : 'w-0 min-w-0 max-w-0 opacity-0 overflow-hidden'}`}></td>
