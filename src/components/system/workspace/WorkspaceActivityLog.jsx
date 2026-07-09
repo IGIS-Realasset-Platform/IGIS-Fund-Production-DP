@@ -259,7 +259,7 @@ const renderSystemLogChanges = (rawText) => {
     if (!changes || changes.length === 0) return null;
 
     return (
-        <div className="flex flex-col gap-2 mt-1.5">
+        <div className="flex flex-wrap items-center gap-x-6 gap-y-2 mt-1.5">
             {changes.map((change, idx) => {
                 if (change.type === 'text') {
                     return (
@@ -269,11 +269,11 @@ const renderSystemLogChanges = (rawText) => {
                     );
                 }
                 return (
-                    <div key={idx} className="flex items-center gap-3 text-[13px] text-[#E5E5E5] flex-wrap py-1 border-b border-white/[0.03] last:border-0">
-                        <span className="text-[#86868B] font-bold min-w-[70px] select-none">{change.label}</span>
-                        <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-[8px] px-2.5 py-1">
+                    <div key={idx} className="flex items-center gap-2 text-[13px] text-[#E5E5E5]">
+                        <span className="text-[#86868B] font-bold select-none">{change.label}</span>
+                        <div className="flex items-center gap-1.5">
                             {renderBadge(change.type, change.oldVal)}
-                            <span className="text-[#86868B] select-none">→</span>
+                            <span className="text-[#86868B] select-none text-[11px]">→</span>
                             {renderBadge(change.type, change.newVal)}
                         </div>
                     </div>
@@ -1079,7 +1079,16 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                         </div>
                                     </div>
                                     
-                                    <div className="flex items-center gap-2 shrink-0">
+                                    <div className="flex items-center gap-3 shrink-0">
+                                        {log.writer_name === '시스템' && (
+                                            <div className="flex items-center gap-1.5 text-[12px] text-[#86868B] select-none">
+                                                <span>변경자:</span>
+                                                <span className="font-bold text-white">{log.metadata?.editor_name || '시스템'}</span>
+                                                <span className="text-[10px] font-bold text-[#82afb9] bg-[#82afb9]/10 px-1.5 py-0.5 rounded">
+                                                    {log.metadata?.editor_name ? getCellName(log.metadata.editor_name).replace(/-(LFC|DSC|EMC|SSC|KAM)$/, '') : '이력'}
+                                                </span>
+                                            </div>
+                                        )}
                                         {/* Delete Button (Writer only) */}
                                         {log.writer_staff_id === memberInfo?.email && (
                                             <button 
@@ -1104,17 +1113,8 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                     {checkUserAccess(log) ? (
                                         <div className="text-[#E5E5E5]">
                                             {log.writer_name === '시스템' ? (
-                                                <div className="flex flex-col gap-2.5">
-                                                    <div className="flex items-center gap-1.5 text-[13px] text-[#A1A1AA] bg-white/5 border border-white/10 px-2.5 py-1.5 rounded-[8px] w-max select-none">
-                                                        <span>변경자:</span>
-                                                        <span className="font-bold text-white text-[13px]">{log.metadata?.editor_name || '시스템'}</span>
-                                                        <span className="text-[10px] font-bold text-[#82afb9] bg-[#82afb9]/10 px-1.5 py-0.5 rounded">
-                                                            {log.metadata?.editor_name ? getCellName(log.metadata.editor_name).replace(/-(LFC|DSC|EMC|SSC|KAM)$/, '') : '이력'}
-                                                        </span>
-                                                    </div>
-                                                    <div className="text-[#E5E5E5] mt-1 pl-[4px]">
-                                                        {renderSystemLogChanges(log.raw_text)}
-                                                    </div>
+                                                <div className="text-[#E5E5E5] pl-[4px]">
+                                                    {renderSystemLogChanges(log.raw_text)}
                                                 </div>
                                             ) : (
                                                 renderLogTextWithMentions(log.raw_text)
@@ -1146,62 +1146,64 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                 </div>
                                 
                                 {/* Card Footer - Interactions (Reactions & Comments) */}
-                                <div className="flex items-center justify-between pl-[42px] mt-[-2px] pt-2 border-t border-[#333]/20">
-                                    <div className="flex items-center gap-[12px]">
-                                        {/* Like Reaction Button */}
-                                        <button
-                                            type="button"
-                                            onClick={(e) => { e.stopPropagation(); handleToggleReaction(log.log_id, 'like'); }}
-                                            className={`flex items-center gap-[4px] px-[8px] py-[4px] rounded-[6px] transition-colors border cursor-pointer text-[12px] ${log.metadata?.reactions?.like?.includes(memberInfo?.email) ? 'bg-[#ff3b30]/10 border-[#ff3b30]/30 text-[#ff3b30]' : 'bg-transparent border-[#333] hover:border-[#444] text-[#86868B] hover:text-[#E5E5E5]'}`}
-                                        >
-                                            <svg width="12" height="12" viewBox="0 0 24 24" fill={log.metadata?.reactions?.like?.includes(memberInfo?.email) ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
-                                            <span className="font-semibold">{log.metadata?.reactions?.like?.length || 0}</span>
-                                        </button>
-                                        
-                                        {/* Check Reaction Button */}
-                                        <button
-                                            type="button"
-                                            onClick={(e) => { e.stopPropagation(); handleToggleReaction(log.log_id, 'check'); }}
-                                            className={`flex items-center gap-[4px] px-[8px] py-[4px] rounded-[6px] transition-colors border cursor-pointer text-[12px] ${log.metadata?.reactions?.check?.includes(memberInfo?.email) ? 'bg-[#2997ff]/10 border-[#2997ff]/30 text-[#2997ff]' : 'bg-transparent border-[#333] hover:border-[#444] text-[#86868B] hover:text-[#E5E5E5]'}`}
-                                        >
-                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-                                            <span className="font-semibold">{log.metadata?.reactions?.check?.length || 0}</span>
-                                        </button>
-                                        
-                                        {/* Comment Thread Toggle Button */}
-                                        <button
-                                            type="button"
-                                            onClick={(e) => { 
-                                                e.stopPropagation(); 
-                                                toggleExpand(log.log_id);
-                                            }}
-                                            className={`flex items-center gap-[6px] px-[10px] py-[4px] rounded-[6px] border text-[12px] font-medium transition-all cursor-pointer ${expandedLogs[log.log_id] ? 'bg-[#2997ff]/10 border-[#2997ff]/30 text-[#2997ff]' : 'bg-transparent border-[#333] hover:border-[#444] text-[#86868B] hover:text-white'}`}
-                                        >
-                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-                                            <span>댓글 {log.metadata?.comments?.length || 0}</span>
-                                        </button>
-                                    </div>
-                                    
-                                    <div className="flex items-center gap-[8px]">
-                                        {/* Edit Post Button (Owner only) */}
-                                        {!editingLogId && (memberInfo?.email === log.writer_staff_id || memberInfo?.name === log.writer_name) && (
+                                {log.writer_name !== '시스템' && (
+                                    <div className="flex items-center justify-between pl-[42px] mt-[-2px] pt-2 border-t border-[#333]/20">
+                                        <div className="flex items-center gap-[12px]">
+                                            {/* Like Reaction Button */}
+                                            <button
+                                                type="button"
+                                                onClick={(e) => { e.stopPropagation(); handleToggleReaction(log.log_id, 'like'); }}
+                                                className={`flex items-center gap-[4px] px-[8px] py-[4px] rounded-[6px] transition-colors border cursor-pointer text-[12px] ${log.metadata?.reactions?.like?.includes(memberInfo?.email) ? 'bg-[#ff3b30]/10 border-[#ff3b30]/30 text-[#ff3b30]' : 'bg-transparent border-[#333] hover:border-[#444] text-[#86868B] hover:text-[#E5E5E5]'}`}
+                                            >
+                                                <svg width="12" height="12" viewBox="0 0 24 24" fill={log.metadata?.reactions?.like?.includes(memberInfo?.email) ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                                                <span className="font-semibold">{log.metadata?.reactions?.like?.length || 0}</span>
+                                            </button>
+                                            
+                                            {/* Check Reaction Button */}
+                                            <button
+                                                type="button"
+                                                onClick={(e) => { e.stopPropagation(); handleToggleReaction(log.log_id, 'check'); }}
+                                                className={`flex items-center gap-[4px] px-[8px] py-[4px] rounded-[6px] transition-colors border cursor-pointer text-[12px] ${log.metadata?.reactions?.check?.includes(memberInfo?.email) ? 'bg-[#2997ff]/10 border-[#2997ff]/30 text-[#2997ff]' : 'bg-transparent border-[#333] hover:border-[#444] text-[#86868B] hover:text-[#E5E5E5]'}`}
+                                            >
+                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                                                <span className="font-semibold">{log.metadata?.reactions?.check?.length || 0}</span>
+                                            </button>
+                                            
+                                            {/* Comment Thread Toggle Button */}
                                             <button
                                                 type="button"
                                                 onClick={(e) => { 
                                                     e.stopPropagation(); 
-                                                    setEditingLogId(log.log_id);
-                                                    setCommentingLogId(null);
+                                                    toggleExpand(log.log_id);
                                                 }}
-                                                className="text-[12px] text-[#A1A1AA] hover:text-white font-medium cursor-pointer transition-colors"
+                                                className={`flex items-center gap-[6px] px-[10px] py-[4px] rounded-[6px] border text-[12px] font-medium transition-all cursor-pointer ${expandedLogs[log.log_id] ? 'bg-[#2997ff]/10 border-[#2997ff]/30 text-[#2997ff]' : 'bg-transparent border-[#333] hover:border-[#444] text-[#86868B] hover:text-white'}`}
                                             >
-                                                수정하기
+                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                                                <span>댓글 {log.metadata?.comments?.length || 0}</span>
                                             </button>
-                                        )}
+                                        </div>
+                                        
+                                        <div className="flex items-center gap-[8px]">
+                                            {/* Edit Post Button (Owner only) */}
+                                            {!editingLogId && (memberInfo?.email === log.writer_staff_id || memberInfo?.name === log.writer_name) && (
+                                                <button
+                                                    type="button"
+                                                    onClick={(e) => { 
+                                                        e.stopPropagation(); 
+                                                        setEditingLogId(log.log_id);
+                                                        setCommentingLogId(null);
+                                                    }}
+                                                    className="text-[12px] text-[#A1A1AA] hover:text-white font-medium cursor-pointer transition-colors"
+                                                >
+                                                    수정하기
+                                                </button>
+                                            )}
+                                        </div>
                                     </div>
-                                </div>
+                                )}
                                 
                                 {/* Nested Expanded Comments/Replies Inside Card */}
-                                {expandedLogs[log.log_id] && (
+                                {log.writer_name !== '시스템' && expandedLogs[log.log_id] && (
                                     <div className="mt-3 pl-[42px] border-t border-[#333]/20 pt-3 w-full flex flex-col gap-3">
                                         {/* Comments list */}
                                         {checkUserAccess(log) && log.metadata?.comments && log.metadata.comments.length > 0 && (
@@ -1498,14 +1500,14 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                         {checkUserAccess(log) ? (
                                             log.writer_name === '시스템' ? (
                                                 <div className="flex flex-col gap-2.5">
-                                                    <div className="flex items-center gap-1.5 text-[13px] text-[#A1A1AA] bg-white/5 border border-white/10 px-2.5 py-1.5 rounded-[8px] w-max select-none">
+                                                    <div className="flex items-center gap-1.5 text-[13px] text-[#A1A1AA] select-none mb-1.5">
                                                         <span>변경자:</span>
                                                         <span className="font-bold text-white text-[13px]">{log.metadata?.editor_name || '시스템'}</span>
                                                         <span className="text-[10px] font-bold text-[#82afb9] bg-[#82afb9]/10 px-1.5 py-0.5 rounded">
                                                             {log.metadata?.editor_name ? getCellName(log.metadata.editor_name).replace(/-(LFC|DSC|EMC|SSC|KAM)$/, '') : '이력'}
                                                         </span>
                                                     </div>
-                                                    <div className="text-[#E5E5E5] mt-1 pl-[4px]">
+                                                    <div className="text-[#E5E5E5] pl-[4px]">
                                                         {renderSystemLogChanges(log.raw_text)}
                                                     </div>
                                                 </div>
@@ -1543,7 +1545,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                         )}
 
                                         {/* Comments List */}
-                                        {checkUserAccess(log) && log.metadata?.comments && log.metadata.comments.length > 0 && (
+                                        {log.writer_name !== '시스템' && checkUserAccess(log) && log.metadata?.comments && log.metadata.comments.length > 0 && (
                                             <div className="flex flex-col gap-[8px] mb-[16px] border-t border-[#333] pt-[12px]">
                                                 {log.metadata.comments.map(comment => (
                                                     <div key={comment.id} className="bg-[#222] rounded-[8px] p-[12px] flex justify-between group">
@@ -1604,7 +1606,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                         )}
 
                                         {/* Commenting Box */}
-                                        {commentingLogId === log.log_id && (
+                                        {log.writer_name !== '시스템' && commentingLogId === log.log_id && (
                                             <div className="w-full mt-[16px] relative">
                                                 <textarea
                                                     id={`comment-textarea-${log.log_id}`}
@@ -1652,7 +1654,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                             <div className="text-[12px] text-[#555] font-medium">
                                                 수정일자: {log.updated_at ? new Date(log.updated_at).toLocaleString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }) : new Date(log.created_at || log.work_date).toLocaleString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })}
                                             </div>
-                                            {checkUserAccess(log) && (
+                                            {log.writer_name !== '시스템' && checkUserAccess(log) && (
                                                 <div className="flex items-center gap-[8px]">
                                                     {/* Post Reactions */}
                                                     <div className="flex items-center gap-[6px] mr-[8px]">
