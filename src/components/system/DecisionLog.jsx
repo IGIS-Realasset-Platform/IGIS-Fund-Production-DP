@@ -250,6 +250,31 @@ export default function DecisionLog() {
         return getCellName(log.writer_name);
     };
 
+    const getWorkspacePath = (log) => {
+        if (log.metadata?.workspace_code) {
+            const code = log.metadata.workspace_code.toLowerCase();
+            if (code.includes('pm1')) return 'platform/iotaseoul/workspace/pm1';
+            if (code.includes('pm2')) return 'platform/iotaseoul/workspace/pm2';
+            if (code.includes('pm')) return 'platform/iotaseoul/workspace/pm1';
+            if (code.includes('financing') || code.includes('lfc')) return 'platform/iotaseoul/workspace/financing';
+            if (code.includes('development') || code.includes('dsc')) return 'platform/iotaseoul/workspace/development';
+            if (code.includes('marketing') || code.includes('emc')) return 'platform/iotaseoul/workspace/marketing';
+            if (code.includes('digital') || code.includes('ssc')) return 'platform/iotaseoul/workspace/digital';
+            if (code.includes('fund') || code.includes('kam')) return 'platform/iotaseoul/workspace/fund';
+            if (code.includes('ipr')) return 'platform/iotaseoul/workspace/ipr';
+        }
+        const cell = getLogCell(log);
+        if (cell.includes('사업 PM 1')) return 'platform/iotaseoul/workspace/pm1';
+        if (cell.includes('사업 PM 2')) return 'platform/iotaseoul/workspace/pm2';
+        if (cell.includes('파이낸싱')) return 'platform/iotaseoul/workspace/financing';
+        if (cell.includes('개발솔루션')) return 'platform/iotaseoul/workspace/development';
+        if (cell.includes('기업마케팅')) return 'platform/iotaseoul/workspace/marketing';
+        if (cell.includes('공간솔루션')) return 'platform/iotaseoul/workspace/digital';
+        if (cell.includes('펀드운용')) return 'platform/iotaseoul/workspace/fund';
+        if (cell.includes('IPR')) return 'platform/iotaseoul/workspace/ipr';
+        return null;
+    };
+
     const fetchMasterStakeholders = async () => {
         try {
             const { data, error } = await supabase.from('iota_stakeholder_master').select('*');
@@ -1123,12 +1148,13 @@ export default function DecisionLog() {
                             
                             const taskId = log.metadata?.task_id;
                             const matchedTask = taskId ? (pmoTasks.find(t => String(t.id) === String(taskId)) || FALLBACK_BOARD_TASKS.find(t => String(t.id) === String(taskId))) : null;
+                            const workspacePath = getWorkspacePath(log);
 
                             return (
                                 <div key={log.log_id} className="bg-[#292928] border border-[#3c3c3c] hover:border-[#82afb9]/50 rounded-[24px] p-[16px] px-[20px] transition-all cursor-pointer group flex flex-col h-auto" onClick={() => toggleExpand(log.log_id)}>
                                     <div className="flex items-start gap-[20px]">
                                         {/* Sender -> Target Box */}
-                                        <div className="shrink-0 bg-[#222] rounded-[16px] px-[12px] py-[12px] border border-[#333] flex items-center justify-between w-[166px]">
+                                        <div className="shrink-0 bg-[#222] rounded-[16px] px-[12px] py-[12px] border border-[#333] flex items-center justify-between w-[210px]">
                                             <div className="flex flex-col items-center justify-center flex-1 w-0">
                                                 <span className="text-[11px] font-bold text-[#A1A1AA] mb-[4px] truncate w-full text-center">{normWriter}</span>
                                                 <div className="flex items-center gap-[4px] justify-center w-full min-w-0">
@@ -1183,19 +1209,22 @@ export default function DecisionLog() {
                                                         </span>
                                                     )}
                                                 </div>
-                                                <div className="flex items-center gap-[12px]">
-                                                    {log.metadata?.task_id && (
+                                                <div className="flex items-center justify-end">
+                                                    {(log.metadata?.task_id || workspacePath) && (
                                                         <button
                                                             onClick={(e) => {
                                                                 e.stopPropagation();
-                                                                window.location.href = `${import.meta.env.BASE_URL}platform/iotaseoul/workflow?taskId=${log.metadata.task_id}`;
+                                                                if (log.metadata?.task_id) {
+                                                                    window.location.href = `${import.meta.env.BASE_URL}platform/iotaseoul/workflow?taskId=${log.metadata.task_id}`;
+                                                                } else {
+                                                                    window.location.href = `${import.meta.env.BASE_URL}${workspacePath}`;
+                                                                }
                                                             }}
-                                                            className="text-[11px] text-[#82afb9] hover:text-white font-bold bg-[#82afb9]/10 border border-[#82afb9]/25 hover:bg-[#82afb9]/20 px-[8px] py-[3.5px] rounded-[6px] transition-all cursor-pointer whitespace-nowrap"
+                                                            className="text-[11.5px] text-[#82afb9] hover:text-white font-bold bg-[#82afb9]/10 border border-[#82afb9]/25 hover:bg-[#82afb9]/20 px-[10px] py-[4px] rounded-[6px] transition-all cursor-pointer whitespace-nowrap"
                                                         >
                                                             원문보기 ↗
                                                         </button>
                                                     )}
-                                                    <span className="text-[12px] text-[#2997ff] font-medium opacity-0 group-hover:opacity-100 transition-opacity">자세히 보기</span>
                                                 </div>
                                             </div>
                                         </div>
