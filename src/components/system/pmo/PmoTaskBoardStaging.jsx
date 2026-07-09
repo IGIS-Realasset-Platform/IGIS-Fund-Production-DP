@@ -3025,51 +3025,132 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                     )}
                                     
                                     {totalPages > 1 && (
-                                        <tr className="bg-[#272726] hover:bg-[#333]/30 transition-colors h-[46px] border-t border-[#3c3c3c]/50">
-                                            <td colSpan={23} className="sticky left-0 bg-[#272726] py-0 h-[46px] overflow-hidden">
-                                                <div className="w-[calc(100vw-300px)] flex items-center justify-center select-none h-full">
-                                                    <div className="flex items-center gap-1">
-                                                        {/* Prev Button */}
-                                                        <button
-                                                            disabled={currentPage === 1}
-                                                            onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-                                                            className="w-7 h-7 flex items-center justify-center rounded-[6px] border border-[#3c3c3c] transition-all text-[#86868B] hover:text-white cursor-pointer hover:bg-white/5 disabled:opacity-30 disabled:cursor-not-allowed"
-                                                        >
-                                                            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 19l-7-7 7-7" />
-                                                            </svg>
-                                                        </button>
-                                                        {/* Page Numbers */}
-                                                        {Array.from({ length: totalPages }).map((_, pIdx) => {
-                                                            const pageNum = pIdx + 1;
-                                                            const isCurrent = pageNum === currentPage;
-                                                            return (
-                                                                <button
-                                                                    key={pageNum}
-                                                                    onClick={() => setCurrentPage(pageNum)}
-                                                                    className={`w-7 h-7 rounded-[6px] text-[12px] font-bold transition-all cursor-pointer ${
-                                                                        isCurrent
-                                                                            ? 'bg-[#ff9f0a] text-black shadow-sm'
-                                                                            : 'bg-transparent text-[#86868B] hover:text-white hover:bg-white/5 border border-transparent hover:border-[#3c3c3c]'
-                                                                    }`}
-                                                                >
-                                                                    {pageNum}
-                                                                </button>
-                                                            );
-                                                        })}
-                                                        {/* Next Button */}
-                                                        <button
-                                                            disabled={currentPage === totalPages}
-                                                            onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-                                                            className="w-7 h-7 flex items-center justify-center rounded-[6px] border border-[#3c3c3c] transition-all text-[#86868B] hover:text-white cursor-pointer hover:bg-white/5 disabled:opacity-30 disabled:cursor-not-allowed"
-                                                        >
-                                                            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 5l7 7-7 7" />
-                                                            </svg>
-                                                        </button>
+                                        <tr className="bg-[#272726] h-[46px] border-t border-[#3c3c3c]/50 select-none">
+                                            {/* 1. ID */}
+                                            <td className="pl-[10px] text-center w-[50px] min-w-[50px] max-w-[50px] sticky left-0 transition-colors z-10 bg-[#272726]"></td>
+                                            
+                                            {/* 2. 프로젝트 */}
+                                            <td className="text-center w-[80px] min-w-[80px] max-w-[80px] sticky left-[50px] transition-colors z-10 bg-[#272726]"></td>
+                                            
+                                            {/* 3. 대분류 */}
+                                            <td className="pl-4 w-[85px] min-w-[85px] max-w-[85px] sticky left-[130px] transition-colors z-10 bg-[#272726]"></td>
+                                            
+                                            {/* 4. 세부섹터 */}
+                                            <td className={`sticky left-[215px] z-10 transition-all duration-300 ease-out bg-[#272726] ${isAll ? 'w-[90px] min-w-[90px] max-w-[90px] pl-4 opacity-100' : 'w-0 min-w-0 max-w-0 pl-0 opacity-0 overflow-hidden'}`}></td>
+                                            
+                                            {/* 5. 업무명 (Centered Pagination) */}
+                                            <td className={`pl-4 font-bold text-white relative transition-all duration-300 ease-out shadow-[inset_-1px_0_0_0_#3c3c3c] bg-[#272726] z-20 w-[270px] min-w-[270px] max-w-[270px] ${isAll ? 'left-[305px]' : 'left-[215px]'}`}>
+                                                <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-visible z-20">
+                                                    <div className="flex items-center justify-center select-none h-full pointer-events-auto" style={{ left: isAll ? '-305px' : '-215px', width: 'calc(100vw - 260px)', position: 'absolute' }}>
+                                                        <div className="flex items-center gap-1">
+                                                            {/* Prev Button */}
+                                                            <button
+                                                                type="button"
+                                                                disabled={currentPage === 1}
+                                                                onClick={(e) => {
+                                                                    e.stopPropagation();
+                                                                    setCurrentPage(prev => Math.max(prev - 1, 1));
+                                                                }}
+                                                                className="w-7 h-7 flex items-center justify-center rounded-[6px] border border-[#3c3c3c] transition-all text-[#86868B] hover:text-white cursor-pointer hover:bg-white/5 disabled:opacity-30 disabled:cursor-not-allowed"
+                                                            >
+                                                                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 19l-7-7 7-7" />
+                                                                </svg>
+                                                            </button>
+                                                            {/* Page Numbers */}
+                                                            {Array.from({ length: totalPages }).map((_, pIdx) => {
+                                                                const pageNum = pIdx + 1;
+                                                                const isCurrent = pageNum === currentPage;
+                                                                return (
+                                                                    <button
+                                                                        type="button"
+                                                                        key={pageNum}
+                                                                        onClick={(e) => {
+                                                                            e.stopPropagation();
+                                                                            setCurrentPage(pageNum);
+                                                                        }}
+                                                                        className={`w-7 h-7 rounded-[6px] text-[12px] font-bold transition-all cursor-pointer ${
+                                                                            isCurrent
+                                                                                ? 'bg-[#ff9f0a] text-black shadow-sm'
+                                                                                : 'bg-transparent text-[#86868B] hover:text-white hover:bg-white/5 border border-transparent hover:border-[#3c3c3c]'
+                                                                        }`}
+                                                                    >
+                                                                        {pageNum}
+                                                                    </button>
+                                                                );
+                                                            })}
+                                                            {/* Next Button */}
+                                                            <button
+                                                                type="button"
+                                                                disabled={currentPage === totalPages}
+                                                                onClick={(e) => {
+                                                                    e.stopPropagation();
+                                                                    setCurrentPage(prev => Math.min(prev + 1, totalPages));
+                                                                }}
+                                                                className="w-7 h-7 flex items-center justify-center rounded-[6px] border border-[#3c3c3c] transition-all text-[#86868B] hover:text-white cursor-pointer hover:bg-white/5 disabled:opacity-30 disabled:cursor-not-allowed"
+                                                            >
+                                                                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 5l7 7-7 7" />
+                                                                </svg>
+                                                            </button>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </td>
+                                            
+                                            {/* 6. 우선순위점수 */}
+                                            <td className="w-[75px] min-w-[75px] max-w-[75px] bg-[#272726]"></td>
+                                            
+                                            {/* 7. 업무목적 */}
+                                            <td className={`transition-all duration-300 ease-out bg-[#272726] ${isAll ? 'w-[220px] min-w-[220px] max-w-[220px] pl-4 opacity-100' : 'w-0 min-w-0 max-w-0 pl-0 opacity-0 overflow-hidden'}`}></td>
+                                            
+                                            {/* 8. 필요 산출물 */}
+                                            <td className={`transition-all duration-300 ease-out bg-[#272726] ${isAll ? 'w-[220px] min-w-[220px] max-w-[220px] pl-4 opacity-100' : 'w-0 min-w-0 max-w-0 pl-0 opacity-0 overflow-hidden'}`}></td>
+                                            
+                                            {/* 9. 최종 목표축 */}
+                                            <td className={`text-center transition-all duration-300 ease-out bg-[#272726] ${isAll ? 'w-[91px] min-w-[91px] max-w-[91px] opacity-100' : 'w-0 min-w-0 max-w-0 opacity-0 overflow-hidden'}`}></td>
+                                            
+                                            {/* 10. Gate */}
+                                            <td className={`text-center transition-all duration-300 ease-out bg-[#272726] ${isAll ? 'w-[90px] min-w-[90px] max-w-[100px] opacity-100' : 'w-0 min-w-0 max-w-0 opacity-0 overflow-hidden'}`}></td>
+                                            
+                                            {/* 11. 회의상정등급 */}
+                                            <td className="w-[80px] min-w-[80px] max-w-[80px] bg-[#272726]"></td>
+                                            
+                                            {/* 12. 실무 주관부서 */}
+                                            <td className="w-[80px] min-w-[80px] max-w-[80px] bg-[#272726]"></td>
+                                            
+                                            {/* 13. 협업부서 */}
+                                            <td className="w-[200px] min-w-[200px] max-w-[200px] bg-[#272726]"></td>
+                                            
+                                            {/* 14. 담당자 */}
+                                            <td className={`transition-all duration-300 ease-out bg-[#272726] ${isAll ? 'w-[70px] min-w-[70px] max-w-[70px] opacity-100' : 'w-0 min-w-0 max-w-0 opacity-0 overflow-hidden'}`}></td>
+                                            
+                                            {/* 15. 외부상대방 */}
+                                            <td className="w-[120px] min-w-[120px] max-w-[120px] bg-[#272726]"></td>
+                                            
+                                            {/* 16. 지원필요 */}
+                                            <td className={`transition-all duration-300 ease-out bg-[#272726] ${isAll ? 'w-[80px] min-w-[80px] max-w-[80px] opacity-100' : 'w-0 min-w-0 max-w-0 opacity-0 overflow-hidden'}`}></td>
+                                            
+                                            {/* 17. Blocker */}
+                                            <td className="w-[50px] min-w-[50px] max-w-[50px] bg-[#272726]"></td>
+                                            
+                                            {/* 18. 결정필요 */}
+                                            <td className="w-[54px] min-w-[54px] max-w-[54px] bg-[#272726]"></td>
+                                            
+                                            {/* 19. 다음 액션 */}
+                                            <td className={`transition-all duration-300 ease-out bg-[#272726] ${isAll ? 'w-[200px] min-w-[200px] max-w-[200px] pl-4 opacity-100' : 'w-0 min-w-0 max-w-0 pl-0 opacity-0 overflow-hidden'}`}></td>
+                                            
+                                            {/* 20. 상태 */}
+                                            <td className="w-[62px] min-w-[62px] max-w-[62px] bg-[#272726]"></td>
+                                            
+                                            {/* 21. 중요도 */}
+                                            <td className="w-[62px] min-w-[62px] max-w-[62px] bg-[#272726]"></td>
+                                            
+                                            {/* 22. 기한 */}
+                                            <td className={`text-center transition-all duration-300 ease-out bg-[#272726] ${isAll ? 'w-[100px] min-w-[100px] max-w-[100px] opacity-100' : 'w-0 min-w-0 max-w-0 opacity-0 overflow-hidden'}`}></td>
+                                            
+                                            {/* 23. 관리 */}
+                                            <td className="w-[85px] min-w-[85px] max-w-[85px] border-l border-r border-[#3c3c3c] bg-[#272726]"></td>
                                         </tr>
                                     )}
                                 </tbody>
