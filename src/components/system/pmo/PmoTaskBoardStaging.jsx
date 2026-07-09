@@ -2743,7 +2743,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                 <tbody className="divide-y divide-[#3c3c3c] text-[13px] text-white">
                                     {sortedAndFilteredTasks.length === 0 ? (
                                         <tr>
-                                            <td colSpan={isAll ? 23 : 14} className="text-center py-20 text-[#86868B]">
+                                            <td colSpan={23} className="text-center py-20 text-[#86868B]">
                                                 등록된 통합 업무 보드 정보가 없습니다.
                                             </td>
                                         </tr>
@@ -3026,7 +3026,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                     
                                     {totalPages > 1 && (
                                         <tr className="bg-[#272726] hover:bg-[#333]/30 transition-colors h-[46px] border-t border-[#3c3c3c]/50">
-                                            <td colSpan={isAll ? 23 : 14} className="sticky left-0 bg-[#272726] py-0 h-[46px] overflow-hidden">
+                                            <td colSpan={23} className="sticky left-0 bg-[#272726] py-0 h-[46px] overflow-hidden">
                                                 <div className="w-[calc(100vw-300px)] flex items-center justify-center select-none h-full">
                                                     <div className="flex items-center gap-1">
                                                         {/* Prev Button */}
