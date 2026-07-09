@@ -26,6 +26,7 @@ export default function DecisionLog() {
     const { memberInfo } = useAuth();
     const [searchQuery, setSearchQuery] = useState('');
     const [viewMode, setViewMode] = useState('key');
+    const [pageSize, setPageSize] = useState(10);
     const [logs, setLogs] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [expandedLogs, setExpandedLogs] = useState({});
@@ -872,6 +873,30 @@ export default function DecisionLog() {
                                     자세히보기
                                 </button>
                             </div>
+
+                            {/* Page size toggle button group */}
+                            <div className="flex bg-[#1c1c1e]/60 border border-[#3c3c3c] rounded-[10px] p-0.5 ml-3 self-center shrink-0">
+                                <button
+                                    onClick={() => setPageSize(10)}
+                                    className={`px-3 py-1.5 rounded-[8px] text-[12px] font-bold transition-all cursor-pointer ${
+                                        pageSize === 10 
+                                            ? 'bg-[#3a3a3c] text-white shadow-sm' 
+                                            : 'text-[#86868B] hover:text-[#f5f5f7] bg-transparent'
+                                    }`}
+                                >
+                                    10개씩 보기
+                                </button>
+                                <button
+                                    onClick={() => setPageSize(20)}
+                                    className={`px-3 py-1.5 rounded-[8px] text-[12px] font-bold transition-all cursor-pointer ${
+                                        pageSize === 20 
+                                            ? 'bg-[#3a3a3c] text-white shadow-sm' 
+                                            : 'text-[#86868B] hover:text-[#f5f5f7] bg-transparent'
+                                    }`}
+                                >
+                                    20개씩 보기
+                                </button>
+                            </div>
                         </div>
                         {/* Right: Date Pill (shifted down by 10px, aligned to right padding boundary) */}
                         <span className="text-[15px] font-bold text-[#86868B] tracking-tight bg-[#222] px-[16px] py-[6px] rounded-full shadow-sm leading-none transform translate-y-[4px]">
@@ -883,7 +908,14 @@ export default function DecisionLog() {
 
             {/* 통합 업무 보드 (Staging Only) */}
             {isStaging && (
-                <PmoTaskBoardStaging searchQuery={searchQuery} setSearchQuery={setSearchQuery} viewMode={viewMode} setViewMode={setViewMode} />
+                <PmoTaskBoardStaging 
+                    searchQuery={searchQuery} 
+                    setSearchQuery={setSearchQuery} 
+                    viewMode={viewMode} 
+                    setViewMode={setViewMode}
+                    pageSize={pageSize}
+                    setPageSize={setPageSize}
+                />
             )}
 
             {/* IOTA CFT 실시간 통합 업무 로그 */}

@@ -1343,7 +1343,7 @@ const gradeMapToUi = (dbVal) => {
     return dbVal || 'B_회의점검';
 };
 
-export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setSearchQuery: propSetSearchQuery, viewMode: propViewMode, setViewMode: propSetViewMode }) {
+export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setSearchQuery: propSetSearchQuery, viewMode: propViewMode, setViewMode: propSetViewMode, pageSize = 10, setPageSize }) {
     const { memberInfo } = useAuth();
     const [tasks, setTasks] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -2371,6 +2371,44 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
         return list;
     }, [filteredTasks, prioritySortOrder]);
 
+    // Pagination state
+    const [currentPage, setCurrentPage] = useState(1);
+
+    // Reset currentPage to 1 when filters, search, sorting or pageSize change
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [
+        searchQuery,
+        selectedProject,
+        selectedCategoryMain,
+        selectedTargetAxis,
+        selectedGateStage,
+        selectedLeadDept,
+        selectedCoopDept,
+        selectedIsBlocker,
+        selectedNeedsDecision,
+        selectedStatus,
+        selectedImportanceLevel,
+        selectedMeetingGrade,
+        prioritySortOrder,
+        pageSize
+    ]);
+
+    const totalTasksCount = sortedAndFilteredTasks.length;
+    const totalPages = Math.max(1, Math.ceil(totalTasksCount / pageSize));
+    
+    // Safety check for page boundary
+    useEffect(() => {
+        if (currentPage > totalPages) {
+            setCurrentPage(totalPages);
+        }
+    }, [totalPages, currentPage]);
+
+    const paginatedTasks = useMemo(() => {
+        const start = (currentPage - 1) * pageSize;
+        return sortedAndFilteredTasks.slice(start, start + pageSize);
+    }, [sortedAndFilteredTasks, currentPage, pageSize]);
+
     return (
         <div>
             <style>{`
@@ -2694,7 +2732,8 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                             </td>
                                         </tr>
                                     ) : (
-                                        sortedAndFilteredTasks.map((t, idx) => {
+                                        paginatedTasks.map((t, idx) => {
+                                            const globalIndex = (currentPage - 1) * pageSize + idx;
                                             const fallbackItem = FALLBACK_BOARD_TASKS.find(item => item.task_name === t.task_name) || {};
                                             
                                             // Project mapping
@@ -2744,7 +2783,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                                     
                                                     {/* 1. ID */}
                                                     <td className={`pl-[10px] text-center text-[#86868B] text-[11px] font-mono select-none w-[50px] min-w-[50px] max-w-[50px] truncate sticky left-0 transition-colors z-10 ${isSelected ? 'bg-[#3c3c3a] group-hover:bg-[#3c3c3a]' : 'bg-[#272726] group-hover:bg-[#2d2d2c]'}`}>
-                                                        {t.id && !t.id.includes('-') ? t.id : (fallbackItem.id || `T-${String(idx+1).padStart(3, '0')}`)}
+                                                        {t.id && !t.id.includes('-') ? t.id : (fallbackItem.id || `T-${String(globalIndex+1).padStart(3, '0')}`)}
                                                     </td>
                                                     
                                                     {/* 2. 프로젝트 */}
@@ -2983,6 +3022,55 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                     </tr>
                                 </tbody>
                             </table>
+                            
+                            {/* Pagination Controls */}
+                            {totalPages > 1 && (
+                                <div className="flex items-center justify-between px-6 py-4 bg-[#272726] border-t border-[#3c3c3c] shrink-0 select-none">
+                                    <div className="text-[12px] text-[#86868B] font-medium">
+                                        총 <span className="text-[#E5E5E5] font-semibold">{totalTasksCount}</span>개 업무 중 <span className="text-[#E5E5E5] font-semibold">{(currentPage - 1) * pageSize + 1}</span>-{Math.min(currentPage * pageSize, totalTasksCount)} 표시
+                                    </div>
+                                    <div className="flex items-center gap-1">
+                                        {/* Prev Button */}
+                                        <button
+                                            disabled={currentPage === 1}
+                                            onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                                            className="w-7 h-7 flex items-center justify-center rounded-[6px] border border-[#3c3c3c] transition-all text-[#86868B] hover:text-white cursor-pointer hover:bg-white/5 disabled:opacity-30 disabled:cursor-not-allowed"
+                                        >
+                                            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 19l-7-7 7-7" />
+                                            </svg>
+                                        </button>
+                                        {/* Page Numbers */}
+                                        {Array.from({ length: totalPages }).map((_, pIdx) => {
+                                            const pageNum = pIdx + 1;
+                                            const isCurrent = pageNum === currentPage;
+                                            return (
+                                                <button
+                                                    key={pageNum}
+                                                    onClick={() => setCurrentPage(pageNum)}
+                                                    className={`w-7 h-7 rounded-[6px] text-[12px] font-bold transition-all cursor-pointer ${
+                                                        isCurrent
+                                                            ? 'bg-[#ff9f0a] text-black shadow-sm'
+                                                            : 'bg-transparent text-[#86868B] hover:text-white hover:bg-white/5 border border-transparent hover:border-[#3c3c3c]'
+                                                    }`}
+                                                >
+                                                    {pageNum}
+                                                </button>
+                                            );
+                                        })}
+                                        {/* Next Button */}
+                                        <button
+                                            disabled={currentPage === totalPages}
+                                            onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                                            className="w-7 h-7 flex items-center justify-center rounded-[6px] border border-[#3c3c3c] transition-all text-[#86868B] hover:text-white cursor-pointer hover:bg-white/5 disabled:opacity-30 disabled:cursor-not-allowed"
+                                        >
+                                            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 5l7 7-7 7" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
                             
                             {/* Watermark Logo */}
                             <div className="w-[800px] shrink-0 flex items-center justify-start pl-20 pr-8 select-none pointer-events-none box-border">
