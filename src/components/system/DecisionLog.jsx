@@ -27,6 +27,7 @@ export default function DecisionLog() {
     const [searchQuery, setSearchQuery] = useState('');
     const [viewMode, setViewMode] = useState('key');
     const [pageSize, setPageSize] = useState(10);
+    const [addNewTaskTrigger, setAddNewTaskTrigger] = useState(0);
     const [logs, setLogs] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [expandedLogs, setExpandedLogs] = useState({});
@@ -897,6 +898,14 @@ export default function DecisionLog() {
                                     20개씩 보기
                                 </button>
                             </div>
+
+                            {/* 새 업무 추가 버튼 */}
+                            <button
+                                onClick={() => setAddNewTaskTrigger(prev => prev + 1)}
+                                className="px-4 py-1.5 bg-[#ff9f0a]/10 hover:bg-[#ff9f0a]/20 border border-[#ff9f0a]/30 hover:border-[#ff9f0a] rounded-[10px] text-[12px] font-bold text-[#ff9f0a] transition-all cursor-pointer ml-3 flex items-center gap-1.5 shrink-0"
+                            >
+                                <span>+ 새 업무 추가</span>
+                            </button>
                         </div>
                         {/* Right: Date Pill (shifted down by 10px, aligned to right padding boundary) */}
                         <span className="text-[15px] font-bold text-[#86868B] tracking-tight bg-[#222] px-[16px] py-[6px] rounded-full shadow-sm leading-none transform translate-y-[4px]">
@@ -915,6 +924,7 @@ export default function DecisionLog() {
                     setViewMode={setViewMode}
                     pageSize={pageSize}
                     setPageSize={setPageSize}
+                    addNewTaskTrigger={addNewTaskTrigger}
                 />
             )}
 
