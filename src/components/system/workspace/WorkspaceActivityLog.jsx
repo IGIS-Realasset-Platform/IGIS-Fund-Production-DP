@@ -7,6 +7,282 @@ import { motion, AnimatePresence } from 'framer-motion';
 import LogWriteBox from '../LogWriteBox';
 import ReactionAvatarStack from '../ReactionAvatarStack';
 
+const parseSystemLogText = (rawText) => {
+    if (!rawText) return [];
+    
+    const lines = rawText.split('\n').filter(Boolean);
+    const parsedChanges = [];
+
+    lines.forEach(line => {
+        // Case 1: 중요도 and 회의 상정 기준 (Combined)
+        if (line.includes('중요도') && line.includes('회의 상정 기준')) {
+            const impMatch = line.match(/중요도가\s*"([^"]+)"에서\s*"([^"]+)"으로/);
+            const gradeMatch = line.match(/회의\s*상정\s*기준이\s*"([^"]+)"에서\s*"([^"]+)"으로/);
+            if (impMatch) {
+                parsedChanges.push({
+                    type: 'importance_level',
+                    label: '중요도',
+                    oldVal: impMatch[1],
+                    newVal: impMatch[2]
+                });
+            }
+            if (gradeMatch) {
+                parsedChanges.push({
+                    type: 'meeting_grade',
+                    label: '상정기준',
+                    oldVal: gradeMatch[1],
+                    newVal: gradeMatch[2]
+                });
+            }
+            return;
+        }
+
+        // Case 2: 중요도 only
+        if (line.includes('중요도가') && line.includes('변경되었습니다')) {
+            const match = line.match(/중요도가\s*"([^"]+)"에서\s*"([^"]+)"으로/);
+            if (match) {
+                parsedChanges.push({
+                    type: 'importance_level',
+                    label: '중요도',
+                    oldVal: match[1],
+                    newVal: match[2]
+                });
+                return;
+            }
+        }
+
+        // Case 3: 회의 상정 기준 only
+        if (line.includes('회의 상정 기준') && line.includes('변경되었습니다')) {
+            const match = line.match(/회의\s*상정\s*기준이\s*"([^"]+)"에서\s*"([^"]+)"으로/);
+            if (match) {
+                parsedChanges.push({
+                    type: 'meeting_grade',
+                    label: '상정기준',
+                    oldVal: match[1],
+                    newVal: match[2]
+                });
+                return;
+            }
+        }
+
+        // Case 4: 상태 (Status)
+        if (line.includes('상태가') && line.includes('변경되었습니다')) {
+            const match = line.match(/상태가\s*"([^"]+)"에서\s*"([^"]+)"으로/);
+            if (match) {
+                parsedChanges.push({
+                    type: 'status',
+                    label: '상태',
+                    oldVal: match[1],
+                    newVal: match[2]
+                });
+                return;
+            }
+        }
+
+        // Case 5: 병목 (Blocker)
+        if (line.includes('병목(Blocker)이') && line.includes('변경되었습니다')) {
+            const match = line.match(/병목\(Blocker\)이\s*"([^"]+)"에서\s*"([^"]+)"으로/);
+            if (match) {
+                parsedChanges.push({
+                    type: 'is_blocker',
+                    label: '병목',
+                    oldVal: match[1],
+                    newVal: match[2]
+                });
+                return;
+            }
+        }
+
+        // Case 6: 담당자 (Assignee)
+        if (line.includes('담당자가') && line.includes('변경되었습니다')) {
+            const match = line.match(/담당자가\s*"([^"]+)"에서\s*"([^"]+)"으로/);
+            if (match) {
+                parsedChanges.push({
+                    type: 'assignee',
+                    label: '담당자',
+                    oldVal: match[1],
+                    newVal: match[2]
+                });
+                return;
+            }
+        }
+
+        // Case 7: 외부상대방 (External Party)
+        if (line.includes('외부상대방이') && line.includes('변경되었습니다')) {
+            const match = line.match(/외부상대방이\s*"([^"]+)"에서\s*"([^"]+)"으로/);
+            if (match) {
+                parsedChanges.push({
+                    type: 'external_party',
+                    label: '외부상대방',
+                    oldVal: match[1],
+                    newVal: match[2]
+                });
+                return;
+            }
+        }
+
+        // Case 8: 협조부서 (Coop Dept)
+        if (line.includes('협조부서가') && line.includes('변경되었습니다')) {
+            const match = line.match(/협조부서가\s*"([^"]+)"에서\s*"([^"]+)"으로/);
+            if (match) {
+                parsedChanges.push({
+                    type: 'coop_depts',
+                    label: '협조부서',
+                    oldVal: match[1],
+                    newVal: match[2]
+                });
+                return;
+            }
+        }
+
+        // Case 9: 마감기한 (Due Date)
+        if (line.includes('마감기한이') && line.includes('변경되었습니다')) {
+            const match = line.match(/마감기한이\s*"([^"]+)"에서\s*"([^"]+)"으로/);
+            if (match) {
+                parsedChanges.push({
+                    type: 'due_date',
+                    label: '마감기한',
+                    oldVal: match[1],
+                    newVal: match[2]
+                });
+                return;
+            }
+        }
+
+        // Case 10: 의사결정 필요 (Needs Decision)
+        if (line.includes('의사결정 필요 여부가') && line.includes('변경되었습니다')) {
+            const match = line.match(/의사결정\s*필요\s*여부가\s*"([^"]+)"에서\s*"([^"]+)"으로/);
+            if (match) {
+                parsedChanges.push({
+                    type: 'needs_decision',
+                    label: '결정필요',
+                    oldVal: match[1],
+                    newVal: match[2]
+                });
+                return;
+            }
+        }
+
+        // Fallback
+        parsedChanges.push({
+            type: 'text',
+            label: '이력',
+            oldVal: null,
+            newVal: line
+        });
+    });
+
+    return parsedChanges;
+};
+
+const renderBadge = (type, val) => {
+    if (!val) return null;
+    const cleanVal = val.replace(/^[A-D]_/, '');
+
+    if (type === 'importance_level') {
+        if (cleanVal === 'PF필수') {
+            return <span className="bg-[#ff453a]/15 text-[#ff453a] border border-[#ff453a]/25 text-[11px] font-bold px-1.5 py-0.5 rounded whitespace-nowrap">{cleanVal}</span>;
+        } else if (cleanVal === '준공필수') {
+            return <span className="bg-[#bdbba7]/15 text-[#bdbba7] border border-[#bdbba7]/25 text-[11px] font-bold px-1.5 py-0.5 rounded whitespace-nowrap">{cleanVal}</span>;
+        }
+        return <span className="bg-[#8e8e93]/10 text-[#8e8e93] border border-[#8e8e93]/20 text-[11px] font-bold px-1.5 py-0.5 rounded whitespace-nowrap">{cleanVal}</span>;
+    }
+
+    if (type === 'meeting_grade') {
+        if (cleanVal === '즉시상정') {
+            return <span className="bg-[#ff453a]/15 text-[#ff453a] border border-[#ff453a]/25 text-[11px] font-bold px-1.5 py-0.5 rounded whitespace-nowrap">{cleanVal}</span>;
+        } else if (cleanVal === '회의점검') {
+            return <span className="bg-[#bdbba7]/15 text-[#bdbba7] border border-[#bdbba7]/25 text-[11px] font-bold px-1.5 py-0.5 rounded whitespace-nowrap">{cleanVal}</span>;
+        }
+        return <span className="bg-[#8e8e93]/10 text-[#8e8e93] border border-[#8e8e93]/20 text-[11px] font-bold px-1.5 py-0.5 rounded whitespace-nowrap">{cleanVal}</span>;
+    }
+
+    if (type === 'status') {
+        if (cleanVal === '지연') {
+            return <span className="bg-[#ff453a]/15 text-[#ff453a] border border-[#ff453a]/25 text-[11px] font-bold px-1.5 py-0.5 rounded whitespace-nowrap">{cleanVal}</span>;
+        } else if (cleanVal === '완료') {
+            return <span className="bg-[#30d158]/15 text-[#30d158] border border-[#30d158]/25 text-[11px] font-bold px-1.5 py-0.5 rounded whitespace-nowrap">{cleanVal}</span>;
+        } else if (cleanVal === '진행중') {
+            return <span className="bg-[#0a84ff]/15 text-[#0a84ff] border border-[#0a84ff]/25 text-[11px] font-bold px-1.5 py-0.5 rounded whitespace-nowrap">{cleanVal}</span>;
+        }
+        return <span className="bg-[#8e8e93]/10 text-[#8e8e93] border border-[#8e8e93]/20 text-[11px] font-bold px-1.5 py-0.5 rounded whitespace-nowrap">{cleanVal}</span>;
+    }
+
+    if (type === 'assignee') {
+        if (cleanVal === '미정') {
+            return <span className="text-[#86868B] border border-[#3c3c3c] border-dashed text-[11px] font-medium px-1.5 py-0.5 rounded whitespace-nowrap bg-transparent">{cleanVal}</span>;
+        }
+        return <span className="bg-[#64d2ff]/10 text-[#64d2ff] border border-[#64d2ff]/20 text-[11px] font-bold px-1.5 py-0.5 rounded whitespace-nowrap">{cleanVal}</span>;
+    }
+
+    if (type === 'external_party') {
+        if (cleanVal === '미지정' || cleanVal === '없음' || cleanVal === '') {
+            return <span className="text-[#86868B] text-[11px] font-medium px-1.5 py-0.5 whitespace-nowrap">{cleanVal || '미지정'}</span>;
+        }
+        return <span className="bg-[#bf5af2]/10 text-[#bf5af2] border border-[#bf5af2]/20 text-[11px] font-bold px-1.5 py-0.5 rounded whitespace-nowrap">{cleanVal}</span>;
+    }
+
+    if (type === 'coop_depts') {
+        const depts = cleanVal.split(/;+/).map(d => d.trim()).filter(Boolean);
+        if (depts.length === 0 || cleanVal === '없음') {
+            return <span className="text-[#86868B] text-[11px] font-medium px-1.5 py-0.5 whitespace-nowrap">없음</span>;
+        }
+        return (
+            <div className="flex flex-wrap gap-1 items-center">
+                {depts.map((d, idx) => (
+                    <span key={idx} className="bg-[#27272a] text-[#d4d4d8] border border-[#3f3f46] text-[11px] font-medium px-1.5 py-0.5 rounded whitespace-nowrap">{d}</span>
+                ))}
+            </div>
+        );
+    }
+
+    if (type === 'due_date') {
+        if (cleanVal === '미지정' || cleanVal === '') {
+            return <span className="text-[#86868B] text-[11px] font-medium px-1.5 py-0.5 whitespace-nowrap">미지정</span>;
+        }
+        return <span className="bg-[#ff9f0a]/10 text-[#ff9f0a] border border-[#ff9f0a]/20 text-[11px] font-bold px-1.5 py-0.5 rounded whitespace-nowrap">{cleanVal}</span>;
+    }
+
+    if (type === 'is_blocker' || type === 'needs_decision') {
+        const isYes = cleanVal === '활성화' || cleanVal === '필요' || cleanVal === 'Y';
+        if (isYes) {
+            return <span className="bg-[#ff453a]/15 text-[#ff453a] border border-[#ff453a]/25 text-[11px] font-bold px-1.5 py-0.5 rounded whitespace-nowrap">{cleanVal}</span>;
+        }
+        return <span className="text-[#86868B] text-[11px] font-medium px-1.5 py-0.5 whitespace-nowrap">{cleanVal}</span>;
+    }
+
+    return <span className="bg-white/5 text-[#E5E5E5] px-1.5 py-0.5 rounded text-[11px] font-medium border border-[#3c3c3c]/50 whitespace-nowrap">{cleanVal}</span>;
+};
+
+const renderSystemLogChanges = (rawText) => {
+    const changes = parseSystemLogText(rawText);
+    if (!changes || changes.length === 0) return null;
+
+    return (
+        <div className="flex flex-col gap-2 mt-1.5">
+            {changes.map((change, idx) => {
+                if (change.type === 'text') {
+                    return (
+                        <div key={idx} className="text-[13px] text-[#A1A1AA] py-0.5">
+                            {change.newVal}
+                        </div>
+                    );
+                }
+                return (
+                    <div key={idx} className="flex items-center gap-3 text-[13px] text-[#E5E5E5] flex-wrap py-1 border-b border-white/[0.03] last:border-0">
+                        <span className="text-[#86868B] font-bold min-w-[70px] select-none">{change.label}</span>
+                        <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-[8px] px-2.5 py-1">
+                            {renderBadge(change.type, change.oldVal)}
+                            <span className="text-[#86868B] select-none">→</span>
+                            {renderBadge(change.type, change.newVal)}
+                        </div>
+                    </div>
+                );
+            })}
+        </div>
+    );
+};
+
 export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, isTaskBoard = false, taskId = null, taskProject = null }) {
     const { memberInfo } = useAuth();
     
@@ -837,7 +1113,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                                         </span>
                                                     </div>
                                                     <div className="text-[#E5E5E5] mt-1 pl-[4px]">
-                                                        {renderLogTextWithMentions(log.raw_text)}
+                                                        {renderSystemLogChanges(log.raw_text)}
                                                     </div>
                                                 </div>
                                             ) : (
@@ -1220,14 +1496,29 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                         
                                         {/* Original Text */}
                                         {checkUserAccess(log) ? (
+                                            log.writer_name === '시스템' ? (
+                                                <div className="flex flex-col gap-2.5">
+                                                    <div className="flex items-center gap-1.5 text-[13px] text-[#A1A1AA] bg-white/5 border border-white/10 px-2.5 py-1.5 rounded-[8px] w-max select-none">
+                                                        <span>변경자:</span>
+                                                        <span className="font-bold text-white text-[13px]">{log.metadata?.editor_name || '시스템'}</span>
+                                                        <span className="text-[10px] font-bold text-[#82afb9] bg-[#82afb9]/10 px-1.5 py-0.5 rounded">
+                                                            {log.metadata?.editor_name ? getCellName(log.metadata.editor_name).replace(/-(LFC|DSC|EMC|SSC|KAM)$/, '') : '이력'}
+                                                        </span>
+                                                    </div>
+                                                    <div className="text-[#E5E5E5] mt-1 pl-[4px]">
+                                                        {renderSystemLogChanges(log.raw_text)}
+                                                    </div>
+                                                </div>
+                                            ) : (
                                                 <div className={`whitespace-pre-wrap break-words text-[15px] leading-relaxed ${commentingLogId === log.log_id ? 'text-[#86868B] opacity-70' : 'text-[#E5E5E5]'}`}>
                                                     {renderLogTextWithMentions(log.raw_text)}
                                                 </div>
-                                            ) : (
-                                                <div className="text-[#86868B] text-[14px] italic py-[20px] text-center border border-[#333] rounded-[8px] bg-[#1a1a1a]">
-                                                    🔒 열람 권한이 없습니다.
-                                                </div>
-                                            )}
+                                            )
+                                        ) : (
+                                            <div className="text-[#86868B] text-[14px] italic py-[20px] text-center border border-[#333] rounded-[8px] bg-[#1a1a1a]">
+                                                🔒 열람 권한이 없습니다.
+                                            </div>
+                                        )}
                                         <div className="clear-both mb-[16px]"></div>
                                         
                                         {/* Attached Files List */}
