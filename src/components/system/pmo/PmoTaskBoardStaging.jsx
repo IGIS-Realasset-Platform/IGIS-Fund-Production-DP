@@ -1725,17 +1725,39 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
 
             if (error) throw error;
 
+            let loadedTasks = [];
             if (data && data.length > 0) {
                 setTasks(data);
                 setIsDbMode(true);
+                loadedTasks = data;
             } else {
                 setTasks(FALLBACK_BOARD_TASKS);
                 setIsDbMode(false);
+                loadedTasks = FALLBACK_BOARD_TASKS;
+            }
+
+            // AUTO OPEN FROM URL PARAM
+            const params = new URLSearchParams(window.location.search);
+            const urlTaskId = params.get('taskId');
+            if (urlTaskId) {
+                const matched = loadedTasks.find(t => String(t.id) === String(urlTaskId));
+                if (matched) {
+                    setSelectedTaskDetail(matched);
+                }
             }
         } catch (err) {
             console.error("Failed to fetch tasks from DB:", err);
             setTasks(FALLBACK_BOARD_TASKS);
             setIsDbMode(false);
+
+            const params = new URLSearchParams(window.location.search);
+            const urlTaskId = params.get('taskId');
+            if (urlTaskId) {
+                const matched = FALLBACK_BOARD_TASKS.find(t => String(t.id) === String(urlTaskId));
+                if (matched) {
+                    setSelectedTaskDetail(matched);
+                }
+            }
         } finally {
             setLoading(false);
         }
@@ -1744,6 +1766,24 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
     useEffect(() => {
         fetchTasks();
     }, []);
+
+    // Sync selectedTaskDetail to URL query param
+    useEffect(() => {
+        if (selectedTaskDetail) {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('taskId') !== String(selectedTaskDetail.id)) {
+                params.set('taskId', selectedTaskDetail.id);
+                window.history.replaceState(null, '', `${window.location.pathname}?${params.toString()}`);
+            }
+        } else {
+            const params = new URLSearchParams(window.location.search);
+            if (params.has('taskId')) {
+                params.delete('taskId');
+                const newSearch = params.toString();
+                window.history.replaceState(null, '', `${window.location.pathname}${newSearch ? '?' + newSearch : ''}`);
+            }
+        }
+    }, [selectedTaskDetail]);
 
     // Department code resolver & on-the-fly register
     async function resolveDeptCode(deptName) {

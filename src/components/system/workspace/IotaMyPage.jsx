@@ -117,6 +117,14 @@ export default function IotaMyPage() {
             return;
         }
 
+        // 태스크 보드 변경 이력/진행로그의 경우 통합 업무 보드 상세 페이지로 이동
+        if (log.metadata?.is_task_board && log.metadata?.task_id) {
+            const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
+            window.history.pushState(null, '', `${base}/platform/iotaseoul/workflow?taskId=${log.metadata.task_id}`);
+            window.dispatchEvent(new Event('popstate'));
+            return;
+        }
+
         // 로컬 DB 로그일 경우
         const wsCode = log.metadata?.workspace_code;
         if (!wsCode) {
