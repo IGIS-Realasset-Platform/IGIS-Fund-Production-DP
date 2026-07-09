@@ -2439,8 +2439,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                     <span className="text-[#86868B] text-[15px] animate-pulse">원장 정보를 불러오는 중입니다...</span>
                 </div>
             ) : (
-                <>
-                    <div className="-mr-[calc(50vw-50%)] border border-r-0 border-[#3c3c3c] bg-[#272726] rounded-l-[24px] overflow-hidden mb-[16px] shadow-sm select-text">
+                <div className="-mr-[calc(50vw-50%)] border border-r-0 border-[#3c3c3c] bg-[#272726] rounded-l-[24px] overflow-hidden mb-[40px] shadow-sm select-text">
                     <div className="w-full overflow-x-auto pr-0 timeline-scrollbar pb-4">
                         <div className={`flex items-center transition-all duration-300 ease-out ${isAll ? 'min-w-[3615px]' : 'min-w-[2440px]'}`}>
                             <table className={`text-left table-fixed flex-1 border-collapse bg-[#272726] transition-all duration-300 ease-out ${isAll ? 'min-w-[2815px]' : 'min-w-[1640px]'}`}>
@@ -3024,7 +3023,56 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                             );
                                         })
                                     )}
-
+                                    
+                                    {totalPages > 1 && (
+                                        <tr className="bg-[#272726] hover:bg-[#333]/30 transition-colors h-[46px] border-t border-[#3c3c3c]/50">
+                                            {/* Empty cells covering the columns before "업무명" (ID, 프로젝트, 대분류, 세부섹터) */}
+                                            <td colSpan={isAll ? 4 : 3} className="bg-[#272726]"></td>
+                                            {/* Cell for "업무명" column where the pagination controls are aligned */}
+                                            <td colSpan={isAll ? 19 : 11} className={`pl-4 py-2 text-left sticky bg-[#272726] z-10 transition-all duration-300 ease-out ${isAll ? 'left-[305px]' : 'left-[215px]'}`}>
+                                                <div className="flex items-center gap-1 select-none">
+                                                    {/* Prev Button */}
+                                                    <button
+                                                        disabled={currentPage === 1}
+                                                        onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                                                        className="w-7 h-7 flex items-center justify-center rounded-[6px] border border-[#3c3c3c] transition-all text-[#86868B] hover:text-white cursor-pointer hover:bg-white/5 disabled:opacity-30 disabled:cursor-not-allowed"
+                                                    >
+                                                        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 19l-7-7 7-7" />
+                                                        </svg>
+                                                    </button>
+                                                    {/* Page Numbers */}
+                                                    {Array.from({ length: totalPages }).map((_, pIdx) => {
+                                                        const pageNum = pIdx + 1;
+                                                        const isCurrent = pageNum === currentPage;
+                                                        return (
+                                                            <button
+                                                                key={pageNum}
+                                                                onClick={() => setCurrentPage(pageNum)}
+                                                                className={`w-7 h-7 rounded-[6px] text-[12px] font-bold transition-all cursor-pointer ${
+                                                                    isCurrent
+                                                                        ? 'bg-[#ff9f0a] text-black shadow-sm'
+                                                                        : 'bg-transparent text-[#86868B] hover:text-white hover:bg-white/5 border border-transparent hover:border-[#3c3c3c]'
+                                                                }`}
+                                                            >
+                                                                {pageNum}
+                                                            </button>
+                                                        );
+                                                    })}
+                                                    {/* Next Button */}
+                                                    <button
+                                                        disabled={currentPage === totalPages}
+                                                        onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                                                        className="w-7 h-7 flex items-center justify-center rounded-[6px] border border-[#3c3c3c] transition-all text-[#86868B] hover:text-white cursor-pointer hover:bg-white/5 disabled:opacity-30 disabled:cursor-not-allowed"
+                                                    >
+                                                        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 5l7 7-7 7" />
+                                                        </svg>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    )}
                                 </tbody>
                             </table>
                             
@@ -3038,55 +3086,6 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                     </div>
                 </div>
 
-                {/* Pagination Controls - Centered outside the scrollable container wrapper */}
-                {totalPages > 1 && (
-                    <div className="flex flex-col items-center justify-center py-6 gap-3 select-none w-full border-t border-[#3c3c3c]/30 mt-4 mb-4">
-                        <div className="text-[12px] text-[#86868B] font-medium">
-                            총 <span className="text-[#E5E5E5] font-semibold">{totalTasksCount}</span>개 업무 중 <span className="text-[#E5E5E5] font-semibold">{(currentPage - 1) * pageSize + 1}</span>-{Math.min(currentPage * pageSize, totalTasksCount)} 표시
-                        </div>
-                        <div className="flex items-center gap-1">
-                            {/* Prev Button */}
-                            <button
-                                disabled={currentPage === 1}
-                                onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-                                className="w-7 h-7 flex items-center justify-center rounded-[6px] border border-[#3c3c3c] transition-all text-[#86868B] hover:text-white cursor-pointer hover:bg-white/5 disabled:opacity-30 disabled:cursor-not-allowed"
-                            >
-                                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 19l-7-7 7-7" />
-                                </svg>
-                            </button>
-                            {/* Page Numbers */}
-                            {Array.from({ length: totalPages }).map((_, pIdx) => {
-                                const pageNum = pIdx + 1;
-                                const isCurrent = pageNum === currentPage;
-                                return (
-                                    <button
-                                        key={pageNum}
-                                        onClick={() => setCurrentPage(pageNum)}
-                                        className={`w-7 h-7 rounded-[6px] text-[12px] font-bold transition-all cursor-pointer ${
-                                            isCurrent
-                                                ? 'bg-[#ff9f0a] text-black shadow-sm'
-                                                : 'bg-transparent text-[#86868B] hover:text-white hover:bg-white/5 border border-transparent hover:border-[#3c3c3c]'
-                                        }`}
-                                    >
-                                        {pageNum}
-                                    </button>
-                                );
-                            })}
-                            {/* Next Button */}
-                            <button
-                                disabled={currentPage === totalPages}
-                                onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-                                className="w-7 h-7 flex items-center justify-center rounded-[6px] border border-[#3c3c3c] transition-all text-[#86868B] hover:text-white cursor-pointer hover:bg-white/5 disabled:opacity-30 disabled:cursor-not-allowed"
-                            >
-                                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 5l7 7-7 7" />
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                )}
-                </>
             )}
 
             {/* R&R 관리 권한 안내 모달 */}
