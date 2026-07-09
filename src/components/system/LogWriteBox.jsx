@@ -375,7 +375,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
             const logData = {
                 work_date: workDate,
                 raw_text: content,
-                summary: isTaskBoard && !title.trim() ? (content.trim().split('\n')[0].slice(0, 50) || '업무 로그') : title,
+                summary: !title.trim() ? (content.trim().split('\n')[0].slice(0, 50) || '업무 로그') : title,
                 updated_at: new Date().toISOString(),
                 metadata: {
                     ...(isEditing ? initialData.metadata : {}),
@@ -493,7 +493,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
     const handlePreSubmit = (e) => {
         if (e && e.preventDefault) e.preventDefault();
         let resolvedTitle = title;
-        if (isTaskBoard && !title.trim()) {
+        if (!title.trim()) {
             resolvedTitle = content.trim().split('\n')[0].slice(0, 50) || '업무 로그';
         }
         if (!resolvedTitle.trim() || !content.trim()) return;
