@@ -4064,7 +4064,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                         {/* 업무 목적 */}
                                         <div className="space-y-0">
                                             <h4 className="text-[11px] font-bold text-[#86868B]">업무 목적</h4>
-                                            <p className="text-[13px] text-[#E5E5E5] leading-relaxed whitespace-pre-line mt-1">
+                                            <p className="text-[14px] text-[#E5E5E5] leading-relaxed whitespace-pre-line mt-1">
                                                 {t.task_purpose || fallbackItem.task_purpose || '등록된 내용이 없습니다.'}
                                             </p>
                                         </div>
@@ -4074,7 +4074,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                         {/* 필요 산출물 */}
                                         <div className="space-y-0">
                                             <h4 className="text-[11px] font-bold text-[#86868B]">필요 산출물</h4>
-                                            <p className="text-[13px] text-[#E5E5E5] leading-relaxed whitespace-pre-line mt-1">
+                                            <p className="text-[14px] text-[#E5E5E5] leading-relaxed whitespace-pre-line mt-1">
                                                 {t.deliverables || fallbackItem.deliverables || '등록된 내용이 없습니다.'}
                                             </p>
                                         </div>
@@ -4084,7 +4084,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                         {/* 다음 액션 */}
                                         <div className="space-y-0">
                                             <h4 className="text-[11px] font-bold text-[#86868B]">다음 액션</h4>
-                                            <p className="text-[13px] text-[#E5E5E5] leading-relaxed whitespace-pre-line mt-1">
+                                            <p className="text-[14px] text-[#E5E5E5] leading-relaxed whitespace-pre-line mt-1">
                                                 {nextActionVal || '등록된 내용이 없습니다.'}
                                             </p>
                                         </div>
@@ -4095,7 +4095,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                                 {/* 회의 상정 사유 */}
                                                 <div className="space-y-0">
                                                     <h4 className="text-[11px] font-bold text-[#86868B]">회의 상정 사유 (Agenda Context)</h4>
-                                                    <p className="text-[13px] text-[#E5E5E5] leading-relaxed whitespace-pre-line mt-1">
+                                                    <p className="text-[14px] text-[#E5E5E5] leading-relaxed whitespace-pre-line mt-1">
                                                         {agendaReason}
                                                     </p>
                                                 </div>
