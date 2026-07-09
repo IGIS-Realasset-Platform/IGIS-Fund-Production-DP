@@ -267,7 +267,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
             <>
                 {parts.map((part, i) => {
                     if (mentionedNames.includes(part)) {
-                        return <span key={i} className="text-[#82afb9] font-bold">{part}</span>;
+                        return <span key={i} className="text-[#82afb9]">{part}</span>;
                     }
                     return <span key={i} className="text-[#E5E5E5]">{part}</span>;
                 })}
@@ -811,7 +811,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                         {/* Background Div for Highlights */}
                         <div 
                         id={`highlight-bg-${uniqueIdSuffix}`}
-                        className="absolute inset-0 pointer-events-none whitespace-pre-wrap break-words text-[15px] leading-relaxed overflow-hidden font-sans p-2"
+                        className="absolute inset-0 pointer-events-none whitespace-pre-wrap break-words text-[15px] leading-relaxed overflow-hidden font-sans p-2 border-0 m-0 box-border"
                         aria-hidden="true"
                     >
                         {renderHighlightedText()}
@@ -827,7 +827,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                             const bg = document.getElementById(`highlight-bg-${uniqueIdSuffix}`);
                             if (bg) bg.scrollTop = e.target.scrollTop;
                         }}
-                        className={`w-full bg-transparent text-transparent caret-white outline-none resize-y h-[200px] leading-relaxed text-[15px] relative z-10 font-sans p-2`}
+                        className="w-full bg-transparent text-transparent caret-white outline-none resize-y h-[200px] leading-relaxed text-[15px] relative z-10 font-sans p-2 border-0 m-0 box-border"
                         style={{ caretColor: '#E5E5E5' }}
                         required
                     ></textarea>
