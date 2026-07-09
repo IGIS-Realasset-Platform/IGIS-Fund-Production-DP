@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { supabase } from '../../../utils/supabaseClient';
 import { useAuth } from '../../../context/AuthContext';
 import WorkspaceActivityLog from '../workspace/WorkspaceActivityLog';
@@ -1402,6 +1402,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
     const [editingItem, setEditingItem] = useState(null);
     const [deleteConfirmId, setDeleteConfirmId] = useState(null);
     const [selectedTaskDetail, setSelectedTaskDetail] = useState(null);
+    const initialUrlCheckedRef = useRef(false);
     const [showAssigneeDropdown, setShowAssigneeDropdown] = useState(false);
 
     // Suggestions panels
@@ -1745,6 +1746,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                     setSelectedTaskDetail(matched);
                 }
             }
+            initialUrlCheckedRef.current = true;
         } catch (err) {
             console.error("Failed to fetch tasks from DB:", err);
             setTasks(FALLBACK_BOARD_TASKS);
@@ -1758,6 +1760,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                     setSelectedTaskDetail(matched);
                 }
             }
+            initialUrlCheckedRef.current = true;
         } finally {
             setLoading(false);
         }
@@ -1769,6 +1772,11 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
 
     // Sync selectedTaskDetail to URL query param
     useEffect(() => {
+        // Skip URL deletion if we haven't checked/initialized the URL taskId yet on mount
+        if (!selectedTaskDetail && !initialUrlCheckedRef.current) {
+            return;
+        }
+
         if (selectedTaskDetail) {
             const params = new URLSearchParams(window.location.search);
             if (params.get('taskId') !== String(selectedTaskDetail.id)) {
