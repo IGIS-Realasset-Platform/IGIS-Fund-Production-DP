@@ -3024,22 +3024,24 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                         })
                                     )}
                                     
-                                    {totalPages > 1 && (
-                                        <tr className="bg-[#272726] h-[46px] select-none !border-t-0">
+                                </tbody>
+                                {totalPages > 1 && (
+                                    <tfoot className="border-none bg-[#272726]">
+                                        <tr className="bg-[#272726] h-[46px] select-none ">
                                             {/* 1. ID */}
-                                            <td className="pl-[10px] text-center w-[50px] min-w-[50px] max-w-[50px] sticky left-0 transition-colors z-10 bg-[#272726] !border-t-0"></td>
+                                            <td className="pl-[10px] text-center w-[50px] min-w-[50px] max-w-[50px] sticky left-0 transition-colors z-10 bg-[#272726]"></td>
                                             
                                             {/* 2. 프로젝트 */}
-                                            <td className="text-center w-[80px] min-w-[80px] max-w-[80px] sticky left-[50px] transition-colors z-10 bg-[#272726] !border-t-0"></td>
+                                            <td className="text-center w-[80px] min-w-[80px] max-w-[80px] sticky left-[50px] transition-colors z-10 bg-[#272726]"></td>
                                             
                                             {/* 3. 대분류 */}
-                                            <td className="pl-4 w-[71px] min-w-[71px] max-w-[71px] sticky left-[130px] transition-colors z-10 bg-[#272726] !border-t-0"></td>
+                                            <td className="pl-4 w-[71px] min-w-[71px] max-w-[71px] sticky left-[130px] transition-colors z-10 bg-[#272726]"></td>
                                             
                                             {/* 4. 세부섹터 */}
-                                            <td className={`sticky left-[201px] z-10 transition-all duration-300 ease-out bg-[#272726] ${isAll ? 'w-[90px] min-w-[90px] max-w-[90px] pl-4 opacity-100' : 'w-0 min-w-0 max-w-0 pl-0 opacity-0 overflow-hidden'} !border-t-0`}></td>
+                                            <td className={`sticky left-[201px] z-10 transition-all duration-300 ease-out bg-[#272726] ${isAll ? 'w-[90px] min-w-[90px] max-w-[90px] pl-4 opacity-100' : 'w-0 min-w-0 max-w-0 pl-0 opacity-0 overflow-hidden'}`}></td>
                                             
                                             {/* 5. 업무명 (Centered Pagination) */}
-                                            <td className={`pl-4 font-bold text-white sticky relative transition-all duration-300 ease-out bg-[#272726] z-20 w-[240px] min-w-[240px] max-w-[240px] ${isAll ? 'left-[291px]' : 'left-[201px]'} !border-t-0`}>
+                                            <td className={`pl-4 font-bold text-white sticky relative transition-all duration-300 ease-out bg-[#272726] z-20 w-[240px] min-w-[240px] max-w-[240px] ${isAll ? 'left-[291px]' : 'left-[201px]'}`}>
                                                 {/* Top border line extending to the right edge of browser screen */}
                                                 <div className="absolute top-0 border-t border-[#3c3c3c]/50 pointer-events-none z-30" style={{ left: isAll ? '-291px' : '-201px', width: 'calc(100vw - 260px)' }} />
                                                 
@@ -3103,61 +3105,61 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                             </td>
                                             
                                             {/* 6. 우선순위점수 */}
-                                            <td className="w-[71px] min-w-[71px] max-w-[71px] bg-[#272726] !border-t-0"></td>
+                                            <td className="w-[71px] min-w-[71px] max-w-[71px] bg-[#272726]"></td>
                                             
                                             {/* 7. 업무목적 */}
-                                            <td className={`transition-all duration-300 ease-out bg-[#272726] ${isAll ? 'w-[220px] min-w-[220px] max-w-[220px] pl-4 opacity-100' : 'w-0 min-w-0 max-w-0 pl-0 opacity-0 overflow-hidden'} !border-t-0`}></td>
+                                            <td className={`transition-all duration-300 ease-out bg-[#272726] ${isAll ? 'w-[220px] min-w-[220px] max-w-[220px] pl-4 opacity-100' : 'w-0 min-w-0 max-w-0 pl-0 opacity-0 overflow-hidden'}`}></td>
                                             
                                             {/* 8. 필요 산출물 */}
-                                            <td className={`transition-all duration-300 ease-out bg-[#272726] ${isAll ? 'w-[220px] min-w-[220px] max-w-[220px] pl-4 opacity-100' : 'w-0 min-w-0 max-w-0 pl-0 opacity-0 overflow-hidden'} !border-t-0`}></td>
+                                            <td className={`transition-all duration-300 ease-out bg-[#272726] ${isAll ? 'w-[220px] min-w-[220px] max-w-[220px] pl-4 opacity-100' : 'w-0 min-w-0 max-w-0 pl-0 opacity-0 overflow-hidden'}`}></td>
                                             
                                             {/* 9. 최종 목표축 */}
                                             <td className={`text-center transition-all duration-300 ease-out bg-[#272726] ${isAll ? 'w-[91px] min-w-[91px] max-w-[91px] opacity-100' : 'w-0 min-w-0 max-w-0 opacity-0 overflow-hidden'}`}></td>
                                             
                                             {/* 10. Gate */}
-                                            <td className={`text-center transition-all duration-300 ease-out bg-[#272726] ${isAll ? 'w-[90px] min-w-[90px] max-w-[100px] opacity-100' : 'w-0 min-w-0 max-w-0 opacity-0 overflow-hidden'} !border-t-0`}></td>
+                                            <td className={`text-center transition-all duration-300 ease-out bg-[#272726] ${isAll ? 'w-[90px] min-w-[90px] max-w-[100px] opacity-100' : 'w-0 min-w-0 max-w-0 opacity-0 overflow-hidden'}`}></td>
                                             
                                             {/* 11. 회의상정등급 */}
-                                            <td className="w-[76px] min-w-[76px] max-w-[76px] bg-[#272726] !border-t-0"></td>
+                                            <td className="w-[76px] min-w-[76px] max-w-[76px] bg-[#272726]"></td>
                                             
                                             {/* 12. 실무 주관부서 */}
-                                            <td className="w-[76px] min-w-[76px] max-w-[76px] bg-[#272726] !border-t-0"></td>
+                                            <td className="w-[76px] min-w-[76px] max-w-[76px] bg-[#272726]"></td>
                                             
                                             {/* 13. 협업부서 */}
-                                            <td className="w-[160px] min-w-[160px] max-w-[160px] bg-[#272726] !border-t-0"></td>
+                                            <td className="w-[160px] min-w-[160px] max-w-[160px] bg-[#272726]"></td>
                                             
                                             {/* 14. 담당자 */}
-                                            <td className={`transition-all duration-300 ease-out bg-[#272726] ${isAll ? 'w-[70px] min-w-[70px] max-w-[70px] opacity-100' : 'w-0 min-w-0 max-w-0 opacity-0 overflow-hidden'} !border-t-0`}></td>
+                                            <td className={`transition-all duration-300 ease-out bg-[#272726] ${isAll ? 'w-[70px] min-w-[70px] max-w-[70px] opacity-100' : 'w-0 min-w-0 max-w-0 opacity-0 overflow-hidden'}`}></td>
                                             
                                             {/* 15. 외부상대방 */}
-                                            <td className="w-[100px] min-w-[100px] max-w-[100px] bg-[#272726] !border-t-0"></td>
+                                            <td className="w-[100px] min-w-[100px] max-w-[100px] bg-[#272726]"></td>
                                             
                                             {/* 16. 지원필요 */}
-                                            <td className={`transition-all duration-300 ease-out bg-[#272726] ${isAll ? 'w-[80px] min-w-[80px] max-w-[80px] opacity-100' : 'w-0 min-w-0 max-w-0 opacity-0 overflow-hidden'} !border-t-0`}></td>
+                                            <td className={`transition-all duration-300 ease-out bg-[#272726] ${isAll ? 'w-[80px] min-w-[80px] max-w-[80px] opacity-100' : 'w-0 min-w-0 max-w-0 opacity-0 overflow-hidden'}`}></td>
                                             
                                             {/* 17. Blocker */}
-                                            <td className="w-[50px] min-w-[50px] max-w-[50px] bg-[#272726] !border-t-0"></td>
+                                            <td className="w-[50px] min-w-[50px] max-w-[50px] bg-[#272726]"></td>
                                             
                                             {/* 18. 결정필요 */}
-                                            <td className="w-[54px] min-w-[54px] max-w-[54px] bg-[#272726] !border-t-0"></td>
+                                            <td className="w-[54px] min-w-[54px] max-w-[54px] bg-[#272726]"></td>
                                             
                                             {/* 19. 다음 액션 */}
-                                            <td className={`transition-all duration-300 ease-out bg-[#272726] ${isAll ? 'w-[200px] min-w-[200px] max-w-[200px] pl-4 opacity-100' : 'w-0 min-w-0 max-w-0 pl-0 opacity-0 overflow-hidden'} !border-t-0`}></td>
+                                            <td className={`transition-all duration-300 ease-out bg-[#272726] ${isAll ? 'w-[200px] min-w-[200px] max-w-[200px] pl-4 opacity-100' : 'w-0 min-w-0 max-w-0 pl-0 opacity-0 overflow-hidden'}`}></td>
                                             
                                             {/* 20. 상태 */}
-                                            <td className="w-[62px] min-w-[62px] max-w-[62px] bg-[#272726] !border-t-0"></td>
+                                            <td className="w-[62px] min-w-[62px] max-w-[62px] bg-[#272726]"></td>
                                             
                                             {/* 21. 중요도 */}
-                                            <td className="w-[62px] min-w-[62px] max-w-[62px] bg-[#272726] !border-t-0"></td>
+                                            <td className="w-[62px] min-w-[62px] max-w-[62px] bg-[#272726]"></td>
                                             
                                             {/* 22. 기한 */}
-                                            <td className={`text-center transition-all duration-300 ease-out bg-[#272726] ${isAll ? 'w-[100px] min-w-[100px] max-w-[100px] opacity-100' : 'w-0 min-w-0 max-w-0 opacity-0 overflow-hidden'} !border-t-0`}></td>
+                                            <td className={`text-center transition-all duration-300 ease-out bg-[#272726] ${isAll ? 'w-[100px] min-w-[100px] max-w-[100px] opacity-100' : 'w-0 min-w-0 max-w-0 opacity-0 overflow-hidden'}`}></td>
                                             
                                             {/* 23. 관리 */}
-                                            <td className="w-[85px] min-w-[85px] max-w-[85px] bg-[#272726] !border-t-0"></td>
+                                            <td className="w-[85px] min-w-[85px] max-w-[85px] bg-[#272726]"></td>
                                         </tr>
-                                    )}
-                                </tbody>
+                                    </tfoot>
+                                )}
                             </table>
                             
                             {/* Watermark Logo */}
