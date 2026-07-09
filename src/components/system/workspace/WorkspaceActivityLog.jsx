@@ -1770,7 +1770,6 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                     className="fixed inset-0 z-[100] flex items-start justify-center bg-black/60 p-[40px] overflow-y-auto"
                     onWheel={(e) => e.stopPropagation()}
                     onTouchMove={(e) => e.stopPropagation()}
-                    onClick={() => setEditingLogId(null)}
                 >
                     <div 
                         className="w-full max-w-[1000px] rounded-[24px] p-[2px] my-auto"
