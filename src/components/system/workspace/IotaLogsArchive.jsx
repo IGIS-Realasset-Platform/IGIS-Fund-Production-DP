@@ -105,7 +105,9 @@ export default function IotaLogsArchive() {
                 }
                 const data = await response.json();
                 if (data && data.logs) {
-                    const sortedLogs = [...data.logs].sort((a, b) => {
+                    const sortedLogs = [...data.logs]
+                        .filter(log => !log.metadata?.is_task_board)
+                        .sort((a, b) => {
                         const dateA = a.work_date ? new Date(a.work_date).getTime() : 0;
                         const dateB = b.work_date ? new Date(b.work_date).getTime() : 0;
                         return dateB - dateA;

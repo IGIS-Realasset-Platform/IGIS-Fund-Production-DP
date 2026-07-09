@@ -612,6 +612,9 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
         // Filter out non-members
         if (getCellName(log.writer_name) === '기타') return false;
 
+        // Prevent Phase 2 Task Board test logs from leaking into Phase 1 workspaces
+        if (log.metadata?.is_task_board) return false;
+
         const cell = getLogCell(log);
         
         if (filterStakeholder && log.iota_seoul_log_stakeholders?.[0]?.role_category !== filterStakeholder) return false;

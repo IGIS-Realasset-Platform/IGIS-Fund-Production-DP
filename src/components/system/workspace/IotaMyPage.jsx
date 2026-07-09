@@ -243,7 +243,8 @@ export default function IotaMyPage() {
                 }
 
                 // 3. Map DB Logs to match API schema
-                const mappedDbLogs = dbLogs.map(log => {
+                const filteredDbLogs = dbLogs.filter(log => !log.metadata?.is_task_board);
+                const mappedDbLogs = filteredDbLogs.map(log => {
                     const line = getLogCell(log);
 
                     return {
