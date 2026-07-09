@@ -159,19 +159,6 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
         }
     }, [editMode, initialData, masterStakeholders]);
 
-    useEffect(() => {
-        if (textareaRef.current) {
-            textareaRef.current.style.height = 'auto';
-            textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
-            
-            // Sync background highlight scroll position
-            const bg = document.getElementById(`highlight-bg-${workspaceCode}`);
-            if (bg) {
-                bg.scrollTop = textareaRef.current.scrollTop;
-            }
-        }
-    }, [content, workspaceCode]);
-
     const formatDisplayDate = (dateString) => {
         if (!dateString) return '';
         const d = new Date(dateString);
@@ -735,13 +722,15 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                             className="overflow-hidden w-full flex flex-col"
                         >
 {/* Text Area */}
-                <div className={`w-full px-[20px] ${isTaskBoard ? 'pt-[16px] pb-[18px]' : 'pt-[20px] pb-[24px]'} bg-transparent ${editMode ? 'border-b border-[#333] pb-[20px] mb-[0]' : ''}`}>
+                <div className={`w-full px-[20px] ${isTaskBoard ? 'pt-[16px] pb-[18px]' : 'pt-[20px] pb-[24px]'} bg-transparent ${editMode ? 'border-b border-[#333] pb-[20px] mb-[0] relative' : ''}`}>
                     {editMode && (
-                        <div className="w-full flex items-center justify-end mb-[20px]">
-                            <button onClick={() => { if (onCancel) onCancel(); }} className="text-[#86868B] hover:text-white transition-colors cursor-pointer">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                            </button>
-                        </div>
+                        <button 
+                            type="button"
+                            onClick={() => { if (onCancel) onCancel(); }} 
+                            className="absolute top-[16px] right-[16px] text-[#86868B] hover:text-white transition-colors cursor-pointer z-[100]"
+                        >
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                        </button>
                     )}
                     
                     {editMode && (
@@ -829,7 +818,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                             const bg = document.getElementById(`highlight-bg-${workspaceCode}`);
                             if (bg) bg.scrollTop = e.target.scrollTop;
                         }}
-                        className={`w-full bg-transparent text-transparent caret-white outline-none resize-none ${isTaskBoard ? 'min-h-[80px]' : 'min-h-[120px]'} leading-relaxed text-[15px] relative z-10 font-sans overflow-hidden`}
+                        className={`w-full bg-transparent text-transparent caret-white outline-none resize-y h-[200px] leading-relaxed text-[15px] relative z-10 font-sans`}
                         style={{ caretColor: '#E5E5E5' }}
                         required
                     ></textarea>
