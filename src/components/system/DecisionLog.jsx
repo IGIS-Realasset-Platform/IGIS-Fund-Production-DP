@@ -7,8 +7,8 @@ import ReactionAvatarStack from './ReactionAvatarStack';
 import PmoTaskBoardStaging from './pmo/PmoTaskBoardStaging';
 
 const WORKSPACE_CONFIG = [
-    { id: 'pm1', name: '사업 PM 1', path: 'platform/iotaseoul/workspace/pm1', table: 'iota_pm_tasks', color: 'bg-[#c3c2b7]' },
-    { id: 'pm2', name: '사업 PM 2', path: 'platform/iotaseoul/workspace/pm2', table: 'iota_pm_tasks', color: 'bg-[#c3c2b7]' },
+    { id: 'pm1', name: '사업 PM 1', path: 'platform/iotaseoul/workspace/pm1', table: 'iota_pm_tasks', color: 'bg-[#bdbba7]' },
+    { id: 'pm2', name: '사업 PM 2', path: 'platform/iotaseoul/workspace/pm2', table: 'iota_pm_tasks', color: 'bg-[#bdbba7]' },
     { id: 'financing', name: '파이낸싱', path: 'platform/iotaseoul/workspace/financing', table: 'iota_financing_tasks', color: 'bg-[#30d158]' },
     { id: 'development', name: '개발솔루션', path: 'platform/iotaseoul/workspace/development', table: 'iota_development_tasks', color: 'bg-[#0a84ff]' },
     { id: 'marketing', name: '기업마케팅', path: 'platform/iotaseoul/workspace/marketing', table: 'iota_marketing_tasks', color: 'bg-[#64d2ff]' },
@@ -902,7 +902,7 @@ export default function DecisionLog() {
                             {/* 새 업무 추가 버튼 */}
                             <button
                                 onClick={() => setAddNewTaskTrigger(prev => prev + 1)}
-                                className="px-4 py-1.5 bg-[#c3c2b7]/10 hover:bg-[#c3c2b7]/20 border border-[#c3c2b7]/30 hover:border-[#c3c2b7] rounded-[10px] text-[12px] font-bold text-[#c3c2b7] transition-all cursor-pointer ml-3 flex items-center gap-1.5 shrink-0"
+                                className="px-4 py-1.5 bg-[#bdbba7]/10 hover:bg-[#bdbba7]/20 border border-[#bdbba7]/30 hover:border-[#bdbba7] rounded-[10px] text-[12px] font-bold text-[#bdbba7] transition-all cursor-pointer ml-3 flex items-center gap-1.5 shrink-0"
                             >
                                 <span>+ 새 업무 추가</span>
                             </button>
@@ -1341,10 +1341,10 @@ export default function DecisionLog() {
                                                 }}
                                             >
                                                 <td className="pl-[22px] pr-[12px] py-[12px] text-[17px] text-[#E5E5E5] group-hover:text-white transition-colors text-left font-semibold whitespace-pre-wrap">{row.meeting}</td>
-                                                <td className="pl-[22px] pr-[12px] py-[12px] text-[13px] transition-colors"><span className="inline-block px-[10px] py-[4px] rounded-[6px] bg-[#333] text-[#c3c2b7] group-hover:bg-[#2997ff] group-hover:text-white transition-colors whitespace-nowrap">{row.period}</span></td>
+                                                <td className="pl-[22px] pr-[12px] py-[12px] text-[13px] transition-colors"><span className="inline-block px-[10px] py-[4px] rounded-[6px] bg-[#333] text-[#bdbba7] group-hover:bg-[#2997ff] group-hover:text-white transition-colors whitespace-nowrap">{row.period}</span></td>
                                                 <td className="pl-[22px] pr-[12px] py-[12px] text-[13px] font-bold text-white whitespace-nowrap transition-colors">{row.leader}</td>
-                                                <td className="pl-[42px] pr-[12px] py-[12px] text-[13px] text-[#c3c2b7] text-left group-hover:text-[#E5E5E5] transition-colors">{row.attendees}</td>
-                                                <td className="pl-[22px] pr-[12px] py-[12px] text-[13px] text-[#c3c2b7] text-left group-hover:text-[#E5E5E5] transition-colors">{row.output}</td>
+                                                <td className="pl-[42px] pr-[12px] py-[12px] text-[13px] text-[#bdbba7] text-left group-hover:text-[#E5E5E5] transition-colors">{row.attendees}</td>
+                                                <td className="pl-[22px] pr-[12px] py-[12px] text-[13px] text-[#bdbba7] text-left group-hover:text-[#E5E5E5] transition-colors">{row.output}</td>
                                             </tr>
                                             {isExpanded && (
                                                 <tr>
