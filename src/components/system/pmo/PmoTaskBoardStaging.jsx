@@ -3,7 +3,7 @@ import { supabase } from '../../../utils/supabaseClient';
 import { useAuth } from '../../../context/AuthContext';
 import WorkspaceActivityLog from '../workspace/WorkspaceActivityLog';
 
-const FALLBACK_BOARD_TASKS = [
+export const FALLBACK_BOARD_TASKS = [
   {
     "id": "T-001",
     "project": "공통",
