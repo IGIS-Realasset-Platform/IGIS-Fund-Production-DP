@@ -801,7 +801,7 @@ export default function PmoScheduleGate() {
                         return (
                             <div 
                                 style={{ left: `${x}px`, opacity }} 
-                                className="absolute -translate-x-1/2 top-[10px] bg-[#ff9f0a] text-[#1c1c1e] rounded-[6px] text-[11px] font-bold shadow-lg text-center leading-tight w-[50px] h-[44px] flex flex-col justify-center items-center pointer-events-auto"
+                                className="absolute -translate-x-1/2 top-[10px] bg-[#ff9f0a] text-[#1c1c1e] rounded-[6px] text-[11px] font-bold shadow-lg text-center leading-tight w-[58px] h-[44px] flex flex-col justify-center items-center pointer-events-auto"
                             >
                                 <div>PF 달성</div>
                                 <div>1차목표</div>
