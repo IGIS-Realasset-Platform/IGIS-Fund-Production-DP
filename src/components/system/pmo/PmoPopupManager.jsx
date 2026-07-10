@@ -33,6 +33,7 @@ export default function PmoPopupManager() {
     const [popups, setPopups] = useState([]);
     const [projects, setProjects] = useState([]);
     const [departments, setDepartments] = useState([]);
+    const [pilotMembers, setPilotMembers] = useState([]);
     const [loading, setLoading] = useState(true);
 
     // Filter states
@@ -67,6 +68,10 @@ export default function PmoPopupManager() {
     // Delete confirmation state
     const [deleteTargetId, setDeleteTargetId] = useState(null);
 
+    // Autocomplete states
+    const [showRequesterSuggestions, setShowRequesterSuggestions] = useState(false);
+    const [showCoopSuggestions, setShowCoopSuggestions] = useState(false);
+
     // Check Roles
     const currentUserEmail = memberInfo?.email || '';
     const isAdmin = memberInfo ? (memberInfo.workspace_code === 'WS_PM' || ['master', 'director'].includes(memberInfo.role_code)) : true;
@@ -99,6 +104,13 @@ export default function PmoPopupManager() {
                 .select('*');
             if (!deptErr && deptData) setDepartments(deptData);
             else setDepartments(FALLBACK_DEPARTMENTS);
+
+            // 4. Fetch Pilot Members for autocomplete
+            const { data: memberData, error: memberErr } = await supabase
+                .schema('iota_v2')
+                .from('iota_seoul_pilot_members')
+                .select('staff_name, org_name');
+            if (!memberErr && memberData) setPilotMembers(memberData);
 
         } catch (err) {
             console.error("Failed to load popups dashboard data:", err);
@@ -323,6 +335,37 @@ export default function PmoPopupManager() {
         return match ? match.dept_name : code || '-';
     };
 
+    // Autocomplete filtering logic
+    const filteredRequesters = useMemo(() => {
+        if (!formRequester.trim()) return [];
+        const exactMatch = pilotMembers.some(m => `${m.staff_name} / ${m.org_name}` === formRequester.trim());
+        if (exactMatch) return [];
+        return pilotMembers.filter(m => 
+            m.staff_name.toLowerCase().includes(formRequester.toLowerCase()) ||
+            (m.org_name || '').toLowerCase().includes(formRequester.toLowerCase())
+        );
+    }, [formRequester, pilotMembers]);
+
+    const lastCoopToken = useMemo(() => {
+        const parts = formCoopDeptCodes.split(',');
+        return parts[parts.length - 1].trim();
+    }, [formCoopDeptCodes]);
+
+    const filteredCoopDepts = useMemo(() => {
+        if (!lastCoopToken) return [];
+        return departments.filter(d => 
+            d.dept_name.toLowerCase().includes(lastCoopToken.toLowerCase()) &&
+            !formCoopDeptCodes.includes(d.dept_name)
+        );
+    }, [lastCoopToken, departments, formCoopDeptCodes]);
+
+    const handleSelectCoop = (deptName) => {
+        const parts = formCoopDeptCodes.split(',');
+        parts[parts.length - 1] = ` ${deptName}`;
+        setFormCoopDeptCodes(parts.join(',').trim() + ', ');
+        setShowCoopSuggestions(false);
+    };
+
     return (
         <div className="w-full flex-1 flex flex-col pt-[48px] pb-[200px] max-w-[1200px] mx-auto select-text text-white bg-transparent">
             <Toaster position="top-center" reverseOrder={false} />
@@ -503,7 +546,7 @@ export default function PmoPopupManager() {
                                     <th className="px-3 py-3.5 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c] w-[160px]">요청목적</th>
                                     <th className="px-3 py-3.5 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c] w-[160px]">필요 산출물</th>
                                     <th className="px-3 py-3.5 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c] text-center w-[100px]">요청기한</th>
-                                    <th className="px-3 py-3.5 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c] w-[130px]">원 수행부서</th>
+                                    <th className="px-3 py-3.5 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c] w-[130px]">수행부서</th>
                                     <th className="px-3 py-3.5 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c] w-[130px]">협업부서</th>
                                     <th className="px-3 py-3.5 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c] text-center w-[110px]">정규업무 영향</th>
                                     <th className="px-3 py-3.5 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c] text-center w-[110px]">처리방침</th>
@@ -734,16 +777,31 @@ export default function PmoPopupManager() {
 
                             {/* Line 2: 요청자 & 프로젝트 */}
                             <div className="grid grid-cols-2 gap-4">
-                                <div className="flex flex-col gap-1.5">
+                                <div className="flex flex-col gap-1.5 relative">
                                     <label className="text-[12px] font-bold text-[#86868B]">요청자 및 소속 부서 <span className="text-[#ff453a]">*</span></label>
                                     <input 
                                         type="text"
                                         required
                                         value={formRequester}
                                         onChange={(e) => setFormRequester(e.target.value)}
+                                        onFocus={() => setShowRequesterSuggestions(true)}
+                                        onBlur={() => setTimeout(() => setShowRequesterSuggestions(false), 200)}
                                         placeholder="예시: 홍길동 / 메리츠증권"
                                         className="bg-[#2c2c2b] border border-[#3c3c3c] rounded-[8px] px-3.5 py-2.5 text-[13px] font-medium text-white placeholder-gray-600 focus:border-[#2997ff] focus:outline-none transition-colors"
                                     />
+                                    {showRequesterSuggestions && filteredRequesters.length > 0 && (
+                                        <div className="absolute left-0 right-0 top-[100%] mt-1 max-h-40 overflow-y-auto bg-[#2c2c2b] border border-[#4c4c4b] rounded-[8px] z-[99999] shadow-xl timeline-scrollbar">
+                                            {filteredRequesters.map((m, idx) => (
+                                                <div 
+                                                    key={idx}
+                                                    onClick={() => setFormRequester(`${m.staff_name} / ${m.org_name}`)}
+                                                    className="px-3.5 py-2 hover:bg-white/5 cursor-pointer text-left text-[13px] text-white transition-colors"
+                                                >
+                                                    {m.staff_name} <span className="text-[#86868B]">({m.org_name})</span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
                                 </div>
                                 <div className="flex flex-col gap-1.5 select-none">
                                     <label className="text-[12px] font-bold text-[#86868B]">프로젝트</label>
@@ -808,10 +866,10 @@ export default function PmoPopupManager() {
                                 </div>
                             </div>
 
-                            {/* Line 4: 원 수행부서 & 처리상태 */}
+                            {/* Line 4: 수행부서 & 처리상태 */}
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="flex flex-col gap-1.5 select-none">
-                                    <label className="text-[12px] font-bold text-[#86868B]">원 수행부서</label>
+                                    <label className="text-[12px] font-bold text-[#86868B]">수행부서</label>
                                     <div className="relative w-full">
                                         <select 
                                             value={formAssignedDeptCode}
@@ -896,15 +954,33 @@ export default function PmoPopupManager() {
 
                             {/* Text Area 3: 협업부서 & 메모 */}
                             <div className="grid grid-cols-2 gap-4">
-                                <div className="flex flex-col gap-1.5">
+                                <div className="flex flex-col gap-1.5 relative">
                                     <label className="text-[12px] font-bold text-[#86868B]">협업 부서</label>
                                     <input 
                                         type="text"
                                         value={formCoopDeptCodes}
-                                        onChange={(e) => setFormCoopDeptCodes(e.target.value)}
-                                        placeholder="예시: 사업관리2파트, 개발팀"
+                                        onChange={(e) => {
+                                            setFormCoopDeptCodes(e.target.value);
+                                            setShowCoopSuggestions(true);
+                                        }}
+                                        onFocus={() => setShowCoopSuggestions(true)}
+                                        onBlur={() => setTimeout(() => setShowCoopSuggestions(false), 200)}
+                                        placeholder="예시: 사업 PM 1, 공간솔루션-SSC"
                                         className="bg-[#2c2c2b] border border-[#3c3c3c] rounded-[8px] px-3.5 py-2.5 text-[13px] font-medium text-white placeholder-gray-600 focus:border-[#2997ff] focus:outline-none transition-colors"
                                     />
+                                    {showCoopSuggestions && filteredCoopDepts.length > 0 && (
+                                        <div className="absolute left-0 right-0 top-[100%] mt-1 max-h-40 overflow-y-auto bg-[#2c2c2b] border border-[#4c4c4b] rounded-[8px] z-[99999] shadow-xl timeline-scrollbar">
+                                            {filteredCoopDepts.map((d, idx) => (
+                                                <div 
+                                                    key={idx}
+                                                    onClick={() => handleSelectCoop(d.dept_name)}
+                                                    className="px-3.5 py-2 hover:bg-white/5 cursor-pointer text-left text-[13px] text-white transition-colors"
+                                                >
+                                                    {d.dept_name}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
                                 </div>
                                 <div className="flex flex-col gap-1.5">
                                     <label className="text-[12px] font-bold text-[#86868B]">메모</label>
