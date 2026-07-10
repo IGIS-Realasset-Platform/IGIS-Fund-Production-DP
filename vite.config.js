@@ -10,6 +10,7 @@ export default defineConfig(({ command, mode }) => ({
     tailwindcss(),
   ],
   server: {
+    allowedHosts: true,
     port: mode === 'staging' ? 8082 : 8081,
     strictPort: true, // 포트 꼬임 방지 (8081/8082가 아니면 차라리 에러를 띄움)
     headers: {
