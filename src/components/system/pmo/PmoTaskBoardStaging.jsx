@@ -3056,7 +3056,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                     )}
                                     
                                 </tbody>
-                                {totalPages > 1 && (
+                                {false && (
                                     <tfoot className="border-none bg-[#272726]">
                                         <tr className="bg-[#272726] h-[46px] select-none ">
                                             {/* 1. ID */}
@@ -3201,6 +3201,56 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                             </div>
                         </div>
                     </div>
+                    {/* Centered Pagination Row outside scrollable wrapper */}
+                    {totalPages > 1 && (
+                        <div className="w-full h-[46px] border-t border-[#3c3c3c]/50 flex items-center justify-center bg-[#272726] select-none z-10">
+                            <div className="flex items-center gap-1">
+                                {/* Prev Button */}
+                                <button
+                                    type="button"
+                                    disabled={currentPage === 1}
+                                    onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                                    className="w-7 h-7 flex items-center justify-center rounded-[6px] border border-[#3c3c3c] transition-all text-[#86868B] hover:text-white cursor-pointer hover:bg-white/5 disabled:opacity-30 disabled:cursor-not-allowed"
+                                >
+                                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 19l-7-7 7-7" />
+                                    </svg>
+                                </button>
+                                
+                                {/* Page Numbers */}
+                                {Array.from({ length: totalPages }).map((_, pIdx) => {
+                                    const pageNum = pIdx + 1;
+                                    const isCurrent = pageNum === currentPage;
+                                    return (
+                                        <button
+                                            type="button"
+                                            key={pageNum}
+                                            onClick={() => setCurrentPage(pageNum)}
+                                            className={`w-7 h-7 rounded-[6px] text-[12px] font-bold transition-all cursor-pointer ${
+                                                isCurrent
+                                                    ? 'bg-[#bdbba7] text-black shadow-sm'
+                                                    : 'bg-transparent text-[#86868B] hover:text-white hover:bg-white/5 border border-transparent hover:border-[#3c3c3c]'
+                                            }`}
+                                        >
+                                            {pageNum}
+                                        </button>
+                                    );
+                                })}
+                                
+                                {/* Next Button */}
+                                <button
+                                    type="button"
+                                    disabled={currentPage === totalPages}
+                                    onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                                    className="w-7 h-7 flex items-center justify-center rounded-[6px] border border-[#3c3c3c] transition-all text-[#86868B] hover:text-white cursor-pointer hover:bg-white/5 disabled:opacity-30 disabled:cursor-not-allowed"
+                                >
+                                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 5l7 7-7 7" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    )}
                 </div>
 
             )}
@@ -3945,7 +3995,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                 </div>
                                 
                                 {/* Content Body */}
-                                <div className="flex-1 overflow-y-auto px-6 py-6 space-y-[10px] timeline-scrollbar">
+                                <div className="flex-1 overflow-y-auto px-6 py-6 timeline-scrollbar">
                                     {/* Task Name */}
                                     <div className="space-y-1">
                                         <h2 className="text-[22px] font-bold text-[#bdbba7] leading-snug">
@@ -3982,7 +4032,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                     
                                     {/* Blocker Alert Banner */}
                                     {isBlockerVal && (
-                                        <div className="p-4 rounded-[12px] bg-red-500/10 border border-red-500/20 flex items-start gap-3">
+                                        <div className="p-4 rounded-[12px] bg-red-500/10 border border-red-500/20 flex items-start gap-3 mt-6">
                                             <div className="space-y-1">
                                                 <h4 className="text-[13px] font-bold text-red-400">현재 진행 병목(Blocker) 상황</h4>
                                                 <p className="text-[12px] text-gray-300 leading-relaxed">
@@ -3993,7 +4043,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                     )}
                                     
                                     {/* Metadata Card Box */}
-                                    <div className="p-5 rounded-[16px] bg-white/[0.02] border border-[#2c2c2e] space-y-[14px] text-[13px]">
+                                    <div className={`p-5 rounded-[16px] bg-white/[0.02] border border-[#2c2c2e] space-y-[14px] text-[13px] ${isBlockerVal ? 'mt-[10px]' : 'mt-6'}`}>
                                         {/* Row 1: 주관부서, 담당자, 협조부서 */}
                                         <div className="grid grid-cols-4 gap-4">
                                             <div className="space-y-[3px]">
