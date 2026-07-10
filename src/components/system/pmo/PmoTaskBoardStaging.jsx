@@ -4086,7 +4086,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                     </div>
                                     
                                     {/* Deep Dive Narrative Cards (Single unified box) */}
-                                    <div className="p-5 rounded-[16px] bg-white/[0.02] border border-[#2c2c2e] space-y-[14px]">
+                                    <div className="p-5 rounded-[16px] bg-white/[0.02] border border-[#2c2c2e] flex flex-col">
                                         {/* 업무 목적 */}
                                         <div className="space-y-0">
                                             <h4 className="text-[11px] font-bold text-[#86868B]">업무 목적</h4>
@@ -4095,7 +4095,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                             </p>
                                         </div>
                                         
-                                        <div className="h-[1px] bg-[#3c3c3c]/30"></div>
+                                        <div className="h-[1px] bg-[#3c3c3c]/30 mt-[10px] mb-[12px]"></div>
                                         
                                         {/* 필요 산출물 */}
                                         <div className="space-y-0">
@@ -4105,7 +4105,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                             </p>
                                         </div>
                                         
-                                        <div className="h-[1px] bg-[#3c3c3c]/30"></div>
+                                        <div className="h-[1px] bg-[#3c3c3c]/30 mt-[10px] mb-[12px]"></div>
                                         
                                         {/* 다음 액션 */}
                                         <div className="space-y-0">
@@ -4117,7 +4117,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
 
                                         {agendaReason && (
                                             <>
-                                                <div className="h-[1px] bg-[#3c3c3c]/30"></div>
+                                                <div className="h-[1px] bg-[#3c3c3c]/30 mt-[10px] mb-[12px]"></div>
                                                 {/* 회의 상정 사유 */}
                                                 <div className="space-y-0">
                                                     <h4 className="text-[11px] font-bold text-[#86868B]">회의 상정 사유 (Agenda Context)</h4>
