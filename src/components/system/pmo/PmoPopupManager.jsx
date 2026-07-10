@@ -29,7 +29,7 @@ const IMPACT_OPTIONS = ['높음', '보통', '낮음'];
 const STATUS_OPTIONS = ['접수', '위임', '보류', '반려'];
 
 export default function PmoPopupManager() {
-    const { memberInfo } = useAuth();
+    const { memberInfo, user } = useAuth();
     const [popups, setPopups] = useState([]);
     const [projects, setProjects] = useState([]);
     const [departments, setDepartments] = useState([]);
@@ -74,7 +74,7 @@ export default function PmoPopupManager() {
     const [tempRequesterVal, setTempRequesterVal] = useState('');
 
     // Check Roles
-    const currentUserEmail = memberInfo?.email || '';
+    const currentUserEmail = user?.email || memberInfo?.email || '';
     const isAdmin = memberInfo ? (memberInfo.workspace_code === 'WS_PM' || ['master', 'director'].includes(memberInfo.role_code)) : true;
 
     // Load Initial Data
