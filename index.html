@@ -64,8 +64,8 @@
                 var qIdx = decoded.indexOf('&q=');
                 var path = qIdx >= 0 ? decoded.slice(0, qIdx) : decoded;
                 var query = qIdx >= 0 ? '?' + decoded.slice(qIdx + 3) : '';
-                // Remove trailing slash from pathname to avoid double-slash
-                var base = location.pathname.split('?')[0].replace(/\/$/, '');
+                // Remove trailing slash and index.html from pathname to avoid path corruption
+                var base = location.pathname.split('?')[0].replace(/index\.html$/, '').replace(/\/$/, '');
                 history.replaceState(null, null, base + path + query + location.hash);
             }
         })();
