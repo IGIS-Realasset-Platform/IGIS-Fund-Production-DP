@@ -945,7 +945,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
             )}
             
             
-            <div className={isTaskBoard ? "mt-[-8px] mb-[24px]" : "-mx-[7px] p-[6px] border border-[#333] rounded-[30px] mb-[40px]"}>
+            <div className={isTaskBoard ? "mt-0 mb-0" : "-mx-[7px] p-[6px] border border-[#333] rounded-[30px] mb-[40px]"}>
                 <div className="w-full flex flex-col mt-0">{/* Task Input Form */}
             {!isTaskBoard && (
                 <LogWriteBox 
@@ -1748,7 +1748,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
             </div>
 
             {isTaskBoard && (
-                <div className="mt-8 w-full">
+                <div className="mt-6 w-full">
                     <LogWriteBox 
                         memberInfo={memberInfo}
                         masterStakeholders={masterStakeholders}
