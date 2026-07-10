@@ -106,9 +106,8 @@ export default function PmoPopupManager() {
             if (!deptErr && deptData) setDepartments(deptData);
             else setDepartments(FALLBACK_DEPARTMENTS);
 
-            // 4. Fetch Pilot Members for autocomplete
+            // 4. Fetch Pilot Members for autocomplete (public schema)
             const { data: memberData, error: memberErr } = await supabase
-                .schema('iota_v2')
                 .from('iota_seoul_pilot_members')
                 .select('staff_name, org_name');
             if (!memberErr && memberData) setPilotMembers(memberData);
