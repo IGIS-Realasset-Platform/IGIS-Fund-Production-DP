@@ -324,35 +324,34 @@ export default function PmoPopupManager() {
     };
 
     return (
-        <div className="w-full flex-1 flex flex-col pt-[30px] pb-[60px] px-8 select-none bg-[#1C1C1E] min-h-screen text-white">
+        <div className="w-full flex-1 flex flex-col pt-[48px] pb-[200px] max-w-[1200px] mx-auto select-none text-white bg-transparent">
             <Toaster position="top-center" reverseOrder={false} />
 
             {/* Header Title Section */}
-            <div className="w-full flex justify-between items-end mb-[24px]">
-                <div className="text-left">
-                    <div className="flex items-center gap-[12px] mb-[6px]">
-                        <span className="text-[12px] font-bold text-[#82afb9] bg-[#82afb9]/10 border border-[#82afb9]/25 px-2 py-0.5 rounded-[6px]">
-                            팝업요청관제
-                        </span>
-                        <span className="text-[14px] text-[#A1A1AA] font-semibold">
-                            단발성 요청은 바로 수행하지 않고 접수/위임/보류/반려 판단
-                        </span>
-                    </div>
-                    <h1 className="text-[32px] font-bold text-white tracking-tight leading-none">단발업무 관리</h1>
+            <div className="w-full flex justify-between items-end mb-[32px]">
+                <div className="flex flex-col text-left">
+                    <h1 className="text-[36px] font-bold text-white tracking-tight leading-none mb-[8px]">단발업무 관리</h1>
+                    <p className="text-[16px] text-[#86868B] leading-[26px]">단발성 요청은 바로 수행하지 않고 접수/위임/보류/반려 판단</p>
                 </div>
 
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 select-none">
                     <button 
                         onClick={fetchData}
-                        className="px-4 py-2 bg-[#2C2C2E] hover:bg-[#3A3A3C] border border-[#3C3C3C] rounded-[10px] text-[13px] font-bold text-[#A1A1AA] hover:text-white transition-all cursor-pointer flex items-center gap-1.5"
+                        className="px-4 py-2 bg-[#2c2c2b]/80 border border-[#3c3c3c] hover:bg-[#323231] hover:border-[#4c4c4b] rounded-[8px] text-[13px] font-bold text-[#A1A1AA] hover:text-white transition-all cursor-pointer flex items-center gap-1.5"
                     >
-                        🔄 새로고침
+                        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 1121.21 8H17" />
+                        </svg>
+                        새로고침
                     </button>
                     <button 
                         onClick={openCreateModal}
-                        className="px-5 py-2 bg-[#2997ff] hover:bg-[#147ce5] rounded-[10px] text-[13px] font-bold text-white transition-all cursor-pointer flex items-center gap-1 shadow-lg shadow-[#2997ff]/10"
+                        className="px-4 py-2 bg-[#2997ff]/10 border border-[#2997ff]/20 hover:bg-[#2997ff]/20 text-[#2997ff] rounded-[8px] text-[13px] font-bold transition-all cursor-pointer flex items-center gap-1"
                     >
-                        ➕ 단발업무 등록
+                        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" />
+                        </svg>
+                        단발업무 등록
                     </button>
                 </div>
             </div>
@@ -361,35 +360,35 @@ export default function PmoPopupManager() {
             <div className="grid grid-cols-5 gap-3 mb-[24px]">
                 <div 
                     onClick={() => setFilterStatus('전체보기')}
-                    className={`p-4 rounded-[16px] border transition-all cursor-pointer text-left ${filterStatus === '전체보기' ? 'bg-[#2997ff]/10 border-[#2997ff] shadow-md shadow-[#2997ff]/5' : 'bg-[#2C2C2E] border-[#3C3C3C] hover:border-[#555]'}`}
+                    className={`p-4 rounded-[16px] border transition-all cursor-pointer text-left ${filterStatus === '전체보기' ? 'bg-[#2997ff]/10 border-[#2997ff] shadow-md shadow-[#2997ff]/5' : 'bg-[#2c2c2b]/60 border-[#3c3c3c] hover:border-[#555]'}`}
                 >
                     <span className="text-[12px] font-bold text-[#86868B] block mb-1">전체 요청</span>
                     <span className="text-[24px] font-bold text-white">{metrics.total} <span className="text-[13px] font-medium text-[#86868B]">건</span></span>
                 </div>
                 <div 
                     onClick={() => setFilterStatus('접수')}
-                    className={`p-4 rounded-[16px] border transition-all cursor-pointer text-left ${filterStatus === '접수' ? 'bg-[#0a84ff]/10 border-[#0a84ff] shadow-md shadow-[#0a84ff]/5' : 'bg-[#2C2C2E] border-[#3C3C3C] hover:border-[#555]'}`}
+                    className={`p-4 rounded-[16px] border transition-all cursor-pointer text-left ${filterStatus === '접수' ? 'bg-[#0a84ff]/10 border-[#0a84ff] shadow-md shadow-[#0a84ff]/5' : 'bg-[#2c2c2b]/60 border-[#3c3c3c] hover:border-[#555]'}`}
                 >
                     <span className="text-[12px] font-bold text-[#2997ff] block mb-1">접수 중</span>
                     <span className="text-[24px] font-bold text-[#2997ff]">{metrics.received} <span className="text-[13px] font-medium text-[#86868B]">건</span></span>
                 </div>
                 <div 
                     onClick={() => setFilterStatus('위임')}
-                    className={`p-4 rounded-[16px] border transition-all cursor-pointer text-left ${filterStatus === '위임' ? 'bg-[#30d158]/10 border-[#30d158] shadow-md shadow-[#30d158]/5' : 'bg-[#2C2C2E] border-[#3C3C3C] hover:border-[#555]'}`}
+                    className={`p-4 rounded-[16px] border transition-all cursor-pointer text-left ${filterStatus === '위임' ? 'bg-[#30d158]/10 border-[#30d158] shadow-md shadow-[#30d158]/5' : 'bg-[#2c2c2b]/60 border-[#3c3c3c] hover:border-[#555]'}`}
                 >
                     <span className="text-[12px] font-bold text-[#30d158] block mb-1">위임됨</span>
                     <span className="text-[24px] font-bold text-[#30d158]">{metrics.delegated} <span className="text-[13px] font-medium text-[#86868B]">건</span></span>
                 </div>
                 <div 
                     onClick={() => setFilterStatus('보류')}
-                    className={`p-4 rounded-[16px] border transition-all cursor-pointer text-left ${filterStatus === '보류' ? 'bg-[#ffd60a]/10 border-[#ffd60a] shadow-md shadow-[#ffd60a]/5' : 'bg-[#2C2C2E] border-[#3C3C3C] hover:border-[#555]'}`}
+                    className={`p-4 rounded-[16px] border transition-all cursor-pointer text-left ${filterStatus === '보류' ? 'bg-[#ffd60a]/10 border-[#ffd60a] shadow-md shadow-[#ffd60a]/5' : 'bg-[#2c2c2b]/60 border-[#3c3c3c] hover:border-[#555]'}`}
                 >
                     <span className="text-[12px] font-bold text-[#ffd60a] block mb-1">보류 중</span>
                     <span className="text-[24px] font-bold text-[#ffd60a]">{metrics.pending} <span className="text-[13px] font-medium text-[#86868B]">건</span></span>
                 </div>
                 <div 
                     onClick={() => setFilterStatus('반려')}
-                    className={`p-4 rounded-[16px] border transition-all cursor-pointer text-left ${filterStatus === '반려' ? 'bg-[#ff453a]/10 border-[#ff453a] shadow-md shadow-[#ff453a]/5' : 'bg-[#2C2C2E] border-[#3C3C3C] hover:border-[#555]'}`}
+                    className={`p-4 rounded-[16px] border transition-all cursor-pointer text-left ${filterStatus === '반려' ? 'bg-[#ff453a]/10 border-[#ff453a] shadow-md shadow-[#ff453a]/5' : 'bg-[#2c2c2b]/60 border-[#3c3c3c] hover:border-[#555]'}`}
                 >
                     <span className="text-[12px] font-bold text-[#ff453a] block mb-1">반려됨</span>
                     <span className="text-[24px] font-bold text-[#ff453a]">{metrics.rejected} <span className="text-[13px] font-medium text-[#86868B]">건</span></span>
@@ -397,7 +396,7 @@ export default function PmoPopupManager() {
             </div>
 
             {/* Filters Bar */}
-            <div className="bg-[#2C2C2E] border border-[#3C3C3C] rounded-[16px] p-4 mb-[16px] flex flex-wrap gap-4 items-center justify-between">
+            <div className="bg-[#2c2c2b]/30 border border-[#3c3c3c] rounded-[16px] p-4 mb-[16px] flex flex-wrap gap-4 items-center justify-between">
                 <div className="flex flex-wrap items-center gap-3 flex-1 min-w-0">
                     {/* Search query */}
                     <div className="relative w-[280px] shrink-0">
@@ -406,7 +405,7 @@ export default function PmoPopupManager() {
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                             placeholder="요청자, 요청업무, 목적 검색..."
-                            className="w-full pl-9 pr-4 py-2 bg-[#1C1C1E] border border-[#3C3C3C] rounded-[10px] text-[13px] font-medium text-white placeholder-[#86868B] focus:border-[#2997ff] focus:outline-none transition-colors"
+                            className="w-full pl-9 pr-4 py-2 bg-[#2c2c2b] border border-[#3c3c3c] rounded-[8px] text-[13px] font-medium text-white placeholder-[#86868B] focus:border-[#2997ff] focus:outline-none transition-colors"
                         />
                         <svg className="w-4 h-4 text-[#86868B] absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -414,84 +413,105 @@ export default function PmoPopupManager() {
                     </div>
 
                     {/* Filter Project */}
-                    <div className="flex items-center gap-1.5">
+                    <div className="flex items-center gap-1.5 select-none">
                         <span className="text-[12px] text-[#86868B] font-bold">프로젝트:</span>
-                        <select 
-                            value={filterProject}
-                            onChange={(e) => setFilterProject(e.target.value)}
-                            className="bg-[#1C1C1E] border border-[#3C3C3C] rounded-[10px] px-3 py-2 text-[13px] font-bold text-white focus:border-[#2997ff] focus:outline-none transition-colors"
-                        >
-                            <option value="전체보기">전체보기</option>
-                            {projects.map(p => (
-                                <option key={p.project_code} value={p.project_code}>{p.project_name}</option>
-                            ))}
-                        </select>
+                        <div className="relative inline-block">
+                            <select 
+                                value={filterProject}
+                                onChange={(e) => setFilterProject(e.target.value)}
+                                className="appearance-none bg-[#2c2c2b] border border-[#3c3c3c] rounded-[8px] pl-3 pr-8 py-1.5 text-[13px] font-bold text-white focus:border-[#2997ff] focus:outline-none transition-colors cursor-pointer"
+                            >
+                                <option value="전체보기">전체보기</option>
+                                {projects.map(p => (
+                                    <option key={p.project_code} value={p.project_code}>{p.project_name}</option>
+                                ))}
+                            </select>
+                            <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-[#86868B] z-10">
+                                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </div>
+                        </div>
                     </div>
 
                     {/* Filter Category */}
-                    <div className="flex items-center gap-1.5">
+                    <div className="flex items-center gap-1.5 select-none">
                         <span className="text-[12px] text-[#86868B] font-bold">카테고리:</span>
-                        <select 
-                            value={filterCategory}
-                            onChange={(e) => setFilterCategory(e.target.value)}
-                            className="bg-[#1C1C1E] border border-[#3C3C3C] rounded-[10px] px-3 py-2 text-[13px] font-bold text-white focus:border-[#2997ff] focus:outline-none transition-colors"
-                        >
-                            <option value="전체보기">전체보기</option>
-                            {CATEGORY_OPTIONS.map(opt => (
-                                <option key={opt} value={opt}>{opt}</option>
-                            ))}
-                        </select>
+                        <div className="relative inline-block">
+                            <select 
+                                value={filterCategory}
+                                onChange={(e) => setFilterCategory(e.target.value)}
+                                className="appearance-none bg-[#2c2c2b] border border-[#3c3c3c] rounded-[8px] pl-3 pr-8 py-1.5 text-[13px] font-bold text-white focus:border-[#2997ff] focus:outline-none transition-colors cursor-pointer"
+                            >
+                                <option value="전체보기">전체보기</option>
+                                {CATEGORY_OPTIONS.map(opt => (
+                                    <option key={opt} value={opt}>{opt}</option>
+                                ))}
+                            </select>
+                            <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-[#86868B] z-10">
+                                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </div>
+                        </div>
                     </div>
 
                     {/* Filter Status */}
-                    <div className="flex items-center gap-1.5">
+                    <div className="flex items-center gap-1.5 select-none">
                         <span className="text-[12px] text-[#86868B] font-bold">처리방침:</span>
-                        <select 
-                            value={filterStatus}
-                            onChange={(e) => setFilterStatus(e.target.value)}
-                            className="bg-[#1C1C1E] border border-[#3C3C3C] rounded-[10px] px-3 py-2 text-[13px] font-bold text-white focus:border-[#2997ff] focus:outline-none transition-colors"
-                        >
-                            <option value="전체보기">전체보기</option>
-                            {STATUS_OPTIONS.map(opt => (
-                                <option key={opt} value={opt}>{opt}</option>
-                            ))}
-                        </select>
+                        <div className="relative inline-block">
+                            <select 
+                                value={filterStatus}
+                                onChange={(e) => setFilterStatus(e.target.value)}
+                                className="appearance-none bg-[#2c2c2b] border border-[#3c3c3c] rounded-[8px] pl-3 pr-8 py-1.5 text-[13px] font-bold text-white focus:border-[#2997ff] focus:outline-none transition-colors cursor-pointer"
+                            >
+                                <option value="전체보기">전체보기</option>
+                                {STATUS_OPTIONS.map(opt => (
+                                    <option key={opt} value={opt}>{opt}</option>
+                                ))}
+                            </select>
+                            <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-[#86868B] z-10">
+                                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div className="text-[13px] text-[#86868B] font-bold">
+                <div className="text-[13px] text-[#86868B] font-bold select-none">
                     검색 결과: <span className="text-white">{filteredPopups.length}</span> 건
                 </div>
             </div>
 
             {/* Spreadsheet Grid Table */}
             {loading ? (
-                <div className="w-full h-[360px] bg-[#2C2C2E] border border-[#3C3C3C] rounded-[24px] flex items-center justify-center">
+                <div className="w-full h-[360px] bg-transparent border border-[#3c3c3c] rounded-[24px] flex items-center justify-center">
                     <span className="text-[#86868B] text-[15px] animate-pulse">요청 데이터를 연동하고 있습니다...</span>
                 </div>
             ) : (
-                <div className="w-full border border-[#3C3C3C] bg-[#272726] rounded-[16px] overflow-hidden shadow-2xl flex flex-col">
+                <div className="w-full border border-[#3c3c3c] bg-[#272726] rounded-[24px] overflow-hidden shadow-2xl flex flex-col">
                     <div className="overflow-x-auto w-full max-w-full">
                         <table className="w-full text-left table-fixed border-collapse min-w-[1930px] select-text">
-                            <thead>
-                                <tr className="bg-[#1A365D] border-b border-[#3C3C3C]">
-                                    <th className="px-3 py-3 text-[13px] font-bold text-white border-r border-[#3C3C3C] text-center w-[100px]">접수일</th>
-                                    <th className="px-3 py-3 text-[13px] font-bold text-white border-r border-[#3C3C3C] w-[140px]">요청자/부서</th>
-                                    <th className="px-3 py-3 text-[13px] font-bold text-white border-r border-[#3C3C3C] w-[120px]">프로젝트</th>
-                                    <th className="px-3 py-3 text-[13px] font-bold text-white border-r border-[#3C3C3C] w-[130px]">카테고리</th>
-                                    <th className="px-3 py-3 text-[13px] font-bold text-white border-r border-[#3C3C3C] w-[250px]">요청업무</th>
-                                    <th className="px-3 py-3 text-[13px] font-bold text-white border-r border-[#3C3C3C] w-[160px]">요청목적</th>
-                                    <th className="px-3 py-3 text-[13px] font-bold text-white border-r border-[#3C3C3C] w-[160px]">필요 산출물</th>
-                                    <th className="px-3 py-3 text-[13px] font-bold text-white border-r border-[#3C3C3C] text-center w-[100px]">요청기한</th>
-                                    <th className="px-3 py-3 text-[13px] font-bold text-white border-r border-[#3C3C3C] w-[130px]">원 수행부서</th>
-                                    <th className="px-3 py-3 text-[13px] font-bold text-white border-r border-[#3C3C3C] w-[130px]">협업부서</th>
-                                    <th className="px-3 py-3 text-[13px] font-bold text-white border-r border-[#3C3C3C] text-center w-[110px]">정규업무 영향</th>
-                                    <th className="px-3 py-3 text-[13px] font-bold text-white border-r border-[#3C3C3C] text-center w-[110px]">처리방침</th>
-                                    <th className="px-3 py-3 text-[13px] font-bold text-white border-r border-[#3C3C3C] w-[200px]">메모</th>
-                                    <th className="px-3 py-3 text-[13px] font-bold text-white text-center w-[90px]">작업</th>
+                            <thead className="bg-transparent">
+                                <tr className="border-b border-[#3c3c3c]">
+                                    <th className="px-3 py-3.5 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c] text-center w-[100px]">접수일</th>
+                                    <th className="px-3 py-3.5 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c] w-[140px]">요청자/부서</th>
+                                    <th className="px-3 py-3.5 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c] w-[120px]">프로젝트</th>
+                                    <th className="px-3 py-3.5 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c] w-[130px]">카테고리</th>
+                                    <th className="px-3 py-3.5 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c] w-[250px]">요청업무</th>
+                                    <th className="px-3 py-3.5 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c] w-[160px]">요청목적</th>
+                                    <th className="px-3 py-3.5 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c] w-[160px]">필요 산출물</th>
+                                    <th className="px-3 py-3.5 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c] text-center w-[100px]">요청기한</th>
+                                    <th className="px-3 py-3.5 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c] w-[130px]">원 수행부서</th>
+                                    <th className="px-3 py-3.5 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c] w-[130px]">협업부서</th>
+                                    <th className="px-3 py-3.5 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c] text-center w-[110px]">정규업무 영향</th>
+                                    <th className="px-3 py-3.5 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c] text-center w-[110px]">처리방침</th>
+                                    <th className="px-3 py-3.5 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c] w-[200px]">메모</th>
+                                    <th className="px-3 py-3.5 text-[13px] font-bold text-[#86868B] text-center w-[90px]">작업</th>
                                 </tr>
                             </thead>
-                            <tbody className="divide-y divide-[#3C3C3C] bg-[#1E1E1E]">
+                            <tbody className="divide-y divide-[#3c3c3c] bg-transparent">
                                 {filteredPopups.length === 0 ? (
                                     <tr>
                                         <td colSpan={14} className="py-20 text-center text-[#86868B] text-[14px]">
@@ -507,77 +527,77 @@ export default function PmoPopupManager() {
                                             <tr 
                                                 key={p.id} 
                                                 onDoubleClick={() => canEdit && openEditModal(p)}
-                                                className={`hover:bg-[#2C2C2E] transition-colors group text-[13px] ${
-                                                    index % 2 === 1 ? 'bg-[#222224]' : ''
+                                                className={`hover:bg-[#2f2f2e] transition-colors group text-[13px] ${
+                                                    index % 2 === 1 ? 'bg-[#2c2c2b]/30' : 'bg-transparent'
                                                 }`}
                                             >
                                                 {/* Date */}
-                                                <td className="px-3 py-3 border-r border-[#3C3C3C] text-[#A1A1AA] text-center font-mono font-medium">
+                                                <td className="px-3 py-3 border-r border-[#3c3c3c] text-[#A1A1AA] text-center font-mono font-medium">
                                                     {p.request_date || '-'}
                                                 </td>
 
                                                 {/* Requester */}
-                                                <td className="px-3 py-3 border-r border-[#3C3C3C] font-bold text-[#E5E5E5] truncate" title={p.requester}>
+                                                <td className="px-3 py-3 border-r border-[#3c3c3c] font-bold text-[#E5E5E5] truncate" title={p.requester}>
                                                     {p.requester}
                                                 </td>
 
                                                 {/* Project */}
-                                                <td className="px-3 py-3 border-r border-[#3C3C3C] font-semibold text-[#bdbba7] truncate" title={getProjectName(p.project_code)}>
+                                                <td className="px-3 py-3 border-r border-[#3c3c3c] font-semibold text-[#bdbba7] truncate" title={getProjectName(p.project_code)}>
                                                     {getProjectName(p.project_code)}
                                                 </td>
 
                                                 {/* Category */}
-                                                <td className="px-3 py-3 border-r border-[#3C3C3C] text-white/80 font-medium truncate" title={p.category_name}>
+                                                <td className="px-3 py-3 border-r border-[#3c3c3c] text-white/80 font-medium truncate" title={p.category_name}>
                                                     {p.category_name || '-'}
                                                 </td>
 
                                                 {/* Task Details */}
-                                                <td className="px-3 py-3 border-r border-[#3C3C3C] text-white font-medium break-words leading-relaxed whitespace-pre-wrap">
+                                                <td className="px-3 py-3 border-r border-[#3c3c3c] text-white font-medium break-words leading-relaxed whitespace-pre-wrap">
                                                     {p.request_detail}
                                                 </td>
 
                                                 {/* Purpose */}
-                                                <td className="px-3 py-3 border-r border-[#3C3C3C] text-[#A1A1AA] break-words whitespace-pre-wrap leading-relaxed">
+                                                <td className="px-3 py-3 border-r border-[#3c3c3c] text-[#A1A1AA] break-words whitespace-pre-wrap leading-relaxed">
                                                     {p.purpose || '-'}
                                                 </td>
 
                                                 {/* Deliverables */}
-                                                <td className="px-3 py-3 border-r border-[#3C3C3C] text-[#86868B] font-medium break-words whitespace-pre-wrap leading-relaxed">
+                                                <td className="px-3 py-3 border-r border-[#3c3c3c] text-[#86868B] font-medium break-words whitespace-pre-wrap leading-relaxed">
                                                     {p.deliverables || '-'}
                                                 </td>
 
                                                 {/* Deadline */}
-                                                <td className="px-3 py-3 border-r border-[#3C3C3C] text-[#fbbf24] text-center font-mono font-semibold">
+                                                <td className="px-3 py-3 border-r border-[#3c3c3c] text-[#fbbf24] text-center font-mono font-semibold">
                                                     {p.due_date || '-'}
                                                 </td>
 
                                                 {/* Original Executing Department */}
-                                                <td className="px-3 py-3 border-r border-[#3C3C3C] font-semibold text-white/80 truncate" title={getDeptName(p.assigned_dept_code)}>
+                                                <td className="px-3 py-3 border-r border-[#3c3c3c] font-semibold text-white/80 truncate" title={getDeptName(p.assigned_dept_code)}>
                                                     {getDeptName(p.assigned_dept_code)}
                                                 </td>
 
                                                 {/* Collaborating Department */}
-                                                <td className="px-3 py-3 border-r border-[#3C3C3C] text-[#A1A1AA] truncate" title={p.coop_dept_codes}>
+                                                <td className="px-3 py-3 border-r border-[#3c3c3c] text-[#A1A1AA] truncate" title={p.coop_dept_codes}>
                                                     {p.coop_dept_codes || '-'}
                                                 </td>
 
                                                 {/* Impact on Regular Tasks */}
-                                                <td className="px-3 py-3 border-r border-[#3C3C3C] text-center">
+                                                <td className="px-3 py-3 border-r border-[#3c3c3c] text-center">
                                                     <span className={getImpactStyle(p.impact_level)}>
                                                         {p.impact_level || '보통'}
                                                     </span>
                                                 </td>
 
                                                 {/* Processing Policy (Handling Status) */}
-                                                <td className="px-3 py-3 border-r border-[#3C3C3C] text-center relative select-none">
+                                                <td className="px-3 py-3 border-r border-[#3c3c3c] text-center relative select-none">
                                                     {activeStatusSelectId === p.id && isAdmin ? (
-                                                        <div className="absolute inset-0 flex items-center justify-center p-1 bg-[#1E1E1E] z-10">
+                                                        <div className="absolute inset-0 flex items-center justify-center p-1 bg-[#2C2C2E] z-10">
                                                             <select
                                                                 value={p.handling_status}
                                                                 onChange={(e) => handleInlineStatusChange(p.id, e.target.value)}
                                                                 onBlur={() => setActiveStatusSelectId(null)}
                                                                 autoFocus
-                                                                className="w-full bg-[#2C2C2E] text-white border border-[#555] rounded px-1.5 py-1 text-[12px] font-bold outline-none"
+                                                                className="w-full bg-[#3a3a39] text-white border border-[#444] rounded px-1.5 py-1 text-[12px] font-bold outline-none cursor-pointer"
                                                             >
                                                                 {STATUS_OPTIONS.map(opt => (
                                                                     <option key={opt} value={opt}>{opt}</option>
@@ -597,7 +617,7 @@ export default function PmoPopupManager() {
                                                 </td>
 
                                                 {/* Memo */}
-                                                <td className="px-3 py-3 border-r border-[#3C3C3C] text-[#86868B] italic break-words whitespace-pre-wrap leading-relaxed">
+                                                <td className="px-3 py-3 border-r border-[#3c3c3c] text-[#86868B] italic break-words whitespace-pre-wrap leading-relaxed">
                                                     {p.memo || '-'}
                                                 </td>
 
@@ -640,25 +660,20 @@ export default function PmoPopupManager() {
 
             {/* Delete Confirmation Modal */}
             {deleteTargetId && (
-                <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center z-50 transition-all select-none">
-                    <div className="bg-[#2C2C2E] border border-[#3C3C3C] w-full max-w-[340px] rounded-[20px] p-6 text-center shadow-2xl">
-                        <div className="w-12 h-12 rounded-full bg-[#ff453a]/15 text-[#ff453a] flex items-center justify-center mx-auto mb-4 border border-[#ff453a]/25">
-                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                            </svg>
-                        </div>
+                <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[200000] transition-all select-none">
+                    <div className="bg-[#272726] border border-[#3c3c3c] w-full max-w-[360px] rounded-[20px] p-6 text-center shadow-2xl">
                         <h3 className="text-[17px] font-bold text-white mb-2">단발업무 요청 삭제</h3>
                         <p className="text-[13px] text-[#A1A1AA] mb-6 leading-relaxed">정말로 이 요청 정보를 영구 삭제하시겠습니까?<br />삭제된 데이터는 복구할 수 없습니다.</p>
                         <div className="flex gap-2 justify-center">
                             <button 
                                 onClick={() => setDeleteTargetId(null)}
-                                className="px-4 py-2 bg-[#1C1C1E] border border-[#3C3C3C] text-[#86868B] hover:text-white rounded-[10px] text-[13px] font-bold transition-all cursor-pointer flex-1"
+                                className="px-4 py-2 bg-[#2c2c2b] border border-[#3c3c3c] text-[#86868B] hover:text-white rounded-[8px] text-[13px] font-bold transition-all cursor-pointer flex-1"
                             >
                                 취소
                             </button>
                             <button 
                                 onClick={handleDelete}
-                                className="px-4 py-2 bg-[#ff453a] hover:bg-[#e03b30] text-white rounded-[10px] text-[13px] font-bold transition-all cursor-pointer flex-1"
+                                className="px-4 py-2 bg-[#ff453a] hover:bg-[#e03b30] text-white rounded-[8px] text-[13px] font-bold transition-all cursor-pointer flex-1"
                             >
                                 삭제확인
                             </button>
@@ -669,11 +684,11 @@ export default function PmoPopupManager() {
 
             {/* Premium Create / Edit Modal Dialog */}
             {isModalOpen && (
-                <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center z-40 transition-all select-none">
-                    <div className="bg-[#2C2C2E] border border-[#3C3C3C] w-full max-w-2xl rounded-[24px] overflow-hidden shadow-2xl flex flex-col max-h-[90vh]">
+                <div className="fixed inset-0 bg-black/65 backdrop-blur-sm flex items-center justify-center z-[100000] transition-all select-none">
+                    <div className="bg-[#272726] border border-[#3c3c3c] w-full max-w-2xl rounded-[24px] overflow-hidden shadow-2xl flex flex-col max-h-[90vh]">
                         
                         {/* Modal Header */}
-                        <div className="px-6 py-5 border-b border-[#3C3C3C] flex justify-between items-center bg-[#1C1C1E]">
+                        <div className="px-6 py-5 border-b border-[#3c3c3c] flex justify-between items-center bg-[#2c2c2b]/30">
                             <div className="text-left">
                                 <span className="text-[11px] font-bold text-[#82afb9] bg-[#82afb9]/10 border border-[#82afb9]/25 px-2 py-0.5 rounded-[4px] uppercase tracking-wide">
                                     {modalMode === 'create' ? '새 안건 등록' : '정보 수정'}
@@ -684,7 +699,7 @@ export default function PmoPopupManager() {
                             </div>
                             <button 
                                 onClick={() => setIsModalOpen(false)}
-                                className="p-1.5 hover:bg-[#2C2C2E] rounded-full text-[#86868B] hover:text-white transition-colors cursor-pointer"
+                                className="p-1.5 hover:bg-[#333] rounded-full text-[#86868B] hover:text-white transition-colors cursor-pointer"
                             >
                                 <svg className="w-5.5 h-5.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
@@ -703,7 +718,7 @@ export default function PmoPopupManager() {
                                         type="date"
                                         value={formRequestDate}
                                         onChange={(e) => setFormRequestDate(e.target.value)}
-                                        className="bg-[#1C1C1E] border border-[#3C3C3C] rounded-[10px] px-3.5 py-2.5 text-[13px] font-bold text-white focus:border-[#2997ff] focus:outline-none transition-colors"
+                                        className="bg-[#2c2c2b] border border-[#3c3c3c] rounded-[8px] px-3.5 py-2.5 text-[13px] font-bold text-white focus:border-[#2997ff] focus:outline-none transition-colors"
                                     />
                                 </div>
                                 <div className="flex flex-col gap-1.5">
@@ -712,7 +727,7 @@ export default function PmoPopupManager() {
                                         type="date"
                                         value={formDueDate}
                                         onChange={(e) => setFormDueDate(e.target.value)}
-                                        className="bg-[#1C1C1E] border border-[#3C3C3C] rounded-[10px] px-3.5 py-2.5 text-[13px] font-bold text-white focus:border-[#2997ff] focus:outline-none transition-colors"
+                                        className="bg-[#2c2c2b] border border-[#3c3c3c] rounded-[8px] px-3.5 py-2.5 text-[13px] font-bold text-white focus:border-[#2997ff] focus:outline-none transition-colors"
                                     />
                                 </div>
                             </div>
@@ -727,81 +742,118 @@ export default function PmoPopupManager() {
                                         value={formRequester}
                                         onChange={(e) => setFormRequester(e.target.value)}
                                         placeholder="예시: 홍길동 / 메리츠증권"
-                                        className="bg-[#1C1C1E] border border-[#3C3C3C] rounded-[10px] px-3.5 py-2.5 text-[13px] font-medium text-white placeholder-gray-600 focus:border-[#2997ff] focus:outline-none transition-colors"
+                                        className="bg-[#2c2c2b] border border-[#3c3c3c] rounded-[8px] px-3.5 py-2.5 text-[13px] font-medium text-white placeholder-gray-600 focus:border-[#2997ff] focus:outline-none transition-colors"
                                     />
                                 </div>
-                                <div className="flex flex-col gap-1.5">
+                                <div className="flex flex-col gap-1.5 select-none">
                                     <label className="text-[12px] font-bold text-[#86868B]">프로젝트</label>
-                                    <select 
-                                        value={formProjectCode}
-                                        onChange={(e) => setFormProjectCode(e.target.value)}
-                                        className="bg-[#1C1C1E] border border-[#3C3C3C] rounded-[10px] px-3.5 py-2.5 text-[13px] font-bold text-white focus:border-[#2997ff] focus:outline-none transition-colors"
-                                    >
-                                        {projects.map(p => (
-                                            <option key={p.project_code} value={p.project_code}>{p.project_name}</option>
-                                        ))}
-                                    </select>
+                                    <div className="relative w-full">
+                                        <select 
+                                            value={formProjectCode}
+                                            onChange={(e) => setFormProjectCode(e.target.value)}
+                                            className="appearance-none w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[8px] pl-3.5 pr-10 py-2.5 text-[13px] font-bold text-white focus:border-[#2997ff] focus:outline-none transition-colors cursor-pointer"
+                                        >
+                                            {projects.map(p => (
+                                                <option key={p.project_code} value={p.project_code}>{p.project_name}</option>
+                                            ))}
+                                        </select>
+                                        <div className="absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-[#86868B] z-10">
+                                            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 9l-7 7-7-7" />
+                                            </svg>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
                             {/* Line 3: 카테고리 & 정규업무 영향도 */}
                             <div className="grid grid-cols-2 gap-4">
-                                <div className="flex flex-col gap-1.5">
+                                <div className="flex flex-col gap-1.5 select-none">
                                     <label className="text-[12px] font-bold text-[#86868B]">카테고리</label>
-                                    <select 
-                                        value={formCategoryName}
-                                        onChange={(e) => setFormCategoryName(e.target.value)}
-                                        className="bg-[#1C1C1E] border border-[#3C3C3C] rounded-[10px] px-3.5 py-2.5 text-[13px] font-bold text-white focus:border-[#2997ff] focus:outline-none transition-colors"
-                                    >
-                                        {CATEGORY_OPTIONS.map(opt => (
-                                            <option key={opt} value={opt}>{opt}</option>
-                                        ))}
-                                    </select>
+                                    <div className="relative w-full">
+                                        <select 
+                                            value={formCategoryName}
+                                            onChange={(e) => setFormCategoryName(e.target.value)}
+                                            className="appearance-none w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[8px] pl-3.5 pr-10 py-2.5 text-[13px] font-bold text-white focus:border-[#2997ff] focus:outline-none transition-colors cursor-pointer"
+                                        >
+                                            {CATEGORY_OPTIONS.map(opt => (
+                                                <option key={opt} value={opt}>{opt}</option>
+                                            ))}
+                                        </select>
+                                        <div className="absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-[#86868B] z-10">
+                                            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 9l-7 7-7-7" />
+                                            </svg>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div className="flex flex-col gap-1.5">
+                                <div className="flex flex-col gap-1.5 select-none">
                                     <label className="text-[12px] font-bold text-[#86868B]">정규업무 영향</label>
-                                    <select 
-                                        value={formImpactLevel}
-                                        onChange={(e) => setFormImpactLevel(e.target.value)}
-                                        className="bg-[#1C1C1E] border border-[#3C3C3C] rounded-[10px] px-3.5 py-2.5 text-[13px] font-bold text-white focus:border-[#2997ff] focus:outline-none transition-colors"
-                                    >
-                                        {IMPACT_OPTIONS.map(opt => (
-                                            <option key={opt} value={opt}>{opt}</option>
-                                        ))}
-                                    </select>
+                                    <div className="relative w-full">
+                                        <select 
+                                            value={formImpactLevel}
+                                            onChange={(e) => setFormImpactLevel(e.target.value)}
+                                            className="appearance-none w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[8px] pl-3.5 pr-10 py-2.5 text-[13px] font-bold text-white focus:border-[#2997ff] focus:outline-none transition-colors cursor-pointer"
+                                        >
+                                            {IMPACT_OPTIONS.map(opt => (
+                                                <option key={opt} value={opt}>{opt}</option>
+                                            ))}
+                                        </select>
+                                        <div className="absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-[#86868B] z-10">
+                                            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 9l-7 7-7-7" />
+                                            </svg>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
                             {/* Line 4: 원 수행부서 & 처리상태 */}
                             <div className="grid grid-cols-2 gap-4">
-                                <div className="flex flex-col gap-1.5">
+                                <div className="flex flex-col gap-1.5 select-none">
                                     <label className="text-[12px] font-bold text-[#86868B]">원 수행부서</label>
-                                    <select 
-                                        value={formAssignedDeptCode}
-                                        onChange={(e) => setFormAssignedDeptCode(e.target.value)}
-                                        className="bg-[#1C1C1E] border border-[#3C3C3C] rounded-[10px] px-3.5 py-2.5 text-[13px] font-bold text-white focus:border-[#2997ff] focus:outline-none transition-colors"
-                                    >
-                                        {departments.map(d => (
-                                            <option key={d.dept_code} value={d.dept_code}>{d.dept_name}</option>
-                                        ))}
-                                    </select>
+                                    <div className="relative w-full">
+                                        <select 
+                                            value={formAssignedDeptCode}
+                                            onChange={(e) => setFormAssignedDeptCode(e.target.value)}
+                                            className="appearance-none w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[8px] pl-3.5 pr-10 py-2.5 text-[13px] font-bold text-white focus:border-[#2997ff] focus:outline-none transition-colors cursor-pointer"
+                                        >
+                                            {departments.map(d => (
+                                                <option key={d.dept_code} value={d.dept_code}>{d.dept_name}</option>
+                                            ))}
+                                        </select>
+                                        <div className="absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-[#86868B] z-10">
+                                            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 9l-7 7-7-7" />
+                                            </svg>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div className="flex flex-col gap-1.5">
+                                <div className="flex flex-col gap-1.5 select-none">
                                     <label className="text-[12px] font-bold text-[#86868B]">처리방침 (상태)</label>
-                                    <select 
-                                        value={formHandlingStatus}
-                                        onChange={(e) => setFormHandlingStatus(e.target.value)}
-                                        disabled={!isAdmin}
-                                        className={`border rounded-[10px] px-3.5 py-2.5 text-[13px] font-bold outline-none transition-colors ${
-                                            isAdmin 
-                                            ? 'bg-[#1C1C1E] border-[#3C3C3C] text-white focus:border-[#2997ff]' 
-                                            : 'bg-[#222] border-transparent text-[#86868B] cursor-not-allowed'
-                                        }`}
-                                    >
-                                        {STATUS_OPTIONS.map(opt => (
-                                            <option key={opt} value={opt}>{opt}</option>
-                                        ))}
-                                    </select>
+                                    <div className="relative w-full">
+                                        <select 
+                                            value={formHandlingStatus}
+                                            onChange={(e) => setFormHandlingStatus(e.target.value)}
+                                            disabled={!isAdmin}
+                                            className={`appearance-none w-full border rounded-[8px] pl-3.5 pr-10 py-2.5 text-[13px] font-bold outline-none transition-colors ${
+                                                isAdmin 
+                                                ? 'bg-[#2c2c2b] border-[#3c3c3c] text-white focus:border-[#2997ff] cursor-pointer' 
+                                                : 'bg-[#222]/30 border-transparent text-[#86868B] cursor-not-allowed'
+                                            }`}
+                                        >
+                                            {STATUS_OPTIONS.map(opt => (
+                                                <option key={opt} value={opt}>{opt}</option>
+                                            ))}
+                                        </select>
+                                        {isAdmin && (
+                                            <div className="absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-[#86868B] z-10">
+                                                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 9l-7 7-7-7" />
+                                                </svg>
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
                             </div>
 
@@ -814,7 +866,7 @@ export default function PmoPopupManager() {
                                     value={formRequestDetail}
                                     onChange={(e) => setFormRequestDetail(e.target.value)}
                                     placeholder="구체적인 요청 업무 내용을 입력하세요."
-                                    className="bg-[#1C1C1E] border border-[#3C3C3C] rounded-[10px] px-3.5 py-2.5 text-[13px] font-medium text-white placeholder-gray-600 focus:border-[#2997ff] focus:outline-none transition-colors resize-none leading-relaxed"
+                                    className="bg-[#2c2c2b] border border-[#3c3c3c] rounded-[8px] px-3.5 py-2.5 text-[13px] font-medium text-white placeholder-gray-600 focus:border-[#2997ff] focus:outline-none transition-colors resize-none leading-relaxed"
                                 />
                             </div>
 
@@ -827,7 +879,7 @@ export default function PmoPopupManager() {
                                         value={formPurpose}
                                         onChange={(e) => setFormPurpose(e.target.value)}
                                         placeholder="예시: 대주단 보고 보고서용"
-                                        className="bg-[#1C1C1E] border border-[#3C3C3C] rounded-[10px] px-3.5 py-2.5 text-[13px] font-medium text-white placeholder-gray-600 focus:border-[#2997ff] focus:outline-none transition-colors"
+                                        className="bg-[#2c2c2b] border border-[#3c3c3c] rounded-[8px] px-3.5 py-2.5 text-[13px] font-medium text-white placeholder-gray-600 focus:border-[#2997ff] focus:outline-none transition-colors"
                                     />
                                 </div>
                                 <div className="flex flex-col gap-1.5">
@@ -837,7 +889,7 @@ export default function PmoPopupManager() {
                                         value={formDeliverables}
                                         onChange={(e) => setFormDeliverables(e.target.value)}
                                         placeholder="예시: 한 장짜리 요약 PDF"
-                                        className="bg-[#1C1C1E] border border-[#3C3C3C] rounded-[10px] px-3.5 py-2.5 text-[13px] font-medium text-white placeholder-gray-600 focus:border-[#2997ff] focus:outline-none transition-colors"
+                                        className="bg-[#2c2c2b] border border-[#3c3c3c] rounded-[8px] px-3.5 py-2.5 text-[13px] font-medium text-white placeholder-gray-600 focus:border-[#2997ff] focus:outline-none transition-colors"
                                     />
                                 </div>
                             </div>
@@ -851,7 +903,7 @@ export default function PmoPopupManager() {
                                         value={formCoopDeptCodes}
                                         onChange={(e) => setFormCoopDeptCodes(e.target.value)}
                                         placeholder="예시: 사업관리2파트, 개발팀"
-                                        className="bg-[#1C1C1E] border border-[#3C3C3C] rounded-[10px] px-3.5 py-2.5 text-[13px] font-medium text-white placeholder-gray-600 focus:border-[#2997ff] focus:outline-none transition-colors"
+                                        className="bg-[#2c2c2b] border border-[#3c3c3c] rounded-[8px] px-3.5 py-2.5 text-[13px] font-medium text-white placeholder-gray-600 focus:border-[#2997ff] focus:outline-none transition-colors"
                                     />
                                 </div>
                                 <div className="flex flex-col gap-1.5">
@@ -861,7 +913,7 @@ export default function PmoPopupManager() {
                                         value={formMemo}
                                         onChange={(e) => setFormMemo(e.target.value)}
                                         placeholder="특이사항 및 제언 작성"
-                                        className="bg-[#1C1C1E] border border-[#3C3C3C] rounded-[10px] px-3.5 py-2.5 text-[13px] font-medium text-white placeholder-gray-600 focus:border-[#2997ff] focus:outline-none transition-colors"
+                                        className="bg-[#2c2c2b] border border-[#3c3c3c] rounded-[8px] px-3.5 py-2.5 text-[13px] font-medium text-white placeholder-gray-600 focus:border-[#2997ff] focus:outline-none transition-colors"
                                     />
                                 </div>
                             </div>
@@ -871,13 +923,13 @@ export default function PmoPopupManager() {
                                 <button 
                                     type="button"
                                     onClick={() => setIsModalOpen(false)}
-                                    className="px-5 py-2.5 bg-[#2C2C2E] border border-[#3C3C3C] text-[#86868B] hover:text-white rounded-[10px] text-[13px] font-bold transition-all cursor-pointer"
+                                    className="px-4 py-2 bg-[#2c2c2b] border border-[#3c3c3c] hover:bg-[#323231] hover:border-[#4c4c4b] text-[#A1A1AA] hover:text-white rounded-[8px] text-[13px] font-bold transition-all cursor-pointer"
                                 >
                                     취소
                                 </button>
                                 <button 
                                     type="submit"
-                                    className="px-6 py-2.5 bg-[#2997ff] hover:bg-[#147ce5] text-white rounded-[10px] text-[13px] font-bold transition-all cursor-pointer shadow-lg shadow-[#2997ff]/10"
+                                    className="px-5 py-2 bg-[#2997ff] hover:bg-[#147ce5] text-white rounded-[8px] text-[13px] font-bold transition-all cursor-pointer shadow-lg shadow-[#2997ff]/10"
                                 >
                                     {modalMode === 'create' ? '업무 등록' : '수정 완료'}
                                 </button>
