@@ -335,15 +335,26 @@ export default function PmoPopupManager() {
         return match ? match.dept_name : code || '-';
     };
 
+    const mapOrgName = (staffName, orgName) => {
+        if (!orgName) return '';
+        const trimmedOrg = orgName.trim();
+        if (trimmedOrg === '사업 PM' || trimmedOrg === '사업PM' || trimmedOrg === '사업 PM 1' || trimmedOrg === '사업 PM 2') {
+            const pm2Members = ['강순용', '한찬호', '박석제', '박채현', '소현준', '이수정', '조영비', '한수정'];
+            return pm2Members.includes(staffName.trim()) ? '사업2파트' : '사업1파트';
+        }
+        return trimmedOrg;
+    };
+
     // Autocomplete filtering logic
     const filteredRequesters = useMemo(() => {
         if (!formRequester.trim()) return pilotMembers;
-        const exactMatch = pilotMembers.some(m => `${m.staff_name} / ${m.org_name}` === formRequester.trim());
+        const exactMatch = pilotMembers.some(m => `${m.staff_name} / ${mapOrgName(m.staff_name, m.org_name)}` === formRequester.trim());
         if (exactMatch) return [];
-        return pilotMembers.filter(m => 
-            m.staff_name.toLowerCase().includes(formRequester.toLowerCase()) ||
-            (m.org_name || '').toLowerCase().includes(formRequester.toLowerCase())
-        );
+        return pilotMembers.filter(m => {
+            const mappedOrg = mapOrgName(m.staff_name, m.org_name);
+            return m.staff_name.toLowerCase().includes(formRequester.toLowerCase()) ||
+                mappedOrg.toLowerCase().includes(formRequester.toLowerCase());
+        });
     }, [formRequester, pilotMembers]);
 
     const lastCoopToken = useMemo(() => {
@@ -800,7 +811,7 @@ export default function PmoPopupManager() {
                                                     if (!val.includes('/')) {
                                                         const match = pilotMembers.find(m => m.staff_name.trim() === val);
                                                         if (match) {
-                                                            return `${match.staff_name} / ${match.org_name}`;
+                                                            return `${match.staff_name} / ${mapOrgName(match.staff_name, match.org_name)}`;
                                                         }
                                                     }
                                                     return currentVal;
@@ -815,10 +826,10 @@ export default function PmoPopupManager() {
                                             {filteredRequesters.map((m, idx) => (
                                                 <div 
                                                     key={idx}
-                                                    onClick={() => setFormRequester(`${m.staff_name} / ${m.org_name}`)}
+                                                    onClick={() => setFormRequester(`${m.staff_name} / ${mapOrgName(m.staff_name, m.org_name)}`)}
                                                     className="px-3.5 py-2 hover:bg-white/5 cursor-pointer text-left text-[13px] text-white transition-colors"
                                                 >
-                                                    {m.staff_name} <span className="text-[#86868B]">({m.org_name})</span>
+                                                    {m.staff_name} <span className="text-[#86868B]">({mapOrgName(m.staff_name, m.org_name)})</span>
                                                 </div>
                                             ))}
                                         </div>
