@@ -71,6 +71,7 @@ export default function PmoPopupManager() {
     // Autocomplete states
     const [showRequesterSuggestions, setShowRequesterSuggestions] = useState(false);
     const [showCoopSuggestions, setShowCoopSuggestions] = useState(false);
+    const [tempRequesterVal, setTempRequesterVal] = useState('');
 
     // Check Roles
     const currentUserEmail = memberInfo?.email || '';
@@ -337,7 +338,7 @@ export default function PmoPopupManager() {
 
     // Autocomplete filtering logic
     const filteredRequesters = useMemo(() => {
-        if (!formRequester.trim()) return [];
+        if (!formRequester.trim()) return pilotMembers;
         const exactMatch = pilotMembers.some(m => `${m.staff_name} / ${m.org_name}` === formRequester.trim());
         if (exactMatch) return [];
         return pilotMembers.filter(m => 
@@ -784,8 +785,29 @@ export default function PmoPopupManager() {
                                         required
                                         value={formRequester}
                                         onChange={(e) => setFormRequester(e.target.value)}
-                                        onFocus={() => setShowRequesterSuggestions(true)}
-                                        onBlur={() => setTimeout(() => setShowRequesterSuggestions(false), 200)}
+                                        onFocus={() => {
+                                            setTempRequesterVal(formRequester);
+                                            setFormRequester('');
+                                            setShowRequesterSuggestions(true);
+                                        }}
+                                        onBlur={() => {
+                                            setTimeout(() => {
+                                                setShowRequesterSuggestions(false);
+                                                setFormRequester(currentVal => {
+                                                    const val = currentVal.trim();
+                                                    if (!val) {
+                                                        return tempRequesterVal;
+                                                    }
+                                                    if (!val.includes('/')) {
+                                                        const match = pilotMembers.find(m => m.staff_name.trim() === val);
+                                                        if (match) {
+                                                            return `${match.staff_name} / ${match.org_name}`;
+                                                        }
+                                                    }
+                                                    return currentVal;
+                                                });
+                                            }, 200);
+                                        }}
                                         placeholder="예시: 홍길동 / 메리츠증권"
                                         className="bg-[#2c2c2b] border border-[#3c3c3c] rounded-[8px] px-3.5 py-2.5 text-[13px] font-medium text-white placeholder-gray-600 focus:border-[#2997ff] focus:outline-none transition-colors"
                                     />
