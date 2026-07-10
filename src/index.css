@@ -558,3 +558,28 @@ html[lang="kr"] .font-light {
     scrollbar-width: thin;
     scrollbar-color: rgba(0, 0, 0, 0.4) transparent;
 }
+
+/* Global premium timeline scrollbar styling */
+.timeline-scrollbar::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+.timeline-scrollbar::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 10px;
+}
+.timeline-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
+    border: 1px solid transparent;
+    background-clip: padding-box;
+}
+.timeline-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.25);
+    border: 1px solid transparent;
+    background-clip: padding-box;
+}
+.timeline-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.12) rgba(255, 255, 255, 0.02);
+}
