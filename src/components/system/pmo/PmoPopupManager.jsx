@@ -11,13 +11,13 @@ const FALLBACK_PROJECTS = [
 ];
 
 const FALLBACK_DEPARTMENTS = [
-    { dept_code: 'WS_PM1', dept_name: '사업 PM 1' },
-    { dept_code: 'WS_PM2', dept_name: '사업 PM 2' },
+    { dept_code: 'WS_PM1', dept_name: '사업1파트' },
+    { dept_code: 'WS_PM2', dept_name: '사업2파트' },
     { dept_code: 'WS_LFC', dept_name: '파이낸싱-LFC' },
     { dept_code: 'WS_DSC', dept_name: '개발솔루션-DSC' },
     { dept_code: 'WS_EMC', dept_name: '기업마케팅-EMC' },
     { dept_code: 'WS_SSC', dept_name: '공간솔루션-SSC' },
-    { dept_code: 'WS_KAM', dept_name: '펀드운용-KAM' }
+    { dept_code: 'WS_KAM', dept_name: 'KAM' }
 ];
 
 const CATEGORY_OPTIONS = [
@@ -103,8 +103,18 @@ export default function PmoPopupManager() {
                 .schema('iota_v2')
                 .from('iota_departments')
                 .select('*');
-            if (!deptErr && deptData) setDepartments(deptData);
-            else setDepartments(FALLBACK_DEPARTMENTS);
+            if (!deptErr && deptData && deptData.length > 0) {
+                // Map names dynamically to match user request (PM ➔ 파트, 펀드운용 ➔ KAM)
+                const mappedDepts = deptData.map(d => {
+                    if (d.dept_code === 'WS_PM1') return { ...d, dept_name: '사업1파트' };
+                    if (d.dept_code === 'WS_PM2') return { ...d, dept_name: '사업2파트' };
+                    if (d.dept_code === 'WS_KAM') return { ...d, dept_name: 'KAM' };
+                    return d;
+                });
+                setDepartments(mappedDepts);
+            } else {
+                setDepartments(FALLBACK_DEPARTMENTS);
+            }
 
             // 4. Fetch Pilot Members for autocomplete (public schema)
             const { data: memberData, error: memberErr } = await supabase
