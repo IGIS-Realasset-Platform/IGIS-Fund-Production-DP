@@ -3920,7 +3920,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                         <div className="absolute inset-y-0 right-0 max-w-full flex pl-10 pointer-events-auto">
                             <form onSubmit={handleFormSubmit} className="w-screen max-w-[650px] transform transition-transform duration-300 ease-in-out shadow-2xl flex flex-col h-full bg-[#1c1c1e]/95 backdrop-blur-xl border-l border-[#3c3c3c]/80 text-white select-text">
                                 {/* Header */}
-                                <div className="px-6 py-4 border-b border-[#3c3c3c]/80 flex items-center justify-between bg-[#1c1c1e]/80 sticky top-0 z-20">
+                                <div className="px-6 py-3 border-b border-[#3c3c3c]/80 flex items-center justify-between bg-[#1c1c1e]/80 sticky top-0 z-20">
                                     <div className="flex items-center gap-3 flex-wrap">
                                         <span className="font-mono text-[12px] font-bold px-2 py-0.5 rounded bg-white/10 text-[#86868B]">
                                             {t.id && !t.id.includes('-') ? t.id : (fallbackItem.id || 'T-XXX')}
@@ -3945,9 +3945,9 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                 </div>
                                 
                                 {/* Content Body */}
-                                <div className="flex-1 overflow-y-auto px-6 py-6 space-y-6 timeline-scrollbar">
+                                <div className="flex-1 overflow-y-auto px-6 py-6 space-y-4 timeline-scrollbar">
                                     {/* Task Name */}
-                                    <div className="space-y-2">
+                                    <div className="space-y-1">
                                         <h2 className="text-[22px] font-bold text-[#bdbba7] leading-snug">
                                             {t.task_name || ''}
                                         </h2>
@@ -4086,11 +4086,11 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                     </div>
                                     
                                     {/* Deep Dive Narrative Cards (Single unified box) */}
-                                    <div className="p-5 rounded-[16px] bg-white/[0.02] border border-[#2c2c2e] space-y-4">
+                                    <div className="p-5 rounded-[16px] bg-white/[0.02] border border-[#2c2c2e] space-y-[14px]">
                                         {/* 업무 목적 */}
                                         <div className="space-y-0">
                                             <h4 className="text-[11px] font-bold text-[#86868B]">업무 목적</h4>
-                                            <p className="text-[14px] text-[#E5E5E5] leading-relaxed whitespace-pre-line mt-1">
+                                            <p className="text-[14px] text-[#E5E5E5] leading-relaxed whitespace-pre-line mt-[2px]">
                                                 {t.task_purpose || fallbackItem.task_purpose || '등록된 내용이 없습니다.'}
                                             </p>
                                         </div>
@@ -4100,7 +4100,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                         {/* 필요 산출물 */}
                                         <div className="space-y-0">
                                             <h4 className="text-[11px] font-bold text-[#86868B]">필요 산출물</h4>
-                                            <p className="text-[14px] text-[#E5E5E5] leading-relaxed whitespace-pre-line mt-1">
+                                            <p className="text-[14px] text-[#E5E5E5] leading-relaxed whitespace-pre-line mt-[2px]">
                                                 {t.deliverables || fallbackItem.deliverables || '등록된 내용이 없습니다.'}
                                             </p>
                                         </div>
@@ -4110,7 +4110,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                         {/* 다음 액션 */}
                                         <div className="space-y-0">
                                             <h4 className="text-[11px] font-bold text-[#86868B]">다음 액션</h4>
-                                            <p className="text-[14px] text-[#E5E5E5] leading-relaxed whitespace-pre-line mt-1">
+                                            <p className="text-[14px] text-[#E5E5E5] leading-relaxed whitespace-pre-line mt-[2px]">
                                                 {nextActionVal || '등록된 내용이 없습니다.'}
                                             </p>
                                         </div>
@@ -4121,7 +4121,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                                 {/* 회의 상정 사유 */}
                                                 <div className="space-y-0">
                                                     <h4 className="text-[11px] font-bold text-[#86868B]">회의 상정 사유 (Agenda Context)</h4>
-                                                    <p className="text-[14px] text-[#E5E5E5] leading-relaxed whitespace-pre-line mt-1">
+                                                    <p className="text-[14px] text-[#E5E5E5] leading-relaxed whitespace-pre-line mt-[2px]">
                                                         {agendaReason}
                                                     </p>
                                                 </div>
