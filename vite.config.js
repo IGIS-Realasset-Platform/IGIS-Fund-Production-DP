@@ -4,7 +4,7 @@ import tailwindcss from '@tailwindcss/vite'
 
 // https://vite.dev/config/
 export default defineConfig(({ command, mode }) => ({
-  base: mode === 'staging' ? '/staging/' : '/',
+  base: '/',
   plugins: [
     react(),
     tailwindcss(),
