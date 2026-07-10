@@ -3945,7 +3945,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                 </div>
                                 
                                 {/* Content Body */}
-                                <div className="flex-1 overflow-y-auto px-6 py-6 space-y-4 timeline-scrollbar">
+                                <div className="flex-1 overflow-y-auto px-6 py-6 timeline-scrollbar">
                                     {/* Task Name */}
                                     <div className="space-y-1">
                                         <h2 className="text-[22px] font-bold text-[#bdbba7] leading-snug">
@@ -3982,7 +3982,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                     
                                     {/* Blocker Alert Banner */}
                                     {isBlockerVal && (
-                                        <div className="p-4 rounded-[12px] bg-red-500/10 border border-red-500/20 flex items-start gap-3">
+                                        <div className="p-4 rounded-[12px] bg-red-500/10 border border-red-500/20 flex items-start gap-3 mt-4">
                                             <div className="space-y-1">
                                                 <h4 className="text-[13px] font-bold text-red-400">현재 진행 병목(Blocker) 상황</h4>
                                                 <p className="text-[12px] text-gray-300 leading-relaxed">
