@@ -3993,22 +3993,22 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                     )}
                                     
                                     {/* Metadata Card Box */}
-                                    <div className="p-5 rounded-[16px] bg-white/[0.02] border border-[#2c2c2e] space-y-4 text-[13px]">
+                                    <div className="p-5 rounded-[16px] bg-white/[0.02] border border-[#2c2c2e] space-y-[14px] text-[13px]">
                                         {/* Row 1: 주관부서, 담당자, 협조부서 */}
                                         <div className="grid grid-cols-4 gap-4">
-                                            <div className="space-y-1">
+                                            <div className="space-y-[3px]">
                                                 <span className="text-[#86868B] text-[11px] block">주관 부서</span>
                                                 <span className="font-bold text-[#E5E5E5] block">
                                                     {t.lead_dept?.dept_name || t.lead_dept || t.lead_dept_code || fallbackItem.lead_dept || '사업2파트'}
                                                 </span>
                                             </div>
-                                            <div className="space-y-1">
+                                            <div className="space-y-[3px]">
                                                 <span className="text-[#86868B] text-[11px] block">담당자</span>
                                                 <span className="font-bold text-[#E5E5E5] block">
                                                     {t.assignee || '미정'}
                                                 </span>
                                             </div>
-                                            <div className="space-y-1 col-span-2">
+                                            <div className="space-y-[3px] col-span-2">
                                                 <span className="text-[#86868B] text-[11px] block">협조 부서</span>
                                                 <div className="flex flex-wrap gap-1.5 mt-0.5">
                                                     {coopDeptsVal ? coopDeptsVal.split(';').map((dept, i) => (
@@ -4022,19 +4022,19 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
 
                                         {/* Row 2: 지원필요, GATE 단계, 외부상대방 */}
                                         <div className="grid grid-cols-4 gap-4">
-                                            <div className="space-y-1 col-span-1">
+                                            <div className="space-y-[3px] col-span-1">
                                                 <span className="text-[#86868B] text-[11px] block">지원필요</span>
                                                 <span className="font-bold text-[#bdbba7] block">
                                                     {t.support_needed || fallbackItem.support_needed || '-'}
                                                 </span>
                                             </div>
-                                            <div className="space-y-1 col-span-1">
+                                            <div className="space-y-[3px] col-span-1">
                                                 <span className="text-[#86868B] text-[11px] block">GATE 단계</span>
                                                 <span className="font-bold text-[#E5E5E5] block">
                                                     {t.gate_stage || fallbackItem.gate_stage || '-'}
                                                 </span>
                                             </div>
-                                            <div className="space-y-1 col-span-2">
+                                            <div className="space-y-[3px] col-span-2">
                                                 <span className="text-[#86868B] text-[11px] block">외부 상대방</span>
                                                 <div className="flex flex-wrap gap-1.5 mt-0.5">
                                                     {externalPartyVal ? externalPartyVal.split(',').map((party, i) => (
@@ -4048,7 +4048,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
 
                                         {/* Row 3: 회의상정등급, 최종목표, 마감 기한, 의사결정필요 */}
                                         <div className="grid grid-cols-4 gap-4">
-                                            <div className="space-y-1">
+                                            <div className="space-y-[3px]">
                                                 <span className="text-[#86868B] text-[11px] block">회의상정등급</span>
                                                 <div className="mt-1">
                                                     <span className={`px-2 py-0.5 rounded text-[11px] font-bold ${
@@ -4062,19 +4062,19 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                                     </span>
                                                 </div>
                                             </div>
-                                            <div className="space-y-1">
+                                            <div className="space-y-[3px]">
                                                 <span className="text-[#86868B] text-[11px] block">최종목표</span>
                                                 <span className="font-bold text-[#E5E5E5] block">
                                                     {targetAxis}
                                                 </span>
                                             </div>
-                                            <div className="space-y-1">
+                                            <div className="space-y-[3px]">
                                                 <span className="text-[#86868B] text-[11px] block">마감 기한</span>
                                                 <span className="font-bold text-[#E5E5E5] block">
                                                     {t.due_date || fallbackItem.due_date || '-'}
                                                 </span>
                                             </div>
-                                            <div className="space-y-1">
+                                            <div className="space-y-[3px]">
                                                 <span className="text-[#86868B] text-[11px] block">의사결정필요</span>
                                                 <span className="font-bold block">
                                                     <span className={needsDecisionVal ? 'text-[#ff453a]' : 'text-gray-400'}>
