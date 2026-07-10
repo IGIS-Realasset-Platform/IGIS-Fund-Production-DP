@@ -3945,7 +3945,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                 </div>
                                 
                                 {/* Content Body */}
-                                <div className="flex-1 overflow-y-auto px-6 py-6 space-y-6 timeline-scrollbar">
+                                <div className="flex-1 overflow-y-auto px-6 py-6 space-y-[10px] timeline-scrollbar">
                                     {/* Task Name */}
                                     <div className="space-y-1">
                                         <h2 className="text-[22px] font-bold text-[#bdbba7] leading-snug">

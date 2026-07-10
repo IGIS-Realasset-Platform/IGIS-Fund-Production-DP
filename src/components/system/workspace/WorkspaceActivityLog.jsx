@@ -1748,7 +1748,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
             </div>
 
             {isTaskBoard && (
-                <div className="mt-6 w-full">
+                <div className="mt-[10px] w-full">
                     <LogWriteBox 
                         memberInfo={memberInfo}
                         masterStakeholders={masterStakeholders}
