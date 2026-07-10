@@ -107,7 +107,7 @@ const phase2MenuItems = [
     },
     {
         id: 'popup-requests',
-        label: '단발 업무 요청 관리',
+        label: '단발업무 관리',
         path: 'platform/iotaseoul/popup-requests',
         icon: (
             <svg className="w-4.5 h-4.5 mr-[10px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
