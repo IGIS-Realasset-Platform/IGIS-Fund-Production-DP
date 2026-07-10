@@ -3194,7 +3194,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                             </table>
                             
                             {/* Watermark Logo */}
-                            <div className="w-[800px] shrink-0 flex items-center justify-start pl-20 pr-8 select-none pointer-events-none box-border">
+                            <div className="w-[800px] shrink-0 self-stretch flex items-center justify-start pl-20 pr-8 select-none pointer-events-none box-border">
                                 <div className="text-white opacity-[0.04] font-bold leading-[0.9] tracking-tighter w-full whitespace-nowrap" style={{ fontSize: 'clamp(45px, 8.5vw, 135px)' }}>
                                     IOTA Seoul<br />Cross Functional<br />Team
                                 </div>
