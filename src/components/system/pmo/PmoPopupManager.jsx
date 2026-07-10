@@ -22,7 +22,7 @@ const FALLBACK_DEPARTMENTS = [
 
 const CATEGORY_OPTIONS = [
     '공통 PMO', '인허가', '호텔/운영', '시공/원가', '도면/설계', '인테리어/TI',
-    '임차/마케팅', 'PF/금융', '구조/법무/세무', '주주/보고', '준공/담보대출', '팝업/단발'
+    '임차/마케팅', 'PF/금융', '구조/법무/세무', '주주/보고', '준공/담보대출', '일반 요청'
 ];
 
 const IMPACT_OPTIONS = ['높음', '보통', '낮음'];
@@ -166,7 +166,7 @@ export default function PmoPopupManager() {
         setFormRequestDate(new Date().toISOString().slice(0, 10));
         setFormRequester(memberInfo ? `${memberInfo.staff_name || memberInfo.name || ''} / ${memberInfo.org_name || ''}` : '');
         setFormProjectCode('COMMON');
-        setFormCategoryName('팝업/단발');
+        setFormCategoryName('일반 요청');
         setFormRequestDetail('');
         setFormPurpose('');
         setFormDeliverables('');
@@ -240,7 +240,7 @@ export default function PmoPopupManager() {
                     .select();
 
                 if (error) throw error;
-                toast.success("단발업무가 성공적으로 등록되었습니다.");
+                toast.success("업무 요청이 성공적으로 등록되었습니다.");
             } else {
                 const { error } = await supabase
                     .schema('iota_v2')
@@ -384,8 +384,8 @@ export default function PmoPopupManager() {
             {/* Header Title Section */}
             <div className="w-full flex justify-between items-end mb-[32px]">
                 <div className="flex flex-col text-left">
-                    <h1 className="text-[36px] font-bold text-white tracking-tight leading-none mb-[8px]">단발업무 관리</h1>
-                    <p className="text-[16px] text-[#86868B] leading-[26px]">단발성 업무를 접수·위임·보류·반려 프로세스로 분류하여 체계적이고 효율적인 수행을 지원합니다.</p>
+                    <h1 className="text-[36px] font-bold text-white tracking-tight leading-none mb-[8px]">업무 요청 관리</h1>
+                    <p className="text-[16px] text-[#86868B] leading-[26px]">크로스컨설팅 및 부서 간 업무 요청 사항을 체계적으로 조율하고 효율적인 수행을 지원합니다.</p>
                 </div>
 
                 <div className="flex items-center gap-3 select-none">
@@ -405,7 +405,7 @@ export default function PmoPopupManager() {
                         <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" />
                         </svg>
-                        단발업무 등록
+                        업무 요청 등록
                     </button>
                 </div>
             </div>
@@ -569,7 +569,7 @@ export default function PmoPopupManager() {
                                 {filteredPopups.length === 0 ? (
                                     <tr>
                                         <td colSpan={14} className="py-20 text-center text-[#86868B] text-[14px]">
-                                            조건에 만족하는 단발 업무 요청 정보가 없습니다.
+                                            조건에 만족하는 업무 요청 정보가 없습니다.
                                         </td>
                                     </tr>
                                 ) : (
@@ -716,7 +716,7 @@ export default function PmoPopupManager() {
             {deleteTargetId && (
                 <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[200000] transition-all select-none">
                     <div className="bg-[#272726] border border-[#3c3c3c] w-full max-w-[360px] rounded-[20px] p-6 text-center shadow-2xl">
-                        <h3 className="text-[17px] font-bold text-white mb-2">단발업무 요청 삭제</h3>
+                        <h3 className="text-[17px] font-bold text-white mb-2">업무 요청 삭제</h3>
                         <p className="text-[13px] text-[#A1A1AA] mb-6 leading-relaxed">정말로 이 요청 정보를 영구 삭제하시겠습니까?<br />삭제된 데이터는 복구할 수 없습니다.</p>
                         <div className="flex gap-2 justify-center">
                             <button 
@@ -748,7 +748,7 @@ export default function PmoPopupManager() {
                                     {modalMode === 'create' ? '새 안건 등록' : '정보 수정'}
                                 </span>
                                 <h3 className="text-[18px] font-bold text-white mt-1">
-                                    {modalMode === 'create' ? '단발 업무 요청 등록' : '단발 업무 요청 상세 편집'}
+                                    {modalMode === 'create' ? '업무 요청 등록' : '업무 요청 상세 편집'}
                                 </h3>
                             </div>
                             <button 

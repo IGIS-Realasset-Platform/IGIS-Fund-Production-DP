@@ -2206,7 +2206,7 @@ CREATE TABLE public.iota_decision_logs (
                                 <div className="flex flex-col gap-6 pl-1 select-text">
                                     {[
                                         { title: '가. 스프레드시트 뷰 기반 인라인 편집 (Inline Edit)', desc: '태스크 테이블의 상태, 마감일, 다음 액션을 상세 수정 팝업창 없이 그리드 내부에서 더블클릭하여 바로 변경 및 비동기(Async) 저장. Blocker 및 의사결정 필요 여부 필드는 원클릭 마우스 토글로 즉시 데이터베이스에 반영하여 정보 최신화 고속화.' },
-                                        { title: '나. 단발성 외부 팝업 요청 통제 (iota_pmo_popup_requests)', desc: '정규 마일스톤 외부에 불시 발생하는 수작업 업무 요청(자산 실사 준비, 분석 등)을 수집하고, 승인/위임/반려/보류 프로세스를 타이트하게 제공하여 정규 업무 영향도를 모니터링.' },
+                                        { title: '나. 부서 간 업무 요청 관리 (iota_pmo_popup_requests)', desc: '정규 마일스톤 외에 개별적으로 발생하는 업무 요청 및 자료 협조 건을 수집하고, 승인/위임/반려/보류 프로세스를 제공하여 CFT 전체 리소스 영향도를 실시간으로 모니터링.' },
                                         { title: '다. 실시간 회의체 상정용 임원 대시보드', desc: '우선순위 점수가 80점 이상이거나 의사결정필요가 참인 Blocker 업무를 A등급 즉시 상정 카드로 최상단 자동 정렬 노출. 현재 업무 병목이 발생하고 있는 부서와 실무 담당자를 실시간 막대 차트로 집계 표현.' }
                                     ].map((item, idx) => (
                                         <div key={idx} className="flex flex-col gap-1.5 border-b border-gray-100 pb-5">
