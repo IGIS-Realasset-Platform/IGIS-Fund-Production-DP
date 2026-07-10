@@ -805,7 +805,7 @@ export default function PmoScheduleGate() {
                             >
                                 <div>PF 달성</div>
                                 <div>1차목표</div>
-                                <div className="absolute bottom-[-4px] left-1/2 -translate-x-1/2 w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-t-[4px] border-t-[#ff9f0a]"></div>
+                                <div className="absolute bottom-[-6px] left-1/2 -translate-x-1/2 w-0 h-0 border-l-[3px] border-l-transparent border-r-[3px] border-r-transparent border-t-[6px] border-t-[#ff9f0a]"></div>
                             </div>
                         );
                     })()}
@@ -823,8 +823,8 @@ export default function PmoScheduleGate() {
                                 <div>1차목표</div>
                                 <div>미달성시</div>
                                 <div>2차목표</div>
-                                <div className="absolute bottom-[-4px] left-1/2 -translate-x-1/2 w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-t-[4px] border-t-[#2c2c2e]"></div>
-                                <div className="absolute bottom-[-5px] left-1/2 -translate-x-1/2 w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-t-[4px] border-t-[#3c3c3c] z-[-1]"></div>
+                                <div className="absolute bottom-[-6px] left-1/2 -translate-x-1/2 w-0 h-0 border-l-[3px] border-l-transparent border-r-[3px] border-r-transparent border-t-[6px] border-t-[#2c2c2e]"></div>
+                                <div className="absolute bottom-[-7px] left-1/2 -translate-x-1/2 w-0 h-0 border-l-[3px] border-l-transparent border-r-[3px] border-r-transparent border-t-[6px] border-t-[#3c3c3c] z-[-1]"></div>
                             </div>
                         );
                     })()}
