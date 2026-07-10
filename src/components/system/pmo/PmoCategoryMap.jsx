@@ -36,7 +36,7 @@ export default function PmoCategoryMap() {
     const current = matrixData[selectedCategory] || {};
 
     return (
-        <div className="w-full flex-1 flex flex-col pt-[50px] pb-[60px] max-w-[1200px] mx-auto select-none">
+        <div className="w-full flex-1 flex flex-col pt-[50px] pb-[60px] max-w-[1200px] mx-auto select-text">
             {/* Header */}
             <div className="w-full flex justify-between items-start mb-[32px]">
                 <div>

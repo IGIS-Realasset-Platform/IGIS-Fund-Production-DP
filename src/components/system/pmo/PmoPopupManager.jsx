@@ -331,7 +331,7 @@ export default function PmoPopupManager() {
             <div className="w-full flex justify-between items-end mb-[32px]">
                 <div className="flex flex-col text-left">
                     <h1 className="text-[36px] font-bold text-white tracking-tight leading-none mb-[8px]">단발업무 관리</h1>
-                    <p className="text-[16px] text-[#86868B] leading-[26px]">단발성 요청은 바로 수행하지 않고 접수/위임/보류/반려 판단</p>
+                    <p className="text-[16px] text-[#86868B] leading-[26px]">단발성 업무를 접수·위임·보류·반려 프로세스로 분류하여 체계적이고 효율적인 수행을 지원합니다.</p>
                 </div>
 
                 <div className="flex items-center gap-3 select-none">
