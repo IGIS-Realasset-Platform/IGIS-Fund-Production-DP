@@ -550,12 +550,12 @@ export default function PmoPopupManager() {
 
             {/* Spreadsheet Grid Table */}
             {loading ? (
-                <div className="w-full h-[360px] bg-transparent border border-[#3c3c3c] rounded-[24px] flex items-center justify-center">
+                <div className="-mr-[calc(50vw-50%)] h-[360px] bg-transparent border border-r-0 border-[#3c3c3c] rounded-l-[24px] flex items-center justify-center">
                     <span className="text-[#86868B] text-[15px] animate-pulse">요청 데이터를 연동하고 있습니다...</span>
                 </div>
             ) : (
-                <div className="w-full border border-[#3c3c3c] bg-[#272726] rounded-[24px] overflow-hidden shadow-2xl flex flex-col">
-                    <div className="overflow-x-auto w-full max-w-full">
+                <div className="-mr-[calc(50vw-50%)] border border-r-0 border-[#3c3c3c] bg-[#272726] rounded-l-[24px] overflow-hidden shadow-2xl flex flex-col">
+                    <div className="w-full overflow-x-auto pr-0 timeline-scrollbar pb-1">
                         <table className="w-full text-left table-fixed border-collapse min-w-[1930px] select-text">
                             <thead className="bg-transparent">
                                 <tr className="border-b border-[#3c3c3c]">
