@@ -3995,7 +3995,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                 </div>
                                 
                                 {/* Content Body */}
-                                <div className="flex-1 overflow-y-auto px-6 py-6 timeline-scrollbar">
+                                <div className="flex-1 overflow-y-auto px-6 py-6 space-y-[10px] timeline-scrollbar">
                                     {/* Task Name */}
                                     <div className="space-y-1">
                                         <h2 className="text-[22px] font-bold text-[#bdbba7] leading-snug">
@@ -4032,7 +4032,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                     
                                     {/* Blocker Alert Banner */}
                                     {isBlockerVal && (
-                                        <div className="p-4 rounded-[12px] bg-red-500/10 border border-red-500/20 flex items-start gap-3 mt-6">
+                                        <div className="p-4 rounded-[12px] bg-red-500/10 border border-red-500/20 flex items-start gap-3">
                                             <div className="space-y-1">
                                                 <h4 className="text-[13px] font-bold text-red-400">현재 진행 병목(Blocker) 상황</h4>
                                                 <p className="text-[12px] text-gray-300 leading-relaxed">
@@ -4043,7 +4043,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                     )}
                                     
                                     {/* Metadata Card Box */}
-                                    <div className={`p-5 rounded-[16px] bg-white/[0.02] border border-[#2c2c2e] space-y-[14px] text-[13px] ${isBlockerVal ? 'mt-[10px]' : 'mt-6'}`}>
+                                    <div className="p-5 rounded-[16px] bg-white/[0.02] border border-[#2c2c2e] space-y-[14px] text-[13px]">
                                         {/* Row 1: 주관부서, 담당자, 협조부서 */}
                                         <div className="grid grid-cols-4 gap-4">
                                             <div className="space-y-[3px]">
