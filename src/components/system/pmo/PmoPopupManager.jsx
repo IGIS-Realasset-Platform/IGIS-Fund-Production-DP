@@ -556,26 +556,26 @@ export default function PmoPopupManager() {
             ) : (
                 <div className="-mr-[calc(50vw-50%)] border border-r-0 border-[#3c3c3c] bg-[#272726] rounded-l-[24px] overflow-hidden shadow-2xl flex flex-col">
                     <div className="w-full overflow-x-auto pr-0 timeline-scrollbar pb-1">
-                        <table className="w-full text-left table-fixed border-collapse min-w-[1930px] select-text">
+                        <table className="text-left table-fixed border-collapse w-[1850px] min-w-[1850px] select-text">
                             <thead className="bg-transparent">
-                                <tr className="border-b border-[#3c3c3c]">
-                                    <th className="px-3 py-3.5 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c] text-center w-[100px]">접수일</th>
-                                    <th className="px-3 py-3.5 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c] w-[140px]">요청자/부서</th>
-                                    <th className="px-3 py-3.5 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c] w-[120px]">프로젝트</th>
-                                    <th className="px-3 py-3.5 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c] w-[130px]">카테고리</th>
-                                    <th className="px-3 py-3.5 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c] w-[250px]">요청업무</th>
-                                    <th className="px-3 py-3.5 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c] w-[160px]">요청목적</th>
-                                    <th className="px-3 py-3.5 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c] w-[160px]">필요 산출물</th>
-                                    <th className="px-3 py-3.5 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c] text-center w-[100px]">요청기한</th>
-                                    <th className="px-3 py-3.5 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c] w-[130px]">수행부서</th>
-                                    <th className="px-3 py-3.5 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c] w-[130px]">협업부서</th>
-                                    <th className="px-3 py-3.5 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c] text-center w-[110px]">정규업무 영향</th>
-                                    <th className="px-3 py-3.5 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c] text-center w-[110px]">처리방침</th>
-                                    <th className="px-3 py-3.5 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c] w-[200px]">메모</th>
-                                    <th className="px-3 py-3.5 text-[13px] font-bold text-[#86868B] text-center w-[90px]">작업</th>
+                                <tr className="border-b border-[#3c3c3c] h-[46px]">
+                                    <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c]/50 text-center w-[100px]">접수일</th>
+                                    <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c]/50 w-[140px]">요청자/부서</th>
+                                    <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c]/50 w-[110px]">프로젝트</th>
+                                    <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c]/50 w-[120px]">카테고리</th>
+                                    <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c]/50 w-[260px]">요청업무</th>
+                                    <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c]/50 w-[180px]">요청목적</th>
+                                    <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c]/50 w-[180px]">필요 산출물</th>
+                                    <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c]/50 text-center w-[100px]">요청기한</th>
+                                    <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c]/50 w-[120px]">수행부서</th>
+                                    <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c]/50 w-[120px]">협업부서</th>
+                                    <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c]/50 text-center w-[110px]">정규업무 영향</th>
+                                    <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c]/50 text-center w-[110px]">처리방침</th>
+                                    <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c]/50 w-[210px]">메모</th>
+                                    <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] text-center w-[90px]">작업</th>
                                 </tr>
                             </thead>
-                            <tbody className="divide-y divide-[#3c3c3c] bg-transparent">
+                            <tbody className="divide-y divide-[#3c3c3c]/50 bg-transparent">
                                 {filteredPopups.length === 0 ? (
                                     <tr>
                                         <td colSpan={14} className="py-20 text-center text-[#86868B] text-[14px]">
@@ -591,69 +591,75 @@ export default function PmoPopupManager() {
                                             <tr 
                                                 key={p.id} 
                                                 onDoubleClick={() => canEdit && openEditModal(p)}
-                                                className={`hover:bg-[#2f2f2e] transition-colors group text-[13px] ${
-                                                    index % 2 === 1 ? 'bg-[#2c2c2b]/30' : 'bg-transparent'
-                                                }`}
+                                                className="hover:bg-white/[0.04] transition-colors group text-[13px] h-[50px] border-b border-[#3c3c3c]/30 bg-transparent"
                                             >
                                                 {/* Date */}
-                                                <td className="px-3 py-3 border-r border-[#3c3c3c] text-[#A1A1AA] text-center font-mono font-medium">
+                                                <td className="px-3 py-2 border-r border-[#3c3c3c]/50 text-[#86868B] text-center font-mono font-medium">
                                                     {p.request_date || '-'}
                                                 </td>
 
                                                 {/* Requester */}
-                                                <td className="px-3 py-3 border-r border-[#3c3c3c] font-bold text-[#E5E5E5] truncate" title={p.requester}>
+                                                <td className="px-3 py-2 border-r border-[#3c3c3c]/50 font-bold text-[#E5E5E5] truncate" title={p.requester}>
                                                     {p.requester}
                                                 </td>
 
-                                                {/* Project */}
-                                                <td className="px-3 py-3 border-r border-[#3c3c3c] font-semibold text-[#bdbba7] truncate" title={getProjectName(p.project_code)}>
-                                                    {getProjectName(p.project_code)}
+                                                {/* Project (with badge) */}
+                                                <td className="px-3 py-2 border-r border-[#3c3c3c]/50 text-center font-bold">
+                                                    <span className={`px-1.5 py-0.5 rounded text-[11px] font-bold border inline-block max-w-full truncate ${
+                                                        p.project_code === 'COMMON' ? 'bg-[#323233] text-[#F5F5F7] border-[#424243]' :
+                                                        p.project_code === 'PROJECT_427' ? 'bg-[#3A3A3C] text-[#FFFFFF] border-[#48484A]' :
+                                                        p.project_code === 'PROJECT_816' ? 'bg-[#2C2C2E] text-[#E5E5EA] border-[#3A3A3C]' :
+                                                        p.project_code === 'PROJECT_421' ? 'bg-[#242426] text-[#D1D1D6] border-[#323234]' :
+                                                        'bg-[#1C1C1E] text-[#AEAEB2] border-[#2C2C2E]'
+                                                    }`}>
+                                                        {getProjectName(p.project_code)}
+                                                    </span>
                                                 </td>
 
                                                 {/* Category */}
-                                                <td className="px-3 py-3 border-r border-[#3c3c3c] text-white/80 font-medium truncate" title={p.category_name}>
+                                                <td className="px-3 py-2 border-r border-[#3c3c3c]/50 text-white/80 font-medium truncate" title={p.category_name}>
                                                     {p.category_name || '-'}
                                                 </td>
 
                                                 {/* Task Details */}
-                                                <td className="px-3 py-3 border-r border-[#3c3c3c] text-white font-medium break-words leading-relaxed whitespace-pre-wrap">
+                                                <td className="px-3 py-2 border-r border-[#3c3c3c]/50 text-[#E5E5E5] font-medium break-words leading-relaxed whitespace-pre-wrap">
                                                     {p.request_detail}
                                                 </td>
 
                                                 {/* Purpose */}
-                                                <td className="px-3 py-3 border-r border-[#3c3c3c] text-[#A1A1AA] break-words whitespace-pre-wrap leading-relaxed">
+                                                <td className="px-3 py-2 border-r border-[#3c3c3c]/50 text-[#86868B] break-words whitespace-pre-wrap leading-relaxed">
                                                     {p.purpose || '-'}
                                                 </td>
 
                                                 {/* Deliverables */}
-                                                <td className="px-3 py-3 border-r border-[#3c3c3c] text-[#86868B] font-medium break-words whitespace-pre-wrap leading-relaxed">
+                                                <td className="px-3 py-2 border-r border-[#3c3c3c]/50 text-[#86868B] font-medium break-words whitespace-pre-wrap leading-relaxed">
                                                     {p.deliverables || '-'}
                                                 </td>
 
                                                 {/* Deadline */}
-                                                <td className="px-3 py-3 border-r border-[#3c3c3c] text-[#fbbf24] text-center font-mono font-semibold">
+                                                <td className="px-3 py-2 border-r border-[#3c3c3c]/50 text-[#fbbf24] text-center font-mono font-semibold">
                                                     {p.due_date || '-'}
                                                 </td>
 
                                                 {/* Original Executing Department */}
-                                                <td className="px-3 py-3 border-r border-[#3c3c3c] font-semibold text-white/80 truncate" title={getDeptName(p.assigned_dept_code)}>
+                                                <td className="px-3 py-2 border-r border-[#3c3c3c]/50 font-semibold text-white/80 truncate" title={getDeptName(p.assigned_dept_code)}>
                                                     {getDeptName(p.assigned_dept_code)}
                                                 </td>
 
                                                 {/* Collaborating Department */}
-                                                <td className="px-3 py-3 border-r border-[#3c3c3c] text-[#A1A1AA] truncate" title={p.coop_dept_codes}>
+                                                <td className="px-3 py-2 border-r border-[#3c3c3c]/50 text-[#86868B] truncate" title={p.coop_dept_codes}>
                                                     {p.coop_dept_codes || '-'}
                                                 </td>
 
                                                 {/* Impact on Regular Tasks */}
-                                                <td className="px-3 py-3 border-r border-[#3c3c3c] text-center">
+                                                <td className="px-3 py-2 border-r border-[#3c3c3c]/50 text-center">
                                                     <span className={getImpactStyle(p.impact_level)}>
                                                         {p.impact_level || '보통'}
                                                     </span>
                                                 </td>
 
                                                 {/* Processing Policy (Handling Status) */}
-                                                <td className="px-3 py-3 border-r border-[#3c3c3c] text-center relative select-none">
+                                                <td className="px-3 py-2 border-r border-[#3c3c3c]/50 text-center relative select-none">
                                                     {activeStatusSelectId === p.id && isAdmin ? (
                                                         <div className="absolute inset-0 flex items-center justify-center p-1 bg-[#2C2C2E] z-10">
                                                             <select
@@ -681,12 +687,12 @@ export default function PmoPopupManager() {
                                                 </td>
 
                                                 {/* Memo */}
-                                                <td className="px-3 py-3 border-r border-[#3c3c3c] text-[#86868B] italic break-words whitespace-pre-wrap leading-relaxed">
+                                                <td className="px-3 py-2 border-r border-[#3c3c3c]/50 text-[#86868B] italic break-words whitespace-pre-wrap leading-relaxed">
                                                     {p.memo || '-'}
                                                 </td>
 
                                                 {/* Actions */}
-                                                <td className="px-3 py-3 text-center">
+                                                <td className="px-3 py-2 text-center">
                                                     {canEdit ? (
                                                         <div className="flex items-center justify-center gap-1.5 select-none opacity-40 group-hover:opacity-100 transition-opacity">
                                                             <button 
