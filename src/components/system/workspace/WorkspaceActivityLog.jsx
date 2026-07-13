@@ -163,6 +163,34 @@ const parseSystemLogText = (rawText) => {
             }
         }
 
+        // Case 11: 회의 상정 등급
+        if (line.includes('회의 상정 등급이') && line.includes('변경되었습니다')) {
+            const match = line.match(/회의 상정 등급이\s*"([^"]+)"에서\s*"([^"]+)"\(으\)로/);
+            if (match) {
+                parsedChanges.push({
+                    type: 'meeting_grade',
+                    label: '상정등급',
+                    oldVal: match[1],
+                    newVal: match[2]
+                });
+                return;
+            }
+        }
+
+        // Case 12: 우선순위 점수
+        if (line.includes('우선순위 점수가')) {
+            const match = line.match(/우선순위 점수가\s*"([^"]+)"에서\s*"([^"]+)"\(으\)로/);
+            if (match) {
+                parsedChanges.push({
+                    type: 'priority_score',
+                    label: '우선순위',
+                    oldVal: match[1],
+                    newVal: match[2]
+                });
+                return;
+            }
+        }
+
         // Fallback
         parsedChanges.push({
             type: 'text',
@@ -192,9 +220,15 @@ const renderBadge = (type, val) => {
         if (cleanVal === '즉시상정') {
             return <span className="bg-[#ff453a]/15 text-[#ff453a] border border-[#ff453a]/25 text-[11px] font-bold px-1.5 py-0.5 rounded whitespace-nowrap">{cleanVal}</span>;
         } else if (cleanVal === '회의점검') {
-            return <span className="bg-[#bdbba7]/15 text-[#bdbba7] border border-[#bdbba7]/25 text-[11px] font-bold px-1.5 py-0.5 rounded whitespace-nowrap">{cleanVal}</span>;
+            return <span className="bg-[#ff9f0a]/15 text-[#ff9f0a] border border-[#ff9f0a]/25 text-[11px] font-bold px-1.5 py-0.5 rounded whitespace-nowrap">{cleanVal}</span>;
+        } else if (cleanVal === '주간관리') {
+            return <span className="bg-[#30d158]/15 text-[#30d158] border border-[#30d158]/25 text-[11px] font-bold px-1.5 py-0.5 rounded whitespace-nowrap">{cleanVal}</span>;
         }
         return <span className="bg-[#8e8e93]/10 text-[#8e8e93] border border-[#8e8e93]/20 text-[11px] font-bold px-1.5 py-0.5 rounded whitespace-nowrap">{cleanVal}</span>;
+    }
+
+    if (type === 'priority_score') {
+        return <span className="bg-[#bf5af2]/10 text-[#bf5af2] border border-[#bf5af2]/20 text-[11px] font-bold px-1.5 py-0.5 rounded whitespace-nowrap">{cleanVal}</span>;
     }
 
     if (type === 'status') {

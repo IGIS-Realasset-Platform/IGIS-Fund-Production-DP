@@ -1283,7 +1283,15 @@ const normalizeDeptName = (name, isCoop = false) => {
     if (!name) return isCoop ? '' : '사업2파트';
     const clean = String(name).trim();
     
-    if (clean.includes('LFC') || clean.includes('lfc') || clean.includes('금융')) return 'LFC';
+    if (clean.includes('기획추진')) return '기획추진';
+    if (clean.includes('Sub-PO') || clean.includes('Sub PO')) return 'Sub-PO';
+    if (clean === 'PO') return 'PO';
+    if (clean.includes('CFT') || clean.includes('총괄')) return 'CFT 책임인력';
+    if (clean.includes('IPR') || clean.includes('ipr')) return 'IPR-WG';
+    if (clean.includes('사업PM')) return '사업PM';
+    if (clean.includes('펀드운용')) return '펀드운용';
+
+    if (clean.includes('LFC') || clean.includes('lfc') || clean.includes('금융') || clean.includes('파이낸싱')) return 'LFC';
     if (clean.includes('사업관리1') || clean.includes('사업1') || clean.includes('관리1')) return '사업1파트';
     if (clean.includes('사업관리2') || clean.includes('사업2') || clean.includes('관리2')) return '사업2파트';
     if (clean.includes('개발관리') || clean.includes('개발솔루션') || clean.includes('개발')) return '개발솔루션';
@@ -1295,7 +1303,7 @@ const normalizeDeptName = (name, isCoop = false) => {
     }
     if (clean.includes('외부') || clean.includes('법무') || clean.includes('세무') || clean.includes('자문')) return 'KAM';
     
-    return isCoop ? '전부서' : '사업2파트';
+    return isCoop ? clean || '전부서' : '사업2파트';
 };
 
 const normalizeCoopDepts = (deptsStr) => {
