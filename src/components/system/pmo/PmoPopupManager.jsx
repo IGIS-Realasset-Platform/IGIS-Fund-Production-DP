@@ -1281,9 +1281,6 @@ export default function PmoPopupManager() {
                                 {/* Header */}
                                 <div className="px-[18px] py-3 border-b border-[#3c3c3c]/80 flex items-center justify-between bg-[#1c1c1e]/80 sticky top-0 z-20">
                                     <div className="flex items-center gap-3 flex-wrap">
-                                        <span className="font-mono text-[12px] font-bold px-2 py-0.5 rounded bg-white/10 text-[#86868B]">
-                                            {p.id && !String(p.id).includes('-') ? `P-${p.id}` : p.id}
-                                        </span>
                                         <span className="text-[12px] font-bold px-2 py-0.5 rounded border border-[#3c3c3c] bg-[#3A3A3C] text-white">
                                             {getProjectName(p.project_code)}
                                         </span>
@@ -1307,15 +1304,6 @@ export default function PmoPopupManager() {
                                         <h2 className="text-[22px] font-bold text-[#bdbba7] leading-snug">
                                             {p.request_detail}
                                         </h2>
-                                        <div className="flex flex-wrap gap-2 text-[12px] pt-1">
-                                            <span className={`px-2 py-0.5 rounded-[4px] font-bold text-[11px] ${getStatusStyle(p.handling_status)}`}>
-                                                {p.handling_status || '미착수'}
-                                            </span>
-                                            
-                                            <span className={`px-2 py-0.5 rounded-[4px] font-bold text-[11px] ${getImpactStyle(p.impact_level)}`}>
-                                                중요도: {p.impact_level || '중간'}
-                                            </span>
-                                        </div>
                                     </div>
                                     
                                     {/* Metadata Card Box */}
@@ -1348,6 +1336,26 @@ export default function PmoPopupManager() {
                                                 <span className="text-[#86868B] text-[11px] block">요청 기한</span>
                                                 <span className="font-bold text-[#E5E5E5] block">
                                                     {p.due_date ? p.due_date.replace(/-/g, '.') : '-'}
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        {/* Row 3: 중요도, 상태 */}
+                                        <div className="grid grid-cols-2 gap-4">
+                                            <div className="space-y-[3px]">
+                                                <span className="text-[#86868B] text-[11px] block">중요도</span>
+                                                <span className="font-bold block">
+                                                    <span className={`${getImpactStyle(p.impact_level)} text-[12px] font-bold`}>
+                                                        {p.impact_level || '중간'}
+                                                    </span>
+                                                </span>
+                                            </div>
+                                            <div className="space-y-[3px]">
+                                                <span className="text-[#86868B] text-[11px] block">상태</span>
+                                                <span className="font-bold block">
+                                                    <span className={`inline-block px-1.5 py-0.5 rounded text-[11px] font-bold font-mono tracking-tight ${getStatusStyle(p.handling_status)}`}>
+                                                        {p.handling_status || '미착수'}
+                                                    </span>
                                                 </span>
                                             </div>
                                         </div>
