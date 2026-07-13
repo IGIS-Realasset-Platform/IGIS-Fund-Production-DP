@@ -1398,6 +1398,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
     const [masterStakeholders, setMasterStakeholders] = useState([]);
     const [subsectors, setSubsectors] = useState([]);
     const [supportOptions, setSupportOptions] = useState([]);
+    const [activeTaskIds, setActiveTaskIds] = useState(new Set());
 
     // Modal states
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -1767,6 +1768,28 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                 .order('created_at', { ascending: true });
 
             if (error) throw error;
+
+            // Fetch active task IDs (recent logs within 48 hours)
+            try {
+                const fortyEightHoursAgo = new Date(Date.now() - 48 * 60 * 60 * 1000).toISOString();
+                const { data: recentLogs } = await supabase
+                    .from('iota_seoul_logs')
+                    .select('metadata')
+                    .gte('created_at', fortyEightHoursAgo)
+                    .contains('metadata', { is_task_board: true });
+                
+                const activeIds = new Set();
+                if (recentLogs) {
+                    recentLogs.forEach(log => {
+                        if (log.metadata && log.metadata.task_id) {
+                            activeIds.add(log.metadata.task_id);
+                        }
+                    });
+                }
+                setActiveTaskIds(activeIds);
+            } catch (e) {
+                console.warn("Failed to fetch recent active tasks:", e);
+            }
 
             let loadedTasks = [];
             if (data && data.length > 0) {
@@ -3034,6 +3057,8 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                             const rawGate = t.gate_stage || fallbackItem.gate_stage || 'G0';
                                             const gateStageVal = rawGate.includes(' ') ? rawGate : gateMapToUi(rawGate);
 
+                                            const isTaskNew = activeTaskIds.has(t.id) || (new Date() - new Date(t.created_at)) < 48 * 60 * 60 * 1000;
+
                                             const supportNeeded = t.support_needed || fallbackItem.support_needed || '';
                                             
                                             // Boolean normalization fixes
@@ -3093,7 +3118,14 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                                     
                                                     {/* 5. 업무명 */}
                                                     <td className={`pl-4 font-bold text-[#bdbba7] w-[240px] min-w-[240px] max-w-[240px] sticky z-10 shadow-[inset_-1px_0_0_0_#3c3c3c] transition-all duration-300 ease-out ${isAll ? 'left-[291px]' : 'left-[201px]'} ${isSelected ? 'bg-[#3c3c3a] group-hover:bg-[#3c3c3a]' : 'bg-[#272726] group-hover:bg-[#2d2d2c]'}`}>
-                                                        <div className="truncate w-full">{t.task_name}</div>
+                                                        <div className="truncate w-full flex items-center gap-[6px]">
+                                                            <span className="truncate">{t.task_name}</span>
+                                                            {isTaskNew && (
+                                                                <span className="shrink-0 inline-flex items-center justify-center px-[4px] py-[2px] rounded-[3px] text-[10px] font-black bg-[#ff3b30] text-white leading-none tracking-wider relative top-[-1px]">
+                                                                    N
+                                                                </span>
+                                                            )}
+                                                        </div>
                                                     </td>
 
                                                     {/* 우선순위점수 */}

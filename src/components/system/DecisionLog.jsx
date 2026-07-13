@@ -1344,7 +1344,14 @@ export default function DecisionLog() {
                                                                                     onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }}
                                                                                 />
                                                                             </div>
-                                                                            <span className="text-[13px] font-bold text-[#E5E5E5]">{comment.author}</span>
+                                                                            <div className="flex items-center gap-[6px]">
+                                                                                <span className="text-[13px] font-bold text-[#E5E5E5]">{comment.author}</span>
+                                                                                {comment.created_at && (new Date() - new Date(comment.created_at)) < 48 * 60 * 60 * 1000 && (
+                                                                                    <span className="shrink-0 inline-flex items-center justify-center px-[4px] py-[2px] rounded-[3px] text-[10px] font-black bg-[#ff3b30] text-white leading-none tracking-wider">
+                                                                                        N
+                                                                                    </span>
+                                                                                )}
+                                                                            </div>
                                                                         </div>
                                                                         <div className="text-[13px] text-[#A1A1AA] whitespace-pre-wrap break-words ml-[32px] mb-[6px]">{comment.text}</div>
                                                                         <div className="flex items-center gap-[8px] ml-[32px]">
@@ -1692,7 +1699,14 @@ export default function DecisionLog() {
                                                 />
                                             )}
                                         </div>
-                                        <span className="text-[14px] font-bold text-white">{log.writer_name}</span>
+                                        <div className="flex items-center gap-[6px]">
+                                            <span className="text-[14px] font-bold text-white">{log.writer_name}</span>
+                                            {((log.created_at && (new Date() - new Date(log.created_at)) < 48 * 60 * 60 * 1000) || (log.updated_at && (new Date() - new Date(log.updated_at)) < 48 * 60 * 60 * 1000)) && (
+                                                <span className="shrink-0 inline-flex items-center justify-center px-[4px] py-[2px] rounded-[3px] text-[10px] font-black bg-[#ff3b30] text-white leading-none tracking-wider">
+                                                    N
+                                                </span>
+                                            )}
+                                        </div>
                                     </div>
 
                                     {/* Content */}
@@ -1890,7 +1904,14 @@ export default function DecisionLog() {
                                                                     onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }}
                                                                 />
                                                             </div>
-                                                            <span className="text-[13px] font-bold text-[#E5E5E5]">{comment.author}</span>
+                                                            <div className="flex items-center gap-[6px]">
+                                                                <span className="text-[13px] font-bold text-[#E5E5E5]">{comment.author}</span>
+                                                                {comment.created_at && (new Date() - new Date(comment.created_at)) < 48 * 60 * 60 * 1000 && (
+                                                                    <span className="shrink-0 inline-flex items-center justify-center px-[4px] py-[2px] rounded-[3px] text-[10px] font-black bg-[#ff3b30] text-white leading-none tracking-wider">
+                                                                        N
+                                                                    </span>
+                                                                )}
+                                                            </div>
                                                             <span className="text-[11px] text-[#86868B]">
                                                                 {new Date(comment.created_at).toLocaleString('ko-KR', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })}
                                                             </span>
@@ -2150,7 +2171,14 @@ export default function DecisionLog() {
                                     )}
                                 </div>
                                 <div className="flex flex-col text-left">
-                                    <span className="text-white font-bold text-[16px] leading-tight">{selectedIotaLog.writer_name}</span>
+                                    <div className="flex items-center gap-[6px]">
+                                        <span className="text-white font-bold text-[16px] leading-tight">{selectedIotaLog.writer_name}</span>
+                                        {((selectedIotaLog.created_at && (new Date() - new Date(selectedIotaLog.created_at)) < 48 * 60 * 60 * 1000) || (selectedIotaLog.updated_at && (new Date() - new Date(selectedIotaLog.updated_at)) < 48 * 60 * 60 * 1000)) && (
+                                            <span className="shrink-0 inline-flex items-center justify-center px-[4px] py-[2px] rounded-[3px] text-[10px] font-black bg-[#ff3b30] text-white leading-none tracking-wider relative top-[-1px]">
+                                                N
+                                            </span>
+                                        )}
+                                    </div>
                                     <span className="text-[#86868B] text-[13px] mt-[2px] leading-tight">{selectedIotaLog.writer_email}</span>
                                 </div>
                             </div>

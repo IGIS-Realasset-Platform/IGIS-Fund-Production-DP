@@ -38,6 +38,7 @@ export default function PmoPopupManager() {
     const [departments, setDepartments] = useState([]);
     const [pilotMembers, setPilotMembers] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [activePopupIds, setActivePopupIds] = useState(new Set());
 
     // Filter states
     const [searchQuery, setSearchQuery] = useState('');
@@ -130,6 +131,28 @@ export default function PmoPopupManager() {
                 .select('*');
             if (!projErr && projData) setProjects(projData);
             else setProjects(FALLBACK_PROJECTS);
+
+            // Fetch active popup IDs (recent logs within 48 hours)
+            try {
+                const fortyEightHoursAgo = new Date(Date.now() - 48 * 60 * 60 * 1000).toISOString();
+                const { data: recentLogs } = await supabase
+                    .from('iota_seoul_logs')
+                    .select('metadata')
+                    .gte('created_at', fortyEightHoursAgo)
+                    .contains('metadata', { workspace_label: '단발성 업무 요청' });
+                
+                const activeIds = new Set();
+                if (recentLogs) {
+                    recentLogs.forEach(log => {
+                        if (log.metadata && log.metadata.task_id) {
+                            activeIds.add(log.metadata.task_id);
+                        }
+                    });
+                }
+                setActivePopupIds(activeIds);
+            } catch (e) {
+                console.warn("Failed to fetch recent active popups:", e);
+            }
 
             // 3. Fetch Departments
             const { data: deptData, error: deptErr } = await supabase
@@ -962,6 +985,7 @@ export default function PmoPopupManager() {
                                     filteredPopups.map((p, index) => {
                                         const isOwner = p.created_by_email === currentUserEmail;
                                         const canEdit = isAdmin || (currentUserEmail && isOwner);
+                                        const isPopupNew = activePopupIds.has(p.id) || (p.request_date && (new Date() - new Date(p.request_date)) < 48 * 60 * 60 * 1000);
 
                                         return (
                                             <tr 
@@ -1005,7 +1029,14 @@ export default function PmoPopupManager() {
 
                                                 {/* Task Details (업무명, 220px, truncate) */}
                                                 <td className="px-3 py-2 border-r border-[#3c3c3c]/50 text-[#bdbba7] font-bold truncate align-middle" title={p.request_detail}>
-                                                    {p.request_detail}
+                                                    <div className="flex items-center gap-[6px] truncate w-full">
+                                                        <span className="truncate">{p.request_detail}</span>
+                                                        {isPopupNew && (
+                                                            <span className="shrink-0 inline-flex items-center justify-center px-[4px] py-[2px] rounded-[3px] text-[10px] font-black bg-[#ff3b30] text-white leading-none tracking-wider relative top-[-1px]">
+                                                                N
+                                                            </span>
+                                                        )}
+                                                    </div>
                                                 </td>
 
                                                 {/* Purpose (요청목적, 150px, truncate) */}
