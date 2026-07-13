@@ -1750,6 +1750,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                     lead_dept:iota_departments!lead_dept_code(dept_name),
                     external_party:iota_stakeholders!external_party_code(stakeholder_name)
                 `)
+                .neq('task_type', '팝업')
                 .order('created_at', { ascending: true });
 
             if (error) throw error;
