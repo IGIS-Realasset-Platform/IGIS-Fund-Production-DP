@@ -5,9 +5,11 @@ import toast, { Toaster } from 'react-hot-toast';
 
 // Local Fallbacks to prevent UI crashes if DB queries return empty or fail
 const FALLBACK_PROJECTS = [
-    { project_code: 'IOTA_SEOUL', project_name: '서울 IOTA' },
-    { project_code: 'COMMON', project_name: '공통' },
-    { project_code: 'PROJECT_427', project_name: '427 PFV' }
+    { project_code: 'IOTA_SEOUL', project_name: 'IOTA 공통' },
+    { project_code: 'PFV_427', project_name: '427 PFV' },
+    { project_code: 'PFV_816', project_name: '816 PFV' },
+    { project_code: 'FUND_421', project_name: '421Fund' },
+    { project_code: 'EXTERNAL', project_name: '외부' }
 ];
 
 const FALLBACK_DEPARTMENTS = [
@@ -190,7 +192,7 @@ export default function PmoPopupManager() {
         setSelectedPopup(null);
         setFormRequestDate(new Date().toISOString().slice(0, 10));
         setFormRequester(memberInfo ? `${memberInfo.staff_name || memberInfo.name || ''} / ${memberInfo.org_name || ''}` : '');
-        setFormProjectCode('COMMON');
+        setFormProjectCode('IOTA_SEOUL');
         setFormCategoryName('일반 요청');
         setFormRequestDetail('');
         setFormPurpose('');
@@ -625,10 +627,10 @@ export default function PmoPopupManager() {
                                                 {/* Project (with badge, 80px, center-aligned) */}
                                                 <td className="px-1.5 py-2 border-r border-[#3c3c3c]/50 text-center font-bold align-middle">
                                                     <span className={`px-1.5 py-0.5 rounded text-[11px] font-bold border inline-block align-middle max-w-full truncate ${
-                                                        p.project_code === 'COMMON' ? 'bg-[#323233] text-[#F5F5F7] border-[#424243]' :
-                                                        p.project_code === 'PROJECT_427' ? 'bg-[#3A3A3C] text-[#FFFFFF] border-[#48484A]' :
-                                                        p.project_code === 'PROJECT_816' ? 'bg-[#2C2C2E] text-[#E5E5EA] border-[#3A3A3C]' :
-                                                        p.project_code === 'PROJECT_421' ? 'bg-[#242426] text-[#D1D1D6] border-[#323234]' :
+                                                        p.project_code === 'IOTA_SEOUL' ? 'bg-[#323233] text-[#F5F5F7] border-[#424243]' :
+                                                        p.project_code === 'PFV_427' ? 'bg-[#3A3A3C] text-[#FFFFFF] border-[#48484A]' :
+                                                        p.project_code === 'PFV_816' ? 'bg-[#2C2C2E] text-[#E5E5EA] border-[#3A3A3C]' :
+                                                        p.project_code === 'FUND_421' ? 'bg-[#242426] text-[#D1D1D6] border-[#323234]' :
                                                         'bg-[#1C1C1E] text-[#AEAEB2] border-[#2C2C2E]'
                                                     }`}>
                                                         {getProjectName(p.project_code)}
