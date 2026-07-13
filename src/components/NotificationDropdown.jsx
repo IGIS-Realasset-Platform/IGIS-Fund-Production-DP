@@ -170,7 +170,21 @@ export default function NotificationDropdown({ isOpen, onClose, notifications, u
                 }
 
                 if (targetPath) {
-                    const newUrl = logId ? `${base}/${targetPath}?logId=${logId}` : `${base}/${targetPath}`;
+                    let newUrl = logId ? `${base}/${targetPath}?logId=${logId}` : `${base}/${targetPath}`;
+                    
+                    if (logId && (wsCode === 'WS_PMO' || wsCode === 'WS_POPUP_REQUESTS')) {
+                        try {
+                            const { data, error } = await supabase
+                                .from('iota_seoul_logs')
+                                .select('metadata')
+                                .eq('log_id', logId)
+                                .single();
+                            if (!error && data?.metadata?.task_id) {
+                                newUrl = `${base}/${targetPath}?taskId=${data.metadata.task_id}`;
+                            }
+                        } catch (e) { console.error('Failed to resolve task_id from log:', e); }
+                    }
+
                     console.log('[NotificationDropdown] 협업글 워크스페이스 이동 URL:', newUrl);
                     window.history.pushState(null, '', newUrl);
                     window.dispatchEvent(new Event('popstate'));

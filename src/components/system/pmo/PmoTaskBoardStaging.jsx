@@ -2481,8 +2481,8 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                             is_task_board: true,
                             task_id: editingItem.id,
                             task_project: resolvedProjectCode || 'IOTA_SEOUL',
-                            workspace_code: memberInfo?.workspace_code || 'WS_PM2',
-                            workspace_label: memberInfo?.workspace_label || '기획추진-PM2',
+                            workspace_code: 'WS_PMO',
+                            workspace_label: '통합업무보드',
                             editor_name: memberInfo?.staff_name || memberInfo?.name || '시스템',
                             structured_changes: structuredChanges
                         }
