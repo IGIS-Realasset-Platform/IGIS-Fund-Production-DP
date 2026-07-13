@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { supabase } from '../../../utils/supabaseClient';
 import { useAuth } from '../../../context/AuthContext';
 import toast, { Toaster } from 'react-hot-toast';
+import WorkspaceActivityLog from '../workspace/WorkspaceActivityLog';
 
 // Local Fallbacks to prevent UI crashes if DB queries return empty or fail
 const FALLBACK_PROJECTS = [
@@ -46,6 +47,7 @@ export default function PmoPopupManager() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalMode, setModalMode] = useState('create'); // 'create' | 'edit'
     const [selectedPopup, setSelectedPopup] = useState(null);
+    const [selectedPopupDetail, setSelectedPopupDetail] = useState(null);
 
     // Form state
     const [formRequestDate, setFormRequestDate] = useState('');
@@ -656,7 +658,8 @@ export default function PmoPopupManager() {
                                             <tr 
                                                 key={p.id} 
                                                 onDoubleClick={() => canEdit && openEditModal(p)}
-                                                className="hover:bg-white/[0.04] transition-colors group text-[13px] h-[50px] bg-transparent"
+                                                onClick={() => setSelectedPopupDetail(p)}
+                                                className="hover:bg-white/[0.04] transition-colors group text-[13px] h-[50px] bg-transparent cursor-pointer"
                                             >
                                                 {/* Date (Format: yy.mm.dd, font 1px smaller) */}
                                                 <td className="px-3 py-2 border-r border-[#3c3c3c]/50 text-[#86868B] text-center font-medium text-[12px] align-middle">
@@ -737,7 +740,7 @@ export default function PmoPopupManager() {
                                                     {canEdit ? (
                                                         <div className="flex items-center justify-center gap-1.5 select-none opacity-40 group-hover:opacity-100 transition-opacity">
                                                             <button 
-                                                                onClick={() => openEditModal(p)}
+                                                                onClick={(e) => { e.stopPropagation(); openEditModal(p); }}
                                                                 title="수정하기"
                                                                 className="p-1 hover:bg-[#3A3A3C] text-[#2997ff] rounded-md transition-colors cursor-pointer align-middle"
                                                             >
@@ -746,7 +749,7 @@ export default function PmoPopupManager() {
                                                                 </svg>
                                                             </button>
                                                             <button 
-                                                                onClick={() => setDeleteTargetId(p.id)}
+                                                                onClick={(e) => { e.stopPropagation(); setDeleteTargetId(p.id); }}
                                                                 title="삭제하기"
                                                                 className="p-1 hover:bg-[#3A3A3C] text-[#ff453a] rounded-md transition-colors cursor-pointer align-middle"
                                                             >
@@ -1073,6 +1076,168 @@ export default function PmoPopupManager() {
                     </div>
                 </div>
             )}
+
+            {/* Popup Detail Slide Panel Drawer */}
+            {selectedPopupDetail && (() => {
+                const p = selectedPopupDetail;
+                const isOwner = p.created_by_email === currentUserEmail;
+                const canEditDetail = isAdmin || (currentUserEmail && isOwner);
+
+                return (
+                    <div className="fixed inset-0 z-[100000] overflow-hidden pointer-events-none">
+                        {/* Clickable backdrop that closes the drawer */}
+                        <div className="absolute inset-0 pointer-events-auto bg-black/40 backdrop-blur-xs" onClick={() => setSelectedPopupDetail(null)} />
+                        
+                        <div className="absolute inset-y-0 right-0 max-w-full flex pl-10 pointer-events-auto">
+                            <div className="w-screen max-w-[550px] transform transition-transform duration-300 ease-in-out shadow-2xl flex flex-col h-full bg-[#1c1c1e]/95 backdrop-blur-xl border-l border-[#3c3c3c]/80 text-white select-text">
+                                {/* Header */}
+                                <div className="px-[18px] py-3 border-b border-[#3c3c3c]/80 flex items-center justify-between bg-[#1c1c1e]/80 sticky top-0 z-20">
+                                    <div className="flex items-center gap-3 flex-wrap">
+                                        <span className="font-mono text-[12px] font-bold px-2 py-0.5 rounded bg-white/10 text-[#86868B]">
+                                            {p.id && !String(p.id).includes('-') ? `P-${p.id}` : p.id}
+                                        </span>
+                                        <span className="text-[12px] font-bold px-2 py-0.5 rounded border border-[#3c3c3c] bg-[#3A3A3C] text-white">
+                                            {getProjectName(p.project_code)}
+                                        </span>
+                                        <span className="text-[12px] font-bold px-2 py-0.5 rounded border border-[#3c3c3c] bg-white/5 text-[#E5E5E5]">
+                                            {p.category_name || '-'}
+                                        </span>
+                                    </div>
+                                    <button 
+                                        type="button"
+                                        onClick={() => setSelectedPopupDetail(null)}
+                                        className="text-[#86868B] hover:text-white text-[20px] font-bold transition-colors cursor-pointer"
+                                    >
+                                        ✕
+                                    </button>
+                                </div>
+                                
+                                {/* Content Body */}
+                                <div className="flex-1 overflow-y-auto px-[18px] py-6 space-y-[10px] timeline-scrollbar">
+                                    {/* Task Name */}
+                                    <div className="space-y-1">
+                                        <h2 className="text-[22px] font-bold text-[#bdbba7] leading-snug">
+                                            {p.request_detail}
+                                        </h2>
+                                        <div className="flex flex-wrap gap-2 text-[12px] pt-1">
+                                            <span className={`px-2 py-0.5 rounded-[4px] font-bold text-[11px] ${getStatusStyle(p.handling_status)}`}>
+                                                {p.handling_status || '미착수'}
+                                            </span>
+                                            
+                                            <span className={`px-2 py-0.5 rounded-[4px] font-bold text-[11px] ${getImpactStyle(p.impact_level)}`}>
+                                                중요도: {p.impact_level || '중간'}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    
+                                    {/* Metadata Card Box */}
+                                    <div className="p-5 rounded-[16px] bg-white/[0.02] border border-[#2c2c2e] space-y-[14px] text-[13px]">
+                                        {/* Row 1: 요청부서, 수행부서 */}
+                                        <div className="grid grid-cols-2 gap-4">
+                                            <div className="space-y-[3px]">
+                                                <span className="text-[#86868B] text-[11px] block">요청 부서</span>
+                                                <span className="font-bold text-[#E5E5E5] block">
+                                                    {p.requester || '-'}
+                                                </span>
+                                            </div>
+                                            <div className="space-y-[3px]">
+                                                <span className="text-[#86868B] text-[11px] block">수행 부서</span>
+                                                <span className="font-bold text-[#E5E5E5] block">
+                                                    {getDeptName(p.assigned_dept_code) || '-'}
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        {/* Row 2: 접수일, 요청기한 */}
+                                        <div className="grid grid-cols-2 gap-4">
+                                            <div className="space-y-[3px]">
+                                                <span className="text-[#86868B] text-[11px] block">접수일</span>
+                                                <span className="font-bold text-[#E5E5E5] block">
+                                                    {p.request_date ? p.request_date.replace(/-/g, '.') : '-'}
+                                                </span>
+                                            </div>
+                                            <div className="space-y-[3px]">
+                                                <span className="text-[#86868B] text-[11px] block">요청 기한</span>
+                                                <span className="font-bold text-[#E5E5E5] block">
+                                                    {p.due_date ? p.due_date.replace(/-/g, '.') : '-'}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    {/* Deep Dive Narrative Cards */}
+                                    <div className="p-5 rounded-[16px] bg-white/[0.02] border border-[#2c2c2e] flex flex-col">
+                                        {/* 요청 목적 */}
+                                        <div className="space-y-0">
+                                            <h4 className="text-[11px] font-bold text-[#86868B]">요청 목적</h4>
+                                            <p className="text-[14px] text-[#bdbba7] leading-relaxed whitespace-pre-line mt-[2px]">
+                                                {p.purpose || '등록된 내용이 없습니다.'}
+                                            </p>
+                                        </div>
+                                        
+                                        <div className="h-[1px] bg-[#3c3c3c]/30 mt-[10px] mb-[12px]"></div>
+                                        
+                                        {/* 필요 산출물 */}
+                                        <div className="space-y-0">
+                                            <h4 className="text-[11px] font-bold text-[#86868B]">필요 산출물</h4>
+                                            <p className="text-[14px] text-[#bdbba7] leading-relaxed whitespace-pre-line mt-[2px]">
+                                                {p.deliverables || '등록된 내용이 없습니다.'}
+                                            </p>
+                                        </div>
+
+                                        {p.memo && (
+                                            <>
+                                                <div className="h-[1px] bg-[#3c3c3c]/30 mt-[10px] mb-[12px]"></div>
+                                                {/* 메모 */}
+                                                <div className="space-y-0">
+                                                    <h4 className="text-[11px] font-bold text-[#86868B]">상세 메모</h4>
+                                                    <p className="text-[14px] text-[#bdbba7] leading-relaxed whitespace-pre-line mt-[2px]">
+                                                        {p.memo}
+                                                    </p>
+                                                </div>
+                                            </>
+                                        )}
+                                    </div>
+
+                                    {/* 업무 협업 게시판 */}
+                                    <div className="w-full">
+                                        <WorkspaceActivityLog 
+                                            isTaskBoard={true} 
+                                            taskId={String(p.id)} 
+                                            taskProject={p.project_code || 'IOTA_SEOUL'}
+                                            workspaceCode="WS_PMO" 
+                                            workspaceLabel="통합업무보드" 
+                                        />
+                                    </div>
+                                </div>
+                                
+                                {/* Footer Action Buttons */}
+                                <div className="px-[18px] py-4 border-t border-[#3c3c3c]/80 flex justify-end gap-3 bg-[#1c1c1e]/90">
+                                    <button 
+                                        type="button"
+                                        onClick={() => setSelectedPopupDetail(null)}
+                                        className="px-4 py-2 rounded-[8px] bg-white/5 hover:bg-white/10 text-white border border-[#3c3c3c] text-[13px] font-bold cursor-pointer transition-all"
+                                    >
+                                        닫기
+                                    </button>
+                                    {canEditDetail && (
+                                        <button 
+                                            type="button"
+                                            onClick={() => {
+                                                setSelectedPopupDetail(null);
+                                                openEditModal(p);
+                                            }}
+                                            className="px-5 py-2 rounded-[8px] bg-[#2997ff] hover:bg-[#2997ff]/90 text-[13px] font-bold text-white cursor-pointer transition-all shadow-md shadow-[#2997ff]/10"
+                                        >
+                                            업무 수정하기
+                                        </button>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                );
+            })()}
         </div>
     );
 }
