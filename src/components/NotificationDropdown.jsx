@@ -169,28 +169,35 @@ export default function NotificationDropdown({ isOpen, onClose, notifications, u
                     console.log('[NotificationDropdown] localStorage 세팅 iota_target_log_id:', logId);
                 }
 
+                let resolvedTaskId = null;
+                if (logId) {
+                    try {
+                        const { data, error } = await supabase
+                            .from('iota_seoul_logs')
+                            .select('metadata')
+                            .eq('log_id', logId)
+                            .single();
+                        if (!error && data?.metadata?.task_id) {
+                            resolvedTaskId = data.metadata.task_id;
+                        }
+                    } catch (e) { console.error('Failed to resolve task_id from log:', e); }
+                }
+
                 if (targetPath) {
                     let newUrl = logId ? `${base}/${targetPath}?logId=${logId}` : `${base}/${targetPath}`;
                     
-                    if (logId && (wsCode === 'WS_PMO' || wsCode === 'WS_POPUP_REQUESTS')) {
-                        try {
-                            const { data, error } = await supabase
-                                .from('iota_seoul_logs')
-                                .select('metadata')
-                                .eq('log_id', logId)
-                                .single();
-                            if (!error && data?.metadata?.task_id) {
-                                newUrl = `${base}/${targetPath}?taskId=${data.metadata.task_id}`;
-                            }
-                        } catch (e) { console.error('Failed to resolve task_id from log:', e); }
+                    if (resolvedTaskId && (wsCode === 'WS_PMO' || wsCode === 'WS_POPUP_REQUESTS')) {
+                        newUrl = `${base}/${targetPath}?taskId=${resolvedTaskId}`;
                     }
 
                     console.log('[NotificationDropdown] 협업글 워크스페이스 이동 URL:', newUrl);
                     window.history.pushState(null, '', newUrl);
                     window.dispatchEvent(new Event('popstate'));
                 } else {
-                    // targetPath가 없으면 통합 workflow 보드로 이동
-                    const newUrl = logId ? `${base}/platform/iotaseoul/workflow?logId=${logId}` : `${base}/platform/iotaseoul/workflow`;
+                    // targetPath가 없으면 통합 workflow 보드로 이동 (fallback to PMO board)
+                    const newUrl = resolvedTaskId 
+                        ? `${base}/platform/iotaseoul/workflow?taskId=${resolvedTaskId}` 
+                        : (logId ? `${base}/platform/iotaseoul/workflow?logId=${logId}` : `${base}/platform/iotaseoul/workflow`);
                     console.log('[NotificationDropdown] 협업글 통합 Workflow 이동 URL:', newUrl);
                     window.history.pushState(null, '', newUrl);
                     window.dispatchEvent(new Event('popstate'));
