@@ -500,7 +500,7 @@ export default function PmoPopupManager() {
             </div>
 
             {/* Filters Bar */}
-            <div className="bg-[#2c2c2b]/30 border border-[#3c3c3c] rounded-[16px] py-3 px-4 mb-[16px] flex flex-wrap gap-4 items-center justify-between">
+            <div className="bg-[#2c2c2b]/30 border border-[#3c3c3c] rounded-[16px] py-3 pl-3 pr-4 mb-[16px] flex flex-wrap gap-4 items-center justify-between">
                 <div className="flex flex-wrap items-center gap-3 flex-1 min-w-0">
                     {/* Search query */}
                     <div className="relative w-[280px] shrink-0">
