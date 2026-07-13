@@ -119,37 +119,7 @@ export default function PmoPopupManager() {
             });
             setPopups(normalizedData);
 
-            // Auto-open detail if popupId or logId is in URL on mount
-            if (!initialUrlCheckedRef.current) {
-                const params = new URLSearchParams(window.location.search);
-                const urlPopupId = params.get('popupId');
-                const urlLogId = params.get('logId');
-                
-                if (urlPopupId) {
-                    const matched = normalizedData.find(item => String(item.id) === String(urlPopupId));
-                    if (matched) {
-                        setSelectedPopupDetail(matched);
-                    }
-                } else if (urlLogId) {
-                    // Query task_id from iota_seoul_logs
-                    try {
-                        const { data: logRow, error: logRowErr } = await supabase
-                            .from('iota_seoul_logs')
-                            .select('task_id')
-                            .eq('log_id', urlLogId)
-                            .single();
-                        if (!logRowErr && logRow && logRow.task_id) {
-                            const matched = normalizedData.find(item => String(item.id) === String(logRow.task_id));
-                            if (matched) {
-                                setSelectedPopupDetail(matched);
-                            }
-                        }
-                    } catch (e) {
-                        console.error("Failed to resolve logId to popupId:", e);
-                    }
-                }
-                initialUrlCheckedRef.current = true;
-            }
+
 
             // 2. Fetch Projects
             const { data: projData, error: projErr } = await supabase
@@ -200,6 +170,55 @@ export default function PmoPopupManager() {
     useEffect(() => {
         fetchData();
     }, []);
+
+    // Watch URL parameter changes dynamically (for mount and popstate events / notification clicks)
+    useEffect(() => {
+        const checkUrlParams = async () => {
+            const params = new URLSearchParams(window.location.search);
+            const urlPopupId = params.get('popupId');
+            const urlLogId = params.get('logId');
+
+            if (urlPopupId) {
+                const matched = popups.find(item => String(item.id) === String(urlPopupId));
+                if (matched && (!selectedPopupDetail || String(selectedPopupDetail.id) !== String(urlPopupId))) {
+                    setSelectedPopupDetail(matched);
+                }
+                initialUrlCheckedRef.current = true;
+            } else if (urlLogId) {
+                try {
+                    const { data: logRow, error: logRowErr } = await supabase
+                        .from('iota_seoul_logs')
+                        .select('task_id')
+                        .eq('log_id', urlLogId)
+                        .single();
+                    if (!logRowErr && logRow && logRow.task_id) {
+                        const matched = popups.find(item => String(item.id) === String(logRow.task_id));
+                        if (matched && (!selectedPopupDetail || String(selectedPopupDetail.id) !== String(logRow.task_id))) {
+                            setSelectedPopupDetail(matched);
+                        }
+                    }
+                } catch (e) {
+                    console.error("Failed to resolve logId to popupId in effect:", e);
+                }
+                initialUrlCheckedRef.current = true;
+            }
+        };
+
+        if (popups.length > 0) {
+            checkUrlParams();
+        }
+
+        const handlePopState = () => {
+            if (popups.length > 0) {
+                checkUrlParams();
+            }
+        };
+
+        window.addEventListener('popstate', handlePopState);
+        return () => {
+            window.removeEventListener('popstate', handlePopState);
+        };
+    }, [popups, selectedPopupDetail]);
 
     // Sync selectedPopupDetail to URL query param
     useEffect(() => {
