@@ -13,13 +13,11 @@ const FALLBACK_PROJECTS = [
 ];
 
 const FALLBACK_DEPARTMENTS = [
-    { dept_code: 'WS_PM1', dept_name: '사업1파트' },
-    { dept_code: 'WS_PM2', dept_name: '사업2파트' },
-    { dept_code: 'WS_LFC', dept_name: '파이낸싱-LFC' },
-    { dept_code: 'WS_DSC', dept_name: '개발솔루션-DSC' },
-    { dept_code: 'WS_EMC', dept_name: '기업마케팅-EMC' },
-    { dept_code: 'WS_SSC', dept_name: '공간솔루션-SSC' },
-    { dept_code: 'WS_KAM', dept_name: 'KAM' }
+    { dept_code: 'DEPT_PM2', dept_name: '사업2파트' },
+    { dept_code: 'DEPT_LFC', dept_name: '파이낸싱-LFC' },
+    { dept_code: 'DEPT_DEV', dept_name: '개발관리실' },
+    { dept_code: 'DEPT_DESIGN', dept_name: '설계실' },
+    { dept_code: 'DEPT_MKT', dept_name: '마케팅팀' }
 ];
 
 const CATEGORY_OPTIONS = [
@@ -114,9 +112,7 @@ export default function PmoPopupManager() {
             if (!deptErr && deptData && deptData.length > 0) {
                 // Map names dynamically to match user request (PM ➔ 파트, 펀드운용 ➔ KAM)
                 const mappedDepts = deptData.map(d => {
-                    if (d.dept_code === 'WS_PM1') return { ...d, dept_name: '사업1파트' };
-                    if (d.dept_code === 'WS_PM2') return { ...d, dept_name: '사업2파트' };
-                    if (d.dept_code === 'WS_KAM') return { ...d, dept_name: 'KAM' };
+                    if (d.dept_code === 'DEPT_PM2') return { ...d, dept_name: '사업2파트' };
                     return d;
                 });
                 setDepartments(mappedDepts);
@@ -198,7 +194,7 @@ export default function PmoPopupManager() {
         setFormPurpose('');
         setFormDeliverables('');
         setFormDueDate('');
-        setFormAssignedDeptCode('WS_PM2');
+        setFormAssignedDeptCode('DEPT_PM2');
         setFormCoopDeptCodes('');
         setFormImpactLevel('중간');
         setFormHandlingStatus('미착수');
