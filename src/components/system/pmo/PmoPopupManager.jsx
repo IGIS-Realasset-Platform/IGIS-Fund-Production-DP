@@ -357,9 +357,15 @@ export default function PmoPopupManager() {
 
     const getStatusStyle = (status) => {
         switch (status) {
-            case '완료': return 'bg-green-500/10 text-green-400 border border-green-500/20';
-            case '지연': return 'bg-red-500/10 text-red-400 border border-red-500/20';
-            default: return 'bg-gray-500/10 text-gray-400 border border-gray-500/20';
+            case '미착수': return 'bg-white/5 text-[#a1a1aa] border border-white/10';
+            case '진행중': return 'bg-[#2997ff]/10 text-[#2997ff] border border-[#2997ff]/20';
+            case '검토중': return 'bg-[#bf5af2]/10 text-[#bf5af2] border border-[#bf5af2]/20';
+            case '대기': return 'bg-[#ff9f0a]/10 text-[#ff9f0a] border border-[#ff9f0a]/20';
+            case '지연': return 'bg-[#ff453a]/10 text-[#ff453a] border border-[#ff453a]/20';
+            case '완료': return 'bg-[#30d158]/10 text-[#30d158] border border-[#30d158]/20';
+            case '보류': return 'bg-[#ffd60a]/10 text-[#ffd60a] border border-[#ffd60a]/20';
+            case '중단': return 'bg-[#8e8e93]/10 text-[#8e8e93] border border-[#8e8e93]/20';
+            default: return 'bg-white/5 text-[#a1a1aa] border border-white/10';
         }
     };
 
@@ -367,9 +373,9 @@ export default function PmoPopupManager() {
         switch (level) {
             case '높음': return 'text-[#ff453a] font-bold';
             case '보통':
-            case '중간': return 'text-[#ffd60a]';
-            case '낮음': return 'text-[#30d158]';
-            default: return 'text-gray-400';
+            case '중간': return 'text-white font-medium';
+            case '낮음': return 'text-[#8e8e93] font-medium';
+            default: return 'text-[#8e8e93]';
         }
     };
 
@@ -624,14 +630,14 @@ export default function PmoPopupManager() {
                         <table className="text-left table-fixed border-collapse w-[1290px] min-w-[1290px] select-text">
                             <thead className="bg-transparent">
                                 <tr className="border-b border-[#3c3c3c] h-[38px]">
-                                    <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c]/50 text-center w-[90px]">접수일</th>
+                                    <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c]/50 text-center w-[80px]">접수일</th>
                                     <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c]/50 text-center w-[90px]">요청부서</th>
                                     <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c]/50 text-center w-[80px]">프로젝트</th>
                                     <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c]/50 w-[90px]">업무분류</th>
-                                    <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c]/50 w-[230px]">업무명</th>
+                                    <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c]/50 w-[250px]">업무명</th>
                                     <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c]/50 w-[150px]">요청목적</th>
                                     <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c]/50 w-[150px]">필요 산출물</th>
-                                    <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c]/50 text-center w-[90px]">요청기한</th>
+                                    <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c]/50 text-center w-[80px]">요청기한</th>
                                     <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c]/50 text-center w-[80px]">수행부서</th>
                                     <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c]/50 text-center w-[80px]">중요도</th>
                                     <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c]/50 text-center w-[70px]">상태</th>
