@@ -1285,7 +1285,7 @@ export default function PmoPopupManager() {
                         <div className="absolute inset-y-0 right-0 max-w-full flex pl-10 pointer-events-auto">
                             <div className="w-screen max-w-[550px] transform transition-transform duration-300 ease-in-out shadow-2xl flex flex-col h-full bg-[#1c1c1e]/95 backdrop-blur-xl border-l border-[#3c3c3c]/80 text-white select-text">
                                 {/* Header */}
-                                <div className="px-[18px] py-3 border-b border-[#3c3c3c]/80 flex items-center justify-between bg-[#1c1c1e]/80 sticky top-0 z-20">
+                                <div className="px-[10px] py-3 border-b border-[#3c3c3c]/80 flex items-center justify-between bg-[#1c1c1e]/80 sticky top-0 z-20">
                                     <div className="flex items-center gap-3 flex-wrap">
                                         <span className="text-[12px] font-bold px-2 py-0.5 rounded border border-[#3c3c3c] bg-[#3A3A3C] text-white">
                                             {getProjectName(p.project_code)}
@@ -1304,7 +1304,7 @@ export default function PmoPopupManager() {
                                 </div>
                                 
                                 {/* Content Body */}
-                                <div className="flex-1 overflow-y-auto px-[18px] py-6 space-y-[10px] timeline-scrollbar">
+                                <div className="flex-1 overflow-y-auto px-[10px] py-6 space-y-[10px] timeline-scrollbar">
                                     {/* Task Name */}
                                     <div className="space-y-1">
                                         <h2 className="text-[22px] font-bold text-[#bdbba7] leading-snug">
@@ -1410,7 +1410,7 @@ export default function PmoPopupManager() {
                                 </div>
                                 
                                 {/* Footer Action Buttons */}
-                                <div className="px-[18px] py-4 border-t border-[#3c3c3c]/80 flex justify-end gap-3 bg-[#1c1c1e]/90">
+                                <div className="px-[10px] py-4 border-t border-[#3c3c3c]/80 flex justify-end gap-3 bg-[#1c1c1e]/90">
                                     <button 
                                         type="button"
                                         onClick={() => setSelectedPopupDetail(null)}
