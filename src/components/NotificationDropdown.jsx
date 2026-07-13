@@ -17,7 +17,7 @@ export default function NotificationDropdown({ isOpen, onClose, notifications, u
 
             console.log('[NotificationDropdown] 알림 전체 정보:', notif);
             
-            // 정밀 판정 로직: type이 log이거나 title에 [협업] 또는 [@언급]이 들어있는 경우 모두 협업글로 처리
+            // 정밀 판정 로직: type이 log이거나 title에 [협업], [@언급], 새 글, 또는 등록이 들어있는 경우 모두 협업글로 처리
             const isLogNotif = notif.type === 'log' || 
                                notif.type === 'logs' || 
                                String(notif.type).toLowerCase() === 'log' ||
@@ -26,12 +26,19 @@ export default function NotificationDropdown({ isOpen, onClose, notifications, u
                                (notif.title && (
                                    notif.title.includes('[협업]') || 
                                    notif.title.includes('[@언급]') || 
-                                   notif.title.includes('댓글')
-                               ));
+                                   notif.title.includes('댓글') ||
+                                   notif.title.includes('새 글') ||
+                                   notif.title.includes('등록됐습니다') ||
+                                   notif.title.includes('등록되었습니다')
+                                ));
 
             const isTaskNotif = notif.type === 'task' || 
                                 String(notif.type).toLowerCase() === 'task' ||
-                                (notif.title && (notif.title.includes('[Task]') || notif.title.includes('신규 Task')));
+                                (notif.title && (
+                                    notif.title.includes('[Task]') || 
+                                    notif.title.includes('신규 Task') ||
+                                    notif.title.includes('Task 등록')
+                                ));
 
             if (isLogNotif) {
                 console.log('[NotificationDropdown] 협업글 알림 클릭됨. reference_id:', notif.reference_id);
@@ -81,7 +88,8 @@ export default function NotificationDropdown({ isOpen, onClose, notifications, u
                     'WS_SSC': 'platform/iotaseoul/workspace/digital',
                     'WS_KAM': 'platform/iotaseoul/workspace/fund',
                     'WS_IPR': 'platform/iotaseoul/workspace/ipr',
-                    'WS_POPUP_REQUESTS': 'platform/iotaseoul/popup-requests'
+                    'WS_POPUP_REQUESTS': 'platform/iotaseoul/popup-requests',
+                    'WS_PMO': 'platform/iotaseoul/workflow'
                 };
 
                 const targetPath = workspaceMap[wsCode];
@@ -152,7 +160,8 @@ export default function NotificationDropdown({ isOpen, onClose, notifications, u
                     'WS_SSC': 'platform/iotaseoul/workspace/digital',
                     'WS_KAM': 'platform/iotaseoul/workspace/fund',
                     'WS_IPR': 'platform/iotaseoul/workspace/ipr',
-                    'WS_POPUP_REQUESTS': 'platform/iotaseoul/popup-requests'
+                    'WS_POPUP_REQUESTS': 'platform/iotaseoul/popup-requests',
+                    'WS_PMO': 'platform/iotaseoul/workflow'
                 };
 
                 if (taskId) {
