@@ -613,18 +613,18 @@ export default function PmoPopupManager() {
                                                 className="hover:bg-white/[0.04] transition-colors group text-[13px] h-[42px] bg-transparent"
                                             >
                                                 {/* Date (Format: yy.mm.dd, font 1px smaller) */}
-                                                <td className="px-3 py-2 border-r border-[#3c3c3c]/50 text-[#86868B] text-center font-mono font-medium text-[12px]">
+                                                <td className="px-3 py-2 border-r border-[#3c3c3c]/50 text-[#86868B] text-center font-mono font-medium text-[12px] align-middle">
                                                     {p.request_date ? p.request_date.slice(2).replace(/-/g, '.') : '-'}
                                                 </td>
 
                                                 {/* Requesting Department (Center aligned, requester name deleted) */}
-                                                <td className="px-3 py-2 border-r border-[#3c3c3c]/50 text-center font-bold text-[#E5E5E5] truncate" title={getRequesterDeptOnly(p.requester)}>
+                                                <td className="px-3 py-2 border-r border-[#3c3c3c]/50 text-center font-bold text-[#E5E5E5] truncate align-middle" title={getRequesterDeptOnly(p.requester)}>
                                                     {getRequesterDeptOnly(p.requester)}
                                                 </td>
 
                                                 {/* Project (with badge, 80px, center-aligned) */}
-                                                <td className="px-1.5 py-2 border-r border-[#3c3c3c]/50 text-center font-bold">
-                                                    <span className={`px-1.5 py-0.5 rounded text-[11px] font-bold border inline-block max-w-full truncate ${
+                                                <td className="px-1.5 py-2 border-r border-[#3c3c3c]/50 text-center font-bold align-middle">
+                                                    <span className={`px-1.5 py-0.5 rounded text-[11px] font-bold border inline-block align-middle max-w-full truncate ${
                                                         p.project_code === 'COMMON' ? 'bg-[#323233] text-[#F5F5F7] border-[#424243]' :
                                                         p.project_code === 'PROJECT_427' ? 'bg-[#3A3A3C] text-[#FFFFFF] border-[#48484A]' :
                                                         p.project_code === 'PROJECT_816' ? 'bg-[#2C2C2E] text-[#E5E5EA] border-[#3A3A3C]' :
@@ -636,36 +636,36 @@ export default function PmoPopupManager() {
                                                 </td>
 
                                                 {/* Category (업무분류, 90px) */}
-                                                <td className="px-3 py-2 border-r border-[#3c3c3c]/50 text-white/80 font-medium truncate" title={p.category_name}>
+                                                <td className="px-3 py-2 border-r border-[#3c3c3c]/50 text-white/80 font-medium truncate align-middle" title={p.category_name}>
                                                     {p.category_name || '-'}
                                                 </td>
 
                                                 {/* Task Details (업무명, 220px, truncate) */}
-                                                <td className="px-3 py-2 border-r border-[#3c3c3c]/50 text-[#E5E5E5] font-medium truncate" title={p.request_detail}>
+                                                <td className="px-3 py-2 border-r border-[#3c3c3c]/50 text-[#E5E5E5] font-medium truncate align-middle" title={p.request_detail}>
                                                     {p.request_detail}
                                                 </td>
 
                                                 {/* Purpose (요청목적, 150px, truncate) */}
-                                                <td className="px-3 py-2 border-r border-[#3c3c3c]/50 text-[#86868B] truncate" title={p.purpose || '-'}>
+                                                <td className="px-3 py-2 border-r border-[#3c3c3c]/50 text-[#86868B] truncate align-middle" title={p.purpose || '-'}>
                                                     {p.purpose || '-'}
                                                 </td>
 
                                                 {/* Deliverables (필요 산출물, 150px, truncate) */}
-                                                <td className="px-3 py-2 border-r border-[#3c3c3c]/50 text-[#86868B] font-medium truncate" title={p.deliverables || '-'}>
+                                                <td className="px-3 py-2 border-r border-[#3c3c3c]/50 text-[#86868B] font-medium truncate align-middle" title={p.deliverables || '-'}>
                                                     {p.deliverables || '-'}
                                                 </td>
 
                                                 {/* Deadline (Format: yy.mm.dd, text-[12px], c3c2b7 color) */}
-                                                <td className="px-3 py-2 border-r border-[#3c3c3c]/50 text-[#c3c2b7] text-center font-mono font-semibold text-[12px]">
+                                                <td className="px-3 py-2 border-r border-[#3c3c3c]/50 text-[#c3c2b7] text-center font-mono font-semibold text-[12px] align-middle">
                                                     {p.due_date ? p.due_date.slice(2).replace(/-/g, '.') : '-'}
                                                 </td>
 
                                                 {/* Executing Department (Nametag Style, 80px, center-aligned) */}
-                                                <td className="px-1.5 py-2 border-r border-[#3c3c3c]/50 text-center">
+                                                <td className="px-1.5 py-2 border-r border-[#3c3c3c]/50 text-center align-middle">
                                                     {(() => {
                                                         const deptName = getDeptName(p.assigned_dept_code);
                                                         return deptName && deptName !== '-' ? (
-                                                            <span className="inline-flex items-center justify-center px-2 py-0.5 bg-[#27272a] text-[#d4d4d8] border border-[#3f3f46] rounded-[4px] text-[11px] font-medium max-w-full truncate">
+                                                            <span className="inline-flex items-center justify-center px-2 py-0.5 bg-[#27272a] text-[#d4d4d8] border border-[#3f3f46] rounded-[4px] text-[11px] font-medium max-w-full truncate align-middle">
                                                                 {deptName}
                                                             </span>
                                                         ) : '-';
@@ -673,27 +673,27 @@ export default function PmoPopupManager() {
                                                 </td>
 
                                                 {/* Importance (중요도, 80px, center-aligned) */}
-                                                <td className="px-3 py-2 border-r border-[#3c3c3c]/50 text-center">
+                                                <td className="px-3 py-2 border-r border-[#3c3c3c]/50 text-center align-middle">
                                                     <span className={getImpactStyle(p.impact_level)}>
                                                         {p.impact_level || '중간'}
                                                     </span>
                                                 </td>
 
                                                 {/* Status (상태, 70px, center-aligned) */}
-                                                <td className="px-1.5 py-2 border-r border-[#3c3c3c]/50 text-center select-none">
-                                                    <span className={`inline-block px-1.5 py-0.5 rounded text-[11px] font-bold font-mono tracking-tight ${getStatusStyle(p.handling_status)}`}>
+                                                <td className="px-1.5 py-2 border-r border-[#3c3c3c]/50 text-center select-none align-middle">
+                                                    <span className={`inline-block px-1.5 py-0.5 rounded text-[11px] font-bold font-mono tracking-tight align-middle ${getStatusStyle(p.handling_status)}`}>
                                                         {p.handling_status || '미착수'}
                                                     </span>
                                                 </td>
 
                                                 {/* Actions */}
-                                                <td className="px-3 py-2 text-center">
+                                                <td className="px-3 py-2 text-center align-middle">
                                                     {canEdit ? (
                                                         <div className="flex items-center justify-center gap-1.5 select-none opacity-40 group-hover:opacity-100 transition-opacity">
                                                             <button 
                                                                 onClick={() => openEditModal(p)}
                                                                 title="수정하기"
-                                                                className="p-1 hover:bg-[#3A3A3C] text-[#2997ff] rounded-md transition-colors cursor-pointer"
+                                                                className="p-1 hover:bg-[#3A3A3C] text-[#2997ff] rounded-md transition-colors cursor-pointer align-middle"
                                                             >
                                                                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
@@ -702,7 +702,7 @@ export default function PmoPopupManager() {
                                                             <button 
                                                                 onClick={() => setDeleteTargetId(p.id)}
                                                                 title="삭제하기"
-                                                                className="p-1 hover:bg-[#3A3A3C] text-[#ff453a] rounded-md transition-colors cursor-pointer"
+                                                                className="p-1 hover:bg-[#3A3A3C] text-[#ff453a] rounded-md transition-colors cursor-pointer align-middle"
                                                             >
                                                                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -710,7 +710,7 @@ export default function PmoPopupManager() {
                                                             </button>
                                                         </div>
                                                     ) : (
-                                                        <span className="text-[11px] text-white/20 select-none">-</span>
+                                                        <span className="text-[11px] text-white/20 select-none align-middle">-</span>
                                                     )}
                                                 </td>
                                             </tr>
