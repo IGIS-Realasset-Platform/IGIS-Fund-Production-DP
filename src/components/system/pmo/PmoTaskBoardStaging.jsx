@@ -3204,7 +3204,10 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                     </div>
                     {/* Centered Pagination Row outside scrollable wrapper */}
                     {totalPages > 1 && (
-                        <div className="w-full h-[46px] border-t border-[#3c3c3c]/50 flex items-center justify-center bg-[#272726] select-none z-10">
+                        <div 
+                            className="w-full h-[46px] border-t border-[#3c3c3c]/50 flex items-center justify-center bg-[#272726] select-none z-10"
+                            style={{ paddingRight: 'calc(50vw - 50%)' }}
+                        >
                             <div className="flex items-center gap-1">
                                 {/* Prev Button */}
                                 <button
