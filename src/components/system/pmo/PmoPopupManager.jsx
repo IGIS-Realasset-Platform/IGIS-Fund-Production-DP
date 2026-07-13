@@ -438,7 +438,7 @@ export default function PmoPopupManager() {
             <Toaster position="top-center" reverseOrder={false} />
 
             {/* Header Title Section */}
-            <div className="w-full flex justify-between items-end mb-[22px]">
+            <div className="w-full flex justify-between items-end mb-[18px]">
                 <div className="flex flex-col text-left">
                     <h1 className="text-[36px] font-bold text-white tracking-tight leading-none mb-[8px]">단발성 업무 요청</h1>
                     <p className="text-[16px] text-[#86868B] leading-[26px]">정규 마일스톤 외에 개별적으로 발생하는 단발성 업무 요청 및 협업 사항을 관리합니다.</p>
@@ -458,7 +458,7 @@ export default function PmoPopupManager() {
             </div>
 
             {/* Metrics Dashboard Banner */}
-            <div className="grid grid-cols-9 gap-2.5 mb-[16px]">
+            <div className="grid grid-cols-9 gap-2.5 mb-[12px]">
                 <div 
                     onClick={() => setFilterStatus('전체보기')}
                     className={`py-1.5 px-3 rounded-[10px] border transition-all cursor-pointer flex items-center justify-between ${filterStatus === '전체보기' ? 'bg-[#2997ff]/10 border-[#2997ff] shadow-md shadow-[#2997ff]/5' : 'bg-[#2c2c2b]/60 border-[#3c3c3c] hover:border-[#555]'}`}
@@ -525,7 +525,7 @@ export default function PmoPopupManager() {
             </div>
 
             {/* Filters Bar */}
-            <div className="bg-[#2c2c2b]/30 border border-[#3c3c3c] rounded-[16px] py-3 pl-3 pr-4 mb-[16px] flex flex-wrap gap-4 items-center justify-between">
+            <div className="bg-[#2c2c2b]/30 border border-[#3c3c3c]/40 rounded-[16px] py-3 pl-3 pr-4 mb-[12px] flex flex-wrap gap-4 items-center justify-between">
                 <div className="flex flex-wrap items-center gap-3 flex-1 min-w-0">
                     {/* Search query */}
                     <div className="relative w-[280px] shrink-0">
