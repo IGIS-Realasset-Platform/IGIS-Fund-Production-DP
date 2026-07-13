@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { supabase } from '../../../utils/supabaseClient';
 import { useAuth } from '../../../context/AuthContext';
 import toast, { Toaster } from 'react-hot-toast';
@@ -48,6 +48,7 @@ export default function PmoPopupManager() {
     const [modalMode, setModalMode] = useState('create'); // 'create' | 'edit'
     const [selectedPopup, setSelectedPopup] = useState(null);
     const [selectedPopupDetail, setSelectedPopupDetail] = useState(null);
+    const initialUrlCheckedRef = useRef(false);
 
     // Form state
     const [formRequestDate, setFormRequestDate] = useState('');
@@ -117,6 +118,19 @@ export default function PmoPopupManager() {
             });
             setPopups(normalizedData);
 
+            // Auto-open detail if popupId is in URL on mount
+            if (!initialUrlCheckedRef.current) {
+                const params = new URLSearchParams(window.location.search);
+                const urlPopupId = params.get('popupId');
+                if (urlPopupId) {
+                    const matched = normalizedData.find(item => String(item.id) === String(urlPopupId));
+                    if (matched) {
+                        setSelectedPopupDetail(matched);
+                    }
+                }
+                initialUrlCheckedRef.current = true;
+            }
+
             // 2. Fetch Projects
             const { data: projData, error: projErr } = await supabase
                 .schema('iota_v2')
@@ -158,6 +172,28 @@ export default function PmoPopupManager() {
     useEffect(() => {
         fetchData();
     }, []);
+
+    // Sync selectedPopupDetail to URL query param
+    useEffect(() => {
+        if (!selectedPopupDetail && !initialUrlCheckedRef.current) {
+            return;
+        }
+
+        if (selectedPopupDetail) {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('popupId') !== String(selectedPopupDetail.id)) {
+                params.set('popupId', selectedPopupDetail.id);
+                window.history.replaceState(null, '', `${window.location.pathname}?${params.toString()}`);
+            }
+        } else {
+            const params = new URLSearchParams(window.location.search);
+            if (params.has('popupId')) {
+                params.delete('popupId');
+                const newSearch = params.toString();
+                window.history.replaceState(null, '', `${window.location.pathname}${newSearch ? '?' + newSearch : ''}`);
+            }
+        }
+    }, [selectedPopupDetail]);
 
     // Summary Metric Counts
     const metrics = useMemo(() => {
