@@ -1770,13 +1770,27 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
 
             let loadedTasks = [];
             if (data && data.length > 0) {
-                setTasks(data);
+                const sorted = [...data].sort((a, b) => {
+                    const dateA = new Date(a.created_at || 0).getTime();
+                    const dateB = new Date(b.created_at || 0).getTime();
+                    if (dateA !== dateB) return dateA - dateB;
+                    return String(a.id).localeCompare(String(b.id));
+                });
+                const tasksWithDisplayIds = sorted.map((t, idx) => ({
+                    ...t,
+                    displayId: `T-${String(idx + 1).padStart(3, '0')}`
+                }));
+                setTasks(tasksWithDisplayIds);
                 setIsDbMode(true);
-                loadedTasks = data;
+                loadedTasks = tasksWithDisplayIds;
             } else {
-                setTasks(FALLBACK_BOARD_TASKS);
+                const tasksWithDisplayIds = FALLBACK_BOARD_TASKS.map(t => ({
+                    ...t,
+                    displayId: t.id
+                }));
+                setTasks(tasksWithDisplayIds);
                 setIsDbMode(false);
-                loadedTasks = FALLBACK_BOARD_TASKS;
+                loadedTasks = tasksWithDisplayIds;
             }
 
             initialUrlCheckedRef.current = true;
@@ -2943,7 +2957,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                                     
                                                     {/* 1. ID */}
                                                     <td className={`pl-[10px] text-center text-[#86868B] text-[11px] font-mono select-none w-[50px] min-w-[50px] max-w-[50px] truncate sticky left-0 transition-colors z-10 ${isSelected ? 'bg-[#3c3c3a] group-hover:bg-[#3c3c3a]' : 'bg-[#272726] group-hover:bg-[#2d2d2c]'}`}>
-                                                        {t.id && !t.id.includes('-') ? t.id : (fallbackItem.id || `T-${String(globalIndex+1).padStart(3, '0')}`)}
+                                                        {t.displayId || t.id}
                                                     </td>
                                                     
                                                     {/* 2. 프로젝트 */}
@@ -3601,7 +3615,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                     <div className="flex items-center gap-1.5">
                                         <span className="text-[#86868B]">업무 ID:</span>
                                         <span className="font-mono px-2 py-0.5 rounded bg-white/10 text-gray-300">
-                                            {editingItem ? (editingItem.id && !editingItem.id.includes('-') ? editingItem.id : 'T-XXX') : '신규'}
+                                            {editingItem ? (editingItem.displayId || editingItem.id) : '신규'}
                                         </span>
                                     </div>
                                     
@@ -4091,7 +4105,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                 <div className="px-[10px] py-3 border-b border-[#3c3c3c]/80 flex items-center justify-between bg-[#1c1c1e]/80 sticky top-0 z-20">
                                     <div className="flex items-center gap-3 flex-wrap">
                                         <span className="font-mono text-[12px] font-bold px-2 py-0.5 rounded bg-white/10 text-[#86868B]">
-                                            {t.id ? (t.id.includes('-') ? `T-${String(t.id).slice(0, 4).toUpperCase()}` : t.id) : (fallbackItem.id || 'T-NEW')}
+                                            {t.displayId || t.id || 'T-NEW'}
                                         </span>
                                         <span className="text-[12px] font-bold px-2 py-0.5 rounded border border-[#3c3c3c] bg-[#3A3A3C] text-white">
                                             {normalizeProjectName(projObj ? projObj.project_name : (t.project || fallbackItem.project || 'IOTA_SEOUL'))}
@@ -4301,7 +4315,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                     <div className="w-full">
                                         <WorkspaceActivityLog 
                                             isTaskBoard={true} 
-                                            taskId={t.id && !t.id.includes('-') ? t.id : (fallbackItem.id || 'T-XXX')} 
+                                            taskId={t.id} 
                                             taskProject={t.project_code || t.project || fallbackItem.project || 'IOTA_SEOUL'}
                                             workspaceCode="WS_PMO" 
                                             workspaceLabel="통합업무보드" 
