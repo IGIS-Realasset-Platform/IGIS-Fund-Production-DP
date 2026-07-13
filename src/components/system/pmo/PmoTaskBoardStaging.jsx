@@ -1777,29 +1777,11 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                 loadedTasks = FALLBACK_BOARD_TASKS;
             }
 
-            // AUTO OPEN FROM URL PARAM
-            const params = new URLSearchParams(window.location.search);
-            const urlTaskId = params.get('taskId');
-            if (urlTaskId) {
-                const matched = loadedTasks.find(t => String(t.id) === String(urlTaskId));
-                if (matched) {
-                    setSelectedTaskDetail(matched);
-                }
-            }
             initialUrlCheckedRef.current = true;
         } catch (err) {
             console.error("Failed to fetch tasks from DB:", err);
             setTasks(FALLBACK_BOARD_TASKS);
             setIsDbMode(false);
-
-            const params = new URLSearchParams(window.location.search);
-            const urlTaskId = params.get('taskId');
-            if (urlTaskId) {
-                const matched = FALLBACK_BOARD_TASKS.find(t => String(t.id) === String(urlTaskId));
-                if (matched) {
-                    setSelectedTaskDetail(matched);
-                }
-            }
             initialUrlCheckedRef.current = true;
         } finally {
             setLoading(false);
@@ -1809,6 +1791,55 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
     useEffect(() => {
         fetchTasks();
     }, []);
+
+    // Watch URL parameter changes dynamically (for mount and popstate events / notification clicks)
+    useEffect(() => {
+        const checkUrlParams = async () => {
+            const params = new URLSearchParams(window.location.search);
+            const urlTaskId = params.get('taskId');
+            const urlLogId = params.get('logId');
+
+            if (urlTaskId) {
+                const matched = tasks.find(item => String(item.id) === String(urlTaskId));
+                if (matched && (!selectedTaskDetail || String(selectedTaskDetail.id) !== String(urlTaskId))) {
+                    setSelectedTaskDetail(matched);
+                }
+                initialUrlCheckedRef.current = true;
+            } else if (urlLogId) {
+                try {
+                    const { data: logRow, error: logRowErr } = await supabase
+                        .from('iota_seoul_logs')
+                        .select('task_id')
+                        .eq('log_id', urlLogId)
+                        .single();
+                    if (!logRowErr && logRow && logRow.task_id) {
+                        const matched = tasks.find(item => String(item.id) === String(logRow.task_id));
+                        if (matched && (!selectedTaskDetail || String(selectedTaskDetail.id) !== String(logRow.task_id))) {
+                            setSelectedTaskDetail(matched);
+                        }
+                    }
+                } catch (e) {
+                    console.error("Failed to resolve logId to taskId in effect:", e);
+                }
+                initialUrlCheckedRef.current = true;
+            }
+        };
+
+        if (tasks.length > 0) {
+            checkUrlParams();
+        }
+
+        const handlePopState = () => {
+            if (tasks.length > 0) {
+                checkUrlParams();
+            }
+        };
+
+        window.addEventListener('popstate', handlePopState);
+        return () => {
+            window.removeEventListener('popstate', handlePopState);
+        };
+    }, [tasks, selectedTaskDetail]);
 
     // Sync selectedTaskDetail to URL query param
     useEffect(() => {
