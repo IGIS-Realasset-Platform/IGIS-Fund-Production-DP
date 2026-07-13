@@ -747,6 +747,7 @@ export default function DecisionLog() {
     
     // Filter by search query and dropdowns
     const searchFilteredLogs = logs.filter(log => {
+        if (log.writer_name === '시스템 스케줄러') return false;
         if (showMyLogsOnly && log.writer_staff_id !== memberInfo?.email) return false;
         if (filterStakeholder && log.iota_seoul_log_stakeholders?.[0]?.role_category !== filterStakeholder) return false;
         if (filterCell && getLogCell(log) !== filterCell) return false;
@@ -803,6 +804,7 @@ export default function DecisionLog() {
     };
 
     const crossFunctionalLogs = logs.filter(log => {
+        if (log.writer_name === '시스템 스케줄러') return false;
         const logDate = new Date(log.work_date || log.created_at);
         if (logDate < twoWeeksAgo) return false;
         if (!log.metadata?.workspace_label) return false; // Only workspace logs
