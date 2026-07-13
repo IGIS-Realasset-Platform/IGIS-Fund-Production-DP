@@ -58,8 +58,8 @@ export default function PmoPopupManager() {
     const [formDueDate, setFormDueDate] = useState('');
     const [formAssignedDeptCode, setFormAssignedDeptCode] = useState('');
     const [formCoopDeptCodes, setFormCoopDeptCodes] = useState('');
-    const [formImpactLevel, setFormImpactLevel] = useState('보통');
-    const [formHandlingStatus, setFormHandlingStatus] = useState('접수');
+    const [formImpactLevel, setFormImpactLevel] = useState('중간');
+    const [formHandlingStatus, setFormHandlingStatus] = useState('미착수');
     const [formMemo, setFormMemo] = useState('');
 
     // Inline edit state
@@ -87,8 +87,14 @@ export default function PmoPopupManager() {
                 .from('iota_pmo_popup_requests')
                 .select('*')
                 .order('request_date', { ascending: false });
-            if (popupErr) throw popupErr;
-            setPopups(popupData || []);
+            const normalizedData = (popupData || []).map(p => {
+                let status = p.handling_status;
+                if (!status || status === '접수' || status === '위임' || status === '반려') {
+                    status = '미착수';
+                }
+                return { ...p, handling_status: status };
+            });
+            setPopups(normalizedData);
 
             // 2. Fetch Projects
             const { data: projData, error: projErr } = await supabase
@@ -192,8 +198,8 @@ export default function PmoPopupManager() {
         setFormDueDate('');
         setFormAssignedDeptCode('WS_PM2');
         setFormCoopDeptCodes('');
-        setFormImpactLevel('보통');
-        setFormHandlingStatus('접수');
+        setFormImpactLevel('중간');
+        setFormHandlingStatus('미착수');
         setFormMemo('');
         setIsModalOpen(true);
     };
@@ -219,8 +225,8 @@ export default function PmoPopupManager() {
         setFormDueDate(p.due_date || '');
         setFormAssignedDeptCode(p.assigned_dept_code || '');
         setFormCoopDeptCodes(p.coop_dept_codes || '');
-        setFormImpactLevel(p.impact_level || '보통');
-        setFormHandlingStatus(p.handling_status || '접수');
+        setFormImpactLevel(p.impact_level || '중간');
+        setFormHandlingStatus(p.handling_status || '미착수');
         setFormMemo(p.memo || '');
         setIsModalOpen(true);
     };
@@ -245,7 +251,7 @@ export default function PmoPopupManager() {
             assigned_dept_code: formAssignedDeptCode || null,
             coop_dept_codes: formCoopDeptCodes || null,
             impact_level: formImpactLevel || null,
-            handling_status: formHandlingStatus || '접수',
+            handling_status: formHandlingStatus || '미착수',
             memo: formMemo || null,
             created_by_email: modalMode === 'create' ? currentUserEmail : selectedPopup.created_by_email
         };
