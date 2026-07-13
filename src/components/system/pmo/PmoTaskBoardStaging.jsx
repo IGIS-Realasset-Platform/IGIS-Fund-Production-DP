@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { supabase } from '../../../utils/supabaseClient';
 import { useAuth } from '../../../context/AuthContext';
 import WorkspaceActivityLog from '../workspace/WorkspaceActivityLog';
+import { notifyMembersOnTaskCreation } from '../../../utils/notificationHelpers';
 
 export const FALLBACK_BOARD_TASKS = [
   {
@@ -2341,12 +2342,22 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
 
             if (isDbMode) {
                 try {
-                    const { error } = await supabase
+                    const { data, error } = await supabase
                         .schema('iota_v2')
                         .from('iota_pmo_tasks')
-                        .insert([updatedData]);
+                        .insert([updatedData])
+                        .select();
 
                     if (error) throw error;
+
+                    if (data && data[0]) {
+                        notifyMembersOnTaskCreation(
+                            data[0].id,
+                            data[0].task_name,
+                            { code: 'WS_PMO', label: '통합업무보드' },
+                            memberInfo?.email || ''
+                        );
+                    }
                     fetchTasks(); // Reload from DB
                 } catch (err) {
                     console.error("Failed to insert task in DB:", err);

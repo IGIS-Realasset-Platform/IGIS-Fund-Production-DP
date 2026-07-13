@@ -172,9 +172,8 @@ export const notifyMembersOnTaskCreation = async (taskId, taskName, workspace, w
 
                 const isDirectorOrMaster = member.role_code === 'master' || member.role_code === 'director';
                 const isTaskVIP = TASK_VIP_NAMES.includes(member.staff_name);
-                const isNotWriter = member.email && writerEmail && member.email.toLowerCase() !== writerEmail.toLowerCase();
 
-                return (isSameWorkspace || isDirectorOrMaster || isTaskVIP) && isNotWriter;
+                return (isSameWorkspace || isDirectorOrMaster || isTaskVIP);
             })
             .map(member => member.auth_id);
 
@@ -188,8 +187,8 @@ export const notifyMembersOnTaskCreation = async (taskId, taskName, workspace, w
         // 3. iota_notifications 테이블에 Bulk Insert 진행
         const notificationPayload = uniqueRecipientIds.map(userId => ({
             user_id: userId,
-            title: `[${workspace.label}] 신규 Task 등록`,
-            body: `새로운 Task가 등록되었습니다: ${taskName}`,
+            title: `[${workspace.label}] 새 글이 등록되었습니다.`,
+            body: taskName,
             type: 'task',
             reference_id: taskId ? `${taskId}|${workspace.code}` : null,
             is_read: false,

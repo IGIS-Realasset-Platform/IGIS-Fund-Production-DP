@@ -3,6 +3,7 @@ import { supabase } from '../../../utils/supabaseClient';
 import { useAuth } from '../../../context/AuthContext';
 import toast, { Toaster } from 'react-hot-toast';
 import WorkspaceActivityLog from '../workspace/WorkspaceActivityLog';
+import { notifyMembersOnTaskCreation } from '../../../utils/notificationHelpers';
 
 // Local Fallbacks to prevent UI crashes if DB queries return empty or fail
 const FALLBACK_PROJECTS = [
@@ -399,6 +400,14 @@ export default function PmoPopupManager() {
 
                 if (error) throw error;
                 toast.success("단발성 업무 요청이 성공적으로 등록되었습니다.");
+                if (data && data[0]) {
+                    notifyMembersOnTaskCreation(
+                        data[0].id,
+                        data[0].task_name,
+                        { code: 'WS_POPUP_REQUESTS', label: '단발성 업무 요청' },
+                        currentUserEmail
+                    );
+                }
             } else {
                 // Track changes first
                 const changes = [];
