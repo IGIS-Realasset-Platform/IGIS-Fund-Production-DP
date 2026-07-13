@@ -461,41 +461,41 @@ export default function PmoPopupManager() {
             </div>
 
             {/* Metrics Dashboard Banner */}
-            <div className="grid grid-cols-5 gap-3 mb-[16px]">
+            <div className="grid grid-cols-5 gap-3 mb-[6px]">
                 <div 
                     onClick={() => setFilterStatus('전체보기')}
-                    className={`p-4 rounded-[16px] border transition-all cursor-pointer text-left ${filterStatus === '전체보기' ? 'bg-[#2997ff]/10 border-[#2997ff] shadow-md shadow-[#2997ff]/5' : 'bg-[#2c2c2b]/60 border-[#3c3c3c] hover:border-[#555]'}`}
+                    className={`py-2 px-3.5 rounded-[12px] border transition-all cursor-pointer flex items-center justify-between ${filterStatus === '전체보기' ? 'bg-[#2997ff]/10 border-[#2997ff] shadow-md shadow-[#2997ff]/5' : 'bg-[#2c2c2b]/60 border-[#3c3c3c] hover:border-[#555]'}`}
                 >
-                    <span className="text-[12px] font-bold text-[#86868B] block mb-1">전체 요청</span>
-                    <span className="text-[24px] font-bold text-white">{metrics.total} <span className="text-[13px] font-medium text-[#86868B]">건</span></span>
+                    <span className="text-[12px] font-bold text-[#86868B]">전체 요청</span>
+                    <span className="text-[15px] font-bold text-white">{metrics.total} <span className="text-[11px] font-medium text-[#86868B]">건</span></span>
                 </div>
                 <div 
                     onClick={() => setFilterStatus('진행중')}
-                    className={`p-4 rounded-[16px] border transition-all cursor-pointer text-left ${filterStatus === '진행중' ? 'bg-[#0071e3]/10 border-[#0071e3] shadow-md shadow-[#0071e3]/5' : 'bg-[#2c2c2b]/60 border-[#3c3c3c] hover:border-[#555]'}`}
+                    className={`py-2 px-3.5 rounded-[12px] border transition-all cursor-pointer flex items-center justify-between ${filterStatus === '진행중' ? 'bg-[#0071e3]/10 border-[#0071e3] shadow-md shadow-[#0071e3]/5' : 'bg-[#2c2c2b]/60 border-[#3c3c3c] hover:border-[#555]'}`}
                 >
-                    <span className="text-[12px] font-bold text-[#2997ff] block mb-1">진행 중</span>
-                    <span className="text-[24px] font-bold text-[#2997ff]">{metrics.inProgress} <span className="text-[13px] font-medium text-[#86868B]">건</span></span>
+                    <span className="text-[12px] font-bold text-[#2997ff]">진행 중</span>
+                    <span className="text-[15px] font-bold text-[#2997ff]">{metrics.inProgress} <span className="text-[11px] font-medium text-[#86868B]">건</span></span>
                 </div>
                 <div 
                     onClick={() => setFilterStatus('지연')}
-                    className={`p-4 rounded-[16px] border transition-all cursor-pointer text-left ${filterStatus === '지연' ? 'bg-[#ff453a]/10 border-[#ff453a] shadow-md shadow-[#ff453a]/5' : 'bg-[#2c2c2b]/60 border-[#3c3c3c] hover:border-[#555]'}`}
+                    className={`py-2 px-3.5 rounded-[12px] border transition-all cursor-pointer flex items-center justify-between ${filterStatus === '지연' ? 'bg-[#ff453a]/10 border-[#ff453a] shadow-md shadow-[#ff453a]/5' : 'bg-[#2c2c2b]/60 border-[#3c3c3c] hover:border-[#555]'}`}
                 >
-                    <span className="text-[12px] font-bold text-[#ff453a] block mb-1">지연됨</span>
-                    <span className="text-[24px] font-bold text-[#ff453a]">{metrics.delayed} <span className="text-[13px] font-medium text-[#86868B]">건</span></span>
+                    <span className="text-[12px] font-bold text-[#ff453a]">지연됨</span>
+                    <span className="text-[15px] font-bold text-[#ff453a]">{metrics.delayed} <span className="text-[11px] font-medium text-[#86868B]">건</span></span>
                 </div>
                 <div 
                     onClick={() => setFilterStatus('완료')}
-                    className={`p-4 rounded-[16px] border transition-all cursor-pointer text-left ${filterStatus === '완료' ? 'bg-[#30d158]/10 border-[#30d158] shadow-md shadow-[#30d158]/5' : 'bg-[#2c2c2b]/60 border-[#3c3c3c] hover:border-[#555]'}`}
+                    className={`py-2 px-3.5 rounded-[12px] border transition-all cursor-pointer flex items-center justify-between ${filterStatus === '완료' ? 'bg-[#30d158]/10 border-[#30d158] shadow-md shadow-[#30d158]/5' : 'bg-[#2c2c2b]/60 border-[#3c3c3c] hover:border-[#555]'}`}
                 >
-                    <span className="text-[12px] font-bold text-[#30d158] block mb-1">완료됨</span>
-                    <span className="text-[24px] font-bold text-[#30d158]">{metrics.completed} <span className="text-[13px] font-medium text-[#86868B]">건</span></span>
+                    <span className="text-[12px] font-bold text-[#30d158]">완료됨</span>
+                    <span className="text-[15px] font-bold text-[#30d158]">{metrics.completed} <span className="text-[11px] font-medium text-[#86868B]">건</span></span>
                 </div>
                 <div 
                     onClick={() => setFilterStatus('보류')}
-                    className={`p-4 rounded-[16px] border transition-all cursor-pointer text-left ${filterStatus === '보류' ? 'bg-[#ffd60a]/10 border-[#ffd60a] shadow-md shadow-[#ffd60a]/5' : 'bg-[#2c2c2b]/60 border-[#3c3c3c] hover:border-[#555]'}`}
+                    className={`py-2 px-3.5 rounded-[12px] border transition-all cursor-pointer flex items-center justify-between ${filterStatus === '보류' ? 'bg-[#ffd60a]/10 border-[#ffd60a] shadow-md shadow-[#ffd60a]/5' : 'bg-[#2c2c2b]/60 border-[#3c3c3c] hover:border-[#555]'}`}
                 >
-                    <span className="text-[12px] font-bold text-[#ffd60a] block mb-1">보류/기타</span>
-                    <span className="text-[24px] font-bold text-[#ffd60a]">{metrics.pending} <span className="text-[13px] font-medium text-[#86868B]">건</span></span>
+                    <span className="text-[12px] font-bold text-[#ffd60a]">보류/기타</span>
+                    <span className="text-[15px] font-bold text-[#ffd60a]">{metrics.pending} <span className="text-[11px] font-medium text-[#86868B]">건</span></span>
                 </div>
             </div>
 
