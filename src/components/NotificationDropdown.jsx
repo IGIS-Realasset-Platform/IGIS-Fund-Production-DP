@@ -49,11 +49,18 @@ export default function NotificationDropdown({ isOpen, onClose, notifications, u
                     }
                 }
 
+                // Force WS_POPUP_REQUESTS if the text indicates it's about the transient request page
+                const title = notif.title || '';
+                const body = notif.body || '';
+                const combinedText = title + ' ' + body;
+                const isPopupRequest = combinedText.includes('단발성') || combinedText.includes('팝업');
+
+                if (isPopupRequest) {
+                    wsCode = 'WS_POPUP_REQUESTS';
+                }
+
                 // Fallback: Deduce workspace_code from title text if not explicitly available
                 if (!wsCode) {
-                    const title = notif.title || '';
-                    const body = notif.body || '';
-                    const combinedText = title + ' ' + body;
                     if (combinedText.includes('사업 PM') || combinedText.includes('사업PM')) wsCode = 'WS_PM';
                     else if (combinedText.includes('파이낸싱') || combinedText.includes('재원조달')) wsCode = 'WS_LFC';
                     else if (combinedText.includes('개발') || combinedText.includes('설계')) wsCode = 'WS_DSC';
@@ -73,7 +80,8 @@ export default function NotificationDropdown({ isOpen, onClose, notifications, u
                     'WS_EMC': 'platform/iotaseoul/workspace/marketing',
                     'WS_SSC': 'platform/iotaseoul/workspace/digital',
                     'WS_KAM': 'platform/iotaseoul/workspace/fund',
-                    'WS_IPR': 'platform/iotaseoul/workspace/ipr'
+                    'WS_IPR': 'platform/iotaseoul/workspace/ipr',
+                    'WS_POPUP_REQUESTS': 'platform/iotaseoul/popup-requests'
                 };
 
                 const targetPath = workspaceMap[wsCode];
@@ -111,12 +119,21 @@ export default function NotificationDropdown({ isOpen, onClose, notifications, u
                     }
                 }
 
+                // Force WS_POPUP_REQUESTS if the text indicates it's about the transient request page
+                const title = notif.title || '';
+                const body = notif.body || '';
+                const combinedText = title + ' ' + body;
+                const isPopupRequest = combinedText.includes('단발성') || combinedText.includes('팝업');
+
+                if (isPopupRequest) {
+                    wsCode = 'WS_POPUP_REQUESTS';
+                }
+
                 console.log('[NotificationDropdown] Task 알림 클릭:', notif);
                 console.log('[NotificationDropdown] 파싱된 taskId:', taskId, 'wsCode:', wsCode);
 
                 // Fallback: Deduce workspace_code from title text
                 if (!wsCode) {
-                    const title = notif.title || '';
                     if (title.includes('사업 PM') || title.includes('사업PM')) wsCode = 'WS_PM';
                     else if (title.includes('파이낸싱')) wsCode = 'WS_LFC';
                     else if (title.includes('개발')) wsCode = 'WS_DSC';
@@ -134,7 +151,8 @@ export default function NotificationDropdown({ isOpen, onClose, notifications, u
                     'WS_EMC': 'platform/iotaseoul/workspace/marketing',
                     'WS_SSC': 'platform/iotaseoul/workspace/digital',
                     'WS_KAM': 'platform/iotaseoul/workspace/fund',
-                    'WS_IPR': 'platform/iotaseoul/workspace/ipr'
+                    'WS_IPR': 'platform/iotaseoul/workspace/ipr',
+                    'WS_POPUP_REQUESTS': 'platform/iotaseoul/popup-requests'
                 };
 
                 if (taskId) {
@@ -259,7 +277,13 @@ export default function NotificationDropdown({ isOpen, onClose, notifications, u
                                     )}
                                     <div className="flex-1">
                                         <h4 className={`text-[14px] ${!notif.is_read ? 'text-[#E5E5E5] font-semibold' : 'text-[#A1A1AA] font-medium'}`}>
-                                            {notif.title || '새로운 알림'}
+                                            {(() => {
+                                                let t = notif.title || '새로운 알림';
+                                                if (t.startsWith('[협업]')) {
+                                                    t = t.substring(4); // Remove '[협업]' (length is 4)
+                                                }
+                                                return t;
+                                            })()}
                                         </h4>
                                         <p className="text-[#86868B] text-[13px] mt-1 line-clamp-2 leading-relaxed">
                                             {notif.body}

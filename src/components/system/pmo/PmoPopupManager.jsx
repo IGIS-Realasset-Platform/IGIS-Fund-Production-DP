@@ -119,14 +119,33 @@ export default function PmoPopupManager() {
             });
             setPopups(normalizedData);
 
-            // Auto-open detail if popupId is in URL on mount
+            // Auto-open detail if popupId or logId is in URL on mount
             if (!initialUrlCheckedRef.current) {
                 const params = new URLSearchParams(window.location.search);
                 const urlPopupId = params.get('popupId');
+                const urlLogId = params.get('logId');
+                
                 if (urlPopupId) {
                     const matched = normalizedData.find(item => String(item.id) === String(urlPopupId));
                     if (matched) {
                         setSelectedPopupDetail(matched);
+                    }
+                } else if (urlLogId) {
+                    // Query task_id from iota_seoul_logs
+                    try {
+                        const { data: logRow, error: logRowErr } = await supabase
+                            .from('iota_seoul_logs')
+                            .select('task_id')
+                            .eq('log_id', urlLogId)
+                            .single();
+                        if (!logRowErr && logRow && logRow.task_id) {
+                            const matched = normalizedData.find(item => String(item.id) === String(logRow.task_id));
+                            if (matched) {
+                                setSelectedPopupDetail(matched);
+                            }
+                        }
+                    } catch (e) {
+                        console.error("Failed to resolve logId to popupId:", e);
                     }
                 }
                 initialUrlCheckedRef.current = true;
@@ -1413,7 +1432,7 @@ export default function PmoPopupManager() {
                                             taskId={String(p.id)} 
                                             taskProject={p.project_code || 'IOTA_SEOUL'}
                                             workspaceCode="WS_PMO" 
-                                            workspaceLabel="통합업무보드" 
+                                            workspaceLabel="단발성 업무 요청" 
                                         />
                                     </div>
                                 </div>
