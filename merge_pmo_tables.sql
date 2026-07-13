@@ -67,3 +67,6 @@ CREATE POLICY "Allow owner update and delete on pmo_tasks" ON iota_v2.iota_pmo_t
     FOR ALL TO authenticated
     USING (auth.jwt() ->> 'email' = created_by_email)
     WITH CHECK (auth.jwt() ->> 'email' = created_by_email);
+
+-- 4. Supabase API 서버(PostgREST)의 스키마 캐시 즉시 갱신 강제
+NOTIFY pgrst, 'reload schema';

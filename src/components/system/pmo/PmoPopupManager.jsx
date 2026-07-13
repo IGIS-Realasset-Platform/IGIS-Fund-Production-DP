@@ -802,7 +802,13 @@ export default function PmoPopupManager() {
                                         type="date"
                                         value={formRequestDate}
                                         onChange={(e) => setFormRequestDate(e.target.value)}
-                                        className="bg-[#2c2c2b] border border-[#3c3c3c] rounded-[8px] px-3.5 py-2.5 text-[13px] font-bold text-white focus:border-[#2997ff] focus:outline-none transition-colors"
+                                        onClick={(e) => {
+                                            try { e.target.showPicker(); } catch (err) {}
+                                        }}
+                                        onFocus={(e) => {
+                                            try { e.target.showPicker(); } catch (err) {}
+                                        }}
+                                        className="bg-[#2c2c2b] border border-[#3c3c3c] rounded-[8px] px-3.5 py-2.5 text-[13px] font-bold text-white focus:border-[#2997ff] focus:outline-none transition-colors cursor-pointer"
                                     />
                                 </div>
                                 <div className="flex flex-col gap-1.5">
@@ -811,7 +817,13 @@ export default function PmoPopupManager() {
                                         type="date"
                                         value={formDueDate}
                                         onChange={(e) => setFormDueDate(e.target.value)}
-                                        className="bg-[#2c2c2b] border border-[#3c3c3c] rounded-[8px] px-3.5 py-2.5 text-[13px] font-bold text-white focus:border-[#2997ff] focus:outline-none transition-colors"
+                                        onClick={(e) => {
+                                            try { e.target.showPicker(); } catch (err) {}
+                                        }}
+                                        onFocus={(e) => {
+                                            try { e.target.showPicker(); } catch (err) {}
+                                        }}
+                                        className="bg-[#2c2c2b] border border-[#3c3c3c] rounded-[8px] px-3.5 py-2.5 text-[13px] font-bold text-white focus:border-[#2997ff] focus:outline-none transition-colors cursor-pointer"
                                     />
                                 </div>
                             </div>
