@@ -81,18 +81,37 @@ export default function PmoPopupManager() {
     const fetchData = async () => {
         setLoading(true);
         try {
-            // 1. Fetch Popup Requests
+            // 1. Fetch Popup Requests (unified table)
             const { data: popupData, error: popupErr } = await supabase
                 .schema('iota_v2')
-                .from('iota_pmo_popup_requests')
+                .from('iota_pmo_tasks')
                 .select('*')
+                .eq('task_type', '팝업')
                 .order('request_date', { ascending: false });
+            if (popupErr) throw popupErr;
+
             const normalizedData = (popupData || []).map(p => {
-                let status = p.handling_status;
+                let status = p.status;
                 if (!status || status === '접수' || status === '위임' || status === '반려') {
                     status = '미착수';
                 }
-                return { ...p, handling_status: status };
+                return {
+                    id: p.id,
+                    request_date: p.request_date,
+                    requester: p.requester,
+                    project_code: p.project_code,
+                    category_name: p.category_main,
+                    request_detail: p.task_name,
+                    purpose: p.task_purpose,
+                    deliverables: p.deliverables,
+                    due_date: p.due_date,
+                    assigned_dept_code: p.lead_dept_code,
+                    coop_dept_codes: p.coop_dept_codes,
+                    impact_level: p.importance_level,
+                    handling_status: status,
+                    memo: p.notes,
+                    created_by_email: p.created_by_email
+                };
             });
             setPopups(normalizedData);
 
@@ -241,16 +260,18 @@ export default function PmoPopupManager() {
             request_date: formRequestDate || null,
             requester: formRequester,
             project_code: formProjectCode || null,
-            category_name: formCategoryName || null,
-            request_detail: formRequestDetail,
-            purpose: formPurpose || null,
+            category_main: formCategoryName || null,
+            task_name: formRequestDetail,
+            task_purpose: formPurpose || null,
             deliverables: formDeliverables || null,
             due_date: formDueDate || null,
-            assigned_dept_code: formAssignedDeptCode || null,
+            lead_dept_code: formAssignedDeptCode || null,
             coop_dept_codes: formCoopDeptCodes || null,
-            impact_level: formImpactLevel || null,
-            handling_status: formHandlingStatus || '미착수',
-            memo: formMemo || null,
+            importance_level: formImpactLevel || null,
+            status: formHandlingStatus || '미착수',
+            notes: formMemo || null,
+            task_type: '팝업',
+            target_axis: '공통 PMO',
             created_by_email: modalMode === 'create' ? currentUserEmail : selectedPopup.created_by_email
         };
 
@@ -258,7 +279,7 @@ export default function PmoPopupManager() {
             if (modalMode === 'create') {
                 const { data, error } = await supabase
                     .schema('iota_v2')
-                    .from('iota_pmo_popup_requests')
+                    .from('iota_pmo_tasks')
                     .insert([payload])
                     .select();
 
@@ -267,7 +288,7 @@ export default function PmoPopupManager() {
             } else {
                 const { error } = await supabase
                     .schema('iota_v2')
-                    .from('iota_pmo_popup_requests')
+                    .from('iota_pmo_tasks')
                     .update(payload)
                     .eq('id', selectedPopup.id);
 
@@ -292,8 +313,8 @@ export default function PmoPopupManager() {
         try {
             const { error } = await supabase
                 .schema('iota_v2')
-                .from('iota_pmo_popup_requests')
-                .update({ handling_status: newStatus })
+                .from('iota_pmo_tasks')
+                .update({ status: newStatus })
                 .eq('id', popupId);
 
             if (error) throw error;
@@ -313,7 +334,7 @@ export default function PmoPopupManager() {
         try {
             const { error } = await supabase
                 .schema('iota_v2')
-                .from('iota_pmo_popup_requests')
+                .from('iota_pmo_tasks')
                 .delete()
                 .eq('id', deleteTargetId);
 
