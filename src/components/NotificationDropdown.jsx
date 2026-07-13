@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import { supabase } from '../utils/supabaseClient';
+import toast from 'react-hot-toast';
 
 export default function NotificationDropdown({ isOpen, onClose, notifications, unreadCount, onMarkAsRead, onMarkAllAsRead }) {
     const dropdownRef = useRef(null);
@@ -106,6 +107,7 @@ export default function NotificationDropdown({ isOpen, onClose, notifications, u
                     window.dispatchEvent(new Event('popstate'));
                 } else {
                     console.warn('[NotificationDropdown] 매칭되는 targetPath가 없음 (wsCode):', wsCode);
+                    toast.error("연계된 화면(워크스페이스)을 찾을 수 없거나 이미 삭제되었습니다.");
                 }
             } else if (isLogNotif) {
                 console.log('[NotificationDropdown] 협업글 알림 클릭됨. reference_id:', notif.reference_id);

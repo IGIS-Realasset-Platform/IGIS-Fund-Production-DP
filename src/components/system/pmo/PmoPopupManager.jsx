@@ -188,8 +188,21 @@ export default function PmoPopupManager() {
 
             if (urlPopupId) {
                 const matched = popups.find(item => String(item.id) === String(urlPopupId));
-                if (matched && (!currentDetail || String(currentDetail.id) !== String(urlPopupId))) {
-                    setSelectedPopupDetail(matched);
+                if (matched) {
+                    if (!currentDetail || String(currentDetail.id) !== String(urlPopupId)) {
+                        setSelectedPopupDetail(matched);
+                    }
+                } else {
+                    toast.error("요청하신 단발성 업무(글)가 존재하지 않거나 삭제되었습니다.");
+                    const newParams = new URLSearchParams(window.location.search);
+                    let changed = false;
+                    if (newParams.has('popupId')) { newParams.delete('popupId'); changed = true; }
+                    if (newParams.has('taskId')) { newParams.delete('taskId'); changed = true; }
+                    if (newParams.has('logId')) { newParams.delete('logId'); changed = true; }
+                    if (changed) {
+                        const newSearch = newParams.toString();
+                        window.history.replaceState(null, '', `${window.location.pathname}${newSearch ? '?' + newSearch : ''}`);
+                    }
                 }
                 initialUrlCheckedRef.current = true;
             } else if (urlLogId) {
@@ -199,10 +212,23 @@ export default function PmoPopupManager() {
                         .select('metadata')
                         .eq('log_id', urlLogId)
                         .single();
+                    let resolved = false;
                     if (!logRowErr && logRow && logRow.metadata?.task_id) {
                         const matched = popups.find(item => String(item.id) === String(logRow.metadata.task_id));
-                        if (matched && (!currentDetail || String(currentDetail.id) !== String(logRow.metadata.task_id))) {
-                            setSelectedPopupDetail(matched);
+                        if (matched) {
+                            if (!currentDetail || String(currentDetail.id) !== String(logRow.metadata.task_id)) {
+                                setSelectedPopupDetail(matched);
+                            }
+                            resolved = true;
+                        }
+                    }
+                    if (!resolved) {
+                        toast.error("요청하신 이력 또는 연계된 단발성 업무(글)가 존재하지 않거나 삭제되었습니다.");
+                        const newParams = new URLSearchParams(window.location.search);
+                        if (newParams.has('logId')) {
+                            newParams.delete('logId');
+                            const newSearch = newParams.toString();
+                            window.history.replaceState(null, '', `${window.location.pathname}${newSearch ? '?' + newSearch : ''}`);
                         }
                     }
                 } catch (e) {

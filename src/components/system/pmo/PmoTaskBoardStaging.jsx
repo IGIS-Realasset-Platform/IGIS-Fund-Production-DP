@@ -3,6 +3,7 @@ import { supabase } from '../../../utils/supabaseClient';
 import { useAuth } from '../../../context/AuthContext';
 import WorkspaceActivityLog from '../workspace/WorkspaceActivityLog';
 import { notifyMembersOnTaskCreation } from '../../../utils/notificationHelpers';
+import toast from 'react-hot-toast';
 
 export const FALLBACK_BOARD_TASKS = [
   {
@@ -1808,8 +1809,20 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
 
             if (urlTaskId) {
                 const matched = tasks.find(item => String(item.id) === String(urlTaskId));
-                if (matched && (!currentDetail || String(currentDetail.id) !== String(urlTaskId))) {
-                    setSelectedTaskDetail(matched);
+                if (matched) {
+                    if (!currentDetail || String(currentDetail.id) !== String(urlTaskId)) {
+                        setSelectedTaskDetail(matched);
+                    }
+                } else {
+                    toast.error("요청하신 통합업무(글)가 존재하지 않거나 삭제되었습니다.");
+                    const newParams = new URLSearchParams(window.location.search);
+                    let changed = false;
+                    if (newParams.has('taskId')) { newParams.delete('taskId'); changed = true; }
+                    if (newParams.has('logId')) { newParams.delete('logId'); changed = true; }
+                    if (changed) {
+                        const newSearch = newParams.toString();
+                        window.history.replaceState(null, '', `${window.location.pathname}${newSearch ? '?' + newSearch : ''}`);
+                    }
                 }
                 initialUrlCheckedRef.current = true;
             } else if (urlLogId) {
@@ -1819,10 +1832,23 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                         .select('metadata')
                         .eq('log_id', urlLogId)
                         .single();
+                    let resolved = false;
                     if (!logRowErr && logRow && logRow.metadata?.task_id) {
                         const matched = tasks.find(item => String(item.id) === String(logRow.metadata.task_id));
-                        if (matched && (!currentDetail || String(currentDetail.id) !== String(logRow.metadata.task_id))) {
-                            setSelectedTaskDetail(matched);
+                        if (matched) {
+                            if (!currentDetail || String(currentDetail.id) !== String(logRow.metadata.task_id)) {
+                                setSelectedTaskDetail(matched);
+                            }
+                            resolved = true;
+                        }
+                    }
+                    if (!resolved) {
+                        toast.error("요청하신 이력 또는 연계된 통합업무(글)가 존재하지 않거나 삭제되었습니다.");
+                        const newParams = new URLSearchParams(window.location.search);
+                        if (newParams.has('logId')) {
+                            newParams.delete('logId');
+                            const newSearch = newParams.toString();
+                            window.history.replaceState(null, '', `${window.location.pathname}${newSearch ? '?' + newSearch : ''}`);
                         }
                     }
                 } catch (e) {
