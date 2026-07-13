@@ -1790,10 +1790,10 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                     if (dbScore !== dynamicScore || dbGradeText !== dynamicGrade) {
                         const changes = [];
                         if (dbScore !== dynamicScore) {
-                            changes.push(`기한 임박/지연 등 시간 경과에 따라 우선순위 점수가 "${dbScore}점"에서 "${dynamicScore}점"(으)로 자동 갱신되었습니다.`);
+                            changes.push(`시스템 점수 산정 공식(기한 임박/지연 등 속성 재평가)에 따라 우선순위 점수가 "${dbScore}점"에서 "${dynamicScore}점"(으)로 자동 교정되었습니다.`);
                         }
                         if (dbGradeText !== dynamicGrade) {
-                            changes.push(`점수 변동에 따라 상정 등급이 "${dbGradeText.replace(/^[A-D]_/, '')}"에서 "${dynamicGrade.replace(/^[A-D]_/, '')}"(으)로 자동 갱신되었습니다.`);
+                            changes.push(`점수 교정에 따라 상정 등급이 "${dbGradeText.replace(/^[A-D]_/, '')}"에서 "${dynamicGrade.replace(/^[A-D]_/, '')}"(으)로 자동 교정되었습니다.`);
                         }
                         
                         tasksToUpdate.push({
