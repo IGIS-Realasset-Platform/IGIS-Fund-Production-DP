@@ -1308,24 +1308,32 @@ export default function PmoPopupManager() {
                                     
                                     {/* Metadata Card Box */}
                                     <div className="p-5 rounded-[16px] bg-white/[0.02] border border-[#2c2c2e] space-y-[14px] text-[13px]">
-                                        {/* Row 1: 요청부서, 수행부서 */}
-                                        <div className="grid grid-cols-2 gap-4">
+                                        {/* Row 1: 요청부서, 수행부서, 중요도 */}
+                                        <div className="grid grid-cols-3 gap-4">
                                             <div className="space-y-[3px]">
                                                 <span className="text-[#86868B] text-[11px] block">요청 부서</span>
-                                                <span className="font-bold text-[#E5E5E5] block">
+                                                <span className="font-bold text-[#E5E5E5] block truncate" title={p.requester}>
                                                     {p.requester || '-'}
                                                 </span>
                                             </div>
                                             <div className="space-y-[3px]">
                                                 <span className="text-[#86868B] text-[11px] block">수행 부서</span>
-                                                <span className="font-bold text-[#E5E5E5] block">
+                                                <span className="font-bold text-[#E5E5E5] block truncate" title={getDeptName(p.assigned_dept_code)}>
                                                     {getDeptName(p.assigned_dept_code) || '-'}
+                                                </span>
+                                            </div>
+                                            <div className="space-y-[3px]">
+                                                <span className="text-[#86868B] text-[11px] block">중요도</span>
+                                                <span className="font-bold block">
+                                                    <span className={`${getImpactStyle(p.impact_level)} text-[12px] font-bold`}>
+                                                        {p.impact_level || '중간'}
+                                                    </span>
                                                 </span>
                                             </div>
                                         </div>
 
-                                        {/* Row 2: 접수일, 요청기한 */}
-                                        <div className="grid grid-cols-2 gap-4">
+                                        {/* Row 2: 접수일, 요청기한, 상태 */}
+                                        <div className="grid grid-cols-3 gap-4">
                                             <div className="space-y-[3px]">
                                                 <span className="text-[#86868B] text-[11px] block">접수일</span>
                                                 <span className="font-bold text-[#E5E5E5] block">
@@ -1336,18 +1344,6 @@ export default function PmoPopupManager() {
                                                 <span className="text-[#86868B] text-[11px] block">요청 기한</span>
                                                 <span className="font-bold text-[#E5E5E5] block">
                                                     {p.due_date ? p.due_date.replace(/-/g, '.') : '-'}
-                                                </span>
-                                            </div>
-                                        </div>
-
-                                        {/* Row 3: 중요도, 상태 */}
-                                        <div className="grid grid-cols-2 gap-4">
-                                            <div className="space-y-[3px]">
-                                                <span className="text-[#86868B] text-[11px] block">중요도</span>
-                                                <span className="font-bold block">
-                                                    <span className={`${getImpactStyle(p.impact_level)} text-[12px] font-bold`}>
-                                                        {p.impact_level || '중간'}
-                                                    </span>
                                                 </span>
                                             </div>
                                             <div className="space-y-[3px]">
