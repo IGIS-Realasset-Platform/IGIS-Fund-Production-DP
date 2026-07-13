@@ -182,7 +182,7 @@ export default function PmoPopupManager() {
     useEffect(() => {
         const checkUrlParams = async () => {
             const params = new URLSearchParams(window.location.search);
-            const urlPopupId = params.get('popupId');
+            const urlPopupId = params.get('popupId') || params.get('taskId');
             const urlLogId = params.get('logId');
             const currentDetail = selectedPopupDetailRef.current;
 
@@ -253,6 +253,10 @@ export default function PmoPopupManager() {
             let changed = false;
             if (params.has('popupId')) {
                 params.delete('popupId');
+                changed = true;
+            }
+            if (params.has('taskId')) {
+                params.delete('taskId');
                 changed = true;
             }
             if (params.has('logId')) {
