@@ -1381,6 +1381,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
     ]);
     const [departments, setDepartments] = useState([
         { dept_code: 'DEPT_PM2', dept_name: '사업2파트' },
+        { dept_code: 'DEPT_PO', dept_name: '기획추진' },
         { dept_code: 'DEPT_LFC', dept_name: 'LFC(금융)' },
         { dept_code: 'DEPT_DEV', dept_name: '개발관리실' },
         { dept_code: 'DEPT_DESIGN', dept_name: '설계실' },
@@ -1690,7 +1691,17 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                     .schema('iota_v2')
                     .from('iota_departments')
                     .select('*');
-                if (deptData && deptData.length > 0) setDepartments(deptData);
+                if (deptData && deptData.length > 0) {
+                    let mapped = [...deptData];
+                    if (!mapped.some(d => d.dept_code === 'DEPT_PO')) {
+                        mapped = [
+                            ...mapped.filter(d => d.dept_code === 'DEPT_PM2'),
+                            { dept_code: 'DEPT_PO', dept_name: '기획추진' },
+                            ...mapped.filter(d => d.dept_code !== 'DEPT_PM2')
+                        ];
+                    }
+                    setDepartments(mapped);
+                }
             } catch (e) {
                 console.warn("Departments load failed, using defaults:", e);
             }

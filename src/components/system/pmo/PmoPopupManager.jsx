@@ -15,6 +15,7 @@ const FALLBACK_PROJECTS = [
 
 const FALLBACK_DEPARTMENTS = [
     { dept_code: 'DEPT_PM2', dept_name: '사업2파트' },
+    { dept_code: 'DEPT_PO', dept_name: '기획추진' },
     { dept_code: 'DEPT_LFC', dept_name: '파이낸싱-LFC' },
     { dept_code: 'DEPT_DEV', dept_name: '개발관리실' },
     { dept_code: 'DEPT_DESIGN', dept_name: '설계실' },
@@ -146,10 +147,18 @@ export default function PmoPopupManager() {
                 .select('*');
             if (!deptErr && deptData && deptData.length > 0) {
                 // Map names dynamically to match user request (PM ➔ 파트, 펀드운용 ➔ KAM)
-                const mappedDepts = deptData.map(d => {
+                let mappedDepts = deptData.map(d => {
                     if (d.dept_code === 'DEPT_PM2') return { ...d, dept_name: '사업2파트' };
                     return d;
                 });
+                // Ensure 기획추진 is always in the list
+                if (!mappedDepts.some(d => d.dept_code === 'DEPT_PO')) {
+                    mappedDepts = [
+                        ...mappedDepts.filter(d => d.dept_code === 'DEPT_PM2'),
+                        { dept_code: 'DEPT_PO', dept_name: '기획추진' },
+                        ...mappedDepts.filter(d => d.dept_code !== 'DEPT_PM2')
+                    ];
+                }
                 setDepartments(mappedDepts);
             } else {
                 setDepartments(FALLBACK_DEPARTMENTS);
