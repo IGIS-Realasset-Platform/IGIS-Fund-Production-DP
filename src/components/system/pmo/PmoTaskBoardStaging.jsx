@@ -1792,16 +1792,22 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
         fetchTasks();
     }, []);
 
+    const selectedTaskDetailRef = useRef(selectedTaskDetail);
+    useEffect(() => {
+        selectedTaskDetailRef.current = selectedTaskDetail;
+    }, [selectedTaskDetail]);
+
     // Watch URL parameter changes dynamically (for mount and popstate events / notification clicks)
     useEffect(() => {
         const checkUrlParams = async () => {
             const params = new URLSearchParams(window.location.search);
             const urlTaskId = params.get('taskId');
             const urlLogId = params.get('logId');
+            const currentDetail = selectedTaskDetailRef.current;
 
             if (urlTaskId) {
                 const matched = tasks.find(item => String(item.id) === String(urlTaskId));
-                if (matched && (!selectedTaskDetail || String(selectedTaskDetail.id) !== String(urlTaskId))) {
+                if (matched && (!currentDetail || String(currentDetail.id) !== String(urlTaskId))) {
                     setSelectedTaskDetail(matched);
                 }
                 initialUrlCheckedRef.current = true;
@@ -1814,7 +1820,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                         .single();
                     if (!logRowErr && logRow && logRow.task_id) {
                         const matched = tasks.find(item => String(item.id) === String(logRow.task_id));
-                        if (matched && (!selectedTaskDetail || String(selectedTaskDetail.id) !== String(logRow.task_id))) {
+                        if (matched && (!currentDetail || String(currentDetail.id) !== String(logRow.task_id))) {
                             setSelectedTaskDetail(matched);
                         }
                     }
@@ -1839,7 +1845,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
         return () => {
             window.removeEventListener('popstate', handlePopState);
         };
-    }, [tasks, selectedTaskDetail]);
+    }, [tasks]);
 
     // Sync selectedTaskDetail to URL query param
     useEffect(() => {

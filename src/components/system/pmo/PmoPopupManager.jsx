@@ -171,16 +171,22 @@ export default function PmoPopupManager() {
         fetchData();
     }, []);
 
+    const selectedPopupDetailRef = useRef(selectedPopupDetail);
+    useEffect(() => {
+        selectedPopupDetailRef.current = selectedPopupDetail;
+    }, [selectedPopupDetail]);
+
     // Watch URL parameter changes dynamically (for mount and popstate events / notification clicks)
     useEffect(() => {
         const checkUrlParams = async () => {
             const params = new URLSearchParams(window.location.search);
             const urlPopupId = params.get('popupId');
             const urlLogId = params.get('logId');
+            const currentDetail = selectedPopupDetailRef.current;
 
             if (urlPopupId) {
                 const matched = popups.find(item => String(item.id) === String(urlPopupId));
-                if (matched && (!selectedPopupDetail || String(selectedPopupDetail.id) !== String(urlPopupId))) {
+                if (matched && (!currentDetail || String(currentDetail.id) !== String(urlPopupId))) {
                     setSelectedPopupDetail(matched);
                 }
                 initialUrlCheckedRef.current = true;
@@ -193,7 +199,7 @@ export default function PmoPopupManager() {
                         .single();
                     if (!logRowErr && logRow && logRow.task_id) {
                         const matched = popups.find(item => String(item.id) === String(logRow.task_id));
-                        if (matched && (!selectedPopupDetail || String(selectedPopupDetail.id) !== String(logRow.task_id))) {
+                        if (matched && (!currentDetail || String(currentDetail.id) !== String(logRow.task_id))) {
                             setSelectedPopupDetail(matched);
                         }
                     }
@@ -218,7 +224,7 @@ export default function PmoPopupManager() {
         return () => {
             window.removeEventListener('popstate', handlePopState);
         };
-    }, [popups, selectedPopupDetail]);
+    }, [popups]);
 
     // Sync selectedPopupDetail to URL query param
     useEffect(() => {
