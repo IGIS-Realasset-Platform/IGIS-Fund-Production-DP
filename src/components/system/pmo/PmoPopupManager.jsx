@@ -610,7 +610,7 @@ export default function PmoPopupManager() {
                                             <tr 
                                                 key={p.id} 
                                                 onDoubleClick={() => canEdit && openEditModal(p)}
-                                                className="hover:bg-white/[0.04] transition-colors group text-[13px] h-[42px] border-b border-[#3c3c3c]/30 bg-transparent"
+                                                className="hover:bg-white/[0.04] transition-colors group text-[13px] h-[42px] bg-transparent"
                                             >
                                                 {/* Date (Format: yy.mm.dd, font 1px smaller) */}
                                                 <td className="px-3 py-2 border-r border-[#3c3c3c]/50 text-[#86868B] text-center font-mono font-medium text-[12px]">
