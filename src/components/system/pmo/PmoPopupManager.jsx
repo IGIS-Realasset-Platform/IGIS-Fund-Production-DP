@@ -433,6 +433,27 @@ export default function PmoPopupManager() {
                     
                     window.dispatchEvent(new CustomEvent('iota_log_updated', { detail: { taskId: selectedPopup.id } }));
                 }
+
+                // Update selectedPopupDetail dynamically to keep drawer open and updated
+                if (selectedPopupDetail && String(selectedPopupDetail.id) === String(selectedPopup.id)) {
+                    setSelectedPopupDetail({
+                        id: selectedPopup.id,
+                        request_date: formRequestDate || null,
+                        requester: formRequester,
+                        project_code: formProjectCode || null,
+                        category_name: formCategoryName || null,
+                        request_detail: formRequestDetail,
+                        purpose: formPurpose || null,
+                        deliverables: formDeliverables || null,
+                        due_date: formDueDate || null,
+                        assigned_dept_code: formAssignedDeptCode || null,
+                        coop_dept_codes: formCoopDeptCodes || null,
+                        impact_level: formImpactLevel || null,
+                        handling_status: formHandlingStatus || '미착수',
+                        memo: formMemo || null,
+                        created_by_email: selectedPopup.created_by_email
+                    });
+                }
             }
             setIsModalOpen(false);
             fetchData();
@@ -1391,7 +1412,6 @@ export default function PmoPopupManager() {
                                         <button 
                                             type="button"
                                             onClick={() => {
-                                                setSelectedPopupDetail(null);
                                                 openEditModal(p);
                                             }}
                                             className="px-5 py-2 rounded-[8px] bg-[#2997ff] hover:bg-[#2997ff]/90 text-[13px] font-bold text-white cursor-pointer transition-all shadow-md shadow-[#2997ff]/10"
