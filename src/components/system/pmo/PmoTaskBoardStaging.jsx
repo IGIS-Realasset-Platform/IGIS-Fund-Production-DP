@@ -2577,6 +2577,19 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
         return sortedAndFilteredTasks.slice(start, start + pageSize);
     }, [sortedAndFilteredTasks, currentPage, pageSize]);
 
+    // Auto-update currentPage to the page containing the selected task detail
+    useEffect(() => {
+        if (selectedTaskDetail && sortedAndFilteredTasks.length > 0) {
+            const taskIndex = sortedAndFilteredTasks.findIndex(t => String(t.id) === String(selectedTaskDetail.id));
+            if (taskIndex !== -1) {
+                const targetPage = Math.floor(taskIndex / pageSize) + 1;
+                if (currentPage !== targetPage) {
+                    setCurrentPage(targetPage);
+                }
+            }
+        }
+    }, [selectedTaskDetail, sortedAndFilteredTasks, pageSize, currentPage]);
+
     return (
         <div>
             <style>{`
