@@ -1273,6 +1273,12 @@ export default function PmoPopupManager() {
 
                 return (
                     <div className="fixed inset-0 z-[100000] overflow-hidden pointer-events-none">
+                        <style>{`
+                            #global-notification-bell,
+                            #global-support-button {
+                                display: none !important;
+                            }
+                        `}</style>
                         {/* Clickable backdrop that closes the drawer */}
                         <div className="absolute inset-0 pointer-events-auto bg-black/40 backdrop-blur-xs" onClick={() => setSelectedPopupDetail(null)} />
                         
