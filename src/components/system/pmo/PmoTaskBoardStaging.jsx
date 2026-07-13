@@ -4112,6 +4112,21 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
 
                 return (
                     <div className="fixed inset-0 z-[100000] overflow-hidden pointer-events-none">
+                        {/* Backdrop Click-outside Catcher */}
+                        <div 
+                            className="absolute inset-0 bg-transparent pointer-events-auto"
+                            onClick={() => {
+                                setSelectedTaskDetail(null);
+                                const newParams = new URLSearchParams(window.location.search);
+                                let changed = false;
+                                if (newParams.has('taskId')) { newParams.delete('taskId'); changed = true; }
+                                if (newParams.has('logId')) { newParams.delete('logId'); changed = true; }
+                                if (changed) {
+                                    const newSearch = newParams.toString();
+                                    window.history.replaceState(null, '', `${window.location.pathname}${newSearch ? '?' + newSearch : ''}`);
+                                }
+                            }}
+                        />
                         <div className="absolute inset-y-0 right-0 max-w-full flex pl-10 pointer-events-auto">
                             <form onSubmit={handleFormSubmit} className="w-screen max-w-[550px] transform transition-transform duration-300 ease-in-out shadow-2xl flex flex-col h-full bg-[#1c1c1e]/95 backdrop-blur-xl border-l border-[#3c3c3c]/80 text-white select-text">
                                 {/* Header */}
