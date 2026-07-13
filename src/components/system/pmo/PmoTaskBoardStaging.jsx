@@ -4001,11 +4001,11 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                 {/* Content Body */}
                                 <div className="flex-1 overflow-y-auto px-[10px] py-6 space-y-[10px] timeline-scrollbar">
                                     {/* Task Name */}
-                                    <div className="space-y-1">
+                                    <div className="space-y-1 pl-[20px] relative top-[-6px]">
                                         <h2 className="text-[22px] font-bold text-[#bdbba7] leading-snug">
                                             {t.task_name || ''}
                                         </h2>
-                                        <div className="flex flex-wrap gap-2 text-[12px] pt-1">
+                                        <div className="flex flex-wrap gap-2 text-[12px] pt-[2px]">
                                             <span className={`px-2 py-0.5 rounded-[4px] font-bold text-[11px] ${
                                                 statusVal === '완료' ? 'bg-green-500/10 text-green-400 border border-green-500/20' :
                                                 statusVal === '지연' ? 'bg-red-500/10 text-red-400 border border-red-500/20' :

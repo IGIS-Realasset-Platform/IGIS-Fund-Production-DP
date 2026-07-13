@@ -1306,7 +1306,7 @@ export default function PmoPopupManager() {
                                 {/* Content Body */}
                                 <div className="flex-1 overflow-y-auto px-[10px] py-6 space-y-[10px] timeline-scrollbar">
                                     {/* Task Name */}
-                                    <div className="space-y-1">
+                                    <div className="space-y-1 pl-[20px]">
                                         <h2 className="text-[22px] font-bold text-[#bdbba7] leading-snug">
                                             {p.request_detail}
                                         </h2>
