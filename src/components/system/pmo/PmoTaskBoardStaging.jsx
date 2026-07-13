@@ -1789,11 +1789,14 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                     
                     if (dbScore !== dynamicScore || dbGradeText !== dynamicGrade) {
                         const changes = [];
+                        const structuredChanges = [];
                         if (dbScore !== dynamicScore) {
                             changes.push(`시스템 점수 산정 공식(기한 임박/지연 등 속성 재평가)에 따라 우선순위 점수가 "${dbScore}점"에서 "${dynamicScore}점"(으)로 자동 교정되었습니다.`);
+                            structuredChanges.push({ field: '우선순위 점수', from: `${dbScore}점`, to: `${dynamicScore}점` });
                         }
                         if (dbGradeText !== dynamicGrade) {
                             changes.push(`점수 교정에 따라 상정 등급이 "${dbGradeText.replace(/^[A-D]_/, '')}"에서 "${dynamicGrade.replace(/^[A-D]_/, '')}"(으)로 자동 교정되었습니다.`);
+                            structuredChanges.push({ field: '상정 등급', from: dbGradeText.replace(/^[A-D]_/, ''), to: dynamicGrade.replace(/^[A-D]_/, '') });
                         }
                         
                         tasksToUpdate.push({
@@ -1816,7 +1819,8 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                 is_task_board: true,
                                 task_id: t.id,
                                 task_project: t.project_code || 'IOTA_SEOUL',
-                                editor_name: '시스템 스케줄러'
+                                editor_name: '시스템 스케줄러',
+                                structured_changes: structuredChanges
                             }
                         });
                         
@@ -2340,6 +2344,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
             // Always track changes and log to Supabase iota_seoul_logs
             try {
                 const changes = [];
+                const structuredChanges = [];
                 const fallbackItem = FALLBACK_BOARD_TASKS.find(fb => fb.task_name === editingItem.task_name) || {};
 
                 // 1. 상태
@@ -2347,6 +2352,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                 const newStatus = formStatus || '진행중';
                 if (oldStatus !== newStatus) {
                     changes.push(`상태가 "${oldStatus}"에서 "${newStatus}"으로 변경되었습니다.`);
+                    structuredChanges.push({ field: '상태', from: oldStatus, to: newStatus });
                 }
 
                 // 2. 중요도 및 연계 지표 (상정 등급, 우선순위 점수)
@@ -2354,6 +2360,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                 const newImportance = formImportanceLevel || '중간';
                 if (oldImportance !== newImportance) {
                     changes.push(`중요도가 "${oldImportance}"에서 "${newImportance}"(으)로 변경되었습니다.`);
+                    structuredChanges.push({ field: '중요도', from: oldImportance, to: newImportance });
                 }
 
                 const rawOldGrade = String(editingItem.meeting_grade || fallbackItem.meeting_grade || 'B');
@@ -2362,12 +2369,14 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                 
                 if (oldGradeText !== newGradeText) {
                     changes.push(`회의 상정 등급이 "${oldGradeText.replace(/^[A-D]_/, '')}"에서 "${newGradeText.replace(/^[A-D]_/, '')}"(으)로 변경되었습니다.`);
+                    structuredChanges.push({ field: '상정 등급', from: oldGradeText.replace(/^[A-D]_/, ''), to: newGradeText.replace(/^[A-D]_/, '') });
                 }
 
                 const oldScore = editingItem.priority_score !== undefined ? editingItem.priority_score : (fallbackItem.priority_score || 0);
                 const newScore = formPriorityScore || 0;
                 if (oldScore !== newScore) {
                     changes.push(`우선순위 점수가 "${oldScore}점"에서 "${newScore}점"(으)로 변경되었습니다.`);
+                    structuredChanges.push({ field: '우선순위 점수', from: `${oldScore}점`, to: `${newScore}점` });
                 }
 
                 // 3. 병목
@@ -2375,6 +2384,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                 const newBlocker = formIsBlocker ? '활성화' : '비활성화';
                 if (oldBlocker !== newBlocker) {
                     changes.push(`병목(Blocker)이 "${oldBlocker}"에서 "${newBlocker}"으로 변경되었습니다.`);
+                    structuredChanges.push({ field: '병목(Blocker)', from: oldBlocker, to: newBlocker });
                 }
 
                 // 4. 담당자
@@ -2382,6 +2392,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                 const newAssignee = formAssignee || '미정';
                 if (oldAssignee !== newAssignee) {
                     changes.push(`담당자가 "${oldAssignee}"에서 "${newAssignee}"으로 변경되었습니다.`);
+                    structuredChanges.push({ field: '담당자', from: oldAssignee, to: newAssignee });
                 }
 
                 // 5. 외부상대방
@@ -2389,6 +2400,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                 const newExt = formExternalParty || '';
                 if (oldExt !== newExt) {
                     changes.push(`외부상대방이 "${oldExt || '미지정'}"에서 "${newExt || '미지정'}"으로 변경되었습니다.`);
+                    structuredChanges.push({ field: '외부상대방', from: oldExt || '미지정', to: newExt || '미지정' });
                 }
 
                 // 6. 협조부서
@@ -2400,6 +2412,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                 const newCoop = [...new Set(cleanedCoop)].join('; ');
                 if (oldCoop !== newCoop) {
                     changes.push(`협조부서가 "${oldCoop || '없음'}"에서 "${newCoop || '없음'}"으로 변경되었습니다.`);
+                    structuredChanges.push({ field: '협조부서', from: oldCoop || '없음', to: newCoop || '없음' });
                 }
 
                 // 7. 마감기한
@@ -2408,6 +2421,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                 const newDue = formDueDate || '';
                 if (oldDue !== newDue) {
                     changes.push(`마감기한이 "${oldDue || '미지정'}"에서 "${newDue || '미지정'}"으로 변경되었습니다.`);
+                    structuredChanges.push({ field: '마감기한', from: oldDue || '미지정', to: newDue || '미지정' });
                 }
 
                 // 8. 의사결정 필요
@@ -2415,6 +2429,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                 const newDecision = formNeedsDecision ? '필요' : '불필요';
                 if (oldDecision !== newDecision) {
                     changes.push(`의사결정 필요 여부가 "${oldDecision}"에서 "${newDecision}"으로 변경되었습니다.`);
+                    structuredChanges.push({ field: '의사결정 필요', from: oldDecision, to: newDecision });
                 }
 
                 if (changes.length > 0) {
@@ -2434,7 +2449,8 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                             task_project: resolvedProjectCode || 'IOTA_SEOUL',
                             workspace_code: memberInfo?.workspace_code || 'WS_PM2',
                             workspace_label: memberInfo?.workspace_label || '기획추진-PM2',
-                            editor_name: memberInfo?.staff_name || memberInfo?.name || '시스템'
+                            editor_name: memberInfo?.staff_name || memberInfo?.name || '시스템',
+                            structured_changes: structuredChanges
                         }
                     };
                     const { error: logErr } = await supabase.from('iota_seoul_logs').insert(logData);

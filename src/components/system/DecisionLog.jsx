@@ -1272,7 +1272,24 @@ export default function DecisionLog() {
                                                     {/* Original Text */}
                                                     {checkUserAccess(log) ? (
                                                         <div className="whitespace-pre-wrap break-words text-[14px] leading-relaxed text-[#E5E5E5]">
-                                                            {renderLogTextWithMentions(log.raw_text)}
+                                                            {log.metadata?.structured_changes?.length > 0 ? (
+                                                                <div className="flex flex-col gap-[10px] mt-[4px]">
+                                                                    {log.metadata.structured_changes.map((change, idx) => (
+                                                                        <div key={idx} className="flex items-center gap-[8px] text-[13px]">
+                                                                            <span className="text-[#86868B] font-medium w-[100px] shrink-0">{change.field}</span>
+                                                                            <div className="flex items-center gap-[6px] flex-wrap">
+                                                                                <span className="px-[8px] py-[3px] rounded-[4px] bg-[#222] text-[#86868B] border border-[#333] line-through decoration-[#86868B]/50">{change.from}</span>
+                                                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#86868B" strokeWidth="2" className="shrink-0">
+                                                                                    <path d="M5 12h14M12 5l7 7-7 7" />
+                                                                                </svg>
+                                                                                <span className="px-[8px] py-[3px] rounded-[4px] bg-[#3A3A3C] text-[#E5E5EA] border border-[#48484A] font-bold">{change.to}</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    ))}
+                                                                </div>
+                                                            ) : (
+                                                                renderLogTextWithMentions(log.raw_text)
+                                                            )}
                                                         </div>
                                                     ) : (
                                                         <div className="text-[#86868B] text-[14px] italic py-[20px] text-center">
@@ -1663,13 +1680,17 @@ export default function DecisionLog() {
 
                                     {/* Avatar & Name */}
                                     <div className="flex items-center gap-[8px] w-[110px] shrink-0 translate-x-[10px]">
-                                        <div className="w-[28px] h-[28px] rounded-full bg-[#333] overflow-hidden border border-[#444]">
-                                            <img 
-                                                src={`${import.meta.env.BASE_URL}${log.writer_name}.webp`} 
-                                                alt={log.writer_name} 
-                                                className="w-full h-full object-cover"
-                                                onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }}
-                                            />
+                                        <div className="w-[28px] h-[28px] rounded-full bg-[#333] overflow-hidden border border-[#444] flex items-center justify-center">
+                                            {(log.writer_staff_id === 'system' || log.writer_staff_id === 'system_auto' || log.writer_name?.includes('시스템')) ? (
+                                                <span className="text-[16px]">🤖</span>
+                                            ) : (
+                                                <img 
+                                                    src={`${import.meta.env.BASE_URL}${log.writer_name}.webp`} 
+                                                    alt={log.writer_name} 
+                                                    className="w-full h-full object-cover"
+                                                    onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }}
+                                                />
+                                            )}
                                         </div>
                                         <span className="text-[14px] font-bold text-white">{log.writer_name}</span>
                                     </div>
@@ -1827,7 +1848,24 @@ export default function DecisionLog() {
                                     ) : (
                                         checkUserAccess(log) ? (
                                             <div className={`whitespace-pre-wrap break-words text-[15px] leading-relaxed ${commentingLogId === log.log_id ? 'text-[#86868B] opacity-70' : 'text-[#E5E5E5]'}`}>
-                                                {renderLogTextWithMentions(log.raw_text)}
+                                                {log.metadata?.structured_changes?.length > 0 ? (
+                                                    <div className="flex flex-col gap-[10px] mt-[4px]">
+                                                        {log.metadata.structured_changes.map((change, idx) => (
+                                                            <div key={idx} className="flex items-center gap-[8px] text-[13px]">
+                                                                <span className="text-[#86868B] font-medium w-[100px] shrink-0">{change.field}</span>
+                                                                <div className="flex items-center gap-[6px] flex-wrap">
+                                                                    <span className="px-[8px] py-[3px] rounded-[4px] bg-[#222] text-[#86868B] border border-[#333] line-through decoration-[#86868B]/50">{change.from}</span>
+                                                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#86868B" strokeWidth="2" className="shrink-0">
+                                                                        <path d="M5 12h14M12 5l7 7-7 7" />
+                                                                    </svg>
+                                                                    <span className="px-[8px] py-[3px] rounded-[4px] bg-[#3A3A3C] text-[#E5E5EA] border border-[#48484A] font-bold">{change.to}</span>
+                                                                </div>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                ) : (
+                                                    renderLogTextWithMentions(log.raw_text)
+                                                )}
                                             </div>
                                         ) : (
                                             <div className="text-[#86868B] text-[14px] italic py-[20px] text-center">
@@ -2099,13 +2137,17 @@ export default function DecisionLog() {
                         {/* Modal Header */}
                         <div className="flex justify-between items-start gap-4 pr-10">
                             <div className="flex items-center gap-[14px]">
-                                <div className="w-[48px] h-[48px] rounded-full bg-[#2c2c2e] overflow-hidden border border-[#444] shrink-0">
-                                    <img 
-                                        src={`${import.meta.env.BASE_URL}${selectedIotaLog.writer_name}.webp`} 
-                                        alt={selectedIotaLog.writer_name} 
-                                        className="w-full h-full object-cover" 
-                                        onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }} 
-                                    />
+                                <div className="w-[48px] h-[48px] rounded-full bg-[#2c2c2e] overflow-hidden border border-[#444] shrink-0 flex items-center justify-center">
+                                    {(selectedIotaLog.writer_staff_id === 'system' || selectedIotaLog.writer_staff_id === 'system_auto' || selectedIotaLog.writer_name?.includes('시스템')) ? (
+                                        <span className="text-[28px]">🤖</span>
+                                    ) : (
+                                        <img 
+                                            src={`${import.meta.env.BASE_URL}${selectedIotaLog.writer_name}.webp`} 
+                                            alt={selectedIotaLog.writer_name} 
+                                            className="w-full h-full object-cover" 
+                                            onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }} 
+                                        />
+                                    )}
                                 </div>
                                 <div className="flex flex-col text-left">
                                     <span className="text-white font-bold text-[16px] leading-tight">{selectedIotaLog.writer_name}</span>
