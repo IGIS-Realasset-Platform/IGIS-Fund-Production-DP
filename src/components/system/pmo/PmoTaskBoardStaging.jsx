@@ -2268,29 +2268,25 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                     changes.push(`상태가 "${oldStatus}"에서 "${newStatus}"으로 변경되었습니다.`);
                 }
 
-                // 2. 중요도
+                // 2. 중요도 및 연계 지표 (상정 등급, 우선순위 점수)
                 const oldImportance = editingItem.importance_level || fallbackItem.importance_level || '중간';
                 const newImportance = formImportanceLevel || '중간';
-
-                const getGradeText = (gradeVal) => {
-                    if (!gradeVal) return 'D_대기';
-                    if (gradeVal === 'A') return 'A_즉시상정';
-                    if (gradeVal === 'B') return 'B_회의점검';
-                    return gradeVal;
-                };
-                const oldGradeText = getGradeText(editingItem.meeting_grade);
-                const newGradeText = getGradeText(formMeetingGrade);
-
                 if (oldImportance !== newImportance) {
-                    let msg = `중요도가 "${oldImportance}"에서 "${newImportance}"으로`;
-                    if (oldGradeText !== newGradeText) {
-                        msg += `, 그에따라 회의 상정 기준이 "${oldGradeText.replace(/^[A-D]_/, '')}"에서 "${newGradeText.replace(/^[A-D]_/, '')}"으로 변경되었습니다.`;
-                    } else {
-                        msg += ` 변경되었습니다.`;
-                    }
-                    changes.push(msg);
-                } else if (oldGradeText !== newGradeText) {
-                    changes.push(`회의 상정 기준이 "${oldGradeText.replace(/^[A-D]_/, '')}"에서 "${newGradeText.replace(/^[A-D]_/, '')}"으로 변경되었습니다.`);
+                    changes.push(`중요도가 "${oldImportance}"에서 "${newImportance}"(으)로 변경되었습니다.`);
+                }
+
+                const rawOldGrade = String(editingItem.meeting_grade || fallbackItem.meeting_grade || 'B');
+                const oldGradeText = rawOldGrade.includes('_') ? rawOldGrade : gradeMapToUi(rawOldGrade);
+                const newGradeText = formMeetingGrade || 'D_대기';
+                
+                if (oldGradeText !== newGradeText) {
+                    changes.push(`회의 상정 등급이 "${oldGradeText.replace(/^[A-D]_/, '')}"에서 "${newGradeText.replace(/^[A-D]_/, '')}"(으)로 변경되었습니다.`);
+                }
+
+                const oldScore = editingItem.priority_score !== undefined ? editingItem.priority_score : (fallbackItem.priority_score || 0);
+                const newScore = formPriorityScore || 0;
+                if (oldScore !== newScore) {
+                    changes.push(`우선순위 점수가 "${oldScore}점"에서 "${newScore}점"(으)로 변경되었습니다.`);
                 }
 
                 // 3. 병목
