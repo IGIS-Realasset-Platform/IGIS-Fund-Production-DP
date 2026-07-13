@@ -1769,13 +1769,16 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
 
             if (error) throw error;
 
-            // Fetch active task IDs (recent logs within 48 hours)
+            // Fetch active task IDs (recent logs within 48 hours, but only after feature deployment)
             try {
                 const fortyEightHoursAgo = new Date(Date.now() - 48 * 60 * 60 * 1000).toISOString();
+                const featureStartTime = '2026-07-13T09:02:39.000Z';
+                const fetchStartTime = fortyEightHoursAgo > featureStartTime ? fortyEightHoursAgo : featureStartTime;
+
                 const { data: recentLogs } = await supabase
                     .from('iota_seoul_logs')
                     .select('metadata')
-                    .gte('created_at', fortyEightHoursAgo)
+                    .gte('created_at', fetchStartTime)
                     .contains('metadata', { is_task_board: true });
                 
                 const activeIds = new Set();
@@ -3057,7 +3060,10 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                             const rawGate = t.gate_stage || fallbackItem.gate_stage || 'G0';
                                             const gateStageVal = rawGate.includes(' ') ? rawGate : gateMapToUi(rawGate);
 
-                                            const isTaskNew = activeTaskIds.has(t.id) || (new Date() - new Date(t.created_at)) < 48 * 60 * 60 * 1000;
+                                            const isTaskNew = activeTaskIds.has(t.id) || (
+                                                new Date(t.created_at).getTime() >= new Date('2026-07-13T09:02:39Z').getTime() && 
+                                                (new Date() - new Date(t.created_at)) < 48 * 60 * 60 * 1000
+                                            );
 
                                             const supportNeeded = t.support_needed || fallbackItem.support_needed || '';
                                             

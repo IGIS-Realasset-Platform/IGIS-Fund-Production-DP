@@ -1346,7 +1346,7 @@ export default function DecisionLog() {
                                                                             </div>
                                                                             <div className="flex items-center gap-[6px]">
                                                                                 <span className="text-[13px] font-bold text-[#E5E5E5]">{comment.author}</span>
-                                                                                {comment.created_at && (new Date() - new Date(comment.created_at)) < 48 * 60 * 60 * 1000 && (
+                                                                                {comment.created_at && new Date(comment.created_at).getTime() >= new Date('2026-07-13T09:02:39Z').getTime() && (new Date() - new Date(comment.created_at)) < 48 * 60 * 60 * 1000 && (
                                                                                     <span className="shrink-0 inline-flex items-center justify-center px-[4px] py-[2px] rounded-[3px] text-[10px] font-black bg-[#ff3b30] text-white leading-none tracking-wider relative top-[1px]">
                                                                                         N
                                                                                     </span>
@@ -1701,7 +1701,7 @@ export default function DecisionLog() {
                                         </div>
                                         <div className="flex items-center gap-[6px]">
                                             <span className="text-[14px] font-bold text-white">{log.writer_name}</span>
-                                            {((log.created_at && (new Date() - new Date(log.created_at)) < 48 * 60 * 60 * 1000) || (log.updated_at && (new Date() - new Date(log.updated_at)) < 48 * 60 * 60 * 1000)) && (
+                                            {((log.created_at && new Date(log.created_at).getTime() >= new Date('2026-07-13T09:02:39Z').getTime() && (new Date() - new Date(log.created_at)) < 48 * 60 * 60 * 1000) || (log.updated_at && new Date(log.updated_at).getTime() >= new Date('2026-07-13T09:02:39Z').getTime() && (new Date() - new Date(log.updated_at)) < 48 * 60 * 60 * 1000)) && (
                                                 <span className="shrink-0 inline-flex items-center justify-center px-[4px] py-[2px] rounded-[3px] text-[10px] font-black bg-[#ff3b30] text-white leading-none tracking-wider relative top-[1px]">
                                                     N
                                                 </span>
@@ -1906,7 +1906,7 @@ export default function DecisionLog() {
                                                             </div>
                                                             <div className="flex items-center gap-[6px]">
                                                                 <span className="text-[13px] font-bold text-[#E5E5E5]">{comment.author}</span>
-                                                                {comment.created_at && (new Date() - new Date(comment.created_at)) < 48 * 60 * 60 * 1000 && (
+                                                                {comment.created_at && new Date(comment.created_at).getTime() >= new Date('2026-07-13T09:02:39Z').getTime() && (new Date() - new Date(comment.created_at)) < 48 * 60 * 60 * 1000 && (
                                                                     <span className="shrink-0 inline-flex items-center justify-center px-[4px] py-[2px] rounded-[3px] text-[10px] font-black bg-[#ff3b30] text-white leading-none tracking-wider relative top-[1px]">
                                                                         N
                                                                     </span>
@@ -2173,7 +2173,7 @@ export default function DecisionLog() {
                                 <div className="flex flex-col text-left">
                                     <div className="flex items-center gap-[6px]">
                                         <span className="text-white font-bold text-[16px] leading-tight">{selectedIotaLog.writer_name}</span>
-                                        {((selectedIotaLog.created_at && (new Date() - new Date(selectedIotaLog.created_at)) < 48 * 60 * 60 * 1000) || (selectedIotaLog.updated_at && (new Date() - new Date(selectedIotaLog.updated_at)) < 48 * 60 * 60 * 1000)) && (
+                                        {((selectedIotaLog.created_at && new Date(selectedIotaLog.created_at).getTime() >= new Date('2026-07-13T09:02:39Z').getTime() && (new Date() - new Date(selectedIotaLog.created_at)) < 48 * 60 * 60 * 1000) || (selectedIotaLog.updated_at && new Date(selectedIotaLog.updated_at).getTime() >= new Date('2026-07-13T09:02:39Z').getTime() && (new Date() - new Date(selectedIotaLog.updated_at)) < 48 * 60 * 60 * 1000)) && (
                                             <span className="shrink-0 inline-flex items-center justify-center px-[4px] py-[2px] rounded-[3px] text-[10px] font-black bg-[#ff3b30] text-white leading-none tracking-wider relative top-[0px]">
                                                 N
                                             </span>

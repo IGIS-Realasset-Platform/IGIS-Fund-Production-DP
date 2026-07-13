@@ -132,13 +132,16 @@ export default function PmoPopupManager() {
             if (!projErr && projData) setProjects(projData);
             else setProjects(FALLBACK_PROJECTS);
 
-            // Fetch active popup IDs (recent logs within 48 hours)
+            // Fetch active popup IDs (recent logs within 48 hours, but only after feature deployment)
             try {
                 const fortyEightHoursAgo = new Date(Date.now() - 48 * 60 * 60 * 1000).toISOString();
+                const featureStartTime = '2026-07-13T09:02:39.000Z';
+                const fetchStartTime = fortyEightHoursAgo > featureStartTime ? fortyEightHoursAgo : featureStartTime;
+
                 const { data: recentLogs } = await supabase
                     .from('iota_seoul_logs')
                     .select('metadata')
-                    .gte('created_at', fortyEightHoursAgo)
+                    .gte('created_at', fetchStartTime)
                     .contains('metadata', { workspace_label: '단발성 업무 요청' });
                 
                 const activeIds = new Set();
@@ -985,7 +988,11 @@ export default function PmoPopupManager() {
                                     filteredPopups.map((p, index) => {
                                         const isOwner = p.created_by_email === currentUserEmail;
                                         const canEdit = isAdmin || (currentUserEmail && isOwner);
-                                        const isPopupNew = activePopupIds.has(p.id) || (p.request_date && (new Date() - new Date(p.request_date)) < 48 * 60 * 60 * 1000);
+                                        const isPopupNew = activePopupIds.has(p.id) || (
+                                            p.request_date && 
+                                            new Date(p.request_date).getTime() >= new Date('2026-07-13T09:02:39Z').getTime() && 
+                                            (new Date() - new Date(p.request_date)) < 48 * 60 * 60 * 1000
+                                        );
 
                                         return (
                                             <tr 
