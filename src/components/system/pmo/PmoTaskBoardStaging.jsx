@@ -1815,12 +1815,12 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                 try {
                     const { data: logRow, error: logRowErr } = await supabase
                         .from('iota_seoul_logs')
-                        .select('task_id')
+                        .select('metadata')
                         .eq('log_id', urlLogId)
                         .single();
-                    if (!logRowErr && logRow && logRow.task_id) {
-                        const matched = tasks.find(item => String(item.id) === String(logRow.task_id));
-                        if (matched && (!currentDetail || String(currentDetail.id) !== String(logRow.task_id))) {
+                    if (!logRowErr && logRow && logRow.metadata?.task_id) {
+                        const matched = tasks.find(item => String(item.id) === String(logRow.metadata.task_id));
+                        if (matched && (!currentDetail || String(currentDetail.id) !== String(logRow.metadata.task_id))) {
                             setSelectedTaskDetail(matched);
                         }
                     }
