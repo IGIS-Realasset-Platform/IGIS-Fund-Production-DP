@@ -25,8 +25,8 @@ const CATEGORY_OPTIONS = [
     '임차/마케팅', 'PF/금융', '구조/법무/세무', '주주/보고', '준공/담보대출', '일반 요청'
 ];
 
-const IMPACT_OPTIONS = ['높음', '보통', '낮음'];
-const STATUS_OPTIONS = ['접수', '위임', '보류', '반려'];
+const IMPACT_OPTIONS = ['높음', '중간', '낮음'];
+const STATUS_OPTIONS = ['미착수', '진행중', '검토중', '대기', '지연', '완료', '보류', '중단'];
 
 export default function PmoPopupManager() {
     const { memberInfo, user } = useAuth();
@@ -136,12 +136,13 @@ export default function PmoPopupManager() {
 
     // Summary Metric Counts
     const metrics = useMemo(() => {
-        const counts = { total: popups.length, received: 0, delegated: 0, pending: 0, rejected: 0 };
+        const counts = { total: popups.length, inProgress: 0, delayed: 0, completed: 0, pending: 0 };
         popups.forEach(p => {
-            if (p.handling_status === '접수') counts.received++;
-            else if (p.handling_status === '위임') counts.delegated++;
-            else if (p.handling_status === '보류') counts.pending++;
-            else if (p.handling_status === '반려') counts.rejected++;
+            const status = p.handling_status;
+            if (status === '진행중' || status === '검토중' || status === '대기') counts.inProgress++;
+            else if (status === '지연') counts.delayed++;
+            else if (status === '완료') counts.completed++;
+            else if (status === '보류' || status === '중단' || status === '미착수' || !status) counts.pending++;
         });
         return counts;
     }, [popups]);
@@ -163,7 +164,15 @@ export default function PmoPopupManager() {
             if (filterCategory !== '전체보기' && p.category_name !== filterCategory) return false;
 
             // Handling status
-            if (filterStatus !== '전체보기' && p.handling_status !== filterStatus) return false;
+            if (filterStatus !== '전체보기') {
+                if (filterStatus === '진행중') {
+                    if (p.handling_status !== '진행중' && p.handling_status !== '검토중' && p.handling_status !== '대기') return false;
+                } else if (filterStatus === '보류') {
+                    if (p.handling_status !== '보류' && p.handling_status !== '중단' && p.handling_status !== '미착수' && p.handling_status) return false;
+                } else {
+                    if (p.handling_status !== filterStatus) return false;
+                }
+            }
 
             return true;
         });
@@ -318,18 +327,24 @@ export default function PmoPopupManager() {
     // Helper functions for badge styles
     const getStatusStyle = (status) => {
         switch (status) {
-            case '접수': return 'bg-[#0a84ff]/15 text-[#2997ff] border border-[#0a84ff]/30';
-            case '위임': return 'bg-[#30d158]/15 text-[#30d158] border border-[#30d158]/30';
-            case '보류': return 'bg-[#ffd60a]/15 text-[#ffd60a] border border-[#ffd60a]/30';
-            case '반려': return 'bg-[#ff453a]/15 text-[#ff453a] border border-[#ff453a]/30';
-            default: return 'bg-gray-800 text-gray-400 border border-gray-700';
+            case '완료': return 'bg-green-500/10 text-green-400 border border-green-500/20';
+            case '지연': return 'bg-red-500/10 text-red-400 border border-red-500/20';
+            case '진행중': return 'bg-[#0071e3]/10 text-[#2997ff] border border-[#0071e3]/20';
+            case '검토중': return 'bg-yellow-500/10 text-yellow-400 border border-yellow-500/20';
+            case '보류':
+            case '미착수':
+            case '대기':
+            case '중단':
+                return 'bg-gray-500/10 text-gray-400 border border-gray-500/20';
+            default: return 'bg-[#323233] text-[#F5F5F7] border border-[#424243]';
         }
     };
 
     const getImpactStyle = (level) => {
         switch (level) {
             case '높음': return 'text-[#ff453a] font-bold';
-            case '보통': return 'text-[#ffd60a]';
+            case '보통':
+            case '중간': return 'text-[#ffd60a]';
             case '낮음': return 'text-[#30d158]';
             default: return 'text-gray-400';
         }
@@ -430,32 +445,32 @@ export default function PmoPopupManager() {
                     <span className="text-[24px] font-bold text-white">{metrics.total} <span className="text-[13px] font-medium text-[#86868B]">건</span></span>
                 </div>
                 <div 
-                    onClick={() => setFilterStatus('접수')}
-                    className={`p-4 rounded-[16px] border transition-all cursor-pointer text-left ${filterStatus === '접수' ? 'bg-[#0a84ff]/10 border-[#0a84ff] shadow-md shadow-[#0a84ff]/5' : 'bg-[#2c2c2b]/60 border-[#3c3c3c] hover:border-[#555]'}`}
+                    onClick={() => setFilterStatus('진행중')}
+                    className={`p-4 rounded-[16px] border transition-all cursor-pointer text-left ${filterStatus === '진행중' ? 'bg-[#0071e3]/10 border-[#0071e3] shadow-md shadow-[#0071e3]/5' : 'bg-[#2c2c2b]/60 border-[#3c3c3c] hover:border-[#555]'}`}
                 >
-                    <span className="text-[12px] font-bold text-[#2997ff] block mb-1">접수 중</span>
-                    <span className="text-[24px] font-bold text-[#2997ff]">{metrics.received} <span className="text-[13px] font-medium text-[#86868B]">건</span></span>
+                    <span className="text-[12px] font-bold text-[#2997ff] block mb-1">진행 중</span>
+                    <span className="text-[24px] font-bold text-[#2997ff]">{metrics.inProgress} <span className="text-[13px] font-medium text-[#86868B]">건</span></span>
                 </div>
                 <div 
-                    onClick={() => setFilterStatus('위임')}
-                    className={`p-4 rounded-[16px] border transition-all cursor-pointer text-left ${filterStatus === '위임' ? 'bg-[#30d158]/10 border-[#30d158] shadow-md shadow-[#30d158]/5' : 'bg-[#2c2c2b]/60 border-[#3c3c3c] hover:border-[#555]'}`}
+                    onClick={() => setFilterStatus('지연')}
+                    className={`p-4 rounded-[16px] border transition-all cursor-pointer text-left ${filterStatus === '지연' ? 'bg-[#ff453a]/10 border-[#ff453a] shadow-md shadow-[#ff453a]/5' : 'bg-[#2c2c2b]/60 border-[#3c3c3c] hover:border-[#555]'}`}
                 >
-                    <span className="text-[12px] font-bold text-[#30d158] block mb-1">위임됨</span>
-                    <span className="text-[24px] font-bold text-[#30d158]">{metrics.delegated} <span className="text-[13px] font-medium text-[#86868B]">건</span></span>
+                    <span className="text-[12px] font-bold text-[#ff453a] block mb-1">지연됨</span>
+                    <span className="text-[24px] font-bold text-[#ff453a]">{metrics.delayed} <span className="text-[13px] font-medium text-[#86868B]">건</span></span>
+                </div>
+                <div 
+                    onClick={() => setFilterStatus('완료')}
+                    className={`p-4 rounded-[16px] border transition-all cursor-pointer text-left ${filterStatus === '완료' ? 'bg-[#30d158]/10 border-[#30d158] shadow-md shadow-[#30d158]/5' : 'bg-[#2c2c2b]/60 border-[#3c3c3c] hover:border-[#555]'}`}
+                >
+                    <span className="text-[12px] font-bold text-[#30d158] block mb-1">완료됨</span>
+                    <span className="text-[24px] font-bold text-[#30d158]">{metrics.completed} <span className="text-[13px] font-medium text-[#86868B]">건</span></span>
                 </div>
                 <div 
                     onClick={() => setFilterStatus('보류')}
                     className={`p-4 rounded-[16px] border transition-all cursor-pointer text-left ${filterStatus === '보류' ? 'bg-[#ffd60a]/10 border-[#ffd60a] shadow-md shadow-[#ffd60a]/5' : 'bg-[#2c2c2b]/60 border-[#3c3c3c] hover:border-[#555]'}`}
                 >
-                    <span className="text-[12px] font-bold text-[#ffd60a] block mb-1">보류 중</span>
+                    <span className="text-[12px] font-bold text-[#ffd60a] block mb-1">보류/기타</span>
                     <span className="text-[24px] font-bold text-[#ffd60a]">{metrics.pending} <span className="text-[13px] font-medium text-[#86868B]">건</span></span>
-                </div>
-                <div 
-                    onClick={() => setFilterStatus('반려')}
-                    className={`p-4 rounded-[16px] border transition-all cursor-pointer text-left ${filterStatus === '반려' ? 'bg-[#ff453a]/10 border-[#ff453a] shadow-md shadow-[#ff453a]/5' : 'bg-[#2c2c2b]/60 border-[#3c3c3c] hover:border-[#555]'}`}
-                >
-                    <span className="text-[12px] font-bold text-[#ff453a] block mb-1">반려됨</span>
-                    <span className="text-[24px] font-bold text-[#ff453a]">{metrics.rejected} <span className="text-[13px] font-medium text-[#86868B]">건</span></span>
                 </div>
             </div>
 
@@ -468,7 +483,7 @@ export default function PmoPopupManager() {
                             type="text"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            placeholder="요청자, 요청업무, 목적 검색..."
+                            placeholder="요청자, 업무명, 목적 검색..."
                             className="w-full pl-9 pr-4 py-2 bg-[#2c2c2b] border border-[#3c3c3c] rounded-[8px] text-[13px] font-medium text-white placeholder-[#86868B] focus:border-[#2997ff] focus:outline-none transition-colors"
                         />
                         <svg className="w-4 h-4 text-[#86868B] absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -500,7 +515,7 @@ export default function PmoPopupManager() {
 
                     {/* Filter Category */}
                     <div className="flex items-center gap-1.5 select-none">
-                        <span className="text-[12px] text-[#86868B] font-bold">카테고리:</span>
+                        <span className="text-[12px] text-[#86868B] font-bold">업무분류:</span>
                         <div className="relative inline-block">
                             <select 
                                 value={filterCategory}
@@ -522,7 +537,7 @@ export default function PmoPopupManager() {
 
                     {/* Filter Status */}
                     <div className="flex items-center gap-1.5 select-none">
-                        <span className="text-[12px] text-[#86868B] font-bold">처리방침:</span>
+                        <span className="text-[12px] text-[#86868B] font-bold">상태:</span>
                         <div className="relative inline-block">
                             <select 
                                 value={filterStatus}
@@ -556,29 +571,27 @@ export default function PmoPopupManager() {
             ) : (
                 <div className="-mr-[calc(50vw-50%)] border border-r-0 border-[#3c3c3c] bg-[#272726] rounded-l-[24px] overflow-hidden shadow-2xl flex flex-col">
                     <div className="w-full overflow-x-auto pr-0 timeline-scrollbar pb-1">
-                        <table className="text-left table-fixed border-collapse w-[1850px] min-w-[1850px] select-text">
+                        <table className="text-left table-fixed border-collapse w-[1350px] min-w-[1350px] select-text">
                             <thead className="bg-transparent">
                                 <tr className="border-b border-[#3c3c3c] h-[46px]">
                                     <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c]/50 text-center w-[100px]">접수일</th>
                                     <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c]/50 w-[140px]">요청자/부서</th>
-                                    <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c]/50 w-[110px]">프로젝트</th>
-                                    <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c]/50 w-[120px]">카테고리</th>
-                                    <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c]/50 w-[260px]">요청업무</th>
-                                    <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c]/50 w-[180px]">요청목적</th>
-                                    <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c]/50 w-[180px]">필요 산출물</th>
+                                    <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c]/50 text-center w-[70px]">프로젝트</th>
+                                    <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c]/50 w-[80px]">업무분류</th>
+                                    <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c]/50 w-[220px]">업무명</th>
+                                    <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c]/50 w-[160px]">요청목적</th>
+                                    <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c]/50 w-[160px]">필요 산출물</th>
                                     <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c]/50 text-center w-[100px]">요청기한</th>
-                                    <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c]/50 w-[120px]">수행부서</th>
-                                    <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c]/50 w-[120px]">협업부서</th>
-                                    <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c]/50 text-center w-[110px]">정규업무 영향</th>
-                                    <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c]/50 text-center w-[110px]">처리방침</th>
-                                    <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c]/50 w-[210px]">메모</th>
+                                    <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c]/50 text-center w-[80px]">수행부서</th>
+                                    <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c]/50 text-center w-[80px]">중요도</th>
+                                    <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c]/50 text-center w-[70px]">상태</th>
                                     <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] text-center w-[90px]">작업</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-[#3c3c3c]/50 bg-transparent">
                                 {filteredPopups.length === 0 ? (
                                     <tr>
-                                        <td colSpan={14} className="py-20 text-center text-[#86868B] text-[14px]">
+                                        <td colSpan={12} className="py-20 text-center text-[#86868B] text-[14px]">
                                             조건에 만족하는 단발성 업무 요청 정보가 없습니다.
                                         </td>
                                     </tr>
@@ -593,9 +606,9 @@ export default function PmoPopupManager() {
                                                 onDoubleClick={() => canEdit && openEditModal(p)}
                                                 className="hover:bg-white/[0.04] transition-colors group text-[13px] h-[50px] border-b border-[#3c3c3c]/30 bg-transparent"
                                             >
-                                                {/* Date */}
-                                                <td className="px-3 py-2 border-r border-[#3c3c3c]/50 text-[#86868B] text-center font-mono font-medium">
-                                                    {p.request_date || '-'}
+                                                {/* Date (Format: yy.mm.dd, font 1px smaller) */}
+                                                <td className="px-3 py-2 border-r border-[#3c3c3c]/50 text-[#86868B] text-center font-mono font-medium text-[12px]">
+                                                    {p.request_date ? p.request_date.slice(2).replace(/-/g, '.') : '-'}
                                                 </td>
 
                                                 {/* Requester */}
@@ -603,8 +616,8 @@ export default function PmoPopupManager() {
                                                     {p.requester}
                                                 </td>
 
-                                                {/* Project (with badge) */}
-                                                <td className="px-3 py-2 border-r border-[#3c3c3c]/50 text-center font-bold">
+                                                {/* Project (with badge, 70px, center-aligned) */}
+                                                <td className="px-1.5 py-2 border-r border-[#3c3c3c]/50 text-center font-bold">
                                                     <span className={`px-1.5 py-0.5 rounded text-[11px] font-bold border inline-block max-w-full truncate ${
                                                         p.project_code === 'COMMON' ? 'bg-[#323233] text-[#F5F5F7] border-[#424243]' :
                                                         p.project_code === 'PROJECT_427' ? 'bg-[#3A3A3C] text-[#FFFFFF] border-[#48484A]' :
@@ -616,49 +629,51 @@ export default function PmoPopupManager() {
                                                     </span>
                                                 </td>
 
-                                                {/* Category */}
+                                                {/* Category (업무분류, 80px) */}
                                                 <td className="px-3 py-2 border-r border-[#3c3c3c]/50 text-white/80 font-medium truncate" title={p.category_name}>
                                                     {p.category_name || '-'}
                                                 </td>
 
-                                                {/* Task Details */}
-                                                <td className="px-3 py-2 border-r border-[#3c3c3c]/50 text-[#E5E5E5] font-medium break-words leading-relaxed whitespace-pre-wrap">
+                                                {/* Task Details (업무명, 220px, truncate) */}
+                                                <td className="px-3 py-2 border-r border-[#3c3c3c]/50 text-[#E5E5E5] font-medium truncate" title={p.request_detail}>
                                                     {p.request_detail}
                                                 </td>
 
-                                                {/* Purpose */}
-                                                <td className="px-3 py-2 border-r border-[#3c3c3c]/50 text-[#86868B] break-words whitespace-pre-wrap leading-relaxed">
+                                                {/* Purpose (요청목적, 160px, truncate) */}
+                                                <td className="px-3 py-2 border-r border-[#3c3c3c]/50 text-[#86868B] truncate" title={p.purpose || '-'}>
                                                     {p.purpose || '-'}
                                                 </td>
 
-                                                {/* Deliverables */}
-                                                <td className="px-3 py-2 border-r border-[#3c3c3c]/50 text-[#86868B] font-medium break-words whitespace-pre-wrap leading-relaxed">
+                                                {/* Deliverables (필요 산출물, 160px, truncate) */}
+                                                <td className="px-3 py-2 border-r border-[#3c3c3c]/50 text-[#86868B] font-medium truncate" title={p.deliverables || '-'}>
                                                     {p.deliverables || '-'}
                                                 </td>
 
-                                                {/* Deadline */}
-                                                <td className="px-3 py-2 border-r border-[#3c3c3c]/50 text-[#fbbf24] text-center font-mono font-semibold">
-                                                    {p.due_date || '-'}
+                                                {/* Deadline (Format: yy.mm.dd, text-[12px], c3c2b7 color) */}
+                                                <td className="px-3 py-2 border-r border-[#3c3c3c]/50 text-[#c3c2b7] text-center font-mono font-semibold text-[12px]">
+                                                    {p.due_date ? p.due_date.slice(2).replace(/-/g, '.') : '-'}
                                                 </td>
 
-                                                {/* Original Executing Department */}
-                                                <td className="px-3 py-2 border-r border-[#3c3c3c]/50 font-semibold text-white/80 truncate" title={getDeptName(p.assigned_dept_code)}>
-                                                    {getDeptName(p.assigned_dept_code)}
+                                                {/* Executing Department (Nametag Style, 80px, center-aligned) */}
+                                                <td className="px-1.5 py-2 border-r border-[#3c3c3c]/50 text-center">
+                                                    {(() => {
+                                                        const deptName = getDeptName(p.assigned_dept_code);
+                                                        return deptName && deptName !== '-' ? (
+                                                            <span className="inline-flex items-center justify-center px-2 py-0.5 bg-[#27272a] text-[#d4d4d8] border border-[#3f3f46] rounded-[4px] text-[11px] font-medium max-w-full truncate">
+                                                                {deptName}
+                                                            </span>
+                                                        ) : '-';
+                                                    })()}
                                                 </td>
 
-                                                {/* Collaborating Department */}
-                                                <td className="px-3 py-2 border-r border-[#3c3c3c]/50 text-[#86868B] truncate" title={p.coop_dept_codes}>
-                                                    {p.coop_dept_codes || '-'}
-                                                </td>
-
-                                                {/* Impact on Regular Tasks */}
+                                                {/* Importance (중요도, 80px, center-aligned) */}
                                                 <td className="px-3 py-2 border-r border-[#3c3c3c]/50 text-center">
                                                     <span className={getImpactStyle(p.impact_level)}>
-                                                        {p.impact_level || '보통'}
+                                                        {p.impact_level || '중간'}
                                                     </span>
                                                 </td>
 
-                                                {/* Processing Policy (Handling Status) */}
+                                                {/* Status (상태, 70px, center-aligned) */}
                                                 <td className="px-3 py-2 border-r border-[#3c3c3c]/50 text-center relative select-none">
                                                     {activeStatusSelectId === p.id && isAdmin ? (
                                                         <div className="absolute inset-0 flex items-center justify-center p-1 bg-[#2C2C2E] z-10">
@@ -684,11 +699,6 @@ export default function PmoPopupManager() {
                                                             {p.handling_status} {isAdmin && '▾'}
                                                         </span>
                                                     )}
-                                                </td>
-
-                                                {/* Memo */}
-                                                <td className="px-3 py-2 border-r border-[#3c3c3c]/50 text-[#86868B] italic break-words whitespace-pre-wrap leading-relaxed">
-                                                    {p.memo || '-'}
                                                 </td>
 
                                                 {/* Actions */}
@@ -872,10 +882,10 @@ export default function PmoPopupManager() {
                                 </div>
                             </div>
 
-                            {/* Line 3: 카테고리 & 정규업무 영향도 */}
+                            {/* Line 3: 업무분류 & 중요도 */}
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="flex flex-col gap-1.5 select-none">
-                                    <label className="text-[12px] font-bold text-[#86868B]">카테고리</label>
+                                    <label className="text-[12px] font-bold text-[#86868B]">업무분류</label>
                                     <div className="relative w-full">
                                         <select 
                                             value={formCategoryName}
@@ -894,7 +904,7 @@ export default function PmoPopupManager() {
                                     </div>
                                 </div>
                                 <div className="flex flex-col gap-1.5 select-none">
-                                    <label className="text-[12px] font-bold text-[#86868B]">정규업무 영향</label>
+                                    <label className="text-[12px] font-bold text-[#86868B]">중요도</label>
                                     <div className="relative w-full">
                                         <select 
                                             value={formImpactLevel}
@@ -914,7 +924,7 @@ export default function PmoPopupManager() {
                                 </div>
                             </div>
 
-                            {/* Line 4: 수행부서 & 처리상태 */}
+                            {/* Line 4: 수행부서 & 상태 */}
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="flex flex-col gap-1.5 select-none">
                                     <label className="text-[12px] font-bold text-[#86868B]">수행부서</label>
@@ -936,7 +946,7 @@ export default function PmoPopupManager() {
                                     </div>
                                 </div>
                                 <div className="flex flex-col gap-1.5 select-none">
-                                    <label className="text-[12px] font-bold text-[#86868B]">처리방침 (상태)</label>
+                                    <label className="text-[12px] font-bold text-[#86868B]">상태</label>
                                     <div className="relative w-full">
                                         <select 
                                             value={formHandlingStatus}
@@ -963,15 +973,15 @@ export default function PmoPopupManager() {
                                 </div>
                             </div>
 
-                            {/* Text Area 1: 요청업무 상세 */}
+                            {/* Text Area 1: 업무명 */}
                             <div className="flex flex-col gap-1.5">
-                                <label className="text-[12px] font-bold text-[#86868B]">요청업무 상세 <span className="text-[#ff453a]">*</span></label>
+                                <label className="text-[12px] font-bold text-[#86868B]">업무명 <span className="text-[#ff453a]">*</span></label>
                                 <textarea 
                                     required
                                     rows={3}
                                     value={formRequestDetail}
                                     onChange={(e) => setFormRequestDetail(e.target.value)}
-                                    placeholder="구체적인 요청 업무 내용을 입력하세요."
+                                    placeholder="구체적인 업무 내용을 입력하세요."
                                     className="bg-[#2c2c2b] border border-[#3c3c3c] rounded-[8px] px-3.5 py-2.5 text-[13px] font-medium text-white placeholder-gray-600 focus:border-[#2997ff] focus:outline-none transition-colors resize-none leading-relaxed"
                                 />
                             </div>
@@ -995,48 +1005,6 @@ export default function PmoPopupManager() {
                                         value={formDeliverables}
                                         onChange={(e) => setFormDeliverables(e.target.value)}
                                         placeholder="예시: 한 장짜리 요약 PDF"
-                                        className="bg-[#2c2c2b] border border-[#3c3c3c] rounded-[8px] px-3.5 py-2.5 text-[13px] font-medium text-white placeholder-gray-600 focus:border-[#2997ff] focus:outline-none transition-colors"
-                                    />
-                                </div>
-                            </div>
-
-                            {/* Text Area 3: 협업부서 & 메모 */}
-                            <div className="grid grid-cols-2 gap-4">
-                                <div className="flex flex-col gap-1.5 relative">
-                                    <label className="text-[12px] font-bold text-[#86868B]">협업 부서</label>
-                                    <input 
-                                        type="text"
-                                        value={formCoopDeptCodes}
-                                        onChange={(e) => {
-                                            setFormCoopDeptCodes(e.target.value);
-                                            setShowCoopSuggestions(true);
-                                        }}
-                                        onFocus={() => setShowCoopSuggestions(true)}
-                                        onBlur={() => setTimeout(() => setShowCoopSuggestions(false), 200)}
-                                        placeholder="예시: 사업 PM 1, 공간솔루션-SSC"
-                                        className="bg-[#2c2c2b] border border-[#3c3c3c] rounded-[8px] px-3.5 py-2.5 text-[13px] font-medium text-white placeholder-gray-600 focus:border-[#2997ff] focus:outline-none transition-colors"
-                                    />
-                                    {showCoopSuggestions && filteredCoopDepts.length > 0 && (
-                                        <div className="absolute left-0 right-0 top-[100%] mt-1 max-h-40 overflow-y-auto bg-[#2c2c2b] border border-[#4c4c4b] rounded-[8px] z-[99999] shadow-xl timeline-scrollbar">
-                                            {filteredCoopDepts.map((d, idx) => (
-                                                <div 
-                                                    key={idx}
-                                                    onClick={() => handleSelectCoop(d.dept_name)}
-                                                    className="px-3.5 py-2 hover:bg-white/5 cursor-pointer text-left text-[13px] text-white transition-colors"
-                                                >
-                                                    {d.dept_name}
-                                                </div>
-                                            ))}
-                                        </div>
-                                    )}
-                                </div>
-                                <div className="flex flex-col gap-1.5">
-                                    <label className="text-[12px] font-bold text-[#86868B]">메모</label>
-                                    <input 
-                                        type="text"
-                                        value={formMemo}
-                                        onChange={(e) => setFormMemo(e.target.value)}
-                                        placeholder="특이사항 및 제언 작성"
                                         className="bg-[#2c2c2b] border border-[#3c3c3c] rounded-[8px] px-3.5 py-2.5 text-[13px] font-medium text-white placeholder-gray-600 focus:border-[#2997ff] focus:outline-none transition-colors"
                                     />
                                 </div>

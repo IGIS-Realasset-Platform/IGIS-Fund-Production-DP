@@ -2497,11 +2497,11 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                             </div>
                                         </th>
 
-                                        {/* 대분류 */}
+                                        {/* 업무분류 */}
                                         <th className="pl-4 w-[71px] min-w-[71px] max-w-[71px] sticky left-[130px] bg-[#272726] z-30">
                                             <div className="relative inline-flex items-center justify-start bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-1.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[74px] overflow-hidden">
                                                 <span className={`font-bold text-[11px] whitespace-nowrap truncate ${selectedCategoryMain === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
-                                                    {selectedCategoryMain === '전체보기' ? '대분류' : selectedCategoryMain}
+                                                    {selectedCategoryMain === '전체보기' ? '업무분류' : selectedCategoryMain}
                                                 </span>
                                                 <span className="text-[8px] text-[#86868B]/70 pointer-events-none select-none translate-y-[0.5px] ml-1 shrink-0">▼</span>
                                                 <select
@@ -2509,7 +2509,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                                     onChange={(e) => setSelectedCategoryMain(e.target.value)}
                                                     className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                                                 >
-                                                    <option disabled value="" className="bg-[#222] text-[#86868B] font-bold">[ 대분류 ]</option>
+                                                    <option disabled value="" className="bg-[#222] text-[#86868B] font-bold">[ 업무분류 ]</option>
                                                     <option value="전체보기" className="bg-[#222] text-[#86868B]">전체보기</option>
                                                     {uniqueCategoryMainFilter.map(cat => (
                                                         <option key={cat} value={cat} className="bg-[#222] text-white">{cat}</option>
@@ -3504,7 +3504,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
 
                                     {/* Category Select */}
                                     <div className="flex items-center gap-1.5">
-                                        <span className="text-[#86868B]">대분류:</span>
+                                        <span className="text-[#86868B]">업무분류:</span>
                                         <select 
                                             value={formCategoryMain} 
                                             onChange={e => setFormCategoryMain(e.target.value)} 
@@ -3512,7 +3512,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                             style={{ appearance: 'auto' }}
                                             required
                                         >
-                                            <option value="">대분류 선택</option>
+                                            <option value="">업무분류 선택</option>
                                             <option value="공통 PMO">공통 PMO</option>
                                             <option value="인허가">인허가</option>
                                             <option value="호텔/운영">호텔/운영</option>
@@ -3524,7 +3524,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                             <option value="구조/법무/세무">구조/법무/세무</option>
                                             <option value="주주/보고">주주/보고</option>
                                             <option value="준공/담보대출">준공/담보대출</option>
-                                            <option value="팝업/단발">팝업/단발</option>
+                                            <option value="일반 요청">일반 요청</option>
                                         </select>
                                     </div>
 
