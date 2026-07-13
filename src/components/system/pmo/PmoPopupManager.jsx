@@ -1032,7 +1032,7 @@ export default function PmoPopupManager() {
                                                     <div className="flex items-center gap-[6px] truncate w-full">
                                                         <span className="truncate">{p.request_detail}</span>
                                                         {isPopupNew && (
-                                                            <span className="shrink-0 inline-flex items-center justify-center px-[4px] py-[2px] rounded-[3px] text-[10px] font-black bg-[#ff3b30] text-white leading-none tracking-wider relative top-[-1px]">
+                                                            <span className="shrink-0 inline-flex items-center justify-center px-[4px] py-[2px] rounded-[3px] text-[10px] font-black bg-[#ff3b30] text-white leading-none tracking-wider relative top-[0px]">
                                                                 N
                                                             </span>
                                                         )}

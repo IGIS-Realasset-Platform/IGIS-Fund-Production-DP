@@ -3121,7 +3121,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                                         <div className="truncate w-full flex items-center gap-[6px]">
                                                             <span className="truncate">{t.task_name}</span>
                                                             {isTaskNew && (
-                                                                <span className="shrink-0 inline-flex items-center justify-center px-[4px] py-[2px] rounded-[3px] text-[10px] font-black bg-[#ff3b30] text-white leading-none tracking-wider relative top-[-1px]">
+                                                                <span className="shrink-0 inline-flex items-center justify-center px-[4px] py-[2px] rounded-[3px] text-[10px] font-black bg-[#ff3b30] text-white leading-none tracking-wider relative top-[0px]">
                                                                     N
                                                                 </span>
                                                             )}
