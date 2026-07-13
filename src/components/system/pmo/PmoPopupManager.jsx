@@ -280,7 +280,7 @@ export default function PmoPopupManager() {
             fetchData();
         } catch (err) {
             console.error("Failed to save popup request:", err);
-            toast.error("저장에 실패했습니다. 권한을 확인하세요.");
+            toast.error("저장에 실패했습니다: " + (err.message || err.details || err));
         }
     };
 
