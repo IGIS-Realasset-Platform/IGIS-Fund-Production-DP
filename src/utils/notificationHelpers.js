@@ -76,9 +76,8 @@ export const notifyMembersOnLogCreation = async (logId, logContent, workspace, w
                 const isSameWorkspace = orgMatch || codeMatch;
                 
                 const isDirectorOrMaster = member.role_code === 'master' || member.role_code === 'director';
-                const isNotWriter = member.email && writerEmail && member.email.toLowerCase() !== writerEmail.toLowerCase();
 
-                return (isSameWorkspace || isDirectorOrMaster) && isNotWriter;
+                return (isSameWorkspace || isDirectorOrMaster);
             })
             .map(member => member.auth_id);
 
@@ -274,9 +273,8 @@ export const notifyMembersOnCommentCreation = async (logId, commentContent, work
                 const isSameWorkspace = orgMatch || codeMatch;
                 
                 const isDirectorOrMaster = member.role_code === 'master' || member.role_code === 'director';
-                const isNotWriter = member.email && writerEmail && member.email.toLowerCase() !== writerEmail.toLowerCase();
 
-                return (isSameWorkspace || isDirectorOrMaster) && isNotWriter;
+                return (isSameWorkspace || isDirectorOrMaster);
             })
             .map(member => member.auth_id);
 

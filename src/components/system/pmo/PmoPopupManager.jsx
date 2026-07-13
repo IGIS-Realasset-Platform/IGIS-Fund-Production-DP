@@ -91,7 +91,8 @@ export default function PmoPopupManager() {
                 .from('iota_pmo_tasks')
                 .select('*')
                 .eq('task_type', '팝업')
-                .order('request_date', { ascending: false });
+                .order('request_date', { ascending: false })
+                .order('created_at', { ascending: false });
             if (popupErr) throw popupErr;
 
             const normalizedData = (popupData || []).map(p => {
@@ -861,7 +862,7 @@ export default function PmoPopupManager() {
                             >
                                 <option value="전체보기">전체보기</option>
                                 {STATUS_OPTIONS.map(opt => (
-                                    <option key={opt} value={opt}>{opt === '미착수' ? '미착수(접수)' : opt}</option>
+                                    <option key={opt} value={opt}>{opt}</option>
                                 ))}
                             </select>
                             <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-[#86868B] z-10">
@@ -988,7 +989,7 @@ export default function PmoPopupManager() {
                                                 {/* Status (상태, 70px, center-aligned) */}
                                                 <td className="px-1.5 py-2 border-r border-[#3c3c3c]/50 text-center select-none align-middle">
                                                     <span className={`inline-block px-1.5 py-0.5 rounded text-[11px] font-bold font-mono tracking-tight align-middle ${getStatusStyle(p.handling_status)}`}>
-                                                        {p.handling_status === '미착수' ? '미착수(접수)' : (p.handling_status || '미착수')}
+                                                        {p.handling_status || '미착수'}
                                                     </span>
                                                 </td>
 
