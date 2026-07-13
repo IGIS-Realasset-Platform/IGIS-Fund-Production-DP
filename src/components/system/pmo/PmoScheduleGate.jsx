@@ -364,6 +364,27 @@ export default function PmoScheduleGate() {
     const [rrData, setRrData] = React.useState(CATEGORY_MAP_DATA.map((item, idx) => ({ ...item, id: `mock-${idx}` })));
     const [scrollLeft, setScrollLeft] = React.useState(0);
 
+    // Timeline Drag-to-Scroll Logic
+    const sliderRef = React.useRef(null);
+    const [isDragging, setIsDragging] = React.useState(false);
+    const [startX, setStartX] = React.useState(0);
+    const [dragScrollLeft, setDragScrollLeft] = React.useState(0);
+
+    const handleMouseDown = (e) => {
+        setIsDragging(true);
+        setStartX(e.pageX - sliderRef.current.offsetLeft);
+        setDragScrollLeft(sliderRef.current.scrollLeft);
+    };
+    const handleMouseLeave = () => { setIsDragging(false); };
+    const handleMouseUp = () => { setIsDragging(false); };
+    const handleMouseMove = (e) => {
+        if (!isDragging) return;
+        e.preventDefault();
+        const x = e.pageX - sliderRef.current.offsetLeft;
+        const walk = (x - startX) * 1.5;
+        sliderRef.current.scrollLeft = dragScrollLeft - walk;
+    };
+
     const getSelectWidth = (value, defaultLabel) => {
         const text = value === '전체보기' ? defaultLabel : value;
         let len = 0;
@@ -492,8 +513,8 @@ export default function PmoScheduleGate() {
                 <div className="absolute top-[-64px] left-0 w-[calc(100%-800px)] h-[36px] pointer-events-none z-50 overflow-visible">
                     {/* PF 1차 */}
                     {(() => {
-                        const x = 1086 - scrollLeft;
-                        const opacity = x < 580 ? Math.max(0, Math.min(1, (x - 520) / 60)) : 1;
+                        const x = 872.5 - scrollLeft;
+                        const opacity = x < 480 ? Math.max(0, Math.min(1, (x - 420) / 60)) : 1;
                         if (opacity <= 0) return null;
                         return (
                             <div 
@@ -509,7 +530,7 @@ export default function PmoScheduleGate() {
                     
                     {/* PF 2차 */}
                     {(() => {
-                        const x = 1178 - scrollLeft;
+                        const x = 947.5 - scrollLeft;
                         const opacity = x < 580 ? Math.max(0, Math.min(1, (x - 520) / 60)) : 1;
                         if (opacity <= 0) return null;
                         return (
@@ -527,21 +548,33 @@ export default function PmoScheduleGate() {
                     })()}
                 </div>
 
-                <div className="w-full overflow-x-auto overflow-y-hidden pr-0 timeline-scrollbar rounded-l-[32px]" onScroll={(e) => setScrollLeft(e.target.scrollLeft)}>
-                    <div className="flex items-center min-w-[2300px] overflow-visible">
-                        <table className="text-left table-fixed w-[1500px] min-w-[1500px] max-w-[1500px]">
+                
+                {/* Right Edge Shadow Indicator */}
+                <div className="absolute top-0 right-0 h-full w-[60px] bg-gradient-to-l from-[#272726] to-transparent pointer-events-none z-40 transition-opacity duration-300" style={{ opacity: scrollLeft > 100 ? 0 : 1 }}></div>
+
+                <div 
+                    ref={sliderRef}
+                    className={`w-full overflow-x-auto overflow-y-hidden pr-0 timeline-scrollbar rounded-l-[32px] select-none ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
+                    onScroll={(e) => setScrollLeft(e.target.scrollLeft)}
+                    onMouseDown={handleMouseDown}
+                    onMouseLeave={handleMouseLeave}
+                    onMouseUp={handleMouseUp}
+                    onMouseMove={handleMouseMove}
+                >
+                    <div className="flex items-center min-w-[2000px] overflow-visible pointer-events-none">
+                        <table className="text-left table-fixed w-[1210px] min-w-[1210px] max-w-[1210px] pointer-events-auto">
                             <thead>
                                 <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[13px] h-12">
-                                    <th className="px-2 w-[100px] text-center sticky left-0 bg-[#272726] z-30 rounded-tl-[31px]">구분</th>
-                                    <th className="pl-4 w-[270px] sticky left-[100px] bg-[#272726] z-30">세부업무</th>
-                                    <th className="px-2 w-[110px] text-center sticky left-[370px] bg-[#272726] z-30">주관</th>
-                                    <th className="px-2 w-[100px] text-center sticky left-[480px] bg-[#272726] z-30 border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)]">협업</th>
+                                    <th className="px-1 w-[80px] text-center sticky left-0 bg-[#272726] z-30 rounded-tl-[31px]">구분</th>
+                                    <th className="pl-3 w-[210px] sticky left-[80px] bg-[#272726] z-30">세부업무</th>
+                                    <th className="px-1 w-[90px] text-center sticky left-[290px] bg-[#272726] z-30">주관</th>
+                                    <th className="px-1 w-[80px] text-center sticky left-[380px] bg-[#272726] z-30 border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)]">협업</th>
                                     {COLUMNS.map((col, cIdx) => {
                                         const borderClass = col.highlight
                                             ? 'bg-white/[0.03] text-[#60a5fa] border-r border-[#4c4c4c]/50'
                                             : 'text-[#86868B] border-r border-[#4c4c4c]/50';
                                         return (
-                                            <th key={col.key} className={`text-center font-mono text-[11px] leading-tight px-1 font-bold w-[92px] ${borderClass}`}>
+                                            <th key={col.key} className={`text-center font-mono text-[11px] leading-tight px-1 font-bold w-[75px] ${borderClass}`}>
                                                 <div>{col.labelTop}</div>
                                                 {col.labelBottom && <div className="text-[11px] opacity-75 mt-0.5">{col.labelBottom}</div>}
                                             </th>
@@ -556,7 +589,7 @@ export default function PmoScheduleGate() {
                                     return (
                                         <tr key={idx} className="hover:bg-[#333] transition-colors h-14 group">
                                             {/* 구분 */}
-                                            <td className={`px-2 sticky left-0 bg-[#272726] group-hover:bg-[#333] transition-colors z-20 text-center w-[100px] min-w-[100px] max-w-[100px] ${
+                                            <td className={`px-1 sticky left-0 bg-[#272726] group-hover:bg-[#333] transition-colors z-20 text-center w-[80px] min-w-[80px] max-w-[80px] ${
                                                 isLastRow ? 'rounded-bl-[31px]' : ''
                                             }`}>
                                                 <span className={`px-1.5 py-1 rounded-md font-bold block ${
@@ -569,12 +602,12 @@ export default function PmoScheduleGate() {
                                             </td>
                                             
                                             {/* 세부업무 */}
-                                            <td className="pl-4 font-medium text-[#E5E5E5] leading-snug text-left pr-2 whitespace-normal break-all sticky left-[100px] bg-[#272726] group-hover:bg-[#333] transition-colors z-20 text-[14px] w-[270px] min-w-[270px] max-w-[270px]">
+                                            <td className="pl-3 font-medium text-[#E5E5E5] leading-snug text-left pr-2 whitespace-normal break-words sticky left-[80px] bg-[#272726] group-hover:bg-[#333] transition-colors z-20 text-[13px] tracking-tight w-[210px] min-w-[210px] max-w-[210px]">
                                                 {item.desc}
                                             </td>
                                             
                                             {/* 주관 */}
-                                            <td className="px-2 text-[#E5E5E5] font-semibold text-center sticky left-[370px] bg-[#272726] group-hover:bg-[#333] transition-colors z-20 text-[13px] leading-tight whitespace-normal break-all w-[110px] min-w-[110px] max-w-[110px]">
+                                            <td className="px-1 text-[#E5E5E5] font-semibold text-center sticky left-[290px] bg-[#272726] group-hover:bg-[#333] transition-colors z-20 text-[12px] leading-tight tracking-tight whitespace-normal break-words w-[90px] min-w-[90px] max-w-[90px]">
                                                 {item.lead.includes(' ') ? (
                                                     item.lead.split(' ').map((part, pIdx) => (
                                                         <div key={pIdx}>{part}</div>
@@ -585,7 +618,7 @@ export default function PmoScheduleGate() {
                                             </td>
                                             
                                             {/* 협업 */}
-                                            <td className="px-2 text-[#c2c2c6] leading-tight text-center pr-2 whitespace-normal break-all sticky left-[480px] bg-[#272726] group-hover:bg-[#333] transition-colors z-20 border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)] w-[100px] min-w-[100px] max-w-[100px]">
+                                            <td className="px-1 text-[#c2c2c6] leading-tight text-center whitespace-normal break-words sticky left-[380px] bg-[#272726] group-hover:bg-[#333] transition-colors z-20 border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)] w-[80px] min-w-[80px] max-w-[80px]">
                                                 {item.coop.split(';').map((c, cIdx) => (
                                                     c && <div key={cIdx} className="text-[11px]">{c}</div>
                                                 ))}
@@ -598,7 +631,7 @@ export default function PmoScheduleGate() {
                                                 return (
                                                     <td key={col.key} className={`text-center ${
                                                         col.highlight ? 'bg-white/[0.015] group-hover:bg-white/[0.04]' : ''
-                                                    } ${borderClass} w-[92px] min-w-[92px] max-w-[92px]`}>
+                                                    } ${borderClass} w-[75px] min-w-[75px] max-w-[75px]`}>
                                                         {mark === '●' && (
                                                             <span className="w-3.5 h-3.5 rounded-full bg-[#2997ff] inline-block shadow-sm shadow-[#2997ff]/20"></span>
                                                         )}
