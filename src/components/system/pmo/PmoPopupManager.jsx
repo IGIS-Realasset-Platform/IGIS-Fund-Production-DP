@@ -461,7 +461,7 @@ export default function PmoPopupManager() {
             </div>
 
             {/* Metrics Dashboard Banner */}
-            <div className="grid grid-cols-5 gap-3 mb-[24px]">
+            <div className="grid grid-cols-5 gap-3 mb-[16px]">
                 <div 
                     onClick={() => setFilterStatus('전체보기')}
                     className={`p-4 rounded-[16px] border transition-all cursor-pointer text-left ${filterStatus === '전체보기' ? 'bg-[#2997ff]/10 border-[#2997ff] shadow-md shadow-[#2997ff]/5' : 'bg-[#2c2c2b]/60 border-[#3c3c3c] hover:border-[#555]'}`}
@@ -500,7 +500,7 @@ export default function PmoPopupManager() {
             </div>
 
             {/* Filters Bar */}
-            <div className="bg-[#2c2c2b]/30 border border-[#3c3c3c] rounded-[16px] p-4 mb-[16px] flex flex-wrap gap-4 items-center justify-between">
+            <div className="bg-[#2c2c2b]/30 border border-[#3c3c3c] rounded-[16px] py-3 px-4 mb-[16px] flex flex-wrap gap-4 items-center justify-between">
                 <div className="flex flex-wrap items-center gap-3 flex-1 min-w-0">
                     {/* Search query */}
                     <div className="relative w-[280px] shrink-0">
