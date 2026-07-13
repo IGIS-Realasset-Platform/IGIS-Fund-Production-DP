@@ -330,19 +330,11 @@ export default function PmoPopupManager() {
         }
     };
 
-    // Helper functions for badge styles
     const getStatusStyle = (status) => {
         switch (status) {
             case '완료': return 'bg-green-500/10 text-green-400 border border-green-500/20';
             case '지연': return 'bg-red-500/10 text-red-400 border border-red-500/20';
-            case '진행중': return 'bg-[#0071e3]/10 text-[#2997ff] border border-[#0071e3]/20';
-            case '검토중': return 'bg-yellow-500/10 text-yellow-400 border border-yellow-500/20';
-            case '보류':
-            case '미착수':
-            case '대기':
-            case '중단':
-                return 'bg-gray-500/10 text-gray-400 border border-gray-500/20';
-            default: return 'bg-[#323233] text-[#F5F5F7] border border-[#424243]';
+            default: return 'bg-gray-500/10 text-gray-400 border border-gray-500/20';
         }
     };
 
@@ -688,31 +680,10 @@ export default function PmoPopupManager() {
                                                 </td>
 
                                                 {/* Status (상태, 70px, center-aligned) */}
-                                                <td className="px-0.5 py-2 border-r border-[#3c3c3c]/50 text-center relative select-none">
-                                                    {activeStatusSelectId === p.id && isAdmin ? (
-                                                        <div className="absolute inset-0 flex items-center justify-center p-1 bg-[#2C2C2E] z-10">
-                                                            <select
-                                                                value={p.handling_status}
-                                                                onChange={(e) => handleInlineStatusChange(p.id, e.target.value)}
-                                                                onBlur={() => setActiveStatusSelectId(null)}
-                                                                autoFocus
-                                                                className="w-full bg-[#3a3a39] text-white border border-[#444] rounded px-1 py-0.5 text-[11px] font-bold outline-none cursor-pointer text-center whitespace-nowrap overflow-hidden"
-                                                            >
-                                                                {STATUS_OPTIONS.map(opt => (
-                                                                    <option key={opt} value={opt}>{opt}</option>
-                                                                ))}
-                                                            </select>
-                                                        </div>
-                                                    ) : (
-                                                        <span 
-                                                            onClick={() => isAdmin && setActiveStatusSelectId(p.id)}
-                                                            className={`inline-flex items-center justify-center gap-0.5 px-1.5 py-0.5 rounded text-[11px] font-bold font-mono tracking-tight whitespace-nowrap max-w-full ${
-                                                                isAdmin ? 'cursor-pointer hover:brightness-125' : ''
-                                                            } ${getStatusStyle(p.handling_status)}`}
-                                                        >
-                                                            {p.handling_status} {isAdmin && <span className="text-[9px] translate-y-[0.5px]">▼</span>}
-                                                        </span>
-                                                    )}
+                                                <td className="px-1.5 py-2 border-r border-[#3c3c3c]/50 text-center select-none">
+                                                    <span className={`inline-block px-1.5 py-0.5 rounded text-[11px] font-bold font-mono tracking-tight ${getStatusStyle(p.handling_status)}`}>
+                                                        {p.handling_status || '미착수'}
+                                                    </span>
                                                 </td>
 
                                                 {/* Actions */}
