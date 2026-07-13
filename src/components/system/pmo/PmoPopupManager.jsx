@@ -688,7 +688,7 @@ export default function PmoPopupManager() {
                                                 </td>
 
                                                 {/* Status (상태, 70px, center-aligned) */}
-                                                <td className="px-3 py-2 border-r border-[#3c3c3c]/50 text-center relative select-none">
+                                                <td className="px-0.5 py-2 border-r border-[#3c3c3c]/50 text-center relative select-none">
                                                     {activeStatusSelectId === p.id && isAdmin ? (
                                                         <div className="absolute inset-0 flex items-center justify-center p-1 bg-[#2C2C2E] z-10">
                                                             <select
@@ -696,7 +696,7 @@ export default function PmoPopupManager() {
                                                                 onChange={(e) => handleInlineStatusChange(p.id, e.target.value)}
                                                                 onBlur={() => setActiveStatusSelectId(null)}
                                                                 autoFocus
-                                                                className="w-full bg-[#3a3a39] text-white border border-[#444] rounded px-1.5 py-0.5 text-[11px] font-bold outline-none cursor-pointer"
+                                                                className="w-full bg-[#3a3a39] text-white border border-[#444] rounded px-1 py-0.5 text-[11px] font-bold outline-none cursor-pointer text-center whitespace-nowrap overflow-hidden"
                                                             >
                                                                 {STATUS_OPTIONS.map(opt => (
                                                                     <option key={opt} value={opt}>{opt}</option>
@@ -706,11 +706,11 @@ export default function PmoPopupManager() {
                                                     ) : (
                                                         <span 
                                                             onClick={() => isAdmin && setActiveStatusSelectId(p.id)}
-                                                            className={`inline-block px-1.5 py-0.5 rounded text-[11px] font-bold font-mono tracking-tight ${
+                                                            className={`inline-flex items-center justify-center gap-0.5 px-1.5 py-0.5 rounded text-[11px] font-bold font-mono tracking-tight whitespace-nowrap max-w-full ${
                                                                 isAdmin ? 'cursor-pointer hover:brightness-125' : ''
                                                             } ${getStatusStyle(p.handling_status)}`}
                                                         >
-                                                            {p.handling_status} {isAdmin && '▾'}
+                                                            {p.handling_status} {isAdmin && <span className="text-[9px] translate-y-[0.5px]">▼</span>}
                                                         </span>
                                                     )}
                                                 </td>
