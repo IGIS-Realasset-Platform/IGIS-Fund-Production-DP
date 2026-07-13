@@ -1850,14 +1850,30 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
 
         if (selectedTaskDetail) {
             const params = new URLSearchParams(window.location.search);
+            let changed = false;
             if (params.get('taskId') !== String(selectedTaskDetail.id)) {
                 params.set('taskId', selectedTaskDetail.id);
+                changed = true;
+            }
+            if (params.has('logId')) {
+                params.delete('logId');
+                changed = true;
+            }
+            if (changed) {
                 window.history.replaceState(null, '', `${window.location.pathname}?${params.toString()}`);
             }
         } else {
             const params = new URLSearchParams(window.location.search);
+            let changed = false;
             if (params.has('taskId')) {
                 params.delete('taskId');
+                changed = true;
+            }
+            if (params.has('logId')) {
+                params.delete('logId');
+                changed = true;
+            }
+            if (changed) {
                 const newSearch = params.toString();
                 window.history.replaceState(null, '', `${window.location.pathname}${newSearch ? '?' + newSearch : ''}`);
             }

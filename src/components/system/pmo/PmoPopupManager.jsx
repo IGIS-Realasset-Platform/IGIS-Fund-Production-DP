@@ -228,14 +228,30 @@ export default function PmoPopupManager() {
 
         if (selectedPopupDetail) {
             const params = new URLSearchParams(window.location.search);
+            let changed = false;
             if (params.get('popupId') !== String(selectedPopupDetail.id)) {
                 params.set('popupId', selectedPopupDetail.id);
+                changed = true;
+            }
+            if (params.has('logId')) {
+                params.delete('logId');
+                changed = true;
+            }
+            if (changed) {
                 window.history.replaceState(null, '', `${window.location.pathname}?${params.toString()}`);
             }
         } else {
             const params = new URLSearchParams(window.location.search);
+            let changed = false;
             if (params.has('popupId')) {
                 params.delete('popupId');
+                changed = true;
+            }
+            if (params.has('logId')) {
+                params.delete('logId');
+                changed = true;
+            }
+            if (changed) {
                 const newSearch = params.toString();
                 window.history.replaceState(null, '', `${window.location.pathname}${newSearch ? '?' + newSearch : ''}`);
             }
