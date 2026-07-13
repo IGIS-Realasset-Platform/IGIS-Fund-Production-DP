@@ -613,10 +613,6 @@ export default function PmoPopupManager() {
                         </div>
                     </div>
                 </div>
-
-                <div className="text-[13px] text-[#86868B] font-bold select-none">
-                    검색 결과: <span className="text-white">{filteredPopups.length}</span> 건
-                </div>
             </div>
 
             {/* Spreadsheet Grid Table */}
