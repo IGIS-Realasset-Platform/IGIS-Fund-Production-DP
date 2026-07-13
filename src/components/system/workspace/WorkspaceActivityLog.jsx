@@ -1065,6 +1065,11 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                         <div className="w-full flex items-center justify-between">
                                             <div className="flex items-center gap-1.5">
                                                 <span className="text-[14px] font-bold text-white leading-tight">{log.writer_name}</span>
+                                                {((log.created_at && new Date(log.created_at).getTime() >= new Date('2026-07-13T09:02:39Z').getTime() && (new Date() - new Date(log.created_at)) < 48 * 60 * 60 * 1000) || (log.updated_at && new Date(log.updated_at).getTime() >= new Date('2026-07-13T09:02:39Z').getTime() && (new Date() - new Date(log.updated_at)) < 48 * 60 * 60 * 1000)) && (
+                                                    <span className="shrink-0 inline-flex items-center justify-center px-[4px] py-[2px] rounded-[3px] text-[10px] font-black bg-[#ff3b30] text-white leading-none tracking-wider relative top-[0px]">
+                                                        N
+                                                    </span>
+                                                )}
                                                 <span className={`text-[11px] font-bold px-1.5 py-0.5 rounded ${
                                                     log.writer_name === '시스템'
                                                         ? 'text-[#30d158] bg-[#30d158]/10'
@@ -1219,7 +1224,14 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                                                         onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }}
                                                                     />
                                                                 </div>
-                                                                <span className="text-[12px] font-bold text-white">{comment.author}</span>
+                                                                <div className="flex items-center gap-[6px]">
+                                                                    <span className="text-[12px] font-bold text-white">{comment.author}</span>
+                                                                    {comment.created_at && new Date(comment.created_at).getTime() >= new Date('2026-07-13T09:02:39Z').getTime() && (new Date() - new Date(comment.created_at)) < 48 * 60 * 60 * 1000 && (
+                                                                        <span className="shrink-0 inline-flex items-center justify-center px-[4px] py-[2px] rounded-[3px] text-[10px] font-black bg-[#ff3b30] text-white leading-none tracking-wider relative top-[0px]">
+                                                                            N
+                                                                        </span>
+                                                                    )}
+                                                                </div>
                                                                 <span className="text-[10px] text-[#86868B]">
                                                                     {new Date(comment.created_at).toLocaleString('ko-KR', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false })}
                                                                 </span>
@@ -1363,7 +1375,14 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                                     onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }}
                                                 />
                                             </div>
-                                            <span className="text-[14px] font-bold text-white">{log.writer_name}</span>
+                                            <div className="flex items-center gap-[6px]">
+                                                <span className="text-[14px] font-bold text-white">{log.writer_name}</span>
+                                                {((log.created_at && new Date(log.created_at).getTime() >= new Date('2026-07-13T09:02:39Z').getTime() && (new Date() - new Date(log.created_at)) < 48 * 60 * 60 * 1000) || (log.updated_at && new Date(log.updated_at).getTime() >= new Date('2026-07-13T09:02:39Z').getTime() && (new Date() - new Date(log.updated_at)) < 48 * 60 * 60 * 1000)) && (
+                                                    <span className="shrink-0 inline-flex items-center justify-center px-[4px] py-[2px] rounded-[3px] text-[10px] font-black bg-[#ff3b30] text-white leading-none tracking-wider relative top-[1px]">
+                                                        N
+                                                    </span>
+                                                )}
+                                            </div>
                                         </div>
 
                                         {/* Content */}
@@ -1558,7 +1577,14 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                                                         onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }}
                                                                     />
                                                                 </div>
-                                                                <span className="text-[13px] font-bold text-[#E5E5E5]">{comment.author}</span>
+                                                                <div className="flex items-center gap-[6px]">
+                                                                    <span className="text-[13px] font-bold text-[#E5E5E5]">{comment.author}</span>
+                                                                    {comment.created_at && new Date(comment.created_at).getTime() >= new Date('2026-07-13T09:02:39Z').getTime() && (new Date() - new Date(comment.created_at)) < 48 * 60 * 60 * 1000 && (
+                                                                        <span className="shrink-0 inline-flex items-center justify-center px-[4px] py-[2px] rounded-[3px] text-[10px] font-black bg-[#ff3b30] text-white leading-none tracking-wider relative top-[1px]">
+                                                                            N
+                                                                        </span>
+                                                                    )}
+                                                                </div>
                                                                 <span className="text-[11px] text-[#86868B]">
                                                                     {new Date(comment.created_at).toLocaleString('ko-KR', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false })}
                                                                 </span>
