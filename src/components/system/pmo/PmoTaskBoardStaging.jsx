@@ -3969,7 +3969,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                 return (
                     <div className="fixed inset-0 z-[100000] overflow-hidden pointer-events-none">
                         <div className="absolute inset-y-0 right-0 max-w-full flex pl-10 pointer-events-auto">
-                            <form onSubmit={handleFormSubmit} className="w-screen max-w-[650px] transform transition-transform duration-300 ease-in-out shadow-2xl flex flex-col h-full bg-[#1c1c1e]/95 backdrop-blur-xl border-l border-[#3c3c3c]/80 text-white select-text">
+                            <form onSubmit={handleFormSubmit} className="w-screen max-w-[550px] transform transition-transform duration-300 ease-in-out shadow-2xl flex flex-col h-full bg-[#1c1c1e]/95 backdrop-blur-xl border-l border-[#3c3c3c]/80 text-white select-text">
                                 {/* Header */}
                                 <div className="px-6 py-3 border-b border-[#3c3c3c]/80 flex items-center justify-between bg-[#1c1c1e]/80 sticky top-0 z-20">
                                     <div className="flex items-center gap-3 flex-wrap">
