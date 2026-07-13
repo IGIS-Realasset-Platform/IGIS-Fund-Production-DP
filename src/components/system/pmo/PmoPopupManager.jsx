@@ -446,8 +446,8 @@ export default function PmoPopupManager() {
                             is_task_board: true,
                             task_id: selectedPopup.id,
                             task_project: formProjectCode || 'IOTA_SEOUL',
-                            workspace_code: memberInfo?.workspace_code || 'WS_PM2',
-                            workspace_label: memberInfo?.workspace_label || '기획추진-PM2',
+                            workspace_code: 'WS_PMO',
+                            workspace_label: '단발성 업무 요청',
                             editor_name: memberInfo?.staff_name || memberInfo?.name || '시스템'
                         }
                     };
@@ -529,8 +529,8 @@ export default function PmoPopupManager() {
                         is_task_board: true,
                         task_id: popupId,
                         task_project: popupObj?.project_code || 'IOTA_SEOUL',
-                        workspace_code: memberInfo?.workspace_code || 'WS_PM2',
-                        workspace_label: memberInfo?.workspace_label || '기획추진-PM2',
+                        workspace_code: 'WS_PMO',
+                        workspace_label: '단발성 업무 요청',
                         editor_name: memberInfo?.staff_name || memberInfo?.name || '시스템'
                     }
                 };
