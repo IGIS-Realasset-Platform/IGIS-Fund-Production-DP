@@ -657,7 +657,7 @@ export default function PmoPopupManager() {
                                                 className="hover:bg-white/[0.04] transition-colors group text-[13px] h-[42px] bg-transparent"
                                             >
                                                 {/* Date (Format: yy.mm.dd, font 1px smaller) */}
-                                                <td className="px-3 py-2 border-r border-[#3c3c3c]/50 text-[#86868B] text-center font-mono font-medium text-[12px] align-middle">
+                                                <td className="px-3 py-2 border-r border-[#3c3c3c]/50 text-[#86868B] text-center font-medium text-[12px] align-middle">
                                                     {p.request_date ? p.request_date.slice(2).replace(/-/g, '.') : '-'}
                                                 </td>
 
@@ -685,7 +685,7 @@ export default function PmoPopupManager() {
                                                 </td>
 
                                                 {/* Task Details (업무명, 220px, truncate) */}
-                                                <td className="px-3 py-2 border-r border-[#3c3c3c]/50 text-[#E5E5E5] font-medium truncate align-middle" title={p.request_detail}>
+                                                <td className="px-3 py-2 border-r border-[#3c3c3c]/50 text-[#bdbba7] font-bold truncate align-middle" title={p.request_detail}>
                                                     {p.request_detail}
                                                 </td>
 
@@ -700,7 +700,7 @@ export default function PmoPopupManager() {
                                                 </td>
 
                                                 {/* Deadline (Format: yy.mm.dd, text-[12px], c3c2b7 color) */}
-                                                <td className="px-3 py-2 border-r border-[#3c3c3c]/50 text-[#c3c2b7] text-center font-mono font-semibold text-[12px] align-middle">
+                                                <td className="px-3 py-2 border-r border-[#3c3c3c]/50 text-[#c3c2b7] text-center font-semibold text-[12px] align-middle">
                                                     {p.due_date ? p.due_date.slice(2).replace(/-/g, '.') : '-'}
                                                 </td>
 
