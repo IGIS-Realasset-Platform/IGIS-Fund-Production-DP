@@ -1770,7 +1770,88 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
 
             let loadedTasks = [];
             if (data && data.length > 0) {
-                const sorted = [...data].sort((a, b) => {
+                // AUTO-HEAL SWEEP: Check if dynamic score/grade diverges from DB (due to time passing)
+                const tasksToUpdate = [];
+                const logsToInsert = [];
+                
+                const healedData = data.map(t => {
+                    const fallbackItem = FALLBACK_BOARD_TASKS.find(fb => fb.task_name === t.task_name) || {};
+                    const dynamicScore = calculatePriorityScore(t, fallbackItem);
+                    
+                    let dynamicGrade = 'D_대기';
+                    if (dynamicScore >= 70) dynamicGrade = 'A_즉시상정';
+                    else if (dynamicScore >= 50) dynamicGrade = 'B_회의점검';
+                    else if (dynamicScore >= 30) dynamicGrade = 'C_주간관리';
+                    
+                    const dbGrade = String(t.meeting_grade || fallbackItem.meeting_grade || 'B');
+                    const dbGradeText = dbGrade.includes('_') ? dbGrade : gradeMapToUi(dbGrade);
+                    const dbScore = t.priority_score !== undefined ? t.priority_score : (fallbackItem.priority_score || 0);
+                    
+                    if (dbScore !== dynamicScore || dbGradeText !== dynamicGrade) {
+                        const changes = [];
+                        if (dbScore !== dynamicScore) {
+                            changes.push(`기한 임박/지연 등 시간 경과에 따라 우선순위 점수가 "${dbScore}점"에서 "${dynamicScore}점"(으)로 자동 갱신되었습니다.`);
+                        }
+                        if (dbGradeText !== dynamicGrade) {
+                            changes.push(`점수 변동에 따라 상정 등급이 "${dbGradeText.replace(/^[A-D]_/, '')}"에서 "${dynamicGrade.replace(/^[A-D]_/, '')}"(으)로 자동 갱신되었습니다.`);
+                        }
+                        
+                        tasksToUpdate.push({
+                            id: t.id,
+                            priority_score: dynamicScore,
+                            meeting_grade: gradeMapToDb(dynamicGrade)
+                        });
+                        
+                        const logId = `iota_sys_auto_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
+                        logsToInsert.push({
+                            log_id: logId,
+                            writer_name: '시스템 스케줄러',
+                            writer_staff_id: 'system_auto',
+                            work_date: new Date().toISOString().slice(0, 10),
+                            summary: '시스템 자동 갱신 이력',
+                            raw_text: changes.join('\n'),
+                            input_status: 'submitted',
+                            source_system: 'task_board',
+                            metadata: {
+                                is_task_board: true,
+                                task_id: t.id,
+                                task_project: t.project_code || 'IOTA_SEOUL',
+                                editor_name: '시스템 스케줄러'
+                            }
+                        });
+                        
+                        return { ...t, priority_score: dynamicScore, meeting_grade: gradeMapToDb(dynamicGrade) };
+                    }
+                    return t;
+                });
+
+                // Fire and forget auto-heal to DB
+                if (tasksToUpdate.length > 0) {
+                    Promise.all(tasksToUpdate.map(upd => 
+                        supabase.schema('iota_v2').from('iota_pmo_tasks').update({
+                            priority_score: upd.priority_score,
+                            meeting_grade: upd.meeting_grade
+                        }).eq('id', upd.id)
+                    )).catch(console.error);
+                    
+                    if (logsToInsert.length > 0) {
+                        supabase.from('iota_seoul_logs').insert(logsToInsert).then(async ({error}) => {
+                            if (!error) {
+                                const logLinks = logsToInsert.map(l => ({
+                                    link_id: `link_${l.log_id}`,
+                                    log_id: l.log_id,
+                                    proj_id: l.metadata.task_project,
+                                    target_id: l.metadata.task_id,
+                                    target_type: 'task',
+                                    linked_at: new Date().toISOString()
+                                }));
+                                await supabase.from('iota_seoul_log_links').insert(logLinks);
+                            }
+                        }).catch(console.error);
+                    }
+                }
+
+                const sorted = [...healedData].sort((a, b) => {
                     const dateA = new Date(a.created_at || 0).getTime();
                     const dateB = new Date(b.created_at || 0).getTime();
                     if (dateA !== dateB) return dateA - dateB;
