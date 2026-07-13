@@ -1349,10 +1349,10 @@ export default function PmoPopupManager() {
                             }
                         `}</style>
                         {/* Clickable backdrop that closes the drawer */}
-                        <div className="absolute inset-0 pointer-events-auto bg-black/40 backdrop-blur-xs" onClick={() => setSelectedPopupDetail(null)} />
+                        <div className="absolute inset-0 pointer-events-auto bg-black/40" onClick={() => setSelectedPopupDetail(null)} />
                         
                         <div className="absolute inset-y-0 right-0 max-w-full flex pl-10 pointer-events-auto">
-                            <div className="w-screen max-w-[550px] transform transition-transform duration-300 ease-in-out shadow-2xl flex flex-col h-full bg-[#1c1c1e]/95 backdrop-blur-xl border-l border-[#3c3c3c]/80 text-white select-text">
+                            <div className="w-screen max-w-[550px] transform transition-transform duration-300 ease-in-out shadow-2xl flex flex-col h-full bg-[#1c1c1e]/95 border-l border-[#3c3c3c]/80 text-white select-text">
                                 {/* Header */}
                                 <div className="px-[10px] py-3 border-b border-[#3c3c3c]/80 flex items-center justify-between bg-[#1c1c1e]/80 sticky top-0 z-20">
                                     <div className="flex items-center gap-3 flex-wrap">
