@@ -986,7 +986,7 @@ export default function PmoPopupManager() {
 
             {/* Premium Create / Edit Modal Dialog */}
             {isModalOpen && (
-                <div className="fixed inset-0 bg-black/65 backdrop-blur-sm flex items-center justify-center z-[100000] transition-all select-none">
+                <div className="fixed inset-0 bg-black/65 backdrop-blur-sm flex items-center justify-center z-[200000] transition-all select-none">
                     <div className="bg-[#272726] border border-[#3c3c3c] w-full max-w-2xl rounded-[24px] overflow-hidden shadow-2xl flex flex-col max-h-[90vh]">
                         
                         {/* Modal Header */}
