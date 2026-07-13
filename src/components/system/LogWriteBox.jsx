@@ -1002,6 +1002,13 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                                 {isUploadingFile ? '업로드 중...' : '파일 첨부'}
                             </button>
                         )}
+                        <button 
+                            type="button"
+                            onClick={() => setShowVisibilityModal(true)}
+                            className={`px-[16px] ${btnPadding} ${btnRounding} border ${isTaskBoard ? 'border-[#444] text-[#E5E5E5]' : 'border-red-500/50 text-red-500'} font-bold text-[13px] ${isTaskBoard ? 'hover:bg-[#333] hover:border-[#555]' : 'hover:bg-red-500/10 hover:border-red-500 hover:text-red-400'} transition-colors cursor-pointer whitespace-nowrap relative left-[4px]`}
+                        >
+                            열람권한
+                        </button>
                         {editMode ? (
                             <>
                                 <button 
@@ -1019,32 +1026,16 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                                 >
                                     {isSubmitting ? '저장 중...' : '수정 완료'}
                                 </button>
-                                <button 
-                                    type="button"
-                                    onClick={() => setShowVisibilityModal(true)}
-                                    className={`px-[16px] ${btnPadding} ${btnRounding} border ${isTaskBoard ? 'border-[#444] text-[#E5E5E5]' : 'border-red-500/50 text-red-500'} font-bold text-[13px] ${isTaskBoard ? 'hover:bg-[#333] hover:border-[#555]' : 'hover:bg-red-500/10 hover:border-red-500 hover:text-red-400'} transition-colors cursor-pointer whitespace-nowrap ml-[4px]`}
-                                >
-                                    열람권한
-                                </button>
                             </>
                         ) : (
-                            <>
-                                <button 
-                                    type="button"
-                                    onClick={handlePreSubmit}
-                                    disabled={isSubmitting}
-                                    className={`px-[32px] ${btnPadding} ${btnRounding} border border-[#444] text-[#E5E5E5] font-bold text-[13px] transition-all duration-200 whitespace-nowrap ${isSubmitting ? 'opacity-50 cursor-not-allowed' : 'hover:bg-[#333] hover:border-[#555] cursor-pointer'}`}
-                                >
-                                    {isSubmitting ? '저장 중...' : '작성하기'}
-                                </button>
-                                <button 
-                                    type="button"
-                                    onClick={() => setShowVisibilityModal(true)}
-                                    className={`px-[16px] ${btnPadding} ${btnRounding} border ${isTaskBoard ? 'border-[#444] text-[#E5E5E5]' : 'border-red-500/50 text-red-500'} font-bold text-[13px] ${isTaskBoard ? 'hover:bg-[#333] hover:border-[#555]' : 'hover:bg-red-500/10 hover:border-red-500 hover:text-red-400'} transition-colors cursor-pointer whitespace-nowrap ml-[4px]`}
-                                >
-                                    열람권한
-                                </button>
-                            </>
+                            <button 
+                                type="button"
+                                onClick={handlePreSubmit}
+                                disabled={isSubmitting}
+                                className={`px-[32px] ${btnPadding} ${btnRounding} border border-[#444] text-[#E5E5E5] font-bold text-[13px] transition-all duration-200 whitespace-nowrap ${isSubmitting ? 'opacity-50 cursor-not-allowed' : 'hover:bg-[#333] hover:border-[#555] cursor-pointer'}`}
+                            >
+                                {isSubmitting ? '저장 중...' : '작성하기'}
+                            </button>
                         )}
                     </div>
                 </div>
