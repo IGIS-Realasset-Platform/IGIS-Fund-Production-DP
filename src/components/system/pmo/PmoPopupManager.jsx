@@ -360,6 +360,14 @@ export default function PmoPopupManager() {
         return match ? match.dept_name : code || '-';
     };
 
+    const getRequesterDeptOnly = (requesterStr) => {
+        if (!requesterStr) return '-';
+        if (requesterStr.includes('/')) {
+            return requesterStr.split('/')[1].trim();
+        }
+        return requesterStr;
+    };
+
     const mapOrgName = (staffName, orgName) => {
         if (!orgName) return '';
         const trimmedOrg = orgName.trim();
@@ -571,17 +579,17 @@ export default function PmoPopupManager() {
             ) : (
                 <div className="-mr-[calc(50vw-50%)] border border-r-0 border-[#3c3c3c] bg-[#272726] rounded-l-[24px] overflow-hidden shadow-2xl flex flex-col">
                     <div className="w-full overflow-x-auto pr-0 timeline-scrollbar pb-1">
-                        <table className="text-left table-fixed border-collapse w-[1350px] min-w-[1350px] select-text">
+                        <table className="text-left table-fixed border-collapse w-[1290px] min-w-[1290px] select-text">
                             <thead className="bg-transparent">
-                                <tr className="border-b border-[#3c3c3c] h-[46px]">
-                                    <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c]/50 text-center w-[100px]">접수일</th>
-                                    <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c]/50 w-[140px]">요청자/부서</th>
-                                    <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c]/50 text-center w-[70px]">프로젝트</th>
-                                    <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c]/50 w-[80px]">업무분류</th>
+                                <tr className="border-b border-[#3c3c3c] h-[38px]">
+                                    <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c]/50 text-center w-[90px]">접수일</th>
+                                    <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c]/50 text-center w-[100px]">요청부서</th>
+                                    <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c]/50 text-center w-[80px]">프로젝트</th>
+                                    <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c]/50 w-[90px]">업무분류</th>
                                     <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c]/50 w-[220px]">업무명</th>
-                                    <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c]/50 w-[160px]">요청목적</th>
-                                    <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c]/50 w-[160px]">필요 산출물</th>
-                                    <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c]/50 text-center w-[100px]">요청기한</th>
+                                    <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c]/50 w-[150px]">요청목적</th>
+                                    <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c]/50 w-[150px]">필요 산출물</th>
+                                    <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c]/50 text-center w-[90px]">요청기한</th>
                                     <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c]/50 text-center w-[80px]">수행부서</th>
                                     <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c]/50 text-center w-[80px]">중요도</th>
                                     <th className="px-3 py-0 text-[13px] font-bold text-[#86868B] border-r border-[#3c3c3c]/50 text-center w-[70px]">상태</th>
@@ -604,19 +612,19 @@ export default function PmoPopupManager() {
                                             <tr 
                                                 key={p.id} 
                                                 onDoubleClick={() => canEdit && openEditModal(p)}
-                                                className="hover:bg-white/[0.04] transition-colors group text-[13px] h-[50px] border-b border-[#3c3c3c]/30 bg-transparent"
+                                                className="hover:bg-white/[0.04] transition-colors group text-[13px] h-[42px] border-b border-[#3c3c3c]/30 bg-transparent"
                                             >
                                                 {/* Date (Format: yy.mm.dd, font 1px smaller) */}
                                                 <td className="px-3 py-2 border-r border-[#3c3c3c]/50 text-[#86868B] text-center font-mono font-medium text-[12px]">
                                                     {p.request_date ? p.request_date.slice(2).replace(/-/g, '.') : '-'}
                                                 </td>
 
-                                                {/* Requester */}
-                                                <td className="px-3 py-2 border-r border-[#3c3c3c]/50 font-bold text-[#E5E5E5] truncate" title={p.requester}>
-                                                    {p.requester}
+                                                {/* Requesting Department (Center aligned, requester name deleted) */}
+                                                <td className="px-3 py-2 border-r border-[#3c3c3c]/50 text-center font-bold text-[#E5E5E5] truncate" title={getRequesterDeptOnly(p.requester)}>
+                                                    {getRequesterDeptOnly(p.requester)}
                                                 </td>
 
-                                                {/* Project (with badge, 70px, center-aligned) */}
+                                                {/* Project (with badge, 80px, center-aligned) */}
                                                 <td className="px-1.5 py-2 border-r border-[#3c3c3c]/50 text-center font-bold">
                                                     <span className={`px-1.5 py-0.5 rounded text-[11px] font-bold border inline-block max-w-full truncate ${
                                                         p.project_code === 'COMMON' ? 'bg-[#323233] text-[#F5F5F7] border-[#424243]' :
@@ -629,7 +637,7 @@ export default function PmoPopupManager() {
                                                     </span>
                                                 </td>
 
-                                                {/* Category (업무분류, 80px) */}
+                                                {/* Category (업무분류, 90px) */}
                                                 <td className="px-3 py-2 border-r border-[#3c3c3c]/50 text-white/80 font-medium truncate" title={p.category_name}>
                                                     {p.category_name || '-'}
                                                 </td>
@@ -639,12 +647,12 @@ export default function PmoPopupManager() {
                                                     {p.request_detail}
                                                 </td>
 
-                                                {/* Purpose (요청목적, 160px, truncate) */}
+                                                {/* Purpose (요청목적, 150px, truncate) */}
                                                 <td className="px-3 py-2 border-r border-[#3c3c3c]/50 text-[#86868B] truncate" title={p.purpose || '-'}>
                                                     {p.purpose || '-'}
                                                 </td>
 
-                                                {/* Deliverables (필요 산출물, 160px, truncate) */}
+                                                {/* Deliverables (필요 산출물, 150px, truncate) */}
                                                 <td className="px-3 py-2 border-r border-[#3c3c3c]/50 text-[#86868B] font-medium truncate" title={p.deliverables || '-'}>
                                                     {p.deliverables || '-'}
                                                 </td>
@@ -682,7 +690,7 @@ export default function PmoPopupManager() {
                                                                 onChange={(e) => handleInlineStatusChange(p.id, e.target.value)}
                                                                 onBlur={() => setActiveStatusSelectId(null)}
                                                                 autoFocus
-                                                                className="w-full bg-[#3a3a39] text-white border border-[#444] rounded px-1.5 py-1 text-[12px] font-bold outline-none cursor-pointer"
+                                                                className="w-full bg-[#3a3a39] text-white border border-[#444] rounded px-1.5 py-0.5 text-[11px] font-bold outline-none cursor-pointer"
                                                             >
                                                                 {STATUS_OPTIONS.map(opt => (
                                                                     <option key={opt} value={opt}>{opt}</option>
@@ -692,7 +700,7 @@ export default function PmoPopupManager() {
                                                     ) : (
                                                         <span 
                                                             onClick={() => isAdmin && setActiveStatusSelectId(p.id)}
-                                                            className={`inline-block px-2.5 py-1 rounded-full text-[11px] font-bold font-mono tracking-tight ${
+                                                            className={`inline-block px-1.5 py-0.5 rounded text-[11px] font-bold font-mono tracking-tight ${
                                                                 isAdmin ? 'cursor-pointer hover:brightness-125' : ''
                                                             } ${getStatusStyle(p.handling_status)}`}
                                                         >
