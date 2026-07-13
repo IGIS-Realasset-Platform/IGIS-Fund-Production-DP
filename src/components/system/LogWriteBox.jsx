@@ -390,7 +390,8 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                         individuals: visibilityIndividuals.map(i => i.contact_name)
                     },
                     attachedFiles: attachedFiles,
-                    task_id: isTaskBoard ? taskId : (isEditing ? initialData.metadata?.task_id : undefined)
+                    task_id: isTaskBoard ? taskId : (isEditing ? initialData.metadata?.task_id : undefined),
+                    is_task_board: isTaskBoard ? true : (isEditing ? initialData.metadata?.is_task_board : undefined)
                 }
             };
 
@@ -477,7 +478,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                 if (editMode && onSuccess) {
                     onSuccess();
                 } else if (!editMode) {
-                    setIsExpanded(false);
+                    if (!isTaskBoard) setIsExpanded(false);
                 }
             }, 1000);
         } catch (error) {
