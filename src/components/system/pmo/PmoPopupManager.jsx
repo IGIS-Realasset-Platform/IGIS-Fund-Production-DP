@@ -409,7 +409,7 @@ export default function PmoPopupManager() {
     };
 
     return (
-        <div className="w-full flex-1 flex flex-col pt-[48px] pb-[200px] pl-[60px] pr-[60px] box-border select-text text-white bg-transparent">
+        <div className="w-[1290px] mx-auto flex-1 flex flex-col pt-[48px] pb-[200px] box-border select-text text-white bg-transparent">
             <Toaster position="top-center" reverseOrder={false} />
 
             {/* Header Title Section */}
