@@ -781,63 +781,63 @@ export default function PmoPopupManager() {
                     className={`py-2 px-1.5 rounded-[12px] border transition-all cursor-pointer flex flex-col items-center justify-center text-center ${filterStatus === '전체보기' ? 'bg-[#2997ff]/10 border-[#2997ff] shadow-md shadow-[#2997ff]/5' : 'bg-[#2c2c2b]/60 border-[#3c3c3c] hover:border-[#555]'}`}
                 >
                     <span className="text-[12px] font-medium text-[#86868B] mb-1">전체 요청</span>
-                    <span className="text-[19px] font-extrabold text-white leading-none">{metrics.total}<span className="text-[11px] font-medium text-[#86868B] ml-0.5">건</span></span>
+                    <span className="text-[19px] font-extrabold text-white leading-none">{metrics.total}</span>
                 </div>
                 <div 
                     onClick={() => setFilterStatus('미착수')}
                     className={`py-2 px-1.5 rounded-[12px] border transition-all cursor-pointer flex flex-col items-center justify-center text-center ${filterStatus === '미착수' ? 'bg-white/10 border-white/20 shadow-md' : 'bg-[#2c2c2b]/60 border-[#3c3c3c] hover:border-[#555]'}`}
                 >
                     <span className="text-[12px] font-medium text-[#a1a1aa] mb-1">미착수</span>
-                    <span className="text-[19px] font-extrabold text-[#a1a1aa] leading-none">{metrics.notStarted}<span className="text-[11px] font-medium text-[#86868B] ml-0.5">건</span></span>
+                    <span className="text-[19px] font-extrabold text-[#a1a1aa] leading-none">{metrics.notStarted}</span>
                 </div>
                 <div 
                     onClick={() => setFilterStatus('진행중')}
                     className={`py-2 px-1.5 rounded-[12px] border transition-all cursor-pointer flex flex-col items-center justify-center text-center ${filterStatus === '진행중' ? 'bg-[#2997ff]/10 border-[#2997ff] shadow-md shadow-[#2997ff]/5' : 'bg-[#2c2c2b]/60 border-[#3c3c3c] hover:border-[#555]'}`}
                 >
                     <span className="text-[12px] font-medium text-[#2997ff] mb-1">진행중</span>
-                    <span className="text-[19px] font-extrabold text-[#2997ff] leading-none">{metrics.inProgress}<span className="text-[11px] font-medium text-[#86868B] ml-0.5">건</span></span>
+                    <span className="text-[19px] font-extrabold text-[#2997ff] leading-none">{metrics.inProgress}</span>
                 </div>
                 <div 
                     onClick={() => setFilterStatus('검토중')}
                     className={`py-2 px-1.5 rounded-[12px] border transition-all cursor-pointer flex flex-col items-center justify-center text-center ${filterStatus === '검토중' ? 'bg-[#bf5af2]/10 border-[#bf5af2] shadow-md shadow-[#bf5af2]/5' : 'bg-[#2c2c2b]/60 border-[#3c3c3c] hover:border-[#555]'}`}
                 >
                     <span className="text-[12px] font-medium text-[#bf5af2] mb-1">검토중</span>
-                    <span className="text-[19px] font-extrabold text-[#bf5af2] leading-none">{metrics.reviewing}<span className="text-[11px] font-medium text-[#86868B] ml-0.5">건</span></span>
+                    <span className="text-[19px] font-extrabold text-[#bf5af2] leading-none">{metrics.reviewing}</span>
                 </div>
                 <div 
                     onClick={() => setFilterStatus('대기')}
                     className={`py-2 px-1.5 rounded-[12px] border transition-all cursor-pointer flex flex-col items-center justify-center text-center ${filterStatus === '대기' ? 'bg-[#ff9f0a]/10 border-[#ff9f0a] shadow-md shadow-[#ff9f0a]/5' : 'bg-[#2c2c2b]/60 border-[#3c3c3c] hover:border-[#555]'}`}
                 >
                     <span className="text-[12px] font-medium text-[#ff9f0a] mb-1">대기</span>
-                    <span className="text-[19px] font-extrabold text-[#ff9f0a] leading-none">{metrics.waiting}<span className="text-[11px] font-medium text-[#86868B] ml-0.5">건</span></span>
+                    <span className="text-[19px] font-extrabold text-[#ff9f0a] leading-none">{metrics.waiting}</span>
                 </div>
                 <div 
                     onClick={() => setFilterStatus('지연')}
                     className={`py-2 px-1.5 rounded-[12px] border transition-all cursor-pointer flex flex-col items-center justify-center text-center ${filterStatus === '지연' ? 'bg-[#ff453a]/10 border-[#ff453a] shadow-md shadow-[#ff453a]/5' : 'bg-[#2c2c2b]/60 border-[#3c3c3c] hover:border-[#555]'}`}
                 >
                     <span className="text-[12px] font-medium text-[#ff453a] mb-1">지연</span>
-                    <span className="text-[19px] font-extrabold text-[#ff453a] leading-none">{metrics.delayed}<span className="text-[11px] font-medium text-[#86868B] ml-0.5">건</span></span>
+                    <span className="text-[19px] font-extrabold text-[#ff453a] leading-none">{metrics.delayed}</span>
                 </div>
                 <div 
                     onClick={() => setFilterStatus('완료')}
                     className={`py-2 px-1.5 rounded-[12px] border transition-all cursor-pointer flex flex-col items-center justify-center text-center ${filterStatus === '완료' ? 'bg-[#30d158]/10 border-[#30d158] shadow-md shadow-[#30d158]/5' : 'bg-[#2c2c2b]/60 border-[#3c3c3c] hover:border-[#555]'}`}
                 >
                     <span className="text-[12px] font-medium text-[#30d158] mb-1">완료</span>
-                    <span className="text-[19px] font-extrabold text-[#30d158] leading-none">{metrics.completed}<span className="text-[11px] font-medium text-[#86868B] ml-0.5">건</span></span>
+                    <span className="text-[19px] font-extrabold text-[#30d158] leading-none">{metrics.completed}</span>
                 </div>
                 <div 
                     onClick={() => setFilterStatus('보류')}
                     className={`py-2 px-1.5 rounded-[12px] border transition-all cursor-pointer flex flex-col items-center justify-center text-center ${filterStatus === '보류' ? 'bg-[#ffd60a]/10 border-[#ffd60a] shadow-md shadow-[#ffd60a]/5' : 'bg-[#2c2c2b]/60 border-[#3c3c3c] hover:border-[#555]'}`}
                 >
                     <span className="text-[12px] font-medium text-[#ffd60a] mb-1">보류</span>
-                    <span className="text-[19px] font-extrabold text-[#ffd60a] leading-none">{metrics.suspended}<span className="text-[11px] font-medium text-[#86868B] ml-0.5">건</span></span>
+                    <span className="text-[19px] font-extrabold text-[#ffd60a] leading-none">{metrics.suspended}</span>
                 </div>
                 <div 
                     onClick={() => setFilterStatus('중단')}
                     className={`py-2 px-1.5 rounded-[12px] border transition-all cursor-pointer flex flex-col items-center justify-center text-center ${filterStatus === '중단' ? 'bg-[#8e8e93]/10 border-[#8e8e93] shadow-md shadow-[#8e8e93]/5' : 'bg-[#2c2c2b]/60 border-[#3c3c3c] hover:border-[#555]'}`}
                 >
                     <span className="text-[12px] font-medium text-[#8e8e93] mb-1">중단</span>
-                    <span className="text-[19px] font-extrabold text-[#8e8e93] leading-none">{metrics.stopped}<span className="text-[11px] font-medium text-[#86868B] ml-0.5">건</span></span>
+                    <span className="text-[19px] font-extrabold text-[#8e8e93] leading-none">{metrics.stopped}</span>
                 </div>
             </div>
 
