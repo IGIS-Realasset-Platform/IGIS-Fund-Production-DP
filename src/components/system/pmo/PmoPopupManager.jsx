@@ -294,6 +294,69 @@ export default function PmoPopupManager() {
                 if (error) throw error;
                 toast.success("단발성 업무 요청이 성공적으로 등록되었습니다.");
             } else {
+                // Track changes first
+                const changes = [];
+                
+                const oldStatus = selectedPopup.handling_status || '미착수';
+                const newStatus = formHandlingStatus || '미착수';
+                if (oldStatus !== newStatus) {
+                    changes.push(`상태가 "${oldStatus}"에서 "${newStatus}"으로 변경되었습니다.`);
+                }
+
+                const oldImportance = selectedPopup.impact_level || '중간';
+                const newImportance = formImpactLevel || '중간';
+                if (oldImportance !== newImportance) {
+                    changes.push(`중요도가 "${oldImportance}"에서 "${newImportance}"으로 변경되었습니다.`);
+                }
+
+                const oldRequester = selectedPopup.requester || '';
+                const newRequester = formRequester || '';
+                if (oldRequester !== newRequester) {
+                    changes.push(`요청부서가 "${oldRequester}"에서 "${newRequester}"으로 변경되었습니다.`);
+                }
+
+                const oldProj = getProjectName(selectedPopup.project_code);
+                const newProj = getProjectName(formProjectCode);
+                if (oldProj !== newProj) {
+                    changes.push(`연계 프로젝트가 "${oldProj || '미지정'}"에서 "${newProj || '미지정'}"으로 변경되었습니다.`);
+                }
+
+                const oldCat = selectedPopup.category_name || '';
+                const newCat = formCategoryName || '';
+                if (oldCat !== newCat) {
+                    changes.push(`업무 분류가 "${oldCat}"에서 "${newCat}"으로 변경되었습니다.`);
+                }
+
+                const oldDetail = selectedPopup.request_detail || '';
+                const newDetail = formRequestDetail || '';
+                if (oldDetail !== newDetail) {
+                    changes.push(`업무명이 "${oldDetail}"에서 "${newDetail}"으로 변경되었습니다.`);
+                }
+
+                const oldPurpose = selectedPopup.purpose || '';
+                const newPurpose = formPurpose || '';
+                if (oldPurpose !== newPurpose) {
+                    changes.push(`요청목적이 변경되었습니다.`);
+                }
+
+                const oldDeliv = selectedPopup.deliverables || '';
+                const newDeliv = formDeliverables || '';
+                if (oldDeliv !== newDeliv) {
+                    changes.push(`필요 산출물이 변경되었습니다.`);
+                }
+
+                const oldDue = selectedPopup.due_date || '';
+                const newDue = formDueDate || '';
+                if (oldDue !== newDue) {
+                    changes.push(`요청기한이 "${oldDue || '미지정'}"에서 "${newDue || '미지정'}"으로 변경되었습니다.`);
+                }
+
+                const oldDept = getDeptName(selectedPopup.assigned_dept_code);
+                const newDept = getDeptName(formAssignedDeptCode);
+                if (oldDept !== newDept) {
+                    changes.push(`수행부서가 "${oldDept || '미지정'}"에서 "${newDept || '미지정'}"으로 변경되었습니다.`);
+                }
+
                 const { error } = await supabase
                     .schema('iota_v2')
                     .from('iota_pmo_tasks')
@@ -302,6 +365,38 @@ export default function PmoPopupManager() {
 
                 if (error) throw error;
                 toast.success("정보가 성공적으로 수정되었습니다.");
+
+                // If changes occurred, insert system log
+                if (changes.length > 0) {
+                    const logId = `iota_issue_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
+                    const logData = {
+                        log_id: logId,
+                        writer_name: '시스템',
+                        writer_staff_id: 'system',
+                        work_date: new Date().toISOString().slice(0, 10),
+                        summary: '업무 변경 이력',
+                        raw_text: `${changes.join('\n')}`,
+                        input_status: 'submitted',
+                        source_system: 'task_board',
+                        metadata: {
+                            is_task_board: true,
+                            task_id: selectedPopup.id,
+                            task_project: formProjectCode || 'IOTA_SEOUL',
+                            workspace_code: memberInfo?.workspace_code || 'WS_PM2',
+                            workspace_label: memberInfo?.workspace_label || '기획추진-PM2',
+                            editor_name: memberInfo?.staff_name || memberInfo?.name || '시스템'
+                        }
+                    };
+                    await supabase.from('iota_seoul_logs').insert(logData);
+                    await supabase.from('iota_seoul_log_links').insert({
+                        link_id: `link_${logId}`,
+                        log_id: logId,
+                        proj_id: formProjectCode || 'IOTA_SEOUL',
+                        relation_type: 'direct_input'
+                    });
+                    
+                    window.dispatchEvent(new CustomEvent('iota_log_updated', { detail: { taskId: selectedPopup.id } }));
+                }
             }
             setIsModalOpen(false);
             fetchData();
@@ -319,6 +414,9 @@ export default function PmoPopupManager() {
         }
 
         try {
+            const popupObj = popups.find(p => p.id === popupId);
+            const oldStatus = popupObj ? popupObj.handling_status : '미착수';
+
             const { error } = await supabase
                 .schema('iota_v2')
                 .from('iota_pmo_tasks')
@@ -328,6 +426,39 @@ export default function PmoPopupManager() {
             if (error) throw error;
             setPopups(prev => prev.map(p => p.id === popupId ? { ...p, handling_status: newStatus } : p));
             toast.success(`처리방침이 '${newStatus}' 상태로 변경되었습니다.`);
+
+            // Log changes
+            if (oldStatus !== newStatus) {
+                const changes = [`상태가 "${oldStatus}"에서 "${newStatus}"으로 변경되었습니다.`];
+                const logId = `iota_issue_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
+                const logData = {
+                    log_id: logId,
+                    writer_name: '시스템',
+                    writer_staff_id: 'system',
+                    work_date: new Date().toISOString().slice(0, 10),
+                    summary: '업무 변경 이력',
+                    raw_text: `${changes.join('\n')}`,
+                    input_status: 'submitted',
+                    source_system: 'task_board',
+                    metadata: {
+                        is_task_board: true,
+                        task_id: popupId,
+                        task_project: popupObj?.project_code || 'IOTA_SEOUL',
+                        workspace_code: memberInfo?.workspace_code || 'WS_PM2',
+                        workspace_label: memberInfo?.workspace_label || '기획추진-PM2',
+                        editor_name: memberInfo?.staff_name || memberInfo?.name || '시스템'
+                    }
+                };
+                await supabase.from('iota_seoul_logs').insert(logData);
+                await supabase.from('iota_seoul_log_links').insert({
+                    link_id: `link_${logId}`,
+                    log_id: logId,
+                    proj_id: popupObj?.project_code || 'IOTA_SEOUL',
+                    relation_type: 'direct_input'
+                });
+
+                window.dispatchEvent(new CustomEvent('iota_log_updated', { detail: { taskId: popupId } }));
+            }
         } catch (err) {
             console.error("Failed to update status in-place:", err);
             toast.error("상태 변경에 실패했습니다.");
