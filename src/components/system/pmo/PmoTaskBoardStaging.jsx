@@ -2383,6 +2383,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                             { code: 'WS_PMO', label: '통합업무보드' },
                             memberInfo?.email || ''
                         );
+                        window.history.replaceState(null, '', `${window.location.pathname}?taskId=${data[0].id}`);
                     }
                     fetchTasks(); // Reload from DB
                 } catch (err) {

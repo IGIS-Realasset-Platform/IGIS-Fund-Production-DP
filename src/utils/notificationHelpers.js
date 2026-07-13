@@ -71,6 +71,9 @@ export const notifyMembersOnLogCreation = async (logId, logContent, workspace, w
         // - 단, 작성자 본인(writerEmail)은 제외
         const recipientIds = members
             .filter(member => {
+                const isPMO = workspace.code === 'WS_PMO' || workspace.code === 'WS_POPUP_REQUESTS';
+                if (isPMO) return true;
+                
                 const orgMatch = workspace.orgNames && workspace.orgNames.includes(member.org_name);
                 const codeMatch = member.workspace_code === workspace.code;
                 const isSameWorkspace = orgMatch || codeMatch;
@@ -166,6 +169,9 @@ export const notifyMembersOnTaskCreation = async (taskId, taskName, workspace, w
         
         const recipientIds = members
             .filter(member => {
+                const isPMO = workspace.code === 'WS_PMO' || workspace.code === 'WS_POPUP_REQUESTS';
+                if (isPMO) return true;
+
                 const orgMatch = workspace.orgNames && workspace.orgNames.includes(member.org_name);
                 const codeMatch = member.workspace_code === workspace.code;
                 const isSameWorkspace = orgMatch || codeMatch;
@@ -267,6 +273,9 @@ export const notifyMembersOnCommentCreation = async (logId, commentContent, work
         // - 단, 작성자 본인(writerEmail)은 제외
         const recipientIds = members
             .filter(member => {
+                const isPMO = workspace.code === 'WS_PMO' || workspace.code === 'WS_POPUP_REQUESTS';
+                if (isPMO) return true;
+
                 const orgMatch = workspace.orgNames && workspace.orgNames.includes(member.org_name);
                 const codeMatch = member.workspace_code === workspace.code;
                 const isSameWorkspace = orgMatch || codeMatch;
