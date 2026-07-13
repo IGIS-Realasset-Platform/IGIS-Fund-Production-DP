@@ -1913,6 +1913,18 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
         }
     }, [selectedTaskDetail]);
 
+    // Auto-scroll selected task row into view
+    useEffect(() => {
+        if (selectedTaskDetail) {
+            setTimeout(() => {
+                const el = document.getElementById(`task-row-${selectedTaskDetail.id}`);
+                if (el) {
+                    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }, 150);
+        }
+    }, [selectedTaskDetail]);
+
     // Department code resolver & on-the-fly register
     async function resolveDeptCode(deptName) {
         if (!deptName) return null;
@@ -4079,7 +4091,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                 <div className="px-[10px] py-3 border-b border-[#3c3c3c]/80 flex items-center justify-between bg-[#1c1c1e]/80 sticky top-0 z-20">
                                     <div className="flex items-center gap-3 flex-wrap">
                                         <span className="font-mono text-[12px] font-bold px-2 py-0.5 rounded bg-white/10 text-[#86868B]">
-                                            {t.id && !t.id.includes('-') ? t.id : (fallbackItem.id || 'T-XXX')}
+                                            {t.id ? (t.id.includes('-') ? `T-${String(t.id).slice(0, 4).toUpperCase()}` : t.id) : (fallbackItem.id || 'T-NEW')}
                                         </span>
                                         <span className="text-[12px] font-bold px-2 py-0.5 rounded border border-[#3c3c3c] bg-[#3A3A3C] text-white">
                                             {normalizeProjectName(projObj ? projObj.project_name : (t.project || fallbackItem.project || 'IOTA_SEOUL'))}

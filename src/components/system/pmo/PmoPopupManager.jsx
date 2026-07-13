@@ -296,6 +296,18 @@ export default function PmoPopupManager() {
         }
     }, [selectedPopupDetail]);
 
+    // Auto-scroll selected row into view
+    useEffect(() => {
+        if (selectedPopupDetail) {
+            setTimeout(() => {
+                const el = document.getElementById(`popup-row-${selectedPopupDetail.id}`);
+                if (el) {
+                    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }, 150);
+        }
+    }, [selectedPopupDetail]);
+
     // Summary Metric Counts
     const metrics = useMemo(() => {
         const counts = {
@@ -954,9 +966,14 @@ export default function PmoPopupManager() {
                                         return (
                                             <tr 
                                                 key={p.id} 
+                                                id={`popup-row-${p.id}`}
                                                 onDoubleClick={() => canEdit && openEditModal(p)}
                                                 onClick={() => setSelectedPopupDetail(p)}
-                                                className="hover:bg-white/[0.04] transition-colors group text-[13px] h-[50px] bg-transparent cursor-pointer"
+                                                className={`hover:bg-white/[0.06] transition-colors group text-[13px] h-[50px] cursor-pointer ${
+                                                    selectedPopupDetail && selectedPopupDetail.id === p.id 
+                                                        ? 'bg-[#3c3c3a] text-white' 
+                                                        : 'bg-transparent text-white/80'
+                                                }`}
                                             >
                                                 {/* Date (Format: yy.mm.dd, font 1px smaller) */}
                                                 <td className="px-3 py-2 border-r border-[#3c3c3c]/50 text-[#86868B] text-center font-medium text-[12px] align-middle">
