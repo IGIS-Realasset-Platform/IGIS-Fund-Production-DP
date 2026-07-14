@@ -159,7 +159,7 @@ export default function MobileNotifications({ memberInfo, onRead, onNotification
                                 </div>
                             </div>
                             {noti.body && (
-                                <p className={`text-[13px] line-clamp-2 ${noti.is_read ? 'text-[#9A9A98]' : 'text-[#E5E5E5]'}`}>
+                                <p className={`text-[13px] line-clamp-3 whitespace-pre-line ${noti.is_read ? 'text-[#9A9A98]' : 'text-[#E5E5E5]'}`}>
                                     {(noti.body || '').replace('새로운 Task가 등록되었습니다:', '').trim()}
                                 </p>
                             )}

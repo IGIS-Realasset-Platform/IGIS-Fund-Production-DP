@@ -53,36 +53,45 @@ export const notifyMembersOnLogCreation = async (logId, logContent, workspace, w
             return;
         }
 
-        // 2. 작성자 정보 및 멘션(@) 파싱
+        // 2. 작성자 정보 및 멘션(@) 파싱 (부서 이름 멘션도 처리)
         const writerMember = members.find(m => m.email && writerEmail && m.email.toLowerCase() === writerEmail.toLowerCase());
         const writerName = writerMember ? writerMember.staff_name : '누군가';
 
-        // 본문에서 @이름 패턴 추출
+        // 본문에서 @이름 또는 @부서 패턴 추출
         const mentionMatches = [...logContent.matchAll(/@([가-힣a-zA-Z0-9]+)/g)].map(m => m[1]);
         const mentionedMembers = members.filter(member => 
-            mentionMatches.includes(member.staff_name) &&
+            (mentionMatches.includes(member.staff_name) || mentionMatches.includes(member.org_name)) &&
             member.email && writerEmail && member.email.toLowerCase() !== writerEmail.toLowerCase()
         );
         const mentionedAuthIds = [...new Set(mentionedMembers.map(m => m.auth_id))];
 
         // 3. 수신자 매핑 알고리즘:
-        // - 소속 워크스페이스 멤버 (workspace.orgNames 가 member.org_name을 포함하거나 member.workspace_code === workspace.code)
-        // - 또는 director / master 권한 보유자
-        // - 단, 작성자 본인(writerEmail)은 제외
-        const recipientIds = members
-            .filter(member => {
-                const isPMO = workspace.code === 'WS_PMO' || workspace.code === 'WS_POPUP_REQUESTS';
-                if (isPMO) return true;
-                
-                const orgMatch = workspace.orgNames && workspace.orgNames.includes(member.org_name);
-                const codeMatch = member.workspace_code === workspace.code;
-                const isSameWorkspace = orgMatch || codeMatch;
-                
-                const isDirectorOrMaster = member.role_code === 'master' || member.role_code === 'director';
+        let recipientIds = [];
 
-                return (isSameWorkspace || isDirectorOrMaster);
-            })
-            .map(member => member.auth_id);
+        if (workspace.code === 'WS_PMO') {
+            // [통합업무보드]는 오직 작성자 본인만 일반 알림 수신 대상에 포함 (멘션 대상자는 멘션 알림으로 별도 처리)
+            const creatorMember = members.find(m => m.email && writerEmail && m.email.toLowerCase() === writerEmail.toLowerCase());
+            if (creatorMember) {
+                recipientIds.push(creatorMember.auth_id);
+            }
+        } else {
+            // 일반 워크스페이스는 기존 로직 적용
+            const recipientIdsRaw = members
+                .filter(member => {
+                    const isPMO = workspace.code === 'WS_PMO' || workspace.code === 'WS_POPUP_REQUESTS';
+                    if (isPMO) return true;
+                    
+                    const orgMatch = workspace.orgNames && workspace.orgNames.includes(member.org_name);
+                    const codeMatch = member.workspace_code === workspace.code;
+                    const isSameWorkspace = orgMatch || codeMatch;
+                    
+                    const isDirectorOrMaster = member.role_code === 'master' || member.role_code === 'director';
+
+                    return (isSameWorkspace || isDirectorOrMaster);
+                })
+                .map(member => member.auth_id);
+            recipientIds = recipientIdsRaw;
+        }
 
         const uniqueRecipientIds = [...new Set(recipientIds)];
 
@@ -92,31 +101,84 @@ export const notifyMembersOnLogCreation = async (logId, logContent, workspace, w
         const summaryText = logContent.length > 80 ? logContent.slice(0, 80) + '...' : logContent;
         const notificationPayload = [];
 
-        // 일반 알림 페이로드 추가
-        ordinaryRecipientIds.forEach(userId => {
-            notificationPayload.push({
-                user_id: userId,
-                title: `[${workspace.label}] 신규 회의록 등록`,
-                body: summaryText,
-                type: 'log',
-                reference_id: `${logId}|${workspace.code}`,
-                is_read: false,
-                created_at: new Date().toISOString()
-            });
-        });
+        if (workspace.code === 'WS_PMO') {
+            // [통합업무보드] 전용 포맷 및 줄바꿈 적용
+            let taskName = '';
+            try {
+                const { data: logRow } = await supabase
+                    .from('iota_seoul_logs')
+                    .select('metadata')
+                    .eq('log_id', logId)
+                    .single();
+                if (logRow && logRow.metadata?.task_id) {
+                    const { data: taskRow } = await supabase
+                        .schema('iota_v2')
+                        .from('iota_pmo_tasks')
+                        .select('task_name')
+                        .eq('id', logRow.metadata.task_id)
+                        .single();
+                    if (taskRow) {
+                        taskName = taskRow.task_name;
+                    }
+                }
+            } catch (e) {
+                console.error('Failed to resolve task name for log notification:', e);
+            }
 
-        // 언급(태그) 알림 페이로드 추가
-        mentionedAuthIds.forEach(userId => {
-            notificationPayload.push({
-                user_id: userId,
-                title: `[@언급] ${writerName}님이 회의록에서 회원님을 태그했습니다.`,
-                body: summaryText,
-                type: 'log',
-                reference_id: `${logId}|${workspace.code}`,
-                is_read: false,
-                created_at: new Date().toISOString()
+            const formattedBody = taskName 
+                ? `업무명 : ${taskName}\n내용 : ${summaryText}` 
+                : summaryText;
+
+            ordinaryRecipientIds.forEach(userId => {
+                notificationPayload.push({
+                    user_id: userId,
+                    title: `[${workspace.label}]에 새 글이 등록됐습니다.`,
+                    body: formattedBody,
+                    type: 'log',
+                    reference_id: `${logId}|${workspace.code}`,
+                    is_read: false,
+                    created_at: new Date().toISOString()
+                });
             });
-        });
+
+            mentionedAuthIds.forEach(userId => {
+                notificationPayload.push({
+                    user_id: userId,
+                    title: `[${workspace.label}]에 새 글이 등록됐습니다.`,
+                    body: formattedBody,
+                    type: 'log',
+                    reference_id: `${logId}|${workspace.code}`,
+                    is_read: false,
+                    created_at: new Date().toISOString()
+                });
+            });
+        } else {
+            // 일반 알림 페이로드 추가
+            ordinaryRecipientIds.forEach(userId => {
+                notificationPayload.push({
+                    user_id: userId,
+                    title: `[${workspace.label}] 신규 회의록 등록`,
+                    body: summaryText,
+                    type: 'log',
+                    reference_id: `${logId}|${workspace.code}`,
+                    is_read: false,
+                    created_at: new Date().toISOString()
+                });
+            });
+
+            // 언급(태그) 알림 페이로드 추가
+            mentionedAuthIds.forEach(userId => {
+                notificationPayload.push({
+                    user_id: userId,
+                    title: `[@언급] ${writerName}님이 회의록에서 회원님을 태그했습니다.`,
+                    body: summaryText,
+                    type: 'log',
+                    reference_id: `${logId}|${workspace.code}`,
+                    is_read: false,
+                    created_at: new Date().toISOString()
+                });
+            });
+        }
 
         if (notificationPayload.length === 0) {
             console.log('No recipients to notify for log:', logId);
@@ -161,45 +223,136 @@ export const notifyMembersOnTaskCreation = async (taskId, taskName, workspace, w
         }
 
         // 2. 수신자 매핑 알고리즘:
-        // - 소속 워크스페이스 멤버 (workspace.orgNames 가 member.org_name을 포함하거나 member.workspace_code === workspace.code)
-        // - 또는 director / master 권한 보유자
-        // - 또는 워크스페이스 무관 고정 수신 VIP (이시정, 이관용, 전기영, 이철승, 강순용, 권순일)
-        // - 단, 작성자 본인(writerEmail)은 제외
-        const TASK_VIP_NAMES = ['이시정', '이관용', '전기영', '이철승', '강순용', '권순일'];
-        
-        const recipientIds = members
-            .filter(member => {
-                const isPMO = workspace.code === 'WS_PMO' || workspace.code === 'WS_POPUP_REQUESTS';
-                if (isPMO) return true;
+        let recipientIds = [];
+        let mentionedAuthIds = [];
 
-                const orgMatch = workspace.orgNames && workspace.orgNames.includes(member.org_name);
-                const codeMatch = member.workspace_code === workspace.code;
-                const isSameWorkspace = orgMatch || codeMatch;
+        if (workspace.code === 'WS_PMO') {
+            // [통합업무보드]는 작성자 본인 + 담당자 + 주관부서 + 협조부서 + @멘션 대상자에게만 발송
+            const creatorMember = members.find(m => m.email && writerEmail && m.email.toLowerCase() === writerEmail.toLowerCase());
+            if (creatorMember) {
+                recipientIds.push(creatorMember.auth_id);
+            }
 
-                const isDirectorOrMaster = member.role_code === 'master' || member.role_code === 'director';
-                const isTaskVIP = TASK_VIP_NAMES.includes(member.staff_name);
+            try {
+                const { data: task } = await supabase
+                    .schema('iota_v2')
+                    .from('iota_pmo_tasks')
+                    .select('*, lead_dept:iota_departments!lead_dept_code(dept_name)')
+                    .eq('id', taskId)
+                    .single();
 
-                return (isSameWorkspace || isDirectorOrMaster || isTaskVIP);
-            })
-            .map(member => member.auth_id);
+                if (task) {
+                    // 담당자 지정
+                    if (task.assignee && task.assignee !== '미정') {
+                        const assigneeMember = members.find(m => m.staff_name === task.assignee);
+                        if (assigneeMember) {
+                            mentionedAuthIds.push(assigneeMember.auth_id);
+                        }
+                    }
+                    
+                    // 주관부서 지정
+                    const leadDeptName = task.lead_dept?.dept_name || task.lead_dept_code;
+                    if (leadDeptName) {
+                        members.forEach(m => {
+                            if (m.org_name && (m.org_name === leadDeptName || m.org_name.includes(leadDeptName))) {
+                                mentionedAuthIds.push(m.auth_id);
+                            }
+                        });
+                    }
+
+                    // 협조부서 지정
+                    if (task.coop_dept_codes) {
+                        const depts = task.coop_dept_codes.split(/[,;/]+/).map(d => d.trim()).filter(Boolean);
+                        depts.forEach(deptName => {
+                            members.forEach(m => {
+                                if (m.org_name && (m.org_name === deptName || m.org_name.includes(deptName))) {
+                                    mentionedAuthIds.push(m.auth_id);
+                                }
+                            });
+                        });
+                    }
+
+                    // 텍스트 내 @멘션
+                    const combinedText = `${task.task_name || ''} ${task.task_purpose || ''} ${task.deliverables || ''} ${task.notes || ''}`;
+                    const mentionMatches = [...combinedText.matchAll(/@([가-힣a-zA-Z0-9]+)/g)].map(m => m[1]);
+                    members.forEach(m => {
+                        if (mentionMatches.includes(m.staff_name) || mentionMatches.includes(m.org_name)) {
+                            mentionedAuthIds.push(m.auth_id);
+                        }
+                    });
+                }
+            } catch (err) {
+                console.error('Failed to query task for notifications:', err);
+            }
+        } else {
+            // 일반 워크스페이스는 기존 로직 적용
+            const TASK_VIP_NAMES = ['이시정', '이관용', '전기영', '이철승', '강순용', '권순일'];
+            const recipientIdsRaw = members
+                .filter(member => {
+                    const orgMatch = workspace.orgNames && workspace.orgNames.includes(member.org_name);
+                    const codeMatch = member.workspace_code === workspace.code;
+                    const isSameWorkspace = orgMatch || codeMatch;
+
+                    const isDirectorOrMaster = member.role_code === 'master' || member.role_code === 'director';
+                    const isTaskVIP = TASK_VIP_NAMES.includes(member.staff_name);
+
+                    return (isSameWorkspace || isDirectorOrMaster || isTaskVIP);
+                })
+                .map(member => member.auth_id);
+            recipientIds = recipientIdsRaw;
+        }
 
         const uniqueRecipientIds = [...new Set(recipientIds)];
+        const finalMentions = [...new Set(mentionedAuthIds)];
+        
+        // 일반 알림 대상자 중에서 언급(태그) 대상자를 제외하여 중복 수신 방지
+        const ordinaryRecipientIds = uniqueRecipientIds.filter(id => !finalMentions.includes(id));
 
-        if (uniqueRecipientIds.length === 0) {
+        const notificationPayload = [];
+
+        if (workspace.code === 'WS_PMO') {
+            ordinaryRecipientIds.forEach(userId => {
+                notificationPayload.push({
+                    user_id: userId,
+                    title: `[${workspace.label}]에 새 글이 등록됐습니다.`,
+                    body: `업무명 : ${taskName}`,
+                    type: 'task',
+                    reference_id: taskId ? `${taskId}|${workspace.code}` : null,
+                    is_read: false,
+                    created_at: new Date().toISOString()
+                });
+            });
+
+            finalMentions.forEach(userId => {
+                notificationPayload.push({
+                    user_id: userId,
+                    title: `[${workspace.label}]에 새 글이 등록됐습니다.`,
+                    body: `업무명 : ${taskName}`,
+                    type: 'task',
+                    reference_id: taskId ? `${taskId}|${workspace.code}` : null,
+                    is_read: false,
+                    created_at: new Date().toISOString()
+                });
+            });
+        } else {
+            const allRecipients = [...new Set([...ordinaryRecipientIds, ...finalMentions])];
+            allRecipients.forEach(userId => {
+                notificationPayload.push({
+                    user_id: userId,
+                    title: `[${workspace.label}] 새 글이 등록되었습니다.`,
+                    body: taskName,
+                    type: 'task',
+                    reference_id: taskId ? `${taskId}|${workspace.code}` : null,
+                    is_read: false,
+                    created_at: new Date().toISOString()
+                });
+            });
+        }
+
+        if (notificationPayload.length === 0) {
             console.log('No recipients to notify for task:', taskName);
             return;
         }
-
-        // 3. iota_notifications 테이블에 Bulk Insert 진행
-        const notificationPayload = uniqueRecipientIds.map(userId => ({
-            user_id: userId,
-            title: `[${workspace.label}] 새 글이 등록되었습니다.`,
-            body: taskName,
-            type: 'task',
-            reference_id: taskId ? `${taskId}|${workspace.code}` : null,
-            is_read: false,
-            created_at: new Date().toISOString()
-        }));
 
         const insertPromises = notificationPayload.map(payload => 
             supabase
@@ -212,7 +365,7 @@ export const notifyMembersOnTaskCreation = async (taskId, taskName, workspace, w
                 })
         );
         await Promise.all(insertPromises);
-        console.log(`Task notifications successfully processed for ${uniqueRecipientIds.length} users.`);
+        console.log(`Task notifications successfully processed for ${notificationPayload.length} payloads.`);
     } catch (err) {
         console.error('Error in notifyMembersOnTaskCreation:', err);
     }
@@ -237,14 +390,14 @@ export const notifyMembersOnCommentCreation = async (logId, commentContent, work
             return;
         }
 
-        // 2. 작성자 정보 및 멘션(@) 파싱
+        // 2. 작성자 정보 및 멘션(@) 파싱 (부서 이름 멘션도 처리)
         const writerMember = members.find(m => m.email && writerEmail && m.email.toLowerCase() === writerEmail.toLowerCase());
         const writerName = writerMember ? writerMember.staff_name : '누군가';
 
-        // 본문에서 @이름 패턴 추출
+        // 본문에서 @이름 또는 @부서 패턴 추출
         const mentionMatches = [...commentContent.matchAll(/@([가-힣a-zA-Z0-9]+)/g)].map(m => m[1]);
         const mentionedMembers = members.filter(member => 
-            mentionMatches.includes(member.staff_name) &&
+            (mentionMatches.includes(member.staff_name) || mentionMatches.includes(member.org_name)) &&
             member.email && writerEmail && member.email.toLowerCase() !== writerEmail.toLowerCase()
         );
         const mentionedAuthIds = [...new Set(mentionedMembers.map(m => m.auth_id))];
@@ -268,62 +421,124 @@ export const notifyMembersOnCommentCreation = async (logId, commentContent, work
         }
 
         // 4. 수신자 매핑 알고리즘:
-        // - 소속 워크스페이스 멤버
-        // - 또는 director / master 권한 보유자
-        // - 단, 작성자 본인(writerEmail)은 제외
-        const recipientIds = members
-            .filter(member => {
-                const isPMO = workspace.code === 'WS_PMO' || workspace.code === 'WS_POPUP_REQUESTS';
-                if (isPMO) return true;
+        let recipientIds = [];
 
-                const orgMatch = workspace.orgNames && workspace.orgNames.includes(member.org_name);
-                const codeMatch = member.workspace_code === workspace.code;
-                const isSameWorkspace = orgMatch || codeMatch;
-                
-                const isDirectorOrMaster = member.role_code === 'master' || member.role_code === 'director';
+        if (workspace.code === 'WS_PMO') {
+            // [통합업무보드]는 오직 작성자 본인만 일반 알림 수신 대상에 포함
+            const creatorMember = members.find(m => m.email && writerEmail && m.email.toLowerCase() === writerEmail.toLowerCase());
+            if (creatorMember) {
+                recipientIds.push(creatorMember.auth_id);
+            }
+        } else {
+            // 일반 워크스페이스는 기존 로직 적용
+            const recipientIdsRaw = members
+                .filter(member => {
+                    const isPMO = workspace.code === 'WS_PMO' || workspace.code === 'WS_POPUP_REQUESTS';
+                    if (isPMO) return true;
 
-                return (isSameWorkspace || isDirectorOrMaster);
-            })
-            .map(member => member.auth_id);
+                    const orgMatch = workspace.orgNames && workspace.orgNames.includes(member.org_name);
+                    const codeMatch = member.workspace_code === workspace.code;
+                    const isSameWorkspace = orgMatch || codeMatch;
+                    
+                    const isDirectorOrMaster = member.role_code === 'master' || member.role_code === 'director';
 
-        // 본 글 작성자도 수신자에 포함
-        if (logWriterAuthId) {
-            recipientIds.push(logWriterAuthId);
+                    return (isSameWorkspace || isDirectorOrMaster);
+                })
+                .map(member => member.auth_id);
+            recipientIds = recipientIdsRaw;
+
+            // 본 글 작성자도 수신자에 포함 (일반 워크스페이스에서만)
+            if (logWriterAuthId) {
+                recipientIds.push(logWriterAuthId);
+            }
         }
 
         const uniqueRecipientIds = [...new Set(recipientIds)];
 
-        // 일반 알림 대상자 중에서 언급(태그) 대상자를 제외
+        // 일반 알림 대상자 중에서 언급(태그) 대상자를 제외하여 중복 수신 방지
         const ordinaryRecipientIds = uniqueRecipientIds.filter(id => !mentionedAuthIds.includes(id));
 
         const summaryText = commentContent.length > 80 ? commentContent.slice(0, 80) + '...' : commentContent;
         const notificationPayload = [];
 
-        // 일반 댓글 알림 페이로드 추가
-        ordinaryRecipientIds.forEach(userId => {
-            notificationPayload.push({
-                user_id: userId,
-                title: `[${workspace.label}] 회의록 신규 댓글 등록`,
-                body: `${writerName}: ${summaryText}`,
-                type: 'log',
-                reference_id: `${logId}|${workspace.code}`,
-                is_read: false,
-                created_at: new Date().toISOString()
-            });
-        });
+        if (workspace.code === 'WS_PMO') {
+            // [통합업무보드] 전용 포맷 및 줄바꿈 적용
+            let taskName = '';
+            try {
+                const { data: logRow } = await supabase
+                    .from('iota_seoul_logs')
+                    .select('metadata')
+                    .eq('log_id', logId)
+                    .single();
+                if (logRow && logRow.metadata?.task_id) {
+                    const { data: taskRow } = await supabase
+                        .schema('iota_v2')
+                        .from('iota_pmo_tasks')
+                        .select('task_name')
+                        .eq('id', logRow.metadata.task_id)
+                        .single();
+                    if (taskRow) {
+                        taskName = taskRow.task_name;
+                    }
+                }
+            } catch (e) {
+                console.error('Failed to resolve task name for log notification:', e);
+            }
 
-        // 댓글 내 언급(태그) 알림 페이로드 추가
-        mentionedAuthIds.forEach(userId => {
-            notificationPayload.push({
-                user_id: userId,
-                title: `[@언급] ${writerName}님이 회의록 댓글에서 회원님을 태그했습니다.`,
-                body: summaryText,
-                type: 'log',
-                reference_id: `${logId}|${workspace.code}`,
-                is_read: false,
-                created_at: new Date().toISOString()
+            const formattedBody = taskName 
+                ? `업무명 : ${taskName}\n내용 : ${writerName}: ${summaryText}` 
+                : `${writerName}: ${summaryText}`;
+
+            ordinaryRecipientIds.forEach(userId => {
+                notificationPayload.push({
+                    user_id: userId,
+                    title: `[${workspace.label}]에 새 글이 등록됐습니다.`,
+                    body: formattedBody,
+                    type: 'log',
+                    reference_id: `${logId}|${workspace.code}`,
+                    is_read: false,
+                    created_at: new Date().toISOString()
+                });
             });
-        });
+
+            mentionedAuthIds.forEach(userId => {
+                notificationPayload.push({
+                    user_id: userId,
+                    title: `[${workspace.label}]에 새 글이 등록됐습니다.`,
+                    body: formattedBody,
+                    type: 'log',
+                    reference_id: `${logId}|${workspace.code}`,
+                    is_read: false,
+                    created_at: new Date().toISOString()
+                });
+            });
+        } else {
+            // 일반 댓글 알림 페이로드 추가
+            ordinaryRecipientIds.forEach(userId => {
+                notificationPayload.push({
+                    user_id: userId,
+                    title: `[${workspace.label}] 회의록 신규 댓글 등록`,
+                    body: `${writerName}: ${summaryText}`,
+                    type: 'log',
+                    reference_id: `${logId}|${workspace.code}`,
+                    is_read: false,
+                    created_at: new Date().toISOString()
+                });
+            });
+
+            // 댓글 내 언급(태그) 알림 페이로드 추가
+            mentionedAuthIds.forEach(userId => {
+                notificationPayload.push({
+                    user_id: userId,
+                    title: `[@언급] ${writerName}님이 회의록 댓글에서 회원님을 태그했습니다.`,
+                    body: summaryText,
+                    type: 'log',
+                    reference_id: `${logId}|${workspace.code}`,
+                    is_read: false,
+                    created_at: new Date().toISOString()
+                });
+            });
+        }
 
         if (notificationPayload.length === 0) {
             console.log('No recipients to notify for comment on log:', logId);

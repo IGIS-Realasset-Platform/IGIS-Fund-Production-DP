@@ -2531,6 +2531,18 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
 
                     if (data && data[0]) {
                         window.history.replaceState(null, '', `${window.location.pathname}?taskId=${data[0].id}`);
+                        // Notify members on task creation
+                        const wsInfo = {
+                            code: 'WS_PMO',
+                            label: '통합업무보드',
+                            orgNames: ['통합업무보드']
+                        };
+                        notifyMembersOnTaskCreation(
+                            data[0].id,
+                            data[0].task_name,
+                            wsInfo,
+                            memberInfo?.email || ''
+                        );
                     }
                     fetchTasks(); // Reload from DB
                 } catch (err) {

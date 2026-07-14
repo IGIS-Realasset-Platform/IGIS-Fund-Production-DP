@@ -317,7 +317,7 @@ export default function NotificationDropdown({ isOpen, onClose, notifications, u
                                                 return t;
                                             })()}
                                         </h4>
-                                        <p className="text-[#86868B] text-[13px] mt-1 line-clamp-2 leading-relaxed">
+                                        <p className="text-[#86868B] text-[13px] mt-1 line-clamp-3 leading-relaxed whitespace-pre-line">
                                             {notif.body}
                                         </p>
                                         <span className="text-[#555] text-[11px] mt-2 block font-medium">
