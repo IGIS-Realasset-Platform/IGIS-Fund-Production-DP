@@ -544,10 +544,10 @@ export default function PmoScheduleGate() {
                         <table className="text-left table-fixed w-[1290px] min-w-[1290px] max-w-[1290px] pointer-events-auto">
                             <thead>
                                 <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[13px] h-12">
-                                    <th className="pl-[10px] pr-1 w-[110px] min-w-[110px] max-w-[110px] text-center bg-[#272726] rounded-tl-[31px]">구분</th>
+                                    <th className="pl-[10px] pr-1 w-[94px] min-w-[94px] max-w-[94px] text-center bg-[#272726] rounded-tl-[31px]">구분</th>
                                     <th className="pl-3 w-[258px] min-w-[258px] max-w-[258px] bg-[#272726]">세부업무</th>
-                                    <th className="px-1 w-[110px] min-w-[110px] max-w-[110px] text-center bg-[#272726]">주관</th>
-                                    <th className="px-1 w-[110px] min-w-[110px] max-w-[110px] text-center bg-[#272726] border-r border-[#3c3c3c]">협업</th>
+                                    <th className="px-1 w-[94px] min-w-[94px] max-w-[94px] text-center bg-[#272726]">주관</th>
+                                    <th className="px-1 w-[94px] min-w-[94px] max-w-[94px] text-center bg-[#272726] border-r border-[#3c3c3c]">협업</th>
                                     {COLUMNS.map((col, cIdx) => {
                                         const isLast = cIdx === COLUMNS.length - 1;
                                         const borderClass = col.highlight
@@ -569,7 +569,7 @@ export default function PmoScheduleGate() {
                                     return (
                                         <tr key={idx} className="hover:bg-[#333] transition-colors h-[50px] group">
                                             {/* 구분 */}
-                                            <td className={`pl-[10px] pr-1 bg-[#272726] group-hover:bg-[#333] transition-colors text-center w-[110px] min-w-[110px] max-w-[110px] ${
+                                            <td className={`pl-[10px] pr-1 bg-[#272726] group-hover:bg-[#333] transition-colors text-center w-[94px] min-w-[94px] max-w-[94px] ${
                                                 isLastRow ? 'rounded-bl-[31px]' : ''
                                             }`}>
                                                 <span className={`px-1.5 py-1 rounded-md font-bold block ${
@@ -587,7 +587,7 @@ export default function PmoScheduleGate() {
                                             </td>
                                             
                                             {/* 주관 */}
-                                            <td className="px-1 text-[#E5E5E5] font-semibold text-center bg-[#272726] group-hover:bg-[#333] transition-colors text-[12px] leading-tight tracking-tight whitespace-normal break-words w-[110px] min-w-[110px] max-w-[110px]">
+                                            <td className="px-1 text-[#E5E5E5] font-semibold text-center bg-[#272726] group-hover:bg-[#333] transition-colors text-[12px] leading-tight tracking-tight whitespace-normal break-words w-[94px] min-w-[94px] max-w-[94px]">
                                                 {item.lead.includes(' ') ? (
                                                     item.lead.split(' ').map((part, pIdx) => (
                                                         <div key={pIdx}>{part}</div>
@@ -598,7 +598,7 @@ export default function PmoScheduleGate() {
                                             </td>
                                             
                                             {/* 협업 */}
-                                            <td className="px-1 text-[#c2c2c6] leading-tight text-center whitespace-normal break-words bg-[#272726] group-hover:bg-[#333] transition-colors border-r border-[#3c3c3c]  w-[110px] min-w-[110px] max-w-[110px]">
+                                            <td className="px-1 text-[#c2c2c6] leading-tight text-center whitespace-normal break-words bg-[#272726] group-hover:bg-[#333] transition-colors border-r border-[#3c3c3c]  w-[94px] min-w-[94px] max-w-[94px]">
                                                 {item.coop.split(';').map((c, cIdx) => (
                                                     c && <div key={cIdx} className="text-[11px]">{c}</div>
                                                 ))}
