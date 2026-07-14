@@ -132,9 +132,15 @@ export const notifyMembersOnLogCreation = async (logId, logContent, workspace, w
                 console.error('Failed to resolve task name for log notification:', e);
             }
 
+            // 내용: 한줄 넘어가면 .. 처리 및 줄바꿈 공백 대체
+            const singleLineText = logContent.replace(/\r?\n/g, ' ').trim();
+            const truncatedText = singleLineText.length > 28 
+                ? singleLineText.slice(0, 28) + '..' 
+                : singleLineText;
+
             const formattedBody = taskName 
-                ? `업무명 : ${taskName}\n내용 : ${summaryText}` 
-                : summaryText;
+                ? `업무명 : ${taskName}\n내용 : ${truncatedText}` 
+                : truncatedText;
 
             ordinaryRecipientIds.forEach(userId => {
                 notificationPayload.push({

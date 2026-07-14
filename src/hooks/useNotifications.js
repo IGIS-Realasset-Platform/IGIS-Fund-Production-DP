@@ -3,6 +3,39 @@ import { supabase } from '../utils/supabaseClient';
 import toast from 'react-hot-toast';
 import { onMessageListener } from '../utils/firebase';
 
+const deduplicateNotifications = (list) => {
+  if (!list) return [];
+  const logGroups = {};
+  list.forEach(n => {
+    if (n.reference_id && (n.type === 'log' || n.reference_id.startsWith('iota_issue_'))) {
+      const logId = n.reference_id.split('|')[0];
+      if (!logGroups[logId]) {
+        logGroups[logId] = [];
+      }
+      logGroups[logId].push(n);
+    }
+  });
+
+  const idsToRemove = new Set();
+  Object.values(logGroups).forEach(group => {
+    if (group.length > 1) {
+      const detailed = group.find(n => n.body && n.body.includes('업무명 :'));
+      if (detailed) {
+        group.forEach(n => {
+          if (n !== detailed) {
+            idsToRemove.add(n.id || `${n.reference_id}-${n.body}`);
+          }
+        });
+      }
+    }
+  });
+
+  return list.filter(n => {
+    const key = n.id || `${n.reference_id}-${n.body}`;
+    return !idsToRemove.has(key);
+  });
+};
+
 export function useNotifications(userId) {
   const [notifications, setNotifications] = useState([]);
   const [unreadCount, setUnreadCount] = useState(0);
@@ -17,8 +50,9 @@ export function useNotifications(userId) {
       .limit(50);
     
     if (!error && data) {
-      setNotifications(data);
-      setUnreadCount(data.filter(n => !n.is_read).length);
+      const cleanData = deduplicateNotifications(data);
+      setNotifications(cleanData);
+      setUnreadCount(cleanData.filter(n => !n.is_read).length);
     }
   };
 
@@ -39,17 +73,29 @@ export function useNotifications(userId) {
         },
         (payload) => {
           const newNotification = payload.new;
-          setNotifications(prev => [newNotification, ...prev]);
-          setUnreadCount(prev => prev + 1);
           
-          toast(newNotification.title || "새로운 알림이 도착했습니다.", {
-            icon: '🔔',
-            style: {
-              borderRadius: '10px',
-              background: '#333',
-              color: '#fff',
-            },
+          // Skip showing toast for the duplicate trigger notification (type log, body doesn't contain '업무명 :')
+          const isDuplicate = newNotification.type === 'log' && 
+            newNotification.body && 
+            !newNotification.body.includes('업무명 :');
+          
+          setNotifications(prev => {
+            const updated = [newNotification, ...prev];
+            const clean = deduplicateNotifications(updated);
+            setUnreadCount(clean.filter(n => !n.is_read).length);
+            return clean;
           });
+          
+          if (!isDuplicate) {
+            toast(newNotification.title || "새로운 알림이 도착했습니다.", {
+              icon: '🔔',
+              style: {
+                borderRadius: '10px',
+                background: '#333',
+                color: '#fff',
+              },
+            });
+          }
         }
       )
       .subscribe();

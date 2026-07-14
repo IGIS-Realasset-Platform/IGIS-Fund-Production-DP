@@ -1,6 +1,39 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../../utils/supabaseClient';
 
+const deduplicateNotifications = (list) => {
+    if (!list) return [];
+    const logGroups = {};
+    list.forEach(n => {
+        if (n.reference_id && (n.type === 'log' || n.reference_id.startsWith('iota_issue_'))) {
+            const logId = n.reference_id.split('|')[0];
+            if (!logGroups[logId]) {
+                logGroups[logId] = [];
+            }
+            logGroups[logId].push(n);
+        }
+    });
+
+    const idsToRemove = new Set();
+    Object.values(logGroups).forEach(group => {
+        if (group.length > 1) {
+            const detailed = group.find(n => n.body && n.body.includes('업무명 :'));
+            if (detailed) {
+                group.forEach(n => {
+                    if (n !== detailed) {
+                        idsToRemove.add(n.id || `${n.reference_id}-${n.body}`);
+                    }
+                });
+            }
+        }
+    });
+
+    return list.filter(n => {
+        const key = n.id || `${n.reference_id}-${n.body}`;
+        return !idsToRemove.has(key);
+    });
+};
+
 export default function MobileNotifications({ memberInfo, onRead, onNotificationClick }) {
     const [notifications, setNotifications] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -24,7 +57,7 @@ export default function MobileNotifications({ memberInfo, onRead, onNotification
                 .limit(50);
                 
             if (error) throw error;
-            setNotifications(data || []);
+            setNotifications(deduplicateNotifications(data || []));
         } catch (err) {
             console.error("Failed to fetch notifications:", err);
         } finally {
