@@ -2746,7 +2746,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                 <div className="-mr-[calc(50vw-50%)] border border-r-0 border-[#3c3c3c] bg-[#272726] rounded-l-[24px] mb-[10px] shadow-sm select-text overflow-hidden">
                     <div className="w-full overflow-x-auto pr-0 timeline-scrollbar pb-1">
                         <div className="flex items-start transition-all duration-300 ease-out w-fit">
-                            <table className={`text-left table-fixed border-collapse bg-[#272726] transition-all duration-300 ease-out ${isAll ? 'w-[2642px] min-w-[2642px] max-w-[2642px]' : 'w-[1467px] min-w-[1467px] max-w-[1467px]'}`}>
+                            <table className={`text-left table-fixed border-collapse bg-[#272726] transition-all duration-300 ease-out ${isAll ? 'w-[2636px] min-w-[2636px] max-w-[2636px]' : 'w-[1461px] min-w-[1461px] max-w-[1461px]'}`}>
                                 <thead>
                                     <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[13px] h-[46px]">
                                         <th className="pl-[10px] text-center w-[50px] min-w-[50px] max-w-[50px] sticky left-0 bg-[#272726] z-30 rounded-tl-[24px]">ID</th>
@@ -2873,8 +2873,8 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                         </th>
 
                                         {/* 회의상정등급 */}
-                                        <th className="w-[76px] min-w-[76px] max-w-[76px] text-center">
-                                            <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-0.5 h-[22px] py-0 align-middle transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[65px] overflow-hidden mx-auto">
+                                        <th className="w-[70px] min-w-[70px] max-w-[70px] text-center">
+                                            <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-0.5 h-[22px] py-0 align-middle transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[62px] overflow-hidden mx-auto">
                                                 <span className={`font-bold text-[11px] whitespace-nowrap ${selectedMeetingGrade === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
                                                     {selectedMeetingGrade === '전체보기' ? '회의상정' : selectedMeetingGrade}
                                                 </span>
@@ -3183,8 +3183,8 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                                     
 
                                                     {/* 24. 회의상정등급 */}
-                                                    <td className="text-center w-[76px] min-w-[76px] max-w-[76px] truncate">
-                                                        <span className={`px-2 py-0.5 rounded text-[11px] font-bold ${
+                                                    <td className="text-center w-[70px] min-w-[70px] max-w-[70px] truncate">
+                                                        <span className={`px-1.5 py-0.5 rounded text-[11px] font-bold ${
                                                             meetingGrade.startsWith('A') 
                                                                 ? 'bg-[#ff453a]/15 text-[#ff453a] border border-[#ff453a]/25' 
                                                                 : (meetingGrade === 'B_회의점검' || meetingGrade.startsWith('B'))
@@ -3439,7 +3439,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                             <td className={`text-center transition-all duration-300 ease-out bg-[#272726] ${isAll ? 'w-[90px] min-w-[90px] max-w-[100px] opacity-100' : 'w-0 min-w-0 max-w-0 opacity-0 overflow-hidden'}`}></td>
                                             
                                             {/* 11. 회의상정등급 */}
-                                            <td className="w-[76px] min-w-[76px] max-w-[76px] bg-[#272726]"></td>
+                                            <td className="w-[70px] min-w-[70px] max-w-[70px] bg-[#272726]"></td>
                                             
                                             {/* 12. 실무 주관부서 */}
                                             <td className="w-[76px] min-w-[76px] max-w-[76px] bg-[#272726]"></td>
