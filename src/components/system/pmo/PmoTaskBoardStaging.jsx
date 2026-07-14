@@ -2731,7 +2731,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                     <span className="text-[#86868B] text-[15px] animate-pulse">원장 정보를 불러오는 중입니다...</span>
                 </div>
             ) : (
-                <div className="-mr-[calc(50vw-50%)] border border-r-0 border-[#3c3c3c] bg-[#272726] rounded-l-[24px] mb-[10px] shadow-sm select-text">
+                <div className="-mr-[calc(50vw-50%)] border border-r-0 border-[#3c3c3c] bg-[#272726] rounded-l-[24px] mb-[10px] shadow-sm select-text overflow-hidden">
                     <div className="w-full overflow-x-auto pr-0 timeline-scrollbar pb-1">
                         <div className={`flex items-start transition-all duration-300 ease-out ${isAll ? 'min-w-[3442px]' : 'min-w-[2267px]'}`}>
                             <table className={`text-left table-fixed flex-1 border-collapse bg-[#272726] transition-all duration-300 ease-out ${isAll ? 'min-w-[2642px]' : 'min-w-[1467px]'}`}>
