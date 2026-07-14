@@ -1704,11 +1704,6 @@ export default function DecisionLog() {
                                         </div>
                                         <div className="flex items-center gap-[6px]">
                                             <span className="text-[14px] font-bold text-white">{log.writer_name}</span>
-                                            {((log.created_at && new Date(log.created_at).getTime() >= new Date('2026-07-13T09:02:39Z').getTime() && (new Date() - new Date(log.created_at)) < 48 * 60 * 60 * 1000) || (log.updated_at && new Date(log.updated_at).getTime() >= new Date('2026-07-13T09:02:39Z').getTime() && (new Date() - new Date(log.updated_at)) < 48 * 60 * 60 * 1000)) && (
-                                                <span className="shrink-0 inline-flex items-center justify-center px-[4px] py-[2px] rounded-[3px] text-[10px] font-black bg-[#ff3b30] text-white leading-none tracking-wider relative top-[1px]">
-                                                    N
-                                                </span>
-                                            )}
                                         </div>
                                     </div>
 
@@ -1728,6 +1723,11 @@ export default function DecisionLog() {
                                             )}
                                             <span className="truncate">{log.summary || (log.raw_text ? log.raw_text.split('\n')[0] : '')}</span>
                                             {log.metadata?.comments?.length > 0 && <span className="text-[#3b82f6] ml-[6px] font-bold text-[13px] shrink-0">({log.metadata.comments.length})</span>}
+                                            {((log.created_at && new Date(log.created_at).getTime() >= new Date('2026-07-13T09:02:39Z').getTime() && (new Date() - new Date(log.created_at)) < 48 * 60 * 60 * 1000) || (log.updated_at && new Date(log.updated_at).getTime() >= new Date('2026-07-13T09:02:39Z').getTime() && (new Date() - new Date(log.updated_at)) < 48 * 60 * 60 * 1000)) && (
+                                                <span className="shrink-0 inline-flex items-center justify-center px-[4px] py-[2px] rounded-[3px] text-[10px] font-black bg-[#ff3b30] text-white leading-none tracking-wider relative top-[1px] ml-[4px]">
+                                                    N
+                                                </span>
+                                            )}
                                         </div>
                                     </div>
                                 </div>
