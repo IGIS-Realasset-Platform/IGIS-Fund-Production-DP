@@ -706,7 +706,7 @@ export default function StakeLp() {
     );
 
     return (
-        <div className="w-full flex-1 flex flex-col pt-[30px] pb-[100px] max-w-[1112px] mx-auto">
+        <div className="w-full flex-1 flex flex-col pt-[28px] pb-[100px] max-w-[1112px] mx-auto">
             {/* Header */}
             <div className="flex items-center justify-between mb-[8px]">
                 <h1 className="text-[32px] font-bold text-white tracking-tight leading-none font-['Inter']">LP / 대주 / SI</h1>

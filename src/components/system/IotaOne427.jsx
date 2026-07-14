@@ -158,7 +158,7 @@ export default function IotaOne427() {
         };
     }, []);
     return (
-                <div className="w-[1200px] mx-auto flex-1 flex flex-col pt-[20px] shrink-0 pb-[60px]">
+                <div className="w-[1200px] mx-auto flex-1 flex flex-col pt-[28px] shrink-0 pb-[60px]">
                 
                 {/* Title & Metadata row */}
                 <div className="w-full flex justify-between items-start mb-[22px]">

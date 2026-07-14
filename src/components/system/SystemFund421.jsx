@@ -316,7 +316,7 @@ export default function SystemFund421() {
     const topLps = getTopLps();
 
     return (
-        <div className="w-[1200px] mx-auto flex-1 flex flex-col pt-[20px] shrink-0 pb-[200px]">
+        <div className="w-[1200px] mx-auto flex-1 flex flex-col pt-[28px] shrink-0 pb-[200px]">
             {/* Header / Title */}
             <div className="w-full flex justify-between items-start mb-[32px]">
                 <div>

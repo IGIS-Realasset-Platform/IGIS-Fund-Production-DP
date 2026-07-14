@@ -614,7 +614,7 @@ export default function WorkspaceDevelopment() {
     );
 
     return (
-        <div className="w-full flex-1 flex flex-col pt-[20px] pb-[60px] max-w-[1200px] mx-auto relative">
+        <div className="w-full flex-1 flex flex-col pt-[28px] pb-[60px] max-w-[1200px] mx-auto relative">
             {/* Header & Team Structure */}
             <div className="w-full flex justify-between items-center mb-[40px] gap-[40px]">
                 <div className="shrink-0 max-w-[400px]">

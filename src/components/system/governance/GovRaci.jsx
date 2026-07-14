@@ -65,7 +65,7 @@ export default function GovRaci() {
     };
 
     return (
-        <div className="w-full flex-1 flex flex-col pt-[30px] pb-[110px] max-w-[1112px] mx-auto">
+        <div className="w-full flex-1 flex flex-col pt-[28px] pb-[110px] max-w-[1112px] mx-auto">
             <h1 className="text-[32px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[12px]">핵심 의사결정 RACI</h1>
             <p className="text-[16px] text-[#86868B] mb-[32px] leading-[26px]">성공적인 프로젝트 완수를 위해 핵심 의사결정 항목에 대한 기능셀(Cell) 간의 명확한 역할과 책임(RACI)을 정의한 매트릭스입니다.</p>
             <div className="flex items-center gap-8 mb-[32px] bg-transparent border border-[#333] p-5 rounded-[24px]">

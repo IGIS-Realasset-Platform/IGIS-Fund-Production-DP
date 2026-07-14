@@ -809,7 +809,7 @@ export default function VehicleIntegrated() {
     const dynTotal = volumeType === '조달가' ? grandTotal : (dynVals.v427 + dynVals.v816);
 
     return (
-        <div className="w-[1200px] mx-auto flex-1 flex flex-col pt-[20px] shrink-0 pb-[100px]">
+        <div className="w-[1200px] mx-auto flex-1 flex flex-col pt-[28px] shrink-0 pb-[100px]">
             
             {/* 1. 종합 */}
             <div className="mb-[28px]">

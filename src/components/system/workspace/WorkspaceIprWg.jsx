@@ -4,7 +4,7 @@ export default function WorkspaceIprWg() {
     const [activeTab, setActiveTab] = useState(0);
 
     return (
-        <div className="w-full flex-1 flex flex-col pt-[20px] pb-[60px] max-w-[1200px] mx-auto">
+        <div className="w-full flex-1 flex flex-col pt-[28px] pb-[60px] max-w-[1200px] mx-auto">
             {/* Header Metadata */}
             <div className="w-full flex justify-between items-start mb-[32px]">
                 <div>

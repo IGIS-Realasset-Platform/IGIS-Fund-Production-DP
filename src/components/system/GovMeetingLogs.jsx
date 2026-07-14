@@ -109,7 +109,7 @@ export default function GovMeetingLogs() {
 
     return (
         <div className="w-full h-full bg-[#1F1F1E] font-sans overflow-y-auto custom-scrollbar">
-            <div className="w-[1200px] mx-auto flex-1 flex flex-col pt-[20px] shrink-0 pb-[100px]">
+            <div className="w-[1200px] mx-auto flex-1 flex flex-col pt-[28px] shrink-0 pb-[100px]">
                 
                 {/* Header */}
                 <div className="shrink-0 pointer-events-none">

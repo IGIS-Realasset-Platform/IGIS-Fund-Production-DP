@@ -381,7 +381,7 @@ export default function StakeTenant({ defaultTab = 'list' }) {
     const uniqueBuildings = [...new Set(tenants.map(t => t.current_building).filter(Boolean))];
 
     return (
-        <div className="w-full flex-1 flex flex-col pt-[20px] pb-[160px] max-w-[1200px] mx-auto font-sans text-white relative">
+        <div className="w-full flex-1 flex flex-col pt-[28px] pb-[160px] max-w-[1200px] mx-auto font-sans text-white relative">
             
             {/* Header Area */}
             <div className="w-full mb-[40px] flex justify-between items-end border-b border-[#2C2C2E] pb-6">
