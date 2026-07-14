@@ -4354,7 +4354,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                     
                                     {/* Blocker Alert Banner */}
                                     {isBlockerVal && (
-                                        <div className="p-4 rounded-[12px] bg-red-500/10 border border-red-500/20 flex items-start gap-3">
+                                        <div className="pt-4 pr-4 pb-4 pl-5 rounded-[12px] bg-red-500/10 border border-red-500/20 flex items-start gap-3">
                                             <div className="space-y-1">
                                                 <h4 className="text-[13px] font-bold text-red-400">현재 진행 병목(Blocker) 상황</h4>
                                                 <p className="text-[12px] text-gray-300 leading-relaxed">
