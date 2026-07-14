@@ -457,7 +457,7 @@ export default function PmoScheduleGate() {
     };
 
     return (
-        <div className="w-[1290px] mx-auto flex-1 flex flex-col pt-[28px] pb-[200px] box-border select-text text-white bg-transparent text-left">
+        <div className="w-[1290px] mx-auto flex-1 flex flex-col pt-[32px] pb-[200px] box-border select-text text-white bg-transparent text-left">
             <style>{`
                 .timeline-scrollbar::-webkit-scrollbar {
                     height: 8px;
@@ -505,7 +505,7 @@ export default function PmoScheduleGate() {
             <div className="w-[1290px] border border-[#3c3c3c] bg-[#272726] rounded-[32px] overflow-visible relative">
                 
                 {/* Speech Bubbles Overlay */}
-                <div className="absolute top-[-64px] left-0 w-full h-[36px] pointer-events-none z-50 overflow-visible">
+                <div className="absolute top-[-68px] left-0 w-full h-[36px] pointer-events-none z-50 overflow-visible">
                     {/* PF 1차 */}
                     {(() => {
                         const x = 952.5;
