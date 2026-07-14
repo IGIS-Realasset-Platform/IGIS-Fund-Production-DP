@@ -508,7 +508,7 @@ export default function PmoScheduleGate() {
                 <div className="absolute top-[-64px] left-0 w-full h-[36px] pointer-events-none z-50 overflow-visible">
                     {/* PF 1차 */}
                     {(() => {
-                        const x = 939;
+                        const x = 952.5;
                         return (
                             <div 
                                 style={{ left: `${x}px`, opacity: 1 }} 
@@ -523,7 +523,7 @@ export default function PmoScheduleGate() {
                     
                     {/* PF 2차 */}
                     {(() => {
-                        const x = 1017;
+                        const x = 1027.5;
                         return (
                             <div 
                                 style={{ left: `${x}px`, opacity: 1 }} 
@@ -544,17 +544,17 @@ export default function PmoScheduleGate() {
                         <table className="text-left table-fixed w-[1290px] min-w-[1290px] max-w-[1290px] pointer-events-auto">
                             <thead>
                                 <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[13px] h-12">
-                                    <th className="pl-[10px] pr-1 w-[94px] text-center bg-[#272726] rounded-tl-[31px]">구분</th>
-                                    <th className="pl-3 w-[256px] bg-[#272726]">세부업무</th>
-                                    <th className="px-1 w-[94px] text-center bg-[#272726]">주관</th>
-                                    <th className="px-1 w-[94px] text-center bg-[#272726] border-r border-[#3c3c3c]">협업</th>
+                                    <th className="pl-[10px] pr-1 w-[94px] min-w-[94px] max-w-[94px] text-center bg-[#272726] rounded-tl-[31px]">구분</th>
+                                    <th className="pl-3 w-[258px] min-w-[258px] max-w-[258px] bg-[#272726]">세부업무</th>
+                                    <th className="px-1 w-[94px] min-w-[94px] max-w-[94px] text-center bg-[#272726]">주관</th>
+                                    <th className="px-1 w-[94px] min-w-[94px] max-w-[94px] text-center bg-[#272726] border-r border-[#3c3c3c]">협업</th>
                                     {COLUMNS.map((col, cIdx) => {
                                         const isLast = cIdx === COLUMNS.length - 1;
                                         const borderClass = col.highlight
                                             ? `bg-white/[0.03] text-[#60a5fa] ${isLast ? '' : 'border-r border-[#4c4c4c]/50'}`
                                             : `text-[#86868B] ${isLast ? '' : 'border-r border-[#4c4c4c]/50'}`;
                                         return (
-                                            <th key={col.key} className={`text-center font-['Inter'] text-[11px] leading-tight px-1 font-bold w-[78px] ${borderClass} ${isLast ? 'rounded-tr-[31px]' : ''}`}>
+                                            <th key={col.key} className={`text-center font-['Inter'] text-[11px] leading-tight px-1 font-bold w-[75px] min-w-[75px] max-w-[75px] ${borderClass} ${isLast ? 'rounded-tr-[31px]' : ''}`}>
                                                 <div>{col.labelTop}</div>
                                                 {col.labelBottom && <div className="text-[11px] opacity-75 mt-0.5">{col.labelBottom}</div>}
                                             </th>
@@ -582,7 +582,7 @@ export default function PmoScheduleGate() {
                                             </td>
                                             
                                             {/* 세부업무 */}
-                                            <td className="pl-3 font-medium text-[#bdbba7] leading-snug text-left pr-2 whitespace-normal break-words bg-[#272726] group-hover:bg-[#333] transition-colors text-[13px] tracking-tight w-[256px] min-w-[256px] max-w-[256px]">
+                                            <td className="pl-3 font-medium text-[#bdbba7] leading-snug text-left pr-2 whitespace-normal break-words bg-[#272726] group-hover:bg-[#333] transition-colors text-[13px] tracking-tight w-[258px] min-w-[258px] max-w-[258px]">
                                                 {item.desc}
                                             </td>
                                             
@@ -612,7 +612,7 @@ export default function PmoScheduleGate() {
                                                 return (
                                                     <td key={col.key} className={`text-center ${
                                                         col.highlight ? 'bg-white/[0.015] group-hover:bg-white/[0.04]' : ''
-                                                    } ${borderClass} w-[78px] min-w-[78px] max-w-[78px] ${isLastRow && isLastCol ? 'rounded-br-[31px]' : ''}`}>
+                                                    } ${borderClass} w-[75px] min-w-[75px] max-w-[75px] ${isLastRow && isLastCol ? 'rounded-br-[31px]' : ''}`}>
                                                         {mark === '●' && (
                                                             <span className="w-3.5 h-3.5 rounded-full bg-[#2997ff] inline-block shadow-sm shadow-[#2997ff]/20"></span>
                                                         )}
