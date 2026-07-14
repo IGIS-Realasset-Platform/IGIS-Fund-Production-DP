@@ -3743,16 +3743,28 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                         <td className="px-4 py-2 text-gray-400">상태가 지연</td>
                                         <td className="px-4 py-2 text-center text-gray-400">상태</td>
                                     </tr>
-                                    <tr className="hover:bg-white/[0.02] h-10">
-                                        <td className="px-4 py-2 font-bold text-white">팝업업무</td>
-                                        <td className="px-4 py-2 text-center font-mono text-[#bdbba7] font-bold">5</td>
-                                        <td className="px-4 py-2 text-gray-400">정규업무 침식 가능</td>
-                                        <td className="px-4 py-2 text-center text-gray-400">업무유형</td>
-                                    </tr>
                                     <tr className="bg-white/[0.01] h-10 font-bold border-t border-[#2c2c2b] whitespace-nowrap">
-                                        <td className="px-4 py-2 text-[#2997ff]">회의상정 기준</td>
-                                        <td className="px-4 py-2 text-center text-[#2997ff]">50점 이상</td>
-                                        <td className="px-4 py-2 text-[#2997ff]/80">01_회의메인 자동 노출 기준</td>
+                                        <td className="px-4 py-2 text-[#ff453a]">A_즉시상정</td>
+                                        <td className="px-4 py-2 text-center text-[#ff453a]">70점 이상</td>
+                                        <td className="px-4 py-2 text-gray-400 font-medium text-[11px] whitespace-normal leading-normal">리스크가 매우 높거나 즉각적인 의사결정 및 Blocker 해소가 필요한 최우선 안건</td>
+                                        <td className="px-4 py-2 text-center text-gray-500 font-normal">우선순위점수</td>
+                                    </tr>
+                                    <tr className="bg-white/[0.01] h-10 font-bold border-t border-[#2c2c2b]/30 whitespace-nowrap">
+                                        <td className="px-4 py-2 text-[#ff9f0a]">B_회의점검</td>
+                                        <td className="px-4 py-2 text-center text-[#ff9f0a]">50점 이상</td>
+                                        <td className="px-4 py-2 text-gray-400 font-medium text-[11px] whitespace-normal leading-normal">기한이 임박했거나 타 부서 지원이 필요한 주요 안건으로, 회의 시 상황 점검 필요</td>
+                                        <td className="px-4 py-2 text-center text-gray-500 font-normal">우선순위점수</td>
+                                    </tr>
+                                    <tr className="bg-white/[0.01] h-10 font-bold border-t border-[#2c2c2b]/30 whitespace-nowrap">
+                                        <td className="px-4 py-2 text-[#30d158]">C_주간관리</td>
+                                        <td className="px-4 py-2 text-center text-[#30d158]">30점 이상</td>
+                                        <td className="px-4 py-2 text-gray-400 font-medium text-[11px] whitespace-normal leading-normal">일반적인 진행 단계에 있으며, 특이사항 발생 시에만 리딩하는 안건</td>
+                                        <td className="px-4 py-2 text-center text-gray-500 font-normal">우선순위점수</td>
+                                    </tr>
+                                    <tr className="bg-white/[0.01] h-10 font-bold border-t border-[#2c2c2b]/30 whitespace-nowrap">
+                                        <td className="px-4 py-2 text-[#8e8e93]">D_대기</td>
+                                        <td className="px-4 py-2 text-center text-[#8e8e93]">30점 미만</td>
+                                        <td className="px-4 py-2 text-gray-400 font-medium text-[11px] whitespace-normal leading-normal">시급성이 상대적으로 낮거나 마감 기한에 여유가 있는 안건</td>
                                         <td className="px-4 py-2 text-center text-gray-500 font-normal">우선순위점수</td>
                                     </tr>
                                 </tbody>
