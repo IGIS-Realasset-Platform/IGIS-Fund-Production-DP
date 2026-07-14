@@ -1082,7 +1082,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                         return (
                             <div id={log.log_id} key={log.log_id} className="w-full flex flex-col gap-[12px] p-[20px] bg-[#1c1c1e] border border-[#2c2c2e] rounded-[16px] transition-all hover:border-[#444] relative group">
                                 {/* Card Header */}
-                                <div className="w-full flex items-start gap-[10px] ml-[-6px]">
+                                <div className="w-full flex items-start gap-[10px]">
                                     <div className="w-[32px] h-[32px] rounded-full bg-[#2c2c2e] flex items-center justify-center border border-[#3c3c3c] shrink-0 overflow-hidden mt-[2px]">
                                         {log.writer_name === '시스템' ? (
                                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#30d158" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
