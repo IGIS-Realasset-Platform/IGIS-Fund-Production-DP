@@ -483,7 +483,7 @@ export default function PmoScheduleGate() {
                 }
             `}</style>
             {/* Header */}
-            <div className="w-full flex items-end justify-between mb-[20px]">
+            <div className="w-full flex items-end justify-between mb-[16px]">
                 <div className="flex items-baseline gap-[16px]">
                     <h1 className="text-[32px] font-bold text-white tracking-tight leading-none">마일스톤</h1>
                     <p className="text-[15px] text-[#86868B] leading-none">마일스톤의 최종 목표는 준공 및 Take-out/운영 전환입니다.</p>
@@ -635,7 +635,7 @@ export default function PmoScheduleGate() {
             <div className="w-full h-[1px] bg-[#2C2C2E] mt-[50px] mb-[38px]" />
 
             {/* Category Map & R&R Section */}
-            <div className="w-full flex items-center justify-start gap-4 mb-[18px]">
+            <div className="w-full flex items-center justify-start gap-4 mb-[22px]">
                 <h2 className="text-[32px] font-bold text-white tracking-tight leading-none text-left">R&R 및 필요산출물</h2>
             </div>
 
