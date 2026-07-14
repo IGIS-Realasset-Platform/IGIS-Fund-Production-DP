@@ -2731,7 +2731,28 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                     overflow-y: hidden !important;
                 }
             `}</style>
-            <div className="w-full flex flex-col mb-10 text-left">
+            <div className="w-full flex flex-col mb-10 text-left relative">
+                {/* Temporary DB Sync Button */}
+                <button 
+                    onClick={async () => {
+                        if(!window.confirm('DB 강제 동기화 (7일 연기 반영)를 진행하시겠습니까? (이력 로그 무시)')) return;
+                        try {
+                            let count = 0;
+                            for (const ft of FALLBACK_BOARD_TASKS) {
+                                if (!ft.due_date) continue;
+                                const { error } = await supabase.schema('iota_v2').from('iota_pmo_tasks').update({ due_date: ft.due_date }).eq('id', ft.id);
+                                if (!error) count++;
+                            }
+                            window.alert(`총 ${count}건 DB 동기화 완료되었습니다. 새로고침합니다.`);
+                            window.location.reload();
+                        } catch(e) {
+                            window.alert('오류: ' + e.message);
+                        }
+                    }}
+                    className="fixed bottom-[20px] right-[20px] z-[9999] bg-[#ff3b30] hover:bg-[#ff453a] text-white px-[16px] py-[10px] rounded-[8px] font-bold text-[14px] shadow-[0_4px_12px_rgba(255,59,48,0.4)] border border-[#ff3b30]/50 animate-pulse cursor-pointer"
+                >
+                    ⚡️ 41건 DB 일괄 동기화 (개발자용)
+                </button>
             {loading ? (
                 <div className="w-full h-[260px] flex items-center justify-center border border-[#333] rounded-[24px]">
                     <span className="text-[#86868B] text-[15px] animate-pulse">원장 정보를 불러오는 중입니다...</span>
