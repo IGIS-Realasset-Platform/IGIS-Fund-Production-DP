@@ -2737,7 +2737,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                     overflow-y: hidden !important;
                 }
             `}</style>
-            <div className="w-full flex flex-col mb-10 text-left">
+            <div className="w-full flex flex-col mb-[36px] text-left">
             {loading ? (
                 <div className="w-full h-[260px] flex items-center justify-center border border-[#333] rounded-[24px]">
                     <span className="text-[#86868B] text-[15px] animate-pulse">원장 정보를 불러오는 중입니다...</span>
