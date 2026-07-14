@@ -103,8 +103,7 @@ export default function NotificationDropdown({ isOpen, onClose, notifications, u
                     const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
                     const newUrl = taskId ? `${base}/${targetPath}?taskId=${taskId}` : `${base}/${targetPath}`;
                     console.log('[NotificationDropdown] 라우팅 실행 URL:', newUrl);
-                    window.history.pushState(null, '', newUrl);
-                    window.dispatchEvent(new Event('popstate'));
+                    window.location.href = newUrl;
                 } else {
                     console.warn('[NotificationDropdown] 매칭되는 targetPath가 없음 (wsCode):', wsCode);
                     toast.error("연계된 화면(워크스페이스)을 찾을 수 없거나 이미 삭제되었습니다.");
@@ -191,16 +190,14 @@ export default function NotificationDropdown({ isOpen, onClose, notifications, u
                     }
 
                     console.log('[NotificationDropdown] 협업글 워크스페이스 이동 URL:', newUrl);
-                    window.history.pushState(null, '', newUrl);
-                    window.dispatchEvent(new Event('popstate'));
+                    window.location.href = newUrl;
                 } else {
                     // targetPath가 없으면 통합 workflow 보드로 이동 (fallback to PMO board)
                     const newUrl = resolvedTaskId 
                         ? `${base}/platform/iotaseoul/workflow?taskId=${resolvedTaskId}` 
                         : (logId ? `${base}/platform/iotaseoul/workflow?logId=${logId}` : `${base}/platform/iotaseoul/workflow`);
                     console.log('[NotificationDropdown] 협업글 통합 Workflow 이동 URL:', newUrl);
-                    window.history.pushState(null, '', newUrl);
-                    window.dispatchEvent(new Event('popstate'));
+                    window.location.href = newUrl;
                 }
             }
         } catch (globalError) {
@@ -236,8 +233,7 @@ export default function NotificationDropdown({ isOpen, onClose, notifications, u
                 const finalUrl = logId ? `${base}/${wsPath}?logId=${logId}` : `${base}/${wsPath}`;
                 
                 console.log('[NotificationDropdown] Global Error Fallback Redirecting to:', finalUrl);
-                window.history.pushState(null, '', finalUrl);
-                window.dispatchEvent(new Event('popstate'));
+                window.location.href = finalUrl;
             } catch (redirError) {
                 console.error('[NotificationDropdown] Redirect fallback failed:', redirError);
             }

@@ -69,10 +69,17 @@ export const notifyMembersOnLogCreation = async (logId, logContent, workspace, w
         let recipientIds = [];
 
         if (workspace.code === 'WS_PMO') {
-            // [통합업무보드]는 오직 작성자 본인만 일반 알림 수신 대상에 포함 (멘션 대상자는 멘션 알림으로 별도 처리)
+            // [통합업무보드]는 작성자 본인 및 작성자가 속한 부서의 멤버만 일반 알림 수신 대상에 포함 (멘션 대상자는 멘션 알림으로 별도 처리)
             const creatorMember = members.find(m => m.email && writerEmail && m.email.toLowerCase() === writerEmail.toLowerCase());
             if (creatorMember) {
                 recipientIds.push(creatorMember.auth_id);
+                if (creatorMember.org_name) {
+                    members.forEach(m => {
+                        if (m.org_name === creatorMember.org_name) {
+                            recipientIds.push(m.auth_id);
+                        }
+                    });
+                }
             }
         } else {
             // 일반 워크스페이스는 기존 로직 적용
@@ -227,10 +234,17 @@ export const notifyMembersOnTaskCreation = async (taskId, taskName, workspace, w
         let mentionedAuthIds = [];
 
         if (workspace.code === 'WS_PMO') {
-            // [통합업무보드]는 작성자 본인 + 담당자 + 주관부서 + 협조부서 + @멘션 대상자에게만 발송
+            // [통합업무보드]는 작성자 본인 + 작성자가 속한 부서의 멤버 + 담당자 + 주관부서 + 협조부서 + @멘션 대상자에게만 발송
             const creatorMember = members.find(m => m.email && writerEmail && m.email.toLowerCase() === writerEmail.toLowerCase());
             if (creatorMember) {
                 recipientIds.push(creatorMember.auth_id);
+                if (creatorMember.org_name) {
+                    members.forEach(m => {
+                        if (m.org_name === creatorMember.org_name) {
+                            recipientIds.push(m.auth_id);
+                        }
+                    });
+                }
             }
 
             try {
@@ -424,10 +438,17 @@ export const notifyMembersOnCommentCreation = async (logId, commentContent, work
         let recipientIds = [];
 
         if (workspace.code === 'WS_PMO') {
-            // [통합업무보드]는 오직 작성자 본인만 일반 알림 수신 대상에 포함
+            // [통합업무보드]는 작성자 본인 및 작성자가 속한 부서의 멤버만 일반 알림 수신 대상에 포함
             const creatorMember = members.find(m => m.email && writerEmail && m.email.toLowerCase() === writerEmail.toLowerCase());
             if (creatorMember) {
                 recipientIds.push(creatorMember.auth_id);
+                if (creatorMember.org_name) {
+                    members.forEach(m => {
+                        if (m.org_name === creatorMember.org_name) {
+                            recipientIds.push(m.auth_id);
+                        }
+                    });
+                }
             }
         } else {
             // 일반 워크스페이스는 기존 로직 적용
