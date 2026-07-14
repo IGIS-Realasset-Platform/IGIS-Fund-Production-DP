@@ -205,6 +205,18 @@ export const notifyMembersOnLogCreation = async (logId, logContent, workspace, w
         );
         await Promise.all(insertPromises);
         console.log(`Log notifications successfully processed for ${notificationPayload.length} payloads (Mentions: ${mentionedAuthIds.length}).`);
+
+        // 5. DB 트리거에 의해 자동 생성되는 중복 알림(본문 내용이 원본과 동일한 단순 알림) 즉시 삭제 처리
+        try {
+            await supabase
+                .from('iota_notifications')
+                .delete()
+                .eq('reference_id', `${logId}|${workspace.code}`)
+                .eq('body', logContent);
+            console.log('Successfully cleaned up duplicate DB-trigger notifications.');
+        } catch (delErr) {
+            console.warn('Failed to clean up duplicate notifications:', delErr);
+        }
     } catch (err) {
         console.error('Error in notifyMembersOnLogCreation:', err);
     }

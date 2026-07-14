@@ -401,18 +401,20 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
     const fetchLogs = async () => {
         setIsLoading(true);
         try {
-            const { data, error } = await supabase
+            let query = supabase
                 .from('iota_seoul_logs')
-                .select('*, iota_seoul_log_stakeholders(sh_name, role_category)')
+                .select('*, iota_seoul_log_stakeholders(sh_name, role_category)');
+
+            if (isTaskBoard && taskId) {
+                query = query.eq('metadata->>task_id', taskId);
+            }
+
+            const { data, error } = await query
                 .order('work_date', { ascending: isTaskBoard })
                 .order('created_at', { ascending: isTaskBoard });
             if (error) throw error;
             
-            let logsList = data || [];
-            if (isTaskBoard && taskId) {
-                logsList = logsList.filter(log => String(log.metadata?.task_id) === String(taskId));
-            }
-            setLogs(logsList);
+            setLogs(data || []);
         } catch (e) {
             console.error('Error fetching logs:', e);
         } finally {
