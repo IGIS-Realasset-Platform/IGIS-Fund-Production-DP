@@ -862,14 +862,14 @@ export default function DecisionLog() {
     const isStaging = import.meta.env.MODE === 'staging';
 
     return (
-        <div className="w-full flex-1 flex flex-col pt-[38px] pb-[60px] pl-[60px] pr-[60px] box-border">
+        <div className="w-full flex-1 flex flex-col pt-[28px] pb-[60px] pl-[60px] pr-[60px] box-border">
             {/* Header Metadata (Staging Only) */}
             {isStaging && (
                 <div className="w-full flex flex-col mb-[16px] gap-[10px] min-w-[1200px]">
                     <div className="flex justify-between items-end w-full">
                         {/* Left: Title & Search Box */}
                         <div className="flex items-center gap-[16px]">
-                            <h1 className="text-[32px] font-bold text-white tracking-tight leading-none font-['Inter']">통합 업무 보드</h1>
+                            <h1 className="text-[24px] font-bold text-white tracking-tight leading-none font-['Inter']">통합 업무 보드</h1>
                             {/* Search Input Box directly to the right of title */}
                             <div className="relative w-[280px] self-center ml-[10px]">
                                 <input 
@@ -1054,7 +1054,7 @@ export default function DecisionLog() {
                                 <div 
                                     key={log.id}
                                     onClick={() => setSelectedIotaLog(log)}
-                                    className="min-w-[400px] max-w-[400px] min-h-[360px] shrink-0 rounded-[24px] px-[24px] pt-[30px] pb-[30px] snap-start flex flex-col gap-[14px] bg-[#272727] border border-[#3c3c3c] hover:bg-[#323232] hover:border-[#555] transition-all cursor-pointer group"
+                                    className="min-w-[400px] max-w-[400px] min-h-[360px] shrink-0 rounded-[24px] px-[24px] pt-[20px] pb-[30px] snap-start flex flex-col gap-[14px] bg-[#272727] border border-[#3c3c3c] hover:bg-[#323232] hover:border-[#555] transition-all cursor-pointer group"
                                 >
                                     {/* Author & Badge */}
                                     <div className="flex justify-between items-center">

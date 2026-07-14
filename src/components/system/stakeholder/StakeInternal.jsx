@@ -513,9 +513,9 @@ export default function StakeInternal() {
     };
 
     return (
-        <div className="w-full flex-1 flex flex-col pt-[50px] pb-[100px] max-w-[1112px] mx-auto" onMouseMove={handleMouseMove}>
+        <div className="w-full flex-1 flex flex-col pt-[30px] pb-[100px] max-w-[1112px] mx-auto" onMouseMove={handleMouseMove}>
             <div className="flex items-center justify-between mb-[8px]">
-                <h1 className="text-[32px] font-bold text-white tracking-tight leading-none font-['Inter']">IGIS 내부인력</h1>
+                <h1 className="text-[24px] font-bold text-white tracking-tight leading-none font-['Inter']">IGIS 내부인력</h1>
                 <form onSubmit={(e) => { 
                     e.preventDefault(); 
                     setActiveSearch(searchQuery); 

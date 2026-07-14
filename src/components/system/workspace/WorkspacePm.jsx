@@ -678,12 +678,12 @@ export default function WorkspacePm({ part = 1 }) {
     );
 
     return (
-        <div className="w-full flex-1 flex flex-col pt-[38px] pb-[200px] max-w-[1200px] mx-auto">
+        <div className="w-full flex-1 flex flex-col pt-[28px] pb-[200px] max-w-[1200px] mx-auto">
             {/* Header & Team Structure */}
             <div className="w-full flex justify-between items-center mb-[40px] gap-[40px]">
                 {/* Header Metadata */}
                 <div className="shrink-0 max-w-[300px]">
-                    <h1 className="text-[32px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[12px]">사업 PM {part}</h1>
+                    <h1 className="text-[24px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[12px]">사업 PM {part}</h1>
                     <p className="text-[15px] text-[#86868B] leading-[24px]">사업 {part}파트: 전체 일정 및 예산 통제, 변경관리 결정</p>
                 </div>
                 

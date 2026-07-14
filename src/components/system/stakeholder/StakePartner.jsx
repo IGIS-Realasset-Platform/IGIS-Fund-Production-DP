@@ -14,12 +14,12 @@ export default function StakePartner() {
         <div className="relative w-full flex-1 flex flex-col min-h-screen">
             {/* TBD Overlay */}
             <div className="absolute inset-0 z-50 backdrop-blur-md bg-black/20 flex flex-col items-center justify-center">
-                <h1 className="text-[116px] font-black text-white tracking-tighter mb-4 leading-none drop-shadow-2xl">TBD</h1>
+                <h1 className="text-[108px] font-black text-white tracking-tighter mb-4 leading-none drop-shadow-2xl">TBD</h1>
                 <p className="text-[20px] text-[#A1A1AA] font-medium tracking-wide">해당 화면은 현재 기획 중입니다.</p>
             </div>
 
-            <div className="w-full flex-1 flex flex-col pt-[50px] pb-[60px] max-w-[1200px] mx-auto opacity-30 pointer-events-none filter blur-[4px]">
-            <h1 className="text-[32px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[8px]">운영 파트너</h1>
+            <div className="w-full flex-1 flex flex-col pt-[30px] pb-[60px] max-w-[1200px] mx-auto opacity-30 pointer-events-none filter blur-[4px]">
+            <h1 className="text-[24px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[8px]">운영 파트너</h1>
             <p className="text-[16px] text-[#86868B] mb-[36px] leading-[26px]">성공적인 자산 운영 및 매각/구조화 지원을 위한 핵심 아웃소싱 파트너 명단입니다.</p>
             
             <div className="grid grid-cols-3 gap-[24px]">

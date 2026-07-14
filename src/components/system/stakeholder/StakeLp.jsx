@@ -706,10 +706,10 @@ export default function StakeLp() {
     );
 
     return (
-        <div className="w-full flex-1 flex flex-col pt-[50px] pb-[100px] max-w-[1112px] mx-auto">
+        <div className="w-full flex-1 flex flex-col pt-[30px] pb-[100px] max-w-[1112px] mx-auto">
             {/* Header */}
             <div className="flex items-center justify-between mb-[8px]">
-                <h1 className="text-[32px] font-bold text-white tracking-tight leading-none font-['Inter']">LP / 대주 / SI</h1>
+                <h1 className="text-[24px] font-bold text-white tracking-tight leading-none font-['Inter']">LP / 대주 / SI</h1>
             </div>
             <p className="text-[16px] text-[#86868B] mb-[24px] leading-[26px]">이지스 전체 파트너사 마스터 디렉토리 및 CRM 연동 현황</p>
 

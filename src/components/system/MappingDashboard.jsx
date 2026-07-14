@@ -28,7 +28,7 @@ const MappingDashboard = () => {
   return (
     <div className="min-h-screen bg-gray-900 text-gray-100 p-8 font-sans">
       <header className="mb-8 border-b border-gray-700 pb-4">
-        <h1 className="text-[26px] font-light tracking-tight text-white">
+        <h1 className="text-[18px] font-light tracking-tight text-white">
           <span className="text-blue-500 font-medium">IGIS</span> Market Intelligence
         </h1>
         <p className="text-sm text-gray-400 mt-2">

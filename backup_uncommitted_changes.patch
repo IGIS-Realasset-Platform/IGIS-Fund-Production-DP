@@ -1,0 +1,1416 @@
+diff --git a/src/components/system/AuthSetup.jsx b/src/components/system/AuthSetup.jsx
+index 657561b..5eabfa0 100644
+--- a/src/components/system/AuthSetup.jsx
++++ b/src/components/system/AuthSetup.jsx
+@@ -323,7 +323,7 @@ export default function AuthSetup({ onLogin }) {
+             {/* Main Content */}
+             <div className={`flex-1 flex flex-col items-center justify-center -mt-16 md:-mt-32 px-4 transition-all duration-[1200ms] delay-[200ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+                 
+-                <h1 className="text-[28px] md:text-[42px] font-bold mb-[20px] md:mb-[26px] tracking-tight font-inter text-[#1D1D1F] dark:text-[#E5E5E5] text-center transition-colors duration-300">
++                <h1 className="text-[20px] md:text-[42px] font-bold mb-[20px] md:mb-[26px] tracking-tight font-inter text-[#1D1D1F] dark:text-[#E5E5E5] text-center transition-colors duration-300">
+                     IFPDP IOTA Seoul
+                 </h1>
+ 
+diff --git a/src/components/system/DecisionLog.jsx b/src/components/system/DecisionLog.jsx
+index e37deaf..9b2d079 100644
+--- a/src/components/system/DecisionLog.jsx
++++ b/src/components/system/DecisionLog.jsx
+@@ -862,14 +862,14 @@ export default function DecisionLog() {
+     const isStaging = import.meta.env.MODE === 'staging';
+ 
+     return (
+-        <div className="w-full flex-1 flex flex-col pt-[38px] pb-[60px] pl-[60px] pr-[60px] box-border">
++        <div className="w-full flex-1 flex flex-col pt-[28px] pb-[60px] pl-[60px] pr-[60px] box-border">
+             {/* Header Metadata (Staging Only) */}
+             {isStaging && (
+                 <div className="w-full flex flex-col mb-[16px] gap-[10px] min-w-[1200px]">
+                     <div className="flex justify-between items-end w-full">
+                         {/* Left: Title & Search Box */}
+                         <div className="flex items-center gap-[16px]">
+-                            <h1 className="text-[32px] font-bold text-white tracking-tight leading-none font-['Inter']">통합 업무 보드</h1>
++                            <h1 className="text-[24px] font-bold text-white tracking-tight leading-none font-['Inter']">통합 업무 보드</h1>
+                             {/* Search Input Box directly to the right of title */}
+                             <div className="relative w-[280px] self-center ml-[10px]">
+                                 <input 
+@@ -1054,7 +1054,7 @@ export default function DecisionLog() {
+                                 <div 
+                                     key={log.id}
+                                     onClick={() => setSelectedIotaLog(log)}
+-                                    className="min-w-[400px] max-w-[400px] min-h-[360px] shrink-0 rounded-[24px] px-[24px] pt-[30px] pb-[30px] snap-start flex flex-col gap-[14px] bg-[#272727] border border-[#3c3c3c] hover:bg-[#323232] hover:border-[#555] transition-all cursor-pointer group"
++                                    className="min-w-[400px] max-w-[400px] min-h-[360px] shrink-0 rounded-[24px] px-[24px] pt-[20px] pb-[30px] snap-start flex flex-col gap-[14px] bg-[#272727] border border-[#3c3c3c] hover:bg-[#323232] hover:border-[#555] transition-all cursor-pointer group"
+                                 >
+                                     {/* Author & Badge */}
+                                     <div className="flex justify-between items-center">
+diff --git a/src/components/system/GovMeetingLogs.jsx b/src/components/system/GovMeetingLogs.jsx
+index b4f5dfb..ed1f540 100644
+--- a/src/components/system/GovMeetingLogs.jsx
++++ b/src/components/system/GovMeetingLogs.jsx
+@@ -109,11 +109,11 @@ export default function GovMeetingLogs() {
+ 
+     return (
+         <div className="w-full h-full bg-[#1F1F1E] font-sans overflow-y-auto custom-scrollbar">
+-            <div className="w-[1200px] mx-auto flex-1 flex flex-col pt-[40px] shrink-0 pb-[100px]">
++            <div className="w-[1200px] mx-auto flex-1 flex flex-col pt-[20px] shrink-0 pb-[100px]">
+                 
+                 {/* Header */}
+                 <div className="shrink-0 pointer-events-none">
+-                    <h1 className="text-[32px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[8px]">회의록</h1>
++                    <h1 className="text-[24px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[8px]">회의록</h1>
+                     <p className="text-[16px] text-[#86868B] leading-[26px]">IOTA Seoul 주요 회의체 히스토리 및 의사결정 내역</p>
+                 </div>
+ 
+diff --git a/src/components/system/IotaDashboard.jsx b/src/components/system/IotaDashboard.jsx
+index f81a73c..66627ad 100644
+--- a/src/components/system/IotaDashboard.jsx
++++ b/src/components/system/IotaDashboard.jsx
+@@ -4,7 +4,7 @@ export default function IotaDashboard() {
+     return (
+         <div className="relative w-full flex-1 flex flex-col min-h-screen bg-[#151515]">
+             <div className="absolute inset-0 z-50 backdrop-blur-md bg-black/20 flex flex-col items-center justify-center">
+-                <h1 className="text-[116px] font-black text-white tracking-tighter mb-4 leading-none drop-shadow-2xl">TBD</h1>
++                <h1 className="text-[108px] font-black text-white tracking-tighter mb-4 leading-none drop-shadow-2xl">TBD</h1>
+                 <p className="text-[20px] text-[#A1A1AA] font-medium tracking-wide">초기 콘텐츠와 활동로그, 정기/비정기회의 기록을 쌓은 후 업데이트 예정입니다.</p>
+             </div>
+         </div>
+diff --git a/src/components/system/IotaOne427.jsx b/src/components/system/IotaOne427.jsx
+index 505d4ee..cbf9a13 100644
+--- a/src/components/system/IotaOne427.jsx
++++ b/src/components/system/IotaOne427.jsx
+@@ -158,11 +158,11 @@ export default function IotaOne427() {
+         };
+     }, []);
+     return (
+-                <div className="w-[1200px] mx-auto flex-1 flex flex-col pt-[30px] shrink-0 pb-[60px]">
++                <div className="w-[1200px] mx-auto flex-1 flex flex-col pt-[20px] shrink-0 pb-[60px]">
+                 
+                 {/* Title & Metadata row */}
+                 <div className="w-full flex justify-between items-start mb-[22px]">
+-                    <h1 className="text-[32px] font-bold text-white tracking-tight leading-none font-['Inter'] translate-y-[13px] translate-x-[4px]">IOTA Seoul One 427</h1>
++                    <h1 className="text-[24px] font-bold text-white tracking-tight leading-none font-['Inter'] translate-y-[13px] translate-x-[4px]">IOTA Seoul One 427</h1>
+                     
+                     <div className="flex items-center h-[48px] translate-y-[4px] -translate-x-[30px]">
+                         {/* Item 1 */}
+diff --git a/src/components/system/IotaTwo816.jsx b/src/components/system/IotaTwo816.jsx
+index f9f49eb..744a716 100644
+--- a/src/components/system/IotaTwo816.jsx
++++ b/src/components/system/IotaTwo816.jsx
+@@ -139,11 +139,11 @@ export default function IotaTwo816() {
+         };
+     }, []);
+     return (
+-                <div className="w-[1200px] mx-auto flex-1 flex flex-col pt-[30px] shrink-0 pb-[60px]">
++                <div className="w-[1200px] mx-auto flex-1 flex flex-col pt-[20px] shrink-0 pb-[60px]">
+                 
+                 {/* Title & Metadata row */}
+                 <div className="w-full flex justify-between items-start mb-[22px]">
+-                    <h1 className="text-[32px] font-bold text-white tracking-tight leading-none font-['Inter'] translate-y-[13px] translate-x-[4px]">IOTA Seoul Two 816</h1>
++                    <h1 className="text-[24px] font-bold text-white tracking-tight leading-none font-['Inter'] translate-y-[13px] translate-x-[4px]">IOTA Seoul Two 816</h1>
+                     
+                     <div className="flex items-center h-[48px] translate-y-[4px] -translate-x-[30px]">
+                         {/* Item 1 */}
+diff --git a/src/components/system/LogWriteBox.jsx b/src/components/system/LogWriteBox.jsx
+index 704aae1..3d513aa 100644
+--- a/src/components/system/LogWriteBox.jsx
++++ b/src/components/system/LogWriteBox.jsx
+@@ -470,7 +470,14 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
+                 setVisibilityIndividuals([]);
+                 setAttachedFiles([]);
+             }
+-            if(fetchLogs) fetchLogs();
++            if(fetchLogs) {
++                setTimeout(() => {
++                    fetchLogs();
++                    if (isTaskBoard && taskId) {
++                        window.dispatchEvent(new CustomEvent('iota_log_updated', { detail: { taskId: taskId } }));
++                    }
++                }, 500);
++            }
+             
+             setShowSuccessModal(true);
+             setTimeout(() => {
+diff --git a/src/components/system/MappingDashboard.jsx b/src/components/system/MappingDashboard.jsx
+index dcb8171..07f02da 100644
+--- a/src/components/system/MappingDashboard.jsx
++++ b/src/components/system/MappingDashboard.jsx
+@@ -28,7 +28,7 @@ const MappingDashboard = () => {
+   return (
+     <div className="min-h-screen bg-gray-900 text-gray-100 p-8 font-sans">
+       <header className="mb-8 border-b border-gray-700 pb-4">
+-        <h1 className="text-[26px] font-light tracking-tight text-white">
++        <h1 className="text-[18px] font-light tracking-tight text-white">
+           <span className="text-blue-500 font-medium">IGIS</span> Market Intelligence
+         </h1>
+         <p className="text-sm text-gray-400 mt-2">
+diff --git a/src/components/system/PmoVision.jsx b/src/components/system/PmoVision.jsx
+index 52e4162..206e0ef 100644
+--- a/src/components/system/PmoVision.jsx
++++ b/src/components/system/PmoVision.jsx
+@@ -1330,7 +1330,7 @@ FM/PM 관리: 주요 하자 보수 이력 플랫폼 연동.
+                             <div className="max-w-[800px] flex flex-col gap-8">
+                                 <div>
+                                     <span className="text-[10px] font-bold text-gray-400 uppercase" style={interFont}>MEMORANDUM</span>
+-                                    <h1 className="text-[24px] font-bold text-black leading-tight mt-1" style={interFont}>IFPDP 시스템 기획안</h1>
++                                    <h1 className="text-[16px] font-bold text-black leading-tight mt-1" style={interFont}>IFPDP 시스템 기획안</h1>
+                                     <p className="text-[13px] text-gray-500 mt-2 font-sans" style={interFont}>부서 간 데이터 통합 및 의사결정 지원을 위한 전사 자산 관제 시스템 설계안</p>
+                                     <div className="h-[1px] bg-black w-full mt-6"></div>
+                                 </div>
+@@ -1638,7 +1638,7 @@ FM/PM 관리: 주요 하자 보수 이력 플랫폼 연동.
+                             <div className="max-w-[1000px] flex flex-col gap-8">
+                                 <div>
+                                     <span className="text-[10px] font-bold text-gray-400 uppercase" style={interFont}>DATABASE SPECIFICATION</span>
+-                                    <h1 className="text-[24px] font-bold text-black leading-tight mt-1" style={interFont}>IFPDP Asset Data Schema</h1>
++                                    <h1 className="text-[16px] font-bold text-black leading-tight mt-1" style={interFont}>IFPDP Asset Data Schema</h1>
+                                     <p className="text-[13px] text-gray-500 mt-2 font-sans" style={interFont}>화면 영역 및 UI 계층별 메타데이터 속성 맵핑 구조 정의</p>
+                                     <div className="h-[1px] bg-black w-full mt-6"></div>
+                                 </div>
+@@ -1812,7 +1812,7 @@ Phase 1은 업무 특성별로 고유 스키마를 구성하여 총 6대 테이
+                             <div className="max-w-[800px] flex flex-col gap-8">
+                                 <div>
+                                     <span className="text-[10px] font-bold text-gray-400 uppercase" style={interFont}>MEMORANDUM</span>
+-                                    <h1 className="text-[24px] font-bold text-black leading-tight mt-1" style={interFont}>IOTA CFT 플랫폼 Phase 1 기획안</h1>
++                                    <h1 className="text-[16px] font-bold text-black leading-tight mt-1" style={interFont}>IOTA CFT 플랫폼 Phase 1 기획안</h1>
+                                     <p className="text-[13px] text-gray-500 mt-2 font-sans" style={interFont}>이오타 CFT 협업 플랫폼의 초기 기틀 및 비히클 시계열 관제 기틀 수립 사양</p>
+                                     <div className="h-[1px] bg-black w-full mt-6"></div>
+                                 </div>
+@@ -2058,7 +2058,7 @@ CREATE TABLE public.iota_decision_logs (
+                             <div className="max-w-[1000px] flex flex-col gap-8">
+                                 <div>
+                                     <span className="text-[10px] font-bold text-gray-400 uppercase" style={interFont}>SCHEMA SPECIFICATION</span>
+-                                    <h1 className="text-[24px] font-bold text-black leading-tight mt-1" style={interFont}>IOTA CFT Phase 1 DB Schema</h1>
++                                    <h1 className="text-[16px] font-bold text-black leading-tight mt-1" style={interFont}>IOTA CFT Phase 1 DB Schema</h1>
+                                     <p className="text-[13px] text-gray-500 mt-2 font-sans" style={interFont}>부서 태스크 원장 및 의사결정 로그 테이블 DDL 명세서</p>
+                                     <div className="h-[1px] bg-black w-full mt-6"></div>
+                                 </div>
+@@ -2132,7 +2132,7 @@ CREATE TABLE public.iota_decision_logs (
+                             <div className="max-w-[800px] flex flex-col gap-8">
+                                 <div>
+                                     <span className="text-[10px] font-bold text-gray-400 uppercase" style={interFont}>MEMORANDUM</span>
+-                                    <h1 className="text-[24px] font-bold text-black leading-tight mt-1" style={interFont}>IOTA CFT Phase 2 시스템 기획안</h1>
++                                    <h1 className="text-[16px] font-bold text-black leading-tight mt-1" style={interFont}>IOTA CFT Phase 2 시스템 기획안</h1>
+                                     <p className="text-[13px] text-gray-500 mt-2 font-sans" style={interFont}>보안 권한 제어, 스프레드시트 인라인 편집 및 실전 PMO 운영화 로드맵</p>
+                                     <div className="h-[1px] bg-black w-full mt-6"></div>
+                                 </div>
+@@ -2198,7 +2198,7 @@ CREATE TABLE public.iota_decision_logs (
+                             <div className="max-w-[1000px] flex flex-col gap-8">
+                                 <div>
+                                     <span className="text-[10px] font-bold text-gray-400 uppercase" style={interFont}>FUNCTIONAL SPECIFICATION</span>
+-                                    <h1 className="text-[24px] font-bold text-black leading-tight mt-1" style={interFont}>IOTA CFT Phase 2 기능요구사항</h1>
++                                    <h1 className="text-[16px] font-bold text-black leading-tight mt-1" style={interFont}>IOTA CFT Phase 2 기능요구사항</h1>
+                                     <p className="text-[13px] text-gray-500 mt-2 font-sans" style={interFont}>비즈니스 실전 가동을 위한 PMO 핵심 기능 명세 및 세부 사양</p>
+                                     <div className="h-[1px] bg-black w-full mt-6"></div>
+                                 </div>
+@@ -2268,7 +2268,7 @@ CREATE POLICY "PM2 파트 및 어드민만 편집 가능" ON public.iota_pmo_tas
+                             <div className="max-w-[1000px] flex flex-col gap-8">
+                                 <div>
+                                     <span className="text-[10px] font-bold text-gray-400 uppercase" style={interFont}>SCHEMA SPECIFICATION</span>
+-                                    <h1 className="text-[24px] font-bold text-black leading-tight mt-1" style={interFont}>IOTA CFT Phase 2 DB Schema</h1>
++                                    <h1 className="text-[16px] font-bold text-black leading-tight mt-1" style={interFont}>IOTA CFT Phase 2 DB Schema</h1>
+                                     <p className="text-[13px] text-gray-500 mt-2 font-sans" style={interFont}>PMO 통합 제어 테이블 및 Supabase RLS 정책 DDL 명세서</p>
+                                     <div className="h-[1px] bg-black w-full mt-6"></div>
+                                 </div>
+diff --git a/src/components/system/SystemCenter.jsx b/src/components/system/SystemCenter.jsx
+index 7017817..0fb474c 100644
+--- a/src/components/system/SystemCenter.jsx
++++ b/src/components/system/SystemCenter.jsx
+@@ -67,11 +67,11 @@ export default function SystemCenter() {
+             {/* Dedicated Scroll Container */}
+             <div ref={scrollRef} onScroll={handleScroll} className="flex-1 w-full overflow-y-auto hide-scrollbar flex flex-col relative">
+                 {/* Main Content Area */}
+-                <div className="w-[1200px] mx-auto flex-1 flex flex-col pt-[50px] shrink-0 pb-[60px]">
++                <div className="w-[1200px] mx-auto flex-1 flex flex-col pt-[30px] shrink-0 pb-[60px]">
+                 
+                 {/* Title & Metadata row */}
+                 <div className="w-full flex justify-between items-end mb-[24px]">
+-                    <h1 className="text-[32px] font-bold text-white tracking-tight leading-none font-['Inter'] -translate-y-[1px] translate-x-[4px]">IOTA Seoul 2 816</h1>
++                    <h1 className="text-[24px] font-bold text-white tracking-tight leading-none font-['Inter'] -translate-y-[1px] translate-x-[4px]">IOTA Seoul 2 816</h1>
+                     
+                     <div className="flex items-center h-[48px] translate-y-[4px] -translate-x-[30px]">
+                         {/* Item 1 */}
+diff --git a/src/components/system/SystemFund421.jsx b/src/components/system/SystemFund421.jsx
+index 66f89e9..05f513e 100644
+--- a/src/components/system/SystemFund421.jsx
++++ b/src/components/system/SystemFund421.jsx
+@@ -316,11 +316,11 @@ export default function SystemFund421() {
+     const topLps = getTopLps();
+ 
+     return (
+-        <div className="w-[1200px] mx-auto flex-1 flex flex-col pt-[40px] shrink-0 pb-[200px]">
++        <div className="w-[1200px] mx-auto flex-1 flex flex-col pt-[20px] shrink-0 pb-[200px]">
+             {/* Header / Title */}
+             <div className="w-full flex justify-between items-start mb-[32px]">
+                 <div>
+-                    <h1 className="text-[32px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[8px]">421 Fund</h1>
++                    <h1 className="text-[24px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[8px]">421 Fund</h1>
+                     <p className="text-[16px] text-[#86868B] leading-[26px]">
+                         IOTA One, Two 투자를 위해 운용중인 이지스421호 부동산 사모펀드입니다.
+                     </p>
+diff --git a/src/components/system/SystemLogin.jsx b/src/components/system/SystemLogin.jsx
+index cabcb20..b59f270 100644
+--- a/src/components/system/SystemLogin.jsx
++++ b/src/components/system/SystemLogin.jsx
+@@ -84,7 +84,7 @@ export default function SystemLogin({ onLogin }) {
+             {/* Main Content */}
+             <div className={`flex-1 flex flex-col items-center justify-center -mt-32 transition-all duration-[1200ms] delay-[200ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+                 
+-                <h1 className="text-[42px] font-bold mb-[22px] tracking-normal font-inter text-[#1D1D1F] dark:text-[#E5E5E5] transition-colors duration-300">IFPDP</h1>
++                <h1 className="text-[34px] font-bold mb-[22px] tracking-normal font-inter text-[#1D1D1F] dark:text-[#E5E5E5] transition-colors duration-300">IFPDP</h1>
+ 
+                 {/* Form Box */}
+                 <div className="bg-white dark:bg-transparent border border-black/10 dark:border-[#333333] rounded-[28px] p-8 w-[430px] flex flex-col shadow-xl dark:shadow-2xl transition-colors duration-300">
+diff --git a/src/components/system/VehicleIntegrated.jsx b/src/components/system/VehicleIntegrated.jsx
+index 7e24366..7eb5c5d 100644
+--- a/src/components/system/VehicleIntegrated.jsx
++++ b/src/components/system/VehicleIntegrated.jsx
+@@ -809,11 +809,11 @@ export default function VehicleIntegrated() {
+     const dynTotal = volumeType === '조달가' ? grandTotal : (dynVals.v427 + dynVals.v816);
+ 
+     return (
+-        <div className="w-[1200px] mx-auto flex-1 flex flex-col pt-[40px] shrink-0 pb-[100px]">
++        <div className="w-[1200px] mx-auto flex-1 flex flex-col pt-[20px] shrink-0 pb-[100px]">
+             
+             {/* 1. 종합 */}
+             <div className="mb-[28px]">
+-                <h1 className="text-[32px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[8px]">통합 Vehicle 파이낸싱 구조</h1>
++                <h1 className="text-[24px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[8px]">통합 Vehicle 파이낸싱 구조</h1>
+                 <p className="text-[16px] text-[#86868B] mb-[24px] leading-[26px]">IOTA Seoul 프로젝트 전체의 자본 구조 및 펀드별 에쿼티/론 조달 현황입니다.</p>
+                 
+                 {/* 외곽선 복구, 까만 박스 테두리 삭제 */}
+diff --git a/src/components/system/admin/SystemAdmin.jsx b/src/components/system/admin/SystemAdmin.jsx
+index c060270..9517f07 100644
+--- a/src/components/system/admin/SystemAdmin.jsx
++++ b/src/components/system/admin/SystemAdmin.jsx
+@@ -252,7 +252,7 @@ export default function SystemAdmin({ currentPage, navigateTo }) {
+                 <svg className="w-16 h-16 text-red-500 mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                 </svg>
+-                <h1 className="text-[20px] font-bold mb-2">Access Denied</h1>
++                <h1 className="text-[12px] font-bold mb-2">Access Denied</h1>
+                 <p className="text-[#86868B] mb-8">You do not have permission to view this page.</p>
+                 <button 
+                     onClick={() => window.history.back()}
+@@ -426,7 +426,7 @@ export default function SystemAdmin({ currentPage, navigateTo }) {
+             <div className="max-w-6xl mx-auto">
+                 <div className="flex items-center justify-between mb-10">
+                     <div>
+-                        <h1 className="text-[26px] font-bold tracking-tight mb-2">Admin Dashboard</h1>
++                        <h1 className="text-[18px] font-bold tracking-tight mb-2">Admin Dashboard</h1>
+                         <p className="text-[#86868B]">System Access Logs & Support Requests</p>
+                     </div>
+                     <button 
+diff --git a/src/components/system/governance/GovExternalComm.jsx b/src/components/system/governance/GovExternalComm.jsx
+index 4643a38..50083f9 100644
+--- a/src/components/system/governance/GovExternalComm.jsx
++++ b/src/components/system/governance/GovExternalComm.jsx
+@@ -49,8 +49,8 @@ export default function GovExternalComm() {
+     ];
+ 
+     return (
+-        <div className="w-full flex-1 flex flex-col pt-[50px] pb-[160px] max-w-[1112px] mx-auto">
+-            <h1 className="text-[33px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[12px]">대외 소통 정책</h1>
++        <div className="w-full flex-1 flex flex-col pt-[30px] pb-[160px] max-w-[1112px] mx-auto">
++            <h1 className="text-[25px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[12px]">대외 소통 정책</h1>
+             <p className="text-[16px] text-[#86868B] mb-[24px]">외부 파트너로부터의 혼선을 원천 차단하기 위한 단일 창구를 지정하고, 일상의 범위를 넘어서는 주요 사안에 대한 에스컬레이션 라인을 통합 규정합니다.</p>
+             
+             <h2 className="text-[20px] font-bold text-white mb-[16px]">PFV 단일 창구 운영 원칙</h2>
+diff --git a/src/components/system/governance/GovFundRnR.jsx b/src/components/system/governance/GovFundRnR.jsx
+index d9c6444..4c74b35 100644
+--- a/src/components/system/governance/GovFundRnR.jsx
++++ b/src/components/system/governance/GovFundRnR.jsx
+@@ -2,9 +2,9 @@ import React from 'react';
+ 
+ export default function GovFundRnR() {
+     return (
+-        <div className="w-full flex-1 flex flex-col pt-[50px] pb-[110px] max-w-[1112px] mx-auto">
++        <div className="w-full flex-1 flex flex-col pt-[30px] pb-[110px] max-w-[1112px] mx-auto">
+             {/* Header */}
+-            <h1 className="text-[32px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[8px]">
++            <h1 className="text-[24px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[8px]">
+                 421호 펀드 운용 R&R
+             </h1>
+             <p className="text-[17px] text-[#A1A1AA] leading-[28px] mb-[54px]">
+diff --git a/src/components/system/governance/GovMeetings.jsx b/src/components/system/governance/GovMeetings.jsx
+index 4ab634b..f785428 100644
+--- a/src/components/system/governance/GovMeetings.jsx
++++ b/src/components/system/governance/GovMeetings.jsx
+@@ -36,8 +36,8 @@ export default function GovMeetings() {
+     ];
+ 
+     return (
+-        <div className="w-full flex-1 flex flex-col pt-[50px] pb-[110px] max-w-[1112px] mx-auto">
+-            <h1 className="text-[32px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[12px]">회의체 운영 방침</h1>
++        <div className="w-full flex-1 flex flex-col pt-[30px] pb-[110px] max-w-[1112px] mx-auto">
++            <h1 className="text-[24px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[12px]">회의체 운영 방침</h1>
+             <p className="text-[16px] text-[#86868B] mb-[32px] leading-[26px]">프로젝트의 원활한 소통과 신속한 의사결정을 위해 내/외부 정기 및 비정기 회의체 운영 기준과 표준 어젠다를 정의합니다.</p>
+             
+             <div className="w-full border border-[#333] rounded-[24px] overflow-hidden mb-[32px] bg-transparent">
+diff --git a/src/components/system/governance/GovPrinciples.jsx b/src/components/system/governance/GovPrinciples.jsx
+index c21f8e5..643debe 100644
+--- a/src/components/system/governance/GovPrinciples.jsx
++++ b/src/components/system/governance/GovPrinciples.jsx
+@@ -3,8 +3,8 @@ import tierImg from '../../../assets/5tier.webp';
+ 
+ export default function GovPrinciples() {
+     return (
+-        <div className="w-full flex flex-col pt-[50px] pb-[160px] max-w-[1112px] mx-auto">
+-            <h1 className="text-[32px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[8px]">5대 의사결정 원칙</h1>
++        <div className="w-full flex flex-col pt-[30px] pb-[160px] max-w-[1112px] mx-auto">
++            <h1 className="text-[24px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[8px]">5대 의사결정 원칙</h1>
+             
+             <div className="flex flex-col w-full mb-[32px]">
+                 <div className="w-full h-px bg-[#333] mb-[22px]"></div>
+@@ -45,7 +45,7 @@ export default function GovPrinciples() {
+                 <div className="w-full h-px bg-[#333] mt-[22px]"></div>
+             </div>
+ 
+-            <h1 className="text-[32px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[16px] mt-[68px]">4중 평가체계</h1>
++            <h1 className="text-[24px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[16px] mt-[68px]">4중 평가체계</h1>
+             <p className="text-[16px] text-[#A1A1AA] leading-[26px] mb-[24px]">
+                 부문 평가체계는 1)수익조직 KPI(사업단위 성과), 2) OKR(조직단위 성과), 3) CGC(부문 전체 기여), 4) 경영조직(종합)의 4중 구조입니다.<br />
+                 이오타서울 CFT는 이 구조를 그대로 차용하여 ‘수행 사업 단위 KPI’와 ‘기능 셀 OKR’을 분리 운영합니다.
+@@ -138,7 +138,7 @@ export default function GovPrinciples() {
+                 </div>
+             </div>
+ 
+-            <h1 className="text-[32px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[16px] mt-[94px]">5 Tier 거버넌스 위계</h1>
++            <h1 className="text-[24px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[16px] mt-[94px]">5 Tier 거버넌스 위계</h1>
+             <p className="text-[16px] text-[#A1A1AA] leading-[26px] mb-[24px]">
+                 각 티어(Tier)는 명확히 구분된 의사결정 범위와 전결 규정, 그리고 독립된 주재자를 갖습니다.<br />
+                 모든 정보와 이슈는 T5에서 T1으로 이어지는 지정된 에스컬레이션 라인을 따라 상향 보고되며, 경영진의 최종 결정과 지침은 T1에서 T5로 신속하게 하향 전파됩니다.<br />
+diff --git a/src/components/system/governance/GovRaci.jsx b/src/components/system/governance/GovRaci.jsx
+index 58f2227..99f9525 100644
+--- a/src/components/system/governance/GovRaci.jsx
++++ b/src/components/system/governance/GovRaci.jsx
+@@ -65,8 +65,8 @@ export default function GovRaci() {
+     };
+ 
+     return (
+-        <div className="w-full flex-1 flex flex-col pt-[50px] pb-[110px] max-w-[1112px] mx-auto">
+-            <h1 className="text-[32px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[12px]">핵심 의사결정 RACI</h1>
++        <div className="w-full flex-1 flex flex-col pt-[30px] pb-[110px] max-w-[1112px] mx-auto">
++            <h1 className="text-[24px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[12px]">핵심 의사결정 RACI</h1>
+             <p className="text-[16px] text-[#86868B] mb-[32px] leading-[26px]">성공적인 프로젝트 완수를 위해 핵심 의사결정 항목에 대한 기능셀(Cell) 간의 명확한 역할과 책임(RACI)을 정의한 매트릭스입니다.</p>
+             <div className="flex items-center gap-8 mb-[32px] bg-transparent border border-[#333] p-5 rounded-[24px]">
+                 <div className="flex items-center gap-3"><span className="inline-flex w-[32px] h-[32px] items-center justify-center rounded-[10px] font-bold text-[14px] bg-[#0e3658] text-[#5da0e7]">A</span> <span className="text-white text-[14px]">최종 결정 및 승인 (Accountable)</span></div>
+diff --git a/src/components/system/governance/GovRiskTop10.jsx b/src/components/system/governance/GovRiskTop10.jsx
+index 1f2593b..934697a 100644
+--- a/src/components/system/governance/GovRiskTop10.jsx
++++ b/src/components/system/governance/GovRiskTop10.jsx
+@@ -41,8 +41,8 @@ export default function GovRiskTop10() {
+     };
+ 
+     return (
+-        <div className="w-full flex-1 flex flex-col pt-[50px] pb-[160px] max-w-[1112px] mx-auto">
+-            <h1 className="text-[32px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[8px]">Top 10 리스크 대응 방향</h1>
++        <div className="w-full flex-1 flex flex-col pt-[30px] pb-[160px] max-w-[1112px] mx-auto">
++            <h1 className="text-[24px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[8px]">Top 10 리스크 대응 방향</h1>
+             <p className="text-[16px] text-[#86868B] mb-[36px] leading-[26px]">리스크 등록부는 통합 데이터룸의 핵심 운영 도구입니다. 식별된 Top 10 리스크와 1차 대응 셀입니다.</p>
+             
+             <div className="w-full bg-transparent border border-[#333] rounded-[24px] overflow-hidden mt-[12px]">
+diff --git a/src/components/system/governance/GovRoadmap.jsx b/src/components/system/governance/GovRoadmap.jsx
+index d95d718..89a7196 100644
+--- a/src/components/system/governance/GovRoadmap.jsx
++++ b/src/components/system/governance/GovRoadmap.jsx
+@@ -2,8 +2,8 @@ import React from 'react';
+ 
+ export default function GovRoadmap() {
+     return (
+-        <div className="w-full flex-1 flex flex-col pt-[50px] pb-[60px] max-w-[1112px] mx-auto">
+-            <h1 className="text-[32px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[8px]">90 Day Roadmap</h1>
++        <div className="w-full flex-1 flex flex-col pt-[30px] pb-[60px] max-w-[1112px] mx-auto">
++            <h1 className="text-[24px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[8px]">90 Day Roadmap</h1>
+             <p className="text-[15px] text-[#bbb9af] mb-[4px]">리파이낸싱 종결을 D-Day로 두고, 90일 안에 통합 수행체계의 ‘1차 안정 상태’를 달성합니다.</p>
+             <p className="text-[15px] text-[#bbb9af] mb-[40px]">본 로드맵은 경영진 보고용 High-level 수준의 요약본입니다. 개별 태스크의 실행과 검증은 RACI 체계 및 지정된 회의체(운영위, 주간 Stand-up 등)를 통해 상세화됩니다.</p>
+             
+diff --git a/src/components/system/governance/GovSystem.jsx b/src/components/system/governance/GovSystem.jsx
+index dcb7979..90ad63d 100644
+--- a/src/components/system/governance/GovSystem.jsx
++++ b/src/components/system/governance/GovSystem.jsx
+@@ -3,8 +3,8 @@ import cftImg from '../../../assets/cft.webp';
+ 
+ export default function GovSystem() {
+     return (
+-        <div className="w-full flex flex-col pt-[50px] pb-[160px] max-w-[1112px] mx-auto">
+-            <h1 className="w-full max-w-[1112px] mx-auto text-[32px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[36px]">IOTA CFT 통합 수행체계</h1>
++        <div className="w-full flex flex-col pt-[30px] pb-[160px] max-w-[1112px] mx-auto">
++            <h1 className="w-full max-w-[1112px] mx-auto text-[24px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[36px]">IOTA CFT 통합 수행체계</h1>
+             
+             <div className="w-full flex justify-center mb-[40px] -mt-[10px]">
+                 <img src={cftImg} alt="IOTA CFT 통합 수행체계" className="w-full max-w-[1130px] object-contain [clip-path:inset(2px)]" />
+diff --git a/src/components/system/governance/GovWorkingGroup.jsx b/src/components/system/governance/GovWorkingGroup.jsx
+index 08ab9d2..e8fa678 100644
+--- a/src/components/system/governance/GovWorkingGroup.jsx
++++ b/src/components/system/governance/GovWorkingGroup.jsx
+@@ -2,8 +2,8 @@ import React from 'react';
+ 
+ export default function GovWorkingGroup() {
+     return (
+-        <div className="w-full flex-1 flex flex-col pt-[50px] pb-[160px] max-w-[1112px] mx-auto">
+-            <h1 className="text-[32px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[8px]">프로젝트리츠 워킹그룹</h1>
++        <div className="w-full flex-1 flex flex-col pt-[30px] pb-[160px] max-w-[1112px] mx-auto">
++            <h1 className="text-[24px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[8px]">프로젝트리츠 워킹그룹</h1>
+             <p className="text-[16px] text-[#86868B] mb-[40px] leading-[26px]">이오타 CFT는 프리츠 TFT와의 인터페이스를 ‘IPR 워킹그룹(IPR-WG)’ 형태로 운영합니다.<br />IPR-WG는 격주 1회 정기 회의를 가지며, CFT 측은 (i) 강순용 PM, (ii) 박준호 LFC, (iii) 김행단 KAM 1파트, <br />프리츠 TFT 측은 (i) 권순일 투자담당, (ii) 윤용택 관리담당이 고정 멤버로 참석합니다.</p>
+             
+             <div className="w-full bg-[#1A1A1A] border border-[#e11d48]/50 rounded-[24px] p-[32px] mb-[40px] relative overflow-hidden">
+diff --git a/src/components/system/pmo/PmoCategoryMap.jsx b/src/components/system/pmo/PmoCategoryMap.jsx
+index 12f21eb..5d9864f 100644
+--- a/src/components/system/pmo/PmoCategoryMap.jsx
++++ b/src/components/system/pmo/PmoCategoryMap.jsx
+@@ -36,11 +36,11 @@ export default function PmoCategoryMap() {
+     const current = matrixData[selectedCategory] || {};
+ 
+     return (
+-        <div className="w-full flex-1 flex flex-col pt-[40px] pb-[60px] max-w-[1200px] mx-auto select-text">
++        <div className="w-full flex-1 flex flex-col pt-[20px] pb-[60px] max-w-[1200px] mx-auto select-text">
+             {/* Header */}
+             <div className="w-full flex justify-between items-start mb-[32px]">
+                 <div>
+-                    <h1 className="text-[32px] font-bold text-white tracking-tight leading-none mb-[8px]">조직별 R&R</h1>
++                    <h1 className="text-[24px] font-bold text-white tracking-tight leading-none mb-[8px]">조직별 R&R</h1>
+                     <p className="text-[16px] text-[#86868B] leading-[26px]">대분류별 주관/협업 R&R 및 필수 산출물 계층 구조 시각화</p>
+                 </div>
+             </div>
+diff --git a/src/components/system/pmo/PmoMeetingMain.jsx b/src/components/system/pmo/PmoMeetingMain.jsx
+index 316c53b..a6239f6 100644
+--- a/src/components/system/pmo/PmoMeetingMain.jsx
++++ b/src/components/system/pmo/PmoMeetingMain.jsx
+@@ -40,11 +40,11 @@ export default function PmoMeetingMain() {
+     }, []);
+ 
+     return (
+-        <div className="w-full flex-1 flex flex-col pt-[40px] pb-[60px] max-w-[1200px] mx-auto select-text">
++        <div className="w-full flex-1 flex flex-col pt-[20px] pb-[60px] max-w-[1200px] mx-auto select-text">
+             {/* Header */}
+             <div className="w-full flex justify-between items-start mb-[32px]">
+                 <div>
+-                    <h1 className="text-[32px] font-bold text-white tracking-tight leading-none mb-[8px]">회의 메인</h1>
++                    <h1 className="text-[24px] font-bold text-white tracking-tight leading-none mb-[8px]">회의 메인</h1>
+                     <p className="text-[16px] text-[#86868B] leading-[26px]">의사결정 집계 및 핵심 리스크 관제 대시보드</p>
+                 </div>
+             </div>
+diff --git a/src/components/system/pmo/PmoPopupManager.jsx b/src/components/system/pmo/PmoPopupManager.jsx
+index 58d87e9..354ee49 100644
+--- a/src/components/system/pmo/PmoPopupManager.jsx
++++ b/src/components/system/pmo/PmoPopupManager.jsx
+@@ -777,13 +777,13 @@ export default function PmoPopupManager() {
+     };
+ 
+     return (
+-        <div className="w-[1290px] mx-auto flex-1 flex flex-col pt-[38px] pb-[200px] box-border select-text text-white bg-transparent">
++        <div className="w-[1290px] mx-auto flex-1 flex flex-col pt-[28px] pb-[200px] box-border select-text text-white bg-transparent">
+             <Toaster position="top-center" reverseOrder={false} />
+ 
+             {/* Header Title Section */}
+             <div className="w-full flex justify-between items-end mb-[18px]">
+                 <div className="flex flex-col text-left">
+-                    <h1 className="text-[32px] font-bold text-white tracking-tight leading-none mb-[8px]">단발성 업무 요청</h1>
++                    <h1 className="text-[24px] font-bold text-white tracking-tight leading-none mb-[8px]">단발성 업무 요청</h1>
+                     <p className="text-[16px] text-[#86868B] leading-[26px]">정규 마일스톤 외에 개별적으로 발생하는 단발성 업무 요청 및 협업 사항을 관리합니다.</p>
+                 </div>
+ 
+diff --git a/src/components/system/pmo/PmoScheduleGate.jsx b/src/components/system/pmo/PmoScheduleGate.jsx
+index e420dd7..1bff637 100644
+--- a/src/components/system/pmo/PmoScheduleGate.jsx
++++ b/src/components/system/pmo/PmoScheduleGate.jsx
+@@ -297,7 +297,7 @@ const CATEGORY_MAP_DATA = [
+     point: "모든 조건의 숫자화"
+   },
+   {
+-    category: "구조/법무/세무",
++    category: "법무/세무",
+     subsector: "리츠 전환",
+     task: "427 리츠 전환+816 편입 검토",
+     pf: true,
+@@ -310,8 +310,8 @@ const CATEGORY_MAP_DATA = [
+     point: "기본 구조 재정의"
+   },
+   {
+-    category: "구조/법무/세무",
+-    subsector: "Asset/Share/합병",
++    category: "법무/세무",
++    subsector: "Asset/Share",
+     task: "구조별 절차·세금·주주동의 비교",
+     pf: true,
+     const: false,
+@@ -352,7 +352,7 @@ pf: false,
+ 
+ const R_R_CATEGORIES = [
+   '전체보기', 'PF/금융', '인허가', '호텔/운영', '시공/원가', '도면/설계',
+-  '인테리어/TI', '임차/마케팅', '구조/법무/세무', '주주/보고', '준공/담보대출', '팝업/단발'
++  '인테리어/TI', '임차/마케팅', '법무/세무', '주주/보고', '준공/담보대출', '팝업/단발'
+ ];
+ 
+ export default function PmoScheduleGate() {
+@@ -361,7 +361,7 @@ export default function PmoScheduleGate() {
+     const [selectedRrLead, setSelectedRrLead] = React.useState('전체보기');
+     const [selectedRrCoop, setSelectedRrCoop] = React.useState('전체보기');
+ 
+-    const [rrData, setRrData] = React.useState(CATEGORY_MAP_DATA.map((item, idx) => ({ ...item, id: `mock-${idx}` })));
++    const rrData = React.useMemo(() => CATEGORY_MAP_DATA.map((item, idx) => ({ ...item, id: `mock-${idx}` })), []);
+     const [scrollLeft, setScrollLeft] = React.useState(0);
+ 
+     // Timeline Drag-to-Scroll Logic
+@@ -429,7 +429,7 @@ export default function PmoScheduleGate() {
+             '현금기부채납', '소공원로', '변경인가', '사용승인', '브랜드', '계약구조',
+             '운영수지/FF&E', '현대건설', '삼성물산', '공사비/VE', 'PF 기준도면', '면적표',
+             '오피스 TI', '호텔 인테리어', '광장', 'KB/금융권', '삼성/이지스', '단독 PF',
+-            '통합 PF', '재무모델', '리츠 전환', 'Asset/Share/합병', '의사결정', 'Take-out'
++            '통합 PF', '재무모델', '리츠 전환', 'Asset/Share', '의사결정', 'Take-out'
+         ];
+         const subs = [
+             ...defaultSubs,
+@@ -457,7 +457,7 @@ export default function PmoScheduleGate() {
+     };
+ 
+     return (
+-        <div className="w-[1290px] mx-auto flex-1 flex flex-col pt-[38px] pb-[200px] box-border select-text text-white bg-transparent text-left">
++        <div className="w-[1290px] mx-auto flex-1 flex flex-col pt-[28px] pb-[200px] box-border select-text text-white bg-transparent text-left">
+             <style>{`
+                 .timeline-scrollbar::-webkit-scrollbar {
+                     height: 8px;
+@@ -483,32 +483,32 @@ export default function PmoScheduleGate() {
+                 }
+             `}</style>
+             {/* Header */}
+-            <div className="w-full flex items-end justify-between mb-[40px]">
++            <div className="w-full flex items-end justify-between mb-[20px]">
+                 <div className="flex items-baseline gap-[16px]">
+-                    <h1 className="text-[32px] font-bold text-white tracking-tight leading-none">마일스톤</h1>
++                    <h1 className="text-[24px] font-bold text-white tracking-tight leading-none">마일스톤</h1>
+                     <p className="text-[15px] text-[#86868B] leading-none">마일스톤의 최종 목표는 준공 및 Take-out/운영 전환입니다.</p>
+                 </div>
+                 {/* Legend info */}
+-                <div className="flex items-center gap-4 text-[12px] font-bold pb-1">
++                <div className="flex items-center gap-4 text-[12px] font-bold pr-[10px]">
+                     <div className="flex items-center gap-1.5">
+                         <span className="w-2.5 h-2.5 rounded-full bg-[#2997ff] inline-block"></span>
+                         <span className="text-[#E5E5E5]">수행 진행 기간</span>
+                     </div>
+                     <div className="flex items-center gap-1.5">
+                         <span className="text-[#F59E0B] font-mono text-[16px] leading-none flex items-center h-[12px] mb-0.5">◆</span>
+-                        <span className="text-[#E5E5E5]">의사결정 / 마일스톤 달성</span>
++                        <span className="text-[#E5E5E5]">마일스톤 달성</span>
+                     </div>
+                 </div>
+             </div>
+ 
+             {/* Timeline Matrix Grid */}
+-            <div className="w-full border border-[#3c3c3c] bg-[#272726] rounded-[32px] overflow-visible relative">
++            <div className="w-[1290px] border border-[#3c3c3c] bg-[#272726] rounded-[32px] overflow-visible relative">
+                 
+                 {/* Speech Bubbles Overlay */}
+                 <div className="absolute top-[-64px] left-0 w-full h-[36px] pointer-events-none z-50 overflow-visible">
+                     {/* PF 1차 */}
+                     {(() => {
+-                        const x = 943.5;
++                        const x = 939;
+                         return (
+                             <div 
+                                 style={{ left: `${x}px`, opacity: 1 }} 
+@@ -523,7 +523,7 @@ export default function PmoScheduleGate() {
+                     
+                     {/* PF 2차 */}
+                     {(() => {
+-                        const x = 1020.5;
++                        const x = 1017;
+                         return (
+                             <div 
+                                 style={{ left: `${x}px`, opacity: 1 }} 
+@@ -539,22 +539,22 @@ export default function PmoScheduleGate() {
+                     })()}
+                 </div>
+ 
+-                <div className="w-full rounded-[32px] select-none">
++                <div className="w-full rounded-[32px] select-text">
+                     <div className="flex items-center w-full overflow-visible pointer-events-none">
+                         <table className="text-left table-fixed w-[1290px] min-w-[1290px] max-w-[1290px] pointer-events-auto">
+                             <thead>
+                                 <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[13px] h-12">
+-                                    <th className="px-1 w-[88px] text-center bg-[#272726] rounded-tl-[31px]">구분</th>
+-                                    <th className="pl-3 w-[262px] bg-[#272726]">세부업무</th>
+-                                    <th className="px-1 w-[90px] text-center bg-[#272726]">주관</th>
+-                                    <th className="px-1 w-[80px] text-center bg-[#272726] border-r border-[#3c3c3c]">협업</th>
++                                    <th className="pl-[10px] pr-1 w-[94px] text-center bg-[#272726] rounded-tl-[31px]">구분</th>
++                                    <th className="pl-3 w-[256px] bg-[#272726]">세부업무</th>
++                                    <th className="px-1 w-[94px] text-center bg-[#272726]">주관</th>
++                                    <th className="px-1 w-[94px] text-center bg-[#272726] border-r border-[#3c3c3c]">협업</th>
+                                     {COLUMNS.map((col, cIdx) => {
+                                         const isLast = cIdx === COLUMNS.length - 1;
+                                         const borderClass = col.highlight
+                                             ? `bg-white/[0.03] text-[#60a5fa] ${isLast ? '' : 'border-r border-[#4c4c4c]/50'}`
+                                             : `text-[#86868B] ${isLast ? '' : 'border-r border-[#4c4c4c]/50'}`;
+                                         return (
+-                                            <th key={col.key} className={`text-center font-['Inter'] text-[11px] leading-tight px-1 font-bold w-[77px] ${borderClass} ${isLast ? 'rounded-tr-[31px]' : ''}`}>
++                                            <th key={col.key} className={`text-center font-['Inter'] text-[11px] leading-tight px-1 font-bold w-[78px] ${borderClass} ${isLast ? 'rounded-tr-[31px]' : ''}`}>
+                                                 <div>{col.labelTop}</div>
+                                                 {col.labelBottom && <div className="text-[11px] opacity-75 mt-0.5">{col.labelBottom}</div>}
+                                             </th>
+@@ -567,9 +567,9 @@ export default function PmoScheduleGate() {
+                                     const isGate = item.category === 'Gate';
+                                     const isLastRow = idx === filteredData.length - 1;
+                                     return (
+-                                        <tr key={idx} className="hover:bg-[#333] transition-colors h-14 group">
++                                        <tr key={idx} className="hover:bg-[#333] transition-colors h-[50px] group">
+                                             {/* 구분 */}
+-                                            <td className={`px-1 bg-[#272726] group-hover:bg-[#333] transition-colors text-center w-[88px] min-w-[88px] max-w-[88px] ${
++                                            <td className={`pl-[10px] pr-1 bg-[#272726] group-hover:bg-[#333] transition-colors text-center w-[94px] min-w-[94px] max-w-[94px] ${
+                                                 isLastRow ? 'rounded-bl-[31px]' : ''
+                                             }`}>
+                                                 <span className={`px-1.5 py-1 rounded-md font-bold block ${
+@@ -582,12 +582,12 @@ export default function PmoScheduleGate() {
+                                             </td>
+                                             
+                                             {/* 세부업무 */}
+-                                            <td className="pl-3 font-medium text-[#E5E5E5] leading-snug text-left pr-2 whitespace-normal break-words bg-[#272726] group-hover:bg-[#333] transition-colors text-[13px] tracking-tight w-[262px] min-w-[262px] max-w-[262px]">
++                                            <td className="pl-3 font-medium text-[#bdbba7] leading-snug text-left pr-2 whitespace-normal break-words bg-[#272726] group-hover:bg-[#333] transition-colors text-[13px] tracking-tight w-[256px] min-w-[256px] max-w-[256px]">
+                                                 {item.desc}
+                                             </td>
+                                             
+                                             {/* 주관 */}
+-                                            <td className="px-1 text-[#E5E5E5] font-semibold text-center bg-[#272726] group-hover:bg-[#333] transition-colors text-[12px] leading-tight tracking-tight whitespace-normal break-words w-[90px] min-w-[90px] max-w-[90px]">
++                                            <td className="px-1 text-[#E5E5E5] font-semibold text-center bg-[#272726] group-hover:bg-[#333] transition-colors text-[12px] leading-tight tracking-tight whitespace-normal break-words w-[94px] min-w-[94px] max-w-[94px]">
+                                                 {item.lead.includes(' ') ? (
+                                                     item.lead.split(' ').map((part, pIdx) => (
+                                                         <div key={pIdx}>{part}</div>
+@@ -598,7 +598,7 @@ export default function PmoScheduleGate() {
+                                             </td>
+                                             
+                                             {/* 협업 */}
+-                                            <td className="px-1 text-[#c2c2c6] leading-tight text-center whitespace-normal break-words bg-[#272726] group-hover:bg-[#333] transition-colors border-r border-[#3c3c3c]  w-[88px] min-w-[88px] max-w-[88px]">
++                                            <td className="px-1 text-[#c2c2c6] leading-tight text-center whitespace-normal break-words bg-[#272726] group-hover:bg-[#333] transition-colors border-r border-[#3c3c3c]  w-[94px] min-w-[94px] max-w-[94px]">
+                                                 {item.coop.split(';').map((c, cIdx) => (
+                                                     c && <div key={cIdx} className="text-[11px]">{c}</div>
+                                                 ))}
+@@ -612,7 +612,7 @@ export default function PmoScheduleGate() {
+                                                 return (
+                                                     <td key={col.key} className={`text-center ${
+                                                         col.highlight ? 'bg-white/[0.015] group-hover:bg-white/[0.04]' : ''
+-                                                    } ${borderClass} w-[77px] min-w-[77px] max-w-[77px] ${isLastRow && isLastCol ? 'rounded-br-[31px]' : ''}`}>
++                                                    } ${borderClass} w-[78px] min-w-[78px] max-w-[78px] ${isLastRow && isLastCol ? 'rounded-br-[31px]' : ''}`}>
+                                                         {mark === '●' && (
+                                                             <span className="w-3.5 h-3.5 rounded-full bg-[#2997ff] inline-block shadow-sm shadow-[#2997ff]/20"></span>
+                                                         )}
+@@ -632,21 +632,21 @@ export default function PmoScheduleGate() {
+             </div>
+ 
+             {/* Divider Line */}
+-            <div className="-mx-[60px] h-[1px] bg-[#2C2C2E] mt-[64px] mb-[48px]" />
++            <div className="w-full h-[1px] bg-[#2C2C2E] mt-[50px] mb-[38px]" />
+ 
+             {/* Category Map & R&R Section */}
+             <div className="w-full flex items-center justify-start gap-4 mb-[18px]">
+-                <h2 className="text-[36px] font-bold text-white tracking-tight leading-none text-left">R&R 및 필요산출물</h2>
++                <h2 className="text-[32px] font-bold text-white tracking-tight leading-none text-left">R&R 및 필요산출물</h2>
+             </div>
+ 
+             {/* R&R Matrix Table */}
+-            <div className="-mr-[calc(50vw-50%)] border border-r-0 border-[#3c3c3c] bg-[#272726] rounded-l-[24px] overflow-hidden mb-[40px] shadow-sm min-h-[1110px]">
+-                <div className="w-full overflow-x-auto overflow-y-visible pr-0 timeline-scrollbar" style={{ minHeight: "250px" }}>
+-                    <div className="flex items-center min-w-[2380px]">
+-                        <table className="text-left table-fixed w-[1580px] min-w-[1580px] max-w-[1580px] border-collapse border-b border-[#3c3c3c] bg-[#272726]">
++            <div className="w-full border border-[#3c3c3c] bg-[#272726] rounded-[32px] overflow-visible relative mb-[40px] shadow-sm min-h-[1110px]">
++                <div className="w-full rounded-[32px] select-text">
++                    <div className="flex items-center w-full overflow-visible pointer-events-none">
++                        <table className="text-left table-fixed w-[1290px] min-w-[1290px] max-w-[1290px] pointer-events-auto border-collapse border-b border-[#3c3c3c] bg-[#272726]">
+                             <thead>
+                                 <tr className="border-b border-[#3c3c3c] bg-[#272726] text-[#86868B] font-bold text-[12px] h-[56px]">
+-                                    <th className="px-3 w-[104px] min-w-[104px] max-w-[104px] text-center bg-[#272726] z-30">
++                                    <th className="px-1 w-[90px] min-w-[90px] max-w-[90px] text-center bg-[#272726] z-30">
+                                         <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b]">
+                                             <span className={`font-bold text-[12px] whitespace-nowrap ${selectedRrCategory === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
+                                                 {selectedRrCategory === '전체보기' ? '대분류' : selectedRrCategory}
+@@ -675,12 +675,12 @@ export default function PmoScheduleGate() {
+                                             </select>
+                                         </div>
+                                     </th>
+-                                    <th className="px-3 w-[130px] min-w-[130px] max-w-[130px] text-center bg-[#272726] z-30">세부섹터</th>
+-                                    <th className="pl-3 w-[230px] min-w-[230px] max-w-[230px] bg-[#272726] border-r border-[#3c3c3c] ">대표 업무</th>
+-                                    <th className="px-2 w-[75px] min-w-[75px] max-w-[75px] text-center bg-[#272726] text-[11px] leading-tight">PF 전<br />필요</th>
+-                                    <th className="px-2 w-[75px] min-w-[75px] max-w-[75px] text-center bg-[#272726] text-[11px] leading-tight">착공 전<br />필요</th>
+-                                    <th className="px-2 w-[75px] min-w-[75px] max-w-[75px] text-center bg-[#272726] text-[11px] leading-tight border-r border-[#3c3c3c]">준공 전<br />필요</th>
+-                                    <th className="w-[116px] min-w-[116px] max-w-[116px] text-center bg-[#272726]">
++                                    <th className="px-3 w-[120px] min-w-[120px] max-w-[120px] text-center bg-[#272726] z-30">세부섹터</th>
++                                    <th className="pl-3 w-[210px] min-w-[210px] max-w-[210px] bg-[#272726] border-r border-[#3c3c3c] ">대표 업무</th>
++                                    <th className="px-2 w-[65px] min-w-[65px] max-w-[65px] text-center bg-[#272726] text-[11px] leading-tight">PF 전<br />필요</th>
++                                    <th className="px-2 w-[65px] min-w-[65px] max-w-[65px] text-center bg-[#272726] text-[11px] leading-tight">착공 전<br />필요</th>
++                                    <th className="px-2 w-[65px] min-w-[65px] max-w-[65px] text-center bg-[#272726] text-[11px] leading-tight border-r border-[#3c3c3c]">준공 전<br />필요</th>
++                                    <th className="w-[90px] min-w-[90px] max-w-[90px] text-center bg-[#272726]">
+                                         <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] translate-x-[6px]">
+                                             <span className={`font-bold text-[12px] whitespace-nowrap ${selectedRrLead === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
+                                                 {selectedRrLead === '전체보기' ? '주관 부서' : selectedRrLead}
+@@ -699,7 +699,7 @@ export default function PmoScheduleGate() {
+                                             </select>
+                                         </div>
+                                     </th>
+-                                    <th className="pl-3 w-[260px] min-w-[260px] max-w-[260px] text-left bg-[#272726] border-r border-[#3c3c3c]">
++                                    <th className="pl-3 w-[180px] min-w-[180px] max-w-[180px] text-left bg-[#272726] border-r border-[#3c3c3c]">
+                                         <div className="relative inline-flex items-center justify-start bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b]">
+                                             <span className={`font-bold text-[12px] whitespace-nowrap ${selectedRrCoop === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
+                                                 {selectedRrCoop === '전체보기' ? '협업 부서' : selectedRrCoop}
+@@ -718,9 +718,9 @@ export default function PmoScheduleGate() {
+                                             </select>
+                                         </div>
+                                     </th>
+-                                    <th className="px-3 w-[120px] min-w-[120px] max-w-[120px] text-center bg-[#272726]">외부 상대방</th>
+-                                    <th className="px-3 w-[120px] min-w-[120px] max-w-[120px] text-center bg-[#272726]">필요산출물</th>
+-                                    <th className="px-3 w-[195px] min-w-[195px] max-w-[195px] text-left bg-[#272726] border-r border-[#3c3c3c]">관리 포인트</th>
++                                    <th className="px-1 tracking-tighter whitespace-nowrap w-[106px] min-w-[106px] max-w-[106px] text-center bg-[#272726]">외부 상대방</th>
++                                    <th className="px-1 tracking-tighter whitespace-nowrap w-[106px] min-w-[106px] max-w-[106px] text-center bg-[#272726]">필요산출물</th>
++                                    <th className="px-3 w-[205px] min-w-[205px] max-w-[205px] text-left bg-[#272726] border-r border-[#3c3c3c]">관리 포인트</th>
+                                 </tr>
+                             </thead>
+                             <tbody className="divide-y divide-[#3c3c3c]/60 text-[12px]">
+@@ -733,22 +733,22 @@ export default function PmoScheduleGate() {
+                                     return (
+                                         <tr key={item.id} className="bg-[#272726] hover:bg-[#333] transition-colors h-12 group">
+                                             {/* 대분류 */}
+-                                            <td className="px-3 bg-[#272726] group-hover:bg-[#333] transition-colors text-center font-bold text-white text-[12px] w-[104px] min-w-[104px] max-w-[104px]">
++                                            <td className="px-3 bg-[#272726] group-hover:bg-[#333] transition-colors text-center font-bold text-white text-[12px] w-[90px] min-w-[90px] max-w-[90px]">
+                                                 {item.category}
+                                             </td>
+                                             
+                                             {/* 세부섹터 */}
+-                                            <td className="px-3 bg-[#272726] group-hover:bg-[#333] transition-colors text-center font-bold text-[#E5E5E5] text-[12px] whitespace-normal break-all w-[130px] min-w-[130px] max-w-[130px]">
++                                            <td className="px-3 bg-[#272726] group-hover:bg-[#333] transition-colors text-center font-bold text-[#E5E5E5] text-[12px] whitespace-normal break-all w-[120px] min-w-[120px] max-w-[120px]">
+                                                 {item.subsector}
+                                             </td>
+                                             
+                                             {/* 대표 업무 */}
+-                                            <td className="pl-3 font-bold text-[#F59E0B] leading-snug text-left pr-2 whitespace-normal break-all bg-[#272726] group-hover:bg-[#333] transition-colors border-r border-[#3c3c3c]  text-[13px] w-[230px] min-w-[230px] max-w-[230px]">
++                                            <td className="pl-3 font-bold text-[#bdbba7] leading-snug text-left pr-2 whitespace-normal break-all bg-[#272726] group-hover:bg-[#333] transition-colors border-r border-[#3c3c3c]  text-[13px] w-[210px] min-w-[210px] max-w-[210px]">
+                                                 {item.task}
+                                             </td>
+                                             
+                                             {/* PF 전 필요 */}
+-                                            <td className="px-2 text-center w-[75px] min-w-[75px] max-w-[75px]">
++                                            <td className="px-2 text-center w-[65px] min-w-[65px] max-w-[65px]">
+                                                 {item.pf ? (
+                                                     <span className="px-2 py-0.5 text-[10.5px] font-bold rounded bg-blue-500/15 text-blue-400 border border-blue-500/30 whitespace-nowrap">필수</span>
+                                                 ) : (
+@@ -757,7 +757,7 @@ export default function PmoScheduleGate() {
+                                             </td>
+ 
+                                             {/* 착공 전 필요 */}
+-                                            <td className="px-2 text-center w-[75px] min-w-[75px] max-w-[75px]">
++                                            <td className="px-2 text-center w-[65px] min-w-[65px] max-w-[65px]">
+                                                 {item.const ? (
+                                                     <span className="px-2 py-0.5 text-[10.5px] font-bold rounded bg-amber-500/15 text-amber-400 border border-amber-500/30 whitespace-nowrap">필수</span>
+                                                 ) : (
+@@ -766,7 +766,7 @@ export default function PmoScheduleGate() {
+                                             </td>
+ 
+                                             {/* 준공 전 필요 */}
+-                                            <td className="px-2 text-center border-r border-[#3c3c3c] w-[75px] min-w-[75px] max-w-[75px]">
++                                            <td className="px-2 text-center border-r border-[#3c3c3c] w-[65px] min-w-[65px] max-w-[65px]">
+                                                 {item.op ? (
+                                                     <span className="px-2 py-0.5 text-[10.5px] font-bold rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 whitespace-nowrap">필수</span>
+                                                 ) : (
+@@ -775,14 +775,14 @@ export default function PmoScheduleGate() {
+                                             </td>
+ 
+                                             {/* 주관 부서 */}
+-                                            <td className="text-center w-[116px] min-w-[116px] max-w-[116px]">
++                                            <td className="text-center w-[90px] min-w-[90px] max-w-[90px]">
+                                                 <span className="px-2.5 py-0.5 rounded font-bold bg-[#2997ff]/10 text-white border border-[#2997ff]/20 text-[11px] whitespace-nowrap inline-block translate-x-[6px]">
+                                                     {item.lead}
+                                                 </span>
+                                             </td>
+                                             
+                                             {/* 협업 부서 */}
+-                                            <td className="pl-3 text-left w-[260px] min-w-[260px] max-w-[260px] border-r border-[#3c3c3c]">
++                                            <td className="pl-3 text-left w-[180px] min-w-[180px] max-w-[180px] border-r border-[#3c3c3c]">
+                                                 <div className="flex flex-row gap-1.5 justify-start items-center whitespace-nowrap">
+                                                     {item.coop.map((c, cIdx) => (
+                                                         c && <span key={cIdx} className="px-2 py-0.5 rounded bg-[#1F1F1E] text-[#C2C2C6] border border-[#3c3c3c] text-[11px] whitespace-nowrap">{c}</span>
+@@ -791,17 +791,17 @@ export default function PmoScheduleGate() {
+                                             </td>
+ 
+                                             {/* 외부 상대방 */}
+-                                            <td className="px-3 text-center text-[#A1A1AA] font-semibold whitespace-normal break-all w-[120px] min-w-[120px] max-w-[120px]">
++                                            <td className="px-3 text-center text-[#A1A1AA] font-semibold whitespace-normal break-all w-[106px] min-w-[106px] max-w-[106px]">
+                                                 {item.partner || '-'}
+                                             </td>
+ 
+                                             {/* 필요산출물 */}
+-                                            <td className="px-3 text-center text-[#F59E0B] font-semibold whitespace-normal break-all w-[120px] min-w-[120px] max-w-[120px]">
++                                            <td className="px-3 text-center text-[#F59E0B] font-semibold whitespace-normal break-all w-[106px] min-w-[106px] max-w-[106px]">
+                                                 {item.need || '-'}
+                                             </td>
+ 
+                                             {/* 관리 포인트 */}
+-                                            <td className="px-3 text-left text-[#E5E5E5] font-normal whitespace-normal break-all w-[195px] min-w-[195px] max-w-[195px] border-r border-[#3c3c3c]">
++                                            <td className="px-3 text-left text-[#E5E5E5] font-normal whitespace-normal break-all w-[205px] min-w-[205px] max-w-[205px] border-r border-[#3c3c3c]">
+                                                 {item.point}
+                                             </td>
+                                         </tr>
+diff --git a/src/components/system/pmo/PmoTaskBoardStaging.jsx b/src/components/system/pmo/PmoTaskBoardStaging.jsx
+index 6262613..7486ef5 100644
+--- a/src/components/system/pmo/PmoTaskBoardStaging.jsx
++++ b/src/components/system/pmo/PmoTaskBoardStaging.jsx
+@@ -2530,12 +2530,6 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
+                     if (error) throw error;
+ 
+                     if (data && data[0]) {
+-                        notifyMembersOnTaskCreation(
+-                            data[0].id,
+-                            data[0].task_name,
+-                            { code: 'WS_PMO', label: '통합업무보드' },
+-                            memberInfo?.email || ''
+-                        );
+                         window.history.replaceState(null, '', `${window.location.pathname}?taskId=${data[0].id}`);
+                     }
+                     fetchTasks(); // Reload from DB
+@@ -2737,17 +2731,17 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
+                     <span className="text-[#86868B] text-[15px] animate-pulse">원장 정보를 불러오는 중입니다...</span>
+                 </div>
+             ) : (
+-                <div className="-mr-[calc(50vw-50%)] border border-r-0 border-[#3c3c3c] bg-[#272726] rounded-l-[24px] overflow-hidden mb-[10px] shadow-sm select-text">
++                <div className="-mr-[calc(50vw-50%)] border border-r-0 border-[#3c3c3c] bg-[#272726] rounded-l-[24px] mb-[10px] shadow-sm select-text">
+                     <div className="w-full overflow-x-auto pr-0 timeline-scrollbar pb-1">
+-                        <div className={`flex items-start transition-all duration-300 ease-out ${isAll ? 'min-w-[3499px]' : 'min-w-[2324px]'}`}>
+-                            <table className={`text-left table-fixed flex-1 border-collapse bg-[#272726] transition-all duration-300 ease-out ${isAll ? 'min-w-[2699px]' : 'min-w-[1524px]'}`}>
++                        <div className={`flex items-start transition-all duration-300 ease-out ${isAll ? 'min-w-[3442px]' : 'min-w-[2267px]'}`}>
++                            <table className={`text-left table-fixed flex-1 border-collapse bg-[#272726] transition-all duration-300 ease-out ${isAll ? 'min-w-[2642px]' : 'min-w-[1467px]'}`}>
+                                 <thead>
+                                     <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[13px] h-[46px]">
+-                                        <th className="pl-[10px] text-center w-[50px] min-w-[50px] max-w-[50px] sticky left-0 bg-[#272726] z-30">ID</th>
++                                        <th className="pl-[10px] text-center w-[50px] min-w-[50px] max-w-[50px] sticky left-0 bg-[#272726] z-30 rounded-tl-[24px]">ID</th>
+                                         
+                                         {/* 프로젝트 */}
+-                                        <th className="text-center w-[80px] min-w-[80px] max-w-[80px] sticky left-[50px] bg-[#272726] z-30">
+-                                            <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-1.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[74px] overflow-hidden mx-auto">
++                                        <th className="text-center w-[58px] min-w-[58px] max-w-[58px] sticky left-[50px] bg-[#272726] z-30">
++                                            <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-1.5 h-[22px] py-0 align-middle transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[74px] overflow-hidden mx-auto">
+                                                 <span className={`font-bold text-[11px] whitespace-nowrap truncate ${selectedProject === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
+                                                     {selectedProject === '전체보기' ? '프로젝트' : selectedProject}
+                                                 </span>
+@@ -2767,8 +2761,8 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
+                                         </th>
+ 
+                                         {/* 업무분류 */}
+-                                        <th className="pl-4 w-[71px] min-w-[71px] max-w-[71px] sticky left-[130px] bg-[#272726] z-30">
+-                                            <div className="relative inline-flex items-center justify-start bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-1.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[74px] overflow-hidden">
++                                        <th className="pl-4 w-[71px] min-w-[71px] max-w-[71px] sticky left-[108px] bg-[#272726] z-30">
++                                            <div className="relative inline-flex items-center justify-start bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-1.5 h-[22px] py-0 align-middle transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[74px] overflow-hidden">
+                                                 <span className={`font-bold text-[11px] whitespace-nowrap truncate ${selectedCategoryMain === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
+                                                     {selectedCategoryMain === '전체보기' ? '업무분류' : selectedCategoryMain}
+                                                 </span>
+@@ -2787,16 +2781,16 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
+                                             </div>
+                                         </th>
+ 
+-                                        <th className={`sticky left-[201px] bg-[#272726] z-30 transition-all duration-300 ease-out ${isAll ? 'w-[90px] min-w-[90px] max-w-[90px] pl-4 opacity-100' : 'w-0 min-w-0 max-w-0 pl-0 opacity-0 overflow-hidden'}`}>
++                                        <th className={`sticky left-[179px] bg-[#272726] z-30 transition-all duration-300 ease-out ${isAll ? 'w-[90px] min-w-[90px] max-w-[90px] pl-4 opacity-100' : 'w-0 min-w-0 max-w-0 pl-0 opacity-0 overflow-hidden'}`}>
+                                             <div className={`transition-all duration-300 ease-out overflow-hidden whitespace-nowrap ${isAll ? 'w-[90px] opacity-100' : 'w-0 opacity-0 pointer-events-none'}`}>
+                                                 세부섹터
+                                             </div>
+                                         </th>
+-                                        <th className={"pl-4 w-[240px] min-w-[240px] max-w-[240px] sticky bg-[#272726] z-30 shadow-[inset_-1px_0_0_0_#3c3c3c] transition-all duration-300 ease-out " + (isAll ? "left-[291px]" : "left-[201px]")}>업무명</th>
++                                        <th className={"pl-4 w-[220px] min-w-[220px] max-w-[220px] sticky bg-[#272726] z-30 shadow-[inset_-1px_0_0_0_#3c3c3c] transition-all duration-300 ease-out " + (isAll ? "left-[269px]" : "left-[179px]")}>업무명</th>
+                                         <th className="w-[71px] min-w-[71px] max-w-[71px] text-center select-none cursor-pointer hover:text-white transition-colors" onClick={() => setPrioritySortOrder(prev => prev === 'desc' ? 'asc' : 'desc')}>
+                                             <div className="flex items-center justify-center gap-1">
+                                                 <span 
+-                                                    className="inline-flex items-center justify-center w-3.5 h-3.5 rounded-full bg-white/10 hover:bg-white/20 text-[10px] text-[#86868B] hover:text-white font-bold cursor-pointer"
++                                                    className="inline-flex items-center justify-center w-3.5 h-3.5 rounded-full bg-white/10 hover:bg-white/20 text-[10px] text-[#86868B] hover:text-white font-bold cursor-pointer -translate-y-[1px]"
+                                                     onClick={(e) => {
+                                                         e.stopPropagation();
+                                                         setIsCriteriaModalOpen(true);
+@@ -2823,7 +2817,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
+                                         {/* 최종 목표축 */}
+                                         <th className={`text-center transition-all duration-300 ease-out ${isAll ? 'w-[91px] min-w-[91px] max-w-[91px] opacity-100' : 'w-0 min-w-0 max-w-0 opacity-0 overflow-hidden'}`}>
+                                             <div className={`transition-all duration-300 ease-out overflow-hidden ${isAll ? 'w-[91px] opacity-100' : 'w-0 opacity-0 pointer-events-none'}`}>
+-                                                <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[76px] overflow-hidden mx-auto">
++                                                <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 h-[22px] py-0 align-middle transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[76px] overflow-hidden mx-auto">
+                                                     <span className={"font-bold text-[11px] whitespace-nowrap truncate " + (selectedTargetAxis === "전체보기" ? "text-[#86868B]" : "text-[#2997ff]")}>
+                                                         {selectedTargetAxis === '전체보기' ? '최종목표' : selectedTargetAxis}
+                                                     </span>
+@@ -2846,7 +2840,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
+                                         {/* Gate */}
+                                         <th className={`text-center transition-all duration-300 ease-out ${isAll ? 'w-[90px] min-w-[90px] max-w-[100px] opacity-100' : 'w-0 min-w-0 max-w-0 opacity-0 overflow-hidden'}`}>
+                                             <div className={`transition-all duration-300 ease-out overflow-hidden ${isAll ? 'w-[90px] opacity-100' : 'w-0 opacity-0 pointer-events-none'}`}>
+-                                                <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[75px] overflow-hidden mx-auto">
++                                                <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 h-[22px] py-0 align-middle transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[75px] overflow-hidden mx-auto">
+                                                     <span className={"font-bold text-[11px] whitespace-nowrap truncate " + (selectedGateStage === "전체보기" ? "text-[#86868B]" : "text-[#2997ff]")}>
+                                                         {selectedGateStage === '전체보기' ? 'GATE' : selectedGateStage}
+                                                     </span>
+@@ -2868,7 +2862,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
+ 
+                                         {/* 회의상정등급 */}
+                                         <th className="w-[76px] min-w-[76px] max-w-[76px] text-center">
+-                                            <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-0.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[65px] overflow-hidden mx-auto">
++                                            <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-0.5 h-[22px] py-0 align-middle transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[65px] overflow-hidden mx-auto">
+                                                 <span className={`font-bold text-[11px] whitespace-nowrap ${selectedMeetingGrade === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
+                                                     {selectedMeetingGrade === '전체보기' ? '회의상정' : selectedMeetingGrade}
+                                                 </span>
+@@ -2888,7 +2882,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
+ 
+                                         {/* 주관부서 (실무주관부서->주관부서) */}
+                                         <th className="w-[76px] min-w-[76px] max-w-[76px] text-center">
+-                                            <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-1 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[76px] overflow-hidden mx-auto">
++                                            <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-1 h-[22px] py-0 align-middle transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[76px] overflow-hidden mx-auto">
+                                                 <span className={`font-bold text-[11px] whitespace-nowrap ${selectedLeadDept === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
+                                                     {selectedLeadDept === '전체보기' ? '주관부서' : selectedLeadDept}
+                                                 </span>
+@@ -2909,7 +2903,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
+ 
+                                         {/* 협업부서 */}
+                                         <th className="w-[160px] min-w-[160px] max-w-[160px] text-center">
+-                                            <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[145px] overflow-hidden mx-auto">
++                                            <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 h-[22px] py-0 align-middle transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[145px] overflow-hidden mx-auto">
+                                                 <span className={`font-bold text-[11px] whitespace-nowrap truncate ${selectedCoopDept === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
+                                                     {selectedCoopDept === '전체보기' ? '협업부서' : selectedCoopDept}
+                                                 </span>
+@@ -2942,7 +2936,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
+ 
+                                         {/* Blocker */}
+                                         <th className="w-[50px] min-w-[50px] max-w-[50px] text-center">
+-                                            <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-0.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[42px] overflow-hidden mx-auto">
++                                            <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-0.5 h-[22px] py-0 align-middle transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[42px] overflow-hidden mx-auto">
+                                                 <span className={`font-bold text-[11px] whitespace-nowrap ${selectedIsBlocker === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
+                                                     {selectedIsBlocker === '전체보기' ? 'Block' : selectedIsBlocker}
+                                                 </span>
+@@ -2962,7 +2956,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
+ 
+                                         {/* 결정필요 */}
+                                         <th className="w-[54px] min-w-[54px] max-w-[54px] text-center">
+-                                            <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-0.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[48px] overflow-hidden mx-auto">
++                                            <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-0.5 h-[22px] py-0 align-middle transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[48px] overflow-hidden mx-auto">
+                                                 <span className={`font-bold text-[11px] whitespace-nowrap ${selectedNeedsDecision === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
+                                                     {selectedNeedsDecision === '전체보기' ? '결정필요' : selectedNeedsDecision}
+                                                 </span>
+@@ -2988,7 +2982,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
+ 
+                                         {/* 상태 */}
+                                         <th className="w-[62px] min-w-[62px] max-w-[62px] text-center">
+-                                            <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-1 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[54px] overflow-hidden mx-auto">
++                                            <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-1 h-[22px] py-0 align-middle transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[54px] overflow-hidden mx-auto">
+                                                 <span className={`font-bold text-[11px] whitespace-nowrap truncate ${selectedStatus === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
+                                                     {selectedStatus === '전체보기' ? '상태' : selectedStatus}
+                                                 </span>
+@@ -3009,7 +3003,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
+ 
+                                         {/* 중요도 */}
+                                         <th className="w-[62px] min-w-[62px] max-w-[62px] text-center">
+-                                            <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-1 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[54px] overflow-hidden mx-auto">
++                                            <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-1 h-[22px] py-0 align-middle transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[54px] overflow-hidden mx-auto">
+                                                 <span className={`font-bold text-[11px] whitespace-nowrap truncate ${selectedImportanceLevel === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
+                                                     {selectedImportanceLevel === '전체보기' ? '중요도' : selectedImportanceLevel}
+                                                 </span>
+@@ -3093,6 +3087,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
+                                             const agendaReason = t.agenda_reason || fallbackItem.agenda_reason || '';
+                                             const sortKeyVal = t.sort_key || fallbackItem.sort_key || '';
+                                             const notesVal = t.notes || fallbackItem.notes || '';
++                                            const isLastTask = idx === paginatedTasks.length - 1;
+                                             return (
+                                                 <tr 
+                                                     key={t.id || `task-${idx}`} 
+@@ -3101,13 +3096,13 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
+                                                 >
+                                                     
+                                                     {/* 1. ID */}
+-                                                    <td className={`pl-[10px] text-center text-[#86868B] text-[11px] font-mono select-none w-[50px] min-w-[50px] max-w-[50px] truncate sticky left-0 transition-colors z-10 ${isSelected ? 'bg-[#3c3c3a] group-hover:bg-[#3c3c3a]' : 'bg-[#272726] group-hover:bg-[#2d2d2c]'}`}>
++                                                    <td className={`pl-[10px] text-center text-[#86868B] text-[11px] font-mono select-none w-[50px] min-w-[50px] max-w-[50px] truncate sticky left-0 transition-colors z-10 ${isSelected ? 'bg-[#3c3c3a] group-hover:bg-[#3c3c3a]' : 'bg-[#272726] group-hover:bg-[#2d2d2c]'} ${isLastTask ? 'rounded-bl-[24px]' : ''}`}>
+                                                         {t.displayId || t.id}
+                                                     </td>
+                                                     
+                                                     {/* 2. 프로젝트 */}
+-                                                    <td className={`text-center font-bold text-[#E5E5E5] w-[80px] min-w-[80px] max-w-[80px] truncate sticky left-[50px] transition-colors z-10 ${isSelected ? 'bg-[#3c3c3a] group-hover:bg-[#3c3c3a]' : 'bg-[#272726] group-hover:bg-[#2d2d2c]'}`}>
+-                                                         <span className={`px-1.5 py-0.5 rounded text-[11px] font-bold border inline-block max-w-full truncate ${
++                                                    <td className={`text-center font-bold text-[#E5E5E5] w-[58px] min-w-[58px] max-w-[58px] truncate sticky left-[50px] transition-colors z-10 ${isSelected ? 'bg-[#3c3c3a] group-hover:bg-[#3c3c3a]' : 'bg-[#272726] group-hover:bg-[#2d2d2c]'}`}>
++                                                         <span className={`px-1.5 h-[22px] py-0 align-middle rounded-[6px] text-[11px] font-bold border inline-flex items-center justify-center max-w-full truncate align-middle ${
+                                                              projectVal === 'IOTA 공통' ? 'bg-[#323233] text-[#F5F5F7] border-[#424243]' :
+                                                              projectVal === '427 PFV' ? 'bg-[#3A3A3C] text-[#FFFFFF] border-[#48484A]' :
+                                                              projectVal === '816 PFV' ? 'bg-[#2C2C2E] text-[#E5E5EA] border-[#3A3A3C]' :
+@@ -3119,21 +3114,21 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
+                                                     </td>
+                                                     
+                                                     {/* 3. 대분류 */}
+-                                                    <td className={`pl-4 font-bold text-[#E5E5E5] w-[71px] min-w-[71px] max-w-[71px] truncate sticky left-[130px] transition-colors z-10 ${isSelected ? 'bg-[#3c3c3a] group-hover:bg-[#3c3c3a]' : 'bg-[#272726] group-hover:bg-[#2d2d2c]'}`}>
++                                                    <td className={`pl-4 font-bold text-[#E5E5E5] w-[71px] min-w-[71px] max-w-[71px] truncate sticky left-[108px] transition-colors z-10 ${isSelected ? 'bg-[#3c3c3a] group-hover:bg-[#3c3c3a]' : 'bg-[#272726] group-hover:bg-[#2d2d2c]'}`}>
+                                                         {t.category_main}
+                                                     </td>
+                                                     
+                                                     {/* 4. 세부섹터 */}
+-                                                    <td className={`text-[#A1A1AA] truncate sticky left-[201px] z-10 transition-all duration-300 ease-out ${isAll ? 'w-[90px] min-w-[90px] max-w-[90px] pl-4 opacity-100' : 'w-0 min-w-0 max-w-0 pl-0 opacity-0 overflow-hidden'} ${isSelected ? 'bg-[#3c3c3a] group-hover:bg-[#3c3c3a]' : 'bg-[#272726] group-hover:bg-[#2d2d2c]'}`}>
++                                                    <td className={`text-[#A1A1AA] truncate sticky left-[179px] z-10 transition-all duration-300 ease-out ${isAll ? 'w-[90px] min-w-[90px] max-w-[90px] pl-4 opacity-100' : 'w-0 min-w-0 max-w-0 pl-0 opacity-0 overflow-hidden'} ${isSelected ? 'bg-[#3c3c3a] group-hover:bg-[#3c3c3a]' : 'bg-[#272726] group-hover:bg-[#2d2d2c]'}`}>
+                                                         <div className={`transition-all duration-300 ease-out overflow-hidden whitespace-nowrap ${isAll ? 'w-[90px] opacity-100' : 'w-0 opacity-0 pointer-events-none'}`}>
+                                                             {t.sector_detail}
+                                                         </div>
+                                                     </td>
+                                                     
+                                                     {/* 5. 업무명 */}
+-                                                    <td className={`pl-4 font-bold text-[#bdbba7] w-[240px] min-w-[240px] max-w-[240px] sticky z-10 shadow-[inset_-1px_0_0_0_#3c3c3c] transition-all duration-300 ease-out ${isAll ? 'left-[291px]' : 'left-[201px]'} ${isSelected ? 'bg-[#3c3c3a] group-hover:bg-[#3c3c3a]' : 'bg-[#272726] group-hover:bg-[#2d2d2c]'}`}>
++                                                    <td className={`pl-4 font-bold text-[#bdbba7] w-[220px] min-w-[220px] max-w-[220px] sticky z-10 shadow-[inset_-1px_0_0_0_#3c3c3c] transition-all duration-300 ease-out ${isAll ? 'left-[269px]' : 'left-[179px]'} ${isSelected ? 'bg-[#3c3c3a] group-hover:bg-[#3c3c3a]' : 'bg-[#272726] group-hover:bg-[#2d2d2c]'}`}>
+                                                         <div className="truncate w-full flex items-center gap-[6px]">
+-                                                            <span className="truncate">{t.task_name}</span>
++                                                            <span className="truncate flex-1 min-w-0">{t.task_name}</span>
+                                                             {isTaskNew && (
+                                                                 <span className="shrink-0 inline-flex items-center justify-center px-[4px] py-[2px] rounded-[3px] text-[10px] font-black bg-[#ff3b30] text-white leading-none tracking-wider relative top-[0px]">
+                                                                     N
+@@ -3143,7 +3138,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
+                                                     </td>
+ 
+                                                     {/* 우선순위점수 */}
+-                                                    <td className={`text-center font-mono w-[71px] min-w-[71px] max-w-[71px] font-bold ${priorityScore >= 70 ? 'text-[#FF453A]' : priorityScore >= 50 ? 'text-[#bdbba7]' : 'text-[#86868B]'}`}>{priorityScore}</td>
++                                                    <td className={`pl-[6px] text-center font-mono w-[56px] min-w-[56px] max-w-[56px] font-bold ${priorityScore >= 70 ? 'text-[#FF453A]' : priorityScore >= 50 ? 'text-[#bdbba7]' : 'text-[#86868B]'}`}>{priorityScore}</td>
+ 
+                                                     {/* 6. 업무목적 / PF·준공 영향 */}
+                                                     <td className={`text-[#A1A1AA] truncate transition-all duration-300 ease-out ${isAll ? 'w-[220px] min-w-[220px] max-w-[220px] pl-4 opacity-100' : 'w-0 min-w-0 max-w-0 pl-0 opacity-0 overflow-hidden'}`}>
+@@ -3191,7 +3186,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
+                                                     {/* 11. 실무 주관부서 */}
+                                                     <td className="text-center w-[76px] min-w-[76px] max-w-[76px] overflow-hidden">
+                                                         {leadDeptName ? (
+-                                                            <span className="inline-flex items-center justify-center px-2 py-0.5 bg-[#27272a] text-[#d4d4d8] border border-[#3f3f46] rounded-[4px] text-[11px] font-medium max-w-full truncate">
++                                                            <span className="inline-flex items-center justify-center px-2 h-[22px] py-0 align-middle bg-[#27272a] text-[#d4d4d8] border border-[#3f3f46] rounded-[6px] text-[11px] font-medium max-w-full truncate">
+                                                                 {leadDeptName}
+                                                             </span>
+                                                         ) : '-'}
+@@ -3208,12 +3203,12 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
+                                                                     return (
+                                                                         <>
+                                                                             {displayDepts.map((c, i) => (
+-                                                                                <span key={i} className="inline-flex items-center justify-center px-2 py-0.5 bg-[#27272a] text-[#d4d4d8] border border-[#3f3f46] rounded-[4px] text-[11px] font-medium whitespace-nowrap shrink-0 max-w-[100px] truncate">
++                                                                                <span key={i} className="inline-flex items-center justify-center px-2 h-[22px] py-0 align-middle bg-[#27272a] text-[#d4d4d8] border border-[#3f3f46] rounded-[6px] text-[11px] font-medium whitespace-nowrap shrink-0 max-w-[100px] truncate">
+                                                                                     {c}
+                                                                                 </span>
+                                                                             ))}
+                                                                             {hasMore && (
+-                                                                                <span className="inline-flex items-center justify-center px-1.5 py-0.5 bg-[#27272a] text-[#86868B] border border-[#3f3f46]/50 rounded-[4px] text-[11px] font-bold shrink-0">
++                                                                                <span className="inline-flex items-center justify-center px-1.5 h-[22px] py-0 align-middle bg-[#27272a] text-[#86868B] border border-[#3f3f46]/50 rounded-[6px] text-[11px] font-bold shrink-0">
+                                                                                     ...
+                                                                                 </span>
+                                                                             )}
+@@ -3347,16 +3342,16 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
+                                             </td>
+                                             
+                                             {/* 2. 프로젝트 */}
+-                                            <td className="text-center w-[80px] min-w-[80px] max-w-[80px] sticky left-[50px] transition-colors z-10 bg-[#272726]"></td>
++                                            <td className="text-center w-[58px] min-w-[58px] max-w-[58px] sticky left-[50px] transition-colors z-10 bg-[#272726]"></td>
+                                             
+                                             {/* 3. 대분류 */}
+-                                            <td className="pl-4 w-[71px] min-w-[71px] max-w-[71px] sticky left-[130px] transition-colors z-10 bg-[#272726]"></td>
++                                            <td className="pl-4 w-[71px] min-w-[71px] max-w-[71px] sticky left-[108px] transition-colors z-10 bg-[#272726]"></td>
+                                             
+                                             {/* 4. 세부섹터 */}
+-                                            <td className={`sticky left-[201px] z-10 transition-all duration-300 ease-out bg-[#272726] ${isAll ? 'w-[90px] min-w-[90px] max-w-[90px] pl-4 opacity-100' : 'w-0 min-w-0 max-w-0 pl-0 opacity-0 overflow-hidden'}`}></td>
++                                            <td className={`sticky left-[179px] z-10 transition-all duration-300 ease-out bg-[#272726] ${isAll ? 'w-[90px] min-w-[90px] max-w-[90px] pl-4 opacity-100' : 'w-0 min-w-0 max-w-0 pl-0 opacity-0 overflow-hidden'}`}></td>
+                                             
+                                             {/* 5. 업무명 (Centered Pagination) */}
+-                                            <td className={`pl-4 font-bold text-white sticky relative transition-all duration-300 ease-out bg-[#272726] z-10 w-[240px] min-w-[240px] max-w-[240px] ${isAll ? 'left-[291px]' : 'left-[201px]'}`}>
++                                            <td className={`pl-4 font-bold text-white sticky relative transition-all duration-300 ease-out bg-[#272726] z-10 w-[220px] min-w-[220px] max-w-[220px] ${isAll ? 'left-[269px]' : 'left-[179px]'}`}>
+                                                 {/* Centered Pagination Wrapper */}
+                                                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-visible z-20">
+                                                     <div className="flex items-center justify-center select-none pointer-events-auto" style={{ left: isAll ? '-351px' : '-261px', width: 'calc(100vw - 200px)', position: 'absolute', top: 0, bottom: 0 }}>
+@@ -3693,25 +3688,25 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
+                                 <tbody className="divide-y divide-[#2c2c2b] text-gray-300">
+                                     <tr className="hover:bg-white/[0.02] h-10">
+                                         <td className="px-4 py-2 font-bold text-white">준공필수</td>
+-                                        <td className="px-4 py-2 text-center font-mono text-[#bdbba7] font-bold">35</td>
++                                        <td className="px-4 py-2 text-center font-mono text-[#bdbba7] font-bold">30</td>
+                                         <td className="px-4 py-2 text-gray-400">준공/사용승인/담보대출과 직결</td>
+                                         <td className="px-4 py-2 text-center text-gray-400">중요도</td>
+                                     </tr>
+                                     <tr className="hover:bg-white/[0.02] h-10">
+                                         <td className="px-4 py-2 font-bold text-white">PF필수</td>
+-                                        <td className="px-4 py-2 text-center font-mono text-[#bdbba7] font-bold">30</td>
++                                        <td className="px-4 py-2 text-center font-mono text-[#bdbba7] font-bold">25</td>
+                                         <td className="px-4 py-2 text-gray-400">PF 실행 전 선결조건</td>
+                                         <td className="px-4 py-2 text-center text-gray-400">중요도</td>
+                                     </tr>
+                                     <tr className="hover:bg-white/[0.02] h-10">
+                                         <td className="px-4 py-2 font-bold text-white">Blocker</td>
+-                                        <td className="px-4 py-2 text-center font-mono text-[#bdbba7] font-bold">25</td>
++                                        <td className="px-4 py-2 text-center font-mono text-[#bdbba7] font-bold">20</td>
+                                         <td className="px-4 py-2 text-gray-400">막혀서 일정/판단 지연</td>
+                                         <td className="px-4 py-2 text-center text-gray-400">Blocker</td>
+                                     </tr>
+                                     <tr className="hover:bg-white/[0.02] h-10">
+                                         <td className="px-4 py-2 font-bold text-white">결정필요</td>
+-                                        <td className="px-4 py-2 text-center font-mono text-[#bdbba7] font-bold">20</td>
++                                        <td className="px-4 py-2 text-center font-mono text-[#bdbba7] font-bold">15</td>
+                                         <td className="px-4 py-2 text-gray-400">대표/본부장/파트장 판단 필요</td>
+                                         <td className="px-4 py-2 text-center text-gray-400">결정필요</td>
+                                     </tr>
+@@ -4011,7 +4006,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
+                                                 }} 
+                                                 onFocus={() => setShowSupportSuggestions(true)}
+                                                 onBlur={() => setTimeout(() => setShowSupportSuggestions(false), 200)}
+-                                                className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-[#bdbba7] outline-none focus:border-[#2997ff] font-bold" 
++                                                className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 h-[22px] py-0 align-middle text-[13px] text-[#bdbba7] outline-none focus:border-[#2997ff] font-bold" 
+                                                 placeholder="검색/입력"
+                                             />
+                                             {showSupportSuggestions && formSupportNeeded && (
+@@ -4061,7 +4056,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
+                                                 }}
+                                                 onFocus={() => setShowStakeholderSuggestions(true)}
+                                                 onBlur={() => setTimeout(() => setShowStakeholderSuggestions(false), 200)}
+-                                                className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff]" 
++                                                className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 h-[22px] py-0 align-middle text-[13px] text-white outline-none focus:border-[#2997ff]" 
+                                                 placeholder="회사명 검색/입력"
+                                             />
+                                             {showStakeholderSuggestions && (
+@@ -4177,7 +4172,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
+                                         <textarea 
+                                             value={formDeliverables} 
+                                             onChange={e => setFormDeliverables(e.target.value)} 
+-                                            className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] h-20 resize-y font-bold" 
++                                            className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 h-[22px] py-0 align-middle text-[13px] text-white outline-none focus:border-[#2997ff] h-20 resize-y font-bold" 
+                                         />
+                                     </div>
+                                     
+@@ -4189,7 +4184,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
+                                         <textarea 
+                                             value={formNextAction} 
+                                             onChange={e => setFormNextAction(e.target.value)} 
+-                                            className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] h-20 resize-y font-bold" 
++                                            className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 h-[22px] py-0 align-middle text-[13px] text-white outline-none focus:border-[#2997ff] h-20 resize-y font-bold" 
+                                         />
+                                     </div>
+ 
+diff --git a/src/components/system/stakeholder/StakeInternal.jsx b/src/components/system/stakeholder/StakeInternal.jsx
+index 0d70fff..9515f1a 100644
+--- a/src/components/system/stakeholder/StakeInternal.jsx
++++ b/src/components/system/stakeholder/StakeInternal.jsx
+@@ -513,9 +513,9 @@ export default function StakeInternal() {
+     };
+ 
+     return (
+-        <div className="w-full flex-1 flex flex-col pt-[50px] pb-[100px] max-w-[1112px] mx-auto" onMouseMove={handleMouseMove}>
++        <div className="w-full flex-1 flex flex-col pt-[30px] pb-[100px] max-w-[1112px] mx-auto" onMouseMove={handleMouseMove}>
+             <div className="flex items-center justify-between mb-[8px]">
+-                <h1 className="text-[32px] font-bold text-white tracking-tight leading-none font-['Inter']">IGIS 내부인력</h1>
++                <h1 className="text-[24px] font-bold text-white tracking-tight leading-none font-['Inter']">IGIS 내부인력</h1>
+                 <form onSubmit={(e) => { 
+                     e.preventDefault(); 
+                     setActiveSearch(searchQuery); 
+diff --git a/src/components/system/stakeholder/StakeLp.jsx b/src/components/system/stakeholder/StakeLp.jsx
+index 446fa97..2f45bf5 100644
+--- a/src/components/system/stakeholder/StakeLp.jsx
++++ b/src/components/system/stakeholder/StakeLp.jsx
+@@ -706,10 +706,10 @@ export default function StakeLp() {
+     );
+ 
+     return (
+-        <div className="w-full flex-1 flex flex-col pt-[50px] pb-[100px] max-w-[1112px] mx-auto">
++        <div className="w-full flex-1 flex flex-col pt-[30px] pb-[100px] max-w-[1112px] mx-auto">
+             {/* Header */}
+             <div className="flex items-center justify-between mb-[8px]">
+-                <h1 className="text-[32px] font-bold text-white tracking-tight leading-none font-['Inter']">LP / 대주 / SI</h1>
++                <h1 className="text-[24px] font-bold text-white tracking-tight leading-none font-['Inter']">LP / 대주 / SI</h1>
+             </div>
+             <p className="text-[16px] text-[#86868B] mb-[24px] leading-[26px]">이지스 전체 파트너사 마스터 디렉토리 및 CRM 연동 현황</p>
+ 
+diff --git a/src/components/system/stakeholder/StakePartner.jsx b/src/components/system/stakeholder/StakePartner.jsx
+index 9e3aa37..e9bbc33 100644
+--- a/src/components/system/stakeholder/StakePartner.jsx
++++ b/src/components/system/stakeholder/StakePartner.jsx
+@@ -14,12 +14,12 @@ export default function StakePartner() {
+         <div className="relative w-full flex-1 flex flex-col min-h-screen">
+             {/* TBD Overlay */}
+             <div className="absolute inset-0 z-50 backdrop-blur-md bg-black/20 flex flex-col items-center justify-center">
+-                <h1 className="text-[116px] font-black text-white tracking-tighter mb-4 leading-none drop-shadow-2xl">TBD</h1>
++                <h1 className="text-[108px] font-black text-white tracking-tighter mb-4 leading-none drop-shadow-2xl">TBD</h1>
+                 <p className="text-[20px] text-[#A1A1AA] font-medium tracking-wide">해당 화면은 현재 기획 중입니다.</p>
+             </div>
+ 
+-            <div className="w-full flex-1 flex flex-col pt-[50px] pb-[60px] max-w-[1200px] mx-auto opacity-30 pointer-events-none filter blur-[4px]">
+-            <h1 className="text-[32px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[8px]">운영 파트너</h1>
++            <div className="w-full flex-1 flex flex-col pt-[30px] pb-[60px] max-w-[1200px] mx-auto opacity-30 pointer-events-none filter blur-[4px]">
++            <h1 className="text-[24px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[8px]">운영 파트너</h1>
+             <p className="text-[16px] text-[#86868B] mb-[36px] leading-[26px]">성공적인 자산 운영 및 매각/구조화 지원을 위한 핵심 아웃소싱 파트너 명단입니다.</p>
+             
+             <div className="grid grid-cols-3 gap-[24px]">
+diff --git a/src/components/system/stakeholder/StakeTenant.jsx b/src/components/system/stakeholder/StakeTenant.jsx
+index 8191821..8111b33 100644
+--- a/src/components/system/stakeholder/StakeTenant.jsx
++++ b/src/components/system/stakeholder/StakeTenant.jsx
+@@ -381,12 +381,12 @@ export default function StakeTenant({ defaultTab = 'list' }) {
+     const uniqueBuildings = [...new Set(tenants.map(t => t.current_building).filter(Boolean))];
+ 
+     return (
+-        <div className="w-full flex-1 flex flex-col pt-[40px] pb-[160px] max-w-[1200px] mx-auto font-sans text-white relative">
++        <div className="w-full flex-1 flex flex-col pt-[20px] pb-[160px] max-w-[1200px] mx-auto font-sans text-white relative">
+             
+             {/* Header Area */}
+             <div className="w-full mb-[40px] flex justify-between items-end border-b border-[#2C2C2E] pb-6">
+                 <div>
+-                    <h1 className="text-[28px] font-bold text-white tracking-tight leading-none mb-3">잠재 임차사 및 SI 협업</h1>
++                    <h1 className="text-[20px] font-bold text-white tracking-tight leading-none mb-3">잠재 임차사 및 SI 협업</h1>
+                     <p className="text-[15px] text-[#86868B]">기업마케팅 TR 및 PM 연계용 잠재 임차사(테넌트) 공간 진단 및 SI 투자 협업 관리보드</p>
+                 </div>
+                 
+diff --git a/src/components/system/workspace/IotaLogsArchive.jsx b/src/components/system/workspace/IotaLogsArchive.jsx
+index 68c4239..e8c7587 100644
+--- a/src/components/system/workspace/IotaLogsArchive.jsx
++++ b/src/components/system/workspace/IotaLogsArchive.jsx
+@@ -318,7 +318,7 @@ export default function IotaLogsArchive() {
+                         </svg>
+                         돌아가기
+                     </button>
+-                    <h1 className="text-[15px] font-bold tracking-tight text-white mb-2">지난 업무 로그</h1>
++                    <h1 className="text-[7px] font-bold tracking-tight text-white mb-2">지난 업무 로그</h1>
+                     <p className="text-[12px] text-[#86868B]">실시간 수집된 IOTA CFT 통합 로그 목록입니다.</p>
+                 </div>
+                 
+diff --git a/src/components/system/workspace/WorkspaceArchive.jsx b/src/components/system/workspace/WorkspaceArchive.jsx
+index d377a47..b4fe908 100644
+--- a/src/components/system/workspace/WorkspaceArchive.jsx
++++ b/src/components/system/workspace/WorkspaceArchive.jsx
+@@ -282,7 +282,7 @@ export default function WorkspacePmArchive() {
+             {/* Left Sidebar */}
+             <div className="w-[280px] bg-[#222] border-r border-[#333] flex flex-col h-full shrink-0 print:hidden">
+                 <div className="p-6 border-b border-[#333]">
+-                    <h1 className="text-[16px] font-bold tracking-tight text-white mb-4">지난 TASK 타임라인</h1>
++                    <h1 className="text-[8px] font-bold tracking-tight text-white mb-4">지난 TASK 타임라인</h1>
+                     <div className="flex flex-col gap-[4px]">
+                         {workspaces.map(ws => (
+                             <button
+diff --git a/src/components/system/workspace/WorkspaceDevelopment.jsx b/src/components/system/workspace/WorkspaceDevelopment.jsx
+index 555dae6..10124bc 100644
+--- a/src/components/system/workspace/WorkspaceDevelopment.jsx
++++ b/src/components/system/workspace/WorkspaceDevelopment.jsx
+@@ -614,11 +614,11 @@ export default function WorkspaceDevelopment() {
+     );
+ 
+     return (
+-        <div className="w-full flex-1 flex flex-col pt-[40px] pb-[60px] max-w-[1200px] mx-auto relative">
++        <div className="w-full flex-1 flex flex-col pt-[20px] pb-[60px] max-w-[1200px] mx-auto relative">
+             {/* Header & Team Structure */}
+             <div className="w-full flex justify-between items-center mb-[40px] gap-[40px]">
+                 <div className="shrink-0 max-w-[400px]">
+-                    <h1 className="text-[32px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[12px]">개발관리</h1>
++                    <h1 className="text-[24px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[12px]">개발관리</h1>
+                     <p className="text-[15px] text-[#86868B] leading-[24px] break-keep">설계·시공·CM·감리 통제, 인허가/명도 대응, 공정·품질·안전 KPI</p>
+                 </div>
+                 
+diff --git a/src/components/system/workspace/WorkspaceDigital.jsx b/src/components/system/workspace/WorkspaceDigital.jsx
+index 76dc0cf..b94948e 100644
+--- a/src/components/system/workspace/WorkspaceDigital.jsx
++++ b/src/components/system/workspace/WorkspaceDigital.jsx
+@@ -596,12 +596,12 @@ export default function WorkspaceDigital() {
+     );
+ 
+     return (
+-        <div className="w-full flex-1 flex flex-col pt-[40px] pb-[160px] max-w-[1200px] mx-auto">
++        <div className="w-full flex-1 flex flex-col pt-[20px] pb-[160px] max-w-[1200px] mx-auto">
+             {/* Header & Team Structure */}
+             <div className="w-full flex justify-between items-center mb-[40px] gap-[40px]">
+                 {/* Header Metadata */}
+                 <div className="shrink-0 max-w-[460px]">
+-                    <h1 className="text-[32px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[12px]">공간솔루션</h1>
++                    <h1 className="text-[24px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[12px]">공간솔루션</h1>
+                     <p className="text-[15px] text-[#86868B] leading-[24px] break-keep">프로젝트 브랜드 포지셔닝, 상품 차별화, 테넌트 경험 설계, 맴버십 서비스 등</p>
+                 </div>
+                 
+diff --git a/src/components/system/workspace/WorkspaceFinancing.jsx b/src/components/system/workspace/WorkspaceFinancing.jsx
+index 4b841e5..a101a3e 100644
+--- a/src/components/system/workspace/WorkspaceFinancing.jsx
++++ b/src/components/system/workspace/WorkspaceFinancing.jsx
+@@ -1281,12 +1281,12 @@ export default function WorkspaceFinancing() {
+     );
+ 
+     return (
+-                <div className="w-full flex-1 flex flex-col pt-[40px] pb-[60px] max-w-[1200px] mx-auto">
++                <div className="w-full flex-1 flex flex-col pt-[20px] pb-[60px] max-w-[1200px] mx-auto">
+             {/* Header & Team Structure */}
+             <div className="w-full flex justify-between items-center mb-[40px] gap-[40px]">
+                 {/* Header Metadata */}
+                 <div className="shrink-0 max-w-[350px]">
+-                    <h1 className="text-[32px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[12px]">파이낸싱</h1>
++                    <h1 className="text-[24px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[12px]">파이낸싱</h1>
+                     <p className="text-[15px] text-[#86868B] leading-[24px] break-keep">IOTA Seoul Capital Stack 및 대주단 파이프라인 관리</p>
+                 </div>
+                 
+diff --git a/src/components/system/workspace/WorkspaceFund.jsx b/src/components/system/workspace/WorkspaceFund.jsx
+index 22b8e43..788e91a 100644
+--- a/src/components/system/workspace/WorkspaceFund.jsx
++++ b/src/components/system/workspace/WorkspaceFund.jsx
+@@ -1296,12 +1296,12 @@ export default function WorkspaceFund() {
+     );
+ 
+     return (
+-        <div className="w-full flex-1 flex flex-col pt-[40px] pb-[160px] max-w-[1200px] mx-auto">
++        <div className="w-full flex-1 flex flex-col pt-[20px] pb-[160px] max-w-[1200px] mx-auto">
+             {/* Header & Team Structure */}
+             <div className="w-full flex justify-between items-center mb-[40px] gap-[40px]">
+                 {/* Header Metadata */}
+                 <div className="shrink-0 max-w-[300px]">
+-                    <h1 className="text-[32px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[12px]">펀드운용</h1>
++                    <h1 className="text-[24px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[12px]">펀드운용</h1>
+                     <p className="text-[15px] text-[#86868B] leading-[24px]">펀드(421) 운용 및 투자자 소통채널</p>
+                 </div>
+                 
+diff --git a/src/components/system/workspace/WorkspaceIpr.jsx b/src/components/system/workspace/WorkspaceIpr.jsx
+index 929bf6e..40adc6d 100644
+--- a/src/components/system/workspace/WorkspaceIpr.jsx
++++ b/src/components/system/workspace/WorkspaceIpr.jsx
+@@ -593,12 +593,12 @@ export default function WorkspaceIpr() {
+     );
+ 
+     return (
+-                <div className="w-full flex-1 flex flex-col pt-[40px] pb-[100px] max-w-[1200px] mx-auto">
++                <div className="w-full flex-1 flex flex-col pt-[20px] pb-[100px] max-w-[1200px] mx-auto">
+             {/* Header & Team Structure */}
+             <div className="w-full flex justify-between items-center mb-[40px] gap-[40px]">
+                 {/* Header Metadata */}
+                 <div className="shrink-0 max-w-none whitespace-nowrap">
+-                    <h1 className="text-[32px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[12px]">IPR Working Group</h1>
++                    <h1 className="text-[24px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[12px]">IPR Working Group</h1>
+                     <p className="text-[15px] text-[#86868B] leading-[24px]">이오타 CFT는 프리츠 TFT와의 인터페이스를 ‘IPR 워킹그룹(IPR-WG)’ 형태로 운영합니다.</p>
+                 </div>
+                 
+diff --git a/src/components/system/workspace/WorkspaceIprWg.jsx b/src/components/system/workspace/WorkspaceIprWg.jsx
+index 6f06542..6ba0a34 100644
+--- a/src/components/system/workspace/WorkspaceIprWg.jsx
++++ b/src/components/system/workspace/WorkspaceIprWg.jsx
+@@ -4,11 +4,11 @@ export default function WorkspaceIprWg() {
+     const [activeTab, setActiveTab] = useState(0);
+ 
+     return (
+-        <div className="w-full flex-1 flex flex-col pt-[40px] pb-[60px] max-w-[1200px] mx-auto">
++        <div className="w-full flex-1 flex flex-col pt-[20px] pb-[60px] max-w-[1200px] mx-auto">
+             {/* Header Metadata */}
+             <div className="w-full flex justify-between items-start mb-[32px]">
+                 <div>
+-                    <h1 className="text-[32px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[8px]">Iota Project REITs</h1>
++                    <h1 className="text-[24px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[8px]">Iota Project REITs</h1>
+                     <p className="text-[15px] text-[#86868B]">YD427PFV, YD816PFV로 부터 IOTA Seoul One, Two를 자산 양수도하여, IPR이 IOTA Seoul 프로젝트의 통합개발 시행주체가 될 예정입니다.</p>
+                 </div>
+             </div>
+diff --git a/src/components/system/workspace/WorkspaceMarketing.jsx b/src/components/system/workspace/WorkspaceMarketing.jsx
+index ffe7041..95524c8 100644
+--- a/src/components/system/workspace/WorkspaceMarketing.jsx
++++ b/src/components/system/workspace/WorkspaceMarketing.jsx
+@@ -593,12 +593,12 @@ export default function WorkspaceMarketing() {
+     );
+ 
+     return (
+-                <div className="w-full flex-1 flex flex-col pt-[40px] pb-[160px] max-w-[1200px] mx-auto">
++                <div className="w-full flex-1 flex flex-col pt-[20px] pb-[160px] max-w-[1200px] mx-auto">
+             {/* Header & Team Structure */}
+             <div className="w-full flex justify-between items-center mb-[40px] gap-[40px]">
+                 {/* Header Metadata */}
+                 <div className="shrink-0 max-w-[400px]">
+-                    <h1 className="text-[32px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[12px]">기업마케팅</h1>
++                    <h1 className="text-[24px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[12px]">기업마케팅</h1>
+                     <p className="text-[15px] text-[#86868B] leading-[24px] break-keep">기업마케팅센터 (CMC) 업무 프로그레스 및 기업마케팅 DB</p>
+                 </div>
+                 
+diff --git a/src/components/system/workspace/WorkspacePm.jsx b/src/components/system/workspace/WorkspacePm.jsx
+index d9985fd..c6d45a5 100644
+--- a/src/components/system/workspace/WorkspacePm.jsx
++++ b/src/components/system/workspace/WorkspacePm.jsx
+@@ -678,12 +678,12 @@ export default function WorkspacePm({ part = 1 }) {
+     );
+ 
+     return (
+-        <div className="w-full flex-1 flex flex-col pt-[38px] pb-[200px] max-w-[1200px] mx-auto">
++        <div className="w-full flex-1 flex flex-col pt-[28px] pb-[200px] max-w-[1200px] mx-auto">
+             {/* Header & Team Structure */}
+             <div className="w-full flex justify-between items-center mb-[40px] gap-[40px]">
+                 {/* Header Metadata */}
+                 <div className="shrink-0 max-w-[300px]">
+-                    <h1 className="text-[32px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[12px]">사업 PM {part}</h1>
++                    <h1 className="text-[24px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[12px]">사업 PM {part}</h1>
+                     <p className="text-[15px] text-[#86868B] leading-[24px]">사업 {part}파트: 전체 일정 및 예산 통제, 변경관리 결정</p>
+                 </div>
+                 

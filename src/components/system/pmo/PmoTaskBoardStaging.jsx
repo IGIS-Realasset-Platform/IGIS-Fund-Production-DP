@@ -2530,12 +2530,6 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                     if (error) throw error;
 
                     if (data && data[0]) {
-                        notifyMembersOnTaskCreation(
-                            data[0].id,
-                            data[0].task_name,
-                            { code: 'WS_PMO', label: '통합업무보드' },
-                            memberInfo?.email || ''
-                        );
                         window.history.replaceState(null, '', `${window.location.pathname}?taskId=${data[0].id}`);
                     }
                     fetchTasks(); // Reload from DB
@@ -2737,17 +2731,17 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                     <span className="text-[#86868B] text-[15px] animate-pulse">원장 정보를 불러오는 중입니다...</span>
                 </div>
             ) : (
-                <div className="-mr-[calc(50vw-50%)] border border-r-0 border-[#3c3c3c] bg-[#272726] rounded-l-[24px] overflow-hidden mb-[10px] shadow-sm select-text">
+                <div className="-mr-[calc(50vw-50%)] border border-r-0 border-[#3c3c3c] bg-[#272726] rounded-l-[24px] mb-[10px] shadow-sm select-text">
                     <div className="w-full overflow-x-auto pr-0 timeline-scrollbar pb-1">
-                        <div className={`flex items-start transition-all duration-300 ease-out ${isAll ? 'min-w-[3499px]' : 'min-w-[2324px]'}`}>
-                            <table className={`text-left table-fixed flex-1 border-collapse bg-[#272726] transition-all duration-300 ease-out ${isAll ? 'min-w-[2699px]' : 'min-w-[1524px]'}`}>
+                        <div className={`flex items-start transition-all duration-300 ease-out ${isAll ? 'min-w-[3442px]' : 'min-w-[2267px]'}`}>
+                            <table className={`text-left table-fixed flex-1 border-collapse bg-[#272726] transition-all duration-300 ease-out ${isAll ? 'min-w-[2642px]' : 'min-w-[1467px]'}`}>
                                 <thead>
                                     <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[13px] h-[46px]">
-                                        <th className="pl-[10px] text-center w-[50px] min-w-[50px] max-w-[50px] sticky left-0 bg-[#272726] z-30">ID</th>
+                                        <th className="pl-[10px] text-center w-[50px] min-w-[50px] max-w-[50px] sticky left-0 bg-[#272726] z-30 rounded-tl-[24px]">ID</th>
                                         
                                         {/* 프로젝트 */}
-                                        <th className="text-center w-[80px] min-w-[80px] max-w-[80px] sticky left-[50px] bg-[#272726] z-30">
-                                            <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-1.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[74px] overflow-hidden mx-auto">
+                                        <th className="text-center w-[58px] min-w-[58px] max-w-[58px] sticky left-[50px] bg-[#272726] z-30">
+                                            <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-1.5 h-[22px] py-0 align-middle transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[74px] overflow-hidden mx-auto">
                                                 <span className={`font-bold text-[11px] whitespace-nowrap truncate ${selectedProject === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
                                                     {selectedProject === '전체보기' ? '프로젝트' : selectedProject}
                                                 </span>
@@ -2767,8 +2761,8 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                         </th>
 
                                         {/* 업무분류 */}
-                                        <th className="pl-4 w-[71px] min-w-[71px] max-w-[71px] sticky left-[130px] bg-[#272726] z-30">
-                                            <div className="relative inline-flex items-center justify-start bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-1.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[74px] overflow-hidden">
+                                        <th className="pl-4 w-[71px] min-w-[71px] max-w-[71px] sticky left-[108px] bg-[#272726] z-30">
+                                            <div className="relative inline-flex items-center justify-start bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-1.5 h-[22px] py-0 align-middle transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[74px] overflow-hidden">
                                                 <span className={`font-bold text-[11px] whitespace-nowrap truncate ${selectedCategoryMain === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
                                                     {selectedCategoryMain === '전체보기' ? '업무분류' : selectedCategoryMain}
                                                 </span>
@@ -2787,16 +2781,16 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                             </div>
                                         </th>
 
-                                        <th className={`sticky left-[201px] bg-[#272726] z-30 transition-all duration-300 ease-out ${isAll ? 'w-[90px] min-w-[90px] max-w-[90px] pl-4 opacity-100' : 'w-0 min-w-0 max-w-0 pl-0 opacity-0 overflow-hidden'}`}>
+                                        <th className={`sticky left-[179px] bg-[#272726] z-30 transition-all duration-300 ease-out ${isAll ? 'w-[90px] min-w-[90px] max-w-[90px] pl-4 opacity-100' : 'w-0 min-w-0 max-w-0 pl-0 opacity-0 overflow-hidden'}`}>
                                             <div className={`transition-all duration-300 ease-out overflow-hidden whitespace-nowrap ${isAll ? 'w-[90px] opacity-100' : 'w-0 opacity-0 pointer-events-none'}`}>
                                                 세부섹터
                                             </div>
                                         </th>
-                                        <th className={"pl-4 w-[240px] min-w-[240px] max-w-[240px] sticky bg-[#272726] z-30 shadow-[inset_-1px_0_0_0_#3c3c3c] transition-all duration-300 ease-out " + (isAll ? "left-[291px]" : "left-[201px]")}>업무명</th>
+                                        <th className={"pl-4 w-[220px] min-w-[220px] max-w-[220px] sticky bg-[#272726] z-30 shadow-[inset_-1px_0_0_0_#3c3c3c] transition-all duration-300 ease-out " + (isAll ? "left-[269px]" : "left-[179px]")}>업무명</th>
                                         <th className="w-[71px] min-w-[71px] max-w-[71px] text-center select-none cursor-pointer hover:text-white transition-colors" onClick={() => setPrioritySortOrder(prev => prev === 'desc' ? 'asc' : 'desc')}>
                                             <div className="flex items-center justify-center gap-1">
                                                 <span 
-                                                    className="inline-flex items-center justify-center w-3.5 h-3.5 rounded-full bg-white/10 hover:bg-white/20 text-[10px] text-[#86868B] hover:text-white font-bold cursor-pointer"
+                                                    className="inline-flex items-center justify-center w-3.5 h-3.5 rounded-full bg-white/10 hover:bg-white/20 text-[10px] text-[#86868B] hover:text-white font-bold cursor-pointer -translate-y-[1px]"
                                                     onClick={(e) => {
                                                         e.stopPropagation();
                                                         setIsCriteriaModalOpen(true);
@@ -2823,7 +2817,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                         {/* 최종 목표축 */}
                                         <th className={`text-center transition-all duration-300 ease-out ${isAll ? 'w-[91px] min-w-[91px] max-w-[91px] opacity-100' : 'w-0 min-w-0 max-w-0 opacity-0 overflow-hidden'}`}>
                                             <div className={`transition-all duration-300 ease-out overflow-hidden ${isAll ? 'w-[91px] opacity-100' : 'w-0 opacity-0 pointer-events-none'}`}>
-                                                <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[76px] overflow-hidden mx-auto">
+                                                <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 h-[22px] py-0 align-middle transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[76px] overflow-hidden mx-auto">
                                                     <span className={"font-bold text-[11px] whitespace-nowrap truncate " + (selectedTargetAxis === "전체보기" ? "text-[#86868B]" : "text-[#2997ff]")}>
                                                         {selectedTargetAxis === '전체보기' ? '최종목표' : selectedTargetAxis}
                                                     </span>
@@ -2846,7 +2840,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                         {/* Gate */}
                                         <th className={`text-center transition-all duration-300 ease-out ${isAll ? 'w-[90px] min-w-[90px] max-w-[100px] opacity-100' : 'w-0 min-w-0 max-w-0 opacity-0 overflow-hidden'}`}>
                                             <div className={`transition-all duration-300 ease-out overflow-hidden ${isAll ? 'w-[90px] opacity-100' : 'w-0 opacity-0 pointer-events-none'}`}>
-                                                <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[75px] overflow-hidden mx-auto">
+                                                <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 h-[22px] py-0 align-middle transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[75px] overflow-hidden mx-auto">
                                                     <span className={"font-bold text-[11px] whitespace-nowrap truncate " + (selectedGateStage === "전체보기" ? "text-[#86868B]" : "text-[#2997ff]")}>
                                                         {selectedGateStage === '전체보기' ? 'GATE' : selectedGateStage}
                                                     </span>
@@ -2868,7 +2862,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
 
                                         {/* 회의상정등급 */}
                                         <th className="w-[76px] min-w-[76px] max-w-[76px] text-center">
-                                            <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-0.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[65px] overflow-hidden mx-auto">
+                                            <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-0.5 h-[22px] py-0 align-middle transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[65px] overflow-hidden mx-auto">
                                                 <span className={`font-bold text-[11px] whitespace-nowrap ${selectedMeetingGrade === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
                                                     {selectedMeetingGrade === '전체보기' ? '회의상정' : selectedMeetingGrade}
                                                 </span>
@@ -2888,7 +2882,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
 
                                         {/* 주관부서 (실무주관부서->주관부서) */}
                                         <th className="w-[76px] min-w-[76px] max-w-[76px] text-center">
-                                            <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-1 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[76px] overflow-hidden mx-auto">
+                                            <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-1 h-[22px] py-0 align-middle transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[76px] overflow-hidden mx-auto">
                                                 <span className={`font-bold text-[11px] whitespace-nowrap ${selectedLeadDept === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
                                                     {selectedLeadDept === '전체보기' ? '주관부서' : selectedLeadDept}
                                                 </span>
@@ -2909,7 +2903,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
 
                                         {/* 협업부서 */}
                                         <th className="w-[160px] min-w-[160px] max-w-[160px] text-center">
-                                            <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[145px] overflow-hidden mx-auto">
+                                            <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 h-[22px] py-0 align-middle transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[145px] overflow-hidden mx-auto">
                                                 <span className={`font-bold text-[11px] whitespace-nowrap truncate ${selectedCoopDept === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
                                                     {selectedCoopDept === '전체보기' ? '협업부서' : selectedCoopDept}
                                                 </span>
@@ -2942,7 +2936,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
 
                                         {/* Blocker */}
                                         <th className="w-[50px] min-w-[50px] max-w-[50px] text-center">
-                                            <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-0.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[42px] overflow-hidden mx-auto">
+                                            <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-0.5 h-[22px] py-0 align-middle transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[42px] overflow-hidden mx-auto">
                                                 <span className={`font-bold text-[11px] whitespace-nowrap ${selectedIsBlocker === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
                                                     {selectedIsBlocker === '전체보기' ? 'Block' : selectedIsBlocker}
                                                 </span>
@@ -2962,7 +2956,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
 
                                         {/* 결정필요 */}
                                         <th className="w-[54px] min-w-[54px] max-w-[54px] text-center">
-                                            <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-0.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[48px] overflow-hidden mx-auto">
+                                            <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-0.5 h-[22px] py-0 align-middle transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[48px] overflow-hidden mx-auto">
                                                 <span className={`font-bold text-[11px] whitespace-nowrap ${selectedNeedsDecision === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
                                                     {selectedNeedsDecision === '전체보기' ? '결정필요' : selectedNeedsDecision}
                                                 </span>
@@ -2988,7 +2982,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
 
                                         {/* 상태 */}
                                         <th className="w-[62px] min-w-[62px] max-w-[62px] text-center">
-                                            <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-1 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[54px] overflow-hidden mx-auto">
+                                            <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-1 h-[22px] py-0 align-middle transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[54px] overflow-hidden mx-auto">
                                                 <span className={`font-bold text-[11px] whitespace-nowrap truncate ${selectedStatus === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
                                                     {selectedStatus === '전체보기' ? '상태' : selectedStatus}
                                                 </span>
@@ -3009,7 +3003,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
 
                                         {/* 중요도 */}
                                         <th className="w-[62px] min-w-[62px] max-w-[62px] text-center">
-                                            <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-1 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[54px] overflow-hidden mx-auto">
+                                            <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-1 h-[22px] py-0 align-middle transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[54px] overflow-hidden mx-auto">
                                                 <span className={`font-bold text-[11px] whitespace-nowrap truncate ${selectedImportanceLevel === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
                                                     {selectedImportanceLevel === '전체보기' ? '중요도' : selectedImportanceLevel}
                                                 </span>
@@ -3093,6 +3087,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                             const agendaReason = t.agenda_reason || fallbackItem.agenda_reason || '';
                                             const sortKeyVal = t.sort_key || fallbackItem.sort_key || '';
                                             const notesVal = t.notes || fallbackItem.notes || '';
+                                            const isLastTask = idx === paginatedTasks.length - 1;
                                             return (
                                                 <tr 
                                                     key={t.id || `task-${idx}`} 
@@ -3101,13 +3096,13 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                                 >
                                                     
                                                     {/* 1. ID */}
-                                                    <td className={`pl-[10px] text-center text-[#86868B] text-[11px] font-mono select-none w-[50px] min-w-[50px] max-w-[50px] truncate sticky left-0 transition-colors z-10 ${isSelected ? 'bg-[#3c3c3a] group-hover:bg-[#3c3c3a]' : 'bg-[#272726] group-hover:bg-[#2d2d2c]'}`}>
+                                                    <td className={`pl-[10px] text-center text-[#86868B] text-[11px] font-mono select-none w-[50px] min-w-[50px] max-w-[50px] truncate sticky left-0 transition-colors z-10 ${isSelected ? 'bg-[#3c3c3a] group-hover:bg-[#3c3c3a]' : 'bg-[#272726] group-hover:bg-[#2d2d2c]'} ${isLastTask ? 'rounded-bl-[24px]' : ''}`}>
                                                         {t.displayId || t.id}
                                                     </td>
                                                     
                                                     {/* 2. 프로젝트 */}
-                                                    <td className={`text-center font-bold text-[#E5E5E5] w-[80px] min-w-[80px] max-w-[80px] truncate sticky left-[50px] transition-colors z-10 ${isSelected ? 'bg-[#3c3c3a] group-hover:bg-[#3c3c3a]' : 'bg-[#272726] group-hover:bg-[#2d2d2c]'}`}>
-                                                         <span className={`px-1.5 py-0.5 rounded text-[11px] font-bold border inline-block max-w-full truncate ${
+                                                    <td className={`text-center font-bold text-[#E5E5E5] w-[58px] min-w-[58px] max-w-[58px] truncate sticky left-[50px] transition-colors z-10 ${isSelected ? 'bg-[#3c3c3a] group-hover:bg-[#3c3c3a]' : 'bg-[#272726] group-hover:bg-[#2d2d2c]'}`}>
+                                                         <span className={`px-1.5 h-[22px] py-0 align-middle rounded-[6px] text-[11px] font-bold border inline-flex items-center justify-center max-w-full truncate align-middle ${
                                                              projectVal === 'IOTA 공통' ? 'bg-[#323233] text-[#F5F5F7] border-[#424243]' :
                                                              projectVal === '427 PFV' ? 'bg-[#3A3A3C] text-[#FFFFFF] border-[#48484A]' :
                                                              projectVal === '816 PFV' ? 'bg-[#2C2C2E] text-[#E5E5EA] border-[#3A3A3C]' :
@@ -3119,21 +3114,21 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                                     </td>
                                                     
                                                     {/* 3. 대분류 */}
-                                                    <td className={`pl-4 font-bold text-[#E5E5E5] w-[71px] min-w-[71px] max-w-[71px] truncate sticky left-[130px] transition-colors z-10 ${isSelected ? 'bg-[#3c3c3a] group-hover:bg-[#3c3c3a]' : 'bg-[#272726] group-hover:bg-[#2d2d2c]'}`}>
+                                                    <td className={`pl-4 font-bold text-[#E5E5E5] w-[71px] min-w-[71px] max-w-[71px] truncate sticky left-[108px] transition-colors z-10 ${isSelected ? 'bg-[#3c3c3a] group-hover:bg-[#3c3c3a]' : 'bg-[#272726] group-hover:bg-[#2d2d2c]'}`}>
                                                         {t.category_main}
                                                     </td>
                                                     
                                                     {/* 4. 세부섹터 */}
-                                                    <td className={`text-[#A1A1AA] truncate sticky left-[201px] z-10 transition-all duration-300 ease-out ${isAll ? 'w-[90px] min-w-[90px] max-w-[90px] pl-4 opacity-100' : 'w-0 min-w-0 max-w-0 pl-0 opacity-0 overflow-hidden'} ${isSelected ? 'bg-[#3c3c3a] group-hover:bg-[#3c3c3a]' : 'bg-[#272726] group-hover:bg-[#2d2d2c]'}`}>
+                                                    <td className={`text-[#A1A1AA] truncate sticky left-[179px] z-10 transition-all duration-300 ease-out ${isAll ? 'w-[90px] min-w-[90px] max-w-[90px] pl-4 opacity-100' : 'w-0 min-w-0 max-w-0 pl-0 opacity-0 overflow-hidden'} ${isSelected ? 'bg-[#3c3c3a] group-hover:bg-[#3c3c3a]' : 'bg-[#272726] group-hover:bg-[#2d2d2c]'}`}>
                                                         <div className={`transition-all duration-300 ease-out overflow-hidden whitespace-nowrap ${isAll ? 'w-[90px] opacity-100' : 'w-0 opacity-0 pointer-events-none'}`}>
                                                             {t.sector_detail}
                                                         </div>
                                                     </td>
                                                     
                                                     {/* 5. 업무명 */}
-                                                    <td className={`pl-4 font-bold text-[#bdbba7] w-[240px] min-w-[240px] max-w-[240px] sticky z-10 shadow-[inset_-1px_0_0_0_#3c3c3c] transition-all duration-300 ease-out ${isAll ? 'left-[291px]' : 'left-[201px]'} ${isSelected ? 'bg-[#3c3c3a] group-hover:bg-[#3c3c3a]' : 'bg-[#272726] group-hover:bg-[#2d2d2c]'}`}>
+                                                    <td className={`pl-4 font-bold text-[#bdbba7] w-[220px] min-w-[220px] max-w-[220px] sticky z-10 shadow-[inset_-1px_0_0_0_#3c3c3c] transition-all duration-300 ease-out ${isAll ? 'left-[269px]' : 'left-[179px]'} ${isSelected ? 'bg-[#3c3c3a] group-hover:bg-[#3c3c3a]' : 'bg-[#272726] group-hover:bg-[#2d2d2c]'}`}>
                                                         <div className="truncate w-full flex items-center gap-[6px]">
-                                                            <span className="truncate">{t.task_name}</span>
+                                                            <span className="truncate flex-1 min-w-0">{t.task_name}</span>
                                                             {isTaskNew && (
                                                                 <span className="shrink-0 inline-flex items-center justify-center px-[4px] py-[2px] rounded-[3px] text-[10px] font-black bg-[#ff3b30] text-white leading-none tracking-wider relative top-[0px]">
                                                                     N
@@ -3143,7 +3138,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                                     </td>
 
                                                     {/* 우선순위점수 */}
-                                                    <td className={`text-center font-mono w-[71px] min-w-[71px] max-w-[71px] font-bold ${priorityScore >= 70 ? 'text-[#FF453A]' : priorityScore >= 50 ? 'text-[#bdbba7]' : 'text-[#86868B]'}`}>{priorityScore}</td>
+                                                    <td className={`pl-[6px] text-center font-mono w-[56px] min-w-[56px] max-w-[56px] font-bold ${priorityScore >= 70 ? 'text-[#FF453A]' : priorityScore >= 50 ? 'text-[#bdbba7]' : 'text-[#86868B]'}`}>{priorityScore}</td>
 
                                                     {/* 6. 업무목적 / PF·준공 영향 */}
                                                     <td className={`text-[#A1A1AA] truncate transition-all duration-300 ease-out ${isAll ? 'w-[220px] min-w-[220px] max-w-[220px] pl-4 opacity-100' : 'w-0 min-w-0 max-w-0 pl-0 opacity-0 overflow-hidden'}`}>
@@ -3191,7 +3186,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                                     {/* 11. 실무 주관부서 */}
                                                     <td className="text-center w-[76px] min-w-[76px] max-w-[76px] overflow-hidden">
                                                         {leadDeptName ? (
-                                                            <span className="inline-flex items-center justify-center px-2 py-0.5 bg-[#27272a] text-[#d4d4d8] border border-[#3f3f46] rounded-[4px] text-[11px] font-medium max-w-full truncate">
+                                                            <span className="inline-flex items-center justify-center px-2 h-[22px] py-0 align-middle bg-[#27272a] text-[#d4d4d8] border border-[#3f3f46] rounded-[6px] text-[11px] font-medium max-w-full truncate">
                                                                 {leadDeptName}
                                                             </span>
                                                         ) : '-'}
@@ -3208,12 +3203,12 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                                                     return (
                                                                         <>
                                                                             {displayDepts.map((c, i) => (
-                                                                                <span key={i} className="inline-flex items-center justify-center px-2 py-0.5 bg-[#27272a] text-[#d4d4d8] border border-[#3f3f46] rounded-[4px] text-[11px] font-medium whitespace-nowrap shrink-0 max-w-[100px] truncate">
+                                                                                <span key={i} className="inline-flex items-center justify-center px-2 h-[22px] py-0 align-middle bg-[#27272a] text-[#d4d4d8] border border-[#3f3f46] rounded-[6px] text-[11px] font-medium whitespace-nowrap shrink-0 max-w-[100px] truncate">
                                                                                     {c}
                                                                                 </span>
                                                                             ))}
                                                                             {hasMore && (
-                                                                                <span className="inline-flex items-center justify-center px-1.5 py-0.5 bg-[#27272a] text-[#86868B] border border-[#3f3f46]/50 rounded-[4px] text-[11px] font-bold shrink-0">
+                                                                                <span className="inline-flex items-center justify-center px-1.5 h-[22px] py-0 align-middle bg-[#27272a] text-[#86868B] border border-[#3f3f46]/50 rounded-[6px] text-[11px] font-bold shrink-0">
                                                                                     ...
                                                                                 </span>
                                                                             )}
@@ -3347,16 +3342,16 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                             </td>
                                             
                                             {/* 2. 프로젝트 */}
-                                            <td className="text-center w-[80px] min-w-[80px] max-w-[80px] sticky left-[50px] transition-colors z-10 bg-[#272726]"></td>
+                                            <td className="text-center w-[58px] min-w-[58px] max-w-[58px] sticky left-[50px] transition-colors z-10 bg-[#272726]"></td>
                                             
                                             {/* 3. 대분류 */}
-                                            <td className="pl-4 w-[71px] min-w-[71px] max-w-[71px] sticky left-[130px] transition-colors z-10 bg-[#272726]"></td>
+                                            <td className="pl-4 w-[71px] min-w-[71px] max-w-[71px] sticky left-[108px] transition-colors z-10 bg-[#272726]"></td>
                                             
                                             {/* 4. 세부섹터 */}
-                                            <td className={`sticky left-[201px] z-10 transition-all duration-300 ease-out bg-[#272726] ${isAll ? 'w-[90px] min-w-[90px] max-w-[90px] pl-4 opacity-100' : 'w-0 min-w-0 max-w-0 pl-0 opacity-0 overflow-hidden'}`}></td>
+                                            <td className={`sticky left-[179px] z-10 transition-all duration-300 ease-out bg-[#272726] ${isAll ? 'w-[90px] min-w-[90px] max-w-[90px] pl-4 opacity-100' : 'w-0 min-w-0 max-w-0 pl-0 opacity-0 overflow-hidden'}`}></td>
                                             
                                             {/* 5. 업무명 (Centered Pagination) */}
-                                            <td className={`pl-4 font-bold text-white sticky relative transition-all duration-300 ease-out bg-[#272726] z-10 w-[240px] min-w-[240px] max-w-[240px] ${isAll ? 'left-[291px]' : 'left-[201px]'}`}>
+                                            <td className={`pl-4 font-bold text-white sticky relative transition-all duration-300 ease-out bg-[#272726] z-10 w-[220px] min-w-[220px] max-w-[220px] ${isAll ? 'left-[269px]' : 'left-[179px]'}`}>
                                                 {/* Centered Pagination Wrapper */}
                                                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-visible z-20">
                                                     <div className="flex items-center justify-center select-none pointer-events-auto" style={{ left: isAll ? '-351px' : '-261px', width: 'calc(100vw - 200px)', position: 'absolute', top: 0, bottom: 0 }}>
@@ -3693,25 +3688,25 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                 <tbody className="divide-y divide-[#2c2c2b] text-gray-300">
                                     <tr className="hover:bg-white/[0.02] h-10">
                                         <td className="px-4 py-2 font-bold text-white">준공필수</td>
-                                        <td className="px-4 py-2 text-center font-mono text-[#bdbba7] font-bold">35</td>
+                                        <td className="px-4 py-2 text-center font-mono text-[#bdbba7] font-bold">30</td>
                                         <td className="px-4 py-2 text-gray-400">준공/사용승인/담보대출과 직결</td>
                                         <td className="px-4 py-2 text-center text-gray-400">중요도</td>
                                     </tr>
                                     <tr className="hover:bg-white/[0.02] h-10">
                                         <td className="px-4 py-2 font-bold text-white">PF필수</td>
-                                        <td className="px-4 py-2 text-center font-mono text-[#bdbba7] font-bold">30</td>
+                                        <td className="px-4 py-2 text-center font-mono text-[#bdbba7] font-bold">25</td>
                                         <td className="px-4 py-2 text-gray-400">PF 실행 전 선결조건</td>
                                         <td className="px-4 py-2 text-center text-gray-400">중요도</td>
                                     </tr>
                                     <tr className="hover:bg-white/[0.02] h-10">
                                         <td className="px-4 py-2 font-bold text-white">Blocker</td>
-                                        <td className="px-4 py-2 text-center font-mono text-[#bdbba7] font-bold">25</td>
+                                        <td className="px-4 py-2 text-center font-mono text-[#bdbba7] font-bold">20</td>
                                         <td className="px-4 py-2 text-gray-400">막혀서 일정/판단 지연</td>
                                         <td className="px-4 py-2 text-center text-gray-400">Blocker</td>
                                     </tr>
                                     <tr className="hover:bg-white/[0.02] h-10">
                                         <td className="px-4 py-2 font-bold text-white">결정필요</td>
-                                        <td className="px-4 py-2 text-center font-mono text-[#bdbba7] font-bold">20</td>
+                                        <td className="px-4 py-2 text-center font-mono text-[#bdbba7] font-bold">15</td>
                                         <td className="px-4 py-2 text-gray-400">대표/본부장/파트장 판단 필요</td>
                                         <td className="px-4 py-2 text-center text-gray-400">결정필요</td>
                                     </tr>
@@ -4011,7 +4006,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                                 }} 
                                                 onFocus={() => setShowSupportSuggestions(true)}
                                                 onBlur={() => setTimeout(() => setShowSupportSuggestions(false), 200)}
-                                                className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-[#bdbba7] outline-none focus:border-[#2997ff] font-bold" 
+                                                className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 h-[22px] py-0 align-middle text-[13px] text-[#bdbba7] outline-none focus:border-[#2997ff] font-bold" 
                                                 placeholder="검색/입력"
                                             />
                                             {showSupportSuggestions && formSupportNeeded && (
@@ -4061,7 +4056,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                                 }}
                                                 onFocus={() => setShowStakeholderSuggestions(true)}
                                                 onBlur={() => setTimeout(() => setShowStakeholderSuggestions(false), 200)}
-                                                className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff]" 
+                                                className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 h-[22px] py-0 align-middle text-[13px] text-white outline-none focus:border-[#2997ff]" 
                                                 placeholder="회사명 검색/입력"
                                             />
                                             {showStakeholderSuggestions && (
@@ -4177,7 +4172,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                         <textarea 
                                             value={formDeliverables} 
                                             onChange={e => setFormDeliverables(e.target.value)} 
-                                            className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] h-20 resize-y font-bold" 
+                                            className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 h-[22px] py-0 align-middle text-[13px] text-white outline-none focus:border-[#2997ff] h-20 resize-y font-bold" 
                                         />
                                     </div>
                                     
@@ -4189,7 +4184,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                         <textarea 
                                             value={formNextAction} 
                                             onChange={e => setFormNextAction(e.target.value)} 
-                                            className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 py-1.5 text-[13px] text-white outline-none focus:border-[#2997ff] h-20 resize-y font-bold" 
+                                            className="w-full bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-3 h-[22px] py-0 align-middle text-[13px] text-white outline-none focus:border-[#2997ff] h-20 resize-y font-bold" 
                                         />
                                     </div>
 

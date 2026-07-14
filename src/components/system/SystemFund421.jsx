@@ -316,11 +316,11 @@ export default function SystemFund421() {
     const topLps = getTopLps();
 
     return (
-        <div className="w-[1200px] mx-auto flex-1 flex flex-col pt-[40px] shrink-0 pb-[200px]">
+        <div className="w-[1200px] mx-auto flex-1 flex flex-col pt-[20px] shrink-0 pb-[200px]">
             {/* Header / Title */}
             <div className="w-full flex justify-between items-start mb-[32px]">
                 <div>
-                    <h1 className="text-[32px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[8px]">421 Fund</h1>
+                    <h1 className="text-[24px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[8px]">421 Fund</h1>
                     <p className="text-[16px] text-[#86868B] leading-[26px]">
                         IOTA One, Two 투자를 위해 운용중인 이지스421호 부동산 사모펀드입니다.
                     </p>

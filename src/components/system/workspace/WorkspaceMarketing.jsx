@@ -593,12 +593,12 @@ export default function WorkspaceMarketing() {
     );
 
     return (
-                <div className="w-full flex-1 flex flex-col pt-[40px] pb-[160px] max-w-[1200px] mx-auto">
+                <div className="w-full flex-1 flex flex-col pt-[20px] pb-[160px] max-w-[1200px] mx-auto">
             {/* Header & Team Structure */}
             <div className="w-full flex justify-between items-center mb-[40px] gap-[40px]">
                 {/* Header Metadata */}
                 <div className="shrink-0 max-w-[400px]">
-                    <h1 className="text-[32px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[12px]">기업마케팅</h1>
+                    <h1 className="text-[24px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[12px]">기업마케팅</h1>
                     <p className="text-[15px] text-[#86868B] leading-[24px] break-keep">기업마케팅센터 (CMC) 업무 프로그레스 및 기업마케팅 DB</p>
                 </div>
                 

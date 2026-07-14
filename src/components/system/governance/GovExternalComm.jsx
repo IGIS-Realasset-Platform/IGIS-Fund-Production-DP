@@ -49,8 +49,8 @@ export default function GovExternalComm() {
     ];
 
     return (
-        <div className="w-full flex-1 flex flex-col pt-[50px] pb-[160px] max-w-[1112px] mx-auto">
-            <h1 className="text-[33px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[12px]">대외 소통 정책</h1>
+        <div className="w-full flex-1 flex flex-col pt-[30px] pb-[160px] max-w-[1112px] mx-auto">
+            <h1 className="text-[25px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[12px]">대외 소통 정책</h1>
             <p className="text-[16px] text-[#86868B] mb-[24px]">외부 파트너로부터의 혼선을 원천 차단하기 위한 단일 창구를 지정하고, 일상의 범위를 넘어서는 주요 사안에 대한 에스컬레이션 라인을 통합 규정합니다.</p>
             
             <h2 className="text-[20px] font-bold text-white mb-[16px]">PFV 단일 창구 운영 원칙</h2>

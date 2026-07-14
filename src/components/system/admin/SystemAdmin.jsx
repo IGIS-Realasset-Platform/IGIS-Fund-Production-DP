@@ -252,7 +252,7 @@ export default function SystemAdmin({ currentPage, navigateTo }) {
                 <svg className="w-16 h-16 text-red-500 mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                 </svg>
-                <h1 className="text-[20px] font-bold mb-2">Access Denied</h1>
+                <h1 className="text-[12px] font-bold mb-2">Access Denied</h1>
                 <p className="text-[#86868B] mb-8">You do not have permission to view this page.</p>
                 <button 
                     onClick={() => window.history.back()}
@@ -426,7 +426,7 @@ export default function SystemAdmin({ currentPage, navigateTo }) {
             <div className="max-w-6xl mx-auto">
                 <div className="flex items-center justify-between mb-10">
                     <div>
-                        <h1 className="text-[26px] font-bold tracking-tight mb-2">Admin Dashboard</h1>
+                        <h1 className="text-[18px] font-bold tracking-tight mb-2">Admin Dashboard</h1>
                         <p className="text-[#86868B]">System Access Logs & Support Requests</p>
                     </div>
                     <button 

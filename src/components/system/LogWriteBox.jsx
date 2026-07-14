@@ -470,7 +470,14 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                 setVisibilityIndividuals([]);
                 setAttachedFiles([]);
             }
-            if(fetchLogs) fetchLogs();
+            if(fetchLogs) {
+                setTimeout(() => {
+                    fetchLogs();
+                    if (isTaskBoard && taskId) {
+                        window.dispatchEvent(new CustomEvent('iota_log_updated', { detail: { taskId: taskId } }));
+                    }
+                }, 500);
+            }
             
             setShowSuccessModal(true);
             setTimeout(() => {

@@ -323,7 +323,7 @@ export default function AuthSetup({ onLogin }) {
             {/* Main Content */}
             <div className={`flex-1 flex flex-col items-center justify-center -mt-16 md:-mt-32 px-4 transition-all duration-[1200ms] delay-[200ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
                 
-                <h1 className="text-[28px] md:text-[42px] font-bold mb-[20px] md:mb-[26px] tracking-tight font-inter text-[#1D1D1F] dark:text-[#E5E5E5] text-center transition-colors duration-300">
+                <h1 className="text-[20px] md:text-[42px] font-bold mb-[20px] md:mb-[26px] tracking-tight font-inter text-[#1D1D1F] dark:text-[#E5E5E5] text-center transition-colors duration-300">
                     IFPDP IOTA Seoul
                 </h1>
 
