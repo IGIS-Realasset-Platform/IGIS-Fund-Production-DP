@@ -640,7 +640,7 @@ export default function PmoScheduleGate() {
             </div>
 
             {/* R&R Matrix Table */}
-            <div className="w-full border border-[#3c3c3c] bg-[#272726] rounded-[32px] overflow-hidden relative mb-[40px] shadow-sm min-h-[1110px]">
+            <div className="w-full border border-[#3c3c3c] bg-[#272726] rounded-[32px] overflow-hidden relative mb-[40px] shadow-sm h-auto">
                 <div className="w-full rounded-[32px] select-text">
                     <div className="flex items-center w-full overflow-visible pointer-events-none">
                         <table className="text-left table-fixed w-[1290px] min-w-[1290px] max-w-[1290px] pointer-events-auto border-collapse border-b border-[#3c3c3c] bg-[#272726]">
