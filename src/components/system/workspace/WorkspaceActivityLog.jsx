@@ -293,21 +293,23 @@ const renderSystemLogChanges = (rawText) => {
     if (!changes || changes.length === 0) return null;
 
     return (
-        <div className="flex flex-wrap items-center gap-x-6 gap-y-2 mt-1.5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-[8px] mt-[4px]">
             {changes.map((change, idx) => {
                 if (change.type === 'text') {
                     return (
-                        <div key={idx} className="text-[13px] text-[#A1A1AA] py-0.5">
+                        <div key={idx} className="col-span-1 sm:col-span-2 text-[13px] text-[#A1A1AA] bg-[#2C2C2E]/40 px-[12px] py-[8px] rounded-[6px] border border-white/[0.03]">
                             {change.newVal}
                         </div>
                     );
                 }
                 return (
-                    <div key={idx} className="flex items-center gap-2 text-[13px] text-[#E5E5E5]">
-                        <span className="text-[#86868B] font-bold select-none">{change.label}</span>
-                        <div className="flex items-center gap-1.5">
+                    <div key={idx} className="flex items-center bg-[#2C2C2E]/40 border border-white/[0.03] rounded-[6px] px-[12px] py-[8px]">
+                        <span className="text-[#86868B] font-bold text-[12px] min-w-[56px] select-none">{change.label}</span>
+                        <div className="flex items-center gap-[6px] flex-1 min-w-0">
                             {renderBadge(change.type, change.oldVal)}
-                            <span className="text-[#86868B] select-none text-[11px]">→</span>
+                            <svg className="w-[12px] h-[12px] text-[#666] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                            </svg>
                             {renderBadge(change.type, change.newVal)}
                         </div>
                     </div>
