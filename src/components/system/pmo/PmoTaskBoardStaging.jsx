@@ -1889,21 +1889,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                         }).eq('id', upd.id)
                     )).catch(console.error);
                     
-                    if (logsToInsert.length > 0) {
-                        supabase.from('iota_seoul_logs').insert(logsToInsert).then(async ({error}) => {
-                            if (!error) {
-                                const logLinks = logsToInsert.map(l => ({
-                                    link_id: `link_${l.log_id}`,
-                                    log_id: l.log_id,
-                                    proj_id: l.metadata.task_project,
-                                    target_id: l.metadata.task_id,
-                                    target_type: 'task',
-                                    linked_at: new Date().toISOString()
-                                }));
-                                await supabase.from('iota_seoul_log_links').insert(logLinks);
-                            }
-                        }).catch(console.error);
-                    }
+                    // Logs insertion is bypassed to prevent database spamming
                 }
 
                 const sorted = [...healedData].sort((a, b) => {
