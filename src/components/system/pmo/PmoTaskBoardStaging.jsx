@@ -1478,6 +1478,22 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
         };
     }, [selectedTaskDetail]);
 
+    // Listen to log updates to dynamically mark task as active (red N badge) in real-time
+    useEffect(() => {
+        const handleLogUpdated = (e) => {
+            const taskId = e.detail?.taskId;
+            if (taskId) {
+                setActiveTaskIds(prev => {
+                    const next = new Set(prev);
+                    next.add(taskId);
+                    return next;
+                });
+            }
+        };
+        window.addEventListener('iota_log_updated', handleLogUpdated);
+        return () => window.removeEventListener('iota_log_updated', handleLogUpdated);
+    }, []);
+
     // Automatically calculate priority score, meeting grade, and agenda reason in Edit form
     useEffect(() => {
         const tempTask = {
