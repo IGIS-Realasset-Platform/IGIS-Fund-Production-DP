@@ -457,7 +457,7 @@ export default function PmoScheduleGate() {
     };
 
     return (
-        <div className="w-full flex-1 flex flex-col pt-[50px] pb-[60px] pl-[60px] pr-[60px] font-sans text-white text-left">
+        <div className="w-[1290px] mx-auto flex-1 flex flex-col pt-[38px] pb-[200px] box-border select-text text-white bg-transparent text-left">
             <style>{`
                 .timeline-scrollbar::-webkit-scrollbar {
                     height: 8px;
@@ -483,42 +483,35 @@ export default function PmoScheduleGate() {
                 }
             `}</style>
             {/* Header */}
-            <div className="w-full flex justify-between items-end mb-[16px]">
-                <div className="flex flex-col text-left">
-                    <h1 className="text-[36px] font-bold text-white tracking-tight leading-none mb-[8px]">마일스톤</h1>
-                    <p className="text-[16px] text-[#86868B] leading-[26px]">마일스톤의 최종 목표는 준공 및 Take-out/운영 전환입니다.</p>
+            <div className="w-full flex items-end justify-between mb-[40px]">
+                <div className="flex items-baseline gap-[16px]">
+                    <h1 className="text-[32px] font-bold text-white tracking-tight leading-none">마일스톤</h1>
+                    <p className="text-[15px] text-[#86868B] leading-none">마일스톤의 최종 목표는 준공 및 Take-out/운영 전환입니다.</p>
                 </div>
-                
-                <div className="flex items-center gap-6">
-                    {/* Legend info */}
-                    <div className="flex items-center gap-4 text-[12px] font-bold">
-                        <div className="flex items-center gap-1.5">
-                            <span className="w-2.5 h-2.5 rounded-full bg-[#2997ff] inline-block"></span>
-                            <span className="text-[#E5E5E5]">수행 진행 기간</span>
-                        </div>
-                        <div className="flex items-center gap-1.5">
-                            <span className="text-[#F59E0B] font-mono text-[16px] leading-none">◆</span>
-                            <span className="text-[#E5E5E5]">의사결정 / 마일스톤 달성</span>
-                        </div>
+                {/* Legend info */}
+                <div className="flex items-center gap-4 text-[12px] font-bold pb-1">
+                    <div className="flex items-center gap-1.5">
+                        <span className="w-2.5 h-2.5 rounded-full bg-[#2997ff] inline-block"></span>
+                        <span className="text-[#E5E5E5]">수행 진행 기간</span>
                     </div>
-
-
+                    <div className="flex items-center gap-1.5">
+                        <span className="text-[#F59E0B] font-mono text-[16px] leading-none flex items-center h-[12px] mb-0.5">◆</span>
+                        <span className="text-[#E5E5E5]">의사결정 / 마일스톤 달성</span>
+                    </div>
                 </div>
             </div>
 
             {/* Timeline Matrix Grid */}
-            <div className="-mr-[calc(50vw-50%)] border border-r-0 border-[#3c3c3c] bg-[#272726] rounded-l-[32px] overflow-visible relative">
+            <div className="w-full border border-[#3c3c3c] bg-[#272726] rounded-[32px] overflow-visible relative">
                 
-                {/* Speech Bubbles Overlay (Rendered OUTSIDE scroll container to prevent clipping, synced with onScroll) */}
-                <div className="absolute top-[-64px] left-0 w-[calc(100%-800px)] h-[36px] pointer-events-none z-50 overflow-visible">
+                {/* Speech Bubbles Overlay */}
+                <div className="absolute top-[-64px] left-0 w-full h-[36px] pointer-events-none z-50 overflow-visible">
                     {/* PF 1차 */}
                     {(() => {
-                        const x = 872.5 - scrollLeft;
-                        const opacity = x < 480 ? Math.max(0, Math.min(1, (x - 420) / 60)) : 1;
-                        if (opacity <= 0) return null;
+                        const x = 943.5;
                         return (
                             <div 
-                                style={{ left: `${x}px`, opacity }} 
+                                style={{ left: `${x}px`, opacity: 1 }} 
                                 className="absolute -translate-x-1/2 top-[10px] bg-[#ff9f0a] text-[#1c1c1e] rounded-[6px] text-[11px] font-bold shadow-lg text-center leading-tight w-[58px] h-[44px] flex flex-col justify-center items-center pointer-events-auto"
                             >
                                 <div>PF 달성</div>
@@ -530,12 +523,10 @@ export default function PmoScheduleGate() {
                     
                     {/* PF 2차 */}
                     {(() => {
-                        const x = 947.5 - scrollLeft;
-                        const opacity = x < 580 ? Math.max(0, Math.min(1, (x - 520) / 60)) : 1;
-                        if (opacity <= 0) return null;
+                        const x = 1020.5;
                         return (
                             <div 
-                                style={{ left: `${x}px`, opacity }} 
+                                style={{ left: `${x}px`, opacity: 1 }} 
                                 className="absolute -translate-x-1/2 top-0 bg-[#2c2c2e] text-white border border-[#3c3c3c] rounded-[6px] text-[11px] font-bold shadow-lg text-center leading-tight w-[70px] h-[54px] flex flex-col justify-center items-center pointer-events-auto"
                             >
                                 <div>1차목표</div>
@@ -548,33 +539,22 @@ export default function PmoScheduleGate() {
                     })()}
                 </div>
 
-                
-                {/* Right Edge Shadow Indicator */}
-                <div className="absolute top-0 right-0 h-full w-[60px] bg-gradient-to-l from-[#272726] to-transparent pointer-events-none z-40 transition-opacity duration-300" style={{ opacity: scrollLeft > 100 ? 0 : 1 }}></div>
-
-                <div 
-                    ref={sliderRef}
-                    className={`w-full overflow-x-auto overflow-y-hidden pr-0 timeline-scrollbar rounded-l-[32px] select-none ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
-                    onScroll={(e) => setScrollLeft(e.target.scrollLeft)}
-                    onMouseDown={handleMouseDown}
-                    onMouseLeave={handleMouseLeave}
-                    onMouseUp={handleMouseUp}
-                    onMouseMove={handleMouseMove}
-                >
-                    <div className="flex items-center min-w-[2000px] overflow-visible pointer-events-none">
-                        <table className="text-left table-fixed w-[1210px] min-w-[1210px] max-w-[1210px] pointer-events-auto">
+                <div className="w-full rounded-[32px] select-none">
+                    <div className="flex items-center w-full overflow-visible pointer-events-none">
+                        <table className="text-left table-fixed w-[1290px] min-w-[1290px] max-w-[1290px] pointer-events-auto">
                             <thead>
                                 <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[13px] h-12">
-                                    <th className="px-1 w-[80px] text-center sticky left-0 bg-[#272726] z-30 rounded-tl-[31px]">구분</th>
-                                    <th className="pl-3 w-[210px] sticky left-[80px] bg-[#272726] z-30">세부업무</th>
-                                    <th className="px-1 w-[90px] text-center sticky left-[290px] bg-[#272726] z-30">주관</th>
-                                    <th className="px-1 w-[80px] text-center sticky left-[380px] bg-[#272726] z-30 border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)]">협업</th>
+                                    <th className="px-1 w-[88px] text-center bg-[#272726] rounded-tl-[31px]">구분</th>
+                                    <th className="pl-3 w-[262px] bg-[#272726]">세부업무</th>
+                                    <th className="px-1 w-[90px] text-center bg-[#272726]">주관</th>
+                                    <th className="px-1 w-[80px] text-center bg-[#272726] border-r border-[#3c3c3c]">협업</th>
                                     {COLUMNS.map((col, cIdx) => {
+                                        const isLast = cIdx === COLUMNS.length - 1;
                                         const borderClass = col.highlight
-                                            ? 'bg-white/[0.03] text-[#60a5fa] border-r border-[#4c4c4c]/50'
-                                            : 'text-[#86868B] border-r border-[#4c4c4c]/50';
+                                            ? `bg-white/[0.03] text-[#60a5fa] ${isLast ? '' : 'border-r border-[#4c4c4c]/50'}`
+                                            : `text-[#86868B] ${isLast ? '' : 'border-r border-[#4c4c4c]/50'}`;
                                         return (
-                                            <th key={col.key} className={`text-center font-mono text-[11px] leading-tight px-1 font-bold w-[75px] ${borderClass}`}>
+                                            <th key={col.key} className={`text-center font-['Inter'] text-[11px] leading-tight px-1 font-bold w-[77px] ${borderClass} ${isLast ? 'rounded-tr-[31px]' : ''}`}>
                                                 <div>{col.labelTop}</div>
                                                 {col.labelBottom && <div className="text-[11px] opacity-75 mt-0.5">{col.labelBottom}</div>}
                                             </th>
@@ -589,7 +569,7 @@ export default function PmoScheduleGate() {
                                     return (
                                         <tr key={idx} className="hover:bg-[#333] transition-colors h-14 group">
                                             {/* 구분 */}
-                                            <td className={`px-1 sticky left-0 bg-[#272726] group-hover:bg-[#333] transition-colors z-20 text-center w-[80px] min-w-[80px] max-w-[80px] ${
+                                            <td className={`px-1 bg-[#272726] group-hover:bg-[#333] transition-colors text-center w-[88px] min-w-[88px] max-w-[88px] ${
                                                 isLastRow ? 'rounded-bl-[31px]' : ''
                                             }`}>
                                                 <span className={`px-1.5 py-1 rounded-md font-bold block ${
@@ -602,12 +582,12 @@ export default function PmoScheduleGate() {
                                             </td>
                                             
                                             {/* 세부업무 */}
-                                            <td className="pl-3 font-medium text-[#E5E5E5] leading-snug text-left pr-2 whitespace-normal break-words sticky left-[80px] bg-[#272726] group-hover:bg-[#333] transition-colors z-20 text-[13px] tracking-tight w-[210px] min-w-[210px] max-w-[210px]">
+                                            <td className="pl-3 font-medium text-[#E5E5E5] leading-snug text-left pr-2 whitespace-normal break-words bg-[#272726] group-hover:bg-[#333] transition-colors text-[13px] tracking-tight w-[262px] min-w-[262px] max-w-[262px]">
                                                 {item.desc}
                                             </td>
                                             
                                             {/* 주관 */}
-                                            <td className="px-1 text-[#E5E5E5] font-semibold text-center sticky left-[290px] bg-[#272726] group-hover:bg-[#333] transition-colors z-20 text-[12px] leading-tight tracking-tight whitespace-normal break-words w-[90px] min-w-[90px] max-w-[90px]">
+                                            <td className="px-1 text-[#E5E5E5] font-semibold text-center bg-[#272726] group-hover:bg-[#333] transition-colors text-[12px] leading-tight tracking-tight whitespace-normal break-words w-[90px] min-w-[90px] max-w-[90px]">
                                                 {item.lead.includes(' ') ? (
                                                     item.lead.split(' ').map((part, pIdx) => (
                                                         <div key={pIdx}>{part}</div>
@@ -618,7 +598,7 @@ export default function PmoScheduleGate() {
                                             </td>
                                             
                                             {/* 협업 */}
-                                            <td className="px-1 text-[#c2c2c6] leading-tight text-center whitespace-normal break-words sticky left-[380px] bg-[#272726] group-hover:bg-[#333] transition-colors z-20 border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)] w-[80px] min-w-[80px] max-w-[80px]">
+                                            <td className="px-1 text-[#c2c2c6] leading-tight text-center whitespace-normal break-words bg-[#272726] group-hover:bg-[#333] transition-colors border-r border-[#3c3c3c]  w-[88px] min-w-[88px] max-w-[88px]">
                                                 {item.coop.split(';').map((c, cIdx) => (
                                                     c && <div key={cIdx} className="text-[11px]">{c}</div>
                                                 ))}
@@ -626,12 +606,13 @@ export default function PmoScheduleGate() {
 
                                             {/* Grid Columns */}
                                             {COLUMNS.map((col, cIdx) => {
+                                                const isLastCol = cIdx === COLUMNS.length - 1;
                                                 const mark = item.schedule[col.key];
-                                                const borderClass = 'border-r border-[#4c4c4c]/40';
+                                                const borderClass = isLastCol ? '' : 'border-r border-[#4c4c4c]/40';
                                                 return (
                                                     <td key={col.key} className={`text-center ${
                                                         col.highlight ? 'bg-white/[0.015] group-hover:bg-white/[0.04]' : ''
-                                                    } ${borderClass} w-[75px] min-w-[75px] max-w-[75px]`}>
+                                                    } ${borderClass} w-[77px] min-w-[77px] max-w-[77px] ${isLastRow && isLastCol ? 'rounded-br-[31px]' : ''}`}>
                                                         {mark === '●' && (
                                                             <span className="w-3.5 h-3.5 rounded-full bg-[#2997ff] inline-block shadow-sm shadow-[#2997ff]/20"></span>
                                                         )}
@@ -646,13 +627,6 @@ export default function PmoScheduleGate() {
                                 })}
                             </tbody>
                         </table>
-                        
-                        {/* 우측 워터마크 영역 */}
-                        <div className="w-[800px] shrink-0 flex items-center justify-start pl-20 pr-8 select-none pointer-events-none box-border self-center">
-                            <div className="text-white opacity-[0.04] font-bold leading-[0.9] tracking-tighter w-full whitespace-nowrap" style={{ fontSize: 'clamp(45px, 8.5vw, 135px)' }}>
-                                IOTA Seoul<br />Cross Functional<br />Team
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -672,7 +646,7 @@ export default function PmoScheduleGate() {
                         <table className="text-left table-fixed w-[1580px] min-w-[1580px] max-w-[1580px] border-collapse border-b border-[#3c3c3c] bg-[#272726]">
                             <thead>
                                 <tr className="border-b border-[#3c3c3c] bg-[#272726] text-[#86868B] font-bold text-[12px] h-[56px]">
-                                    <th className="px-3 w-[104px] min-w-[104px] max-w-[104px] text-center sticky left-0 bg-[#272726] z-30">
+                                    <th className="px-3 w-[104px] min-w-[104px] max-w-[104px] text-center bg-[#272726] z-30">
                                         <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b]">
                                             <span className={`font-bold text-[12px] whitespace-nowrap ${selectedRrCategory === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
                                                 {selectedRrCategory === '전체보기' ? '대분류' : selectedRrCategory}
@@ -701,8 +675,8 @@ export default function PmoScheduleGate() {
                                             </select>
                                         </div>
                                     </th>
-                                    <th className="px-3 w-[130px] min-w-[130px] max-w-[130px] text-center sticky left-[104px] bg-[#272726] z-30">세부섹터</th>
-                                    <th className="pl-3 w-[230px] min-w-[230px] max-w-[230px] sticky left-[234px] bg-[#272726] z-30 border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)]">대표 업무</th>
+                                    <th className="px-3 w-[130px] min-w-[130px] max-w-[130px] text-center bg-[#272726] z-30">세부섹터</th>
+                                    <th className="pl-3 w-[230px] min-w-[230px] max-w-[230px] bg-[#272726] border-r border-[#3c3c3c] ">대표 업무</th>
                                     <th className="px-2 w-[75px] min-w-[75px] max-w-[75px] text-center bg-[#272726] text-[11px] leading-tight">PF 전<br />필요</th>
                                     <th className="px-2 w-[75px] min-w-[75px] max-w-[75px] text-center bg-[#272726] text-[11px] leading-tight">착공 전<br />필요</th>
                                     <th className="px-2 w-[75px] min-w-[75px] max-w-[75px] text-center bg-[#272726] text-[11px] leading-tight border-r border-[#3c3c3c]">준공 전<br />필요</th>
@@ -759,17 +733,17 @@ export default function PmoScheduleGate() {
                                     return (
                                         <tr key={item.id} className="bg-[#272726] hover:bg-[#333] transition-colors h-12 group">
                                             {/* 대분류 */}
-                                            <td className="px-3 sticky left-0 bg-[#272726] group-hover:bg-[#333] transition-colors z-20 text-center font-bold text-white text-[12px] w-[104px] min-w-[104px] max-w-[104px]">
+                                            <td className="px-3 bg-[#272726] group-hover:bg-[#333] transition-colors text-center font-bold text-white text-[12px] w-[104px] min-w-[104px] max-w-[104px]">
                                                 {item.category}
                                             </td>
                                             
                                             {/* 세부섹터 */}
-                                            <td className="px-3 sticky left-[104px] bg-[#272726] group-hover:bg-[#333] transition-colors z-20 text-center font-bold text-[#E5E5E5] text-[12px] whitespace-normal break-all w-[130px] min-w-[130px] max-w-[130px]">
+                                            <td className="px-3 bg-[#272726] group-hover:bg-[#333] transition-colors text-center font-bold text-[#E5E5E5] text-[12px] whitespace-normal break-all w-[130px] min-w-[130px] max-w-[130px]">
                                                 {item.subsector}
                                             </td>
                                             
                                             {/* 대표 업무 */}
-                                            <td className="pl-3 font-bold text-[#F59E0B] leading-snug text-left pr-2 whitespace-normal break-all sticky left-[234px] bg-[#272726] group-hover:bg-[#333] transition-colors z-20 border-r border-[#3c3c3c] shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)] text-[13px] w-[230px] min-w-[230px] max-w-[230px]">
+                                            <td className="pl-3 font-bold text-[#F59E0B] leading-snug text-left pr-2 whitespace-normal break-all bg-[#272726] group-hover:bg-[#333] transition-colors border-r border-[#3c3c3c]  text-[13px] w-[230px] min-w-[230px] max-w-[230px]">
                                                 {item.task}
                                             </td>
                                             
@@ -835,13 +809,6 @@ export default function PmoScheduleGate() {
                                 })}
                             </tbody>
                         </table>
-                        
-                        {/* 우측 워터마크 영역 */}
-                        <div className="w-[800px] shrink-0 flex items-center justify-start pl-20 pr-8 select-none pointer-events-none box-border self-center">
-                            <div className="text-white opacity-[0.04] font-bold leading-[0.9] tracking-tighter w-full whitespace-nowrap" style={{ fontSize: 'clamp(45px, 8.5vw, 135px)' }}>
-                                IOTA Seoul<br />Cross Functional<br />Team
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>

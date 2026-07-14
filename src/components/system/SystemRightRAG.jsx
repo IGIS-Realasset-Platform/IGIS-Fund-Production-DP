@@ -23,7 +23,7 @@ export default function SystemRightRAG() {
         <div className="w-[520px] h-full bg-[#fbfbfd] dark:bg-transparent flex flex-col flex-shrink-0 relative font-sans text-[#1D1D1F] dark:text-[#E5E5E5] transition-colors duration-300">
             
             {/* Chat Content */}
-            <div ref={scrollContainerRef} className="flex-1 overflow-y-auto px-[38px] pt-[36px] pb-[180px] hide-scrollbar flex flex-col scroll-smooth">
+            <div ref={scrollContainerRef} className="flex-1 overflow-y-auto px-[38px] pt-[26px] pb-[180px] hide-scrollbar flex flex-col scroll-smooth">
                 
                 {/* User Bubble */}
                 <div className="flex justify-end mb-[38px] mt-2">

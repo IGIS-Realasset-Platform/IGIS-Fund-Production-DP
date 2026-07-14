@@ -109,11 +109,11 @@ export default function GovMeetingLogs() {
 
     return (
         <div className="w-full h-full bg-[#1F1F1E] font-sans overflow-y-auto custom-scrollbar">
-            <div className="w-[1200px] mx-auto flex-1 flex flex-col pt-[50px] shrink-0 pb-[100px]">
+            <div className="w-[1200px] mx-auto flex-1 flex flex-col pt-[40px] shrink-0 pb-[100px]">
                 
                 {/* Header */}
                 <div className="shrink-0 pointer-events-none">
-                    <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[8px]">회의록</h1>
+                    <h1 className="text-[32px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[8px]">회의록</h1>
                     <p className="text-[16px] text-[#86868B] leading-[26px]">IOTA Seoul 주요 회의체 히스토리 및 의사결정 내역</p>
                 </div>
 

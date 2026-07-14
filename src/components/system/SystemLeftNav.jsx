@@ -172,7 +172,7 @@ export default function SystemLeftNav({ isCore, isPlatform = false }) {
                     className={`flex items-center justify-between px-2.5 py-2 rounded-md mt-4 mb-2 transition-colors duration-300 border dark:border-[#3A3A3C] shadow-sm dark:bg-[#2A2A2A] group ${isPlatform ? 'hover:bg-[#18181A] dark:hover:bg-[#18181A] cursor-pointer border-gray-300 bg-white' : 'cursor-not-allowed opacity-40 border-gray-200 bg-gray-50'}`}
                 >
                     <div className="flex items-center">
-                        <span className="font-semibold text-[14px] text-[#111] dark:text-white group-hover:text-white dark:group-hover:text-white">IOTA Seoul</span>
+                        <span className="font-semibold text-[14px] text-[#111] dark:text-white group-hover:text-white dark:group-hover:text-white">IOTA Seoul CFT</span>
                     </div>
                     <svg className="w-3.5 h-3.5 text-[#86868B] group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" /></svg>
                 </div>

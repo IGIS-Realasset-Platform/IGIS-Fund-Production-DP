@@ -381,12 +381,12 @@ export default function StakeTenant({ defaultTab = 'list' }) {
     const uniqueBuildings = [...new Set(tenants.map(t => t.current_building).filter(Boolean))];
 
     return (
-        <div className="w-full flex-1 flex flex-col pt-[50px] pb-[160px] max-w-[1200px] mx-auto font-sans text-white relative">
+        <div className="w-full flex-1 flex flex-col pt-[40px] pb-[160px] max-w-[1200px] mx-auto font-sans text-white relative">
             
             {/* Header Area */}
             <div className="w-full mb-[40px] flex justify-between items-end border-b border-[#2C2C2E] pb-6">
                 <div>
-                    <h1 className="text-[32px] font-bold text-white tracking-tight leading-none mb-3">잠재 임차사 및 SI 협업</h1>
+                    <h1 className="text-[28px] font-bold text-white tracking-tight leading-none mb-3">잠재 임차사 및 SI 협업</h1>
                     <p className="text-[15px] text-[#86868B]">기업마케팅 TR 및 PM 연계용 잠재 임차사(테넌트) 공간 진단 및 SI 투자 협업 관리보드</p>
                 </div>
                 

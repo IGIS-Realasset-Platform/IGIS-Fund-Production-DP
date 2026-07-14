@@ -282,7 +282,7 @@ export default function WorkspacePmArchive() {
             {/* Left Sidebar */}
             <div className="w-[280px] bg-[#222] border-r border-[#333] flex flex-col h-full shrink-0 print:hidden">
                 <div className="p-6 border-b border-[#333]">
-                    <h1 className="text-[20px] font-bold tracking-tight text-white mb-4">지난 TASK 타임라인</h1>
+                    <h1 className="text-[16px] font-bold tracking-tight text-white mb-4">지난 TASK 타임라인</h1>
                     <div className="flex flex-col gap-[4px]">
                         {workspaces.map(ws => (
                             <button

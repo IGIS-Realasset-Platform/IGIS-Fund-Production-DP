@@ -321,8 +321,8 @@ export default function IotaLeftNav({ onMenuChange, currentPath = '' }) {
 
             {/* Header */}
             <div className="w-full flex items-center justify-between px-[15px] pt-[14px] pb-4">
-                <span className="font-bold text-[20px] tracking-tight font-inter ml-[5px] text-white">
-                    IOTA Seoul
+                <span className="font-bold text-[18px] tracking-tight font-inter ml-[5px] text-white">
+                    IOTA Seoul CFT
                 </span>
                 <button className="text-[#86868B] hover:text-white pb-1 transition-colors cursor-pointer mt-[4px]">
                     <svg className="w-[22px] h-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.8">

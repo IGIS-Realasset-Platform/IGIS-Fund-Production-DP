@@ -2,8 +2,8 @@ import React from 'react';
 
 export default function GovWorkingGroup() {
     return (
-        <div className="w-full flex-1 flex flex-col pt-[60px] pb-[160px] max-w-[1112px] mx-auto">
-            <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[8px]">프로젝트리츠 워킹그룹</h1>
+        <div className="w-full flex-1 flex flex-col pt-[50px] pb-[160px] max-w-[1112px] mx-auto">
+            <h1 className="text-[32px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[8px]">프로젝트리츠 워킹그룹</h1>
             <p className="text-[16px] text-[#86868B] mb-[40px] leading-[26px]">이오타 CFT는 프리츠 TFT와의 인터페이스를 ‘IPR 워킹그룹(IPR-WG)’ 형태로 운영합니다.<br />IPR-WG는 격주 1회 정기 회의를 가지며, CFT 측은 (i) 강순용 PM, (ii) 박준호 LFC, (iii) 김행단 KAM 1파트, <br />프리츠 TFT 측은 (i) 권순일 투자담당, (ii) 윤용택 관리담당이 고정 멤버로 참석합니다.</p>
             
             <div className="w-full bg-[#1A1A1A] border border-[#e11d48]/50 rounded-[24px] p-[32px] mb-[40px] relative overflow-hidden">

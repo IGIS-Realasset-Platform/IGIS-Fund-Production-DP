@@ -318,7 +318,7 @@ export default function IotaLogsArchive() {
                         </svg>
                         돌아가기
                     </button>
-                    <h1 className="text-[19px] font-bold tracking-tight text-white mb-2">지난 업무 로그</h1>
+                    <h1 className="text-[15px] font-bold tracking-tight text-white mb-2">지난 업무 로그</h1>
                     <p className="text-[12px] text-[#86868B]">실시간 수집된 IOTA CFT 통합 로그 목록입니다.</p>
                 </div>
                 

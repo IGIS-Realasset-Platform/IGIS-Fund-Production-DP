@@ -3,8 +3,8 @@ import tierImg from '../../../assets/5tier.webp';
 
 export default function GovPrinciples() {
     return (
-        <div className="w-full flex flex-col pt-[60px] pb-[160px] max-w-[1112px] mx-auto">
-            <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[8px]">5대 의사결정 원칙</h1>
+        <div className="w-full flex flex-col pt-[50px] pb-[160px] max-w-[1112px] mx-auto">
+            <h1 className="text-[32px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[8px]">5대 의사결정 원칙</h1>
             
             <div className="flex flex-col w-full mb-[32px]">
                 <div className="w-full h-px bg-[#333] mb-[22px]"></div>
@@ -45,7 +45,7 @@ export default function GovPrinciples() {
                 <div className="w-full h-px bg-[#333] mt-[22px]"></div>
             </div>
 
-            <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[16px] mt-[68px]">4중 평가체계</h1>
+            <h1 className="text-[32px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[16px] mt-[68px]">4중 평가체계</h1>
             <p className="text-[16px] text-[#A1A1AA] leading-[26px] mb-[24px]">
                 부문 평가체계는 1)수익조직 KPI(사업단위 성과), 2) OKR(조직단위 성과), 3) CGC(부문 전체 기여), 4) 경영조직(종합)의 4중 구조입니다.<br />
                 이오타서울 CFT는 이 구조를 그대로 차용하여 ‘수행 사업 단위 KPI’와 ‘기능 셀 OKR’을 분리 운영합니다.
@@ -138,7 +138,7 @@ export default function GovPrinciples() {
                 </div>
             </div>
 
-            <h1 className="text-[36px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[16px] mt-[94px]">5 Tier 거버넌스 위계</h1>
+            <h1 className="text-[32px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[16px] mt-[94px]">5 Tier 거버넌스 위계</h1>
             <p className="text-[16px] text-[#A1A1AA] leading-[26px] mb-[24px]">
                 각 티어(Tier)는 명확히 구분된 의사결정 범위와 전결 규정, 그리고 독립된 주재자를 갖습니다.<br />
                 모든 정보와 이슈는 T5에서 T1으로 이어지는 지정된 에스컬레이션 라인을 따라 상향 보고되며, 경영진의 최종 결정과 지침은 T1에서 T5로 신속하게 하향 전파됩니다.<br />

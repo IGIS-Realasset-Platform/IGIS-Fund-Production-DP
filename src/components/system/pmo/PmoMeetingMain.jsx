@@ -40,11 +40,11 @@ export default function PmoMeetingMain() {
     }, []);
 
     return (
-        <div className="w-full flex-1 flex flex-col pt-[50px] pb-[60px] max-w-[1200px] mx-auto select-text">
+        <div className="w-full flex-1 flex flex-col pt-[40px] pb-[60px] max-w-[1200px] mx-auto select-text">
             {/* Header */}
             <div className="w-full flex justify-between items-start mb-[32px]">
                 <div>
-                    <h1 className="text-[36px] font-bold text-white tracking-tight leading-none mb-[8px]">회의 메인</h1>
+                    <h1 className="text-[32px] font-bold text-white tracking-tight leading-none mb-[8px]">회의 메인</h1>
                     <p className="text-[16px] text-[#86868B] leading-[26px]">의사결정 집계 및 핵심 리스크 관제 대시보드</p>
                 </div>
             </div>
