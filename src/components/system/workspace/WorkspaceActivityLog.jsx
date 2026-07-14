@@ -123,16 +123,8 @@ const parseSystemLogText = (rawText) => {
 
         // Case 8: 협조부서 (Coop Dept)
         if (line.includes('협조부서가') && line.includes('변경되었습니다')) {
-            const match = line.match(/협조부서가\s*"([^"]+)"에서\s*"([^"]+)"으로/);
-            if (match) {
-                parsedChanges.push({
-                    type: 'coop_depts',
-                    label: '협조부서',
-                    oldVal: match[1],
-                    newVal: match[2]
-                });
-                return;
-            }
+            // 사용자 요청: 협조부서 이력은 아예 노출하지 않음
+            return;
         }
 
         // Case 9: 마감기한 (Due Date)
@@ -228,7 +220,11 @@ const renderBadge = (type, val) => {
     }
 
     if (type === 'priority_score') {
-        return <span className="bg-[#bf5af2]/10 text-[#bf5af2] border border-[#bf5af2]/20 text-[11px] font-bold px-1.5 py-0.5 rounded whitespace-nowrap">{cleanVal}</span>;
+        const score = parseInt(cleanVal.replace(/[^0-9]/g, ''), 10);
+        if (!isNaN(score) && score >= 70) {
+            return <span className="bg-[#ff453a]/15 text-[#ff453a] border border-[#ff453a]/25 text-[11px] font-bold px-1.5 py-0.5 rounded whitespace-nowrap">{cleanVal}</span>;
+        }
+        return <span className="bg-[#8e8e93]/10 text-[#8e8e93] border border-[#8e8e93]/20 text-[11px] font-bold px-1.5 py-0.5 rounded whitespace-nowrap">{cleanVal}</span>;
     }
 
     if (type === 'status') {
@@ -246,7 +242,7 @@ const renderBadge = (type, val) => {
         if (cleanVal === '미정') {
             return <span className="text-[#86868B] border border-[#3c3c3c] border-dashed text-[11px] font-medium px-1.5 py-0.5 rounded whitespace-nowrap bg-transparent">{cleanVal}</span>;
         }
-        return <span className="bg-[#64d2ff]/10 text-[#64d2ff] border border-[#64d2ff]/20 text-[11px] font-bold px-1.5 py-0.5 rounded whitespace-nowrap">{cleanVal}</span>;
+        return <span className="bg-[#8e8e93]/10 text-[#8e8e93] border border-[#8e8e93]/20 text-[11px] font-bold px-1.5 py-0.5 rounded whitespace-nowrap">{cleanVal}</span>;
     }
 
     if (type === 'external_party') {
@@ -293,17 +289,17 @@ const renderSystemLogChanges = (rawText) => {
     if (!changes || changes.length === 0) return null;
 
     return (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-[8px] mt-[4px]">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-[6px] mt-[4px]">
             {changes.map((change, idx) => {
                 if (change.type === 'text') {
                     return (
-                        <div key={idx} className="col-span-1 sm:col-span-2 text-[13px] text-[#A1A1AA] bg-[#2C2C2E]/40 px-[12px] py-[8px] rounded-[6px] border border-white/[0.03]">
+                        <div key={idx} className="col-span-1 sm:col-span-2 text-[13px] text-[#A1A1AA] bg-[#2C2C2E]/40 px-[10px] py-[6px] rounded-[6px] border border-white/[0.03]">
                             {change.newVal}
                         </div>
                     );
                 }
                 return (
-                    <div key={idx} className="flex items-center bg-[#2C2C2E]/40 border border-white/[0.03] rounded-[6px] px-[12px] py-[8px]">
+                    <div key={idx} className="flex items-center bg-[#2C2C2E]/40 border border-white/[0.03] rounded-[6px] px-[10px] py-[6px]">
                         <span className="text-[#86868B] font-bold text-[12px] min-w-[56px] select-none">{change.label}</span>
                         <div className="flex items-center gap-[6px] flex-1 min-w-0">
                             {renderBadge(change.type, change.oldVal)}
