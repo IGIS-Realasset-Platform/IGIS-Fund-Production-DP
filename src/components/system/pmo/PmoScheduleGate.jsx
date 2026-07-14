@@ -544,10 +544,10 @@ export default function PmoScheduleGate() {
                         <table className="text-left table-fixed w-[1290px] min-w-[1290px] max-w-[1290px] pointer-events-auto">
                             <thead>
                                 <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[13px] h-12">
-                                    <th className="pl-[10px] pr-1 w-[94px] min-w-[94px] max-w-[94px] text-center bg-[#272726] rounded-tl-[31px]">구분</th>
+                                    <th className="pl-[10px] pr-1 w-[110px] min-w-[110px] max-w-[110px] text-center bg-[#272726] rounded-tl-[31px]">구분</th>
                                     <th className="pl-3 w-[258px] min-w-[258px] max-w-[258px] bg-[#272726]">세부업무</th>
-                                    <th className="px-1 w-[94px] min-w-[94px] max-w-[94px] text-center bg-[#272726]">주관</th>
-                                    <th className="px-1 w-[94px] min-w-[94px] max-w-[94px] text-center bg-[#272726] border-r border-[#3c3c3c]">협업</th>
+                                    <th className="px-1 w-[110px] min-w-[110px] max-w-[110px] text-center bg-[#272726]">주관</th>
+                                    <th className="px-1 w-[110px] min-w-[110px] max-w-[110px] text-center bg-[#272726] border-r border-[#3c3c3c]">협업</th>
                                     {COLUMNS.map((col, cIdx) => {
                                         const isLast = cIdx === COLUMNS.length - 1;
                                         const borderClass = col.highlight
@@ -569,7 +569,7 @@ export default function PmoScheduleGate() {
                                     return (
                                         <tr key={idx} className="hover:bg-[#333] transition-colors h-[50px] group">
                                             {/* 구분 */}
-                                            <td className={`pl-[10px] pr-1 bg-[#272726] group-hover:bg-[#333] transition-colors text-center w-[94px] min-w-[94px] max-w-[94px] ${
+                                            <td className={`pl-[10px] pr-1 bg-[#272726] group-hover:bg-[#333] transition-colors text-center w-[110px] min-w-[110px] max-w-[110px] ${
                                                 isLastRow ? 'rounded-bl-[31px]' : ''
                                             }`}>
                                                 <span className={`px-1.5 py-1 rounded-md font-bold block ${
@@ -587,7 +587,7 @@ export default function PmoScheduleGate() {
                                             </td>
                                             
                                             {/* 주관 */}
-                                            <td className="px-1 text-[#E5E5E5] font-semibold text-center bg-[#272726] group-hover:bg-[#333] transition-colors text-[12px] leading-tight tracking-tight whitespace-normal break-words w-[94px] min-w-[94px] max-w-[94px]">
+                                            <td className="px-1 text-[#E5E5E5] font-semibold text-center bg-[#272726] group-hover:bg-[#333] transition-colors text-[12px] leading-tight tracking-tight whitespace-normal break-words w-[110px] min-w-[110px] max-w-[110px]">
                                                 {item.lead.includes(' ') ? (
                                                     item.lead.split(' ').map((part, pIdx) => (
                                                         <div key={pIdx}>{part}</div>
@@ -598,7 +598,7 @@ export default function PmoScheduleGate() {
                                             </td>
                                             
                                             {/* 협업 */}
-                                            <td className="px-1 text-[#c2c2c6] leading-tight text-center whitespace-normal break-words bg-[#272726] group-hover:bg-[#333] transition-colors border-r border-[#3c3c3c]  w-[94px] min-w-[94px] max-w-[94px]">
+                                            <td className="px-1 text-[#c2c2c6] leading-tight text-center whitespace-normal break-words bg-[#272726] group-hover:bg-[#333] transition-colors border-r border-[#3c3c3c]  w-[110px] min-w-[110px] max-w-[110px]">
                                                 {item.coop.split(';').map((c, cIdx) => (
                                                     c && <div key={cIdx} className="text-[11px]">{c}</div>
                                                 ))}
@@ -640,13 +640,13 @@ export default function PmoScheduleGate() {
             </div>
 
             {/* R&R Matrix Table */}
-            <div className="w-full border border-[#3c3c3c] bg-[#272726] rounded-[32px] overflow-visible relative mb-[40px] shadow-sm min-h-[1110px]">
+            <div className="w-full border border-[#3c3c3c] bg-[#272726] rounded-[32px] overflow-hidden relative mb-[40px] shadow-sm min-h-[1110px]">
                 <div className="w-full rounded-[32px] select-text">
                     <div className="flex items-center w-full overflow-visible pointer-events-none">
                         <table className="text-left table-fixed w-[1290px] min-w-[1290px] max-w-[1290px] pointer-events-auto border-collapse border-b border-[#3c3c3c] bg-[#272726]">
                             <thead>
                                 <tr className="border-b border-[#3c3c3c] bg-[#272726] text-[#86868B] font-bold text-[12px] h-[56px]">
-                                    <th className="px-1 w-[115px] min-w-[115px] max-w-[115px] text-center bg-[#272726] rounded-tl-[31px] z-30">
+                                    <th className="px-1 w-[110px] min-w-[110px] max-w-[110px] text-center bg-[#272726] rounded-tl-[31px] z-30">
                                         <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b]">
                                             <span className={`font-bold text-[12px] whitespace-nowrap ${selectedRrCategory === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
                                                 {selectedRrCategory === '전체보기' ? '대분류' : selectedRrCategory}
@@ -675,8 +675,8 @@ export default function PmoScheduleGate() {
                                             </select>
                                         </div>
                                     </th>
-                                    <th className="px-3 w-[86px] min-w-[86px] max-w-[86px] text-center bg-[#272726] z-30">세부섹터</th>
-                                    <th className="pl-3 w-[230px] min-w-[230px] max-w-[230px] bg-[#272726] border-r border-[#3c3c3c] ">대표 업무</th>
+                                    <th className="px-1 w-[100px] min-w-[100px] max-w-[100px] text-center bg-[#272726] z-30 whitespace-nowrap">세부섹터</th>
+                                    <th className="pl-3 w-[210px] min-w-[210px] max-w-[210px] bg-[#272726] border-r border-[#3c3c3c] ">대표 업무</th>
                                     <th className="px-2 w-[65px] min-w-[65px] max-w-[65px] text-center bg-[#272726] text-[11px] leading-tight">PF 전<br />필요</th>
                                     <th className="px-2 w-[65px] min-w-[65px] max-w-[65px] text-center bg-[#272726] text-[11px] leading-tight">착공 전<br />필요</th>
                                     <th className="px-2 w-[65px] min-w-[65px] max-w-[65px] text-center bg-[#272726] text-[11px] leading-tight border-r border-[#3c3c3c]">준공 전<br />필요</th>
@@ -699,7 +699,7 @@ export default function PmoScheduleGate() {
                                             </select>
                                         </div>
                                     </th>
-                                    <th className="pl-3 w-[230px] min-w-[230px] max-w-[230px] text-left bg-[#272726] border-r border-[#3c3c3c]">
+                                    <th className="pl-3 w-[210px] min-w-[210px] max-w-[210px] text-left bg-[#272726] border-r border-[#3c3c3c]">
                                         <div className="relative inline-flex items-center justify-start bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b]">
                                             <span className={`font-bold text-[12px] whitespace-nowrap ${selectedRrCoop === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
                                                 {selectedRrCoop === '전체보기' ? '협업 부서' : selectedRrCoop}
@@ -718,9 +718,9 @@ export default function PmoScheduleGate() {
                                             </select>
                                         </div>
                                     </th>
-                                    <th className="px-1 tracking-tighter whitespace-nowrap w-[94px] min-w-[94px] max-w-[94px] text-center bg-[#272726]">외부 상대방</th>
-                                    <th className="px-1 tracking-tighter whitespace-nowrap w-[94px] min-w-[94px] max-w-[94px] text-center bg-[#272726]">필요산출물</th>
-                                    <th className="px-3 w-[156px] min-w-[156px] max-w-[156px] text-left bg-[#272726] border-r border-[#3c3c3c] rounded-tr-[31px]">관리 포인트</th>
+                                    <th className="px-1 tracking-tighter whitespace-nowrap w-[110px] min-w-[110px] max-w-[110px] text-center bg-[#272726]">외부 상대방</th>
+                                    <th className="px-1 tracking-tighter whitespace-nowrap w-[110px] min-w-[110px] max-w-[110px] text-center bg-[#272726]">필요산출물</th>
+                                    <th className="px-3 w-[175px] min-w-[175px] max-w-[175px] text-left bg-[#272726] border-r border-[#3c3c3c] rounded-tr-[31px] whitespace-nowrap">관리 포인트</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-[#3c3c3c]/60 text-[12px]">
@@ -734,17 +734,17 @@ export default function PmoScheduleGate() {
                                     return (
                                         <tr key={item.id} className="bg-[#272726] hover:bg-[#333] transition-colors h-12 group">
                                             {/* 대분류 */}
-                                            <td className={`px-3 bg-[#272726] group-hover:bg-[#333] transition-colors text-center font-bold text-white text-[12px] w-[115px] min-w-[115px] max-w-[115px] ${isLastItem ? 'rounded-bl-[31px]' : ''}`}>
+                                            <td className={`px-3 bg-[#272726] group-hover:bg-[#333] transition-colors text-center font-bold text-white text-[12px] w-[110px] min-w-[110px] max-w-[110px] ${isLastItem ? 'rounded-bl-[31px]' : ''}`}>
                                                 {item.category}
                                             </td>
                                             
                                             {/* 세부섹터 */}
-                                            <td className="px-3 bg-[#272726] group-hover:bg-[#333] transition-colors text-center font-bold text-[#E5E5E5] text-[12px] whitespace-normal break-words w-[86px] min-w-[86px] max-w-[86px]">
+                                            <td className="px-1 bg-[#272726] group-hover:bg-[#333] transition-colors text-center font-bold text-[#E5E5E5] text-[12px] whitespace-nowrap overflow-hidden text-ellipsis w-[100px] min-w-[100px] max-w-[100px]">
                                                 {item.subsector}
                                             </td>
                                             
                                             {/* 대표 업무 */}
-                                            <td className="pl-3 font-bold text-[#bdbba7] leading-snug text-left pr-2 whitespace-normal break-words bg-[#272726] group-hover:bg-[#333] transition-colors border-r border-[#3c3c3c] text-[13px] w-[230px] min-w-[230px] max-w-[230px]">
+                                            <td className="pl-3 font-bold text-[#bdbba7] leading-snug text-left pr-2 whitespace-normal break-words bg-[#272726] group-hover:bg-[#333] transition-colors border-r border-[#3c3c3c] text-[13px] w-[210px] min-w-[210px] max-w-[210px]">
                                                 {item.task}
                                             </td>
                                             
