@@ -866,7 +866,7 @@ export default function DecisionLog() {
         <div className="w-full flex-1 flex flex-col pt-[28px] pb-[60px] pl-[60px] pr-[60px] box-border">
             {/* Header Metadata (Staging Only) */}
             {isStaging && (
-                <div className="w-full flex flex-col mb-[16px] gap-[10px] min-w-[1200px]">
+                <div className="w-full flex flex-col mb-[12px] gap-[10px] min-w-[1200px]">
                     <div className="flex justify-between items-end w-full">
                         {/* Left: Title & Search Box */}
                         <div className="flex items-center gap-[16px]">
