@@ -3127,10 +3127,10 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                                     
                                                     {/* 5. 업무명 */}
                                                     <td className={`pl-4 font-bold text-[#bdbba7] w-[220px] min-w-[220px] max-w-[220px] sticky z-10 shadow-[inset_-1px_0_0_0_#3c3c3c] transition-all duration-300 ease-out ${isAll ? 'left-[269px]' : 'left-[179px]'} ${isSelected ? 'bg-[#3c3c3a] group-hover:bg-[#3c3c3a]' : 'bg-[#272726] group-hover:bg-[#2d2d2c]'}`}>
-                                                        <div className="truncate w-full flex items-center gap-[6px]">
-                                                            <span className="truncate flex-1 min-w-0">{t.task_name}</span>
+                                                        <div className="flex items-center gap-[6px] w-full min-w-0">
+                                                            <span className="truncate min-w-0">{t.task_name}</span>
                                                             {isTaskNew && (
-                                                                <span className="shrink-0 inline-flex items-center justify-center px-[4px] py-[2px] rounded-[3px] text-[10px] font-black bg-[#ff3b30] text-white leading-none tracking-wider relative top-[0px]">
+                                                                <span className="shrink-0 inline-flex items-center justify-center px-[4px] py-[2px] rounded-[3px] text-[10px] font-black bg-[#ff3b30] text-white leading-none tracking-wider relative top-[1px]">
                                                                     N
                                                                 </span>
                                                             )}
@@ -3480,7 +3480,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                     {/* Centered Pagination Row outside scrollable wrapper */}
                     {totalPages > 1 && (
                         <div 
-                            className="w-full h-[46px] border-t border-[#3c3c3c]/50 flex items-center justify-center bg-[#272726] select-none z-10"
+                            className="w-full h-[46px] border-t border-[#3c3c3c]/50 flex items-center justify-center bg-[#272726] select-none z-10 rounded-bl-[24px]"
                             style={{ paddingRight: 'calc(50vw - 50%)' }}
                         >
                             <div className="flex items-center gap-1">
