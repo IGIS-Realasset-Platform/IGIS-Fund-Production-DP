@@ -683,7 +683,7 @@ export default function PmoScheduleGate() {
                                     <th className="w-[90px] min-w-[90px] max-w-[90px] text-center bg-[#272726]">
                                         <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] translate-x-[6px]">
                                             <span className={`font-bold text-[12px] whitespace-nowrap ${selectedRrLead === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
-                                                {selectedRrLead === '전체보기' ? '주관 부서' : selectedRrLead}' : selectedRrLead}
+                                                {selectedRrLead === '전체보기' ? '주관 부서' : selectedRrLead}
                                             </span>
                                             <span className="text-[8px] text-[#86868B]/70 pointer-events-none select-none translate-y-[0.5px] ml-1">▼</span>
                                             <select
@@ -702,7 +702,7 @@ export default function PmoScheduleGate() {
                                     <th className="pl-3 w-[245px] min-w-[245px] max-w-[245px] text-left bg-[#272726] border-r border-[#3c3c3c]">
                                         <div className="relative inline-flex items-center justify-start bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b]">
                                             <span className={`font-bold text-[12px] whitespace-nowrap ${selectedRrCoop === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
-                                                {selectedRrCoop === '전체보기' ? '협업 부서' : selectedRrCoop}' : selectedRrCoop}
+                                                {selectedRrCoop === '전체보기' ? '협업 부서' : selectedRrCoop}
                                             </span>
                                             <span className="text-[8px] text-[#86868B]/70 pointer-events-none select-none translate-y-[0.5px] ml-1">▼</span>
                                             <select
