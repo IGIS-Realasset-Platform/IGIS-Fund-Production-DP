@@ -810,7 +810,8 @@ export default function DecisionLog() {
         if (!log.metadata?.workspace_label) return false; // Only workspace logs
 
         const writerCell = getCellName(log.writer_name);
-        const targetCell = getLogCell(log);
+        const isTaskLog = !!log.metadata?.task_id;
+        const targetCell = isTaskLog ? "통합업무보드" : getLogCell(log);
         
         const normWriter = writerCell.replace(/-(LFC|DSC|EMC|SSC|KAM)$/, '');
         const normTarget = targetCell.replace(/-(LFC|DSC|EMC|SSC|KAM)$/, '');
@@ -1771,7 +1772,7 @@ export default function DecisionLog() {
                                 </div>
                                 <div className="relative flex flex-col items-center w-[60px] shrink-0 justify-center">
                                     <span className="text-[13px] text-[#86868B] font-['Inter'] leading-tight">
-                                        {formatDateYYMMDD(log.work_date)}
+                                        {formatDateYYMMDD(log.work_date || log.created_at)}
                                     </span>
                                     {expandedLogs[log.log_id] && log.created_at && (
                                         <span className="absolute top-[100%] text-[11px] text-[#555] font-['Inter'] leading-tight mt-[2px] whitespace-nowrap">
