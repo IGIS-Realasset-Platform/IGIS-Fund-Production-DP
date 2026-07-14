@@ -211,7 +211,7 @@ export const notifyMembersOnLogCreation = async (logId, logContent, workspace, w
             await supabase
                 .from('iota_notifications')
                 .delete()
-                .eq('reference_id', `${logId}|${workspace.code}`)
+                .ilike('reference_id', `${logId}%`)
                 .eq('body', logContent);
             console.log('Successfully cleaned up duplicate DB-trigger notifications.');
         } catch (delErr) {
