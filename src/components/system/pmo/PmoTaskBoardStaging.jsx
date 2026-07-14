@@ -4458,7 +4458,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                     </div>
                                     
                                     {/* Deep Dive Narrative Cards (Single unified box) */}
-                                    <div className="p-5 rounded-[16px] bg-white/[0.02] border border-[#2c2c2e] flex flex-col">
+                                    <div className="pt-5 pr-5 pb-5 pl-[26px] rounded-[16px] bg-white/[0.02] border border-[#2c2c2e] flex flex-col">
                                         {/* 업무 목적 */}
                                         <div className="space-y-0">
                                             <h4 className="text-[11px] font-bold text-[#86868B]">업무 목적</h4>
