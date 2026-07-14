@@ -783,7 +783,7 @@ export default function PmoPopupManager() {
             {/* Header Title Section */}
             <div className="w-full flex justify-between items-end mb-[18px]">
                 <div className="flex flex-col text-left">
-                    <h1 className="text-[24px] font-bold text-white tracking-tight leading-none mb-[8px]">단발성 업무 요청</h1>
+                    <h1 className="text-[32px] font-bold text-white tracking-tight leading-none mb-[8px]">단발성 업무 요청</h1>
                     <p className="text-[16px] text-[#86868B] leading-[26px]">정규 마일스톤 외에 개별적으로 발생하는 단발성 업무 요청 및 협업 사항을 관리합니다.</p>
                 </div>
 

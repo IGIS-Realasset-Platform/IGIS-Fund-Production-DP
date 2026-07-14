@@ -71,7 +71,7 @@ export default function SystemCenter() {
                 
                 {/* Title & Metadata row */}
                 <div className="w-full flex justify-between items-end mb-[24px]">
-                    <h1 className="text-[24px] font-bold text-white tracking-tight leading-none font-['Inter'] -translate-y-[1px] translate-x-[4px]">IOTA Seoul 2 816</h1>
+                    <h1 className="text-[32px] font-bold text-white tracking-tight leading-none font-['Inter'] -translate-y-[1px] translate-x-[4px]">IOTA Seoul 2 816</h1>
                     
                     <div className="flex items-center h-[48px] translate-y-[4px] -translate-x-[30px]">
                         {/* Item 1 */}

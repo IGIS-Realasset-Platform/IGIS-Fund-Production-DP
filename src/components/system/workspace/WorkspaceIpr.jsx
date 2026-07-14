@@ -598,7 +598,7 @@ export default function WorkspaceIpr() {
             <div className="w-full flex justify-between items-center mb-[40px] gap-[40px]">
                 {/* Header Metadata */}
                 <div className="shrink-0 max-w-none whitespace-nowrap">
-                    <h1 className="text-[24px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[12px]">IPR Working Group</h1>
+                    <h1 className="text-[32px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[12px]">IPR Working Group</h1>
                     <p className="text-[15px] text-[#86868B] leading-[24px]">이오타 CFT는 프리츠 TFT와의 인터페이스를 ‘IPR 워킹그룹(IPR-WG)’ 형태로 운영합니다.</p>
                 </div>
                 

@@ -601,7 +601,7 @@ export default function WorkspaceDigital() {
             <div className="w-full flex justify-between items-center mb-[40px] gap-[40px]">
                 {/* Header Metadata */}
                 <div className="shrink-0 max-w-[460px]">
-                    <h1 className="text-[24px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[12px]">공간솔루션</h1>
+                    <h1 className="text-[32px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[12px]">공간솔루션</h1>
                     <p className="text-[15px] text-[#86868B] leading-[24px] break-keep">프로젝트 브랜드 포지셔닝, 상품 차별화, 테넌트 경험 설계, 맴버십 서비스 등</p>
                 </div>
                 

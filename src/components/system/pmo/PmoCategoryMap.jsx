@@ -40,7 +40,7 @@ export default function PmoCategoryMap() {
             {/* Header */}
             <div className="w-full flex justify-between items-start mb-[32px]">
                 <div>
-                    <h1 className="text-[24px] font-bold text-white tracking-tight leading-none mb-[8px]">조직별 R&R</h1>
+                    <h1 className="text-[32px] font-bold text-white tracking-tight leading-none mb-[8px]">조직별 R&R</h1>
                     <p className="text-[16px] text-[#86868B] leading-[26px]">대분류별 주관/협업 R&R 및 필수 산출물 계층 구조 시각화</p>
                 </div>
             </div>

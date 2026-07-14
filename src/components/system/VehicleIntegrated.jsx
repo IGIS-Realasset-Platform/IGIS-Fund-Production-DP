@@ -813,7 +813,7 @@ export default function VehicleIntegrated() {
             
             {/* 1. 종합 */}
             <div className="mb-[28px]">
-                <h1 className="text-[24px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[8px]">통합 Vehicle 파이낸싱 구조</h1>
+                <h1 className="text-[32px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[8px]">통합 Vehicle 파이낸싱 구조</h1>
                 <p className="text-[16px] text-[#86868B] mb-[24px] leading-[26px]">IOTA Seoul 프로젝트 전체의 자본 구조 및 펀드별 에쿼티/론 조달 현황입니다.</p>
                 
                 {/* 외곽선 복구, 까만 박스 테두리 삭제 */}

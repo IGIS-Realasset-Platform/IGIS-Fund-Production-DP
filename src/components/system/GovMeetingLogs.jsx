@@ -113,7 +113,7 @@ export default function GovMeetingLogs() {
                 
                 {/* Header */}
                 <div className="shrink-0 pointer-events-none">
-                    <h1 className="text-[24px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[8px]">회의록</h1>
+                    <h1 className="text-[32px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[8px]">회의록</h1>
                     <p className="text-[16px] text-[#86868B] leading-[26px]">IOTA Seoul 주요 회의체 히스토리 및 의사결정 내역</p>
                 </div>
 

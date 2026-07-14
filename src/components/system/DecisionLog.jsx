@@ -869,7 +869,7 @@ export default function DecisionLog() {
                     <div className="flex justify-between items-end w-full">
                         {/* Left: Title & Search Box */}
                         <div className="flex items-center gap-[16px]">
-                            <h1 className="text-[24px] font-bold text-white tracking-tight leading-none font-['Inter']">통합 업무 보드</h1>
+                            <h1 className="text-[32px] font-bold text-white tracking-tight leading-none font-['Inter']">통합 업무 보드</h1>
                             {/* Search Input Box directly to the right of title */}
                             <div className="relative w-[280px] self-center ml-[10px]">
                                 <input 

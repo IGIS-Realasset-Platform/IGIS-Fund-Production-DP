@@ -4,7 +4,7 @@ export default function GovFundRnR() {
     return (
         <div className="w-full flex-1 flex flex-col pt-[30px] pb-[110px] max-w-[1112px] mx-auto">
             {/* Header */}
-            <h1 className="text-[24px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[8px]">
+            <h1 className="text-[32px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[8px]">
                 421호 펀드 운용 R&R
             </h1>
             <p className="text-[17px] text-[#A1A1AA] leading-[28px] mb-[54px]">

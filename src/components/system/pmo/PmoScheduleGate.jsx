@@ -485,7 +485,7 @@ export default function PmoScheduleGate() {
             {/* Header */}
             <div className="w-full flex items-end justify-between mb-[20px]">
                 <div className="flex items-baseline gap-[16px]">
-                    <h1 className="text-[24px] font-bold text-white tracking-tight leading-none">마일스톤</h1>
+                    <h1 className="text-[32px] font-bold text-white tracking-tight leading-none">마일스톤</h1>
                     <p className="text-[15px] text-[#86868B] leading-none">마일스톤의 최종 목표는 준공 및 Take-out/운영 전환입니다.</p>
                 </div>
                 {/* Legend info */}

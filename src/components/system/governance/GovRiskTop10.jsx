@@ -42,7 +42,7 @@ export default function GovRiskTop10() {
 
     return (
         <div className="w-full flex-1 flex flex-col pt-[30px] pb-[160px] max-w-[1112px] mx-auto">
-            <h1 className="text-[24px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[8px]">Top 10 리스크 대응 방향</h1>
+            <h1 className="text-[32px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[8px]">Top 10 리스크 대응 방향</h1>
             <p className="text-[16px] text-[#86868B] mb-[36px] leading-[26px]">리스크 등록부는 통합 데이터룸의 핵심 운영 도구입니다. 식별된 Top 10 리스크와 1차 대응 셀입니다.</p>
             
             <div className="w-full bg-transparent border border-[#333] rounded-[24px] overflow-hidden mt-[12px]">
