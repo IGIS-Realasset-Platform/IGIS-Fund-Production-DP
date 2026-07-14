@@ -860,7 +860,7 @@ export default function DecisionLog() {
         return true;
     });
 
-    const isStaging = import.meta.env.MODE === 'staging';
+    const isStaging = true; // Forced true to deploy the new integrated task board to production
 
     return (
         <div className="w-full flex-1 flex flex-col pt-[28px] pb-[60px] pl-[60px] pr-[60px] box-border">
