@@ -1,43 +1,32 @@
-const fs = require('fs');
-const path = require('path');
 const { createClient } = require('@supabase/supabase-js');
 
-const envPath = path.join(__dirname, '../.env.local');
-let envContent = '';
-try {
-    envContent = fs.readFileSync(envPath, 'utf8');
-} catch (e) {
-    envContent = fs.readFileSync(path.join(__dirname, '../.env'), 'utf8');
-}
-
-const env = {};
-envContent.split('\n').forEach(line => {
-    const match = line.match(/^([^=]+)=(.*)$/);
-    if (match) env[match[1]] = match[2].replace(/^["']|["']$/g, '');
-});
-
-const supabaseUrl = env.VITE_SUPABASE_URL;
-const supabaseKey = env.VITE_SUPABASE_ANON_KEY;
+const supabaseUrl = 'https://qgrszltduzblpvpqvkqr.supabase.co';
+const supabaseKey = 'sb_publishable_4xfLdHDF2yMobyRQruJV4A_Q4Fn9m9S';
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-async function run() {
-    console.log('Fetching recent auto-heal logs...');
+async function checkLogs() {
     const { data: logs, error } = await supabase
         .from('iota_seoul_logs')
-        .select('log_id, writer_name, raw_text, created_at')
-        .eq('writer_staff_id', 'system_auto')
+        .select('*')
+        .ilike('raw_text', '%테스트%')
         .order('created_at', { ascending: false })
-        .limit(50);
-        
+        .limit(5);
+
     if (error) {
         console.error('Error fetching logs:', error);
         return;
     }
-    
-    console.log(`Found ${logs.length} auto-heal logs.`);
+
+    console.log('--- RECENT TEST LOGS ---');
     for (const log of logs) {
-        console.log(`- ${log.created_at} | ${log.log_id} | ${log.writer_name}: ${log.raw_text}`);
+        console.log(`Log ID: ${log.log_id}`);
+        console.log(`Created At: ${log.created_at}`);
+        console.log(`Writer: ${log.writer_name} (${log.writer_staff_id})`);
+        console.log(`Summary: ${log.summary}`);
+        console.log(`Raw Text: ${log.raw_text}`);
+        console.log(`Metadata:`, JSON.stringify(log.metadata, null, 2));
+        console.log('-------------------');
     }
 }
 
-run();
+checkLogs();
