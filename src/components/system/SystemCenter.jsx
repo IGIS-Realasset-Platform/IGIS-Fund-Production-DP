@@ -1160,7 +1160,6 @@ export default function SystemCenter() {
                 })()}
 
                 </div>
-                <div className="h-[200px] shrink-0 w-full"></div>
             </div>
         </div>
     );

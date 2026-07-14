@@ -143,7 +143,6 @@ export default function PlatformCenter({ currentPath = '' }) {
                     <div key={currentPath} className="animate-content-blink flex-1 flex flex-col w-full min-h-full relative max-w-full overflow-x-hidden">
                         {activeContent}
                     </div>
-                    <div className="h-[200px] shrink-0 w-full"></div>
                 </div>
             </div>
         );

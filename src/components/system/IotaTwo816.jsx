@@ -1004,7 +1004,6 @@ export default function IotaTwo816() {
                 </div>
                 ))}
                 
-                <div className="h-[200px] shrink-0 w-full"></div>
 
                 {/* PF Schedule Modal */}
                 {showPfScheduleModal && (
