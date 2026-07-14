@@ -947,11 +947,12 @@ export default function DecisionLog() {
                             >
                                 <span>+ 새 업무 추가</span>
                             </button>
+
+                            {/* Date Pill (moved to the right of Add Task button) */}
+                            <span className="text-[15px] font-bold text-[#86868B] tracking-tight bg-[#222] px-[16px] py-[6px] rounded-full shadow-sm leading-none ml-6 self-center shrink-0">
+                                {formattedDate}
+                            </span>
                         </div>
-                        {/* Right: Date Pill (shifted down by 10px, aligned to right padding boundary) */}
-                        <span className="text-[15px] font-bold text-[#86868B] tracking-tight bg-[#222] px-[16px] py-[6px] rounded-full shadow-sm leading-none transform translate-y-[4px]">
-                            {formattedDate}
-                        </span>
                     </div>
                 </div>
             )}
