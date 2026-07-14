@@ -683,7 +683,7 @@ export default function PmoScheduleGate() {
                                     <th className="w-[90px] min-w-[90px] max-w-[90px] text-center bg-[#272726]">
                                         <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] translate-x-[6px]">
                                             <span className={`font-bold text-[12px] whitespace-nowrap ${selectedRrLead === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
-                                                {selectedRrLead === '전체보기' ? '주관 부서' : selectedRrLead}
+                                                {selectedRrLead === '전체보기' ? '주관 부서' : selectedRrLead}' : selectedRrLead}
                                             </span>
                                             <span className="text-[8px] text-[#86868B]/70 pointer-events-none select-none translate-y-[0.5px] ml-1">▼</span>
                                             <select
@@ -699,10 +699,10 @@ export default function PmoScheduleGate() {
                                             </select>
                                         </div>
                                     </th>
-                                    <th className="pl-3 w-[230px] min-w-[230px] max-w-[230px] text-left bg-[#272726] border-r border-[#3c3c3c]">
+                                    <th className="pl-3 w-[245px] min-w-[245px] max-w-[245px] text-left bg-[#272726] border-r border-[#3c3c3c]">
                                         <div className="relative inline-flex items-center justify-start bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b]">
                                             <span className={`font-bold text-[12px] whitespace-nowrap ${selectedRrCoop === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
-                                                {selectedRrCoop === '전체보기' ? '협업 부서' : selectedRrCoop}
+                                                {selectedRrCoop === '전체보기' ? '협업 부서' : selectedRrCoop}' : selectedRrCoop}
                                             </span>
                                             <span className="text-[8px] text-[#86868B]/70 pointer-events-none select-none translate-y-[0.5px] ml-1">▼</span>
                                             <select
@@ -718,9 +718,9 @@ export default function PmoScheduleGate() {
                                             </select>
                                         </div>
                                     </th>
-                                    <th className="px-1 tracking-tighter whitespace-nowrap w-[110px] min-w-[110px] max-w-[110px] text-center bg-[#272726]">외부 상대방</th>
-                                    <th className="px-1 tracking-tighter whitespace-nowrap w-[110px] min-w-[110px] max-w-[110px] text-center bg-[#272726]">필요산출물</th>
-                                    <th className="px-3 w-[175px] min-w-[175px] max-w-[175px] text-left bg-[#272726] border-r border-[#3c3c3c] rounded-tr-[31px] whitespace-nowrap">관리 포인트</th>
+                                    <th className="px-1 tracking-tighter whitespace-nowrap w-[95px] min-w-[95px] max-w-[95px] text-center bg-[#272726]">외부 상대방</th>
+                                    <th className="px-1 tracking-tighter whitespace-nowrap w-[75px] min-w-[75px] max-w-[75px] text-center bg-[#272726]">필요산출물</th>
+                                    <th className="px-3 w-[170px] min-w-[170px] max-w-[170px] text-left bg-[#272726] border-r border-[#3c3c3c] rounded-tr-[31px] whitespace-nowrap">관리 포인트</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-[#3c3c3c]/60 text-[12px]">
@@ -776,14 +776,14 @@ export default function PmoScheduleGate() {
                                             </td>
 
                                             {/* 주관 부서 */}
-                                            <td className="text-center w-[90px] min-w-[90px] max-w-[90px]">
+                                            <td className="text-center w-[90px] min-w-[90px] max-w-[90px] bg-[#272726] group-hover:bg-[#333] transition-colors">
                                                 <span className="px-2.5 py-0.5 rounded font-bold bg-[#2997ff]/10 text-white border border-[#2997ff]/20 text-[11px] whitespace-nowrap inline-block translate-x-[6px]">
                                                     {item.lead}
                                                 </span>
                                             </td>
                                             
                                             {/* 협업 부서 */}
-                                            <td className="pl-3 text-left w-[180px] min-w-[180px] max-w-[180px] border-r border-[#3c3c3c]">
+                                            <td className="pl-3 text-left w-[245px] min-w-[245px] max-w-[245px] border-r border-[#3c3c3c] whitespace-normal break-words leading-tight pr-2 text-[#E5E5E5] bg-[#272726] group-hover:bg-[#333] transition-colors">
                                                 <div className="flex flex-row gap-1.5 justify-start items-center whitespace-nowrap">
                                                     {item.coop.map((c, cIdx) => (
                                                         c && <span key={cIdx} className="px-2 py-0.5 rounded bg-[#1F1F1E] text-[#C2C2C6] border border-[#3c3c3c] text-[11px] whitespace-nowrap">{c}</span>
@@ -792,17 +792,17 @@ export default function PmoScheduleGate() {
                                             </td>
 
                                             {/* 외부 상대방 */}
-                                            <td className="px-3 text-center text-[#A1A1AA] font-semibold whitespace-normal break-all w-[106px] min-w-[106px] max-w-[106px]">
+                                            <td className="px-1 text-center text-[#A1A1AA] font-semibold whitespace-nowrap overflow-hidden text-ellipsis w-[95px] min-w-[95px] max-w-[95px] bg-[#272726] group-hover:bg-[#333] transition-colors">
                                                 {item.partner || '-'}
                                             </td>
 
                                             {/* 필요산출물 */}
-                                            <td className="px-3 text-center text-[#F59E0B] font-semibold whitespace-normal break-all w-[106px] min-w-[106px] max-w-[106px]">
+                                            <td className="px-1 text-center text-[#F59E0B] font-semibold whitespace-nowrap overflow-hidden text-ellipsis w-[75px] min-w-[75px] max-w-[75px] bg-[#272726] group-hover:bg-[#333] transition-colors">
                                                 {item.need || '-'}
                                             </td>
 
                                             {/* 관리 포인트 */}
-                                            <td className="px-3 text-left text-[#E5E5E5] font-normal whitespace-normal break-all w-[205px] min-w-[205px] max-w-[205px] border-r border-[#3c3c3c]">
+                                            <td className={`px-2 text-left text-[#A1A1AA] font-normal whitespace-nowrap overflow-hidden text-ellipsis w-[170px] min-w-[170px] max-w-[170px] border-r border-[#3c3c3c] bg-[#272726] group-hover:bg-[#333] transition-colors ${isLastItem ? 'rounded-br-[31px]' : ''}`}>
                                                 {item.point}
                                             </td>
                                         </tr>
