@@ -1080,7 +1080,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                 {displayedLogs.map((log, index) => {
                     if (isTaskBoard) {
                         return (
-                            <div id={log.log_id} key={log.log_id} className="w-full flex flex-col gap-[12px] p-[20px] bg-[#1c1c1e] border border-[#2c2c2e] rounded-[16px] transition-all hover:border-[#444] relative group">
+                            <div id={log.log_id} key={log.log_id} className="w-full flex flex-col gap-[12px] pt-[20px] pr-[20px] pb-[20px] pl-[14px] bg-[#1c1c1e] border border-[#2c2c2e] rounded-[16px] transition-all hover:border-[#444] relative group">
                                 {/* Card Header */}
                                 <div className="w-full flex items-start gap-[10px]">
                                     <div className="w-[32px] h-[32px] rounded-full bg-[#2c2c2e] flex items-center justify-center border border-[#3c3c3c] shrink-0 overflow-hidden mt-[2px]">

@@ -578,7 +578,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                 {/* Header */}
                 {!editMode && !isTaskBoard && (
                     <div 
-                        className={`w-full px-[20px] ${isTaskBoard && !isExpanded ? 'py-[7px]' : 'py-[10px]'} ${isExpanded || editMode ? 'border-b border-[#333]' : 'border-b-0'} flex items-center ${isTaskBoard && !isExpanded ? 'justify-center' : ''} gap-[12px] ${!isExpanded ? 'cursor-pointer hover:bg-[#2a2a2a] transition-colors' : ''}`}
+                        className={`w-full ${isTaskBoard ? 'pl-[14px] pr-[20px]' : 'px-[20px]'} ${isTaskBoard && !isExpanded ? 'py-[7px]' : 'py-[10px]'} ${isExpanded || editMode ? 'border-b border-[#333]' : 'border-b-0'} flex items-center ${isTaskBoard && !isExpanded ? 'justify-center' : ''} gap-[12px] ${!isExpanded ? 'cursor-pointer hover:bg-[#2a2a2a] transition-colors' : ''}`}
                         onClick={() => {
                             if (!isExpanded) setIsExpanded(true);
                         }}
@@ -739,7 +739,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                             className="overflow-hidden w-full flex flex-col"
                         >
 {/* Text Area */}
-                <div className={`w-full px-[20px] ${isTaskBoard ? 'pt-[16px] pb-[18px]' : 'pt-[20px] pb-[24px]'} bg-transparent ${editMode ? 'border-b border-[#333] pb-[20px] mb-[0] relative' : ''}`}>
+                <div className={`w-full ${isTaskBoard ? 'pl-[14px] pr-[20px]' : 'px-[20px]'} ${isTaskBoard ? 'pt-[16px] pb-[18px]' : 'pt-[20px] pb-[24px]'} bg-transparent ${editMode ? 'border-b border-[#333] pb-[20px] mb-[0] relative' : ''}`}>
                     {editMode && (
                         <button 
                             type="button"

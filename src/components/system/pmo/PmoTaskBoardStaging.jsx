@@ -4319,7 +4319,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                 {/* Content Body */}
                                 <div className="flex-1 overflow-y-auto px-[10px] py-6 space-y-[10px] timeline-scrollbar">
                                     {/* Task Name */}
-                                    <div className="space-y-1 pl-[20px] relative top-[-6px]">
+                                    <div className="space-y-1 pl-[14px] relative top-[-6px]">
                                         <h2 className="text-[22px] font-bold text-[#bdbba7] leading-snug">
                                             {t.task_name || ''}
                                         </h2>
@@ -4458,7 +4458,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                     </div>
                                     
                                     {/* Deep Dive Narrative Cards (Single unified box) */}
-                                    <div className="pt-5 pr-5 pb-5 pl-[26px] rounded-[16px] bg-white/[0.02] border border-[#2c2c2e] flex flex-col">
+                                    <div className="p-5 rounded-[16px] bg-white/[0.02] border border-[#2c2c2e] flex flex-col">
                                         {/* 업무 목적 */}
                                         <div className="space-y-0">
                                             <h4 className="text-[11px] font-bold text-[#86868B]">업무 목적</h4>
