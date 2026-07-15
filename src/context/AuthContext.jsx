@@ -72,7 +72,7 @@ export function AuthProvider({ children }) {
             let timeoutId;
             try {
                 // Manual fallback: forcefully trigger recovery mode if URL indicates a password reset link
-                if (window.location.hash.includes('type=recovery') || window.location.search.includes('code=')) {
+                if (window.location.hash.includes('type=recovery') || window.location.hash.includes('access_token=') || window.location.search.includes('code=')) {
                     setRecoveryMode(true);
                 } else if (window.location.search.includes('error=') || window.location.hash.includes('error=')) {
                     // Check if Supabase rejected the redirect
