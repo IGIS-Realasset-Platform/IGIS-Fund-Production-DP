@@ -71,6 +71,11 @@ export function AuthProvider({ children }) {
         const initializeAuth = async () => {
             let timeoutId;
             try {
+                // Manual fallback: forcefully trigger recovery mode if URL indicates a password reset link
+                if (window.location.hash.includes('type=recovery') || window.location.search.includes('code=')) {
+                    setRecoveryMode(true);
+                }
+
                 // 6. 데드락 핵심 수정 사항: onAuthStateChange 내부에서는 절대 DB 통신(await)을 하지 않음!
                 // IMPORTANT: Register listener BEFORE any await, so we don't miss the PASSWORD_RECOVERY event
                 const { data } = supabase.auth.onAuthStateChange((event, session) => {
