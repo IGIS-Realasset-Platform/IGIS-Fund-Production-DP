@@ -74,6 +74,13 @@ export function AuthProvider({ children }) {
                 // Manual fallback: forcefully trigger recovery mode if URL indicates a password reset link
                 if (window.location.hash.includes('type=recovery') || window.location.search.includes('code=')) {
                     setRecoveryMode(true);
+                } else if (window.location.search.includes('error=') || window.location.hash.includes('error=')) {
+                    // Check if Supabase rejected the redirect
+                    const urlParams = new URLSearchParams(window.location.search || window.location.hash.substring(1));
+                    const errorDesc = urlParams.get('error_description') || urlParams.get('error');
+                    if (errorDesc) {
+                        alert('비밀번호 복구 링크 오류: ' + errorDesc + '\n수파베이스 Redirect URL 설정을 확인해주세요.');
+                    }
                 }
 
                 // 6. 데드락 핵심 수정 사항: onAuthStateChange 내부에서는 절대 DB 통신(await)을 하지 않음!
