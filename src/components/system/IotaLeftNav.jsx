@@ -165,7 +165,7 @@ const phase2MenuItems = [
     },
 ];
 
-const menuItems = import.meta.env.MODE === 'staging' ? phase2MenuItems : phase1MenuItems;
+const menuItems = phase2MenuItems; // 실서버(production)에서도 마일스톤 등 신규 메뉴 노출
 
 const workspaceItems = [
     {
