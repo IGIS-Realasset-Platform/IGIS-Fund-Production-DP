@@ -71,6 +71,24 @@ export function AuthProvider({ children }) {
         const initializeAuth = async () => {
             let timeoutId;
             try {
+                // 6. 데드락 핵심 수정 사항: onAuthStateChange 내부에서는 절대 DB 통신(await)을 하지 않음!
+                // IMPORTANT: Register listener BEFORE any await, so we don't miss the PASSWORD_RECOVERY event
+                const { data } = supabase.auth.onAuthStateChange((event, session) => {
+                    if (event === 'PASSWORD_RECOVERY') {
+                        setRecoveryMode(true);
+                    }
+
+                    if (session?.user) {
+                        setUser(session.user); // State만 변경. memberInfo는 위의 useEffect가 알아서 처리함
+                    } else {
+                        setUser(null);
+                    }
+                });
+                
+                if (data && data.subscription) {
+                    subscription = data.subscription;
+                }
+
                 // Inactivity timeout check disabled to prevent continuous forced logouts on mobile/background tabs
                 /*
                 const lastActivityStr = localStorage.getItem('iota_last_activity');
@@ -100,11 +118,9 @@ export function AuthProvider({ children }) {
                 clearTimeout(timeoutId);
 
                 if (session?.user) {
-                    setUser(session.user);
-                    // 초기 부팅 시 화면 깜빡임 방지를 위해 동기적으로 1회만 조회
+                    // 초기 부팅 시 화면 깜빡임 방지를 위해 동기적으로 1회만 조회 (setUser is handled by onAuthStateChange)
                     await fetchMemberInfo(session.user.email);
                 } else {
-                    setUser(null);
                     setMemberInfo(null);
                 }
             } catch (err) {
@@ -112,23 +128,6 @@ export function AuthProvider({ children }) {
             } finally {
                 clearTimeout(timeoutId);
                 setLoading(false);
-                
-                // 6. 데드락 핵심 수정 사항: onAuthStateChange 내부에서는 절대 DB 통신(await)을 하지 않음!
-                const { data } = supabase.auth.onAuthStateChange((event, session) => {
-                    if (event === 'PASSWORD_RECOVERY') {
-                        setRecoveryMode(true);
-                    }
-
-                    if (session?.user) {
-                        setUser(session.user); // State만 변경. memberInfo는 위의 useEffect가 알아서 처리함
-                    } else {
-                        setUser(null);
-                    }
-                });
-                
-                if (data && data.subscription) {
-                    subscription = data.subscription;
-                }
             }
         };
 
