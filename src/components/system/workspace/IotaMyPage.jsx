@@ -475,7 +475,7 @@ export default function IotaMyPage() {
             </div>
 
             {/* Main Content Area */}
-            <div className="flex-1 flex flex-col h-full overflow-hidden bg-[#111] relative">
+            <div className="flex-1 flex flex-col h-full overflow-hidden bg-[#111] relative pt-[8px]">
                 <div className="absolute inset-0 bg-gradient-to-b from-[#1a1a1a] to-transparent h-[200px] pointer-events-none z-0"></div>
 
                 {/* Sub Header (Search Area) */}

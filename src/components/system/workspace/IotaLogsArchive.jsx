@@ -378,7 +378,7 @@ export default function IotaLogsArchive() {
             </div>
  
             {/* Main Viewer Area */}
-            <div className="flex-1 flex flex-col h-full overflow-hidden relative bg-[#111] print:w-full print:block">
+            <div className="flex-1 flex flex-col h-full overflow-hidden relative bg-[#111] print:w-full print:block pt-[8px]">
                 <div className="absolute inset-0 bg-gradient-to-b from-[#1a1a1a] to-transparent h-[200px] pointer-events-none z-0 print:hidden"></div>
                 
                 {selectedWeekLabels.length > 0 ? (

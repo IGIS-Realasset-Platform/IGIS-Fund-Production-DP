@@ -67,7 +67,7 @@ export default function SystemCenter() {
             {/* Dedicated Scroll Container */}
             <div ref={scrollRef} onScroll={handleScroll} className="flex-1 w-full overflow-y-auto hide-scrollbar flex flex-col relative">
                 {/* Main Content Area */}
-                <div className="w-[1200px] mx-auto flex-1 flex flex-col pt-[28px] shrink-0 pb-[60px]">
+                <div className="w-[1200px] mx-auto flex-1 flex flex-col pt-[36px] shrink-0 pb-[60px]">
                 
                 {/* Title & Metadata row */}
                 <div className="w-full flex justify-between items-end mb-[24px]">

@@ -140,7 +140,7 @@ export default function PlatformCenter({ currentPath = '' }) {
         return (
             <div className="flex-1 h-full bg-transparent flex flex-col relative font-sans text-[#1D1D1F] dark:text-[#E5E5E5] overflow-hidden transition-colors duration-300">
                 <div ref={scrollRef} onScroll={handleScroll} className="flex-1 w-full overflow-y-auto hide-scrollbar flex flex-col relative">
-                    <div key={currentPath} className="animate-content-blink flex-1 flex flex-col w-full min-h-full relative max-w-full overflow-x-hidden">
+                    <div key={currentPath} className="animate-content-blink flex-1 flex flex-col w-full min-h-full relative max-w-full overflow-x-hidden pt-[8px]">
                         {activeContent}
                     </div>
                 </div>
