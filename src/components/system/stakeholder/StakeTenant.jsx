@@ -74,7 +74,7 @@ const defaultSpaceNeeds = [
 
 const defaultSiOpportunities = [
     { id: 'opp-1', tenant_id: 'tenant-novartis', collab_type: '공동 펀드', summary: '라이프사이언스 공동 운용 펀드 조성', collab_plan: '테넌트의 R&D 인프라와 운용사의 자본을 결합해 바이오 클러스터 대상 블라인드 펀드 공동 GP 참여 타진.', status: '제안중', pm_manager: '김민지 리더', created_at: '2026-05-10T00:00:00Z', updated_at: '2026-06-05T00:00:00Z' },
-    { id: 'opp-2', tenant_id: 'tenant-astrazeneca', collab_type: '시설 연계 투자', summary: 'R&D 시설 투자 유치 및 임차 연계', collab_plan: '아셈타워 인접 구획 증평 시 특수 실험용 설비 구축비 일부를 운용사 펀드에서 선투자 후, 임대료 요율 조정을 통해 회수하는 구조 검토.', status: '대기', pm_manager: '전기영 매니저', created_at: '2026-05-15T00:00:00Z', updated_at: '2026-05-15T00:00:00Z' }
+    { id: 'opp-2', tenant_id: 'tenant-astrazeneca', collab_type: '시설 연계 투자', summary: 'R&D 시설 투자 유치 및 임차 연계', collab_plan: '아셈타워 인접 구획 증평 시 특수 실험용 설비 구축비 일부를 운용사 펀드에서 선투자 후, 임대료 요율 조정을 통해 회수하는 구조 검토.', status: '제안중', pm_manager: '전기영 매니저', created_at: '2026-05-15T00:00:00Z', updated_at: '2026-05-15T00:00:00Z' }
 ];
 
 export default function StakeTenant({ defaultTab = 'list' }) {
@@ -105,7 +105,7 @@ export default function StakeTenant({ defaultTab = 'list' }) {
 
     // Inline additions in Drawer
     const [newContact, setNewContact] = useState({ name: '', position: '', role_category: '결정권자', phone: '', engagement_score: 3, last_contact_date: '', memo: '' });
-    const [newSi, setNewSi] = useState({ collab_type: '공동 펀드', summary: '', collab_plan: '', status: '대기', pm_manager: '' });
+    const [newSi, setNewSi] = useState({ collab_type: '공동 펀드', summary: '', collab_plan: '', status: '제안중', pm_manager: '' });
 
     // Registration Form State
     const [regForm, setRegForm] = useState({
@@ -329,7 +329,7 @@ export default function StakeTenant({ defaultTab = 'list' }) {
 
         const nextSi = [...siOpportunities, oppObj];
         await saveToDBOrLocal(tenants, contacts, spaceNeeds, nextSi);
-        setNewSi({ collab_type: '공동 펀드', summary: '', collab_plan: '', status: '대기', pm_manager: '' });
+        setNewSi({ collab_type: '공동 펀드', summary: '', collab_plan: '', status: '제안중', pm_manager: '' });
     };
 
     // 5. Update SI Status (e.g. from table list)
@@ -568,7 +568,6 @@ export default function StakeTenant({ defaultTab = 'list' }) {
                                                                     onChange={e => handleUpdateSiStatus(opp.id, e.target.value)}
                                                                     className="bg-[#222] border border-[#444] rounded-[6px] px-2 py-1 text-[13px] text-white outline-none focus:border-[#888] cursor-pointer"
                                                                 >
-                                                                    <option value="대기">대기</option>
                                                                     <option value="제안중">제안중</option>
                                                                     <option value="완료">완료</option>
                                                                 </select>
@@ -1181,7 +1180,6 @@ export default function StakeTenant({ defaultTab = 'list' }) {
                                             onChange={e => setNewSi({ ...newSi, status: e.target.value })}
                                             className="bg-[#1A1A1A] border border-[#333] rounded-[6px] px-1 py-1.5 text-[13px] cursor-pointer"
                                         >
-                                            <option value="대기">대기</option>
                                             <option value="제안중">제안중</option>
                                             <option value="완료">완료</option>
                                         </select>

@@ -6,7 +6,7 @@ const MOCK_PIPELINES = [
     {"id": "task-pipe-pwc", "channel_name": "PwC삼일회계법인", "related_asset": "이오타서울, 현대차새만금프로젝트", "status": "진행중", "contact_point": "박성진 부대표 메인", "created_at": "2026-05-08T00:00:00Z"},
     {"id": "task-pipe-samsungpb", "channel_name": "삼성증권PB", "related_asset": "타임워크신도림, 분당롯데", "status": "진행중", "contact_point": "노혜란 지점장, 여인모 위원", "created_at": "2026-05-08T00:00:00Z"},
     {"id": "task-pipe-saramin", "channel_name": "사람인", "related_asset": "타임워크신도림", "status": "진행중", "contact_point": "이경호 본부장", "created_at": "2026-05-08T00:00:00Z"},
-    {"id": "task-pipe-rsquare", "channel_name": "알스퀘어", "related_asset": "미정", "status": "대기", "contact_point": "미정", "created_at": "2026-05-08T00:00:00Z"}
+    {"id": "task-pipe-rsquare", "channel_name": "알스퀘어", "related_asset": "미정", "status": "지연", "contact_point": "미정", "created_at": "2026-05-08T00:00:00Z"}
 ];
 
 const MOCK_LOGS = [
@@ -32,7 +32,7 @@ export default function MarketingPipeline({ memberInfo, masterStakeholders, fetc
 
     // States for Adding Pipeline
     const [isAddingPipeline, setIsAddingPipeline] = useState(false);
-    const [newPipeline, setNewPipeline] = useState({ channel_name: '', status: '대기', related_asset: 'IOTA 공통', contact_point: '', progress_detail: '', management_plan: '' });
+    const [newPipeline, setNewPipeline] = useState({ channel_name: '', status: '진행중', related_asset: 'IOTA 공통', contact_point: '', progress_detail: '', management_plan: '' });
     const [showCompanyDropdown, setShowCompanyDropdown] = useState(false);
     const [showContactDropdown, setShowContactDropdown] = useState(false);
 
@@ -63,7 +63,7 @@ export default function MarketingPipeline({ memberInfo, masterStakeholders, fetc
         setEditingPipelineId(pipe.id);
         setNewPipeline({
             channel_name: pipe.channel_name || '',
-            status: pipe.status || '대기',
+            status: pipe.status || '진행중',
             related_asset: pipe.related_asset || 'IOTA 공통',
             contact_point: pipe.contact_point || '',
             progress_detail: '',
@@ -197,7 +197,7 @@ export default function MarketingPipeline({ memberInfo, masterStakeholders, fetc
         }
         setIsAddingPipeline(false);
         setEditingPipelineId(null);
-        setNewPipeline({ channel_name: '', status: '대기', related_asset: 'IOTA 공통', contact_point: '', progress_detail: '', management_plan: '' });
+        setNewPipeline({ channel_name: '', status: '진행중', related_asset: 'IOTA 공통', contact_point: '', progress_detail: '', management_plan: '' });
     };
 
     const registerMasterStakeholder = async () => {
@@ -411,7 +411,7 @@ export default function MarketingPipeline({ memberInfo, masterStakeholders, fetc
                                 setIsAddingPipeline(!isAddingPipeline);
                                 if (isAddingPipeline) {
                                     setEditingPipelineId(null);
-                                    setNewPipeline({ channel_name: '', status: '대기', related_asset: 'IOTA 공통', contact_point: '', progress_detail: '', management_plan: '' });
+                                    setNewPipeline({ channel_name: '', status: '진행중', related_asset: 'IOTA 공통', contact_point: '', progress_detail: '', management_plan: '' });
                                 }
                             }}
                             className="px-4 py-2 bg-[#3b82f6]/20 text-[#60a5fa] rounded-[8px] text-[13px] font-bold border border-[#3b82f6]/30 hover:bg-[#3b82f6]/30 transition-all cursor-pointer"
@@ -545,7 +545,6 @@ export default function MarketingPipeline({ memberInfo, masterStakeholders, fetc
                                     onChange={e => setNewPipeline({...newPipeline, status: e.target.value})}
                                     className="w-full bg-[#272726] border border-[#444] rounded-[12px] px-4 py-3 text-white text-[15px] outline-none focus:border-[#888] appearance-none cursor-pointer"
                                 >
-                                    <option>대기</option>
                                     <option>진행중</option>
                                     <option>검토필요</option>
                                     <option>완료</option>

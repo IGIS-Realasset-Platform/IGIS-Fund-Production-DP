@@ -29,7 +29,7 @@ const CATEGORY_OPTIONS = [
 ];
 
 const IMPACT_OPTIONS = ['높음', '중간', '낮음'];
-const STATUS_OPTIONS = ['미착수', '진행중', '검토중', '대기', '지연', '완료', '보류', '중단'];
+const STATUS_OPTIONS = ['미착수', '진행중', '검토중', '지연', '완료', '보류', '중단'];
 
 export default function PmoPopupManager() {
     const { memberInfo, user } = useAuth();
@@ -801,7 +801,7 @@ export default function PmoPopupManager() {
             </div>
 
             {/* Metrics Dashboard Banner */}
-            <div className="grid grid-cols-9 gap-2.5 mb-[12px]">
+            <div className="grid grid-cols-8 gap-2.5 mb-[12px]">
                 <div 
                     onClick={() => setFilterStatus('전체보기')}
                     className={`py-2 px-1.5 rounded-[12px] border transition-all cursor-pointer flex flex-col items-center justify-center text-center ${filterStatus === '전체보기' ? 'bg-[#2997ff]/10 border-[#2997ff] shadow-md shadow-[#2997ff]/5' : 'bg-[#2c2c2b]/60 border-[#3c3c3c] hover:border-[#555]'}`}
@@ -829,13 +829,6 @@ export default function PmoPopupManager() {
                 >
                     <span className="text-[12px] font-medium text-[#bf5af2] mb-1">검토중</span>
                     <span className="text-[19px] font-extrabold text-[#bf5af2] leading-none">{metrics.reviewing}</span>
-                </div>
-                <div 
-                    onClick={() => setFilterStatus('대기')}
-                    className={`py-2 px-1.5 rounded-[12px] border transition-all cursor-pointer flex flex-col items-center justify-center text-center ${filterStatus === '대기' ? 'bg-[#ff9f0a]/10 border-[#ff9f0a] shadow-md shadow-[#ff9f0a]/5' : 'bg-[#2c2c2b]/60 border-[#3c3c3c] hover:border-[#555]'}`}
-                >
-                    <span className="text-[12px] font-medium text-[#ff9f0a] mb-1">대기</span>
-                    <span className="text-[19px] font-extrabold text-[#ff9f0a] leading-none">{metrics.waiting}</span>
                 </div>
                 <div 
                     onClick={() => setFilterStatus('지연')}
