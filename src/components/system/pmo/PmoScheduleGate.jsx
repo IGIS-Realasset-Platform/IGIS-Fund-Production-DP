@@ -512,7 +512,7 @@ export default function PmoScheduleGate() {
                         return (
                             <div 
                                 style={{ left: `${x}px`, opacity: 1 }} 
-                                className="absolute -translate-x-1/2 top-[10px] bg-[#ff9f0a] text-[#1c1c1e] rounded-[6px] text-[11px] font-bold shadow-lg text-center leading-tight w-[58px] h-[44px] flex flex-col justify-center items-center pointer-events-auto"
+                                className="absolute -translate-x-1/2 top-[14px] bg-[#ff9f0a] text-[#1c1c1e] rounded-[6px] text-[11px] font-bold shadow-lg text-center leading-tight w-[58px] h-[44px] flex flex-col justify-center items-center pointer-events-auto"
                             >
                                 <div>PF 달성</div>
                                 <div>1차목표</div>
@@ -527,7 +527,7 @@ export default function PmoScheduleGate() {
                         return (
                             <div 
                                 style={{ left: `${x}px`, opacity: 1 }} 
-                                className="absolute -translate-x-1/2 top-0 bg-[#2c2c2e] text-white border border-[#3c3c3c] rounded-[6px] text-[11px] font-bold shadow-lg text-center leading-tight w-[70px] h-[54px] flex flex-col justify-center items-center pointer-events-auto"
+                                className="absolute -translate-x-1/2 top-[4px] bg-[#2c2c2e] text-white border border-[#3c3c3c] rounded-[6px] text-[11px] font-bold shadow-lg text-center leading-tight w-[70px] h-[54px] flex flex-col justify-center items-center pointer-events-auto"
                             >
                                 <div>1차목표</div>
                                 <div>미달성시</div>
