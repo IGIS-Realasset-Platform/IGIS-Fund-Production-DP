@@ -130,8 +130,8 @@ export default function PlatformCenter({ currentPath = '' }) {
     
     const isStaging = import.meta.env.MODE === 'staging';
     let activeContent = govContent || stakeContent || workspaceContent;
-    if (!currentPath || currentPath === '' || currentPath === 'platform/iotaseoul' || (currentPath === 'platform/iotaseoul/home' && !isStaging)) {
-        activeContent = isStaging ? <PmoMeetingMain /> : <DecisionLog />;
+    if (!currentPath || currentPath === '' || currentPath === 'platform/iotaseoul') {
+        activeContent = <PmoMeetingMain />;
     } else if (currentPath === 'platform/iotaseoul/dashboard') {
         activeContent = <IotaDashboard />;
     }

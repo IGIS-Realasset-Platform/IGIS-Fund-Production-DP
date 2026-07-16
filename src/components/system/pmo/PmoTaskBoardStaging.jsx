@@ -1686,7 +1686,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
     }, []);
 
     const uniqueStatusFilter = useMemo(() => {
-        return ['미착수', '진행중', '검토중', '지연', '완료', '보류', '중단'];
+        return ['미착수', '진행중', '지연', '완료', '보류', '중단'];
     }, []);
 
     const uniqueImportanceFilter = useMemo(() => {
@@ -3893,7 +3893,6 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                         >
                                             <option value="미착수">미착수</option>
                                             <option value="진행중">진행중</option>
-                                            <option value="검토중">검토중</option>
                                             <option value="지연">지연</option>
                                             <option value="완료">완료</option>
                                             <option value="보류">보류</option>
