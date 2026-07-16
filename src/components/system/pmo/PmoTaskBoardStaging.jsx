@@ -1381,6 +1381,21 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
     const [selectedImportanceLevel, setSelectedImportanceLevel] = useState('전체보기');
     const [selectedMeetingGrade, setSelectedMeetingGrade] = useState('전체보기');
 
+    useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        const filterStatus = params.get('filterStatus');
+        const filterIsBlocker = params.get('filterIsBlocker');
+        const filterNeedsDecision = params.get('filterNeedsDecision');
+        const filterImportance = params.get('filterImportance');
+        const filterMeetingGrade = params.get('filterMeetingGrade');
+
+        if (filterStatus) setSelectedStatus(filterStatus);
+        if (filterIsBlocker) setSelectedIsBlocker(filterIsBlocker);
+        if (filterNeedsDecision) setSelectedNeedsDecision(filterNeedsDecision);
+        if (filterImportance) setSelectedImportanceLevel(filterImportance);
+        if (filterMeetingGrade) setSelectedMeetingGrade(filterMeetingGrade);
+    }, []);
+
     // Masters loaded from DB
     const [projects, setProjects] = useState([
         { project_code: 'IOTA_SEOUL', project_name: 'IOTA 공통' },

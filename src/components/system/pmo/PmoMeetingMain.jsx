@@ -39,13 +39,66 @@ export default function PmoMeetingMain() {
         fetchDashboardData();
     }, []);
 
+    const handleFilterClick = (btn) => {
+        const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
+        const targetPath = btn.path.startsWith('/') ? btn.path : '/' + btn.path;
+        window.history.pushState(null, '', base + targetPath);
+        window.dispatchEvent(new Event('popstate'));
+    };
+
+    const upperFilters = [
+        { label: '전체업무', path: 'platform/iotaseoul/workflow' },
+        { label: '지연', path: 'platform/iotaseoul/workflow?filterStatus=지연' },
+        { label: 'Blocker (병목)', path: 'platform/iotaseoul/workflow?filterIsBlocker=Y (예)' },
+        { label: '의사결정필요', path: 'platform/iotaseoul/workflow?filterNeedsDecision=Y (예)' },
+        { label: '회의필요', path: 'platform/iotaseoul/workflow?filterMeetingGrade=A_즉시상정' }
+    ];
+
+    const lowerFilters = [
+        { label: '진행중', path: 'platform/iotaseoul/workflow?filterStatus=진행중' },
+        { label: 'PF필수', path: 'platform/iotaseoul/workflow?filterImportance=PF필수' },
+        { label: '준공필수', path: 'platform/iotaseoul/workflow?filterImportance=준공필수' },
+        { label: '미착수', path: 'platform/iotaseoul/workflow?filterStatus=미착수' },
+        { label: '완료', path: 'platform/iotaseoul/workflow?filterStatus=완료' },
+        { label: '보류', path: 'platform/iotaseoul/workflow?filterStatus=보류' },
+        { label: '중단', path: 'platform/iotaseoul/workflow?filterStatus=중단' },
+        { label: '단발', path: 'platform/iotaseoul/popup-requests' }
+    ];
+
     return (
         <div className="w-full flex-1 flex flex-col pt-[28px] pb-[60px] max-w-[1200px] mx-auto select-text">
             {/* Header */}
-            <div className="w-full flex justify-between items-start mb-[32px]">
+            <div className="w-full flex justify-between items-start mb-[20px]">
                 <div>
-                    <h1 className="text-[32px] font-bold text-white tracking-tight leading-none mb-[8px]">회의 메인</h1>
-                    <p className="text-[16px] text-[#86868B] leading-[26px]">의사결정 집계 및 핵심 리스크 관제 대시보드</p>
+                    <h1 className="text-[32px] font-bold text-white tracking-tight leading-none">CFT MAIN BOARD</h1>
+                </div>
+            </div>
+
+            {/* Filter Navigation Buttons */}
+            <div className="w-full flex flex-col gap-3 mb-[32px] select-none text-left">
+                {/* Upper Row */}
+                <div className="flex flex-wrap gap-2.5">
+                    {upperFilters.map((btn, idx) => (
+                        <button
+                            key={idx}
+                            onClick={() => handleFilterClick(btn)}
+                            className="bg-[#2c2c2b] border border-[#3c3c3c] hover:border-[#2997ff] hover:text-[#2997ff] rounded-full px-5 py-2 text-[13px] font-bold text-white transition-all cursor-pointer outline-none"
+                        >
+                            {btn.label}
+                        </button>
+                    ))}
+                </div>
+                {/* Lower Row */}
+                <div className="flex flex-wrap gap-2.5">
+                    {lowerFilters.map((btn, idx) => (
+                        <button
+                            key={idx}
+                            onClick={() => handleFilterClick(btn)}
+                            className="bg-[#b4b6b5] hover:bg-[#c5c7c6] rounded-full px-5 py-2 text-[13px] font-bold text-[#1c1c1e] transition-all cursor-pointer outline-none"
+                        >
+                            {btn.label}
+                        </button>
+                    ))}
                 </div>
             </div>
 
