@@ -2,25 +2,71 @@ import React from 'react';
 import { supabase } from '../../../utils/supabaseClient';
 
 export default function PmoMeetingMain() {
-    const [stats, setStats] = React.useState({ total: 0, blockers: 0, decisions: 0 });
+    const [counts, setCounts] = React.useState({
+        total: 0,
+        delayed: 0,
+        blockers: 0,
+        decisions: 0,
+        meetings: 0,
+        inProgress: 0,
+        pfRequired: 0,
+        constRequired: 0,
+        notStarted: 0,
+        completed: 0,
+        onHold: 0,
+        stopped: 0,
+        popupCount: 0
+    });
     const [topTasks, setTopTasks] = React.useState([]);
     const [loading, setLoading] = React.useState(true);
 
     React.useEffect(() => {
         async function fetchDashboardData() {
             try {
-                // Fetch stats from staging iota_v2 schema
+                // 1. Fetch popup requests count
+                const { count: popupCount } = await supabase
+                    .schema('iota_v2')
+                    .from('iota_popup_requests')
+                    .select('*', { count: 'exact', head: true });
+
+                // 2. Fetch stats and tasks from staging iota_v2 schema
                 const { data: allTasks, error } = await supabase
                     .schema('iota_v2')
                     .from('iota_pmo_tasks')
-                    .select('is_blocker, needs_decision, priority_score, task_name, assignee, due_date, status, category_main');
+                    .select('is_blocker, needs_decision, priority_score, task_name, assignee, due_date, status, category_main, importance_level, meeting_grade');
 
                 if (error) throw error;
 
+                const parseBool = (v) => v === true || String(v).toLowerCase() === 'true' || String(v).toUpperCase() === 'Y';
+
                 const total = allTasks.length;
-                const blockers = allTasks.filter(t => t.is_blocker).length;
-                const decisions = allTasks.filter(t => t.needs_decision).length;
-                setStats({ total, blockers, decisions });
+                const delayed = allTasks.filter(t => t.status === '지연').length;
+                const blockers = allTasks.filter(t => parseBool(t.is_blocker)).length;
+                const decisions = allTasks.filter(t => parseBool(t.needs_decision)).length;
+                const meetings = allTasks.filter(t => t.meeting_grade === 'A' || t.meeting_grade === 'A_즉시상정').length;
+                const inProgress = allTasks.filter(t => t.status === '진행중').length;
+                const pfRequired = allTasks.filter(t => t.importance_level === 'PF필수').length;
+                const constRequired = allTasks.filter(t => t.importance_level === '준공필수').length;
+                const notStarted = allTasks.filter(t => t.status === '미착수').length;
+                const completed = allTasks.filter(t => t.status === '완료').length;
+                const onHold = allTasks.filter(t => t.status === '보류').length;
+                const stopped = allTasks.filter(t => t.status === '중단').length;
+
+                setCounts({
+                    total,
+                    delayed,
+                    blockers,
+                    decisions,
+                    meetings,
+                    inProgress,
+                    pfRequired,
+                    constRequired,
+                    notStarted,
+                    completed,
+                    onHold,
+                    stopped,
+                    popupCount: popupCount || 0
+                });
 
                 // Sort Top 12 critical tasks (prioritize blockers, decisions, and priority score)
                 const sorted = [...allTasks].sort((a, b) => {
@@ -47,22 +93,22 @@ export default function PmoMeetingMain() {
     };
 
     const upperFilters = [
-        { label: '전체업무', path: 'platform/iotaseoul/workflow' },
-        { label: '지연', path: 'platform/iotaseoul/workflow?filterStatus=지연' },
-        { label: 'Blocker (병목)', path: 'platform/iotaseoul/workflow?filterIsBlocker=Y (예)' },
-        { label: '의사결정필요', path: 'platform/iotaseoul/workflow?filterNeedsDecision=Y (예)' },
-        { label: '회의필요', path: 'platform/iotaseoul/workflow?filterMeetingGrade=A_즉시상정' }
+        { label: '전체업무', path: 'platform/iotaseoul/workflow', count: counts.total, highlightClass: 'text-white' },
+        { label: '지연', path: 'platform/iotaseoul/workflow?filterStatus=지연', count: counts.delayed, highlightClass: 'text-[#ef4444]' },
+        { label: 'Blocker (병목)', path: 'platform/iotaseoul/workflow?filterIsBlocker=Y (예)', count: counts.blockers, highlightClass: 'text-[#ef4444]' },
+        { label: '의사결정필요', path: 'platform/iotaseoul/workflow?filterNeedsDecision=Y (예)', count: counts.decisions, highlightClass: 'text-[#F59E0B]' },
+        { label: '회의필요', path: 'platform/iotaseoul/workflow?filterMeetingGrade=A_즉시상정', count: counts.meetings, highlightClass: 'text-[#2997ff]' }
     ];
 
     const lowerFilters = [
-        { label: '진행중', path: 'platform/iotaseoul/workflow?filterStatus=진행중' },
-        { label: 'PF필수', path: 'platform/iotaseoul/workflow?filterImportance=PF필수' },
-        { label: '준공필수', path: 'platform/iotaseoul/workflow?filterImportance=준공필수' },
-        { label: '미착수', path: 'platform/iotaseoul/workflow?filterStatus=미착수' },
-        { label: '완료', path: 'platform/iotaseoul/workflow?filterStatus=완료' },
-        { label: '보류', path: 'platform/iotaseoul/workflow?filterStatus=보류' },
-        { label: '중단', path: 'platform/iotaseoul/workflow?filterStatus=중단' },
-        { label: '단발', path: 'platform/iotaseoul/popup-requests' }
+        { label: '진행중', path: 'platform/iotaseoul/workflow?filterStatus=진행중', count: counts.inProgress },
+        { label: 'PF필수', path: 'platform/iotaseoul/workflow?filterImportance=PF필수', count: counts.pfRequired },
+        { label: '준공필수', path: 'platform/iotaseoul/workflow?filterImportance=준공필수', count: counts.constRequired },
+        { label: '미착수', path: 'platform/iotaseoul/workflow?filterStatus=미착수', count: counts.notStarted },
+        { label: '완료', path: 'platform/iotaseoul/workflow?filterStatus=완료', count: counts.completed },
+        { label: '보류', path: 'platform/iotaseoul/workflow?filterStatus=보류', count: counts.onHold },
+        { label: '중단', path: 'platform/iotaseoul/workflow?filterStatus=중단', count: counts.stopped },
+        { label: '단발', path: 'platform/iotaseoul/popup-requests', count: counts.popupCount }
     ];
 
     return (
@@ -77,27 +123,29 @@ export default function PmoMeetingMain() {
             {/* Filter Navigation Buttons */}
             <div className="w-full flex flex-col gap-3 mb-[32px] select-none text-left">
                 {/* Upper Row */}
-                <div className="flex flex-wrap gap-2.5">
+                <div className="grid grid-cols-5 gap-3">
                     {upperFilters.map((btn, idx) => (
-                        <button
+                        <div
                             key={idx}
                             onClick={() => handleFilterClick(btn)}
-                            className="bg-[#2c2c2b] border border-[#3c3c3c] hover:border-[#2997ff] hover:text-[#2997ff] rounded-full px-5 py-2 text-[13px] font-bold text-white transition-all cursor-pointer outline-none"
+                            className="bg-[#2c2c2b]/60 border border-[#3c3c3c] hover:border-[#2997ff] rounded-[16px] py-3.5 px-2 flex flex-col items-center justify-center text-center cursor-pointer transition-all hover:shadow-md outline-none"
                         >
-                            {btn.label}
-                        </button>
+                            <span className="text-[12px] font-bold text-[#86868b] mb-1.5">{btn.label}</span>
+                            <span className={`text-[20px] font-black leading-none ${btn.highlightClass || 'text-white'}`}>{btn.count}</span>
+                        </div>
                     ))}
                 </div>
                 {/* Lower Row */}
-                <div className="flex flex-wrap gap-2.5">
+                <div className="grid grid-cols-8 gap-3">
                     {lowerFilters.map((btn, idx) => (
-                        <button
+                        <div
                             key={idx}
                             onClick={() => handleFilterClick(btn)}
-                            className="bg-[#b4b6b5] hover:bg-[#c5c7c6] rounded-full px-5 py-2 text-[13px] font-bold text-[#1c1c1e] transition-all cursor-pointer outline-none"
+                            className="bg-[#b4b6b5] hover:bg-[#c5c7c6] border border-[#a3a5a4]/40 rounded-[16px] py-3.5 px-2 flex flex-col items-center justify-center text-center cursor-pointer transition-all hover:shadow-md outline-none"
                         >
-                            {btn.label}
-                        </button>
+                            <span className="text-[12px] font-bold text-[#1c1c1e]/70 mb-1.5">{btn.label}</span>
+                            <span className="text-[20px] font-black text-[#1c1c1e] leading-none">{btn.count}</span>
+                        </div>
                     ))}
                 </div>
             </div>
@@ -108,22 +156,6 @@ export default function PmoMeetingMain() {
                 </div>
             ) : (
                 <div className="w-full flex flex-col gap-8">
-                    {/* KPI Widgets */}
-                    <div className="grid grid-cols-3 gap-6">
-                        <div className="bg-[#272726] border border-[#3c3c3c] rounded-[20px] p-6 flex flex-col justify-between hover:border-[#555] transition-all">
-                            <span className="text-[12px] font-bold text-[#86868B] uppercase tracking-wider">전체 등록 업무</span>
-                            <span className="text-[36px] font-bold text-white mt-2 font-mono">{stats.total} <span className="text-[14px] text-[#86868B] font-normal">건</span></span>
-                        </div>
-                        <div className="bg-[#272726] border border-[#ef4444]/30 rounded-[20px] p-6 flex flex-col justify-between hover:border-[#ef4444]/50 transition-all shadow-lg shadow-[#ef4444]/2">
-                            <span className="text-[12px] font-bold text-[#ef4444] uppercase tracking-wider">지연 리스크 (Blocker)</span>
-                            <span className="text-[36px] font-bold text-[#ef4444] mt-2 font-mono">{stats.blockers} <span className="text-[14px] text-[#ef4444]/60 font-normal">건</span></span>
-                        </div>
-                        <div className="bg-[#272726] border border-[#F59E0B]/30 rounded-[20px] p-6 flex flex-col justify-between hover:border-[#F59E0B]/50 transition-all shadow-lg shadow-[#F59E0B]/2">
-                            <span className="text-[12px] font-bold text-[#F59E0B] uppercase tracking-wider">의사결정 필요 현안</span>
-                            <span className="text-[36px] font-bold text-[#F59E0B] mt-2 font-mono">{stats.decisions} <span className="text-[14px] text-[#F59E0B]/60 font-normal">건</span></span>
-                        </div>
-                    </div>
-
                     {/* Top 12 Critical Items */}
                     <div className="bg-[#272726] border border-[#3c3c3c] rounded-[24px] p-6">
                         <h3 className="text-[18px] font-bold text-white mb-4">우선순위 Top 12 핵심 현안 목록</h3>
