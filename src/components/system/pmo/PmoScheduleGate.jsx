@@ -1180,6 +1180,11 @@ export default function PmoScheduleGate() {
                                 />
                             </div>
 
+                            {/* 수정 권한 안내 */}
+                            <div className="text-[11.5px] text-[#86868B] leading-relaxed bg-[#1c1c1e] p-2.5 rounded-lg border border-[#3c3c3c]/50 mt-1">
+                                ℹ️ <strong>편집 권한 조직:</strong> 사업2파트, 기획추진(시스템 관리자 포함), WS_PM 워크스페이스 권한자, master / director / PO 역할군에 한해 추가 및 수정 기능이 제공됩니다.
+                            </div>
+
                             {/* Form Actions */}
                             <div className="flex items-center justify-end gap-3 mt-4 pt-3 border-t border-[#3c3c3c]">
                                 <button 
