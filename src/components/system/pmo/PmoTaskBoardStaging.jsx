@@ -1353,12 +1353,19 @@ const gateMapToUi = (dbVal) => {
 // Meeting grade mapping (UI/Excel <-> DB)
 const gradeMapToDb = (uiVal) => {
     if (!uiVal) return 'B';
-    return uiVal.startsWith('A') ? 'A' : 'B';
+    const s = String(uiVal).toUpperCase();
+    if (s.startsWith('A')) return 'A';
+    if (s.startsWith('B')) return 'B';
+    if (s.startsWith('C')) return 'C';
+    if (s.startsWith('D')) return 'D';
+    return uiVal;
 };
 
 const gradeMapToUi = (dbVal) => {
     if (dbVal === 'A') return 'A_즉시상정';
     if (dbVal === 'B') return 'B_회의점검';
+    if (dbVal === 'C') return 'C_주간관리';
+    if (dbVal === 'D') return 'D_대기';
     return dbVal || 'B_회의점검';
 };
 
