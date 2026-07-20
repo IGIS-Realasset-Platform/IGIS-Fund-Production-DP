@@ -1860,7 +1860,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                     return t;
                 });
 
-                if (batchDueDateUpdates.length > 0) {
+                if (batchDueDateUpdates.length > 0 && isAuthorized) {
                     Promise.all(batchDueDateUpdates.map(upd =>
                         supabase.schema('iota_v2').from('iota_pmo_tasks').update({
                             due_date: '2026-07-27',
@@ -1944,7 +1944,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                 });
  
                 // Fire and forget auto-heal to DB
-                if (tasksToUpdate.length > 0) {
+                if (tasksToUpdate.length > 0 && isAuthorized) {
                     Promise.all(tasksToUpdate.map(upd => 
                         supabase.schema('iota_v2').from('iota_pmo_tasks').update({
                             status: upd.status,
