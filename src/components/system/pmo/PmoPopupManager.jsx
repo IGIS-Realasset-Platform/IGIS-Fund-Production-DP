@@ -212,66 +212,99 @@ export default function PmoPopupManager() {
             const urlLogId = params.get('logId');
             const currentDetail = selectedPopupDetailRef.current;
 
-            if (urlPopupId) {
-                const matched = popups.find(item => String(item.id) === String(urlPopupId));
-                if (matched) {
-                    if (!currentDetail || String(currentDetail.id) !== String(urlPopupId)) {
-                        setSelectedPopupDetail(matched);
-                    }
-                } else {
-                    toast.error("요청하신 단발성 업무(글)가 존재하지 않거나 삭제되었습니다.");
-                    const newParams = new URLSearchParams(window.location.search);
-                    let changed = false;
-                    if (newParams.has('popupId')) { newParams.delete('popupId'); changed = true; }
-                    if (newParams.has('taskId')) { newParams.delete('taskId'); changed = true; }
-                    if (newParams.has('logId')) { newParams.delete('logId'); changed = true; }
-                    if (changed) {
-                        const newSearch = newParams.toString();
-                        window.history.replaceState(null, '', `${window.location.pathname}${newSearch ? '?' + newSearch : ''}`);
-                    }
-                }
-                initialUrlCheckedRef.current = true;
-            } else if (urlLogId) {
+            let targetTaskId = urlPopupId || null;
+
+            if (!targetTaskId && urlLogId) {
                 try {
                     const { data: logRow, error: logRowErr } = await supabase
                         .from('iota_seoul_logs')
                         .select('metadata')
                         .eq('log_id', urlLogId)
                         .single();
-                    let resolved = false;
                     if (!logRowErr && logRow && logRow.metadata?.task_id) {
-                        const matched = popups.find(item => String(item.id) === String(logRow.metadata.task_id));
-                        if (matched) {
-                            if (!currentDetail || String(currentDetail.id) !== String(logRow.metadata.task_id)) {
-                                setSelectedPopupDetail(matched);
-                            }
-                            resolved = true;
-                        }
-                    }
-                    if (!resolved) {
-                        toast.error("요청하신 이력 또는 연계된 단발성 업무(글)가 존재하지 않거나 삭제되었습니다.");
-                        const newParams = new URLSearchParams(window.location.search);
-                        if (newParams.has('logId')) {
-                            newParams.delete('logId');
-                            const newSearch = newParams.toString();
-                            window.history.replaceState(null, '', `${window.location.pathname}${newSearch ? '?' + newSearch : ''}`);
-                        }
+                        targetTaskId = logRow.metadata.task_id;
                     }
                 } catch (e) {
-                    console.error("Failed to resolve logId to popupId in effect:", e);
+                    console.error("Failed to resolve logId to taskId:", e);
                 }
+            }
+
+            if (targetTaskId) {
+                try {
+                    // Fetch the task directly from iota_pmo_tasks to verify type and existence
+                    const { data: taskRow, error: taskErr } = await supabase
+                        .schema('iota_v2')
+                        .from('iota_pmo_tasks')
+                        .select('*')
+                        .eq('id', targetTaskId)
+                        .maybeSingle();
+
+                    if (!taskErr && taskRow) {
+                        // If the task type is NOT a popup, redirect to the integration board page!
+                        if (taskRow.task_type !== '팝업') {
+                            console.log(`[PmoPopupManager] Redirecting taskId ${targetTaskId} to workflow board since its type is ${taskRow.task_type}`);
+                            const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
+                            const queryParam = urlLogId ? `logId=${urlLogId}` : `taskId=${targetTaskId}`;
+                            window.location.href = `${base}/platform/iotaseoul/workflow?${queryParam}`;
+                            return;
+                        }
+
+                        // It is indeed a popup task! Show the detail popup.
+                        const matched = popups.find(item => String(item.id) === String(targetTaskId));
+                        if (matched) {
+                            if (!currentDetail || String(currentDetail.id) !== String(targetTaskId)) {
+                                setSelectedPopupDetail(matched);
+                            }
+                        } else {
+                            // If not found in popups state array yet (or filtered/not loaded), normalize from DB row
+                            const normalized = {
+                                id: taskRow.id,
+                                request_date: taskRow.request_date,
+                                requester: taskRow.requester,
+                                project_code: taskRow.project_code,
+                                category_name: taskRow.category_main,
+                                request_detail: taskRow.task_name,
+                                purpose: taskRow.task_purpose,
+                                deliverables: taskRow.deliverables,
+                                due_date: taskRow.due_date,
+                                assigned_dept_code: taskRow.lead_dept_code,
+                                coop_dept_codes: taskRow.coop_dept_codes,
+                                impact_level: taskRow.importance_level,
+                                handling_status: taskRow.status || '미착수',
+                                memo: taskRow.notes,
+                                created_by_email: taskRow.created_by_email
+                            };
+                            setSelectedPopupDetail(normalized);
+                        }
+                    } else {
+                        // Task not found in DB
+                        toast.error("요청하신 단발성 업무(글)가 존재하지 않거나 삭제되었습니다.");
+                        const newParams = new URLSearchParams(window.location.search);
+                        newParams.delete('popupId');
+                        newParams.delete('taskId');
+                        newParams.delete('logId');
+                        const newSearch = newParams.toString();
+                        window.history.replaceState(null, '', `${window.location.pathname}${newSearch ? '?' + newSearch : ''}`);
+                    }
+                } catch (err) {
+                    console.error("Error verifying task ID:", err);
+                }
+                initialUrlCheckedRef.current = true;
+            } else if (urlLogId) {
+                // If logId was passed but couldn't be resolved to a task_id
+                toast.error("요청하신 이력 또는 연계된 단발성 업무(글)가 존재하지 않거나 삭제되었습니다.");
+                const newParams = new URLSearchParams(window.location.search);
+                newParams.delete('logId');
+                const newSearch = newParams.toString();
+                window.history.replaceState(null, '', `${window.location.pathname}${newSearch ? '?' + newSearch : ''}`);
                 initialUrlCheckedRef.current = true;
             }
         };
 
-        if (popups.length > 0) {
-            checkUrlParams();
-        }
+        checkUrlParams();
 
         const handlePopState = () => {
-            if (popups.length > 0) {
-                checkUrlParams();
-            }
+            checkUrlParams();
         };
 
         window.addEventListener('popstate', handlePopState);

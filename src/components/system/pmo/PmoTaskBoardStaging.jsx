@@ -2090,65 +2090,84 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
             const urlLogId = params.get('logId');
             const currentDetail = selectedTaskDetailRef.current;
 
-            if (urlTaskId) {
-                const matched = tasks.find(item => String(item.id) === String(urlTaskId));
-                if (matched) {
-                    if (!currentDetail || String(currentDetail.id) !== String(urlTaskId)) {
-                        setSelectedTaskDetail(matched);
-                    }
-                } else {
-                    toast.error("요청하신 통합업무(글)가 존재하지 않거나 삭제되었습니다.");
-                    const newParams = new URLSearchParams(window.location.search);
-                    let changed = false;
-                    if (newParams.has('taskId')) { newParams.delete('taskId'); changed = true; }
-                    if (newParams.has('logId')) { newParams.delete('logId'); changed = true; }
-                    if (changed) {
-                        const newSearch = newParams.toString();
-                        window.history.replaceState(null, '', `${window.location.pathname}${newSearch ? '?' + newSearch : ''}`);
-                    }
-                }
-                initialUrlCheckedRef.current = true;
-            } else if (urlLogId) {
+            let targetTaskId = urlTaskId || null;
+
+            if (!targetTaskId && urlLogId) {
                 try {
                     const { data: logRow, error: logRowErr } = await supabase
                         .from('iota_seoul_logs')
                         .select('metadata')
                         .eq('log_id', urlLogId)
                         .single();
-                    let resolved = false;
                     if (!logRowErr && logRow && logRow.metadata?.task_id) {
-                        const matched = tasks.find(item => String(item.id) === String(logRow.metadata.task_id));
-                        if (matched) {
-                            if (!currentDetail || String(currentDetail.id) !== String(logRow.metadata.task_id)) {
-                                setSelectedTaskDetail(matched);
-                            }
-                            resolved = true;
-                        }
-                    }
-                    if (!resolved) {
-                        toast.error("요청하신 이력 또는 연계된 통합업무(글)가 존재하지 않거나 삭제되었습니다.");
-                        const newParams = new URLSearchParams(window.location.search);
-                        if (newParams.has('logId')) {
-                            newParams.delete('logId');
-                            const newSearch = newParams.toString();
-                            window.history.replaceState(null, '', `${window.location.pathname}${newSearch ? '?' + newSearch : ''}`);
-                        }
+                        targetTaskId = logRow.metadata.task_id;
                     }
                 } catch (e) {
                     console.error("Failed to resolve logId to taskId in effect:", e);
                 }
+            }
+
+            if (targetTaskId) {
+                try {
+                    // Fetch the task directly from iota_pmo_tasks to verify type and existence
+                    const { data: taskRow, error: taskErr } = await supabase
+                        .schema('iota_v2')
+                        .from('iota_pmo_tasks')
+                        .select(`
+                            *,
+                            lead_dept:iota_departments!lead_dept_code(dept_name),
+                            external_party:iota_stakeholders!external_party_code(stakeholder_name)
+                        `)
+                        .eq('id', targetTaskId)
+                        .maybeSingle();
+
+                    if (!taskErr && taskRow) {
+                        // If the task type is a popup, redirect to the popup-requests page!
+                        if (taskRow.task_type === '팝업') {
+                            console.log(`[PmoTaskBoardStaging] Redirecting taskId ${targetTaskId} to popup-requests board since its type is ${taskRow.task_type}`);
+                            const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
+                            const queryParam = urlLogId ? `logId=${urlLogId}` : `taskId=${targetTaskId}`;
+                            window.location.href = `${base}/platform/iotaseoul/popup-requests?${queryParam}`;
+                            return;
+                        }
+
+                        // It is a normal Integration Board task! Show the detail modal.
+                        const matched = tasks.find(item => String(item.id) === String(targetTaskId));
+                        if (matched) {
+                            if (!currentDetail || String(currentDetail.id) !== String(targetTaskId)) {
+                                setSelectedTaskDetail(matched);
+                            }
+                        } else {
+                            setSelectedTaskDetail(taskRow);
+                        }
+                    } else {
+                        // Task not found in DB
+                        toast.error("요청하신 통합업무(글)가 존재하지 않거나 삭제되었습니다.");
+                        const newParams = new URLSearchParams(window.location.search);
+                        newParams.delete('taskId');
+                        newParams.delete('logId');
+                        const newSearch = newParams.toString();
+                        window.history.replaceState(null, '', `${window.location.pathname}${newSearch ? '?' + newSearch : ''}`);
+                    }
+                } catch (err) {
+                    console.error("Error verifying task ID:", err);
+                }
+                initialUrlCheckedRef.current = true;
+            } else if (urlLogId) {
+                // If logId was passed but couldn't be resolved to a task_id
+                toast.error("요청하신 이력 또는 연계된 통합업무(글)가 존재하지 않거나 삭제되었습니다.");
+                const newParams = new URLSearchParams(window.location.search);
+                newParams.delete('logId');
+                const newSearch = newParams.toString();
+                window.history.replaceState(null, '', `${window.location.pathname}${newSearch ? '?' + newSearch : ''}`);
                 initialUrlCheckedRef.current = true;
             }
         };
 
-        if (tasks.length > 0) {
-            checkUrlParams();
-        }
+        checkUrlParams();
 
         const handlePopState = () => {
-            if (tasks.length > 0) {
-                checkUrlParams();
-            }
+            checkUrlParams();
         };
 
         window.addEventListener('popstate', handlePopState);
