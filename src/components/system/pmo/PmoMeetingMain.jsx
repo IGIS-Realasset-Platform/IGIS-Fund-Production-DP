@@ -23,6 +23,7 @@ export default function PmoMeetingMain() {
     const [tasks, setTasks] = React.useState([]);
     const [selectedFilter, setSelectedFilter] = React.useState('의사결정 필요');
     const [dbError, setDbError] = React.useState(null);
+    const [activeMetric, setActiveMetric] = React.useState('총관여');
  
     const calculateAndSetCounts = (taskList) => {
         const parseBool = (v) => v === true || String(v).toLowerCase() === 'true' || String(v).toUpperCase() === 'Y';
@@ -591,80 +592,204 @@ export default function PmoMeetingMain() {
                                 <p className="text-[14px] text-[#A1A1AA] font-medium translate-y-[2px]">주관 부서 및 협업 부서의 업무 현황을 확인 합니다.</p>
                             </div>
                         </div>
-
-                        {/* Table Container */}
-                        <div className="w-full bg-[#272726] border border-[#3c3c3c] rounded-[24px] overflow-hidden">
-                            <table className="w-full text-left border-collapse bg-[#272726]">
-                                <thead>
-                                    <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[13px] h-[46px]">
-                                        <th className="py-[12px] px-[16px] w-[150px] font-bold text-[#86868B] text-center">부서</th>
-                                        <th className="py-[12px] px-[16px] text-center font-bold text-[#86868B]">주관업무</th>
-                                        <th className="py-[12px] px-[16px] text-center font-bold text-[#86868B]">협업업무</th>
-                                        <th className="py-[12px] px-[16px] text-center font-bold text-[#86868B] w-[120px]">총관여</th>
-                                        <th className="py-[12px] px-[16px] text-center font-bold text-[#86868B]">PF필수</th>
-                                        <th className="py-[12px] px-[16px] text-center font-bold text-[#86868B]">준공필수</th>
-                                        <th className="py-[12px] px-[16px] text-center font-bold text-[#86868B]">Blocker</th>
-                                        <th className="py-[12px] px-[16px] text-center font-bold text-[#86868B]">의사결정</th>
-                                        <th className="py-[12px] px-[16px] text-center font-bold text-[#86868B]">지원요청</th>
-                                        <th className="py-[12px] px-[16px] text-center font-bold text-[#86868B]">7일내/지연</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="divide-y divide-[#3c3c3c]/50 text-[13px]">
-                                    {deptRowsData.map((row, idx) => {
-                                        const percentage = (row.totalCount / maxTotalCount) * 100;
+ 
+                        {/* Grid 3:7 Layout for Chart and Table */}
+                        <div className="grid grid-cols-10 gap-4 mt-1">
+                            {/* Left Area: Donut Chart (30% equivalent / col-span-3) */}
+                            <div className="col-span-3 bg-[#272726] border border-[#3c3c3c] rounded-[24px] p-4 flex flex-col items-center justify-start h-full">
+                                {/* Segmented Toggles */}
+                                <div className="flex bg-[#2c2c2b] p-0.5 rounded-[8px] border border-[#3c3c3c] text-[12px] font-semibold mb-4 w-full">
+                                    {['총관여', '주관업무', '협업업무'].map(m => {
+                                        const isActive = activeMetric === m;
                                         return (
-                                            <tr key={idx} className="hover:bg-[#2b2b2b]/40 transition-colors">
-                                                {/* 부서 */}
-                                                <td className="py-[12px] px-[16px] text-center font-bold text-[#E5E5E5]">
-                                                    {row.dept}
-                                                </td>
-                                                {/* 주관업무 */}
-                                                <td className="py-[12px] px-[16px] text-center text-[#E5E5E5] font-semibold">
-                                                    {row.leadCount}
-                                                </td>
-                                                {/* 협업업무 */}
-                                                <td className="py-[12px] px-[16px] text-center text-[#E5E5E5] font-semibold">
-                                                    {row.coopCount}
-                                                </td>
-                                                {/* 총관여 with Gradient Bar chart */}
-                                                <td className="py-[12px] px-[16px] text-center font-bold text-white relative">
-                                                    <div className="absolute inset-y-[6px] left-[6px] right-[6px] z-0">
-                                                        <div 
-                                                            className="h-full bg-gradient-to-r from-[#2997ff]/20 to-[#2997ff]/40 rounded-[4px]"
-                                                            style={{ width: `${percentage}%` }}
-                                                        />
-                                                    </div>
-                                                    <span className="relative z-10">{row.totalCount}</span>
-                                                </td>
-                                                {/* PF필수 */}
-                                                <td className="py-[12px] px-[16px] text-center text-[#E5E5E5] font-medium">
-                                                    {row.pfCount}
-                                                </td>
-                                                {/* 준공필수 */}
-                                                <td className="py-[12px] px-[16px] text-center text-[#E5E5E5] font-medium">
-                                                    {row.constCount}
-                                                </td>
-                                                {/* Blocker (No bg background) */}
-                                                <td className="py-[12px] px-[16px] text-center font-semibold text-[#ff453a]">
-                                                    {row.blockerCount}
-                                                </td>
-                                                {/* 의사결정 (No bg background) */}
-                                                <td className="py-[12px] px-[16px] text-center font-semibold text-[#ffcc00]">
-                                                    {row.decisionCount}
-                                                </td>
-                                                {/* 지원요청 */}
-                                                <td className="py-[12px] px-[16px] text-center text-[#E5E5E5] font-medium">
-                                                    {row.supportCount}
-                                                </td>
-                                                {/* 7일내/지연 */}
-                                                <td className="py-[12px] px-[16px] text-center text-[#E5E5E5] font-medium">
-                                                    {row.delayedOr7DaysCount}
-                                                </td>
-                                            </tr>
+                                            <button
+                                                key={m}
+                                                type="button"
+                                                onClick={() => setActiveMetric(m)}
+                                                className={`flex-1 py-1 px-1 text-center rounded-[6px] text-[10.5px] whitespace-nowrap transition-all cursor-pointer font-bold ${isActive ? 'bg-[#2997ff] text-white shadow-sm' : 'text-[#86868b] hover:text-white'}`}
+                                            >
+                                                {m}
+                                            </button>
                                         );
                                     })}
-                                </tbody>
-                            </table>
+                                </div>
+ 
+                                {/* Donut SVG Chart */}
+                                {(() => {
+                                    const deptColors = {
+                                        '사업2파트': '#2997ff',
+                                        '사업1파트': '#30d158',
+                                        '개발솔루션': '#ff9f0a',
+                                        '공간솔루션': '#bf5af2',
+                                        '기업마케팅': '#ff375f',
+                                        'LFC': '#64d2ff'
+                                    };
+ 
+                                    const metricValues = deptRowsData.map(row => {
+                                        const val = activeMetric === '총관여' ? row.totalCount : (activeMetric === '주관업무' ? row.leadCount : row.coopCount);
+                                        return { dept: row.dept, val };
+                                    });
+ 
+                                    const sum = metricValues.reduce((acc, curr) => acc + curr.val, 0);
+ 
+                                    // SVG Circle properties
+                                    const radius = 45;
+                                    const circumference = 2 * Math.PI * radius; // ~282.74
+                                    let accumulatedLength = 0;
+ 
+                                    return (
+                                        <div className="w-full flex flex-col items-center">
+                                            {/* Donut graphic */}
+                                            <div className="relative w-[140px] h-[140px] flex items-center justify-center">
+                                                <svg className="w-full h-full" viewBox="0 0 120 120">
+                                                    {/* Background base circle */}
+                                                    <circle 
+                                                        cx="60" 
+                                                        cy="60" 
+                                                        r={radius} 
+                                                        fill="transparent" 
+                                                        stroke="rgba(255,255,255,0.03)" 
+                                                        strokeWidth="10" 
+                                                    />
+                                                    
+                                                    {sum === 0 ? (
+                                                        <circle 
+                                                            cx="60" 
+                                                            cy="60" 
+                                                            r={radius} 
+                                                            fill="transparent" 
+                                                            stroke="rgba(255,255,255,0.1)" 
+                                                            strokeWidth="10" 
+                                                        />
+                                                    ) : (
+                                                        metricValues.map((item, idx) => {
+                                                            const color = deptColors[item.dept] || '#86868b';
+                                                            const pct = item.val / sum;
+                                                            const strokeLength = pct * circumference;
+                                                            const offset = -accumulatedLength;
+                                                            accumulatedLength += strokeLength;
+ 
+                                                            if (item.val === 0) return null;
+ 
+                                                            return (
+                                                                <circle 
+                                                                    key={idx}
+                                                                    cx="60" 
+                                                                    cy="60" 
+                                                                    r={radius} 
+                                                                    fill="transparent" 
+                                                                    stroke={color} 
+                                                                    strokeWidth="10" 
+                                                                    strokeDasharray={`${strokeLength} ${circumference}`}
+                                                                    strokeDashoffset={offset}
+                                                                    transform="rotate(-90 60 60)"
+                                                                    className="transition-all duration-500 ease-out"
+                                                                />
+                                                            );
+                                                        })
+                                                    )}
+                                                </svg>
+                                                {/* Text center label */}
+                                                <div className="absolute flex flex-col items-center justify-center">
+                                                    <span className="text-[20px] font-black text-white leading-none">{sum}</span>
+                                                    <span className="text-[10px] font-bold text-[#86868b] mt-1">총 건수</span>
+                                                </div>
+                                            </div>
+ 
+                                            {/* Legend */}
+                                            <div className="grid grid-cols-2 gap-1.5 text-[11px] text-left mt-4 w-full">
+                                                {metricValues.map(item => {
+                                                    const color = deptColors[item.dept] || '#86868b';
+                                                    return (
+                                                        <div key={item.dept} className="flex items-center justify-between bg-white/[0.02] border border-white/[0.04] p-1.5 rounded-[6px]">
+                                                            <div className="flex items-center gap-1 truncate">
+                                                                <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: color }} />
+                                                                <span className="text-[#86868b] text-[10px] truncate font-medium">{item.dept}</span>
+                                                            </div>
+                                                            <span className="text-white font-bold text-[11px] ml-1 shrink-0">{item.val}건</span>
+                                                        </div>
+                                                    );
+                                                })}
+                                            </div>
+                                        </div>
+                                    );
+                                })()}
+                            </div>
+ 
+                            {/* Right Area: Table Container (70% equivalent / col-span-7) */}
+                            <div className="col-span-7 bg-[#272726] border border-[#3c3c3c] rounded-[24px] overflow-hidden flex flex-col justify-start">
+                                <table className="w-full text-left border-collapse bg-[#272726]">
+                                    <thead>
+                                        <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[13px] h-[46px]">
+                                            <th className="py-[12px] px-[16px] w-[150px] font-bold text-[#86868B] text-center">부서</th>
+                                            <th className="py-[12px] px-[16px] text-center font-bold text-[#86868B]">주관업무</th>
+                                            <th className="py-[12px] px-[16px] text-center font-bold text-[#86868B]">협업업무</th>
+                                            <th className="py-[12px] px-[16px] text-center font-bold text-[#86868B] w-[120px]">총관여</th>
+                                            <th className="py-[12px] px-[16px] text-center font-bold text-[#86868B]">PF필수</th>
+                                            <th className="py-[12px] px-[16px] text-center font-bold text-[#86868B]">준공필수</th>
+                                            <th className="py-[12px] px-[16px] text-center font-bold text-[#86868B]">Blocker</th>
+                                            <th className="py-[12px] px-[16px] text-center font-bold text-[#86868B]">의사결정</th>
+                                            <th className="py-[12px] px-[16px] text-center font-bold text-[#86868B]">지원요청</th>
+                                            <th className="py-[12px] px-[16px] text-center font-bold text-[#86868B]">7일내/지연</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="divide-y divide-[#3c3c3c]/50 text-[13px]">
+                                        {deptRowsData.map((row, idx) => {
+                                            const percentage = (row.totalCount / maxTotalCount) * 100;
+                                            return (
+                                                <tr key={idx} className="hover:bg-[#2b2b2b]/40 transition-colors">
+                                                    {/* 부서 */}
+                                                    <td className="py-[12px] px-[16px] text-center font-bold text-[#E5E5E5]">
+                                                        {row.dept}
+                                                    </td>
+                                                    {/* 주관업무 */}
+                                                    <td className="py-[12px] px-[16px] text-center text-[#E5E5E5] font-semibold">
+                                                        {row.leadCount}
+                                                    </td>
+                                                    {/* 협업업무 */}
+                                                    <td className="py-[12px] px-[16px] text-center text-[#E5E5E5] font-semibold">
+                                                        {row.coopCount}
+                                                    </td>
+                                                    {/* 총관여 with Gradient Bar chart */}
+                                                    <td className="py-[12px] px-[16px] text-center font-bold text-white relative">
+                                                        <div className="absolute inset-y-[6px] left-[6px] right-[6px] z-0">
+                                                            <div 
+                                                                className="h-full bg-gradient-to-r from-[#2997ff]/20 to-[#2997ff]/40 rounded-[4px]"
+                                                                style={{ width: `${percentage}%` }}
+                                                            />
+                                                        </div>
+                                                        <span className="relative z-10">{row.totalCount}</span>
+                                                    </td>
+                                                    {/* PF필수 */}
+                                                    <td className="py-[12px] px-[16px] text-center text-[#E5E5E5] font-medium">
+                                                        {row.pfCount}
+                                                    </td>
+                                                    {/* 준공필수 */}
+                                                    <td className="py-[12px] px-[16px] text-center text-[#E5E5E5] font-medium">
+                                                        {row.constCount}
+                                                    </td>
+                                                    {/* Blocker (No bg background) */}
+                                                    <td className="py-[12px] px-[16px] text-center font-semibold text-[#ff453a]">
+                                                        {row.blockerCount}
+                                                    </td>
+                                                    {/* 의사결정 (No bg background) */}
+                                                    <td className="py-[12px] px-[16px] text-center font-semibold text-[#ffcc00]">
+                                                        {row.decisionCount}
+                                                    </td>
+                                                    {/* 지원요청 */}
+                                                    <td className="py-[12px] px-[16px] text-center text-[#E5E5E5] font-medium">
+                                                        {row.supportCount}
+                                                    </td>
+                                                    {/* 7일내/지연 */}
+                                                    <td className="py-[12px] px-[16px] text-center text-[#E5E5E5] font-medium">
+                                                        {row.delayedOr7DaysCount}
+                                                    </td>
+                                                </tr>
+                                            );
+                                        })}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </>
