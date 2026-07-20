@@ -86,11 +86,11 @@ export default function PmoMeetingMain() {
     };
 
     const upperFilters = [
-        { label: '전체업무', path: 'platform/iotaseoul/workflow', count: counts.total, highlightClass: 'text-white' },
-        { label: '지연', path: 'platform/iotaseoul/workflow?filterStatus=지연', count: counts.delayed, highlightClass: 'text-[#ef4444]' },
-        { label: 'Blocker (병목)', path: 'platform/iotaseoul/workflow?filterIsBlocker=Y (예)', count: counts.blockers, highlightClass: 'text-[#ef4444]' },
-        { label: '의사결정필요', path: 'platform/iotaseoul/workflow?filterNeedsDecision=Y (예)', count: counts.decisions, highlightClass: 'text-[#F59E0B]' },
-        { label: '회의필요', path: 'platform/iotaseoul/workflow?filterMeetingGrade=A_즉시상정', count: counts.meetings, highlightClass: 'text-[#2997ff]' }
+        { label: '전체업무', path: 'platform/iotaseoul/workflow', count: counts.total, highlightClass: 'text-[#1c1c1e]' },
+        { label: '지연', path: 'platform/iotaseoul/workflow?filterStatus=지연', count: counts.delayed, highlightClass: 'text-[#FF3B30]' },
+        { label: 'Blocker(병목)', path: 'platform/iotaseoul/workflow?filterIsBlocker=Y (예)', count: counts.blockers, highlightClass: 'text-[#FF3B30]' },
+        { label: '의사결정 필요', path: 'platform/iotaseoul/workflow?filterNeedsDecision=Y (예)', count: counts.decisions, highlightClass: 'text-[#FF9500]' },
+        { label: '회의 필요', path: 'platform/iotaseoul/workflow?filterMeetingGrade=A_즉시상정', count: counts.meetings, highlightClass: 'text-[#007AFF]' }
     ];
 
     const lowerFilters = [
@@ -115,31 +115,39 @@ export default function PmoMeetingMain() {
                 </div>
             </div>
 
-            {/* Filter Navigation Buttons */}
-            <div className="w-full flex flex-col gap-3 mb-[32px] select-none text-left">
+            {/* Filter Navigation Buttons Capsule Box */}
+            <div className="w-full border border-[#3a3a3c] rounded-[24px] overflow-hidden flex flex-col mb-[32px] select-none text-center bg-[#1c1c1e]">
                 {/* Upper Row */}
-                <div className="grid grid-cols-5 gap-3">
+                <div className="grid grid-cols-5 bg-[#A6A6A6] divide-x divide-[#8E8E93]/40 border-b border-[#3a3a3c]">
                     {upperFilters.map((btn, idx) => (
                         <div
                             key={idx}
                             onClick={() => handleFilterClick(btn)}
-                            className="bg-[#2c2c2b]/60 border border-[#3c3c3c] hover:border-[#2997ff] rounded-[16px] py-3.5 px-2 flex flex-col items-center justify-center text-center cursor-pointer transition-all hover:shadow-md outline-none"
+                            className="p-1.5 flex items-center justify-center cursor-pointer group"
                         >
-                            <span className="text-[12px] font-bold text-[#86868b] mb-1.5">{btn.label}</span>
-                            <span className={`text-[20px] font-black leading-none ${btn.highlightClass || 'text-white'}`}>{btn.count}</span>
+                            <div className="w-full py-3 px-2 rounded-[20px] bg-transparent group-hover:bg-[#E5E5E7] transition-all duration-200 flex flex-col items-center justify-center">
+                                <span className="text-[12px] font-bold text-[#3A3A3C] mb-1">{btn.label}</span>
+                                <span className={`text-[26px] font-black leading-none ${btn.highlightClass}`}>
+                                    {btn.count}
+                                </span>
+                            </div>
                         </div>
                     ))}
                 </div>
                 {/* Lower Row */}
-                <div className="grid grid-cols-8 gap-3">
+                <div className="grid grid-cols-8 bg-[#1C1C1E] divide-x divide-[#2c2c2e]">
                     {lowerFilters.map((btn, idx) => (
                         <div
                             key={idx}
                             onClick={() => handleFilterClick(btn)}
-                            className="bg-[#b4b6b5] hover:bg-[#c5c7c6] border border-[#a3a5a4]/40 rounded-[16px] py-3.5 px-2 flex flex-col items-center justify-center text-center cursor-pointer transition-all hover:shadow-md outline-none"
+                            className="p-1.5 flex items-center justify-center cursor-pointer group"
                         >
-                            <span className="text-[12px] font-bold text-[#1c1c1e]/70 mb-1.5">{btn.label}</span>
-                            <span className="text-[20px] font-black text-[#1c1c1e] leading-none">{btn.count}</span>
+                            <div className="w-full py-2.5 px-2 rounded-[16px] bg-transparent group-hover:bg-[#2C2C2E] transition-all duration-200 flex flex-col items-center justify-center">
+                                <span className="text-[11px] font-bold text-[#8E8E93] group-hover:text-[#AEAEB2] mb-1">{btn.label}</span>
+                                <span className="text-[20px] font-black text-white leading-none">
+                                    {btn.count}
+                                </span>
+                            </div>
                         </div>
                     ))}
                 </div>
