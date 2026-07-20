@@ -887,7 +887,7 @@ export const FALLBACK_BOARD_TASKS = [
     "target_axis": "PF",
     "gate_stage": "G1 방향결정",
     "pmo_manager": "사업2파트",
-    "lead_dept": "법무/세무 외부자문",
+    "lead_dept": "사업2파트",
     "coop_depts": "사업2파트;LFC",
     "assignee": "미정",
     "external_party": "법무법인, 세무법인",

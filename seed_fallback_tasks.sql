@@ -508,7 +508,7 @@ INSERT INTO iota_v2.iota_pmo_tasks (
     ) VALUES (
         'IOTA_SEOUL', '구조/법무/세무', 'Asset/Share/합병', 'Asset Deal·Share Deal·합병·현물출자 비교',
         '통합 구조별 절차·취득세·주주동의·실행가능성 판단 필요', '구조별 비교표, 장단점, 세금/승인 이슈',
-        '사업2파트', 'DEPT_KAM',
+        '사업2파트', 'DEPT_PM2',
         '사업2파트;LFC', '미정', 'STAKE_법무법인세무법인',
         false, true, '2026-08-07', '진행중', 'PF필수', '정규',
         65, 'B', 'PF필수 / 의사결정 / 지원:자문결과 필요',
