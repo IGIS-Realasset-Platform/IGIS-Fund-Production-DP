@@ -395,9 +395,6 @@ export default function PmoMeetingMain() {
                             <h2 className="text-[18px] font-bold text-white tracking-tight flex items-center gap-[8px]">
                                 <span>{selectedFilter} 현황 목록</span>
                             </h2>
-                            <span className="bg-white/5 border border-white/10 px-[8px] py-[2px] rounded-[6px] text-[12px] font-mono text-[#E5E5E5] font-bold">
-                                {getFilteredTasks().length}건
-                            </span>
                         </div>
                         <button
                             onClick={handleGoToFullPage}
