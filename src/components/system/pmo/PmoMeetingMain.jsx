@@ -569,7 +569,7 @@ export default function PmoMeetingMain() {
                     {/* Bottom Box for Brief Listing - Card based view */}
                     <div className="w-[calc(100%+14px)] ml-[-7px] border border-[#3c3c3c] rounded-[24px] p-[6px] mb-[30px] flex flex-col">
                         {/* Header Row */}
-                        <div className="flex justify-between items-center px-[21px] pt-[6px] pb-[8px]">
+                        <div className="flex justify-between items-center pl-[21px] pr-[6px] pt-[6px] pb-[8px]">
                             <div className="flex items-center gap-[10px]">
                                 <h2 className="text-[18px] font-bold text-white tracking-tight flex items-center gap-[8px]">
                                     <span>{selectedFilter} 현황 목록</span>
