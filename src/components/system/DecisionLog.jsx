@@ -758,7 +758,6 @@ export default function DecisionLog() {
     // Filter by search query and dropdowns
     const searchFilteredLogs = logs.filter(log => {
         if (log.writer_name === '시스템 스케줄러') return false;
-        if (log.metadata?.task_id) return false; // 하단 목록은 게시판 내용만 표시 (통합업무보드 이력 제외)
         if (showMyLogsOnly && log.writer_staff_id !== memberInfo?.email) return false;
         if (filterStakeholder && log.iota_seoul_log_stakeholders?.[0]?.role_category !== filterStakeholder) return false;
         if (filterCell && getLogCell(log) !== filterCell) return false;
