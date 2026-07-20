@@ -5,21 +5,36 @@ import { onMessageListener } from '../utils/firebase';
 
 const deduplicateNotifications = (list) => {
   if (!list) return [];
-  const logGroups = {};
+  
+  // Pass 1: 동일한 제목과 본문을 가진 완전히 중복된 알림 제거
+  const seen = new Set();
+  const uniqueList = [];
   list.forEach(n => {
-    if (n.reference_id && (n.type === 'log' || n.reference_id.startsWith('iota_issue_'))) {
-      const logId = n.reference_id.split('|')[0];
-      if (!logGroups[logId]) {
-        logGroups[logId] = [];
+    const normBody = (n.body || '').replace(/\s+/g, ' ').trim();
+    const normTitle = (n.title || '').trim();
+    const key = `${normTitle}|${normBody}`;
+    if (!seen.has(key)) {
+      seen.add(key);
+      uniqueList.push(n);
+    }
+  });
+
+  // Pass 2: 동일 reference_id 접두사(log_id 또는 task_id 등)를 공유하는 그룹 중 상세 알림('업무명 :') 우선 노출
+  const groups = {};
+  uniqueList.forEach(n => {
+    if (n.reference_id) {
+      const refPrefix = n.reference_id.split('|')[0];
+      if (!groups[refPrefix]) {
+        groups[refPrefix] = [];
       }
-      logGroups[logId].push(n);
+      groups[refPrefix].push(n);
     }
   });
 
   const idsToRemove = new Set();
-  Object.values(logGroups).forEach(group => {
+  Object.values(groups).forEach(group => {
     if (group.length > 1) {
-      const detailed = group.find(n => n.body && n.body.includes('업무명 :'));
+      const detailed = group.find(n => n.body && n.body.includes('업무명 :')) || group[0];
       if (detailed) {
         group.forEach(n => {
           if (n !== detailed) {
@@ -30,7 +45,7 @@ const deduplicateNotifications = (list) => {
     }
   });
 
-  return list.filter(n => {
+  return uniqueList.filter(n => {
     const key = n.id || `${n.reference_id}-${n.body}`;
     return !idsToRemove.has(key);
   });
