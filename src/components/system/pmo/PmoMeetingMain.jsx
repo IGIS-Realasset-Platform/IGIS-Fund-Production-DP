@@ -633,15 +633,15 @@ export default function PmoMeetingMain() {
  
                                     const sum = metricValues.reduce((acc, curr) => acc + curr.val, 0);
  
-                                    // SVG Circle properties - radius 47 and scaled stroke (default 18, hover 22)
-                                    const radius = 47;
-                                    const circumference = 2 * Math.PI * radius; // ~295.3
+                                    // SVG Circle properties - radius 35 and scaled stroke (default 14, hover 18) for outer label margin
+                                    const radius = 35;
+                                    const circumference = 2 * Math.PI * radius; // ~219.9
                                     let accumulatedLength = 0;
                                     let accumulatedPercent = 0;
  
                                     return (
                                         <div className="w-full flex flex-col items-center justify-center flex-1 py-1">
-                                            {/* Donut graphic - scaled to 245px (80% of 306px) */}
+                                            {/* Donut graphic - container 245px */}
                                             <div className="relative w-[245px] h-[245px] flex items-center justify-center">
                                                 <svg className="w-full h-full" viewBox="0 0 120 120">
                                                     {/* Background base circle */}
@@ -651,7 +651,7 @@ export default function PmoMeetingMain() {
                                                         r={radius} 
                                                         fill="transparent" 
                                                         stroke="rgba(255,255,255,0.03)" 
-                                                        strokeWidth="18" 
+                                                        strokeWidth="14" 
                                                     />
                                                     
                                                     {sum === 0 ? (
@@ -661,7 +661,7 @@ export default function PmoMeetingMain() {
                                                             r={radius} 
                                                             fill="transparent" 
                                                             stroke="rgba(255,255,255,0.1)" 
-                                                            strokeWidth="18" 
+                                                            strokeWidth="14" 
                                                         />
                                                     ) : (
                                                         metricValues.map((item, idx) => {
@@ -681,7 +681,7 @@ export default function PmoMeetingMain() {
                                                                     r={radius} 
                                                                     fill="transparent" 
                                                                     stroke={color} 
-                                                                    strokeWidth={hoveredDept === item.dept ? "22" : "18"} 
+                                                                    strokeWidth={hoveredDept === item.dept ? "18" : "14"} 
                                                                     strokeDasharray={`${strokeLength} ${circumference}`}
                                                                     strokeDashoffset={offset}
                                                                     transform="rotate(-90 60 60)"
@@ -693,7 +693,7 @@ export default function PmoMeetingMain() {
                                                         })
                                                     )}
  
-                                                    {/* Text Labels centered on donut slices - scaled for 245px */}
+                                                    {/* Text Labels written OUTSIDE the donut slices in white, no drop-shadow */}
                                                     {sum > 0 && metricValues.map((item, idx) => {
                                                         if (item.val === 0) return null;
                                                         const pct = item.val / sum;
@@ -701,15 +701,17 @@ export default function PmoMeetingMain() {
                                                         const endPercent = accumulatedPercent + pct;
                                                         accumulatedPercent = endPercent;
  
-                                                        if (pct < 0.05) return null; // hide if slice is too small to fit text
- 
                                                         const midPercent = (startPercent + endPercent) / 2;
                                                         const midAngleDeg = (midPercent * 360) - 90;
                                                         const midAngleRad = (midAngleDeg * Math.PI) / 180;
  
-                                                        // Position text on the center line of the arc (radius 47)
-                                                        const x = 60 + radius * Math.cos(midAngleRad);
-                                                        const y = 60 + radius * Math.sin(midAngleRad);
+                                                        // Position text outside the donut ring (radius 49)
+                                                        const textRadius = 49;
+                                                        const x = 60 + textRadius * Math.cos(midAngleRad);
+                                                        const y = 60 + textRadius * Math.sin(midAngleRad);
+ 
+                                                        // Align anchor dynamically to avoid overlapping the donut
+                                                        const textAnchor = Math.cos(midAngleRad) > 0.15 ? 'start' : (Math.cos(midAngleRad) < -0.15 ? 'end' : 'middle');
  
                                                         const shortName = item.dept === '사업2파트' ? '사업2' :
                                                                           item.dept === '사업1파트' ? '사업1' :
@@ -724,23 +726,26 @@ export default function PmoMeetingMain() {
                                                                 y={y + 0.5}
                                                                 fill="#ffffff"
                                                                 fontSize="7px"
-                                                                fontWeight="900"
-                                                                textAnchor="middle"
+                                                                fontWeight="bold"
+                                                                textAnchor={textAnchor}
                                                                 dominantBaseline="middle"
-                                                                className="pointer-events-none select-none drop-shadow-[0_1px_2px_rgba(0,0,0,1)]"
+                                                                className="pointer-events-none select-none"
                                                             >
                                                                 {shortName}
                                                             </text>
                                                         );
                                                     })}
                                                 </svg>
-                                                {/* Text center label - scaled for 245px donut */}
+                                                {/* Text center label - scaled for 245px donut, displaying percentage on hover */}
                                                 <div className="absolute flex flex-col items-center justify-center text-center px-1 pointer-events-none w-[136px] overflow-hidden">
                                                     {hoveredDept ? (
                                                         <>
                                                             <span className="text-[13px] font-bold text-[#86868b] leading-none mb-1.5 truncate w-full">{hoveredDept}</span>
-                                                            <span className="text-[26px] font-black leading-none animate-pulse" style={{ color: deptColors[hoveredDept] }}>
+                                                            <span className="text-[24px] font-black leading-none" style={{ color: deptColors[hoveredDept] }}>
                                                                 {metricValues.find(mv => mv.dept === hoveredDept)?.val || 0}건
+                                                            </span>
+                                                            <span className="text-[12px] font-bold text-[#86868b] mt-1.5">
+                                                                비중 {sum > 0 ? Math.round((metricValues.find(mv => mv.dept === hoveredDept)?.val || 0) / sum * 100) : 0}%
                                                             </span>
                                                         </>
                                                     ) : (
