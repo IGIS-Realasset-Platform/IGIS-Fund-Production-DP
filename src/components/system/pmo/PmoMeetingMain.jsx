@@ -116,7 +116,7 @@ export default function PmoMeetingMain() {
             </div>
 
             {/* Filter Navigation Buttons Grouped Containers */}
-            <div className="w-[calc(100%+14px)] ml-[-7px] grid grid-cols-6 gap-[12px] mb-[32px] select-none text-center bg-transparent">
+            <div className="w-[calc(100%+14px)] ml-[-7px] grid grid-cols-6 gap-[4px] mb-[32px] select-none text-center bg-transparent">
                 {/* Box 1: 전체업무 + 완료 (col-span-1) */}
                 <div className="col-span-1 border border-[#4b4b4b]/70 rounded-[30px] p-[6px] flex flex-col gap-[6px]">
                     {/* 전체업무 */}
