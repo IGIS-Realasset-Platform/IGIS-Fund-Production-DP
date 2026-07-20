@@ -585,7 +585,7 @@ export default function PmoMeetingMain() {
                         </div>
  
                         {/* Card-based grid row container */}
-                        <div className="max-h-[340px] overflow-y-auto px-[7px] pr-[4px] scrollbar-thin">
+                        <div className="max-h-[340px] overflow-y-auto px-0 pr-[4px] scrollbar-thin">
                             {getFilteredTasks().length === 0 ? (
                                 <div className="py-[60px] text-center text-[#86868B] text-[14px]">
                                     조건에 일치하는 업무 항목이 없습니다.
