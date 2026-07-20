@@ -106,7 +106,7 @@ export default function PmoMeetingMain() {
 
 
     return (
-        <div className="w-full flex-1 flex flex-col pt-[28px] pb-[60px] max-w-[1200px] mx-auto select-text">
+        <div className="w-full flex-1 flex flex-col pt-[24px] pb-[60px] max-w-[1200px] mx-auto select-text">
             {/* Header */}
             <div className="w-full flex justify-between items-start mb-[12px]">
                 <div>
