@@ -1,5 +1,6 @@
 import React from 'react';
 import { supabase } from '../../../utils/supabaseClient';
+import { FALLBACK_BOARD_TASKS } from './PmoTaskBoardStaging';
 
 export default function PmoMeetingMain() {
     const [counts, setCounts] = React.useState({
@@ -49,7 +50,13 @@ export default function PmoMeetingMain() {
                 const completed = pmoTasks.filter(t => t.status === '완료').length;
                 const onHold = pmoTasks.filter(t => t.status === '보류').length;
                 const stopped = pmoTasks.filter(t => t.status === '중단').length;
-                const supportNeeded = pmoTasks.filter(t => t.support_needed && t.support_needed.trim() !== '').length;
+                const supportNeeded = pmoTasks.filter(t => {
+                    const fallbackItem = FALLBACK_BOARD_TASKS.find(fb => fb.task_name === t.task_name) || {};
+                    const val = t.support_needed || fallbackItem.support_needed || '';
+                    const s = val.trim().toLowerCase();
+                    const invalidKeywords = ['', '없음', 'n/a', 'na', '해당사항 없음', '해당사항없음', '-', 'none'];
+                    return s && !invalidKeywords.includes(s);
+                }).length;
 
                 // Counting only the '진행중' popup tasks
                 const popupCount = popupTasks.filter(t => t.status === '진행중').length;
@@ -94,7 +101,7 @@ export default function PmoMeetingMain() {
         { label: 'Blocker(병목)', path: 'platform/iotaseoul/workflow?filterIsBlocker=Y (예)', count: counts.blockers, highlightClass: 'text-[#E35D5D]', hoverClass: 'group-hover:text-[#FF3B30]' },
         { label: '의사결정 필요', path: 'platform/iotaseoul/workflow?filterNeedsDecision=Y (예)', count: counts.decisions, highlightClass: 'text-[#E35D5D]', hoverClass: 'group-hover:text-[#FF3B30]' },
         { label: '회의 필요', path: 'platform/iotaseoul/workflow?filterMeetingGrade=A_즉시상정', count: counts.meetings, highlightClass: 'text-[#E35D5D]', hoverClass: 'group-hover:text-[#FF3B30]' },
-        { label: '타부서 지원필요', path: 'platform/iotaseoul/workflow?filterSupportNeeded=Y', count: counts.supportNeeded, highlightClass: 'text-[#E67E22]', hoverClass: 'group-hover:text-[#FF9500]' }
+        { label: '지원필요', path: 'platform/iotaseoul/workflow?filterSupportNeeded=Y', count: counts.supportNeeded, highlightClass: 'text-[#E67E22]', hoverClass: 'group-hover:text-[#FF9500]' }
     ];
 
     const lowerFilters = [
@@ -134,7 +141,7 @@ export default function PmoMeetingMain() {
                             >
                                 <div className="w-full h-full rounded-[24px] bg-transparent group-hover:bg-[#d4d7d5] transition-all duration-200 flex flex-col items-center justify-center">
                                     <span className="text-[13px] font-bold text-[#3C3C3C] group-hover:text-[#000000] transition-colors duration-200 mb-0.5">{btn.label}</span>
-                                    <span className={`text-[30px] font-black leading-none transition-colors duration-200 ${btn.highlightClass} ${btn.hoverClass}`}>
+                                    <span className={`text-[32px] font-black leading-none transition-colors duration-200 ${btn.highlightClass} ${btn.hoverClass}`}>
                                         {btn.count}
                                     </span>
                                 </div>
@@ -151,7 +158,7 @@ export default function PmoMeetingMain() {
                             >
                                 <div className="w-full h-full rounded-[24px] bg-transparent group-hover:bg-[#3e3e3e] transition-all duration-200 flex flex-col items-center justify-center">
                                     <span className="text-[13px] font-bold text-[#8E8E93] group-hover:text-[#509FEB] transition-colors duration-200 mb-1">{btn.label}</span>
-                                    <span className="text-[30px] font-black text-white group-hover:text-[#509FEB] transition-colors duration-200 leading-none">
+                                    <span className="text-[32px] font-black text-white group-hover:text-[#509FEB] transition-colors duration-200 leading-none">
                                         {btn.count}
                                     </span>
                                 </div>
@@ -172,7 +179,7 @@ export default function PmoMeetingMain() {
                             >
                                 <div className="w-full h-full rounded-[24px] bg-transparent group-hover:bg-[#d4d7d5] transition-all duration-200 flex flex-col items-center justify-center">
                                     <span className="text-[13px] font-bold text-[#3C3C3C] group-hover:text-[#000000] transition-colors duration-200 mb-0.5">{btn.label}</span>
-                                    <span className={`text-[30px] font-black leading-none transition-colors duration-200 ${btn.highlightClass} ${btn.hoverClass}`}>
+                                    <span className={`text-[32px] font-black leading-none transition-colors duration-200 ${btn.highlightClass} ${btn.hoverClass}`}>
                                         {btn.count}
                                     </span>
                                 </div>
@@ -189,7 +196,7 @@ export default function PmoMeetingMain() {
                             >
                                 <div className="w-full h-full rounded-[24px] bg-transparent group-hover:bg-[#3e3e3e] transition-all duration-200 flex flex-col items-center justify-center">
                                     <span className="text-[13px] font-bold text-[#8E8E93] group-hover:text-[#509FEB] transition-colors duration-200 mb-1">{btn.label}</span>
-                                    <span className="text-[30px] font-black text-white group-hover:text-[#509FEB] transition-colors duration-200 leading-none">
+                                    <span className="text-[32px] font-black text-white group-hover:text-[#509FEB] transition-colors duration-200 leading-none">
                                         {btn.count}
                                     </span>
                                 </div>
@@ -210,7 +217,7 @@ export default function PmoMeetingMain() {
                             >
                                 <div className="w-full h-full rounded-[18px] bg-transparent group-hover:bg-[#d4d7d5] transition-all duration-200 flex flex-col items-center justify-center">
                                     <span className="text-[13px] font-bold text-[#3C3C3C] group-hover:text-[#000000] transition-colors duration-200 mb-0.5">{btn.label}</span>
-                                    <span className={`text-[30px] font-black leading-none transition-colors duration-200 ${btn.highlightClass} ${btn.hoverClass}`}>
+                                    <span className={`text-[32px] font-black leading-none transition-colors duration-200 ${btn.highlightClass} ${btn.hoverClass}`}>
                                         {btn.count}
                                     </span>
                                 </div>
@@ -227,7 +234,7 @@ export default function PmoMeetingMain() {
                             >
                                 <div className="w-full h-full rounded-[18px] bg-transparent group-hover:bg-[#3e3e3e] transition-all duration-200 flex flex-col items-center justify-center">
                                     <span className="text-[13px] font-bold text-[#8E8E93] group-hover:text-[#509FEB] transition-colors duration-200 mb-1">{btn.label}</span>
-                                    <span className="text-[30px] font-black text-white group-hover:text-[#509FEB] transition-colors duration-200 leading-none">
+                                    <span className="text-[32px] font-black text-white group-hover:text-[#509FEB] transition-colors duration-200 leading-none">
                                         {btn.count}
                                     </span>
                                 </div>
