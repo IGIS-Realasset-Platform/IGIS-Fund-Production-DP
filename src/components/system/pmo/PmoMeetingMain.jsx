@@ -560,7 +560,7 @@ export default function PmoMeetingMain() {
                                                 </div>
  
                                                 {/* Bottom line: Lead Department & Sector info */}
-                                                <div className="flex items-center justify-between pt-[12px] border-t border-white/[0.06]">
+                                                <div className="flex items-center justify-between pt-[4px]">
                                                     <div className="flex items-center gap-[10px] text-[13px] text-white/50">
                                                         <div className="flex items-center gap-[4px]">
                                                             <span className="text-white/40 font-medium">주관</span>
