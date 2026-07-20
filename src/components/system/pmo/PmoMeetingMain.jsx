@@ -25,6 +25,7 @@ export default function PmoMeetingMain() {
     const [dbError, setDbError] = React.useState(null);
     const [activeMetric, setActiveMetric] = React.useState('총관여');
     const [hoveredDept, setHoveredDept] = React.useState(null);
+    const [tooltipData, setTooltipData] = React.useState(null);
  
     const calculateAndSetCounts = (taskList) => {
         const parseBool = (v) => v === true || String(v).toLowerCase() === 'true' || String(v).toUpperCase() === 'Y';
@@ -792,7 +793,13 @@ export default function PmoMeetingMain() {
                                                      key={idx} 
                                                      onClick={() => handleRowClick(row)}
                                                      className="hover:bg-[#2b2b2b]/40 transition-colors cursor-pointer"
-                                                     title={`${row.dept} 주관 업무 페이지 보기`}
+                                                     onMouseEnter={(e) => setTooltipData({
+                                                         text: `${row.dept} 주관 업무 페이지 보기`,
+                                                         x: e.clientX,
+                                                         y: e.clientY
+                                                     })}
+                                                     onMouseMove={(e) => setTooltipData(prev => prev ? { ...prev, x: e.clientX, y: e.clientY } : null)}
+                                                     onMouseLeave={() => setTooltipData(null)}
                                                  >
                                                     {/* 부서 */}
                                                     <td className="py-[16px] px-[16px] text-center font-bold text-[#E5E5E5]">
@@ -849,6 +856,17 @@ export default function PmoMeetingMain() {
                         </div>
                     </div>
                 </>
+            )}
+            {tooltipData && (
+                <div 
+                    className="fixed z-[100] pointer-events-none px-3 py-1.5 bg-[#1a1a19]/95 border border-[#444] text-[12px] font-bold text-white rounded-[8px] shadow-2xl backdrop-blur-md transition-opacity duration-150 ease-out"
+                    style={{ 
+                        left: `${tooltipData.x + 12}px`, 
+                        top: `${tooltipData.y + 12}px` 
+                    }}
+                >
+                    {tooltipData.text}
+                </div>
             )}
         </div>
     );
