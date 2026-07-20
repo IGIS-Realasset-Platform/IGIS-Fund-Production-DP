@@ -101,6 +101,8 @@ export default function PmoMeetingMain() {
         { label: '보류', path: 'platform/iotaseoul/workflow?filterStatus=보류', count: counts.onHold },
         { label: '중단', path: 'platform/iotaseoul/workflow?filterStatus=중단', count: counts.stopped }
     ];
+    const group3Upper = upperFilters.slice(2);
+    const group3Lower = [lowerFilters[1], lowerFilters[2], lowerFilters[4], lowerFilters[5]];
 
 
 
@@ -113,41 +115,120 @@ export default function PmoMeetingMain() {
                 </div>
             </div>
 
-            {/* Filter Navigation Buttons Capsule Box */}
-            <div className="w-[calc(100%+14px)] ml-[-7px] border border-[#4b4b4b]/70 rounded-[36px] p-[6px] flex flex-col gap-[6px] mb-[32px] select-none text-center bg-transparent">
-                {/* Upper Row Box */}
-                <div className="grid grid-cols-6 bg-[#b4b6b5] h-[94px] rounded-[30px] overflow-hidden divide-x divide-[#8b8b8b]/80">
-                    {upperFilters.map((btn, idx) => (
-                        <div
-                            key={idx}
-                            onClick={() => handleFilterClick(btn)}
-                            className="p-[6px] h-full flex items-center justify-center cursor-pointer group"
-                        >
-                            <div className="w-full h-full rounded-[24px] bg-transparent group-hover:bg-[#d4d7d5] transition-all duration-200 flex flex-col items-center justify-center">
-                                <span className="text-[13px] font-bold text-[#3C3C3C] group-hover:text-[#000000] transition-colors duration-200 mb-0.5">{btn.label}</span>
-                                <span className={`text-[30px] font-black leading-none transition-colors duration-200 ${btn.highlightClass} ${btn.hoverClass}`}>
-                                    {btn.count}
-                                </span>
+            {/* Filter Navigation Buttons Grouped Containers */}
+            <div className="w-[calc(100%+14px)] ml-[-7px] grid grid-cols-6 gap-[12px] mb-[32px] select-none text-center bg-transparent">
+                {/* Box 1: 전체업무 + 완료 (col-span-1) */}
+                <div className="col-span-1 border border-[#4b4b4b]/70 rounded-[30px] p-[6px] flex flex-col gap-[6px]">
+                    {/* 전체업무 */}
+                    {(() => {
+                        const btn = upperFilters[0];
+                        return (
+                            <div
+                                onClick={() => handleFilterClick(btn)}
+                                className="w-full bg-[#b4b6b5] h-[94px] rounded-[24px] flex items-center justify-center cursor-pointer group"
+                            >
+                                <div className="w-full h-full rounded-[24px] bg-transparent group-hover:bg-[#d4d7d5] transition-all duration-200 flex flex-col items-center justify-center">
+                                    <span className="text-[13px] font-bold text-[#3C3C3C] group-hover:text-[#000000] transition-colors duration-200 mb-0.5">{btn.label}</span>
+                                    <span className={`text-[30px] font-black leading-none transition-colors duration-200 ${btn.highlightClass} ${btn.hoverClass}`}>
+                                        {btn.count}
+                                    </span>
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        );
+                    })()}
+                    {/* 완료 */}
+                    {(() => {
+                        const btn = lowerFilters[3];
+                        return (
+                            <div
+                                onClick={() => handleFilterClick(btn)}
+                                className="w-full bg-[#2b2b2b] h-[98px] border border-[#4b4b4b] rounded-[24px] flex items-center justify-center cursor-pointer group"
+                            >
+                                <div className="w-full h-full rounded-[24px] bg-transparent group-hover:bg-[#3e3e3e] transition-all duration-200 flex flex-col items-center justify-center">
+                                    <span className="text-[13px] font-bold text-[#8E8E93] group-hover:text-[#509FEB] transition-colors duration-200 mb-1">{btn.label}</span>
+                                    <span className="text-[30px] font-black text-white group-hover:text-[#509FEB] transition-colors duration-200 leading-none">
+                                        {btn.count}
+                                    </span>
+                                </div>
+                            </div>
+                        );
+                    })()}
                 </div>
-                {/* Lower Row Box */}
-                <div className="grid grid-cols-6 bg-[#2b2b2b] h-[98px] border border-[#4b4b4b] rounded-[30px] overflow-hidden divide-x divide-[#4b4b4b]/70">
-                    {lowerFilters.map((btn, idx) => (
-                        <div
-                            key={idx}
-                            onClick={() => handleFilterClick(btn)}
-                            className="p-[6px] h-full flex items-center justify-center cursor-pointer group"
-                        >
-                            <div className="w-full h-full rounded-[24px] bg-transparent group-hover:bg-[#3e3e3e] transition-all duration-200 flex flex-col items-center justify-center">
-                                <span className="text-[13px] font-bold text-[#8E8E93] group-hover:text-[#509FEB] transition-colors duration-200 mb-1">{btn.label}</span>
-                                <span className="text-[30px] font-black text-white group-hover:text-[#509FEB] transition-colors duration-200 leading-none">
-                                    {btn.count}
-                                </span>
+
+                {/* Box 2: 진행중 + 미착수 (col-span-1) */}
+                <div className="col-span-1 border border-[#4b4b4b]/70 rounded-[30px] p-[6px] flex flex-col gap-[6px]">
+                    {/* 진행중 */}
+                    {(() => {
+                        const btn = upperFilters[1];
+                        return (
+                            <div
+                                onClick={() => handleFilterClick(btn)}
+                                className="w-full bg-[#b4b6b5] h-[94px] rounded-[24px] flex items-center justify-center cursor-pointer group"
+                            >
+                                <div className="w-full h-full rounded-[24px] bg-transparent group-hover:bg-[#d4d7d5] transition-all duration-200 flex flex-col items-center justify-center">
+                                    <span className="text-[13px] font-bold text-[#3C3C3C] group-hover:text-[#000000] transition-colors duration-200 mb-0.5">{btn.label}</span>
+                                    <span className={`text-[30px] font-black leading-none transition-colors duration-200 ${btn.highlightClass} ${btn.hoverClass}`}>
+                                        {btn.count}
+                                    </span>
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        );
+                    })()}
+                    {/* 미착수 */}
+                    {(() => {
+                        const btn = lowerFilters[0];
+                        return (
+                            <div
+                                onClick={() => handleFilterClick(btn)}
+                                className="w-full bg-[#2b2b2b] h-[98px] border border-[#4b4b4b] rounded-[24px] flex items-center justify-center cursor-pointer group"
+                            >
+                                <div className="w-full h-full rounded-[24px] bg-transparent group-hover:bg-[#3e3e3e] transition-all duration-200 flex flex-col items-center justify-center">
+                                    <span className="text-[13px] font-bold text-[#8E8E93] group-hover:text-[#509FEB] transition-colors duration-200 mb-1">{btn.label}</span>
+                                    <span className="text-[30px] font-black text-white group-hover:text-[#509FEB] transition-colors duration-200 leading-none">
+                                        {btn.count}
+                                    </span>
+                                </div>
+                            </div>
+                        );
+                    })()}
+                </div>
+
+                {/* Box 3: 나머지 상하단 박스 4개씩 (col-span-4) */}
+                <div className="col-span-4 border border-[#4b4b4b]/70 rounded-[30px] p-[6px] flex flex-col gap-[6px]">
+                    {/* Upper Row Box */}
+                    <div className="grid grid-cols-4 bg-[#b4b6b5] h-[94px] rounded-[24px] overflow-hidden divide-x divide-[#8b8b8b]/80">
+                        {group3Upper.map((btn, idx) => (
+                            <div
+                                key={idx}
+                                onClick={() => handleFilterClick(btn)}
+                                className="p-[6px] h-full flex items-center justify-center cursor-pointer group"
+                            >
+                                <div className="w-full h-full rounded-[18px] bg-transparent group-hover:bg-[#d4d7d5] transition-all duration-200 flex flex-col items-center justify-center">
+                                    <span className="text-[13px] font-bold text-[#3C3C3C] group-hover:text-[#000000] transition-colors duration-200 mb-0.5">{btn.label}</span>
+                                    <span className={`text-[30px] font-black leading-none transition-colors duration-200 ${btn.highlightClass} ${btn.hoverClass}`}>
+                                        {btn.count}
+                                    </span>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                    {/* Lower Row Box */}
+                    <div className="grid grid-cols-4 bg-[#2b2b2b] h-[98px] border border-[#4b4b4b] rounded-[24px] overflow-hidden divide-x divide-[#4b4b4b]/70">
+                        {group3Lower.map((btn, idx) => (
+                            <div
+                                key={idx}
+                                onClick={() => handleFilterClick(btn)}
+                                className="p-[6px] h-full flex items-center justify-center cursor-pointer group"
+                            >
+                                <div className="w-full h-full rounded-[18px] bg-transparent group-hover:bg-[#3e3e3e] transition-all duration-200 flex flex-col items-center justify-center">
+                                    <span className="text-[13px] font-bold text-[#8E8E93] group-hover:text-[#509FEB] transition-colors duration-200 mb-1">{btn.label}</span>
+                                    <span className="text-[30px] font-black text-white group-hover:text-[#509FEB] transition-colors duration-200 leading-none">
+                                        {btn.count}
+                                    </span>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </div>
 
