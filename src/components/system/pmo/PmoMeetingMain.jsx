@@ -116,9 +116,9 @@ export default function PmoMeetingMain() {
             </div>
 
             {/* Filter Navigation Buttons Capsule Box */}
-            <div className="w-full border border-[#4b4b4b] rounded-[28px] p-[4px] flex flex-col gap-[4px] mb-[32px] select-none text-center bg-transparent">
+            <div className="w-full border border-[#4b4b4b] rounded-[28px] p-[6px] flex flex-col gap-[6px] mb-[32px] select-none text-center bg-transparent">
                 {/* Upper Row Box */}
-                <div className="grid grid-cols-5 bg-[#b4b6b5] h-[116px] rounded-[20px] overflow-hidden divide-x divide-[#8b8b8b]">
+                <div className="grid grid-cols-5 bg-[#b4b6b5] h-[76px] rounded-[20px] overflow-hidden divide-x divide-[#8b8b8b]">
                     {upperFilters.map((btn, idx) => (
                         <div
                             key={idx}
@@ -135,7 +135,7 @@ export default function PmoMeetingMain() {
                     ))}
                 </div>
                 {/* Lower Row Box */}
-                <div className="grid grid-cols-8 bg-[#2b2b2b] h-[120px] border border-[#4b4b4b] rounded-[20px] overflow-hidden divide-x divide-[#4b4b4b]">
+                <div className="grid grid-cols-8 bg-[#2b2b2b] h-[80px] border border-[#4b4b4b] rounded-[20px] overflow-hidden divide-x divide-[#4b4b4b]">
                     {lowerFilters.map((btn, idx) => (
                         <div
                             key={idx}
