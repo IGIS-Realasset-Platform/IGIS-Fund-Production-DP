@@ -758,6 +758,7 @@ export default function DecisionLog() {
     // Filter by search query and dropdowns
     const searchFilteredLogs = logs.filter(log => {
         if (log.writer_name === '시스템 스케줄러') return false;
+        if (log.metadata?.task_id) return false; // 하단 목록은 게시판 내용만 표시 (통합업무보드 이력 제외)
         if (showMyLogsOnly && log.writer_staff_id !== memberInfo?.email) return false;
         if (filterStakeholder && log.iota_seoul_log_stakeholders?.[0]?.role_category !== filterStakeholder) return false;
         if (filterCell && getLogCell(log) !== filterCell) return false;
@@ -792,6 +793,7 @@ export default function DecisionLog() {
     const activeStatus = ['신규', '검토중', '진행중'];
     const activeLogs = logs.filter(l => activeStatus.includes(l.metadata?.issue_status || '진행중'));
     const twoWeeksAgo = new Date(Date.now() - 14 * 24 * 60 * 60 * 1000);
+    const oneWeekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
     
     // Group active logs by cell
     const issuesByWorkspace = workspaces.map(ws => {
@@ -816,12 +818,13 @@ export default function DecisionLog() {
     const crossFunctionalLogs = logs.filter(log => {
         if (log.writer_name === '시스템 스케줄러') return false;
         const logDate = new Date(log.work_date || log.created_at);
-        if (logDate < twoWeeksAgo) return false;
+        if (logDate < oneWeekAgo) return false;
         if (!log.metadata?.workspace_label) return false; // Only workspace logs
 
         const writerCell = getCellName(log.writer_name);
         const isTaskLog = !!log.metadata?.task_id;
-        const targetCell = isTaskLog ? "통합업무보드" : getLogCell(log);
+        if (!isTaskLog) return false; // 상단 영역은 통합업무보드 크로스펑셔널 업무만 노출
+        const targetCell = "통합업무보드";
         
         const normWriter = writerCell.replace(/-(LFC|DSC|EMC|SSC|KAM)$/, '');
         const normTarget = targetCell.replace(/-(LFC|DSC|EMC|SSC|KAM)$/, '');
@@ -1135,7 +1138,7 @@ export default function DecisionLog() {
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-[16px]">
                         <h3 className="text-[20px] font-bold text-white tracking-tight mt-[4px]">지금 사람들이 모여 논의하는 주제</h3>
-                        <p className="text-[14px] text-[#A1A1AA] font-medium translate-y-[2px]">최근 한주간 통합업무보드 및 협업게시판에 등록된 크로스펑셔널 업무 내역입니다.</p>
+                        <p className="text-[14px] text-[#A1A1AA] font-medium translate-y-[2px]">최근 한주간 통합업무보드에 등록된 크로스펑셔널 업무 내역입니다.</p>
                     </div>
                     {crossFunctionalLogs.length > 6 && (
                         <button 
