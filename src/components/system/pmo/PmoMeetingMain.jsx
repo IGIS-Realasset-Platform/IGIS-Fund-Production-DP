@@ -641,8 +641,8 @@ export default function PmoMeetingMain() {
  
                                     return (
                                         <div className="w-full flex flex-col items-center justify-center flex-1 py-1">
-                                            {/* Donut graphic - container 245px */}
-                                            <div className="relative w-[245px] h-[245px] flex items-center justify-center">
+                                            {/* Donut graphic - container 270px (10% larger than 245px) and translated up by 10px */}
+                                            <div className="relative w-[270px] h-[270px] flex items-center justify-center -translate-y-[10px]">
                                                 <svg className="w-full h-full" viewBox="0 0 120 120">
                                                     {/* Background base circle */}
                                                     <circle 
@@ -736,8 +736,8 @@ export default function PmoMeetingMain() {
                                                         );
                                                     })}
                                                 </svg>
-                                                {/* Text center label - scaled for 245px donut, displaying percentage on hover */}
-                                                <div className="absolute flex flex-col items-center justify-center text-center px-1 pointer-events-none w-[136px] overflow-hidden">
+                                                {/* Text center label - scaled for 270px donut, displaying percentage on hover */}
+                                                <div className="absolute flex flex-col items-center justify-center text-center px-1 pointer-events-none w-[150px] overflow-hidden">
                                                     {hoveredDept ? (
                                                         <>
                                                             <span className="text-[13px] font-bold text-[#86868b] leading-none mb-1.5 truncate w-full">{hoveredDept}</span>
