@@ -401,7 +401,7 @@ export default function PmoMeetingMain() {
                         </div>
                         <button
                             onClick={handleGoToFullPage}
-                            className="flex items-center gap-[6px] text-[12px] text-[#2997ff] hover:text-[#5eb0ff] font-bold transition-all px-[12px] py-[6px] bg-[#2997ff]/10 hover:bg-[#2997ff]/20 rounded-[8px] border border-[#2997ff]/20 cursor-pointer"
+                            className="flex items-center gap-[6px] text-[12px] text-[#E5E5E5] hover:text-white font-bold transition-all px-[12px] py-[6px] bg-white/5 hover:bg-white/10 rounded-[8px] border border-white/10 hover:border-white/20 cursor-pointer"
                         >
                             <span>{selectedFilter === '단발업무' ? '단발업무 요건판 전체 보기' : '통합업무보드에서 전체 보기'}</span>
                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
