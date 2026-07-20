@@ -284,7 +284,7 @@ INSERT INTO iota_v2.iota_pmo_tasks (
     ) VALUES (
         'IOTA_SEOUL', '도면/설계', 'PF 기준도면', 'PF 대주단 제출용 기준도면 패키지 확정',
         '도면 기준이 없으면 공사비·임차·PF 설명자료가 모두 흔들림', 'PF 기준도면, 면적표, 변경이력표',
-        '사업2파트', 'DEPT_DEV',
+        '사업2파트', 'DEPT_DESIGN',
         '개발관리실;사업2파트;LFC', '미정', 'STAKE_설계사CM',
         true, true, '2026-08-02', '진행중', 'PF필수', '정규',
         90, 'A', 'PF필수 / Blocker / 의사결정 / 지원:도면 기준 정리',
@@ -312,7 +312,7 @@ INSERT INTO iota_v2.iota_pmo_tasks (
     ) VALUES (
         'PFV_427', '도면/설계', '호텔 프로그램', '호텔 객실/부대시설 프로그램 도면 반영',
         '브랜드·운영전략과 설계가 불일치하면 PF 후 변경 리스크 확대', '호텔 프로그램 도면, 면적/동선 검토표',
-        '사업2파트', 'DEPT_DEV',
+        '사업2파트', 'DEPT_DESIGN',
         '사업2파트;기업마케팅실', '미정', 'STAKE_호텔브랜드사설계사',
         false, false, '2026-08-22', '미착수', 'PF필수', '정규',
         45, 'B', 'PF필수 / 지원:브랜드 기준자료',
@@ -326,7 +326,7 @@ INSERT INTO iota_v2.iota_pmo_tasks (
     ) VALUES (
         'IOTA_SEOUL', '인테리어/TI', '오피스 TI', '오피스 표준 TI 및 임차인 Fit-out 기준 설정',
         '임차조건·임대안정화비용·PF 모델에 반영 필요', '오피스 TI 기준표, 비용범위, 부담주체',
-        '사업2파트', 'DEPT_DEV',
+        '사업2파트', 'DEPT_DESIGN',
         '기업마케팅실;LFC;사업2파트', '미정', 'STAKE_잠재임차인',
         false, false, '2026-08-22', '진행중', 'PF필수', '정규',
         45, 'B', 'PF필수 / 지원:TI 시장자료',
@@ -354,7 +354,7 @@ INSERT INTO iota_v2.iota_pmo_tasks (
     ) VALUES (
         'IOTA_SEOUL', '인테리어/TI', '공간제안 패키지', '주요 임차인별 공간 제안 패키지 제작',
         '임차 확보가 PF 실행성과 대주단 설득의 핵심', '광장/KB/삼성 등 임차 제안 패키지',
-        '사업2파트', 'DEPT_DEV',
+        '사업2파트', 'DEPT_DESIGN',
         '기업마케팅실;사업2파트', '미정', 'STAKE_광장KB삼성등',
         false, false, '2026-08-07', '진행중', 'PF필수', '정규',
         45, 'B', 'PF필수 / 지원:임차인 요구사항',
@@ -508,7 +508,7 @@ INSERT INTO iota_v2.iota_pmo_tasks (
     ) VALUES (
         'IOTA_SEOUL', '구조/법무/세무', 'Asset/Share/합병', 'Asset Deal·Share Deal·합병·현물출자 비교',
         '통합 구조별 절차·취득세·주주동의·실행가능성 판단 필요', '구조별 비교표, 장단점, 세금/승인 이슈',
-        '사업2파트', 'DEPT_PM2',
+        '사업2파트', 'DEPT_KAM',
         '사업2파트;LFC', '미정', 'STAKE_법무법인세무법인',
         false, true, '2026-08-07', '진행중', 'PF필수', '정규',
         65, 'B', 'PF필수 / 의사결정 / 지원:자문결과 필요',
