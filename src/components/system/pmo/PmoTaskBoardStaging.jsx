@@ -4216,7 +4216,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                     </div>
 
                                     {/* Row 3: 회의상정등급, 마감 기한, 의사결정필요 */}
-                                    <div className="grid grid-cols-3 gap-4 items-end">
+                                    <div className="grid grid-cols-4 gap-4 items-end">
                                         <div className="space-y-1">
                                             <span className="text-[#86868B] text-[11px] block">회의상정등급</span>
                                             <div className="mt-1.5">
@@ -4240,7 +4240,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                                 className="bg-[#2c2c2b] border border-red-500/30 focus:border-red-500 rounded px-3 py-1.5 text-[13px] text-white w-full outline-none font-bold cursor-pointer" 
                                             />
                                         </div>
-                                        <div className="space-y-1">
+                                        <div className="space-y-1 col-span-2">
                                             <span className="text-[#86868B] text-[11px] block">의사결정필요</span>
                                             <select 
                                                 value={formNeedsDecision ? '필요' : '불필요'} 
@@ -4493,7 +4493,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                         </div>
 
                                         {/* Row 3: 회의상정등급, 마감 기한, 의사결정필요 */}
-                                        <div className="grid grid-cols-3 gap-4">
+                                        <div className="grid grid-cols-4 gap-4">
                                             <div className="space-y-[3px]">
                                                 <span className="text-[#86868B] text-[11px] block">회의상정등급</span>
                                                 <div className="mt-1">
@@ -4514,7 +4514,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                                     {t.due_date || fallbackItem.due_date || '-'}
                                                 </span>
                                             </div>
-                                            <div className="space-y-[3px]">
+                                            <div className="space-y-[3px] col-span-2">
                                                 <span className="text-[#86868B] text-[11px] block">의사결정필요</span>
                                                 <span className="font-bold block">
                                                     <span className={needsDecisionVal ? 'text-[#ff453a]' : 'text-gray-400'}>
