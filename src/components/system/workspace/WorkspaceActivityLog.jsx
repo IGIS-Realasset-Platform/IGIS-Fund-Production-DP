@@ -909,7 +909,6 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
     };
 
     const filteredLogs = logs.filter(log => {
-        if (log.writer_name === '시스템 스케줄러') return false;
         if (isTaskBoard) {
             if (log.metadata?.task_id !== taskId) return false;
             if (filterStakeholder && log.iota_seoul_log_stakeholders?.[0]?.role_category !== filterStakeholder) return false;
