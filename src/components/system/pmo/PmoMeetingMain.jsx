@@ -388,7 +388,7 @@ export default function PmoMeetingMain() {
                 </div>
             ) : (
                 /* Bottom Box for Brief Listing - Card based view */
-                <div className="w-full bg-[#252525] border border-[#3c3c3c] rounded-[24px] p-[24px] mb-[30px] flex flex-col shadow-[0_4px_24px_rgba(0,0,0,0.4)]">
+                <div className="w-full bg-[#252525] border border-[#3c3c3c] rounded-[24px] p-[24px] mb-[30px] flex flex-col">
                     {/* Header Row */}
                     <div className="flex justify-between items-center mb-[10px]">
                         <div className="flex items-center gap-[10px]">
