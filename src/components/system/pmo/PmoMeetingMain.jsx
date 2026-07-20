@@ -23,69 +23,70 @@ export default function PmoMeetingMain() {
     const [tasks, setTasks] = React.useState([]);
     const [selectedFilter, setSelectedFilter] = React.useState('전체업무');
 
+    const calculateAndSetCounts = (taskList) => {
+        const parseBool = (v) => v === true || String(v).toLowerCase() === 'true' || String(v).toUpperCase() === 'Y';
+
+        const pmoTasks = taskList.filter(t => t.task_type !== '팝업');
+        const popupTasks = taskList.filter(t => t.task_type === '팝업');
+
+        const total = pmoTasks.length;
+        const delayed = pmoTasks.filter(t => t.status === '지연').length;
+        const blockers = pmoTasks.filter(t => parseBool(t.is_blocker)).length;
+        const decisions = pmoTasks.filter(t => parseBool(t.needs_decision)).length;
+        const meetings = pmoTasks.filter(t => t.meeting_grade === 'A' || t.meeting_grade === 'A_즉시상정').length;
+        const inProgress = pmoTasks.filter(t => t.status === '진행중').length;
+        const pfRequired = pmoTasks.filter(t => t.importance_level === 'PF필수').length;
+        const constRequired = pmoTasks.filter(t => t.importance_level === '준공필수').length;
+        const notStarted = pmoTasks.filter(t => t.status === '미착수').length;
+        const completed = pmoTasks.filter(t => t.status === '완료').length;
+        const onHold = pmoTasks.filter(t => t.status === '보류').length;
+        const stopped = pmoTasks.filter(t => t.status === '중단').length;
+        const supportNeeded = pmoTasks.filter(t => {
+            const fallbackItem = FALLBACK_BOARD_TASKS.find(fb => fb.task_name === t.task_name) || {};
+            const val = t.support_needed || fallbackItem.support_needed || '';
+            const s = val.trim().toLowerCase();
+            const invalidKeywords = ['', '없음', 'n/a', 'na', '해당사항 없음', '해당사항없음', '-', 'none'];
+            return s && !invalidKeywords.includes(s);
+        }).length;
+
+        const popupCount = popupTasks.filter(t => t.status === '진행중').length;
+
+        setCounts({
+            total,
+            delayed,
+            blockers,
+            decisions,
+            meetings,
+            inProgress,
+            pfRequired,
+            constRequired,
+            notStarted,
+            completed,
+            onHold,
+            stopped,
+            popupCount,
+            supportNeeded
+        });
+    };
+
     React.useEffect(() => {
         async function fetchDashboardData() {
             try {
-                // Fetch stats and tasks from staging iota_v2 schema
+                // Fetch stats and tasks from staging iota_v2 schema with correct fields and join relationships
                 const { data: allTasks, error } = await supabase
                     .schema('iota_v2')
                     .from('iota_pmo_tasks')
-                    .select('id, project, task_name, lead_dept, assignee, is_blocker, needs_decision, priority_score, due_date, status, category_main, importance_level, meeting_grade, task_type, support_needed');
+                    .select('id, project_code, task_name, lead_dept:iota_departments!lead_dept_code(dept_name), assignee, is_blocker, needs_decision, priority_score, due_date, status, category_main, importance_level, meeting_grade, task_type, support_needed');
 
                 if (error) throw error;
 
                 const finalTasks = (allTasks && allTasks.length > 0) ? allTasks : FALLBACK_BOARD_TASKS;
                 setTasks(finalTasks);
-
-                const parseBool = (v) => v === true || String(v).toLowerCase() === 'true' || String(v).toUpperCase() === 'Y';
-
-                // Separate integrated (PMO) tasks and popup tasks
-                const pmoTasks = finalTasks.filter(t => t.task_type !== '팝업');
-                const popupTasks = finalTasks.filter(t => t.task_type === '팝업');
-
-                const total = pmoTasks.length;
-                const delayed = pmoTasks.filter(t => t.status === '지연').length;
-                const blockers = pmoTasks.filter(t => parseBool(t.is_blocker)).length;
-                const decisions = pmoTasks.filter(t => parseBool(t.needs_decision)).length;
-                const meetings = pmoTasks.filter(t => t.meeting_grade === 'A' || t.meeting_grade === 'A_즉시상정').length;
-                const inProgress = pmoTasks.filter(t => t.status === '진행중').length;
-                const pfRequired = pmoTasks.filter(t => t.importance_level === 'PF필수').length;
-                const constRequired = pmoTasks.filter(t => t.importance_level === '준공필수').length;
-                const notStarted = pmoTasks.filter(t => t.status === '미착수').length;
-                const completed = pmoTasks.filter(t => t.status === '완료').length;
-                const onHold = pmoTasks.filter(t => t.status === '보류').length;
-                const stopped = pmoTasks.filter(t => t.status === '중단').length;
-                const supportNeeded = pmoTasks.filter(t => {
-                    const fallbackItem = FALLBACK_BOARD_TASKS.find(fb => fb.task_name === t.task_name) || {};
-                    const val = t.support_needed || fallbackItem.support_needed || '';
-                    const s = val.trim().toLowerCase();
-                    const invalidKeywords = ['', '없음', 'n/a', 'na', '해당사항 없음', '해당사항없음', '-', 'none'];
-                    return s && !invalidKeywords.includes(s);
-                }).length;
-
-                // Counting only the '진행중' popup tasks
-                const popupCount = popupTasks.filter(t => t.status === '진행중').length;
-
-                setCounts({
-                    total,
-                    delayed,
-                    blockers,
-                    decisions,
-                    meetings,
-                    inProgress,
-                    pfRequired,
-                    constRequired,
-                    notStarted,
-                    completed,
-                    onHold,
-                    stopped,
-                    popupCount,
-                    supportNeeded
-                });
-
+                calculateAndSetCounts(finalTasks);
             } catch (err) {
-                console.error("Failed to load dashboard data:", err);
+                console.error("Failed to load dashboard data from database, falling back to static board tasks:", err);
                 setTasks(FALLBACK_BOARD_TASKS);
+                calculateAndSetCounts(FALLBACK_BOARD_TASKS);
             } finally {
                 setLoading(false);
             }
@@ -243,7 +244,7 @@ export default function PmoMeetingMain() {
                         return (
                             <div
                                 onClick={() => setSelectedFilter(btn.label)}
-                                className={`w-full bg-[#b4b6b5] h-[94px] rounded-[24px] flex items-center justify-center cursor-pointer group transition-all duration-200 ${isActive ? 'ring-2 ring-[#2997ff] ring-inset' : 'hover:ring-2 hover:ring-[#2997ff]/60 hover:ring-inset'}`}
+                                className={`w-full bg-[#b4b6b5] h-[94px] rounded-[24px] flex items-center justify-center cursor-pointer group transition-all duration-200 ${isActive ? 'ring-2 ring-[#2997ff] ring-inset' : 'hover:ring-2 hover:ring-[#2997ff] hover:ring-inset'}`}
                             >
                                 <div className="w-full h-full rounded-[24px] bg-transparent group-hover:bg-[#d4d7d5] transition-all duration-200 flex flex-col items-center justify-center relative">
                                     <span className="text-[13px] font-bold text-[#3C3C3C] group-hover:text-[#000000] transition-colors duration-200 mb-0.5 flex items-center gap-[4px]">
@@ -264,7 +265,7 @@ export default function PmoMeetingMain() {
                         return (
                             <div
                                 onClick={() => setSelectedFilter(btn.label)}
-                                className={`w-full bg-[#2b2b2b] h-[98px] border rounded-[24px] flex items-center justify-center cursor-pointer group transition-all duration-200 ${isActive ? 'bg-[#2b2b2b] border-[#2997ff] ring-2 ring-[#2997ff] ring-inset' : 'border-[#4b4b4b] hover:border-[#2997ff]/60'}`}
+                                className={`w-full bg-[#2b2b2b] h-[98px] border rounded-[24px] flex items-center justify-center cursor-pointer group transition-all duration-200 ${isActive ? 'bg-[#2b2b2b] border-[#2997ff] ring-2 ring-[#2997ff] ring-inset' : 'border-[#4b4b4b] hover:border-[#2997ff]'}`}
                             >
                                 <div className="w-full h-full rounded-[24px] bg-transparent group-hover:bg-[#3e3e3e] transition-all duration-200 flex flex-col items-center justify-center relative">
                                     <span className="text-[13px] font-bold text-[#8E8E93] group-hover:text-[#509FEB] transition-colors duration-200 mb-1 flex items-center gap-[4px]">
@@ -289,7 +290,7 @@ export default function PmoMeetingMain() {
                         return (
                             <div
                                 onClick={() => setSelectedFilter(btn.label)}
-                                className={`w-full bg-[#b4b6b5] h-[94px] rounded-[24px] flex items-center justify-center cursor-pointer group transition-all duration-200 ${isActive ? 'ring-2 ring-[#2997ff] ring-inset' : 'hover:ring-2 hover:ring-[#2997ff]/60 hover:ring-inset'}`}
+                                className={`w-full bg-[#b4b6b5] h-[94px] rounded-[24px] flex items-center justify-center cursor-pointer group transition-all duration-200 ${isActive ? 'ring-2 ring-[#2997ff] ring-inset' : 'hover:ring-2 hover:ring-[#2997ff] hover:ring-inset'}`}
                             >
                                 <div className="w-full h-full rounded-[24px] bg-transparent group-hover:bg-[#d4d7d5] transition-all duration-200 flex flex-col items-center justify-center relative">
                                     <span className="text-[13px] font-bold text-[#3C3C3C] group-hover:text-[#000000] transition-colors duration-200 mb-0.5 flex items-center gap-[4px]">
@@ -310,7 +311,7 @@ export default function PmoMeetingMain() {
                         return (
                             <div
                                 onClick={() => setSelectedFilter(btn.label)}
-                                className={`w-full bg-[#2b2b2b] h-[98px] border rounded-[24px] flex items-center justify-center cursor-pointer group transition-all duration-200 ${isActive ? 'bg-[#2b2b2b] border-[#2997ff] ring-2 ring-[#2997ff] ring-inset' : 'border-[#4b4b4b] hover:border-[#2997ff]/60'}`}
+                                className={`w-full bg-[#2b2b2b] h-[98px] border rounded-[24px] flex items-center justify-center cursor-pointer group transition-all duration-200 ${isActive ? 'bg-[#2b2b2b] border-[#2997ff] ring-2 ring-[#2997ff] ring-inset' : 'border-[#4b4b4b] hover:border-[#2997ff]'}`}
                             >
                                 <div className="w-full h-full rounded-[24px] bg-transparent group-hover:bg-[#3e3e3e] transition-all duration-200 flex flex-col items-center justify-center relative">
                                     <span className="text-[13px] font-bold text-[#8E8E93] group-hover:text-[#509FEB] transition-colors duration-200 mb-1 flex items-center gap-[4px]">
@@ -336,7 +337,7 @@ export default function PmoMeetingMain() {
                                 <div
                                     key={idx}
                                     onClick={() => setSelectedFilter(btn.label)}
-                                    className={`p-[6px] h-full flex items-center justify-center cursor-pointer group transition-all duration-200 ${isActive ? 'ring-2 ring-[#2997ff] ring-inset rounded-[18px] z-10' : 'hover:ring-2 hover:ring-[#2997ff]/60 hover:ring-inset hover:rounded-[18px] z-10'}`}
+                                    className={`p-[6px] h-full flex items-center justify-center cursor-pointer group transition-all duration-200 ${isActive ? 'ring-2 ring-[#2997ff] ring-inset rounded-[18px] z-10' : 'hover:ring-2 hover:ring-[#2997ff] hover:ring-inset hover:rounded-[18px] z-10'}`}
                                 >
                                     <div className="w-full h-full rounded-[18px] bg-transparent group-hover:bg-[#d4d7d5] transition-all duration-200 flex flex-col items-center justify-center relative">
                                         <span className="text-[13px] font-bold text-[#3C3C3C] group-hover:text-[#000000] transition-colors duration-200 mb-0.5 flex items-center gap-[4px]">
@@ -359,7 +360,7 @@ export default function PmoMeetingMain() {
                                 <div
                                     key={idx}
                                     onClick={() => setSelectedFilter(btn.label)}
-                                    className={`p-[6px] h-full flex items-center justify-center cursor-pointer group transition-all duration-200 ${isActive ? 'ring-2 ring-[#2997ff] ring-inset rounded-[18px] z-10' : 'hover:ring-2 hover:ring-[#2997ff]/60 hover:ring-inset hover:rounded-[18px] z-10'}`}
+                                    className={`p-[6px] h-full flex items-center justify-center cursor-pointer group transition-all duration-200 ${isActive ? 'ring-2 ring-[#2997ff] ring-inset rounded-[18px] z-10' : 'hover:ring-2 hover:ring-[#2997ff] hover:ring-inset hover:rounded-[18px] z-10'}`}
                                 >
                                     <div className="w-full h-full rounded-[18px] bg-transparent group-hover:bg-[#3e3e3e] transition-all duration-200 flex flex-col items-center justify-center relative">
                                         <span className="text-[13px] font-bold text-[#8E8E93] group-hover:text-[#509FEB] transition-colors duration-200 mb-1 flex items-center gap-[4px]">
@@ -388,7 +389,6 @@ export default function PmoMeetingMain() {
                     <div className="flex justify-between items-center mb-[20px] pb-[12px] border-b border-[#3c3c3c]/80">
                         <div className="flex items-center gap-[10px]">
                             <h2 className="text-[18px] font-bold text-white tracking-tight flex items-center gap-[8px]">
-                                <span className="bg-[#2997ff]/10 text-[#2997ff] px-[10px] py-[4px] rounded-[10px] text-[12px] font-bold border border-[#2997ff]/25">PMO 원장</span>
                                 <span>{selectedFilter} 현황 목록</span>
                             </h2>
                             <span className="bg-white/5 border border-white/10 px-[8px] py-[2px] rounded-[6px] text-[12px] font-mono text-[#E5E5E5] font-bold">
@@ -422,7 +422,7 @@ export default function PmoMeetingMain() {
                                         <div 
                                             key={task.id} 
                                             onClick={() => handleTaskClick(task)}
-                                            className={`bg-[#1e1e1e]/60 border hover:bg-[#222]/80 hover:border-[#2997ff]/60 transition-all rounded-[18px] p-[16px] cursor-pointer flex flex-col justify-between group ${hasBlocker ? 'border-orange-500/40 shadow-[0_0_10px_rgba(239,150,0,0.1)]' : 'border-[#3c3c3c]'}`}
+                                            className={`bg-[#1e1e1e]/60 border hover:bg-[#222]/80 hover:border-[#2997ff]/60 transition-all rounded-[18px] p-[16px] cursor-pointer flex flex-col justify-between group ${hasBlocker ? 'border-[#ff3b30]/40 shadow-[0_0_10px_rgba(255,59,48,0.15)]' : 'border-[#3c3c3c]'}`}
                                         >
                                             <div>
                                                 {/* Card Top: Project & Badges (Name tags - preserved text-[10px]/text-[9px]) */}
@@ -432,7 +432,7 @@ export default function PmoMeetingMain() {
                                                     </span>
                                                     <div className="flex gap-[4px]">
                                                         {hasBlocker && (
-                                                            <span className="px-[6px] py-[1.5px] rounded-[4px] text-[9px] font-bold bg-[#ff9500]/15 text-[#ff9500] border border-[#ff9500]/25">
+                                                            <span className="px-[6px] py-[1.5px] rounded-[4px] text-[9px] font-bold bg-[#ff3b30]/15 text-[#ff453a] border border-[#ff3b30]/25">
                                                                 병목
                                                             </span>
                                                         )}
@@ -451,22 +451,22 @@ export default function PmoMeetingMain() {
                                             </div>
 
                                             {/* Card Bottom Grid: Details (All text increased by 2px from 11px to 13px) */}
-                                            <div className="grid grid-cols-2 gap-[8px] text-[13px] pt-[12px] border-t border-[#3c3c3c]/50">
+                                            <div className="grid grid-cols-4 gap-[6px] text-[13px] pt-[12px] border-t border-[#3c3c3c]/50">
                                                 <div className="flex flex-col gap-[2px]">
-                                                    <span className="text-[#86868B]">주관부서</span>
+                                                    <span className="text-[#86868B] truncate">주관부서</span>
                                                     <span className="text-[#E5E5E5] font-semibold truncate" title={deptName}>{deptName}</span>
                                                 </div>
                                                 <div className="flex flex-col gap-[2px]">
-                                                    <span className="text-[#86868B]">담당자</span>
+                                                    <span className="text-[#86868B] truncate">담당자</span>
                                                     <span className="text-[#E5E5E5] font-semibold truncate" title={task.assignee}>{task.assignee || '미정'}</span>
                                                 </div>
-                                                <div className="flex flex-col gap-[2px] mt-1">
-                                                    <span className="text-[#86868B]">회의등급</span>
+                                                <div className="flex flex-col gap-[2px]">
+                                                    <span className="text-[#86868B] truncate">회의등급</span>
                                                     <div className="flex items-center mt-0.5">{getMeetingGradeBadge(task.meeting_grade)}</div>
                                                 </div>
-                                                <div className="flex flex-col gap-[2px] mt-1">
-                                                    <span className="text-[#86868B]">상태</span>
-                                                    <span className="text-[#E5E5E5] font-semibold truncate mt-0.5">{task.status || '미착수'}</span>
+                                                <div className="flex flex-col gap-[2px]">
+                                                    <span className="text-[#86868B] truncate">상태</span>
+                                                    <span className="text-[#E5E5E5] font-semibold truncate" title={task.status}>{task.status || '미착수'}</span>
                                                 </div>
                                             </div>
                                         </div>
