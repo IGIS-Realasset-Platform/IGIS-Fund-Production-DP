@@ -207,7 +207,7 @@ export default function MobileIotaApp({ navigateTo }) {
                         <button 
                             onClick={() => {
                                 localStorage.setItem('force_pc_mode', 'true');
-                                navigateTo('platform/iotaseoul/workflow');
+                                navigateTo('platform/iotaseoul/home');
                             }}
                             className="text-[12px] text-[#E5E5E5] bg-[#3c3c3c]/50 hover:bg-[#3c3c3c] transition-colors px-3 py-1.5 rounded-full border border-[#3c3c3c] font-semibold"
                         >

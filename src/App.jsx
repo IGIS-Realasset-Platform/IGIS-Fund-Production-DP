@@ -26,8 +26,8 @@ export default function App() {
       const base = BASE.endsWith('/') ? BASE.slice(0, -1) : BASE;
       let path = window.location.pathname.replace(base, '').replace(/^\//, '');
       if (path.endsWith('/')) path = path.slice(0, -1);
-      // 'home' 대신 'platform/iotaseoul/workflow'를 기본 경로로 설정하여 커스텀 도메인 접속 시 바로 플랫폼으로 이동
-      return path || 'platform/iotaseoul/workflow';
+      // 'platform/iotaseoul/home'을 기본 경로로 설정
+      return path || 'platform/iotaseoul/home';
   };
   const toUrl = (page) => page === 'home' ? BASE : `${BASE}${page}`;
 
@@ -101,7 +101,7 @@ export default function App() {
           if (isMobile && !forcePC && currentPage.startsWith('platform')) {
               navigateTo('mobile');
           } else if (forcePC && currentPage.startsWith('mobile')) {
-              navigateTo('platform/iotaseoul/workflow');
+              navigateTo('platform/iotaseoul/home');
           }
       }
   }, [user, loading, currentPage, recoveryMode]);
@@ -175,7 +175,7 @@ export default function App() {
                     if (isMobile && !forcePC) {
                         navigateTo('mobile');
                     } else {
-                        navigateTo('platform/iotaseoul/workflow');
+                        navigateTo('platform/iotaseoul/home');
                     }
                 }} 
             />
