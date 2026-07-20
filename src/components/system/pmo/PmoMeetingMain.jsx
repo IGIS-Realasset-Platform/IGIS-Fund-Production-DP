@@ -935,7 +935,7 @@ export default function PmoMeetingMain() {
 
                     {/* 카테고리별 진행현황 섹션 */}
                     <div className="w-full flex flex-col gap-[8px] mb-[30px] mt-[12px] select-text">
-                        <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center justify-between">
                             <div className="flex items-center gap-[16px]">
                                 <h3 className="text-[20px] font-bold text-white tracking-tight mt-[4px]">카테고리별 진행현황</h3>
                                 <p className="text-[14px] text-[#A1A1AA] font-medium translate-y-[2px]">대분류 카테고리별 업무 현황을 확인합니다.</p>
