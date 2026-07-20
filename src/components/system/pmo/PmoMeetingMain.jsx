@@ -776,17 +776,17 @@ export default function PmoMeetingMain() {
                             <div className="col-span-7 bg-[#272726] border border-[#3c3c3c] rounded-[24px] overflow-hidden flex flex-col justify-start">
                                 <table className="w-full text-left border-collapse bg-[#272726]">
                                     <thead>
-                                        <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[13px] h-[46px]">
-                                            <th className="py-[16px] px-[16px] w-[130px] font-bold text-[#86868B] text-center">부서</th>
-                                            <th className={`py-[16px] px-[16px] text-center font-bold text-[#86868B] transition-all duration-300 ${activeMetric === '주관업무' ? 'w-[140px]' : 'w-[80px]'}`}>주관업무</th>
-                                            <th className={`py-[16px] px-[16px] text-center font-bold text-[#86868B] transition-all duration-300 ${activeMetric === '협업업무' ? 'w-[140px]' : 'w-[80px]'}`}>협업업무</th>
-                                            <th className={`py-[16px] px-[16px] text-center font-bold text-[#86868B] transition-all duration-300 ${activeMetric === '총관여' ? 'w-[140px]' : 'w-[80px]'}`}>총관여</th>
-                                            <th className="py-[16px] px-[16px] text-center font-bold text-[#86868B]">PF필수</th>
-                                            <th className="py-[16px] px-[16px] text-center font-bold text-[#86868B]">준공필수</th>
-                                            <th className="py-[16px] px-[16px] text-center font-bold text-[#86868B]">Blocker</th>
-                                            <th className="py-[16px] px-[16px] text-center font-bold text-[#86868B]">의사결정</th>
-                                            <th className="py-[16px] px-[16px] text-center font-bold text-[#86868B]">지원요청</th>
-                                            <th className="py-[16px] px-[16px] text-center font-bold text-[#86868B]">7일내/지연</th>
+                                        <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[13px] h-[46px] whitespace-nowrap">
+                                            <th className="py-[16px] px-[16px] w-[130px] font-bold text-[#86868B] text-center whitespace-nowrap">부서</th>
+                                            <th className={`py-[16px] px-[16px] text-center font-bold text-[#86868B] transition-all duration-300 whitespace-nowrap ${activeMetric === '주관업무' ? 'w-[140px]' : 'w-[80px]'}`}>주관업무</th>
+                                            <th className={`py-[16px] px-[16px] text-center font-bold text-[#86868B] transition-all duration-300 whitespace-nowrap ${activeMetric === '협업업무' ? 'w-[140px]' : 'w-[80px]'}`}>협업업무</th>
+                                            <th className={`py-[16px] px-[16px] text-center font-bold text-[#86868B] transition-all duration-300 whitespace-nowrap ${activeMetric === '총관여' ? 'w-[140px]' : 'w-[80px]'}`}>총관여</th>
+                                            <th className="py-[16px] px-[16px] text-center font-bold text-[#86868B] whitespace-nowrap">PF필수</th>
+                                            <th className="py-[16px] px-[16px] text-center font-bold text-[#86868B] whitespace-nowrap">준공필수</th>
+                                            <th className="py-[16px] px-[16px] text-center font-bold text-[#86868B] whitespace-nowrap">Blocker</th>
+                                            <th className="py-[16px] px-[16px] text-center font-bold text-[#86868B] whitespace-nowrap">의사결정</th>
+                                            <th className="py-[16px] px-[16px] text-center font-bold text-[#86868B] whitespace-nowrap">지원요청</th>
+                                            <th className="py-[16px] px-[16px] text-center font-bold text-[#86868B] whitespace-nowrap">7일내/지연</th>
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y divide-[#3c3c3c]/50 text-[13px]">
