@@ -434,7 +434,7 @@ export default function PmoMeetingMain() {
                                 onClick={() => setSelectedFilter(btn.label)}
                                 className={`w-full bg-[#b4b6b5] h-[94px] rounded-[24px] flex items-center justify-center cursor-pointer group transition-all duration-200 ${isActive ? 'relative z-20' : 'hover:relative hover:z-20'}`}
                             >
-                                <div className={`w-full h-full rounded-[24px] transition-all duration-200 flex flex-col items-center justify-center relative ${isActive ? 'bg-[#d4d7d5] ring-[3px] ring-[#2997ff] ring-inset' : 'bg-transparent group-hover:bg-[#d4d7d5] group-hover:ring-[3px] group-hover:ring-[#2997ff] group-hover:ring-inset'}`}>
+                                <div className={`w-full h-full rounded-[24px] transition-all duration-200 flex flex-col items-center justify-center relative ${isActive ? 'bg-[#d4d7d5] ring-[5px] ring-[#2997ff] ring-inset' : 'bg-transparent group-hover:bg-[#d4d7d5] group-hover:ring-[5px] group-hover:ring-[#2997ff] group-hover:ring-inset'}`}>
                                     <span className="text-[13px] font-bold text-[#3C3C3C] group-hover:text-[#000000] transition-colors duration-200 mb-0.5 flex items-center gap-[4px]">
                                         {btn.label}
                                     </span>
@@ -454,7 +454,7 @@ export default function PmoMeetingMain() {
                                 onClick={() => setSelectedFilter(btn.label)}
                                 className={`w-full bg-[#2b2b2b] h-[98px] border rounded-[24px] flex items-center justify-center cursor-pointer group transition-all duration-200 ${isActive ? 'relative z-20 border-[#2997ff]' : 'border-[#4b4b4b] hover:relative hover:z-20 hover:border-[#2997ff]'}`}
                             >
-                                <div className={`w-full h-full rounded-[24px] transition-all duration-200 flex flex-col items-center justify-center relative ${isActive ? 'bg-[#3e3e3e] ring-[3px] ring-[#2997ff] ring-inset' : 'bg-transparent group-hover:bg-[#3e3e3e] group-hover:ring-[3px] group-hover:ring-[#2997ff] group-hover:ring-inset'}`}>
+                                <div className={`w-full h-full rounded-[24px] transition-all duration-200 flex flex-col items-center justify-center relative ${isActive ? 'bg-[#3e3e3e] ring-[5px] ring-[#2997ff] ring-inset' : 'bg-transparent group-hover:bg-[#3e3e3e] group-hover:ring-[5px] group-hover:ring-[#2997ff] group-hover:ring-inset'}`}>
                                     <span className="text-[13px] font-bold text-[#8E8E93] group-hover:text-[#509FEB] transition-colors duration-200 mb-1 flex items-center gap-[4px]">
                                         {btn.label}
                                     </span>
@@ -478,7 +478,7 @@ export default function PmoMeetingMain() {
                                 onClick={() => setSelectedFilter(btn.label)}
                                 className={`w-full bg-[#b4b6b5] h-[94px] rounded-[24px] flex items-center justify-center cursor-pointer group transition-all duration-200 ${isActive ? 'relative z-20' : 'hover:relative hover:z-20'}`}
                             >
-                                <div className={`w-full h-full rounded-[24px] transition-all duration-200 flex flex-col items-center justify-center relative ${isActive ? 'bg-[#d4d7d5] ring-[3px] ring-[#2997ff] ring-inset' : 'bg-transparent group-hover:bg-[#d4d7d5] group-hover:ring-[3px] group-hover:ring-[#2997ff] group-hover:ring-inset'}`}>
+                                <div className={`w-full h-full rounded-[24px] transition-all duration-200 flex flex-col items-center justify-center relative ${isActive ? 'bg-[#d4d7d5] ring-[5px] ring-[#2997ff] ring-inset' : 'bg-transparent group-hover:bg-[#d4d7d5] group-hover:ring-[5px] group-hover:ring-[#2997ff] group-hover:ring-inset'}`}>
                                     <span className="text-[13px] font-bold text-[#3C3C3C] group-hover:text-[#000000] transition-colors duration-200 mb-0.5 flex items-center gap-[4px]">
                                         {btn.label}
                                     </span>
@@ -498,7 +498,7 @@ export default function PmoMeetingMain() {
                                 onClick={() => setSelectedFilter(btn.label)}
                                 className={`w-full bg-[#2b2b2b] h-[98px] border rounded-[24px] flex items-center justify-center cursor-pointer group transition-all duration-200 ${isActive ? 'relative z-20 border-[#2997ff]' : 'border-[#4b4b4b] hover:relative hover:z-20 hover:border-[#2997ff]'}`}
                             >
-                                <div className={`w-full h-full rounded-[24px] transition-all duration-200 flex flex-col items-center justify-center relative ${isActive ? 'bg-[#3e3e3e] ring-[3px] ring-[#2997ff] ring-inset' : 'bg-transparent group-hover:bg-[#3e3e3e] group-hover:ring-[3px] group-hover:ring-[#2997ff] group-hover:ring-inset'}`}>
+                                <div className={`w-full h-full rounded-[24px] transition-all duration-200 flex flex-col items-center justify-center relative ${isActive ? 'bg-[#3e3e3e] ring-[5px] ring-[#2997ff] ring-inset' : 'bg-transparent group-hover:bg-[#3e3e3e] group-hover:ring-[5px] group-hover:ring-[#2997ff] group-hover:ring-inset'}`}>
                                     <span className="text-[13px] font-bold text-[#8E8E93] group-hover:text-[#509FEB] transition-colors duration-200 mb-1 flex items-center gap-[4px]">
                                         {btn.label}
                                     </span>
@@ -523,7 +523,7 @@ export default function PmoMeetingMain() {
                                     onClick={() => setSelectedFilter(btn.label)}
                                     className={`p-[6px] h-full flex items-center justify-center cursor-pointer group transition-all duration-200 ${isActive ? 'relative z-20' : 'hover:relative hover:z-20'}`}
                                 >
-                                    <div className={`w-full h-full rounded-[20px] transition-all duration-200 flex flex-col items-center justify-center relative ${isActive ? 'bg-[#d4d7d5] ring-[3px] ring-[#2997ff] ring-inset' : 'bg-transparent group-hover:bg-[#d4d7d5] group-hover:ring-[3px] group-hover:ring-[#2997ff] group-hover:ring-inset'}`}>
+                                    <div className={`w-full h-full rounded-[20px] transition-all duration-200 flex flex-col items-center justify-center relative ${isActive ? 'bg-[#d4d7d5] ring-[5px] ring-[#2997ff] ring-inset' : 'bg-transparent group-hover:bg-[#d4d7d5] group-hover:ring-[5px] group-hover:ring-[#2997ff] group-hover:ring-inset'}`}>
                                         <span className="text-[13px] font-bold text-[#3C3C3C] group-hover:text-[#000000] transition-colors duration-200 mb-0.5 flex items-center gap-[4px]">
                                             {btn.label}
                                         </span>
@@ -545,7 +545,7 @@ export default function PmoMeetingMain() {
                                     onClick={() => setSelectedFilter(btn.label)}
                                     className={`p-[6px] h-full flex items-center justify-center cursor-pointer group transition-all duration-200 ${isActive ? 'relative z-20' : 'hover:relative hover:z-20'}`}
                                 >
-                                    <div className={`w-full h-full rounded-[20px] transition-all duration-200 flex flex-col items-center justify-center relative ${isActive ? 'bg-[#3e3e3e] ring-[3px] ring-[#2997ff] ring-inset' : 'bg-transparent group-hover:bg-[#3e3e3e] group-hover:ring-[3px] group-hover:ring-[#2997ff] group-hover:ring-inset'}`}>
+                                    <div className={`w-full h-full rounded-[20px] transition-all duration-200 flex flex-col items-center justify-center relative ${isActive ? 'bg-[#3e3e3e] ring-[5px] ring-[#2997ff] ring-inset' : 'bg-transparent group-hover:bg-[#3e3e3e] group-hover:ring-[5px] group-hover:ring-[#2997ff] group-hover:ring-inset'}`}>
                                         <span className="text-[13px] font-bold text-[#8E8E93] group-hover:text-[#509FEB] transition-colors duration-200 mb-1 flex items-center gap-[4px]">
                                             {btn.label}
                                         </span>
