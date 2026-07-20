@@ -941,8 +941,8 @@ export default function PmoMeetingMain() {
                                 <p className="text-[14px] text-[#A1A1AA] font-medium translate-y-[2px]">대분류 카테고리별 업무 현황을 확인합니다.</p>
                             </div>
                             {/* Segmented Toggles on the right */}
-                            <div className="flex bg-[#2c2c2b] p-0.5 rounded-[8px] border border-[#3c3c3c] text-[13px] font-semibold w-[320px]">
-                                {['전체업무', 'PF필수', '준공필수', '지연'].map(m => {
+                            <div className="flex bg-[#2c2c2b] p-0.5 rounded-[8px] border border-[#3c3c3c] text-[13px] font-semibold w-[240px]">
+                                {['전체업무', 'PF필수', '준공필수'].map(m => {
                                     const isActive = activeCategoryMetric === m;
                                     return (
                                         <button
