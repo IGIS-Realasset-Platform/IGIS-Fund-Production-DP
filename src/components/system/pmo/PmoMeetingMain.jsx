@@ -427,12 +427,12 @@ export default function PmoMeetingMain() {
                                                     <div className="flex gap-[4px]">
                                                         {hasBlocker && (
                                                             <span className="px-[6px] py-[1.5px] rounded-[4px] text-[10px] font-bold bg-[#ff3b30]/15 text-[#ff453a] border border-[#ff3b30]/25">
-                                                                병목
+                                                                Blocker (병목)
                                                             </span>
                                                         )}
                                                         {hasDecision && (
                                                             <span className="px-[6px] py-[1.5px] rounded-[4px] text-[10px] font-bold bg-[#ff3b30]/15 text-[#ff453a] border border-[#ff3b30]/25">
-                                                                의사결정
+                                                                의사결정 필요
                                                             </span>
                                                         )}
                                                     </div>
