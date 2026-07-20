@@ -705,8 +705,8 @@ export default function PmoMeetingMain() {
                                                         const midAngleDeg = (midPercent * 360) - 90;
                                                         const midAngleRad = (midAngleDeg * Math.PI) / 180;
  
-                                                        // Position text outside the donut ring (radius 49)
-                                                        const textRadius = 49;
+                                                        // Position text outside the donut ring (radius 45)
+                                                        const textRadius = 45;
                                                         const x = 60 + textRadius * Math.cos(midAngleRad);
                                                         const y = 60 + textRadius * Math.sin(midAngleRad);
  
