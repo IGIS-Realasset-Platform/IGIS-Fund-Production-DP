@@ -195,6 +195,12 @@ export default function PmoMeetingMain() {
         window.dispatchEvent(new Event('popstate'));
     };
 
+    const handleRowClick = (row) => {
+        const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
+        window.history.pushState(null, '', `${base}/platform/iotaseoul/workflow?filterLeadDept=${encodeURIComponent(row.dept)}`);
+        window.dispatchEvent(new Event('popstate'));
+    };
+
     const getProjectBadgeStyle = (codeOrProj) => {
         const c = String(codeOrProj || '').toUpperCase();
         if (c.includes('816')) return 'bg-[#c7c7cc]/10 text-[#d1d1d6] border border-[#c7c7cc]/25';
@@ -782,7 +788,11 @@ export default function PmoMeetingMain() {
                                         {deptRowsData.map((row, idx) => {
                                             const percentage = (row.totalCount / maxTotalCount) * 100;
                                             return (
-                                                <tr key={idx} className="hover:bg-[#2b2b2b]/40 transition-colors">
+                                                <tr 
+                                                     key={idx} 
+                                                     onClick={() => handleRowClick(row)}
+                                                     className="hover:bg-[#2b2b2b]/40 transition-colors cursor-pointer"
+                                                 >
                                                     {/* 부서 */}
                                                     <td className="py-[16px] px-[16px] text-center font-bold text-[#E5E5E5]">
                                                         {row.dept}

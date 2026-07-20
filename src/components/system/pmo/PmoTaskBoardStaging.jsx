@@ -1403,6 +1403,10 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
         if (filterImportance) setSelectedImportanceLevel(filterImportance);
         if (filterMeetingGrade) setSelectedMeetingGrade(filterMeetingGrade);
         if (filterSupportNeeded) setSelectedSupportNeeded(filterSupportNeeded);
+        const filterLeadDept = params.get('filterLeadDept');
+        const filterCoopDept = params.get('filterCoopDept');
+        if (filterLeadDept) setSelectedLeadDept(filterLeadDept);
+        if (filterCoopDept) setSelectedCoopDept(filterCoopDept);
     }, []);
 
     // Masters loaded from DB
