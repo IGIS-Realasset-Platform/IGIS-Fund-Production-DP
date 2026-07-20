@@ -337,9 +337,9 @@ export default function PmoMeetingMain() {
                                 <div
                                     key={idx}
                                     onClick={() => setSelectedFilter(btn.label)}
-                                    className={`p-[6px] h-full flex items-center justify-center cursor-pointer group transition-all duration-200 ${isActive ? 'relative z-20 ring-2 ring-[#2997ff] ring-inset rounded-[18px]' : 'hover:relative hover:z-20 hover:ring-2 hover:ring-[#2997ff] hover:ring-inset hover:rounded-[18px]'}`}
+                                    className={`p-[6px] h-full flex items-center justify-center cursor-pointer group transition-all duration-200 ${isActive ? 'relative z-20' : 'hover:relative hover:z-20'}`}
                                 >
-                                    <div className="w-full h-full rounded-[18px] bg-transparent group-hover:bg-[#d4d7d5] transition-all duration-200 flex flex-col items-center justify-center relative">
+                                    <div className={`w-full h-full rounded-[18px] bg-transparent group-hover:bg-[#d4d7d5] transition-all duration-200 flex flex-col items-center justify-center relative ${isActive ? 'ring-2 ring-[#2997ff] ring-inset' : 'group-hover:ring-2 group-hover:ring-[#2997ff] group-hover:ring-inset'}`}>
                                         <span className="text-[13px] font-bold text-[#3C3C3C] group-hover:text-[#000000] transition-colors duration-200 mb-0.5 flex items-center gap-[4px]">
                                             {btn.label}
                                             {isActive && <span className="w-[5px] h-[5px] rounded-full bg-[#000000] inline-block shadow-[0_0_6px_#000000]" />}
@@ -360,9 +360,9 @@ export default function PmoMeetingMain() {
                                 <div
                                     key={idx}
                                     onClick={() => setSelectedFilter(btn.label)}
-                                    className={`p-[6px] h-full flex items-center justify-center cursor-pointer group transition-all duration-200 ${isActive ? 'relative z-20 ring-2 ring-[#2997ff] ring-inset rounded-[18px]' : 'hover:relative hover:z-20 hover:ring-2 hover:ring-[#2997ff] hover:ring-inset hover:rounded-[18px]'}`}
+                                    className={`p-[6px] h-full flex items-center justify-center cursor-pointer group transition-all duration-200 ${isActive ? 'relative z-20' : 'hover:relative hover:z-20'}`}
                                 >
-                                    <div className="w-full h-full rounded-[18px] bg-transparent group-hover:bg-[#3e3e3e] transition-all duration-200 flex flex-col items-center justify-center relative">
+                                    <div className={`w-full h-full rounded-[18px] bg-transparent group-hover:bg-[#3e3e3e] transition-all duration-200 flex flex-col items-center justify-center relative ${isActive ? 'ring-2 ring-[#2997ff] ring-inset' : 'group-hover:ring-2 group-hover:ring-[#2997ff] group-hover:ring-inset'}`}>
                                         <span className="text-[13px] font-bold text-[#8E8E93] group-hover:text-[#509FEB] transition-colors duration-200 mb-1 flex items-center gap-[4px]">
                                             {btn.label}
                                             {isActive && <span className="w-[5px] h-[5px] rounded-full bg-[#509FEB] inline-block shadow-[0_0_6px_#509FEB]" />}
