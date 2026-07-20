@@ -86,11 +86,11 @@ export default function PmoMeetingMain() {
     };
 
     const upperFilters = [
-        { label: '전체업무', path: 'platform/iotaseoul/workflow', count: counts.total, highlightClass: 'text-[#1F1F1E]' },
-        { label: '지연', path: 'platform/iotaseoul/workflow?filterStatus=지연', count: counts.delayed, highlightClass: 'text-[#E35D5D]' },
-        { label: 'Blocker(병목)', path: 'platform/iotaseoul/workflow?filterIsBlocker=Y (예)', count: counts.blockers, highlightClass: 'text-[#E35D5D]' },
-        { label: '의사결정 필요', path: 'platform/iotaseoul/workflow?filterNeedsDecision=Y (예)', count: counts.decisions, highlightClass: 'text-[#C98421]' },
-        { label: '회의 필요', path: 'platform/iotaseoul/workflow?filterMeetingGrade=A_즉시상정', count: counts.meetings, highlightClass: 'text-[#509FEB]' }
+        { label: '전체업무', path: 'platform/iotaseoul/workflow', count: counts.total, highlightClass: 'text-[#1F1F1E]', hoverClass: 'group-hover:text-[#000000]' },
+        { label: '지연', path: 'platform/iotaseoul/workflow?filterStatus=지연', count: counts.delayed, highlightClass: 'text-[#E35D5D]', hoverClass: 'group-hover:text-[#FF3B30]' },
+        { label: 'Blocker(병목)', path: 'platform/iotaseoul/workflow?filterIsBlocker=Y (예)', count: counts.blockers, highlightClass: 'text-[#E35D5D]', hoverClass: 'group-hover:text-[#FF3B30]' },
+        { label: '의사결정 필요', path: 'platform/iotaseoul/workflow?filterNeedsDecision=Y (예)', count: counts.decisions, highlightClass: 'text-[#C98421]', hoverClass: 'group-hover:text-[#FF9500]' },
+        { label: '회의 필요', path: 'platform/iotaseoul/workflow?filterMeetingGrade=A_즉시상정', count: counts.meetings, highlightClass: 'text-[#509FEB]', hoverClass: 'group-hover:text-[#007AFF]' }
     ];
 
     const lowerFilters = [
@@ -126,8 +126,8 @@ export default function PmoMeetingMain() {
                             className="p-[6px] h-full flex items-center justify-center cursor-pointer group"
                         >
                             <div className="w-full h-full rounded-[24px] bg-transparent group-hover:bg-[#d4d7d5] transition-all duration-200 flex flex-col items-center justify-center">
-                                <span className="text-[12px] font-bold text-[#3C3C3C] mb-0.5">{btn.label}</span>
-                                <span className={`text-[26px] font-black leading-none ${btn.highlightClass}`}>
+                                <span className="text-[13px] font-bold text-[#3C3C3C] group-hover:text-[#000000] transition-colors duration-200 mb-0.5">{btn.label}</span>
+                                <span className={`text-[26px] font-black leading-none transition-colors duration-200 ${btn.highlightClass} ${btn.hoverClass}`}>
                                     {btn.count}
                                 </span>
                             </div>
@@ -143,8 +143,8 @@ export default function PmoMeetingMain() {
                             className="p-[6px] h-full flex items-center justify-center cursor-pointer group"
                         >
                             <div className="w-full h-full rounded-[24px] bg-transparent group-hover:bg-[#3e3e3e] transition-all duration-200 flex flex-col items-center justify-center">
-                                <span className="text-[11px] font-bold text-[#8E8E93] group-hover:text-[#AEAEB2] mb-1">{btn.label}</span>
-                                <span className="text-[20px] font-black text-white leading-none">
+                                <span className="text-[13px] font-bold text-[#8E8E93] group-hover:text-[#509FEB] transition-colors duration-200 mb-1">{btn.label}</span>
+                                <span className="text-[20px] font-black text-white group-hover:text-[#509FEB] transition-colors duration-200 leading-none">
                                     {btn.count}
                                 </span>
                             </div>
