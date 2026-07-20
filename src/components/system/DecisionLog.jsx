@@ -1135,7 +1135,7 @@ export default function DecisionLog() {
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-[16px]">
                         <h3 className="text-[20px] font-bold text-white tracking-tight mt-[4px]">지금 사람들이 모여 논의하는 주제</h3>
-                        <p className="text-[14px] text-[#A1A1AA] font-medium translate-y-[1px]">최근 한주간 통합업무보드 및 협업게시판에 등록된 크로스펑셔널 업무 내역입니다.</p>
+                        <p className="text-[14px] text-[#A1A1AA] font-medium translate-y-[2px]">최근 한주간 통합업무보드 및 협업게시판에 등록된 크로스펑셔널 업무 내역입니다.</p>
                     </div>
                     {crossFunctionalLogs.length > 6 && (
                         <button 
@@ -1166,7 +1166,7 @@ export default function DecisionLog() {
 
                             return (
                                 <div key={log.log_id} className="bg-[#292928] border border-[#3c3c3c] hover:border-[#82afb9]/50 rounded-[24px] p-[16px] px-[20px] transition-all cursor-pointer group flex flex-col h-auto" onClick={() => toggleExpand(log.log_id)}>
-                                    <div className="flex items-start gap-[20px]">
+                                    <div className="flex items-center gap-[20px]">
                                         {/* Sender -> Target Box */}
                                         <div className="shrink-0 bg-[#222] rounded-[16px] px-[12px] py-[12px] border border-[#333] flex items-center justify-between w-[210px]">
                                             <div className="flex flex-col items-center justify-center flex-1 w-0">
@@ -1189,7 +1189,7 @@ export default function DecisionLog() {
                                             </div>
                                             
                                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#82afb9" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 mx-[4px]"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-
+ 
                                             <div className="flex flex-col items-center justify-center flex-1 w-0">
                                                 {targetRep ? (
                                                     <React.Fragment>
@@ -1206,33 +1206,36 @@ export default function DecisionLog() {
                                                 )}
                                             </div>
                                         </div>
-
+ 
                                         {/* Title and Metadata on the right */}
                                         <div className="flex-1 flex flex-col pt-[4px]">
-                                            {matchedTask && (
-                                                <div className="text-[12px] text-[#82afb9] font-bold mb-[6px] flex items-center gap-[6px]">
-                                                    <span className="bg-[#82afb9]/10 border border-[#82afb9]/20 px-[6px] py-[1.5px] rounded-[4px] text-[10px] font-mono shrink-0">
-                                                        {matchedTask.displayId || matchedTask.id}
-                                                    </span>
-                                                    <span className="truncate max-w-[200px]" title={matchedTask.task_name}>
-                                                        {matchedTask.task_name}
-                                                    </span>
-                                                </div>
-                                            )}
-                                            <div className="text-[15px] font-bold text-[#E5E5E5] line-clamp-2 leading-snug group-hover:text-white transition-colors mb-[12px]">
-                                                {log.summary || (log.raw_text ? log.raw_text.split('\n')[0] : '')}
-                                            </div>
-                                            
-                                            <div className="flex items-center justify-between w-full mt-auto">
-                                                <div className="flex items-center gap-[10px]">
-                                                    <span className="text-[12px] text-[#555] font-medium">{formatDateYYMMDD(log.work_date || log.created_at)}</span>
-                                                    {isRestricted && (
-                                                        <span className="text-[11px] font-bold text-[#ef4444] bg-[#ef4444]/10 px-[6px] py-[2px] rounded-[4px] border border-[#ef4444]/20">
-                                                            🔒 {getShortPermissionString(log)}
+                                            {/* Header Row: Matched Task (left) & Date + Button (right) */}
+                                            <div className="flex items-center justify-between w-full mb-[8px]">
+                                                {matchedTask ? (
+                                                    <div className="text-[12px] text-[#82afb9] font-bold flex items-center gap-[6px] min-w-0">
+                                                        <span className="bg-[#82afb9]/10 border border-[#82afb9]/20 px-[6px] py-[1.5px] rounded-[4px] text-[10px] font-mono shrink-0">
+                                                            {matchedTask.displayId || matchedTask.id}
                                                         </span>
-                                                    )}
-                                                </div>
-                                                <div className="flex items-center justify-end">
+                                                        <span className="truncate max-w-[150px] md:max-w-[180px]" title={matchedTask.task_name}>
+                                                            {matchedTask.task_name}
+                                                        </span>
+                                                        {isRestricted && (
+                                                            <span className="text-[10px] font-bold text-[#ef4444] bg-[#ef4444]/10 px-[5px] py-[1px] rounded-[4px] border border-[#ef4444]/20 shrink-0">
+                                                                🔒 {getShortPermissionString(log)}
+                                                            </span>
+                                                        )}
+                                                    </div>
+                                                ) : (
+                                                    <div className="flex items-center gap-[6px]">
+                                                        {isRestricted && (
+                                                            <span className="text-[10px] font-bold text-[#ef4444] bg-[#ef4444]/10 px-[5px] py-[1px] rounded-[4px] border border-[#ef4444]/20 shrink-0">
+                                                                🔒 {getShortPermissionString(log)}
+                                                            </span>
+                                                        )}
+                                                    </div>
+                                                )}
+                                                <div className="flex items-center gap-[8px] shrink-0">
+                                                    <span className="text-[12px] text-[#555] font-medium">{formatDateYYMMDD(log.work_date || log.created_at)}</span>
                                                     {(log.metadata?.task_id || workspacePath) && (
                                                         <button
                                                             onClick={(e) => {
@@ -1243,12 +1246,16 @@ export default function DecisionLog() {
                                                                     window.location.href = `${import.meta.env.BASE_URL}${workspacePath}`;
                                                                 }
                                                             }}
-                                                            className="text-[11.5px] text-[#82afb9] hover:text-white font-bold bg-[#82afb9]/10 border border-[#82afb9]/25 hover:bg-[#82afb9]/20 px-[10px] py-[4px] rounded-[6px] transition-all cursor-pointer whitespace-nowrap"
+                                                            className="text-[11px] text-[#82afb9] hover:text-white font-bold bg-[#82afb9]/10 border border-[#82afb9]/25 hover:bg-[#82afb9]/20 px-[8px] py-[2.5px] rounded-[6px] transition-all cursor-pointer whitespace-nowrap"
                                                         >
                                                             원문보기 ↗
                                                         </button>
                                                     )}
                                                 </div>
+                                            </div>
+                                            
+                                            <div className="text-[15px] font-bold text-[#E5E5E5] line-clamp-2 leading-snug group-hover:text-white transition-colors">
+                                                {log.summary || (log.raw_text ? log.raw_text.split('\n')[0] : '')}
                                             </div>
                                         </div>
                                     </div>
