@@ -249,7 +249,6 @@ export default function PmoMeetingMain() {
                                 <div className={`w-full h-full rounded-[24px] transition-all duration-200 flex flex-col items-center justify-center relative ${isActive ? 'bg-[#d4d7d5]' : 'bg-transparent group-hover:bg-[#d4d7d5]'}`}>
                                     <span className="text-[13px] font-bold text-[#3C3C3C] group-hover:text-[#000000] transition-colors duration-200 mb-0.5 flex items-center gap-[4px]">
                                         {btn.label}
-                                        {isActive && <span className="w-[5px] h-[5px] rounded-full bg-[#000000] inline-block shadow-[0_0_6px_#000000]" />}
                                     </span>
                                     <span className={`text-[32px] font-black leading-none transition-colors duration-200 ${btn.highlightClass} ${btn.hoverClass}`}>
                                         {btn.count}
@@ -270,7 +269,6 @@ export default function PmoMeetingMain() {
                                 <div className={`w-full h-full rounded-[24px] transition-all duration-200 flex flex-col items-center justify-center relative ${isActive ? 'bg-[#3e3e3e]' : 'bg-transparent group-hover:bg-[#3e3e3e]'}`}>
                                     <span className="text-[13px] font-bold text-[#8E8E93] group-hover:text-[#509FEB] transition-colors duration-200 mb-1 flex items-center gap-[4px]">
                                         {btn.label}
-                                        {isActive && <span className="w-[5px] h-[5px] rounded-full bg-[#509FEB] inline-block shadow-[0_0_6px_#509FEB]" />}
                                     </span>
                                     <span className="text-[32px] font-black text-white group-hover:text-[#509FEB] transition-colors duration-200 leading-none">
                                         {btn.count}
@@ -295,7 +293,6 @@ export default function PmoMeetingMain() {
                                 <div className={`w-full h-full rounded-[24px] transition-all duration-200 flex flex-col items-center justify-center relative ${isActive ? 'bg-[#d4d7d5]' : 'bg-transparent group-hover:bg-[#d4d7d5]'}`}>
                                     <span className="text-[13px] font-bold text-[#3C3C3C] group-hover:text-[#000000] transition-colors duration-200 mb-0.5 flex items-center gap-[4px]">
                                         {btn.label}
-                                        {isActive && <span className="w-[5px] h-[5px] rounded-full bg-[#000000] inline-block shadow-[0_0_6px_#000000]" />}
                                     </span>
                                     <span className={`text-[32px] font-black leading-none transition-colors duration-200 ${btn.highlightClass} ${btn.hoverClass}`}>
                                         {btn.count}
@@ -316,7 +313,6 @@ export default function PmoMeetingMain() {
                                 <div className={`w-full h-full rounded-[24px] transition-all duration-200 flex flex-col items-center justify-center relative ${isActive ? 'bg-[#3e3e3e]' : 'bg-transparent group-hover:bg-[#3e3e3e]'}`}>
                                     <span className="text-[13px] font-bold text-[#8E8E93] group-hover:text-[#509FEB] transition-colors duration-200 mb-1 flex items-center gap-[4px]">
                                         {btn.label}
-                                        {isActive && <span className="w-[5px] h-[5px] rounded-full bg-[#509FEB] inline-block shadow-[0_0_6px_#509FEB]" />}
                                     </span>
                                     <span className="text-[32px] font-black text-white group-hover:text-[#509FEB] transition-colors duration-200 leading-none">
                                         {btn.count}
@@ -342,7 +338,6 @@ export default function PmoMeetingMain() {
                                     <div className={`w-full h-full rounded-[18px] transition-all duration-200 flex flex-col items-center justify-center relative ${isActive ? 'bg-[#d4d7d5] ring-2 ring-[#2997ff] ring-inset' : 'bg-transparent group-hover:bg-[#d4d7d5] group-hover:ring-2 group-hover:ring-[#2997ff] group-hover:ring-inset'}`}>
                                         <span className="text-[13px] font-bold text-[#3C3C3C] group-hover:text-[#000000] transition-colors duration-200 mb-0.5 flex items-center gap-[4px]">
                                             {btn.label}
-                                            {isActive && <span className="w-[5px] h-[5px] rounded-full bg-[#000000] inline-block shadow-[0_0_6px_#000000]" />}
                                         </span>
                                         <span className={`text-[32px] font-black leading-none transition-colors duration-200 ${btn.highlightClass} ${btn.hoverClass}`}>
                                             {btn.count}
@@ -365,7 +360,6 @@ export default function PmoMeetingMain() {
                                     <div className={`w-full h-full rounded-[18px] transition-all duration-200 flex flex-col items-center justify-center relative ${isActive ? 'bg-[#3e3e3e] ring-2 ring-[#2997ff] ring-inset' : 'bg-transparent group-hover:bg-[#3e3e3e] group-hover:ring-2 group-hover:ring-[#2997ff] group-hover:ring-inset'}`}>
                                         <span className="text-[13px] font-bold text-[#8E8E93] group-hover:text-[#509FEB] transition-colors duration-200 mb-1 flex items-center gap-[4px]">
                                             {btn.label}
-                                            {isActive && <span className="w-[5px] h-[5px] rounded-full bg-[#509FEB] inline-block shadow-[0_0_6px_#509FEB]" />}
                                         </span>
                                         <span className="text-[32px] font-black text-white group-hover:text-[#509FEB] transition-colors duration-200 leading-none">
                                             {btn.count}
