@@ -125,11 +125,13 @@ export default function IotaMyPage() {
             return;
         }
 
-        // 태스크 보드 변경 이력/진행로그의 경우 통합 업무 보드 상세 페이지로 이동
-        if (log.metadata?.workspace_code === 'WS_PMO' || (log.metadata?.is_task_board && log.metadata?.task_id)) {
+        // 태스크 보드 변경 이력/진행로그의 경우 통합 업무 보드 또는 단발성 업무 상세 페이지로 이동
+        if (log.metadata?.workspace_code === 'WS_PMO' || log.metadata?.workspace_code === 'WS_POPUP_REQUESTS' || (log.metadata?.is_task_board && log.metadata?.task_id)) {
             const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
             const taskId = log.metadata?.task_id || log.id;
-            window.history.pushState(null, '', `${base}/platform/iotaseoul/workflow?taskId=${taskId}`);
+            const isPopup = log.metadata?.workspace_label === '단발성 업무 요청' || log.metadata?.workspace_code === 'WS_POPUP_REQUESTS';
+            const pagePath = isPopup ? 'popup-requests' : 'workflow';
+            window.history.pushState(null, '', `${base}/platform/iotaseoul/${pagePath}?taskId=${taskId}`);
             window.dispatchEvent(new Event('popstate'));
             return;
         }
