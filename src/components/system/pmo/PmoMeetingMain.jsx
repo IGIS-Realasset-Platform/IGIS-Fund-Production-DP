@@ -116,17 +116,17 @@ export default function PmoMeetingMain() {
             </div>
 
             {/* Filter Navigation Buttons Capsule Box */}
-            <div className="w-full border border-[#3a3a3c] rounded-[24px] overflow-hidden flex flex-col mb-[32px] select-none text-center bg-[#1c1c1e]">
-                {/* Upper Row */}
-                <div className="grid grid-cols-5 bg-[#A6A6A6] divide-x divide-[#8E8E93]/40 border-b border-[#3a3a3c]">
+            <div className="w-full border border-[#3a3a3c] rounded-[28px] p-2 flex flex-col gap-2.5 mb-[32px] select-none text-center bg-transparent">
+                {/* Upper Row Box */}
+                <div className="grid grid-cols-5 bg-[#A6A6A6] rounded-[20px] overflow-hidden divide-x divide-[#8E8E93]/40">
                     {upperFilters.map((btn, idx) => (
                         <div
                             key={idx}
                             onClick={() => handleFilterClick(btn)}
-                            className="p-1.5 flex items-center justify-center cursor-pointer group"
+                            className="p-1 flex items-center justify-center cursor-pointer group"
                         >
-                            <div className="w-full py-3 px-2 rounded-[20px] bg-transparent group-hover:bg-[#E5E5E7] transition-all duration-200 flex flex-col items-center justify-center">
-                                <span className="text-[12px] font-bold text-[#3A3A3C] mb-1">{btn.label}</span>
+                            <div className="w-full py-1.5 px-2 rounded-[16px] bg-transparent group-hover:bg-[#E5E5E7] transition-all duration-200 flex flex-col items-center justify-center">
+                                <span className="text-[12px] font-bold text-[#3A3A3C] mb-0.5">{btn.label}</span>
                                 <span className={`text-[26px] font-black leading-none ${btn.highlightClass}`}>
                                     {btn.count}
                                 </span>
@@ -134,15 +134,15 @@ export default function PmoMeetingMain() {
                         </div>
                     ))}
                 </div>
-                {/* Lower Row */}
-                <div className="grid grid-cols-8 bg-[#1C1C1E] divide-x divide-[#2c2c2e]">
+                {/* Lower Row Box */}
+                <div className="grid grid-cols-8 bg-[#151515] border border-[#2c2c2d] rounded-[20px] overflow-hidden divide-x divide-[#2c2c2e]">
                     {lowerFilters.map((btn, idx) => (
                         <div
                             key={idx}
                             onClick={() => handleFilterClick(btn)}
-                            className="p-1.5 flex items-center justify-center cursor-pointer group"
+                            className="p-1 flex items-center justify-center cursor-pointer group"
                         >
-                            <div className="w-full py-2.5 px-2 rounded-[16px] bg-transparent group-hover:bg-[#2C2C2E] transition-all duration-200 flex flex-col items-center justify-center">
+                            <div className="w-full py-3.5 px-2 rounded-[16px] bg-transparent group-hover:bg-[#2C2C2E] transition-all duration-200 flex flex-col items-center justify-center">
                                 <span className="text-[11px] font-bold text-[#8E8E93] group-hover:text-[#AEAEB2] mb-1">{btn.label}</span>
                                 <span className="text-[20px] font-black text-white leading-none">
                                     {btn.count}
