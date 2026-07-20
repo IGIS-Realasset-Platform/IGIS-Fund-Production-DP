@@ -1443,6 +1443,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
     const [isSaveSuccessOpen, setIsSaveSuccessOpen] = useState(false);
     const [selectedTaskDetail, setSelectedTaskDetail] = useState(null);
     const initialUrlCheckedRef = useRef(false);
+    const drawerRef = useRef(null);
     const [showAssigneeDropdown, setShowAssigneeDropdown] = useState(false);
 
     // Suggestions panels
@@ -2043,6 +2044,35 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
     useEffect(() => {
         selectedTaskDetailRef.current = selectedTaskDetail;
     }, [selectedTaskDetail]);
+
+    // Handle details drawer click-outside to close, allowing main table row clicks to switch instead of closing
+    useEffect(() => {
+        const handleOutsideClick = (e) => {
+            if (isModalOpen) return;
+            if (!selectedTaskDetailRef.current) return;
+
+            if (drawerRef.current && !drawerRef.current.contains(e.target)) {
+                // Keep drawer open if user clicked a table row, a notification item, a log link, or any button
+                if (e.target.closest('tr') || e.target.closest('.activity-log-item') || e.target.closest('.notification-item') || e.target.closest('button')) {
+                    return;
+                }
+                setSelectedTaskDetail(null);
+                const newParams = new URLSearchParams(window.location.search);
+                let changed = false;
+                if (newParams.has('taskId')) { newParams.delete('taskId'); changed = true; }
+                if (newParams.has('logId')) { newParams.delete('logId'); changed = true; }
+                if (changed) {
+                    const newSearch = newParams.toString();
+                    window.history.replaceState(null, '', `${window.location.pathname}${newSearch ? '?' + newSearch : ''}`);
+                }
+            }
+        };
+
+        document.addEventListener('mousedown', handleOutsideClick);
+        return () => {
+            document.removeEventListener('mousedown', handleOutsideClick);
+        };
+    }, [isModalOpen]);
 
     // Watch URL parameter changes dynamically (for mount and popstate events / notification clicks)
     useEffect(() => {
@@ -4348,22 +4378,11 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
 
                 return (
                     <div className="fixed inset-0 z-[100000] overflow-hidden pointer-events-none">
-                        {/* Backdrop Click-outside Catcher */}
+                        {/* Backdrop Click-outside Catcher (Interception disabled, handled by mousedown listener) */}
                         <div 
-                            className="absolute inset-0 bg-transparent pointer-events-auto"
-                            onClick={() => {
-                                setSelectedTaskDetail(null);
-                                const newParams = new URLSearchParams(window.location.search);
-                                let changed = false;
-                                if (newParams.has('taskId')) { newParams.delete('taskId'); changed = true; }
-                                if (newParams.has('logId')) { newParams.delete('logId'); changed = true; }
-                                if (changed) {
-                                    const newSearch = newParams.toString();
-                                    window.history.replaceState(null, '', `${window.location.pathname}${newSearch ? '?' + newSearch : ''}`);
-                                }
-                            }}
+                            className="absolute inset-0 bg-transparent pointer-events-none"
                         />
-                        <div className="absolute inset-y-0 right-0 max-w-full flex pl-10 pointer-events-auto">
+                        <div ref={drawerRef} className="absolute inset-y-0 right-0 max-w-full flex pl-10 pointer-events-auto">
                             <form onSubmit={handleFormSubmit} className="w-screen max-w-[550px] transform transition-transform duration-300 ease-in-out shadow-2xl flex flex-col h-full bg-[#1c1c1e]/95 backdrop-blur-xl border-l border-[#3c3c3c]/80 text-white select-text">
                                 {/* Header */}
                                 <div className="px-[10px] py-3 border-b border-[#3c3c3c]/80 flex items-center justify-between bg-[#1c1c1e]/80 sticky top-0 z-20">
