@@ -633,16 +633,16 @@ export default function PmoMeetingMain() {
  
                                     const sum = metricValues.reduce((acc, curr) => acc + curr.val, 0);
  
-                                    // SVG Circle properties - radius 47 and thicker stroke (default 22, hover 26)
+                                    // SVG Circle properties - radius 47 and scaled stroke (default 18, hover 22)
                                     const radius = 47;
                                     const circumference = 2 * Math.PI * radius; // ~295.3
                                     let accumulatedLength = 0;
                                     let accumulatedPercent = 0;
  
                                     return (
-                                        <div className="w-full flex flex-col items-center justify-center flex-1 py-2">
-                                            {/* Donut graphic - increased size to 306px (1.7 times 180px) */}
-                                            <div className="relative w-[306px] h-[306px] flex items-center justify-center">
+                                        <div className="w-full flex flex-col items-center justify-center flex-1 py-1">
+                                            {/* Donut graphic - scaled to 245px (80% of 306px) */}
+                                            <div className="relative w-[245px] h-[245px] flex items-center justify-center">
                                                 <svg className="w-full h-full" viewBox="0 0 120 120">
                                                     {/* Background base circle */}
                                                     <circle 
@@ -651,7 +651,7 @@ export default function PmoMeetingMain() {
                                                         r={radius} 
                                                         fill="transparent" 
                                                         stroke="rgba(255,255,255,0.03)" 
-                                                        strokeWidth="22" 
+                                                        strokeWidth="18" 
                                                     />
                                                     
                                                     {sum === 0 ? (
@@ -661,7 +661,7 @@ export default function PmoMeetingMain() {
                                                             r={radius} 
                                                             fill="transparent" 
                                                             stroke="rgba(255,255,255,0.1)" 
-                                                            strokeWidth="22" 
+                                                            strokeWidth="18" 
                                                         />
                                                     ) : (
                                                         metricValues.map((item, idx) => {
@@ -681,7 +681,7 @@ export default function PmoMeetingMain() {
                                                                     r={radius} 
                                                                     fill="transparent" 
                                                                     stroke={color} 
-                                                                    strokeWidth={hoveredDept === item.dept ? "26" : "22"} 
+                                                                    strokeWidth={hoveredDept === item.dept ? "22" : "18"} 
                                                                     strokeDasharray={`${strokeLength} ${circumference}`}
                                                                     strokeDashoffset={offset}
                                                                     transform="rotate(-90 60 60)"
@@ -693,7 +693,7 @@ export default function PmoMeetingMain() {
                                                         })
                                                     )}
  
-                                                    {/* Text Labels centered on donut slices - scale proportional for 306px */}
+                                                    {/* Text Labels centered on donut slices - scaled for 245px */}
                                                     {sum > 0 && metricValues.map((item, idx) => {
                                                         if (item.val === 0) return null;
                                                         const pct = item.val / sum;
@@ -723,7 +723,7 @@ export default function PmoMeetingMain() {
                                                                 x={x}
                                                                 y={y + 0.5}
                                                                 fill="#ffffff"
-                                                                fontSize="6.2px"
+                                                                fontSize="7px"
                                                                 fontWeight="900"
                                                                 textAnchor="middle"
                                                                 dominantBaseline="middle"
@@ -734,19 +734,19 @@ export default function PmoMeetingMain() {
                                                         );
                                                     })}
                                                 </svg>
-                                                {/* Text center label - enlarged for 306px donut */}
-                                                <div className="absolute flex flex-col items-center justify-center text-center px-2 pointer-events-none w-[170px] overflow-hidden">
+                                                {/* Text center label - scaled for 245px donut */}
+                                                <div className="absolute flex flex-col items-center justify-center text-center px-1 pointer-events-none w-[136px] overflow-hidden">
                                                     {hoveredDept ? (
                                                         <>
-                                                            <span className="text-[16px] font-bold text-[#86868b] leading-none mb-2 truncate w-full">{hoveredDept}</span>
-                                                            <span className="text-[32px] font-black leading-none animate-pulse" style={{ color: deptColors[hoveredDept] }}>
+                                                            <span className="text-[13px] font-bold text-[#86868b] leading-none mb-1.5 truncate w-full">{hoveredDept}</span>
+                                                            <span className="text-[26px] font-black leading-none animate-pulse" style={{ color: deptColors[hoveredDept] }}>
                                                                 {metricValues.find(mv => mv.dept === hoveredDept)?.val || 0}건
                                                             </span>
                                                         </>
                                                     ) : (
                                                         <>
-                                                            <span className="text-[38px] font-black text-white leading-none">{sum}</span>
-                                                            <span className="text-[15px] font-bold text-[#86868b] mt-2">총 건수</span>
+                                                            <span className="text-[30px] font-black text-white leading-none">{sum}</span>
+                                                            <span className="text-[12px] font-bold text-[#86868b] mt-1.5">총 건수</span>
                                                         </>
                                                     )}
                                                 </div>
