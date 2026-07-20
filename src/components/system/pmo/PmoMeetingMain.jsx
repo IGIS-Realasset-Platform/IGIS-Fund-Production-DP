@@ -116,7 +116,7 @@ export default function PmoMeetingMain() {
             </div>
 
             {/* Filter Navigation Buttons Capsule Box */}
-            <div className="w-[calc(100%+14px)] ml-[-7px] border border-[#4b4b4b]/70 rounded-[32px] p-[6px] flex flex-col gap-[6px] mb-[32px] select-none text-center bg-transparent">
+            <div className="w-[calc(100%+14px)] ml-[-7px] border border-[#4b4b4b]/70 rounded-[36px] p-[6px] flex flex-col gap-[6px] mb-[32px] select-none text-center bg-transparent">
                 {/* Upper Row Box */}
                 <div className="grid grid-cols-5 bg-[#b4b6b5] h-[94px] rounded-[30px] overflow-hidden divide-x divide-[#8b8b8b]/80">
                     {upperFilters.map((btn, idx) => (
