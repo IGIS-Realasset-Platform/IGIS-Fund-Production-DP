@@ -61,6 +61,10 @@ export default function IotaMyPage() {
     const getLogCell = (log) => {
         if (log.metadata?.workspace_code) {
             const code = log.metadata.workspace_code.toUpperCase();
+            if (code === 'WS_PMO') {
+                if (log.metadata.workspace_label === '단발성 업무 요청') return '단발성 업무';
+                return '통합업무보드';
+            }
             if (code === 'WS_PM1' || code === 'PM1' || code === 'PM_1') return '사업 PM 1';
             if (code === 'WS_PM2' || code === 'PM2' || code === 'PM_2') return '사업 PM 2';
             if (code === 'WS_PM' || code === 'PM') {
@@ -92,7 +96,11 @@ export default function IotaMyPage() {
 
     const getLineBadgeStyle = (cell) => {
         const norm = (cell || '').replace(/\s+/g, '').toUpperCase();
-        if (norm.includes('PM')) {
+        if (norm.includes('통합업무보드')) {
+            return 'bg-[#5856d6]/10 text-[#af52de] border border-[#5856d6]/20'; // Purple/Indigo
+        } else if (norm.includes('단발성업무')) {
+            return 'bg-[#ff9500]/10 text-[#ffb347] border border-[#ff9500]/20'; // Orange
+        } else if (norm.includes('PM')) {
             return 'bg-[#30d158]/10 text-[#34d399] border border-[#30d158]/20'; // Green
         } else if (norm.includes('LFC') || norm.includes('파이낸싱')) {
             return 'bg-[#0a84ff]/10 text-[#60a5fa] border border-[#0a84ff]/20'; // Blue
@@ -243,7 +251,7 @@ export default function IotaMyPage() {
                 }
 
                 // 3. Map DB Logs to match API schema
-                const filteredDbLogs = dbLogs.filter(log => !log.metadata?.is_task_board);
+                const filteredDbLogs = dbLogs;
                 const mappedDbLogs = filteredDbLogs.map(log => {
                     const line = getLogCell(log);
 
