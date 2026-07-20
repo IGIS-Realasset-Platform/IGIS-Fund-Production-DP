@@ -1407,6 +1407,8 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
         const filterCoopDept = params.get('filterCoopDept');
         if (filterLeadDept) setSelectedLeadDept(filterLeadDept);
         if (filterCoopDept) setSelectedCoopDept(filterCoopDept);
+        const filterCategoryMain = params.get('filterCategoryMain');
+        if (filterCategoryMain) setSelectedCategoryMain(filterCategoryMain);
     }, []);
 
     // Masters loaded from DB

@@ -346,6 +346,61 @@ export default function PmoMeetingMain() {
         return d.totalCount;
     }), 1);
 
+    // ==========================================
+    // 카테고리별 진행현황 추가 데이터 모델
+    // ==========================================
+    const categoriesList = ['공통 PMO', '호텔/운영', '인허가', '시공/원가', '도면/설계', '인테리어/TI', '임차/마케팅', 'PF/금융', '구조/법무/세무', '주주/보고', '준공/담보대출'];
+    const [activeCategoryMetric, setActiveCategoryMetric] = React.useState('전체업무');
+    const [hoveredCategory, setHoveredCategory] = React.useState(null);
+
+    const categoryRowsData = categoriesList.map(cat => {
+        const catTasks = tasks.filter(t => t.task_type !== '팝업' && (t.category_main === cat || (cat === '공통 PMO' && !t.category_main)));
+        
+        const totalCount = catTasks.length;
+        const pfCount = catTasks.filter(t => t.importance_level === 'PF필수').length;
+        const constCount = catTasks.filter(t => t.importance_level === '준공필수').length;
+        const blockerCount = catTasks.filter(t => parseBool(t.is_blocker)).length;
+        const decisionCount = catTasks.filter(t => parseBool(t.needs_decision)).length;
+        const supportCount = catTasks.filter(t => isSupportNeededTask(t)).length;
+        const delayedCount = catTasks.filter(t => t.status === '지연').length;
+        
+        // Find main departments involved
+        const depts = Array.from(new Set(catTasks.map(t => getTaskDeptName(t)).filter(Boolean)));
+        const shortDepts = depts.map(d => {
+            if (d === '사업2파트') return '사업2';
+            if (d === '사업1파트') return '사업1';
+            if (d === '개발솔루션') return '개발';
+            if (d === '공간솔루션') return '공간';
+            if (d === '기업마케팅') return '마케팅';
+            return d;
+        }).slice(0, 3).join(', ') || '-';
+
+        return {
+            category: cat,
+            totalCount,
+            pfCount,
+            constCount,
+            blockerCount,
+            decisionCount,
+            supportCount,
+            delayedCount,
+            shortDepts
+        };
+    });
+
+    const maxActiveCategoryCount = Math.max(...categoryRowsData.map(c => {
+        if (activeCategoryMetric === 'PF필수') return c.pfCount;
+        if (activeCategoryMetric === '준공필수') return c.constCount;
+        if (activeCategoryMetric === '지연') return c.delayedCount;
+        return c.totalCount;
+    }), 1);
+
+    const handleCategoryRowClick = (row) => {
+        const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
+        window.history.pushState(null, '', `${base}/platform/iotaseoul/workflow?filterCategoryMain=${encodeURIComponent(row.category)}`);
+        window.dispatchEvent(new Event('popstate'));
+    };
+
     return (
         <div className="w-[1290px] mx-auto flex-1 flex flex-col pt-[28px] pb-[60px] select-text">
             {/* Header */}
@@ -868,6 +923,271 @@ export default function PmoMeetingMain() {
                                                     {/* 7일내/지연 */}
                                                     <td className="py-[16px] px-[16px] text-center text-[#E5E5E5] font-medium">
                                                         {row.delayedOr7DaysCount}
+                                                    </td>
+                                                </tr>
+                                            );
+                                        })}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* 카테고리별 진행현황 섹션 */}
+                    <div className="w-full flex flex-col gap-[8px] mb-[30px] mt-[12px] select-text">
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-[16px]">
+                                <h3 className="text-[20px] font-bold text-white tracking-tight mt-[4px]">카테고리별 진행현황</h3>
+                                <p className="text-[14px] text-[#A1A1AA] font-medium translate-y-[2px]">대분류 카테고리별 업무 현황을 확인합니다.</p>
+                            </div>
+                        </div>
+ 
+                        {/* Grid 3:7 Layout for Chart and Table */}
+                        <div className="grid grid-cols-10 gap-4 mt-1">
+                            {/* Left Area: Donut Chart (30% equivalent / col-span-3) */}
+                            <div className="col-span-3 bg-[#272726] border border-[#3c3c3c] rounded-[24px] p-4 flex flex-col items-center justify-start h-full">
+                                {/* Segmented Toggles */}
+                                <div className="flex bg-[#2c2c2b] p-0.5 rounded-[8px] border border-[#3c3c3c] text-[13px] font-semibold mb-4 w-full">
+                                    {['전체업무', 'PF필수', '준공필수', '지연'].map(m => {
+                                        const isActive = activeCategoryMetric === m;
+                                        return (
+                                            <button
+                                                key={m}
+                                                type="button"
+                                                onClick={() => setActiveCategoryMetric(m)}
+                                                className={`flex-1 py-1 px-1 text-center rounded-[6px] text-[12px] whitespace-nowrap transition-all cursor-pointer font-bold ${isActive ? 'bg-[#48484a] text-white shadow-sm' : 'text-[#86868b] hover:text-white'}`}
+                                            >
+                                                {m}
+                                            </button>
+                                        );
+                                    })}
+                                </div>
+
+                                {/* Donut SVG Chart */}
+                                {(() => {
+                                    const categoryColors = {
+                                        '공통 PMO': '#aeaeb2',
+                                        '호텔/운영': '#f5f5f7',
+                                        '인허가': '#636366',
+                                        '시공/원가': '#e5e5ea',
+                                        '도면/설계': '#8e8e93',
+                                        '인테리어/TI': '#d1d1d6',
+                                        '임차/마케팅': '#aeaeb2',
+                                        'PF/금융': '#f5f5f7',
+                                        '구조/법무/세무': '#636366',
+                                        '주주/보고': '#e5e5ea',
+                                        '준공/담보대출': '#8e8e93'
+                                    };
+
+                                    const metricValues = categoryRowsData.map(row => {
+                                        let val = row.totalCount;
+                                        if (activeCategoryMetric === 'PF필수') val = row.pfCount;
+                                        else if (activeCategoryMetric === '준공필수') val = row.constCount;
+                                        else if (activeCategoryMetric === '지연') val = row.delayedCount;
+                                        return { category: row.category, val };
+                                    });
+
+                                    const sum = metricValues.reduce((acc, curr) => acc + curr.val, 0);
+
+                                    const radius = 35;
+                                    const circumference = 2 * Math.PI * radius;
+                                    let accumulatedLength = 0;
+
+                                    return (
+                                        <div className="relative w-[270px] h-[270px] flex items-center justify-center -translate-y-[10px]">
+                                            <svg className="w-full h-full transform -rotate-90" viewBox="0 0 120 120">
+                                                {sum === 0 ? (
+                                                    <circle
+                                                        cx="60"
+                                                        cy="60"
+                                                        r={radius}
+                                                        fill="none"
+                                                        stroke="#3a3a3c"
+                                                        strokeWidth="14"
+                                                    />
+                                                ) : (
+                                                    metricValues.map((item, idx) => {
+                                                        if (item.val === 0) return null;
+                                                        const percentage = (item.val / sum) * 100;
+                                                        const strokeDasharray = `${(percentage / 100) * circumference} ${circumference}`;
+                                                        const strokeDashoffset = -accumulatedLength;
+                                                        accumulatedLength += (percentage / 100) * circumference;
+
+                                                        const isHovered = hoveredCategory === item.category;
+                                                        const color = categoryColors[item.category] || '#ffffff';
+
+                                                        // textRadius for placement of outer labels
+                                                        const textRadius = 45;
+                                                        const angle = ((strokeDashoffset - (percentage / 100) * circumference / 2) / circumference) * 360 * (Math.PI / 180);
+                                                        const labelX = 60 + textRadius * Math.cos(angle);
+                                                        const labelY = 60 + textRadius * Math.sin(angle);
+                                                        
+                                                        const textAngleDeg = angle * (180 / Math.PI) + 90;
+                                                        let anchor = 'middle';
+                                                        let rotateText = textAngleDeg + 90;
+                                                        if (Math.cos(angle) > 0.1) {
+                                                            anchor = 'start';
+                                                        } else if (Math.cos(angle) < -0.1) {
+                                                            anchor = 'end';
+                                                        }
+
+                                                        return (
+                                                            <g key={idx}>
+                                                                <circle
+                                                                    cx="60"
+                                                                    cy="60"
+                                                                    r={radius}
+                                                                    fill="none"
+                                                                    stroke={color}
+                                                                    strokeWidth={isHovered ? 18 : 14}
+                                                                    strokeDasharray={strokeDasharray}
+                                                                    strokeDashoffset={strokeDashoffset}
+                                                                    className="transition-all duration-300 cursor-pointer"
+                                                                    onMouseEnter={() => setHoveredCategory(item.category)}
+                                                                    onMouseLeave={() => setHoveredCategory(null)}
+                                                                />
+                                                                {percentage >= 4 && (
+                                                                    <text
+                                                                        x={labelX}
+                                                                        y={labelY}
+                                                                        fill="#E5E5EA"
+                                                                        fontSize="5.5"
+                                                                        fontWeight="bold"
+                                                                        textAnchor={anchor}
+                                                                        transform={`rotate(${rotateText}, ${labelX}, ${labelY})`}
+                                                                        className="pointer-events-none drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]"
+                                                                    >
+                                                                        {item.category.length > 5 ? item.category.substring(0, 5) + '..' : item.category}
+                                                                    </text>
+                                                                )}
+                                                            </g>
+                                                        );
+                                                    })
+                                                )}
+                                            </svg>
+                                            
+                                            {/* Donut Chart Center Text */}
+                                            <div className="absolute flex flex-col items-center justify-center pointer-events-none w-[150px] text-center">
+                                                {hoveredCategory ? (
+                                                    <>
+                                                        <span className="text-[12px] text-[#86868b] font-bold truncate max-w-full px-2">{hoveredCategory}</span>
+                                                        {(() => {
+                                                            const item = metricValues.find(m => m.category === hoveredCategory);
+                                                            const pct = sum > 0 ? ((item?.val || 0) / sum * 100).toFixed(1) : 0;
+                                                            return (
+                                                                <>
+                                                                    <span className="text-[28px] font-black text-white leading-none mt-1">{item?.val || 0}</span>
+                                                                    <span className="text-[11px] text-[#86868b] mt-1 font-semibold">{pct}%</span>
+                                                                </>
+                                                            );
+                                                        })()}
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <span className="text-[11px] text-[#86868b] font-bold">카테고리 전체</span>
+                                                        <span className="text-[28px] font-black text-white leading-none mt-1">{sum}</span>
+                                                        <span className="text-[11.5px] text-[#86868b] mt-1 font-semibold">건수</span>
+                                                    </>
+                                                )}
+                                            </div>
+                                        </div>
+                                    );
+                                })()}
+                            </div>
+
+                            {/* Right Area: Table Container (70% equivalent / col-span-7) */}
+                            <div className="col-span-7 bg-[#272726] border border-[#3c3c3c] rounded-[24px] overflow-hidden flex flex-col justify-start">
+                                <table className="w-full text-left border-collapse bg-[#272726]">
+                                    <thead>
+                                        <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[13px] h-[46px] whitespace-nowrap">
+                                            <th className="py-[16px] px-[16px] w-[130px] font-bold text-[#86868B] text-center whitespace-nowrap">대분류</th>
+                                            <th className={`py-[16px] px-[16px] text-center font-bold text-[#86868B] transition-all duration-300 whitespace-nowrap ${activeCategoryMetric === '전체업무' ? 'w-[140px]' : 'w-[80px]'}`}>전체업무</th>
+                                            <th className={`py-[16px] px-[16px] text-center font-bold text-[#86868B] transition-all duration-300 whitespace-nowrap ${activeCategoryMetric === 'PF필수' ? 'w-[140px]' : 'w-[80px]'}`}>PF필수</th>
+                                            <th className={`py-[16px] px-[16px] text-center font-bold text-[#86868B] transition-all duration-300 whitespace-nowrap ${activeCategoryMetric === '준공필수' ? 'w-[140px]' : 'w-[80px]'}`}>준공필수</th>
+                                            <th className="py-[16px] px-[16px] text-center font-bold text-[#86868B] whitespace-nowrap">Blocker</th>
+                                            <th className="py-[16px] px-[16px] text-center font-bold text-[#86868B] whitespace-nowrap">의사결정필요</th>
+                                            <th className="py-[16px] px-[16px] text-center font-bold text-[#86868B] whitespace-nowrap">지원필요</th>
+                                            <th className={`py-[16px] px-[16px] text-center font-bold text-[#86868B] transition-all duration-300 whitespace-nowrap ${activeCategoryMetric === '지연' ? 'w-[140px]' : 'w-[80px]'}`}>지연</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="divide-y divide-[#3c3c3c]/50 text-[13px]">
+                                        {categoryRowsData.map((row, idx) => {
+                                            return (
+                                                <tr 
+                                                     key={idx} 
+                                                     onClick={() => handleCategoryRowClick(row)}
+                                                     className="hover:bg-[#2b2b2b]/40 transition-colors cursor-pointer"
+                                                     onMouseEnter={(e) => setTooltipData({
+                                                         text: `${row.category} 상세 업무 페이지 보기`,
+                                                         x: e.clientX,
+                                                         y: e.clientY
+                                                     })}
+                                                     onMouseMove={(e) => setTooltipData(prev => prev ? { ...prev, x: e.clientX, y: e.clientY } : null)}
+                                                     onMouseLeave={() => setTooltipData(null)}
+                                                 >
+                                                    {/* 대분류 */}
+                                                    <td className="py-[16px] px-[16px] text-center font-bold text-[#E5E5E5] whitespace-nowrap">
+                                                        {row.category}
+                                                    </td>
+                                                    {/* 전체업무 */}
+                                                    <td className={`py-[16px] px-[16px] text-center transition-all duration-300 relative ${activeCategoryMetric === '전체업무' ? 'font-bold text-white w-[140px]' : 'text-[#E5E5E5] font-semibold w-[80px]'}`}>
+                                                        {activeCategoryMetric === '전체업무' && (
+                                                            <div className="absolute inset-y-[6px] left-[6px] right-[6px] z-0">
+                                                                <div 
+                                                                    className="h-full bg-gradient-to-r from-[#86868b]/15 to-[#86868b]/30 rounded-[4px]"
+                                                                    style={{ width: `${(row.totalCount / maxActiveCategoryCount) * 100}%` }}
+                                                                />
+                                                            </div>
+                                                        )}
+                                                        <span className="relative z-10">{row.totalCount}</span>
+                                                    </td>
+                                                    {/* PF필수 */}
+                                                    <td className={`py-[16px] px-[16px] text-center transition-all duration-300 relative ${activeCategoryMetric === 'PF필수' ? 'font-bold text-white w-[140px]' : 'text-[#E5E5E5] font-semibold w-[80px]'}`}>
+                                                        {activeCategoryMetric === 'PF필수' && (
+                                                            <div className="absolute inset-y-[6px] left-[6px] right-[6px] z-0">
+                                                                <div 
+                                                                    className="h-full bg-gradient-to-r from-[#86868b]/15 to-[#86868b]/30 rounded-[4px]"
+                                                                    style={{ width: `${(row.pfCount / maxActiveCategoryCount) * 100}%` }}
+                                                                />
+                                                            </div>
+                                                        )}
+                                                        <span className="relative z-10">{row.pfCount}</span>
+                                                    </td>
+                                                    {/* 준공필수 */}
+                                                    <td className={`py-[16px] px-[16px] text-center transition-all duration-300 relative ${activeCategoryMetric === '준공필수' ? 'font-bold text-white w-[140px]' : 'text-[#E5E5E5] font-semibold w-[80px]'}`}>
+                                                        {activeCategoryMetric === '준공필수' && (
+                                                            <div className="absolute inset-y-[6px] left-[6px] right-[6px] z-0">
+                                                                <div 
+                                                                    className="h-full bg-gradient-to-r from-[#86868b]/15 to-[#86868b]/30 rounded-[4px]"
+                                                                    style={{ width: `${(row.constCount / maxActiveCategoryCount) * 100}%` }}
+                                                                />
+                                                            </div>
+                                                        )}
+                                                        <span className="relative z-10">{row.constCount}</span>
+                                                    </td>
+                                                    {/* Blocker */}
+                                                    <td className="py-[16px] px-[16px] text-center font-semibold text-[#ff453a]">
+                                                        {row.blockerCount}
+                                                    </td>
+                                                    {/* 의사결정필요 */}
+                                                    <td className="py-[16px] px-[16px] text-center font-semibold text-[#ff453a]">
+                                                        {row.decisionCount}
+                                                    </td>
+                                                    {/* 지원필요 */}
+                                                    <td className="py-[16px] px-[16px] text-center text-[#E5E5E5] font-medium">
+                                                        {row.supportCount}
+                                                    </td>
+                                                    {/* 지연 */}
+                                                    <td className={`py-[16px] px-[16px] text-center transition-all duration-300 relative ${activeCategoryMetric === '지연' ? 'font-bold text-white w-[140px]' : 'text-[#E5E5E5] font-semibold w-[80px]'}`}>
+                                                        {activeCategoryMetric === '지연' && (
+                                                            <div className="absolute inset-y-[6px] left-[6px] right-[6px] z-0">
+                                                                <div 
+                                                                    className="h-full bg-gradient-to-r from-[#86868b]/15 to-[#86868b]/30 rounded-[4px]"
+                                                                    style={{ width: `${(row.delayedCount / maxActiveCategoryCount) * 100}%` }}
+                                                                />
+                                                            </div>
+                                                        )}
+                                                        <span className="relative z-10">{row.delayedCount}</span>
                                                     </td>
                                                 </tr>
                                             );
