@@ -334,7 +334,7 @@ export default function PmoMeetingMain() {
     const maxTotalCount = Math.max(...deptRowsData.map(d => d.totalCount), 1);
 
     return (
-        <div className="w-full flex-1 flex flex-col pt-[24px] pb-[60px] max-w-[1200px] mx-auto select-text">
+        <div className="w-[1290px] mx-auto flex-1 flex flex-col pt-[28px] pb-[60px] select-text">
             {/* Header */}
             <div className="w-full flex justify-between items-start mb-[12px]">
                 <div>
