@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { supabase } from '../../../utils/supabaseClient';
 import { useAuth } from '../../../context/AuthContext';
 
@@ -360,9 +360,146 @@ export default function PmoScheduleGate() {
     const [selectedRrCategory, setSelectedRrCategory] = React.useState('전체보기');
     const [selectedRrLead, setSelectedRrLead] = React.useState('전체보기');
     const [selectedRrCoop, setSelectedRrCoop] = React.useState('전체보기');
-
-    const rrData = React.useMemo(() => CATEGORY_MAP_DATA.map((item, idx) => ({ ...item, id: `mock-${idx}` })), []);
     const [scrollLeft, setScrollLeft] = React.useState(0);
+
+    const [rrData, setRrData] = useState(() => {
+        const local = localStorage.getItem('iota_rr_matrix');
+        if (local) {
+            try {
+                return JSON.parse(local);
+            } catch (e) {
+                console.error("Failed to parse local rr matrix:", e);
+            }
+        }
+        return CATEGORY_MAP_DATA.map((item, idx) => ({ ...item, id: `mock-${idx}` }));
+    });
+
+    useEffect(() => {
+        localStorage.setItem('iota_rr_matrix', JSON.stringify(rrData));
+    }, [rrData]);
+
+    const DEPARTMENTS_LIST = ['개발관리실', '사업2파트', '사업관리1파트', '공간솔루션실', '기업마케팅실', 'LFC', '법무/세무자문', '요청부서', '전 부서'];
+    const PARTNERS_LIST = ['서울시/중구청', '중구청', 'Marriott/소노 등', '브랜드사', '현대건설', '삼성물산', '시공사/CM', '설계사/CM', '광장', 'KB 등', '삼성물산;이지스', '대주단', '회계법인', '법무/세무법인', '대표/본부장', '금융기관', '임차인', '요청부서'];
+
+    // Authorization & User session
+    const { memberInfo } = useAuth();
+    const isAuthorized = useMemo(() => {
+        const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || import.meta.env.DEV;
+        if (isLocal) return true;
+        if (!memberInfo) return false;
+        const org = memberInfo.org_name || '';
+        const workspace = memberInfo.workspace_code || '';
+        const role = memberInfo.role_code || '';
+        return (
+            org.includes('사업2파트') || 
+            org.includes('기획추진') ||
+            org.includes('시스템 관리자(기획추진)') ||
+            role.toUpperCase().includes('PO') ||
+            workspace === 'WS_PM' ||
+            role === 'master' ||
+            role === 'director'
+        );
+    }, [memberInfo]);
+
+    // Modal Control States
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isExportOpen, setIsExportOpen] = useState(false);
+    const [modalMode, setModalMode] = useState('add'); // 'add' or 'edit'
+    const [editingItem, setEditingItem] = useState(null);
+
+    // Form inputs
+    const [formCategory, setFormCategory] = useState('인허가');
+    const [formSubsector, setFormSubsector] = useState('');
+    const [formTaskName, setFormTaskName] = useState('');
+    const [formPf, setFormPf] = useState(false);
+    const [formConst, setFormConst] = useState(false);
+    const [formOp, setFormOp] = useState(false);
+    const [formLead, setFormLead] = useState('');
+    const [formCoop, setFormCoop] = useState([]);
+    const [formPartner, setFormPartner] = useState('');
+    const [formNeed, setFormNeed] = useState('');
+    const [formPoint, setFormPoint] = useState('');
+
+    const handleOpenEditModal = (item) => {
+        setModalMode('edit');
+        setEditingItem(item);
+        setFormCategory(item.category);
+        setFormSubsector(item.subsector);
+        setFormTaskName(item.task);
+        setFormPf(item.pf);
+        setFormConst(item.const);
+        setFormOp(item.op);
+        setFormLead(item.lead || DEPARTMENTS_LIST[0]);
+        setFormCoop(item.coop || []);
+        setFormPartner(item.partner || '');
+        setFormNeed(item.need || '');
+        setFormPoint(item.point || '');
+        setIsModalOpen(true);
+    };
+
+    const handleOpenAddModal = () => {
+        setModalMode('add');
+        setEditingItem(null);
+        setFormCategory('인허가');
+        setFormSubsector('');
+        setFormTaskName('');
+        setFormPf(false);
+        setFormConst(false);
+        setFormOp(false);
+        setFormLead(DEPARTMENTS_LIST[0]);
+        setFormCoop([]);
+        setFormPartner('');
+        setFormNeed('');
+        setFormPoint('');
+        setIsModalOpen(true);
+    };
+
+    const handleSaveRrItem = (e) => {
+        e.preventDefault();
+        const payload = {
+            id: modalMode === 'add' ? `custom-${Date.now()}` : editingItem.id,
+            category: formCategory,
+            subsector: formSubsector,
+            task: formTaskName,
+            pf: formPf,
+            const: formConst,
+            op: formOp,
+            lead: formLead,
+            coop: formCoop,
+            need: formNeed,
+            partner: formPartner,
+            point: formPoint
+        };
+
+        if (modalMode === 'add') {
+            setRrData(prev => [...prev, payload]);
+        } else {
+            setRrData(prev => prev.map(item => item.id === editingItem.id ? payload : item));
+        }
+        setIsModalOpen(false);
+    };
+
+    const handleDeleteRrItem = (item) => {
+        if (!window.confirm("정말 이 R&R 항목을 삭제하시겠습니까?")) return;
+        setRrData(prev => prev.filter(i => i.id !== item.id));
+    };
+
+    const handleExportJson = () => {
+        const cleanData = rrData.map(({ id, ...rest }) => rest);
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(cleanData, null, 2));
+        const downloadAnchor = document.createElement('a');
+        downloadAnchor.setAttribute("href", dataStr);
+        downloadAnchor.setAttribute("download", "rr_matrix_data.json");
+        document.body.appendChild(downloadAnchor);
+        downloadAnchor.click();
+        downloadAnchor.remove();
+    };
+
+    const handleCopyToClipboard = () => {
+        const cleanData = rrData.map(({ id, ...rest }) => rest);
+        navigator.clipboard.writeText(JSON.stringify(cleanData, null, 2));
+        alert("R&R 데이터가 클립보드에 복사되었습니다. PmoScheduleGate.jsx의 CATEGORY_MAP_DATA에 덮어씌울 수 있습니다.");
+    };
 
     // Timeline Drag-to-Scroll Logic
     const sliderRef = React.useRef(null);
@@ -632,15 +769,40 @@ export default function PmoScheduleGate() {
             </div>
 
             {/* Category Map & R&R Section */}
-            <div className="w-full flex items-center justify-start gap-4 mt-[41px] mb-[16px]">
-                <h2 className="text-[32px] font-bold text-white tracking-tight leading-none text-left">R&R 및 필요산출물</h2>
+            <div className="w-full flex items-end justify-between mt-[41px] mb-[16px]">
+                <div className="flex items-baseline gap-[16px]">
+                    <h2 className="text-[32px] font-bold text-white tracking-tight leading-none text-left">R&R 및 필요산출물</h2>
+                    <p className="text-[15px] text-[#86868B] leading-none">회의체 협업 부서 및 필요산출물, 핵심 관리 포인트를 조회합니다.</p>
+                </div>
+                {isAuthorized && (
+                    <div className="flex items-center gap-2">
+                        <button
+                            type="button"
+                            onClick={() => setIsExportOpen(true)}
+                            className="bg-[#2c2c2b] border border-[#3c3c3c] text-[#bdbba7] hover:text-white hover:border-[#4c4c4b] transition-colors rounded-full px-4 py-2 text-[13px] font-bold shadow-md cursor-pointer flex items-center gap-1.5"
+                        >
+                            <span>JSON 내보내기</span>
+                        </button>
+                        <button
+                            type="button"
+                            onClick={handleOpenAddModal}
+                            className="bg-[#2997ff] text-white hover:bg-[#0071e3] transition-colors rounded-full px-4 py-2 text-[13px] font-bold shadow-md cursor-pointer flex items-center gap-1.5"
+                        >
+                            <span>+ R&R 추가</span>
+                        </button>
+                    </div>
+                )}
             </div>
 
             {/* R&R Matrix Table */}
-            <div className="w-full border border-[#3c3c3c] bg-[#272726] rounded-[32px] overflow-hidden relative mb-[40px] shadow-sm h-auto">
+            <div className="w-full border border-[#3c3c3c] bg-[#272726] rounded-[32px] overflow-x-auto relative mb-[40px] shadow-sm h-auto timeline-scrollbar">
                 <div className="w-full rounded-[32px] select-text">
                     <div className="flex items-center w-full overflow-visible pointer-events-none">
-                        <table className="text-left table-fixed w-[1290px] min-w-[1290px] max-w-[1290px] pointer-events-auto border-collapse border-b border-[#3c3c3c] bg-[#272726]">
+                        <table className={`text-left table-fixed pointer-events-auto border-collapse border-b border-[#3c3c3c] bg-[#272726] ${
+                            isAuthorized 
+                                ? 'w-[1350px] min-w-[1350px] max-w-[1350px]' 
+                                : 'w-[1290px] min-w-[1290px] max-w-[1290px]'
+                        }`}>
                             <thead>
                                 <tr className="border-b border-[#3c3c3c] bg-[#272726] text-[#86868B] font-bold text-[12px] h-[56px]">
                                     <th className="px-1 w-[110px] min-w-[110px] max-w-[110px] text-center bg-[#272726] rounded-tl-[31px] z-30">
@@ -717,7 +879,14 @@ export default function PmoScheduleGate() {
                                     </th>
                                     <th className="px-1 tracking-tighter whitespace-nowrap w-[95px] min-w-[95px] max-w-[95px] text-center bg-[#272726]">외부 상대방</th>
                                     <th className="px-1 tracking-tighter whitespace-nowrap w-[75px] min-w-[75px] max-w-[75px] text-center bg-[#272726]">필요산출물</th>
-                                    <th className="px-3 w-[170px] min-w-[170px] max-w-[170px] text-left bg-[#272726] border-r border-[#3c3c3c] rounded-tr-[31px] whitespace-nowrap">관리 포인트</th>
+                                    <th className={`px-3 text-left bg-[#272726] w-[170px] min-w-[170px] max-w-[170px] whitespace-nowrap ${
+                                        isAuthorized 
+                                            ? 'border-r border-[#3c3c3c]' 
+                                            : 'border-r border-[#3c3c3c] rounded-tr-[31px]'
+                                    }`}>관리 포인트</th>
+                                    {isAuthorized && (
+                                        <th className="px-1 w-[60px] min-w-[60px] max-w-[60px] text-center bg-[#272726] border-r border-[#3c3c3c] rounded-tr-[31px] whitespace-nowrap">관리</th>
+                                    )}
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-[#3c3c3c]/60 text-[12px]">
@@ -729,9 +898,9 @@ export default function PmoScheduleGate() {
                                 }).map((item, index, array) => {
                                     const isLastItem = index === array.length - 1;
                                     return (
-                                        <tr key={item.id} className="bg-[#272726] hover:bg-[#333] transition-colors h-12 group">
+                                        <tr key={item.id} className={`bg-[#272726] hover:bg-[#333] transition-colors h-12 group ${isAuthorized ? 'cursor-pointer' : ''}`} onClick={() => isAuthorized && handleOpenEditModal(item)}>
                                             {/* 대분류 */}
-                                            <td className={`px-3 bg-[#272726] group-hover:bg-[#333] transition-colors text-center font-bold text-white text-[12px] w-[110px] min-w-[110px] max-w-[110px] ${isLastItem ? 'rounded-bl-[31px]' : ''}`}>
+                                            <td className={`px-3 bg-[#272726] group-hover:bg-[#333] transition-colors text-center font-bold text-white text-[12px] w-[110px] min-w-[110px] max-w-[110px] ${isLastItem && !isAuthorized ? 'rounded-bl-[31px]' : (isLastItem && isAuthorized ? 'rounded-bl-[31px]' : '')}`}>
                                                 {item.category}
                                             </td>
                                             
@@ -753,7 +922,7 @@ export default function PmoScheduleGate() {
                                                     <span className="text-[#555] font-bold">-</span>
                                                 )}
                                             </td>
-
+ 
                                             {/* 착공 전 필요 */}
                                             <td className="px-2 text-center w-[65px] min-w-[65px] max-w-[65px]">
                                                 {item.const ? (
@@ -762,7 +931,7 @@ export default function PmoScheduleGate() {
                                                     <span className="text-[#555] font-bold">-</span>
                                                 )}
                                             </td>
-
+ 
                                             {/* 준공 전 필요 */}
                                             <td className="px-2 text-center border-r border-[#3c3c3c] w-[65px] min-w-[65px] max-w-[65px]">
                                                 {item.op ? (
@@ -771,7 +940,7 @@ export default function PmoScheduleGate() {
                                                     <span className="text-[#555] font-bold">-</span>
                                                 )}
                                             </td>
-
+ 
                                             {/* 주관 부서 */}
                                             <td className="text-center w-[90px] min-w-[90px] max-w-[90px] bg-[#272726] group-hover:bg-[#333] transition-colors">
                                                 <span className="px-2.5 py-0.5 rounded font-bold bg-[#2997ff]/10 text-white border border-[#2997ff]/20 text-[11px] whitespace-nowrap inline-block translate-x-[6px]">
@@ -787,21 +956,47 @@ export default function PmoScheduleGate() {
                                                     ))}
                                                 </div>
                                             </td>
-
+ 
                                             {/* 외부 상대방 */}
                                             <td className="px-1 text-center text-[#A1A1AA] font-semibold whitespace-nowrap overflow-hidden text-ellipsis w-[95px] min-w-[95px] max-w-[95px] bg-[#272726] group-hover:bg-[#333] transition-colors">
                                                 {item.partner || '-'}
                                             </td>
-
+ 
                                             {/* 필요산출물 */}
                                             <td className="px-1 text-center text-[#F59E0B] font-semibold whitespace-nowrap overflow-hidden text-ellipsis w-[75px] min-w-[75px] max-w-[75px] bg-[#272726] group-hover:bg-[#333] transition-colors">
                                                 {item.need || '-'}
                                             </td>
-
+ 
                                             {/* 관리 포인트 */}
-                                            <td className={`px-2 text-left text-[#A1A1AA] font-normal whitespace-nowrap overflow-hidden text-ellipsis w-[170px] min-w-[170px] max-w-[170px] border-r border-[#3c3c3c] bg-[#272726] group-hover:bg-[#333] transition-colors ${isLastItem ? 'rounded-br-[31px]' : ''}`}>
+                                            <td className={`px-2 text-left text-[#A1A1AA] font-normal whitespace-nowrap overflow-hidden text-ellipsis w-[170px] min-w-[170px] max-w-[170px] border-r border-[#3c3c3c] bg-[#272726] group-hover:bg-[#333] transition-colors ${
+                                                isLastItem && !isAuthorized ? 'rounded-br-[31px]' : ''
+                                            }`}>
                                                 {item.point}
                                             </td>
+                                            {isAuthorized && (
+                                                <td className={`px-1 text-center w-[60px] min-w-[60px] max-w-[60px] border-r border-[#3c3c3c] bg-[#272726] group-hover:bg-[#333] transition-colors ${
+                                                    isLastItem ? 'rounded-br-[31px]' : ''
+                                                }`}>
+                                                    <div className="flex items-center justify-center gap-1.5">
+                                                        <button 
+                                                            type="button"
+                                                            onClick={(e) => { e.stopPropagation(); handleOpenEditModal(item); }}
+                                                            className="text-[#2997ff] hover:text-[#0071e3] transition-colors cursor-pointer text-[12px] font-bold p-0.5"
+                                                            title="수정"
+                                                        >
+                                                            ✏️
+                                                        </button>
+                                                        <button 
+                                                            type="button"
+                                                            onClick={(e) => { e.stopPropagation(); handleDeleteRrItem(item); }}
+                                                            className="text-red-500 hover:text-red-700 transition-colors cursor-pointer text-[12px] font-bold p-0.5"
+                                                            title="삭제"
+                                                        >
+                                                            🗑️
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            )}
                                         </tr>
                                     );
                                 })}
@@ -810,7 +1005,250 @@ export default function PmoScheduleGate() {
                     </div>
                 </div>
             </div>
-            
+
+            {/* R&R Edit/Add Modal */}
+            {isModalOpen && (
+                <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center z-[9999] select-none" onClick={() => setIsModalOpen(false)}>
+                    <div className="bg-[#272726] border border-[#3c3c3c] text-white rounded-[24px] shadow-2xl p-[24px] w-[520px] max-w-[95%] flex flex-col gap-4" onClick={(e) => e.stopPropagation()}>
+                        <div className="flex items-center justify-between border-b border-[#3c3c3c] pb-3">
+                            <h3 className="text-[18px] font-bold text-white">
+                                {modalMode === 'add' ? 'R&R 및 필요산출물 추가' : 'R&R 및 필요산출물 수정'}
+                            </h3>
+                            <button 
+                                onClick={() => setIsModalOpen(false)}
+                                className="text-[#86868B] hover:text-white transition-colors text-[18px] font-bold cursor-pointer"
+                            >
+                                ✕
+                            </button>
+                        </div>
+                        
+                        <form onSubmit={handleSaveRrItem} className="flex flex-col gap-3.5 overflow-y-auto max-h-[70vh] pr-1 scrollbar-thin">
+                            {/* 대분류 */}
+                            <div className="flex flex-col">
+                                <label className="text-[11px] font-bold text-[#86868B] uppercase">대분류</label>
+                                <select 
+                                    value={formCategory} 
+                                    onChange={(e) => setFormCategory(e.target.value)}
+                                    className="w-full bg-[#1c1c1e] border border-[#3c3c3c] rounded-[10px] p-[10px] text-[13px] text-white focus:outline-none focus:border-[#2997ff] mt-1"
+                                >
+                                    {R_R_CATEGORIES.slice(1).map(cat => (
+                                        <option key={cat} value={cat} className="bg-[#222] text-white">{cat}</option>
+                                    ))}
+                                </select>
+                            </div>
+
+                            {/* 세부섹터 */}
+                            <div className="flex flex-col">
+                                <label className="text-[11px] font-bold text-[#86868B] uppercase">세부섹터</label>
+                                <input 
+                                    type="text" 
+                                    value={formSubsector}
+                                    onChange={(e) => setFormSubsector(e.target.value)}
+                                    placeholder="예: 현금기부채납, 브랜드"
+                                    className="w-full bg-[#1c1c1e] border border-[#3c3c3c] rounded-[10px] p-[10px] text-[13px] text-white focus:outline-none focus:border-[#2997ff] mt-1"
+                                    required
+                                />
+                            </div>
+
+                            {/* 대표 업무 */}
+                            <div className="flex flex-col">
+                                <label className="text-[11px] font-bold text-[#86868B] uppercase">대표 업무</label>
+                                <input 
+                                    type="text" 
+                                    value={formTaskName}
+                                    onChange={(e) => setFormTaskName(e.target.value)}
+                                    placeholder="업무 내용을 입력하세요"
+                                    className="w-full bg-[#1c1c1e] border border-[#3c3c3c] rounded-[10px] p-[10px] text-[13px] text-white focus:outline-none focus:border-[#2997ff] mt-1"
+                                    required
+                                />
+                            </div>
+
+                            {/* 필요 마일스톤 단계 */}
+                            <div className="flex flex-col gap-2 bg-[#1c1c1e] border border-[#3c3c3c] rounded-[12px] p-3 mt-1">
+                                <label className="text-[11px] font-bold text-[#86868B] uppercase">필요 단계 설정</label>
+                                <div className="flex items-center gap-6 mt-1 text-[13px]">
+                                    <label className="flex items-center gap-1.5 cursor-pointer select-none">
+                                        <input 
+                                            type="checkbox" 
+                                            checked={formPf}
+                                            onChange={(e) => setFormPf(e.target.checked)}
+                                            className="rounded border-[#3c3c3c] bg-[#1c1c1e] text-[#2997ff] focus:ring-0 w-4 h-4 cursor-pointer"
+                                        />
+                                        <span>PF 전 필요</span>
+                                    </label>
+                                    <label className="flex items-center gap-1.5 cursor-pointer select-none">
+                                        <input 
+                                            type="checkbox" 
+                                            checked={formConst}
+                                            onChange={(e) => setFormConst(e.target.checked)}
+                                            className="rounded border-[#3c3c3c] bg-[#1c1c1e] text-[#2997ff] focus:ring-0 w-4 h-4 cursor-pointer"
+                                        />
+                                        <span>착공 전 필요</span>
+                                    </label>
+                                    <label className="flex items-center gap-1.5 cursor-pointer select-none">
+                                        <input 
+                                            type="checkbox" 
+                                            checked={formOp}
+                                            onChange={(e) => setFormOp(e.target.checked)}
+                                            className="rounded border-[#3c3c3c] bg-[#1c1c1e] text-[#2997ff] focus:ring-0 w-4 h-4 cursor-pointer"
+                                        />
+                                        <span>준공 전 필요</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            {/* 주관 부서 */}
+                            <div className="flex flex-col">
+                                <label className="text-[11px] font-bold text-[#86868B] uppercase">주관 부서</label>
+                                <select 
+                                    value={formLead} 
+                                    onChange={(e) => setFormLead(e.target.value)}
+                                    className="w-full bg-[#1c1c1e] border border-[#3c3c3c] rounded-[10px] p-[10px] text-[13px] text-white focus:outline-none focus:border-[#2997ff] mt-1"
+                                >
+                                    {DEPARTMENTS_LIST.map(d => (
+                                        <option key={d} value={d} className="bg-[#222] text-white">
+                                            {d}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+
+                            {/* 협업 부서 */}
+                            <div className="flex flex-col">
+                                <label className="text-[11px] font-bold text-[#86868B] uppercase mb-1.5">협업 부서 (복수 선택 가능)</label>
+                                <div className="grid grid-cols-2 gap-2 bg-[#1c1c1e] border border-[#3c3c3c] rounded-[12px] p-3 text-[13px]">
+                                    {DEPARTMENTS_LIST.map(d => {
+                                        const isChecked = formCoop.includes(d);
+                                        return (
+                                            <label key={d} className="flex items-center gap-2 cursor-pointer select-none">
+                                                <input 
+                                                    type="checkbox" 
+                                                    checked={isChecked}
+                                                    onChange={(e) => {
+                                                        if (e.target.checked) {
+                                                            setFormCoop([...formCoop, d]);
+                                                        } else {
+                                                            setFormCoop(formCoop.filter(name => name !== d));
+                                                        }
+                                                    }}
+                                                    className="rounded border-[#3c3c3c] bg-[#1c1c1e] text-[#2997ff] focus:ring-0 w-4 h-4 cursor-pointer"
+                                                />
+                                                <span>{d}</span>
+                                            </label>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+
+                            {/* 외부 상대방 */}
+                            <div className="flex flex-col">
+                                <label className="text-[11px] font-bold text-[#86868B] uppercase">외부 상대방</label>
+                                <select 
+                                    value={formPartner} 
+                                    onChange={(e) => setFormPartner(e.target.value)}
+                                    className="w-full bg-[#1c1c1e] border border-[#3c3c3c] rounded-[10px] p-[10px] text-[13px] text-white focus:outline-none focus:border-[#2997ff] mt-1"
+                                >
+                                    <option value="" className="bg-[#222] text-[#86868B]">선택 안함 (-)</option>
+                                    {PARTNERS_LIST.map(p => (
+                                        <option key={p} value={p} className="bg-[#222] text-white">
+                                            {p}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+
+                            {/* 필요산출물 */}
+                            <div className="flex flex-col">
+                                <label className="text-[11px] font-bold text-[#86868B] uppercase">필요산출물</label>
+                                <input 
+                                    type="text" 
+                                    value={formNeed}
+                                    onChange={(e) => setFormNeed(e.target.value)}
+                                    placeholder="예: 임차조건, 관청 협의결과"
+                                    className="w-full bg-[#1c1c1e] border border-[#3c3c3c] rounded-[10px] p-[10px] text-[13px] text-white focus:outline-none focus:border-[#2997ff] mt-1"
+                                />
+                            </div>
+
+                            {/* 관리 포인트 */}
+                            <div className="flex flex-col">
+                                <label className="text-[11px] font-bold text-[#86868B] uppercase">관리 포인트</label>
+                                <textarea 
+                                    value={formPoint}
+                                    onChange={(e) => setFormPoint(e.target.value)}
+                                    placeholder="예: 인허가 마감 및 대주 조건"
+                                    className="w-full bg-[#1c1c1e] border border-[#3c3c3c] rounded-[10px] p-[10px] text-[13px] text-white focus:outline-none focus:border-[#2997ff] mt-1 resize-none h-16"
+                                />
+                            </div>
+
+                            {/* Form Actions */}
+                            <div className="flex items-center justify-end gap-3 mt-4 pt-3 border-t border-[#3c3c3c]">
+                                <button 
+                                    type="button"
+                                    onClick={() => setIsModalOpen(false)}
+                                    className="px-4 py-2 text-[13px] font-bold text-[#86868B] hover:text-white transition-colors cursor-pointer"
+                                >
+                                    취소
+                                </button>
+                                <button 
+                                    type="submit"
+                                    className="px-4 py-2 bg-[#2997ff] text-white hover:bg-[#0071e3] transition-colors rounded-xl text-[13px] font-bold shadow-md cursor-pointer"
+                                >
+                                    저장
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
+
+            {/* R&R Export JSON Modal */}
+            {isExportOpen && (
+                <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center z-[9999] select-none" onClick={() => setIsExportOpen(false)}>
+                    <div className="bg-[#272726] border border-[#3c3c3c] text-white rounded-[24px] shadow-2xl p-[24px] w-[600px] max-w-[95%] flex flex-col gap-4" onClick={(e) => e.stopPropagation()}>
+                        <div className="flex items-center justify-between border-b border-[#3c3c3c] pb-3">
+                            <h3 className="text-[18px] font-bold text-white">R&R 데이터 JSON 내보내기</h3>
+                            <button 
+                                onClick={() => setIsExportOpen(false)}
+                                className="text-[#86868B] hover:text-white transition-colors text-[18px] font-bold cursor-pointer"
+                            >
+                                ✕
+                            </button>
+                        </div>
+                        <p className="text-[13px] text-[#bdbba7] leading-relaxed">
+                            아래 JSON 데이터를 복사하여 `PmoScheduleGate.jsx`의 `CATEGORY_MAP_DATA` 배열 변수값에 바로 덮어씌워 소스코드로 커밋하면 영구 보존할 수 있습니다.
+                        </p>
+                        <textarea
+                            readOnly
+                            value={JSON.stringify(rrData.map(({ id, ...rest }) => rest), null, 2)}
+                            className="w-full bg-[#1c1c1e] border border-[#3c3c3c] rounded-[10px] p-[10px] text-[12px] text-white focus:outline-none h-[280px] font-mono whitespace-pre overflow-y-auto"
+                            onClick={(e) => e.target.select()}
+                        />
+                        <div className="flex items-center justify-end gap-3 pt-3 border-t border-[#3c3c3c]">
+                            <button 
+                                type="button"
+                                onClick={() => setIsExportOpen(false)}
+                                className="px-4 py-2 text-[13px] font-bold text-[#86868B] hover:text-white transition-colors cursor-pointer"
+                            >
+                                닫기
+                            </button>
+                            <button 
+                                type="button"
+                                onClick={handleCopyToClipboard}
+                                className="px-4 py-2 bg-[#2c2c2b] border border-[#3c3c3c] text-[#bdbba7] hover:text-white transition-colors rounded-xl text-[13px] font-bold cursor-pointer"
+                            >
+                                클립보드 복사
+                            </button>
+                            <button 
+                                type="button"
+                                onClick={handleExportJson}
+                                className="px-4 py-2 bg-[#2997ff] text-white hover:bg-[#0071e3] transition-colors rounded-xl text-[13px] font-bold shadow-md cursor-pointer"
+                            >
+                                JSON 파일 다운로드
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
 
         </div>
     );
