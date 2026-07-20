@@ -426,12 +426,12 @@ export default function PmoMeetingMain() {
                                             className={`bg-[#1e1e1e]/60 border hover:bg-[#222]/80 hover:border-[#2997ff]/60 transition-all rounded-[18px] p-[16px] cursor-pointer flex flex-col justify-between group ${hasBlocker ? 'border-[#ff3b30]/40 shadow-[0_0_10px_rgba(255,59,48,0.15)]' : 'border-[#3c3c3c]'}`}
                                         >
                                             <div>
-                                                {/* Card Top: Project & Badges (Name tags - increased by 1px) */}
-                                                <div className="flex items-center justify-between mb-[10px]">
+                                                {/* Card Top: Project & Badges (Name tags - aligned left with 6px gap) */}
+                                                <div className="flex items-center justify-start gap-[6px] mb-[10px]">
                                                     <span className={`px-[8px] py-[2px] rounded-[6px] text-[11px] font-bold ${getProjectBadgeStyle(task.project_code || task.project)}`}>
                                                         {projName}
                                                     </span>
-                                                    <div className="flex gap-[4px]">
+                                                    <div className="flex gap-[6px]">
                                                         {hasBlocker && (
                                                             <span className="px-[6px] py-[1.5px] rounded-[4px] text-[10px] font-bold bg-[#ff3b30]/15 text-[#ff453a] border border-[#ff3b30]/25">
                                                                 Blocker (병목)
