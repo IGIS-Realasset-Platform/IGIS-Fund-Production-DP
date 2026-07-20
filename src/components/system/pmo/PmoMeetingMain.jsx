@@ -907,11 +907,11 @@ export default function PmoMeetingMain() {
                                                         {row.constCount}
                                                     </td>
                                                     {/* Blocker (No bg background) */}
-                                                    <td className="py-[16px] px-[16px] text-center font-semibold text-[#ff453a]">
+                                                    <td className={`py-[16px] px-[16px] text-center font-semibold ${row.blockerCount > 0 ? 'text-[#ff453a]' : 'text-[#86868B]'}`}>
                                                         {row.blockerCount}
                                                     </td>
                                                     {/* 의사결정 (No bg background) */}
-                                                    <td className="py-[16px] px-[16px] text-center font-semibold text-[#ff453a]">
+                                                    <td className={`py-[16px] px-[16px] text-center font-semibold ${row.decisionCount > 0 ? 'text-[#ff453a]' : 'text-[#86868B]'}`}>
                                                         {row.decisionCount}
                                                     </td>
                                                     {/* 지원요청 */}
@@ -1011,11 +1011,11 @@ export default function PmoMeetingMain() {
                                                     {row.inProgressCount} of {row.totalCount}
                                                 </td>
                                                 {/* Blocker */}
-                                                <td className="py-[8px] px-[16px] text-center font-semibold text-[#ff453a] w-[75px] border-l border-[#3c3c3c]/50 whitespace-nowrap">
+                                                <td className={`py-[8px] px-[16px] text-center font-semibold w-[75px] border-l border-[#3c3c3c]/50 whitespace-nowrap ${row.blockerCount > 0 ? 'text-[#ff453a]' : 'text-[#86868B]'}`}>
                                                     {row.blockerCount}
                                                 </td>
                                                 {/* 의사결정필요 */}
-                                                <td className="py-[8px] px-[16px] text-center font-semibold text-[#ff453a] w-[95px] border-l border-[#3c3c3c]/50 whitespace-nowrap">
+                                                <td className={`py-[8px] px-[16px] text-center font-semibold w-[95px] border-l border-[#3c3c3c]/50 whitespace-nowrap ${row.decisionCount > 0 ? 'text-[#ff453a]' : 'text-[#86868B]'}`}>
                                                     {row.decisionCount}
                                                 </td>
                                                 {/* 지원필요 */}
