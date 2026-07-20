@@ -649,7 +649,7 @@ export default function PmoMeetingMain() {
                                                         cx="60" 
                                                         cy="60" 
                                                         r={radius} 
-                                                        fill="transparent" 
+                                                        fill="none" 
                                                         stroke="rgba(255,255,255,0.03)" 
                                                         strokeWidth="14" 
                                                     />
@@ -659,7 +659,7 @@ export default function PmoMeetingMain() {
                                                             cx="60" 
                                                             cy="60" 
                                                             r={radius} 
-                                                            fill="transparent" 
+                                                            fill="none" 
                                                             stroke="rgba(255,255,255,0.1)" 
                                                             strokeWidth="14" 
                                                         />
@@ -679,7 +679,7 @@ export default function PmoMeetingMain() {
                                                                     cx="60" 
                                                                     cy="60" 
                                                                     r={radius} 
-                                                                    fill="transparent" 
+                                                                    fill="none" 
                                                                     stroke={color} 
                                                                     strokeWidth={hoveredDept === item.dept ? "18" : "14"} 
                                                                     strokeDasharray={`${strokeLength} ${circumference}`}
