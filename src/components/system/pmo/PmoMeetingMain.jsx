@@ -563,15 +563,13 @@ export default function PmoMeetingMain() {
                                                     {(hasBlocker || hasDecision) && (
                                                         <div className="flex gap-[6px]">
                                                             {hasBlocker && (
-                                                                <span className="flex items-center gap-1 text-[10.5px] font-bold bg-[#ff3b30]/10 text-[#ff453a] border border-[#ff3b30]/15 px-2 py-0.5 rounded-[4px]">
-                                                                    <span className="w-1.5 h-1.5 rounded-full bg-[#ff453a]" />
+                                                                <span className="flex items-center text-[10.5px] font-bold bg-[#ff3b30]/10 text-[#ff453a] border border-[#ff3b30]/15 px-2 py-0.5 rounded-[4px]">
                                                                     병목
                                                                 </span>
                                                             )}
                                                             {hasDecision && (
-                                                                <span className="flex items-center gap-1 text-[10.5px] font-bold bg-[#ffcc00]/10 text-[#ffcc00] border border-[#ffcc00]/15 px-2 py-0.5 rounded-[4px]">
-                                                                    <span className="w-1.5 h-1.5 rounded-full bg-[#ffcc00]" />
-                                                                    결정
+                                                                <span className="flex items-center text-[10.5px] font-bold bg-[#ffcc00]/10 text-[#ffcc00] border border-[#ffcc00]/15 px-2 py-0.5 rounded-[4px]">
+                                                                    의사결정필요
                                                                 </span>
                                                             )}
                                                         </div>
