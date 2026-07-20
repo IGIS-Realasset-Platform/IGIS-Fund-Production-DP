@@ -618,12 +618,12 @@ export default function PmoMeetingMain() {
                                 {/* Donut SVG Chart */}
                                 {(() => {
                                     const deptColors = {
-                                        '사업2파트': '#f5f5f7',
-                                        '사업1파트': '#e5e5ea',
-                                        '개발솔루션': '#d1d1d6',
-                                        '공간솔루션': '#aeaeb2',
+                                        '사업2파트': '#aeaeb2',
+                                        '사업1파트': '#f5f5f7',
+                                        '개발솔루션': '#636366',
+                                        '공간솔루션': '#e5e5ea',
                                         '기업마케팅': '#8e8e93',
-                                        'LFC': '#636366'
+                                        'LFC': '#d1d1d6'
                                     };
  
                                     const metricValues = deptRowsData.map(row => {
