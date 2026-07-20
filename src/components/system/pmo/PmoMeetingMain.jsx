@@ -618,12 +618,12 @@ export default function PmoMeetingMain() {
                                 {/* Donut SVG Chart */}
                                 {(() => {
                                     const deptColors = {
-                                        '사업2파트': '#2997ff',
-                                        '사업1파트': '#30d158',
-                                        '개발솔루션': '#ff9f0a',
-                                        '공간솔루션': '#bf5af2',
-                                        '기업마케팅': '#ff375f',
-                                        'LFC': '#64d2ff'
+                                        '사업2파트': '#f5f5f7',
+                                        '사업1파트': '#e5e5ea',
+                                        '개발솔루션': '#d1d1d6',
+                                        '공간솔루션': '#aeaeb2',
+                                        '기업마케팅': '#8e8e93',
+                                        'LFC': '#636366'
                                     };
  
                                     const metricValues = deptRowsData.map(row => {
@@ -799,7 +799,7 @@ export default function PmoMeetingMain() {
                                                     <td className="py-[16px] px-[16px] text-center font-bold text-white relative">
                                                         <div className="absolute inset-y-[6px] left-[6px] right-[6px] z-0">
                                                             <div 
-                                                                className="h-full bg-gradient-to-r from-[#2997ff]/20 to-[#2997ff]/40 rounded-[4px]"
+                                                                className="h-full bg-gradient-to-r from-[#86868b]/15 to-[#86868b]/30 rounded-[4px]"
                                                                 style={{ width: `${percentage}%` }}
                                                             />
                                                         </div>
