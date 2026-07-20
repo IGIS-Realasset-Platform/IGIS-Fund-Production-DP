@@ -2852,18 +2852,24 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
         return sortedAndFilteredTasks.slice(start, start + pageSize);
     }, [sortedAndFilteredTasks, currentPage, pageSize]);
 
+    const prevTaskIdRef = useRef(null);
+
     // Auto-update currentPage to the page containing the selected task detail
     useEffect(() => {
-        if (selectedTaskDetail && sortedAndFilteredTasks.length > 0) {
-            const taskIndex = sortedAndFilteredTasks.findIndex(t => String(t.id) === String(selectedTaskDetail.id));
-            if (taskIndex !== -1) {
-                const targetPage = Math.floor(taskIndex / pageSize) + 1;
-                if (currentPage !== targetPage) {
+        if (selectedTaskDetail) {
+            const currentId = String(selectedTaskDetail.id);
+            if (prevTaskIdRef.current !== currentId && sortedAndFilteredTasks.length > 0) {
+                prevTaskIdRef.current = currentId;
+                const taskIndex = sortedAndFilteredTasks.findIndex(t => String(t.id) === currentId);
+                if (taskIndex !== -1) {
+                    const targetPage = Math.floor(taskIndex / pageSize) + 1;
                     setCurrentPage(targetPage);
                 }
             }
+        } else {
+            prevTaskIdRef.current = null;
         }
-    }, [selectedTaskDetail, sortedAndFilteredTasks, pageSize, currentPage]);
+    }, [selectedTaskDetail, sortedAndFilteredTasks, pageSize]);
 
     return (
         <div>
