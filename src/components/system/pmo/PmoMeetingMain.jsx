@@ -637,9 +637,10 @@ export default function PmoMeetingMain() {
                                     const radius = 48;
                                     const circumference = 2 * Math.PI * radius; // ~301.59
                                     let accumulatedLength = 0;
+                                    let accumulatedPercent = 0;
  
                                     return (
-                                        <div className="w-full flex flex-col items-center">
+                                        <div className="w-full flex flex-col items-center justify-center flex-1">
                                             {/* Donut graphic - increased to w-[180px] h-[180px] */}
                                             <div className="relative w-[180px] h-[180px] flex items-center justify-center">
                                                 <svg className="w-full h-full" viewBox="0 0 120 120">
@@ -691,6 +692,47 @@ export default function PmoMeetingMain() {
                                                             );
                                                         })
                                                     )}
+
+                                                    {/* Text Labels centered on donut slices */}
+                                                    {sum > 0 && metricValues.map((item, idx) => {
+                                                        if (item.val === 0) return null;
+                                                        const pct = item.val / sum;
+                                                        const startPercent = accumulatedPercent;
+                                                        const endPercent = accumulatedPercent + pct;
+                                                        accumulatedPercent = endPercent;
+
+                                                        if (pct < 0.05) return null; // hide if slice is too small to fit text
+
+                                                        const midPercent = (startPercent + endPercent) / 2;
+                                                        const midAngleDeg = (midPercent * 360) - 90;
+                                                        const midAngleRad = (midAngleDeg * Math.PI) / 180;
+
+                                                        // Position text on the center line of the arc (radius 48)
+                                                        const x = 60 + radius * Math.cos(midAngleRad);
+                                                        const y = 60 + radius * Math.sin(midAngleRad);
+
+                                                        const shortName = item.dept === '사업2파트' ? '사업2' :
+                                                                          item.dept === '사업1파트' ? '사업1' :
+                                                                          item.dept === '개발솔루션' ? '개발' :
+                                                                          item.dept === '공간솔루션' ? '공간' :
+                                                                          item.dept === '기업마케팅' ? '마케팅' : item.dept;
+
+                                                        return (
+                                                            <text
+                                                                key={`label-${idx}`}
+                                                                x={x}
+                                                                y={y + 1}
+                                                                fill="#ffffff"
+                                                                fontSize="8px"
+                                                                fontWeight="900"
+                                                                textAnchor="middle"
+                                                                dominantBaseline="middle"
+                                                                className="pointer-events-none select-none drop-shadow-[0_1px_2px_rgba(0,0,0,1)]"
+                                                            >
+                                                                {shortName}
+                                                            </text>
+                                                        );
+                                                    })}
                                                 </svg>
                                                 {/* Text center label - 1px larger fonts */}
                                                 <div className="absolute flex flex-col items-center justify-center text-center px-1 pointer-events-none w-[96px] overflow-hidden">
@@ -708,22 +750,6 @@ export default function PmoMeetingMain() {
                                                         </>
                                                     )}
                                                 </div>
-                                            </div>
- 
-                                            {/* Legend - 1px larger font sizes, larger dots */}
-                                            <div className="grid grid-cols-2 gap-1.5 text-[12px] text-left mt-4 w-full">
-                                                {metricValues.map(item => {
-                                                    const color = deptColors[item.dept] || '#86868b';
-                                                    return (
-                                                        <div key={item.dept} className="flex items-center justify-between bg-white/[0.02] border border-white/[0.04] p-1.5 rounded-[6px]">
-                                                            <div className="flex items-center gap-2 truncate">
-                                                                <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: color }} />
-                                                                <span className="text-[#86868b] text-[11px] truncate font-medium">{item.dept}</span>
-                                                            </div>
-                                                            <span className="text-white font-bold text-[12px] ml-1 shrink-0">{item.val}건</span>
-                                                        </div>
-                                                    );
-                                                })}
                                             </div>
                                         </div>
                                     );
