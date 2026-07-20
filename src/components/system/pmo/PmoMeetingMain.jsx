@@ -184,7 +184,8 @@ export default function PmoMeetingMain() {
 
     const handleTaskClick = (task) => {
         const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
-        window.history.pushState(null, '', `${base}/platform/iotaseoul/workflow?taskId=${task.id}`);
+        const pagePath = task.task_type === '팝업' ? 'platform/iotaseoul/popup-requests' : 'platform/iotaseoul/workflow';
+        window.history.pushState(null, '', `${base}/${pagePath}?taskId=${task.id}`);
         window.dispatchEvent(new Event('popstate'));
     };
 
@@ -234,7 +235,7 @@ export default function PmoMeetingMain() {
             {/* Filter Navigation Buttons Grouped Containers - Preserved Original UI Styling */}
             <div className="w-[calc(100%+14px)] ml-[-7px] grid grid-cols-7 gap-[4px] mb-[32px] select-none text-center bg-transparent">
                 {/* Box 1: 전체업무 + 완료 (col-span-1) */}
-                <div className={`col-span-1 border rounded-[30px] p-[6px] flex flex-col gap-[6px] transition-all duration-300 ${['전체업무', '완료'].includes(selectedFilter) ? 'border-[#2997ff]' : 'border-[#4b4b4b]/70'}`}>
+                <div className="col-span-1 border border-[#4b4b4b]/70 rounded-[30px] p-[6px] flex flex-col gap-[6px]">
                     {/* 전체업무 */}
                     {(() => {
                         const btn = upperFilters[0];
@@ -242,7 +243,7 @@ export default function PmoMeetingMain() {
                         return (
                             <div
                                 onClick={() => setSelectedFilter(btn.label)}
-                                className="w-full bg-[#b4b6b5] h-[94px] rounded-[24px] flex items-center justify-center cursor-pointer group"
+                                className={`w-full bg-[#b4b6b5] h-[94px] rounded-[24px] flex items-center justify-center cursor-pointer group transition-all duration-200 ${isActive ? 'ring-2 ring-[#2997ff] ring-inset' : 'hover:ring-2 hover:ring-[#2997ff]/60 hover:ring-inset'}`}
                             >
                                 <div className="w-full h-full rounded-[24px] bg-transparent group-hover:bg-[#d4d7d5] transition-all duration-200 flex flex-col items-center justify-center relative">
                                     <span className="text-[13px] font-bold text-[#3C3C3C] group-hover:text-[#000000] transition-colors duration-200 mb-0.5 flex items-center gap-[4px]">
@@ -263,7 +264,7 @@ export default function PmoMeetingMain() {
                         return (
                             <div
                                 onClick={() => setSelectedFilter(btn.label)}
-                                className="w-full bg-[#2b2b2b] h-[98px] border border-[#4b4b4b] rounded-[24px] flex items-center justify-center cursor-pointer group"
+                                className={`w-full bg-[#2b2b2b] h-[98px] border rounded-[24px] flex items-center justify-center cursor-pointer group transition-all duration-200 ${isActive ? 'bg-[#2b2b2b] border-[#2997ff] ring-2 ring-[#2997ff] ring-inset' : 'border-[#4b4b4b] hover:border-[#2997ff]/60'}`}
                             >
                                 <div className="w-full h-full rounded-[24px] bg-transparent group-hover:bg-[#3e3e3e] transition-all duration-200 flex flex-col items-center justify-center relative">
                                     <span className="text-[13px] font-bold text-[#8E8E93] group-hover:text-[#509FEB] transition-colors duration-200 mb-1 flex items-center gap-[4px]">
@@ -280,7 +281,7 @@ export default function PmoMeetingMain() {
                 </div>
 
                 {/* Box 2: 진행중 + 미착수 (col-span-1) */}
-                <div className={`col-span-1 border rounded-[30px] p-[6px] flex flex-col gap-[6px] transition-all duration-300 ${['진행중', '미착수'].includes(selectedFilter) ? 'border-[#2997ff]' : 'border-[#4b4b4b]/70'}`}>
+                <div className="col-span-1 border border-[#4b4b4b]/70 rounded-[30px] p-[6px] flex flex-col gap-[6px]">
                     {/* 진행중 */}
                     {(() => {
                         const btn = upperFilters[1];
@@ -288,7 +289,7 @@ export default function PmoMeetingMain() {
                         return (
                             <div
                                 onClick={() => setSelectedFilter(btn.label)}
-                                className="w-full bg-[#b4b6b5] h-[94px] rounded-[24px] flex items-center justify-center cursor-pointer group"
+                                className={`w-full bg-[#b4b6b5] h-[94px] rounded-[24px] flex items-center justify-center cursor-pointer group transition-all duration-200 ${isActive ? 'ring-2 ring-[#2997ff] ring-inset' : 'hover:ring-2 hover:ring-[#2997ff]/60 hover:ring-inset'}`}
                             >
                                 <div className="w-full h-full rounded-[24px] bg-transparent group-hover:bg-[#d4d7d5] transition-all duration-200 flex flex-col items-center justify-center relative">
                                     <span className="text-[13px] font-bold text-[#3C3C3C] group-hover:text-[#000000] transition-colors duration-200 mb-0.5 flex items-center gap-[4px]">
@@ -309,7 +310,7 @@ export default function PmoMeetingMain() {
                         return (
                             <div
                                 onClick={() => setSelectedFilter(btn.label)}
-                                className="w-full bg-[#2b2b2b] h-[98px] border border-[#4b4b4b] rounded-[24px] flex items-center justify-center cursor-pointer group"
+                                className={`w-full bg-[#2b2b2b] h-[98px] border rounded-[24px] flex items-center justify-center cursor-pointer group transition-all duration-200 ${isActive ? 'bg-[#2b2b2b] border-[#2997ff] ring-2 ring-[#2997ff] ring-inset' : 'border-[#4b4b4b] hover:border-[#2997ff]/60'}`}
                             >
                                 <div className="w-full h-full rounded-[24px] bg-transparent group-hover:bg-[#3e3e3e] transition-all duration-200 flex flex-col items-center justify-center relative">
                                     <span className="text-[13px] font-bold text-[#8E8E93] group-hover:text-[#509FEB] transition-colors duration-200 mb-1 flex items-center gap-[4px]">
@@ -326,7 +327,7 @@ export default function PmoMeetingMain() {
                 </div>
 
                 {/* Box 3: 나머지 상하단 박스 5개씩 (col-span-5) */}
-                <div className={`col-span-5 border rounded-[30px] p-[6px] flex flex-col gap-[6px] transition-all duration-300 ${!['전체업무', '완료', '진행중', '미착수'].includes(selectedFilter) ? 'border-[#2997ff]' : 'border-[#4b4b4b]/70'}`}>
+                <div className="col-span-5 border border-[#4b4b4b]/70 rounded-[30px] p-[6px] flex flex-col gap-[6px]">
                     {/* Upper Row Box */}
                     <div className="grid grid-cols-5 bg-[#b4b6b5] h-[94px] rounded-[24px] overflow-hidden divide-x divide-[#8b8b8b]/80">
                         {group3Upper.map((btn, idx) => {
@@ -335,7 +336,7 @@ export default function PmoMeetingMain() {
                                 <div
                                     key={idx}
                                     onClick={() => setSelectedFilter(btn.label)}
-                                    className="p-[6px] h-full flex items-center justify-center cursor-pointer group"
+                                    className={`p-[6px] h-full flex items-center justify-center cursor-pointer group transition-all duration-200 ${isActive ? 'ring-2 ring-[#2997ff] ring-inset rounded-[18px] z-10' : 'hover:ring-2 hover:ring-[#2997ff]/60 hover:ring-inset hover:rounded-[18px] z-10'}`}
                                 >
                                     <div className="w-full h-full rounded-[18px] bg-transparent group-hover:bg-[#d4d7d5] transition-all duration-200 flex flex-col items-center justify-center relative">
                                         <span className="text-[13px] font-bold text-[#3C3C3C] group-hover:text-[#000000] transition-colors duration-200 mb-0.5 flex items-center gap-[4px]">
@@ -358,7 +359,7 @@ export default function PmoMeetingMain() {
                                 <div
                                     key={idx}
                                     onClick={() => setSelectedFilter(btn.label)}
-                                    className="p-[6px] h-full flex items-center justify-center cursor-pointer group"
+                                    className={`p-[6px] h-full flex items-center justify-center cursor-pointer group transition-all duration-200 ${isActive ? 'ring-2 ring-[#2997ff] ring-inset rounded-[18px] z-10' : 'hover:ring-2 hover:ring-[#2997ff]/60 hover:ring-inset hover:rounded-[18px] z-10'}`}
                                 >
                                     <div className="w-full h-full rounded-[18px] bg-transparent group-hover:bg-[#3e3e3e] transition-all duration-200 flex flex-col items-center justify-center relative">
                                         <span className="text-[13px] font-bold text-[#8E8E93] group-hover:text-[#509FEB] transition-colors duration-200 mb-1 flex items-center gap-[4px]">
@@ -424,7 +425,7 @@ export default function PmoMeetingMain() {
                                             className={`bg-[#1e1e1e]/60 border hover:bg-[#222]/80 hover:border-[#2997ff]/60 transition-all rounded-[18px] p-[16px] cursor-pointer flex flex-col justify-between group ${hasBlocker ? 'border-orange-500/40 shadow-[0_0_10px_rgba(239,150,0,0.1)]' : 'border-[#3c3c3c]'}`}
                                         >
                                             <div>
-                                                {/* Card Top: Project & Badges */}
+                                                {/* Card Top: Project & Badges (Name tags - preserved text-[10px]/text-[9px]) */}
                                                 <div className="flex items-center justify-between mb-[10px]">
                                                     <span className={`px-[8px] py-[2px] rounded-[6px] text-[10px] font-bold ${getProjectBadgeStyle(task.project_code || task.project)}`}>
                                                         {projName}
@@ -443,14 +444,14 @@ export default function PmoMeetingMain() {
                                                     </div>
                                                 </div>
 
-                                                {/* Card Content: Title */}
-                                                <h3 className="text-[14px] font-bold text-[#E5E5E5] group-hover:text-white line-clamp-2 leading-snug mb-[14px] transition-colors" title={task.task_name}>
+                                                {/* Card Content: Title (Increased by 2px from 14px to 16px) */}
+                                                <h3 className="text-[16px] font-bold text-[#E5E5E5] group-hover:text-white line-clamp-2 leading-snug mb-[14px] transition-colors" title={task.task_name}>
                                                     {task.task_name}
                                                 </h3>
                                             </div>
 
-                                            {/* Card Bottom Grid: Details */}
-                                            <div className="grid grid-cols-2 gap-[8px] text-[11px] pt-[12px] border-t border-[#3c3c3c]/50">
+                                            {/* Card Bottom Grid: Details (All text increased by 2px from 11px to 13px) */}
+                                            <div className="grid grid-cols-2 gap-[8px] text-[13px] pt-[12px] border-t border-[#3c3c3c]/50">
                                                 <div className="flex flex-col gap-[2px]">
                                                     <span className="text-[#86868B]">주관부서</span>
                                                     <span className="text-[#E5E5E5] font-semibold truncate" title={deptName}>{deptName}</span>
