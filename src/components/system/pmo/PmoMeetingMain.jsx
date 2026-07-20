@@ -1108,6 +1108,7 @@ export default function PmoMeetingMain() {
                                             <th className="py-[16px] px-[16px] text-center font-bold text-[#86868B] whitespace-nowrap">의사결정필요</th>
                                             <th className="py-[16px] px-[16px] text-center font-bold text-[#86868B] whitespace-nowrap">지원필요</th>
                                             <th className={`py-[16px] px-[16px] text-center font-bold text-[#86868B] transition-all duration-300 whitespace-nowrap ${activeCategoryMetric === '지연' ? 'w-[140px]' : 'w-[80px]'}`}>지연</th>
+                                            <th className="py-[16px] px-[16px] text-center font-bold text-[#86868B] whitespace-nowrap">주관부서</th>
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y divide-[#3c3c3c]/50 text-[13px]">
@@ -1188,6 +1189,10 @@ export default function PmoMeetingMain() {
                                                             </div>
                                                         )}
                                                         <span className="relative z-10">{row.delayedCount}</span>
+                                                    </td>
+                                                    {/* 주관부서 */}
+                                                    <td className="py-[16px] px-[16px] text-center text-[#E5E5E5] font-medium whitespace-nowrap">
+                                                        {row.shortDepts}
                                                     </td>
                                                 </tr>
                                             );
