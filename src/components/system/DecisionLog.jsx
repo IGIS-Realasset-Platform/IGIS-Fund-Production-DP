@@ -310,7 +310,17 @@ export default function DecisionLog() {
                     .from('iota_pmo_tasks')
                     .select('*');
                 if (!taskError && taskData) {
-                    setPmoTasks(taskData);
+                    const sorted = [...taskData].sort((a, b) => {
+                        const dateA = new Date(a.created_at || 0).getTime();
+                        const dateB = new Date(b.created_at || 0).getTime();
+                        if (dateA !== dateB) return dateA - dateB;
+                        return String(a.id).localeCompare(String(b.id));
+                    });
+                    const tasksWithDisplayIds = sorted.map((t, idx) => ({
+                        ...t,
+                        displayId: `T-${String(idx + 1).padStart(3, '0')}`
+                    }));
+                    setPmoTasks(tasksWithDisplayIds);
                 }
             } catch (err) {
                 console.warn("Failed to fetch PMO tasks in DecisionLog:", err);
@@ -1125,7 +1135,7 @@ export default function DecisionLog() {
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-[16px]">
                         <h3 className="text-[20px] font-bold text-white tracking-tight mt-[4px]">지금 사람들이 모여 논의하는 주제</h3>
-                        <p className="text-[14px] text-[#A1A1AA] font-medium">최근 2주간 타 기능셀의 협업게시판에 등록된 크로스펑셔널(Cross-functional) 업무 내역입니다.</p>
+                        <p className="text-[14px] text-[#A1A1AA] font-medium translate-y-[1px]">최근 한주간 통합업무보드 및 협업게시판에 등록된 크로스펑셔널 업무 내역입니다.</p>
                     </div>
                     {crossFunctionalLogs.length > 6 && (
                         <button 
@@ -1202,7 +1212,7 @@ export default function DecisionLog() {
                                             {matchedTask && (
                                                 <div className="text-[12px] text-[#82afb9] font-bold mb-[6px] flex items-center gap-[6px]">
                                                     <span className="bg-[#82afb9]/10 border border-[#82afb9]/20 px-[6px] py-[1.5px] rounded-[4px] text-[10px] font-mono shrink-0">
-                                                        {matchedTask.id}
+                                                        {matchedTask.displayId || matchedTask.id}
                                                     </span>
                                                     <span className="truncate max-w-[200px]" title={matchedTask.task_name}>
                                                         {matchedTask.task_name}
