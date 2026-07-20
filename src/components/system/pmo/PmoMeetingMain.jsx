@@ -552,7 +552,7 @@ export default function PmoMeetingMain() {
                                                 onClick={() => handleTaskClick(task)}
                                                 className="bg-[#252525] hover:bg-[#2c2c2e] border border-white/[0.06] hover:border-[#2997ff]/40 hover:shadow-[0_4px_20px_rgba(41,151,255,0.06)] transition-all rounded-[20px] p-[20px] cursor-pointer flex flex-col justify-between h-full group"
                                             >
-                                                <div className="mb-[16px]">
+                                                <div className="mb-[10px]">
                                                     {/* Task Name */}
                                                     <h3 className="text-[19px] font-bold text-[#cccaba] leading-snug group-hover:text-white transition-colors truncate" title={task.task_name}>
                                                         {task.task_name}
@@ -563,13 +563,13 @@ export default function PmoMeetingMain() {
                                                 <div className="flex items-center justify-between pt-[4px]">
                                                     <div className="flex items-center gap-[10px] text-[13px] text-white/50">
                                                         <div className="flex items-center gap-[4px]">
-                                                            <span className="text-white/40 font-medium">주관</span>
-                                                            <span className="text-white/80 font-semibold">{deptName}</span>
+                                                            <span className="text-white/40 font-normal">주관</span>
+                                                            <span className="text-white/80 font-normal">{deptName}</span>
                                                         </div>
                                                         <span className="text-white/20">|</span>
                                                         <div className="flex items-center gap-[4px]">
-                                                            <span className="text-white/40 font-medium">섹터</span>
-                                                            <span className="text-white/80 font-semibold">{task.sector_detail || fallbackItem.sector_detail || '공통'}</span>
+                                                            <span className="text-white/40 font-normal">섹터</span>
+                                                            <span className="text-white/80 font-normal">{task.sector_detail || fallbackItem.sector_detail || '공통'}</span>
                                                         </div>
                                                     </div>
                                                     {/* If it's a blocker or decision needed, show a tiny elegant badge */}
