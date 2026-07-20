@@ -109,7 +109,7 @@ export default function PmoMeetingMain() {
     return (
         <div className="w-full flex-1 flex flex-col pt-[28px] pb-[60px] max-w-[1200px] mx-auto select-text">
             {/* Header */}
-            <div className="w-full flex justify-between items-start mb-[20px]">
+            <div className="w-full flex justify-between items-start mb-[16px]">
                 <div>
                     <h1 className="text-[32px] font-bold text-white tracking-tight leading-none">IOTA Seoul Main Board</h1>
                 </div>
