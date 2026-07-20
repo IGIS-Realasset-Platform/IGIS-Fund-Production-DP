@@ -2986,7 +2986,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
 
                                         {/* 결정필요 */}
                                         <th className="w-[48px] min-w-[48px] max-w-[48px] text-center">
-                                            <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-0.5 h-[22px] py-0 align-middle transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[46px] overflow-hidden mx-auto">
+                                            <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-0.5 h-[22px] py-0 align-middle transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[50px] overflow-hidden mx-auto">
                                                 <span className={`font-bold text-[11px] whitespace-nowrap ${selectedNeedsDecision === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
                                                     {selectedNeedsDecision === '전체보기' ? '결정필요' : selectedNeedsDecision}
                                                 </span>
