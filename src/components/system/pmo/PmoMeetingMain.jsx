@@ -501,9 +501,9 @@ export default function PmoMeetingMain() {
             ) : (
                 <>
                     {/* Bottom Box for Brief Listing - Card based view */}
-                    <div className="w-full border border-[#3c3c3c] rounded-[24px] p-[24px] mb-[30px] flex flex-col">
+                    <div className="w-full border border-[#3c3c3c] rounded-[24px] p-[6px] mb-[30px] flex flex-col">
                         {/* Header Row */}
-                        <div className="flex justify-between items-center mb-[10px]">
+                        <div className="flex justify-between items-center px-[14px] pt-[14px] pb-[10px]">
                             <div className="flex items-center gap-[10px]">
                                 <h2 className="text-[18px] font-bold text-white tracking-tight flex items-center gap-[8px]">
                                     <span>{selectedFilter} 현황 목록</span>
@@ -525,7 +525,7 @@ export default function PmoMeetingMain() {
                                     조건에 일치하는 업무 항목이 없습니다.
                                 </div>
                             ) : (
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[12px]">
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[6px]">
                                     {getFilteredTasks().map(task => {
                                         const hasDecision = task.needs_decision === true || String(task.needs_decision).toLowerCase() === 'true' || String(task.needs_decision).toUpperCase() === 'Y';
                                         const hasBlocker = task.is_blocker === true || String(task.is_blocker).toLowerCase() === 'true' || String(task.is_blocker).toUpperCase() === 'Y';
