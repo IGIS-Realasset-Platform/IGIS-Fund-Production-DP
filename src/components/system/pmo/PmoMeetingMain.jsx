@@ -144,7 +144,7 @@ export default function PmoMeetingMain() {
                         >
                             <div className="w-full h-full rounded-[24px] bg-transparent group-hover:bg-[#3e3e3e] transition-all duration-200 flex flex-col items-center justify-center">
                                 <span className="text-[13px] font-bold text-[#8E8E93] group-hover:text-[#509FEB] transition-colors duration-200 mb-1">{btn.label}</span>
-                                <span className="text-[20px] font-black text-white group-hover:text-[#509FEB] transition-colors duration-200 leading-none">
+                                <span className="text-[26px] font-black text-white group-hover:text-[#509FEB] transition-colors duration-200 leading-none">
                                     {btn.count}
                                 </span>
                             </div>
