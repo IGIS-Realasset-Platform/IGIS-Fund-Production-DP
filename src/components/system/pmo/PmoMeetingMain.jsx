@@ -18,15 +18,6 @@ export default function PmoMeetingMain() {
         popupCount: 0
     });
     const [recentLogs, setRecentLogs] = React.useState([]);
-    const [gateStages, setGateStages] = React.useState([
-        { label: 'G0 현황정리', count: 0 },
-        { label: 'G1 방향결정', count: 0 },
-        { label: 'G2 PF준비도', count: 0 },
-        { label: 'G3 PF실행', count: 0 },
-        { label: 'G4 착공/공사', count: 0 },
-        { label: 'G5 준공', count: 0 },
-        { label: 'G6 담보대출', count: 0 }
-    ]);
     const [loading, setLoading] = React.useState(true);
 
     React.useEffect(() => {
@@ -42,7 +33,7 @@ export default function PmoMeetingMain() {
                 const { data: allTasks, error } = await supabase
                     .schema('iota_v2')
                     .from('iota_pmo_tasks')
-                    .select('is_blocker, needs_decision, priority_score, task_name, assignee, due_date, status, category_main, importance_level, meeting_grade, gate_stage');
+                    .select('is_blocker, needs_decision, priority_score, task_name, assignee, due_date, status, category_main, importance_level, meeting_grade');
 
                 if (error) throw error;
 
@@ -76,35 +67,6 @@ export default function PmoMeetingMain() {
                     stopped,
                     popupCount: popupCount || 0
                 });
-
-                // Calculate Gate Stages Distribution
-                const stageCounts = {
-                    'G0 현황정리': 0,
-                    'G1 방향결정': 0,
-                    'G2 PF준비도': 0,
-                    'G3 PF실행': 0,
-                    'G4 착공/공사': 0,
-                    'G5 준공': 0,
-                    'G6 담보대출/운영전환': 0
-                };
-                allTasks.forEach(t => {
-                    const st = t.gate_stage || 'G0 현황정리';
-                    if (stageCounts[st] !== undefined) {
-                        stageCounts[st]++;
-                    } else if (st.startsWith('G6')) {
-                        stageCounts['G6 담보대출/운영전환']++;
-                    }
-                });
-
-                setGateStages([
-                    { label: 'G0 현황정리', count: stageCounts['G0 현황정리'] },
-                    { label: 'G1 방향결정', count: stageCounts['G1 방향결정'] },
-                    { label: 'G2 PF준비도', count: stageCounts['G2 PF준비도'] },
-                    { label: 'G3 PF실행', count: stageCounts['G3 PF실행'] },
-                    { label: 'G4 착공/공사', count: stageCounts['G4 착공/공사'] },
-                    { label: 'G5 준공', count: stageCounts['G5 준공'] },
-                    { label: 'G6 담보대출', count: stageCounts['G6 담보대출/운영전환'] }
-                ]);
 
                 // 3. Fetch recent logs from Supabase
                 const { data: recentLogsData } = await supabase
@@ -177,7 +139,7 @@ export default function PmoMeetingMain() {
             {/* Header */}
             <div className="w-full flex justify-between items-start mb-[20px]">
                 <div>
-                    <h1 className="text-[32px] font-bold text-white tracking-tight leading-none">CFT MAIN BOARD</h1>
+                    <h1 className="text-[32px] font-bold text-white tracking-tight leading-none">IOTA Seoul Main Board</h1>
                 </div>
             </div>
 
@@ -330,28 +292,7 @@ export default function PmoMeetingMain() {
                                 </div>
                             </div>
 
-                            {/* Card 2: Gate Distribution */}
-                            <div className="bg-[#272726] border border-[#3c3c3c] rounded-[24px] p-6">
-                                <h3 className="text-[16px] font-bold text-white mb-4">Gate 단계별 업무 분포</h3>
-                                <div className="grid grid-cols-7 gap-2 pt-2">
-                                    {gateStages.map((stage, idx) => {
-                                        const percentage = counts.total ? Math.round((stage.count / counts.total) * 100) : 0;
-                                        return (
-                                            <div key={idx} className="flex flex-col items-center bg-[#1c1c1e]/50 border border-[#3c3c3c]/50 rounded-xl p-2.5">
-                                                <span className="text-[10px] font-extrabold text-[#86868B] mb-2 truncate w-full text-center">{stage.label.split(' ')[0]}</span>
-                                                <div className="w-full bg-[#2c2c2b] h-[80px] rounded-lg relative flex items-end overflow-hidden mb-2">
-                                                    <div 
-                                                        className="bg-gradient-to-t from-[#2997ff]/40 to-[#2997ff] w-full rounded-b-lg transition-all duration-500" 
-                                                        style={{ height: `${percentage || 5}%`, minHeight: '4px' }} 
-                                                    />
-                                                </div>
-                                                <span className="text-[13px] font-black text-white font-mono">{stage.count}</span>
-                                                <span className="text-[9px] text-[#86868B] font-mono mt-0.5">{percentage}%</span>
-                                            </div>
-                                        );
-                                    })}
-                                </div>
-                            </div>
+
                         </div>
 
                         {/* Right 30%: Activity Feed */}
