@@ -24,7 +24,7 @@ export const FALLBACK_BOARD_TASKS = [
     "support_needed": "부서별 담당자 입력",
     "is_blocker": "N",
     "needs_decision": "Y",
-    "due_date": "2026-07-10",
+    "due_date": "2026-07-27",
     "status": "진행중",
     "importance_level": "준공필수",
     "task_type": "정규",
@@ -53,7 +53,7 @@ export const FALLBACK_BOARD_TASKS = [
     "support_needed": "파트장 확인",
     "is_blocker": "N",
     "needs_decision": "Y",
-    "due_date": "2026-07-10",
+    "due_date": "2026-07-27",
     "status": "진행중",
     "importance_level": "PF필수",
     "task_type": "정규",
@@ -981,7 +981,7 @@ export const FALLBACK_BOARD_TASKS = [
     "support_needed": "회의 일정 확정",
     "is_blocker": "N",
     "needs_decision": "Y",
-    "due_date": "2026-07-19",
+    "due_date": "2026-07-27",
     "status": "진행중",
     "importance_level": "PF필수",
     "task_type": "정규",
@@ -1039,7 +1039,7 @@ export const FALLBACK_BOARD_TASKS = [
     "support_needed": "부서별 피드백",
     "is_blocker": "N",
     "needs_decision": "N",
-    "due_date": "2026-07-12",
+    "due_date": "2026-07-27",
     "status": "진행중",
     "importance_level": "중요",
     "task_type": "정규",
@@ -1184,7 +1184,7 @@ export const FALLBACK_BOARD_TASKS = [
     "support_needed": "목적·기한 확인",
     "is_blocker": "N",
     "needs_decision": "N",
-    "due_date": "2026-07-12",
+    "due_date": "2026-07-27",
     "status": "미착수",
     "importance_level": "중요",
     "task_type": "팝업",
@@ -1836,13 +1836,23 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
 
             let loadedTasks = [];
             if (data && data.length > 0) {
-                // AUTO-HEAL SWEEP: Check if dynamic score/grade diverges from DB (due to time passing)
+                // AUTO-HEAL SWEEP: Check if dynamic status/score/grade diverges from DB (due to time passing)
                 const tasksToUpdate = [];
                 const logsToInsert = [];
+                const todayStr = new Date().toISOString().slice(0, 10);
                 
                 const healedData = data.map(t => {
                     const fallbackItem = FALLBACK_BOARD_TASKS.find(fb => fb.task_name === t.task_name) || {};
-                    const dynamicScore = calculatePriorityScore(t, fallbackItem);
+                    
+                    // System policy: auto-change status to "지연" if due_date has passed, status !== '완료', status !== '지연'
+                    const dbStatus = t.status || fallbackItem.status || '진행중';
+                    let targetStatus = dbStatus;
+                    if (t.due_date && dbStatus !== '완료' && dbStatus !== '지연' && t.due_date < todayStr) {
+                        targetStatus = '지연';
+                    }
+
+                    const taskWithUpdatedStatus = { ...t, status: targetStatus };
+                    const dynamicScore = calculatePriorityScore(taskWithUpdatedStatus, fallbackItem);
                     
                     let dynamicGrade = 'D_대기';
                     if (dynamicScore >= 70) dynamicGrade = 'A_즉시상정';
@@ -1853,9 +1863,13 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                     const dbGradeText = dbGrade.includes('_') ? dbGrade : gradeMapToUi(dbGrade);
                     const dbScore = t.priority_score !== undefined ? t.priority_score : (fallbackItem.priority_score || 0);
                     
-                    if (dbScore !== dynamicScore || dbGradeText !== dynamicGrade) {
+                    if (dbStatus !== targetStatus || dbScore !== dynamicScore || dbGradeText !== dynamicGrade) {
                         const changes = [];
                         const structuredChanges = [];
+                        if (dbStatus !== targetStatus) {
+                            changes.push(`마감기한이 지남에 따라 상태가 "${dbStatus}"에서 "${targetStatus}"(으)로 자동 변경되었습니다.`);
+                            structuredChanges.push({ field: '상태', from: dbStatus, to: targetStatus });
+                        }
                         if (dbScore !== dynamicScore) {
                             changes.push(`시스템 점수 산정 공식(기한 임박/지연 등 속성 재평가)에 따라 우선순위 점수가 "${dbScore}점"에서 "${dynamicScore}점"(으)로 자동 교정되었습니다.`);
                             structuredChanges.push({ field: '우선순위 점수', from: `${dbScore}점`, to: `${dynamicScore}점` });
@@ -1867,6 +1881,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                         
                         tasksToUpdate.push({
                             id: t.id,
+                            status: targetStatus,
                             priority_score: dynamicScore,
                             meeting_grade: gradeMapToDb(dynamicGrade)
                         });
@@ -1876,7 +1891,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                             log_id: logId,
                             writer_name: '시스템 스케줄러',
                             writer_staff_id: 'system_auto',
-                            work_date: new Date().toISOString().slice(0, 10),
+                            work_date: todayStr,
                             summary: '시스템 자동 갱신 이력',
                             raw_text: changes.join('\n'),
                             input_status: 'submitted',
@@ -1890,23 +1905,35 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                             }
                         });
                         
-                        return { ...t, priority_score: dynamicScore, meeting_grade: gradeMapToDb(dynamicGrade) };
+                        return { ...t, status: targetStatus, priority_score: dynamicScore, meeting_grade: gradeMapToDb(dynamicGrade) };
                     }
                     return t;
                 });
-
+ 
                 // Fire and forget auto-heal to DB
                 if (tasksToUpdate.length > 0) {
                     Promise.all(tasksToUpdate.map(upd => 
                         supabase.schema('iota_v2').from('iota_pmo_tasks').update({
+                            status: upd.status,
                             priority_score: upd.priority_score,
                             meeting_grade: upd.meeting_grade
                         }).eq('id', upd.id)
                     )).catch(console.error);
                     
-                    // Logs insertion is bypassed to prevent database spamming
+                    // Insert system change logs to DB so detailed page history works normally
+                    Promise.all(logsToInsert.map(async (log) => {
+                        const { error: logErr } = await supabase.from('iota_seoul_logs').insert(log);
+                        if (!logErr) {
+                            await supabase.from('iota_seoul_log_links').insert({
+                                link_id: `link_${log.log_id}`,
+                                log_id: log.log_id,
+                                proj_id: log.metadata.task_project,
+                                relation_type: 'direct_input'
+                            });
+                        }
+                    })).catch(console.error);
                 }
-
+ 
                 const sorted = [...healedData].sort((a, b) => {
                     const dateA = new Date(a.created_at || 0).getTime();
                     const dateB = new Date(b.created_at || 0).getTime();
@@ -1921,19 +1948,61 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                 setIsDbMode(true);
                 loadedTasks = tasksWithDisplayIds;
             } else {
-                const tasksWithDisplayIds = FALLBACK_BOARD_TASKS.map(t => ({
-                    ...t,
-                    displayId: t.id
-                }));
+                const todayStr = new Date().toISOString().slice(0, 10);
+                const tasksWithDisplayIds = FALLBACK_BOARD_TASKS.map(t => {
+                    const dbStatus = t.status || '진행중';
+                    let targetStatus = dbStatus;
+                    if (t.due_date && dbStatus !== '완료' && dbStatus !== '지연' && t.due_date < todayStr) {
+                        targetStatus = '지연';
+                    }
+                    const taskWithUpdatedStatus = { ...t, status: targetStatus };
+                    const dynamicScore = calculatePriorityScore(taskWithUpdatedStatus, t);
+                    
+                    let dynamicGrade = 'D_대기';
+                    if (dynamicScore >= 70) dynamicGrade = 'A_즉시상정';
+                    else if (dynamicScore >= 50) dynamicGrade = 'B_회의점검';
+                    else if (dynamicScore >= 30) dynamicGrade = 'C_주간관리';
+
+                    return {
+                        ...t,
+                        status: targetStatus,
+                        priority_score: dynamicScore,
+                        meeting_grade: dynamicGrade,
+                        displayId: t.id
+                    };
+                });
                 setTasks(tasksWithDisplayIds);
                 setIsDbMode(false);
                 loadedTasks = tasksWithDisplayIds;
             }
-
+ 
             initialUrlCheckedRef.current = true;
         } catch (err) {
             console.error("Failed to fetch tasks from DB:", err);
-            setTasks(FALLBACK_BOARD_TASKS);
+            const todayStr = new Date().toISOString().slice(0, 10);
+            const tasksWithDisplayIds = FALLBACK_BOARD_TASKS.map(t => {
+                const dbStatus = t.status || '진행중';
+                let targetStatus = dbStatus;
+                if (t.due_date && dbStatus !== '완료' && dbStatus !== '지연' && t.due_date < todayStr) {
+                    targetStatus = '지연';
+                }
+                const taskWithUpdatedStatus = { ...t, status: targetStatus };
+                const dynamicScore = calculatePriorityScore(taskWithUpdatedStatus, t);
+                
+                let dynamicGrade = 'D_대기';
+                if (dynamicScore >= 70) dynamicGrade = 'A_즉시상정';
+                else if (dynamicScore >= 50) dynamicGrade = 'B_회의점검';
+                else if (dynamicScore >= 30) dynamicGrade = 'C_주간관리';
+
+                return {
+                    ...t,
+                    status: targetStatus,
+                    priority_score: dynamicScore,
+                    meeting_grade: dynamicGrade,
+                    displayId: t.id
+                };
+            });
+            setTasks(tasksWithDisplayIds);
             setIsDbMode(false);
             initialUrlCheckedRef.current = true;
         } finally {
