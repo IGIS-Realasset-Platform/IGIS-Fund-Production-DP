@@ -1371,7 +1371,6 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
     // Table header filters state
     const [selectedProject, setSelectedProject] = useState('전체보기');
     const [selectedCategoryMain, setSelectedCategoryMain] = useState('전체보기');
-    const [selectedTargetAxis, setSelectedTargetAxis] = useState('전체보기');
     const [selectedGateStage, setSelectedGateStage] = useState('전체보기');
     const [selectedLeadDept, setSelectedLeadDept] = useState('전체보기');
     const [selectedCoopDept, setSelectedCoopDept] = useState('전체보기');
@@ -1458,7 +1457,6 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
     const [formTaskName, setFormTaskName] = useState('');
     const [formTaskPurpose, setFormTaskPurpose] = useState('');
     const [formDeliverables, setFormDeliverables] = useState('');
-    const [formTargetAxis, setFormTargetAxis] = useState('공통 PMO');
     const [formGateStage, setFormGateStage] = useState('G0 현황정리');
     const [formPmoManager, setFormPmoManager] = useState('사업2파트');
     const [formLeadDept, setFormLeadDept] = useState('사업2파트');
@@ -1687,9 +1685,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
         return ['공통 PMO', '인허가', '호텔/운영', '시공/원가', '도면/설계', '인테리어/TI', '임차/마케팅', 'PF/금융', '구조/법무/세무', '주주/보고', '준공/담보대출', '팝업/단발'];
     }, []);
 
-    const uniqueTargetAxisFilter = useMemo(() => {
-        return ['PF', '착공', '공사관리', '준공/사용승인', '담보대출/Take-out', '운영전환', '공통 PMO'];
-    }, []);
+
 
     const uniqueGateStageFilter = useMemo(() => {
         return ['G0 현황정리', 'G1 방향결정', 'G2 PF준비도', 'G3 PF실행', 'G4 착공/공사', 'G5 준공', 'G6 담보대출/운영전환'];
@@ -2311,7 +2307,6 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
         setFormTaskName('');
         setFormTaskPurpose('');
         setFormDeliverables('');
-        setFormTargetAxis('공통 PMO');
         setFormGateStage('G0 현황정리');
         setFormPmoManager('사업2파트');
         setFormLeadDept(departments[0]?.dept_name || '사업2파트');
@@ -2344,7 +2339,6 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
         setFormTaskName(item.task_name || '');
         setFormTaskPurpose(item.task_purpose || fallbackItem.task_purpose || '');
         setFormDeliverables(item.deliverables || fallbackItem.deliverables || '');
-        setFormTargetAxis(item.target_axis || fallbackItem.target_axis || '공통 PMO');
         
         // Gate stage mapping
         const gateVal = String(item.gate_stage || fallbackItem.gate_stage || 'G0');
@@ -2461,7 +2455,6 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
             project: projects.find(p => p.project_code === resolvedProjectCode)?.project_name || formProject,
             lead_dept: { dept_name: formLeadDept },
             external_party: { stakeholder_name: formExternalParty },
-            target_axis: formTargetAxis,
             gate_stage: formGateStage, // Preserve full string locally
             meeting_grade: formMeetingGrade,
             support_needed: formSupportNeeded,
@@ -2684,9 +2677,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
             // Category main match
             if (selectedCategoryMain !== '전체보기' && t.category_main !== selectedCategoryMain) return false;
 
-            // Target axis match
-            const targetAxis = t.target_axis || fallbackItem.target_axis || '공통 PMO';
-            if (selectedTargetAxis !== '전체보기' && targetAxis !== selectedTargetAxis) return false;
+
 
             // Gate stage match
             const rawGate = t.gate_stage || fallbackItem.gate_stage || 'G0';
@@ -2763,7 +2754,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
 
             return true;
         });
-    }, [tasks, projects, selectedProject, selectedCategoryMain, selectedTargetAxis, selectedGateStage, selectedLeadDept, selectedCoopDept, selectedIsBlocker, selectedNeedsDecision, selectedStatus, selectedImportanceLevel, selectedMeetingGrade, searchQuery]);
+    }, [tasks, projects, selectedProject, selectedCategoryMain, selectedGateStage, selectedLeadDept, selectedCoopDept, selectedIsBlocker, selectedNeedsDecision, selectedStatus, selectedImportanceLevel, selectedMeetingGrade, searchQuery]);
 
     // Sort tasks by priority score (default: descending)
     const sortedAndFilteredTasks = useMemo(() => {
@@ -2804,7 +2795,6 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
         searchQuery,
         selectedProject,
         selectedCategoryMain,
-        selectedTargetAxis,
         selectedGateStage,
         selectedLeadDept,
         selectedCoopDept,
@@ -2948,28 +2938,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                             </div>
                                         </th>
 
-                                        {/* 최종 목표축 */}
-                                        <th className={`text-center transition-all duration-300 ease-out ${isAll ? 'w-[91px] min-w-[91px] max-w-[91px] opacity-100' : 'hidden w-0 min-w-0 max-w-0 opacity-0 overflow-hidden'}`}>
-                                            <div className={`transition-all duration-300 ease-out overflow-hidden ${isAll ? 'w-[91px] opacity-100' : 'w-0 opacity-0 pointer-events-none'}`}>
-                                                <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2.5 h-[22px] py-0 align-middle transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[76px] overflow-hidden mx-auto">
-                                                    <span className={"font-bold text-[11px] whitespace-nowrap truncate " + (selectedTargetAxis === "전체보기" ? "text-[#86868B]" : "text-[#2997ff]")}>
-                                                        {selectedTargetAxis === '전체보기' ? '최종목표' : selectedTargetAxis}
-                                                    </span>
-                                                    <span className="text-[8px] text-[#86868B]/70 pointer-events-none select-none translate-y-[0.5px] ml-1 shrink-0">▼</span>
-                                                    <select
-                                                        value={selectedTargetAxis}
-                                                        onChange={(e) => setSelectedTargetAxis(e.target.value)}
-                                                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                                                    >
-                                                        <option disabled value="" className="bg-[#222] text-[#86868B] font-bold">[ 최종목표 ]</option>
-                                                        <option value="전체보기" className="bg-[#222] text-[#86868B]">전체보기</option>
-                                                        {uniqueTargetAxisFilter.map(axis => (
-                                                            <option key={axis} value={axis} className="bg-[#222] text-white">{axis}</option>
-                                                        ))}
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </th>
+
 
                                         {/* Gate */}
                                         <th className={`text-center transition-all duration-300 ease-out ${isAll ? 'w-[90px] min-w-[90px] max-w-[100px] opacity-100' : 'hidden w-0 min-w-0 max-w-0 opacity-0 overflow-hidden'}`}>
@@ -3203,7 +3172,6 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                             const coopDeptNames = normalizeCoopDepts(rawCoopVal);
                                             const isSelected = selectedTaskDetail && selectedTaskDetail.id === t.id;
                                             const extPartyName = t.external_party?.stakeholder_name || t.external_party || t.external_party_code || fallbackItem.external_party || '';
-                                            const targetAxis = t.target_axis || fallbackItem.target_axis || '공통 PMO';
                                             
                                             // Gate stage mapping
                                             const rawGate = t.gate_stage || fallbackItem.gate_stage || 'G0';
@@ -3301,12 +3269,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                                         </div>
                                                     </td>
 
-                                                    {/* 8. 최종 목표축 */}
-                                                    <td className={`text-center text-[#A1A1AA] truncate transition-all duration-300 ease-out ${isAll ? 'w-[91px] min-w-[91px] max-w-[91px] opacity-100' : 'hidden w-0 min-w-0 max-w-0 opacity-0 overflow-hidden'}`}>
-                                                        <div className={`transition-all duration-300 ease-out overflow-hidden whitespace-nowrap ${isAll ? 'w-[91px] opacity-100' : 'w-0 opacity-0 pointer-events-none'}`}>
-                                                            {targetAxis}
-                                                        </div>
-                                                    </td>
+
 
                                                     {/* 9. Gate */}
                                                     <td className={`text-center text-[#A1A1AA] truncate transition-all duration-300 ease-out ${isAll ? 'w-[90px] min-w-[90px] max-w-[100px] opacity-100' : 'hidden w-0 min-w-0 max-w-0 opacity-0 overflow-hidden'}`}>
@@ -4252,8 +4215,8 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                         </div>
                                     </div>
 
-                                    {/* Row 3: 회의상정등급, 최종목표, 마감 기한, 의사결정필요 */}
-                                    <div className="grid grid-cols-4 gap-4 items-end">
+                                    {/* Row 3: 회의상정등급, 마감 기한, 의사결정필요 */}
+                                    <div className="grid grid-cols-3 gap-4 items-end">
                                         <div className="space-y-1">
                                             <span className="text-[#86868B] text-[11px] block">회의상정등급</span>
                                             <div className="mt-1.5">
@@ -4267,23 +4230,6 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                                     {formMeetingGrade}
                                                 </span>
                                             </div>
-                                        </div>
-                                        <div className="space-y-1">
-                                            <span className="text-[#86868B] text-[11px] block">최종목표</span>
-                                            <select 
-                                                value={formTargetAxis} 
-                                                onChange={e => setFormTargetAxis(e.target.value)} 
-                                                className="bg-[#2c2c2b] border border-red-500/30 focus:border-red-500 rounded px-3 py-1.5 text-[13px] text-white w-full outline-none cursor-pointer font-bold"
-                                                style={{ appearance: 'auto' }}
-                                            >
-                                                <option value="PF">PF</option>
-                                                <option value="착공">착공</option>
-                                                <option value="공사관리">공사관리</option>
-                                                <option value="준공/사용승인">준공/사용승인</option>
-                                                <option value="담보대출/Take-out">담보대출/Take-out</option>
-                                                <option value="운영전환">운영전환</option>
-                                                <option value="공통 PMO">공통 PMO</option>
-                                            </select>
                                         </div>
                                         <div className="space-y-1">
                                             <span className="text-[#86868B] text-[11px] block">마감 기한</span>
@@ -4398,7 +4344,6 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                 
                 const agendaReason = t.agenda_reason || fallbackItem.agenda_reason || '';
                 const nextActionVal = t.next_action || fallbackItem.next_action || '';
-                const targetAxis = t.target_axis || fallbackItem.target_axis || '공통 PMO';
                 const projObj = projects.find(p => p.project_code === t.project_code);
 
                 return (
@@ -4547,8 +4492,8 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                             </div>
                                         </div>
 
-                                        {/* Row 3: 회의상정등급, 최종목표, 마감 기한, 의사결정필요 */}
-                                        <div className="grid grid-cols-4 gap-4">
+                                        {/* Row 3: 회의상정등급, 마감 기한, 의사결정필요 */}
+                                        <div className="grid grid-cols-3 gap-4">
                                             <div className="space-y-[3px]">
                                                 <span className="text-[#86868B] text-[11px] block">회의상정등급</span>
                                                 <div className="mt-1">
@@ -4562,12 +4507,6 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                                         {meetingGrade}
                                                     </span>
                                                 </div>
-                                            </div>
-                                            <div className="space-y-[3px]">
-                                                <span className="text-[#86868B] text-[11px] block">최종목표</span>
-                                                <span className="font-bold text-[#E5E5E5] block">
-                                                    {targetAxis}
-                                                </span>
                                             </div>
                                             <div className="space-y-[3px]">
                                                 <span className="text-[#86868B] text-[11px] block">마감 기한</span>

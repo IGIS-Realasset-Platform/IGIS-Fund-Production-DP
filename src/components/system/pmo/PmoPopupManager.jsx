@@ -454,7 +454,6 @@ export default function PmoPopupManager() {
             status: formHandlingStatus || '미착수',
             notes: formMemo || null,
             task_type: '팝업',
-            target_axis: '공통 PMO',
             created_by_email: modalMode === 'create' ? currentUserEmail : selectedPopup.created_by_email
         };
 

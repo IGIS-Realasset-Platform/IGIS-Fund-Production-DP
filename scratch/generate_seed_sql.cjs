@@ -125,13 +125,13 @@ tasks.forEach(t => {
 
     sql += `INSERT INTO iota_v2.iota_pmo_tasks (
         project_code, category_main, sector_detail, task_name, task_purpose, deliverables,
-        target_axis, pmo_manager, lead_dept_code, coop_dept_codes, assignee, external_party_code,
+        pmo_manager, lead_dept_code, coop_dept_codes, assignee, external_party_code,
         is_blocker, needs_decision, due_date, status, importance_level, task_type,
         priority_score, meeting_grade, agenda_reason, notes, next_action
     ) VALUES (
         '${projCode}', '${category}', ${t.sector_detail ? `'${t.sector_detail}'` : 'NULL'}, '${taskName}',
         ${purpose ? `'${purpose}'` : 'NULL'}, ${deliverables ? `'${deliverables}'` : 'NULL'},
-        '${t.target_axis || '공통 PMO'}', '${t.pmo_manager || '사업2파트'}', '${leadDeptCode}',
+        '${t.pmo_manager || '사업2파트'}', '${leadDeptCode}',
         ${t.coop_depts ? `'${t.coop_depts}'` : 'NULL'}, '${t.assignee || '미정'}', ${stakeCode ? `'${stakeCode}'` : 'NULL'},
         ${isBlocker}, ${needsDecision}, ${t.due_date ? `'${t.due_date}'` : 'NULL'}, '${status}', '${importance}', '${taskType}',
         ${score}, '${meetingGrade}', ${agendaReason ? `'${agendaReason}'` : 'NULL'},
