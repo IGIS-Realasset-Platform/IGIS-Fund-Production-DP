@@ -126,9 +126,10 @@ export default function IotaMyPage() {
         }
 
         // 태스크 보드 변경 이력/진행로그의 경우 통합 업무 보드 상세 페이지로 이동
-        if (log.metadata?.is_task_board && log.metadata?.task_id) {
+        if (log.metadata?.workspace_code === 'WS_PMO' || (log.metadata?.is_task_board && log.metadata?.task_id)) {
             const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
-            window.history.pushState(null, '', `${base}/platform/iotaseoul/workflow?taskId=${log.metadata.task_id}`);
+            const taskId = log.metadata?.task_id || log.id;
+            window.history.pushState(null, '', `${base}/platform/iotaseoul/workflow?taskId=${taskId}`);
             window.dispatchEvent(new Event('popstate'));
             return;
         }
@@ -267,6 +268,7 @@ export default function IotaMyPage() {
                         body_text: log.raw_text || log.body_text || '',
                         line: line,
                         metadata: {
+                            ...log.metadata,
                             workspace_code: log.metadata?.workspace_code || '',
                             workspace_label: log.metadata?.workspace_label || '공통',
                             project_name: log.metadata?.project_name || '',
