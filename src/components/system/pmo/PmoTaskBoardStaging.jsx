@@ -1281,29 +1281,29 @@ const calculatePriorityScore = (task, fallbackItem) => {
 // Department name normalization helper
 const normalizeDeptName = (name, isCoop = false) => {
     if (!name) return isCoop ? '' : '사업2파트';
-    const clean = String(name).trim();
+    const clean = String(name).trim().toUpperCase();
     
-    if (clean.includes('기획추진')) return '기획추진';
-    if (clean.includes('Sub-PO') || clean.includes('Sub PO')) return 'Sub-PO';
+    if (clean.includes('기획추진') || clean.includes('DEPT_PO') || clean.includes('PO')) return '기획추진';
+    if (clean.includes('SUB-PO') || clean.includes('SUB PO')) return 'Sub-PO';
     if (clean === 'PO') return 'PO';
     if (clean.includes('CFT') || clean.includes('총괄')) return 'CFT 책임인력';
-    if (clean.includes('IPR') || clean.includes('ipr')) return 'IPR-WG';
+    if (clean.includes('IPR')) return 'IPR-WG';
     if (clean.includes('사업PM')) return '사업PM';
     if (clean.includes('펀드운용')) return '펀드운용';
 
-    if (clean.includes('LFC') || clean.includes('lfc') || clean.includes('금융') || clean.includes('파이낸싱')) return 'LFC';
-    if (clean.includes('사업관리1') || clean.includes('사업1') || clean.includes('관리1')) return '사업1파트';
-    if (clean.includes('사업관리2') || clean.includes('사업2') || clean.includes('관리2')) return '사업2파트';
-    if (clean.includes('개발관리') || clean.includes('개발솔루션') || clean.includes('개발')) return '개발솔루션';
-    if (clean.includes('기업마케팅') || clean.includes('마케팅') || clean.includes('홍보')) return '기업마케팅';
-    if (clean.includes('공간솔루션') || clean.includes('설계') || clean.includes('공간')) return '공간솔루션';
-    if (clean.toUpperCase().includes('KAM') || clean.toUpperCase().includes('kam') || clean.includes('자산') || clean.includes('에셋')) return 'KAM';
+    if (clean.includes('LFC') || clean.includes('금융') || clean.includes('파이낸싱')) return 'LFC';
+    if (clean.includes('사업관리1') || clean.includes('사업1') || clean.includes('관리1') || clean.includes('PM1')) return '사업1파트';
+    if (clean.includes('사업관리2') || clean.includes('사업2') || clean.includes('관리2') || clean.includes('PM2')) return '사업2파트';
+    if (clean.includes('개발관리') || clean.includes('개발솔루션') || clean.includes('개발') || clean.includes('DEV') || clean.includes('DSC')) return '개발솔루션';
+    if (clean.includes('기업마케팅') || clean.includes('마케팅') || clean.includes('홍보') || clean.includes('MKT') || clean.includes('EMC')) return '기업마케팅';
+    if (clean.includes('공간솔루션') || clean.includes('설계') || clean.includes('공간') || clean.includes('DESIGN') || clean.includes('SSC')) return '공간솔루션';
+    if (clean.includes('KAM') || clean.includes('자산') || clean.includes('에셋')) return 'KAM';
     if (clean.includes('전부서') || clean.includes('전 부서') || clean.includes('전체')) {
         return isCoop ? '전부서' : '사업2파트';
     }
     if (clean.includes('외부') || clean.includes('법무') || clean.includes('세무') || clean.includes('자문')) return 'KAM';
     
-    return isCoop ? clean || '전부서' : '사업2파트';
+    return isCoop ? name || '전부서' : '사업2파트';
 };
 
 const normalizeCoopDepts = (deptsStr) => {

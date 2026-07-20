@@ -76,7 +76,7 @@ export default function PmoMeetingMain() {
                 const { data: allTasks, error } = await supabase
                     .schema('iota_v2')
                     .from('iota_pmo_tasks')
-                    .select('id, project_code, task_name, lead_dept_code, lead_dept:iota_departments!lead_dept_code(dept_name), coop_dept_codes, coop_depts, assignee, is_blocker, needs_decision, priority_score, due_date, status, category_main, importance_level, meeting_grade, task_type, support_needed');
+                    .select('id, project_code, task_name, lead_dept_code, lead_dept:iota_departments!lead_dept_code(dept_name), coop_dept_codes, assignee, is_blocker, needs_decision, priority_score, due_date, status, category_main, importance_level, meeting_grade, task_type, support_needed');
 
                 if (error) throw error;
 
