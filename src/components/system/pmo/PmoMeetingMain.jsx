@@ -361,6 +361,7 @@ export default function PmoMeetingMain() {
         const decisionCount = catTasks.filter(t => parseBool(t.needs_decision)).length;
         const supportCount = catTasks.filter(t => isSupportNeededTask(t)).length;
         const delayedCount = catTasks.filter(t => t.status === '지연').length;
+        const inProgressCount = catTasks.filter(t => t.status === '진행중').length;
         
         // Find main departments involved
         const depts = Array.from(new Set(catTasks.map(t => getTaskDeptName(t)).filter(Boolean)));
@@ -382,6 +383,7 @@ export default function PmoMeetingMain() {
             decisionCount,
             supportCount,
             delayedCount,
+            inProgressCount,
             shortDepts
         };
     });
@@ -947,6 +949,7 @@ export default function PmoMeetingMain() {
                                         <th className="py-[8px] px-[16px] text-center font-bold text-[#86868B] w-[165px] whitespace-nowrap">전체업무</th>
                                         <th className="py-[8px] px-[16px] text-center font-bold text-[#86868B] w-[165px] whitespace-nowrap">PF필수</th>
                                         <th className="py-[8px] px-[16px] text-center font-bold text-[#86868B] w-[165px] whitespace-nowrap">준공필수</th>
+                                        <th className="py-[8px] px-[16px] text-center font-bold text-[#86868B] w-[90px] border-x border-[#3c3c3c] whitespace-nowrap">진행현황</th>
                                         <th className="py-[8px] px-[16px] text-center font-bold text-[#86868B] w-[75px] whitespace-nowrap">Blocker</th>
                                         <th className="py-[8px] px-[16px] text-center font-bold text-[#86868B] w-[95px] whitespace-nowrap">의사결정필요</th>
                                         <th className="py-[8px] px-[16px] text-center font-bold text-[#86868B] w-[75px] whitespace-nowrap">지원필요</th>
@@ -1002,6 +1005,10 @@ export default function PmoMeetingMain() {
                                                         />
                                                     </div>
                                                     <span className="relative z-10">{row.constCount}</span>
+                                                </td>
+                                                {/* 진행현황 */}
+                                                <td className="py-[8px] px-[16px] text-center text-[#E5E5E5] font-semibold border-x border-[#3c3c3c]/50 w-[90px] whitespace-nowrap bg-[#2c2c2b]/30">
+                                                    {row.inProgressCount} of {row.totalCount}
                                                 </td>
                                                 {/* Blocker */}
                                                 <td className="py-[8px] px-[16px] text-center font-semibold text-[#ff453a] w-[75px] whitespace-nowrap">
