@@ -1380,6 +1380,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
     const [selectedStatus, setSelectedStatus] = useState('전체보기');
     const [selectedImportanceLevel, setSelectedImportanceLevel] = useState('전체보기');
     const [selectedMeetingGrade, setSelectedMeetingGrade] = useState('전체보기');
+    const [selectedSupportNeeded, setSelectedSupportNeeded] = useState('전체보기');
 
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
@@ -1388,12 +1389,14 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
         const filterNeedsDecision = params.get('filterNeedsDecision');
         const filterImportance = params.get('filterImportance');
         const filterMeetingGrade = params.get('filterMeetingGrade');
+        const filterSupportNeeded = params.get('filterSupportNeeded');
 
         if (filterStatus) setSelectedStatus(filterStatus);
         if (filterIsBlocker) setSelectedIsBlocker(filterIsBlocker);
         if (filterNeedsDecision) setSelectedNeedsDecision(filterNeedsDecision);
         if (filterImportance) setSelectedImportanceLevel(filterImportance);
         if (filterMeetingGrade) setSelectedMeetingGrade(filterMeetingGrade);
+        if (filterSupportNeeded) setSelectedSupportNeeded(filterSupportNeeded);
     }, []);
 
     // Masters loaded from DB
@@ -2730,6 +2733,12 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
             const meetingGrade = rawGrade.includes('_') ? rawGrade : gradeMapToUi(rawGrade);
             if (selectedMeetingGrade !== '전체보기' && meetingGrade !== selectedMeetingGrade) return false;
 
+            // Support needed match
+            const supportNeededVal = t.support_needed || fallbackItem.support_needed || '';
+            if (selectedSupportNeeded !== '전체보기') {
+                if (selectedSupportNeeded === 'Y' && !supportNeededVal.trim()) return false;
+            }
+
             // Search query match
             if (searchQuery.trim() !== '') {
                 const query = searchQuery.toLowerCase().trim();
@@ -3055,7 +3064,20 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                         <th className="pl-4 w-[90px] min-w-[90px] max-w-[90px]">외부상대방</th>
                                         <th className={`text-center transition-all duration-300 ease-out ${isAll ? 'w-[80px] min-w-[80px] max-w-[80px] opacity-100' : 'hidden w-0 min-w-0 max-w-0 opacity-0 overflow-hidden'}`}>
                                             <div className={`transition-all duration-300 ease-out overflow-hidden whitespace-nowrap ${isAll ? 'w-[80px] opacity-100' : 'w-0 opacity-0 pointer-events-none'}`}>
-                                                지원필요
+                                                <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-0.5 h-[22px] py-0 align-middle transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b] w-full max-w-[76px] overflow-hidden mx-auto">
+                                                    <span className={`font-bold text-[11px] whitespace-nowrap ${selectedSupportNeeded === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
+                                                        {selectedSupportNeeded === '전체보기' ? '지원필요' : '필요'}
+                                                    </span>
+                                                    <span className="text-[8px] text-[#86868B]/70 pointer-events-none select-none translate-y-[0.5px] ml-0.5 shrink-0">▼</span>
+                                                    <select
+                                                        value={selectedSupportNeeded}
+                                                        onChange={(e) => setSelectedSupportNeeded(e.target.value)}
+                                                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                                    >
+                                                        <option value="전체보기" className="bg-[#222] text-[#86868B]">전체보기</option>
+                                                        <option value="Y" className="bg-[#222] text-white">필요</option>
+                                                    </select>
+                                                </div>
                                             </div>
                                         </th>
 

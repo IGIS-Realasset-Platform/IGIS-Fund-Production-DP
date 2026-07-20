@@ -15,7 +15,8 @@ export default function PmoMeetingMain() {
         completed: 0,
         onHold: 0,
         stopped: 0,
-        popupCount: 0
+        popupCount: 0,
+        supportNeeded: 0
     });
     const [loading, setLoading] = React.useState(true);
 
@@ -26,7 +27,7 @@ export default function PmoMeetingMain() {
                 const { data: allTasks, error } = await supabase
                     .schema('iota_v2')
                     .from('iota_pmo_tasks')
-                    .select('is_blocker, needs_decision, priority_score, task_name, assignee, due_date, status, category_main, importance_level, meeting_grade, task_type');
+                    .select('is_blocker, needs_decision, priority_score, task_name, assignee, due_date, status, category_main, importance_level, meeting_grade, task_type, support_needed');
 
                 if (error) throw error;
 
@@ -48,6 +49,7 @@ export default function PmoMeetingMain() {
                 const completed = pmoTasks.filter(t => t.status === '완료').length;
                 const onHold = pmoTasks.filter(t => t.status === '보류').length;
                 const stopped = pmoTasks.filter(t => t.status === '중단').length;
+                const supportNeeded = pmoTasks.filter(t => t.support_needed && t.support_needed.trim() !== '').length;
 
                 // Counting only the '진행중' popup tasks
                 const popupCount = popupTasks.filter(t => t.status === '진행중').length;
@@ -65,7 +67,8 @@ export default function PmoMeetingMain() {
                     completed,
                     onHold,
                     stopped,
-                    popupCount
+                    popupCount,
+                    supportNeeded
                 });
 
             } catch (err) {
@@ -90,7 +93,8 @@ export default function PmoMeetingMain() {
         { label: '지연', path: 'platform/iotaseoul/workflow?filterStatus=지연', count: counts.delayed, highlightClass: 'text-[#E35D5D]', hoverClass: 'group-hover:text-[#FF3B30]' },
         { label: 'Blocker(병목)', path: 'platform/iotaseoul/workflow?filterIsBlocker=Y (예)', count: counts.blockers, highlightClass: 'text-[#E35D5D]', hoverClass: 'group-hover:text-[#FF3B30]' },
         { label: '의사결정 필요', path: 'platform/iotaseoul/workflow?filterNeedsDecision=Y (예)', count: counts.decisions, highlightClass: 'text-[#E35D5D]', hoverClass: 'group-hover:text-[#FF3B30]' },
-        { label: '회의 필요', path: 'platform/iotaseoul/workflow?filterMeetingGrade=A_즉시상정', count: counts.meetings, highlightClass: 'text-[#E35D5D]', hoverClass: 'group-hover:text-[#FF3B30]' }
+        { label: '회의 필요', path: 'platform/iotaseoul/workflow?filterMeetingGrade=A_즉시상정', count: counts.meetings, highlightClass: 'text-[#E35D5D]', hoverClass: 'group-hover:text-[#FF3B30]' },
+        { label: '타부서 지원필요', path: 'platform/iotaseoul/workflow?filterSupportNeeded=Y', count: counts.supportNeeded, highlightClass: 'text-[#E67E22]', hoverClass: 'group-hover:text-[#FF9500]' }
     ];
 
     const lowerFilters = [
@@ -99,10 +103,11 @@ export default function PmoMeetingMain() {
         { label: '준공필수', path: 'platform/iotaseoul/workflow?filterImportance=준공필수', count: counts.constRequired },
         { label: '완료', path: 'platform/iotaseoul/workflow?filterStatus=완료', count: counts.completed },
         { label: '보류', path: 'platform/iotaseoul/workflow?filterStatus=보류', count: counts.onHold },
-        { label: '중단', path: 'platform/iotaseoul/workflow?filterStatus=중단', count: counts.stopped }
+        { label: '중단', path: 'platform/iotaseoul/workflow?filterStatus=중단', count: counts.stopped },
+        { label: '단발업무', path: 'platform/iotaseoul/popup-requests', count: counts.popupCount }
     ];
     const group3Upper = upperFilters.slice(2);
-    const group3Lower = [lowerFilters[1], lowerFilters[2], lowerFilters[4], lowerFilters[5]];
+    const group3Lower = [lowerFilters[1], lowerFilters[2], lowerFilters[4], lowerFilters[5], lowerFilters[6]];
 
 
 
@@ -116,7 +121,7 @@ export default function PmoMeetingMain() {
             </div>
 
             {/* Filter Navigation Buttons Grouped Containers */}
-            <div className="w-[calc(100%+14px)] ml-[-7px] grid grid-cols-6 gap-[4px] mb-[32px] select-none text-center bg-transparent">
+            <div className="w-[calc(100%+14px)] ml-[-7px] grid grid-cols-7 gap-[4px] mb-[32px] select-none text-center bg-transparent">
                 {/* Box 1: 전체업무 + 완료 (col-span-1) */}
                 <div className="col-span-1 border border-[#4b4b4b]/70 rounded-[30px] p-[6px] flex flex-col gap-[6px]">
                     {/* 전체업무 */}
@@ -193,10 +198,10 @@ export default function PmoMeetingMain() {
                     })()}
                 </div>
 
-                {/* Box 3: 나머지 상하단 박스 4개씩 (col-span-4) */}
-                <div className="col-span-4 border border-[#4b4b4b]/70 rounded-[30px] p-[6px] flex flex-col gap-[6px]">
+                {/* Box 3: 나머지 상하단 박스 5개씩 (col-span-5) */}
+                <div className="col-span-5 border border-[#4b4b4b]/70 rounded-[30px] p-[6px] flex flex-col gap-[6px]">
                     {/* Upper Row Box */}
-                    <div className="grid grid-cols-4 bg-[#b4b6b5] h-[94px] rounded-[24px] overflow-hidden divide-x divide-[#8b8b8b]/80">
+                    <div className="grid grid-cols-5 bg-[#b4b6b5] h-[94px] rounded-[24px] overflow-hidden divide-x divide-[#8b8b8b]/80">
                         {group3Upper.map((btn, idx) => (
                             <div
                                 key={idx}
@@ -213,7 +218,7 @@ export default function PmoMeetingMain() {
                         ))}
                     </div>
                     {/* Lower Row Box */}
-                    <div className="grid grid-cols-4 bg-[#2b2b2b] h-[98px] border border-[#4b4b4b] rounded-[24px] overflow-hidden divide-x divide-[#4b4b4b]/70">
+                    <div className="grid grid-cols-5 bg-[#2b2b2b] h-[98px] border border-[#4b4b4b] rounded-[24px] overflow-hidden divide-x divide-[#4b4b4b]/70">
                         {group3Lower.map((btn, idx) => (
                             <div
                                 key={idx}
