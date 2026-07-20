@@ -586,8 +586,8 @@ export default function PmoMeetingMain() {
                     </div>
 
                     {/* 부서별 실행 현황 섹션 */}
-                    <div className="w-full flex flex-col gap-[12px] mb-[30px] mt-[40px] select-text">
-                        <div className="flex items-center justify-between mb-[4px]">
+                    <div className="w-full flex flex-col gap-[8px] mb-[30px] mt-[20px] select-text">
+                        <div className="flex items-center justify-between">
                             <div className="flex items-center gap-[16px]">
                                 <h3 className="text-[20px] font-bold text-white tracking-tight mt-[4px]">부서별 실행 현황</h3>
                                 <p className="text-[14px] text-[#A1A1AA] font-medium translate-y-[2px]">주관 부서 및 협업 부서의 업무 현황을 확인 합니다.</p>
