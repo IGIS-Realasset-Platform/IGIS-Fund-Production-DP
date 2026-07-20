@@ -350,8 +350,6 @@ export default function PmoMeetingMain() {
     // 카테고리별 진행현황 추가 데이터 모델
     // ==========================================
     const categoriesList = ['공통 PMO', '호텔/운영', '인허가', '시공/원가', '도면/설계', '인테리어/TI', '임차/마케팅', 'PF/금융', '구조/법무/세무', '주주/보고', '준공/담보대출'];
-    const [activeCategoryMetric, setActiveCategoryMetric] = React.useState('전체업무');
-    const [hoveredCategory, setHoveredCategory] = React.useState(null);
 
     const categoryRowsData = categoriesList.map(cat => {
         const catTasks = tasks.filter(t => t.task_type !== '팝업' && (t.category_main === cat || (cat === '공통 PMO' && !t.category_main)));
@@ -388,12 +386,10 @@ export default function PmoMeetingMain() {
         };
     });
 
-    const maxActiveCategoryCount = Math.max(...categoryRowsData.map(c => {
-        if (activeCategoryMetric === 'PF필수') return c.pfCount;
-        if (activeCategoryMetric === '준공필수') return c.constCount;
-        if (activeCategoryMetric === '지연') return c.delayedCount;
-        return c.totalCount;
-    }), 1);
+    const maxTotalCountCat = Math.max(...categoryRowsData.map(c => c.totalCount), 1);
+    const maxPfCountCat = Math.max(...categoryRowsData.map(c => c.pfCount), 1);
+    const maxConstCountCat = Math.max(...categoryRowsData.map(c => c.constCount), 1);
+    const maxDelayedCountCat = Math.max(...categoryRowsData.map(c => c.delayedCount), 1);
 
     const handleCategoryRowClick = (row) => {
         const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
@@ -940,22 +936,6 @@ export default function PmoMeetingMain() {
                                 <h3 className="text-[20px] font-bold text-white tracking-tight mt-[4px]">카테고리별 진행현황</h3>
                                 <p className="text-[14px] text-[#A1A1AA] font-medium translate-y-[2px]">대분류 카테고리별 업무 현황을 확인합니다.</p>
                             </div>
-                            {/* Segmented Toggles on the right */}
-                            <div className="flex bg-[#2c2c2b] p-0.5 rounded-[8px] border border-[#3c3c3c] text-[13px] font-semibold w-[240px]">
-                                {['전체업무', 'PF필수', '준공필수'].map(m => {
-                                    const isActive = activeCategoryMetric === m;
-                                    return (
-                                        <button
-                                            key={m}
-                                            type="button"
-                                            onClick={() => setActiveCategoryMetric(m)}
-                                            className={`flex-1 py-1 px-1 text-center rounded-[6px] text-[12px] whitespace-nowrap transition-all cursor-pointer font-bold ${isActive ? 'bg-[#48484a] text-white shadow-sm' : 'text-[#86868b] hover:text-white'}`}
-                                        >
-                                            {m}
-                                        </button>
-                                    );
-                                })}
-                            </div>
                         </div>
 
                         {/* Full Width Table Container */}
@@ -964,13 +944,13 @@ export default function PmoMeetingMain() {
                                 <thead>
                                     <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[13px] h-[38px] whitespace-nowrap">
                                         <th className="py-[8px] px-[16px] w-[130px] font-bold text-[#86868B] text-center whitespace-nowrap">대분류</th>
-                                        <th className={`py-[8px] px-[16px] text-center font-bold text-[#86868B] transition-all duration-300 whitespace-nowrap ${activeCategoryMetric === '전체업무' ? 'w-[140px]' : 'w-[80px]'}`}>전체업무</th>
-                                        <th className={`py-[8px] px-[16px] text-center font-bold text-[#86868B] transition-all duration-300 whitespace-nowrap ${activeCategoryMetric === 'PF필수' ? 'w-[140px]' : 'w-[80px]'}`}>PF필수</th>
-                                        <th className={`py-[8px] px-[16px] text-center font-bold text-[#86868B] transition-all duration-300 whitespace-nowrap ${activeCategoryMetric === '준공필수' ? 'w-[140px]' : 'w-[80px]'}`}>준공필수</th>
+                                        <th className="py-[8px] px-[16px] text-center font-bold text-[#86868B] w-[140px] whitespace-nowrap">전체업무</th>
+                                        <th className="py-[8px] px-[16px] text-center font-bold text-[#86868B] w-[140px] whitespace-nowrap">PF필수</th>
+                                        <th className="py-[8px] px-[16px] text-center font-bold text-[#86868B] w-[140px] whitespace-nowrap">준공필수</th>
                                         <th className="py-[8px] px-[16px] text-center font-bold text-[#86868B] whitespace-nowrap">Blocker</th>
                                         <th className="py-[8px] px-[16px] text-center font-bold text-[#86868B] whitespace-nowrap">의사결정필요</th>
                                         <th className="py-[8px] px-[16px] text-center font-bold text-[#86868B] whitespace-nowrap">지원필요</th>
-                                        <th className={`py-[8px] px-[16px] text-center font-bold text-[#86868B] transition-all duration-300 whitespace-nowrap ${activeCategoryMetric === '지연' ? 'w-[140px]' : 'w-[80px]'}`}>지연</th>
+                                        <th className="py-[8px] px-[16px] text-center font-bold text-[#86868B] w-[140px] whitespace-nowrap">지연</th>
                                         <th className="py-[8px] px-[16px] text-center font-bold text-[#86868B] whitespace-nowrap">주관부서</th>
                                     </tr>
                                 </thead>
@@ -994,63 +974,55 @@ export default function PmoMeetingMain() {
                                                     {row.category}
                                                 </td>
                                                 {/* 전체업무 */}
-                                                <td className={`py-[8px] px-[16px] text-center transition-all duration-300 relative ${activeCategoryMetric === '전체업무' ? 'font-bold text-white w-[140px]' : 'text-[#E5E5E5] font-semibold w-[80px]'}`}>
-                                                    {activeCategoryMetric === '전체업무' && (
-                                                        <div className="absolute inset-y-[4px] left-[6px] right-[6px] z-0">
-                                                            <div 
-                                                                className="h-full bg-gradient-to-r from-[#86868b]/15 to-[#86868b]/30 rounded-[4px]"
-                                                                style={{ width: `${(row.totalCount / maxActiveCategoryCount) * 100}%` }}
-                                                            />
-                                                        </div>
-                                                    )}
+                                                <td className="py-[8px] px-[16px] text-center text-white font-bold relative w-[140px] whitespace-nowrap">
+                                                    <div className="absolute inset-y-[4px] left-[6px] right-[6px] z-0">
+                                                        <div 
+                                                            className="h-full bg-gradient-to-r from-[#86868b]/15 to-[#86868b]/30 rounded-[4px]"
+                                                            style={{ width: `${(row.totalCount / maxTotalCountCat) * 100}%` }}
+                                                        />
+                                                    </div>
                                                     <span className="relative z-10">{row.totalCount}</span>
                                                 </td>
                                                 {/* PF필수 */}
-                                                <td className={`py-[8px] px-[16px] text-center transition-all duration-300 relative ${activeCategoryMetric === 'PF필수' ? 'font-bold text-white w-[140px]' : 'text-[#E5E5E5] font-semibold w-[80px]'}`}>
-                                                    {activeCategoryMetric === 'PF필수' && (
-                                                        <div className="absolute inset-y-[4px] left-[6px] right-[6px] z-0">
-                                                            <div 
-                                                                className="h-full bg-gradient-to-r from-[#86868b]/15 to-[#86868b]/30 rounded-[4px]"
-                                                                style={{ width: `${(row.pfCount / maxActiveCategoryCount) * 100}%` }}
-                                                            />
-                                                        </div>
-                                                    )}
+                                                <td className="py-[8px] px-[16px] text-center text-white font-bold relative w-[140px] whitespace-nowrap">
+                                                    <div className="absolute inset-y-[4px] left-[6px] right-[6px] z-0">
+                                                        <div 
+                                                            className="h-full bg-gradient-to-r from-[#86868b]/15 to-[#86868b]/30 rounded-[4px]"
+                                                            style={{ width: `${(row.pfCount / maxPfCountCat) * 100}%` }}
+                                                        />
+                                                    </div>
                                                     <span className="relative z-10">{row.pfCount}</span>
                                                 </td>
                                                 {/* 준공필수 */}
-                                                <td className={`py-[8px] px-[16px] text-center transition-all duration-300 relative ${activeCategoryMetric === '준공필수' ? 'font-bold text-white w-[140px]' : 'text-[#E5E5E5] font-semibold w-[80px]'}`}>
-                                                    {activeCategoryMetric === '준공필수' && (
-                                                        <div className="absolute inset-y-[4px] left-[6px] right-[6px] z-0">
-                                                            <div 
-                                                                className="h-full bg-gradient-to-r from-[#86868b]/15 to-[#86868b]/30 rounded-[4px]"
-                                                                style={{ width: `${(row.constCount / maxActiveCategoryCount) * 100}%` }}
-                                                            />
-                                                        </div>
-                                                    )}
+                                                <td className="py-[8px] px-[16px] text-center text-white font-bold relative w-[140px] whitespace-nowrap">
+                                                    <div className="absolute inset-y-[4px] left-[6px] right-[6px] z-0">
+                                                        <div 
+                                                            className="h-full bg-gradient-to-r from-[#86868b]/15 to-[#86868b]/30 rounded-[4px]"
+                                                            style={{ width: `${(row.constCount / maxConstCountCat) * 100}%` }}
+                                                        />
+                                                    </div>
                                                     <span className="relative z-10">{row.constCount}</span>
                                                 </td>
                                                 {/* Blocker */}
-                                                <td className="py-[8px] px-[16px] text-center font-semibold text-[#ff453a]">
+                                                <td className="py-[8px] px-[16px] text-center font-semibold text-[#ff453a] whitespace-nowrap">
                                                     {row.blockerCount}
                                                 </td>
                                                 {/* 의사결정필요 */}
-                                                <td className="py-[8px] px-[16px] text-center font-semibold text-[#ff453a]">
+                                                <td className="py-[8px] px-[16px] text-center font-semibold text-[#ff453a] whitespace-nowrap">
                                                     {row.decisionCount}
                                                 </td>
                                                 {/* 지원필요 */}
-                                                <td className="py-[8px] px-[16px] text-center text-[#E5E5E5] font-medium">
+                                                <td className="py-[8px] px-[16px] text-center text-[#E5E5E5] font-medium whitespace-nowrap">
                                                     {row.supportCount}
                                                 </td>
                                                 {/* 지연 */}
-                                                <td className={`py-[8px] px-[16px] text-center transition-all duration-300 relative ${activeCategoryMetric === '지연' ? 'font-bold text-white w-[140px]' : 'text-[#E5E5E5] font-semibold w-[80px]'}`}>
-                                                    {activeCategoryMetric === '지연' && (
-                                                        <div className="absolute inset-y-[4px] left-[6px] right-[6px] z-0">
-                                                            <div 
-                                                                className="h-full bg-gradient-to-r from-[#86868b]/15 to-[#86868b]/30 rounded-[4px]"
-                                                                style={{ width: `${(row.delayedCount / maxActiveCategoryCount) * 100}%` }}
-                                                            />
-                                                        </div>
-                                                    )}
+                                                <td className="py-[8px] px-[16px] text-center text-white font-bold relative w-[140px] whitespace-nowrap">
+                                                    <div className="absolute inset-y-[4px] left-[6px] right-[6px] z-0">
+                                                        <div 
+                                                            className="h-full bg-gradient-to-r from-[#86868b]/15 to-[#86868b]/30 rounded-[4px]"
+                                                            style={{ width: `${(row.delayedCount / maxDelayedCountCat) * 100}%` }}
+                                                        />
+                                                    </div>
                                                     <span className="relative z-10">{row.delayedCount}</span>
                                                 </td>
                                                 {/* 주관부서 */}
