@@ -86,6 +86,7 @@ export default function PmoMeetingMain() {
 
     const upperFilters = [
         { label: '전체업무', path: 'platform/iotaseoul/workflow', count: counts.total, highlightClass: 'text-[#1F1F1E]', hoverClass: 'group-hover:text-[#000000]' },
+        { label: '진행중', path: 'platform/iotaseoul/workflow?filterStatus=진행중', count: counts.inProgress, highlightClass: 'text-[#1F1F1E]', hoverClass: 'group-hover:text-[#000000]' },
         { label: '지연', path: 'platform/iotaseoul/workflow?filterStatus=지연', count: counts.delayed, highlightClass: 'text-[#E35D5D]', hoverClass: 'group-hover:text-[#FF3B30]' },
         { label: 'Blocker(병목)', path: 'platform/iotaseoul/workflow?filterIsBlocker=Y (예)', count: counts.blockers, highlightClass: 'text-[#E35D5D]', hoverClass: 'group-hover:text-[#FF3B30]' },
         { label: '의사결정 필요', path: 'platform/iotaseoul/workflow?filterNeedsDecision=Y (예)', count: counts.decisions, highlightClass: 'text-[#C98421]', hoverClass: 'group-hover:text-[#FF9500]' },
@@ -93,14 +94,12 @@ export default function PmoMeetingMain() {
     ];
 
     const lowerFilters = [
-        { label: '진행중', path: 'platform/iotaseoul/workflow?filterStatus=진행중', count: counts.inProgress },
+        { label: '미착수', path: 'platform/iotaseoul/workflow?filterStatus=미착수', count: counts.notStarted },
         { label: 'PF필수', path: 'platform/iotaseoul/workflow?filterImportance=PF필수', count: counts.pfRequired },
         { label: '준공필수', path: 'platform/iotaseoul/workflow?filterImportance=준공필수', count: counts.constRequired },
-        { label: '미착수', path: 'platform/iotaseoul/workflow?filterStatus=미착수', count: counts.notStarted },
         { label: '완료', path: 'platform/iotaseoul/workflow?filterStatus=완료', count: counts.completed },
         { label: '보류', path: 'platform/iotaseoul/workflow?filterStatus=보류', count: counts.onHold },
-        { label: '중단', path: 'platform/iotaseoul/workflow?filterStatus=중단', count: counts.stopped },
-        { label: '단발', path: 'platform/iotaseoul/popup-requests', count: counts.popupCount }
+        { label: '중단', path: 'platform/iotaseoul/workflow?filterStatus=중단', count: counts.stopped }
     ];
 
 
@@ -117,7 +116,7 @@ export default function PmoMeetingMain() {
             {/* Filter Navigation Buttons Capsule Box */}
             <div className="w-[calc(100%+14px)] ml-[-7px] border border-[#4b4b4b]/70 rounded-[36px] p-[6px] flex flex-col gap-[6px] mb-[32px] select-none text-center bg-transparent">
                 {/* Upper Row Box */}
-                <div className="grid grid-cols-5 bg-[#b4b6b5] h-[94px] rounded-[30px] overflow-hidden divide-x divide-[#8b8b8b]/80">
+                <div className="grid grid-cols-6 bg-[#b4b6b5] h-[94px] rounded-[30px] overflow-hidden divide-x divide-[#8b8b8b]/80">
                     {upperFilters.map((btn, idx) => (
                         <div
                             key={idx}
@@ -134,7 +133,7 @@ export default function PmoMeetingMain() {
                     ))}
                 </div>
                 {/* Lower Row Box */}
-                <div className="grid grid-cols-8 bg-[#2b2b2b] h-[98px] border border-[#4b4b4b] rounded-[30px] overflow-hidden divide-x divide-[#4b4b4b]/70">
+                <div className="grid grid-cols-6 bg-[#2b2b2b] h-[98px] border border-[#4b4b4b] rounded-[30px] overflow-hidden divide-x divide-[#4b4b4b]/70">
                     {lowerFilters.map((btn, idx) => (
                         <div
                             key={idx}
