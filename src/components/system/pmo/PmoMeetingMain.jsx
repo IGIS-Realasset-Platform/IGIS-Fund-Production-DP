@@ -22,34 +22,35 @@ export default function PmoMeetingMain() {
     React.useEffect(() => {
         async function fetchDashboardData() {
             try {
-                // 1. Fetch popup requests count
-                const { count: popupCount } = await supabase
-                    .schema('iota_v2')
-                    .from('iota_popup_requests')
-                    .select('*', { count: 'exact', head: true });
-
-                // 2. Fetch stats and tasks from staging iota_v2 schema
+                // Fetch stats and tasks from staging iota_v2 schema
                 const { data: allTasks, error } = await supabase
                     .schema('iota_v2')
                     .from('iota_pmo_tasks')
-                    .select('is_blocker, needs_decision, priority_score, task_name, assignee, due_date, status, category_main, importance_level, meeting_grade');
+                    .select('is_blocker, needs_decision, priority_score, task_name, assignee, due_date, status, category_main, importance_level, meeting_grade, task_type');
 
                 if (error) throw error;
 
                 const parseBool = (v) => v === true || String(v).toLowerCase() === 'true' || String(v).toUpperCase() === 'Y';
 
-                const total = allTasks.length;
-                const delayed = allTasks.filter(t => t.status === '지연').length;
-                const blockers = allTasks.filter(t => parseBool(t.is_blocker)).length;
-                const decisions = allTasks.filter(t => parseBool(t.needs_decision)).length;
-                const meetings = allTasks.filter(t => t.meeting_grade === 'A' || t.meeting_grade === 'A_즉시상정').length;
-                const inProgress = allTasks.filter(t => t.status === '진행중').length;
-                const pfRequired = allTasks.filter(t => t.importance_level === 'PF필수').length;
-                const constRequired = allTasks.filter(t => t.importance_level === '준공필수').length;
-                const notStarted = allTasks.filter(t => t.status === '미착수').length;
-                const completed = allTasks.filter(t => t.status === '완료').length;
-                const onHold = allTasks.filter(t => t.status === '보류').length;
-                const stopped = allTasks.filter(t => t.status === '중단').length;
+                // Separate integrated (PMO) tasks and popup tasks
+                const pmoTasks = (allTasks || []).filter(t => t.task_type !== '팝업');
+                const popupTasks = (allTasks || []).filter(t => t.task_type === '팝업');
+
+                const total = pmoTasks.length;
+                const delayed = pmoTasks.filter(t => t.status === '지연').length;
+                const blockers = pmoTasks.filter(t => parseBool(t.is_blocker)).length;
+                const decisions = pmoTasks.filter(t => parseBool(t.needs_decision)).length;
+                const meetings = pmoTasks.filter(t => t.meeting_grade === 'A' || t.meeting_grade === 'A_즉시상정').length;
+                const inProgress = pmoTasks.filter(t => t.status === '진행중').length;
+                const pfRequired = pmoTasks.filter(t => t.importance_level === 'PF필수').length;
+                const constRequired = pmoTasks.filter(t => t.importance_level === '준공필수').length;
+                const notStarted = pmoTasks.filter(t => t.status === '미착수').length;
+                const completed = pmoTasks.filter(t => t.status === '완료').length;
+                const onHold = pmoTasks.filter(t => t.status === '보류').length;
+                const stopped = pmoTasks.filter(t => t.status === '중단').length;
+
+                // Counting only the '진행중' popup tasks
+                const popupCount = popupTasks.filter(t => t.status === '진행중').length;
 
                 setCounts({
                     total,
@@ -64,10 +65,8 @@ export default function PmoMeetingMain() {
                     completed,
                     onHold,
                     stopped,
-                    popupCount: popupCount || 0
+                    popupCount
                 });
-
-
 
             } catch (err) {
                 console.error("Failed to load dashboard data:", err);
