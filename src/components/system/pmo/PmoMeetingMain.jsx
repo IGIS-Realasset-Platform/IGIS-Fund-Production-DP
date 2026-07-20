@@ -766,10 +766,10 @@ export default function PmoMeetingMain() {
                                 <table className="w-full text-left border-collapse bg-[#272726]">
                                     <thead>
                                         <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[13px] h-[46px]">
-                                            <th className="py-[16px] px-[16px] w-[150px] font-bold text-[#86868B] text-center">부서</th>
+                                            <th className="py-[16px] px-[16px] w-[130px] font-bold text-[#86868B] text-center">부서</th>
                                             <th className="py-[16px] px-[16px] text-center font-bold text-[#86868B]">주관업무</th>
                                             <th className="py-[16px] px-[16px] text-center font-bold text-[#86868B]">협업업무</th>
-                                            <th className="py-[16px] px-[16px] text-center font-bold text-[#86868B] w-[120px]">총관여</th>
+                                            <th className="py-[16px] px-[16px] text-center font-bold text-[#86868B] w-[140px]">총관여</th>
                                             <th className="py-[16px] px-[16px] text-center font-bold text-[#86868B]">PF필수</th>
                                             <th className="py-[16px] px-[16px] text-center font-bold text-[#86868B]">준공필수</th>
                                             <th className="py-[16px] px-[16px] text-center font-bold text-[#86868B]">Blocker</th>
