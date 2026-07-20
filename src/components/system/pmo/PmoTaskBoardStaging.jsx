@@ -1945,26 +1945,36 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
  
                 // Fire and forget auto-heal to DB
                 if (tasksToUpdate.length > 0 && isAuthorized) {
-                    Promise.all(tasksToUpdate.map(upd => 
-                        supabase.schema('iota_v2').from('iota_pmo_tasks').update({
-                            status: upd.status,
-                            priority_score: upd.priority_score,
-                            meeting_grade: upd.meeting_grade
-                        }).eq('id', upd.id)
-                    )).catch(console.error);
-                    
-                    // Insert system change logs to DB so detailed page history works normally
-                    Promise.all(logsToInsert.map(async (log) => {
-                        const { error: logErr } = await supabase.from('iota_seoul_logs').insert(log);
-                        if (!logErr) {
-                            await supabase.from('iota_seoul_log_links').insert({
-                                link_id: `link_${log.log_id}`,
-                                log_id: log.log_id,
-                                proj_id: log.metadata.task_project,
-                                relation_type: 'direct_input'
-                            });
+                    tasksToUpdate.forEach(async (upd, idx) => {
+                        try {
+                            const { error: updErr } = await supabase.schema('iota_v2').from('iota_pmo_tasks').update({
+                                status: upd.status,
+                                priority_score: upd.priority_score,
+                                meeting_grade: upd.meeting_grade
+                            }).eq('id', upd.id);
+
+                            if (updErr) {
+                                console.error(`Auto-heal update failed for task ${upd.id}:`, updErr.message);
+                                return;
+                            }
+
+                            // ONLY insert log if the database update was successful!
+                            const log = logsToInsert[idx];
+                            if (log) {
+                                const { error: logErr } = await supabase.from('iota_seoul_logs').insert(log);
+                                if (!logErr) {
+                                    await supabase.from('iota_seoul_log_links').insert({
+                                        link_id: `link_${log.log_id}`,
+                                        log_id: log.log_id,
+                                        proj_id: log.metadata.task_project,
+                                        relation_type: 'direct_input'
+                                    });
+                                }
+                            }
+                        } catch (err) {
+                            console.error("Auto-heal execution error:", err);
                         }
-                    })).catch(console.error);
+                    });
                 }
  
                 const sorted = [...healedData].sort((a, b) => {
