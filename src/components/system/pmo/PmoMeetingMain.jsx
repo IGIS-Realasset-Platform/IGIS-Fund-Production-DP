@@ -778,9 +778,9 @@ export default function PmoMeetingMain() {
                                     <thead>
                                         <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[13px] h-[46px] whitespace-nowrap">
                                             <th className="py-[16px] px-[16px] w-[130px] font-bold text-[#86868B] text-center whitespace-nowrap">부서</th>
+                                            <th className={`py-[16px] px-[16px] text-center font-bold text-[#86868B] transition-all duration-300 whitespace-nowrap ${activeMetric === '총관여' ? 'w-[140px]' : 'w-[80px]'}`}>총관여</th>
                                             <th className={`py-[16px] px-[16px] text-center font-bold text-[#86868B] transition-all duration-300 whitespace-nowrap ${activeMetric === '주관업무' ? 'w-[140px]' : 'w-[80px]'}`}>주관업무</th>
                                             <th className={`py-[16px] px-[16px] text-center font-bold text-[#86868B] transition-all duration-300 whitespace-nowrap ${activeMetric === '협업업무' ? 'w-[140px]' : 'w-[80px]'}`}>협업업무</th>
-                                            <th className={`py-[16px] px-[16px] text-center font-bold text-[#86868B] transition-all duration-300 whitespace-nowrap ${activeMetric === '총관여' ? 'w-[140px]' : 'w-[80px]'}`}>총관여</th>
                                             <th className="py-[16px] px-[16px] text-center font-bold text-[#86868B] whitespace-nowrap">PF필수</th>
                                             <th className="py-[16px] px-[16px] text-center font-bold text-[#86868B] whitespace-nowrap">준공필수</th>
                                             <th className="py-[16px] px-[16px] text-center font-bold text-[#86868B] whitespace-nowrap">Blocker</th>
@@ -809,6 +809,18 @@ export default function PmoMeetingMain() {
                                                     <td className="py-[16px] px-[16px] text-center font-bold text-[#E5E5E5]">
                                                         {row.dept}
                                                     </td>
+                                                    {/* 총관여 with Gradient Bar chart */}
+                                                    <td className={`py-[16px] px-[16px] text-center transition-all duration-300 relative ${activeMetric === '총관여' ? 'font-bold text-white w-[140px]' : 'text-[#E5E5E5] font-semibold w-[80px]'}`}>
+                                                        {activeMetric === '총관여' && (
+                                                            <div className="absolute inset-y-[6px] left-[6px] right-[6px] z-0">
+                                                                <div 
+                                                                    className="h-full bg-gradient-to-r from-[#86868b]/15 to-[#86868b]/30 rounded-[4px]"
+                                                                    style={{ width: `${(row.totalCount / maxActiveCount) * 100}%` }}
+                                                                />
+                                                            </div>
+                                                        )}
+                                                        <span className="relative z-10">{row.totalCount}</span>
+                                                    </td>
                                                     {/* 주관업무 */}
                                                     <td className={`py-[16px] px-[16px] text-center transition-all duration-300 relative ${activeMetric === '주관업무' ? 'font-bold text-white w-[140px]' : 'text-[#E5E5E5] font-semibold w-[80px]'}`}>
                                                         {activeMetric === '주관업무' && (
@@ -832,18 +844,6 @@ export default function PmoMeetingMain() {
                                                             </div>
                                                         )}
                                                         <span className="relative z-10">{row.coopCount}</span>
-                                                    </td>
-                                                    {/* 총관여 with Gradient Bar chart */}
-                                                    <td className={`py-[16px] px-[16px] text-center transition-all duration-300 relative ${activeMetric === '총관여' ? 'font-bold text-white w-[140px]' : 'text-[#E5E5E5] font-semibold w-[80px]'}`}>
-                                                        {activeMetric === '총관여' && (
-                                                            <div className="absolute inset-y-[6px] left-[6px] right-[6px] z-0">
-                                                                <div 
-                                                                    className="h-full bg-gradient-to-r from-[#86868b]/15 to-[#86868b]/30 rounded-[4px]"
-                                                                    style={{ width: `${(row.totalCount / maxActiveCount) * 100}%` }}
-                                                                />
-                                                            </div>
-                                                        )}
-                                                        <span className="relative z-10">{row.totalCount}</span>
                                                     </td>
                                                     {/* PF필수 */}
                                                     <td className="py-[16px] px-[16px] text-center text-[#E5E5E5] font-medium">
