@@ -501,7 +501,7 @@ export default function PmoMeetingMain() {
             ) : (
                 <>
                     {/* Bottom Box for Brief Listing - Card based view */}
-                    <div className="w-full bg-[#252525] border border-[#3c3c3c] rounded-[24px] p-[24px] mb-[30px] flex flex-col">
+                    <div className="w-full border border-[#3c3c3c] rounded-[24px] p-[24px] mb-[30px] flex flex-col">
                         {/* Header Row */}
                         <div className="flex justify-between items-center mb-[10px]">
                             <div className="flex items-center gap-[10px]">
@@ -517,7 +517,7 @@ export default function PmoMeetingMain() {
                                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                             </button>
                         </div>
-
+ 
                         {/* Card-based grid row container */}
                         <div className="max-h-[450px] overflow-y-auto pr-[4px] scrollbar-thin">
                             {getFilteredTasks().length === 0 ? (
@@ -532,37 +532,32 @@ export default function PmoMeetingMain() {
                                         const projName = normalizeProjectName(task.project_code || task.project);
                                         const deptName = task.lead_dept?.dept_name || task.lead_dept || resolveDeptName(task.lead_dept_code) || '미정';
                                         const fallbackItem = FALLBACK_BOARD_TASKS.find(fb => fb.task_name === task.task_name) || {};
-
+ 
                                         return (
                                             <div 
                                                 key={task.id} 
                                                 onClick={() => handleTaskClick(task)}
-                                                className="bg-[#1c1c1e] hover:bg-[#252527] border border-white/[0.08] hover:border-[#2997ff]/50 hover:shadow-[0_4px_20px_rgba(41,151,255,0.08)] transition-all rounded-[20px] p-[20px] cursor-pointer flex flex-col justify-between h-full group"
+                                                className="bg-[#252525] hover:bg-[#2c2c2e] border border-white/[0.06] hover:border-[#2997ff]/40 hover:shadow-[0_4px_20px_rgba(41,151,255,0.06)] transition-all rounded-[20px] p-[20px] cursor-pointer flex flex-col justify-between h-full group"
                                             >
-                                                <div className="space-y-[8px] mb-[16px]">
-                                                    {/* Top line: Sector and Project info */}
-                                                    <div className="flex items-center justify-between">
-                                                        <span className="text-[#86868b] text-[11px] font-bold tracking-wider uppercase px-2 py-0.5 rounded-[4px] bg-white/[0.04] border border-white/[0.04]">
-                                                            {task.sector_detail || fallbackItem.sector_detail || '공통'}
-                                                        </span>
-                                                        <span className="text-white/40 text-[11px] font-semibold bg-white/5 px-2 py-0.5 rounded-[4px] border border-white/5">
-                                                            {projName}
-                                                        </span>
-                                                    </div>
-                                                    
+                                                <div className="mb-[16px]">
                                                     {/* Task Name */}
-                                                    <h3 className="text-[15px] font-bold text-[#e5e5e7] leading-snug group-hover:text-[#2997ff] transition-colors" title={task.task_name}>
+                                                    <h3 className="text-[17px] font-bold text-[#cccaba] leading-snug group-hover:text-white transition-colors" title={task.task_name}>
                                                         {task.task_name}
                                                     </h3>
                                                 </div>
-
-                                                {/* Bottom line: Lead Department info */}
+ 
+                                                {/* Bottom line: Lead Department & Sector info */}
                                                 <div className="flex items-center justify-between pt-[12px] border-t border-white/[0.06]">
-                                                    <div className="flex items-center gap-[6px]">
-                                                        <span className="text-white/40 text-[11px] uppercase tracking-wider font-semibold">주관</span>
-                                                        <span className="text-[#e5e5e7] text-[13px] font-semibold">
-                                                            {deptName}
-                                                        </span>
+                                                    <div className="flex items-center gap-[10px] text-[13px] text-white/50">
+                                                        <div className="flex items-center gap-[4px]">
+                                                            <span className="text-white/40 font-medium">주관</span>
+                                                            <span className="text-white/80 font-semibold">{deptName}</span>
+                                                        </div>
+                                                        <span className="text-white/20">|</span>
+                                                        <div className="flex items-center gap-[4px]">
+                                                            <span className="text-white/40 font-medium">섹터</span>
+                                                            <span className="text-white/80 font-semibold">{task.sector_detail || fallbackItem.sector_detail || '공통'}</span>
+                                                        </div>
                                                     </div>
                                                     {/* If it's a blocker or decision needed, show a tiny elegant badge */}
                                                     {(hasBlocker || hasDecision) && (
