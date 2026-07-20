@@ -593,29 +593,29 @@ export default function PmoMeetingMain() {
                         </div>
 
                         {/* Table Container */}
-                        <div className="w-full bg-[#252525] border border-[#3c3c3c] rounded-[24px] overflow-hidden">
-                            <table className="w-full text-left border-collapse">
+                        <div className="w-full bg-[#272726] border border-[#3c3c3c] rounded-[24px] overflow-hidden">
+                            <table className="w-full text-left border-collapse bg-[#272726]">
                                 <thead>
-                                    <tr className="bg-[#1c3c6b] text-[12px] font-bold text-white divide-x divide-[#3c3c3c]/40 border-b border-[#3c3c3c]">
-                                        <th className="py-[12px] px-[16px] w-[150px] font-bold text-[#E5E5E5] text-center bg-[#1c3c6b]">부서</th>
-                                        <th className="py-[12px] px-[16px] text-center font-bold text-[#E5E5E5]">주관업무</th>
-                                        <th className="py-[12px] px-[16px] text-center font-bold text-[#E5E5E5]">협업업무</th>
-                                        <th className="py-[12px] px-[16px] text-center font-bold text-[#E5E5E5] w-[120px]">총관여</th>
-                                        <th className="py-[12px] px-[16px] text-center font-bold text-[#E5E5E5]">PF필수</th>
-                                        <th className="py-[12px] px-[16px] text-center font-bold text-[#E5E5E5]">준공필수</th>
-                                        <th className="py-[12px] px-[16px] text-center font-bold text-[#E5E5E5]">Blocker</th>
-                                        <th className="py-[12px] px-[16px] text-center font-bold text-[#E5E5E5]">의사결정</th>
-                                        <th className="py-[12px] px-[16px] text-center font-bold text-[#E5E5E5]">지원요청</th>
-                                        <th className="py-[12px] px-[16px] text-center font-bold text-[#E5E5E5]">7일내/지연</th>
+                                    <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[13px] h-[46px]">
+                                        <th className="py-[12px] px-[16px] w-[150px] font-bold text-[#86868B] text-center">부서</th>
+                                        <th className="py-[12px] px-[16px] text-center font-bold text-[#86868B]">주관업무</th>
+                                        <th className="py-[12px] px-[16px] text-center font-bold text-[#86868B]">협업업무</th>
+                                        <th className="py-[12px] px-[16px] text-center font-bold text-[#86868B] w-[120px]">총관여</th>
+                                        <th className="py-[12px] px-[16px] text-center font-bold text-[#86868B]">PF필수</th>
+                                        <th className="py-[12px] px-[16px] text-center font-bold text-[#86868B]">준공필수</th>
+                                        <th className="py-[12px] px-[16px] text-center font-bold text-[#86868B]">Blocker</th>
+                                        <th className="py-[12px] px-[16px] text-center font-bold text-[#86868B]">의사결정</th>
+                                        <th className="py-[12px] px-[16px] text-center font-bold text-[#86868B]">지원요청</th>
+                                        <th className="py-[12px] px-[16px] text-center font-bold text-[#86868B]">7일내/지연</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-[#3c3c3c]/50 text-[13px]">
                                     {deptRowsData.map((row, idx) => {
                                         const percentage = (row.totalCount / maxTotalCount) * 100;
                                         return (
-                                            <tr key={idx} className="hover:bg-[#2b2b2b]/40 transition-colors divide-x divide-[#3c3c3c]/30">
+                                            <tr key={idx} className="hover:bg-[#2b2b2b]/40 transition-colors">
                                                 {/* 부서 */}
-                                                <td className="py-[12px] px-[16px] bg-[#1f2937]/30 text-center font-bold text-[#E5E5E5]">
+                                                <td className="py-[12px] px-[16px] text-center font-bold text-[#E5E5E5]">
                                                     {row.dept}
                                                 </td>
                                                 {/* 주관업무 */}
@@ -644,12 +644,12 @@ export default function PmoMeetingMain() {
                                                 <td className="py-[12px] px-[16px] text-center text-[#E5E5E5] font-medium">
                                                     {row.constCount}
                                                 </td>
-                                                {/* Blocker (Peach background) */}
-                                                <td className="py-[12px] px-[16px] text-center font-semibold text-[#ff453a] bg-[#ff3b30]/5">
+                                                {/* Blocker (No bg background) */}
+                                                <td className="py-[12px] px-[16px] text-center font-semibold text-[#ff453a]">
                                                     {row.blockerCount}
                                                 </td>
-                                                {/* 의사결정 (Yellow background) */}
-                                                <td className="py-[12px] px-[16px] text-center font-semibold text-[#ffcc00] bg-[#ffcc00]/5">
+                                                {/* 의사결정 (No bg background) */}
+                                                <td className="py-[12px] px-[16px] text-center font-semibold text-[#ffcc00]">
                                                     {row.decisionCount}
                                                 </td>
                                                 {/* 지원요청 */}
