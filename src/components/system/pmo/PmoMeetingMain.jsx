@@ -200,8 +200,18 @@ export default function PmoMeetingMain() {
 
     const getMeetingGradeBadge = (grade) => {
         if (!grade || grade === '-') return <span className="text-[12px] text-[#555] font-semibold">-</span>;
-        if (grade.includes('A')) {
+        const g = String(grade).toUpperCase();
+        if (g.includes('A')) {
             return <span className="px-[6px] py-[1.5px] rounded-[4px] text-[10px] font-bold bg-[#ff375f]/15 text-[#ff375f] border border-[#ff375f]/25">A_즉시상정</span>;
+        }
+        if (g.includes('B')) {
+            return <span className="px-[6px] py-[1.5px] rounded-[4px] text-[10px] font-bold bg-[#8e8e93]/15 text-[#a1a1aa] border border-[#8e8e93]/25">B_회의점검</span>;
+        }
+        if (g.includes('C')) {
+            return <span className="px-[6px] py-[1.5px] rounded-[4px] text-[10px] font-bold bg-[#8e8e93]/15 text-[#a1a1aa] border border-[#8e8e93]/25">C_주간관리</span>;
+        }
+        if (g.includes('D')) {
+            return <span className="px-[6px] py-[1.5px] rounded-[4px] text-[10px] font-bold bg-[#8e8e93]/15 text-[#a1a1aa] border border-[#8e8e93]/25">D_대기</span>;
         }
         return <span className="px-[6px] py-[1.5px] rounded-[4px] text-[10px] font-bold bg-[#8e8e93]/15 text-[#a1a1aa] border border-[#8e8e93]/25">{grade}</span>;
     };
