@@ -541,7 +541,7 @@ export default function PmoMeetingMain() {
                                             >
                                                 <div className="mb-[16px]">
                                                     {/* Task Name */}
-                                                    <h3 className="text-[19px] font-bold text-[#cccaba] leading-snug group-hover:text-white transition-colors" title={task.task_name}>
+                                                    <h3 className="text-[19px] font-bold text-[#cccaba] leading-snug group-hover:text-white transition-colors truncate" title={task.task_name}>
                                                         {task.task_name}
                                                     </h3>
                                                 </div>
