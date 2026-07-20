@@ -571,7 +571,7 @@ export default function PmoMeetingMain() {
                         {/* Header Row */}
                         <div className="flex justify-between items-center pl-[20px] pr-[6px] pt-[6px] pb-[8px]">
                             <div className="flex items-center gap-[10px]">
-                                <h2 className="text-[18px] font-bold text-white tracking-tight flex items-center gap-[8px]">
+                                <h2 className="text-[16px] font-bold text-white tracking-tight flex items-center gap-[8px]">
                                     <span>{selectedFilter} 현황 목록</span>
                                 </h2>
                             </div>
