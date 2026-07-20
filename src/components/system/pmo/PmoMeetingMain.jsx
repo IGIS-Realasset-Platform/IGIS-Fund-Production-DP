@@ -230,9 +230,104 @@ export default function PmoMeetingMain() {
         if (c === 'DEPT_DEV' || c.includes('DEV') || c.includes('DSC')) return '개발관리실';
         if (c === 'DEPT_DESIGN' || c.includes('DESIGN') || c.includes('SSC')) return '공간솔루션실';
         if (c === 'DEPT_MKT' || c.includes('MKT') || c.includes('EMC')) return '기업마케팅실';
-        if (c === 'DEPT_PM2' || c.includes('PM2')) return '사업2파트';
+        if (c === 'DEPT_PM2' || c.includes('PM2')) return '사업관리2파트';
+        if (c === 'DEPT_PM1' || c.includes('PM1')) return '사업관리1파트';
         return code || '미정';
     };
+
+    const getTaskDeptName = (t) => {
+        const raw = t.lead_dept?.dept_name || t.lead_dept || resolveDeptName(t.lead_dept_code) || '';
+        const c = String(raw).toUpperCase().trim();
+        if (c.includes('PM2') || c.includes('사업관리2파트') || c.includes('사업2파트')) return '사업관리2파트';
+        if (c.includes('PM1') || c.includes('사업관리1파트') || c.includes('사업1파트')) return '사업관리1파트';
+        if (c.includes('DEV') || c.includes('개발관리실')) return '개발관리실';
+        if (c.includes('DESIGN') || c.includes('공간솔루션실')) return '공간솔루션실';
+        if (c.includes('MKT') || c.includes('기업마케팅실')) return '기업마케팅실';
+        if (c.includes('LFC') || c.includes('DEPT_LFC')) return 'LFC';
+        return '기타';
+    };
+
+    const isCoopDept = (t, deptName) => {
+        if (!t.coop_depts) return false;
+        const coopStr = String(t.coop_depts).toUpperCase();
+        if (deptName === '사업관리2파트') {
+            return coopStr.includes('PM2') || coopStr.includes('사업관리2파트') || coopStr.includes('사업2파트');
+        }
+        if (deptName === '사업관리1파트') {
+            return coopStr.includes('PM1') || coopStr.includes('사업관리1파트') || coopStr.includes('사업1파트');
+        }
+        if (deptName === '개발관리실') {
+            return coopStr.includes('DEV') || coopStr.includes('개발관리실');
+        }
+        if (deptName === '공간솔루션실') {
+            return coopStr.includes('DESIGN') || coopStr.includes('공간솔루션실');
+        }
+        if (deptName === '기업마케팅실') {
+            return coopStr.includes('MKT') || coopStr.includes('기업마케팅실');
+        }
+        if (deptName === 'LFC') {
+            return coopStr.includes('LFC');
+        }
+        return false;
+    };
+
+    const isSupportNeededTask = (t) => {
+        const fallbackItem = FALLBACK_BOARD_TASKS.find(fb => fb.task_name === t.task_name) || {};
+        const val = t.support_needed || fallbackItem.support_needed || '';
+        const s = val.trim().toLowerCase();
+        const invalidKeywords = ['', '없음', 'n/a', 'na', '해당사항 없음', '해당사항없음', '-', 'none'];
+        return s && !invalidKeywords.includes(s);
+    };
+
+    const isWithin7DaysOrDelayed = (t) => {
+        if (t.status === '지연') return true;
+        if (!t.due_date) return false;
+        try {
+            const today = new Date('2026-07-20');
+            const dueDate = new Date(t.due_date);
+            const diffTime = dueDate.getTime() - today.getTime();
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            const activeStatus = t.status !== '완료' && t.status !== '중단';
+            return activeStatus && (diffDays <= 7);
+        } catch (e) {
+            return false;
+        }
+    };
+
+    const departmentsList = ['사업관리2파트', '사업관리1파트', '개발관리실', '공간솔루션실', '기업마케팅실', 'LFC'];
+
+    const parseBool = (v) => v === true || String(v).toLowerCase() === 'true' || String(v).toUpperCase() === 'Y';
+
+    const deptRowsData = departmentsList.map(dept => {
+        const leadTasks = tasks.filter(t => t.task_type !== '팝업' && getTaskDeptName(t) === dept);
+        const coopTasks = tasks.filter(t => t.task_type !== '팝업' && isCoopDept(t, dept));
+        
+        const leadCount = leadTasks.length;
+        const coopCount = coopTasks.length;
+        const totalCount = leadCount + coopCount;
+        
+        const pfCount = leadTasks.filter(t => t.importance_level === 'PF필수').length;
+        const constCount = leadTasks.filter(t => t.importance_level === '준공필수').length;
+        const blockerCount = leadTasks.filter(t => parseBool(t.is_blocker)).length;
+        const decisionCount = leadTasks.filter(t => parseBool(t.needs_decision)).length;
+        const supportCount = leadTasks.filter(t => isSupportNeededTask(t)).length;
+        const delayedOr7DaysCount = leadTasks.filter(t => isWithin7DaysOrDelayed(t)).length;
+
+        return {
+            dept,
+            leadCount,
+            coopCount,
+            totalCount,
+            pfCount,
+            constCount,
+            blockerCount,
+            decisionCount,
+            supportCount,
+            delayedOr7DaysCount
+        };
+    });
+
+    const maxTotalCount = Math.max(...deptRowsData.map(d => d.totalCount), 1);
 
     return (
         <div className="w-full flex-1 flex flex-col pt-[24px] pb-[60px] max-w-[1200px] mx-auto select-text">
@@ -387,96 +482,183 @@ export default function PmoMeetingMain() {
                     <span className="text-[#86868B] text-[13px] animate-pulse">데이터를 집계하고 있습니다...</span>
                 </div>
             ) : (
-                /* Bottom Box for Brief Listing - Card based view */
-                <div className="w-full bg-[#252525] border border-[#3c3c3c] rounded-[24px] p-[24px] mb-[30px] flex flex-col">
-                    {/* Header Row */}
-                    <div className="flex justify-between items-center mb-[10px]">
-                        <div className="flex items-center gap-[10px]">
-                            <h2 className="text-[18px] font-bold text-white tracking-tight flex items-center gap-[8px]">
-                                <span>{selectedFilter} 현황 목록</span>
-                            </h2>
-                        </div>
-                        <button
-                            onClick={handleGoToFullPage}
-                            className="flex items-center gap-[6px] text-[12px] text-[#E5E5E5] hover:text-white font-bold transition-all px-[12px] py-[6px] bg-white/5 hover:bg-white/10 rounded-[8px] border border-white/10 hover:border-white/20 cursor-pointer"
-                        >
-                            <span>{selectedFilter === '단발업무' ? '단발업무 요건판 전체 보기' : '통합업무보드에서 전체 보기'}</span>
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                        </button>
-                    </div>
-
-                    {/* Card-based grid row container */}
-                    <div className="max-h-[450px] overflow-y-auto pr-[4px] scrollbar-thin">
-                        {getFilteredTasks().length === 0 ? (
-                            <div className="py-[60px] text-center text-[#86868B] text-[14px]">
-                                조건에 일치하는 업무 항목이 없습니다.
+                <>
+                    {/* Bottom Box for Brief Listing - Card based view */}
+                    <div className="w-full bg-[#252525] border border-[#3c3c3c] rounded-[24px] p-[24px] mb-[30px] flex flex-col">
+                        {/* Header Row */}
+                        <div className="flex justify-between items-center mb-[10px]">
+                            <div className="flex items-center gap-[10px]">
+                                <h2 className="text-[18px] font-bold text-white tracking-tight flex items-center gap-[8px]">
+                                    <span>{selectedFilter} 현황 목록</span>
+                                </h2>
                             </div>
-                        ) : (
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[12px]">
-                                {getFilteredTasks().map(task => {
-                                    const hasDecision = task.needs_decision === true || String(task.needs_decision).toLowerCase() === 'true' || String(task.needs_decision).toUpperCase() === 'Y';
-                                    const hasBlocker = task.is_blocker === true || String(task.is_blocker).toLowerCase() === 'true' || String(task.is_blocker).toUpperCase() === 'Y';
-                                    const projName = normalizeProjectName(task.project_code || task.project);
-                                    const deptName = task.lead_dept?.dept_name || task.lead_dept || resolveDeptName(task.lead_dept_code) || '미정';
+                            <button
+                                onClick={handleGoToFullPage}
+                                className="flex items-center gap-[6px] text-[12px] text-[#E5E5E5] hover:text-white font-bold transition-all px-[12px] py-[6px] bg-white/5 hover:bg-white/10 rounded-[8px] border border-white/10 hover:border-white/20 cursor-pointer"
+                            >
+                                <span>{selectedFilter === '단발업무' ? '단발업무 요건판 전체 보기' : '통합업무보드에서 전체 보기'}</span>
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                            </button>
+                        </div>
 
-                                    return (
-                                        <div 
-                                            key={task.id} 
-                                            onClick={() => handleTaskClick(task)}
-                                            className={`bg-[#1e1e1e]/60 border hover:bg-[#222]/80 hover:border-[#2997ff]/60 transition-all rounded-[18px] p-[16px] cursor-pointer flex flex-col justify-between group ${hasBlocker ? 'border-[#ff3b30]/40 shadow-[0_0_10px_rgba(255,59,48,0.15)]' : 'border-[#3c3c3c]'}`}
-                                        >
-                                            <div>
-                                                {/* Card Top: Project & Badges (Name tags - aligned left with 6px gap) */}
-                                                <div className="flex items-center justify-start gap-[6px] mb-[10px]">
-                                                    <span className={`px-[8px] py-[2px] rounded-[6px] text-[11px] font-bold ${getProjectBadgeStyle(task.project_code || task.project)}`}>
-                                                        {projName}
-                                                    </span>
-                                                    <div className="flex gap-[6px]">
-                                                        {hasBlocker && (
-                                                            <span className="px-[6px] py-[1.5px] rounded-[4px] text-[10px] font-bold bg-[#ff3b30]/15 text-[#ff453a] border border-[#ff3b30]/25">
-                                                                Blocker (병목)
-                                                            </span>
-                                                        )}
-                                                        {hasDecision && (
-                                                            <span className="px-[6px] py-[1.5px] rounded-[4px] text-[10px] font-bold bg-[#ff3b30]/15 text-[#ff453a] border border-[#ff3b30]/25">
-                                                                의사결정 필요
-                                                            </span>
-                                                        )}
+                        {/* Card-based grid row container */}
+                        <div className="max-h-[450px] overflow-y-auto pr-[4px] scrollbar-thin">
+                            {getFilteredTasks().length === 0 ? (
+                                <div className="py-[60px] text-center text-[#86868B] text-[14px]">
+                                    조건에 일치하는 업무 항목이 없습니다.
+                                </div>
+                            ) : (
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[12px]">
+                                    {getFilteredTasks().map(task => {
+                                        const hasDecision = task.needs_decision === true || String(task.needs_decision).toLowerCase() === 'true' || String(task.needs_decision).toUpperCase() === 'Y';
+                                        const hasBlocker = task.is_blocker === true || String(task.is_blocker).toLowerCase() === 'true' || String(task.is_blocker).toUpperCase() === 'Y';
+                                        const projName = normalizeProjectName(task.project_code || task.project);
+                                        const deptName = task.lead_dept?.dept_name || task.lead_dept || resolveDeptName(task.lead_dept_code) || '미정';
+
+                                        return (
+                                            <div 
+                                                key={task.id} 
+                                                onClick={() => handleTaskClick(task)}
+                                                className={`bg-[#1e1e1e]/60 border hover:bg-[#222]/80 hover:border-[#2997ff]/60 transition-all rounded-[18px] p-[16px] cursor-pointer flex flex-col justify-between group ${hasBlocker ? 'border-[#ff3b30]/40 shadow-[0_0_10px_rgba(255,59,48,0.15)]' : 'border-[#3c3c3c]'}`}
+                                            >
+                                                <div>
+                                                    {/* Card Top: Project & Badges (Name tags - aligned left with 6px gap) */}
+                                                    <div className="flex items-center justify-start gap-[6px] mb-[10px]">
+                                                        <span className={`px-[8px] py-[2px] rounded-[6px] text-[11px] font-bold ${getProjectBadgeStyle(task.project_code || task.project)}`}>
+                                                            {projName}
+                                                        </span>
+                                                        <div className="flex gap-[6px]">
+                                                            {hasBlocker && (
+                                                                <span className="px-[6px] py-[1.5px] rounded-[4px] text-[10px] font-bold bg-[#ff3b30]/15 text-[#ff453a] border border-[#ff3b30]/25">
+                                                                    Blocker (병목)
+                                                                </span>
+                                                            )}
+                                                            {hasDecision && (
+                                                                <span className="px-[6px] py-[1.5px] rounded-[4px] text-[10px] font-bold bg-[#ff3b30]/15 text-[#ff453a] border border-[#ff3b30]/25">
+                                                                    의사결정 필요
+                                                                </span>
+                                                            )}
+                                                        </div>
+                                                    </div>
+
+                                                    {/* Card Content: Title (Increased by 2px from 16px to 18px, truncated to single line, text-[#d2d0bc]) */}
+                                                    <h3 className="text-[18px] font-bold text-[#d2d0bc] group-hover:text-white truncate leading-snug mb-[14px] transition-colors" title={task.task_name}>
+                                                        {task.task_name}
+                                                    </h3>
+                                                </div>
+
+                                                {/* Card Bottom Grid: Details (All text increased by 2px from 11px to 13px) */}
+                                                <div className="grid grid-cols-4 gap-[6px] text-[13px] pt-[12px] border-t border-[#3c3c3c]/50">
+                                                    <div className="flex flex-col gap-[2px]">
+                                                        <span className="text-[#86868B] truncate">주관부서</span>
+                                                        <span className="text-[#E5E5E5] font-semibold truncate" title={deptName}>{deptName}</span>
+                                                    </div>
+                                                    <div className="flex flex-col gap-[2px] pl-[6px]">
+                                                        <span className="text-[#86868B] truncate">담당자</span>
+                                                        <span className="text-[#E5E5E5] font-semibold truncate" title={task.assignee}>{task.assignee || '미정'}</span>
+                                                    </div>
+                                                    <div className="flex flex-col gap-[2px]">
+                                                        <span className="text-[#86868B] truncate">회의등급</span>
+                                                        <div className="flex items-center mt-0.5">{getMeetingGradeBadge(task.meeting_grade)}</div>
+                                                    </div>
+                                                    <div className="flex flex-col gap-[2px]">
+                                                        <span className="text-[#86868B] truncate">상태</span>
+                                                        <span className="text-[#E5E5E5] font-semibold truncate" title={task.status}>{task.status || '미착수'}</span>
                                                     </div>
                                                 </div>
-
-                                                {/* Card Content: Title (Increased by 2px from 16px to 18px, truncated to single line, text-[#d2d0bc]) */}
-                                                <h3 className="text-[18px] font-bold text-[#d2d0bc] group-hover:text-white truncate leading-snug mb-[14px] transition-colors" title={task.task_name}>
-                                                    {task.task_name}
-                                                </h3>
                                             </div>
-
-                                            {/* Card Bottom Grid: Details (All text increased by 2px from 11px to 13px) */}
-                                            <div className="grid grid-cols-4 gap-[6px] text-[13px] pt-[12px] border-t border-[#3c3c3c]/50">
-                                                <div className="flex flex-col gap-[2px]">
-                                                    <span className="text-[#86868B] truncate">주관부서</span>
-                                                    <span className="text-[#E5E5E5] font-semibold truncate" title={deptName}>{deptName}</span>
-                                                </div>
-                                                <div className="flex flex-col gap-[2px] pl-[6px]">
-                                                    <span className="text-[#86868B] truncate">담당자</span>
-                                                    <span className="text-[#E5E5E5] font-semibold truncate" title={task.assignee}>{task.assignee || '미정'}</span>
-                                                </div>
-                                                <div className="flex flex-col gap-[2px]">
-                                                    <span className="text-[#86868B] truncate">회의등급</span>
-                                                    <div className="flex items-center mt-0.5">{getMeetingGradeBadge(task.meeting_grade)}</div>
-                                                </div>
-                                                <div className="flex flex-col gap-[2px]">
-                                                    <span className="text-[#86868B] truncate">상태</span>
-                                                    <span className="text-[#E5E5E5] font-semibold truncate" title={task.status}>{task.status || '미착수'}</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    );
-                                })}
-                            </div>
-                        )}
+                                        );
+                                    })}
+                                </div>
+                            )}
+                        </div>
                     </div>
-                </div>
+
+                    {/* 부서별 실행 현황 섹션 */}
+                    <div className="w-full flex flex-col gap-[12px] mb-[30px] mt-[40px] select-text">
+                        <div className="flex items-center justify-between mb-[4px]">
+                            <div className="flex items-center gap-[16px]">
+                                <h3 className="text-[20px] font-bold text-white tracking-tight mt-[4px]">부서별 실행 현황</h3>
+                                <p className="text-[14px] text-[#A1A1AA] font-medium translate-y-[2px]">주관 부서 및 협업 부서의 업무 현황을 확인 합니다.</p>
+                            </div>
+                        </div>
+
+                        {/* Table Container */}
+                        <div className="w-full bg-[#252525] border border-[#3c3c3c] rounded-[24px] overflow-hidden">
+                            <table className="w-full text-left border-collapse">
+                                <thead>
+                                    <tr className="bg-[#1c3c6b] text-[12px] font-bold text-white divide-x divide-[#3c3c3c]/40 border-b border-[#3c3c3c]">
+                                        <th className="py-[12px] px-[16px] w-[150px] font-bold text-[#E5E5E5] text-center bg-[#1c3c6b]">부서</th>
+                                        <th className="py-[12px] px-[16px] text-center font-bold text-[#E5E5E5]">주관업무</th>
+                                        <th className="py-[12px] px-[16px] text-center font-bold text-[#E5E5E5]">협업업무</th>
+                                        <th className="py-[12px] px-[16px] text-center font-bold text-[#E5E5E5] w-[120px]">총관여</th>
+                                        <th className="py-[12px] px-[16px] text-center font-bold text-[#E5E5E5]">PF필수</th>
+                                        <th className="py-[12px] px-[16px] text-center font-bold text-[#E5E5E5]">준공필수</th>
+                                        <th className="py-[12px] px-[16px] text-center font-bold text-[#E5E5E5]">Blocker</th>
+                                        <th className="py-[12px] px-[16px] text-center font-bold text-[#E5E5E5]">의사결정</th>
+                                        <th className="py-[12px] px-[16px] text-center font-bold text-[#E5E5E5]">지원요청</th>
+                                        <th className="py-[12px] px-[16px] text-center font-bold text-[#E5E5E5]">7일내/지연</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="divide-y divide-[#3c3c3c]/50 text-[13px]">
+                                    {deptRowsData.map((row, idx) => {
+                                        const percentage = (row.totalCount / maxTotalCount) * 100;
+                                        return (
+                                            <tr key={idx} className="hover:bg-[#2b2b2b]/40 transition-colors divide-x divide-[#3c3c3c]/30">
+                                                {/* 부서 */}
+                                                <td className="py-[12px] px-[16px] bg-[#1f2937]/30 text-center font-bold text-[#E5E5E5]">
+                                                    {row.dept}
+                                                </td>
+                                                {/* 주관업무 */}
+                                                <td className="py-[12px] px-[16px] text-center text-[#E5E5E5] font-semibold">
+                                                    {row.leadCount}
+                                                </td>
+                                                {/* 협업업무 */}
+                                                <td className="py-[12px] px-[16px] text-center text-[#E5E5E5] font-semibold">
+                                                    {row.coopCount}
+                                                </td>
+                                                {/* 총관여 with Gradient Bar chart */}
+                                                <td className="py-[12px] px-[16px] text-center font-bold text-white relative">
+                                                    <div className="absolute inset-y-[6px] left-[6px] right-[6px] z-0">
+                                                        <div 
+                                                            className="h-full bg-gradient-to-r from-[#2997ff]/20 to-[#2997ff]/40 rounded-[4px]"
+                                                            style={{ width: `${percentage}%` }}
+                                                        />
+                                                    </div>
+                                                    <span className="relative z-10">{row.totalCount}</span>
+                                                </td>
+                                                {/* PF필수 */}
+                                                <td className="py-[12px] px-[16px] text-center text-[#E5E5E5] font-medium">
+                                                    {row.pfCount}
+                                                </td>
+                                                {/* 준공필수 */}
+                                                <td className="py-[12px] px-[16px] text-center text-[#E5E5E5] font-medium">
+                                                    {row.constCount}
+                                                </td>
+                                                {/* Blocker (Peach background) */}
+                                                <td className="py-[12px] px-[16px] text-center font-semibold text-[#ff453a] bg-[#ff3b30]/5">
+                                                    {row.blockerCount}
+                                                </td>
+                                                {/* 의사결정 (Yellow background) */}
+                                                <td className="py-[12px] px-[16px] text-center font-semibold text-[#ffcc00] bg-[#ffcc00]/5">
+                                                    {row.decisionCount}
+                                                </td>
+                                                {/* 지원요청 */}
+                                                <td className="py-[12px] px-[16px] text-center text-[#E5E5E5] font-medium">
+                                                    {row.supportCount}
+                                                </td>
+                                                {/* 7일내/지연 */}
+                                                <td className="py-[12px] px-[16px] text-center text-[#E5E5E5] font-medium">
+                                                    {row.delayedOr7DaysCount}
+                                                </td>
+                                            </tr>
+                                        );
+                                    })}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </>
             )}
         </div>
     );
