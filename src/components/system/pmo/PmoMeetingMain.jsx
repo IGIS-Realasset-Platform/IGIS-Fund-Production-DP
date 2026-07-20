@@ -76,7 +76,7 @@ export default function PmoMeetingMain() {
                 const { data: allTasks, error } = await supabase
                     .schema('iota_v2')
                     .from('iota_pmo_tasks')
-                    .select('id, project_code, task_name, lead_dept:iota_departments!lead_dept_code(dept_name), assignee, is_blocker, needs_decision, priority_score, due_date, status, category_main, importance_level, meeting_grade, task_type, support_needed');
+                    .select('id, project_code, task_name, lead_dept_code, lead_dept:iota_departments!lead_dept_code(dept_name), coop_dept_codes, coop_depts, assignee, is_blocker, needs_decision, priority_score, due_date, status, category_main, importance_level, meeting_grade, task_type, support_needed');
 
                 if (error) throw error;
 
@@ -240,16 +240,17 @@ export default function PmoMeetingMain() {
         const c = String(raw).toUpperCase().trim();
         if (c.includes('PM2') || c.includes('사업관리2파트') || c.includes('사업2파트')) return '사업관리2파트';
         if (c.includes('PM1') || c.includes('사업관리1파트') || c.includes('사업1파트')) return '사업관리1파트';
-        if (c.includes('DEV') || c.includes('개발관리실')) return '개발관리실';
-        if (c.includes('DESIGN') || c.includes('공간솔루션실')) return '공간솔루션실';
-        if (c.includes('MKT') || c.includes('기업마케팅실')) return '기업마케팅실';
+        if (c.includes('DEV') || c.includes('개발관리실') || c.includes('개발솔루션')) return '개발관리실';
+        if (c.includes('DESIGN') || c.includes('공간솔루션실') || c.includes('공간솔루션')) return '공간솔루션실';
+        if (c.includes('MKT') || c.includes('기업마케팅실') || c.includes('기업마케팅')) return '기업마케팅실';
         if (c.includes('LFC') || c.includes('DEPT_LFC')) return 'LFC';
         return '기타';
     };
 
     const isCoopDept = (t, deptName) => {
-        if (!t.coop_depts) return false;
-        const coopStr = String(t.coop_depts).toUpperCase();
+        const coopVal = t.coop_dept_codes || t.coop_depts || '';
+        if (!coopVal) return false;
+        const coopStr = String(coopVal).toUpperCase();
         if (deptName === '사업관리2파트') {
             return coopStr.includes('PM2') || coopStr.includes('사업관리2파트') || coopStr.includes('사업2파트');
         }
@@ -257,13 +258,13 @@ export default function PmoMeetingMain() {
             return coopStr.includes('PM1') || coopStr.includes('사업관리1파트') || coopStr.includes('사업1파트');
         }
         if (deptName === '개발관리실') {
-            return coopStr.includes('DEV') || coopStr.includes('개발관리실');
+            return coopStr.includes('DEV') || coopStr.includes('개발관리실') || coopStr.includes('개발솔루션');
         }
         if (deptName === '공간솔루션실') {
-            return coopStr.includes('DESIGN') || coopStr.includes('공간솔루션실');
+            return coopStr.includes('DESIGN') || coopStr.includes('공간솔루션실') || coopStr.includes('공간솔루션');
         }
         if (deptName === '기업마케팅실') {
-            return coopStr.includes('MKT') || coopStr.includes('기업마케팅실');
+            return coopStr.includes('MKT') || coopStr.includes('기업마케팅실') || coopStr.includes('기업마케팅');
         }
         if (deptName === 'LFC') {
             return coopStr.includes('LFC');
