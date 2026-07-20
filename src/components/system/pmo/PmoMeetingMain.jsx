@@ -792,6 +792,7 @@ export default function PmoMeetingMain() {
                                                      key={idx} 
                                                      onClick={() => handleRowClick(row)}
                                                      className="hover:bg-[#2b2b2b]/40 transition-colors cursor-pointer"
+                                                     title={`${row.dept} 주관 업무 페이지 보기`}
                                                  >
                                                     {/* 부서 */}
                                                     <td className="py-[16px] px-[16px] text-center font-bold text-[#E5E5E5]">
