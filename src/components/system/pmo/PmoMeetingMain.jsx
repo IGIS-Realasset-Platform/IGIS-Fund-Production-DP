@@ -386,7 +386,7 @@ export default function PmoMeetingMain() {
                 /* Bottom Box for Brief Listing - Card based view */
                 <div className="w-full bg-[#252525] border border-[#3c3c3c] rounded-[24px] p-[24px] mb-[30px] flex flex-col shadow-[0_4px_24px_rgba(0,0,0,0.4)]">
                     {/* Header Row */}
-                    <div className="flex justify-between items-center mb-[14px]">
+                    <div className="flex justify-between items-center mb-[10px]">
                         <div className="flex items-center gap-[10px]">
                             <h2 className="text-[18px] font-bold text-white tracking-tight flex items-center gap-[8px]">
                                 <span>{selectedFilter} 현황 목록</span>
@@ -456,7 +456,7 @@ export default function PmoMeetingMain() {
                                                     <span className="text-[#86868B] truncate">주관부서</span>
                                                     <span className="text-[#E5E5E5] font-semibold truncate" title={deptName}>{deptName}</span>
                                                 </div>
-                                                <div className="flex flex-col gap-[2px]">
+                                                <div className="flex flex-col gap-[2px] pl-[6px]">
                                                     <span className="text-[#86868B] truncate">담당자</span>
                                                     <span className="text-[#E5E5E5] font-semibold truncate" title={task.assignee}>{task.assignee || '미정'}</span>
                                                 </div>
