@@ -661,7 +661,7 @@ export default function PmoMeetingMain() {
                         </div>
  
                         {/* Grid 3:7 Layout for Chart and Table */}
-                        <div className="grid grid-cols-10 gap-4 mt-1">
+                        <div className="grid grid-cols-10 gap-4 mt-[2px]">
                             {/* Left Area: Donut Chart (30% equivalent / col-span-3) */}
                             <div className="col-span-3 bg-[#272726] border border-[#3c3c3c] rounded-[24px] p-4 flex flex-col items-center justify-start h-full">
                                 {/* Segmented Toggles */}
@@ -959,7 +959,7 @@ export default function PmoMeetingMain() {
                         </div>
 
                         {/* Full Width Table Container */}
-                        <div className="w-full bg-[#272726] border border-[#3c3c3c] rounded-[24px] overflow-hidden flex flex-col justify-start mt-1">
+                        <div className="w-full bg-[#272726] border border-[#3c3c3c] rounded-[24px] overflow-hidden flex flex-col justify-start mt-[2px]">
                             <table className="w-full text-left border-collapse bg-[#272726]">
                                 <thead>
                                     <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[13px] h-[38px] whitespace-nowrap">
