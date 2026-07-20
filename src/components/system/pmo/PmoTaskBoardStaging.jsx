@@ -1836,12 +1836,38 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
 
             let loadedTasks = [];
             if (data && data.length > 0) {
+                // One-time batch update (Requirement 1): If due_date < '2026-07-20', change to '2026-07-27'
+                const batchDueDateUpdates = [];
+                const preMigratedData = data.map(t => {
+                    if (t.due_date && t.due_date < '2026-07-20') {
+                        batchDueDateUpdates.push({
+                            id: t.id,
+                            status: t.status === '지연' ? '진행중' : t.status
+                        });
+                        return { 
+                            ...t, 
+                            due_date: '2026-07-27',
+                            status: t.status === '지연' ? '진행중' : t.status 
+                        };
+                    }
+                    return t;
+                });
+
+                if (batchDueDateUpdates.length > 0) {
+                    Promise.all(batchDueDateUpdates.map(upd =>
+                        supabase.schema('iota_v2').from('iota_pmo_tasks').update({
+                            due_date: '2026-07-27',
+                            status: upd.status
+                        }).eq('id', upd.id)
+                    )).catch(console.error);
+                }
+
                 // AUTO-HEAL SWEEP: Check if dynamic status/score/grade diverges from DB (due to time passing)
                 const tasksToUpdate = [];
                 const logsToInsert = [];
                 const todayStr = new Date().toISOString().slice(0, 10);
                 
-                const healedData = data.map(t => {
+                const healedData = preMigratedData.map(t => {
                     const fallbackItem = FALLBACK_BOARD_TASKS.find(fb => fb.task_name === t.task_name) || {};
                     
                     // System policy: auto-change status to "지연" if due_date has passed, status !== '완료', status !== '지연'
