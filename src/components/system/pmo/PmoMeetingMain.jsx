@@ -503,7 +503,7 @@ export default function PmoMeetingMain() {
                     {/* Bottom Box for Brief Listing - Card based view */}
                     <div className="w-full border border-[#3c3c3c] rounded-[24px] p-[6px] mb-[30px] flex flex-col">
                         {/* Header Row */}
-                        <div className="flex justify-between items-center px-[14px] pt-[14px] pb-[10px]">
+                        <div className="flex justify-between items-center px-[14px] pt-[6px] pb-[8px]">
                             <div className="flex items-center gap-[10px]">
                                 <h2 className="text-[18px] font-bold text-white tracking-tight flex items-center gap-[8px]">
                                     <span>{selectedFilter} 현황 목록</span>
@@ -511,7 +511,7 @@ export default function PmoMeetingMain() {
                             </div>
                             <button
                                 onClick={handleGoToFullPage}
-                                className="flex items-center gap-[6px] text-[12px] text-[#E5E5E5] hover:text-white font-bold transition-all px-[12px] py-[6px] bg-white/5 hover:bg-white/10 rounded-[8px] border border-white/10 hover:border-white/20 cursor-pointer"
+                                className="flex items-center gap-[6px] text-[12px] text-[#E5E5E5] hover:text-white font-bold transition-all px-[12px] py-[6px] bg-white/5 hover:bg-white/10 rounded-[8px] border border-white/10 hover:border-white/20 cursor-pointer -translate-y-[4px]"
                             >
                                 <span>{selectedFilter === '단발업무' ? '단발업무 요건판 전체 보기' : '통합업무보드에서 전체 보기'}</span>
                                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -541,7 +541,7 @@ export default function PmoMeetingMain() {
                                             >
                                                 <div className="mb-[16px]">
                                                     {/* Task Name */}
-                                                    <h3 className="text-[17px] font-bold text-[#cccaba] leading-snug group-hover:text-white transition-colors" title={task.task_name}>
+                                                    <h3 className="text-[19px] font-bold text-[#cccaba] leading-snug group-hover:text-white transition-colors" title={task.task_name}>
                                                         {task.task_name}
                                                     </h3>
                                                 </div>
