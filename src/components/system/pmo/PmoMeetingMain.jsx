@@ -945,16 +945,16 @@ export default function PmoMeetingMain() {
                             <table className="w-full text-left border-collapse bg-[#272726]">
                                 <thead>
                                     <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[13px] h-[38px] whitespace-nowrap">
-                                        <th className="py-[8px] px-[16px] w-[140px] font-bold text-[#86868B] text-center whitespace-nowrap">대분류</th>
-                                        <th className="py-[8px] px-[16px] text-center font-bold text-[#86868B] w-[165px] whitespace-nowrap">전체업무</th>
-                                        <th className="py-[8px] px-[16px] text-center font-bold text-[#86868B] w-[165px] whitespace-nowrap">PF필수</th>
-                                        <th className="py-[8px] px-[16px] text-center font-bold text-[#86868B] w-[165px] whitespace-nowrap">준공필수</th>
-                                        <th className="py-[8px] px-[16px] text-center font-bold text-[#86868B] w-[90px] border-l border-[#3c3c3c] whitespace-nowrap">진행중</th>
-                                        <th className="py-[8px] px-[16px] text-center font-bold text-[#86868B] w-[90px] border-l border-[#3c3c3c] whitespace-nowrap">Blocker</th>
-                                        <th className="py-[8px] px-[16px] text-center font-bold text-[#86868B] w-[90px] border-l border-[#3c3c3c] whitespace-nowrap">의사결정필요</th>
-                                        <th className="py-[8px] px-[16px] text-center font-bold text-[#86868B] w-[90px] border-l border-[#3c3c3c] whitespace-nowrap">지원필요</th>
-                                        <th className="py-[8px] px-[16px] text-center font-bold text-[#86868B] w-[90px] border-l border-[#3c3c3c] whitespace-nowrap">지연</th>
-                                        <th className="py-[8px] px-[16px] text-center font-bold text-[#86868B] w-[105px] border-l border-[#3c3c3c] whitespace-nowrap">주관부서</th>
+                                        <th className="py-[9px] px-[16px] w-[140px] font-bold text-[#86868B] text-center whitespace-nowrap">대분류</th>
+                                        <th className="py-[9px] px-[16px] text-center font-bold text-[#86868B] w-[165px] whitespace-nowrap">전체업무</th>
+                                        <th className="py-[9px] px-[16px] text-center font-bold text-[#86868B] w-[165px] whitespace-nowrap">PF필수</th>
+                                        <th className="py-[9px] px-[16px] text-center font-bold text-[#86868B] w-[165px] whitespace-nowrap">준공필수</th>
+                                        <th className="py-[9px] px-[16px] text-center font-bold text-[#86868B] w-[90px] border-l border-[#3c3c3c] whitespace-nowrap">진행중</th>
+                                        <th className="py-[9px] px-[16px] text-center font-bold text-[#86868B] w-[90px] border-l border-[#3c3c3c] whitespace-nowrap">Blocker</th>
+                                        <th className="py-[9px] px-[16px] text-center font-bold text-[#86868B] w-[90px] border-l border-[#3c3c3c] whitespace-nowrap">의사결정필요</th>
+                                        <th className="py-[9px] px-[16px] text-center font-bold text-[#86868B] w-[90px] border-l border-[#3c3c3c] whitespace-nowrap">지원필요</th>
+                                        <th className="py-[9px] px-[16px] text-center font-bold text-[#86868B] w-[90px] border-l border-[#3c3c3c] whitespace-nowrap">지연</th>
+                                        <th className="py-[9px] px-[16px] text-center font-bold text-[#86868B] w-[105px] border-l border-[#3c3c3c] whitespace-nowrap">주관부서</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-[#3c3c3c]/50 text-[13px]">
@@ -973,11 +973,11 @@ export default function PmoMeetingMain() {
                                                  onMouseLeave={() => setTooltipData(null)}
                                              >
                                                 {/* 대분류 */}
-                                                <td className="py-[8px] px-[16px] text-center font-bold text-[#E5E5E5] w-[140px] whitespace-nowrap">
+                                                <td className="py-[9px] px-[16px] text-center font-bold text-[#E5E5E5] w-[140px] whitespace-nowrap">
                                                     {row.category}
                                                 </td>
                                                 {/* 전체업무 */}
-                                                <td className="py-[8px] px-[16px] text-center text-white font-bold relative w-[165px] whitespace-nowrap">
+                                                <td className="py-[9px] px-[16px] text-center text-white font-bold relative w-[165px] whitespace-nowrap">
                                                     <div className="absolute inset-y-[4px] left-[6px] right-[6px] z-0">
                                                         <div 
                                                             className="h-full bg-gradient-to-r from-[#86868b]/15 to-[#86868b]/30 rounded-[4px]"
@@ -987,7 +987,7 @@ export default function PmoMeetingMain() {
                                                     <span className="relative z-10">{row.totalCount}</span>
                                                 </td>
                                                 {/* PF필수 */}
-                                                <td className="py-[8px] px-[16px] text-center text-white font-bold relative w-[165px] whitespace-nowrap">
+                                                <td className="py-[9px] px-[16px] text-center text-white font-bold relative w-[165px] whitespace-nowrap">
                                                     <div className="absolute inset-y-[4px] left-[6px] right-[6px] z-0">
                                                         <div 
                                                             className="h-full bg-gradient-to-r from-[#86868b]/15 to-[#86868b]/30 rounded-[4px]"
@@ -997,7 +997,7 @@ export default function PmoMeetingMain() {
                                                     <span className="relative z-10">{row.pfCount}</span>
                                                 </td>
                                                 {/* 준공필수 */}
-                                                <td className="py-[8px] px-[16px] text-center text-white font-bold relative w-[165px] whitespace-nowrap">
+                                                <td className="py-[9px] px-[16px] text-center text-white font-bold relative w-[165px] whitespace-nowrap">
                                                     <div className="absolute inset-y-[4px] left-[6px] right-[6px] z-0">
                                                         <div 
                                                             className="h-full bg-gradient-to-r from-[#86868b]/15 to-[#86868b]/30 rounded-[4px]"
@@ -1007,23 +1007,23 @@ export default function PmoMeetingMain() {
                                                     <span className="relative z-10">{row.constCount}</span>
                                                 </td>
                                                 {/* 진행중 */}
-                                                <td className="py-[8px] px-[16px] text-center text-[#E5E5E5] font-semibold border-l border-[#3c3c3c]/50 w-[90px] whitespace-nowrap bg-[#2c2c2b]/30">
+                                                <td className="py-[9px] px-[16px] text-center text-[#E5E5E5] font-semibold border-l border-[#3c3c3c]/50 w-[90px] whitespace-nowrap bg-[#2c2c2b]/30">
                                                     {row.inProgressCount} of {row.totalCount}
                                                 </td>
                                                 {/* Blocker */}
-                                                <td className={`py-[8px] px-[16px] text-center font-semibold w-[90px] border-l border-[#3c3c3c]/50 whitespace-nowrap ${row.blockerCount > 0 ? 'text-[#ff453a]' : 'text-[#86868B]'}`}>
+                                                <td className={`py-[9px] px-[16px] text-center font-semibold w-[90px] border-l border-[#3c3c3c]/50 whitespace-nowrap ${row.blockerCount > 0 ? 'text-[#ff453a]' : 'text-[#86868B]'}`}>
                                                     {row.blockerCount}
                                                 </td>
                                                 {/* 의사결정필요 */}
-                                                <td className={`py-[8px] px-[16px] text-center font-semibold w-[90px] border-l border-[#3c3c3c]/50 whitespace-nowrap ${row.decisionCount > 0 ? 'text-[#ff453a]' : 'text-[#86868B]'}`}>
+                                                <td className={`py-[9px] px-[16px] text-center font-semibold w-[90px] border-l border-[#3c3c3c]/50 whitespace-nowrap ${row.decisionCount > 0 ? 'text-[#ff453a]' : 'text-[#86868B]'}`}>
                                                     {row.decisionCount}
                                                 </td>
                                                 {/* 지원필요 */}
-                                                <td className="py-[8px] px-[16px] text-center text-[#E5E5E5] font-medium w-[90px] border-l border-[#3c3c3c]/50 whitespace-nowrap">
+                                                <td className="py-[9px] px-[16px] text-center text-[#E5E5E5] font-medium w-[90px] border-l border-[#3c3c3c]/50 whitespace-nowrap">
                                                     {row.supportCount}
                                                 </td>
                                                 {/* 지연 */}
-                                                <td className="py-[8px] px-[16px] text-center text-white font-bold relative w-[90px] border-l border-[#3c3c3c]/50 whitespace-nowrap">
+                                                <td className="py-[9px] px-[16px] text-center text-white font-bold relative w-[90px] border-l border-[#3c3c3c]/50 whitespace-nowrap">
                                                     <div className="absolute inset-y-[4px] left-[6px] right-[6px] z-0">
                                                         <div 
                                                             className="h-full bg-gradient-to-r from-[#86868b]/15 to-[#86868b]/30 rounded-[4px]"
@@ -1033,7 +1033,7 @@ export default function PmoMeetingMain() {
                                                     <span className="relative z-10">{row.delayedCount}</span>
                                                 </td>
                                                 {/* 주관부서 */}
-                                                <td className="py-[8px] px-[16px] text-center text-[#E5E5E5] font-medium w-[105px] border-l border-[#3c3c3c]/50 whitespace-nowrap">
+                                                <td className="py-[9px] px-[16px] text-center text-[#E5E5E5] font-medium w-[105px] border-l border-[#3c3c3c]/50 whitespace-nowrap">
                                                     {row.shortDepts}
                                                 </td>                                            </tr>
                                         );
