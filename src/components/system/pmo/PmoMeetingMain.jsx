@@ -86,11 +86,11 @@ export default function PmoMeetingMain() {
     };
 
     const upperFilters = [
-        { label: '전체업무', path: 'platform/iotaseoul/workflow', count: counts.total, highlightClass: 'text-[#1c1c1e]' },
-        { label: '지연', path: 'platform/iotaseoul/workflow?filterStatus=지연', count: counts.delayed, highlightClass: 'text-[#FF3B30]' },
-        { label: 'Blocker(병목)', path: 'platform/iotaseoul/workflow?filterIsBlocker=Y (예)', count: counts.blockers, highlightClass: 'text-[#FF3B30]' },
-        { label: '의사결정 필요', path: 'platform/iotaseoul/workflow?filterNeedsDecision=Y (예)', count: counts.decisions, highlightClass: 'text-[#FF9500]' },
-        { label: '회의 필요', path: 'platform/iotaseoul/workflow?filterMeetingGrade=A_즉시상정', count: counts.meetings, highlightClass: 'text-[#007AFF]' }
+        { label: '전체업무', path: 'platform/iotaseoul/workflow', count: counts.total, highlightClass: 'text-[#1F1F1E]' },
+        { label: '지연', path: 'platform/iotaseoul/workflow?filterStatus=지연', count: counts.delayed, highlightClass: 'text-[#E35D5D]' },
+        { label: 'Blocker(병목)', path: 'platform/iotaseoul/workflow?filterIsBlocker=Y (예)', count: counts.blockers, highlightClass: 'text-[#E35D5D]' },
+        { label: '의사결정 필요', path: 'platform/iotaseoul/workflow?filterNeedsDecision=Y (예)', count: counts.decisions, highlightClass: 'text-[#C98421]' },
+        { label: '회의 필요', path: 'platform/iotaseoul/workflow?filterMeetingGrade=A_즉시상정', count: counts.meetings, highlightClass: 'text-[#509FEB]' }
     ];
 
     const lowerFilters = [
@@ -116,17 +116,17 @@ export default function PmoMeetingMain() {
             </div>
 
             {/* Filter Navigation Buttons Capsule Box */}
-            <div className="w-full border border-[#3a3a3c] rounded-[28px] p-2 flex flex-col gap-2.5 mb-[32px] select-none text-center bg-transparent">
+            <div className="w-full border border-[#383838] rounded-[28px] p-2 flex flex-col gap-2.5 mb-[32px] select-none text-center bg-transparent">
                 {/* Upper Row Box */}
-                <div className="grid grid-cols-5 bg-[#A6A6A6] rounded-[20px] overflow-hidden divide-x divide-[#8E8E93]/40">
+                <div className="grid grid-cols-5 bg-[#B4B6B5] rounded-[20px] overflow-hidden divide-x divide-[#9FA1A0]/60">
                     {upperFilters.map((btn, idx) => (
                         <div
                             key={idx}
                             onClick={() => handleFilterClick(btn)}
                             className="p-1 flex items-center justify-center cursor-pointer group"
                         >
-                            <div className="w-full py-1.5 px-2 rounded-[16px] bg-transparent group-hover:bg-[#E5E5E7] transition-all duration-200 flex flex-col items-center justify-center">
-                                <span className="text-[12px] font-bold text-[#3A3A3C] mb-0.5">{btn.label}</span>
+                            <div className="w-full py-1.5 px-2 rounded-[16px] bg-transparent group-hover:bg-[#D5D7D6] transition-all duration-200 flex flex-col items-center justify-center">
+                                <span className="text-[12px] font-bold text-[#3C3C3C] mb-0.5">{btn.label}</span>
                                 <span className={`text-[26px] font-black leading-none ${btn.highlightClass}`}>
                                     {btn.count}
                                 </span>
@@ -135,14 +135,14 @@ export default function PmoMeetingMain() {
                     ))}
                 </div>
                 {/* Lower Row Box */}
-                <div className="grid grid-cols-8 bg-[#151515] border border-[#2c2c2d] rounded-[20px] overflow-hidden divide-x divide-[#2c2c2e]">
+                <div className="grid grid-cols-8 bg-[#2B2B2B] border border-[#3E3E3E]/50 rounded-[20px] overflow-hidden divide-x divide-[#3E3E3E]/60">
                     {lowerFilters.map((btn, idx) => (
                         <div
                             key={idx}
                             onClick={() => handleFilterClick(btn)}
                             className="p-1 flex items-center justify-center cursor-pointer group"
                         >
-                            <div className="w-full py-3.5 px-2 rounded-[16px] bg-transparent group-hover:bg-[#2C2C2E] transition-all duration-200 flex flex-col items-center justify-center">
+                            <div className="w-full py-3.5 px-2 rounded-[16px] bg-transparent group-hover:bg-[#3E3E3E] transition-all duration-200 flex flex-col items-center justify-center">
                                 <span className="text-[11px] font-bold text-[#8E8E93] group-hover:text-[#AEAEB2] mb-1">{btn.label}</span>
                                 <span className="text-[20px] font-black text-white leading-none">
                                     {btn.count}
