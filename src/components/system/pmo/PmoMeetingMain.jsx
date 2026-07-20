@@ -340,7 +340,11 @@ export default function PmoMeetingMain() {
         };
     });
 
-    const maxTotalCount = Math.max(...deptRowsData.map(d => d.totalCount), 1);
+    const maxActiveCount = Math.max(...deptRowsData.map(d => {
+        if (activeMetric === '주관업무') return d.leadCount;
+        if (activeMetric === '협업업무') return d.coopCount;
+        return d.totalCount;
+    }), 1);
 
     return (
         <div className="w-[1290px] mx-auto flex-1 flex flex-col pt-[28px] pb-[60px] select-text">
@@ -774,9 +778,9 @@ export default function PmoMeetingMain() {
                                     <thead>
                                         <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[13px] h-[46px]">
                                             <th className="py-[16px] px-[16px] w-[130px] font-bold text-[#86868B] text-center">부서</th>
-                                            <th className="py-[16px] px-[16px] text-center font-bold text-[#86868B]">주관업무</th>
-                                            <th className="py-[16px] px-[16px] text-center font-bold text-[#86868B]">협업업무</th>
-                                            <th className="py-[16px] px-[16px] text-center font-bold text-[#86868B] w-[140px]">총관여</th>
+                                            <th className={`py-[16px] px-[16px] text-center font-bold text-[#86868B] transition-all duration-300 ${activeMetric === '주관업무' ? 'w-[140px]' : 'w-[80px]'}`}>주관업무</th>
+                                            <th className={`py-[16px] px-[16px] text-center font-bold text-[#86868B] transition-all duration-300 ${activeMetric === '협업업무' ? 'w-[140px]' : 'w-[80px]'}`}>협업업무</th>
+                                            <th className={`py-[16px] px-[16px] text-center font-bold text-[#86868B] transition-all duration-300 ${activeMetric === '총관여' ? 'w-[140px]' : 'w-[80px]'}`}>총관여</th>
                                             <th className="py-[16px] px-[16px] text-center font-bold text-[#86868B]">PF필수</th>
                                             <th className="py-[16px] px-[16px] text-center font-bold text-[#86868B]">준공필수</th>
                                             <th className="py-[16px] px-[16px] text-center font-bold text-[#86868B]">Blocker</th>
@@ -787,7 +791,7 @@ export default function PmoMeetingMain() {
                                     </thead>
                                     <tbody className="divide-y divide-[#3c3c3c]/50 text-[13px]">
                                         {deptRowsData.map((row, idx) => {
-                                            const percentage = (row.totalCount / maxTotalCount) * 100;
+                                            const percentage = (row.totalCount / maxActiveCount) * 100;
                                             return (
                                                 <tr 
                                                      key={idx} 
@@ -806,21 +810,39 @@ export default function PmoMeetingMain() {
                                                         {row.dept}
                                                     </td>
                                                     {/* 주관업무 */}
-                                                    <td className="py-[16px] px-[16px] text-center text-[#E5E5E5] font-semibold">
-                                                        {row.leadCount}
+                                                    <td className={`py-[16px] px-[16px] text-center transition-all duration-300 relative ${activeMetric === '주관업무' ? 'font-bold text-white w-[140px]' : 'text-[#E5E5E5] font-semibold w-[80px]'}`}>
+                                                        {activeMetric === '주관업무' && (
+                                                            <div className="absolute inset-y-[6px] left-[6px] right-[6px] z-0">
+                                                                <div 
+                                                                    className="h-full bg-gradient-to-r from-[#86868b]/15 to-[#86868b]/30 rounded-[4px]"
+                                                                    style={{ width: `${(row.leadCount / maxActiveCount) * 100}%` }}
+                                                                />
+                                                            </div>
+                                                        )}
+                                                        <span className="relative z-10">{row.leadCount}</span>
                                                     </td>
                                                     {/* 협업업무 */}
-                                                    <td className="py-[16px] px-[16px] text-center text-[#E5E5E5] font-semibold">
-                                                        {row.coopCount}
+                                                    <td className={`py-[16px] px-[16px] text-center transition-all duration-300 relative ${activeMetric === '협업업무' ? 'font-bold text-white w-[140px]' : 'text-[#E5E5E5] font-semibold w-[80px]'}`}>
+                                                        {activeMetric === '협업업무' && (
+                                                            <div className="absolute inset-y-[6px] left-[6px] right-[6px] z-0">
+                                                                <div 
+                                                                    className="h-full bg-gradient-to-r from-[#86868b]/15 to-[#86868b]/30 rounded-[4px]"
+                                                                    style={{ width: `${(row.coopCount / maxActiveCount) * 100}%` }}
+                                                                />
+                                                            </div>
+                                                        )}
+                                                        <span className="relative z-10">{row.coopCount}</span>
                                                     </td>
                                                     {/* 총관여 with Gradient Bar chart */}
-                                                    <td className="py-[16px] px-[16px] text-center font-bold text-white relative">
-                                                        <div className="absolute inset-y-[6px] left-[6px] right-[6px] z-0">
-                                                            <div 
-                                                                className="h-full bg-gradient-to-r from-[#86868b]/15 to-[#86868b]/30 rounded-[4px]"
-                                                                style={{ width: `${percentage}%` }}
-                                                            />
-                                                        </div>
+                                                    <td className={`py-[16px] px-[16px] text-center transition-all duration-300 relative ${activeMetric === '총관여' ? 'font-bold text-white w-[140px]' : 'text-[#E5E5E5] font-semibold w-[80px]'}`}>
+                                                        {activeMetric === '총관여' && (
+                                                            <div className="absolute inset-y-[6px] left-[6px] right-[6px] z-0">
+                                                                <div 
+                                                                    className="h-full bg-gradient-to-r from-[#86868b]/15 to-[#86868b]/30 rounded-[4px]"
+                                                                    style={{ width: `${(row.totalCount / maxActiveCount) * 100}%` }}
+                                                                />
+                                                            </div>
+                                                        )}
                                                         <span className="relative z-10">{row.totalCount}</span>
                                                     </td>
                                                     {/* PF필수 */}
