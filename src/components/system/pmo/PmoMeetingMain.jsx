@@ -569,7 +569,7 @@ export default function PmoMeetingMain() {
                     {/* Bottom Box for Brief Listing - Card based view */}
                     <div className="w-[calc(100%+14px)] ml-[-7px] border border-[#3c3c3c] rounded-[24px] p-[6px] mb-[30px] flex flex-col">
                         {/* Header Row */}
-                        <div className="flex justify-between items-center pl-[21px] pr-[6px] pt-[6px] pb-[8px]">
+                        <div className="flex justify-between items-center pl-[20px] pr-0 pt-[6px] pb-[8px]">
                             <div className="flex items-center gap-[10px]">
                                 <h2 className="text-[18px] font-bold text-white tracking-tight flex items-center gap-[8px]">
                                     <span>{selectedFilter} 현황 목록</span>
@@ -585,7 +585,7 @@ export default function PmoMeetingMain() {
                         </div>
  
                         {/* Card-based grid row container */}
-                        <div className="max-h-[340px] overflow-y-auto px-0 pr-[4px] scrollbar-thin">
+                        <div className="max-h-[340px] overflow-y-auto px-0 hide-scrollbar">
                             {getFilteredTasks().length === 0 ? (
                                 <div className="py-[60px] text-center text-[#86868B] text-[14px]">
                                     조건에 일치하는 업무 항목이 없습니다.
