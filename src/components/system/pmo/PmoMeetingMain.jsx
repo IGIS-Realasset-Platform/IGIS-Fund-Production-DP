@@ -438,8 +438,8 @@ export default function PmoMeetingMain() {
                                                     </div>
                                                 </div>
 
-                                                {/* Card Content: Title (Increased by 2px from 16px to 18px, truncated to single line, text-[#c5c4b3]) */}
-                                                <h3 className="text-[18px] font-bold text-[#c5c4b3] group-hover:text-white truncate leading-snug mb-[14px] transition-colors" title={task.task_name}>
+                                                {/* Card Content: Title (Increased by 2px from 16px to 18px, truncated to single line, text-[#d2d0bc]) */}
+                                                <h3 className="text-[18px] font-bold text-[#d2d0bc] group-hover:text-white truncate leading-snug mb-[14px] transition-colors" title={task.task_name}>
                                                     {task.task_name}
                                                 </h3>
                                             </div>
