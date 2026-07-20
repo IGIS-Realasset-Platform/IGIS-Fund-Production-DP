@@ -131,7 +131,7 @@ tasks.forEach(t => {
     ) VALUES (
         '${projCode}', '${category}', ${t.sector_detail ? `'${t.sector_detail}'` : 'NULL'}, '${taskName}',
         ${purpose ? `'${purpose}'` : 'NULL'}, ${deliverables ? `'${deliverables}'` : 'NULL'},
-        '공통 PMO', '${t.pmo_manager || '사업2파트'}', '${leadDeptCode}',
+        '${t.target_axis || '공통 PMO'}', '${t.pmo_manager || '사업2파트'}', '${leadDeptCode}',
         ${t.coop_depts ? `'${t.coop_depts}'` : 'NULL'}, '${t.assignee || '미정'}', ${stakeCode ? `'${stakeCode}'` : 'NULL'},
         ${isBlocker}, ${needsDecision}, ${t.due_date ? `'${t.due_date}'` : 'NULL'}, '${status}', '${importance}', '${taskType}',
         ${score}, '${meetingGrade}', ${agendaReason ? `'${agendaReason}'` : 'NULL'},

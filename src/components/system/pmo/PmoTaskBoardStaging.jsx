@@ -14,7 +14,7 @@ export const FALLBACK_BOARD_TASKS = [
     "task_name": "IOTA 통합 업무관리 원장 운영",
     "task_purpose": "업무과중·중복요청·공 차지 문제를 차단하고 PF/준공 중심으로 업무를 재정렬",
     "deliverables": "통합업무보드, 회의메인, Action Item 운영기준",
-    "target_axis": "준공/운영",
+    "target_axis": "공통 PMO",
     "gate_stage": "G0 현황정리",
     "pmo_manager": "사업2파트",
     "lead_dept": "사업2파트",
@@ -275,7 +275,7 @@ export const FALLBACK_BOARD_TASKS = [
     "task_name": "준공/사용승인 역산 로드맵 수립",
     "task_purpose": "PF 이후에도 준공·담보대출까지 장기 관리 필요",
     "deliverables": "사용승인 체크리스트, 준공 CP, 관계기관 일정표",
-    "target_axis": "준공/운영",
+    "target_axis": "준공/사용승인",
     "gate_stage": "G5 준공",
     "pmo_manager": "사업2파트",
     "lead_dept": "개발관리실",
@@ -1029,7 +1029,7 @@ export const FALLBACK_BOARD_TASKS = [
     "task_name": "회의록·Action Item·Due Date 관리",
     "task_purpose": "업무가 흩어지지 않고 담당/기한/산출물 기준으로 회수되게 함",
     "deliverables": "회의록, Action Item, 미완료/지원요청 목록",
-    "target_axis": "준공/운영",
+    "target_axis": "공통 PMO",
     "gate_stage": "G0 현황정리",
     "pmo_manager": "사업2파트",
     "lead_dept": "사업2파트",
@@ -1087,7 +1087,7 @@ export const FALLBACK_BOARD_TASKS = [
     "task_name": "준공/사용승인 CP 및 증빙자료 관리체계 수립",
     "task_purpose": "Take-out 대출 및 운영전환의 전제 조건",
     "deliverables": "준공 CP, 사용승인 증빙, 담보대출 요구자료 목록",
-    "target_axis": "준공/운영",
+    "target_axis": "준공/사용승인",
     "gate_stage": "G5 준공",
     "pmo_manager": "사업2파트",
     "lead_dept": "개발관리실",
@@ -1116,7 +1116,7 @@ export const FALLBACK_BOARD_TASKS = [
     "task_name": "준공 후 담보대출/Take-out 전략 수립",
     "task_purpose": "브릿지/PF 상환과 자산 안정화 전략의 최종 회수 단계",
     "deliverables": "Take-out 대출 전략, 담보가치, DSCR, 임대안정화 계획",
-    "target_axis": "준공/운영",
+    "target_axis": "담보대출/Take-out",
     "gate_stage": "G6 담보대출/운영전환",
     "pmo_manager": "사업2파트",
     "lead_dept": "LFC",
@@ -1145,7 +1145,7 @@ export const FALLBACK_BOARD_TASKS = [
     "task_name": "준공 후 운영·자산관리 전환계획 수립",
     "task_purpose": "준공 이후 임대운영, 호텔운영, 담보대출 관리 필요",
     "deliverables": "운영전환 체크리스트, 임대운영/호텔운영 업무분장",
-    "target_axis": "준공/운영",
+    "target_axis": "운영전환",
     "gate_stage": "G6 담보대출/운영전환",
     "pmo_manager": "사업2파트",
     "lead_dept": "사업2파트",
@@ -1458,7 +1458,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
     const [formTaskName, setFormTaskName] = useState('');
     const [formTaskPurpose, setFormTaskPurpose] = useState('');
     const [formDeliverables, setFormDeliverables] = useState('');
-    const [formTargetAxis, setFormTargetAxis] = useState('준공/운영');
+    const [formTargetAxis, setFormTargetAxis] = useState('공통 PMO');
     const [formGateStage, setFormGateStage] = useState('G0 현황정리');
     const [formPmoManager, setFormPmoManager] = useState('사업2파트');
     const [formLeadDept, setFormLeadDept] = useState('사업2파트');
@@ -2311,7 +2311,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
         setFormTaskName('');
         setFormTaskPurpose('');
         setFormDeliverables('');
-        setFormTargetAxis('준공/운영');
+        setFormTargetAxis('공통 PMO');
         setFormGateStage('G0 현황정리');
         setFormPmoManager('사업2파트');
         setFormLeadDept(departments[0]?.dept_name || '사업2파트');
@@ -2344,7 +2344,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
         setFormTaskName(item.task_name || '');
         setFormTaskPurpose(item.task_purpose || fallbackItem.task_purpose || '');
         setFormDeliverables(item.deliverables || fallbackItem.deliverables || '');
-        setFormTargetAxis(item.target_axis || fallbackItem.target_axis || '준공/운영');
+        setFormTargetAxis(item.target_axis || fallbackItem.target_axis || '공통 PMO');
         
         // Gate stage mapping
         const gateVal = String(item.gate_stage || fallbackItem.gate_stage || 'G0');
@@ -2685,7 +2685,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
             if (selectedCategoryMain !== '전체보기' && t.category_main !== selectedCategoryMain) return false;
 
             // Target axis match
-            const targetAxis = t.target_axis || fallbackItem.target_axis || '준공/운영';
+            const targetAxis = t.target_axis || fallbackItem.target_axis || '공통 PMO';
             if (selectedTargetAxis !== '전체보기' && targetAxis !== selectedTargetAxis) return false;
 
             // Gate stage match
@@ -3203,7 +3203,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                             const coopDeptNames = normalizeCoopDepts(rawCoopVal);
                                             const isSelected = selectedTaskDetail && selectedTaskDetail.id === t.id;
                                             const extPartyName = t.external_party?.stakeholder_name || t.external_party || t.external_party_code || fallbackItem.external_party || '';
-                                            const targetAxis = t.target_axis || fallbackItem.target_axis || '준공/운영';
+                                            const targetAxis = t.target_axis || fallbackItem.target_axis || '공통 PMO';
                                             
                                             // Gate stage mapping
                                             const rawGate = t.gate_stage || fallbackItem.gate_stage || 'G0';
@@ -4398,7 +4398,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                 
                 const agendaReason = t.agenda_reason || fallbackItem.agenda_reason || '';
                 const nextActionVal = t.next_action || fallbackItem.next_action || '';
-                const targetAxis = t.target_axis || fallbackItem.target_axis || '준공/운영';
+                const targetAxis = t.target_axis || fallbackItem.target_axis || '공통 PMO';
                 const projObj = projects.find(p => p.project_code === t.project_code);
 
                 return (
