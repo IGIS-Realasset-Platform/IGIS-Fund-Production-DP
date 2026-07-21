@@ -40,64 +40,7 @@ export default function MobileWorkflowLogs({ memberInfo }) {
                 console.error('Error fetching API logs:', apiErr);
             }
 
-            // 2. Fetch Supabase DB logs
-            let dbLogs = [];
-            try {
-                const { data: dbData, error: dbError } = await supabase
-                    .from('iota_seoul_logs')
-                    .select('*, iota_seoul_log_stakeholders(sh_name, role_category)')
-                    .order('work_date', { ascending: false })
-                    .order('created_at', { ascending: false });
-
-                if (dbError) throw dbError;
-                if (dbData) {
-                    dbLogs = dbData;
-                }
-            } catch (dbErr) {
-                console.error('Error fetching DB logs:', dbErr);
-            }
-
-            // 3. Map DB Logs to match API schema
-            const mappedDbLogs = dbLogs.map(log => {
-                const line = getLogCell(log);
-
-                return {
-                    id: log.log_id || log.id,
-                    work_date: log.work_date,
-                    writer_name: log.writer_name || '익명',
-                    writer_email: log.writer_staff_id || log.writer_email || '',
-                    writer_staff_id: log.writer_staff_id || log.writer_email || '',
-                    title: log.summary || log.title || '업무 로그',
-                    summary: log.summary || '',
-                    raw_text: log.raw_text || log.body_text || '',
-                    body_text: log.raw_text || log.body_text || '',
-                    line: line,
-                    metadata: {
-                        workspace_code: log.metadata?.workspace_code || '',
-                        workspace_label: log.metadata?.workspace_label || '공통',
-                        project_name: log.metadata?.project_name || '',
-                        triage_type: log.metadata?.triage_type || '',
-                        issue_status: log.metadata?.issue_status || '',
-                        priority: log.metadata?.priority || '',
-                        comments: log.metadata?.comments || [],
-                        stakeholders: log.iota_seoul_log_stakeholders || []
-                    },
-                    source_url: log.source_url || null,
-                    created_at: log.created_at
-                };
-            });
-
-            // 4. Merge data (deduplicate by id)
-            const mergedLogsMap = new Map();
-            apiLogs.forEach(l => {
-                if (l.id) mergedLogsMap.set(l.id, l);
-            });
-            mappedDbLogs.forEach(l => {
-                if (l.id) mergedLogsMap.set(l.id, l);
-            });
-
-            const allLogs = Array.from(mergedLogsMap.values());
-            const sortedLogs = allLogs.sort((a, b) => {
+            const sortedLogs = apiLogs.sort((a, b) => {
                 const dateA = a.work_date ? new Date(a.work_date).getTime() : 0;
                 const dateB = b.work_date ? new Date(b.work_date).getTime() : 0;
                 return dateB - dateA;
@@ -309,13 +252,20 @@ export default function MobileWorkflowLogs({ memberInfo }) {
 
             {/* List Body */}
             <div className="p-4 flex flex-col gap-4">
-                <div className="text-[13px] font-bold text-[#86868B] select-none">
-                    통합 업무 로그 ({filteredLogs.length}건)
+                <div className="flex justify-between items-end mb-[16px]">
+                    <h1 className="text-[20px] font-bold text-white tracking-tight flex items-center gap-2 px-1">
+                        Director 주요업무 보고 ({filteredLogs.length}건)
+                        <span className="text-[12px] bg-[#3b82f6]/20 text-[#60a5fa] px-2 py-0.5 rounded-md font-semibold font-mono animate-pulse">LIVE</span>
+                    </h1>
                 </div>
 
                 {loading ? (
-                    <div className="flex justify-center items-center py-24">
+                    <div className="flex flex-col justify-center items-center py-24 gap-4">
                         <div className="animate-spin w-8 h-8 border-4 border-[#3b82f6] border-t-transparent rounded-full"></div>
+                        <span className="text-[12px] text-[#86868B] text-center px-4">
+                            Notion 데이터를 동기화 중입니다...<br/>
+                            (최대 20초 정도 소요될 수 있습니다)
+                        </span>
                     </div>
                 ) : filteredLogs.length === 0 ? (
                     <div className="text-center py-24 text-[#86868B] text-[14.5px] font-medium border border-dashed border-[#3c3c3c] rounded-[24px]">

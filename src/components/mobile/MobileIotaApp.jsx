@@ -3,7 +3,7 @@ import { useAuth } from '../../context/AuthContext';
 import { supabase } from '../../utils/supabaseClient';
 import MobileWorkflowLogs from './MobileWorkflowLogs';
 import MobileTaskContainer from './MobileTaskContainer';
-import MobileLogList from './MobileLogList';
+import MobileCollaborationContainer from './MobileCollaborationContainer';
 import MobileMyTasks from './MobileMyTasks';
 import MobileNotifications from './MobileNotifications';
 import MobileComposerSheet from './MobileComposerSheet';
@@ -251,12 +251,8 @@ export default function MobileIotaApp({ navigateTo }) {
                     />
                 )}
                 {activeTab === 2 && (
-                    <MobileLogList 
-                        memberInfo={memberInfo} 
-                        highlightLogId={highlightLogId} 
-                        onWorkspaceReset={() => setTargetMobileWorkspace(null)}
-                        onHighlightReset={() => setHighlightLogId(null)} 
-                        refreshTrigger={refreshTrigger}
+                    <MobileCollaborationContainer 
+                        memberInfo={memberInfo}
                     />
                 )}
                 {activeTab === 3 && <MobileMyTasks memberInfo={memberInfo} />}
