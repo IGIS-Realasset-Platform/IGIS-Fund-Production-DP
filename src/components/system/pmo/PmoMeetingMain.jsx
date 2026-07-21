@@ -613,7 +613,7 @@ export default function PmoMeetingMain() {
                                                 </div>
 
                                                 {/* Snippet (Preview) */}
-                                                <div className="flex-1 min-w-0 px-[10px] ml-[-11px]">
+                                                <div className="flex-1 min-w-0 px-[10px] ml-[-5px]">
                                                     <p className="text-[13.5px] text-white/40 truncate font-light group-hover:text-white/60 transition-colors" title={fallbackItem.task_purpose || fallbackItem.deliverables || ''}>
                                                         {fallbackItem.task_purpose || fallbackItem.deliverables || '상세 내용 없음'}
                                                     </p>
