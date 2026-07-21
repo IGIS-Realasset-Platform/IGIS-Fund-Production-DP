@@ -38,19 +38,19 @@ export default function MobileHome({ memberInfo, onNavigateToTab }) {
         <div className="w-full h-full flex flex-col p-4 overflow-y-auto hide-scrollbar">
             {/* 2x2 KPI Widgets will go here */}
             <div className="grid grid-cols-2 gap-3 mb-6">
-                <div className="bg-[#252525] rounded-[20px] p-4 flex flex-col justify-between h-[100px] border border-white/[0.06]">
+                <div onClick={() => onNavigateToTab(1, 'Blocker')} className="bg-[#252525] rounded-[20px] p-4 flex flex-col justify-between h-[100px] border border-white/[0.06] active:bg-[#2c2c2e] transition-colors cursor-pointer">
                     <span className="text-[13px] font-medium text-[#86868b]">블로커</span>
                     <span className="text-[28px] font-bold text-red-500 font-['Inter']">{counts.blockers}</span>
                 </div>
-                <div className="bg-[#252525] rounded-[20px] p-4 flex flex-col justify-between h-[100px] border border-white/[0.06]">
+                <div onClick={() => onNavigateToTab(1, 'Decision')} className="bg-[#252525] rounded-[20px] p-4 flex flex-col justify-between h-[100px] border border-white/[0.06] active:bg-[#2c2c2e] transition-colors cursor-pointer">
                     <span className="text-[13px] font-medium text-[#86868b]">의사결정</span>
                     <span className="text-[28px] font-bold text-orange-500 font-['Inter']">{counts.decision}</span>
                 </div>
-                <div className="bg-[#252525] rounded-[20px] p-4 flex flex-col justify-between h-[100px] border border-white/[0.06]">
+                <div onClick={() => onNavigateToTab(1, 'Delay')} className="bg-[#252525] rounded-[20px] p-4 flex flex-col justify-between h-[100px] border border-white/[0.06] active:bg-[#2c2c2e] transition-colors cursor-pointer">
                     <span className="text-[13px] font-medium text-[#86868b]">지연/위험</span>
                     <span className="text-[28px] font-bold text-yellow-500 font-['Inter']">{counts.delay}</span>
                 </div>
-                <div className="bg-[#252525] rounded-[20px] p-4 flex flex-col justify-between h-[100px] border border-white/[0.06]">
+                <div onClick={() => onNavigateToTab(1, 'Pending')} className="bg-[#252525] rounded-[20px] p-4 flex flex-col justify-between h-[100px] border border-white/[0.06] active:bg-[#2c2c2e] transition-colors cursor-pointer">
                     <span className="text-[13px] font-medium text-[#86868b]">안건대기</span>
                     <span className="text-[28px] font-bold text-blue-500 font-['Inter']">{counts.pending}</span>
                 </div>

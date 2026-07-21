@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { supabase } from '../../utils/supabaseClient';
 import MobileWorkflowLogs from './MobileWorkflowLogs';
-import MobileTaskList from './MobileTaskList';
+import MobileTaskContainer from './MobileTaskContainer';
 import MobileLogList from './MobileLogList';
 import MobileMyTasks from './MobileMyTasks';
 import MobileNotifications from './MobileNotifications';
@@ -16,6 +16,7 @@ export default function MobileIotaApp({ navigateTo }) {
     const [activeTab, setActiveTab] = useState(0); // 0: 주요업무, 1: 협업게시판, 2: 내업무, 3: 알림
     const [highlightLogId, setHighlightLogId] = useState(null);
     const [highlightTaskId, setHighlightTaskId] = useState(null);
+    const [taskDefaultFilter, setTaskDefaultFilter] = useState(null);
     const [targetMobileWorkspace, setTargetMobileWorkspace] = useState(null);
     const [isComposerOpen, setIsComposerOpen] = useState(false);
     const [unreadNotiCount, setUnreadNotiCount] = useState(0);
@@ -236,15 +237,17 @@ export default function MobileIotaApp({ navigateTo }) {
                 {activeTab === 0 && (
                     <MobileHome 
                         memberInfo={memberInfo}
-                        onNavigateToTab={setActiveTab}
+                        onNavigateToTab={(tabIdx, filterStr) => {
+                            setTaskDefaultFilter(filterStr || null);
+                            setActiveTab(tabIdx);
+                        }}
                     />
                 )}
                 {activeTab === 1 && (
-                    <MobileTaskList 
+                    <MobileTaskContainer 
                         memberInfo={memberInfo} 
-                        initialWorkspaceCode={selectedWorkspaceCode}
-                        onWorkspaceChange={setSelectedWorkspaceCode}
-                        refreshTrigger={refreshTrigger}
+                        defaultFilter={taskDefaultFilter}
+                        onResetFilter={() => setTaskDefaultFilter(null)}
                     />
                 )}
                 {activeTab === 2 && (

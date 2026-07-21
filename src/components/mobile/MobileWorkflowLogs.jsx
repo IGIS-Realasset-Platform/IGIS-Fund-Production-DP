@@ -272,7 +272,7 @@ export default function MobileWorkflowLogs({ memberInfo }) {
     }, [logs, selectedLine, searchQuery]);
 
     return (
-        <div className="flex flex-col w-full bg-[#1F1F1E] min-h-screen pb-28">
+        <div className="flex flex-col w-full bg-[#1F1F1E] h-full pb-8">
             {/* Search and Filters Header */}
             <div className="sticky top-0 bg-[#272726] border-b border-[#3c3c3c] px-4 py-3 z-25 flex flex-col gap-2.5 shrink-0">
                 {/* Search Bar */}
