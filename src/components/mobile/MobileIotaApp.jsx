@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { supabase } from '../../utils/supabaseClient';
 import MobileWorkflowLogs from './MobileWorkflowLogs';
+import MobileTaskList from './MobileTaskList';
 import MobileLogList from './MobileLogList';
 import MobileMyTasks from './MobileMyTasks';
 import MobileNotifications from './MobileNotifications';
@@ -239,8 +240,11 @@ export default function MobileIotaApp({ navigateTo }) {
                     />
                 )}
                 {activeTab === 1 && (
-                    <MobileWorkflowLogs 
+                    <MobileTaskList 
                         memberInfo={memberInfo} 
+                        initialWorkspaceCode={selectedWorkspaceCode}
+                        onWorkspaceChange={setSelectedWorkspaceCode}
+                        refreshTrigger={refreshTrigger}
                     />
                 )}
                 {activeTab === 2 && (
