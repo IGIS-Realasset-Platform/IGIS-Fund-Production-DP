@@ -2580,7 +2580,13 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                 }
 
                 // 3. 병목
-                const oldBlocker = parseBool(editingItem.is_blocker !== undefined ? editingItem.is_blocker : fallbackItem.is_blocker) ? '활성화' : '비활성화';
+                const oldBlockerRaw = editingItem.is_blocker !== undefined ? editingItem.is_blocker : fallbackItem.is_blocker;
+                let oldBlocker = '비활성화';
+                if (oldBlockerRaw === '활성화' || oldBlockerRaw === '비활성화') {
+                    oldBlocker = oldBlockerRaw;
+                } else {
+                    oldBlocker = parseBool(oldBlockerRaw) ? '활성화' : '비활성화';
+                }
                 const newBlocker = formIsBlocker ? '활성화' : '비활성화';
                 if (oldBlocker !== newBlocker) {
                     changes.push(`병목(Blocker)이 "${oldBlocker}"에서 "${newBlocker}"으로 변경되었습니다.`);
@@ -2625,7 +2631,13 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                 }
 
                 // 8. 의사결정 필요
-                const oldDecision = parseBool(editingItem.needs_decision !== undefined ? editingItem.needs_decision : fallbackItem.needs_decision) ? '필요' : '불필요';
+                const oldDecisionRaw = editingItem.needs_decision !== undefined ? editingItem.needs_decision : fallbackItem.needs_decision;
+                let oldDecision = '불필요';
+                if (oldDecisionRaw === '필요' || oldDecisionRaw === '불필요') {
+                    oldDecision = oldDecisionRaw;
+                } else {
+                    oldDecision = parseBool(oldDecisionRaw) ? '필요' : '불필요';
+                }
                 const newDecision = formNeedsDecision ? '필요' : '불필요';
                 if (oldDecision !== newDecision) {
                     changes.push(`의사결정 필요 여부가 "${oldDecision}"에서 "${newDecision}"으로 변경되었습니다.`);
@@ -2645,7 +2657,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                         source_system: 'task_board',
                         metadata: {
                             is_task_board: true,
-                            task_id: editingItem.id,
+                            task_id: String(editingItem.id),
                             task_project: resolvedProjectCode || 'IOTA_SEOUL',
                             workspace_code: 'WS_PMO',
                             workspace_label: '통합업무보드',
