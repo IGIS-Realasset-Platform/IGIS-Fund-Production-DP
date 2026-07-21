@@ -1,5 +1,9 @@
 {
   "appId": "com.igis.fundproduction",
   "appName": "IOTA Seoul",
-  "webDir": "dist"
+  "webDir": "dist",
+  "server": {
+    "url": "http://172.16.100.191:8082",
+    "cleartext": true
+  }
 }

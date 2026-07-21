@@ -112,7 +112,7 @@ export default function MobilePmoTaskList({ memberInfo, defaultFilter, onResetFi
                     </div>
                 ) : (
                     filteredTasks.map((task) => (
-                        <div key={task.id} className="bg-[#272726] rounded-[20px] p-5 shadow-sm border border-[#3c3c3c]/50 relative overflow-hidden">
+                        <div key={task.id} className="shrink-0 bg-[#272726] rounded-[20px] p-5 shadow-sm border border-[#3c3c3c]/50 relative overflow-hidden">
                             {/* Accent Line for Critical Items */}
                             {(task.is_blocker || task.needs_decision) && (
                                 <div className={`absolute left-0 top-0 bottom-0 w-1 ${task.is_blocker ? 'bg-[#f87171]' : 'bg-[#fb923c]'}`}></div>
@@ -133,7 +133,7 @@ export default function MobilePmoTaskList({ memberInfo, defaultFilter, onResetFi
                                 </span>
                             </div>
 
-                            <h3 className="text-[17px] font-bold text-white leading-snug mb-2 font-sans break-all">
+                            <h3 className="text-[17px] font-bold text-white leading-snug mb-2 font-sans break-words">
                                 {task.task_name || '제목 없음 (데이터 누락)'}
                             </h3>
 
@@ -150,7 +150,7 @@ export default function MobilePmoTaskList({ memberInfo, defaultFilter, onResetFi
                                     </div>
                                     <span className="text-white">{formatDate(task.due_date)}</span>
                                 </div>
-                                <div className="text-[13px] text-[#E5E5E5] leading-relaxed whitespace-pre-line mt-2 line-clamp-3 break-all">
+                                <div className="text-[13px] text-[#E5E5E5] leading-relaxed whitespace-pre-line mt-2 line-clamp-3">
                                     <span className="font-bold text-[#60a5fa] mr-2">Next:</span>
                                     {task.next_action || '작성된 내용이 없습니다.'}
                                 </div>
