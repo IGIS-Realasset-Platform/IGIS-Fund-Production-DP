@@ -6,6 +6,7 @@ import MobileLogList from './MobileLogList';
 import MobileMyTasks from './MobileMyTasks';
 import MobileNotifications from './MobileNotifications';
 import MobileComposerSheet from './MobileComposerSheet';
+import MobileHome from './MobileHome';
 import { requestFirebaseNotificationPermission } from '../../utils/firebase';
 import { getInitialWorkspace } from './mobileIotaData';
 
@@ -203,7 +204,20 @@ export default function MobileIotaApp({ navigateTo }) {
                             </span>
                         )}
                     </div>
-                    <div className="flex gap-2">
+                    <div className="flex gap-3 items-center">
+                        <button 
+                            onClick={() => setActiveTab(4)}
+                            className="relative text-[#E5E5E5] hover:text-white transition-colors"
+                        >
+                            <svg className="w-[20px] h-[20px]" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                            </svg>
+                            {unreadNotiCount > 0 && (
+                                <div className="absolute -top-[2px] -right-[4px] w-[14px] h-[14px] bg-red-500 rounded-full flex items-center justify-center text-[9px] font-bold text-white border border-[#272726]">
+                                    {unreadNotiCount > 9 ? '9+' : unreadNotiCount}
+                                </div>
+                            )}
+                        </button>
                         <button 
                             onClick={() => {
                                 localStorage.setItem('force_pc_mode', 'true');
@@ -219,11 +233,17 @@ export default function MobileIotaApp({ navigateTo }) {
                     </div>
                 </div>
                 {activeTab === 0 && (
+                    <MobileHome 
+                        memberInfo={memberInfo}
+                        onNavigateToTab={setActiveTab}
+                    />
+                )}
+                {activeTab === 1 && (
                     <MobileWorkflowLogs 
                         memberInfo={memberInfo} 
                     />
                 )}
-                {activeTab === 1 && (
+                {activeTab === 2 && (
                     <MobileLogList 
                         memberInfo={memberInfo} 
                         highlightLogId={highlightLogId} 
@@ -232,8 +252,8 @@ export default function MobileIotaApp({ navigateTo }) {
                         refreshTrigger={refreshTrigger}
                     />
                 )}
-                {activeTab === 2 && <MobileMyTasks memberInfo={memberInfo} />}
-                {activeTab === 3 && (
+                {activeTab === 3 && <MobileMyTasks memberInfo={memberInfo} />}
+                {activeTab === 4 && (
                     <MobileNotifications 
                         memberInfo={memberInfo} 
                         onRead={() => setUnreadNotiCount(Math.max(0, unreadNotiCount - 1))} 
@@ -354,10 +374,10 @@ export default function MobileIotaApp({ navigateTo }) {
                 showBottomNav ? 'translate-y-0' : 'translate-y-full pointer-events-none'
             }`}>
                 {[
-                    { id: 0, label: '주요업무', icon: <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" /> },
-                    { id: 1, label: '회의록', icon: <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /> },
-                    { id: 2, label: '내업무', icon: <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /> },
-                    { id: 3, label: '알림', icon: <path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /> }
+                    { id: 0, label: '홈', icon: <path strokeLinecap="round" strokeLinejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /> },
+                    { id: 1, label: '업무', icon: <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" /> },
+                    { id: 2, label: '협업', icon: <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /> },
+                    { id: 3, label: '마이', icon: <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /> }
                 ].map(tab => (
                     <button 
                         key={tab.id}
@@ -368,11 +388,6 @@ export default function MobileIotaApp({ navigateTo }) {
                             <svg className={`w-[18px] h-[18px] mb-[1px] ${activeTab === tab.id ? 'stroke-2' : 'stroke-[1.5]'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 {tab.icon}
                             </svg>
-                            {tab.id === 3 && unreadNotiCount > 0 && (
-                                <div className="absolute -top-1 -right-1.5 w-[14px] h-[14px] bg-red-500 rounded-full flex items-center justify-center text-[9px] font-bold text-white border border-[#272726]">
-                                    {unreadNotiCount > 9 ? '9+' : unreadNotiCount}
-                                </div>
-                            )}
                         </div>
                         <span className={`text-[11px] ${activeTab === tab.id ? 'font-semibold' : 'font-medium'}`}>{tab.label}</span>
                     </button>
