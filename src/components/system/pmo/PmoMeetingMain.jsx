@@ -606,14 +606,14 @@ export default function PmoMeetingMain() {
                                                 className="bg-[#252525] hover:bg-[#2c2c2e] border border-white/[0.06] hover:border-[#2997ff]/40 hover:shadow-[0_4px_20px_rgba(41,151,255,0.06)] transition-all rounded-[14px] px-[20px] py-[12px] cursor-pointer flex flex-row items-center justify-between group gap-[20px]"
                                             >
                                                 {/* Task Name */}
-                                                <div className="flex-[0_0_35%] max-w-[400px] min-w-[200px]">
+                                                <div className="flex-[0_0_30%] min-w-[200px]">
                                                     <h3 className="text-[16px] font-bold text-[#cccaba] leading-snug group-hover:text-white transition-colors truncate" title={task.task_name}>
                                                         {task.task_name}
                                                     </h3>
                                                 </div>
 
                                                 {/* Snippet (Preview) */}
-                                                <div className="flex-1 min-w-0 px-[10px] -ml-[24px]">
+                                                <div className="flex-1 min-w-0 px-[10px] ml-[-11px]">
                                                     <p className="text-[13.5px] text-white/40 truncate font-light group-hover:text-white/60 transition-colors" title={fallbackItem.task_purpose || fallbackItem.deliverables || ''}>
                                                         {fallbackItem.task_purpose || fallbackItem.deliverables || '상세 내용 없음'}
                                                     </p>
