@@ -592,7 +592,7 @@ export default function PmoMeetingMain() {
                                 </div>
                             ) : (
                                 <div className="grid grid-cols-1 gap-[6px] pl-[20px] pr-[14px]">
-                                    {getFilteredTasks().map(task => {
+                                    {getFilteredTasks().map((task, index) => {
                                         const hasDecision = task.needs_decision === true || String(task.needs_decision).toLowerCase() === 'true' || String(task.needs_decision).toUpperCase() === 'Y';
                                         const hasBlocker = task.is_blocker === true || String(task.is_blocker).toLowerCase() === 'true' || String(task.is_blocker).toUpperCase() === 'Y';
                                         const projName = normalizeProjectName(task.project_code || task.project);
@@ -606,7 +606,10 @@ export default function PmoMeetingMain() {
                                                 className="bg-[#252525] hover:bg-[#2c2c2e] border border-white/[0.06] hover:border-[#2997ff] hover:ring-[2px] hover:ring-[#2997ff] hover:ring-inset hover:shadow-[0_4px_20px_rgba(41,151,255,0.06)] transition-all rounded-[14px] px-[20px] py-[12px] cursor-pointer flex flex-row items-center justify-between group gap-[20px]"
                                             >
                                                 {/* Task Name */}
-                                                <div className="flex-[0_0_30%] min-w-[200px]">
+                                                <div className="flex-[0_0_30%] min-w-[200px] flex items-center gap-[12px]">
+                                                    <span className="text-[13px] font-medium text-white/20 shrink-0 min-w-[16px] text-right font-mono">
+                                                        {index + 1}
+                                                    </span>
                                                     <h3 className="text-[16px] font-bold text-[#cccaba] leading-snug group-hover:text-white transition-colors truncate" title={task.task_name}>
                                                         {task.task_name}
                                                     </h3>
