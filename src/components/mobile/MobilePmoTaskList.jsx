@@ -133,13 +133,13 @@ export default function MobilePmoTaskList({ memberInfo, defaultFilter, onResetFi
                                 </span>
                             </div>
 
-                            <h3 className="text-[17px] font-bold text-white leading-snug mb-2 font-sans">
-                                {task.task_name}
+                            <h3 className="text-[17px] font-bold text-white leading-snug mb-2 font-sans break-all">
+                                {task.task_name || '제목 없음 (데이터 누락)'}
                             </h3>
 
                             <div className="text-[13px] text-[#A1A1AA] flex flex-wrap gap-x-3 gap-y-1 mb-4">
-                                <div>주관: <span className="text-[#E5E5E5]">{task.lead_dept || '-'}</span></div>
-                                <div>협조: <span className="text-[#E5E5E5]">{task.coop_depts || '-'}</span></div>
+                                <div>주관: <span className="text-[#E5E5E5]">{task.lead_dept_code || '-'}</span></div>
+                                <div>협조: <span className="text-[#E5E5E5]">{task.coop_dept_codes || '-'}</span></div>
                             </div>
 
                             <div className="bg-[#1A1A1A] rounded-[12px] p-3.5 border border-[#3c3c3c]/30">
@@ -150,9 +150,9 @@ export default function MobilePmoTaskList({ memberInfo, defaultFilter, onResetFi
                                     </div>
                                     <span className="text-white">{formatDate(task.due_date)}</span>
                                 </div>
-                                <div className="text-[13px] text-[#E5E5E5] leading-relaxed whitespace-pre-line mt-2 line-clamp-3">
+                                <div className="text-[13px] text-[#E5E5E5] leading-relaxed whitespace-pre-line mt-2 line-clamp-3 break-all">
                                     <span className="font-bold text-[#60a5fa] mr-2">Next:</span>
-                                    {task.next_action_expected || '작성된 내용이 없습니다.'}
+                                    {task.next_action || '작성된 내용이 없습니다.'}
                                 </div>
                             </div>
                         </div>
