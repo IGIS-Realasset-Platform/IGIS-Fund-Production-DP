@@ -607,7 +607,7 @@ export default function PmoMeetingMain() {
                                             >
                                                 {/* Task Name */}
                                                 <div className="flex-[0_0_30%] min-w-[200px] flex items-center gap-[12px]">
-                                                    <span className="text-[13px] font-medium text-white/20 shrink-0 min-w-[16px] text-right font-mono">
+                                                    <span className="text-[13px] font-medium text-white shrink-0 min-w-[16px] text-right font-['Inter']">
                                                         {index + 1}
                                                     </span>
                                                     <h3 className="text-[16px] font-bold text-[#cccaba] leading-snug group-hover:text-white transition-colors truncate" title={task.task_name}>
