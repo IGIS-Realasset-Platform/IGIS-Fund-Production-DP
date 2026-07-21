@@ -585,7 +585,7 @@ export default function PmoMeetingMain() {
                         </div>
  
                         {/* Card-based grid row container */}
-                        <div className="max-h-[340px] overflow-y-auto px-0 hide-scrollbar">
+                        <div className="h-[340px] min-h-[200px] max-h-[800px] resize-y overflow-y-auto px-0 hide-scrollbar">
                             {getFilteredTasks().length === 0 ? (
                                 <div className="py-[60px] text-center text-[#86868B] text-[14px]">
                                     조건에 일치하는 업무 항목이 없습니다.
@@ -607,7 +607,7 @@ export default function PmoMeetingMain() {
                                             >
                                                 {/* Task Name */}
                                                 <div className="flex-[0_0_30%] min-w-[200px] flex items-center gap-[12px]">
-                                                    <span className="text-[13px] font-bold text-white shrink-0 min-w-[16px] text-right font-['Inter']">
+                                                    <span className="text-[13.5px] font-bold text-white shrink-0 min-w-[16px] text-right font-['Inter'] -ml-[4px]">
                                                         {index + 1}
                                                     </span>
                                                     <h3 className="text-[16px] font-bold text-[#cccaba] leading-snug group-hover:text-white transition-colors truncate" title={task.task_name}>
@@ -616,7 +616,7 @@ export default function PmoMeetingMain() {
                                                 </div>
 
                                                 {/* Snippet (Preview) */}
-                                                <div className="flex-1 min-w-0 px-[10px] ml-[-5px]">
+                                                <div className="flex-1 min-w-0 px-[10px] ml-[5px]">
                                                     <p className="text-[13.5px] text-white/40 truncate font-light group-hover:text-white/60 transition-colors" title={fallbackItem.task_purpose || fallbackItem.deliverables || ''}>
                                                         {fallbackItem.task_purpose || fallbackItem.deliverables || '상세 내용 없음'}
                                                     </p>
