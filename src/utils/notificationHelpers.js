@@ -68,7 +68,7 @@ export const notifyMembersOnLogCreation = async (logId, logContent, workspace, w
         // 3. 수신자 매핑 알고리즘:
         let recipientIds = [];
 
-        if (workspace.code === 'WS_PMO') {
+        if (workspace.code === 'WS_PMO' || workspace.code === 'WS_POPUP_REQUESTS') {
             // [통합업무보드]는 작성자 본인 및 작성자가 속한 부서의 멤버만 일반 알림 수신 대상에 포함 (멘션 대상자는 멘션 알림으로 별도 처리)
             const creatorMember = members.find(m => m.email && writerEmail && m.email.toLowerCase() === writerEmail.toLowerCase());
             if (creatorMember) {
@@ -108,7 +108,7 @@ export const notifyMembersOnLogCreation = async (logId, logContent, workspace, w
         const summaryText = logContent.length > 80 ? logContent.slice(0, 80) + '...' : logContent;
         const notificationPayload = [];
 
-        if (workspace.code === 'WS_PMO') {
+        if (workspace.code === 'WS_PMO' || workspace.code === 'WS_POPUP_REQUESTS') {
             // [통합업무보드] 전용 포맷 및 줄바꿈 적용
             let taskName = '';
             try {
@@ -219,7 +219,7 @@ export const notifyMembersOnLogCreation = async (logId, logContent, workspace, w
                 .delete()
                 .is('reference_id', null)
                 .eq('body', logContent)
-                .ilike('title', '[협업]%');
+                .ilike('title', '[%');
             console.log('Successfully cleaned up duplicate DB-trigger notifications.');
         } catch (delErr) {
             console.warn('Failed to clean up duplicate notifications:', delErr);
