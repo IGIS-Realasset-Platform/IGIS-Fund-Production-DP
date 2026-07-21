@@ -591,7 +591,7 @@ export default function PmoMeetingMain() {
                                     조건에 일치하는 업무 항목이 없습니다.
                                 </div>
                             ) : (
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[6px]">
+                                <div className="grid grid-cols-1 gap-[6px] pl-[20px] pr-[14px]">
                                     {getFilteredTasks().map(task => {
                                         const hasDecision = task.needs_decision === true || String(task.needs_decision).toLowerCase() === 'true' || String(task.needs_decision).toUpperCase() === 'Y';
                                         const hasBlocker = task.is_blocker === true || String(task.is_blocker).toLowerCase() === 'true' || String(task.is_blocker).toUpperCase() === 'Y';
