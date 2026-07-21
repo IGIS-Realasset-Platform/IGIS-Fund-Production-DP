@@ -603,7 +603,7 @@ export default function PmoMeetingMain() {
                                             <div 
                                                 key={task.id} 
                                                 onClick={() => handleTaskClick(task)}
-                                                className="bg-[#252525] hover:bg-[#2c2c2e] border border-white/[0.06] hover:border-[#2997ff] hover:ring-[2px] hover:ring-[#2997ff] hover:shadow-[0_4px_20px_rgba(41,151,255,0.06)] transition-all rounded-[14px] px-[20px] py-[12px] cursor-pointer flex flex-row items-center justify-between group gap-[20px]"
+                                                className="bg-[#252525] hover:bg-[#2c2c2e] border border-white/[0.06] hover:border-[#2997ff] hover:ring-[2px] hover:ring-[#2997ff] hover:ring-inset hover:shadow-[0_4px_20px_rgba(41,151,255,0.06)] transition-all rounded-[14px] px-[20px] py-[12px] cursor-pointer flex flex-row items-center justify-between group gap-[20px]"
                                             >
                                                 {/* Task Name */}
                                                 <div className="flex-[0_0_30%] min-w-[200px]">
