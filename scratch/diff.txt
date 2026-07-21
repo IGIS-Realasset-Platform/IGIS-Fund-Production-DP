@@ -1,0 +1,231 @@
+diff --git a/src/components/system/pmo/PmoMeetingMain.jsx b/src/components/system/pmo/PmoMeetingMain.jsx
+index a524a14..e1bcb9b 100644
+--- a/src/components/system/pmo/PmoMeetingMain.jsx
++++ b/src/components/system/pmo/PmoMeetingMain.jsx
+@@ -434,7 +434,7 @@ export default function PmoMeetingMain() {
+                                 onClick={() => setSelectedFilter(btn.label)}
+                                 className={`w-full bg-[#b4b6b5] h-[94px] rounded-[24px] flex items-center justify-center cursor-pointer group transition-all duration-200 ${isActive ? 'relative z-20' : 'hover:relative hover:z-20'}`}
+                             >
+-                                <div className={`w-full h-full rounded-[24px] transition-all duration-200 flex flex-col items-center justify-center relative ${isActive ? 'bg-[#d4d7d5] ring-[3px] ring-[#2997ff] ring-inset' : 'bg-transparent group-hover:bg-[#d4d7d5] group-hover:ring-[3px] group-hover:ring-[#2997ff] group-hover:ring-inset'}`}>
++                                <div className={`w-full h-full rounded-[24px] transition-all duration-200 flex flex-col items-center justify-center relative ${isActive ? 'bg-[#d4d7d5] ring-[5px] ring-[#2997ff] ring-inset' : 'bg-transparent group-hover:bg-[#d4d7d5] group-hover:ring-[5px] group-hover:ring-[#2997ff] group-hover:ring-inset'}`}>
+                                     <span className="text-[13px] font-bold text-[#3C3C3C] group-hover:text-[#000000] transition-colors duration-200 mb-0.5 flex items-center gap-[4px]">
+                                         {btn.label}
+                                     </span>
+@@ -454,7 +454,7 @@ export default function PmoMeetingMain() {
+                                 onClick={() => setSelectedFilter(btn.label)}
+                                 className={`w-full bg-[#2b2b2b] h-[98px] border rounded-[24px] flex items-center justify-center cursor-pointer group transition-all duration-200 ${isActive ? 'relative z-20 border-[#2997ff]' : 'border-[#4b4b4b] hover:relative hover:z-20 hover:border-[#2997ff]'}`}
+                             >
+-                                <div className={`w-full h-full rounded-[24px] transition-all duration-200 flex flex-col items-center justify-center relative ${isActive ? 'bg-[#3e3e3e] ring-[3px] ring-[#2997ff] ring-inset' : 'bg-transparent group-hover:bg-[#3e3e3e] group-hover:ring-[3px] group-hover:ring-[#2997ff] group-hover:ring-inset'}`}>
++                                <div className={`w-full h-full rounded-[24px] transition-all duration-200 flex flex-col items-center justify-center relative ${isActive ? 'bg-[#3e3e3e] ring-[5px] ring-[#2997ff] ring-inset' : 'bg-transparent group-hover:bg-[#3e3e3e] group-hover:ring-[5px] group-hover:ring-[#2997ff] group-hover:ring-inset'}`}>
+                                     <span className="text-[13px] font-bold text-[#8E8E93] group-hover:text-[#509FEB] transition-colors duration-200 mb-1 flex items-center gap-[4px]">
+                                         {btn.label}
+                                     </span>
+@@ -478,7 +478,7 @@ export default function PmoMeetingMain() {
+                                 onClick={() => setSelectedFilter(btn.label)}
+                                 className={`w-full bg-[#b4b6b5] h-[94px] rounded-[24px] flex items-center justify-center cursor-pointer group transition-all duration-200 ${isActive ? 'relative z-20' : 'hover:relative hover:z-20'}`}
+                             >
+-                                <div className={`w-full h-full rounded-[24px] transition-all duration-200 flex flex-col items-center justify-center relative ${isActive ? 'bg-[#d4d7d5] ring-[3px] ring-[#2997ff] ring-inset' : 'bg-transparent group-hover:bg-[#d4d7d5] group-hover:ring-[3px] group-hover:ring-[#2997ff] group-hover:ring-inset'}`}>
++                                <div className={`w-full h-full rounded-[24px] transition-all duration-200 flex flex-col items-center justify-center relative ${isActive ? 'bg-[#d4d7d5] ring-[5px] ring-[#2997ff] ring-inset' : 'bg-transparent group-hover:bg-[#d4d7d5] group-hover:ring-[5px] group-hover:ring-[#2997ff] group-hover:ring-inset'}`}>
+                                     <span className="text-[13px] font-bold text-[#3C3C3C] group-hover:text-[#000000] transition-colors duration-200 mb-0.5 flex items-center gap-[4px]">
+                                         {btn.label}
+                                     </span>
+@@ -498,7 +498,7 @@ export default function PmoMeetingMain() {
+                                 onClick={() => setSelectedFilter(btn.label)}
+                                 className={`w-full bg-[#2b2b2b] h-[98px] border rounded-[24px] flex items-center justify-center cursor-pointer group transition-all duration-200 ${isActive ? 'relative z-20 border-[#2997ff]' : 'border-[#4b4b4b] hover:relative hover:z-20 hover:border-[#2997ff]'}`}
+                             >
+-                                <div className={`w-full h-full rounded-[24px] transition-all duration-200 flex flex-col items-center justify-center relative ${isActive ? 'bg-[#3e3e3e] ring-[3px] ring-[#2997ff] ring-inset' : 'bg-transparent group-hover:bg-[#3e3e3e] group-hover:ring-[3px] group-hover:ring-[#2997ff] group-hover:ring-inset'}`}>
++                                <div className={`w-full h-full rounded-[24px] transition-all duration-200 flex flex-col items-center justify-center relative ${isActive ? 'bg-[#3e3e3e] ring-[5px] ring-[#2997ff] ring-inset' : 'bg-transparent group-hover:bg-[#3e3e3e] group-hover:ring-[5px] group-hover:ring-[#2997ff] group-hover:ring-inset'}`}>
+                                     <span className="text-[13px] font-bold text-[#8E8E93] group-hover:text-[#509FEB] transition-colors duration-200 mb-1 flex items-center gap-[4px]">
+                                         {btn.label}
+                                     </span>
+@@ -523,7 +523,7 @@ export default function PmoMeetingMain() {
+                                     onClick={() => setSelectedFilter(btn.label)}
+                                     className={`p-[6px] h-full flex items-center justify-center cursor-pointer group transition-all duration-200 ${isActive ? 'relative z-20' : 'hover:relative hover:z-20'}`}
+                                 >
+-                                    <div className={`w-full h-full rounded-[20px] transition-all duration-200 flex flex-col items-center justify-center relative ${isActive ? 'bg-[#d4d7d5] ring-[3px] ring-[#2997ff] ring-inset' : 'bg-transparent group-hover:bg-[#d4d7d5] group-hover:ring-[3px] group-hover:ring-[#2997ff] group-hover:ring-inset'}`}>
++                                    <div className={`w-full h-full rounded-[20px] transition-all duration-200 flex flex-col items-center justify-center relative ${isActive ? 'bg-[#d4d7d5] ring-[5px] ring-[#2997ff] ring-inset' : 'bg-transparent group-hover:bg-[#d4d7d5] group-hover:ring-[5px] group-hover:ring-[#2997ff] group-hover:ring-inset'}`}>
+                                         <span className="text-[13px] font-bold text-[#3C3C3C] group-hover:text-[#000000] transition-colors duration-200 mb-0.5 flex items-center gap-[4px]">
+                                             {btn.label}
+                                         </span>
+@@ -545,7 +545,7 @@ export default function PmoMeetingMain() {
+                                     onClick={() => setSelectedFilter(btn.label)}
+                                     className={`p-[6px] h-full flex items-center justify-center cursor-pointer group transition-all duration-200 ${isActive ? 'relative z-20' : 'hover:relative hover:z-20'}`}
+                                 >
+-                                    <div className={`w-full h-full rounded-[20px] transition-all duration-200 flex flex-col items-center justify-center relative ${isActive ? 'bg-[#3e3e3e] ring-[3px] ring-[#2997ff] ring-inset' : 'bg-transparent group-hover:bg-[#3e3e3e] group-hover:ring-[3px] group-hover:ring-[#2997ff] group-hover:ring-inset'}`}>
++                                    <div className={`w-full h-full rounded-[20px] transition-all duration-200 flex flex-col items-center justify-center relative ${isActive ? 'bg-[#3e3e3e] ring-[5px] ring-[#2997ff] ring-inset' : 'bg-transparent group-hover:bg-[#3e3e3e] group-hover:ring-[5px] group-hover:ring-[#2997ff] group-hover:ring-inset'}`}>
+                                         <span className="text-[13px] font-bold text-[#8E8E93] group-hover:text-[#509FEB] transition-colors duration-200 mb-1 flex items-center gap-[4px]">
+                                             {btn.label}
+                                         </span>
+@@ -567,11 +567,11 @@ export default function PmoMeetingMain() {
+             ) : (
+                 <>
+                     {/* Bottom Box for Brief Listing - Card based view */}
+-                    <div className="w-full border border-[#3c3c3c] rounded-[24px] p-[6px] mb-[30px] flex flex-col">
++                    <div className="w-[calc(100%+14px)] ml-[-7px] border border-[#3c3c3c] rounded-[24px] p-[6px] mb-[30px] flex flex-col">
+                         {/* Header Row */}
+-                        <div className="flex justify-between items-center px-[14px] pt-[6px] pb-[8px]">
++                        <div className="flex justify-between items-center pl-[20px] pr-[6px] pt-[6px] pb-[8px]">
+                             <div className="flex items-center gap-[10px]">
+-                                <h2 className="text-[18px] font-bold text-white tracking-tight flex items-center gap-[8px]">
++                                <h2 className="text-[16px] font-bold text-white tracking-tight flex items-center gap-[8px]">
+                                     <span>{selectedFilter} 현황 목록</span>
+                                 </h2>
+                             </div>
+@@ -585,14 +585,14 @@ export default function PmoMeetingMain() {
+                         </div>
+  
+                         {/* Card-based grid row container */}
+-                        <div className="max-h-[340px] overflow-y-auto pr-[4px] scrollbar-thin">
++                        <div className="max-h-[340px] overflow-y-auto px-0 hide-scrollbar">
+                             {getFilteredTasks().length === 0 ? (
+                                 <div className="py-[60px] text-center text-[#86868B] text-[14px]">
+                                     조건에 일치하는 업무 항목이 없습니다.
+                                 </div>
+                             ) : (
+-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[6px]">
+-                                    {getFilteredTasks().map(task => {
++                                <div className="grid grid-cols-1 gap-[6px] px-0">
++                                    {getFilteredTasks().map((task, index) => {
+                                         const hasDecision = task.needs_decision === true || String(task.needs_decision).toLowerCase() === 'true' || String(task.needs_decision).toUpperCase() === 'Y';
+                                         const hasBlocker = task.is_blocker === true || String(task.is_blocker).toLowerCase() === 'true' || String(task.is_blocker).toUpperCase() === 'Y';
+                                         const projName = normalizeProjectName(task.project_code || task.project);
+@@ -603,17 +603,27 @@ export default function PmoMeetingMain() {
+                                             <div 
+                                                 key={task.id} 
+                                                 onClick={() => handleTaskClick(task)}
+-                                                className="bg-[#252525] hover:bg-[#2c2c2e] border border-white/[0.06] hover:border-[#2997ff]/40 hover:shadow-[0_4px_20px_rgba(41,151,255,0.06)] transition-all rounded-[20px] p-[20px] cursor-pointer flex flex-col justify-between h-full group"
++                                                className="bg-[#252525] hover:bg-[#2c2c2e] border border-white/[0.06] hover:border-[#2997ff] hover:ring-[2px] hover:ring-[#2997ff] hover:ring-inset hover:shadow-[0_4px_20px_rgba(41,151,255,0.06)] transition-all rounded-[14px] px-[20px] py-[12px] cursor-pointer flex flex-row items-center justify-between group gap-[20px]"
+                                             >
+-                                                <div className="mb-[10px]">
+-                                                    {/* Task Name */}
+-                                                    <h3 className="text-[19px] font-bold text-[#cccaba] leading-snug group-hover:text-white transition-colors truncate" title={task.task_name}>
++                                                {/* Task Name */}
++                                                <div className="flex-[0_0_30%] min-w-[200px] flex items-center gap-[12px]">
++                                                    <span className="text-[13px] font-medium text-white/20 shrink-0 min-w-[16px] text-right font-mono">
++                                                        {index + 1}
++                                                    </span>
++                                                    <h3 className="text-[16px] font-bold text-[#cccaba] leading-snug group-hover:text-white transition-colors truncate" title={task.task_name}>
+                                                         {task.task_name}
+                                                     </h3>
+                                                 </div>
++
++                                                {/* Snippet (Preview) */}
++                                                <div className="flex-1 min-w-0 px-[10px] ml-[-5px]">
++                                                    <p className="text-[13.5px] text-white/40 truncate font-light group-hover:text-white/60 transition-colors" title={fallbackItem.task_purpose || fallbackItem.deliverables || ''}>
++                                                        {fallbackItem.task_purpose || fallbackItem.deliverables || '상세 내용 없음'}
++                                                    </p>
++                                                </div>
+  
+-                                                {/* Bottom line: Lead Department & Sector info */}
+-                                                <div className="flex items-center justify-between pt-[4px]">
++                                                {/* Metadata & Badges Container */}
++                                                <div className="flex items-center gap-[20px] shrink-0">
+                                                     <div className="flex items-center gap-[10px] text-[13px] text-white/50">
+                                                         <div className="flex items-center gap-[4px]">
+                                                             <span className="text-white/40 font-normal">주관</span>
+@@ -627,7 +637,7 @@ export default function PmoMeetingMain() {
+                                                     </div>
+                                                     {/* If it's a blocker or decision needed, show a tiny elegant badge */}
+                                                     {(hasBlocker || hasDecision) && (
+-                                                        <div className="flex gap-[6px]">
++                                                        <div className="flex gap-[6px] shrink-0 min-w-[50px] justify-end">
+                                                             {hasBlocker && (
+                                                                 <span className="flex items-center text-[10.5px] font-bold bg-[#ff3b30]/10 text-[#ff453a] border border-[#ff3b30]/15 px-2 py-0.5 rounded-[4px]">
+                                                                     병목
+@@ -945,16 +955,16 @@ export default function PmoMeetingMain() {
+                             <table className="w-full text-left border-collapse bg-[#272726]">
+                                 <thead>
+                                     <tr className="border-b border-[#3c3c3c] bg-transparent text-[#86868B] font-bold text-[13px] h-[38px] whitespace-nowrap">
+-                                        <th className="py-[8px] px-[16px] w-[140px] font-bold text-[#86868B] text-center whitespace-nowrap">대분류</th>
+-                                        <th className="py-[8px] px-[16px] text-center font-bold text-[#86868B] w-[165px] whitespace-nowrap">전체업무</th>
+-                                        <th className="py-[8px] px-[16px] text-center font-bold text-[#86868B] w-[165px] whitespace-nowrap">PF필수</th>
+-                                        <th className="py-[8px] px-[16px] text-center font-bold text-[#86868B] w-[165px] whitespace-nowrap">준공필수</th>
+-                                        <th className="py-[8px] px-[16px] text-center font-bold text-[#86868B] w-[90px] border-l border-[#3c3c3c] whitespace-nowrap">진행중</th>
+-                                        <th className="py-[8px] px-[16px] text-center font-bold text-[#86868B] w-[75px] border-l border-[#3c3c3c] whitespace-nowrap">Blocker</th>
+-                                        <th className="py-[8px] px-[16px] text-center font-bold text-[#86868B] w-[95px] border-l border-[#3c3c3c] whitespace-nowrap">의사결정필요</th>
+-                                        <th className="py-[8px] px-[16px] text-center font-bold text-[#86868B] w-[75px] border-l border-[#3c3c3c] whitespace-nowrap">지원필요</th>
+-                                        <th className="py-[8px] px-[16px] text-center font-bold text-[#86868B] w-[95px] border-l border-[#3c3c3c] whitespace-nowrap">지연</th>
+-                                        <th className="py-[8px] px-[16px] text-center font-bold text-[#86868B] w-[105px] border-l border-[#3c3c3c] whitespace-nowrap">주관부서</th>
++                                        <th className="py-[9px] px-[16px] w-[140px] font-bold text-[#86868B] text-center whitespace-nowrap">대분류</th>
++                                        <th className="py-[9px] px-[16px] text-center font-bold text-[#86868B] w-[165px] whitespace-nowrap">전체업무</th>
++                                        <th className="py-[9px] px-[16px] text-center font-bold text-[#86868B] w-[165px] whitespace-nowrap">PF필수</th>
++                                        <th className="py-[9px] px-[16px] text-center font-bold text-[#86868B] w-[165px] whitespace-nowrap">준공필수</th>
++                                        <th className="py-[9px] px-[16px] text-center font-bold text-[#86868B] w-[90px] border-l border-[#3c3c3c] whitespace-nowrap">진행중</th>
++                                        <th className="py-[9px] px-[16px] text-center font-bold text-[#86868B] w-[90px] border-l border-[#3c3c3c] whitespace-nowrap">Blocker</th>
++                                        <th className="py-[9px] px-[16px] text-center font-bold text-[#86868B] w-[90px] border-l border-[#3c3c3c] whitespace-nowrap">의사결정필요</th>
++                                        <th className="py-[9px] px-[16px] text-center font-bold text-[#86868B] w-[90px] border-l border-[#3c3c3c] whitespace-nowrap">지원필요</th>
++                                        <th className="py-[9px] px-[16px] text-center font-bold text-[#86868B] w-[90px] border-l border-[#3c3c3c] whitespace-nowrap">지연</th>
++                                        <th className="py-[9px] px-[16px] text-center font-bold text-[#86868B] w-[105px] border-l border-[#3c3c3c] whitespace-nowrap">주관부서</th>
+                                     </tr>
+                                 </thead>
+                                 <tbody className="divide-y divide-[#3c3c3c]/50 text-[13px]">
+@@ -973,11 +983,11 @@ export default function PmoMeetingMain() {
+                                                  onMouseLeave={() => setTooltipData(null)}
+                                              >
+                                                 {/* 대분류 */}
+-                                                <td className="py-[8px] px-[16px] text-center font-bold text-[#E5E5E5] w-[140px] whitespace-nowrap">
++                                                <td className="py-[9px] px-[16px] text-center font-bold text-[#E5E5E5] w-[140px] whitespace-nowrap">
+                                                     {row.category}
+                                                 </td>
+                                                 {/* 전체업무 */}
+-                                                <td className="py-[8px] px-[16px] text-center text-white font-bold relative w-[165px] whitespace-nowrap">
++                                                <td className="py-[9px] px-[16px] text-center text-white font-bold relative w-[165px] whitespace-nowrap">
+                                                     <div className="absolute inset-y-[4px] left-[6px] right-[6px] z-0">
+                                                         <div 
+                                                             className="h-full bg-gradient-to-r from-[#86868b]/15 to-[#86868b]/30 rounded-[4px]"
+@@ -987,7 +997,7 @@ export default function PmoMeetingMain() {
+                                                     <span className="relative z-10">{row.totalCount}</span>
+                                                 </td>
+                                                 {/* PF필수 */}
+-                                                <td className="py-[8px] px-[16px] text-center text-white font-bold relative w-[165px] whitespace-nowrap">
++                                                <td className="py-[9px] px-[16px] text-center text-white font-bold relative w-[165px] whitespace-nowrap">
+                                                     <div className="absolute inset-y-[4px] left-[6px] right-[6px] z-0">
+                                                         <div 
+                                                             className="h-full bg-gradient-to-r from-[#86868b]/15 to-[#86868b]/30 rounded-[4px]"
+@@ -997,7 +1007,7 @@ export default function PmoMeetingMain() {
+                                                     <span className="relative z-10">{row.pfCount}</span>
+                                                 </td>
+                                                 {/* 준공필수 */}
+-                                                <td className="py-[8px] px-[16px] text-center text-white font-bold relative w-[165px] whitespace-nowrap">
++                                                <td className="py-[9px] px-[16px] text-center text-white font-bold relative w-[165px] whitespace-nowrap">
+                                                     <div className="absolute inset-y-[4px] left-[6px] right-[6px] z-0">
+                                                         <div 
+                                                             className="h-full bg-gradient-to-r from-[#86868b]/15 to-[#86868b]/30 rounded-[4px]"
+@@ -1007,23 +1017,23 @@ export default function PmoMeetingMain() {
+                                                     <span className="relative z-10">{row.constCount}</span>
+                                                 </td>
+                                                 {/* 진행중 */}
+-                                                <td className="py-[8px] px-[16px] text-center text-[#E5E5E5] font-semibold border-l border-[#3c3c3c]/50 w-[90px] whitespace-nowrap bg-[#2c2c2b]/30">
++                                                <td className="py-[9px] px-[16px] text-center text-[#E5E5E5] font-semibold border-l border-[#3c3c3c]/50 w-[90px] whitespace-nowrap bg-[#2c2c2b]/30">
+                                                     {row.inProgressCount} of {row.totalCount}
+                                                 </td>
+                                                 {/* Blocker */}
+-                                                <td className={`py-[8px] px-[16px] text-center font-semibold w-[75px] border-l border-[#3c3c3c]/50 whitespace-nowrap ${row.blockerCount > 0 ? 'text-[#ff453a]' : 'text-[#86868B]'}`}>
++                                                <td className={`py-[9px] px-[16px] text-center font-semibold w-[90px] border-l border-[#3c3c3c]/50 whitespace-nowrap ${row.blockerCount > 0 ? 'text-[#ff453a]' : 'text-[#86868B]'}`}>
+                                                     {row.blockerCount}
+                                                 </td>
+                                                 {/* 의사결정필요 */}
+-                                                <td className={`py-[8px] px-[16px] text-center font-semibold w-[95px] border-l border-[#3c3c3c]/50 whitespace-nowrap ${row.decisionCount > 0 ? 'text-[#ff453a]' : 'text-[#86868B]'}`}>
++                                                <td className={`py-[9px] px-[16px] text-center font-semibold w-[90px] border-l border-[#3c3c3c]/50 whitespace-nowrap ${row.decisionCount > 0 ? 'text-[#ff453a]' : 'text-[#86868B]'}`}>
+                                                     {row.decisionCount}
+                                                 </td>
+                                                 {/* 지원필요 */}
+-                                                <td className="py-[8px] px-[16px] text-center text-[#E5E5E5] font-medium w-[75px] border-l border-[#3c3c3c]/50 whitespace-nowrap">
++                                                <td className="py-[9px] px-[16px] text-center text-[#E5E5E5] font-medium w-[90px] border-l border-[#3c3c3c]/50 whitespace-nowrap">
+                                                     {row.supportCount}
+                                                 </td>
+                                                 {/* 지연 */}
+-                                                <td className="py-[8px] px-[16px] text-center text-white font-bold relative w-[95px] border-l border-[#3c3c3c]/50 whitespace-nowrap">
++                                                <td className="py-[9px] px-[16px] text-center text-white font-bold relative w-[90px] border-l border-[#3c3c3c]/50 whitespace-nowrap">
+                                                     <div className="absolute inset-y-[4px] left-[6px] right-[6px] z-0">
+                                                         <div 
+                                                             className="h-full bg-gradient-to-r from-[#86868b]/15 to-[#86868b]/30 rounded-[4px]"
+@@ -1033,7 +1043,7 @@ export default function PmoMeetingMain() {
+                                                     <span className="relative z-10">{row.delayedCount}</span>
+                                                 </td>
+                                                 {/* 주관부서 */}
+-                                                <td className="py-[8px] px-[16px] text-center text-[#E5E5E5] font-medium w-[105px] border-l border-[#3c3c3c]/50 whitespace-nowrap">
++                                                <td className="py-[9px] px-[16px] text-center text-[#E5E5E5] font-medium w-[105px] border-l border-[#3c3c3c]/50 whitespace-nowrap">
+                                                     {row.shortDepts}
+                                                 </td>                                            </tr>
+                                         );
