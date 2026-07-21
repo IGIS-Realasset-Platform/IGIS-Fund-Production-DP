@@ -603,17 +603,15 @@ export default function PmoMeetingMain() {
                                             <div 
                                                 key={task.id} 
                                                 onClick={() => handleTaskClick(task)}
-                                                className="bg-[#252525] hover:bg-[#2c2c2e] border border-white/[0.06] hover:border-[#2997ff]/40 hover:shadow-[0_4px_20px_rgba(41,151,255,0.06)] transition-all rounded-[20px] p-[20px] cursor-pointer flex flex-col justify-between h-full group"
+                                                className="bg-[#252525] hover:bg-[#2c2c2e] border border-white/[0.06] hover:border-[#2997ff]/40 hover:shadow-[0_4px_20px_rgba(41,151,255,0.06)] transition-all rounded-[14px] px-[20px] py-[12px] cursor-pointer flex flex-row items-center justify-between group gap-[20px]"
                                             >
-                                                <div className="mb-[10px]">
-                                                    {/* Task Name */}
-                                                    <h3 className="text-[19px] font-bold text-[#cccaba] leading-snug group-hover:text-white transition-colors truncate" title={task.task_name}>
-                                                        {task.task_name}
-                                                    </h3>
-                                                </div>
+                                                {/* Task Name */}
+                                                <h3 className="text-[16px] font-bold text-[#cccaba] leading-snug group-hover:text-white transition-colors truncate flex-1" title={task.task_name}>
+                                                    {task.task_name}
+                                                </h3>
  
-                                                {/* Bottom line: Lead Department & Sector info */}
-                                                <div className="flex items-center justify-between pt-[4px]">
+                                                {/* Metadata & Badges Container */}
+                                                <div className="flex items-center gap-[20px] shrink-0">
                                                     <div className="flex items-center gap-[10px] text-[13px] text-white/50">
                                                         <div className="flex items-center gap-[4px]">
                                                             <span className="text-white/40 font-normal">주관</span>
@@ -627,7 +625,7 @@ export default function PmoMeetingMain() {
                                                     </div>
                                                     {/* If it's a blocker or decision needed, show a tiny elegant badge */}
                                                     {(hasBlocker || hasDecision) && (
-                                                        <div className="flex gap-[6px]">
+                                                        <div className="flex gap-[6px] shrink-0 min-w-[50px] justify-end">
                                                             {hasBlocker && (
                                                                 <span className="flex items-center text-[10.5px] font-bold bg-[#ff3b30]/10 text-[#ff453a] border border-[#ff3b30]/15 px-2 py-0.5 rounded-[4px]">
                                                                     병목
