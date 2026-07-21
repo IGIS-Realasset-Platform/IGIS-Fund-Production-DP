@@ -585,7 +585,7 @@ export default function PmoMeetingMain() {
                         </div>
  
                         {/* Card-based grid row container */}
-                        <div className="max-h-[340px] overflow-y-auto px-0 hide-scrollbar">
+                        <div className="h-[340px] min-h-[200px] max-h-[800px] resize-y overflow-y-auto px-0 hide-scrollbar">
                             {getFilteredTasks().length === 0 ? (
                                 <div className="py-[60px] text-center text-[#86868B] text-[14px]">
                                     조건에 일치하는 업무 항목이 없습니다.
@@ -607,7 +607,7 @@ export default function PmoMeetingMain() {
                                             >
                                                 {/* Task Name */}
                                                 <div className="flex-[0_0_30%] min-w-[200px] flex items-center gap-[12px]">
-                                                    <span className="text-[13px] font-medium text-white/20 shrink-0 min-w-[16px] text-right font-mono">
+                                                    <span className="text-[13.5px] font-bold text-white font-['Inter'] shrink-0 min-w-[16px] text-right -ml-[4px]">
                                                         {index + 1}
                                                     </span>
                                                     <h3 className="text-[16px] font-bold text-[#cccaba] leading-snug group-hover:text-white transition-colors truncate" title={task.task_name}>
