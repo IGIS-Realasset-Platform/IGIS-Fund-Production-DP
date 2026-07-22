@@ -183,7 +183,7 @@ export default function MobilePmoTaskList({ defaultFilter, onResetFilter }) {
                 </div>
             </div>
 
-            <div className="flex-1 min-h-0 overflow-y-auto px-4 pt-3 pb-6 flex flex-col gap-2.5 hide-scrollbar">
+            <div className="flex-1 min-h-0 overflow-y-auto px-4 pt-3 pb-6 flex flex-col gap-2 hide-scrollbar">
                 {loading ? (
                     <div className="flex justify-center py-20">
                         <div className="animate-spin w-7 h-7 border-[3px] border-[#3b82f6] border-t-transparent rounded-full" />
@@ -203,13 +203,13 @@ export default function MobilePmoTaskList({ defaultFilter, onResetFilter }) {
                             key={task.id}
                             type="button"
                             onClick={() => openTaskDetail(task)}
-                            className="shrink-0 w-full text-left bg-[#272726] rounded-[16px] px-4 py-3.5 border border-[#3c3c3c]/60 relative overflow-hidden active:bg-[#30302f] active:scale-[0.995] transition-all"
+                            className="shrink-0 w-full text-left bg-[#272726] rounded-[16px] px-4 py-2.5 border border-[#3c3c3c]/60 relative overflow-hidden active:bg-[#30302f] active:scale-[0.995] transition-all"
                         >
                             {(isBlocker || needsDecision) && (
                                 <span className={`absolute left-0 top-0 bottom-0 w-1 ${isBlocker ? 'bg-[#f87171]' : 'bg-[#fb923c]'}`} />
                             )}
 
-                            <div className="flex items-center justify-between gap-3 mb-2">
+                            <div className="flex items-center justify-between gap-3 mb-1.5">
                                 <div className="flex min-w-0 items-center gap-1.5">
                                     <span className="text-[11px] font-bold text-[#60a5fa] truncate">{task.project_code || '전사'}</span>
                                     {isBlocker && <span className="text-[9px] font-bold text-[#f87171] bg-[#f87171]/10 px-1.5 py-0.5 rounded-[5px] border border-[#f87171]/20">Blocker</span>}
@@ -220,11 +220,11 @@ export default function MobilePmoTaskList({ defaultFilter, onResetFilter }) {
                                 </span>
                             </div>
 
-                            <h3 className="text-[16px] font-bold text-white leading-[1.35] line-clamp-2 break-keep min-h-[43px]">
+                            <h3 className="text-[16px] font-bold text-white leading-[1.35] line-clamp-2 break-keep">
                                 {task.task_name || '제목 없음'}
                             </h3>
 
-                            <div className="mt-2.5 pt-2.5 border-t border-white/[0.06] flex items-center justify-between gap-3 text-[11px]">
+                            <div className="mt-2 pt-2 border-t border-white/[0.06] flex items-center justify-between gap-3 text-[11px]">
                                 <div className="min-w-0 flex items-center gap-2 text-[#A1A1AA]">
                                     <span className={`font-bold ${priorityScore >= 70 ? 'text-[#f87171]' : priorityScore >= 50 ? 'text-[#facc15]' : 'text-[#A1A1AA]'}`}>
                                         우선 {priorityScore}

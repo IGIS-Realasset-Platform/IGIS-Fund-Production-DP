@@ -48,19 +48,20 @@ export default function MobilePmoTaskDetail({ task, onClose }) {
                 className="shrink-0 border-b border-[#3c3c3c] bg-[#1A1A1A]/95 backdrop-blur-xl"
                 style={{ paddingTop: 'env(safe-area-inset-top)' }}
             >
-                <div className="h-12 px-3 flex items-center justify-between">
+                <div className="relative h-12 px-3 flex items-center justify-between">
                     <button
                         type="button"
                         onClick={onClose}
-                        className="w-9 h-9 rounded-full flex items-center justify-center text-white active:bg-white/10"
+                        className="relative z-10 min-w-[88px] h-9 pr-2 rounded-[10px] flex items-center gap-0.5 text-[#60a5fa] active:bg-white/10"
                         aria-label="업무 목록으로 돌아가기"
                     >
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                        <svg className="w-5 h-5 shrink-0" fill="none" stroke="currentColor" strokeWidth="2.25" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
                         </svg>
+                        <span className="text-[13px] font-bold whitespace-nowrap">업무 목록</span>
                     </button>
-                    <span className="text-[15px] font-bold">업무 상세</span>
-                    <span className="w-9 text-right text-[10px] font-mono text-[#86868B] truncate">
+                    <span className="absolute left-1/2 -translate-x-1/2 text-[15px] font-bold whitespace-nowrap">업무 상세</span>
+                    <span className="min-w-[88px] max-w-[88px] text-right text-[10px] font-mono text-[#86868B] truncate">
                         {task.displayId || task.id}
                     </span>
                 </div>
