@@ -237,6 +237,7 @@ export default function AuthSetup({ onLogin }) {
                         });
                         
                         if (signInRes.error) {
+                            setIsFirstTime(false);
                             triggerError('이미 가입된 이메일입니다. 기존 패스워드를 입력하거나 "비밀번호 찾기"를 이용하세요.');
                             return;
                         }
@@ -449,8 +450,16 @@ export default function AuthSetup({ onLogin }) {
                                     확인하기
                                 </button>
 
-                                {!isFirstTime && (
-                                    <div className="w-full mt-5 flex justify-center items-center">
+                                <div className="w-full mt-5 flex justify-center items-center">
+                                    {isFirstTime ? (
+                                        <button 
+                                            type="button"
+                                            onClick={() => { setIsFirstTime(false); setErrorMessage(''); }}
+                                            className="text-[#86868B] hover:text-[#111] dark:hover:text-[#E5E5E5] text-[13px] font-medium transition-colors border-b border-transparent hover:border-[#111] dark:hover:border-[#E5E5E5] pb-0.5"
+                                        >
+                                            기존 패스워드로 로그인
+                                        </button>
+                                    ) : (
                                         <button 
                                             type="button"
                                             onClick={() => setStep(3)}
@@ -458,16 +467,16 @@ export default function AuthSetup({ onLogin }) {
                                         >
                                             패스워드 변경
                                         </button>
-                                        <span className="mx-3 text-[#E5E5E5] dark:text-[#333]">|</span>
-                                        <button 
-                                            type="button"
-                                            onClick={() => setStep(4)}
-                                            className="text-[#86868B] hover:text-[#111] dark:hover:text-[#E5E5E5] text-[13px] font-medium transition-colors border-b border-transparent hover:border-[#111] dark:hover:border-[#E5E5E5] pb-0.5"
-                                        >
-                                            비밀번호를 잊으셨나요?
-                                        </button>
-                                    </div>
-                                )}
+                                    )}
+                                    <span className="mx-3 text-[#E5E5E5] dark:text-[#333]">|</span>
+                                    <button 
+                                        type="button"
+                                        onClick={() => setStep(4)}
+                                        className="text-[#86868B] hover:text-[#111] dark:hover:text-[#E5E5E5] text-[13px] font-medium transition-colors border-b border-transparent hover:border-[#111] dark:hover:border-[#E5E5E5] pb-0.5"
+                                    >
+                                        비밀번호를 잊으셨나요?
+                                    </button>
+                                </div>
                             </form>
                         </>
                     ) : step === 3 ? (
