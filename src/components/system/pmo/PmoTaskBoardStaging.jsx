@@ -3,7 +3,7 @@ import { supabase } from '../../../utils/supabaseClient';
 import { useAuth } from '../../../context/AuthContext';
 import WorkspaceActivityLog from '../workspace/WorkspaceActivityLog';
 import { notifyMembersOnTaskCreation } from '../../../utils/notificationHelpers';
-import { calculatePmoPriorityScore as calculatePriorityScore, parseTaskBoolean as parseBool } from '../../../utils/pmoTaskPriority';
+import { calculatePmoPriorityScore as calculatePriorityScore, normalizePmoTaskPriorityState, parseTaskBoolean as parseBool } from '../../../utils/pmoTaskPriority';
 import toast from 'react-hot-toast';
 
 export const FALLBACK_BOARD_TASKS = [
@@ -1455,7 +1455,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
             status: formStatus,
             task_type: formTaskType
         };
-        const score = calculatePriorityScore(tempTask, {});
+        const score = calculatePriorityScore(tempTask);
         setFormPriorityScore(score);
 
         // Grade calculation
@@ -1772,16 +1772,13 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                 // One-time batch update (Requirement 1): If due_date < '2026-07-20', change to '2026-07-27'
                 const batchDueDateUpdates = [];
                 const preMigratedData = data.map(t => {
-                    if (t.due_date && t.due_date < '2026-07-20') {
+                    const normalizedTask = normalizePmoTaskPriorityState(t);
+                    if (normalizedTask.due_date !== t.due_date) {
                         batchDueDateUpdates.push({
                             id: t.id,
-                            status: t.status === '지연' ? '진행중' : t.status
+                            status: normalizedTask.status
                         });
-                        return { 
-                            ...t, 
-                            due_date: '2026-07-27',
-                            status: t.status === '지연' ? '진행중' : t.status 
-                        };
+                        return normalizedTask;
                     }
                     return t;
                 });
@@ -1804,14 +1801,10 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                     const fallbackItem = FALLBACK_BOARD_TASKS.find(fb => fb.task_name === t.task_name) || {};
                     
                     // System policy: auto-change status to "지연" if due_date has passed, status !== '완료', status !== '지연'
-                    const dbStatus = t.status || fallbackItem.status || '진행중';
-                    let targetStatus = dbStatus;
-                    if (t.due_date && dbStatus !== '완료' && dbStatus !== '지연' && t.due_date < todayStr) {
-                        targetStatus = '지연';
-                    }
-
-                    const taskWithUpdatedStatus = { ...t, status: targetStatus };
-                    const dynamicScore = calculatePriorityScore(taskWithUpdatedStatus, fallbackItem);
+                    const dbStatus = t.status || '진행중';
+                    const taskWithUpdatedStatus = normalizePmoTaskPriorityState(t);
+                    const targetStatus = taskWithUpdatedStatus.status;
+                    const dynamicScore = calculatePriorityScore(taskWithUpdatedStatus);
                     
                     let dynamicGrade = 'D_대기';
                     if (dynamicScore >= 70) dynamicGrade = 'A_즉시상정';
@@ -1820,7 +1813,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                     
                     const dbGrade = String(t.meeting_grade || fallbackItem.meeting_grade || 'B');
                     const dbGradeText = dbGrade.includes('_') ? dbGrade : gradeMapToUi(dbGrade);
-                    const dbScore = t.priority_score !== undefined ? t.priority_score : (fallbackItem.priority_score || 0);
+                    const dbScore = Number.isFinite(Number(t.priority_score)) ? Number(t.priority_score) : 0;
                     
                     if (dbStatus !== targetStatus || dbScore !== dynamicScore || dbGradeText !== dynamicGrade) {
                         const changes = [];
@@ -1902,15 +1895,9 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                 setIsDbMode(true);
                 loadedTasks = tasksWithDisplayIds;
             } else {
-                const todayStr = new Date().toISOString().slice(0, 10);
                 const tasksWithDisplayIds = FALLBACK_BOARD_TASKS.map(t => {
-                    const dbStatus = t.status || '진행중';
-                    let targetStatus = dbStatus;
-                    if (t.due_date && dbStatus !== '완료' && dbStatus !== '지연' && t.due_date < todayStr) {
-                        targetStatus = '지연';
-                    }
-                    const taskWithUpdatedStatus = { ...t, status: targetStatus };
-                    const dynamicScore = calculatePriorityScore(taskWithUpdatedStatus, t);
+                    const taskWithUpdatedStatus = normalizePmoTaskPriorityState(t);
+                    const dynamicScore = calculatePriorityScore(taskWithUpdatedStatus);
                     
                     let dynamicGrade = 'D_대기';
                     if (dynamicScore >= 70) dynamicGrade = 'A_즉시상정';
@@ -1918,8 +1905,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                     else if (dynamicScore >= 30) dynamicGrade = 'C_주간관리';
 
                     return {
-                        ...t,
-                        status: targetStatus,
+                        ...taskWithUpdatedStatus,
                         priority_score: dynamicScore,
                         meeting_grade: dynamicGrade,
                         displayId: t.id
@@ -1933,15 +1919,9 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
             initialUrlCheckedRef.current = true;
         } catch (err) {
             console.error("Failed to fetch tasks from DB:", err);
-            const todayStr = new Date().toISOString().slice(0, 10);
             const tasksWithDisplayIds = FALLBACK_BOARD_TASKS.map(t => {
-                const dbStatus = t.status || '진행중';
-                let targetStatus = dbStatus;
-                if (t.due_date && dbStatus !== '완료' && dbStatus !== '지연' && t.due_date < todayStr) {
-                    targetStatus = '지연';
-                }
-                const taskWithUpdatedStatus = { ...t, status: targetStatus };
-                const dynamicScore = calculatePriorityScore(taskWithUpdatedStatus, t);
+                const taskWithUpdatedStatus = normalizePmoTaskPriorityState(t);
+                const dynamicScore = calculatePriorityScore(taskWithUpdatedStatus);
                 
                 let dynamicGrade = 'D_대기';
                 if (dynamicScore >= 70) dynamicGrade = 'A_즉시상정';
@@ -1949,8 +1929,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                 else if (dynamicScore >= 30) dynamicGrade = 'C_주간관리';
 
                 return {
-                    ...t,
-                    status: targetStatus,
+                    ...taskWithUpdatedStatus,
                     priority_score: dynamicScore,
                     meeting_grade: dynamicGrade,
                     displayId: t.id
@@ -2326,21 +2305,21 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
         setFormCoopDepts(item.coop_dept_codes || item.coop_depts || fallbackItem.coop_depts || '');
         setFormAssignee(item.assignee || '미정');
         setFormExternalParty(item.external_party?.stakeholder_name || item.external_party || item.external_party_code || fallbackItem.external_party || '');
-        setFormSupportNeeded(item.support_needed || fallbackItem.support_needed || '');
+        setFormSupportNeeded(item.support_needed || '');
         
         // Boolean conversion fix (checking string 'Y' / 'N' as well)
-        setFormIsBlocker(parseBool(item.is_blocker !== undefined ? item.is_blocker : fallbackItem.is_blocker));
-        setFormNeedsDecision(parseBool(item.needs_decision !== undefined ? item.needs_decision : fallbackItem.needs_decision));
+        setFormIsBlocker(parseBool(item.is_blocker));
+        setFormNeedsDecision(parseBool(item.needs_decision));
 
         // Date string fix (limiting to YYYY-MM-DD)
-        const rawDate = String(item.due_date || fallbackItem.due_date || '');
+        const rawDate = String(item.due_date || '');
         setFormDueDate(rawDate ? rawDate.substring(0, 10) : '');
 
-        setFormStatus(item.status || fallbackItem.status || '진행중');
-        setFormImportanceLevel(item.importance_level || fallbackItem.importance_level || '중간');
-        setFormTaskType(item.task_type || fallbackItem.task_type || '정규');
+        setFormStatus(item.status || '진행중');
+        setFormImportanceLevel(item.importance_level || '중간');
+        setFormTaskType(item.task_type || '정규');
         setFormNextAction(item.next_action || fallbackItem.next_action || '');
-        setFormPriorityScore(item.priority_score !== undefined ? item.priority_score : (fallbackItem.priority_score || 0));
+        setFormPriorityScore(calculatePriorityScore(item));
 
         // Meeting grade mapping
         const gradeVal = String(item.meeting_grade || fallbackItem.meeting_grade || 'B');
@@ -2492,7 +2471,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                     structuredChanges.push({ field: '상정 등급', from: oldGradeText.replace(/^[A-D]_/, ''), to: newGradeText.replace(/^[A-D]_/, '') });
                 }
 
-                const oldScore = editingItem.priority_score !== undefined ? editingItem.priority_score : (fallbackItem.priority_score || 0);
+                const oldScore = calculatePriorityScore(editingItem);
                 const newScore = formPriorityScore || 0;
                 if (oldScore !== newScore) {
                     changes.push(`우선순위 점수가 "${oldScore}점"에서 "${newScore}점"(으)로 변경되었습니다.`);
@@ -2749,11 +2728,8 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
     const sortedAndFilteredTasks = useMemo(() => {
         const list = [...filteredTasks];
         list.sort((a, b) => {
-            const fallbackA = FALLBACK_BOARD_TASKS.find(item => item.task_name === a.task_name) || {};
-            const scoreA = calculatePriorityScore(a, fallbackA);
-            
-            const fallbackB = FALLBACK_BOARD_TASKS.find(item => item.task_name === b.task_name) || {};
-            const scoreB = calculatePriorityScore(b, fallbackB);
+            const scoreA = calculatePriorityScore(a);
+            const scoreB = calculatePriorityScore(b);
             
             if (prioritySortOrder === 'desc') {
                 return scoreB - scoreA;
@@ -3188,7 +3164,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                             const importanceLevel = t.importance_level || fallbackItem.importance_level || '중간';
                                             const taskType = t.task_type || fallbackItem.task_type || '정규';
                                             const nextActionVal = t.next_action || fallbackItem.next_action || '';
-                                            const priorityScore = calculatePriorityScore(t, fallbackItem);
+                                            const priorityScore = calculatePriorityScore(t);
                                             
                                             // Meeting grade mapping
                                             const rawGrade = t.meeting_grade || fallbackItem.meeting_grade || 'B';
@@ -4330,7 +4306,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                 const needsDecisionVal = parseBool(t.needs_decision !== undefined ? t.needs_decision : fallbackItem.needs_decision);
                 const statusVal = t.status || fallbackItem.status || '진행중';
                 const importanceLevel = t.importance_level || fallbackItem.importance_level || '중간';
-                const priorityScore = calculatePriorityScore(t, fallbackItem);
+                const priorityScore = calculatePriorityScore(t);
                 const rawGrade = t.meeting_grade || fallbackItem.meeting_grade || 'B';
                 const meetingGrade = rawGrade.includes('_') ? rawGrade : gradeMapToUi(rawGrade);
                 

@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { supabase } from '../../utils/supabaseClient';
-import { calculatePmoPriorityScore, parseTaskBoolean } from '../../utils/pmoTaskPriority';
+import { calculatePmoPriorityScore, normalizePmoTaskPriorityState, parseTaskBoolean } from '../../utils/pmoTaskPriority';
 import MobilePmoTaskDetail from './MobilePmoTaskDetail';
 
 const STATUS_OPTIONS = ['전체', '진행중', '미착수', '지연', '완료', '보류', '중단'];
@@ -71,7 +71,9 @@ export default function MobilePmoTaskList({ defaultFilter, onResetFilter }) {
                     .order('created_at', { ascending: true });
 
                 if (error) throw error;
-                setTasks((data || []).filter((task) => task.task_type !== '팝업'));
+                setTasks((data || [])
+                    .filter((task) => task.task_type !== '팝업')
+                    .map((task) => normalizePmoTaskPriorityState(task)));
             } catch (error) {
                 console.error('Failed to fetch PMO tasks:', error);
                 setTasks([]);
