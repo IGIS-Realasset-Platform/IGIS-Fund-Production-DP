@@ -874,7 +874,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
         setExpandedLogs(prev => ({ ...prev, [id]: !prev[id] }));
     };
 
-    const logsPerPage = logsViewMode === 'summary' ? 5 : 20;
+    const logsPerPage = isTaskBoard ? 9999 : (logsViewMode === 'summary' ? 5 : 20);
     const checkUserAccess = (log) => {
         const perms = log.metadata?.permissions;
         if (!perms) return true;
