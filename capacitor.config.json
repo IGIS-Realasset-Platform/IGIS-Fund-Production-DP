@@ -1,5 +1,10 @@
 {
   "appId": "com.igis.fundproduction",
   "appName": "IOTA Seoul",
-  "webDir": "dist"
+  "webDir": "dist",
+  "ios": {
+    "backgroundColor": "#111111",
+    "preferredContentMode": "mobile",
+    "webContentsDebuggingEnabled": false
+  }
 }

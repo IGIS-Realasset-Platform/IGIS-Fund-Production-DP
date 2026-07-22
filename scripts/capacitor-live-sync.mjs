@@ -9,8 +9,13 @@ if (!['ios', 'android'].includes(platform)) {
 
 const configPath = new URL('../capacitor.config.json', import.meta.url);
 const originalConfig = await readFile(configPath, 'utf8');
+const baseConfig = JSON.parse(originalConfig);
 const liveConfig = {
-  ...JSON.parse(originalConfig),
+  ...baseConfig,
+  ios: {
+    ...baseConfig.ios,
+    webContentsDebuggingEnabled: true,
+  },
   server: {
     url: 'http://172.16.100.191:8082',
     cleartext: true,
