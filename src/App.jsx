@@ -1,22 +1,28 @@
 import React from 'react';
-import Header from './components/Header';
-import MainLayout from './components/MainLayout';
 import { useAnimations } from './hooks/useAnimations';
 import { useLanguage } from './context/LanguageContext';
 import { useAuth } from './context/AuthContext';
-import Notes from './components/Notes';
-import SystemFullChat from './components/system/SystemFullChat';
-import SystemCore from './components/system/SystemCore';
-import SystemPlan from './components/system/SystemPlan';
-import SystemLogin from './components/system/SystemLogin';
-import AuthSetup from './components/system/AuthSetup';
-import PlatformCore from './components/system/PlatformCore';
-import WorkspaceArchive from './components/system/workspace/WorkspaceArchive';
-import IotaLogsArchive from './components/system/workspace/IotaLogsArchive';
-import IotaMyPage from './components/system/workspace/IotaMyPage';
-import SystemAdmin from './components/system/admin/SystemAdmin';
-import MobileIotaApp from './components/mobile/MobileIotaApp';
-import PmoVision from './components/system/PmoVision';
+
+const Header = React.lazy(() => import('./components/Header'));
+const MainLayout = React.lazy(() => import('./components/MainLayout'));
+const Notes = React.lazy(() => import('./components/Notes'));
+const SystemCore = React.lazy(() => import('./components/system/SystemCore'));
+const SystemPlan = React.lazy(() => import('./components/system/SystemPlan'));
+const SystemLogin = React.lazy(() => import('./components/system/SystemLogin'));
+const AuthSetup = React.lazy(() => import('./components/system/AuthSetup'));
+const PlatformCore = React.lazy(() => import('./components/system/PlatformCore'));
+const WorkspaceArchive = React.lazy(() => import('./components/system/workspace/WorkspaceArchive'));
+const IotaLogsArchive = React.lazy(() => import('./components/system/workspace/IotaLogsArchive'));
+const IotaMyPage = React.lazy(() => import('./components/system/workspace/IotaMyPage'));
+const SystemAdmin = React.lazy(() => import('./components/system/admin/SystemAdmin'));
+const MobileIotaApp = React.lazy(() => import('./components/mobile/MobileIotaApp'));
+const PmoVision = React.lazy(() => import('./components/system/PmoVision'));
+
+const RouteFallback = () => (
+  <div className="fixed inset-0 flex items-center justify-center bg-[#111111] text-[#A1A1AA]">
+    <div className="w-6 h-6 rounded-full border-2 border-white/20 border-t-white animate-spin" />
+  </div>
+);
 
 
 export default function App() {
@@ -144,7 +150,8 @@ export default function App() {
   const forcePC = localStorage.getItem('force_pc_mode') === 'true';
 
   return (
-    <>
+    <React.Suspense fallback={<RouteFallback />}>
+      <>
       <div className={
         (currentPage.startsWith('mobile') || currentPage === 'home')
           ? "w-full h-[100dvh] overflow-hidden relative"
@@ -216,6 +223,7 @@ export default function App() {
               <span>📱 모바일 최적화 화면 보기</span>
           </button>
       )}
-    </>
+      </>
+    </React.Suspense>
   );
 }

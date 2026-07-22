@@ -1,4 +1,14 @@
-# React + Vite
+# IGIS Fund Production DP
+
+## iOS 실행 모드
+
+- 빠른 기본 실행: `npm run ios:sync` 후 Xcode에서 실행합니다. 빌드된 `dist`가 앱에 포함됩니다.
+- Live Reload: `npm run dev:staging`으로 8082 서버를 실행한 뒤 `npm run ios:live:sync`를 실행합니다.
+- 파일 변경 감지가 불안정한 경우에만 `npm run dev:staging:poll`을 사용합니다.
+
+Live Reload URL은 안전을 위해 8082 포트만 허용합니다. Live Reload 테스트 후 기본 실행으로 돌아갈 때는 `npm run ios:sync`를 다시 실행합니다.
+
+## Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 

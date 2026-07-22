@@ -1,6 +1,5 @@
-import { initializeApp } from "firebase/app";
-import { getMessaging, getToken, onMessage } from "firebase/messaging";
-import { supabase } from "./supabaseClient"; // Assuming you have a supabaseClient.js here
+import { Capacitor } from "@capacitor/core";
+import { supabase } from "./supabaseClient";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -11,18 +10,40 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_FIREBASE_APP_ID
 };
 
-let app;
-let messaging;
+let webMessagingClientPromise;
 
-try {
-  app = initializeApp(firebaseConfig);
-  messaging = getMessaging(app);
-} catch (err) {
-  console.error("Firebase Initialization Error", err);
-}
+const getWebMessagingClient = async () => {
+  if (Capacitor.isNativePlatform() || !window.isSecureContext) return null;
+
+  if (!webMessagingClientPromise) {
+    webMessagingClientPromise = Promise.all([
+      import("firebase/app"),
+      import("firebase/messaging")
+    ]).then(async ([firebaseApp, firebaseMessaging]) => {
+      if (!await firebaseMessaging.isSupported()) return null;
+
+      const app = firebaseApp.getApps().length > 0
+        ? firebaseApp.getApp()
+        : firebaseApp.initializeApp(firebaseConfig);
+
+      return {
+        messaging: firebaseMessaging.getMessaging(app),
+        getToken: firebaseMessaging.getToken,
+        onMessage: firebaseMessaging.onMessage
+      };
+    }).catch(error => {
+      console.error("Firebase Web Messaging Initialization Error", error);
+      return null;
+    });
+  }
+
+  return webMessagingClientPromise;
+};
 
 export const requestFirebaseNotificationPermission = async (userId) => {
-  if (!messaging) return;
+  const webMessagingClient = await getWebMessagingClient();
+  if (!webMessagingClient || !("Notification" in window)) return;
+
   try {
     const permission = await Notification.requestPermission();
     if (permission === "granted") {
@@ -41,7 +62,7 @@ export const requestFirebaseNotificationPermission = async (userId) => {
         }
       }
 
-      const currentToken = await getToken(messaging, tokenOptions);
+      const currentToken = await webMessagingClient.getToken(webMessagingClient.messaging, tokenOptions);
       if (currentToken) {
         // Save the token to Supabase
         // Note: The table column is 'fcm_token' and unique constraint is 'user_id,fcm_token'
@@ -66,10 +87,13 @@ export const requestFirebaseNotificationPermission = async (userId) => {
   }
 };
 
-export const onMessageListener = () =>
-  new Promise((resolve) => {
-    if (!messaging) return;
-    onMessage(messaging, (payload) => {
+export const onMessageListener = async () => {
+  const webMessagingClient = await getWebMessagingClient();
+  if (!webMessagingClient) return null;
+
+  return new Promise(resolve => {
+    webMessagingClient.onMessage(webMessagingClient.messaging, payload => {
       resolve(payload);
     });
   });
+};

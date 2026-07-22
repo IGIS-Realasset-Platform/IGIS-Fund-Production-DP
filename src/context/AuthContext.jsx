@@ -3,7 +3,47 @@ import { supabase } from '../utils/supabaseClient';
 
 const AuthContext = createContext();
 
-const TIMEOUT_MS = 30 * 60 * 1000; // 30 minutes
+const AUTH_BOOT_TIMEOUT_MS = 6000;
+
+const clearStoredAuthState = () => {
+    [localStorage, sessionStorage].forEach(storage => {
+        const authKeys = [];
+        for (let index = 0; index < storage.length; index++) {
+            const key = storage.key(index);
+            if (key?.startsWith('sb-')) authKeys.push(key);
+        }
+        authKeys.forEach(key => storage.removeItem(key));
+        storage.removeItem('iota_last_activity');
+    });
+};
+
+const isInvalidRefreshTokenError = (error) => {
+    const code = String(error?.code || '').toLowerCase();
+    const message = String(error?.message || '').toLowerCase();
+    return code === 'refresh_token_not_found' ||
+        code === 'invalid_refresh_token' ||
+        message.includes('invalid refresh token') ||
+        message.includes('refresh token not found');
+};
+
+const withTimeout = (promise, timeoutMs) => new Promise((resolve, reject) => {
+    const timeoutId = setTimeout(() => {
+        const error = new Error('Auth boot timeout');
+        error.code = 'auth_boot_timeout';
+        reject(error);
+    }, timeoutMs);
+
+    promise.then(
+        value => {
+            clearTimeout(timeoutId);
+            resolve(value);
+        },
+        error => {
+            clearTimeout(timeoutId);
+            reject(error);
+        }
+    );
+});
 
 export function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
@@ -14,31 +54,12 @@ export function AuthProvider({ children }) {
     // Shared signout logic to avoid dependency issues in useEffect
     const handleSignOut = async () => {
         // 1. 즉각적인 로컬 로그아웃 처리 (무한 대기 방지)
-        const keysToRemoveLocal = [];
-        for (let i = 0; i < localStorage.length; i++) {
-            const key = localStorage.key(i);
-            if (key && key.startsWith('sb-')) {
-                keysToRemoveLocal.push(key);
-            }
-        }
-        keysToRemoveLocal.forEach(k => localStorage.removeItem(k));
-
-        const keysToRemoveSession = [];
-        for (let i = 0; i < sessionStorage.length; i++) {
-            const key = sessionStorage.key(i);
-            if (key && key.startsWith('sb-')) {
-                keysToRemoveSession.push(key);
-            }
-        }
-        keysToRemoveSession.forEach(k => sessionStorage.removeItem(k));
-
-        localStorage.removeItem('iota_last_activity');
-        sessionStorage.removeItem('iota_last_activity');
+        clearStoredAuthState();
         setUser(null);
         setMemberInfo(null);
         
         // 2. 서버 통신은 백그라운드에서 비동기로 실행 (Fire-and-forget)
-        supabase.auth.signOut().catch(e => console.error("Background signout error:", e));
+        supabase.auth.signOut({ scope: 'local' }).catch(error => console.error("Background signout error:", error));
 
         // 3. 바로 로그인 화면으로 이동
         window.location.href = import.meta.env.BASE_URL + 'auth-setup';
@@ -69,7 +90,6 @@ export function AuthProvider({ children }) {
         window.addEventListener('visibilitychange', handleVisibilityChange);
 
         const initializeAuth = async () => {
-            let timeoutId;
             try {
                 // Manual fallback: forcefully trigger recovery mode if URL indicates a password reset link
                 if (window.location.hash.includes('type=recovery') || window.location.hash.includes('access_token=') || window.location.search.includes('code=')) {
@@ -120,25 +140,34 @@ export function AuthProvider({ children }) {
                     localStorage.setItem('iota_last_activity', Date.now().toString());
                 }, 60000);
 
-                // Increase timeout threshold to 15s to handle slower mobile cell network latencies without early redirection
-                timeoutId = setTimeout(() => {
-                    console.error("Auth initialization timed out! Forcing load.");
-                    setLoading(false);
-                }, 15000);
+                const { data: sessionData, error: sessionError } = await withTimeout(
+                    supabase.auth.getSession(),
+                    AUTH_BOOT_TIMEOUT_MS
+                );
 
-                const { data: { session } } = await supabase.auth.getSession();
-                clearTimeout(timeoutId);
-
-                if (session?.user) {
-                    // 초기 부팅 시 화면 깜빡임 방지를 위해 동기적으로 1회만 조회 (setUser is handled by onAuthStateChange)
-                    await fetchMemberInfo(session.user.email);
-                } else {
+                if (sessionError) {
+                    if (isInvalidRefreshTokenError(sessionError)) {
+                        clearStoredAuthState();
+                    } else {
+                        console.error("Auth session initialization error:", sessionError);
+                    }
+                    setUser(null);
                     setMemberInfo(null);
+                    return;
                 }
+
+                setUser(sessionData.session?.user || null);
             } catch (err) {
-                console.error("Auth initialization error:", err);
+                if (isInvalidRefreshTokenError(err)) {
+                    clearStoredAuthState();
+                    setUser(null);
+                    setMemberInfo(null);
+                } else if (err?.code === 'auth_boot_timeout') {
+                    console.warn("Auth initialization exceeded 6 seconds; continuing without blocking the UI.");
+                } else {
+                    console.error("Auth initialization error:", err);
+                }
             } finally {
-                clearTimeout(timeoutId);
                 setLoading(false);
             }
         };
