@@ -1,5 +1,6 @@
 import React from 'react';
 import { createPortal } from 'react-dom';
+import WorkspaceActivityLog from '../system/workspace/WorkspaceActivityLog';
 import { calculatePmoPriorityScore, parseTaskBoolean } from '../../utils/pmoTaskPriority';
 
 const formatDate = (dateString) => {
@@ -152,6 +153,21 @@ export default function MobilePmoTaskDetail({ task, onClose }) {
                 <DetailSection label="필요 산출물">{task.deliverables}</DetailSection>
                 <DetailSection label="다음 액션">{task.next_action}</DetailSection>
                 {task.agenda_reason && <DetailSection label="회의 상정 사유">{task.agenda_reason}</DetailSection>}
+
+                <section className="pt-2">
+                    <div className="flex items-center justify-between px-1 mb-2.5">
+                        <h2 className="text-[15px] font-bold text-[#F5F5F7]">업무 협업·댓글</h2>
+                        <span className="text-[10px] text-[#86868B]">PC와 동일한 기록</span>
+                    </div>
+                    <WorkspaceActivityLog
+                        isTaskBoard
+                        taskId={task.id}
+                        taskProject={task.project_code || task.project || 'IOTA_SEOUL'}
+                        workspaceCode="WS_PMO"
+                        workspaceLabel="통합업무보드"
+                        mobileMode
+                    />
+                </section>
             </main>
         </div>,
         document.body,

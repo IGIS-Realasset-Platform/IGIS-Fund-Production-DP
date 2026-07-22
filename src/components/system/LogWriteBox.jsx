@@ -4,7 +4,7 @@ import { executeWithTimeout } from '../../utils/supabaseHelper';
 import { motion, AnimatePresence } from 'framer-motion';
 import { notifyMembersOnLogCreation } from '../../utils/notificationHelpers';
 
-export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs, fetchMasterStakeholders, workspaceCode, workspaceLabel, defaultExpanded = false, editMode = false, initialData = null, onCancel = null, onSuccess = null, isTaskBoard = false, taskId = null, taskProject = null }) {
+export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs, fetchMasterStakeholders, workspaceCode, workspaceLabel, defaultExpanded = false, editMode = false, initialData = null, onCancel = null, onSuccess = null, isTaskBoard = false, taskId = null, taskProject = null, mobileMode = false }) {
     const uniqueIdSuffix = editMode ? `${workspaceCode}-edit` : workspaceCode;
     // Form States
     const [projectId, setProjectId] = useState('IOTA_COMMON');
@@ -739,7 +739,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                             className="overflow-hidden w-full flex flex-col"
                         >
 {/* Text Area */}
-                <div className={`w-full px-[20px] ${isTaskBoard ? 'pt-[16px] pb-[18px]' : 'pt-[20px] pb-[24px]'} bg-transparent ${editMode ? 'border-b border-[#333] pb-[20px] mb-[0] relative' : ''}`}>
+                <div className={`w-full ${mobileMode ? 'px-[12px]' : 'px-[20px]'} ${isTaskBoard ? 'pt-[16px] pb-[18px]' : 'pt-[20px] pb-[24px]'} bg-transparent ${editMode ? 'border-b border-[#333] pb-[20px] mb-[0] relative' : ''}`}>
                     {editMode && (
                         <button 
                             type="button"
@@ -880,7 +880,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                 </div>
 
                 {/* Footer */}
-                <div className={`w-full pl-[20px] pr-[12px] ${isTaskBoard ? 'py-[6px]' : 'py-[10px]'} border-t border-[#333] flex justify-between items-center gap-4`}>
+                <div className={`w-full ${mobileMode ? 'px-[10px] gap-2' : 'pl-[20px] pr-[12px] gap-4'} ${isTaskBoard ? 'py-[6px]' : 'py-[10px]'} border-t border-[#333] flex justify-between items-center`}>
                     {!isTaskBoard ? (
                         <div className="flex items-center gap-[12px] flex-1 min-w-0">
                         <span className="text-[#86868B] text-[14px] font-medium shrink-0">이해관계자</span>
@@ -1013,7 +1013,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                         <button 
                             type="button"
                             onClick={() => setShowVisibilityModal(true)}
-                            className={`px-[16px] ${btnPadding} ${btnRounding} border ${isTaskBoard ? 'border-[#444] text-[#E5E5E5]' : 'border-red-500/50 text-red-500'} font-bold text-[13px] ${isTaskBoard ? 'hover:bg-[#333] hover:border-[#555]' : 'hover:bg-red-500/10 hover:border-red-500 hover:text-red-400'} transition-colors cursor-pointer whitespace-nowrap relative left-[2px]`}
+                            className={`${mobileMode ? 'px-[10px]' : 'px-[16px]'} ${btnPadding} ${btnRounding} border ${isTaskBoard ? 'border-[#444] text-[#E5E5E5]' : 'border-red-500/50 text-red-500'} font-bold text-[13px] ${isTaskBoard ? 'hover:bg-[#333] hover:border-[#555]' : 'hover:bg-red-500/10 hover:border-red-500 hover:text-red-400'} transition-colors cursor-pointer whitespace-nowrap relative left-[2px]`}
                         >
                             열람권한
                         </button>
@@ -1040,7 +1040,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                                 type="button"
                                 onClick={handlePreSubmit}
                                 disabled={isSubmitting}
-                                className={`px-[32px] ${btnPadding} ${btnRounding} border border-[#444] text-[#E5E5E5] font-bold text-[13px] transition-all duration-200 whitespace-nowrap relative left-[2px] top-[-1px] ${isSubmitting ? 'opacity-50 cursor-not-allowed' : 'hover:bg-[#333] hover:border-[#555] cursor-pointer'}`}
+                                className={`${mobileMode ? 'px-[16px]' : 'px-[32px]'} ${btnPadding} ${btnRounding} border border-[#444] text-[#E5E5E5] font-bold text-[13px] transition-all duration-200 whitespace-nowrap relative left-[2px] top-[-1px] ${isSubmitting ? 'opacity-50 cursor-not-allowed' : 'hover:bg-[#333] hover:border-[#555] cursor-pointer'}`}
                             >
                                 {isSubmitting ? '저장 중...' : '작성하기'}
                             </button>

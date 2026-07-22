@@ -315,7 +315,7 @@ const renderSystemLogChanges = (rawText) => {
     );
 };
 
-export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, isTaskBoard = false, taskId = null, taskProject = null }) {
+export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, isTaskBoard = false, taskId = null, taskProject = null, mobileMode = false }) {
     const { memberInfo } = useAuth();
     
     // Logs State
@@ -406,7 +406,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                 .select('*, iota_seoul_log_stakeholders(sh_name, role_category)');
 
             if (isTaskBoard && taskId) {
-                query = query.eq('metadata->>task_id', taskId);
+                query = query.eq('metadata->>task_id', String(taskId));
             }
 
             const { data, error } = await query
@@ -414,7 +414,16 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                 .order('created_at', { ascending: isTaskBoard });
             if (error) throw error;
             
-            setLogs(data || []);
+            const fetchedLogs = data || [];
+            setLogs(fetchedLogs);
+            if (mobileMode) {
+                setExpandedLogs((current) => fetchedLogs.reduce((expanded, log) => {
+                    if (log.writer_name !== '시스템' && log.metadata?.comments?.length > 0) {
+                        expanded[log.log_id] = true;
+                    }
+                    return expanded;
+                }, { ...current }));
+            }
         } catch (e) {
             console.error('Error fetching logs:', e);
         } finally {
@@ -910,7 +919,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
 
     const filteredLogs = logs.filter(log => {
         if (isTaskBoard) {
-            if (log.metadata?.task_id !== taskId) return false;
+            if (String(log.metadata?.task_id) !== String(taskId)) return false;
             if (filterStakeholder && log.iota_seoul_log_stakeholders?.[0]?.role_category !== filterStakeholder) return false;
             if (!logSearchQuery) return true;
             const query = logSearchQuery.toLowerCase();
@@ -1080,9 +1089,9 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                 {displayedLogs.map((log, index) => {
                     if (isTaskBoard) {
                         return (
-                            <div id={log.log_id} key={log.log_id} className="w-full flex flex-col gap-[12px] p-[20px] bg-[#1c1c1e] border border-[#2c2c2e] rounded-[16px] transition-all hover:border-[#444] relative group">
+                            <div id={log.log_id} key={log.log_id} className={`w-full flex flex-col bg-[#1c1c1e] border border-[#2c2c2e] rounded-[16px] transition-all hover:border-[#444] relative group ${mobileMode ? 'gap-[10px] p-[12px]' : 'gap-[12px] p-[20px]'}`}>
                                 {/* Card Header */}
-                                <div className="w-full flex items-start gap-[10px] ml-[-4px]">
+                                <div className={`w-full flex items-start gap-[10px] ${mobileMode ? '' : 'ml-[-4px]'}`}>
                                     <div className="w-[32px] h-[32px] rounded-full bg-[#2c2c2e] flex items-center justify-center border border-[#3c3c3c] shrink-0 overflow-hidden mt-[2px]">
                                         {log.writer_name === '시스템' ? (
                                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#30d158" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
@@ -1112,7 +1121,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                                     {getLogCell(log).replace(/-(LFC|DSC|EMC|SSC|KAM)$/, '')}
                                                 </span>
                                             </div>
-                                            <div className="flex items-center gap-3 shrink-0">
+                                            <div className={`items-center gap-3 shrink-0 ${mobileMode ? 'hidden' : 'flex'}`}>
                                                 {log.writer_name === '시스템' && (
                                                     <div className="flex items-center gap-1.5 text-[12px] text-[#86868B] select-none">
                                                         <span>변경자:</span>
@@ -1142,7 +1151,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                 </div>
                                 
                                 {/* Card Body - Content */}
-                                <div className="text-[14px] text-[#E5E5E5] leading-relaxed whitespace-pre-wrap pl-[42px] pr-[10px] break-words">
+                                <div className={`text-[14px] text-[#E5E5E5] leading-relaxed whitespace-pre-wrap break-words ${mobileMode ? 'px-0' : 'pl-[42px] pr-[10px]'}`}>
                                     {hasRestrictedPermissions(log) && (
                                         <div className="inline-flex items-center gap-[4px] cursor-default text-[#ef4444] text-[12px] font-bold mb-[6px]">
                                             🔒 [{getShortPermissionString(log)}]
@@ -1185,8 +1194,8 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                 
                                 {/* Card Footer - Interactions (Reactions & Comments) */}
                                 {log.writer_name !== '시스템' && (
-                                    <div className="flex items-center justify-between pl-[42px] mt-[-2px] pt-2 border-t border-[#333]/20">
-                                        <div className="flex items-center gap-[12px]">
+                                    <div className={`flex items-center justify-between mt-[-2px] pt-2 border-t border-[#333]/20 ${mobileMode ? 'pl-0 gap-2 flex-wrap' : 'pl-[42px]'}`}>
+                                        <div className={`flex items-center ${mobileMode ? 'gap-[6px]' : 'gap-[12px]'}`}>
                                             {/* Like Reaction Button */}
                                             <button
                                                 type="button"
@@ -1242,13 +1251,13 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                 
                                 {/* Nested Expanded Comments/Replies Inside Card */}
                                 {log.writer_name !== '시스템' && expandedLogs[log.log_id] && (
-                                    <div className="mt-3 pl-[42px] border-t border-[#333]/20 pt-3 w-full flex flex-col gap-3">
+                                    <div className={`mt-3 border-t border-[#333]/20 pt-3 w-full flex flex-col gap-3 ${mobileMode ? 'pl-0' : 'pl-[42px]'}`}>
                                         {/* Comments list */}
                                         {checkUserAccess(log) && log.metadata?.comments && log.metadata.comments.length > 0 && (
                                             <div className="flex flex-col gap-[8px] w-full">
                                                 {log.metadata.comments.map(comment => (
                                                     <div key={comment.id} className="bg-white/[0.02] border border-[#2c2c2e] rounded-[8px] p-[10px] flex justify-between group">
-                                                        <div className="flex-1 min-w-0 pr-[16px]">
+                                                        <div className={`flex-1 min-w-0 ${mobileMode ? 'pr-[6px]' : 'pr-[16px]'}`}>
                                                             <div className="flex items-center gap-[8px] mb-[4px]">
                                                                 <div className="w-[24px] h-[24px] rounded-full bg-[#333] overflow-hidden border border-[#444] shrink-0">
                                                                     <img 
@@ -1270,8 +1279,8 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                                                     {new Date(comment.created_at).toLocaleString('ko-KR', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false })}
                                                                 </span>
                                                             </div>
-                                                            <div className="text-[13px] text-[#A1A1AA] whitespace-pre-wrap break-words ml-[32px] mb-[6px]">{comment.text}</div>
-                                                            <div className="flex items-center gap-[8px] ml-[32px]">
+                                                            <div className={`text-[13px] text-[#A1A1AA] whitespace-pre-wrap break-words mb-[6px] ${mobileMode ? 'ml-0 mt-2' : 'ml-[32px]'}`}>{comment.text}</div>
+                                                            <div className={`flex items-center gap-[8px] ${mobileMode ? 'ml-0' : 'ml-[32px]'}`}>
                                                                 <button
                                                                     type="button"
                                                                     onClick={(e) => { e.stopPropagation(); handleToggleReaction(log.log_id, 'like', comment.id); }}
@@ -1293,7 +1302,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                                         {comment.author_email === memberInfo?.email && (
                                                             <button
                                                                 onClick={(e) => { e.stopPropagation(); setCommentToDelete({ logId: log.log_id, commentId: comment.id }); }}
-                                                                className="text-[11px] text-[#FF453A] opacity-0 group-hover:opacity-100 transition-opacity hover:underline cursor-pointer align-self-start"
+                                                                className={`text-[11px] text-[#FF453A] group-hover:opacity-100 transition-opacity hover:underline cursor-pointer align-self-start ${mobileMode ? 'opacity-100' : 'opacity-0'}`}
                                                             >
                                                                 삭제
                                                             </button>
@@ -1783,7 +1792,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                 })}
                 {displayedLogs.length === 0 && (
                     <div className={isTaskBoard 
-                        ? "py-[40px] text-center text-[14px] text-[#86868B] bg-[#1c1c1e] border border-[#2c2c2e] rounded-[16px] w-full"
+                        ? `${mobileMode ? 'py-[24px]' : 'py-[40px]'} text-center text-[14px] text-[#86868B] bg-[#1c1c1e] border border-[#2c2c2e] rounded-[16px] w-full`
                         : "py-[60px] text-center text-[14px] text-[#86868B]"
                     }>
                         {isLoading ? '데이터를 불러오는 중입니다...' : (isTaskBoard ? '등록된 글이 없습니다.' : '등록된 업무가 없습니다.')}
@@ -1820,6 +1829,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                         taskId={taskId}
                         taskProject={taskProject}
                         defaultExpanded={true}
+                        mobileMode={mobileMode}
                     />
                 </div>
             )}
@@ -1849,6 +1859,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                             isTaskBoard={isTaskBoard}
                             taskId={taskId}
                             taskProject={taskProject}
+                            mobileMode={mobileMode}
                         />
                     </div>
                 </div>
