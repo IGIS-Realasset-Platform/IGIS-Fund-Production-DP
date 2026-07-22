@@ -141,29 +141,29 @@ export default function MobilePmoTaskList({ defaultFilter, onResetFilter }) {
     return (
         <div className="flex flex-col w-full h-full min-h-0 bg-[#111111]">
             <div className="shrink-0 border-b border-[#3c3c3c]/40 bg-[#111111]">
-                <div className="flex items-center gap-2 px-4 pt-3 pb-2 overflow-x-auto hide-scrollbar">
+                <div className="flex items-center gap-1.5 px-3 py-1.5 overflow-x-auto hide-scrollbar">
                     <button
                         type="button"
                         onClick={resetFilters}
-                        className={`h-9 px-3 rounded-[10px] text-[12px] font-bold whitespace-nowrap border transition-colors ${priorityIsActive ? 'text-white bg-[#3c3c3c] border-[#555]' : 'text-[#A1A1AA] bg-[#1A1A1A] border-[#3c3c3c]'}`}
+                        className={`h-8 px-2.5 rounded-[9px] text-[11px] font-bold whitespace-nowrap border transition-colors ${priorityIsActive ? 'text-white bg-[#3c3c3c] border-[#555]' : 'text-[#A1A1AA] bg-[#1A1A1A] border-[#3c3c3c]'}`}
                     >
                         우선순위 ↓
                     </button>
                     <button
                         type="button"
                         onClick={() => setBlockerOnly((active) => !active)}
-                        className={`h-9 px-3 rounded-[10px] text-[12px] font-bold whitespace-nowrap border transition-colors ${blockerOnly ? 'text-[#f87171] bg-[#f87171]/10 border-[#f87171]/40' : 'text-[#A1A1AA] bg-[#1A1A1A] border-[#3c3c3c]'}`}
+                        className={`h-8 px-2.5 rounded-[9px] text-[11px] font-bold whitespace-nowrap border transition-colors ${blockerOnly ? 'text-[#f87171] bg-[#f87171]/10 border-[#f87171]/40' : 'text-[#A1A1AA] bg-[#1A1A1A] border-[#3c3c3c]'}`}
                     >
                         Blocker
                     </button>
                     <button
                         type="button"
                         onClick={() => setDecisionOnly((active) => !active)}
-                        className={`h-9 px-3 rounded-[10px] text-[12px] font-bold whitespace-nowrap border transition-colors ${decisionOnly ? 'text-[#fb923c] bg-[#fb923c]/10 border-[#fb923c]/40' : 'text-[#A1A1AA] bg-[#1A1A1A] border-[#3c3c3c]'}`}
+                        className={`h-8 px-2.5 rounded-[9px] text-[11px] font-bold whitespace-nowrap border transition-colors ${decisionOnly ? 'text-[#fb923c] bg-[#fb923c]/10 border-[#fb923c]/40' : 'text-[#A1A1AA] bg-[#1A1A1A] border-[#3c3c3c]'}`}
                     >
                         의사결정필요
                     </button>
-                    <label className={`relative h-9 px-3 rounded-[10px] text-[12px] font-bold whitespace-nowrap border flex items-center gap-1.5 ${statusFilter !== '전체' ? 'text-[#60a5fa] bg-[#60a5fa]/10 border-[#60a5fa]/40' : 'text-[#A1A1AA] bg-[#1A1A1A] border-[#3c3c3c]'}`}>
+                    <label className={`relative h-8 px-2.5 rounded-[9px] text-[11px] font-bold whitespace-nowrap border flex items-center gap-1 ${statusFilter !== '전체' ? 'text-[#60a5fa] bg-[#60a5fa]/10 border-[#60a5fa]/40' : 'text-[#A1A1AA] bg-[#1A1A1A] border-[#3c3c3c]'}`}>
                         <span>{statusFilter === '전체' ? '상태' : statusFilter}</span>
                         <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
@@ -178,12 +178,9 @@ export default function MobilePmoTaskList({ defaultFilter, onResetFilter }) {
                         </select>
                     </label>
                 </div>
-                <div className="px-4 pb-2 text-[11px] text-[#86868B]">
-                    우선순위 높은 순 · {sortedTasks.length}건
-                </div>
             </div>
 
-            <div className="flex-1 min-h-0 overflow-y-auto px-4 pt-3 pb-6 flex flex-col gap-2 hide-scrollbar">
+            <div className="flex-1 min-h-0 overflow-y-auto px-4 pt-2 pb-6 flex flex-col gap-2 hide-scrollbar">
                 {loading ? (
                     <div className="flex justify-center py-20">
                         <div className="animate-spin w-7 h-7 border-[3px] border-[#3b82f6] border-t-transparent rounded-full" />

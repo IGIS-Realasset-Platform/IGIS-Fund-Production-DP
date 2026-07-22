@@ -18,12 +18,12 @@ export default function MobileTaskContainer({ memberInfo, defaultFilter, onReset
     return (
         <div className="flex flex-col flex-1 min-h-0 w-full bg-[#111111] overflow-hidden">
             {/* Header Area with Segmented Control */}
-            <div className="pt-safe-top bg-[#1A1A1A]/80 backdrop-blur-md z-10 sticky top-0 border-b border-[#3c3c3c]/50">
-                <div className="px-4 py-3 flex items-center justify-center">
-                    <div className="flex p-1 bg-[#2C2C2E] rounded-[16px] w-full max-w-[320px] relative shadow-inner">
+            <div className="bg-[#1A1A1A]/80 backdrop-blur-md z-10 sticky top-0 border-b border-[#3c3c3c]/50">
+                <div className="px-3 py-1.5 flex items-center justify-center">
+                    <div className="flex p-0.5 bg-[#2C2C2E] rounded-[12px] w-full max-w-[320px] relative shadow-inner">
                         {/* Sliding Background */}
                         <motion.div
-                            className="absolute top-1 bottom-1 w-[calc(50%-4px)] bg-[#3c3c3c] rounded-[12px] shadow-sm"
+                            className="absolute top-0.5 bottom-0.5 w-[calc(50%-2px)] bg-[#3c3c3c] rounded-[10px] shadow-sm"
                             initial={false}
                             animate={{
                                 x: viewMode === 'pmo' ? 0 : '100%',
@@ -33,7 +33,7 @@ export default function MobileTaskContainer({ memberInfo, defaultFilter, onReset
                         
                         <button
                             onClick={() => setViewMode('pmo')}
-                            className={`flex-1 py-1.5 text-[14px] font-bold rounded-[12px] relative z-10 transition-colors ${
+                            className={`flex-1 py-1 text-[13px] font-bold rounded-[10px] relative z-10 transition-colors ${
                                 viewMode === 'pmo' ? 'text-white' : 'text-[#8E8E93]'
                             }`}
                         >
@@ -41,7 +41,7 @@ export default function MobileTaskContainer({ memberInfo, defaultFilter, onReset
                         </button>
                         <button
                             onClick={() => setViewMode('director')}
-                            className={`flex-1 py-1.5 text-[14px] font-bold rounded-[12px] relative z-10 transition-colors ${
+                            className={`flex-1 py-1 text-[13px] font-bold rounded-[10px] relative z-10 transition-colors ${
                                 viewMode === 'director' ? 'text-white' : 'text-[#8E8E93]'
                             }`}
                         >

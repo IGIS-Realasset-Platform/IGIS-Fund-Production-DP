@@ -1,4 +1,5 @@
 import React from 'react';
+import { createPortal } from 'react-dom';
 import { calculatePmoPriorityScore, parseTaskBoolean } from '../../utils/pmoTaskPriority';
 
 const formatDate = (dateString) => {
@@ -42,32 +43,32 @@ export default function MobilePmoTaskDetail({ task, onClose }) {
     const externalParty = task.external_party?.stakeholder_name || task.external_party || task.external_party_code || '';
     const externalParties = splitValues(externalParty);
 
-    return (
-        <div className="fixed inset-0 z-[100] flex flex-col bg-[#111111] text-[#E5E5E5]">
+    return createPortal(
+        <div className="fixed inset-0 z-[2147483647] flex h-[100dvh] max-h-[100dvh] w-screen flex-col overflow-hidden bg-[#111111] text-[#E5E5E5]">
             <header
                 className="shrink-0 border-b border-[#3c3c3c] bg-[#1A1A1A]/95 backdrop-blur-xl"
                 style={{ paddingTop: 'env(safe-area-inset-top)' }}
             >
-                <div className="relative h-12 px-3 flex items-center justify-between">
+                <div className="relative h-10 px-2.5 flex items-center justify-between">
                     <button
                         type="button"
                         onClick={onClose}
-                        className="relative z-10 min-w-[96px] h-9 px-2 rounded-[10px] flex items-center justify-center gap-0.5 bg-[#2997ff] text-white shadow-sm active:bg-[#147ce5]"
+                        className="relative z-10 h-8 px-2 rounded-[9px] flex items-center justify-center gap-0.5 bg-[#2997ff] text-white shadow-sm active:bg-[#147ce5]"
                         aria-label="업무 목록으로 돌아가기"
                     >
-                        <svg className="w-5 h-5 shrink-0" fill="none" stroke="currentColor" strokeWidth="2.25" viewBox="0 0 24 24">
+                        <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" strokeWidth="2.25" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
                         </svg>
-                        <span className="text-[13px] font-bold whitespace-nowrap">업무 목록</span>
+                        <span className="text-[12px] font-bold whitespace-nowrap">목록</span>
                     </button>
-                    <span className="absolute left-1/2 -translate-x-1/2 text-[15px] font-bold whitespace-nowrap">업무 상세</span>
-                    <span className="min-w-[88px] max-w-[88px] text-right text-[10px] font-mono text-[#86868B] truncate">
+                    <span className="absolute left-1/2 -translate-x-1/2 text-[14px] font-bold whitespace-nowrap">업무 상세</span>
+                    <span className="min-w-[72px] max-w-[72px] text-right text-[9px] font-mono text-[#86868B] truncate">
                         {task.displayId || task.id}
                     </span>
                 </div>
             </header>
 
-            <main className="flex-1 min-h-0 overflow-y-auto px-4 pt-5 space-y-3 hide-scrollbar" style={{ paddingBottom: 'calc(28px + env(safe-area-inset-bottom))' }}>
+            <main className="flex-1 min-h-0 overflow-y-auto overscroll-contain px-4 pt-4 space-y-3 hide-scrollbar" style={{ paddingBottom: 'calc(20px + env(safe-area-inset-bottom))' }}>
                 <div className="px-1 pb-2">
                     <div className="flex flex-wrap gap-1.5 mb-3">
                         <span className="text-[11px] font-bold text-[#60a5fa] border border-[#60a5fa]/25 bg-[#60a5fa]/10 px-2 py-1 rounded-[6px]">
@@ -152,22 +153,7 @@ export default function MobilePmoTaskDetail({ task, onClose }) {
                 <DetailSection label="다음 액션">{task.next_action}</DetailSection>
                 {task.agenda_reason && <DetailSection label="회의 상정 사유">{task.agenda_reason}</DetailSection>}
             </main>
-
-            <footer
-                className="shrink-0 px-4 pt-3 border-t border-[#3c3c3c] bg-[#1A1A1A]/95 backdrop-blur-xl"
-                style={{ paddingBottom: 'calc(12px + env(safe-area-inset-bottom))' }}
-            >
-                <button
-                    type="button"
-                    onClick={onClose}
-                    className="w-full h-11 rounded-[12px] bg-[#2997ff] text-white text-[14px] font-bold flex items-center justify-center gap-1.5 active:bg-[#147ce5]"
-                >
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.25" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-                    </svg>
-                    업무 목록으로 돌아가기
-                </button>
-            </footer>
-        </div>
+        </div>,
+        document.body,
     );
 }
