@@ -3,7 +3,7 @@ import { supabase } from '../../../utils/supabaseClient';
 import { useAuth } from '../../../context/AuthContext';
 import WorkspaceActivityLog from '../workspace/WorkspaceActivityLog';
 import { notifyMembersOnTaskCreation } from '../../../utils/notificationHelpers';
-import { calculatePmoPriorityScore as calculatePriorityScore, normalizePmoTaskPriorityState, parseTaskBoolean as parseBool } from '../../../utils/pmoTaskPriority';
+import { applyPmoPrioritySnapshot, calculatePmoPriorityScore as calculatePriorityScore, parseTaskBoolean as parseBool } from '../../../utils/pmoTaskPriority';
 import toast from 'react-hot-toast';
 
 export const FALLBACK_BOARD_TASKS = [
@@ -1642,12 +1642,12 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
     }, []);
 
     const uniqueMeetingGradeFilter = useMemo(() => {
-        return ['A_즉시상정', 'B_회의점검'];
+        return ['A_즉시상정', 'B_회의점검', 'C_주간관리', 'D_대기'];
     }, []);
 
-    async function fetchTasks() {
+    async function fetchTasks(showLoading = true) {
         try {
-            setLoading(true);
+            if (showLoading) setLoading(true);
             
             // Load base projects
             try {
@@ -1728,6 +1728,21 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                 console.warn("Support options load failed, using defaults:", e);
             }
 
+            const { error: prioritySyncError } = await supabase
+                .schema('iota_v2')
+                .rpc('sync_pmo_priority_scores');
+
+            if (prioritySyncError) {
+                const missingFunction = prioritySyncError.code === 'PGRST202' || prioritySyncError.code === '42883';
+                if (missingFunction) {
+                    console.warn('Priority DB sync function is not installed yet; using the shared client snapshot.');
+                    toast.error('DB 우선순위 동기화 설정이 필요합니다.', { id: 'pmo-priority-db-sync' });
+                } else {
+                    console.error('Priority DB sync failed:', prioritySyncError);
+                    toast.error('DB 우선순위 점수 저장에 실패했습니다.', { id: 'pmo-priority-db-sync' });
+                }
+            }
+
             const { data, error } = await supabase
                 .schema('iota_v2')
                 .from('iota_pmo_tasks')
@@ -1769,119 +1784,9 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
 
             let loadedTasks = [];
             if (data && data.length > 0) {
-                // One-time batch update (Requirement 1): If due_date < '2026-07-20', change to '2026-07-27'
-                const batchDueDateUpdates = [];
-                const preMigratedData = data.map(t => {
-                    const normalizedTask = normalizePmoTaskPriorityState(t);
-                    if (normalizedTask.due_date !== t.due_date) {
-                        batchDueDateUpdates.push({
-                            id: t.id,
-                            status: normalizedTask.status
-                        });
-                        return normalizedTask;
-                    }
-                    return t;
-                });
-
-                if (batchDueDateUpdates.length > 0 && isAuthorized) {
-                    Promise.all(batchDueDateUpdates.map(upd =>
-                        supabase.schema('iota_v2').from('iota_pmo_tasks').update({
-                            due_date: '2026-07-27',
-                            status: upd.status
-                        }).eq('id', upd.id)
-                    )).catch(console.error);
-                }
-
-                // AUTO-HEAL SWEEP: Check if dynamic status/score/grade diverges from DB (due to time passing)
-                const tasksToUpdate = [];
-                const logsToInsert = [];
-                const todayStr = new Date().toISOString().slice(0, 10);
-                
-                const healedData = preMigratedData.map(t => {
-                    const fallbackItem = FALLBACK_BOARD_TASKS.find(fb => fb.task_name === t.task_name) || {};
-                    
-                    // System policy: auto-change status to "지연" if due_date has passed, status !== '완료', status !== '지연'
-                    const dbStatus = t.status || '진행중';
-                    const taskWithUpdatedStatus = normalizePmoTaskPriorityState(t);
-                    const targetStatus = taskWithUpdatedStatus.status;
-                    const dynamicScore = calculatePriorityScore(taskWithUpdatedStatus);
-                    
-                    let dynamicGrade = 'D_대기';
-                    if (dynamicScore >= 70) dynamicGrade = 'A_즉시상정';
-                    else if (dynamicScore >= 50) dynamicGrade = 'B_회의점검';
-                    else if (dynamicScore >= 30) dynamicGrade = 'C_주간관리';
-                    
-                    const dbGrade = String(t.meeting_grade || fallbackItem.meeting_grade || 'B');
-                    const dbGradeText = dbGrade.includes('_') ? dbGrade : gradeMapToUi(dbGrade);
-                    const dbScore = Number.isFinite(Number(t.priority_score)) ? Number(t.priority_score) : 0;
-                    
-                    if (dbStatus !== targetStatus || dbScore !== dynamicScore || dbGradeText !== dynamicGrade) {
-                        const changes = [];
-                        const structuredChanges = [];
-                        if (dbStatus !== targetStatus) {
-                            changes.push(`마감기한이 지남에 따라 상태가 "${dbStatus}"에서 "${targetStatus}"(으)로 자동 변경되었습니다.`);
-                            structuredChanges.push({ field: '상태', from: dbStatus, to: targetStatus });
-                        }
-                        if (dbScore !== dynamicScore) {
-                            changes.push(`시스템 점수 산정 공식(기한 임박/지연 등 속성 재평가)에 따라 우선순위 점수가 "${dbScore}점"에서 "${dynamicScore}점"(으)로 자동 교정되었습니다.`);
-                            structuredChanges.push({ field: '우선순위 점수', from: `${dbScore}점`, to: `${dynamicScore}점` });
-                        }
-                        if (dbGradeText !== dynamicGrade) {
-                            changes.push(`점수 교정에 따라 상정 등급이 "${dbGradeText.replace(/^[A-D]_/, '')}"에서 "${dynamicGrade.replace(/^[A-D]_/, '')}"(으)로 자동 교정되었습니다.`);
-                            structuredChanges.push({ field: '상정 등급', from: dbGradeText.replace(/^[A-D]_/, ''), to: dynamicGrade.replace(/^[A-D]_/, '') });
-                        }
-                        
-                        tasksToUpdate.push({
-                            id: t.id,
-                            status: targetStatus,
-                            priority_score: dynamicScore,
-                            meeting_grade: gradeMapToDb(dynamicGrade)
-                        });
-                        
-                        const logId = `iota_sys_auto_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
-                        logsToInsert.push({
-                            log_id: logId,
-                            writer_name: '시스템 스케줄러',
-                            writer_staff_id: 'system_auto',
-                            work_date: todayStr,
-                            summary: '시스템 자동 갱신 이력',
-                            raw_text: changes.join('\n'),
-                            input_status: 'submitted',
-                            source_system: 'task_board',
-                            metadata: {
-                                is_task_board: true,
-                                task_id: t.id,
-                                task_project: t.project_code || 'IOTA_SEOUL',
-                                editor_name: '시스템 스케줄러',
-                                structured_changes: structuredChanges
-                            }
-                        });
-                        
-                        return { ...t, status: targetStatus, priority_score: dynamicScore, meeting_grade: gradeMapToDb(dynamicGrade) };
-                    }
-                    return t;
-                });
- 
-                // Fire and forget auto-heal to DB
-                if (tasksToUpdate.length > 0 && isAuthorized) {
-                    tasksToUpdate.forEach(async (upd) => {
-                        try {
-                            const { error: updErr } = await supabase.schema('iota_v2').from('iota_pmo_tasks').update({
-                                status: upd.status,
-                                priority_score: upd.priority_score,
-                                meeting_grade: upd.meeting_grade
-                            }).eq('id', upd.id);
-
-                            if (updErr) {
-                                console.error(`Auto-heal update failed for task ${upd.id}:`, updErr.message);
-                            }
-                        } catch (err) {
-                            console.error("Auto-heal execution error:", err);
-                        }
-                    });
-                }
- 
-                const sorted = [...healedData].sort((a, b) => {
+                const snapshotNow = new Date();
+                const synchronizedData = data.map(task => applyPmoPrioritySnapshot(task, snapshotNow));
+                const sorted = [...synchronizedData].sort((a, b) => {
                     const dateA = new Date(a.created_at || 0).getTime();
                     const dateB = new Date(b.created_at || 0).getTime();
                     if (dateA !== dateB) return dateA - dateB;
@@ -1895,22 +1800,11 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                 setIsDbMode(true);
                 loadedTasks = tasksWithDisplayIds;
             } else {
-                const tasksWithDisplayIds = FALLBACK_BOARD_TASKS.map(t => {
-                    const taskWithUpdatedStatus = normalizePmoTaskPriorityState(t);
-                    const dynamicScore = calculatePriorityScore(taskWithUpdatedStatus);
-                    
-                    let dynamicGrade = 'D_대기';
-                    if (dynamicScore >= 70) dynamicGrade = 'A_즉시상정';
-                    else if (dynamicScore >= 50) dynamicGrade = 'B_회의점검';
-                    else if (dynamicScore >= 30) dynamicGrade = 'C_주간관리';
-
-                    return {
-                        ...taskWithUpdatedStatus,
-                        priority_score: dynamicScore,
-                        meeting_grade: dynamicGrade,
-                        displayId: t.id
-                    };
-                });
+                const snapshotNow = new Date();
+                const tasksWithDisplayIds = FALLBACK_BOARD_TASKS.map(t => ({
+                    ...applyPmoPrioritySnapshot(t, snapshotNow),
+                    displayId: t.id
+                }));
                 setTasks(tasksWithDisplayIds);
                 setIsDbMode(false);
                 loadedTasks = tasksWithDisplayIds;
@@ -1919,32 +1813,41 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
             initialUrlCheckedRef.current = true;
         } catch (err) {
             console.error("Failed to fetch tasks from DB:", err);
-            const tasksWithDisplayIds = FALLBACK_BOARD_TASKS.map(t => {
-                const taskWithUpdatedStatus = normalizePmoTaskPriorityState(t);
-                const dynamicScore = calculatePriorityScore(taskWithUpdatedStatus);
-                
-                let dynamicGrade = 'D_대기';
-                if (dynamicScore >= 70) dynamicGrade = 'A_즉시상정';
-                else if (dynamicScore >= 50) dynamicGrade = 'B_회의점검';
-                else if (dynamicScore >= 30) dynamicGrade = 'C_주간관리';
-
-                return {
-                    ...taskWithUpdatedStatus,
-                    priority_score: dynamicScore,
-                    meeting_grade: dynamicGrade,
-                    displayId: t.id
-                };
-            });
+            const snapshotNow = new Date();
+            const tasksWithDisplayIds = FALLBACK_BOARD_TASKS.map(t => ({
+                ...applyPmoPrioritySnapshot(t, snapshotNow),
+                displayId: t.id
+            }));
             setTasks(tasksWithDisplayIds);
             setIsDbMode(false);
             initialUrlCheckedRef.current = true;
         } finally {
-            setLoading(false);
+            if (showLoading) setLoading(false);
         }
     }
 
     useEffect(() => {
         fetchTasks();
+
+        let refreshTimeoutId;
+        const scheduleRefresh = () => {
+            window.clearTimeout(refreshTimeoutId);
+            refreshTimeoutId = window.setTimeout(() => fetchTasks(false), 300);
+        };
+
+        const channel = supabase
+            .channel('desktop-pmo-priority-sync')
+            .on('postgres_changes', {
+                event: '*',
+                schema: 'iota_v2',
+                table: 'iota_pmo_tasks',
+            }, scheduleRefresh)
+            .subscribe();
+
+        return () => {
+            window.clearTimeout(refreshTimeoutId);
+            supabase.removeChannel(channel);
+        };
     }, []);
 
     const selectedTaskDetailRef = useRef(selectedTaskDetail);
@@ -2728,8 +2631,8 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
     const sortedAndFilteredTasks = useMemo(() => {
         const list = [...filteredTasks];
         list.sort((a, b) => {
-            const scoreA = calculatePriorityScore(a);
-            const scoreB = calculatePriorityScore(b);
+            const scoreA = Number(a.priority_score) || 0;
+            const scoreB = Number(b.priority_score) || 0;
             
             if (prioritySortOrder === 'desc') {
                 return scoreB - scoreA;
@@ -3164,7 +3067,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                             const importanceLevel = t.importance_level || fallbackItem.importance_level || '중간';
                                             const taskType = t.task_type || fallbackItem.task_type || '정규';
                                             const nextActionVal = t.next_action || fallbackItem.next_action || '';
-                                            const priorityScore = calculatePriorityScore(t);
+                                            const priorityScore = Number(t.priority_score) || 0;
                                             
                                             // Meeting grade mapping
                                             const rawGrade = t.meeting_grade || fallbackItem.meeting_grade || 'B';
@@ -4306,7 +4209,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                 const needsDecisionVal = parseBool(t.needs_decision !== undefined ? t.needs_decision : fallbackItem.needs_decision);
                 const statusVal = t.status || fallbackItem.status || '진행중';
                 const importanceLevel = t.importance_level || fallbackItem.importance_level || '중간';
-                const priorityScore = calculatePriorityScore(t);
+                const priorityScore = Number(t.priority_score) || 0;
                 const rawGrade = t.meeting_grade || fallbackItem.meeting_grade || 'B';
                 const meetingGrade = rawGrade.includes('_') ? rawGrade : gradeMapToUi(rawGrade);
                 

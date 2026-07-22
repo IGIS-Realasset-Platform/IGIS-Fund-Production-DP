@@ -112,3 +112,23 @@ export const calculatePmoPriorityScore = (task, now = new Date()) => {
 
     return score;
 };
+
+export const getPmoMeetingGrade = (score) => {
+    if (score >= 70) return 'A';
+    if (score >= 50) return 'B';
+    if (score >= 30) return 'C';
+    return 'D';
+};
+
+export const applyPmoPrioritySnapshot = (task, now = new Date()) => {
+    if (!task) return task;
+
+    const normalizedTask = normalizePmoTaskPriorityState(task, now);
+    const priorityScore = calculatePmoPriorityScore(normalizedTask, now);
+
+    return {
+        ...normalizedTask,
+        priority_score: priorityScore,
+        meeting_grade: getPmoMeetingGrade(priorityScore),
+    };
+};

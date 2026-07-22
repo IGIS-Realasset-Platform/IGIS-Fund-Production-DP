@@ -1,7 +1,7 @@
 import React from 'react';
 import { createPortal } from 'react-dom';
 import WorkspaceActivityLog from '../system/workspace/WorkspaceActivityLog';
-import { calculatePmoPriorityScore, parseTaskBoolean } from '../../utils/pmoTaskPriority';
+import { parseTaskBoolean } from '../../utils/pmoTaskPriority';
 
 const formatDate = (dateString) => {
     if (!dateString) return '-';
@@ -36,7 +36,7 @@ const DetailSection = ({ label, children }) => (
 export default function MobilePmoTaskDetail({ task, onClose }) {
     if (!task) return null;
 
-    const priorityScore = calculatePmoPriorityScore(task);
+    const priorityScore = Number(task.priority_score) || 0;
     const isBlocker = parseTaskBoolean(task.is_blocker);
     const needsDecision = parseTaskBoolean(task.needs_decision);
     const leadDepartment = task.lead_dept?.dept_name || task.lead_dept || task.lead_dept_code || '-';
