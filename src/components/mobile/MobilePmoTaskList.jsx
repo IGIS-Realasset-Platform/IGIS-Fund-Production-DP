@@ -90,7 +90,7 @@ export default function MobilePmoTaskList({ memberInfo, defaultFilter, onResetFi
     };
 
     return (
-        <div className="flex flex-col w-full h-full">
+        <div className="flex flex-col w-full h-full min-h-0">
             {/* Filter Chips Bar */}
             <div className="flex items-center gap-2 px-4 py-3 overflow-x-auto no-scrollbar shrink-0 border-b border-[#3c3c3c]/30">
                 <FilterChip label="전체" value="All" colorClass="text-white bg-[#3c3c3c] border-[#555]" />
@@ -101,7 +101,7 @@ export default function MobilePmoTaskList({ memberInfo, defaultFilter, onResetFi
             </div>
 
             {/* Task List */}
-            <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-4">
+            <div className="flex-1 min-h-0 overflow-y-auto p-4 pb-6 flex flex-col gap-4">
                 {loading ? (
                     <div className="flex justify-center py-20">
                         <div className="animate-spin w-8 h-8 border-4 border-[#3b82f6] border-t-transparent rounded-full"></div>

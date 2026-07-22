@@ -185,9 +185,9 @@ export default function MobileIotaApp({ navigateTo }) {
             <div 
                 ref={contentRef}
                 onScroll={handleScroll}
-                className="w-full h-full overflow-y-auto overscroll-y-contain bg-[#1F1F1E] flex flex-col"
+                className="w-full flex-1 min-h-0 overflow-y-auto overscroll-y-contain bg-[#1F1F1E] flex flex-col"
                 style={{
-                    paddingBottom: 'calc(60px + env(safe-area-inset-bottom) + 20px)'
+                    paddingBottom: 'calc(48px + env(safe-area-inset-bottom))'
                 }}
             >
                 {/* App Bar (In-flow layout scrolls naturally) */}
@@ -362,9 +362,12 @@ export default function MobileIotaApp({ navigateTo }) {
             {(activeTab === 1 || activeTab === 2) && (
                 <button 
                     onClick={() => setIsComposerOpen(true)}
-                    className={`absolute right-5 w-14 h-14 bg-[#3b82f6] hover:bg-[#2563eb] rounded-full flex items-center justify-center shadow-[0_4px_12px_rgba(0,0,0,0.3)] z-10 active:scale-95 transition-all duration-300 ease-in-out ${
-                        showBottomNav ? 'bottom-[65px]' : 'bottom-5'
-                    }`}
+                    className="absolute right-5 w-14 h-14 bg-[#3b82f6] hover:bg-[#2563eb] rounded-full flex items-center justify-center shadow-[0_4px_12px_rgba(0,0,0,0.3)] z-40 active:scale-95 transition-all duration-300 ease-in-out"
+                    style={{
+                        bottom: showBottomNav
+                            ? 'calc(48px + env(safe-area-inset-bottom) + 12px)'
+                            : 'calc(env(safe-area-inset-bottom) + 20px)'
+                    }}
                 >
                     <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />

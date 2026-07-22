@@ -16,7 +16,7 @@ export default function MobileTaskContainer({ memberInfo, defaultFilter, onReset
     }, [defaultFilter]);
 
     return (
-        <div className="flex flex-col w-full h-full bg-[#111111] overflow-hidden">
+        <div className="flex flex-col flex-1 min-h-0 w-full bg-[#111111] overflow-hidden">
             {/* Header Area with Segmented Control */}
             <div className="pt-safe-top bg-[#1A1A1A]/80 backdrop-blur-md z-10 sticky top-0 border-b border-[#3c3c3c]/50">
                 <div className="px-4 py-3 flex items-center justify-center">
@@ -52,7 +52,7 @@ export default function MobileTaskContainer({ memberInfo, defaultFilter, onReset
             </div>
 
             {/* Content Area */}
-            <div className="flex-1 overflow-y-auto w-full relative">
+            <div className="flex-1 min-h-0 overflow-y-auto w-full relative">
                 {viewMode === 'pmo' ? (
                     <MobilePmoTaskList 
                         memberInfo={memberInfo} 

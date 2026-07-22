@@ -184,7 +184,7 @@ export default function MobileCollaborationContainer({ memberInfo }) {
     };
 
     return (
-        <div className="w-full flex-1 flex flex-col bg-[#141415] pb-[100px] overflow-hidden">
+        <div className="w-full flex-1 min-h-0 flex flex-col bg-[#141415] overflow-hidden">
             {/* Header / Tabs */}
             <div className="flex-none pt-[16px] pb-[8px] border-b border-[#3c3c3c]">
                 <div className="px-[16px] mb-[12px]">
@@ -220,7 +220,7 @@ export default function MobileCollaborationContainer({ memberInfo }) {
             </div>
 
             {/* Feed List */}
-            <div className="flex-1 overflow-y-auto px-[16px] pt-[16px]">
+            <div className="flex-1 min-h-0 overflow-y-auto px-[16px] pt-[16px] pb-[24px]">
                 {loading ? (
                     <div className="flex justify-center items-center py-20">
                         <div className="animate-spin w-8 h-8 border-4 border-[#3b82f6] border-t-transparent rounded-full"></div>
