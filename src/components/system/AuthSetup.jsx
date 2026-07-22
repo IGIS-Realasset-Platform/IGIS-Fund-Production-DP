@@ -353,7 +353,7 @@ export default function AuthSetup({ onLogin }) {
                                         className={`w-full bg-white dark:bg-[#262626] text-[#111] dark:text-white placeholder-gray-400 dark:placeholder-[#737373] text-[15px] px-4 py-3.5 rounded-[16px] border focus:outline-none transition-colors duration-300 ${hasError ? 'border-red-500 dark:border-red-500' : 'border-black/10 dark:border-[#3A3A3A] focus:border-[#111] dark:focus:border-[#666]'} ${isCheckingEmail ? 'opacity-50 cursor-not-allowed' : ''}`}
                                     />
                                 </div>
-                                <div className="w-full h-[8px] mb-0 flex items-center px-1">
+                                <div className="w-full min-h-[20px] my-1 flex items-center px-1">
                                     {errorMessage && (
                                         <span className="text-red-500 dark:text-[#FF453A] text-[13px] font-medium animate-pulse">
                                             * {errorMessage}
@@ -435,7 +435,7 @@ export default function AuthSetup({ onLogin }) {
                                     </>
                                 )}
 
-                                <div className="w-full h-[8px] mb-0 flex items-center px-1">
+                                <div className="w-full min-h-[20px] my-1 flex items-center px-1">
                                     {errorMessage && (
                                         <span className="text-red-500 dark:text-[#FF453A] text-[13px] font-medium animate-pulse">
                                             * {errorMessage}
@@ -520,7 +520,7 @@ export default function AuthSetup({ onLogin }) {
                                     />
                                 </div>
 
-                                <div className="w-full h-[8px] mb-0 flex items-center px-1">
+                                <div className="w-full min-h-[20px] my-1 flex items-center px-1">
                                     {errorMessage && (
                                         <span className="text-red-500 dark:text-[#FF453A] text-[13px] font-medium animate-pulse">
                                             * {errorMessage}
@@ -563,7 +563,7 @@ export default function AuthSetup({ onLogin }) {
                                     />
                                 </div>
 
-                                <div className="w-full h-[8px] mb-0 flex items-center px-1">
+                                <div className="w-full min-h-[20px] my-1 flex items-center px-1">
                                     {errorMessage && (
                                         <span className="text-red-500 dark:text-[#FF453A] text-[13px] font-medium animate-pulse">
                                             * {errorMessage}
@@ -607,7 +607,7 @@ export default function AuthSetup({ onLogin }) {
                                     />
                                 </div>
 
-                                <div className="w-full h-[8px] mb-0 flex items-center px-1">
+                                <div className="w-full min-h-[20px] my-1 flex items-center px-1">
                                     {errorMessage && (
                                         <span className="text-red-500 dark:text-[#FF453A] text-[13px] font-medium animate-pulse">
                                             * {errorMessage}
