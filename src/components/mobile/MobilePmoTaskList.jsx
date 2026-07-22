@@ -1,164 +1,247 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { supabase } from '../../utils/supabaseClient';
+import { calculatePmoPriorityScore, parseTaskBoolean } from '../../utils/pmoTaskPriority';
+import MobilePmoTaskDetail from './MobilePmoTaskDetail';
+
+const STATUS_OPTIONS = ['전체', '진행중', '미착수', '지연', '완료', '보류', '중단'];
 
 const formatDate = (dateString) => {
-    if (!dateString) return '미정';
-    try {
-        const d = new Date(dateString);
-        return `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}`;
-    } catch (e) {
-        return dateString;
-    }
+    if (!dateString) return '마감 미정';
+
+    const date = new Date(dateString);
+    if (Number.isNaN(date.getTime())) return dateString;
+
+    return `${String(date.getMonth() + 1).padStart(2, '0')}.${String(date.getDate()).padStart(2, '0')}`;
 };
 
-const getStatusColor = (status) => {
-    switch (status) {
-        case '완료': return 'text-[#4ade80] border-[#4ade80]/30 bg-[#4ade80]/10';
-        case '진행중': return 'text-[#60a5fa] border-[#60a5fa]/30 bg-[#60a5fa]/10';
-        case '지연': return 'text-[#f87171] border-[#f87171]/30 bg-[#f87171]/10';
-        case '보류': return 'text-[#facc15] border-[#facc15]/30 bg-[#facc15]/10';
-        case '예정': return 'text-[#A1A1AA] border-[#A1A1AA]/30 bg-[#A1A1AA]/10';
-        default: return 'text-[#A1A1AA] border-[#A1A1AA]/30 bg-[#A1A1AA]/10';
-    }
+const getDueLabel = (dateString, status) => {
+    if (!dateString || status === '완료') return formatDate(dateString);
+
+    const dueDate = new Date(dateString);
+    if (Number.isNaN(dueDate.getTime())) return dateString;
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    dueDate.setHours(0, 0, 0, 0);
+    const difference = Math.round((dueDate.getTime() - today.getTime()) / 86400000);
+
+    if (difference === 0) return 'D-Day';
+    if (difference < 0) return `D+${Math.abs(difference)}`;
+    return `D-${difference}`;
 };
 
-export default function MobilePmoTaskList({ memberInfo, defaultFilter, onResetFilter }) {
+const getStatusClassName = (status) => {
+    if (status === '완료') return 'text-[#4ade80] border-[#4ade80]/30 bg-[#4ade80]/10';
+    if (status === '지연') return 'text-[#f87171] border-[#f87171]/30 bg-[#f87171]/10';
+    if (status === '보류') return 'text-[#facc15] border-[#facc15]/30 bg-[#facc15]/10';
+    return 'text-[#60a5fa] border-[#60a5fa]/30 bg-[#60a5fa]/10';
+};
+
+export default function MobilePmoTaskList({ defaultFilter, onResetFilter }) {
     const [tasks, setTasks] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [activeFilter, setActiveFilter] = useState('All'); // 'All' | 'Blocker' | 'Decision' | 'Delay' | 'Pending'
+    const [blockerOnly, setBlockerOnly] = useState(false);
+    const [decisionOnly, setDecisionOnly] = useState(false);
+    const [statusFilter, setStatusFilter] = useState('전체');
+    const [selectedTask, setSelectedTask] = useState(null);
+    const detailHistoryPushedRef = useRef(false);
 
     useEffect(() => {
-        if (defaultFilter) {
-            setActiveFilter(defaultFilter);
-        }
+        if (!defaultFilter) return;
+
+        setBlockerOnly(defaultFilter === 'Blocker');
+        setDecisionOnly(defaultFilter === 'Decision');
+        setStatusFilter(defaultFilter === 'Delay' ? '지연' : defaultFilter === 'Pending' ? '보류' : '전체');
     }, [defaultFilter]);
 
     useEffect(() => {
+        const fetchTasks = async () => {
+            setLoading(true);
+
+            try {
+                const { data, error } = await supabase
+                    .schema('iota_v2')
+                    .from('iota_pmo_tasks')
+                    .select(`
+                        *,
+                        lead_dept:iota_departments!lead_dept_code(dept_name),
+                        external_party:iota_stakeholders!external_party_code(stakeholder_name)
+                    `)
+                    .neq('task_type', '팝업')
+                    .order('created_at', { ascending: true });
+
+                if (error) throw error;
+                setTasks((data || []).filter((task) => task.task_type !== '팝업'));
+            } catch (error) {
+                console.error('Failed to fetch PMO tasks:', error);
+                setTasks([]);
+            } finally {
+                setLoading(false);
+            }
+        };
+
         fetchTasks();
     }, []);
 
-    const fetchTasks = async () => {
-        setLoading(true);
-        try {
-            const { data, error } = await supabase
-                .schema('iota_v2')
-                .from('iota_pmo_tasks')
-                .select('*')
-                .order('due_date', { ascending: true, nullsFirst: false });
-                
-            if (error) throw error;
-            setTasks(data || []);
-        } catch (err) {
-            console.error("Failed to fetch PMO tasks:", err);
-        } finally {
-            setLoading(false);
+    useEffect(() => {
+        if (tasks.length === 0) return;
+
+        const syncTaskFromUrl = () => {
+            const taskId = new URLSearchParams(window.location.search).get('taskId');
+            if (!taskId) detailHistoryPushedRef.current = false;
+            setSelectedTask(taskId ? tasks.find((task) => String(task.id) === String(taskId)) || null : null);
+        };
+
+        syncTaskFromUrl();
+        window.addEventListener('popstate', syncTaskFromUrl);
+        return () => window.removeEventListener('popstate', syncTaskFromUrl);
+    }, [tasks]);
+
+    const filteredTasks = useMemo(() => tasks.filter((task) => {
+        if (blockerOnly && !parseTaskBoolean(task.is_blocker)) return false;
+        if (decisionOnly && !parseTaskBoolean(task.needs_decision)) return false;
+        if (statusFilter !== '전체' && (task.status || '진행중') !== statusFilter) return false;
+        return true;
+    }), [tasks, blockerOnly, decisionOnly, statusFilter]);
+
+    const sortedTasks = useMemo(() => [...filteredTasks].sort((firstTask, secondTask) => (
+        calculatePmoPriorityScore(secondTask) - calculatePmoPriorityScore(firstTask)
+    )), [filteredTasks]);
+
+    const resetFilters = () => {
+        setBlockerOnly(false);
+        setDecisionOnly(false);
+        setStatusFilter('전체');
+        onResetFilter?.();
+    };
+
+    const openTaskDetail = (task) => {
+        const url = new URL(window.location.href);
+        url.searchParams.set('taskId', task.id);
+        window.history.pushState(null, '', `${url.pathname}${url.search}${url.hash}`);
+        detailHistoryPushedRef.current = true;
+        setSelectedTask(task);
+    };
+
+    const closeTaskDetail = () => {
+        if (detailHistoryPushedRef.current) {
+            detailHistoryPushedRef.current = false;
+            window.history.back();
+            return;
         }
+
+        const url = new URL(window.location.href);
+        url.searchParams.delete('taskId');
+        window.history.replaceState(null, '', `${url.pathname}${url.search}${url.hash}`);
+        setSelectedTask(null);
     };
 
-    const filteredTasks = tasks.filter(task => {
-        if (activeFilter === 'Blocker') return task.is_blocker;
-        if (activeFilter === 'Decision') return task.needs_decision;
-        if (activeFilter === 'Delay') return task.status === '지연';
-        if (activeFilter === 'Pending') return task.status === '보류';
-        return true; // 'All'
-    });
-
-    const handleFilterClick = (filterName) => {
-        if (activeFilter === filterName) {
-            setActiveFilter('All');
-            if (onResetFilter) onResetFilter();
-        } else {
-            setActiveFilter(filterName);
-        }
-    };
-
-    const FilterChip = ({ label, value, colorClass }) => {
-        const isActive = activeFilter === value;
-        return (
-            <button
-                onClick={() => handleFilterClick(value)}
-                className={`px-3 py-1.5 rounded-full text-[13px] font-bold whitespace-nowrap transition-all border ${
-                    isActive 
-                    ? `${colorClass.split(' ')[0]} bg-opacity-20 border-opacity-50` 
-                    : 'text-[#8E8E93] border-[#3c3c3c] hover:bg-[#2C2C2E]'
-                }`}
-                style={isActive ? { backgroundColor: 'var(--tw-bg-opacity)', borderColor: 'var(--tw-border-opacity)' } : {}}
-            >
-                {label}
-            </button>
-        );
-    };
+    const priorityIsActive = !blockerOnly && !decisionOnly && statusFilter === '전체';
 
     return (
-        <div className="flex flex-col w-full h-full min-h-0">
-            {/* Filter Chips Bar */}
-            <div className="flex items-center gap-2 px-4 py-3 overflow-x-auto no-scrollbar shrink-0 border-b border-[#3c3c3c]/30">
-                <FilterChip label="전체" value="All" colorClass="text-white bg-[#3c3c3c] border-[#555]" />
-                <FilterChip label="Blocker" value="Blocker" colorClass="text-[#f87171] bg-[#f87171] border-[#f87171]" />
-                <FilterChip label="의사결정" value="Decision" colorClass="text-[#fb923c] bg-[#fb923c] border-[#fb923c]" />
-                <FilterChip label="지연" value="Delay" colorClass="text-[#f87171] bg-[#f87171] border-[#f87171]" />
-                <FilterChip label="보류" value="Pending" colorClass="text-[#facc15] bg-[#facc15] border-[#facc15]" />
+        <div className="flex flex-col w-full h-full min-h-0 bg-[#111111]">
+            <div className="shrink-0 border-b border-[#3c3c3c]/40 bg-[#111111]">
+                <div className="flex items-center gap-2 px-4 pt-3 pb-2 overflow-x-auto hide-scrollbar">
+                    <button
+                        type="button"
+                        onClick={resetFilters}
+                        className={`h-9 px-3 rounded-[10px] text-[12px] font-bold whitespace-nowrap border transition-colors ${priorityIsActive ? 'text-white bg-[#3c3c3c] border-[#555]' : 'text-[#A1A1AA] bg-[#1A1A1A] border-[#3c3c3c]'}`}
+                    >
+                        우선순위 ↓
+                    </button>
+                    <button
+                        type="button"
+                        onClick={() => setBlockerOnly((active) => !active)}
+                        className={`h-9 px-3 rounded-[10px] text-[12px] font-bold whitespace-nowrap border transition-colors ${blockerOnly ? 'text-[#f87171] bg-[#f87171]/10 border-[#f87171]/40' : 'text-[#A1A1AA] bg-[#1A1A1A] border-[#3c3c3c]'}`}
+                    >
+                        Blocker
+                    </button>
+                    <button
+                        type="button"
+                        onClick={() => setDecisionOnly((active) => !active)}
+                        className={`h-9 px-3 rounded-[10px] text-[12px] font-bold whitespace-nowrap border transition-colors ${decisionOnly ? 'text-[#fb923c] bg-[#fb923c]/10 border-[#fb923c]/40' : 'text-[#A1A1AA] bg-[#1A1A1A] border-[#3c3c3c]'}`}
+                    >
+                        의사결정필요
+                    </button>
+                    <label className={`relative h-9 px-3 rounded-[10px] text-[12px] font-bold whitespace-nowrap border flex items-center gap-1.5 ${statusFilter !== '전체' ? 'text-[#60a5fa] bg-[#60a5fa]/10 border-[#60a5fa]/40' : 'text-[#A1A1AA] bg-[#1A1A1A] border-[#3c3c3c]'}`}>
+                        <span>{statusFilter === '전체' ? '상태' : statusFilter}</span>
+                        <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                        </svg>
+                        <select
+                            value={statusFilter}
+                            onChange={(event) => setStatusFilter(event.target.value)}
+                            className="absolute inset-0 w-full h-full opacity-0"
+                            aria-label="업무 상태 선택"
+                        >
+                            {STATUS_OPTIONS.map((status) => <option key={status} value={status}>{status}</option>)}
+                        </select>
+                    </label>
+                </div>
+                <div className="px-4 pb-2 text-[11px] text-[#86868B]">
+                    우선순위 높은 순 · {sortedTasks.length}건
+                </div>
             </div>
 
-            {/* Task List */}
-            <div className="flex-1 min-h-0 overflow-y-auto p-4 pb-6 flex flex-col gap-4">
+            <div className="flex-1 min-h-0 overflow-y-auto px-4 pt-3 pb-6 flex flex-col gap-2.5 hide-scrollbar">
                 {loading ? (
                     <div className="flex justify-center py-20">
-                        <div className="animate-spin w-8 h-8 border-4 border-[#3b82f6] border-t-transparent rounded-full"></div>
+                        <div className="animate-spin w-7 h-7 border-[3px] border-[#3b82f6] border-t-transparent rounded-full" />
                     </div>
-                ) : filteredTasks.length === 0 ? (
-                    <div className="text-center py-20 text-[#86868B] text-[15px] font-medium">
-                        해당하는 업무가 없습니다.
+                ) : sortedTasks.length === 0 ? (
+                    <div className="text-center py-20 text-[#86868B] text-[14px] font-medium">
+                        조건에 맞는 통합업무가 없습니다.
                     </div>
-                ) : (
-                    filteredTasks.map((task) => (
-                        <div key={task.id} className="shrink-0 bg-[#272726] rounded-[20px] p-5 shadow-sm border border-[#3c3c3c]/50 relative overflow-hidden">
-                            {/* Accent Line for Critical Items */}
-                            {(task.is_blocker || task.needs_decision) && (
-                                <div className={`absolute left-0 top-0 bottom-0 w-1 ${task.is_blocker ? 'bg-[#f87171]' : 'bg-[#fb923c]'}`}></div>
+                ) : sortedTasks.map((task) => {
+                    const isBlocker = parseTaskBoolean(task.is_blocker);
+                    const needsDecision = parseTaskBoolean(task.needs_decision);
+                    const priorityScore = calculatePmoPriorityScore(task);
+                    const leadDepartment = task.lead_dept?.dept_name || task.lead_dept || task.lead_dept_code || '주관 미정';
+
+                    return (
+                        <button
+                            key={task.id}
+                            type="button"
+                            onClick={() => openTaskDetail(task)}
+                            className="shrink-0 w-full text-left bg-[#272726] rounded-[16px] px-4 py-3.5 border border-[#3c3c3c]/60 relative overflow-hidden active:bg-[#30302f] active:scale-[0.995] transition-all"
+                        >
+                            {(isBlocker || needsDecision) && (
+                                <span className={`absolute left-0 top-0 bottom-0 w-1 ${isBlocker ? 'bg-[#f87171]' : 'bg-[#fb923c]'}`} />
                             )}
-                            
-                            <div className="flex items-center justify-between mb-3">
-                                <div className="flex items-center gap-2">
-                                    <span className="text-[12px] font-bold text-[#60a5fa]">{task.project_code || '전사'}</span>
-                                    {task.is_blocker && (
-                                        <span className="text-[10px] font-bold text-[#f87171] bg-[#f87171]/10 px-2 py-0.5 rounded-full border border-[#f87171]/20">Blocker</span>
-                                    )}
-                                    {task.needs_decision && !task.is_blocker && (
-                                        <span className="text-[10px] font-bold text-[#fb923c] bg-[#fb923c]/10 px-2 py-0.5 rounded-full border border-[#fb923c]/20">의사결정</span>
-                                    )}
+
+                            <div className="flex items-center justify-between gap-3 mb-2">
+                                <div className="flex min-w-0 items-center gap-1.5">
+                                    <span className="text-[11px] font-bold text-[#60a5fa] truncate">{task.project_code || '전사'}</span>
+                                    {isBlocker && <span className="text-[9px] font-bold text-[#f87171] bg-[#f87171]/10 px-1.5 py-0.5 rounded-[5px] border border-[#f87171]/20">Blocker</span>}
+                                    {needsDecision && <span className="text-[9px] font-bold text-[#fb923c] bg-[#fb923c]/10 px-1.5 py-0.5 rounded-[5px] border border-[#fb923c]/20">의사결정</span>}
                                 </div>
-                                <span className={`text-[11px] font-bold px-2 py-0.5 border rounded-full ${getStatusColor(task.status)}`}>
-                                    {task.status || '상태 없음'}
+                                <span className={`shrink-0 text-[10px] font-bold px-2 py-0.5 border rounded-full ${getStatusClassName(task.status)}`}>
+                                    {task.status || '진행중'}
                                 </span>
                             </div>
 
-                            <h3 className="text-[17px] font-bold text-white leading-snug mb-2 font-sans break-words">
-                                {task.task_name || '제목 없음 (데이터 누락)'}
+                            <h3 className="text-[16px] font-bold text-white leading-[1.35] line-clamp-2 break-keep min-h-[43px]">
+                                {task.task_name || '제목 없음'}
                             </h3>
 
-                            <div className="text-[13px] text-[#A1A1AA] flex flex-wrap gap-x-3 gap-y-1 mb-4">
-                                <div>주관: <span className="text-[#E5E5E5]">{task.lead_dept_code || '-'}</span></div>
-                                <div>협조: <span className="text-[#E5E5E5]">{task.coop_dept_codes || '-'}</span></div>
-                            </div>
-
-                            <div className="bg-[#1A1A1A] rounded-[12px] p-3.5 border border-[#3c3c3c]/30">
-                                <div className="text-[12px] text-[#86868B] font-bold mb-1.5 flex items-center justify-between">
-                                    <div className="flex items-center gap-1.5">
-                                        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                                        목표 마감일
-                                    </div>
-                                    <span className="text-white">{formatDate(task.due_date)}</span>
+                            <div className="mt-2.5 pt-2.5 border-t border-white/[0.06] flex items-center justify-between gap-3 text-[11px]">
+                                <div className="min-w-0 flex items-center gap-2 text-[#A1A1AA]">
+                                    <span className={`font-bold ${priorityScore >= 70 ? 'text-[#f87171]' : priorityScore >= 50 ? 'text-[#facc15]' : 'text-[#A1A1AA]'}`}>
+                                        우선 {priorityScore}
+                                    </span>
+                                    <span className="text-white/20">·</span>
+                                    <span className="truncate">{leadDepartment}</span>
                                 </div>
-                                <div className="text-[13px] text-[#E5E5E5] leading-relaxed whitespace-pre-line mt-2 line-clamp-3">
-                                    <span className="font-bold text-[#60a5fa] mr-2">Next:</span>
-                                    {task.next_action || '작성된 내용이 없습니다.'}
-                                </div>
+                                <span className={`shrink-0 font-bold ${task.status === '지연' ? 'text-[#f87171]' : 'text-[#D1D1D6]'}`}>
+                                    {getDueLabel(task.due_date, task.status)} <span className="font-normal text-[#86868B]">{formatDate(task.due_date)}</span>
+                                </span>
                             </div>
-                        </div>
-                    ))
-                )}
+                        </button>
+                    );
+                })}
             </div>
+
+            {selectedTask && <MobilePmoTaskDetail task={selectedTask} onClose={closeTaskDetail} />}
         </div>
     );
 }
