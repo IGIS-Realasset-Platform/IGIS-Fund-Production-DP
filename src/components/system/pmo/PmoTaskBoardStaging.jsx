@@ -3073,7 +3073,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                                     </td>
 
                                                     {/* 우선순위점수 */}
-                                                    <td className={`pl-[6px] text-center font-mono w-[71px] min-w-[71px] max-w-[71px] font-bold ${priorityScore >= 70 ? 'text-[#FF453A]' : priorityScore >= 50 ? 'text-[#bdbba7]' : 'text-[#86868B]'}`}>{priorityScore}</td>
+                                                    <td className={`pl-[6px] text-center font-mono w-[71px] min-w-[71px] max-w-[71px] font-bold ${priorityScore >= 60 ? 'text-[#FF453A]' : priorityScore >= 40 ? 'text-[#bdbba7]' : 'text-[#86868B]'}`}>{priorityScore}</td>
 
                                                     {/* 6. 업무목적 / PF·준공 영향 */}
                                                     <td className={`text-[#A1A1AA] truncate transition-all duration-300 ease-out ${isAll ? 'w-[220px] min-w-[220px] max-w-[220px] pl-4 opacity-100' : 'hidden w-0 min-w-0 max-w-0 pl-0 opacity-0 overflow-hidden'}`}>
@@ -4224,10 +4224,10 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                             </span>
                                             
                                             <span className={`px-2 py-0.5 rounded-[4px] font-bold text-[11px] ${
-                                                priorityScore >= 70 
-                                                    ? 'bg-[#ff453a]/15 text-[#ff453a] border border-[#ff453a]/25' 
-                                                    : priorityScore >= 50 
-                                                        ? 'bg-[#bdbba7]/15 text-[#bdbba7] border border-[#bdbba7]/25' 
+                                                priorityScore >= 60
+                                                    ? 'bg-[#ff453a]/15 text-[#ff453a] border border-[#ff453a]/25'
+                                                    : priorityScore >= 40
+                                                        ? 'bg-[#bdbba7]/15 text-[#bdbba7] border border-[#bdbba7]/25'
                                                         : 'bg-white/5 text-[#86868B] border border-white/10'
                                             }`}>
                                                 우선순위: {priorityScore}점 ({meetingGrade})

@@ -273,7 +273,7 @@ export default function MobilePmoTaskList({ defaultFilter, onResetFilter }) {
 
                             <div className="mt-2 pt-2 border-t border-white/[0.06] flex items-center justify-between gap-3 text-[11px]">
                                 <div className="min-w-0 flex items-center gap-2 text-[#A1A1AA]">
-                                    <span className={`font-bold ${priorityScore >= 70 ? 'text-[#f87171]' : priorityScore >= 50 ? 'text-[#facc15]' : 'text-[#A1A1AA]'}`}>
+                                    <span className={`font-bold ${priorityScore >= 60 ? 'text-[#f87171]' : priorityScore >= 40 ? 'text-[#bdbba7]' : 'text-[#A1A1AA]'}`}>
                                         우선 {priorityScore}
                                     </span>
                                     <span className="text-white/20">·</span>
