@@ -221,7 +221,7 @@ const renderBadge = (type, val) => {
 
     if (type === 'priority_score') {
         const score = parseInt(cleanVal.replace(/[^0-9]/g, ''), 10);
-        if (!isNaN(score) && score >= 70) {
+        if (!isNaN(score) && score >= 60) {
             return <span className="bg-[#ff453a]/15 text-[#ff453a] border border-[#ff453a]/25 text-[11px] font-bold px-1.5 py-0.5 rounded whitespace-nowrap">{cleanVal}</span>;
         }
         return <span className="bg-[#8e8e93]/10 text-[#8e8e93] border border-[#8e8e93]/20 text-[11px] font-bold px-1.5 py-0.5 rounded whitespace-nowrap">{cleanVal}</span>;

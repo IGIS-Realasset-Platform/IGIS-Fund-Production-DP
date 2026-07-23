@@ -3,7 +3,7 @@ import { supabase } from '../../../utils/supabaseClient';
 import { useAuth } from '../../../context/AuthContext';
 import WorkspaceActivityLog from '../workspace/WorkspaceActivityLog';
 import { notifyMembersOnTaskCreation } from '../../../utils/notificationHelpers';
-import { calculatePmoPriorityScore as calculatePriorityScore, comparePmoTasksByCreatedAt, comparePmoTasksByPriority, parseTaskBoolean as parseBool } from '../../../utils/pmoTaskPriority';
+import { calculatePmoPriorityScore as calculatePriorityScore, comparePmoTasksByCreatedAt, comparePmoTasksByPriority, getPmoMeetingGrade, matchesPmoStatusFilter, parseTaskBoolean as parseBool } from '../../../utils/pmoTaskPriority';
 import toast from 'react-hot-toast';
 
 export const FALLBACK_BOARD_TASKS = [
@@ -1459,17 +1459,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
         setFormPriorityScore(score);
 
         // Grade calculation
-        let grade = 'D_대기';
-        if (score >= 70) {
-            grade = 'A_즉시상정';
-        } else if (score >= 50) {
-            grade = 'B_회의점검';
-        } else if (score >= 30) {
-            grade = 'C_주간관리';
-        } else {
-            grade = 'D_대기';
-        }
-        setFormMeetingGrade(grade);
+        setFormMeetingGrade(gradeMapToUi(getPmoMeetingGrade(score)));
 
         // Agenda reason calculation
         const agendaParts = [];
@@ -2547,7 +2537,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
 
             // Status match
             const statusVal = t.status || fallbackItem.status || '진행중';
-            if (selectedStatus !== '전체보기' && statusVal !== selectedStatus) return false;
+            if (!matchesPmoStatusFilter({ status: statusVal }, selectedStatus)) return false;
 
             // Importance match
             const importanceLevel = t.importance_level || fallbackItem.importance_level || '중간';
@@ -3670,25 +3660,25 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                     </tr>
                                     <tr className="bg-white/[0.01] h-10 font-bold border-t border-[#2c2c2b] whitespace-nowrap">
                                         <td className="px-4 py-2 text-[#ff453a]">A_즉시상정</td>
-                                        <td className="px-4 py-2 text-center text-[#ff453a]">70점 이상</td>
+                                        <td className="px-4 py-2 text-center text-[#ff453a]">60점 이상</td>
                                         <td className="px-4 py-2 text-gray-400 font-medium text-[11px] whitespace-normal leading-normal">리스크가 매우 높거나 즉각적인 의사결정 및 Blocker 해소가 필요한 최우선 안건</td>
                                         <td className="px-4 py-2 text-center text-gray-500 font-normal">우선순위점수</td>
                                     </tr>
                                     <tr className="bg-white/[0.01] h-10 font-bold border-t border-[#2c2c2b]/30 whitespace-nowrap">
                                         <td className="px-4 py-2 text-[#ff9f0a]">B_회의점검</td>
-                                        <td className="px-4 py-2 text-center text-[#ff9f0a]">50점 이상</td>
+                                        <td className="px-4 py-2 text-center text-[#ff9f0a]">40점 이상</td>
                                         <td className="px-4 py-2 text-gray-400 font-medium text-[11px] whitespace-normal leading-normal">기한이 임박했거나 타 부서 지원이 필요한 주요 안건으로, 회의 시 상황 점검 필요</td>
                                         <td className="px-4 py-2 text-center text-gray-500 font-normal">우선순위점수</td>
                                     </tr>
                                     <tr className="bg-white/[0.01] h-10 font-bold border-t border-[#2c2c2b]/30 whitespace-nowrap">
                                         <td className="px-4 py-2 text-[#30d158]">C_주간관리</td>
-                                        <td className="px-4 py-2 text-center text-[#30d158]">30점 이상</td>
+                                        <td className="px-4 py-2 text-center text-[#30d158]">25점 이상</td>
                                         <td className="px-4 py-2 text-gray-400 font-medium text-[11px] whitespace-normal leading-normal">일반적인 진행 단계에 있으며, 특이사항 발생 시에만 리딩하는 안건</td>
                                         <td className="px-4 py-2 text-center text-gray-500 font-normal">우선순위점수</td>
                                     </tr>
                                     <tr className="bg-white/[0.01] h-10 font-bold border-t border-[#2c2c2b]/30 whitespace-nowrap">
                                         <td className="px-4 py-2 text-[#8e8e93]">D_대기</td>
-                                        <td className="px-4 py-2 text-center text-[#8e8e93]">30점 미만</td>
+                                        <td className="px-4 py-2 text-center text-[#8e8e93]">25점 미만</td>
                                         <td className="px-4 py-2 text-gray-400 font-medium text-[11px] whitespace-normal leading-normal">시급성이 상대적으로 낮거나 마감 기한에 여유가 있는 안건</td>
                                         <td className="px-4 py-2 text-center text-gray-500 font-normal">우선순위점수</td>
                                     </tr>

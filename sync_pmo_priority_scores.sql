@@ -119,9 +119,9 @@ IMMUTABLE
 SET search_path = iota_v2, public
 AS $$
     SELECT CASE
-        WHEN p_priority_score >= 70 THEN 'A'
-        WHEN p_priority_score >= 50 THEN 'B'
-        WHEN p_priority_score >= 30 THEN 'C'
+        WHEN p_priority_score >= 60 THEN 'A'
+        WHEN p_priority_score >= 40 THEN 'B'
+        WHEN p_priority_score >= 25 THEN 'C'
         ELSE 'D'
     END;
 $$;
@@ -418,6 +418,35 @@ WITH CHECK (
 SELECT set_config('iota_v2.suppress_priority_change_log', 'on', TRUE);
 SELECT iota_v2.sync_pmo_priority_scores();
 SELECT set_config('iota_v2.suppress_priority_change_log', 'off', TRUE);
+
+UPDATE public.iota_seoul_logs
+SET raw_text = $policy$
+현재 통합 업무 보드의 회의상정 우선순위 점수 산정 및 등급·정렬 기준이 시스템에 자동화되어 적용되고 있습니다. 업무 관리 시 참고하실 수 있도록 정책을 정리하여 공유 드립니다.
+
+1. 우선순위 점수 산정 기준
+- 준공필수로 지정된 업무: +30점
+- PF필수로 지정된 업무: +25점
+- Blocker: 외부 요인이나 타 부서 이슈로 인해 업무가 막혀있는 상태: +20점
+- 의사결정 필요 여부: +15점
+- 지원 필요 여부: +15점
+- 상태가 지연이거나 마감 기한이 이미 지난 경우: +15점
+- 마감 기한이 오늘 기준 7일 이내인 경우: +10점
+
+2. 회의 상정 등급
+- A_즉시상정: 60점 이상
+- B_회의점검: 40점 이상
+- C_주간관리: 25점 이상
+- D_대기: 25점 미만
+
+3. 기본 목록 및 정렬 기준
+- 완료 업무는 기본 목록에서 제외하며 상태 필터에서 조회합니다.
+- 우선순위 점수가 높은 업무부터 표시합니다.
+- 점수가 같으면 마감기한이 빠른 업무, Blocker 업무, 의사결정 필요 업무 순으로 표시합니다.
+
+기한이 지나거나 상태가 변경되면 시스템이 점수와 등급을 자동으로 재계산하고 변경 이력을 남깁니다.
+$policy$
+WHERE log_id = 'iota_issue_1783934165869_zoqcl'
+  AND writer_name = '전기영';
 
 NOTIFY pgrst, 'reload schema';
 

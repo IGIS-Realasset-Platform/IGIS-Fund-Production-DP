@@ -109,9 +109,9 @@ export const calculatePmoPriorityScore = (task, now = new Date()) => {
 };
 
 export const getPmoMeetingGrade = (score) => {
-    if (score >= 70) return 'A';
-    if (score >= 50) return 'B';
-    if (score >= 30) return 'C';
+    if (score >= 60) return 'A';
+    if (score >= 40) return 'B';
+    if (score >= 25) return 'C';
     return 'D';
 };
 
@@ -120,9 +120,22 @@ export const getStoredPmoPriorityScore = (task) => {
     return Number.isFinite(score) ? score : 0;
 };
 
+export const matchesPmoStatusFilter = (task, selectedStatus) => {
+    const status = task?.status || '진행중';
+    if (selectedStatus === '전체' || selectedStatus === '전체보기') return status !== '완료';
+    return status === selectedStatus;
+};
+
 const getCreatedAtTime = (task) => {
     const createdAtTime = new Date(task?.created_at || 0).getTime();
     return Number.isNaN(createdAtTime) ? 0 : createdAtTime;
+};
+
+const getDueDateTime = (task) => {
+    const dueDateKey = getDateKey(task?.due_date);
+    if (!dueDateKey) return Number.POSITIVE_INFINITY;
+    const dueDateTime = Date.parse(`${dueDateKey}T00:00:00Z`);
+    return Number.isNaN(dueDateTime) ? Number.POSITIVE_INFINITY : dueDateTime;
 };
 
 export const comparePmoTasksByCreatedAt = (firstTask, secondTask) => {
@@ -134,5 +147,16 @@ export const comparePmoTasksByCreatedAt = (firstTask, secondTask) => {
 export const comparePmoTasksByPriority = (firstTask, secondTask, order = 'desc') => {
     const scoreDifference = getStoredPmoPriorityScore(secondTask) - getStoredPmoPriorityScore(firstTask);
     if (scoreDifference !== 0) return order === 'asc' ? -scoreDifference : scoreDifference;
+
+    const firstDueDate = getDueDateTime(firstTask);
+    const secondDueDate = getDueDateTime(secondTask);
+    if (firstDueDate !== secondDueDate) return firstDueDate - secondDueDate;
+
+    const blockerDifference = Number(parseTaskBoolean(secondTask?.is_blocker)) - Number(parseTaskBoolean(firstTask?.is_blocker));
+    if (blockerDifference !== 0) return blockerDifference;
+
+    const decisionDifference = Number(parseTaskBoolean(secondTask?.needs_decision)) - Number(parseTaskBoolean(firstTask?.needs_decision));
+    if (decisionDifference !== 0) return decisionDifference;
+
     return comparePmoTasksByCreatedAt(firstTask, secondTask);
 };

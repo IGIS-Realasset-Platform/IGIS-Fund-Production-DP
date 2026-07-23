@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { supabase } from '../../utils/supabaseClient';
-import { comparePmoTasksByPriority, getStoredPmoPriorityScore, parseTaskBoolean } from '../../utils/pmoTaskPriority';
+import { comparePmoTasksByPriority, getStoredPmoPriorityScore, matchesPmoStatusFilter, parseTaskBoolean } from '../../utils/pmoTaskPriority';
 import MobilePmoTaskDetail from './MobilePmoTaskDetail';
 import toast from 'react-hot-toast';
 
@@ -149,7 +149,7 @@ export default function MobilePmoTaskList({ defaultFilter, onResetFilter }) {
     const filteredTasks = useMemo(() => tasks.filter((task) => {
         if (blockerOnly && !parseTaskBoolean(task.is_blocker)) return false;
         if (decisionOnly && !parseTaskBoolean(task.needs_decision)) return false;
-        if (statusFilter !== '전체' && (task.status || '진행중') !== statusFilter) return false;
+        if (!matchesPmoStatusFilter(task, statusFilter)) return false;
         return true;
     }), [tasks, blockerOnly, decisionOnly, statusFilter]);
 
