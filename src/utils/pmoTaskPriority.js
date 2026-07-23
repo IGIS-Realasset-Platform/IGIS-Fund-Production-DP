@@ -126,6 +126,16 @@ export const matchesPmoStatusFilter = (task, selectedStatus) => {
     return status === selectedStatus;
 };
 
+export const getPmoTaskConditionKey = (task) => {
+    const isBlocker = parseTaskBoolean(task?.is_blocker);
+    const needsDecision = parseTaskBoolean(task?.needs_decision);
+
+    if (isBlocker && needsDecision) return 'both';
+    if (isBlocker) return 'blocker';
+    if (needsDecision) return 'decision';
+    return 'general';
+};
+
 const getCreatedAtTime = (task) => {
     const createdAtTime = new Date(task?.created_at || 0).getTime();
     return Number.isNaN(createdAtTime) ? 0 : createdAtTime;

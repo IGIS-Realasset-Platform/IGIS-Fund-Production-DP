@@ -1,10 +1,16 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { supabase } from '../../utils/supabaseClient';
-import { comparePmoTasksByPriority, getStoredPmoPriorityScore, matchesPmoStatusFilter, parseTaskBoolean } from '../../utils/pmoTaskPriority';
+import { comparePmoTasksByPriority, getPmoTaskConditionKey, getStoredPmoPriorityScore, matchesPmoStatusFilter, parseTaskBoolean } from '../../utils/pmoTaskPriority';
 import MobilePmoTaskDetail from './MobilePmoTaskDetail';
 import toast from 'react-hot-toast';
 
 const STATUS_OPTIONS = ['전체', '진행중', '미착수', '지연', '완료', '보류', '중단'];
+const CONDITION_SECTIONS = [
+    { key: 'both', title: 'Blocker + 의사결정 필요', description: '두 조건 모두 해당', accentClassName: 'bg-[#f87171]' },
+    { key: 'blocker', title: 'Blocker만', description: '의사결정 필요 제외', accentClassName: 'bg-[#f87171]' },
+    { key: 'decision', title: '의사결정 필요만', description: 'Blocker 제외', accentClassName: 'bg-[#fb923c]' },
+    { key: 'general', title: '일반 업무', description: '두 조건 모두 미해당', accentClassName: 'bg-[#86868B]' },
+];
 
 const formatDate = (dateString) => {
     if (!dateString) return '마감 미정';
@@ -41,8 +47,7 @@ const getStatusClassName = (status) => {
 export default function MobilePmoTaskList({ defaultFilter, onResetFilter }) {
     const [tasks, setTasks] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [blockerOnly, setBlockerOnly] = useState(false);
-    const [decisionOnly, setDecisionOnly] = useState(false);
+    const [listMode, setListMode] = useState('priority');
     const [statusFilter, setStatusFilter] = useState('전체');
     const [selectedTask, setSelectedTask] = useState(null);
     const detailHistoryPushedRef = useRef(false);
@@ -50,8 +55,7 @@ export default function MobilePmoTaskList({ defaultFilter, onResetFilter }) {
     useEffect(() => {
         if (!defaultFilter) return;
 
-        setBlockerOnly(defaultFilter === 'Blocker');
-        setDecisionOnly(defaultFilter === 'Decision');
+        setListMode(defaultFilter === 'Blocker' || defaultFilter === 'Decision' ? 'condition' : 'priority');
         setStatusFilter(defaultFilter === 'Delay' ? '지연' : defaultFilter === 'Pending' ? '보류' : '전체');
     }, [defaultFilter]);
 
@@ -147,21 +151,51 @@ export default function MobilePmoTaskList({ defaultFilter, onResetFilter }) {
     }, [tasks]);
 
     const filteredTasks = useMemo(() => tasks.filter((task) => {
-        if (blockerOnly && !parseTaskBoolean(task.is_blocker)) return false;
-        if (decisionOnly && !parseTaskBoolean(task.needs_decision)) return false;
         if (!matchesPmoStatusFilter(task, statusFilter)) return false;
         return true;
-    }), [tasks, blockerOnly, decisionOnly, statusFilter]);
+    }), [tasks, statusFilter]);
 
     const sortedTasks = useMemo(
         () => [...filteredTasks].sort(comparePmoTasksByPriority),
         [filteredTasks]
     );
 
+    const conditionStats = useMemo(() => filteredTasks.reduce((stats, task) => {
+        const isBlocker = parseTaskBoolean(task.is_blocker);
+        const needsDecision = parseTaskBoolean(task.needs_decision);
+
+        if (isBlocker) stats.blocker += 1;
+        if (needsDecision) stats.decision += 1;
+        if (isBlocker && needsDecision) stats.overlap += 1;
+        return stats;
+    }, { blocker: 0, decision: 0, overlap: 0 }), [filteredTasks]);
+
+    const conditionSections = useMemo(() => {
+        const groupedTasks = {
+            both: [],
+            blocker: [],
+            decision: [],
+            general: [],
+        };
+
+        sortedTasks.forEach((task) => {
+            groupedTasks[getPmoTaskConditionKey(task)].push(task);
+        });
+
+        return CONDITION_SECTIONS.map((section) => ({
+            ...section,
+            tasks: groupedTasks[section.key],
+        }));
+    }, [sortedTasks]);
+
     const resetFilters = () => {
-        setBlockerOnly(false);
-        setDecisionOnly(false);
+        setListMode('priority');
         setStatusFilter('전체');
+        onResetFilter?.();
+    };
+
+    const showConditionView = () => {
+        setListMode('condition');
         onResetFilter?.();
     };
 
@@ -186,7 +220,53 @@ export default function MobilePmoTaskList({ defaultFilter, onResetFilter }) {
         setSelectedTask(null);
     };
 
-    const priorityIsActive = !blockerOnly && !decisionOnly && statusFilter === '전체';
+    const renderTaskCard = (task) => {
+        const isBlocker = parseTaskBoolean(task.is_blocker);
+        const needsDecision = parseTaskBoolean(task.needs_decision);
+        const priorityScore = getStoredPmoPriorityScore(task);
+        const leadDepartment = task.lead_dept?.dept_name || task.lead_dept || task.lead_dept_code || '주관 미정';
+
+        return (
+            <button
+                key={task.id}
+                type="button"
+                onClick={() => openTaskDetail(task)}
+                className="shrink-0 w-full text-left bg-[#272726] rounded-[16px] px-4 py-2.5 border border-[#3c3c3c]/60 relative overflow-hidden active:bg-[#30302f] active:scale-[0.995] transition-all"
+            >
+                {(isBlocker || needsDecision) && (
+                    <span className={`absolute left-0 top-0 bottom-0 w-1 ${isBlocker ? 'bg-[#f87171]' : 'bg-[#fb923c]'}`} />
+                )}
+
+                <div className="flex items-center justify-between gap-3 mb-1.5">
+                    <div className="flex min-w-0 items-center gap-1.5">
+                        <span className="text-[11px] font-bold text-[#60a5fa] truncate">{task.project_code || '전사'}</span>
+                        {isBlocker && <span className="text-[9px] font-bold text-[#f87171] bg-[#f87171]/10 px-1.5 py-0.5 rounded-[5px] border border-[#f87171]/20">Blocker</span>}
+                        {needsDecision && <span className="text-[9px] font-bold text-[#fb923c] bg-[#fb923c]/10 px-1.5 py-0.5 rounded-[5px] border border-[#fb923c]/20">의사결정</span>}
+                    </div>
+                    <span className={`shrink-0 text-[10px] font-bold px-2 py-0.5 border rounded-full ${getStatusClassName(task.status)}`}>
+                        {task.status || '진행중'}
+                    </span>
+                </div>
+
+                <h3 className="text-[16px] font-bold text-white leading-[1.35] line-clamp-2 break-keep">
+                    {task.task_name || '제목 없음'}
+                </h3>
+
+                <div className="mt-2 pt-2 border-t border-white/[0.06] flex items-center justify-between gap-3 text-[11px]">
+                    <div className="min-w-0 flex items-center gap-2 text-[#A1A1AA]">
+                        <span className={`font-bold ${priorityScore >= 60 ? 'text-[#f87171]' : priorityScore >= 40 ? 'text-[#bdbba7]' : 'text-[#A1A1AA]'}`}>
+                            우선 {priorityScore}
+                        </span>
+                        <span className="text-white/20">·</span>
+                        <span className="truncate">{leadDepartment}</span>
+                    </div>
+                    <span className={`shrink-0 font-bold ${task.status === '지연' ? 'text-[#f87171]' : 'text-[#D1D1D6]'}`}>
+                        {getDueLabel(task.due_date, task.status)} <span className="font-normal text-[#86868B]">{formatDate(task.due_date)}</span>
+                    </span>
+                </div>
+            </button>
+        );
+    };
 
     return (
         <div className="flex flex-col w-full h-full min-h-0 bg-[#111111]">
@@ -195,23 +275,16 @@ export default function MobilePmoTaskList({ defaultFilter, onResetFilter }) {
                     <button
                         type="button"
                         onClick={resetFilters}
-                        className={`h-8 px-2.5 rounded-[9px] text-[11px] font-bold whitespace-nowrap border transition-colors ${priorityIsActive ? 'text-white bg-[#3c3c3c] border-[#555]' : 'text-[#A1A1AA] bg-[#1A1A1A] border-[#3c3c3c]'}`}
+                        className={`h-8 px-2.5 rounded-[9px] text-[11px] font-bold whitespace-nowrap border transition-colors ${listMode === 'priority' ? 'text-white bg-[#3c3c3c] border-[#555]' : 'text-[#A1A1AA] bg-[#1A1A1A] border-[#3c3c3c]'}`}
                     >
-                        우선순위 ↓
+                        우선순위순
                     </button>
                     <button
                         type="button"
-                        onClick={() => setBlockerOnly((active) => !active)}
-                        className={`h-8 px-2.5 rounded-[9px] text-[11px] font-bold whitespace-nowrap border transition-colors ${blockerOnly ? 'text-[#f87171] bg-[#f87171]/10 border-[#f87171]/40' : 'text-[#A1A1AA] bg-[#1A1A1A] border-[#3c3c3c]'}`}
+                        onClick={showConditionView}
+                        className={`h-8 px-2.5 rounded-[9px] text-[11px] font-bold whitespace-nowrap border transition-colors ${listMode === 'condition' ? 'text-white bg-[#3c3c3c] border-[#555]' : 'text-[#A1A1AA] bg-[#1A1A1A] border-[#3c3c3c]'}`}
                     >
-                        Blocker
-                    </button>
-                    <button
-                        type="button"
-                        onClick={() => setDecisionOnly((active) => !active)}
-                        className={`h-8 px-2.5 rounded-[9px] text-[11px] font-bold whitespace-nowrap border transition-colors ${decisionOnly ? 'text-[#fb923c] bg-[#fb923c]/10 border-[#fb923c]/40' : 'text-[#A1A1AA] bg-[#1A1A1A] border-[#3c3c3c]'}`}
-                    >
-                        의사결정필요
+                        조건별 보기
                     </button>
                     <label className={`relative h-8 px-2.5 rounded-[9px] text-[11px] font-bold whitespace-nowrap border flex items-center gap-1 ${statusFilter !== '전체' ? 'text-[#60a5fa] bg-[#60a5fa]/10 border-[#60a5fa]/40' : 'text-[#A1A1AA] bg-[#1A1A1A] border-[#3c3c3c]'}`}>
                         <span>{statusFilter === '전체' ? '상태' : statusFilter}</span>
@@ -239,53 +312,57 @@ export default function MobilePmoTaskList({ defaultFilter, onResetFilter }) {
                     <div className="text-center py-20 text-[#86868B] text-[14px] font-medium">
                         조건에 맞는 통합업무가 없습니다.
                     </div>
-                ) : sortedTasks.map((task) => {
-                    const isBlocker = parseTaskBoolean(task.is_blocker);
-                    const needsDecision = parseTaskBoolean(task.needs_decision);
-                    const priorityScore = getStoredPmoPriorityScore(task);
-                    const leadDepartment = task.lead_dept?.dept_name || task.lead_dept || task.lead_dept_code || '주관 미정';
-
-                    return (
-                        <button
-                            key={task.id}
-                            type="button"
-                            onClick={() => openTaskDetail(task)}
-                            className="shrink-0 w-full text-left bg-[#272726] rounded-[16px] px-4 py-2.5 border border-[#3c3c3c]/60 relative overflow-hidden active:bg-[#30302f] active:scale-[0.995] transition-all"
-                        >
-                            {(isBlocker || needsDecision) && (
-                                <span className={`absolute left-0 top-0 bottom-0 w-1 ${isBlocker ? 'bg-[#f87171]' : 'bg-[#fb923c]'}`} />
-                            )}
-
-                            <div className="flex items-center justify-between gap-3 mb-1.5">
-                                <div className="flex min-w-0 items-center gap-1.5">
-                                    <span className="text-[11px] font-bold text-[#60a5fa] truncate">{task.project_code || '전사'}</span>
-                                    {isBlocker && <span className="text-[9px] font-bold text-[#f87171] bg-[#f87171]/10 px-1.5 py-0.5 rounded-[5px] border border-[#f87171]/20">Blocker</span>}
-                                    {needsDecision && <span className="text-[9px] font-bold text-[#fb923c] bg-[#fb923c]/10 px-1.5 py-0.5 rounded-[5px] border border-[#fb923c]/20">의사결정</span>}
-                                </div>
-                                <span className={`shrink-0 text-[10px] font-bold px-2 py-0.5 border rounded-full ${getStatusClassName(task.status)}`}>
-                                    {task.status || '진행중'}
+                ) : listMode === 'priority' ? (
+                    sortedTasks.map(renderTaskCard)
+                ) : (
+                    <div className="flex flex-col gap-3">
+                        <section className="rounded-[14px] border border-[#3c3c3c]/70 bg-[#1A1A1A] px-3.5 py-3">
+                            <div className="flex items-center justify-between gap-3">
+                                <h2 className="text-[14px] font-bold text-white">조건별 보기</h2>
+                                <span className="text-[10px] font-medium text-[#86868B]">
+                                    {statusFilter === '전체' ? '미완료 업무 기준' : `${statusFilter} 업무 기준`}
                                 </span>
                             </div>
-
-                            <h3 className="text-[16px] font-bold text-white leading-[1.35] line-clamp-2 break-keep">
-                                {task.task_name || '제목 없음'}
-                            </h3>
-
-                            <div className="mt-2 pt-2 border-t border-white/[0.06] flex items-center justify-between gap-3 text-[11px]">
-                                <div className="min-w-0 flex items-center gap-2 text-[#A1A1AA]">
-                                    <span className={`font-bold ${priorityScore >= 60 ? 'text-[#f87171]' : priorityScore >= 40 ? 'text-[#bdbba7]' : 'text-[#A1A1AA]'}`}>
-                                        우선 {priorityScore}
-                                    </span>
-                                    <span className="text-white/20">·</span>
-                                    <span className="truncate">{leadDepartment}</span>
+                            <p className="mt-1.5 text-[11px] leading-[1.55] text-[#A1A1AA] break-keep">
+                                Blocker와 의사결정 필요가 겹치는 업무를 중복 없이 한 번씩 나눠 보여줍니다. 아래 네 구간 안에서는 우선순위가 높은 순서로 정렬됩니다.
+                            </p>
+                            <div className="mt-2.5 grid grid-cols-3 gap-1.5">
+                                <div className="rounded-[8px] bg-[#272726] px-2 py-1.5 text-center">
+                                    <span className="block text-[9px] text-[#86868B]">Blocker 전체</span>
+                                    <strong className="mt-0.5 block text-[13px] text-[#f87171]">{conditionStats.blocker}건</strong>
                                 </div>
-                                <span className={`shrink-0 font-bold ${task.status === '지연' ? 'text-[#f87171]' : 'text-[#D1D1D6]'}`}>
-                                    {getDueLabel(task.due_date, task.status)} <span className="font-normal text-[#86868B]">{formatDate(task.due_date)}</span>
-                                </span>
+                                <div className="rounded-[8px] bg-[#272726] px-2 py-1.5 text-center">
+                                    <span className="block text-[9px] text-[#86868B]">의사결정 필요 전체</span>
+                                    <strong className="mt-0.5 block text-[13px] text-[#fb923c]">{conditionStats.decision}건</strong>
+                                </div>
+                                <div className="rounded-[8px] bg-[#272726] px-2 py-1.5 text-center">
+                                    <span className="block text-[9px] text-[#86868B]">두 조건 중복</span>
+                                    <strong className="mt-0.5 block text-[13px] text-white">{conditionStats.overlap}건</strong>
+                                </div>
                             </div>
-                        </button>
-                    );
-                })}
+                        </section>
+
+                        {conditionSections.map((section) => (
+                            <section key={section.key} className="flex flex-col gap-2">
+                                <div className="flex items-center justify-between px-1 pt-1">
+                                    <div className="flex min-w-0 items-center gap-2">
+                                        <span className={`h-2 w-2 shrink-0 rounded-full ${section.accentClassName}`} />
+                                        <h3 className="truncate text-[12px] font-bold text-white">{section.title}</h3>
+                                        <span className="truncate text-[10px] text-[#86868B]">{section.description}</span>
+                                    </div>
+                                    <span className="shrink-0 text-[11px] font-bold text-[#A1A1AA]">{section.tasks.length}건</span>
+                                </div>
+                                {section.tasks.length > 0 ? (
+                                    section.tasks.map(renderTaskCard)
+                                ) : (
+                                    <div className="rounded-[12px] border border-dashed border-[#3c3c3c]/60 py-3 text-center text-[11px] text-[#666]">
+                                        해당 업무가 없습니다.
+                                    </div>
+                                )}
+                            </section>
+                        ))}
+                    </div>
+                )}
             </div>
 
             {selectedTask && <MobilePmoTaskDetail task={selectedTask} onClose={closeTaskDetail} />}

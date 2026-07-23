@@ -3,6 +3,7 @@ import {
     calculatePmoPriorityScore,
     comparePmoTasksByPriority,
     getPmoMeetingGrade,
+    getPmoTaskConditionKey,
     matchesPmoStatusFilter,
 } from '../src/utils/pmoTaskPriority.js';
 
@@ -25,6 +26,10 @@ assert.equal(matchesPmoStatusFilter({ status: '완료' }, '전체'), false);
 assert.equal(matchesPmoStatusFilter({ status: '완료' }, '전체보기'), false);
 assert.equal(matchesPmoStatusFilter({ status: '완료' }, '완료'), true);
 assert.equal(matchesPmoStatusFilter({ status: '진행중' }, '전체'), true);
+assert.equal(getPmoTaskConditionKey({ is_blocker: true, needs_decision: true }), 'both');
+assert.equal(getPmoTaskConditionKey({ is_blocker: 'Y', needs_decision: false }), 'blocker');
+assert.equal(getPmoTaskConditionKey({ is_blocker: false, needs_decision: 'true' }), 'decision');
+assert.equal(getPmoTaskConditionKey({ is_blocker: false, needs_decision: false }), 'general');
 
 const databaseRows = [
     { id: 'task-85', priority_score: 85, created_at: '2026-07-02T00:00:00Z' },
