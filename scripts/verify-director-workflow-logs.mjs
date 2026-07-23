@@ -16,7 +16,7 @@ const currentApiShape = normalizeDirectorWorkflowLog({
     work_date: '2026-07-16',
 });
 
-assert.equal(currentApiShape.line, '사업 PM 1');
+assert.equal(currentApiShape.line, '사업1파트');
 assert.equal(currentApiShape.source_line, 'B Line');
 assert.equal(currentApiShape.category, '프로젝트');
 assert.equal(currentApiShape.title, '광장 임차조건 확정');
@@ -36,7 +36,7 @@ const sortedIds = [
 assert.deepEqual(sortedIds, ['latest-b', 'latest-a', 'older']);
 assert.deepEqual(
     getDirectorLogLineOptions([{ line: '공통' }, { line: '사업 PM 2' }, { line: '사업 PM 1' }]),
-    ['전체', '사업 PM 1', '사업 PM 2', '공통']
+    ['전체', '사업1파트', '사업2파트', '공통']
 );
 
 console.log('Director workflow log normalization verified.');

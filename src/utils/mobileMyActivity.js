@@ -3,6 +3,7 @@ import {
     getDirectorLogCell,
     getDirectorLogTitle,
 } from './directorWorkflowLogs.js';
+import { normalizeIotaOrganization } from './iotaOrganizations.js';
 
 const getText = (value) => String(value || '').trim();
 
@@ -41,18 +42,8 @@ const containsMention = (value, name) => {
 };
 
 const normalizeDepartmentName = (value) => {
-    const department = getText(typeof value === 'object' ? value?.dept_name : value);
-    const normalized = department.toUpperCase();
-
-    if (normalized.includes('PM2') || department.includes('사업관리2파트') || department.includes('사업2파트')) return '사업 PM 2';
-    if (normalized.includes('PM1') || department.includes('사업관리1파트') || department.includes('사업1파트')) return '사업 PM 1';
-    if (normalized.includes('LFC') || department.includes('파이낸싱')) return '파이낸싱-LFC';
-    if (normalized.includes('DEV') || normalized.includes('DSC') || department.includes('개발관리') || department.includes('개발솔루션')) return '개발솔루션-DSC';
-    if (normalized.includes('MKT') || normalized.includes('EMC') || department.includes('기업마케팅')) return '기업마케팅-EMC';
-    if (normalized.includes('DESIGN') || normalized.includes('SSC') || department.includes('공간솔루션')) return '공간솔루션-SSC';
-    if (normalized.includes('FUND') || normalized.includes('KAM') || department.includes('펀드운용')) return '펀드운용-KAM';
-    if (normalized.includes('IPR')) return 'IPR-WG';
-    return department || '공통';
+    const department = typeof value === 'object' ? value?.dept_name : value;
+    return normalizeIotaOrganization(department, '공통');
 };
 
 const getTaskText = (task) => [

@@ -39,11 +39,13 @@ ALTER TABLE public.iota_seoul_pilot_members ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Allow public read access" ON public.iota_seoul_pilot_members FOR SELECT USING (true);
 CREATE POLICY "Allow individual update" ON public.iota_seoul_pilot_members FOR UPDATE USING (true);
 
-INSERT INTO public.iota_seoul_pilot_members (staff_name, email, workspace_code, role_code) VALUES
-('전기영', 'jk.jeon@igisam.com', 'WS_PM', 'master'),
+INSERT INTO public.iota_seoul_pilot_members (staff_name, email, org_name, workspace_code, role_code) VALUES
+('전기영', 'jk.jeon@igisam.com', '기획추진', 'WS_MASTER', 'manager'),
 """
 
 values = []
+unique_emails.add('jk.jeon@igisam.com')
+pm2_members = {'강순용', '한찬호', '박석제', '박채현', '소현준', '이수정', '조영비', '한수정'}
 
 for match in group_matches:
     group_name = match.group(1)
@@ -51,13 +53,14 @@ for match in group_matches:
     
     workspace_code = "WS_OTHER"
     if group_name == 'CFT 총괄': workspace_code = 'WS_MASTER'
-    elif group_name == '사업PM': workspace_code = 'WS_PM'
-    elif group_name == '파이낸싱': workspace_code = 'WS_FINANCING'
-    elif group_name == '개발관리': workspace_code = 'WS_DEVELOPMENT'
-    elif group_name == '기업마케팅': workspace_code = 'WS_MARKETING'
-    elif group_name == '상품·디지털': workspace_code = 'WS_DIGITAL'
-    elif group_name == '펀드운용': workspace_code = 'WS_FUND'
+    elif group_name == '사업PM': workspace_code = 'WS_PM1'
+    elif group_name in ('파이낸싱', 'LFC'): workspace_code = 'WS_LFC'
+    elif group_name in ('개발관리', '개발솔루션'): workspace_code = 'WS_DSC'
+    elif group_name == '기업마케팅': workspace_code = 'WS_EMC'
+    elif group_name in ('상품·디지털', '공간솔루션'): workspace_code = 'WS_SSC'
+    elif group_name in ('펀드운용', 'KAM'): workspace_code = 'WS_KAM'
     elif group_name == 'IPR': workspace_code = 'WS_IPR'
+    elif group_name == '기획추진': workspace_code = 'WS_MASTER'
 
     m_iter = re.finditer(r"name:\s*'([^']+)'(?:.*?responsibility:\s*'([^']+)')?.*?email:\s*'([^']+)'", block, re.DOTALL)
     for m in m_iter:
@@ -67,6 +70,24 @@ for match in group_matches:
         
         if email in unique_emails: continue
         unique_emails.add(email)
+
+        org_name = {
+            'CFT 총괄': 'CFT 총괄',
+            '파이낸싱': 'LFC',
+            'LFC': 'LFC',
+            '개발관리': '개발솔루션',
+            '개발솔루션': '개발솔루션',
+            '기업마케팅': '기업마케팅',
+            '상품·디지털': '공간솔루션',
+            '공간솔루션': '공간솔루션',
+            '펀드운용': 'KAM',
+            'KAM': 'KAM',
+            'IPR': 'IPR',
+            '기획추진': '기획추진',
+        }.get(group_name, group_name)
+        if group_name == '사업PM':
+            org_name = '사업2파트' if name in pm2_members else '사업1파트'
+            workspace_code = 'WS_PM2' if name in pm2_members else 'WS_PM1'
         
         role_code = 'manager'
         if group_name == 'CFT 총괄':
@@ -74,7 +95,7 @@ for match in group_matches:
         elif resp and '책임인력' in resp:
             role_code = 'director'
             
-        values.append(f"('{name}', '{email}', '{workspace_code}', '{role_code}')")
+        values.append(f"('{name}', '{email}', '{org_name}', '{workspace_code}', '{role_code}')")
 
 output_sql += ",\n".join(values) + ";"
 

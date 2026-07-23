@@ -317,7 +317,7 @@ export default function WorkspaceFinancing() {
                 await notifyVIPsOnTaskCreation(taskId, taskToSave.task_name, '자금/Financing', 'WS_LFC');
 
                 // 알림 발송 (UI 블로킹 없이 백그라운드로 처리)
-                notifyMembersOnTaskCreation(taskId, taskToSave.task_name, { code: 'WS_LFC', label: '파이낸싱-LFC', orgNames: ['파이낸싱'] }, memberInfo?.email);
+                notifyMembersOnTaskCreation(taskId, taskToSave.task_name, { code: 'WS_LFC', label: 'LFC', orgNames: ['LFC'] }, memberInfo?.email);
             }
         } catch (e) {
             console.warn('Error saving to Supabase:', e);
@@ -1286,7 +1286,7 @@ export default function WorkspaceFinancing() {
             <div className="w-full flex justify-between items-center mb-[40px] gap-[40px]">
                 {/* Header Metadata */}
                 <div className="shrink-0 max-w-[350px]">
-                    <h1 className="text-[32px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[12px]">파이낸싱</h1>
+                    <h1 className="text-[32px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[12px]">LFC</h1>
                     <p className="text-[15px] text-[#86868B] leading-[24px] break-keep">IOTA Seoul Capital Stack 및 대주단 파이프라인 관리</p>
                 </div>
                 
@@ -1296,7 +1296,7 @@ export default function WorkspaceFinancing() {
                     
                     <div className="flex items-center pl-[20px] pr-[10px] py-[10px]">
                         <div className="w-[70px] shrink-0">
-                            <span className="text-[13px] font-bold text-[#86868B]">파이낸싱</span>
+                            <span className="text-[13px] font-bold text-[#86868B]">LFC</span>
                         </div>
                         <div className="flex items-center gap-[12px] w-[130px] shrink-0">
                             <div className="relative w-[30px] h-[30px] shrink-0 rounded-full bg-[#3c3c3c] flex items-center justify-center overflow-hidden ml-[2px]">
@@ -1509,7 +1509,7 @@ export default function WorkspaceFinancing() {
             )}
 
             <div className="w-full mt-[10px]"></div>
-            <WorkspaceActivityLog workspaceCode="WS_LFC" workspaceLabel="파이낸싱-LFC" />
+            <WorkspaceActivityLog workspaceCode="WS_LFC" workspaceLabel="LFC" />
 
 
 

@@ -21,7 +21,7 @@ const GRADE_CONFIG = [
 ];
 
 const HOME_LIST_LIMIT = 5;
-const COLLABORATION_FALLBACK_DEPARTMENT = '사업 PM 2';
+const COLLABORATION_FALLBACK_DEPARTMENT = '사업2파트';
 
 const formatShortDate = (dateString) => {
     if (!dateString) return '기한 미정';
@@ -78,13 +78,13 @@ const getMemberDepartmentTerms = (memberInfo) => {
         memberInfo?.workspace_code,
     ];
 
-    if (department === '사업 PM 1') values.push('사업1파트', '사업관리1파트', 'PM1', 'DEPT_PM1');
-    if (department === '사업 PM 2') values.push('사업2파트', '사업관리2파트', 'PM2', 'DEPT_PM2');
-    if (department === '파이낸싱-LFC') values.push('파이낸싱', 'LFC', 'DEPT_LFC');
-    if (department === '개발솔루션-DSC') values.push('개발솔루션', '개발관리실', 'DSC', 'DEPT_DEV');
-    if (department === '기업마케팅-EMC') values.push('기업마케팅', 'EMC', 'DEPT_MKT');
-    if (department === '공간솔루션-SSC') values.push('공간솔루션', '상품디지털', 'SSC', 'DEPT_DESIGN');
-    if (department === '펀드운용-KAM') values.push('펀드운용', 'KAM');
+    if (department === '사업1파트') values.push('사업 PM 1', '사업관리1파트', 'PM1', 'DEPT_PM1');
+    if (department === '사업2파트') values.push('사업 PM 2', '사업관리2파트', 'PM2', 'DEPT_PM2');
+    if (department === 'LFC') values.push('파이낸싱', '파이낸싱-LFC', 'DEPT_LFC');
+    if (department === '개발솔루션') values.push('개발관리실', '개발솔루션-DSC', 'DSC', 'DEPT_DEV');
+    if (department === '기업마케팅') values.push('기업마케팅-EMC', 'EMC', 'DEPT_MKT');
+    if (department === '공간솔루션') values.push('상품디지털', '공간솔루션-SSC', 'SSC', 'DEPT_DESIGN');
+    if (department === 'KAM') values.push('펀드운용', '펀드운용-KAM');
 
     return [...new Set(values.map(normalizeMatchText).filter(Boolean))];
 };
@@ -600,7 +600,7 @@ export default function MobileHome({ memberInfo, onNavigateToTab }) {
                     <div className="min-w-0">
                         <h2 className="text-[16px] font-bold text-white">협업 확인사항</h2>
                         <p className="mt-0.5 truncate text-[10px] text-[#86868B]">
-                            협업 요청과 사업 PM 2 주관업무 5건
+                            협업 요청과 사업2파트 주관업무 5건
                         </p>
                     </div>
                     <button

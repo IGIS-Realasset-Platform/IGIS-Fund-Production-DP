@@ -384,7 +384,9 @@ export default function MobileIotaApp({ navigateTo }) {
                                         const title = String(noti.title || '');
                                         const body = String(noti.body || '');
                                         const combinedText = title + ' ' + body;
-                                        if (combinedText.includes('사업 PM') || combinedText.includes('사업PM')) wsCode = 'WS_PM';
+                                        if (combinedText.includes('사업1파트')) wsCode = 'WS_PM1';
+                                        else if (combinedText.includes('사업2파트')) wsCode = 'WS_PM2';
+                                        else if (combinedText.includes('사업 PM') || combinedText.includes('사업PM')) wsCode = 'WS_PM';
                                         else if (combinedText.includes('파이낸싱') || combinedText.includes('재원조달')) wsCode = 'WS_LFC';
                                         else if (combinedText.includes('개발') || combinedText.includes('설계')) wsCode = 'WS_DSC';
                                         else if (combinedText.includes('마케팅')) wsCode = 'WS_EMC';
@@ -416,7 +418,9 @@ export default function MobileIotaApp({ navigateTo }) {
                                     
                                     if (!wsCode) {
                                         const title = noti.title || '';
-                                        if (title.includes('사업 PM') || title.includes('사업PM')) wsCode = 'WS_PM';
+                                        if (title.includes('사업1파트')) wsCode = 'WS_PM1';
+                                        else if (title.includes('사업2파트')) wsCode = 'WS_PM2';
+                                        else if (title.includes('사업 PM') || title.includes('사업PM')) wsCode = 'WS_PM';
                                         else if (title.includes('파이낸싱')) wsCode = 'WS_LFC';
                                         else if (title.includes('개발')) wsCode = 'WS_DSC';
                                         else if (title.includes('마케팅')) wsCode = 'WS_EMC';

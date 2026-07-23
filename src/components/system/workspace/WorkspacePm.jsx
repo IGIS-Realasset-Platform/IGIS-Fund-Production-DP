@@ -316,10 +316,14 @@ export default function WorkspacePm({ part = 1 }) {
                 if (error) throw error;
                 const insertedTask = data && data[0];
                 const taskId = insertedTask ? insertedTask.id : taskToSave.id;
-                await notifyVIPsOnTaskCreation(taskId, taskToSave.task_name, '사업 PM', 'WS_PM');
+                await notifyVIPsOnTaskCreation(taskId, taskToSave.task_name, part === 2 ? '사업2파트' : '사업1파트', part === 2 ? 'WS_PM2' : 'WS_PM1');
 
                 // 알림 발송 (UI 블로킹 없이 백그라운드로 처리)
-                notifyMembersOnTaskCreation(taskId, taskToSave.task_name, { code: 'WS_PM', label: '사업 PM', orgNames: ['사업PM', '사업 PM'] }, memberInfo?.email);
+                notifyMembersOnTaskCreation(taskId, taskToSave.task_name, {
+                    code: part === 2 ? 'WS_PM2' : 'WS_PM1',
+                    label: part === 2 ? '사업2파트' : '사업1파트',
+                    orgNames: [part === 2 ? '사업2파트' : '사업1파트'],
+                }, memberInfo?.email);
             }
         } catch (e) {
             console.warn('Saving to local storage fallback due to error:', e);
@@ -925,7 +929,7 @@ export default function WorkspacePm({ part = 1 }) {
             <div className="w-full mt-[10px]"></div>
             <WorkspaceActivityLog 
                 workspaceCode={part === 2 ? 'WS_PM2' : 'WS_PM1'} 
-                workspaceLabel={part === 2 ? '사업 PM 2' : '사업 PM 1'} 
+                workspaceLabel={part === 2 ? '사업2파트' : '사업1파트'}
             />
 
 

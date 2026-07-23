@@ -8,7 +8,7 @@ const stakeholderGroups = [
                             {
                                 name: '이철승',
                                 photo: '이철승',
-                                roles: ['리얼에셋부문/부문대표', '사업&개발/부문대표', '기업마케팅센터/부문대표', 'IOTA CFT/TF장', 'SMP/SMP'],
+                                roles: ['리얼에셋부문/부문대표', '사업&개발/부문대표', '기업마케팅/부문대표', 'IOTA CFT/TF장', 'SMP/SMP'],
                                 responsibility: 'CFT 총괄 책임인력',
                                 email: '***@igisam.com',
                                 phone: '010-****-****',
@@ -45,7 +45,7 @@ const stakeholderGroups = [
                             {
                                 name: '권순일',
                                 photo: '권순일',
-                                roles: ['사업그룹1파트/파트장+', 'IOTA CFT', '개발PFV TF/TF장'],
+                                roles: ['사업1파트/파트장+', 'IOTA CFT', '개발PFV TF/TF장'],
                                 responsibility: '사업PM · IPR · 전략자문\n책임인력',
                                 email: '***@igisam.com',
                                 phone: '010-****-****',
@@ -53,7 +53,7 @@ const stakeholderGroups = [
                             {
                                 name: '강순용',
                                 photo: '강순용',
-                                roles: ['사업그룹2파트/파트장+', 'IOTA CFT'],
+                                roles: ['사업2파트/파트장+', 'IOTA CFT'],
                                 responsibility: '사업PM 책임인력',
                                 email: '***@igisam.com',
                                 phone: '010-****-****',
@@ -61,105 +61,105 @@ const stakeholderGroups = [
                             {
                                 name: '윤주형',
                                 photo: '윤주형',
-                                roles: ['사업그룹1파트/Sr.Manager', 'IOTA CFT'],
+                                roles: ['사업1파트/Sr.Manager', 'IOTA CFT'],
                                 email: '***@igisam.com',
                                 phone: '010-****-****',
                             },
                             {
                                 name: '김제익',
                                 photo: '김제익',
-                                roles: ['사업그룹1파트', 'IOTA CFT'],
+                                roles: ['사업1파트', 'IOTA CFT'],
                                 email: '***@igisam.com',
                                 phone: '010-****-****',
                             },
                             {
                                 name: '류홍',
                                 photo: '류홍',
-                                roles: ['사업그룹1파트', 'IOTA CFT'],
+                                roles: ['사업1파트', 'IOTA CFT'],
                                 email: '***@igisam.com',
                                 phone: '010-****-****',
                             },
                             {
                                 name: '박만진',
                                 photo: '박만진',
-                                roles: ['사업그룹1파트', 'IOTA CFT'],
+                                roles: ['사업1파트', 'IOTA CFT'],
                                 email: '***@igisam.com',
                                 phone: '010-****-****',
                             },
                             {
                                 name: '박일훈',
                                 photo: '박일훈',
-                                roles: ['사업그룹1파트', 'IOTA CFT'],
+                                roles: ['사업1파트', 'IOTA CFT'],
                                 email: '***@igisam.com',
                                 phone: '010-****-****',
                             },
                             {
                                 name: '이정원',
                                 photo: '이정원',
-                                roles: ['사업그룹1파트+', 'IOTA CFT'],
+                                roles: ['사업1파트+', 'IOTA CFT'],
                                 email: '***@igisam.com',
                                 phone: '010-****-****',
                             },
                             {
                                 name: '전무경',
                                 photo: '전무경',
-                                roles: ['사업그룹1파트', 'IOTA CFT'],
+                                roles: ['사업1파트', 'IOTA CFT'],
                                 email: '***@igisam.com',
                                 phone: '010-****-****',
                             },
                             {
                                 name: '한찬호',
                                 photo: '한찬호',
-                                roles: ['사업그룹2파트/Sr.Manager+', 'IOTA CFT'],
+                                roles: ['사업2파트/Sr.Manager+', 'IOTA CFT'],
                                 email: '***@igisam.com',
                                 phone: '010-****-****',
                             },
                             {
                                 name: '박석제',
                                 photo: '박석제',
-                                roles: ['사업그룹2파트', 'IOTA CFT'],
+                                roles: ['사업2파트', 'IOTA CFT'],
                                 email: '***@igisam.com',
                                 phone: '010-****-****',
                             },
                             {
                                 name: '박채현',
                                 photo: '박채현',
-                                roles: ['사업그룹2파트', 'IOTA CFT'],
+                                roles: ['사업2파트', 'IOTA CFT'],
                                 email: '***@igisam.com',
                                 phone: '010-****-****',
                             },
                             {
                                 name: '소현준',
                                 photo: '소현준',
-                                roles: ['사업그룹2파트', 'IOTA CFT'],
+                                roles: ['사업2파트', 'IOTA CFT'],
                                 email: '***@igisam.com',
                                 phone: '010-****-****',
                             },
                             {
                                 name: '이수정',
                                 photo: '이수정',
-                                roles: ['사업그룹2파트', 'IOTA CFT'],
+                                roles: ['사업2파트', 'IOTA CFT'],
                                 email: '***@igisam.com',
                                 phone: '010-****-****',
                             },
                             {
                                 name: '조영비',
                                 photo: '조영비',
-                                roles: ['사업그룹2파트', 'IOTA CFT'],
+                                roles: ['사업2파트', 'IOTA CFT'],
                                 email: '***@igisam.com',
                                 phone: '010-****-****',
                             },
                             {
                                 name: '한수정',
                                 photo: '한수정',
-                                roles: ['사업그룹2파트', 'IOTA CFT'],
+                                roles: ['사업2파트', 'IOTA CFT'],
                                 email: '***@igisam.com',
                                 phone: '010-****-****',
                             },
                         ]
                     },
                     {
-                        groupTitle: '파이낸싱',
+                        groupTitle: 'LFC',
                         members: [
                             {
                                 name: '박준호',
@@ -221,69 +221,69 @@ const stakeholderGroups = [
                         ]
                     },
                     {
-                        groupTitle: '개발관리',
+                        groupTitle: '개발솔루션',
                         members: [
                             {
                                 name: '홍장군',
                                 photo: '홍장군',
-                                roles: ['개발솔루션센터/센터장+', 'IOTA CFT'],
-                                responsibility: '개발관리 책임인력',
+                                roles: ['개발솔루션/책임자+', 'IOTA CFT'],
+                                responsibility: '개발솔루션 책임인력',
                                 email: '***@igisam.com',
                                 phone: '010-****-****',
                             },
                             {
                                 name: '채원',
                                 photo: '채원',
-                                roles: ['개발솔루션센터/담당+', 'IOTA CFT'],
+                                roles: ['개발솔루션/담당+', 'IOTA CFT'],
                                 email: '***@igisam.com',
                                 phone: '010-****-****',
                             },
                             {
                                 name: '김보성',
                                 photo: '김보성',
-                                roles: ['개발솔루션센터', 'IOTA CFT'],
+                                roles: ['개발솔루션', 'IOTA CFT'],
                                 email: '***@igisam.com',
                                 phone: '010-****-****',
                             },
                             {
                                 name: '전승희',
                                 photo: '전승희',
-                                roles: ['개발솔루션센터', 'IOTA CFT'],
+                                roles: ['개발솔루션', 'IOTA CFT'],
                                 email: '***@igisam.com',
                                 phone: '010-****-****',
                             },
                             {
                                 name: '김대익',
                                 photo: '김대익',
-                                roles: ['개발솔루션센터', 'IOTA CFT'],
+                                roles: ['개발솔루션', 'IOTA CFT'],
                                 email: '***@igisam.com',
                                 phone: '010-****-****',
                             },
                             {
                                 name: '장성진',
                                 photo: '장성진',
-                                roles: ['개발솔루션센터', 'IOTA CFT'],
+                                roles: ['개발솔루션', 'IOTA CFT'],
                                 email: '***@igisam.com',
                                 phone: '010-****-****',
                             },
                             {
                                 name: '이정훈',
                                 photo: '이정훈',
-                                roles: ['개발솔루션센터/담당', 'IOTA CFT'],
+                                roles: ['개발솔루션/담당', 'IOTA CFT'],
                                 email: '***@igisam.com',
                                 phone: '010-****-****',
                             },
                             {
                                 name: '박봉서',
                                 photo: '박봉서',
-                                roles: ['개발솔루션센터/담당', 'IOTA CFT'],
+                                roles: ['개발솔루션/담당', 'IOTA CFT'],
                                 email: '***@igisam.com',
                                 phone: '010-****-****',
                             },
                             {
                                 name: '김형주',
                                 photo: '김형주',
-                                roles: ['개발솔루션센터/자산관리3파트1', 'IOTA CFT'],
+                                roles: ['개발솔루션/자산관리3파트1', 'IOTA CFT'],
                                 email: 'hj.kim@igisam.com',
                                 phone: '010-7157-4325',
                             },
@@ -295,7 +295,7 @@ const stakeholderGroups = [
                             {
                                 name: '김민지',
                                 photo: '김민지',
-                                roles: ['기업마케팅센터/Sr.Manager', 'IOTA CFT'],
+                                roles: ['기업마케팅/Sr.Manager', 'IOTA CFT'],
                                 responsibility: '기업마케팅 책임인력',
                                 email: '***@igisam.com',
                                 phone: '010-****-****',
@@ -303,7 +303,7 @@ const stakeholderGroups = [
                             {
                                 name: '고아라',
                                 photo: '고아라',
-                                roles: ['기업마케팅센터', 'IOTA CFT'],
+                                roles: ['기업마케팅', 'IOTA CFT'],
                                 email: '***@igisam.com',
                                 phone: '010-****-****',
                             },
@@ -315,7 +315,7 @@ const stakeholderGroups = [
                             {
                                 name: '김현수',
                                 photo: '김현수',
-                                roles: ['공간솔루션센터/센터장+', 'IOTA CFT'],
+                                roles: ['공간솔루션/책임자+', 'IOTA CFT'],
                                 responsibility: '공간솔루션 책임인력',
                                 email: '***@igisam.com',
                                 phone: '010-****-****',
@@ -323,14 +323,14 @@ const stakeholderGroups = [
                             {
                                 name: '이가현',
                                 photo: '이가현',
-                                roles: ['공간솔루션센터/리더', 'IOTA CFT'],
+                                roles: ['공간솔루션/리더', 'IOTA CFT'],
                                 email: '***@igisam.com',
                                 phone: '010-****-****',
                             },
                             {
                                 name: '정수명',
                                 photo: '정수명',
-                                roles: ['공간솔루션센터', 'IOTA CFT'],
+                                roles: ['공간솔루션', 'IOTA CFT'],
                                 email: '***@igisam.com',
                                 phone: '010-****-****',
                             },
@@ -597,18 +597,18 @@ export default function StakeInternal() {
                         <tr className={`border-b border-[#333] cursor-pointer transition-colors ${hoveredRow === '파이낸싱' ? 'bg-white/5' : ''}`} onMouseEnter={() => setHoveredRow('파이낸싱')} onMouseLeave={() => setHoveredRow(null)} onClick={() => handleNavigation('platform/iotaseoul/workspace/financing')}>
                             <td className="px-[24px] py-[16px] text-[14px] font-normal text-[#E5E5E5] border-r border-[#333]">파이낸싱</td>
                             <td className="px-[14px] py-[16px] ">
-                                {renderLeader('박준호', 'LFC 센터장')}
+                                {renderLeader('박준호', 'LFC 책임자')}
                             </td>
                             <td className="px-[14px] py-[16px] text-[13px] border-r border-[#333] leading-[22px]"><div className="flex flex-wrap gap-x-3 gap-y-1">{renderMembers('강석민 정리훈 손유정 김지우 박현승 이성민A 한승환')}</div></td>
                             <td className="px-[14px] py-[16px] text-[13px] text-[#bbb9af] border-r border-[#333] leading-[22px]">본PF·통합PF 구조, 대주단 모니터링<br/>리파이낸싱 옵션 상시 검토</td>
                             <td className="px-[14px] py-[16px] text-[13px] text-[#bbb9af]">LFC</td>
                         </tr>
 
-                        {/* 개발관리 */}
-                        <tr className={`border-b border-[#333] cursor-pointer transition-colors ${hoveredRow === '개발관리' ? 'bg-white/5' : ''}`} onMouseEnter={() => setHoveredRow('개발관리')} onMouseLeave={() => setHoveredRow(null)} onClick={() => handleNavigation('platform/iotaseoul/workspace/development')}>
-                            <td className="px-[24px] py-[16px] text-[14px] font-normal text-[#E5E5E5] border-r border-[#333]">개발관리</td>
+                        {/* 개발솔루션 */}
+                        <tr className={`border-b border-[#333] cursor-pointer transition-colors ${hoveredRow === '개발솔루션' ? 'bg-white/5' : ''}`} onMouseEnter={() => setHoveredRow('개발솔루션')} onMouseLeave={() => setHoveredRow(null)} onClick={() => handleNavigation('platform/iotaseoul/workspace/development')}>
+                            <td className="px-[24px] py-[16px] text-[14px] font-normal text-[#E5E5E5] border-r border-[#333]">개발솔루션</td>
                             <td className="px-[14px] py-[16px]">
-                                {renderLeader('홍장군', '개발솔루션센터장')}
+                                {renderLeader('홍장군', '개발솔루션 책임자')}
                             </td>
                             <td className="px-[14px] py-[16px] text-[13px] text-[#bbb9af] border-r border-[#333] leading-[22px]">
                                 <div className="flex gap-4"><span className="w-[60px] text-[#86868B] shrink-0 pt-[3px]">건설담당</span><div className="flex flex-wrap gap-x-3 gap-y-1">{renderMembers('채원 김보성 전승희')}</div></div>
@@ -617,7 +617,7 @@ export default function StakeInternal() {
                                 <div className="flex gap-4"><span className="w-[60px] text-[#86868B] shrink-0 pt-[3px]">전문위원</span><div className="flex flex-wrap gap-x-3 gap-y-1">{renderMembers('박봉서')}</div></div>
                             </td>
                             <td className="px-[14px] py-[16px] text-[13px] text-[#bbb9af] border-r border-[#333] leading-[22px]">설계·시공·CM·감리 통제<br/>인허가/명도 대응<br/>공정·품질·안전 KPI</td>
-                            <td className="px-[14px] py-[16px] text-[13px] text-[#bbb9af]">개발솔루션센터</td>
+                            <td className="px-[14px] py-[16px] text-[13px] text-[#bbb9af]">개발솔루션</td>
                         </tr>
 
                         {/* 기업마케팅 */}
@@ -639,7 +639,7 @@ export default function StakeInternal() {
                         <tr className={`cursor-pointer transition-colors ${hoveredRow === '공간솔루션' ? 'bg-white/5' : ''}`} onMouseEnter={() => setHoveredRow('공간솔루션')} onMouseLeave={() => setHoveredRow(null)} onClick={() => handleNavigation('platform/iotaseoul/workspace/digital')}>
                             <td className="px-[24px] py-[16px] text-[14px] font-normal text-[#E5E5E5] border-r border-[#333] border-b border-[#333]">공간솔루션</td>
                             <td className="px-[14px] py-[16px] border-b border-[#333]">
-                                {renderLeader('김현수', '공간솔루션센터장')}
+                                {renderLeader('김현수', '공간솔루션 책임자')}
                             </td>
                             <td className="px-[14px] py-[16px] text-[13px] border-r border-b border-[#333] leading-[22px]"><div className="flex flex-wrap gap-x-3 gap-y-1">{renderMembers('이가현 정수명')}</div></td>
                             <td className="px-[14px] py-[16px] text-[13px] text-[#bbb9af] border-r border-[#333] border-b border-[#333] leading-[22px]">브랜드 포지셔닝, 상품 차별화<br/>테넌트 경험설계, 멤버십 서비스 등</td>

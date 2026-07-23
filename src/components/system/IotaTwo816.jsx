@@ -567,7 +567,7 @@ export default function IotaTwo816() {
                         <div className="w-full h-[54px] border-t border-[#444]/50 flex items-center pl-[32px] gap-[24px] shrink-0">
                             <div className="flex items-center gap-[12px]">
                                 <span className="text-[13px] font-bold text-[#86868B]">브랜드 담당</span>
-                                <span onClick={() => { navigate(`/platform/iotaseoul/workspace/digital`); }} className="text-[14px] font-bold text-[#E5E5E5] hover:text-[#fbf167] cursor-pointer transition-colors">공간솔루션센터</span>
+                                <span onClick={() => { navigate(`/platform/iotaseoul/workspace/digital`); }} className="text-[14px] font-bold text-[#E5E5E5] hover:text-[#fbf167] cursor-pointer transition-colors">공간솔루션</span>
                             </div>
                             <div className="w-[1px] h-[14px] bg-[#555]"></div>
                             <div className="flex items-center gap-[12px]">
@@ -642,7 +642,7 @@ export default function IotaTwo816() {
                             <span onClick={() => {
                                 const base = import.meta.env.BASE_URL;
                                 navigate('/platform/iotaseoul/workspace/marketing');
-                            }} className="text-[14px] font-bold text-[#E5E5E5] hover:text-[#fbf167] cursor-pointer transition-colors">기업마케팅센터</span>
+                            }} className="text-[14px] font-bold text-[#E5E5E5] hover:text-[#fbf167] cursor-pointer transition-colors">기업마케팅</span>
                         </div>
                         <div className="w-[1px] h-[14px] bg-[#555]"></div>
                         <div className="flex items-center gap-[12px]">
@@ -700,7 +700,7 @@ export default function IotaTwo816() {
                             <span onClick={() => {
                                 const base = import.meta.env.BASE_URL;
                                 navigate('/platform/iotaseoul/workspace/marketing');
-                            }} className="text-[14px] font-bold text-[#E5E5E5] hover:text-[#fbf167] cursor-pointer transition-colors">기업마케팅센터</span>
+                            }} className="text-[14px] font-bold text-[#E5E5E5] hover:text-[#fbf167] cursor-pointer transition-colors">기업마케팅</span>
                         </div>
                     </div>
 
@@ -732,7 +732,7 @@ export default function IotaTwo816() {
                             <span onClick={() => {
                                 const base = import.meta.env.BASE_URL;
                                 navigate('/platform/iotaseoul/workspace/marketing');
-                            }} className="text-[14px] font-bold text-[#E5E5E5] hover:text-[#fbf167] cursor-pointer transition-colors">공간솔루션센터</span>
+                            }} className="text-[14px] font-bold text-[#E5E5E5] hover:text-[#fbf167] cursor-pointer transition-colors">공간솔루션</span>
                         </div>
                     </div>
 

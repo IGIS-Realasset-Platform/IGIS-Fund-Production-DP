@@ -45,7 +45,7 @@ DROP POLICY IF EXISTS "Allow authenticated read to iota_digital_tasks" ON public
 CREATE POLICY "Allow authenticated read to iota_digital_tasks" ON public.iota_digital_tasks FOR SELECT TO authenticated USING (true);
 DROP POLICY IF EXISTS "Allow digital team write to iota_digital_tasks" ON public.iota_digital_tasks;
 CREATE POLICY "Allow digital team write to iota_digital_tasks" ON public.iota_digital_tasks FOR ALL TO authenticated USING (
-    auth.jwt() ->> 'email' IN (SELECT email FROM public.iota_seoul_pilot_members WHERE workspace_code = 'WS_DIGITAL' OR role_code IN ('master', 'director'))
+    auth.jwt() ->> 'email' IN (SELECT email FROM public.iota_seoul_pilot_members WHERE workspace_code IN ('WS_SSC', 'WS_DIGITAL') OR role_code IN ('master', 'director'))
 );
 
 -- 6. iota_marketing_pipelines 테이블 RLS 설정
@@ -54,7 +54,7 @@ DROP POLICY IF EXISTS "Allow authenticated read to iota_marketing_pipelines" ON 
 CREATE POLICY "Allow authenticated read to iota_marketing_pipelines" ON public.iota_marketing_pipelines FOR SELECT TO authenticated USING (true);
 DROP POLICY IF EXISTS "Allow marketing team write to iota_marketing_pipelines" ON public.iota_marketing_pipelines;
 CREATE POLICY "Allow marketing team write to iota_marketing_pipelines" ON public.iota_marketing_pipelines FOR ALL TO authenticated USING (
-    auth.jwt() ->> 'email' IN (SELECT email FROM public.iota_seoul_pilot_members WHERE workspace_code = 'WS_MARKETING' OR role_code IN ('master', 'director'))
+    auth.jwt() ->> 'email' IN (SELECT email FROM public.iota_seoul_pilot_members WHERE workspace_code IN ('WS_EMC', 'WS_MARKETING') OR role_code IN ('master', 'director'))
 );
 
 -- 7. iota_marketing_pipeline_logs 테이블 RLS 설정
@@ -63,5 +63,5 @@ DROP POLICY IF EXISTS "Allow authenticated read to iota_marketing_pipeline_logs"
 CREATE POLICY "Allow authenticated read to iota_marketing_pipeline_logs" ON public.iota_marketing_pipeline_logs FOR SELECT TO authenticated USING (true);
 DROP POLICY IF EXISTS "Allow marketing team write to iota_marketing_pipeline_logs" ON public.iota_marketing_pipeline_logs;
 CREATE POLICY "Allow marketing team write to iota_marketing_pipeline_logs" ON public.iota_marketing_pipeline_logs FOR ALL TO authenticated USING (
-    auth.jwt() ->> 'email' IN (SELECT email FROM public.iota_seoul_pilot_members WHERE workspace_code = 'WS_MARKETING' OR role_code IN ('master', 'director'))
+    auth.jwt() ->> 'email' IN (SELECT email FROM public.iota_seoul_pilot_members WHERE workspace_code IN ('WS_EMC', 'WS_MARKETING') OR role_code IN ('master', 'director'))
 );

@@ -23,7 +23,7 @@ const files = [
     {
         name: 'WorkspaceMarketing.jsx',
         title: '기업마케팅',
-        desc: '기업마케팅센터 (CMC) 업무 프로그레스 및 기업마케팅 DB',
+        desc: '기업마케팅 업무 프로그레스 및 기업마케팅 DB',
         teams: [
             { label: '기업마케팅', leaderName: '김민지', leaderTitle: '기업마케팅담당', members: ['고아라', '권순일'] }
         ]

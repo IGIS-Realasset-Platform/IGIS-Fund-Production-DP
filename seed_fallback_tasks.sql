@@ -655,4 +655,21 @@ INSERT INTO iota_v2.iota_pmo_tasks (
         '샘플', '팝업요청관리 시트로 이관'
     ) ON CONFLICT DO NOTHING;
 
+UPDATE iota_v2.iota_pmo_tasks
+SET coop_dept_codes = replace(
+    replace(
+        replace(
+            replace(
+                replace(coop_dept_codes, '사업관리1파트', '사업1파트'),
+                '개발관리실', '개발솔루션'
+            ),
+            '공간솔루션실', '공간솔루션'
+        ),
+        '기업마케팅실', '기업마케팅'
+    ),
+    '전 부서', '전부서'
+)
+WHERE project_code = 'IOTA_SEOUL'
+  AND coop_dept_codes IS NOT NULL;
+
 COMMIT;

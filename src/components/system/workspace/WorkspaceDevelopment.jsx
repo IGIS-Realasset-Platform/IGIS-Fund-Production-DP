@@ -314,10 +314,10 @@ export default function WorkspaceDevelopment() {
                 if (error) throw error;
                 const insertedTask = data && data[0];
                 const taskId = insertedTask ? insertedTask.id : taskToSave.id;
-                await notifyVIPsOnTaskCreation(taskId, taskToSave.task_name, '개발관리', 'WS_DSC');
+                await notifyVIPsOnTaskCreation(taskId, taskToSave.task_name, '개발솔루션', 'WS_DSC');
 
                 // 알림 발송 (UI 블로킹 없이 백그라운드로 처리)
-                notifyMembersOnTaskCreation(taskId, taskToSave.task_name, { code: 'WS_DSC', label: '개발솔루션-DSC', orgNames: ['개발관리', '개발솔루션'] }, memberInfo?.email);
+                notifyMembersOnTaskCreation(taskId, taskToSave.task_name, { code: 'WS_DSC', label: '개발솔루션', orgNames: ['개발솔루션'] }, memberInfo?.email);
             }
         } catch (e) {
             console.warn('Error saving to Supabase:', e);
@@ -618,7 +618,7 @@ export default function WorkspaceDevelopment() {
             {/* Header & Team Structure */}
             <div className="w-full flex justify-between items-center mb-[40px] gap-[40px]">
                 <div className="shrink-0 max-w-[400px]">
-                    <h1 className="text-[32px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[12px]">개발관리</h1>
+                    <h1 className="text-[32px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[12px]">개발솔루션</h1>
                     <p className="text-[15px] text-[#86868B] leading-[24px] break-keep">설계·시공·CM·감리 통제, 인허가/명도 대응, 공정·품질·안전 KPI</p>
                 </div>
                 
@@ -840,7 +840,7 @@ export default function WorkspaceDevelopment() {
             )}
 
             <div className="w-full mt-[10px]"></div>
-            <WorkspaceActivityLog workspaceCode="WS_DSC" workspaceLabel="개발솔루션-DSC" />
+            <WorkspaceActivityLog workspaceCode="WS_DSC" workspaceLabel="개발솔루션" />
 
 
 

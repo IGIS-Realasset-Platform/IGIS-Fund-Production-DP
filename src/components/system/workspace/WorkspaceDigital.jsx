@@ -316,7 +316,7 @@ export default function WorkspaceDigital() {
                 await notifyVIPsOnTaskCreation(taskId, newTask.task_name, '공간솔루션', 'WS_SSC');
                 
                 // 알림 발송 (UI 블로킹 없이 백그라운드로 처리)
-                notifyMembersOnTaskCreation(taskId, newTask.task_name, { code: 'WS_SSC', label: '공간솔루션-SSC', orgNames: ['상품·디지털', '공간솔루션'] }, memberInfo?.email);
+                notifyMembersOnTaskCreation(taskId, newTask.task_name, { code: 'WS_SSC', label: '공간솔루션', orgNames: ['공간솔루션'] }, memberInfo?.email);
                 
                 fetchTasks();
             }
@@ -861,7 +861,7 @@ export default function WorkspaceDigital() {
             </div>
 
             <div className="w-full mt-[20px]"></div>
-            <WorkspaceActivityLog workspaceCode="WS_SSC" workspaceLabel="공간솔루션-SSC" />
+            <WorkspaceActivityLog workspaceCode="WS_SSC" workspaceLabel="공간솔루션" />
 
 
             {/* Delete Confirmation Modal */}

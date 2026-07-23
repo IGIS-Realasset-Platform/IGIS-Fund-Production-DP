@@ -71,7 +71,9 @@ export default function NotificationDropdown({ isOpen, onClose, notifications, u
 
                 // Fallback: Deduce workspace_code from title text
                 if (!wsCode) {
-                    if (title.includes('사업 PM') || title.includes('사업PM')) wsCode = 'WS_PM';
+                    if (title.includes('사업1파트')) wsCode = 'WS_PM1';
+                    else if (title.includes('사업2파트')) wsCode = 'WS_PM2';
+                    else if (title.includes('사업 PM') || title.includes('사업PM')) wsCode = 'WS_PM';
                     else if (title.includes('파이낸싱')) wsCode = 'WS_LFC';
                     else if (title.includes('개발')) wsCode = 'WS_DSC';
                     else if (title.includes('마케팅')) wsCode = 'WS_EMC';
@@ -82,6 +84,8 @@ export default function NotificationDropdown({ isOpen, onClose, notifications, u
                 }
 
                 const workspaceMap = {
+                    'WS_PM1': 'platform/iotaseoul/workspace/pm1',
+                    'WS_PM2': 'platform/iotaseoul/workspace/pm2',
                     'WS_PM': 'platform/iotaseoul/workspace/pm',
                     'WS_LFC': 'platform/iotaseoul/workspace/financing',
                     'WS_DSC': 'platform/iotaseoul/workspace/development',
@@ -136,7 +140,9 @@ export default function NotificationDropdown({ isOpen, onClose, notifications, u
 
                 // Fallback: Deduce workspace_code from title text if not explicitly available
                 if (!wsCode) {
-                    if (combinedText.includes('사업 PM') || combinedText.includes('사업PM')) wsCode = 'WS_PM';
+                    if (combinedText.includes('사업1파트')) wsCode = 'WS_PM1';
+                    else if (combinedText.includes('사업2파트')) wsCode = 'WS_PM2';
+                    else if (combinedText.includes('사업 PM') || combinedText.includes('사업PM')) wsCode = 'WS_PM';
                     else if (combinedText.includes('파이낸싱') || combinedText.includes('재원조달')) wsCode = 'WS_LFC';
                     else if (combinedText.includes('개발') || combinedText.includes('설계')) wsCode = 'WS_DSC';
                     else if (combinedText.includes('마케팅')) wsCode = 'WS_EMC';
@@ -149,6 +155,8 @@ export default function NotificationDropdown({ isOpen, onClose, notifications, u
                 console.log('[NotificationDropdown] 파싱된 logId:', logId, 'wsCode:', wsCode);
 
                 const workspaceMap = {
+                    'WS_PM1': 'platform/iotaseoul/workspace/pm1',
+                    'WS_PM2': 'platform/iotaseoul/workspace/pm2',
                     'WS_PM': 'platform/iotaseoul/workspace/pm',
                     'WS_LFC': 'platform/iotaseoul/workspace/financing',
                     'WS_DSC': 'platform/iotaseoul/workspace/development',

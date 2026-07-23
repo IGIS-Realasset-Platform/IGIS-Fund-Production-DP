@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { supabase } from '../../../utils/supabaseClient';
 import { useAuth } from '../../../context/AuthContext';
+import { normalizeIotaOrganization } from '../../../utils/iotaOrganizations.js';
 
 const COLUMNS = [
     { key: 'm06', labelTop: '~2026', labelBottom: '06' },
@@ -17,20 +18,20 @@ const COLUMNS = [
 
 const TIMELINE_DATA = [
     // Gates
-    { category: 'Gate', name: 'G0 현황정리', desc: '업무원장·카테고리·우선순위 기준 확정', lead: '사업2파트', coop: '전 부서', schedule: { m06: '●', m07: '●' } },
-    { category: 'Gate', name: 'G1 방향결정', desc: '단독/통합 PF 방향, 호텔 브랜드, 시공사 조건', lead: '사업2파트', coop: 'LFC;기업마케팅실;개발관리실', schedule: { m07: '●', m08: '●' } },
-    { category: 'Gate', name: 'G2 PF준비도', desc: '인허가·도면·임차·금융·법무 CP 준비', lead: '사업2파트', coop: '전 부서', schedule: { m07: '●', m08: '●', m09: '●', m10: '●' } },
-    { category: 'Gate', name: 'G3 PF실행', desc: '427/816 단독 또는 통합 PF 실행', lead: 'LFC', coop: '사업2파트;전 부서', schedule: { m09: '●', m10: '●', m11: '◆', m03: '◆' } },
-    { category: 'Gate', name: 'G4 착공/공사', desc: '착공조건, 책임착공, 공정관리 체계 전환', lead: '개발관리실', coop: '사업2파트;LFC', schedule: { m03: '●', const_start: '●', const_mid: '●' } },
-    { category: 'Gate', name: 'G5 준공/사용승인', desc: '준공 CP, 사용승인, 리스크 증빙자료 관리', lead: '개발관리실', coop: '사업2파트;LFC', schedule: { const_start: '●', const_mid: '●' } },
-    { category: 'Gate', name: 'G6 담보대출/운영', desc: 'Take-out, 운영전환, 임대 안정화, 자산관리', lead: '사업2파트', coop: '공간솔루션실;기업마케팅실', schedule: { const_mid: '●', take_out: '◆' } },
+    { category: 'Gate', name: 'G0 현황정리', desc: '업무원장·카테고리·우선순위 기준 확정', lead: '사업2파트', coop: '전부서', schedule: { m06: '●', m07: '●' } },
+    { category: 'Gate', name: 'G1 방향결정', desc: '단독/통합 PF 방향, 호텔 브랜드, 시공사 조건', lead: '사업2파트', coop: 'LFC;기업마케팅;개발솔루션', schedule: { m07: '●', m08: '●' } },
+    { category: 'Gate', name: 'G2 PF준비도', desc: '인허가·도면·임차·금융·법무 CP 준비', lead: '사업2파트', coop: '전부서', schedule: { m07: '●', m08: '●', m09: '●', m10: '●' } },
+    { category: 'Gate', name: 'G3 PF실행', desc: '427/816 단독 또는 통합 PF 실행', lead: 'LFC', coop: '사업2파트;전부서', schedule: { m09: '●', m10: '●', m11: '◆', m03: '◆' } },
+    { category: 'Gate', name: 'G4 착공/공사', desc: '착공조건, 책임착공, 공정관리 체계 전환', lead: '개발솔루션', coop: '사업2파트;LFC', schedule: { m03: '●', const_start: '●', const_mid: '●' } },
+    { category: 'Gate', name: 'G5 준공/사용승인', desc: '준공 CP, 사용승인, 리스크 증빙자료 관리', lead: '개발솔루션', coop: '사업2파트;LFC', schedule: { const_start: '●', const_mid: '●' } },
+    { category: 'Gate', name: 'G6 담보대출/운영', desc: 'Take-out, 운영전환, 임대 안정화, 자산관리', lead: '사업2파트', coop: '공간솔루션;기업마케팅', schedule: { const_mid: '●', take_out: '◆' } },
     // Functions
-    { category: 'Task', name: '인허가', desc: '현금기부채납·소공원로·변경인가·사용승인', lead: '개발관리실', coop: '사업2파트;', schedule: { m06: '●', m07: '●', m08: '●', m09: '●', const_start: '●', const_mid: '●' } },
-    { category: 'Task', name: '호텔', desc: '브랜드·운영계약·운영수지·FF&E', lead: '사업2파트', coop: '기업마케팅실;개발관리실', schedule: { m07: '●', m08: '●', m09: '●', m10: '●', const_mid: '●' } },
-    { category: 'Task', name: '시공/원가', desc: '현대/삼성 도급조건·공사비·신용공여', lead: '사업2파트', coop: '개발관리실;LFC', schedule: { m07: '●', m08: '●', m09: '●', m10: '●', m11: '◆', m03: '◆', const_start: '●', const_mid: '●' } },
-    { category: 'Task', name: '도면/설계', desc: 'PF 기준도면·면적표·실사자료', lead: '개발관리실', coop: '기업마케팅실;공간솔루션실', schedule: { m06: '●', m07: '●', m08: '●', m09: '●', const_start: '●', const_mid: '●' } },
-    { category: 'Task', name: '임차/마케팅', desc: '광장·KB·삼성/이지스·선임차', lead: '사업2파트', coop: '기업마케팅실; 공간솔루션실', schedule: { m07: '●', m08: '●', m09: '●', m10: '●', m11: '◆', m03: '◆', const_start: '●', const_mid: '●' } },
-    { category: 'Task', name: 'PF/금융', desc: 'Term Sheet·대주단·재무모델·CP', lead: 'LFC', coop: '사업2파트;전 부서', schedule: { m06: '●', m07: '●', m08: '●', m09: '●', m10: '●', m11: '◆', m03: '◆', take_out: '◆' } },
+    { category: 'Task', name: '인허가', desc: '현금기부채납·소공원로·변경인가·사용승인', lead: '개발솔루션', coop: '사업2파트;', schedule: { m06: '●', m07: '●', m08: '●', m09: '●', const_start: '●', const_mid: '●' } },
+    { category: 'Task', name: '호텔', desc: '브랜드·운영계약·운영수지·FF&E', lead: '사업2파트', coop: '기업마케팅;개발솔루션', schedule: { m07: '●', m08: '●', m09: '●', m10: '●', const_mid: '●' } },
+    { category: 'Task', name: '시공/원가', desc: '현대/삼성 도급조건·공사비·신용공여', lead: '사업2파트', coop: '개발솔루션;LFC', schedule: { m07: '●', m08: '●', m09: '●', m10: '●', m11: '◆', m03: '◆', const_start: '●', const_mid: '●' } },
+    { category: 'Task', name: '도면/설계', desc: 'PF 기준도면·면적표·실사자료', lead: '개발솔루션', coop: '기업마케팅;공간솔루션', schedule: { m06: '●', m07: '●', m08: '●', m09: '●', const_start: '●', const_mid: '●' } },
+    { category: 'Task', name: '임차/마케팅', desc: '광장·KB·삼성/이지스·선임차', lead: '사업2파트', coop: '기업마케팅; 공간솔루션', schedule: { m07: '●', m08: '●', m09: '●', m10: '●', m11: '◆', m03: '◆', const_start: '●', const_mid: '●' } },
+    { category: 'Task', name: 'PF/금융', desc: 'Term Sheet·대주단·재무모델·CP', lead: 'LFC', coop: '사업2파트;전부서', schedule: { m06: '●', m07: '●', m08: '●', m09: '●', m10: '●', m11: '◆', m03: '◆', take_out: '◆' } },
     { category: 'Task', name: '법무/세무/구조', desc: '리츠·Asset/Share·합병·주주승인', lead: '법무/세무자문', coop: '사업2파트;LFC', schedule: { m06: '●', m07: '●', m08: '●', m09: '●' } },
     { category: 'Task', name: '팝업업무', desc: '단발 요청 접수/위임/보류/반려', lead: '사업2파트', coop: '요청부서', schedule: { m06: '●', m07: '●', m08: '●', m09: '●', m10: '●', m11: '●', m03: '●', const_start: '●', const_mid: '●', take_out: '●' } }
 ];
@@ -42,24 +43,24 @@ const CATEGORY_MAP_DATA = [
     { majorCategory: '금융', category: '구조/법무/세무', subsector: '리츠 전환', task: '427 리츠 전환+816 편입 검토', pf: true, const: false, op: false, lead: '사업2파트', coop: ['LFC', '법무/세무 외부자문', '사업1파트'], need: '구조 검토안', partner: '법무/세무법인', point: '기본 구조 재정의' },
     { majorCategory: '금융', category: '구조/법무/세무', subsector: 'Asset/Share/합병', task: '구조별 절차·세금·주주동의 비교', pf: true, const: false, op: false, lead: '사업1파트', coop: ['사업2파트', 'LFC'], need: '구조 비교표', partner: '법무/세무법인', point: '실행가능성 중심' },
     { majorCategory: '금융', category: '주주/보고', subsector: '의사결정', task: '6~7월 내부 의사결정 회의', pf: true, const: false, op: false, lead: '사업2파트', coop: ['전 부서'], need: '의사결정 자료', partner: '대표/본부장', point: '자료작업 반복 차단' },
-    { majorCategory: '금융', category: '준공/담보대출', subsector: 'Take-out', task: '준공 후 담보대출/운영전환 전략', pf: false, const: false, op: true, lead: '사업2파트', coop: ['사업2파트', '기업마케팅실', '개발관리실'], need: '장기 금융전략', partner: '외부 기관', point: 'PF 조건과 연결' },
-    { majorCategory: '개발', category: '인허가', subsector: '현금기부채납', task: '현금기부채납 규모·시기·조건 협의', pf: true, const: false, op: false, lead: '개발관리실', coop: ['사업2파트', '사업1파트'], need: '관청 협의결과', partner: '서울시/중구청', point: '사업비 및 PF 조건에 직접 반영' },
-    { majorCategory: '개발', category: '인허가', subsector: '소공원로', task: '도로/공공기여/공사동선 협의', pf: true, const: true, op: false, lead: '개발관리실', coop: ['사업2파트'], need: '도로·공공기여 협의안', partner: '서울시/중구청', point: '착공·준공 일정 리스크' },
-    { majorCategory: '개발', category: '인허가', subsector: '변경인가', task: '427/816 변경 가능성 및 리스크 검토', pf: true, const: true, op: false, lead: '개발관리실', coop: ['사업2파트', '사업1파트'], need: '변경인가 검토안', partner: '관청', point: 'PF 전 설명 가능한 리스크로 정리' },
-    { majorCategory: '개발', category: '인허가', subsector: '사용승인', task: '사용승인 CP/증빙자료 로드맵', pf: false, const: false, op: true, lead: '개발관리실', coop: ['사업2파트'], need: '사용승인 로드맵', partner: '관청/대주단', point: 'Take-out 전제조건' },
-    { majorCategory: '개발', category: '호텔/운영', subsector: '브랜드', task: '리츠칼튼/소노/대안 브랜드 의사결정', pf: true, const: false, op: false, lead: '사업2파트', coop: ['기업마케팅실', '공간솔루션실'], need: '브랜드 비교안', partner: 'Marriott, 대명소노', point: '427 PF 핵심 Blocker' },
+    { majorCategory: '금융', category: '준공/담보대출', subsector: 'Take-out', task: '준공 후 담보대출/운영전환 전략', pf: false, const: false, op: true, lead: '사업2파트', coop: ['사업2파트', '기업마케팅', '개발솔루션'], need: '장기 금융전략', partner: '외부 기관', point: 'PF 조건과 연결' },
+    { majorCategory: '개발', category: '인허가', subsector: '현금기부채납', task: '현금기부채납 규모·시기·조건 협의', pf: true, const: false, op: false, lead: '개발솔루션', coop: ['사업2파트', '사업1파트'], need: '관청 협의결과', partner: '서울시/중구청', point: '사업비 및 PF 조건에 직접 반영' },
+    { majorCategory: '개발', category: '인허가', subsector: '소공원로', task: '도로/공공기여/공사동선 협의', pf: true, const: true, op: false, lead: '개발솔루션', coop: ['사업2파트'], need: '도로·공공기여 협의안', partner: '서울시/중구청', point: '착공·준공 일정 리스크' },
+    { majorCategory: '개발', category: '인허가', subsector: '변경인가', task: '427/816 변경 가능성 및 리스크 검토', pf: true, const: true, op: false, lead: '개발솔루션', coop: ['사업2파트', '사업1파트'], need: '변경인가 검토안', partner: '관청', point: 'PF 전 설명 가능한 리스크로 정리' },
+    { majorCategory: '개발', category: '인허가', subsector: '사용승인', task: '사용승인 CP/증빙자료 로드맵', pf: false, const: false, op: true, lead: '개발솔루션', coop: ['사업2파트'], need: '사용승인 로드맵', partner: '관청/대주단', point: 'Take-out 전제조건' },
+    { majorCategory: '개발', category: '호텔/운영', subsector: '브랜드', task: '리츠칼튼/소노/대안 브랜드 의사결정', pf: true, const: false, op: false, lead: '사업2파트', coop: ['기업마케팅', '공간솔루션'], need: '브랜드 비교안', partner: 'Marriott, 대명소노', point: '427 PF 핵심 Blocker' },
     { majorCategory: '개발', category: '호텔/운영', subsector: '계약구조', task: 'HMA/Franchise/운영위탁 비교', pf: true, const: false, op: false, lead: '사업2파트', coop: ['법무/세무 외부자문'], need: '계약구조 비교안', partner: '브랜드사', point: 'Owner control과 termination' },
     { majorCategory: '개발', category: '호텔/운영', subsector: '운영수지/FF&E', task: '운영수지·FF&E·CAPEX 모델 반영', pf: true, const: false, op: false, lead: '사업2파트', coop: ['CFT'], need: '운영수지 모델', partner: '브랜드사', point: '사업비와 상환가능성 영향' },
-    { majorCategory: '개발', category: '시공/원가', subsector: '현대건설', task: '427 도급조건·신용공여', pf: true, const: true, op: false, lead: '사업2파트', coop: ['사업1파트', '개발관리실'], need: '현대 Term', partner: '현대건설', point: '427 PF 실행조건' },
-    { majorCategory: '개발', category: '시공/원가', subsector: '삼성물산', task: '816 도급조건·책임임차·LOC', pf: true, const: true, op: false, lead: '사업2파트', coop: ['사업1파트', '개발관리실'], need: '삼성 Term', partner: '삼성물산', point: '816 단독/통합 PF' },
-    { majorCategory: '개발', category: '시공/원가', subsector: '공사비/VE', task: '공사비 검증·VE·공기단축', pf: true, const: true, op: true, lead: '개발관리실', coop: ['사업2파트'], need: '공사비 검증안', partner: '시공사/CM', point: '원가 부담 완화' },
-    { majorCategory: '개발', category: '도면/설계', subsector: 'PF 기준도면', task: '대주단 제출용 기준도면', pf: true, const: false, op: false, lead: '개발관리실', coop: ['공간솔루션실', '사업2파트'], need: 'PF 기준도면', partner: '설계사/CM', point: '모든 자료의 기준' },
-    { majorCategory: '개발', category: '도면/설계', subsector: '면적표', task: 'GFA/NLA/전용률/임대면적 기준', pf: true, const: false, op: false, lead: '개발관리실', coop: ['공간솔루션실', '사업2파트'], need: '기준 면적표', partner: '설계사/CM', point: '임차/모델 불일치 방지' },
-    { majorCategory: '개발', category: '인테리어', subsector: '오피스/호텔', task: '상품기획/Tech/FF&E 설계반영, CAPEX 반영', pf: false, const: true, op: false, lead: '공간솔루션실', coop: ['개발관리실'], need: '상품기획·설계안', partner: '다원, da', point: '임차조건 및 모델 반영' },
-    { majorCategory: '운영/마케팅', category: '임차/마케팅', subsector: '816 화우', task: '제안PT, 임차 조건·면적·Term', pf: true, const: false, op: false, lead: '기업마케팅실', coop: ['사업2파트', '공간솔루션실'], need: '임차 제안안', partner: 'PWC', point: '제안 및 선임차 확보' },
-    { majorCategory: '운영/마케팅', category: '임차/마케팅', subsector: '427 광장', task: '제안PT, 임차 조건·면적·Term', pf: true, const: false, op: false, lead: '기업마케팅실', coop: ['사업2파트', '공간솔루션실'], need: '임차 제안안', partner: 'PWC', point: '제안 및 선임차 확보' },
-    { majorCategory: '운영/마케팅', category: '임차/마케팅', subsector: '816 KB증권', task: '제안PT, 임차 조건·면적·Term', pf: true, const: false, op: false, lead: '기업마케팅실', coop: ['사업2파트', '공간솔루션실'], need: '임차 제안안', partner: 'PWC', point: '제안 및 선임차 확보' },
-    { majorCategory: '운영/마케팅', category: '임차/마케팅', subsector: '427 LG전자', task: '제안PT, 임차 조건·면적·Term', pf: true, const: false, op: false, lead: '기업마케팅실', coop: ['사업2파트', '공간솔루션실'], need: '임차 제안안', partner: 'PWC', point: '제안 및 선임차 확보' },
+    { majorCategory: '개발', category: '시공/원가', subsector: '현대건설', task: '427 도급조건·신용공여', pf: true, const: true, op: false, lead: '사업2파트', coop: ['사업1파트', '개발솔루션'], need: '현대 Term', partner: '현대건설', point: '427 PF 실행조건' },
+    { majorCategory: '개발', category: '시공/원가', subsector: '삼성물산', task: '816 도급조건·책임임차·LOC', pf: true, const: true, op: false, lead: '사업2파트', coop: ['사업1파트', '개발솔루션'], need: '삼성 Term', partner: '삼성물산', point: '816 단독/통합 PF' },
+    { majorCategory: '개발', category: '시공/원가', subsector: '공사비/VE', task: '공사비 검증·VE·공기단축', pf: true, const: true, op: true, lead: '개발솔루션', coop: ['사업2파트'], need: '공사비 검증안', partner: '시공사/CM', point: '원가 부담 완화' },
+    { majorCategory: '개발', category: '도면/설계', subsector: 'PF 기준도면', task: '대주단 제출용 기준도면', pf: true, const: false, op: false, lead: '개발솔루션', coop: ['공간솔루션', '사업2파트'], need: 'PF 기준도면', partner: '설계사/CM', point: '모든 자료의 기준' },
+    { majorCategory: '개발', category: '도면/설계', subsector: '면적표', task: 'GFA/NLA/전용률/임대면적 기준', pf: true, const: false, op: false, lead: '개발솔루션', coop: ['공간솔루션', '사업2파트'], need: '기준 면적표', partner: '설계사/CM', point: '임차/모델 불일치 방지' },
+    { majorCategory: '개발', category: '인테리어', subsector: '오피스/호텔', task: '상품기획/Tech/FF&E 설계반영, CAPEX 반영', pf: false, const: true, op: false, lead: '공간솔루션', coop: ['개발솔루션'], need: '상품기획·설계안', partner: '다원, da', point: '임차조건 및 모델 반영' },
+    { majorCategory: '운영/마케팅', category: '임차/마케팅', subsector: '816 화우', task: '제안PT, 임차 조건·면적·Term', pf: true, const: false, op: false, lead: '기업마케팅', coop: ['사업2파트', '공간솔루션'], need: '임차 제안안', partner: 'PWC', point: '제안 및 선임차 확보' },
+    { majorCategory: '운영/마케팅', category: '임차/마케팅', subsector: '427 광장', task: '제안PT, 임차 조건·면적·Term', pf: true, const: false, op: false, lead: '기업마케팅', coop: ['사업2파트', '공간솔루션'], need: '임차 제안안', partner: 'PWC', point: '제안 및 선임차 확보' },
+    { majorCategory: '운영/마케팅', category: '임차/마케팅', subsector: '816 KB증권', task: '제안PT, 임차 조건·면적·Term', pf: true, const: false, op: false, lead: '기업마케팅', coop: ['사업2파트', '공간솔루션'], need: '임차 제안안', partner: 'PWC', point: '제안 및 선임차 확보' },
+    { majorCategory: '운영/마케팅', category: '임차/마케팅', subsector: '427 LG전자', task: '제안PT, 임차 조건·면적·Term', pf: true, const: false, op: false, lead: '기업마케팅', coop: ['사업2파트', '공간솔루션'], need: '임차 제안안', partner: 'PWC', point: '제안 및 선임차 확보' },
     { majorCategory: '운영/마케팅', category: '임차/마케팅', subsector: '816 이지스', task: '816 선임차·책임임차·이전 가능성', pf: true, const: false, op: false, lead: '사업2파트', coop: ['이지스 경영지원'], need: '내부 이전 검토안', partner: '이사회', point: '제안 및 선임차 확보' },
     { majorCategory: '운영/마케팅', category: '임차/마케팅', subsector: '816 삼성물산', task: '816 선임차·책임임차·이전 가능성', pf: true, const: false, op: false, lead: '사업2파트', coop: ['삼성물산'], need: '책임임차 검토안', partner: '주주', point: '제안 및 선임차 확보' }
 ];
@@ -71,22 +72,11 @@ const R_R_CATEGORIES = [
     '전체보기', 'PF/금융', '구조/법무/세무', '주주/보고', '준공/담보대출',
     '인허가', '호텔/운영', '시공/원가', '도면/설계', '인테리어', '임차/마케팅'
 ];
-const DEPARTMENT_NAME_ALIASES = {
-    사업그룹1파트: '사업1파트',
-    사업파트1: '사업1파트',
-    사업관리1파트: '사업1파트',
-    사업그룹2파트: '사업2파트',
-    사업파트2: '사업2파트',
-    사업관리2파트: '사업2파트'
-};
-
-const normalizeDepartmentName = (name) => DEPARTMENT_NAME_ALIASES[name] || name;
-
 const normalizeRrItem = (item, index) => ({
     ...item,
     id: item.id || `mock-${index}`,
-    lead: normalizeDepartmentName(item.lead),
-    coop: Array.from(new Set((item.coop || []).map(normalizeDepartmentName)))
+    lead: normalizeIotaOrganization(item.lead),
+    coop: Array.from(new Set((item.coop || []).map((name) => normalizeIotaOrganization(name))))
 });
 
 export default function PmoScheduleGate() {
@@ -120,9 +110,9 @@ export default function PmoScheduleGate() {
     }, [rrData]);
 
     const DEPARTMENTS_LIST = [
-        '개발관리실', '사업2파트', '사업1파트',
-        '공간솔루션실', '기업마케팅실', 'LFC', '법무/세무 외부자문', 'CFT',
-        '이지스 경영지원', '삼성물산', '전 부서'
+        '개발솔루션', '사업2파트', '사업1파트',
+        '공간솔루션', '기업마케팅', 'LFC', '법무/세무 외부자문', 'CFT',
+        '이지스 경영지원', '삼성물산', '전부서'
     ];
     const PARTNERS_LIST = [
         '대주단, 주주사', '회계법인', '법무/세무법인', '대표/본부장', '외부 기관',
@@ -141,11 +131,10 @@ export default function PmoScheduleGate() {
         const role = memberInfo.role_code || '';
         return (
             org.includes('사업2파트') ||
-            org.includes('사업그룹2파트') ||
             org.includes('기획추진') ||
             org.includes('시스템 관리자(기획추진)') ||
             role.toUpperCase().includes('PO') ||
-            workspace === 'WS_PM' ||
+            ['WS_PM2', 'WS_PM'].includes(workspace) ||
             role === 'master' ||
             role === 'director'
         );
@@ -936,7 +925,7 @@ export default function PmoScheduleGate() {
 
                             {/* 수정 권한 안내 */}
                             <div className="text-[11.5px] text-[#86868B] leading-relaxed bg-[#1c1c1e] p-2.5 rounded-lg border border-[#3c3c3c]/50 mt-1">
-                                ℹ️ <strong>편집 권한 조직:</strong> 사업2파트, 기획추진(시스템 관리자 포함), WS_PM 워크스페이스 권한자, master / director / PO 역할군에 한해 추가 및 수정 기능이 제공됩니다.
+                                ℹ️ <strong>편집 권한 조직:</strong> 사업2파트, 기획추진(시스템 관리자 포함), WS_PM2 워크스페이스 권한자, master / director / PO 역할군에 한해 추가 및 수정 기능이 제공됩니다.
                             </div>
 
                             {/* Form Actions */}

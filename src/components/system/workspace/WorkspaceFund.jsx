@@ -318,7 +318,7 @@ export default function WorkspaceFund() {
                 await notifyVIPsOnTaskCreation(taskId, taskToSave.task_name, '펀드 운용(AM)', 'WS_KAM');
 
                 // 알림 발송 (UI 블로킹 없이 백그라운드로 처리)
-                notifyMembersOnTaskCreation(taskId, taskToSave.task_name, { code: 'WS_KAM', label: '펀드운용-KAM', orgNames: ['펀드운용'] }, memberInfo?.email);
+                notifyMembersOnTaskCreation(taskId, taskToSave.task_name, { code: 'WS_KAM', label: 'KAM', orgNames: ['KAM'] }, memberInfo?.email);
             }
         } catch (e) {
             console.warn('Error saving to Supabase:', e);
@@ -1301,7 +1301,7 @@ export default function WorkspaceFund() {
             <div className="w-full flex justify-between items-center mb-[40px] gap-[40px]">
                 {/* Header Metadata */}
                 <div className="shrink-0 max-w-[300px]">
-                    <h1 className="text-[32px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[12px]">펀드운용</h1>
+                    <h1 className="text-[32px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[12px]">KAM</h1>
                     <p className="text-[15px] text-[#86868B] leading-[24px]">펀드(421) 운용 및 투자자 소통채널</p>
                 </div>
                 
@@ -1517,7 +1517,7 @@ export default function WorkspaceFund() {
             )}
 
             <div className="w-full mt-[10px]"></div>
-            <WorkspaceActivityLog workspaceCode="WS_KAM" workspaceLabel="펀드운용-KAM" />
+            <WorkspaceActivityLog workspaceCode="WS_KAM" workspaceLabel="KAM" />
 
 
 

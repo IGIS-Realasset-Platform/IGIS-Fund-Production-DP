@@ -687,7 +687,7 @@ export default function SystemCenter() {
                         <div className="w-full h-[54px] border-t border-[#444]/50 flex items-center pl-[32px] gap-[24px] shrink-0">
                             <div className="flex items-center gap-[12px]">
                                 <span className="text-[13px] font-bold text-[#86868B]">브랜드 담당</span>
-                                <a href="#" className="text-[14px] font-bold text-[#E5E5E5] hover:text-[#fbf167] cursor-pointer transition-colors">공간솔루션센터</a>
+                                <a href="#" className="text-[14px] font-bold text-[#E5E5E5] hover:text-[#fbf167] cursor-pointer transition-colors">공간솔루션</a>
                             </div>
                             <div className="w-[1px] h-[14px] bg-[#555]"></div>
                             <div className="flex items-center gap-[12px]">
@@ -757,7 +757,7 @@ export default function SystemCenter() {
                     <div className="w-full h-[54px] border-t border-[#444]/50 flex items-center pl-[30px] gap-[24px] shrink-0">
                         <div className="flex items-center gap-[12px]">
                             <span className="text-[13px] font-bold text-[#86868B]">기업세일즈 담당</span>
-                            <a href="#" className="text-[14px] font-bold text-[#E5E5E5] hover:text-[#fbf167] cursor-pointer transition-colors">기업마케팅센터</a>
+                            <a href="#" className="text-[14px] font-bold text-[#E5E5E5] hover:text-[#fbf167] cursor-pointer transition-colors">기업마케팅</a>
                         </div>
                         <div className="w-[1px] h-[14px] bg-[#555]"></div>
                         <div className="flex items-center gap-[12px]">
@@ -803,7 +803,7 @@ export default function SystemCenter() {
                         {/* Footer */}
                         <div className="w-full h-[54px] border-t border-[#444]/50 flex items-center pl-[30px] shrink-0">
                             <span className="text-[13px] font-bold text-[#86868B] mr-[12px]">마케팅 담당</span>
-                            <a href="#" className="text-[14px] font-bold text-[#E5E5E5] hover:text-[#fbf167] cursor-pointer transition-colors">기업마케팅센터</a>
+                            <a href="#" className="text-[14px] font-bold text-[#E5E5E5] hover:text-[#fbf167] cursor-pointer transition-colors">기업마케팅</a>
                             <span className="text-[#666] mx-[8px]">ㅣ</span>
                             <a href="#" className="text-[14px] font-bold text-[#E5E5E5] hover:text-[#fbf167] cursor-pointer transition-colors">PR팀</a>
                         </div>

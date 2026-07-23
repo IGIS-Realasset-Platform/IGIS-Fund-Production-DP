@@ -80,7 +80,7 @@ sh_target_submit4 = """const { error: logError } = await supabase.from('iota_seo
                     writer_staff_id: writerId,
                     writer_name: writerName,
                     input_status: 'submitted',
-                    source_system: workspaceCode === 'WS_PM' ? 'workspace_pm_form' : 'decision_log_form',
+                    source_system: ['WS_PM1', 'WS_PM2', 'WS_PM'].includes(workspaceCode) ? 'workspace_pm_form' : 'decision_log_form',
                 });"""
 sh_replace_submit4 = """const { error: logError } = await executeWithTimeout(supabase.from('iota_seoul_logs').insert({
                     ...logData,
@@ -88,7 +88,7 @@ sh_replace_submit4 = """const { error: logError } = await executeWithTimeout(sup
                     writer_staff_id: writerId,
                     writer_name: writerName,
                     input_status: 'submitted',
-                    source_system: workspaceCode === 'WS_PM' ? 'workspace_pm_form' : 'decision_log_form',
+                    source_system: ['WS_PM1', 'WS_PM2', 'WS_PM'].includes(workspaceCode) ? 'workspace_pm_form' : 'decision_log_form',
                 }));"""
 content = content.replace(sh_target_submit4, sh_replace_submit4)
 

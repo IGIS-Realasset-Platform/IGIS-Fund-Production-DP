@@ -2,19 +2,20 @@ import React, { useState, useEffect } from 'react';
 import { supabase } from '../../utils/supabaseClient';
 import { useAuth } from '../../context/AuthContext';
 import { notifyMembersOnCommentCreation } from '../../utils/notificationHelpers';
-import { fetchDirectorWorkflowLogs } from '../../utils/directorWorkflowLogs';
+import { fetchDirectorWorkflowLogs, getDirectorLogCell, getDirectorStaffCell } from '../../utils/directorWorkflowLogs';
+import { normalizeIotaOrganization } from '../../utils/iotaOrganizations.js';
 import { motion, AnimatePresence } from 'framer-motion';
 import ReactionAvatarStack from './ReactionAvatarStack';
 import PmoTaskBoardStaging, { FALLBACK_BOARD_TASKS } from './pmo/PmoTaskBoardStaging';
 
 const WORKSPACE_CONFIG = [
-    { id: 'pm1', name: '사업 PM 1', path: 'platform/iotaseoul/workspace/pm1', table: 'iota_pm_tasks', color: 'bg-[#bdbba7]' },
-    { id: 'pm2', name: '사업 PM 2', path: 'platform/iotaseoul/workspace/pm2', table: 'iota_pm_tasks', color: 'bg-[#bdbba7]' },
-    { id: 'financing', name: '파이낸싱', path: 'platform/iotaseoul/workspace/financing', table: 'iota_financing_tasks', color: 'bg-[#30d158]' },
+    { id: 'pm1', name: '사업1파트', path: 'platform/iotaseoul/workspace/pm1', table: 'iota_pm_tasks', color: 'bg-[#bdbba7]' },
+    { id: 'pm2', name: '사업2파트', path: 'platform/iotaseoul/workspace/pm2', table: 'iota_pm_tasks', color: 'bg-[#bdbba7]' },
+    { id: 'financing', name: 'LFC', path: 'platform/iotaseoul/workspace/financing', table: 'iota_financing_tasks', color: 'bg-[#30d158]' },
     { id: 'development', name: '개발솔루션', path: 'platform/iotaseoul/workspace/development', table: 'iota_development_tasks', color: 'bg-[#0a84ff]' },
     { id: 'marketing', name: '기업마케팅', path: 'platform/iotaseoul/workspace/marketing', table: 'iota_marketing_tasks', color: 'bg-[#64d2ff]' },
     { id: 'digital', name: '공간솔루션', path: 'platform/iotaseoul/workspace/digital', table: 'iota_digital_tasks', color: 'bg-[#ffd60a]' },
-    { id: 'fund', name: '펀드운용', path: 'platform/iotaseoul/workspace/fund', table: 'iota_fund_tasks', color: 'bg-[#bf5af2]' },
+    { id: 'fund', name: 'KAM', path: 'platform/iotaseoul/workspace/fund', table: 'iota_fund_tasks', color: 'bg-[#bf5af2]' },
     { id: 'ipr', name: 'IPR', path: 'platform/iotaseoul/workspace/ipr', table: 'iota_ipr_tasks', color: 'bg-[#ff453a]' }
 ];
 
@@ -202,54 +203,8 @@ export default function DecisionLog() {
         };
     };
 
-    const getCellName = (name) => {
-        const cells = {
-            '전기영': '기획추진', '이시정': '기획추진', '이관용': '기획추진',
-            '이철승': 'CFT 총괄', '윤관식': 'CFT 총괄', '정조민': 'CFT 총괄', '우형석': 'CFT 총괄',
-            // 사업 PM 1
-            '권순일': '사업 PM 1', '윤주형': '사업 PM 1', '김제익': '사업 PM 1', '류홍': '사업 PM 1', '박만진': '사업 PM 1', '박일훈': '사업 PM 1', '이정원': '사업 PM 1', '전무경': '사업 PM 1',
-            // 사업 PM 2
-            '강순용': '사업 PM 2', '한찬호': '사업 PM 2', '박석제': '사업 PM 2', '박채현': '사업 PM 2', '소현준': '사업 PM 2', '이수정': '사업 PM 2', '조영비': '사업 PM 2', '한수정': '사업 PM 2',
-            '박준호': '파이낸싱-LFC', '강석민': '파이낸싱-LFC', '정리훈': '파이낸싱-LFC', '손유정': '파이낸싱-LFC', '김지우': '파이낸싱-LFC', '박현승': '파이낸싱-LFC', '이성민A': '파이낸싱-LFC', '한승환': '파이낸싱-LFC',
-            '홍장군': '개발솔루션-DSC', '채원': '개발솔루션-DSC', '김보성': '개발솔루션-DSC', '전승희': '개발솔루션-DSC', '김대익': '개발솔루션-DSC', '장성진': '개발솔루션-DSC', '이정훈': '개발솔루션-DSC', '박봉서': '개발솔루션-DSC', '김형주': '개발솔루션-DSC',
-            '김민지': '기업마케팅-EMC', '고아라': '기업마케팅-EMC',
-            '김현수': '공간솔루션-SSC', '현철호': '공간솔루션-SSC', '신민호': '공간솔루션-SSC', '이가현': '공간솔루션-SSC', '정수명': '공간솔루션-SSC',
-            '김행단': '펀드운용-KAM', '윤용택': 'IPR-WG'
-        };
-        return cells[name] || '공통';
-    };
-
-    const getLogCell = (log) => {
-        if (log.metadata?.workspace_code) {
-            const code = log.metadata.workspace_code.toUpperCase();
-            if (code === 'WS_PM1' || code === 'PM1' || code === 'PM_1') return '사업 PM 1';
-            if (code === 'WS_PM2' || code === 'PM2' || code === 'PM_2') return '사업 PM 2';
-            if (code === 'WS_PM' || code === 'PM') {
-                return getCellName(log.writer_name) === '사업 PM 2' ? '사업 PM 2' : '사업 PM 1';
-            }
-            if (code.includes('FINANCING') || code.includes('LFC')) return '파이낸싱-LFC';
-            if (code.includes('DEVELOPMENT') || code.includes('DSC')) return '개발솔루션-DSC';
-            if (code.includes('MARKETING') || code.includes('EMC')) return '기업마케팅-EMC';
-            if (code.includes('DIGITAL') || code.includes('SSC')) return '공간솔루션-SSC';
-            if (code.includes('FUND') || code.includes('KAM')) return '펀드운용-KAM';
-            if (code.includes('IPR')) return 'IPR-WG';
-        }
-        if (log.metadata?.workspace_label) {
-            const lbl = log.metadata.workspace_label;
-            if (lbl.includes('사업 PM 1') || lbl.includes('사업PM 1') || lbl.includes('사업PM1')) return '사업 PM 1';
-            if (lbl.includes('사업 PM 2') || lbl.includes('사업PM 2') || lbl.includes('사업PM2')) return '사업 PM 2';
-            if (lbl.includes('사업 PM') || lbl.includes('사업PM')) {
-                return getCellName(log.writer_name) === '사업 PM 2' ? '사업 PM 2' : '사업 PM 1';
-            }
-            if (lbl.includes('파이낸싱')) return '파이낸싱-LFC';
-            if (lbl.includes('개발솔루션')) return '개발솔루션-DSC';
-            if (lbl.includes('기업마케팅')) return '기업마케팅-EMC';
-            if (lbl.includes('공간솔루션') || lbl.includes('상품/디지털') || lbl.includes('상품·디지털')) return '공간솔루션-SSC';
-            if (lbl.includes('펀드운용')) return '펀드운용-KAM';
-            if (lbl.includes('IPR')) return 'IPR-WG';
-        }
-        return getCellName(log.writer_name);
-    };
+    const getCellName = getDirectorStaffCell;
+    const getLogCell = getDirectorLogCell;
 
     const getWorkspacePath = (log) => {
         if (log.metadata?.workspace_code) {
@@ -265,13 +220,13 @@ export default function DecisionLog() {
             if (code.includes('ipr')) return 'platform/iotaseoul/workspace/ipr';
         }
         const cell = getLogCell(log);
-        if (cell.includes('사업 PM 1')) return 'platform/iotaseoul/workspace/pm1';
-        if (cell.includes('사업 PM 2')) return 'platform/iotaseoul/workspace/pm2';
-        if (cell.includes('파이낸싱')) return 'platform/iotaseoul/workspace/financing';
+        if (cell.includes('사업1파트')) return 'platform/iotaseoul/workspace/pm1';
+        if (cell.includes('사업2파트')) return 'platform/iotaseoul/workspace/pm2';
+        if (cell.includes('LFC')) return 'platform/iotaseoul/workspace/financing';
         if (cell.includes('개발솔루션')) return 'platform/iotaseoul/workspace/development';
         if (cell.includes('기업마케팅')) return 'platform/iotaseoul/workspace/marketing';
         if (cell.includes('공간솔루션')) return 'platform/iotaseoul/workspace/digital';
-        if (cell.includes('펀드운용')) return 'platform/iotaseoul/workspace/fund';
+        if (cell.includes('KAM')) return 'platform/iotaseoul/workspace/fund';
         if (cell.includes('IPR')) return 'platform/iotaseoul/workspace/ipr';
         return null;
     };
@@ -394,10 +349,12 @@ export default function DecisionLog() {
         if (hasGroups) {
             const myStakeholderRecords = masterStakeholders.filter(s => s.contact_name === myName);
             const myRoles = myStakeholderRecords.map(s => s.role_category).filter(Boolean);
+            const myOrganization = normalizeIotaOrganization(memberInfo?.org_name);
             
             for (const group of perms.groups) {
                 if (group === "각 워크스페이스" && myStakeholderRecords.length > 0) return true;
                 if (myRoles.includes(group)) return true;
+                if (myOrganization && normalizeIotaOrganization(group) === myOrganization) return true;
                 
                 if (group === "PO" && myName === "이철승") return true;
                 if (group === "Sub-PO" && ["윤관식", "정조민", "우형석"].includes(myName)) return true;
@@ -764,12 +721,12 @@ export default function DecisionLog() {
 
     const workspaces = [
         { id: 'ws1', label: '사업 PM', cell: '사업PM', icon: <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg> },
-        { id: 'ws2', label: '파이낸싱-LFC', cell: '파이낸싱-LFC', icon: <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> },
-        { id: 'ws3', label: '개발솔루션-DSC', cell: '개발솔루션-DSC', icon: <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><circle cx="12" cy="12" r="3" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" /></svg> },
-        { id: 'ws4', label: '기업마케팅-EMC', cell: '기업마케팅-EMC', icon: <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" /></svg> },
-        { id: 'ws5', label: '공간솔루션-SSC', cell: '공간솔루션-SSC', icon: <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg> },
-        { id: 'ws6', label: '펀드운용-KAM', cell: '펀드운용-KAM', icon: <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg> },
-        { id: 'ws7', label: 'IPR-WG', cell: 'IPR', icon: <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg> },
+        { id: 'ws2', label: 'LFC', cell: 'LFC', icon: <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> },
+        { id: 'ws3', label: '개발솔루션', cell: '개발솔루션', icon: <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543-.94-3.31.826-2.37 2.37a1.724 1.724 0 00-1.065 2.572c-1.756.426-1.756 2.924 0 3.35a1.724 1.724 0 001.066 2.573c-.94 1.543.826 3.31 2.37 2.37.996.608 2.296.07 2.572-1.065z" /><circle cx="12" cy="12" r="3" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" /></svg> },
+        { id: 'ws4', label: '기업마케팅', cell: '기업마케팅', icon: <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" /></svg> },
+        { id: 'ws5', label: '공간솔루션', cell: '공간솔루션', icon: <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg> },
+        { id: 'ws6', label: 'KAM', cell: 'KAM', icon: <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg> },
+        { id: 'ws7', label: 'IPR', cell: 'IPR', icon: <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg> },
         { id: 'ws8', label: '기획추진', cell: '기획추진', icon: <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" strokeWidth="1.5"></circle><circle cx="12" cy="12" r="6" strokeWidth="1.5"></circle><circle cx="12" cy="12" r="2" strokeWidth="1.5"></circle></svg> }
     ];
 
@@ -819,7 +776,7 @@ export default function DecisionLog() {
 
     const getLineBadgeStyle = (cell) => {
         const norm = (cell || '').replace(/\s+/g, '').toUpperCase();
-        if (norm.includes('PM')) {
+        if (norm.includes('PM') || norm.includes('사업1파트') || norm.includes('사업2파트')) {
             return 'bg-[#30d158]/10 text-[#34d399] border border-[#30d158]/20'; // Green
         } else if (norm.includes('LFC') || norm.includes('파이낸싱')) {
             return 'bg-[#0a84ff]/10 text-[#60a5fa] border border-[#0a84ff]/20'; // Blue
@@ -1014,7 +971,7 @@ export default function DecisionLog() {
                     </div>
 
                     <div className="flex items-center gap-[8px] overflow-x-auto scrollbar-hide">
-                        {['전체', '사업 PM 1', '사업 PM 2', '파이낸싱-LFC', '개발솔루션-DSC', '기업마케팅-EMC', '공간솔루션-SSC', '펀드운용-KAM', 'IPR-WG'].map(lineFilter => (
+                        {['전체', '사업1파트', '사업2파트', 'LFC', '개발솔루션', '기업마케팅', '공간솔루션', 'KAM', 'IPR'].map(lineFilter => (
                             <button
                                 key={lineFilter}
                                 onClick={() => setIotaLogsLineFilter(lineFilter)}
@@ -1572,7 +1529,7 @@ export default function DecisionLog() {
                                 >
                                     <option disabled value="" className="bg-[#222] text-[#86868B] font-bold">[ 기능셀 ]</option>
                                     <option value="" className="bg-[#222] text-[#E5E5E5]">전체보기</option>
-                                    {['사업PM', '파이낸싱-LFC', '개발솔루션-DSC', '기업마케팅-EMC', '공간솔루션-SSC', '펀드운용-KAM', 'IPR', '기획추진', 'CFT 총괄'].map(val => (
+                                    {['사업1파트', '사업2파트', 'LFC', '개발솔루션', '기업마케팅', '공간솔루션', 'KAM', 'IPR', '기획추진', 'CFT 총괄'].map(val => (
                                         <option key={val} value={val} className="bg-[#222] text-[#E5E5E5]">{val}</option>
                                     ))}
                                 </select>

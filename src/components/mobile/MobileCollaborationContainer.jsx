@@ -6,20 +6,12 @@ import {
     getDirectorLogTitle,
     getDirectorStaffCell,
 } from '../../utils/directorWorkflowLogs';
+import { IOTA_ORGANIZATION_ORDER, normalizeIotaOrganization } from '../../utils/iotaOrganizations.js';
 
 const feedFilters = ['전체', '업무 메시지', '단발성 업무'];
 const departmentsList = [
     '전체',
-    '사업 PM 1',
-    '사업 PM 2',
-    '파이낸싱-LFC',
-    '개발솔루션-DSC',
-    '기업마케팅-EMC',
-    '공간솔루션-SSC',
-    '펀드운용-KAM',
-    'IPR-WG',
-    '기획추진',
-    'CFT 총괄',
+    ...IOTA_ORGANIZATION_ORDER.filter((organization) => organization !== '공통'),
 ];
 
 const getSafeDate = (value) => {
@@ -43,20 +35,7 @@ const formatDate = (value) => {
 
 const normalizeDepartmentName = (value) => {
     const rawValue = typeof value === 'object' ? value?.dept_name : value;
-    const department = String(rawValue || '').trim();
-    const normalized = department.toUpperCase();
-
-    if (normalized.includes('PM2') || department.includes('사업관리2파트') || department.includes('사업2파트')) return '사업 PM 2';
-    if (normalized.includes('PM1') || department.includes('사업관리1파트') || department.includes('사업1파트')) return '사업 PM 1';
-    if (normalized.includes('LFC') || department.includes('파이낸싱')) return '파이낸싱-LFC';
-    if (normalized.includes('DEV') || normalized.includes('DSC') || department.includes('개발관리') || department.includes('개발솔루션')) return '개발솔루션-DSC';
-    if (normalized.includes('MKT') || normalized.includes('EMC') || department.includes('기업마케팅')) return '기업마케팅-EMC';
-    if (normalized.includes('DESIGN') || normalized.includes('SSC') || department.includes('공간솔루션')) return '공간솔루션-SSC';
-    if (normalized.includes('FUND') || normalized.includes('KAM') || department.includes('펀드운용')) return '펀드운용-KAM';
-    if (normalized.includes('IPR')) return 'IPR-WG';
-    if (department.includes('기획추진')) return '기획추진';
-    if (normalized.includes('CFT') || department.includes('총괄')) return 'CFT 총괄';
-    return department || '공통';
+    return normalizeIotaOrganization(rawValue, '공통');
 };
 
 const getPopupDepartment = (task) => normalizeDepartmentName(

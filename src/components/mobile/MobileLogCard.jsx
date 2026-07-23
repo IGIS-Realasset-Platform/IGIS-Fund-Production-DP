@@ -1,4 +1,5 @@
 import React from 'react';
+import { normalizeIotaOrganization } from '../../utils/iotaOrganizations.js';
 
 export default function MobileLogCard({ log, memberInfo, onClick, isExpanded }) {
     const isVisibleTo = () => {
@@ -18,7 +19,8 @@ export default function MobileLogCard({ log, memberInfo, onClick, isExpanded }) 
 
         if (groups.length === 0) return true; // public if no explicit groups
         if (memberInfo.role_code && groups.includes(memberInfo.role_code)) return true;
-        if (memberInfo.org_name && groups.some(g => memberInfo.org_name.includes(g) || g.includes(memberInfo.org_name))) return true;
+        const memberOrganization = normalizeIotaOrganization(memberInfo.org_name);
+        if (memberOrganization && groups.some((group) => normalizeIotaOrganization(group) === memberOrganization)) return true;
 
         // Legacy PO overrides
         if (groups.includes('PO') && memberInfo.staff_name === '이철승') return true;

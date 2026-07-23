@@ -306,7 +306,7 @@ export default function WorkspaceMarketing() {
                 await notifyVIPsOnTaskCreation(taskId, newTask.task_name, '기업마케팅', 'WS_EMC');
 
                 // 알림 발송 (UI 블로킹 없이 백그라운드로 처리)
-                notifyMembersOnTaskCreation(taskId, newTask.task_name, { code: 'WS_EMC', label: '기업마케팅-EMC', orgNames: ['기업마케팅'] }, memberInfo?.email);
+                notifyMembersOnTaskCreation(taskId, newTask.task_name, { code: 'WS_EMC', label: '기업마케팅', orgNames: ['기업마케팅'] }, memberInfo?.email);
             }
             
             setNewTask({ task_name: '', company_name: '', related_asset: 'IOTA 공통', status: '아이데이션', priority: '중간', due_date: new Date().toLocaleDateString('en-CA'), next_action: '', notes: '' });
@@ -599,7 +599,7 @@ export default function WorkspaceMarketing() {
                 {/* Header Metadata */}
                 <div className="shrink-0 max-w-[400px]">
                     <h1 className="text-[32px] font-bold text-white tracking-tight leading-none font-['Inter'] mb-[12px]">기업마케팅</h1>
-                    <p className="text-[15px] text-[#86868B] leading-[24px] break-keep">기업마케팅센터 (CMC) 업무 프로그레스 및 기업마케팅 DB</p>
+                    <p className="text-[15px] text-[#86868B] leading-[24px] break-keep">기업마케팅 업무 프로그레스 및 기업마케팅 DB</p>
                 </div>
                 
                 {/* Team Structure */}
@@ -824,7 +824,7 @@ export default function WorkspaceMarketing() {
             )}
 
             <div className="w-full mt-[10px]"></div>
-            <WorkspaceActivityLog workspaceCode="WS_EMC" workspaceLabel="기업마케팅-EMC" />
+            <WorkspaceActivityLog workspaceCode="WS_EMC" workspaceLabel="기업마케팅" />
 
             {/* 3. Pipeline 관리 */}
             <div className="mb-[40px]">

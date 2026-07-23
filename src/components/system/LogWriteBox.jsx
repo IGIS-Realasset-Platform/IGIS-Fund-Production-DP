@@ -64,7 +64,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
     const btnPadding = isTaskBoard ? 'py-[6px]' : 'py-[10px]';
     const btnRounding = isTaskBoard ? 'rounded-[8px]' : 'rounded-[10px]';
     const [visibilitySearchQuery, setVisibilitySearchQuery] = useState('');
-    const visibilityGroupOptions = ["PO", "Sub-PO", "CFT 책임인력", "기획추진", "사업PM", "파이낸싱-LFC", "개발관리", "기업마케팅", "공간솔루션", "펀드운용", "IPR-WG"];
+    const visibilityGroupOptions = ["PO", "Sub-PO", "CFT 책임인력", "기획추진", "사업1파트", "사업2파트", "LFC", "개발솔루션", "기업마케팅", "공간솔루션", "KAM", "IPR"];
     const iconChevronGray = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' fill='none' stroke='%23A1A1AA' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' viewBox='0 0 24 24'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")`;
     const iconChevronDark = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' viewBox='0 0 24 24'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")`;
 
@@ -409,7 +409,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
                     writer_staff_id: writerId,
                     writer_name: writerName,
                     input_status: 'submitted',
-                    source_system: isTaskBoard ? 'task_board' : (workspaceCode === 'WS_PM' ? 'workspace_pm_form' : 'decision_log_form'),
+                    source_system: isTaskBoard ? 'task_board' : (['WS_PM1', 'WS_PM2', 'WS_PM'].includes(workspaceCode) ? 'workspace_pm_form' : 'decision_log_form'),
                 }));
                 if (logError) throw logError;
 

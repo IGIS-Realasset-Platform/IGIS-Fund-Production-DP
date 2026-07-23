@@ -4,9 +4,10 @@ import { useAuth } from '../../../context/AuthContext';
 import WorkspaceActivityLog from '../workspace/WorkspaceActivityLog';
 import { notifyMembersOnTaskCreation } from '../../../utils/notificationHelpers';
 import { calculatePmoPriorityScore as calculatePriorityScore, comparePmoTasksByCreatedAt, comparePmoTasksByPriority, getPmoMeetingGrade, matchesPmoStatusFilter, parseTaskBoolean as parseBool } from '../../../utils/pmoTaskPriority';
+import { normalizeIotaDepartmentList, normalizeIotaOrganization } from '../../../utils/iotaOrganizations.js';
 import toast from 'react-hot-toast';
 
-export const FALLBACK_BOARD_TASKS = [
+const RAW_FALLBACK_BOARD_TASKS = [
   {
     "id": "T-001",
     "project": "공통",
@@ -1198,18 +1199,25 @@ export const FALLBACK_BOARD_TASKS = [
   }
 ];
 
+export const FALLBACK_BOARD_TASKS = RAW_FALLBACK_BOARD_TASKS.map((task) => ({
+    ...task,
+    pmo_manager: normalizeIotaOrganization(task.pmo_manager, '사업2파트'),
+    lead_dept: normalizeIotaOrganization(task.lead_dept, '사업2파트'),
+    coop_depts: normalizeIotaDepartmentList(task.coop_depts).join(';'),
+}));
+
 // Department name normalization helper
 const normalizeDeptName = (name, isCoop = false) => {
     if (!name) return isCoop ? '' : '사업2파트';
     const clean = String(name).trim().toUpperCase();
     
-    if (clean.includes('기획추진') || clean.includes('DEPT_PO') || clean.includes('PO')) return '기획추진';
     if (clean.includes('SUB-PO') || clean.includes('SUB PO')) return 'Sub-PO';
     if (clean === 'PO') return 'PO';
+    if (clean.includes('기획추진') || clean.includes('DEPT_PO')) return '기획추진';
     if (clean.includes('CFT') || clean.includes('총괄')) return 'CFT 책임인력';
-    if (clean.includes('IPR')) return 'IPR-WG';
-    if (clean.includes('사업PM')) return '사업PM';
-    if (clean.includes('펀드운용')) return '펀드운용';
+    if (clean.includes('IPR')) return 'IPR';
+    if (clean.includes('사업PM') && !clean.includes('PM1') && !clean.includes('PM2')) return '사업2파트';
+    if (clean.includes('펀드운용')) return 'KAM';
 
     if (clean.includes('LFC') || clean.includes('금융') || clean.includes('파이낸싱')) return 'LFC';
     if (clean.includes('사업관리1') || clean.includes('사업1') || clean.includes('관리1') || clean.includes('PM1')) return '사업1파트';
@@ -1221,7 +1229,9 @@ const normalizeDeptName = (name, isCoop = false) => {
     if (clean.includes('전부서') || clean.includes('전 부서') || clean.includes('전체')) {
         return isCoop ? '전부서' : '사업2파트';
     }
-    if (clean.includes('외부') || clean.includes('법무') || clean.includes('세무') || clean.includes('자문')) return 'KAM';
+    if (clean.includes('외부') || clean.includes('법무') || clean.includes('세무') || clean.includes('자문')) {
+        return isCoop ? String(name).trim() : '사업2파트';
+    }
     
     return isCoop ? name || '전부서' : '사업2파트';
 };
@@ -1342,10 +1352,10 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
     const [departments, setDepartments] = useState([
         { dept_code: 'DEPT_PM2', dept_name: '사업2파트' },
         { dept_code: 'DEPT_PO', dept_name: '기획추진' },
-        { dept_code: 'DEPT_LFC', dept_name: 'LFC(금융)' },
-        { dept_code: 'DEPT_DEV', dept_name: '개발관리실' },
-        { dept_code: 'DEPT_DESIGN', dept_name: '설계실' },
-        { dept_code: 'DEPT_MKT', dept_name: '마케팅팀' }
+        { dept_code: 'DEPT_LFC', dept_name: 'LFC' },
+        { dept_code: 'DEPT_DEV', dept_name: '개발솔루션' },
+        { dept_code: 'DEPT_DESIGN', dept_name: '공간솔루션' },
+        { dept_code: 'DEPT_MKT', dept_name: '기업마케팅' }
     ]);
     const [stakeholders, setStakeholders] = useState([
         { stakeholder_code: 'SH_LP_01', stakeholder_name: '이지스자산운용' },
@@ -1506,17 +1516,8 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
     // Cooperative department helper matching logic
     const isCoopDeptSelected = (dept, currentVal) => {
         if (!currentVal) return false;
-        const selectedList = currentVal.split(/[,;/]+/).map(d => d.trim().toLowerCase()).filter(Boolean);
-        const cleanDept = dept.toLowerCase();
-        
-        return selectedList.some(sel => {
-            if (sel === cleanDept) return true;
-            if (cleanDept.includes(sel) || sel.includes(cleanDept)) return true;
-            if (sel === 'lfc' && cleanDept.includes('lfc')) return true;
-            if (cleanDept === '파이낸싱-lfc' && sel.includes('lfc')) return true;
-            if (sel === '개발관리실' && cleanDept === '개발관리') return true;
-            return false;
-        });
+        const selectedList = normalizeIotaDepartmentList(currentVal);
+        return selectedList.includes(normalizeIotaOrganization(dept));
     };
 
     const handleCoopDeptToggle = (dept) => {
@@ -1525,16 +1526,8 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
         
         let newList;
         if (isSelected) {
-            newList = selectedList.filter(item => {
-                const cleanItem = item.toLowerCase();
-                const cleanDept = dept.toLowerCase();
-                if (cleanItem === cleanDept) return false;
-                if (cleanDept.includes(cleanItem) || cleanItem.includes(cleanDept)) return false;
-                if (cleanItem === 'lfc' && cleanDept.includes('lfc')) return false;
-                if (cleanDept === '파이낸싱-lfc' && cleanItem.includes('lfc')) return false;
-                if (cleanItem === '개발관리실' && cleanDept === '개발관리') return false;
-                return true;
-            });
+            const normalizedDept = normalizeIotaOrganization(dept);
+            newList = selectedList.filter(item => normalizeIotaOrganization(item) !== normalizedDept);
         } else {
             newList = [...selectedList, dept];
         }
@@ -1556,7 +1549,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
             org.includes('기획추진') ||
             org.includes('시스템 관리자(기획추진)') ||
             role.toUpperCase().includes('PO') ||
-            workspace === 'WS_PM' ||
+            ['WS_PM2', 'WS_PM'].includes(workspace) ||
             role === 'master' ||
             role === 'director'
         );
@@ -3912,7 +3905,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                                         <div className="space-y-1 col-span-2">
                                             <span className="text-[#86868B] text-[11px] block">협조 부서 (다중 선택 가능)</span>
                                             <div className="flex flex-wrap gap-1.5 bg-[#2c2c2b] p-3 rounded-[8px] border border-red-500/30 max-h-[120px] overflow-y-auto">
-                                                {['PO', 'Sub-PO', 'CFT 책임인력', '기획추진', '사업PM', '파이낸싱-LFC', '개발관리', '기업마케팅', '공간솔루션', '펀드운용', 'IPR-WG'].map(dept => {
+                                                {['PO', 'Sub-PO', 'CFT 책임인력', '기획추진', '사업1파트', '사업2파트', 'LFC', '개발솔루션', '기업마케팅', '공간솔루션', 'KAM', 'IPR'].map(dept => {
                                                     const isSelected = isCoopDeptSelected(dept, formCoopDepts);
                                                     return (
                                                         <button 

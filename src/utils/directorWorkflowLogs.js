@@ -1,64 +1,39 @@
+import {
+    getIotaOrganizationByStaff,
+    getIotaOrganizationFromWorkspace,
+    IOTA_ORGANIZATION_ORDER,
+    normalizeIotaOrganization,
+} from './iotaOrganizations.js';
+
 const DIRECTOR_LOGS_ENDPOINT = 'https://qvegpozwrcmspdvjokiz.supabase.co/functions/v1/iota-logs';
 const CACHE_TTL_MS = 5 * 60 * 1000;
 
-export const DIRECTOR_LOG_LINE_ORDER = [
-    '사업 PM 1',
-    '사업 PM 2',
-    '파이낸싱-LFC',
-    '개발솔루션-DSC',
-    '기업마케팅-EMC',
-    '공간솔루션-SSC',
-    '펀드운용-KAM',
-    'IPR-WG',
-    '기획추진',
-    'CFT 총괄',
-    '공통',
-];
-
-const STAFF_CELL_MAP = {
-    '전기영': '기획추진', '이시정': '기획추진', '이관용': '기획추진',
-    '이철승': 'CFT 총괄', '윤관식': 'CFT 총괄', '정조민': 'CFT 총괄', '우형석': 'CFT 총괄',
-    '권순일': '사업 PM 1', '윤주형': '사업 PM 1', '김제익': '사업 PM 1', '류홍': '사업 PM 1', '박만진': '사업 PM 1', '박일훈': '사업 PM 1', '이정원': '사업 PM 1', '전무경': '사업 PM 1',
-    '강순용': '사업 PM 2', '한찬호': '사업 PM 2', '박석제': '사업 PM 2', '박채현': '사업 PM 2', '소현준': '사업 PM 2', '이수정': '사업 PM 2', '조영비': '사업 PM 2', '한수정': '사업 PM 2',
-    '박준호': '파이낸싱-LFC', '강석민': '파이낸싱-LFC', '정리훈': '파이낸싱-LFC', '손유정': '파이낸싱-LFC', '김지우': '파이낸싱-LFC', '박현승': '파이낸싱-LFC', '이성민A': '파이낸싱-LFC', '한승환': '파이낸싱-LFC',
-    '홍장군': '개발솔루션-DSC', '채원': '개발솔루션-DSC', '김보성': '개발솔루션-DSC', '전승희': '개발솔루션-DSC', '김대익': '개발솔루션-DSC', '장성진': '개발솔루션-DSC', '이정훈': '개발솔루션-DSC', '박봉서': '개발솔루션-DSC', '김형주': '개발솔루션-DSC',
-    '김민지': '기업마케팅-EMC', '고아라': '기업마케팅-EMC',
-    '김현수': '공간솔루션-SSC', '현철호': '공간솔루션-SSC', '신민호': '공간솔루션-SSC', '이가현': '공간솔루션-SSC', '정수명': '공간솔루션-SSC',
-    '김행단': '펀드운용-KAM', '윤용택': 'IPR-WG',
-};
+export const DIRECTOR_LOG_LINE_ORDER = IOTA_ORGANIZATION_ORDER;
 
 let cachedLogs = null;
 let cachedAt = 0;
 let pendingRequest = null;
 
-export const getDirectorStaffCell = (name) => STAFF_CELL_MAP[name] || '공통';
+export const getDirectorStaffCell = (name) => getIotaOrganizationByStaff(name);
 
 export const getDirectorLogCell = (log) => {
     const workspaceCode = String(log?.metadata?.workspace_code || '').toUpperCase();
-    if (workspaceCode === 'WS_PM1' || workspaceCode === 'PM1' || workspaceCode === 'PM_1') return '사업 PM 1';
-    if (workspaceCode === 'WS_PM2' || workspaceCode === 'PM2' || workspaceCode === 'PM_2') return '사업 PM 2';
+    if (workspaceCode === 'WS_PM1' || workspaceCode === 'PM1' || workspaceCode === 'PM_1') return '사업1파트';
+    if (workspaceCode === 'WS_PM2' || workspaceCode === 'PM2' || workspaceCode === 'PM_2') return '사업2파트';
     if (workspaceCode === 'WS_PM' || workspaceCode === 'PM') {
-        return getDirectorStaffCell(log?.writer_name) === '사업 PM 2' ? '사업 PM 2' : '사업 PM 1';
+        return getDirectorStaffCell(log?.writer_name) === '사업2파트' ? '사업2파트' : '사업1파트';
     }
-    if (workspaceCode.includes('FINANCING') || workspaceCode.includes('LFC')) return '파이낸싱-LFC';
-    if (workspaceCode.includes('DEVELOPMENT') || workspaceCode.includes('DSC')) return '개발솔루션-DSC';
-    if (workspaceCode.includes('MARKETING') || workspaceCode.includes('EMC')) return '기업마케팅-EMC';
-    if (workspaceCode.includes('DIGITAL') || workspaceCode.includes('SSC')) return '공간솔루션-SSC';
-    if (workspaceCode.includes('FUND') || workspaceCode.includes('KAM')) return '펀드운용-KAM';
-    if (workspaceCode.includes('IPR')) return 'IPR-WG';
+    const organizationByCode = getIotaOrganizationFromWorkspace(workspaceCode, log?.writer_name);
+    if (organizationByCode) return organizationByCode;
 
     const workspaceLabel = String(log?.metadata?.workspace_label || '');
-    if (workspaceLabel.includes('사업 PM 1') || workspaceLabel.includes('사업PM 1') || workspaceLabel.includes('사업PM1')) return '사업 PM 1';
-    if (workspaceLabel.includes('사업 PM 2') || workspaceLabel.includes('사업PM 2') || workspaceLabel.includes('사업PM2')) return '사업 PM 2';
+    if (workspaceLabel.includes('사업 PM 1') || workspaceLabel.includes('사업PM 1') || workspaceLabel.includes('사업PM1')) return '사업1파트';
+    if (workspaceLabel.includes('사업 PM 2') || workspaceLabel.includes('사업PM 2') || workspaceLabel.includes('사업PM2')) return '사업2파트';
     if (workspaceLabel.includes('사업 PM') || workspaceLabel.includes('사업PM')) {
-        return getDirectorStaffCell(log?.writer_name) === '사업 PM 2' ? '사업 PM 2' : '사업 PM 1';
+        return getDirectorStaffCell(log?.writer_name) === '사업2파트' ? '사업2파트' : '사업1파트';
     }
-    if (workspaceLabel.includes('파이낸싱')) return '파이낸싱-LFC';
-    if (workspaceLabel.includes('개발솔루션')) return '개발솔루션-DSC';
-    if (workspaceLabel.includes('기업마케팅')) return '기업마케팅-EMC';
-    if (workspaceLabel.includes('공간솔루션') || workspaceLabel.includes('상품/디지털') || workspaceLabel.includes('상품·디지털')) return '공간솔루션-SSC';
-    if (workspaceLabel.includes('펀드운용')) return '펀드운용-KAM';
-    if (workspaceLabel.includes('IPR')) return 'IPR-WG';
+    const organizationByLabel = normalizeIotaOrganization(workspaceLabel);
+    if (IOTA_ORGANIZATION_ORDER.includes(organizationByLabel)) return organizationByLabel;
     return getDirectorStaffCell(log?.writer_name);
 };
 
@@ -117,7 +92,7 @@ export const getDirectorWorkspacePath = (log) => {
     if (['ws_pm2', 'pm2', 'pm_2'].includes(workspaceCode)) return 'platform/iotaseoul/workspace/pm2';
     if (['ws_pm1', 'pm1', 'pm_1'].includes(workspaceCode)) return 'platform/iotaseoul/workspace/pm1';
     if (['ws_pm', 'pm'].includes(workspaceCode)) {
-        return getDirectorLogCell(log) === '사업 PM 2'
+        return getDirectorLogCell(log) === '사업2파트'
             ? 'platform/iotaseoul/workspace/pm2'
             : 'platform/iotaseoul/workspace/pm1';
     }
@@ -131,7 +106,11 @@ export const getDirectorWorkspacePath = (log) => {
 };
 
 export const getDirectorLogLineOptions = (logs) => {
-    const availableLines = new Set((logs || []).map((log) => log.line).filter(Boolean));
+    const availableLines = new Set(
+        (logs || [])
+            .map((log) => normalizeIotaOrganization(log.line))
+            .filter(Boolean)
+    );
     const orderedLines = DIRECTOR_LOG_LINE_ORDER.filter((line) => availableLines.has(line));
     const additionalLines = [...availableLines]
         .filter((line) => !DIRECTOR_LOG_LINE_ORDER.includes(line))

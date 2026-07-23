@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { supabase } from '../../../utils/supabaseClient';
 import { executeWithTimeout } from '../../../utils/supabaseHelper';
 import { notifyMembersOnCommentCreation } from '../../../utils/notificationHelpers';
+import { getDirectorLogCell } from '../../../utils/directorWorkflowLogs';
+import { normalizeIotaOrganization } from '../../../utils/iotaOrganizations.js';
 import { useAuth } from '../../../context/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import LogWriteBox from '../LogWriteBox';
@@ -11,11 +13,11 @@ const getWorkspaceMessageTitle = (workspaceCode, workspaceLabel) => {
     const workspaceTitles = {
         WS_PM1: '사업1파트 업무 메시지',
         WS_PM2: '사업2파트 업무 메시지',
-        WS_LFC: '파이낸싱 업무 메시지',
+        WS_LFC: 'LFC 업무 메시지',
         WS_DSC: '개발솔루션 업무 메시지',
         WS_EMC: '기업마케팅 업무 메시지',
         WS_SSC: '공간솔루션 업무 메시지',
-        WS_KAM: '펀드운용 업무 메시지',
+        WS_KAM: 'KAM 업무 메시지',
         WS_IPR: 'IPR 업무 메시지',
     };
 
@@ -807,7 +809,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
         if (pilotMembers && pilotMembers.length > 0) {
             const member = pilotMembers.find(m => m.staff_name === name);
             if (member && member.org_name) {
-                return member.org_name;
+                return normalizeIotaOrganization(member.org_name);
             }
         }
         if (!masterStakeholders || masterStakeholders.length === 0) return '기타';
@@ -825,37 +827,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
         if (isTaskBoard) {
             return getCellName(log.writer_name);
         }
-        if (log.metadata?.workspace_code) {
-            const code = log.metadata.workspace_code.toUpperCase();
-            if (code === 'WS_PM1' || code === 'PM1' || code === 'PM_1') return '사업 PM 1';
-            if (code === 'WS_PM2' || code === 'PM2' || code === 'PM_2') return '사업 PM 2';
-            if (code === 'WS_PM' || code === 'PM') {
-                const pm2Members = ['강순용', '한찬호', '박석제', '박채현', '소현준', '이수정', '조영비', '한수정'];
-                return pm2Members.includes(log.writer_name) ? '사업 PM 2' : '사업 PM 1';
-            }
-            if (code.includes('FINANCING') || code.includes('LFC')) return '파이낸싱-LFC';
-            if (code.includes('DEVELOPMENT') || code.includes('DSC')) return '개발솔루션-DSC';
-            if (code.includes('MARKETING') || code.includes('EMC')) return '기업마케팅-EMC';
-            if (code.includes('DIGITAL') || code.includes('SSC')) return '공간솔루션-SSC';
-            if (code.includes('FUND') || code.includes('KAM')) return '펀드운용-KAM';
-            if (code.includes('IPR')) return 'IPR-WG';
-        }
-        if (log.metadata?.workspace_label) {
-            const lbl = log.metadata.workspace_label;
-            if (lbl.includes('사업 PM 1') || lbl.includes('사업PM 1') || lbl.includes('사업PM1')) return '사업 PM 1';
-            if (lbl.includes('사업 PM 2') || lbl.includes('사업PM 2') || lbl.includes('사업PM2')) return '사업 PM 2';
-            if (lbl.includes('사업 PM') || lbl.includes('사업PM')) {
-                const pm2Members = ['강순용', '한찬호', '박석제', '박채현', '소현준', '이수정', '조영비', '한수정'];
-                return pm2Members.includes(log.writer_name) ? '사업 PM 2' : '사업 PM 1';
-            }
-            if (lbl.includes('파이낸싱')) return '파이낸싱-LFC';
-            if (lbl.includes('개발솔루션')) return '개발솔루션-DSC';
-            if (lbl.includes('기업마케팅')) return '기업마케팅-EMC';
-            if (lbl.includes('공간솔루션') || lbl.includes('상품/디지털') || lbl.includes('상품·디지털')) return '공간솔루션-SSC';
-            if (lbl.includes('펀드운용')) return '펀드운용-KAM';
-            if (lbl.includes('IPR')) return 'IPR-WG';
-        }
-        return getCellName(log.writer_name);
+        return getDirectorLogCell(log);
     };
 
 
@@ -921,10 +893,12 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
         if (hasGroups) {
             const myStakeholderRecords = masterStakeholders.filter(s => s.contact_name === myName);
             const myRoles = myStakeholderRecords.map(s => s.role_category).filter(Boolean);
+            const myOrganization = normalizeIotaOrganization(memberInfo?.org_name);
             
             for (const group of perms.groups) {
                 if (group === "각 워크스페이스" && myStakeholderRecords.length > 0) return true;
                 if (myRoles.includes(group)) return true;
+                if (myOrganization && normalizeIotaOrganization(group) === myOrganization) return true;
                 
                 if (group === "PO" && myName === "이철승") return true;
                 if (group === "Sub-PO" && ["윤관식", "정조민", "우형석"].includes(myName)) return true;

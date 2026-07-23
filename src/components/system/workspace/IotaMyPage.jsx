@@ -272,7 +272,7 @@ export default function IotaMyPage() {
 
         if (activity.navigationType === 'workspace') {
             const workspaceCode = String(activity.workspaceCode || '').toUpperCase();
-            const fallbackPmPath = activity.department === '사업 PM 2'
+            const fallbackPmPath = activity.department === '사업2파트'
                 ? 'platform/iotaseoul/workspace/pm2'
                 : 'platform/iotaseoul/workspace/pm1';
             const workspacePath = workspacePathMap[workspaceCode]

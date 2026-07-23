@@ -17,10 +17,10 @@ const FALLBACK_PROJECTS = [
 const FALLBACK_DEPARTMENTS = [
     { dept_code: 'DEPT_PM2', dept_name: '사업2파트' },
     { dept_code: 'DEPT_PO', dept_name: '기획추진' },
-    { dept_code: 'DEPT_LFC', dept_name: '파이낸싱-LFC' },
-    { dept_code: 'DEPT_DEV', dept_name: '개발관리실' },
-    { dept_code: 'DEPT_DESIGN', dept_name: '설계실' },
-    { dept_code: 'DEPT_MKT', dept_name: '마케팅팀' }
+    { dept_code: 'DEPT_LFC', dept_name: 'LFC' },
+    { dept_code: 'DEPT_DEV', dept_name: '개발솔루션' },
+    { dept_code: 'DEPT_DESIGN', dept_name: '공간솔루션' },
+    { dept_code: 'DEPT_MKT', dept_name: '기업마케팅' }
 ];
 
 const CATEGORY_OPTIONS = [
@@ -81,7 +81,7 @@ export default function PmoPopupManager() {
 
     // Check Roles
     const currentUserEmail = user?.email || memberInfo?.email || '';
-    const isAdmin = memberInfo ? (memberInfo.workspace_code === 'WS_PM' || ['master', 'director'].includes(memberInfo.role_code)) : true;
+    const isAdmin = memberInfo ? (['WS_PM2', 'WS_PM'].includes(memberInfo.workspace_code) || ['master', 'director'].includes(memberInfo.role_code)) : true;
 
     // Load Initial Data
     const fetchData = async () => {

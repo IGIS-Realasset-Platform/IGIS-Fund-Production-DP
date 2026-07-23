@@ -35,7 +35,7 @@ const dbLogs = [
         created_at: '2026-07-23T10:00:00Z',
         metadata: {
             workspace_code: 'WS_PM2',
-            workspace_label: '사업 PM 2',
+            workspace_label: '사업2파트',
             comments: [{
                 id: 'comment-1',
                 author: '전기영',
@@ -74,7 +74,7 @@ const dbLogs = [
         created_at: '2026-07-23T12:00:00Z',
         metadata: {
             workspace_code: 'WS_PM2',
-            workspace_label: '사업 PM 2',
+            workspace_label: '사업2파트',
         },
         iota_seoul_log_stakeholders: [{
             sh_name: '전기영',

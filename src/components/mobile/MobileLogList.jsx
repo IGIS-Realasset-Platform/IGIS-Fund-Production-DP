@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { supabase } from '../../utils/supabaseClient';
 import { getInitialWorkspace } from './mobileIotaData';
+import { getDirectorLogCell, getDirectorStaffCell } from '../../utils/directorWorkflowLogs';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function MobileLogList({ memberInfo, highlightLogId, onWorkspaceReset, onHighlightReset, refreshTrigger }) {
@@ -76,58 +77,12 @@ export default function MobileLogList({ memberInfo, highlightLogId, onWorkspaceR
         return `${yearStr}.${monthStr}.${dayStr}`;
     };
 
-    const getCellName = (name) => {
-        const cells = {
-            '전기영': '기획추진', '이시정': '기획추진', '이관용': '기획추진',
-            '이철승': 'CFT 총괄', '윤관식': 'CFT 총괄', '정조민': 'CFT 총괄', '우형석': 'CFT 총괄',
-            // 사업 PM 1
-            '권순일': '사업 PM 1', '윤주형': '사업 PM 1', '김제익': '사업 PM 1', '류홍': '사업 PM 1', '박만진': '사업 PM 1', '박일훈': '사업 PM 1', '이정원': '사업 PM 1', '전무경': '사업 PM 1',
-            // 사업 PM 2
-            '강순용': '사업 PM 2', '한찬호': '사업 PM 2', '박석제': '사업 PM 2', '박채현': '사업 PM 2', '소현준': '사업 PM 2', '이수정': '사업 PM 2', '조영비': '사업 PM 2', '한수정': '사업 PM 2',
-            '박준호': '파이낸싱-LFC', '강석민': '파이낸싱-LFC', '정리훈': '파이낸싱-LFC', '손유정': '파이낸싱-LFC', '김지우': '파이낸싱-LFC', '박현승': '파이낸싱-LFC', '이성민A': '파이낸싱-LFC', '한승환': '파이낸싱-LFC',
-            '홍장군': '개발솔루션-DSC', '채원': '개발솔루션-DSC', '김보성': '개발솔루션-DSC', '전승희': '개발솔루션-DSC', '김대익': '개발솔루션-DSC', '장성진': '개발솔루션-DSC', '이정훈': '개발솔루션-DSC', '박봉서': '개발솔루션-DSC', '김형주': '개발솔루션-DSC',
-            '김민지': '기업마케팅-EMC', '고아라': '기업마케팅-EMC',
-            '김현수': '공간솔루션-SSC', '현철호': '공간솔루션-SSC', '신민호': '공간솔루션-SSC', '이가현': '공간솔루션-SSC', '정수명': '공간솔루션-SSC',
-            '김행단': '펀드운용-KAM', '윤용택': 'IPR-WG'
-        };
-        return cells[name] || '공통';
-    };
-
-    const getLogCell = (log) => {
-        if (log.metadata?.workspace_code) {
-            const code = log.metadata.workspace_code.toUpperCase();
-            if (code === 'WS_PM1' || code === 'PM1' || code === 'PM_1') return '사업 PM 1';
-            if (code === 'WS_PM2' || code === 'PM2' || code === 'PM_2') return '사업 PM 2';
-            if (code === 'WS_PM' || code === 'PM') {
-                return getCellName(log.writer_name) === '사업 PM 2' ? '사업 PM 2' : '사업 PM 1';
-            }
-            if (code.includes('FINANCING') || code.includes('LFC')) return '파이낸싱-LFC';
-            if (code.includes('DEVELOPMENT') || code.includes('DSC')) return '개발솔루션-DSC';
-            if (code.includes('MARKETING') || code.includes('EMC')) return '기업마케팅-EMC';
-            if (code.includes('DIGITAL') || code.includes('SSC')) return '공간솔루션-SSC';
-            if (code.includes('FUND') || code.includes('KAM')) return '펀드운용-KAM';
-            if (code.includes('IPR')) return 'IPR-WG';
-        }
-        if (log.metadata?.workspace_label) {
-            const lbl = log.metadata.workspace_label;
-            if (lbl.includes('사업 PM 1') || lbl.includes('사업PM 1') || lbl.includes('사업PM1')) return '사업 PM 1';
-            if (lbl.includes('사업 PM 2') || lbl.includes('사업PM 2') || lbl.includes('사업PM2')) return '사업 PM 2';
-            if (lbl.includes('사업 PM') || lbl.includes('사업PM')) {
-                return getCellName(log.writer_name) === '사업 PM 2' ? '사업 PM 2' : '사업 PM 1';
-            }
-            if (lbl.includes('파이낸싱')) return '파이낸싱-LFC';
-            if (lbl.includes('개발솔루션')) return '개발솔루션-DSC';
-            if (lbl.includes('기업마케팅')) return '기업마케팅-EMC';
-            if (lbl.includes('공간솔루션') || lbl.includes('상품/디지털') || lbl.includes('상품·디지털')) return '공간솔루션-SSC';
-            if (lbl.includes('펀드운용')) return '펀드운용-KAM';
-            if (lbl.includes('IPR')) return 'IPR-WG';
-        }
-        return getCellName(log.writer_name);
-    };
+    const getCellName = getDirectorStaffCell;
+    const getLogCell = getDirectorLogCell;
 
     const getLineBadgeStyle = (cell) => {
         const norm = (cell || '').replace(/\s+/g, '').toUpperCase();
-        if (norm.includes('PM')) {
+        if (norm.includes('PM') || norm.includes('사업1파트') || norm.includes('사업2파트')) {
             return 'bg-[#30d158]/10 text-[#34d399] border border-[#30d158]/20'; // Green
         } else if (norm.includes('LFC') || norm.includes('파이낸싱')) {
             return 'bg-[#0a84ff]/10 text-[#60a5fa] border border-[#0a84ff]/20'; // Blue
@@ -176,6 +131,8 @@ export default function MobileLogList({ memberInfo, highlightLogId, onWorkspaceR
         }
 
         const pathMap = {
+            'WS_PM1': 'pm1',
+            'WS_PM2': 'pm2',
             'WS_PM': 'pm',
             'WS_LFC': 'financing',
             'WS_FINANCING': 'financing',

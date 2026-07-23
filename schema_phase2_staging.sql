@@ -50,12 +50,17 @@ ON CONFLICT (project_code) DO UPDATE SET project_name = EXCLUDED.project_name;
 
 -- B) 부서 마스터 데이터 적재
 INSERT INTO iota_v2.iota_departments (dept_code, dept_name) VALUES
-('DEPT_PM2', '사업관리2파트'),
-('DEPT_LFC', 'LFC(금융)'),
-('DEPT_DEV', '개발관리실'),
-('DEPT_DESIGN', '설계실'),
-('DEPT_MKT', '마케팅팀')
-ON CONFLICT (dept_code) DO NOTHING;
+('DEPT_PM1', '사업1파트'),
+('DEPT_PM2', '사업2파트'),
+('DEPT_LFC', 'LFC'),
+('DEPT_DEV', '개발솔루션'),
+('DEPT_DESIGN', '공간솔루션'),
+('DEPT_MKT', '기업마케팅'),
+('DEPT_KAM', 'KAM'),
+('DEPT_PO', '기획추진'),
+('DEPT_ALL', '전부서')
+ON CONFLICT (dept_code) DO UPDATE
+SET dept_name = EXCLUDED.dept_name;
 
 -- C) 외부상대방 마스터 데이터 적재
 INSERT INTO iota_v2.iota_stakeholders (stakeholder_code, stakeholder_name, category) VALUES
@@ -108,7 +113,7 @@ CREATE TABLE iota_v2.iota_pmo_tasks (
         'PF', '착공', '공사관리', '준공/사용승인', '담보대출/Take-out', '운영전환', '공통 PMO'
     )),                                                                     -- 최종 목표축
     gate_stage VARCHAR(10) CHECK (gate_stage IN ('G0', 'G1', 'G2', 'G3', 'G4', 'G5', 'G6')), -- G0~G6 마일스톤 단계
-    pmo_manager VARCHAR(100) DEFAULT '사업관리2파트',                         -- PMO 총괄 담당
+    pmo_manager VARCHAR(100) DEFAULT '사업2파트',                             -- PMO 총괄 담당
     lead_dept_code VARCHAR(50) REFERENCES iota_v2.iota_departments(dept_code), -- 주관부서 외래키
     coop_dept_codes VARCHAR(255),                                            -- 협업부서
     assignee VARCHAR(100),                                                   -- 담당자
@@ -184,14 +189,14 @@ CREATE POLICY "Allow authenticated insert to stakeholders" ON iota_v2.iota_stake
 CREATE POLICY "Allow authenticated insert to subsectors" ON iota_v2.iota_subsectors FOR INSERT TO authenticated WITH CHECK (true);
 CREATE POLICY "Allow authenticated insert to support_options" ON iota_v2.iota_support_options FOR INSERT TO authenticated WITH CHECK (true);
 
--- C) 사업관리2파트 및 임원진/어드민 대상 전체 편집 권한 부여 정책 (useAuth 연동)
+-- C) 사업2파트 및 임원진/어드민 대상 전체 편집 권한 부여 정책 (useAuth 연동)
 -- iota_seoul_pilot_members 테이블(기성)을 조회하여 소속 및 직무 검증 수행
 CREATE POLICY "Allow PM2 and admin full access to pmo_tasks" ON iota_v2.iota_pmo_tasks
     FOR ALL TO authenticated
     USING (
         auth.jwt() ->> 'email' IN (
             SELECT email FROM public.iota_seoul_pilot_members 
-            WHERE workspace_code = 'WS_PM' OR role_code IN ('master', 'director')
+            WHERE workspace_code IN ('WS_PM2', 'WS_PM') OR role_code IN ('master', 'director')
         )
     );
 
@@ -200,6 +205,6 @@ CREATE POLICY "Allow PM2 and admin full access to popup_requests" ON iota_v2.iot
     USING (
         auth.jwt() ->> 'email' IN (
             SELECT email FROM public.iota_seoul_pilot_members 
-            WHERE workspace_code = 'WS_PM' OR role_code IN ('master', 'director')
+            WHERE workspace_code IN ('WS_PM2', 'WS_PM') OR role_code IN ('master', 'director')
         )
     );

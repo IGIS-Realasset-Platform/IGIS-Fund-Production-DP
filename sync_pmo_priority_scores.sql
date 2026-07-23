@@ -392,11 +392,10 @@ USING (
     auth.jwt() ->> 'email' IN (
         SELECT email
         FROM public.iota_seoul_pilot_members
-        WHERE workspace_code = 'WS_PM'
+        WHERE workspace_code IN ('WS_PM2', 'WS_PM')
            OR role_code IN ('master', 'director')
            OR role_code ILIKE '%PO%'
            OR org_name ILIKE '%사업2파트%'
-           OR org_name ILIKE '%사업관리2파트%'
            OR org_name ILIKE '%기획추진%'
            OR org_name ILIKE '%시스템 관리자%'
     )
@@ -405,11 +404,10 @@ WITH CHECK (
     auth.jwt() ->> 'email' IN (
         SELECT email
         FROM public.iota_seoul_pilot_members
-        WHERE workspace_code = 'WS_PM'
+        WHERE workspace_code IN ('WS_PM2', 'WS_PM')
            OR role_code IN ('master', 'director')
            OR role_code ILIKE '%PO%'
            OR org_name ILIKE '%사업2파트%'
-           OR org_name ILIKE '%사업관리2파트%'
            OR org_name ILIKE '%기획추진%'
            OR org_name ILIKE '%시스템 관리자%'
     )
