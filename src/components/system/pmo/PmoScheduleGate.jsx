@@ -36,350 +36,96 @@ const TIMELINE_DATA = [
 ];
 
 const CATEGORY_MAP_DATA = [
-  {
-    category: "인허가",
-    subsector: "현금기부채납",
-    task: "현금기부채납 규모·시기·조건 협의",
-    pf: true,
-    const: false,
-    op: false,
-    lead: "개발관리실",
-    coop: ["사업2파트", "사업관리1파트"],
-    need: "관청 협의결과",
-    partner: "서울시/중구청",
-    point: "사업비 및 PF 조건에 직접 반영"
-  },
-  {
-    category: "인허가",
-    subsector: "소공원로",
-    task: "소공원로 지하화/통합개발 인허가",
-    pf: true,
-    const: false,
-    op: false,
-    lead: "개발관리실",
-    coop: ["공간솔루션실", "사업2파트"],
-    need: "인허가 지원",
-    partner: "서울시/중구청",
-    point: "인허가 마감 및 대주 조건"
-  },
-  {
-    category: "인허가",
-    subsector: "변경인가",
-    task: "사업계획/건축 변경인가 완료",
-    pf: false,
-    const: true,
-    op: false,
-    lead: "개발관리실",
-    coop: ["공간솔루션실", "사업2파트"],
-    need: "설계 변경",
-    partner: "중구청/서울시",
-    point: "착공 일정의 선결 요건"
-  },
-  {
-    category: "인허가",
-    subsector: "사용승인",
-    task: "준공 후 사용승인 및 등기/보존",
-    pf: false,
-    const: false,
-    op: true,
-    lead: "개발관리실",
-    coop: ["사업2파트", "사업관리1파트"],
-    need: "행정 지원",
-    partner: "중구청",
-    point: "운영전환 및 담보대출 전제"
-  },
-  {
-    category: "호텔/운영",
-    subsector: "브랜드",
-    task: "호텔 브랜드 협의 및 HMA 체결",
-    pf: true,
-    const: false,
-    op: false,
-    lead: "사업2파트",
-    coop: ["기업마케팅실", "LFC", "법무/세무자문"],
-    need: "자문 의견",
-    partner: "Marriott/소노 등",
-    point: "PF 실행의 필수 전제조건"
-  },
-  {
-    category: "호텔/운영",
-    subsector: "계약구조",
-    task: "HMA / 위탁 / 임대차 구조 확정",
-    pf: true,
-    const: false,
-    op: false,
-    lead: "사업2파트",
-    coop: ["LFC", "법무/세무자문"],
-    need: "계약 리스크",
-    partner: "브랜드사",
-    point: "Owner control과 termination"
-  },
-  {
-    category: "호텔/운영",
-    subsector: "운영수지/FF&E",
-    task: "운영수지·FF&E·CAPEX 모델 반영",
-    pf: true,
-    const: false,
-    op: false,
-    lead: "사업2파트",
-    coop: ["LFC", "사업관리1파트"],
-    need: "운영자료",
-    partner: "브랜드사",
-    point: "사업비와 상환가능성 영향"
-  },
-  {
-    category: "시공/원가",
-    subsector: "현대건설",
-    task: "427 도급조건·신용공여",
-    pf: true,
-    const: true,
-    op: false,
-    lead: "사업2파트",
-    coop: ["사업관리1파트", "개발관리실"],
-    need: "현대 Term",
-    partner: "현대건설",
-    point: "427 PF 실행조건"
-  },
-  {
-    category: "시공/원가",
-    subsector: "삼성물산",
-    task: "816 도급조건·책임임차·LOC",
-    pf: true,
-    const: true,
-    op: false,
-    lead: "사업2파트",
-    coop: ["사업관리1파트", "개발관리실"],
-    need: "삼성 Term",
-    partner: "삼성물산",
-    point: "816 단독/통합 PF 핵심"
-  },
-  {
-    category: "시공/원가",
-    subsector: "공사비/VE",
-    task: "공사비 검증·VE·공기단축",
-    pf: true,
-    const: true,
-    op: true,
-    lead: "개발관리실",
-    coop: ["사업2파트"],
-    need: "공사비 상세",
-    partner: "시공사/CM",
-    point: "원가 부담 완화"
-  },
-  {
-    category: "도면/설계",
-    subsector: "PF 기준도면",
-    task: "대주단 제출용 기준도면",
-    pf: true,
-    const: false,
-    op: false,
-    lead: "개발관리실",
-    coop: ["공간솔루션실", "사업2파트"],
-    need: "도면기준",
-    partner: "설계사/CM",
-    point: "모든 자료의 기준"
-  },
-  {
-    category: "도면/설계",
-    subsector: "면적표",
-    task: "GFA/NLA/전용률/임대면적 기준",
-    pf: true,
-    const: false,
-    op: false,
-    lead: "공간솔루션실",
-    coop: ["기업마케팅실", "LFC", "개발관리실"],
-    need: "면적자료",
-    partner: "설계사/CM",
-    point: "임차/모델 불일치 방지"
-  },
-  {
-    category: "인테리어/TI",
-    subsector: "오피스 TI",
-    task: "표준 TI·Fit-out 비용 기준",
-    pf: true,
-    const: false,
-    op: false,
-    lead: "공간솔루션실",
-    coop: ["기업마케팅실", "LFC"],
-    need: "시장자료",
-    partner: "임차인",
-    point: "임차조건 및 모델 반영"
-  },
-  {
-    category: "인테리어/TI",
-    subsector: "호텔 인테리어",
-    task: "호텔 인테리어·FF&E 범위",
-    pf: false,
-    const: true,
-    op: true,
-    lead: "공간솔루션실",
-    coop: ["사업2파트", "LFC"],
-    need: "브랜드 기준",
-    partner: "브랜드사",
-    point: "CAPEX 리스크"
-  },
-  {
-    category: "임차/마케팅",
-    subsector: "광장",
-    task: "광장 임차 조건·면적·Term",
-    pf: true,
-    const: false,
-    op: false,
-    lead: "기업마케팅실",
-    coop: ["사업2파트", "공간솔루션실", "LFC"],
-    need: "임차조건",
-    partner: "광장",
-    point: "PF 스토리 핵심"
-  },
-  {
-    category: "임차/마케팅",
-    subsector: "KB/금융권",
-    task: "금융권 임차 후보 협의",
-    pf: true,
-    const: false,
-    op: false,
-    lead: "기업마케팅실",
-    coop: ["사업2파트", "공간솔루션실", "LFC"],
-    need: "후보 접촉",
-    partner: "KB 등",
-    point: "선임차 확보"
-  },
-  {
-    category: "임차/마케팅",
-    subsector: "삼성/이지스",
-    task: "816 선임차·책임임차·이전 가능성",
-    pf: true,
-    const: false,
-    op: false,
-    lead: "기업마케팅실",
-    coop: ["사업2파트", "LFC"],
-    need: "내부/삼성 협의",
-    partner: "삼성물산;이지스",
-    point: "단독/통합 구조와 연결"
-  },
-  {
-    category: "PF/금융",
-    subsector: "단독 PF",
-    task: "427/816 단독 PF Term",
-    pf: true,
-    const: false,
-    op: false,
-    lead: "LFC",
-    coop: ["사업2파트", "사업관리1파트"],
-    need: "대주단 Term",
-    partner: "대주단",
-    point: "단독 가능성 기준"
-  },
-  {
-    category: "PF/금융",
-    subsector: "통합 PF",
-    task: "대주단 일치화·통합담보 구조",
-    pf: true,
-    const: false,
-    op: false,
-    lead: "LFC",
-    coop: ["사업2파트", "법무/세무자문"],
-    need: "금융/법무 검토",
-    partner: "대주단",
-    point: "구조 전환 의사결정"
-  },
-  {
-    category: "PF/금융",
-    subsector: "재무모델",
-    task: "원가·임차·호텔·신용공여 모델 반영",
-    pf: true,
-    const: false,
-    op: false,
-    lead: "LFC",
-    coop: ["전 부서"],
-    need: "입력값 취합",
-    partner: "회계법인",
-    point: "모든 조건의 숫자화"
-  },
-  {
-    category: "법무/세무",
-    subsector: "리츠 전환",
-    task: "427 리츠 전환+816 편입 검토",
-    pf: true,
-    const: false,
-    op: false,
-    lead: "사업2파트",
-    coop: ["LFC", "법무/세무자문", "사업관리1파트"],
-    need: "자문결과",
-    partner: "법무/세무법인",
-    point: "기본 구조 재정의"
-  },
-  {
-    category: "법무/세무",
-    subsector: "Asset/Share",
-    task: "구조별 절차·세금·주주동의 비교",
-    pf: true,
-    const: false,
-    op: false,
-    lead: "법무/세무자문",
-    coop: ["사업2파트", "LFC"],
-    need: "자문결과",
-    partner: "법무/세무법인",
-    point: "실행가능성 중심"
-  },
-  {
-    category: "주주/보고",
-    subsector: "의사결정",
-    task: "6~7월 내부 의사결정 회의",
-    pf: true,
-    const: false,
-    op: false,
-    lead: "사업2파트",
-    coop: ["전 부서"],
-    need: "부서별 산출물",
-    partner: "대표/본부장",
-    point: "자료작업 반복 차단"
-  },
-  {
-    category: "준공/담보대출",
-    subsector: "Take-out",
-    task: "준공 후 담보대출/운영전환 전략",
-pf: false,
-    const: false,
-    op: true,
-    lead: "LFC",
-    coop: ["사업2파트", "기업마케팅실", "개발관리실"],
-    need: "장기 금융전략",
-    partner: "금융기관",
-    point: "PF 조건과 연결"
-  }
+    { majorCategory: '금융', category: 'PF/금융', subsector: '단독 PF', task: '427/816 단독 PF Term', pf: true, const: false, op: false, lead: '사업그룹2파트', coop: ['사업1파트', 'LFC'], need: '대주단 Term', partner: '대주단, 주주사', point: '단독 가능성 기준' },
+    { majorCategory: '금융', category: 'PF/금융', subsector: '통합 PF', task: '대주단 일치화·통합담보 구조', pf: true, const: false, op: false, lead: '사업그룹2파트', coop: ['사업관리2파트', '법무/세무 외부자문'], need: '금융·법무 검토안', partner: '대주단, 주주사', point: '구조 전환 의사결정' },
+    { majorCategory: '금융', category: 'PF/금융', subsector: '재무모델', task: '원가·임차·호텔·신용공여 모델 반영', pf: true, const: false, op: false, lead: '사업그룹2파트', coop: ['전 부서'], need: '통합 재무모델', partner: '회계법인', point: '모든 조건의 숫자화' },
+    { majorCategory: '금융', category: '구조/법무/세무', subsector: '리츠 전환', task: '427 리츠 전환+816 편입 검토', pf: true, const: false, op: false, lead: '사업그룹2파트', coop: ['LFC', '법무/세무 외부자문', '사업1파트'], need: '구조 검토안', partner: '법무/세무법인', point: '기본 구조 재정의' },
+    { majorCategory: '금융', category: '구조/법무/세무', subsector: 'Asset/Share/합병', task: '구조별 절차·세금·주주동의 비교', pf: true, const: false, op: false, lead: '사업1파트', coop: ['사업관리2파트', 'LFC'], need: '구조 비교표', partner: '법무/세무법인', point: '실행가능성 중심' },
+    { majorCategory: '금융', category: '주주/보고', subsector: '의사결정', task: '6~7월 내부 의사결정 회의', pf: true, const: false, op: false, lead: '사업그룹2파트', coop: ['전 부서'], need: '의사결정 자료', partner: '대표/본부장', point: '자료작업 반복 차단' },
+    { majorCategory: '금융', category: '준공/담보대출', subsector: 'Take-out', task: '준공 후 담보대출/운영전환 전략', pf: false, const: false, op: true, lead: '사업그룹2파트', coop: ['사업관리2파트', '기업마케팅실', '개발관리실'], need: '장기 금융전략', partner: '외부 기관', point: 'PF 조건과 연결' },
+    { majorCategory: '개발', category: '인허가', subsector: '현금기부채납', task: '현금기부채납 규모·시기·조건 협의', pf: true, const: false, op: false, lead: '개발관리실', coop: ['사업관리2파트', '사업1파트'], need: '관청 협의결과', partner: '서울시/중구청', point: '사업비 및 PF 조건에 직접 반영' },
+    { majorCategory: '개발', category: '인허가', subsector: '소공원로', task: '도로/공공기여/공사동선 협의', pf: true, const: true, op: false, lead: '개발관리실', coop: ['사업관리2파트'], need: '도로·공공기여 협의안', partner: '서울시/중구청', point: '착공·준공 일정 리스크' },
+    { majorCategory: '개발', category: '인허가', subsector: '변경인가', task: '427/816 변경 가능성 및 리스크 검토', pf: true, const: true, op: false, lead: '개발관리실', coop: ['사업관리2파트', '사업1파트'], need: '변경인가 검토안', partner: '관청', point: 'PF 전 설명 가능한 리스크로 정리' },
+    { majorCategory: '개발', category: '인허가', subsector: '사용승인', task: '사용승인 CP/증빙자료 로드맵', pf: false, const: false, op: true, lead: '개발관리실', coop: ['사업관리2파트'], need: '사용승인 로드맵', partner: '관청/대주단', point: 'Take-out 전제조건' },
+    { majorCategory: '개발', category: '호텔/운영', subsector: '브랜드', task: '리츠칼튼/소노/대안 브랜드 의사결정', pf: true, const: false, op: false, lead: '사업그룹2파트', coop: ['기업마케팅실', '공간솔루션실'], need: '브랜드 비교안', partner: 'Marriott, 대명소노', point: '427 PF 핵심 Blocker' },
+    { majorCategory: '개발', category: '호텔/운영', subsector: '계약구조', task: 'HMA/Franchise/운영위탁 비교', pf: true, const: false, op: false, lead: '사업그룹2파트', coop: ['법무/세무 외부자문'], need: '계약구조 비교안', partner: '브랜드사', point: 'Owner control과 termination' },
+    { majorCategory: '개발', category: '호텔/운영', subsector: '운영수지/FF&E', task: '운영수지·FF&E·CAPEX 모델 반영', pf: true, const: false, op: false, lead: '사업그룹2파트', coop: ['CFT'], need: '운영수지 모델', partner: '브랜드사', point: '사업비와 상환가능성 영향' },
+    { majorCategory: '개발', category: '시공/원가', subsector: '현대건설', task: '427 도급조건·신용공여', pf: true, const: true, op: false, lead: '사업그룹2파트', coop: ['사업1파트', '개발관리실'], need: '현대 Term', partner: '현대건설', point: '427 PF 실행조건' },
+    { majorCategory: '개발', category: '시공/원가', subsector: '삼성물산', task: '816 도급조건·책임임차·LOC', pf: true, const: true, op: false, lead: '사업그룹2파트', coop: ['사업1파트', '개발관리실'], need: '삼성 Term', partner: '삼성물산', point: '816 단독/통합 PF' },
+    { majorCategory: '개발', category: '시공/원가', subsector: '공사비/VE', task: '공사비 검증·VE·공기단축', pf: true, const: true, op: true, lead: '개발관리실', coop: ['사업관리2파트'], need: '공사비 검증안', partner: '시공사/CM', point: '원가 부담 완화' },
+    { majorCategory: '개발', category: '도면/설계', subsector: 'PF 기준도면', task: '대주단 제출용 기준도면', pf: true, const: false, op: false, lead: '개발관리실', coop: ['공간솔루션실', '사업관리2파트'], need: 'PF 기준도면', partner: '설계사/CM', point: '모든 자료의 기준' },
+    { majorCategory: '개발', category: '도면/설계', subsector: '면적표', task: 'GFA/NLA/전용률/임대면적 기준', pf: true, const: false, op: false, lead: '개발관리실', coop: ['공간솔루션실', '사업관리2파트'], need: '기준 면적표', partner: '설계사/CM', point: '임차/모델 불일치 방지' },
+    { majorCategory: '개발', category: '인테리어', subsector: '오피스/호텔', task: '상품기획/Tech/FF&E 설계반영, CAPEX 반영', pf: false, const: true, op: false, lead: '공간솔루션실', coop: ['개발관리실'], need: '상품기획·설계안', partner: '다원, da', point: '임차조건 및 모델 반영' },
+    { majorCategory: '운영/마케팅', category: '임차/마케팅', subsector: '816 화우', task: '제안PT, 임차 조건·면적·Term', pf: true, const: false, op: false, lead: '기업마케팅실', coop: ['사업관리2파트', '공간솔루션실'], need: '임차 제안안', partner: 'PWC', point: '제안 및 선임차 확보' },
+    { majorCategory: '운영/마케팅', category: '임차/마케팅', subsector: '427 광장', task: '제안PT, 임차 조건·면적·Term', pf: true, const: false, op: false, lead: '기업마케팅실', coop: ['사업관리2파트', '공간솔루션실'], need: '임차 제안안', partner: 'PWC', point: '제안 및 선임차 확보' },
+    { majorCategory: '운영/마케팅', category: '임차/마케팅', subsector: '816 KB증권', task: '제안PT, 임차 조건·면적·Term', pf: true, const: false, op: false, lead: '기업마케팅실', coop: ['사업관리2파트', '공간솔루션실'], need: '임차 제안안', partner: 'PWC', point: '제안 및 선임차 확보' },
+    { majorCategory: '운영/마케팅', category: '임차/마케팅', subsector: '427 LG전자', task: '제안PT, 임차 조건·면적·Term', pf: true, const: false, op: false, lead: '기업마케팅실', coop: ['사업관리2파트', '공간솔루션실'], need: '임차 제안안', partner: 'PWC', point: '제안 및 선임차 확보' },
+    { majorCategory: '운영/마케팅', category: '임차/마케팅', subsector: '816 이지스', task: '816 선임차·책임임차·이전 가능성', pf: true, const: false, op: false, lead: '사업2파트', coop: ['이지스 경영지원'], need: '내부 이전 검토안', partner: '이사회', point: '제안 및 선임차 확보' },
+    { majorCategory: '운영/마케팅', category: '임차/마케팅', subsector: '816 삼성물산', task: '816 선임차·책임임차·이전 가능성', pf: true, const: false, op: false, lead: '사업2파트', coop: ['삼성물산'], need: '책임임차 검토안', partner: '주주', point: '제안 및 선임차 확보' }
 ];
 
+const R_R_DATA_VERSION = '2026-07-23-r1';
+const R_R_STORAGE_KEY = 'iota_rr_matrix';
+const R_R_MAJOR_CATEGORIES = ['전체보기', '금융', '개발', '운영/마케팅'];
 const R_R_CATEGORIES = [
-  '전체보기', 'PF/금융', '인허가', '호텔/운영', '시공/원가', '도면/설계',
-  '인테리어/TI', '임차/마케팅', '법무/세무', '주주/보고', '준공/담보대출', '팝업/단발'
+    '전체보기', 'PF/금융', '구조/법무/세무', '주주/보고', '준공/담보대출',
+    '인허가', '호텔/운영', '시공/원가', '도면/설계', '인테리어', '임차/마케팅'
 ];
+const DEPARTMENT_NAME_ALIASES = {
+    사업그룹1파트: '사업1파트',
+    사업파트1: '사업1파트',
+    사업관리1파트: '사업1파트'
+};
+
+const normalizeDepartmentName = (name) => DEPARTMENT_NAME_ALIASES[name] || name;
+
+const normalizeRrItem = (item, index) => ({
+    ...item,
+    id: item.id || `mock-${index}`,
+    lead: normalizeDepartmentName(item.lead),
+    coop: Array.from(new Set((item.coop || []).map(normalizeDepartmentName)))
+});
 
 export default function PmoScheduleGate() {
     const [filterCategory, setFilterCategory] = React.useState('All'); // All, Gate, Task
+    const [selectedRrMajorCategory, setSelectedRrMajorCategory] = React.useState('전체보기');
     const [selectedRrCategory, setSelectedRrCategory] = React.useState('전체보기');
     const [selectedRrLead, setSelectedRrLead] = React.useState('전체보기');
     const [selectedRrCoop, setSelectedRrCoop] = React.useState('전체보기');
     const [scrollLeft, setScrollLeft] = React.useState(0);
 
     const [rrData, setRrData] = useState(() => {
-        const local = localStorage.getItem('iota_rr_matrix');
+        const local = localStorage.getItem(R_R_STORAGE_KEY);
         if (local) {
             try {
-                return JSON.parse(local);
+                const stored = JSON.parse(local);
+                if (stored?.version === R_R_DATA_VERSION && Array.isArray(stored.items)) {
+                    return stored.items.map(normalizeRrItem);
+                }
             } catch (e) {
                 console.error("Failed to parse local rr matrix:", e);
             }
         }
-        return CATEGORY_MAP_DATA.map((item, idx) => ({ ...item, id: `mock-${idx}` }));
+        return CATEGORY_MAP_DATA.map(normalizeRrItem);
     });
 
     useEffect(() => {
-        localStorage.setItem('iota_rr_matrix', JSON.stringify(rrData));
+        localStorage.setItem(R_R_STORAGE_KEY, JSON.stringify({
+            version: R_R_DATA_VERSION,
+            items: rrData
+        }));
     }, [rrData]);
 
-    const DEPARTMENTS_LIST = ['개발관리실', '사업2파트', '사업관리1파트', '공간솔루션실', '기업마케팅실', 'LFC', '법무/세무자문', '요청부서', '전 부서'];
-    const PARTNERS_LIST = ['서울시/중구청', '중구청', 'Marriott/소노 등', '브랜드사', '현대건설', '삼성물산', '시공사/CM', '설계사/CM', '광장', 'KB 등', '삼성물산;이지스', '대주단', '회계법인', '법무/세무법인', '대표/본부장', '금융기관', '임차인', '요청부서'];
+    const DEPARTMENTS_LIST = [
+        '개발관리실', '사업그룹2파트', '사업2파트', '사업관리2파트', '사업1파트',
+        '공간솔루션실', '기업마케팅실', 'LFC', '법무/세무 외부자문', 'CFT',
+        '이지스 경영지원', '삼성물산', '전 부서'
+    ];
+    const PARTNERS_LIST = [
+        '대주단, 주주사', '회계법인', '법무/세무법인', '대표/본부장', '외부 기관',
+        '서울시/중구청', '관청', '관청/대주단', 'Marriott, 대명소노', '브랜드사',
+        '현대건설', '삼성물산', '시공사/CM', '설계사/CM', '다원, da', 'PWC', '이사회', '주주'
+    ];
 
     // Authorization & User session
     const { memberInfo } = useAuth();
@@ -391,7 +137,8 @@ export default function PmoScheduleGate() {
         const workspace = memberInfo.workspace_code || '';
         const role = memberInfo.role_code || '';
         return (
-            org.includes('사업2파트') || 
+            org.includes('사업2파트') ||
+            org.includes('사업그룹2파트') ||
             org.includes('기획추진') ||
             org.includes('시스템 관리자(기획추진)') ||
             role.toUpperCase().includes('PO') ||
@@ -408,7 +155,8 @@ export default function PmoScheduleGate() {
     const [editingItem, setEditingItem] = useState(null);
 
     // Form inputs
-    const [formCategory, setFormCategory] = useState('인허가');
+    const [formMajorCategory, setFormMajorCategory] = useState('금융');
+    const [formCategory, setFormCategory] = useState('PF/금융');
     const [formSubsector, setFormSubsector] = useState('');
     const [formTaskName, setFormTaskName] = useState('');
     const [formPf, setFormPf] = useState(false);
@@ -423,6 +171,7 @@ export default function PmoScheduleGate() {
     const handleOpenEditModal = (item) => {
         setModalMode('edit');
         setEditingItem(item);
+        setFormMajorCategory(item.majorCategory);
         setFormCategory(item.category);
         setFormSubsector(item.subsector);
         setFormTaskName(item.task);
@@ -440,7 +189,8 @@ export default function PmoScheduleGate() {
     const handleOpenAddModal = () => {
         setModalMode('add');
         setEditingItem(null);
-        setFormCategory('인허가');
+        setFormMajorCategory('금융');
+        setFormCategory('PF/금융');
         setFormSubsector('');
         setFormTaskName('');
         setFormPf(false);
@@ -456,8 +206,9 @@ export default function PmoScheduleGate() {
 
     const handleSaveRrItem = (e) => {
         e.preventDefault();
-        const payload = {
+        const payload = normalizeRrItem({
             id: modalMode === 'add' ? `custom-${Date.now()}` : editingItem.id,
+            majorCategory: formMajorCategory,
             category: formCategory,
             subsector: formSubsector,
             task: formTaskName,
@@ -469,7 +220,7 @@ export default function PmoScheduleGate() {
             need: formNeed,
             partner: formPartner,
             point: formPoint
-        };
+        });
 
         if (modalMode === 'add') {
             setRrData(prev => [...prev, payload]);
@@ -541,38 +292,6 @@ export default function PmoScheduleGate() {
     const R_R_COOPS = React.useMemo(() => {
         const coops = rrData.flatMap(item => item.coop).filter(Boolean);
         return ['전체보기', ...Array.from(new Set(coops))];
-    }, [rrData]);
-
-    const deptOptions = React.useMemo(() => {
-        const set = new Set([
-            '사업2파트', 
-            '기획추진', 
-            '개발관리실', 
-            '공간솔루션실', 
-            '사업관리1파트', 
-            'LFC', 
-            '법무/세무자문', 
-            '기업마케팅실'
-        ]);
-        return Array.from(set);
-    }, []);
-
-    const uniqueStakeholderNames = React.useMemo(() => {
-        return [];
-    }, []);
-
-    const uniqueSubsectors = React.useMemo(() => {
-        const defaultSubs = [
-            '현금기부채납', '소공원로', '변경인가', '사용승인', '브랜드', '계약구조',
-            '운영수지/FF&E', '현대건설', '삼성물산', '공사비/VE', 'PF 기준도면', '면적표',
-            '오피스 TI', '호텔 인테리어', '광장', 'KB/금융권', '삼성/이지스', '단독 PF',
-            '통합 PF', '재무모델', '리츠 전환', 'Asset/Share', '의사결정', 'Take-out'
-        ];
-        const subs = [
-            ...defaultSubs,
-            ...rrData.map(item => item.subsector).filter(Boolean)
-        ];
-        return Array.from(new Set(subs));
     }, [rrData]);
 
     const filteredData = TIMELINE_DATA.filter(item => {
@@ -800,15 +519,37 @@ export default function PmoScheduleGate() {
                     <div className="flex items-center w-full overflow-visible pointer-events-none">
                         <table className={`text-left table-fixed pointer-events-auto border-collapse border-b border-[#3c3c3c] bg-[#272726] ${
                             isAuthorized 
-                                ? 'w-[1350px] min-w-[1350px] max-w-[1350px]' 
-                                : 'w-[1290px] min-w-[1290px] max-w-[1290px]'
+                                ? 'w-[1435px] min-w-[1435px] max-w-[1435px]'
+                                : 'w-[1375px] min-w-[1375px] max-w-[1375px]'
                         }`}>
                             <thead>
                                 <tr className="border-b border-[#3c3c3c] bg-[#272726] text-[#86868B] font-bold text-[12px] h-[56px]">
-                                    <th className="px-1 w-[110px] min-w-[110px] max-w-[110px] text-center bg-[#272726] rounded-tl-[31px] z-30">
+                                    <th className="px-1 w-[85px] min-w-[85px] max-w-[85px] text-center bg-[#272726] rounded-tl-[31px] z-30">
+                                        <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b]">
+                                            <span className={`font-bold text-[12px] whitespace-nowrap ${selectedRrMajorCategory === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
+                                                {selectedRrMajorCategory === '전체보기' ? '대분류' : selectedRrMajorCategory}
+                                            </span>
+                                            <span className="text-[8px] text-[#86868B]/70 pointer-events-none select-none translate-y-[0.5px] ml-1">▼</span>
+                                            <select
+                                                value={selectedRrMajorCategory}
+                                                onChange={(e) => {
+                                                    setSelectedRrMajorCategory(e.target.value);
+                                                    setSelectedRrCategory('전체보기');
+                                                }}
+                                                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                            >
+                                                {R_R_MAJOR_CATEGORIES.map(category => (
+                                                    <option key={category} value={category} className="bg-[#222] text-white">
+                                                        {category}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                    </th>
+                                    <th className="px-1 w-[110px] min-w-[110px] max-w-[110px] text-center bg-[#272726] z-30">
                                         <div className="relative inline-flex items-center justify-center bg-[#2c2c2b] border border-[#3c3c3c] rounded-[6px] px-2 py-1 transition-colors cursor-pointer hover:bg-[#323231] hover:border-[#4c4c4b]">
                                             <span className={`font-bold text-[12px] whitespace-nowrap ${selectedRrCategory === '전체보기' ? 'text-[#86868B]' : 'text-[#2997ff]'}`}>
-                                                {selectedRrCategory === '전체보기' ? '대분류' : selectedRrCategory}
+                                                {selectedRrCategory === '전체보기' ? '업무분류' : selectedRrCategory}
                                             </span>
                                             <span className="text-[8px] text-[#86868B]/70 pointer-events-none select-none translate-y-[0.5px] ml-1">▼</span>
                                             <select
@@ -816,21 +557,11 @@ export default function PmoScheduleGate() {
                                                 onChange={(e) => setSelectedRrCategory(e.target.value)}
                                                 className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                                             >
-                                                <option disabled value="" className="bg-[#222] text-[#86868B] font-bold">[ 대분류 ]</option>
-                                                <option value="전체보기" className="bg-[#222] text-[#86868B]">전체보기</option>
-                                                {R_R_CATEGORIES.slice(1).map(cat => {
-                                                    const isAdHoc = cat === '팝업/단발';
-                                                    return (
-                                                        <option 
-                                                            key={cat} 
-                                                            value={cat} 
-                                                            disabled={isAdHoc} 
-                                                            className={isAdHoc ? 'text-[#555] bg-[#222]' : 'bg-[#222] text-white'}
-                                                        >
-                                                            {cat} {isAdHoc && ' (본 페이지 대상 아님)'}
-                                                        </option>
-                                                    );
-                                                })}
+                                                {R_R_CATEGORIES.map(category => (
+                                                    <option key={category} value={category} className="bg-[#222] text-white">
+                                                        {category}
+                                                    </option>
+                                                ))}
                                             </select>
                                         </div>
                                     </th>
@@ -883,7 +614,7 @@ export default function PmoScheduleGate() {
                                         isAuthorized 
                                             ? 'border-r border-[#3c3c3c]' 
                                             : 'border-r border-[#3c3c3c] rounded-tr-[31px]'
-                                    }`}>관리 포인트</th>
+                                    }`}>2026 관리/성과 포인트</th>
                                     {isAuthorized && (
                                         <th className="px-1 w-[60px] min-w-[60px] max-w-[60px] text-center bg-[#272726] border-r border-[#3c3c3c] rounded-tr-[31px] whitespace-nowrap">관리</th>
                                     )}
@@ -891,16 +622,22 @@ export default function PmoScheduleGate() {
                             </thead>
                             <tbody className="divide-y divide-[#3c3c3c]/60 text-[12px]">
                                 {rrData.filter(item => {
+                                    const matchMajorCategory = selectedRrMajorCategory === '전체보기' || item.majorCategory === selectedRrMajorCategory;
                                     const matchCat = selectedRrCategory === '전체보기' || item.category === selectedRrCategory;
                                     const matchLead = selectedRrLead === '전체보기' || item.lead === selectedRrLead;
                                     const matchCoop = selectedRrCoop === '전체보기' || item.coop.includes(selectedRrCoop);
-                                    return matchCat && matchLead && matchCoop;
+                                    return matchMajorCategory && matchCat && matchLead && matchCoop;
                                 }).map((item, index, array) => {
                                     const isLastItem = index === array.length - 1;
                                     return (
                                         <tr key={item.id} className={`bg-[#272726] hover:bg-[#333] transition-colors h-12 group ${isAuthorized ? 'cursor-pointer' : ''}`} onClick={() => isAuthorized && handleOpenEditModal(item)}>
                                             {/* 대분류 */}
-                                            <td className={`px-3 bg-[#272726] group-hover:bg-[#333] transition-colors text-center font-bold text-white text-[12px] w-[110px] min-w-[110px] max-w-[110px] ${isLastItem && !isAuthorized ? 'rounded-bl-[31px]' : (isLastItem && isAuthorized ? 'rounded-bl-[31px]' : '')}`}>
+                                            <td className={`px-2 bg-[#272726] group-hover:bg-[#333] transition-colors text-center font-bold text-[#60a5fa] text-[12px] w-[85px] min-w-[85px] max-w-[85px] ${isLastItem ? 'rounded-bl-[31px]' : ''}`}>
+                                                {item.majorCategory}
+                                            </td>
+
+                                            {/* 업무분류 */}
+                                            <td className="px-2 bg-[#272726] group-hover:bg-[#333] transition-colors text-center font-bold text-white text-[12px] w-[110px] min-w-[110px] max-w-[110px]">
                                                 {item.category}
                                             </td>
                                             
@@ -1026,6 +763,20 @@ export default function PmoScheduleGate() {
                             {/* 대분류 */}
                             <div className="flex flex-col">
                                 <label className="text-[11px] font-bold text-[#86868B] uppercase">대분류</label>
+                                <select
+                                    value={formMajorCategory}
+                                    onChange={(e) => setFormMajorCategory(e.target.value)}
+                                    className="w-full bg-[#1c1c1e] border border-[#3c3c3c] rounded-[10px] p-[10px] text-[13px] text-white focus:outline-none focus:border-[#2997ff] mt-1"
+                                >
+                                    {R_R_MAJOR_CATEGORIES.slice(1).map(category => (
+                                        <option key={category} value={category} className="bg-[#222] text-white">{category}</option>
+                                    ))}
+                                </select>
+                            </div>
+
+                            {/* 업무분류 */}
+                            <div className="flex flex-col">
+                                <label className="text-[11px] font-bold text-[#86868B] uppercase">업무분류</label>
                                 <select 
                                     value={formCategory} 
                                     onChange={(e) => setFormCategory(e.target.value)}
