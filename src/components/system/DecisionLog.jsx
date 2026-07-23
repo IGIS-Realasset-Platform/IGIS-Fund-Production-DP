@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { supabase } from '../../utils/supabaseClient';
 import { useAuth } from '../../context/AuthContext';
 import { notifyMembersOnCommentCreation } from '../../utils/notificationHelpers';
+import { fetchDirectorWorkflowLogs } from '../../utils/directorWorkflowLogs';
 import { motion, AnimatePresence } from 'framer-motion';
 import ReactionAvatarStack from './ReactionAvatarStack';
 import PmoTaskBoardStaging, { FALLBACK_BOARD_TASKS } from './pmo/PmoTaskBoardStaging';
@@ -332,29 +333,12 @@ export default function DecisionLog() {
         }
     };
 
-    const fetchIotaLogs = async () => {
+    const fetchIotaLogs = async (force = false) => {
         setIsLoadingIotaLogs(true);
         setIotaLogsError(null);
         try {
-            const response = await fetch('https://qvegpozwrcmspdvjokiz.supabase.co/functions/v1/iota-logs');
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            const data = await response.json();
-            if (data && data.logs) {
-                const mappedLogs = data.logs.map(log => ({
-                    ...log,
-                    line: getLogCell(log)
-                }));
-                const sortedLogs = [...mappedLogs].sort((a, b) => {
-                    const dateA = a.work_date ? new Date(a.work_date).getTime() : 0;
-                    const dateB = b.work_date ? new Date(b.work_date).getTime() : 0;
-                    return dateB - dateA;
-                });
-                setIotaLogs(sortedLogs);
-            } else {
-                throw new Error('Invalid data format received');
-            }
+            const workflowLogs = await fetchDirectorWorkflowLogs({ force });
+            setIotaLogs(workflowLogs);
         } catch (err) {
             console.error('Error fetching iota-logs:', err);
             setIotaLogsError(err.message || '로그를 불러오는 데 실패했습니다.');
@@ -466,7 +450,7 @@ export default function DecisionLog() {
         const handleRefetch = () => {
             fetchLogs();
             fetchMasterStakeholders();
-            fetchIotaLogs();
+            fetchIotaLogs(true);
         };
         window.addEventListener('refetch-data', handleRefetch);
         

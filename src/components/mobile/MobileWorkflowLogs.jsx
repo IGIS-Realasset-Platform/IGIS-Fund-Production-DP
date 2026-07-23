@@ -1,58 +1,46 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { supabase } from '../../utils/supabaseClient';
+import {
+    fetchDirectorWorkflowLogs,
+    getDirectorLogLineOptions,
+    getDirectorWorkspacePath,
+} from '../../utils/directorWorkflowLogs';
 import { motion, AnimatePresence } from 'framer-motion';
 
-export default function MobileWorkflowLogs({ memberInfo }) {
+const INITIAL_VISIBLE_COUNT = 20;
+
+export default function MobileWorkflowLogs() {
     const [logs, setLogs] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [loadError, setLoadError] = useState('');
     const [searchQuery, setSearchQuery] = useState('');
-    const [selectedLine, setSelectedLine] = useState('전체'); // '전체' | 'A Line' | 'B Line' | 'C Line' | 'D Line'
+    const [selectedLine, setSelectedLine] = useState('전체');
+    const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE_COUNT);
     
     // Modal Overlay & Alerts States
     const [selectedLog, setSelectedLog] = useState(null);
     const [alertMessage, setAlertMessage] = useState('');
     const [alertType, setAlertType] = useState('error'); // 'error' | 'success'
 
-    const myName = memberInfo?.staff_name || memberInfo?.name || '';
-    const myEmail = memberInfo?.email || '';
-
-    useEffect(() => {
-        fetchWorkflowLogs();
-    }, []);
-
-    const fetchWorkflowLogs = async () => {
+    const fetchWorkflowLogs = useCallback(async (force = false) => {
         setLoading(true);
+        setLoadError('');
         try {
-            // 1. Fetch Edge Function API Logs (Notion)
-            let apiLogs = [];
-            try {
-                const response = await fetch('https://qvegpozwrcmspdvjokiz.supabase.co/functions/v1/iota-logs');
-                if (response.ok) {
-                    const apiData = await response.json();
-                    if (apiData && apiData.logs) {
-                        apiLogs = apiData.logs.map(log => ({
-                            ...log,
-                            line: getLogCell(log)
-                        }));
-                    }
-                }
-            } catch (apiErr) {
-                console.error('Error fetching API logs:', apiErr);
-            }
-
-            const sortedLogs = apiLogs.sort((a, b) => {
-                const dateA = a.work_date ? new Date(a.work_date).getTime() : 0;
-                const dateB = b.work_date ? new Date(b.work_date).getTime() : 0;
-                return dateB - dateA;
-            });
-
-            setLogs(sortedLogs);
-        } catch (err) {
-            console.error('Error loading mobile workflow logs:', err);
+            const workflowLogs = await fetchDirectorWorkflowLogs({ force });
+            setLogs(workflowLogs);
+            setVisibleCount(INITIAL_VISIBLE_COUNT);
+        } catch (error) {
+            console.error('Error loading mobile workflow logs:', error);
+            setLogs([]);
+            setLoadError(error?.message || '업무보고를 불러오지 못했습니다.');
         } finally {
             setLoading(false);
         }
-    };
+    }, []);
+
+    useEffect(() => {
+        fetchWorkflowLogs();
+    }, [fetchWorkflowLogs]);
 
     const formatExactDate = (dateStr) => {
         if (!dateStr) return '';
@@ -62,55 +50,6 @@ export default function MobileWorkflowLogs({ memberInfo }) {
         const monthStr = String(d.getMonth() + 1).padStart(2, '0');
         const dayStr = String(d.getDate()).padStart(2, '0');
         return `${yearStr}.${monthStr}.${dayStr}`;
-    };
-
-    const getCellName = (name) => {
-        const cells = {
-            '전기영': '기획추진', '이시정': '기획추진', '이관용': '기획추진',
-            '이철승': 'CFT 총괄', '윤관식': 'CFT 총괄', '정조민': 'CFT 총괄', '우형석': 'CFT 총괄',
-            // 사업 PM 1
-            '권순일': '사업 PM 1', '윤주형': '사업 PM 1', '김제익': '사업 PM 1', '류홍': '사업 PM 1', '박만진': '사업 PM 1', '박일훈': '사업 PM 1', '이정원': '사업 PM 1', '전무경': '사업 PM 1',
-            // 사업 PM 2
-            '강순용': '사업 PM 2', '한찬호': '사업 PM 2', '박석제': '사업 PM 2', '박채현': '사업 PM 2', '소현준': '사업 PM 2', '이수정': '사업 PM 2', '조영비': '사업 PM 2', '한수정': '사업 PM 2',
-            '박준호': '파이낸싱-LFC', '강석민': '파이낸싱-LFC', '정리훈': '파이낸싱-LFC', '손유정': '파이낸싱-LFC', '김지우': '파이낸싱-LFC', '박현승': '파이낸싱-LFC', '이성민A': '파이낸싱-LFC', '한승환': '파이낸싱-LFC',
-            '홍장군': '개발솔루션-DSC', '채원': '개발솔루션-DSC', '김보성': '개발솔루션-DSC', '전승희': '개발솔루션-DSC', '김대익': '개발솔루션-DSC', '장성진': '개발솔루션-DSC', '이정훈': '개발솔루션-DSC', '박봉서': '개발솔루션-DSC', '김형주': '개발솔루션-DSC',
-            '김민지': '기업마케팅-EMC', '고아라': '기업마케팅-EMC',
-            '김현수': '공간솔루션-SSC', '현철호': '공간솔루션-SSC', '신민호': '공간솔루션-SSC', '이가현': '공간솔루션-SSC', '정수명': '공간솔루션-SSC',
-            '김행단': '펀드운용-KAM', '윤용택': 'IPR-WG'
-        };
-        return cells[name] || '공통';
-    };
-
-    const getLogCell = (log) => {
-        if (log.metadata?.workspace_code) {
-            const code = log.metadata.workspace_code.toUpperCase();
-            if (code === 'WS_PM1' || code === 'PM1' || code === 'PM_1') return '사업 PM 1';
-            if (code === 'WS_PM2' || code === 'PM2' || code === 'PM_2') return '사업 PM 2';
-            if (code === 'WS_PM' || code === 'PM') {
-                return getCellName(log.writer_name) === '사업 PM 2' ? '사업 PM 2' : '사업 PM 1';
-            }
-            if (code.includes('FINANCING') || code.includes('LFC')) return '파이낸싱-LFC';
-            if (code.includes('DEVELOPMENT') || code.includes('DSC')) return '개발솔루션-DSC';
-            if (code.includes('MARKETING') || code.includes('EMC')) return '기업마케팅-EMC';
-            if (code.includes('DIGITAL') || code.includes('SSC')) return '공간솔루션-SSC';
-            if (code.includes('FUND') || code.includes('KAM')) return '펀드운용-KAM';
-            if (code.includes('IPR')) return 'IPR-WG';
-        }
-        if (log.metadata?.workspace_label) {
-            const lbl = log.metadata.workspace_label;
-            if (lbl.includes('사업 PM 1') || lbl.includes('사업PM 1') || lbl.includes('사업PM1')) return '사업 PM 1';
-            if (lbl.includes('사업 PM 2') || lbl.includes('사업PM 2') || lbl.includes('사업PM2')) return '사업 PM 2';
-            if (lbl.includes('사업 PM') || lbl.includes('사업PM')) {
-                return getCellName(log.writer_name) === '사업 PM 2' ? '사업 PM 2' : '사업 PM 1';
-            }
-            if (lbl.includes('파이낸싱')) return '파이낸싱-LFC';
-            if (lbl.includes('개발솔루션')) return '개발솔루션-DSC';
-            if (lbl.includes('기업마케팅')) return '기업마케팅-EMC';
-            if (lbl.includes('공간솔루션') || lbl.includes('상품/디지털') || lbl.includes('상품·디지털')) return '공간솔루션-SSC';
-            if (lbl.includes('펀드운용')) return '펀드운용-KAM';
-            if (lbl.includes('IPR')) return 'IPR-WG';
-        }
-        return getCellName(log.writer_name);
     };
 
     const getLineBadgeStyle = (cell) => {
@@ -135,62 +74,43 @@ export default function MobileWorkflowLogs({ memberInfo }) {
 
     const handleGoToWorkspace = async (log) => {
         if (log.source_url) {
-            window.open(log.source_url, '_blank');
+            window.open(log.source_url, '_blank', 'noopener,noreferrer');
             return;
         }
 
-        const wsCode = log.metadata?.workspace_code;
-        if (!wsCode) {
+        const workspacePath = getDirectorWorkspacePath(log);
+        if (!workspacePath) {
             setAlertType('error');
             setAlertMessage('원본 게시물로 이동할 수 없습니다. 원본 위치 정보가 올바르지 않거나 이미 삭제되었을 수 있습니다.');
             return;
         }
 
+        const logId = log.log_id || log.id;
         try {
             const { data, error } = await supabase
                 .from('iota_seoul_logs')
                 .select('log_id')
-                .eq('log_id', log.id)
+                .eq('log_id', logId)
                 .maybeSingle();
 
             if (error || !data) {
                 setAlertType('error');
                 setAlertMessage('해당 업무 로그는 이미 삭제되어 원본 게시물로 이동할 수 없습니다.');
-                setLogs(prev => prev.map(l => l.id === log.id ? { ...l, isDeleted: true } : l));
+                setLogs((previousLogs) => previousLogs.map((item) => item.id === log.id ? { ...item, isDeleted: true } : item));
                 return;
             }
-        } catch (err) {
-            console.error('Error verifying log:', err);
+        } catch (error) {
+            console.error('Error verifying log:', error);
         }
 
-        const pathMap = {
-            'WS_PM': 'pm',
-            'WS_LFC': 'financing',
-            'WS_FINANCING': 'financing',
-            'WS_DSC': 'development',
-            'WS_DEVELOPMENT': 'development',
-            'WS_EMC': 'marketing',
-            'WS_MARKETING': 'marketing',
-            'WS_SSC': 'digital',
-            'WS_DIGITAL': 'digital',
-            'WS_KAM': 'fund',
-            'WS_FUND': 'fund',
-            'WS_IPR': 'ipr'
-        };
-
-        const wsPath = pathMap[wsCode];
-        if (wsPath) {
-            localStorage.setItem('iota_target_log_id', log.id);
-            // Mobile environment redirection (force native react router or full navigation back to mobile with specific query)
-            localStorage.setItem('force_pc_mode', 'true');
-            const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
-            window.history.pushState(null, '', `${base}/platform/iotaseoul/workspace/${wsPath}?logId=${log.id}`);
-            window.dispatchEvent(new Event('popstate'));
-        } else {
-            setAlertType('error');
-            setAlertMessage('원본 게시물로 이동할 수 없습니다. 해당 원본 글이 이미 삭제되었거나 위치를 찾을 수 없습니다.');
-        }
+        localStorage.setItem('iota_target_log_id', logId);
+        localStorage.setItem('force_pc_mode', 'true');
+        const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
+        window.history.pushState(null, '', `${base}/${workspacePath}?logId=${logId}`);
+        window.dispatchEvent(new Event('popstate'));
     };
+
+    const lineOptions = useMemo(() => getDirectorLogLineOptions(logs), [logs]);
 
     const filteredLogs = useMemo(() => {
         let result = logs;
@@ -201,18 +121,30 @@ export default function MobileWorkflowLogs({ memberInfo }) {
         }
 
         // Search Filter
-        if (searchQuery) {
-            const query = searchQuery.toLowerCase();
-            result = result.filter(log => 
-                (log.title && log.title.toLowerCase().includes(query)) ||
-                (log.summary && log.summary.toLowerCase().includes(query)) ||
-                (log.raw_text && log.raw_text.toLowerCase().includes(query)) ||
-                (log.writer_name && log.writer_name.toLowerCase().includes(query))
-            );
+        if (searchQuery.trim()) {
+            const query = searchQuery.trim().toLowerCase();
+            result = result.filter((log) => [
+                log.title,
+                log.display_text,
+                log.writer_name,
+                log.writer_email,
+                log.line,
+                log.source_line,
+                log.category,
+            ].some((value) => String(value || '').toLowerCase().includes(query)));
         }
 
         return result;
     }, [logs, selectedLine, searchQuery]);
+
+    useEffect(() => {
+        setVisibleCount(INITIAL_VISIBLE_COUNT);
+    }, [selectedLine, searchQuery]);
+
+    const visibleLogs = useMemo(
+        () => filteredLogs.slice(0, visibleCount),
+        [filteredLogs, visibleCount]
+    );
 
     return (
         <div className="flex flex-col w-full bg-[#1F1F1E] h-full pb-8">
@@ -231,7 +163,7 @@ export default function MobileWorkflowLogs({ memberInfo }) {
                 </div>
 
                 <div className="flex gap-2 overflow-x-auto hide-scrollbar select-none py-0.5">
-                    {['전체', '사업 PM 1', '사업 PM 2', '파이낸싱-LFC', '개발솔루션-DSC', '기업마케팅-EMC', '공간솔루션-SSC', '펀드운용-KAM', 'IPR-WG'].map(line => {
+                    {lineOptions.map(line => {
                         const isSelected = selectedLine === line;
                         return (
                             <button
@@ -252,11 +184,19 @@ export default function MobileWorkflowLogs({ memberInfo }) {
 
             {/* List Body */}
             <div className="p-4 flex flex-col gap-4">
-                <div className="flex justify-between items-end mb-[16px]">
-                    <h1 className="text-[20px] font-bold text-white tracking-tight flex items-center gap-2 px-1">
-                        Director 주요업무 보고 ({filteredLogs.length}건)
-                        <span className="text-[12px] bg-[#3b82f6]/20 text-[#60a5fa] px-2 py-0.5 rounded-md font-semibold font-mono animate-pulse">LIVE</span>
+                <div className="flex justify-between items-center gap-3 mb-2 px-1">
+                    <h1 className="min-w-0 text-[18px] font-bold text-white tracking-tight flex flex-wrap items-center gap-2">
+                        <span>Director 주요업무 보고</span>
+                        <span className="text-[11px] bg-[#3b82f6]/20 text-[#60a5fa] px-2 py-0.5 rounded-md font-semibold">{filteredLogs.length}건</span>
                     </h1>
+                    <button
+                        type="button"
+                        onClick={() => fetchWorkflowLogs(true)}
+                        disabled={loading}
+                        className="shrink-0 h-8 px-2.5 rounded-[9px] border border-[#3c3c3c] bg-[#272726] text-[11px] font-bold text-[#A1A1AA] disabled:opacity-50"
+                    >
+                        새로고침
+                    </button>
                 </div>
 
                 {loading ? (
@@ -267,15 +207,25 @@ export default function MobileWorkflowLogs({ memberInfo }) {
                             (최대 20초 정도 소요될 수 있습니다)
                         </span>
                     </div>
+                ) : loadError ? (
+                    <div className="flex flex-col items-center gap-3 rounded-[20px] border border-[#f87171]/30 bg-[#f87171]/5 px-5 py-14 text-center">
+                        <strong className="text-[14px] text-[#f87171]">업무보고를 불러오지 못했습니다.</strong>
+                        <span className="text-[12px] leading-relaxed text-[#A1A1AA]">{loadError}</span>
+                        <button
+                            type="button"
+                            onClick={() => fetchWorkflowLogs(true)}
+                            className="mt-1 rounded-[10px] bg-[#3b82f6] px-4 py-2 text-[12px] font-bold text-white"
+                        >
+                            다시 불러오기
+                        </button>
+                    </div>
                 ) : filteredLogs.length === 0 ? (
                     <div className="text-center py-24 text-[#86868B] text-[14.5px] font-medium border border-dashed border-[#3c3c3c] rounded-[24px]">
                         표시할 업무 로그가 없습니다.
                     </div>
                 ) : (
                     <div className="flex flex-col gap-3.5">
-                        {filteredLogs.map(log => {
-                            const cleanLabel = (log.metadata?.workspace_label || '공통').split('-')[0].trim();
-                            return (
+                        {visibleLogs.map(log => (
                                 <div 
                                     key={log.id} 
                                     onClick={() => setSelectedLog(log)}
@@ -284,7 +234,7 @@ export default function MobileWorkflowLogs({ memberInfo }) {
                                     <div className="flex items-center justify-between mb-3 text-[11px] text-[#86868B]">
                                         <div className="flex items-center gap-1.5">
                                             <span className="text-[10px] font-bold px-[7px] py-[2.5px] rounded-[5px] bg-[#3b82f6]/20 text-[#60a5fa] border border-[#3b82f6]/30">
-                                                {cleanLabel}
+                                                {log.category}
                                             </span>
                                             {log.line && log.line !== 'Unknown Line' && (
                                                 <span className={`text-[10px] font-bold px-[7px] py-[2.5px] rounded-[5px] ${getLineBadgeStyle(log.line)}`}>
@@ -300,13 +250,7 @@ export default function MobileWorkflowLogs({ memberInfo }) {
                                     </h3>
 
                                     <p className="text-[15.5px] text-[#A1A1AA] leading-relaxed line-clamp-6 mb-3.5 whitespace-pre-wrap">
-                                        {(() => {
-                                            const text = log.raw_text || log.body_text || '';
-                                            let formatted = text;
-                                            formatted = formatted.replace(/\s+([가-하])\.\s+/g, '\n$1. ');
-                                            formatted = formatted.replace(/\s+(\d+)\)\s+/g, '\n$1) ');
-                                            return formatted.replace(/\n+/g, '\n').trim();
-                                        })()}
+                                        {log.display_text || '내용이 없습니다.'}
                                     </p>
 
                                     <div className="flex justify-between items-center text-[12px] text-[#86868B] border-t border-[#3c3c3c]/50 pt-3">
@@ -317,8 +261,16 @@ export default function MobileWorkflowLogs({ memberInfo }) {
                                         </span>
                                     </div>
                                 </div>
-                            );
-                        })}
+                        ))}
+                        {visibleLogs.length < filteredLogs.length && (
+                            <button
+                                type="button"
+                                onClick={() => setVisibleCount((currentCount) => currentCount + INITIAL_VISIBLE_COUNT)}
+                                className="w-full rounded-[14px] border border-[#3c3c3c] bg-[#272726] py-3 text-[12px] font-bold text-[#A1A1AA] active:bg-[#30302f]"
+                            >
+                                20건 더 보기 ({visibleLogs.length}/{filteredLogs.length})
+                            </button>
+                        )}
                     </div>
                 )}
             </div>
@@ -326,7 +278,13 @@ export default function MobileWorkflowLogs({ memberInfo }) {
             {/* Modal Detail Overlay */}
             <AnimatePresence>
                 {selectedLog && (
-                    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm">
+                    <div
+                        className="fixed inset-0 z-[9999] flex items-center justify-center px-4 bg-black/75 backdrop-blur-sm"
+                        style={{
+                            paddingTop: 'max(1rem, env(safe-area-inset-top))',
+                            paddingBottom: 'max(1rem, env(safe-area-inset-bottom))',
+                        }}
+                    >
                         <motion.div 
                             className="bg-[#1C1C1E] border border-[#2c2c2e] w-full max-w-[450px] rounded-[28px] overflow-hidden flex flex-col max-h-[82vh] shadow-2xl relative"
                             initial={{ scale: 0.95, opacity: 0 }}
@@ -335,6 +293,8 @@ export default function MobileWorkflowLogs({ memberInfo }) {
                             transition={{ duration: 0.15 }}
                         >
                             <button 
+                                type="button"
+                                aria-label="상세 닫기"
                                 onClick={() => setSelectedLog(null)}
                                 className="absolute right-5 top-5 w-[28px] h-[28px] rounded-full bg-[#2c2c2e] hover:bg-[#3a3a3c] flex items-center justify-center transition-colors cursor-pointer z-50 border border-white/5"
                             >
@@ -362,7 +322,7 @@ export default function MobileWorkflowLogs({ memberInfo }) {
 
                                 <div className="flex flex-wrap gap-1.5 items-center">
                                     <span className="text-[10px] font-bold px-[8px] py-[3px] rounded-[5px] bg-[#3b82f6]/20 text-[#60a5fa] border border-[#3b82f6]/30">
-                                        {selectedLog.metadata?.workspace_label?.split('-')[0].trim() || '공통'}
+                                        {selectedLog.category}
                                     </span>
                                     {selectedLog.line && selectedLog.line !== 'Unknown Line' && (
                                         <span className={`text-[10px] font-bold px-[8px] py-[3px] rounded-[5px] ${getLineBadgeStyle(selectedLog.line)}`}>
@@ -385,13 +345,7 @@ export default function MobileWorkflowLogs({ memberInfo }) {
                                         <span className="text-[11.5px] font-bold text-[#86868b]">업무 기록 상세</span>
                                         <div className="p-4 bg-[#2c2c2e]/30 border border-[#2c2c2e] rounded-[16px] max-h-[220px] overflow-y-auto custom-thin-scrollbar">
                                             <p className="text-[15.5px] text-[#E5E5E5] leading-[1.6] whitespace-pre-wrap break-all">
-                                                {(() => {
-                                                    const text = selectedLog.raw_text || selectedLog.body_text || '';
-                                                    let formatted = text;
-                                                    formatted = formatted.replace(/\s+([가-하])\.\s+/g, '\n$1. ');
-                                                    formatted = formatted.replace(/\s+(\d+)\)\s+/g, '\n$1) ');
-                                                    return formatted.replace(/\n+/g, '\n').trim() || '내용이 없습니다.';
-                                                })()}
+                                                {selectedLog.display_text || '내용이 없습니다.'}
                                             </p>
                                         </div>
                                     </div>
@@ -422,7 +376,7 @@ export default function MobileWorkflowLogs({ memberInfo }) {
                                     >
                                         닫기
                                     </button>
-                                    {!selectedLog.isDeleted && (selectedLog.source_url || selectedLog.metadata?.workspace_code) && (
+                                    {!selectedLog.isDeleted && (selectedLog.source_url || getDirectorWorkspacePath(selectedLog)) && (
                                         <button 
                                             onClick={() => { handleGoToWorkspace(selectedLog); setSelectedLog(null); }}
                                             className="flex-1 py-3.5 bg-[#3b82f6] hover:bg-[#2563eb] text-white text-[13px] font-bold rounded-xl transition-colors cursor-pointer"
