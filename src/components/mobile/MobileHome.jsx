@@ -1,112 +1,353 @@
-import React, { useState, useEffect } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { supabase } from '../../utils/supabaseClient';
+import {
+    comparePmoTasksByPriority,
+    getPmoMeetingGrade,
+    getStoredPmoPriorityScore,
+    matchesPmoStatusFilter,
+    parseTaskBoolean,
+} from '../../utils/pmoTaskPriority';
+import { fetchDirectorWorkflowLogs } from '../../utils/directorWorkflowLogs';
+
+const GRADE_CONFIG = [
+    { grade: 'A', label: '즉시상정', color: '#f87171' },
+    { grade: 'B', label: '회의점검', color: '#fbbf24' },
+    { grade: 'C', label: '주간관리', color: '#60a5fa' },
+    { grade: 'D', label: '대기', color: '#86868B' },
+];
+
+const formatShortDate = (dateString) => {
+    if (!dateString) return '기한 미정';
+    const date = new Date(dateString);
+    if (Number.isNaN(date.getTime())) return dateString;
+    return `${String(date.getMonth() + 1).padStart(2, '0')}.${String(date.getDate()).padStart(2, '0')}`;
+};
+
+const getDueLabel = (dateString, status) => {
+    if (!dateString || status === '완료') return formatShortDate(dateString);
+    const dueDate = new Date(dateString);
+    if (Number.isNaN(dueDate.getTime())) return dateString;
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    dueDate.setHours(0, 0, 0, 0);
+    const difference = Math.round((dueDate.getTime() - today.getTime()) / 86400000);
+    if (difference === 0) return 'D-Day';
+    if (difference < 0) return `D+${Math.abs(difference)}`;
+    return `D-${difference}`;
+};
+
+const getTodayLabel = () => {
+    const today = new Date();
+    const weekdays = ['일', '월', '화', '수', '목', '금', '토'];
+    return `${today.getMonth() + 1}월 ${today.getDate()}일 ${weekdays[today.getDay()]}요일`;
+};
 
 export default function MobileHome({ memberInfo, onNavigateToTab }) {
     const [tasks, setTasks] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [counts, setCounts] = useState({ blockers: 0, decision: 0, delay: 0, pending: 0 });
+    const [directorReports, setDirectorReports] = useState([]);
+    const [taskLoading, setTaskLoading] = useState(true);
+    const [reportLoading, setReportLoading] = useState(true);
+    const [taskError, setTaskError] = useState('');
+    const [reportError, setReportError] = useState('');
 
-    useEffect(() => {
-        const fetchDashboardData = async () => {
-            try {
-                const { data: allTasks, error } = await supabase
-                    .schema('iota_v2')
-                    .from('iota_pmo_tasks')
-                    .select('id, project_code, task_name, sector_detail, lead_dept_code, lead_dept:iota_departments!lead_dept_code(dept_name), coop_dept_codes, assignee, is_blocker, needs_decision, priority_score, due_date, status, category_main, importance_level, meeting_grade, task_type, support_needed');
+    const fetchTasks = useCallback(async (showLoading = true) => {
+        if (showLoading) setTaskLoading(true);
+        setTaskError('');
 
-                if (error) throw error;
-
-                const finalTasks = allTasks || [];
-                setTasks(finalTasks);
-                
-                setCounts({
-                    blockers: finalTasks.filter(t => t.is_blocker).length,
-                    decision: finalTasks.filter(t => t.needs_decision).length,
-                    delay: finalTasks.filter(t => t.status === '지연' || t.status === '위험').length,
-                    pending: finalTasks.filter(t => t.status === '대기' || t.status === '안건대기' || t.status === '승인대기').length
-                });
-            } catch (err) {
-                console.error("Failed to load dashboard data from database:", err);
-            } finally {
-                setLoading(false);
+        try {
+            const { error: prioritySyncError } = await supabase
+                .schema('iota_v2')
+                .rpc('sync_pmo_priority_scores');
+            if (prioritySyncError) {
+                console.warn('Mobile home priority sync failed:', prioritySyncError);
             }
-        };
-        fetchDashboardData();
+
+            const { data, error } = await supabase
+                .schema('iota_v2')
+                .from('iota_pmo_tasks')
+                .select(`
+                    id,
+                    project_code,
+                    task_name,
+                    lead_dept_code,
+                    lead_dept:iota_departments!lead_dept_code(dept_name),
+                    is_blocker,
+                    needs_decision,
+                    priority_score,
+                    due_date,
+                    status,
+                    meeting_grade,
+                    task_type,
+                    created_at
+                `)
+                .neq('task_type', '팝업')
+                .order('created_at', { ascending: true })
+                .order('id', { ascending: true });
+
+            if (error) throw error;
+            setTasks((data || []).filter((task) => task.task_type !== '팝업'));
+        } catch (error) {
+            console.error('Failed to load mobile home tasks:', error);
+            setTaskError('통합업무 현황을 불러오지 못했습니다.');
+        } finally {
+            if (showLoading) setTaskLoading(false);
+        }
     }, []);
 
+    const fetchReports = useCallback(async (showLoading = true, force = false) => {
+        if (showLoading) setReportLoading(true);
+        setReportError('');
+
+        try {
+            const reports = await fetchDirectorWorkflowLogs({ force });
+            setDirectorReports(reports.slice(0, 2));
+        } catch (error) {
+            console.error('Failed to load mobile home Director reports:', error);
+            setReportError('Director 업무보고를 불러오지 못했습니다.');
+        } finally {
+            if (showLoading) setReportLoading(false);
+        }
+    }, []);
+
+    useEffect(() => {
+        fetchTasks();
+        fetchReports();
+
+        let refreshTimeoutId;
+        const scheduleTaskRefresh = () => {
+            window.clearTimeout(refreshTimeoutId);
+            refreshTimeoutId = window.setTimeout(() => fetchTasks(false), 300);
+        };
+
+        const channel = supabase
+            .channel('mobile-home-pmo-summary')
+            .on('postgres_changes', {
+                event: '*',
+                schema: 'iota_v2',
+                table: 'iota_pmo_tasks',
+            }, scheduleTaskRefresh)
+            .subscribe();
+
+        const handleVisibilityChange = () => {
+            if (document.visibilityState !== 'visible') return;
+            scheduleTaskRefresh();
+            fetchReports(false);
+        };
+        document.addEventListener('visibilitychange', handleVisibilityChange);
+
+        return () => {
+            window.clearTimeout(refreshTimeoutId);
+            document.removeEventListener('visibilitychange', handleVisibilityChange);
+            supabase.removeChannel(channel);
+        };
+    }, [fetchReports, fetchTasks]);
+
+    const activeTasks = useMemo(
+        () => tasks.filter((task) => matchesPmoStatusFilter(task, '전체')),
+        [tasks]
+    );
+
+    const sortedTasks = useMemo(
+        () => [...activeTasks].sort(comparePmoTasksByPriority),
+        [activeTasks]
+    );
+
+    const topTasks = useMemo(() => sortedTasks.slice(0, 3), [sortedTasks]);
+
+    const gradeCounts = useMemo(() => activeTasks.reduce((counts, task) => {
+        const grade = getPmoMeetingGrade(getStoredPmoPriorityScore(task));
+        counts[grade] += 1;
+        return counts;
+    }, { A: 0, B: 0, C: 0, D: 0 }), [activeTasks]);
+
+    const openTaskBoard = (taskId = null) => {
+        onNavigateToTab(1, null, { viewMode: 'pmo', taskId });
+    };
+
+    const openDirectorReports = (directorLogId = null) => {
+        onNavigateToTab(1, null, { viewMode: 'director', directorLogId });
+    };
+
     return (
-        <div className="w-full h-full flex flex-col p-4 overflow-y-auto hide-scrollbar">
-            {/* 2x2 KPI Widgets will go here */}
-            <div className="grid grid-cols-2 gap-3 mb-6">
-                <div onClick={() => onNavigateToTab(1, 'Blocker')} className="bg-[#252525] rounded-[20px] p-4 flex flex-col justify-between h-[100px] border border-white/[0.06] active:bg-[#2c2c2e] transition-colors cursor-pointer">
-                    <span className="text-[13px] font-medium text-[#86868b]">블로커</span>
-                    <span className="text-[28px] font-bold text-red-500 font-['Inter']">{counts.blockers}</span>
+        <div className="w-full h-full overflow-y-auto hide-scrollbar px-4 pt-3 pb-8">
+            <header className="mb-3 flex items-end justify-between gap-3">
+                <div>
+                    <h1 className="text-[19px] font-bold tracking-tight text-white">오늘의 CFT 브리핑</h1>
+                    <p className="mt-0.5 text-[11px] font-medium text-[#86868B]">
+                        {getTodayLabel()} · {memberInfo?.staff_name || '사용자'}
+                    </p>
                 </div>
-                <div onClick={() => onNavigateToTab(1, 'Decision')} className="bg-[#252525] rounded-[20px] p-4 flex flex-col justify-between h-[100px] border border-white/[0.06] active:bg-[#2c2c2e] transition-colors cursor-pointer">
-                    <span className="text-[13px] font-medium text-[#86868b]">의사결정</span>
-                    <span className="text-[28px] font-bold text-orange-500 font-['Inter']">{counts.decision}</span>
-                </div>
-                <div onClick={() => onNavigateToTab(1, 'Delay')} className="bg-[#252525] rounded-[20px] p-4 flex flex-col justify-between h-[100px] border border-white/[0.06] active:bg-[#2c2c2e] transition-colors cursor-pointer">
-                    <span className="text-[13px] font-medium text-[#86868b]">지연/위험</span>
-                    <span className="text-[28px] font-bold text-yellow-500 font-['Inter']">{counts.delay}</span>
-                </div>
-                <div onClick={() => onNavigateToTab(1, 'Pending')} className="bg-[#252525] rounded-[20px] p-4 flex flex-col justify-between h-[100px] border border-white/[0.06] active:bg-[#2c2c2e] transition-colors cursor-pointer">
-                    <span className="text-[13px] font-medium text-[#86868b]">안건대기</span>
-                    <span className="text-[28px] font-bold text-blue-500 font-['Inter']">{counts.pending}</span>
-                </div>
-            </div>
-
-            {/* Quick Actions (Pill Filters) */}
-            <div className="flex gap-2 overflow-x-auto hide-scrollbar mb-6 pb-2">
-                <button className="whitespace-nowrap px-4 py-2 rounded-full bg-white/10 text-white text-[13px] font-bold border border-white/20">전체 현황</button>
-                <button className="whitespace-nowrap px-4 py-2 rounded-full bg-[#252525] text-[#86868b] text-[13px] font-medium border border-white/[0.06]">단발업무</button>
-                <button className="whitespace-nowrap px-4 py-2 rounded-full bg-[#252525] text-[#86868b] text-[13px] font-medium border border-white/[0.06]">내 워크스페이스</button>
-            </div>
-
-            {/* Today's Tasks List Header */}
-            <div className="flex justify-between items-center mb-3">
-                <h2 className="text-[18px] font-bold text-white tracking-tight">전체 현황 목록</h2>
-                <button 
-                    onClick={() => onNavigateToTab(1)} // 업무 탭으로 이동
-                    className="text-[12px] text-[#2997ff] font-medium"
+                <button
+                    type="button"
+                    onClick={() => openTaskBoard()}
+                    className="shrink-0 text-[11px] font-bold text-[#60a5fa]"
                 >
-                    전체보기
+                    전체 업무
                 </button>
-            </div>
+            </header>
 
-            {/* List Cards */}
-            <div className="flex flex-col gap-3 pb-8">
-                {loading ? (
-                    <div className="bg-[#252525] rounded-[16px] p-4 border border-white/[0.06] flex flex-col gap-2">
-                        <span className="text-[13px] text-[#86868b]">데이터 로딩 중...</span>
-                    </div>
-                ) : tasks.length === 0 ? (
-                    <div className="bg-[#252525] rounded-[16px] p-4 border border-white/[0.06] flex flex-col gap-2">
-                        <span className="text-[13px] text-[#86868b]">표시할 현황이 없습니다.</span>
-                    </div>
-                ) : (
-                    tasks.slice(0, 10).map((t, idx) => (
-                        <div key={t.id || idx} className="bg-[#252525] hover:bg-[#2c2c2e] transition-colors rounded-[16px] p-4 border border-white/[0.06] flex flex-col gap-2 relative">
-                            {/* Badges */}
-                            <div className="flex gap-2 mb-1">
-                                {t.is_blocker && <span className="bg-red-500/10 text-red-400 text-[10px] font-bold px-2 py-0.5 rounded">블로커</span>}
-                                {t.needs_decision && <span className="bg-orange-500/10 text-orange-400 text-[10px] font-bold px-2 py-0.5 rounded">의사결정</span>}
+            <button
+                type="button"
+                onClick={() => openTaskBoard()}
+                className="w-full rounded-[18px] border border-[#3c3c3c] bg-[#272726] px-3.5 py-3 text-left active:bg-[#30302f]"
+            >
+                <div className="flex items-center justify-between">
+                    <span className="text-[12px] font-semibold text-[#A1A1AA]">미완료 통합업무</span>
+                    <strong className="text-[18px] font-bold text-white">
+                        {taskLoading ? '-' : `${activeTasks.length}건`}
+                    </strong>
+                </div>
+
+                <div className="mt-2.5 grid grid-cols-4 divide-x divide-white/[0.07]">
+                    {GRADE_CONFIG.map(({ grade, label, color }) => (
+                        <div key={grade} className="px-2 text-center first:pl-0 last:pr-0">
+                            <div className="flex items-baseline justify-center gap-1">
+                                <span className="text-[11px] font-black" style={{ color }}>{grade}</span>
+                                <strong className="text-[15px] font-bold text-white">
+                                    {taskLoading ? '-' : gradeCounts[grade]}
+                                </strong>
                             </div>
-                            {/* Title */}
-                            <h3 className="text-[15px] font-bold text-[#E5E5E5] leading-snug break-keep">{t.task_name}</h3>
-                            {/* Metadata */}
-                            <div className="flex justify-between items-center mt-2 pt-2 border-t border-white/[0.06]">
-                                <span className="text-[12px] text-[#A1A1AA]">{t.assignee || t.sector_detail || '담당 미지정'}</span>
-                                <span className={`text-[12px] font-bold ${
-                                    t.status === '완료' ? 'text-green-400' :
-                                    t.status === '지연' || t.status === '위험' ? 'text-yellow-400' :
-                                    'text-[#60a5fa]'
-                                }`}>{t.status || '진행중'}</span>
-                            </div>
+                            <span className="mt-0.5 block truncate text-[9px] text-[#86868B]">{label}</span>
                         </div>
-                    ))
+                    ))}
+                </div>
+
+                {!taskLoading && activeTasks.length > 0 && (
+                    <div className="mt-2.5 flex h-1.5 overflow-hidden rounded-full bg-[#1A1A1A]">
+                        {GRADE_CONFIG.map(({ grade, color }) => gradeCounts[grade] > 0 && (
+                            <span
+                                key={grade}
+                                style={{ backgroundColor: color, flexGrow: gradeCounts[grade] }}
+                            />
+                        ))}
+                    </div>
                 )}
-            </div>
+            </button>
+
+            <section className="mt-5">
+                <div className="mb-2.5 flex items-center justify-between">
+                    <div>
+                        <h2 className="text-[16px] font-bold text-white">우선 확인 업무</h2>
+                        <p className="mt-0.5 text-[10px] text-[#86868B]">PC와 동일한 우선순위 기준 상위 3건</p>
+                    </div>
+                    <button
+                        type="button"
+                        onClick={() => openTaskBoard()}
+                        className="text-[11px] font-bold text-[#60a5fa]"
+                    >
+                        전체보기
+                    </button>
+                </div>
+
+                <div className="flex flex-col gap-2">
+                    {taskLoading ? (
+                        [...Array(3)].map((_, index) => (
+                            <div key={index} className="h-[76px] animate-pulse rounded-[15px] border border-[#3c3c3c]/60 bg-[#272726]" />
+                        ))
+                    ) : taskError ? (
+                        <button
+                            type="button"
+                            onClick={() => fetchTasks()}
+                            className="rounded-[15px] border border-[#f87171]/30 bg-[#f87171]/5 px-4 py-5 text-[12px] text-[#f87171]"
+                        >
+                            {taskError} 다시 시도
+                        </button>
+                    ) : topTasks.length === 0 ? (
+                        <div className="rounded-[15px] border border-dashed border-[#3c3c3c] py-6 text-center text-[12px] text-[#86868B]">
+                            확인할 통합업무가 없습니다.
+                        </div>
+                    ) : topTasks.map((task) => {
+                        const priorityScore = getStoredPmoPriorityScore(task);
+                        const leadDepartment = task.lead_dept?.dept_name || task.lead_dept_code || '주관 미정';
+                        const isBlocker = parseTaskBoolean(task.is_blocker);
+                        const needsDecision = parseTaskBoolean(task.needs_decision);
+
+                        return (
+                            <button
+                                key={task.id}
+                                type="button"
+                                onClick={() => openTaskBoard(task.id)}
+                                className="relative w-full overflow-hidden rounded-[15px] border border-[#3c3c3c]/70 bg-[#272726] px-3.5 py-2.5 text-left active:bg-[#30302f]"
+                            >
+                                {(isBlocker || needsDecision) && (
+                                    <span className={`absolute inset-y-0 left-0 w-1 ${isBlocker ? 'bg-[#f87171]' : 'bg-[#fb923c]'}`} />
+                                )}
+                                <div className="flex items-center justify-between gap-3">
+                                    <div className="flex min-w-0 items-center gap-1.5">
+                                        <span className="truncate text-[10px] font-bold text-[#60a5fa]">{task.project_code || '전사'}</span>
+                                        {isBlocker && <span className="rounded-[4px] bg-[#f87171]/10 px-1.5 py-0.5 text-[8px] font-bold text-[#f87171]">Blocker</span>}
+                                        {needsDecision && <span className="rounded-[4px] bg-[#fb923c]/10 px-1.5 py-0.5 text-[8px] font-bold text-[#fb923c]">의사결정</span>}
+                                    </div>
+                                    <span className={`shrink-0 text-[11px] font-bold ${priorityScore >= 60 ? 'text-[#f87171]' : priorityScore >= 40 ? 'text-[#bdbba7]' : 'text-[#A1A1AA]'}`}>
+                                        우선 {priorityScore}
+                                    </span>
+                                </div>
+                                <h3 className="mt-1.5 line-clamp-2 break-keep text-[14px] font-bold leading-[1.35] text-white">
+                                    {task.task_name || '제목 없음'}
+                                </h3>
+                                <div className="mt-2 flex items-center justify-between gap-3 text-[10px] text-[#86868B]">
+                                    <span className="truncate">{leadDepartment}</span>
+                                    <span className={`shrink-0 font-bold ${task.status === '지연' ? 'text-[#f87171]' : 'text-[#D1D1D6]'}`}>
+                                        {getDueLabel(task.due_date, task.status)}
+                                    </span>
+                                </div>
+                            </button>
+                        );
+                    })}
+                </div>
+            </section>
+
+            <section className="mt-5">
+                <div className="mb-2.5 flex items-center justify-between">
+                    <div>
+                        <h2 className="text-[16px] font-bold text-white">Director 최신 보고</h2>
+                        <p className="mt-0.5 text-[10px] text-[#86868B]">최근 등록된 주요업무 보고 2건</p>
+                    </div>
+                    <button
+                        type="button"
+                        onClick={() => openDirectorReports()}
+                        className="text-[11px] font-bold text-[#60a5fa]"
+                    >
+                        전체보기
+                    </button>
+                </div>
+
+                <div className="overflow-hidden rounded-[16px] border border-[#3c3c3c]/70 bg-[#272726]">
+                    {reportLoading ? (
+                        [...Array(2)].map((_, index) => (
+                            <div key={index} className="h-[70px] animate-pulse border-b border-white/[0.06] last:border-b-0" />
+                        ))
+                    ) : reportError ? (
+                        <button
+                            type="button"
+                            onClick={() => fetchReports(true, true)}
+                            className="w-full px-4 py-6 text-[12px] text-[#f87171]"
+                        >
+                            {reportError} 다시 시도
+                        </button>
+                    ) : directorReports.length === 0 ? (
+                        <div className="py-6 text-center text-[12px] text-[#86868B]">등록된 Director 보고가 없습니다.</div>
+                    ) : directorReports.map((report, index) => (
+                        <button
+                            key={report.id}
+                            type="button"
+                            onClick={() => openDirectorReports(report.id)}
+                            className={`w-full px-3.5 py-3 text-left active:bg-[#30302f] ${index < directorReports.length - 1 ? 'border-b border-white/[0.06]' : ''}`}
+                        >
+                            <div className="flex items-center justify-between gap-3 text-[9px]">
+                                <div className="flex min-w-0 items-center gap-1.5">
+                                    <span className="truncate rounded-[4px] bg-[#3b82f6]/15 px-1.5 py-0.5 font-bold text-[#60a5fa]">{report.category}</span>
+                                    <span className="truncate text-[#86868B]">{report.line}</span>
+                                </div>
+                                <span className="shrink-0 text-[#86868B]">{formatShortDate(report.work_date)}</span>
+                            </div>
+                            <h3 className="mt-1.5 truncate text-[13px] font-bold text-white">{report.title}</h3>
+                            <span className="mt-1 block text-[10px] text-[#A1A1AA]">{report.writer_name}</span>
+                        </button>
+                    ))}
+                </div>
+            </section>
         </div>
     );
 }

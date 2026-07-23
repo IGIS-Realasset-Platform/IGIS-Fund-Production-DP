@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { supabase } from '../../utils/supabaseClient';
-import MobileWorkflowLogs from './MobileWorkflowLogs';
 import MobileTaskContainer from './MobileTaskContainer';
 import MobileCollaborationContainer from './MobileCollaborationContainer';
 import MobileMyTasks from './MobileMyTasks';
@@ -17,6 +16,7 @@ export default function MobileIotaApp({ navigateTo }) {
     const [highlightLogId, setHighlightLogId] = useState(null);
     const [highlightTaskId, setHighlightTaskId] = useState(null);
     const [taskDefaultFilter, setTaskDefaultFilter] = useState(null);
+    const [taskEntryRequest, setTaskEntryRequest] = useState(null);
     const [targetMobileWorkspace, setTargetMobileWorkspace] = useState(null);
     const [isComposerOpen, setIsComposerOpen] = useState(false);
     const [unreadNotiCount, setUnreadNotiCount] = useState(0);
@@ -237,8 +237,22 @@ export default function MobileIotaApp({ navigateTo }) {
                 {activeTab === 0 && (
                     <MobileHome 
                         memberInfo={memberInfo}
-                        onNavigateToTab={(tabIdx, filterStr) => {
+                        onNavigateToTab={(tabIdx, filterStr, options = {}) => {
                             setTaskDefaultFilter(filterStr || null);
+                            if (tabIdx === 1) {
+                                const url = new URL(window.location.href);
+                                if (options.taskId) {
+                                    url.searchParams.set('taskId', options.taskId);
+                                } else {
+                                    url.searchParams.delete('taskId');
+                                }
+                                window.history.replaceState(null, '', `${url.pathname}${url.search}${url.hash}`);
+                                setTaskEntryRequest({
+                                    viewMode: options.viewMode || 'pmo',
+                                    directorLogId: options.directorLogId || null,
+                                    requestedAt: Date.now(),
+                                });
+                            }
                             setActiveTab(tabIdx);
                         }}
                     />
@@ -248,6 +262,8 @@ export default function MobileIotaApp({ navigateTo }) {
                         memberInfo={memberInfo} 
                         defaultFilter={taskDefaultFilter}
                         onResetFilter={() => setTaskDefaultFilter(null)}
+                        entryRequest={taskEntryRequest}
+                        onEntryHandled={() => setTaskEntryRequest(null)}
                     />
                 )}
                 {activeTab === 2 && (
@@ -387,7 +403,17 @@ export default function MobileIotaApp({ navigateTo }) {
                 ].map(tab => (
                     <button 
                         key={tab.id}
-                        onClick={() => setActiveTab(tab.id)}
+                        onClick={() => {
+                            if (tab.id === 1) {
+                                setTaskDefaultFilter(null);
+                                setTaskEntryRequest({
+                                    viewMode: 'pmo',
+                                    directorLogId: null,
+                                    requestedAt: Date.now(),
+                                });
+                            }
+                            setActiveTab(tab.id);
+                        }}
                         className={`flex-1 flex flex-col items-center justify-center pt-[8px] pb-[4px] relative ${activeTab === tab.id ? 'text-[#60a5fa]' : 'text-[#9A9A98]'}`}
                     >
                         <div className="relative">

@@ -9,7 +9,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 const INITIAL_VISIBLE_COUNT = 20;
 
-export default function MobileWorkflowLogs() {
+export default function MobileWorkflowLogs({ initialLogId, onInitialLogHandled }) {
     const [logs, setLogs] = useState([]);
     const [loading, setLoading] = useState(true);
     const [loadError, setLoadError] = useState('');
@@ -41,6 +41,13 @@ export default function MobileWorkflowLogs() {
     useEffect(() => {
         fetchWorkflowLogs();
     }, [fetchWorkflowLogs]);
+
+    useEffect(() => {
+        if (!initialLogId || logs.length === 0) return;
+        const targetLog = logs.find((log) => String(log.id) === String(initialLogId));
+        if (targetLog) setSelectedLog(targetLog);
+        onInitialLogHandled?.();
+    }, [initialLogId, logs, onInitialLogHandled]);
 
     const formatExactDate = (dateStr) => {
         if (!dateStr) return '';
