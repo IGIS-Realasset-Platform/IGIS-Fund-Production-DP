@@ -131,6 +131,8 @@ const normalizeDbPost = (log, taskMap) => {
         dateValue,
         timestamp: getTimestamp(dateValue),
         logId,
+        sourceUrl: getText(log.source_url),
+        recordType: 'db-log',
         ...source,
     };
 };
@@ -153,6 +155,8 @@ const normalizeDirectorPost = (log) => {
         dateValue,
         timestamp: getTimestamp(dateValue),
         directorLogId: logId,
+        sourceUrl: getText(log.source_url),
+        recordType: 'director-log',
         navigationType: 'director',
         department: getDirectorLogCell(log),
     };
@@ -178,6 +182,7 @@ const normalizeTaskPost = (task) => {
         timestamp: getTimestamp(dateValue),
         taskId,
         taskType: task.task_type || '정규',
+        recordType: 'pmo-task',
         navigationType: isPopup ? 'popup' : 'task',
         department: normalizeDepartmentName(task.lead_dept?.dept_name || task.lead_dept_code),
     };
