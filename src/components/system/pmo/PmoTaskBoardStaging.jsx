@@ -3,7 +3,7 @@ import { supabase } from '../../../utils/supabaseClient';
 import { useAuth } from '../../../context/AuthContext';
 import WorkspaceActivityLog from '../workspace/WorkspaceActivityLog';
 import { notifyMembersOnTaskCreation } from '../../../utils/notificationHelpers';
-import { applyPmoPrioritySnapshot, calculatePmoPriorityScore as calculatePriorityScore, parseTaskBoolean as parseBool } from '../../../utils/pmoTaskPriority';
+import { calculatePmoPriorityScore as calculatePriorityScore, comparePmoTasksByCreatedAt, comparePmoTasksByPriority, parseTaskBoolean as parseBool } from '../../../utils/pmoTaskPriority';
 import toast from 'react-hot-toast';
 
 export const FALLBACK_BOARD_TASKS = [
@@ -1735,7 +1735,7 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
             if (prioritySyncError) {
                 const missingFunction = prioritySyncError.code === 'PGRST202' || prioritySyncError.code === '42883';
                 if (missingFunction) {
-                    console.warn('Priority DB sync function is not installed yet; using the shared client snapshot.');
+                    console.warn('Priority DB sync function is not installed yet.');
                     toast.error('DB 우선순위 동기화 설정이 필요합니다.', { id: 'pmo-priority-db-sync' });
                 } else {
                     console.error('Priority DB sync failed:', prioritySyncError);
@@ -1752,7 +1752,8 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                     external_party:iota_stakeholders!external_party_code(stakeholder_name)
                 `)
                 .neq('task_type', '팝업')
-                .order('created_at', { ascending: true });
+                .order('created_at', { ascending: true })
+                .order('id', { ascending: true });
 
             if (error) throw error;
 
@@ -1782,44 +1783,22 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                 console.warn("Failed to fetch recent active tasks:", e);
             }
 
-            let loadedTasks = [];
-            if (data && data.length > 0) {
-                const snapshotNow = new Date();
-                const synchronizedData = data.map(task => applyPmoPrioritySnapshot(task, snapshotNow));
-                const sorted = [...synchronizedData].sort((a, b) => {
-                    const dateA = new Date(a.created_at || 0).getTime();
-                    const dateB = new Date(b.created_at || 0).getTime();
-                    if (dateA !== dateB) return dateA - dateB;
-                    return String(a.id).localeCompare(String(b.id));
-                });
+            if (data) {
+                const sorted = [...data].sort(comparePmoTasksByCreatedAt);
                 const tasksWithDisplayIds = sorted.map((t, idx) => ({
                     ...t,
                     displayId: `T-${String(idx + 1).padStart(3, '0')}`
                 }));
                 setTasks(tasksWithDisplayIds);
                 setIsDbMode(true);
-                loadedTasks = tasksWithDisplayIds;
-            } else {
-                const snapshotNow = new Date();
-                const tasksWithDisplayIds = FALLBACK_BOARD_TASKS.map(t => ({
-                    ...applyPmoPrioritySnapshot(t, snapshotNow),
-                    displayId: t.id
-                }));
-                setTasks(tasksWithDisplayIds);
-                setIsDbMode(false);
-                loadedTasks = tasksWithDisplayIds;
             }
  
             initialUrlCheckedRef.current = true;
         } catch (err) {
             console.error("Failed to fetch tasks from DB:", err);
-            const snapshotNow = new Date();
-            const tasksWithDisplayIds = FALLBACK_BOARD_TASKS.map(t => ({
-                ...applyPmoPrioritySnapshot(t, snapshotNow),
-                displayId: t.id
-            }));
-            setTasks(tasksWithDisplayIds);
-            setIsDbMode(false);
+            setTasks([]);
+            setIsDbMode(true);
+            toast.error('통합업무 DB를 불러오지 못했습니다.', { id: 'pmo-task-db-load' });
             initialUrlCheckedRef.current = true;
         } finally {
             if (showLoading) setLoading(false);
@@ -2365,22 +2344,6 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
                     structuredChanges.push({ field: '중요도', from: oldImportance, to: newImportance });
                 }
 
-                const rawOldGrade = String(editingItem.meeting_grade || fallbackItem.meeting_grade || 'B');
-                const oldGradeText = rawOldGrade.includes('_') ? rawOldGrade : gradeMapToUi(rawOldGrade);
-                const newGradeText = formMeetingGrade || 'D_대기';
-                
-                if (oldGradeText !== newGradeText) {
-                    changes.push(`회의 상정 등급이 "${oldGradeText.replace(/^[A-D]_/, '')}"에서 "${newGradeText.replace(/^[A-D]_/, '')}"(으)로 변경되었습니다.`);
-                    structuredChanges.push({ field: '상정 등급', from: oldGradeText.replace(/^[A-D]_/, ''), to: newGradeText.replace(/^[A-D]_/, '') });
-                }
-
-                const oldScore = calculatePriorityScore(editingItem);
-                const newScore = formPriorityScore || 0;
-                if (oldScore !== newScore) {
-                    changes.push(`우선순위 점수가 "${oldScore}점"에서 "${newScore}점"(으)로 변경되었습니다.`);
-                    structuredChanges.push({ field: '우선순위 점수', from: `${oldScore}점`, to: `${newScore}점` });
-                }
-
                 // 3. 병목
                 const oldBlockerRaw = editingItem.is_blocker !== undefined ? editingItem.is_blocker : fallbackItem.is_blocker;
                 let oldBlocker = '비활성화';
@@ -2630,16 +2593,9 @@ export default function PmoTaskBoardStaging({ searchQuery: propSearchQuery, setS
     // Sort tasks by priority score (default: descending)
     const sortedAndFilteredTasks = useMemo(() => {
         const list = [...filteredTasks];
-        list.sort((a, b) => {
-            const scoreA = Number(a.priority_score) || 0;
-            const scoreB = Number(b.priority_score) || 0;
-            
-            if (prioritySortOrder === 'desc') {
-                return scoreB - scoreA;
-            } else {
-                return scoreA - scoreB;
-            }
-        });
+        list.sort((firstTask, secondTask) => (
+            comparePmoTasksByPriority(firstTask, secondTask, prioritySortOrder)
+        ));
         return list;
     }, [filteredTasks, prioritySortOrder]);
 

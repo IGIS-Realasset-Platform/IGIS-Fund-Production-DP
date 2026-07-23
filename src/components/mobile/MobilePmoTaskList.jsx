@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { supabase } from '../../utils/supabaseClient';
-import { applyPmoPrioritySnapshot, parseTaskBoolean } from '../../utils/pmoTaskPriority';
+import { comparePmoTasksByPriority, getStoredPmoPriorityScore, parseTaskBoolean } from '../../utils/pmoTaskPriority';
 import MobilePmoTaskDetail from './MobilePmoTaskDetail';
 import toast from 'react-hot-toast';
 
@@ -70,7 +70,7 @@ export default function MobilePmoTaskList({ defaultFilter, onResetFilter }) {
                 if (prioritySyncError) {
                     const missingFunction = prioritySyncError.code === 'PGRST202' || prioritySyncError.code === '42883';
                     if (missingFunction) {
-                        console.warn('Priority DB sync function is not installed yet; using the shared client snapshot.');
+                        console.warn('Priority DB sync function is not installed yet.');
                         toast.error('DB 우선순위 동기화 설정이 필요합니다.', { id: 'pmo-priority-db-sync' });
                     } else {
                         console.error('Priority DB sync failed:', prioritySyncError);
@@ -87,14 +87,13 @@ export default function MobilePmoTaskList({ defaultFilter, onResetFilter }) {
                         external_party:iota_stakeholders!external_party_code(stakeholder_name)
                     `)
                     .neq('task_type', '팝업')
-                    .order('created_at', { ascending: true });
+                    .order('created_at', { ascending: true })
+                    .order('id', { ascending: true });
 
                 if (error) throw error;
-                const snapshotNow = new Date();
                 if (isActive) {
                     setTasks((data || [])
-                        .filter((task) => task.task_type !== '팝업')
-                        .map((task) => applyPmoPrioritySnapshot(task, snapshotNow)));
+                        .filter((task) => task.task_type !== '팝업'));
                 }
             } catch (error) {
                 console.error('Failed to fetch PMO tasks:', error);
@@ -154,9 +153,10 @@ export default function MobilePmoTaskList({ defaultFilter, onResetFilter }) {
         return true;
     }), [tasks, blockerOnly, decisionOnly, statusFilter]);
 
-    const sortedTasks = useMemo(() => [...filteredTasks].sort((firstTask, secondTask) => (
-        (Number(secondTask.priority_score) || 0) - (Number(firstTask.priority_score) || 0)
-    )), [filteredTasks]);
+    const sortedTasks = useMemo(
+        () => [...filteredTasks].sort(comparePmoTasksByPriority),
+        [filteredTasks]
+    );
 
     const resetFilters = () => {
         setBlockerOnly(false);
@@ -242,7 +242,7 @@ export default function MobilePmoTaskList({ defaultFilter, onResetFilter }) {
                 ) : sortedTasks.map((task) => {
                     const isBlocker = parseTaskBoolean(task.is_blocker);
                     const needsDecision = parseTaskBoolean(task.needs_decision);
-                    const priorityScore = Number(task.priority_score) || 0;
+                    const priorityScore = getStoredPmoPriorityScore(task);
                     const leadDepartment = task.lead_dept?.dept_name || task.lead_dept || task.lead_dept_code || '주관 미정';
 
                     return (

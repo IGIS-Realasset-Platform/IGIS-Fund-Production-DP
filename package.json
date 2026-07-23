@@ -17,6 +17,7 @@
     "ios:ready": "npm run ios:sync && npm run ios:doctor && npm run ios:open",
     "ios:live:sync": "node scripts/capacitor-live-sync.mjs ios",
     "ios:open": "npx cap open ios",
+    "verify:pmo-list": "node scripts/verify-pmo-list-parity.mjs",
     "android:sync": "npm run build && npx cap sync android",
     "android:live:sync": "node scripts/capacitor-live-sync.mjs android",
     "android:open": "npx cap open android"

@@ -105,11 +105,6 @@ export const calculatePmoPriorityScore = (task, now = new Date()) => {
 
     score += delayScore;
 
-    const taskType = normalizedTask.task_type || '정규';
-    if (taskType === '팝업') {
-        score += 5;
-    }
-
     return score;
 };
 
@@ -120,15 +115,24 @@ export const getPmoMeetingGrade = (score) => {
     return 'D';
 };
 
-export const applyPmoPrioritySnapshot = (task, now = new Date()) => {
-    if (!task) return task;
+export const getStoredPmoPriorityScore = (task) => {
+    const score = Number(task?.priority_score);
+    return Number.isFinite(score) ? score : 0;
+};
 
-    const normalizedTask = normalizePmoTaskPriorityState(task, now);
-    const priorityScore = calculatePmoPriorityScore(normalizedTask, now);
+const getCreatedAtTime = (task) => {
+    const createdAtTime = new Date(task?.created_at || 0).getTime();
+    return Number.isNaN(createdAtTime) ? 0 : createdAtTime;
+};
 
-    return {
-        ...normalizedTask,
-        priority_score: priorityScore,
-        meeting_grade: getPmoMeetingGrade(priorityScore),
-    };
+export const comparePmoTasksByCreatedAt = (firstTask, secondTask) => {
+    const createdAtDifference = getCreatedAtTime(firstTask) - getCreatedAtTime(secondTask);
+    if (createdAtDifference !== 0) return createdAtDifference;
+    return String(firstTask?.id || '').localeCompare(String(secondTask?.id || ''));
+};
+
+export const comparePmoTasksByPriority = (firstTask, secondTask, order = 'desc') => {
+    const scoreDifference = getStoredPmoPriorityScore(secondTask) - getStoredPmoPriorityScore(firstTask);
+    if (scoreDifference !== 0) return order === 'asc' ? -scoreDifference : scoreDifference;
+    return comparePmoTasksByCreatedAt(firstTask, secondTask);
 };
