@@ -17,6 +17,7 @@ export default function MobileIotaApp({ navigateTo }) {
     const [highlightTaskId, setHighlightTaskId] = useState(null);
     const [taskDefaultFilter, setTaskDefaultFilter] = useState(null);
     const [taskEntryRequest, setTaskEntryRequest] = useState(null);
+    const [collaborationEntryRequest, setCollaborationEntryRequest] = useState(null);
     const [targetMobileWorkspace, setTargetMobileWorkspace] = useState(null);
     const [isComposerOpen, setIsComposerOpen] = useState(false);
     const [unreadNotiCount, setUnreadNotiCount] = useState(0);
@@ -253,6 +254,13 @@ export default function MobileIotaApp({ navigateTo }) {
                                     requestedAt: Date.now(),
                                 });
                             }
+                            if (tabIdx === 2) {
+                                setCollaborationEntryRequest({
+                                    department: options.collaborationDept || '전체',
+                                    itemId: options.collaborationItemId || null,
+                                    requestedAt: Date.now(),
+                                });
+                            }
                             setActiveTab(tabIdx);
                         }}
                     />
@@ -269,6 +277,8 @@ export default function MobileIotaApp({ navigateTo }) {
                 {activeTab === 2 && (
                     <MobileCollaborationContainer 
                         memberInfo={memberInfo}
+                        entryRequest={collaborationEntryRequest}
+                        onEntryHandled={() => setCollaborationEntryRequest(null)}
                     />
                 )}
                 {activeTab === 3 && <MobileMyTasks memberInfo={memberInfo} />}
@@ -409,6 +419,13 @@ export default function MobileIotaApp({ navigateTo }) {
                                 setTaskEntryRequest({
                                     viewMode: 'pmo',
                                     directorLogId: null,
+                                    requestedAt: Date.now(),
+                                });
+                            }
+                            if (tab.id === 2) {
+                                setCollaborationEntryRequest({
+                                    department: '전체',
+                                    itemId: null,
                                     requestedAt: Date.now(),
                                 });
                             }

@@ -7,7 +7,12 @@ import {
     matchesPmoStatusFilter,
     parseTaskBoolean,
 } from '../../utils/pmoTaskPriority';
-import { fetchDirectorWorkflowLogs } from '../../utils/directorWorkflowLogs';
+import {
+    fetchDirectorWorkflowLogs,
+    getDirectorLogCell,
+    getDirectorLogTitle,
+    getDirectorStaffCell,
+} from '../../utils/directorWorkflowLogs';
 
 const GRADE_CONFIG = [
     { grade: 'A', label: '즉시상정', color: '#f87171' },
@@ -15,6 +20,9 @@ const GRADE_CONFIG = [
     { grade: 'C', label: '주간관리', color: '#60a5fa' },
     { grade: 'D', label: '대기', color: '#86868B' },
 ];
+
+const HOME_LIST_LIMIT = 5;
+const COLLABORATION_FALLBACK_DEPARTMENT = '사업 PM 2';
 
 const formatShortDate = (dateString) => {
     if (!dateString) return '기한 미정';
@@ -43,13 +51,128 @@ const getTodayLabel = () => {
     return `${today.getMonth() + 1}월 ${today.getDate()}일 ${weekdays[today.getDay()]}요일`;
 };
 
+const normalizeMatchText = (value) => String(value || '')
+    .replace(/[\s·/_-]+/g, '')
+    .toLowerCase();
+
+const hasMeaningfulSupport = (value) => {
+    const normalized = normalizeMatchText(value);
+    return normalized && !['없음', 'na', '해당사항없음', 'none', '미정'].includes(normalized);
+};
+
+const getDaysUntilDue = (dateString) => {
+    if (!dateString) return null;
+    const dueDate = new Date(dateString);
+    if (Number.isNaN(dueDate.getTime())) return null;
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    dueDate.setHours(0, 0, 0, 0);
+    return Math.round((dueDate.getTime() - today.getTime()) / 86400000);
+};
+
+const getMemberDepartmentTerms = (memberInfo) => {
+    const memberName = memberInfo?.staff_name || memberInfo?.name || '';
+    const department = getDirectorStaffCell(memberName);
+    const values = [
+        department,
+        memberInfo?.org_name,
+        memberInfo?.workspace_code,
+    ];
+
+    if (department === '사업 PM 1') values.push('사업1파트', '사업관리1파트', 'PM1', 'DEPT_PM1');
+    if (department === '사업 PM 2') values.push('사업2파트', '사업관리2파트', 'PM2', 'DEPT_PM2');
+    if (department === '파이낸싱-LFC') values.push('파이낸싱', 'LFC', 'DEPT_LFC');
+    if (department === '개발솔루션-DSC') values.push('개발솔루션', '개발관리실', 'DSC', 'DEPT_DEV');
+    if (department === '기업마케팅-EMC') values.push('기업마케팅', 'EMC', 'DEPT_MKT');
+    if (department === '공간솔루션-SSC') values.push('공간솔루션', '상품디지털', 'SSC', 'DEPT_DESIGN');
+    if (department === '펀드운용-KAM') values.push('펀드운용', 'KAM');
+
+    return [...new Set(values.map(normalizeMatchText).filter(Boolean))];
+};
+
+const matchesMemberDepartment = (value, memberInfo) => {
+    const normalizedValue = normalizeMatchText(value);
+    if (!normalizedValue) return false;
+    return getMemberDepartmentTerms(memberInfo).some((term) => normalizedValue.includes(term));
+};
+
+const getTaskGuidance = (task, memberInfo) => {
+    const memberName = memberInfo?.staff_name || memberInfo?.name || '';
+    const leadDepartment = task.lead_dept?.dept_name || task.lead_dept_code || '';
+    const isAssignedToMember = memberName
+        && normalizeMatchText(task.assignee).includes(normalizeMatchText(memberName));
+    const isMemberLeadDepartment = matchesMemberDepartment(leadDepartment, memberInfo);
+    const isMemberCooperationDepartment = matchesMemberDepartment(task.coop_dept_codes, memberInfo);
+    const isBlocker = parseTaskBoolean(task.is_blocker);
+    const needsDecision = parseTaskBoolean(task.needs_decision);
+    const daysUntilDue = getDaysUntilDue(task.due_date);
+    const isOverdue = task.status === '지연' || (daysUntilDue !== null && daysUntilDue < 0);
+    const isDueSoon = !isOverdue && daysUntilDue !== null && daysUntilDue <= 7;
+    const needsSupport = hasMeaningfulSupport(task.support_needed);
+    const reasons = [];
+    let guidanceScore = 0;
+
+    if (isAssignedToMember) {
+        reasons.push('내 담당');
+        guidanceScore += 100;
+    }
+    if (isMemberLeadDepartment) {
+        reasons.push('내 부서 주관');
+        guidanceScore += 70;
+    }
+    if (isMemberCooperationDepartment) {
+        reasons.push('내 부서 협조');
+        guidanceScore += 60;
+    }
+    if (isBlocker) {
+        reasons.push('Blocker');
+        guidanceScore += 30;
+    }
+    if (needsDecision) {
+        reasons.push('의사결정 필요');
+        guidanceScore += 25;
+    }
+    if (isOverdue) {
+        reasons.push('기한 경과');
+        guidanceScore += 20;
+    } else if (isDueSoon) {
+        reasons.push('7일 내 마감');
+        guidanceScore += 15;
+    }
+    if (needsSupport) {
+        reasons.push('지원 필요');
+        guidanceScore += 5;
+    }
+
+    return { reasons, guidanceScore };
+};
+
+const getNotificationWorkspaceDepartment = (referenceId) => {
+    const [, workspaceCode = ''] = String(referenceId || '').split('|');
+    if (!workspaceCode || workspaceCode === 'WS_PM') return '전체';
+    return getDirectorLogCell({ metadata: { workspace_code: workspaceCode } });
+};
+
+const isWorkspaceCollaborationLog = (log) => {
+    const metadata = log?.metadata || {};
+    const workspaceCode = String(metadata.workspace_code || '').toUpperCase();
+    return workspaceCode
+        && workspaceCode !== 'WS_PMO'
+        && workspaceCode !== 'WS_POPUP_REQUESTS'
+        && !metadata.is_task_board;
+};
+
 export default function MobileHome({ memberInfo, onNavigateToTab }) {
     const [tasks, setTasks] = useState([]);
     const [directorReports, setDirectorReports] = useState([]);
+    const [collaborationItems, setCollaborationItems] = useState([]);
+    const [pendingCollaborationCount, setPendingCollaborationCount] = useState(0);
     const [taskLoading, setTaskLoading] = useState(true);
     const [reportLoading, setReportLoading] = useState(true);
+    const [collaborationLoading, setCollaborationLoading] = useState(true);
     const [taskError, setTaskError] = useState('');
     const [reportError, setReportError] = useState('');
+    const [collaborationError, setCollaborationError] = useState('');
 
     const fetchTasks = useCallback(async (showLoading = true) => {
         if (showLoading) setTaskLoading(true);
@@ -72,8 +195,11 @@ export default function MobileHome({ memberInfo, onNavigateToTab }) {
                     task_name,
                     lead_dept_code,
                     lead_dept:iota_departments!lead_dept_code(dept_name),
+                    coop_dept_codes,
+                    assignee,
                     is_blocker,
                     needs_decision,
+                    support_needed,
                     priority_score,
                     due_date,
                     status,
@@ -101,7 +227,7 @@ export default function MobileHome({ memberInfo, onNavigateToTab }) {
 
         try {
             const reports = await fetchDirectorWorkflowLogs({ force });
-            setDirectorReports(reports.slice(0, 2));
+            setDirectorReports(reports.slice(0, HOME_LIST_LIMIT));
         } catch (error) {
             console.error('Failed to load mobile home Director reports:', error);
             setReportError('Director 업무보고를 불러오지 못했습니다.');
@@ -110,9 +236,84 @@ export default function MobileHome({ memberInfo, onNavigateToTab }) {
         }
     }, []);
 
+    const fetchCollaborations = useCallback(async (showLoading = true) => {
+        if (showLoading) setCollaborationLoading(true);
+        setCollaborationError('');
+
+        try {
+            const notificationRequest = memberInfo?.auth_id
+                ? supabase
+                    .from('iota_notifications')
+                    .select('id, title, body, reference_id, created_at, type', { count: 'exact' })
+                    .eq('user_id', memberInfo.auth_id)
+                    .eq('is_read', false)
+                    .in('type', ['log', 'logs', 'comment', 'comments'])
+                    .order('created_at', { ascending: false })
+                    .limit(HOME_LIST_LIMIT)
+                : Promise.resolve({ data: [], error: null });
+
+            const [notificationResult, fallbackLogResult] = await Promise.all([
+                notificationRequest,
+                supabase
+                    .from('iota_seoul_logs')
+                    .select('*, iota_seoul_log_stakeholders(sh_name, role_category)')
+                    .order('work_date', { ascending: false })
+                    .order('created_at', { ascending: false })
+                    .limit(200),
+            ]);
+
+            if (notificationResult.error) {
+                console.warn('Mobile home collaboration notification load failed:', notificationResult.error);
+            }
+            if (fallbackLogResult.error) throw fallbackLogResult.error;
+
+            const pendingItems = (notificationResult.data || []).map((notification) => {
+                const [logId] = String(notification.reference_id || '').split('|');
+                return {
+                    id: `notification-${notification.id}`,
+                    logId: logId || null,
+                    department: getNotificationWorkspaceDepartment(notification.reference_id),
+                    title: notification.title || '확인할 협업',
+                    summary: notification.body || '',
+                    date: notification.created_at,
+                    isPending: true,
+                };
+            });
+
+            const pendingLogIds = new Set(pendingItems.map((item) => item.logId).filter(Boolean));
+            const fallbackItems = (fallbackLogResult.data || [])
+                .filter((log) => (
+                    isWorkspaceCollaborationLog(log)
+                    && getDirectorLogCell(log) === COLLABORATION_FALLBACK_DEPARTMENT
+                    && !pendingLogIds.has(log.log_id || log.id)
+                ))
+                .slice(0, HOME_LIST_LIMIT)
+                .map((log) => ({
+                    id: `fallback-${log.log_id || log.id}`,
+                    logId: log.log_id || log.id,
+                    department: COLLABORATION_FALLBACK_DEPARTMENT,
+                    title: getDirectorLogTitle(log),
+                    summary: log.raw_text || log.body_text || log.summary || '',
+                    date: log.work_date || log.created_at,
+                    isPending: false,
+                }));
+
+            setPendingCollaborationCount(notificationResult.count || pendingItems.length);
+            setCollaborationItems(
+                [...pendingItems, ...fallbackItems].slice(0, HOME_LIST_LIMIT)
+            );
+        } catch (error) {
+            console.error('Failed to load mobile home collaborations:', error);
+            setCollaborationError('협업 내용을 불러오지 못했습니다.');
+        } finally {
+            if (showLoading) setCollaborationLoading(false);
+        }
+    }, [memberInfo?.auth_id]);
+
     useEffect(() => {
         fetchTasks();
         fetchReports();
+        fetchCollaborations();
 
         let refreshTimeoutId;
         const scheduleTaskRefresh = () => {
@@ -129,10 +330,29 @@ export default function MobileHome({ memberInfo, onNavigateToTab }) {
             }, scheduleTaskRefresh)
             .subscribe();
 
+        let collaborationChannel = supabase
+            .channel(`mobile-home-collaboration-${memberInfo?.auth_id || 'guest'}`)
+            .on('postgres_changes', {
+                event: '*',
+                schema: 'public',
+                table: 'iota_seoul_logs',
+            }, () => fetchCollaborations(false));
+
+        if (memberInfo?.auth_id) {
+            collaborationChannel = collaborationChannel.on('postgres_changes', {
+                event: '*',
+                schema: 'public',
+                table: 'iota_notifications',
+                filter: `user_id=eq.${memberInfo.auth_id}`,
+            }, () => fetchCollaborations(false));
+        }
+        collaborationChannel.subscribe();
+
         const handleVisibilityChange = () => {
             if (document.visibilityState !== 'visible') return;
             scheduleTaskRefresh();
             fetchReports(false);
+            fetchCollaborations(false);
         };
         document.addEventListener('visibilitychange', handleVisibilityChange);
 
@@ -140,20 +360,22 @@ export default function MobileHome({ memberInfo, onNavigateToTab }) {
             window.clearTimeout(refreshTimeoutId);
             document.removeEventListener('visibilitychange', handleVisibilityChange);
             supabase.removeChannel(channel);
+            supabase.removeChannel(collaborationChannel);
         };
-    }, [fetchReports, fetchTasks]);
+    }, [fetchCollaborations, fetchReports, fetchTasks, memberInfo?.auth_id]);
 
     const activeTasks = useMemo(
         () => tasks.filter((task) => matchesPmoStatusFilter(task, '전체')),
         [tasks]
     );
 
-    const sortedTasks = useMemo(
-        () => [...activeTasks].sort(comparePmoTasksByPriority),
-        [activeTasks]
-    );
-
-    const topTasks = useMemo(() => sortedTasks.slice(0, 3), [sortedTasks]);
+    const guidanceTasks = useMemo(() => activeTasks
+        .map((task) => ({ ...task, ...getTaskGuidance(task, memberInfo) }))
+        .sort((firstTask, secondTask) => (
+            secondTask.guidanceScore - firstTask.guidanceScore
+            || comparePmoTasksByPriority(firstTask, secondTask)
+        ))
+        .slice(0, HOME_LIST_LIMIT), [activeTasks, memberInfo]);
 
     const gradeCounts = useMemo(() => activeTasks.reduce((counts, task) => {
         const grade = getPmoMeetingGrade(getStoredPmoPriorityScore(task));
@@ -167,6 +389,15 @@ export default function MobileHome({ memberInfo, onNavigateToTab }) {
 
     const openDirectorReports = (directorLogId = null) => {
         onNavigateToTab(1, null, { viewMode: 'director', directorLogId });
+    };
+
+    const openCollaborations = (item = null) => {
+        onNavigateToTab(2, null, {
+            collaborationDept: item?.department || (
+                pendingCollaborationCount > 0 ? '전체' : COLLABORATION_FALLBACK_DEPARTMENT
+            ),
+            collaborationItemId: item?.logId ? `log-${item.logId}` : null,
+        });
     };
 
     return (
@@ -228,8 +459,8 @@ export default function MobileHome({ memberInfo, onNavigateToTab }) {
             <section className="mt-5">
                 <div className="mb-2.5 flex items-center justify-between">
                     <div>
-                        <h2 className="text-[16px] font-bold text-white">우선 확인 업무</h2>
-                        <p className="mt-0.5 text-[10px] text-[#86868B]">PC와 동일한 우선순위 기준 상위 3건</p>
+                        <h2 className="text-[16px] font-bold text-white">확인 필요 안내</h2>
+                        <p className="mt-0.5 text-[10px] text-[#86868B]">내 담당·협조·의사결정·기한 기준 안내 5건</p>
                     </div>
                     <button
                         type="button"
@@ -242,7 +473,7 @@ export default function MobileHome({ memberInfo, onNavigateToTab }) {
 
                 <div className="flex flex-col gap-2">
                     {taskLoading ? (
-                        [...Array(3)].map((_, index) => (
+                        [...Array(HOME_LIST_LIMIT)].map((_, index) => (
                             <div key={index} className="h-[76px] animate-pulse rounded-[15px] border border-[#3c3c3c]/60 bg-[#272726]" />
                         ))
                     ) : taskError ? (
@@ -253,11 +484,11 @@ export default function MobileHome({ memberInfo, onNavigateToTab }) {
                         >
                             {taskError} 다시 시도
                         </button>
-                    ) : topTasks.length === 0 ? (
+                    ) : guidanceTasks.length === 0 ? (
                         <div className="rounded-[15px] border border-dashed border-[#3c3c3c] py-6 text-center text-[12px] text-[#86868B]">
                             확인할 통합업무가 없습니다.
                         </div>
-                    ) : topTasks.map((task) => {
+                    ) : guidanceTasks.map((task) => {
                         const priorityScore = getStoredPmoPriorityScore(task);
                         const leadDepartment = task.lead_dept?.dept_name || task.lead_dept_code || '주관 미정';
                         const isBlocker = parseTaskBoolean(task.is_blocker);
@@ -287,7 +518,17 @@ export default function MobileHome({ memberInfo, onNavigateToTab }) {
                                     {task.task_name || '제목 없음'}
                                 </h3>
                                 <div className="mt-2 flex items-center justify-between gap-3 text-[10px] text-[#86868B]">
-                                    <span className="truncate">{leadDepartment}</span>
+                                    <div className="flex min-w-0 items-center gap-1.5 overflow-hidden">
+                                        <span className="shrink-0 truncate">{leadDepartment}</span>
+                                        {task.reasons.slice(0, 2).map((reason) => (
+                                            <span
+                                                key={reason}
+                                                className="shrink-0 rounded-[4px] bg-white/[0.06] px-1.5 py-0.5 text-[8px] font-bold text-[#D1D1D6]"
+                                            >
+                                                {reason}
+                                            </span>
+                                        ))}
+                                    </div>
                                     <span className={`shrink-0 font-bold ${task.status === '지연' ? 'text-[#f87171]' : 'text-[#D1D1D6]'}`}>
                                         {getDueLabel(task.due_date, task.status)}
                                     </span>
@@ -302,7 +543,7 @@ export default function MobileHome({ memberInfo, onNavigateToTab }) {
                 <div className="mb-2.5 flex items-center justify-between">
                     <div>
                         <h2 className="text-[16px] font-bold text-white">Director 최신 보고</h2>
-                        <p className="mt-0.5 text-[10px] text-[#86868B]">최근 등록된 주요업무 보고 2건</p>
+                        <p className="mt-0.5 text-[10px] text-[#86868B]">디렉터 T5T 중 이오타서울 관련업무를 추림</p>
                     </div>
                     <button
                         type="button"
@@ -315,7 +556,7 @@ export default function MobileHome({ memberInfo, onNavigateToTab }) {
 
                 <div className="overflow-hidden rounded-[16px] border border-[#3c3c3c]/70 bg-[#272726]">
                     {reportLoading ? (
-                        [...Array(2)].map((_, index) => (
+                        [...Array(HOME_LIST_LIMIT)].map((_, index) => (
                             <div key={index} className="h-[70px] animate-pulse border-b border-white/[0.06] last:border-b-0" />
                         ))
                     ) : reportError ? (
@@ -344,6 +585,71 @@ export default function MobileHome({ memberInfo, onNavigateToTab }) {
                             </div>
                             <h3 className="mt-1.5 truncate text-[13px] font-bold text-white">{report.title}</h3>
                             <span className="mt-1 block text-[10px] text-[#A1A1AA]">{report.writer_name}</span>
+                        </button>
+                    ))}
+                </div>
+            </section>
+
+            <section className="mt-5">
+                <div className="mb-2.5 flex items-center justify-between gap-3">
+                    <div className="min-w-0">
+                        <h2 className="text-[16px] font-bold text-white">내가 확인할 협업</h2>
+                        <p className="mt-0.5 truncate text-[10px] text-[#86868B]">
+                            {pendingCollaborationCount > 0
+                                ? `미확인 협업 ${pendingCollaborationCount}건${pendingCollaborationCount < HOME_LIST_LIMIT ? ' · 사업 PM 2 참고 포함' : ''}`
+                                : '확인할 항목이 없어 사업 PM 2 최신 내용을 표시합니다.'}
+                        </p>
+                    </div>
+                    <button
+                        type="button"
+                        onClick={() => openCollaborations()}
+                        className="shrink-0 text-[11px] font-bold text-[#60a5fa]"
+                    >
+                        협업보기
+                    </button>
+                </div>
+
+                <div className="overflow-hidden rounded-[16px] border border-[#3c3c3c]/70 bg-[#272726]">
+                    {collaborationLoading ? (
+                        [...Array(HOME_LIST_LIMIT)].map((_, index) => (
+                            <div key={index} className="h-[72px] animate-pulse border-b border-white/[0.06] last:border-b-0" />
+                        ))
+                    ) : collaborationError ? (
+                        <button
+                            type="button"
+                            onClick={() => fetchCollaborations()}
+                            className="w-full px-4 py-6 text-[12px] text-[#f87171]"
+                        >
+                            {collaborationError} 다시 시도
+                        </button>
+                    ) : collaborationItems.length === 0 ? (
+                        <div className="py-6 text-center text-[12px] text-[#86868B]">
+                            표시할 협업 내용이 없습니다.
+                        </div>
+                    ) : collaborationItems.map((item, index) => (
+                        <button
+                            key={item.id}
+                            type="button"
+                            onClick={() => openCollaborations(item)}
+                            className={`w-full px-3.5 py-3 text-left active:bg-[#30302f] ${index < collaborationItems.length - 1 ? 'border-b border-white/[0.06]' : ''}`}
+                        >
+                            <div className="flex items-center justify-between gap-3 text-[9px]">
+                                <div className="flex min-w-0 items-center gap-1.5">
+                                    <span className="truncate rounded-[4px] bg-[#30d158]/10 px-1.5 py-0.5 font-bold text-[#34d399]">
+                                        {item.department}
+                                    </span>
+                                    <span className={`shrink-0 font-bold ${item.isPending ? 'text-[#fbbf24]' : 'text-[#86868B]'}`}>
+                                        {item.isPending ? '확인 필요' : '참고'}
+                                    </span>
+                                </div>
+                                <span className="shrink-0 text-[#86868B]">{formatShortDate(item.date)}</span>
+                            </div>
+                            <h3 className="mt-1.5 truncate text-[13px] font-bold text-white">{item.title}</h3>
+                            {item.summary && (
+                                <p className="mt-1 line-clamp-2 break-keep text-[10px] leading-[1.4] text-[#A1A1AA]">
+                                    {item.summary}
+                                </p>
+                            )}
                         </button>
                     ))}
                 </div>

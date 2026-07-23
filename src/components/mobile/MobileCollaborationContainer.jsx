@@ -8,11 +8,23 @@ const departmentsList = [
     '기업마케팅-EMC', '공간솔루션-SSC', '펀드운용-KAM', 'IPR-WG', '기획추진', 'CFT 총괄'
 ];
 
-export default function MobileCollaborationContainer({ memberInfo }) {
-    const [selectedDept, setSelectedDept] = useState('전체');
+export default function MobileCollaborationContainer({ memberInfo, entryRequest, onEntryHandled }) {
+    const [selectedDept, setSelectedDept] = useState(entryRequest?.department || '전체');
+    const [highlightItemId, setHighlightItemId] = useState(entryRequest?.itemId || null);
     const [loading, setLoading] = useState(true);
     const [seoulLogs, setSeoulLogs] = useState([]);
     const [pmoTasks, setPmoTasks] = useState([]);
+
+    useEffect(() => {
+        if (!entryRequest) return;
+        setSelectedDept(
+            departmentsList.includes(entryRequest.department)
+                ? entryRequest.department
+                : '전체'
+        );
+        setHighlightItemId(entryRequest.itemId || null);
+        onEntryHandled?.();
+    }, [entryRequest, onEntryHandled]);
 
     useEffect(() => {
         const fetchAllData = async () => {
@@ -175,6 +187,19 @@ export default function MobileCollaborationContainer({ memberInfo }) {
         return merged;
     }, [seoulLogs, pmoTasks, selectedDept]);
 
+    useEffect(() => {
+        if (!highlightItemId || loading || unifiedFeed.length === 0) return;
+
+        const timerId = window.setTimeout(() => {
+            const target = document.getElementById(highlightItemId);
+            if (!target) return;
+            target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            window.setTimeout(() => setHighlightItemId(null), 1800);
+        }, 120);
+
+        return () => window.clearTimeout(timerId);
+    }, [highlightItemId, loading, unifiedFeed]);
+
     const formatDate = (d) => {
         const date = new Date(d);
         if (isNaN(date.getTime())) return '';
@@ -235,10 +260,15 @@ export default function MobileCollaborationContainer({ memberInfo }) {
                             {unifiedFeed.map(item => (
                                 <motion.div
                                     key={item.id}
+                                    id={item.id}
                                     initial={{ opacity: 0, y: 10 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     exit={{ opacity: 0, scale: 0.95 }}
-                                    className="bg-[#222223] border border-white/[0.08] rounded-[16px] p-[16px] flex flex-col gap-[10px]"
+                                    className={`bg-[#222223] border rounded-[16px] p-[16px] flex flex-col gap-[10px] transition-colors ${
+                                        highlightItemId === item.id
+                                            ? 'border-[#60a5fa] bg-[#3b82f6]/10'
+                                            : 'border-white/[0.08]'
+                                    }`}
                                 >
                                     <div className="flex justify-between items-start">
                                         <div className="flex flex-col gap-1">
