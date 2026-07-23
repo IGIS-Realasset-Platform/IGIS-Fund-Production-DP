@@ -570,7 +570,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, fetchLogs,
 
     const displayLabel = workspaceLabel ? workspaceLabel.split('-')[0].trim() : '';
 
-    const collapsedText = '회의록, 협업 사항, 또는 공유할 내용을 등록하세요.';
+    const collapsedText = '업무 메시지, 협업 사항 또는 공유할 내용을 등록하세요.';
 
     return (
         <div className={`w-full ${isTaskBoard ? 'rounded-[16px] bg-[#5d5d5d]' : 'rounded-[24px] bg-gradient-to-br from-[#d6efe9] via-[#82afb9] to-[#4c6e86]'} p-[1px] mb-[11px] ${editMode ? 'shadow-2xl' : ''}`}>

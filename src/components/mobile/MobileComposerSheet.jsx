@@ -215,7 +215,7 @@ export default function MobileComposerSheet({ memberInfo, onClose, onSuccess, ac
                 {/* Header */}
                 <div className="flex items-center justify-between px-4 py-3.5 bg-[#272726] border-b border-[#3c3c3c] rounded-t-[24px] shrink-0">
                     <button onClick={onClose} className="text-[#86868B] hover:text-[#E5E5E5] text-[15px] font-bold p-2 -ml-2 transition-colors">취소</button>
-                    <span className="text-[17px] font-bold text-white tracking-tight">회의록 작성</span>
+                    <span className="text-[17px] font-bold text-white tracking-tight">업무 메시지 작성</span>
                     <button 
                         onClick={handleSubmit} 
                         disabled={loading}

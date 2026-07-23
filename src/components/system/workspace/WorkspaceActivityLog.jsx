@@ -7,6 +7,23 @@ import { motion, AnimatePresence } from 'framer-motion';
 import LogWriteBox from '../LogWriteBox';
 import ReactionAvatarStack from '../ReactionAvatarStack';
 
+const getWorkspaceMessageTitle = (workspaceCode, workspaceLabel) => {
+    const workspaceTitles = {
+        WS_PM1: '사업1파트 업무 메시지',
+        WS_PM2: '사업2파트 업무 메시지',
+        WS_LFC: '파이낸싱 업무 메시지',
+        WS_DSC: '개발솔루션 업무 메시지',
+        WS_EMC: '기업마케팅 업무 메시지',
+        WS_SSC: '공간솔루션 업무 메시지',
+        WS_KAM: '펀드운용 업무 메시지',
+        WS_IPR: 'IPR 업무 메시지',
+    };
+
+    if (workspaceTitles[workspaceCode]) return workspaceTitles[workspaceCode];
+    const cleanLabel = String(workspaceLabel || '').split('-')[0].trim();
+    return cleanLabel ? `${cleanLabel} 업무 메시지` : '업무 메시지';
+};
+
 const parseSystemLogText = (rawText) => {
     if (!rawText) return [];
     
@@ -960,7 +977,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
             {!isTaskBoard && (
                 <div className="flex justify-between items-center mt-[-14px] mb-[12px]">
                     <h2 className="text-[16px] font-bold text-white tracking-tight translate-y-[6px]">
-                        {workspaceLabel ? workspaceLabel.split('-')[0].trim() + ' 회의록' : ''}
+                        {getWorkspaceMessageTitle(workspaceCode, workspaceLabel)}
                     </h2>
                     <div className="flex items-center gap-[12px]">
                         {/* Search Box */}

@@ -170,7 +170,7 @@ export const notifyMembersOnLogCreation = async (logId, logContent, workspace, w
             ordinaryRecipientIds.forEach(userId => {
                 notificationPayload.push({
                     user_id: userId,
-                    title: `[${workspace.label}] 신규 회의록 등록`,
+                    title: `[${workspace.label}] 신규 업무 메시지`,
                     body: summaryText,
                     type: 'log',
                     reference_id: `${logId}|${workspace.code}`,
@@ -183,7 +183,7 @@ export const notifyMembersOnLogCreation = async (logId, logContent, workspace, w
             mentionedAuthIds.forEach(userId => {
                 notificationPayload.push({
                     user_id: userId,
-                    title: `[@언급] ${writerName}님이 회의록에서 회원님을 태그했습니다.`,
+                    title: `[@언급] ${writerName}님이 업무 메시지에서 회원님을 태그했습니다.`,
                     body: summaryText,
                     type: 'log',
                     reference_id: `${logId}|${workspace.code}`,
@@ -412,4 +412,3 @@ export const notifyMembersOnCommentCreation = async (logId, commentContent, work
     // 클라이언트 측에서 중복으로 알림을 발송하지 않도록 본 함수는 실행을 생략합니다.
     console.log('Skipping client-side notifyMembersOnCommentCreation to prevent duplicate comment notifications.');
 };
-
