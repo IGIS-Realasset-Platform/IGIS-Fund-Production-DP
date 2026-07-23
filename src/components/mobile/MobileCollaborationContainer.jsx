@@ -150,6 +150,8 @@ export default function MobileCollaborationContainer({ entryRequest, onEntryHand
         );
         if (String(entryRequest.itemId || '').startsWith('log-')) {
             setSelectedFeed('업무 메시지');
+        } else if (String(entryRequest.itemId || '').startsWith('popup-')) {
+            setSelectedFeed('단발성 업무');
         }
         setHighlightItemId(entryRequest.itemId || null);
         onEntryHandled?.();

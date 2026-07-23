@@ -289,7 +289,56 @@ export default function MobileIotaApp({ navigateTo }) {
                         onEntryHandled={() => setCollaborationEntryRequest(null)}
                     />
                 )}
-                {activeTab === 3 && <MobileMyTasks memberInfo={memberInfo} />}
+                {activeTab === 3 && (
+                    <MobileMyTasks
+                        memberInfo={memberInfo}
+                        onNavigateToSource={(activity) => {
+                            if (activity.navigationType === 'workspace') {
+                                setCollaborationEntryRequest({
+                                    department: activity.department || '전체',
+                                    itemId: `log-${activity.logId}`,
+                                    requestedAt: Date.now(),
+                                });
+                                setActiveTab(2);
+                                return;
+                            }
+
+                            if (activity.navigationType === 'popup') {
+                                setCollaborationEntryRequest({
+                                    department: '전체',
+                                    itemId: `popup-${activity.taskId}`,
+                                    requestedAt: Date.now(),
+                                });
+                                setActiveTab(2);
+                                return;
+                            }
+
+                            if (activity.navigationType === 'director') {
+                                setTaskEntryRequest({
+                                    viewMode: 'director',
+                                    directorLogId: activity.directorLogId,
+                                    returnToHome: false,
+                                    requestedAt: Date.now(),
+                                });
+                                setActiveTab(1);
+                                return;
+                            }
+
+                            if (activity.navigationType === 'task' && activity.taskId) {
+                                const url = new URL(window.location.href);
+                                url.searchParams.set('taskId', activity.taskId);
+                                window.history.replaceState(null, '', `${url.pathname}${url.search}${url.hash}`);
+                                setTaskEntryRequest({
+                                    viewMode: 'pmo',
+                                    directorLogId: null,
+                                    returnToHome: false,
+                                    requestedAt: Date.now(),
+                                });
+                                setActiveTab(1);
+                            }
+                        }}
+                    />
+                )}
                 {activeTab === 4 && (
                     <MobileNotifications 
                         memberInfo={memberInfo} 
