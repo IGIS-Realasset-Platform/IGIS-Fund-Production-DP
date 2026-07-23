@@ -460,7 +460,7 @@ export default function MobileHome({ memberInfo, onNavigateToTab }) {
                 <div className="mb-2.5 flex items-center justify-between">
                     <div>
                         <h2 className="text-[16px] font-bold text-white">우선 확인필요 업무</h2>
-                        <p className="mt-0.5 text-[10px] text-[#86868B]">내 담당·협조·의사결정·기한 기준 안내 5건</p>
+                        <p className="mt-0.5 text-[10px] text-[#86868B]">지금 먼저 확인해야 할 주요 업무 5건</p>
                     </div>
                     <button
                         type="button"
@@ -586,7 +586,7 @@ export default function MobileHome({ memberInfo, onNavigateToTab }) {
                             <h3 className="mt-1.5 line-clamp-2 break-keep text-[13px] font-bold leading-[1.4] text-white">
                                 {report.title}
                             </h3>
-                            <p className="mt-1.5 line-clamp-3 whitespace-pre-line break-keep text-[11px] leading-[1.45] text-[#A1A1AA]">
+                            <p className="mt-1.5 line-clamp-3 whitespace-pre-line break-keep text-[13px] leading-[1.5] text-[#A1A1AA]">
                                 {report.display_text || '등록된 상세 내용이 없습니다.'}
                             </p>
                             <span className="mt-1.5 block text-[10px] text-[#86868B]">{report.writer_name}</span>
@@ -598,11 +598,9 @@ export default function MobileHome({ memberInfo, onNavigateToTab }) {
             <section className="mt-5">
                 <div className="mb-2.5 flex items-center justify-between gap-3">
                     <div className="min-w-0">
-                        <h2 className="text-[16px] font-bold text-white">내가 확인할 협업</h2>
+                        <h2 className="text-[16px] font-bold text-white">협업 확인사항</h2>
                         <p className="mt-0.5 truncate text-[10px] text-[#86868B]">
-                            {pendingCollaborationCount > 0
-                                ? `미확인 협업 ${pendingCollaborationCount}건${pendingCollaborationCount < HOME_LIST_LIMIT ? ' · 사업 PM 2 주관업무 포함' : ''}`
-                                : '확인할 항목이 없어 사업 PM 2 주관업무를 표시합니다.'}
+                            협업 요청과 사업 PM 2 주관업무 5건
                         </p>
                     </div>
                     <button
