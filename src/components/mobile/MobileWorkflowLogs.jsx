@@ -9,7 +9,12 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 const INITIAL_VISIBLE_COUNT = 20;
 
-export default function MobileWorkflowLogs({ initialLogId, onInitialLogHandled }) {
+export default function MobileWorkflowLogs({
+    initialLogId,
+    onInitialLogHandled,
+    returnToHomeOnInitialDetail = false,
+    onReturnToHome,
+}) {
     const [logs, setLogs] = useState([]);
     const [loading, setLoading] = useState(true);
     const [loadError, setLoadError] = useState('');
@@ -19,6 +24,7 @@ export default function MobileWorkflowLogs({ initialLogId, onInitialLogHandled }
     
     // Modal Overlay & Alerts States
     const [selectedLog, setSelectedLog] = useState(null);
+    const [selectedLogReturnsHome, setSelectedLogReturnsHome] = useState(false);
     const [alertMessage, setAlertMessage] = useState('');
     const [alertType, setAlertType] = useState('error'); // 'error' | 'success'
 
@@ -45,9 +51,12 @@ export default function MobileWorkflowLogs({ initialLogId, onInitialLogHandled }
     useEffect(() => {
         if (!initialLogId || logs.length === 0) return;
         const targetLog = logs.find((log) => String(log.id) === String(initialLogId));
-        if (targetLog) setSelectedLog(targetLog);
+        if (targetLog) {
+            setSelectedLog(targetLog);
+            setSelectedLogReturnsHome(returnToHomeOnInitialDetail);
+        }
         onInitialLogHandled?.();
-    }, [initialLogId, logs, onInitialLogHandled]);
+    }, [initialLogId, logs, onInitialLogHandled, returnToHomeOnInitialDetail]);
 
     const formatExactDate = (dateStr) => {
         if (!dateStr) return '';
@@ -153,6 +162,18 @@ export default function MobileWorkflowLogs({ initialLogId, onInitialLogHandled }
         [filteredLogs, visibleCount]
     );
 
+    const openLogDetail = (log) => {
+        setSelectedLogReturnsHome(false);
+        setSelectedLog(log);
+    };
+
+    const closeLogDetail = () => {
+        setSelectedLog(null);
+        if (!selectedLogReturnsHome) return;
+        setSelectedLogReturnsHome(false);
+        onReturnToHome?.();
+    };
+
     return (
         <div className="flex flex-col w-full bg-[#1F1F1E] h-full pb-8">
             {/* Search and Filters Header */}
@@ -235,7 +256,7 @@ export default function MobileWorkflowLogs({ initialLogId, onInitialLogHandled }
                         {visibleLogs.map(log => (
                                 <div 
                                     key={log.id} 
-                                    onClick={() => setSelectedLog(log)}
+                                    onClick={() => openLogDetail(log)}
                                     className={`bg-[#272726] border border-[#3c3c3c] rounded-[24px] p-5 flex flex-col transition-all active:bg-[#2c2c2b] relative ${log.isDeleted ? 'opacity-50' : ''}`}
                                 >
                                     <div className="flex items-center justify-between mb-3 text-[11px] text-[#86868B]">
@@ -299,20 +320,25 @@ export default function MobileWorkflowLogs({ initialLogId, onInitialLogHandled }
                             exit={{ scale: 0.95, opacity: 0 }}
                             transition={{ duration: 0.15 }}
                         >
-                            <button 
-                                type="button"
-                                aria-label="상세 닫기"
-                                onClick={() => setSelectedLog(null)}
-                                className="absolute right-5 top-5 w-[28px] h-[28px] rounded-full bg-[#2c2c2e] hover:bg-[#3a3a3c] flex items-center justify-center transition-colors cursor-pointer z-50 border border-white/5"
-                            >
-                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                                    <line x1="18" y1="6" x2="6" y2="18"></line>
-                                    <line x1="6" y1="6" x2="18" y2="18"></line>
-                                </svg>
-                            </button>
-
                             <div className="p-6 flex flex-col gap-5 overflow-y-auto custom-scrollbar text-left">
-                                <div className="flex items-center gap-3 pr-8">
+                                <div className="flex items-center justify-between gap-3">
+                                    <button
+                                        type="button"
+                                        onClick={closeLogDetail}
+                                        className="h-8 px-2.5 rounded-[9px] flex items-center justify-center gap-1 bg-[#2997ff] text-white shadow-sm active:bg-[#147ce5]"
+                                        aria-label={`${selectedLogReturnsHome ? '홈' : '업무'}로 돌아가기`}
+                                    >
+                                        <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" strokeWidth="2.25" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+                                        </svg>
+                                        <span className="text-[12px] font-bold whitespace-nowrap">
+                                            {selectedLogReturnsHome ? '홈' : '업무'}
+                                        </span>
+                                    </button>
+                                    <span className="text-[13px] font-bold text-white">Director 상세</span>
+                                </div>
+
+                                <div className="flex items-center gap-3">
                                     <div className="w-[42px] h-[42px] rounded-full bg-[#2c2c2e] overflow-hidden border border-[#444] shrink-0">
                                         <img 
                                             src={`${import.meta.env.BASE_URL}${selectedLog.writer_name}.webp`} 
@@ -378,10 +404,10 @@ export default function MobileWorkflowLogs({ initialLogId, onInitialLogHandled }
 
                                 <div className="flex items-center gap-2 mt-2 pt-3 border-t border-[#2c2c2e] shrink-0">
                                     <button 
-                                        onClick={() => setSelectedLog(null)}
+                                        onClick={closeLogDetail}
                                         className="flex-1 py-3.5 bg-[#2c2c2e] hover:bg-[#3a3a3c] text-white text-[13px] font-bold rounded-xl transition-colors cursor-pointer"
                                     >
-                                        닫기
+                                        {selectedLogReturnsHome ? '홈으로' : '업무로'}
                                     </button>
                                     {!selectedLog.isDeleted && (selectedLog.source_url || getDirectorWorkspacePath(selectedLog)) && (
                                         <button 

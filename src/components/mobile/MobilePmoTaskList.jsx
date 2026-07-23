@@ -44,7 +44,12 @@ const getStatusClassName = (status) => {
     return 'text-[#60a5fa] border-[#60a5fa]/30 bg-[#60a5fa]/10';
 };
 
-export default function MobilePmoTaskList({ defaultFilter, onResetFilter }) {
+export default function MobilePmoTaskList({
+    defaultFilter,
+    onResetFilter,
+    returnToHomeOnDetailClose = false,
+    onReturnToHome,
+}) {
     const [tasks, setTasks] = useState([]);
     const [loading, setLoading] = useState(true);
     const [listMode, setListMode] = useState('priority');
@@ -208,6 +213,15 @@ export default function MobilePmoTaskList({ defaultFilter, onResetFilter }) {
     };
 
     const closeTaskDetail = () => {
+        if (returnToHomeOnDetailClose) {
+            const url = new URL(window.location.href);
+            url.searchParams.delete('taskId');
+            window.history.replaceState(null, '', `${url.pathname}${url.search}${url.hash}`);
+            setSelectedTask(null);
+            onReturnToHome?.();
+            return;
+        }
+
         if (detailHistoryPushedRef.current) {
             detailHistoryPushedRef.current = false;
             window.history.back();
@@ -365,7 +379,13 @@ export default function MobilePmoTaskList({ defaultFilter, onResetFilter }) {
                 )}
             </div>
 
-            {selectedTask && <MobilePmoTaskDetail task={selectedTask} onClose={closeTaskDetail} />}
+            {selectedTask && (
+                <MobilePmoTaskDetail
+                    task={selectedTask}
+                    onClose={closeTaskDetail}
+                    backLabel={returnToHomeOnDetailClose ? '홈' : '업무'}
+                />
+            )}
         </div>
     );
 }

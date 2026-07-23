@@ -251,6 +251,7 @@ export default function MobileIotaApp({ navigateTo }) {
                                 setTaskEntryRequest({
                                     viewMode: options.viewMode || 'pmo',
                                     directorLogId: options.directorLogId || null,
+                                    returnToHome: Boolean(options.returnToHome),
                                     requestedAt: Date.now(),
                                 });
                             }
@@ -272,6 +273,13 @@ export default function MobileIotaApp({ navigateTo }) {
                         onResetFilter={() => setTaskDefaultFilter(null)}
                         entryRequest={taskEntryRequest}
                         onEntryHandled={() => setTaskEntryRequest(null)}
+                        onReturnToHome={() => {
+                            const url = new URL(window.location.href);
+                            url.searchParams.delete('taskId');
+                            window.history.replaceState(null, '', `${url.pathname}${url.search}${url.hash}`);
+                            setTaskEntryRequest(null);
+                            setActiveTab(0);
+                        }}
                     />
                 )}
                 {activeTab === 2 && (
@@ -419,6 +427,7 @@ export default function MobileIotaApp({ navigateTo }) {
                                 setTaskEntryRequest({
                                     viewMode: 'pmo',
                                     directorLogId: null,
+                                    returnToHome: false,
                                     requestedAt: Date.now(),
                                 });
                             }

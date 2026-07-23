@@ -33,7 +33,7 @@ const DetailSection = ({ label, children }) => (
     </section>
 );
 
-export default function MobilePmoTaskDetail({ task, onClose }) {
+export default function MobilePmoTaskDetail({ task, onClose, backLabel = '업무' }) {
     if (!task) return null;
 
     const priorityScore = Number(task.priority_score) || 0;
@@ -55,12 +55,12 @@ export default function MobilePmoTaskDetail({ task, onClose }) {
                         type="button"
                         onClick={onClose}
                         className="relative z-10 h-8 px-2 rounded-[9px] flex items-center justify-center gap-0.5 bg-[#2997ff] text-white shadow-sm active:bg-[#147ce5]"
-                        aria-label="업무 목록으로 돌아가기"
+                        aria-label={`${backLabel}로 돌아가기`}
                     >
                         <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" strokeWidth="2.25" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
                         </svg>
-                        <span className="text-[12px] font-bold whitespace-nowrap">목록</span>
+                        <span className="text-[12px] font-bold whitespace-nowrap">{backLabel}</span>
                     </button>
                     <span className="absolute left-1/2 -translate-x-1/2 text-[14px] font-bold whitespace-nowrap">업무 상세</span>
                     <span className="min-w-[72px] max-w-[72px] text-right text-[9px] font-mono text-[#86868B] truncate">

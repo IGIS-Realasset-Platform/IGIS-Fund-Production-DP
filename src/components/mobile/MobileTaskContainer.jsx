@@ -3,9 +3,19 @@ import MobilePmoTaskList from './MobilePmoTaskList';
 import MobileWorkflowLogs from './MobileWorkflowLogs';
 import { motion } from 'framer-motion';
 
-export default function MobileTaskContainer({ memberInfo, defaultFilter, onResetFilter, entryRequest, onEntryHandled }) {
+export default function MobileTaskContainer({
+    memberInfo,
+    defaultFilter,
+    onResetFilter,
+    entryRequest,
+    onEntryHandled,
+    onReturnToHome,
+}) {
     // viewMode: 'pmo' | 'director'
     const [viewMode, setViewMode] = useState(entryRequest?.viewMode || 'pmo');
+    const [returnToHomeOnDetailClose, setReturnToHomeOnDetailClose] = useState(
+        Boolean(entryRequest?.returnToHome)
+    );
 
     // 홈에서 대시보드 클릭을 통해 defaultFilter가 들어왔을 때,
     // viewMode가 director로 되어있다면 자동으로 pmo로 전환해줍니다.
@@ -18,6 +28,7 @@ export default function MobileTaskContainer({ memberInfo, defaultFilter, onReset
     useEffect(() => {
         if (!entryRequest?.viewMode) return;
         setViewMode(entryRequest.viewMode);
+        setReturnToHomeOnDetailClose(Boolean(entryRequest.returnToHome));
         if (entryRequest.viewMode !== 'director' || !entryRequest.directorLogId) {
             onEntryHandled?.();
         }
@@ -74,11 +85,15 @@ export default function MobileTaskContainer({ memberInfo, defaultFilter, onReset
                         memberInfo={memberInfo} 
                         defaultFilter={defaultFilter}
                         onResetFilter={onResetFilter}
+                        returnToHomeOnDetailClose={returnToHomeOnDetailClose}
+                        onReturnToHome={onReturnToHome}
                     />
                 ) : (
                     <MobileWorkflowLogs
                         initialLogId={entryRequest?.directorLogId}
                         onInitialLogHandled={onEntryHandled}
+                        returnToHomeOnInitialDetail={returnToHomeOnDetailClose}
+                        onReturnToHome={onReturnToHome}
                     />
                 )}
             </div>

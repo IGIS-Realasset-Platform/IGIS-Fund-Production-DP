@@ -10,7 +10,6 @@ import {
 import {
     fetchDirectorWorkflowLogs,
     getDirectorLogCell,
-    getDirectorLogTitle,
     getDirectorStaffCell,
 } from '../../utils/directorWorkflowLogs';
 
@@ -153,19 +152,18 @@ const getNotificationWorkspaceDepartment = (referenceId) => {
     return getDirectorLogCell({ metadata: { workspace_code: workspaceCode } });
 };
 
-const isWorkspaceCollaborationLog = (log) => {
-    const metadata = log?.metadata || {};
-    const workspaceCode = String(metadata.workspace_code || '').toUpperCase();
-    return workspaceCode
-        && workspaceCode !== 'WS_PMO'
-        && workspaceCode !== 'WS_POPUP_REQUESTS'
-        && !metadata.is_task_board;
+const isBusinessPm2LeadTask = (task) => {
+    const leadDepartment = normalizeMatchText(
+        task?.lead_dept?.dept_name || task?.lead_dept_code
+    );
+    return ['사업pm2', '사업2파트', '사업관리2파트', 'deptpm2']
+        .some((term) => leadDepartment.includes(normalizeMatchText(term)));
 };
 
 export default function MobileHome({ memberInfo, onNavigateToTab }) {
     const [tasks, setTasks] = useState([]);
     const [directorReports, setDirectorReports] = useState([]);
-    const [collaborationItems, setCollaborationItems] = useState([]);
+    const [pendingCollaborationItems, setPendingCollaborationItems] = useState([]);
     const [pendingCollaborationCount, setPendingCollaborationCount] = useState(0);
     const [taskLoading, setTaskLoading] = useState(true);
     const [reportLoading, setReportLoading] = useState(true);
@@ -241,31 +239,27 @@ export default function MobileHome({ memberInfo, onNavigateToTab }) {
         setCollaborationError('');
 
         try {
-            const notificationRequest = memberInfo?.auth_id
-                ? supabase
-                    .from('iota_notifications')
-                    .select('id, title, body, reference_id, created_at, type', { count: 'exact' })
-                    .eq('user_id', memberInfo.auth_id)
-                    .eq('is_read', false)
-                    .in('type', ['log', 'logs', 'comment', 'comments'])
-                    .order('created_at', { ascending: false })
-                    .limit(HOME_LIST_LIMIT)
-                : Promise.resolve({ data: [], error: null });
+            if (!memberInfo?.auth_id) {
+                setPendingCollaborationCount(0);
+                setPendingCollaborationItems([]);
+                return;
+            }
 
-            const [notificationResult, fallbackLogResult] = await Promise.all([
-                notificationRequest,
-                supabase
-                    .from('iota_seoul_logs')
-                    .select('*, iota_seoul_log_stakeholders(sh_name, role_category)')
-                    .order('work_date', { ascending: false })
-                    .order('created_at', { ascending: false })
-                    .limit(200),
-            ]);
+            const notificationResult = await supabase
+                .from('iota_notifications')
+                .select('id, title, body, reference_id, created_at, type', { count: 'exact' })
+                .eq('user_id', memberInfo.auth_id)
+                .eq('is_read', false)
+                .in('type', ['log', 'logs', 'comment', 'comments'])
+                .order('created_at', { ascending: false })
+                .limit(HOME_LIST_LIMIT);
 
             if (notificationResult.error) {
                 console.warn('Mobile home collaboration notification load failed:', notificationResult.error);
+                setPendingCollaborationCount(0);
+                setPendingCollaborationItems([]);
+                return;
             }
-            if (fallbackLogResult.error) throw fallbackLogResult.error;
 
             const pendingItems = (notificationResult.data || []).map((notification) => {
                 const [logId] = String(notification.reference_id || '').split('|');
@@ -277,31 +271,12 @@ export default function MobileHome({ memberInfo, onNavigateToTab }) {
                     summary: notification.body || '',
                     date: notification.created_at,
                     isPending: true,
+                    type: 'notification',
                 };
             });
 
-            const pendingLogIds = new Set(pendingItems.map((item) => item.logId).filter(Boolean));
-            const fallbackItems = (fallbackLogResult.data || [])
-                .filter((log) => (
-                    isWorkspaceCollaborationLog(log)
-                    && getDirectorLogCell(log) === COLLABORATION_FALLBACK_DEPARTMENT
-                    && !pendingLogIds.has(log.log_id || log.id)
-                ))
-                .slice(0, HOME_LIST_LIMIT)
-                .map((log) => ({
-                    id: `fallback-${log.log_id || log.id}`,
-                    logId: log.log_id || log.id,
-                    department: COLLABORATION_FALLBACK_DEPARTMENT,
-                    title: getDirectorLogTitle(log),
-                    summary: log.raw_text || log.body_text || log.summary || '',
-                    date: log.work_date || log.created_at,
-                    isPending: false,
-                }));
-
             setPendingCollaborationCount(notificationResult.count || pendingItems.length);
-            setCollaborationItems(
-                [...pendingItems, ...fallbackItems].slice(0, HOME_LIST_LIMIT)
-            );
+            setPendingCollaborationItems(pendingItems);
         } catch (error) {
             console.error('Failed to load mobile home collaborations:', error);
             setCollaborationError('협업 내용을 불러오지 못했습니다.');
@@ -330,23 +305,18 @@ export default function MobileHome({ memberInfo, onNavigateToTab }) {
             }, scheduleTaskRefresh)
             .subscribe();
 
-        let collaborationChannel = supabase
-            .channel(`mobile-home-collaboration-${memberInfo?.auth_id || 'guest'}`)
-            .on('postgres_changes', {
-                event: '*',
-                schema: 'public',
-                table: 'iota_seoul_logs',
-            }, () => fetchCollaborations(false));
-
+        let collaborationChannel = null;
         if (memberInfo?.auth_id) {
-            collaborationChannel = collaborationChannel.on('postgres_changes', {
-                event: '*',
-                schema: 'public',
-                table: 'iota_notifications',
-                filter: `user_id=eq.${memberInfo.auth_id}`,
-            }, () => fetchCollaborations(false));
+            collaborationChannel = supabase
+                .channel(`mobile-home-collaboration-${memberInfo.auth_id}`)
+                .on('postgres_changes', {
+                    event: '*',
+                    schema: 'public',
+                    table: 'iota_notifications',
+                    filter: `user_id=eq.${memberInfo.auth_id}`,
+                }, () => fetchCollaborations(false))
+                .subscribe();
         }
-        collaborationChannel.subscribe();
 
         const handleVisibilityChange = () => {
             if (document.visibilityState !== 'visible') return;
@@ -360,7 +330,7 @@ export default function MobileHome({ memberInfo, onNavigateToTab }) {
             window.clearTimeout(refreshTimeoutId);
             document.removeEventListener('visibilitychange', handleVisibilityChange);
             supabase.removeChannel(channel);
-            supabase.removeChannel(collaborationChannel);
+            if (collaborationChannel) supabase.removeChannel(collaborationChannel);
         };
     }, [fetchCollaborations, fetchReports, fetchTasks, memberInfo?.auth_id]);
 
@@ -377,6 +347,28 @@ export default function MobileHome({ memberInfo, onNavigateToTab }) {
         ))
         .slice(0, HOME_LIST_LIMIT), [activeTasks, memberInfo]);
 
+    const collaborationItems = useMemo(() => {
+        const fallbackTasks = activeTasks
+            .filter(isBusinessPm2LeadTask)
+            .sort(comparePmoTasksByPriority)
+            .slice(0, HOME_LIST_LIMIT)
+            .map((task) => ({
+                id: `pm2-task-${task.id}`,
+                taskId: task.id,
+                department: COLLABORATION_FALLBACK_DEPARTMENT,
+                title: task.task_name || '제목 없음',
+                summary: task.support_needed || task.sector_detail || '',
+                date: task.due_date,
+                isPending: false,
+                type: 'task',
+                priorityScore: getStoredPmoPriorityScore(task),
+                status: task.status || '진행중',
+            }));
+
+        return [...pendingCollaborationItems, ...fallbackTasks]
+            .slice(0, HOME_LIST_LIMIT);
+    }, [activeTasks, pendingCollaborationItems]);
+
     const gradeCounts = useMemo(() => activeTasks.reduce((counts, task) => {
         const grade = getPmoMeetingGrade(getStoredPmoPriorityScore(task));
         counts[grade] += 1;
@@ -384,11 +376,19 @@ export default function MobileHome({ memberInfo, onNavigateToTab }) {
     }, { A: 0, B: 0, C: 0, D: 0 }), [activeTasks]);
 
     const openTaskBoard = (taskId = null) => {
-        onNavigateToTab(1, null, { viewMode: 'pmo', taskId });
+        onNavigateToTab(1, null, {
+            viewMode: 'pmo',
+            taskId,
+            returnToHome: Boolean(taskId),
+        });
     };
 
     const openDirectorReports = (directorLogId = null) => {
-        onNavigateToTab(1, null, { viewMode: 'director', directorLogId });
+        onNavigateToTab(1, null, {
+            viewMode: 'director',
+            directorLogId,
+            returnToHome: Boolean(directorLogId),
+        });
     };
 
     const openCollaborations = (item = null) => {
@@ -459,7 +459,7 @@ export default function MobileHome({ memberInfo, onNavigateToTab }) {
             <section className="mt-5">
                 <div className="mb-2.5 flex items-center justify-between">
                     <div>
-                        <h2 className="text-[16px] font-bold text-white">확인 필요 안내</h2>
+                        <h2 className="text-[16px] font-bold text-white">우선 확인필요 업무</h2>
                         <p className="mt-0.5 text-[10px] text-[#86868B]">내 담당·협조·의사결정·기한 기준 안내 5건</p>
                     </div>
                     <button
@@ -583,8 +583,13 @@ export default function MobileHome({ memberInfo, onNavigateToTab }) {
                                 </div>
                                 <span className="shrink-0 text-[#86868B]">{formatShortDate(report.work_date)}</span>
                             </div>
-                            <h3 className="mt-1.5 truncate text-[13px] font-bold text-white">{report.title}</h3>
-                            <span className="mt-1 block text-[10px] text-[#A1A1AA]">{report.writer_name}</span>
+                            <h3 className="mt-1.5 line-clamp-2 break-keep text-[13px] font-bold leading-[1.4] text-white">
+                                {report.title}
+                            </h3>
+                            <p className="mt-1.5 line-clamp-3 whitespace-pre-line break-keep text-[11px] leading-[1.45] text-[#A1A1AA]">
+                                {report.display_text || '등록된 상세 내용이 없습니다.'}
+                            </p>
+                            <span className="mt-1.5 block text-[10px] text-[#86868B]">{report.writer_name}</span>
                         </button>
                     ))}
                 </div>
@@ -596,8 +601,8 @@ export default function MobileHome({ memberInfo, onNavigateToTab }) {
                         <h2 className="text-[16px] font-bold text-white">내가 확인할 협업</h2>
                         <p className="mt-0.5 truncate text-[10px] text-[#86868B]">
                             {pendingCollaborationCount > 0
-                                ? `미확인 협업 ${pendingCollaborationCount}건${pendingCollaborationCount < HOME_LIST_LIMIT ? ' · 사업 PM 2 참고 포함' : ''}`
-                                : '확인할 항목이 없어 사업 PM 2 최신 내용을 표시합니다.'}
+                                ? `미확인 협업 ${pendingCollaborationCount}건${pendingCollaborationCount < HOME_LIST_LIMIT ? ' · 사업 PM 2 주관업무 포함' : ''}`
+                                : '확인할 항목이 없어 사업 PM 2 주관업무를 표시합니다.'}
                         </p>
                     </div>
                     <button
@@ -630,7 +635,11 @@ export default function MobileHome({ memberInfo, onNavigateToTab }) {
                         <button
                             key={item.id}
                             type="button"
-                            onClick={() => openCollaborations(item)}
+                            onClick={() => (
+                                item.type === 'task'
+                                    ? openTaskBoard(item.taskId)
+                                    : openCollaborations(item)
+                            )}
                             className={`w-full px-3.5 py-3 text-left active:bg-[#30302f] ${index < collaborationItems.length - 1 ? 'border-b border-white/[0.06]' : ''}`}
                         >
                             <div className="flex items-center justify-between gap-3 text-[9px]">
@@ -639,13 +648,26 @@ export default function MobileHome({ memberInfo, onNavigateToTab }) {
                                         {item.department}
                                     </span>
                                     <span className={`shrink-0 font-bold ${item.isPending ? 'text-[#fbbf24]' : 'text-[#86868B]'}`}>
-                                        {item.isPending ? '확인 필요' : '참고'}
+                                        {item.isPending ? '확인 필요' : '주관업무'}
                                     </span>
                                 </div>
-                                <span className="shrink-0 text-[#86868B]">{formatShortDate(item.date)}</span>
+                                <span className={`shrink-0 font-bold ${
+                                    item.type === 'task' && item.priorityScore >= 60
+                                        ? 'text-[#f87171]'
+                                        : 'text-[#86868B]'
+                                }`}>
+                                    {item.type === 'task' ? `우선 ${item.priorityScore}` : formatShortDate(item.date)}
+                                </span>
                             </div>
                             <h3 className="mt-1.5 truncate text-[13px] font-bold text-white">{item.title}</h3>
-                            {item.summary && (
+                            {item.type === 'task' ? (
+                                <div className="mt-1 flex items-center justify-between gap-3 text-[10px] text-[#A1A1AA]">
+                                    <span className="truncate">{item.summary || '등록된 지원사항이 없습니다.'}</span>
+                                    <span className="shrink-0 font-bold text-[#D1D1D6]">
+                                        {item.status} · {getDueLabel(item.date, item.status)}
+                                    </span>
+                                </div>
+                            ) : item.summary && (
                                 <p className="mt-1 line-clamp-2 break-keep text-[10px] leading-[1.4] text-[#A1A1AA]">
                                     {item.summary}
                                 </p>
