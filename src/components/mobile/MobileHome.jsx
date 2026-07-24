@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import { supabase } from '../../utils/supabaseClient';
 import {
     comparePmoTasksByPriority,
@@ -474,7 +475,16 @@ export default function MobileHome({ memberInfo, onNavigateToTab }) {
                     </div>
                 )}
 
-                {selectedGradeConfig && (
+                <AnimatePresence initial={false} mode="wait">
+                    {selectedGradeConfig && (
+                    <motion.div
+                        key={selectedGradeConfig.grade}
+                        initial={{ height: 0, opacity: 0, y: -6 }}
+                        animate={{ height: 'auto', opacity: 1, y: 0 }}
+                        exit={{ height: 0, opacity: 0, y: -4 }}
+                        transition={{ duration: 0.16, ease: [0.22, 1, 0.36, 1] }}
+                        className="overflow-hidden"
+                    >
                     <div className="mt-3 border-t border-white/[0.07] pt-2.5">
                         <div className="mb-2 flex items-center justify-between gap-3">
                             <div className="flex min-w-0 items-center gap-2">
@@ -542,7 +552,9 @@ export default function MobileHome({ memberInfo, onNavigateToTab }) {
                             </div>
                         )}
                     </div>
-                )}
+                    </motion.div>
+                    )}
+                </AnimatePresence>
             </section>
 
             <section className="mt-5">
