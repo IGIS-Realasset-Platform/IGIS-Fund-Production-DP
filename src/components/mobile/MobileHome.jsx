@@ -482,7 +482,7 @@ export default function MobileHome({ memberInfo, onNavigateToTab }) {
                         initial={{ height: 0, opacity: 0, y: -6 }}
                         animate={{ height: 'auto', opacity: 1, y: 0 }}
                         exit={{ height: 0, opacity: 0, y: -4 }}
-                        transition={{ duration: 0.16, ease: [0.22, 1, 0.36, 1] }}
+                        transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
                         className="overflow-hidden"
                     >
                     <div className="mt-3 border-t border-white/[0.07] pt-2.5">
