@@ -110,41 +110,32 @@ const getTaskGuidance = (task, memberInfo) => {
     const isDueSoon = !isOverdue && daysUntilDue !== null && daysUntilDue <= 7;
     const needsSupport = hasMeaningfulSupport(task.support_needed);
     const reasons = [];
-    let guidanceScore = 0;
 
     if (isAssignedToMember) {
         reasons.push('내 담당');
-        guidanceScore += 100;
     }
     if (isMemberLeadDepartment) {
         reasons.push('내 부서 주관');
-        guidanceScore += 70;
     }
     if (isMemberCooperationDepartment) {
         reasons.push('내 부서 협조');
-        guidanceScore += 60;
     }
     if (isBlocker) {
         reasons.push('Blocker');
-        guidanceScore += 30;
     }
     if (needsDecision) {
         reasons.push('의사결정 필요');
-        guidanceScore += 25;
     }
     if (isOverdue) {
         reasons.push('기한 경과');
-        guidanceScore += 20;
     } else if (isDueSoon) {
         reasons.push('7일 내 마감');
-        guidanceScore += 15;
     }
     if (needsSupport) {
         reasons.push('지원 필요');
-        guidanceScore += 5;
     }
 
-    return { reasons, guidanceScore };
+    return { reasons };
 };
 
 const getNotificationWorkspaceDepartment = (referenceId) => {
@@ -341,13 +332,16 @@ export default function MobileHome({ memberInfo, onNavigateToTab }) {
         [tasks]
     );
 
-    const guidanceTasks = useMemo(() => activeTasks
-        .map((task) => ({ ...task, ...getTaskGuidance(task, memberInfo) }))
-        .sort((firstTask, secondTask) => (
-            secondTask.guidanceScore - firstTask.guidanceScore
-            || comparePmoTasksByPriority(firstTask, secondTask)
-        ))
-        .slice(0, HOME_LIST_LIMIT), [activeTasks, memberInfo]);
+    const guidanceTasks = useMemo(() => {
+        const tasksWithGuidance = activeTasks
+            .map((task) => ({ ...task, ...getTaskGuidance(task, memberInfo) }));
+        const attentionTasks = tasksWithGuidance.filter((task) => task.reasons.length > 0);
+        const candidates = attentionTasks.length > 0 ? attentionTasks : tasksWithGuidance;
+
+        return candidates
+            .sort(comparePmoTasksByPriority)
+            .slice(0, HOME_LIST_LIMIT);
+    }, [activeTasks, memberInfo]);
 
     const collaborationItems = useMemo(() => {
         const fallbackTasks = activeTasks
