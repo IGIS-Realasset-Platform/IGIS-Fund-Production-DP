@@ -259,11 +259,6 @@ export default function MobileCollaborationContainer({ memberInfo, entryRequest,
             <div className="flex-none pt-[14px] pb-[10px] border-b border-[#3c3c3c]">
                 <div className="px-[16px] mb-[12px]">
                     <h1 className="text-[22px] font-bold text-white tracking-tight leading-tight">워크스페이스</h1>
-                    <p className="text-[13px] text-[#A1A1AA] mt-1 leading-relaxed">
-                        {memberDepartment === '전체'
-                            ? '각 조직의 업무 메시지와 단발성 업무 요청을 함께 확인합니다.'
-                            : `${memberDepartment} 업무 메시지와 관련 단발성 업무를 확인합니다.`}
-                    </p>
                 </div>
 
                 <div className="px-[16px] mb-[9px]">
