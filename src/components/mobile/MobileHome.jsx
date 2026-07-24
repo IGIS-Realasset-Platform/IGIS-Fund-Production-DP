@@ -475,14 +475,27 @@ export default function MobileHome({ memberInfo, onNavigateToTab }) {
                     </div>
                 )}
 
-                <AnimatePresence initial={false} mode="wait">
+                <AnimatePresence mode="wait">
                     {selectedGradeConfig && (
                     <motion.div
                         key={selectedGradeConfig.grade}
-                        initial={{ height: 0, opacity: 0, y: -6 }}
-                        animate={{ height: 'auto', opacity: 1, y: 0 }}
-                        exit={{ height: 0, opacity: 0, y: -4 }}
-                        transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+                        initial={{ height: 0, opacity: 0, y: -8 }}
+                        animate={{
+                            height: 'auto',
+                            opacity: 1,
+                            y: 0,
+                            transition: {
+                                height: { duration: 0.28, ease: [0.22, 1, 0.36, 1] },
+                                opacity: { duration: 0.2, delay: 0.04 },
+                                y: { duration: 0.24, ease: [0.22, 1, 0.36, 1] },
+                            },
+                        }}
+                        exit={{
+                            height: 0,
+                            opacity: 0,
+                            y: -4,
+                            transition: { duration: 0.13, ease: 'easeIn' },
+                        }}
                         className="overflow-hidden"
                     >
                     <div className="mt-3 border-t border-white/[0.07] pt-2.5">
