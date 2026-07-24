@@ -225,16 +225,9 @@ export default function MobileMyTasks({ memberInfo, onNavigateToSource }) {
                 </div>
             </div>
 
-            <div className="px-4 pt-3">
-                <div className="rounded-[14px] border border-[#3b82f6]/20 bg-[#3b82f6]/[0.07] px-3.5 py-3">
-                    <p className="text-[12px] font-bold text-[#D1D1D6]">통합 조회 범위</p>
-                    <p className="text-[11.5px] text-[#8E8E93] leading-relaxed mt-1">
-                        통합업무 상세 글 · 단발성 업무 · 워크스페이스 게시글 · Director 보고 · 모든 상세 댓글
-                    </p>
-                </div>
-
-                {loadWarning && (
-                    <div className="mt-2.5 rounded-[12px] border border-[#ff9f0a]/25 bg-[#ff9f0a]/10 px-3 py-2.5 flex items-center justify-between gap-3">
+            {loadWarning && (
+                <div className="px-4 pt-3">
+                    <div className="rounded-[12px] border border-[#ff9f0a]/25 bg-[#ff9f0a]/10 px-3 py-2.5 flex items-center justify-between gap-3">
                         <p className="text-[11.5px] text-[#ffb340] leading-relaxed">{loadWarning}</p>
                         <button
                             type="button"
@@ -244,8 +237,8 @@ export default function MobileMyTasks({ memberInfo, onNavigateToSource }) {
                             재조회
                         </button>
                     </div>
-                )}
-            </div>
+                </div>
+            )}
 
             <div className="px-4 pt-3 flex flex-col gap-3">
                 <div className="flex items-center justify-between">
