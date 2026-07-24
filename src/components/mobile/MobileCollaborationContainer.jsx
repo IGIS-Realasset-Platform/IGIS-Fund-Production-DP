@@ -6,7 +6,11 @@ import {
     getDirectorLogTitle,
     getDirectorStaffCell,
 } from '../../utils/directorWorkflowLogs';
-import { IOTA_ORGANIZATION_ORDER, normalizeIotaOrganization } from '../../utils/iotaOrganizations.js';
+import {
+    getMemberIotaOrganization,
+    IOTA_ORGANIZATION_ORDER,
+    normalizeIotaOrganization,
+} from '../../utils/iotaOrganizations.js';
 
 const feedFilters = ['전체', '업무 메시지', '단발성 업무'];
 const departmentsList = [
@@ -59,8 +63,8 @@ const isWorkspaceMessage = (log) => {
 
     return (
         /^WS_PM[12]?$/.test(workspaceCode)
-        || ['WS_LFC', 'WS_DSC', 'WS_EMC', 'WS_SSC', 'WS_KAM', 'WS_IPR'].includes(workspaceCode)
-        || /사업\s*PM|파이낸싱|개발솔루션|기업마케팅|공간솔루션|펀드운용|IPR/i.test(workspaceLabel)
+        || ['WS_LFC', 'WS_DSC', 'WS_EMC', 'WS_SSC', 'WS_KAM', 'WS_IPR', 'WS_MASTER'].includes(workspaceCode)
+        || /사업\s*PM|파이낸싱|개발솔루션|기업마케팅|공간솔루션|펀드운용|IPR|기획추진|CFT/i.test(workspaceLabel)
     );
 };
 
@@ -76,9 +80,10 @@ const getMessageContent = (log) => {
     return rawText;
 };
 
-export default function MobileCollaborationContainer({ entryRequest, onEntryHandled }) {
+export default function MobileCollaborationContainer({ memberInfo, entryRequest, onEntryHandled }) {
+    const memberDepartment = getMemberIotaOrganization(memberInfo);
     const [selectedFeed, setSelectedFeed] = useState('전체');
-    const [selectedDept, setSelectedDept] = useState(entryRequest?.department || '전체');
+    const [selectedDept, setSelectedDept] = useState(entryRequest?.department || memberDepartment);
     const [highlightItemId, setHighlightItemId] = useState(entryRequest?.itemId || null);
     const [loading, setLoading] = useState(true);
     const [workspaceMessages, setWorkspaceMessages] = useState([]);
@@ -125,7 +130,7 @@ export default function MobileCollaborationContainer({ entryRequest, onEntryHand
         setSelectedDept(
             departmentsList.includes(entryRequest.department)
                 ? entryRequest.department
-                : '전체'
+                : memberDepartment
         );
         if (String(entryRequest.itemId || '').startsWith('log-')) {
             setSelectedFeed('업무 메시지');
@@ -134,7 +139,7 @@ export default function MobileCollaborationContainer({ entryRequest, onEntryHand
         }
         setHighlightItemId(entryRequest.itemId || null);
         onEntryHandled?.();
-    }, [entryRequest, onEntryHandled]);
+    }, [entryRequest, memberDepartment, onEntryHandled]);
 
     useEffect(() => {
         fetchFeed({ showLoading: true });
@@ -253,9 +258,11 @@ export default function MobileCollaborationContainer({ entryRequest, onEntryHand
         <div className="w-full flex-1 min-h-0 flex flex-col bg-[#141415] overflow-hidden">
             <div className="flex-none pt-[14px] pb-[10px] border-b border-[#3c3c3c]">
                 <div className="px-[16px] mb-[12px]">
-                    <h1 className="text-[22px] font-bold text-white tracking-tight leading-tight">협업</h1>
+                    <h1 className="text-[22px] font-bold text-white tracking-tight leading-tight">워크스페이스</h1>
                     <p className="text-[13px] text-[#A1A1AA] mt-1 leading-relaxed">
-                        각 조직의 업무 메시지와 단발성 업무 요청을 함께 확인합니다.
+                        {memberDepartment === '전체'
+                            ? '각 조직의 업무 메시지와 단발성 업무 요청을 함께 확인합니다.'
+                            : `${memberDepartment} 업무 메시지와 관련 단발성 업무를 확인합니다.`}
                     </p>
                 </div>
 

@@ -13,6 +13,7 @@ import {
     getDirectorLogCell,
     getDirectorStaffCell,
 } from '../../utils/directorWorkflowLogs';
+import { getMemberIotaOrganization } from '../../utils/iotaOrganizations';
 
 const GRADE_CONFIG = [
     { grade: 'A', label: '즉시상정', color: '#f87171' },
@@ -156,7 +157,6 @@ export default function MobileHome({ memberInfo, onNavigateToTab }) {
     const [tasks, setTasks] = useState([]);
     const [directorReports, setDirectorReports] = useState([]);
     const [pendingCollaborationItems, setPendingCollaborationItems] = useState([]);
-    const [pendingCollaborationCount, setPendingCollaborationCount] = useState(0);
     const [selectedSummaryGrade, setSelectedSummaryGrade] = useState(null);
     const [taskLoading, setTaskLoading] = useState(true);
     const [reportLoading, setReportLoading] = useState(true);
@@ -233,14 +233,13 @@ export default function MobileHome({ memberInfo, onNavigateToTab }) {
 
         try {
             if (!memberInfo?.auth_id) {
-                setPendingCollaborationCount(0);
                 setPendingCollaborationItems([]);
                 return;
             }
 
             const notificationResult = await supabase
                 .from('iota_notifications')
-                .select('id, title, body, reference_id, created_at, type', { count: 'exact' })
+                .select('id, title, body, reference_id, created_at, type')
                 .eq('user_id', memberInfo.auth_id)
                 .eq('is_read', false)
                 .in('type', ['log', 'logs', 'comment', 'comments'])
@@ -249,7 +248,6 @@ export default function MobileHome({ memberInfo, onNavigateToTab }) {
 
             if (notificationResult.error) {
                 console.warn('Mobile home collaboration notification load failed:', notificationResult.error);
-                setPendingCollaborationCount(0);
                 setPendingCollaborationItems([]);
                 return;
             }
@@ -268,7 +266,6 @@ export default function MobileHome({ memberInfo, onNavigateToTab }) {
                 };
             });
 
-            setPendingCollaborationCount(notificationResult.count || pendingItems.length);
             setPendingCollaborationItems(pendingItems);
         } catch (error) {
             console.error('Failed to load mobile home collaborations:', error);
@@ -398,9 +395,7 @@ export default function MobileHome({ memberInfo, onNavigateToTab }) {
 
     const openCollaborations = (item = null) => {
         onNavigateToTab(2, null, {
-            collaborationDept: item?.department || (
-                pendingCollaborationCount > 0 ? '전체' : COLLABORATION_FALLBACK_DEPARTMENT
-            ),
+            collaborationDept: item?.department || getMemberIotaOrganization(memberInfo),
             collaborationItemId: item?.logId ? `log-${item.logId}` : null,
         });
     };

@@ -88,6 +88,23 @@ export const getIotaOrganizationFromWorkspace = (workspaceCode, staffName = '', 
     return workspace?.label || fallback;
 };
 
+export const getMemberIotaOrganization = (memberInfo, fallback = '전체') => {
+    const staffName = memberInfo?.staff_name || memberInfo?.name || '';
+    const organizationByName = normalizeIotaOrganization(memberInfo?.org_name);
+    if (IOTA_ORGANIZATION_ORDER.includes(organizationByName)) return organizationByName;
+
+    const organizationByWorkspace = getIotaOrganizationFromWorkspace(
+        memberInfo?.workspace_code,
+        staffName
+    );
+    if (IOTA_ORGANIZATION_ORDER.includes(organizationByWorkspace)) return organizationByWorkspace;
+
+    const organizationByStaff = getIotaOrganizationByStaff(staffName, '');
+    return IOTA_ORGANIZATION_ORDER.includes(organizationByStaff)
+        ? organizationByStaff
+        : fallback;
+};
+
 export const normalizeIotaDepartmentList = (value) => {
     const values = Array.isArray(value)
         ? value
