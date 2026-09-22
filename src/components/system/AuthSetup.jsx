@@ -16,7 +16,7 @@ export default function AuthSetup({ onLogin }) {
     const [oldPassword, setOldPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmNewPassword, setConfirmNewPassword] = useState('');
-    const PILOT_ACCESS_CODE = 'IOTA2026';
+
     const [mounted, setMounted] = useState(false);
     const [dissolved, setDissolved] = useState(false);
     const [hasError, setHasError] = useState(false);
@@ -99,7 +99,7 @@ export default function AuthSetup({ onLogin }) {
             return;
         }
         if (isFirstTime) {
-            if (accessCode.trim().toUpperCase() !== PILOT_ACCESS_CODE) {
+            if (!accessCode.trim()) {
                 triggerError('최초 접속 코드가 올바르지 않습니다.');
                 return;
             }
@@ -223,37 +223,26 @@ export default function AuthSetup({ onLogin }) {
         
         try {
             if (isFirstTime) {
-                // Sign up new user
-                let { data, error } = await supabase.auth.signUp({
-                    email: email.trim().toLowerCase(),
-                    password: password
+                // Enrollment is verified server-side; the shared code is never bundled in the UI.
+                const response = await fetch('https://qgrszltduzblpvpqvkqr.supabase.co/functions/v1/igis-enroll', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({action:'enroll',email:email.trim().toLowerCase(),password,access_code:accessCode}),
+                    signal: AbortSignal.timeout(20000),
                 });
-                
-                if (error) {
-                    // Auto-heal: If user already exists in Supabase auth but auth_id in DB is null (e.g. after table reset)
-                    if (error.message.includes('already registered')) {
-                        const signInRes = await supabase.auth.signInWithPassword({
-                            email: email.trim().toLowerCase(),
-                            password: password
-                        });
-                        
-                        if (signInRes.error) {
-                            setIsFirstTime(false);
-                            triggerError('이미 가입된 이메일입니다. 기존 패스워드를 입력하거나 "비밀번호 찾기"를 이용하세요.');
-                            return;
-                        }
-                        data = signInRes.data; // Use the signed-in session data
-                    } else {
-                        triggerError('회원가입 실패: ' + error.message);
-                        return;
-                    }
+                const enrollment = await response.json();
+                if (!response.ok || !enrollment.session) {
+                    triggerError(enrollment.error || '계정 설정을 완료하지 못했습니다.');
+                    return;
                 }
+                const {data, error} = await supabase.auth.setSession(enrollment.session);
+                if (error) { triggerError('로그인 세션을 저장하지 못했습니다.'); return; }
 
-                // Update auth_id in our members table
+                // The server has already linked auth_id; update the login timestamp only.
                 if (data.user) {
                     await supabase
                         .from('iota_seoul_pilot_members')
-                        .update({ auth_id: data.user.id, last_login_at: new Date().toISOString() })
+                        .update({ last_login_at: new Date().toISOString() })
                         .eq('email', email.trim().toLowerCase());
 
                     // Insert into login history
