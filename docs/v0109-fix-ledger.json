@@ -1,0 +1,18 @@
+{
+  "version": "0.10.9",
+  "basisVersion": "0.10.8",
+  "date": "2026-09-29",
+  "count": 7,
+  "sourceReview": "docs/요구사항_누적_체크리스트.md",
+  "verification": ".build/v0109-verification.json",
+  "items": [
+    {"id":"NEXT-01","title":"직원별 회사 로그인과 향후 개인 정보","implemented":false,"status":"운영 전환 보류","scope":"전 직원 공통 첫 이용 코드 서버 검증. 이름·사진과 그룹웨어 조직도 자료 확인은 사용자 요청에 따라 후속 단계. 정적 HTML에 인증값을 넣지 않음."},
+    {"id":"NEXT-02","title":"하단 알림 요약과 별도 세부 팝업","implemented":true,"logicEvidence":"v0109-common","browserEvidence":".build/v0109-common/results.json","status":"로컬 UI 구현·브라우저 검수"},
+    {"id":"NEXT-03","title":"메뉴·탭·항목·버튼 이름을 동작과 대조","implemented":false,"logicEvidence":"v0109-permit, v0109-report, v0109-common","status":"핵심 문구 교정·전수 대조 진행 중"},
+    {"id":"NEXT-04","title":"CBS와 세부 사업비 편집·표시·열폭·삭제","implemented":true,"logicEvidence":"v0109-cost","browserEvidence":".build/v0109-cost/v0109-cost-evidence.json","status":"로컬 UI 구현·브라우저 검수"},
+    {"id":"NEXT-05","title":"인허가 추천·필수·경로·팝업 복귀","implemented":true,"logicEvidence":"v0109-permit, v0109-common","browserEvidence":".build/permit-v0109/evidence.json","status":"로컬 UI 구현·브라우저 검수"},
+    {"id":"NEXT-06","title":"개발업 등록 한 화면 표시","implemented":true,"logicEvidence":"v0109-permit","browserEvidence":".build/permit-v0109/evidence.json","status":"로컬 UI 구현·브라우저 검수"},
+    {"id":"NEXT-07","title":"국토부 보고서 생성 화면 통합과 인쇄 전 수정","implemented":true,"logicEvidence":"v0109-report, v0108-report-pdf","browserEvidence":".build/report/v0109-verification.json","status":"로컬 UI 구현·브라우저·PDF 검수"}
+  ],
+  "runtimeConnections": "회사 이메일 로그인·Supabase·Vercel·실제 AI·운영 연동 없음"
+}

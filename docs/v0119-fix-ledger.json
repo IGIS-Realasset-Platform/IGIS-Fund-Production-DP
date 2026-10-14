@@ -1,0 +1,139 @@
+{
+  "version": "0.10.19",
+  "basisVersion": "0.10.18",
+  "date": "2026-10-07",
+  "sourceReview": "docs/v0119-spec.md",
+  "items": [
+    {
+      "id": "REV119-01",
+      "title": "서리풀 중심 회사 공통 표시 계층",
+      "implemented": true,
+      "verified": true,
+      "status": "구현·논리·해당 실제 검수 완료",
+      "acceptance": "회사 6상위 분류·공사비 아래 직접/간접, CBS와 표시 분리"
+    },
+    {
+      "id": "REV119-02",
+      "title": "원표 관리항목·순서 적용",
+      "implemented": true,
+      "verified": true,
+      "status": "구현·논리·해당 실제 검수 완료",
+      "acceptance": "서리풀 관리행 수준·순서, 감리/CM 구분, 개수 목표 없음"
+    },
+    {
+      "id": "REV119-03",
+      "title": "공통·선택항목과 기존 원자료",
+      "implemented": true,
+      "verified": true,
+      "status": "구현·논리·해당 실제 검수 완료",
+      "acceptance": "초기 금액 없음, 선택 명시 추가, 기존 금액·원명 보존"
+    },
+    {
+      "id": "REV119-04",
+      "title": "관리행 펼침·계약 상세 접힘",
+      "implemented": true,
+      "verified": true,
+      "status": "구현·논리·해당 실제 검수 완료",
+      "acceptance": "상위/직접간접 기본 펼침, 관리 상세 기본 접힘"
+    },
+    {
+      "id": "REV119-05",
+      "title": "중복 행 없이 같은 셀 수정",
+      "implemented": true,
+      "verified": true,
+      "status": "구현·논리·해당 실제 검수 완료",
+      "acceptance": "단일 실제 입력 inline, 다중 합계 readonly·펼침, 원 단위 저장"
+    },
+    {
+      "id": "REV119-06",
+      "title": "표시 이관과 금융자료 보존",
+      "implemented": true,
+      "verified": true,
+      "status": "구현·논리·해당 실제 검수 완료",
+      "acceptance": "표시만 전환, 원장부모/원금/ID/확정/계약/VAT 계산 불변"
+    },
+    {
+      "id": "REV119-07",
+      "title": "순서·이동·열폭·진입 보호",
+      "implemented": true,
+      "verified": true,
+      "status": "구현·논리·해당 실제 검수 완료",
+      "acceptance": "원표 기본과 기존 선택 순서 구분, 취소·실패 원복, 홈 회귀 없음"
+    },
+    {
+      "id": "REV119-08",
+      "title": "CBS를 보조 분류표로 분리",
+      "implemented": true,
+      "verified": true,
+      "status": "구현·논리·해당 실제 검수 완료",
+      "acceptance": "회사명칭/순서를 덮지 않는 대응·범위·포함·추가"
+    },
+    {
+      "id": "REV119-09",
+      "title": "예비비·중복 합산 경계",
+      "implemented": true,
+      "verified": true,
+      "status": "구현·논리·해당 실제 검수 완료",
+      "acceptance": "공사/설계/독립 예비 구별, 기존 조정/대표총액 보존"
+    },
+    {
+      "id": "REV119-10",
+      "title": "회사 관리표 한 시트 Excel",
+      "implemented": true,
+      "verified": true,
+      "status": "구현·논리·해당 실제 검수 완료",
+      "acceptance": "관리 수준 이름/순서, 숨은 상세 포함 합계, 단일시트·원 정확도"
+    },
+    {
+      "id": "REV119-11",
+      "title": "원표 대조·3해상도 실제 검수",
+      "implemented": true,
+      "verified": true,
+      "status": "구현·논리·해당 실제 검수 완료",
+      "acceptance": "3해상도 원표 비교·상호작용·독립 XLSX 대조"
+    },
+    {
+      "id": "REV119-12",
+      "title": "명세·대장·누적·Excel 동기화",
+      "implemented": true,
+      "verified": true,
+      "status": "구현·문서 동기화·독립 대조 완료",
+      "acceptance": "같은 ID·대체 범위·검수 완료분만 완료 체크"
+    }
+  ],
+  "supersedes": [
+    {
+      "previous": "REV118-02",
+      "current": [
+        "REV119-01",
+        "REV119-02",
+        "REV119-03"
+      ],
+      "scope": "8대분류30개를 서리풀 회사 공통 관리표로 대체"
+    },
+    {
+      "previous": "REV118-04",
+      "current": [
+        "REV119-04",
+        "REV119-05"
+      ],
+      "scope": "모든 상세 기본 노출을 관리행 펼침/계약 상세 접힘으로 대체. 셀 편집 유지"
+    },
+    {
+      "previous": "REV118-10",
+      "current": [
+        "REV119-10"
+      ],
+      "scope": "전체 상세 기본 출력 대신 회사 관리표 기본 출력. 단일시트·정확도 유지"
+    }
+  ],
+  "remaining": [],
+  "evidence": {
+    "logic": ".build/v0119-verification.json",
+    "browser": ".build/v0119-browser/edge-evidence.json",
+    "sourceMap": "docs/v0119-cost-company-map.json",
+    "checklist": ".build/checklist-sync/independent-v0119.json",
+    "report": "outputs/개발사업관리플랫폼_검수기록_v0.10.19.md",
+    "xlsx": ".build/v0119-browser/xlsx-evidence.json"
+  }
+}

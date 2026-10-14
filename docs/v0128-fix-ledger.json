@@ -1,0 +1,16 @@
+{
+  "version":"0.10.28",
+  "basisVersion":"0.10.27",
+  "date":"2026-10-08",
+  "sourceReview":"docs/v0128-spec.md",
+  "items":[
+    {"id":"REV128-01","title":"닫힌 MECE 공통마스터","acceptance":"고정id/code·전체범위·단일parent/비순환·목적별OTHER/예비/복합·사용자유형등록0","implemented":true,"verified":true,"status":"선택145/구조9/시스템9·집중25·전수대응 대사 통과"},
+    {"id":"REV128-02","title":"전 신규 생성/활성화 코드 필수","acceptance":"생성/선택/분할/system 경로 표준binding·무코드/그룹/review 신규 차단·전량원복","implemented":true,"verified":true,"status":"코드 필수·빈템플릿 우회차단·실제 저장실패 원복 통과"},
+    {"id":"REV128-03","title":"현재/과거 원자료 보존 결합","acceptance":"5사업/530posting/2control/532trace 연결·review 분리·원행/oldstage JSON/금액/참조 불변","implemented":true,"verified":true,"status":"현재5/과거9·원자료/업무필드 불변·검토104 분리·손상시작 원저장 보존 통과"},
+    {"id":"REV128-04","title":"동일 표준항목 선택·편집 연결","acceptance":"초기34/UI유지·표준항목필수·내역명만자유·coverage/취소/원복 일치","implemented":true,"verified":true,"status":"145접근누락0/후보중복0·초기34·실제 계약별 입력/취소/빈행 셀입력 통과"},
+    {"id":"REV128-05","title":"구조/분류/확정의 유형 보존","acceptance":"동일type상속/mixed차단·explicit retype·정렬명칭불변·신규동결/과거sidecar","implemented":true,"verified":true,"status":"분할/병합/명시 재분류/시점동결·예비 전용·업무 이력 통과"},
+    {"id":"REV128-06","title":"코드 기반 분석·합산 대사","acceptance":"같은유형전사업동일code·record1회·역할/예비/system/control구분·null/0/1/총액대사","implemented":true,"verified":true,"status":"532기록1회·현재/과거 금융대사·원 단위 BigInt 경계·실제1시트 숫자552/서식290 통과"},
+    {"id":"REV128-07","title":"재발검사·실제화면·출력·문서 동기화","acceptance":"기존104보존·새검사·Edge3해상도/1시트출력·동일7ID·최종지문","implemented":true,"verified":true,"status":"동결109/109·소스불변·실제3해상도/복구17캡처·1시트 대사 통과; 최종 산출물 일치는 증빙 JSON에 기록"}
+  ],
+  "evidence":{"logic":".build/v0128-verification.json","browser":".build/v0128-browser/evidence.json","checklist":".build/checklist-sync/independent-v0128.json"}
+}

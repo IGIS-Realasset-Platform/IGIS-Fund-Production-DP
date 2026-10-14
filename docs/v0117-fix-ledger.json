@@ -1,0 +1,12 @@
+{
+  "version":"0.10.17","basisVersion":"0.10.16","date":"2026-10-06","sourceReview":"docs/v0117-spec.md",
+  "items":[
+    {"id":"REV117-01","title":"목적별 CBS 전항목·다수 사례 기준 및 분류 반영","implemented":true,"status":"목적별 기준과 안전 이관 구현. 연구/전체 회귀/최종 실제 파일 검수 기록 별도"},
+    {"id":"REV117-02","title":"보험·보증·법무·관리보수의 명확한 명칭과 근거 확인","implemented":true,"status":"모호한 신규 선택 차단·구체 선택·귀속미확인 보존·근거 기반 분류수정 구현"},
+    {"id":"REV117-03","title":"테이블만 한 시트 Excel 및 실제 대분류명","implemented":true,"status":"단일 XLSX 테이블·대분류명/원가항목·원단위 숫자 구현, 최종 Edge/독립 읽기 별도"},
+    {"id":"REV117-04","title":"엑셀 다운로드 지연 실제 측정 및 반복 계산 제거","implemented":true,"status":"기존 약15초 클릭·20~26초 생성 병목 재현. 범위 캐시/원자료 추가계산 제거 구현. 최종 배포 파일 재측정 별도"},
+    {"id":"REV117-05","title":"명세·수정대장·누적 체크리스트·Excel 검수 동기화","implemented":true,"status":"명세·대장·233항목 Excel 작성/독립 읽기 동기화. 최종 회귀·현재 HTML Edge/XLSX 결과는 검수기록에서 별도 확인"}
+  ],
+  "supersedes":[{"previous":"REV116-02","current":["REV117-03","REV117-04"],"scope":"3시트·계층/코드 출력 계약 대체"}],
+  "remaining":["삭제 원본175시트 재열람 미완료","초기20 관리행 묶음 화면은 미적용","확인총액/미확보대분류 경계는 담당자 대사 후 명시 분류"]
+}

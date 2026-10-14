@@ -1,0 +1,121 @@
+{
+  "version": "0.10.11",
+  "basisVersion": "0.10.10",
+  "date": "2026-09-30",
+  "sourceReview": "docs/v0111-spec.md",
+  "verification": ".build/v0111-verification.json",
+  "items": [
+    {
+      "id": "REV111-01",
+      "title": "메뉴 첫 세부탭 진입",
+      "implemented": true,
+      "logicEvidence": "v0111-core",
+      "status": "구현·논리·실제 검수 완료",
+      "verification": ".build/v0111-verification.json"
+    },
+    {
+      "id": "REV111-02",
+      "title": "원가 같은 셀 편집",
+      "implemented": true,
+      "logicEvidence": "v0111-cost",
+      "status": "구현·논리·실제 검수 완료",
+      "verification": ".build/v0111-verification.json",
+      "browserEvidence": ".build/v0111-cost/evidence.json"
+    },
+    {
+      "id": "REV111-03",
+      "title": "실제 CBS 행과 초기항목 재구성",
+      "implemented": true,
+      "logicEvidence": "v0111-cost",
+      "status": "구현·논리·실제 검수 완료",
+      "verification": ".build/v0111-verification.json",
+      "browserEvidence": ".build/v0111-cost/evidence.json"
+    },
+    {
+      "id": "REV111-04",
+      "title": "기존 확인총액 대사 보존",
+      "implemented": true,
+      "logicEvidence": "v0111-cost",
+      "status": "구현·논리·실제 검수 완료",
+      "verification": ".build/v0111-verification.json",
+      "browserEvidence": ".build/v0111-cost/evidence.json",
+      "additionalEvidence": ".build/v0111-cost/reported-layout-evidence.json"
+    },
+    {
+      "id": "REV111-05",
+      "title": "원가 열폭·삭제·이력·확정본 보존",
+      "implemented": true,
+      "logicEvidence": "v0111-cost",
+      "status": "구현·논리·실제 검수 완료",
+      "verification": ".build/v0111-verification.json",
+      "browserEvidence": ".build/v0111-cost/evidence.json",
+      "additionalEvidence": ".build/v0111-cost/wide-after-evidence.json"
+    },
+    {
+      "id": "REV111-06",
+      "title": "인허가 날짜 직접 필수입력",
+      "implemented": true,
+      "logicEvidence": "v0111-permit",
+      "status": "구현·논리·실제 검수 완료",
+      "verification": ".build/v0111-verification.json",
+      "browserEvidence": ".build/v0111-permit/evidence.json"
+    },
+    {
+      "id": "REV111-07",
+      "title": "추천 인허가 필수검증과 팝업 복귀",
+      "implemented": true,
+      "logicEvidence": "v0111-permit",
+      "status": "구현·논리·실제 검수 완료",
+      "verification": ".build/v0111-verification.json",
+      "browserEvidence": ".build/v0111-permit/evidence.json"
+    },
+    {
+      "id": "REV111-08",
+      "title": "개발업 등록 조회·단일 팝업",
+      "implemented": true,
+      "logicEvidence": "v0111-permit",
+      "status": "구현·논리·실제 검수 완료",
+      "verification": ".build/v0111-verification.json",
+      "browserEvidence": ".build/v0111-permit/evidence.json"
+    },
+    {
+      "id": "REV111-09",
+      "title": "보고 양식 전체 셀 편집",
+      "implemented": true,
+      "logicEvidence": "v0111-report",
+      "status": "구현·논리·실제 검수 완료",
+      "verification": ".build/v0111-verification.json",
+      "browserEvidence": ".build/v0111-report/edge-evidence.json"
+    },
+    {
+      "id": "REV111-10",
+      "title": "보고 변경 후 저장·선택 동기화",
+      "implemented": true,
+      "logicEvidence": "v0111-report",
+      "status": "구현·논리·실제 검수 완료",
+      "verification": ".build/v0111-verification.json",
+      "browserEvidence": ".build/v0111-report/edge-evidence.json"
+    },
+    {
+      "id": "REV111-11",
+      "title": "보고 작성본·출력·동결본 호환",
+      "implemented": true,
+      "logicEvidence": "v0111-report",
+      "status": "구현·논리·실제 검수 완료",
+      "verification": ".build/v0111-verification.json",
+      "browserEvidence": ".build/v0111-report/edge-evidence.json",
+      "pdfEvidence": ".build/v0111-report/pdf-results.json"
+    },
+    {
+      "id": "REV111-12",
+      "title": "회귀·실화면·PDF·명세·Excel 동기화",
+      "implemented": true,
+      "logicEvidence": "v0111-core/v0111-cost/v0111-permit/v0111-report",
+      "status": "구현·논리·실제 검수 완료",
+      "verification": ".build/v0111-verification.json",
+      "excelEvidence": ".build/checklist-sync/generated-v0111.json",
+      "browserEvidence": ".build/v0111-integration/results.json",
+      "reviewEvidence": ".build/v0111-review/evidence.json"
+    }
+  ]
+}

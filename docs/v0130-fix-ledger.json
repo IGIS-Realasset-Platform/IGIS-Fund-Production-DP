@@ -1,0 +1,15 @@
+{
+  "version":"0.10.30",
+  "asOf":"2026-10-12",
+  "status":"verified",
+  "items":[
+    {"id":"REV130-01","title":"신축 취득·보존등기 기본 관리행 통합","acceptance":"T003/T004/T009 현재 관리행1회, 법령 세목·실비 구분과 당시 코드·원금액 보존","status":"완료 · 자동·실제 화면 검수","implemented":true,"verified":true},
+    {"id":"REV130-02","title":"회사 원표 수준의 초기 보수·공통항목 보완","acceptance":"취득세·이전등기 사건1행, 중요한 보수 누락 보완·초기 미입력·혼합 추정분할0","status":"완료 · 자동·실제 화면 검수","implemented":true,"verified":true},
+    {"id":"REV130-03","title":"인허가 관련 용역 한 관리행과 내부 유형 연결","acceptance":"허가·평가·인증·심의실비 한 관리행, 부담·실물·공사 제외, 내부 정의·기록 보존","status":"완료 · 복수 기록 같은셀 수정·실패 복귀 검수","implemented":true,"verified":true},
+    {"id":"REV130-04","title":"기본·선택 전항목 세분화·원본·CBS·선정 근거표","acceptance":"기존146과 새 확정유형 전수, 4모델 존재등급·정확 원문·CBS 대응등급·분리실익·선정이유","status":"완료 · 152유형·37관리행·2765필드 대사","implemented":true,"verified":true},
+    {"id":"REV130-05","title":"본표·선택·같은셀·한시트 출력 일치","acceptance":"기본멤버 별도추가0, 같은셀·빈값/0/1원·취소/실패원복, 한시트 이름/순서/값 일치","status":"완료 · 실제 3해상도·1시트 내려받기 검수","implemented":true,"verified":true},
+    {"id":"REV130-06","title":"고정코드·당시 정의·기존 금액 및 연결 보존","acceptance":"v1/v2 파일과 당시 정의 보존, 기존금액·ID·확정·계약VAT 불변, 검토기록 자동승격0","status":"완료 · 이전 정의·원금액·실패 원복 대사","implemented":true,"verified":true},
+    {"id":"REV130-07","title":"3담당자 독립 교차검토와 실제 화면 검수","acceptance":"모델·재무법령·QA의 독립 교차와 실제3해상도·인접흐름·출력 검수, 미검증 구분","status":"완료 · 독립 교차·118검사·실제 Edge 검수","implemented":true,"verified":true},
+    {"id":"REV130-08","title":"명세·수정대장·누적·Excel 동일 상태 동기화","acceptance":"같은8ID와 완료상태, 기존319 보존, 최종 source/HTML/자동/실화면/보고표/체크리스트 지문 일치","status":"완료 · 최종 일치기록 별도 확인","implemented":true,"verified":true}
+  ]
+}

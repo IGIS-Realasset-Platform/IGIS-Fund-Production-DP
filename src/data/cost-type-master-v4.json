@@ -1,0 +1,5544 @@
+{
+  "version": "company-cbs-v4",
+  "schemaVersion": "company-cbs-master-v4",
+  "effectiveDate": "2026-10-13",
+  "approvedTaxonomyVersion": "company-cost-taxonomy-v4",
+  "approvedSource": {
+    "path": "outputs/mece-review-20261013/final-taxonomy.json",
+    "sha256": "CA4F4B0C41B245347A2DB5FC479D8AC0F315333A5821AC6AF662BDCC944C2733",
+    "sourceSchemaVersion": "mece-company-cost-taxonomy-v2",
+    "approvedDate": "2026-10-13"
+  },
+  "scopeBoundary": "승인된 회사 관리대상 95개를 신규 posting canonical 유형으로 제공. 기존 v1~v3 실제 기록·바인딩·과거는 archive 정의로 보존하며 자동승격하지 않음.",
+  "versionPolicy": {
+    "newPostingVersion": "company-cbs-v4",
+    "archivedVersions": [
+      "company-cbs-v1",
+      "company-cbs-v2",
+      "company-cbs-v3"
+    ],
+    "historicalLookup": "binding.masterVersion",
+    "noAutoMigration": true
+  },
+  "referencePrinciples": [
+    {
+      "source": "outputs/mece-review-20261013/final-taxonomy.json",
+      "sha256": "CA4F4B0C41B245347A2DB5FC479D8AC0F315333A5821AC6AF662BDCC944C2733",
+      "use": "회사 관리대상·선택·동일예산 경계"
+    },
+    {
+      "source": "src/data/cost-type-master-v3.json",
+      "use": "기존 152 ID/code archive alias 보존"
+    }
+  ],
+  "entries": [
+    {
+      "id": "grp_v4_land",
+      "code": "IGIS-GROUP:land",
+      "name": "토지비",
+      "parentId": null,
+      "primaryCategory": "land",
+      "displayGroupKeys": [],
+      "entryRole": "group",
+      "kind": "expense",
+      "newSelectable": false,
+      "scope": "토지비 구조 집계",
+      "includes": [
+        "하위 canonical 회사 관리대상 집계"
+      ],
+      "excludes": [
+        "신규 금액 입력",
+        "기존 v1~v3 record 자동변경"
+      ],
+      "sourceRefs": [
+        "outputs/mece-review-20261013/final-taxonomy.json"
+      ],
+      "legacyKeys": [],
+      "initialDefault": false,
+      "defaultVisibility": "selected-only",
+      "canonicalPurpose": "structure-only",
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "noAutoMigration": true
+    },
+    {
+      "id": "grp_v4_construction",
+      "code": "IGIS-GROUP:construction",
+      "name": "공사비",
+      "parentId": null,
+      "primaryCategory": "construction",
+      "displayGroupKeys": [],
+      "entryRole": "group",
+      "kind": "expense",
+      "newSelectable": false,
+      "scope": "공사비 구조 집계",
+      "includes": [
+        "하위 canonical 회사 관리대상 집계"
+      ],
+      "excludes": [
+        "신규 금액 입력",
+        "기존 v1~v3 record 자동변경"
+      ],
+      "sourceRefs": [
+        "outputs/mece-review-20261013/final-taxonomy.json"
+      ],
+      "legacyKeys": [],
+      "initialDefault": false,
+      "defaultVisibility": "selected-only",
+      "canonicalPurpose": "structure-only",
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "noAutoMigration": true
+    },
+    {
+      "id": "grp_v4_direct",
+      "code": "IGIS-GROUP:direct",
+      "name": "직접공사비",
+      "parentId": "grp_v4_construction",
+      "primaryCategory": "direct",
+      "displayGroupKeys": [],
+      "entryRole": "group",
+      "kind": "expense",
+      "newSelectable": false,
+      "scope": "직접공사비 구조 집계",
+      "includes": [
+        "하위 canonical 회사 관리대상 집계"
+      ],
+      "excludes": [
+        "신규 금액 입력",
+        "기존 v1~v3 record 자동변경"
+      ],
+      "sourceRefs": [
+        "outputs/mece-review-20261013/final-taxonomy.json"
+      ],
+      "legacyKeys": [],
+      "initialDefault": false,
+      "defaultVisibility": "selected-only",
+      "canonicalPurpose": "structure-only",
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "noAutoMigration": true
+    },
+    {
+      "id": "grp_v4_indirect",
+      "code": "IGIS-GROUP:indirect",
+      "name": "간접공사비",
+      "parentId": "grp_v4_construction",
+      "primaryCategory": "indirect",
+      "displayGroupKeys": [],
+      "entryRole": "group",
+      "kind": "expense",
+      "newSelectable": false,
+      "scope": "간접공사비 구조 집계",
+      "includes": [
+        "하위 canonical 회사 관리대상 집계"
+      ],
+      "excludes": [
+        "신규 금액 입력",
+        "기존 v1~v3 record 자동변경"
+      ],
+      "sourceRefs": [
+        "outputs/mece-review-20261013/final-taxonomy.json"
+      ],
+      "legacyKeys": [],
+      "initialDefault": false,
+      "defaultVisibility": "selected-only",
+      "canonicalPurpose": "structure-only",
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "noAutoMigration": true
+    },
+    {
+      "id": "grp_v4_tax",
+      "code": "IGIS-GROUP:tax",
+      "name": "제세공과금·부담금",
+      "parentId": null,
+      "primaryCategory": "tax",
+      "displayGroupKeys": [],
+      "entryRole": "group",
+      "kind": "expense",
+      "newSelectable": false,
+      "scope": "제세공과금·부담금 구조 집계",
+      "includes": [
+        "하위 canonical 회사 관리대상 집계"
+      ],
+      "excludes": [
+        "신규 금액 입력",
+        "기존 v1~v3 record 자동변경"
+      ],
+      "sourceRefs": [
+        "outputs/mece-review-20261013/final-taxonomy.json"
+      ],
+      "legacyKeys": [],
+      "initialDefault": false,
+      "defaultVisibility": "selected-only",
+      "canonicalPurpose": "structure-only",
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "noAutoMigration": true
+    },
+    {
+      "id": "grp_v4_corporate",
+      "code": "IGIS-GROUP:corporate",
+      "name": "부대비",
+      "parentId": null,
+      "primaryCategory": "corporate",
+      "displayGroupKeys": [],
+      "entryRole": "group",
+      "kind": "expense",
+      "newSelectable": false,
+      "scope": "부대비 구조 집계",
+      "includes": [
+        "하위 canonical 회사 관리대상 집계"
+      ],
+      "excludes": [
+        "신규 금액 입력",
+        "기존 v1~v3 record 자동변경"
+      ],
+      "sourceRefs": [
+        "outputs/mece-review-20261013/final-taxonomy.json"
+      ],
+      "legacyKeys": [],
+      "initialDefault": false,
+      "defaultVisibility": "selected-only",
+      "canonicalPurpose": "structure-only",
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "noAutoMigration": true
+    },
+    {
+      "id": "grp_v4_finance",
+      "code": "IGIS-GROUP:finance",
+      "name": "금융비용",
+      "parentId": null,
+      "primaryCategory": "finance",
+      "displayGroupKeys": [],
+      "entryRole": "group",
+      "kind": "expense",
+      "newSelectable": false,
+      "scope": "금융비용 구조 집계",
+      "includes": [
+        "하위 canonical 회사 관리대상 집계"
+      ],
+      "excludes": [
+        "신규 금액 입력",
+        "기존 v1~v3 record 자동변경"
+      ],
+      "sourceRefs": [
+        "outputs/mece-review-20261013/final-taxonomy.json"
+      ],
+      "legacyKeys": [],
+      "initialDefault": false,
+      "defaultVisibility": "selected-only",
+      "canonicalPurpose": "structure-only",
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "noAutoMigration": true
+    },
+    {
+      "id": "grp_v4_contingency",
+      "code": "IGIS-GROUP:contingency",
+      "name": "예비비",
+      "parentId": null,
+      "primaryCategory": "contingency",
+      "displayGroupKeys": [],
+      "entryRole": "group",
+      "kind": "expense",
+      "newSelectable": false,
+      "scope": "예비비 구조 집계",
+      "includes": [
+        "하위 canonical 회사 관리대상 집계"
+      ],
+      "excludes": [
+        "신규 금액 입력",
+        "기존 v1~v3 record 자동변경"
+      ],
+      "sourceRefs": [
+        "outputs/mece-review-20261013/final-taxonomy.json"
+      ],
+      "legacyKeys": [],
+      "initialDefault": false,
+      "defaultVisibility": "selected-only",
+      "canonicalPurpose": "structure-only",
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "noAutoMigration": true
+    },
+    {
+      "id": "land_purchase",
+      "code": "IGIS-COST:land_purchase",
+      "name": "토지매입비",
+      "parentId": "grp_v4_land",
+      "primaryCategory": "land",
+      "displayGroupKeys": [
+        "land_purchase"
+      ],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "기본37행 토지매입비",
+      "includes": [
+        "토지·기존건물의 매매대금",
+        "수용보상 등 소유권 취득 자체의 대가"
+      ],
+      "excludes": [
+        "명도·임차권·점유권 정리 보상",
+        "취득세·등기비·취득자문"
+      ],
+      "sourceRefs": [
+        "seoripul:TIC!D110",
+        "seoripul:TIC!D111",
+        "seoripul:TIC!D112",
+        "현행 보존 원코드 1001"
+      ],
+      "legacyKeys": [],
+      "initialDefault": true,
+      "defaultVisibility": "initial-management-group",
+      "managementTargetId": "land_purchase",
+      "targetKind": "default37",
+      "normalSelectable": false,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_land_purchase"
+      ],
+      "oldCodes": [
+        "L001"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "land_purchase_fees",
+      "code": "IGIS-COST:land_purchase_fees",
+      "name": "매입·입찰보수",
+      "parentId": "grp_v4_land",
+      "primaryCategory": "land",
+      "displayGroupKeys": [
+        "land_purchase_fees"
+      ],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "기본37행 매입·입찰보수",
+      "includes": [
+        "취득거래 중개·매입보수",
+        "자산관리회사의 매입과업 보수",
+        "사업성검토·입찰과업 보수"
+      ],
+      "excludes": [
+        "법인설립·운용·매각보수",
+        "같은 과업의 총액과 상세 중복"
+      ],
+      "sourceRefs": [
+        "IOTA TIC_PFV!C11 · 중개수수료",
+        "성수 투자!C11 · 매입보수",
+        "IOTA TIC_PFV!C14 · 자산관리 매입보수",
+        "성수 투자!C41 · 자산관리 매입보수",
+        "seoripul:TIC!E115 · 입찰및사업성검토보수",
+        "seoripul:자금판(2501)!Z48 · PFV 사업성검토 및 입찰보수"
+      ],
+      "legacyKeys": [],
+      "initialDefault": true,
+      "defaultVisibility": "initial-management-group",
+      "managementTargetId": "land_purchase_fees",
+      "targetKind": "default37",
+      "normalSelectable": false,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_land_purchase_fee",
+        "ct_land_acquisition_amc",
+        "ct_land_feasibility_bid"
+      ],
+      "oldCodes": [
+        "L002",
+        "L008",
+        "L015"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": [
+        "land_purchase"
+      ]
+    },
+    {
+      "id": "land_acquisition_advice",
+      "code": "IGIS-COST:land_acquisition_advice",
+      "name": "취득자문·실사비",
+      "parentId": "grp_v4_land",
+      "primaryCategory": "land",
+      "displayGroupKeys": [
+        "land_acquisition_advice"
+      ],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "기본37행 취득자문·실사비",
+      "includes": [
+        "소유권 취득판단을 위한 법률·회계·세무·물리 실사",
+        "취득 감정평가·시장조사"
+      ],
+      "excludes": [
+        "설계·시공 기초조사",
+        "인허가 법정평가",
+        "금융·준공 자문"
+      ],
+      "sourceRefs": [
+        "seoripul:TIC!D117 · 취득 자문",
+        "IOTA TIC_PFV!C15 · 취득 자문·실사",
+        "성수 투자!C10 · 취득 자문·실사"
+      ],
+      "legacyKeys": [],
+      "initialDefault": true,
+      "defaultVisibility": "initial-management-group",
+      "managementTargetId": "land_acquisition_advice",
+      "targetKind": "default37",
+      "normalSelectable": false,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_land_due_diligence"
+      ],
+      "oldCodes": [
+        "L003"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": [
+        "land_purchase"
+      ]
+    },
+    {
+      "id": "land_acquisition_tax",
+      "code": "IGIS-COST:land_acquisition_tax",
+      "name": "취득세·이전등기비",
+      "parentId": "grp_v4_land",
+      "primaryCategory": "land",
+      "displayGroupKeys": [
+        "land_acquisition_tax"
+      ],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "기본37행 취득세·이전등기비",
+      "includes": [
+        "취득대상 확인된 토지·기존자산 취득세·부대세",
+        "취득 소유권 이전 등기·법무사·채권할인",
+        "기존자산 취득세·부대세",
+        "소유권 이전등기 신청수수료·법무실비",
+        "같은 취득사건으로 확인된 불가분 일괄예산"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "신축 건물 취득세",
+        "대상 미확인 취득세",
+        "설립·담보 등록세",
+        "신축 보존등기",
+        "담보·법인설립 등기",
+        "목적 미확인 법무·등기",
+        "취득 자문·실사 L003",
+        "신축 건물 취득·보존등기",
+        "대상·사건이 확인되지 않은 취득세·등기 혼합액"
+      ],
+      "sourceRefs": [
+        "seoripul:TIC!D113",
+        "IOTA TIC_PFV!C16",
+        "IOTA TIC_PFV!D17:D20 · 취득세·이전등기 사건 상세",
+        "seoripul:TIC!E125"
+      ],
+      "legacyKeys": [],
+      "initialDefault": true,
+      "defaultVisibility": "initial-management-group",
+      "managementTargetId": "land_acquisition_tax",
+      "targetKind": "default37",
+      "normalSelectable": false,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_land_acquisition_tax",
+        "ct_land_registration",
+        "ct_land_acquisition_event"
+      ],
+      "oldCodes": [
+        "L004",
+        "L005",
+        "L014"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "direct_main",
+      "code": "IGIS-COST:direct_main",
+      "name": "도급공사비",
+      "parentId": "grp_v4_direct",
+      "primaryCategory": "direct",
+      "displayGroupKeys": [
+        "direct_main"
+      ],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "기본37행 도급공사비",
+      "includes": [
+        "도급계약 안 본공사·설비·현장공통경비·일반관리비·이윤",
+        "도급계약 안 시공자 시험·시운전·준공청소·인도",
+        "도급자 부담 보험·보증"
+      ],
+      "excludes": [
+        "발주자 별도 독립예산·별도계약",
+        "같은 도급내역 상세의 재가산"
+      ],
+      "sourceRefs": [
+        "seoripul:TIC!D130",
+        "현재 4원본 대응표 · 실제 계약·과업 확인"
+      ],
+      "legacyKeys": [],
+      "initialDefault": true,
+      "defaultVisibility": "initial-management-group",
+      "managementTargetId": "direct_main",
+      "targetKind": "default37",
+      "normalSelectable": false,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_direct_main",
+        "ct_direct_site_overhead",
+        "ct_direct_contractor_overhead"
+      ],
+      "oldCodes": [
+        "D001",
+        "D010",
+        "D011"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "direct_demolition",
+      "code": "IGIS-COST:direct_demolition",
+      "name": "철거비",
+      "parentId": "grp_v4_direct",
+      "primaryCategory": "direct",
+      "displayGroupKeys": [
+        "direct_demolition"
+      ],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "기본37행 철거비",
+      "includes": [
+        "철거·잔존물 처리·부지정비 물리공사"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "명도·보상",
+        "토양 조사와 물리정화의 미확인 복합액"
+      ],
+      "sourceRefs": [
+        "seoripul:TIC!D129",
+        "현행 보존 원코드 1004"
+      ],
+      "legacyKeys": [],
+      "initialDefault": true,
+      "defaultVisibility": "initial-management-group",
+      "managementTargetId": "direct_demolition",
+      "targetKind": "default37",
+      "normalSelectable": false,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_direct_demolition"
+      ],
+      "oldCodes": [
+        "D002"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "reserve_construction",
+      "code": "IGIS-COST:reserve_construction",
+      "name": "공사비예비비",
+      "parentId": "grp_v4_direct",
+      "primaryCategory": "direct",
+      "displayGroupKeys": [
+        "reserve_construction"
+      ],
+      "entryRole": "posting",
+      "kind": "reserve",
+      "newSelectable": true,
+      "scope": "기본37행 공사비예비비",
+      "includes": [
+        "미확정 공사위험 예산"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "확정 도급액·실제집행",
+        "다른 물가·특정위험 예산과 동일금액"
+      ],
+      "sourceRefs": [
+        "seoripul:TIC!D132",
+        "현행 보존 원코드 A001"
+      ],
+      "legacyKeys": [],
+      "initialDefault": true,
+      "defaultVisibility": "initial-management-group",
+      "managementTargetId": "reserve_construction",
+      "targetKind": "default37",
+      "normalSelectable": false,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_reserve_construction"
+      ],
+      "oldCodes": [
+        "R001"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "design_main",
+      "code": "IGIS-COST:design_main",
+      "name": "설계비",
+      "parentId": "grp_v4_indirect",
+      "primaryCategory": "indirect",
+      "displayGroupKeys": [
+        "design_main"
+      ],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "기본37행 설계비",
+      "includes": [
+        "건축·구조·기계·전기통신·소방·토목조경 설계"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "별도 인테리어 설계",
+        "설계계약 밖 별도예산의 착공 전 시공성·사업비·공정·원가·건설정보모델 관리용역",
+        "실제 시공"
+      ],
+      "sourceRefs": [
+        "seoripul:TIC!D135"
+      ],
+      "legacyKeys": [],
+      "initialDefault": true,
+      "defaultVisibility": "initial-management-group",
+      "managementTargetId": "design_main",
+      "targetKind": "default37",
+      "normalSelectable": false,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_indirect_design"
+      ],
+      "oldCodes": [
+        "I001"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "design_supervision",
+      "code": "IGIS-COST:design_supervision",
+      "name": "법정감리비",
+      "parentId": "grp_v4_indirect",
+      "primaryCategory": "indirect",
+      "displayGroupKeys": [
+        "design_supervision"
+      ],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "기본37행 법정감리비",
+      "includes": [
+        "건축·설비 법정 감리"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "CM·개발PM",
+        "원도급 현장관리"
+      ],
+      "sourceRefs": [
+        "seoripul:TIC!D138"
+      ],
+      "legacyKeys": [],
+      "initialDefault": true,
+      "defaultVisibility": "initial-management-group",
+      "managementTargetId": "design_supervision",
+      "targetKind": "default37",
+      "normalSelectable": false,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_indirect_supervision"
+      ],
+      "oldCodes": [
+        "I002"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "design_cm",
+      "code": "IGIS-COST:design_cm",
+      "name": "CM",
+      "parentId": "grp_v4_indirect",
+      "primaryCategory": "indirect",
+      "displayGroupKeys": [
+        "design_cm"
+      ],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "기본37행 CM",
+      "includes": [
+        "건설사업관리 CM 계약"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "법정감리·개발PM",
+        "법인운용 AMC"
+      ],
+      "sourceRefs": [
+        "seoripul:TIC!D139",
+        "현행 보존 원코드 4012"
+      ],
+      "legacyKeys": [],
+      "initialDefault": true,
+      "defaultVisibility": "initial-management-group",
+      "managementTargetId": "design_cm",
+      "targetKind": "default37",
+      "normalSelectable": false,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_indirect_cm"
+      ],
+      "oldCodes": [
+        "I003"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "design_pm",
+      "code": "IGIS-COST:design_pm",
+      "name": "PM(개발사업관리)",
+      "parentId": "grp_v4_indirect",
+      "primaryCategory": "indirect",
+      "displayGroupKeys": [
+        "design_pm"
+      ],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "기본37행 PM(개발사업관리)",
+      "includes": [
+        "설계·공사·허가 개발사업관리 PM"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "상생지원금 명목 PM",
+        "운영시설관리 PM",
+        "원가관리·QS·PCS의 추정 번역"
+      ],
+      "sourceRefs": [
+        "seoripul:TIC!D140",
+        "현행 보존 원코드 4013"
+      ],
+      "legacyKeys": [],
+      "initialDefault": true,
+      "defaultVisibility": "initial-management-group",
+      "managementTargetId": "design_pm",
+      "targetKind": "default37",
+      "normalSelectable": false,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_indirect_pm"
+      ],
+      "oldCodes": [
+        "I004"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "design_survey",
+      "code": "IGIS-COST:design_survey",
+      "name": "지반조사·측량비",
+      "parentId": "grp_v4_indirect",
+      "primaryCategory": "indirect",
+      "displayGroupKeys": [
+        "design_survey"
+      ],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "기본37행 지반조사·측량비",
+      "includes": [
+        "설계·시공계획 기초자료를 위한 측량·지반·현황조사"
+      ],
+      "excludes": [
+        "취득판단 실사",
+        "인허가 법정평가",
+        "공사 품질시험",
+        "토양정화"
+      ],
+      "sourceRefs": [
+        "seoripul:TIC!D141"
+      ],
+      "legacyKeys": [],
+      "initialDefault": true,
+      "defaultVisibility": "initial-management-group",
+      "managementTargetId": "design_survey",
+      "targetKind": "default37",
+      "normalSelectable": false,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_indirect_survey"
+      ],
+      "oldCodes": [
+        "I005"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": [
+        "design_main"
+      ]
+    },
+    {
+      "id": "permit_services",
+      "code": "IGIS-COST:permit_services",
+      "name": "인허가 용역비",
+      "parentId": "grp_v4_indirect",
+      "primaryCategory": "indirect",
+      "displayGroupKeys": [
+        "permit_services"
+      ],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "기본37행 인허가 용역비",
+      "includes": [
+        "인허가 대응용역·법정평가·조사·심의·인증·기관절차 수수료의 회사 관리예산"
+      ],
+      "excludes": [
+        "법정부담금·공공기여",
+        "물리공사·토양정화·인입공사",
+        "기본 설계·감리·CM·PM 계약 포함분",
+        "일괄예산과 상세의 같은 금액 중복"
+      ],
+      "sourceRefs": [
+        "seoripul:TIC!D142",
+        "현재 4원본 대응표 · 실제 계약·과업 확인",
+        "현행 보존 원코드 5001",
+        "현행 보존 원코드 5002",
+        "현행 보존 원코드 5003",
+        "현행 보존 원코드 5004",
+        "현행 보존 원코드 5005",
+        "현행 보존 원코드 5006",
+        "현행 보존 원코드 5008",
+        "현행 보존 원코드 5009",
+        "현행 보존 원코드 5010",
+        "seoripul:TIC!D142 · 인허가용역",
+        "IOTA TIC_IPR!C27",
+        "IOTA TIC_IPR!C34",
+        "IOTA TIC_IPR!C45",
+        "마곡 2. 사업수지!C59",
+        "고정 회사 개발사업비 범위의 명시 선택 정의 · 실제 계약 목적 확인 필요"
+      ],
+      "legacyKeys": [],
+      "initialDefault": true,
+      "defaultVisibility": "initial-management-group",
+      "managementTargetId": "permit_services",
+      "targetKind": "default37",
+      "normalSelectable": false,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_indirect_permit_bundle",
+        "ct_indirect_permit_fee",
+        "ct_indirect_city_plan",
+        "ct_indirect_traffic",
+        "ct_indirect_environment",
+        "ct_indirect_disaster",
+        "ct_indirect_underground",
+        "ct_indirect_underground_followup",
+        "ct_indirect_heritage",
+        "ct_indirect_education",
+        "ct_indirect_landscape_review",
+        "ct_indirect_building_review",
+        "ct_indirect_performance",
+        "ct_indirect_certification",
+        "ct_indirect_soil_survey",
+        "ct_indirect_permit_event",
+        "ct_indirect_permit_other"
+      ],
+      "oldCodes": [
+        "I020",
+        "I021",
+        "I022",
+        "I023",
+        "I024",
+        "I025",
+        "I026",
+        "I027",
+        "I028",
+        "I029",
+        "I030",
+        "I031",
+        "I032",
+        "I033",
+        "I035",
+        "I040",
+        "I991"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "artwork",
+      "code": "IGIS-COST:artwork",
+      "name": "미술장식품설치비",
+      "parentId": "grp_v4_indirect",
+      "primaryCategory": "indirect",
+      "displayGroupKeys": [
+        "artwork"
+      ],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "기본37행 미술장식품설치비",
+      "includes": [
+        "실물 미술작품 제작·구입·설치"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "미술기금 납부",
+        "동일 실물공사 금액 재가산"
+      ],
+      "sourceRefs": [
+        "seoripul:TIC!D144",
+        "현재 4원본 대응표 · 실제 계약·과업 확인",
+        "현행 보존 원코드 5020"
+      ],
+      "legacyKeys": [],
+      "initialDefault": true,
+      "defaultVisibility": "initial-management-group",
+      "managementTargetId": "artwork",
+      "targetKind": "default37",
+      "normalSelectable": false,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_indirect_artwork"
+      ],
+      "oldCodes": [
+        "I034"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "utility_works",
+      "code": "IGIS-COST:utility_works",
+      "name": "인입공사비",
+      "parentId": "grp_v4_indirect",
+      "primaryCategory": "indirect",
+      "displayGroupKeys": [
+        "utility_works"
+      ],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "기본37행 인입공사비",
+      "includes": [
+        "물리적인 전기·가스·수도 등 독립 인입공사"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "유틸리티 부담금",
+        "D008 일괄계약에 포함된 같은 공사액",
+        "도급에 포함된 동일공사"
+      ],
+      "sourceRefs": [
+        "seoripul:TIC!D145"
+      ],
+      "legacyKeys": [],
+      "initialDefault": true,
+      "defaultVisibility": "initial-management-group",
+      "managementTargetId": "utility_works",
+      "targetKind": "default37",
+      "normalSelectable": false,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_direct_utilities"
+      ],
+      "oldCodes": [
+        "D007"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "levies",
+      "code": "IGIS-COST:levies",
+      "name": "부담금",
+      "parentId": "grp_v4_tax",
+      "primaryCategory": "tax",
+      "displayGroupKeys": [
+        "levies"
+      ],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "기본37행 부담금",
+      "includes": [
+        "개발·과밀·유틸리티·지역난방·기반시설 등 목적이 확인된 법정부담",
+        "확인된 미열거 개발부담의 닫힌 잔여"
+      ],
+      "excludes": [
+        "물리 인입공사",
+        "인허가·검사 용역수수료",
+        "같은 부담 총액과 시설별 상세 중복",
+        "보유세·정상운영부담"
+      ],
+      "sourceRefs": [
+        "seoripul:TIC!D147",
+        "현행 보존 원코드 6001",
+        "현행 보존 원코드 6002",
+        "현행 보존 원코드 6006",
+        "현행 보존 원코드 6007",
+        "현행 보존 원코드 6008",
+        "현행 보존 원코드 6009",
+        "고정 회사 개발사업비 범위의 명시 선택 정의 · 실제 계약 목적 확인 필요"
+      ],
+      "legacyKeys": [],
+      "initialDefault": true,
+      "defaultVisibility": "initial-management-group",
+      "managementTargetId": "levies",
+      "targetKind": "default37",
+      "normalSelectable": false,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_levy_development",
+        "ct_levy_overcrowding",
+        "ct_levy_utilities",
+        "ct_levy_heating",
+        "ct_levy_development_combined",
+        "ct_levy_other"
+      ],
+      "oldCodes": [
+        "I101",
+        "I102",
+        "I103",
+        "I104",
+        "I111",
+        "I199"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "tax_building",
+      "code": "IGIS-COST:tax_building",
+      "name": "신축 취득·보존등기비",
+      "parentId": "grp_v4_tax",
+      "primaryCategory": "tax",
+      "displayGroupKeys": [
+        "tax_building"
+      ],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "기본37행 신축 취득·보존등기비",
+      "includes": [
+        "신축 원시취득세·부대세",
+        "신축 보존등기 법무·수수료·채권할인"
+      ],
+      "excludes": [
+        "기존자산 매입 취득세·이전등기",
+        "담보·설립 등기",
+        "일괄예산과 상세의 같은 금액 중복"
+      ],
+      "sourceRefs": [
+        "seoripul:TIC!D156",
+        "IOTA TIC_PFV!D67 · 법무사 수수료_건물 보존등기",
+        "고정 회사 개발사업비 범위의 명시 선택 정의 · 실제 계약 목적 확인 필요"
+      ],
+      "legacyKeys": [],
+      "initialDefault": true,
+      "defaultVisibility": "initial-management-group",
+      "managementTargetId": "tax_building",
+      "targetKind": "default37",
+      "normalSelectable": false,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_tax_building_acquisition",
+        "ct_tax_building_registration",
+        "ct_tax_building_combined"
+      ],
+      "oldCodes": [
+        "T003",
+        "T004",
+        "T009"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "tax_holding_land",
+      "code": "IGIS-COST:tax_holding_land",
+      "name": "토지분재산세",
+      "parentId": "grp_v4_tax",
+      "primaryCategory": "tax",
+      "displayGroupKeys": [
+        "tax_holding_land"
+      ],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "기본37행 토지분재산세",
+      "includes": [
+        "개발기간 토지분 재산세"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "보유세 일괄 T005의 동일예산 포함분",
+        "건물분 재산세",
+        "종합부동산세",
+        "정상 장기운영 보유세"
+      ],
+      "sourceRefs": [
+        "seoripul:TIC!D154"
+      ],
+      "legacyKeys": [],
+      "initialDefault": true,
+      "defaultVisibility": "initial-management-group",
+      "managementTargetId": "tax_holding_land",
+      "targetKind": "default37",
+      "normalSelectable": false,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_tax_land_holding"
+      ],
+      "oldCodes": [
+        "T001"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "tax_comprehensive",
+      "code": "IGIS-COST:tax_comprehensive",
+      "name": "종합부동산세",
+      "parentId": "grp_v4_tax",
+      "primaryCategory": "tax",
+      "displayGroupKeys": [
+        "tax_comprehensive"
+      ],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "기본37행 종합부동산세",
+      "includes": [
+        "개발기간 종합부동산세"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "보유세 일괄 T005의 동일예산 포함분",
+        "재산세",
+        "장기운영 보유세"
+      ],
+      "sourceRefs": [
+        "seoripul:TIC!D155",
+        "현행 보존 원코드 7004"
+      ],
+      "legacyKeys": [],
+      "initialDefault": true,
+      "defaultVisibility": "initial-management-group",
+      "managementTargetId": "tax_comprehensive",
+      "targetKind": "default37",
+      "normalSelectable": false,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_tax_comprehensive"
+      ],
+      "oldCodes": [
+        "T002"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "entity_setup",
+      "code": "IGIS-COST:entity_setup",
+      "name": "법인·펀드 설립비",
+      "parentId": "grp_v4_corporate",
+      "primaryCategory": "corporate",
+      "displayGroupKeys": [
+        "entity_setup"
+      ],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "기본37행 법인·펀드 설립비",
+      "includes": [
+        "법인·펀드 설립 보수·등록세·설립 등기"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "납입자본금",
+        "입찰/매입보수 혼합범위 미확인액"
+      ],
+      "sourceRefs": [
+        "seoripul:TIC!D158"
+      ],
+      "legacyKeys": [],
+      "initialDefault": true,
+      "defaultVisibility": "initial-management-group",
+      "managementTargetId": "entity_setup",
+      "targetKind": "default37",
+      "normalSelectable": false,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_corp_entity_setup"
+      ],
+      "oldCodes": [
+        "O001"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "entity_amc",
+      "code": "IGIS-COST:entity_amc",
+      "name": "자산운용·자산관리보수",
+      "parentId": "grp_v4_corporate",
+      "primaryCategory": "corporate",
+      "displayGroupKeys": [
+        "entity_amc"
+      ],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "기본37행 자산운용·자산관리보수",
+      "includes": [
+        "개발·운용기간 AMC 보수"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "매입·매각 AMC",
+        "운용 일괄액 포함분"
+      ],
+      "sourceRefs": [
+        "seoripul:TIC!E160 · 자산관리 보수",
+        "seoripul:A&R (PFV)!CG11 · 자산관리 보수"
+      ],
+      "legacyKeys": [],
+      "initialDefault": true,
+      "defaultVisibility": "initial-management-group",
+      "managementTargetId": "entity_amc",
+      "targetKind": "default37",
+      "normalSelectable": false,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_corp_amc_operating"
+      ],
+      "oldCodes": [
+        "O007"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "entity_fmc",
+      "code": "IGIS-COST:entity_fmc",
+      "name": "자금관리보수",
+      "parentId": "grp_v4_corporate",
+      "primaryCategory": "corporate",
+      "displayGroupKeys": [
+        "entity_fmc"
+      ],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "기본37행 자금관리보수",
+      "includes": [
+        "개발법인 자금관리 보수"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "금융약정 통제·대리은행 과업",
+        "운영 FM",
+        "운용 일괄액 포함분"
+      ],
+      "sourceRefs": [
+        "seoripul:TIC!E162 · 자금관리 보수",
+        "seoripul:A&R (PFV)!CG13 · 자금관리 보수"
+      ],
+      "legacyKeys": [],
+      "initialDefault": true,
+      "defaultVisibility": "initial-management-group",
+      "managementTargetId": "entity_fmc",
+      "targetKind": "default37",
+      "normalSelectable": false,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_corp_fmc"
+      ],
+      "oldCodes": [
+        "O008"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "entity_admin",
+      "code": "IGIS-COST:entity_admin",
+      "name": "사무관리보수",
+      "parentId": "grp_v4_corporate",
+      "primaryCategory": "corporate",
+      "displayGroupKeys": [
+        "entity_admin"
+      ],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "기본37행 사무관리보수",
+      "includes": [
+        "개발법인 일반 사무관리 보수"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "별도 AMC·FMC",
+        "운용 일괄액 포함분"
+      ],
+      "sourceRefs": [
+        "seoripul:TIC!E161 · 사무수탁 보수",
+        "seoripul:A&R (PFV)!CG12 · 사무수탁 보수"
+      ],
+      "legacyKeys": [],
+      "initialDefault": true,
+      "defaultVisibility": "initial-management-group",
+      "managementTargetId": "entity_admin",
+      "targetKind": "default37",
+      "normalSelectable": false,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_corp_admin"
+      ],
+      "oldCodes": [
+        "O009"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "entity_closing",
+      "code": "IGIS-COST:entity_closing",
+      "name": "회계·세무·감사비",
+      "parentId": "grp_v4_corporate",
+      "primaryCategory": "corporate",
+      "displayGroupKeys": [
+        "entity_closing"
+      ],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "기본37행 회계·세무·감사비",
+      "includes": [
+        "개발법인의 회계·세무·감사 또는 결산 일괄계약"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "취득·금융·준공 특수자문",
+        "같은 세무·감사 상세 재가산"
+      ],
+      "sourceRefs": [
+        "seoripul:TIC!D163"
+      ],
+      "legacyKeys": [],
+      "initialDefault": true,
+      "defaultVisibility": "initial-management-group",
+      "managementTargetId": "entity_closing",
+      "targetKind": "default37",
+      "normalSelectable": false,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_corp_closing"
+      ],
+      "oldCodes": [
+        "O003"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "development_advice",
+      "code": "IGIS-COST:development_advice",
+      "name": "개발·준공 자문수수료",
+      "parentId": "grp_v4_corporate",
+      "primaryCategory": "corporate",
+      "displayGroupKeys": [
+        "development_advice"
+      ],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "기본37행 개발·준공 자문수수료",
+      "includes": [
+        "개발·준공 단계 계약 과업이 확인된 자문"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "취득·금융 자문",
+        "개발PM·시행보수로 추정"
+      ],
+      "sourceRefs": [
+        "seoripul:TIC!D169"
+      ],
+      "legacyKeys": [],
+      "initialDefault": true,
+      "defaultVisibility": "initial-management-group",
+      "managementTargetId": "development_advice",
+      "targetKind": "default37",
+      "normalSelectable": false,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_corp_development_advice"
+      ],
+      "oldCodes": [
+        "O006"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "complaints",
+      "code": "IGIS-COST:complaints",
+      "name": "민원응대비",
+      "parentId": "grp_v4_corporate",
+      "primaryCategory": "corporate",
+      "displayGroupKeys": [
+        "complaints"
+      ],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "기본37행 민원응대비",
+      "includes": [
+        "개발사업 민원 응대 과업"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "명도·취득 보상",
+        "물리공사·운영관리"
+      ],
+      "sourceRefs": [
+        "seoripul:TIC!D166"
+      ],
+      "legacyKeys": [],
+      "initialDefault": true,
+      "defaultVisibility": "initial-management-group",
+      "managementTargetId": "complaints",
+      "targetKind": "default37",
+      "normalSelectable": false,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_corp_complaints"
+      ],
+      "oldCodes": [
+        "O004"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "marketing",
+      "code": "IGIS-COST:marketing",
+      "name": "광고홍보비",
+      "parentId": "grp_v4_corporate",
+      "primaryCategory": "corporate",
+      "displayGroupKeys": [
+        "marketing"
+      ],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "기본37행 광고홍보비",
+      "includes": [
+        "개발사업 임대·매각·분양 광고·홍보"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "대행 중개수수료",
+        "견본주택·개관공사"
+      ],
+      "sourceRefs": [
+        "seoripul:TIC!D167",
+        "현행 보존 원코드 9003"
+      ],
+      "legacyKeys": [],
+      "initialDefault": true,
+      "defaultVisibility": "initial-management-group",
+      "managementTargetId": "marketing",
+      "targetKind": "default37",
+      "normalSelectable": false,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_corp_marketing"
+      ],
+      "oldCodes": [
+        "O005"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "disposal_fees",
+      "code": "IGIS-COST:disposal_fees",
+      "name": "매각보수·수수료",
+      "parentId": "grp_v4_corporate",
+      "primaryCategory": "corporate",
+      "displayGroupKeys": [
+        "disposal_fees"
+      ],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "기본37행 매각보수·수수료",
+      "includes": [
+        "자산 매각의 일반 중개·기본보수",
+        "자산관리회사 매각보수",
+        "실제 매각계약 성과보수"
+      ],
+      "excludes": [
+        "매각대금·투자자 분배·대출원금",
+        "매입·운용보수",
+        "주택 분양대행",
+        "같은 매각보수 총액과 상세 중복"
+      ],
+      "sourceRefs": [
+        "IOTA Returns_IPR!C11:C13 · 매각사건 보수표 · 개별 과업 확인 후 선택",
+        "마곡 2. 사업수지!C50 · 매각보수·수수료",
+        "고정 회사 개발사업비 범위의 명시 선택 정의 · 실제 계약 목적 확인 필요",
+        "IOTA Returns_IPR C11:C13 · 매각 보수"
+      ],
+      "legacyKeys": [],
+      "initialDefault": true,
+      "defaultVisibility": "initial-management-group",
+      "managementTargetId": "disposal_fees",
+      "targetKind": "default37",
+      "normalSelectable": false,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_corp_disposal_event",
+        "ct_corp_disposal",
+        "ct_corp_disposal_amc",
+        "ct_corp_disposal_success"
+      ],
+      "oldCodes": [
+        "O014",
+        "O021",
+        "O022",
+        "O023"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "entity_overhead",
+      "code": "IGIS-COST:entity_overhead",
+      "name": "기타관리비",
+      "parentId": "grp_v4_corporate",
+      "primaryCategory": "corporate",
+      "displayGroupKeys": [
+        "entity_overhead"
+      ],
+      "entryRole": "posting",
+      "kind": "other",
+      "newSelectable": true,
+      "scope": "기본37행 기타관리비",
+      "includes": [
+        "개발법인 일반 운영 목적이 확인된 미열거 경비"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "위 운영보수·회계·법무",
+        "장기 운영비",
+        "미확인 일반비용",
+        "같은 분류의 모든 열거된 표준유형·다른 목적 OTHER·위험예비 (excludedTypeIds 참조)"
+      ],
+      "sourceRefs": [
+        "seoripul:TIC!D168"
+      ],
+      "legacyKeys": [],
+      "initialDefault": true,
+      "defaultVisibility": "initial-management-group",
+      "managementTargetId": "entity_overhead",
+      "targetKind": "default37",
+      "normalSelectable": false,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_corp_other"
+      ],
+      "oldCodes": [
+        "O990"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "finance_bridge_interest",
+      "code": "IGIS-COST:finance_bridge_interest",
+      "name": "브릿지 이자",
+      "parentId": "grp_v4_finance",
+      "primaryCategory": "finance",
+      "displayGroupKeys": [
+        "finance_bridge_interest"
+      ],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "기본37행 브릿지 이자",
+      "includes": [
+        "브릿지·토지/계약금 대출 조달이자"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "PF·PrePF·주주대여 이자",
+        "출자 배당",
+        "원금"
+      ],
+      "sourceRefs": [
+        "seoripul:TIC!D190",
+        "현행 보존 원코드 8001"
+      ],
+      "legacyKeys": [],
+      "initialDefault": true,
+      "defaultVisibility": "initial-management-group",
+      "managementTargetId": "finance_bridge_interest",
+      "targetKind": "default37",
+      "normalSelectable": false,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_finance_bridge_interest"
+      ],
+      "oldCodes": [
+        "F004"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "finance_bridge_upfront",
+      "code": "IGIS-COST:finance_bridge_upfront",
+      "name": "브릿지 선취수수료",
+      "parentId": "grp_v4_finance",
+      "primaryCategory": "finance",
+      "displayGroupKeys": [
+        "finance_bridge_upfront"
+      ],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "기본37행 브릿지 선취수수료",
+      "includes": [
+        "브릿지 조달단계 주선·취급 선취수수료"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "PF 수수료",
+        "조달원금"
+      ],
+      "sourceRefs": [
+        "seoripul:TIC!D180"
+      ],
+      "legacyKeys": [],
+      "initialDefault": true,
+      "defaultVisibility": "initial-management-group",
+      "managementTargetId": "finance_bridge_upfront",
+      "targetKind": "default37",
+      "normalSelectable": false,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_finance_bridge_upfront"
+      ],
+      "oldCodes": [
+        "F002"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "finance_bridge_advice",
+      "code": "IGIS-COST:finance_bridge_advice",
+      "name": "브릿지 자문수수료",
+      "parentId": "grp_v4_finance",
+      "primaryCategory": "finance",
+      "displayGroupKeys": [
+        "finance_bridge_advice"
+      ],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "기본37행 브릿지 자문수수료",
+      "includes": [
+        "브릿지 조달 금융자문"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "매입·법인운영 자문",
+        "PF 자문"
+      ],
+      "sourceRefs": [
+        "seoripul:TIC!D185"
+      ],
+      "legacyKeys": [],
+      "initialDefault": true,
+      "defaultVisibility": "initial-management-group",
+      "managementTargetId": "finance_bridge_advice",
+      "targetKind": "default37",
+      "normalSelectable": false,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_finance_bridge_advice"
+      ],
+      "oldCodes": [
+        "F003"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "finance_pf_interest",
+      "code": "IGIS-COST:finance_pf_interest",
+      "name": "PF 이자",
+      "parentId": "grp_v4_finance",
+      "primaryCategory": "finance",
+      "displayGroupKeys": [
+        "finance_pf_interest"
+      ],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "기본37행 PF 이자",
+      "includes": [
+        "본PF 대출이자"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "브릿지·운영 리파이낸싱·주주대여",
+        "배당·원금"
+      ],
+      "sourceRefs": [
+        "seoripul:TIC!D193",
+        "현행 보존 원코드 8002"
+      ],
+      "legacyKeys": [],
+      "initialDefault": true,
+      "defaultVisibility": "initial-management-group",
+      "managementTargetId": "finance_pf_interest",
+      "targetKind": "default37",
+      "normalSelectable": false,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_finance_pf_interest"
+      ],
+      "oldCodes": [
+        "F007"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "finance_pf_upfront",
+      "code": "IGIS-COST:finance_pf_upfront",
+      "name": "PF 선취수수료",
+      "parentId": "grp_v4_finance",
+      "primaryCategory": "finance",
+      "displayGroupKeys": [
+        "finance_pf_upfront"
+      ],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "기본37행 PF 선취수수료",
+      "includes": [
+        "본PF 주선·취급 선취수수료"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "브릿지·PrePF 수수료",
+        "원금"
+      ],
+      "sourceRefs": [
+        "seoripul:TIC!D191"
+      ],
+      "legacyKeys": [],
+      "initialDefault": true,
+      "defaultVisibility": "initial-management-group",
+      "managementTargetId": "finance_pf_upfront",
+      "targetKind": "default37",
+      "normalSelectable": false,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_finance_pf_upfront"
+      ],
+      "oldCodes": [
+        "F005"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "finance_pf_advice",
+      "code": "IGIS-COST:finance_pf_advice",
+      "name": "PF 자문수수료",
+      "parentId": "grp_v4_finance",
+      "primaryCategory": "finance",
+      "displayGroupKeys": [
+        "finance_pf_advice"
+      ],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "기본37행 PF 자문수수료",
+      "includes": [
+        "본PF 금융자문"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "브릿지·매입·일반 법무자문"
+      ],
+      "sourceRefs": [
+        "seoripul:TIC!D192"
+      ],
+      "legacyKeys": [],
+      "initialDefault": true,
+      "defaultVisibility": "initial-management-group",
+      "managementTargetId": "finance_pf_advice",
+      "targetKind": "default37",
+      "normalSelectable": false,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_finance_pf_advice"
+      ],
+      "oldCodes": [
+        "F006"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "finance_security",
+      "code": "IGIS-COST:finance_security",
+      "name": "담보·근질권 설정비용",
+      "parentId": "grp_v4_finance",
+      "primaryCategory": "finance",
+      "displayGroupKeys": [
+        "finance_security"
+      ],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "기본37행 담보·근질권 설정비용",
+      "includes": [
+        "대출 담보 설정·후담보·근질권·등기·채권할인"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "소유권 이전·보존·설립 등기",
+        "같은 담보법무·등록세 재가산"
+      ],
+      "sourceRefs": [
+        "seoripul:TIC!D173",
+        "seoripul:TIC!D177",
+        "seoripul:TIC!D178",
+        "seoripul:TIC!D179"
+      ],
+      "legacyKeys": [],
+      "initialDefault": true,
+      "defaultVisibility": "initial-management-group",
+      "managementTargetId": "finance_security",
+      "targetKind": "default37",
+      "normalSelectable": false,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_finance_security"
+      ],
+      "oldCodes": [
+        "F001"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "reserve_general",
+      "code": "IGIS-COST:reserve_general",
+      "name": "사업비예비비",
+      "parentId": "grp_v4_contingency",
+      "primaryCategory": "contingency",
+      "displayGroupKeys": [
+        "reserve_general"
+      ],
+      "entryRole": "posting",
+      "kind": "reserve",
+      "newSelectable": true,
+      "scope": "기본37행 사업비예비비",
+      "includes": [
+        "비공사 사업비 미확정 위험 예산"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "현금유동성·원금",
+        "공사/설계·특정위험으로 별도 배정한 동일액"
+      ],
+      "sourceRefs": [
+        "seoripul:TIC!C194",
+        "현행 보존 원코드 A002"
+      ],
+      "legacyKeys": [],
+      "initialDefault": true,
+      "defaultVisibility": "initial-management-group",
+      "managementTargetId": "reserve_general",
+      "targetKind": "default37",
+      "normalSelectable": false,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_reserve_general"
+      ],
+      "oldCodes": [
+        "R003"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "land_asset_carry",
+      "code": "IGIS-COST:land_asset_carry",
+      "name": "취득자산 관리비",
+      "parentId": "grp_v4_land",
+      "primaryCategory": "land",
+      "displayGroupKeys": [],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "해당 사업의 별도 사건·계약이 있을 때만 선택합니다. 이번 원표 범위에서 직접 과업 근거가 없으며 닫힌 목록의 필요 목적을 보완합니다.",
+      "includes": [
+        "기존자산 취득 후 개발준비를 위한 자산 관리 과업"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "개발기간 재산세",
+        "공사비",
+        "정상 장기운영 관리비"
+      ],
+      "sourceRefs": [
+        "고정 회사 개발사업비 범위의 명시 선택 정의 · 실제 계약 목적 확인 필요"
+      ],
+      "legacyKeys": [],
+      "initialDefault": false,
+      "defaultVisibility": "selected-only",
+      "managementTargetId": "land_asset_carry",
+      "targetKind": "selected-family",
+      "normalSelectable": true,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_land_asset_carry"
+      ],
+      "oldCodes": [
+        "L009"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "land_installment_interest",
+      "code": "IGIS-COST:land_installment_interest",
+      "name": "토지대금 할부이자",
+      "parentId": "grp_v4_land",
+      "primaryCategory": "land",
+      "displayGroupKeys": [],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "해당 사업의 별도 사건·계약이 있을 때만 선택합니다. 원표/상세 사례는 있지만 모든 사업의 공통 초기항목으로 강제할 근거는 부족합니다.",
+      "includes": [
+        "매도인에게 지급하는 토지 매매대금 할부이자"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "브릿지·PF 조달이자",
+        "할부 원금·취득대금",
+        "단순 CF 시점 가정"
+      ],
+      "sourceRefs": [
+        "마곡 2. 사업수지!C33 · 3. C.F(100%)!A18/D18 같은 항목 재표시"
+      ],
+      "legacyKeys": [],
+      "initialDefault": false,
+      "defaultVisibility": "selected-only",
+      "managementTargetId": "land_installment_interest",
+      "targetKind": "selected-family",
+      "normalSelectable": true,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_land_installment_interest"
+      ],
+      "oldCodes": [
+        "L010"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "land_coexistence",
+      "code": "IGIS-COST:land_coexistence",
+      "name": "취득 관련 노조상생지원비",
+      "parentId": "grp_v4_land",
+      "primaryCategory": "land",
+      "displayGroupKeys": [],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "해당 사업의 별도 사건·계약이 있을 때만 선택합니다. 이번 원표 범위에서 직접 과업 근거가 없으며 닫힌 목록의 필요 목적을 보완합니다.",
+      "includes": [
+        "취득 기존자산의 계약상 노조 상생지원"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "기술 개발PM",
+        "물리공사",
+        "범위 미확인 일반 상생금",
+        "동일 보상·권리정리 금액"
+      ],
+      "sourceRefs": [
+        "IOTA TIC_PFV!C13/N13/AH13 · 노조 상생지원 원명"
+      ],
+      "legacyKeys": [],
+      "initialDefault": false,
+      "defaultVisibility": "selected-only",
+      "managementTargetId": "land_coexistence",
+      "targetKind": "selected-family",
+      "normalSelectable": true,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_land_coexistence"
+      ],
+      "oldCodes": [
+        "L011"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "land_masterlease_loss",
+      "code": "IGIS-COST:land_masterlease_loss",
+      "name": "취득 기존자산 임대운영 손실보전",
+      "parentId": "grp_v4_land",
+      "primaryCategory": "land",
+      "displayGroupKeys": [],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "해당 사업의 별도 사건·계약이 있을 때만 선택합니다. 이번 원표 범위에서 직접 과업 근거가 없으며 닫힌 목록의 필요 목적을 보완합니다.",
+      "includes": [
+        "취득 기존자산의 계약상 임대운영 손실보전"
+      ],
+      "excludes": [
+        "신규 임차유치·공사지원",
+        "렌트프리 수익가정",
+        "정상 장기운영손실"
+      ],
+      "sourceRefs": [
+        "IOTA TIC_PFV!C12/N12/AH12 · M/L 운영손실보전 원명"
+      ],
+      "legacyKeys": [],
+      "initialDefault": false,
+      "defaultVisibility": "selected-only",
+      "managementTargetId": "land_masterlease_loss",
+      "targetKind": "selected-family",
+      "normalSelectable": true,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_land_masterlease_loss"
+      ],
+      "oldCodes": [
+        "L012"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": [
+        "land_purchase"
+      ]
+    },
+    {
+      "id": "land_landuse_tax",
+      "code": "IGIS-COST:land_landuse_tax",
+      "name": "지목변경 취득세",
+      "parentId": "grp_v4_land",
+      "primaryCategory": "land",
+      "displayGroupKeys": [],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "해당 사업의 별도 사건·계약이 있을 때만 선택합니다. 원표/상세 사례는 있지만 모든 사업의 공통 초기항목으로 강제할 근거는 부족합니다.",
+      "includes": [
+        "토지 지목변경 과세사유가 확인된 취득세"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "매입 취득세 L004",
+        "건물 원시취득세",
+        "매입 취득세총액에 포함된 동일액"
+      ],
+      "sourceRefs": [
+        "성수 투자!C13 · IGIS!B45 · 지목변경취득세 원명"
+      ],
+      "legacyKeys": [],
+      "initialDefault": false,
+      "defaultVisibility": "selected-only",
+      "managementTargetId": "land_landuse_tax",
+      "targetKind": "selected-family",
+      "normalSelectable": true,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_land_landuse_tax"
+      ],
+      "oldCodes": [
+        "L013"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "land_other",
+      "code": "IGIS-COST:land_other",
+      "name": "기타 취득·권리비",
+      "parentId": "grp_v4_land",
+      "primaryCategory": "land",
+      "displayGroupKeys": [],
+      "entryRole": "posting",
+      "kind": "other",
+      "newSelectable": true,
+      "scope": "해당 사업의 별도 사건·계약이 있을 때만 선택합니다. 이번 원표 범위에서 직접 과업 근거가 없으며 닫힌 목록의 필요 목적을 보완합니다.",
+      "includes": [
+        "취득·권리확보 목적이 확인된 다른 비용"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "목적·복합범위 미확인 비용",
+        "같은 분류의 모든 열거된 표준유형·다른 목적 OTHER·위험예비 (excludedTypeIds 참조)"
+      ],
+      "sourceRefs": [
+        "고정 회사 개발사업비 범위의 명시 선택 정의 · 실제 계약 목적 확인 필요"
+      ],
+      "legacyKeys": [],
+      "initialDefault": false,
+      "defaultVisibility": "selected-only",
+      "managementTargetId": "land_other",
+      "targetKind": "selected-family",
+      "normalSelectable": true,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_land_other"
+      ],
+      "oldCodes": [
+        "L990"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "separate_site_works",
+      "code": "IGIS-COST:separate_site_works",
+      "name": "별도발주 토목·조경공사비",
+      "parentId": "grp_v4_direct",
+      "primaryCategory": "direct",
+      "displayGroupKeys": [],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "본도급과 분리된 별도 공사계약만",
+      "includes": [
+        "본도급과 분리된 토목·조경·도로 공사"
+      ],
+      "excludes": [
+        "전기·가스·수도 등 인입공사",
+        "본도급 포함 공종",
+        "원인자부담금",
+        "기존 D008 복합액의 임의 분해"
+      ],
+      "sourceRefs": [
+        "고정 회사 개발사업비 범위의 명시 선택 정의 · 실제 계약 목적 확인 필요"
+      ],
+      "legacyKeys": [],
+      "initialDefault": false,
+      "defaultVisibility": "selected-only",
+      "managementTargetId": "separate_site_works",
+      "targetKind": "selected-family",
+      "normalSelectable": true,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_direct_civil",
+        "ct_direct_civil_utilities"
+      ],
+      "oldCodes": [
+        "D003",
+        "D008"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": [
+        "direct_main",
+        "utility_works"
+      ]
+    },
+    {
+      "id": "direct_interior",
+      "code": "IGIS-COST:direct_interior",
+      "name": "별도 인테리어 공사비",
+      "parentId": "grp_v4_direct",
+      "primaryCategory": "direct",
+      "displayGroupKeys": [],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "해당 사업의 별도 사건·계약이 있을 때만 선택합니다. 원표/상세 사례는 있지만 모든 사업의 공통 초기항목으로 강제할 근거는 부족합니다.",
+      "includes": [
+        "별도 계약 인테리어 물리공사"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "본공사 포함 내부마감",
+        "인테리어 설계",
+        "임차인 현금 공사지원"
+      ],
+      "sourceRefs": [
+        "seoripul:TIC!D131",
+        "현재 4원본 대응표 · 실제 계약·과업 확인",
+        "현행 보존 원코드 2019"
+      ],
+      "legacyKeys": [],
+      "initialDefault": false,
+      "defaultVisibility": "selected-only",
+      "managementTargetId": "direct_interior",
+      "targetKind": "selected-family",
+      "normalSelectable": true,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_direct_interior"
+      ],
+      "oldCodes": [
+        "D004"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "owner_separate_special_equipment_work",
+      "code": "IGIS-COST:owner_separate_special_equipment_work",
+      "name": "별도발주 특수설비 공사비",
+      "parentId": "grp_v4_direct",
+      "primaryCategory": "direct",
+      "displayGroupKeys": [],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "본도급 제외 발주자 별도계약만",
+      "includes": [
+        "별도 특수설비·시설 공사"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "본 도급 포함 기계·전기",
+        "운영준비 FF&E"
+      ],
+      "sourceRefs": [
+        "현재 4원본 대응표 · 실제 계약·과업 확인",
+        "현행 보존 원코드 2020"
+      ],
+      "legacyKeys": [],
+      "initialDefault": false,
+      "defaultVisibility": "selected-only",
+      "managementTargetId": "owner_separate_special_equipment_work",
+      "targetKind": "selected-family",
+      "normalSelectable": true,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_direct_special"
+      ],
+      "oldCodes": [
+        "D005"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "owner_separate_relocation_work",
+      "code": "IGIS-COST:owner_separate_relocation_work",
+      "name": "별도발주 지장물 이설공사비",
+      "parentId": "grp_v4_direct",
+      "primaryCategory": "direct",
+      "displayGroupKeys": [],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "발주자 별도 물리이설 계약만",
+      "includes": [
+        "기존 지장물의 물리적 이설"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "도시계획·조사 용역",
+        "인입 부담금"
+      ],
+      "sourceRefs": [
+        "현재 4원본 대응표 · 실제 계약·과업 확인",
+        "현행 보존 원코드 1007"
+      ],
+      "legacyKeys": [],
+      "initialDefault": false,
+      "defaultVisibility": "selected-only",
+      "managementTargetId": "owner_separate_relocation_work",
+      "targetKind": "selected-family",
+      "normalSelectable": true,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_direct_relocation"
+      ],
+      "oldCodes": [
+        "D006"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "owner_borne_construction_guarantee",
+      "code": "IGIS-COST:owner_borne_construction_guarantee",
+      "name": "발주자 부담 별도 공사보증료",
+      "parentId": "grp_v4_direct",
+      "primaryCategory": "direct",
+      "displayGroupKeys": [],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "수급인·도급 포함 제외 발주자 실제부담만",
+      "includes": [
+        "공사 계약·이행 보증"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "대출·분양 보증",
+        "본도급 포함액"
+      ],
+      "sourceRefs": [
+        "현재 4원본 대응표 · 실제 계약·과업 확인",
+        "현행 보존 원코드 3007"
+      ],
+      "legacyKeys": [],
+      "initialDefault": false,
+      "defaultVisibility": "selected-only",
+      "managementTargetId": "owner_borne_construction_guarantee",
+      "targetKind": "selected-family",
+      "normalSelectable": true,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_direct_guarantee"
+      ],
+      "oldCodes": [
+        "D017"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "direct_delay_interest",
+      "code": "IGIS-COST:direct_delay_interest",
+      "name": "도급대금 지급 지연이자",
+      "parentId": "grp_v4_direct",
+      "primaryCategory": "direct",
+      "displayGroupKeys": [],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "해당 사업의 별도 사건·계약이 있을 때만 선택합니다. 이번 원표 범위에서 직접 과업 근거가 없으며 닫힌 목록의 필요 목적을 보완합니다.",
+      "includes": [
+        "시공 도급대금 지급 지연으로 발생하는 이자"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "PF·브릿지 조달이자",
+        "투자자 배당"
+      ],
+      "sourceRefs": [
+        "현재 4원본 대응표 · 실제 계약·과업 확인"
+      ],
+      "legacyKeys": [],
+      "initialDefault": false,
+      "defaultVisibility": "selected-only",
+      "managementTargetId": "direct_delay_interest",
+      "targetKind": "selected-family",
+      "normalSelectable": true,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_direct_delay_interest"
+      ],
+      "oldCodes": [
+        "D018"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "other_owner_separate_construction",
+      "code": "IGIS-COST:other_owner_separate_construction",
+      "name": "기타 발주자 별도 공사비",
+      "parentId": "grp_v4_direct",
+      "primaryCategory": "direct",
+      "displayGroupKeys": [],
+      "entryRole": "posting",
+      "kind": "other",
+      "newSelectable": true,
+      "scope": "목적확인 발주자 별도 물리공사만",
+      "includes": [
+        "물리공사 목적이 확인된 미열거 별도공사"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "설계·허가 용역",
+        "보상·취득",
+        "불명확 혼합공사",
+        "본도급 포함액",
+        "같은 분류의 모든 열거된 표준유형·다른 목적 OTHER·위험예비 (excludedTypeIds 참조)"
+      ],
+      "sourceRefs": [
+        "고정 회사 개발사업비 범위의 명시 선택 정의 · 실제 계약 목적 확인 필요"
+      ],
+      "legacyKeys": [],
+      "initialDefault": false,
+      "defaultVisibility": "selected-only",
+      "managementTargetId": "other_owner_separate_construction",
+      "targetKind": "selected-family",
+      "normalSelectable": true,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_direct_other"
+      ],
+      "oldCodes": [
+        "D990"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "other_owner_separate_construction_support",
+      "code": "IGIS-COST:other_owner_separate_construction_support",
+      "name": "기타 발주자 별도 공사부대비",
+      "parentId": "grp_v4_direct",
+      "primaryCategory": "direct",
+      "displayGroupKeys": [],
+      "entryRole": "posting",
+      "kind": "other",
+      "newSelectable": true,
+      "scope": "열거유형·도급 제외 발주자 부대비만",
+      "includes": [
+        "시공 현장 수행 목적이 확인된 미열거 경비"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "본도급 포함액",
+        "사업주 법인운영",
+        "목적 미확인 source_3010",
+        "같은 분류의 모든 열거된 표준유형·다른 목적 OTHER·위험예비 (excludedTypeIds 참조)"
+      ],
+      "sourceRefs": [
+        "고정 회사 개발사업비 범위의 명시 선택 정의 · 실제 계약 목적 확인 필요"
+      ],
+      "legacyKeys": [],
+      "initialDefault": false,
+      "defaultVisibility": "selected-only",
+      "managementTargetId": "other_owner_separate_construction_support",
+      "targetKind": "selected-family",
+      "normalSelectable": true,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_direct_site_other"
+      ],
+      "oldCodes": [
+        "D991"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "indirect_interior_design",
+      "code": "IGIS-COST:indirect_interior_design",
+      "name": "인테리어 설계비",
+      "parentId": "grp_v4_indirect",
+      "primaryCategory": "indirect",
+      "displayGroupKeys": [],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "해당 사업의 별도 사건·계약이 있을 때만 선택합니다. 원표/상세 사례는 있지만 모든 사업의 공통 초기항목으로 강제할 근거는 부족합니다.",
+      "includes": [
+        "별도 인테리어 설계"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "물리 인테리어 공사",
+        "본 설계 포함액"
+      ],
+      "sourceRefs": [
+        "seoripul:TIC!D136",
+        "현행 보존 원코드 4007"
+      ],
+      "legacyKeys": [],
+      "initialDefault": false,
+      "defaultVisibility": "selected-only",
+      "managementTargetId": "indirect_interior_design",
+      "targetKind": "selected-family",
+      "normalSelectable": true,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_indirect_interior_design"
+      ],
+      "oldCodes": [
+        "I006"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "indirect_cleanup",
+      "code": "IGIS-COST:indirect_cleanup",
+      "name": "토지정화비용",
+      "parentId": "grp_v4_indirect",
+      "primaryCategory": "indirect",
+      "displayGroupKeys": [],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "해당 사업의 별도 사건·계약이 있을 때만 선택합니다. 원표/상세 사례는 있지만 모든 사업의 공통 초기항목으로 강제할 근거는 부족합니다.",
+      "includes": [
+        "회사표에서 독립 관리하는 범위 확인된 실제 토양정화"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "토양오염 조사",
+        "미확인 조사·정화 혼합액",
+        "별도 직접공사와 동일금액"
+      ],
+      "sourceRefs": [
+        "seoripul:TIC!D143"
+      ],
+      "legacyKeys": [],
+      "initialDefault": false,
+      "defaultVisibility": "selected-only",
+      "managementTargetId": "indirect_cleanup",
+      "targetKind": "selected-family",
+      "normalSelectable": true,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_indirect_cleanup"
+      ],
+      "oldCodes": [
+        "I007"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "indirect_professional_other",
+      "code": "IGIS-COST:indirect_professional_other",
+      "name": "기타 설계·감리·사업관리비",
+      "parentId": "grp_v4_indirect",
+      "primaryCategory": "indirect",
+      "displayGroupKeys": [],
+      "entryRole": "posting",
+      "kind": "other",
+      "newSelectable": true,
+      "scope": "해당 사업의 별도 사건·계약이 있을 때만 선택합니다. 이번 원표 범위에서 직접 과업 근거가 없으며 닫힌 목록의 필요 목적을 보완합니다.",
+      "includes": [
+        "개발 전문용역 목적이 확인된 다른 계약"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "기존 I001~I011",
+        "허가 용역",
+        "목적 미확인 비용",
+        "같은 분류의 모든 열거된 표준유형·다른 목적 OTHER·위험예비 (excludedTypeIds 참조)"
+      ],
+      "sourceRefs": [
+        "고정 회사 개발사업비 범위의 명시 선택 정의 · 실제 계약 목적 확인 필요"
+      ],
+      "legacyKeys": [],
+      "initialDefault": false,
+      "defaultVisibility": "selected-only",
+      "managementTargetId": "indirect_professional_other",
+      "targetKind": "selected-family",
+      "normalSelectable": true,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_indirect_professional_other"
+      ],
+      "oldCodes": [
+        "I990"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "reserve_design",
+      "code": "IGIS-COST:reserve_design",
+      "name": "설계비 예비비",
+      "parentId": "grp_v4_indirect",
+      "primaryCategory": "indirect",
+      "displayGroupKeys": [],
+      "entryRole": "posting",
+      "kind": "reserve",
+      "newSelectable": true,
+      "scope": "해당 사업의 별도 사건·계약이 있을 때만 선택합니다. 원표/상세 사례는 있지만 모든 사업의 공통 초기항목으로 강제할 근거는 부족합니다.",
+      "includes": [
+        "미확정 설계 변경위험 예산"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "실제 설계계약",
+        "사업비예비 내 동일액"
+      ],
+      "sourceRefs": [
+        "seoripul:TIC!D137"
+      ],
+      "legacyKeys": [],
+      "initialDefault": false,
+      "defaultVisibility": "selected-only",
+      "managementTargetId": "reserve_design",
+      "targetKind": "selected-family",
+      "normalSelectable": true,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_reserve_design"
+      ],
+      "oldCodes": [
+        "R002"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "levy_transport",
+      "code": "IGIS-COST:levy_transport",
+      "name": "광역교통시설부담금",
+      "parentId": "grp_v4_tax",
+      "primaryCategory": "tax",
+      "displayGroupKeys": [],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "해당 사업의 별도 사건·계약이 있을 때만 선택합니다. 이번 원표 범위에서 직접 과업 근거가 없으며 닫힌 목록의 필요 목적을 보완합니다.",
+      "includes": [
+        "광역교통시설 부담"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "연간 교통유발 부담금"
+      ],
+      "sourceRefs": [
+        "현재 4원본 대응표 · 실제 계약·과업 확인",
+        "현행 보존 원코드 6003"
+      ],
+      "legacyKeys": [],
+      "initialDefault": false,
+      "defaultVisibility": "selected-only",
+      "managementTargetId": "levy_transport",
+      "targetKind": "selected-family",
+      "normalSelectable": true,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_levy_transport"
+      ],
+      "oldCodes": [
+        "I105"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "levy_school",
+      "code": "IGIS-COST:levy_school",
+      "name": "학교용지부담금",
+      "parentId": "grp_v4_tax",
+      "primaryCategory": "tax",
+      "displayGroupKeys": [],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "해당 사업의 별도 사건·계약이 있을 때만 선택합니다. 이번 원표 범위에서 직접 과업 근거가 없으며 닫힌 목록의 필요 목적을 보완합니다.",
+      "includes": [
+        "학교용지 부담"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "교육환경평가"
+      ],
+      "sourceRefs": [
+        "현재 4원본 대응표 · 실제 계약·과업 확인",
+        "현행 보존 원코드 6004"
+      ],
+      "legacyKeys": [],
+      "initialDefault": false,
+      "defaultVisibility": "selected-only",
+      "managementTargetId": "levy_school",
+      "targetKind": "selected-family",
+      "normalSelectable": true,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_levy_school"
+      ],
+      "oldCodes": [
+        "I106"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "levy_infrastructure",
+      "code": "IGIS-COST:levy_infrastructure",
+      "name": "기반시설 부담금",
+      "parentId": "grp_v4_tax",
+      "primaryCategory": "tax",
+      "displayGroupKeys": [],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "해당 사업의 별도 사건·계약이 있을 때만 선택합니다. 이번 원표 범위에서 직접 과업 근거가 없으며 닫힌 목록의 필요 목적을 보완합니다.",
+      "includes": [
+        "기반시설 법정 부담"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "물리시설 공사",
+        "다른 부담금과 미분리 총액"
+      ],
+      "sourceRefs": [
+        "현재 4원본 대응표 · 실제 계약·과업 확인",
+        "현행 보존 원코드 6010"
+      ],
+      "legacyKeys": [],
+      "initialDefault": false,
+      "defaultVisibility": "selected-only",
+      "managementTargetId": "levy_infrastructure",
+      "targetKind": "selected-family",
+      "normalSelectable": true,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_levy_infrastructure"
+      ],
+      "oldCodes": [
+        "I107"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "levy_public_contribution",
+      "code": "IGIS-COST:levy_public_contribution",
+      "name": "공공기여",
+      "parentId": "grp_v4_tax",
+      "primaryCategory": "tax",
+      "displayGroupKeys": [],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "해당 사업의 별도 사건·계약이 있을 때만 선택합니다. 이번 원표 범위에서 직접 과업 근거가 없으며 닫힌 목록의 필요 목적을 보완합니다.",
+      "includes": [
+        "기부채납 이외 확인된 공공기여 부담"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "기부채납 I109",
+        "시설 시공비·자산대금과 중복",
+        "공공기여 단일총액 내 기부채납 상세의 재합산"
+      ],
+      "sourceRefs": [
+        "현재 4원본 대응표 · 실제 계약·과업 확인",
+        "현행 보존 원코드 6011"
+      ],
+      "legacyKeys": [],
+      "initialDefault": false,
+      "defaultVisibility": "selected-only",
+      "managementTargetId": "levy_public_contribution",
+      "targetKind": "selected-family",
+      "normalSelectable": true,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_levy_public_contribution"
+      ],
+      "oldCodes": [
+        "I108"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "levy_donation",
+      "code": "IGIS-COST:levy_donation",
+      "name": "기부채납",
+      "parentId": "grp_v4_tax",
+      "primaryCategory": "tax",
+      "displayGroupKeys": [],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "해당 사업의 별도 사건·계약이 있을 때만 선택합니다. 이번 원표 범위에서 직접 과업 근거가 없으며 닫힌 목록의 필요 목적을 보완합니다.",
+      "includes": [
+        "부담 범위가 확인된 기부채납 비용"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "공공기여 I108의 동일총액 포함분",
+        "시설 종류 미확인 legacy행",
+        "동일 공사/자산의 재가산"
+      ],
+      "sourceRefs": [
+        "현재 4원본 대응표 · 실제 계약·과업 확인"
+      ],
+      "legacyKeys": [],
+      "initialDefault": false,
+      "defaultVisibility": "selected-only",
+      "managementTargetId": "levy_donation",
+      "targetKind": "selected-family",
+      "normalSelectable": true,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_levy_donation"
+      ],
+      "oldCodes": [
+        "I109"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "levy_farm_forest",
+      "code": "IGIS-COST:levy_farm_forest",
+      "name": "농지·산지 전용부담금",
+      "parentId": "grp_v4_tax",
+      "primaryCategory": "tax",
+      "displayGroupKeys": [],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "해당 사업의 별도 사건·계약이 있을 때만 선택합니다. 이번 원표 범위에서 직접 과업 근거가 없으며 닫힌 목록의 필요 목적을 보완합니다.",
+      "includes": [
+        "개발을 위한 농지·산지 전용 부담"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "토지 매입대금",
+        "조성공사"
+      ],
+      "sourceRefs": [
+        "고정 회사 개발사업비 범위의 명시 선택 정의 · 실제 계약 목적 확인 필요"
+      ],
+      "legacyKeys": [],
+      "initialDefault": false,
+      "defaultVisibility": "selected-only",
+      "managementTargetId": "levy_farm_forest",
+      "targetKind": "selected-family",
+      "normalSelectable": true,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_levy_farm_forest"
+      ],
+      "oldCodes": [
+        "I110"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "tax_building_holding",
+      "code": "IGIS-COST:tax_building_holding",
+      "name": "건물분 재산세",
+      "parentId": "grp_v4_tax",
+      "primaryCategory": "tax",
+      "displayGroupKeys": [],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "해당 사업의 별도 사건·계약이 있을 때만 선택합니다. 이번 원표 범위에서 직접 과업 근거가 없으며 닫힌 목록의 필요 목적을 보완합니다.",
+      "includes": [
+        "개발기간 기존건물 재산세"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "보유세 일괄 T005의 동일예산 포함분",
+        "토지분 재산세",
+        "정상 운영기간 재산세"
+      ],
+      "sourceRefs": [
+        "고정 회사 개발사업비 범위의 명시 선택 정의 · 실제 계약 목적 확인 필요"
+      ],
+      "legacyKeys": [],
+      "initialDefault": false,
+      "defaultVisibility": "selected-only",
+      "managementTargetId": "tax_building_holding",
+      "targetKind": "selected-family",
+      "normalSelectable": true,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_tax_building_holding"
+      ],
+      "oldCodes": [
+        "T006"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "tax_traffic_holding",
+      "code": "IGIS-COST:tax_traffic_holding",
+      "name": "보유기간 교통유발부담금",
+      "parentId": "grp_v4_tax",
+      "primaryCategory": "tax",
+      "displayGroupKeys": [],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "해당 사업의 별도 사건·계약이 있을 때만 선택합니다. 이번 원표 범위에서 직접 과업 근거가 없으며 닫힌 목록의 필요 목적을 보완합니다.",
+      "includes": [
+        "개발기간 기존자산에서 실제 부담한 교통유발 부담"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "정상 준공 후 장기운영비",
+        "광역교통시설 부담"
+      ],
+      "sourceRefs": [
+        "현재 4원본 대응표 · 실제 계약·과업 확인"
+      ],
+      "legacyKeys": [],
+      "initialDefault": false,
+      "defaultVisibility": "selected-only",
+      "managementTargetId": "tax_traffic_holding",
+      "targetKind": "selected-family",
+      "normalSelectable": true,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_tax_traffic_holding"
+      ],
+      "oldCodes": [
+        "T007"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "tax_property_insurance",
+      "code": "IGIS-COST:tax_property_insurance",
+      "name": "개발 중 기존자산 재산보험료",
+      "parentId": "grp_v4_corporate",
+      "primaryCategory": "corporate",
+      "displayGroupKeys": [],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "해당 사업의 별도 사건·계약이 있을 때만 선택합니다. 이번 원표 범위에서 직접 과업 근거가 없으며 닫힌 목록의 필요 목적을 보완합니다.",
+      "includes": [
+        "기존자산 취득 후 철거·개발 전 기간의 재산보험"
+      ],
+      "excludes": [
+        "건설기간 공사보험",
+        "개관준비보험",
+        "정상 장기운영보험",
+        "같은 기간·증권 보험료 중복"
+      ],
+      "sourceRefs": [
+        "현재 4원본 대응표 · 실제 계약·과업 확인"
+      ],
+      "legacyKeys": [],
+      "initialDefault": false,
+      "defaultVisibility": "selected-only",
+      "managementTargetId": "tax_property_insurance",
+      "targetKind": "selected-family",
+      "normalSelectable": true,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_tax_property_insurance"
+      ],
+      "oldCodes": [
+        "T008"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": [
+        "land_purchase"
+      ]
+    },
+    {
+      "id": "tax_other",
+      "code": "IGIS-COST:tax_other",
+      "name": "기타 보유·준공 세금·공과금",
+      "parentId": "grp_v4_tax",
+      "primaryCategory": "tax",
+      "displayGroupKeys": [],
+      "entryRole": "posting",
+      "kind": "other",
+      "newSelectable": true,
+      "scope": "해당 사업의 별도 사건·계약이 있을 때만 선택합니다. 이번 원표 범위에서 직접 과업 근거가 없으며 닫힌 목록의 필요 목적을 보완합니다.",
+      "includes": [
+        "보유·준공 목적 확인된 다른 제세"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "취득·담보·설립 비용",
+        "불명확 세금",
+        "법인 소득세·세후 CF는 별도 범위",
+        "같은 분류의 모든 열거된 표준유형·다른 목적 OTHER·위험예비 (excludedTypeIds 참조)"
+      ],
+      "sourceRefs": [
+        "고정 회사 개발사업비 범위의 명시 선택 정의 · 실제 계약 목적 확인 필요"
+      ],
+      "legacyKeys": [],
+      "initialDefault": false,
+      "defaultVisibility": "selected-only",
+      "managementTargetId": "tax_other",
+      "targetKind": "selected-family",
+      "normalSelectable": true,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_tax_other"
+      ],
+      "oldCodes": [
+        "T990"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "art_fund_contribution",
+      "code": "IGIS-COST:art_fund_contribution",
+      "name": "문화예술진흥기금 출연금",
+      "parentId": "grp_v4_tax",
+      "primaryCategory": "tax",
+      "displayGroupKeys": [],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "해당 사업의 별도 사건·계약이 있을 때만 선택합니다. 이번 원표 범위에서 직접 과업 근거가 없으며 닫힌 목록의 필요 목적을 보완합니다.",
+      "includes": [
+        "해당 건축물 미술작품 설치의무를 대체하는 실제 기금출연"
+      ],
+      "excludes": [
+        "실물 미술작품 제작·구입·설치비",
+        "심의·평가 용역비",
+        "같은 설치의무/동일액의 실물비와 기금 동시합산",
+        "일반 기부·정상 운영비"
+      ],
+      "sourceRefs": [
+        "https://www.law.go.kr/LSW/lsSideInfoP.do?docCls=jo&joBrNo=00&joNo=0009&lsiSeq=279667&urlMode=lsScJoRltInfoR"
+      ],
+      "legacyKeys": [],
+      "initialDefault": false,
+      "defaultVisibility": "selected-only",
+      "managementTargetId": "art_fund_contribution",
+      "targetKind": "selected-family",
+      "normalSelectable": true,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_art_fund_contribution"
+      ],
+      "oldCodes": [
+        "T010"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "corp_legal",
+      "code": "IGIS-COST:corp_legal",
+      "name": "사업 일반 법률자문비",
+      "parentId": "grp_v4_corporate",
+      "primaryCategory": "corporate",
+      "displayGroupKeys": [],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "해당 사업의 별도 사건·계약이 있을 때만 선택합니다. 원표/상세 사례는 있지만 모든 사업의 공통 초기항목으로 강제할 근거는 부족합니다.",
+      "includes": [
+        "개발법인 일반 운영 법률자문"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "취득·금융·설립·이전등기 목적 특정 법무",
+        "목적 미확인 법무"
+      ],
+      "sourceRefs": [
+        "고정 회사 개발사업비 범위의 명시 선택 정의 · 실제 계약 목적 확인 필요"
+      ],
+      "legacyKeys": [],
+      "initialDefault": false,
+      "defaultVisibility": "selected-only",
+      "managementTargetId": "corp_legal",
+      "targetKind": "selected-family",
+      "normalSelectable": true,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_corp_legal"
+      ],
+      "oldCodes": [
+        "O010"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "corp_development_fee",
+      "code": "IGIS-COST:corp_development_fee",
+      "name": "사업 시행보수",
+      "parentId": "grp_v4_corporate",
+      "primaryCategory": "corporate",
+      "displayGroupKeys": [],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "해당 사업의 별도 사건·계약이 있을 때만 선택합니다. 원표/상세 사례는 있지만 모든 사업의 공통 초기항목으로 강제할 근거는 부족합니다.",
+      "includes": [
+        "계약에 확인된 시행·개발 보수"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "기술 개발PM",
+        "운용 AMC",
+        "임의 성공배당"
+      ],
+      "sourceRefs": [
+        "현재 4원본 대응표 · 실제 계약·과업 확인"
+      ],
+      "legacyKeys": [],
+      "initialDefault": false,
+      "defaultVisibility": "selected-only",
+      "managementTargetId": "corp_development_fee",
+      "targetKind": "selected-family",
+      "normalSelectable": true,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_corp_development_fee"
+      ],
+      "oldCodes": [
+        "O011"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "corp_fund_selling",
+      "code": "IGIS-COST:corp_fund_selling",
+      "name": "펀드 판매보수·수수료",
+      "parentId": "grp_v4_corporate",
+      "primaryCategory": "corporate",
+      "displayGroupKeys": [],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "법인·펀드 구조와 계약에 따라 발생하는 보수이므로 선택입니다. 법령으로 신규 과업을 구분하지만 원문 계약범위 미확정 자료를 자동 분류하지 않습니다.",
+      "includes": [
+        "실제 프로젝트·기구가 부담하는 펀드 판매기관의 모집·판매 과업 보수",
+        "개발예산에 포함한 선취 판매수수료",
+        "개발예산에 포함한 지속 판매보수"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "투자자가 직접 부담하는 판매수수료",
+        "외부 금융상품 투자비",
+        "정상 장기운영 보수의 자동 개발비 편입",
+        "부동산 매각보수 O021·O022·O023",
+        "주택 분양대행 O024",
+        "부담주체·과업 미확인 판매보수 원문"
+      ],
+      "sourceRefs": [
+        "성수 투자!C65",
+        "성수 보수!C19",
+        "성수 보수!C28",
+        "성수 민감도!F111:F113 · 판매보수 산식 · 부담주체와 계약 과업 확인 후 선택",
+        "자본시장법 제76조 제4항 · https://www.law.go.kr/LSW/lsLinkCommonInfo.do?chrClsCd=010202&lsJoLnkSeq=1027643149"
+      ],
+      "legacyKeys": [],
+      "initialDefault": false,
+      "defaultVisibility": "selected-only",
+      "managementTargetId": "corp_fund_selling",
+      "targetKind": "selected-family",
+      "normalSelectable": true,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_corp_fund_selling"
+      ],
+      "oldCodes": [
+        "O012"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "corp_custody",
+      "code": "IGIS-COST:corp_custody",
+      "name": "자산보관·수탁보수",
+      "parentId": "grp_v4_corporate",
+      "primaryCategory": "corporate",
+      "displayGroupKeys": [],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "법인·펀드 구조와 계약에 따라 발생하는 보수이므로 선택입니다. 법령으로 신규 과업을 구분하지만 원문 계약범위 미확정 자료를 자동 분류하지 않습니다.",
+      "includes": [
+        "자산보관·일반 수탁 과업 보수",
+        "계약으로 확인된 수탁보수 산식"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "금융조달 신탁·대리계좌 F013",
+        "일반사무관리 O009",
+        "과업 미확인 수탁보수 원문"
+      ],
+      "sourceRefs": [
+        "성수 투자!C66",
+        "성수 보수!C20",
+        "성수 보수!C29",
+        "성수 민감도!G111:G113 · 수탁보수 산식 · 계약 과업 확인 후 선택",
+        "자본시장법 제184조 제3항 · https://www.law.go.kr/lsLinkCommonInfo.do?chrClsCd=010202&lsJoLnkSeq=1032434769"
+      ],
+      "legacyKeys": [],
+      "initialDefault": false,
+      "defaultVisibility": "selected-only",
+      "managementTargetId": "corp_custody",
+      "targetKind": "selected-family",
+      "normalSelectable": true,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_corp_custody"
+      ],
+      "oldCodes": [
+        "O013"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "corp_lease",
+      "code": "IGIS-COST:corp_lease",
+      "name": "임대중개·대행수수료",
+      "parentId": "grp_v4_corporate",
+      "primaryCategory": "corporate",
+      "displayGroupKeys": [],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "해당 사업의 별도 사건·계약이 있을 때만 선택합니다. 원표/상세 사례는 있지만 모든 사업의 공통 초기항목으로 강제할 근거는 부족합니다.",
+      "includes": [
+        "임대중개·임차인 유치 대행의 실제 보수"
+      ],
+      "excludes": [
+        "임차인 공사지원금",
+        "손실보전금",
+        "렌트프리 수익가정",
+        "매각·분양대행"
+      ],
+      "sourceRefs": [
+        "현행 보존 원코드 9001"
+      ],
+      "legacyKeys": [],
+      "initialDefault": false,
+      "defaultVisibility": "selected-only",
+      "managementTargetId": "corp_lease",
+      "targetKind": "selected-family",
+      "normalSelectable": true,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_corp_lease"
+      ],
+      "oldCodes": [
+        "O020"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "corp_sales_agency",
+      "code": "IGIS-COST:corp_sales_agency",
+      "name": "분양대행비",
+      "parentId": "grp_v4_corporate",
+      "primaryCategory": "corporate",
+      "displayGroupKeys": [],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "해당 사업의 별도 사건·계약이 있을 때만 선택합니다. 이번 원표 범위에서 직접 과업 근거가 없으며 닫힌 목록의 필요 목적을 보완합니다.",
+      "includes": [
+        "실제 분양대행 계약"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "매각 기본보수",
+        "미확인 판매보수",
+        "임대대행"
+      ],
+      "sourceRefs": [
+        "현재 4원본 대응표 · 실제 계약·과업 확인",
+        "현행 보존 원코드 9002"
+      ],
+      "legacyKeys": [],
+      "initialDefault": false,
+      "defaultVisibility": "selected-only",
+      "managementTargetId": "corp_sales_agency",
+      "targetKind": "selected-family",
+      "normalSelectable": true,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_corp_sales_agency"
+      ],
+      "oldCodes": [
+        "O024"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "corp_showroom",
+      "code": "IGIS-COST:corp_showroom",
+      "name": "견본주택·홍보관비",
+      "parentId": "grp_v4_corporate",
+      "primaryCategory": "corporate",
+      "displayGroupKeys": [],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "해당 사업의 별도 사건·계약이 있을 때만 선택합니다. 이번 원표 범위에서 직접 과업 근거가 없으며 닫힌 목록의 필요 목적을 보완합니다.",
+      "includes": [
+        "분양을 위한 별도 견본시설·홍보관"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "일반 광고홍보",
+        "본공사 포함액"
+      ],
+      "sourceRefs": [
+        "현행 보존 원코드 9004"
+      ],
+      "legacyKeys": [],
+      "initialDefault": false,
+      "defaultVisibility": "selected-only",
+      "managementTargetId": "corp_showroom",
+      "targetKind": "selected-family",
+      "normalSelectable": true,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_corp_showroom"
+      ],
+      "oldCodes": [
+        "O025"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "corp_sales_interest",
+      "code": "IGIS-COST:corp_sales_interest",
+      "name": "분양 중도금 이자지원",
+      "parentId": "grp_v4_corporate",
+      "primaryCategory": "corporate",
+      "displayGroupKeys": [],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "해당 사업의 별도 사건·계약이 있을 때만 선택합니다. 이번 원표 범위에서 직접 과업 근거가 없으며 닫힌 목록의 필요 목적을 보완합니다.",
+      "includes": [
+        "분양계약에 따른 중도금 이자지원"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "사업자 PF이자",
+        "대출원금"
+      ],
+      "sourceRefs": [
+        "현재 4원본 대응표 · 실제 계약·과업 확인"
+      ],
+      "legacyKeys": [],
+      "initialDefault": false,
+      "defaultVisibility": "selected-only",
+      "managementTargetId": "corp_sales_interest",
+      "targetKind": "selected-family",
+      "normalSelectable": true,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_corp_sales_interest"
+      ],
+      "oldCodes": [
+        "O026"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "corp_sales_guarantee",
+      "code": "IGIS-COST:corp_sales_guarantee",
+      "name": "분양 보증료",
+      "parentId": "grp_v4_corporate",
+      "primaryCategory": "corporate",
+      "displayGroupKeys": [],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "해당 사업의 별도 사건·계약이 있을 때만 선택합니다. 이번 원표 범위에서 직접 과업 근거가 없으며 닫힌 목록의 필요 목적을 보완합니다.",
+      "includes": [
+        "분양 목적 보증료"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "대출·공사이행 보증"
+      ],
+      "sourceRefs": [
+        "현재 4원본 대응표 · 실제 계약·과업 확인"
+      ],
+      "legacyKeys": [],
+      "initialDefault": false,
+      "defaultVisibility": "selected-only",
+      "managementTargetId": "corp_sales_guarantee",
+      "targetKind": "selected-family",
+      "normalSelectable": true,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_corp_sales_guarantee"
+      ],
+      "oldCodes": [
+        "O027"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "opening_preparation",
+      "code": "IGIS-COST:opening_preparation",
+      "name": "개관·운영준비비",
+      "parentId": "grp_v4_corporate",
+      "primaryCategory": "corporate",
+      "displayGroupKeys": [],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "기간·계약범위 확인 시 한 관리행",
+      "includes": [
+        "개관준비 단일범위의 운영사 기술지원",
+        "운영준비 가구·집기·비품",
+        "개관준비기간 재산보험",
+        "확인된 미열거 개관준비 과업"
+      ],
+      "excludes": [
+        "임차인 공사지원금",
+        "임차유치·초기운영 손실보전금",
+        "시공자 준공·시운전",
+        "정상 장기운영비",
+        "같은 준비예산 총액과 세부 중복"
+      ],
+      "sourceRefs": [
+        "현재 4원본 대응표 · 실제 계약·과업 확인",
+        "현행 보존 원코드 9005",
+        "현행 보존 원코드 9006",
+        "IOTA TIC_PFV N27 · 427 상세 FF&E",
+        "고정 회사 개발사업비 범위의 명시 선택 정의 · 실제 계약 목적 확인 필요"
+      ],
+      "legacyKeys": [],
+      "initialDefault": false,
+      "defaultVisibility": "selected-only",
+      "managementTargetId": "opening_preparation",
+      "targetKind": "selected-family",
+      "normalSelectable": true,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_corp_preopening",
+        "ct_corp_operator_support",
+        "ct_corp_ffe",
+        "ct_corp_opening_insurance",
+        "ct_corp_opening_other"
+      ],
+      "oldCodes": [
+        "O030",
+        "O031",
+        "O033",
+        "O035",
+        "O992"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": [
+        "direct_main"
+      ]
+    },
+    {
+      "id": "corp_commercial_other",
+      "code": "IGIS-COST:corp_commercial_other",
+      "name": "기타 임대·분양·매각비",
+      "parentId": "grp_v4_corporate",
+      "primaryCategory": "corporate",
+      "displayGroupKeys": [],
+      "entryRole": "posting",
+      "kind": "other",
+      "newSelectable": true,
+      "scope": "해당 사업의 별도 사건·계약이 있을 때만 선택합니다. 이번 원표 범위에서 직접 과업 근거가 없으며 닫힌 목록의 필요 목적을 보완합니다.",
+      "includes": [
+        "임대·분양·매각 목적 확인된 미열거 비용"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "O020~O027",
+        "목적·기간 미확인 영업비",
+        "같은 분류의 모든 열거된 표준유형·다른 목적 OTHER·위험예비 (excludedTypeIds 참조)"
+      ],
+      "sourceRefs": [
+        "고정 회사 개발사업비 범위의 명시 선택 정의 · 실제 계약 목적 확인 필요"
+      ],
+      "legacyKeys": [],
+      "initialDefault": false,
+      "defaultVisibility": "selected-only",
+      "managementTargetId": "corp_commercial_other",
+      "targetKind": "selected-family",
+      "normalSelectable": true,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_corp_commercial_other"
+      ],
+      "oldCodes": [
+        "O991"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "finance_fees_advisory",
+      "code": "IGIS-COST:finance_fees_advisory",
+      "name": "기타 조달 수수료·금융자문비",
+      "parentId": "grp_v4_finance",
+      "primaryCategory": "finance",
+      "displayGroupKeys": [],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "단계 기본행 제외 실제 조달계약 한 행",
+      "includes": [
+        "브릿지·본PF 기본행에 속하지 않는 기타 조달의 주선·취급수수료와 금융자문"
+      ],
+      "excludes": [
+        "브릿지·PF 선취수수료·자문 기본행",
+        "단계 총금융비",
+        "같은 수수료·자문의 일괄·상세 중복",
+        "대출원금"
+      ],
+      "sourceRefs": [
+        "현행 보존 원코드 8003",
+        "현행 보존 원코드 8004",
+        "현행 보존 원코드 8007",
+        "고정 회사 개발사업비 범위의 명시 선택 정의 · 실제 계약 목적 확인 필요"
+      ],
+      "legacyKeys": [],
+      "initialDefault": false,
+      "defaultVisibility": "selected-only",
+      "managementTargetId": "finance_fees_advisory",
+      "targetKind": "selected-family",
+      "normalSelectable": true,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_finance_loan_fees",
+        "ct_finance_advice",
+        "ct_finance_bundle"
+      ],
+      "oldCodes": [
+        "F009",
+        "F010",
+        "F019"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": [
+        "finance_bridge_upfront",
+        "finance_bridge_advice",
+        "finance_pf_upfront",
+        "finance_pf_advice"
+      ]
+    },
+    {
+      "id": "finance_commitment",
+      "code": "IGIS-COST:finance_commitment",
+      "name": "약정수수료",
+      "parentId": "grp_v4_finance",
+      "primaryCategory": "finance",
+      "displayGroupKeys": [],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "해당 사업의 별도 사건·계약이 있을 때만 선택합니다. 이번 원표 범위에서 직접 과업 근거가 없으며 닫힌 목록의 필요 목적을 보완합니다.",
+      "includes": [
+        "대출 약정 수수료"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "미사용 수수료",
+        "원금"
+      ],
+      "sourceRefs": [
+        "현행 보존 원코드 8005"
+      ],
+      "legacyKeys": [],
+      "initialDefault": false,
+      "defaultVisibility": "selected-only",
+      "managementTargetId": "finance_commitment",
+      "targetKind": "selected-family",
+      "normalSelectable": true,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_finance_commitment"
+      ],
+      "oldCodes": [
+        "F011"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "finance_unused",
+      "code": "IGIS-COST:finance_unused",
+      "name": "미사용수수료",
+      "parentId": "grp_v4_finance",
+      "primaryCategory": "finance",
+      "displayGroupKeys": [],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "해당 사업의 별도 사건·계약이 있을 때만 선택합니다. 이번 원표 범위에서 직접 과업 근거가 없으며 닫힌 목록의 필요 목적을 보완합니다.",
+      "includes": [
+        "미인출·미사용 약정에 따른 수수료"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "약정 수수료",
+        "상환원금"
+      ],
+      "sourceRefs": [
+        "현행 보존 원코드 8006"
+      ],
+      "legacyKeys": [],
+      "initialDefault": false,
+      "defaultVisibility": "selected-only",
+      "managementTargetId": "finance_unused",
+      "targetKind": "selected-family",
+      "normalSelectable": true,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_finance_unused"
+      ],
+      "oldCodes": [
+        "F012"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "finance_trust",
+      "code": "IGIS-COST:finance_trust",
+      "name": "금융약정 신탁·계좌관리 보수",
+      "parentId": "grp_v4_finance",
+      "primaryCategory": "finance",
+      "displayGroupKeys": [],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "해당 사업의 별도 사건·계약이 있을 때만 선택합니다. 원표/상세 사례는 있지만 모든 사업의 공통 초기항목으로 강제할 근거는 부족합니다.",
+      "includes": [
+        "금융약정 전용 담보신탁·대리계좌·자금통제 보수"
+      ],
+      "excludes": [
+        "법인 일반 자금관리보수·사무관리보수",
+        "자산보관·일반 수탁보수",
+        "예치금·보증원금"
+      ],
+      "sourceRefs": [
+        "현재 4원본 대응표 · 실제 계약·과업 확인",
+        "현행 보존 원코드 8008",
+        "현행 보존 원코드 8009"
+      ],
+      "legacyKeys": [],
+      "initialDefault": false,
+      "defaultVisibility": "selected-only",
+      "managementTargetId": "finance_trust",
+      "targetKind": "selected-family",
+      "normalSelectable": true,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_finance_trust"
+      ],
+      "oldCodes": [
+        "F013"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": [
+        "entity_fmc",
+        "entity_admin"
+      ]
+    },
+    {
+      "id": "finance_hedge",
+      "code": "IGIS-COST:finance_hedge",
+      "name": "금리헤지 비용",
+      "parentId": "grp_v4_finance",
+      "primaryCategory": "finance",
+      "displayGroupKeys": [],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "해당 사업의 별도 사건·계약이 있을 때만 선택합니다. 이번 원표 범위에서 직접 과업 근거가 없으며 닫힌 목록의 필요 목적을 보완합니다.",
+      "includes": [
+        "확인된 금리헤지 계약 수수료·정산비"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "헤지 명목원금·담보예치",
+        "금융가정만의 미실현 금액"
+      ],
+      "sourceRefs": [
+        "현재 4원본 대응표 · 실제 계약·과업 확인",
+        "현행 보존 원코드 8010"
+      ],
+      "legacyKeys": [],
+      "initialDefault": false,
+      "defaultVisibility": "selected-only",
+      "managementTargetId": "finance_hedge",
+      "targetKind": "selected-family",
+      "normalSelectable": true,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_finance_hedge"
+      ],
+      "oldCodes": [
+        "F014"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "finance_refinancing",
+      "code": "IGIS-COST:finance_refinancing",
+      "name": "금융약정 변경·중도상환 수수료",
+      "parentId": "grp_v4_finance",
+      "primaryCategory": "finance",
+      "displayGroupKeys": [],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "해당 사업의 별도 사건·계약이 있을 때만 선택합니다. 이번 원표 범위에서 직접 과업 근거가 없으며 닫힌 목록의 필요 목적을 보완합니다.",
+      "includes": [
+        "기존 금융약정 변경수수료",
+        "중도상환수수료"
+      ],
+      "excludes": [
+        "신규 조달 취급·주선수수료",
+        "금융자문·대출이자·담보설정비",
+        "상환·재조달 원금",
+        "단계 총 리파이낸싱 비용"
+      ],
+      "sourceRefs": [
+        "현재 4원본 대응표 · 실제 계약·과업 확인"
+      ],
+      "legacyKeys": [],
+      "initialDefault": false,
+      "defaultVisibility": "selected-only",
+      "managementTargetId": "finance_refinancing",
+      "targetKind": "selected-family",
+      "normalSelectable": true,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_finance_refinancing"
+      ],
+      "oldCodes": [
+        "F015"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": [
+        "finance_security",
+        "finance_bridge_upfront",
+        "finance_bridge_advice",
+        "finance_bridge_interest",
+        "finance_pf_upfront",
+        "finance_pf_advice",
+        "finance_pf_interest"
+      ]
+    },
+    {
+      "id": "finance_guarantee",
+      "code": "IGIS-COST:finance_guarantee",
+      "name": "대출 보증수수료",
+      "parentId": "grp_v4_finance",
+      "primaryCategory": "finance",
+      "displayGroupKeys": [],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "해당 사업의 별도 사건·계약이 있을 때만 선택합니다. 이번 원표 범위에서 직접 과업 근거가 없으며 닫힌 목록의 필요 목적을 보완합니다.",
+      "includes": [
+        "대출·신용공여 보증수수료"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "보증 원금·예치금",
+        "분양·공사 보증"
+      ],
+      "sourceRefs": [
+        "현재 4원본 대응표 · 실제 계약·과업 확인"
+      ],
+      "legacyKeys": [],
+      "initialDefault": false,
+      "defaultVisibility": "selected-only",
+      "managementTargetId": "finance_guarantee",
+      "targetKind": "selected-family",
+      "normalSelectable": true,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_finance_guarantee"
+      ],
+      "oldCodes": [
+        "F016"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "finance_shareholder_interest",
+      "code": "IGIS-COST:finance_shareholder_interest",
+      "name": "주주대여 이자",
+      "parentId": "grp_v4_finance",
+      "primaryCategory": "finance",
+      "displayGroupKeys": [],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "해당 사업의 별도 사건·계약이 있을 때만 선택합니다. 이번 원표 범위에서 직접 과업 근거가 없으며 닫힌 목록의 필요 목적을 보완합니다.",
+      "includes": [
+        "차입계약인 주주대여금 이자"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "출자 배당",
+        "주주대여 원금",
+        "후순위PF에 포함한 동일금액"
+      ],
+      "sourceRefs": [
+        "고정 회사 개발사업비 범위의 명시 선택 정의 · 실제 계약 목적 확인 필요"
+      ],
+      "legacyKeys": [],
+      "initialDefault": false,
+      "defaultVisibility": "selected-only",
+      "managementTargetId": "finance_shareholder_interest",
+      "targetKind": "selected-family",
+      "normalSelectable": true,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_finance_shareholder_interest"
+      ],
+      "oldCodes": [
+        "F017"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "finance_subordinate_interest",
+      "code": "IGIS-COST:finance_subordinate_interest",
+      "name": "별도 후순위대출 이자",
+      "parentId": "grp_v4_finance",
+      "primaryCategory": "finance",
+      "displayGroupKeys": [],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "해당 사업의 별도 사건·계약이 있을 때만 선택합니다. 이번 원표 범위에서 직접 과업 근거가 없으며 닫힌 목록의 필요 목적을 보완합니다.",
+      "includes": [
+        "본PF와 구별되는 별도 후순위 차입 이자"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "PF 총이자에 포함된 동일액",
+        "원금·우선주 배당"
+      ],
+      "sourceRefs": [
+        "고정 회사 개발사업비 범위의 명시 선택 정의 · 실제 계약 목적 확인 필요"
+      ],
+      "legacyKeys": [],
+      "initialDefault": false,
+      "defaultVisibility": "selected-only",
+      "managementTargetId": "finance_subordinate_interest",
+      "targetKind": "selected-family",
+      "normalSelectable": true,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_finance_subordinate_interest"
+      ],
+      "oldCodes": [
+        "F018"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "finance_other",
+      "code": "IGIS-COST:finance_other",
+      "name": "기타 금융조달비",
+      "parentId": "grp_v4_finance",
+      "primaryCategory": "finance",
+      "displayGroupKeys": [],
+      "entryRole": "posting",
+      "kind": "other",
+      "newSelectable": true,
+      "scope": "해당 사업의 별도 사건·계약이 있을 때만 선택합니다. 이번 원표 범위에서 직접 과업 근거가 없으며 닫힌 목록의 필요 목적을 보완합니다.",
+      "includes": [
+        "금융조달 목적·포함기간이 확인된 미열거 비용"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "기존 F001~F019",
+        "원금·배당·DSRA 현금",
+        "미확인 기타 금융비",
+        "같은 분류의 모든 열거된 표준유형·다른 목적 OTHER·위험예비 (excludedTypeIds 참조)"
+      ],
+      "sourceRefs": [
+        "고정 회사 개발사업비 범위의 명시 선택 정의 · 실제 계약 목적 확인 필요"
+      ],
+      "legacyKeys": [],
+      "initialDefault": false,
+      "defaultVisibility": "selected-only",
+      "managementTargetId": "finance_other",
+      "targetKind": "selected-family",
+      "normalSelectable": true,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_finance_other"
+      ],
+      "oldCodes": [
+        "F990"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "reserve_specific",
+      "code": "IGIS-COST:reserve_specific",
+      "name": "특정 위험 충당액",
+      "parentId": "grp_v4_contingency",
+      "primaryCategory": "contingency",
+      "displayGroupKeys": [],
+      "entryRole": "posting",
+      "kind": "reserve",
+      "newSelectable": true,
+      "scope": "해당 사업의 별도 사건·계약이 있을 때만 선택합니다. 이번 원표 범위에서 직접 과업 근거가 없으며 닫힌 목록의 필요 목적을 보완합니다.",
+      "includes": [
+        "공사·설계·물가와 구분되는 명시 원인·범위의 특정 위험 예산"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "R001/R002/R005/R990과 같은 위험범위",
+        "실제 비용·지원금",
+        "일반 위험행의 추정 세분화"
+      ],
+      "sourceRefs": [
+        "현재 4원본 대응표 · 실제 계약·과업 확인"
+      ],
+      "legacyKeys": [],
+      "initialDefault": false,
+      "defaultVisibility": "selected-only",
+      "managementTargetId": "reserve_specific",
+      "targetKind": "selected-family",
+      "normalSelectable": true,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_reserve_specific"
+      ],
+      "oldCodes": [
+        "R004"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "reserve_inflation",
+      "code": "IGIS-COST:reserve_inflation",
+      "name": "물가변동 충당액",
+      "parentId": "grp_v4_contingency",
+      "primaryCategory": "contingency",
+      "displayGroupKeys": [],
+      "entryRole": "posting",
+      "kind": "reserve",
+      "newSelectable": true,
+      "scope": "독립 물가변동 위험예산이 있을 때만 선택하고 다른 예비비와 같은 위험액을 중복하지 않습니다.",
+      "includes": [
+        "독립적으로 관리하는 물가변동 위험 예산"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "공사 예비비의 동일액",
+        "확정 에스컬레이션 비용"
+      ],
+      "sourceRefs": [
+        "현재 4원본 대응표 · 실제 계약·과업 확인",
+        "현행 보존 원코드 A004"
+      ],
+      "legacyKeys": [],
+      "initialDefault": false,
+      "defaultVisibility": "selected-only",
+      "managementTargetId": "reserve_inflation",
+      "targetKind": "selected-family",
+      "normalSelectable": true,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_reserve_inflation"
+      ],
+      "oldCodes": [
+        "R005"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "reserve_other",
+      "code": "IGIS-COST:reserve_other",
+      "name": "기타 예비비",
+      "parentId": "grp_v4_contingency",
+      "primaryCategory": "contingency",
+      "displayGroupKeys": [],
+      "entryRole": "posting",
+      "kind": "reserve",
+      "newSelectable": true,
+      "scope": "해당 사업의 별도 사건·계약이 있을 때만 선택합니다. 이번 원표 범위에서 직접 과업 근거가 없으며 닫힌 목록의 필요 목적을 보완합니다.",
+      "includes": [
+        "공사·설계·물가·특정위험 외 범위 확인된 잔여 위험예산"
+      ],
+      "excludes": [
+        "동일 금액의 소계·산출상세·월별·안분 재표시 중복",
+        "특정 원인이 R004로 정의된 위험",
+        "동일 사업비 총예비 R003 포함분",
+        "목적 미확인 기존 위험액",
+        "실제비용·유동성 현금"
+      ],
+      "sourceRefs": [
+        "고정 회사 개발사업비 범위의 명시 선택 정의 · 실제 계약 목적 확인 필요"
+      ],
+      "legacyKeys": [],
+      "initialDefault": false,
+      "defaultVisibility": "selected-only",
+      "managementTargetId": "reserve_other",
+      "targetKind": "selected-family",
+      "normalSelectable": true,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_reserve_other"
+      ],
+      "oldCodes": [
+        "R990"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "construction_period_owner_insurance",
+      "code": "IGIS-COST:construction_period_owner_insurance",
+      "name": "발주자 별도 건설기간 보험료",
+      "parentId": "grp_v4_corporate",
+      "primaryCategory": "corporate",
+      "displayGroupKeys": [],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "예산범위 확인",
+      "includes": [
+        "발주자가 별도 부담하는 건설공사보험",
+        "별도 증권·별도 보험료인 공사 배상책임보험"
+      ],
+      "excludes": [
+        "도급·시공자 부담 보험",
+        "하나의 총증권에 포함된 배상담보 재가산",
+        "개발 전 기존자산·개관준비·장기운영 보험"
+      ],
+      "sourceRefs": [
+        "현재 4원본 대응표 · 실제 계약·과업 확인"
+      ],
+      "legacyKeys": [],
+      "initialDefault": false,
+      "defaultVisibility": "selected-only",
+      "managementTargetId": "construction_period_owner_insurance",
+      "targetKind": "selected-family",
+      "normalSelectable": true,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_direct_insurance",
+        "ct_direct_liability"
+      ],
+      "oldCodes": [
+        "D015",
+        "D016"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": [
+        "direct_main"
+      ]
+    },
+    {
+      "id": "land_rights_compensation",
+      "code": "IGIS-COST:land_rights_compensation",
+      "name": "명도·권리보상비",
+      "parentId": "grp_v4_land",
+      "primaryCategory": "land",
+      "displayGroupKeys": [],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "예산범위 확인",
+      "includes": [
+        "점유자 명도",
+        "임차권·영업권 등 기존 권리정리 보상"
+      ],
+      "excludes": [
+        "매매·수용 등 소유권 취득대가",
+        "물리 철거·정비공사",
+        "같은 보상 총액의 재가산"
+      ],
+      "sourceRefs": [
+        "현재 4원본 대응표 · 실제 계약·과업 확인",
+        "현행 보존 원코드 1008",
+        "현행 보존 원코드 1003",
+        "현행 보존 원코드 1005"
+      ],
+      "legacyKeys": [],
+      "initialDefault": false,
+      "defaultVisibility": "selected-only",
+      "managementTargetId": "land_rights_compensation",
+      "targetKind": "selected-family",
+      "normalSelectable": true,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_land_compensation",
+        "ct_land_rights"
+      ],
+      "oldCodes": [
+        "L006",
+        "L007"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": [
+        "land_purchase"
+      ]
+    },
+    {
+      "id": "owner_separate_construction_technical_services",
+      "code": "IGIS-COST:owner_separate_construction_technical_services",
+      "name": "발주자 별도 건설기술용역비",
+      "parentId": "grp_v4_indirect",
+      "primaryCategory": "indirect",
+      "displayGroupKeys": [],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "예산범위 확인",
+      "includes": [
+        "발주자 독립예산의 안전·환경관리용역",
+        "독립 품질시험기관 용역",
+        "준공자료 검수·인도지원용역",
+        "착공 전 시공성검토·사업비·공정·원가·건설정보모델 관리용역"
+      ],
+      "excludes": [
+        "시공자 도급 안 시험·시운전·준공청소·인도",
+        "기본 설계·감리·CM·개발PM 계약 포함 서비스",
+        "같은 용역계약 총액과 세부 중복"
+      ],
+      "sourceRefs": [
+        "현재 4원본 대응표 · 실제 계약·과업 확인",
+        "현행 보존 원코드 3003",
+        "현행 보존 원코드 3004",
+        "현행 보존 원코드 3005",
+        "현행 보존 원코드 3009",
+        "IOTA TIC_IPR C31 · TIC(M)_816 I31",
+        "IOTA TIC_IPR C25 · TIC(M)_816 I25",
+        "현행 보존 원코드 4014",
+        "현행 보존 원코드 4018"
+      ],
+      "legacyKeys": [],
+      "initialDefault": false,
+      "defaultVisibility": "selected-only",
+      "managementTargetId": "owner_separate_construction_technical_services",
+      "targetKind": "selected-family",
+      "normalSelectable": true,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_direct_safety_environment",
+        "ct_direct_test",
+        "ct_direct_handover",
+        "ct_indirect_precon",
+        "ct_indirect_pcs",
+        "ct_indirect_cost_control",
+        "ct_indirect_bim"
+      ],
+      "oldCodes": [
+        "D012",
+        "D013",
+        "D014",
+        "I008",
+        "I009",
+        "I010",
+        "I011"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": [
+        "direct_main",
+        "design_main",
+        "design_supervision",
+        "design_cm",
+        "design_pm"
+      ]
+    },
+    {
+      "id": "tenant_attraction_loss_support",
+      "code": "IGIS-COST:tenant_attraction_loss_support",
+      "name": "임차유치·초기운영 손실보전금",
+      "parentId": "grp_v4_corporate",
+      "primaryCategory": "corporate",
+      "displayGroupKeys": [],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "예산범위 확인",
+      "includes": [
+        "실제 지급하는 임차유치 지원·준비기간 운영손실 보전"
+      ],
+      "excludes": [
+        "렌트프리·임대료 감소의 수익가정",
+        "취득 기존자산 임대운영 손실보전",
+        "임대중개·대행수수료",
+        "같은 지원과 예비비 중복"
+      ],
+      "sourceRefs": [
+        "IOTA A&R E104:E105 · 실제지원과 충당 동시가산 금지"
+      ],
+      "legacyKeys": [],
+      "initialDefault": false,
+      "defaultVisibility": "selected-only",
+      "managementTargetId": "tenant_attraction_loss_support",
+      "targetKind": "selected-family",
+      "normalSelectable": true,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_corp_tenant_incentive"
+      ],
+      "oldCodes": [
+        "O034"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": []
+    },
+    {
+      "id": "tenant_construction_support",
+      "code": "IGIS-COST:tenant_construction_support",
+      "name": "임차인 공사지원금",
+      "parentId": "grp_v4_corporate",
+      "primaryCategory": "corporate",
+      "displayGroupKeys": [],
+      "entryRole": "posting",
+      "kind": "expense",
+      "newSelectable": true,
+      "scope": "예산범위 확인",
+      "includes": [
+        "실제 임대조건 또는 독립예산의 임차인 공사 현금지원"
+      ],
+      "excludes": [
+        "본도급·인테리어 공사와 같은 금액",
+        "상각·선급잔액 재표시",
+        "임대중개·대행수수료",
+        "임차손실보전"
+      ],
+      "sourceRefs": [
+        "성수 D_* TI 원행 · 현금지급·상각 재표시 제외",
+        "현행 보존 원코드 9008"
+      ],
+      "legacyKeys": [],
+      "initialDefault": false,
+      "defaultVisibility": "selected-only",
+      "managementTargetId": "tenant_construction_support",
+      "targetKind": "selected-family",
+      "normalSelectable": true,
+      "canonicalPurpose": true,
+      "companyTaxonomyVersion": "company-cost-taxonomy-v4",
+      "officialStandardCode": false,
+      "displayCode": false,
+      "oldTypeIds": [
+        "ct_corp_ti"
+      ],
+      "oldCodes": [
+        "O032"
+      ],
+      "noAutoMigration": true,
+      "sameBudgetKeyRule": "projectId + budgetScopeRef; same scope one posting path",
+      "parentCoverage": [
+        "direct_main"
+      ]
+    }
+  ],
+  "counts": {
+    "groups": 8,
+    "canonicalPostingTypes": 95,
+    "entries": 103,
+    "defaultManagementTargets": 37,
+    "optionalManagementTargets": 58
+  },
+  "canonicalIdentity": {
+    "idRule": "approved finalId",
+    "codeRule": "IGIS-COST:<finalId>",
+    "officialStandardCode": false,
+    "frontendDisplayCode": false
+  },
+  "legacyAliases": {
+    "byOldTypeId": {
+      "ct_land_purchase": "land_purchase",
+      "ct_land_purchase_fee": "land_purchase_fees",
+      "ct_land_due_diligence": "land_acquisition_advice",
+      "ct_land_acquisition_tax": "land_acquisition_tax",
+      "ct_land_registration": "land_acquisition_tax",
+      "ct_land_compensation": "land_rights_compensation",
+      "ct_land_rights": "land_rights_compensation",
+      "ct_land_acquisition_amc": "land_purchase_fees",
+      "ct_land_asset_carry": "land_asset_carry",
+      "ct_land_installment_interest": "land_installment_interest",
+      "ct_land_coexistence": "land_coexistence",
+      "ct_land_masterlease_loss": "land_masterlease_loss",
+      "ct_land_landuse_tax": "land_landuse_tax",
+      "ct_land_acquisition_event": "land_acquisition_tax",
+      "ct_land_feasibility_bid": "land_purchase_fees",
+      "ct_land_other": "land_other",
+      "ct_direct_main": "direct_main",
+      "ct_direct_demolition": "direct_demolition",
+      "ct_direct_civil": "separate_site_works",
+      "ct_direct_interior": "direct_interior",
+      "ct_direct_special": "owner_separate_special_equipment_work",
+      "ct_direct_relocation": "owner_separate_relocation_work",
+      "ct_direct_utilities": "utility_works",
+      "ct_direct_civil_utilities": "separate_site_works",
+      "ct_direct_site_overhead": "direct_main",
+      "ct_direct_contractor_overhead": "direct_main",
+      "ct_direct_safety_environment": "owner_separate_construction_technical_services",
+      "ct_direct_test": "owner_separate_construction_technical_services",
+      "ct_direct_handover": "owner_separate_construction_technical_services",
+      "ct_direct_insurance": "construction_period_owner_insurance",
+      "ct_direct_liability": "construction_period_owner_insurance",
+      "ct_direct_guarantee": "owner_borne_construction_guarantee",
+      "ct_direct_delay_interest": "direct_delay_interest",
+      "ct_direct_other": "other_owner_separate_construction",
+      "ct_direct_site_other": "other_owner_separate_construction_support",
+      "ct_indirect_design": "design_main",
+      "ct_indirect_supervision": "design_supervision",
+      "ct_indirect_cm": "design_cm",
+      "ct_indirect_pm": "design_pm",
+      "ct_indirect_survey": "design_survey",
+      "ct_indirect_interior_design": "indirect_interior_design",
+      "ct_indirect_cleanup": "indirect_cleanup",
+      "ct_indirect_precon": "owner_separate_construction_technical_services",
+      "ct_indirect_pcs": "owner_separate_construction_technical_services",
+      "ct_indirect_cost_control": "owner_separate_construction_technical_services",
+      "ct_indirect_bim": "owner_separate_construction_technical_services",
+      "ct_indirect_supervision_cm": "legacy_supervision_cm_aggregate",
+      "ct_indirect_permit_bundle": "permit_services",
+      "ct_indirect_permit_fee": "permit_services",
+      "ct_indirect_city_plan": "permit_services",
+      "ct_indirect_traffic": "permit_services",
+      "ct_indirect_environment": "permit_services",
+      "ct_indirect_disaster": "permit_services",
+      "ct_indirect_underground": "permit_services",
+      "ct_indirect_underground_followup": "permit_services",
+      "ct_indirect_heritage": "permit_services",
+      "ct_indirect_education": "permit_services",
+      "ct_indirect_landscape_review": "permit_services",
+      "ct_indirect_building_review": "permit_services",
+      "ct_indirect_performance": "permit_services",
+      "ct_indirect_certification": "permit_services",
+      "ct_indirect_artwork": "artwork",
+      "ct_indirect_soil_survey": "permit_services",
+      "ct_indirect_permit_event": "permit_services",
+      "ct_indirect_professional_other": "indirect_professional_other",
+      "ct_indirect_permit_other": "permit_services",
+      "ct_levy_development": "levies",
+      "ct_levy_overcrowding": "levies",
+      "ct_levy_utilities": "levies",
+      "ct_levy_heating": "levies",
+      "ct_levy_transport": "levy_transport",
+      "ct_levy_school": "levy_school",
+      "ct_levy_infrastructure": "levy_infrastructure",
+      "ct_levy_public_contribution": "levy_public_contribution",
+      "ct_levy_donation": "levy_donation",
+      "ct_levy_farm_forest": "levy_farm_forest",
+      "ct_levy_development_combined": "levies",
+      "ct_levy_other": "levies",
+      "ct_tax_land_holding": "tax_holding_land",
+      "ct_tax_comprehensive": "tax_comprehensive",
+      "ct_tax_building_acquisition": "tax_building",
+      "ct_tax_building_registration": "tax_building",
+      "ct_tax_holding_combined": "legacy_holding_tax_aggregate",
+      "ct_tax_building_holding": "tax_building_holding",
+      "ct_tax_traffic_holding": "tax_traffic_holding",
+      "ct_tax_property_insurance": "tax_property_insurance",
+      "ct_tax_building_combined": "tax_building",
+      "ct_tax_other": "tax_other",
+      "ct_corp_entity_setup": "entity_setup",
+      "ct_corp_management_bundle": "legacy_entity_operations_aggregate",
+      "ct_corp_closing": "entity_closing",
+      "ct_corp_complaints": "complaints",
+      "ct_corp_marketing": "marketing",
+      "ct_corp_development_advice": "development_advice",
+      "ct_corp_amc_operating": "entity_amc",
+      "ct_corp_fmc": "entity_fmc",
+      "ct_corp_admin": "entity_admin",
+      "ct_corp_legal": "corp_legal",
+      "ct_corp_development_fee": "corp_development_fee",
+      "ct_corp_fund_selling": "corp_fund_selling",
+      "ct_corp_custody": "corp_custody",
+      "ct_corp_disposal_event": "disposal_fees",
+      "ct_corp_lease": "corp_lease",
+      "ct_corp_disposal": "disposal_fees",
+      "ct_corp_disposal_amc": "disposal_fees",
+      "ct_corp_disposal_success": "disposal_fees",
+      "ct_corp_sales_agency": "corp_sales_agency",
+      "ct_corp_showroom": "corp_showroom",
+      "ct_corp_sales_interest": "corp_sales_interest",
+      "ct_corp_sales_guarantee": "corp_sales_guarantee",
+      "ct_corp_preopening": "opening_preparation",
+      "ct_corp_operator_support": "opening_preparation",
+      "ct_corp_ti": "tenant_construction_support",
+      "ct_corp_ffe": "opening_preparation",
+      "ct_corp_tenant_incentive": "tenant_attraction_loss_support",
+      "ct_corp_opening_insurance": "opening_preparation",
+      "ct_corp_other": "entity_overhead",
+      "ct_corp_commercial_other": "corp_commercial_other",
+      "ct_corp_opening_other": "opening_preparation",
+      "ct_finance_security": "finance_security",
+      "ct_finance_bridge_upfront": "finance_bridge_upfront",
+      "ct_finance_bridge_advice": "finance_bridge_advice",
+      "ct_finance_bridge_interest": "finance_bridge_interest",
+      "ct_finance_pf_upfront": "finance_pf_upfront",
+      "ct_finance_pf_advice": "finance_pf_advice",
+      "ct_finance_pf_interest": "finance_pf_interest",
+      "ct_finance_prepf": "finance_prepf",
+      "ct_finance_loan_fees": "finance_fees_advisory",
+      "ct_finance_advice": "finance_fees_advisory",
+      "ct_finance_commitment": "finance_commitment",
+      "ct_finance_unused": "finance_unused",
+      "ct_finance_trust": "finance_trust",
+      "ct_finance_hedge": "finance_hedge",
+      "ct_finance_refinancing": "finance_refinancing",
+      "ct_finance_guarantee": "finance_guarantee",
+      "ct_finance_shareholder_interest": "finance_shareholder_interest",
+      "ct_finance_subordinate_interest": "finance_subordinate_interest",
+      "ct_finance_bundle": "finance_fees_advisory",
+      "ct_finance_other": "finance_other",
+      "ct_reserve_construction": "reserve_construction",
+      "ct_reserve_design": "reserve_design",
+      "ct_reserve_general": "reserve_general",
+      "ct_reserve_specific": "reserve_specific",
+      "ct_reserve_inflation": "reserve_inflation",
+      "ct_reserve_other": "reserve_other",
+      "ct_vat_land": "vat_land",
+      "ct_vat_direct": "vat_direct",
+      "ct_vat_indirect": "vat_indirect",
+      "ct_vat_tax": "vat_tax",
+      "ct_vat_corporate": "vat_corporate",
+      "ct_vat_finance": "vat_finance",
+      "ct_art_fund_contribution": "art_fund_contribution"
+    },
+    "byOldCode": {
+      "L001": "land_purchase",
+      "L002": "land_purchase_fees",
+      "L003": "land_acquisition_advice",
+      "L004": "land_acquisition_tax",
+      "L005": "land_acquisition_tax",
+      "L006": "land_rights_compensation",
+      "L007": "land_rights_compensation",
+      "L008": "land_purchase_fees",
+      "L009": "land_asset_carry",
+      "L010": "land_installment_interest",
+      "L011": "land_coexistence",
+      "L012": "land_masterlease_loss",
+      "L013": "land_landuse_tax",
+      "L014": "land_acquisition_tax",
+      "L015": "land_purchase_fees",
+      "L990": "land_other",
+      "D001": "direct_main",
+      "D002": "direct_demolition",
+      "D003": "separate_site_works",
+      "D004": "direct_interior",
+      "D005": "owner_separate_special_equipment_work",
+      "D006": "owner_separate_relocation_work",
+      "D007": "utility_works",
+      "D008": "separate_site_works",
+      "D010": "direct_main",
+      "D011": "direct_main",
+      "D012": "owner_separate_construction_technical_services",
+      "D013": "owner_separate_construction_technical_services",
+      "D014": "owner_separate_construction_technical_services",
+      "D015": "construction_period_owner_insurance",
+      "D016": "construction_period_owner_insurance",
+      "D017": "owner_borne_construction_guarantee",
+      "D018": "direct_delay_interest",
+      "D990": "other_owner_separate_construction",
+      "D991": "other_owner_separate_construction_support",
+      "I001": "design_main",
+      "I002": "design_supervision",
+      "I003": "design_cm",
+      "I004": "design_pm",
+      "I005": "design_survey",
+      "I006": "indirect_interior_design",
+      "I007": "indirect_cleanup",
+      "I008": "owner_separate_construction_technical_services",
+      "I009": "owner_separate_construction_technical_services",
+      "I010": "owner_separate_construction_technical_services",
+      "I011": "owner_separate_construction_technical_services",
+      "I012": "legacy_supervision_cm_aggregate",
+      "I020": "permit_services",
+      "I021": "permit_services",
+      "I022": "permit_services",
+      "I023": "permit_services",
+      "I024": "permit_services",
+      "I025": "permit_services",
+      "I026": "permit_services",
+      "I027": "permit_services",
+      "I028": "permit_services",
+      "I029": "permit_services",
+      "I030": "permit_services",
+      "I031": "permit_services",
+      "I032": "permit_services",
+      "I033": "permit_services",
+      "I034": "artwork",
+      "I035": "permit_services",
+      "I040": "permit_services",
+      "I990": "indirect_professional_other",
+      "I991": "permit_services",
+      "I101": "levies",
+      "I102": "levies",
+      "I103": "levies",
+      "I104": "levies",
+      "I105": "levy_transport",
+      "I106": "levy_school",
+      "I107": "levy_infrastructure",
+      "I108": "levy_public_contribution",
+      "I109": "levy_donation",
+      "I110": "levy_farm_forest",
+      "I111": "levies",
+      "I199": "levies",
+      "T001": "tax_holding_land",
+      "T002": "tax_comprehensive",
+      "T003": "tax_building",
+      "T004": "tax_building",
+      "T005": "legacy_holding_tax_aggregate",
+      "T006": "tax_building_holding",
+      "T007": "tax_traffic_holding",
+      "T008": "tax_property_insurance",
+      "T009": "tax_building",
+      "T990": "tax_other",
+      "O001": "entity_setup",
+      "O002": "legacy_entity_operations_aggregate",
+      "O003": "entity_closing",
+      "O004": "complaints",
+      "O005": "marketing",
+      "O006": "development_advice",
+      "O007": "entity_amc",
+      "O008": "entity_fmc",
+      "O009": "entity_admin",
+      "O010": "corp_legal",
+      "O011": "corp_development_fee",
+      "O012": "corp_fund_selling",
+      "O013": "corp_custody",
+      "O014": "disposal_fees",
+      "O020": "corp_lease",
+      "O021": "disposal_fees",
+      "O022": "disposal_fees",
+      "O023": "disposal_fees",
+      "O024": "corp_sales_agency",
+      "O025": "corp_showroom",
+      "O026": "corp_sales_interest",
+      "O027": "corp_sales_guarantee",
+      "O030": "opening_preparation",
+      "O031": "opening_preparation",
+      "O032": "tenant_construction_support",
+      "O033": "opening_preparation",
+      "O034": "tenant_attraction_loss_support",
+      "O035": "opening_preparation",
+      "O990": "entity_overhead",
+      "O991": "corp_commercial_other",
+      "O992": "opening_preparation",
+      "F001": "finance_security",
+      "F002": "finance_bridge_upfront",
+      "F003": "finance_bridge_advice",
+      "F004": "finance_bridge_interest",
+      "F005": "finance_pf_upfront",
+      "F006": "finance_pf_advice",
+      "F007": "finance_pf_interest",
+      "F008": "finance_prepf",
+      "F009": "finance_fees_advisory",
+      "F010": "finance_fees_advisory",
+      "F011": "finance_commitment",
+      "F012": "finance_unused",
+      "F013": "finance_trust",
+      "F014": "finance_hedge",
+      "F015": "finance_refinancing",
+      "F016": "finance_guarantee",
+      "F017": "finance_shareholder_interest",
+      "F018": "finance_subordinate_interest",
+      "F019": "finance_fees_advisory",
+      "F990": "finance_other",
+      "R001": "reserve_construction",
+      "R002": "reserve_design",
+      "R003": "reserve_general",
+      "R004": "reserve_specific",
+      "R005": "reserve_inflation",
+      "R990": "reserve_other",
+      "L090": "vat_land",
+      "D090": "vat_direct",
+      "I090": "vat_indirect",
+      "T090": "vat_tax",
+      "O090": "vat_corporate",
+      "F090": "vat_finance",
+      "T010": "art_fund_contribution"
+    },
+    "noAutoMigration": true
+  },
+  "nonPostingTaxonomyRoles": [
+    {
+      "finalId": "vat_land",
+      "name": "취득 관련 불공제 부가세",
+      "role": "vat-treatment",
+      "targetKind": "vat-allocation-role",
+      "normalSelectable": false
+    },
+    {
+      "finalId": "vat_direct",
+      "name": "직접공사 관련 불공제 부가세",
+      "role": "vat-treatment",
+      "targetKind": "vat-allocation-role",
+      "normalSelectable": false
+    },
+    {
+      "finalId": "legacy_supervision_cm_aggregate",
+      "name": "감리·CM 일괄예산 입력방식",
+      "role": "input-mode",
+      "targetKind": "legacy-aggregate-input",
+      "normalSelectable": false
+    },
+    {
+      "finalId": "vat_indirect",
+      "name": "간접공사 관련 불공제 부가세",
+      "role": "vat-treatment",
+      "targetKind": "vat-allocation-role",
+      "normalSelectable": false
+    },
+    {
+      "finalId": "legacy_holding_tax_aggregate",
+      "name": "개발기간 보유세 일괄예산 입력방식",
+      "role": "input-mode",
+      "targetKind": "legacy-aggregate-input",
+      "normalSelectable": false
+    },
+    {
+      "finalId": "vat_tax",
+      "name": "보유·준공 관련 불공제 부가세",
+      "role": "vat-treatment",
+      "targetKind": "vat-allocation-role",
+      "normalSelectable": false
+    },
+    {
+      "finalId": "legacy_entity_operations_aggregate",
+      "name": "법인운용수수료 일괄예산 입력방식",
+      "role": "input-mode",
+      "targetKind": "legacy-aggregate-input",
+      "normalSelectable": false
+    },
+    {
+      "finalId": "vat_corporate",
+      "name": "사업부대 관련 불공제 부가세",
+      "role": "vat-treatment",
+      "targetKind": "vat-allocation-role",
+      "normalSelectable": false
+    },
+    {
+      "finalId": "finance_prepf",
+      "name": "본PF 전 단계 총금융비 입력방식(Pre-PF)",
+      "role": "input-mode",
+      "targetKind": "legacy-aggregate-input",
+      "normalSelectable": false
+    },
+    {
+      "finalId": "vat_finance",
+      "name": "금융조달 관련 불공제 부가세",
+      "role": "vat-treatment",
+      "targetKind": "vat-allocation-role",
+      "normalSelectable": false
+    }
+  ],
+  "companyDefaultGroups": [
+    {
+      "key": "land_purchase",
+      "label": "토지매입비",
+      "parentKey": "land",
+      "sourceRefs": [
+        "seoripul:TIC!D110",
+        "seoripul:TIC!D111",
+        "seoripul:TIC!D112",
+        "현행 보존 원코드 1001"
+      ],
+      "sourceOriginalNames": [],
+      "memberCatalogKeys": [],
+      "currentDisplayName": "토지매입비"
+    },
+    {
+      "key": "land_purchase_fees",
+      "label": "매입·입찰보수",
+      "parentKey": "land",
+      "sourceRefs": [
+        "IOTA TIC_PFV!C11 · 중개수수료",
+        "성수 투자!C11 · 매입보수",
+        "IOTA TIC_PFV!C14 · 자산관리 매입보수",
+        "성수 투자!C41 · 자산관리 매입보수",
+        "seoripul:TIC!E115 · 입찰및사업성검토보수",
+        "seoripul:자금판(2501)!Z48 · PFV 사업성검토 및 입찰보수"
+      ],
+      "sourceOriginalNames": [],
+      "memberCatalogKeys": [],
+      "currentDisplayName": "매입·입찰보수"
+    },
+    {
+      "key": "land_acquisition_advice",
+      "label": "취득자문·실사비",
+      "parentKey": "land",
+      "sourceRefs": [
+        "seoripul:TIC!D117 · 취득 자문",
+        "IOTA TIC_PFV!C15 · 취득 자문·실사",
+        "성수 투자!C10 · 취득 자문·실사"
+      ],
+      "sourceOriginalNames": [],
+      "memberCatalogKeys": [],
+      "currentDisplayName": "취득자문·실사비"
+    },
+    {
+      "key": "land_acquisition_tax",
+      "label": "취득세·이전등기비",
+      "parentKey": "land",
+      "sourceRefs": [
+        "seoripul:TIC!D113",
+        "IOTA TIC_PFV!C16",
+        "IOTA TIC_PFV!D17:D20 · 취득세·이전등기 사건 상세",
+        "seoripul:TIC!E125"
+      ],
+      "sourceOriginalNames": [],
+      "memberCatalogKeys": [],
+      "currentDisplayName": "취득세·이전등기비"
+    },
+    {
+      "key": "direct_main",
+      "label": "도급공사비",
+      "parentKey": "direct",
+      "sourceRefs": [
+        "seoripul:TIC!D130",
+        "현재 4원본 대응표 · 실제 계약·과업 확인"
+      ],
+      "sourceOriginalNames": [],
+      "memberCatalogKeys": [],
+      "currentDisplayName": "도급공사비"
+    },
+    {
+      "key": "direct_demolition",
+      "label": "철거비",
+      "parentKey": "direct",
+      "sourceRefs": [
+        "seoripul:TIC!D129",
+        "현행 보존 원코드 1004"
+      ],
+      "sourceOriginalNames": [],
+      "memberCatalogKeys": [],
+      "currentDisplayName": "철거비"
+    },
+    {
+      "key": "reserve_construction",
+      "label": "공사비예비비",
+      "parentKey": "direct",
+      "sourceRefs": [
+        "seoripul:TIC!D132",
+        "현행 보존 원코드 A001"
+      ],
+      "sourceOriginalNames": [],
+      "memberCatalogKeys": [],
+      "currentDisplayName": "공사비예비비"
+    },
+    {
+      "key": "design_main",
+      "label": "설계비",
+      "parentKey": "indirect",
+      "sourceRefs": [
+        "seoripul:TIC!D135"
+      ],
+      "sourceOriginalNames": [],
+      "memberCatalogKeys": [],
+      "currentDisplayName": "설계비"
+    },
+    {
+      "key": "design_supervision",
+      "label": "법정감리비",
+      "parentKey": "indirect",
+      "sourceRefs": [
+        "seoripul:TIC!D138"
+      ],
+      "sourceOriginalNames": [],
+      "memberCatalogKeys": [],
+      "currentDisplayName": "법정감리비"
+    },
+    {
+      "key": "design_cm",
+      "label": "CM",
+      "parentKey": "indirect",
+      "sourceRefs": [
+        "seoripul:TIC!D139",
+        "현행 보존 원코드 4012"
+      ],
+      "sourceOriginalNames": [],
+      "memberCatalogKeys": [],
+      "currentDisplayName": "CM"
+    },
+    {
+      "key": "design_pm",
+      "label": "PM(개발사업관리)",
+      "parentKey": "indirect",
+      "sourceRefs": [
+        "seoripul:TIC!D140",
+        "현행 보존 원코드 4013"
+      ],
+      "sourceOriginalNames": [],
+      "memberCatalogKeys": [],
+      "currentDisplayName": "PM(개발사업관리)"
+    },
+    {
+      "key": "design_survey",
+      "label": "지반조사·측량비",
+      "parentKey": "indirect",
+      "sourceRefs": [
+        "seoripul:TIC!D141"
+      ],
+      "sourceOriginalNames": [],
+      "memberCatalogKeys": [],
+      "currentDisplayName": "지반조사·측량비"
+    },
+    {
+      "key": "permit_services",
+      "label": "인허가 용역비",
+      "parentKey": "indirect",
+      "sourceRefs": [
+        "seoripul:TIC!D142",
+        "현재 4원본 대응표 · 실제 계약·과업 확인",
+        "현행 보존 원코드 5001",
+        "현행 보존 원코드 5002",
+        "현행 보존 원코드 5003",
+        "현행 보존 원코드 5004",
+        "현행 보존 원코드 5005",
+        "현행 보존 원코드 5006",
+        "현행 보존 원코드 5008",
+        "현행 보존 원코드 5009",
+        "현행 보존 원코드 5010",
+        "seoripul:TIC!D142 · 인허가용역",
+        "IOTA TIC_IPR!C27",
+        "IOTA TIC_IPR!C34",
+        "IOTA TIC_IPR!C45",
+        "마곡 2. 사업수지!C59",
+        "고정 회사 개발사업비 범위의 명시 선택 정의 · 실제 계약 목적 확인 필요"
+      ],
+      "sourceOriginalNames": [],
+      "memberCatalogKeys": [],
+      "currentDisplayName": "인허가 용역비"
+    },
+    {
+      "key": "artwork",
+      "label": "미술장식품설치비",
+      "parentKey": "indirect",
+      "sourceRefs": [
+        "seoripul:TIC!D144",
+        "현재 4원본 대응표 · 실제 계약·과업 확인",
+        "현행 보존 원코드 5020"
+      ],
+      "sourceOriginalNames": [],
+      "memberCatalogKeys": [],
+      "currentDisplayName": "미술장식품설치비"
+    },
+    {
+      "key": "utility_works",
+      "label": "인입공사비",
+      "parentKey": "indirect",
+      "sourceRefs": [
+        "seoripul:TIC!D145"
+      ],
+      "sourceOriginalNames": [],
+      "memberCatalogKeys": [],
+      "currentDisplayName": "인입공사비"
+    },
+    {
+      "key": "levies",
+      "label": "부담금",
+      "parentKey": "tax",
+      "sourceRefs": [
+        "seoripul:TIC!D147",
+        "현행 보존 원코드 6001",
+        "현행 보존 원코드 6002",
+        "현행 보존 원코드 6006",
+        "현행 보존 원코드 6007",
+        "현행 보존 원코드 6008",
+        "현행 보존 원코드 6009",
+        "고정 회사 개발사업비 범위의 명시 선택 정의 · 실제 계약 목적 확인 필요"
+      ],
+      "sourceOriginalNames": [],
+      "memberCatalogKeys": [],
+      "currentDisplayName": "부담금"
+    },
+    {
+      "key": "tax_building",
+      "label": "신축 취득·보존등기비",
+      "parentKey": "tax",
+      "sourceRefs": [
+        "seoripul:TIC!D156",
+        "IOTA TIC_PFV!D67 · 법무사 수수료_건물 보존등기",
+        "고정 회사 개발사업비 범위의 명시 선택 정의 · 실제 계약 목적 확인 필요"
+      ],
+      "sourceOriginalNames": [],
+      "memberCatalogKeys": [],
+      "currentDisplayName": "신축 취득·보존등기비"
+    },
+    {
+      "key": "tax_holding_land",
+      "label": "토지분재산세",
+      "parentKey": "tax",
+      "sourceRefs": [
+        "seoripul:TIC!D154"
+      ],
+      "sourceOriginalNames": [],
+      "memberCatalogKeys": [],
+      "currentDisplayName": "토지분재산세"
+    },
+    {
+      "key": "tax_comprehensive",
+      "label": "종합부동산세",
+      "parentKey": "tax",
+      "sourceRefs": [
+        "seoripul:TIC!D155",
+        "현행 보존 원코드 7004"
+      ],
+      "sourceOriginalNames": [],
+      "memberCatalogKeys": [],
+      "currentDisplayName": "종합부동산세"
+    },
+    {
+      "key": "entity_setup",
+      "label": "법인·펀드 설립비",
+      "parentKey": "corporate",
+      "sourceRefs": [
+        "seoripul:TIC!D158"
+      ],
+      "sourceOriginalNames": [],
+      "memberCatalogKeys": [],
+      "currentDisplayName": "법인·펀드 설립비"
+    },
+    {
+      "key": "entity_amc",
+      "label": "자산운용·자산관리보수",
+      "parentKey": "corporate",
+      "sourceRefs": [
+        "seoripul:TIC!E160 · 자산관리 보수",
+        "seoripul:A&R (PFV)!CG11 · 자산관리 보수"
+      ],
+      "sourceOriginalNames": [],
+      "memberCatalogKeys": [],
+      "currentDisplayName": "자산운용·자산관리보수"
+    },
+    {
+      "key": "entity_fmc",
+      "label": "자금관리보수",
+      "parentKey": "corporate",
+      "sourceRefs": [
+        "seoripul:TIC!E162 · 자금관리 보수",
+        "seoripul:A&R (PFV)!CG13 · 자금관리 보수"
+      ],
+      "sourceOriginalNames": [],
+      "memberCatalogKeys": [],
+      "currentDisplayName": "자금관리보수"
+    },
+    {
+      "key": "entity_admin",
+      "label": "사무관리보수",
+      "parentKey": "corporate",
+      "sourceRefs": [
+        "seoripul:TIC!E161 · 사무수탁 보수",
+        "seoripul:A&R (PFV)!CG12 · 사무수탁 보수"
+      ],
+      "sourceOriginalNames": [],
+      "memberCatalogKeys": [],
+      "currentDisplayName": "사무관리보수"
+    },
+    {
+      "key": "entity_closing",
+      "label": "회계·세무·감사비",
+      "parentKey": "corporate",
+      "sourceRefs": [
+        "seoripul:TIC!D163"
+      ],
+      "sourceOriginalNames": [],
+      "memberCatalogKeys": [],
+      "currentDisplayName": "회계·세무·감사비"
+    },
+    {
+      "key": "development_advice",
+      "label": "개발·준공 자문수수료",
+      "parentKey": "corporate",
+      "sourceRefs": [
+        "seoripul:TIC!D169"
+      ],
+      "sourceOriginalNames": [],
+      "memberCatalogKeys": [],
+      "currentDisplayName": "개발·준공 자문수수료"
+    },
+    {
+      "key": "complaints",
+      "label": "민원응대비",
+      "parentKey": "corporate",
+      "sourceRefs": [
+        "seoripul:TIC!D166"
+      ],
+      "sourceOriginalNames": [],
+      "memberCatalogKeys": [],
+      "currentDisplayName": "민원응대비"
+    },
+    {
+      "key": "marketing",
+      "label": "광고홍보비",
+      "parentKey": "corporate",
+      "sourceRefs": [
+        "seoripul:TIC!D167",
+        "현행 보존 원코드 9003"
+      ],
+      "sourceOriginalNames": [],
+      "memberCatalogKeys": [],
+      "currentDisplayName": "광고홍보비"
+    },
+    {
+      "key": "disposal_fees",
+      "label": "매각보수·수수료",
+      "parentKey": "corporate",
+      "sourceRefs": [
+        "IOTA Returns_IPR!C11:C13 · 매각사건 보수표 · 개별 과업 확인 후 선택",
+        "마곡 2. 사업수지!C50 · 매각보수·수수료",
+        "고정 회사 개발사업비 범위의 명시 선택 정의 · 실제 계약 목적 확인 필요",
+        "IOTA Returns_IPR C11:C13 · 매각 보수"
+      ],
+      "sourceOriginalNames": [],
+      "memberCatalogKeys": [],
+      "currentDisplayName": "매각보수·수수료"
+    },
+    {
+      "key": "entity_overhead",
+      "label": "기타관리비",
+      "parentKey": "corporate",
+      "sourceRefs": [
+        "seoripul:TIC!D168"
+      ],
+      "sourceOriginalNames": [],
+      "memberCatalogKeys": [],
+      "currentDisplayName": "기타관리비"
+    },
+    {
+      "key": "finance_bridge_interest",
+      "label": "브릿지 이자",
+      "parentKey": "finance",
+      "sourceRefs": [
+        "seoripul:TIC!D190",
+        "현행 보존 원코드 8001"
+      ],
+      "sourceOriginalNames": [],
+      "memberCatalogKeys": [],
+      "currentDisplayName": "브릿지 이자"
+    },
+    {
+      "key": "finance_bridge_upfront",
+      "label": "브릿지 선취수수료",
+      "parentKey": "finance",
+      "sourceRefs": [
+        "seoripul:TIC!D180"
+      ],
+      "sourceOriginalNames": [],
+      "memberCatalogKeys": [],
+      "currentDisplayName": "브릿지 선취수수료"
+    },
+    {
+      "key": "finance_bridge_advice",
+      "label": "브릿지 자문수수료",
+      "parentKey": "finance",
+      "sourceRefs": [
+        "seoripul:TIC!D185"
+      ],
+      "sourceOriginalNames": [],
+      "memberCatalogKeys": [],
+      "currentDisplayName": "브릿지 자문수수료"
+    },
+    {
+      "key": "finance_pf_interest",
+      "label": "PF 이자",
+      "parentKey": "finance",
+      "sourceRefs": [
+        "seoripul:TIC!D193",
+        "현행 보존 원코드 8002"
+      ],
+      "sourceOriginalNames": [],
+      "memberCatalogKeys": [],
+      "currentDisplayName": "PF 이자"
+    },
+    {
+      "key": "finance_pf_upfront",
+      "label": "PF 선취수수료",
+      "parentKey": "finance",
+      "sourceRefs": [
+        "seoripul:TIC!D191"
+      ],
+      "sourceOriginalNames": [],
+      "memberCatalogKeys": [],
+      "currentDisplayName": "PF 선취수수료"
+    },
+    {
+      "key": "finance_pf_advice",
+      "label": "PF 자문수수료",
+      "parentKey": "finance",
+      "sourceRefs": [
+        "seoripul:TIC!D192"
+      ],
+      "sourceOriginalNames": [],
+      "memberCatalogKeys": [],
+      "currentDisplayName": "PF 자문수수료"
+    },
+    {
+      "key": "finance_security",
+      "label": "담보·근질권 설정비용",
+      "parentKey": "finance",
+      "sourceRefs": [
+        "seoripul:TIC!D173",
+        "seoripul:TIC!D177",
+        "seoripul:TIC!D178",
+        "seoripul:TIC!D179"
+      ],
+      "sourceOriginalNames": [],
+      "memberCatalogKeys": [],
+      "currentDisplayName": "담보·근질권 설정비용"
+    },
+    {
+      "key": "reserve_general",
+      "label": "사업비예비비",
+      "parentKey": "contingency",
+      "sourceRefs": [
+        "seoripul:TIC!C194",
+        "현행 보존 원코드 A002"
+      ],
+      "sourceOriginalNames": [],
+      "memberCatalogKeys": [],
+      "currentDisplayName": "사업비예비비"
+    }
+  ],
+  "companyDisplayGroups": [],
+  "managementUnits": [],
+  "publicSuppressedSourceCodes": [],
+  "legacyMappings": {
+    "exactKeys": {},
+    "exactSourceCodes": {},
+    "reviewSourceCodes": {},
+    "exactRecords": {},
+    "displayGroupTypes": {},
+    "rootCodes": {},
+    "explicitCompositeKeys": {},
+    "reviewKeys": [],
+    "conditionalInsurance": {},
+    "precedence": [
+      "explicit-v4-canonical",
+      "frozen-archive-binding",
+      "legacy-review"
+    ]
+  },
+  "legacyVersionPolicy": {
+    "preserveRecordId": true,
+    "preserveOldCode": true,
+    "preserveAmount": true,
+    "preserveStages": true,
+    "preserveContractVat": true,
+    "autoCanonicalUpgrade": false
+  }
+}

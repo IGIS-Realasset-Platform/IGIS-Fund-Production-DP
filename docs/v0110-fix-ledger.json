@@ -1,0 +1,17 @@
+{
+  "version":"0.10.10",
+  "basisVersion":"0.10.9",
+  "date":"2026-09-29",
+  "sourceReview":"docs/v0110-spec.md",
+  "verification":".build/v0110-verification.json",
+  "items":[
+    {"id":"REV110-01","title":"원가항목 열 너비 조절","implemented":true,"logicEvidence":"v0110-cost","browserEvidence":".build/v0110-cost/after-evidence.json","status":"구현·실제 조작 검증"},
+    {"id":"REV110-02","title":"원가행 바로 아래 편집과 취소 복구","implemented":true,"logicEvidence":"v0110-cost","browserEvidence":".build/v0110-cost/horizontal-after-evidence.json","status":"취소·저장실패·가로스크롤 배치 검증"},
+    {"id":"REV110-03","title":"CBS와 재무모델 3개 상세 대조","implemented":true,"evidence":"docs/v0110-cbs-대조.md","status":"원본 시트·행 재대조, 계약과업 미확정 항목 명시"},
+    {"id":"REV110-04","title":"인허가 필수항목과 연결 관계 개선","implemented":true,"logicEvidence":"v0110-permit","browserEvidence":".build/permit-v0110/evidence.json","status":"선택예외·필수검증·관계방향·취소 검증"},
+    {"id":"REV110-05","title":"개발업 등록 공식 신청서·첨부서류 대조","implemented":true,"evidence":"docs/v0110-개발업등록_서식대조.md","browserEvidence":".build/permit-v0110/evidence.json","status":"공식 신청서·SPC·첨부/확인항목 반영"},
+    {"id":"REV110-06","title":"기본 접힘과 실제 보고 양식형 편집","implemented":true,"logicEvidence":"v0110-report","browserEvidence":".build/v0110-report/verification.json","status":"양식 표구조·기준일별 초안·원천/canonical 보호, 독립 검토"},
+    {"id":"REV110-07","title":"2026-09-29 공식 법령 자료 갱신","implemented":true,"source":"src/data/law-source-v0110.json","logicEvidence":"v0110-law","status":"공식 원문182개·변경158건·다중시행·개정문 발췌 반영"},
+    {"id":"REV110-08","title":"플랫폼 명세·누적 체크리스트·Excel 동기화","implemented":true,"evidence":"outputs/개발사업관리플랫폼_요구사항_체크리스트_v0.10.10.xlsx","status":"185개 항목·상태·상세 저장본 대조 완료"}
+  ]
+}

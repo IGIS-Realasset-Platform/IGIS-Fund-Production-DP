@@ -1,0 +1,45 @@
+{
+  "version": "0.10.15",
+  "basisVersion": "0.10.14",
+  "date": "2026-10-01",
+  "sourceReview": "docs/v0115-spec.md",
+  "items": [
+    {
+      "id": "REV115-01",
+      "title": "근거문서·조치계획 위치 교환",
+      "implemented": true,
+      "status": "인허가 구현·58군 회귀·3해상도 실제 검수 통과"
+    },
+    {
+      "id": "REV115-02",
+      "title": "추가 후 새 입력칸·초점·스크롤",
+      "implemented": true,
+      "status": "인허가 구현·58군 회귀·3해상도 실제 검수 통과"
+    },
+    {
+      "id": "REV115-03",
+      "title": "검토의견별 조치계획 필수",
+      "implemented": true,
+      "status": "인허가 구현·58군 회귀·3해상도 실제 검수 통과"
+    },
+    {
+      "id": "REV115-04",
+      "title": "3모델 모든시트 원천 확보·대조",
+      "implemented": false,
+      "status": "원본/동일사본0·175시트 전체내용 재검토 미완료"
+    },
+    {
+      "id": "REV115-05",
+      "title": "취득·법무·보험 목적별 CBS 재검토",
+      "implemented": false,
+      "status": "저장896행/공식CBS 근거 검토안 작성·실제분류코드 미변경·전시트조건 미충족"
+    },
+    {
+      "id": "REV115-06",
+      "title": "검수·명세·체크리스트 동기화",
+      "implemented": true,
+      "status": "명세·대장·Markdown·Excel 226항목 동기화·미완료 원천/분류 분리"
+    }
+  ],
+  "releaseScope": "인허가 수정 완료·CBS 검토안/전체시트 미완료"
+}

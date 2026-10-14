@@ -1,0 +1,13 @@
+{
+  "version":"0.10.13","basisVersion":"0.10.12","date":"2026-09-30","sourceReview":"docs/v0113-spec.md","verification":".build/v0113-verification.json",
+  "items":[
+    {"id":"REV113-01","title":"보고 양식 안의 계획 입력","implemented":true,"logicEvidence":"v0113-report-workspace","status":"구현·실제 Edge·PDF 검수 통과"},
+    {"id":"REV113-02","title":"계약·문서 한 목록과 원본 경로","implemented":true,"logicEvidence":"v0113-documents","status":"구현·실제 Edge 최초 화면 경로 위치 검수 통과"},
+    {"id":"REV113-03","title":"인허가 수정 안의 결과·계획 입력","implemented":true,"logicEvidence":"v0113-permit","status":"구현·실제 Edge·PDF 검수 통과"},
+    {"id":"REV113-04","title":"원가행 상시 상태태그 제거","implemented":true,"logicEvidence":"v0113-cost","status":"구현·실제 Edge 검수 통과"},
+    {"id":"REV113-05","title":"클릭·미세이동의 열폭 확대 교정","implemented":true,"logicEvidence":"v0113-cost","status":"클릭·0/1px·드래그·키보드·재로드 실제 검수 통과"},
+    {"id":"REV113-06","title":"전문인력 명단 우선 배치","implemented":true,"logicEvidence":"v0113-core","status":"구현·실제 Edge 입력·퇴사·복구 검수 통과"},
+    {"id":"REV113-07","title":"본문/부모 구분·실제 닫기·초안 보호","implemented":true,"logicEvidence":"v0113-core","status":"실제 닫기·초안 격리·저장 실패·독립 검토 통과"},
+    {"id":"REV113-08","title":"사용자 흐름 검수·명세·Excel 동기화","implemented":true,"logicEvidence":"v0113-core/v0113-cost/v0113-documents/v0113-permit/v0113-report-workspace","status":"전체 회귀·실제 Edge·PDF·Excel 저장본 대조 통과"}
+  ]
+}

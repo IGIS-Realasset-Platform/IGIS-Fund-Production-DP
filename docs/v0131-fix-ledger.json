@@ -1,0 +1,72 @@
+{
+  "version": "0.10.31",
+  "asOf": "2026-10-12",
+  "status": "implemented-and-candidate-verified-final-evidence-separate",
+  "items": [
+    {
+      "id": "REV131-01",
+      "title": "사업비 조회행34px와 편집 자동높이",
+      "acceptance": "조회행 동일34px, 14px 글자/계층 유지, 편집·오류 가림0",
+      "implemented": true,
+      "verified": true,
+      "status": "구현·집중·실제 후보 검수 완료 · 최종 일치기록 참조"
+    },
+    {
+      "id": "REV131-02",
+      "title": "조사·결산 과업이 보이는 표시명",
+      "acceptance": "지반조사·측량비, 회계·세무·감사비로 표시. 한 행·원기록·과거 정의 보존",
+      "implemented": true,
+      "verified": true,
+      "status": "구현·집중·실제 후보 검수 완료 · 최종 일치기록 참조"
+    },
+    {
+      "id": "REV131-03",
+      "title": "인허가 용역비 표시명 통일",
+      "acceptance": "본표·후보·입력·엑셀의 인허가 용역비 표기 일치. 과거 원문/코드 의미 보존",
+      "implemented": true,
+      "verified": true,
+      "status": "구현·집중·실제 후보 검수 완료 · 최종 일치기록 참조"
+    },
+    {
+      "id": "REV131-04",
+      "title": "공유 순서와 사용자 순서의 대사",
+      "acceptance": "고정 의미군·본표/후보/엑셀 일치, 사용자 저장 순서 유지",
+      "implemented": true,
+      "verified": true,
+      "status": "구현·집중·실제 후보 검수 완료 · 최종 일치기록 참조"
+    },
+    {
+      "id": "REV131-05",
+      "title": "기부채납 등 후보의 분류 일원화",
+      "acceptance": "현재 확정 유형 후보 한 분류, stale 별명 부모 교정, 이미포함·추가·출력 대사",
+      "implemented": true,
+      "verified": true,
+      "status": "구현·집중·실제 후보 검수 완료 · 최종 일치기록 참조"
+    },
+    {
+      "id": "REV131-06",
+      "title": "미확인 기존기록과 후보의 중복 경계",
+      "acceptance": "명시 ID 관계로 후보 중복 교정, 원 ID/금액/검토상태 유지, 정상코드 자동승격 금지",
+      "implemented": true,
+      "verified": true,
+      "status": "구현·집중·실제 후보 검수 완료 · 최종 일치기록 참조"
+    },
+    {
+      "id": "REV131-07",
+      "title": "9종 용도별 사업비 프리셋",
+      "acceptance": "용도별 정의·선택·적용·취소·재적용·격리·금액 보존은 구현 후 실제검사",
+      "implemented": true,
+      "verified": true,
+      "diagnosisVerified": true,
+      "status": "구현·집중·실제 후보 검수 완료 · 최종 일치기록 참조"
+    },
+    {
+      "id": "REV131-08",
+      "title": "명세·실검수·체크리스트 동기화",
+      "acceptance": "현재8ID·누적·Excel 동일 상태, 원자료/이전327 보존·최종 지문 일치",
+      "implemented": true,
+      "verified": true,
+      "status": "구현·집중·실제 후보 검수 완료 · 최종 일치기록 참조"
+    }
+  ]
+}

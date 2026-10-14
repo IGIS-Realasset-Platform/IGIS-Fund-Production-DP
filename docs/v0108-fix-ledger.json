@@ -1,0 +1,29 @@
+{
+  "version": "0.10.8",
+  "basisVersion": "0.10.7",
+  "date": "2026-09-29",
+  "count": 2,
+  "sourceReview": "docs/요구사항_누적_체크리스트.md",
+  "verification": ".build/v0108-verification.json",
+  "items": [
+    {
+      "id": "VQA-05",
+      "title": "남은 특수 조작과 오류 상태 실제 브라우저 검수",
+      "implemented": true,
+      "logicEvidence": "v0108-vqa05",
+      "browserEvidence": [".build/vqa05-cost/vqa05-cost-evidence.json", ".build/vqa05-storage/results.json", ".build/vqa05-report/browser-results.json"],
+      "status": "browser-passed",
+      "scope": "행 드래그·삽입선, 열폭 포인터·키보드, 빈 원가행 삭제, 보고 오류·장문·대량행, 두 탭 저장 충돌"
+    },
+    {
+      "id": "VQA-06",
+      "title": "국토부 제1·2호 실제 PDF 생성과 원본 양식 대조",
+      "implemented": true,
+      "logicEvidence": "v0108-report-pdf",
+      "browserEvidence": ".build/vqa06-v0108",
+      "status": "pdf-and-visual-passed",
+      "scope": "공식 원본 13개 고정 기준점 ±2pt, 빈 기입란·머리글·제목·쪽번호 보존, 작성본·대량 PDF 전 페이지 재검수"
+    }
+  ],
+  "runtimeConnections": "회사 이메일 로그인·Supabase·Vercel·실제 AI·운영 연동 없음"
+}

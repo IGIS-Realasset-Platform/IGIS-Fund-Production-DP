@@ -1,0 +1,13 @@
+{
+  "version":"0.10.23","basisVersion":"0.10.22","date":"2026-10-07","sourceReview":"docs/v0123-spec.md",
+  "items":[
+    {"id":"REV123-01","title":"사업비 행별 추가 버튼 표현 통일","acceptance":"두 실제 처리 모두 추가/같은버튼, 키·원장·즉시제외 보존","implemented":true,"verified":true,"status":"실제 105개 버튼 표현 일치·두 처리 및 금액 보존 확인"},
+    {"id":"REV123-02","title":"실제 입력행 삭제 버튼 무동작 교정","acceptance":"기존guard/확인/soft-delete/원자저장·보호대상/실패원복/부모복귀","implemented":true,"verified":true,"status":"독립 9개 경계 및 실제 확인·취소·삭제 완료 검수"},
+    {"id":"REV123-03","title":"전체 버튼·메뉴·제목의 실제 결과 일치","acceptance":"복사/수정/기록/조회/내려받기의 실제동작·대상범위 명확, 구조/기능 불변","implemented":true,"verified":true,"status":"전체 소스·현재 화면·관련 팝업 문구와 실제 동작 대조 완료"},
+    {"id":"REV123-04","title":"편집 이름·오류 안내의 내부용어 교정","acceptance":"한국어표제·명확한오류문구, 데이터키/값/검증/보고본문 불변","implemented":true,"verified":true,"status":"한국어 편집 이름·오류 문구·입력 상태 및 최신 캡처 확인"},
+    {"id":"REV123-05","title":"전체 문구 범위 점검 및 원자료 보존","acceptance":"23소스/21모듈·현재뷰44조건·팝업audit 및 실제검수 구분, 원금/확정/계약/VAT/원문/CSS 불변","implemented":true,"verified":true,"status":"주메뉴10/세부탭25·독립 재무/시각 검수·원자료/CSS 보존 확인"},
+    {"id":"REV123-06","title":"검수·명세·누적·Excel 동일 요구번호 동기화","acceptance":"실패검사→교정→회귀/실제확인·283항목3396필드·완료한 항목만 체크","implemented":true,"verified":true,"status":"같은 6개 요구번호·283항목3396필드 독립 대사 및 이전 본문·서식 보존 확인"}
+  ],
+  "supersedes":[{"previous":"REV122-03","current":["REV123-01","REV123-03","REV123-04"],"scope":"표시/생성 내부처리별 버튼표현만 추가로 통일. 단일목록·기존표항목제외·검색·부모복귀 보존"}],
+  "evidence":{"spec":"docs/v0123-spec.md","businessAudit":".build/v0123-copy-audit-business.json","qaAudit":".build/v0123-copy-audit-qa.json","inventory":".build/v0123-copy-inventory.json","logic":".build/v0123-verification.json","browser":".build/v0123-browser/evidence.json","checklist":".build/checklist-sync/independent-v0123.json"}
+}

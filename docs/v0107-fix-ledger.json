@@ -1,0 +1,66 @@
+{
+  "version": "0.10.7",
+  "basisVersion": "0.10.6",
+  "date": "2026-09-29",
+  "count": 4,
+  "sourceReview": "outputs/개발사업관리플랫폼_실화면검수_v0.10.6_2026-09-21.md",
+  "verification": ".build/v0107-verification.json",
+  "logicStatus": "logic-and-browser-passed",
+  "browserExecuted": true,
+  "printedPdf": false,
+  "limitations": [
+    "인앱 브라우저 자동화 런타임 오류로 동일 127.0.0.1 페이지를 Microsoft Edge에서 실제 렌더링·캡처",
+    "실제 PDF를 생성하지 않았으므로 인쇄 검수 미실시",
+    "Supabase·회사 이메일 로그인·Vercel 배포는 범위 제외"
+  ],
+  "items": [
+    {
+      "id": "VQA-01",
+      "priority": "P1",
+      "area": "접근성 대비",
+      "title": "세부 사업비 보조 텍스트 대비 부족",
+      "implemented": true,
+      "logicEvidence": "v0107-vqa",
+      "logicStatus": "passed",
+      "browserStatus": "passed",
+      "printStatus": "not-applicable",
+      "acceptance": "14px 일반 텍스트의 실제 전경·배경 대비 4.5:1 이상, 기존 남색·증감색·Pretendard 위계 유지"
+    },
+    {
+      "id": "VQA-02",
+      "priority": "P1",
+      "area": "원가 표시",
+      "title": "평당가 표시 소수점 과다",
+      "implemented": true,
+      "logicEvidence": "v0107-vqa",
+      "logicStatus": "passed",
+      "browserStatus": "passed",
+      "printStatus": "not-applicable",
+      "acceptance": "내부 계산 정밀도 불변, 표·툴팁의 만원/평 표시 최대 소수 1자리"
+    },
+    {
+      "id": "VQA-03",
+      "priority": "P2",
+      "area": "원가 접근성",
+      "title": "과거 시점 면적 미확보 문구 반복",
+      "implemented": true,
+      "logicEvidence": "v0107-vqa",
+      "logicStatus": "passed",
+      "browserStatus": "passed",
+      "printStatus": "not-applicable",
+      "acceptance": "시점 머리글 1회 표시, 개별 셀은 대시, 접근 가능한 이름과 상세에는 면적 미입력 보존"
+    },
+    {
+      "id": "VQA-04",
+      "priority": "P2",
+      "area": "보고 원천",
+      "title": "건축계획 관리 탭과 현재 작성본 원천 불일치",
+      "implemented": true,
+      "logicEvidence": "v0107-vqa",
+      "logicStatus": "passed",
+      "browserStatus": "passed",
+      "printStatus": "not-run",
+      "acceptance": "현재 사업개요 자동투영을 읽기전용으로 설명하고 복제 저장하지 않으며 확정시점은 동결 reportBuildingPlans만 사용"
+    }
+  ]
+}

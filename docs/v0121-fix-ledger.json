@@ -1,0 +1,19 @@
+{
+  "version":"0.10.21","basisVersion":"0.10.20","date":"2026-10-07","sourceReview":"docs/v0121-spec.md",
+  "items":[
+    {"id":"REV121-01","title":"의미 역할별 음영·굵기 통일","acceptance":"총액700/root·branch600/management·actual400; 입력형태와 무관·전body열 일관","implemented":true,"verified":true,"status":"실제3해상도·전body열·독립 검수 완료"},
+    {"id":"REV121-02","title":"깊이·펼침 자리·상세 연결 정렬","acceptance":"단계24px·고정18px slot·같은깊이 label x동일·손잡이/고정열/열폭 유지","implemented":true,"verified":true,"status":"같은깊이/24px/18px·긴span·실제 검수 완료"},
+    {"id":"REV121-03","title":"항목 선택·추가 단일 진입","acceptance":"단일CTA·병행추가 버튼없음·진입전 같은셀 초안 보호","implemented":true,"verified":true,"status":"단일진입·초안보호 검수 완료"},
+    {"id":"REV121-04","title":"기존 표시와 신규 생성 분리","acceptance":"shown/new/all·전체분류읽기전용·백만원·하단compact대사","implemented":true,"verified":true,"status":"선택/신규/조회·회사경로·단위/고정footer 실제 검수 완료"},
+    {"id":"REV121-05","title":"직접 입력·취소·닫기 부모 복귀","acceptance":"대분류/이름/금액3필드·취소/X/Escape/저장 직전팝업복귀·실패/문맥 보존","implemented":true,"verified":true,"status":"3필드·취소/닫기/Escape/저장·직전팝업 실제 검수 완료"},
+    {"id":"REV121-06","title":"금액·원본·기존 기능 보존","acceptance":"기본34·원장/현재/확정/계약/VAT·표시권·1원·실패/충돌·단일Excel 유지","implemented":true,"verified":true,"status":"선택root정확저장/新경로·금액/확정/계약/VAT·Excel 생성 회귀 완료"},
+    {"id":"REV121-07","title":"리서치·3해상도·독립 합의 반복","acceptance":"공식사례·RED·실제safe HTTP3해상도·구현/설계/QA 근거와 남은문제0 합의","implemented":true,"verified":true,"status":"공식리서치·RED→수정반복·담당자 검수범위 완료동의"},
+    {"id":"REV121-08","title":"명세·대장·누적·Excel 동기화","acceptance":"동일8ID·대체관계·검수완료만체크·273행3276필드 독립대조","implemented":true,"verified":true,"status":"273항목·同ID·누적/Excel 독립대사 완료"}
+  ],
+  "supersedes":[
+    {"previous":"REV120-01","current":["REV121-01","REV121-02"],"scope":"다중/빈 관리행만 강조→의미 역할만 강조;24px/원본/같은셀 기능 유지"},
+    {"previous":"REV120-03","current":["REV121-03","REV121-04","REV121-05"],"scope":"병행 추가 진입·혼합목록→단일진입·표시와생성 분리;기존표시권·금액 보존"}
+  ],
+  "remaining":[],
+  "evidence":{"spec":"docs/v0121-spec.md","design":"docs/v0121-design-review.json","research":".lazyweb/design-improve/cost-hierarchy-2026-10-07/report.html","logic":".build/v0121-verification.json","browser":".build/v0121-browser/iab-evidence.json","checklist":".build/checklist-sync/independent-v0121.json","report":"outputs/개발사업관리플랫폼_검수기록_v0.10.21.md"}
+}

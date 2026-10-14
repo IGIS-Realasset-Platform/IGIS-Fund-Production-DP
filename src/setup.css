@@ -1,0 +1,11 @@
+.dp-registration-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.dp-registration-evidence{margin:0;border:1px solid var(--line);border-radius:4px;padding:12px;min-width:0}
+.dp-registration-evidence legend{font-size:14px;font-weight:600;padding:0 4px}
+.dp-registration-draft-action{display:flex;justify-content:flex-start}
+.dp-source-read-value{display:flex;align-items:center;gap:12px;min-height:36px;padding:6px 0;border-bottom:1px solid var(--line);min-width:0}
+.dp-source-read-value strong{min-width:112px;font-size:14px;font-weight:600}.dp-source-read-value span{overflow-wrap:anywhere}
+.dp-input-source-table{min-width:920px}.dp-input-source-table td{white-space:normal;overflow-wrap:anywhere}.dp-input-source-table td:nth-child(5){white-space:nowrap}
+.dp-source-review-row{display:grid;grid-template-columns:140px minmax(0,1fr);gap:12px;margin:0;padding:12px;border:1px solid var(--line);border-radius:4px;min-width:0}
+.dp-source-review-row legend{padding:0 4px;font-size:14px;font-weight:600}.dp-source-review-values{display:grid;grid-template-columns:minmax(0,1fr) minmax(120px,1fr);gap:12px;min-width:0}
+@media(max-width:700px){.dp-registration-fields{grid-template-columns:1fr}}
+@media(max-width:700px){.dp-source-review-row,.dp-source-review-values{grid-template-columns:1fr}}

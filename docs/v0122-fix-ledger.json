@@ -1,0 +1,11 @@
+{
+  "version":"0.10.22","basisVersion":"0.10.21","date":"2026-10-07","sourceReview":"docs/v0122-spec.md",
+  "items":[
+    {"id":"REV122-01","title":"추가 팝업의 근거·상태 표현 제거","acceptance":"범위근거/details·표시상태열/태그 제거, 근거 원문 데이터 보존","implemented":true,"verified":true,"status":"실제 3개 해상도 확인 및 독립 시각 검수 완료"},
+    {"id":"REV122-02","title":"표에 없는 항목만 추가 목록에 표시","acceptance":"현재 표시된 기본/선택/직접항목 제외·표시/생성 즉시 제외·실패 시 후보 보존","implemented":true,"verified":true,"status":"표시항목 중복 없음·표시/신규/직접 저장 후 목록 제외 확인"},
+    {"id":"REV122-03","title":"검색·직접입력의 단일 추가목록","acceptance":"3탭/all/숨기기/표에서보기/footer 제거·이름/위치 검색·부모복귀 유지","implemented":true,"verified":true,"status":"단일목록·검색·직접입력·취소/닫기/Escape/저장 복귀 확인"},
+    {"id":"REV122-04","title":"금액·원본 보존과 검수·체크리스트 동기화","acceptance":"기본34/역할스타일/현재/확정/계약/VAT/총액/원문 불변·회귀/실제화면·동일4ID/277항목 대사","implemented":true,"verified":true,"status":"금액·원문 독립 보존 검사 및 277항목·3324필드 대사 완료"}
+  ],
+  "supersedes":[{"previous":"REV121-04","current":["REV122-01","REV122-02","REV122-03"],"scope":"기존/신규/조회 모드·상태·근거·팝업하단요약→미표시 항목 단일 추가목록; 금액/원문/직접입력 보존"}],
+  "evidence":{"spec":"docs/v0122-spec.md","logic":".build/v0122-verification.json","browser":".build/v0122-browser/evidence.json","checklist":".build/checklist-sync/independent-v0122.json"}
+}

@@ -1,0 +1,19 @@
+{
+  "version": "0.10.27",
+  "basisVersion": "0.10.26",
+  "date": "2026-10-08",
+  "sourceReview": "docs/v0127-spec.md",
+  "items": [
+    {"id":"REV127-01","title":"비용 후보의 정확 의미 대응","acceptance":"명시 정확키/코드 별명만 사용·rank/이름 추정 금지·별도기록 보존","implemented":true,"verified":true,"status":"정확12유형·조건부보험·override검토필요 차단·보류4·독립금융11/11·QA14/14 통과"},
+    {"id":"REV127-02","title":"본표·선택 후보의 중복 제거","acceptance":"같은 관리유형 1후보·기존원장 우선·이미포함 제외·복수 실제원행 보존","implemented":true,"verified":true,"status":"기존4사업105→91후보·같은유형1행·추가후0·복수실제행/부분표시 보존·Edge3해상도 통과"},
+    {"id":"REV127-03","title":"저장 직전 중복 생성 방어","acceptance":"오래된후보/직접호출/반복클릭 재검사·명시edit 미존재 신규전환 금지·폼후삭제/교체 저장재확인·취소/실패 원복","implemented":true,"verified":true,"status":"stale유형 재표시/금액덮기 차단·명시edit opening/save 경계·신규0/원복/raw유지·확대14/14 통과"},
+    {"id":"REV127-04","title":"모든 공개 화면·팝업 전수 감사","acceptance":"공개+중첩+팝업 inventory·현재5사업·배부옵션ID유일/기존제외·원장/후보/수정대상 검사·호환경로 구별","implemented":true,"verified":true,"status":"메뉴10/공개탭·업체6그룹4패널·공개팝업20 실제클릭/DOM·계약배부/업체후보수정·호환경로/정당복수구별 통과"},
+    {"id":"REV127-05","title":"합계·연계·출력 보존 및 실제 검수","acceptance":"5현재/9확정·계약VAT·합산참여 보존·전체회귀·Edge3해상도·1시트 XLSX 대조","implemented":true,"verified":true,"status":"5현재/9확정·원금액/부모/계약VAT·금융11/11·현재104/104 source불변·Edge3해상도/20팝업/16캡처·XLSX1시트47행 통과"},
+    {"id":"REV127-06","title":"재발 검사·지침·체크리스트 동기화","acceptance":"정확의미/포함/저장경계 재발검사·새6ID·이전298본문/체크/서식 보존·최종지문","implemented":true,"verified":true,"status":"AGENTS/UX 재발원칙·명세6ID·현재104통과·누적/Excel304항목3648필드·이전298본문/체크/서식 보존 대사 통과"}
+  ],
+  "evidence": {
+    "logic": ".build/v0127-verification.json",
+    "browser": ".build/v0127-browser/evidence.json",
+    "checklist": ".build/checklist-sync/independent-v0127.json"
+  }
+}

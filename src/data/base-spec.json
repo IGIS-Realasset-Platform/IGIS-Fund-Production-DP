@@ -1,0 +1,1377 @@
+{
+  "meta": {
+    "name": "개발사업관리플랫폼",
+    "version": "0.9.4",
+    "purpose": "접근권한이 있는 개발사업의 현재 데이터와 변경이력을 조회·추가·수정·삭제하고, 원가·현금흐름·파이낸싱·인허가·공정·계약·문서를 관리하며 국토교통부 법정 보고서를 생성하는 개발사업 데이터 관리 플랫폼",
+    "primaryUsers": [
+      "대표이사·부문대표",
+      "개발솔루션센터",
+      "프로젝트 담당자",
+      "원가 담당자",
+      "보고 담당자"
+    ],
+    "currentPrototypeAssumption": "대표이사가 전체 프로젝트에 접근하는 상황을 가정한다. 실제 구축 시 사용자-프로젝트 접근권한을 적용한다."
+  },
+  "informationArchitecture": [
+    {
+      "tab": "프로젝트 현황",
+      "purpose": "전체 프로젝트의 단계, 언더라이팅 예산, 최종 예상사업비, 국토부 보고기한을 비교한다."
+    },
+    {
+      "tab": "개요",
+      "purpose": "사업 기본정보, 부지·건축정보, 주요 일정, 인허가 일정, 원가·파이낸싱·공정 요약, 현안과 변경이력을 본다."
+    },
+    {
+      "tab": "원가 및 자금 관리",
+      "purpose": "최초 언더라이팅, 현재 기준 사업비, 증감이력과 계약·기성·지급·미지급·잔액을 관리한다."
+    },
+    {
+      "tab": "파이낸싱",
+      "purpose": "출자, 대출 약정·실행·잔액, All-in 금리, 만기, 담보·신용보강·보증을 관리한다."
+    },
+    {
+      "tab": "인허가·공정",
+      "purpose": "부지확보, 인허가·심의, 착공·공사·준공, 임대·분양·매각의 진행정보를 관리한다."
+    },
+    {
+      "tab": "문서",
+      "purpose": "프로젝트 계약과 문서·공문, 버전·개정차수와 원본 위치를 관리한다."
+    },
+    {
+      "tab": "국토부 보고서",
+      "purpose": "별지 제1호·제2호에 필요한 데이터를 검증하고 법정 서식으로 출력한다."
+    },
+    {
+      "tab": "법령 업데이트",
+      "purpose": "샘플 법령 변경, 프로젝트 영향, 검토 이력을 확인한다."
+    },
+    {
+      "tab": "플랫폼 명세",
+      "purpose": "기능정의서, SDD, TDD, 데이터 구조, 설계원칙, 개발·피드백 이력을 제공한다."
+    }
+  ],
+  "designSystem": {
+    "font": "Pretendard 400 / Pretendard SemiBold 600 · 화면 글꼴 크기 24/16/14px 3단계",
+    "fontSizes": [
+      "24px",
+      "16px",
+      "14px"
+    ],
+    "baseColors": {
+      "navy": "#10243E",
+      "blue": "#2A64C7",
+      "canvas": "#E8EDF3",
+      "surface": "#FFFFFF",
+      "line": "#DCE3EB",
+      "text": "#172331",
+      "muted": "#6B7786"
+    },
+    "semanticColors": {
+      "increase": "#F02B2B",
+      "decrease": "#1769FF"
+    },
+    "semanticRule": "상승·증가·초과는 빨강과 ▲, 하락·감소·절감은 파랑과 ▼를 사용한다. 정상값은 중성색으로 표시한다.",
+    "spacing": [
+      "8px",
+      "12px",
+      "16px",
+      "24px"
+    ],
+    "tableRule": "모든 데이터 표는 동일한 머리글·행 높이·정렬·직접편집·행 메뉴 템플릿을 사용한다.",
+    "spacingRule": "12px 그리드를 기본으로 사용한다."
+  },
+  "interactionRules": [
+    "편집 가능한 셀을 더블클릭하면 셀 안에서 바로 편집한다.",
+    "Enter는 저장, Esc는 취소, Tab은 저장 후 다음 편집 셀로 이동한다.",
+    "금액은 원 단위 정수로 입력·저장하고 조회 화면에서는 억원 단위로 표시한다.",
+    "모든 추가·수정·삭제는 중앙 변경이력에 변경 전·후 값, 시각, 사용자, 출처를 기록한다.",
+    "차트 요소에 마우스를 올리면 세부값을 표시하고, 클릭하면 관련 탭 또는 전체화면 상세표를 연다.",
+    "삭제는 연성삭제와 실행취소를 전제로 한다.",
+    "사용자에게 데이터 구조의 복잡성을 그대로 노출하지 않고 업무상 필요한 값과 관계를 우선 표시한다.",
+    "법령 관련성은 규칙 기반 참고 결과이며 검토 완료 전 프로젝트 알림에 표시한다.",
+    "현재 기준 금액이 직전 값 대비 3%와 5억원 중 작은 금액 이상 상승 또는 하락하면 저장 전에 변경 사유를 받는다.",
+    "검색·임의 정렬이 적용된 동안에는 행 순서 변경을 비활성화하며 같은 대분류 안에서만 순서를 바꾼다.",
+    "삭제는 확인 후 연성삭제하고 실행취소 또는 권한 있는 복구로 되돌린다. 모든 순서변경·삭제·복구도 감사이력에 기록한다.",
+    "보고서 샘플 모드와 제출 모드를 분리하고 제출 모드에서는 다른 프로젝트나 작성사례 값을 대체값으로 사용하지 않는다."
+  ],
+  "costRules": {
+    "terms": [
+      "언더라이팅 예산",
+      "계약금액",
+      "기성금액",
+      "지급금액",
+      "미계약 예상금액",
+      "향후 소요금액",
+      "최종 예상사업비",
+      "언더라이팅 예산 대비"
+    ],
+    "formulae": {
+      "향후 소요금액": "미지급 확정액 + 계약 미기성잔액 + 미계약 예상금액",
+      "최종 예상사업비": "지급금액 + 향후 소요금액",
+      "언더라이팅 예산 대비": "최종 예상사업비 - 언더라이팅 예산",
+      "구성비": "해당 항목 최종 예상사업비 / 전체 최종 예상사업비"
+    },
+    "hierarchy": "대분류-중분류-세부항목의 가변 계층. 화면에서는 원가코드를 노출하지 않는다.",
+    "v080CostIncrease": {
+      "threshold": "max(100000000, underwritingBudget * 0.0005)",
+      "trigger": "afterForecast > beforeForecast",
+      "requiredFields": [
+        "reasonCode",
+        "reasonText",
+        "occurredAt",
+        "owner",
+        "sourceDoc"
+      ],
+      "entities": [
+        "costIncreaseEvents",
+        "projectAlerts"
+      ]
+    }
+  },
+  "reportingRules": {
+    "forms": [
+      "별지 제1호: 사업계획 등·추진현황 보고서 6쪽",
+      "별지 제2호: 취소·중단·완료 보고서 1쪽"
+    ],
+    "deadline": "사업계획 신고 이후 각 분기말 기준 다음 달 말일까지 추진현황을 보고하는 일정으로 D-day를 계산한다.",
+    "sourceTabs": [
+      "개요",
+      "원가 및 자금 관리",
+      "파이낸싱",
+      "인허가·공정",
+      "문서"
+    ],
+    "outputRule": "사용자는 일반 관리화면에서 데이터를 입력하고, 보고서 생성 시 법정 서식 좌표에 값을 자동 배치한다.",
+    "snapshot": "제출본은 제출시점 값을 고정한 스냅샷으로 보존한다.",
+    "v080LegalBasis": {
+      "law": "법률 제5조·제7조",
+      "decree": "시행령 제3조",
+      "rule": "시행규칙 제2조 및 별지 제1호·제2호서식",
+      "effectiveDate": "2027-05-28"
+    },
+    "prototypeBoundary": {
+      "lawData": "샘플 데이터만 사용하며 실제 최신 법령 조회가 아니다.",
+      "futureIntegration": "법제처 API는 서버에서 호출하고 일일 결과를 Supabase에 저장한다.",
+      "credentials": "법제처 인증값은 클라이언트 HTML에 저장하지 않는다.",
+      "excluded": [
+        "배포·사이트 공개",
+        "자동 법률판단"
+      ]
+    }
+  },
+  "dataDomains": [
+    "프로젝트·사업시행자·사업참여기관",
+    "부지·건축계획",
+    "주요일정·인허가·공정",
+    "원가항목·언더라이팅 예산·계약·기성·지급·현재 기준·변경이력·계약집행",
+    "출자·대출·담보·보증",
+    "계약·문서·공문·버전",
+    "현안·변경이력",
+    "국토부 보고 의무·보고서·제출 스냅샷",
+    "lawCatalog·lawUpdateRuns·lawChanges·projectLawImpacts",
+    "costIncreaseEvents·projectAlerts"
+  ],
+  "acceptanceTests": [
+    "1,280×800 이상에서 전체 화면 가로 넘침이 없어야 한다.",
+    "일반 UI 글꼴은 14px 미만이 없어야 한다.",
+    "차트의 레이블·범례가 겹치거나 잘리지 않아야 한다.",
+    "모든 차트는 호버 세부정보와 클릭 상세 동작을 가져야 한다.",
+    "세부 사업비 표는 전체 합계와 항목별 구성비를 항상 보여야 한다.",
+    "모든 프로젝트에서 국토부 보고서 생성 시 필수 매핑값 누락이 없어야 한다.",
+    "사업비 증감 차트는 전체 상승·하락 합계와 세부내역을 연결해야 한다.",
+    "파이낸싱 화면은 만기 차트를 제거하고 약정·실행·잔액을 한 화면에서 비교해야 한다.",
+    "국토부 보고서 6쪽과 별지 제2호에서 플랫폼 보유 데이터가 입력칸을 벗어나지 않고 표시되어야 한다.",
+    "세부 사업비 수정으로 최종 예상사업비가 증가하면 원가상승 이벤트와 알림이 함께 생성되어야 한다.",
+    "평당가는 연면적 평수 기준으로 계산하고 연면적 미입력 시 계산하지 않아야 한다.",
+    "법령 업데이트 화면은 샘플 데이터임을 표시하고 실제 최신 정보로 오인시키지 않아야 한다.",
+    "국토부 보고서 생성 화면은 세 공식 법령 링크와 보고 관련 시행일을 표시해야 한다.",
+    "원가현황의 KPI 4개와 평당가 2개는 1280px 이상에서 72px 한 줄이어야 한다.",
+    "사업개요는 최초 접힘이며 aria-expanded와 본문 hidden 상태가 일치해야 한다.",
+    "최초 언더라이팅은 확정 스냅샷으로 보존하고 현재 기준 금액만 일반 편집자가 수정할 수 있어야 한다.",
+    "행 순서 변경은 같은 대분류에서만 허용하고 두 원가 표에 동일하게 반영되며 새로고침 후에도 유지되어야 한다.",
+    "검색·정렬 중 순서 변경은 비활성화하고 교차 대분류 이동은 422, 오래된 순서 버전은 409를 반환해야 한다.",
+    "삭제·복구·실행취소는 참조 무결성과 권한을 확인하고 원 변경 및 복구 감사이력을 남겨야 한다.",
+    "보고서 제출 모드는 작성사례 대체값 0건이어야 하며 필드 manifest 전수검수와 승인자 서명 후에만 확정할 수 있다.",
+    "보고서 100% 화면과 300dpi 인쇄에서 텍스트·격자 겹침, 칸 이탈, 글자 잘림, 8.5px 미만 글꼴이 0건이어야 한다.",
+    "알림은 전체 사이드바 너비의 단일 카드로 한 건씩 표시하고 이전·다음·삭제·원본 화면 이동을 제공해야 한다."
+  ],
+  "history": [
+    {
+      "version": "개념구상",
+      "summary": "Project-Gate-Issue-Decision-Impact를 중심으로 개발사업 정보와 의사결정 이력을 조직 지식으로 축적하는 구상."
+    },
+    {
+      "version": "v0.1",
+      "summary": "개발사업 전 기능을 폭넓게 구현했으나 입력 부담과 업무플랫폼 성격이 과도하다는 피드백을 받음."
+    },
+    {
+      "version": "v0.2",
+      "summary": "프로젝트 현황 중심으로 단순화하고 원가관리와 국토부 보고를 우선 기능으로 재정의."
+    },
+    {
+      "version": "v0.3",
+      "summary": "시각화를 강화했으나 색상·폰트·차트·레이아웃 깨짐 및 금액 편집 방식이 요구와 불일치."
+    },
+    {
+      "version": "v0.4",
+      "summary": "Pretendard, 직접 셀 편집, 중앙 변경이력, 접이식 사이드바, 국토부 보고서 배경서식 방식으로 전면 재구축."
+    },
+    {
+      "version": "v0.5",
+      "summary": "정보밀도 상향, 차트 상호작용·정렬 재설계, 언더라이팅 예산 용어 통일, 원가표 이중 머리글·구성비·총액, 표준계약서 119개, 플랫폼 명세, 국토부 보고 D-day와 전 프로젝트 보고검증을 추가."
+    },
+    {
+      "version": "v0.6",
+      "summary": "차트 여백·폰트 체계를 재정규화하고 금액을 조·억원 형식으로 표기. 사업비 증감은 전체 상승·하락 폭포형으로 복원하고 월별 자금흐름을 축소 배치. 원가표 구획, 파이낸싱 정보밀도, 문서 탭, 국토부 서식 데이터 입력을 재정비."
+    },
+    {
+      "version": "v0.6.1",
+      "summary": "전 화면 글꼴을 24·16·14px 세 단계로 강제 통일하고, 월별 자금흐름 SVG의 검은 오버레이를 제거. 파이낸싱 핵심지표를 5열 한 줄로 압축하고 국토부 별지 제1호·제2호 입력 레이어를 페이지별 단일 매핑으로 재구축."
+    },
+    {
+      "version": "v0.6.2",
+      "summary": "차트 컴포넌트의 밀도와 상호작용을 최종 조정하고, 모든 사용자 화면의 All-in 금리 표기를 통일. 국토부 별지 제1호의 사업기간·토지대금 지급정보와 별지 제2호의 보고인·사유 좌표를 원본 입력칸에 맞게 재조정."
+    },
+    {
+      "version": "v0.7.0",
+      "summary": "캡처 기반 전면 재검수. 12px 단일 그리드, 개요 행 정렬, 세부 사업비 옅은 그룹 밴드, 파이낸싱 블록 제거, 법정 보고서 구조화 A4 검수본과 제2호 생성 차단을 반영."
+    },
+    {
+      "version": "v0.7.1",
+      "summary": "사용자 제공 250918 부동산개발사업 보고서 엑셀의 4개 시트 구조를 보고서 미리보기에 반영하고, 사업비 증감 강조 스케일·확대 자금흐름·무세로선 세부 사업비 표를 적용."
+    },
+    {
+      "version": "v0.7.2",
+      "summary": "원본 국토부 PDF 제1호 6쪽·제2호 1쪽을 실제 img 서식으로 복원하고 셀 좌표 오버레이를 재구축. 사업비 증감을 예산→상승→하락→최종 누적점이 연결되는 선형 확대축 폭포형으로 수정."
+    },
+    {
+      "version": "v0.8.0",
+      "summary": "법령 업데이트 시제품, 원가상승 사유·알림·이력, 연면적 기준 평당가, 사업개요 9행 재정렬, 평당 공사비 축 보정, 사업비·자금조달 누적도식, 국토부 보고서 법적 근거를 추가."
+    },
+    {
+      "version": "v0.8.1",
+      "summary": "원가 KPI·평당가를 6칸 한 줄로 축소하고 상승요인을 바로 아래 배치. 본문 통합알림을 사이드바 4:3 개별 알림센터로 이전하고 이동·삭제·되돌리기 추가. 사업개요 기본 접힘과 상승·하락 공통 사유 기준 적용."
+    },
+    {
+      "version": "v0.9.0",
+      "summary": "포트폴리오를 프로젝트 표→최초 언더라이팅 대비 현재 사업비 차트로 재구성. 세부사업비를 최초·현재·증감·평당가로 단순화하고 이력 팝업 추가. 월별 자금계획을 계약·집행 현황으로 교체하고 사실형 자동 알림과 개발 착수용 Supabase·법제처 계약을 명세."
+    },
+    {
+      "version": "v0.9.1",
+      "summary": "사이드바 알림을 전체폭 단일 카드와 이전·다음 순환으로 변경. 세부사업비를 기존 밀도의 7열 한 줄 표로 복원하고 구성비·관리, 같은 대분류 내 순서이동·삭제를 추가. 계약·집행 대분류 접기와 국토부 PDF placeholder 제거·기간 분리·샘플 매각값 검증을 반영."
+    },
+    {
+      "version": "v0.9.3",
+      "summary": "세부사업비 드래그에 전체 행 ghost·삽입선을 적용하고 계약·집행에도 동일한 그룹 내 순서변경을 추가. 실행표 sticky 열 겹침을 수정하고 삭제 열·작은 마이너스 버튼·확인 모달을 구현. 실제 작성 XLSX 3종의 재무·담당자·건축·금융 값을 보고서 전용 샘플 fixture로 반영."
+    },
+    {
+      "version": "v0.9.4",
+      "summary": "보고서 샘플의 서로 다른 프로젝트 데이터 혼합을 제거하고 선택 프로젝트 기준의 일관된 가상 검수 데이터로 재구성. 보고서 기본 확대를 100%로 변경하고 최소 8.5px·필드별 manifest·합계 대사를 추가. 실제 개발 명세에 동시성, 순서변경, 삭제복구, 멱등성, 역할, 백업, 보고서 검수·승인 게이트를 보강."
+    }
+  ],
+  "feedback": [
+    "플랫폼은 업무 할 일 관리가 아니라 프로젝트 데이터를 보고 기록·관리하는 대시보드여야 한다.",
+    "모든 탭의 화면은 먼저 구현하되 국토부 보고와 원가관리의 백엔드 기능을 우선한다.",
+    "원가관리에는 직접공사비·간접공사비·인허가비·부담금 등 세부 항목별 언더라이팅 예산, 계약, 기성, 지급, 향후 소요가 필요하다.",
+    "모든 계약조항을 사람이 수기로 입력하지 않고 원본에서 AI가 정리한 조건을 검토하도록 한다.",
+    "불필요한 설명 블록, 준비도·예외사항·신뢰도 지표를 제거한다.",
+    "대표이사가 전체 프로젝트에 접근하는 가정으로 시제품을 만들고 실제 구축 시 프로젝트 접근권한을 적용한다.",
+    "데이터는 Supabase에 저장하고 GitHub는 코드·버전·README·설계·운영 이력을 관리한다.",
+    "색상과 구성은 초기 버전의 차분한 남색·파랑 체계를 유지하고 장식성 수직선을 사용하지 않는다.",
+    "모든 주요 데이터는 셀 더블클릭으로 직접 수정하며 금액은 원 단위 입력, 억원 단위 조회로 한다.",
+    "차트와 표는 페이지·컴포넌트·블록별로 실제 캡처 검수한다.",
+    "사업개요의 기본정보와 부지·건축정보를 통합하고 면적은 ㎡와 평, 층수는 지상·지하로 표시한다.",
+    "국토부 보고서는 법정 서식에 값을 자동 배치하고 보고에 필요한 데이터가 플랫폼 안에 모두 있어야 한다.",
+    "문서 탭에는 제공된 표준계약서와 다양한 문서·공문·버전 관리 예시를 충분히 포함한다.",
+    "플랫폼 명세 탭은 다른 AI가 동일한 플랫폼을 재현할 수 있을 정도로 SDD·TDD·기능·데이터·피드백 이력을 담는다.",
+    "차트 내부 여백을 축소하고 프로젝트별 사업비 현황, 사업비 증감, 원가 구성, 월별 자금흐름의 정보밀도를 높인다.",
+    "1조원 이상 금액은 2조 3,850억원 형식으로 표시한다.",
+    "사업비 증감은 전체 상승·하락으로 집계하고 호버·클릭으로 원인을 확인한다.",
+    "화면 글꼴 크기는 24px·16px·13px의 3단계로 통일한다.",
+    "세부 사업비 표의 언더라이팅·계약 완료·계약 필요·최종 전망 구획을 경계선과 헤더 배경으로 구분한다.",
+    "파이낸싱의 만기 차트를 제거하고 자금구성 및 금융기관별 약정·잔액을 압축한다.",
+    "문서 탭에서는 표준계약서 하위 탭을 제거한다.",
+    "국토부 보고서의 인허가 경과·추진경과·신탁·보증·금융·공사·분양 정보를 추가하고 셀 안에 맞춰 표시한다.",
+    "법정 보고서 입력값은 기존 레이어를 중첩하지 않고 페이지별 단일 좌표 매핑으로 출력하며, 긴 값은 법정 셀 폭에 맞춰 축약하거나 줄바꿈한다.",
+    "법정 서식의 인쇄 문구 위에 값이 겹치지 않도록 연·월·기간, 토지대금 지급내역, 보고인 정보를 각 입력칸 단위로 분리 배치한다.",
+    "자금구성 차트는 각 구성요소를 호버하면 금액을 표시하고 클릭하면 전체 데이터를 조회한다.",
+    "기관별 약정·잔액을 카드 블록으로 만들지 않고 단일 상세표에 통합한다.",
+    "법정 보고서에 근거 없는 사유·일자·기관 정보를 자동 생성하지 않는다.",
+    "예정일을 승인일 칸에 넣지 않고 실제 승인일만 출력한다.",
+    "사업비 증감의 빨강·파랑 막대는 실제 금액 라벨을 유지하면서 작은 값도 보이도록 강조 스케일을 사용한다.",
+    "세부 사업비 표는 세로 경계선을 없애고 그룹 면색과 명시적 컬럼 너비로 구분한다.",
+    "행 우측의 점 세 개 대신 텍스트 관리 버튼을 사용한다.",
+    "국토부 보고서는 사용자가 제공한 엑셀 4개 시트 구조에 작성한다.",
+    "사업비 증감은 예산 상단에서 상승이 시작하고 상승 끝에서 하락이 시작하며 하락 끝은 최종 사업비 상단과 일치해야 한다.",
+    "국토부 보고서는 원본 PDF를 img로 그대로 표시하고 값만 셀 내부에 배치한다.",
+    "법령 업데이트는 샘플로 명확히 표시하고 실제 API 연동을 가장하지 않는다.",
+    "원가상승은 최종 예상사업비 전후값으로 판정하고 임계값 이상이면 사유를 저장 전에 받는다.",
+    "사업비와 확정 조달은 같은 절대 금액축으로 비교하고 부족분을 숨기지 않는다.",
+    "프로젝트·개요 본문에 합산 알림을 반복하지 않고 사이드바에서 사건별로 표시한다.",
+    "사업개요는 기본 접힘이며 프로젝트별 펼침 상태를 저장한다.",
+    "최종 예상사업비의 상승과 하락 모두 같은 중요성 기준으로 사유를 받는다.",
+    "포트폴리오의 요약 KPI와 사업단계 블록을 제거하고 프로젝트 표를 먼저 보여준다.",
+    "세부 사업비는 최초 언더라이팅과 현재 기준 사업비 중심으로 표시하고 계약·기성·지급은 계약·집행 현황에서 관리한다.",
+    "알림은 행동을 요구하지 않고 데이터가 어떻게 바뀌었는지를 사실로 알린다.",
+    "알림은 한 번에 한 건만 보고 이전·다음으로 순환한다.",
+    "세부사업비는 한 행 한 줄이며 구성비는 독립 열, 하위항목은 같은 대분류 안에서 순서변경·삭제할 수 있다.",
+    "법정 PDF에는 해당 없음 텍스트를 셀을 가로질러 쓰지 않고 비대상 값은 공란으로 둔다.",
+    "드래그 핸들은 시작점일 뿐 전체 행이 이동하는 시각 피드백을 제공한다.",
+    "계약·집행 현황에서도 같은 원가 sortOrder를 사용해 두 표의 순서를 동기화한다.",
+    "원가항목 삭제는 확인 모달에서 삭제·취소를 다시 선택한 뒤 반영한다.",
+    "자동 overflow 0만으로 보고서를 통과시키지 않고 1~6쪽을 100% 확대 이미지로 직접 전수검수한다.",
+    "작성사례 값은 실제 제출 데이터의 fallback으로 사용하거나 다른 프로젝트 정보와 혼합하지 않는다.",
+    "실제 서비스의 모든 데이터 변경·추가·삭제·순서변경·복구는 서버 트랜잭션 안에서 감사이력과 함께 기록한다."
+  ],
+  "reproduction": {
+    "technology": "단일 HTML 시제품. 실제 구축은 Supabase PostgreSQL + 프런트엔드 + GitHub 문서·마이그레이션 관리.",
+    "renderOrder": [
+      "전역 디자인 토큰",
+      "사이드바·상단바",
+      "공통 표·편집기",
+      "중앙 변경이력",
+      "프로젝트 현황",
+      "개요",
+      "원가 및 자금 관리",
+      "파이낸싱",
+      "인허가·공정",
+      "문서",
+      "국토부 보고서",
+      "플랫폼 명세"
+    ],
+    "mustPreserve": [
+      "탭명",
+      "용어",
+      "색상 의미",
+      "금액 단위 처리",
+      "직접 편집 방식",
+      "보고서 데이터 매핑",
+      "변경 이력",
+      "표준계약서 목록",
+      "v0.7.2 원본 PDF 제1호 6쪽·제2호 1쪽 배경과 좌표 오버레이",
+      "development-platform-v072 저장값은 롤백용으로 보존하고 v080 키에 변환 저장"
+    ]
+  },
+  "lawMonitoring": {
+    "prototype": true,
+    "liveApi": false,
+    "futureSource": "법제처 국가법령정보 공동활용 API",
+    "futureStorage": "Supabase",
+    "credentialPolicy": "인증값은 서버에서만 사용",
+    "entities": [
+      "lawCatalog",
+      "lawUpdateRuns",
+      "lawChanges",
+      "projectLawImpacts"
+    ]
+  },
+  "costIncreaseContract": {
+    "threshold": "beforeValue = 0 ? 500000000 : min(abs(beforeValue) * 0.03, 500000000)",
+    "basis": "edited field value immediately before change",
+    "directions": [
+      "increase",
+      "decrease"
+    ],
+    "atomicWrite": [
+      "cost value",
+      "cost_change_event",
+      "audit_event",
+      "notification"
+    ],
+    "deprecatedName": "costIncreaseContract는 costChangeContract와 동일 규칙을 사용하며 상승 전용 계약으로 사용하지 않는다."
+  },
+  "dataContracts": {
+    "lawCatalog": [
+      "id",
+      "name",
+      "type",
+      "category",
+      "officialUrl",
+      "announcedAt",
+      "effectiveAt"
+    ],
+    "lawUpdateRuns": [
+      "checkedAt",
+      "sourceDate",
+      "added",
+      "amended",
+      "repealed",
+      "status"
+    ],
+    "lawChanges": [
+      "lawId",
+      "article",
+      "beforeVersion",
+      "afterVersion",
+      "summary",
+      "officialUrl"
+    ],
+    "projectLawImpacts": [
+      "projectId",
+      "changeId",
+      "matchedBy",
+      "relevance",
+      "status",
+      "reviewedBy"
+    ],
+    "costIncreaseEvents": [
+      "projectId",
+      "costItemId",
+      "beforeForecast",
+      "afterForecast",
+      "delta",
+      "threshold",
+      "reasonCode",
+      "reasonText",
+      "occurredAt",
+      "owner",
+      "sourceDoc",
+      "status",
+      "changeLogId"
+    ],
+    "projectAlerts": [
+      "type",
+      "projectId",
+      "sourceId",
+      "amount",
+      "status",
+      "occurredAt",
+      "dismissedAlertIds"
+    ],
+    "costChangeEvents": [
+      "projectId",
+      "costItemId",
+      "field",
+      "beforeValue",
+      "afterValue",
+      "valueDelta",
+      "beforeForecast",
+      "afterForecast",
+      "forecastDelta",
+      "threshold",
+      "reasonCode",
+      "reasonText",
+      "sourceDoc",
+      "status",
+      "changeLogId"
+    ]
+  },
+  "prototypeBoundary": {
+    "lawData": "샘플 데이터만 사용하며 실제 최신 법령 조회가 아니다.",
+    "futureIntegration": "법제처 API는 서버에서 호출하고 일일 결과를 Supabase에 저장한다.",
+    "credentials": "법제처 인증값은 클라이언트 HTML에 저장하지 않는다.",
+    "excluded": [
+      "배포·사이트 공개",
+      "자동 법률판단"
+    ]
+  },
+  "costChangeContract": {
+    "threshold": "beforeValue = 0 ? 500000000 : min(abs(beforeValue) * 0.03, 500000000)",
+    "basis": "edited field value immediately before change",
+    "directions": [
+      "increase",
+      "decrease"
+    ],
+    "atomicWrite": [
+      "cost value",
+      "cost_change_event",
+      "audit_event",
+      "notification"
+    ]
+  },
+  "backendBlueprint": {
+    "status": "implementation contract draft; no live connection in this HTML; migration DDL and OpenAPI remain required",
+    "stack": [
+      "PostgreSQL/Supabase Database",
+      "Supabase Auth",
+      "RLS and explicit grants",
+      "private Supabase Storage",
+      "Edge Functions",
+      "Cron(pg_cron)+pg_net",
+      "Vault/Edge Function Secrets"
+    ],
+    "moneyType": "numeric(20,0)",
+    "timeType": "timestamptz",
+    "dateType": "date",
+    "identifierType": "text when leading zero matters",
+    "tables": {
+      "access": [
+        "profiles",
+        "organizations",
+        "organization_members",
+        "projects",
+        "project_members"
+      ],
+      "cost": [
+        "cost_items",
+        "cost_values",
+        "cost_change_events"
+      ],
+      "documents": [
+        "documents",
+        "document_versions"
+      ],
+      "law": [
+        "law_sources",
+        "law_catalog",
+        "law_versions",
+        "law_articles",
+        "law_change_events",
+        "law_sync_runs",
+        "law_sync_items",
+        "project_law_matches",
+        "project_law_reviews"
+      ],
+      "reports": [
+        "report_templates",
+        "report_snapshots",
+        "report_snapshot_files",
+        "report_template_mappings",
+        "report_snapshot_validations",
+        "report_field_reviews"
+      ],
+      "system": [
+        "notifications",
+        "notification_dismissals",
+        "audit_events",
+        "idempotency_keys",
+        "outbox_events",
+        "backup_restore_drills"
+      ]
+    },
+    "rls": {
+      "anon": "deny all",
+      "membership": "organization_members and project_members live lookup",
+      "viewer": "select",
+      "editor": "project data insert/update",
+      "reportApprover": "finalize report snapshots",
+      "lawWrite": "service only",
+      "auditWrite": "server only",
+      "requirements": [
+        "RLS on every exposed table",
+        "explicit grants per operation",
+        "UPDATE also needs SELECT policy",
+        "security_invoker views",
+        "FK and membership indexes"
+      ]
+    },
+    "storage": {
+      "buckets": [
+        "project-documents",
+        "legal-raw",
+        "report-snapshots"
+      ],
+      "visibility": "private",
+      "path": "{orgId}/{projectId}/...",
+      "versioning": "append new document_versions; do not overwrite finalized report files",
+      "metadata": [
+        "bucket",
+        "path",
+        "size_bytes",
+        "mime_type",
+        "sha256",
+        "status",
+        "uploaded_by",
+        "uploaded_at",
+        "scanned_at",
+        "supersedes_id"
+      ],
+      "rules": [
+        "private buckets only",
+        "allow-listed MIME and size limit",
+        "SHA-256 verification and duplicate policy",
+        "malware scan before ready",
+        "multipart abort and orphan cleanup",
+        "final report file overwrite denied",
+        "signed URL short TTL and download audit"
+      ]
+    },
+    "lawApi": {
+      "approvalRequired": true,
+      "secret": "OC in Edge Function Secret; never URL logs, DB, or client",
+      "list": "GET https://www.law.go.kr/DRF/lawSearch.do target=eflaw type=JSON",
+      "body": "GET https://www.law.go.kr/DRF/lawService.do target=eflaw type=JSON",
+      "dailyHistory": "GET https://www.law.go.kr/DRF/lawSearch.do target=lsHstInf regDt=YYYYMMDD display=100 page=N",
+      "articleHistory": "GET https://www.law.go.kr/DRF/lawService.do target=lsJoHstInf ID + JO",
+      "pagination": "collect totalCnt/display/page; normalize one-item vs array",
+      "integrity": "store sanitized source URL, fetched_at, status, duration, response SHA-256, raw payload path"
+    },
+    "jobs": {
+      "timezone": "Asia/Seoul",
+      "schedule": "daily",
+      "catchUp": "last_successful_source_date + 1 through today KST",
+      "idempotency": "unique(job_key, source_date, scope_hash) plus advisory lock",
+      "retry": "timeout/429/5xx exponential backoff with jitter; maximum 5",
+      "terminalErrors": [
+        "400",
+        "401",
+        "403",
+        "schema parse error"
+      ],
+      "partial": "persist failed items and next_attempt_at; replay before newest date"
+    },
+    "edgeFunctions": {
+      "lawSyncDaily": "POST /functions/v1/law-sync-daily -> 202 {runId,status}",
+      "lawSyncReplay": "POST /functions/v1/law-sync-replay",
+      "lawSyncManual": "POST /functions/v1/law-sync-manual",
+      "reportCreate": "POST /functions/v1/report-snapshots with idempotencyKey",
+      "reportFinalize": "POST /functions/v1/report-snapshots/{id}/finalize",
+      "reportDownload": "POST /functions/v1/report-snapshots/{id}/download-url -> short TTL signed URL"
+    },
+    "reportSnapshot": {
+      "immutable": true,
+      "fields": [
+        "template version and hash",
+        "coordinate manifest version",
+        "canonical payload JSON and SHA-256",
+        "project revision",
+        "law version refs",
+        "generated/finalized actor and time"
+      ],
+      "flow": [
+        "pending DB row",
+        "private Storage upload",
+        "hash verification",
+        "ready/final"
+      ],
+      "correction": "new snapshot with supersedes_id"
+    },
+    "tests": [
+      "empty DB migration and repeatability",
+      "PK/FK/CHECK/UNIQUE and FK-index",
+      "RLS allow/deny matrix",
+      "Storage cross-project denial and signed URL expiry",
+      "secret redaction scan",
+      "law parser golden fixtures and pagination",
+      "sync concurrent idempotency/retry/partial catch-up",
+      "audit event tamper denial",
+      "report snapshot immutability and 6+1 page regression"
+    ],
+    "auditContract": {
+      "startsAt": "the first production user and every environment thereafter",
+      "scope": [
+        "INSERT",
+        "UPDATE",
+        "DELETE and soft delete",
+        "status transitions",
+        "membership and role changes",
+        "document version creation or replacement",
+        "cost and financing changes",
+        "permit and schedule changes",
+        "law impact review",
+        "report snapshot generation and finalize",
+        "REORDER",
+        "RESTORE and undo",
+        "notification dismiss",
+        "file download and export",
+        "import and backfill",
+        "automated job mutation"
+      ],
+      "excluded": [
+        "clicks",
+        "page views",
+        "non-mutating UI interactions"
+      ],
+      "table": "audit_events",
+      "fields": [
+        "id bigint identity",
+        "organization_id",
+        "project_id nullable",
+        "actor_user_id nullable",
+        "actor_type",
+        "action",
+        "entity_type",
+        "entity_id",
+        "before_json",
+        "after_json",
+        "reason nullable",
+        "source",
+        "request_id",
+        "correlation_id",
+        "created_at timestamptz",
+        "entity_version_before",
+        "entity_version_after",
+        "transaction_id",
+        "idempotency_key",
+        "causation_id",
+        "operation_status",
+        "schema_version",
+        "metadata_json",
+        "recorded_at timestamptz"
+      ],
+      "writeRule": "the server-side RPC, Edge Function, or private-schema trigger writes the business change and audit row in the same database transaction",
+      "clientRule": "authenticated and anon roles cannot INSERT, UPDATE, or DELETE audit_events",
+      "immutability": "append-only; corrections create a new audit event and never rewrite history",
+      "deleteRule": "hard and soft deletes must retain before_json and deletion actor",
+      "fileRule": "document bytes remain in private Storage while version metadata and SHA-256 are audited",
+      "retention": "no automatic purge until the organization approves a retention and archival policy",
+      "verification": [
+        "one audit row per successful mutation",
+        "zero audit rows for rejected or rolled-back mutations",
+        "actor/request_id/before/after consistency",
+        "direct client tamper denied",
+        "server secret and sensitive fields redacted"
+      ]
+    },
+    "concurrency": {
+      "columns": [
+        "version bigint",
+        "updated_at timestamptz",
+        "updated_by"
+      ],
+      "request": "expectedVersion or If-Match",
+      "conflict": "409 VERSION_CONFLICT with currentVersion and currentRecord",
+      "aggregateRule": "delete, restore and reorder lock the parent and increase order_version in the same transaction"
+    },
+    "reorder": {
+      "columns": [
+        "parent_id",
+        "sort_order",
+        "order_version"
+      ],
+      "rpc": "reorder_cost_items(parentId, orderedIds, expectedOrderVersion, idempotencyKey)",
+      "sameParentOnly": true,
+      "crossParent": "422",
+      "staleVersion": "409",
+      "audit": "one REORDER event with before_order and after_order"
+    },
+    "idempotency": {
+      "table": "idempotency_keys",
+      "scope": [
+        "organization_id",
+        "actor_id",
+        "key"
+      ],
+      "fields": [
+        "request_hash",
+        "response_json",
+        "status",
+        "expires_at"
+      ],
+      "samePayload": "return the original response and create zero duplicates",
+      "differentPayload": "409 IDEMPOTENCY_KEY_REUSED"
+    },
+    "softDelete": {
+      "columns": [
+        "deleted_at",
+        "deleted_by",
+        "delete_reason",
+        "delete_audit_id",
+        "restored_at",
+        "restored_by"
+      ],
+      "defaultQuery": "exclude deleted rows",
+      "restore": "authorized restore links the original DELETE audit id",
+      "hardDelete": "service-only after approved retention period and dependency check"
+    },
+    "backup": {
+      "database": "PITR plus daily backup",
+      "storage": "private object replication or versioned backup",
+      "targets": [
+        "RPO and RTO approved before launch",
+        "quarterly restore drill",
+        "100% DB snapshot hash and Storage file hash reconciliation"
+      ],
+      "retention": "organization-approved retention and legal hold policy"
+    },
+    "roles": {
+      "viewer": [
+        "project.read",
+        "report.final.read"
+      ],
+      "costEditor": [
+        "cost.current.update",
+        "execution.update",
+        "costReason.create"
+      ],
+      "costApprover": [
+        "underwriting.finalize",
+        "costChange.approve",
+        "cost.restore"
+      ],
+      "reportPreparer": [
+        "report.preflight",
+        "report.draft.create",
+        "report.field.review"
+      ],
+      "reportApprover": [
+        "report.warning.accept",
+        "report.finalize"
+      ],
+      "projectAdmin": [
+        "member.manage",
+        "costItem.create",
+        "costItem.delete",
+        "costItem.reorder"
+      ],
+      "auditor": [
+        "audit.read",
+        "report.snapshot.read"
+      ]
+    },
+    "authorizationMatrix": {
+      "projects": {
+        "viewer": [
+          "SELECT"
+        ],
+        "costEditor": [
+          "SELECT"
+        ],
+        "costApprover": [
+          "SELECT"
+        ],
+        "reportPreparer": [
+          "SELECT"
+        ],
+        "reportApprover": [
+          "SELECT"
+        ],
+        "projectAdmin": [
+          "SELECT",
+          "INSERT",
+          "UPDATE"
+        ],
+        "auditor": [
+          "SELECT"
+        ]
+      },
+      "costItems": {
+        "viewer": [
+          "SELECT"
+        ],
+        "costEditor": [
+          "SELECT",
+          "UPDATE current values"
+        ],
+        "costApprover": [
+          "SELECT",
+          "UPDATE",
+          "RESTORE"
+        ],
+        "projectAdmin": [
+          "SELECT",
+          "INSERT",
+          "UPDATE",
+          "SOFT_DELETE",
+          "REORDER"
+        ],
+        "auditor": [
+          "SELECT"
+        ]
+      },
+      "reportSnapshots": {
+        "viewer": [
+          "SELECT finalized"
+        ],
+        "reportPreparer": [
+          "SELECT",
+          "INSERT draft",
+          "UPDATE review"
+        ],
+        "reportApprover": [
+          "SELECT",
+          "FINALIZE"
+        ],
+        "auditor": [
+          "SELECT"
+        ]
+      },
+      "auditEvents": {
+        "auditor": [
+          "SELECT"
+        ],
+        "projectAdmin": [
+          "SELECT project scope"
+        ],
+        "server": [
+          "INSERT only"
+        ]
+      },
+      "storageObjects": {
+        "viewer": [
+          "SELECT authorized final"
+        ],
+        "costEditor": [
+          "INSERT project evidence"
+        ],
+        "reportPreparer": [
+          "INSERT draft"
+        ],
+        "reportApprover": [
+          "SELECT",
+          "FINALIZE metadata"
+        ],
+        "server": [
+          "DELETE orphan only"
+        ]
+      }
+    },
+    "apiContracts": {
+      "projectCrud": "GET/POST/PATCH /projects with membership, expectedVersion and idempotencyKey",
+      "costMutation": "PATCH /projects/{projectId}/cost-items/{id}/values",
+      "costReorder": "POST /projects/{projectId}/cost-items/reorder",
+      "costDeleteRestore": "POST /projects/{projectId}/cost-items/{id}/delete|restore",
+      "executionMutation": "PATCH /projects/{projectId}/execution/{id}",
+      "documentUpload": "POST /projects/{projectId}/documents/initiate + complete",
+      "reportPreflight": "POST /projects/{projectId}/reports/preflight",
+      "reportDraft": "POST /projects/{projectId}/report-snapshots",
+      "reportReview": "POST /report-snapshots/{id}/field-reviews",
+      "reportFinalize": "POST /report-snapshots/{id}/finalize",
+      "pagination": "cursor based with stable sort key and limit",
+      "commonRequest": [
+        "idempotencyKey",
+        "expectedVersion",
+        "requestId"
+      ],
+      "commonResponse": [
+        "data",
+        "version",
+        "requestId"
+      ],
+      "errors": "use productionContracts.errorModel"
+    },
+    "errorModel": [
+      "400 VALIDATION_ERROR",
+      "401 AUTH_REQUIRED",
+      "403 FORBIDDEN",
+      "404 NOT_FOUND",
+      "409 VERSION_CONFLICT",
+      "409 IDEMPOTENCY_KEY_REUSED",
+      "422 CROSS_PARENT_REORDER",
+      "429 RATE_LIMITED",
+      "500 INTERNAL_ERROR"
+    ]
+  },
+  "reportOverlayContract": {
+    "modes": {
+      "sample": "가상 검수 데이터. 제출 불가 워터마크와 출처 표시",
+      "submission": "선택 프로젝트의 확정 데이터만 사용하며 fixture fallback 0건"
+    },
+    "sampleWorkbooks": [
+      "250923_부동산개발사업 보고서_팩토리얼 시청.xlsx",
+      "251001_부동산개발사업 보고서_팩토리얼 용산.xlsx",
+      "251001_부동산개발사업 보고서_세운5구역.xlsx"
+    ],
+    "sampleUsage": "필드 형식, 입력 밀도, 반복행과 공란 정책 검수에만 사용하고 프로젝트 데이터와 혼합하지 않는다.",
+    "mappingFields": [
+      "template_id",
+      "template_version",
+      "template_hash",
+      "sheet_name",
+      "cell_or_range",
+      "field_key",
+      "source_path",
+      "source_record_id",
+      "source_revision",
+      "as_of",
+      "type",
+      "required",
+      "formatter",
+      "blank_policy",
+      "precedence",
+      "repeat_group",
+      "row_start",
+      "row_stride",
+      "max_rows",
+      "overflow_policy"
+    ],
+    "fieldManifest": [
+      "report_type",
+      "project_id",
+      "page",
+      "section",
+      "field_id",
+      "label",
+      "source_entity",
+      "source_field",
+      "source_record_id",
+      "source_revision",
+      "as_of",
+      "source_value",
+      "formatter",
+      "unit",
+      "expected_text",
+      "target_x",
+      "target_y",
+      "target_width",
+      "target_height",
+      "template_version",
+      "template_hash",
+      "actual_text",
+      "review_state",
+      "reviewer_id",
+      "reviewed_at",
+      "screenshot_crop_path",
+      "note",
+      "issue_id"
+    ],
+    "repeatRule": "stable source IDs and explicit order; capacity overflow must block generation or create an approved continuation page; silent slice is forbidden",
+    "validationOwnership": {
+      "client": "입력 안내와 빠른 사전검사",
+      "server": "template and mapping version based canonical validation",
+      "preparer": "field-level review",
+      "approver": "warnings disposition and finalization"
+    },
+    "snapshotStates": [
+      "draft",
+      "preflight_failed",
+      "generating",
+      "generation_failed",
+      "ready_for_review",
+      "in_review",
+      "approved",
+      "finalized",
+      "submitted",
+      "accepted",
+      "rejected",
+      "superseded"
+    ],
+    "fieldReviewStates": [
+      "unchecked",
+      "pass",
+      "fail",
+      "not_applicable"
+    ],
+    "qualityGate": {
+      "preview": "100% zoom field-by-field review",
+      "print": "A4 210x297mm, margin 0, 300dpi comparison",
+      "geometry": [
+        "sheet outside 0",
+        "overflow 0",
+        "adjacent cell crossing 0",
+        "text/grid overlap 0",
+        "checkbox center error <=2px",
+        "minimum font 8.5px"
+      ],
+      "reconciliation": [
+        "cost components equal total",
+        "equity plus debt equal total funding",
+        "GFA above plus below equal total",
+        "repeat row count and order match source"
+      ],
+      "approval": "field manifest 100% pass plus reviewer and approver signoff before finalize"
+    },
+    "staleDraft": "if project revision changes after draft creation, mark stale and require explicit regeneration before approval",
+    "snapshotTransaction": {
+      "states": [
+        "pending",
+        "uploading",
+        "hash_verifying",
+        "ready",
+        "final",
+        "failed",
+        "orphaned"
+      ],
+      "failure": "upload or hash failure never changes an existing final snapshot; persist retry state and clean orphan objects",
+      "outbox": "finalization and submission side effects use a transactional outbox",
+      "retry": "same idempotency key resumes or returns the original snapshot without duplicate files or audits"
+    },
+    "immutableFinal": "final PDF, canonical payload, template/mapping refs and hashes cannot be overwritten; correction creates superseding snapshot"
+  },
+  "productionContracts": {
+    "status": "implementation-contract-draft; schema and API details must be finalized before production coding",
+    "roles": {
+      "viewer": [
+        "project.read",
+        "report.final.read"
+      ],
+      "costEditor": [
+        "cost.current.update",
+        "execution.update",
+        "costReason.create"
+      ],
+      "costApprover": [
+        "underwriting.finalize",
+        "costChange.approve",
+        "cost.restore"
+      ],
+      "reportPreparer": [
+        "report.preflight",
+        "report.draft.create",
+        "report.field.review"
+      ],
+      "reportApprover": [
+        "report.warning.accept",
+        "report.finalize"
+      ],
+      "projectAdmin": [
+        "member.manage",
+        "costItem.create",
+        "costItem.delete",
+        "costItem.reorder"
+      ],
+      "auditor": [
+        "audit.read",
+        "report.snapshot.read"
+      ]
+    },
+    "editableFields": {
+      "immutable": [
+        "initial underwriting snapshot",
+        "finalized report snapshot",
+        "audit event"
+      ],
+      "derived": [
+        "subtotal",
+        "total",
+        "variance",
+        "unpaid",
+        "contract balance",
+        "ratios"
+      ],
+      "editable": [
+        "current cost value",
+        "contract",
+        "progress",
+        "paid",
+        "reason and evidence",
+        "workflow status"
+      ]
+    },
+    "concurrency": {
+      "columns": [
+        "version bigint",
+        "updated_at timestamptz",
+        "updated_by"
+      ],
+      "request": "expectedVersion or If-Match",
+      "conflict": "409 VERSION_CONFLICT with currentVersion and currentRecord",
+      "aggregateRule": "delete, restore and reorder lock the parent and increase order_version in the same transaction"
+    },
+    "reorder": {
+      "columns": [
+        "parent_id",
+        "sort_order",
+        "order_version"
+      ],
+      "rpc": "reorder_cost_items(parentId, orderedIds, expectedOrderVersion, idempotencyKey)",
+      "sameParentOnly": true,
+      "crossParent": "422",
+      "staleVersion": "409",
+      "audit": "one REORDER event with before_order and after_order"
+    },
+    "softDelete": {
+      "columns": [
+        "deleted_at",
+        "deleted_by",
+        "delete_reason",
+        "delete_audit_id",
+        "restored_at",
+        "restored_by"
+      ],
+      "defaultQuery": "exclude deleted rows",
+      "restore": "authorized restore links the original DELETE audit id",
+      "hardDelete": "service-only after approved retention period and dependency check"
+    },
+    "idempotency": {
+      "table": "idempotency_keys",
+      "scope": [
+        "organization_id",
+        "actor_id",
+        "key"
+      ],
+      "fields": [
+        "request_hash",
+        "response_json",
+        "status",
+        "expires_at"
+      ],
+      "samePayload": "return the original response and create zero duplicates",
+      "differentPayload": "409 IDEMPOTENCY_KEY_REUSED"
+    },
+    "mutationAtomicity": {
+      "rule": "business row, aggregate, audit event, notification and outbox event commit in one transaction",
+      "success": "one of each required record",
+      "rejectedOrRolledBack": "zero audit and notification records"
+    },
+    "authorizationMatrix": {
+      "projects": {
+        "viewer": [
+          "SELECT"
+        ],
+        "costEditor": [
+          "SELECT"
+        ],
+        "costApprover": [
+          "SELECT"
+        ],
+        "reportPreparer": [
+          "SELECT"
+        ],
+        "reportApprover": [
+          "SELECT"
+        ],
+        "projectAdmin": [
+          "SELECT",
+          "INSERT",
+          "UPDATE"
+        ],
+        "auditor": [
+          "SELECT"
+        ]
+      },
+      "costItems": {
+        "viewer": [
+          "SELECT"
+        ],
+        "costEditor": [
+          "SELECT",
+          "UPDATE current values"
+        ],
+        "costApprover": [
+          "SELECT",
+          "UPDATE",
+          "RESTORE"
+        ],
+        "projectAdmin": [
+          "SELECT",
+          "INSERT",
+          "UPDATE",
+          "SOFT_DELETE",
+          "REORDER"
+        ],
+        "auditor": [
+          "SELECT"
+        ]
+      },
+      "reportSnapshots": {
+        "viewer": [
+          "SELECT finalized"
+        ],
+        "reportPreparer": [
+          "SELECT",
+          "INSERT draft",
+          "UPDATE review"
+        ],
+        "reportApprover": [
+          "SELECT",
+          "FINALIZE"
+        ],
+        "auditor": [
+          "SELECT"
+        ]
+      },
+      "auditEvents": {
+        "auditor": [
+          "SELECT"
+        ],
+        "projectAdmin": [
+          "SELECT project scope"
+        ],
+        "server": [
+          "INSERT only"
+        ]
+      },
+      "storageObjects": {
+        "viewer": [
+          "SELECT authorized final"
+        ],
+        "costEditor": [
+          "INSERT project evidence"
+        ],
+        "reportPreparer": [
+          "INSERT draft"
+        ],
+        "reportApprover": [
+          "SELECT",
+          "FINALIZE metadata"
+        ],
+        "server": [
+          "DELETE orphan only"
+        ]
+      }
+    },
+    "apiContracts": {
+      "projectCrud": "GET/POST/PATCH /projects with membership, expectedVersion and idempotencyKey",
+      "costMutation": "PATCH /projects/{projectId}/cost-items/{id}/values",
+      "costReorder": "POST /projects/{projectId}/cost-items/reorder",
+      "costDeleteRestore": "POST /projects/{projectId}/cost-items/{id}/delete|restore",
+      "executionMutation": "PATCH /projects/{projectId}/execution/{id}",
+      "documentUpload": "POST /projects/{projectId}/documents/initiate + complete",
+      "reportPreflight": "POST /projects/{projectId}/reports/preflight",
+      "reportDraft": "POST /projects/{projectId}/report-snapshots",
+      "reportReview": "POST /report-snapshots/{id}/field-reviews",
+      "reportFinalize": "POST /report-snapshots/{id}/finalize",
+      "pagination": "cursor based with stable sort key and limit",
+      "commonRequest": [
+        "idempotencyKey",
+        "expectedVersion",
+        "requestId"
+      ],
+      "commonResponse": [
+        "data",
+        "version",
+        "requestId"
+      ],
+      "errors": "use productionContracts.errorModel"
+    },
+    "storage": {
+      "metadata": [
+        "bucket",
+        "path",
+        "size_bytes",
+        "mime_type",
+        "sha256",
+        "status",
+        "uploaded_by",
+        "uploaded_at",
+        "scanned_at",
+        "supersedes_id"
+      ],
+      "rules": [
+        "private buckets only",
+        "allow-listed MIME and size limit",
+        "SHA-256 verification and duplicate policy",
+        "malware scan before ready",
+        "multipart abort and orphan cleanup",
+        "final report file overwrite denied",
+        "signed URL short TTL and download audit"
+      ]
+    },
+    "errorModel": [
+      "400 VALIDATION_ERROR",
+      "401 AUTH_REQUIRED",
+      "403 FORBIDDEN",
+      "404 NOT_FOUND",
+      "409 VERSION_CONFLICT",
+      "409 IDEMPOTENCY_KEY_REUSED",
+      "422 CROSS_PARENT_REORDER",
+      "429 RATE_LIMITED",
+      "500 INTERNAL_ERROR"
+    ],
+    "backup": {
+      "database": "PITR plus daily backup",
+      "storage": "private object replication or versioned backup",
+      "targets": [
+        "RPO and RTO approved before launch",
+        "quarterly restore drill",
+        "100% DB snapshot hash and Storage file hash reconciliation"
+      ],
+      "retention": "organization-approved retention and legal hold policy"
+    },
+    "accessibility": {
+      "standard": "WCAG 2.2 AA",
+      "requirements": [
+        "keyboard reorder alternative and aria-live result",
+        "drag handle accessible name and grabbed state",
+        "visible 12px icon with at least 24px hit area",
+        "modal focus trap, Escape, focus return",
+        "table th scope and sticky-cell reading order",
+        "report background aria-hidden and accessible structured summary"
+      ]
+    },
+    "scale": {
+      "targets": [
+        "100+ projects",
+        "1000+ cost rows per project",
+        "100+ history and notification records"
+      ],
+      "rules": [
+        "cursor pagination for histories",
+        "virtualization must preserve sticky columns, focus and keyboard reorder",
+        "ellipsis plus full accessible label for long names",
+        "CSV formula injection prevention"
+      ]
+    }
+  }
+}

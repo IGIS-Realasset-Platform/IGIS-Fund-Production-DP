@@ -1,0 +1,131 @@
+{
+  "version": "0.10.18",
+  "basisVersion": "0.10.17",
+  "date": "2026-10-06",
+  "sourceReview": "docs/v0118-spec.md",
+  "items": [
+    {
+      "id": "REV118-01",
+      "title": "파일 진입·새로고침은 홈",
+      "implemented": true,
+      "verified": true,
+      "status": "구현·논리·해당 실제 검수 완료",
+      "acceptance": "일반파일/새로고침 홈·명시연결/첫탭/환경 보존"
+    },
+    {
+      "id": "REV118-02",
+      "title": "원본 근거 8대분류30초기항목",
+      "implemented": true,
+      "verified": true,
+      "status": "구현·논리·해당 실제 검수 완료",
+      "acceptance": "8대분류30공통·선택명시·초기금액없음·중복없음"
+    },
+    {
+      "id": "REV118-03",
+      "title": "4모델139시트 원항목 대응",
+      "implemented": true,
+      "verified": true,
+      "status": "구현·논리·해당 실제 검수 완료",
+      "acceptance": "4원본139시트·원명/셀/역할/판정 및 SHA 보존"
+    },
+    {
+      "id": "REV118-04",
+      "title": "실제 입력행·같은 셀 수정",
+      "implemented": true,
+      "verified": true,
+      "status": "구현·논리·해당 실제 검수 완료",
+      "acceptance": "모든 실제leaf/깊은소계 같은표·같은셀 원단위"
+    },
+    {
+      "id": "REV118-05",
+      "title": "모든 비용행 동일 손잡이·순서",
+      "implemented": true,
+      "verified": true,
+      "status": "구현·논리·해당 실제 검수 완료",
+      "acceptance": "동일☰·대분류/묶음/leaf 순서와 자식함께"
+    },
+    {
+      "id": "REV118-06",
+      "title": "확인 후 소속·분류 변경",
+      "implemented": true,
+      "verified": true,
+      "status": "구현·논리·해당 실제 검수 완료",
+      "acceptance": "다른소속 확인·목표선택·X/Escape/취소/실패 원복"
+    },
+    {
+      "id": "REV118-07",
+      "title": "원금액·확정본·계약·VAT 보존",
+      "implemented": true,
+      "verified": true,
+      "status": "구현·논리·해당 실제 검수 완료",
+      "acceptance": "총액·참조계산·frozen원문과 projected총액 보존"
+    },
+    {
+      "id": "REV118-08",
+      "title": "열폭·불필요한 설명과 태그 제거",
+      "implemented": true,
+      "verified": true,
+      "status": "구현·논리·해당 실제 검수 완료",
+      "acceptance": "열폭 클릭0·설명/장식태그/코드기본숨김"
+    },
+    {
+      "id": "REV118-09",
+      "title": "CBS분류표·항목 추가",
+      "implemented": true,
+      "verified": true,
+      "status": "구현·논리·해당 실제 검수 완료",
+      "acceptance": "CBS 개별범위/실제근거·추가/삭제재추가"
+    },
+    {
+      "id": "REV118-10",
+      "title": "화면과 같은 순서 단일표 XLSX",
+      "implemented": true,
+      "verified": true,
+      "status": "구현·논리·해당 실제 검수 완료",
+      "acceptance": "한시트 실제명칭·동일순서·금액/표시서식"
+    },
+    {
+      "id": "REV118-11",
+      "title": "실제HTML 3해상도 상호작용",
+      "implemented": true,
+      "verified": true,
+      "status": "구현·논리·해당 실제 검수 완료",
+      "acceptance": "실제HTML3해상도·Edge72행동·실행오류0"
+    },
+    {
+      "id": "REV118-12",
+      "title": "명세·대장·누적·Excel 동기화",
+      "implemented": true,
+      "verified": true,
+      "status": "구현·동기화·독립 검수 완료",
+      "acceptance": "같은ID·245항목 MD/Excel 행·상태·지문 대사"
+    }
+  ],
+  "supersedes": [
+    {
+      "previous": "REV116-01",
+      "current": [
+        "REV118-02"
+      ],
+      "scope": "초기20연구안→원본4모델 근거8대분류30초기항목"
+    },
+    {
+      "previous": "REV117-01",
+      "current": [
+        "REV118-02",
+        "REV118-03"
+      ],
+      "scope": "일반화된 초기 분류·표시 묶음을 모델 근거로 대체. 원자료 보호는 유지"
+    }
+  ],
+  "remaining": [],
+  "evidence": {
+    "logic": ".build/v0118-verification.json",
+    "browser": ".build/v0118-browser/edge-evidence.json",
+    "interactions": ".build/v0118-browser/interaction-evidence.json",
+    "xlsx": ".build/v0118-browser/xlsx-independent-evidence.json",
+    "sourceMap": "docs/v0118-cost-source-map.json",
+    "checklist": ".build/checklist-sync/independent-v0118.json",
+    "report": "outputs/개발사업관리플랫폼_검수기록_v0.10.18.md"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "version": "0.10.33",
+  "asOf": "2026-10-14",
+  "status": "확인한 입력/닫기 결함 교정·집중/실제후보 검수 완료 · 최종129지문 대사 별도 · 클라우드 생성 차단",
+  "items": [
+    {"id":"REV133-01","title":"전역 지침 실제 적용","implemented":true,"verified":true,"status":"기존9원칙 보존·8규칙 정확1회·재주입 확인"},
+    {"id":"REV133-02","title":"입력서식·조건 표시·닫기 동작","implemented":true,"verified":true,"status":"SPC/초안/옵션·등록정보 좌우서식·오류입력열·항목정보 거짓경고/부모복귀 교정. 집중8+4/actual후보4해상도·3해상도 통과, 원자료불변"},
+    {"id":"REV133-03","title":"전체 요구사항·현재 문서 연결","implemented":true,"verified":true,"status":"343기록·최신25업무 대조·14종류 분리·현재링크 교정. a1cbc 중간본128/actual근거는 보존하며 최종129/HTML/Excel 지문은 일치기록으로 확인"},
+    {"id":"REV133-04","title":"별도 검증 프로젝트 생성·보호배포","implemented":false,"verified":false,"status":"사용자 승인 있음 · Supabase 비용도구 UNAVAILABLE/Vercel 생성권한403 · 생성/배포0"}
+  ],
+  "deployment": {"stackApproved":true,"stack":["Supabase","Vercel"],"selectedAccountCreationApproved":true,"supabaseProjectCreated":false,"vercelProjectCreated":false,"previewDeployed":false,"productionDeployed":false,"businessDataTransferred":false,"staffNamePhotoCollectionDeferred":true}
+}

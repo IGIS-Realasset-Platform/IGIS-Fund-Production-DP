@@ -1,0 +1,83 @@
+{
+  "version": "0.10.12",
+  "basisVersion": "0.10.11",
+  "date": "2026-09-30",
+  "sourceReview": "docs/v0112-spec.md",
+  "verification": ".build/v0112-verification.json",
+  "items": [
+    {
+      "id": "REV112-01",
+      "title": "전문인력 명단·개인별 기록",
+      "implemented": true,
+      "logicEvidence": "v0112-registration",
+      "status": "전문인력11·등록 Edge24·직접퇴사 차단/전용 퇴사·복구 통과",
+      "logicStatus": "passed",
+      "browserEvidence": ".build/v0112-registration/evidence.json"
+    },
+    {
+      "id": "REV112-02",
+      "title": "등록 관리정보·인원 보존·개인정보 경계",
+      "implemented": true,
+      "logicEvidence": "v0112-registration",
+      "status": "수동 인원/숨긴자료/공유법인/개인명단 보고 제외 검증 통과",
+      "logicStatus": "passed"
+    },
+    {
+      "id": "REV112-03",
+      "title": "재무모델 수준 사업비표",
+      "implemented": true,
+      "logicEvidence": "v0112-cost",
+      "status": "원본3모델 재대조·모델표 표시압축·기존 금액 보존 통과",
+      "logicStatus": "passed"
+    },
+    {
+      "id": "REV112-04",
+      "title": "CBS 분류표·포함상태·항목 추가",
+      "implemented": true,
+      "logicEvidence": "v0112-cost",
+      "status": "CBS Edge27·두 텍스트열 전수 수납·항목 추가/중복/원자료 조회 통과",
+      "logicStatus": "passed"
+    },
+    {
+      "id": "REV112-05",
+      "title": "기존 비용 원장·금액·이력 보존",
+      "implemented": true,
+      "logicEvidence": "v0112-cost",
+      "status": "기존 금액관리 방식 보존 검증 통과. 총액 독립예산 전환은 사용자 승인 전 보류",
+      "logicStatus": "passed"
+    },
+    {
+      "id": "REV112-06",
+      "title": "인허가 결과별 복수 조치계획",
+      "implemented": true,
+      "logicEvidence": "v0112-permit",
+      "status": "결과/계획14·실제 결과별 팝업·복수계획 출력 통과",
+      "logicStatus": "passed"
+    },
+    {
+      "id": "REV112-07",
+      "title": "인허가·과거보고·원자료 호환",
+      "implemented": true,
+      "logicEvidence": "v0112-permit",
+      "status": "legacy/빈 결과일/ID/과거 보고 원본 보존·PDF 통과",
+      "logicStatus": "passed"
+    },
+    {
+      "id": "REV112-08",
+      "title": "전체회귀·실화면·명세·Excel 동기화",
+      "implemented": true,
+      "logicEvidence": "v0112-core/v0112-registration/v0112-permit/v0112-cost/v0112-report-workspace",
+      "status": "전체46 검사군·3해상도 Edge·PDF6종30쪽·Excel206 전수 대조",
+      "logicStatus": "passed"
+    },
+    {
+      "id": "REV112-09",
+      "title": "보고서 행동 중심 작업화면",
+      "implemented": true,
+      "logicEvidence": "v0112-report-workspace",
+      "status": "보고 전체셀 Edge16·관리/인허가31 통과. 관리 자식폼 저장/취소 후 미저장 경고 P1 수정·GREEN3 확인",
+      "logicStatus": "passed",
+      "reviewEvidence": ".build/v0112-review/guard-green.json"
+    }
+  ]
+}

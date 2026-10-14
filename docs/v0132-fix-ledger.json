@@ -1,0 +1,16 @@
+{
+  "version": "0.10.32",
+  "asOf": "2026-10-13",
+  "status": "v0.10.32 구현·집중·후보실검수 완료 · 최종 일치기록 별도",
+  "approvedTaxonomySha256": "ca4f4b0c41b245347a2db5fc479d8ac0f315333a5821ac6af662bdcc944c2733",
+  "items": [
+    {"id":"REV132-01","title":"확정 분류 단일 제품 기준","acceptance":"기본37·선택58·VAT6·기존입력4 구별과 old152 전부 대응","implemented":true,"verified":true,"status":"구현·집중·독립 검토 완료 · 최종 일치기록 별도"},
+    {"id":"REV132-02","title":"관리항목별 후보와 포함 제외","acceptance":"한 가족 한 후보·이미포함/추가후/저장직전 제외·분류 문맥 유지","implemented":true,"verified":true,"status":"구현·집중·후보 Edge 검수 완료 · 최종 일치기록 별도"},
+    {"id":"REV132-03","title":"동일예산 중복 합산 경계","acceptance":"포함 총액/상세 한경로·독립범위 공존·금액 임의선택금지","implemented":true,"verified":true,"status":"실제 저장·합계·금융·Excel 반례 통과 · 최종 일치기록 별도"},
+    {"id":"REV132-04","title":"같은셀 편집과 기존자료 보존","acceptance":"원단위/null0/저장취소오류 및 과거·원금액·계약VAT 보존","implemented":true,"verified":true,"status":"후보 Edge·구 저장자료 원금액/코드 연결 보호 통과 · 최종 일치기록 별도"},
+    {"id":"REV132-05","title":"모든 비용표 연결과 한시트 내려받기","acceptance":"본표/후보/입력/합계/Excel 이름·분류·순서·금액·역할 일치","implemented":true,"verified":true,"status":"후보 실제 다운로드·차트/대분류 상세 연결 통과 · 최종 일치기록 별도"},
+    {"id":"REV132-06","title":"9종 프리셋 최종분류 대사","acceptance":"기존금액 보존·신규null·후보제외·등록/취소/재적용/실패/격리","implemented":true,"verified":true,"status":"신규등록9종·canonical37·원금액/실패 보호 통과 · 최종 일치기록 별도"},
+    {"id":"REV132-07","title":"실제 최종 HTML 검수와 지문 연결","acceptance":"의미결함 RED·회귀·Edge3해상도·실제다운로드·최종파일 대사","implemented":true,"verified":true,"status":"후보 r4 실검수 완료 · 최종125/HTML지문 일치기록 별도"},
+    {"id":"REV132-08","title":"누락 원인·재발검사·지침 제안 동기화","acceptance":"근거 있는 원인·프로젝트 규칙/명세/누적/Excel 연결·전역 실제수정 없음","implemented":true,"verified":true,"status":"원인·프로젝트 재발검사·문안 제안 완료 · 최종 체크리스트 일치기록 별도"}
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "version": "0.10.2",
+  "baseline": "approved v0.10.2 usability plan; v0.9.4 reference only, no legacy CSS import",
+  "status": "implemented-awaiting-visual-qa",
+  "visualVerification": "not-run-no-accessible-browser-tab",
+  "requirements": [
+    {"id":"COMMON","scope":"sidebar, project context, inline edit, modal, tooltip, notifications"},
+    {"id":"PORTFOLIO","scope":"search/type/stage filters, 8-column table, initial/current chart, unit cost"},
+    {"id":"OVERVIEW","scope":"9-row folded basics, timeline, permits, cost/finance/report, issues and history"},
+    {"id":"CBS","scope":"stable IDs, dictionary, partial decomposition, null/zero, transfer, historical comparison"},
+    {"id":"STAGES","scope":"header controls, resize, inline draft, immutable confirmation/correction"},
+    {"id":"AREA","scope":"two table rows, acquisition land/GFA, immutable area versions"},
+    {"id":"FUNDS","scope":"CBS/contract/installment hierarchy, gross/net/VAT, partial payments, opening balances"},
+    {"id":"FINANCE","scope":"one-page financing mix, lenders, equity, collateral, guarantees, quarterly history"},
+    {"id":"DOCUMENTS","scope":"search, list/detail, versions, contract condition tabs, folder references"},
+    {"id":"PERMITS","scope":"presets, amendments, action plans, prior inputs, construction progress and sales"},
+    {"id":"PARTNERS","scope":"public reference, internal participation/contacts, stable company IDs"},
+    {"id":"BENCHMARK","scope":"original unit-cost axis/points, cases, market index source versions"},
+    {"id":"REPORT","scope":"original-form variable rows, no appendix, preview/print same source, retained history"},
+    {"id":"COPY","scope":"each screen/modal fixed instructions removed, business data preserved"},
+    {"id":"STORAGE","scope":"key-isolated parsing, no destructive migration, atomic save/audit, retained conflicts"},
+    {"id":"SPEC","scope":"functional/SDD/TDD/data/history/feedback/JSON from same source"}
+  ],
+  "excluded": ["Supabase", "deployment", "live AI", "live law collection", "internal systems", "monthly cashbook", "master lease", "outsourced operations"]
+}

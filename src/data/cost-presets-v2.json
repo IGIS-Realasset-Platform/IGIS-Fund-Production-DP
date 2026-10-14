@@ -1,0 +1,197 @@
+{
+  "schemaVersion": 2,
+  "version": "cost-use-presets-v2",
+  "masterVersion": "company-cbs-v4",
+  "commonGroupKeys": [
+    "land_purchase",
+    "land_acquisition_tax",
+    "land_purchase_fees",
+    "land_acquisition_advice",
+    "direct_demolition",
+    "direct_main",
+    "reserve_construction",
+    "design_main",
+    "design_supervision",
+    "design_pm",
+    "design_survey",
+    "permit_services",
+    "artwork",
+    "utility_works",
+    "levies",
+    "tax_holding_land",
+    "tax_comprehensive",
+    "tax_building",
+    "entity_setup",
+    "entity_closing",
+    "complaints",
+    "marketing",
+    "entity_overhead",
+    "development_advice",
+    "finance_security",
+    "finance_bridge_upfront",
+    "finance_bridge_advice",
+    "finance_bridge_interest",
+    "finance_pf_upfront",
+    "finance_pf_advice",
+    "finance_pf_interest",
+    "reserve_general",
+    "design_cm",
+    "entity_amc",
+    "entity_fmc",
+    "entity_admin",
+    "disposal_fees"
+  ],
+  "presets": [
+    {
+      "id": "mixed_use",
+      "label": "복합개발사업",
+      "projectTypes": [
+        "복합개발사업"
+      ],
+      "itemTypeIds": [
+        "corp_lease"
+      ],
+      "scope": "임대중개·대행수수료 예산 자리. 호텔·주택 비용의 합집합을 자동 생성하지 않습니다.",
+      "itemTypeCodes": [
+        "IGIS-COST:corp_lease"
+      ]
+    },
+    {
+      "id": "office",
+      "label": "오피스",
+      "projectTypes": [
+        "오피스"
+      ],
+      "itemTypeIds": [
+        "corp_lease"
+      ],
+      "scope": "임대중개·대행 예산 자리입니다.",
+      "itemTypeCodes": [
+        "IGIS-COST:corp_lease"
+      ]
+    },
+    {
+      "id": "retail",
+      "label": "리테일",
+      "projectTypes": [
+        "리테일"
+      ],
+      "itemTypeIds": [
+        "corp_lease"
+      ],
+      "scope": "임대중개·대행 예산 자리입니다.",
+      "itemTypeCodes": [
+        "IGIS-COST:corp_lease"
+      ]
+    },
+    {
+      "id": "hotel",
+      "label": "호텔",
+      "projectTypes": [
+        "호텔"
+      ],
+      "itemTypeIds": [
+        "opening_preparation"
+      ],
+      "scope": "개관 전 준비 일괄예산 자리. FF&E·운영사 지원 등 같은 상세금액을 기본행으로 반복하지 않습니다.",
+      "itemTypeCodes": [
+        "IGIS-COST:opening_preparation"
+      ]
+    },
+    {
+      "id": "logistics",
+      "label": "물류",
+      "projectTypes": [
+        "물류"
+      ],
+      "itemTypeIds": [
+        "corp_lease"
+      ],
+      "scope": "임대중개·대행 예산 자리. 특수장비 세부 공종을 일괄 자동 추가하지 않습니다.",
+      "itemTypeCodes": [
+        "IGIS-COST:corp_lease"
+      ]
+    },
+    {
+      "id": "data_center",
+      "label": "데이터센터",
+      "projectTypes": [
+        "데이터센터"
+      ],
+      "itemTypeIds": [
+        "owner_separate_special_equipment_work"
+      ],
+      "scope": "별도 발주한 특수설비 공사 예산 자리. 본 도급에 포함된 기계·전기와 운영사 부담 장비는 제외합니다.",
+      "itemTypeCodes": [
+        "IGIS-COST:owner_separate_special_equipment_work"
+      ]
+    },
+    {
+      "id": "senior_living",
+      "label": "시니어리빙",
+      "projectTypes": [
+        "시니어리빙"
+      ],
+      "itemTypeIds": [
+        "opening_preparation"
+      ],
+      "scope": "개관 전 준비 일괄예산 자리. 장기 정상 운영비와 입주자 부담 비용은 제외합니다.",
+      "itemTypeCodes": [
+        "IGIS-COST:opening_preparation"
+      ]
+    },
+    {
+      "id": "rental_housing",
+      "label": "임대주택",
+      "projectTypes": [
+        "임대주택"
+      ],
+      "itemTypeIds": [
+        "corp_lease"
+      ],
+      "scope": "임대중개·대행 예산 자리. 분양 비용을 자동 추가하지 않습니다.",
+      "itemTypeCodes": [
+        "IGIS-COST:corp_lease"
+      ]
+    },
+    {
+      "id": "for_sale_housing",
+      "label": "분양주택",
+      "projectTypes": [
+        "분양주택"
+      ],
+      "itemTypeIds": [
+        "corp_sales_agency",
+        "corp_showroom",
+        "corp_sales_interest",
+        "corp_sales_guarantee"
+      ],
+      "scope": "분양대행·견본주택·중도금 이자지원·분양보증 예산 자리. 실제 비용과 금액 확정은 별도입니다.",
+      "itemTypeCodes": [
+        "IGIS-COST:corp_sales_agency",
+        "IGIS-COST:corp_showroom",
+        "IGIS-COST:corp_sales_interest",
+        "IGIS-COST:corp_sales_guarantee"
+      ]
+    }
+  ],
+  "rules": {
+    "newAmount": null,
+    "existingProjectAutoApply": false,
+    "newProjectApply": "explicit-project-type-only",
+    "duplicatePolicy": "reuse-by-canonical-cost-type-id",
+    "displayName": "current-taxonomy-runtime",
+    "preserve": [
+      "existing-record-id",
+      "existing-amount",
+      "user-defined-row",
+      "cost-stage",
+      "contract",
+      "vat"
+    ],
+    "canonicalOnly": true,
+    "noOldTypeIdForNew": true
+  },
+  "taxonomyVersion": "company-cost-taxonomy-v4",
+  "approvedTaxonomySha256": "CA4F4B0C41B245347A2DB5FC479D8AC0F315333A5821AC6AF662BDCC944C2733"
+}

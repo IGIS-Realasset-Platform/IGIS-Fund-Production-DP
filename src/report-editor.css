@@ -1,0 +1,57 @@
+/* Main-app editor for Ministry report drafts. Print/PDF rules remain in report.css. */
+.report-edit-intro { margin:0 0 12px; color:var(--muted); }
+.report-edit-sheet { display:grid; gap:18px; margin:0 auto 18px; background:transparent; }
+.report-edit-page { position:relative; width:210mm; min-height:297mm; margin:0 auto; padding:20mm 20mm 18mm; border:1px solid var(--line-strong); background:#fff; box-shadow:0 2px 8px #10243e12; color:#111; font:400 8pt/1.25 Pretendard,'Malgun Gothic',sans-serif; }
+.report-edit-page * { box-sizing:border-box; }
+.report-edit-page-counter { position:absolute; top:14mm; right:20mm; font-size:8pt; }
+.report-edit-page-body { width:170mm; min-height:259mm; }
+.report-edit-page .form-title p { margin:0 0 9pt; font-size:8pt; white-space:pre-wrap; }
+.report-edit-page .form-title h1 { margin:8pt 0 16pt; font-size:16pt; font-weight:600; line-height:1.3; text-align:center; white-space:pre-wrap; }
+.report-edit-page .form-title .form-instruction { margin-bottom:3pt; font-size:7pt; }
+.report-edit-page .form-section { margin:0 0 4pt; }
+.report-edit-page .form-section h2 { margin:3pt 0 4pt; font-size:9pt; font-weight:400; line-height:1.35; white-space:pre-wrap; }
+.report-edit-page .official-form-table,.report-edit-table { width:100%; table-layout:fixed; border-collapse:collapse; border-top:.6pt solid #222; border-bottom:.6pt solid #222; font:400 8pt/1.25 Pretendard,'Malgun Gothic',sans-serif; }
+.report-edit-page .official-form-table th,.report-edit-page .official-form-table td { border:.35pt solid #888; padding:2pt 2.5pt; white-space:pre-wrap; overflow-wrap:anywhere; word-break:normal; text-align:center; vertical-align:middle; font-size:8pt; font-weight:400; line-height:1.25; }
+.report-edit-page .official-form-table th:first-child,.report-edit-page .official-form-table td:first-child { border-left:0; }
+.report-edit-page .official-form-table th:last-child,.report-edit-page .official-form-table td:last-child { border-right:0; }
+.report-edit-page .official-form-table .form-label { background:#f0f0f0; }
+.report-edit-page .official-form-table .form-value { background:#fff; }
+.report-edit-page .form-declaration { margin:12pt 0 15pt; font-size:10pt; line-height:1.65; }
+.report-edit-page .form-declaration>p { margin:0 0 15pt; }
+.report-edit-page .form-sign-date,.report-edit-page .form-signature { text-align:right; }
+.report-edit-page .form-addressee { padding-top:10pt; font-size:12pt; }
+.report-edit-page .form-addressee strong { font-size:13pt; }
+.report-edit-cell { display:grid; gap:3px; min-width:0; }
+.report-edit-cell>.cell-editable { display:block; width:100%; min-width:0; min-height:18px; padding:1px 2px; border:1px dashed transparent; border-bottom-color:var(--blue); border-radius:2px; cursor:text; white-space:pre-wrap; }
+.report-edit-cell>.cell-editable:focus-visible { outline:2px solid var(--blue); outline-offset:1px; }
+.report-edit-cell.is-buffered>.cell-editable { border-color:#c58316; background:#fff8dc; }
+.report-edit-cell>.btn { justify-self:end; min-height:20px; padding:2px 5px; font-size:9px; line-height:1.2; white-space:normal; }
+.report-edit-cell>.report-plan-inline-delete { color:#8a3138; }
+.report-edit-cell>.report-edit-owner { display:flex; justify-content:center; font-size:9px; }
+.report-edit-savebar { position:sticky; z-index:4; top:0; display:flex; align-items:center; justify-content:space-between; gap:12px; margin:0 auto 12px; padding:9px 12px; max-width:210mm; border:1px solid var(--line-strong); border-radius:6px; background:#fff; box-shadow:0 2px 8px #10243e18; }
+.report-edit-savebar+.report-edit-sheet { margin-top:0; }
+.report-workspace-main .report-selectors { align-items:end; }
+.report-primary-actions,.report-management-actions { display:flex; align-items:center; flex-wrap:wrap; gap:8px; margin-top:12px; }
+.report-primary-actions .btn { min-height:38px; }
+.report-management-actions { margin-top:0; }
+.report-inline-editor { margin-top:14px; }
+.report-inline-editor[hidden] { display:none; }
+.report-inline-editor>.panel-body { overflow-x:auto; }
+.report-management { margin-top:14px; }
+.report-edit-binding { display:flex; min-width:0; align-items:center; gap:5px; }
+.report-edit-binding-label { flex:0 0 auto; color:var(--muted); font-size:10px; }
+.report-edit-binding .cell-editable { flex:1 1 auto; width:100%; min-width:0; min-height:18px; padding:1px 2px; border-bottom:1px dashed var(--blue); cursor:text; }
+.report-edit-binding .cell-editable:focus-visible { outline:2px solid var(--blue); outline-offset:1px; }
+.report-edit-owner { justify-content:space-between; }
+.report-edit-owner>span:not(.report-edit-binding-label) { min-width:0; white-space:pre-line; }
+.report-edit-owner .btn { flex:none; font-size:10px; }
+.report-edit-binding.is-readonly { justify-content:center; }
+.report-edit-binding.is-readonly .badge { flex:none; font-size:9px; }
+.report-edit-repeaters { display:grid; gap:12px; margin-top:18px; }
+.report-edit-repeaters>.panel { margin:0; }
+@media(max-width:800px){
+ .report-workspace-section>div { overflow-x:auto; }
+ .report-edit-sheet { min-width:760px; }
+ .report-edit-page { margin-left:0; }
+ .report-edit-owner { align-items:flex-start; flex-direction:column; }
+}

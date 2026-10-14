@@ -1,0 +1,11 @@
+# 비공개 원문·실자료 산출물·검사 파일은 Git에 게시하지 않습니다.
+/.build/
+/outputs/
+/참고자료/
+/.env
+/.env.*
+!/.env.example
+/node_modules/
+/.vercel/
+/dist/
+*.local

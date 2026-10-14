@@ -1,0 +1,587 @@
+{
+  "version": "0.10.6",
+  "basisVersion": "0.10.5",
+  "date": "2026-09-21",
+  "count": 24,
+  "sourceBacklog": "outputs/개발사업관리플랫폼_v0.10.5_평가백로그_2026-09-21.json",
+  "verification": ".build/v0106-verification.json",
+  "logicStatus": "logic-passed-visual-not-run",
+  "browserExecuted": false,
+  "printedPdf": false,
+  "limitations": [
+    "메모리·DOM모형은 실제 브라우저 시각/키보드 검사 아님",
+    "원본 보고 엑셀과 실제 PDF 전 페이지 검수 미완료",
+    "전체결함을찾았다고 보장하지 않음"
+  ],
+  "items": [
+    {
+      "id": "C01",
+      "priority": "P1",
+      "area": "원가 계산",
+      "title": "합친 항목의 수정금액 불일치",
+      "type": "in-memory-reproduced",
+      "source": {
+        "path": "src/cbs.js",
+        "line": 118
+      },
+      "reproduction": "100·50을110·60으로 수정 후 합친170에180 입력 →190 저장",
+      "impact": "합친 항목의 수정금액 불일치",
+      "proposedFix": "모든 조정행을 고려해 변경액을 계산하고 표시묶음·원장 합계 단일화",
+      "acceptance": "합친 뒤 상승·하락·반복편집 모두 입력값과 저장값 일치; 원자료와 이전이력 불변",
+      "requirementIds": [
+        "CBS-05",
+        "CBS-06"
+      ],
+      "implemented": true,
+      "logicEvidence": "v0106-cost",
+      "logicStatus": "passed",
+      "browserStatus": "not-run",
+      "printStatus": "not-applicable"
+    },
+    {
+      "id": "C02",
+      "priority": "P1",
+      "area": "원가 비교",
+      "title": "합치기만으로 허위 상승·사유 발생",
+      "type": "in-memory-reproduced",
+      "source": {
+        "path": "src/cbs.js",
+        "line": 112
+      },
+      "reproduction": "하위내역 없는100+50 합치기: 총액150/표Δ0인데 사유계산50→150, 차트 불일치",
+      "impact": "합치기만으로 허위 상승·사유 발생",
+      "proposedFix": "과거 연결을 공통 원가 범위로 집계하고 비교표·사유·차트가 같은 비교모델 사용",
+      "acceptance": "부모직접금액/하위내역 조합 및 연속합치기에서 금액변화0·사유요구없음",
+      "requirementIds": [
+        "CBS-06",
+        "CBS-13"
+      ],
+      "implemented": true,
+      "logicEvidence": "v0106-cost",
+      "logicStatus": "passed",
+      "browserStatus": "not-run",
+      "printStatus": "not-applicable"
+    },
+    {
+      "id": "C03",
+      "priority": "P1",
+      "area": "이관",
+      "title": "미확보 금액이0으로 변환",
+      "type": "in-memory-reproduced",
+      "source": {
+        "path": "src/cbs.js",
+        "line": 105
+      },
+      "reproduction": "구 costs의 계약·기성·지급·미계약이 모두null →현재총액0",
+      "impact": "미확보 금액이0으로 변환",
+      "proposedFix": "구성값 확보 상태를 보존하고 확인소계와 미확보를 별도로 변환",
+      "acceptance": "모두null/일부null/명시적0의 이관 결과 구별, 원본보관",
+      "requirementIds": [
+        "CBS-04",
+        "COMMON-11"
+      ],
+      "implemented": true,
+      "logicEvidence": "v0106-cost",
+      "logicStatus": "passed",
+      "browserStatus": "not-run",
+      "printStatus": "not-applicable"
+    },
+    {
+      "id": "C04",
+      "priority": "P1",
+      "area": "확정",
+      "title": "합계 불일치 시점 확정 허용",
+      "type": "in-memory-reproduced",
+      "source": {
+        "path": "src/cbs.js",
+        "line": 146
+      },
+      "reproduction": "PF 상세100+50과 원자료총액100이 대사차이−50인 채 FINALIZE",
+      "impact": "합계 불일치 시점 확정 허용",
+      "proposedFix": "보존용 불일치 자료와 통제확정을 구분; 대사 또는 명시적 근거 정정 전 확정 차단",
+      "acceptance": "부분상세+알려진총액은 미분해 보존; 완전상세 불일치는 확정되지 않음",
+      "requirementIds": [
+        "CBS-05",
+        "CBS-15"
+      ],
+      "implemented": true,
+      "logicEvidence": "v0106-cost",
+      "logicStatus": "passed",
+      "browserStatus": "not-run",
+      "printStatus": "not-applicable"
+    },
+    {
+      "id": "C05",
+      "priority": "P2",
+      "area": "원가 입력",
+      "title": "미확보 하위값 보완 경로 없음",
+      "type": "in-memory-reproduced",
+      "source": {
+        "path": "src/cbs.js",
+        "line": 186
+      },
+      "reproduction": "하위내역 미확보+50, 관리합계100 입력은 차단되는데 하위편집 경로 없음",
+      "impact": "미확보 하위값 보완 경로 없음",
+      "proposedFix": "선택 관리항목 안에서 하위 근거값 보완, 알려진 총액과 상세 미확보 구분",
+      "acceptance": "실제 확인한 하위값 입력 가능; 모르는 값을 자동비례배분하지 않음",
+      "requirementIds": [
+        "CBS-04",
+        "CBS-26"
+      ],
+      "implemented": true,
+      "logicEvidence": "v0106-cost",
+      "logicStatus": "passed",
+      "browserStatus": "not-run",
+      "printStatus": "not-applicable"
+    },
+    {
+      "id": "C06",
+      "priority": "P2",
+      "area": "변경이력",
+      "title": "합친 항목의 연결 이력 누락",
+      "type": "in-memory-reproduced",
+      "source": {
+        "path": "src/cbs.js",
+        "line": 272
+      },
+      "reproduction": "B의 개별 이력에 출발A의 수정/합치기 이벤트 없음; 전체이력에는 존재",
+      "impact": "합친 항목의 연결 이력 누락",
+      "proposedFix": "원자료·분해/병합 연결ID까지 조회하되 이벤트 중복 제거",
+      "acceptance": "단일/연속합치기·복구 후 변경금액에서 전체 경위를 찾음",
+      "requirementIds": [
+        "CBS-06",
+        "OVERVIEW-11"
+      ],
+      "implemented": true,
+      "logicEvidence": "v0106-cost",
+      "logicStatus": "passed",
+      "browserStatus": "not-run",
+      "printStatus": "not-applicable"
+    },
+    {
+      "id": "C07",
+      "priority": "P2",
+      "area": "면적 이관",
+      "title": "유효 면적 버전참조 무시",
+      "type": "in-memory-reproduced",
+      "source": {
+        "path": "src/cbs.js",
+        "line": 84
+      },
+      "reproduction": "과거 areaVersionId가2000㎡/200㎡를 가리켜도 생성된 빈 area 객체 때문에null",
+      "impact": "유효 면적 버전참조 무시",
+      "proposedFix": "버전별 스키마에 따라 참조를 해석하고 복제값 충돌은 대사; 현재면적 대입 금지",
+      "acceptance": "내장값형/버전참조형/진짜미확보를 구별하며 당시 단가 재현",
+      "requirementIds": [
+        "CBS-15",
+        "CBS-19"
+      ],
+      "implemented": true,
+      "logicEvidence": "v0106-cost",
+      "logicStatus": "passed",
+      "browserStatus": "not-run",
+      "printStatus": "not-applicable"
+    },
+    {
+      "id": "C08",
+      "priority": "P2",
+      "area": "이관",
+      "title": "같은 저장본의 중복ID 허용",
+      "type": "in-memory-reproduced",
+      "source": {
+        "path": "src/core.js",
+        "line": 7
+      },
+      "reproduction": "같은ID·150억원 프로젝트2개가 활성화되어 합계300, 충돌0",
+      "impact": "같은 저장본의 중복ID 허용",
+      "proposedFix": "프로젝트/원장ID 유일성·참조 검증 후 중복 격리 및 사용자 선택",
+      "acceptance": "동일저장본중복과 버전간충돌 모두 자동합산/덮어쓰기 없이 보존",
+      "requirementIds": [
+        "COMMON-11"
+      ],
+      "implemented": true,
+      "logicEvidence": "v0106-core",
+      "logicStatus": "passed",
+      "browserStatus": "not-run",
+      "printStatus": "not-applicable"
+    },
+    {
+      "id": "C09",
+      "priority": "P2",
+      "area": "숫자 경계",
+      "title": "큰 금액 무수정 저장 시1원 변화",
+      "type": "in-memory-reproduced",
+      "source": {
+        "path": "src/cbs.js",
+        "line": 183
+      },
+      "reproduction": "허용 상단9,007,199,254,740,990원의 원↔억원 편집 왕복에서+1원",
+      "impact": "큰 금액 무수정 저장 시1원 변화",
+      "proposedFix": "정확한 십진 문자열↔정수 변환 또는 명시적 지원 상한; 합계 초과도 검사",
+      "acceptance": "지원 상한·소액·0 모두 무수정 저장 불변",
+      "requirementIds": [
+        "CBS-09"
+      ],
+      "implemented": true,
+      "logicEvidence": "v0106-cost",
+      "logicStatus": "passed",
+      "browserStatus": "not-run",
+      "printStatus": "not-applicable"
+    },
+    {
+      "id": "S01",
+      "priority": "P1",
+      "area": "저장·협업",
+      "title": "다른 창이 앞 변경·감사를 덮어씀",
+      "type": "in-memory-reproduced",
+      "source": {
+        "path": "src/core.js",
+        "line": 28
+      },
+      "reproduction": "공유저장영역 두세션: A100→101 뒤 B50→52 저장 →A100복원/앞감사소실",
+      "impact": "다른 창이 앞 변경·감사를 덮어씀",
+      "proposedFix": "저장본 버전·충돌 차단·단일쓰기 통제, 운영에서는 서버 행버전과 트랜잭션",
+      "acceptance": "동일/서로다른 항목의 병행저장이 자료·감사를 조용히 지우지 않음",
+      "requirementIds": [
+        "COMMON-09",
+        "COMMON-12"
+      ],
+      "implemented": true,
+      "logicEvidence": "v0106-core",
+      "logicStatus": "passed",
+      "browserStatus": "not-run",
+      "printStatus": "not-applicable"
+    },
+    {
+      "id": "U01",
+      "priority": "P1",
+      "area": "입력 흐름",
+      "title": "일반 등록/문서/업체 폼의 미저장 보호 없음",
+      "type": "in-memory-reproduced",
+      "source": {
+        "path": "src/core.js",
+        "line": 182
+      },
+      "reproduction": "A.form 일반폼에서 입력 후 닫기·ESC·이탈: inline/일정과 달리 dirty guard 없음",
+      "impact": "일반 등록/문서/업체 폼의 미저장 보호 없음",
+      "proposedFix": "일반폼도 같은 편집 세션·검증·초안·이탈 계약 적용",
+      "acceptance": "저장/버림/계속편집, 저장실패, 새로고침 안내 및 초안 복구",
+      "requirementIds": [
+        "COMMON-07",
+        "INIT-04"
+      ],
+      "implemented": true,
+      "logicEvidence": "v0106-core",
+      "logicStatus": "passed",
+      "browserStatus": "not-run",
+      "printStatus": "not-applicable"
+    },
+    {
+      "id": "U02",
+      "priority": "P2",
+      "area": "초기자료",
+      "title": "초기화 소유권 충돌로 입력자료0건",
+      "type": "in-memory-reproduced",
+      "source": {
+        "path": "src/setup.js",
+        "line": 24
+      },
+      "reproduction": "실제 모듈순서에서 CBS가빈initialization을 먼저 생성해 4사업 모두candidates0",
+      "impact": "초기화 소유권 충돌로 입력자료0건",
+      "proposedFix": "초기자료 소유자 단일화; 빈 placeholder 보강, 기존 확인결과 자동승격 금지",
+      "acceptance": "전체 초기화 순서와 이관에서 입력자료/출처가 조회되고 기존 후보 보존",
+      "requirementIds": [
+        "INIT-07"
+      ],
+      "implemented": true,
+      "logicEvidence": "v0106-ux",
+      "logicStatus": "passed",
+      "browserStatus": "not-run",
+      "printStatus": "not-applicable"
+    },
+    {
+      "id": "U03",
+      "priority": "P1",
+      "area": "후보 검토",
+      "title": "빈 구후보 하나가 전체 확인을 막음",
+      "type": "in-memory-reproduced",
+      "source": {
+        "path": "src/setup.js",
+        "line": 73
+      },
+      "reproduction": "빈 후보가hidden 입력뿐인데 일괄필수검사로 정상 후보까지 저장불가",
+      "impact": "빈 구후보 하나가 전체 확인을 막음",
+      "proposedFix": "항목별 확인/보류 또는 빈값 편집/후보 연결 허용",
+      "acceptance": "빈1+정상6에서 정상6 독립확인, 빈1만 보류 후 완료",
+      "requirementIds": [
+        "INIT-03",
+        "INIT-06"
+      ],
+      "implemented": true,
+      "logicEvidence": "v0106-ux",
+      "logicStatus": "passed",
+      "browserStatus": "not-run",
+      "printStatus": "not-applicable"
+    },
+    {
+      "id": "U04",
+      "priority": "P2",
+      "area": "검증 일관성",
+      "title": "필수 사업명을 인라인에서 비울 수 있음",
+      "type": "in-memory-reproduced",
+      "source": {
+        "path": "src/recovery-views.js",
+        "line": 17
+      },
+      "reproduction": "등록/모달은필수인데 commitInline(name,빈문자열)은저장",
+      "impact": "필수 사업명을 인라인에서 비울 수 있음",
+      "proposedFix": "필드별 동일 검증 규칙을 모든 입력경로와 향후 서버에서 공유",
+      "acceptance": "빈값/공백/음수/날짜 오류 결과가 경로와 무관하게 동일",
+      "requirementIds": [
+        "COMMON-06",
+        "INIT-02"
+      ],
+      "implemented": true,
+      "logicEvidence": "v0106-core",
+      "logicStatus": "passed",
+      "browserStatus": "not-run",
+      "printStatus": "not-applicable"
+    },
+    {
+      "id": "U05",
+      "priority": "P2",
+      "area": "오류 복구",
+      "title": "일정 저장하고 이동 실패 복구 불일치",
+      "type": "in-memory-reproduced",
+      "source": {
+        "path": "src/core.js",
+        "line": 193
+      },
+      "reproduction": "필드오류 시 확인창과 토스트만 남고 원 입력란 오류·초점으로 복귀하지 않음",
+      "impact": "일정 저장하고 이동 실패 복구 불일치",
+      "proposedFix": "guard 저장실패 공통 결과와 resume/error/focus 계약 적용",
+      "acceptance": "직접저장/이동저장이 같은 필드 오류, 값 유지 및 이동차단",
+      "requirementIds": [
+        "COMMON-07",
+        "COMMON-12"
+      ],
+      "implemented": true,
+      "logicEvidence": "v0106-core",
+      "logicStatus": "passed",
+      "browserStatus": "not-run",
+      "printStatus": "not-applicable"
+    },
+    {
+      "id": "U06",
+      "priority": "P2",
+      "area": "비동기 상태",
+      "title": "검색 지연콜백이 다른 화면 필터를 지움",
+      "type": "in-memory-reproduced",
+      "source": {
+        "path": "src/partners.js",
+        "line": 153
+      },
+      "reproduction": "검색 후140ms 내 이동: 콜백이 사라진DOM을 읽어 필터{}로 초기화",
+      "impact": "검색 지연콜백이 다른 화면 필터를 지움",
+      "proposedFix": "입력값·화면세대 캡처 및 이탈/상세/초기화 때 취소",
+      "acceptance": "늦은 콜백이 다른 화면·필터·선택·초점을 바꾸지 않음",
+      "requirementIds": [
+        "PARTNER-06"
+      ],
+      "implemented": true,
+      "logicEvidence": "v0106-ux",
+      "logicStatus": "passed",
+      "browserStatus": "not-run",
+      "printStatus": "not-applicable"
+    },
+    {
+      "id": "U07",
+      "priority": "P2",
+      "area": "이동 상태",
+      "title": "알림 이동 취소 후 선택대상 잔류",
+      "type": "in-memory-reproduced",
+      "source": {
+        "path": "src/core.js",
+        "line": 208
+      },
+      "reproduction": "알림이 이탈확인 전에 focusId 변경, 계속편집 후 일반 메뉴에 옛대상 자동열림",
+      "impact": "알림 이동 취소 후 선택대상 잔류",
+      "proposedFix": "목적지·프로젝트·탭·선택대상을 확인 통과 뒤 한 번에 적용",
+      "acceptance": "이동취소 전후 모든 보기상태 불변, 승인 시만 대상선택",
+      "requirementIds": [
+        "CHART-08",
+        "COMMON-07"
+      ],
+      "implemented": true,
+      "logicEvidence": "v0106-core",
+      "logicStatus": "passed",
+      "browserStatus": "not-run",
+      "printStatus": "not-applicable"
+    },
+    {
+      "id": "U08",
+      "priority": "P2",
+      "area": "접근성",
+      "title": "좁은 문서 상세 열기 초점 인계 없음",
+      "type": "code-confirmed-impact-needs-browser",
+      "source": {
+        "path": "src/contracts.js",
+        "line": 316
+      },
+      "reproduction": "목록 재렌더 뒤 상세 열기에 focus 이동 없음; 실제 브라우저 결과 미검증",
+      "impact": "좁은 문서 상세 열기 초점 인계 없음",
+      "proposedFix": "상세 제목/첫조작으로 초점 인계, 배경목록 접근정책·선택연계·닫기복귀 정의",
+      "acceptance": "1280/1440 및 확대에서 Enter→상세→ESC/닫기→원행의 실제 키보드검사",
+      "requirementIds": [
+        "DOC-03",
+        "DOC-04"
+      ],
+      "implemented": true,
+      "logicEvidence": "v0106-ux",
+      "logicStatus": "passed",
+      "browserStatus": "not-run",
+      "printStatus": "not-applicable"
+    },
+    {
+      "id": "R01",
+      "priority": "P1",
+      "area": "보고 기준일",
+      "title": "과거 보고에 현재 원장/미래 내용 혼입",
+      "type": "in-memory-reproduced",
+      "source": {
+        "path": "src/report.js",
+        "line": 20
+      },
+      "reproduction": "8/31보고+과거시점에9/11현재출자 변경 반영; 미래허가날짜만지워도내용남음",
+      "impact": "과거 보고에 현재 원장/미래 내용 혼입",
+      "proposedFix": "모든 원천의 기준일 버전 투영, 과거근거 없으면미확보",
+      "acceptance": "미래 수정/추가/삭제가 과거보고 데이터에 영향 없음",
+      "requirementIds": [
+        "REPORT-12"
+      ],
+      "implemented": true,
+      "logicEvidence": "v0106-report",
+      "logicStatus": "passed",
+      "browserStatus": "not-run",
+      "printStatus": "not-run"
+    },
+    {
+      "id": "R02",
+      "priority": "P1",
+      "area": "보고 면적",
+      "title": "요약·건축계획 면적 불일치",
+      "type": "in-memory-reproduced",
+      "source": {
+        "path": "src/report.js",
+        "line": 18
+      },
+      "reproduction": "PF 선택: 요약54,000㎡,2-2건축표56,000㎡",
+      "impact": "요약·건축계획 면적 불일치",
+      "proposedFix": "선택 기준과 건축계획 버전을 연결; 다른범위라면 명시적대사/검토",
+      "acceptance": "요약·상세·단가 같은 기준 또는 검토오류, 현재값 조용한 대입 금지",
+      "requirementIds": [
+        "REPORT-12",
+        "CBS-19"
+      ],
+      "implemented": true,
+      "logicEvidence": "v0106-report",
+      "logicStatus": "passed",
+      "browserStatus": "not-run",
+      "printStatus": "not-run"
+    },
+    {
+      "id": "R03",
+      "priority": "P1",
+      "area": "보고 편집",
+      "title": "사업시행자 저장값이 출력에서 덮임",
+      "type": "in-memory-reproduced",
+      "source": {
+        "path": "src/report.js",
+        "line": 59
+      },
+      "reproduction": "보고 데이터 편집 저장 뒤 출력 시 법인원장 명칭으로 대체",
+      "impact": "사업시행자 저장값이 출력에서 덮임",
+      "proposedFix": "법인원장 연결편집 또는 읽기전용+법인수정 이동, 중복소유 제거",
+      "acceptance": "저장 성공값=출력값, 공유 법인의 영향 프로젝트 안내",
+      "requirementIds": [
+        "REPORT-15"
+      ],
+      "implemented": true,
+      "logicEvidence": "v0106-report",
+      "logicStatus": "passed",
+      "browserStatus": "not-run",
+      "printStatus": "not-run"
+    },
+    {
+      "id": "R04",
+      "priority": "P1",
+      "area": "보고 이력",
+      "title": "구형 payload 보고가 현재 법인정보로 변함",
+      "type": "in-memory-reproduced",
+      "source": {
+        "path": "src/report.js",
+        "line": 84
+      },
+      "reproduction": "canonical 없는 저장본을 다시 구성하며 현재원장으로 이름변경",
+      "impact": "구형 payload 보고가 현재 법인정보로 변함",
+      "proposedFix": "당시식별/값으로 동결, 부족한 복원은 재구성본 표시",
+      "acceptance": "현재 원장 수정이 저장보고에 영향 없고 정정만 새 버전 생성",
+      "requirementIds": [
+        "REPORT-15"
+      ],
+      "implemented": true,
+      "logicEvidence": "v0106-report",
+      "logicStatus": "passed",
+      "browserStatus": "not-run",
+      "printStatus": "not-run"
+    },
+    {
+      "id": "R05",
+      "priority": "P2",
+      "area": "보고 분할",
+      "title": "긴 명칭의 행이 페이지 높이 초과",
+      "type": "in-memory-reproduced",
+      "source": {
+        "path": "src/report-form.js",
+        "line": 130
+      },
+      "reproduction": "허용730pt에 사용1513.6pt 배치지만 누락검사는0",
+      "impact": "긴 명칭의 행이 페이지 높이 초과",
+      "proposedFix": "고정라벨/사용자긴식별문자 분리, 장문 분할·입력한도와 본문보존 정책",
+      "acceptance": "누락·중복·넘침을 독립검사, 실제 인쇄도 별도검증",
+      "requirementIds": [
+        "REPORT-06",
+        "REPORT-09"
+      ],
+      "implemented": true,
+      "logicEvidence": "v0106-report",
+      "logicStatus": "passed",
+      "browserStatus": "not-run",
+      "printStatus": "not-run"
+    },
+    {
+      "id": "R06",
+      "priority": "P2",
+      "area": "법령 관련성",
+      "title": "업데이트 뒤 새 프로젝트 영향 누락",
+      "type": "in-memory-reproduced",
+      "source": {
+        "path": "src/legal.js",
+        "line": 122
+      },
+      "reproduction": "기존 법령을 건너뛰면서 새 프로젝트 재분류도 생략: 후보5/영향0",
+      "impact": "업데이트 뒤 새 프로젝트 영향 누락",
+      "proposedFix": "수집 중복방지와 관련성 계산 분리, 프로젝트 사실변경 시 재계산",
+      "acceptance": "원문중복없음+신규 영향 생성+기존 확인이력 보존",
+      "requirementIds": [
+        "LAW-02",
+        "LAW-03"
+      ],
+      "implemented": true,
+      "logicEvidence": "v0106-report",
+      "logicStatus": "passed",
+      "browserStatus": "not-run",
+      "printStatus": "not-run"
+    }
+  ]
+}

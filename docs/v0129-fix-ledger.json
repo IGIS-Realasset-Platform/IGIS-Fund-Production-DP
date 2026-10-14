@@ -1,0 +1,80 @@
+{
+  "version": "0.10.29",
+  "basisVersion": "0.10.28",
+  "date": "2026-10-12",
+  "sourceReview": "docs/v0129-spec.md",
+  "items": [
+    {
+      "id": "REV129-01",
+      "title": "전체 선택팝업 접힘·문맥",
+      "acceptance": "새 팝업 진입은 전체 접힘·검색 초기화, 같은 팝업의 토글·검색·추가·취소·프로젝트 문맥 보존",
+      "implemented": true,
+      "verified": true,
+      "status": "완료 · 새 팝업 전체 접힘·검색 초기화·기존 문맥 실제 Edge 통과"
+    },
+    {
+      "id": "REV129-02",
+      "title": "토글·검색 지연 제거",
+      "acceptance": "토글·검색의 후보 재계산과 전체 모달 교체 제거, 실제 화면 반응시간 측정",
+      "implemented": true,
+      "verified": true,
+      "status": "완료 · 기존 DOM 유지·토글 p95 최대32.9ms·검색31.3ms"
+    },
+    {
+      "id": "REV129-03",
+      "title": "더블클릭 전용 금액 셀",
+      "acceptance": "상시 수정버튼 없이 같은 셀 더블클릭·Enter 편집, 저장·취소·원단위·오류 원복 검사",
+      "implemented": true,
+      "verified": true,
+      "status": "완료 · 상시 입력/수정버튼0·같은 셀 편집·키보드·빈저장·원복 통과"
+    },
+    {
+      "id": "REV129-04",
+      "title": "4관리항목 단일행·금액",
+      "acceptance": "도급공사비·설계비·법정감리비·조사비 각각 하위행 없는 단일행·금액, 전환 합계와 기존 자료 보존",
+      "implemented": true,
+      "verified": true,
+      "status": "완료 · 4단일행·원단위·과거 비교·복합범위 보존 통과"
+    },
+    {
+      "id": "REV129-05",
+      "title": "취득세·신축·등기 구분",
+      "acceptance": "취득 단계 취득세·신축 건물 취득세·보존등기비의 이름·범위·코드 분리, 기존 불명확 자료 임의분해 금지",
+      "implemented": true,
+      "verified": true,
+      "status": "완료 · 취득세·신축 취득세·보존등기 구분·v1 보존 통과"
+    },
+    {
+      "id": "REV129-06",
+      "title": "부담금·미술비 분류",
+      "acceptance": "회사 관리분류와 공식 CBS 대응 분리, 금전부담·실물공사·미술작품·기금 구별 및 코드 연결",
+      "implemented": true,
+      "verified": true,
+      "status": "완료 · 회사분류·ICMS 대응·기금 구별·표/선택/추가 위치 통과"
+    },
+    {
+      "id": "REV129-07",
+      "title": "초기·선택 MECE 검토",
+      "acceptance": "전체 비용유형의 초기·선택·관리수준·중복경계 검토표, 현재 포함 제외·후보 유일·무금액 추가",
+      "implemented": true,
+      "verified": true,
+      "status": "완료 · 145기존+1기금·기본34·고유ID 재사용·정확9원행 표시 통과"
+    },
+    {
+      "id": "REV129-08",
+      "title": "검수·지침·문서 동기화",
+      "acceptance": "114개 검사군·실제 화면·성능·엑셀 검수와 동일 8번호의 명세·수정대장·누적·엑셀 동기화",
+      "implemented": true,
+      "verified": true,
+      "status": "완료 · 114검사·3해상도20캡처·실제1시트·319항목 동기화 대사"
+    }
+  ],
+  "verificationEvidence": {
+    "candidateSourceFingerprint": "47002b7eba40eabf101e31b0dacd543d63f5fadbecf9218052160f364bc2767b",
+    "logic": ".build/v0129-verification-candidate-pass.json",
+    "browser": ".build/v0129-browser/candidate-r4/evidence.json",
+    "finalArtifactProof": "outputs/v0129/검증_일치기록.json",
+    "nativeExcel": false,
+    "all139SheetsRereadThisTurn": false
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "version":"0.10.26","basisVersion":"0.10.25","date":"2026-10-08","sourceReview":"docs/v0126-spec.md",
+  "items":[
+    {"id":"REV126-01","title":"CBS 유사 하위항목 공유 정렬 기준","acceptance":"관리34/후보105/원자료124 의미키·코드 대응·동률/미매칭 안정순서","implemented":true,"verified":true,"status":"정확34/105/124 대응·집중16/16·전체100군·실제7부모 순서 검수 통과"},
+    {"id":"REV126-02","title":"본표·선택추가·엑셀 하위순서 일치","acceptance":"공유rank·같은 항목 대응 위치·CBS 보완후보 일관 배치","implemented":true,"verified":true,"status":"통합5/5·독립4/4·Edge3해상도 본표/후보105/추출 순서 및 추가 위치 확인·실제XLSX 내려받기1시트 검수"},
+    {"id":"REV126-03","title":"기존 순서 보존과 이후 사용자 이동","acceptance":"legacy벡터 보존·v26수동parent 우선·상위/부모 불변·취소/실패 원복","implemented":true,"verified":true,"status":"상위 기존수동순서 보존·실제 Space/ArrowDown/Enter 이동·Escape/Storage실패 원복 통과"},
+    {"id":"REV126-04","title":"순서 외 항목·금액·확정·연계 보존","acceptance":"세트/ID/name/parent/sortOrder/값/확정/계약VAT 불변·입력/탐색/추출 유지","implemented":true,"verified":true,"status":"원장/5현재/9확정/계약VAT/원표hash 및 refs 유지·전체100군·실제 금액/DOM순서 원복 확인"},
+    {"id":"REV126-05","title":"지침·명세·검수·누적·Excel 동기화","acceptance":"새5ID/298항목3576필드·이전293본문/서식보존·새순서만지침보완·최종지문","implemented":true,"verified":true,"status":"명세·지침·같은5ID 누적/Excel298항목3576필드 독립대사·기존293본문/체크/유효서식/폭/높이/CF/표/D7 보존 통과"}
+  ],
+  "evidence":{"spec":"docs/v0126-spec.md","orderMap":"docs/v0126-cbs-order-map.json","logic":".build/v0126-verification.json","browser":".build/v0126-browser/evidence.json","checklist":".build/checklist-sync/independent-v0126.json"}
+}

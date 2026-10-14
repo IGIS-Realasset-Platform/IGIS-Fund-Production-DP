@@ -1,0 +1,11 @@
+{
+  "version":"0.10.25","basisVersion":"0.10.24","date":"2026-10-08","sourceReview":"docs/v0125-spec.md",
+  "items":[
+    {"id":"REV125-01","title":"사업비 선택 추가의 분류별 접기·펼치기","acceptance":"초기접힘·root/branch 버튼·표시/aria/키보드 일치·실제 후보 숨김","implemented":true,"verified":true,"status":"집중5/5·독립7/7·회귀96군·실제Edge3해상도 Enter/Space 검수 통과"},
+    {"id":"REV125-02","title":"접힘·검색·추가·취소·프로젝트 문맥 연계","acceptance":"검색 임시펼침/수동접기/복귀·상태/스크롤/포커스·프로젝트 분리·중복/실패 보존","implemented":true,"verified":true,"status":"독립7/7·실제검색/추가/직접입력 취소/스크롤·포커스·프로젝트 격리 검수 통과"},
+    {"id":"REV125-03","title":"접기·펼치기 중 금액·원자료·본표 보존","acceptance":"UI상태만 변경·원단위금액/확정/계약/VAT/엑셀/미입력/0/1원 보존","implemented":true,"verified":true,"status":"재무8/8·회귀96군·기존5사업/확정/계약/VAT/엑셀 및 실제추가 총액 보존 확인"},
+    {"id":"REV125-04","title":"누적 개선 지침과 재발검사 연결","acceptance":"AGENTS/README/UX원칙표·사용자9운영원칙·범위/연계/검수/다음작업 적용·전역변경 없음","implemented":true,"verified":true,"status":"공통44원칙·핵심7체크·현행/대체 분리·독립QA12/재무7/FE4주제 보완·명세3/3 통과"},
+    {"id":"REV125-05","title":"검수·명세·누적·Excel 동일 요구번호 동기화","acceptance":"실패/집중/회귀/실제 구분·새5ID·이전288보존·완료 기준만 체크·최종소스일치","implemented":true,"verified":true,"status":"293항목3516필드·이전288본문/체크/유효서식/높이/폭/CF/D7 보존 독립 대사 완료"}
+  ],
+  "evidence":{"spec":"docs/v0125-spec.md","rules":"AGENTS.md","uxPrinciples":"docs/UX-review-rules.md","logic":".build/v0125-verification.json","browser":".build/v0125-browser/evidence.json","checklist":".build/checklist-sync/independent-v0125.json"}
+}

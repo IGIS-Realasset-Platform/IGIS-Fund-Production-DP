@@ -1,0 +1,11 @@
+{
+  "version": "0.10.16",
+  "basisVersion": "0.10.15",
+  "date": "2026-10-01",
+  "sourceReview": "docs/v0116-spec.md",
+  "items": [
+    {"id":"REV116-01","title":"비주택 중심 초기20·묶음관리 기준","implemented":false,"status":"전체검토표·보완표 연구 및 독립검토 완료. 플랫폼 초기화·CBS 분류 적용은 보류"},
+    {"id":"REV116-02","title":"세부 사업비 엑셀 내려받기","implemented":true,"status":"XLSX 구현·원단위/원자료 합산·검색 첫 클릭·독립 reader 검증. 최종 전체 회귀·현재 산출물 Edge 검수기록은 별도 참조"}
+  ],
+  "releaseScope": "초기항목은 연구안, 구현 범위는 세부사업비 XLSX 내려받기"
+}

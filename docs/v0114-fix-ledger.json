@@ -1,0 +1,45 @@
+{
+  "version": "0.10.14",
+  "basisVersion": "0.10.13",
+  "date": "2026-10-01",
+  "sourceReview": "docs/v0114-spec.md",
+  "verification": ".build/v0114-verification.json",
+  "items": [
+    {
+      "id": "REV114-01",
+      "title": "계약·문서 한 줄 표",
+      "implemented": true,
+      "status": "구현·실제 Edge·회귀·자료 보존 검수 통과"
+    },
+    {
+      "id": "REV114-02",
+      "title": "검토의견 기반 조치계획",
+      "implemented": true,
+      "status": "구현·실제 Edge·회귀·자료 보존 검수 통과"
+    },
+    {
+      "id": "REV114-03",
+      "title": "사업비 제목·열폭·설명 제거",
+      "implemented": true,
+      "status": "구현·실제 Edge·회귀·자료 보존 검수 통과"
+    },
+    {
+      "id": "REV114-04",
+      "title": "전체 탭·팝업 설명·중복 태그 감사",
+      "implemented": true,
+      "status": "구현·실제 Edge·회귀·자료 보존 검수 통과"
+    },
+    {
+      "id": "REV114-05",
+      "title": "실제 화면·입력·회귀 검수",
+      "implemented": true,
+      "status": "구현·실제 Edge·회귀·자료 보존 검수 통과"
+    },
+    {
+      "id": "REV114-06",
+      "title": "명세·수정대장·Excel 동기화",
+      "implemented": true,
+      "status": "명세·수정대장·Markdown·Excel 220항목 저장본 대조 통과"
+    }
+  ]
+}
