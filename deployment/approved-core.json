@@ -1,11 +1,11 @@
 {
   "version": "0.11.0",
-  "htmlSha256": "a6d1c214e63ca823441e49fbafd801741d0af567ed64dd25a3c4d529068e15e4",
-  "bytes": 8105186,
+  "htmlSha256": "e6938e5d9e05132fa025106392077c7dbc2ea42257834a0c699cd3582a84e735",
+  "bytes": 8120178,
   "notionRequired": false,
   "realProjectDataIncluded": false,
   "mode": "core-with-optional-runtime-source",
   "localBuildVerified": true,
-  "actualBrowser": "pending",
+  "actualBrowser": "2026-10-15 local published-source build: home, 8 specification tabs, reload-home verified; CRUD/PDF/XLSX unverified",
   "protectedDeployment": "pending"
 }

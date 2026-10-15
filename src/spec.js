@@ -1,4 +1,5 @@
 (function(A){
+ const inheritedAuthentication=A.clone(A.spec.productionContracts?.authentication??null);
  const features=[
  ['CBS-01','공통 CBS·가변 상세','대분류 직접입력, 선택 3단계, 미분해 금액, 분해·병합, 고유 코드','엑셀 C6 / 사용자 선택'],
  ['COST-02','단계별 사업비 확정','최초 UW·브릿지·PF·리파이낸싱·준공, 접이식 열과 정정 이력','요청 3 및 시점 확정답변'],
@@ -688,15 +689,62 @@ A.spec.verification={...A.spec.verification,status:'v0.10.30 검수 완료 · �
    A.spec.verification={...A.spec.verification,status:ledger133.status,date:'2026-10-14',automated:typeof RUN_VERIFICATION==='undefined'?null:RUN_VERIFICATION,visualVerification:'현재 최종HTML의 전체메뉴/대표팝업/등록조건 검수는 outputs/v0133/검증_일치기록.json 참조. 과거v32 비용캡처를 전체업무 검수로 확대하지 않음.',nativeExcel:false};
    A.spec.delivery={...A.spec.delivery,version:'0.10.33',implementation:'최종점검에서 확인한 등록조건/서식·공통 팝업 옵션·항목정보 초기값/부모복귀 교정. 원자료·기존업무 보존.',deployment:A.clone(ledger133.deployment),visualQA:'v0.10.33 최종점검 기록 참조'};
  }
+ const deploymentStatus=typeof DEPLOYMENT_STATUS_V0111==='undefined'?null:A.clone(DEPLOYMENT_STATUS_V0111);
+ if(deploymentStatus){
+  if(deploymentStatus.schemaVersion!=='deployment-status-v0111'||deploymentStatus.version!=='0.11.0')throw Error('현재 배포 상태 정의를 확인해 주세요.');
+  const originalFeatureContracts=A.clone(A.spec.featureContracts),originalDataContracts=A.clone(A.spec.dataContracts),originalProductionContracts=A.clone(A.spec.productionContracts),originalInformationArchitecture=A.clone(A.spec.informationArchitecture),originalCostRules=A.clone(A.spec.costRules),priorAuthentication=A.clone(A.spec.productionContracts?.authentication??null),historical=[inheritedAuthentication,priorAuthentication].filter(Boolean),unique=[];for(const item of historical)if(!unique.some(saved=>JSON.stringify(saved)===JSON.stringify(item)))unique.push(item);
+  A.spec.legacyReferences=A.spec.legacyReferences||{};A.spec.legacyReferences.authenticationPolicies=[...(A.spec.legacyReferences.authenticationPolicies||[]),...unique];A.spec.legacyReferences.originalFeatureContracts=originalFeatureContracts;A.spec.legacyReferences.originalDataContracts=originalDataContracts;A.spec.legacyReferences.originalProductionContracts=originalProductionContracts;A.spec.legacyReferences.originalInformationArchitecture=originalInformationArchitecture;A.spec.legacyReferences.originalCostRules=originalCostRules;
+  const auth=A.clone(deploymentStatus.authentication),currentAuthentication={status:auth.status,identity:'@'+auth.allowedEmailDomain+' 회사 이메일',enrollment:auth.verification,allowedEmailDomain:auth.allowedEmailDomain,verification:auth.verification,codeLength:auth.codeLength,commonInitialCode:auth.commonInitialCode,passwordRequired:auth.passwordRequired,supabaseAuth:auth.supabaseAuth,publicSignup:auth.publicSignup,companyDomainEnrollment:auth.companyDomainEnrollment,publicSignupPolicy:auth.publicSignupPolicy,profile:A.clone(auth.profile),emailDeliveryProvider:auth.emailDeliveryProvider,existingAuthConfigurationChanged:auth.existingAuthConfigurationChanged,authorization:'서버 세션·프로젝트 권한 검증은 구현 전',implemented:false};
+  A.spec.deploymentStatus=deploymentStatus;
+  const nextBehavior='플랫폼 전용 @'+auth.allowedEmailDomain+' 이메일로 받은 '+auth.codeLength+'자리 확인코드 로그인. 별도 초기 코드는 사용하지 않고 비밀번호를 강제하지 않으며 이름·사진은 보류.';
+  const featureIndex=features.findIndex(item=>item[0]==='NEXT-01');if(featureIndex>=0)features[featureIndex]=['NEXT-01','플랫폼 전용 로그인',nextBehavior,'사용자 2026-10-15 최신 확정'];
+  const next=A.spec.functionalRequirements.find(item=>item.id==='NEXT-01');if(next)Object.assign(next,{name:'플랫폼 전용 로그인',behavior:nextBehavior,source:'사용자 2026-10-15 최신 확정',status:'정책 확정 · 구현 대기',implemented:false,verified:false});
+  A.spec.requirements.push({id:'AUTH-111',source:'사용자 2026-10-15 최신 확정',decision:nextBehavior});
+  A.spec.meta.version=deploymentStatus.version;A.spec.meta.updatedAt=deploymentStatus.asOf;
+  const browser=deploymentStatus.current.browserVerification,connections=deploymentStatus.current.connections,currentIA=[['portfolio','프로젝트 현황'],['overview','개요'],['cost','원가 관리'],['finance','파이낸싱'],['permit','인허가·사업관리'],['document','계약·문서'],['report','국토부 보고서'],['company','시공사·협력사'],['law','법령 변경'],['spec','플랫폼 명세']].map(([view,name])=>({view,name})),currentFeatureRows=[
+   ['CORE-111','프로젝트 현황·수기 등록','Notion 자료 없이도 빈 실제 플랫폼에서 수기 사업을 등록·저장·재로드하고 기존 세부화면을 사용','PROD110-17~22'],
+   ['COST-111','회사 사업비 관리','회사 관리대상95개를 기본37·선택58로 운영하고 같은 사건 비용을 묶으며 원자료·코드·과거·계약VAT를 보존','승인된 v0.10.32 분류'],
+   ['FINANCE-111','파이낸싱','출자·대출·보증 원장을 계약·사업비와 구분하고 미입력과 0을 보존','현재 파이낸싱 원장'],
+   ['PERMIT-111','인허가·사업관리','인허가별 검토의견과 복수 조치계획·날짜·공문·이행자료를 같은 원장에 보존','현재 인허가 계약'],
+   ['DOCUMENT-111','계약·문서','계약과 문서를 한 화면에서 조회하고 계약차수·배부·지급·문서버전과 원본경로를 보존','현재 계약·문서 계약'],
+   ['REPORT-111','국토부 보고서','현재 작성본의 전체 셀을 편집하고 보고서 전용 저장과 명확한 연결값의 플랫폼 반영을 구분하며 저장본 본문을 보존','현재 보고서 계약'],
+   ['REGISTRATION-111','개발업 등록·전문인력','등록상태·등록정보와 전문인력 개인명단을 수동 관리하고 자동 법적 대상판정은 하지 않음','현재 등록 계약'],
+   ['COMPANY-111','시공사·협력사','업체·참여·영업기록과 시장·비교자료의 출처를 구분하고 실제 계약값을 자동 변경하지 않음','현재 협력사 계약'],
+   ['LAW-111','법령 변경','보존된 공식 snapshot과 사용자 검토이력을 표시하며 일일 자동수집 완료로 주장하지 않음','현재 법령 계약'],
+   ['AUDIT-111','변경이력','업무변경과 감사이력을 함께 저장하고 조회·접기 같은 화면조작은 업무변경으로 기록하지 않음','현재 감사 계약'],
+   ['NEXT-01','플랫폼 전용 로그인',nextBehavior,'사용자 2026-10-15 최신 확정'],
+   ['STORAGE-111','중앙 저장',connections.centralStorage+' · 서버 승인형 원자 저장은 구현 전','현재 배포 상태'],
+   ['NOTION-111','Notion 선택 보충',connections.notion+' · 자료 없음과 오류가 코어 사용을 막지 않음','PROD110-17~22']
+  ],currentFeatureContracts={
+   navigation:{sidebar:A.clone(currentIA),tabs:A.clone(A.tabContracts),compatibilityRoutes:{document:['documents'],report:['data','plans','history']},note:'호환 주소는 과거 진입을 현재 단일 화면으로 연결하며 별도 현행 화면 수로 세지 않음'},
+   CBS:{version:'v0.11.0-current',managementTargets:95,defaultManagementItems:37,optionalManagementItems:58,budgetUnit:'같은 사건 비용은 한 관리예산으로 묶고 독립 예산·계약 통제 실익이 있는 비용만 분리',classification:'회사6대분류와 공사비 직접·간접 구조의 관리대상95개. 원152유형은 당시 코드·원자료·과거 정의로 보존',editing:'본표 같은 셀 더블클릭·Enter 원 단위 편집. 도급·설계·법정감리·조사는 각각 하위행 없는 단일 관리행',selection:'기본37·선택58. 이미 포함된 항목은 후보에서 제외하고 재표시는 원ID·금액을 유지',adjustmentPolicy:'자동 차이조정·비례배분·조정액 자동 생성 금지',preservation:'기존 원금액·recordId·당시 code·과거확정·계약·VAT 불변',excel:'본표와 같은 이름·순서·계층·원단위 금액의 한 시트'},
+   report:{workspace:'국토부 보고서 생성 단일 화면',editing:'현재 작성본의 전체 셀 편집. 보고서 전용 저장과 명확한 연결값의 플랫폼 반영 구분',history:'저장한 canonical 본문과 과거 보고원본 불변',output:'같은 모델의 미리보기·인쇄·PDF, 누락·넘침 검증'},
+   permit:{records:'인허가 원장과 검토의견·조치계획 1:N',validation:'검토의견 구분·내용·통보일·공문과 조치내용·기한·진행·계획/이행자료 보존',navigation:'자식 입력 취소·저장 후 실제 부모 복귀'},
+   registration:{status:'담당팀 수동 입력',records:'등록정보와 전문인력 개인명단. 수동 등록인원과 명단상태 구분',excluded:'자동 대상판정·자본금/인력 하한판정·이름/사진 추정 없음'},
+   contracts:{workspace:'계약·문서 한 목록',records:'계약차수·사업비반영액·CBS배부·지급회차·문서버전·원본경로 보존'},
+   finance:{records:'출자·대출·보증 원장',boundary:'사업비·계약·원금·VAT 중복합산 금지'},
+   company:{records:'업체·참여·영업기록',boundary:'외부 기준정보 갱신으로 내부 기록을 덮지 않음'},
+   law:{source:'공식 snapshot과 검토이력',boundary:'일일 자동수집·개별사업 법적판단 완료 아님'},
+   audit:{atomicity:'현재 로컬 저장에서 업무값·감사·알림 함께 원복',server:'중앙 저장 원자성은 미구현'},
+   authentication:A.clone(currentAuthentication),deployment:A.clone(deploymentStatus.current),notion:{status:connections.notion,requiredForCore:false}
+  },currentDataContracts={costManagement:{managementTargets:95,defaultManagementItems:37,optionalManagementItems:58,masterVersion:'company-cbs-v4',source:'src/data/cost-taxonomy-v4.json',displayCodes:false},costRecords:{id:'원기록 ID',typeCode:'당시 비용유형 코드',amount:'원 단위 정수·null과0 구별',history:'과거 정의·확정본 불변',duplicateBoundary:'같은 사건 총액·상세를 중복합산하지 않음'},report:{currentDraft:'현재 작성본 전체 셀',savedCanonical:'본문 불변',platformSync:'명확한 연결값만 명시 반영'},permit:{results:'검토의견',plans:'의견별 복수 조치계획',evidence:'공문·계획/이행자료 경로'},registration:{entity:'등록정보',professionals:'개인명단',manualCount:'수동 등록인원',unknown:'재직·자격·등록 미확인 보존'},authentication:A.clone(currentAuthentication),deployment:A.clone(deploymentStatus.current),notionAddon:{required:false,status:connections.notion}};
+  A.spec.informationArchitecture=currentIA;A.spec.currentFunctionalRequirements=currentFeatureRows.map(([id,name,behavior,source])=>({id,name,behavior,source,status:id==='NEXT-01'||id==='STORAGE-111'?'구현 대기':'현재 계약'}));features.splice(0,features.length,...currentFeatureRows);A.spec.currentFeatureContracts=currentFeatureContracts;A.spec.currentDataContracts=currentDataContracts;A.spec.currentNavigation=currentFeatureContracts.navigation;A.spec.featureContracts=currentFeatureContracts;A.spec.dataContracts=currentDataContracts;A.spec.costRules={hierarchy:currentFeatureContracts.CBS.classification,amounts:'원 단위 저장·null과0 구별·같은 비용 1회 합산',reason:'승인된 회사 관리대상과 원자료 근거를 구분',perPyeong:'won / (areaM2 / 3.305785) / 10000'};
+  if(originalFeatureContracts.v0133)A.spec.featureContracts.v0133=A.clone(originalFeatureContracts.v0133);
+  A.spec.productionContracts={implementationStatus:'보호된 검증 미리보기 · 회사 운영 전환 미완료',authentication:currentAuthentication,centralStorage:{status:connections.centralStorage,implemented:false},authorization:{status:'서버 프로젝트 권한 검증 구현 전'},audit:{status:'서버 동일 트랜잭션 구현 전'},documents:'공용폴더 경로 참조. 일반 파일 업로드 미연동',notion:{status:connections.notion,requiredForCore:false}};
+  A.spec.delivery={...A.spec.delivery,version:deploymentStatus.version,implementation:deploymentStatus.current.scope,latestUserDecision:nextBehavior,deployment:A.clone(deploymentStatus.current),authenticationImplemented:false,centralStorageImplemented:false,notionConnection:connections.notion,visualQA:'홈·플랫폼 명세 진입 확인. CRUD·PDF·Excel 미검수'};
+  A.spec.verification={...A.spec.verification,status:deploymentStatus.current.releaseState,date:deploymentStatus.asOf,visualVerification:'홈·플랫폼 명세 진입 확인',interactionVerification:'CRUD·PDF·Excel 미검수',browser:A.clone(browser),centralStorage:connections.centralStorage,appAuthentication:connections.appAuthentication,notion:connections.notion};
+  A.spec.featureContracts.v0111Deployment={scope:deploymentStatus.current.scope,releaseState:deploymentStatus.current.releaseState,authentication:A.clone(currentAuthentication),connections:A.clone(connections),historicalContractsPreserved:true};
+  A.spec.history.push({version:'v0.11.0',summary:'기존 핵심 플랫폼 보호 미리보기 배포. 홈·플랫폼 명세 진입 확인, CRUD·PDF·Excel 및 중앙 저장·앱 로그인·Notion 실제 연결은 미완료.'});
+ }
  if(A.realMode){delete A.spec.dataContracts.reportExample;delete A.spec.featureContracts.reportExample;}
  A.register('spec',()=>{
    const tabs=[['overview','개요'],['functions','기능정의서'],['sdd','SDD'],['tests','TDD·검수'],['data','데이터 구조'],['history','개발이력'],['feedback','피드백'],['json','전체 JSON']];
    A.ui.tabs.spec=A.ui.tabs.spec||'overview';const active=A.ui.tabs.spec;let content='';
    const pre=x=>'<pre class="spec-json">'+A.esc(JSON.stringify(x,null,2))+'</pre>';
-   if(active==='overview')content=A.table(['항목','내용'],[['버전',A.spec.meta.version],['기존 기준 요구사항',A.spec.requirementLedger.items.length+'항목'],['v'+A.spec.meta.version+' 수정대장',(A.spec.v0133FixLedger||A.spec.v0132FixLedger||A.spec.v0131FixLedger).items.length+'건'],['운영 범위','로컬 HTML'],['업무 샘플 기준일',A.today],['공식 법령 확인일',A.spec.legalSourceSnapshot?.dataDate||'자료 없음'],['참고모델 검토','이전 전체 검토139시트 · v30의4모델 관련범위 재대조 이력 보존'],['사업비 양식','서리풀 관리수준·같은 사건 비용 묶음·중요 예산 통제'],['용도별 사업비 프리셋','9종 구현 · 검수기록 별도'],['검수기록','v'+A.spec.meta.version]]);
+   if(active==='overview'){const deployment=A.spec.deploymentStatus,current=deployment?.current,browser=current?.browserVerification||{},connections=current?.connections||{},rows=[['버전',A.spec.meta.version],['누적 기준 요구사항',A.spec.requirementLedger.items.length+'항목'],['최근 보존 수정대장','v0.10.33 · '+(A.spec.v0133FixLedger?.items.length||0)+'건'],['운영 범위',current?.scope||'로컬 HTML'],['배포 상태',current?.releaseState||'미배포'],['실제 화면 확인',browser.home==='확인'&&browser.spec==='확인'?'홈·명세 진입 확인':'미검수'],['남은 실제 검수','CRUD·PDF·Excel '+([browser.crud,browser.pdf,browser.xlsx].every(value=>value==='확인')?'확인':'미검수')],['중앙 저장','중앙 저장 '+(connections.centralStorage||'미연동')],['앱 로그인','앱 로그인 '+(connections.appAuthentication||'미구현')],['인증 정책',A.spec.productionContracts.authentication?.identity+' · '+A.spec.productionContracts.authentication?.verification],['Notion',connections.notion||'선택 보충자료 · 미연동'],['공식 법령 확인일',A.spec.legalSourceSnapshot?.dataDate||'자료 없음'],['참고모델 검토','이전 전체 검토139시트 · v30의4모델 관련범위 재대조 이력 보존'],['사업비 양식','서리풀 관리수준·같은 사건 비용 묶음·중요 예산 통제'],['용도별 사업비 프리셋','9종 구현 · 검수기록 별도'],['검수기록','v'+A.spec.meta.version]];content=A.table(['항목','내용'],rows);}
    else if(active==='functions')content=A.table(['ID','기능','동작','근거'],features.map(([id,name,behavior,source])=>[A.esc(id),A.esc(name),'<div class="wrap">'+A.esc(behavior)+'</div>',A.esc(source)]));
-   else if(active==='sdd')content=pre({features:A.spec.featureContracts,production:A.spec.productionContracts,migration:A.spec.migration,report:A.spec.reportLayoutContract});
-   else if(active==='data')content=pre(A.spec.dataContracts);
+   else if(active==='sdd')content=pre({features:A.spec.currentFeatureContracts||A.spec.featureContracts,production:A.spec.productionContracts,migration:A.spec.migration,report:A.spec.reportLayoutContract});
+   else if(active==='data')content=pre(A.spec.currentDataContracts||A.spec.dataContracts);
    else if(active==='tests')content=pre({verification:A.spec.verification,requirements:A.spec.requirementLedger,scenarios:A.spec.acceptanceTests,restoration:A.spec.recovery});
    else if(active==='history')content=A.table(['버전','변경'],A.spec.history.map(x=>[A.esc(x.version),'<div class="wrap">'+A.esc(x.summary)+'</div>']))+A.table(['시각','프로젝트','행위','변경내용'],A.state.auditEvents.slice(0,100).map(x=>[A.esc(x.at),A.esc(x.projectId),A.esc(x.action),A.btn('변경 전후','audit-detail',{id:x.id})]));
    else if(active==='feedback')content=pre({previous:A.spec.feedback,decisions:A.spec.requirements});
