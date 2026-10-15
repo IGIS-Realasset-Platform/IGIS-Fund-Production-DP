@@ -1,0 +1,630 @@
+{
+  "schemaVersion": "deployment-v0111-fix-ledger-v1",
+  "version": "0.11.1",
+  "runtimeProductVersion": "0.11.0",
+  "asOf": "2026-10-15",
+  "status": "후속12요구 명세/누적MD 동기화·전체 미완료. 보호 검증 배포Ready·SMTP 연결 확인; OTP 발송/앱인증/중앙DB/업무출력 검수 미완료",
+  "spec": "docs/deployment-v0111-spec.md",
+  "specSha256": "E3356711C2F6A012020C957DA8CB442BEA80B6F188A0DD11900AB6C54959F946",
+  "currentVerification": {
+    "asOf": "2026-10-15",
+    "evidenceSource": "루트의 현재 clone 검사·CUA·공식 Vercel 배포/빌드 로그 확인 전달. 본 문서 동기화에서 제품 검사를 재실행하지 않음.",
+    "automatic": [
+      {
+        "scope": "정확 clone 집중검사",
+        "passed": 53,
+        "failed": 0,
+        "reportedBy": "root",
+        "completeProductAcceptance": false
+      },
+      {
+        "scope": "API 설정 없음",
+        "passed": 4,
+        "failed": 0,
+        "reportedBy": "root",
+        "completeProductAcceptance": false
+      },
+      {
+        "scope": "Vercel packaging",
+        "passed": 4,
+        "failed": 0,
+        "reportedBy": "root",
+        "completeProductAcceptance": false
+      }
+    ],
+    "automaticCountsNotSummedWithoutUniqueSuiteProof": true,
+    "html": {
+      "sha256": "e6938e5d9e05132fa025106392077c7dbc2ea42257834a0c699cd3582a84e735",
+      "bytes": 8120178,
+      "localAndBuildLogMatchedByRoot": true,
+      "cloudArtifactHashReadback": "별도 확인 필요"
+    },
+    "actual": {
+      "confirmed": [
+        "정확 HTML 홈",
+        "플랫폼 명세8개 세부탭",
+        "리로드 후 홈"
+      ],
+      "notVerified": [
+        "업무 CRUD",
+        "PDF 전페이지",
+        "XLSX",
+        "실제 OTP 발송/수신",
+        "회원가입/로그인",
+        "프로젝트 서버권한",
+        "중앙DB 저장/복구"
+      ],
+      "readOnlyCloudUrlReview": "root 진행 중"
+    },
+    "smtp": {
+      "status": "connection-verified-only",
+      "loggedAt": "2026-10-15T11:44:48.351+09:00",
+      "configured": true,
+      "connection": "verified",
+      "mailSent": false,
+      "applicationAuthenticationActive": false,
+      "secretValuesRead": false,
+      "rawSenderRecorded": false
+    },
+    "deployment": {
+      "branch": "preview/core-v0.11.0",
+      "commit": "66c51648f47e4fb6659dcd7c4ff2241abefdb42a",
+      "provider": "Vercel Git integration",
+      "state": "Ready",
+      "durationSeconds": 18,
+      "managementUrl": "https://vercel.com/igisra/development-project-platform-preview/HTQJKosKqWod3kdFRwtT2YjgLbAD",
+      "previewUrl": "https://development-project-platform-preview-mhsfppscg-igisra.vercel.app",
+      "production": false,
+      "precedingAuthorMismatchBlockedCommitPrefix": "d1c4",
+      "precedingBlockedAttemptWasNotApplicationOrSmtpExecution": true,
+      "followupChange": "README1줄; 동일 제품 코드"
+    },
+    "centralDatabaseConnected": false,
+    "applicationAuthenticationActive": false,
+    "actualOtpMailSent": false,
+    "preserved": {
+      "existingUi": true,
+      "originalWonAmounts": true,
+      "pastArtifacts": true,
+      "organizationDatabaseUnchanged": true
+    },
+    "noSecretValuesOrRawSenderInDocuments": true
+  },
+  "preservation": {
+    "priorRecords": 369,
+    "priorChecked": 332,
+    "priorUnchecked": 37,
+    "priorRecordBodiesSha256": "284A9951E8CC45DA7B58F3203AC7726E7974D3BA61D99C190232F562CC09FE8B",
+    "priorRecordBodyAndCheckboxPreservation": "verified-unchanged",
+    "priorRecordBodiesReadbackSha256": "284A9951E8CC45DA7B58F3203AC7726E7974D3BA61D99C190232F562CC09FE8B",
+    "observedTotalRecords": 381,
+    "observedChecked": 332,
+    "observedUnchecked": 49,
+    "newItems": 12,
+    "newItemsAllUnchecked": true,
+    "expectedTotal": 381,
+    "expectedChecked": 332,
+    "expectedUnchecked": 49,
+    "excelSynchronization": "루트 후속; 이번에 생성/수정하지 않음"
+  },
+  "supersessions": [
+    {
+      "latest": [
+        "PROD111-02",
+        "PROD111-03"
+      ],
+      "historical": "기존 Supabase Auth·공통 첫이용 코드·개인 비밀번호/초대전용 계약",
+      "decision": "회사메일6자리 확인·별도 앱 인증/private schema가 우선. 기존369개 원문/체크는 보존"
+    },
+    {
+      "latest": [
+        "PROD111-01",
+        "PROD111-10"
+      ],
+      "historical": "Notion 필수 배포입력·36/120 고정 코어 조건",
+      "decision": "선택 보충과 빈 실제 코어/수기 등록을 유지"
+    },
+    {
+      "latest": [
+        "PROD111-11",
+        "PROD111-12"
+      ],
+      "historical": "d1c4 작성자 불일치 차단·66c516 배포 pending·SMTP verify 예정",
+      "decision": "현재 Ready/SMTP connection verified로 구별하되 실제 발송/앱인증/DB/업무출력 미완료는 유지"
+    }
+  ],
+  "items": [
+    {
+      "id": "PROD111-01",
+      "title": "기존 플랫폼 전 기능·UI 보존",
+      "acceptance": "기존 전 기능을 인증·저장 연결 뒤에도 같은 화면·항목·행동으로 사용할 수 있음",
+      "failureBoundaries": "탭 제거·임의 재설계·예시 혼입·동기화 때문에 수기값 덮기 금지",
+      "testIds": [
+        "TPROD111-01"
+      ],
+      "implemented": false,
+      "verified": false,
+      "completed": false,
+      "status": "미완료 · 부분 준비/집중검사·제한된 실제 확인과 검증배포를 전체 수용 완료로 확대하지 않음",
+      "implementation": {
+        "status": "partial-or-contract-only",
+        "complete": false,
+        "note": "기존 제품 UI/정의 보존과 명세 현재/역사 투영을 준비했습니다. 인증·중앙저장 연결 뒤 전체 업무의 동일 동작은 아직 검증하지 않았습니다."
+      },
+      "automatic": {
+        "status": "partial-evidence-only",
+        "complete": false,
+        "currentEvidenceRef": "currentVerification.automatic",
+        "note": "현재 집중53·API설정없음4·packaging4의 보고 범위만 연결하며 이 요구의 전체 수용기준 통과를 뜻하지 않음"
+      },
+      "actual": {
+        "status": "not-complete",
+        "complete": false,
+        "note": "해당 후속 전체 흐름의 실제 검수 미완료"
+      },
+      "deployment": {
+        "status": "preview-ready-smtp-only",
+        "production": false,
+        "completeAcceptance": false,
+        "currentEvidenceRef": "currentVerification.deployment",
+        "note": "검증 배포Ready·SMTP연결만 확인. 메일전송/가입/로그인/DB/업무출력 완료 아님"
+      },
+      "remaining": [
+        "인증/중앙저장 연결 후 기존 메뉴·팝업·편집·취소·저장·합계·출력 전 흐름을 최종 URL에서 검수"
+      ],
+      "source": "docs/deployment-v0111-spec.md#3",
+      "reflectionVersion": "v0.11.1 후속 후보"
+    },
+    {
+      "id": "PROD111-02",
+      "title": "회사 이메일6자리 확인 가입·로그인",
+      "acceptance": "회사 이메일의 회원가입에6자리 숫자 OTP를 메일로 보내고 서버에서 검증. 현재 로그인 검토안도 이메일 OTP이며 가입/로그인/로그아웃을 구분",
+      "failureBoundaries": "다른 도메인·미인증·오류/만료/과다시도·이미 사용/재전송 전 코드 차단; 발송 실패와 검증 전 회원생성0. 공통 코드 폐기·비밀번호 강제 없음·이름/사진 보류",
+      "testIds": [
+        "TPROD111-02"
+      ],
+      "implemented": false,
+      "verified": false,
+      "completed": false,
+      "status": "미완료 · 부분 준비/집중검사·제한된 실제 확인과 검증배포를 전체 수용 완료로 확대하지 않음",
+      "implementation": {
+        "status": "partial-or-contract-only",
+        "complete": false,
+        "note": "회사메일6자리 정책과 Gmail SMTP 연결은 준비됐으나 실제 OTP 발송·회원가입·로그인은 미완료입니다. 공통 코드·강제 비밀번호·이름/사진 수집은 제외합니다."
+      },
+      "automatic": {
+        "status": "partial-evidence-only",
+        "complete": false,
+        "currentEvidenceRef": "currentVerification.automatic",
+        "note": "현재 집중53·API설정없음4·packaging4의 보고 범위만 연결하며 이 요구의 전체 수용기준 통과를 뜻하지 않음"
+      },
+      "actual": {
+        "status": "not-complete",
+        "complete": false,
+        "note": "해당 후속 전체 흐름의 실제 검수 미완료"
+      },
+      "deployment": {
+        "status": "preview-ready-smtp-only",
+        "production": false,
+        "completeAcceptance": false,
+        "currentEvidenceRef": "currentVerification.deployment",
+        "note": "검증 배포Ready·SMTP연결만 확인. 메일전송/가입/로그인/DB/업무출력 완료 아님"
+      },
+      "remaining": [
+        "승인된 대상의 실제 OTP 발송/수신·확인·가입·재로그인·로그아웃과 오류/재전송 반례 검수"
+      ],
+      "source": "docs/deployment-v0111-spec.md#3",
+      "reflectionVersion": "v0.11.1 후속 후보"
+    },
+    {
+      "id": "PROD111-03",
+      "title": "별도 앱 인증·OTP·세션 경계",
+      "acceptance": "Supabase Auth 없이 앱 전용 계정·OTP·세션을 private schema에서 관리하고 서버가 별도 앱 인증을 검증",
+      "failureBoundaries": "기존 auth 계정/세션·공유 SMTP/키·설정·타 서비스 계정 연결/변경0. OTP 단기 만료·시도 제한·1회 사용·해시 검증값 저장·재전송 무효화를 적용",
+      "testIds": [
+        "TPROD111-03"
+      ],
+      "implemented": false,
+      "verified": false,
+      "completed": false,
+      "status": "미완료 · 부분 준비/집중검사·제한된 실제 확인과 검증배포를 전체 수용 완료로 확대하지 않음",
+      "implementation": {
+        "status": "partial-or-contract-only",
+        "complete": false,
+        "note": "Supabase Auth 없이 private schema의 별도 계정·OTP·세션 계약을 준비했습니다. 실제 앱 인증/DB 연결은0이며 기존 Auth/SMTP/key를 재사용하지 않습니다."
+      },
+      "automatic": {
+        "status": "partial-evidence-only",
+        "complete": false,
+        "currentEvidenceRef": "currentVerification.automatic",
+        "note": "현재 집중53·API설정없음4·packaging4의 보고 범위만 연결하며 이 요구의 전체 수용기준 통과를 뜻하지 않음"
+      },
+      "actual": {
+        "status": "not-complete",
+        "complete": false,
+        "note": "해당 후속 전체 흐름의 실제 검수 미완료"
+      },
+      "deployment": {
+        "status": "preview-ready-smtp-only",
+        "production": false,
+        "completeAcceptance": false,
+        "currentEvidenceRef": "currentVerification.deployment",
+        "note": "검증 배포Ready·SMTP연결만 확인. 메일전송/가입/로그인/DB/업무출력 완료 아님"
+      },
+      "remaining": [
+        "OTP 만료·시도제한·1회사용·해시·동시검증·세션 회수/보호를 전용 DB와 실제 요청에서 검수"
+      ],
+      "source": "docs/deployment-v0111-spec.md#3",
+      "reflectionVersion": "v0.11.1 후속 후보"
+    },
+    {
+      "id": "PROD111-04",
+      "title": "프로젝트별 서버 권한",
+      "acceptance": "서버가 승인된 사용자와 프로젝트별 조회·수정·확정 권한을 매 요청에서 검사",
+      "failureBoundaries": "화면 숨김만으로 보호하지 않음. 다른 프로젝트 ID·권한 없는 사용자·변경된 권한·세션 만료도 서버에서 거부",
+      "testIds": [
+        "TPROD111-04"
+      ],
+      "implemented": false,
+      "verified": false,
+      "completed": false,
+      "status": "미완료 · 부분 준비/집중검사·제한된 실제 확인과 검증배포를 전체 수용 완료로 확대하지 않음",
+      "implementation": {
+        "status": "partial-or-contract-only",
+        "complete": false,
+        "note": "프로젝트별 서버 권한은 미연동입니다. 이메일 확인이나 Vercel 보호 통과를 업무 권한으로 승격하지 않습니다."
+      },
+      "automatic": {
+        "status": "partial-evidence-only",
+        "complete": false,
+        "currentEvidenceRef": "currentVerification.automatic",
+        "note": "현재 집중53·API설정없음4·packaging4의 보고 범위만 연결하며 이 요구의 전체 수용기준 통과를 뜻하지 않음"
+      },
+      "actual": {
+        "status": "not-complete",
+        "complete": false,
+        "note": "해당 후속 전체 흐름의 실제 검수 미완료"
+      },
+      "deployment": {
+        "status": "preview-ready-smtp-only",
+        "production": false,
+        "completeAcceptance": false,
+        "currentEvidenceRef": "currentVerification.deployment",
+        "note": "검증 배포Ready·SMTP연결만 확인. 메일전송/가입/로그인/DB/업무출력 완료 아님"
+      },
+      "remaining": [
+        "사용자/프로젝트/역할별 직접 읽기·수정·확정·내려받기 허용/거부·권한회수 검수"
+      ],
+      "source": "docs/deployment-v0111-spec.md#3",
+      "reflectionVersion": "v0.11.1 후속 후보"
+    },
+    {
+      "id": "PROD111-05",
+      "title": "앱 전용 schema·최소 접근",
+      "acceptance": "앱 전용 schema에만 중앙 저장 경로를 구성하고 실제 역할별 최소 접근을 검증",
+      "failureBoundaries": "기존 조직 객체 접근/연결0. 서버 비밀키 클라이언트 노출0. API 노출·권한·RLS 또는 서버 전용 경로는 아래 결정 게이트 후 구현",
+      "testIds": [
+        "TPROD111-05"
+      ],
+      "implemented": false,
+      "verified": false,
+      "completed": false,
+      "status": "미완료 · 부분 준비/집중검사·제한된 실제 확인과 검증배포를 전체 수용 완료로 확대하지 않음",
+      "implementation": {
+        "status": "partial-or-contract-only",
+        "complete": false,
+        "note": "기존 비공개 development_project_platform 영역만 대상으로 합니다. 실제 앱 DB 연결·업무 테이블 저장·다른 조직 객체 연결은0입니다."
+      },
+      "automatic": {
+        "status": "partial-evidence-only",
+        "complete": false,
+        "currentEvidenceRef": "currentVerification.automatic",
+        "note": "현재 집중53·API설정없음4·packaging4의 보고 범위만 연결하며 이 요구의 전체 수용기준 통과를 뜻하지 않음"
+      },
+      "actual": {
+        "status": "not-complete",
+        "complete": false,
+        "note": "해당 후속 전체 흐름의 실제 검수 미완료"
+      },
+      "deployment": {
+        "status": "preview-ready-smtp-only",
+        "production": false,
+        "completeAcceptance": false,
+        "currentEvidenceRef": "currentVerification.deployment",
+        "note": "검증 배포Ready·SMTP연결만 확인. 메일전송/가입/로그인/DB/업무출력 완료 아님"
+      },
+      "remaining": [
+        "앱 전용 저장 경로·역할·권한·API 경계와 기존 조직 서비스 무변경을 실제 연결에서 대조"
+      ],
+      "source": "docs/deployment-v0111-spec.md#3",
+      "reflectionVersion": "v0.11.1 후속 후보"
+    },
+    {
+      "id": "PROD111-06",
+      "title": "업무 소비자·원금액·확정본 보존",
+      "acceptance": "모든 업무 소비자가 동일한 실제 기록과 의미를 읽고 저장함",
+      "failureBoundaries": "ID·원 단위 정수·미입력/0·표준코드/당시 정의·법인 공유관계·계약/VAT·의견/조치·확정본·보고서 전용 수정값/플랫폼 반영 경계를 보존",
+      "testIds": [
+        "TPROD111-06"
+      ],
+      "implemented": false,
+      "verified": false,
+      "completed": false,
+      "status": "미완료 · 부분 준비/집중검사·제한된 실제 확인과 검증배포를 전체 수용 완료로 확대하지 않음",
+      "implementation": {
+        "status": "partial-or-contract-only",
+        "complete": false,
+        "note": "원 ID·원 단위/미입력0·비용코드·계약/VAT·공유법인·인허가/보고 보존 계약을 연결했습니다. 새 중앙저장 소비자 전수 대사는 대기입니다."
+      },
+      "automatic": {
+        "status": "partial-evidence-only",
+        "complete": false,
+        "currentEvidenceRef": "currentVerification.automatic",
+        "note": "현재 집중53·API설정없음4·packaging4의 보고 범위만 연결하며 이 요구의 전체 수용기준 통과를 뜻하지 않음"
+      },
+      "actual": {
+        "status": "not-complete",
+        "complete": false,
+        "note": "해당 후속 전체 흐름의 실제 검수 미완료"
+      },
+      "deployment": {
+        "status": "preview-ready-smtp-only",
+        "production": false,
+        "completeAcceptance": false,
+        "currentEvidenceRef": "currentVerification.deployment",
+        "note": "검증 배포Ready·SMTP연결만 확인. 메일전송/가입/로그인/DB/업무출력 완료 아님"
+      },
+      "remaining": [
+        "전체 소비자의 같은 기록/금액/정의·과거본문·반복행·빈값/0·공유법인 영향 독립 대사"
+      ],
+      "source": "docs/deployment-v0111-spec.md#3",
+      "reflectionVersion": "v0.11.1 후속 후보"
+    },
+    {
+      "id": "PROD111-07",
+      "title": "일괄 저장·감사·충돌·중복 요청",
+      "acceptance": "업무 변경과 감사이력을 함께 저장/취소하고 충돌·중복 요청·저장 실패를 처리",
+      "failureBoundaries": "일부만 저장, 오래된 창의 조용한 덮기, 재시도 중복 원장/이력 금지. 실패 시 입력값·초안·실제 부모·포커스 보존",
+      "testIds": [
+        "TPROD111-07"
+      ],
+      "implemented": false,
+      "verified": false,
+      "completed": false,
+      "status": "미완료 · 부분 준비/집중검사·제한된 실제 확인과 검증배포를 전체 수용 완료로 확대하지 않음",
+      "implementation": {
+        "status": "partial-or-contract-only",
+        "complete": false,
+        "note": "기존 로컬 transaction/원복 경계는 보존합니다. 서버의 업무/감사/알림 일괄 저장·동시성·중복 요청은 실제 DB에서 검증하지 않았습니다."
+      },
+      "automatic": {
+        "status": "partial-evidence-only",
+        "complete": false,
+        "currentEvidenceRef": "currentVerification.automatic",
+        "note": "현재 집중53·API설정없음4·packaging4의 보고 범위만 연결하며 이 요구의 전체 수용기준 통과를 뜻하지 않음"
+      },
+      "actual": {
+        "status": "not-complete",
+        "complete": false,
+        "note": "해당 후속 전체 흐름의 실제 검수 미완료"
+      },
+      "deployment": {
+        "status": "preview-ready-smtp-only",
+        "production": false,
+        "completeAcceptance": false,
+        "currentEvidenceRef": "currentVerification.deployment",
+        "note": "검증 배포Ready·SMTP연결만 확인. 메일전송/가입/로그인/DB/업무출력 완료 아님"
+      },
+      "remaining": [
+        "서버 업무+감사+알림 일괄 저장/실패 원복·오래된창 충돌·중복요청 재시도 실제 검수"
+      ],
+      "source": "docs/deployment-v0111-spec.md#3",
+      "reflectionVersion": "v0.11.1 후속 후보"
+    },
+    {
+      "id": "PROD111-08",
+      "title": "로컬·중앙 저장 전환과 격리",
+      "acceptance": "로컬 저장에서 중앙 저장으로 전환하는 대상·시점·재로드·복구 범위를 명시하고 격리 자료로 먼저 검증",
+      "failureBoundaries": "사용자 로컬 자료 자동 업로드/삭제·legacy 예시 복원 금지. 로그인 계정/프로젝트 간 초안·캐시 혼입 금지. 동기화 실패를 저장 성공으로 표시하지 않음",
+      "testIds": [
+        "TPROD111-08"
+      ],
+      "implemented": false,
+      "verified": false,
+      "completed": false,
+      "status": "미완료 · 부분 준비/집중검사·제한된 실제 확인과 검증배포를 전체 수용 완료로 확대하지 않음",
+      "implementation": {
+        "status": "partial-or-contract-only",
+        "complete": false,
+        "note": "기존 로컬 자료·원본과 프로젝트/계정별 초안 격리 계약을 보존합니다. 실제 로컬→중앙 이관·여러 계정 재로드는 미실행입니다."
+      },
+      "automatic": {
+        "status": "partial-evidence-only",
+        "complete": false,
+        "currentEvidenceRef": "currentVerification.automatic",
+        "note": "현재 집중53·API설정없음4·packaging4의 보고 범위만 연결하며 이 요구의 전체 수용기준 통과를 뜻하지 않음"
+      },
+      "actual": {
+        "status": "not-complete",
+        "complete": false,
+        "note": "해당 후속 전체 흐름의 실제 검수 미완료"
+      },
+      "deployment": {
+        "status": "preview-ready-smtp-only",
+        "production": false,
+        "completeAcceptance": false,
+        "currentEvidenceRef": "currentVerification.deployment",
+        "note": "검증 배포Ready·SMTP연결만 확인. 메일전송/가입/로그인/DB/업무출력 완료 아님"
+      },
+      "remaining": [
+        "이관 승인/범위·계정/프로젝트 격리·재로드·충돌·실패·초안 보존을 격리 자료로 검수"
+      ],
+      "source": "docs/deployment-v0111-spec.md#3",
+      "reflectionVersion": "v0.11.1 후속 후보"
+    },
+    {
+      "id": "PROD111-09",
+      "title": "앱 영역 백업·분리 복구",
+      "acceptance": "앱 영역의 백업·분리 복구 절차와 승인자를 정하고 실제 복구를 확인",
+      "failureBoundaries": "공유 프로젝트 전체 복구로 기존 서비스를 덮지 않음. 앱 이전 배포만으로 DB 변경이 복구된다고 가정하지 않음. 자료·권한·확정본을 함께 대조",
+      "testIds": [
+        "TPROD111-09"
+      ],
+      "implemented": false,
+      "verified": false,
+      "completed": false,
+      "status": "미완료 · 부분 준비/집중검사·제한된 실제 확인과 검증배포를 전체 수용 완료로 확대하지 않음",
+      "implementation": {
+        "status": "partial-or-contract-only",
+        "complete": false,
+        "note": "앱 영역의 백업/분리 복구 계약 단계입니다. 실제 서버 백업·복구 훈련은 미실행이며 공유 DB 전체 복구/기존 서비스 변경은0입니다."
+      },
+      "automatic": {
+        "status": "partial-evidence-only",
+        "complete": false,
+        "currentEvidenceRef": "currentVerification.automatic",
+        "note": "현재 집중53·API설정없음4·packaging4의 보고 범위만 연결하며 이 요구의 전체 수용기준 통과를 뜻하지 않음"
+      },
+      "actual": {
+        "status": "not-complete",
+        "complete": false,
+        "note": "해당 후속 전체 흐름의 실제 검수 미완료"
+      },
+      "deployment": {
+        "status": "preview-ready-smtp-only",
+        "production": false,
+        "completeAcceptance": false,
+        "currentEvidenceRef": "currentVerification.deployment",
+        "note": "검증 배포Ready·SMTP연결만 확인. 메일전송/가입/로그인/DB/업무출력 완료 아님"
+      },
+      "remaining": [
+        "앱 영역 백업·보존/복구 기준 승인과 분리 환경 실제 복구·자료/권한/확정본 대사"
+      ],
+      "source": "docs/deployment-v0111-spec.md#3",
+      "reflectionVersion": "v0.11.1 후속 후보"
+    },
+    {
+      "id": "PROD111-10",
+      "title": "Notion 선택 보충·수기자료 보존",
+      "acceptance": "Notion 선택 보충을 인증/중앙 저장 이후에도 선택적으로 적용하고 수기 자료를 보존",
+      "failureBoundaries": "자료 없음은 코어 실패 아님. invalid source 적용만 차단. snapshot을 실시간 API로 표시하지 않음. 원문·실명·ID·Secret을 Git/로그에 게시하지 않음",
+      "testIds": [
+        "TPROD111-10"
+      ],
+      "implemented": false,
+      "verified": false,
+      "completed": false,
+      "status": "미완료 · 부분 준비/집중검사·제한된 실제 확인과 검증배포를 전체 수용 완료로 확대하지 않음",
+      "implementation": {
+        "status": "partial-or-contract-only",
+        "complete": false,
+        "note": "Notion은 선택 보충이며 자료가 없어도 코어를 유지합니다. 실시간 API와 인증/중앙저장 이후 보충 적용은 미연동입니다."
+      },
+      "automatic": {
+        "status": "partial-evidence-only",
+        "complete": false,
+        "currentEvidenceRef": "currentVerification.automatic",
+        "note": "현재 집중53·API설정없음4·packaging4의 보고 범위만 연결하며 이 요구의 전체 수용기준 통과를 뜻하지 않음"
+      },
+      "actual": {
+        "status": "not-complete",
+        "complete": false,
+        "note": "해당 후속 전체 흐름의 실제 검수 미완료"
+      },
+      "deployment": {
+        "status": "preview-ready-smtp-only",
+        "production": false,
+        "completeAcceptance": false,
+        "currentEvidenceRef": "currentVerification.deployment",
+        "note": "검증 배포Ready·SMTP연결만 확인. 메일전송/가입/로그인/DB/업무출력 완료 아님"
+      },
+      "remaining": [
+        "인증/중앙저장 이후 없음/오류/정상 보충·수기자료·초안·프로젝트 문맥 보존 실제 검수"
+      ],
+      "source": "docs/deployment-v0111-spec.md#3",
+      "reflectionVersion": "v0.11.1 후속 후보"
+    },
+    {
+      "id": "PROD111-11",
+      "title": "최종 보호 배포·실제 업무 검수",
+      "acceptance": "같은 최종 커밋·빌드·URL에서 보호·앱 로그인·권한·업무 저장·다른 사용자 확인·출력을 실제 검수",
+      "failureBoundaries": "provider success·302·모델검사·과거159/36·120 또는 v33 검수를 새 최종 제품 통과로 확대하지 않음. 도구 차단은 미검증",
+      "testIds": [
+        "TPROD111-11"
+      ],
+      "implemented": false,
+      "verified": false,
+      "completed": false,
+      "status": "미완료 · 부분 준비/집중검사·제한된 실제 확인과 검증배포를 전체 수용 완료로 확대하지 않음",
+      "implementation": {
+        "status": "partial-or-contract-only",
+        "complete": false,
+        "note": "동일 HTML의 로컬 홈·명세8세부탭·새로고침 홈만 실제 확인했습니다. 보호 후속 배포와 SMTP 연결 확인은 별도이며 업무 CRUD/PDF/XLSX는 미검수입니다."
+      },
+      "automatic": {
+        "status": "partial-evidence-only",
+        "complete": false,
+        "currentEvidenceRef": "currentVerification.automatic",
+        "note": "현재 집중53·API설정없음4·packaging4의 보고 범위만 연결하며 이 요구의 전체 수용기준 통과를 뜻하지 않음"
+      },
+      "actual": {
+        "status": "partial-home-and-spec-only",
+        "complete": false,
+        "note": "홈·명세8탭·리로드홈만 확인; 업무/출력 미검수"
+      },
+      "deployment": {
+        "status": "preview-ready-smtp-only",
+        "production": false,
+        "completeAcceptance": false,
+        "currentEvidenceRef": "currentVerification.deployment",
+        "note": "검증 배포Ready·SMTP연결만 확인. 메일전송/가입/로그인/DB/업무출력 완료 아님"
+      },
+      "remaining": [
+        "후속 실제 URL의 홈/명세 외 전체 업무·계정·권한·메일/DB·PDF 전페이지·XLSX 및 원격산출물 동일성 검수"
+      ],
+      "source": "docs/deployment-v0111-spec.md#3",
+      "reflectionVersion": "v0.11.1 후속 후보"
+    },
+    {
+      "id": "PROD111-12",
+      "title": "명세·수정대장·체크리스트 동기화",
+      "acceptance": "명세·수정대장·누적 MD·Excel·Git 이력·배포 증거를 같은 요구번호/최종 지문으로 연결",
+      "failureBoundaries": "기존347/369 기록·v33 HTML/Excel·실패 이력 보존. 구현·자동·실제·보호 검증 배포·회사 운영 상태를 각각 기록",
+      "testIds": [
+        "TPROD111-12"
+      ],
+      "implemented": false,
+      "verified": false,
+      "completed": false,
+      "status": "미완료 · 부분 준비/집중검사·제한된 실제 확인과 검증배포를 전체 수용 완료로 확대하지 않음",
+      "implementation": {
+        "status": "partial-or-contract-only",
+        "complete": false,
+        "note": "이 명세·신규12항목 수정대장·누적 MD를 동기화합니다. 새12개를 포함한 Excel·최종 Git/배포/실제검수 지문 동기화는 루트 후속입니다."
+      },
+      "automatic": {
+        "status": "partial-evidence-only",
+        "complete": false,
+        "currentEvidenceRef": "currentVerification.automatic",
+        "note": "현재 집중53·API설정없음4·packaging4의 보고 범위만 연결하며 이 요구의 전체 수용기준 통과를 뜻하지 않음"
+      },
+      "actual": {
+        "status": "not-complete",
+        "complete": false,
+        "note": "해당 후속 전체 흐름의 실제 검수 미완료"
+      },
+      "deployment": {
+        "status": "preview-ready-smtp-only",
+        "production": false,
+        "completeAcceptance": false,
+        "currentEvidenceRef": "currentVerification.deployment",
+        "note": "검증 배포Ready·SMTP연결만 확인. 메일전송/가입/로그인/DB/업무출력 완료 아님"
+      },
+      "remaining": [
+        "루트의 Excel381항목 동기화와 원문/서식 보존·최종 증거/Git 문서·배포 지문·단계 상태 대사"
+      ],
+      "source": "docs/deployment-v0111-spec.md#3",
+      "reflectionVersion": "v0.11.1 후속 후보"
+    }
+  ]
+}
