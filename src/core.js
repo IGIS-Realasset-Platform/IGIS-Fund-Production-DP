@@ -18,8 +18,8 @@ const App=(()=>{
  function validateRealCandidate(candidate){
   const source=candidate.sourceLoad;
   if(!source||!['unavailable','ready','review'].includes(source.status))throw Error('실제 저장본의 자료 연결상태를 확인할 수 없습니다.');
-  const fakeIds=new Set(['YD427','YD816','IOTA','DC01','SAMPLE02']),notionProjects=candidate.projects.filter(project=>project?.sourceFacts?.origin==='notion');
-  if(candidate.projects.some(project=>fakeIds.has(project?.id)||project?.isExample===true||project?.sample===true))throw Error('실제 저장본에 예시 프로젝트 식별값 또는 표시가 포함되어 있습니다.');
+ const fakeIds=new Set(['YD427','YD816','IOTA','DC01','SAMPLE02']),fixturePolicy=typeof globalThis!=='undefined'?globalThis.DppHtmlFixturePolicy:null,notionProjects=candidate.projects.filter(project=>project?.sourceFacts?.origin==='notion');
+ for(const project of candidate.projects){const claimed=fixturePolicy?.isClaimedProject?.(project)??(Object.prototype.hasOwnProperty.call(project||{},'testData')||String(project?.id||'').startsWith('TEST-20261016-')),approved=fixturePolicy?.isApprovedProject?.(project)===true;if(claimed&&!approved)throw Error('승인된 HTML 테스트사업 식별정보를 확인해 주세요.');if((fakeIds.has(project?.id)||project?.isExample===true||project?.sample===true)&&!approved)throw Error('실제 저장본에 예시 프로젝트 식별값 또는 표시가 포함되어 있습니다.');}
   if(source.status!=='unavailable'&&(source.schemaVersion!=='notion-development-projects-v1'||source.hasMore!==false||!Number.isInteger(source.actualCount)||source.actualCount<0||notionProjects.length<source.actualCount))throw Error('실제 저장본의 선택자료 연결정보를 확인해 주세요.');
   if(candidate.integrityIssues.length)throw Error('실제 저장본에 중복되거나 식별할 수 없는 자료가 있습니다.');
   return candidate;

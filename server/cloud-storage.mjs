@@ -1,5 +1,6 @@
 import {createHash,randomUUID} from 'node:crypto';
 import {companyEmail} from './email-auth.mjs';
+import '../src/html-test-fixture-policy.js';
 import masterV1 from '../src/data/cost-type-master-v1.json' with {type:'json'};
 import masterV2 from '../src/data/cost-type-master-v2.json' with {type:'json'};
 import masterV3 from '../src/data/cost-type-master-v3.json' with {type:'json'};
@@ -23,6 +24,7 @@ const controlKinds=new Set(['underwriting','bridge','pf','bridge_refi','pf_refi'
 const projectRecordLists=['costs','cbs','costStages','contracts','documents','permits','milestones','loans','equities','guarantees','sales','reports','reportSnapshots','reportDraftOverrides','areaVersions','landParcels','landContracts','landPaymentSchedule','landPayments','vatRecords','vatApplications','vatReconciliations','fundForecasts','fundPayments','fundItemReviews','loanEvents','loanQuarterlyRecords','executionOpeningBalances','reserveTransfers','classificationEvents','benchmarks','issues','inputDataReviews','inputDataReviewHistory','reportLandPlan','reportBuildingPlans'];
 const stateRecordLists=['projects','entities','auditEvents','notifications','companies','lawCatalog','lawChanges','lawUpdateRuns','projectLawImpacts','companyParticipations','companySalesLines','companyIdentityConflicts','marketSeries','projectRegistrationDrafts'];
 const costMasters=new Map([masterV1,masterV2,masterV3,masterV4].map(master=>[master.version,new Map(master.entries.map(entry=>[entry.id,entry]))]));
+const htmlFixturePolicy=globalThis.DppHtmlFixturePolicy;
 
 export class WorkspaceError extends Error{
  constructor(status,code,message){super(message);this.name='WorkspaceError';this.status=status;this.code=code;}
@@ -72,7 +74,10 @@ export function validateWorkspaceState(state){
  if(own(state,'storageRevision')&&(!Number.isSafeInteger(state.storageRevision)||state.storageRevision<0))throw invalid('저장본 번호를 확인해 주세요.');
  for(const key of stateRecordLists)validateRecordList(state,key);
  for(const project of state.projects){
-  if(!object(project)||!validId(project.id))throw invalid('사업 식별값을 확인해 주세요.');if(project.isExample===true||project.sample===true||['YD427','YD816','IOTA','DC01','SAMPLE02'].includes(project.id))throw invalid('예시 사업을 실제 중앙 저장소에 저장할 수 없습니다.');
+  if(!object(project)||!validId(project.id))throw invalid('사업 식별값을 확인해 주세요.');
+  const approvedFixture=htmlFixturePolicy.isApprovedProject(project);
+  if(htmlFixturePolicy.isClaimedProject(project)&&!approvedFixture)throw invalid('승인된 테스트사업의 식별값과 원본 정보를 확인해 주세요.');
+  if(!approvedFixture&&(project.isExample===true||project.sample===true||['YD427','YD816','IOTA','DC01','SAMPLE02'].includes(project.id)))throw invalid('예시 사업을 실제 중앙 저장소에 저장할 수 없습니다.');
   for(const key of projectRecordLists)validateRecordList(project,key);
   for(const row of project.cbs||[])for(const key of ['current','initial','reportedCurrentTotal'])if(own(row,key))validateWon(row[key]);
   for(const row of project.costStages||[]){validateRecordList(row,'nodes');if(own(row,'reportedTotal'))validateWon(row.reportedTotal);if(own(row,'values')&&!object(row.values))throw invalid();for(const value of Object.values(row.values||{}))validateWon(value);}
@@ -178,8 +183,17 @@ function associatedProjects(state,kind,id){
 }
 export function mergeWorkspaceState(current,incoming,rawAccess,user={email:''}){
  validateWorkspaceState(current);validateWorkspaceState(incoming);const access=normalizeWorkspaceAccess(rawAccess),visible=filterWorkspaceState(current,access),next=clone(current),oldProjects=recordMap(current.projects),incomingProjects=recordMap(incoming.projects),changed=new Set();
- for(const old of current.projects){const p=incomingProjects.get(old.id);if(!readable(access,old.id)){if(p)throw forbidden();continue;}if(!p)throw new WorkspaceError(400,'PROJECT_REMOVAL_NOT_ALLOWED','기존 사업은 이 저장 요청으로 삭제할 수 없습니다.');if(!same(old,p)){if(!editable(access,old.id))throw forbidden();assertProjectHistory(old,p,access);validateProjectCostChange(old,p);changed.add(old.id);}}
- for(const p of incoming.projects)if(!oldProjects.has(p.id)){if(!access.canCreateProject)throw forbidden();assertProjectHistory(null,p,access);validateProjectCostChange(null,p);changed.add(p.id);}
+ for(const old of current.projects){const p=incomingProjects.get(old.id);if(!readable(access,old.id)){if(p)throw forbidden();continue;}if(!p){if(htmlFixturePolicy.isApprovedProject(old)){if(!access.isAdmin)throw forbidden();changed.add(old.id);continue;}throw new WorkspaceError(400,'PROJECT_REMOVAL_NOT_ALLOWED','기존 사업은 이 저장 요청으로 삭제할 수 없습니다.');}if(!same(old,p)){if(!editable(access,old.id))throw forbidden();if(htmlFixturePolicy.isApprovedProject(old)&&!same(old.testData,p.testData))throw invalid('테스트사업의 원본 정보는 변경할 수 없습니다.');assertProjectHistory(old,p,access);validateProjectCostChange(old,p);changed.add(old.id);}}
+ for(const p of incoming.projects)if(!oldProjects.has(p.id)){
+  if(!access.canCreateProject)throw forbidden();assertProjectHistory(null,p,access);
+  if(htmlFixturePolicy.isApprovedProject(p)){
+   if(!access.isAdmin)throw forbidden();const digest=htmlFixturePolicy.initialProjectSha256(p.id);
+   if(!digest||workspaceStateHash(p)!==digest)throw invalid('승인된 원본 테스트사업과 입력한 자료가 일치하지 않습니다.');
+   // 원본의 과거 코드·검토 상태는 새 입력으로 승격하지 않습니다. 정확한 최초 원본만 기존 기준자료로 검사합니다.
+   validateProjectCostChange(p,p);
+  }else validateProjectCostChange(null,p);
+  changed.add(p.id);
+ }
  const order=access.isAdmin?incoming.projects.map(p=>p.id):current.projects.map(p=>p.id).concat(incoming.projects.filter(p=>!oldProjects.has(p.id)).map(p=>p.id));
  next.projects=order.map(id=>clone(incomingProjects.get(id)||oldProjects.get(id)));
  for(const[key,kind]of [['entities','entity'],['companies','company']]){

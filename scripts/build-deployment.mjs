@@ -27,7 +27,7 @@ const professionals=seed.entities.flatMap(entity=>entity.professionalRecords||[]
 if(new Set(seed.projects.map(project=>project.id)).size!==seed.projects.length)throw Error('선택자료의 안정 프로젝트 ID를 확인해 주세요.');
 if(seed.projects.some(project=>project.type||project.stage||['YD427','YD816','IOTA','DC01','SAMPLE02'].includes(project.id)))throw Error('선택자료의 원본 구분을 사업유형·단계·예시 ID로 변환할 수 없습니다.');
 
-const modules=['core','notion-addon','chart-utils','cost-type-master','cost-taxonomy','cbs','vat','contracts','legal','permit-views','partners','setup','report-form','report','cbs-purpose','cbs-model-v0118','cost-cbs-order','cost-catalog-identity','cost-company-profile','cost-order','cost-coding','cost-asset-presets','xlsx-export','audit-view','recovery-views','spec'];
+const modules=['html-test-fixture-policy','core','notion-addon','chart-utils','cost-type-master','cost-taxonomy','cbs','vat','contracts','legal','permit-views','partners','setup','report-form','report','cbs-purpose','cbs-model-v0118','cost-cbs-order','cost-catalog-identity','cost-company-profile','cost-order','cost-coding','cost-asset-presets','xlsx-export','audit-view','recovery-views','spec'];
 if(cloud)modules.push('cloud-session');
 const icons=await loadIcons();
 const spec=await read('src/data/base-spec.json'),deploymentStatus=JSON.parse(await read(cloud?'src/data/deployment-status-cloud-v0111.json':'src/data/deployment-status-v0111.json')),ledger=await read('docs/recovery-ledger.json'),requirementLedger=await read('docs/v0105-requirement-ledger.json'),fixLedgers={};for(let value=106;value<=133;value++){const key='V'+String(value).padStart(4,'0')+'_FIX_LEDGER',file=`docs/v${String(value).padStart(4,'0')}-fix-ledger.json`;fixLedgers[key]=JSON.parse(await read(file))}
