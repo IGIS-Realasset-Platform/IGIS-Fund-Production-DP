@@ -28,6 +28,8 @@ const [{betterAuth},{emailOTP},{memoryAdapter}]=await Promise.all([
 
 const origin='https://platform.example.invalid';
 const secret='isolated-synthetic-test-secret-more-than-32-characters';
+const password='synthetic-regression-password';
+const allowedEmails=['user','hash','expired','attempt','replay','resend','mailfail','dbfail','cookie','csrf','logout','meta','retired','delayed','concurrent','network'].map(value=>'qa.'+value+'@igisam.com');
 const emptyDatabase=()=>({app_user:[],app_account:[],app_session:[],app_verification:[],app_rate_limit:[]});
 const rowCounts=database=>Object.fromEntries(Object.entries(database).map(([key,value])=>[key,value.length]));
 const safeBody=async response=>{try{return await response.clone().json()}catch{return null}};
@@ -37,9 +39,11 @@ const sessionCookie=response=>(response.headers.get('set-cookie')||'').split(';'
 function fixture({sendEmail,adapterFactory}={}){
   const database=emptyDatabase(),sent=[],baseFactory=memoryAdapter(database),databaseFactory=adapterFactory?adapterFactory(baseFactory,database):baseFactory;
   const sender=sendEmail?(async item=>{sent.push(item);return sendEmail(item)}):(async item=>{sent.push(item);return{accepted:true}});
-  const service=createEmailAuth({betterAuth,emailOTP,database:databaseFactory,secret,origin,sendEmail:sender});
+  const service=createEmailAuth({betterAuth,emailOTP,database:databaseFactory,secret,origin,allowedEmails,sendEmail:sender});
   let ipCounter=10;
   const request=(action,{method=action==='session'?'GET':'POST',body=null,cookie='',requestOrigin=origin,contentType='application/json',ip}={})=>{
+    // AUTH112에서는 이 과거 OTP보호 회귀도 최초 비밀번호 설정 요청으로 실행합니다. 비밀번호 생략 차단은 auth112-server에서 별도로 검사합니다.
+    if(action==='verify'&&body)body={password,...body};
     const headers=new Headers();
     if(requestOrigin!==null)headers.set('origin',requestOrigin);
     if(contentType!==null)headers.set('content-type',contentType);
@@ -57,6 +61,7 @@ async function muted(run){
 }
 
 async function signIn(app,email='qa.user@igisam.com'){
+  if(app.database.app_account.some(row=>row.password&&app.database.app_user.some(user=>user.id===row.userId&&user.email===email))){const verified=await app.request('login',{body:{email,password}});assert.equal(verified.status,200);return {verified,cookie:sessionCookie(verified),body:await verified.clone().json()};}
   const before=app.sent.length,sent=await app.request('code',{body:{email}});assert.equal(sent.status,202,'OTP request must be accepted');
   assert.equal(app.sent.length,before+1,'one new synthetic mail item');
   const otp=app.sent.at(-1).otp;assert(/^\d{6}$/.test(otp),'OTP must be six ASCII digits');
@@ -149,8 +154,8 @@ await check('CLOUD-AUTH-13 role·project·admin·verified 클라이언트주장�
   assert.equal(response.status,400);assert.equal(app.sent.length,0);assert.equal(app.database.app_verification.length,0);assert.equal(app.database.app_user.length,0);assert.equal(app.database.app_session.length,0);
 });
 
-await check('CLOUD-AUTH-14 SupabaseAuth·공통코드·비밀번호경로는비활성이고extra입력도거부',async()=>{
-  const source=fs.readFileSync('server/email-auth.mjs','utf8');assert(source.includes('emailAndPassword:{enabled:false}'));assert(source.includes('socialProviders:{}'));assert(!/from\s+['"]@supabase\/|from\s+['"]supabase/.test(source));
+await check('CLOUD-AUTH-14 SupabaseAuth·공통코드는비활성·비밀번호는검증후설정·extra거부',async()=>{
+  const source=fs.readFileSync('server/email-auth.mjs','utf8');assert(source.includes('emailAndPassword:{enabled:true,disableSignUp:true,requireEmailVerification:true'));assert(source.includes('socialProviders:{}'));assert(!/from\s+['"]@supabase\/|from\s+['"]supabase/.test(source));
   const app=fixture();for(const extra of [{password:'synthetic'},{commonCode:'000000'}]){const response=await app.request('code',{body:{email:'qa.retired@igisam.com',...extra}});assert.equal(response.status,400)}
   assert.equal(app.sent.length,0);assert.equal(app.database.app_user.length,0);assert.equal(app.database.app_session.length,0);
 });

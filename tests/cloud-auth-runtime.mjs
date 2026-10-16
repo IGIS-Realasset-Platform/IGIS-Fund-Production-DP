@@ -7,7 +7,7 @@ const databaseUrl='postgresql://development_project_platform_runtime:synthetic-p
 const secret='isolated-synthetic-test-secret-more-than-32-characters';
 const gmailUser='qa.sender@gmail.com';
 const spacedAppPassword='abcd efgh ijkl mnop';
-const baseEnvironment=()=>({DP_AUTH_ORIGIN:origin,DP_AUTH_SECRET:secret,DP_AUTH_DATABASE_URL:databaseUrl});
+const baseEnvironment=()=>({DP_AUTH_ORIGIN:origin,DP_AUTH_SECRET:secret,DP_AUTH_DATABASE_URL:databaseUrl,DP_ALLOWED_EMAILS:JSON.stringify(['synthetic.member@igisam.com'])});
 const request=new Request(origin+'/api/auth/session',{method:'GET'});
 
 function fakeRuntime({responseStatus=200,handlerError=null,driverError=null,senderError=null}={}){

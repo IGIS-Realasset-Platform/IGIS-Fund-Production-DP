@@ -21,7 +21,7 @@ export async function verifyCloudBuild({html,version}){
   await vm.runInContext(script,context,{filename:'generated-cloud-platform.html'});
   const actual=vm.runInContext('({cloudMode:App.cloudMode,version:App.spec.meta.version,projects:App.state.projects.length,booted:App.cloudPersistence.booted(),phase:App.cloudSession.status().phase,canCreate:App.cloudSession.can("createProject"),hasAdd:App.hasAction("project-add")})',context);
   if(!actual.cloudMode||actual.version!==version||actual.projects!==0||reads.length)throw Error('CLOUD_BUILD_AUTH_STORAGE_BOUNDARY');
-  if(!signedIn&&(actual.booted||actual.phase!=='email'||calls.length!==1||!nodes.get('content').innerHTML.includes('인증번호 받기')))throw Error('CLOUD_BUILD_PREAUTH_GATE');
+  if(!signedIn&&(actual.booted||actual.phase!=='login'||calls.length!==1||!nodes.get('content').innerHTML.includes('type="password"')||!nodes.get('content').innerHTML.includes('로그인')||!/<div class="app dp-app auth-hidden"/.test(html)))throw Error('CLOUD_BUILD_PREAUTH_GATE');
   if(signedIn&&(!actual.booted||actual.phase!=='ready'||actual.canCreate||!actual.hasAdd||calls.length!==2))throw Error('CLOUD_BUILD_AUTHENTICATED_BOOT');
   results.push({signedIn,phase:actual.phase,oldLocalReads:reads.length,httpCalls:calls.length,automaticServerWrites:calls.filter(call=>call.method!=='GET').length});
  }

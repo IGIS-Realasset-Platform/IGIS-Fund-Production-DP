@@ -20,4 +20,4 @@ const mailConnection=await verifyMailConfiguration(process.env,{approvedHtmlSha2
 console.log(JSON.stringify({status:'mail-configuration-check',...mailConnection,mailSent:false,applicationAuthenticationActive:false}));
 await fs.mkdir('dist',{recursive:true});
 await fs.copyFile(htmlPath,'dist/index.html');
-console.log(JSON.stringify({status:'built-protected-cloud-platform',version:'0.11.1',htmlSha256:sha256,bytes:bytes.length,privateSourceInGit:false,sourceMode:'authenticated-optional-runtime-addon',notionRequiredForBuild:false,automaticNotionSync:false}));
+console.log(JSON.stringify({status:'built-protected-cloud-platform',version:'0.11.2',htmlSha256:sha256,bytes:bytes.length,privateSourceInGit:false,sourceMode:'authenticated-optional-runtime-addon',notionRequiredForBuild:false,automaticNotionSync:false}));

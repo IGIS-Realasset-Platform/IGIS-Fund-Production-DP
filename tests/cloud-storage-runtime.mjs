@@ -3,7 +3,7 @@ import {WorkspaceError} from '../server/cloud-storage.mjs';
 import {createWorkspaceRuntime} from '../server/workspace-runtime.mjs';
 
 const origin='https://platform.example.invalid';
-const environment=()=>({DP_AUTH_ORIGIN:origin,DP_AUTH_SECRET:'synthetic-secret-more-than-thirty-two-characters',DP_AUTH_DATABASE_URL:'postgresql://development_project_platform_runtime:synthetic-password@db.baqybhtfvuttcyyzspyi.supabase.co:5432/postgres',DP_MAIL_PROVIDER:'gmail',DP_GMAIL_USER:'qa.sender@gmail.com',DP_GMAIL_APP_PASSWORD:'abcdefghijklmnop'});
+const environment=()=>({DP_AUTH_ORIGIN:origin,DP_AUTH_SECRET:'synthetic-secret-more-than-thirty-two-characters',DP_AUTH_DATABASE_URL:'postgresql://development_project_platform_runtime:synthetic-password@db.baqybhtfvuttcyyzspyi.supabase.co:5432/postgres',DP_MAIL_PROVIDER:'gmail',DP_GMAIL_USER:'qa.sender@gmail.com',DP_GMAIL_APP_PASSWORD:'abcdefghijklmnop',DP_ALLOWED_EMAILS:JSON.stringify(['user1@igisam.com'])});
 const request=(method='GET')=>new Request(origin+'/api/workspace',{method,headers:{origin,cookie:'dpp.session_token=synthetic-cookie'}});
 
 function fixture({sessionStatus=200,authenticated=true,operationStatus=200,operationError=null,connectError=null,driverError=null}={}){

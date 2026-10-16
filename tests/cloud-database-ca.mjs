@@ -9,7 +9,7 @@ import {createWorkspaceRuntime} from '../server/workspace-runtime.mjs';
 const ca1=rootCertificates[0].replace(/\r\n/g,'\n').trim()+'\n',ca2=rootCertificates[1].replace(/\r\n/g,'\n').trim()+'\n';
 const databaseUrl='postgresql://development_project_platform_runtime:synthetic-password@db.baqybhtfvuttcyyzspyi.supabase.co:5432/postgres';
 const origin='https://platform.example.invalid';
-const environment=ca=>({DP_AUTH_ORIGIN:origin,DP_AUTH_SECRET:'synthetic-secret-more-than-thirty-two-characters',DP_AUTH_DATABASE_URL:databaseUrl,DP_MAIL_PROVIDER:'gmail',DP_GMAIL_USER:'synthetic.sender@gmail.com',DP_GMAIL_APP_PASSWORD:'abcdefghijklmnop',...(ca!==undefined?{DP_AUTH_DATABASE_CA:ca}:{})});
+const environment=ca=>({DP_AUTH_ORIGIN:origin,DP_AUTH_SECRET:'synthetic-secret-more-than-thirty-two-characters',DP_AUTH_DATABASE_URL:databaseUrl,DP_MAIL_PROVIDER:'gmail',DP_GMAIL_USER:'synthetic.sender@gmail.com',DP_GMAIL_APP_PASSWORD:'abcdefghijklmnop',DP_ALLOWED_EMAILS:JSON.stringify(['synthetic.member@igisam.com']),...(ca!==undefined?{DP_AUTH_DATABASE_CA:ca}:{})});
 const request=()=>new Request(origin+'/api/session');
 const checks=[];
 async function check(name,run){try{await run();checks.push({name,status:'passed'});console.log('PASS '+name)}catch{checks.push({name,status:'failed',error:'CA 계약 기대와 현재 구현이 다릅니다. 비밀값·PEM 원문은 기록하지 않았습니다.'});console.error('FAIL '+name)}}

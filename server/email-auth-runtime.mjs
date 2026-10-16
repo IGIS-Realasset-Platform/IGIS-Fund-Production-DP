@@ -20,7 +20,7 @@ export async function productionSender(config,drivers){if(config.mailProvider===
 export async function boundAuthenticationService(config,drivers,client,{createService=createEmailAuth,senderFactory=productionSender}={}){
  const boundClient={query:(...args)=>client.query(...args),release(){}},boundPool={connect:async()=>boundClient,end:async()=>{}};
  const database={dialect:new drivers.PostgresDialect({pool:boundPool}),type:'postgres',schemaName:AUTH_SCHEMA,transaction:false};
- return createService({betterAuth:drivers.betterAuth,emailOTP:drivers.emailOTP,database,secret:config.secret,origin:config.origin,sendEmail:await senderFactory(config,drivers)});
+ return createService({betterAuth:drivers.betterAuth,emailOTP:drivers.emailOTP,database,secret:config.secret,origin:config.origin,allowedEmails:config.allowedEmails,sendEmail:await senderFactory(config,drivers)});
 }
 export function createAuthRuntime({environment=()=>process.env,loadDrivers=loadProductionDrivers,createService=createEmailAuth,senderFactory=productionSender}={}){
  return async function runEmailAuth(request,action){

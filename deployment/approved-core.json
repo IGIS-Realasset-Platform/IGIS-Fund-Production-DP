@@ -1,11 +1,11 @@
 {
-  "version": "0.11.1",
-  "htmlSha256": "057ff8a9e5b3188833c2c595e3bad66ddd10a2fe0e9a081c60f83f74f6fa93ae",
-  "bytes": 8146748,
+  "version": "0.11.2",
+  "htmlSha256": "fbe77c99ac29d28ad277c76ec128e28d1053c48ad4128b5232fab52bf3d039ac",
+  "bytes": 8160862,
   "notionRequired": false,
   "realProjectDataIncluded": false,
   "mode": "authenticated-private-schema-runtime-with-optional-source",
   "localBuildVerified": true,
-  "actualBrowser": "Current publication build matched and generated-HTML synthetic checks passed; real remote email, authenticated browser and outputs remain separate acceptance gates",
-  "protectedDeployment": "pending-v0.11.1-runtime-verification"
+  "actualBrowser": "Installed Edge with Chromium sandbox; four viewports and synthetic auth flow checked. Remote password enrollment/login and A/B/C live CRUD are separate gates.",
+  "protectedDeployment": "pending-v0.11.2-remote-verification"
 }
