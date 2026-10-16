@@ -217,7 +217,7 @@
   function initialize(s){
     s.entities=s.entities||[];s.lawCatalog=s.lawCatalog||[];s.lawChanges=s.lawChanges||[];s.lawUpdateRuns=s.lawUpdateRuns||[];s.projectLawImpacts=s.projectLawImpacts||[];
     if(!A.realMode)for(const item of catalog)if(!s.lawCatalog.some(x=>x.id===item.id))s.lawCatalog.push(clone(item));
-    importLawSource(s);
+    if(!A.cloudMode)importLawSource(s);
     for(const p of s.projects){
       const existing=s.entities.find(x=>x.name===p.basic?.operator);p.entityId=p.entityId||existing?.id||`entity-${p.id}`;
       if(!s.entities.some(x=>x.id===p.entityId))s.entities.push({id:p.entityId,name:p.basic?.operator||p.name,route:/PFV|프로젝트금융/.test(p.land?.spvType||'')?'상근 임직원 없는 특수목적법인':'일반법인',registrationNumber:'',status:'검토 중',capital:null,professionals:null,office:'',manager:'',contractPath:'',evidencePath:'',changes:[],sample:!A.realMode});
@@ -236,7 +236,7 @@
       if(!p.landPaymentSchedule)p.landPaymentSchedule=(p.landPayments||[]).map(x=>({...clone(x),contractId:p.landContracts[0]?.id||'',equityAmount:x.equityPct==null?null:Math.round(x.amount*x.equityPct/100),debtAmount:x.debtPct==null?null:Math.round(x.amount*x.debtPct/100),fundingState:x.paid?'실제':'계획',plannedDate:x.date,actualDate:x.paid?x.date:'',legacy:true}));
       p.projectDates=p.projectDates||{contractCompletion:'',responsibleCompletion:'',responsibleExtension:'',responsibleSourcePath:''};p.sales=p.sales||[];
     }
-    initializeActionItems(s);refreshProjectImpacts(s);
+    initializeActionItems(s);if(!A.cloudMode||A.cloudPersistence?.booted?.()===true)refreshProjectImpacts(s);
   }
   function initializeActionItems(s){for(const p of s.projects)for(const x of p.permits||[])x.actionItems=x.actionItems||[];}
   A.initializers.push(initialize);
