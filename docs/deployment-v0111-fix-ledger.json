@@ -1,9 +1,9 @@
 {
   "schemaVersion": "deployment-v0111-fix-ledger-v1",
   "version": "0.11.1",
-  "runtimeProductVersion": "0.11.0",
+  "runtimeProductVersion": "0.11.1",
   "candidateProductVersion": "0.11.1",
-  "candidatePublished": false,
+  "candidatePublished": true,
   "asOf": "2026-10-16",
   "status": "기존 회사 Supabase/Vercel 대상 접근 복구. 새 앱 전용Preview 설정5개와runtime LOGIN 적용, 공식CA를 통한 실제 최소권한PG접속 확인. 실제 메일·가입/로그인·중앙저장·새배포 수용은 진행 중이며 전체12개 미완료.",
   "execution20261016": {
@@ -19,12 +19,17 @@
     "actualEmailSent": false,
     "actualUserSignupVerified": false,
     "actualLoginVerified": false,
-    "newDeploymentVerified": false,
+    "newDeploymentVerified": true,
+    "newDeploymentVerificationScope": "Vercel Ready, approved project/commit/branch/region only; remote app/mail/save acceptance pending",
+    "deploymentId": "dpl_32S6ZGkbaAVEo4DsDgkVVwUvxiZ9",
+    "deploymentCommit": "5357606c0f12175da77e33cf3c97c54972abbe6c",
+    "actualRuntimeRollbackDatabaseChecks": 10,
+    "actualPostgresAuthWithSyntheticSenderChecks": 8,
     "temporaryProtectedVerificationAccess": "auto-review rejected; user approval requested; no workaround",
     "existingServiceBusinessRowsReadOrChanged": false
   },
   "spec": "docs/deployment-v0111-spec.md",
-  "specSha256": "1F7217B305CE6C9BB08820EE1F576FD5EA2D7324947C268119364A209C894C2D",
+  "specSha256": "569580A7E2A64D001820AED0CF29D60FDE59577258E7951393BC7145460F30D3",
   "currentVerification": {
     "asOf": "2026-10-16",
     "phase": "company project access recovered and app runtime configuration applied; actual PG connection verified; live email, authenticated save and new deployment acceptance pending",
