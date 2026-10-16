@@ -1,7 +1,7 @@
 {
   "version": "0.11.2",
-  "htmlSha256": "fbe77c99ac29d28ad277c76ec128e28d1053c48ad4128b5232fab52bf3d039ac",
-  "bytes": 8160862,
+  "htmlSha256": "4c33bbb00073c5040d567a9954e268d4a24f99c99bd716179ce07300b09d2632",
+  "bytes": 8160887,
   "notionRequired": false,
   "realProjectDataIncluded": false,
   "mode": "authenticated-private-schema-runtime-with-optional-source",
