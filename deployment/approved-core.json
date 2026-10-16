@@ -6,6 +6,6 @@
   "realProjectDataIncluded": false,
   "mode": "authenticated-private-schema-runtime-with-optional-source",
   "localBuildVerified": true,
-  "actualBrowser": "Installed Edge with Chromium sandbox; four viewports and synthetic auth flow checked. Remote password enrollment/login and A/B/C live CRUD are separate gates.",
-  "protectedDeployment": "pending-v0.11.2-remote-verification"
+  "actualBrowser": "Edge155 with Chromium sandbox: real deployment login in four viewports and A/B/C live edit/save/reconnect/cancel/restore passed. Human first password enrollment/login and public production entry remain pending.",
+  "protectedDeployment": "verified-dpl_EDRhXerbk26w5ozVSZzUdQ8Lap7c-code-2a3666d"
 }

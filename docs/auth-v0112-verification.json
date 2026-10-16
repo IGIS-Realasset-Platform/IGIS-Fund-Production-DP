@@ -1,0 +1,201 @@
+{
+  "schemaVersion": "auth112-final-verification-v1",
+  "recordedAt": "2026-10-16T10:23:28.022Z",
+  "version": "0.11.2",
+  "status": "implemented-and-protected-preview-verified-human-enrollment-and-public-entry-pending",
+  "deployment": {
+    "codeCommit": "2a3666d4464eb1d3ebdb4a1792310375eceafecb",
+    "id": "dpl_EDRhXerbk26w5ozVSZzUdQ8Lap7c",
+    "region": "icn1",
+    "url": "https://development-project-platform-preview-git-preview-b5dda7-igisra.vercel.app",
+    "htmlSha256": "0177915a29e903e6bdb5b7827bfc44e5c4ac5a607f9ddb30c94617ea73ce13fa",
+    "htmlBytes": 8161445,
+    "providerAppendixBytes": 163
+  },
+  "sourcePins": {
+    "server/email-auth.mjs": "af43c50e1d5b8b754c86c3d963b765a561ecf0b2e7d5a777035cb0fff0d311db",
+    "server/email-auth-runtime.mjs": "7f855d48c4d55b7336d323b303e9468c4a14fa9734290b53bd497259165cdc3c",
+    "server/auth-policy.mjs": "7e0edd6fe29ef843f5a52c5731dba87538692774b2e43d1fbf47843fd3ab5b70",
+    "api/auth-login.js": "a22cf04898d53acee65c3d323345227f185e453ec15fc5706ff2e3e5b289cc67",
+    "src/cloud-session.js": "784f286eb1877e27abda9bc4575ffc2bf7198dd5fa1e3da1e5a411bda42272f5",
+    "src/cloud-session.css": "12125e23e15095343f903c514a2e5b574f7a89a1bf69785d1d9b0c82a3fd2619",
+    "src/legal.js": "0403fada4ad28cb1e0b59894e6c2ee951d1d2718141b6101f190d7f3d7d36137",
+    "tests/cloud-session-auth112.mjs": "14ea721ad989addd42909761cb85943d534c7e5e55bf27e5935530cb6bbc52d1",
+    "tests/auth112-legal-hydration.mjs": "ab5a9af8ea1e46f5d144fd94dda9d6eb3f49f95f35891cf068f48bea436337d7"
+  },
+  "verification": {
+    "independentAutomated": 118,
+    "legalNew": 12,
+    "legalRegression": 8,
+    "legalIndependent": 5,
+    "sameTimestampResend": 40,
+    "actualPostgresSyntheticIdentity": {
+      "checks": 11,
+      "syntheticSender": true,
+      "realMailSent": false,
+      "outerRollback": true
+    },
+    "nativeBrowser": {
+      "engine": "155.0.4283.45",
+      "chromiumSandbox": true,
+      "isolatedProfile": true,
+      "loginViewports": [
+        {
+          "width": 1280,
+          "height": 800
+        },
+        {
+          "width": 1440,
+          "height": 900
+        },
+        {
+          "width": 1600,
+          "height": 1000
+        },
+        {
+          "width": 390,
+          "height": 844
+        }
+      ],
+      "networkMocks": false,
+      "realUserPasswordRead": false
+    },
+    "actualCosts": {
+      "projectCount": 3,
+      "revisionBefore": 14,
+      "revisionAfter": 20,
+      "results": [
+        {
+          "project": "TEST-20261016-A",
+          "recordId": "c-4-t6o3092m",
+          "beforeWon": 6253850000,
+          "testWon": 6253850001,
+          "restoredWon": 6253850000,
+          "savedRevision": 15,
+          "restoredRevision": 16,
+          "nativeDoubleClickFillSave": true,
+          "enterSaveVerified": false,
+          "newBrowserContextReloadVerified": true,
+          "sameBrowserReloadStartsHome": true,
+          "escapeCancelDidNotWrite": true,
+          "otherProjectsPreserved": true,
+          "frozenContractsPermitsReportsUnchanged": true
+        },
+        {
+          "project": "TEST-20261016-B",
+          "recordId": "c-4-65uap2af",
+          "beforeWon": 3934110000,
+          "testWon": 3934110001,
+          "restoredWon": 3934110000,
+          "savedRevision": 17,
+          "restoredRevision": 18,
+          "nativeDoubleClickFillSave": true,
+          "enterSaveVerified": true,
+          "newBrowserContextReloadVerified": true,
+          "sameBrowserReloadStartsHome": true,
+          "escapeCancelDidNotWrite": true,
+          "otherProjectsPreserved": true,
+          "frozenContractsPermitsReportsUnchanged": true
+        },
+        {
+          "project": "TEST-20261016-C",
+          "recordId": "c-4-ki6whejq",
+          "beforeWon": 13142770000,
+          "testWon": 13142770001,
+          "restoredWon": 13142770000,
+          "savedRevision": 19,
+          "restoredRevision": 20,
+          "nativeDoubleClickFillSave": true,
+          "enterSaveVerified": false,
+          "newBrowserContextReloadVerified": true,
+          "sameBrowserReloadStartsHome": true,
+          "escapeCancelDidNotWrite": true,
+          "otherProjectsPreserved": true,
+          "frozenContractsPermitsReportsUnchanged": true
+        }
+      ],
+      "originalAmountsRestored": true,
+      "normalSaveHistoryAndMetadataRetained": true,
+      "errors": []
+    },
+    "unlistedEmail": {
+      "http": 403,
+      "userRows": 0,
+      "challengeRows": 0
+    },
+    "databaseReadback": {
+      "revision": 20,
+      "projectCount": 3,
+      "adminCount": 1,
+      "initialAdminHasPassword": false
+    },
+    "existingService": {
+      "businessRowsReadOrChanged": false,
+      "sharedAuthChanged": false,
+      "newDdl": false,
+      "protectedMetadataFingerprint": "c13ac4be971e1d34199828c161b82f8f",
+      "metadataEntries": 977,
+      "relations": 49,
+      "routines": 40
+    }
+  },
+  "evidence": [
+    {
+      "path": ".build/deployment-20261016/live-preview-preflight-1792145795801.json",
+      "sha256": "9940cafc8ccdb9e2867490b5063dab48c60b895e0f979e9b7ef1dfba8dcfeece",
+      "availability": "local-only"
+    },
+    {
+      "path": ".build/deployment-20261016/auth112-browser/live-login/evidence.json",
+      "sha256": "23272b720889941d64afbd27a761ff40b5a98e65bcbfee9086298ec1defb9f79",
+      "availability": "local-only"
+    },
+    {
+      "path": ".build/deployment-20261016/auth112-browser/live-cost-guard-final/e2e.json",
+      "sha256": "32f6720cdfda3ff2a25ac140dc7138b70127e748161645367b2a9bc64669e043",
+      "availability": "local-only"
+    },
+    {
+      "path": ".build/deployment-20261016/auth112-browser/preview/ui-preview.json",
+      "sha256": "f149934ed2be4d18845ac26f1645f7279032d42f9eb3fcf619e600c83d48febe",
+      "availability": "local-only"
+    },
+    {
+      "path": ".build/deployment-20261016/auth112-qa/verification-final-118.json",
+      "sha256": "0e24a91906115cab27d4b4706fce05e73ccb9abdc4c4dff2fe0188be07f12818",
+      "availability": "local-only"
+    },
+    {
+      "path": ".build/deployment-20261016/auth112-pg-probe-1792142538447.json",
+      "sha256": "9871043f24aa8c6bb8a25a326c710251641485b75270da463bcecd0dbe1e4232",
+      "availability": "local-only"
+    },
+    {
+      "path": ".build/deployment-20261016/auth112-browser/live-login/independent-visual-review.json",
+      "sha256": "6483dad369966c86d3a1577718750b3b825cf5bdb9ae58c7ab82fe3544c022cc",
+      "availability": "local-only"
+    }
+  ],
+  "workbook": {
+    "path": "outputs/deployment/auth-v0112-20261016/개발사업관리플랫폼_요구사항_체크리스트_v0.11.2.xlsx",
+    "sha256": "706e3e74a8c610e0e64b9f6050c88328ea23fe772598057392041326b7002117",
+    "rows": 396,
+    "fields": 4752,
+    "checked": 343,
+    "unchecked": 53,
+    "priorRowsPreserved": 386,
+    "readbackMatched": true,
+    "nativeExcel": false,
+    "availability": "local-only"
+  },
+  "remaining": [
+    "본인 최초 비밀번호 설정·이메일 확인과 이후 실제 비밀번호 재로그인",
+    "직원 Vercel 없는 정식주소 공개 선택·설정·진입 검수"
+  ],
+  "notClaimed": [
+    "내장 브라우저 도구 자체 복구",
+    "전체 업무/모든 페이지·PDF·Excel native 전체 검수",
+    "회사 운영 출시 완료"
+  ],
+  "evidenceAvailability": "Detailed traces, screenshots and workbook are local-only; hashes retain provenance. No secrets, passwords, allowlist addresses or business payloads are published."
+}

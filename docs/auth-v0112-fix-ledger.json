@@ -1,0 +1,55 @@
+{
+  "schemaVersion": "auth112-fix-ledger-v1",
+  "version": "0.11.2",
+  "asOf": "2026-10-16",
+  "status": "비밀번호 인증·12주소 제한·단독 화면 구현과 보호 검증배포/실제 A·B·C 검수 완료. 본인 최초 비밀번호 입력·재로그인 및 정식주소 공개 진입은 대기.",
+  "preservation": {
+    "schema": "development_project_platform",
+    "sharedAuthChanged": false,
+    "existingServiceBusinessRowsReadOrChanged": false,
+    "existingSecretValuesReadOrChanged": false,
+    "newDdlExecuted": false,
+    "protectedMetadataFingerprint": "c13ac4be971e1d34199828c161b82f8f",
+    "protectedMetadataEntries": 977,
+    "protectedRelations": 49,
+    "protectedRoutines": 40,
+    "originalTestAmountsRestored": true,
+    "normalTestSaveHistoryRetained": true
+  },
+  "deployment": {
+    "codeCommit": "2a3666d4464eb1d3ebdb4a1792310375eceafecb",
+    "branch": "preview/core-v0.11.0",
+    "id": "dpl_EDRhXerbk26w5ozVSZzUdQ8Lap7c",
+    "state": "READY",
+    "region": "icn1",
+    "url": "https://development-project-platform-preview-git-preview-b5dda7-igisra.vercel.app/",
+    "htmlSha256": "0177915a29e903e6bdb5b7827bfc44e5c4ac5a607f9ddb30c94617ea73ce13fa",
+    "htmlBytes": 8161445,
+    "knownProviderAppendixBytes": 163,
+    "wholeProjectProtectionChanged": false,
+    "publicProductionVerified": false
+  },
+  "evidence": {
+    "publishedSummary": "docs/auth-v0112-verification.json",
+    "localSummary": "outputs/deployment/auth-v0112-20261016/final-verification.json",
+    "automated": {"passed":118,"scope":"independent server12 + frontend model12 + existing cloud94; actual services not included"},
+    "legalHydration": {"new":12,"existing":8,"independent":5,"actualDatabaseChanged":false},
+    "sameTimestampResend": {"repetitions":40,"passed":40},
+    "actualPostgres": {"passed":11,"syntheticSender":true,"outerRollback":true,"realUserPasswordChanged":false},
+    "actualBrowser": {"engine":"Edge155.0.4283.45","sandbox":true,"viewports":["1280x800","1440x900","1600x1000","390x844"],"realLoginPage":true,"humanPasswordEnrollment":false},
+    "actualCost": {"projectCount":3,"revisionBefore":14,"revisionAfter":20,"networkMocks":false,"originalAmountsRestored":true,"fullBusinessAndOutputSuite":false},
+    "nativeExcel": false
+  },
+  "requirements": [
+    {"id":"AUTH112-01","implemented":true,"automated":"passed","actualPostgres":"passed-synthetic-identity","actualBrowser":"signup-form-passed","complete":false,"remaining":"본인 최초 비밀번호와 이메일번호를 안전한 화면에서 직접 입력"},
+    {"id":"AUTH112-02","implemented":true,"automated":"passed","actualPostgres":"password-only-login-passed-no-mail","actualBrowser":"login-form-passed","complete":false,"remaining":"본인 설정 뒤 로그아웃/비밀번호 재로그인"},
+    {"id":"AUTH112-03","implemented":true,"automated":"passed","actualPostgres":"same-identity-and-admin-preservation-passed","actualBrowser":"A/B/C-preserved","complete":false,"remaining":"실제 본인 계정 최초 비밀번호 전환"},
+    {"id":"AUTH112-04","implemented":true,"automated":"passed","actualPostgres":"passed","complete":true},
+    {"id":"AUTH112-05","implemented":true,"automated":"passed","actualApi":"unlisted-email-403","actualDatabase":"unlisted-user-and-challenge-zero","complete":true},
+    {"id":"AUTH112-06","implemented":true,"automated":"passed","actualBrowser":"four-viewports-and-keyboard-passed","complete":true},
+    {"id":"AUTH112-07","implemented":true,"actualBrowser":"installed-Edge-with-sandbox-passed","builtInTool":"MXC-start-failure-not-claimed-repaired","complete":true},
+    {"id":"AUTH112-08","implemented":true,"actualBrowser":"three-project-real-save-reconnect-cancel-restore-passed","complete":true},
+    {"id":"AUTH112-09","implemented":true,"actualDeployment":"protected-preview-ready-and-hash-verified","complete":false,"remaining":"정식주소 공개 선택과 실제 직원 진입, 본인 비밀번호 실사용 확인"},
+    {"id":"AUTH112-10","implemented":true,"complete":true,"verification":"최종 명세/수정대장/396행 Excel 재열람·기존386행/서식보존·실제검수 근거와 Git 기록 동기화","remaining":"본인 입력과 정식주소 공개는 다른 요구에서 미완료로 유지"}
+  ]
+}
