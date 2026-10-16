@@ -1,9 +1,23 @@
-import {createHmac} from 'node:crypto';
+import {createHmac,X509Certificate} from 'node:crypto';
 import {AsyncLocalStorage} from 'node:async_hooks';
 
 export const AUTH_SCHEMA='development_project_platform';
 export const AUTH_LIMITS=Object.freeze({codeLength:6,expiresIn:300,allowedAttempts:5,sessionExpiresIn:28800});
 export class AuthUnavailableError extends Error { constructor(){super('인증 서비스를 연결하지 못했습니다. 잠시 후 다시 시도해 주세요.');this.code='AUTH_UNAVAILABLE';} }
+export function normalizeDatabaseCa(raw){
+ if(raw===undefined)return undefined;
+ if(typeof raw!=='string'||!raw.trim()||Buffer.byteLength(raw)>65536||raw.includes('\0')||/-----BEGIN [^-]*PRIVATE KEY-----/.test(raw))throw new AuthUnavailableError();
+ const text=raw.replace(/\r\n/g,'\n').trim(),pattern=/-----BEGIN CERTIFICATE-----[\s\S]*?-----END CERTIFICATE-----/g,blocks=text.match(pattern);
+ if(!blocks?.length||blocks.length>16||text.replace(pattern,'').trim())throw new AuthUnavailableError();
+ try{return blocks.map(block=>{
+  if(!block.startsWith('-----BEGIN CERTIFICATE-----\n')||!block.endsWith('\n-----END CERTIFICATE-----'))throw Error();
+  const encoded=block.replace('-----BEGIN CERTIFICATE-----','').replace('-----END CERTIFICATE-----','').replace(/[ \t\r\n]/g,'');
+  if(!/^[A-Za-z0-9+/]+={0,2}$/.test(encoded)||encoded.length%4!==0)throw Error();
+  const der=Buffer.from(encoded,'base64'),certificate=new X509Certificate(block);
+  if(der.toString('base64')!==encoded||!certificate.raw.equals(der)||!certificate.ca)throw Error();
+  return block.trim()+'\n';
+ }).join('');}catch{throw new AuthUnavailableError();}
+}
 export function companyEmail(raw){
  if(typeof raw!=='string')throw Error('회사 이메일을 입력해 주세요.');
  const email=raw.trim().toLowerCase(),parts=email.split('@');
@@ -20,7 +34,8 @@ export function readAuthConfiguration(env){
  if(typeof secret!=='string'||secret.length<32||!env.DP_AUTH_DATABASE_URL)throw new AuthUnavailableError();
  let database;try{database=new URL(env.DP_AUTH_DATABASE_URL)}catch{throw new AuthUnavailableError()}
  if(!['postgres:','postgresql:'].includes(database.protocol)||!/^development_project_platform_runtime(?:\.|$)/.test(decodeURIComponent(database.username))||!database.password)throw new AuthUnavailableError();
- const base={origin,secret,databaseUrl:env.DP_AUTH_DATABASE_URL};
+ let initialAdminEmail='';try{if(env.DP_INITIAL_ADMIN_EMAIL)initialAdminEmail=companyEmail(env.DP_INITIAL_ADMIN_EMAIL)}catch{throw new AuthUnavailableError()}
+ const base={origin,secret,databaseUrl:env.DP_AUTH_DATABASE_URL,initialAdminEmail,databaseCa:normalizeDatabaseCa(env.DP_AUTH_DATABASE_CA)};
  if(env.DP_MAIL_PROVIDER==='gmail'){
   const gmailUser=String(env.DP_GMAIL_USER||'').trim().toLowerCase(),appPassword=String(env.DP_GMAIL_APP_PASSWORD||'').replace(/\s/g,'');
   if(!/^[a-z0-9](?:[a-z0-9._+\-]*[a-z0-9])?@gmail\.com$/.test(gmailUser)||!/^[a-z0-9]{16}$/i.test(appPassword))throw new AuthUnavailableError();
@@ -53,9 +68,10 @@ export function createEmailAuth({betterAuth,emailOTP,database,secret,origin,send
  const auth=betterAuth({appName:'개발사업관리플랫폼',baseURL:origin,basePath:'/api/auth',secret,database,
   emailAndPassword:{enabled:false},socialProviders:{},trustedOrigins:[origin],logger:{disabled:true},
   user:{modelName:'app_user',changeEmail:{enabled:false},deleteUser:{enabled:false}},account:{modelName:'app_account',accountLinking:{enabled:false}},verification:{modelName:'app_verification'},
+  databaseHooks:{user:{create:{before:async user=>({data:{...user,name:'',image:null}}),after:async()=>{const flow=deliveryContext.getStore();if(flow)flow.newAccountCreated=true;}}}},
   session:{modelName:'app_session',expiresIn:AUTH_LIMITS.sessionExpiresIn,updateAge:1800,cookieCache:{enabled:false}},
   advanced:{cookiePrefix:'dpp',useSecureCookies:true,defaultCookieAttributes:{httpOnly:true,secure:true,sameSite:'strict',path:'/'}},
-  rateLimit:{enabled:true,storage:'database',modelName:'app_rate_limit',window:60,max:10,customRules:{'/email-otp/send-verification-otp':{window:60,max:1},'/sign-in/email-otp':{window:60,max:5}}},
+  rateLimit:{enabled:true,storage:'database',modelName:'app_rate_limit',window:60,max:10,customRules:{'/email-otp/send-verification-otp':{window:60,max:10},'/sign-in/email-otp':{window:60,max:5},'/get-session':{window:60,max:240}}},
   plugins:[emailOTP({otpLength:AUTH_LIMITS.codeLength,expiresIn:AUTH_LIMITS.expiresIn,allowedAttempts:AUTH_LIMITS.allowedAttempts,resendStrategy:'rotate',disableSignUp:false,storeOTP:{hash:async otp=>hashOTP(otp)},sendVerificationOTP:sendTracked})]
  });
  async function handle(request,action){
@@ -89,7 +105,7 @@ export function createEmailAuth({betterAuth,emailOTP,database,secret,origin,send
   if(!result?.user)return json({authenticated:false},200,headers);
   const checkedEmail=companyEmail(result.user.email);
   if(result.user.emailVerified!==true)return json({error:'EMAIL_NOT_VERIFIED'},401,headers);
-  return json({authenticated:true,email:checkedEmail,expiresAt:result.session?.expiresAt||null},200,headers);
+  return json({authenticated:true,email:checkedEmail,userId:result.user.id,newAccountCreated:action==='verify'&&delivery.newAccountCreated===true,expiresAt:result.session?.expiresAt||null},200,headers);
  }
  return {handle,auth};
 }

@@ -2,93 +2,608 @@
   "schemaVersion": "deployment-v0111-fix-ledger-v1",
   "version": "0.11.1",
   "runtimeProductVersion": "0.11.0",
-  "asOf": "2026-10-15",
-  "status": "후속12요구 명세/누적MD 동기화·전체 미완료. 보호 검증 배포Ready·SMTP 연결 확인; OTP 발송/앱인증/중앙DB/업무출력 검수 미완료",
+  "candidateProductVersion": "0.11.1",
+  "candidatePublished": false,
+  "asOf": "2026-10-16",
+  "status": "기존 회사 Supabase/Vercel 대상 접근 복구. 새 앱 전용Preview 설정5개와runtime LOGIN 적용, 공식CA를 통한 실제 최소권한PG접속 확인. 실제 메일·가입/로그인·중앙저장·새배포 수용은 진행 중이며 전체12개 미완료.",
+  "execution20261016": {
+    "approvedProjectAccessVerified": true,
+    "connectionRecovery": "Supabase current link selection; Vercel exact project lookup without optional teamId and returned owner verification",
+    "newAppPreviewSettingsSaved": 5,
+    "existingGmailSettingsChanged": false,
+    "runtimeLoginActivated": true,
+    "runtimeRoleDirectConnectionVerified": true,
+    "applicationTls": "TLSv1.3 with official CA and hostname verification",
+    "certificateVerificationDisabled": false,
+    "actualCentralWorkspaceSaveVerified": false,
+    "actualEmailSent": false,
+    "actualUserSignupVerified": false,
+    "actualLoginVerified": false,
+    "newDeploymentVerified": false,
+    "temporaryProtectedVerificationAccess": "auto-review rejected; user approval requested; no workaround",
+    "existingServiceBusinessRowsReadOrChanged": false
+  },
   "spec": "docs/deployment-v0111-spec.md",
-  "specSha256": "E3356711C2F6A012020C957DA8CB442BEA80B6F188A0DD11900AB6C54959F946",
+  "specSha256": "1F7217B305CE6C9BB08820EE1F576FD5EA2D7324947C268119364A209C894C2D",
   "currentVerification": {
-    "asOf": "2026-10-15",
-    "evidenceSource": "루트의 현재 clone 검사·CUA·공식 Vercel 배포/빌드 로그 확인 전달. 본 문서 동기화에서 제품 검사를 재실행하지 않음.",
-    "automatic": [
+    "asOf": "2026-10-16",
+    "phase": "company project access recovered and app runtime configuration applied; actual PG connection verified; live email, authenticated save and new deployment acceptance pending",
+    "proof": {
+      "path": ".build/deployment-20261015/qa/cloud-auth-storage-current.json",
+      "sha256": "4E47BF72954009F726F389CAB63AD8ED820718B4D9000E9DDCA7CCA6811A18DC",
+      "qaLeaderFreezeConfirmed": true,
+      "pmReadOriginal": true,
+      "pmFingerprintComparisons": 14,
+      "pmFingerprintMismatches": 0
+    },
+    "automatic": {
+      "classification": "independent synthetic checks only",
+      "suites": 9,
+      "passed": 94,
+      "failed": 0,
+      "sourceUnchangedDuringRun": true,
+      "details": [
+        {
+          "name": "cloud-auth",
+          "path": "tests/cloud-auth.mjs",
+          "passed": 17,
+          "failed": 0,
+          "realEmailSent": false,
+          "realDatabaseUsed": false
+        },
+        {
+          "name": "cloud-auth-runtime",
+          "path": "tests/cloud-auth-runtime.mjs",
+          "passed": 8,
+          "failed": 0,
+          "realEmailSent": false,
+          "realDatabaseUsed": false
+        },
+        {
+          "name": "cloud-storage-schema",
+          "path": "tests/cloud-storage-schema.mjs",
+          "passed": 8,
+          "failed": 0,
+          "actualDatabaseUsed": false,
+          "runtimeLoginActivated": false
+        },
+        {
+          "name": "cloud-storage",
+          "path": "tests/cloud-storage.mjs",
+          "passed": 22,
+          "failed": 0,
+          "actualDatabaseUsed": false,
+          "actualAuthenticationUsed": false
+        },
+        {
+          "name": "cloud-storage-runtime",
+          "path": "tests/cloud-storage-runtime.mjs",
+          "passed": 7,
+          "failed": 0,
+          "actualDatabaseUsed": false,
+          "actualAuthenticationUsed": false
+        },
+        {
+          "name": "cloud-session",
+          "path": "tests/cloud-session.mjs",
+          "passed": 14,
+          "failed": 0,
+          "realNetwork": false,
+          "realUserData": false
+        },
+        {
+          "name": "cloud-session-independent",
+          "path": "tests/cloud-session-independent.mjs",
+          "passed": 2,
+          "failed": 0,
+          "realNetwork": false,
+          "realUserData": false
+        },
+        {
+          "name": "cloud-report-notion",
+          "path": "tests/cloud-report-notion.mjs",
+          "passed": 6,
+          "failed": 0,
+          "realNetwork": false,
+          "realUserData": false
+        },
+        {
+          "name": "cloud-notion-source",
+          "path": "tests/cloud-notion-source.mjs",
+          "passed": 10,
+          "failed": 0,
+          "realNotionApiUsed": false,
+          "realDatabaseUsed": false,
+          "automaticSyncVerified": false
+        }
+      ],
+      "completeProductAcceptance": false
+    },
+    "generatedHtmlSynthetic": {
+      "path": ".build/deployment-20261015/qa/cloud-platform-current.html",
+      "sha256": "87B12C81BDB0B13E14B4121167935CA548EBEB3BD83813E0020C372D7929B285",
+      "bytes": 8144500,
+      "version": "0.11.1",
+      "sourceMode": "optional",
+      "privateSourceInHtml": false,
+      "checks": [
+        {
+          "signedIn": false,
+          "phase": "email",
+          "oldLocalReads": 0,
+          "httpCalls": 1,
+          "automaticServerWrites": 0
+        },
+        {
+          "signedIn": true,
+          "phase": "ready",
+          "oldLocalReads": 0,
+          "httpCalls": 2,
+          "automaticServerWrites": 0
+        }
+      ],
+      "classification": "생성된 실제 HTML 코드를 실행한 합성 HTTP 검사이며 실제 DB·메일·브라우저 검사가 아님",
+      "completeProductAcceptance": false
+    },
+    "legacyPreservation": {
+      "path": ".build/deployment-20261015/qa/legacy-preservation-current.json",
+      "sha256": "45AC4330CB064CC984D4B5A8470F882B67ECA98148A080AFA59F7901B92A5560",
+      "suites": 6,
+      "passed": 206,
+      "failed": 0,
+      "scope": "현재 동결 core.js, report.js, notion-addon.js 변경 영향의 지정 기존 기능 보존 재검사",
+      "classification": "순수모델/DOM stub/정적·합성. 실제브라우저/클라우드/DB/메일 검수 아님",
+      "sourceUnchangedDuringRun": true,
+      "actualBrowserVerifiedByTheseSuites": false,
+      "actualCloudVerifiedByTheseSuites": false
+    },
+    "automaticCategoriesNotSummed": true,
+    "isolatedActualBrowser": {
+      "path": "outputs/deployment/cloud-v0111-20261015/isolated-browser-verification.json",
+      "sha256": "D3291E26AAFD22CA85D18324AE3CDBABCA1FA5B74C5F0F2812B107FC0675E587",
+      "method": "CUA actual browser with isolated synthetic HTTP server on 127.0.0.1",
+      "passedChecks": 7,
+      "candidate": {
+        "path": ".build/deployment-20261015/cloud-candidate.html",
+        "sha256": "87b12c81bdb0b13e14b4121167935ca548ebeb3bd83813e0020c372d7929b285",
+        "bytes": 8144500
+      },
+      "loopbackArtifact": {
+        "path": ".build/deployment-20261015/cloud-local-qa.html",
+        "sha256": "85c45b0521dae3d6478964b0bd12ba3802040e2abe6ab9883e261922bed3cf58",
+        "bytes": 8144419,
+        "differenceFromCandidate": "Only cloudOrigin is empty for loopback QA. --local-qa builds are forbidden when VERCEL=1."
+      },
+      "sourceHashes": {
+        "src/core.js": "73872ad82d6fff1f5da4a48ed62b0a0b6936f5c674fd22d1f3d3ef810515b7e5",
+        "src/cloud-session.js": "663f4610b80d9b6e23c888390c29f30000b24b9d16a810adf1ffd300cd180c5a",
+        "src/cloud-session.css": "dbd3d242c16c4a3e9168114c5c375450219619136da8b7ccf0425ce008e53680",
+        "src/report.js": "f6fb44e50c5c16b42528777304cc2e3e9f1a8b5d234e5d71537f72210c7580c4",
+        "src/notion-addon.js": "f0ba40104a0eaa00ca46abcd3793c135d9e8ac290555c325e8b5bc316d8945a9"
+      },
+      "finalChecks": [
+        {
+          "id": "UI111-01",
+          "status": "passed",
+          "scope": "Synthetic email/code flow and existing synthetic account login, home after workspace GET. No real OTP provider used."
+        },
+        {
+          "id": "UI111-02",
+          "status": "passed",
+          "scope": "Sidebar email below notifications and logout button; no name/photo collection."
+        },
+        {
+          "id": "UI111-03",
+          "status": "passed",
+          "scope": "Same-cell double-click editor; 123456788 then 123456789 won accepted by synthetic server; DOM raw value exact and display123 million won."
+        },
+        {
+          "id": "UI111-04",
+          "status": "passed",
+          "scope": "Next synthetic PUT forced503. Raw input123456790 and inline error remain. Cancel returns123456789; no false success."
+        },
+        {
+          "id": "UI111-05",
+          "status": "passed",
+          "scope": "Reload completes at project-status home with synthetic project and saved1.23억원. Immediate isVisible before async load completed was false; fresh ready DOM was home."
+        },
+        {
+          "id": "UI111-06",
+          "status": "passed",
+          "scope": "After closing financial audit modal, logout renders email gate. Prior account/project/amount absent from body; hidden app-dialog and report-output HTML both empty."
+        },
+        {
+          "id": "UI111-07",
+          "status": "passed",
+          "scope": "Authentication email gate visually inspected at1280x800,1440x900,1600x1000; document scrollWidth equals viewport width; temporary viewport reset."
+        }
+      ],
+      "earlierIterationOnly": [
+        "Synthetic project registration and required-area field rejection were checked before the final logout-memory reset. Not re-counted as final artifact registration acceptance."
+      ],
+      "realEmailSent": false,
+      "actualAuthDatabaseConnected": false,
+      "productionAcceptance": false,
+      "publishedPreviewChanged": false
+    },
+    "schemaStage1": {
+      "path": "outputs/deployment/cloud-v0111-20261015/private-schema-preparation.json",
+      "sha256": "A31448DDF24049867FCB9D19808242217A1B62B568EF85D4D9F50A93131A37EA",
+      "schema": "development_project_platform",
+      "migration": {
+        "name": "development_project_platform_auth_and_workspace",
+        "version": "20261015035338",
+        "applied": true
+      },
+      "tables": {
+        "count": 10,
+        "owner": "postgres",
+        "allRowLevelSecurityEnabled": true,
+        "publicAnonAuthenticatedServiceRoleSelectGrants": 0
+      },
+      "runtimeRole": {
+        "name": "development_project_platform_runtime",
+        "loginEnabled": false,
+        "superuser": false,
+        "createRole": false,
+        "createDatabase": false,
+        "replication": false,
+        "bypassRowLevelSecurity": false,
+        "connectionLimit": 6
+      },
+      "existingServicePreservation": {
+        "schemas": [
+          "public",
+          "orgdb",
+          "orgdb_internal",
+          "orgdb_web",
+          "auth"
+        ],
+        "relationsBefore": 49,
+        "relationsAfter": 49,
+        "routinesBefore": 40,
+        "routinesAfter": 40,
+        "metadataEntries": 977,
+        "beforeFingerprint": "c13ac4be971e1d34199828c161b82f8f",
+        "afterFingerprint": "c13ac4be971e1d34199828c161b82f8f",
+        "businessRowsRead": false,
+        "businessRowsChanged": false,
+        "authOrSmtpConfigurationChanged": false,
+        "oldMigrationCount": 61,
+        "oldMigrationFingerprint": "67f2b24173b9cc58d9e6eddd97fe4ad5",
+        "oldMigrationRecordsChanged": false
+      },
+      "effectiveRolePrivileges": {
+        "existingRelations": 0,
+        "existingRoutines": 0,
+        "method": "catalog role + schema privilege checks"
+      },
+      "runtimeRoleExecutionProbe": {
+        "status": "preparation-blocked",
+        "sqlstate": "42501",
+        "reason": "postgres is not a member of the new runtime role; no existing role membership was expanded merely for testing",
+        "actualDeniedRelationCountVerified": false
+      },
+      "ownerSqlSmoke": {
+        "passed": 7,
+        "role": "postgres",
+        "source": ".build/deployment-20261015/application-schema-smoke.sql",
+        "scope": [
+          "millisecond bigint storage",
+          "foreign email rejection",
+          "duplicate email rejection",
+          "app-user foreign key",
+          "audit failure rolls back workspace update",
+          "isolated workspace restore copy",
+          "all synthetic rows rolled back"
+        ],
+        "runtimeConnectionVerified": false,
+        "actualOtpVerified": false
+      },
+      "boundaries": {
+        "dataApiSettingsChanged": false,
+        "existingServicesModified": false,
+        "realBusinessDataImported": false,
+        "actualEmailSent": false,
+        "actualEmailCodeVerified": false,
+        "actualSignupOrLoginCompleted": false,
+        "productionPromoted": false
+      },
+      "actualRuntimePostgresLoginVerified": false,
+      "applicationDatabaseConnectionVerified": false
+    },
+    "implementedContracts": {
+      "server": [
+        "server/email-auth.mjs",
+        "server/email-auth-runtime.mjs",
+        "server/cloud-storage.mjs",
+        "server/workspace-runtime.mjs",
+        "server/gmail-code-sender.mjs",
+        "server/notion-source.mjs"
+      ],
+      "frontEnd": [
+        "src/cloud-session.js",
+        "src/core.js",
+        "src/report.js",
+        "src/notion-addon.js"
+      ],
+      "oneEmailConfirmationScreen": true,
+      "firstVerificationCreatesAccountThenLaterLogin": true,
+      "newAccountCreatedResponse": true,
+      "namesAndPhotosCollected": false,
+      "serverResponseRequiredBeforeSuccessUi": true,
+      "failureRollbackAndAccountIsolation": true,
+      "actualRuntimeIntegrationVerified": false,
+      "rolesAreImplementationContractNotUnansweredUserChoice": true
+    },
+    "currentFingerprints": {
+      "migrationEvidence": {
+        "path": "outputs/deployment/cloud-v0111-20261015/private-schema-preparation.json",
+        "sha256": "A31448DDF24049867FCB9D19808242217A1B62B568EF85D4D9F50A93131A37EA"
+      },
+      "schemaSql": {
+        "path": "database/application-schema.sql",
+        "sha256": "FBB0F0857520F793F6BB5769143AF6FFA447C3785C9F02DE19C4C35105199FE0"
+      },
+      "emailAuth": {
+        "path": "server/email-auth.mjs",
+        "sha256": "3BC8B7F3159EB592B43C1FE6D809B7A3DCC70BC92B251D63197EEDB367DC7777"
+      },
+      "emailAuthRuntime": {
+        "path": "server/email-auth-runtime.mjs",
+        "sha256": "2AC89AD9D117BFF624CEA4563AFFE00E6353BCF9060138AEE5DE4AC9CC865732"
+      },
+      "cloudStorage": {
+        "path": "server/cloud-storage.mjs",
+        "sha256": "A9749B06728134DDF7F8209CCB091F8B61E196A95DA4AD9A7461148C5A216925"
+      },
+      "workspaceRuntime": {
+        "path": "server/workspace-runtime.mjs",
+        "sha256": "8E555D3BA965B304B98000009B6F48F357E2DDB5B3845F2523995B1F7333513D"
+      },
+      "notionSource": {
+        "path": "server/notion-source.mjs",
+        "sha256": "6878B8442CF7A8F4C6CDC3E5164C072C90E6EB8679997B853AFA8F4198B85B2B"
+      },
+      "core": {
+        "path": "src/core.js",
+        "sha256": "73872AD82D6FFF1F5DA4A48ED62B0A0B6936F5C674FD22D1F3D3EF810515B7E5"
+      },
+      "cloudSession": {
+        "path": "src/cloud-session.js",
+        "sha256": "663F4610B80D9B6E23C888390C29F30000B24B9D16A810ADF1FFD300CD180C5A"
+      },
+      "cloudSessionCss": {
+        "path": "src/cloud-session.css",
+        "sha256": "DBD3D242C16C4A3E9168114C5C375450219619136DA8B7CCF0425CE008E53680"
+      },
+      "report": {
+        "path": "src/report.js",
+        "sha256": "F6FB44E50C5C16B42528777304CC2E3E9F1A8B5D234E5D71537F72210C7580C4"
+      },
+      "cloudStorageTest": {
+        "path": "tests/cloud-storage.mjs",
+        "sha256": "5916CBC5CE755068889477CD2EB051A51D65847FDD55052EF1696A0AF57F9116"
+      },
+      "cloudSessionTest": {
+        "path": "tests/cloud-session.mjs",
+        "sha256": "CDD9FC394AFD011C30B2F35EE326D6569EF6B083E5D323D5E1F3ABC478436D9C"
+      },
+      "cloudReportNotionTest": {
+        "path": "tests/cloud-report-notion.mjs",
+        "sha256": "9D08FC4FA3AA08500151B1C96F019FE8148436C625A215874B872E09DA96488A"
+      }
+    },
+    "semanticCounterexamples": [
+      "정상 v4 posting만 빈 템플릿의 첫 0원·1원 저장 허용",
+      "프로젝트 번호·그룹 코드·불일치 코드·review 템플릿 첫 금액 차단",
+      "기존 review 금액은 같은 원코드로만 수정하고 일반코드·다른 review·confirmed 상태·연결삭제·원행삭제 우회 차단",
+      "명시 확인총액 전환과 실제 기존 부모의 동일코드 split-inherit만 예외 허용",
+      "과거 stage coding과 보고 snapshot 본문은 불변, reportDraftOverrides는 수정 가능",
+      "식별값 없는 원문·격리자료와 원문 내부 중복 ID는 현재 원장으로 승격하거나 합치지 않음",
+      "로그아웃·401·사용자 교체 시 휘발성 보고 버퍼와 숨은 DOM을 재사용하지 않고 사용자별 지속 초안은 보존",
+      "로그아웃 뒤 늦게 도착한 이전 사용자 Notion 응답은 새 상태에 적용하지 않음"
+    ],
+    "intermediateFindings": [
       {
-        "scope": "정확 clone 집중검사",
-        "passed": 53,
-        "failed": 0,
-        "reportedBy": "root",
-        "completeProductAcceptance": false
+        "finding": "기존 review 연결을 일반 v4 confirmed 연결로 바꾸는 우회",
+        "status": "fixed-and-regression-passed",
+        "note": "공유 작업공간의 동시 수정 중 발견되어 실패 시점 지문은 최종 증거로 사용하지 않음"
       },
       {
-        "scope": "API 설정 없음",
-        "passed": 4,
-        "failed": 0,
-        "reportedBy": "root",
-        "completeProductAcceptance": false
-      },
-      {
-        "scope": "Vercel packaging",
-        "passed": 4,
-        "failed": 0,
-        "reportedBy": "root",
-        "completeProductAcceptance": false
+        "finding": "split-inherit에 존재하지 않는 부모를 지정해도 일반 v4 분기로 통과",
+        "status": "fixed-and-regression-passed",
+        "failingSourceSha256": "AACD329E60C18956585F40149C71C0E4C34FB5FDC9D63F053B58E5D3F42F2EEB",
+        "passingSourceSha256": "A9749B06728134DDF7F8209CCB091F8B61E196A95DA4AD9A7461148C5A216925"
       }
     ],
-    "automaticCountsNotSummedWithoutUniqueSuiteProof": true,
-    "html": {
-      "sha256": "e6938e5d9e05132fa025106392077c7dbc2ea42257834a0c699cd3582a84e735",
-      "bytes": 8120178,
-      "localAndBuildLogMatchedByRoot": true,
-      "cloudArtifactHashReadback": "별도 확인 필요"
+    "unansweredDecisions": [],
+    "publication": {
+      "existingV0110SharedPreviewPreserved": true,
+      "newV0111CloudCandidatePublished": false,
+      "productionPromoted": false
     },
-    "actual": {
-      "confirmed": [
-        "정확 HTML 홈",
-        "플랫폼 명세8개 세부탭",
-        "리로드 후 홈"
+    "completion": {
+      "contractImplementation": "partial-implemented",
+      "schemaPreparation": "stage1-applied",
+      "syntheticChecks": "passed-with-scope-boundaries",
+      "isolatedBrowser": "passed-on-synthetic-http",
+      "actualEmailDelivery": "not-verified",
+      "actualSignupLogin": "not-verified",
+      "actualRuntimePostgres": "not-verified",
+      "actualProjectPermissions": "not-verified",
+      "actualCentralPersistence": "not-verified",
+      "actualDeploymentE2E": "not-verified",
+      "overallDeploymentComplete": false
+    },
+    "noSecretValuesOrRawSenderInDocuments": true,
+    "implementationEvidenceAsOf": "2026-10-15",
+    "answeredDecisions": [
+      {
+        "id": "recipient-company-email",
+        "status": "approved-not-executed",
+        "approvedOn": "2026-10-16",
+        "subject": "사용자 본인 회사이메일",
+        "rawValueRecorded": false,
+        "actualMailOrVerificationCompleted": false
+      },
+      {
+        "id": "initial-admin-and-access-policy",
+        "status": "initial-admin-subject-approved-not-provisioned",
+        "approvedOn": "2026-10-16",
+        "subject": "사용자 본인 회사이메일",
+        "rawValueRecorded": false,
+        "automaticFirstUserAdmin": false,
+        "automaticAllEmployeeAdmin": false,
+        "actualGrantCompleted": false
+      },
+      {
+        "id": "new-app-only-runtime-secret-storage-approval",
+        "status": "approved-not-executed",
+        "approvedOn": "2026-10-16",
+        "scope": "새 앱 전용 DB접속/별도 로그인 Secrets의 Vercel 검증환경 저장",
+        "existingServiceCredentialsReusable": false,
+        "actualNewStorageCompleted": false,
+        "secretValueRecorded": false
+      }
+    ],
+    "todayPreflight": {
+      "path": ".build/deployment-20261016/qa/pre-protection-transition.json",
+      "sha256": "0C172FAB97316CE44602815C1217F1459D277FE3F02014DB6DC5EAF23D222B63",
+      "status": "automated-preflight-green-external-transition-pending",
+      "automatic": {
+        "suites": 9,
+        "passed": 94,
+        "failed": 0,
+        "sourceUnchangedDuringRun": true,
+        "generatedHtmlChecks": {
+          "passed": 2,
+          "failed": 0
+        },
+        "actualEmailSent": false,
+        "actualDatabaseUsed": false,
+        "actualRemoteProtectionChanged": false
+      },
+      "generatedCandidate": {
+        "path": ".build/deployment-20261016/qa/cloud-platform-preflight.html",
+        "sha256": "87B12C81BDB0B13E14B4121167935CA548EBEB3BD83813E0020C372D7929B285",
+        "bytes": 8144500,
+        "version": "0.11.1",
+        "sourceMode": "optional",
+        "privateSourceInHtml": false,
+        "syntheticChecks": [
+          {
+            "signedIn": false,
+            "phase": "email",
+            "oldLocalReads": 0,
+            "httpCalls": 1,
+            "automaticServerWrites": 0
+          },
+          {
+            "signedIn": true,
+            "phase": "ready",
+            "oldLocalReads": 0,
+            "httpCalls": 2,
+            "automaticServerWrites": 0
+          }
+        ]
+      },
+      "verdict": {
+        "automatedCandidateRegression": "passed",
+        "preProtectionBoundaryContract": "passed-synthetic-only",
+        "existingRemoteAppBoundary": "not-observable-behind-vercel-302",
+        "actualOtp": "pending-user-entry",
+        "actualRuntimeDatabase": "pending-root-and-backend-evidence",
+        "protectionTransition": "not-started",
+        "safeToClaimOperationalCompletion": false
+      },
+      "classification": "오늘 합성 preflight만. 과거Vercel302는 앱401/400/회사메일 인증 수용 증거가 아님",
+      "actualRemoteTransitionOrRealEmailOrDatabaseVerified": false
+    },
+    "publicEntryTransition": {
+      "approvedGoal": "Vercel 계정 없이 직원 누구나 @igisam.com 메일6자리 확인으로 가입/로그인",
+      "requirementIds": [
+        "PROD111-02",
+        "PROD111-04",
+        "PROD111-11"
       ],
-      "notVerified": [
-        "업무 CRUD",
-        "PDF 전페이지",
-        "XLSX",
-        "실제 OTP 발송/수신",
-        "회원가입/로그인",
-        "프로젝트 서버권한",
-        "중앙DB 저장/복구"
-      ],
-      "readOnlyCloudUrlReview": "root 진행 중"
+      "companyWideProjectDataPublic": false,
+      "serverProjectAuthorizationPreserved": true,
+      "previousProtectionRule": "전환 전 임시 보존이며 목표 정책이 아님",
+      "newApplicationAuthenticationMustBeVerifiedFirst": true,
+      "priorDeploymentUrlsImpactMustBeReviewed": true,
+      "actionTimeApprovalToBeConfirmedByRoot": true,
+      "otherServiceProtectionOrDatabaseOrAuthChangesAuthorized": false,
+      "protectionChangeExecuted": false,
+      "anonymousAppBoundaryActuallyVerified": false
     },
-    "smtp": {
-      "status": "connection-verified-only",
-      "loggedAt": "2026-10-15T11:44:48.351+09:00",
-      "configured": true,
-      "connection": "verified",
-      "mailSent": false,
-      "applicationAuthenticationActive": false,
-      "secretValuesRead": false,
-      "rawSenderRecorded": false
-    },
-    "deployment": {
-      "branch": "preview/core-v0.11.0",
-      "commit": "66c51648f47e4fb6659dcd7c4ff2241abefdb42a",
-      "provider": "Vercel Git integration",
-      "state": "Ready",
-      "durationSeconds": 18,
-      "managementUrl": "https://vercel.com/igisra/development-project-platform-preview/HTQJKosKqWod3kdFRwtT2YjgLbAD",
-      "previewUrl": "https://development-project-platform-preview-mhsfppscg-igisra.vercel.app",
-      "production": false,
-      "precedingAuthorMismatchBlockedCommitPrefix": "d1c4",
-      "precedingBlockedAttemptWasNotApplicationOrSmtpExecution": true,
-      "followupChange": "README1줄; 동일 제품 코드"
-    },
-    "centralDatabaseConnected": false,
-    "applicationAuthenticationActive": false,
-    "actualOtpMailSent": false,
-    "preserved": {
-      "existingUi": true,
-      "originalWonAmounts": true,
-      "pastArtifacts": true,
-      "organizationDatabaseUnchanged": true
-    },
-    "noSecretValuesOrRawSenderInDocuments": true
+    "connectionBlockers": {
+      "recordedOn": "2026-10-16",
+      "evidencePath": "outputs/deployment/cloud-v0111-20261016/connection-status.json",
+      "evidenceSha256": "52401E87AA66B7B425B5D9991C0ECA84733159A274C3BF13489510CEE2EE559A",
+      "source": "루트가 재확인하고 전달한 현재 도구 상태; PM은 외부 호출하지 않음",
+      "supabase": {
+        "selectToolErrorCode": -32600,
+        "reason": "permission 없음",
+        "approvedCompanyProjectNotListed": true,
+        "unrelatedListedProjectCount": 1,
+        "unrelatedProjectUsed": false
+      },
+      "vercel": {
+        "exactProjectTeamQueryStatus": 403,
+        "existingCliAuthenticated": false,
+        "automaticLoginStopped": true,
+        "newOAuthAuthorized": false
+      },
+      "cua": {
+        "getStateAndOneResetRetry": "MXC 프로세스 시작 실패",
+        "productFailureReproduced": false
+      },
+      "requestedRecovery": "올바른 회사 플러그인 연결·앱 재시작 후 승인 대상/범위 재확인",
+      "additionalExecutions": {
+        "newSecretsStorage": 0,
+        "runtimeLogin": 0,
+        "adminGrant": 0,
+        "protectionChange": 0,
+        "actualMail": 0,
+        "additionalDeployment": 0
+      },
+      "previousProofsRemainHistoricalValid": true,
+      "companyOtherServicesChanged": false
+    }
+  },
+  "accessDecisionState": {
+    "status": "수신/최초관리자 대상은 사용자 본인 회사이메일로 승인. 직원 회사메일 가입/로그인 허용과 사업별 권한은 분리. 실제 설정/부여/전환은 재연결 후 검수 대기",
+    "approved": [
+      "회사메일6자리 확인 가입/로그인",
+      "별도 앱 계정/세션과 앱 전용 schema",
+      "매 요청의 서버 프로젝트 멤버십/역할 검사",
+      "가입 확인만으로 모든 프로젝트 접근권한 부여 금지",
+      "이름/사진 보류와 Notion 선택 보충",
+      "사용자 본인 회사이메일을 실제 수신/최초관리자 대상으로 명시 승인(주소 비기재·서버전용)",
+      "새 앱 전용 DB접속/로그인 Secrets를 Vercel 검증환경에 저장하도록 승인(미실행)",
+      "직원은 Vercel 계정 없이 회사메일6자리 확인으로 가입/로그인. 사업자료 전원 공개는 승인하지 않음"
+    ],
+    "undecided": [
+      "새 가입자의 기본 역할과 초기 프로젝트 membership",
+      "프로젝트 생성 가능 역할과 생성자의 프로젝트 권한",
+      "프로젝트 권한 승인자/역할표/회수 세부"
+    ],
+    "notGrantedWithoutExplicitDecision": [
+      "최초 가입자 자동 admin",
+      "회사메일 인증자 전원 모든 사업 membership",
+      "발신용 Gmail/배포계정을 앱 관리자 신원으로 사용",
+      "기존 조직/Notion 명단을 앱 계정/권한으로 자동 연결"
+    ],
+    "safeBoundary": "유효한 membership이 없는 사용자는 가입/인증 사실만으로 기존 사업을 읽거나 바꾸지 못함. 이를 최종 기본 역할표 확정으로 간주하지 않음",
+    "apiContractMapping": "오늘 승인·재연결·public-entry 전환 기준은 명세11절. 앱 인증 배포 검증 후 과거URL 영향/액션 시점 승인과 깨끗한 브라우저 직원 진입을 검수",
+    "realAccountOrPermissionChangesByPM": false,
+    "initialAdministrator": {
+      "status": "subject-approved-not-provisioned",
+      "subject": "사용자 본인 회사이메일",
+      "rawValueRecorded": false,
+      "serverOnlyConfiguration": true
+    }
   },
   "preservation": {
     "priorRecords": 369,
@@ -105,7 +620,9 @@
     "expectedTotal": 381,
     "expectedChecked": 332,
     "expectedUnchecked": 49,
-    "excelSynchronization": "루트 후속; 이번에 생성/수정하지 않음"
+    "excelSynchronization": "루트가 소유3문서 freeze 후381항목 동기화 예정. 공유제품0.11.0 파일명을 유지하며 이전Excel/증거는 보존. 현재 미실행.",
+    "plannedExcelPath": "outputs/deployment/cloud-v0111-20261016/개발사업관리플랫폼_요구사항_체크리스트_v0.11.0.xlsx",
+    "previousExcelPathPreserved": "outputs/deployment/cloud-v0111-20261015/개발사업관리플랫폼_요구사항_체크리스트_v0.11.0.xlsx"
   },
   "supersessions": [
     {
@@ -145,29 +662,29 @@
       "implemented": false,
       "verified": false,
       "completed": false,
-      "status": "미완료 · 부분 준비/집중검사·제한된 실제 확인과 검증배포를 전체 수용 완료로 확대하지 않음",
+      "status": "전체요건 미완료 · 오늘3승인/직원 진입 정책 확정, 현재 재연결 차단과 설정/실메일/실DB/전환 실제검수 대기",
       "implementation": {
-        "status": "partial-or-contract-only",
+        "status": "partial-cloud-ui",
         "complete": false,
-        "note": "기존 제품 UI/정의 보존과 명세 현재/역사 투영을 준비했습니다. 인증·중앙저장 연결 뒤 전체 업무의 동일 동작은 아직 검증하지 않았습니다."
+        "note": "기존 업무UI를 보존한 cloud 게이트/저장 연결 코드를 구현했습니다. 합성HTTP의 같은셀·503/취소·재로드·로그아웃은 확인했지만 전 업무의 실제 메일/DB/배포 통합은 미검증입니다."
       },
       "automatic": {
-        "status": "partial-evidence-only",
+        "status": "focused-synthetic-passed",
         "complete": false,
-        "currentEvidenceRef": "currentVerification.automatic",
-        "note": "현재 집중53·API설정없음4·packaging4의 보고 범위만 연결하며 이 요구의 전체 수용기준 통과를 뜻하지 않음"
+        "currentEvidenceRef": "currentVerification.proof",
+        "note": "독립9군94/94·생성HTML2/2·기존보존6군206/206을 각각 범위 한정 연결. 전체 요구 통과나 실제환경 검수 아님"
       },
       "actual": {
-        "status": "not-complete",
+        "status": "partial-stage1-or-synthetic-only",
         "complete": false,
-        "note": "해당 후속 전체 흐름의 실제 검수 미완료"
+        "note": "합성HTTP의 같은셀/503/취소/재로드/로그아웃/gate만 실제브라우저 확인. 전체업무·실DB·실메일 아님"
       },
       "deployment": {
-        "status": "preview-ready-smtp-only",
+        "status": "new-cloud-candidate-not-published",
         "production": false,
         "completeAcceptance": false,
-        "currentEvidenceRef": "currentVerification.deployment",
-        "note": "검증 배포Ready·SMTP연결만 확인. 메일전송/가입/로그인/DB/업무출력 완료 아님"
+        "currentEvidenceRef": "currentVerification.publication",
+        "note": "기존 v0.11.0 공유 검증본·SMTP연결 이력은 유지. 새후보 미게시·배포 후 앱인증/DB/출력 미검증"
       },
       "remaining": [
         "인증/중앙저장 연결 후 기존 메뉴·팝업·편집·취소·저장·합계·출력 전 흐름을 최종 URL에서 검수"
@@ -178,37 +695,37 @@
     {
       "id": "PROD111-02",
       "title": "회사 이메일6자리 확인 가입·로그인",
-      "acceptance": "회사 이메일의 회원가입에6자리 숫자 OTP를 메일로 보내고 서버에서 검증. 현재 로그인 검토안도 이메일 OTP이며 가입/로그인/로그아웃을 구분",
-      "failureBoundaries": "다른 도메인·미인증·오류/만료/과다시도·이미 사용/재전송 전 코드 차단; 발송 실패와 검증 전 회원생성0. 공통 코드 폐기·비밀번호 강제 없음·이름/사진 보류",
+      "acceptance": "Vercel 계정 없이 직원 누구나 @igisam.com 회사메일6자리 숫자 확인으로 한 화면에서 가입/로그인. 첫 성공은 계정생성, 이후는 로그인이며 서버 검증",
+      "failureBoundaries": "비회사·미인증·오류/만료/과다시도·이미 사용/재전송 전 코드 차단; 발송/검증 실패 회원생성0. Vercel 계정·초대전용·공통코드·비밀번호 강제 없음·이름/사진 보류",
       "testIds": [
         "TPROD111-02"
       ],
       "implemented": false,
       "verified": false,
       "completed": false,
-      "status": "미완료 · 부분 준비/집중검사·제한된 실제 확인과 검증배포를 전체 수용 완료로 확대하지 않음",
+      "status": "전체요건 미완료 · 오늘3승인/직원 진입 정책 확정, 현재 재연결 차단과 설정/실메일/실DB/전환 실제검수 대기",
       "implementation": {
-        "status": "partial-or-contract-only",
+        "status": "contract-implemented-real-delivery-pending",
         "complete": false,
-        "note": "회사메일6자리 정책과 Gmail SMTP 연결은 준비됐으나 실제 OTP 발송·회원가입·로그인은 미완료입니다. 공통 코드·강제 비밀번호·이름/사진 수집은 제외합니다."
+        "note": "한 이메일 확인 화면과 서버 code/verify를 구현했습니다. 첫 확인은 계정 생성·이후 로그인으로 처리하며 newAccountCreated를 응답합니다. 실제 OTP발송/수신·가입/로그인은 미검증이고 이름/사진/비밀번호는 수집하지 않습니다. 2026-10-16 직원 누구나 Vercel계정 없이 회사메일6자리로 진입하는 목표와 수신 대상을 승인받았으나 실제 발송/전환 검수는 아직입니다."
       },
       "automatic": {
-        "status": "partial-evidence-only",
+        "status": "focused-synthetic-passed",
         "complete": false,
-        "currentEvidenceRef": "currentVerification.automatic",
-        "note": "현재 집중53·API설정없음4·packaging4의 보고 범위만 연결하며 이 요구의 전체 수용기준 통과를 뜻하지 않음"
+        "currentEvidenceRef": "currentVerification.proof",
+        "note": "독립9군94/94·생성HTML2/2·기존보존6군206/206을 각각 범위 한정 연결. 전체 요구 통과나 실제환경 검수 아님"
       },
       "actual": {
-        "status": "not-complete",
+        "status": "partial-stage1-or-synthetic-only",
         "complete": false,
-        "note": "해당 후속 전체 흐름의 실제 검수 미완료"
+        "note": "합성 확인/가입/기존계정 로그인 UI만 확인. 실제 OTP 발송/수신과 앱 계정은 미검증"
       },
       "deployment": {
-        "status": "preview-ready-smtp-only",
+        "status": "new-cloud-candidate-not-published",
         "production": false,
         "completeAcceptance": false,
-        "currentEvidenceRef": "currentVerification.deployment",
-        "note": "검증 배포Ready·SMTP연결만 확인. 메일전송/가입/로그인/DB/업무출력 완료 아님"
+        "currentEvidenceRef": "currentVerification.publication",
+        "note": "기존 v0.11.0 공유 검증본·SMTP연결 이력은 유지. 새후보 미게시·배포 후 앱인증/DB/출력 미검증"
       },
       "remaining": [
         "승인된 대상의 실제 OTP 발송/수신·확인·가입·재로그인·로그아웃과 오류/재전송 반례 검수"
@@ -227,29 +744,29 @@
       "implemented": false,
       "verified": false,
       "completed": false,
-      "status": "미완료 · 부분 준비/집중검사·제한된 실제 확인과 검증배포를 전체 수용 완료로 확대하지 않음",
+      "status": "전체요건 미완료 · 오늘3승인/직원 진입 정책 확정, 현재 재연결 차단과 설정/실메일/실DB/전환 실제검수 대기",
       "implementation": {
-        "status": "partial-or-contract-only",
+        "status": "contract-and-stage1-runtime-pending",
         "complete": false,
-        "note": "Supabase Auth 없이 private schema의 별도 계정·OTP·세션 계약을 준비했습니다. 실제 앱 인증/DB 연결은0이며 기존 Auth/SMTP/key를 재사용하지 않습니다."
+        "note": "Better Auth1.7.8을 전용 schema에 사용하는 별도 앱 계정/OTP/세션 코드·stage1을 준비했습니다. HMAC/만료/시도제한/재전송/COMMIT 계약은 합성검사 범위이고 runtime LOGIN·실계정은 미검증입니다."
       },
       "automatic": {
-        "status": "partial-evidence-only",
+        "status": "focused-synthetic-passed",
         "complete": false,
-        "currentEvidenceRef": "currentVerification.automatic",
-        "note": "현재 집중53·API설정없음4·packaging4의 보고 범위만 연결하며 이 요구의 전체 수용기준 통과를 뜻하지 않음"
+        "currentEvidenceRef": "currentVerification.proof",
+        "note": "독립9군94/94·생성HTML2/2·기존보존6군206/206을 각각 범위 한정 연결. 전체 요구 통과나 실제환경 검수 아님"
       },
       "actual": {
-        "status": "not-complete",
+        "status": "partial-stage1-or-synthetic-only",
         "complete": false,
-        "note": "해당 후속 전체 흐름의 실제 검수 미완료"
+        "note": "전용 schema stage1·소유자 합성SQL만 실제 수행. runtime 역할/실세션 미검증"
       },
       "deployment": {
-        "status": "preview-ready-smtp-only",
+        "status": "new-cloud-candidate-not-published",
         "production": false,
         "completeAcceptance": false,
-        "currentEvidenceRef": "currentVerification.deployment",
-        "note": "검증 배포Ready·SMTP연결만 확인. 메일전송/가입/로그인/DB/업무출력 완료 아님"
+        "currentEvidenceRef": "currentVerification.publication",
+        "note": "기존 v0.11.0 공유 검증본·SMTP연결 이력은 유지. 새후보 미게시·배포 후 앱인증/DB/출력 미검증"
       },
       "remaining": [
         "OTP 만료·시도제한·1회사용·해시·동시검증·세션 회수/보호를 전용 DB와 실제 요청에서 검수"
@@ -260,37 +777,37 @@
     {
       "id": "PROD111-04",
       "title": "프로젝트별 서버 권한",
-      "acceptance": "서버가 승인된 사용자와 프로젝트별 조회·수정·확정 권한을 매 요청에서 검사",
-      "failureBoundaries": "화면 숨김만으로 보호하지 않음. 다른 프로젝트 ID·권한 없는 사용자·변경된 권한·세션 만료도 서버에서 거부",
+      "acceptance": "직원의 회사메일 가입/로그인 허용과 별도로 서버가 프로젝트별 조회·수정·확정·내려받기 권한을 매 요청에서 검사. 최초 관리자는 사용자 본인 회사이메일로 승인",
+      "failureBoundaries": "진입장벽 제거는 전원 사업자료 공개가 아님. 미부여/다른사업/변경된 권한·만료 세션은 거부. 첫 가입자 자동admin·개인주소 공개설정 하드코딩 금지",
       "testIds": [
         "TPROD111-04"
       ],
       "implemented": false,
       "verified": false,
       "completed": false,
-      "status": "미완료 · 부분 준비/집중검사·제한된 실제 확인과 검증배포를 전체 수용 완료로 확대하지 않음",
+      "status": "전체요건 미완료 · 오늘3승인/직원 진입 정책 확정, 현재 재연결 차단과 설정/실메일/실DB/전환 실제검수 대기",
       "implementation": {
-        "status": "partial-or-contract-only",
+        "status": "candidate-policy-real-grants-pending",
         "complete": false,
-        "note": "프로젝트별 서버 권한은 미연동입니다. 이메일 확인이나 Vercel 보호 통과를 업무 권한으로 승격하지 않습니다."
+        "note": "프로젝트 membership/role 서버검사 후보와 합성계약을 구현했습니다. 오늘 최초 관리자 대상을 사용자 본인 회사이메일로 승인받았지만 실제 설정/부여는0입니다. 직원 가입 허용은 전원admin/전체사업 자료공개가 아니며 서버 사업별 권한을 유지합니다."
       },
       "automatic": {
-        "status": "partial-evidence-only",
+        "status": "focused-synthetic-passed",
         "complete": false,
-        "currentEvidenceRef": "currentVerification.automatic",
-        "note": "현재 집중53·API설정없음4·packaging4의 보고 범위만 연결하며 이 요구의 전체 수용기준 통과를 뜻하지 않음"
+        "currentEvidenceRef": "currentVerification.proof",
+        "note": "독립9군94/94·생성HTML2/2·기존보존6군206/206을 각각 범위 한정 연결. 전체 요구 통과나 실제환경 검수 아님"
       },
       "actual": {
-        "status": "not-complete",
+        "status": "partial-stage1-or-synthetic-only",
         "complete": false,
-        "note": "해당 후속 전체 흐름의 실제 검수 미완료"
+        "note": "프로젝트별 권한은 합성모델로만 검증. 실제 사용자/권한 부여0"
       },
       "deployment": {
-        "status": "preview-ready-smtp-only",
+        "status": "new-cloud-candidate-not-published",
         "production": false,
         "completeAcceptance": false,
-        "currentEvidenceRef": "currentVerification.deployment",
-        "note": "검증 배포Ready·SMTP연결만 확인. 메일전송/가입/로그인/DB/업무출력 완료 아님"
+        "currentEvidenceRef": "currentVerification.publication",
+        "note": "기존 v0.11.0 공유 검증본·SMTP연결 이력은 유지. 새후보 미게시·배포 후 앱인증/DB/출력 미검증"
       },
       "remaining": [
         "사용자/프로젝트/역할별 직접 읽기·수정·확정·내려받기 허용/거부·권한회수 검수"
@@ -309,29 +826,29 @@
       "implemented": false,
       "verified": false,
       "completed": false,
-      "status": "미완료 · 부분 준비/집중검사·제한된 실제 확인과 검증배포를 전체 수용 완료로 확대하지 않음",
+      "status": "전체요건 미완료 · 오늘3승인/직원 진입 정책 확정, 현재 재연결 차단과 설정/실메일/실DB/전환 실제검수 대기",
       "implementation": {
-        "status": "partial-or-contract-only",
+        "status": "schema-applied-runtime-pending",
         "complete": false,
-        "note": "기존 비공개 development_project_platform 영역만 대상으로 합니다. 실제 앱 DB 연결·업무 테이블 저장·다른 조직 객체 연결은0입니다."
+        "note": "stage1 migration20261015035338을 앱 전용10테이블/RLS와 새 NOLOGIN 역할에 적용했습니다. 기존49관계/40함수/61이력 불변·소유자 합성SQL7은 확인했지만 runtime PG 연결/역할 실행은 미검증입니다."
       },
       "automatic": {
-        "status": "partial-evidence-only",
+        "status": "focused-synthetic-passed",
         "complete": false,
-        "currentEvidenceRef": "currentVerification.automatic",
-        "note": "현재 집중53·API설정없음4·packaging4의 보고 범위만 연결하며 이 요구의 전체 수용기준 통과를 뜻하지 않음"
+        "currentEvidenceRef": "currentVerification.proof",
+        "note": "독립9군94/94·생성HTML2/2·기존보존6군206/206을 각각 범위 한정 연결. 전체 요구 통과나 실제환경 검수 아님"
       },
       "actual": {
-        "status": "not-complete",
+        "status": "partial-stage1-or-synthetic-only",
         "complete": false,
-        "note": "해당 후속 전체 흐름의 실제 검수 미완료"
+        "note": "10테이블/RLS/NOLOGIN 적용 및 소유자 SQL7. runtime 역할 실행은42501 준비 차단, 실제 PG LOGIN 미검증"
       },
       "deployment": {
-        "status": "preview-ready-smtp-only",
+        "status": "new-cloud-candidate-not-published",
         "production": false,
         "completeAcceptance": false,
-        "currentEvidenceRef": "currentVerification.deployment",
-        "note": "검증 배포Ready·SMTP연결만 확인. 메일전송/가입/로그인/DB/업무출력 완료 아님"
+        "currentEvidenceRef": "currentVerification.publication",
+        "note": "기존 v0.11.0 공유 검증본·SMTP연결 이력은 유지. 새후보 미게시·배포 후 앱인증/DB/출력 미검증"
       },
       "remaining": [
         "앱 전용 저장 경로·역할·권한·API 경계와 기존 조직 서비스 무변경을 실제 연결에서 대조"
@@ -350,29 +867,29 @@
       "implemented": false,
       "verified": false,
       "completed": false,
-      "status": "미완료 · 부분 준비/집중검사·제한된 실제 확인과 검증배포를 전체 수용 완료로 확대하지 않음",
+      "status": "전체요건 미완료 · 오늘3승인/직원 진입 정책 확정, 현재 재연결 차단과 설정/실메일/실DB/전환 실제검수 대기",
       "implementation": {
-        "status": "partial-or-contract-only",
+        "status": "synthetic-preservation-verified-real-data-pending",
         "complete": false,
-        "note": "원 ID·원 단위/미입력0·비용코드·계약/VAT·공유법인·인허가/보고 보존 계약을 연결했습니다. 새 중앙저장 소비자 전수 대사는 대기입니다."
+        "note": "원 ID/원단위/null0·과거시점/보고본문·비용코드와 검토상태 보존을 서버 검증에 연결했습니다. review 자동승격·가짜 부모 split 우회2건을 실패검사 후 수정했고 최종 합성22에 반영했지만 실제 원장 이관은 미실행입니다."
       },
       "automatic": {
-        "status": "partial-evidence-only",
+        "status": "focused-synthetic-passed",
         "complete": false,
-        "currentEvidenceRef": "currentVerification.automatic",
-        "note": "현재 집중53·API설정없음4·packaging4의 보고 범위만 연결하며 이 요구의 전체 수용기준 통과를 뜻하지 않음"
+        "currentEvidenceRef": "currentVerification.proof",
+        "note": "독립9군94/94·생성HTML2/2·기존보존6군206/206을 각각 범위 한정 연결. 전체 요구 통과나 실제환경 검수 아님"
       },
       "actual": {
-        "status": "not-complete",
+        "status": "partial-stage1-or-synthetic-only",
         "complete": false,
-        "note": "해당 후속 전체 흐름의 실제 검수 미완료"
+        "note": "합성 원가의123456789원 셀 저장 표시와 코드 의미검사. 실제 회사원장 이관 아님"
       },
       "deployment": {
-        "status": "preview-ready-smtp-only",
+        "status": "new-cloud-candidate-not-published",
         "production": false,
         "completeAcceptance": false,
-        "currentEvidenceRef": "currentVerification.deployment",
-        "note": "검증 배포Ready·SMTP연결만 확인. 메일전송/가입/로그인/DB/업무출력 완료 아님"
+        "currentEvidenceRef": "currentVerification.publication",
+        "note": "기존 v0.11.0 공유 검증본·SMTP연결 이력은 유지. 새후보 미게시·배포 후 앱인증/DB/출력 미검증"
       },
       "remaining": [
         "전체 소비자의 같은 기록/금액/정의·과거본문·반복행·빈값/0·공유법인 영향 독립 대사"
@@ -391,29 +908,29 @@
       "implemented": false,
       "verified": false,
       "completed": false,
-      "status": "미완료 · 부분 준비/집중검사·제한된 실제 확인과 검증배포를 전체 수용 완료로 확대하지 않음",
+      "status": "전체요건 미완료 · 오늘3승인/직원 진입 정책 확정, 현재 재연결 차단과 설정/실메일/실DB/전환 실제검수 대기",
       "implementation": {
-        "status": "partial-or-contract-only",
+        "status": "contract-implemented-runtime-atomicity-pending",
         "complete": false,
-        "note": "기존 로컬 transaction/원복 경계는 보존합니다. 서버의 업무/감사/알림 일괄 저장·동시성·중복 요청은 실제 DB에서 검증하지 않았습니다."
+        "note": "한 연결의 서버 트랜잭션·workspace/감사/요청결과 저장·버전/요청ID·UI응답대기/실패원복을 구현했습니다. 독립 합성과 소유자SQL의 감사실패 원복은 확인했으나 앱 runtime DB의 원자저장은 미검증입니다."
       },
       "automatic": {
-        "status": "partial-evidence-only",
+        "status": "focused-synthetic-passed",
         "complete": false,
-        "currentEvidenceRef": "currentVerification.automatic",
-        "note": "현재 집중53·API설정없음4·packaging4의 보고 범위만 연결하며 이 요구의 전체 수용기준 통과를 뜻하지 않음"
+        "currentEvidenceRef": "currentVerification.proof",
+        "note": "독립9군94/94·생성HTML2/2·기존보존6군206/206을 각각 범위 한정 연결. 전체 요구 통과나 실제환경 검수 아님"
       },
       "actual": {
-        "status": "not-complete",
+        "status": "partial-stage1-or-synthetic-only",
         "complete": false,
-        "note": "해당 후속 전체 흐름의 실제 검수 미완료"
+        "note": "합성HTTP503 입력유지/취소·소유자 SQL감사실패 원복. 실제 앱 PG원자저장 미검증"
       },
       "deployment": {
-        "status": "preview-ready-smtp-only",
+        "status": "new-cloud-candidate-not-published",
         "production": false,
         "completeAcceptance": false,
-        "currentEvidenceRef": "currentVerification.deployment",
-        "note": "검증 배포Ready·SMTP연결만 확인. 메일전송/가입/로그인/DB/업무출력 완료 아님"
+        "currentEvidenceRef": "currentVerification.publication",
+        "note": "기존 v0.11.0 공유 검증본·SMTP연결 이력은 유지. 새후보 미게시·배포 후 앱인증/DB/출력 미검증"
       },
       "remaining": [
         "서버 업무+감사+알림 일괄 저장/실패 원복·오래된창 충돌·중복요청 재시도 실제 검수"
@@ -432,29 +949,29 @@
       "implemented": false,
       "verified": false,
       "completed": false,
-      "status": "미완료 · 부분 준비/집중검사·제한된 실제 확인과 검증배포를 전체 수용 완료로 확대하지 않음",
+      "status": "전체요건 미완료 · 오늘3승인/직원 진입 정책 확정, 현재 재연결 차단과 설정/실메일/실DB/전환 실제검수 대기",
       "implementation": {
-        "status": "partial-or-contract-only",
+        "status": "isolated-account-ui-verified-real-transition-pending",
         "complete": false,
-        "note": "기존 로컬 자료·원본과 프로젝트/계정별 초안 격리 계약을 보존합니다. 실제 로컬→중앙 이관·여러 계정 재로드는 미실행입니다."
+        "note": "계정별 작업공간/초안·cloud 상태와 기존 로컬자료를 분리했습니다. 합성HTTP 재로드·503입력유지·취소·로그아웃 hiddenDOM/휘발성 버퍼 초기화는 확인했지만 실제계정/PG 이관 검수는 미완료입니다."
       },
       "automatic": {
-        "status": "partial-evidence-only",
+        "status": "focused-synthetic-passed",
         "complete": false,
-        "currentEvidenceRef": "currentVerification.automatic",
-        "note": "현재 집중53·API설정없음4·packaging4의 보고 범위만 연결하며 이 요구의 전체 수용기준 통과를 뜻하지 않음"
+        "currentEvidenceRef": "currentVerification.proof",
+        "note": "독립9군94/94·생성HTML2/2·기존보존6군206/206을 각각 범위 한정 연결. 전체 요구 통과나 실제환경 검수 아님"
       },
       "actual": {
-        "status": "not-complete",
+        "status": "partial-stage1-or-synthetic-only",
         "complete": false,
-        "note": "해당 후속 전체 흐름의 실제 검수 미완료"
+        "note": "합성HTTP 재로드·로그아웃 숨은DOM0·사용자격리/초안 검사. 실제 사용자 중앙저장 아님"
       },
       "deployment": {
-        "status": "preview-ready-smtp-only",
+        "status": "new-cloud-candidate-not-published",
         "production": false,
         "completeAcceptance": false,
-        "currentEvidenceRef": "currentVerification.deployment",
-        "note": "검증 배포Ready·SMTP연결만 확인. 메일전송/가입/로그인/DB/업무출력 완료 아님"
+        "currentEvidenceRef": "currentVerification.publication",
+        "note": "기존 v0.11.0 공유 검증본·SMTP연결 이력은 유지. 새후보 미게시·배포 후 앱인증/DB/출력 미검증"
       },
       "remaining": [
         "이관 승인/범위·계정/프로젝트 격리·재로드·충돌·실패·초안 보존을 격리 자료로 검수"
@@ -473,29 +990,29 @@
       "implemented": false,
       "verified": false,
       "completed": false,
-      "status": "미완료 · 부분 준비/집중검사·제한된 실제 확인과 검증배포를 전체 수용 완료로 확대하지 않음",
+      "status": "전체요건 미완료 · 오늘3승인/직원 진입 정책 확정, 현재 재연결 차단과 설정/실메일/실DB/전환 실제검수 대기",
       "implementation": {
-        "status": "partial-or-contract-only",
+        "status": "partial-synthetic-restore-only",
         "complete": false,
-        "note": "앱 영역의 백업/분리 복구 계약 단계입니다. 실제 서버 백업·복구 훈련은 미실행이며 공유 DB 전체 복구/기존 서비스 변경은0입니다."
+        "note": "앱 전용 workspace 감사/과거상태 구조와 소유자 SQL의 격리 복구 사본 검사는 준비됐습니다. 운영 백업정책·실제 runtime 복구훈련은 미완료이며 공유 DB 전체복구/기존서비스 변경은 하지 않았습니다."
       },
       "automatic": {
-        "status": "partial-evidence-only",
+        "status": "focused-synthetic-passed",
         "complete": false,
-        "currentEvidenceRef": "currentVerification.automatic",
-        "note": "현재 집중53·API설정없음4·packaging4의 보고 범위만 연결하며 이 요구의 전체 수용기준 통과를 뜻하지 않음"
+        "currentEvidenceRef": "currentVerification.proof",
+        "note": "독립9군94/94·생성HTML2/2·기존보존6군206/206을 각각 범위 한정 연결. 전체 요구 통과나 실제환경 검수 아님"
       },
       "actual": {
-        "status": "not-complete",
+        "status": "partial-stage1-or-synthetic-only",
         "complete": false,
-        "note": "해당 후속 전체 흐름의 실제 검수 미완료"
+        "note": "postgres 소유자 합성 workspace 복구 사본과 rollback만. 운영복구 훈련 아님"
       },
       "deployment": {
-        "status": "preview-ready-smtp-only",
+        "status": "new-cloud-candidate-not-published",
         "production": false,
         "completeAcceptance": false,
-        "currentEvidenceRef": "currentVerification.deployment",
-        "note": "검증 배포Ready·SMTP연결만 확인. 메일전송/가입/로그인/DB/업무출력 완료 아님"
+        "currentEvidenceRef": "currentVerification.publication",
+        "note": "기존 v0.11.0 공유 검증본·SMTP연결 이력은 유지. 새후보 미게시·배포 후 앱인증/DB/출력 미검증"
       },
       "remaining": [
         "앱 영역 백업·보존/복구 기준 승인과 분리 환경 실제 복구·자료/권한/확정본 대사"
@@ -514,29 +1031,29 @@
       "implemented": false,
       "verified": false,
       "completed": false,
-      "status": "미완료 · 부분 준비/집중검사·제한된 실제 확인과 검증배포를 전체 수용 완료로 확대하지 않음",
+      "status": "전체요건 미완료 · 오늘3승인/직원 진입 정책 확정, 현재 재연결 차단과 설정/실메일/실DB/전환 실제검수 대기",
       "implementation": {
-        "status": "partial-or-contract-only",
+        "status": "synthetic-optional-source-only",
         "complete": false,
-        "note": "Notion은 선택 보충이며 자료가 없어도 코어를 유지합니다. 실시간 API와 인증/중앙저장 이후 보충 적용은 미연동입니다."
+        "note": "선택 Notion의 인증/권한 경계·없는 자료·실패·늦은 응답·수기자료 보존을 합성검사했습니다. 실제 snapshot 설정/Runtime API/자동동기화·실 DB 통합은 미검증입니다."
       },
       "automatic": {
-        "status": "partial-evidence-only",
+        "status": "focused-synthetic-passed",
         "complete": false,
-        "currentEvidenceRef": "currentVerification.automatic",
-        "note": "현재 집중53·API설정없음4·packaging4의 보고 범위만 연결하며 이 요구의 전체 수용기준 통과를 뜻하지 않음"
+        "currentEvidenceRef": "currentVerification.proof",
+        "note": "독립9군94/94·생성HTML2/2·기존보존6군206/206을 각각 범위 한정 연결. 전체 요구 통과나 실제환경 검수 아님"
       },
       "actual": {
-        "status": "not-complete",
+        "status": "partial-stage1-or-synthetic-only",
         "complete": false,
-        "note": "해당 후속 전체 흐름의 실제 검수 미완료"
+        "note": "실제 Notion/DB/자동동기화 없이 합성 소비자 검사"
       },
       "deployment": {
-        "status": "preview-ready-smtp-only",
+        "status": "new-cloud-candidate-not-published",
         "production": false,
         "completeAcceptance": false,
-        "currentEvidenceRef": "currentVerification.deployment",
-        "note": "검증 배포Ready·SMTP연결만 확인. 메일전송/가입/로그인/DB/업무출력 완료 아님"
+        "currentEvidenceRef": "currentVerification.publication",
+        "note": "기존 v0.11.0 공유 검증본·SMTP연결 이력은 유지. 새후보 미게시·배포 후 앱인증/DB/출력 미검증"
       },
       "remaining": [
         "인증/중앙저장 이후 없음/오류/정상 보충·수기자료·초안·프로젝트 문맥 보존 실제 검수"
@@ -547,40 +1064,41 @@
     {
       "id": "PROD111-11",
       "title": "최종 보호 배포·실제 업무 검수",
-      "acceptance": "같은 최종 커밋·빌드·URL에서 보호·앱 로그인·권한·업무 저장·다른 사용자 확인·출력을 실제 검수",
-      "failureBoundaries": "provider success·302·모델검사·과거159/36·120 또는 v33 검수를 새 최종 제품 통과로 확대하지 않음. 도구 차단은 미검증",
+      "acceptance": "같은 최종 커밋/빌드/URL에서 앱 인증·서버권한·저장/출력을 검증하고, 과거 URL 영향을 확인해 액션 시점 승인 후 이 앱의 Vercel 계정 장벽을 전환. Vercel 없는 새 브라우저에서 회사메일6자리 진입 확인",
+      "failureBoundaries": "전환 전 보호유지는 임시 보존조건. 이전302/SMTP/합성/과거 검수를 전환 수용으로 승격하지 않음. 무인증 원장/API·과거 URL의 자료/비밀 노출0, 다른 서비스 보호/DB/Auth 변경0",
       "testIds": [
         "TPROD111-11"
       ],
       "implemented": false,
       "verified": false,
       "completed": false,
-      "status": "미완료 · 부분 준비/집중검사·제한된 실제 확인과 검증배포를 전체 수용 완료로 확대하지 않음",
+      "status": "전체요건 미완료 · 오늘3승인/직원 진입 정책 확정, 현재 재연결 차단과 설정/실메일/실DB/전환 실제검수 대기",
       "implementation": {
-        "status": "partial-or-contract-only",
+        "status": "local-candidate-not-published",
         "complete": false,
-        "note": "동일 HTML의 로컬 홈·명세8세부탭·새로고침 홈만 실제 확인했습니다. 보호 후속 배포와 SMTP 연결 확인은 별도이며 업무 CRUD/PDF/XLSX는 미검수입니다."
+        "note": "최종 cloud87B12/loopback85C45 후보를 분리하고 생성HTML 합성HTTP2·실제브라우저 합성HTTP7을 확인했습니다. 실제메일/runtime PG·실권한·새후보 배포E2E·PDF/XLSX는 미검증이며 기존 v0.11.0 공유본은 유지합니다. 기존 보호는 전환 전 임시 보존입니다. 앱 인증 배포 검증 후 과거URL 영향과 액션 시점 승인을 확인해 직원 진입장벽을 전환하며 아직 실행하지 않았습니다."
       },
       "automatic": {
-        "status": "partial-evidence-only",
+        "status": "focused-synthetic-passed",
         "complete": false,
-        "currentEvidenceRef": "currentVerification.automatic",
-        "note": "현재 집중53·API설정없음4·packaging4의 보고 범위만 연결하며 이 요구의 전체 수용기준 통과를 뜻하지 않음"
+        "currentEvidenceRef": "currentVerification.proof",
+        "note": "독립9군94/94·생성HTML2/2·기존보존6군206/206을 각각 범위 한정 연결. 전체 요구 통과나 실제환경 검수 아님"
       },
       "actual": {
-        "status": "partial-home-and-spec-only",
+        "status": "partial-stage1-or-synthetic-only",
         "complete": false,
-        "note": "홈·명세8탭·리로드홈만 확인; 업무/출력 미검수"
+        "note": "생성HTML2는 합성HTTP 실행, CUA7은 루프백 합성HTTP. 별도이전 사업등록은 final통과로 미계수"
       },
       "deployment": {
-        "status": "preview-ready-smtp-only",
+        "status": "new-cloud-candidate-not-published",
         "production": false,
         "completeAcceptance": false,
-        "currentEvidenceRef": "currentVerification.deployment",
-        "note": "검증 배포Ready·SMTP연결만 확인. 메일전송/가입/로그인/DB/업무출력 완료 아님"
+        "currentEvidenceRef": "currentVerification.publication",
+        "note": "기존 v0.11.0 공유 검증본·SMTP연결 이력은 유지. 새후보 미게시·배포 후 앱인증/DB/출력 미검증"
       },
       "remaining": [
-        "후속 실제 URL의 홈/명세 외 전체 업무·계정·권한·메일/DB·PDF 전페이지·XLSX 및 원격산출물 동일성 검수"
+        "후속 실제 URL의 홈/명세 외 전체 업무·계정·권한·메일/DB·PDF 전페이지·XLSX 및 원격산출물 동일성 검수",
+        "Vercel 계정/쿠키/우회링크 없는 새 브라우저의 회사메일6자리 진입·미권한 API/과거URL 노출0·다른 서비스 보호 무변경"
       ],
       "source": "docs/deployment-v0111-spec.md#3",
       "reflectionVersion": "v0.11.1 후속 후보"
@@ -596,35 +1114,152 @@
       "implemented": false,
       "verified": false,
       "completed": false,
-      "status": "미완료 · 부분 준비/집중검사·제한된 실제 확인과 검증배포를 전체 수용 완료로 확대하지 않음",
+      "status": "전체요건 미완료 · 오늘3승인/직원 진입 정책 확정, 현재 재연결 차단과 설정/실메일/실DB/전환 실제검수 대기",
       "implementation": {
-        "status": "partial-or-contract-only",
+        "status": "documents-synced-excel-pending",
         "complete": false,
-        "note": "이 명세·신규12항목 수정대장·누적 MD를 동기화합니다. 새12개를 포함한 Excel·최종 Git/배포/실제검수 지문 동기화는 루트 후속입니다."
+        "note": "명세10절·수정대장 currentVerification·신규12개 MD 상태를 stage1/구현/합성/실제/차단/미검증으로 동기화했습니다. 원369본문/체크와 이력을 보존하고 root XLSX/final packaging 동기화는 문서freeze 후 별도입니다."
       },
       "automatic": {
-        "status": "partial-evidence-only",
+        "status": "focused-synthetic-passed",
         "complete": false,
-        "currentEvidenceRef": "currentVerification.automatic",
-        "note": "현재 집중53·API설정없음4·packaging4의 보고 범위만 연결하며 이 요구의 전체 수용기준 통과를 뜻하지 않음"
+        "currentEvidenceRef": "currentVerification.proof",
+        "note": "독립9군94/94·생성HTML2/2·기존보존6군206/206을 각각 범위 한정 연결. 전체 요구 통과나 실제환경 검수 아님"
       },
       "actual": {
-        "status": "not-complete",
+        "status": "partial-stage1-or-synthetic-only",
         "complete": false,
-        "note": "해당 후속 전체 흐름의 실제 검수 미완료"
+        "note": "소유3문서 동기화만 수행. XLSX381/최종게시/배포E2E는 root 후속"
       },
       "deployment": {
-        "status": "preview-ready-smtp-only",
+        "status": "new-cloud-candidate-not-published",
         "production": false,
         "completeAcceptance": false,
-        "currentEvidenceRef": "currentVerification.deployment",
-        "note": "검증 배포Ready·SMTP연결만 확인. 메일전송/가입/로그인/DB/업무출력 완료 아님"
+        "currentEvidenceRef": "currentVerification.publication",
+        "note": "기존 v0.11.0 공유 검증본·SMTP연결 이력은 유지. 새후보 미게시·배포 후 앱인증/DB/출력 미검증"
       },
       "remaining": [
         "루트의 Excel381항목 동기화와 원문/서식 보존·최종 증거/Git 문서·배포 지문·단계 상태 대사"
       ],
       "source": "docs/deployment-v0111-spec.md#3",
       "reflectionVersion": "v0.11.1 후속 후보"
+    }
+  ],
+  "currentlyPublishedProductVersion": "0.11.0 protected preview",
+  "booleanMeaning": "items의 implemented/verified/completed는 전체 요구 완료 여부이며 부분 코드·스키마·합성검사 진척을 부정하는 값이 아님. 현재12개 모두false 유지.",
+  "verificationHistory": [
+    {
+      "classification": "기존 v0.11.0 공유 검증 배포/SMTP 연결과 이전53/API4/packaging4 근거. 새 후보의 실제 통합 검수로 승격하지 않음",
+      "snapshot": {
+        "asOf": "2026-10-15",
+        "evidenceSource": "루트의 현재 clone 검사·CUA·공식 Vercel 배포/빌드 로그 확인 전달. 본 문서 동기화에서 제품 검사를 재실행하지 않음.",
+        "automatic": [
+          {
+            "scope": "정확 clone 집중검사",
+            "passed": 53,
+            "failed": 0,
+            "reportedBy": "root",
+            "completeProductAcceptance": false
+          },
+          {
+            "scope": "API 설정 없음",
+            "passed": 4,
+            "failed": 0,
+            "reportedBy": "root",
+            "completeProductAcceptance": false
+          },
+          {
+            "scope": "Vercel packaging",
+            "passed": 4,
+            "failed": 0,
+            "reportedBy": "root",
+            "completeProductAcceptance": false
+          }
+        ],
+        "automaticCountsNotSummedWithoutUniqueSuiteProof": true,
+        "html": {
+          "sha256": "e6938e5d9e05132fa025106392077c7dbc2ea42257834a0c699cd3582a84e735",
+          "bytes": 8120178,
+          "localAndBuildLogMatchedByRoot": true,
+          "cloudArtifactHashReadback": "별도 확인 필요"
+        },
+        "actual": {
+          "confirmed": [
+            "정확 HTML 홈",
+            "플랫폼 명세8개 세부탭",
+            "리로드 후 홈"
+          ],
+          "notVerified": [
+            "업무 CRUD",
+            "PDF 전페이지",
+            "XLSX",
+            "실제 OTP 발송/수신",
+            "회원가입/로그인",
+            "프로젝트 서버권한",
+            "중앙DB 저장/복구"
+          ],
+          "readOnlyCloudUrlReview": "root 진행 중"
+        },
+        "smtp": {
+          "status": "connection-verified-only",
+          "loggedAt": "2026-10-15T11:44:48.351+09:00",
+          "configured": true,
+          "connection": "verified",
+          "mailSent": false,
+          "applicationAuthenticationActive": false,
+          "secretValuesRead": false,
+          "rawSenderRecorded": false
+        },
+        "deployment": {
+          "branch": "preview/core-v0.11.0",
+          "commit": "66c51648f47e4fb6659dcd7c4ff2241abefdb42a",
+          "provider": "Vercel Git integration",
+          "state": "Ready",
+          "durationSeconds": 18,
+          "managementUrl": "https://vercel.com/igisra/development-project-platform-preview/HTQJKosKqWod3kdFRwtT2YjgLbAD",
+          "previewUrl": "https://development-project-platform-preview-mhsfppscg-igisra.vercel.app",
+          "production": false,
+          "precedingAuthorMismatchBlockedCommitPrefix": "d1c4",
+          "precedingBlockedAttemptWasNotApplicationOrSmtpExecution": true,
+          "followupChange": "README1줄; 동일 제품 코드"
+        },
+        "centralDatabaseConnected": false,
+        "applicationAuthenticationActive": false,
+        "actualOtpMailSent": false,
+        "preserved": {
+          "existingUi": true,
+          "originalWonAmounts": true,
+          "pastArtifacts": true,
+          "organizationDatabaseUnchanged": true
+        },
+        "noSecretValuesOrRawSenderInDocuments": true
+      }
+    }
+  ],
+  "approvalDecisionHistory": [
+    {
+      "asOf": "2026-10-15",
+      "classification": "당시 미응답. 2026-10-16 직접 답변으로 대체됨; 실행 증거 아님",
+      "items": [
+        {
+          "id": "recipient-company-email",
+          "status": "awaiting-user-answer",
+          "valueRecorded": false
+        },
+        {
+          "id": "initial-admin-and-access-policy",
+          "status": "awaiting-user-answer",
+          "defaultIsNotUserSelection": true,
+          "automaticFirstAdmin": false,
+          "automaticAllProjectMembership": false
+        },
+        {
+          "id": "new-app-only-runtime-secret-storage-approval",
+          "status": "awaiting-user-answer",
+          "notEquivalentToPriorGmailSettingsApproval": true,
+          "secretValuesRead": false
+        }
+      ]
     }
   ]
 }

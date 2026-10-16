@@ -1,11 +1,11 @@
 {
-  "version": "0.11.0",
-  "htmlSha256": "e6938e5d9e05132fa025106392077c7dbc2ea42257834a0c699cd3582a84e735",
-  "bytes": 8120178,
+  "version": "0.11.1",
+  "htmlSha256": "3f12d452b68c149ec0db93fb77d9476b4e9d2d5f0288b0b57836b4fb4b048a86",
+  "bytes": 8144464,
   "notionRequired": false,
   "realProjectDataIncluded": false,
-  "mode": "core-with-optional-runtime-source",
+  "mode": "authenticated-private-schema-runtime-with-optional-source",
   "localBuildVerified": true,
-  "actualBrowser": "2026-10-15 local published-source build: home, 8 specification tabs, reload-home verified; CRUD/PDF/XLSX unverified",
-  "protectedDeployment": "pending"
+  "actualBrowser": "Current publication build matched and generated-HTML synthetic checks passed; real remote email, authenticated browser and outputs remain separate acceptance gates",
+  "protectedDeployment": "pending-v0.11.1-runtime-verification"
 }

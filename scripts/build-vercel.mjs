@@ -12,7 +12,7 @@ const expected=process.env.DP_EXPECTED_HTML_SHA256||approved?.htmlSha256;
 if(!/^[0-9a-f]{64}$/i.test(expected||''))throw Error('ARTIFACT_APPROVAL_MISSING: 검수한 최종 파일 지문이 없어 배포를 중단했습니다.');
 const buildDir=path.resolve('.build/vercel-private'),htmlPath=path.join(buildDir,'index.html');
 await fs.mkdir(buildDir,{recursive:true});
-const result=spawnSync(process.execPath,['scripts/build-deployment.mjs','--out',htmlPath,'--icons','src/assets/nav-icons.json'],{encoding:'utf8'});
+const result=spawnSync(process.execPath,['scripts/build-deployment.mjs','--cloud','--out',htmlPath,'--icons','src/assets/nav-icons.json'],{encoding:'utf8'});
 if(result.error||result.status!==0)throw Error('CORE_BUILD_FAILED: 핵심 플랫폼의 전체 모듈 검사가 실패해 배포를 중단했습니다.');
 const bytes=await fs.readFile(htmlPath),sha256=crypto.createHash('sha256').update(bytes).digest('hex');
 if(expected.toLowerCase()!==sha256)throw Error('ARTIFACT_MISMATCH: 검수한 최종 화면과 배포 파일이 달라 배포를 중단했습니다.');
@@ -20,4 +20,4 @@ const mailConnection=await verifyMailConfiguration(process.env,{approvedHtmlSha2
 console.log(JSON.stringify({status:'mail-configuration-check',...mailConnection,mailSent:false,applicationAuthenticationActive:false}));
 await fs.mkdir('dist',{recursive:true});
 await fs.copyFile(htmlPath,'dist/index.html');
-console.log(JSON.stringify({status:'built-protected-core-platform',version:'0.11.0',htmlSha256:sha256,bytes:bytes.length,privateSourceInGit:false,sourceMode:'optional-runtime-addon',notionRequiredForBuild:false,automaticNotionSync:false}));
+console.log(JSON.stringify({status:'built-protected-cloud-platform',version:'0.11.1',htmlSha256:sha256,bytes:bytes.length,privateSourceInGit:false,sourceMode:'authenticated-optional-runtime-addon',notionRequiredForBuild:false,automaticNotionSync:false}));

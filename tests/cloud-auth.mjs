@@ -57,11 +57,11 @@ async function muted(run){
 }
 
 async function signIn(app,email='qa.user@igisam.com'){
-  const sent=await app.request('code',{body:{email}});assert.equal(sent.status,202,'OTP request must be accepted');
-  assert.equal(app.sent.length,1,'one synthetic mail item');
-  assert(/^\d{6}$/.test(app.sent[0].otp),'OTP must be six ASCII digits');
-  const verified=await app.request('verify',{body:{email,code:app.sent[0].otp}});assert.equal(verified.status,200,'synthetic OTP verification must succeed');
-  return {verified,cookie:sessionCookie(verified)};
+  const before=app.sent.length,sent=await app.request('code',{body:{email}});assert.equal(sent.status,202,'OTP request must be accepted');
+  assert.equal(app.sent.length,before+1,'one new synthetic mail item');
+  const otp=app.sent.at(-1).otp;assert(/^\d{6}$/.test(otp),'OTP must be six ASCII digits');
+  const verified=await app.request('verify',{body:{email,code:otp}});assert.equal(verified.status,200,'synthetic OTP verification must succeed');
+  return {verified,cookie:sessionCookie(verified),body:await verified.clone().json(),otp};
 }
 
 const checks=[];
@@ -69,7 +69,7 @@ async function check(name,run){try{await run();checks.push({name,status:'passed'
 
 await check('CLOUD-AUTH-01 exact 회사도메인과 공백·대소문자 정규화',async()=>{
   assert.equal(companyEmail('  QA.User@IGISAM.COM  '),'qa.user@igisam.com');
-  for(const email of ['qa@eviligisam.com','qa@igisam.com.evil','qa@sub.igisam.com'])assert.throws(()=>companyEmail(email),/@igisam\.com/);
+  const app=fixture();for(const email of ['qa@eviligisam.com','qa@igisam.com.evil','qa@sub.igisam.com']){assert.throws(()=>companyEmail(email),/@igisam\.com/);const response=await app.request('code',{body:{email}}),body=await response.json();assert.equal(response.status,400);assert.equal(body.error,'INVALID_EMAIL_OR_FIELDS');assert.equal(response.headers.get('set-cookie'),null)}for(const [table,count]of Object.entries(rowCounts(app.database)))assert.equal(count,0,table);assert.equal(app.sent.length,0);
 });
 
 await check('CLOUD-AUTH-02 표준 local-part와 plus주소를 허용하고 형식오류를 거부',async()=>{
@@ -125,9 +125,11 @@ await check('CLOUD-AUTH-09 DB회원생성실패는가입·세션·cookie0으로�
 });
 
 await check('CLOUD-AUTH-10 session cookie와응답은HttpOnly·Secure·Strict이고token을노출하지않는다',async()=>{
-  const app=fixture(),{verified,cookie}=await signIn(app,'qa.cookie@igisam.com'),header=verified.headers.get('set-cookie')||'',body=await verified.clone().json();
+  const app=fixture(),first=await signIn(app,'qa.cookie@igisam.com'),{verified,cookie,body}=first,header=verified.headers.get('set-cookie')||'';
   assert(cookie);assert(/HttpOnly/i.test(header));assert(/Secure/i.test(header));assert(/SameSite=Strict/i.test(header));assert(/Max-Age=|Expires=/i.test(header));
-  assert.deepEqual(Object.keys(body).sort(),['authenticated','email','expiresAt']);assert(!JSON.stringify(body).toLowerCase().includes('token'));
+  assert.deepEqual(Object.keys(body).sort(),['authenticated','email','expiresAt','newAccountCreated','userId']);assert.equal(typeof body.userId,'string');assert(body.userId.length>0);assert.equal(body.newAccountCreated,true);assert(!JSON.stringify(body).toLowerCase().includes('token'));
+  assert.equal(app.database.app_user.length,1);assert.equal(app.database.app_user[0].name,'');assert.equal(app.database.app_user[0].image,null);
+  const second=await signIn(app,'qa.cookie@igisam.com');assert.equal(second.body.userId,body.userId);assert.equal(second.body.newAccountCreated,false);assert.equal(app.database.app_user.length,1,'subsequent login must not duplicate user');
 });
 
 await check('CLOUD-AUTH-11 same-origin만변경요청을허용하고cross-origin은무변경403',async()=>{

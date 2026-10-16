@@ -40,6 +40,7 @@ await check('CLOUD-AUTH-RUNTIME-02 Gmail누락·일반비밀번호는Brevo로fal
     {DP_GMAIL_USER:gmailUser,DP_GMAIL_APP_PASSWORD:''},
     {DP_GMAIL_USER:gmailUser,DP_GMAIL_APP_PASSWORD:'ordinary-password'}
   ])assert.throws(()=>readAuthConfiguration({...baseEnvironment(),DP_MAIL_PROVIDER:'gmail',...brevoExtras,...patch}),AuthUnavailableError);
+  let loadCalls=0;const missing=createAuthRuntime({environment:()=>({}),loadDrivers:async()=>{loadCalls++;throw Error('must not load')},createService:()=>{throw Error('must not create')},senderFactory:()=>{throw Error('must not create sender')}}),response=await missing(request,'session'),body=await response.json();assert.equal(response.status,503);assert.equal(body.error,'AUTH_UNAVAILABLE');assert.equal(response.headers.get('set-cookie'),null);assert.equal(loadCalls,0);
 });
 
 await check('CLOUD-AUTH-RUNTIME-03 Brevo는명시provider일때만기존구성을반환',async()=>{
