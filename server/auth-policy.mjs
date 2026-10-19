@@ -1,4 +1,5 @@
-export const PASSWORD_POLICY=Object.freeze({minLength:12,maxLength:128});
+export const PASSWORD_POLICY=Object.freeze({minLength:8,maxLength:15});
+export const LOGIN_PASSWORD_POLICY=Object.freeze({minLength:8,maxLength:128});
 export function companyEmail(raw){
  if(typeof raw!=='string')throw Error('회사 이메일을 입력해 주세요.');
  const email=raw.trim().toLowerCase(),parts=email.split('@');
@@ -15,3 +16,4 @@ export function parseAllowedEmails(raw){
  const text=raw.trim();return normalizeAllowedEmails(text.startsWith('[')?JSON.parse(text):text.split(','));
 }
 export const validPassword=value=>typeof value==='string'&&value.length>=PASSWORD_POLICY.minLength&&value.length<=PASSWORD_POLICY.maxLength;
+export const validLoginPassword=value=>typeof value==='string'&&value.length>=LOGIN_PASSWORD_POLICY.minLength&&value.length<=LOGIN_PASSWORD_POLICY.maxLength;

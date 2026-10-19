@@ -73,6 +73,10 @@ await check('MAIL-PROBE-09 Vercel빌드래퍼는코어지문일치뒤probe를호
   assert(mismatchIndex>=0&&probeIndex>mismatchIndex,'artifact mismatch guard must precede the SMTP probe');assert(source.includes("mailSent:false"));assert(source.includes("applicationAuthenticationActive:false"));assert(!source.includes('DP_GMAIL_APP_PASSWORD)')&&!source.includes('DP_GMAIL_USER)'),'wrapper must not print credential values');
 });
 
+await check('MAIL-PROBE-10 승인된정식origin의Production도동일한SMTP연결검사만실행한다',async()=>{
+  const {state,createTransport}=fixture(),env={...validEnvironment(),VERCEL_ENV:'production',DP_AUTH_ORIGIN:'https://igis-development-project-platform.vercel.app'};
+  assert.deepEqual(await verifyMailConfiguration(env,{createTransport,approvedHtmlSha256:approvedHash,actualHtmlSha256:matchingHash}),{configured:true,connection:'verified'});assert.equal(state.verifyCalls,1);assert.equal(state.sendCalls,0);
+});
 const failed=checks.filter(row=>row.status==='failed');
 console.log(JSON.stringify({suite:'email-deploy-probe',passed:checks.length-failed.length,failed:failed.length,total:checks.length,externalSmtpCalled:false,realCredentialRead:false,emailSent:false,checks}));
 if(failed.length)process.exitCode=1;

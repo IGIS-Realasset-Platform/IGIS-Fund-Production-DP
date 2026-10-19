@@ -1,6 +1,6 @@
 import {createHmac,X509Certificate,randomUUID} from 'node:crypto';
 import {AsyncLocalStorage} from 'node:async_hooks';
-import {companyEmail,parseAllowedEmails,normalizeAllowedEmails,PASSWORD_POLICY,validPassword} from './auth-policy.mjs';
+import {companyEmail,parseAllowedEmails,normalizeAllowedEmails,PASSWORD_POLICY,LOGIN_PASSWORD_POLICY,validPassword,validLoginPassword} from './auth-policy.mjs';
 export {companyEmail} from './auth-policy.mjs';
 
 export const AUTH_SCHEMA='development_project_platform';
@@ -69,7 +69,8 @@ export function createEmailAuth({betterAuth,emailOTP,database,secret,origin,send
   await delivery.promise;
  };
  const auth=betterAuth({appName:'개발사업관리플랫폼',baseURL:origin,basePath:'/api/auth',secret,database,
-  emailAndPassword:{enabled:true,disableSignUp:true,requireEmailVerification:true,minPasswordLength:PASSWORD_POLICY.minLength,maxPasswordLength:PASSWORD_POLICY.maxLength},socialProviders:{},trustedOrigins:[origin],logger:{disabled:true},onAPIError:{throw:true},
+  // 네이티브 로그인도 이 최대길이를 사용합니다. 기존 암호를 위해 128을 유지하고 새 설정의 15자 상한은 verify에서 검사합니다.
+  emailAndPassword:{enabled:true,disableSignUp:true,requireEmailVerification:true,minPasswordLength:PASSWORD_POLICY.minLength,maxPasswordLength:LOGIN_PASSWORD_POLICY.maxLength},socialProviders:{},trustedOrigins:[origin],logger:{disabled:true},onAPIError:{throw:true},
   user:{modelName:'app_user',changeEmail:{enabled:false},deleteUser:{enabled:false}},account:{modelName:'app_account',accountLinking:{enabled:false}},verification:{modelName:'app_verification'},
   databaseHooks:{user:{create:{before:async user=>({data:{...user,name:'',image:null}}),after:async()=>{const flow=deliveryContext.getStore();if(flow)flow.newAccountCreated=true;}}},verification:{create:{before:async(value,ctx)=>{
    const flow=deliveryContext.getStore();if(flow?.action!=='code'||value.identifier!=='sign-in-otp-'+flow.email)return{data:value};
@@ -95,7 +96,8 @@ export function createEmailAuth({betterAuth,emailOTP,database,secret,origin,send
    try{const text=await request.text();if(Buffer.byteLength(text)>4096)return json({error:'BODY_TOO_LARGE'},413);body=JSON.parse(text);if(!body||typeof body!=='object'||Array.isArray(body))throw Error();email=companyEmail(body.email);const keys=action==='code'?['email']:action==='verify'?['email','code','password']:['email','password'];if(Object.keys(body).some(key=>!keys.includes(key)))throw Error();}catch{return json({error:'INVALID_EMAIL_OR_FIELDS',message:'회사 이메일과 입력 항목을 확인해 주세요.'},400)}
    if(!allowed.has(email))return json({error:'EMAIL_NOT_ALLOWED',message:'이용이 허용된 이메일을 확인해 주세요.',fieldErrors:[{field:'email',code:'EMAIL_NOT_ALLOWED'}]},403);
    if(action==='verify'&&(typeof body.code!=='string'||!/^\d{6}$/.test(body.code)))return json({error:'INVALID_CODE',message:'6자리 확인번호를 입력해 주세요.'},400);
-   if(['verify','login'].includes(action)&&!validPassword(body.password))return json({error:'INVALID_PASSWORD',message:'비밀번호는 12~128자로 입력해 주세요.',fieldErrors:[{field:'password',code:'PASSWORD_LENGTH'}]},400);
+   if(action==='verify'&&!validPassword(body.password))return json({error:'INVALID_PASSWORD',message:'회원가입 비밀번호는 8~15자로 입력해 주세요.',fieldErrors:[{field:'password',code:'PASSWORD_LENGTH'}]},400);
+   if(action==='login'&&!validLoginPassword(body.password))return json({error:'INVALID_PASSWORD',message:'비밀번호는 8~128자로 입력해 주세요.',fieldErrors:[{field:'password',code:'PASSWORD_LENGTH'}]},400);
    if(['code','verify'].includes(action)){
     try{const context=await auth.$context,record=await context.internalAdapter.findUserByEmail(email,{includeAccounts:true});if(record?.accounts.some(account=>account.providerId==='credential'&&account.password))return json({error:'PASSWORD_ALREADY_SET',message:'이미 비밀번호가 설정되어 있습니다. 비밀번호로 로그인해 주세요.'},409);}catch{return unavailableResponse()}
    }

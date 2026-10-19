@@ -1,9 +1,10 @@
-// 배포 서버 안에서만 SMTP 연결을 확인합니다. 메일 전송·인증 활성화는 하지 않습니다.
+import {PRODUCTION_ORIGIN} from './deployment-policy.mjs';
+// 승인 브랜치의 검증/정식 빌드 서버 안에서만 SMTP 연결을 확인합니다. 메일은 보내지 않습니다.
 export async function verifyMailConfiguration(env={},options={}){
  const skipped={configured:false,connection:'not-run'};
  const {approvedHtmlSha256,actualHtmlSha256,timeoutMs=12000}=options;
  if(!/^[a-f0-9]{64}$/i.test(approvedHtmlSha256||'')||approvedHtmlSha256.toLowerCase()!==String(actualHtmlSha256).toLowerCase())return skipped;
- if(env.VERCEL!=='1'||env.VERCEL_ENV!=='preview'||env.VERCEL_GIT_COMMIT_REF!=='preview/core-v0.11.0'||env.DP_MAIL_PROVIDER!=='gmail')return skipped;
+ if(env.VERCEL!=='1'||!['preview','production'].includes(env.VERCEL_ENV)||env.VERCEL_GIT_COMMIT_REF!=='preview/core-v0.11.0'||env.DP_MAIL_PROVIDER!=='gmail'||env.VERCEL_ENV==='production'&&env.DP_AUTH_ORIGIN!==PRODUCTION_ORIGIN)return skipped;
  const user=String(env.DP_GMAIL_USER||'').trim().toLowerCase(),pass=String(env.DP_GMAIL_APP_PASSWORD||'').replace(/\s/g,'');
  if(!/^[a-z0-9!#$%&'*+\-/=?^_`{|}~]+(?:\.[a-z0-9!#$%&'*+\-/=?^_`{|}~]+)*@gmail\.com$/.test(user)||user.length>254||!/^[a-z0-9]{16}$/i.test(pass))return skipped;
  let transport,timer;

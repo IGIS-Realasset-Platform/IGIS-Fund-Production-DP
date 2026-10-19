@@ -1,13 +1,13 @@
 {
   "schemaVersion":"deployment-status-v0111",
-  "version":"0.11.2",
-  "asOf":"2026-10-16",
+  "version":"0.11.3",
+  "asOf":"2026-10-19",
   "current":{
     "scope":"전용 스키마·지정 이메일 가입·비밀번호 로그인·중앙 저장 검증본",
-    "releaseState":"비밀번호 인증·중앙 저장 구현 · 실제 수용범위는 AUTH112 검수기록 참조 · 회사 운영 전환 제외",
+    "releaseState":"가입 비밀번호8~15자·정식주소 전환 · 실제 수용범위는 PUB113 검수기록 참조 · 회사 운영 전환 제외",
     "branch":"preview/core-v0.11.0",
     "providerStatus":"cloud-implementation-awaiting-verification",
-    "protection":"Vercel 로그인 보호 유지 · 앱 세션 검증 추가",
+    "protection":"정식도메인만 공개 · 기존 검증주소 Vercel 보호·앱 세션/권한 유지",
     "browserVerification":{"home":"이전 코어 확인 · 신규 인증 후 검수 대기","spec":"이전 코어 확인 · 신규 인증 후 검수 대기","crud":"미검수","pdf":"미검수","xlsx":"미검수"},
     "connections":{"centralStorage":"A/B/C 중앙 저장 연결, 현재 버전 수용범위는 검수기록 참조","appAuthentication":"최초 이메일 확인·비밀번호 로그인 구현, 본인 설정/실검수는 별도 기록","notion":"관리자 전용 선택 보충자료","runtimeNotionApi":"실시간 Notion 연동 아님"}
   },
@@ -19,6 +19,7 @@
     "codeLength":6,
     "commonInitialCode":false,
     "passwordRequired":true,
+    "passwordPolicy":{"signupMin":8,"signupMax":15,"loginMax":128,"existingPasswordsPreserved":true},
     "allowlistRequired":true,
     "allowedEmailCount":12,
     "allowlistSource":"server-only DP_ALLOWED_EMAILS",

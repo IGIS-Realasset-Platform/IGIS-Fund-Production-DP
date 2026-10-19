@@ -28,7 +28,7 @@ const [{betterAuth},{emailOTP},{memoryAdapter}]=await Promise.all([
 
 const origin='https://platform.example.invalid';
 const secret='isolated-synthetic-test-secret-more-than-32-characters';
-const password='synthetic-regression-password';
+const password='valid-pass-123';
 const allowedEmails=['user','hash','expired','attempt','replay','resend','mailfail','dbfail','cookie','csrf','logout','meta','retired','delayed','concurrent','network'].map(value=>'qa.'+value+'@igisam.com');
 const emptyDatabase=()=>({app_user:[],app_account:[],app_session:[],app_verification:[],app_rate_limit:[]});
 const rowCounts=database=>Object.fromEntries(Object.entries(database).map(([key,value])=>[key,value.length]));

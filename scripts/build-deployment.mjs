@@ -3,10 +3,11 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import vm from 'node:vm';
 import {verifyCloudBuild} from './cloud-build-check.mjs';
+import {resolveCloudOrigin} from './deployment-policy.mjs';
 
-const cloud=process.argv.includes('--cloud'),version=cloud?'0.11.2':'0.11.0',runtime={mode:'real',version,storageKey:cloud?'development-platform-cloud-v0111':'development-platform-real-v0110',notionSourceUrl:'/api/notion-source',...(cloud?{persistence:'cloud',cloudOrigin:'https://development-project-platform-preview-git-preview-b5dda7-igisra.vercel.app'}:{})};
+const cloud=process.argv.includes('--cloud'),version=cloud?'0.11.3':'0.11.0',runtime={mode:'real',version,storageKey:cloud?'development-platform-cloud-v0111':'development-platform-real-v0110',notionSourceUrl:'/api/notion-source',...(cloud?{persistence:'cloud'}:{})};
 const args=process.argv.slice(2),option=name=>{const index=args.indexOf(name);return index>=0?args[index+1]||'':''},sourceArg=option('--source'),outArg=option('--out'),iconsArg=option('--icons');
-const localQa=cloud&&args.includes('--local-qa');if(localQa){if(process.env.VERCEL==='1')throw Error('합성 HTTP 검수본은 클라우드에 배포할 수 없습니다.');runtime.cloudOrigin='';}
+const localQa=cloud&&args.includes('--local-qa');if(localQa&&process.env.VERCEL==='1')throw Error('합성 HTTP 검수본은 클라우드에 배포할 수 없습니다.');if(cloud)runtime.cloudOrigin=resolveCloudOrigin(option('--cloud-origin'),{localQa});
 if(!outArg)throw Error('실제 빌드는 --out <.build/private-html>을 지정해야 합니다. Notion --source는 선택사항입니다.');
 if(cloud&&sourceArg)throw Error('로그인 배포 HTML에는 실제 보충자료를 내장하지 않습니다. 인증된 서버 경로만 사용해 주세요.');
 const cwd=process.cwd(),buildRoot=path.resolve(cwd,'.build'),sourcePath=sourceArg?path.resolve(cwd,sourceArg):null,outPath=path.resolve(cwd,outArg),inside=(root,target)=>{const relative=path.relative(root,target);return relative&&!relative.startsWith('..')&&!path.isAbsolute(relative)};

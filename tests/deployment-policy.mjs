@@ -1,0 +1,13 @@
+import assert from 'node:assert/strict';
+import {resolveBuildPolicy} from '../scripts/deployment-policy.mjs';
+const preview='https://development-project-platform-preview-git-preview-b5dda7-igisra.vercel.app',production='https://igis-development-project-platform.vercel.app',sha='1'.repeat(64),base={VERCEL:'1',VERCEL_ENV:'preview',VERCEL_GIT_COMMIT_REF:'preview/core-v0.11.0',DP_AUTH_ORIGIN:preview};
+let passed=0;const check=(name,run)=>{run();passed++;console.log('PASS '+name)};
+check('Preview uses only its own canonical approval',()=>assert.equal(resolveBuildPolicy(base,{origin:preview,htmlSha256:sha,version:'0.11.3'}).origin,preview));
+check('Production uses its own approval and origin',()=>assert.equal(resolveBuildPolicy({...base,VERCEL_ENV:'production',DP_AUTH_ORIGIN:production},{origin:production,htmlSha256:sha,version:'0.11.3'}).origin,production));
+check('Production refuses Preview origin',()=>assert.throws(()=>resolveBuildPolicy({...base,VERCEL_ENV:'production'},{origin:production,htmlSha256:sha}),/ORIGIN_MISMATCH/));
+check('Production refuses Preview approval',()=>assert.throws(()=>resolveBuildPolicy({...base,VERCEL_ENV:'production',DP_AUTH_ORIGIN:production},{origin:preview,htmlSha256:sha}),/ORIGIN_MISMATCH/));
+check('unapproved branches never build with app settings',()=>assert.throws(()=>resolveBuildPolicy({...base,VERCEL_GIT_COMMIT_REF:'unreviewed'},{origin:preview,htmlSha256:sha}),/TARGET_NOT_APPROVED/));
+check('unknown environments fail closed',()=>assert.throws(()=>resolveBuildPolicy({...base,VERCEL_ENV:'development'},{origin:preview,htmlSha256:sha}),/TARGET_NOT_APPROVED/));
+check('approval and optional configuration hashes must agree',()=>assert.throws(()=>resolveBuildPolicy({...base,DP_EXPECTED_HTML_SHA256:'2'.repeat(64)},{origin:preview,htmlSha256:sha}),/CONFIGURATION_MISMATCH/));
+check('missing approval never falls back to an unverified build',()=>assert.throws(()=>resolveBuildPolicy(base,{origin:preview}),/APPROVAL_MISSING/));
+console.log(JSON.stringify({suite:'deployment-policy',passed,failed:0,realNetwork:false,secretsUsed:false}));

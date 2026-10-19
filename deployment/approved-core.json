@@ -1,11 +1,12 @@
 {
-  "version": "0.11.2",
-  "htmlSha256": "0177915a29e903e6bdb5b7827bfc44e5c4ac5a607f9ddb30c94617ea73ce13fa",
-  "bytes": 8161445,
+  "version": "0.11.3",
+  "origin": "https://development-project-platform-preview-git-preview-b5dda7-igisra.vercel.app",
+  "htmlSha256": "c1a85bb72deb2d0444ebcdcec56f677d3a1725b6f2a5241e72a334d49b9abf8e",
+  "bytes": 8161693,
   "notionRequired": false,
   "realProjectDataIncluded": false,
   "mode": "authenticated-private-schema-runtime-with-optional-source",
   "localBuildVerified": true,
-  "actualBrowser": "Edge155 with Chromium sandbox: real deployment login in four viewports and A/B/C live edit/save/reconnect/cancel/restore passed. Human first password enrollment/login and public production entry remain pending.",
-  "protectedDeployment": "verified-dpl_EDRhXerbk26w5ozVSZzUdQ8Lap7c-code-2a3666d"
+  "actualBrowser": "v0.11.3 candidate: synthetic build and password tests passed; remote browser acceptance recorded separately.",
+  "protectedDeployment": "v0.11.3-candidate-awaiting-remote-verification"
 }

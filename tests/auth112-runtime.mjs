@@ -5,7 +5,7 @@ import {memoryAdapter} from 'better-auth/adapters/memory';
 import {createEmailAuth} from '../server/email-auth.mjs';
 import {createAuthRuntime} from '../server/email-auth-runtime.mjs';
 
-const origin='https://auth112-runtime.example.invalid',email='synthetic.member@igisam.com',password='synthetic-password-112';
+const origin='https://auth112-runtime.example.invalid',email='synthetic.member@igisam.com',password='valid-pass-123';
 const environment=()=>({DP_AUTH_ORIGIN:origin,DP_AUTH_SECRET:'synthetic-runtime-secret-thirty-two-characters-plus',DP_AUTH_DATABASE_URL:'postgresql://development_project_platform_runtime:synthetic@db.baqybhtfvuttcyyzspyi.supabase.co:5432/postgres',DP_MAIL_PROVIDER:'gmail',DP_GMAIL_USER:'synthetic.sender@gmail.com',DP_GMAIL_APP_PASSWORD:'abcdefghijklmnop',DP_ALLOWED_EMAILS:JSON.stringify([email]),DP_INITIAL_ADMIN_EMAIL:email});
 const cookie=response=>response.headers.getSetCookie().map(value=>value.split(';',1)[0]).join('; '),clone=value=>structuredClone(value);
 function fixture(){
