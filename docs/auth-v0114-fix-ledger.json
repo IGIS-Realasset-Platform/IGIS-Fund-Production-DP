@@ -2,7 +2,7 @@
   "schemaVersion": "auth114-fix-ledger-v1",
   "version": "0.11.4",
   "asOf": "2026-10-19",
-  "status": "historical-release-verified-final-cross-version-synchronization-pending",
+  "status": "historical-release-verified-final-cross-version-checklist-synchronized",
   "scope": "선택형 로그인 상태 유지와 이메일만 기억하기. 후속 PERF115 성능 개선은 이 버전의 완료 판정에 포함하지 않음.",
   "deployment": {
     "codeCommit": "2eacca947e77f3f6a1d98e60ca59c5a9da5b65cd",
@@ -95,15 +95,16 @@
     {
       "id": "AUTH114-06",
       "title": "PUB113·AUTH114·PERF115 최종 문서·체크리스트·Excel·Git 동기화",
-      "complete": false,
-      "implementation": "documentation-partially-synchronized",
-      "automated": {"status": "not-yet-verified", "scope": "최종 통합 체크리스트와 최종 Git 산출물 대조는 후속 수행"},
+      "complete": true,
+      "implementation": "final-cross-version-artifacts-synchronized",
+      "automated": {"status": "passed-final-artifact-readback-and-independent-ooxml", "scope": "414행·4968필드·361완료/53과거미완료가 최종 MD와 일치. 기존396행 본문/체크/서식 보존"},
       "actualPostgres": {"status": "not-applicable"},
       "syntheticBrowser": {"status": "not-applicable"},
       "productionBrowser": {"status": "not-applicable", "reason": "브라우저 통과가 문서/Excel 동기화를 대신하지 않음"},
       "userConfirmed": {"status": "not-applicable"},
-      "blockedOrUnverified": ["최종 v0.11.5 통합 Excel 생성·읽기 복원·시각 검수와 누적 체크리스트 대조", "최종 문서 Git 게시 대조"],
-      "remaining": "root가 후속 PERF115 완료 근거와 통합한 뒤 별도로 완료 판정"
+      "blockedOrUnverified": ["설치 Excel 앱 미실행", "PNG7개 생성 후 렌더러 종료 -1073740791의 원인은 미확정이며 프로세스 성공으로 계산하지 않음"],
+      "remaining": null,
+      "gitBasis": "게시 확인된 문서 기준점58f60b7d74fc86a6bd9374b4ff7d47b591781ead와 root가 게시할 본 최종 완료 기록을 구분"
     }
   ],
   "inheritedPublicRelease": {
@@ -118,6 +119,19 @@
     "companyDnsOrDomainPurchaseChanged": false
   },
   "verificationReference": "docs/auth-v0114-verification.json",
-  "overallComplete": false,
-  "remainingGate": "AUTH114-06 final cross-version synchronization"
+  "checklistSynchronization": {
+    "status": "completed",
+    "markdownPath": "docs/요구사항_누적_체크리스트.md",
+    "markdownSha256": "1c8a57ef9387a73185c6f78a5071a01b79398770cd6e1dc10f4c7965a9918748",
+    "workbookPath": "outputs/deployment/perf-v0115-20261019/개발사업관리플랫폼_요구사항_체크리스트_v0.11.5.xlsx",
+    "workbookSha256": "6fec27d1302c4d56fe2289eaa409c8d8d2bff03ebf71ca7cdb719544ebac532d",
+    "workbookBytes": 109769,
+    "rows": 414,
+    "fields": 4968,
+    "checked": 361,
+    "unchecked": 53,
+    "detailedAcceptanceReference": "docs/perf-v0115-verification.json#checklistSynchronization"
+  },
+  "overallComplete": true,
+  "remainingGate": null
 }

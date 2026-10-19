@@ -2,7 +2,7 @@
   "schemaVersion": "perf115-fix-ledger-v1",
   "version": "0.11.5",
   "asOf": "2026-10-19",
-  "status": "corrected-production-release-verified-final-excel-and-git-synchronization-pending",
+  "status": "corrected-production-release-verified-and-final-checklist-synchronized",
   "specification": "docs/perf-v0115-spec.md",
   "verification": "docs/perf-v0115-verification.json",
   "scope": "로그인·재접속 시 중복 서버 왕복·중복 렌더·동일 계산·폰트 중복만 축소. 관련 없는 업무 화면과 자료는 재설계하지 않음.",
@@ -30,7 +30,7 @@
     "officialAliasRestoredDeploymentId": "dpl_2oyiApSxoRifRK8YEhxAWU3sivtf",
     "firstCandidateAndItsHttpEvidencePreserved": true,
     "finalReplacementCandidate": "minimal correction verified by independent I12 green, 186 tests and final native synthetic reruns",
-    "finalProductionAcceptance": "corrected-release-runtime-gates-passed; documentation synchronization remains PERF115-06"
+    "finalProductionAcceptance": "corrected-release-runtime-gates-passed; final checklist synchronization also completed"
   },
   "preservedBoundaries": {
     "allowedEmailCount": 12,
@@ -45,7 +45,9 @@
     "serverPermissionOrTlsWeakened": false,
     "persistentBusinessOrAuthenticationCacheAdded": false,
     "otherServicesSharedAuthOrSchemasChanged": false,
-    "actualDatabaseWritesInPerfVerification": 0,
+    "agentDirectDatabaseWrites": 0,
+    "actualBusinessDataWritesByTests": 0,
+    "normalRemoteApiSecurityRecordWritesMeasured": false,
     "actualUserPasswordOrCookieUsed": false
   },
   "requirements": [
@@ -57,7 +59,7 @@
       "automated": {"status": "passed", "evidence": ["published-candidate", "independent", "workspace-fixtures"], "scope": "workspace GET1/session GET0·엄격한 user/권한/state 검증·권한0 빈 작업공간·원래 session API 보존"},
       "syntheticBrowser": {"status": "passed", "evidence": ["startup-comparison", "synthetic-edge"], "scope": "각 재접속은 workspace1/session0. 정상 비밀번호 로그인 POST 뒤 새 workspace 검증은 유지"},
       "productionBrowser": {"status": "passed", "evidence": "production-edge", "scope": "최종 정식 HTML 네 해상도·각 workspace1/session0·무인증 401 이후 독립 로그인"},
-      "actualDatabase": {"status": "not-executed", "reason": "기존 자료와 계정에 쓰기 검사를 하지 않음"},
+      "actualDatabase": {"status": "no-agent-direct-database-connection-or-business-data-write", "reason": "원격 API의 정상 인증·요청제한 기록 쓰기 횟수는 측정하지 않았으며 0으로 보장하지 않음"},
       "remaining": null
     },
     {
@@ -109,12 +111,14 @@
     {
       "id": "PERF115-06",
       "title": "PUB113·AUTH114·PERF115 최종 문서와 Excel·Git 동기화",
-      "complete": false,
-      "implementation": "documentation-in-progress",
-      "automated": {"status": "pending-final-artifact-comparison"},
+      "complete": true,
+      "implementation": "final-cross-version-artifacts-synchronized",
+      "automated": {"status": "passed-final-artifact-readback-and-independent-ooxml", "scope": "414행·4968필드 일치·361완료/53과거미완료·원396행 본문/체크/서식과 시트/열폭/고정창 보존"},
       "syntheticBrowser": {"status": "not-applicable"},
       "productionBrowser": {"status": "not-applicable"},
-      "remaining": "최종 누적 체크리스트·Excel 작성/읽기 복원/시각 검수·README·수정대장·명세·Git의 같은 ID/상태 대조. AUTH114-06도 이 최종 작업 전에는 완료하지 않음"
+      "remaining": null,
+      "limitations": ["PNG7개 작성 후 렌더러 종료-1073740791은 성공 프로세스로 계산하지 않음", "설치 Excel 앱 미실행"],
+      "gitBasis": "게시 확인된 문서 기준점58f60b7d74fc86a6bd9374b4ff7d47b591781ead와 본 최종 완료 기록의 root 후속 게시를 구분"
     }
   ],
   "knownObservations": [
@@ -128,6 +132,19 @@
       "evidence": "initial-synthetic-visual"
     }
   ],
-  "allRequirementsAccepted": false,
-  "remainingGates": ["cross-version-checklist-excel-git-synchronization"]
+  "checklistSynchronization": {
+    "status": "completed",
+    "markdownPath": "docs/요구사항_누적_체크리스트.md",
+    "markdownSha256": "1c8a57ef9387a73185c6f78a5071a01b79398770cd6e1dc10f4c7965a9918748",
+    "workbookPath": "outputs/deployment/perf-v0115-20261019/개발사업관리플랫폼_요구사항_체크리스트_v0.11.5.xlsx",
+    "workbookSha256": "6fec27d1302c4d56fe2289eaa409c8d8d2bff03ebf71ca7cdb719544ebac532d",
+    "workbookBytes": 109769,
+    "rows": 414,
+    "fields": 4968,
+    "checked": 361,
+    "unchecked": 53,
+    "detailedAcceptanceReference": "docs/perf-v0115-verification.json#checklistSynchronization"
+  },
+  "allRequirementsAccepted": true,
+  "remainingGates": []
 }

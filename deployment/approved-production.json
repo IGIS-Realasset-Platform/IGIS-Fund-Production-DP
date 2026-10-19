@@ -3,7 +3,8 @@
   "origin":"https://igis-development-project-platform.vercel.app",
   "htmlSha256":"6094808a98008c388f67f00ee8a178ac10d9528da207cca5c5e18705ba743c6d",
   "bytes":6097254,
-  "status":"frozen-candidate-local-build-and-password-tests-verified-remote-acceptance-separate",
+  "status":"corrected-final-local-build-public-html-and-native-edge-four-viewport-verified",
+  "productionDeploymentId":"dpl_Eahucd6iMGDNoEKFhVuHSbRxB2pr",
   "privateSourceIncluded":false,
   "humanPasswordEnrollmentVerified":true
 }

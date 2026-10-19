@@ -78,10 +78,23 @@
     "allTwelveEmployeesPositiveSignup": "not executed",
     "actualSevenDayElapsedUserExperience": "not observed",
     "nativeExcelApplication": "not executed by this verification",
-    "finalCrossVersionExcelAndGitSynchronization": "pending AUTH114-06",
+    "finalCrossVersionExcelAndGitSynchronization": "completed local final-artifact comparison; published documentation checkpoint58f60b7d74fc86a6bd9374b4ff7d47b591781ead confirmed; this completion record is published by root separately",
     "startupPerformance": "PERF115 followup, not accepted by AUTH114 evidence",
     "allBusinessScreensAndPdfRegression": "not claimed from this authentication-only evidence"
   },
   "privacy": {"allowlistValuesPublished": false, "passwordOtpCookieOrTokenPublished": false, "secretValuesDecryptedForThisDocumentation": false, "businessPayloadPublished": false, "detailedTracesLocalOnly": true},
-  "completion": {"AUTH114-01": true, "AUTH114-02": true, "AUTH114-03": true, "AUTH114-04": true, "AUTH114-05": true, "AUTH114-06": false, "overallComplete": false}
+  "checklistSynchronization": {
+    "status": "completed",
+    "markdownPath": "docs/요구사항_누적_체크리스트.md",
+    "markdownSha256": "1c8a57ef9387a73185c6f78a5071a01b79398770cd6e1dc10f4c7965a9918748",
+    "workbookPath": "outputs/deployment/perf-v0115-20261019/개발사업관리플랫폼_요구사항_체크리스트_v0.11.5.xlsx",
+    "workbookSha256": "6fec27d1302c4d56fe2289eaa409c8d8d2bff03ebf71ca7cdb719544ebac532d",
+    "workbookBytes": 109769,
+    "rows": 414,
+    "fields": 4968,
+    "checked": 361,
+    "unchecked": 53,
+    "detailedAcceptanceReference": "docs/perf-v0115-verification.json#checklistSynchronization"
+  },
+  "completion": {"AUTH114-01": true, "AUTH114-02": true, "AUTH114-03": true, "AUTH114-04": true, "AUTH114-05": true, "AUTH114-06": true, "overallComplete": true}
 }

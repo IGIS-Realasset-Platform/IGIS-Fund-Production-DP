@@ -7,6 +7,6 @@
   "realProjectDataIncluded": false,
   "mode": "authenticated-private-schema-runtime-with-optional-source",
   "localBuildVerified": true,
-  "actualBrowser": "v0.11.5 exact Production candidate: native Edge synthetic authentication and twelve alternating startup measurements passed; remote acceptance recorded separately.",
-  "protectedDeployment": "v0.11.5-candidate-awaiting-remote-verification"
+  "actualBrowser": "v0.11.5 corrected final Production: native Edge synthetic authentication, twelve alternating startup measurements, A/B/C simulated-save UI and actual public four-viewport checks passed; Preview remains protected.",
+  "protectedDeployment": "dpl_4z8XWesu9MT5MBVxuXwjLoNEFwND"
 }

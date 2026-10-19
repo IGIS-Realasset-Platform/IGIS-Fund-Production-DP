@@ -2,7 +2,7 @@
   "schemaVersion": "perf115-verification-v1",
   "version": "0.11.5",
   "asOf": "2026-10-19",
-  "status": "corrected-production-release-verified-final-excel-and-git-synchronization-pending",
+  "status": "corrected-production-release-verified-and-final-checklist-synchronized",
   "requirementsLedger": "docs/perf-v0115-fix-ledger.json",
   "target": {
     "codeCommit": "c663e4d8cdf58a874e9e610b68086ccdd9e51864",
@@ -226,7 +226,8 @@
     "protectedFailedFirstProductionRaw": true,
     "protectedOldProductionAndPreviewRaw": true,
     "wholeProjectProtectionDisabled": false,
-    "actualDatabaseChanged": false
+    "agentDirectDatabaseChanges": false,
+    "normalServerSecurityRecordWritesNotMeasured": true
   },
   "actualProductionBrowser": {
     "evidence": ["production-edge", "production-visual"],
@@ -255,7 +256,9 @@
     "directDatabaseConnectionUsedByVerification": false,
     "syntheticPhasesUseActualDatabase": false,
     "remoteApiServerAuthenticationAndDatabaseChecksNotBypassed": true,
-    "actualDatabaseWrites": 0,
+    "agentDirectDatabaseWrites": 0,
+    "actualBusinessDataWritesByTests": 0,
+    "normalRemoteApiSessionOrRateLimitRecordWritesMeasured": false,
     "actualEmailSent": false,
     "mailboxAccessed": false,
     "actualUserPasswordOrCookieUsed": false,
@@ -269,10 +272,49 @@
     "actualPublicHttpAndPreviewProtection": "corrected final public7/7 and alias8/8 passed; saved evidence directly pinned",
     "actualProductionFourViewportEdge": "corrected final actual network four-viewport and eight-image review passed; initial email-clearing regression fixed and rechecked",
     "actualUserSpeedAcceptance": "not yet received",
-    "finalExcelAndGitSynchronization": "pending PERF115-06 and AUTH114-06",
+    "finalExcelAndGitSynchronization": "final Markdown/workbook synchronized and read back; documentation checkpoint58f60b7d74fc86a6bd9374b4ff7d47b591781ead confirmed; root publishes this final completion record separately",
     "runtimeAndBuildLogs": "root actual final exact-team/deployment runtime error/fatal grouped 10-minute query returned403; CLI unavailable. Earlier build-log403 remains a historical limit. No clean-log claim or new reconnect/expanded-permission request",
     "allBusinessScreensAndPdf": "not covered by this authentication/performance evidence",
     "nativeExcelApplication": "not executed by this verification"
   },
-  "completion": {"PERF115-01": true, "PERF115-02": true, "PERF115-03": true, "PERF115-04": true, "PERF115-05": true, "PERF115-06": false, "implementationAndCandidateAutomatedChecks": "passed-corrected-final-source", "candidateSyntheticComparisonAndBrowser": "passed-corrected-final-html", "actualProductionAndHttpAndFourViewportBrowser": "passed", "overallComplete": false}
+  "checklistSynchronization": {
+    "status": "completed",
+    "markdownPath": "docs/요구사항_누적_체크리스트.md",
+    "markdownSha256": "1c8a57ef9387a73185c6f78a5071a01b79398770cd6e1dc10f4c7965a9918748",
+    "workbookPath": "outputs/deployment/perf-v0115-20261019/개발사업관리플랫폼_요구사항_체크리스트_v0.11.5.xlsx",
+    "workbookSha256": "6fec27d1302c4d56fe2289eaa409c8d8d2bff03ebf71ca7cdb719544ebac532d",
+    "workbookBytes": 109769,
+    "rows": 414,
+    "fields": 4968,
+    "checked": 361,
+    "unchecked": 53,
+    "evidence": {
+      "readbackAndVisual": {"localPath": ".build/deployment-20261019/perf115-checklist/verification-final.json", "sha256": "153d079d0ea419f94d99634777b1e0f4bee8c5f14d6d4ec4d9e51c48fbba2328"},
+      "independentOoxml": {"localPath": ".build/deployment-20261019/perf115-checklist/verification-final-ooxml.json", "sha256": "7baa38d3215c2ddc2d9ac391f26c89549c6e84a5d55032a218dbb9f058718e7a"}
+    },
+    "authoringExportAndReadbackExitCode": 0,
+    "independentOoxmlExitCode": 0,
+    "all4968FieldsMatchMarkdown": true,
+    "pub113Completed": 6,
+    "auth114Completed": 6,
+    "perf115Completed": 6,
+    "prior396NonReferenceBodyAndChecksPreserved": true,
+    "referenceLineColumnFollowsCurrentMarkdown": true,
+    "prior396CellAndRowFormattingPreserved": true,
+    "stylesExact": true,
+    "sheetNamesOrderVisibilityAndResolvedTargetsPreserved": true,
+    "rawSheetRelationshipIdsExact": false,
+    "relationshipIdRegenerationAcceptedOnlyWithSameResolvedTargets": true,
+    "columnWidthsFreezeNamesValidationAndPrintSettingsPreserved": true,
+    "nativeTableOnlyExtended": "A6:L402 to A6:L420",
+    "formulaCount": 0,
+    "formulaErrors": 0,
+    "originalV0112AndIntermediateV0113Unchanged": true,
+    "successfulEditMarkerRuns": 1,
+    "generatedFinalPngsDirectlyReviewed": 7,
+    "rendererLimitation": {"exitCode": -1073740791, "windowsCode": "0xC0000409", "afterAllRequestedPngsWereWritten": true, "reportedAsSuccessfulProcess": false, "causeEstablished": false, "bypassApplied": false},
+    "nativeExcelApplicationExecuted": false,
+    "git": {"documentationCheckpointCommit": "58f60b7d74fc86a6bd9374b4ff7d47b591781ead", "checkpointExistsInApprovedBranch": true, "checkpointPublishedConfirmedByRoot": true, "finalCompletionRecordPublicationOwner": "root", "unexecutedFinalCommitHashInvented": false}
+  },
+  "completion": {"PERF115-01": true, "PERF115-02": true, "PERF115-03": true, "PERF115-04": true, "PERF115-05": true, "PERF115-06": true, "implementationAndCandidateAutomatedChecks": "passed-corrected-final-source", "candidateSyntheticComparisonAndBrowser": "passed-corrected-final-html", "actualProductionAndHttpAndFourViewportBrowser": "passed", "finalChecklistSynchronization": "passed-with-renderer-exit-limitation-reported", "overallComplete": true}
 }
