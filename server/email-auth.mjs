@@ -1,10 +1,10 @@
 import {createHmac,X509Certificate,randomUUID} from 'node:crypto';
 import {AsyncLocalStorage} from 'node:async_hooks';
-import {companyEmail,parseAllowedEmails,normalizeAllowedEmails,PASSWORD_POLICY,LOGIN_PASSWORD_POLICY,validPassword,validLoginPassword} from './auth-policy.mjs';
+import {companyEmail,parseAllowedEmails,normalizeAllowedEmails,PASSWORD_POLICY,LOGIN_PASSWORD_POLICY,SESSION_POLICY,validPassword,validLoginPassword} from './auth-policy.mjs';
 export {companyEmail} from './auth-policy.mjs';
 
 export const AUTH_SCHEMA='development_project_platform';
-export const AUTH_LIMITS=Object.freeze({codeLength:6,expiresIn:300,allowedAttempts:5,sessionExpiresIn:28800});
+export const AUTH_LIMITS=Object.freeze({codeLength:6,expiresIn:300,allowedAttempts:5,sessionExpiresIn:SESSION_POLICY.defaultSeconds});
 const otpIssueQueues=new Map();
 async function acquireOtpIssue(key){
  const previous=otpIssueQueues.get(key)||Promise.resolve();let resolve;const gate=new Promise(done=>{resolve=done}),tail=previous.then(()=>gate);otpIssueQueues.set(key,tail);await previous;
@@ -68,7 +68,7 @@ export function createEmailAuth({betterAuth,emailOTP,database,secret,origin,send
   delivery.promise=(async()=>{try{const record=delivery.recordId?await ctx.context.adapter.findOne({model:'verification',where:[{field:'id',value:delivery.recordId},{field:'identifier',value:delivery.identifier}]}):null;if(!record||!String(record.value).startsWith(delivery.hash+':'))throw new AuthUnavailableError();delivery.releaseIssue?.();await sendEmail(payload);delivery.accepted=true;}catch{delivery.failed=true;}})();
   await delivery.promise;
  };
- const auth=betterAuth({appName:'개발사업관리플랫폼',baseURL:origin,basePath:'/api/auth',secret,database,
+ const createNativeAuth=sessionExpiresIn=>betterAuth({appName:'개발사업관리플랫폼',baseURL:origin,basePath:'/api/auth',secret,database,
   // 네이티브 로그인도 이 최대길이를 사용합니다. 기존 암호를 위해 128을 유지하고 새 설정의 15자 상한은 verify에서 검사합니다.
   emailAndPassword:{enabled:true,disableSignUp:true,requireEmailVerification:true,minPasswordLength:PASSWORD_POLICY.minLength,maxPasswordLength:LOGIN_PASSWORD_POLICY.maxLength},socialProviders:{},trustedOrigins:[origin],logger:{disabled:true},onAPIError:{throw:true},
   user:{modelName:'app_user',changeEmail:{enabled:false},deleteUser:{enabled:false}},account:{modelName:'app_account',accountLinking:{enabled:false}},verification:{modelName:'app_verification'},
@@ -79,11 +79,12 @@ export function createEmailAuth({betterAuth,emailOTP,database,secret,origin,send
    flow.recordId=randomUUID();await ctx.context.adapter.deleteMany({model:'verification',where:[{field:'identifier',value:value.identifier}]});
    return{data:{...value,id:flow.recordId}};
   }}}},
-  session:{modelName:'app_session',expiresIn:AUTH_LIMITS.sessionExpiresIn,updateAge:1800,cookieCache:{enabled:false}},
+  session:{modelName:'app_session',expiresIn:sessionExpiresIn,updateAge:1800,disableSessionRefresh:true,cookieCache:{enabled:false}},
   advanced:{cookiePrefix:'dpp',useSecureCookies:true,defaultCookieAttributes:{httpOnly:true,secure:true,sameSite:'strict',path:'/'}},
   rateLimit:{enabled:true,storage:'database',modelName:'app_rate_limit',window:60,max:10,customRules:{'/email-otp/send-verification-otp':{window:60,max:10},'/sign-in/email-otp':{window:60,max:5},'/sign-in/email':{window:60,max:5},'/get-session':{window:60,max:240}}},
   plugins:[emailOTP({otpLength:AUTH_LIMITS.codeLength,expiresIn:AUTH_LIMITS.expiresIn,allowedAttempts:AUTH_LIMITS.allowedAttempts,resendStrategy:'rotate',disableSignUp:false,storeOTP:{hash:async otp=>hashOTP(otp)},sendVerificationOTP:sendTracked})]
  });
+ const auth=createNativeAuth(SESSION_POLICY.defaultSeconds);let rememberedAuth;
  async function handle(request,action){
   if(!['session','code','verify','login'].includes(action))return json({error:'NOT_FOUND'},404);
   const method=request.method,allowedMethods=action==='session'?['GET','DELETE']:['POST'];
@@ -93,8 +94,9 @@ export function createEmailAuth({betterAuth,emailOTP,database,secret,origin,send
   if(method==='POST'){
    if(!/^application\/json(?:;|$)/i.test(request.headers.get('content-type')||''))return json({error:'INVALID_CONTENT_TYPE'},415);
    if(Number(request.headers.get('content-length'))>4096)return json({error:'BODY_TOO_LARGE'},413);
-   try{const text=await request.text();if(Buffer.byteLength(text)>4096)return json({error:'BODY_TOO_LARGE'},413);body=JSON.parse(text);if(!body||typeof body!=='object'||Array.isArray(body))throw Error();email=companyEmail(body.email);const keys=action==='code'?['email']:action==='verify'?['email','code','password']:['email','password'];if(Object.keys(body).some(key=>!keys.includes(key)))throw Error();}catch{return json({error:'INVALID_EMAIL_OR_FIELDS',message:'회사 이메일과 입력 항목을 확인해 주세요.'},400)}
+   try{const text=await request.text();if(Buffer.byteLength(text)>4096)return json({error:'BODY_TOO_LARGE'},413);body=JSON.parse(text);if(!body||typeof body!=='object'||Array.isArray(body))throw Error();email=companyEmail(body.email);const keys=action==='code'?['email']:action==='verify'?['email','code','password']:['email','password','rememberMe'];if(Object.keys(body).some(key=>!keys.includes(key)))throw Error();}catch{return json({error:'INVALID_EMAIL_OR_FIELDS',message:'회사 이메일과 입력 항목을 확인해 주세요.'},400)}
    if(!allowed.has(email))return json({error:'EMAIL_NOT_ALLOWED',message:'이용이 허용된 이메일을 확인해 주세요.',fieldErrors:[{field:'email',code:'EMAIL_NOT_ALLOWED'}]},403);
+   if(action==='login'&&Object.hasOwn(body,'rememberMe')&&typeof body.rememberMe!=='boolean')return json({error:'INVALID_REMEMBER_ME',message:'로그인 상태 유지 선택값을 확인해 주세요.'},400);
    if(action==='verify'&&(typeof body.code!=='string'||!/^\d{6}$/.test(body.code)))return json({error:'INVALID_CODE',message:'6자리 확인번호를 입력해 주세요.'},400);
    if(action==='verify'&&!validPassword(body.password))return json({error:'INVALID_PASSWORD',message:'회원가입 비밀번호는 8~15자로 입력해 주세요.',fieldErrors:[{field:'password',code:'PASSWORD_LENGTH'}]},400);
    if(action==='login'&&!validLoginPassword(body.password))return json({error:'INVALID_PASSWORD',message:'비밀번호는 8~128자로 입력해 주세요.',fieldErrors:[{field:'password',code:'PASSWORD_LENGTH'}]},400);
@@ -106,8 +108,10 @@ export function createEmailAuth({betterAuth,emailOTP,database,secret,origin,send
   const forwarded=new Headers(request.headers);forwarded.delete('content-length');
   const payload=action==='code'?{email,type:'sign-in'}:action==='verify'?{email,otp:body.code}:action==='login'?{email,password:body.password,rememberMe:true}:method==='DELETE'?{}:null;
   if(payload)forwarded.set('content-type','application/json');
+  // 네이티브 false는 24h/브라우저 세션쿠키입니다. 앱의 false/생략은 기존 8h 구성으로 처리합니다.
+  const activeAuth=action==='login'&&body.rememberMe===true?(rememberedAuth??=createNativeAuth(SESSION_POLICY.rememberedSeconds)):auth;
   const delivery={action,email,started:false,accepted:false,failed:false};
-  let response;try{response=await deliveryContext.run(delivery,()=>auth.handler(new Request(origin+'/api/auth'+path,{method:method==='DELETE'?'POST':method,headers:forwarded,...(payload?{body:JSON.stringify(payload)}:{})})));if(delivery.promise)await delivery.promise;}catch{return unavailableResponse()}finally{delivery.releaseIssue?.()}
+  let response;try{response=await deliveryContext.run(delivery,()=>activeAuth.handler(new Request(origin+'/api/auth'+path,{method:method==='DELETE'?'POST':method,headers:forwarded,...(payload?{body:JSON.stringify(payload)}:{})})));if(delivery.promise)await delivery.promise;}catch{return unavailableResponse()}finally{delivery.releaseIssue?.()}
   if(action==='code'&&response.ok&&(!delivery.started||!delivery.accepted||delivery.failed)){
    try{if(delivery.recordId){const context=await auth.$context;await context.adapter.deleteMany({model:'verification',where:[{field:'id',value:delivery.recordId},{field:'identifier',value:delivery.identifier},{field:'value',operator:'in',value:Array.from({length:AUTH_LIMITS.allowedAttempts+1},(_,attempt)=>delivery.hash+':'+attempt)}]});}}catch{return unavailableResponse()}
    return unavailableResponse();

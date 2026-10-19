@@ -19,13 +19,13 @@ async function check(name,run){try{await run();checks.push({name,status:'passed'
 
 await check('CLOUD-UI-01 미인증은 old local을 읽지 않고 업무부트 없이 로그인 화면만 연다',async()=>{
  const h=fixture({queue:[response(200,{authenticated:false})]});await h.A.cloudSession.start();
- assert.equal(h.A.cloudSession.status().phase,'login');assert.equal(h.A.state.projects.length,0);assert.equal(h.A.cloudPersistence.booted(),false);assert.deepEqual(h.storage.reads,[]);assert.equal(h.storage.get(h.oldKey),h.oldRaw);assert.match(h.nodes.get('content').innerHTML,/로그인/);assert.match(h.nodes.get('content').innerHTML,/회원가입/);
+ assert.equal(h.A.cloudSession.status().phase,'login');assert.equal(h.A.state.projects.length,0);assert.equal(h.A.cloudPersistence.booted(),false);assert.deepEqual(h.storage.reads,['development-platform-auth-email-v1']);assert(!h.storage.reads.includes(h.oldKey));assert.equal(h.storage.get(h.oldKey),h.oldRaw);assert.match(h.nodes.get('content').innerHTML,/로그인/);assert.match(h.nodes.get('content').innerHTML,/회원가입/);
 });
 
 await check('CLOUD-UI-02 회사메일·비밀번호 로그인은 same-origin JSON으로 중앙 작업공간을 연다',async()=>{
  const secret='temporary-password-123',h=fixture({queue:[response(200,{authenticated:false}),response(200,{authenticated:true,email:'qa.user@igisam.com',userId:'user-1',expiresAt:'2026-10-15T12:00:00Z',newAccountCreated:false}),response(200,{workspaceId:'workspace-1',revision:4,state:workspaceState(),capabilities:{createProject:true,manageAccess:false},projectRoles:{},user:{id:'user-1',email:'qa.user@igisam.com'}})]});
  await h.A.cloudSession.start();await h.A.cloudSession.login(' QA.User@IGISAM.COM ',secret);assert.equal(h.A.cloudSession.status().phase,'ready',JSON.stringify(h.A.cloudSession.status()));assert.equal(h.A.cloudSession.status().newAccountCreated,false);assert.equal(h.A.state.projects[0].name,'중앙 사업');assert.equal(h.A.cloudPersistence.booted(),true);assert.equal(h.A.cloudSession.can('createProject'),true);assert.match(h.nodes.get('sidebar').innerHTML,/data-cloud-user-area/);assert.match(h.nodes.get('sidebar').innerHTML,/qa\.user@igisam\.com/);assert.match(h.nodes.get('sidebar').innerHTML,/cloud-logout/);assert(!h.nodes.get('topbar').innerHTML.includes('cloud-logout'));
- const [session,login,workspace]=h.calls;assert.equal(session.options.credentials,'same-origin');assert.deepEqual(JSON.parse(login.options.body),{email:'qa.user@igisam.com',password:secret});assert.equal(workspace.options.method,'GET');assert.equal(login.options.credentials,'same-origin');assert.equal(login.options.headers['content-type'],'application/json');assert(!JSON.stringify(h.A.cloudSession.status()).includes(secret));
+ const [session,login,workspace]=h.calls;assert.equal(session.options.credentials,'same-origin');assert.deepEqual(JSON.parse(login.options.body),{email:'qa.user@igisam.com',password:secret,rememberMe:false});assert.equal(workspace.options.method,'GET');assert.equal(login.options.credentials,'same-origin');assert.equal(login.options.headers['content-type'],'application/json');assert(!JSON.stringify(h.A.cloudSession.status()).includes(secret));
 });
 
 await check('CLOUD-UI-03 잘못된 로그인 정보는 업무부트 없이 같은 입력단계에 남는다',async()=>{

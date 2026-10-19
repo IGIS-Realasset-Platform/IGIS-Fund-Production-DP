@@ -1,6 +1,6 @@
 {
   "schemaVersion":"deployment-status-v0111",
-  "version":"0.11.3",
+  "version":"0.11.4",
   "asOf":"2026-10-19",
   "current":{
     "scope":"전용 스키마·지정 이메일 가입·비밀번호 로그인·중앙 저장 검증본",
@@ -20,6 +20,7 @@
     "commonInitialCode":false,
     "passwordRequired":true,
     "passwordPolicy":{"signupMin":8,"signupMax":15,"loginMax":128,"existingPasswordsPreserved":true},
+    "rememberLogin":{"optional":true,"defaultSelected":false,"maxDays":7,"defaultHours":8,"absoluteExpiry":true,"plainPasswordStored":false,"localEmailOnly":true},
     "allowlistRequired":true,
     "allowedEmailCount":12,
     "allowlistSource":"server-only DP_ALLOWED_EMAILS",

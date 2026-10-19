@@ -5,7 +5,7 @@ import vm from 'node:vm';
 import {verifyCloudBuild} from './cloud-build-check.mjs';
 import {resolveCloudOrigin} from './deployment-policy.mjs';
 
-const cloud=process.argv.includes('--cloud'),version=cloud?'0.11.3':'0.11.0',runtime={mode:'real',version,storageKey:cloud?'development-platform-cloud-v0111':'development-platform-real-v0110',notionSourceUrl:'/api/notion-source',...(cloud?{persistence:'cloud'}:{})};
+const cloud=process.argv.includes('--cloud'),version=cloud?'0.11.4':'0.11.0',runtime={mode:'real',version,storageKey:cloud?'development-platform-cloud-v0111':'development-platform-real-v0110',notionSourceUrl:'/api/notion-source',...(cloud?{persistence:'cloud'}:{})};
 const args=process.argv.slice(2),option=name=>{const index=args.indexOf(name);return index>=0?args[index+1]||'':''},sourceArg=option('--source'),outArg=option('--out'),iconsArg=option('--icons');
 const localQa=cloud&&args.includes('--local-qa');if(localQa&&process.env.VERCEL==='1')throw Error('합성 HTTP 검수본은 클라우드에 배포할 수 없습니다.');if(cloud)runtime.cloudOrigin=resolveCloudOrigin(option('--cloud-origin'),{localQa});
 if(!outArg)throw Error('실제 빌드는 --out <.build/private-html>을 지정해야 합니다. Notion --source는 선택사항입니다.');

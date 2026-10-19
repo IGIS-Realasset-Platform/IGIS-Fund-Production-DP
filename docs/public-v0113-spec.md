@@ -4,7 +4,7 @@
 
 ## 범위와 보존
 
-- 공개주소: `https://igis-development-project-platform.vercel.app` (기존 Vercel 프로젝트에 verified alias 추가). 기존 `project-lqff8.vercel.app`은 정식주소로만 이동시킵니다.
+- 공개주소: `https://igis-development-project-platform.vercel.app` (기존 Vercel 프로젝트에 verified alias 추가). 초기 자동주소 `project-lqff8.vercel.app`은 처음 HTTP200이었고 후속 alias redirect 변경이 자동안전검토에서 차단됐습니다. 우회하지 않고 별도 사용자 승인을 받은 뒤 동일 API로 정식주소307이동을 실제 확인했습니다. 기존 Preview/과거배포주소4개는 실제302 보호를 유지합니다.
 - 기존 Preview 안정주소·과거 배포주소는 Vercel 보호를 유지합니다. 보호 전체를 끄지 않고 Standard Protection으로 정식 도메인만 공개합니다.
 - 서버 지정12메일·최초 이메일6자리 소유확인·비밀번호해시·프로젝트별 권한·앱 전용 스키마를 유지합니다. 기존 회사 서비스/공유Auth/다른스키마/기존Secret값 변경·조회0입니다.
 - 신규 가입/최초 비밀번호 설정은8~15자입니다. 과거 허용된12~128자 비밀번호의 로그인은 유지합니다. 로그인 입력검사는8~128자이며 저장된 해시는 변경하지 않습니다. 조합강제·자동trim·비밀번호재설정 기능을 새로 추가하지 않습니다.
