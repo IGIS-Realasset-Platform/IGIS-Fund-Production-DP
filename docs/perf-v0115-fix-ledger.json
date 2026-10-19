@@ -1,0 +1,133 @@
+{
+  "schemaVersion": "perf115-fix-ledger-v1",
+  "version": "0.11.5",
+  "asOf": "2026-10-19",
+  "status": "corrected-production-release-verified-final-excel-and-git-synchronization-pending",
+  "specification": "docs/perf-v0115-spec.md",
+  "verification": "docs/perf-v0115-verification.json",
+  "scope": "로그인·재접속 시 중복 서버 왕복·중복 렌더·동일 계산·폰트 중복만 축소. 관련 없는 업무 화면과 자료는 재설계하지 않음.",
+  "candidate": {
+    "codeCommit": "c663e4d8cdf58a874e9e610b68086ccdd9e51864",
+    "productionHtmlSha256": "6094808a98008c388f67f00ee8a178ac10d9528da207cca5c5e18705ba743c6d",
+    "productionHtmlBytes": 6097254,
+    "previewHtmlSha256": "a74969dd0257f662d1a7fe36daf450fde3056242e7e60213057ba6a7b7659265",
+    "previewHtmlBytes": 6097283,
+    "productionDeploymentId": "dpl_Eahucd6iMGDNoEKFhVuHSbRxB2pr",
+    "productionPublication": "READY",
+    "productionReadyObservationSource": "root actual Vercel query in current conversation; final saved public HTTP and actual Edge evidence independently pin corrected HTML",
+    "region": "icn1",
+    "buildMs": 34946,
+    "publicOrigin": "https://igis-development-project-platform.vercel.app"
+  },
+  "rollback": {
+    "source": "root actual Production browser result and approved-alias rollback observation in current conversation",
+    "reason": "미허용 로그인 403 뒤 현재 이메일 입력이 빈칸으로 지워지는 실제 화면 회귀",
+    "independentCounterexample": "PERF115-I12 RED; expected current input preservation",
+    "initialCodeCommit": "c834201d84b291d952f1983c06e9b3fd120182a4",
+    "initialHtmlSha256": "15a6a3b36732b783180e5422cc1bda44b187c0c8316f6d08f6cd6d157bddcb50",
+    "initialDeploymentId": "dpl_vL38wzmtc46jHgfmfDxa5UhazGpZ",
+    "officialAliasRestoredToVersion": "0.11.4",
+    "officialAliasRestoredDeploymentId": "dpl_2oyiApSxoRifRK8YEhxAWU3sivtf",
+    "firstCandidateAndItsHttpEvidencePreserved": true,
+    "finalReplacementCandidate": "minimal correction verified by independent I12 green, 186 tests and final native synthetic reruns",
+    "finalProductionAcceptance": "corrected-release-runtime-gates-passed; documentation synchronization remains PERF115-06"
+  },
+  "preservedBoundaries": {
+    "allowedEmailCount": 12,
+    "signupPasswordCharacters": {"min": 8, "max": 15},
+    "existingPasswordLoginCharacters": {"min": 8, "max": 128},
+    "defaultSessionSeconds": 28800,
+    "selectedSessionSeconds": 604800,
+    "absoluteExpiryAndExplicitLogout": true,
+    "existingSigningSecretsRotated": false,
+    "existingSessionApiRemoved": false,
+    "postLoginAndSignupWorkspaceRevalidationRemoved": false,
+    "serverPermissionOrTlsWeakened": false,
+    "persistentBusinessOrAuthenticationCacheAdded": false,
+    "otherServicesSharedAuthOrSchemasChanged": false,
+    "actualDatabaseWritesInPerfVerification": 0,
+    "actualUserPasswordOrCookieUsed": false
+  },
+  "requirements": [
+    {
+      "id": "PERF115-01",
+      "title": "시작 시 중복 인증 조회를 작업공간 한 번 조회로 통합",
+      "complete": true,
+      "implementation": "passed",
+      "automated": {"status": "passed", "evidence": ["published-candidate", "independent", "workspace-fixtures"], "scope": "workspace GET1/session GET0·엄격한 user/권한/state 검증·권한0 빈 작업공간·원래 session API 보존"},
+      "syntheticBrowser": {"status": "passed", "evidence": ["startup-comparison", "synthetic-edge"], "scope": "각 재접속은 workspace1/session0. 정상 비밀번호 로그인 POST 뒤 새 workspace 검증은 유지"},
+      "productionBrowser": {"status": "passed", "evidence": "production-edge", "scope": "최종 정식 HTML 네 해상도·각 workspace1/session0·무인증 401 이후 독립 로그인"},
+      "actualDatabase": {"status": "not-executed", "reason": "기존 자료와 계정에 쓰기 검사를 하지 않음"},
+      "remaining": null
+    },
+    {
+      "id": "PERF115-02",
+      "title": "중립 로딩과 인증·권한·일시 장애의 구분",
+      "complete": true,
+      "implementation": "passed",
+      "automated": {"status": "passed", "evidence": ["published-candidate", "independent", "workspace-fixtures"], "scope": "대기 중 폼/업무셸0·401/정확한 EMAIL_NOT_ALLOWED403/다른403/503 구분·늦은 응답·초안과 pending save·로그아웃·email-only 기억 경계"},
+      "syntheticBrowser": {"status": "passed", "evidence": ["startup-comparison", "synthetic-edge"], "scope": "통제 대기 중 불러오는 중·입력/업무셸0; 복원·로그아웃 뒤 익명 로그인"},
+      "regressionCorrection": {"initialActualBrowser": "failed; current email cleared", "evidence": ["denied-input-red", "independent"], "finalIndependentI12": "passed; current input and checkbox retained while remembered email removed"},
+      "productionBrowser": {"status": "passed", "evidence": ["production-edge", "production-visual"], "scope": "네 해상도 익명 진입·기본off/Tab/Space, 실제 미허용403 false/true 후 현재 이메일·체크 유지, 기억정보 생성0"},
+      "remaining": null
+    },
+    {
+      "id": "PERF115-03",
+      "title": "초기 화면 한 번 렌더와 동기 조회 범위의 계산 재사용",
+      "complete": true,
+      "implementation": "passed",
+      "automated": {"status": "passed", "evidence": ["published-candidate", "independent", "cost-regression"], "scope": "중첩/예외 finally 폐기·객체별 격리·같거나 빈 ID·반환배열 변형·다음 edit/add/delete/reorder·0/null·과거 확정본/계약/VAT 보존. 원가 VM/OOXML 9개 검사군120개 별도 통과"},
+      "syntheticBrowser": {"status": "passed", "evidence": ["startup-comparison", "cost-ui"], "scope": "동일 A/B/C revision20·교대12회 부트 결과 일치·중앙값 감소. 세 사업 각각 같은 셀 더블클릭·Escape 취소 무쓰기·1원 모의 CAS 저장·재접속·다른 사업/확정본/계약/VAT 보존"},
+      "correctedCpuObservation": {"status": "historical-initial-candidate-supplemental-only", "evidence": "initial-corrected-cpu", "scope": "초기 후보 한 번의 표본·정확한 inline-script offset 적용. 최종 후보 CPU 표본으로 승격하거나 잘못된 최초 self-time 모듈 귀속을 사용하지 않음"},
+      "productionBrowser": {"status": "passed-limited-scope", "evidence": ["production-public-http", "production-edge"], "scope": "원격 본문이 같은 최종 교대계측/실제 Edge 모의 원가 검수의 HTML과 일치. 실제 사용자 계정으로 원가를 쓴 검사가 아님"},
+      "remaining": null
+    },
+    {
+      "id": "PERF115-04",
+      "title": "cloud 폰트 데이터 중복 제거와 인쇄 자산 보존",
+      "complete": true,
+      "implementation": "passed",
+      "automated": {"status": "passed", "evidence": ["font-red", "published-candidate"], "scope": "실제 생성 cloud HTML의 독립 원본 폰트 일치·원문 내장2→1·인쇄 binding의 폰트/CSS 원문 일치"},
+      "syntheticBrowser": {"status": "passed", "evidence": "startup-comparison", "scope": "최종 후보 head와 reportAssets 원문·독립 원문 폰트 SHA 일치"},
+      "productionBrowser": {"status": "passed", "evidence": ["production-edge", "production-visual"], "scope": "네 해상도의 최종 정식 DOM head/인쇄 폰트 SHA·원문 바이트 일치, 한글 표시와 입력 가독성 확인"},
+      "remaining": null,
+      "notClaimed": "이 인증 변경으로 모든 과거 PDF·비cloud HTML·설치 Excel을 검수했다고 주장하지 않음"
+    },
+    {
+      "id": "PERF115-05",
+      "title": "동일 조건의 속도 비교와 실제 배포 경계 검수",
+      "complete": true,
+      "implementation": "measured-candidate-ready",
+      "automated": {"status": "passed", "evidence": "published-candidate", "passed": 186, "suites": 18},
+      "syntheticBrowser": {"status": "passed", "evidence": ["startup-comparison", "synthetic-edge"], "runs": 12, "classification": "실제 Edge·합성 쿠키/API·고정 예시자료. 실제 사용자 네트워크 성능 통계가 아님"},
+      "productionBrowser": {"status": "passed-with-nonblocking-favicon-warning", "evidence": ["production-edge", "production-visual"], "viewports": ["1280x800", "1440x900", "1600x1000", "390x844"], "actualNetwork": true, "authenticationBypass": false, "unexpectedApplicationErrors": 0},
+      "publicHttpAndPreviewProtection": {"status": "passed-corrected-final-release", "evidence": ["production-public-http", "alias-boundaries"], "publicChecks": 7, "aliasChecks": 8},
+      "userPerformanceConfirmation": {"status": "not-yet-requested-or-received"},
+      "remaining": null,
+      "acceptanceBoundary": "최소 수정 후 새 최종본의 Ready·지문·공개/보호·실제 Edge 네 해상도를 재검증함. 실사용자 비밀번호/쿠키·중앙DB쓰기0. 합성 예시자료의 속도를 전체 사용자 보장 속도로 표현하지 않음"
+    },
+    {
+      "id": "PERF115-06",
+      "title": "PUB113·AUTH114·PERF115 최종 문서와 Excel·Git 동기화",
+      "complete": false,
+      "implementation": "documentation-in-progress",
+      "automated": {"status": "pending-final-artifact-comparison"},
+      "syntheticBrowser": {"status": "not-applicable"},
+      "productionBrowser": {"status": "not-applicable"},
+      "remaining": "최종 누적 체크리스트·Excel 작성/읽기 복원/시각 검수·README·수정대장·명세·Git의 같은 ID/상태 대조. AUTH114-06도 이 최종 작업 전에는 완료하지 않음"
+    }
+  ],
+  "knownObservations": [
+    {
+      "area": "portfolio project-add button",
+      "status": "pre-existing-outside-performance-scope",
+      "detail": "실제 포트폴리오에서 createProject:false인 합성 작업공간에도 프로젝트 추가 버튼이 보이는 동작이 v0.11.4와 후보에 동일하게 존재함",
+      "testLimitation": "기존 권한0 UI fixture는 stub 포트폴리오를 등록하므로 실제 포트폴리오 버튼을 검수하지 않음",
+      "serverPermissionWeakened": false,
+      "buttonWriteAuthorizationBypassedOrTested": false,
+      "evidence": "initial-synthetic-visual"
+    }
+  ],
+  "allRequirementsAccepted": false,
+  "remainingGates": ["cross-version-checklist-excel-git-synchronization"]
+}
