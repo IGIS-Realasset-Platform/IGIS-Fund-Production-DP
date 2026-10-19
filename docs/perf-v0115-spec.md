@@ -9,7 +9,7 @@
 - 재접속은GETsession→GETworkspace직렬두왕복이며workspace가세션/권한을다시검사합니다. 기존workspace응답에는검증된user/id/email과권한필터state/capabilities/roles가있어새API없이한번부트가가능합니다.
 - loading단계에입력칸은없지만제목이로그인으로표시됩니다. 로그인실패가아닌데로그인화면이계속보이는인상을줍니다.
 - 폰트원문2,069,275바이트가head스타일과reportAssets에각각동일하게내장됩니다. 두원문SHA는 `601f77fceb2a30631340e6199815ae5d57ac8586585f2981c5e0473157e6ec6f`입니다. 중복수와바이트는확정했지만이것만으로실제네트워크/파싱지연을단정하지않습니다.
-- 동일 자료 CPU 프로파일 3,258.235ms 중 CBS 계산은 2,208.328ms(67.78%), liveRows의 필터·정렬은 1,895.495ms(58.18%)였습니다. liveRows 24,195회·treeInfo 14,466회·amountInfo 9,450회가 호출됐습니다. portfolio가 기존 renderCache 범위 밖에서 같은 행을 반복 계산했고, cloud loadWorkspace가 boot의 렌더 이후 다시 렌더했습니다. 실제 서버 cold start의 원인으로 확대하지 않습니다. 서버 FOR UPDATE·인증 라이브러리·모든 업무 모듈 지연로드는 변경하지 않습니다.
+- 기존 native Edge coverage에서는 liveRows 24,195회·amountInfo 9,450회·totalInfo 60회와 초기 core render 2회를 확인했습니다. portfolio가 기존 renderCache 범위 밖에서 같은 행을 반복 계산했고, cloud loadWorkspace가 boot 렌더 이후 다시 렌더했습니다. CPU self-time의 초기 모듈 배분은 inline script 시작행 보정이 확인되지 않아 점유율 수치를 완료 근거로 사용하지 않습니다. 정정 분석과 원시자료를 별도로 보존하며, 성능 결론은 정확한 같은 자료의 전후 실시간 측정과 결과 대조에 따릅니다. 실제 서버 cold start의 원인으로 확대하지 않으며 서버 FOR UPDATE·인증 라이브러리·모든 업무 모듈 지연로드는 변경하지 않습니다.
 
 ## 변경·보존 경계
 

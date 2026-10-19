@@ -1,8 +1,8 @@
 {
   "version":"0.11.5",
   "origin":"https://igis-development-project-platform.vercel.app",
-  "htmlSha256":"15a6a3b36732b783180e5422cc1bda44b187c0c8316f6d08f6cd6d157bddcb50",
-  "bytes":6097270,
+  "htmlSha256":"6094808a98008c388f67f00ee8a178ac10d9528da207cca5c5e18705ba743c6d",
+  "bytes":6097254,
   "status":"frozen-candidate-local-build-and-password-tests-verified-remote-acceptance-separate",
   "privateSourceIncluded":false,
   "humanPasswordEnrollmentVerified":true

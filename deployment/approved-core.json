@@ -1,8 +1,8 @@
 {
   "version": "0.11.5",
   "origin": "https://development-project-platform-preview-git-preview-b5dda7-igisra.vercel.app",
-  "htmlSha256": "ce824a352d415fffab395db0e6157a42a6e7bb71e13c0e7142f9b46c490d3dc1",
-  "bytes": 6097299,
+  "htmlSha256": "a74969dd0257f662d1a7fe36daf450fde3056242e7e60213057ba6a7b7659265",
+  "bytes": 6097283,
   "notionRequired": false,
   "realProjectDataIncluded": false,
   "mode": "authenticated-private-schema-runtime-with-optional-source",
