@@ -1,0 +1,295 @@
+{
+  "schemaVersion": "observability-20261019-summary-v1",
+  "verifiedAt": "2026-10-19T07:15:46.194Z",
+  "productVersion": "0.11.5",
+  "productCodeCommit": "c663e4d8cdf58a874e9e610b68086ccdd9e51864",
+  "officialUrl": "https://igis-development-project-platform.vercel.app/",
+  "target": {
+    "projectId": "prj_nuodSnX6pv9g2i0YERSQUfAIkedT",
+    "deploymentId": "dpl_Eahucd6iMGDNoEKFhVuHSbRxB2pr",
+    "htmlSha256": "6094808a98008c388f67f00ee8a178ac10d9528da207cca5c5e18705ba743c6d",
+    "ownerSlug": "igisra",
+    "teamIdNote": "team ID is the fixed query scope; actual project owner slug and global project ID were independently matched"
+  },
+  "result": "authorized-cli-log-access-restored-no-server-errors-observed-in-bounded-window",
+  "access": {
+    "tool": "Vercel CLI",
+    "version": "64.5.0",
+    "userDeviceApproval": true,
+    "profileIsolatedFromExistingCliConfiguration": true,
+    "commandsReadOnly": true,
+    "originalMcpConfigurationChanged": false,
+    "cliAuthenticationIsReadOnlyGrant": false
+  },
+  "window": {
+    "requestedSince": "2026-10-19T06:14:34.167Z",
+    "requestedUntil": "2026-10-19T07:09:34.167Z",
+    "minutes": 55,
+    "queries": [
+      {
+        "kind": "runtime",
+        "query": "level:(error OR fatal OR warning)",
+        "count": 0,
+        "returnedTimeRange": {
+          "start": "2026-10-19T06:14:34.167Z",
+          "end": "2026-10-19T07:09:34.167Z"
+        },
+        "summaryComplete": true
+      },
+      {
+        "kind": "runtime",
+        "query": "",
+        "count": 0,
+        "returnedTimeRange": {
+          "start": "2026-10-19T06:14:34.167Z",
+          "end": "2026-10-19T07:09:34.167Z"
+        },
+        "summaryComplete": true
+      },
+      {
+        "kind": "requests",
+        "query": "httpStatus >= 500",
+        "count": 0,
+        "returnedTimeRange": {
+          "start": "2026-10-19T06:14:34.000Z",
+          "end": "2026-10-19T07:09:34.000Z"
+        },
+        "summaryComplete": true
+      },
+      {
+        "kind": "requests",
+        "query": "",
+        "count": 17,
+        "returnedTimeRange": {
+          "start": "2026-10-19T06:14:34.000Z",
+          "end": "2026-10-19T07:09:34.000Z"
+        },
+        "summaryComplete": true
+      }
+    ],
+    "precisionNote": "Runtime summaries preserve milliseconds; request summaries return second-aligned boundaries. The exact returned ranges are recorded above."
+  },
+  "requestTotals": {
+    "count": 17,
+    "statuses": {
+      "200": 7,
+      "302": 1,
+      "307": 1,
+      "401": 7,
+      "403": 1
+    },
+    "methods": {
+      "GET": 16,
+      "POST": 1
+    },
+    "server5xx": 0,
+    "runtimeEntries": 0,
+    "errorFatalWarningEntries": 0
+  },
+  "actualRequestCorrelation": {
+    "matchedCount": 6,
+    "matchedRequests": [
+      {
+        "scope": "new HTTP read-only probe",
+        "requestId": "s5xjk-1792393433304-989b75215fb3",
+        "path": "/",
+        "method": "GET",
+        "status": 200,
+        "matched": true
+      },
+      {
+        "scope": "new HTTP read-only probe",
+        "requestId": "kctp5-1792393433530-3b8356ebc8f3",
+        "path": "/api/workspace",
+        "method": "GET",
+        "status": 401,
+        "matched": true
+      },
+      {
+        "scope": "new native Edge anonymous navigation",
+        "requestId": "qs6np-1792393689240-70db5f1fc163",
+        "path": "/",
+        "method": "GET",
+        "status": 200,
+        "matched": true
+      },
+      {
+        "scope": "new native Edge anonymous navigation",
+        "requestId": "5rgk4-1792393690185-82fd87c30e6a",
+        "path": "/api/workspace",
+        "method": "GET",
+        "status": 401,
+        "matched": true
+      },
+      {
+        "scope": "new native Edge anonymous navigation",
+        "requestId": "gptgg-1792393693500-6f9017ee9c5e",
+        "path": "/",
+        "method": "GET",
+        "status": 200,
+        "matched": true
+      },
+      {
+        "scope": "new native Edge anonymous navigation",
+        "requestId": "748s4-1792393693940-7ac89699e4f9",
+        "path": "/api/workspace",
+        "method": "GET",
+        "status": 401,
+        "matched": true
+      }
+    ],
+    "emptyIdentifierEqualityUsed": false
+  },
+  "newReadOnlyVerification": {
+    "httpProbeRequests": 2,
+    "browserRequests": 4,
+    "methods": [
+      "GET"
+    ],
+    "postPutDeleteOrFormSubmissions": 0,
+    "expectedWorkspace401": 3,
+    "newAccountOrPasswordLoginTest": false,
+    "newMailSent": false,
+    "directDatabaseAccess": false,
+    "actualUserCredentialsOrExistingCookiesRead": false,
+    "scopeNote": "No new business write requests. Server internal bookkeeping has been assessed from source, not verified by direct database access."
+  },
+  "historicalScope": {
+    "postCount": 1,
+    "postPath": "/api/auth-code",
+    "postStatus": 403,
+    "bodyOrExactReasonInspected": false,
+    "interpretation": "The historical 403 is not a server5xx. This 55-minute window is not claimed to have zero POST requests."
+  },
+  "browser": {
+    "viewports": [
+      {
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "width": 390,
+        "height": 844
+      }
+    ],
+    "statesPerViewport": [
+      "login",
+      "signup",
+      "return-to-login"
+    ],
+    "unexpectedErrors": 0,
+    "formSubmissions": 0,
+    "existingUserProfileOrCookiesRead": false,
+    "htmlSha256": "6094808a98008c388f67f00ee8a178ac10d9528da207cca5c5e18705ba743c6d",
+    "bytes": 6097254
+  },
+  "preservation": {
+    "productSourceModified": false,
+    "redeploymentPerformed": false,
+    "serviceOrDeploymentSettingsChanged": false,
+    "directDatabaseAccess": false,
+    "businessWriteRequests": 0,
+    "existingSecretsReadOrChanged": false,
+    "sharedServicesOrSchemasModified": false,
+    "appInternalBookkeepingNotDirectlyAudited": true
+  },
+  "diagnosticToolChecks": {
+    "scope": "local helper, not product test counts",
+    "total": 12,
+    "initialPassed": 3,
+    "initialFailed": 9,
+    "finalPassed": 12,
+    "finalFailed": 0,
+    "cases": [
+      "explicit-empty-success",
+      "403",
+      "missing-summary",
+      "malformed-summary",
+      "unknown-control",
+      "unparsed-output",
+      "pagination",
+      "excluded-window",
+      "record-count",
+      "missing-exclusions",
+      "process-signal",
+      "nonempty-success"
+    ]
+  },
+  "requirements": [
+    {
+      "id": "OBS116-01",
+      "status": "verified",
+      "evidence": "Fixed project, owner, Production and HTML digest"
+    },
+    {
+      "id": "OBS116-02",
+      "status": "verified-fallback-path",
+      "evidence": "MCP scope rejection distinguished from product error; approved CLI succeeds",
+      "limitation": "Original MCP role/token-scope setting not established as changed"
+    },
+    {
+      "id": "OBS116-03",
+      "status": "verified",
+      "evidence": "Four complete server queries and six nonempty actual request IDs independently matched"
+    },
+    {
+      "id": "OBS116-04",
+      "status": "verified-bounded-window",
+      "evidence": "55-minute returned window, 17 request entries, runtime/error/warning/5xx absent, no further pages or excluded intervals"
+    },
+    {
+      "id": "OBS116-05",
+      "status": "no-product-change-required-by-observation",
+      "evidence": "No actual new product failure reproduced; no deliberate production fault injection",
+      "limitation": "Application-handled503 detailed diagnostic events remain absent"
+    },
+    {
+      "id": "OBS116-06",
+      "status": "sync-in-progress",
+      "evidence": "Specification, safe Git documentation and local cumulative Markdown/Excel share OBS116 IDs"
+    }
+  ],
+  "independentReview": {
+    "path": ".build/observability-20261019/qa-final-review.json",
+    "sha256": "72d179db740dd94afb72a1164ec251f8f552dc695158f83d0d4b1d83741afa5b",
+    "sourceFilesUnchanged": true
+  },
+  "evidence": [
+    {
+      "name": "target",
+      "file": "cli-target-1792393462650.json",
+      "sha256": "e9c349151756504112240213ea191cedf370f00b17a462dfb346d3b3220524fb"
+    },
+    {
+      "name": "deployment",
+      "file": "cli-deployment-1792393459767.json",
+      "sha256": "9e7760220922af79fee661f5f7fa8267c4261e6931aefb4421bb9fab8a64344b"
+    },
+    {
+      "name": "probe",
+      "file": "read-only-probe-1792393434945.json",
+      "sha256": "7e06602ed3657d4189be31e0e40a054e03d1a0fe213e131a371264358556361a"
+    },
+    {
+      "name": "logs",
+      "file": "cli-verify-1792393801309.json",
+      "sha256": "5c9c6691c00bb1f7fd597a91f779a09607d9e3384884a3ba9affa263ca8cc7cc"
+    },
+    {
+      "name": "browser",
+      "file": "browser/anonymous-1792393685501/evidence.json",
+      "sha256": "2548a64120a3072445ca4b01df4c4b9b514728a6a9ffd6e01bb75b8ed9128873"
+    }
+  ],
+  "checklist": {
+    "state": "sync-in-progress"
+  },
+  "limitations": [
+    "Only the stated deployment and returned time ranges were inspected; no all-time or future error-free claim",
+    "Native application catches still convert dependency failures to generic503 without structured diagnostic events",
+    "The original MCP403 permission setting was not established as changed; authorized CLI access is the verified working path",
+    "Fresh signup, password login and central DB write workflows were not rerun during this read-only log verification"
+  ],
+  "installationCaveat": "Executable and new CLI profile are inside the workspace; pnpm also used the existing Windows shared public-package cache. No shared cache was deleted. No global CLI installed.",
+  "privacy": "Only allowlisted request metadata and evidence digests are published. No credential files, raw messages/stacks, request bodies, headers, identity records or browser cookies."
+}
