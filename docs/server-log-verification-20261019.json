@@ -1,6 +1,6 @@
 {
   "schemaVersion": "observability-20261019-summary-v1",
-  "verifiedAt": "2026-10-19T07:15:46.194Z",
+  "verifiedAt": "2026-10-19T07:24:24.303Z",
   "productVersion": "0.11.5",
   "productCodeCommit": "c663e4d8cdf58a874e9e610b68086ccdd9e51864",
   "officialUrl": "https://igis-development-project-platform.vercel.app/",
@@ -184,6 +184,7 @@
     "bytes": 6097254
   },
   "preservation": {
+    "currentTaskBaselineCommit": "6ed9d24c25a4baf2c9560792f764b93e58419981",
     "productSourceModified": false,
     "redeploymentPerformed": false,
     "serviceOrDeploymentSettingsChanged": false,
@@ -245,7 +246,7 @@
     },
     {
       "id": "OBS116-06",
-      "status": "sync-in-progress",
+      "status": "synchronized",
       "evidence": "Specification, safe Git documentation and local cumulative Markdown/Excel share OBS116 IDs"
     }
   ],
@@ -282,7 +283,27 @@
     }
   ],
   "checklist": {
-    "state": "sync-in-progress"
+    "markdown": {
+      "path": "docs/요구사항_누적_체크리스트.md",
+      "sha256": "d9b9b319dd6b5a717c4471317ea5382f9b9e966bbeb3b2b019eee47bab36034d"
+    },
+    "workbook": {
+      "path": "outputs/deployment/observability-20261019/개발사업관리플랫폼_요구사항_체크리스트_v0.11.5_로그검수.xlsx",
+      "sha256": "68966e281f98907045b22bf01d54144063a5d7094239b1f083e2e5b60b1f746b"
+    },
+    "verification": {
+      "path": ".build/observability-20261019/checklist/verification.json",
+      "sha256": "3bec110ab51ca420e1a5d0adcdc688a88ac35ac7aec9fa590c2af6dbc4e5e313"
+    },
+    "counts": {
+      "items": 420,
+      "fields": 5040,
+      "complete": 367,
+      "historicalIncomplete": 53,
+      "priorItemsPreserved": 414,
+      "currentObs116Items": 6
+    },
+    "nativeExcelRun": false
   },
   "limitations": [
     "Only the stated deployment and returned time ranges were inspected; no all-time or future error-free claim",
