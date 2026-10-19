@@ -1,0 +1,12 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import vm from 'node:vm';
+import {spawnSync} from 'node:child_process';
+const destination=path.resolve('.build/perf115-font-assets-'+process.pid+'.html'),run=spawnSync(process.execPath,['scripts/build-deployment.mjs','--cloud','--out',destination,'--icons','src/assets/nav-icons.json','--cloud-origin','https://igis-development-project-platform.vercel.app'],{encoding:'utf8'});assert.equal(run.status,0,'actual cloud builder must run before font checks');
+const html=await fs.readFile(destination,'utf8'),fontSource=(await fs.readFile('src/assets/fonts.css','utf8')).replace(/\r\n/g,'\n'),reportSource=(await fs.readFile('src/report.css','utf8')).replace(/\r\n/g,'\n'),head=html.match(/<style id="dp-fonts">([\s\S]*?)<\/style>/)?.[1],binding=html.match(/App\.reportAssets=([^\n]+);\n/)?.[1],uri=fontSource.match(/data:[^"'()\s]+/)?.[0];assert(head&&binding&&uri,'verified font source and generated binding required');
+const checks=[];const check=(name,fn)=>{try{fn();checks.push({name,status:'passed'})}catch(error){checks.push({name,status:'failed',error:error.message})}};
+check('head font bytes match independent original asset',()=>assert.equal(head,fontSource));
+check('cloud embeds the original font payload exactly once',()=>assert.equal(html.split(uri).length-1,1));
+check('generated print binding returns exactly original fonts and print CSS',()=>{const context=vm.createContext({App:{},document:{getElementById:id=>{assert.equal(id,'dp-fonts');return {textContent:head}}}});vm.runInContext('App.reportAssets='+binding,context);assert.equal(context.App.reportAssets.fonts,fontSource);assert.equal(context.App.reportAssets.css,reportSource)});
+const failed=checks.filter(c=>c.status==='failed').length;console.log(JSON.stringify({suite:'cloud-font-assets',passed:checks.length-failed,failed,actualGeneratedHtml:true,originalFontBytes:Buffer.byteLength(fontSource),checks}));if(failed)process.exitCode=1;

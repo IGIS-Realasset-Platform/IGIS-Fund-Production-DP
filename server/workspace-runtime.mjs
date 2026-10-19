@@ -17,7 +17,11 @@ export function createWorkspaceRuntime({environment=()=>process.env,loadDrivers=
     if(source.headers.has('origin'))headers.set('origin',source.headers.get('origin'));
     for(const name of ['x-vercel-forwarded-for','x-forwarded-for','x-real-ip','user-agent'])if(source.headers.has(name))headers.set(name,source.headers.get(name));
     const sessionResponse=await service.handle(new Request(config.origin+'/api/session',{headers}),'session');
-    if(!sessionResponse.ok)throw new WorkspaceError(sessionResponse.status>=500?503:401,'AUTH_REQUIRED','로그인 상태를 확인할 수 없습니다. 다시 로그인해 주세요.');
+    if(!sessionResponse.ok){
+     let code;if(sessionResponse.status===403)try{code=(await sessionResponse.json())?.error;}catch{}
+     if(code==='EMAIL_NOT_ALLOWED')throw new WorkspaceError(403,'EMAIL_NOT_ALLOWED','이용이 허용된 이메일을 확인해 주세요.');
+     throw new WorkspaceError(sessionResponse.status>=500?503:401,'AUTH_REQUIRED','로그인 상태를 확인할 수 없습니다. 다시 로그인해 주세요.');
+    }
     const identity=await sessionResponse.json();if(identity.authenticated!==true||!identity.userId)throw new WorkspaceError(401,'AUTH_REQUIRED','로그인해 주세요.');
     const response=await operation(client,{userId:identity.userId,email:identity.email});
     if(response.status>=400){await client.query('ROLLBACK');return response;}

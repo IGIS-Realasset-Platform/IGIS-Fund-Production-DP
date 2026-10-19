@@ -1,0 +1,87 @@
+{
+  "schemaVersion": "auth114-verification-v1",
+  "version": "0.11.4",
+  "asOf": "2026-10-19",
+  "classification": "historical release evidence; not current PERF115 implementation acceptance",
+  "requirementsLedger": "docs/auth-v0114-fix-ledger.json",
+  "target": {
+    "commit": "2eacca947e77f3f6a1d98e60ca59c5a9da5b65cd",
+    "origin": "https://igis-development-project-platform.vercel.app",
+    "productionDeploymentId": "dpl_2oyiApSxoRifRK8YEhxAWU3sivtf",
+    "productionHtmlSha256": "8e8971ad6f1741aa01a9b0b85f2d3568c8c823af88168c546e3ec51e25d37bd0",
+    "productionHtmlBytes": 8164706,
+    "previewDeploymentId": "dpl_ECeT94VyrcTdnwm1nA1n9rWvJQHF",
+    "previewHtmlSha256": "fd0adbfdf51ab65aba77f6675c09f9d696bc27aa3bc7e966e19b1fe76179e3cf",
+    "previewHtmlBytes": 8164735,
+    "frozenCloneHeadAndFilesDirectlyCompared": true,
+    "specBeforeResultAppendSha256": "ec73a051b305d6dd08c693d67a2a5ac7d913510af48044854947ed74ab2f120b"
+  },
+  "sourceFingerprints": {
+    "server/auth-policy.mjs": "55274023b01648d5fa171c812e01c6fd364154b1b75eabfe322764d9f8436d20",
+    "server/email-auth.mjs": "d714e6ffc67b7b6d6ff867f784592926005fcd04f5f179a732c11e01fbafaed4",
+    "server/email-auth-runtime.mjs": "7f855d48c4d55b7336d323b303e9468c4a14fa9734290b53bd497259165cdc3c",
+    "src/cloud-session.js": "e12d4280d7ddc7f8ebb13ee13e05a725538a2f0469ed185416a52b90801ac314",
+    "src/cloud-session.css": "88904c536053ab47e517ba17191a3bfdc7da233b5bf24c1499917cfee058167f",
+    "tests/auth114-session.mjs": "e4cbee1d04489ebfa492c4dba3c47ae613f01db0972a8e743e3cd68f55b2cedb",
+    "tests/cloud-session-auth114.mjs": "baddf1826d76ba054e60753be91c5f3dd723f557a81aaebefbf872e2ea85f744",
+    "tests/auth114-independent.mjs": "7fb8347bbbbea8835bec232f03837a979df20974b502717975de77f2725118d9"
+  },
+  "evidence": {
+    "server-red": {"localPath": ".build/deployment-20261019/backend/session-red-1792374578148.json", "sha256": "7ef283aac85e180dac7e70668c795340e5de0bb340f5bf8f69cf8452cef34c36", "status": "expected-product-contract-failure", "passed": 3, "failed": 13, "exitCode": 1},
+    "server-green": {"localPath": ".build/deployment-20261019/backend/session-green-1792374623130.json", "sha256": "cf9c642c67274be59c585c186619ca817eef01cdd0f02123230d180e24176f8e", "status": "passed", "passed": 16, "failed": 0, "exitCode": 0},
+    "independent": {"localPath": ".build/deployment-20261019/auth114-qa/verification.json", "sha256": "15f1ff238b215fa49bc4550b412466ff02b36d97de6d7300716e53e4d93007ef", "status": "passed", "passed": 199, "failed": 0, "suites": 18},
+    "frontend": {"testPath": "tests/cloud-session-auth114.mjs", "sourceSha256": "baddf1826d76ba054e60753be91c5f3dd723f557a81aaebefbf872e2ea85f744", "resultEvidence": "independent", "passed": 10, "failed": 0},
+    "postgres": {"localPath": ".build/deployment-20261019/auth114-pg-probe-1792374896794.json", "sha256": "1cee0d5267f510189675ca67a0c7dd1c5a5805a21851b8c6e67c59fd687ef265", "scriptLocalPath": ".build/deployment-20261019/auth114-pg-probe.mjs", "scriptSha256": "5467807d650b79cf2f95b6607d141da601fb4ee27c7b42b1bd50a8ef30eee538", "status": "passed", "passed": 17},
+    "synthetic-edge": {"localPath": ".build/deployment-20261019/browser/auth114-synthetic-third/evidence.json", "sha256": "8b4912c079da355849eac6c48874e5737ca06bf06d1e4f26abdd206580497efa", "reviewLocalPath": ".build/deployment-20261019/browser/auth114-synthetic-third/independent-review.json", "reviewSha256": "97b4a3861b4a0fd63e7ce7da1af45cb3542c9b77766dc87678d24fbf645dfb26", "status": "passed"},
+    "production-edge": {"localPath": ".build/deployment-20261019/browser/auth114-production/evidence.json", "sha256": "9941bba3e8e4ad26185080b6dc10eafb5337c43d65dbe72d012cf4fbf72adbfd", "reviewLocalPath": ".build/deployment-20261019/browser/auth114-production/independent-review.json", "reviewSha256": "e7aac9bff6638d24605e78165060bace30d48feab1aab87531d854dd0f8f188d", "status": "passed-with-favicon-warning", "viewports": ["1280x800", "1440x900", "1600x1000", "390x844"]},
+    "public-http": {"localPath": ".build/deployment-20261019/auth114-public-surface.json", "sha256": "72db37fc355597781388fd01bd6dd83c914dc694963fbe44d45972cf26df286c", "status": "passed", "checks": 7, "requests": 6},
+    "legacy-alias-boundaries": {"localPath": ".build/deployment-20261019/alias-boundaries.json", "sha256": "1f3f3c0ad57f9b0d6652e8ad2ae9133f88bd6e22ab9fffe2348d9668d85edad7", "status": "passed-historical-public113-evidence", "protectedHistoricalAliases": 4, "legacyAliasHttp": 307}
+  },
+  "executionBoundaries": {
+    "automated": {"actualDatabaseUsed": false, "actualEmailSent": false, "realUserDataUsed": false, "externalRequests": 0, "fileSetBeforeSha256": "77dc0de64cf2c6542dc724ebdae2b491aa54595f799c631924a74f5f7b80aa2a", "fileSetAfterSha256": "77dc0de64cf2c6542dc724ebdae2b491aa54595f799c631924a74f5f7b80aa2a", "fileCount": 261},
+    "actualPostgres": {"actualBetterAuthPostgresAdapter": true, "syntheticIdentity": true, "syntheticSender": true, "realEmailSent": false, "signupPasswordLength": 15, "rejectedSignupLengths": [7, 16], "defaultExpirySeconds": 28800, "rememberedExpirySeconds": 604800, "matchingPersistentSecureCookie": true, "lookupDoesNotRefreshStoredExpiries": true, "logoutRevokesOnlyTestedSession": true, "currentAllowlistEnforced": true, "outerRollbackVerified": true, "workspaceUnchanged": true, "realUserCredentialChanged": false, "ddlExecuted": false},
+    "syntheticEdge": {"nativeEdge": true, "sameOriginSyntheticApis": true, "cookieHeaderAndServerSessionSetRequired": true, "newContextRestored": true, "additionalLoginPostAfterRestore": 0, "logoutCookieAndRememberedEmailRemoved": true, "actualNetworkUsed": false, "actualDatabaseUsed": false, "actualUserCookieUsed": false},
+    "productionEdge": {"nativeEdge": true, "chromiumSandbox": true, "actualNetwork": true, "networkMocks": 0, "anonymousContexts": 4, "authenticationBypass": false, "existingProfileUsed": false, "actualUserCookieCopied": false, "actualUserPasswordUsed": false, "mailboxAccessed": false, "positiveAuthenticatedUserFlowAutomated": false, "htmlExactAtAllFourViewports": true, "expectedUnlistedLogin403": 2, "favicon404Warnings": 1, "unexpectedApplicationHttpOrConsoleErrors": 0, "requestFailures": 0, "pageErrors": 0},
+    "publicHttp": {"cookies": false, "authorization": false, "vercelBypass": false, "retries": 0, "publicRoot200": true, "anonymousSession200": true, "anonymousWorkspace401": true, "anonymousNotionSource401": true, "unlistedEmail403": true, "previewVercelProtection302": true, "providerLogRead": false}
+  },
+  "userConfirmation": {
+    "source": "current-conversation-user-messages",
+    "signupAndPasswordReloginConfirmed": true,
+    "selectedRememberLoginAndReconnectionConfirmed": true,
+    "passwordOrOtpRecordedHere": false,
+    "actualSevenDayElapsedObservation": false,
+    "additionalRequest": "초기 로그인 화면에서 실제 업무 화면으로 넘어가는 지연은 PERF115 후속으로 처리하며 유지 성공과 구분"
+  },
+  "readOnlyMetadataObservation": {
+    "source": "root historical Supabase tool observation in current conversation",
+    "separateLocalJsonRetained": false,
+    "initialAdminActiveSevenDaySessionExists": true,
+    "tokenPasswordHashOrCookieValuesRead": false,
+    "notCountedAsIndependentSavedArtifact": true,
+    "notCountedAsSevenDaysElapsed": true
+  },
+  "preparationFailuresNotCountedAsProductFailures": [
+    {"area": "independent browser-storage fixture", "reason": "removeItem을 backing Map에 연결하지 않아 정리 검사가 실패", "resolution": "동일 기대값으로 fixture 연결 수정 후 재실행"},
+    {"area": "independent clock fixture", "reason": "미래 시각 now+1ms가 실행 중 과거가 됨", "resolution": "미래 반례를 now+1일로 고정하고 동일 계약 재실행"},
+    {"area": "first synthetic Edge", "reason": "축약 workspace fixture와 단계 계측 부재", "result": "원본 실패 보존, 성공으로 계산하지 않음"},
+    {"area": "second synthetic Edge", "reason": "lexical App을 globalThis.App으로 잘못 관찰한 helper 오류", "result": "제품 현황 렌더와 관찰 준비 실패를 구분하고 수정 후 재실행"}
+  ],
+  "nonblockingObservations": [
+    "실제 정식 Edge에서 favicon.ico 404를 관찰했으나 로그인 기능 예외와 구분",
+    "7자 오류를 유효 길이로 수정해도 재제출 전까지 기존 길이 오류가 남는 관찰",
+    "미허용 이메일 403 문구가 필드 아래와 카드 하단에 중복되는 관찰"
+  ],
+  "blockedOrNotVerified": {
+    "vercelBuildLogs": "403 unavailable; not declared clean",
+    "vercelRuntimeLogs": "403 unavailable; not declared clean",
+    "actualSmtpProviderLog": "not read",
+    "allTwelveEmployeesPositiveSignup": "not executed",
+    "actualSevenDayElapsedUserExperience": "not observed",
+    "nativeExcelApplication": "not executed by this verification",
+    "finalCrossVersionExcelAndGitSynchronization": "pending AUTH114-06",
+    "startupPerformance": "PERF115 followup, not accepted by AUTH114 evidence",
+    "allBusinessScreensAndPdfRegression": "not claimed from this authentication-only evidence"
+  },
+  "privacy": {"allowlistValuesPublished": false, "passwordOtpCookieOrTokenPublished": false, "secretValuesDecryptedForThisDocumentation": false, "businessPayloadPublished": false, "detailedTracesLocalOnly": true},
+  "completion": {"AUTH114-01": true, "AUTH114-02": true, "AUTH114-03": true, "AUTH114-04": true, "AUTH114-05": true, "AUTH114-06": false, "overallComplete": false}
+}

@@ -1,12 +1,12 @@
 {
-  "version": "0.11.4",
+  "version": "0.11.5",
   "origin": "https://development-project-platform-preview-git-preview-b5dda7-igisra.vercel.app",
-  "htmlSha256": "fd0adbfdf51ab65aba77f6675c09f9d696bc27aa3bc7e966e19b1fe76179e3cf",
-  "bytes": 8164735,
+  "htmlSha256": "ce824a352d415fffab395db0e6157a42a6e7bb71e13c0e7142f9b46c490d3dc1",
+  "bytes": 6097299,
   "notionRequired": false,
   "realProjectDataIncluded": false,
   "mode": "authenticated-private-schema-runtime-with-optional-source",
   "localBuildVerified": true,
-  "actualBrowser": "v0.11.4 candidate: fixed session tests and real PostgreSQL rollback passed; exact browser acceptance recorded separately.",
-  "protectedDeployment": "v0.11.4-candidate-awaiting-remote-verification"
+  "actualBrowser": "v0.11.5 exact Production candidate: native Edge synthetic authentication and twelve alternating startup measurements passed; remote acceptance recorded separately.",
+  "protectedDeployment": "v0.11.5-candidate-awaiting-remote-verification"
 }
