@@ -4,7 +4,14 @@
   "regions": ["icn1"],
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
+  "functions": {
+    "api/maintenance.js": {
+      "maxDuration": 300,
+      "includeFiles": "{server/partner-{ranking-parser-worker,enrichment}.mjs,node_modules/{pdf2json,read-excel-file,fflate,saxen,unzipper-esm,worker-f,graceful-fs,node-int64}/**}"
+    }
+  },
   "rewrites": [
+    {"source":"/api/partner-comments","destination":"/api/reference-data?__reference_route=comments"},
     {"source":"/api/law-search","destination":"/api/law?__law_route=search"},
     {"source":"/api/law-detail","destination":"/api/law?__law_route=detail"},
     {"source":"/api/law-watch","destination":"/api/law?__law_route=watch"},

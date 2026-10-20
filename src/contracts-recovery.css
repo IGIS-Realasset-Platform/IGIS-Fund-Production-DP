@@ -104,14 +104,21 @@
 .dp-partner-panel>.subtabs{padding:0 12px;background:#fff;margin:0;flex:none}
 .dp-partner-panel-body{padding:12px;overflow:auto;min-height:0}
 .dp-partner-panel-body>.panel{margin-bottom:24px}
-.dp-partner-panel-body .table-wrap{max-height:400px}
+.dp-partner-panel-body .table-wrap{max-height:none}
 .dp-partner-panel-body td{white-space:normal;overflow-wrap:anywhere}
 .dp-partner-panel-body .num{white-space:nowrap}
+.dp-partner-archive{min-width:0}.dp-partner-archive .dp-archive-ranking{min-width:820px}.dp-partner-archive .dp-archive-data-table{min-width:760px}.dp-partner-archive td{white-space:normal;overflow-wrap:anywhere}.dp-partner-archive .num{white-space:nowrap}.dp-partner-archive .dp-archive-facts td:first-child{width:28%;min-width:96px;max-width:180px}.dp-archive-prose{white-space:pre-wrap;overflow-wrap:anywhere;margin-top:6px}
+.dp-partner-archive .dp-policy-rates{min-width:600px}.dp-partner-archive .dp-policy-rates th,.dp-partner-archive .dp-policy-rates td{white-space:nowrap;overflow-wrap:normal}
+.dp-partner-archive .dp-policy-rates td:last-child,.dp-partner-archive .dp-policy-rates th:last-child{text-align:right}
+.dp-partner-panel-body .dp-source-credit,.dp-partner-archive .dp-source-credit{min-width:680px}.dp-partner-panel-body .dp-source-credit-candidates,.dp-partner-archive .dp-source-credit-candidates{min-width:760px}.dp-partner-panel-body .dp-source-contracts,.dp-partner-archive .dp-source-contracts{min-width:1000px}
+.dp-source-credit td:first-child,.dp-source-credit td:nth-child(4),.dp-source-credit td:nth-child(5),.dp-source-credit-candidates td:nth-child(2),.dp-source-credit-candidates td:nth-child(5),.dp-source-contracts td:first-child,.dp-source-contracts td:nth-child(5){white-space:nowrap;overflow-wrap:normal}.dp-source-contracts td:nth-child(5),.dp-source-contracts th:nth-child(5){text-align:right}
 .btn.dp-news-title{height:auto;white-space:normal;text-align:left;line-height:1.45;padding:2px 0}
 .dp-news-article h3{font-size:16px;line-height:1.5;margin:0 0 12px}
 .dp-news-article p{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.6;margin:12px 0}
 .dp-local-note{white-space:pre-wrap;min-width:200px;max-width:520px;overflow-wrap:anywhere}
 .dp-unit-summary{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.dp-partner-comment-count{font-size:12px;color:var(--muted);white-space:nowrap}.dp-partner-new,.dp-partner-update{font-size:11px;font-weight:600;color:var(--primary);white-space:nowrap}.dp-partner-update{cursor:help}
+.dp-partner-comments-list{display:grid;gap:12px;max-height:none;overflow:visible}.dp-partner-comment{padding:12px 0;border-bottom:1px solid var(--line)}.dp-partner-comment>div:first-child{font-size:12px;color:var(--muted);margin-bottom:6px}.dp-partner-comment .dp-local-note{white-space:pre-wrap;overflow-wrap:anywhere}.dp-partner-checkbox>span:last-child{display:flex;align-items:center;gap:8px}.dp-partner-checkbox input[type=checkbox]{width:16px;height:16px;margin:0}.dp-partner-source-text{margin:12px 0}.dp-partner-source-text summary{cursor:pointer}.dp-unit-confidence{min-width:0}.dp-unit-confidence>strong{display:block;margin:12px 0 4px}.dp-partner-market>.panel{margin-bottom:16px}
 .dp-unit-chart-wrap{overflow:auto;margin-bottom:12px}
 .dp-unit-chart{display:grid;grid-template-columns:64px minmax(0,1fr);gap:12px;padding:12px 0 4px}
 .dp-unit-y{position:relative;height:172px;color:var(--muted);font-size:14px}

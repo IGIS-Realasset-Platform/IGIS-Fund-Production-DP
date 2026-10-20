@@ -7,7 +7,8 @@ const response=(status,value)=>({ok:status>=200&&status<300,status,json:async()=
 const h=makeHarness(),A=h.A;A.cloudMode=true;A.realMode=true;let calls=[],renders=0,audits=0;A.render=()=>renders++;A.audit=()=>audits++;
 const row={companyKey:'cak:registration:R1',sourceRowId:'cak-rows:2026:R1',company:'출처 전용 업체',rank:1,previous_rank:null,registration_no:'R1',amount_million_krw:100,region:null};
 const snapshot={version:'test-reference',checkedAt:'2026-10-20T05:00:00Z',source:'https://example.invalid/source',groups:[{key:'cak-rows',source:'cak',meta:{latest_year:'2026',title:'독립 원사이트',basis_date:'2026-08-01'},rows:[row]}],market:{series:[{id:'kosis',label:'검증 지수',unit:'지수',frequency:'월',source_name:'원출처',points:[{period:'2026-08',value:138.74}]}]}};
-h.context.fetch=async(url,options)=>{calls.push({url,options});return response(200,url.includes('companyKey=')?{company:{row:{...row,recent_awards:[{project:'확인된 계약',amount_krw:null}],unit_cost_records:[]},officialComments:[{author:'센터',body:'공식 코멘트',meta:'2026-10-20'}]}}:snapshot)};
+const commentCalls=[];
+h.context.fetch=async(url,options)=>{if(url.startsWith('/api/partner-comments')){commentCalls.push({url,options});return response(200,url.includes('mode=summary')?{summaries:[{companyKey:row.companyKey,totalCount:1,onlineCount:0,recent31day:false}],viewer:{email:'kylee@igisam.com'}}:{companyKey:row.companyKey,seedComments:[{author:'센터',body:'공식 코멘트',meta:'2026-10-20'}],legacyOnlineComments:[],onlineComments:[],totalCount:1,onlineCount:0,recent31day:false,nextCursor:null,viewer:{email:'kylee@igisam.com'}});}calls.push({url,options});return response(200,url.includes('companyKey=')?{version:snapshot.version,company:{row:{...row,recent_awards:[{project:'확인된 계약',amount_krw:null}],unit_cost_records:[]},officialComments:[{author:'센터',body:'공식 코멘트',meta:'2026-10-20'}]}}:snapshot)};
 load(h,'reference-data');h.load('partners');A.partners.initialize(A.state);
 const beforeCompanies=JSON.stringify(A.state.companies),beforeMarket=JSON.stringify(A.state.marketSeries);
 assert.equal(calls.length,0,'부트 시 기준정보를 요청하면 안 됩니다.');
@@ -17,6 +18,9 @@ const ranked=A.partners.rankingRows('cak-rows');assert.equal(ranked.length,1);as
 const referenceCompany=ranked[0].company;await A.partners.ensureCompanyDetail(referenceCompany);assert.equal(calls.length,2);assert.equal(A.partners.sourceFor(referenceCompany.sourceMappings[0]).recent_awards[0].project,'확인된 계약');
 A.ui.partnerSelectedId=referenceCompany.id;const html=A.partners.renderCompany();assert.match(html,/공식 코멘트/);assert.doesNotMatch(html,/data-action="partner-company-edit"/);assert.doesNotMatch(html,/data-action="partner-note-add"/);
 assert.throws(()=>A.partners.upsertSalesLine(referenceCompany.id,{}),/읽기 전용/);assert.equal(A.partners.marketSeries().find(s=>s.id==='reference:kosis').points[0].value,138.74);assert.equal(audits,0);
+// Settle the new comment-only lazy reads before installing the notification-only
+// boundary below; do not count them as notification requests/PATCH operations.
+await A.partners.comments.loadSummaries();await A.partners.comments.load(row.companyKey);
 
 const projectA=A.state.projects[0].id,projectB=A.state.projects[1].id;A.ui.projectId=projectB;A.state.notifications=[{id:'n1',title:'프로젝트 A 알림',at:'2026-10-20T00:00:00Z',target:{projectId:projectA,view:'cost'}},{id:'legacy',title:'과거 공용 삭제',dismissed:true,target:{projectId:projectA}}];
 let patches=0,release,mode='success';calls=[];

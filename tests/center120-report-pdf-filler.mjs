@@ -1,0 +1,16 @@
+import assert from 'node:assert/strict';
+import {makeHarness} from './recovery-harness.mjs';
+const {A}=makeHarness({modules:['core','report-form'],seed:{projects:[]}}),tests=[];
+const test=(n,f)=>tests.push([n,f]);
+function fixture(){
+ const model=A.reportForm.createModel({id:'PDFQA',basic:{operator:'격리사업'},reportProgress:{preparation:[{id:'actual-history',date:'2026-10-20',title:'실제 추진경과',content:'보존할 실제 원문'}]}},'plan','2026-10-20'),history=model.blocks.find(b=>b.id==='4-1-history'),lead={id:'prior',basePage:3,title:'이전 표',cols:[100],headers:[],rows:[{cells:[{text:'원문 선행표',span:1}],height:690}]};
+ model.blocks=[lead,history];return {model,history,metrics:{prior:{head:0,rows:[690]},'4-1-history':{head:20,rows:[10,10,10]}}};
+}
+const rows=p=>p.flatMap(x=>x.fragments.flatMap(f=>f.rows));
+test('작성본의 마지막 기계 생성 빈행만 새 계속쪽을 만들지 않는다',()=>{const {model,history,metrics}=fixture(),original=JSON.stringify(model),pages=A.reportForm.paginate(model,metrics);assert.equal(pages.length,1);assert(rows(pages).some(r=>r.id==='actual-history'));assert.equal(rows(pages).filter(r=>history.rows.includes(r)).length,2,'앞쪽 실제 행과 빈 입력칸은 유지');assert.equal(JSON.stringify(model),original,'VM과 Node의 prototype 차이가 아니라 원본 모든 내용의 불변을 비교한다');});
+test('빈 공식 양식의 기본6쪽과 모든 행을 유지한다',()=>{const m=A.reportForm.createModel({},'plan','',{blank:true}),p=A.reportForm.paginate(m);assert.equal(p.length,6);assert.equal(rows(p).length,m.blocks.reduce((n,b)=>n+(b.rows?.length||0),0));});
+test('자동 빈행에 사용자 편집값·명시 clear가 있으면 계속쪽에서 보존한다',()=>{for(const text of ['사용자 입력','0','2026-10-20','']){const {model,history,metrics}=fixture();history.rows[2].cells[0].text=text;history.rows[2].cells[0].overridden=true;const p=A.reportForm.paginate(model,metrics);assert.equal(p.length,2,text);assert(rows(p).includes(history.rows[2]));}});
+test('출처 ID가 있는 빈 실제 행과 출처가 없는 임의 빈행을 자동 padding으로 오판하지 않는다',()=>{for(const mutation of [r=>{r.id='explicit-record';r.sourceKey='progress-preparation:explicit-record';},r=>{delete r.generatedPadding;}]){const {model,history,metrics}=fixture();mutation(history.rows[2]);assert.equal(A.reportForm.paginate(model,metrics).length,2);}});
+test('뒤에 실제 행이 있거나 표 자체 첫 빈칸이면 생략하지 않는다',()=>{const {model,history,metrics}=fixture();history.rows.push({id:'later',sourceKey:'progress:later',cells:[{text:'뒤 실제 원문',span:3}]});metrics['4-1-history'].rows.push(10);const p=A.reportForm.paginate(model,metrics);assert.equal(p.length,2);assert(rows(p).some(r=>r.id==='later'));const x=fixture();x.model.blocks[0].rows[0].height=720;x.metrics.prior.rows=[720];x.history.rows=x.history.rows.slice(1);x.metrics['4-1-history'].rows=[10,10];const blankPages=A.reportForm.paginate(x.model,x.metrics);assert.equal(blankPages.length,2);assert(blankPages[1].fragments.some(f=>f.block.id==='4-1-history'&&f.rows.length));});
+test('이전 모델의 명시 padding 표식이 없는 과거 행은 그대로 둔다',()=>{const {model,history,metrics}=fixture();for(const r of history.rows)delete r.generatedPadding;const p=A.reportForm.paginate(model,metrics);assert.equal(p.length,2);assert.equal(rows(p).length,4);});
+let failed=0;for(const[n,f]of tests){try{f();console.log('PASS '+n);}catch(e){failed++;console.log('FAIL '+n+' :: '+e.message);}}console.log(JSON.stringify({passed:tests.length-failed,failed,verification:'pure paginator; actual PDF and official coordinates remain independent'}));if(failed)process.exitCode=1;

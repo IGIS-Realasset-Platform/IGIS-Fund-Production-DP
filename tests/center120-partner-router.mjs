@@ -1,0 +1,16 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import * as endpoint from '../api/reference-data.js';
+assert.equal(typeof endpoint.POST,'function','원사이트 댓글 추가의 실제 API 진입점이 필요합니다.');
+const {createReferenceRouter}=await import('../server/reference-router.mjs');
+const calls=[],run=createReferenceRouter(async(request,action)=>{calls.push({action,url:request.url,method:request.method,body:request.method==='POST'?await request.json():null});return Response.json({action});});
+let passed=0;const check=async(name,fn)=>{await fn();passed++;console.log('PASS '+name);};
+await check('legacy reference GET keeps exact query and action',async()=>{const r=await run(new Request('https://app.test/api/reference-data?kind=partners'));assert.equal(r.status,200);assert.equal(calls.at(-1).action,'referenceData');assert.match(calls.at(-1).url,/kind=partners/);});
+await check('public comments alias forwards its body and method without changing actor',async()=>{await run(new Request('https://app.test/api/partner-comments',{method:'POST',headers:{'content-type':'application/json',origin:'https://app.test'},body:JSON.stringify({companyKey:'cak:registration:668',text:'원문 <b>그대로</b>'})}));assert.equal(calls.at(-1).action,'partnerComments');assert.equal(calls.at(-1).method,'POST');assert.equal(calls.at(-1).body.text,'원문 <b>그대로</b>');});
+await check('Vercel rewrite strips only its own route parameter',async()=>{await run(new Request('https://app.test/api/reference-data?__reference_route=comments&companyKey=exact&limit=50'));assert.equal(calls.at(-1).action,'partnerComments');assert.equal(new URL(calls.at(-1).url).searchParams.get('__reference_route'),null);assert.equal(new URL(calls.at(-1).url).searchParams.get('companyKey'),'exact');});
+await check('conflicting route is rejected before running a service',async()=>{const before=calls.length,r=await run(new Request('https://app.test/api/partner-comments?__reference_route=reference'));assert.equal(r.status,400);assert.equal(calls.length,before);});
+await check('unknown internal route never executes an unrelated action',async()=>{const before=calls.length,r=await run(new Request('https://app.test/api/reference-data?__reference_route=deleteEverything'));assert.equal(r.status,404);assert.equal(calls.length,before);});
+await check('duplicate internal selector is rejected',async()=>{const before=calls.length,r=await run(new Request('https://app.test/api/reference-data?__reference_route=comments&__reference_route=reference'));assert.equal(r.status,400);assert.equal(calls.length,before);});
+await check('unrelated endpoint cannot use the reference router',async()=>{const r=await run(new Request('https://app.test/api/session?__reference_route=comments'));assert.equal(r.status,404);});
+await check('new comments URL reuses the existing deployment function',async()=>{const config=JSON.parse(fs.readFileSync('vercel.json','utf8')),route=config.rewrites.find(r=>r.source==='/api/partner-comments');assert.equal(route.destination,'/api/reference-data?__reference_route=comments');assert.equal(fs.readdirSync('api').filter(f=>f.endsWith('.js')).length,12);});
+console.log(JSON.stringify({passed,productionRequests:0}));

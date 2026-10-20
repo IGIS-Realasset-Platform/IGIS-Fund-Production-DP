@@ -3,6 +3,7 @@ import {loadProductionDrivers,boundAuthenticationService,databaseConnectionOptio
 import {createWorkspaceHandlers,WorkspaceError,workspaceErrorResponse} from './cloud-storage.mjs';
 import {readOptionalSource} from './notion-source.mjs';
 import {createCenterHandlers} from './center-services.mjs';
+import {createPartnerCommentsHandler} from './partner-comments.mjs';
 
 export function createWorkspaceRuntime({environment=()=>process.env,loadDrivers=loadProductionDrivers,createService=boundAuthenticationService,createHandlers=createWorkspaceHandlers,optionalSource=readOptionalSource}={}){
  return async function runWorkspaceRequest(request,action){
@@ -37,6 +38,7 @@ export function createWorkspaceRuntime({environment=()=>process.env,loadDrivers=
     if(request.headers.has('origin')&&request.headers.get('origin')!==config.origin)throw new WorkspaceError(403,'ORIGIN_NOT_ALLOWED','허용된 화면에서 다시 요청해 주세요.');
     return await withTransaction(request,async(client,user)=>{const result=await client.query('SELECT 1 FROM development_project_platform.platform_admins WHERE user_id=$1',[user.userId]);if(!result.rows.length)throw new WorkspaceError(403,'WORKSPACE_FORBIDDEN','보충자료를 조회할 권한이 없습니다.');return optionalSource(request);});
    }
+   if(action==='partnerComments')return await createPartnerCommentsHandler({withTransaction,origin:config.origin})(request);
    const handlers=['notifications','referenceData','costSnapshots','lawSearch','lawDetail','lawWatch','lawRegional'].includes(action)?createCenterHandlers({withTransaction,origin:config.origin}):createHandlers({withTransaction,origin:config.origin});
    if(!['workspace','projectAccess','notifications','referenceData','costSnapshots','lawSearch','lawDetail','lawWatch','lawRegional'].includes(action))return Response.json({error:'NOT_FOUND'},{status:404});
    return await handlers[action](request);

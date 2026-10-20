@@ -593,12 +593,16 @@
       "acceptance": "자료 복구를 넘어 원사이트 제공기능과 수집/갱신/예약/관리 자동화를 원본 코드·운영근거로 목록화해 이관. 댓글/권한/관리동작 포함 여부 실제대조. 원본 운영·DB·배포 변경/비밀파일·키 복사 금지. 미확보 원본을 추측 구현/완료로 처리하지 않음",
       "completed": false,
       "implementation": {
-        "status": "pending_source_inventory",
+        "status": "implemented_partial",
         "files": [
-          "docs/center-20261020-spec.md",
-          "docs/center-20261020-fix-ledger.json"
+          "src/partners.js",
+          "server/partner-comments.mjs",
+          "server/reference-router.mjs",
+          "server/partner-collector.mjs",
+          "server/partner-rankings.mjs",
+          "server/partner-ranking-parser-worker.mjs"
         ],
-        "boundary": "추가 범위 확정·원본 저장소/스케줄러 탐색 단계. 03/15의 스냅샷 복구는 선행 부분 단계이며 전체 이관 미완료"
+        "boundary": "사용자가 원본 자동화가 없다고 확인하여 동등 기능을 자체 구현. 공개4분야/KICT/RSS·새 댓글 계약/전용DB 적용은 일부 실행, 운영 연결·KACEM/미설정 API·신용/단가·정식 검수는 미완료"
       },
       "automatic": {
         "status": "unverified",
@@ -622,15 +626,150 @@
         "secretValuesRead": false,
         "originalServiceModified": false
       }
+    },
+    {
+      "id": "CENTER120-18",
+      "title": "법령 화면 상단 핵심·부가 도구 정리",
+      "acceptance": "법령 목록/탭이 중심이며 검색·사업 확인목록·새로고침은 제목 우측. 중복 기준일 설명 제거·초기 미조회 상태를 없음으로 위장하지 않음",
+      "implementation": {
+        "status": "in_progress",
+        "files": [
+          "src/core.js",
+          "src/law-monitor.js",
+          "src/legal.js",
+          "src/permit-map.css"
+        ]
+      },
+      "automatic": {
+        "status": "passed_partial",
+        "tests": [
+          "tests/center120-law-toolbar.mjs"
+        ]
+      },
+      "browser": {
+        "status": "unverified",
+        "evidence": []
+      },
+      "deployment": {
+        "status": "unverified",
+        "evidence": []
+      }
+    },
+    {
+      "id": "CENTER120-19",
+      "title": "단일 표 화면과 복수 컴포넌트 화면의 스크롤 책임",
+      "acceptance": "단일 표는 가용높이에 표만 세로 스크롤, 복수 컴포넌트는 페이지만 세로 스크롤. 가로 표 스크롤·짧은 뷰포트·끝행·키보드·포커스·펼침 유지",
+      "implementation": {
+        "status": "in_progress",
+        "files": [
+          "src/workspace-ux.js",
+          "src/workspace-ux.css"
+        ]
+      },
+      "automatic": {
+        "status": "pending",
+        "tests": [
+          "tests/center120-product-browser.mjs"
+        ]
+      },
+      "browser": {
+        "status": "unverified",
+        "evidence": []
+      },
+      "deployment": {
+        "status": "unverified",
+        "evidence": []
+      }
+    },
+    {
+      "id": "CENTER120-20",
+      "title": "전체 탭·컴포넌트·팝업·버튼의 정렬·간격·불필요 요소 점검",
+      "acceptance": "현재 업무 기능·금액·입력검증은 보존하며 실제 화면에서 중복 안내/태그·간격·정렬·잘림을 관측해 연결 결함만 수정. 관측/실행/차단·미검증 분모 분리",
+      "implementation": {
+        "status": "in_progress",
+        "files": [
+          "src/workspace-ux.js",
+          "src/workspace-ux.css",
+          "src/core.js"
+        ]
+      },
+      "automatic": {
+        "status": "pending",
+        "tests": [
+          "tests/center120-product-browser.mjs"
+        ]
+      },
+      "browser": {
+        "status": "unverified",
+        "evidence": []
+      },
+      "deployment": {
+        "status": "unverified",
+        "evidence": []
+      }
+    },
+    {
+      "id": "CENTER120-21",
+      "title": "계약·문서·인허가·조치자료 경로의 탐색기 열기",
+      "acceptance": "Windows 로컬/UNC와 웹 URL을 구별. 설치 없는 공식 Edge 정책·신뢰범위 및 기본차단을 확인하며 사용자 승인 없는 설치/레지스트리/정책 변경과 보안우회 금지",
+      "implementation": {
+        "status": "research_complete_implementation_unresolved",
+        "files": [
+          "docs/center-20261020-folder-opening-options.md"
+        ]
+      },
+      "automatic": {
+        "status": "pending",
+        "tests": []
+      },
+      "browser": {
+        "status": "unverified",
+        "evidence": []
+      },
+      "deployment": {
+        "status": "unverified",
+        "evidence": []
+      }
+    },
+    {
+      "id": "CENTER120-22",
+      "title": "인허가 상세와 모든 팝업의 단일 세로 스크롤",
+      "acceptance": "기본 상세/조치계획/연결 인허가는 내부 표 높이 제한 없이 팝업 본문만 스크롤. 헤더·하단 버튼 고정, 의도된 단일 내부 목록은 부모 스크롤 제거. 끝행/하단/부모복귀 검수",
+      "implementation": {
+        "status": "in_progress",
+        "files": [
+          "src/workspace-ux.js",
+          "src/workspace-ux.css",
+          "src/core.js"
+        ]
+      },
+      "automatic": {
+        "status": "pending",
+        "tests": [
+          "tests/center120-product-browser.mjs"
+        ]
+      },
+      "browser": {
+        "status": "unverified",
+        "evidence": []
+      },
+      "deployment": {
+        "status": "unverified",
+        "evidence": []
+      }
     }
   ],
-  "requirementsCount": 17,
-  "scopeUpdate": "최초 CENTER120-01~09에 후속 CENTER120-10~17 추가. 제품/자동검사/실제화면/원격배포/자연예약 실행을 구분",
+  "requirementsCount": 22,
+  "scopeUpdate": "최초 CENTER120-01~09에 후속 CENTER120-10~22 추가. 제품/자동검사/실제화면/원격배포/자연예약 실행을 구분",
   "currentProductionRelease": "0.11.5",
   "remoteCandidate": {
-    "deploymentId": "dpl_7cj6e59yJ1C75k46VqXygD1ob6HH",
-    "htmlSha256": "0cb3a79f5350302c935bce57f06259b0585bce6fe1df7439c02c0d6732a5063e",
-    "newFollowupRequirementsDeployed": false,
+    "deploymentId": "dpl_36GEyNG1UQHe3umdB9CdEe2Bddq2",
+    "sourceCommit": "c4a75075060f5b4a35aee9fd185b666a633c6b0e",
+    "approvedHtmlSha256": "b486c21aa333e598d245b42d169fd753214eb6999db520a22fa13bd7a431eba0",
+    "remoteResponseSha256": "2653334eb401382538c915c2675c468da8c539daeb01e4ac09c0890b24a1f7f3",
+    "followup10to16Deployed": true,
+    "sourceMigration17Deployed": false,
+    "latestUx18to22Deployed": false,
     "lawCollectionVerified": true,
     "naturalScheduledRunVerified": false
   },
@@ -638,5 +777,6 @@
     "revision": 21,
     "md5": "d9ac740e80414491cb8af38e80dd31fb",
     "evidence": "docs/center-20261020-database-verification.json"
-  }
+  },
+  "requirementRange": "CENTER120-01..22"
 }

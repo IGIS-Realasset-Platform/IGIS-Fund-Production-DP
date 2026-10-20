@@ -8,7 +8,9 @@
     "better-auth":"1.7.8",
     "kysely":"0.29.6",
     "nodemailer":"10.1.1",
-    "pg":"8.23.1"
+    "pg":"8.23.1",
+    "pdf2json":"4.1.0",
+    "read-excel-file":"9.3.12"
   },
   "scripts": {
     "build": "node scripts/build-vercel.mjs"

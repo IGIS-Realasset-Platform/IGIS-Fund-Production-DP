@@ -1,0 +1,26 @@
+/* One vertical scroll owner. Existing table widths, sticky headers and colors stay. */
+.dp-app .main-scroll[data-ux-scroll-mode="page"]{overflow:auto}
+.dp-app .main-scroll[data-ux-scroll-mode="table"]{overflow:hidden}
+.dp-app .content[data-ux-scroll-mode]{min-height:0;overflow:visible}
+.dp-app .content[data-ux-scroll-mode] .table-wrap:not([data-ux-primary-table]),
+.dp-partner-panel-body .table-wrap{max-height:none;overflow-x:auto;overflow-y:visible}
+[data-ux-natural-y]{max-height:none!important;height:auto!important;overflow-y:visible!important}
+[data-ux-primary-table]{height:var(--ux-table-height);max-height:var(--ux-table-height)!important;min-height:0;overflow:auto;overscroll-behavior:contain}
+.dp-dialog[open][data-ux-dialog-scroll]{display:flex;flex-direction:column;max-height:92dvh;overflow:hidden}
+.dp-dialog[data-ux-dialog-scroll]>.dialog-head,.dp-dialog[data-ux-dialog-scroll]>.dialog-foot{flex:none}
+.dp-dialog[data-ux-dialog-scroll]>.dialog-body{min-height:0;flex:1 1 auto;max-height:var(--ux-dialog-body-budget);overflow:auto;scroll-padding-bottom:var(--ux-form-footer-space,0px)}
+.dp-dialog[data-ux-dialog-scroll] .dialog-body .table-wrap{max-height:none;overflow-x:auto;overflow-y:visible}
+.dp-dialog[data-ux-dialog-scroll="inner"]>.dialog-body{overflow:hidden;max-height:none}
+.dp-dialog[data-ux-dialog-scroll="inner"] .cbs-catalog-shell{height:var(--ux-shell-height);max-height:var(--ux-shell-height);min-height:0}
+.dp-dialog[data-ux-dialog-scroll="inner"] .cbs-catalog-list>.table-wrap{overflow:visible}
+.dp-dialog[data-ux-dialog-scroll="inner"] .notice-list-scroll{max-height:var(--ux-inner-height);overflow:auto}
+.dp-dialog[data-ux-dialog-scroll] #app-form>.dialog-foot{position:sticky;bottom:-12px;z-index:5;background:var(--surface,#fff);margin-top:12px}
+.dp-dialog.dp-notification-dialog[data-ux-dialog-scroll]{max-height:80vh}
+.dp-documents [data-ux-preview-scroll]{overflow:auto}
+/* On narrow screens, a saved wide name column must not cover every amount.
+   Only horizontal pinning changes; table widths and vertical header pinning stay. */
+@media(max-width:600px){
+ .cbs-recovery table[data-testid="cost-detail-table"] th:nth-child(-n+2),
+ .cbs-recovery table[data-testid="cost-detail-table"] td:nth-child(-n+2){left:auto!important}
+ .cbs-recovery table[data-testid="cost-detail-table"] td:nth-child(-n+2){position:relative!important}
+}

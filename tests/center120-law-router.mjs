@@ -8,5 +8,5 @@ assert.equal((await router(new Request('https://qa.invalid/api/law?__law_route=w
 assert.equal((await router(new Request('https://qa.invalid/api/law-watch?__law_route=search'))).status,400);
 assert(fs.readdirSync('api').filter(x=>/\.(js|mjs|ts)$/.test(x)).length<=12);
 // Regional read-only lookup adds an alias, never another Vercel Function.
-const config=JSON.parse(fs.readFileSync('vercel.json'));assert.deepEqual(config.crons,[{path:'/api/maintenance',schedule:'0 23 * * *'}]);assert.equal(config.rewrites.length,4);assert(config.rewrites.some(r=>r.source==='/api/law-regional'&&r.destination==='/api/law?__law_route=regional'));
+const config=JSON.parse(fs.readFileSync('vercel.json'));assert.deepEqual(config.crons,[{path:'/api/maintenance',schedule:'0 23 * * *'}]);assert.equal(config.rewrites.filter(r=>r.source.startsWith('/api/law-')).length,4);assert(config.rewrites.some(r=>r.source==='/api/law-regional'&&r.destination==='/api/law?__law_route=regional'));
 console.log('center120 law aliases, methods, body, auth headers, whitelist, 12-function limit and daily schedule: 9 passed');
