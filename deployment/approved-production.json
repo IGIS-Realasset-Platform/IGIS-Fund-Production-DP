@@ -1,10 +1,10 @@
 {
-  "version":"0.11.5",
+  "version":"0.12.0",
   "origin":"https://igis-development-project-platform.vercel.app",
-  "htmlSha256":"6094808a98008c388f67f00ee8a178ac10d9528da207cca5c5e18705ba743c6d",
-  "bytes":6097254,
-  "status":"corrected-final-local-build-public-html-and-native-edge-four-viewport-verified",
-  "productionDeploymentId":"dpl_Eahucd6iMGDNoEKFhVuHSbRxB2pr",
+  "htmlSha256":"ed5def71ef256bf04e0386f301ae7f50c31d07a745b13c0ea5510752ec270a7a",
+  "bytes":6406957,
+  "status":"staged-production-artifact-approved-public-domain-assignment-and-actual-acceptance-pending",
+  "previousProductionDeploymentId":"dpl_Eahucd6iMGDNoEKFhVuHSbRxB2pr",
   "privateSourceIncluded":false,
   "humanPasswordEnrollmentVerified":true
 }

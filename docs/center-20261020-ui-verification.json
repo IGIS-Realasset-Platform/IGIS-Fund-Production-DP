@@ -1,5 +1,6 @@
 {
   "asOf":"2026-10-20",
+  "latestChecklist":{"rows":442,"fields":5304,"checked":367,"unchecked":75,"output":"outputs/center-20261020/개발사업관리플랫폼_요구사항_체크리스트_v0.12.0_수집화면검수결과.xlsx","sha256":"69577737d78b1b313872dc4d442544ddf5d82e226dfc6cac74eb6ba53f35b598","markdownSha256":"21f8b2ec927a592fc293fcd7d755b6178628c51a939ec9210502444633bb4a37","reimportAllFieldsMatched":true,"old420BodyCheckStyleAndSheetFeaturesPreserved":true,"pngRangesVisuallyInspected":9,"authorAndReimportExit":0,"renderProcessExitAfterSavingAllImages":1,"nativeExcel":false},
   "status":"multi-cohort-pinned-UI-and-output-verified-release-and-live-business-acceptance-separated",
   "requirements":["CENTER120-18","CENTER120-19","CENTER120-20","CENTER120-22"],
   "html":{"path":".build/center-20261020/candidate-09-ux-local.html","sha256":"2171d3469051f6855af3e3a4751a336a0d88a7af9d9b8b371f04fd7aa3605b6e","bytes":6373246,"localQa":true,"deployed":false},

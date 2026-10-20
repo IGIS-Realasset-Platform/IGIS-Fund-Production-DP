@@ -27,8 +27,12 @@
         "boundary": "관련 집중·회귀 검사를 수행했으나 최종 HTML/실DB/원격 전체 업무·자연 예약 실행을 대신하지 않습니다."
       },
       "browser": {
-        "status": "unverified",
-        "evidence": []
+        "status": "passed_partial",
+        "evidence": [
+          "docs/center-20261020-ui-verification.json",
+          "docs/center-20261020-database-verification.json"
+        ],
+        "boundary": "실제 소유자 A/B/C1원 저장·재접속·복원, 나머지 회원/실제 동시편집 별도"
       },
       "deployment": {
         "status": "unverified",
@@ -87,9 +91,12 @@
         "boundary": "프론트/변환기 집중검사 통과. 서버/실DB/원격 최종본은 별도"
       },
       "browser": {
-        "status": "unverified",
-        "evidence": [],
-        "boundary": "과거 부분증거는 보존하며 최종 생성 HTML의 현재 요구 검수는 별도입니다.",
+        "status": "passed_partial",
+        "evidence": [
+          "docs/center-20261020-ui-verification.json",
+          "docs/center-20261020-database-verification.json"
+        ],
+        "boundary": "실제 후보18 업체순위·상세·기존댓글 조회와 독립 원본/DB 보존. 전체업체 모든 버튼 아님",
         "historicalEvidence": [
           {
             "path": ".build/center120-interface-browser/2026-10-20T05-43-22-031Z/verification.json",
@@ -141,9 +148,12 @@
         "boundary": "클라이언트 집중/기존 회귀 통과. 개인상태 미조회 시 숫자배지 미표시 반례 추가·부트 추가HTTP0. 원격 최종본 미검증"
       },
       "browser": {
-        "status": "unverified",
-        "evidence": [],
-        "boundary": "과거 부분증거는 보존하며 최종 생성 HTML의 현재 요구 검수는 별도입니다.",
+        "status": "passed_partial",
+        "evidence": [
+          "docs/center-20261020-ui-verification.json",
+          "docs/center-20261020-database-verification.json"
+        ],
+        "boundary": "실제 목록→상세→목록→닫기·개인읽음 경로; 실제 삭제/다른회원은 별도",
         "historicalEvidence": [
           {
             "path": ".build/center120-interface-browser/2026-10-20T05-43-22-031Z/verification.json",
@@ -167,7 +177,10 @@
           "src/cbs.js",
           "src/cost-snapshots.js",
           "api/cost-snapshots.js",
-          "server/center-services.mjs"
+          "server/center-services.mjs",
+          "src/audit-view.js",
+          "src/core.js",
+          "src/recovery-views.js"
         ]
       },
       "automatic": {
@@ -180,8 +193,12 @@
         "boundary": "관련 집중·회귀 검사를 수행했으나 최종 HTML/실DB/원격 전체 업무·자연 예약 실행을 대신하지 않습니다."
       },
       "browser": {
-        "status": "unverified",
-        "evidence": []
+        "status": "passed_partial",
+        "evidence": [
+          "docs/center-20261020-ui-verification.json",
+          "docs/center-20261020-database-verification.json"
+        ],
+        "boundary": "실제 소유자 샘플A event1건 저장·목록/비교·원자료보존 확인. ISO기준일/감사상세부모소실은 새교정의 최종 원격검수 필요. 다른회원/승인예산/정기과제는 별도"
       },
       "deployment": {
         "status": "unverified",
@@ -208,8 +225,12 @@
         "boundary": "관련 집중·회귀 검사를 수행했으나 최종 HTML/실DB/원격 전체 업무·자연 예약 실행을 대신하지 않습니다."
       },
       "browser": {
-        "status": "unverified",
-        "evidence": []
+        "status": "passed_partial",
+        "evidence": [
+          "docs/center-20261020-ui-verification.json",
+          "docs/center-20261020-database-verification.json"
+        ],
+        "boundary": "격리 실제 브라우저의9종/재적용/무변경/원금액 보존; 실제 정식 저장 별도"
       },
       "deployment": {
         "status": "unverified",
@@ -384,9 +405,12 @@
         "boundary": "현재 소스의 집중검사이며 실제 최종 화면·원격 배포 검수는 별도입니다."
       },
       "browser": {
-        "status": "unverified",
-        "evidence": [],
-        "boundary": "후속요구 최종 HTML의 실제 화면 검수 대기"
+        "status": "passed_partial",
+        "evidence": [
+          "docs/center-20261020-ui-verification.json",
+          "docs/center-20261020-database-verification.json"
+        ],
+        "boundary": "실제 알림 내용/원업무연결과 미제공 원문 구별; 모든 종류/실제삭제 아님"
       },
       "deployment": {
         "status": "unverified",
@@ -469,9 +493,12 @@
         "boundary": "현재 소스의 집중검사이며 실제 최종 화면·원격 배포 검수는 별도입니다."
       },
       "browser": {
-        "status": "unverified",
-        "evidence": [],
-        "boundary": "후속요구 최종 HTML의 실제 화면 검수 대기"
+        "status": "passed_partial",
+        "evidence": [
+          "docs/center-20261020-ui-verification.json",
+          "docs/center-20261020-database-verification.json"
+        ],
+        "boundary": "정확 게시 HTML의 통제 API 맵·일정·상세 경로; 실제 정식 저장 별도"
       },
       "deployment": {
         "status": "unverified",
@@ -502,9 +529,12 @@
         "boundary": "현재 소스의 집중검사이며 실제 최종 화면·원격 배포 검수는 별도입니다."
       },
       "browser": {
-        "status": "unverified",
-        "evidence": [],
-        "boundary": "후속요구 최종 HTML의 실제 화면 검수 대기"
+        "status": "passed_partial",
+        "evidence": [
+          "docs/center-20261020-ui-verification.json",
+          "docs/center-20261020-database-verification.json"
+        ],
+        "boundary": "실제 소유자 메뉴·격리 일반권한 차단; 실제 일반계정 로그인은 별도"
       },
       "deployment": {
         "status": "unverified",
@@ -536,9 +566,12 @@
         "boundary": "현재 소스의 집중검사이며 실제 최종 화면·원격 배포 검수는 별도입니다."
       },
       "browser": {
-        "status": "unverified",
-        "evidence": [],
-        "boundary": "후속요구 최종 HTML의 실제 화면 검수 대기"
+        "status": "passed_partial",
+        "evidence": [
+          "docs/center-20261020-ui-verification.json",
+          "docs/center-20261020-database-verification.json"
+        ],
+        "boundary": "실제 후보18 최신공식 순위·댓글·정책단가 조회; 원사이트 갱신과 전체자동화 구별"
       },
       "deployment": {
         "status": "unverified",
@@ -577,9 +610,12 @@
         "boundary": "현재 소스의 집중검사이며 실제 최종 화면·원격 배포 검수는 별도입니다."
       },
       "browser": {
-        "status": "unverified",
-        "evidence": [],
-        "boundary": "후속요구 최종 HTML의 실제 화면 검수 대기"
+        "status": "passed_partial",
+        "evidence": [
+          "docs/center-20261020-ui-verification.json",
+          "docs/center-20261020-database-verification.json"
+        ],
+        "boundary": "격리 Edge 현재표·추가후보·무변경·실패복원; 실제 정식 적용 별도"
       },
       "deployment": {
         "status": "unverified",
@@ -610,9 +646,12 @@
         "boundary": "추가 범위 확정·원본 저장소/스케줄러 탐색 단계. 03/15의 스냅샷 복구는 선행 부분 단계이며 전체 이관 미완료"
       },
       "browser": {
-        "status": "unverified",
-        "evidence": [],
-        "boundary": "후속요구 최종 HTML의 실제 화면 검수 대기"
+        "status": "passed_partial",
+        "evidence": [
+          "docs/center-20261020-ui-verification.json",
+          "docs/center-20261020-database-verification.json"
+        ],
+        "boundary": "실제 수집→전용DB append1→화면 조회·부분실패·이전3본/직원글14보존; 새댓글POST/키/TLS/자연예약 미완료"
       },
       "deployment": {
         "status": "unverified",
@@ -647,13 +686,18 @@
         ]
       },
       "browser": {
-        "status": "unverified",
-        "evidence": []
+        "status": "passed_partial",
+        "evidence": [
+          "docs/center-20261020-ui-verification.json",
+          "docs/center-20261020-database-verification.json"
+        ],
+        "boundary": "게시 HTML155상태 및 실제 후보15/18 법령 상단·단일스크롤 확인; 최종 후속교정 핀 별도"
       },
       "deployment": {
         "status": "unverified",
         "evidence": []
-      }
+      },
+      "completed": false
     },
     {
       "id": "CENTER120-19",
@@ -673,13 +717,18 @@
         ]
       },
       "browser": {
-        "status": "unverified",
-        "evidence": []
+        "status": "passed_partial",
+        "evidence": [
+          "docs/center-20261020-ui-verification.json",
+          "docs/center-20261020-database-verification.json"
+        ],
+        "boundary": "5뷰포트155상태319기하관측·키보드끝69 및 실제법령 관측; 전체버튼 실행과 구별"
       },
       "deployment": {
         "status": "unverified",
         "evidence": []
-      }
+      },
+      "completed": false
     },
     {
       "id": "CENTER120-20",
@@ -700,13 +749,18 @@
         ]
       },
       "browser": {
-        "status": "unverified",
-        "evidence": []
+        "status": "passed_partial",
+        "evidence": [
+          "docs/center-20261020-ui-verification.json",
+          "docs/center-20261020-database-verification.json"
+        ],
+        "boundary": "후보18 89군/129군·50쪽 출력·155화면. 추가 발견한 뉴스날짜/전기메타/감사상세부모복귀는 새핀으로 교정·검수하며 재귀2268미실행"
       },
       "deployment": {
         "status": "unverified",
         "evidence": []
-      }
+      },
+      "completed": false
     },
     {
       "id": "CENTER120-21",
@@ -750,27 +804,32 @@
         ]
       },
       "browser": {
-        "status": "unverified",
-        "evidence": []
+        "status": "passed_partial",
+        "evidence": [
+          "docs/center-20261020-ui-verification.json",
+          "docs/center-20261020-database-verification.json"
+        ],
+        "boundary": "게시 HTML 팝업75관측·실제인허가 body520/866 단일scroll·닫기 확인; 모든 오류/정식분기 별도"
       },
       "deployment": {
         "status": "unverified",
         "evidence": []
-      }
+      },
+      "completed": false
     }
   ],
   "requirementsCount": 22,
   "scopeUpdate": "최초 CENTER120-01~09에 후속 CENTER120-10~22 추가. 제품/자동검사/실제화면/원격배포/자연예약 실행을 구분",
-  "currentProductionRelease": "0.11.5",
+  "productionReleaseEvidenceBoundary": "후보18 검증 당시 정식은0.11.5였습니다. 이 대장은 당시 근거이며 이후 정식 전환은 deployment/approved-production.json과 최종 배포 검증에서 확인합니다.",
   "remoteCandidate": {
-    "deploymentId": "dpl_D1hmdhUG1P5TmDZZjtxUySBfhrrt",
-    "sourceCommit": "4211562e049b8b6e0e46fdca78eacb0a73872277",
-    "approvedHtmlSha256": "a4f88b79d130b2952b50a9a219a98c577bd7a90f134ec41d9bfa49c4c66f6b7a",
-    "remoteResponseSha256": "1977d7ac39e191b09a63620dcbdd9fdde32b595148dcbef47ce63189c5e2ffc3",
+    "deploymentId": "dpl_HnXN4zAxedKfz3T7Y7egnG6rPS2F",
+    "sourceCommit": "ce12f21ec113d05c06fb555ba46756966d42e66b",
+    "approvedHtmlSha256": "9b25a671d14d602a785478aefa780d809b54870095b4c8df3ed57e9540125513",
+    "remoteResponseSha256": "ac9d69c4840fbe8b87609a788e8665786d2854f80ff3976bd0fe72a8d8f8c2a8",
     "followup10to16Deployed": true,
-    "sourceMigration17Deployed": "partial; collector guard correction and latest awards-coverage fix awaiting next Preview",
+    "sourceMigration17Deployed": "partial; latest guard and awards coverage deployed, official collection/reference append/current UI verified; keys/TLS/identity/remaining credit/natural schedule still unresolved",
     "latestUx18to22Deployed": "18/19/20/22 present in this protected Preview;21 policy-dependent and not implemented",
-    "actualCollection": "HTTP207; partner preservation guard rejected candidate15 result without overwriting v3. Latest7bb29 source is independently retested but not yet deployed.",
+    "actualCollection": "후보15 보존 오류는 실패 이력으로 유지합니다. 후보18은 HTTP207 PARTNER_SOURCES_INCOMPLETE로238/245성공·뉴스150·공개신용후보80·정책단가63을 확인했습니다. 새 참조1건만 추가하고 원v1/v2/v3·직원글14·공식11·workspace29와 모든 사업 보존을 독립10경계로 확인했습니다.",
     "lawCollectionVerified": true,
     "naturalScheduledRunVerified": false
   },
@@ -782,5 +841,49 @@
     "normalQaAuditRetained": true,
     "evidence": "docs/center-20261020-database-verification.json"
   },
-  "requirementRange": "CENTER120-01..22"
+  "requirementRange": "CENTER120-01..22",
+  "productionAtCandidate18Evidence": "0.11.5",
+  "targetProductionRelease": "0.12.0",
+  "additionalActualDefects": [
+    {
+      "id": "CENTER120-20/news-date-and-order",
+      "state": "implemented-local-tests-passed-remote-final-pending",
+      "baseline": "candidate18",
+      "boundary": "원문·ID·순서·대상 판본 보존; 표시 정렬/날짜/기사 연결만 교정"
+    },
+    {
+      "id": "CENTER120-20/previous-ranking-meta",
+      "state": "implemented-local-tests-passed-remote-final-pending",
+      "baseline": "candidate18",
+      "boundary": "명시된 전기 메타만 표시, 기존 전기순위/금액 보존"
+    },
+    {
+      "id": "CENTER120-05/audit-parent-return",
+      "state": "implemented-local-tests-passed-remote-final-pending",
+      "baseline": "candidate18",
+      "boundary": "공통 스택 재설계 없이 기존 returnTo로 실제 이력 부모 복귀; 본문직접상세는 완전닫기"
+    },
+    {
+      "id": "CENTER120-17/credit-search-name-and-cursor",
+      "state": "implemented-local20-and-official-public-comparison-passed-remote-final-pending",
+      "boundary": "원 업체명/법인/대표등급 보존, 검색용 경계 법인표기만 정리. 신용검색revision을 닫힌값1로검사하며 legacy 신용cursor만1회초기화, G2B/DART진행 보존"
+    },
+    {
+      "id": "CENTER120-05/date-only-api",
+      "state": "actual-snapshot-created-API-date-contract-red-local20-green-remote-final-pending",
+      "boundary": "샘플A 검수용event1건·원금액/승인예산불변. asOfDate/dueDate만PG달력날짜→YYYY-MM-DD, 실제시각은그대로. UTC/Seoul/LA검사"
+    }
+  ],
+  "actualSnapshot": {
+    "kind": "event",
+    "sample": "A",
+    "count": 1,
+    "version": 1,
+    "workspaceRevision": 29,
+    "approvedBudgetChanged": false,
+    "quarterTaskCompleted": false,
+    "payloadProjectEqualsOriginal": true,
+    "independentDbPreservationChecks": 13,
+    "evidencePrivate": ".build/center-20261020/candidate18-snapshot-actual-db-comparison.json"
+  }
 }

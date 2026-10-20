@@ -49,7 +49,8 @@
  }
  function prose(v,log){if(v==null)return '';if(typeof v!=='object')return String(v);if(Array.isArray(v))return v.map(x=>prose(x,log)).filter(Boolean).join('\n');return Object.entries(v).filter(([k])=>!skip.has(k)).map(([k,value])=>(labels[k]||findName(k,log))+': '+prose(value,log)).join('\n')}
  function renderDetail(input){const v=present(input),withTarget=v.changes.some(c=>c.target),heads=['변경 항목','변경 전','변경 후','증감',...(withTarget?['저장 대상']:[])],rows=v.changes.map(c=>[E(c.label),E(c.before),E(c.after),E(c.delta||'—'),...(withTarget?[E((c.target||'—')+(c.impact?.length?' · 공유: '+c.impact.join(', '):''))]:[])]);return `<div class="dp-audit-meta"><span>${E(A.formatTimestamp(v.at))}</span><span>${E(v.actor)}</span><span>${E(v.entity+' · '+v.action)}</span></div><div class="dp-audit-summary">${E(v.title)}</div>${v.changes.length?A.table(heads,rows,'dp-audit-table'):A.empty('추가 변경 항목이 없습니다.')}<dl class="dp-audit-details"><dt>사유</dt><dd>${E(prose(v.reason,v.log)||'—')}</dd><dt>근거</dt><dd>${E(prose(v.source,v.log)||'—')}</dd></dl>`}
- A.auditPresentation={present,renderDetail,entities,actions};
- A.on('audit-detail',b=>{const event=A.state.auditEvents.find(x=>x.id===b.dataset.id);if(!event)throw Error('변경이력을 찾을 수 없습니다.');A.modal(present(event).title,renderDetail(event))});
+ function openDetail(id,{returnTo,projectId}={}){const event=A.state.auditEvents.find(x=>x.id===id);if(!event)throw Error('변경이력을 찾을 수 없습니다.');if(projectId&&(!A.state.projects.some(p=>p.id===projectId&&!p.deletedAt)||A.current()?.id!==projectId||event.projectId&&event.projectId!==projectId))throw Error('프로젝트가 변경되었습니다. 현재 프로젝트에서 다시 열어 주세요.');A.modal(present(event).title,renderDetail(event),'',typeof returnTo==='function'?{returnTo}:{});}
+ A.auditPresentation={present,renderDetail,openDetail,entities,actions};
+ A.on('audit-detail',b=>openDetail(b.dataset.id));
  A.spec.featureContracts.auditPresentation={view:'업무명·일시·담당자·변경항목·전후·단위·증감·사유·근거',raw:'원본 감사객체는 수정하지 않으며 업무뷰에 JSON을 출력하지 않음',legacy:'기존 changeLogs의 field/label/type을 식별자로 연결하여 보완',structured:'복합 변경은 바뀐 업무 필드만 펼치며 기술 ID·시간 메타데이터 중복 제외'};
 })(App);
