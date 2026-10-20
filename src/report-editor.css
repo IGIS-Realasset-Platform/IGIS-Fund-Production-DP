@@ -49,6 +49,20 @@
 .report-edit-binding.is-readonly .badge { flex:none; font-size:9px; }
 .report-edit-repeaters { display:grid; gap:12px; margin-top:18px; }
 .report-edit-repeaters>.panel { margin:0; }
+/* Form2 editor hit areas: print coordinates remain in report-form.js/report.css. */
+.report-edit-page [data-form-block="form2-title"] h1 { display:grid; grid-template-columns:96px minmax(0,1fr) 144px; gap:6px 8px; align-items:start; height:auto!important; min-height:41.6pt; }
+.report-edit-page [data-form-block="form2-title"] h1>span { position:static!important; left:auto!important; top:auto!important; min-width:0; max-width:100%; }
+.report-edit-page [data-form-block="form2-title"] h1>span:nth-child(1) { grid-column:1; grid-row:1; }
+.report-edit-page [data-form-block="form2-title"] h1>span:nth-child(2) { grid-column:2; grid-row:1; }
+.report-edit-page [data-form-block="form2-title"] h1>span:nth-child(3) { grid-column:3; grid-row:1 / span 2; align-self:center; }
+.report-edit-page [data-form-block="form2-title"] h1>span:nth-child(4) { grid-column:1; grid-row:2; }
+.report-edit-page [data-form-block="form2-title"] h1>span:nth-child(5) { grid-column:2; grid-row:2; }
+.report-edit-page [data-form-block="form2-title"] h1 .report-edit-cell { grid-template-columns:minmax(0,1fr); min-width:0; max-width:100%; }
+.report-edit-page [data-form-block="form2-title"] h1 .cell-editable { overflow-wrap:anywhere; }
+.report-edit-page [data-form-block="form2-reason"] .report-edit-cell { grid-template-columns:minmax(0,1fr); min-width:0; max-width:100%; }
+.report-edit-page [data-form-block="form2-reason"] .report-edit-cell>.badge { display:block; min-width:0; max-width:100%; white-space:normal; overflow-wrap:anywhere; }
+.report-edit-page [data-form-block="form2-reason"] .cell-editable { overflow-wrap:anywhere; }
+/* End Form2 editor hit areas. */
 @media(max-width:800px){
  .report-workspace-section>div { overflow-x:auto; }
  .report-edit-sheet { min-width:760px; }

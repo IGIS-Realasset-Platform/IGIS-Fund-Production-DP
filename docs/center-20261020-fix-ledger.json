@@ -874,6 +874,21 @@
       "boundary": "샘플A 검수용event1건·원금액/승인예산불변. asOfDate/dueDate만PG달력날짜→YYYY-MM-DD, 실제시각은그대로. UTC/Seoul/LA검사"
     }
   ],
+  "candidate22VerificationPreparation": {
+    "status": "product-frozen-final-artifact-tests-and-release-pending",
+    "candidate20ActualCollection": "HTTP207 부분실패:166출처 중158성공·partial1·KACEM TLS1·설정필요6. 뉴스150/150. 기업신용상품 미지원으로 첫업체 후보1/상세1/등급0에 멈춘 결함은 성공으로 세지 않습니다.",
+    "candidate20Preservation": "기존4판본·직원글14표시분/공식11·workspace29·샘플전체·VAT336/단위24·event1건 독립13경계 보존",
+    "localCorrections": [
+      {"id":"CENTER120-20/inline-command-gesture","tests":"tests/center120-inline-command-gesture.mjs","status":"30-local-and-candidate21-native6-passed","boundary":"같은 물리 더블클릭이 새 저장버튼을 실행하지 않음. 원단위/키보드/단일클릭 보존"},
+      {"id":"CENTER120-20/auth-native-submit","tests":"tests/center120-auth-native-submit.mjs","status":"16-local-and-candidate21-native14-passed","boundary":"로그인/가입/인증 입력Enter, 중복POST/메일 금지. 12메일·암호/세션 정책 불변"},
+      {"id":"CENTER120-20/report-editor-hitareas","tests":"tests/center120-report-editor-hitareas.mjs","status":"local8-passed-candidate22-native-pending","boundary":"제2호 편집제목5셀 겹침 교정. 인쇄생성기/공식좌표 불변, 문구 삭제 없이 자기 칸 줄바꿈"},
+      {"id":"CENTER120-17/credit-product-retry","tests":"tests/center120-credit-product-retry.mjs","status":"local28-and-official-single-source-passed-final-cron-pending","boundary":"Issuer Rating은 독립상품·법인미확정 유지. 실패업체대기/후속진행/다음순회 모두 유지, 회사코드·대표등급 불변"}
+    ],
+    "recursiveExecutionBoundary": "candidate21 실제 저장/재열기241셀·적용만2·체크칸차단2·미검증1507. 전체1752셀 새핀 검사 예정이며 이전 통과를 승계하지 않습니다.",
+    "remainingExternalConditions": ["DART/G2B/KOSIS 인증 설정", "KACEM 원기관 TLS", "법인/면적 원문 증거", "자연 일일·분기 예약 관찰", "회사 Edge 인트라넷 정책 결정"],
+    "allFunctionsVerified": false,
+    "productionDeployed": false
+  },
   "actualSnapshot": {
     "kind": "event",
     "sample": "A",

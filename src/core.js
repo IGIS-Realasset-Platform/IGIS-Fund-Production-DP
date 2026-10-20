@@ -190,7 +190,7 @@ const App=(()=>{
  }
  function handleInlineClick(e,button){
   if(inlineReplay)return false;
-  const command=e.target.closest?.('[data-inline-command]');if(command?.dataset?.inlineCommand){e.preventDefault?.();e.stopPropagation?.();if(command.dataset.inlineCommand==='edit'){const target=command.closest('[data-inline-entity]');if(target)beginInline(target,{selectAll:true});}else if(command.dataset.inlineCommand==='save')saveInline();else cancelInline();return true;}
+  const command=e.target.closest?.('[data-inline-command]');if(command?.dataset?.inlineCommand){e.preventDefault?.();e.stopPropagation?.();if(e.detail>1)return true;if(command.dataset.inlineCommand==='edit'){const target=command.closest('[data-inline-entity]');if(target)beginInline(target,{selectAll:true});}else if(command.dataset.inlineCommand==='save')saveInline();else cancelInline();return true;}
   const cell=e.target.closest?.('[data-inline-entity]');
   if(cell?.dataset?.inlineEntity){if(e.target.dataset?.inlineControl==='true')return false;if(cell.dataset.inlineActivation==='double')return false;e.preventDefault?.();e.stopPropagation?.();beginInline(cell);return true;}
   if(!inlineDraft||!button?.dataset?.action)return false;
@@ -207,8 +207,8 @@ const App=(()=>{
   if(!input||!['INPUT','SELECT','TEXTAREA'].includes(input.tagName)||input.dataset?.inlineControl==='true'||input.closest?.('.dp-inline-tools'))return;
   const identity=nativeTargetIdentity(input),context=inlineDraft.context;e.preventDefault?.();e.stopPropagation?.();registerInlineGuard();A.leaveDraft(()=>{if(context.inDialog)restoreInlineContext(context);const target=findNativeTarget(identity);inlineReplay=true;try{target?.focus?.();target?.click?.();}finally{inlineReplay=false;}});
  },true);
- document.addEventListener('dblclick',e=>{const cell=e.target.closest?.('[data-inline-entity]');if(cell?.dataset?.inlineEntity){e.preventDefault?.();beginInline(cell,{selectAll:true});}});
- document.addEventListener('keydown',e=>{if(e.key==='Enter'&&!['INPUT','SELECT','TEXTAREA'].includes(e.target.tagName)){const cell=e.target.closest?.('[data-inline-entity]');if(cell?.dataset?.inlineEntity){e.preventDefault?.();beginInline(cell);}}if(e.key==='Escape'&&inlineDraft&&e.target.closest?.('.dp-inline-tools')){e.preventDefault?.();e.stopPropagation?.();cancelInline();}});
+ document.addEventListener('dblclick',e=>{if(e.target.closest?.('[data-inline-command]'))return;const cell=e.target.closest?.('[data-inline-entity]');if(cell?.dataset?.inlineEntity){e.preventDefault?.();beginInline(cell,{selectAll:true});}});
+ document.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.target.closest?.('[data-inline-command]')&&!['INPUT','SELECT','TEXTAREA'].includes(e.target.tagName)){const cell=e.target.closest?.('[data-inline-entity]');if(cell?.dataset?.inlineEntity){e.preventDefault?.();beginInline(cell);}}if(e.key==='Escape'&&inlineDraft&&e.target.closest?.('.dp-inline-tools')){e.preventDefault?.();e.stopPropagation?.();cancelInline();}});
  document.addEventListener('scroll',positionInlineTools,true);window.addEventListener('resize',positionInlineTools);
  A.inlineEditor={begin:beginInline,setRaw:setInlineRaw,save:saveInline,cancel:cancelInline,resume:resumeInline,restore:restoreInline,handleClick:handleInlineClick,handleSubmit:handleInlineSubmit,requestClose:requestInlineClose,blur:()=>inlineDraft?.raw,isDirty:inlineDirty,snapshot:()=>inlineDraft?{identity:clone(inlineDraft.identity),raw:inlineDraft.raw,dirty:inlineDirty(),error:inlineDraft.error,inDialog:inlineDraft.context.inDialog}:null};
  A.details=(id,title,body)=>`<details class="panel" data-persist="${esc(id)}" ${ui.expanded[A.current()?.id+':'+id]?'open':''}><summary>${esc(title)}</summary><div>${body}</div></details>`;

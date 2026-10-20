@@ -1,8 +1,8 @@
 {
   "version":"0.12.0",
   "origin":"https://igis-development-project-platform.vercel.app",
-  "htmlSha256":"ed5def71ef256bf04e0386f301ae7f50c31d07a745b13c0ea5510752ec270a7a",
-  "bytes":6406957,
+  "htmlSha256":"11bbdf4357bc5ec2b8aaa319e6e9b273ad828cb42c20c606d73bbfaac20661a7",
+  "bytes":6411067,
   "status":"staged-production-artifact-approved-public-domain-assignment-and-actual-acceptance-pending",
   "previousProductionDeploymentId":"dpl_Eahucd6iMGDNoEKFhVuHSbRxB2pr",
   "privateSourceIncluded":false,
