@@ -1,13 +1,13 @@
 {
   "version": "0.12.0",
   "origin": "https://development-project-platform-preview-git-preview-b5dda7-igisra.vercel.app",
-  "htmlSha256": "a4f88b79d130b2952b50a9a219a98c577bd7a90f134ec41d9bfa49c4c66f6b7a",
-  "bytes": 6392638,
+  "htmlSha256": "9b25a671d14d602a785478aefa780d809b54870095b4c8df3ed57e9540125513",
+  "bytes": 6394202,
   "notionRequired": false,
   "realProjectDataIncluded": false,
   "mode": "authenticated-private-schema-runtime-with-optional-source",
   "localBuildVerified": true,
-  "actualBrowser": "Protected Preview acceptance candidate, not Production approval. Generated publication boot2 passed; exact publication browser/PDF tests and actual deployed APIs remain separate. Local199eb16f has19 partner flows; report4d771983 has50 PDF pages and official13/13. Earlier2171d346 has155 screen states and320 recursive episodes. Pending paths/keys/TLS/natural schedule are not declared complete.",
+  "actualBrowser": "Protected Preview candidate18, not Production approval. Generated publication boot2 passed. Latest awards-coverage40+4 and guard19/181 are separately pinned; exact publication browser/PDF and remote collection acceptance remain pending. Candidate15 actual owner A/B/C saved/reloaded/restored; all source amounts restored with normal audits retained. Keys/TLS/company Edge policy/natural schedule/full recursive coverage remain unresolved.",
   "previousProtectedDeployment": "dpl_4z8XWesu9MT5MBVxuXwjLoNEFwND",
   "previousVersion": "0.11.5"
 }

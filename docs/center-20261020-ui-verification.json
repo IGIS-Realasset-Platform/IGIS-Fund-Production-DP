@@ -1,6 +1,6 @@
 {
   "asOf":"2026-10-20",
-  "status":"intermediate-generated-HTML-verified-final-migration-and-deployment-pending",
+  "status":"multi-cohort-pinned-UI-and-output-verified-release-and-live-business-acceptance-separated",
   "requirements":["CENTER120-18","CENTER120-19","CENTER120-20","CENTER120-22"],
   "html":{"path":".build/center-20261020/candidate-09-ux-local.html","sha256":"2171d3469051f6855af3e3a4751a336a0d88a7af9d9b8b371f04fd7aa3605b6e","bytes":6373246,"localQa":true,"deployed":false},
   "fullScreenScroll":{"viewports":["1280x800","1440x900","1600x1000","390x844","720x450"],"actualBrowser":"installed Edge with Chromium sandbox and fresh profiles","viewStates":155,"flows":5,"controlOccurrencesObserved":1917,"defects":0,"pageErrors":0,"consoleErrors":0,"evidence":".build/center120-product-browser/2026-10-20T09-58-10-044Z/evidence.json","allObservedControlsExecuted":false,"scope":"whole-menu scroll ownership, first/last rows, horizontal columns, popup geometry and keyboard reachability; not all business actions or live API acceptance"},
@@ -10,6 +10,265 @@
   "recursiveButtons":{"episodes":320,"registeredActionsClicked":158,"controlOccurrencesObserved":3904,"remainingQueuedEpisodes":2268,"defects":0,"pageErrors":0,"consoleErrors":0,"evidence":".build/center120-product-browser/2026-10-20T10-02-13-152Z/evidence.json","htmlSha256":"2171d3469051f6855af3e3a4751a336a0d88a7af9d9b8b371f04fd7aa3605b6e","allFunctionsVerified":false,"scope":"recursive reachable controls on owner/existing synthetic fixtures; unexecuted queued instances and other permissions/errors/outputs remain separate"},
   "partnerFinalLocal":{"htmlSha256":"199eb16f844f06a669a17a859084634a482d93c255f7b2ac10748cefbb0b547b","bytes":6392593,"currentRefreshFlows":5,"providerViewports":5,"historicalPublicationFlows":9,"legacyCommentDisplayOccurrencesVerified":14,"exactCompanyKeysVisited":13,"unexpectedPageErrors":0,"intentional404And503ConsoleResponses":3,"sourcePartnersSha256":"5aab3c12f77d3efdfd79cb3c8d4d9d953af72fe42dfa30d82a9aad7b813f22bf","sourceCssSha256":"3c9eb222dd0e3562bc55d135178db99764ff8b3c2bbc6a8edf6d91b0331adef5","evidence":[".build/center120-product-browser/2026-10-20T10-47-37-850Z/evidence.json",".build/center120-product-browser/2026-10-20T10-47-23-770Z/evidence.json",".build/center120-product-browser/2026-10-20T10-47-50-916Z/evidence.json"],"scope":"generated HTML, fresh Edge, synthetic provider API boundary; not actual deployed collector/DB acceptance"},
   "reportFinalLocal":{"htmlSha256":"4d771983f976dd49491e63c1fc6cee8eba8aeb0b3935e9ba775a5129087df25b","reportFormSha256":"f4bb8c502af708ded7180dc2d28e9d8a67341e83b096e6b5e5419ce6d0d011b0","reportCssSha256":"db6bb5c2c549186af55e7704ed619b0c26bdc38c4934ca718e99fe5a20987c05","basicPdfCases":7,"basicPages":45,"additionalSignatureCases":3,"additionalPages":5,"all50PagesVisuallyInspected":true,"official13":"13/13","pua":0,"sourceMarkers":"88/88","collateralPhrases":"85/85","rootIndependentAcceptance":".build/center-20261020/pdf-qa/root-independent-pdf-review.json","normalBlankFormSixPagesPreserved":true,"oldCaseEmptyContinuationPagesRemoved":3,"scope":"exact pinned local output, not final Git/Production artifact"},
+  "evidenceCohorts":[
+  {
+    "id": "candidate15-exact-publish-artifact",
+    "status": "verified-within-listed-mocked-ui-and-output-boundaries",
+    "html": {
+      "path": ".build/github-release-20261014/.build/center-20261020/candidate-15-publish.html",
+      "sha256": "a4f88b79d130b2952b50a9a219a98c577bd7a90f134ec41d9bfa49c4c66f6b7a",
+      "bytes": 6392638
+    },
+    "transport": {
+      "htmlBytesModified": false,
+      "mode": "canonical-HTTPS-origin-simulated-with-all-requests-fulfilled-by-isolated-loopback-mock-API",
+      "freshEdgeProfiles": true,
+      "chromiumSandbox": true,
+      "actualUserCookiesUsed": false,
+      "actualRemoteApiRequests": 0,
+      "actualRemoteDatabaseWrites": 0,
+      "runnerSha256": "9c0cc483c03a390c30a582617c2feee23ef2facc2ec68c2bc38c344c73454903",
+      "runnerEvidence": ".build/center120-product-browser/2026-10-20T10-55-46-592Z/runner-source.mjs"
+    },
+    "fullScreenScroll": {
+      "viewports": [
+        "1280x800",
+        "1440x900",
+        "1600x1000",
+        "390x844",
+        "720x450"
+      ],
+      "viewStates": 155,
+      "flows": 5,
+      "geometryObservations": 319,
+      "geometryKinds": {
+        "wholeMenuScroll": 155,
+        "keyboardFinalRow": 69,
+        "lastLawRowAndColumn": 5,
+        "lawDatesAndFinalAction": 5,
+        "representativePopups": 75,
+        "documentPreview": 5,
+        "partnerDetail": 5
+      },
+      "discoveredControlOccurrences": 1917,
+      "allDiscoveredControlsExecuted": false,
+      "nestedScrollDefects": 0,
+      "viewportDefects": 0,
+      "pageErrors": 0,
+      "consoleErrors": 0,
+      "network": {
+        "GET": 85,
+        "writes": 0
+      },
+      "evidence": ".build/center120-product-browser/2026-10-20T10-55-46-592Z/evidence.json",
+      "actualBrowserZoom200Percent": false,
+      "scope": "31 public menu/group states at five CSS viewports plus explicitly measured popup/keyboard paths; not all business-action branches"
+    },
+    "costInteractions": {
+      "viewports": [
+        "1280x800",
+        "1440x900",
+        "1600x1000",
+        "390x844"
+      ],
+      "flows": 4,
+      "passed": 4,
+      "actions": [
+        "expand-and-collapse",
+        "same-cell-double-click",
+        "Escape-cancel",
+        "Enter-save-and-original-value-restore",
+        "resize-click-stable-and-physical-drag",
+        "keyboard-row-drag-and-Escape-cancel"
+      ],
+      "network": {
+        "GET": 4,
+        "mockWorkspacePUT": 8,
+        "actualRemoteWrites": 0
+      },
+      "otherProjectsOriginalCostStagesContractsAndVatPreserved": true,
+      "evidence": ".build/center120-product-browser/2026-10-20T10-55-59-427Z/evidence.json"
+    },
+    "partnerFlows": {
+      "total": 19,
+      "currentRefresh": 5,
+      "providerViewports": 5,
+      "historicalPublications": 9,
+      "currentFixture": {
+        "path": ".build/center-20261020/partners-current-final-replay.json",
+        "sha256": "d525ffa2fe772e1110b6166549b5d97876a8e665112c3f16b44c7bc9a3f970fd",
+        "version": "isolated-final-migration-replay",
+        "actualDatabaseVersion": false
+      },
+      "previousFixture": {
+        "path": ".build/center-20261020/partners-reference-migration-v3-legacy-verified.json",
+        "sha256": "1d657b72b8b53f9aaaf14e89e5ba030268114acb01df5957c81b36eb09c4e59d"
+      },
+      "exactCompanyKeysVisited": 13,
+      "legacyCommentOccurrencesVerified": 14,
+      "providerPolicyGroundBands": 63,
+      "providerInput": "explicit synthetic provider overlay; not actual remote collection acceptance",
+      "numericTextRangeAndMobileClipChecked": true,
+      "currentVersusHistoricalCachesAndParentReturnsChecked": true,
+      "workspaceWrites": 0,
+      "pageErrors": 0,
+      "intentionalConsoleResponses": {
+        "HTTP404": 1,
+        "HTTP503": 2
+      },
+      "unexpectedConsoleErrors": 0,
+      "evidence": [
+        ".build/center120-product-browser/2026-10-20T10-57-02-705Z/evidence.json",
+        ".build/center120-product-browser/2026-10-20T10-57-52-427Z/evidence.json",
+        ".build/center120-product-browser/2026-10-20T10-58-12-155Z/evidence.json"
+      ]
+    },
+    "pdfOutput": {
+      "basicCases": 7,
+      "basicPages": 45,
+      "additionalSignatureCases": 3,
+      "additionalSignaturePages": 5,
+      "totalPages": 50,
+      "pngPagesCompared": 50,
+      "pngPagesIdentical": 50,
+      "pngPagesChanged": 0,
+      "officialPositionChecks": 13,
+      "officialPositionFailures": 0,
+      "previousHumanReviewedHtmlSha256": "4d771983f976dd49491e63c1fc6cee8eba8aeb0b3935e9ba775a5129087df25b",
+      "previousHumanReview": ".build/center-20261020/pdf-qa/final-report-pdf-review.json",
+      "previousHumanReviewPages": 50,
+      "newHumanAllPageReviewClaimed": false,
+      "visualContinuityMethod": "all 50 newly generated Poppler PNG hashes exactly match the previously human-reviewed 50 pages",
+      "comparisonEvidence": ".build/center-20261020/pdf-qa/2026-10-20T10-54-52-631Z/published-html-pdf-comparison-final.json",
+      "comparisonSha256": "52586208a3734e190065e4662fef905eef19df04712022960d50eaa1a9daed4c",
+      "independentAcceptance": ".build/center-20261020/pdf-qa/2026-10-20T10-54-52-631Z/independent-pdf-acceptance.json",
+      "actualRemoteDatabaseUsed": false
+    },
+    "allFunctionsVerified": false,
+    "scope": "exact candidate15 artifact only; its successful tests do not establish later awards coverage behavior, actual remote provider acceptance or Production deployment completion"
+  },
+  {
+    "id": "candidate17-awards-coverage-local",
+    "status": "verified-within-listed-coverage-boundaries",
+    "html": {
+      "path": ".build/center-20261020/candidate-17-coverage-local.html",
+      "sha256": "81d609e555efc7cc0726c9bcb46b40fef1d370aa4e8cad560da7b03d12fdf4eb",
+      "bytes": 6393653,
+      "localQa": true
+    },
+    "sourcePins": {
+      "src/partners.js": "1e009a8b7fe3fbf191488fca9681d34f5dd16b242d067e0a32925d2ed4eb36f4",
+      "src/contracts-recovery.css": "3c9eb222dd0e3562bc55d135178db99764ff8b3c2bbc6a8edf6d91b0331adef5"
+    },
+    "transport": {
+      "htmlBytesModified": false,
+      "mode": "loopback-HTTP-with-all-browser-requests-intercepted-and-external-navigation-aborted",
+      "freshEdgeProfiles": true,
+      "actualUserCookiesUsed": false,
+      "actualRemoteApiRequests": 0,
+      "actualRemoteDatabaseWrites": 0
+    },
+    "awardsCoverage": {
+      "viewports": [
+        "1280x800",
+        "390x844"
+      ],
+      "surfaces": [
+        "current-company-detail",
+        "exact-version-historical-publication-detail"
+      ],
+      "requestedFlows": 32,
+      "additionalJsonRecordDamageFlows": 8,
+      "totalFlows": 40,
+      "passed": 40,
+      "states": [
+        "both-lists-unprovided",
+        "explicit-empty-lists",
+        "only-legacy-list-explicit-empty",
+        "only-official-list-explicit-empty",
+        "unverified-official-contracts-only",
+        "explicit-false-legacy-candidate-and-legacy-without-flag",
+        "verified-zero-and-null-amount-with-unverified-candidate",
+        "invalid-JSON-record-elements-only",
+        "valid-zero-and-null-records-with-invalid-element-and-candidate",
+        "detail-HTTP503-and-explicit-retry"
+      ],
+      "confirmedEmptyCopy": "해당 자료에 수록된 수주·계약이 없습니다.",
+      "unprovidedOrDamagedCopy": "수주·계약 자료를 확인하지 못했습니다.",
+      "unverifiedContractCopy": "동일 회사인지 확인 필요",
+      "unverifiedCandidatesExcludedFromConfirmedTable": true,
+      "legacyWithoutVerificationFlagAttributionPreserved": true,
+      "explicitZeroAndMissingNullAmountsDistinguished": true,
+      "sourceRecordsIdentifiersAmountsAndCommentsPreserved": true,
+      "workspaceUnchanged": true,
+      "networkWrites": 0,
+      "lastSourceLinkKeyboardAndPointerHitTest": true,
+      "externalSourceContentsFetched": false,
+      "currentCloseAndHistoricalActualParentEscapeAndHeadCloseChecked": true,
+      "pageErrors": 0,
+      "intentionalConsoleResponses": {
+        "HTTP503": 4
+      },
+      "unexpectedConsoleErrors": 0,
+      "independentVmTests": {
+        "path": "tests/center120-partner-awards-coverage.mjs",
+        "passed": 20,
+        "total": 20,
+        "browser": false
+      },
+      "evidence": ".build/center120-product-browser/2026-10-20T11-18-00-677Z/evidence.json"
+    },
+    "additionalNumericClip": {
+      "flows": 4,
+      "passed": 4,
+      "viewports": [
+        "1280x800",
+        "390x844"
+      ],
+      "surfaces": [
+        "current-company-detail",
+        "historical-publication-detail"
+      ],
+      "actualZeroAmountAndNullDisplayTextRangesMeasured": true,
+      "allMeasuredGlyphsInsideActualHorizontalClip": true,
+      "horizontalScrollAndPointerHitTest": true,
+      "pageErrors": 0,
+      "consoleErrors": 0,
+      "evidence": ".build/center120-product-browser/2026-10-20T11-21-19-383Z/evidence.json"
+    },
+    "allFunctionsVerified": false,
+    "scope": "awards coverage correction on candidate17 only; candidate15 whole-menu/PDF, actual authenticated business operations, remote provider/DB and Production deployment are not retested or inferred here"
+  }
+],
+  "liveOwnerLawObservation":{
+  "status": "source-reported-live-observation-with-screenshot",
+  "sourceReportedObservation": true,
+  "reporter": "root agent, read-only CUA DOM observation",
+  "observedByThisWorker": false,
+  "htmlCohort": "candidate15-exact-publish-artifact",
+  "htmlSha256": "a4f88b79d130b2952b50a9a219a98c577bd7a90f134ec41d9bfa49c4c66f6b7a",
+  "environment": "actual authenticated owner Preview",
+  "viewport": {
+    "width": 1280,
+    "height": 720
+  },
+  "view": "law",
+  "tab": "recent",
+  "main": {
+    "clientHeight": 660,
+    "scrollHeight": 660,
+    "overflowY": "hidden"
+  },
+  "table": {
+    "clientHeight": 465,
+    "scrollHeight": 1776,
+    "overflowY": "auto"
+  },
+  "screenshot": ".build/center-20261020/candidate15-live-law.png",
+  "screenshotSha256": "afed3878f526f3394afa8fc8b60e28ce9d9731efe7ec91ee4468820ea84c857f",
+  "measurementProvenance": "root-reported DOM measurements; screenshot supports visual observation but is not independent dimensional measurement",
+  "scope": "one actual law screen; not mock geometry and not authenticated business save/reentry or all-page acceptance"
+},
   "excel":{"rows":442,"fields":5304,"checked":367,"unchecked":75,"output":"outputs/center-20261020/개발사업관리플랫폼_요구사항_체크리스트_v0.12.0_후속화면검수진행.xlsx","sha256":"95a3b4a4bb3bb46b7d590ad94ba6103a19b922181216118821573c0a3ca3537d","markdownSha256":"018729db206d48a079bcedae4c229930bc2eb2d232f61dd80c61eb153308fbb9","reimportAllFieldsMatched":true,"old420BodyCheckStyleAndSheetFeaturesPreserved":true,"pngRangesVisuallyInspected":9,"authorAndReimportExit":0,"renderProcessExitAfterSavingImages":1,"nativeExcel":false},
   "boundaries":["720x450 is a CSS viewport equivalent, not an actual browser zoom-200-percent run","earlier and current HTML pins are not interchangeable","recursive buttons, PDF text extraction, remote authenticated save and Production deployment are separate acceptance","folder helper installation and company Edge policy changes are not approved or performed"]
 }

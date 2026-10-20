@@ -103,8 +103,8 @@
       },
       "completed": false,
       "referenceSnapshot": {
-        "version": "raportal-dom-20261020-v2",
-        "checkedAt": "2026-10-20T07:56:40.106Z",
+        "version": "raportal-dom-20261020-v3",
+        "checkedAt": "2026-10-20T08:29:26.543Z",
         "sourceScopedCompanies": 150,
         "groups": 5,
         "rowsPerGroup": 30,
@@ -763,19 +763,23 @@
   "scopeUpdate": "최초 CENTER120-01~09에 후속 CENTER120-10~22 추가. 제품/자동검사/실제화면/원격배포/자연예약 실행을 구분",
   "currentProductionRelease": "0.11.5",
   "remoteCandidate": {
-    "deploymentId": "dpl_36GEyNG1UQHe3umdB9CdEe2Bddq2",
-    "sourceCommit": "c4a75075060f5b4a35aee9fd185b666a633c6b0e",
-    "approvedHtmlSha256": "b486c21aa333e598d245b42d169fd753214eb6999db520a22fa13bd7a431eba0",
-    "remoteResponseSha256": "2653334eb401382538c915c2675c468da8c539daeb01e4ac09c0890b24a1f7f3",
+    "deploymentId": "dpl_D1hmdhUG1P5TmDZZjtxUySBfhrrt",
+    "sourceCommit": "4211562e049b8b6e0e46fdca78eacb0a73872277",
+    "approvedHtmlSha256": "a4f88b79d130b2952b50a9a219a98c577bd7a90f134ec41d9bfa49c4c66f6b7a",
+    "remoteResponseSha256": "1977d7ac39e191b09a63620dcbdd9fdde32b595148dcbef47ce63189c5e2ffc3",
     "followup10to16Deployed": true,
-    "sourceMigration17Deployed": false,
-    "latestUx18to22Deployed": false,
+    "sourceMigration17Deployed": "partial; collector guard correction and latest awards-coverage fix awaiting next Preview",
+    "latestUx18to22Deployed": "18/19/20/22 present in this protected Preview;21 policy-dependent and not implemented",
+    "actualCollection": "HTTP207; partner preservation guard rejected candidate15 result without overwriting v3. Latest7bb29 source is independently retested but not yet deployed.",
     "lawCollectionVerified": true,
     "naturalScheduledRunVerified": false
   },
   "workspacePreservation": {
-    "revision": 21,
-    "md5": "d9ac740e80414491cb8af38e80dd31fb",
+    "revisionBeforeActualBrowserQa": 21,
+    "md5BeforeActualBrowserQa": "d9ac740e80414491cb8af38e80dd31fb",
+    "revisionAfterActualBrowserQa": 29,
+    "actualAbcAmountsRestored": true,
+    "normalQaAuditRetained": true,
     "evidence": "docs/center-20261020-database-verification.json"
   },
   "requirementRange": "CENTER120-01..22"
