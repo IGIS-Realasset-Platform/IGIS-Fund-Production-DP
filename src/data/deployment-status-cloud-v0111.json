@@ -4,17 +4,20 @@
   "asOf":"2026-10-20",
   "current":{
     "scope":"전용 스키마·지정 이메일 가입·비밀번호 로그인·중앙 저장 검증본",
-    "releaseState":"정식 v0.11.5 배포·로그인 속도 개선 검수 이력 보존 · 개발솔루션센터 반영 신규 코드는 구현/검수 중 · 회사 운영 전환 제외",
+    "releaseState":"현재 산출물 v0.12.0의 CENTER120 구현·검수 진행. 검증 주소 게시와 정식 주소 승격은 각각 실제 실행기록으로 확인 · 회사 운영 전환 제외",
     "branch":"preview/core-v0.11.0",
-    "providerStatus":"production-v0115-ready-center120-verification-in-progress",
+    "providerStatus":"candidate-v0120-verification-and-promotion-separate",
     "protection":"정식도메인만 공개 · 기존 검증주소 Vercel 보호·앱 세션/권한 유지",
-    "browserVerification":{"home":"v0.11.5 실제 배포 확인 이력 · 신규 최종본 별도 검수","spec":"v0.11.5 이후 명세 교정 중 · 신규 최종본 별도 검수","crud":"과거 실행 이력 보존 · CENTER120 전체 경로 검수 진행","pdf":"과거 공식 서식 검수 보존 · 신규 최종본 미검증","xlsx":"과거 사업비 한 시트 검수 보존 · 신규 최종본 미검증"},
-    "connections":{"centralStorage":"전용 스키마 중앙 저장·버전 충돌 검증 이력 있음. CENTER120 샘플 권한·별도 API 확장은 현재 검수 중","appAuthentication":"지정12메일 최초 메일 확인·비밀번호 가입/재로그인 및 선택7일 유지 실제 확인 이력 있음","notion":"관리자 전용 선택 보충자료","runtimeNotionApi":"실시간 Notion 연동 아님"},
+    "browserVerification":{"home":"당시 실제 진입 이력과 소스별 검수기록 보존 · 후속 최종 산출물 별도 확인","spec":"C22에서 현행·과거 표시 오류 확인 · 후속 명세 교정의 실제 화면 검수는 별도","crud":"범위별 실행 이력 보존 · 모든 동적 경로의 실제 원격 검수와 구분","pdf":"정확 산출물·원문·PNG 검수기록 보존 · 후속 산출물의 적용범위/지문은 별도","xlsx":"기존 한 시트 검수 이력 보존 · 최종 새 체크리스트 생성/검수는 별도"},
+    "connections":{"centralStorage":"전용 스키마 중앙 저장·CAS·샘플 권한·별도 API 구현. 실제 원격 검수는 해당 판본의 증거 기준","appAuthentication":"지정12메일 최초 메일 확인·비밀번호 가입/재로그인 및 선택7일 유지 실제 확인 이력 있음","notion":"관리자 전용 선택 보충자료","runtimeNotionApi":"실시간 Notion 연동 아님"},
+    "law":{"apiImplemented":true,"configurationComplete":true,"manualCheck":{"recordsLiveInLawTab":true,"currentCount":null,"boundary":"수동 정상수집 이력은 법령 탭의 실제 확인기록과 각 소스의 당시 증거 기준. 개별 실행의 건수를 현행 자동값으로 재사용하지 않음"},"dailySchedule":{"configured":true,"naturalRunObserved":false,"boundary":"예약 설정과 자연 실행의 성공 관찰은 별도"}},
     "officialOrigin":"https://igis-development-project-platform.vercel.app",
     "schema":"development_project_platform",
     "existingServiceBoundary":"기존 회사 서비스·공유 Auth·다른 스키마 변경 없음",
-    "newWork":{"requestIds":["CENTER120-01","CENTER120-02","CENTER120-03","CENTER120-04","CENTER120-05","CENTER120-06","CENTER120-07","CENTER120-08","CENTER120-09"],"status":"implementation-and-verification-in-progress","deploymentVerified":false,"lawDailyCollectionVerified":false,"sampleEditorGrantPolicy":"승인 샘플ID 3개에 인증된 지정메일 회원 editor 배정. 기존 승인자/관리자 하향 없음. 일반 로그인 재부여 없음","evidence":"docs/center-20261020-fix-ledger.json"}
+    "newWork":{"requestIds":["CENTER120-01","CENTER120-02","CENTER120-03","CENTER120-04","CENTER120-05","CENTER120-06","CENTER120-07","CENTER120-08","CENTER120-09","CENTER120-10","CENTER120-11","CENTER120-12","CENTER120-13","CENTER120-14","CENTER120-15","CENTER120-16","CENTER120-17","CENTER120-18","CENTER120-19","CENTER120-20","CENTER120-21","CENTER120-22"],"status":"implementation-and-verification-in-progress","deploymentVerified":false,"lawDailyCollectionVerified":false,"sampleEditorGrantPolicy":"승인 샘플ID 3개에 인증된 지정메일 회원 editor 배정. 기존 승인자/관리자 하향 없음. 일반 로그인 재부여 없음","evidence":"docs/center-20261020-fix-ledger.json"}
   },
+  "channels":{"preview":{"status":"검증 주소의 게시·실제 범위별 확인은 해당 산출물의 기록 기준","allRequirementsVerified":false},"production":{"status":"정식 주소의 게시/승격 여부는 실제 배포기록으로 확인","promotionVerified":false}},
+  "historicalProduction":{"classification":"당시 정식 검수 이력","version":"0.11.5","evidence":["docs/perf-v0115-verification.json","docs/auth-v0114-verification.json","docs/server-log-verification-20261019.json"]},
   "authentication":{
     "status":"지정12개 회사 이메일 가입·최초 이메일 확인·비밀번호 로그인. 실제 수신·가입·재로그인·로그인 유지 확인 이력 보존, 신규 최종본 별도 검수",
     "appBoundary":"플랫폼 전용 계정·세션·서버 검증",
