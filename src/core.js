@@ -279,7 +279,7 @@ const App=(()=>{
  A.on('notice-open',()=>A.notifications?.open?.());A.on('notice-dismiss',b=>A.notifications?.change?.(b.dataset.id,'delete'));
  // Bubble after input/document guards. Native dialog cancel may be non-cancelable
  // after a download consumes activation; prevent the Escape default before it fires.
- window.addEventListener('keydown',e=>{if(e.key!=='Escape'||e.isComposing||e.defaultPrevented||!document.getElementById('app-dialog').open)return;e.preventDefault();A.requestModalClose();});
+ window.addEventListener('keydown',e=>{if(e.key!=='Escape'||e.isComposing||e.defaultPrevented)return;const dialog=document.getElementById('app-dialog');if(!dialog.open)return;const focused=e.target?.closest?.('dialog')||document.activeElement?.closest?.('dialog');if(focused&&focused!==dialog)return;e.preventDefault();A.requestModalClose();});
  document.addEventListener('click',e=>{const b=e.target.closest('[data-action]');if(A.inlineEditor?.handleClick?.(e,b))return;if(b){if(cloudMode&&b.dataset.action==='project-add'&&cloudAdapter?.capabilities?.createProject!==true){e.preventDefault();A.toast('프로젝트를 추가할 권한이 없습니다.');return}const fn=actions[b.dataset.action];if(fn){e.preventDefault();try{Promise.resolve(fn(b,e)).catch(err=>A.toast(err.message))}catch(err){A.toast(err.message)}}}});
  document.addEventListener('change',e=>{if(e.target.id==='project-select'){const next=e.target.value;e.target.value=ui.projectId;A.go(ui.view,ui.tabs[ui.view]||'',next)}});
  document.addEventListener('submit',e=>{if(A.inlineEditor?.handleSubmit?.(e))return;if(e.target.getAttribute('id')==='app-form'){e.preventDefault();A.formEditor?.submit?.()}});

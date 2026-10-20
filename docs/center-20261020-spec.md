@@ -29,9 +29,9 @@
 
 ### 개인 알림 `/api/notifications`
 
-- GET: `{states:[{notificationId,readAt,deletedAt}],tasks:[...quarterlyTaskMetadata]}`. 상태는 현재 회원 것만 반환. 알림 본문은 기존 안전한 프로젝트 원장에서 생성합니다.
+- GET: `{states:[{notificationId,readAt,deletedAt}],tasks:[...quarterlyTaskMetadata],alerts:[...lawReviewAlert]}`. 상태는 현재 회원 것만 반환. 업무 알림은 기존 안전한 프로젝트 원장에서 생성하고 법령 알림은 명시 구독 이후의 신규 변경과 읽을 수 있는 현재 사업만 연결합니다.
 - PATCH JSON `{notificationId,action:'read'|'delete'|'restore'}` → `{state:{notificationId,readAt,deletedAt}}`. 원업무 삭제나 완료 아님. 읽을 수 있는 사업에서 실제 생성 가능한 알림/서버과제만 허용. viewer도 개인상태 수정 가능.
-- 브라우저는 popup 처음 열기 때 상태를 읽고 patch만 수행합니다. 낙관 갱신 실패시 행·선택·scroll 복원. legacy dismissed는 그대로 보존하고 개인 귀속을 추정하지 않습니다.
+- 브라우저는 popup을 열 때마다 소형 GET으로 개인상태·과제·법령 알림을 갱신하고 PATCH만 수행합니다. 낙관 갱신 실패시 행·선택·scroll 복원. legacy dismissed는 그대로 보존하고 개인 귀속을 추정하지 않습니다. 초기 상태를 아직 읽지 않았다면 숫자0이나 안 읽음0으로 표시하지 않습니다.
 
 ### 기준정보 `/api/reference-data`
 
@@ -59,6 +59,8 @@
 - Hobby 함수 제한을 고려하여 세 법령 주소는 단일 `api/law.js`에 명시적으로 연결합니다. 기존 주소·메서드·인증/Origin·요청 본문은 유지하며 다른 API로 우회하지 못합니다. API 함수 파일은12개입니다.
 - 하루1회 예약은 `0 23 * * *`(UTC), 한국시간08시대입니다. Hobby의 시간대 내 실행 변동을 정시08:00 보장으로 설명하지 않습니다. CRON_SECRET 검증·lease·중복 방지·누락구간 회복을 사용합니다.
 - 신규 DB 파일 `database/center-law-watches-20261020.sql`은 이 앱의 `law_project_watches`와 기존 앱법령목록의 INSERT 권한만 추가합니다. 다른 스키마·공유 Auth는 변경하지 않습니다.
+- 첫 실제 Preview 호출은 관리194개(법령180·행정규칙4·조례/규칙10) 중183개 확인·11개 부분실패였습니다. 실제 응답 형식과3MB 상한 결함을 고정한 뒤 보완합니다. 부분실패 당시 최종성공일/커서는 이동하지 않았고 과거 법령/프로젝트 원장은 보존됐습니다.
+- 큰 법령 상세는 누락 없이64KiB JSON 스트림으로 전달합니다. 입력·최종 응답·첨부파일에는 각각 유한 크기/시간 상한을 두며 4.5MB를 맞추려고 본문·별표를 잘라내지 않습니다. 첨부형 행정규칙은 조문본문 제공과 구분하고 실제 원문 링크·첨부 바이트 해시의 확인 범위를 기록합니다.
 
 ### 인허가 공통 검증
 

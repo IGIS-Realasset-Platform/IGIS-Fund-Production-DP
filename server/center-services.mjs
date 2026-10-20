@@ -6,6 +6,9 @@ import {createLawWatchHandler} from './law-watch.mjs';
 
 const S='development_project_platform',table=name=>`${S}.${name}`;
 const json=(body,status=200)=>Response.json(body,{status,headers:{'cache-control':'private, no-store','x-content-type-options':'nosniff'}});
+// Official detailed rules can exceed the platform's buffered 4.5MB response cap.
+// Stream the complete bounded JSON; do not drop articles, addenda or appendices.
+function lawDetailJson(value){let bytes=Buffer.from(JSON.stringify(value));if(bytes.byteLength>24*1024*1024)throw Error('LAW_DETAIL_RESPONSE_TOO_LARGE');let offset=0;return new Response(new ReadableStream({pull(controller){if(!bytes||offset>=bytes.byteLength){controller.close();bytes=null;return;}const end=Math.min(offset+65536,bytes.byteLength);controller.enqueue(bytes.subarray(offset,end));offset=end;},cancel(){bytes=null;}}),{headers:{'content-type':'application/json; charset=utf-8','cache-control':'private, no-store','x-content-type-options':'nosniff'}});}
 const failure=(status,code,message)=>{throw new WorkspaceError(status,code,message);};
 const id=value=>typeof value==='string'&&/^[^\u0000-\u001f\u007f]{1,200}$/.test(value)&&value.trim()===value;
 const uuid=value=>typeof value==='string'&&/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(value);
@@ -79,7 +82,7 @@ export function createCenterHandlers({withTransaction,origin,accessPolicy=readWo
    context={query,target,sequence,effectiveAt,projectId,jurisdiction:{input:String(project.permitConditions?.region||''),status:'unverified',message:'사업지의 공식 시·군·구 범위는 아직 확인되지 않았습니다.'}};return json({authorized:true});
   })(request);if(!authorized.ok)return authorized;
   // 외부 API 대기 동안 로그인용 DB 연결을 점유하지 않습니다.
-  let response;try{response=json({...await (detail?lawDetailService:lawSearchService)({...context,oc:lawConfiguration().oc,clock}),projectId:context.projectId,jurisdiction:context.jurisdiction,appliesToProject:false});}catch(error){response=json({error:error.code==='CONFIGURATION_MISSING'?'LAW_CONFIGURATION_MISSING':'LAW_SEARCH_UNAVAILABLE',message:'공식 법령 자료를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.'},503);}for(const cookie of authorized.headers.getSetCookie())response.headers.append('set-cookie',cookie);return response;
+  let response;try{const body={...await (detail?lawDetailService:lawSearchService)({...context,oc:lawConfiguration().oc,clock}),projectId:context.projectId,jurisdiction:context.jurisdiction,appliesToProject:false};response=detail?lawDetailJson(body):json(body);}catch(error){response=json({error:error.code==='CONFIGURATION_MISSING'?'LAW_CONFIGURATION_MISSING':'LAW_SEARCH_UNAVAILABLE',message:'공식 법령 자료를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.'},503);}for(const cookie of authorized.headers.getSetCookie())response.headers.append('set-cookie',cookie);return response;
  };
  return {notifications,referenceData,costSnapshots,lawSearch:lawRequest(false),lawDetail:lawRequest(true),lawWatch:createLawWatchHandler({withTransaction,origin,accessPolicy,clock,lawConfiguration,detailService:lawDetailService})};
 }
