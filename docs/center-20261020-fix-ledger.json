@@ -1,20 +1,642 @@
 {
-  "schemaVersion":"center120-fix-ledger-v1",
-  "baselineRelease":"0.11.5",
-  "targetRelease":"0.12.0",
-  "asOf":"2026-10-20",
-  "status":"implementation-and-verification-in-progress",
-  "specification":"docs/center-20261020-spec.md",
-  "completionPolicy":"구현·자동검사·실제 화면/출력·원격 배포를 분리하고 최종 소스 지문과 연결된 실제 실행 근거만 완료로 표시한다. 등록 동작 수는 실행 검수 수가 아니다.",
-  "items":[
-    {"id":"CENTER120-01","title":"승인 샘플 A·B·C 회원 접근","acceptance":"기존 인증회원 일회 보완·신규 가입 트랜잭션에서 정확 샘플ID3개 editor. 기존 approver/admin 보존·실사업 권한 불변·로그인 재부여 금지. 조회/수정/CAS/재접속/동시수정 검증","implementation":{"status":"in_progress","files":["server/sample-access.mjs","server/email-auth-runtime.mjs"]},"automatic":{"status":"pending","tests":["tests/center120-server-baseline.mjs","tests/center120-independent-boundaries.mjs"]},"browser":{"status":"unverified","evidence":[]},"deployment":{"status":"unverified","evidence":[]}},
-    {"id":"CENTER120-02","title":"회의·마스터플랜·Cost Tracker 반영","acceptance":"마스터플랜21시트·Cost Tracker1시트 읽기전용 대응. 정비사업 사례를 공통 의무로 승격하거나 부분 예산을 전체 TIC로 대체하지 않음","implementation":{"status":"in_progress","files":["docs/center-20261020-spec.md","src/permit-map.js"]},"automatic":{"status":"pending","tests":["tests/center120-permit-independent.mjs"]},"browser":{"status":"unverified","evidence":[]},"deployment":{"status":"unverified","evidence":[]}},
-    {"id":"CENTER120-03","title":"시공사·협력사 원사이트 기준정보 복구","acceptance":"5분야 각30·지표·수주/뉴스/공식코멘트/확인단가를 출처ID로 보존. 지연조회·원장/내부메모와 분리·조회만으로 회사생성/감사/전체저장0·미확인과0구별","implementation":{"status":"implemented","files":["src/reference-data.js","src/partners.js","scripts/normalize-portal-reference.mjs","api/reference-data.js"]},"automatic":{"status":"passed_partial","tests":["tests/center120-interface.mjs","tests/center120-interface-runtime.mjs","tests/center120-reference-normalization.mjs"],"boundary":"프론트/변환기 집중검사 통과. 서버/실DB/원격 최종본은 별도"},"browser":{"status":"passed_partial","evidence":[".build/center120-interface-browser/2026-10-20T05-43-22-031Z/verification.json"],"boundary":"현재 모듈+통제 API의 격리 Edge 집중검수. 전체 배포/실DB E2E 아님"},"deployment":{"status":"unverified","evidence":[]}},
-    {"id":"CENTER120-04","title":"개인 알림 읽음·삭제 및 팝업","acceptance":"최대720px/80vh 목록↔상세·삭제 문구·사용자별 소형API·연속클릭 차단·실패/위치복원. 공용원문/다른회원/분기과제 완료/업무감사/전체PUT/전체렌더 불변","implementation":{"status":"implemented","files":["src/notifications.js","src/notifications.css","src/core.js","api/notifications.js"]},"automatic":{"status":"passed_partial","tests":["tests/center120-interface.mjs","tests/center120-interface-runtime.mjs","tests/v0106-core.mjs","tests/v0109-common.mjs"],"boundary":"클라이언트 집중/기존 회귀 통과. 개인상태 미조회 시 숫자배지 미표시 반례 추가·부트 추가HTTP0. 원격 최종본 미검증"},"browser":{"status":"passed_partial","evidence":[".build/center120-interface-browser/2026-10-20T05-43-22-031Z/verification.json"],"boundary":"격리 Edge 1280×800/1440×900/1600×1000/390×844, 목록·상세·403복원·중복클릭·Escape. 최종 전체HTML과 서버는 별도"},"deployment":{"status":"unverified","evidence":[]}},
-    {"id":"CENTER120-05","title":"사업비 전체 이력·시점 기록","acceptance":"묶음 전체 구성원 이력·사건 중복제거·KST. 최초UW/최근 승인예산/현재추정 구별. 분기말 과제→담당자 확인→별도 불변본, 주요시점 별도·정정 append·충돌/실패 원자성·4MB 분리","implementation":{"status":"in_progress","files":["src/cbs.js","src/cost-snapshots.js","api/cost-snapshots.js","server/center-services.mjs"]},"automatic":{"status":"pending","tests":["tests/center120-cost.mjs","tests/center120-cost-snapshots.mjs","tests/center120-services.mjs"]},"browser":{"status":"unverified","evidence":[]},"deployment":{"status":"unverified","evidence":[]}},
-    {"id":"CENTER120-06","title":"9용도 비용 프리셋 미리보기·무변경 재적용","acceptance":"공통37/CBS유형 유지·금액null. 계약범위/부담주체/용도별 후보 미리보기 선택. 이미 포함 제외·숨긴ID재사용·재적용 no-op·취소/실패/사업격리","implementation":{"status":"in_progress","files":["src/cost-asset-presets.js","src/data/cost-presets-v2.json"]},"automatic":{"status":"pending","tests":["tests/center120-cost.mjs"]},"browser":{"status":"unverified","evidence":[]},"deployment":{"status":"unverified","evidence":[]}},
-    {"id":"CENTER120-07","title":"인허가 조건·회차·세로 시간축 맵","acceptance":"일반 건축 골격+방식/조건별 후보·가로 절차/세로 월·목록/상세 동일원장·다중 선행/관계종류·반복회차·검토의견별 조치 보존. 실제일은 발생단계 필수·공통 서버검증·무관legacy 저장차단 금지","implementation":{"status":"in_progress","files":["shared/permit-domain.mjs","src/permit-map.js","src/legal.js","src/permit-views.js"]},"automatic":{"status":"pending","tests":["tests/center-permit-domain.mjs","tests/center-permit-regression.mjs","tests/center120-permit-independent.mjs"]},"browser":{"status":"unverified","evidence":[]},"deployment":{"status":"unverified","evidence":[]}},
-    {"id":"CENTER120-08","title":"공식 법령 API·일일 점검","acceptance":"공식API 서버수집·일일 예약·성공/부분실패/마지막성공/누락기간/lease/중복/재시도 구별. 빈응답·인증오류≠변경0·과거원문/프로젝트판단 보존·확인범위 설명 제거","implementation":{"status":"in_progress","files":["server/law-collector.mjs","server/maintenance-runtime.mjs","src/law-monitor.js","api/maintenance.js","api/law-search.js","api/law-detail.js"]},"automatic":{"status":"pending","tests":["tests/center120-law-api.mjs","tests/center120-maintenance.mjs"]},"browser":{"status":"unverified","evidence":[]},"deployment":{"status":"unverified","evidence":[],"boundary":"API 설정만으로 정상 수집·예약 실행 완료를 선언하지 않음"}},
-    {"id":"CENTER120-09","title":"현행 명세·재귀 동작 인벤토리·검수 동기화","acceptance":"8개 명세화면/전체JSON을 현행·대체요구·당시검수·향후로 분리. 등록handler/폼/셀/드래그/키보드/분기 정적 후보와 실제 실행 분모 구별·최종소스지문/완료상태 일치","implementation":{"status":"implemented_partial","files":["src/spec.js","src/data/deployment-status-cloud-v0111.json","scripts/center120-action-inventory.mjs","docs/center-20261020-fix-ledger.json"],"boundary":"명세 투영·동작 인벤토리 구현. 재귀 실제 실행·전체 문서/Excel 동기화는 root 최종 검수 중"},"automatic":{"status":"passed_partial","tests":["tests/center120-spec.mjs","tests/deployment-spec-current.mjs","tests/real-projects-spec.mjs"],"boundary":"현재 클라우드 모듈 VM·8개 명세 마크업·당시/현행 경계·등록관측·오래된 소스 실행증거 거부 통과. 실제 화면/최종 배포 E2E 아님"},"browser":{"status":"unverified","evidence":[]},"deployment":{"status":"unverified","evidence":[]}}
-  ]
+  "schemaVersion": "center120-fix-ledger-v1",
+  "baselineRelease": "0.11.5",
+  "targetRelease": "0.12.0",
+  "asOf": "2026-10-20",
+  "status": "implementation-and-final-verification-in-progress",
+  "specification": "docs/center-20261020-spec.md",
+  "completionPolicy": "구현·자동검사·실제 화면/출력·원격 배포를 분리하고 최종 소스 지문과 연결된 실제 실행 근거만 완료로 표시한다. 등록 동작 수는 실행 검수 수가 아니다.",
+  "items": [
+    {
+      "id": "CENTER120-01",
+      "title": "승인 샘플 A·B·C 회원 접근",
+      "acceptance": "기존 인증회원 일회 보완·신규 가입 트랜잭션에서 정확 샘플ID3개 editor. 기존 approver/admin 보존·실사업 권한 불변·로그인 재부여 금지. 조회/수정/CAS/재접속/동시수정 검증",
+      "implementation": {
+        "status": "implemented",
+        "files": [
+          "server/sample-access.mjs",
+          "server/email-auth-runtime.mjs"
+        ]
+      },
+      "automatic": {
+        "status": "passed_partial",
+        "tests": [
+          "tests/center120-server-baseline.mjs",
+          "tests/center120-independent-boundaries.mjs"
+        ],
+        "boundary": "관련 집중·회귀 검사를 수행했으나 최종 HTML/실DB/원격 전체 업무·자연 예약 실행을 대신하지 않습니다."
+      },
+      "browser": {
+        "status": "unverified",
+        "evidence": []
+      },
+      "deployment": {
+        "status": "unverified",
+        "evidence": []
+      },
+      "completed": false
+    },
+    {
+      "id": "CENTER120-02",
+      "title": "회의·마스터플랜·Cost Tracker 반영",
+      "acceptance": "마스터플랜21시트·Cost Tracker1시트 읽기전용 대응. 정비사업 사례를 공통 의무로 승격하거나 부분 예산을 전체 TIC로 대체하지 않음",
+      "implementation": {
+        "status": "implemented_partial",
+        "files": [
+          "docs/center-20261020-spec.md",
+          "src/permit-map.js"
+        ]
+      },
+      "automatic": {
+        "status": "passed_partial",
+        "tests": [
+          "tests/center120-permit-independent.mjs"
+        ],
+        "boundary": "관련 집중·회귀 검사를 수행했으나 최종 HTML/실DB/원격 전체 업무·자연 예약 실행을 대신하지 않습니다."
+      },
+      "browser": {
+        "status": "unverified",
+        "evidence": []
+      },
+      "deployment": {
+        "status": "unverified",
+        "evidence": []
+      },
+      "completed": false
+    },
+    {
+      "id": "CENTER120-03",
+      "title": "시공사·협력사 원사이트 기준정보 복구",
+      "acceptance": "5분야 각30·지표·수주/뉴스/공식코멘트/확인단가를 출처ID로 보존. 지연조회·원장/내부메모와 분리·조회만으로 회사생성/감사/전체저장0·미확인과0구별",
+      "implementation": {
+        "status": "implemented",
+        "files": [
+          "src/reference-data.js",
+          "src/partners.js",
+          "scripts/normalize-portal-reference.mjs",
+          "api/reference-data.js"
+        ]
+      },
+      "automatic": {
+        "status": "passed_partial",
+        "tests": [
+          "tests/center120-interface.mjs",
+          "tests/center120-interface-runtime.mjs",
+          "tests/center120-reference-normalization.mjs"
+        ],
+        "boundary": "프론트/변환기 집중검사 통과. 서버/실DB/원격 최종본은 별도"
+      },
+      "browser": {
+        "status": "unverified",
+        "evidence": [],
+        "boundary": "과거 부분증거는 보존하며 최종 생성 HTML의 현재 요구 검수는 별도입니다.",
+        "historicalEvidence": [
+          {
+            "path": ".build/center120-interface-browser/2026-10-20T05-43-22-031Z/verification.json",
+            "scope": "이전 특정 모듈·통제 API 격리 Edge 부분 증거. 현재 최종 지문 검수와 구분"
+          }
+        ]
+      },
+      "deployment": {
+        "status": "unverified",
+        "evidence": []
+      },
+      "completed": false,
+      "referenceSnapshot": {
+        "version": "raportal-dom-20261020-v2",
+        "checkedAt": "2026-10-20T07:56:40.106Z",
+        "sourceScopedCompanies": 150,
+        "groups": 5,
+        "rowsPerGroup": 30,
+        "awards": 158,
+        "news": 245,
+        "officialComments": 11,
+        "unitCostRecords": 5,
+        "workspaceRevisionAfter": 21,
+        "workspaceMd5After": "d9ac740e80414491cb8af38e80dd31fb",
+        "fullServiceMigrationCompleted": false
+      }
+    },
+    {
+      "id": "CENTER120-04",
+      "title": "개인 알림 읽음·삭제 및 팝업",
+      "acceptance": "최대720px/80vh 목록↔상세·삭제 문구·사용자별 소형API·연속클릭 차단·실패/위치복원. 공용원문/다른회원/분기과제 완료/업무감사/전체PUT/전체렌더 불변",
+      "implementation": {
+        "status": "implemented",
+        "files": [
+          "src/notifications.js",
+          "src/notifications.css",
+          "src/core.js",
+          "api/notifications.js"
+        ]
+      },
+      "automatic": {
+        "status": "passed_partial",
+        "tests": [
+          "tests/center120-interface.mjs",
+          "tests/center120-interface-runtime.mjs",
+          "tests/v0106-core.mjs",
+          "tests/v0109-common.mjs"
+        ],
+        "boundary": "클라이언트 집중/기존 회귀 통과. 개인상태 미조회 시 숫자배지 미표시 반례 추가·부트 추가HTTP0. 원격 최종본 미검증"
+      },
+      "browser": {
+        "status": "unverified",
+        "evidence": [],
+        "boundary": "과거 부분증거는 보존하며 최종 생성 HTML의 현재 요구 검수는 별도입니다.",
+        "historicalEvidence": [
+          {
+            "path": ".build/center120-interface-browser/2026-10-20T05-43-22-031Z/verification.json",
+            "scope": "이전 특정 모듈·통제 API 격리 Edge 부분 증거. 현재 최종 지문 검수와 구분"
+          }
+        ]
+      },
+      "deployment": {
+        "status": "unverified",
+        "evidence": []
+      },
+      "completed": false
+    },
+    {
+      "id": "CENTER120-05",
+      "title": "사업비 전체 이력·시점 기록",
+      "acceptance": "묶음 전체 구성원 이력·사건 중복제거·KST. 최초UW/최근 승인예산/현재추정 구별. 분기말 과제→담당자 확인→별도 불변본, 주요시점 별도·정정 append·충돌/실패 원자성·4MB 분리",
+      "implementation": {
+        "status": "implemented",
+        "files": [
+          "src/cbs.js",
+          "src/cost-snapshots.js",
+          "api/cost-snapshots.js",
+          "server/center-services.mjs"
+        ]
+      },
+      "automatic": {
+        "status": "passed_partial",
+        "tests": [
+          "tests/center120-cost.mjs",
+          "tests/center120-cost-snapshots.mjs",
+          "tests/center120-services.mjs"
+        ],
+        "boundary": "관련 집중·회귀 검사를 수행했으나 최종 HTML/실DB/원격 전체 업무·자연 예약 실행을 대신하지 않습니다."
+      },
+      "browser": {
+        "status": "unverified",
+        "evidence": []
+      },
+      "deployment": {
+        "status": "unverified",
+        "evidence": []
+      },
+      "completed": false
+    },
+    {
+      "id": "CENTER120-06",
+      "title": "9용도 비용 프리셋 미리보기·무변경 재적용",
+      "acceptance": "공통37/CBS유형 유지·금액null. 계약범위/부담주체/용도별 후보 미리보기 선택. 이미 포함 제외·숨긴ID재사용·재적용 no-op·취소/실패/사업격리",
+      "implementation": {
+        "status": "implemented",
+        "files": [
+          "src/cost-asset-presets.js",
+          "src/data/cost-presets-v2.json"
+        ]
+      },
+      "automatic": {
+        "status": "passed_partial",
+        "tests": [
+          "tests/center120-cost.mjs"
+        ],
+        "boundary": "관련 집중·회귀 검사를 수행했으나 최종 HTML/실DB/원격 전체 업무·자연 예약 실행을 대신하지 않습니다."
+      },
+      "browser": {
+        "status": "unverified",
+        "evidence": []
+      },
+      "deployment": {
+        "status": "unverified",
+        "evidence": []
+      },
+      "completed": false
+    },
+    {
+      "id": "CENTER120-07",
+      "title": "인허가 조건·회차·세로 시간축 맵",
+      "acceptance": "일반 건축 골격+방식/조건별 후보·가로 절차/세로 월·목록/상세 동일원장·다중 선행/관계종류·반복회차·검토의견별 조치 보존. 실제일은 발생단계 필수·공통 서버검증·무관legacy 저장차단 금지",
+      "implementation": {
+        "status": "implemented_partial",
+        "files": [
+          "shared/permit-domain.mjs",
+          "src/permit-map.js",
+          "src/legal.js",
+          "src/permit-views.js"
+        ]
+      },
+      "automatic": {
+        "status": "passed_partial",
+        "tests": [
+          "tests/center-permit-domain.mjs",
+          "tests/center-permit-regression.mjs",
+          "tests/center120-permit-independent.mjs"
+        ],
+        "boundary": "관련 집중·회귀 검사를 수행했으나 최종 HTML/실DB/원격 전체 업무·자연 예약 실행을 대신하지 않습니다."
+      },
+      "browser": {
+        "status": "unverified",
+        "evidence": []
+      },
+      "deployment": {
+        "status": "unverified",
+        "evidence": []
+      },
+      "completed": false
+    },
+    {
+      "id": "CENTER120-08",
+      "title": "공식 법령 API·일일 점검",
+      "acceptance": "공식API 서버수집·일일 예약·성공/부분실패/마지막성공/누락기간/lease/중복/재시도 구별. 빈응답·인증오류≠변경0·과거원문/프로젝트판단 보존·확인범위 설명 제거",
+      "implementation": {
+        "status": "implemented",
+        "files": [
+          "server/law-collector.mjs",
+          "server/law-change-identity.mjs",
+          "server/maintenance-runtime.mjs",
+          "server/law-router.mjs",
+          "src/law-monitor.js",
+          "api/maintenance.js",
+          "api/law.js",
+          "vercel.json"
+        ]
+      },
+      "automatic": {
+        "status": "passed_partial",
+        "tests": [
+          "tests/center120-law-api.mjs",
+          "tests/center120-maintenance.mjs",
+          "tests/center120-law-live-shapes.mjs",
+          "tests/center120-law-stream.mjs",
+          "tests/center120-law-identity-independent.mjs",
+          "tests/center120-law-identity-services.mjs"
+        ],
+        "boundary": "관련 집중·회귀 검사를 수행했으나 최종 HTML/실DB/원격 전체 업무·자연 예약 실행을 대신하지 않습니다."
+      },
+      "browser": {
+        "status": "unverified",
+        "evidence": []
+      },
+      "deployment": {
+        "status": "preview_verified_partial",
+        "evidence": [
+          ".build/center-20261020/candidate-03-ready-cron-verification.json",
+          "docs/center-20261020-database-verification.json"
+        ],
+        "boundary": "2026-10-20 15:57:34 KST 보호된 Preview 수동 호출194/194 성공. 최신 후속요구 배포·정식전환·예약 자연실행과 구분",
+        "naturalScheduledRun": "unverified"
+      },
+      "completed": false,
+      "historicalPartialFailure": {
+        "confirmed": 183,
+        "requested": 194,
+        "failures": 11,
+        "resolvedBy": "행정규칙 공식 응답 형식·대형본문 유한 스트림·첨부 원문 확인 교정"
+      }
+    },
+    {
+      "id": "CENTER120-09",
+      "title": "현행 명세·재귀 동작 인벤토리·검수 동기화",
+      "acceptance": "8개 명세화면/전체JSON을 현행·대체요구·당시검수·향후로 분리. 등록handler/폼/셀/드래그/키보드/분기 정적 후보와 실제 실행 분모 구별·최종소스지문/완료상태 일치",
+      "implementation": {
+        "status": "implemented_partial",
+        "files": [
+          "src/spec.js",
+          "src/data/deployment-status-cloud-v0111.json",
+          "scripts/center120-action-inventory.mjs",
+          "docs/center-20261020-fix-ledger.json"
+        ],
+        "boundary": "현행/과거/계획을 구분한 최초9건과 추가8건의 명세·대장 갱신. 누적 Excel·Git 원격본·최종 전수검사는 별도입니다."
+      },
+      "automatic": {
+        "status": "passed_partial",
+        "tests": [
+          "tests/center120-spec.mjs",
+          "tests/deployment-spec-current.mjs",
+          "tests/real-projects-spec.mjs"
+        ],
+        "boundary": "현재 클라우드 모듈 VM·8개 명세 마크업·당시/현행 경계·등록관측·오래된 소스 실행증거 거부 통과. 실제 화면/최종 배포 E2E 아님"
+      },
+      "browser": {
+        "status": "unverified",
+        "evidence": []
+      },
+      "deployment": {
+        "status": "unverified",
+        "evidence": []
+      },
+      "completed": false
+    },
+    {
+      "id": "CENTER120-10",
+      "title": "GitHub README·버전·명세 기록 연결",
+      "acceptance": "전용 비공개 저장소의 README/버전 내역/명세/요구ID를 실제 릴리스에 맞춰 게시. 로컬 문서 수정과 GitHub 게시 확인 구분. 원본·비밀값·다른 서비스 저장소 변경 금지",
+      "completed": false,
+      "implementation": {
+        "status": "implemented_partial",
+        "files": [
+          "README.md",
+          "docs/center-20261020-spec.md",
+          "docs/center-20261020-fix-ledger.json",
+          "scripts/prepare-github-release.mjs"
+        ],
+        "boundary": "로컬 문서·명시 허용목록 갱신. clone README/VERSION_HISTORY와 원격 게시 대조는 root 최종 단계"
+      },
+      "automatic": {
+        "status": "pending",
+        "tests": [],
+        "boundary": "로컬 문서·명시 허용목록 갱신. clone README/VERSION_HISTORY와 원격 게시 대조는 root 최종 단계"
+      },
+      "browser": {
+        "status": "unverified",
+        "evidence": [],
+        "boundary": "후속요구 최종 HTML의 실제 화면 검수 대기"
+      },
+      "deployment": {
+        "status": "unverified",
+        "evidence": [],
+        "boundary": "candidate03 이후 추가된 요구. 새 검증배포·정식전환 완료로 처리하지 않음"
+      }
+    },
+    {
+      "id": "CENTER120-11",
+      "title": "알림 원문·대상 업무·다음 행동 설명",
+      "acceptance": "일반/분기/법령 알림의 실제 원문·대상·기한·완료상태·확인 행동 표시. 원문 없는 금액·행위자 추측 금지. 설명 조회로 원장/감사/전체PUT/전체렌더 쓰기 금지",
+      "completed": false,
+      "implementation": {
+        "status": "implemented",
+        "files": [
+          "src/notifications.js"
+        ],
+        "boundary": "현재 소스의 집중검사이며 실제 최종 화면·원격 배포 검수는 별도입니다."
+      },
+      "automatic": {
+        "status": "passed_partial",
+        "tests": [
+          "tests/center120-notification-explanations.mjs",
+          "tests/center120-interface-runtime.mjs"
+        ],
+        "boundary": "현재 소스의 집중검사이며 실제 최종 화면·원격 배포 검수는 별도입니다."
+      },
+      "browser": {
+        "status": "unverified",
+        "evidence": [],
+        "boundary": "후속요구 최종 HTML의 실제 화면 검수 대기"
+      },
+      "deployment": {
+        "status": "unverified",
+        "evidence": [],
+        "boundary": "candidate03 이후 추가된 요구. 새 검증배포·정식전환 완료로 처리하지 않음"
+      }
+    },
+    {
+      "id": "CENTER120-12",
+      "title": "사업유형·방식 추천과 지역별 확인할 조례",
+      "acceptance": "저장조건 우선·사업 기본값 보완·추천/전체/조건보기/지역팝업 왕복 선택유지. 공식기관 선택 후4분야 후보·상위법 검토근거·사업 사실·별표 미확인 제공. 예시주소 자동관할판정/절차자동생성/구독쓰기 금지",
+      "completed": false,
+      "implementation": {
+        "status": "implemented_partial",
+        "files": [
+          "src/permit-map.js",
+          "src/law-monitor.js",
+          "server/law-regional.mjs",
+          "server/center-services.mjs",
+          "server/law-router.mjs",
+          "server/workspace-runtime.mjs",
+          "api/law.js",
+          "vercel.json"
+        ],
+        "boundary": "추천/선택·읽기전용 지역조회 구현. 기관목록과5개 선택조회는 공식 공개test로 확인했으나 모든 지역조례·별표·실사업 적용 검토 완료 아님"
+      },
+      "automatic": {
+        "status": "passed_partial",
+        "tests": [
+          "tests/center120-permit-followup.mjs",
+          "tests/center120-regional-ui.mjs",
+          "tests/center120-law-regional.mjs",
+          "tests/center120-law-regional-domain.mjs"
+        ],
+        "boundary": "추천/선택·읽기전용 지역조회 구현. 기관목록과5개 선택조회는 공식 공개test로 확인했으나 모든 지역조례·별표·실사업 적용 검토 완료 아님",
+        "evidence": [
+          ".build/center-20261020/regional-law-regression.json",
+          ".build/center-20261020/regional-law-live-verification.json"
+        ]
+      },
+      "browser": {
+        "status": "unverified",
+        "evidence": [],
+        "boundary": "후속요구 최종 HTML의 실제 화면 검수 대기"
+      },
+      "deployment": {
+        "status": "unverified",
+        "evidence": [],
+        "boundary": "candidate03 이후 추가된 요구. 새 검증배포·정식전환 완료로 처리하지 않음"
+      },
+      "coverage": {
+        "officialSingleCodeOptions": 19,
+        "unselectableGroupedOptions": 1,
+        "verifiedDirectoryRequests": 19,
+        "verifiedSelectionReviews": 5,
+        "allCurrentMetrosCountClaimed": false,
+        "allLocalLawsReviewed": false,
+        "projectJurisdictionsAutoConfirmed": false
+      }
+    },
+    {
+      "id": "CENTER120-13",
+      "title": "인허가 일정 맵의 기간·현재월 탐색",
+      "acceptance": "목록/맵 진입명·계획/실제 기간·현재월/첫일정/마지막일정·같은 상세연결. 월단위 자료의 날짜 생성 금지·조회 원장 무변경·사업별 범위 격리",
+      "completed": false,
+      "implementation": {
+        "status": "implemented",
+        "files": [
+          "src/permit-map.js",
+          "src/permit-map.css"
+        ],
+        "boundary": "현재 소스의 집중검사이며 실제 최종 화면·원격 배포 검수는 별도입니다."
+      },
+      "automatic": {
+        "status": "passed_partial",
+        "tests": [
+          "tests/center120-permit-followup.mjs",
+          "tests/center120-permit-independent.mjs"
+        ],
+        "boundary": "현재 소스의 집중검사이며 실제 최종 화면·원격 배포 검수는 별도입니다."
+      },
+      "browser": {
+        "status": "unverified",
+        "evidence": [],
+        "boundary": "후속요구 최종 HTML의 실제 화면 검수 대기"
+      },
+      "deployment": {
+        "status": "unverified",
+        "evidence": [],
+        "boundary": "candidate03 이후 추가된 요구. 새 검증배포·정식전환 완료로 처리하지 않음"
+      }
+    },
+    {
+      "id": "CENTER120-14",
+      "title": "소유자 전용 플랫폼 명세",
+      "acceptance": "서버 확인 kylee@igisam.com의 viewPlatformSpec만 허용. 다른 관리자에게 자동 허용하지 않음. 메뉴/직접경로/복사/다운로드 앱 동작 검사. 소스 암호화·업무권한 확대로 주장하지 않음",
+      "completed": false,
+      "implementation": {
+        "status": "implemented",
+        "files": [
+          "server/cloud-storage.mjs",
+          "src/core.js",
+          "src/spec.js"
+        ],
+        "boundary": "현재 소스의 집중검사이며 실제 최종 화면·원격 배포 검수는 별도입니다."
+      },
+      "automatic": {
+        "status": "passed_partial",
+        "tests": [
+          "tests/center120-owner-spec.mjs",
+          "tests/center120-spec.mjs"
+        ],
+        "boundary": "현재 소스의 집중검사이며 실제 최종 화면·원격 배포 검수는 별도입니다."
+      },
+      "browser": {
+        "status": "unverified",
+        "evidence": [],
+        "boundary": "후속요구 최종 HTML의 실제 화면 검수 대기"
+      },
+      "deployment": {
+        "status": "unverified",
+        "evidence": [],
+        "boundary": "candidate03 이후 추가된 요구. 새 검증배포·정식전환 완료로 처리하지 않음"
+      }
+    },
+    {
+      "id": "CENTER120-15",
+      "title": "시공사·협력사 최신 원문 재대조",
+      "acceptance": "2026-10-20 16:56 KST v2의150업체/158수주/245뉴스/공식11코멘트/확인5단가를 출처ID로 별도 저장. 원본조회일·실적기준일 구별·이전 스냅샷/내부정보/원장 보존. 자료 복구를17번 이관 완료로 확대하지 않음",
+      "completed": false,
+      "implementation": {
+        "status": "implemented",
+        "files": [
+          "scripts/normalize-portal-reference.mjs",
+          "src/reference-data.js",
+          "src/partners.js",
+          "docs/center-20261020-database-verification.json"
+        ],
+        "boundary": "현재 소스의 집중검사이며 실제 최종 화면·원격 배포 검수는 별도입니다."
+      },
+      "automatic": {
+        "status": "passed_partial",
+        "tests": [
+          "tests/center120-reference-normalization.mjs",
+          "tests/center120-interface-runtime.mjs"
+        ],
+        "boundary": "현재 소스의 집중검사이며 실제 최종 화면·원격 배포 검수는 별도입니다."
+      },
+      "browser": {
+        "status": "unverified",
+        "evidence": [],
+        "boundary": "후속요구 최종 HTML의 실제 화면 검수 대기"
+      },
+      "deployment": {
+        "status": "unverified",
+        "evidence": [],
+        "boundary": "candidate03 이후 추가된 요구. 새 검증배포·정식전환 완료로 처리하지 않음"
+      },
+      "database": {
+        "status": "verified_reference_snapshot_only",
+        "evidence": [
+          "docs/center-20261020-database-verification.json"
+        ],
+        "version": "raportal-dom-20261020-v2",
+        "workspaceRevision": 21,
+        "workspaceMd5": "d9ac740e80414491cb8af38e80dd31fb",
+        "originalServiceChanged": false
+      }
+    },
+    {
+      "id": "CENTER120-16",
+      "title": "프리셋 팝업의 현재 사업비 항목",
+      "acceptance": "실제 본표의 현재 이름/순서/계층을 읽기전용으로 표시하고 추가후보와 분리. 공통37로 행 재생성/금액 생성/현재행 선택버튼 금지. 숨긴 선택항목 제외·기존금액 보존·부모 복귀",
+      "completed": false,
+      "implementation": {
+        "status": "implemented",
+        "files": [
+          "src/cost-asset-presets.js"
+        ],
+        "boundary": "현재 소스의 집중검사이며 실제 최종 화면·원격 배포 검수는 별도입니다."
+      },
+      "automatic": {
+        "status": "passed_partial",
+        "tests": [
+          "tests/center120-cost-current-items.mjs",
+          "tests/center120-cost-independent.mjs"
+        ],
+        "boundary": "현재 소스의 집중검사이며 실제 최종 화면·원격 배포 검수는 별도입니다."
+      },
+      "browser": {
+        "status": "unverified",
+        "evidence": [],
+        "boundary": "후속요구 최종 HTML의 실제 화면 검수 대기"
+      },
+      "deployment": {
+        "status": "unverified",
+        "evidence": [],
+        "boundary": "candidate03 이후 추가된 요구. 새 검증배포·정식전환 완료로 처리하지 않음"
+      }
+    },
+    {
+      "id": "CENTER120-17",
+      "title": "원사이트 전체 기능·자동화 이관",
+      "acceptance": "자료 복구를 넘어 원사이트 제공기능과 수집/갱신/예약/관리 자동화를 원본 코드·운영근거로 목록화해 이관. 댓글/권한/관리동작 포함 여부 실제대조. 원본 운영·DB·배포 변경/비밀파일·키 복사 금지. 미확보 원본을 추측 구현/완료로 처리하지 않음",
+      "completed": false,
+      "implementation": {
+        "status": "pending_source_inventory",
+        "files": [
+          "docs/center-20261020-spec.md",
+          "docs/center-20261020-fix-ledger.json"
+        ],
+        "boundary": "추가 범위 확정·원본 저장소/스케줄러 탐색 단계. 03/15의 스냅샷 복구는 선행 부분 단계이며 전체 이관 미완료"
+      },
+      "automatic": {
+        "status": "unverified",
+        "tests": [],
+        "boundary": "추가 범위 확정·원본 저장소/스케줄러 탐색 단계. 03/15의 스냅샷 복구는 선행 부분 단계이며 전체 이관 미완료"
+      },
+      "browser": {
+        "status": "unverified",
+        "evidence": [],
+        "boundary": "후속요구 최종 HTML의 실제 화면 검수 대기"
+      },
+      "deployment": {
+        "status": "unverified",
+        "evidence": [],
+        "boundary": "candidate03 이후 추가된 요구. 새 검증배포·정식전환 완료로 처리하지 않음"
+      },
+      "sourceInventory": {
+        "status": "in_progress_read_only",
+        "sourceRepositoryConfirmed": false,
+        "automationInventoryComplete": false,
+        "secretValuesRead": false,
+        "originalServiceModified": false
+      }
+    }
+  ],
+  "requirementsCount": 17,
+  "scopeUpdate": "최초 CENTER120-01~09에 후속 CENTER120-10~17 추가. 제품/자동검사/실제화면/원격배포/자연예약 실행을 구분",
+  "currentProductionRelease": "0.11.5",
+  "remoteCandidate": {
+    "deploymentId": "dpl_7cj6e59yJ1C75k46VqXygD1ob6HH",
+    "htmlSha256": "0cb3a79f5350302c935bce57f06259b0585bce6fe1df7439c02c0d6732a5063e",
+    "newFollowupRequirementsDeployed": false,
+    "lawCollectionVerified": true,
+    "naturalScheduledRunVerified": false
+  },
+  "workspacePreservation": {
+    "revision": 21,
+    "md5": "d9ac740e80414491cb8af38e80dd31fb",
+    "evidence": "docs/center-20261020-database-verification.json"
+  }
 }

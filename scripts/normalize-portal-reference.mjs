@@ -10,7 +10,7 @@ const split=value=>String(value||'').split('\n').map(x=>x.trim()).filter(Boolean
 
 function feedItem(item,kind){
  const lines=split(item.text),first=lines[0]||'',date=first.match(/\b(20\d{2})[.\-/](\d{2})[.\-/](\d{2})\b/),firstLink=links(item.links)[0],at=date?`${date[1]}-${date[2]}-${date[3]}`:'';
- if(kind==='awards'){const amount=lines.find(x=>/^금액/.test(x))?.match(/^금액\s*([\d,.]+)\s*억원/);return {date:at,project:lines[1]||'',client:lines[2]&&!/^금액/.test(lines[2])?lines[2]:'',amount_krw:amount?number(amount[1])*1e8:null,source_name:firstLink?.label||lines.at(-1)||'',source_url:firstLink?.url||'',sourceText:item.text,links:links(item.links)}}
+ if(kind==='awards'){const amount=String(item.text||'').match(/(?:^|\n)\s*금액\s*([\d,.]+)\s*억원/);return {date:at,project:lines[1]||'',client:lines[2]&&!/^금액/.test(lines[2])?lines[2]:'',amount_krw:amount?number(amount[1])*1e8:null,source_name:firstLink?.label||lines.at(-1)||'',source_url:firstLink?.url||'',sourceText:item.text,links:links(item.links)}}
  return {published:at,title:lines[1]||'',source:first.split('·').slice(1).join('·').trim(),summary:lines.slice(2).join('\n'),url:firstLink?.url||'',sourceText:item.text,links:links(item.links)};
 }
 function unitCostRecords(rawRow){
@@ -35,7 +35,7 @@ export function normalizePortalReference(raw){
   const title=String(group.title||''),year=title.match(/(20\d{2})년?/)?.[1]||'',quarter=title.match(/(\d)\/4분기/)?.[1],basis=group.caption?.match(/조회 기준:\s*(\d{4})\/(\d{2})\/(\d{2})/),version=quarter?`${year}년 ${quarter}분기`:year;
   const meta={title,latest_year:year,latest_label:version,basis_date:basis?`${basis[1]}-${basis[2]}-${basis[3]}`:version,source_url:links(group.sourceLinks)[0]?.url||raw.source,caption:group.caption||'',headers:group.headers||[]};
   if(group.id==='cm')meta.announcement_year=links(group.sourceLinks)[0]?.url.match(/GONGSI_YEAR=(\d{4})/)?.[1]||'';
-  const ranks=new Set();const rows=group.rows.map(rawRow=>{const cells=Object.fromEntries((rawRow.cells||[]).map(x=>[x.field,x.value])),details=detailMap(rawRow),rank=number(cells.rank);if(!Number.isInteger(rank)||rank<1||rank>30||ranks.has(rank)||!rawRow.name||!rawRow.sourceRowId)throw Error('업체 원행의 순위·이름·식별값을 확인해 주세요.');ranks.add(rank);
+  const ranks=new Set();const rows=group.rows.map(rawRow=>{if((rawRow.cells||[]).some(x=>typeof x.field!=='string'||!x.field||/amount/.test(x.field)&&!(/_amount_(?:million|100m)_krw$/.test(x.field)||x.field==='amount_million_krw')))throw Error('금액 열의 식별값을 확인해 주세요.');const cells=Object.fromEntries((rawRow.cells||[]).map(x=>[x.field,x.value])),details=detailMap(rawRow),rank=number(cells.rank);if(!Number.isInteger(rank)||rank<1||rank>30||ranks.has(rank)||!rawRow.name||!rawRow.sourceRowId)throw Error('업체 원행의 순위·이름·식별값을 확인해 주세요.');ranks.add(rank);
    const registration=String(cells.registration_no||details['등록번호']||details['신고번호']||'').trim(),sourceRowId=`${descriptor.key}:${version}:${registration||rawRow.sourceRowId}`,companyKey=registration?`${group.id}:registration:${registration}`:`${group.id}:${version}:${rawRow.sourceRowId}`;
    if(seenKeys.has(companyKey))throw Error('같은 출처의 업체 식별값이 중복되었습니다.');seenKeys.add(companyKey);
    const row={companyKey,sourceRowId,company:rawRow.name,rank,previous_rank:number(cells.previous_rank),rank_change:String(cells.rank_change||'—'),registration_no:registration||null,region:cells.region||details['지역']||null,representative:cells.representative||details['대표자']||null};

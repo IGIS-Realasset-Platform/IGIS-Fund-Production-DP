@@ -1,13 +1,13 @@
 {
   "version": "0.12.0",
   "origin": "https://development-project-platform-preview-git-preview-b5dda7-igisra.vercel.app",
-  "htmlSha256": "00a9de284f318c04533eacf970d1731095a75db858d1cac44f610d9d5f07f6bc",
-  "bytes": 6287125,
+  "htmlSha256": "b486c21aa333e598d245b42d169fd753214eb6999db520a22fa13bd7a431eba0",
+  "bytes": 6334404,
   "notionRequired": false,
   "realProjectDataIncluded": false,
   "mode": "authenticated-private-schema-runtime-with-optional-source",
   "localBuildVerified": true,
-  "actualBrowser": "v0.12.0 candidate: generated local HTML boot boundary passed; isolated current-module and candidate-02 UI evidence is scoped separately. Remote preview, official API and exhaustive recursive acceptance are not yet complete.",
+  "actualBrowser": "v0.12.0 candidate05: 63 scoped logic suites passed with 101 unchanged product-file hashes. Generated HTML boot boundary passed. Final browser/API/PDF/Production and source-portal full feature migration CENTER120-17 are not yet complete.",
   "previousProtectedDeployment": "dpl_4z8XWesu9MT5MBVxuXwjLoNEFwND",
   "previousVersion": "0.11.5"
 }

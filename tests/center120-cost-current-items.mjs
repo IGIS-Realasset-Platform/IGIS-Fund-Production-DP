@@ -1,0 +1,25 @@
+import assert from 'node:assert/strict';
+import {makeHarness} from './recovery-harness.mjs';
+
+function boot(){const h=makeHarness({modules:['core','cbs','demo','cbs-purpose'],costTaxonomyV4:true});for(const name of ['cbs-model-v0118','cost-company-profile','cost-order','xlsx-export','setup'])h.load(name);for(const init of h.A.initializers)init(h.A.state);h.A.ui.projectId='YD427';return h;}
+const click=(h,action,data={})=>{const button={dataset:{action,...data}},event={target:{closest:selector=>selector==='[data-action]'?button:null},preventDefault(){}};for(const listener of h.listeners.click||[])listener(event);};
+const checks=[];const check=(name,run)=>{try{run();checks.push({name,pass:true});console.log('PASS '+name);}catch(error){checks.push({name,pass:false,error:error.message});console.error('FAIL '+name+' :: '+error.message);}};
+
+check('현재 포함 항목과 추가 후보는 별도 영역이며 현재 목록에는 선택 버튼·금액을 만들지 않는다',()=>{
+ const h=boot(),{A}=h,p=A.current(),before=JSON.stringify(A.state);click(h,'cbs-preset-preview',{projectId:p.id,id:'office'});const html=h.nodes.get('app-dialog').innerHTML;assert(html.includes('현재 사업비 항목'));assert(html.includes('추가할 항목 선택'));const current=html.match(/<section data-preset-current-items>[\s\S]*?<\/section>/)?.[0];assert(current,'현재 목록 구역');assert(!/checkbox|data-action=|표시 상태|범위 근거/.test(current));for(const label of ['토지비','공사비','직접공사비','간접공사비','토지매입비','도급공사비'])assert(current.includes(label),label);assert(current.includes('<details'));assert(current.includes('원가항목'));assert.equal(JSON.stringify(A.state),before);
+});
+
+check('현재 목록은 숨긴 선택항목을 제외하고 현재 본표 이름·순서를 읽는다',()=>{
+ const {A}=boot(),p=A.current();A.costUsePresets.apply(p,'for_sale_housing',{businessMode:'sale',selectedTargetIds:['corp_sales_interest']});const target=p.cbs.find(row=>A.costCoding.resolve(p,row.id)?.costTypeId==='corp_sales_interest');assert(target);A.domain.saveCost(p,target.id,1234567);const visible=A.costUsePresets.currentItems(p),shown=visible.rows.filter(row=>row.kind==='item');assert(shown.some(row=>row.targetId==='corp_sales_interest'));A.companyCostProfile.setVisible(p,'corp_sales_interest',false);const before=JSON.stringify(A.state),hidden=A.costUsePresets.currentItems(p);assert(!hidden.rows.some(row=>row.targetId==='corp_sales_interest'));const currentNodes=A.companyCostProfile.visibleManagementNodes(p),ordered=A.costOrder.orderedNodes(p,currentNodes).filter(row=>row.companyManagementRow||row.companySingleActual||row.companyManagementGroup);assert.deepEqual(Array.from(hidden.rows.filter(row=>row.kind==='item'),row=>[row.id,row.name]),Array.from(ordered,row=>[row.id,row.name]));assert.equal(p.cbs.find(row=>row.id===target.id).current,1234567);assert.equal(JSON.stringify(A.state),before);
+});
+
+check('독립 표시입력 경계에서 빠진 기본행을 공통37 정의로 재생성하지 않는다',()=>{
+ const {A}=boot(),p=A.current(),native=A.companyCostProfile,before=JSON.stringify(A.state),rows=[{id:'table-land',parentId:null,name:'토지비',companyProfileNode:true,companyProfileRoot:true,companyProfileKey:'land'},{id:'table-land-purchase',parentId:'table-land',name:'토지매입비',companyProfileNode:true,companyManagementRow:true,companySingleActual:true,companyProfileKey:'land_purchase',companyTaxonomyTargetId:'land_purchase'},{id:'table-corporate',parentId:null,name:'부대비',companyProfileNode:true,companyProfileRoot:true,companyProfileKey:'corporate'},{id:'table-existing-lease',parentId:'table-corporate',name:'임대중개·대행수수료',companyProfileNode:true,companyManagementRow:true,companySingleActual:true,companyProfileKey:'corp_lease',companyTaxonomyTargetId:'corp_lease'}];
+ // A literal table-read boundary fixture, not a claim that today's UI permits hiding common rows.
+ A.companyCostProfile={...native,visibleManagementNodes:()=>rows};try{const projected=A.costUsePresets.currentItems(p);assert.deepEqual(Array.from(projected.rows.filter(row=>row.kind==='item'),row=>row.id),['table-land-purchase','table-existing-lease']);assert.equal(projected.itemCount,2);assert(!projected.rows.some(row=>row.name==='설계비'));assert.equal(JSON.stringify(A.state),before);}finally{A.companyCostProfile=native;}
+});
+
+check('항목정보에서 분류수정 Escape는 실제 부모로 복귀하고 다시 닫으면 종료한다',()=>{
+ const h=boot(),{A}=h,p=A.current(),node=A.companyCostProfile.visibleManagementNodes(p).find(row=>row.companySingleActual&&!A.children(p,row.id).length);assert(node);const before=JSON.stringify(A.state);click(h,'cbs-config',{id:node.id});const parentTitle=h.nodes.get('app-dialog').innerHTML.match(/<h2[^>]*>(.*?)<\/h2>/)[1];click(h,'cbs-purpose-edit',{id:node.id});assert(h.nodes.get('app-dialog').innerHTML.includes('사업비 분류 수정'));A.requestModalClose();assert(h.nodes.get('app-dialog').open);assert(h.nodes.get('app-dialog').innerHTML.includes(parentTitle));assert(!h.nodes.get('app-dialog').innerHTML.includes('id="app-form"'));A.requestModalClose();assert.equal(h.nodes.get('app-dialog').open,false);assert.equal(JSON.stringify(A.state),before);
+});
+console.log(JSON.stringify({suite:'center120-cost-current-items',passed:checks.filter(row=>row.pass).length,failed:checks.filter(row=>!row.pass).length,checks}));if(checks.some(row=>!row.pass))process.exitCode=1;

@@ -1,0 +1,10 @@
+import assert from 'node:assert/strict';
+import vm from 'node:vm';
+import {makeHarness} from './recovery-harness.mjs';
+const h=makeHarness({modules:[]});h.context.APP_RUNTIME={mode:'real',persistence:'cloud',storageKey:'isolated-context-test',version:'0.12.0'};h.load('html-test-fixture-policy');h.load('core');const A=vm.runInContext('App',h.context);
+const sample={id:'TEST-20261016-A',name:'A',asOf:'2026-08-31',testData:{kind:'user-approved-html-fixture',batchId:'20261016-abc',sourceProjectId:'YD427',sourceHtmlSha256:'0271502c802e8f98ffc927b5c06c9da45b39ea7d76de74a03b7accea17cace7a'}};
+A.state.projects=[sample];A.ui.projectId=sample.id;A.ui.view='cost';const before=JSON.stringify(A.state);assert.equal(A.topbarContext().label,'샘플 데이터');assert.equal(JSON.stringify(A.state),before);sample.name='이름을 바꾼 샘플';assert.equal(A.topbarContext().label,'샘플 데이터');
+A.state.projects=[{id:'REAL-ONLY',name:'A',asOf:'2026-10-20'}];A.ui.projectId='REAL-ONLY';assert.equal(A.topbarContext().label,'실제 자료');
+A.ui.view='law';A.state.lawSourceV0110={dataDate:'2026-09-29'};A.legal={lawSourceInfo:()=>({dataDate:'2026-09-29',mode:'official'})};A.lawMonitor={data:()=>({dataDate:'2026-10-20',lastSuccessAt:'2026-10-20T06:00:00Z'})};assert.equal(A.topbarContext().date,'2026-10-20');assert.equal(A.topbarContext().label,'공식 법령자료');
+A.lawMonitor.data=()=>({dataDate:'2026-09-29',status:'partial_failure',checkedAt:'2026-10-20T06:00:00Z'});assert.equal(A.topbarContext().date,'2026-09-29');
+console.log(JSON.stringify({suite:'center120-source-context',passed:5,actualBrowser:false,actualDatabaseUsed:false}));

@@ -380,13 +380,16 @@
   });
   A.on('loan-quarter', b => {
     const p = A.current(), l = live(p.loans).find(x => x.id === b.dataset.id); if (!l) return;
+    const openedLoan = JSON.stringify(l);
     A.form('대주별 분기 기준값 기록', A.field('asOf', '분기 기준일', A.today, 'date') + A.field('commitment', '약정액 (원)', l.commitment, 'number') + A.field('executed', '누적 실행액 (원)', l.executed, 'number') + A.field('balance', '잔액 (원)', l.balance, 'number') + A.field('source', '기준자료 경로', l.sourcePath || ''), v => {
+      const current = A.state.projects.find(row => row.id === p.id && !row.deletedAt), loan = live(current?.loans).find(row => row.id === l.id);
+      if (!loan || JSON.stringify(loan) !== openedLoan) throw A.inputError({asOf:'대출 정보가 변경되었거나 삭제되어 저장하지 않았습니다. 입력값을 확인한 후 다시 열어 주세요.'});
       const asOf = date(v.asOf); if (!['03-31', '06-30', '09-30', '12-31'].includes(asOf.slice(5))) throw Error('분기 말일(3/31, 6/30, 9/30, 12/31)을 선택해 주세요.');
-      const x = { id: A.uid('loan-quarter'), loanId: l.id, asOf, commitment: amount(v.commitment), executed: amount(v.executed), balance: amount(v.balance), allIn: l.allIn, maturity: l.finalMaturity || l.maturity, source: required(v.source, '기준자료 경로') };
+      const x = { id: A.uid('loan-quarter'), loanId: loan.id, asOf, commitment: amount(v.commitment), executed: amount(v.executed), balance: amount(v.balance), allIn: loan.allIn, maturity: loan.finalMaturity || loan.maturity, source: required(v.source, '기준자료 경로') };
       if (x.balance > x.commitment) throw Error('잔액이 약정액보다 큽니다.');
-      const old = p.loanQuarterlyRecords.find(q => q.loanId === l.id && q.asOf === asOf && !q.supersededAt), before = old ? clone(old) : null; if (old) old.supersededAt = A.today;
-      p.loanQuarterlyRecords.push(x); mutate(p, 'loan-quarter', x.id, before, x, l.institution + ' ' + asOf + ' 분기값이 기록되었습니다.', 'finance', 'quarters');
-    });
+      const old = current.loanQuarterlyRecords.find(q => q.loanId === loan.id && q.asOf === asOf && !q.supersededAt), before = old ? clone(old) : null; if (old) old.supersededAt = A.today;
+      current.loanQuarterlyRecords.push(x); mutate(current, 'loan-quarter', x.id, before, x, loan.institution + ' ' + asOf + ' 분기값이 기록되었습니다.', 'finance', 'quarters');
+    },'저장',{...A.formParentOptions(()=>showLoanDetail(p.id,l.id,{closeMissing:true})),draftContext:'loan-quarter:'+p.id+':'+l.id});
   });
   A.on('loan-delete', b => { const p = A.current(), l = live(p.loans).find(x => x.id === b.dataset.id); if (!l) return; if (l.balance || l.commitment) return A.toast('약정액 또는 대출 잔액이 남아 있어 삭제할 수 없습니다.'); A.confirmDelete(l.institution, () => { const before = clone(l); l.deletedAt = A.today; p.loanEvents.push({ id: A.uid('loan-event'), loanId: l.id, date: A.today, kind: '대주 삭제', before, after: clone(l), note: '약정·잔액 종료 후 삭제' }); A.audit('delete', 'loan', l.id, before, l, l.institution + ' 대주가 삭제되었습니다.', { view: 'finance', tab: 'loans', projectId: p.id }); A.toast('대주를 삭제했습니다.', () => { const gone = clone(l); l.deletedAt = null; p.loanEvents.push({ id: A.uid('loan-event'), loanId: l.id, date: A.today, kind: '대주 복구', before: gone, after: clone(l), note: '삭제 실행취소' }); A.audit('restore', 'loan', l.id, gone, l, l.institution + ' 대주가 복구되었습니다.', { view: 'finance', tab: 'loans', projectId: p.id }); A.render(); }); }); });
   function financeLoansAsOf(p, asOf) {
@@ -487,7 +490,8 @@
   A.on('finance-capital-detail',()=>{const p=A.current();A.modal('자금구성',A.table(['구분','약정·출자','실행·납입','잔액'],[['자기자본',A.money(sum(live(p.equities),'amount')),A.money(sum(live(p.equities),'amount')),A.money(sum(live(p.equities),'amount'))],...live(p.loans).map(l=>[A.esc(l.institution+' · '+l.type),A.money(l.commitment),A.money(l.executed),A.money(l.balance)])]));});
   A.on('finance-quarter-list',()=>{const p=A.current();A.modal('대주별 분기 기준값',A.table(['금융기관','기준일','약정액','누적 실행','잔액','상태','출처'],(p.loanQuarterlyRecords||[]).map(q=>[A.esc(p.loans.find(l=>l.id===q.loanId)?.institution),q.asOf,A.money(q.commitment),A.money(q.executed),A.money(q.balance),q.supersededAt?'이전 기록':'현재 기준',A.esc(q.source)])));});
   A.on('finance-history-list',()=>{const p=A.current();A.modal('금융 변경이력',A.table(['일자','금융기관','변경','내용'],(p.loanEvents||[]).slice().reverse().map(x=>[x.date,A.esc(p.loans.find(l=>l.id===x.loanId)?.institution),A.esc(x.kind),A.esc(x.kind==='셀다운'?(x.receiver?.institution||'')+' · '+A.money(x.commitment):x.note||'')])));});
-  A.on('loan-detail',b=>{const p=A.current(),l=live(p.loans).find(x=>x.id===b.dataset.id);if(!l)return;A.modal(l.institution+' · 대출 상세',A.table(['항목','내용'],[['담보·신용보강',inline(p,'loan',l.id,'collateral',l.collateral)],['약정 시작일',inline(p,'loan',l.id,'start',l.start,'date')],['최종 만기',inline(p,'loan',l.id,'maturity',l.finalMaturity||l.maturity,'date')],['근거 경로',inline(p,'loan',l.id,'sourcePath',l.sourcePath)]]),button('분기 기준값 기록','loan-quarter',l.id)+button('셀다운','loan-selldown',l.id)+button('삭제','loan-delete',l.id));});
+  function showLoanDetail(projectId,loanId,{closeMissing=false}={}){const p=A.state.projects.find(row=>row.id===projectId&&!row.deletedAt),l=live(p?.loans).find(x=>x.id===loanId);if(!l){if(closeMissing)A.closeModal();return A.toast('대출을 찾을 수 없습니다.');}A.modal(l.institution+' · 대출 상세',A.table(['항목','내용'],[['담보·신용보강',inline(p,'loan',l.id,'collateral',l.collateral)],['약정 시작일',inline(p,'loan',l.id,'start',l.start,'date')],['최종 만기',inline(p,'loan',l.id,'maturity',l.finalMaturity||l.maturity,'date')],['근거 경로',inline(p,'loan',l.id,'sourcePath',l.sourcePath)]]),button('분기 기준값 기록','loan-quarter',l.id)+button('셀다운','loan-selldown',l.id)+button('삭제','loan-delete',l.id));}
+  A.on('loan-detail',b=>showLoanDetail(A.current().id,b.dataset.id));
   function inlineContract({project:p,id,field,value}) {
     const c=currentContracts(p).find(x=>x.id===id);if(!c)throw Error('계약을 찾을 수 없습니다.');
     const allowed=['name','type','counterparty','period','status','proposalNumber','companyId','date','file','net','vat','total','costAmount'];if(!allowed.includes(field))throw Error('편집할 수 없는 계약 항목입니다.');

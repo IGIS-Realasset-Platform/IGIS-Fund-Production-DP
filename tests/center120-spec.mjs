@@ -13,6 +13,10 @@ for(let value=106;value<=133;value++)h.context['V'+String(value).padStart(4,'0')
 const builder=fs.readFileSync('scripts/build-deployment.mjs','utf8'),match=builder.match(/const modules=(\[[^\n;]+\])/);assert(match,'현재 빌더의 모듈 목록이 필요합니다.');const modules=JSON.parse(match[1].replaceAll("'",'"'));
 for(const name of modules){h.load(name);if(name==='core')vm.runInContext(permitDomainBundle(),h.context)}
 const A=vm.runInContext('App',h.context),checks=[];function check(name,fn){try{fn();checks.push({name,status:'passed'})}catch(error){checks.push({name,status:'failed',error:error.message})}}
+// CENTER120-14 supersedes the former everybody-can-open-spec fixture. Supply
+// the server-granted owner capability for these renderer checks; the separate
+// owner-spec suite verifies every non-owner (including another admin) is denied.
+A.installCloudPersistence({workspaceId:'platform',revision:1,scope:'isolated-spec-owner',capabilities:{createProject:false,manageAccess:false,viewPlatformSpec:true},projectRoles:{},commit:async()=>{throw Error('명세 조회 검사는 사업자료를 저장하면 안 됩니다.');}});
 check('CENTER120-09 current specification separates current, superseded, historical verification, and future work',()=>{
  assert.equal(A.spec.specificationSections?.current?.classification,'현행 계약');
  assert.equal(A.spec.specificationSections?.superseded?.classification,'대체된 요구');
@@ -31,6 +35,7 @@ check('CENTER120-09 compatibility routes and current tabs are separate',()=>{
  assert.deepEqual(Array.from(A.spec.currentNavigation.tabs.document),['contracts']);assert.deepEqual(Array.from(A.spec.currentNavigation.tabs.report),['generate']);assert.deepEqual(Array.from(A.spec.currentNavigation.tabs.finance),['loans']);assert.ok(A.spec.currentNavigation.compatibilityRoutes.document.includes('documents'));assert.ok(A.spec.currentNavigation.compatibilityRoutes.report.includes('history'));assert.equal(A.spec.currentNavigation.compatibilityRoutesAreCurrentScreens,false);
 });
 check('CENTER120-09 all eight specification views render current or explicitly historical sections',()=>{
+ assert.equal(A.canViewSpec(),true,'approved owner rendering fixture must have the actual specification capability');
  for(const tab of ['overview','functions','sdd','tests','data','history','feedback','json']){A.go('spec',tab);const html=h.nodes.get('content').innerHTML;assert.match(html,/플랫폼 명세/);assert.doesNotMatch(html,/undefined/);if(['overview','functions','sdd','tests','data'].includes(tab)){assert.doesNotMatch(html,/서버\/DB연결없음|서버·DB 연결 없음|5날짜와 조치기한 직접 필수/)}if(tab==='functions')assert.match(html,/CENTER120-09/);if(tab==='overview')assert.match(html,/미검증|별도 검수|검수 중/);}
  for(const version of ['v0.11.1','v0.11.2','v0.11.3','v0.11.4','v0.11.5'])assert.ok(A.spec.history.some(row=>row.version===version),version);
 });

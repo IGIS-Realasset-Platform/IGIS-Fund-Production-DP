@@ -246,7 +246,7 @@ export function createWorkspaceHandlers({withTransaction,origin,workspaceId=DEFA
   let input,hash;if(request.method==='PUT'){input=await bodyJson(request,['workspaceId','baseRevision','requestId','state']);if(input.workspaceId!==workspaceId)throw forbidden();revision(input.baseRevision);requestId(input.requestId);validateWorkspaceState(input.state);hash=workspaceStateHash({action:'workspace',...input});}
   return withTransaction(request,async(client,session)=>{
    if(!session?.userId)throw new WorkspaceError(401,'AUTH_REQUIRED','로그인해 주세요.');const user={userId:session.userId,email:companyEmail(session.email)},current=await lockedWorkspace(client,workspaceId),access=normalizeWorkspaceAccess(await accessPolicy(client,user));
-   if(request.method==='GET')return json({workspaceId,revision:current.revision,state:filterWorkspaceState(current.state,access),capabilities:{createProject:access.canCreateProject,manageAccess:access.isAdmin},projectRoles:access.projects,user:{id:user.userId,email:user.email}});
+   if(request.method==='GET')return json({workspaceId,revision:current.revision,state:filterWorkspaceState(current.state,access),capabilities:{createProject:access.canCreateProject,manageAccess:access.isAdmin,viewPlatformSpec:user.email==='kylee@igisam.com'},projectRoles:access.projects,user:{id:user.userId,email:user.email}});
    const previous=await replay(client,workspaceId,user,input.requestId,hash,access);if(previous)return json(previous);
    for(const p of input.state.projects)if(current.state.projects.some(old=>old.id===p.id)?!readable(access,p.id):!access.canCreateProject)throw forbidden();
    if(revision(input.baseRevision)!==current.revision)throw conflict();const merged=mergeWorkspaceState(current.state,input.state,access,user);
