@@ -16,7 +16,10 @@ function fixture(){
   if(text==='COMMIT'){if(state.holdCommit)await new Promise(resolve=>{state.releaseCommit=resolve});if(state.failAt==='commit')throw Error('synthetic commit failure');state.commits++;return{rows:[]}}
   if(text==='ROLLBACK'){if(before)restore(before);state.rollbacks++;return{rows:[]}}
   if(text.startsWith('SELECT EXISTS('))return{rows:[{throttled:false}]};
+  if(text.startsWith('SELECT jsonb_build_object'))return {rows:['A','B','C'].map((letter,i)=>({project:{id:'TEST-20261016-'+letter,testData:{kind:'user-approved-html-fixture',batchId:'20261016-abc',sourceProjectId:['YD427','YD816','IOTA'][i],sourceHtmlSha256:'0271502c802e8f98ffc927b5c06c9da45b39ea7d76de74a03b7accea17cace7a'}}}))};
   if(text.startsWith('INSERT INTO development_project_platform.platform_admins')){if(state.failAt==='admin')throw Error('synthetic admin failure');if(!database.admins.includes(params[0]))database.admins.push(params[0]);return{rows:[],rowCount:1}}
+  // 인증 원자성 검사의 별도 SQL 대역입니다. 실제 권한/원금액은 center120 서비스·원격검사에서 대조합니다.
+  if(text.startsWith('INSERT INTO development_project_platform.project_members')){if(state.failAt==='sample-grant')throw Error('synthetic sample permission failure');return {rows:[],rowCount:0};}
   if(text.startsWith('SET LOCAL')||text.startsWith('SELECT pg_advisory_xact_lock'))return{rows:[]};
   throw Error('Unexpected synthetic SQL');
  },release(){state.releases++}};
@@ -65,5 +68,11 @@ await check('AUTH112-RUNTIME-09 비밀번호실패시도는COMMIT·제한초과4
 });
 await check('AUTH112-RUNTIME-10 DB오류가입력값을포함해도평문·OTP·메일로그0',async()=>{
  const app=fixture(),code=await start(app),logs=[],prior={error:console.error,warn:console.warn,log:console.log};app.state.failAt='session';app.state.failureMarker=password;for(const key of Object.keys(prior))console[key]=(...args)=>logs.push(args.map(String).join(' '));let response;try{response=await app.request('verify',{email,code,password})}finally{Object.assign(console,prior)}assert.equal(response.status,503);const serialized=logs.join('\n')+'\n'+await response.text();for(const value of [password,email,code])assert(!serialized.includes(value));assert.equal(response.headers.get('set-cookie'),null);assert.equal(app.database.app_user.length,0);assert.equal(app.database.app_session.length,0);
+});
+await check('CENTER120-AUTH-11 샘플권한저장실패는OTP·계정·관리자전체원복',async()=>{
+ const app=fixture(),code=await start(app),before=clone(app.database);app.state.failAt='sample-grant';const response=await app.request('verify',{email,code,password});assert.equal(response.status,503);assert.equal(response.headers.get('set-cookie'),null);assert.deepEqual(app.database,before);assert.equal(app.state.rollbacks,1);
+});
+await check('CENTER120-AUTH-12 비밀번호재로그인은샘플권한을재부여하지않음',async()=>{
+ const app=fixture();await enroll(app);const grantCount=()=>app.state.queries.filter(q=>q.startsWith('INSERT INTO development_project_platform.project_members')).length;assert.equal(grantCount(),1);assert.equal((await app.request('login',{email,password})).status,200);assert.equal(grantCount(),1);
 });
 const failed=checks.filter(row=>row.status==='failed');console.log(JSON.stringify({suite:'auth112-runtime',passed:checks.length-failed.length,failed:failed.length,total:checks.length,nativeBetterAuthVersion:'1.7.8',outerTransactionStorage:'synthetic snapshot controlled by actual runtime BEGIN/COMMIT/ROLLBACK',realEmailSent:false,realDatabaseUsed:false,postgresAtomicityVerified:false,externalRequests:0,checks}));if(failed.length)process.exitCode=1;

@@ -1,5 +1,6 @@
 -- 검토용 스키마 계약. 원격 적용은 이름을 기록하는 Supabase migration 도구로 수행합니다.
 -- 기존 서비스 객체·Auth·Data API 설정은 변경하지 않습니다.
+-- 운영 v0.12.0 호환 확장은 database/center-20261020.sql로 별도 관리합니다.
 do $guard$
 begin
  if to_regnamespace('development_project_platform') is null then raise exception 'Approved private schema is missing'; end if;

@@ -1,18 +1,22 @@
 {
   "schemaVersion":"deployment-status-v0111",
-  "version":"0.11.5",
-  "asOf":"2026-10-19",
+  "version":"0.12.0",
+  "asOf":"2026-10-20",
   "current":{
     "scope":"전용 스키마·지정 이메일 가입·비밀번호 로그인·중앙 저장 검증본",
-    "releaseState":"가입 비밀번호8~15자·정식주소 전환 · 실제 수용범위는 PUB113 검수기록 참조 · 회사 운영 전환 제외",
+    "releaseState":"정식 v0.11.5 배포·로그인 속도 개선 검수 이력 보존 · 개발솔루션센터 반영 신규 코드는 구현/검수 중 · 회사 운영 전환 제외",
     "branch":"preview/core-v0.11.0",
-    "providerStatus":"cloud-implementation-awaiting-verification",
+    "providerStatus":"production-v0115-ready-center120-verification-in-progress",
     "protection":"정식도메인만 공개 · 기존 검증주소 Vercel 보호·앱 세션/권한 유지",
-    "browserVerification":{"home":"이전 코어 확인 · 신규 인증 후 검수 대기","spec":"이전 코어 확인 · 신규 인증 후 검수 대기","crud":"미검수","pdf":"미검수","xlsx":"미검수"},
-    "connections":{"centralStorage":"A/B/C 중앙 저장 연결, 현재 버전 수용범위는 검수기록 참조","appAuthentication":"최초 이메일 확인·비밀번호 로그인 구현, 본인 설정/실검수는 별도 기록","notion":"관리자 전용 선택 보충자료","runtimeNotionApi":"실시간 Notion 연동 아님"}
+    "browserVerification":{"home":"v0.11.5 실제 배포 확인 이력 · 신규 최종본 별도 검수","spec":"v0.11.5 이후 명세 교정 중 · 신규 최종본 별도 검수","crud":"과거 실행 이력 보존 · CENTER120 전체 경로 검수 진행","pdf":"과거 공식 서식 검수 보존 · 신규 최종본 미검증","xlsx":"과거 사업비 한 시트 검수 보존 · 신규 최종본 미검증"},
+    "connections":{"centralStorage":"전용 스키마 중앙 저장·버전 충돌 검증 이력 있음. CENTER120 샘플 권한·별도 API 확장은 현재 검수 중","appAuthentication":"지정12메일 최초 메일 확인·비밀번호 가입/재로그인 및 선택7일 유지 실제 확인 이력 있음","notion":"관리자 전용 선택 보충자료","runtimeNotionApi":"실시간 Notion 연동 아님"},
+    "officialOrigin":"https://igis-development-project-platform.vercel.app",
+    "schema":"development_project_platform",
+    "existingServiceBoundary":"기존 회사 서비스·공유 Auth·다른 스키마 변경 없음",
+    "newWork":{"requestIds":["CENTER120-01","CENTER120-02","CENTER120-03","CENTER120-04","CENTER120-05","CENTER120-06","CENTER120-07","CENTER120-08","CENTER120-09"],"status":"implementation-and-verification-in-progress","deploymentVerified":false,"lawDailyCollectionVerified":false,"sampleEditorGrantPolicy":"승인 샘플ID 3개에 인증된 지정메일 회원 editor 배정. 기존 승인자/관리자 하향 없음. 일반 로그인 재부여 없음","evidence":"docs/center-20261020-fix-ledger.json"}
   },
   "authentication":{
-    "status":"지정12개 회사 이메일 가입·최초 이메일 확인·비밀번호 로그인 · 새버전 검수 대기",
+    "status":"지정12개 회사 이메일 가입·최초 이메일 확인·비밀번호 로그인. 실제 수신·가입·재로그인·로그인 유지 확인 이력 보존, 신규 최종본 별도 검수",
     "appBoundary":"플랫폼 전용 계정·세션·서버 검증",
     "allowedEmailDomain":"igisam.com",
     "verification":"최초 가입/비밀번호 설정에만 이메일6자리 확인, 이후 이메일·비밀번호 로그인",
@@ -27,9 +31,9 @@
     "supabaseAuth":"사용하지 않음",
     "publicSignup":false,
     "companyDomainEnrollment":false,
-    "publicSignupPolicy":"회사도메인만으로 가입허용하지 않음. 서버 지정12주소·메일소유확인·비밀번호필수, 사업권한별도",
+    "publicSignupPolicy":"회사도메인만으로 가입허용하지 않음. 서버 지정12주소·메일소유확인·비밀번호필수. 승인 샘플3개는 editor, 실제 사업은 개별 권한 유지",
     "profile":{"name":"보류","photo":"보류"},
-    "emailDeliveryProvider":"Gmail SMTP 실제 수신 확인 이력, 새가입흐름 검수 대기",
+    "emailDeliveryProvider":"Gmail SMTP 실제 수신·가입 확인 이력. 발송 비밀값은 서버 전용",
     "existingAuthConfigurationChanged":false
   },
   "superseded":["모든 회사도메인 주소 자동가입","매번 이메일6자리만으로 로그인","전 직원 공통 첫 이용 코드","Supabase Auth를 플랫폼 로그인으로 사용"],

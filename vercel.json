@@ -3,5 +3,11 @@
   "framework": null,
   "regions": ["icn1"],
   "buildCommand": "npm run build",
-  "outputDirectory": "dist"
+  "outputDirectory": "dist",
+  "rewrites": [
+    {"source":"/api/law-search","destination":"/api/law?__law_route=search"},
+    {"source":"/api/law-detail","destination":"/api/law?__law_route=detail"},
+    {"source":"/api/law-watch","destination":"/api/law?__law_route=watch"}
+  ],
+  "crons": [{"path":"/api/maintenance","schedule":"0 23 * * *"}]
 }

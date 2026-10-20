@@ -1,0 +1,2 @@
+const actions={search:'lawSearch',detail:'lawDetail',watch:'lawWatch'};
+export function createLawRouter(runRequest){return async request=>{const url=new URL(request.url),alias=url.pathname.match(/^\/api\/law-(search|detail|watch)$/)?.[1],route=url.searchParams.get('__law_route'),key=alias||route;if(!Object.hasOwn(actions,key))return Response.json({error:'NOT_FOUND'},{status:404});if(alias&&route&&alias!==route)return Response.json({error:'INVALID_ROUTE'},{status:400});url.searchParams.delete('__law_route');return runRequest(new Request(url,request),actions[key]);};}

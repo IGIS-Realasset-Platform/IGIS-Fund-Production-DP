@@ -1,0 +1,92 @@
+(function(A){
+ 'use strict';
+ const E=A.esc,F=A.field,live=xs=>(xs||[]).filter(x=>!x.deletedAt),copy=A.clone;
+ const lawUrl=name=>'https://www.law.go.kr/법령/'+encodeURIComponent(name);
+ const extra=[
+  ['building-notice','건축신고','건축·심의','건축법','제14조','허가 대상 중 법정 신고 요건에 해당하는 경우','건축 전'],
+  ['redevelopment-plan','정비계획 결정·변경','사업·도시계획','도시 및 주거환경정비법','제8조·제15조·제16조','정비사업의 정비계획 결정 또는 변경','사업시행계획 인가 전'],
+  ['redevelopment-approval','사업시행계획 인가','사업·도시계획','도시 및 주거환경정비법','제50조','정비사업의 사업시행계획 인가','시공 전'],
+  ['redevelopment-disposal','관리처분계획 인가','사업·도시계획','도시 및 주거환경정비법','제74조','분양신청 후 관리처분계획을 수립하는 정비사업','관리처분 절차'],
+  ['integrated-review','통합심의','건축·심의','도시 및 주거환경정비법','제50조의2','해당 사업방식의 통합심의 대상 및 신청 범위 확인','사업시행계획 인가 전'],
+  ['fire-performance','소방 성능위주설계','공사·안전','소방시설 설치 및 관리에 관한 법률','제8조','건물 용도·규모별 성능위주설계 대상 확인','건축 심의·허가 단계'],
+  ['heritage-alteration','국가지정문화유산 현상변경 허가','영향평가','문화유산의 보존 및 활용에 관한 법률','제35조·제36조','지정문화유산 또는 보호구역의 현상변경 등 해당 여부','행위 전'],
+  ['heritage-excavation','매장유산 발굴 허가','영향평가','매장유산 보호 및 조사에 관한 법률','제11조','매장유산 발굴이 필요한 경우','발굴 전'],
+  ['building-safety-impact','건축물 안전영향평가','영향평가','건축법','제13조의2 / 시행령 제10조의3','초고층 또는 건물별 연면적10만㎡ 이상이면서16층 이상. 세부 적용은 현행 조문 확인','건축허가 신청 전'],
+  ['seoul-lid','저영향개발 사전협의','토지·기반시설','서울특별시 물순환 회복 및 저영향개발 기본 조례','','서울 소재 해당 개발사업. 조례의 대상과 면적 확인','관련 인허가 전'],
+  ['energy-plan','에너지사용계획 협의','영향평가','에너지이용 합리화법','제10조 / 시행령 별표1','사업 종류·규모·에너지 사용량별 대상 확인','사업계획 확정 전'],
+  ['small-disaster-impact','소규모 재해영향평가','영향평가','자연재해대책법','제4조 / 시행령 별표1','관련 계획·개발사업의 종류와 규모별 대상 확인','해당 계획·사업 승인 전'],
+  ['power-grid-impact','전력계통영향평가','영향평가','분산에너지 활성화 특별법','제23조·제24조 / 시행령 제28조','대상지역·전력 규모·예외를 함께 확인. 제출과 통보는 법제24조','승인등 신청3개월 전 제출(시행령 제28조)'],
+  ['military-consultation','군사기지·군사시설 보호구역 협의','영향평가','군사기지 및 군사시설 보호법','제13조','보호구역과 행위 종류에 따른 관계기관 협의','행위 허가 전'],
+  ['structural-review','구조안전 심의','건축·심의','건축법','시행령 제5조의5 / 해당 건축조례','대상 건축물·특수구조 등과 지자체 기준 확인','건축 심의·허가 단계'],
+  ['excavation-review','굴토 심의','건축·심의','건축법','시행령 제5조의5 / 해당 건축조례','굴착깊이·주변 여건 및 해당 지역의 조례 기준 확인','착공 전'],
+  ['small-underground','소규모 지하안전평가','영향평가','지하안전관리에 관한 특별법','제23조 / 시행령 제23조','굴착깊이10m 이상20m 미만 및 시행령 별표1 대상사업','해당 사업 승인 전'],
+  ['soil-remediation','오염토양 정화계획·검증','토지·기반시설','토양환경보전법','','오염 조사결과와 정화명령·반출정화 여부 확인','정화 착수·완료 단계']
+ ];
+ const metadata={
+  '건축허가':{article:'제11조',condition:'건축허가 대상 건축물. 신고·사업승인 의제 여부와 예외 확인',timing:'건축 전',core:true},
+  '착공신고':{article:'제21조',condition:'건축허가 또는 건축신고 후 해당 공사를 시작하는 경우',timing:'공사 착수 전',core:true},
+  '사용승인':{article:'제22조',condition:'건축 공사를 완료한 경우. 사용검사 등 대체 경로 확인',timing:'사용 전',core:true},
+  '지하안전평가':{article:'제14조 / 시행령 제13조',condition:'굴착깊이20m 이상 또는 법령상 터널 등 대상사업 확인',timing:'해당 사업 승인 전'},
+  '관광숙박업 사업계획 승인':{article:'제15조',condition:'관광숙박업을 경영하기 위한 해당 사업계획. 건축 후 운영등록과 구별',timing:'사업계획 승인 단계'}
+ };
+ // Stable semantic type IDs coexist with historical catalog IDs. Never rewrite existing records.
+ for(const row of A.legal.permitCatalog){const details=metadata[row.name]||{};row.typeId=row.typeId||'company-permit:'+row.id;Object.assign(row,{...details,agency:row.agency||'해당 법령의 허가·협의기관',condition:details.condition||'사업방식·규모·지역 및 현행 법령의 적용 요건 확인',statutoryPeriod:'처리기간·보완 제외기간·연장 근거 확인 필요',verifiedAt:'',sourceStatus:'기존 유형 · 적용 조건 개별 확인'});}
+ for(const[id,name,group,law,article,condition,timing]of extra)if(!A.legal.permitCatalog.some(x=>x.typeId===id))A.legal.permitCatalog.push({id:'permit-type:'+id,typeId:id,name,group,law,article,condition,timing,url:lawUrl(law),agency:'해당 법령의 허가·협의기관',statutoryPeriod:'처리기간·보완 제외기간·연장 근거 확인 필요',sourceStatus:'마스터플랜 대응 · 담당자 적용 확인',verifiedAt:''});
+ const officialEvidence={
+  'building-safety-impact':{url:'https://law.go.kr/lsLawLinkInfo.do?chrClsCd=010202&lsJoLnkSeq=1000559950',verifiedAt:'2026-10-20'},
+  'small-underground':{url:'https://www.law.go.kr/lsLinkCommonInfo.do?lsJoLnkSeq=1015681537',verifiedAt:'2026-10-20'},
+  'power-grid-impact':{url:'https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=262971',verifiedAt:'2026-10-20'}
+ };
+ for(const row of A.legal.permitCatalog)if(officialEvidence[row.typeId])Object.assign(row,officialEvidence[row.typeId],{sourceStatus:'공식 조문 대조 · 개별 적용 확인'});
+ const legacyCoverage={'정비구역·사업시행계획 인가':['redevelopment-plan','redevelopment-approval'],'구조·굴토심의':['structural-review','excavation-review']};
+ const reference=typeof PERMIT_REFERENCE==='object'?PERMIT_REFERENCE:null;
+ if(reference)for(const row of A.legal.permitCatalog){const reviewed=reference.rows.find(x=>x.id===row.id||x.id===row.typeId);if(!reviewed)continue;const period=reviewed.statutoryPeriod;row.referenceReview={status:reviewed.status,scope:reviewed.evidenceScope,unverified:reviewed.unverified||[],asOf:reviewed.asOf};row.legacyLaw=row.law;Object.assign(row,{law:reviewed.law,article:(reviewed.articles||[]).join(' · '),agency:reviewed.agency||'관할기관 확인 필요',condition:reviewed.condition,timing:reviewed.timing,statutoryPeriod:period?[period.days!=null?period.days+'일':'',period.rule,period.start?'기산: '+period.start:'',period.excluded?'제외: '+period.excluded:''].filter(Boolean).join(' · '):'처리기간·예외 확인 필요',verifiedAt:reference.asOf,referenceSources:(reviewed.sources||[]).map(key=>reference.sources[key]).filter(Boolean)});if(row.referenceSources[0])row.url=row.referenceSources[0].url;}
+ for(const row of A.legal.permitCatalog)if(legacyCoverage[row.name]){row.legacyOnly=true;row.coversTypeIds=legacyCoverage[row.name];}
+ const facts=p=>p.permitConditions||{},number=v=>v===''||v==null?null:Number(v),choices=['미확인','예','아니오'];
+ function candidateState(row,f){
+  const name=row.name;
+  if(name==='건축신고')return f.buildingRoute==='신고'?'basic':'review';
+  if(name==='건축허가')return f.buildingRoute==='신고'||f.buildingRoute==='사업승인·의제'?'review':'basic';
+  if(row.core)return 'basic';
+  if(/정비계획|사업시행계획 인가|관리처분|통합심의/.test(name)&&f.method==='정비사업')return 'candidate';
+  if(/도시개발/.test(name)&&f.method==='도시개발')return 'candidate';
+  if(/주택사업계획|입주자모집/.test(name)&&f.method==='주택사업')return 'candidate';
+  if(/관광숙박/.test(name)&&/호텔|숙박/.test(f.asset||''))return 'candidate';
+  if(/물류/.test(name)&&f.asset==='물류')return 'candidate';
+  if(f.asset==='데이터센터'&&['전력·가스 인입 협의','기계설비 사용 전 검사'].includes(name))return 'candidate';
+  if(f.asset==='주거·공동주택'&&['교육환경평가','주택사업계획 승인','입주자모집 승인'].includes(name))return 'candidate';
+  if(f.method==='일반 건축'&&name==='건축심의')return 'candidate';
+  if(f.method==='도시개발'&&name==='환경영향평가')return 'candidate';
+  if(/해체|석면/.test(name)&&f.existingBuilding==='예')return 'candidate';
+  if(name==='개발행위허가'&&f.landformChange==='예')return 'candidate';
+  if(/농지전용/.test(name)&&f.farmland==='예'||/산지전용/.test(name)&&f.forest==='예'||/국가유산|문화유산|매장유산/.test(name)&&f.heritage==='예'||/오염토/.test(name)&&f.soilPollution==='예'||/군사/.test(name)&&f.militaryArea==='예')return 'candidate';
+  if(row.typeId==='small-underground'&&number(f.excavationDepth)>=10&&number(f.excavationDepth)<20)return 'candidate';
+  if(name==='지하안전평가'&&number(f.excavationDepth)>=20)return 'candidate';
+  if(row.typeId==='building-safety-impact'&&(number(f.height)>=200||number(f.floors)>=50||number(f.singleBuildingArea)>=100000&&number(f.floors)>=16))return 'candidate';
+  if(row.typeId==='seoul-lid'&&/^서울/.test(f.region||''))return 'candidate';
+  if(row.typeId==='power-grid-impact'&&number(f.powerMw)>=10)return 'candidate'; // Region and statutory exclusions still require review; not an applicability determination.
+  return 'review';
+ }
+ function typeFor(record){return A.legal.permitCatalog.find(row=>row.id===record.catalogId||row.typeId===record.typeId)||A.legal.permitCatalog.find(row=>row.name===record.name);}
+ function metadataHtml(record){const row=typeFor(record);return row?A.table(['항목','내용'],[['근거법령·조문',E(row.law+' '+(row.article||''))],['적용 조건',E(row.condition)],['담당기관',E(record.agency||row.agency)],['선행 시기',E(row.timing||'개별 법령·인허가 경로 확인')],['법정 처리기간',E(row.statutoryPeriod)],['원문',`<a href="${E(row.url)}" target="_blank" rel="noopener noreferrer">법령 확인</a>`],['근거 대조일',E(row.verifiedAt||'미확인')],['추가 확인',E((row.referenceReview?.unverified||[]).join(' · ')||'프로젝트 적용 여부 확인')]]):'';}
+ function conditionsForm(p){const f=facts(p),fields=F('asset','사업 용도',f.asset||'','select',['','오피스·복합','주거·공동주택','물류','데이터센터','호텔·숙박','리테일','시니어리빙'])+F('method','사업방식',f.method||'','select',['','일반 건축','정비사업','도시개발','주택사업'])+F('buildingRoute','건축 인허가 경로',f.buildingRoute||'미확인','select',['미확인','허가','신고','사업승인·의제'])+F('region','사업지 시·군·구',f.region||'')+F('zoning','용도지역·지구',f.zoning||'')+F('siteArea','사업면적(㎡)',f.siteArea??'','number')+F('singleBuildingArea','건물별 최대 연면적(㎡)',f.singleBuildingArea??'','number')+F('height','최고 높이(m)',f.height??'','number')+F('floors','최고 층수',f.floors??'','number')+F('excavationDepth','최대 굴착깊이(m)',f.excavationDepth??'','number')+F('powerMw','전력 사용규모(MW)',f.powerMw??'','number')+[['landformChange','토지 형질변경'],['existingBuilding','기존 건물 해체'],['farmland','농지 전용'],['forest','산지 전용'],['heritage','국가유산 관련 지역·발굴'],['soilPollution','토양오염 확인'],['militaryArea','군사 보호구역']].map(([key,label])=>F(key,label,f[key]||'미확인','select',choices)).join('')+F('evidencePath','조건 확인자료 경로',f.evidencePath||'');A.form('인허가 추천 조건',fields,v=>{const next={...f,...v};for(const key of ['siteArea','singleBuildingArea','height','floors','excavationDepth','powerMw']){next[key]=number(v[key]);if(next[key]!==null&&(!Number.isFinite(next[key])||next[key]<0))throw A.inputError({[key]:'0 이상의 숫자를 입력해 주세요.'});}const before=copy(p.permitConditions||null);p.permitConditions=next;A.audit('UPDATE','permitConditions',p.id,before,next,'인허가 추천 조건 저장',{view:'permit',tab:'permits',projectId:p.id});});}
+ function openSelection(p,criteria=facts(p),mode='recommended',selected=[]){
+  const existing=live(p.permits),all=A.legal.permitCatalog.filter(row=>!row.legacyOnly&&!existing.some(x=>x.catalogId===row.id||x.typeId===row.typeId||x.name===row.name||(legacyCoverage[x.name]||[]).includes(row.typeId))),rows=all.filter(row=>mode==='all'||candidateState(row,criteria)!=='review');
+  const fields=`<div class="permit-selection-toolbar">${A.btn('추천 항목','permit-type-filter',{mode:'recommended'},mode==='recommended'?'active':'')}${A.btn('전체 항목','permit-type-filter',{mode:'all'},mode==='all'?'active':'')}<label>항목 검색 <input type="search" data-permit-type-search autocomplete="off"></label></div>`+A.legal.permitGroups.map(group=>{const list=rows.filter(row=>row.group===group);return !list.length?'':`<details class="permit-type-group" open><summary>${E(group)} (${list.length})</summary>${list.map(row=>`<label class="permit-type-choice" data-permit-type-name="${E(row.name)}"><input type="checkbox" name="pick-${E(row.id)}" value="yes" ${selected.includes(row.id)?'checked':''}>${E(row.name)}${A.btn('조건 보기','permit-type-info',{id:row.id},'text')}</label>`).join('')}</details>`;}).join('');
+  selection={p,criteria,mode,selected};A.form('추가할 인허가 선택',fields,v=>{const picks=rows.filter(row=>v['pick-'+row.id]==='yes');if(!picks.length)throw Error('추가할 인허가를 선택해 주세요.');const ids=picks.map(x=>x.id);function enter(index){const type=picks[index];if(!type){openSelection(p,criteria,mode,ids);return;}const template=A.legal.presetTemplate(type);template.typeId=type.typeId;template.law=[type.law,type.article].filter(Boolean).join(' ');template.applicability={status:'담당자 확인 필요',facts:copy(criteria),typeVersion:'2026-10-20.1',evidenceUrl:type.url,checkedAt:type.verifiedAt||''};A.legal.permitForm(p,null,false,{template,title:`인허가 입력 (${index+1}/${picks.length})`,returnTo:()=>openSelection(p,criteria,mode,ids),onSaved:()=>{enter(index+1);return false;}});}enter(0);return false;},'선택 항목 입력');
+ }
+ let selection=null;
+ A.on('permit-type-filter',b=>{if(!selection)return;const {p,criteria}=selection,values=A.formEditor?.values?.()||{},selected=Object.keys(values).filter(key=>key.startsWith('pick-')&&values[key]==='yes').map(key=>key.slice(5));openSelection(p,criteria,b.dataset.mode,selected);});
+ A.on('permit-type-info',b=>{const row=A.legal.permitCatalog.find(x=>x.id===b.dataset.id);if(!row)return;const prior=selection,values=A.formEditor?.values?.()||{},selected=Object.keys(values).filter(key=>key.startsWith('pick-')&&values[key]==='yes').map(key=>key.slice(5));A.modal(row.name,metadataHtml({catalogId:row.id}),A.btn('항목 선택으로 돌아가기','permit-type-back'),{returnTo:()=>openSelection(prior.p,prior.criteria,prior.mode,selected)});selection={...prior,selected};});
+ A.on('permit-type-back',()=>{if(selection)openSelection(selection.p,selection.criteria,selection.mode,selection.selected);});
+ document.addEventListener('input',event=>{if(!event.target.matches?.('[data-permit-type-search]'))return;const root=event.target.closest('form'),query=event.target.value.trim().toLocaleLowerCase();for(const node of root?.querySelectorAll('[data-permit-type-name]')||[])node.hidden=!node.dataset.permitTypeName.toLocaleLowerCase().includes(query);for(const group of root?.querySelectorAll('.permit-type-group')||[])group.hidden=![...group.querySelectorAll('[data-permit-type-name]')].some(node=>!node.hidden);});
+ function toolbar(){return `<div class="permit-map-toolbar" role="group" aria-label="인허가 보기">${A.btn('목록','permit-layout',{layout:'list'},A.ui.permitLayout!=='map'?'active':'')}${A.btn('일정 맵','permit-layout',{layout:'map'},A.ui.permitLayout==='map'?'active':'')}${A.btn('추천 조건 입력','permit-conditions')}${A.btn('인허가 항목 선택','permit-type-select')}</div>`;}
+ const month=v=>/^\d{4}-(0[1-9]|1[0-2])(?:-\d{2})?$/.test(v||'')?v.slice(0,7):null;
+ function mapProjection(p){const records=live(p.permits),dates=records.flatMap(row=>['plannedApplication','expected','application','supplement','approval'].map(key=>month(row[key])).concat(live(row.rounds).map(x=>month(x.date)))).filter(Boolean),start=month(p.permitMapStart)||dates.sort()[0]||A.today.slice(0,7),base=Number(start.slice(0,4))*12+Number(start.slice(5,7))-1,months=Array.from({length:12},(_,i)=>{const value=base+(Number(A.ui.permitMapOffset)||0)+i;return Math.floor(value/12)+'-'+String(value%12+1).padStart(2,'0');});return {records,months,start};}
+ function render(p){const {records,months}=mapProjection(p);if(!records.length)return A.panel('인허가 일정 맵','<p>등록된 인허가가 없습니다.</p>',A.btn('인허가 항목 선택','permit-type-select'));const heading=`<thead><tr><th scope="col">연월</th>${records.map(row=>`<th scope="col">${A.btn(row.name||'인허가','permit-record-detail',{id:row.id},'text')}<span class="permit-map-stage">${E(row.stage||'미확인')}</span></th>`).join('')}</tr></thead>`,body=months.map(m=>`<tr><th scope="row">${E(m)}${[3,6,9,12].includes(Number(m.slice(5)))?`<span>${Math.ceil(Number(m.slice(5))/3)}분기</span>`:''}</th>${records.map(row=>{const markers=[['plannedApplication','계획 신청'],['expected','목표 완료'],['application','실제 신청'],['supplement','보완 요청'],['approval','승인']].filter(([key])=>month(row[key])===m).map(([key,label])=>`<button type="button" data-action="permit-record-detail" data-id="${E(row.id)}" class="permit-map-event ${key}" title="${E(row[key])}">${E(label)} <time>${E(row[key].length===7?row[key]:row[key].slice(5))}</time></button>`);for(const round of live(row.rounds).filter(x=>month(x.date)===m))markers.push(`<button type="button" data-action="permit-rounds" data-id="${E(row.id)}" class="permit-map-event">${E(roundLabels[round.kind]||'진행 기록')} <time>${E(round.date.slice(5))}</time></button>`);return `<td>${markers.join('')}</td>`;}).join('')}</tr>`).join('');return A.panel('인허가 일정 맵',`<div class="permit-map-window">${A.btn('이전 12개월','permit-map-page',{offset:-12})}<span>${E(months[0])} ~ ${E(months.at(-1))}</span>${A.btn('다음 12개월','permit-map-page',{offset:12})}</div><div class="permit-map-scroll"><table class="permit-map-table">${heading}<tbody>${body}</tbody></table></div>`);}
+ const roundLabels={application:'신청',resubmission:'재접수',supplement:'보완 요청',review:'재심의·협의',approval:'승인',withdrawal:'취하'};
+ function roundsModal(p,id){const row=live(p.permits).find(x=>x.id===id);if(!row)return;A.modal('신청·보완·심의 기록',A.table(['회차','진행 종류','발생일','내용','근거자료 경로'],live(row.rounds).map((r,i)=>[String(i+1),E(roundLabels[r.kind]||r.kind),E(r.date),E(r.note||''),E(r.sourcePath)])),A.btn('진행 기록 추가','permit-round-add',{id})+A.btn('인허가 상세로 돌아가기','permit-record-detail',{id}),{returnTo:()=>A.permitViews.openPermitDetail(id)});}
+ function roundForm(p,id){const row=live(p.permits).find(x=>x.id===id);if(!row)return;A.form('진행 기록 추가',F('kind','진행 종류','resubmission','select',Object.entries(roundLabels).map(([value,label])=>({value,label})))+F('date','발생일','','date')+F('note','진행 내용 (선택)','','textarea')+F('sourcePath','근거자료 경로'),v=>{const current=live(p.permits).find(x=>x.id===id);if(!current)throw Error('인허가가 삭제되어 저장할 수 없습니다.');const before=copy(current),previousRounds=current.rounds?.length?copy(current.rounds):[['application',current.application],['supplement',current.supplement],['approval',current.approval]].filter(([,date])=>A.legal.isDate(date)).sort((a,b)=>a[1].localeCompare(b[1])).map(([kind,date])=>({id:'legacy-round:'+id+':'+kind,kind,date,sourcePath:current.sourcePath||'',legacy:true})),round={id:A.uid('permit-round'),...v,recordedAt:new Date().toISOString()},next={...current,rounds:[...previousRounds,round]};if(v.kind==='application'||v.kind==='resubmission'){next.application=v.date;next.stage='신청';if(v.kind==='resubmission'){next.approval='';next.supplement='';}}if(v.kind==='supplement'){next.supplement=v.date;next.stage='보완 중';}if(v.kind==='approval'){next.approval=v.date;next.stage='완료';}if(v.kind==='review')next.stage='심의 중';const result=A.permitDomain.validatePermitRoundChange(current,next,p.permits);if(!result.valid)throw A.inputError(result.errors);A.report?.captureSource?.(p,'permits',copy(p.permits));Object.assign(current,next);A.audit('CREATE','permitRound',round.id,null,round,'인허가 진행 기록 추가',{view:'permit',tab:'permits',projectId:p.id,id});roundsModal(p,id);return false;},'진행 기록 저장',{returnTo:()=>roundsModal(p,id)});}
+ A.on('permit-layout',b=>{A.ui.permitLayout=b.dataset.layout;A.render();});A.on('permit-map-page',b=>{A.ui.permitMapOffset=(Number(A.ui.permitMapOffset)||0)+Number(b.dataset.offset);A.render();});A.on('permit-conditions',()=>conditionsForm(A.current()));A.on('permit-type-select',()=>openSelection(A.current()));A.on('legal-preset',()=>openSelection(A.current(),{...A.legal.permitPresetDefaults(A.current()),...facts(A.current())}));A.on('permit-rounds',b=>roundsModal(A.current(),b.dataset.id));A.on('permit-round-add',b=>roundForm(A.current(),b.dataset.id));
+ A.permitMap={toolbar,render,mapProjection,candidateState,typeFor,metadataHtml,conditionsForm,openSelection,roundsModal,roundForm};
+})(App);

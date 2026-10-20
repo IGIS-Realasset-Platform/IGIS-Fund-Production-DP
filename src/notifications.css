@@ -1,0 +1,24 @@
+.dp-dialog.dp-notification-dialog{width:min(720px,calc(100vw - 32px));max-width:720px;max-height:80vh;padding:0;overflow:hidden}
+.dp-notification-dialog .dialog-body{max-height:calc(80vh - 70px);padding:0;overflow:auto}
+.dp-notification-dialog .dialog-head{padding:16px 20px}
+.dp-notification-dialog .notice-list-scroll{max-height:calc(80vh - 76px);overflow:auto;overscroll-behavior:contain}
+.dp-notification-dialog .notice-list-row{display:flex;align-items:center;gap:8px;padding:8px 12px;border-bottom:1px solid #e4eaf0}
+.dp-notification-dialog .notice-list-open{display:flex;align-items:flex-start;gap:10px;flex:1;min-width:0;padding:8px;border:0;background:transparent;text-align:left;color:inherit;cursor:pointer;font:inherit}
+.dp-notification-dialog .notice-read-dot{width:7px;height:7px;margin-top:6px;flex:none;border-radius:50%;background:#245b91}
+.dp-notification-dialog .is-read .notice-read-dot{background:transparent}
+.dp-notification-dialog .notice-list-copy{display:grid;gap:6px;min-width:0}
+.dp-notification-dialog .notice-list-copy strong{font-weight:600;overflow-wrap:anywhere}
+.dp-notification-dialog .is-read .notice-list-copy strong{font-weight:400}
+.dp-notification-dialog .notice-list-copy>span,.dp-notification-dialog time{color:#687789;font-size:12px}
+.dp-notification-dialog .notice-delete{flex:none;white-space:nowrap}
+.dp-notification-dialog .notice-detail{padding:16px 20px 24px}
+.dp-notification-dialog .notice-detail-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.dp-notification-dialog .notice-detail h3{font-size:17px;line-height:1.5;margin:0 0 10px;overflow-wrap:anywhere}
+.dp-notification-dialog .notice-content{white-space:pre-wrap;line-height:1.65;margin:18px 0}
+.dp-notification-dialog .notice-project{font-size:13px;margin:8px 0 20px}
+.dp-notification-dialog .notice-error{color:#a32828;background:#fff5f5;padding:12px 20px;margin:0;line-height:1.5}
+.dp-notification-dialog .notice-status{padding:30px 20px;margin:0;text-align:center;color:#687789}
+.dp-notification-dialog button:focus-visible{outline:2px solid #245b91;outline-offset:2px}
+.notification .notification-count{min-width:22px;text-align:center}
+.notification .notification-label{white-space:nowrap}
+@media(max-width:600px){.dp-dialog.dp-notification-dialog{width:calc(100vw - 20px);max-height:80vh}.dp-notification-dialog .notice-detail{padding:12px 16px 20px}.dp-notification-dialog .notice-list-row{padding:8px}.dp-notification-dialog .notice-delete{min-height:36px}.dp-notification-dialog .notice-list-copy>span{display:grid;gap:3px}.notification .notification-trigger{justify-content:center;gap:4px;padding:8px 4px}.notification .notification-label{display:none}.notification .notification-icon{width:18px;height:18px}.notification .notification-count{min-width:18px;font-size:11px}}

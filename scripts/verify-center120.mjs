@@ -1,0 +1,12 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import {createHash} from 'node:crypto';
+import {spawnSync} from 'node:child_process';
+const current=fs.readdirSync('tests').filter(name=>/^center/.test(name)&&name.endsWith('.mjs')&&!name.includes('browser'));
+const previous=['cloud-auth','cloud-auth-runtime','auth112-server','auth112-runtime','auth112-password-length','auth112-resend-race','auth112-legal-hydration','auth114-session','auth114-independent','cloud-storage','cloud-storage-runtime','cloud-storage-schema','cloud-session','cloud-session-independent','cloud-session-auth112','cloud-session-auth114','cloud-report-notion','cloud-notion-source','cloud-html-fixtures','cloud-font-assets','perf115-workspace-runtime','perf115-frontend','perf115-independent','v0132-company-flow'];
+const files=[...new Set([...current,...previous.map(name=>name+'.mjs')])];
+const pin=()=>{const result={};for(const dir of ['src','server','api','shared','database']){function walk(folder){for(const item of fs.readdirSync(folder,{withFileTypes:true})){const file=path.join(folder,item.name);if(item.isDirectory())walk(file);else result[file.replaceAll('\\','/')]=createHash('sha256').update(fs.readFileSync(file)).digest('hex');}}walk(dir);}return result;};
+const before=pin(),startedAt=new Date().toISOString(),checks=[];
+for(const name of files){const result=spawnSync(process.execPath,['tests/'+name],{encoding:'utf8',windowsHide:true,maxBuffer:32*1024*1024});const output=String(result.stdout||'')+String(result.stderr||'');checks.push({file:'tests/'+name,status:result.status===0?'passed':'failed',exitCode:result.status,output});console.log((result.status===0?'PASS ':'FAIL ')+name);if(result.status!==0)console.log(output.slice(-3500));}
+const after=pin(),changed=Object.keys({...before,...after}).filter(file=>before[file]!==after[file]),report={version:'0.12.0',startedAt,finishedAt:new Date().toISOString(),scope:'current center requirements and explicitly selected authentication/storage/performance regressions; not full browser/production/PDF coverage',sourceHashes:after,sourceChangedDuringRun:changed,checks,passed:checks.filter(x=>x.status==='passed').length,failed:checks.filter(x=>x.status==='failed').length};
+const out='.build/center-20261020/logic-'+startedAt.replaceAll(':','-')+'.json';fs.mkdirSync(path.dirname(out),{recursive:true});fs.writeFileSync(out,JSON.stringify(report,null,2));console.log(JSON.stringify({out,passed:report.passed,failed:report.failed,sourceChangedDuringRun:changed}));if(report.failed||changed.length)process.exitCode=1;

@@ -1,0 +1,16 @@
+{
+  "scope":"existing project baqybhtfvuttcyyzspyi, application schema development_project_platform only",
+  "asOf":"2026-10-20",
+  "migrations":[
+    {"name":"development_platform_center_20261020","sha256":"fcdb9c94b1e8801a01364dd5353a6fac76166e15418a32cf97ee94bd00709f2d","result":"success","newTables":8},
+    {"name":"development_platform_law_watches_20261020","sha256":"8f470f51edbd45a3f199e7c558ddfce1ef0241edbdafde3511902e4182c5c329","result":"success","newTables":1}
+  ],
+  "workspacePreservation":{"revisionBefore":21,"revisionAfter":21,"bytes":2670715,"md5Before":"d9ac740e80414491cb8af38e80dd31fb","md5After":"d9ac740e80414491cb8af38e80dd31fb","source":"read-only SQL before/after migration and reference import"},
+  "sampleAccess":{"verifiedMembers":3,"exactApprovedProjectIds":["TEST-20261016-A","TEST-20261016-B","TEST-20261016-C"],"editorGrants":9,"platformAdminsChanged":false,"actualMemberBrowserAcceptance":"unverified"},
+  "unrelatedSchemaRelations":{"countBefore":293,"countAfter":293,"metadataMd5Before":"39b0bc3e47ed200b5057d0ad2db7a655","metadataMd5After":"39b0bc3e47ed200b5057d0ad2db7a655","includesNamesKindRlsAndAcl":true,"businessRowsReadOrChanged":false},
+  "partners":{"version":"raportal-dom-20261020-v1","sourceCheckedAt":"2026-10-20T05:05:57.907Z","groups":5,"rowsPerGroup":30,"sourceScopedCompanies":150,"officialComments":11,"awards":158,"news":245,"unknownCreditAgencyOrDateInferred":false,"privateSnapshotPublishedInGit":false,"sourceWrites":0},
+  "lawBaseline":{"version":"official-baseline-20260929","dataDate":"2026-09-29","records":182,"changes":158,"watchlistCount":188,"lawWatches":180,"ordinanceWatches":8,"currentCollectionVerified":false,"projectJurisdictionsAutoConfirmed":false},
+  "immutableSnapshots":{"runtimePrivileges":"SELECT, INSERT only","quarterlyTasksAutomaticallyCaptured":false,"snapshotRecordsAtInspection":0,"quarterTasksAtInspection":0},
+  "environmentMetadataOnly":{"DP_LAW_OC":["production","preview"],"CRON_SECRET":["production","preview"],"existingSecretValuesRead":false,"apiSecretEnteredByUser":true},
+  "boundaries":["SQL success is not deployed API E2E acceptance","schema metadata equality is not a row-by-row audit of unrelated services","new grants do not establish successful browser editing by each member"]
+}

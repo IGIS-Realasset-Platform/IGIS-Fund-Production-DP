@@ -1,12 +1,13 @@
 {
-  "version": "0.11.5",
+  "version": "0.12.0",
   "origin": "https://development-project-platform-preview-git-preview-b5dda7-igisra.vercel.app",
-  "htmlSha256": "a74969dd0257f662d1a7fe36daf450fde3056242e7e60213057ba6a7b7659265",
-  "bytes": 6097283,
+  "htmlSha256": "34abc999cfb62a8b37add11dad3b65fe5f264388fdd801945b6f993130444db9",
+  "bytes": 6285141,
   "notionRequired": false,
   "realProjectDataIncluded": false,
   "mode": "authenticated-private-schema-runtime-with-optional-source",
   "localBuildVerified": true,
-  "actualBrowser": "v0.11.5 corrected final Production: native Edge synthetic authentication, twelve alternating startup measurements, A/B/C simulated-save UI and actual public four-viewport checks passed; Preview remains protected.",
-  "protectedDeployment": "dpl_4z8XWesu9MT5MBVxuXwjLoNEFwND"
+  "actualBrowser": "v0.12.0 candidate: generated local HTML boot boundary passed; isolated current-module and candidate-02 UI evidence is scoped separately. Remote preview, official API and exhaustive recursive acceptance are not yet complete.",
+  "previousProtectedDeployment": "dpl_4z8XWesu9MT5MBVxuXwjLoNEFwND",
+  "previousVersion": "0.11.5"
 }

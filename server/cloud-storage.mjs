@@ -5,6 +5,7 @@ import masterV1 from '../src/data/cost-type-master-v1.json' with {type:'json'};
 import masterV2 from '../src/data/cost-type-master-v2.json' with {type:'json'};
 import masterV3 from '../src/data/cost-type-master-v3.json' with {type:'json'};
 import masterV4 from '../src/data/cost-type-master-v4.json' with {type:'json'};
+import {validatePermitChanges} from '../shared/permit-domain.mjs';
 
 export const WORKSPACE_SCHEMA='development_project_platform';
 export const DEFAULT_WORKSPACE_ID='platform';
@@ -200,7 +201,7 @@ export function mergeWorkspaceState(current,incoming,rawAccess,user={email:''}){
   next[key]=mergeRows(current[key]||[],incoming[key]||[],(old,row)=>{if(access.isAdmin)return true;const linked=new Set([...associatedProjects(current,kind,row.id),...associatedProjects(next,kind,row.id)]);if(!linked.size||[...linked].some(id=>!editable(access,id)))return false;for(const id of linked)changed.add(id);return true;});
  }
  next.auditEvents=normalizeNewAudit(current.auditEvents||[],incoming.auditEvents||[],access,user);for(const row of incoming.auditEvents||[])if(!(current.auditEvents||[]).some(old=>old.id===row.id)&&rowProjectId(row))changed.add(rowProjectId(row));
- next.notifications=mergeRows(current.notifications||[],incoming.notifications||[],(old,row)=>{if(access.isAdmin)return true;const id=rowProjectId(row);if(!id||!readable(access,id)||old&&rowProjectId(old)!==id)return false;if(!editable(access,id)){const oldWithoutDismiss={...old},newWithoutDismiss={...row};delete oldWithoutDismiss.dismissed;delete newWithoutDismiss.dismissed;return old&&same(oldWithoutDismiss,newWithoutDismiss)&&typeof row.dismissed==='boolean';}changed.add(id);return true;});
+ next.notifications=mergeRows(current.notifications||[],incoming.notifications||[],(old,row)=>{if(old&&!same(old.dismissed,row.dismissed))throw new WorkspaceError(409,'PERSONAL_NOTIFICATION_REQUIRED','알림 목록을 다시 열어 개인 알림 상태를 변경해 주세요.');if(access.isAdmin)return true;const id=rowProjectId(row);if(!id||!readable(access,id)||old&&rowProjectId(old)!==id)return false;if(!editable(access,id))return false;changed.add(id);return true;});
  for(const key of scopedKeys)if(own(incoming,key)){if(!Array.isArray(incoming[key]))throw invalid();next[key]=mergeRows(current[key]||[],incoming[key],(old,row)=>{const id=rowProjectId(row);if(access.isAdmin){if(id)changed.add(id);return true;}if(!id||!editable(access,id)||old&&rowProjectId(old)!==id)return false;changed.add(id);return true;});}
  for(const[key,value]of Object.entries(incoming)){
   if(['projects','entities','companies','auditEvents','notifications'].includes(key)||scopedKeys.has(key)||key==='storageRevision')continue;
@@ -208,7 +209,7 @@ export function mergeWorkspaceState(current,incoming,rawAccess,user={email:''}){
   if(access.isAdmin){next[key]=clone(value);continue;}
   if(!same(value,visible[key]))throw forbidden();
  }
- validateWorkspaceState(next);return {state:next,changedProjectIds:[...changed],requiresAdmin:access.isAdmin};
+ validateWorkspaceState(next);const permitValidation=validatePermitChanges(current,next);if(!permitValidation.valid)throw new WorkspaceError(422,'INVALID_PERMIT',permitValidation.errors[0]?.message||'인허가 입력값을 확인해 주세요.');return {state:next,changedProjectIds:[...changed],requiresAdmin:access.isAdmin};
 }
 export async function readWorkspaceAccess(client,session){
  const admin=await client.query(`SELECT user_id FROM ${table('platform_admins')} WHERE user_id = $1`,[session.userId]);

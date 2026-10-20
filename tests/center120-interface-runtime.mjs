@@ -1,0 +1,33 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import vm from 'node:vm';
+import {makeHarness} from './recovery-harness.mjs';
+const load=(h,name)=>vm.runInContext(fs.readFileSync('src/'+name+'.js','utf8'),h.context,{filename:'src/'+name+'.js'});
+const response=(status,value)=>({ok:status>=200&&status<300,status,json:async()=>structuredClone(value)});
+const h=makeHarness(),A=h.A;A.cloudMode=true;A.realMode=true;let calls=[],renders=0,audits=0;A.render=()=>renders++;A.audit=()=>audits++;
+const row={companyKey:'cak:registration:R1',sourceRowId:'cak-rows:2026:R1',company:'출처 전용 업체',rank:1,previous_rank:null,registration_no:'R1',amount_million_krw:100,region:null};
+const snapshot={version:'test-reference',checkedAt:'2026-10-20T05:00:00Z',source:'https://example.invalid/source',groups:[{key:'cak-rows',source:'cak',meta:{latest_year:'2026',title:'독립 원사이트',basis_date:'2026-08-01'},rows:[row]}],market:{series:[{id:'kosis',label:'검증 지수',unit:'지수',frequency:'월',source_name:'원출처',points:[{period:'2026-08',value:138.74}]}]}};
+h.context.fetch=async(url,options)=>{calls.push({url,options});return response(200,url.includes('companyKey=')?{company:{row:{...row,recent_awards:[{project:'확인된 계약',amount_krw:null}],unit_cost_records:[]},officialComments:[{author:'센터',body:'공식 코멘트',meta:'2026-10-20'}]}}:snapshot)};
+load(h,'reference-data');h.load('partners');A.partners.initialize(A.state);
+const beforeCompanies=JSON.stringify(A.state.companies),beforeMarket=JSON.stringify(A.state.marketSeries);
+assert.equal(calls.length,0,'부트 시 기준정보를 요청하면 안 됩니다.');
+await Promise.all([A.partners.ensureReference(),A.partners.ensureReference()]);assert.equal(calls.length,1);assert.equal(renders,0,'업체 화면 밖에서 전체 렌더를 만들면 안 됩니다.');
+assert.equal(JSON.stringify(A.state.companies),beforeCompanies);assert.equal(JSON.stringify(A.state.marketSeries),beforeMarket);
+const ranked=A.partners.rankingRows('cak-rows');assert.equal(ranked.length,1);assert.ok(ranked[0].company.referenceOnly);assert.equal(ranked[0].amount,100000000);
+const referenceCompany=ranked[0].company;await A.partners.ensureCompanyDetail(referenceCompany);assert.equal(calls.length,2);assert.equal(A.partners.sourceFor(referenceCompany.sourceMappings[0]).recent_awards[0].project,'확인된 계약');
+A.ui.partnerSelectedId=referenceCompany.id;const html=A.partners.renderCompany();assert.match(html,/공식 코멘트/);assert.doesNotMatch(html,/data-action="partner-company-edit"/);assert.doesNotMatch(html,/data-action="partner-note-add"/);
+assert.throws(()=>A.partners.upsertSalesLine(referenceCompany.id,{}),/읽기 전용/);assert.equal(A.partners.marketSeries().find(s=>s.id==='reference:kosis').points[0].value,138.74);assert.equal(audits,0);
+
+const projectA=A.state.projects[0].id,projectB=A.state.projects[1].id;A.ui.projectId=projectB;A.state.notifications=[{id:'n1',title:'프로젝트 A 알림',at:'2026-10-20T00:00:00Z',target:{projectId:projectA,view:'cost'}},{id:'legacy',title:'과거 공용 삭제',dismissed:true,target:{projectId:projectA}}];
+let patches=0,release,mode='success';calls=[];
+h.context.fetch=async(url,options)=>{calls.push({url,options});if(options.method==='GET')return response(200,{states:[],tasks:[{id:'quarterly:'+projectA+':2026-Q4',notificationId:'quarterly:'+projectA+':2026-Q4',projectId:projectA,quarterKey:'2026-Q4',createdAt:'2026-12-31T00:00:00Z',status:'pending'}]});patches++;if(mode==='pending')await new Promise(resolve=>release=resolve);if(mode==='offline')throw Error('network');if(mode==='forbidden')return response(403,{error:'FORBIDDEN'});const payload=JSON.parse(options.body);return response(200,{state:{notificationId:payload.notificationId,readAt:payload.action==='read'?'2026-10-20T01:00:00Z':null,deletedAt:payload.action==='delete'?'2026-10-20T01:00:00Z':null}})};
+load(h,'notifications');assert.equal(calls.length,0);assert.doesNotMatch(A.notifications.sidebar(),/notification-count">\d/,'개인 상태를 읽기 전의 전체 알림 수를 읽지 않은 건수처럼 표시하면 안 됩니다.');await A.notifications.load();assert.equal(calls.length,1);assert.equal(A.notifications.visible().length,2);assert.equal(A.notifications.status().states.length,0,'공용 삭제를 개인상태로 임의 귀속하면 안 됩니다.');
+const canonicalBefore=JSON.stringify(A.state.notifications),auditsBefore=audits,rendersBefore=renders;
+mode='pending';const first=A.notifications.change('n1','delete'),second=A.notifications.change('n1','delete');await Promise.resolve();assert.equal(patches,1);release();assert.equal(await first,true);assert.equal(await second,true);assert.equal(A.notifications.visible().some(n=>n.id==='n1'),false);
+assert.equal(JSON.stringify(A.state.notifications),canonicalBefore);assert.equal(A.ui.projectId,projectB);assert.equal(audits,auditsBefore);assert.equal(renders,rendersBefore);assert.equal(calls.filter(c=>c.url==='/api/workspace').length,0);
+mode='success';await A.notifications.change('n1','restore');assert.equal(A.notifications.visible().some(n=>n.id==='n1'),true);
+for(const failure of ['forbidden','offline']){mode=failure;assert.equal(await A.notifications.change('n1','delete'),false);assert.equal(A.notifications.visible().some(n=>n.id==='n1'),true);assert.equal(A.notifications.status().pending,0);assert.match(A.notifications.status().error,failure==='forbidden'?/권한/:/저장하지 못/)}
+assert.equal(A.notifications.status().tasks[0].status,'pending');assert.equal(JSON.stringify(A.state.notifications),canonicalBefore);
+A.notifications.reset();assert.equal(A.notifications.status().states.length,0);assert.equal(A.notifications.status().tasks.length,0);assert.equal(A.notifications.status().loaded,false);
+A.referenceData.reset();assert.equal(A.referenceData.peek('partners'),null);
+console.log('PASS CENTER120-03/04 runtime: lazy and coalesced reference reads, separate read-only source/detail/market, no company insertion, personal notification delete/read/restore, repeated-click coalescing, 403/offline rollback, task and project context preservation, no workspace/audit/render side effects, reset isolation');
