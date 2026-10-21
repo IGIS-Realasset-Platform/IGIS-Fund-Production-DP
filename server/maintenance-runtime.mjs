@@ -5,6 +5,7 @@ import {koreaDate} from './date-time.mjs';
 import {collectLawSnapshot} from './law-collector.mjs';
 import {collectPartnerSnapshot} from './partner-collector.mjs';
 import {collectPartnerRankings} from './partner-rankings.mjs';
+import {verifyProviderConnections} from './provider-connection-check.mjs';
 const S='development_project_platform',table=n=>S+'.'+n;
 const json=(v,s=200)=>Response.json(v,{status:s,headers:{'cache-control':'private, no-store'}}),object=v=>v!==null&&typeof v==='object'&&!Array.isArray(v),same=(a,b)=>JSON.stringify(a)===JSON.stringify(b),hash=v=>createHash('sha256').update(JSON.stringify(v)).digest('hex');
 const key=v=>typeof v==='string'&&v.length>0&&v.length<=500&&!/[\u0000-\u001f\u007f]/.test(v),fail=code=>{throw Error(code);};
@@ -58,6 +59,7 @@ export function validatePartnerResult(value,previous,env){
 export function createMaintenanceRuntime({environment=()=>process.env,loadDrivers=loadProductionDrivers,clock=()=>new Date(),monotonic=()=>performance.now(),collector=collectLawSnapshot,partnerCollector=collectPartnerSnapshot,fetcher=fetch}={}){
  return async function maintenance(request){
   const env=environment(),secret=env.CRON_SECRET,provided=request.headers.get('authorization')||'';if(request.method!=='GET')return json({error:'METHOD_NOT_ALLOWED'},405);if(typeof secret!=='string'||secret.length<32)return json({error:'MAINTENANCE_CONFIGURATION_MISSING'},503);const expected='Bearer '+secret;if(Buffer.byteLength(provided)!==Buffer.byteLength(expected)||!timingSafeEqual(Buffer.from(provided),Buffer.from(expected)))return json({error:'AUTH_REQUIRED'},401);
+  const params=new URL(request.url).searchParams;if(params.has('mode')){if(params.size!==1||params.get('mode')!=='verify-provider-connections')return json({error:'INVALID_MAINTENANCE_MODE'},400);try{return json(await verifyProviderConnections({env,fetcher,clock,signal:request.signal}));}catch{return json({error:'PROVIDER_CONNECTION_CHECK_FAILED'},503);}}if(params.size)return json({error:'INVALID_MAINTENANCE_MODE'},400);
   const deadline=monotonic()+270000,remaining=()=>Math.max(0,deadline-monotonic());
   try{
    const config=readAuthConfiguration(env);databaseConnectionOptions(config.databaseUrl,config.databaseCa);const drivers=await loadDrivers(config),day=koreaDate(clock());
