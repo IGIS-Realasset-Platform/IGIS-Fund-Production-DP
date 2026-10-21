@@ -199,15 +199,18 @@ npm ci --ignore-scripts
 
 # 외부 서비스나 실제 DB 없이 실행하는 대표 검사
 node tests/cloud-storage.mjs
-node tests/center120-cost.mjs
 node tests/center120-law-api.mjs
 ```
 
-전체 기능 검사는 다음 명령을 기준으로 하되 브라우저·PDF·Excel 실검수는 별도입니다.
+위 두 검사는 GitHub 추적파일만 추출한 깨끗한 환경에서 실제 실행했습니다(22개·9개 통과). 실제 DB·메일·법제처 연결 검수가 아니라, 합성 입력으로 공통 동작을 확인하는 검사입니다.
+
+전체 기능 검사는 아래 명령이 기준이지만, **GitHub만 내려받은 환경에서는 아직 전부 재현할 수 없습니다.** 일부 검사는 미동봉 시험자료·생성 HTML·외부 참조 판본이 필요하고, 기존 실행목록에 누락 파일도 있습니다. 자료가 없는 검사를 임의의 빈값으로 통과시키지 마세요.
 
 ```powershell
 node scripts/verify-center120.mjs
 ```
+
+`center120-cost.mjs` 등 기본 원가 검사는 비공개 시험자료인 `src/data/legacy-seed.json`이 필요합니다. 회사 원본을 GitHub에 올리는 방식으로 해결하지 않습니다. 필요한 검사와 준비조건은 [개발 가이드](docs/DEVELOPMENT.md)에서 구분합니다.
 
 실제 브라우저 검사에는 설치된 Edge와 승인된 격리 자료·참조 스냅샷이 필요합니다.
 검수기 소스가 있다는 사실만으로 모든 PC에서 바로 재현되거나 실제 회원 검수가 끝난 것은 아닙니다.
@@ -249,6 +252,11 @@ node scripts/verify-center120.mjs
 
 ## 관련 문서
 
+- [AI·개발자 공통 작업 지침](AGENTS.md)
+- [수정 참여 절차](CONTRIBUTING.md)
+- [개발·검사·빌드 가이드](docs/DEVELOPMENT.md)
+- [구조와 데이터 흐름](docs/ARCHITECTURE.md)
+- [후속 작업과 보존 경계](docs/CURRENT-WORK.md)
 - [플랫폼 기능·보존 경계 명세](docs/center-20261020-spec.md)
 - [요구별 수정대장](docs/center-20261020-fix-ledger.json)
 - [UI·출력 검수 기록](docs/center-20261020-ui-verification.json)
