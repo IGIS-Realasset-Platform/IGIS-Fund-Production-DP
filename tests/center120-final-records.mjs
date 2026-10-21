@@ -1,0 +1,17 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+const read=file=>JSON.parse(fs.readFileSync(file,'utf8'));
+const ledger=read('docs/center-20261020-fix-ledger.json'),ui=read('docs/center-20261020-ui-verification.json'),db=read('docs/center-20261020-database-verification.json');
+// Independent release-review disposition, not copied from the product's arrays.
+const ids=['01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16','17','18','19','20','21','22'].map(x=>'CENTER120-'+x);
+const closed=['02','03','04','09','10','11','12','13','14','15','16','18','19','22'].map(x=>'CENTER120-'+x),open=['01','05','06','07','08','17','20','21'].map(x=>'CENTER120-'+x),checks=[];
+function test(name,fn){try{fn();checks.push({name,passed:true});}catch(e){checks.push({name,passed:false,message:e.message});}}
+test('현행22개 요구의 고정ID와 사용자 수락기준 보존',()=>{assert.deepEqual(ledger.items.map(x=>x.id),ids);assert.equal(ledger.targetRelease,'0.12.0');assert(ledger.items.every(x=>typeof x.acceptance==='string'&&x.acceptance.length>20));});
+test('독립검토가 수락한14개만 전체완료',()=>assert.deepEqual(ledger.items.filter(x=>x.completed===true).map(x=>x.id),closed));
+test('수락14개의 구현·자동·화면·정식반영은 서로 다른 단계로 기록',()=>{for(const id of closed){const row=ledger.items.find(x=>x.id===id);assert.equal(row.implementation.status,'implemented',id);assert.equal(row.automatic.status,'passed',id);assert.equal(row.browser.status,'passed',id);assert.equal(row.deployment.status,'production_verified',id);assert(row.latestVerification?.verifiedScope?.length>10,id);}});
+test('미완료8개에는 실제 잔여수락조건이 있으며 완료로 승격하지 않음',()=>{for(const id of open){const row=ledger.items.find(x=>x.id===id);assert.equal(row.completed,false,id);assert(row.latestVerification?.remaining?.length>10,id);}});
+test('대체 전 실행단계22개는 역사기록으로 보존',()=>assert.equal(ledger.historicalExecutionStages?.beforeFinalSync?.length,22));
+test('기능검수108/129와C31실제화면을최신HTML전체통과로확대하지않음',()=>{const x=ui.finalC31Published;assert(x);assert.equal(x.logic.currentGroups,108);assert.equal(x.logic.legacyGroups,129);assert.equal(x.productionHtml.sha256,'757b3f7532d38c6c397a7e8acb0bd6d3b1af6a20353dae64e2dbd8f05ccfc1e8');assert.equal(x.conditionalControls.actions,25);assert.equal(x.conditionalControls.allFunctionsVerified,false);assert.equal(x.liveOwner.otherMembersActualUiVerified,false);assert.equal(x.liveOwner.r30JsonTransferToUserDownloadsVerified,false);assert.equal(x.cron.naturalRunObserved,false);});
+test('최종DB기록과과거기록을구분하고전용schema·거절저장0을명시',()=>{assert.equal(db.latestRecordKey,'finalC31Actual');assert.equal(db.asOf,'2026-10-21');const text=JSON.stringify(db.finalC31Actual);assert(text.includes('development_project_platform'));assert(text.includes('8314'));assert(text.includes('34'));assert(text.includes('409'));assert.equal(db.workspacePreservation.revisionBefore,21);assert.equal(db.workspacePreservation.revisionAfter,21);});
+test('442항목과신규14완료/8잔여를동일한최종체크리스트로동기화',()=>{const x=ui.latestChecklist||{};assert.equal(x.rows,442);assert.equal(x.fields,5304);assert.equal(x.checked,381);assert.equal(x.unchecked,61);assert.equal(x.reimportAllFieldsMatched,true);assert.equal(x.old420BodyCheckStyleAndSheetFeaturesPreserved,true);assert.match(x.sha256||'',/^[a-f0-9]{64}$/);});
+const result={scope:'Final release metadata consistency only; not browser/API/DB or native Excel execution',passed:checks.filter(x=>x.passed).length,failed:checks.filter(x=>!x.passed).length,checks};console.log(JSON.stringify(result,null,2));if(result.failed)process.exitCode=1;

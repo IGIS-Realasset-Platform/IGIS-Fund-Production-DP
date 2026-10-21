@@ -1,10 +1,16 @@
 {
   "version":"0.12.0",
   "origin":"https://igis-development-project-platform.vercel.app",
-  "htmlSha256":"757b3f7532d38c6c397a7e8acb0bd6d3b1af6a20353dae64e2dbd8f05ccfc1e8",
-  "bytes":6424367,
-  "status":"staged-production-artifact-approved-public-domain-assignment-and-actual-acceptance-pending",
-  "previousProductionDeploymentId":"dpl_Eahucd6iMGDNoEKFhVuHSbRxB2pr",
+  "htmlSha256":"0c50d06fa953953460049e40eaafe42ad9a2306fd40e094f97b4ccc6bf9f5351",
+  "bytes":6490514,
+  "status":"approved-final-metadata-artifact-functional-evidence-pinned-separately",
+  "publishedAt":"2026-10-21",
+  "functionalVerificationDeploymentId":"dpl_Dnx4JXyfitYNqAD97WMTzVBrXehb",
+  "functionalVerificationSourceCommit":"6f475d8f7228fe194ee04b0d35623b80db10a4b0",
+  "metadataOnlyEvidence":".build/center-20261020/c32-metadata-only-equivalence.json",
+  "wholeRequirementsComplete":false,
+  "previousProductionDeploymentId":"dpl_Dnx4JXyfitYNqAD97WMTzVBrXehb",
+  "historicalV0115ProductionDeploymentId":"dpl_Eahucd6iMGDNoEKFhVuHSbRxB2pr",
   "privateSourceIncluded":false,
   "humanPasswordEnrollmentVerified":true
 }

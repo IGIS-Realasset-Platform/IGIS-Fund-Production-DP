@@ -1,6 +1,35 @@
 {
   "scope":"existing project baqybhtfvuttcyyzspyi, application schema development_project_platform only",
-  "asOf":"2026-10-20",
+  "asOf":"2026-10-21",
+  "latestRecordKey":"finalC31Actual",
+  "recordInterpretation":{
+    "latest": "현재 검증 결과는 finalC31Actual을 우선합니다. 아래 기존 기록은 그 검수 당시의 값입니다.",
+    "historicalAsOf": "2026-10-20",
+    "historicalTopLevelRecords": [
+      "actualEventSnapshot",
+      "candidate18ActualCollection",
+      "migrations",
+      "workspacePreservation",
+      "sampleAccess",
+      "actualSampleBrowser",
+      "unrelatedSchemaRelations",
+      "partners",
+      "partnerComments",
+      "partnerCollectorLocalVerification",
+      "lawBaseline",
+      "lawCollection",
+      "immutableSnapshots",
+      "environmentMetadataOnly"
+    ],
+    "preservationRule": "C18 및 기존21→29 단계 등을 포함한 기존 검수 기록을 덮어쓰거나 현재 결과로 소급하지 않습니다.",
+    "examples": {
+      "immutableSnapshots.snapshotRecordsAtInspection": "0은 최초 검사 당시 값입니다. 현재 실제 event snapshot1개는 finalC31Actual.preservedData에 기록합니다.",
+      "workspacePreservation": "revision21은 이관 당시 이력입니다. 수집 보존은29, 별도 실제 편집·복원 뒤 현재는31입니다.",
+      "candidate18ActualCollection.missingConfigurationNames": "C18 당시 미설정 이력입니다. 최신 DART/G2B 공식 인증000/00은 finalC31Actual.providerAuthentication을 따릅니다.",
+      "actualSampleBrowser": "이전21→29 실제 샘플 검수 이력입니다. 최종 정식 두 탭 검수는 finalC31Actual.actualTwoTabEdit로 분리합니다.",
+      "lawCollection.newSourceAll194Retested": "당시 새 소스 재검수 상태입니다. 오늘194성공 및 C31 같은날 중복수집 건너뜀은 최신 섹션에서 구분합니다."
+    }
+  },
   "actualEventSnapshot":{"sample":"A","label":"검수용 A · 시점 저장·재접속 확인","kind":"event","count":1,"version":1,"asOfDate":"2026-10-20","approvedBudgetCount":0,"quarterlySnapshotCount":0,"taskCount":0,"taskCompletedOrLinked":0,"payloadBytes":545423,"payloadMd5":"dc8350c027071768418310e2a5019772","snapshotRowMd5":"2420d87017d4483a0e11382cd682b68f","payloadProjectExactlyEqualsLiveOriginal":true,"otherProjectsOrEntireWorkspaceEmbedded":false,"workspaceRevisionBeforeAndAfter":29,"workspaceMd5BeforeAndAfter":"7397cd723e55d8475ed9ae55d9a6f3c8","allThreeSampleProtectedHashesUnchanged":true,"independentPreservationChecks":13,"twoReadOnlyDatabaseObservations":true,"actualBrowser":"owner create, list and comparison succeeded; fresh-page reentry and corrected date-only API are separately verified","oldDateDtoProblem":"PG DATE serialized as ISO instant; local date-only DTO correction and20tests passed, next deployment acceptance pending","evidencePrivate":".build/center-20261020/candidate18-snapshot-actual-db-comparison.json"},
   "candidate18ActualCollection":{"deploymentId":"dpl_HnXN4zAxedKfz3T7Y7egnG6rPS2F","commit":"ce12f21ec113d05c06fb555ba46756966d42e66b","httpStatus":207,"status":"partial_failure","errorCode":"PARTNER_SOURCES_INCOMPLETE","checkedSources":238,"totalSourceResults":245,"httpRequests":200,"newsCompaniesVerified":150,"newsCompaniesTotal":150,"creditCandidatesQueried":80,"creditCandidatesRemaining":70,"molitGroundRates":63,"kacemTlsFailures":1,"missingConfigurationNames":["DP_DART_API_KEY","DP_G2B_SERVICE_KEY","DP_KOSIS_API_KEY"],"newReferenceVersion":"cab22605-403a-4934-89b6-5057d3795c7b","newReferenceMd5":"5fb4a6a31d2dc2ceaaa7ab5126b0a370","newReferenceJsonBytes":5367936,"newSnapshotCount":1,"allOriginalThreeSnapshotsUnchanged":true,"original150CompanyPrivateCommentKeysAndBodiesUnchanged":true,"employeeCommentDisplayOccurrences":14,"officialComments":11,"newAppComments":0,"workspaceRevisionBeforeAndAfter":29,"workspaceMd5BeforeAndAfter":"7397cd723e55d8475ed9ae55d9a6f3c8","allThreeEntireProjectHashesAnd336VatFieldPathsAnd24UnitPathsUnchanged":true,"independentPreservationChecks":10,"actualBrowser":"owner current rankings/detail/comments/policy63 and normal close; not every company or all source freshness","naturalScheduleVerified":false,"evidencePrivate":".build/center-20261020/candidate18-db-comparison.json"},
   "migrations":[
@@ -19,5 +48,376 @@
   "lawCollection":{"version":"f34ad6c7-ba80-47cc-9a82-41f2c602eb3f","dataDate":"2026-10-20","lastSuccessAt":"2026-10-20T06:57:34.120115Z","watchlistCount":194,"lawWatches":180,"administrativeWatches":4,"ordinanceWatches":10,"confirmed":194,"failures":0,"rawChanges":184,"currentCollectionVerified":true,"verification":"earlier protected Preview manual invocation of authenticated scheduled handler; scheduled natural run not yet observed","newBoundedReaderLiveVersions":13,"newBoundedReaderLiveRegions":5,"newSourceAll194Retested":false,"projectJurisdictionsAutoConfirmed":false},
   "immutableSnapshots":{"runtimePrivileges":"SELECT, INSERT only","quarterlyTasksAutomaticallyCaptured":false,"snapshotRecordsAtInspection":0,"quarterTasksAtInspection":0},
   "environmentMetadataOnly":{"DP_LAW_OC":["production","preview"],"CRON_SECRET":["production","preview"],"existingSecretValuesRead":false,"apiSecretEnteredByUser":true},
+  "finalC31Actual":{
+    "verifiedAtUtc": "2026-10-21T03:56:02.283815Z",
+    "status": "actual_validation_completed_with_explicit_open_conditions",
+    "releaseScope": "개인 검증용 정식 배포입니다. 회사 운영 전환이나 모든 요구 완료를 뜻하지 않습니다.",
+    "deployment": {
+      "id": "dpl_Dnx4JXyfitYNqAD97WMTzVBrXehb",
+      "commit": "6f475d8f7228fe194ee04b0d35623b80db10a4b0",
+      "officialOrigin": "https://igis-development-project-platform.vercel.app",
+      "htmlSha256": "757b3f7532d38c6c397a7e8acb0bd6d3b1af6a20353dae64e2dbd8f05ccfc1e8",
+      "publicBoundaryChecks": {
+        "passed": 4,
+        "failed": 0,
+        "anonymousWorkspaceHttpStatus": 401,
+        "anonymousMaintenanceHttpStatus": 401,
+        "evidence": {
+          "path": ".build/center-20261020/final-public-boundaries-1792554014628.json",
+          "sha256": "fcf3a7805cfb638543f9b2200e17c638deb6b33f9e50fdcd7de5ac98597433dc"
+        }
+      }
+    },
+    "providerAuthentication": {
+      "checkedAtUtc": "2026-10-21T03:27:41.086Z",
+      "deploymentStage": "동일 C31 Production 후보에서 공식 승격 전 실제 서버 호출",
+      "mode": "verify-provider-connections",
+      "readOnly": true,
+      "httpStatus": 200,
+      "dart": {
+        "authenticated": true,
+        "officialCode": "000"
+      },
+      "g2b": {
+        "authenticated": true,
+        "officialCode": "00"
+      },
+      "requests": 2,
+      "databaseWrites": 0,
+      "secretValuesRead": false,
+      "rawOfficialApiBodiesPersisted": false,
+      "registrationAloneIsNotAuthentication": true,
+      "doesNotVerifyCompanyMappingOrContractCostEvidence": true,
+      "evidence": {
+        "path": ".build/center-20261020/final-probe-1792553261099.json",
+        "sha256": "17038ad5217238bae3afa9010f6da829ac7eb7ac6e26ee9efb637403ab76f02d"
+      },
+      "priorC26Evidence": {
+        "path": ".build/center-20261020/reviewed-provider-check-1792546357699.json"
+      },
+      "priorEvidenceIsNotRelabeledAsC31": true
+    },
+    "manualCollections": {
+      "invocationKind": "인증된 /api/maintenance를 수동으로 유한 실행했습니다. 자연 예약 실행으로 세지 않습니다.",
+      "first": {
+        "completedAtUtc": "2026-10-21T03:30:15.149Z",
+        "httpStatus": 207,
+        "partnerStatus": "partial_failure",
+        "checkedSources": 172,
+        "totalSources": 179,
+        "httpRequests": 200,
+        "sourceStatusCounts": {
+          "success": 172,
+          "failed": 1,
+          "configuration_missing": 5,
+          "partial_failure": 1
+        },
+        "law": "skipped",
+        "quarterly": "skipped",
+        "preservation": {
+          "passed": 32,
+          "failed": 0,
+          "workspaceRevision": 29
+        },
+        "g2b": {
+          "closedConfirmedThroughKst": "2026-10-20 14:58",
+          "publicUniqueRecords": 3732,
+          "recoveryComplete": false,
+          "stopReason": "maximum_two_completed_windows",
+          "globalRequestCountAloneDoesNotProveMidWindowBudgetAbort": true
+        },
+        "invocationEvidence": {
+          "path": ".build/center-20261020/final-cron-1792553415149.json"
+        },
+        "independentEvidence": {
+          "path": ".build/center-20261020/backend-c31-actual-after-verification-20261021T0334Z.json",
+          "sha256": "185b46613410e54d2babe8fd623c98e1b5e349dee35cdc0ca50045aaa1ef853d"
+        }
+      },
+      "second": {
+        "completedAtUtc": "2026-10-21T03:37:43.116Z",
+        "httpStatus": 207,
+        "partnerStatus": "partial_failure",
+        "checkedSources": 170,
+        "totalSources": 176,
+        "httpRequests": 196,
+        "sourceStatusCounts": {
+          "success": 169,
+          "not_modified": 1,
+          "failed": 1,
+          "configuration_missing": 5
+        },
+        "law": "skipped",
+        "quarterly": "skipped",
+        "preservation": {
+          "passed": 32,
+          "failed": 0,
+          "workspaceRevision": 29
+        },
+        "firstToSecondCrossChecks": {
+          "passed": 11,
+          "failed": 0
+        },
+        "invocationEvidence": {
+          "path": ".build/center-20261020/final-cron-1792553863116.json"
+        },
+        "independentEvidence": {
+          "path": ".build/center-20261020/backend-c31-second-actual-verification-20261021T0342Z.json",
+          "sha256": "a457c2f728c75e2ec139ece0e5650cd97345453d6c0ae8937ad3b435e0ce1aa6"
+        }
+      },
+      "retainedLawSuccess": {
+        "confirmed": 194,
+        "watchlistCount": 194,
+        "lastSuccessAtUtc": "2026-10-21T01:34:58.039035Z",
+        "sameDayManualCallsSkipped": true,
+        "all194WereNotFetchedAgainByC31Calls": true,
+        "evidence": {
+          "path": ".build/center-20261020/candidate26-staged-production-cron-1792546548170.json"
+        }
+      },
+      "remainingPartnerConditions": [
+        {
+          "source": "rank:kacem",
+          "status": "failed",
+          "code": "SOURCE_TLS_REJECTED"
+        },
+        {
+          "source": "kosis-market",
+          "status": "configuration_missing",
+          "code": "KOSIS_KEY_AND_SERIES_REQUIRED"
+        },
+        {
+          "source": "dart-contracts",
+          "status": "configuration_missing",
+          "code": "SOURCE_IDENTITY_REQUIRED"
+        },
+        {
+          "source": "dart-company-identities",
+          "status": "configuration_missing",
+          "code": "SOURCE_LEGAL_IDENTITY_REQUIRED"
+        },
+        {
+          "source": "credit-ratings",
+          "status": "configuration_missing",
+          "code": "SOURCE_LEGAL_IDENTITY_REQUIRED"
+        },
+        {
+          "source": "unit-costs",
+          "status": "configuration_missing",
+          "code": "SOURCE_CONTRACT_AMOUNT_AREA_BASIS_REQUIRED"
+        }
+      ],
+      "g2bRecoveryCompleteDoesNotMakeAllPartnersSuccessful": true
+    },
+    "g2bRecovery": {
+      "approvedStartDate": "2026-10-20",
+      "progressVersion": 2,
+      "boundaryPolicy": "overlap-minute",
+      "queryBasis": {
+        "contract": "registration_datetime",
+        "amendment": "change_datetime",
+        "cancellation": "deletion_datetime"
+      },
+      "timeZone": "Asia/Seoul",
+      "precision": "minute",
+      "fixedObservedEndpointKst": "2026-10-21 12:36",
+      "closedConfirmedThroughKst": "2026-10-21 12:35",
+      "lastCompletedAtUtc": "2026-10-21T03:37:28.841Z",
+      "recoveryCompleteForThisFixedTarget": true,
+      "nextQueryAtThatTarget": null,
+      "nextInvocationOverlapStartsKst": "2026-10-21 12:36",
+      "activePartialRecords": 0,
+      "activePageCursor": null,
+      "publicRecords": 8314,
+      "publicUniqueIds": 8314,
+      "duplicateIds": 0,
+      "nonG2bRecords": 0,
+      "contractEvents": 8314,
+      "originalFirst3732RetainedExact": true,
+      "originalFirstRecordsMissing": 0,
+      "originalFirstRecordsChanged": 0,
+      "newUniqueSinceFirst": 4582,
+      "secondWindowObservationCounts": [
+        2503,
+        2101
+      ],
+      "firstToSecondBoundaryOverlap": 22,
+      "midnightBoundaryOverlap": 0,
+      "unionEquation": "3732 + 2503 + 2101 - 22 - 0 = 8314",
+      "maximumObservedSourceTimeKst": "2026-10-21 12:36:45",
+      "observedBoundaryMinuteNotPromotedToComplete": true,
+      "lateProviderPublicationCompleteness": "not_guaranteed",
+      "legacyObservation": {
+        "status": "preserved_incomplete",
+        "records": 300,
+        "originalFutureEndQueryPreserved": true,
+        "nextPage": 4,
+        "totalObservedThen": 1203,
+        "verifiedImmutableReference": true,
+        "inlineRecords": 0,
+        "referenceVersionMd5": "e5998db61a8bb8cde0b656b79526961b",
+        "originalRecordsMd5": "425f4a5f9b3430b87945808420b6f66b",
+        "exactObservationAnd300PrefixPreserved": true,
+        "notALiveQueueThatBlocksClosedRecovery": true
+      },
+      "allLeasesReleased": true,
+      "firstReferenceEvidenceLimit": "첫 C31 전체 payload 및 첫11판본 합계 MD5는 2차 검수 때 처음 고정했습니다. 1차 시점과의 전체 payload 지문 대조로 확대하지 않으며, 당시 고정한 공개자료·전체 checkpoint·private181 지문·G2B coverage·발행시각은 일치했습니다.",
+      "crossEvidence": {
+        "path": ".build/center-20261020/backend-c31-second-cross-window-20261021T0341Z.json",
+        "sha256": "191fd242a34141d8b86dfeb8f6b3e89cf8ffb2e5c202d0b41c1eed097cedf404"
+      }
+    },
+    "actualTwoTabEdit": {
+      "scope": "정식 C31의 동일 실제 소유자 계정 두 탭·승인 샘플 A. 다른 회원의 동시 편집 검수와 구분합니다.",
+      "independentChecks": {
+        "passed": 34,
+        "failed": 0
+      },
+      "workspaceRevisions": [
+        29,
+        30,
+        31
+      ],
+      "workspaceAuditCounts": [
+        29,
+        30,
+        31
+      ],
+      "normalWrites": 2,
+      "newSavedRequestReceipts": 2,
+      "savedResultRevisions": [
+        30,
+        31
+      ],
+      "actorCount": 1,
+      "changedProjectOnly": "A",
+      "acceptedDeltaWon": 1,
+      "rejectedStaleDeltaWon": 2,
+      "staleHttpStatus": 409,
+      "rejectedStaleWrites": 0,
+      "rejectedValueInCommittedStates": 0,
+      "rejectedValueInSavedReceipts": 0,
+      "inputPreserved": true,
+      "currentCopyAuthenticatedGetSucceeded": true,
+      "explicitReloadSucceeded": true,
+      "conflictStateCleared": true,
+      "restoreAndFreshReentryVerified": true,
+      "originalAmountRestored": true,
+      "singleTargetCurrentOnlyChangedAtRevision30": true,
+      "otherCbsRowsPreservedDuringEdit": 222,
+      "allThreeProjectsRestoredExactly": true,
+      "baselineWorkspaceMd5": "7397cd723e55d8475ed9ae55d9a6f3c8",
+      "restoredWorkspaceMd5": "393673ae8cf59b6618b66ced21fbd64e",
+      "legitimateWorkspaceHashDifference": "storageRevision과 정상 UI 감사2개만 다릅니다. 업무자료는 정확히 복원됐습니다.",
+      "uiAuditCounts": [
+        36,
+        37,
+        38
+      ],
+      "oldUiAuditEventsPreserved": true,
+      "currentJsonDelivery": {
+        "freshAuthenticatedGetVerified": true,
+        "userDownloadsDeliveryVerified": false
+      },
+      "preparationFailuresAreNotProductDefects": [
+        "409가 자동 dialog로 나타날 것으로 예상한 선택자 실패",
+        "비동기 조작 직후 DOM만 완료로 판정하지 않고 후속 GET·표시·복원을 재확인"
+      ],
+      "browserEvidence": {
+        "path": ".build/center-20261020/final-live-browser-20261021.json",
+        "sha256": "753b9e875668427960c21d44582b22f3056ff50a059f23a372b141ab3c2bd744"
+      },
+      "databaseEvidence": {
+        "path": ".build/center-20261020/backend-c31-two-tab-edit-restore-verification-20261021T0356Z.json",
+        "sha256": "0465686c5fd6b1e200930da07a01cd48bd6f91fd944670abf86401649cfcfa87"
+      },
+      "separateFromCollectionPreservation32": true
+    },
+    "preservedData": {
+      "workspaceRevision": 31,
+      "eventSnapshotCount": 1,
+      "costSnapshotCount": 1,
+      "approvedBudgetSnapshotCount": 0,
+      "quarterlyTasks": 0,
+      "automaticQuarterlySnapshotsCreated": false,
+      "allOriginalProjectCostStagesContractsFinancingPermitsReportsPreserved": true,
+      "previouslyEnumeratedVatFieldPaths": 336,
+      "previouslyEnumeratedUnitFieldPaths": 24,
+      "finalVatUnitPreservationBasis": "최종 단계는 A/B/C 전체 프로젝트와 target 비금액 필드의 exact 비교입니다. 336/24 경로를 최종 단계에서 다시 세었다고 주장하지 않습니다.",
+      "legacyCommentDisplayOccurrences": 14,
+      "legacyUniqueBodies": 10,
+      "officialComments": 11,
+      "newAppComments": 0,
+      "privateCompanyProfileKeys": 181,
+      "privateFieldsMd5": "3ecc41916262a97f1bff973b0bc78b81",
+      "representativeGrades": 13,
+      "representativeGradePromotionByInference": false,
+      "projectMemberRows": 9,
+      "memberRowsMd5": "a64ae4db0501337869c7bfcea176cd18",
+      "allReferenceSets": {
+        "partners": {
+          "count": 12,
+          "rowsMd5": "e631cab4b339e015834dc9a913418b2d"
+        },
+        "laws": {
+          "count": 4,
+          "rowsMd5": "5ec9d8bb803720c1a46f9ab39b471f07"
+        }
+      },
+      "latestPartnerPayloadMd5": "a46ea5008cb986fd948f5cf46fce4eae",
+      "referenceFreezeEvidence": {
+        "path": ".build/center-20261020/backend-c31-second-reference-freeze-20261021T0342Z.json",
+        "sha256": "c519a0f662921559b24f111332b537bf13b41e2b216fdda3f89c3c4a6b4f75ef"
+      }
+    },
+    "scheduling": {
+      "path": "/api/maintenance",
+      "configuredCronUtc": "0 23 * * *",
+      "configuredKst": "매일 08시대",
+      "registrationVerified": true,
+      "activeVerified": true,
+      "naturalExecutionObserved": false,
+      "exactScheduledTimeExecutionObserved": false,
+      "quarterEndArrivalObserved": false,
+      "failedCronAutomaticRetryConfigured": false,
+      "registrationIsNotNaturalRunAcceptance": true,
+      "evidence": {
+        "path": ".build/center-20261020/final-cron-registration.png"
+      }
+    },
+    "finalScopedLogs": {
+      "sinceUtc": "2026-10-21T03:25:00Z",
+      "untilUtc": "2026-10-21T03:52:54Z",
+      "requestRecords": 26,
+      "completedQueryScopes": 4,
+      "runtimeErrorWarningRecords": 0,
+      "http5xxRecords": 0,
+      "intendedAnonymous401Conflict409Partial207Separated": true,
+      "notAllHistoryOrAllMembersVerified": true,
+      "evidence": {
+        "path": ".build/center-20261020/candidate31-production-cli-verify-1792554793146.json",
+        "sha256": "7b14d3da51737a70778f9a04998ec5df347e585f9e79a4b17fbe941cf8a86e2f"
+      }
+    },
+    "boundaries": {
+      "applicationSchemaOnly": "development_project_platform",
+      "existingCompanyServicesChanged": false,
+      "sharedSupabaseAuthChanged": false,
+      "otherSchemasChanged": false,
+      "originalSiteChanged": false,
+      "unrelatedServiceBusinessRowsReadOrWritten": false,
+      "historical293RelationMetadataComparisonIsNotCurrentRowAudit": true,
+      "otherMembersActualBrowserVerification": "unverified",
+      "allRequirementsOrSourceFreshnessComplete": false,
+      "documentationUpdate": {
+        "filesChanged": 1,
+        "productChanges": 0,
+        "additionalRemoteRequests": 0,
+        "additionalDatabaseReads": 0,
+        "additionalDatabaseWrites": 0
+      }
+    }
+  },
   "boundaries":["SQL success is not deployed API E2E acceptance","schema metadata equality is not a row-by-row audit of unrelated services","new grants do not establish successful browser editing by each member"]
 }
