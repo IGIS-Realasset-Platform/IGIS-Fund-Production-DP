@@ -6,6 +6,7 @@ import {collectLawSnapshot} from './law-collector.mjs';
 import {collectPartnerSnapshot} from './partner-collector.mjs';
 import {collectPartnerRankings} from './partner-rankings.mjs';
 import {verifyProviderConnections} from './provider-connection-check.mjs';
+import {normalizeDartApiKey,normalizeG2bServiceKey,trimProviderCredentialWhitespace} from './provider-credential-format.mjs';
 const S='development_project_platform',table=n=>S+'.'+n;
 const json=(v,s=200)=>Response.json(v,{status:s,headers:{'cache-control':'private, no-store'}}),object=v=>v!==null&&typeof v==='object'&&!Array.isArray(v),same=(a,b)=>JSON.stringify(a)===JSON.stringify(b),hash=v=>createHash('sha256').update(JSON.stringify(v)).digest('hex');
 const key=v=>typeof v==='string'&&v.length>0&&v.length<=500&&!/[\u0000-\u001f\u007f]/.test(v),fail=code=>{throw Error(code);};
@@ -25,7 +26,7 @@ export function partnerCompanies(reference){
 }
 function readPartnerCursor(cursor){if(cursor===null||cursor===undefined||cursor==='')return null;try{if(typeof cursor!=='string'||cursor.length>2048)throw Error();const value=JSON.parse(cursor);if(!object(value)||Object.keys(value).join(',')!=='afterCompanyKey'||!key(value.afterCompanyKey))throw Error();return value;}catch{fail('PARTNER_CURSOR_INVALID');}}
 function partnerConfiguration(env){return{includeKict:true,includePublicDart:true,includeEnrichment:true,maxCompaniesPerRun:200,requestLimit:200,...(env.DP_LAW_OC?{lawOc:env.DP_LAW_OC}:{}),...(env.DP_DART_API_KEY?{dartApiKey:env.DP_DART_API_KEY}:{}),...(env.DP_G2B_SERVICE_KEY?{g2bServiceKey:env.DP_G2B_SERVICE_KEY}:{}),...(env.DP_KOSIS_API_KEY?{kosisApiKey:env.DP_KOSIS_API_KEY}:{})};}
-function assertNoSecrets(value,env){const serialized=JSON.stringify(value);for(const name of ['CRON_SECRET','DP_AUTH_SECRET','DP_AUTH_DATABASE_URL','DP_GMAIL_APP_PASSWORD','DP_DART_API_KEY','DP_G2B_SERVICE_KEY','DP_KOSIS_API_KEY','DP_LAW_OC']){const secret=env[name];if(typeof secret==='string'&&secret.length>0&&(secret.length>=12?serialized.includes(secret):serialized.includes(JSON.stringify(secret))))fail('PARTNER_SECRET_IN_RESULT');}return serialized;}
+function assertNoSecrets(value,env){const serialized=JSON.stringify(value),secrets=['CRON_SECRET','DP_AUTH_SECRET','DP_AUTH_DATABASE_URL','DP_GMAIL_APP_PASSWORD','DP_DART_API_KEY','DP_G2B_SERVICE_KEY','DP_KOSIS_API_KEY','DP_LAW_OC'].map(name=>env[name]);for(const[name,normalize]of [['DP_DART_API_KEY',normalizeDartApiKey],['DP_G2B_SERVICE_KEY',normalizeG2bServiceKey]])try{const normalized=normalize(env[name]);secrets.push(trimProviderCredentialWhitespace(env[name]),normalized);}catch{}for(const secret of secrets)if(typeof secret==='string'&&secret.length>0&&(secret.length>=12?serialized.includes(secret):serialized.includes(JSON.stringify(secret))))fail('PARTNER_SECRET_IN_RESULT');return serialized;}
 const enrichmentCheckpointBytes=4*1024*1024;
 function checkpointFailure(){fail('PARTNER_ENRICHMENT_CHECKPOINT_INVALID');}
 function checkpointObject(value,keys){if(!object(value)||![Object.prototype,null].includes(Object.getPrototypeOf(value))||Object.keys(value).some(k=>!keys.includes(k)))checkpointFailure();}

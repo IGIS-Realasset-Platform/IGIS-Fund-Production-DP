@@ -1,4 +1,5 @@
 import {createHash} from 'node:crypto';
+import {normalizeDartApiKey} from './provider-credential-format.mjs';
 
 const object=x=>x!==null&&typeof x==='object'&&!Array.isArray(x),copy=x=>structuredClone(x),sha=x=>createHash('sha256').update(typeof x==='string'||ArrayBuffer.isView(x)?x:JSON.stringify(x)).digest('hex');
 const fail=code=>{throw Error(code);},validKey=x=>typeof x==='string'&&x.length>0&&x.length<=500&&!/[\u0000-\u001f\u007f]/.test(x),iso=x=>{const d=x instanceof Date?x:new Date(x);if(!Number.isFinite(+d))fail('INVALID_SOURCE_TIME');return d.toISOString();};
@@ -102,7 +103,7 @@ export function mergePartnerResults(previous,results,{checkedAt,sourceReferenceV
 }
 
 async function dartApi(company,key,get,checkedAt,{from,to}){
- if(!/^[a-zA-Z0-9]{40}$/.test(key||''))return{sourceId:'dart:company:'+company.companyKey,status:'configuration_missing',complete:false,checkedAt,errorCode:'DART_KEY_REQUIRED'};
+ try{key=normalizeDartApiKey(key);}catch{return{sourceId:'dart:company:'+company.companyKey,status:'configuration_missing',complete:false,checkedAt,errorCode:'DART_KEY_REQUIRED'};}
  const url=new URL('https://opendart.fss.or.kr/api/list.json');for(const[k,v]of Object.entries({crtfc_key:key,corp_code:company.dartCorpCode,bgn_de:from,end_de:to,page_count:'100',page_no:'1',sort:'date',sort_mth:'desc',last_reprt_at:'N'}))url.searchParams.set(k,v);const response=await get(url.href),raw=await response.json();if(raw.status==='013')return{sourceId:'dart:company:'+company.companyKey,status:'success',complete:true,checkedAt,coverage:{kind:'official-api',from,to,pages:1,total:0},patch:{companyEntries:[{companyKey:company.companyKey,field:'disclosures',entries:[]}]}};if(raw.status!=='000')fail('DART_API_REJECTED');if(!Array.isArray(raw.list)||!Number.isSafeInteger(Number(raw.total_page))||Number(raw.total_page)<1||Number(raw.total_page)>1)fail('INCOMPLETE_DART_PAGINATION');const entries=raw.list.map(row=>{if(row.corp_code!==company.dartCorpCode||!/^\d{14}$/.test(row.rcept_no)||typeof row.report_nm!=='string'||!/^\d{8}$/.test(row.rcept_dt))fail('DART_IDENTITY_MISMATCH');return{id:'dart:'+row.rcept_no,sourceId:'dart-api',sourceRecordId:row.rcept_no,title:row.report_nm,url:'https://dart.fss.or.kr/dsaf001/main.do?rcpNo='+row.rcept_no,published:row.rcept_dt.slice(0,4)+'-'+row.rcept_dt.slice(4,6)+'-'+row.rcept_dt.slice(6),sourceText:'금융감독원 OpenDART',recordType:'disclosure',companyKey:company.companyKey,verifiedCompany:true,verifiedAward:false,remark:row.rm||''};});if(Number(raw.total_count)!==entries.length)fail('INCOMPLETE_DART_PAGINATION');return{sourceId:'dart:company:'+company.companyKey,status:'success',complete:true,checkedAt,sourceUrl:'https://opendart.fss.or.kr/guide/detail.do?apiGrpCd=DS001&apiId=2019001',coverage:{kind:'official-api',from,to,pages:1,total:entries.length},patch:{companyEntries:[{companyKey:company.companyKey,field:'disclosures',entries}]}};
 }
 

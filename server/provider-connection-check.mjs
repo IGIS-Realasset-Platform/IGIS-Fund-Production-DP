@@ -1,5 +1,5 @@
-import {normalizeG2bServiceKey} from './partner-enrichment.mjs';
 import {koreaDate} from './date-time.mjs';
+import {normalizeDartApiKey,normalizeG2bServiceKey,providerCredentialFormat} from './provider-credential-format.mjs';
 
 const object=v=>v!==null&&typeof v==='object'&&!Array.isArray(v);
 const uint=(v,min=0)=>(typeof v==='number'||typeof v==='string'&&/^\d+$/.test(v))&&Number.isSafeInteger(Number(v))&&Number(v)>=min;
@@ -67,11 +67,11 @@ export async function verifyProviderConnections({env={},fetcher=fetch,clock=()=>
   }catch(error){return errorResult(error);}finally{clearTimeout(timer);controller?.abort();if(reader){try{void reader.cancel().catch(()=>{});}catch{}try{reader.releaseLock();}catch{}}else if(response?.body){try{void response.body.cancel().catch(()=>{});}catch{}}}
  }
  async function dart(){
-  const key=env.DP_DART_API_KEY;if(key===undefined||key===null||key==='')return outcome('configuration_missing');if(typeof key!=='string'||!/^[A-Za-z0-9]{40}$/.test(key))return outcome('invalid_configuration');
-  const url=new URL('https://opendart.fss.or.kr/api/list.json');for(const[k,v]of Object.entries({crtfc_key:key,bgn_de:day,end_de:day,page_no:'1',page_count:'1',sort:'date',sort_mth:'desc'}))url.searchParams.set(k,v);return probe('dart',url);
+  const key=env.DP_DART_API_KEY;if(key===undefined||key===null||key==='')return outcome('configuration_missing');let normalized;try{normalized=normalizeDartApiKey(key);}catch{return{...outcome('invalid_configuration'),format:providerCredentialFormat(key,'dart')};}
+  const url=new URL('https://opendart.fss.or.kr/api/list.json');for(const[k,v]of Object.entries({crtfc_key:normalized,bgn_de:day,end_de:day,page_no:'1',page_count:'1',sort:'date',sort_mth:'desc'}))url.searchParams.set(k,v);return probe('dart',url);
  }
  async function g2b(){
-  const key=env.DP_G2B_SERVICE_KEY;if(key===undefined||key===null||key==='')return outcome('configuration_missing');let normalized;try{normalized=normalizeG2bServiceKey(key);}catch{return outcome('invalid_configuration');}
+  const key=env.DP_G2B_SERVICE_KEY;if(key===undefined||key===null||key==='')return outcome('configuration_missing');let normalized;try{normalized=normalizeG2bServiceKey(key);}catch{return{...outcome('invalid_configuration'),format:providerCredentialFormat(key,'g2b')};}
   const url=new URL('https://apis.data.go.kr/1230000/ao/CntrctInfoService/getCntrctInfoListCnstwk');for(const[k,v]of Object.entries({serviceKey:normalized,pageNo:'1',numOfRows:'1',inqryDiv:'1',type:'json',inqryBgnDt:day+'0000',inqryEndDt:day+'2359'}))url.searchParams.set(k,v);return probe('g2b',url);
  }
  const providers={dart:await dart(),g2b:await g2b()};return{mode:'verify-provider-connections',checkedAt:clock().toISOString(),readOnly:true,providers,requests,bytes:totalBytes,limits,databaseWrites:0};
