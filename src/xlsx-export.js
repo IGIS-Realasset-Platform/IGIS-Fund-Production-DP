@@ -56,6 +56,6 @@
   return{title:(p.name||p.basic?.name||p.id)+' 세부 사업비',createdAt:new Date().toISOString(),sheets:[{name:'세부 사업비',columns,freeze:{rows:1,columns:2},autoFilter:'A1:'+last+rows.length,rows}]};
  }
  function safeFilename(value){const name=String(value||'사업비').replace(/[<>:"/\\|?*\u0000-\u001F]/g,'_').replace(/[. ]+$/,'').slice(0,80);return(name||'사업비')+'_세부사업비.xlsx';}
- function downloadProject(p,options={}){const model=singleSheetProjectWorkbookModel(p,options),bytes=buildXlsx(model),name=safeFilename(p.id||p.name);A.download(name,bytes,MIME);return{name,bytes,mime:MIME,model};}
+ function downloadProject(p,options={}){const model=singleSheetProjectWorkbookModel(p,{...options,detail:options.detail===undefined?'display':options.detail}),bytes=buildXlsx(model),name=safeFilename(p.id||p.name);A.download(name,bytes,MIME);return{name,bytes,mime:MIME,model};}
  A.costExcel={mime:MIME,limits:{rows:MAX_ROWS,columns:MAX_COLUMNS,cells:MAX_CELLS,bytes:MAX_BYTES},buildXlsx,projectWorkbookModel:singleSheetProjectWorkbookModel,downloadProject};
 })(App);

@@ -281,11 +281,16 @@
  function comparisonDelta(item,mode){if(unknown(item.delta)||!Number.isFinite(Number(item.delta)))return'—';if(item.delta===0)return'0';return(item.delta>0?'+':'−')+displayModeValue(Math.abs(item.delta),mode);}
  function costTableValue(value,mode){return mode==='unit'?formatUnitNumber(value):formatMillion(value);}
  function costTableDelta(item,mode){if(unknown(item.delta)||!Number.isFinite(Number(item.delta)))return'—';if(item.delta===0)return'0';return(item.delta>0?'+':'−')+costTableValue(Math.abs(item.delta),mode);}
+ function costExcelDisplayNodes(p){
+  const profile=A.companyCostProfile;if(!profile?.enabled)return tableNodes(p);
+  const raw=profile.screenNodes(p,{expandedIds:profile.managementNodes(p).filter(node=>node.companyHasChildren&&!node.companyHideActualRows).map(node=>node.id)});
+  return A.costOrder?.orderedNodes?A.costOrder.orderedNodes(p,raw,{cacheDisplayTree:true}):raw;
+ }
  function costExcelProjection(p,{mode=A.ui.cbsViewMode==='unit'?'unit':'amount',detail=A.companyCostProfile?.enabled?'management':'all'}={}){
   const previousCache=renderCache,profileScope=A.companyCostProfile?.beginRead?.(p);renderCache={projections:new WeakMap(),current:new Map(),rows:new WeakMap(),groups:new WeakMap(),metrics:new Map()};try{
   mode=mode==='unit'?'unit':'amount';
-  detail=detail==='all'?'all':'management';
-  const basis=viewBasis(p),columns=tableColumns(p).map(column=>({...column,expanded:true,hasDelta:column.role!=='basis'})),nodes=A.companyCostProfile?.enabled?(detail==='all'?A.companyCostProfile.fullNodes(p):A.companyCostProfile.visibleManagementNodes(p)):tableNodes(p),byParent=new Map(),ordered=[];
+  detail=detail==='all'?'all':detail==='display'?'display':'management';
+  const basis=viewBasis(p),columns=tableColumns(p).map(column=>({...column,expanded:true,hasDelta:column.role!=='basis'})),nodes=detail==='display'?costExcelDisplayNodes(p):A.companyCostProfile?.enabled?(detail==='all'?A.companyCostProfile.fullNodes(p):A.companyCostProfile.visibleManagementNodes(p)):tableNodes(p),byParent=new Map(),ordered=[];
   for(const node of nodes){const key=node.parentId||'';if(!byParent.has(key))byParent.set(key,[]);byParent.get(key).push(node);}
   const visit=(node,level,seen=new Set())=>{if(seen.has(node.id))throw Error('분류 연결이 순환합니다.');ordered.push({node,level});const next=new Set(seen);next.add(node.id);for(const child of byParent.get(node.id)||[])visit(child,level+1,next);};
   for(const root of byParent.get('')||[])visit(root,0);
