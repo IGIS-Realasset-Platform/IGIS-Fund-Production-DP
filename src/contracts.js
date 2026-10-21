@@ -370,13 +370,17 @@
   }
   A.on('loan-selldown', b => {
     const p = A.current(), l = live(p.loans).find(x => x.id === b.dataset.id); if (!l) return;
+    const projectId=p.id,loanId=l.id,openedLoan=JSON.stringify(l);
+    const parentScroll=document.getElementById('app-dialog')?.querySelector?.('.dialog-body')?.scrollTop||0,options=A.formParentOptions(()=>{if(A.current()?.id!==p.id)return A.closeModal();showLoanDetail(p.id,l.id,{closeMissing:true});queueMicrotask(()=>{const body=document.getElementById('app-dialog')?.querySelector?.('.dialog-body');if(body)body.scrollTop=parentScroll;});});
     A.form('대주 셀다운 기록', A.field('institution', '양수 금융기관', '') + A.field('date', '양도 기준일', A.today, 'date') + A.field('commitment', '이전 약정액 (원)', '', 'number') + A.field('executed', '이전 누적 실행액 (원)', '', 'number') + A.field('balance', '이전 대출잔액 (원)', '', 'number') + A.field('sourcePath', '양도 근거 경로', '') + A.field('note', '비고', '', 'textarea'), v => {
+      const p=A.state.projects.find(x=>x.id===projectId&&!x.deletedAt),l=live(p?.loans).find(x=>x.id===loanId);
+      if(!l||A.current()?.id!==projectId||JSON.stringify(l)!==openedLoan)throw A.inputError({institution:'대출 정보가 변경되었거나 삭제되어 저장하지 않았습니다. 입력값을 확인한 후 다시 열어 주세요.'});
       const commitment = amount(v.commitment), executed = amount(v.executed), balance = amount(v.balance), remains = validateSellDown(l, commitment, executed, balance), before = clone(l), institution = required(v.institution, '양수 금융기관'), sourcePath = required(v.sourcePath, '근거 경로'); date(v.date);
       if (institution === l.institution) throw Error('양도 대주와 다른 금융기관을 입력해 주세요.');
       const receiver = { ...clone(l), id: A.uid('loan'), institution, commitment, executed, balance, sourcePath, transferredFrom: l.id };
       Object.assign(l, remains); p.loans.push(receiver);
       const event = { id: A.uid('loan-event'), loanId: l.id, toLoanId: receiver.id, date: v.date, kind: '셀다운', before, after: clone(l), receiver: clone(receiver), commitment, executed, balance, sourcePath, note: v.note }; p.loanEvents.push(event); A.audit('transfer', 'loan', event.id, before, { donor: l, receiver }, l.institution + '에서 ' + institution + '으로 대주 지분이 이전되었습니다.', { view: 'finance', tab: 'history', projectId: p.id });
-    });
+    },'저장',{...options,draftContext:'loan-selldown:'+p.id+':'+l.id});
   });
   A.on('loan-quarter', b => {
     const p = A.current(), l = live(p.loans).find(x => x.id === b.dataset.id); if (!l) return;
