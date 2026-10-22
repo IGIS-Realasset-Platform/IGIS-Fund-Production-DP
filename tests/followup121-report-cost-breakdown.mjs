@@ -1,0 +1,48 @@
+import assert from 'node:assert/strict';
+import vm from 'node:vm';
+import {makeHarness} from './recovery-harness.mjs';
+
+// Independent integer-won business inputs. No private seed, browser or API.
+const E=100000000,copy=x=>JSON.parse(JSON.stringify(x)),checks=[];
+function boot({legacy=false}={}){
+ const h=makeHarness({modules:[],seed:{projects:[],companies:[],entities:[],auditEvents:[],notifications:[]},costTaxonomyV4:true});
+ for(const name of ['core','cbs','cbs-purpose','cbs-model-v0118','cost-company-profile','cost-order','xlsx-export','setup','report-form','report'])h.load(name);
+ const A=vm.runInContext('App',h.context);A.realMode=true;for(const f of A.initializers)f(A.state);
+ const p=A.projectRegistration.register({id:'QA_REPORT_ONLY',name:'독립 보고서 구성',type:'오피스',location:'QA 위치',operator:'QA 법인',manager:'QA',gfaTotal:'1000',siteArea:'500',acquisitionLandArea:'500',evidenceSource:'독립 합성',evidenceLocation:'P100→60+40→65+40',evidenceAsOf:'2026-10-21',evidencePath:'QA/report'},'',{navigate:false});
+ const owner=p.cbs.find(r=>r.templateKey==='design_main'),keep=new Set([owner.id]);let r=owner;while(r.parentId){keep.add(r.parentId);r=p.cbs.find(x=>x.id===r.parentId);}p.cbs=p.cbs.filter(x=>keep.has(x.id));A.domain.saveCost(p,owner.id,100*E);
+ const other={id:'QA_OTHER',cbs:[{id:'other-budget',current:73}],contracts:[{id:'other-contract',amount:73}],vatRecords:[{id:'other-vat',amount:7}]};A.state.projects.push(other);A.ui.projectId=p.id;
+ p.contracts=[{id:'QA_CONTRACT',amount:100*E}];p.vatRecords=[{id:'QA_VAT',amount:10*E}];
+ if(legacy){const binding=A.costCoding.resolve(p,owner.id);for(const[id,amount]of [['OLD_A',60*E],['OLD_B',40*E]]){const row={id,parentId:owner.id,code:owner.code+'.'+id,name:'동일 표시명',current:amount,initial:amount,budgetState:'active',sortOrder:id==='OLD_A'?1:2};p.cbs.push(row);A.costCoding.bindCurrent(p,id,binding,{allowSystem:true,audit:false,reason:'독립 보존 원본'});}owner.companyManagedTotal=true;owner.companyManagedSourceIds=['OLD_A','OLD_B'];}
+ const originalParent=owner.current,oldRows=JSON.stringify(p.cbs.filter(x=>x.id.startsWith('OLD_'))),fixed=A.domain.snapshot(p,'custom','분해 전100','2026-10-20',A.areas.current(p),'QA/frozen');p.costStages.push(fixed);const saved=A.report.saveSnapshot(p,{type:'plan',date:'2026-10-21',stageId:'current'}),preserved=JSON.stringify({fixed,saved,contracts:p.contracts,vat:p.vatRecords,other});
+ const projection=stage=>A.report.reportData(p,'2026-10-21',stage||'current'),activate=()=>A.costBreakdown.activate(p,owner.id,[{inputMode:'direct',name:'동일 표시명',amount:60*E},{inputMode:'direct',name:'동일 표시명',amount:40*E}],{confirmed:true,reason:'독립 원범위100 확인',sourcePath:'QA/original'}),preserve=()=>{assert.equal(owner.current,originalParent);assert.equal(JSON.stringify(p.cbs.filter(x=>x.id.startsWith('OLD_'))),oldRows);assert.equal(JSON.stringify({fixed,saved,contracts:p.contracts,vat:p.vatRecords,other}),preserved);};
+ return {A,p,owner,other,fixed,saved,projection,activate,preserve};
+}
+function test(name,fn){try{fn();checks.push({name,status:'passed'});}catch(error){checks.push({name,status:'failed',error:error.message});}}
+function total(h,value,stage){const before=JSON.stringify(h.A.state),q=h.projection(stage);assert.equal(q.reportTotals.total,value);assert.equal(JSON.stringify(h.A.state),before,'report projection does not write original state');return q;}
+function officialTotal(h,expected){const q=h.projection(),model=h.A.reportForm.createModel(q,'plan','2026-10-21'),row=model.blocks.find(x=>x.id==='2').rows[8];assert.equal(row.cells[1].text,expected);return model;}
+
+test('P100→60+40→65+40 current105/past100/canonical100',()=>{const h=boot(),meta=h.activate();h.A.costBreakdown.update(h.p,meta.childIds[0],{amount:65*E,reason:'명시 증액5'});assert.equal(h.A.total(h.p),105*E);total(h,105*E);total(h,100*E,h.fixed.id);assert.equal(h.saved.canonical.reportTotals.total,100*E);officialTotal(h,'105');h.preserve();});
+test('preserved legacy60+40 never adds a second100 after explicit conversion',()=>{const h=boot({legacy:true}),meta=h.activate();total(h,100*E);h.A.costBreakdown.update(h.p,meta.childIds[0],{amount:65*E,reason:'명시 증액5'});total(h,105*E);officialTotal(h,'105');const ids=h.A.report.costSourceRows(h.p.cbs).map(r=>r.id);assert(!ids.includes('OLD_A')&&!ids.includes('OLD_B'));assert(h.p.cbs.some(x=>x.id==='OLD_A'));h.preserve();});
+test('recursive selected child set excludes preserved legacy descendants at every level',()=>{const h=boot({legacy:true}),outer=h.activate(),inner=h.A.costBreakdown.activate(h.p,outer.childIds[0],[{inputMode:'direct',name:'분야1',amount:30*E},{inputMode:'direct',name:'분야2',amount:30*E}],{confirmed:true,reason:'확인된60 세부분해'});h.A.costBreakdown.update(h.p,inner.childIds[0],{amount:35*E,reason:'세부 증액5'});total(h,105*E);total(h,100*E,h.fixed.id);assert.equal(h.p.cbs.find(x=>x.id===outer.childIds[0]).current,60*E);h.preserve();});
+test('explicit null stays unknown rather than parent100 fallback',()=>{const h=boot({legacy:true}),meta=h.activate();h.A.costBreakdown.update(h.p,meta.childIds[0],{amount:null,reason:'금액 확인 중'});const q=total(h,null);assert.equal(q.reportTotals.knownSum,40*E);assert.equal(q.reportTotals.unknownCount,1);assert(q.reportCostReview.requiresReview);h.preserve();});
+test('explicit zero stays0 and does not disappear as an unused template',()=>{const h=boot({legacy:true}),meta=h.activate();h.A.costBreakdown.update(h.p,meta.childIds[0],{amount:0,reason:'확인한0'});total(h,40*E);h.p.cbs.find(x=>x.id===meta.childIds[0]).budgetState='template';total(h,40*E);h.preserve();});
+test('signed child amendment is retained without inferred distribution',()=>{const h=boot({legacy:true}),meta=h.activate();h.A.costBreakdown.update(h.p,meta.childIds[0],{amount:-5*E,reason:'확인 감액'});total(h,35*E);h.preserve();});
+test('same label distinct independent ID70 remains included once with105',()=>{const h=boot({legacy:true}),meta=h.activate();h.A.costBreakdown.update(h.p,meta.childIds[0],{amount:65*E,reason:'증액5'});const extra={id:'INDEPENDENT_70',parentId:h.owner.parentId,code:'QA.70',name:'동일 표시명',current:70*E,budgetState:'active',budgetScopeRef:'QA-distinct-independent-budget'};h.p.cbs.push(extra);h.A.costCoding.bindCurrent(h.p,extra.id,{costTypeId:'design_cm',masterVersion:'company-cbs-v4',costTypeMappingStatus:'confirmed'},{allowSystem:true,audit:false,reason:'독립70'});total(h,175*E);assert.equal(h.A.report.costSourceRows(h.p.cbs).filter(x=>x.id===extra.id).length,1);h.preserve();});
+test('snapshot after conversion105 and saved canonical105 do not borrow later115',()=>{const h=boot({legacy:true}),meta=h.activate();h.A.costBreakdown.update(h.p,meta.childIds[0],{amount:65*E,reason:'증액5'});const stage=h.A.domain.snapshot(h.p,'custom','분해후105','2026-10-21',h.A.areas.current(h.p),'QA/after');h.p.costStages.push(stage);const saved=h.A.report.saveSnapshot(h.p,{type:'plan',date:'2026-10-21',stageId:'current'}),frozen=JSON.stringify({stage,saved});h.A.costBreakdown.update(h.p,meta.childIds[0],{amount:75*E,reason:'후속 증액10'});total(h,115*E);total(h,105*E,stage.id);total(h,100*E,h.fixed.id);assert.equal(saved.canonical.reportTotals.total,105*E);assert.equal(JSON.stringify({stage,saved}),frozen);h.preserve();});
+
+for(const[name,change]of [
+ ['missing selected child',(h,m)=>h.owner.costBreakdown.childIds.push('MISSING')],
+ ['duplicate selected child',(h,m)=>h.owner.costBreakdown.childIds.push(m.childIds[0])],
+ ['wrong actual parent',(h,m)=>h.p.cbs.find(x=>x.id===m.childIds[0]).parentId='WRONG'],
+ ['wrong declared owner',(h,m)=>h.p.cbs.find(x=>x.id===m.childIds[0]).breakdownParentId='WRONG'],
+ ['deleted selected child',(h,m)=>h.p.cbs.find(x=>x.id===m.childIds[0]).deletedAt='2026-10-21'],
+ ['empty selected set',(h,m)=>h.owner.costBreakdown.childIds=[]],
+ ['unknown metadata version',(h,m)=>h.owner.costBreakdown.version=2],
+ ['ambiguous repeated raw ID',(h,m)=>h.p.cbs.push({...copy(h.p.cbs.find(x=>x.id===m.childIds[0])),current:999})],
+ ['explicit cycle',(h,m)=>{const child=h.p.cbs.find(x=>x.id===m.childIds[0]);h.owner.parentId=child.id;h.owner.breakdownParentId=child.id;child.costBreakdown={version:1,childIds:[h.owner.id]};}]
+])test('malformed current composition fails closed: '+name,()=>{const h=boot({legacy:true}),meta=h.activate();change(h,meta);const before=JSON.stringify(h.A.state);assert.throws(()=>h.projection(),/하위|연결|순환/);assert.equal(JSON.stringify(h.A.state),before);});
+test('excluded preserved subtree is not reclassified as a new independent root',()=>{const h=boot({legacy:true}),meta=h.activate();const raw={id:'PRESERVED_GRANDCHILD',parentId:'OLD_A',name:'같은 표시명',current:900*E,budgetState:'active'};h.p.cbs.push(raw);h.A.costBreakdown.update(h.p,meta.childIds[0],{amount:65*E,reason:'증액5'});const original=JSON.stringify(raw);total(h,105*E);assert.equal(JSON.stringify(raw),original);});
+test('non-breakdown legacy current source contract remains unchanged',()=>{const h=boot({legacy:true});total(h,100*E);assert(h.A.report.costSourceRows(h.p.cbs).some(x=>x.id==='OLD_A'));h.preserve();});
+test('selected null child marked template cannot disappear and expose old parent100',()=>{const h=boot(),meta=h.activate();h.A.costBreakdown.update(h.p,meta.childIds[0],{amount:null,reason:'범위 미확보'});h.p.cbs.find(x=>x.id===meta.childIds[0]).budgetState='template';total(h,null);});
+
+const result={suite:'followup121-report-cost-breakdown',source:'current product modules with independent synthetic input; no private fixture fallback',passed:checks.filter(x=>x.status==='passed').length,failed:checks.filter(x=>x.status==='failed').length,checks,browser:false,actualDatabase:false,actualNetwork:false,pdfGenerated:0};console.log(JSON.stringify(result,null,2));if(result.failed)process.exitCode=1;

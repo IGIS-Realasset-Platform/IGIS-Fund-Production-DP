@@ -1,0 +1,9 @@
+import assert from'node:assert/strict';import{makeHarness}from'./recovery-harness.mjs';
+const checks=[],test=(name,fn)=>{try{fn();checks.push({name,passed:true});}catch(error){checks.push({name,passed:false,error:error.message});}};
+const fixture=mobile=>{const h=makeHarness({seed:{projects:[]},modules:['core']});h.context.matchMedia=query=>({matches:mobile&&query==='(max-width:760px)'});h.A.register('portfolio',()=>'<h2>프로젝트 현황</h2>');h.A.register('overview',()=>'<h2>개요</h2>');h.A.ui.sidebarCollapsed=false;return h;};
+test('작은 화면의 사이드바에서 목적지 선택 후 본문을 가리지 않도록 메뉴를 접음',()=>{const h=fixture(true);h.A.go('overview','','',{fromSidebar:true});assert.equal(h.A.ui.view,'overview');assert.equal(h.A.ui.sidebarCollapsed,true);assert.equal(h.nodes.get('sidebar').hidden,true);});
+test('큰 화면의 주 메뉴 선택은 펼침을 보존',()=>{const h=fixture(false);h.A.go('overview','','',{fromSidebar:true});assert.equal(h.A.ui.sidebarCollapsed,false);});
+test('작은 화면도 프로젝트 변경·명시 링크의 프로그램 이동은 메뉴 설정을 임의 변경하지 않음',()=>{const h=fixture(true);h.A.go('overview');assert.equal(h.A.ui.sidebarCollapsed,false);});
+test('미저장 경고 중에는 메뉴를 접거나 화면을 이동하지 않음',()=>{const h=fixture(true);h.A.setDraftGuard({scope:'qa',isDirty:()=>true,discard:()=>{}});h.A.go('overview','','',{fromSidebar:true});assert.equal(h.A.ui.view,'portfolio');assert.equal(h.A.ui.sidebarCollapsed,false);h.A.resolveDraft('discard');assert.equal(h.A.ui.view,'overview');assert.equal(h.A.ui.sidebarCollapsed,true);});
+test('권한으로 거절된 목적지는 메뉴를 숨기지 않음',()=>{const h=fixture(true);h.A.canViewSpec=()=>false;assert.equal(h.A.go('spec','','',{fromSidebar:true}),false);assert.equal(h.A.ui.sidebarCollapsed,false);});
+console.log(JSON.stringify({suite:'followup121-sidebar-mobile-navigation',passed:checks.filter(x=>x.passed).length,failed:checks.filter(x=>!x.passed).length,checks}));if(checks.some(x=>!x.passed))process.exitCode=1;

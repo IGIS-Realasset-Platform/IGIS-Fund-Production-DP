@@ -1,0 +1,25 @@
+{
+  "schemaVersion":"followup-requirement-ledger-v1",
+  "version":"0.12.1",
+  "asOf":"2026-10-21",
+  "scope":"FUP121-01~15 · 기존 CENTER120-01~22와 별도 후속 요구",
+  "specification":"docs/followup-20261021-spec.md",
+  "deploymentVerified":false,
+  "items":[
+    {"id":"FUP121-01","name":"9용도 프리셋 실제 검수","requirement":"현재항목·추가후보·적용/취소·재적용·금액/사업 격리·출력을 실제 진입점에서 대조","status":"verification-in-progress","implementation":"existing-and-corrected","verification":{"automated":"focused-passed","browser":"interim-nine-presets-passed","finalArtifactVerified":false}},
+    {"id":"FUP121-02","name":"복합 인허가·회차·맵","requirement":"조건 추천과 실제 적용 판단, 단계 발생일·관계·회차·의견/조치·실패 복귀를 연결","status":"verification-in-progress","implementation":"implemented","verification":{"automated":"focused-passed","browser":"interim-passed-with-adjacent-fixes","finalArtifactVerified":false}},
+    {"id":"FUP121-03","name":"하위 버튼 전수 검수","requirement":"정적 발견·실제 실행·업무 기대값·미검증 분모를 구별하며 중첩 팝업까지 탐색","status":"in-progress","implementation":"audit-in-progress","verification":{"allNestedActionsVerified":false,"traversalIsBusinessAcceptance":false,"finalArtifactVerified":false}},
+    {"id":"FUP121-04","name":"필요시 하위 사업비 분해","requirement":"유형 선택/직접 내역·금액·사유·이력·토글·중복합산 방지·최초 정확합계 전환","status":"verification-in-progress","implementation":"implemented","verification":{"automated":"focused-passed","browser":"interim-passed","centralSampleApplied":false,"finalArtifactVerified":false}},
+    {"id":"FUP121-05","name":"공식 개정문·신구조문","requirement":"수정·신설·삭제의 실제 문구와 미확보/생략 범위를 구별하며 법령명 반복으로 대체하지 않음","status":"verification-in-progress","implementation":"implemented","verification":{"automated":"focused-passed","browser":"isolated-official-fixture-passed","deployedOfficialQueryVerified":false,"finalArtifactVerified":false}},
+    {"id":"FUP121-06","name":"관련 프로젝트 선정 근거","requirement":"법령 식별·확인목록·인허가 근거·관할·조건 사실을 근거로 후보/미확인/담당 판단 분리","status":"verification-in-progress","implementation":"implemented","verification":{"automated":"focused-passed","viewCreatesReview":false,"errorProbabilityZeroGuaranteed":false,"finalArtifactVerified":false}},
+    {"id":"FUP121-07","name":"인허가 장식 입력상태 제거","requirement":"입력 확인 필요/입력 완료 배지와 불필요 조회행 제거. 실제 상태와 필드 오류 유지","status":"verification-in-progress","implementation":"implemented","verification":{"automated":"focused-passed","browser":"interim-passed","finalArtifactVerified":false}},
+    {"id":"FUP121-08","name":"승인 샘플 자료 보완","requirement":"정확한 가상 A/B/C에 등록/인력·계약/VAT·대출사건·의견/조치 등 예시 보완. 원금액·실제 사실 보존","status":"prepared-not-applied","implementation":"sample-builder-prepared","verification":{"automated":"prepared-pack-validated","centralSampleApplied":false,"finalArtifactVerified":false}},
+    {"id":"FUP121-09","name":"잔여조건·완료 증거 동기화","requirement":"지금 실행 가능한 작업과 실제 외부 조건을 분리하고 명세·MD/Excel·README·GitHub·배포 지문 대조","status":"in-progress","implementation":"documentation-in-progress","verification":{"allRequirementsVerified":false,"finalArtifactVerified":false}},
+    {"id":"FUP121-10","name":"정석 README·기본 main 동기화","requirement":"목적·기능·사용법·버전·개발/검사·한계를 기본 GitHub 화면에 정리","status":"accepted","implementation":"published-documents-only","verification":{"readmeChecks":8,"repositoryLinksChecked":37,"remoteDefaultBranchVerified":true,"productDeploymentChanged":false}},
+    {"id":"FUP121-11","name":"다른 AI·개발자 수정 참여 안내","requirement":"AGENTS/CONTRIBUTING·구조·현재작업·실행 가능/비공개 자료 의존 검사 경계 연결","status":"accepted","implementation":"published-documents-only","verification":{"independentReadChecks":8,"cleanroomStorageChecks":22,"cleanroomLawApiChecks":9,"fullCleanCloneReproducible":false,"remoteDefaultBranchVerified":true}},
+    {"id":"FUP121-12","name":"첫 이력 팝업·세부 정보 접근","requirement":"한 표에서 사건 당시 항목·전후·증감·사유·담당/시각을 즉시 확인하고 1원 변경도 식별","status":"verification-in-progress","implementation":"implemented","verification":{"automated":"focused-passed","browser":"isolated-three-viewports-passed","finalArtifactVerified":false}},
+    {"id":"FUP121-13","name":"사이드바 글자·완전 접힘","requirement":"펼치면 그림 없는 글자 메뉴, 접으면 전체 숨김. 바깥 글자 버튼·포커스·과거 접힘·모바일 보존","status":"verification-in-progress","implementation":"implemented","verification":{"automatedChecks":7,"interimBrowserViewports":4,"finalArtifactVerified":false}},
+    {"id":"FUP121-14","name":"인허가 추천·조건 보기 단순화","requirement":"중복 진입·모호한 CTA·N개 연속 상세폼을 정리. 같은 화면에서 최소 필수입력·추천 이유/사업 사실/미확인·법령 근거 연결","status":"verification-in-progress","implementation":"implemented","verification":{"beforeScreensCaptured":true,"requiredValidationPreserved":true,"finalArtifactVerified":false}},
+    {"id":"FUP121-15","name":"전체 화면·하위 컴포넌트 UX 전수 점검","requirement":"모든 화면·팝업의 위치·문구·정렬·크기·계층·스크롤·키보드·실제 조작을 역할별로 대조하고 확인된 결함만 최소 수정","status":"in-progress","implementation":"audit-in-progress","verification":{"allElementsVerified":false,"staticInventoryIsAcceptance":false,"finalArtifactVerified":false}}
+  ]
+}

@@ -32,11 +32,13 @@ for(const mode of ['empty','older','newer'])for(const admin of [false,true])awai
 await check('CLOUD-LAW-07 최초부트는stale영향의사용자검토·이력도재판정하지않음',()=>{
  const state=baseline('newer');state.projectLawImpacts[0].factsFingerprint='이전 사실 지문';const app=harness({state,admin:true});assert.equal(hash(laws(app.A.state)),hash(laws(state)));assert.equal(app.A.cloudSession.status().authenticated,false);assert.equal(app.A.cloudPersistence.capabilities().manageAccess,true);assert.equal(app.A.cloudPersistence.booted(),true);
 });
-await check('CLOUD-LAW-08 부트뒤명시적사업사실변경의영향refresh는유지',()=>{
- const app=harness({state:baseline('older'),admin:true});app.A.state.projects[0].building.gfaTotal+=1;const result=app.A.legal.refreshProjectImpacts(app.A.state),row=app.A.state.projectLawImpacts.find(x=>x.projectId==='P1');assert(result.updated>=1);assert.equal(row.status,'미검토');assert(row.reviewHistory.some(x=>x.note==='검토 메모 보존'));assert.equal(row.reviewHistory[0].note,'기존 영향 이력');
+// LCR-08 supersedes automatic official-review manufacture/reset. Existing
+// source/permission/one-won persistence assertions above remain unchanged.
+await check('CLOUD-LAW-08 사업조건변경뒤공식후보조회는수기검토·이력을자동초기화하지않음',()=>{
+ const app=harness({state:baseline('older'),admin:true});app.A.state.projects[0].building.gfaTotal+=1;const before=hash(app.A.state.projectLawImpacts),result=app.A.legal.refreshProjectImpacts(app.A.state);assert.equal(result.added,0);assert.equal(result.updated,0);assert.equal(hash(app.A.state.projectLawImpacts),before);const row=app.A.state.projectLawImpacts.find(x=>x.projectId==='P1');assert.equal(row.note,'검토 메모 보존');assert.equal(row.reviewHistory[0].note,'기존 영향 이력');
 });
-await check('CLOUD-LAW-09 부트뒤신규사업의initialize는서버법령만으로영향추가',()=>{
- const app=harness({state:baseline('older'),admin:true}),before=hash({catalog:app.A.state.lawCatalog,changes:app.A.state.lawChanges,runs:app.A.state.lawUpdateRuns,source:app.A.state.lawSourceV0110});app.A.state.projects.push(project('P3','E3'));app.A.legal.initialize(app.A.state);assert(app.A.state.projectLawImpacts.some(x=>x.projectId==='P3'));assert.equal(hash({catalog:app.A.state.lawCatalog,changes:app.A.state.lawChanges,runs:app.A.state.lawUpdateRuns,source:app.A.state.lawSourceV0110}),before);
+await check('CLOUD-LAW-09 신규사업initialize는공식자료와기존검토보존·자동수기기록0',()=>{
+ const app=harness({state:baseline('older'),admin:true}),before=hash({catalog:app.A.state.lawCatalog,changes:app.A.state.lawChanges,runs:app.A.state.lawUpdateRuns,source:app.A.state.lawSourceV0110}),reviews=hash(app.A.state.projectLawImpacts);app.A.state.projects.push(project('P3','E3'));app.A.legal.initialize(app.A.state);assert(!app.A.state.projectLawImpacts.some(x=>x.projectId==='P3'));assert.equal(hash(app.A.state.projectLawImpacts),reviews);assert.equal(hash({catalog:app.A.state.lawCatalog,changes:app.A.state.lawChanges,runs:app.A.state.lawUpdateRuns,source:app.A.state.lawSourceV0110}),before);
 });
 await check('CLOUD-LAW-10 관리자명시import·collectionhelper는보존',()=>{
  const app=harness({admin:true}),result=app.A.legal.importLawSource(app.A.state);assert.equal(result.skipped,false);assert.equal(app.A.state.lawCatalog.length,182);assert.equal(app.A.state.lawChanges.length,158);assert.equal(app.A.state.lawSourceV0110.version,source.version);const collected=app.A.legal.applyLawCollectionResult(app.A.state,{status:'success',sample:false,dataDate:'2026-10-16',changes:[{id:'EXPLICIT-COLLECTION',lawId:source.catalog[0].id,title:'명시적 합성 확인',sample:false}]});assert.equal(collected.added,1);assert(app.A.state.lawChanges.some(x=>x.id==='EXPLICIT-COLLECTION'));

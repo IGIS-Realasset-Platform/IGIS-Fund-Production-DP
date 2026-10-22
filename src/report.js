@@ -2,7 +2,17 @@
  'use strict';
  const E=A.esc,F=A.field,live=xs=>Array.isArray(xs)?xs.filter(x=>!x.deletedAt):[],clone=x=>JSON.parse(JSON.stringify(x)),types={plan:'사업계획 등',progress:'추진현황',cancel:'취소·중단',complete:'완료'};
   const knownSum=(xs,fn)=>xs.length&&xs.every(x=>fn(x)!=null&&fn(x)!==''&&Number.isFinite(Number(fn(x))))?xs.reduce((n,x)=>n+Number(fn(x)),0):null;
-  function costSourceRows(source){const rows=live(source);const active=(row,seen=new Set())=>{if(row.budgetState!=='template')return true;if(seen.has(row.id))return false;const next=new Set(seen);next.add(row.id);return rows.some(x=>x.parentId===row.id&&active(x,next));};return rows.filter(x=>active(x));}
+  function costSourceRows(source){
+   let rows=live(source);const selected=new Set();
+   if(rows.some(row=>row.costBreakdown)){
+    const byId=new Map(),sets=new Map(),included=new Map(),invalid=()=>{throw Error('사업비 하위 구성 연결을 확인할 수 없어 보고서를 만들지 않았습니다.');};
+    for(const row of rows){if(typeof row.id!=='string'||!row.id.trim()||byId.has(row.id))invalid();byId.set(row.id,row);}
+    const children=owner=>{if(sets.has(owner.id))return sets.get(owner.id);const meta=owner.costBreakdown,ids=meta?.childIds;if(meta?.version!==1||!Array.isArray(ids)||!ids.length||ids.some(id=>typeof id!=='string'||!id.trim())||new Set(ids).size!==ids.length)invalid();const set=new Set(ids);for(const id of ids){const row=byId.get(id);if(!row||id===owner.id||row.parentId!==owner.id||row.breakdownParentId!==owner.id)invalid();selected.add(id);}for(const row of rows)if(row.breakdownParentId===owner.id&&!set.has(row.id))invalid();sets.set(owner.id,set);return set;};
+    const include=(row,seen=new Set())=>{if(included.has(row.id))return included.get(row.id);if(seen.has(row.id))invalid();const next=new Set(seen);next.add(row.id);const parent=byId.get(row.parentId),keep=!parent||include(parent,next)&&(!parent.costBreakdown||children(parent).has(row.id));included.set(row.id,keep);return keep;};
+    rows=rows.filter(row=>include(row));for(const row of rows)if(row.costBreakdown)children(row);
+   }
+   const active=(row,seen=new Set())=>{if(row.budgetState!=='template'||row.costBreakdown||selected.has(row.id))return true;if(seen.has(row.id))return false;const next=new Set(seen);next.add(row.id);return rows.some(x=>x.parentId===row.id&&active(x,next));};return rows.filter(x=>active(x));
+  }
  const fieldDefinitions=[
   ['basic','operator','사업시행자 명칭','text'],['basic','office','주된 사무소 소재지','text'],['basic','established','설립일','date'],['basic','asset','자산총계(억원)','number'],['basic','liability','부채총계(억원)','number'],['basic','equity','자본총계(억원)','number'],['basic','reporterName','보고담당자 이름','text'],['basic','reporterTitle','보고담당자 직위','text'],['basic','reporterPhone','보고담당자 전화번호','text'],['basic','email','보고담당자 전자우편','text'],['basic','legalBasis','사업 근거법률','text'],['basic','periodStart','총 사업기간 시작','month'],['basic','periodEnd','총 사업기간 종료','month'],
   ['reportForm','operatorType','사업시행자 유형','select',['','단독','공동','특수목적법인','기타']],['reportForm','projectType','사업종류','select',['','토지조성사업','건축사업']],['reportForm','otherPeriod','사업기간 기타','text'],['reportForm','auxUse','부속용도','text'],['reportForm','gfaAbove','지상 연면적(㎡)','number'],['reportForm','gfaBelow','지하 연면적(㎡)','number'],['reportForm','units','세대수·호수','number'],['reportForm','saleApplicable','분양 적용','select',['','적용','해당 없음']],['reportForm','attachments','첨부서류 목록','textarea'],['reportForm','reportSigner','보고인','text'],['reportForm','cancelReason','취소·중단 사유','select',['','부동산개발사업 인가·허가 등 취소','부동산개발사업 공사 중단','사업시행자의 법적 지위 변동','그 밖의 사유']],['reportForm','completionReason','완료 사유','select',['','사용승인','준공검사','그 밖의 사유']],['reportForm','eventDate','사유 발생일','date'],['reportForm','eventDetail','세부 사유','textarea'],

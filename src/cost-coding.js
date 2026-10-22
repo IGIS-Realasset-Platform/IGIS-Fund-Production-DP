@@ -46,8 +46,8 @@
   setOwn(coding.historicalByStageId,stage.id,map);refreshMigrationCounts(coding);return clone(map);
  }
  function stageParticipants(nodes){
-  const live=nodes.filter(row=>!row.deletedAt),children=id=>live.filter(row=>row.parentId===id&&row.budgetState!=='template'),participants=new Set(),seen=new Set();
-  const walk=row=>{if(seen.has(row.id))throw Error('분류 연결이 순환합니다.');seen.add(row.id);const kids=children(row.id);if(kids.length){if(row.companyManagedTotal||row.currentAmountMode==='reported-total')participants.add(row.id);else kids.forEach(walk);}else if(row.budgetState!=='template')participants.add(row.id);};
+  const live=nodes.filter(row=>!row.deletedAt),children=id=>live.filter(row=>row.parentId===id&&(row.budgetState!=='template'||row.costBreakdown)),participants=new Set(),seen=new Set();
+  const walk=row=>{if(seen.has(row.id))throw Error('분류 연결이 순환합니다.');seen.add(row.id);const kids=children(row.id);if(row.costBreakdown){const ids=row.costBreakdown.childIds;if(row.costBreakdown.version!==1||!Array.isArray(ids)||!ids.length||new Set(ids).size!==ids.length)throw Error('하위 항목 연결을 확인해 주세요.');for(const id of ids){const child=live.find(x=>x.id===id);if(!child||child.parentId!==row.id||child.breakdownParentId!==row.id)throw Error('하위 항목 소속을 확인해 주세요.');walk(child);}}else if(kids.length){if(row.companyManagedTotal||row.currentAmountMode==='reported-total')participants.add(row.id);else kids.forEach(walk);}else if(row.budgetState!=='template')participants.add(row.id);};
   live.filter(row=>!row.parentId).forEach(walk);return participants;
  }
  function analysisRows(project,{stageId}={}){

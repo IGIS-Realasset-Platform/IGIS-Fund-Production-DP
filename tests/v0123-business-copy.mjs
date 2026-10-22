@@ -102,18 +102,16 @@ check('원가 이력의 좁은 동작 문구는 실제 대상 범위를 말한�
  assert(sourceButtons.every(b=>b.dataset.projectId===f.p.id));
  f.click(sourceButtons.find(b=>b.dataset.id==='source-known'));
  assert.equal(f.title(),'확인된 계약 원자료 이력');
- const changes=f.buttons().filter(b=>b.text==='변경 전후');assert.equal(changes.length,1);assert.equal(changes[0].dataset.id,'audit-selected');assert.equal(changes[0].dataset.projectId,f.p.id);
+ const changes=f.buttons().filter(b=>b.text==='변경 전후');assert.equal(changes.length,0,'기본정보는첫7열표에서바로확인');
  assert(!f.html().includes('audit-sibling'));assert(!f.html().includes('audit-other-scope'));assert(!f.html().includes('audit-other-project'));
- f.click(changes[0]);assert.equal(f.title(),'사업비 변경');
- for(const expected of ['변경 항목','변경 전','변경 후','증감','현재 사업비','선택한 원자료의 변경 근거'])assert(f.html().includes(expected),expected);
+ for(const expected of ['항목','변경 전','변경 후','증감','사유','일시','담당자','현재 사업비','선택한 원자료의 변경 근거'])assert(f.html().includes(expected),expected);
  const detailRows=[...f.html().matchAll(/<tr\b[^>]*>([\s\S]*?)<\/tr>/g)].map(m=>[...m[1].matchAll(/<t[dh]\b[^>]*>([\s\S]*?)<\/t[dh]>/g)].map(c=>f.text(c[1])));
- assert.deepEqual(detailRows.find(r=>r[0]==='현재 사업비'),['현재 사업비','200만원','300만원','증가 100만원 · 50%']);
+ const selectedRow=detailRows.find(r=>r[0].includes('현재 사업비'));assert(selectedRow);assert.deepEqual(selectedRow.slice(1,4),['200만원','300만원','증가 100만원 · 50%']);assert.equal(selectedRow[4],'선택한 원자료의 변경 근거');
  assert(!f.html().includes('다른 원자료의 변경 근거'));assert(!f.html().includes('다른 사업의 변경 근거'));
- f.A.requestModalClose();assert.equal(f.title(),'확인된 계약 원자료 이력');assert.equal(f.dialog.open,true);
  f.A.requestModalClose();assert.equal(f.title(),sourceTitle);assert.equal(f.dialog.open,true);
  f.A.requestModalClose();assert.equal(f.dialog.open,false);
  assert.equal(JSON.stringify(f.A.state),before,'이력 조회·복귀가 금액·원자료·확정본·계약·부가세·감사기록을 바꾸면 안 됩니다.');assert.equal(JSON.stringify([...f.h.storage]),storedBefore);
- const stale=makeHistoryFixture(),staleGroup=stale.A.costDisplayGroups(stale.p,{includeUnused:true}).find(g=>g.managementIds.includes('managed-main'));stale.action('cbs-model-sources',{id:staleGroup.id});stale.click(stale.buttons().find(b=>b.dataset.id==='source-known'));const staleButton=stale.buttons().find(b=>b.text==='변경 전후');stale.A.state.auditEvents=stale.A.state.auditEvents.filter(e=>e.id!=='audit-selected');const afterRemoval=JSON.stringify(stale.A.state),historyTitle=stale.title();stale.click(staleButton);assert.equal(stale.title(),historyTitle);assert.equal(JSON.stringify(stale.A.state),afterRemoval,'소실된 감사 대상을 다른 내역·신규 기록으로 대체하지 않습니다.');
+ const stale=makeHistoryFixture(),staleGroup=stale.A.costDisplayGroups(stale.p,{includeUnused:true}).find(g=>g.managementIds.includes('managed-main'));stale.action('cbs-model-sources',{id:staleGroup.id});stale.click(stale.buttons().find(b=>b.dataset.id==='source-known'));assert(!stale.buttons().some(b=>b.text==='변경 전후'));stale.A.state.auditEvents=stale.A.state.auditEvents.filter(e=>e.id!=='audit-selected');const afterRemoval=JSON.stringify(stale.A.state),historyTitle=stale.title();stale.action('cbs-audit-detail',{id:'audit-selected',projectId:stale.p.id,historyId:'source-known'});assert.equal(stale.title(),historyTitle);assert.equal(JSON.stringify(stale.A.state),afterRemoval,'소실된 감사 대상을 다른 내역·신규 기록으로 대체하지 않습니다.');
 });
 
 check('BIZ123 삭제 버튼은 원래 scope·guard·공통확인·soft-delete 경로를 사용한다',()=>{

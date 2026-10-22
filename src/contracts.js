@@ -21,15 +21,22 @@
   const revisionAt = (c, asOf) => !asOf ? latest(c) : (c.revisions || []).filter(r => !r.deletedAt && r.date && r.date <= asOf).slice().sort((a, b) => a.date.localeCompare(b.date) || Number(a.revision) - Number(b.revision)).at(-1);
   const currentContracts = p => live(p.contracts);
   const cbsName = (p, id) => (p.cbs || []).find(x => x.id === id)?.name || '연결되지 않은 항목';
-  const cbso = (p,{excludeIds=[],keepIds=[]}={}) => {const excluded=new Set(excludeIds.filter(Boolean)),keep=new Set(keepIds.filter(Boolean)),seen=new Set(),rows=[...(A.managementRows?.(p)||[]).map(x=>({value:x.id,label:x.name})),...A.cbsOptions(p)],options=[];for(const row of rows){if(!row.value||seen.has(row.value)||excluded.has(row.value)&&!keep.has(row.value))continue;seen.add(row.value);options.push(row)}return[{value:'',label:'사업비 항목 선택'},...options]};
+  function allocationTargets(p){
+    const rows=live(p.cbs),byId=new Map(rows.map(row=>[row.id,row])),counts=new Map(),checked=new Map();for(const row of rows)counts.set(row.id,(counts.get(row.id)||0)+1);
+    const identifier=value=>typeof value==='string'&&value.length>0&&value.length<=200&&value.trim()===value&&!/[\u0000-\u001f\u007f]/.test(value);
+    const validAncestry=row=>{const seen=new Set([row.id]);let id=row.parentId;while(id!=null&&id!==''){if(!identifier(id)||seen.has(id)||counts.get(id)!==1)return false;seen.add(id);const parent=byId.get(id);if(!parent)return false;id=parent.parentId;}return true;};
+    const validParent=row=>{if(!row||!identifier(row.id)||counts.get(row.id)!==1||!row.parentId||!byId.has(row.parentId))return false;if(checked.has(row.id))return checked.get(row.id)===true;checked.set(row.id,false);if(!validAncestry(row))return false;const meta=row.costBreakdown;if(!meta||Array.isArray(meta)||meta.version!==1||!Array.isArray(meta.childIds)||!meta.childIds.length||new Set(meta.childIds).size!==meta.childIds.length||!meta.childIds.every(identifier)||!(meta.activatedFromAmount===null||Number.isSafeInteger(meta.activatedFromAmount))||typeof meta.reason!=='string'||!meta.reason.trim()||typeof meta.sourcePath!=='string'||typeof meta.activatedAt!=='string'||!Number.isFinite(Date.parse(meta.activatedAt)))return false;const valid=meta.childIds.every(id=>{const child=byId.get(id);return child&&counts.get(id)===1&&child.parentId===row.id&&child.breakdownParentId===row.id&&(!child.costBreakdown||validParent(child));});checked.set(row.id,valid);return valid;};
+    const seen=new Set();return[...A.leaves(p),...(A.managementRows?.(p)||[]),...rows.filter(row=>row.costBreakdown&&validParent(row))].filter(row=>{if(seen.has(row.id)||row.costBreakdown&&!validParent(row))return false;seen.add(row.id);return true;});
+  }
+  const cbso = (p,{excludeIds=[],keepIds=[]}={}) => {const excluded=new Set(excludeIds.filter(Boolean)),keep=new Set(keepIds.filter(Boolean)),eligible=new Set(allocationTargets(p).map(row=>row.id)),seen=new Set(),rows=[...(A.managementRows?.(p)||[]).map(x=>({value:x.id,label:x.name})),...live(p.cbs).filter(row=>row.costBreakdown).map(row=>({value:row.id,label:row.name})),...A.cbsOptions(p)],options=[];for(const row of rows){if(!row.value||!eligible.has(row.value)||seen.has(row.value)||excluded.has(row.value)&&!keep.has(row.value))continue;seen.add(row.value);options.push(row)}return[{value:'',label:'사업비 항목 선택'},...options]};
   const companyOptions = () => [{ value: '', label: '직접 입력 / 미연결' }, ...live(A.state.companies).map(x => ({ value: x.id, label: x.name || x.company }))];
   function allocationsTotal(rows) { return sum(rows || [], 'amount'); }
   function validateAllocations(rows, total, p, requireComplete) {
-    const ids = new Set();
+    const ids = new Set(), eligible = p && rows?.length ? new Set(allocationTargets(p).map(row => row.id)) : null;
     (rows || []).forEach(r => {
       if (ids.has(r.cbsId)) throw Error('같은 CBS 항목을 두 번 배부할 수 없습니다.');
       ids.add(r.cbsId);
-      if (!r.cbsId || (p && ![...A.leaves(p),...(A.managementRows?.(p)||[])].some(x => x.id === r.cbsId))) throw Error('현재 사용 중인 사업비 항목을 선택해 주세요.');
+      if (!r.cbsId || (p && !eligible.has(r.cbsId))) throw Error('현재 사용 중인 사업비 항목을 선택해 주세요.');
       amount(r.amount, '배부금액');
     });
     const allocated = allocationsTotal(rows);

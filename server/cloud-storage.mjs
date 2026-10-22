@@ -5,7 +5,9 @@ import masterV1 from '../src/data/cost-type-master-v1.json' with {type:'json'};
 import masterV2 from '../src/data/cost-type-master-v2.json' with {type:'json'};
 import masterV3 from '../src/data/cost-type-master-v3.json' with {type:'json'};
 import masterV4 from '../src/data/cost-type-master-v4.json' with {type:'json'};
+import costTaxonomy from '../src/data/cost-taxonomy-v4.json' with {type:'json'};
 import {validatePermitChanges} from '../shared/permit-domain.mjs';
+import {validateCostBreakdownProject,validateCostBreakdownTransitions} from '../shared/cost-breakdown-validation.mjs';
 
 export const WORKSPACE_SCHEMA='development_project_platform';
 export const DEFAULT_WORKSPACE_ID='platform';
@@ -87,6 +89,7 @@ export function validateWorkspaceState(state){
   for(const key of ['contractors','trustees','guarantors'])if(object(project.reportParticipants))validateRecordList(project.reportParticipants,key);
   for(const key of ['preparation','permit','start','construction'])if(object(project.reportProgress))validateRecordList(project.reportProgress,key);
   validateProjectCoding(project);
+  const breakdownValidation=validateCostBreakdownProject(project);if(!breakdownValidation.valid)throw new WorkspaceError(422,'INVALID_COST_BREAKDOWN',breakdownValidation.errors[0].message);
  }
  for(const entity of state.entities||[])for(const key of ['professionalRecords','notices'])validateRecordList(entity,key);
  for(const company of state.companies||[])validateRecordList(company,'localNotes');
@@ -142,6 +145,8 @@ function assertProjectHistory(old,next,access){
  }
 }
 export function validateProjectCostChange(old,next){
+ const confirmedTarget=(project,id)=>{const binding=project.costCoding?.currentByRecordId?.[id],entry=binding&&costMasters.get(binding.masterVersion)?.get(binding.costTypeId);if(!binding||binding.costTypeMappingStatus!=='confirmed'||!entry||entry.code!==binding.costTypeCode||entry.entryRole!=='posting'||entry.kind.startsWith('system-'))return null;const target=costTaxonomy.finalItems.find(t=>t.primaryTypeId===binding.costTypeId)||costTaxonomy.finalItems.find(t=>t.finalId===costTaxonomy.old152Map.find(m=>m.oldTypeId===binding.costTypeId)?.targetKey);return target?.role==='budget-cost'?target.finalId:null;};
+ const transition=validateCostBreakdownTransitions(old,next,{confirmedTarget});if(!transition.valid)throw new WorkspaceError(422,'INVALID_COST_BREAKDOWN',transition.errors[0].message);
  const priorRows=recordMap(old?.cbs),priorLinks=old?.costCoding?.currentByRecordId||{},links=next.costCoding?.currentByRecordId||{};
  const sameType=(a,b)=>a&&b&&a.costTypeId===b.costTypeId&&a.costTypeCode===b.costTypeCode&&a.masterVersion===b.masterVersion;
  // 기존 검토 원가는 금액 변경 없이 먼저 코드만 바꾸거나 삭제한 뒤 재등록하는 우회도 허용하지 않습니다.
@@ -154,6 +159,7 @@ export function validateProjectCostChange(old,next){
   const link=links[row.id];if(!link)throw invalid('금액을 입력하기 전에 등록된 비용 항목을 선택해 주세요.');const entry=costBinding(row.id,link),priorLink=priorLinks[row.id];
   const firstTemplateAmount=previous?.budgetState==='template'&&['current','initial','reportedCurrentTotal'].every(key=>previous[key]===null||previous[key]===undefined||previous[key]==='');
   if(!previous&&link.method==='split-inherit'){if(priorRows.has(row.parentId)&&!priorRows.get(row.parentId).deletedAt&&sameType(priorLinks[row.parentId],link))continue;throw invalid('분해할 기존 비용과 같은 비용코드를 연결해 주세요.');}
+  if(!previous&&link.method==='breakdown-inherit'){const parent=priorRows.get(row.breakdownParentId);if(parent&&!parent.deletedAt&&parent.id===row.parentId&&sameType(priorLinks[parent.id],link)&&link.costTypeMappingStatus==='confirmed'&&entry.entryRole==='posting'&&!entry.kind.startsWith('system-'))continue;throw invalid('직접 입력한 하위 내역은 기존 상위의 확인된 비용코드를 유지해 주세요.');}
   if(previous&&entry.entryRole==='posting'&&sameType(priorLink,link)&&(!firstTemplateAmount||entry.newSelectable&&!entry.kind.startsWith('system-')))continue;
   if(link.masterVersion===masterV4.version&&entry.entryRole==='posting'&&entry.newSelectable===true&&!entry.kind.startsWith('system-')&&link.costTypeMappingStatus==='confirmed')continue;
   // 기존 범위의 분해와 명시적 부가세/재분류/확인총액 경로는 정상 신규유형과 구별합니다.

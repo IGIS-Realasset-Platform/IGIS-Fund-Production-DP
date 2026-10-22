@@ -31,7 +31,19 @@ export function makeHarness({stored={},storageMap=null,sessionMap=null,failWrite
   context.window=context;context.addEventListener=()=>{};
   if(fs.existsSync('docs/permit-catalog-20261020-review.json')){const reference=JSON.parse(fs.readFileSync('docs/permit-catalog-20261020-review.json','utf8'));context.PERMIT_REFERENCE={asOf:reference.asOf,sources:reference.sources,rows:reference.rows};}
   vm.createContext(context);
-  const loaded=new Set(),presetCompatible=()=>context.COST_USE_PRESETS&&vm.runInContext('App.costTypeMaster?.version',context)===context.COST_USE_PRESETS.masterVersion,runModule=name=>{if(name==='cbs'&&fs.existsSync('src/cost-type-master.js')&&!loaded.has('cost-type-master'))runModule('cost-type-master');if(name==='cost-company-profile'){if(fs.existsSync('src/cost-cbs-order.js')&&!loaded.has('cost-cbs-order'))runModule('cost-cbs-order');if(fs.existsSync('src/cost-catalog-identity.js')&&!loaded.has('cost-catalog-identity'))runModule('cost-catalog-identity');}if(loaded.has(name))return;vm.runInContext(fs.readFileSync(`src/${name}.js`,'utf8'),context,{filename:`src/${name}.js`});loaded.add(name);if(name==='core'&&!modules.includes('chart-utils')&&!loaded.has('chart-utils'))runModule('chart-utils');if(name==='cost-type-master'&&costTaxonomyV4&&fs.existsSync('src/cost-taxonomy.js')&&!loaded.has('cost-taxonomy'))runModule('cost-taxonomy');if(name==='cost-order'&&fs.existsSync('src/cost-coding.js')&&!loaded.has('cost-coding'))runModule('cost-coding');if(fs.existsSync('src/cost-asset-presets.js')&&loaded.has('cbs')&&loaded.has('cost-company-profile')&&loaded.has('cost-coding')&&!loaded.has('cost-asset-presets')&&presetCompatible())runModule('cost-asset-presets');};
+  const loaded=new Set(),presetCompatible=()=>context.COST_USE_PRESETS&&vm.runInContext('App.costTypeMaster?.version',context)===context.COST_USE_PRESETS.masterVersion;
+  const runModule=name=>{
+    if(name==='cbs'&&fs.existsSync('src/cost-type-master.js')&&!loaded.has('cost-type-master'))runModule('cost-type-master');
+    if(name==='cost-company-profile'){if(fs.existsSync('src/cost-cbs-order.js')&&!loaded.has('cost-cbs-order'))runModule('cost-cbs-order');if(fs.existsSync('src/cost-catalog-identity.js')&&!loaded.has('cost-catalog-identity'))runModule('cost-catalog-identity');}
+    if(loaded.has(name))return;
+    vm.runInContext(fs.readFileSync(`src/${name}.js`,'utf8'),context,{filename:`src/${name}.js`});loaded.add(name);
+    if(name==='core'&&!modules.includes('chart-utils')&&!loaded.has('chart-utils'))runModule('chart-utils');
+    if(name==='cost-type-master'&&costTaxonomyV4&&fs.existsSync('src/cost-taxonomy.js')&&!loaded.has('cost-taxonomy'))runModule('cost-taxonomy');
+    if(name==='cost-order'&&fs.existsSync('src/cost-coding.js')&&!loaded.has('cost-coding'))runModule('cost-coding');
+    const costReady=loaded.has('cbs')&&loaded.has('cost-company-profile')&&loaded.has('cost-coding');
+    if(costReady&&fs.existsSync('src/cost-breakdown.js')&&!loaded.has('cost-breakdown'))runModule('cost-breakdown');
+    if(costReady&&fs.existsSync('src/cost-asset-presets.js')&&!loaded.has('cost-asset-presets')&&presetCompatible())runModule('cost-asset-presets');
+  };
   for(const name of modules){if(name==='legal'&&!loaded.has('permit-domain')){vm.runInContext(permitDomainBundle(),context,{filename:'shared/permit-domain.mjs'});loaded.add('permit-domain');}runModule(name);}
   const A=modules.includes('core')?vm.runInContext('App',context):undefined;
   return {A,context,document,nodes,storage,session,listeners,setWriteFailure(value){failWrites=value},load:runModule};

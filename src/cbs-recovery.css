@@ -245,3 +245,8 @@ table.cost-dense-table[data-testid="cost-detail-table"] tr.cbs-company-row .cost
 .cbs-stack-axis-meta{display:flex;justify-content:space-between;gap:12px;margin-top:10px;font-size:14px;line-height:20px;color:#788da0}
 @media(max-width:1320px){.cost-kpi-cell{padding:10px}.cbs-composition-row{grid-template-columns:142px minmax(20px,1fr) max-content;gap:6px}.cbs-stack-title{flex-wrap:wrap}.cbs-stack-pair{gap:12px}.cost-overview-layout{grid-template-columns:minmax(0,1fr) minmax(0,1.05fr)}}
 @media(max-width:1080px){.cost-overview-layout{grid-template-columns:1fr}.cost-kpi-row{grid-template-columns:repeat(3,minmax(0,1fr))}.cost-kpi-cell:nth-child(3){border-right:0}.cost-kpi-cell:nth-child(-n+3){border-bottom:1px solid #dfe6ee}.cbs-composition-row{grid-template-columns:180px minmax(50px,1fr) max-content}}
+.cost-dense-table [data-inline-type="money-reason"].is-editing{display:grid;grid-template-columns:minmax(100px,1fr);gap:4px;min-width:0;max-width:100%;white-space:normal}
+.cost-dense-table [data-inline-type="money-reason"].is-editing .cell-edit-input{width:100%;min-width:0;box-sizing:border-box}
+.cost-dense-table [data-inline-type="money-reason"].is-editing .dp-inline-tools{position:static;display:flex;flex-wrap:wrap;max-width:100%}
+.cost-dense-table [data-inline-type="money-reason"] .inline-reason-field{display:grid;grid-template-columns:1fr auto;gap:2px 4px;margin:0;min-width:0;text-align:left;white-space:normal;font-size:11px;line-height:1.3}
+.cost-dense-table [data-inline-type="money-reason"] .inline-reason-field .cell-edit-input{grid-column:1/-1}

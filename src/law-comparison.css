@@ -1,0 +1,7 @@
+.law-comparison{margin:16px 0;padding-top:12px;border-top:1px solid #dbe3ec}
+.law-comparison-controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0}
+.law-comparison-pair{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+.law-comparison-pair>div{min-width:0;border:1px solid #dbe3ec;border-radius:6px;padding:12px}
+.law-comparison-pair pre{font:inherit;line-height:1.65;white-space:pre-wrap;overflow-wrap:anywhere;margin:8px 0 0;max-height:360px;overflow:auto}
+.law-comparison>section{margin-top:16px}.law-comparison h5{font-size:15px;margin:8px 0}.law-comparison-source{font-size:13px;color:#52677f}
+@media(max-width:760px){.law-comparison-pair{grid-template-columns:minmax(0,1fr)}.law-comparison-pair pre{max-height:280px}}

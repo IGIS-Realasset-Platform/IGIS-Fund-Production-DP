@@ -15,6 +15,9 @@
 .dp-dialog[data-ux-dialog-scroll="inner"] .cbs-catalog-list>.table-wrap{overflow:visible}
 .dp-dialog[data-ux-dialog-scroll="inner"] .notice-list-scroll{max-height:var(--ux-inner-height);overflow:auto}
 .dp-dialog[data-ux-dialog-scroll] #app-form>.dialog-foot{position:sticky;bottom:-12px;z-index:5;background:var(--surface,#fff);margin-top:12px}
+.dp-dialog[data-ux-dialog-scroll] #app-form>.dialog-foot{flex-wrap:wrap}
+.dp-dialog[data-ux-dialog-scroll] #app-form>.dialog-foot>#form-error{flex:0 0 100%;margin:0;text-align:left;overflow-wrap:anywhere}
+.dp-dialog[data-ux-dialog-scroll] #app-form>.dialog-foot>#form-error:empty{display:none}
 .dp-dialog.dp-notification-dialog[data-ux-dialog-scroll]{max-height:80vh}
 .dp-documents [data-ux-preview-scroll]{overflow:auto}
 /* On narrow screens, a saved wide name column must not cover every amount.
@@ -24,3 +27,4 @@
  .cbs-recovery table[data-testid="cost-detail-table"] td:nth-child(-n+2){left:auto!important}
  .cbs-recovery table[data-testid="cost-detail-table"] td:nth-child(-n+2){position:relative!important}
 }
+@media(max-width:760px){.dp-dialog[data-ux-dialog-scroll]>.dialog-foot{flex-wrap:wrap}}

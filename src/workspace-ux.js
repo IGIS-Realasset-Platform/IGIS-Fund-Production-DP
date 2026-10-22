@@ -12,6 +12,7 @@
   {view:'spec',selector:'.spec-json',container:'.panel',bounded:true}
  ];
  const innerDialogs=[{name:'cost-catalog',selector:'.cbs-catalog-list',shell:'.cbs-catalog-shell'},{name:'notification-list',selector:'.notice-list-scroll'}];
+ const tableScrollMemory=new WeakMap();
  let scheduled=false,previewContext=null,observed=false,last={mode:'page',reason:'not-refreshed'};
  const visible=el=>{if(!el)return false;const r=el.getBoundingClientRect();return r.width>0&&r.height>0&&getComputedStyle(el).display!=='none';};
  const px=value=>Number.parseFloat(value)||0;
@@ -19,13 +20,13 @@
  function clearOwners(root){for(const el of [root,...root.querySelectorAll('[data-ux-scroll-owner]')]){if(!el.hasAttribute('data-ux-scroll-owner'))continue;delete el.dataset.uxScrollOwner;if(el.dataset.uxAddedTabindex){el.removeAttribute('tabindex');delete el.dataset.uxAddedTabindex;}if(el.dataset.uxAddedLabel){el.removeAttribute('aria-label');delete el.dataset.uxAddedLabel;}}}
  function naturalize(root,except=null,overlay=null){for(const el of root.querySelectorAll('div,section,pre,ul,ol')){if(el===except||except?.contains(el)||el===overlay||el.matches('.spec-json'))continue;const style=getComputedStyle(el);if(['auto','scroll'].includes(style.overflowY)&&style.maxHeight!=='none'&&px(style.maxHeight)>0)el.dataset.uxNaturalY='true';}}
  function chooseRule(view,tab,group){return tableRules.find(rule=>rule.view===view&&(!rule.tab||rule.tab===tab)&&(!rule.group||rule.group===group))||null;}
- function fitPage(){const main=document.querySelector('.main-scroll'),content=document.getElementById('content');if(!main||!content)return;clearOwners(main);for(const el of content.querySelectorAll('[data-ux-primary-table],[data-ux-natural-y]')){delete el.dataset.uxPrimaryTable;delete el.dataset.uxNaturalY;el.style.removeProperty('--ux-table-height');}main.dataset.uxScrollMode='page';content.dataset.uxScrollMode='page';
+ function fitPage(){const main=document.querySelector('.main-scroll'),content=document.getElementById('content');if(!main||!content)return;const previousScroll=new Map([...content.querySelectorAll('[data-ux-primary-table]')].map(el=>[el,{top:el.scrollTop,left:el.scrollLeft}])),activeBefore=document.activeElement,activeTable=activeBefore?[...previousScroll.keys()].find(el=>el!==activeBefore&&el.contains(activeBefore)):null;for(const[el,position]of previousScroll)tableScrollMemory.set(el,position);clearOwners(main);for(const el of content.querySelectorAll('[data-ux-primary-table],[data-ux-natural-y]')){delete el.dataset.uxPrimaryTable;delete el.dataset.uxNaturalY;el.style.removeProperty('--ux-table-height');}main.dataset.uxScrollMode='page';content.dataset.uxScrollMode='page';
   const view=A.ui.view,tab=A.ui.tabs?.[view]||'',group=tab==='companies'?'directory':tab||A.ui.partnerGroup||'cak-rows',rule=chooseRule(view,tab,group),wrap=rule?content.querySelector(rule.selector):null;
   // An expanded document preview is a second component, not part of its table.
   const preview=content.querySelector('.document-preview:not([hidden])'),previewOverlay=preview&&getComputedStyle(preview).position==='absolute';
   const identity=A.ui.projectId+':'+view+':'+tab+':'+group,restorePageScroll=!previewOverlay&&previewContext?.identity===identity?previewContext.scroll:null;
   if(previewOverlay&&previewContext?.identity!==identity)previewContext={identity,scroll:main.scrollTop};if(!previewOverlay)previewContext=null;
-  const finishPage=()=>{if(restorePageScroll!==null)main.scrollTop=restorePageScroll;};
+  const finishPage=()=>{const focusedTable=activeTable||(wrap&&wrap!==activeBefore&&wrap.contains(activeBefore)?wrap:null);if(restorePageScroll!==null)main.scrollTop=restorePageScroll;else if(focusedTable&&activeBefore?.isConnected&&document.activeElement===activeBefore&&focusedTable.contains(activeBefore)&&main.contains(activeBefore))activeBefore.scrollIntoView?.({block:'nearest',inline:'nearest'});};
   if(view==='document'&&preview&&!previewOverlay){naturalize(content);owner(main,'페이지 내용');last={mode:'page',reason:'document-preview'};finishPage();return;}
   if(!rule||!visible(wrap)||view==='company'&&group==='market'){naturalize(content);owner(main,'페이지 내용');last={mode:'page',reason:rule?'no-visible-primary':'multiple-components'};finishPage();return;}
   // Measure the table's logical top at page-scroll zero. A previous page offset
@@ -36,7 +37,7 @@
   if(budget<(rule.bounded||previewOverlay?48:150)){naturalize(content,null,previewOverlay?preview:null);owner(main,'페이지 내용');last={mode:'page',reason:'insufficient-table-space',availableHeight:budget};finishPage();return;}
   const fitHeight=rule.bounded?Math.min(budget,Math.floor(window.innerHeight*.7)):budget;
   naturalize(content,wrap,previewOverlay?preview:null);main.dataset.uxScrollMode='table';content.dataset.uxScrollMode='table';wrap.dataset.uxPrimaryTable='true';wrap.style.setProperty('--ux-table-height',fitHeight+'px');owner(wrap,rule.bounded?'명세 JSON 내용':'표 내용');
-  main.scrollTop=0;if(restorePageScroll>0)wrap.scrollTop=restorePageScroll;
+  main.scrollTop=0;const retained=previousScroll.get(wrap)||tableScrollMemory.get(wrap);if(retained)wrap.scrollLeft=retained.left;if(restorePageScroll!==null)wrap.scrollTop=restorePageScroll;else if(retained)wrap.scrollTop=retained.top;tableScrollMemory.set(wrap,{top:wrap.scrollTop,left:wrap.scrollLeft});
   if(previewOverlay){preview.dataset.uxPreviewScroll='true';owner(preview,'문서 상세');}
   last={mode:'table',view,tab,group,selector:rule.selector,availableHeight:budget};
  }
