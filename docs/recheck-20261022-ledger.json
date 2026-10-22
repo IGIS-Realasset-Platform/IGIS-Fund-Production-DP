@@ -1,0 +1,12 @@
+{
+  "schemaVersion":"auto123-fix-ledger-v1",
+  "version":"0.12.3",
+  "asOf":"2026-10-22",
+  "snapshotKind":"build-time-verification-not-live-monitor",
+  "baseline":{"version":"0.12.2","candidate":"C36","deploymentId":"dpl_kNkLYRDuQ1zvyf4nKKi1JrpFkx4k","htmlSha256":"7e1f88ea54bd70d9b76689cf0284388b1aa15d08ff9da1ec5ef5417d35a0dfde"},
+  "items":[
+    {"id":"AUTO123-01","name":"자동 비교 예외·재시도·공식 링크","status":"implemented-focused-tests-passed","browser":"C38 PC/mobile14 passed; final exact candidate pending","coverage":"상세 진입 시 자동 비교. 모든194 사전 비교·첨부 내부 비교 완료 아님"},
+    {"id":"AUTO123-02","name":"선택한 시장 판본과 그래프·키보드 툴팁 일치","status":"implemented-focused-tests-passed","browser":"C38 mobile keyboard scroll defect reproduced and patched; final exact candidate pending","coverage":"독립34관측 경계·공통 툴팁14반례. 모든 기기/소비자 전수 아님"},
+    {"id":"AUTO123-03","name":"전체 수정·자동 범위 재검토","status":"bounded-audit-complete-followup-open","allRolesAndConditionsVerified":false}
+  ]
+}

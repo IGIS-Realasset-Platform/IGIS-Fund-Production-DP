@@ -1,13 +1,13 @@
 {
-  "version": "0.12.2",
+  "version": "0.12.3",
   "origin": "https://development-project-platform-preview-git-preview-b5dda7-igisra.vercel.app",
-  "htmlSha256": "c27676b898febf3868b1796cf665f0dec101a152c173dc92ad5e38961af15fd3",
-  "bytes": 6613903,
+  "htmlSha256": "826c7f1a9fbb65830ec2afc441934a480354fd140f357fb9c307e50c130bd2da",
+  "bytes": 6621261,
   "notionRequired": false,
   "realProjectDataIncluded": false,
   "mode": "authenticated-private-schema-runtime-with-optional-source",
   "localBuildVerified": true,
-  "actualBrowser": "UX122 C36 root and Git distribution differ only by four inactive demo-reference privacy replacements; preview differs only by runtime origin. Focused current browser evidence and earlier output/source preservation are separate. C29 sample application and production are historical completed facts; C36 promotion and all-element verification are not presumed.",
+  "actualBrowser": "AUTO123 C40 root and Git distribution differ only by four inactive demo-reference privacy replacements; preview differs only by runtime origin. Focused C40 market PC/mobile8 passed, law final recheck and 166-suite regression in progress at this approval snapshot. Exact final results and promotion are documented externally; all-element verification is not presumed.",
   "previousProtectedDeployment": "dpl_4z8XWesu9MT5MBVxuXwjLoNEFwND",
   "previousVersion": "0.12.1"
 }
