@@ -1,9 +1,9 @@
 {
   "version":"0.12.2",
   "origin":"https://igis-development-project-platform.vercel.app",
-  "htmlSha256":"5a27d2aba48fa58169ba603c714c827f9e97daf498477cb88af7b076d1e81e63",
-  "bytes":6613772,
-  "status":"reviewed-ux122-c34-source-awaiting-final-browser-and-promotion",
+  "htmlSha256":"c755583b7ddde8c5d49fe885d25895d5aab31a2f10e2e0d68b483fd404997b73",
+  "bytes":6613952,
+  "status":"reviewed-ux122-c35-source-awaiting-final-browser-and-promotion",
   "publishedAt":null,
   "preparedAt":"2026-10-22",
   "historicalV0120FunctionalVerificationDeploymentId":"dpl_Dnx4JXyfitYNqAD97WMTzVBrXehb",
