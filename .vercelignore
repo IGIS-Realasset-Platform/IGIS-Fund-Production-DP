@@ -1,0 +1,13 @@
+# 배포 소스만 전송합니다. Git 제외목록과 별도로 검증합니다.
+/.git/
+/.build/
+/dist/
+/node_modules/
+/outputs/
+/참고자료/
+/.env
+/.env.*
+/.vercel/
+*.local
+/src/data/legacy-seed.json
+/src/data/notion-projects.json

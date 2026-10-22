@@ -1,13 +1,13 @@
 {
-  "version": "0.12.1",
+  "version": "0.12.2",
   "origin": "https://development-project-platform-preview-git-preview-b5dda7-igisra.vercel.app",
-  "htmlSha256": "c195c9693b4856f390398b853620b20ba3b5e081e32530750b8bcdd4777a3bc5",
-  "bytes": 6605008,
+  "htmlSha256": "e36339bc5d792450f63144335ae5efc79ff6da5e95669fd238bb1d70519b495f",
+  "bytes": 6613801,
   "notionRequired": false,
   "realProjectDataIncluded": false,
   "mode": "authenticated-private-schema-runtime-with-optional-source",
   "localBuildVerified": true,
-  "actualBrowser": "C28 root artifact and Git-distribution artifact are connected by exactly four inactive demo-reference privacy replacements; preview differs from production only in the approved runtime origin. C27 focused linked-cost/required-marker checks and C28 final current browser/PDF/regression are recorded separately. Whole-function and all-element completion are not declared; promotion and central sample application remain pending.",
+  "actualBrowser": "UX122 C34 root and Git distribution differ only by four inactive demo-reference privacy replacements; preview differs only by runtime origin. Focused current browser evidence and earlier output/source preservation are separate. C29 sample application and production are historical completed facts; C34 promotion and all-element verification are not presumed.",
   "previousProtectedDeployment": "dpl_4z8XWesu9MT5MBVxuXwjLoNEFwND",
-  "previousVersion": "0.12.0"
+  "previousVersion": "0.12.1"
 }

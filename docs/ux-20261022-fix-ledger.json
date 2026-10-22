@@ -1,0 +1,14 @@
+{
+  "schemaVersion": "ux122-fix-ledger-v1",
+  "version": "0.12.2",
+  "asOf": "2026-10-22",
+  "deploymentVerified": false,
+  "preservation": ["existing-service", "other-db-schemas", "original-amounts", "contracts-vat", "frozen-snapshots", "actual-law-review-records"],
+  "items": [
+    {"id":"UX122-01","name":"비용 설명창 제거·직접 관리","status":"implementation-in-progress","verification":{"automated":"in-progress","browser":"not-run","deployment":false}},
+    {"id":"UX122-02","name":"법령 변경 내용·공식 비교 링크","status":"implementation-in-progress","verification":{"automated":"in-progress","browser":"not-run","deployment":false}},
+    {"id":"UX122-03","name":"법령 상세 첫 화면 정리","status":"implementation-in-progress","verification":{"automated":"in-progress","browser":"not-run","deployment":false}},
+    {"id":"UX122-04","name":"법령·공포일·시행일 정렬","status":"implementation-in-progress","verification":{"automated":"in-progress","browser":"not-run","deployment":false}},
+    {"id":"UX122-05","name":"전체 컴포넌트 필요성 점검","status":"audit-in-progress","verification":{"observedIsPassed":false,"allElementsVerified":false,"deployment":false}}
+  ]
+}

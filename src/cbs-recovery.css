@@ -208,6 +208,11 @@ table.cost-dense-table[data-testid="cost-detail-table"] tr.cbs-company-row .cost
 .cbs-recovery .cost-dense-table .cbs-root-name .cbs-item-name{max-width:calc(100% - 24px)}
 .cost-current-value[data-value-state]:not([data-value-state="ready"]){font-weight:inherit;color:var(--muted);font-size:14px}
 .cbs-row-delete{min-width:52px}
+.cbs-recovery .cbs-row-manage{height:24px;min-height:24px;padding:0 8px}
+.cbs-recovery span.cbs-item-name{cursor:inherit}
+.cbs-row-menu[popover]{position:fixed;inset:auto;margin:0;padding:6px;min-width:180px;max-width:min(300px,calc(100vw - 16px));max-height:calc(100dvh - 16px);overflow:auto;background:#fff;border:1px solid #cbd7e3;border-radius:6px}
+.cbs-row-menu .btn{display:block;width:100%;text-align:start;white-space:normal}
+.cbs-row-menu .cbs-menu-owner{margin:6px 4px;overflow-wrap:anywhere}
 .cbs-delete-scope-table td:last-child{white-space:normal;min-width:260px}
 .cbs-delete-block{display:block;color:#536a81;line-height:20px;overflow-wrap:anywhere}
 .cbs-recovery .cost-history-add{width:auto;min-width:30px;height:20px;min-height:20px;padding:0 3px;line-height:18px;font-size:14px}

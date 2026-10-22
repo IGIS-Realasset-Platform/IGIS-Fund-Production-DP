@@ -691,7 +691,7 @@ A.spec.verification={...A.spec.verification,status:'v0.10.30 검수 완료 · �
  }
  const deploymentStatus=typeof DEPLOYMENT_STATUS_V0111==='undefined'?null:A.clone(DEPLOYMENT_STATUS_V0111);
  if(deploymentStatus){
-  const cloudDeployment=A.runtime?.persistence==='cloud',expectedDeploymentVersion=cloudDeployment?'0.12.1':'0.11.0';
+  const cloudDeployment=A.runtime?.persistence==='cloud',expectedDeploymentVersion=cloudDeployment?'0.12.2':'0.11.0';
   if(deploymentStatus.schemaVersion!=='deployment-status-v0111'||deploymentStatus.version!==expectedDeploymentVersion)throw Error('현재 배포 상태 정의를 확인해 주세요.');
   const originalFeatureContracts=A.clone(A.spec.featureContracts),originalDataContracts=A.clone(A.spec.dataContracts),originalProductionContracts=A.clone(A.spec.productionContracts),originalInformationArchitecture=A.clone(A.spec.informationArchitecture),originalCostRules=A.clone(A.spec.costRules),priorAuthentication=A.clone(A.spec.productionContracts?.authentication??null),historical=[inheritedAuthentication,priorAuthentication].filter(Boolean),unique=[];for(const item of historical)if(!unique.some(saved=>JSON.stringify(saved)===JSON.stringify(item)))unique.push(item);
   A.spec.legacyReferences=A.spec.legacyReferences||{};A.spec.legacyReferences.authenticationPolicies=[...(A.spec.legacyReferences.authenticationPolicies||[]),...unique];A.spec.legacyReferences.originalFeatureContracts=originalFeatureContracts;A.spec.legacyReferences.originalDataContracts=originalDataContracts;A.spec.legacyReferences.originalProductionContracts=originalProductionContracts;A.spec.legacyReferences.originalInformationArchitecture=originalInformationArchitecture;A.spec.legacyReferences.originalCostRules=originalCostRules;
@@ -803,6 +803,12 @@ A.spec.verification={...A.spec.verification,status:'v0.10.30 검수 완료 · �
   A.spec.delivery.followupRequestIds=A.clone(ids);A.spec.delivery.followupDeploymentVerified=followup.deploymentVerified===true;A.spec.verification.followupRequirements=A.clone(followup);
   if(!A.spec.history.some(row=>row.version==='v0.12.1'))A.spec.history.push({version:'v0.12.1',summary:'FUP121 후속 요구: 선택적 비용분해·공식 조문 비교·샘플/이력·사이드바·인허가 추천 UX. 실제 상태는 후속대장 참조',classification:'후속 구현·검수 중',evidence:'docs/followup-20261021-fix-ledger.json'});
  }
+ if(A.cloudMode&&typeof UX122_FIX_LEDGER!=='undefined'){
+  A.spec.ux122=A.clone(UX122_FIX_LEDGER);
+  A.spec.currentFeatureContracts.ux122={source:'docs/ux-20261022-spec.md',costInfoPopup:false,costActions:'본표 관리 메뉴·같은 셀 금액편집·직접 이력',lawDetail:'법령·공포/시행·실제 변경·정확 공식 비교/원문',lawSort:['법령/조항','공포일','시행일'],unfoundedProjectTable:false,providerWorkStatusExplanations:false,actualReviewRecordsPreserved:true};
+  A.spec.verification.ux122=A.clone(UX122_FIX_LEDGER);
+  A.spec.history.push({version:'v0.12.2',summary:'비용 설명창 제거·직접 관리, 법령 목록/상세의 실제 변경과 공식 비교 링크·정렬. 전체 컴포넌트 필요성 점검은 별도 상태로 기록',classification:'구현·검수 중',evidence:'docs/ux-20261022-fix-ledger.json'});
+ }
  if(A.realMode){delete A.spec.dataContracts.reportExample;delete A.spec.featureContracts.reportExample;}
  A.register('spec',()=>{
    const tabs=[['overview','개요'],['functions','기능정의서'],['sdd','SDD'],['tests','TDD·검수'],['data','데이터 구조'],['history','개발이력'],['feedback','피드백'],['json','전체 JSON']];
@@ -819,6 +825,7 @@ A.spec.verification={...A.spec.verification,status:'v0.10.30 검수 완료 · �
     else if(active==='feedback')content=pre({currentApproved:A.spec.requirements,superseded:sections.superseded,historicalFeedback:{classification:'당시 피드백 · 현재 승인 요구와 충돌하면 현행 우선',records:A.spec.feedback},future:sections.future});
     else content=pre(A.spec);
     if(A.spec.followup121&&['overview','functions','tests','feedback'].includes(active))content+=A.table(['후속 요구','내용','현재 상태'],A.spec.followup121.items.map(row=>[A.esc(row.id),'<div class="wrap">'+A.esc(row.name)+' · '+A.esc(row.requirement)+'</div>',A.esc(row.status==='accepted'?'문서 게시·검수 확인':row.status==='prepared-not-applied'?'준비됨 · 중앙 적용 전':'수정·검수 중 · 최종 반영 별도')]));
+    if(A.spec.ux122&&['overview','functions','tests','feedback'].includes(active))content+=A.table(['후속 요구','내용','현재 상태'],A.spec.ux122.items.map(row=>[A.esc(row.id),A.esc(row.name),A.esc(row.status)]));
     return A.tabs('spec',tabs)+A.panel('플랫폼 명세 v'+A.spec.meta.version,content,A.btn('JSON 복사','spec-copy')+A.btn('명세 내려받기','export-spec')+A.btn('전체 데이터 내려받기','export-data'));
    }
    if(active==='overview'){const deployment=A.spec.deploymentStatus,current=deployment?.current,browser=current?.browserVerification||{},connections=current?.connections||{},rows=[['버전',A.spec.meta.version],['누적 기준 요구사항',A.spec.requirementLedger.items.length+'항목'],['최근 보존 수정대장','v0.10.33 · '+(A.spec.v0133FixLedger?.items.length||0)+'건'],['운영 범위',current?.scope||'로컬 HTML'],['배포 상태',current?.releaseState||'미배포'],['실제 화면 확인',browser.home==='확인'&&browser.spec==='확인'?'홈·명세 진입 확인':'미검수'],['남은 실제 검수','CRUD·PDF·Excel '+([browser.crud,browser.pdf,browser.xlsx].every(value=>value==='확인')?'확인':'미검수')],['중앙 저장','중앙 저장 '+(connections.centralStorage||'미연동')],['앱 로그인','앱 로그인 '+(connections.appAuthentication||'미구현')],['인증 정책',A.spec.productionContracts.authentication?.identity+' · '+A.spec.productionContracts.authentication?.verification],['Notion',connections.notion||'선택 보충자료 · 미연동'],['공식 법령 확인일',A.spec.legalSourceSnapshot?.dataDate||'자료 없음'],['참고모델 검토','이전 전체 검토139시트 · v30의4모델 관련범위 재대조 이력 보존'],['사업비 양식','서리풀 관리수준·같은 사건 비용 묶음·중요 예산 통제'],['용도별 사업비 프리셋','9종 구현 · 검수기록 별도'],['검수기록','v'+A.spec.meta.version]];content=A.table(['항목','내용'],rows);}

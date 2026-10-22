@@ -19,7 +19,8 @@ check('독립 표시입력 경계에서 빠진 기본행을 공통37 정의로 �
  A.companyCostProfile={...native,visibleManagementNodes:()=>rows};try{const projected=A.costUsePresets.currentItems(p);assert.deepEqual(Array.from(projected.rows.filter(row=>row.kind==='item'),row=>row.id),['table-land-purchase','table-existing-lease']);assert.equal(projected.itemCount,2);assert(!projected.rows.some(row=>row.name==='설계비'));assert.equal(JSON.stringify(A.state),before);}finally{A.companyCostProfile=native;}
 });
 
-check('항목정보에서 분류수정 Escape는 실제 부모로 복귀하고 다시 닫으면 종료한다',()=>{
- const h=boot(),{A}=h,p=A.current(),node=A.companyCostProfile.visibleManagementNodes(p).find(row=>row.companySingleActual&&!A.children(p,row.id).length);assert(node);const before=JSON.stringify(A.state);click(h,'cbs-config',{id:node.id});const parentTitle=h.nodes.get('app-dialog').innerHTML.match(/<h2[^>]*>(.*?)<\/h2>/)[1];click(h,'cbs-purpose-edit',{id:node.id});assert(h.nodes.get('app-dialog').innerHTML.includes('사업비 분류 수정'));A.requestModalClose();assert(h.nodes.get('app-dialog').open);assert(h.nodes.get('app-dialog').innerHTML.includes(parentTitle));assert(!h.nodes.get('app-dialog').innerHTML.includes('id="app-form"'));A.requestModalClose();assert.equal(h.nodes.get('app-dialog').open,false);assert.equal(JSON.stringify(A.state),before);
+// Latest direct-management request retires the technical-information parent.
+check('직접 분류수정 Escape는 한번종료하고설명부모부활없이원자료를보존한다',()=>{
+ const h=boot(),{A}=h,p=A.current(),node=A.companyCostProfile.visibleManagementNodes(p).find(row=>row.companySingleActual&&!A.children(p,row.id).length);assert(node);const before=JSON.stringify(A.state);click(h,'cbs-purpose-edit',{id:node.id,projectId:p.id});assert(h.nodes.get('app-dialog').innerHTML.includes('사업비 분류 수정'));A.requestModalClose();assert.equal(h.nodes.get('app-dialog').open,false);assert(!h.nodes.get('app-dialog').innerHTML.includes('분류 기준·원자료'));assert.equal(JSON.stringify(A.state),before);
 });
 console.log(JSON.stringify({suite:'center120-cost-current-items',passed:checks.filter(row=>row.pass).length,failed:checks.filter(row=>!row.pass).length,checks}));if(checks.some(row=>!row.pass))process.exitCode=1;

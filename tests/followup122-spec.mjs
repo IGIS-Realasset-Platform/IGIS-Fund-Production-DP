@@ -1,0 +1,12 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+const read=p=>fs.readFileSync(p,'utf8'), ledger=JSON.parse(read('docs/ux-20261022-fix-ledger.json'));
+assert.deepEqual(ledger.items.map(x=>x.id),['UX122-01','UX122-02','UX122-03','UX122-04','UX122-05']);
+assert.equal(ledger.version,'0.12.2');
+for(const file of ['package.json','package-lock.json','src/data/deployment-status-cloud-v0111.json'])assert.equal(JSON.parse(read(file)).version,'0.12.2',file);
+assert.match(read('scripts/build-deployment.mjs'),/cloud\?'0\.12\.2'/);
+assert.match(read('scripts/build-deployment.mjs'),/UX122_FIX_LEDGER/);
+assert.match(read('src/spec.js'),/A\.spec\.ux122/);
+assert.match(read('scripts/verify-center120.mjs'),/followup12\[12\]-/);
+assert.equal(ledger.items.find(x=>x.id==='UX122-05').verification.allElementsVerified,false);
+console.log(JSON.stringify({suite:'followup122-spec',passed:10,scope:'new version and distinct evidence status; not user-interface acceptance'}));
