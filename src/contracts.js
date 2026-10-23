@@ -221,10 +221,20 @@
     for(const control of container.querySelectorAll?.('input,select,textarea')||[])if(control.name&&Object.hasOwn(values,control.name))control.value=values[control.name]??'';
   }
   function allocationForm(p,prefix,title,fields,callback,submitLabel,options){
-    const prior=options?.draftAdapter;let paymentMoreOpen=null,mountedPaymentMore=null;
+    const prior=options?.draftAdapter;let paymentMoreOpen=null,mountedPaymentMore=null,mountedPaymentForm=null,paymentPosition=null,paymentRestoreToken=0,paymentRestoring=false;
     const paymentDetails=()=>document.getElementById('app-form')?.querySelector?.('details.dp-payment-more');
-    const restorePaymentDetails=()=>{if(prefix!=='pay')return;const form=document.getElementById('app-form'),details=paymentDetails();if(!details)return;if(paymentMoreOpen!==null)details.open=paymentMoreOpen;if(mountedPaymentMore!==details){mountedPaymentMore=details;details.addEventListener('toggle',()=>{if(details.isConnected!==false&&form?.isConnected!==false&&document.getElementById('app-form')===form)paymentMoreOpen=details.open;});}};
-    const session=A.form(title,fields,(values,operation)=>{if(prefix==='pay'){const details=paymentDetails();if(details)paymentMoreOpen=details.open;}return callback(values,operation);},submitLabel,{...options,draftAdapter:{...prior,resume:(values,error)=>{restoreAllocationRows(p,prefix,values);restorePaymentDetails();prior?.resume?.(values,error);}}});
+    const ownsPaymentForm=form=>A.current()?.id===p.id&&form?.isConnected!==false&&document.getElementById('app-form')===form;
+    const capturePaymentPosition=(form,body)=>{if(prefix!=='pay'||paymentRestoring||!body||!ownsPaymentForm(form))return;const active=document.activeElement,inside=active&&form.contains?.(active),focus=inside&&active.name?{name:active.name}:inside&&active.type==='submit'?{submit:true}:paymentPosition?.focus||null;paymentPosition={top:body.scrollTop||0,left:body.scrollLeft||0,focus};};
+    const restorePaymentDetails=error=>{
+      if(prefix!=='pay'||A.current()?.id!==p.id)return;const form=document.getElementById('app-form'),details=paymentDetails(),body=document.getElementById('app-dialog')?.querySelector?.('.dialog-body'),token=++paymentRestoreToken;if(!details)return;
+      if(paymentMoreOpen!==null)details.open=paymentMoreOpen;if(mountedPaymentMore!==details){mountedPaymentMore=details;details.addEventListener('toggle',()=>{if(details.isConnected!==false&&ownsPaymentForm(form))paymentMoreOpen=details.open;});}
+      if(mountedPaymentForm!==form){mountedPaymentForm=form;const capture=()=>capturePaymentPosition(form,body);body?.addEventListener?.('scroll',capture,{passive:true});form?.addEventListener?.('focusin',capture);form?.addEventListener?.('keydown',event=>{if(event.key==='Escape')capture();},true);}
+      const position=paymentPosition&&{...paymentPosition};if(!position||error?.fieldErrors)return;paymentRestoring=true;
+      // The common editor queues its initial focus after invoking resume. Apply
+      // this payment session's saved viewport after that focus, not before it.
+      queueMicrotask(()=>queueMicrotask(()=>{if(token!==paymentRestoreToken)return;if(!ownsPaymentForm(form)||body?.isConnected===false){paymentRestoring=false;return;}if(!form.querySelector?.('[aria-invalid="true"]')){const target=position.focus?.submit?form.querySelector?.('button[type="submit"]'):[...(form.querySelectorAll?.('input,select,textarea')||[])].find(control=>control.name===position.focus?.name);target?.focus?.({preventScroll:true});if(body){body.scrollTop=position.top;body.scrollLeft=position.left;}}paymentRestoring=false;}));
+    };
+    const session=A.form(title,fields,(values,operation)=>{if(prefix==='pay'){const details=paymentDetails();if(details)paymentMoreOpen=details.open;capturePaymentPosition(document.getElementById('app-form'),document.getElementById('app-dialog')?.querySelector?.('.dialog-body'));}return callback(values,operation);},submitLabel,{...options,draftAdapter:{...prior,resume:(values,error)=>{restoreAllocationRows(p,prefix,values);restorePaymentDetails(error);prior?.resume?.(values,error);}}});
     return session;
   }
   A.on('allocation-row-add', b => {
