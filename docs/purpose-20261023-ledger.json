@@ -1,0 +1,12 @@
+{
+ "schemaVersion":"purpose125-v1","version":"0.12.5","asOf":"2026-10-23","snapshotKind":"build-time-verification-not-live-monitor",
+ "baseline":{"version":"0.12.4","candidate":"C44","commit":"fb48144afdbfa2ed4b0ec6af12eefe02dd06e0f1","deploymentId":"dpl_9aRMUJieDxyABfyGF26Gd4DCSppx","formalHtmlSha256":"7a38b7caa6b35315dac1f93c44a6853ed8028cacef14d62e3d4491875189c75f"},
+ "items":[
+  {"id":"UX125-01","name":"전문인력 업무 정보와 교육기한","status":"implemented-actual-acceptance-evidence-in-external-verification","legalBasis":"docs/purpose-20261023-professional-law-review.md","dueDatePolicy":"confirmed-deadline-optional-input-no-automatic-expiry","userPreferenceQuestion":"optional-preference-sent-no-answer-at-build"},
+  {"id":"UX125-02","name":"원가 이력의 내부 검수 설명 분리","status":"implemented-raw-audit-preserved-actual-acceptance-evidence-external","rawAuditAndAmountsPreserved":true,"adjacentSearchFix":"cost-and-portfolio-search-input-projection-before-first-pointer-click-with-idempotent-change"},
+  {"id":"FIN125-03","name":"조달표·대출 상세·가격 구성과 이력 연결","status":"implemented-current-historical-report-and-summary-consumers-linked-acceptance-evidence-external","advisoryInclusion":"user-approved-per-loan-contract-basis","allInAutomaticallyBacksolved":false,"deletePolicy":"known-zero-commitment-and-balance-rechecked-before-save-with-actual-parent-return-and-undo","missingNotZero":"initial-quarter-current-summary-report-reflection","reportReviewLabels":"actual-source-subject-and-human-field-unit-no-new-form-or-source-inference"},
+  {"id":"QA125-04","name":"플랫폼 전체 구성요소 목적·충분성 매트릭스","status":"inventory-content-and-readonly-discovery-in-progress","matrix":"docs/component-review-matrix.json","allComponentsAccepted":false,"adjacentLawFixes":["exact-reference-name-internal-conjunction-preserved","unknown-district-not-jurisdiction-mismatch","same-name-watch-official-identity-rechecked-outside-db-transaction"],"unresolvedLegacyNameOnlyWatches":6},
+  {"id":"GOV125-05","name":"근거·사용자 결정·반례에 따른 지속 검토","status":"project-rules-and-matrix-linked-not-model-self-learning","unknownPoliciesInvented":false}
+ ],
+ "boundaries":{"existingServiceChanged":false,"otherDatabaseSchemasChanged":false,"realStaffSourceChanged":false,"companyCBSTaxonomyChanged":false,"allPlatformFunctionsVerified":false}
+}

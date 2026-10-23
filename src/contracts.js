@@ -103,6 +103,7 @@
     const differences = Object.fromEntries(Object.keys(actual).map(k => [k, actual[k] - Number(opening[k] || 0)]));
     return { actual, differences, matches: Object.values(differences).every(x => x === 0) };
   }
+  const initialLoanNumber=value=>(typeof value==='number'||typeof value==='string')&&String(value).trim()!==''&&Number.isFinite(Number(value))?Number(value):null;
   function initialize(state) {
     (state.projects || []).forEach(p => {
       p.contracts = p.contracts || [];
@@ -123,7 +124,7 @@
         p.executionOpeningBalances.push({ id: 'opening-' + x.id, sourceCostId: x.id, sourceName: x.name, cbsId: linked?.id || '', asOf: p.asOf || '', contract: Number(x.contract || 0), certified: Number(x.progress || 0), paid: Number(x.paid || 0), source: x.source || 'v0.9.4 원가표', replacedAt: '', contractIds: [] });
       });
       p.loanQuarterlyRecords = p.loanQuarterlyRecords || []; p.loanEvents = p.loanEvents || [];
-      (p.loans || []).filter(l => !p.loanQuarterlyRecords.some(q => q.loanId === l.id) && !p.loanEvents.some(e => e.loanId === l.id || e.toLoanId === l.id)).forEach(l => p.loanQuarterlyRecords.push({ id: 'loan-initial-' + l.id, loanId: l.id, asOf: p.asOf || '', commitment: Number(l.commitment || 0), executed: Number(l.executed || 0), balance: Number(l.balance || 0), allIn: Number(l.allIn || 0), maturity: l.finalMaturity || l.maturity || '', source: 'v0.9.4 기준일 원자료', loan: clone(l) }));
+      (p.loans || []).filter(l => !p.loanQuarterlyRecords.some(q => q.loanId === l.id) && !p.loanEvents.some(e => e.loanId === l.id || e.toLoanId === l.id)).forEach(l => p.loanQuarterlyRecords.push({ id: 'loan-initial-' + l.id, loanId: l.id, asOf: p.asOf || '', commitment: initialLoanNumber(l.commitment), executed: initialLoanNumber(l.executed), balance: initialLoanNumber(l.balance), allIn: initialLoanNumber(l.allIn), maturity: l.finalMaturity || l.maturity || '', source: 'v0.9.4 기준일 원자료', loan: clone(l) }));
       p.contractsV010Migrated = true; p.contractSchemaVersion = 2;
     });
   }
@@ -135,7 +136,8 @@
   const moneyOrDash = x => x == null ? '<span class="muted">미확인</span>' : A.money(x);
   const signed = x => '<span class="' + (x < 0 ? 'rise' : '') + '">' + A.money(x) + '</span>';
   const inlineLabels={contract:{name:'계약명',type:'계약 유형',counterparty:'계약 상대방',period:'계약기간',status:'계약 상태',proposalNumber:'기안번호',companyId:'연결 업체',date:'계약일',file:'원본 경로',net:'공급가액',vat:'부가세',total:'계약총액',costAmount:'사업비 반영액'},document:{title:'문서명',category:'분류',number:'문서번호',date:'작성일',issuer:'발신자',recipient:'수신자',location:'원본 경로',related:'관련 내용',status:'상태',revision:'개정차수'},loan:{institution:'금융기관',rank:'상환순위',type:'대출 유형',commitment:'약정액',executed:'누적 실행액',balance:'대출 잔액',allIn:'All-in 금리',start:'약정 시작일',maturity:'최종 만기일',collateral:'담보·신용보강',sourcePath:'근거 경로'},equities:{company:'출자자',registration:'사업자·법인 등록번호',amount:'출자금액',purpose:'출자 목적'},guarantees:{category:'담보·신용보강 구분',provider:'제공자',amount:'담보·보증금액',detail:'조건·범위',expiry:'만료일'},guarantors:{name:'보증기관',type:'보증 유형',amount:'보증금액',scope:'보증 범위'}};
-  const inline = (p, entity, id, field, value, type = 'text', options = [], label = inlineLabels[entity]?.[field]||field) => A.editable({ projectId: p.id, entity, id, field, value, type:type==='percent'?'number':type, options, display: value==null||value===''?'—':type==='money'?A.esc(A.money(value)):type==='percent'?A.esc(A.num(value,2)+'%'):type==='select'?A.esc(options.find(x=>typeof x==='object'&&String(x.value)===String(value))?.label||value):A.esc(value), label });
+  Object.assign(inlineLabels.loan,{interestRate:'금리 (연 %)',upfrontFeeRate:'선취·취급 수수료 (%)',advisoryFeeRate:'금융자문 수수료 (%)',allIn:'ALL-IN (연 %)',allInAdvisoryBasis:'ALL-IN 기준',interestTerms:'금리·이자지급 조건',otherFees:'그 밖의 수수료',repaymentTerms:'상환 조건'});
+  const inline = (p, entity, id, field, value, type = 'text', options = [], label = inlineLabels[entity]?.[field]||field) => A.editable({ projectId: p.id, entity, id, field, value, type:type==='percent'?'number':type, options:entity==='loan'&&['rank','type'].includes(field)?loanChoices(value,options):options, display: value==null||value===''||entity==='loan'&&(loanPricingFields.includes(field)&&!loanKnownPercent(value)||type==='money'&&initialLoanNumber(value)==null)?'—':type==='money'?A.esc(A.money(value)):type==='percent'?A.esc(A.num(value,2)+'%'):type==='select'?A.esc(options.find(x=>typeof x==='object'&&String(x.value)===String(value))?.label||value):A.esc(value), label });
   const panelTable = (title, headers, rows, actions = '', toolbar = '') => '<section class="table-panel"><div class="table-toolbar"><div class="table-toolbar-left">' + (toolbar || '<strong>' + A.esc(title) + '</strong>') + '</div><div class="table-toolbar-right">' + actions + '</div></div>' + A.table(headers, rows) + '</section>';
   const tableLink = (label, action, id, data = {}) => '<button type="button" class="table-link" data-action="' + action + '" data-id="' + A.esc(id) + '" '+(action==='document-select'?'aria-controls="document-detail-panel" ':'') + Object.entries(data).map(([k, v]) => 'data-' + k + '="' + A.esc(v) + '"').join(' ') + '>' + A.esc(label) + '</button>';
   const summaryStrip = items => '<section class="execution-summary recovery-summary">' + items.map(([k, v]) => '<div><span>' + A.esc(k) + '</span><b>' + v + '</b></div>').join('') + '</section>';
@@ -377,23 +379,44 @@
   A.on('document-add', documentForm); A.on('document-edit', documentForm);
   A.on('document-copy', b => { const d = A.current().documents.find(x => x.id === b.dataset.id); if (d) A.copy(d.location); });
   A.on('document-delete', b => { const p = A.current(), d = p.documents.find(x => x.id === b.dataset.id); if (d) A.confirmDelete(d.title, () => { const before = clone(d); d.deletedAt = A.today; A.audit('delete', 'document', d.id, before, d, d.title + ' 문서가 삭제되었습니다.', { view: 'document', tab: 'documents', projectId: p.id }); A.toast('문서를 삭제했습니다.', () => { const deleted = clone(d); d.deletedAt = null; A.audit('restore', 'document', d.id, deleted, d, d.title + ' 문서가 복구되었습니다.'); A.render(); }); }); });
+  function loanChoices(value,options){return [{value:'',label:'—'},...options.map(value=>({value,label:value})),...(value!=null&&value!==''&&!options.includes(value)?[{value,label:String(value)}]:[])];}
   function loanForm(l) {
-    return A.field('institution', '금융기관', l?.institution || '') + A.field('type', '금융 유형', l?.type || '본PF', 'select', ['브릿지론', '본PF', '기타 대출']) + A.field('rank', '상환순위', l?.rank || '선순위', 'select', ['선순위', '중순위', '후순위']) + A.field('commitment', '약정액 (원)', l?.commitment || 0, 'number') + A.field('executed', '누적 실행액 (원)', l?.executed || 0, 'number') + A.field('balance', '대출잔액 (원)', l?.balance || 0, 'number') + A.field('allIn', 'All-in 금리 (%)', l?.allIn ?? 0, 'number') + A.field('start', '약정 시작일', l?.start || A.today, 'date') + A.field('maturity', '최종 만기일', l?.finalMaturity || l?.maturity || '', 'date') + A.field('collateral', '담보·신용보강', l?.collateral || '') + A.field('sourcePath', '약정서·근거 경로', l?.sourcePath || '') + A.field('note', '변경 내용', '', 'textarea');
+    return A.field('institution','금융기관',l?.institution||'')+A.field('type','금융 유형',l?l.type??'':'본PF','select',loanChoices(l?.type,['브릿지론','본PF','기타 대출']))+A.field('rank','상환순위',l?l.rank??'':'선순위','select',loanChoices(l?.rank,['선순위','중순위','후순위']))+A.field('commitment','약정액 (원)',loanEditorNumber(l?.commitment,amount),'number')+A.field('executed','누적 실행액 (원)',loanEditorNumber(l?.executed,amount),'number')+A.field('balance','대출잔액 (원)',loanEditorNumber(l?.balance,amount),'number')+A.field('interestRate','금리 (연 %)',loanEditorNumber(l?.interestRate,loanPercent),'number')+A.field('upfrontFeeRate','선취·취급 수수료 (%)',loanEditorNumber(l?.upfrontFeeRate,loanPercent),'number')+A.field('advisoryFeeRate','금융자문 수수료 (%)',loanEditorNumber(l?.advisoryFeeRate,loanPercent),'number')+A.field('allIn','ALL-IN (연 %)',loanEditorNumber(l?.allIn,loanPercent),'number')+A.field('allInAdvisoryBasis','ALL-IN 기준',l?.allInAdvisoryBasis||'','select',[{value:'',label:'선택'},{value:'included',label:'금융자문수수료 포함'},{value:'excluded',label:'금융자문수수료 제외'}])+A.field('ltv','LTV (%)',loanEditorNumber(l?.ltv,loanRatio),'number')+A.field('ltc','LTC (%)',loanEditorNumber(l?.ltc,loanRatio),'number')+A.field('interestTerms','금리·이자지급 조건',l?.interestTerms||'','textarea')+A.field('otherFees','그 밖의 수수료',l?.otherFees||'','textarea')+A.field('start','약정 시작일',l?.start||'','date')+A.field('maturity','최종 만기일',l?.finalMaturity||l?.maturity||'','date')+A.field('repaymentTerms','상환 조건',l?.repaymentTerms||'','textarea')+A.field('collateral','담보·신용보강',l?.collateral||'','textarea')+A.field('note','변경 사유','','textarea');
   }
-  function loanValues(v) {
-    const commitment = amount(v.commitment, '약정액'), executed = amount(v.executed, '누적 실행액'), balance = amount(v.balance, '잔액'), rate = Number(v.allIn);
-    if (balance > commitment) throw Error('잔액이 약정액보다 큽니다. 약정액 또는 잔액을 확인해 주세요.');
-    if (!Number.isFinite(rate) || rate < 0 || rate > 100) throw Error('금리는 0~100%로 입력해 주세요.');
-    return { institution: required(v.institution, '금융기관'), type: v.type, rank: v.rank, commitment, executed, balance, allIn: rate, start: date(v.start), maturity: date(v.maturity), finalMaturity: v.maturity, collateral: v.collateral, sourcePath: required(v.sourcePath, '근거 경로') };
+  const loanPricingFields=['interestRate','upfrontFeeRate','advisoryFeeRate','allIn'];
+  const loanRatioFields=['ltv','ltc'];
+  const financeMoney=value=>initialLoanNumber(value)==null?'—':A.money(value);
+  const financeTotal=(rows,key)=>!rows.length||rows.some(row=>initialLoanNumber(row[key])==null||Number(row[key])<0)?null:sum(rows,key);
+  const loanPricingLabels={interestRate:'금리',upfrontFeeRate:'선취·취급 수수료',advisoryFeeRate:'금융자문 수수료',allIn:'ALL-IN'};
+  const loanBasisLabel=value=>value==='included'?'금융자문수수료 포함':value==='excluded'?'금융자문수수료 제외':'—';
+  const loanKnownPercent=value=>initialLoanNumber(value)!=null&&Number(value)>=0&&Number(value)<=100;
+  const loanRateText=(value,isRatio=false)=>(isRatio?initialLoanNumber(value)!=null&&Number(value)>=0:loanKnownPercent(value))?A.num(Number(value),2)+'%':'—';
+  const loanUnchangedInput=(value,old)=>value==null||String(value).trim()===''?true:String(value)===String(old)||typeof old==='number'&&Number.isFinite(old)&&Number(value)===old;
+  function loanSignature(value){const encode=v=>v===null?['null']:Array.isArray(v)?['array',v.map(encode)]:v&&typeof v==='object'?['object',Object.keys(v).filter(k=>v[k]!==undefined).sort().map(k=>[k,encode(v[k])])]:[typeof v,typeof v==='number'?String(v):v];return JSON.stringify(encode(value));}
+  function loanTarget(project,id){if(typeof id!=='string'||!id||id.trim()!==id)return null;const found=live(project?.loans).filter(row=>row.id===id);return found.length===1?found[0]:null;}
+  function loanPercent(value,label){if(value==null||String(value).trim()==='')return null;const n=initialLoanNumber(value);if(n==null||n<0||n>100)throw Error(label+'는 0~100%로 입력해 주세요.');return n;}
+  function loanRatio(value,label){if(value==null||String(value).trim()==='')return null;const n=initialLoanNumber(value);if(n==null||n<0)throw Error(label+'는 0 이상의 비율로 입력해 주세요.');return n;}
+  function loanInput(value,key,label,existing,parse){if(!existing)return parse(value,label);const old=existing[key],blank=value==null||String(value).trim()==='';if(blank){if(old==null||old===''||!['number','string'].includes(typeof old))return old;try{parse(old,label);}catch{return old;}return parse(value,label);}if(String(value)===String(old))return old;try{const next=parse(value,label);if(next===parse(old,label))return old;return next;}catch{return parse(value,label);}}
+  function loanEditorNumber(value,parse){if(initialLoanNumber(value)==null)return '';try{return parse(value,'입력값');}catch{return '';}}
+  function comparableLoan(row){const next=clone(row);for(const key of ['commitment','executed','balance',...loanPricingFields,...loanRatioFields,'allInAdvisoryBasis'])next[key]=next[key]??null;for(const key of ['interestTerms','otherFees','repaymentTerms'])next[key]=next[key]||'';return loanSignature(next);}
+  function loanValues(v,existing=null) {
+    const commitment=loanInput(v.commitment,'commitment','약정액',existing,amount),executed=loanInput(v.executed,'executed','누적 실행액',existing,amount),balance=loanInput(v.balance,'balance','잔액',existing,amount),pricing=Object.fromEntries(loanPricingFields.map(key=>[key,loanInput(v[key],key,loanPricingLabels[key],existing,loanPercent)]));let basis=v.allInAdvisoryBasis||null;
+    if(existing&&!['included','excluded'].includes(existing.allInAdvisoryBasis)&&loanUnchangedInput(v.allInAdvisoryBasis,existing.allInAdvisoryBasis))basis=existing.allInAdvisoryBasis??null;
+    if((!existing||commitment!==existing.commitment||balance!==existing.balance)&&typeof commitment==='number'&&typeof balance==='number'&&balance>commitment)throw Error('잔액이 약정액보다 큽니다. 약정액 또는 잔액을 확인해 주세요.');
+    if(basis&&!['included','excluded'].includes(basis)&&basis!==existing?.allInAdvisoryBasis)throw Error('ALL-IN 기준을 선택해 주세요.');
+    if(pricing.allIn!=null&&!['included','excluded'].includes(basis)&&(!existing||existing.allIn!==pricing.allIn))throw A.inputError({allInAdvisoryBasis:'ALL-IN 기준을 선택해 주세요.'});
+    const oldMaturity=existing&&(existing.finalMaturity||existing.maturity),start=loanInput(v.start,'start','약정 시작일',existing,date),maturity=loanInput(v.maturity,'maturity','최종 만기일',existing?{maturity:oldMaturity}:null,date);if((!existing||start!==existing.start||maturity!==oldMaturity)&&/^\d{4}-\d{2}-\d{2}$/.test(start||'')&&/^\d{4}-\d{2}-\d{2}$/.test(maturity||'')&&maturity<start)throw Error('최종 만기일은 약정 시작일보다 빠를 수 없습니다.');
+    const sameMaturity=existing&&maturity===oldMaturity,choice=key=>existing&&String(v[key]??'')===String(existing[key]??'')?existing[key]:v[key];return {institution:required(v.institution,'금융기관'),type:choice('type'),rank:choice('rank'),commitment,executed,balance,...pricing,ltv:loanInput(v.ltv,'ltv','LTV',existing,loanRatio),ltc:loanInput(v.ltc,'ltc','LTC',existing,loanRatio),allInAdvisoryBasis:basis,start,maturity:sameMaturity?existing.maturity:maturity,finalMaturity:sameMaturity?existing.finalMaturity:maturity,collateral:String(v.collateral||''),interestTerms:String(v.interestTerms||''),otherFees:String(v.otherFees||''),repaymentTerms:String(v.repaymentTerms||''),...(Object.hasOwn(v,'sourcePath')?{sourcePath:v.sourcePath}: {})};
   }
   function editLoan(b) {
-    const p = A.current(), l = live(p.loans).find(x => x.id === b.dataset.id);if(b.dataset.action==='loan-edit'&&!l)return A.toast('수정할 대출을 찾을 수 없습니다.');
+    const p=A.current(),isEdit=b.dataset.action==='loan-edit',l=isEdit?loanTarget(p,b.dataset.id):null,projectId=p.id,loanId=l?.id,opened=l?loanSignature(l):null;if(isEdit&&!l)return A.toast('수정할 대출을 찾을 수 없습니다.');
     A.form(l ? '대출 정보 수정' : '대출 추가', loanForm(l), v => {
-      if(l&&live(p.loans).find(row=>row.id===l.id)!==l)throw Error('수정할 대출을 찾을 수 없습니다.');
-      const x = { id: l?.id || A.uid('loan'), ...loanValues(v) }, before = l ? clone(l) : null;
-      if (l) Object.assign(l, x); else p.loans.push(x);
-      p.loanEvents.push({ id: A.uid('loan-event'), loanId: x.id, date: A.today, kind: l ? '약정 변경' : '약정 추가', before, after: clone(x), note: v.note }); mutate(p, 'loan', x.id, before, x, x.institution + ' 대주 약정이 저장되었습니다.', 'finance', 'loans');
-    });
+      const current=A.state.projects.find(row=>row.id===projectId&&!row.deletedAt),target=loanId?loanTarget(current,loanId):null;
+      if(A.current()?.id!==projectId||!current||loanId&&(!target||loanSignature(target)!==opened))throw A.inputError({institution:'사업 또는 대출 정보가 변경되었습니다. 입력값을 확인한 후 다시 열어 주세요.'});
+      const before=target?clone(target):null,x={...(target||{}),id:loanId||A.uid('loan'),...loanValues(v,target)};if(target&&comparableLoan(target)===comparableLoan(x))return target;
+      if(target)Object.assign(target,x);else current.loans.push(x);
+      current.loanEvents.push({id:A.uid('loan-event'),loanId:x.id,date:A.today,kind:target?'약정 변경':'약정 추가',before,after:clone(x),note:v.note||''});mutate(current,'loan',x.id,before,x,x.institution+' 대주 약정이 저장되었습니다.','finance','loans');return x;
+    },'저장',{...A.formParentOptions(()=>{if(A.current()?.id!==projectId)return A.closeModal();showLoanDetail(projectId,loanId,{closeMissing:true});}),draftContext:'loan:'+projectId+':'+(loanId||'new')});
   }
   A.on('loan-add', editLoan); A.on('loan-edit', editLoan);
   function validateSellDown(donor, commitment, executed, balance) {
@@ -403,13 +426,13 @@
     return { commitment: donor.commitment - commitment, executed: donor.executed - executed, balance: donor.balance - balance };
   }
   A.on('loan-selldown', b => {
-    const p = A.current(), l = live(p.loans).find(x => x.id === b.dataset.id); if (!l) return;
-    const projectId=p.id,loanId=l.id,openedLoan=JSON.stringify(l);
+    const p = A.current(), l = loanTarget(p,b.dataset.id); if (!l) return;
+    const projectId=p.id,loanId=l.id,openedLoan=loanSignature(l);
     const parentScroll=document.getElementById('app-dialog')?.querySelector?.('.dialog-body')?.scrollTop||0,options=A.formParentOptions(()=>{if(A.current()?.id!==p.id)return A.closeModal();showLoanDetail(p.id,l.id,{closeMissing:true});queueMicrotask(()=>{const body=document.getElementById('app-dialog')?.querySelector?.('.dialog-body');if(body)body.scrollTop=parentScroll;});});
-    A.form('대주 셀다운 기록', A.field('institution', '양수 금융기관', '') + A.field('date', '양도 기준일', A.today, 'date') + A.field('commitment', '이전 약정액 (원)', '', 'number') + A.field('executed', '이전 누적 실행액 (원)', '', 'number') + A.field('balance', '이전 대출잔액 (원)', '', 'number') + A.field('sourcePath', '양도 근거 경로', '') + A.field('note', '비고', '', 'textarea'), v => {
-      const p=A.state.projects.find(x=>x.id===projectId&&!x.deletedAt),l=live(p?.loans).find(x=>x.id===loanId);
-      if(!l||A.current()?.id!==projectId||JSON.stringify(l)!==openedLoan)throw A.inputError({institution:'대출 정보가 변경되었거나 삭제되어 저장하지 않았습니다. 입력값을 확인한 후 다시 열어 주세요.'});
-      const commitment = amount(v.commitment), executed = amount(v.executed), balance = amount(v.balance), remains = validateSellDown(l, commitment, executed, balance), before = clone(l), institution = required(v.institution, '양수 금융기관'), sourcePath = required(v.sourcePath, '근거 경로'); date(v.date);
+    A.form('대주 셀다운 기록', A.field('institution', '양수 금융기관', '') + A.field('date', '양도 기준일', '', 'date') + A.field('commitment', '이전 약정액 (원)', '', 'number') + A.field('executed', '이전 누적 실행액 (원)', '', 'number') + A.field('balance', '이전 대출잔액 (원)', '', 'number') + A.field('note', '비고', '', 'textarea'), v => {
+      const p=A.state.projects.find(x=>x.id===projectId&&!x.deletedAt),l=loanTarget(p,loanId);
+      if(!l||A.current()?.id!==projectId||loanSignature(l)!==openedLoan)throw A.inputError({institution:'대출 정보가 변경되었거나 삭제되어 저장하지 않았습니다. 입력값을 확인한 후 다시 열어 주세요.'});
+      const commitment = amount(v.commitment), executed = amount(v.executed), balance = amount(v.balance), remains = validateSellDown(l, commitment, executed, balance), before = clone(l), institution = required(v.institution, '양수 금융기관'), sourcePath = String(v.sourcePath||''); date(v.date);
       if (institution === l.institution) throw Error('양도 대주와 다른 금융기관을 입력해 주세요.');
       const receiver = { ...clone(l), id: A.uid('loan'), institution, commitment, executed, balance, sourcePath, transferredFrom: l.id };
       Object.assign(l, remains); p.loans.push(receiver);
@@ -417,25 +440,43 @@
     },'저장',{...options,draftContext:'loan-selldown:'+p.id+':'+l.id});
   });
   A.on('loan-quarter', b => {
-    const p = A.current(), l = live(p.loans).find(x => x.id === b.dataset.id); if (!l) return;
-    const openedLoan = JSON.stringify(l);
-    A.form('대주별 분기 기준값 기록', A.field('asOf', '분기 기준일', A.today, 'date') + A.field('commitment', '약정액 (원)', l.commitment, 'number') + A.field('executed', '누적 실행액 (원)', l.executed, 'number') + A.field('balance', '잔액 (원)', l.balance, 'number') + A.field('source', '기준자료 경로', l.sourcePath || ''), v => {
-      const current = A.state.projects.find(row => row.id === p.id && !row.deletedAt), loan = live(current?.loans).find(row => row.id === l.id);
-      if (!loan || JSON.stringify(loan) !== openedLoan) throw A.inputError({asOf:'대출 정보가 변경되었거나 삭제되어 저장하지 않았습니다. 입력값을 확인한 후 다시 열어 주세요.'});
+    const p = A.current(), l = loanTarget(p,b.dataset.id); if (!l) return;
+    const openedLoan = loanSignature(l);
+    A.form('대주별 분기 기준값 기록', A.field('asOf', '분기 기준일', '', 'date') + A.field('commitment', '약정액 (원)', l.commitment, 'number') + A.field('executed', '누적 실행액 (원)', l.executed, 'number') + A.field('balance', '잔액 (원)', l.balance, 'number'), v => {
+      const current = A.state.projects.find(row => row.id === p.id && !row.deletedAt), loan = loanTarget(current,l.id);
+      if (A.current()?.id!==p.id||!loan || loanSignature(loan) !== openedLoan) throw A.inputError({asOf:'대출 정보가 변경되었거나 삭제되어 저장하지 않았습니다. 입력값을 확인한 후 다시 열어 주세요.'});
       const asOf = date(v.asOf); if (!['03-31', '06-30', '09-30', '12-31'].includes(asOf.slice(5))) throw Error('분기 말일(3/31, 6/30, 9/30, 12/31)을 선택해 주세요.');
-      const x = { id: A.uid('loan-quarter'), loanId: loan.id, asOf, commitment: amount(v.commitment), executed: amount(v.executed), balance: amount(v.balance), allIn: loan.allIn, maturity: loan.finalMaturity || loan.maturity, source: required(v.source, '기준자료 경로') };
+      const x = { id: A.uid('loan-quarter'), loanId: loan.id, asOf, commitment: amount(v.commitment), executed: amount(v.executed), balance: amount(v.balance), allIn: loan.allIn, maturity: loan.finalMaturity || loan.maturity, source: String(v.source||''),loan:clone(loan) };
       if (x.balance > x.commitment) throw Error('잔액이 약정액보다 큽니다.');
       const old = current.loanQuarterlyRecords.find(q => q.loanId === loan.id && q.asOf === asOf && !q.supersededAt), before = old ? clone(old) : null; if (old) old.supersededAt = A.today;
       current.loanQuarterlyRecords.push(x); mutate(current, 'loan-quarter', x.id, before, x, loan.institution + ' ' + asOf + ' 분기값이 기록되었습니다.', 'finance', 'quarters');
     },'저장',{...A.formParentOptions(()=>showLoanDetail(p.id,l.id,{closeMissing:true})),draftContext:'loan-quarter:'+p.id+':'+l.id});
   });
-  A.on('loan-delete', b => { const p = A.current(), l = live(p.loans).find(x => x.id === b.dataset.id); if (!l) return; if (l.balance || l.commitment) return A.toast('약정액 또는 대출 잔액이 남아 있어 삭제할 수 없습니다.'); A.confirmDelete(l.institution, () => { const before = clone(l); l.deletedAt = A.today; p.loanEvents.push({ id: A.uid('loan-event'), loanId: l.id, date: A.today, kind: '대주 삭제', before, after: clone(l), note: '약정·잔액 종료 후 삭제' }); A.audit('delete', 'loan', l.id, before, l, l.institution + ' 대주가 삭제되었습니다.', { view: 'finance', tab: 'loans', projectId: p.id }); A.toast('대주를 삭제했습니다.', () => { const gone = clone(l); l.deletedAt = null; p.loanEvents.push({ id: A.uid('loan-event'), loanId: l.id, date: A.today, kind: '대주 복구', before: gone, after: clone(l), note: '삭제 실행취소' }); A.audit('restore', 'loan', l.id, gone, l, l.institution + ' 대주가 복구되었습니다.', { view: 'finance', tab: 'loans', projectId: p.id }); A.render(); }); }); });
+  const loanClosed=l=>['commitment','balance'].every(key=>l[key]!=null&&String(l[key]).trim()!==''&&Number.isSafeInteger(Number(l[key]))&&Number(l[key])===0);
+  A.on('loan-delete',b=>{
+    const p=A.current(),l=loanTarget(p,b.dataset.id);if(!l)return;
+    if(!loanClosed(l))return A.toast('약정액과 대출잔액이 모두 0원으로 확인된 대출만 삭제할 수 있습니다.');
+    const projectId=p.id,loanId=l.id,opened=loanSignature(l);
+    A.confirmDelete(l.institution,()=>{
+      const current=A.state.projects.find(row=>row.id===projectId&&!row.deletedAt&&row.active!==false),target=loanTarget(current,loanId);
+      if(A.current()?.id!==projectId||!target||loanSignature(target)!==opened||!loanClosed(target))throw Error('사업 또는 대출 정보가 변경되어 삭제하지 않았습니다. 대출을 다시 확인해 주세요.');
+      const before=clone(target);target.deletedAt=A.today;const deleted=loanSignature(target);
+      current.loanEvents.push({id:A.uid('loan-event'),loanId,date:A.today,kind:'대주 삭제',before,after:clone(target),note:'약정·잔액 종료 후 삭제'});
+      A.audit('delete','loan',loanId,before,target,target.institution+' 대주가 삭제되었습니다.',{view:'finance',tab:'loans',projectId});
+      A.toast('대주를 삭제했습니다.',()=>A.transaction(()=>{
+        const project=A.state.projects.find(row=>row.id===projectId&&!row.deletedAt&&row.active!==false),matches=(project?.loans||[]).filter(row=>row.id===loanId),row=matches.length===1?matches[0]:null;
+        if(A.current()?.id!==projectId||!row?.deletedAt||loanSignature(row)!==deleted)throw Error('사업 또는 대출 정보가 변경되어 복구하지 않았습니다. 대출을 다시 확인해 주세요.');
+        const gone=clone(row);row.deletedAt=null;project.loanEvents.push({id:A.uid('loan-event'),loanId,date:A.today,kind:'대주 복구',before:gone,after:clone(row),note:'삭제 실행취소'});
+        A.audit('restore','loan',loanId,gone,row,row.institution+' 대주가 복구되었습니다.',{view:'finance',tab:'loans',projectId});A.render();
+      }));
+    },A.formParentOptions(()=>{if(A.current()?.id!==projectId||!loanTarget(A.state.projects.find(row=>row.id===projectId&&!row.deletedAt&&row.active!==false),loanId))return A.closeModal();showLoanDetail(projectId,loanId,{closeMissing:true});}));
+  });
   function financeLoansAsOf(p, asOf) {
     date(asOf, '보고 기준일');
     const candidates = [];
     (p.loanQuarterlyRecords || []).filter(q => q.asOf && q.asOf <= asOf && !q.supersededAt).forEach((q, i) => {
       const original = q.loan || (p.loanEvents || []).find(e => e.loanId === q.loanId && e.before)?.before || (p.loans || []).find(l => l.id === q.loanId);
-      if (original) candidates.push({ id: q.loanId, date: q.asOf, order: i, priority: 2, loan: { ...clone(original), commitment: q.commitment, executed: q.executed, balance: q.balance, allIn: q.allIn, maturity: q.maturity, finalMaturity: q.maturity, financialAsOf: q.asOf, financialSource: q.source } });
+      if (original) candidates.push({ id: q.loanId, date: q.asOf, order: i, priority: 2, loan: { ...clone(original),...(!q.loan?Object.fromEntries([...loanPricingFields.filter(key=>key!=='allIn'),...loanRatioFields,'allInAdvisoryBasis','interestTerms','otherFees','repaymentTerms'].map(key=>[key,Object.hasOwn(q,key)?q[key]:null])):{}), commitment: q.commitment, executed: q.executed, balance: q.balance, allIn: q.allIn, maturity: q.maturity, finalMaturity: q.maturity, financialAsOf: q.asOf, financialSource: q.source } });
     });
     (p.loanQuarterSnapshots || []).filter(q => q.asOf && q.asOf <= asOf && !q.supersededAt).forEach((q, i) => (q.loans || []).forEach(l => candidates.push({ id: l.id, date: q.asOf, order: i, priority: 2, loan: { ...clone(l), financialAsOf: q.asOf } })));
     (p.loanEvents || []).filter(e => e.date && e.date <= asOf).forEach((e, i) => {
@@ -519,16 +560,21 @@
     return panelTable('출자자',['회사명','사업자등록번호','출자금액','지분율','참여목적',''],A.financeEquities(p).map(x=>[inline(p,'equities',x.id,'company',x.company),inline(p,'equities',x.id,'registration',x.registration),inline(p,'equities',x.id,'amount',x.amount,'money'),A.num(x.ratio,2)+'%',inline(p,'equities',x.id,'purpose',x.purpose),A.btn('삭제','financial-other-delete',{id:x.id,kind:'equities'},'text')]),createButton('출자자 추가','financial-other-add',{kind:'equities'},'primary'))+panelTable('담보·신용보강·보증',['구분','제공자','금액','내용','기한',''],live(p.guarantees).map(x=>[inline(p,'guarantees',x.id,'category',x.category),inline(p,'guarantees',x.id,'provider',x.provider),inline(p,'guarantees',x.id,'amount',x.amount,'money'),inline(p,'guarantees',x.id,'detail',x.detail),inline(p,'guarantees',x.id,'expiry',x.expiry,'date'),A.btn('삭제','financial-other-delete',{id:x.id,kind:'guarantees'},'text')]),createButton('항목 추가','financial-other-add',{kind:'guarantees'},'primary'))+'<details class="recovery-report-guarantors"><summary>보고 보증기관 '+live(p.reportParticipants.guarantors).length+'건</summary>'+panelTable('보고 보증기관',['보증기관','유형','금액','범위',''],live(p.reportParticipants.guarantors).map(x=>[inline(p,'guarantors',x.id,'name',x.name),inline(p,'guarantors',x.id,'type',x.type),inline(p,'guarantors',x.id,'amount',x.amount,'money'),inline(p,'guarantors',x.id,'scope',x.scope),A.btn('삭제','financial-other-delete',{id:x.id,kind:'guarantors'},'text')]),createButton('보증기관 추가','financial-other-add',{kind:'guarantors'}))+'</details>';
   }
   function financeView(p) {
-    const loans = live(p.loans), commitment = sum(loans, 'commitment'), weighted = commitment ? loans.reduce((n, l) => n + l.commitment * Number(l.allIn || 0), 0) / commitment : null;
-    const equity=sum(live(p.equities),'amount'),total=equity+commitment,eqWidth=total?equity/total*100:0;
-    const capital='<section class="panel"><div class="panel-header"><div class="panel-title"><h3>조달 구조</h3></div>'+A.btn('조달 내역 보기','finance-capital-detail',{},'small')+'</div><div class="panel-body"><button type="button" class="chart-interactive recovery-capital" data-action="finance-capital-detail"><div class="finance-mix"><div class="finance-mix-bar"><span style="width:'+eqWidth+'%;background:#10243E" data-tooltip="자기자본 '+A.esc(A.money(equity))+'"></span><span style="width:'+(total?100-eqWidth:0)+'%;background:#6F91B8" data-tooltip="대출 약정 '+A.esc(A.money(commitment))+'"></span></div><div class="finance-mix-value"><span>자기자본 <b>'+A.money(equity)+'</b></span><span>대출 약정 <b>'+A.money(commitment)+'</b></span></div></div></button></div></section>';
-    return summaryStrip([['총 조달규모',A.money(total)],['자기자본',A.money(equity)],['대출 잔액',A.money(sum(loans,'balance'))],['가중평균 All-in 금리',weighted==null?'—':A.num(weighted,2)+'%']])+capital+panelTable('대출현황',['금융기관','순위','유형','약정액','실행액','잔액','All-in 금리','만기일',''],loans.map(l=>[inline(p,'loan',l.id,'institution',l.institution),inline(p,'loan',l.id,'rank',l.rank,'select',['선순위','중순위','후순위']),inline(p,'loan',l.id,'type',l.type,'select',['브릿지론','본PF','기타 대출']),inline(p,'loan',l.id,'commitment',l.commitment,'money'),inline(p,'loan',l.id,'executed',l.executed,'money'),inline(p,'loan',l.id,'balance',l.balance,'money'),inline(p,'loan',l.id,'allIn',l.allIn,'percent'),inline(p,'loan',l.id,'maturity',l.finalMaturity||l.maturity,'date'),button('대출 상세','loan-detail',l.id)]),A.btn('대주별 분기 기준값','finance-quarter-list')+A.btn('금융 변경이력','finance-history-list')+createButton('대출 추가','loan-add',{},'primary'))+renderEquityGuarantees(p);
+    const loans = live(p.loans), commitment = financeTotal(loans, 'commitment'), priced=loans.filter(l=>l.commitment>0),weighted=commitment&&priced.every(l=>loanKnownPercent(l.allIn)&&['included','excluded'].includes(l.allInAdvisoryBasis))&&new Set(priced.map(l=>l.allInAdvisoryBasis)).size===1?priced.reduce((n,l)=>n+l.commitment*Number(l.allIn),0)/commitment:null;
+    const equity=financeTotal(live(p.equities),'amount'),total=equity==null||commitment==null?null:equity+commitment,eqWidth=total?equity/total*100:0;
+    const capital='<section class="panel"><div class="panel-header"><div class="panel-title"><h3>조달 구조</h3></div>'+A.btn('조달 내역 보기','finance-capital-detail',{},'small')+'</div><div class="panel-body"><button type="button" class="chart-interactive recovery-capital" data-action="finance-capital-detail"><div class="finance-mix"><div class="finance-mix-bar"><span style="width:'+eqWidth+'%;background:#10243E" data-tooltip="자기자본 '+A.esc(financeMoney(equity))+'"></span><span style="width:'+(total?100-eqWidth:0)+'%;background:#6F91B8" data-tooltip="대출 약정 '+A.esc(financeMoney(commitment))+'"></span></div><div class="finance-mix-value"><span>자기자본 <b>'+financeMoney(equity)+'</b></span><span>대출 약정 <b>'+financeMoney(commitment)+'</b></span></div></div></button></div></section>';
+    return summaryStrip([['총 조달규모',financeMoney(total)],['자기자본',financeMoney(equity)],['대출 잔액',financeMoney(financeTotal(loans,'balance'))],['가중평균 ALL-IN',weighted==null?'—':A.num(weighted,2)+'%']])+capital+panelTable('대출현황',['금융기관','순위','유형','약정액','실행액','잔액','금리(연%)','선취·취급(%)','금융자문(%)','ALL-IN(연%)','ALL-IN 기준','약정일','만기일'],loans.map(l=>[tableLink(l.institution,'loan-detail',l.id),inline(p,'loan',l.id,'rank',l.rank,'select',['선순위','중순위','후순위']),inline(p,'loan',l.id,'type',l.type,'select',['브릿지론','본PF','기타 대출']),inline(p,'loan',l.id,'commitment',l.commitment,'money'),inline(p,'loan',l.id,'executed',l.executed,'money'),inline(p,'loan',l.id,'balance',l.balance,'money'),inline(p,'loan',l.id,'interestRate',l.interestRate,'percent'),inline(p,'loan',l.id,'upfrontFeeRate',l.upfrontFeeRate,'percent'),inline(p,'loan',l.id,'advisoryFeeRate',l.advisoryFeeRate,'percent'),inline(p,'loan',l.id,'allIn',l.allIn,'percent'),inline(p,'loan',l.id,'allInAdvisoryBasis',l.allInAdvisoryBasis||'','select',[{value:'',label:'—'},{value:'included',label:'금융자문수수료 포함'},{value:'excluded',label:'금융자문수수료 제외'}]),inline(p,'loan',l.id,'start',l.start,'date'),inline(p,'loan',l.id,'maturity',l.finalMaturity||l.maturity,'date')]),A.btn('대주별 분기 기준값','finance-quarter-list')+A.btn('금융 변경이력','finance-history-list')+createButton('대출 추가','loan-add',{},'primary'))+renderEquityGuarantees(p);
   }
   A.register('finance',p=>'<div class="dp-finance">'+financeView(p)+'</div>');
-  A.on('finance-capital-detail',()=>{const p=A.current();A.modal('자금구성',A.table(['구분','약정·출자','실행·납입','잔액'],[['자기자본',A.money(sum(live(p.equities),'amount')),A.money(sum(live(p.equities),'amount')),A.money(sum(live(p.equities),'amount'))],...live(p.loans).map(l=>[A.esc(l.institution+' · '+l.type),A.money(l.commitment),A.money(l.executed),A.money(l.balance)])]));});
-  A.on('finance-quarter-list',()=>{const p=A.current();A.modal('대주별 분기 기준값',A.table(['금융기관','기준일','약정액','누적 실행','잔액','상태','출처'],(p.loanQuarterlyRecords||[]).map(q=>[A.esc(p.loans.find(l=>l.id===q.loanId)?.institution),q.asOf,A.money(q.commitment),A.money(q.executed),A.money(q.balance),q.supersededAt?'이전 기록':'현재 기준',A.esc(q.source)])));});
-  A.on('finance-history-list',()=>{const p=A.current();A.modal('금융 변경이력',A.table(['일자','금융기관','변경','내용'],(p.loanEvents||[]).slice().reverse().map(x=>[x.date,A.esc(p.loans.find(l=>l.id===x.loanId)?.institution),A.esc(x.kind),A.esc(x.kind==='셀다운'?(x.receiver?.institution||'')+' · '+A.money(x.commitment):x.note||'')])));});
-  function showLoanDetail(projectId,loanId,{closeMissing=false}={}){const p=A.state.projects.find(row=>row.id===projectId&&!row.deletedAt),l=live(p?.loans).find(x=>x.id===loanId);if(!l){if(closeMissing)A.closeModal();return A.toast('대출을 찾을 수 없습니다.');}A.modal(l.institution+' · 대출 상세',A.table(['항목','내용'],[['담보·신용보강',inline(p,'loan',l.id,'collateral',l.collateral)],['약정 시작일',inline(p,'loan',l.id,'start',l.start,'date')],['최종 만기',inline(p,'loan',l.id,'maturity',l.finalMaturity||l.maturity,'date')],['근거 경로',inline(p,'loan',l.id,'sourcePath',l.sourcePath)]]),button('분기 기준값 기록','loan-quarter',l.id)+button('셀다운','loan-selldown',l.id)+button('삭제','loan-delete',l.id));}
+  A.on('finance-capital-detail',()=>{const p=A.current();A.modal('자금구성',A.table(['구분','약정·출자','실행·납입','잔액'],[['자기자본',financeMoney(financeTotal(live(p.equities),'amount')),financeMoney(financeTotal(live(p.equities),'amount')),financeMoney(financeTotal(live(p.equities),'amount'))],...live(p.loans).map(l=>[A.esc(l.institution+' · '+l.type),financeMoney(l.commitment),financeMoney(l.executed),financeMoney(l.balance)])]));});
+  A.on('finance-quarter-list',()=>{const p=A.current();A.modal('대주별 분기 기준값',A.table(['금융기관','기준일','약정액','누적 실행','잔액','금리(연%)','선취·취급(%)','금융자문(%)','ALL-IN(연%)','ALL-IN 기준','구분'],(p.loanQuarterlyRecords||[]).map(q=>[A.esc(q.loan?.institution||p.loans.find(l=>l.id===q.loanId)?.institution||'—'),q.asOf,financeMoney(q.commitment),financeMoney(q.executed),financeMoney(q.balance),loanRateText(q.loan?.interestRate),loanRateText(q.loan?.upfrontFeeRate),loanRateText(q.loan?.advisoryFeeRate),loanRateText(q.allIn),loanBasisLabel(q.loan?.allInAdvisoryBasis),q.supersededAt?'이전 기록':'현재 기준'])));});
+  function loanHistoryTable(p,loanId=null){
+    const fields=['institution','rank','type','commitment','executed','balance',...loanPricingFields,'allInAdvisoryBasis','ltv','ltc','start','finalMaturity','interestTerms','otherFees','repaymentTerms','collateral'];
+    const label=key=>({finalMaturity:'최종 만기일',ltv:'LTV',ltc:'LTC',...inlineLabels.loan}[key]||key),value=(row,key)=>{const v=row?.[key];if(v==null||v==='')return '—';if(['commitment','executed','balance'].includes(key))return financeMoney(v);if([...loanPricingFields,...loanRatioFields].includes(key))return A.esc(loanRateText(v,loanRatioFields.includes(key)));if(key==='allInAdvisoryBasis')return loanBasisLabel(v);return A.esc(v);};
+    return A.table(['일자','금융기관','변경','변경 전','변경 후','사유'],(p.loanEvents||[]).filter(e=>!loanId||e.loanId===loanId||e.toLoanId===loanId).slice().reverse().map(e=>{const recipient=loanId&&e.toLoanId===loanId,before=recipient?null:e.before,after=recipient?e.receiver:e.after,changed=fields.filter(key=>(before?.[key]??null)!==(after?.[key]??null)),cell=row=>changed.length?changed.map(key=>'<span>'+A.esc(label(key))+': '+value(row,key)+'</span>').join('<br>'):'—',party=recipient?e.receiver?.institution:(p.loans||[]).find(l=>l.id===e.loanId)?.institution||after?.institution||before?.institution;return[A.esc(e.date||'—'),A.esc(party||'—'),A.esc(e.kind||'—'),cell(before),cell(after),A.esc(e.note||'—')];}),'loan-history-table');
+  }
+  A.on('finance-history-list',()=>{const p=A.current();A.modal('금융 변경이력','<div class="loan-history-content">'+loanHistoryTable(p)+'</div>');});
+  function showLoanDetail(projectId,loanId,{closeMissing=false}={}){const p=A.state.projects.find(row=>row.id===projectId&&!row.deletedAt),l=loanTarget(p,loanId);if(!l){if(closeMissing)A.closeModal();return A.toast('대출을 찾을 수 없습니다.');}const rate=key=>loanRateText(l[key],loanRatioFields.includes(key)),rows=[['금융기관',A.esc(l.institution)],['금융 유형',A.esc(l.type||'—')],['상환순위',A.esc(l.rank||'—')],['약정액',financeMoney(l.commitment)],['누적 실행액',financeMoney(l.executed)],['대출잔액',financeMoney(l.balance)],['금리 (연 %)',rate('interestRate')],['선취·취급 수수료 (%)',rate('upfrontFeeRate')],['금융자문 수수료 (%)',rate('advisoryFeeRate')],['ALL-IN (연 %)',rate('allIn')],['ALL-IN 기준',loanBasisLabel(l.allInAdvisoryBasis)],['금리·이자지급 조건',A.esc(l.interestTerms||'—')],['그 밖의 수수료',A.esc(l.otherFees||'—')],['약정 시작일',A.esc(l.start||'—')],['최종 만기일',A.esc(l.finalMaturity||l.maturity||'—')],['LTV (%)',rate('ltv')],['LTC (%)',rate('ltc')],['상환 조건',A.esc(l.repaymentTerms||'—')],['담보·신용보강',A.esc(l.collateral||'—')]];A.modal(l.institution+' · 대출 상세','<div class="loan-detail-content">'+A.table(['항목','내용'],rows,'loan-detail-table')+((p.loanEvents||[]).some(e=>e.loanId===l.id||e.toLoanId===l.id)?'<h3>변경이력</h3>'+loanHistoryTable(p,l.id):'')+'</div>',button('대출 정보 수정','loan-edit',l.id)+button('분기 기준값 기록','loan-quarter',l.id)+button('셀다운','loan-selldown',l.id)+button('삭제','loan-delete',l.id));}
   A.on('loan-detail',b=>showLoanDetail(A.current().id,b.dataset.id));
   function inlineContract({project:p,id,field,value}) {
     const c=currentContracts(p).find(x=>x.id===id);if(!c)throw Error('계약을 찾을 수 없습니다.');
@@ -547,20 +593,24 @@
     mutate(p,'contract',id,before,c,c.name+' 계약값이 변경되었습니다.');
   }
   function inlineFinancial({project:p,id,field,value},kind) {
-    const rows=kind==='loan'?p.loans:otherList(p,kind),row=live(rows).find(x=>x.id===id);if(!row)throw Error('기록을 찾을 수 없습니다.');
-    const allowed=kind==='loan'?['institution','rank','type','commitment','executed','balance','allIn','start','maturity','collateral','sourcePath']:kind==='equities'?['company','registration','amount','purpose']:kind==='guarantees'?['category','provider','amount','detail','expiry','sourcePath']:['name','type','amount','scope','otherType','sourcePath'];
+    const rows=kind==='loan'?p.loans:otherList(p,kind),row=kind==='loan'?loanTarget(p,id):live(rows).find(x=>x.id===id);if(!row)throw Error('기록을 찾을 수 없습니다.');
+    if(kind==='loan'&&A.current()?.id!==p.id)throw Error('사업이 변경되어 저장하지 않았습니다.');
+    const allowed=kind==='loan'?['institution','rank','type','commitment','executed','balance',...loanPricingFields,'allInAdvisoryBasis','interestTerms','otherFees','repaymentTerms','start','maturity','collateral','sourcePath']:kind==='equities'?['company','registration','amount','purpose']:kind==='guarantees'?['category','provider','amount','detail','expiry','sourcePath']:['name','type','amount','scope','otherType','sourcePath'];
     if(!allowed.includes(field))throw Error('편집할 수 없는 항목입니다.');
     const beforeRows=clone(rows),before=clone(row),next=clone(row);
-    if(['amount','commitment','executed','balance'].includes(field))next[field]=amount(value,'금액');
-    else if(field==='allIn'){next.allIn=Number(value);if(!Number.isFinite(next.allIn)||next.allIn<0||next.allIn>100)throw Error('금리는 0~100%로 입력해 주세요.');}
+    if(['amount','commitment','executed','balance'].includes(field))next[field]=kind==='loan'?loanInput(value,field,'금액',row,amount):amount(value,'금액');
+    else if(kind==='loan'&&loanPricingFields.includes(field)){next[field]=loanInput(value,field,loanPricingLabels[field],row,loanPercent);if(field==='allIn'&&next.allIn!=null&&next.allIn!==row.allIn&&!['included','excluded'].includes(row.allInAdvisoryBasis))throw Error('ALL-IN 기준을 먼저 선택해 주세요.');}
+    else if(kind==='loan'&&field==='allInAdvisoryBasis'){if(!['included','excluded'].includes(row[field])&&loanUnchangedInput(value,row[field]))next[field]=row[field];else{if(value&&!['included','excluded'].includes(value))throw Error('ALL-IN 기준을 선택해 주세요.');next[field]=value||null;}}
+    else if(kind==='loan'&&['rank','type'].includes(field))next[field]=String(value??'')===String(row[field]??'')?row[field]:String(value??'');
     else if(['start','maturity','expiry'].includes(field)){next[field]=date(value,'일자',field==='expiry');if(field==='maturity')next.finalMaturity=next.maturity;}
     else next[field]=String(value??'').trim();
     if(['company','provider','institution','name'].includes(field)&&!next[field])throw Error('명칭을 입력해 주세요.');
-    if(kind==='loan'&&next.balance>next.commitment)throw Error('잔액이 약정액보다 큽니다.');
-    if(JSON.stringify(before)===JSON.stringify(next))return;
+    if(kind==='loan'&&['start','maturity'].includes(field)){const end=next.finalMaturity||next.maturity;if(/^\d{4}-\d{2}-\d{2}$/.test(next.start||'')&&/^\d{4}-\d{2}-\d{2}$/.test(end||'')&&end<next.start)throw Error('최종 만기일은 약정 시작일보다 빠를 수 없습니다.');}
+    if(kind==='loan'&&['balance','commitment'].includes(field)&&typeof next.balance==='number'&&typeof next.commitment==='number'&&next.balance>next.commitment)throw Error('잔액이 약정액보다 큽니다.');
+    if(kind==='loan'?comparableLoan(before)===comparableLoan(next):JSON.stringify(before)===JSON.stringify(next))return;
     Object.assign(row,next);
     captureFinancialSource(p,kind,beforeRows);
-    if(kind==='loan')p.loanEvents.push({id:A.uid('loan-event'),loanId:id,date:A.today,kind:'약정 변경',before,after:clone(row),note:field+' 변경'});
+    if(kind==='loan')p.loanEvents.push({id:A.uid('loan-event'),loanId:id,date:A.today,kind:'약정 변경',before,after:clone(row),note:(inlineLabels.loan[field]||field)+' 변경'});
     mutate(p,kind,id,before,row,(row.institution||row.company||row.provider||row.name)+' 정보가 변경되었습니다.','finance','loans');
   }
   function inlineDocument({project:p,id,field,value}) {

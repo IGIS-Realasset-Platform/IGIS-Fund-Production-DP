@@ -137,6 +137,7 @@ details.panel details.panel { margin-bottom:0; }
 .dp-baseline-date { display:flex; gap:12px; margin-top:12px; color:var(--muted); font-variant-numeric:tabular-nums; }
 pre { font:400 14px/1.5 Pretendard,sans-serif; white-space:pre-wrap; overflow-wrap:anywhere; margin:0; }
 .spec-json { padding:12px; max-height:70vh; max-width:100%; overflow:auto; white-space:pre; overflow-wrap:normal; word-break:normal; }
+textarea.spec-json { display:block; width:100%; resize:none; border:0; border-radius:0; }
 .kpis { display:flex; flex-wrap:wrap; background:white; border:1px solid var(--line); border-radius:6px; margin-bottom:12px; }
 .kpi { flex:1; min-width:160px; padding:8px 12px; border-right:1px solid var(--line); }
 .kpi:last-child { border-right:0; }

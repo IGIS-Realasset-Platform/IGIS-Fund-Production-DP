@@ -14,6 +14,10 @@
 .dp-finance .finance-mix-value{display:flex;gap:12px;flex-wrap:wrap}
 .dp-finance .finance-mix-value b{margin-left:6px;white-space:nowrap}
 .dp-finance .table-wrap{margin-bottom:12px}.dp-finance table{min-width:800px}
+.dp-finance .table-panel table:has([data-inline-field="interestRate"]){min-width:1440px;table-layout:auto}
+.dp-finance .table-panel table:has([data-inline-field="interestRate"]) th,.dp-finance .table-panel table:has([data-inline-field="interestRate"]) td{white-space:nowrap}
+.loan-detail-content .table-wrap{max-height:none!important;overflow:visible!important}.loan-detail-table{width:100%;table-layout:fixed}.loan-detail-table th:first-child,.loan-detail-table td:first-child{width:35%}.loan-detail-table td{overflow-wrap:anywhere;white-space:normal}
+.loan-history-content .table-wrap{max-height:none!important;overflow:visible!important}.loan-history-table td{vertical-align:top;overflow-wrap:anywhere}.loan-detail-content h3{margin:16px 0 8px}
 .dp-finance .recovery-report-guarantors{margin-top:12px}
 .dp-finance .recovery-report-guarantors>summary{padding:8px 0;font-size:14px;cursor:pointer}
 .dp-documents{container-type:inline-size;position:relative}

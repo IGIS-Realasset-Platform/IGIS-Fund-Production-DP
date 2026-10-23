@@ -18,7 +18,7 @@ export function completeApprovedSamples(state,{permitPack=null,clock='2026-10-21
   const count=Number.isInteger(entity.professionals)&&entity.professionals>=0?Math.min(entity.professionals,20):5;
   if(entity.professionalRecords.length===0){
    for(let i=0;i<count+1;i++){
-    const retired=i===count,record={id:'sample-professional-'+label+'-'+(i+1),name:'샘플 전문인력 '+label+(i+1),company:entity.manager,qualification:'가상 자격·교육 확인 예시(실제 직원 아님)',career:'샘플 개발사업 관리 경력',preEducationDate:'2024-05-10',recentTrainingDate:'2026-05-10',employmentStatus:retired?'퇴사':'재직',registrationStatus:retired?'등록 명단 제외':'등록 명단 반영',employmentStartDate:'2024-01-02',employmentEndDate:retired?'2026-07-31':'',registrationStartDate:'2024-06-20',registrationEndDate:retired?'2026-07-31':'',evidencePath:path+'개발업/샘플 전문인력 '+(i+1)+'.pdf',sample:true,sampleBatchId:batchId,createdAt:clock,updatedAt:clock};
+    const retired=i===count,record={id:'sample-professional-'+label+'-'+(i+1),name:'샘플 전문인력 '+label+(i+1),company:entity.manager,qualification:'',career:'',preEducationDate:'2024-05-10',recentTrainingDate:'2026-05-10',employmentStatus:retired?'퇴사':'재직',registrationStatus:retired?'등록 명단 제외':'등록 명단 반영',employmentStartDate:'2024-01-02',employmentEndDate:retired?'2026-07-31':'',registrationStartDate:'2024-06-20',registrationEndDate:retired?'2026-07-31':'',evidencePath:path+'개발업/샘플 전문인력 '+(i+1)+'.pdf',sample:true,sampleBatchId:batchId,createdAt:clock,updatedAt:clock};
     if(retired)Object.assign(record,{deletedAt:'2026-07-31T00:00:00Z',restoreState:{employmentStatus:'재직',registrationStatus:'등록 명단 반영',employmentEndDate:'',registrationEndDate:''}});
     entity.professionalRecords.push(record);
    }

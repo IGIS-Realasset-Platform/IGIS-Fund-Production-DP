@@ -1,0 +1,11 @@
+import assert from 'node:assert/strict';
+import {makeHarness} from './recovery-harness.mjs';
+const h=makeHarness({modules:['core','cbs','contracts','demo']}),A=h.A;A.initializers.forEach(fn=>fn(A.state));
+const p=A.current();p.loans=[{id:'temporary-duplicate',institution:'원래 첫 기록',commitment:0,balance:0},{id:'temporary-duplicate',institution:'원래 둘째 기록',commitment:0,balance:0}];
+const before=JSON.stringify(A.state);
+assert.throws(()=>A.transaction(()=>{throw Error('동일 ID를 발견하여 변경하지 않았습니다.');}),/동일 ID/);
+assert.equal(JSON.stringify(A.state)===before,true,'변경 없는 검증 실패는 복원 과정 자체로 서로 다른 기록을 바꾸면 안 됩니다.');
+const clean=makeHarness({modules:['core','cbs','contracts','demo']});clean.A.initializers.forEach(fn=>fn(clean.A.state));const original=JSON.stringify(clean.A.state);
+assert.throws(()=>clean.A.transaction(()=>{clean.A.current().name='저장하면 안 되는 변경';throw Error('실제 변경 후 실패');}),/실제 변경/);
+assert.equal(JSON.stringify(clean.A.state)===original,true,'실제로 변경한 실패는 기존 전체 원복을 유지합니다.');
+console.log(JSON.stringify({suite:'continuation125-validation-noop-rollback',passed:2,failed:0,actualDatabaseAccess:false,scope:'No-write validation rejection and existing changed-state rollback; isolated fixture only'}));
