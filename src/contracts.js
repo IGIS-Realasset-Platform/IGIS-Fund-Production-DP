@@ -153,7 +153,7 @@
     validateAllocations(allocations, costAmount);
     return { id: A.uid('revision'), revision: (old?.revision || 0) + 1, date: date(v.date, '계약일'), total, net, vat, costAmount, taxStatus: net == null ? '미확인' : '확인', allocations, file: required(v.file, '계약 원본 경로'), note: v.note || '' };
   }
-  const contractParentOptions=(id,formKey='edit')=>({...A.formParentOptions?.(()=>showContract(id)),draftContext:'contract:'+id+':'+formKey});
+  const contractParentOptions=(id,formKey='edit')=>{const projectId=A.current()?.id,returnTo=()=>{const p=A.current();if(!p||p.id!==projectId||!currentContracts(p).some(c=>c.id===id)){A.closeModal({userInitiated:true});return;}showContract(id);};return{...A.formParentOptions?.(returnTo),draftContext:'contract:'+id+':'+formKey};};
   A.on('contract-add', b => A.form(b?.dataset?.cbsId?cbsName(A.current(),b.dataset.cbsId)+' · 계약 추가':'계약 추가', formContract(), v => {
     const p = A.current(), revision = revisionValues(v), c = { id: A.uid('contract'), name: required(v.name, '계약명'), counterparty: required(v.counterparty, '계약 상대방'), companyId: v.companyId||'', type: v.type||'', date: v.date, period: v.period||'', file: v.file, proposalNumber: v.proposalNumber||'', status: v.status||'체결', revisions: [revision], obligations: [], payments: [], certifications: [],paymentCoverage:{status:'unknown'},paymentReviews:[] };
     if(b?.dataset?.cbsId)c.cbsId=b.dataset.cbsId;
@@ -208,14 +208,31 @@
     const used=rows.map(row=>row.cbsId).filter(Boolean);
     return '<div class="full form-grid" data-allocation-prefix="' + prefix + '" data-count="' + count + '">' + Array.from({ length: count }, (_, i) => A.field(prefix + 'cbs' + i, 'CBS 배부 ' + (i + 1), rows[i]?.cbsId || '', 'select', cbso(p,{excludeIds:used,keepIds:[rows[i]?.cbsId]})) + A.field(prefix + 'amount' + i, '배부 ' + (i + 1) + ' 금액 (원)', rows[i]?.amount ?? '', 'number')).join('') + '</div><div class="full">' + A.btn('배부행 추가', 'allocation-row-add', { prefix }) + '</div>';
   }
+  function appendAllocationRow(p,prefix,container,values={}){
+    const i=Number(container.dataset.count);if(!Number.isSafeInteger(i)||i<0)return false;
+    const used=[...(container.querySelectorAll?.('select')||[])].filter(node=>String(node.name||'').startsWith(prefix+'cbs')).map(node=>node.value).filter(Boolean),cbsId=values[prefix+'cbs'+i]??'';
+    container.insertAdjacentHTML('beforeend',A.field(prefix+'cbs'+i,'CBS 배부 '+(i+1),cbsId,'select',cbso(p,{excludeIds:used,keepIds:[cbsId]}))+A.field(prefix+'amount'+i,'배부 '+(i+1)+' 금액 (원)',values[prefix+'amount'+i]??'','number'));
+    container.dataset.count=i+1;return true;
+  }
+  function restoreAllocationRows(p,prefix,values={}){
+    if(!['pay','cert','due'].includes(prefix)||A.current()?.id!==p.id)return;
+    const project=A.state.projects.find(row=>row.id===p.id&&!row.deletedAt),container=document.querySelector('#app-form [data-allocation-prefix="'+prefix+'"]');if(!project||!container)return;
+    let i=Number(container.dataset.count);while(Object.hasOwn(values,prefix+'cbs'+i)||Object.hasOwn(values,prefix+'amount'+i)){if(!appendAllocationRow(project,prefix,container,values))break;i=Number(container.dataset.count);}
+    for(const control of container.querySelectorAll?.('input,select,textarea')||[])if(control.name&&Object.hasOwn(values,control.name))control.value=values[control.name]??'';
+  }
+  function allocationForm(p,prefix,title,fields,callback,submitLabel,options){
+    const prior=options?.draftAdapter;let paymentMoreOpen=null,mountedPaymentMore=null;
+    const paymentDetails=()=>document.getElementById('app-form')?.querySelector?.('details.dp-payment-more');
+    const restorePaymentDetails=()=>{if(prefix!=='pay')return;const form=document.getElementById('app-form'),details=paymentDetails();if(!details)return;if(paymentMoreOpen!==null)details.open=paymentMoreOpen;if(mountedPaymentMore!==details){mountedPaymentMore=details;details.addEventListener('toggle',()=>{if(details.isConnected!==false&&form?.isConnected!==false&&document.getElementById('app-form')===form)paymentMoreOpen=details.open;});}};
+    const session=A.form(title,fields,(values,operation)=>{if(prefix==='pay'){const details=paymentDetails();if(details)paymentMoreOpen=details.open;}return callback(values,operation);},submitLabel,{...options,draftAdapter:{...prior,resume:(values,error)=>{restoreAllocationRows(p,prefix,values);restorePaymentDetails();prior?.resume?.(values,error);}}});
+    return session;
+  }
   A.on('allocation-row-add', b => {
     const prefix = b.dataset.prefix;
     if (!['pay', 'cert','due'].includes(prefix)) return;
     const container = document.querySelector('#app-form [data-allocation-prefix="' + prefix + '"]');
     if (!container) return;
-    const i = Number(container.dataset.count),used=[...(container.querySelectorAll?.('select')||[])].filter(node=>String(node.name||'').startsWith(prefix+'cbs')).map(node=>node.value).filter(Boolean);
-    container.insertAdjacentHTML('beforeend', A.field(prefix + 'cbs' + i, 'CBS 배부 ' + (i + 1), '', 'select', cbso(A.current(),{excludeIds:used})) + A.field(prefix + 'amount' + i, '배부 ' + (i + 1) + ' 금액 (원)', '', 'number'));
-    container.dataset.count = i + 1;
+    appendAllocationRow(A.current(),prefix,container);
   });
   function readAllocations(v, prefix) {
     return Object.keys(v).filter(k => k.startsWith(prefix + 'cbs')).map(k => ({ cbsId: v[k], raw: v[prefix + 'amount' + k.slice((prefix + 'cbs').length)] })).filter(x => x.cbsId || x.raw !== '').map(x => ({ cbsId: x.cbsId, amount: amount(x.raw, '배부금액') }));
@@ -224,14 +241,14 @@
     const [p, c] = getContract(b.dataset.id), isEdit = b.dataset.action === 'payment-edit', row = isEdit ? live(c.payments).find(x => x.id === b.dataset.record) : null;
     if(isEdit&&!row)return A.toast('수정할 지급기록을 찾을 수 없습니다.');
     const option=paymentLinkOptions(c,row);
-    A.form(row?'지급 기록 수정':'지급 기록',A.field('date','지급일',row?.date||A.today,'date')+A.field('amount','지급액 (원)',row?.amount??'','number')+A.field('sourcePath','지급 근거 경로',row?.sourcePath||'')+'<details class="full dp-payment-more"><summary>추가 정보</summary><div class="form-grid">'+A.field('obligationId','연결 확정조건',row?.obligationId||(!isEdit?b.dataset.record:'')||'','select',option)+A.field('proposalNumber','기안번호',row?.proposalNumber||'')+A.field('costAmount','사업비 반영액 (원)',row?.costAmount??'','number')+allocationFields(p,row?.allocations||[],'pay')+A.field('note','메모',row?.note||'','textarea')+'</div></details>',v=>upsertPayment(p,c.id,{...v,allocations:readAllocations(v,'pay')},row?.id),'저장',contractParentOptions(c.id,'payment:'+(row?.id||('new:'+String(b.dataset.record||'unlinked')))));
+    allocationForm(p,'pay',row?'지급 기록 수정':'지급 기록',A.field('date','지급일',row?.date||A.today,'date')+A.field('amount','지급액 (원)',row?.amount??'','number')+A.field('sourcePath','지급 근거 경로',row?.sourcePath||'')+'<details class="full dp-payment-more"><summary>추가 정보</summary><div class="form-grid">'+A.field('obligationId','연결 확정조건',row?.obligationId||(!isEdit?b.dataset.record:'')||'','select',option)+A.field('proposalNumber','기안번호',row?.proposalNumber||'')+A.field('costAmount','사업비 반영액 (원)',row?.costAmount??'','number')+allocationFields(p,row?.allocations||[],'pay')+A.field('note','메모',row?.note||'','textarea')+'</div></details>',v=>upsertPayment(p,c.id,{...v,allocations:readAllocations(v,'pay')},row?.id),'저장',contractParentOptions(c.id,'payment:'+(row?.id||('new:'+String(b.dataset.record||'unlinked')))));
   }
   A.on('payment-add', editPayment); A.on('payment-edit', editPayment);
   A.on('payment-link',b=>{const [p,c]=getContract(b.dataset.id),record=live(c.payments).find(x=>x.id===b.dataset.record);if(!record)return;A.form('확정 지급조건 연결',A.field('obligationId','확정 지급조건',record.obligationId||'','select',paymentLinkOptions(c,record)),v=>linkPayment(p,c.id,record.id,v.obligationId),'저장',contractParentOptions(c.id,'payment-link:'+record.id));});
   A.on('payment-review',b=>{const [p,c]=getContract(b.dataset.id);A.form('지급내역 확인',A.field('asOf','확인 기준일',A.today,'date')+A.field('sourcePath','대사 근거 경로')+'<div class="full dp-payment-review-value">누적 지급 '+A.money(paymentTotal(c))+'</div>',v=>reviewPayments(p,c.id,v),'저장',contractParentOptions(c.id,'payment-review'));});
   function editCertification(b) {
     const [p, c] = getContract(b.dataset.id), isEdit=b.dataset.action==='certification-edit',row = live(c.certifications).find(x => x.id === b.dataset.record);if(isEdit&&!row)return A.toast('수정할 기성 기록을 찾을 수 없습니다.');
-    A.form(row ? '기성 수정' : '기성 인정금액 추가', A.field('date', '기성 인정일', row?.date || A.today, 'date') + A.field('amount', '기성 인정액 (사업비 기준, 원)', row?.amount ?? '', 'number') + A.field('sourcePath', '기성 근거 경로', row?.sourcePath || '') + allocationFields(p, row?.allocations || (latest(c).allocations || []).map(x => ({ cbsId: x.cbsId, amount: '' })), 'cert') + A.field('note', '메모', row?.note || '', 'textarea'), v => {
+    allocationForm(p,'cert',row ? '기성 수정' : '기성 인정금액 추가', A.field('date', '기성 인정일', row?.date || A.today, 'date') + A.field('amount', '기성 인정액 (사업비 기준, 원)', row?.amount ?? '', 'number') + A.field('sourcePath', '기성 근거 경로', row?.sourcePath || '') + allocationFields(p, row?.allocations || (latest(c).allocations || []).map(x => ({ cbsId: x.cbsId, amount: '' })), 'cert') + A.field('note', '메모', row?.note || '', 'textarea'), v => {
       if(row&&live(c.certifications).find(item=>item.id===row.id)!==row)throw Error('수정할 기성 기록을 찾을 수 없습니다.');
       const value = amount(v.amount, '기성금액'), allocations = readAllocations(v, 'cert'); validateAllocations(allocations, value, p, true);
       const before = row ? clone(row) : null, x = { id: row?.id || A.uid('cert'), date: date(v.date), amount: value, allocations, sourcePath: required(v.sourcePath, '근거자료 경로'), note: v.note };

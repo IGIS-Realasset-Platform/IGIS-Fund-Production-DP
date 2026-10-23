@@ -18,5 +18,11 @@
     {"source":"/api/law-watch","destination":"/api/law?__law_route=watch"},
     {"source":"/api/law-regional","destination":"/api/law?__law_route=regional"}
   ],
-  "crons": [{"path":"/api/maintenance","schedule":"0 23 * * *"}]
+  "crons": [
+    {"path":"/api/maintenance","schedule":"0 23 * * *"},
+    {"path":"/api/maintenance?job=law&slot=morning","schedule":"0 0 * * *"},
+    {"path":"/api/maintenance?job=law&slot=noon","schedule":"0 3 * * *"},
+    {"path":"/api/maintenance?job=law&slot=afternoon","schedule":"0 7 * * *"},
+    {"path":"/api/maintenance?job=law&slot=evening","schedule":"0 11 * * *"}
+  ]
 }

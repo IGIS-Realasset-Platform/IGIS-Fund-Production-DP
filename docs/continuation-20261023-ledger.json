@@ -1,0 +1,14 @@
+{
+  "schemaVersion":"continuation124-v1",
+  "version":"0.12.4",
+  "asOf":"2026-10-23",
+  "snapshotKind":"build-time-verification-not-live-monitor",
+  "baseline":{"version":"0.12.3","candidate":"C40","deploymentId":"dpl_6HRQfDyMoDFXyPz1UsNjDxpYpSZ3","htmlSha256":"d0aeb976b20d2a40c366b284c103b910339f7b6915c7a14bbb1faa45ea7ff065"},
+  "items":[
+    {"id":"COL124-01","name":"어제 첨부 회복·오늘 자연 예약 확인","status":"read-verified-today-recovered-historical-cause-limited"},
+    {"id":"COL124-02","name":"고양시 조례 조문 식별","status":"focused-tests-passed-original120-rows-preserved"},
+    {"id":"COL124-03","name":"백엔드 전송·예약 재시도","status":"bounded-retry-and4-daily-recovery-implemented-cooldown24-tests-passed","actualRecoveryRun":"not-run-at-build"},
+    {"id":"UX124-04","name":"법령 업무 정보만 표시","status":"focused13-andC42-browser6-plus503-negative2-passed-new-final-artifact-recheck-required"},
+    {"id":"QA124-05","name":"중첩 동작·동적행·지역 초안 복원","status":"C42-finite42-functional-tests-passed-payment-details-state-correction-and-final-recheck-pending","cohort":{"original":32,"law":6,"paymentAdjacent":2,"regionalAdjacent":2},"allFunctionsVerified":false}
+  ]
+}

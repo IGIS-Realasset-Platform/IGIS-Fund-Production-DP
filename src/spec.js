@@ -691,7 +691,7 @@ A.spec.verification={...A.spec.verification,status:'v0.10.30 검수 완료 · �
  }
  const deploymentStatus=typeof DEPLOYMENT_STATUS_V0111==='undefined'?null:A.clone(DEPLOYMENT_STATUS_V0111);
  if(deploymentStatus){
-  const cloudDeployment=A.runtime?.persistence==='cloud',expectedDeploymentVersion=cloudDeployment?'0.12.3':'0.11.0';
+  const cloudDeployment=A.runtime?.persistence==='cloud',expectedDeploymentVersion=cloudDeployment?'0.12.4':'0.11.0';
   if(deploymentStatus.schemaVersion!=='deployment-status-v0111'||deploymentStatus.version!==expectedDeploymentVersion)throw Error('현재 배포 상태 정의를 확인해 주세요.');
   const originalFeatureContracts=A.clone(A.spec.featureContracts),originalDataContracts=A.clone(A.spec.dataContracts),originalProductionContracts=A.clone(A.spec.productionContracts),originalInformationArchitecture=A.clone(A.spec.informationArchitecture),originalCostRules=A.clone(A.spec.costRules),priorAuthentication=A.clone(A.spec.productionContracts?.authentication??null),historical=[inheritedAuthentication,priorAuthentication].filter(Boolean),unique=[];for(const item of historical)if(!unique.some(saved=>JSON.stringify(saved)===JSON.stringify(item)))unique.push(item);
   A.spec.legacyReferences=A.spec.legacyReferences||{};A.spec.legacyReferences.authenticationPolicies=[...(A.spec.legacyReferences.authenticationPolicies||[]),...unique];A.spec.legacyReferences.originalFeatureContracts=originalFeatureContracts;A.spec.legacyReferences.originalDataContracts=originalDataContracts;A.spec.legacyReferences.originalProductionContracts=originalProductionContracts;A.spec.legacyReferences.originalInformationArchitecture=originalInformationArchitecture;A.spec.legacyReferences.originalCostRules=originalCostRules;
@@ -813,6 +813,11 @@ A.spec.verification={...A.spec.verification,status:'v0.10.30 검수 완료 · �
   A.spec.auto123=A.clone(AUTO123_FIX_LEDGER);A.spec.verification.auto123=A.clone(AUTO123_FIX_LEDGER);
   A.spec.currentFeatureContracts.auto123={source:'docs/recheck-20261022-spec.md',comparison:{automaticTrigger:'open-selected-law-detail',dailyPrecomputation:false,verifiedAndUnavailableAndRetryableAreDistinct:true,sourceUnavailableIsNotNoChange:true,unknownNetworkFailureIsNotOfficialNonProvision:true,workspaceWritesOnRead:false},market:{selectedEndpointsDriveSummaryChartAxesAndTooltip:true,samePeriodDistinctVersionsRemainDistinct:true,missingExplicitSelectionDoesNotUseLatest:true,originalRecordsUnchanged:true},allRolesAndConditionsVerified:false};
   A.spec.history.push({version:'v0.12.3',summary:'AUTO123-01~03 자동 법령 비교의 미제공/실패·재시도 구분, 선택한 시장판본과 그래프 일치, 전체 요구의 확인/미검증 구분',classification:'이번 빌드의 재검토·검수 상태는 AUTO123 대장 참조',evidence:'docs/recheck-20261022-ledger.json'});
+ }
+ if(A.cloudMode&&typeof CONTINUATION124_FIX_LEDGER!=='undefined'){
+  A.spec.continuation124=A.clone(CONTINUATION124_FIX_LEDGER);A.spec.verification.continuation124=A.clone(CONTINUATION124_FIX_LEDGER);
+  A.spec.currentFeatureContracts.continuation124={source:'docs/continuation-20261023-spec.md',collection:{yesterdayAttachmentRecoveredToday:true,ordinanceArticleIdentityPreservesOriginal:true,transientFailuresRetryInBackend:true,operationalStateAndHistoryInPrivateSchema:true},lawUi:{openFromLawName:true,duplicateDetailButton:false,collectionStatusAndHistoryVisible:false,operatorRetryControls:false,actualLegalDocumentsAndUserReviewsPreserved:true},allFunctionsVerified:false};
+  A.spec.history.push({version:'v0.12.4',summary:'CONT124 법령 조문식별·백엔드 재시도, 수집 상태/이력 업무화면 제거, 하위동작 실제 검수. 실제 수행·실패·미검증은 빌드대장과 외부기록으로 구분',classification:'빌드 시점 검수 스냅샷',evidence:'docs/continuation-20261023-ledger.json'});
  }
  if(A.realMode){delete A.spec.dataContracts.reportExample;delete A.spec.featureContracts.reportExample;}
  A.register('spec',()=>{
