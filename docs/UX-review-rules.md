@@ -35,7 +35,7 @@
 | UX-05 | 버튼은 쉬운 말로 실제 결과를 예고 | 표에 표시/새 항목 추가로 같은 목적을 내부 처리별로 구분 | v0123-picker-label, v0123-copy-inventory |
 | UX-06 | 불필요한 설명·장식 태그를 다시 넣지 않음 | 범위 근거·표시 상태·자동 합계·분류 확인을 목록에 재노출 | v0122-picker-acceptance, v0124-integration |
 | UX-07 | 미입력·0원·원 단위 정확도·확정자료를 구분 | 임의 금액·0원 입력, 빈 저장으로 총액/원자료 변경 | v0124-cost-empty, v0125-cost-preservation |
-| UX-08 | 표시되는 목록·합계·비교·엑셀의 의미를 대조. 선택한 자료판본을 요약·그래프·축·툴팁에 일관되게 적용하고 원천 순번/새 조회시각을 원관측 식별자로 쓰지 않음 | 엑셀 별도 원금액/기준정보 시트, 숫자 분류명, 미입력을 0으로 변환. 요약은 구판·그래프는 최신판, 소실한 선택을 다른 관측으로 조용히 대체 | v0116-binary-download, v0117-cost-export, v0124-integration, v0125-cost-preservation, followup123-market-version-selection |
+| UX-08 | 표시되는 목록·합계·비교·엑셀의 의미를 대조. 펼친 전체 행의 ID/명칭/순서/개별 원금액까지 확인하고 같은 합계만으로 하위행 수락을 대신하지 않음. 선택한 자료판본을 요약·그래프·축·툴팁에 일관되게 적용하고 원천 순번/새 조회시각을 원관측 식별자로 쓰지 않음 | 엑셀 별도 원금액/기준정보 시트, 숫자 분류명, 미입력을 0으로 변환. 중간 실제행의 자식이 빠져도 상위합계 일치만으로 통과. 요약은 구판·그래프는 최신판, 소실한 선택을 다른 관측으로 조용히 대체 | v0116-binary-download, v0117-cost-export, v0124-integration, v0125-cost-preservation, followup123-market-version-selection, continuation125-cost-excel-tree |
 | UX-09 | 같은 셀 편집과 취소/Enter/Escape를 검증 | 화면 중간·맨 아래의 별도 편집표와 눌리지 않는 취소 | v0105-inline, v0111-cost, v0124-cost-empty |
 | UX-10 | 접힘·검색·실제 스크롤 소유자·포커스·프로젝트 문맥을 이어줌. 입력확정의 blur/change가 누르고 있는 버튼을 교체하지 않게 하고 실제 첫 pointer 클릭을 확인. 목록 커서는 표시 시간과 별도로 원래 정밀도 유지 | Tab/Enter를 먼저 누른 검사만 통과시키고 검색 직후 클릭 소실을 놓침. 추가 후 맨 위 이동·접힘 소실·잘못된 스크롤·밀리초 변환으로 다음 행 누락 | v0125-catalog-fold, v0125-fold-integration, center120-navigation-scroll, center120-partner-comments-independent, continuation125-cost-search-pointer |
 | UX-11 | 취소·닫기와 실제 부모/종료를 구분 | 이전 팝업 전부 소실 또는 닫기를 누를 때 다른 창이 반복됨 | v0113-core, v0113-permit, v0125-fold-integration |

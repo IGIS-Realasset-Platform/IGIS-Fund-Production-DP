@@ -16,9 +16,17 @@ GitHub 소스만으로 구조 파악과 일부 검사를 실행할 수 있습니
 # 실제 서비스·키·DB가 필요 없는 공개 재현 검사
 node tests/cloud-storage.mjs
 node tests/center120-law-api.mjs
+# v0.12.5의 명시 합성 입력 검사 — 미동봉 demo/legacy-seed 불필요
+node tests/continuation125-spec-json.mjs
+node tests/continuation125-law-applicability.mjs
+node tests/continuation125-cost-excel-tree.mjs
 ```
 
-이 두 검사에 의존패키지 설치는 필요하지 않았습니다. 서버 개발/빌드에 패키지가 필요하면 잠금파일을 유지해 `npm ci --ignore-scripts`를 사용하고, 새 패키지·외부 서비스를 임의로 추가하지 않습니다.
+앞의 기본 두 검사에는 의존패키지 설치가 필요하지 않았습니다. 서버 개발/빌드나 추가 검사에 패키지가 필요하면 잠금파일을 유지해 `npm ci --ignore-scripts`를 사용하고, 새 패키지·외부 서비스를 임의로 추가하지 않습니다.
+
+추가한 v0.12.5 두 검사는 전용 Git 복사본의 비공개 `legacy-seed.json`·`src/demo.js`가 없는 조건에서10/10·22/22를 확인했습니다. 첫 JSON 검사에 남았던 불필요 demo 로더만 제거했고10개 기대값이나 제품 소스는 바꾸지 않았습니다. 다른 모든 검사까지 공개 재현된 것으로 확대하지 않습니다.
+
+추가 Excel 트리 검사도 같은 조건에서10/10입니다. 실제 회사 프로필·화면 renderer·공개 내려받기 모듈에 명시 합성 트리를 주입하며 깊은 실제행/숨김/0/미입력/과거값/전체 행 순서와 원자료 보존을 검사합니다. 실제 내려받은 파일·9종 적용·회사 원표의 의미 정확성은 별도 실제 검수입니다.
 
 ## 전체 회귀의 현재 제한
 
@@ -28,7 +36,7 @@ node tests/center120-law-api.mjs
 - 당시 선택 목록에는 추적되지 않은 `tests/v0132-company-flow.mjs`가 있었습니다. 이는 검사 준비 누락이며 제품 결함 재현이 아닙니다. v0.12.1에서는 이 검사와 누락된 공개 도우미를 함께 게시하지만, 그 사실이 비공개 fixture 의존까지 해소한 것은 아닙니다.
 - 일부 실응답 검사는 비공개 `.build` 자료가 없으면 관측자료0건으로 끝날 수 있습니다. 종료코드0을 과거 실응답 검수 재현으로 읽지 않습니다.
 - 브라우저 검사 일부는 작성 PC 경로와 승인된 런타임을 사용합니다. 다른 PC의 Playwright·Edge 환경이 자동 준비되는 것은 아닙니다.
-- v0.12.4의 선택기는 `center*`·`followup121-*`·`followup122-*`·`followup123-*`·`continuation124-*` 순수검사를 함께 선택합니다. 브라우저·PDF 수락 검사는 별도로 실행하며 실제 목록과 소스/시험자료 지문을 대조합니다. 과거 선택기의 통과를 현재 버전으로 대신하지 않습니다. C36/C40의 별도 재현 결과는 당시 기록으로 보존합니다.
+- v0.12.5의 현행 선택기는 `center*`·`followup121-*`·`followup122-*`·`followup123-*`·`continuation124-*`·`continuation125-*` 순수검사를 함께 선택합니다. C52에서는 선정194묶음을 동결 실행했습니다. 브라우저·PDF 수락 검사는 별도로 실행하며 실제 목록과 소스/시험자료 지문을 대조합니다. 과거 선택기의 통과를 현재 버전으로 대신하지 않습니다. C36/C40/C44의 별도 재현 결과는 당시 기록으로 보존합니다.
 - CONT124의 조문 식별·첨부 재시도·원천 대기시간·법령 전용 예약·폼 복원·업무 화면·명세 검사를 구분합니다. 고양 조례의 전체120행 캡처는 비게시 준비자료가 없으면 해당 사례만 미검증으로 표시하며, 명시적으로 포함된 최소 반례와 구별합니다. 실제 화면 검수는 정확한 후보 HTML과 승인된 가상 A/B/C 팩이 필요하며 실제 회원·DB 검수로 대체하지 않습니다.
 - AUTO123의 기본 현재검사5군은 비게시 과거근거 없이 전용 Git 복사본에서 재실행했습니다. `followup123-spec`, `followup123-law-availability`, `followup123-law-cache-independent`, `followup123-market-version-selection`, `followup123-tooltip-scroll`입니다. 각 명령의 종료코드를 따로 검사해야 하며 여러 명령 중 마지막 성공만으로 전체를 통과 처리하지 않습니다. `--baseline-c36`과 실제 브라우저검사는 별도 고정 HTML/격리 준비가 필요합니다.
 
@@ -51,5 +59,7 @@ node scripts/build-deployment.mjs --cloud --out .build/qa-candidate.html --icons
 ## 완료 기록
 
 명세 번호별로 구현/자동검사/실화면/출력/중앙 저장/배포를 분리합니다. 파일 지문과 실제 검사 자료를 연결하고 실패·차단·미검증을 남깁니다. 자연 예약 실행, 다른 실제 회원, 분기 도래, 회사 PC 정책은 조건이 충족되기 전 완료로 바꾸지 않습니다.
+
+구성요소 검수는 [현행 매트릭스](component-review-matrix.md)의 현재 버전·고정 ID·증거 분모를 먼저 확인합니다. 과거 C44 생성기 `ui-build-component-matrix.mjs --write`의 결과를 현재판에 덮어쓰지 않습니다. 현재 자동 갱신기는 작성 PC의 비공개 승인팩·정확 HTML·실제 증거를 전제로 합니다. 이 준비가 없으면 영향을 받은 현재 행만 근거와 함께 수정하고, 새 소스/HTML 지문·역할·수행 조건·미검증을 기록하며 과거 ID와 증거를 보존합니다. 회사 자료를 임의 게시하거나 빈 자료로 전체 매트릭스를 재생성하지 않습니다.
 
 구조·API 연결은 [아키텍처](ARCHITECTURE.md), 변경 절차는 [CONTRIBUTING](../CONTRIBUTING.md), 현재 남은 작업은 [CURRENT-WORK](CURRENT-WORK.md)를 확인합니다.

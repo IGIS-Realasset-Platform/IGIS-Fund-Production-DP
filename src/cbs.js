@@ -286,7 +286,8 @@
  function costTableDelta(item,mode){if(unknown(item.delta)||!Number.isFinite(Number(item.delta)))return'—';if(item.delta===0)return'0';return(item.delta>0?'+':'−')+costTableValue(Math.abs(item.delta),mode);}
  function costExcelDisplayNodes(p){
   const profile=A.companyCostProfile;if(!profile?.enabled)return tableNodes(p);
-  const expanded=[...profile.managementNodes(p).filter(node=>node.companyHasChildren&&!node.companyHideActualRows),...profile.fullNodes(p).filter(node=>node.costBreakdown&&!node.companyHiddenDetail&&!node.companyHideActualRows)];
+  const nodes=profile.fullNodes(p),parents=new Set(nodes.map(node=>node.parentId).filter(Boolean));
+  const expanded=[...profile.managementNodes(p).filter(node=>node.companyHasChildren&&!node.companyHideActualRows),...nodes.filter(node=>(node.costBreakdown||node.companyActualRow&&parents.has(node.id))&&!node.companyHiddenDetail&&!node.companyHideActualRows)];
   const raw=profile.screenNodes(p,{expandedIds:[...new Set(expanded.map(node=>node.id))]});
   return A.costOrder?.orderedNodes?A.costOrder.orderedNodes(p,raw,{cacheDisplayTree:true}):raw;
  }
