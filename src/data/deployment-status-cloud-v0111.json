@@ -1,13 +1,13 @@
 {
   "schemaVersion":"deployment-status-v0111",
-  "version":"0.12.5",
-  "asOf":"2026-10-23",
+  "version":"0.12.6",
+  "asOf":"2026-10-26",
   "snapshotKind":"specification-not-live-deployment-monitor",
   "current":{
     "scope":"전용 스키마·지정 이메일 가입·비밀번호 로그인·중앙 저장 검증본",
-    "releaseState":"기준선 v0.12.4 C44 정식 게시 확인. 이 v0.12.5 빌드는 목적·충분성 재검토·전문인력·사업비 이력·대출 조건 교정 후보이며 실제 정식 상태는 외부 검수기록으로 확인 · 회사 운영 전환 제외",
+    "releaseState":"기준선 v0.12.5 C53 정식 게시 확인. 이 v0.12.6 빌드는 인허가 상세·메뉴 조작·전용 조회 효율·명세 교정 후보이며 실제 게시와 검수 범위는 외부 배포기록으로 확인 · 회사 운영 전환 제외",
     "branch":"preview/core-v0.11.0",
-    "providerStatus":"candidate-v0125-verification-and-promotion-separate",
+    "providerStatus":"candidate-v0126-verification-and-promotion-separate",
     "protection":"정식도메인만 공개 · 기존 검증주소 Vercel 보호·앱 세션/권한 유지",
     "browserVerification":{"home":"당시 실제 진입 이력과 소스별 검수기록 보존 · 후속 최종 산출물 별도 확인","spec":"22개 현행 요구·8개 명세 화면·JSON 복사/저장·소유자 경계의 판본별 검수 이력. 최종 산출물은 해당 지문의 실제 기록 기준","crud":"범위별 실행 이력 보존 · 모든 동적 경로의 실제 원격 검수와 구분","pdf":"정확 산출물·원문·PNG 검수기록 보존 · 후속 산출물의 적용범위/지문은 별도","xlsx":"기존 한 시트 검수 이력 보존 · 최종 새 체크리스트 생성/검수는 별도"},
     "connections":{"centralStorage":"전용 스키마 중앙 저장·CAS·샘플 권한·별도 API 구현. 실제 원격 검수는 해당 판본의 증거 기준","appAuthentication":"지정12메일 최초 메일 확인·비밀번호 가입/재로그인 및 선택7일 유지 실제 확인 이력 있음","notion":"관리자 전용 선택 보충자료","runtimeNotionApi":"실시간 Notion 연동 아님"},

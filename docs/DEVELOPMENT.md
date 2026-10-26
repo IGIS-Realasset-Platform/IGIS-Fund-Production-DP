@@ -20,6 +20,11 @@ node tests/center120-law-api.mjs
 node tests/continuation125-spec-json.mjs
 node tests/continuation125-law-applicability.mjs
 node tests/continuation125-cost-excel-tree.mjs
+# v0.12.6의 명시 합성 입력·DB 모의계약 검사
+node tests/review126-db-queries.mjs
+node tests/review126-navigation.mjs
+node tests/review126-permit-detail.mjs
+node tests/review126-spec-contract.mjs
 ```
 
 앞의 기본 두 검사에는 의존패키지 설치가 필요하지 않았습니다. 서버 개발/빌드나 추가 검사에 패키지가 필요하면 잠금파일을 유지해 `npm ci --ignore-scripts`를 사용하고, 새 패키지·외부 서비스를 임의로 추가하지 않습니다.
@@ -29,6 +34,8 @@ node tests/continuation125-cost-excel-tree.mjs
 추가 Excel 트리 검사도 같은 조건에서10/10입니다. 실제 회사 프로필·화면 renderer·공개 내려받기 모듈에 명시 합성 트리를 주입하며 깊은 실제행/숨김/0/미입력/과거값/전체 행 순서와 원자료 보존을 검사합니다. 실제 내려받은 파일·9종 적용·회사 원표의 의미 정확성은 별도 실제 검수입니다.
 
 ## 전체 회귀의 현재 제한
+
+REVIEW126의 네 검사는 실제 회사자료·세션·DB 쓰기 없이 실행하도록 구성했습니다. 새 인허가 검사는 합성 seed를 명시하고 미동봉 demo/report-example 로더를 사용하지 않습니다. 전체 회귀·실제 Edge·실제 중앙 DB 결과는 [이번 검수 기록](review-20261026-verification.md)에서 구별합니다. 조회 최적화를 추가 변경할 때 [DB 보존 경계](review-20261026-db-review.md)를 먼저 읽어 주세요.
 
 `node scripts/verify-center120.mjs`는 기존 전체 회귀 선택기입니다. 2026-10-21의 GitHub `441ab2e` 단독 추출 검토에서 다음 준비 문제가 확인됐습니다.
 

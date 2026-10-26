@@ -1,13 +1,13 @@
 {
-  "version": "0.12.5",
+  "version": "0.12.6",
   "origin": "https://development-project-platform-preview-git-preview-b5dda7-igisra.vercel.app",
-  "htmlSha256": "c61ee362c2c843dfb3a3630dd08483f48a03ec7e304107a560e6b89471bd2ecd",
-  "bytes": 6649070,
+  "htmlSha256": "dd735a859236f204803124f1a7b5167c05ae67102d17ec82542f5cfb89cb9a40",
+  "bytes": 6693316,
   "notionRequired": false,
   "realProjectDataIncluded": false,
   "mode": "authenticated-private-schema-runtime-with-optional-source",
   "localBuildVerified": true,
-  "actualBrowser": "PUR125 C53 exact root is the current acceptance target. C52 was not promoted because full-row Excel comparison found 23 missing details. Final logical suites and finite native cohorts are documented separately from prior snapshots, preparation errors and remaining conditions. Git distribution differs only by four inactive demo-reference privacy replacements and the single approved runtime origin. No whole-platform acceptance claim.",
-  "previousProtectedDeployment": "dpl_AjQXXnrNcLXQqCqN3hZDHCsLKxJ3",
-  "previousVersion": "0.12.4"
+  "actualBrowser": "REVIEW126 C58 exact root candidate with focused editor/viewer UI flows. Final logical, finite browser and server verification are recorded separately in docs/review-20261026-verification.md; no whole-platform acceptance. Four inactive privacy references and the one runtime origin are the only distribution transformations.",
+  "previousProtectedDeployment": "dpl_8KPvxYTuF6tXPyio42gf455rGAqZ",
+  "previousVersion": "0.12.5"
 }

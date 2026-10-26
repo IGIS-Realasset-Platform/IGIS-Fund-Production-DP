@@ -32,13 +32,13 @@
 | UX-02 | 많은 분류 목록은 접기/펼치기와 검색을 함께 검토 | 분류 이름으로 묶기만 하고 100개 항목을 계속 전부 나열 | v0125-catalog-fold, v0125-fold-integration |
 | UX-03 | 본표와 팝업의 분류·항목·순서·제목·명시 의미를 통일 | 표시 위치/동작 같은 내부 이름, 표와 다른 후보 순서, 다른 ID의 같은 관리유형 이중 후보 | v0124-picker-grouping, v0125-fold-integration, v0127-picker-duplicates |
 | UX-04 | 계층 역할에 따른 색·굵기·들여쓰기를 일관되게 사용 | 같은 계층인데 금액 유무로 음영과 bold가 달라짐 | v0121-cost-design, v0124-picker-grouping |
-| UX-05 | 버튼은 쉬운 말로 실제 결과를 예고 | 표에 표시/새 항목 추가로 같은 목적을 내부 처리별로 구분 | v0123-picker-label, v0123-copy-inventory |
+| UX-05 | 버튼은 쉬운 말로 실제 결과를 예고 | 표에 표시/새 항목 추가로 같은 목적을 내부 처리별로 구분 | v0123-picker-label, v0123-copy-inventory, review126-permit-detail, review126-navigation |
 | UX-06 | 불필요한 설명·장식 태그를 다시 넣지 않음 | 범위 근거·표시 상태·자동 합계·분류 확인을 목록에 재노출 | v0122-picker-acceptance, v0124-integration |
 | UX-07 | 미입력·0원·원 단위 정확도·확정자료를 구분 | 임의 금액·0원 입력, 빈 저장으로 총액/원자료 변경 | v0124-cost-empty, v0125-cost-preservation |
 | UX-08 | 표시되는 목록·합계·비교·엑셀의 의미를 대조. 펼친 전체 행의 ID/명칭/순서/개별 원금액까지 확인하고 같은 합계만으로 하위행 수락을 대신하지 않음. 선택한 자료판본을 요약·그래프·축·툴팁에 일관되게 적용하고 원천 순번/새 조회시각을 원관측 식별자로 쓰지 않음 | 엑셀 별도 원금액/기준정보 시트, 숫자 분류명, 미입력을 0으로 변환. 중간 실제행의 자식이 빠져도 상위합계 일치만으로 통과. 요약은 구판·그래프는 최신판, 소실한 선택을 다른 관측으로 조용히 대체 | v0116-binary-download, v0117-cost-export, v0124-integration, v0125-cost-preservation, followup123-market-version-selection, continuation125-cost-excel-tree |
 | UX-09 | 같은 셀 편집과 취소/Enter/Escape를 검증 | 화면 중간·맨 아래의 별도 편집표와 눌리지 않는 취소 | v0105-inline, v0111-cost, v0124-cost-empty |
-| UX-10 | 접힘·검색·실제 스크롤 소유자·포커스·프로젝트 문맥을 이어줌. 입력확정의 blur/change가 누르고 있는 버튼을 교체하지 않게 하고 실제 첫 pointer 클릭을 확인. 목록 커서는 표시 시간과 별도로 원래 정밀도 유지 | Tab/Enter를 먼저 누른 검사만 통과시키고 검색 직후 클릭 소실을 놓침. 추가 후 맨 위 이동·접힘 소실·잘못된 스크롤·밀리초 변환으로 다음 행 누락 | v0125-catalog-fold, v0125-fold-integration, center120-navigation-scroll, center120-partner-comments-independent, continuation125-cost-search-pointer |
-| UX-11 | 취소·닫기와 실제 부모/종료를 구분 | 이전 팝업 전부 소실 또는 닫기를 누를 때 다른 창이 반복됨 | v0113-core, v0113-permit, v0125-fold-integration |
+| UX-10 | 접힘·검색·실제 스크롤 소유자·포커스·프로젝트 문맥을 이어줌. 입력확정의 blur/change가 누르고 있는 버튼을 교체하지 않게 하고 실제 첫 pointer 클릭을 확인. 목록 커서는 표시 시간과 별도로 원래 정밀도 유지 | Tab/Enter를 먼저 누른 검사만 통과시키고 검색 직후 클릭 소실을 놓침. 추가 후 맨 위 이동·접힘 소실·잘못된 스크롤·밀리초 변환으로 다음 행 누락. 상세 top0을 예전240으로 덮기·자식복귀240→0·지연갱신의 초점 강탈. 긴본문의 화면밖 탭/추가버튼 접근에 따른 클릭 전 스크롤과 handler 복원값을 구분 | v0125-catalog-fold, v0125-fold-integration, center120-navigation-scroll, center120-partner-comments-independent, continuation125-cost-search-pointer, review126-permit-detail(UI126-PERMIT-10~13), review126-permit-browser, .build/review-20261026/permit-scroll-browser.mjs |
+| UX-11 | 취소·닫기와 실제 부모/종료를 구분 | 이전 팝업 전부 소실 또는 닫기를 누를 때 다른 창이 반복됨 | v0113-core, v0113-permit, v0125-fold-integration, review126-permit-detail(UI126-PERMIT-11/12), review126-permit-browser, .build/review-20261026/permit-scroll-browser.mjs |
 | UX-12 | 일반 진입 홈·메뉴 첫 탭·명시적 목적지·프로젝트 전환을 구분 | 마지막 저장된 엉뚱한 메뉴로 파일이 시작됨 | v0118-core, v0118-cost-ui |
 | UX-13 | 회사 모델 관리 수준을 유지하고 선택항목만 추가 | CBS라는 이유로 초기 항목을 과도하게 세분화·재분류 | v0119-company-profile, v0120-cost-view |
 | UX-14 | 등록 정보·전문인력과 담당팀의 결정을 중심으로 구성 | 등록대상 자동 판단·면적 검토·첨부 준비 화면의 재도입 | v0103-registration, v0112-registration |
@@ -48,7 +48,7 @@
 | UX-18 | 자동검사·실제 화면·native 앱 검수를 분리. 실제 클릭 위치·단일 세로 스크롤·끝행·가로폭·모바일 고정요소 가림까지 확인 | HTTP200·DOM존재·겉보기 관측수만 통과 처리, 입력칸 좌표가 화면 안이어도 고정 제목에 가려짐·중첩 스크롤·마지막 버튼 가림 | verification report, AUTH112 Edge geometry, center120-workspace-ux-browser, followup121-workspace-scroll-browser |
 | UX-19 | 조회·입력 서식을 통일하고 관련 항목을 묶음. 필수 *·누락 차단·인접 오류를 실제 기준으로 구현. 입력의 이름은 보기버튼·오류문구와 분리하고 오류는 aria-describedby로 연결 | 임의 카드형 폼·불필요한 입력 여부·설명, 버튼/오류를 label안에 넣어 입력이름이 상태마다 달라짐, 확인칸만 고치려는데 나머지 입력도 소실 | v0112-registration, v0113-permit, v0114-permit, cloud-session-auth112 |
 | UX-20 | 추가/수정/삭제 버튼은 실제 처리·대상·확인·취소·실패 원복까지 연결. 추가/삭제 직전 포함·보호 조건 재확인 | 버튼만 있고 handler 없음·오래된 후보로 동일 관리유형 재생성·현재 금액/참조를 재확인하지 않고 삭제 | v0123-business-copy, v0124-integration, v0127-picker-duplicates, v0127-all-pages-duplicates |
-| UX-21 | 긴 한글·큰 숫자·날짜·도구가 표에 들어가고 열폭 클릭만으로 튀지 않음. 사업비 조회행34px/도구24px 밀도 유지·실제편집/오류만 확장. 단일 표/복수 컴포넌트/팝업의 스크롤 역할 구분 | 도구/빈값별 높이 불일치·과도한 여백·잘림·불필요한 두 줄·모바일sticky가 끝행/하단/가로열을 덮음 | v0114-documents, v0114-cost, v0118-cost-ui, v0131-cost-density, center120-workspace-ux |
+| UX-21 | 긴 한글·큰 숫자·날짜·도구가 표에 들어가고 열폭 클릭만으로 튀지 않음. 사업비 조회행34px/도구24px 밀도 유지·실제편집/오류만 확장. 단일 표/복수 컴포넌트/팝업의 스크롤 역할 구분 | 도구/빈값별 높이 불일치·과도한 여백·잘림·불필요한 두 줄·모바일sticky가 끝행/하단/가로열을 덮음. 접기/펼치기 문구 길이만으로 공통 선택칸 가로위치 변동 | v0114-documents, v0114-cost, v0118-cost-ui, v0131-cost-density, center120-workspace-ux, review126-navigation, review126-permit-browser |
 | UX-22 | 편집 이름·오류문구도 화면의 한국어 항목명을 사용. 알림은 발생 사실과 이동할 대상이 분명해야 함 | 내부 key 노출·잘못된 조사·지원하지 않는 다음 행동 안내·가짜 알림 약속 | v0123-shared-copy, v0123-permit-copy, v0123-copy-inventory |
 
 ### 상호작용 세부 기준
@@ -83,7 +83,7 @@
 - 총액만 확인된 자료는 근거·금액을 보존합니다. 상세합계가 일치하고 사용자가 명시적으로 전환하기 전에는 차이를 임의 분해하지 않습니다.
 - 계약금액·기성·실제지급·선급/유보·출금총액·사업비 반영액과 확정 조달액을 구별합니다. 공급가액/세액/공제/불공제/미확정 세액·귀속/안분기준도 구별합니다.
 - 엑셀 내려받기는 실제 본표의 이름·순서·계층·단위·금액을 보존하는 한 시트입니다. 내부코드·숫자 분류명·세부1·원금액/기준정보 별도 시트를 다시 넣지 않습니다.
-- 연구/법령/시장자료는 공식 원문·출처·날짜·표본/범위와 샘플 기준일을 표시합니다. 수집 실패와 변경0건, 잠정/확정, 기준대비 비율/상승률, 소수 사례/시장 전체 평균을 혼동하지 않습니다.
+- 연구/법령/시장자료는 공식 원문·출처·날짜·표본/범위와 샘플 기준일을 표시합니다. 수집 실패와 변경0건, 잠정/확정, 기준대비 비율/상승률, 소수 사례/시장 전체 평균을 혼동하지 않습니다. 전국 검색가능을 전체 등록/일일수집 완료로 오인한 반례는 LAW126-02의5단계 대조와 `tests/center120-law-api.mjs`·`tests/center120-law-watch.mjs`, `.build/review-20261026/law-scope-review.md`·`law-coverage-compare.json` 근거에 연결합니다.
 - 비용분류의 목적은 중요한 사업비 예산의 비교·변경·계약 통제입니다. 코드가 세부 의미를 구분할 수 있다고 해서 모든 유형을 화면의 별도 항목으로 강제하지 않습니다. 원표 관리행과 세부 산출내역·혼합 소계·운영기간 재표시는 서로 다른 근거등급이며, CBS 상위군 대응을 해당 비용의 국제표준 동명 항목 존재라고 표현하지 않습니다.
 - 현재 회사 표시명은 과업이 드러나는 단일 정책으로 본표·후보·입력·엑셀에서 통일하고, 원유형명/과거 원문은 별도로 보존합니다. 현재 기준분류와 예전 후보별명 위치가 달라지는 반례를 함께 검사합니다. 명시적인 기존 관리예산 가족은 표시에만 묶고 정상 코드 확정/실제 기록 병합으로 오인하지 않습니다.
 - 사업비 프리셋은9종 용도 정의와 실제 비용표 적용으로 판정합니다. 공통표·인허가 프리셋·프로젝트 type 필드를 같은 기능으로 세지 않습니다. 미리보기/취소는 무변이, 새 금액은null, 같은 프리셋 재적용은 원장/감사 중복0, 기존 사업은 자동적용하지 않습니다. 실제로 표에 포함됐는데 후보의 raw key가 달라 다시 노출되는 반례를 검사합니다.

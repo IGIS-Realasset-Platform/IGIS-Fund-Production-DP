@@ -1,0 +1,341 @@
+{
+  "schemaVersion": "review126-ledger-v1",
+  "asOf": "2026-10-26",
+  "baselineVersion": "0.12.5",
+  "targetRelease": "0.12.6",
+  "status": "focused-spec-source-corrected-other-review-in-progress-no-completion-claim",
+  "baseline": {
+    "candidate": "C53",
+    "qaHtmlSha256": "4bb632ab3a2326a6ccc5cb02983fd379bc486cf1b14adcaa984682ca6d5a81e9",
+    "formalObservedAt": "2026-10-23T07:15:34.160Z",
+    "formalHtmlSha256": "5cf17ceb92265ea4eaa45c7287518fca7a32b7a9e36ef367b30b05c71d635d48",
+    "formalBytes": 6649041,
+    "freshRemoteVerificationOn20261026": false,
+    "source": ".build/continuation-20261023/published-c53-1792739734160.json"
+  },
+  "items": [
+    {
+      "id": "UI126-01",
+      "originRequestNumber": 2,
+      "name": "인허가 상세 업무 UX 재검토",
+      "scope": "기본정보15항목·연결4종·메타 및 하단6행동의 목적/필요성/중복·순서/배치·내용 충분성과 실제 하위경로",
+      "consumers": [
+        "permit-record-detail",
+        "law-search-open",
+        "permit-rounds",
+        "legal-results",
+        "legal-edit(type=permit)",
+        "legal-permit-amend",
+        "legal-delete(type=permit)",
+        "인허가목록",
+        "일정맵",
+        "검토의견/계획",
+        "보고서"
+      ],
+      "acceptance": [
+        "독립 업무 목적/실제 차이를 근거로 필요성을 판정",
+        "임의 삭제/분할/병합 없이 원본과 역할 보존",
+        "PC/모바일·긴값·정확대상·부모·취소/503·출력 범위를 구분 검수"
+      ],
+      "preservation": [
+        "인허가 실제일/회차/법적근거",
+        "원본/변경계보",
+        "의견별 복수 조치계획",
+        "기존사업/권한/이력"
+      ],
+      "stage": {
+        "existingImplementation": "C53-present",
+        "contentReview": "source-entry-mapped-reference-and-necessity-review-pending",
+        "automatic": "notrun-for-126",
+        "actualScreen": "notrun-for-126",
+        "output": "notrun-for-126"
+      },
+      "completed": false,
+      "owner": "root / UX 담당"
+    },
+    {
+      "id": "LAW126-02",
+      "originRequestNumber": 1,
+      "name": "법령 5단계 수록범위 검증",
+      "scope": "전국 관할과 개발사업 관계 법령의 포함/미포함/연결을 단계별 대조",
+      "coverageStages": [
+        "공식API 검색가능",
+        "플랫폼등록 catalog",
+        "실제일일수집 watch",
+        "인허가추천 참조",
+        "개별사업 확인목록"
+      ],
+      "legalFormAxisIsSeparate": true,
+      "consumers": [
+        "법령검색",
+        "법령catalog",
+        "일일수집",
+        "인허가추천/조건",
+        "사업별확인목록",
+        "공식조문/비교자료",
+        "조례 관할"
+      ],
+      "acceptance": [
+        "단계별 공식식별자/관할/판본을 별도로 대조",
+        "검색가능·등록·수집·추천·사업별판단을 같다고 보지 않음",
+        "미확인/후보를 법적 필수적용이나 관할확정으로 승격하지 않음"
+      ],
+      "preservation": [
+        "원문/판본/실제 검토기록",
+        "실제사업 진행/조치의 비자동변경",
+        "동명이름 비병합"
+      ],
+      "stage": {
+        "existingImplementation": "C53-partial-source-scope-present",
+        "contentReview": "official-coverage-universe-and-links-under-investigation",
+        "automatic": "notrun-for-126",
+        "actualScreen": "notrun-for-126",
+        "actualCollection": "notrun-by-independent-auditor"
+      },
+      "completed": false,
+      "owner": "root / 법령 담당"
+    },
+    {
+      "id": "DB126-03",
+      "originRequestNumber": 4,
+      "name": "전용 DB 연결·구조·효율 읽기 감사",
+      "scope": "공개 API부터 권한/전용스키마/원자저장/응답까지 실제 연결, 구조/제약/충돌/이력과 효율 근거",
+      "consumers": [
+        "세션/권한",
+        "workspace GET/PUT",
+        "댓글/알림",
+        "시점기록",
+        "법령/업체기준자료",
+        "예약수집",
+        "보고서 반영"
+      ],
+      "acceptance": [
+        "승인된 전용범위의 실제 메타/호출/실행근거로 연결과 효율 판단",
+        "구현/모의/실제DB를 분리",
+        "개선이 필요하면 반례와 영향범위부터 보고"
+      ],
+      "preservation": [
+        "기존서비스/공유Auth/다른schema",
+        "사용자 저장자료/권한",
+        "원금액/계약/VAT/확정본/감사"
+      ],
+      "stage": {
+        "existingImplementation": "C53-present-not-new-live-acceptance",
+        "contentReview": "source-contract-link-audit-in-progress",
+        "automatic": "notrun-for-126",
+        "actualDatabase": "delegated-readonly-audit-pending",
+        "performance": "evidence-pending-no-efficiency-claim"
+      },
+      "completed": false,
+      "owner": "backend_operations"
+    },
+    {
+      "id": "SPEC126-04",
+      "originRequestNumber": 3,
+      "name": "현행 명세·구현 차이 독립 감사",
+      "scope": "최종 계산된 현행/대체/과거/계획 객체, 현행 기능35행·후속요구33ID·API/데이터/화면 연결 및 게시기록",
+      "consumers": [
+        "명세8탭/JSON",
+        "기능/데이터/API계약",
+        "실제handler/소비자",
+        "README/Git/승인기록",
+        "원검수/매트릭스",
+        "후속개발자 진입"
+      ],
+      "acceptance": [
+        "최종 덮어쓰기 후 명세와 실제 연결을 독립대조",
+        "현재 규칙의 모순/누락은 반례로 고정하고 과거이력과 분리",
+        "요구 추적성 누락을 미구현 기능 수로 과장하지 않음",
+        "모든 원문/모든 조건을 검사하지 않았다면 완료하지 않음"
+      ],
+      "preservation": [
+        "C53과 과거 고정ID/실제증거",
+        "내장빌드스냅샷/외부게시상태 구분",
+        "데이터/업무정책/실제운영자료"
+      ],
+      "knownFindings": [
+        "SPEC126-D01",
+        "SPEC126-D02",
+        "SPEC126-D03",
+        "SPEC126-D04",
+        "SPEC126-D05",
+        "SPEC126-D06"
+      ],
+      "stage": {
+        "existingImplementation": "C53-present-with-specification-gaps",
+        "contentReview": "initial-C53-findings-preserved-focused-source-corrected-whole-review-not-complete",
+        "automatic": {
+          "baselineC53": "five-diagnostic-failures-confirmed",
+          "workingSource": "31-focused-and10-current-spec-checks-passed",
+          "finalArtifact": "notrun",
+          "wholeSpecificationAccepted": false
+        },
+        "actualScreen": "notrun-for-126",
+        "actualDatabase": "notrun-by-independent-auditor"
+      },
+      "evidence": [
+        {
+          "path": ".build/audit-20261026/independent-current-spec-1792993787020.json",
+          "sha256": "1895fb70746cab118b9a4000ff9da6551a113e7db82b50c1dfc63544fcc61355"
+        },
+        {
+          "path": ".build/audit-20261026/spec-diagnostic-red-1792993793617.json",
+          "sha256": "a58cbeb4f06a38cb68cad9833d68b0eed76309877dc898fdf97b53f1536727b6"
+        }
+      ],
+      "completed": false,
+      "owner": "backend_auditor / 현행spec 교정담당은 root가 별도 지정",
+      "workingSourceCorrection": {
+        "stage": "working-source-only-not-final-artifact",
+        "addressedFindings": [
+          "SPEC126-D01",
+          "SPEC126-D02",
+          "SPEC126-D03",
+          "SPEC126-D04",
+          "SPEC126-D05"
+        ],
+        "source": {
+          "path": "src/spec.js",
+          "metadataOwnerPin": "fdbbb4610c6113609936ae06f43e88d013b92924ad2c1fd3149ea9d73b63153b",
+          "integratedRootVersionPin": "ebf3023b7f65a03ca33508f2c37e1c8a5fb19eb3a1637658a7c5e7a23f2751fb",
+          "rootOwnsSubsequentVersionBuildIntegration": true
+        },
+        "focusedChecks": 31,
+        "focusedFailed": 0,
+        "currentSpecRegressionChecks": 10,
+        "relatedSuitesBeforeVersionIntegration": 9,
+        "privateInputReads": 0,
+        "newFinalHtmlOrNativeAcceptance": false,
+        "evidence": [
+          {
+            "path": ".build/audit-20261026/spec-contract-integrated-final-green-1792998765693.json",
+            "sha256": "e915383a6f0c7728fdb6f5eb666514b501c424ca00277259626d6a89be0b6871"
+          },
+          {
+            "path": ".build/audit-20261026/spec-contract-integrated-current-status-green-1792998766851.json",
+            "sha256": "7dc9320d41f24011248caad92976bc19293a38030c661d3880efa0569efb6230"
+          },
+          {
+            "path": ".build/audit-20261026/related-spec-regressions-1792997478961.json",
+            "sha256": "1817d337d3143d05c364b551be717d6362a25a900daaa54ee464c0d60a9ee7e7"
+          }
+        ],
+        "remaining": [
+          "전체 명세/실제값·모든 소비자의 충분성 판정",
+          "정확 최종 HTML의 소유자 명세·JSON/접근·원문 검수",
+          "실제 DB/운영/게시/문서 상태 동기화",
+          "UI/법령/DB/NAV별 독립 실제 근거"
+        ]
+      }
+    },
+    {
+      "id": "NAV126-05",
+      "originRequestNumber": 5,
+      "name": "접기·펼치기 제어 UX 검토",
+      "scope": "제어버튼 위치/크기/표현·재열기·키보드/초점·모바일과 충분한 참고사례",
+      "consumers": [
+        "sidebar-toggle",
+        "상단공통영역",
+        "좌측메뉴",
+        "저장된접힘설정",
+        "프로젝트/화면이동",
+        "모바일본문"
+      ],
+      "acceptance": [
+        "실제 업무/탐색 목적과 확인한 참고사례를 구별해 근거화",
+        "접힌 후 복귀가능·키보드·초점·모바일 가림/스크롤 확인",
+        "최신 사용자 지시로 재검토하는 제어와 보존할 메뉴정책 구분"
+      ],
+      "preservation": [
+        "메뉴항목 text-only",
+        "접힘 시 메뉴 전체숨김",
+        "재열기 기능/기존설정",
+        "본문아이콘 일괄삭제로 확대금지"
+      ],
+      "stage": {
+        "existingImplementation": "C53-existing-control",
+        "contentReview": "new-appropriateness-reference-review-pending",
+        "automatic": "notrun-for-126",
+        "actualScreen": "notrun-for-126",
+        "keyboardMobile": "notrun-for-126"
+      },
+      "completed": false,
+      "owner": "root",
+      "approvedDirection": {
+        "source": "root 2026-10-26 결정",
+        "visibleText": "메뉴",
+        "targetSizePx": [
+          44,
+          44
+        ],
+        "borderless": true,
+        "dynamicAccessibleNameAndTitle": [
+          "메뉴 접기",
+          "메뉴 펼치기"
+        ],
+        "icon": false,
+        "fullyHiddenCollapsed": true,
+        "implementationOrNativeAcceptanceNotInferred": true
+      }
+    }
+  ],
+  "summary": {
+    "requirements": 5,
+    "completed": 0,
+    "allPlatformComponentsAccepted": false,
+    "c53AcceptanceTransferredToNewRequests": false
+  },
+  "safety": {
+    "productEdits": 0,
+    "realDatabaseAccessByAuditor": 0,
+    "otherSchemaChanges": 0,
+    "userDataChanges": 0,
+    "newReleaseOrDeploymentClaim": false,
+    "specMetadataSourceChanged": true,
+    "businessLogicChangedByAuditor": false,
+    "sourceCorrectionScope": "src/spec.js 현재 메타/조건부 최신요구 바인딩만; 업무UI/원장/DB 변경0"
+  },
+  "targetReleaseStatus": "planned-not-published-or-accepted",
+  "workingSpecificationCorrection": {
+    "stage": "working-source-only-not-final-artifact",
+    "addressedFindings": [
+      "SPEC126-D01",
+      "SPEC126-D02",
+      "SPEC126-D03",
+      "SPEC126-D04",
+      "SPEC126-D05"
+    ],
+    "source": {
+      "path": "src/spec.js",
+      "metadataOwnerPin": "fdbbb4610c6113609936ae06f43e88d013b92924ad2c1fd3149ea9d73b63153b",
+      "integratedRootVersionPin": "ebf3023b7f65a03ca33508f2c37e1c8a5fb19eb3a1637658a7c5e7a23f2751fb",
+      "rootOwnsSubsequentVersionBuildIntegration": true
+    },
+    "focusedChecks": 31,
+    "focusedFailed": 0,
+    "currentSpecRegressionChecks": 10,
+    "relatedSuitesBeforeVersionIntegration": 9,
+    "privateInputReads": 0,
+    "newFinalHtmlOrNativeAcceptance": false,
+    "evidence": [
+      {
+        "path": ".build/audit-20261026/spec-contract-integrated-final-green-1792998765693.json",
+        "sha256": "e915383a6f0c7728fdb6f5eb666514b501c424ca00277259626d6a89be0b6871"
+      },
+      {
+        "path": ".build/audit-20261026/spec-contract-integrated-current-status-green-1792998766851.json",
+        "sha256": "7dc9320d41f24011248caad92976bc19293a38030c661d3880efa0569efb6230"
+      },
+      {
+        "path": ".build/audit-20261026/related-spec-regressions-1792997478961.json",
+        "sha256": "1817d337d3143d05c364b551be717d6362a25a900daaa54ee464c0d60a9ee7e7"
+      }
+    ],
+    "remaining": [
+      "전체 명세/실제값·모든 소비자의 충분성 판정",
+      "정확 최종 HTML의 소유자 명세·JSON/접근·원문 검수",
+      "실제 DB/운영/게시/문서 상태 동기화",
+      "UI/법령/DB/NAV별 독립 실제 근거"
+    ]
+  }
+}

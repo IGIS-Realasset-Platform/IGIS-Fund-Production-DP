@@ -29,7 +29,9 @@ b,strong,th { font-weight:600; }
 .dp-app .sidebar { display:flex; flex-direction:column; min-width:0; min-height:0; background:var(--navy); color:#fff; }
 .dp-app .brand { display:flex; align-items:center; justify-content:space-between; gap:8px; height:var(--topbar); flex:none; padding:0 12px; border-bottom:1px solid #ffffff20; }
 .dp-app .brand-name { font-size:16px; font-weight:600; white-space:nowrap; }
-.dp-app .sidebar-toggle { flex:none; white-space:nowrap; }
+.dp-app .sidebar-toggle { flex:none; width:44px; height:44px; padding:0; border:0; border-radius:4px; background:transparent; color:inherit; white-space:nowrap; }
+.dp-app .sidebar-toggle:hover { background:var(--surface-hover,#e8eef5); }
+.dp-app .sidebar-toggle:focus-visible { outline:2px solid var(--primary,#245b9c); outline-offset:2px; }
 .dp-app .nav { display:grid; align-content:start; gap:4px; padding:12px; overflow:auto; min-height:0; flex:1; }
 .dp-app .nav-btn { display:flex; align-items:center; gap:12px; width:100%; min-height:40px; padding:8px 10px; border:0; border-radius:5px; background:transparent; color:#cad7e5; text-align:left; white-space:nowrap; }
 .dp-app .nav-btn:hover { background:#ffffff12; color:white; }

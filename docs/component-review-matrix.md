@@ -2,6 +2,94 @@
 
 현행 기준: `4bb632ab3a2326a6ccc5cb02983fd379bc486cf1b14adcaa984682ca6d5a81e9` — v0.12.5 정확 HTML. C44는 아래의 **과거 정의**이며 제거된 열·폼을 재도입할 기준이 아닙니다. 전체 구성요소/모든 기능 완료는 아닙니다.
 
+<!-- REVIEW126-START -->
+## 2026-10-26 추가 검토 — 완료0
+
+새 요청5개는 아래 검토대장으로 연결합니다. 현행 C53의975개 정의와 당시 수행·출력 근거는 그대로 보존하며, 새 검토의 필요성·내용 충분성·배치/크기·새 실제실행을 자동 수락하지 않습니다.
+
+| 요구ID | 검토할 업무 | 현재 단계 |
+|---|---|---|
+| UI126-01 | 인허가 상세 업무 UX 재검토 | 완료 미표시 · 새 기준 검토/검수 대기 |
+| LAW126-02 | 법령 5단계 수록범위 검증 | 완료 미표시 · 새 기준 검토/검수 대기 |
+| DB126-03 | 전용 DB 연결·구조·효율 읽기 감사 | 완료 미표시 · 새 기준 검토/검수 대기 |
+| SPEC126-04 | 현행 명세·구현 차이 독립 감사 | 완료 미표시 · 새 기준 검토/검수 대기 |
+| NAV126-05 | 접기·펼치기 제어 UX 검토 | 완료 미표시 · 새 기준 검토/검수 대기 |
+
+법령5단계는 **검색가능 / 등록catalog / 실제일일watch / 추천참조 / 사업별확인목록**입니다. 법적 형식·관할·판본 축과 혼합하지 않습니다. 인허가 상세의6행동과15필드·4연결, 전역 접기/펼치기 제어는 C53 source를 읽은 재검토 원정의이며 새 기능/새PASS 수가 아닙니다.
+
+| C53 재검토ID(보존) | 당시 종류 | 당시 표시/역할 | 원정의 수락 |
+|---|---|---|
+| REVIEW126-COMP-PERMIT-DETAIL | popup | 인허가 상세 — 목적/내용/6행동 재검토 | notrun |
+| REVIEW126-COMP-PERMIT-DETAIL-FACTS | popup-table | 현재 기본정보 표 — 항목/내용 | notrun |
+| REVIEW126-COMP-PERMIT-DETAIL-FIELD-name | inline-field-definition | 인허가명 | notrun |
+| REVIEW126-COMP-PERMIT-DETAIL-FIELD-group | inline-field-definition | 관리 분야 | notrun |
+| REVIEW126-COMP-PERMIT-DETAIL-FIELD-stage | inline-field-definition | 상태 | notrun |
+| REVIEW126-COMP-PERMIT-DETAIL-FIELD-handling | inline-field-definition | 처리 방식 | notrun |
+| REVIEW126-COMP-PERMIT-DETAIL-FIELD-requestType | inline-field-definition | 최초 / 변경 | notrun |
+| REVIEW126-COMP-PERMIT-DETAIL-FIELD-reportCategory | inline-field-definition | 국토부 보고 분류 | notrun |
+| REVIEW126-COMP-PERMIT-DETAIL-FIELD-agency | inline-field-definition | 담당기관 | notrun |
+| REVIEW126-COMP-PERMIT-DETAIL-FIELD-owner | inline-field-definition | 담당자 | notrun |
+| REVIEW126-COMP-PERMIT-DETAIL-FIELD-plannedApplication | inline-field-definition | 계획 신청일 | notrun |
+| REVIEW126-COMP-PERMIT-DETAIL-FIELD-expected | inline-field-definition | 목표 완료일 | notrun |
+| REVIEW126-COMP-PERMIT-DETAIL-FIELD-application | inline-field-definition | 실제 신청일 | notrun |
+| REVIEW126-COMP-PERMIT-DETAIL-FIELD-supplement | inline-field-definition | 보완 요청일 | notrun |
+| REVIEW126-COMP-PERMIT-DETAIL-FIELD-approval | inline-field-definition | 승인일 | notrun |
+| REVIEW126-COMP-PERMIT-DETAIL-FIELD-law | inline-field-definition | 근거법령·조문 | notrun |
+| REVIEW126-COMP-PERMIT-DETAIL-FIELD-sourcePath | inline-field-definition | 인허가 신청·진행자료 경로 | notrun |
+| REVIEW126-COMP-PERMIT-DETAIL-RELATIONS | popup-table | 현재 선택 연결관계 — 관계/연결 대상 | notrun |
+| REVIEW126-COMP-PERMIT-DETAIL-RELATION-deemedBy | fact-label | 의제 | notrun |
+| REVIEW126-COMP-PERMIT-DETAIL-RELATION-predecessorIds | fact-label | 선행 | notrun |
+| REVIEW126-COMP-PERMIT-DETAIL-RELATION-integratedWith | fact-label | 함께 심의 | notrun |
+| REVIEW126-COMP-PERMIT-DETAIL-RELATION-amendsId | fact-label | 변경 전 | notrun |
+| REVIEW126-COMP-PERMIT-DETAIL-ACTION-law-search-open | popup-button | 관련 법령 조회 | notrun |
+| REVIEW126-COMP-PERMIT-DETAIL-ACTION-permit-rounds | popup-button | 신청·보완·심의 기록 | notrun |
+| REVIEW126-COMP-PERMIT-DETAIL-ACTION-legal-results | popup-button | 조치계획 | notrun |
+| REVIEW126-COMP-PERMIT-DETAIL-ACTION-legal-edit | popup-button | 인허가 수정 | notrun |
+| REVIEW126-COMP-PERMIT-DETAIL-ACTION-legal-permit-amend | popup-button | 변경 인허가 추가 | notrun |
+| REVIEW126-COMP-PERMIT-DETAIL-ACTION-legal-delete | popup-button | 삭제 | notrun |
+| REVIEW126-COMP-SIDEBAR-TOGGLE | button | 메뉴 접기/메뉴 펼치기 — 제어 재검토 | notrun |
+
+최종 계산된 명세의 독립5검사 RED(CBS 현재규칙 충돌·실제API2누락·금융schema누락·제거된 확인이력 안내)는 업무5기능 실패와 구별합니다. 후속33ID는 다른 현행 객체에 존재하며 **33개 미구현**으로 세지 않습니다. C53 정식 게시기록과 README/승인파일 미마감, 현재/빌드시점/과거의 경계도 별도 감사합니다.
+
+[이번 명세](review-20261026-spec.md) · [검토대장](review-20261026-ledger.json). 실제 DB/효율감사와 법령/참고사례 조사는 담당자의 별도 근거를 기다리며 제품·다른 문서·DB는 변경하지 않습니다.
+### 명세 작업소스 교정 — 새 최종화면/전체요구 수락 아님
+
+SPEC126의 C53 초기5RED는 보존합니다. 승인된 메타데이터 교정·실제API 계약·금융/전문인력 schema·운영/사람검토 분리·후속33 추적성과 조건부 최신5 바인딩은 작업소스31검사/현재명세10검사를 통과했습니다. 새 최종HTML/실화면·DB·전체목적/충분성은 별도입니다. targetRelease는0.12.6 planned이며 완료0·pending34 유지입니다.
+
+NAV의 승인 검증방향은 44×44·테두리없음·보이는 글자 메뉴·상태별 접근성 이름/제목·아이콘없음/접힘전체숨김입니다. 실제 최종검수 근거 수신 전 새PASS로 바꾸지 않습니다.
+
+
+
+### 후보 C57의 제한된 관측 — 완료0·미승격
+
+VM의 30경로/35모듈 관측은 실제 브라우저 실행과 구별합니다. 정확 C57 HTML(`8512c4274313cd3f8ed5d891f24ce1843e4c8a6aa91cecb9d6e5b9cc07acab3e`, 6693002B)의 새 브라우저8조건은 1280/1440/1600/390×모의 editor/viewer이며, 4읽기탭·수동 키보드 활성화·긴 의견8개·단일 세로스크롤·명시적 의견수정/취소·viewer 쓰기버튼 비노출·Escape 복귀·메뉴44×44/선택칸 상대위치를 확인했습니다. 모의 GET만 사용한 합성자료 검수이며 실제 회원/서버/DB 검수는 아닙니다.
+
+| 판본/근거 | 실제 수행범위 | 현재 처리 |
+|---|---|---|
+| C55 actual8 | 읽기/키보드/수정취소·권한·메뉴8조건 통과 | 당시 근거 보존, C57로 승계하지 않음 |
+| C55 보조scroll7 | 5통과 / overview top0·round복귀 2관측FAIL | FAIL2 보존·원인해석은 C57 pointer 계측 기준; main8로 해결 처리하지 않음 |
+| C56 보조scroll7 | root가 같은2관측FAIL 보고 | 원근거 경로 대기·수락 아님 |
+| C57 VM30 | 정확 내장35모듈의30경로 렌더 | noactual, 고정기본 관측 |
+| C57 actual8 | 위8조건 새 실제실행 | 제한범위 통과, 요구전체 수락 아님 |
+| C57 보조scroll7 | 5통과 / 2작업위치 UX실패 | FAIL2·C58 재검수 대기 |
+
+원4213 ID/검수상태·C53 current975·기존 pending34는 보존했습니다. 새 후보 정의8행은 탭목록1/탭4/지역행동2/보고기준 읽기값1이며, 기능8개 또는 실제8흐름과 같은 분모가 아닙니다. footer3·전역메뉴는 원ID를 재사용했고, 예전 footer의 회차/조치 버튼은 새 지역진입과 대응시켰습니다. 다른 화면의 기존 회차/조치 기능을 삭제됐다고 판정하지 않습니다. 기존15필드는 C53 inline 정의를 보존하면서 C57에서는 제목/읽기값 및 명시적 수정진입으로 구별했습니다.
+
+| 후보 추가ID | 역할 | 좁은 실제범위/미검증 |
+|---|---|---|
+| REVIEW126-COMP-PERMIT-DETAIL-TABS | 인허가 상세 항목 (tablist) | 4탭 수동 활성화, 단일 세로스크롤 |
+| REVIEW126-COMP-PERMIT-DETAIL-TAB-overview | 개요 (tab) | Arrow/Enter·Home/End 수동 활성화, 선택표시/tabpanel |
+| REVIEW126-COMP-PERMIT-DETAIL-TAB-rounds | 신청·심의 기록 (tab) | Arrow/Enter·Home/End 수동 활성화, 선택표시/tabpanel |
+| REVIEW126-COMP-PERMIT-DETAIL-TAB-results | 검토의견·조치 (tab) | Arrow/Enter·Home/End 수동 활성화, 선택표시/tabpanel |
+| REVIEW126-COMP-PERMIT-DETAIL-TAB-law | 법령·조건 (tab) | Arrow/Enter·Home/End 수동 활성화, 선택표시/tabpanel |
+| REVIEW126-COMP-PERMIT-DETAIL-LOCAL-round-add | 진행 기록 추가 (popup-button) | 보조7에서 진입/부모복귀 실행, 접근 전240→0 작업위치 소실FAIL. 저장 미실행 |
+| REVIEW126-COMP-PERMIT-DETAIL-LOCAL-results-edit | 검토의견·조치 수정 (popup-button) | 명시 진입·기존값 읽기·취소 후 results 탭 복귀 |
+| REVIEW126-COMP-PERMIT-DETAIL-FACT-reportTrigger | 국토부 보고 기한 기준 (readonly-fact) | label source 관측만; 실제 값/법적 날짜 판정 미검증 |
+
+진행기록 생성/저장, 변경인허가/삭제, 모든 필드와 503/원복, 실제 보고기한의 법적 판정, 관련 출력·실제 계정·전체 명세 충분성은 이8조건으로 통과 처리하지 않습니다. LAW의 전국 검색가능/등록/실제수집/추천/사업별검토와 DB 감사도 별도 근거·수락을 기다립니다. C57 pointerdown 계측에서 본문240일 때 탭 y=-127·추가버튼 y=-32.4로 화면 밖이었고, 클릭도구가 먼저0으로 스크롤한 뒤 handler는0을 정확히 저장했습니다. 따라서 C55/C56/C57의 관측FAIL2를 상태복원 코드 또는 RAF의 독립 오류로 확정한 중간가설은 정정합니다. 남은 실제 문제는 긴 본문에서 탐색/추가 동작에 접근하면서 작업위치가 사라지는 UX입니다. C58의 새8/4/7 실측과 최종회귀를 기다리며 이전 실패는 덮지 않습니다.
+
+<!-- REVIEW126-END -->
+
 ## 현행 구성과 수행 범위
 
 | 구분 | 현재 확인 | 미완료 경계 |
