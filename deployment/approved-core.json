@@ -1,13 +1,13 @@
 {
-  "version": "0.12.6",
+  "version": "0.12.7",
   "origin": "https://development-project-platform-preview-git-preview-b5dda7-igisra.vercel.app",
-  "htmlSha256": "dd735a859236f204803124f1a7b5167c05ae67102d17ec82542f5cfb89cb9a40",
-  "bytes": 6693316,
+  "htmlSha256": "22e2d9e736cf12ef2c03ec7f9bcc5f27e5474e55ac60154769c1030f2036e31f",
+  "bytes": 6715113,
   "notionRequired": false,
   "realProjectDataIncluded": false,
   "mode": "authenticated-private-schema-runtime-with-optional-source",
   "localBuildVerified": true,
-  "actualBrowser": "REVIEW126 C58 exact root candidate with focused editor/viewer UI flows. Final logical, finite browser and server verification are recorded separately in docs/review-20261026-verification.md; no whole-platform acceptance. Four inactive privacy references and the one runtime origin are the only distribution transformations.",
+  "actualBrowser": "SEARCH127 C61 four-size focused UI flows passed. Official destination JS results were checked separately with CUA; real app-to-official flow follows publication. Current acceptance scope and preparation corrections in docs/review-20261026-search127-verification.md. No all-component or nationwide collection acceptance.",
   "previousProtectedDeployment": "dpl_8KPvxYTuF6tXPyio42gf455rGAqZ",
-  "previousVersion": "0.12.5"
+  "previousVersion": "0.12.6"
 }

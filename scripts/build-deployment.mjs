@@ -6,7 +6,7 @@ import {verifyCloudBuild} from './cloud-build-check.mjs';
 import {resolveCloudOrigin} from './deployment-policy.mjs';
 import {permitDomainBundle} from './permit-domain-bundle.mjs';
 
-const cloud=process.argv.includes('--cloud'),version=cloud?'0.12.6':'0.11.0',runtime={mode:'real',version,storageKey:cloud?'development-platform-cloud-v0111':'development-platform-real-v0110',notionSourceUrl:'/api/notion-source',...(cloud?{persistence:'cloud'}:{})};
+const cloud=process.argv.includes('--cloud'),version=cloud?'0.12.7':'0.11.0',runtime={mode:'real',version,storageKey:cloud?'development-platform-cloud-v0111':'development-platform-real-v0110',notionSourceUrl:'/api/notion-source',...(cloud?{persistence:'cloud'}:{})};
 const args=process.argv.slice(2),option=name=>{const index=args.indexOf(name);return index>=0?args[index+1]||'':''},sourceArg=option('--source'),outArg=option('--out'),iconsArg=option('--icons');
 const localQa=cloud&&args.includes('--local-qa');if(localQa&&process.env.VERCEL==='1')throw Error('합성 HTTP 검수본은 클라우드에 배포할 수 없습니다.');if(cloud)runtime.cloudOrigin=resolveCloudOrigin(option('--cloud-origin'),{localQa});
 if(!outArg)throw Error('실제 빌드는 --out <.build/private-html>을 지정해야 합니다. Notion --source는 선택사항입니다.');
@@ -36,7 +36,7 @@ const spec=await read('src/data/base-spec.json'),deploymentStatus=JSON.parse(awa
 if(deploymentStatus.schemaVersion!=='deployment-status-v0111'||deploymentStatus.version!==version||deploymentStatus.authentication?.allowedEmailDomain!=='igisam.com'||deploymentStatus.authentication?.codeLength!==6||deploymentStatus.authentication?.commonInitialCode!==false)throw Error('현재 배포·이메일 확인 명세를 확인해 주세요.');
 const costTaxonomy=await read('src/data/cost-taxonomy-v4.json'),costTypeMaster=await read('src/data/cost-type-master-v4.json'),costTypeMasterArchive=JSON.stringify({'company-cbs-v1':JSON.parse(await read('src/data/cost-type-master-v1.json')),'company-cbs-v2':JSON.parse(await read('src/data/cost-type-master-v2.json')),'company-cbs-v3':JSON.parse(await read('src/data/cost-type-master-v3.json'))}),costUsePresets=await read('src/data/cost-presets-v2.json'),lawSourceV0110=await read('src/data/law-source-v0110.json');
 const fontCss=await read('src/assets/fonts.css'),reportCss=await read('src/report.css');let css=await read('src/recovery.css');for(const file of ['src/cbs-recovery.css','src/contracts-recovery.css','src/permit.css','src/setup.css','src/report-editor.css'])css+='\n'+await read(file);
-for(const file of ['src/notifications.css','src/cost-snapshots.css','src/permit-map.css','src/permit-detail.css','src/law-comparison.css','src/workspace-ux.css'])css+='\n'+await read(file);
+for(const file of ['src/notifications.css','src/cost-snapshots.css','src/permit-map.css','src/permit-detail.css','src/law-comparison.css','src/law-search.css','src/workspace-ux.css'])css+='\n'+await read(file);
 if(cloud)css+='\n'+await read('src/cloud-session.css');
 let code='const APP_RUNTIME='+JSON.stringify(runtime)+';const SEED='+JSON.stringify(seed)+';const SPEC='+spec+';const DEPLOYMENT_STATUS_V0111='+JSON.stringify(deploymentStatus)+';const RECOVERY_LEDGER='+ledger+';const REQUIREMENT_LEDGER='+requirementLedger+';const RUN_VERIFICATION=null;const LEGACY_ICONS='+JSON.stringify(icons)+';const LAW_SOURCE_V0110='+lawSourceV0110+';\n';for(const[key,value]of Object.entries(fixLedgers))code+='const '+key+'='+JSON.stringify(value)+';\n';code+='const COST_TAXONOMY='+costTaxonomy+';const COST_TYPE_MASTER='+costTypeMaster+';const COST_TYPE_MASTER_V4=COST_TYPE_MASTER;const COST_TYPE_MASTER_ARCHIVE='+costTypeMasterArchive+';const COST_USE_PRESETS='+costUsePresets+';\n'+notionCode+'\n';
 code+='const CENTER120_FIX_LEDGER='+await read('docs/center-20261020-fix-ledger.json')+';\n';
@@ -46,6 +46,7 @@ code+='const AUTO123_FIX_LEDGER='+await read('docs/recheck-20261022-ledger.json'
 code+='const CONTINUATION124_FIX_LEDGER='+await read('docs/continuation-20261023-ledger.json')+';\n';
 code+='const PURPOSE125_FIX_LEDGER='+await read('docs/purpose-20261023-ledger.json')+';\n';
 code+='const REVIEW126_FIX_LEDGER='+await read('docs/review-20261026-ledger.json')+';\n';
+code+='const SEARCH127_FIX_LEDGER='+await read('docs/review-20261026-search127-ledger.json')+';\n';
 const permitReference=JSON.parse(await read('docs/permit-catalog-20261020-review.json'));code+='const PERMIT_REFERENCE='+JSON.stringify({asOf:permitReference.asOf,sources:permitReference.sources,rows:permitReference.rows})+';\n';
 const bootCode="App.notionProjects=NotionProjects;App.spec.meta.version='"+version+"';"+(cloud?'App.cloudSession.start();':'App.boot();App.notionAddon?.start?.();');
 const reportAssetsBinding=cloud?'{css:'+JSON.stringify(reportCss)+',fonts:document.getElementById("dp-fonts").textContent}':JSON.stringify({css:reportCss,fonts:fontCss});

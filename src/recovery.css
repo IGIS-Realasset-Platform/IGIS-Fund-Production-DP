@@ -29,7 +29,10 @@ b,strong,th { font-weight:600; }
 .dp-app .sidebar { display:flex; flex-direction:column; min-width:0; min-height:0; background:var(--navy); color:#fff; }
 .dp-app .brand { display:flex; align-items:center; justify-content:space-between; gap:8px; height:var(--topbar); flex:none; padding:0 12px; border-bottom:1px solid #ffffff20; }
 .dp-app .brand-name { font-size:16px; font-weight:600; white-space:nowrap; }
-.dp-app .sidebar-toggle { flex:none; width:44px; height:44px; padding:0; border:0; border-radius:4px; background:transparent; color:inherit; white-space:nowrap; }
+.dp-app .sidebar-toggle { position:relative; display:inline-flex; align-items:center; justify-content:center; flex:none; width:44px; height:44px; padding:0; border:0; border-radius:4px; background:transparent; color:inherit; white-space:nowrap; }
+.dp-app .sidebar-toggle svg { width:20px; height:20px; display:block; pointer-events:none; }
+.dp-app .sidebar-toggle::after { content:attr(aria-label); position:absolute; top:calc(100% + 6px); left:0; z-index:40; padding:6px 9px; border-radius:4px; background:var(--navy,#10243f); color:#fff; font-size:12px; font-weight:400; line-height:1.4; white-space:nowrap; pointer-events:none; opacity:0; visibility:hidden; }
+.dp-app .sidebar-toggle:hover::after,.dp-app .sidebar-toggle:focus-visible::after { opacity:1; visibility:visible; }
 .dp-app .sidebar-toggle:hover { background:var(--surface-hover,#e8eef5); }
 .dp-app .sidebar-toggle:focus-visible { outline:2px solid var(--primary,#245b9c); outline-offset:2px; }
 .dp-app .nav { display:grid; align-content:start; gap:4px; padding:12px; overflow:auto; min-height:0; flex:1; }

@@ -1,0 +1,205 @@
+{
+  "schemaVersion": 1,
+  "id": "SEARCH127",
+  "date": "2026-10-26",
+  "baselineVersion": "0.12.6",
+  "targetRelease": "0.12.7",
+  "targetReleaseStatus": "planned",
+  "status": "current-spec-metadata-corrected-product-and-native-verification-pending",
+  "baseline": {
+    "candidate": "C58",
+    "htmlPath": ".build/review-20261026/integration-candidate-58.html",
+    "htmlSha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+    "htmlBytes": 6693352,
+    "formalStatusSource": "README.md current section read on 2026-10-26",
+    "freshRemoteVerificationByThisAuthor": false,
+    "preservedMatrixRecords": 4255,
+    "previousAcceptanceTransferred": false
+  },
+  "items": [
+    {
+      "id": "LAW127-01",
+      "name": "법령 변경의 별도 공식 검색 탭",
+      "scope": "키워드·대상 선택으로 전국 법령/조례의 공식 검색 결과를 직접 새 탭으로 열기",
+      "consumers": [
+        "law page tab navigation",
+        "keyword input",
+        "official target selection",
+        "external result link",
+        "existing managed catalog",
+        "permit law search",
+        "project law confirmation list"
+      ],
+      "acceptance": [
+        "공식 확인된 URL/대상/검색 인자만 사용하고 선택한 검색어·대상이 공식 결과에 정확히 전달됨",
+        "PC/390의 실제 클릭과 키보드 실행·안전한 새 탭·원래 화면의 문맥 보존",
+        "공란/잘못된 대상/미확정 주소를 조용히 다른 페이지로 대체하지 않음",
+        "관리목록/일일 대상 확대와 업무·watch·수집·DB 쓰기0"
+      ],
+      "independentCounterexamples": [
+        "국가 법령과 조례의 대상 구분",
+        "한글·공백·특수문자 인코딩",
+        "공란/허용되지 않은 대상",
+        "새 탭 차단/공식 사이트 접근 제한",
+        "원래 프로젝트·목록·스크롤·초점 보존",
+        "기존 인허가/사업별 검색과의 역할 혼동"
+      ],
+      "officialContract": {
+        "status": "official-public-GET-contract-verified-by-owner-native-results-pending",
+        "method": "GET",
+        "queryParameter": "query",
+        "targets": [
+          {
+            "id": "law",
+            "origin": "https://www.law.go.kr",
+            "path": "/LSW/lsSc.do",
+            "fixedParams": {
+              "menuId": "1",
+              "subMenuId": "15",
+              "tabMenuId": "81"
+            }
+          },
+          {
+            "id": "admrul",
+            "origin": "https://www.law.go.kr",
+            "path": "/LSW/admRulSc.do",
+            "fixedParams": {
+              "menuId": "5",
+              "subMenuId": "41",
+              "tabMenuId": "183"
+            }
+          },
+          {
+            "id": "ordin",
+            "origin": "https://www.law.go.kr",
+            "path": "/LSW/ordinSc.do",
+            "fixedParams": {
+              "menuId": "3",
+              "subMenuId": "27",
+              "tabMenuId": "139"
+            }
+          }
+        ],
+        "regionalFilter": false,
+        "elisFourthOption": false,
+        "evidence": [
+          {
+            "path": ".build/review-20261026/search127-official-contract.json",
+            "sha256": "07f12d9d106860a6c7572e7fd3f46ffd3b4d7c9cee4bb772e0bbf7c9cd68a29f"
+          },
+          {
+            "path": ".build/review-20261026/search127-official-contract.md",
+            "sha256": "7810da33f0d59dd28943b8ea5034ed4d0b0cda627f7c4e7243bb6ded9ae577f3"
+          }
+        ],
+        "scope": "담당자 공식3대상 GET9/9·응답 검색어 보존. 정부JS 결과행·실제 새 탭·결과완전성은 미검증"
+      },
+      "preservation": [
+        "registered catalog",
+        "daily watch list",
+        "law source text/version",
+        "human review evidence",
+        "project/state/audit",
+        "existing services and schemas"
+      ],
+      "stage": {
+        "specification": "recorded",
+        "implementation": "notrun",
+        "automatic": "notrun",
+        "actualScreen": "notrun",
+        "officialExternalConnection": "notrun"
+      },
+      "completed": false,
+      "owner": "root / backend_operations"
+    },
+    {
+      "id": "NAV127-02",
+      "name": "접기/펴기가 드러나는 사이드바 제어",
+      "scope": "사용자가 기각한 중립 글자 메뉴를 강제하지 않고 패널 접기/열기 기호 버튼으로 일관된 동작 표현",
+      "supersedes": {
+        "requestId": "NAV126-05",
+        "only": "neutral visible text 메뉴 as the required control expression",
+        "preservesHistoricalEvidence": true
+      },
+      "consumers": [
+        "existing sidebar-toggle control",
+        "sidebar visibility",
+        "topbar project selector",
+        "keyboard/focus",
+        "mobile navigation",
+        "saved collapsed preference"
+      ],
+      "acceptance": [
+        "선택한 기호·접근성 이름/상태가 펼침/접힘의 실제 다음 동작과 일치",
+        "실제 클릭·Tab/Enter/Space·재열기·초점·현재 화면/프로젝트·스크롤 보존",
+        "펼친 글자 메뉴/접힘 전체숨김·기존 저장 설정 보존",
+        "본문 아이콘 일괄 변경/새 접힘 기본정책/업무자료 쓰기0"
+      ],
+      "independentCounterexamples": [
+        "기호 방향과 실제 동작 반대",
+        "중립 메뉴문자 강제 재도입",
+        "프로젝트 선택칸 위치 이동",
+        "숨은 메뉴의 키보드 초점",
+        "재열기 불가",
+        "키보드 한 조작 이중 실행",
+        "접힘 선호/사업 문맥 소실"
+      ],
+      "designEvidence": {
+        "status": "root-official-reference-selection-pending",
+        "symbol": null,
+        "evidence": []
+      },
+      "preservation": [
+        "text-only menu items",
+        "fully hidden collapsed sidebar",
+        "existing control and callback",
+        "saved collapsed preference",
+        "business data and unrelated body icons"
+      ],
+      "stage": {
+        "specification": "recorded",
+        "implementation": "notrun",
+        "automatic": "notrun",
+        "actualScreen": "notrun"
+      },
+      "completed": false,
+      "owner": "root"
+    }
+  ],
+  "summary": {
+    "requirements": 2,
+    "completed": 0,
+    "actualAccepted": 0,
+    "allPlatformComponentsAccepted": false
+  },
+  "safety": {
+    "productEditsByThisAuthor": 1,
+    "databaseAccess": false,
+    "remoteRequests": 0,
+    "otherServiceOrSchemaChanges": 0,
+    "oldMatrixAndEvidencePreserved": true,
+    "productMetadataFilesEditedByThisAuthor": 1,
+    "businessHandlerEditsByThisAuthor": 0
+  },
+  "specMetadataCorrection": {
+    "source": {
+      "path": "src/spec.js",
+      "sha256": "731342fd8c1a7c30060486697f8bf440fee51382dfd395c69671687f10401413"
+    },
+    "test": {
+      "path": "tests/search127-spec.mjs",
+      "sha256": "39f103a145fc08e5232951c3838e4709bd9ed232986c3587b75c52568672a8af"
+    },
+    "focused": {
+      "redFailed": 16,
+      "redPassed": 4,
+      "greenPassed": 20,
+      "greenFailed": 0
+    },
+    "relatedExistingSuites": 9,
+    "actualBrowser": false,
+    "officialResultRows": false,
+    "databaseAccess": false,
+    "implementationAcceptanceTransferred": false
+  }
+}

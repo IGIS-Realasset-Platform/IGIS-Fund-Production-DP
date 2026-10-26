@@ -4,10 +4,10 @@ import {makeHarness} from './recovery-harness.mjs';
 const checks=[];
 const test=(name,fn)=>{try{fn();checks.push({name,passed:true});}catch(error){checks.push({name,passed:false,error:error.message});}};
 const fixture=()=>makeHarness({seed:{projects:[],entities:[],companies:[],auditEvents:[],notifications:[],lawChanges:[],projectLawImpacts:[]},modules:['core']});
-for(const collapsed of [false,true])test(`메뉴 ${collapsed?'접힘':'펼침'}: 고정 글자·명시된 조작 이름·실제 숨김`,()=>{
+for(const collapsed of [false,true])test(`메뉴 ${collapsed?'접힘':'펼침'}: 현재 기호·명시된 조작 이름·실제 숨김`,()=>{
  const h=fixture();h.A.ui.sidebarCollapsed=collapsed;const before=JSON.stringify(h.A.state);h.A.render();
  const top=h.nodes.get('topbar').innerHTML,button=top.match(/<button[^>]*class="btn sidebar-toggle"[^>]*>[\s\S]*?<\/button>/)?.[0];assert(button);
- assert.match(button,/>메뉴<\/button>$/);assert(button.includes(`aria-label="메뉴 ${collapsed?'펼치기':'접기'}"`));assert(button.includes(`title="메뉴 ${collapsed?'펼치기':'접기'}"`));
+ assert.match(button,/<svg[^>]*aria-hidden="true"[^>]*focusable="false"/);assert(button.includes(`aria-label="메뉴 ${collapsed?'펼치기':'접기'}"`));assert.doesNotMatch(button,/title=/);assert(button.includes(`data-sidebar-symbol="${collapsed?'open':'close'}"`));
  assert(button.includes(`aria-expanded="${!collapsed}"`));assert(button.includes('aria-controls="sidebar"'));assert.equal(h.nodes.get('sidebar').hidden,collapsed);assert.doesNotMatch(h.nodes.get('sidebar').innerHTML,/<svg|<img|nav-icon/);assert.equal(JSON.stringify(h.A.state),before);
 });
 test('반복 접기·열기는 탐색 문맥과 업무자료를 변경하지 않음',()=>{
