@@ -1,5 +1,6 @@
 {
   "schemaVersion": "component-review-matrix-v1",
+  "deployedRelease": {"version":"0.12.6","candidate":"C58","date":"2026-10-26","sourceCommit":"358eecd0358c94e025d94671de48079feec4aa27","formalHtmlSha256":"ea4024a0ce76e466c30969bb1cdcb6f7d119b14cb9ffc437acc1331053aeb127","verification":"docs/review-20261026-verification.md","inventoryBaselinePreserved":true,"allComponentsAccepted":false},
   "at": "2026-10-23T04:12:22.096Z",
   "purpose": "모든 화면·컴포넌트의 업무 필요성·관리 내용 충분성·연결과 실제 검수 상태를 매번 추적합니다. 초기 목록화는 전체 수락이 아닙니다.",
   "baseline": {
@@ -525472,6 +525473,40 @@
         "approvedBasis": "README 만든 목적·CENTER120-09·홈/원가 소비자 일치",
         "counterexample": "원문/미확보 사실을 지우거나 다른 범위의 합계·판단을 조용히 대체하지 않습니다.",
         "notActualPass": true
+      },
+      "review126": {
+        "candidateBasicObservation": {
+          "artifact": "C58",
+          "status": "observed-default-only",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "viewports": [
+            {
+              "width": 1280,
+              "height": 800
+            },
+            {
+              "width": 1440,
+              "height": 900
+            },
+            {
+              "width": 1600,
+              "height": 1000
+            },
+            {
+              "width": 390,
+              "height": 844
+            }
+          ],
+          "evidence": [
+            "REVIEW126-C58-BASIC120-ROLE2"
+          ],
+          "scope": "실제 기본상태의 표/끝셀·배치/스크롤 읽기 관측만. 자식폼/저장/취소/출력·목적/내용 충분성 전체수락 아님",
+          "allStatesAccepted": false
+        }
       }
     },
     {
@@ -529024,6 +529059,40 @@
         "approvedBasis": "README 기본정보·일정·현안과 원가이력 요구",
         "counterexample": "원문/미확보 사실을 지우거나 다른 범위의 합계·판단을 조용히 대체하지 않습니다.",
         "notActualPass": true
+      },
+      "review126": {
+        "candidateBasicObservation": {
+          "artifact": "C58",
+          "status": "observed-default-only",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "viewports": [
+            {
+              "width": 1280,
+              "height": 800
+            },
+            {
+              "width": 1440,
+              "height": 900
+            },
+            {
+              "width": 1600,
+              "height": 1000
+            },
+            {
+              "width": 390,
+              "height": 844
+            }
+          ],
+          "evidence": [
+            "REVIEW126-C58-BASIC120-ROLE2"
+          ],
+          "scope": "실제 기본상태의 표/끝셀·배치/스크롤 읽기 관측만. 자식폼/저장/취소/출력·목적/내용 충분성 전체수락 아님",
+          "allStatesAccepted": false
+        }
       }
     },
     {
@@ -533775,6 +533844,40 @@
         "approvedBasis": "CENTER120-05/06/16; FUP121 비용분해·원금액 보존; AGENTS 미입력/0·단일집계",
         "counterexample": "원문/미확보 사실을 지우거나 다른 범위의 합계·판단을 조용히 대체하지 않습니다.",
         "notActualPass": true
+      },
+      "review126": {
+        "candidateBasicObservation": {
+          "artifact": "C58",
+          "status": "observed-default-only",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "viewports": [
+            {
+              "width": 1280,
+              "height": 800
+            },
+            {
+              "width": 1440,
+              "height": 900
+            },
+            {
+              "width": 1600,
+              "height": 1000
+            },
+            {
+              "width": 390,
+              "height": 844
+            }
+          ],
+          "evidence": [
+            "REVIEW126-C58-BASIC120-ROLE2"
+          ],
+          "scope": "실제 기본상태의 표/끝셀·배치/스크롤 읽기 관측만. 자식폼/저장/취소/출력·목적/내용 충분성 전체수락 아님",
+          "allStatesAccepted": false
+        }
       }
     },
     {
@@ -538790,6 +538893,40 @@
         "approvedBasis": "CENTER120-05/06/16; FUP121 비용분해·원금액 보존; AGENTS 미입력/0·단일집계",
         "counterexample": "원문/미확보 사실을 지우거나 다른 범위의 합계·판단을 조용히 대체하지 않습니다.",
         "notActualPass": true
+      },
+      "review126": {
+        "candidateBasicObservation": {
+          "artifact": "C58",
+          "status": "observed-default-only",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "viewports": [
+            {
+              "width": 1280,
+              "height": 800
+            },
+            {
+              "width": 1440,
+              "height": 900
+            },
+            {
+              "width": 1600,
+              "height": 1000
+            },
+            {
+              "width": 390,
+              "height": 844
+            }
+          ],
+          "evidence": [
+            "REVIEW126-C58-BASIC120-ROLE2"
+          ],
+          "scope": "실제 기본상태의 표/끝셀·배치/스크롤 읽기 관측만. 자식폼/저장/취소/출력·목적/내용 충분성 전체수락 아님",
+          "allStatesAccepted": false
+        }
       }
     },
     {
@@ -546733,6 +546870,40 @@
         "approvedBasis": "CENTER120-05/06/16; FUP121 비용분해·원금액 보존; AGENTS 미입력/0·단일집계",
         "counterexample": "원문/미확보 사실을 지우거나 다른 범위의 합계·판단을 조용히 대체하지 않습니다.",
         "notActualPass": true
+      },
+      "review126": {
+        "candidateBasicObservation": {
+          "artifact": "C58",
+          "status": "observed-default-only",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "viewports": [
+            {
+              "width": 1280,
+              "height": 800
+            },
+            {
+              "width": 1440,
+              "height": 900
+            },
+            {
+              "width": 1600,
+              "height": 1000
+            },
+            {
+              "width": 390,
+              "height": 844
+            }
+          ],
+          "evidence": [
+            "REVIEW126-C58-BASIC120-ROLE2"
+          ],
+          "scope": "실제 기본상태의 표/끝셀·배치/스크롤 읽기 관측만. 자식폼/저장/취소/출력·목적/내용 충분성 전체수락 아님",
+          "allStatesAccepted": false
+        }
       }
     },
     {
@@ -551282,6 +551453,40 @@
         "approvedBasis": "기존 대출·출자·담보 요구; 사용자 대출별 약정/자문수수료 포함기준(v125)",
         "counterexample": "원문/미확보 사실을 지우거나 다른 범위의 합계·판단을 조용히 대체하지 않습니다.",
         "notActualPass": true
+      },
+      "review126": {
+        "candidateBasicObservation": {
+          "artifact": "C58",
+          "status": "observed-default-only",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "viewports": [
+            {
+              "width": 1280,
+              "height": 800
+            },
+            {
+              "width": 1440,
+              "height": 900
+            },
+            {
+              "width": 1600,
+              "height": 1000
+            },
+            {
+              "width": 390,
+              "height": 844
+            }
+          ],
+          "evidence": [
+            "REVIEW126-C58-BASIC120-ROLE2"
+          ],
+          "scope": "실제 기본상태의 표/끝셀·배치/스크롤 읽기 관측만. 자식폼/저장/취소/출력·목적/내용 충분성 전체수락 아님",
+          "allStatesAccepted": false
+        }
       }
     },
     {
@@ -557745,6 +557950,40 @@
         "approvedBasis": "CENTER120-07/12/13; 사용자 masterplan·의견별 조치계획",
         "counterexample": "원문/미확보 사실을 지우거나 다른 범위의 합계·판단을 조용히 대체하지 않습니다.",
         "notActualPass": true
+      },
+      "review126": {
+        "candidateBasicObservation": {
+          "artifact": "C58",
+          "status": "observed-default-only",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "viewports": [
+            {
+              "width": 1280,
+              "height": 800
+            },
+            {
+              "width": 1440,
+              "height": 900
+            },
+            {
+              "width": 1600,
+              "height": 1000
+            },
+            {
+              "width": 390,
+              "height": 844
+            }
+          ],
+          "evidence": [
+            "REVIEW126-C58-BASIC120-ROLE2"
+          ],
+          "scope": "실제 기본상태의 표/끝셀·배치/스크롤 읽기 관측만. 자식폼/저장/취소/출력·목적/내용 충분성 전체수락 아님",
+          "allStatesAccepted": false
+        }
       }
     },
     {
@@ -565855,7 +566094,39 @@
         ],
         "status": "new-purpose-content-review-pending",
         "existingVerificationPreserved": true,
-        "newAcceptanceNotInferred": true
+        "newAcceptanceNotInferred": true,
+        "candidateBasicObservation": {
+          "artifact": "C58",
+          "status": "observed-default-only",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "viewports": [
+            {
+              "width": 1280,
+              "height": 800
+            },
+            {
+              "width": 1440,
+              "height": 900
+            },
+            {
+              "width": 1600,
+              "height": 1000
+            },
+            {
+              "width": 390,
+              "height": 844
+            }
+          ],
+          "evidence": [
+            "REVIEW126-C58-BASIC120-ROLE2"
+          ],
+          "scope": "실제 기본상태의 표/끝셀·배치/스크롤 읽기 관측만. 자식폼/저장/취소/출력·목적/내용 충분성 전체수락 아님",
+          "allStatesAccepted": false
+        }
       }
     },
     {
@@ -570135,6 +570406,40 @@
         "approvedBasis": "CENTER120-07/12/13; 사용자 masterplan·의견별 조치계획",
         "counterexample": "원문/미확보 사실을 지우거나 다른 범위의 합계·판단을 조용히 대체하지 않습니다.",
         "notActualPass": true
+      },
+      "review126": {
+        "candidateBasicObservation": {
+          "artifact": "C58",
+          "status": "observed-default-only",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "viewports": [
+            {
+              "width": 1280,
+              "height": 800
+            },
+            {
+              "width": 1440,
+              "height": 900
+            },
+            {
+              "width": 1600,
+              "height": 1000
+            },
+            {
+              "width": 390,
+              "height": 844
+            }
+          ],
+          "evidence": [
+            "REVIEW126-C58-BASIC120-ROLE2"
+          ],
+          "scope": "실제 기본상태의 표/끝셀·배치/스크롤 읽기 관측만. 자식폼/저장/취소/출력·목적/내용 충분성 전체수락 아님",
+          "allStatesAccepted": false
+        }
       }
     },
     {
@@ -574652,6 +574957,40 @@
         "approvedBasis": "CENTER120-07/12/13; 사용자 masterplan·의견별 조치계획",
         "counterexample": "원문/미확보 사실을 지우거나 다른 범위의 합계·판단을 조용히 대체하지 않습니다.",
         "notActualPass": true
+      },
+      "review126": {
+        "candidateBasicObservation": {
+          "artifact": "C58",
+          "status": "observed-default-only",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "viewports": [
+            {
+              "width": 1280,
+              "height": 800
+            },
+            {
+              "width": 1440,
+              "height": 900
+            },
+            {
+              "width": 1600,
+              "height": 1000
+            },
+            {
+              "width": 390,
+              "height": 844
+            }
+          ],
+          "evidence": [
+            "REVIEW126-C58-BASIC120-ROLE2"
+          ],
+          "scope": "실제 기본상태의 표/끝셀·배치/스크롤 읽기 관측만. 자식폼/저장/취소/출력·목적/내용 충분성 전체수락 아님",
+          "allStatesAccepted": false
+        }
       }
     },
     {
@@ -577480,6 +577819,40 @@
         "approvedBasis": "CENTER120-07/12/13; 사용자 masterplan·의견별 조치계획",
         "counterexample": "원문/미확보 사실을 지우거나 다른 범위의 합계·판단을 조용히 대체하지 않습니다.",
         "notActualPass": true
+      },
+      "review126": {
+        "candidateBasicObservation": {
+          "artifact": "C58",
+          "status": "observed-default-only",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "viewports": [
+            {
+              "width": 1280,
+              "height": 800
+            },
+            {
+              "width": 1440,
+              "height": 900
+            },
+            {
+              "width": 1600,
+              "height": 1000
+            },
+            {
+              "width": 390,
+              "height": 844
+            }
+          ],
+          "evidence": [
+            "REVIEW126-C58-BASIC120-ROLE2"
+          ],
+          "scope": "실제 기본상태의 표/끝셀·배치/스크롤 읽기 관측만. 자식폼/저장/취소/출력·목적/내용 충분성 전체수락 아님",
+          "allStatesAccepted": false
+        }
       }
     },
     {
@@ -584461,6 +584834,40 @@
         "approvedBasis": "기존 계약·문서/기성/지급 요구; 원계약·VAT 보존",
         "counterexample": "원문/미확보 사실을 지우거나 다른 범위의 합계·판단을 조용히 대체하지 않습니다.",
         "notActualPass": true
+      },
+      "review126": {
+        "candidateBasicObservation": {
+          "artifact": "C58",
+          "status": "observed-default-only",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "viewports": [
+            {
+              "width": 1280,
+              "height": 800
+            },
+            {
+              "width": 1440,
+              "height": 900
+            },
+            {
+              "width": 1600,
+              "height": 1000
+            },
+            {
+              "width": 390,
+              "height": 844
+            }
+          ],
+          "evidence": [
+            "REVIEW126-C58-BASIC120-ROLE2"
+          ],
+          "scope": "실제 기본상태의 표/끝셀·배치/스크롤 읽기 관측만. 자식폼/저장/취소/출력·목적/내용 충분성 전체수락 아님",
+          "allStatesAccepted": false
+        }
       }
     },
     {
@@ -587732,6 +588139,40 @@
         "approvedBasis": "공식 제1/2호 원서식·보고서 전용 편집/저장 승인",
         "counterexample": "원문/미확보 사실을 지우거나 다른 범위의 합계·판단을 조용히 대체하지 않습니다.",
         "notActualPass": true
+      },
+      "review126": {
+        "candidateBasicObservation": {
+          "artifact": "C58",
+          "status": "observed-default-only",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "viewports": [
+            {
+              "width": 1280,
+              "height": 800
+            },
+            {
+              "width": 1440,
+              "height": 900
+            },
+            {
+              "width": 1600,
+              "height": 1000
+            },
+            {
+              "width": 390,
+              "height": 844
+            }
+          ],
+          "evidence": [
+            "REVIEW126-C58-BASIC120-ROLE2"
+          ],
+          "scope": "실제 기본상태의 표/끝셀·배치/스크롤 읽기 관측만. 자식폼/저장/취소/출력·목적/내용 충분성 전체수락 아님",
+          "allStatesAccepted": false
+        }
       }
     },
     {
@@ -589347,6 +589788,40 @@
         "approvedBasis": "CENTER120-03/15/17; 출처별 원문·동일성·내부정보 분리",
         "counterexample": "원문/미확보 사실을 지우거나 다른 범위의 합계·판단을 조용히 대체하지 않습니다.",
         "notActualPass": true
+      },
+      "review126": {
+        "candidateBasicObservation": {
+          "artifact": "C58",
+          "status": "observed-default-only",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "viewports": [
+            {
+              "width": 1280,
+              "height": 800
+            },
+            {
+              "width": 1440,
+              "height": 900
+            },
+            {
+              "width": 1600,
+              "height": 1000
+            },
+            {
+              "width": 390,
+              "height": 844
+            }
+          ],
+          "evidence": [
+            "REVIEW126-C58-BASIC120-ROLE2"
+          ],
+          "scope": "실제 기본상태의 표/끝셀·배치/스크롤 읽기 관측만. 자식폼/저장/취소/출력·목적/내용 충분성 전체수락 아님",
+          "allStatesAccepted": false
+        }
       }
     },
     {
@@ -593457,6 +593932,40 @@
         "approvedBasis": "CENTER120-03/15/17; 출처별 원문·동일성·내부정보 분리",
         "counterexample": "원문/미확보 사실을 지우거나 다른 범위의 합계·판단을 조용히 대체하지 않습니다.",
         "notActualPass": true
+      },
+      "review126": {
+        "candidateBasicObservation": {
+          "artifact": "C58",
+          "status": "observed-default-only",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "viewports": [
+            {
+              "width": 1280,
+              "height": 800
+            },
+            {
+              "width": 1440,
+              "height": 900
+            },
+            {
+              "width": 1600,
+              "height": 1000
+            },
+            {
+              "width": 390,
+              "height": 844
+            }
+          ],
+          "evidence": [
+            "REVIEW126-C58-BASIC120-ROLE2"
+          ],
+          "scope": "실제 기본상태의 표/끝셀·배치/스크롤 읽기 관측만. 자식폼/저장/취소/출력·목적/내용 충분성 전체수락 아님",
+          "allStatesAccepted": false
+        }
       }
     },
     {
@@ -597567,6 +598076,40 @@
         "approvedBasis": "CENTER120-03/15/17; 출처별 원문·동일성·내부정보 분리",
         "counterexample": "원문/미확보 사실을 지우거나 다른 범위의 합계·판단을 조용히 대체하지 않습니다.",
         "notActualPass": true
+      },
+      "review126": {
+        "candidateBasicObservation": {
+          "artifact": "C58",
+          "status": "observed-default-only",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "viewports": [
+            {
+              "width": 1280,
+              "height": 800
+            },
+            {
+              "width": 1440,
+              "height": 900
+            },
+            {
+              "width": 1600,
+              "height": 1000
+            },
+            {
+              "width": 390,
+              "height": 844
+            }
+          ],
+          "evidence": [
+            "REVIEW126-C58-BASIC120-ROLE2"
+          ],
+          "scope": "실제 기본상태의 표/끝셀·배치/스크롤 읽기 관측만. 자식폼/저장/취소/출력·목적/내용 충분성 전체수락 아님",
+          "allStatesAccepted": false
+        }
       }
     },
     {
@@ -601677,6 +602220,40 @@
         "approvedBasis": "CENTER120-03/15/17; 출처별 원문·동일성·내부정보 분리",
         "counterexample": "원문/미확보 사실을 지우거나 다른 범위의 합계·판단을 조용히 대체하지 않습니다.",
         "notActualPass": true
+      },
+      "review126": {
+        "candidateBasicObservation": {
+          "artifact": "C58",
+          "status": "observed-default-only",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "viewports": [
+            {
+              "width": 1280,
+              "height": 800
+            },
+            {
+              "width": 1440,
+              "height": 900
+            },
+            {
+              "width": 1600,
+              "height": 1000
+            },
+            {
+              "width": 390,
+              "height": 844
+            }
+          ],
+          "evidence": [
+            "REVIEW126-C58-BASIC120-ROLE2"
+          ],
+          "scope": "실제 기본상태의 표/끝셀·배치/스크롤 읽기 관측만. 자식폼/저장/취소/출력·목적/내용 충분성 전체수락 아님",
+          "allStatesAccepted": false
+        }
       }
     },
     {
@@ -605787,6 +606364,40 @@
         "approvedBasis": "CENTER120-03/15/17; 출처별 원문·동일성·내부정보 분리",
         "counterexample": "원문/미확보 사실을 지우거나 다른 범위의 합계·판단을 조용히 대체하지 않습니다.",
         "notActualPass": true
+      },
+      "review126": {
+        "candidateBasicObservation": {
+          "artifact": "C58",
+          "status": "observed-default-only",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "viewports": [
+            {
+              "width": 1280,
+              "height": 800
+            },
+            {
+              "width": 1440,
+              "height": 900
+            },
+            {
+              "width": 1600,
+              "height": 1000
+            },
+            {
+              "width": 390,
+              "height": 844
+            }
+          ],
+          "evidence": [
+            "REVIEW126-C58-BASIC120-ROLE2"
+          ],
+          "scope": "실제 기본상태의 표/끝셀·배치/스크롤 읽기 관측만. 자식폼/저장/취소/출력·목적/내용 충분성 전체수락 아님",
+          "allStatesAccepted": false
+        }
       }
     },
     {
@@ -609918,6 +610529,40 @@
         "approvedBasis": "CENTER120-03/15/17; 출처별 원문·동일성·내부정보 분리",
         "counterexample": "원문/미확보 사실을 지우거나 다른 범위의 합계·판단을 조용히 대체하지 않습니다.",
         "notActualPass": true
+      },
+      "review126": {
+        "candidateBasicObservation": {
+          "artifact": "C58",
+          "status": "observed-default-only",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "viewports": [
+            {
+              "width": 1280,
+              "height": 800
+            },
+            {
+              "width": 1440,
+              "height": 900
+            },
+            {
+              "width": 1600,
+              "height": 1000
+            },
+            {
+              "width": 390,
+              "height": 844
+            }
+          ],
+          "evidence": [
+            "REVIEW126-C58-BASIC120-ROLE2"
+          ],
+          "scope": "실제 기본상태의 표/끝셀·배치/스크롤 읽기 관측만. 자식폼/저장/취소/출력·목적/내용 충분성 전체수락 아님",
+          "allStatesAccepted": false
+        }
       }
     },
     {
@@ -616595,6 +617240,40 @@
         "approvedBasis": "CENTER120-03/15/17; 출처별 원문·동일성·내부정보 분리",
         "counterexample": "원문/미확보 사실을 지우거나 다른 범위의 합계·판단을 조용히 대체하지 않습니다.",
         "notActualPass": true
+      },
+      "review126": {
+        "candidateBasicObservation": {
+          "artifact": "C58",
+          "status": "observed-default-only",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "viewports": [
+            {
+              "width": 1280,
+              "height": 800
+            },
+            {
+              "width": 1440,
+              "height": 900
+            },
+            {
+              "width": 1600,
+              "height": 1000
+            },
+            {
+              "width": 390,
+              "height": 844
+            }
+          ],
+          "evidence": [
+            "REVIEW126-C58-BASIC120-ROLE2"
+          ],
+          "scope": "실제 기본상태의 표/끝셀·배치/스크롤 읽기 관측만. 자식폼/저장/취소/출력·목적/내용 충분성 전체수락 아님",
+          "allStatesAccepted": false
+        }
       }
     },
     {
@@ -620303,7 +620982,39 @@
         ],
         "status": "new-purpose-content-review-pending",
         "existingVerificationPreserved": true,
-        "newAcceptanceNotInferred": true
+        "newAcceptanceNotInferred": true,
+        "candidateBasicObservation": {
+          "artifact": "C58",
+          "status": "observed-default-only",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "viewports": [
+            {
+              "width": 1280,
+              "height": 800
+            },
+            {
+              "width": 1440,
+              "height": 900
+            },
+            {
+              "width": 1600,
+              "height": 1000
+            },
+            {
+              "width": 390,
+              "height": 844
+            }
+          ],
+          "evidence": [
+            "REVIEW126-C58-BASIC120-ROLE2"
+          ],
+          "scope": "실제 기본상태의 표/끝셀·배치/스크롤 읽기 관측만. 자식폼/저장/취소/출력·목적/내용 충분성 전체수락 아님",
+          "allStatesAccepted": false
+        }
       }
     },
     {
@@ -622582,7 +623293,39 @@
         ],
         "status": "new-purpose-content-review-pending",
         "existingVerificationPreserved": true,
-        "newAcceptanceNotInferred": true
+        "newAcceptanceNotInferred": true,
+        "candidateBasicObservation": {
+          "artifact": "C58",
+          "status": "observed-default-only",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "viewports": [
+            {
+              "width": 1280,
+              "height": 800
+            },
+            {
+              "width": 1440,
+              "height": 900
+            },
+            {
+              "width": 1600,
+              "height": 1000
+            },
+            {
+              "width": 390,
+              "height": 844
+            }
+          ],
+          "evidence": [
+            "REVIEW126-C58-BASIC120-ROLE2"
+          ],
+          "scope": "실제 기본상태의 표/끝셀·배치/스크롤 읽기 관측만. 자식폼/저장/취소/출력·목적/내용 충분성 전체수락 아님",
+          "allStatesAccepted": false
+        }
       }
     },
     {
@@ -624545,7 +625288,39 @@
         ],
         "status": "new-purpose-content-review-pending",
         "existingVerificationPreserved": true,
-        "newAcceptanceNotInferred": true
+        "newAcceptanceNotInferred": true,
+        "candidateBasicObservation": {
+          "artifact": "C58",
+          "status": "observed-default-only",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "viewports": [
+            {
+              "width": 1280,
+              "height": 800
+            },
+            {
+              "width": 1440,
+              "height": 900
+            },
+            {
+              "width": 1600,
+              "height": 1000
+            },
+            {
+              "width": 390,
+              "height": 844
+            }
+          ],
+          "evidence": [
+            "REVIEW126-C58-BASIC120-ROLE2"
+          ],
+          "scope": "실제 기본상태의 표/끝셀·배치/스크롤 읽기 관측만. 자식폼/저장/취소/출력·목적/내용 충분성 전체수락 아님",
+          "allStatesAccepted": false
+        }
       }
     },
     {
@@ -630917,7 +631692,39 @@
         ],
         "status": "new-purpose-content-review-pending",
         "existingVerificationPreserved": true,
-        "newAcceptanceNotInferred": true
+        "newAcceptanceNotInferred": true,
+        "candidateBasicObservation": {
+          "artifact": "C58",
+          "status": "observed-default-only",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "viewports": [
+            {
+              "width": 1280,
+              "height": 800
+            },
+            {
+              "width": 1440,
+              "height": 900
+            },
+            {
+              "width": 1600,
+              "height": 1000
+            },
+            {
+              "width": 390,
+              "height": 844
+            }
+          ],
+          "evidence": [
+            "REVIEW126-C58-BASIC120-ROLE2"
+          ],
+          "scope": "실제 기본상태의 표/끝셀·배치/스크롤 읽기 관측만. 자식폼/저장/취소/출력·목적/내용 충분성 전체수락 아님",
+          "allStatesAccepted": false
+        }
       }
     },
     {
@@ -635209,7 +636016,39 @@
         ],
         "status": "new-purpose-content-review-pending",
         "existingVerificationPreserved": true,
-        "newAcceptanceNotInferred": true
+        "newAcceptanceNotInferred": true,
+        "candidateBasicObservation": {
+          "artifact": "C58",
+          "status": "observed-default-only",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "viewports": [
+            {
+              "width": 1280,
+              "height": 800
+            },
+            {
+              "width": 1440,
+              "height": 900
+            },
+            {
+              "width": 1600,
+              "height": 1000
+            },
+            {
+              "width": 390,
+              "height": 844
+            }
+          ],
+          "evidence": [
+            "REVIEW126-C58-BASIC120-ROLE2"
+          ],
+          "scope": "실제 기본상태의 표/끝셀·배치/스크롤 읽기 관측만. 자식폼/저장/취소/출력·목적/내용 충분성 전체수락 아님",
+          "allStatesAccepted": false
+        }
       }
     },
     {
@@ -637180,6 +638019,40 @@
         "approvedBasis": "CENTER120-09/14; 소유자 명세 보존",
         "counterexample": "빌드 스냅샷/당시 통과를 최신 전체 기능 완료로 읽지 않습니다.",
         "notActualPass": true
+      },
+      "review126": {
+        "candidateBasicObservation": {
+          "artifact": "C58",
+          "status": "observed-default-only",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "viewports": [
+            {
+              "width": 1280,
+              "height": 800
+            },
+            {
+              "width": 1440,
+              "height": 900
+            },
+            {
+              "width": 1600,
+              "height": 1000
+            },
+            {
+              "width": 390,
+              "height": 844
+            }
+          ],
+          "evidence": [
+            "REVIEW126-C58-BASIC120-ROLE2"
+          ],
+          "scope": "실제 기본상태의 표/끝셀·배치/스크롤 읽기 관측만. 자식폼/저장/취소/출력·목적/내용 충분성 전체수락 아님",
+          "allStatesAccepted": false
+        }
       }
     },
     {
@@ -640586,7 +641459,39 @@
         ],
         "status": "new-purpose-content-review-pending",
         "existingVerificationPreserved": true,
-        "newAcceptanceNotInferred": true
+        "newAcceptanceNotInferred": true,
+        "candidateBasicObservation": {
+          "artifact": "C58",
+          "status": "observed-default-only",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "viewports": [
+            {
+              "width": 1280,
+              "height": 800
+            },
+            {
+              "width": 1440,
+              "height": 900
+            },
+            {
+              "width": 1600,
+              "height": 1000
+            },
+            {
+              "width": 390,
+              "height": 844
+            }
+          ],
+          "evidence": [
+            "REVIEW126-C58-BASIC120-ROLE2"
+          ],
+          "scope": "실제 기본상태의 표/끝셀·배치/스크롤 읽기 관측만. 자식폼/저장/취소/출력·목적/내용 충분성 전체수락 아님",
+          "allStatesAccepted": false
+        }
       }
     },
     {
@@ -642535,6 +643440,40 @@
         "approvedBasis": "CENTER120-09/14; 소유자 명세 보존",
         "counterexample": "빌드 스냅샷/당시 통과를 최신 전체 기능 완료로 읽지 않습니다.",
         "notActualPass": true
+      },
+      "review126": {
+        "candidateBasicObservation": {
+          "artifact": "C58",
+          "status": "observed-default-only",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "viewports": [
+            {
+              "width": 1280,
+              "height": 800
+            },
+            {
+              "width": 1440,
+              "height": 900
+            },
+            {
+              "width": 1600,
+              "height": 1000
+            },
+            {
+              "width": 390,
+              "height": 844
+            }
+          ],
+          "evidence": [
+            "REVIEW126-C58-BASIC120-ROLE2"
+          ],
+          "scope": "실제 기본상태의 표/끝셀·배치/스크롤 읽기 관측만. 자식폼/저장/취소/출력·목적/내용 충분성 전체수락 아님",
+          "allStatesAccepted": false
+        }
       }
     },
     {
@@ -645835,6 +646774,40 @@
         "approvedBasis": "CENTER120-09/14; 소유자 명세 보존",
         "counterexample": "빌드 스냅샷/당시 통과를 최신 전체 기능 완료로 읽지 않습니다.",
         "notActualPass": true
+      },
+      "review126": {
+        "candidateBasicObservation": {
+          "artifact": "C58",
+          "status": "observed-default-only",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "viewports": [
+            {
+              "width": 1280,
+              "height": 800
+            },
+            {
+              "width": 1440,
+              "height": 900
+            },
+            {
+              "width": 1600,
+              "height": 1000
+            },
+            {
+              "width": 390,
+              "height": 844
+            }
+          ],
+          "evidence": [
+            "REVIEW126-C58-BASIC120-ROLE2"
+          ],
+          "scope": "실제 기본상태의 표/끝셀·배치/스크롤 읽기 관측만. 자식폼/저장/취소/출력·목적/내용 충분성 전체수락 아님",
+          "allStatesAccepted": false
+        }
       }
     },
     {
@@ -649240,7 +650213,39 @@
         ],
         "status": "new-purpose-content-review-pending",
         "existingVerificationPreserved": true,
-        "newAcceptanceNotInferred": true
+        "newAcceptanceNotInferred": true,
+        "candidateBasicObservation": {
+          "artifact": "C58",
+          "status": "observed-default-only",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "viewports": [
+            {
+              "width": 1280,
+              "height": 800
+            },
+            {
+              "width": 1440,
+              "height": 900
+            },
+            {
+              "width": 1600,
+              "height": 1000
+            },
+            {
+              "width": 390,
+              "height": 844
+            }
+          ],
+          "evidence": [
+            "REVIEW126-C58-BASIC120-ROLE2"
+          ],
+          "scope": "실제 기본상태의 표/끝셀·배치/스크롤 읽기 관측만. 자식폼/저장/취소/출력·목적/내용 충분성 전체수락 아님",
+          "allStatesAccepted": false
+        }
       }
     },
     {
@@ -664192,6 +665197,40 @@
             "REVIEW126-C57-SCROLL7"
           ],
           "notStateRestoreCodeFailureProof": true
+        },
+        "historicalCandidateScroll": {
+          "status": "fail",
+          "artifact": "C57",
+          "scope": "긴 본문240에서 화면 밖 탭/추가버튼 접근 전 클릭도구가0으로 스크롤하여 작업위치 소실. pointerdown/handler는0을 관측",
+          "evidence": [
+            "REVIEW126-C57-SCROLL7"
+          ],
+          "notStateRestoreCodeFailureProof": true
+        },
+        "currentCandidateScroll": {
+          "status": "pass",
+          "artifact": "C58",
+          "scope": "탭/지역 추가버튼이 화면 안에 유지된 pointerdown240 및 복귀240; top0·법령검색복귀·늦은초점4 포함7조건",
+          "evidence": [
+            "REVIEW126-C58-SCROLL7"
+          ]
+        },
+        "currentCandidateActual": {
+          "status": "partial",
+          "artifact": "C58",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "scope": "actual8(4읽기탭/키보드/권한/수정취소/메뉴) + 별도scroll7 + 별도회차/의견계획5034의 해당조건만",
+          "evidence": [
+            "REVIEW126-C58-ACTUAL8",
+            "REVIEW126-C58-SCROLL7",
+            "REVIEW126-C58-PERMIT5034"
+          ],
+          "allStatesAccepted": false,
+          "realAccountOrApiOrDatabase": false
         }
       },
       "source": [
@@ -664751,6 +665790,21 @@
             "REVIEW126-C57-ACTUAL8"
           ],
           "allStatesAccepted": false
+        },
+        "currentCandidateActual": {
+          "status": "pass",
+          "artifact": "C58",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "scope": "1280/1440/1600/390×모의 editor/viewer 메뉴44×44·펼침/접힘·선택칸 상대위치. 모든 메뉴키보드/실회원 수락은 아님",
+          "evidence": [
+            "REVIEW126-C58-ACTUAL8"
+          ],
+          "allStatesAccepted": false,
+          "realAccountOrApiOrDatabase": false
         }
       },
       "source": [
@@ -664907,6 +665961,40 @@
             "REVIEW126-C55-SCROLL7"
           ],
           "notResolvedByMain8": true
+        },
+        "historicalCandidateScroll": {
+          "status": "fail",
+          "artifact": "C57",
+          "scope": "긴 본문240에서 화면 밖 탭/추가버튼 접근 전 클릭도구가0으로 스크롤하여 작업위치 소실. pointerdown/handler는0을 관측",
+          "evidence": [
+            "REVIEW126-C57-SCROLL7"
+          ],
+          "notStateRestoreCodeFailureProof": true
+        },
+        "currentCandidateScroll": {
+          "status": "pass",
+          "artifact": "C58",
+          "scope": "탭/지역 추가버튼이 화면 안에 유지된 pointerdown240 및 복귀240; top0·법령검색복귀·늦은초점4 포함7조건",
+          "evidence": [
+            "REVIEW126-C58-SCROLL7"
+          ]
+        },
+        "currentCandidateActual": {
+          "status": "partial",
+          "artifact": "C58",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "scope": "actual8(4읽기탭/키보드/권한/수정취소/메뉴) + 별도scroll7 + 별도회차/의견계획5034의 해당조건만",
+          "evidence": [
+            "REVIEW126-C58-ACTUAL8",
+            "REVIEW126-C58-SCROLL7",
+            "REVIEW126-C58-PERMIT5034"
+          ],
+          "allStatesAccepted": false,
+          "realAccountOrApiOrDatabase": false
         }
       },
       "source": [
@@ -664967,7 +666055,17 @@
         ],
         "readonlyTabs": 4,
         "footerActions": 3,
-        "existingSourceCounterpartPreserved": true
+        "existingSourceCounterpartPreserved": true,
+        "currentArtifact": {
+          "artifact": "C58",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "sourceUnchangedFromC57": true,
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
+        }
       }
     },
     {
@@ -665208,6 +666306,16 @@
           "path": ".build/review-20261026/integration-candidate-57.html",
           "sha256": "8512c4274313cd3f8ed5d891f24ce1843e4c8a6aa91cecb9d6e5b9cc07acab3e",
           "bytes": 6693002
+        },
+        "currentArtifact": {
+          "artifact": "C58",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "sourceUnchangedFromC57": true,
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
         }
       }
     },
@@ -665336,6 +666444,16 @@
           "path": ".build/review-20261026/integration-candidate-57.html",
           "sha256": "8512c4274313cd3f8ed5d891f24ce1843e4c8a6aa91cecb9d6e5b9cc07acab3e",
           "bytes": 6693002
+        },
+        "currentArtifact": {
+          "artifact": "C58",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "sourceUnchangedFromC57": true,
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
         }
       }
     },
@@ -665464,6 +666582,16 @@
           "path": ".build/review-20261026/integration-candidate-57.html",
           "sha256": "8512c4274313cd3f8ed5d891f24ce1843e4c8a6aa91cecb9d6e5b9cc07acab3e",
           "bytes": 6693002
+        },
+        "currentArtifact": {
+          "artifact": "C58",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "sourceUnchangedFromC57": true,
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
         }
       }
     },
@@ -665592,6 +666720,16 @@
           "path": ".build/review-20261026/integration-candidate-57.html",
           "sha256": "8512c4274313cd3f8ed5d891f24ce1843e4c8a6aa91cecb9d6e5b9cc07acab3e",
           "bytes": 6693002
+        },
+        "currentArtifact": {
+          "artifact": "C58",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "sourceUnchangedFromC57": true,
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
         }
       }
     },
@@ -665720,6 +666858,16 @@
           "path": ".build/review-20261026/integration-candidate-57.html",
           "sha256": "8512c4274313cd3f8ed5d891f24ce1843e4c8a6aa91cecb9d6e5b9cc07acab3e",
           "bytes": 6693002
+        },
+        "currentArtifact": {
+          "artifact": "C58",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "sourceUnchangedFromC57": true,
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
         }
       }
     },
@@ -665848,6 +666996,16 @@
           "path": ".build/review-20261026/integration-candidate-57.html",
           "sha256": "8512c4274313cd3f8ed5d891f24ce1843e4c8a6aa91cecb9d6e5b9cc07acab3e",
           "bytes": 6693002
+        },
+        "currentArtifact": {
+          "artifact": "C58",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "sourceUnchangedFromC57": true,
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
         }
       }
     },
@@ -665976,6 +667134,16 @@
           "path": ".build/review-20261026/integration-candidate-57.html",
           "sha256": "8512c4274313cd3f8ed5d891f24ce1843e4c8a6aa91cecb9d6e5b9cc07acab3e",
           "bytes": 6693002
+        },
+        "currentArtifact": {
+          "artifact": "C58",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "sourceUnchangedFromC57": true,
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
         }
       }
     },
@@ -666104,6 +667272,16 @@
           "path": ".build/review-20261026/integration-candidate-57.html",
           "sha256": "8512c4274313cd3f8ed5d891f24ce1843e4c8a6aa91cecb9d6e5b9cc07acab3e",
           "bytes": 6693002
+        },
+        "currentArtifact": {
+          "artifact": "C58",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "sourceUnchangedFromC57": true,
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
         }
       }
     },
@@ -666232,6 +667410,16 @@
           "path": ".build/review-20261026/integration-candidate-57.html",
           "sha256": "8512c4274313cd3f8ed5d891f24ce1843e4c8a6aa91cecb9d6e5b9cc07acab3e",
           "bytes": 6693002
+        },
+        "currentArtifact": {
+          "artifact": "C58",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "sourceUnchangedFromC57": true,
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
         }
       }
     },
@@ -666360,6 +667548,16 @@
           "path": ".build/review-20261026/integration-candidate-57.html",
           "sha256": "8512c4274313cd3f8ed5d891f24ce1843e4c8a6aa91cecb9d6e5b9cc07acab3e",
           "bytes": 6693002
+        },
+        "currentArtifact": {
+          "artifact": "C58",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "sourceUnchangedFromC57": true,
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
         }
       }
     },
@@ -666488,6 +667686,16 @@
           "path": ".build/review-20261026/integration-candidate-57.html",
           "sha256": "8512c4274313cd3f8ed5d891f24ce1843e4c8a6aa91cecb9d6e5b9cc07acab3e",
           "bytes": 6693002
+        },
+        "currentArtifact": {
+          "artifact": "C58",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "sourceUnchangedFromC57": true,
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
         }
       }
     },
@@ -666616,6 +667824,16 @@
           "path": ".build/review-20261026/integration-candidate-57.html",
           "sha256": "8512c4274313cd3f8ed5d891f24ce1843e4c8a6aa91cecb9d6e5b9cc07acab3e",
           "bytes": 6693002
+        },
+        "currentArtifact": {
+          "artifact": "C58",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "sourceUnchangedFromC57": true,
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
         }
       }
     },
@@ -666744,6 +667962,16 @@
           "path": ".build/review-20261026/integration-candidate-57.html",
           "sha256": "8512c4274313cd3f8ed5d891f24ce1843e4c8a6aa91cecb9d6e5b9cc07acab3e",
           "bytes": 6693002
+        },
+        "currentArtifact": {
+          "artifact": "C58",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "sourceUnchangedFromC57": true,
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
         }
       }
     },
@@ -666872,6 +668100,16 @@
           "path": ".build/review-20261026/integration-candidate-57.html",
           "sha256": "8512c4274313cd3f8ed5d891f24ce1843e4c8a6aa91cecb9d6e5b9cc07acab3e",
           "bytes": 6693002
+        },
+        "currentArtifact": {
+          "artifact": "C58",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "sourceUnchangedFromC57": true,
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
         }
       }
     },
@@ -667000,6 +668238,16 @@
           "path": ".build/review-20261026/integration-candidate-57.html",
           "sha256": "8512c4274313cd3f8ed5d891f24ce1843e4c8a6aa91cecb9d6e5b9cc07acab3e",
           "bytes": 6693002
+        },
+        "currentArtifact": {
+          "artifact": "C58",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "sourceUnchangedFromC57": true,
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
         }
       }
     },
@@ -667664,6 +668912,21 @@
           "status": "notrun",
           "scope": "이번126 검토/변경 미수락. 기존 C53 기능 미구현을 뜻하지 않음",
           "evidence": []
+        },
+        "currentCandidateActual": {
+          "status": "pass",
+          "artifact": "C58",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "scope": "law 탭의 실제 검색 자식 진입/취소 후 본문38→38·정확 부모복귀",
+          "evidence": [
+            "REVIEW126-C58-SCROLL7"
+          ],
+          "allStatesAccepted": false,
+          "realAccountOrApiOrDatabase": false
         }
       },
       "source": [
@@ -667702,7 +668965,17 @@
           "sha256": "8512c4274313cd3f8ed5d891f24ce1843e4c8a6aa91cecb9d6e5b9cc07acab3e",
           "bytes": 6693002
         },
-        "existingActionContractPreserved": true
+        "existingActionContractPreserved": true,
+        "currentArtifact": {
+          "artifact": "C58",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "sourceUnchangedFromC57": true,
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
+        }
       }
     },
     {
@@ -667831,7 +669104,17 @@
           "sha256": "8512c4274313cd3f8ed5d891f24ce1843e4c8a6aa91cecb9d6e5b9cc07acab3e",
           "bytes": 6693002
         },
-        "existingActionContractPreserved": true
+        "existingActionContractPreserved": true,
+        "currentArtifact": {
+          "artifact": "C58",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "sourceUnchangedFromC57": true,
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
+        }
       }
     },
     {
@@ -667960,7 +669243,17 @@
           "sha256": "8512c4274313cd3f8ed5d891f24ce1843e4c8a6aa91cecb9d6e5b9cc07acab3e",
           "bytes": 6693002
         },
-        "existingActionContractPreserved": true
+        "existingActionContractPreserved": true,
+        "currentArtifact": {
+          "artifact": "C58",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "sourceUnchangedFromC57": true,
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
+        }
       }
     },
     {
@@ -668064,6 +669357,21 @@
             "REVIEW126-C57-ACTUAL8"
           ],
           "allStatesAccepted": false
+        },
+        "currentCandidateActual": {
+          "status": "pass",
+          "artifact": "C58",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "scope": "editor 표시/viewer 쓰기버튼 비노출 조건만. 해당 footer 수정/삭제 저장 자체의 새 실행 아님",
+          "evidence": [
+            "REVIEW126-C58-ACTUAL8"
+          ],
+          "allStatesAccepted": false,
+          "realAccountOrApiOrDatabase": false
         }
       },
       "source": [
@@ -668102,7 +669410,17 @@
           "sha256": "8512c4274313cd3f8ed5d891f24ce1843e4c8a6aa91cecb9d6e5b9cc07acab3e",
           "bytes": 6693002
         },
-        "existingActionContractPreserved": true
+        "existingActionContractPreserved": true,
+        "currentArtifact": {
+          "artifact": "C58",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "sourceUnchangedFromC57": true,
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
+        }
       }
     },
     {
@@ -668231,7 +669549,17 @@
           "sha256": "8512c4274313cd3f8ed5d891f24ce1843e4c8a6aa91cecb9d6e5b9cc07acab3e",
           "bytes": 6693002
         },
-        "existingActionContractPreserved": true
+        "existingActionContractPreserved": true,
+        "currentArtifact": {
+          "artifact": "C58",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "sourceUnchangedFromC57": true,
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
+        }
       }
     },
     {
@@ -668335,6 +669663,21 @@
             "REVIEW126-C57-ACTUAL8"
           ],
           "allStatesAccepted": false
+        },
+        "currentCandidateActual": {
+          "status": "pass",
+          "artifact": "C58",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "scope": "editor 표시/viewer 쓰기버튼 비노출 조건만. 해당 footer 수정/삭제 저장 자체의 새 실행 아님",
+          "evidence": [
+            "REVIEW126-C58-ACTUAL8"
+          ],
+          "allStatesAccepted": false,
+          "realAccountOrApiOrDatabase": false
         }
       },
       "source": [
@@ -668373,7 +669716,17 @@
           "sha256": "8512c4274313cd3f8ed5d891f24ce1843e4c8a6aa91cecb9d6e5b9cc07acab3e",
           "bytes": 6693002
         },
-        "existingActionContractPreserved": true
+        "existingActionContractPreserved": true,
+        "currentArtifact": {
+          "artifact": "C58",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "sourceUnchangedFromC57": true,
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
+        }
       }
     },
     {
@@ -668476,6 +669829,21 @@
             "REVIEW126-C57-ACTUAL8"
           ],
           "allStatesAccepted": false
+        },
+        "currentCandidateActual": {
+          "status": "pass",
+          "artifact": "C58",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "scope": "1280/1440/1600/390×모의 editor/viewer 메뉴44×44·펼침/접힘·선택칸 상대위치. 모든 메뉴키보드/실회원 수락은 아님",
+          "evidence": [
+            "REVIEW126-C58-ACTUAL8"
+          ],
+          "allStatesAccepted": false,
+          "realAccountOrApiOrDatabase": false
         }
       },
       "source": [
@@ -668557,7 +669925,17 @@
             "artifact": "C57"
           }
         ],
-        "originalC53DefinitionPreserved": true
+        "originalC53DefinitionPreserved": true,
+        "currentArtifact": {
+          "artifact": "C58",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "sourceUnchangedFromC57": true,
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
+        }
       }
     },
     {
@@ -668574,7 +669952,7 @@
       "definitionStage": "C57 immutable exact HTML plus independently scoped evidence",
       "currentVisibility": {
         "visible": true,
-        "status": "scoped-native-observed"
+        "status": "scoped-native-observed-C58"
       },
       "purpose": {
         "userTask": "탭별 읽기정보 묶음·키보드 탐색",
@@ -668604,7 +669982,7 @@
       "geometry": {
         "alignment": "notrun",
         "size": "notrun",
-        "scroll": "work-position-UX-fail-C57",
+        "scroll": "scoped-pass-C58",
         "keyboard": "scoped-pass"
       },
       "consumers": [
@@ -668631,12 +670009,18 @@
           "evidence": []
         },
         "actualScreen": {
-          "status": "partial",
-          "scope": "4탭 수동 활성화, 단일 세로스크롤",
+          "status": "pass",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "scope": "4크기×2모의권한 읽기4탭·수동키보드/한스크롤. 보조7의 실제 탭 접근240 및복귀240",
           "evidence": [
-            "REVIEW126-C57-ACTUAL8",
-            "REVIEW126-C57-SCROLL7"
-          ]
+            "REVIEW126-C58-ACTUAL8",
+            "REVIEW126-C58-SCROLL7"
+          ],
+          "allStatesAccepted": false
         },
         "output": {
           "status": "notrun",
@@ -668648,17 +670032,20 @@
           "file": "src/permit-views.js",
           "sha256": "1720b3d91fc25ad4d3769b9813d07c6981c0d5a47e2577e7e09b2725ebfce290",
           "exactEmbedded": true,
-          "artifact": "C57"
+          "artifact": "C58",
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
         }
       ],
       "html": {
-        "path": ".build/review-20261026/integration-candidate-57.html",
-        "sha256": "8512c4274313cd3f8ed5d891f24ce1843e4c8a6aa91cecb9d6e5b9cc07acab3e",
-        "bytes": 6693002
+        "path": ".build/review-20261026/integration-candidate-58.html",
+        "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+        "bytes": 6693352
       },
       "evidence": [
         "REVIEW126-C57-VM30",
-        "REVIEW126-C57-ACTUAL8"
+        "REVIEW126-C57-ACTUAL8",
+        "REVIEW126-C58-ACTUAL8",
+        "REVIEW126-C58-SCROLL7"
       ],
       "metadata": {
         "reviewRequestId": "UI126-01",
@@ -668667,7 +670054,62 @@
         "notAddedToCurrentC53Definition975": true,
         "notAddedToPending34": true
       },
-      "allStatesAccepted": false
+      "allStatesAccepted": false,
+      "definitionHistory": [
+        {
+          "artifact": "C57",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-57.html",
+            "sha256": "8512c4274313cd3f8ed5d891f24ce1843e4c8a6aa91cecb9d6e5b9cc07acab3e",
+            "bytes": 6693002
+          },
+          "source": [
+            {
+              "file": "src/permit-views.js",
+              "sha256": "1720b3d91fc25ad4d3769b9813d07c6981c0d5a47e2577e7e09b2725ebfce290",
+              "exactEmbedded": true,
+              "artifact": "C57"
+            }
+          ],
+          "verification": {
+            "implementation": {
+              "status": "source-observed",
+              "evidence": [
+                "REVIEW126-C57-VM30"
+              ]
+            },
+            "automatic": {
+              "status": "notrun",
+              "scope": "행별 독립 자동검수 승계 없음",
+              "evidence": []
+            },
+            "actualScreen": {
+              "status": "pass",
+              "html": {
+                "path": ".build/review-20261026/integration-candidate-58.html",
+                "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+                "bytes": 6693352
+              },
+              "scope": "4크기×2모의권한 읽기4탭·수동키보드/한스크롤. 보조7의 실제 탭 접근240 및복귀240",
+              "evidence": [
+                "REVIEW126-C58-ACTUAL8",
+                "REVIEW126-C58-SCROLL7"
+              ],
+              "allStatesAccepted": false
+            },
+            "output": {
+              "status": "notrun",
+              "evidence": []
+            }
+          },
+          "geometry": {
+            "alignment": "notrun",
+            "size": "notrun",
+            "scroll": "scoped-pass-C58",
+            "keyboard": "scoped-pass"
+          }
+        }
+      ]
     },
     {
       "componentID": "REVIEW126-COMP-PERMIT-DETAIL-TAB-overview",
@@ -668683,7 +670125,7 @@
       "definitionStage": "C57 immutable exact HTML plus independently scoped evidence",
       "currentVisibility": {
         "visible": true,
-        "status": "scoped-native-observed"
+        "status": "scoped-native-observed-C58"
       },
       "purpose": {
         "userTask": "현재 인허가의 해당 업무정보 조회",
@@ -668713,7 +670155,7 @@
       "geometry": {
         "alignment": "notrun",
         "size": "notrun",
-        "scroll": "work-position-UX-fail-C57",
+        "scroll": "scoped-pass-C58",
         "keyboard": "scoped-pass"
       },
       "consumers": [
@@ -668740,12 +670182,18 @@
           "evidence": []
         },
         "actualScreen": {
-          "status": "partial",
-          "scope": "Arrow/Enter·Home/End 수동 활성화, 선택표시/tabpanel",
+          "status": "pass",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "scope": "4크기×2모의권한 읽기4탭·수동키보드/한스크롤. 보조7의 실제 탭 접근240 및복귀240",
           "evidence": [
-            "REVIEW126-C57-ACTUAL8",
-            "REVIEW126-C57-SCROLL7"
-          ]
+            "REVIEW126-C58-ACTUAL8",
+            "REVIEW126-C58-SCROLL7"
+          ],
+          "allStatesAccepted": false
         },
         "output": {
           "status": "notrun",
@@ -668757,17 +670205,20 @@
           "file": "src/permit-views.js",
           "sha256": "1720b3d91fc25ad4d3769b9813d07c6981c0d5a47e2577e7e09b2725ebfce290",
           "exactEmbedded": true,
-          "artifact": "C57"
+          "artifact": "C58",
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
         }
       ],
       "html": {
-        "path": ".build/review-20261026/integration-candidate-57.html",
-        "sha256": "8512c4274313cd3f8ed5d891f24ce1843e4c8a6aa91cecb9d6e5b9cc07acab3e",
-        "bytes": 6693002
+        "path": ".build/review-20261026/integration-candidate-58.html",
+        "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+        "bytes": 6693352
       },
       "evidence": [
         "REVIEW126-C57-VM30",
-        "REVIEW126-C57-ACTUAL8"
+        "REVIEW126-C57-ACTUAL8",
+        "REVIEW126-C58-ACTUAL8",
+        "REVIEW126-C58-SCROLL7"
       ],
       "metadata": {
         "reviewRequestId": "UI126-01",
@@ -668776,7 +670227,62 @@
         "notAddedToCurrentC53Definition975": true,
         "notAddedToPending34": true
       },
-      "allStatesAccepted": false
+      "allStatesAccepted": false,
+      "definitionHistory": [
+        {
+          "artifact": "C57",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-57.html",
+            "sha256": "8512c4274313cd3f8ed5d891f24ce1843e4c8a6aa91cecb9d6e5b9cc07acab3e",
+            "bytes": 6693002
+          },
+          "source": [
+            {
+              "file": "src/permit-views.js",
+              "sha256": "1720b3d91fc25ad4d3769b9813d07c6981c0d5a47e2577e7e09b2725ebfce290",
+              "exactEmbedded": true,
+              "artifact": "C57"
+            }
+          ],
+          "verification": {
+            "implementation": {
+              "status": "source-observed",
+              "evidence": [
+                "REVIEW126-C57-VM30"
+              ]
+            },
+            "automatic": {
+              "status": "notrun",
+              "scope": "행별 독립 자동검수 승계 없음",
+              "evidence": []
+            },
+            "actualScreen": {
+              "status": "pass",
+              "html": {
+                "path": ".build/review-20261026/integration-candidate-58.html",
+                "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+                "bytes": 6693352
+              },
+              "scope": "4크기×2모의권한 읽기4탭·수동키보드/한스크롤. 보조7의 실제 탭 접근240 및복귀240",
+              "evidence": [
+                "REVIEW126-C58-ACTUAL8",
+                "REVIEW126-C58-SCROLL7"
+              ],
+              "allStatesAccepted": false
+            },
+            "output": {
+              "status": "notrun",
+              "evidence": []
+            }
+          },
+          "geometry": {
+            "alignment": "notrun",
+            "size": "notrun",
+            "scroll": "scoped-pass-C58",
+            "keyboard": "scoped-pass"
+          }
+        }
+      ]
     },
     {
       "componentID": "REVIEW126-COMP-PERMIT-DETAIL-TAB-rounds",
@@ -668792,7 +670298,7 @@
       "definitionStage": "C57 immutable exact HTML plus independently scoped evidence",
       "currentVisibility": {
         "visible": true,
-        "status": "scoped-native-observed"
+        "status": "scoped-native-observed-C58"
       },
       "purpose": {
         "userTask": "현재 인허가의 해당 업무정보 조회",
@@ -668822,7 +670328,7 @@
       "geometry": {
         "alignment": "notrun",
         "size": "notrun",
-        "scroll": "work-position-UX-fail-C57",
+        "scroll": "scoped-pass-C58",
         "keyboard": "scoped-pass"
       },
       "consumers": [
@@ -668849,12 +670355,18 @@
           "evidence": []
         },
         "actualScreen": {
-          "status": "partial",
-          "scope": "Arrow/Enter·Home/End 수동 활성화, 선택표시/tabpanel",
+          "status": "pass",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "scope": "4크기×2모의권한 읽기4탭·수동키보드/한스크롤. 보조7의 실제 탭 접근240 및복귀240",
           "evidence": [
-            "REVIEW126-C57-ACTUAL8",
-            "REVIEW126-C57-SCROLL7"
-          ]
+            "REVIEW126-C58-ACTUAL8",
+            "REVIEW126-C58-SCROLL7"
+          ],
+          "allStatesAccepted": false
         },
         "output": {
           "status": "notrun",
@@ -668866,17 +670378,20 @@
           "file": "src/permit-views.js",
           "sha256": "1720b3d91fc25ad4d3769b9813d07c6981c0d5a47e2577e7e09b2725ebfce290",
           "exactEmbedded": true,
-          "artifact": "C57"
+          "artifact": "C58",
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
         }
       ],
       "html": {
-        "path": ".build/review-20261026/integration-candidate-57.html",
-        "sha256": "8512c4274313cd3f8ed5d891f24ce1843e4c8a6aa91cecb9d6e5b9cc07acab3e",
-        "bytes": 6693002
+        "path": ".build/review-20261026/integration-candidate-58.html",
+        "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+        "bytes": 6693352
       },
       "evidence": [
         "REVIEW126-C57-VM30",
-        "REVIEW126-C57-ACTUAL8"
+        "REVIEW126-C57-ACTUAL8",
+        "REVIEW126-C58-ACTUAL8",
+        "REVIEW126-C58-SCROLL7"
       ],
       "metadata": {
         "reviewRequestId": "UI126-01",
@@ -668885,7 +670400,62 @@
         "notAddedToCurrentC53Definition975": true,
         "notAddedToPending34": true
       },
-      "allStatesAccepted": false
+      "allStatesAccepted": false,
+      "definitionHistory": [
+        {
+          "artifact": "C57",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-57.html",
+            "sha256": "8512c4274313cd3f8ed5d891f24ce1843e4c8a6aa91cecb9d6e5b9cc07acab3e",
+            "bytes": 6693002
+          },
+          "source": [
+            {
+              "file": "src/permit-views.js",
+              "sha256": "1720b3d91fc25ad4d3769b9813d07c6981c0d5a47e2577e7e09b2725ebfce290",
+              "exactEmbedded": true,
+              "artifact": "C57"
+            }
+          ],
+          "verification": {
+            "implementation": {
+              "status": "source-observed",
+              "evidence": [
+                "REVIEW126-C57-VM30"
+              ]
+            },
+            "automatic": {
+              "status": "notrun",
+              "scope": "행별 독립 자동검수 승계 없음",
+              "evidence": []
+            },
+            "actualScreen": {
+              "status": "pass",
+              "html": {
+                "path": ".build/review-20261026/integration-candidate-58.html",
+                "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+                "bytes": 6693352
+              },
+              "scope": "4크기×2모의권한 읽기4탭·수동키보드/한스크롤. 보조7의 실제 탭 접근240 및복귀240",
+              "evidence": [
+                "REVIEW126-C58-ACTUAL8",
+                "REVIEW126-C58-SCROLL7"
+              ],
+              "allStatesAccepted": false
+            },
+            "output": {
+              "status": "notrun",
+              "evidence": []
+            }
+          },
+          "geometry": {
+            "alignment": "notrun",
+            "size": "notrun",
+            "scroll": "scoped-pass-C58",
+            "keyboard": "scoped-pass"
+          }
+        }
+      ]
     },
     {
       "componentID": "REVIEW126-COMP-PERMIT-DETAIL-TAB-results",
@@ -668901,7 +670471,7 @@
       "definitionStage": "C57 immutable exact HTML plus independently scoped evidence",
       "currentVisibility": {
         "visible": true,
-        "status": "scoped-native-observed"
+        "status": "scoped-native-observed-C58"
       },
       "purpose": {
         "userTask": "현재 인허가의 해당 업무정보 조회",
@@ -668931,7 +670501,7 @@
       "geometry": {
         "alignment": "notrun",
         "size": "notrun",
-        "scroll": "work-position-UX-fail-C57",
+        "scroll": "scoped-pass-C58",
         "keyboard": "scoped-pass"
       },
       "consumers": [
@@ -668958,12 +670528,18 @@
           "evidence": []
         },
         "actualScreen": {
-          "status": "partial",
-          "scope": "Arrow/Enter·Home/End 수동 활성화, 선택표시/tabpanel",
+          "status": "pass",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "scope": "4크기×2모의권한 읽기4탭·수동키보드/한스크롤. 보조7의 실제 탭 접근240 및복귀240",
           "evidence": [
-            "REVIEW126-C57-ACTUAL8",
-            "REVIEW126-C57-SCROLL7"
-          ]
+            "REVIEW126-C58-ACTUAL8",
+            "REVIEW126-C58-SCROLL7"
+          ],
+          "allStatesAccepted": false
         },
         "output": {
           "status": "notrun",
@@ -668975,17 +670551,20 @@
           "file": "src/permit-views.js",
           "sha256": "1720b3d91fc25ad4d3769b9813d07c6981c0d5a47e2577e7e09b2725ebfce290",
           "exactEmbedded": true,
-          "artifact": "C57"
+          "artifact": "C58",
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
         }
       ],
       "html": {
-        "path": ".build/review-20261026/integration-candidate-57.html",
-        "sha256": "8512c4274313cd3f8ed5d891f24ce1843e4c8a6aa91cecb9d6e5b9cc07acab3e",
-        "bytes": 6693002
+        "path": ".build/review-20261026/integration-candidate-58.html",
+        "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+        "bytes": 6693352
       },
       "evidence": [
         "REVIEW126-C57-VM30",
-        "REVIEW126-C57-ACTUAL8"
+        "REVIEW126-C57-ACTUAL8",
+        "REVIEW126-C58-ACTUAL8",
+        "REVIEW126-C58-SCROLL7"
       ],
       "metadata": {
         "reviewRequestId": "UI126-01",
@@ -668994,7 +670573,62 @@
         "notAddedToCurrentC53Definition975": true,
         "notAddedToPending34": true
       },
-      "allStatesAccepted": false
+      "allStatesAccepted": false,
+      "definitionHistory": [
+        {
+          "artifact": "C57",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-57.html",
+            "sha256": "8512c4274313cd3f8ed5d891f24ce1843e4c8a6aa91cecb9d6e5b9cc07acab3e",
+            "bytes": 6693002
+          },
+          "source": [
+            {
+              "file": "src/permit-views.js",
+              "sha256": "1720b3d91fc25ad4d3769b9813d07c6981c0d5a47e2577e7e09b2725ebfce290",
+              "exactEmbedded": true,
+              "artifact": "C57"
+            }
+          ],
+          "verification": {
+            "implementation": {
+              "status": "source-observed",
+              "evidence": [
+                "REVIEW126-C57-VM30"
+              ]
+            },
+            "automatic": {
+              "status": "notrun",
+              "scope": "행별 독립 자동검수 승계 없음",
+              "evidence": []
+            },
+            "actualScreen": {
+              "status": "pass",
+              "html": {
+                "path": ".build/review-20261026/integration-candidate-58.html",
+                "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+                "bytes": 6693352
+              },
+              "scope": "4크기×2모의권한 읽기4탭·수동키보드/한스크롤. 보조7의 실제 탭 접근240 및복귀240",
+              "evidence": [
+                "REVIEW126-C58-ACTUAL8",
+                "REVIEW126-C58-SCROLL7"
+              ],
+              "allStatesAccepted": false
+            },
+            "output": {
+              "status": "notrun",
+              "evidence": []
+            }
+          },
+          "geometry": {
+            "alignment": "notrun",
+            "size": "notrun",
+            "scroll": "scoped-pass-C58",
+            "keyboard": "scoped-pass"
+          }
+        }
+      ]
     },
     {
       "componentID": "REVIEW126-COMP-PERMIT-DETAIL-TAB-law",
@@ -669010,7 +670644,7 @@
       "definitionStage": "C57 immutable exact HTML plus independently scoped evidence",
       "currentVisibility": {
         "visible": true,
-        "status": "scoped-native-observed"
+        "status": "scoped-native-observed-C58"
       },
       "purpose": {
         "userTask": "현재 인허가의 해당 업무정보 조회",
@@ -669040,7 +670674,7 @@
       "geometry": {
         "alignment": "notrun",
         "size": "notrun",
-        "scroll": "work-position-UX-fail-C57",
+        "scroll": "scoped-pass-C58",
         "keyboard": "scoped-pass"
       },
       "consumers": [
@@ -669067,12 +670701,18 @@
           "evidence": []
         },
         "actualScreen": {
-          "status": "partial",
-          "scope": "Arrow/Enter·Home/End 수동 활성화, 선택표시/tabpanel",
+          "status": "pass",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "scope": "4크기×2모의권한 읽기4탭·수동키보드/한스크롤. 보조7의 실제 탭 접근240 및복귀240",
           "evidence": [
-            "REVIEW126-C57-ACTUAL8",
-            "REVIEW126-C57-SCROLL7"
-          ]
+            "REVIEW126-C58-ACTUAL8",
+            "REVIEW126-C58-SCROLL7"
+          ],
+          "allStatesAccepted": false
         },
         "output": {
           "status": "notrun",
@@ -669084,17 +670724,20 @@
           "file": "src/permit-views.js",
           "sha256": "1720b3d91fc25ad4d3769b9813d07c6981c0d5a47e2577e7e09b2725ebfce290",
           "exactEmbedded": true,
-          "artifact": "C57"
+          "artifact": "C58",
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
         }
       ],
       "html": {
-        "path": ".build/review-20261026/integration-candidate-57.html",
-        "sha256": "8512c4274313cd3f8ed5d891f24ce1843e4c8a6aa91cecb9d6e5b9cc07acab3e",
-        "bytes": 6693002
+        "path": ".build/review-20261026/integration-candidate-58.html",
+        "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+        "bytes": 6693352
       },
       "evidence": [
         "REVIEW126-C57-VM30",
-        "REVIEW126-C57-ACTUAL8"
+        "REVIEW126-C57-ACTUAL8",
+        "REVIEW126-C58-ACTUAL8",
+        "REVIEW126-C58-SCROLL7"
       ],
       "metadata": {
         "reviewRequestId": "UI126-01",
@@ -669103,7 +670746,62 @@
         "notAddedToCurrentC53Definition975": true,
         "notAddedToPending34": true
       },
-      "allStatesAccepted": false
+      "allStatesAccepted": false,
+      "definitionHistory": [
+        {
+          "artifact": "C57",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-57.html",
+            "sha256": "8512c4274313cd3f8ed5d891f24ce1843e4c8a6aa91cecb9d6e5b9cc07acab3e",
+            "bytes": 6693002
+          },
+          "source": [
+            {
+              "file": "src/permit-views.js",
+              "sha256": "1720b3d91fc25ad4d3769b9813d07c6981c0d5a47e2577e7e09b2725ebfce290",
+              "exactEmbedded": true,
+              "artifact": "C57"
+            }
+          ],
+          "verification": {
+            "implementation": {
+              "status": "source-observed",
+              "evidence": [
+                "REVIEW126-C57-VM30"
+              ]
+            },
+            "automatic": {
+              "status": "notrun",
+              "scope": "행별 독립 자동검수 승계 없음",
+              "evidence": []
+            },
+            "actualScreen": {
+              "status": "pass",
+              "html": {
+                "path": ".build/review-20261026/integration-candidate-58.html",
+                "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+                "bytes": 6693352
+              },
+              "scope": "4크기×2모의권한 읽기4탭·수동키보드/한스크롤. 보조7의 실제 탭 접근240 및복귀240",
+              "evidence": [
+                "REVIEW126-C58-ACTUAL8",
+                "REVIEW126-C58-SCROLL7"
+              ],
+              "allStatesAccepted": false
+            },
+            "output": {
+              "status": "notrun",
+              "evidence": []
+            }
+          },
+          "geometry": {
+            "alignment": "notrun",
+            "size": "notrun",
+            "scroll": "scoped-pass-C58",
+            "keyboard": "scoped-pass"
+          }
+        }
+      ]
     },
     {
       "componentID": "REVIEW126-COMP-PERMIT-DETAIL-LOCAL-round-add",
@@ -669119,7 +670817,7 @@
       "definitionStage": "C57 immutable exact HTML plus independently scoped evidence",
       "currentVisibility": {
         "visible": true,
-        "status": "scoped-native-observed"
+        "status": "scoped-native-observed-C58"
       },
       "purpose": {
         "userTask": "신청·보완·심의 기록을 명시적으로 추가",
@@ -669149,7 +670847,7 @@
       "geometry": {
         "alignment": "notrun",
         "size": "notrun",
-        "scroll": "work-position-UX-fail-C57",
+        "scroll": "scoped-pass-C58",
         "keyboard": "notrun"
       },
       "consumers": [
@@ -669176,11 +670874,18 @@
           "evidence": []
         },
         "actualScreen": {
-          "status": "partial",
-          "scope": "보조7에서 진입/부모복귀 실행, 접근 전240→0 작업위치 소실FAIL. 저장 미실행",
+          "status": "pass",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "scope": "긴본문240에서 실제 추가버튼 pointerdown240·추가폼 취소 후240. 별도 회차 검토503/retry4코호트 중 해당 PC/390조건",
           "evidence": [
-            "REVIEW126-C57-SCROLL7"
-          ]
+            "REVIEW126-C58-SCROLL7",
+            "REVIEW126-C58-PERMIT5034"
+          ],
+          "allStatesAccepted": false
         },
         "output": {
           "status": "notrun",
@@ -669192,23 +670897,27 @@
           "file": "src/permit-views.js",
           "sha256": "1720b3d91fc25ad4d3769b9813d07c6981c0d5a47e2577e7e09b2725ebfce290",
           "exactEmbedded": true,
-          "artifact": "C57"
+          "artifact": "C58",
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
         },
         {
           "file": "src/permit-map.js",
           "sha256": "58c7de7c78618a3f4eaf894b188f0fa50a095b432ec63d2d735eb94ae90f134e",
           "exactEmbedded": true,
-          "artifact": "C57"
+          "artifact": "C58",
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
         }
       ],
       "html": {
-        "path": ".build/review-20261026/integration-candidate-57.html",
-        "sha256": "8512c4274313cd3f8ed5d891f24ce1843e4c8a6aa91cecb9d6e5b9cc07acab3e",
-        "bytes": 6693002
+        "path": ".build/review-20261026/integration-candidate-58.html",
+        "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+        "bytes": 6693352
       },
       "evidence": [
         "REVIEW126-C57-VM30",
-        "REVIEW126-C57-SCROLL7"
+        "REVIEW126-C57-SCROLL7",
+        "REVIEW126-C58-SCROLL7",
+        "REVIEW126-C58-PERMIT5034"
       ],
       "metadata": {
         "reviewRequestId": "UI126-01",
@@ -669217,7 +670926,68 @@
         "notAddedToCurrentC53Definition975": true,
         "notAddedToPending34": true
       },
-      "allStatesAccepted": false
+      "allStatesAccepted": false,
+      "definitionHistory": [
+        {
+          "artifact": "C57",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-57.html",
+            "sha256": "8512c4274313cd3f8ed5d891f24ce1843e4c8a6aa91cecb9d6e5b9cc07acab3e",
+            "bytes": 6693002
+          },
+          "source": [
+            {
+              "file": "src/permit-views.js",
+              "sha256": "1720b3d91fc25ad4d3769b9813d07c6981c0d5a47e2577e7e09b2725ebfce290",
+              "exactEmbedded": true,
+              "artifact": "C57"
+            },
+            {
+              "file": "src/permit-map.js",
+              "sha256": "58c7de7c78618a3f4eaf894b188f0fa50a095b432ec63d2d735eb94ae90f134e",
+              "exactEmbedded": true,
+              "artifact": "C57"
+            }
+          ],
+          "verification": {
+            "implementation": {
+              "status": "source-observed",
+              "evidence": [
+                "REVIEW126-C57-VM30"
+              ]
+            },
+            "automatic": {
+              "status": "notrun",
+              "scope": "행별 독립 자동검수 승계 없음",
+              "evidence": []
+            },
+            "actualScreen": {
+              "status": "pass",
+              "html": {
+                "path": ".build/review-20261026/integration-candidate-58.html",
+                "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+                "bytes": 6693352
+              },
+              "scope": "긴본문240에서 실제 추가버튼 pointerdown240·추가폼 취소 후240. 별도 회차 검토503/retry4코호트 중 해당 PC/390조건",
+              "evidence": [
+                "REVIEW126-C58-SCROLL7",
+                "REVIEW126-C58-PERMIT5034"
+              ],
+              "allStatesAccepted": false
+            },
+            "output": {
+              "status": "notrun",
+              "evidence": []
+            }
+          },
+          "geometry": {
+            "alignment": "notrun",
+            "size": "notrun",
+            "scroll": "scoped-pass-C58",
+            "keyboard": "notrun"
+          }
+        }
+      ]
     },
     {
       "componentID": "REVIEW126-COMP-PERMIT-DETAIL-LOCAL-results-edit",
@@ -669233,7 +671003,7 @@
       "definitionStage": "C57 immutable exact HTML plus independently scoped evidence",
       "currentVisibility": {
         "visible": true,
-        "status": "scoped-native-observed"
+        "status": "scoped-native-observed-C58"
       },
       "purpose": {
         "userTask": "읽기와 분리해 실제 의견·조치를 수정",
@@ -669291,11 +671061,17 @@
         },
         "actualScreen": {
           "status": "pass",
-          "scope": "명시 진입·기존값 읽기·취소 후 results 탭 복귀",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-58.html",
+            "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+            "bytes": 6693352
+          },
+          "scope": "의견·조치 수정 명시진입/취소·부모. 별도 신규의견/계획·추가계획제거·503초안/재시도 PC/390조건",
           "evidence": [
-            "REVIEW126-C57-ACTUAL8",
-            "REVIEW126-C57-SCROLL7"
-          ]
+            "REVIEW126-C58-ACTUAL8",
+            "REVIEW126-C58-PERMIT5034"
+          ],
+          "allStatesAccepted": false
         },
         "output": {
           "status": "notrun",
@@ -669307,23 +671083,27 @@
           "file": "src/legal.js",
           "sha256": "d84f981e044e5922c8728677205151c7da93718f67e6d0a9cecba300ef4664a0",
           "exactEmbedded": true,
-          "artifact": "C57"
+          "artifact": "C58",
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
         },
         {
           "file": "src/permit-views.js",
           "sha256": "1720b3d91fc25ad4d3769b9813d07c6981c0d5a47e2577e7e09b2725ebfce290",
           "exactEmbedded": true,
-          "artifact": "C57"
+          "artifact": "C58",
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
         }
       ],
       "html": {
-        "path": ".build/review-20261026/integration-candidate-57.html",
-        "sha256": "8512c4274313cd3f8ed5d891f24ce1843e4c8a6aa91cecb9d6e5b9cc07acab3e",
-        "bytes": 6693002
+        "path": ".build/review-20261026/integration-candidate-58.html",
+        "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+        "bytes": 6693352
       },
       "evidence": [
         "REVIEW126-C57-VM30",
-        "REVIEW126-C57-ACTUAL8"
+        "REVIEW126-C57-ACTUAL8",
+        "REVIEW126-C58-ACTUAL8",
+        "REVIEW126-C58-PERMIT5034"
       ],
       "metadata": {
         "reviewRequestId": "UI126-01",
@@ -669332,7 +671112,68 @@
         "notAddedToCurrentC53Definition975": true,
         "notAddedToPending34": true
       },
-      "allStatesAccepted": false
+      "allStatesAccepted": false,
+      "definitionHistory": [
+        {
+          "artifact": "C57",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-57.html",
+            "sha256": "8512c4274313cd3f8ed5d891f24ce1843e4c8a6aa91cecb9d6e5b9cc07acab3e",
+            "bytes": 6693002
+          },
+          "source": [
+            {
+              "file": "src/legal.js",
+              "sha256": "d84f981e044e5922c8728677205151c7da93718f67e6d0a9cecba300ef4664a0",
+              "exactEmbedded": true,
+              "artifact": "C57"
+            },
+            {
+              "file": "src/permit-views.js",
+              "sha256": "1720b3d91fc25ad4d3769b9813d07c6981c0d5a47e2577e7e09b2725ebfce290",
+              "exactEmbedded": true,
+              "artifact": "C57"
+            }
+          ],
+          "verification": {
+            "implementation": {
+              "status": "source-observed",
+              "evidence": [
+                "REVIEW126-C57-VM30"
+              ]
+            },
+            "automatic": {
+              "status": "notrun",
+              "scope": "행별 독립 자동검수 승계 없음",
+              "evidence": []
+            },
+            "actualScreen": {
+              "status": "pass",
+              "html": {
+                "path": ".build/review-20261026/integration-candidate-58.html",
+                "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+                "bytes": 6693352
+              },
+              "scope": "의견·조치 수정 명시진입/취소·부모. 별도 신규의견/계획·추가계획제거·503초안/재시도 PC/390조건",
+              "evidence": [
+                "REVIEW126-C58-ACTUAL8",
+                "REVIEW126-C58-PERMIT5034"
+              ],
+              "allStatesAccepted": false
+            },
+            "output": {
+              "status": "notrun",
+              "evidence": []
+            }
+          },
+          "geometry": {
+            "alignment": "notrun",
+            "size": "notrun",
+            "scroll": "notrun",
+            "keyboard": "notrun"
+          }
+        }
+      ]
     },
     {
       "componentID": "REVIEW126-COMP-PERMIT-DETAIL-FACT-reportTrigger",
@@ -669419,13 +671260,14 @@
           "file": "src/permit-views.js",
           "sha256": "1720b3d91fc25ad4d3769b9813d07c6981c0d5a47e2577e7e09b2725ebfce290",
           "exactEmbedded": true,
-          "artifact": "C57"
+          "artifact": "C58",
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
         }
       ],
       "html": {
-        "path": ".build/review-20261026/integration-candidate-57.html",
-        "sha256": "8512c4274313cd3f8ed5d891f24ce1843e4c8a6aa91cecb9d6e5b9cc07acab3e",
-        "bytes": 6693002
+        "path": ".build/review-20261026/integration-candidate-58.html",
+        "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+        "bytes": 6693352
       },
       "evidence": [
         "REVIEW126-C57-VM30"
@@ -669437,7 +671279,53 @@
         "notAddedToCurrentC53Definition975": true,
         "notAddedToPending34": true
       },
-      "allStatesAccepted": false
+      "allStatesAccepted": false,
+      "definitionHistory": [
+        {
+          "artifact": "C57",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-57.html",
+            "sha256": "8512c4274313cd3f8ed5d891f24ce1843e4c8a6aa91cecb9d6e5b9cc07acab3e",
+            "bytes": 6693002
+          },
+          "source": [
+            {
+              "file": "src/permit-views.js",
+              "sha256": "1720b3d91fc25ad4d3769b9813d07c6981c0d5a47e2577e7e09b2725ebfce290",
+              "exactEmbedded": true,
+              "artifact": "C57"
+            }
+          ],
+          "verification": {
+            "implementation": {
+              "status": "source-observed",
+              "evidence": [
+                "REVIEW126-C57-VM30"
+              ]
+            },
+            "automatic": {
+              "status": "notrun",
+              "scope": "행별 독립 자동검수 승계 없음",
+              "evidence": []
+            },
+            "actualScreen": {
+              "status": "notrun",
+              "scope": "label source 관측만; 실제 값/법적 날짜 판정 미검증",
+              "evidence": []
+            },
+            "output": {
+              "status": "notrun",
+              "evidence": []
+            }
+          },
+          "geometry": {
+            "alignment": "notrun",
+            "size": "notrun",
+            "scroll": "notrun",
+            "keyboard": "notrun"
+          }
+        }
+      ]
     }
   ],
   "popupCandidates": [
@@ -725903,6 +727791,48 @@
       "path": ".build/review-20261026/permit-scroll-browser-2026-10-26T07-41-25-323Z/evidence.json",
       "sha256": "f2d3b97796746372ce3eb3d9314d9e7f0211103b345b39c1dbacc417561433c3",
       "kind": "actual-pointerdown-diagnosis-five-pass-two-work-position-UX-failures"
+    },
+    {
+      "id": "REVIEW126-C58-ACTUAL8",
+      "path": ".build/review-20261026/browser-1793000784723/evidence.json",
+      "sha256": "2d9c437794bad65606ba620a2ef2e3cc69f0db5737bd5524268757e5256ecda5",
+      "kind": "fresh-Edge-eight-scoped-role-viewport-flows"
+    },
+    {
+      "id": "REVIEW126-C58-SCROLL7",
+      "path": ".build/review-20261026/permit-scroll-browser-2026-10-26T07-49-32-804Z/evidence.json",
+      "sha256": "f679dd1849e7d3824f2f4e0807a6cfcbc798e593eda52c1fe6192e2012fe368e",
+      "kind": "fresh-Edge-seven-scroll-focus-work-position-conditions"
+    },
+    {
+      "id": "REVIEW126-C58-PERMIT5034",
+      "path": ".build/continuation-20261023/ui-runs/2026-10-26T07-50-19-778Z/evidence.json",
+      "sha256": "449e942d720cf10d68da4d7e2c3ce17e95b3cc19611e5dbbf6d516b54af40af7",
+      "kind": "fresh-Edge-round-and-result-plan-503-retry-parent-PC390-four-conditions"
+    },
+    {
+      "id": "REVIEW126-C58-REGRESSION200",
+      "path": ".build/center-20261020/logic-2026-10-26T07-45-47.495Z.json",
+      "sha256": "ef45d5ae9caae75e4311398800e8f41001d3bd86a9aeca9fe770d771c099d27b",
+      "kind": "logical-suites-not-native-or-production-acceptance"
+    },
+    {
+      "id": "REVIEW126-C57-C58-STYLE-BRIDGE",
+      "path": ".build/audit-20261026/c57-c58-css-bridge-1793001192449.json",
+      "sha256": "5747a8f8d87ebaa3332487cc18b63434611b86bb63a7d319e309e32ea24ca18e",
+      "kind": "exact-HTML-bridge-one-style-region-only-not-native-transfer"
+    },
+    {
+      "id": "REVIEW126-C56-SCROLL7",
+      "path": ".build/review-20261026/permit-scroll-browser-2026-10-26T07-33-06-579Z/evidence.json",
+      "sha256": "1e585bad76916c98f61cfa083e3e1cdf553cf3549115a9144591cd03948c8082",
+      "kind": "historical-five-pass-two-observed-work-position-failures"
+    },
+    {
+      "id": "REVIEW126-C58-BASIC120-ROLE2",
+      "path": ".build/review-20261026/native-pages58/2026-10-26T07-53-24-725Z/evidence.json",
+      "sha256": "2ef28a8f5b87ae3969dc2e3fd888b7439f2b205c40e2d9ff267c1aac92dc468b",
+      "kind": "fresh-C58-default30-routes-four-sizes-and-two-role-hiding-conditions-not-full-workflows"
     }
   ],
   "safety": {
@@ -731628,12 +733558,12 @@
     "targetRelease": "0.12.6",
     "targetReleaseStatus": "planned-not-published-or-accepted",
     "currentCandidate": {
+      "artifact": "C58",
       "version": "0.12.6",
-      "artifact": "C57",
       "html": {
-        "path": ".build/review-20261026/integration-candidate-57.html",
-        "sha256": "8512c4274313cd3f8ed5d891f24ce1843e4c8a6aa91cecb9d6e5b9cc07acab3e",
-        "bytes": 6693002
+        "path": ".build/review-20261026/integration-candidate-58.html",
+        "sha256": "9af2c6e8f0302189352881b597fa255c254b6447b3aa403665d764e3a5ba4b24",
+        "bytes": 6693352
       },
       "releaseAcceptance": "notrun",
       "completed": 0,
@@ -731643,219 +733573,294 @@
           "file": "src/html-test-fixture-policy.js",
           "readFrom": "src/html-test-fixture-policy.js",
           "sha256": "2b601a37a799f90144654d04548969ba2648fb74506d7c7231d6c67daf96b585",
-          "exactEmbedded": true
+          "exactEmbedded": true,
+          "artifact": "C58",
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
         },
         {
           "file": "src/core.js",
           "readFrom": "src/core.js",
           "sha256": "2a8add3ed3cca0c94cd3cd9dc5abbf53674552b2418e39967a5b4840100e41b5",
-          "exactEmbedded": true
+          "exactEmbedded": true,
+          "artifact": "C58",
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
         },
         {
           "file": "src/reference-data.js",
           "readFrom": "src/reference-data.js",
           "sha256": "59e3347867878dcf6901918b18978b1ba51bf80cbae1f1628baef8cd2669b9ac",
-          "exactEmbedded": true
+          "exactEmbedded": true,
+          "artifact": "C58",
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
         },
         {
           "file": "src/notifications.js",
           "readFrom": "src/notifications.js",
           "sha256": "53cc89c40617cabb9f9cb8432eff3b741019ef2de0530508e4ba8d77c296adb9",
-          "exactEmbedded": true
+          "exactEmbedded": true,
+          "artifact": "C58",
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
         },
         {
           "file": "src/notion-addon.js",
           "readFrom": "src/notion-addon.js",
           "sha256": "f0ba40104a0eaa00ca46abcd3793c135d9e8ac290555c325e8b5bc316d8945a9",
-          "exactEmbedded": true
+          "exactEmbedded": true,
+          "artifact": "C58",
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
         },
         {
           "file": "src/chart-utils.js",
           "readFrom": "src/chart-utils.js",
           "sha256": "42bbf109f72f482ecb3a1468e0092992c90276ac09d84124d0d838f9b6ece3e5",
-          "exactEmbedded": true
+          "exactEmbedded": true,
+          "artifact": "C58",
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
         },
         {
           "file": "src/cost-type-master.js",
           "readFrom": "src/cost-type-master.js",
           "sha256": "f2de9be9ee3df60565e228b51fbfc5d1cc38a35e9a089a8c4cfca85654155d92",
-          "exactEmbedded": true
+          "exactEmbedded": true,
+          "artifact": "C58",
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
         },
         {
           "file": "src/cost-taxonomy.js",
           "readFrom": "src/cost-taxonomy.js",
           "sha256": "e41bb31d85288b7cf9a871445869e3eb8b7ac2cedb75441d05322d88ee44c923",
-          "exactEmbedded": true
+          "exactEmbedded": true,
+          "artifact": "C58",
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
         },
         {
           "file": "src/cbs.js",
           "readFrom": "src/cbs.js",
           "sha256": "154a8a712814133fd8f06ab7460f53feac196ebaf9ae5469245e97a56668afbe",
-          "exactEmbedded": true
+          "exactEmbedded": true,
+          "artifact": "C58",
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
         },
         {
           "file": "src/vat.js",
           "readFrom": "src/vat.js",
           "sha256": "be39dcaf9ed0b663b7c83d49ace4da1ea530206ddd6b9d433a5e90334077a84b",
-          "exactEmbedded": true
+          "exactEmbedded": true,
+          "artifact": "C58",
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
         },
         {
           "file": "src/contracts.js",
           "readFrom": "src/contracts.js",
           "sha256": "7680b8c8edcc8a0c21887bcfbd3b94d1e4e4c29bcd3e7d98c77b70039f55c481",
-          "exactEmbedded": true
+          "exactEmbedded": true,
+          "artifact": "C58",
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
         },
         {
           "file": "src/legal.js",
           "readFrom": "src/legal.js",
           "sha256": "d84f981e044e5922c8728677205151c7da93718f67e6d0a9cecba300ef4664a0",
-          "exactEmbedded": true
+          "exactEmbedded": true,
+          "artifact": "C58",
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
         },
         {
           "file": "src/permit-views.js",
           "readFrom": "src/permit-views.js",
           "sha256": "1720b3d91fc25ad4d3769b9813d07c6981c0d5a47e2577e7e09b2725ebfce290",
-          "exactEmbedded": true
+          "exactEmbedded": true,
+          "artifact": "C58",
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
         },
         {
           "file": "src/permit-map.js",
           "readFrom": "src/permit-map.js",
           "sha256": "58c7de7c78618a3f4eaf894b188f0fa50a095b432ec63d2d735eb94ae90f134e",
-          "exactEmbedded": true
+          "exactEmbedded": true,
+          "artifact": "C58",
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
         },
         {
           "file": "src/law-monitor.js",
           "readFrom": "src/law-monitor.js",
           "sha256": "f9fba189a0db8c8325c54a2ce22ea774d69ff48f353e1efc2dbb4dd0e46c6779",
-          "exactEmbedded": true
+          "exactEmbedded": true,
+          "artifact": "C58",
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
         },
         {
           "file": "src/partners.js",
           "readFrom": "src/partners.js",
           "sha256": "b62d989d906706b2a32e9b0c8ffff8a182e2d0b9b8d829adf0ed145fd59d5811",
-          "exactEmbedded": true
+          "exactEmbedded": true,
+          "artifact": "C58",
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
         },
         {
           "file": "src/setup.js",
           "readFrom": "src/setup.js",
           "sha256": "67edc0214984d694f643bb4cd2af854bb2867e93435e520f187e20075018435a",
-          "exactEmbedded": true
+          "exactEmbedded": true,
+          "artifact": "C58",
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
         },
         {
           "file": "src/report-form.js",
           "readFrom": "src/report-form.js",
           "sha256": "e3b65cfddfd5d4b3ce84a4c88c6e18bad15179e0a58d00f905485999da4b6891",
-          "exactEmbedded": true
+          "exactEmbedded": true,
+          "artifact": "C58",
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
         },
         {
           "file": "src/report.js",
           "readFrom": "src/report.js",
           "sha256": "22ac24db835469de1cd633687cfbbbdc18b9bc43ef1662e85add74840bd7c0f6",
-          "exactEmbedded": true
+          "exactEmbedded": true,
+          "artifact": "C58",
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
         },
         {
           "file": "src/cbs-purpose.js",
           "readFrom": "src/cbs-purpose.js",
           "sha256": "69bf09b479f65dc13220120254c90a5dcdaf1ac364ee5209ae53d4c330942d88",
-          "exactEmbedded": true
+          "exactEmbedded": true,
+          "artifact": "C58",
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
         },
         {
           "file": "src/cbs-model-v0118.js",
           "readFrom": "src/cbs-model-v0118.js",
           "sha256": "2336f2d6ff3702ca04da166079b664cead36d7e2f1baf3deb747fa3d856529ed",
-          "exactEmbedded": true
+          "exactEmbedded": true,
+          "artifact": "C58",
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
         },
         {
           "file": "src/cost-cbs-order.js",
           "readFrom": "src/cost-cbs-order.js",
           "sha256": "670874866e7165e88ba09958119a8cafc088c18bf26c06485665e30b85ac6a0a",
-          "exactEmbedded": true
+          "exactEmbedded": true,
+          "artifact": "C58",
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
         },
         {
           "file": "src/cost-catalog-identity.js",
           "readFrom": "src/cost-catalog-identity.js",
           "sha256": "d1bacf35d58cf4c79fb53b9fc6c4c0a24314b210af4ef60e82eee0b184b5336a",
-          "exactEmbedded": true
+          "exactEmbedded": true,
+          "artifact": "C58",
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
         },
         {
           "file": "src/cost-company-profile.js",
           "readFrom": "src/cost-company-profile.js",
           "sha256": "d745d22ee3881096818a0a9b3d5f17e14609f0d1709224a7952b8c1c4f0d1fbc",
-          "exactEmbedded": true
+          "exactEmbedded": true,
+          "artifact": "C58",
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
         },
         {
           "file": "src/cost-order.js",
           "readFrom": "src/cost-order.js",
           "sha256": "25db373a0bd3d05d7ad5b355979f78ef736b336e23b81b97d9879fc405edcc31",
-          "exactEmbedded": true
+          "exactEmbedded": true,
+          "artifact": "C58",
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
         },
         {
           "file": "src/cost-coding.js",
           "readFrom": "src/cost-coding.js",
           "sha256": "3fc3976de4e38e13e83483e31afc16376f2a4d80648f3542e28983bfdf0c9aaf",
-          "exactEmbedded": true
+          "exactEmbedded": true,
+          "artifact": "C58",
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
         },
         {
           "file": "src/cost-breakdown.js",
           "readFrom": "src/cost-breakdown.js",
           "sha256": "fc8255a429deb55fadebfbe467031364f07d2c85d196a0bc40bf1d54a0478795",
-          "exactEmbedded": true
+          "exactEmbedded": true,
+          "artifact": "C58",
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
         },
         {
           "file": "src/cost-asset-presets.js",
           "readFrom": "src/cost-asset-presets.js",
           "sha256": "32da5dada27e63f7b3020d28592debb3973a180869b025f3b801c797be3d9ffb",
-          "exactEmbedded": true
+          "exactEmbedded": true,
+          "artifact": "C58",
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
         },
         {
           "file": "src/cost-snapshots.js",
           "readFrom": "src/cost-snapshots.js",
           "sha256": "ebc13054f94f530bf519ac115a2c192d62d8d821827dd77b81142fd55e26f906",
-          "exactEmbedded": true
+          "exactEmbedded": true,
+          "artifact": "C58",
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
         },
         {
           "file": "src/xlsx-export.js",
           "readFrom": "src/xlsx-export.js",
           "sha256": "0057b4af1706d1937f01ce903dc49aa7f634cb882f7e36e8af3af870dcb70712",
-          "exactEmbedded": true
+          "exactEmbedded": true,
+          "artifact": "C58",
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
         },
         {
           "file": "src/audit-view.js",
           "readFrom": "src/audit-view.js",
           "sha256": "2f025816aa4f4b9a65b251f52be60f959d88899e5cb5574ce4e60d3370b69c18",
-          "exactEmbedded": true
+          "exactEmbedded": true,
+          "artifact": "C58",
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
         },
         {
           "file": "src/recovery-views.js",
           "readFrom": "src/recovery-views.js",
           "sha256": "ab526476d9c008fc91b811bc83390dd2c8b586bd8265b9e2ca8ddb49545a57c7",
-          "exactEmbedded": true
+          "exactEmbedded": true,
+          "artifact": "C58",
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
         },
         {
           "file": "src/workspace-ux.js",
           "readFrom": "src/workspace-ux.js",
           "sha256": "554541b55fab9d0c76c52a21b0e3597f51f47250c3aec4e85fe6cda599ed8754",
-          "exactEmbedded": true
+          "exactEmbedded": true,
+          "artifact": "C58",
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
         },
         {
           "file": "src/spec.js",
           "readFrom": "src/spec.js",
           "sha256": "ebf3023b7f65a03ca33508f2c37e1c8a5fb19eb3a1637658a7c5e7a23f2751fb",
-          "exactEmbedded": true
+          "exactEmbedded": true,
+          "artifact": "C58",
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
         },
         {
           "file": "src/cloud-session.js",
           "readFrom": "src/cloud-session.js",
           "sha256": "aba0fddbdae411beea031165adb65252bfa96cfa2904c1f71bf7c925c64e4163",
-          "exactEmbedded": true
+          "exactEmbedded": true,
+          "artifact": "C58",
+          "evidence": "REVIEW126-C57-C58-STYLE-BRIDGE"
         }
       ],
-      "vm": {
+      "contentDefinitionBridge": {
+        "vmArtifact": "C57",
         "routes": 30,
         "rendered": 30,
         "modules": 35,
-        "actualBrowser": false,
-        "evidence": "REVIEW126-C57-VM30"
+        "evidence": [
+          "REVIEW126-C57-VM30",
+          "REVIEW126-C57-C58-STYLE-BRIDGE"
+        ],
+        "freshC58VmRun": false,
+        "geometryNotTransferred": true
       },
       "actualScreen": {
         "flows": 8,
@@ -731871,7 +733876,7 @@
           1600,
           390
         ],
-        "evidence": "REVIEW126-C57-ACTUAL8",
+        "evidence": "REVIEW126-C58-ACTUAL8",
         "scope": [
           "4읽기탭·수동 키보드 활성화",
           "긴 검토의견8·단일 세로스크롤",
@@ -731891,65 +733896,126 @@
         ]
       },
       "supplementalScroll": {
-        "status": "fail",
+        "status": "pass",
         "planned": 7,
-        "passed": 5,
-        "failed": 2,
+        "passed": 7,
+        "failed": 0,
         "evidence": [
-          "REVIEW126-C57-SCROLL7"
+          "REVIEW126-C58-SCROLL7"
         ],
-        "failureClassification": "긴 본문에서 화면 밖 탐색탭/추가버튼에 접근하는 동안 작업위치 소실 UX",
-        "independentFacts": {
-          "tabBefore": {
-            "scrollTop": 240,
-            "y": -127
-          },
-          "roundAddBefore": {
-            "scrollTop": 240,
-            "y": -32.40625
-          },
-          "pointerdownScrollTop": 0,
-          "handlerSavedScrollTop": 0
+        "scope": [
+          "overview240→law0→overview240",
+          "명시적 law top0 보존",
+          "law검색 자식38→38",
+          "rounds240→추가폼 취소→240",
+          "pending same/closed/different-active/different-popup 초점4조건"
+        ],
+        "physicalTrace": {
+          "tabY": 117,
+          "roundAddY": 203.59375,
+          "tabPointerdownScrollTop": 240,
+          "roundAddPointerdownScrollTop": 240
         },
-        "notEstablished": "상태복원 코드가240을0으로 덮었다거나 RAF가 직접 원인이라는 이전 가설은 이 실측으로 확정되지 않음",
-        "resolution": "C58 새 실제8/4/7 및 회귀 대기; C57 main8로 해결 처리하지 않음"
+        "resolutionOf": [
+          "C55/C56/C57 offscreen-navigation work-position UX failures"
+        ],
+        "notAcceptanceOfAllPopupConditions": true
       },
-      "historicalCandidateFailures": [
-        {
-          "artifact": "C55",
-          "html": {
-            "path": ".build/review-20261026/integration-candidate-55.html",
-            "sha256": "09665d8ba775c0c8e50462f6aaf9966280995037fda153d0cc9383c932bbc294",
-            "bytes": 6691698
-          },
-          "evidence": "REVIEW126-C55-SCROLL7",
-          "planned": 7,
-          "passed": 5,
-          "failed": 2,
-          "failures": [
-            {
-              "name": "scroll-top-zero",
-              "message": "The expression evaluated to a falsy value:\n\n  assert(restored>0)\n"
-            },
-            {
-              "name": "round-return-scroll",
-              "message": "Expected values to be strictly equal:\n\n0 !== 240\n"
-            }
-          ],
-          "resolutionInCurrentCandidate": "notrun"
-        },
-        {
-          "artifact": "C56",
-          "status": "parent-reported-two-product-failures-evidence-path-pending",
-          "failed": 2,
-          "evidence": [],
-          "resolutionInCurrentCandidate": "notrun"
-        }
+      "permit503": {
+        "status": "pass",
+        "planned": 4,
+        "passed": 4,
+        "evidence": [
+          "REVIEW126-C58-PERMIT5034"
+        ],
+        "scope": [
+          "PC1280/390 회차 검토503→초안보존→재시도·기존회차·정확 상세부모",
+          "PC1280/390 의견/계획 추가·계획추가/제거·503→초안보존→재시도·상세부모"
+        ],
+        "realServer": false
+      },
+      "regression": {
+        "suites": 200,
+        "passed": 200,
+        "failed": 0,
+        "sourceChanged": [],
+        "evidence": [
+          "REVIEW126-C58-REGRESSION200"
+        ],
+        "notBrowserOrPdfOrProductionAcceptance": true
+      },
+      "basicObservation": {
+        "status": "observed-default-only",
+        "artifact": "C58",
+        "planned": 120,
+        "observed": 120,
+        "failed": 0,
+        "preparationBlocked": 0,
+        "notrun": 0,
+        "roleConditions": 2,
+        "sourceModules": 35,
+        "sourceChanged": [],
+        "geometryCandidates": 8,
+        "evidence": [
+          "REVIEW126-C58-BASIC120-ROLE2"
+        ],
+        "scope": "30기본경로×1280/1440/1600/390의 읽기·끝셀·기하 관측. 별도 PC/390 일반 editor의 소유자명세 숨김2조건",
+        "allStatesAccepted": false,
+        "remaining": "owner 기존 PRE 중첩스크롤 후보8은 관측한계/미검증으로 보존. 모든 팝업/행동/실자료/실회원/실서버/출력 수락 아님",
+        "linkedScreenIDs": [
+          "CURRENT-SCREEN-portfolio",
+          "CURRENT-SCREEN-overview",
+          "CURRENT-SCREEN-cost-overview",
+          "CURRENT-SCREEN-cost-detail",
+          "CURRENT-SCREEN-cost-benchmark",
+          "CURRENT-SCREEN-finance-loans",
+          "CURRENT-SCREEN-permit-land",
+          "CURRENT-SCREEN-permit-permits",
+          "CURRENT-SCREEN-permit-construction",
+          "CURRENT-SCREEN-permit-sales",
+          "CURRENT-SCREEN-permit-registration",
+          "CURRENT-SCREEN-document",
+          "CURRENT-SCREEN-report-generate",
+          "CURRENT-SCREEN-company-cak-rows",
+          "CURRENT-SCREEN-company-cm-rows",
+          "CURRENT-SCREEN-company-etis-overall_rows",
+          "CURRENT-SCREEN-company-etis-construction_rows",
+          "CURRENT-SCREEN-company-kacem-rows",
+          "CURRENT-SCREEN-company-market",
+          "CURRENT-SCREEN-company-directory",
+          "CURRENT-SCREEN-law-recent",
+          "CURRENT-SCREEN-law-catalog",
+          "CURRENT-SCREEN-spec-overview",
+          "CURRENT-SCREEN-spec-functions",
+          "CURRENT-SCREEN-spec-sdd",
+          "CURRENT-SCREEN-spec-tests",
+          "CURRENT-SCREEN-spec-data",
+          "CURRENT-SCREEN-spec-history",
+          "CURRENT-SCREEN-spec-feedback",
+          "CURRENT-SCREEN-spec-json"
+        ]
+      },
+      "historicalFailureEvidence": [
+        "REVIEW126-C55-SCROLL7",
+        "REVIEW126-C56-SCROLL7",
+        "REVIEW126-C57-SCROLL7"
+      ],
+      "remaining": [
+        "UI/LAW/DB/SPEC/NAV 전체 요구 수락",
+        "모든 실제기록/권한/저장/취소/출력조건",
+        "실제 회원·운영API·DB 검수",
+        "전체 목적/내용 충분성"
       ],
       "pending34Kept": true,
       "original4213Kept": true,
       "currentC53Definitions975Kept": true,
-      "priorNativeAcceptanceNotTransferred": true
+      "priorNativeAcceptanceNotTransferred": true,
+      "releaseStatus": {
+        "formalVersion": "0.12.5",
+        "candidateGit": "358eecd",
+        "candidateStage": "private-Git-main-preview-reported-by-root-not-live-probed-here",
+        "formalPromotion": false
+      }
     },
     "candidateSourceComponentDefinitionsAdded": 8,
     "candidateSourceComponentDefinitionIDs": [
@@ -731961,6 +734027,341 @@
       "REVIEW126-COMP-PERMIT-DETAIL-LOCAL-round-add",
       "REVIEW126-COMP-PERMIT-DETAIL-LOCAL-results-edit",
       "REVIEW126-COMP-PERMIT-DETAIL-FACT-reportTrigger"
+    ],
+    "candidateHistory": [
+      {
+        "version": "0.12.6",
+        "artifact": "C57",
+        "html": {
+          "path": ".build/review-20261026/integration-candidate-57.html",
+          "sha256": "8512c4274313cd3f8ed5d891f24ce1843e4c8a6aa91cecb9d6e5b9cc07acab3e",
+          "bytes": 6693002
+        },
+        "releaseAcceptance": "notrun",
+        "completed": 0,
+        "allStatesAccepted": false,
+        "sourcePins": [
+          {
+            "file": "src/html-test-fixture-policy.js",
+            "readFrom": "src/html-test-fixture-policy.js",
+            "sha256": "2b601a37a799f90144654d04548969ba2648fb74506d7c7231d6c67daf96b585",
+            "exactEmbedded": true
+          },
+          {
+            "file": "src/core.js",
+            "readFrom": "src/core.js",
+            "sha256": "2a8add3ed3cca0c94cd3cd9dc5abbf53674552b2418e39967a5b4840100e41b5",
+            "exactEmbedded": true
+          },
+          {
+            "file": "src/reference-data.js",
+            "readFrom": "src/reference-data.js",
+            "sha256": "59e3347867878dcf6901918b18978b1ba51bf80cbae1f1628baef8cd2669b9ac",
+            "exactEmbedded": true
+          },
+          {
+            "file": "src/notifications.js",
+            "readFrom": "src/notifications.js",
+            "sha256": "53cc89c40617cabb9f9cb8432eff3b741019ef2de0530508e4ba8d77c296adb9",
+            "exactEmbedded": true
+          },
+          {
+            "file": "src/notion-addon.js",
+            "readFrom": "src/notion-addon.js",
+            "sha256": "f0ba40104a0eaa00ca46abcd3793c135d9e8ac290555c325e8b5bc316d8945a9",
+            "exactEmbedded": true
+          },
+          {
+            "file": "src/chart-utils.js",
+            "readFrom": "src/chart-utils.js",
+            "sha256": "42bbf109f72f482ecb3a1468e0092992c90276ac09d84124d0d838f9b6ece3e5",
+            "exactEmbedded": true
+          },
+          {
+            "file": "src/cost-type-master.js",
+            "readFrom": "src/cost-type-master.js",
+            "sha256": "f2de9be9ee3df60565e228b51fbfc5d1cc38a35e9a089a8c4cfca85654155d92",
+            "exactEmbedded": true
+          },
+          {
+            "file": "src/cost-taxonomy.js",
+            "readFrom": "src/cost-taxonomy.js",
+            "sha256": "e41bb31d85288b7cf9a871445869e3eb8b7ac2cedb75441d05322d88ee44c923",
+            "exactEmbedded": true
+          },
+          {
+            "file": "src/cbs.js",
+            "readFrom": "src/cbs.js",
+            "sha256": "154a8a712814133fd8f06ab7460f53feac196ebaf9ae5469245e97a56668afbe",
+            "exactEmbedded": true
+          },
+          {
+            "file": "src/vat.js",
+            "readFrom": "src/vat.js",
+            "sha256": "be39dcaf9ed0b663b7c83d49ace4da1ea530206ddd6b9d433a5e90334077a84b",
+            "exactEmbedded": true
+          },
+          {
+            "file": "src/contracts.js",
+            "readFrom": "src/contracts.js",
+            "sha256": "7680b8c8edcc8a0c21887bcfbd3b94d1e4e4c29bcd3e7d98c77b70039f55c481",
+            "exactEmbedded": true
+          },
+          {
+            "file": "src/legal.js",
+            "readFrom": "src/legal.js",
+            "sha256": "d84f981e044e5922c8728677205151c7da93718f67e6d0a9cecba300ef4664a0",
+            "exactEmbedded": true
+          },
+          {
+            "file": "src/permit-views.js",
+            "readFrom": "src/permit-views.js",
+            "sha256": "1720b3d91fc25ad4d3769b9813d07c6981c0d5a47e2577e7e09b2725ebfce290",
+            "exactEmbedded": true
+          },
+          {
+            "file": "src/permit-map.js",
+            "readFrom": "src/permit-map.js",
+            "sha256": "58c7de7c78618a3f4eaf894b188f0fa50a095b432ec63d2d735eb94ae90f134e",
+            "exactEmbedded": true
+          },
+          {
+            "file": "src/law-monitor.js",
+            "readFrom": "src/law-monitor.js",
+            "sha256": "f9fba189a0db8c8325c54a2ce22ea774d69ff48f353e1efc2dbb4dd0e46c6779",
+            "exactEmbedded": true
+          },
+          {
+            "file": "src/partners.js",
+            "readFrom": "src/partners.js",
+            "sha256": "b62d989d906706b2a32e9b0c8ffff8a182e2d0b9b8d829adf0ed145fd59d5811",
+            "exactEmbedded": true
+          },
+          {
+            "file": "src/setup.js",
+            "readFrom": "src/setup.js",
+            "sha256": "67edc0214984d694f643bb4cd2af854bb2867e93435e520f187e20075018435a",
+            "exactEmbedded": true
+          },
+          {
+            "file": "src/report-form.js",
+            "readFrom": "src/report-form.js",
+            "sha256": "e3b65cfddfd5d4b3ce84a4c88c6e18bad15179e0a58d00f905485999da4b6891",
+            "exactEmbedded": true
+          },
+          {
+            "file": "src/report.js",
+            "readFrom": "src/report.js",
+            "sha256": "22ac24db835469de1cd633687cfbbbdc18b9bc43ef1662e85add74840bd7c0f6",
+            "exactEmbedded": true
+          },
+          {
+            "file": "src/cbs-purpose.js",
+            "readFrom": "src/cbs-purpose.js",
+            "sha256": "69bf09b479f65dc13220120254c90a5dcdaf1ac364ee5209ae53d4c330942d88",
+            "exactEmbedded": true
+          },
+          {
+            "file": "src/cbs-model-v0118.js",
+            "readFrom": "src/cbs-model-v0118.js",
+            "sha256": "2336f2d6ff3702ca04da166079b664cead36d7e2f1baf3deb747fa3d856529ed",
+            "exactEmbedded": true
+          },
+          {
+            "file": "src/cost-cbs-order.js",
+            "readFrom": "src/cost-cbs-order.js",
+            "sha256": "670874866e7165e88ba09958119a8cafc088c18bf26c06485665e30b85ac6a0a",
+            "exactEmbedded": true
+          },
+          {
+            "file": "src/cost-catalog-identity.js",
+            "readFrom": "src/cost-catalog-identity.js",
+            "sha256": "d1bacf35d58cf4c79fb53b9fc6c4c0a24314b210af4ef60e82eee0b184b5336a",
+            "exactEmbedded": true
+          },
+          {
+            "file": "src/cost-company-profile.js",
+            "readFrom": "src/cost-company-profile.js",
+            "sha256": "d745d22ee3881096818a0a9b3d5f17e14609f0d1709224a7952b8c1c4f0d1fbc",
+            "exactEmbedded": true
+          },
+          {
+            "file": "src/cost-order.js",
+            "readFrom": "src/cost-order.js",
+            "sha256": "25db373a0bd3d05d7ad5b355979f78ef736b336e23b81b97d9879fc405edcc31",
+            "exactEmbedded": true
+          },
+          {
+            "file": "src/cost-coding.js",
+            "readFrom": "src/cost-coding.js",
+            "sha256": "3fc3976de4e38e13e83483e31afc16376f2a4d80648f3542e28983bfdf0c9aaf",
+            "exactEmbedded": true
+          },
+          {
+            "file": "src/cost-breakdown.js",
+            "readFrom": "src/cost-breakdown.js",
+            "sha256": "fc8255a429deb55fadebfbe467031364f07d2c85d196a0bc40bf1d54a0478795",
+            "exactEmbedded": true
+          },
+          {
+            "file": "src/cost-asset-presets.js",
+            "readFrom": "src/cost-asset-presets.js",
+            "sha256": "32da5dada27e63f7b3020d28592debb3973a180869b025f3b801c797be3d9ffb",
+            "exactEmbedded": true
+          },
+          {
+            "file": "src/cost-snapshots.js",
+            "readFrom": "src/cost-snapshots.js",
+            "sha256": "ebc13054f94f530bf519ac115a2c192d62d8d821827dd77b81142fd55e26f906",
+            "exactEmbedded": true
+          },
+          {
+            "file": "src/xlsx-export.js",
+            "readFrom": "src/xlsx-export.js",
+            "sha256": "0057b4af1706d1937f01ce903dc49aa7f634cb882f7e36e8af3af870dcb70712",
+            "exactEmbedded": true
+          },
+          {
+            "file": "src/audit-view.js",
+            "readFrom": "src/audit-view.js",
+            "sha256": "2f025816aa4f4b9a65b251f52be60f959d88899e5cb5574ce4e60d3370b69c18",
+            "exactEmbedded": true
+          },
+          {
+            "file": "src/recovery-views.js",
+            "readFrom": "src/recovery-views.js",
+            "sha256": "ab526476d9c008fc91b811bc83390dd2c8b586bd8265b9e2ca8ddb49545a57c7",
+            "exactEmbedded": true
+          },
+          {
+            "file": "src/workspace-ux.js",
+            "readFrom": "src/workspace-ux.js",
+            "sha256": "554541b55fab9d0c76c52a21b0e3597f51f47250c3aec4e85fe6cda599ed8754",
+            "exactEmbedded": true
+          },
+          {
+            "file": "src/spec.js",
+            "readFrom": "src/spec.js",
+            "sha256": "ebf3023b7f65a03ca33508f2c37e1c8a5fb19eb3a1637658a7c5e7a23f2751fb",
+            "exactEmbedded": true
+          },
+          {
+            "file": "src/cloud-session.js",
+            "readFrom": "src/cloud-session.js",
+            "sha256": "aba0fddbdae411beea031165adb65252bfa96cfa2904c1f71bf7c925c64e4163",
+            "exactEmbedded": true
+          }
+        ],
+        "vm": {
+          "routes": 30,
+          "rendered": 30,
+          "modules": 35,
+          "actualBrowser": false,
+          "evidence": "REVIEW126-C57-VM30"
+        },
+        "actualScreen": {
+          "flows": 8,
+          "passed": 8,
+          "failed": 0,
+          "roles": [
+            "synthetic editor",
+            "synthetic viewer"
+          ],
+          "widths": [
+            1280,
+            1440,
+            1600,
+            390
+          ],
+          "evidence": "REVIEW126-C57-ACTUAL8",
+          "scope": [
+            "4읽기탭·수동 키보드 활성화",
+            "긴 검토의견8·단일 세로스크롤",
+            "검토의견·조치 수정 진입/취소 복귀",
+            "viewer 쓰기버튼 비노출",
+            "Escape 원 opener",
+            "메뉴 펼침/접힘44×44·선택칸 상대위치 보존",
+            "원장불변·모의 GET만"
+          ],
+          "excluded": [
+            "진행기록 신규 저장",
+            "삭제·변경인허가 생성",
+            "모든 필드 입력·실패/원복",
+            "국토부 보고 기한의 법적 판단",
+            "실제 계정/운영서버/DB",
+            "메뉴 자체의 모든 키보드 조건"
+          ]
+        },
+        "supplementalScroll": {
+          "status": "fail",
+          "planned": 7,
+          "passed": 5,
+          "failed": 2,
+          "evidence": [
+            "REVIEW126-C57-SCROLL7"
+          ],
+          "failureClassification": "긴 본문에서 화면 밖 탐색탭/추가버튼에 접근하는 동안 작업위치 소실 UX",
+          "independentFacts": {
+            "tabBefore": {
+              "scrollTop": 240,
+              "y": -127
+            },
+            "roundAddBefore": {
+              "scrollTop": 240,
+              "y": -32.40625
+            },
+            "pointerdownScrollTop": 0,
+            "handlerSavedScrollTop": 0
+          },
+          "notEstablished": "상태복원 코드가240을0으로 덮었다거나 RAF가 직접 원인이라는 이전 가설은 이 실측으로 확정되지 않음",
+          "resolution": "C58 새 실제8/4/7 및 회귀 대기; C57 main8로 해결 처리하지 않음"
+        },
+        "historicalCandidateFailures": [
+          {
+            "artifact": "C55",
+            "html": {
+              "path": ".build/review-20261026/integration-candidate-55.html",
+              "sha256": "09665d8ba775c0c8e50462f6aaf9966280995037fda153d0cc9383c932bbc294",
+              "bytes": 6691698
+            },
+            "evidence": "REVIEW126-C55-SCROLL7",
+            "planned": 7,
+            "passed": 5,
+            "failed": 2,
+            "failures": [
+              {
+                "name": "scroll-top-zero",
+                "message": "The expression evaluated to a falsy value:\n\n  assert(restored>0)\n"
+              },
+              {
+                "name": "round-return-scroll",
+                "message": "Expected values to be strictly equal:\n\n0 !== 240\n"
+              }
+            ],
+            "resolutionInCurrentCandidate": "notrun"
+          },
+          {
+            "artifact": "C56",
+            "html": {
+              "path": ".build/review-20261026/integration-candidate-56.html",
+              "sha256": "593b91e9b045a81d641dbd169091d5233b50b3c3690fd0d558f11428a5eacb4b",
+              "bytes": 6692686
+            },
+            "evidence": [
+              "REVIEW126-C56-SCROLL7"
+            ],
+            "planned": 7,
+            "passed": 5,
+            "failed": 2,
+            "failureClassification": "observed-work-position-loss; not independently proven state-restore-code failure"
+          }
+        ],
+        "pending34Kept": true,
+        "original4213Kept": true,
+        "currentC53Definitions975Kept": true,
+        "priorNativeAcceptanceNotTransferred": true,
+        "historicalEvidenceRetained": true
+      }
     ]
   }
 }

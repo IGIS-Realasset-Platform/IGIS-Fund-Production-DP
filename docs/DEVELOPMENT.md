@@ -1,5 +1,17 @@
 # 개발·검사·빌드 가이드
 
+## 2026-10-26 배포 도구 연속성
+
+기존 회사 계정과 이 앱 프로젝트 접근을 먼저 읽기로 확인합니다. 한 도구의 격리/통신/옵션 오류를 계정 미연결로 단정해 새 가입·서비스 재생성·전역 설정 변경을 요구하지 않습니다.
+
+- 공식 CLI의 project inspect/API/로그 조회는 기존 인증으로 성공했습니다. 현재 연결 앱의 같은 팀 접근 거부는 별도 경로의 문제로 남겼고 계정을 다시 연결하지 않았습니다.
+- Vercel CLI64.5의 `curl`은 `--global-config`와 `--non-interactive`를 native curl에 전달하는 결함이 있었습니다. 해당 버전 소스·공식 CLI/curl 문서를 확인하고, 이 앱의 고정된 HTTPS GET에서만 지원 단축옵션 `-Q`를 사용했습니다. native curl에서 같은 옵션은 FTP/SFTP 전용이라 HTTPS에는 영향을 주지 않음을 확인했습니다. 다른 프로토콜·일반 명령의 무조건 치환으로 확대하지 않습니다.
+- 인증값·토큰을 읽거나 출력/복사하지 않습니다. 기존 공식 도구가 저장한 인증을 사용하며 Deployment Protection을 끄지 않습니다. 임시 XDG 경로 참조 시도는 인증을 찾지 못해 사용하지 않았고 전역 설정은 바꾸지 않았습니다.
+- 정식 준비 HTML의 실제200/SHA·앱401을 확인한 뒤 **같은 production 빌드**를 승격했습니다. Preview로 다시 빌드한 파일을 같은 검수물로 부르지 않습니다.
+- 상세 로그는 기존 공식 CLI로 새 배포의 한정30분을 조회했습니다. runtime0기록·CDN13요청/5xx0이며, 전체 시간/모든 기능 무오류로 확대하지 않습니다.
+
+[공식 CLI 전역 옵션](https://vercel.com/docs/cli/global-options) · [공식 curl 명령](https://vercel.com/docs/cli/curl) · [curl 옵션](https://curl.se/docs/manpage.html)
+
 ## 환경과 첫 확인
 
 Node.js 24와 `package-lock.json`을 기준으로 합니다. 저장소 루트에서 `package.json`, `AGENTS.md`, 현행 명세를 먼저 읽고 `git status`/현재 HEAD를 확인합니다. 작업 중인 다른 수정은 보존합니다.
