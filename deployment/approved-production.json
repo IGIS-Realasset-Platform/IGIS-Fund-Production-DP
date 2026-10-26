@@ -3,10 +3,10 @@
   "origin": "https://igis-development-project-platform.vercel.app",
   "htmlSha256": "115c1cca7a0080c0ff52212d2c94b74c007b4d807c88bc160faa698ff07b57d8",
   "bytes": 6715084,
-  "status": "prepared-search127-c61-pending-production",
-  "publishedAt": null,
-  "publicationVerifiedAt": null,
-  "deploymentId": null,
+  "status": "published-search127-c61-verified",
+  "publishedAt": "2026-10-26T10:01:23.213Z",
+  "publicationVerifiedAt": "2026-10-26T10:01:23.213Z",
+  "deploymentId": "dpl_J8Kb29XdQ4gcypzugH299mMZ23aL",
   "preparedAt": "2026-10-26",
   "historicalV0120FunctionalVerificationDeploymentId": "dpl_Dnx4JXyfitYNqAD97WMTzVBrXehb",
   "historicalV0120FunctionalVerificationSourceCommit": "6f475d8f7228fe194ee04b0d35623b80db10a4b0",
@@ -19,5 +19,6 @@
   "privateSourceIncluded": false,
   "humanPasswordEnrollmentVerified": true,
   "previousProductionSourceCommit": "358eecd0358c94e025d94671de48079feec4aa27",
-  "previousProductionHtmlSha256": "ea4024a0ce76e466c30969bb1cdcb6f7d119b14cb9ffc437acc1331053aeb127"
+  "previousProductionHtmlSha256": "ea4024a0ce76e466c30969bb1cdcb6f7d119b14cb9ffc437acc1331053aeb127",
+  "sourceCommit": "6139a57a7aeccc9f5843a7b0409872c408c8328b"
 }

@@ -1,12 +1,12 @@
 {
   "schemaVersion": "component-review-matrix-v1",
   "deployedRelease": {
-    "version": "0.12.6",
-    "candidate": "C58",
+    "version": "0.12.7",
+    "candidate": "C61",
     "date": "2026-10-26",
-    "sourceCommit": "358eecd0358c94e025d94671de48079feec4aa27",
-    "formalHtmlSha256": "ea4024a0ce76e466c30969bb1cdcb6f7d119b14cb9ffc437acc1331053aeb127",
-    "verification": "docs/review-20261026-verification.md",
+    "sourceCommit": "6139a57a7aeccc9f5843a7b0409872c408c8328b",
+    "formalHtmlSha256": "115c1cca7a0080c0ff52212d2c94b74c007b4d807c88bc160faa698ff07b57d8",
+    "verification": "docs/review-20261026-search127-verification.md",
     "inventoryBaselinePreserved": true,
     "allComponentsAccepted": false
   },
@@ -50,8 +50,9 @@
     "review126PendingRecords": 34,
     "review126PendingSourceComponentDefinitions": 29,
     "review126CandidateSourceComponentDefinitions": 8,
-    "review127PendingRecords": 6,
-    "review127PlannedComponentDefinitions": 4
+    "review127PendingRecords": 0,
+    "review127PlannedComponentDefinitions": 4,
+    "review127ScopedAcceptedRecords": 6
   },
   "actualExecution": {
     "evidence": "C44-ACTUAL-42",
@@ -671345,34 +671346,35 @@
       "label": "법령 변경의 별도 공식 검색 탭",
       "route": {
         "view": "law",
-        "tab": null,
-        "plannedTabPurpose": "official-search",
-        "actualTabKey": "not-yet-linked"
+        "tab": "search"
       },
-      "lifecycle": "review127-pending",
-      "inventoryRole": "requirement-link-not-component-or-function-count",
-      "definitionStage": "latest user request specification; no new product source or HTML linked",
+      "lifecycle": "review127-accepted-scoped",
+      "inventoryRole": "requirement-link-with-scoped-observations-not-completed",
+      "definitionStage": "exact C61 source plus isolated browser scope; no real-app/official-result acceptance",
       "currentVisibility": {
-        "visible": null,
-        "status": "planned-not-observed"
+        "visible": true,
+        "status": "C61-isolated-scope-observed"
       },
       "purpose": {
         "userTask": "키워드·대상 선택으로 전국 법령/조례의 공식 검색 결과를 직접 새 탭으로 열기",
         "role": "조회·판단",
-        "decision": "approved-purpose-implementation-not-accepted",
-        "verdict": "implementation-and-evidence-pending",
+        "decision": "approved-purpose-source-and-limited-native-observed",
+        "verdict": "limited-scope-supported-not-all-state-acceptance",
         "rationale": "플랫폼 등록/일일 확인과 구별하여 사용자가 정한 대상·검색어의 공식 결과를 직접 확인하는 흐름입니다.",
         "reference": "LAW127-01"
       },
       "informationSufficiency": {
-        "status": "notrun",
+        "status": "partial",
         "requiredFromApprovedPurpose": [
           "공식 확인된 URL/대상/검색 인자만 사용하고 선택한 검색어·대상이 공식 결과에 정확히 전달됨",
           "PC/390의 실제 클릭과 키보드 실행·안전한 새 탭·원래 화면의 문맥 보존",
           "공란/잘못된 대상/미확정 주소를 조용히 다른 페이지로 대체하지 않음",
           "관리목록/일일 대상 확대와 업무·watch·수집·DB 쓰기0"
         ],
-        "observed": [],
+        "observed": [
+          "C61 current source35, isolated four viewport search/control flow",
+          "official3 destination echo is separate from direct government GUI3 and real app-origin pending"
+        ],
         "remaining": [
           "국가 법령과 조례의 대상 구분",
           "한글·공백·특수문자 인코딩",
@@ -671384,14 +671386,15 @@
         "verdict": "not-yet-verified"
       },
       "wording": {
-        "status": "notrun",
-        "reference": "최종 표시문구는 실제 구현/검수 후 연결"
+        "status": "scoped-visual-reviewed",
+        "scope": "C61 PC1440/390 current search form labels and symbol control; parent/root four-size evidence separately",
+        "actualOfficialResult": false
       },
       "geometry": {
-        "alignment": "notrun",
-        "size": "notrun",
-        "scroll": "notrun",
-        "keyboard": "notrun"
+        "alignment": "scoped-pass-C61-four-sizes",
+        "size": "scoped-pass-C61-four-sizes",
+        "scroll": "no-all-state-acceptance",
+        "keyboard": "native submit/encoding scope only; full keyboard paths not universally accepted"
       },
       "consumers": [
         "law page tab navigation",
@@ -671412,19 +671415,31 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "scope": "SEARCH127 새 요청의 구현/검수 대기. C58의 이전 실제 통과로 대체하지 않음",
-          "evidence": []
+          "status": "source-observed",
+          "scope": "declared URL/form/native sidebar control only; business handler changes are owned by root/worker",
+          "evidence": [
+            "SEARCH127-C60-C61-STYLE-BRIDGE"
+          ]
         },
         "automatic": {
-          "status": "notrun",
-          "scope": "SEARCH127 새 요청의 구현/검수 대기. C58의 이전 실제 통과로 대체하지 않음",
-          "evidence": []
+          "status": "pass",
+          "scope": "pure search7 + latest spec20, source-based",
+          "evidence": [
+            "SEARCH127-PURE7-NAV4-SPEC20"
+          ],
+          "allStatesAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "scope": "SEARCH127 새 요청의 구현/검수 대기. C58의 이전 실제 통과로 대체하지 않음",
-          "evidence": []
+          "status": "pass",
+          "scope": "4sizes official search tab/target-query/native submit with local echo for3targets; reference-data failure entry preserved. Parent popup return only first PC1280 case",
+          "evidence": [
+            "SEARCH127-C61-MOCK4",
+            "SEARCH127-C61-SEARCH-BASIC4-ROLE2"
+          ],
+          "backend": "mock/local-echo",
+          "realMembers": false,
+          "actualOfficialResult": false,
+          "allStatesAccepted": false
         },
         "output": {
           "status": "notrun",
@@ -671446,21 +671461,256 @@
           ],
           "actualBrowser": false,
           "allStatesAccepted": false
+        },
+        "officialAppJourney": {
+          "status": "pass",
+          "scope": "three supported targets in one existing owner formal session; other roles/data not accepted",
+          "evidence": [
+            "SEARCH127-FORMAL-APP-OWNER-SCOPE"
+          ]
+        },
+        "formalApp": {
+          "status": "pass",
+          "scope": "existing owner formal button → actual official result/query for law/admrul/ordin, new tabs with app intact",
+          "evidence": [
+            "SEARCH127-FORMAL-APP-OWNER-SCOPE",
+            "SEARCH127-FORMAL-PHOTO-15",
+            "SEARCH127-FORMAL-PHOTO-16"
+          ],
+          "allStatesAccepted": false
         }
       },
-      "source": [],
-      "html": null,
+      "source": [
+        {
+          "file": "src/core.js",
+          "sha256": "06623e4ab5acde05f0ea8b9d73e9070f10f158d9a03b2f564894de65ededc4a4",
+          "exactEmbedded": true,
+          "html": "a7d08348954a7ba1d4fecc04b8f39cda9bd7f6965a85b7ede3a74c849a022f80"
+        },
+        {
+          "file": "src/law-monitor.js",
+          "sha256": "cf082ec47a3889bcf961d3bea03ecd3a3bfff2433aa6fc68cfca58f5f257bf99",
+          "exactEmbedded": true,
+          "html": "a7d08348954a7ba1d4fecc04b8f39cda9bd7f6965a85b7ede3a74c849a022f80"
+        },
+        {
+          "file": "src/spec.js",
+          "sha256": "731342fd8c1a7c30060486697f8bf440fee51382dfd395c69671687f10401413",
+          "exactEmbedded": true,
+          "html": "a7d08348954a7ba1d4fecc04b8f39cda9bd7f6965a85b7ede3a74c849a022f80"
+        }
+      ],
+      "html": {
+        "path": ".build/review-20261026/integration-candidate-61.html",
+        "sha256": "a7d08348954a7ba1d4fecc04b8f39cda9bd7f6965a85b7ede3a74c849a022f80",
+        "bytes": 6715149
+      },
       "evidence": [
         "SEARCH127-REQUESTS",
         "SEARCH127-SPEC"
       ],
       "metadata": {
         "reviewRequestId": "LAW127-01",
-        "completed": false,
+        "completed": true,
         "previousAcceptanceNotTransferred": true,
-        "actualActionBinding": null
+        "actualActionBinding": "law/search",
+        "acceptedScope": "root approved two explicit requests only, no universal state or nationwide collection acceptance"
       },
-      "allStatesAccepted": false
+      "allStatesAccepted": false,
+      "definitionHistory": [
+        {
+          "classification": "original SEARCH127 planned component preserved",
+          "record": {
+            "componentID": "SEARCH127-REQ-LAW127-01",
+            "parentID": "CURRENT-SCREEN-law-recent",
+            "kind": "review-requirement-link",
+            "label": "법령 변경의 별도 공식 검색 탭",
+            "route": {
+              "view": "law",
+              "tab": null,
+              "plannedTabPurpose": "official-search",
+              "actualTabKey": "not-yet-linked"
+            },
+            "lifecycle": "review127-pending",
+            "inventoryRole": "requirement-link-not-component-or-function-count",
+            "definitionStage": "latest user request specification; no new product source or HTML linked",
+            "currentVisibility": {
+              "visible": null,
+              "status": "planned-not-observed"
+            },
+            "purpose": {
+              "userTask": "키워드·대상 선택으로 전국 법령/조례의 공식 검색 결과를 직접 새 탭으로 열기",
+              "role": "조회·판단",
+              "decision": "approved-purpose-implementation-not-accepted",
+              "verdict": "implementation-and-evidence-pending",
+              "rationale": "플랫폼 등록/일일 확인과 구별하여 사용자가 정한 대상·검색어의 공식 결과를 직접 확인하는 흐름입니다.",
+              "reference": "LAW127-01"
+            },
+            "informationSufficiency": {
+              "status": "notrun",
+              "requiredFromApprovedPurpose": [
+                "공식 확인된 URL/대상/검색 인자만 사용하고 선택한 검색어·대상이 공식 결과에 정확히 전달됨",
+                "PC/390의 실제 클릭과 키보드 실행·안전한 새 탭·원래 화면의 문맥 보존",
+                "공란/잘못된 대상/미확정 주소를 조용히 다른 페이지로 대체하지 않음",
+                "관리목록/일일 대상 확대와 업무·watch·수집·DB 쓰기0"
+              ],
+              "observed": [],
+              "remaining": [
+                "국가 법령과 조례의 대상 구분",
+                "한글·공백·특수문자 인코딩",
+                "공란/허용되지 않은 대상",
+                "새 탭 차단/공식 사이트 접근 제한",
+                "원래 프로젝트·목록·스크롤·초점 보존",
+                "기존 인허가/사업별 검색과의 역할 혼동"
+              ],
+              "verdict": "not-yet-verified"
+            },
+            "wording": {
+              "status": "notrun",
+              "reference": "최종 표시문구는 실제 구현/검수 후 연결"
+            },
+            "geometry": {
+              "alignment": "notrun",
+              "size": "notrun",
+              "scroll": "notrun",
+              "keyboard": "notrun"
+            },
+            "consumers": [
+              "law page tab navigation",
+              "keyword input",
+              "official target selection",
+              "external result link",
+              "existing managed catalog",
+              "permit law search",
+              "project law confirmation list"
+            ],
+            "policyBasis": [
+              {
+                "kind": "latest-direct-user-request",
+                "reference": "LAW127-01",
+                "date": "2026-10-26",
+                "status": "specification-approved-not-accepted"
+              }
+            ],
+            "verification": {
+              "implementation": {
+                "status": "notrun",
+                "scope": "SEARCH127 새 요청의 구현/검수 대기. C58의 이전 실제 통과로 대체하지 않음",
+                "evidence": []
+              },
+              "automatic": {
+                "status": "notrun",
+                "scope": "SEARCH127 새 요청의 구현/검수 대기. C58의 이전 실제 통과로 대체하지 않음",
+                "evidence": []
+              },
+              "actualScreen": {
+                "status": "notrun",
+                "scope": "SEARCH127 새 요청의 구현/검수 대기. C58의 이전 실제 통과로 대체하지 않음",
+                "evidence": []
+              },
+              "output": {
+                "status": "notrun",
+                "scope": "SEARCH127 새 요청의 구현/검수 대기. C58의 이전 실제 통과로 대체하지 않음",
+                "evidence": []
+              },
+              "metadataAutomatic": {
+                "status": "pass",
+                "source": {
+                  "path": "src/spec.js",
+                  "sha256": "731342fd8c1a7c30060486697f8bf440fee51382dfd395c69671687f10401413"
+                },
+                "scope": "latest2 specification metadata/owner rendering only, not these business UI flows",
+                "evidence": [
+                  ".build/audit-20261026/search127-spec-red.json",
+                  ".build/audit-20261026/search127-spec-green.json",
+                  ".build/audit-20261026/search127-related-spec-regressions-1793006461939.json",
+                  ".build/audit-20261026/search127-spec-source-scope-1793006591557.json"
+                ],
+                "actualBrowser": false,
+                "allStatesAccepted": false
+              }
+            },
+            "source": [],
+            "html": null,
+            "evidence": [
+              "SEARCH127-REQUESTS",
+              "SEARCH127-SPEC"
+            ],
+            "metadata": {
+              "reviewRequestId": "LAW127-01",
+              "completed": false,
+              "previousAcceptanceNotTransferred": true,
+              "actualActionBinding": null
+            },
+            "allStatesAccepted": false
+          }
+        }
+      ],
+      "beforeExternalAcceptance": {
+        "lifecycle": "review127-pending",
+        "metadata": {
+          "reviewRequestId": "LAW127-01",
+          "completed": false,
+          "previousAcceptanceNotTransferred": true,
+          "actualActionBinding": "law/search"
+        },
+        "verification": {
+          "implementation": {
+            "status": "source-observed",
+            "scope": "declared URL/form/native sidebar control only; business handler changes are owned by root/worker",
+            "evidence": [
+              "SEARCH127-C60-C61-STYLE-BRIDGE"
+            ]
+          },
+          "automatic": {
+            "status": "pass",
+            "scope": "pure search7 + latest spec20, source-based",
+            "evidence": [
+              "SEARCH127-PURE7-NAV4-SPEC20"
+            ],
+            "allStatesAccepted": false
+          },
+          "actualScreen": {
+            "status": "pass",
+            "scope": "4sizes official search tab/target-query/native submit with local echo for3targets; reference-data failure entry preserved. Parent popup return only first PC1280 case",
+            "evidence": [
+              "SEARCH127-C61-MOCK4",
+              "SEARCH127-C61-SEARCH-BASIC4-ROLE2"
+            ],
+            "backend": "mock/local-echo",
+            "realMembers": false,
+            "actualOfficialResult": false,
+            "allStatesAccepted": false
+          },
+          "output": {
+            "status": "notrun",
+            "scope": "SEARCH127 새 요청의 구현/검수 대기. C58의 이전 실제 통과로 대체하지 않음",
+            "evidence": []
+          },
+          "metadataAutomatic": {
+            "status": "pass",
+            "source": {
+              "path": "src/spec.js",
+              "sha256": "731342fd8c1a7c30060486697f8bf440fee51382dfd395c69671687f10401413"
+            },
+            "scope": "latest2 specification metadata/owner rendering only, not these business UI flows",
+            "evidence": [
+              ".build/audit-20261026/search127-spec-red.json",
+              ".build/audit-20261026/search127-spec-green.json",
+              ".build/audit-20261026/search127-related-spec-regressions-1793006461939.json",
+              ".build/audit-20261026/search127-spec-source-scope-1793006591557.json"
+            ],
+            "actualBrowser": false,
+            "allStatesAccepted": false
+          },
+          "officialAppJourney": {
+            "status": "notrun",
+            "scope": "published app button to real official result awaits root verification",
+            "evidence": []
+          }
+        }
+      },
+      "acceptedScopeInformationSufficiency": "sufficient for the two explicitly accepted workflows; all-state/role/nationwide checks remain outside scope"
     },
     {
       "componentID": "SEARCH127-REQ-NAV127-02",
@@ -671471,30 +671721,33 @@
         "view": "common",
         "tab": "sidebar"
       },
-      "lifecycle": "review127-pending",
-      "inventoryRole": "requirement-link-not-component-or-function-count",
-      "definitionStage": "latest user request specification; no new product source or HTML linked",
+      "lifecycle": "review127-accepted-scoped",
+      "inventoryRole": "requirement-link-with-scoped-observations-not-completed",
+      "definitionStage": "exact C61 source plus isolated browser scope; no real-app/official-result acceptance",
       "currentVisibility": {
-        "visible": null,
-        "status": "planned-not-observed"
+        "visible": true,
+        "status": "C61-isolated-scope-observed"
       },
       "purpose": {
         "userTask": "사용자가 기각한 중립 글자 메뉴를 강제하지 않고 패널 접기/열기 기호 버튼으로 일관된 동작 표현",
         "role": "조회·판단",
-        "decision": "approved-purpose-implementation-not-accepted",
-        "verdict": "implementation-and-evidence-pending",
+        "decision": "approved-purpose-source-and-limited-native-observed",
+        "verdict": "limited-scope-supported-not-all-state-acceptance",
         "rationale": "접기/펴기 결과를 알 수 있는 제어가 필요하다는 최신 직접 지시이며, 중립 메뉴 문자 강제를 대체합니다.",
         "reference": "NAV127-02"
       },
       "informationSufficiency": {
-        "status": "notrun",
+        "status": "partial",
         "requiredFromApprovedPurpose": [
           "선택한 기호·접근성 이름/상태가 펼침/접힘의 실제 다음 동작과 일치",
           "실제 클릭·Tab/Enter/Space·재열기·초점·현재 화면/프로젝트·스크롤 보존",
           "펼친 글자 메뉴/접힘 전체숨김·기존 저장 설정 보존",
           "본문 아이콘 일괄 변경/새 접힘 기본정책/업무자료 쓰기0"
         ],
-        "observed": [],
+        "observed": [
+          "C61 current source35, isolated four viewport search/control flow",
+          "official3 destination echo is separate from direct government GUI3 and real app-origin pending"
+        ],
         "remaining": [
           "기호 방향과 실제 동작 반대",
           "중립 메뉴문자 강제 재도입",
@@ -671507,14 +671760,15 @@
         "verdict": "not-yet-verified"
       },
       "wording": {
-        "status": "notrun",
-        "reference": "최종 표시문구는 실제 구현/검수 후 연결"
+        "status": "scoped-visual-reviewed",
+        "scope": "C61 PC1440/390 current search form labels and symbol control; parent/root four-size evidence separately",
+        "actualOfficialResult": false
       },
       "geometry": {
-        "alignment": "notrun",
-        "size": "notrun",
-        "scroll": "notrun",
-        "keyboard": "notrun"
+        "alignment": "scoped-pass-C61-four-sizes",
+        "size": "scoped-pass-C61-four-sizes",
+        "scroll": "no-all-state-acceptance",
+        "keyboard": "Enter/Space and focus-visible tooltip observed"
       },
       "consumers": [
         "existing sidebar-toggle control",
@@ -671534,19 +671788,31 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "scope": "SEARCH127 새 요청의 구현/검수 대기. C58의 이전 실제 통과로 대체하지 않음",
-          "evidence": []
+          "status": "source-observed",
+          "scope": "declared URL/form/native sidebar control only; business handler changes are owned by root/worker",
+          "evidence": [
+            "SEARCH127-C60-C61-STYLE-BRIDGE"
+          ]
         },
         "automatic": {
-          "status": "notrun",
-          "scope": "SEARCH127 새 요청의 구현/검수 대기. C58의 이전 실제 통과로 대체하지 않음",
-          "evidence": []
+          "status": "pass",
+          "scope": "pure nav4 + latest spec20, source-based",
+          "evidence": [
+            "SEARCH127-PURE7-NAV4-SPEC20"
+          ],
+          "allStatesAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "scope": "SEARCH127 새 요청의 구현/검수 대기. C58의 이전 실제 통과로 대체하지 않음",
-          "evidence": []
+          "status": "pass",
+          "scope": "4sizes44px panel symbol/aria-derived tooltip/Enter-Space/full-hide in isolated actor; all roles not accepted",
+          "evidence": [
+            "SEARCH127-C61-MOCK4",
+            "SEARCH127-C61-SEARCH-BASIC4-ROLE2"
+          ],
+          "backend": "mock/local-echo",
+          "realMembers": false,
+          "actualOfficialResult": false,
+          "allStatesAccepted": false
         },
         "output": {
           "status": "notrun",
@@ -671568,63 +671834,302 @@
           ],
           "actualBrowser": false,
           "allStatesAccepted": false
+        },
+        "formalApp": {
+          "status": "pass",
+          "scope": "existing owner formal Enter/Space → full hide/reopen, symbol/aria/tooltip, search preserved",
+          "evidence": [
+            "SEARCH127-FORMAL-APP-OWNER-SCOPE",
+            "SEARCH127-FORMAL-PHOTO-15",
+            "SEARCH127-FORMAL-PHOTO-16"
+          ],
+          "allStatesAccepted": false
         }
       },
-      "source": [],
-      "html": null,
+      "source": [
+        {
+          "file": "src/core.js",
+          "sha256": "06623e4ab5acde05f0ea8b9d73e9070f10f158d9a03b2f564894de65ededc4a4",
+          "exactEmbedded": true,
+          "html": "a7d08348954a7ba1d4fecc04b8f39cda9bd7f6965a85b7ede3a74c849a022f80"
+        },
+        {
+          "file": "src/law-monitor.js",
+          "sha256": "cf082ec47a3889bcf961d3bea03ecd3a3bfff2433aa6fc68cfca58f5f257bf99",
+          "exactEmbedded": true,
+          "html": "a7d08348954a7ba1d4fecc04b8f39cda9bd7f6965a85b7ede3a74c849a022f80"
+        },
+        {
+          "file": "src/spec.js",
+          "sha256": "731342fd8c1a7c30060486697f8bf440fee51382dfd395c69671687f10401413",
+          "exactEmbedded": true,
+          "html": "a7d08348954a7ba1d4fecc04b8f39cda9bd7f6965a85b7ede3a74c849a022f80"
+        }
+      ],
+      "html": {
+        "path": ".build/review-20261026/integration-candidate-61.html",
+        "sha256": "a7d08348954a7ba1d4fecc04b8f39cda9bd7f6965a85b7ede3a74c849a022f80",
+        "bytes": 6715149
+      },
       "evidence": [
         "SEARCH127-REQUESTS",
         "SEARCH127-SPEC"
       ],
       "metadata": {
         "reviewRequestId": "NAV127-02",
-        "completed": false,
+        "completed": true,
         "previousAcceptanceNotTransferred": true,
-        "actualActionBinding": null,
+        "actualActionBinding": "sidebar-toggle existing control, source symbol and aria-label tooltip",
         "reusesExistingControlComponentID": "REVIEW126-COMP-SIDEBAR-TOGGLE",
         "supersedesOnly": {
           "requestId": "NAV126-05",
           "only": "neutral visible text 메뉴 as the required control expression",
           "preservesHistoricalEvidence": true
+        },
+        "acceptedScope": "root approved two explicit requests only, no universal state or nationwide collection acceptance"
+      },
+      "allStatesAccepted": false,
+      "definitionHistory": [
+        {
+          "classification": "original SEARCH127 planned component preserved",
+          "record": {
+            "componentID": "SEARCH127-REQ-NAV127-02",
+            "parentID": "REVIEW126-COMP-SIDEBAR-TOGGLE",
+            "kind": "review-requirement-link",
+            "label": "접기/펴기가 드러나는 사이드바 제어",
+            "route": {
+              "view": "common",
+              "tab": "sidebar"
+            },
+            "lifecycle": "review127-pending",
+            "inventoryRole": "requirement-link-not-component-or-function-count",
+            "definitionStage": "latest user request specification; no new product source or HTML linked",
+            "currentVisibility": {
+              "visible": null,
+              "status": "planned-not-observed"
+            },
+            "purpose": {
+              "userTask": "사용자가 기각한 중립 글자 메뉴를 강제하지 않고 패널 접기/열기 기호 버튼으로 일관된 동작 표현",
+              "role": "조회·판단",
+              "decision": "approved-purpose-implementation-not-accepted",
+              "verdict": "implementation-and-evidence-pending",
+              "rationale": "접기/펴기 결과를 알 수 있는 제어가 필요하다는 최신 직접 지시이며, 중립 메뉴 문자 강제를 대체합니다.",
+              "reference": "NAV127-02"
+            },
+            "informationSufficiency": {
+              "status": "notrun",
+              "requiredFromApprovedPurpose": [
+                "선택한 기호·접근성 이름/상태가 펼침/접힘의 실제 다음 동작과 일치",
+                "실제 클릭·Tab/Enter/Space·재열기·초점·현재 화면/프로젝트·스크롤 보존",
+                "펼친 글자 메뉴/접힘 전체숨김·기존 저장 설정 보존",
+                "본문 아이콘 일괄 변경/새 접힘 기본정책/업무자료 쓰기0"
+              ],
+              "observed": [],
+              "remaining": [
+                "기호 방향과 실제 동작 반대",
+                "중립 메뉴문자 강제 재도입",
+                "프로젝트 선택칸 위치 이동",
+                "숨은 메뉴의 키보드 초점",
+                "재열기 불가",
+                "키보드 한 조작 이중 실행",
+                "접힘 선호/사업 문맥 소실"
+              ],
+              "verdict": "not-yet-verified"
+            },
+            "wording": {
+              "status": "notrun",
+              "reference": "최종 표시문구는 실제 구현/검수 후 연결"
+            },
+            "geometry": {
+              "alignment": "notrun",
+              "size": "notrun",
+              "scroll": "notrun",
+              "keyboard": "notrun"
+            },
+            "consumers": [
+              "existing sidebar-toggle control",
+              "sidebar visibility",
+              "topbar project selector",
+              "keyboard/focus",
+              "mobile navigation",
+              "saved collapsed preference"
+            ],
+            "policyBasis": [
+              {
+                "kind": "latest-direct-user-request",
+                "reference": "NAV127-02",
+                "date": "2026-10-26",
+                "status": "specification-approved-not-accepted"
+              }
+            ],
+            "verification": {
+              "implementation": {
+                "status": "notrun",
+                "scope": "SEARCH127 새 요청의 구현/검수 대기. C58의 이전 실제 통과로 대체하지 않음",
+                "evidence": []
+              },
+              "automatic": {
+                "status": "notrun",
+                "scope": "SEARCH127 새 요청의 구현/검수 대기. C58의 이전 실제 통과로 대체하지 않음",
+                "evidence": []
+              },
+              "actualScreen": {
+                "status": "notrun",
+                "scope": "SEARCH127 새 요청의 구현/검수 대기. C58의 이전 실제 통과로 대체하지 않음",
+                "evidence": []
+              },
+              "output": {
+                "status": "notrun",
+                "scope": "SEARCH127 새 요청의 구현/검수 대기. C58의 이전 실제 통과로 대체하지 않음",
+                "evidence": []
+              },
+              "metadataAutomatic": {
+                "status": "pass",
+                "source": {
+                  "path": "src/spec.js",
+                  "sha256": "731342fd8c1a7c30060486697f8bf440fee51382dfd395c69671687f10401413"
+                },
+                "scope": "latest2 specification metadata/owner rendering only, not these business UI flows",
+                "evidence": [
+                  ".build/audit-20261026/search127-spec-red.json",
+                  ".build/audit-20261026/search127-spec-green.json",
+                  ".build/audit-20261026/search127-related-spec-regressions-1793006461939.json",
+                  ".build/audit-20261026/search127-spec-source-scope-1793006591557.json"
+                ],
+                "actualBrowser": false,
+                "allStatesAccepted": false
+              }
+            },
+            "source": [],
+            "html": null,
+            "evidence": [
+              "SEARCH127-REQUESTS",
+              "SEARCH127-SPEC"
+            ],
+            "metadata": {
+              "reviewRequestId": "NAV127-02",
+              "completed": false,
+              "previousAcceptanceNotTransferred": true,
+              "actualActionBinding": null,
+              "reusesExistingControlComponentID": "REVIEW126-COMP-SIDEBAR-TOGGLE",
+              "supersedesOnly": {
+                "requestId": "NAV126-05",
+                "only": "neutral visible text 메뉴 as the required control expression",
+                "preservesHistoricalEvidence": true
+              }
+            },
+            "allStatesAccepted": false
+          }
+        }
+      ],
+      "beforeExternalAcceptance": {
+        "lifecycle": "review127-pending",
+        "metadata": {
+          "reviewRequestId": "NAV127-02",
+          "completed": false,
+          "previousAcceptanceNotTransferred": true,
+          "actualActionBinding": "sidebar-toggle existing control, source symbol and aria-label tooltip",
+          "reusesExistingControlComponentID": "REVIEW126-COMP-SIDEBAR-TOGGLE",
+          "supersedesOnly": {
+            "requestId": "NAV126-05",
+            "only": "neutral visible text 메뉴 as the required control expression",
+            "preservesHistoricalEvidence": true
+          }
+        },
+        "verification": {
+          "implementation": {
+            "status": "source-observed",
+            "scope": "declared URL/form/native sidebar control only; business handler changes are owned by root/worker",
+            "evidence": [
+              "SEARCH127-C60-C61-STYLE-BRIDGE"
+            ]
+          },
+          "automatic": {
+            "status": "pass",
+            "scope": "pure nav4 + latest spec20, source-based",
+            "evidence": [
+              "SEARCH127-PURE7-NAV4-SPEC20"
+            ],
+            "allStatesAccepted": false
+          },
+          "actualScreen": {
+            "status": "pass",
+            "scope": "4sizes44px panel symbol/aria-derived tooltip/Enter-Space/full-hide in isolated actor; all roles not accepted",
+            "evidence": [
+              "SEARCH127-C61-MOCK4",
+              "SEARCH127-C61-SEARCH-BASIC4-ROLE2"
+            ],
+            "backend": "mock/local-echo",
+            "realMembers": false,
+            "actualOfficialResult": false,
+            "allStatesAccepted": false
+          },
+          "output": {
+            "status": "notrun",
+            "scope": "SEARCH127 새 요청의 구현/검수 대기. C58의 이전 실제 통과로 대체하지 않음",
+            "evidence": []
+          },
+          "metadataAutomatic": {
+            "status": "pass",
+            "source": {
+              "path": "src/spec.js",
+              "sha256": "731342fd8c1a7c30060486697f8bf440fee51382dfd395c69671687f10401413"
+            },
+            "scope": "latest2 specification metadata/owner rendering only, not these business UI flows",
+            "evidence": [
+              ".build/audit-20261026/search127-spec-red.json",
+              ".build/audit-20261026/search127-spec-green.json",
+              ".build/audit-20261026/search127-related-spec-regressions-1793006461939.json",
+              ".build/audit-20261026/search127-spec-source-scope-1793006591557.json"
+            ],
+            "actualBrowser": false,
+            "allStatesAccepted": false
+          },
+          "officialAppJourney": {
+            "status": "notrun",
+            "scope": "published app button to real official result awaits root verification",
+            "evidence": []
+          }
         }
       },
-      "allStatesAccepted": false
+      "acceptedScopeInformationSufficiency": "sufficient for the two explicitly accepted workflows; all-state/role/nationwide checks remain outside scope"
     },
     {
       "componentID": "SEARCH127-COMP-LAW-OFFICIAL-TAB",
       "parentID": "CURRENT-SCREEN-law-recent",
-      "kind": "planned-tab",
+      "kind": "tab",
       "label": "공식 검색 탭",
       "route": {
         "view": "law",
-        "tab": null,
-        "plannedTabPurpose": "official-search",
-        "actualTabKey": "not-yet-linked"
+        "tab": "search"
       },
-      "lifecycle": "review127-pending",
-      "inventoryRole": "planned-component-not-implemented-or-executed",
-      "definitionStage": "latest user request specification; no new product source or HTML linked",
+      "lifecycle": "review127-accepted-scoped",
+      "inventoryRole": "current-candidate-component-definition-scoped-observed-not-overall-accepted",
+      "definitionStage": "exact C61 source plus isolated browser scope; no real-app/official-result acceptance",
       "currentVisibility": {
-        "visible": null,
-        "status": "planned-not-observed"
+        "visible": true,
+        "status": "C61-isolated-scope-observed"
       },
       "purpose": {
         "userTask": "법령 페이지에서 등록/일일 대상과 구분된 공식 검색 흐름을 선택",
         "role": "조회·판단",
-        "decision": "approved-purpose-implementation-not-accepted",
-        "verdict": "implementation-and-evidence-pending",
+        "decision": "approved-purpose-source-and-limited-native-observed",
+        "verdict": "limited-scope-supported-not-all-state-acceptance",
         "rationale": "플랫폼 등록/일일 확인과 구별하여 사용자가 정한 대상·검색어의 공식 결과를 직접 확인하는 흐름입니다.",
         "reference": "LAW127-01"
       },
       "informationSufficiency": {
-        "status": "notrun",
+        "status": "partial",
         "requiredFromApprovedPurpose": [
           "공식 확인된 URL/대상/검색 인자만 사용하고 선택한 검색어·대상이 공식 결과에 정확히 전달됨",
           "PC/390의 실제 클릭과 키보드 실행·안전한 새 탭·원래 화면의 문맥 보존",
           "공란/잘못된 대상/미확정 주소를 조용히 다른 페이지로 대체하지 않음",
           "관리목록/일일 대상 확대와 업무·watch·수집·DB 쓰기0"
         ],
-        "observed": [],
+        "observed": [
+          "C61 current source35, isolated four viewport search/control flow",
+          "official3 destination echo is separate from direct government GUI3 and real app-origin pending"
+        ],
         "remaining": [
           "국가 법령과 조례의 대상 구분",
           "한글·공백·특수문자 인코딩",
@@ -671636,14 +672141,15 @@
         "verdict": "not-yet-verified"
       },
       "wording": {
-        "status": "notrun",
-        "reference": "최종 표시문구는 실제 구현/검수 후 연결"
+        "status": "scoped-visual-reviewed",
+        "scope": "C61 PC1440/390 current search form labels and symbol control; parent/root four-size evidence separately",
+        "actualOfficialResult": false
       },
       "geometry": {
-        "alignment": "notrun",
-        "size": "notrun",
-        "scroll": "notrun",
-        "keyboard": "notrun"
+        "alignment": "scoped-pass-C61-four-sizes",
+        "size": "scoped-pass-C61-four-sizes",
+        "scroll": "no-all-state-acceptance",
+        "keyboard": "native submit/encoding scope only; full keyboard paths not universally accepted"
       },
       "consumers": [
         "law page tab navigation",
@@ -671664,39 +672170,254 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "scope": "SEARCH127 새 요청의 구현/검수 대기. C58의 이전 실제 통과로 대체하지 않음",
-          "evidence": []
+          "status": "source-observed",
+          "scope": "declared URL/form/native sidebar control only; business handler changes are owned by root/worker",
+          "evidence": [
+            "SEARCH127-C60-C61-STYLE-BRIDGE"
+          ]
         },
         "automatic": {
-          "status": "notrun",
-          "scope": "SEARCH127 새 요청의 구현/검수 대기. C58의 이전 실제 통과로 대체하지 않음",
-          "evidence": []
+          "status": "pass",
+          "scope": "pure search7 + latest spec20, source-based",
+          "evidence": [
+            "SEARCH127-PURE7-NAV4-SPEC20"
+          ],
+          "allStatesAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "scope": "SEARCH127 새 요청의 구현/검수 대기. C58의 이전 실제 통과로 대체하지 않음",
-          "evidence": []
+          "status": "pass",
+          "scope": "4sizes official search tab/target-query/native submit with local echo for3targets; reference-data failure entry preserved. Parent popup return only first PC1280 case",
+          "evidence": [
+            "SEARCH127-C61-MOCK4",
+            "SEARCH127-C61-SEARCH-BASIC4-ROLE2"
+          ],
+          "backend": "mock/local-echo",
+          "realMembers": false,
+          "actualOfficialResult": false,
+          "allStatesAccepted": false
         },
         "output": {
           "status": "notrun",
           "scope": "SEARCH127 새 요청의 구현/검수 대기. C58의 이전 실제 통과로 대체하지 않음",
           "evidence": []
+        },
+        "officialAppJourney": {
+          "status": "pass",
+          "scope": "three supported targets in one existing owner formal session; other roles/data not accepted",
+          "evidence": [
+            "SEARCH127-FORMAL-APP-OWNER-SCOPE"
+          ]
+        },
+        "formalApp": {
+          "status": "pass",
+          "scope": "existing owner formal button → actual official result/query for law/admrul/ordin, new tabs with app intact",
+          "evidence": [
+            "SEARCH127-FORMAL-APP-OWNER-SCOPE",
+            "SEARCH127-FORMAL-PHOTO-15",
+            "SEARCH127-FORMAL-PHOTO-16"
+          ],
+          "allStatesAccepted": false
         }
       },
-      "source": [],
-      "html": null,
+      "source": [
+        {
+          "file": "src/core.js",
+          "sha256": "06623e4ab5acde05f0ea8b9d73e9070f10f158d9a03b2f564894de65ededc4a4",
+          "exactEmbedded": true,
+          "html": "a7d08348954a7ba1d4fecc04b8f39cda9bd7f6965a85b7ede3a74c849a022f80"
+        },
+        {
+          "file": "src/law-monitor.js",
+          "sha256": "cf082ec47a3889bcf961d3bea03ecd3a3bfff2433aa6fc68cfca58f5f257bf99",
+          "exactEmbedded": true,
+          "html": "a7d08348954a7ba1d4fecc04b8f39cda9bd7f6965a85b7ede3a74c849a022f80"
+        },
+        {
+          "file": "src/spec.js",
+          "sha256": "731342fd8c1a7c30060486697f8bf440fee51382dfd395c69671687f10401413",
+          "exactEmbedded": true,
+          "html": "a7d08348954a7ba1d4fecc04b8f39cda9bd7f6965a85b7ede3a74c849a022f80"
+        }
+      ],
+      "html": {
+        "path": ".build/review-20261026/integration-candidate-61.html",
+        "sha256": "a7d08348954a7ba1d4fecc04b8f39cda9bd7f6965a85b7ede3a74c849a022f80",
+        "bytes": 6715149
+      },
       "evidence": [
         "SEARCH127-REQUESTS",
         "SEARCH127-SPEC"
       ],
       "metadata": {
         "reviewRequestId": "LAW127-01",
-        "completed": false,
+        "completed": true,
         "previousAcceptanceNotTransferred": true,
-        "actualActionBinding": null
+        "actualActionBinding": "tab(view=law,tab=search)",
+        "acceptedScope": "root approved two explicit requests only, no universal state or nationwide collection acceptance"
       },
-      "allStatesAccepted": false
+      "allStatesAccepted": false,
+      "definitionHistory": [
+        {
+          "classification": "original SEARCH127 planned component preserved",
+          "record": {
+            "componentID": "SEARCH127-COMP-LAW-OFFICIAL-TAB",
+            "parentID": "CURRENT-SCREEN-law-recent",
+            "kind": "planned-tab",
+            "label": "공식 검색 탭",
+            "route": {
+              "view": "law",
+              "tab": null,
+              "plannedTabPurpose": "official-search",
+              "actualTabKey": "not-yet-linked"
+            },
+            "lifecycle": "review127-pending",
+            "inventoryRole": "planned-component-not-implemented-or-executed",
+            "definitionStage": "latest user request specification; no new product source or HTML linked",
+            "currentVisibility": {
+              "visible": null,
+              "status": "planned-not-observed"
+            },
+            "purpose": {
+              "userTask": "법령 페이지에서 등록/일일 대상과 구분된 공식 검색 흐름을 선택",
+              "role": "조회·판단",
+              "decision": "approved-purpose-implementation-not-accepted",
+              "verdict": "implementation-and-evidence-pending",
+              "rationale": "플랫폼 등록/일일 확인과 구별하여 사용자가 정한 대상·검색어의 공식 결과를 직접 확인하는 흐름입니다.",
+              "reference": "LAW127-01"
+            },
+            "informationSufficiency": {
+              "status": "notrun",
+              "requiredFromApprovedPurpose": [
+                "공식 확인된 URL/대상/검색 인자만 사용하고 선택한 검색어·대상이 공식 결과에 정확히 전달됨",
+                "PC/390의 실제 클릭과 키보드 실행·안전한 새 탭·원래 화면의 문맥 보존",
+                "공란/잘못된 대상/미확정 주소를 조용히 다른 페이지로 대체하지 않음",
+                "관리목록/일일 대상 확대와 업무·watch·수집·DB 쓰기0"
+              ],
+              "observed": [],
+              "remaining": [
+                "국가 법령과 조례의 대상 구분",
+                "한글·공백·특수문자 인코딩",
+                "공란/허용되지 않은 대상",
+                "새 탭 차단/공식 사이트 접근 제한",
+                "원래 프로젝트·목록·스크롤·초점 보존",
+                "기존 인허가/사업별 검색과의 역할 혼동"
+              ],
+              "verdict": "not-yet-verified"
+            },
+            "wording": {
+              "status": "notrun",
+              "reference": "최종 표시문구는 실제 구현/검수 후 연결"
+            },
+            "geometry": {
+              "alignment": "notrun",
+              "size": "notrun",
+              "scroll": "notrun",
+              "keyboard": "notrun"
+            },
+            "consumers": [
+              "law page tab navigation",
+              "keyword input",
+              "official target selection",
+              "external result link",
+              "existing managed catalog",
+              "permit law search",
+              "project law confirmation list"
+            ],
+            "policyBasis": [
+              {
+                "kind": "latest-direct-user-request",
+                "reference": "LAW127-01",
+                "date": "2026-10-26",
+                "status": "specification-approved-not-accepted"
+              }
+            ],
+            "verification": {
+              "implementation": {
+                "status": "notrun",
+                "scope": "SEARCH127 새 요청의 구현/검수 대기. C58의 이전 실제 통과로 대체하지 않음",
+                "evidence": []
+              },
+              "automatic": {
+                "status": "notrun",
+                "scope": "SEARCH127 새 요청의 구현/검수 대기. C58의 이전 실제 통과로 대체하지 않음",
+                "evidence": []
+              },
+              "actualScreen": {
+                "status": "notrun",
+                "scope": "SEARCH127 새 요청의 구현/검수 대기. C58의 이전 실제 통과로 대체하지 않음",
+                "evidence": []
+              },
+              "output": {
+                "status": "notrun",
+                "scope": "SEARCH127 새 요청의 구현/검수 대기. C58의 이전 실제 통과로 대체하지 않음",
+                "evidence": []
+              }
+            },
+            "source": [],
+            "html": null,
+            "evidence": [
+              "SEARCH127-REQUESTS",
+              "SEARCH127-SPEC"
+            ],
+            "metadata": {
+              "reviewRequestId": "LAW127-01",
+              "completed": false,
+              "previousAcceptanceNotTransferred": true,
+              "actualActionBinding": null
+            },
+            "allStatesAccepted": false
+          }
+        }
+      ],
+      "beforeExternalAcceptance": {
+        "lifecycle": "review127-pending",
+        "metadata": {
+          "reviewRequestId": "LAW127-01",
+          "completed": false,
+          "previousAcceptanceNotTransferred": true,
+          "actualActionBinding": "tab(view=law,tab=search)"
+        },
+        "verification": {
+          "implementation": {
+            "status": "source-observed",
+            "scope": "declared URL/form/native sidebar control only; business handler changes are owned by root/worker",
+            "evidence": [
+              "SEARCH127-C60-C61-STYLE-BRIDGE"
+            ]
+          },
+          "automatic": {
+            "status": "pass",
+            "scope": "pure search7 + latest spec20, source-based",
+            "evidence": [
+              "SEARCH127-PURE7-NAV4-SPEC20"
+            ],
+            "allStatesAccepted": false
+          },
+          "actualScreen": {
+            "status": "pass",
+            "scope": "4sizes official search tab/target-query/native submit with local echo for3targets; reference-data failure entry preserved. Parent popup return only first PC1280 case",
+            "evidence": [
+              "SEARCH127-C61-MOCK4",
+              "SEARCH127-C61-SEARCH-BASIC4-ROLE2"
+            ],
+            "backend": "mock/local-echo",
+            "realMembers": false,
+            "actualOfficialResult": false,
+            "allStatesAccepted": false
+          },
+          "output": {
+            "status": "notrun",
+            "scope": "SEARCH127 새 요청의 구현/검수 대기. C58의 이전 실제 통과로 대체하지 않음",
+            "evidence": []
+          },
+          "officialAppJourney": {
+            "status": "notrun",
+            "scope": "published app button to real official result awaits root verification",
+            "evidence": []
+          }
+        }
+      },
+      "acceptedScopeInformationSufficiency": "sufficient for the two explicitly accepted workflows; all-state/role/nationwide checks remain outside scope"
     },
     {
       "componentID": "SEARCH127-COMP-LAW-KEYWORD",
@@ -671705,34 +672426,35 @@
       "label": "공식 검색 키워드",
       "route": {
         "view": "law",
-        "tab": null,
-        "plannedTabPurpose": "official-search",
-        "actualTabKey": "not-yet-linked"
+        "tab": "search"
       },
-      "lifecycle": "review127-pending",
-      "inventoryRole": "planned-component-not-implemented-or-executed",
-      "definitionStage": "latest user request specification; no new product source or HTML linked",
+      "lifecycle": "review127-accepted-scoped",
+      "inventoryRole": "current-candidate-component-definition-scoped-observed-not-overall-accepted",
+      "definitionStage": "exact C61 source plus isolated browser scope; no real-app/official-result acceptance",
       "currentVisibility": {
-        "visible": null,
-        "status": "planned-not-observed"
+        "visible": true,
+        "status": "C61-isolated-scope-observed"
       },
       "purpose": {
         "userTask": "찾을 이름을 명시하고 한글·공백·특수문자가 잘리지 않게 공식 검색어로 전달",
         "role": "입력",
-        "decision": "approved-purpose-implementation-not-accepted",
-        "verdict": "implementation-and-evidence-pending",
+        "decision": "approved-purpose-source-and-limited-native-observed",
+        "verdict": "limited-scope-supported-not-all-state-acceptance",
         "rationale": "플랫폼 등록/일일 확인과 구별하여 사용자가 정한 대상·검색어의 공식 결과를 직접 확인하는 흐름입니다.",
         "reference": "LAW127-01"
       },
       "informationSufficiency": {
-        "status": "notrun",
+        "status": "partial",
         "requiredFromApprovedPurpose": [
           "공식 확인된 URL/대상/검색 인자만 사용하고 선택한 검색어·대상이 공식 결과에 정확히 전달됨",
           "PC/390의 실제 클릭과 키보드 실행·안전한 새 탭·원래 화면의 문맥 보존",
           "공란/잘못된 대상/미확정 주소를 조용히 다른 페이지로 대체하지 않음",
           "관리목록/일일 대상 확대와 업무·watch·수집·DB 쓰기0"
         ],
-        "observed": [],
+        "observed": [
+          "C61 current source35, isolated four viewport search/control flow",
+          "official3 destination echo is separate from direct government GUI3 and real app-origin pending"
+        ],
         "remaining": [
           "국가 법령과 조례의 대상 구분",
           "한글·공백·특수문자 인코딩",
@@ -671744,14 +672466,15 @@
         "verdict": "not-yet-verified"
       },
       "wording": {
-        "status": "notrun",
-        "reference": "최종 표시문구는 실제 구현/검수 후 연결"
+        "status": "scoped-visual-reviewed",
+        "scope": "C61 PC1440/390 current search form labels and symbol control; parent/root four-size evidence separately",
+        "actualOfficialResult": false
       },
       "geometry": {
-        "alignment": "notrun",
-        "size": "notrun",
-        "scroll": "notrun",
-        "keyboard": "notrun"
+        "alignment": "scoped-pass-C61-four-sizes",
+        "size": "scoped-pass-C61-four-sizes",
+        "scroll": "no-all-state-acceptance",
+        "keyboard": "native submit/encoding scope only; full keyboard paths not universally accepted"
       },
       "consumers": [
         "law page tab navigation",
@@ -671772,39 +672495,254 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "scope": "SEARCH127 새 요청의 구현/검수 대기. C58의 이전 실제 통과로 대체하지 않음",
-          "evidence": []
+          "status": "source-observed",
+          "scope": "declared URL/form/native sidebar control only; business handler changes are owned by root/worker",
+          "evidence": [
+            "SEARCH127-C60-C61-STYLE-BRIDGE"
+          ]
         },
         "automatic": {
-          "status": "notrun",
-          "scope": "SEARCH127 새 요청의 구현/검수 대기. C58의 이전 실제 통과로 대체하지 않음",
-          "evidence": []
+          "status": "pass",
+          "scope": "pure search7 + latest spec20, source-based",
+          "evidence": [
+            "SEARCH127-PURE7-NAV4-SPEC20"
+          ],
+          "allStatesAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "scope": "SEARCH127 새 요청의 구현/검수 대기. C58의 이전 실제 통과로 대체하지 않음",
-          "evidence": []
+          "status": "pass",
+          "scope": "4sizes official search tab/target-query/native submit with local echo for3targets; reference-data failure entry preserved. Parent popup return only first PC1280 case",
+          "evidence": [
+            "SEARCH127-C61-MOCK4",
+            "SEARCH127-C61-SEARCH-BASIC4-ROLE2"
+          ],
+          "backend": "mock/local-echo",
+          "realMembers": false,
+          "actualOfficialResult": false,
+          "allStatesAccepted": false
         },
         "output": {
           "status": "notrun",
           "scope": "SEARCH127 새 요청의 구현/검수 대기. C58의 이전 실제 통과로 대체하지 않음",
           "evidence": []
+        },
+        "officialAppJourney": {
+          "status": "pass",
+          "scope": "three supported targets in one existing owner formal session; other roles/data not accepted",
+          "evidence": [
+            "SEARCH127-FORMAL-APP-OWNER-SCOPE"
+          ]
+        },
+        "formalApp": {
+          "status": "pass",
+          "scope": "existing owner formal button → actual official result/query for law/admrul/ordin, new tabs with app intact",
+          "evidence": [
+            "SEARCH127-FORMAL-APP-OWNER-SCOPE",
+            "SEARCH127-FORMAL-PHOTO-15",
+            "SEARCH127-FORMAL-PHOTO-16"
+          ],
+          "allStatesAccepted": false
         }
       },
-      "source": [],
-      "html": null,
+      "source": [
+        {
+          "file": "src/core.js",
+          "sha256": "06623e4ab5acde05f0ea8b9d73e9070f10f158d9a03b2f564894de65ededc4a4",
+          "exactEmbedded": true,
+          "html": "a7d08348954a7ba1d4fecc04b8f39cda9bd7f6965a85b7ede3a74c849a022f80"
+        },
+        {
+          "file": "src/law-monitor.js",
+          "sha256": "cf082ec47a3889bcf961d3bea03ecd3a3bfff2433aa6fc68cfca58f5f257bf99",
+          "exactEmbedded": true,
+          "html": "a7d08348954a7ba1d4fecc04b8f39cda9bd7f6965a85b7ede3a74c849a022f80"
+        },
+        {
+          "file": "src/spec.js",
+          "sha256": "731342fd8c1a7c30060486697f8bf440fee51382dfd395c69671687f10401413",
+          "exactEmbedded": true,
+          "html": "a7d08348954a7ba1d4fecc04b8f39cda9bd7f6965a85b7ede3a74c849a022f80"
+        }
+      ],
+      "html": {
+        "path": ".build/review-20261026/integration-candidate-61.html",
+        "sha256": "a7d08348954a7ba1d4fecc04b8f39cda9bd7f6965a85b7ede3a74c849a022f80",
+        "bytes": 6715149
+      },
       "evidence": [
         "SEARCH127-REQUESTS",
         "SEARCH127-SPEC"
       ],
       "metadata": {
         "reviewRequestId": "LAW127-01",
-        "completed": false,
+        "completed": true,
         "previousAcceptanceNotTransferred": true,
-        "actualActionBinding": null
+        "actualActionBinding": "input#lawSiteQuery",
+        "acceptedScope": "root approved two explicit requests only, no universal state or nationwide collection acceptance"
       },
-      "allStatesAccepted": false
+      "allStatesAccepted": false,
+      "definitionHistory": [
+        {
+          "classification": "original SEARCH127 planned component preserved",
+          "record": {
+            "componentID": "SEARCH127-COMP-LAW-KEYWORD",
+            "parentID": "SEARCH127-COMP-LAW-OFFICIAL-TAB",
+            "kind": "input-field",
+            "label": "공식 검색 키워드",
+            "route": {
+              "view": "law",
+              "tab": null,
+              "plannedTabPurpose": "official-search",
+              "actualTabKey": "not-yet-linked"
+            },
+            "lifecycle": "review127-pending",
+            "inventoryRole": "planned-component-not-implemented-or-executed",
+            "definitionStage": "latest user request specification; no new product source or HTML linked",
+            "currentVisibility": {
+              "visible": null,
+              "status": "planned-not-observed"
+            },
+            "purpose": {
+              "userTask": "찾을 이름을 명시하고 한글·공백·특수문자가 잘리지 않게 공식 검색어로 전달",
+              "role": "입력",
+              "decision": "approved-purpose-implementation-not-accepted",
+              "verdict": "implementation-and-evidence-pending",
+              "rationale": "플랫폼 등록/일일 확인과 구별하여 사용자가 정한 대상·검색어의 공식 결과를 직접 확인하는 흐름입니다.",
+              "reference": "LAW127-01"
+            },
+            "informationSufficiency": {
+              "status": "notrun",
+              "requiredFromApprovedPurpose": [
+                "공식 확인된 URL/대상/검색 인자만 사용하고 선택한 검색어·대상이 공식 결과에 정확히 전달됨",
+                "PC/390의 실제 클릭과 키보드 실행·안전한 새 탭·원래 화면의 문맥 보존",
+                "공란/잘못된 대상/미확정 주소를 조용히 다른 페이지로 대체하지 않음",
+                "관리목록/일일 대상 확대와 업무·watch·수집·DB 쓰기0"
+              ],
+              "observed": [],
+              "remaining": [
+                "국가 법령과 조례의 대상 구분",
+                "한글·공백·특수문자 인코딩",
+                "공란/허용되지 않은 대상",
+                "새 탭 차단/공식 사이트 접근 제한",
+                "원래 프로젝트·목록·스크롤·초점 보존",
+                "기존 인허가/사업별 검색과의 역할 혼동"
+              ],
+              "verdict": "not-yet-verified"
+            },
+            "wording": {
+              "status": "notrun",
+              "reference": "최종 표시문구는 실제 구현/검수 후 연결"
+            },
+            "geometry": {
+              "alignment": "notrun",
+              "size": "notrun",
+              "scroll": "notrun",
+              "keyboard": "notrun"
+            },
+            "consumers": [
+              "law page tab navigation",
+              "keyword input",
+              "official target selection",
+              "external result link",
+              "existing managed catalog",
+              "permit law search",
+              "project law confirmation list"
+            ],
+            "policyBasis": [
+              {
+                "kind": "latest-direct-user-request",
+                "reference": "LAW127-01",
+                "date": "2026-10-26",
+                "status": "specification-approved-not-accepted"
+              }
+            ],
+            "verification": {
+              "implementation": {
+                "status": "notrun",
+                "scope": "SEARCH127 새 요청의 구현/검수 대기. C58의 이전 실제 통과로 대체하지 않음",
+                "evidence": []
+              },
+              "automatic": {
+                "status": "notrun",
+                "scope": "SEARCH127 새 요청의 구현/검수 대기. C58의 이전 실제 통과로 대체하지 않음",
+                "evidence": []
+              },
+              "actualScreen": {
+                "status": "notrun",
+                "scope": "SEARCH127 새 요청의 구현/검수 대기. C58의 이전 실제 통과로 대체하지 않음",
+                "evidence": []
+              },
+              "output": {
+                "status": "notrun",
+                "scope": "SEARCH127 새 요청의 구현/검수 대기. C58의 이전 실제 통과로 대체하지 않음",
+                "evidence": []
+              }
+            },
+            "source": [],
+            "html": null,
+            "evidence": [
+              "SEARCH127-REQUESTS",
+              "SEARCH127-SPEC"
+            ],
+            "metadata": {
+              "reviewRequestId": "LAW127-01",
+              "completed": false,
+              "previousAcceptanceNotTransferred": true,
+              "actualActionBinding": null
+            },
+            "allStatesAccepted": false
+          }
+        }
+      ],
+      "beforeExternalAcceptance": {
+        "lifecycle": "review127-pending",
+        "metadata": {
+          "reviewRequestId": "LAW127-01",
+          "completed": false,
+          "previousAcceptanceNotTransferred": true,
+          "actualActionBinding": "input#lawSiteQuery"
+        },
+        "verification": {
+          "implementation": {
+            "status": "source-observed",
+            "scope": "declared URL/form/native sidebar control only; business handler changes are owned by root/worker",
+            "evidence": [
+              "SEARCH127-C60-C61-STYLE-BRIDGE"
+            ]
+          },
+          "automatic": {
+            "status": "pass",
+            "scope": "pure search7 + latest spec20, source-based",
+            "evidence": [
+              "SEARCH127-PURE7-NAV4-SPEC20"
+            ],
+            "allStatesAccepted": false
+          },
+          "actualScreen": {
+            "status": "pass",
+            "scope": "4sizes official search tab/target-query/native submit with local echo for3targets; reference-data failure entry preserved. Parent popup return only first PC1280 case",
+            "evidence": [
+              "SEARCH127-C61-MOCK4",
+              "SEARCH127-C61-SEARCH-BASIC4-ROLE2"
+            ],
+            "backend": "mock/local-echo",
+            "realMembers": false,
+            "actualOfficialResult": false,
+            "allStatesAccepted": false
+          },
+          "output": {
+            "status": "notrun",
+            "scope": "SEARCH127 새 요청의 구현/검수 대기. C58의 이전 실제 통과로 대체하지 않음",
+            "evidence": []
+          },
+          "officialAppJourney": {
+            "status": "notrun",
+            "scope": "published app button to real official result awaits root verification",
+            "evidence": []
+          }
+        }
+      },
+      "acceptedScopeInformationSufficiency": "sufficient for the two explicitly accepted workflows; all-state/role/nationwide checks remain outside scope"
     },
     {
       "componentID": "SEARCH127-COMP-LAW-TARGET",
@@ -671813,34 +672751,35 @@
       "label": "공식 검색 대상",
       "route": {
         "view": "law",
-        "tab": null,
-        "plannedTabPurpose": "official-search",
-        "actualTabKey": "not-yet-linked"
+        "tab": "search"
       },
-      "lifecycle": "review127-pending",
-      "inventoryRole": "planned-component-not-implemented-or-executed",
-      "definitionStage": "latest user request specification; no new product source or HTML linked",
+      "lifecycle": "review127-accepted-scoped",
+      "inventoryRole": "current-candidate-component-definition-scoped-observed-not-overall-accepted",
+      "definitionStage": "exact C61 source plus isolated browser scope; no real-app/official-result acceptance",
       "currentVisibility": {
-        "visible": null,
-        "status": "planned-not-observed"
+        "visible": true,
+        "status": "C61-isolated-scope-observed"
       },
       "purpose": {
         "userTask": "공식 사이트가 지원하고 확인된 법령/행정규칙/조례 대상 중 검색 범위를 선택",
         "role": "입력",
-        "decision": "approved-purpose-implementation-not-accepted",
-        "verdict": "implementation-and-evidence-pending",
+        "decision": "approved-purpose-source-and-limited-native-observed",
+        "verdict": "limited-scope-supported-not-all-state-acceptance",
         "rationale": "플랫폼 등록/일일 확인과 구별하여 사용자가 정한 대상·검색어의 공식 결과를 직접 확인하는 흐름입니다.",
         "reference": "LAW127-01"
       },
       "informationSufficiency": {
-        "status": "notrun",
+        "status": "partial",
         "requiredFromApprovedPurpose": [
           "공식 확인된 URL/대상/검색 인자만 사용하고 선택한 검색어·대상이 공식 결과에 정확히 전달됨",
           "PC/390의 실제 클릭과 키보드 실행·안전한 새 탭·원래 화면의 문맥 보존",
           "공란/잘못된 대상/미확정 주소를 조용히 다른 페이지로 대체하지 않음",
           "관리목록/일일 대상 확대와 업무·watch·수집·DB 쓰기0"
         ],
-        "observed": [],
+        "observed": [
+          "C61 current source35, isolated four viewport search/control flow",
+          "official3 destination echo is separate from direct government GUI3 and real app-origin pending"
+        ],
         "remaining": [
           "국가 법령과 조례의 대상 구분",
           "한글·공백·특수문자 인코딩",
@@ -671852,14 +672791,15 @@
         "verdict": "not-yet-verified"
       },
       "wording": {
-        "status": "notrun",
-        "reference": "최종 표시문구는 실제 구현/검수 후 연결"
+        "status": "scoped-visual-reviewed",
+        "scope": "C61 PC1440/390 current search form labels and symbol control; parent/root four-size evidence separately",
+        "actualOfficialResult": false
       },
       "geometry": {
-        "alignment": "notrun",
-        "size": "notrun",
-        "scroll": "notrun",
-        "keyboard": "notrun"
+        "alignment": "scoped-pass-C61-four-sizes",
+        "size": "scoped-pass-C61-four-sizes",
+        "scroll": "no-all-state-acceptance",
+        "keyboard": "native submit/encoding scope only; full keyboard paths not universally accepted"
       },
       "consumers": [
         "law page tab navigation",
@@ -671880,40 +672820,257 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "scope": "SEARCH127 새 요청의 구현/검수 대기. C58의 이전 실제 통과로 대체하지 않음",
-          "evidence": []
+          "status": "source-observed",
+          "scope": "declared URL/form/native sidebar control only; business handler changes are owned by root/worker",
+          "evidence": [
+            "SEARCH127-C60-C61-STYLE-BRIDGE"
+          ]
         },
         "automatic": {
-          "status": "notrun",
-          "scope": "SEARCH127 새 요청의 구현/검수 대기. C58의 이전 실제 통과로 대체하지 않음",
-          "evidence": []
+          "status": "pass",
+          "scope": "pure search7 + latest spec20, source-based",
+          "evidence": [
+            "SEARCH127-PURE7-NAV4-SPEC20"
+          ],
+          "allStatesAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "scope": "SEARCH127 새 요청의 구현/검수 대기. C58의 이전 실제 통과로 대체하지 않음",
-          "evidence": []
+          "status": "pass",
+          "scope": "4sizes official search tab/target-query/native submit with local echo for3targets; reference-data failure entry preserved. Parent popup return only first PC1280 case",
+          "evidence": [
+            "SEARCH127-C61-MOCK4",
+            "SEARCH127-C61-SEARCH-BASIC4-ROLE2"
+          ],
+          "backend": "mock/local-echo",
+          "realMembers": false,
+          "actualOfficialResult": false,
+          "allStatesAccepted": false
         },
         "output": {
           "status": "notrun",
           "scope": "SEARCH127 새 요청의 구현/검수 대기. C58의 이전 실제 통과로 대체하지 않음",
           "evidence": []
+        },
+        "officialAppJourney": {
+          "status": "pass",
+          "scope": "three supported targets in one existing owner formal session; other roles/data not accepted",
+          "evidence": [
+            "SEARCH127-FORMAL-APP-OWNER-SCOPE"
+          ]
+        },
+        "formalApp": {
+          "status": "pass",
+          "scope": "existing owner formal button → actual official result/query for law/admrul/ordin, new tabs with app intact",
+          "evidence": [
+            "SEARCH127-FORMAL-APP-OWNER-SCOPE",
+            "SEARCH127-FORMAL-PHOTO-15",
+            "SEARCH127-FORMAL-PHOTO-16"
+          ],
+          "allStatesAccepted": false
         }
       },
-      "source": [],
-      "html": null,
+      "source": [
+        {
+          "file": "src/core.js",
+          "sha256": "06623e4ab5acde05f0ea8b9d73e9070f10f158d9a03b2f564894de65ededc4a4",
+          "exactEmbedded": true,
+          "html": "a7d08348954a7ba1d4fecc04b8f39cda9bd7f6965a85b7ede3a74c849a022f80"
+        },
+        {
+          "file": "src/law-monitor.js",
+          "sha256": "cf082ec47a3889bcf961d3bea03ecd3a3bfff2433aa6fc68cfca58f5f257bf99",
+          "exactEmbedded": true,
+          "html": "a7d08348954a7ba1d4fecc04b8f39cda9bd7f6965a85b7ede3a74c849a022f80"
+        },
+        {
+          "file": "src/spec.js",
+          "sha256": "731342fd8c1a7c30060486697f8bf440fee51382dfd395c69671687f10401413",
+          "exactEmbedded": true,
+          "html": "a7d08348954a7ba1d4fecc04b8f39cda9bd7f6965a85b7ede3a74c849a022f80"
+        }
+      ],
+      "html": {
+        "path": ".build/review-20261026/integration-candidate-61.html",
+        "sha256": "a7d08348954a7ba1d4fecc04b8f39cda9bd7f6965a85b7ede3a74c849a022f80",
+        "bytes": 6715149
+      },
       "evidence": [
         "SEARCH127-REQUESTS",
         "SEARCH127-SPEC"
       ],
       "metadata": {
         "reviewRequestId": "LAW127-01",
-        "completed": false,
+        "completed": true,
         "previousAcceptanceNotTransferred": true,
-        "actualActionBinding": null,
-        "optionCountNotFunctionCount": true
+        "actualActionBinding": "select#lawSiteTarget",
+        "optionCountNotFunctionCount": true,
+        "acceptedScope": "root approved two explicit requests only, no universal state or nationwide collection acceptance"
       },
-      "allStatesAccepted": false
+      "allStatesAccepted": false,
+      "definitionHistory": [
+        {
+          "classification": "original SEARCH127 planned component preserved",
+          "record": {
+            "componentID": "SEARCH127-COMP-LAW-TARGET",
+            "parentID": "SEARCH127-COMP-LAW-OFFICIAL-TAB",
+            "kind": "select-field",
+            "label": "공식 검색 대상",
+            "route": {
+              "view": "law",
+              "tab": null,
+              "plannedTabPurpose": "official-search",
+              "actualTabKey": "not-yet-linked"
+            },
+            "lifecycle": "review127-pending",
+            "inventoryRole": "planned-component-not-implemented-or-executed",
+            "definitionStage": "latest user request specification; no new product source or HTML linked",
+            "currentVisibility": {
+              "visible": null,
+              "status": "planned-not-observed"
+            },
+            "purpose": {
+              "userTask": "공식 사이트가 지원하고 확인된 법령/행정규칙/조례 대상 중 검색 범위를 선택",
+              "role": "입력",
+              "decision": "approved-purpose-implementation-not-accepted",
+              "verdict": "implementation-and-evidence-pending",
+              "rationale": "플랫폼 등록/일일 확인과 구별하여 사용자가 정한 대상·검색어의 공식 결과를 직접 확인하는 흐름입니다.",
+              "reference": "LAW127-01"
+            },
+            "informationSufficiency": {
+              "status": "notrun",
+              "requiredFromApprovedPurpose": [
+                "공식 확인된 URL/대상/검색 인자만 사용하고 선택한 검색어·대상이 공식 결과에 정확히 전달됨",
+                "PC/390의 실제 클릭과 키보드 실행·안전한 새 탭·원래 화면의 문맥 보존",
+                "공란/잘못된 대상/미확정 주소를 조용히 다른 페이지로 대체하지 않음",
+                "관리목록/일일 대상 확대와 업무·watch·수집·DB 쓰기0"
+              ],
+              "observed": [],
+              "remaining": [
+                "국가 법령과 조례의 대상 구분",
+                "한글·공백·특수문자 인코딩",
+                "공란/허용되지 않은 대상",
+                "새 탭 차단/공식 사이트 접근 제한",
+                "원래 프로젝트·목록·스크롤·초점 보존",
+                "기존 인허가/사업별 검색과의 역할 혼동"
+              ],
+              "verdict": "not-yet-verified"
+            },
+            "wording": {
+              "status": "notrun",
+              "reference": "최종 표시문구는 실제 구현/검수 후 연결"
+            },
+            "geometry": {
+              "alignment": "notrun",
+              "size": "notrun",
+              "scroll": "notrun",
+              "keyboard": "notrun"
+            },
+            "consumers": [
+              "law page tab navigation",
+              "keyword input",
+              "official target selection",
+              "external result link",
+              "existing managed catalog",
+              "permit law search",
+              "project law confirmation list"
+            ],
+            "policyBasis": [
+              {
+                "kind": "latest-direct-user-request",
+                "reference": "LAW127-01",
+                "date": "2026-10-26",
+                "status": "specification-approved-not-accepted"
+              }
+            ],
+            "verification": {
+              "implementation": {
+                "status": "notrun",
+                "scope": "SEARCH127 새 요청의 구현/검수 대기. C58의 이전 실제 통과로 대체하지 않음",
+                "evidence": []
+              },
+              "automatic": {
+                "status": "notrun",
+                "scope": "SEARCH127 새 요청의 구현/검수 대기. C58의 이전 실제 통과로 대체하지 않음",
+                "evidence": []
+              },
+              "actualScreen": {
+                "status": "notrun",
+                "scope": "SEARCH127 새 요청의 구현/검수 대기. C58의 이전 실제 통과로 대체하지 않음",
+                "evidence": []
+              },
+              "output": {
+                "status": "notrun",
+                "scope": "SEARCH127 새 요청의 구현/검수 대기. C58의 이전 실제 통과로 대체하지 않음",
+                "evidence": []
+              }
+            },
+            "source": [],
+            "html": null,
+            "evidence": [
+              "SEARCH127-REQUESTS",
+              "SEARCH127-SPEC"
+            ],
+            "metadata": {
+              "reviewRequestId": "LAW127-01",
+              "completed": false,
+              "previousAcceptanceNotTransferred": true,
+              "actualActionBinding": null,
+              "optionCountNotFunctionCount": true
+            },
+            "allStatesAccepted": false
+          }
+        }
+      ],
+      "beforeExternalAcceptance": {
+        "lifecycle": "review127-pending",
+        "metadata": {
+          "reviewRequestId": "LAW127-01",
+          "completed": false,
+          "previousAcceptanceNotTransferred": true,
+          "actualActionBinding": "select#lawSiteTarget",
+          "optionCountNotFunctionCount": true
+        },
+        "verification": {
+          "implementation": {
+            "status": "source-observed",
+            "scope": "declared URL/form/native sidebar control only; business handler changes are owned by root/worker",
+            "evidence": [
+              "SEARCH127-C60-C61-STYLE-BRIDGE"
+            ]
+          },
+          "automatic": {
+            "status": "pass",
+            "scope": "pure search7 + latest spec20, source-based",
+            "evidence": [
+              "SEARCH127-PURE7-NAV4-SPEC20"
+            ],
+            "allStatesAccepted": false
+          },
+          "actualScreen": {
+            "status": "pass",
+            "scope": "4sizes official search tab/target-query/native submit with local echo for3targets; reference-data failure entry preserved. Parent popup return only first PC1280 case",
+            "evidence": [
+              "SEARCH127-C61-MOCK4",
+              "SEARCH127-C61-SEARCH-BASIC4-ROLE2"
+            ],
+            "backend": "mock/local-echo",
+            "realMembers": false,
+            "actualOfficialResult": false,
+            "allStatesAccepted": false
+          },
+          "output": {
+            "status": "notrun",
+            "scope": "SEARCH127 새 요청의 구현/검수 대기. C58의 이전 실제 통과로 대체하지 않음",
+            "evidence": []
+          },
+          "officialAppJourney": {
+            "status": "notrun",
+            "scope": "published app button to real official result awaits root verification",
+            "evidence": []
+          }
+        }
+      },
+      "acceptedScopeInformationSufficiency": "sufficient for the two explicitly accepted workflows; all-state/role/nationwide checks remain outside scope"
     },
     {
       "componentID": "SEARCH127-COMP-LAW-OPEN",
@@ -671922,34 +673079,35 @@
       "label": "공식 검색 실행 — 최종문구 미확정",
       "route": {
         "view": "law",
-        "tab": null,
-        "plannedTabPurpose": "official-search",
-        "actualTabKey": "not-yet-linked"
+        "tab": "search"
       },
-      "lifecycle": "review127-pending",
-      "inventoryRole": "planned-component-not-implemented-or-executed",
-      "definitionStage": "latest user request specification; no new product source or HTML linked",
+      "lifecycle": "review127-accepted-scoped",
+      "inventoryRole": "current-candidate-component-definition-scoped-observed-not-overall-accepted",
+      "definitionStage": "exact C61 source plus isolated browser scope; no real-app/official-result acceptance",
       "currentVisibility": {
-        "visible": null,
-        "status": "planned-not-observed"
+        "visible": true,
+        "status": "C61-isolated-scope-observed"
       },
       "purpose": {
         "userTask": "선택한 대상과 키워드의 공식 검색 결과를 사용자 실행으로 새 탭에서 열기",
         "role": "조작",
-        "decision": "approved-purpose-implementation-not-accepted",
-        "verdict": "implementation-and-evidence-pending",
+        "decision": "approved-purpose-source-and-limited-native-observed",
+        "verdict": "limited-scope-supported-not-all-state-acceptance",
         "rationale": "플랫폼 등록/일일 확인과 구별하여 사용자가 정한 대상·검색어의 공식 결과를 직접 확인하는 흐름입니다.",
         "reference": "LAW127-01"
       },
       "informationSufficiency": {
-        "status": "notrun",
+        "status": "partial",
         "requiredFromApprovedPurpose": [
           "공식 확인된 URL/대상/검색 인자만 사용하고 선택한 검색어·대상이 공식 결과에 정확히 전달됨",
           "PC/390의 실제 클릭과 키보드 실행·안전한 새 탭·원래 화면의 문맥 보존",
           "공란/잘못된 대상/미확정 주소를 조용히 다른 페이지로 대체하지 않음",
           "관리목록/일일 대상 확대와 업무·watch·수집·DB 쓰기0"
         ],
-        "observed": [],
+        "observed": [
+          "C61 current source35, isolated four viewport search/control flow",
+          "official3 destination echo is separate from direct government GUI3 and real app-origin pending"
+        ],
         "remaining": [
           "국가 법령과 조례의 대상 구분",
           "한글·공백·특수문자 인코딩",
@@ -671961,14 +673119,15 @@
         "verdict": "not-yet-verified"
       },
       "wording": {
-        "status": "notrun",
-        "reference": "최종 표시문구는 실제 구현/검수 후 연결"
+        "status": "scoped-visual-reviewed",
+        "scope": "C61 PC1440/390 current search form labels and symbol control; parent/root four-size evidence separately",
+        "actualOfficialResult": false
       },
       "geometry": {
-        "alignment": "notrun",
-        "size": "notrun",
-        "scroll": "notrun",
-        "keyboard": "notrun"
+        "alignment": "scoped-pass-C61-four-sizes",
+        "size": "scoped-pass-C61-four-sizes",
+        "scroll": "no-all-state-acceptance",
+        "keyboard": "native submit/encoding scope only; full keyboard paths not universally accepted"
       },
       "consumers": [
         "law page tab navigation",
@@ -671989,39 +673148,254 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "scope": "SEARCH127 새 요청의 구현/검수 대기. C58의 이전 실제 통과로 대체하지 않음",
-          "evidence": []
+          "status": "source-observed",
+          "scope": "declared URL/form/native sidebar control only; business handler changes are owned by root/worker",
+          "evidence": [
+            "SEARCH127-C60-C61-STYLE-BRIDGE"
+          ]
         },
         "automatic": {
-          "status": "notrun",
-          "scope": "SEARCH127 새 요청의 구현/검수 대기. C58의 이전 실제 통과로 대체하지 않음",
-          "evidence": []
+          "status": "pass",
+          "scope": "pure search7 + latest spec20, source-based",
+          "evidence": [
+            "SEARCH127-PURE7-NAV4-SPEC20"
+          ],
+          "allStatesAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "scope": "SEARCH127 새 요청의 구현/검수 대기. C58의 이전 실제 통과로 대체하지 않음",
-          "evidence": []
+          "status": "pass",
+          "scope": "4sizes official search tab/target-query/native submit with local echo for3targets; reference-data failure entry preserved. Parent popup return only first PC1280 case",
+          "evidence": [
+            "SEARCH127-C61-MOCK4",
+            "SEARCH127-C61-SEARCH-BASIC4-ROLE2"
+          ],
+          "backend": "mock/local-echo",
+          "realMembers": false,
+          "actualOfficialResult": false,
+          "allStatesAccepted": false
         },
         "output": {
           "status": "notrun",
           "scope": "SEARCH127 새 요청의 구현/검수 대기. C58의 이전 실제 통과로 대체하지 않음",
           "evidence": []
+        },
+        "officialAppJourney": {
+          "status": "pass",
+          "scope": "three supported targets in one existing owner formal session; other roles/data not accepted",
+          "evidence": [
+            "SEARCH127-FORMAL-APP-OWNER-SCOPE"
+          ]
+        },
+        "formalApp": {
+          "status": "pass",
+          "scope": "existing owner formal button → actual official result/query for law/admrul/ordin, new tabs with app intact",
+          "evidence": [
+            "SEARCH127-FORMAL-APP-OWNER-SCOPE",
+            "SEARCH127-FORMAL-PHOTO-15",
+            "SEARCH127-FORMAL-PHOTO-16"
+          ],
+          "allStatesAccepted": false
         }
       },
-      "source": [],
-      "html": null,
+      "source": [
+        {
+          "file": "src/core.js",
+          "sha256": "06623e4ab5acde05f0ea8b9d73e9070f10f158d9a03b2f564894de65ededc4a4",
+          "exactEmbedded": true,
+          "html": "a7d08348954a7ba1d4fecc04b8f39cda9bd7f6965a85b7ede3a74c849a022f80"
+        },
+        {
+          "file": "src/law-monitor.js",
+          "sha256": "cf082ec47a3889bcf961d3bea03ecd3a3bfff2433aa6fc68cfca58f5f257bf99",
+          "exactEmbedded": true,
+          "html": "a7d08348954a7ba1d4fecc04b8f39cda9bd7f6965a85b7ede3a74c849a022f80"
+        },
+        {
+          "file": "src/spec.js",
+          "sha256": "731342fd8c1a7c30060486697f8bf440fee51382dfd395c69671687f10401413",
+          "exactEmbedded": true,
+          "html": "a7d08348954a7ba1d4fecc04b8f39cda9bd7f6965a85b7ede3a74c849a022f80"
+        }
+      ],
+      "html": {
+        "path": ".build/review-20261026/integration-candidate-61.html",
+        "sha256": "a7d08348954a7ba1d4fecc04b8f39cda9bd7f6965a85b7ede3a74c849a022f80",
+        "bytes": 6715149
+      },
       "evidence": [
         "SEARCH127-REQUESTS",
         "SEARCH127-SPEC"
       ],
       "metadata": {
         "reviewRequestId": "LAW127-01",
-        "completed": false,
+        "completed": true,
         "previousAcceptanceNotTransferred": true,
-        "actualActionBinding": null
+        "actualActionBinding": "native submit form[data-law-site-search]",
+        "acceptedScope": "root approved two explicit requests only, no universal state or nationwide collection acceptance"
       },
-      "allStatesAccepted": false
+      "allStatesAccepted": false,
+      "definitionHistory": [
+        {
+          "classification": "original SEARCH127 planned component preserved",
+          "record": {
+            "componentID": "SEARCH127-COMP-LAW-OPEN",
+            "parentID": "SEARCH127-COMP-LAW-OFFICIAL-TAB",
+            "kind": "external-navigation",
+            "label": "공식 검색 실행 — 최종문구 미확정",
+            "route": {
+              "view": "law",
+              "tab": null,
+              "plannedTabPurpose": "official-search",
+              "actualTabKey": "not-yet-linked"
+            },
+            "lifecycle": "review127-pending",
+            "inventoryRole": "planned-component-not-implemented-or-executed",
+            "definitionStage": "latest user request specification; no new product source or HTML linked",
+            "currentVisibility": {
+              "visible": null,
+              "status": "planned-not-observed"
+            },
+            "purpose": {
+              "userTask": "선택한 대상과 키워드의 공식 검색 결과를 사용자 실행으로 새 탭에서 열기",
+              "role": "조작",
+              "decision": "approved-purpose-implementation-not-accepted",
+              "verdict": "implementation-and-evidence-pending",
+              "rationale": "플랫폼 등록/일일 확인과 구별하여 사용자가 정한 대상·검색어의 공식 결과를 직접 확인하는 흐름입니다.",
+              "reference": "LAW127-01"
+            },
+            "informationSufficiency": {
+              "status": "notrun",
+              "requiredFromApprovedPurpose": [
+                "공식 확인된 URL/대상/검색 인자만 사용하고 선택한 검색어·대상이 공식 결과에 정확히 전달됨",
+                "PC/390의 실제 클릭과 키보드 실행·안전한 새 탭·원래 화면의 문맥 보존",
+                "공란/잘못된 대상/미확정 주소를 조용히 다른 페이지로 대체하지 않음",
+                "관리목록/일일 대상 확대와 업무·watch·수집·DB 쓰기0"
+              ],
+              "observed": [],
+              "remaining": [
+                "국가 법령과 조례의 대상 구분",
+                "한글·공백·특수문자 인코딩",
+                "공란/허용되지 않은 대상",
+                "새 탭 차단/공식 사이트 접근 제한",
+                "원래 프로젝트·목록·스크롤·초점 보존",
+                "기존 인허가/사업별 검색과의 역할 혼동"
+              ],
+              "verdict": "not-yet-verified"
+            },
+            "wording": {
+              "status": "notrun",
+              "reference": "최종 표시문구는 실제 구현/검수 후 연결"
+            },
+            "geometry": {
+              "alignment": "notrun",
+              "size": "notrun",
+              "scroll": "notrun",
+              "keyboard": "notrun"
+            },
+            "consumers": [
+              "law page tab navigation",
+              "keyword input",
+              "official target selection",
+              "external result link",
+              "existing managed catalog",
+              "permit law search",
+              "project law confirmation list"
+            ],
+            "policyBasis": [
+              {
+                "kind": "latest-direct-user-request",
+                "reference": "LAW127-01",
+                "date": "2026-10-26",
+                "status": "specification-approved-not-accepted"
+              }
+            ],
+            "verification": {
+              "implementation": {
+                "status": "notrun",
+                "scope": "SEARCH127 새 요청의 구현/검수 대기. C58의 이전 실제 통과로 대체하지 않음",
+                "evidence": []
+              },
+              "automatic": {
+                "status": "notrun",
+                "scope": "SEARCH127 새 요청의 구현/검수 대기. C58의 이전 실제 통과로 대체하지 않음",
+                "evidence": []
+              },
+              "actualScreen": {
+                "status": "notrun",
+                "scope": "SEARCH127 새 요청의 구현/검수 대기. C58의 이전 실제 통과로 대체하지 않음",
+                "evidence": []
+              },
+              "output": {
+                "status": "notrun",
+                "scope": "SEARCH127 새 요청의 구현/검수 대기. C58의 이전 실제 통과로 대체하지 않음",
+                "evidence": []
+              }
+            },
+            "source": [],
+            "html": null,
+            "evidence": [
+              "SEARCH127-REQUESTS",
+              "SEARCH127-SPEC"
+            ],
+            "metadata": {
+              "reviewRequestId": "LAW127-01",
+              "completed": false,
+              "previousAcceptanceNotTransferred": true,
+              "actualActionBinding": null
+            },
+            "allStatesAccepted": false
+          }
+        }
+      ],
+      "beforeExternalAcceptance": {
+        "lifecycle": "review127-pending",
+        "metadata": {
+          "reviewRequestId": "LAW127-01",
+          "completed": false,
+          "previousAcceptanceNotTransferred": true,
+          "actualActionBinding": "native submit form[data-law-site-search]"
+        },
+        "verification": {
+          "implementation": {
+            "status": "source-observed",
+            "scope": "declared URL/form/native sidebar control only; business handler changes are owned by root/worker",
+            "evidence": [
+              "SEARCH127-C60-C61-STYLE-BRIDGE"
+            ]
+          },
+          "automatic": {
+            "status": "pass",
+            "scope": "pure search7 + latest spec20, source-based",
+            "evidence": [
+              "SEARCH127-PURE7-NAV4-SPEC20"
+            ],
+            "allStatesAccepted": false
+          },
+          "actualScreen": {
+            "status": "pass",
+            "scope": "4sizes official search tab/target-query/native submit with local echo for3targets; reference-data failure entry preserved. Parent popup return only first PC1280 case",
+            "evidence": [
+              "SEARCH127-C61-MOCK4",
+              "SEARCH127-C61-SEARCH-BASIC4-ROLE2"
+            ],
+            "backend": "mock/local-echo",
+            "realMembers": false,
+            "actualOfficialResult": false,
+            "allStatesAccepted": false
+          },
+          "output": {
+            "status": "notrun",
+            "scope": "SEARCH127 새 요청의 구현/검수 대기. C58의 이전 실제 통과로 대체하지 않음",
+            "evidence": []
+          },
+          "officialAppJourney": {
+            "status": "notrun",
+            "scope": "published app button to real official result awaits root verification",
+            "evidence": []
+          }
+        }
+      },
+      "acceptedScopeInformationSufficiency": "sufficient for the two explicitly accepted workflows; all-state/role/nationwide checks remain outside scope"
     }
   ],
   "popupCandidates": [
@@ -728539,8 +729913,93 @@
     {
       "id": "SEARCH127-SPEC",
       "path": "docs/review-20261026-search127-spec.md",
-      "sha256": "d78c00e93af1ee4722e5d5df2bf0ad71a681fe6c2e399b7c3e6aba980d324081",
-      "kind": "independent-flow-and-preservation-contract-not-test-results"
+      "sha256": "bf5c9af5b38940d4ee8fb128040594a8d2ccfce5ccd695de7012528d1b6708c0",
+      "kind": "root-approved external published-status intro; original requirement contract body unchanged",
+      "previousSha256": "d78c00e93af1ee4722e5d5df2bf0ad71a681fe6c2e399b7c3e6aba980d324081"
+    },
+    {
+      "id": "SEARCH127-C60-MOCK4",
+      "path": ".build/review-20261026/search127-browser-2026-10-26T09-29-56-003Z/evidence.json",
+      "sha256": "530ea6ba7c3a2df07498c024506bd78ece14487081abdeff2887ac11e50a6483",
+      "kind": "historical-C60-actual-browser-local-echo-not-real-official-result"
+    },
+    {
+      "id": "SEARCH127-C61-MOCK4",
+      "path": ".build/review-20261026/search127-browser-2026-10-26T09-50-07-966Z/evidence.json",
+      "sha256": "9c9a0843b781c72541c83c108da6e6b88edadffd9ded09c8f121ae0318909303",
+      "kind": "fresh-C61-four-viewport-browser-local-echo-flows"
+    },
+    {
+      "id": "SEARCH127-C61-SEARCH-BASIC4-ROLE2",
+      "path": ".build/review-20261026/native-pages61/2026-10-26T09-52-12-224Z/evidence.json",
+      "sha256": "f28443614a8ec7830d1a1d44d42f9a06df04d4d1716736f946ac4107b9eb78ce",
+      "kind": "new-search-default-observation4-plus-owner-spec-hide2-not-all-routes"
+    },
+    {
+      "id": "SEARCH127-PURE7-NAV4-SPEC20",
+      "path": ".build/audit-20261026/search127-c60-logical-1793008036622.json",
+      "sha256": "c817ebc4c2f4e5996ceaaf88b8299701d1c02caec8df4b46bf611209a055a7c5",
+      "kind": "current-source-three-focused-suites-not-native-external-result"
+    },
+    {
+      "id": "SEARCH127-FROZEN-LOGIC203",
+      "path": ".build/review-20261026/search127-final-logic-acceptance.json",
+      "sha256": "2c28329ae194cb8a85aa9203e79d43f803bc0838305d1b961cdf3f0a98102ad8",
+      "kind": "C60-JS-202-pass-plus-one-unchanged-expectation-stub-rerun-203-combined-not-new-C61-whole-run"
+    },
+    {
+      "id": "SEARCH127-OFFICIAL-PUBLIC-GET12",
+      "path": ".build/review-20261026/search127-official-contract.json",
+      "sha256": "ff1a1c482d744d81382931b81618f4b3f05dc1cc8c7f844739f2a9b5f628f1c2",
+      "kind": "primary-law-admrul-ordin-GET9-and-supplementary-ELIS3-response-input-only"
+    },
+    {
+      "id": "SEARCH127-C60-C61-STYLE-BRIDGE",
+      "path": ".build/audit-20261026/search127-c60-c61-bridge-1793008562475.json",
+      "sha256": "5cd614595f7643e75d66941b858fa5ea237fe9365b57f31273c3fad99fa1405c",
+      "kind": "one108byte-CSS-rule-added-all35-JS-and-otherHTML-exact"
+    },
+    {
+      "id": "SEARCH127-DIRECT-OFFICIAL-GUI-ordin",
+      "path": ".build/review-20261026/screenshots/11-search127-official-ordin.jpg",
+      "sha256": "7069f1b4a778888d5422719a202a46d1cba1cd620292efd7c7ada9ebb444d931",
+      "kind": "root-direct-public-portal-screenshot-independently-viewed-query-target-results-and-body-not-app-origin-click"
+    },
+    {
+      "id": "SEARCH127-DIRECT-OFFICIAL-GUI-law",
+      "path": ".build/review-20261026/screenshots/12-search127-official-law.jpg",
+      "sha256": "478dfcb758979985124108e2ac3f6b518d827ce0f382c126c104f049b08733d9",
+      "kind": "root-direct-public-portal-screenshot-independently-viewed-query-target-results-and-body-not-app-origin-click"
+    },
+    {
+      "id": "SEARCH127-DIRECT-OFFICIAL-GUI-admrul",
+      "path": ".build/review-20261026/screenshots/13-search127-official-admrul.jpg",
+      "sha256": "ddbf5bf3e44e6d8c94018b6e9fa083310b55b400f9fad75de7014c6a7b4eb2bb",
+      "kind": "root-direct-public-portal-screenshot-independently-viewed-query-target-results-and-body-not-app-origin-click"
+    },
+    {
+      "id": "SEARCH127-FORMAL-HTTPS4",
+      "path": ".build/review-20261026/published-c61-1793008883213.json",
+      "sha256": "bd9755e944e3cba98984715d00ceca3eaa3b81fa0c437e04833a11839662e366",
+      "kind": "root unauthenticated formal exact-HTML/security/redirect checks4"
+    },
+    {
+      "id": "SEARCH127-FORMAL-APP-OWNER-SCOPE",
+      "path": ".build/review-20261026/search127-formal-owner-scope-1793009805088.json",
+      "sha256": "26e88bd7e543c417342cc0c4bb8ec6e5802ffb2e5514d6ad0e25c7c54b06c60e",
+      "kind": "root reported actual formal owner button-to-government3 plus sidebar keyboard acceptance; reviewer did not create that session"
+    },
+    {
+      "id": "SEARCH127-FORMAL-PHOTO-15",
+      "path": ".build/review-20261026/screenshots/15-formal-search127-ready.jpg",
+      "sha256": "391d4f1a0e86da3c7daacb448c4c605ddbc3273ca253fdf2c267e01d5b9f9860",
+      "kind": "formal app screenshot independently visually read"
+    },
+    {
+      "id": "SEARCH127-FORMAL-PHOTO-16",
+      "path": ".build/review-20261026/screenshots/16-formal-search127-menu-collapsed.jpg",
+      "sha256": "8f0a6038b04ca01b6bdd7963dba225f636c7846fefdf32ddd4d7a0039123f690",
+      "kind": "formal app screenshot independently visually read"
     }
   ],
   "safety": {
@@ -735076,7 +736535,9 @@
     "date": "2026-10-26",
     "spec": {
       "path": "docs/review-20261026-search127-spec.md",
-      "sha256": "d78c00e93af1ee4722e5d5df2bf0ad71a681fe6c2e399b7c3e6aba980d324081"
+      "sha256": "bf5c9af5b38940d4ee8fb128040594a8d2ccfce5ccd695de7012528d1b6708c0",
+      "previousCompiledContractSha256": "d78c00e93af1ee4722e5d5df2bf0ad71a681fe6c2e399b7c3e6aba980d324081",
+      "classification": "root-approved post-publication intro-only external MD; requirement contract body exact"
     },
     "ledger": {
       "path": "docs/review-20261026-search127-ledger.json",
@@ -735087,8 +736548,8 @@
       "NAV127-02"
     ],
     "requirements": 2,
-    "completed": 0,
-    "pendingRecords": 6,
+    "completed": 2,
+    "pendingRecords": 0,
     "plannedComponentDefinitions": 4,
     "theseAreNotNewImplementedFunctions": true,
     "baseline": {
@@ -735116,8 +736577,157 @@
       "SEARCH127-COMP-LAW-TARGET",
       "SEARCH127-COMP-LAW-OPEN"
     ],
-    "sourceImplementationNotYetLinked": true,
-    "currentCandidate": null,
+    "sourceImplementationNotYetLinked": false,
+    "currentCandidate": {
+      "artifact": "C61",
+      "html": {
+        "path": ".build/review-20261026/integration-candidate-61.html",
+        "sha256": "a7d08348954a7ba1d4fecc04b8f39cda9bd7f6965a85b7ede3a74c849a022f80",
+        "bytes": 6715149
+      },
+      "completed": 2,
+      "allStatesAccepted": false,
+      "formalPromotion": true,
+      "sourceBridge": {
+        "evidence": "SEARCH127-C60-C61-STYLE-BRIDGE",
+        "unchangedJs": 35,
+        "changedCssRuleBytes": 108,
+        "notNativeAcceptanceTransfer": true
+      },
+      "isolatedBrowser": {
+        "status": "pass",
+        "flows": 4,
+        "widths": [
+          1280,
+          1440,
+          1600,
+          390
+        ],
+        "officialTargetsPerFlow": 3,
+        "scope": "actual Edge with synthetic account and same-origin mock; official destination local echo",
+        "evidence": [
+          "SEARCH127-C61-MOCK4"
+        ],
+        "actualOfficialResult": false,
+        "workspacePuts": 0,
+        "actualDatabase": false,
+        "realMembers": false
+      },
+      "basicSearchObservation": {
+        "status": "observed-default-only",
+        "states": 4,
+        "route": {
+          "view": "law",
+          "tab": "search"
+        },
+        "roleHiddenConditions": 2,
+        "evidence": [
+          "SEARCH127-C61-SEARCH-BASIC4-ROLE2"
+        ],
+        "notAll31Routes": true,
+        "notFourMoreBusinessFunctions": true
+      },
+      "automatic": {
+        "pureSearch": 7,
+        "navigation": 4,
+        "specification": 20,
+        "evidence": [
+          "SEARCH127-PURE7-NAV4-SPEC20"
+        ],
+        "scope": "source-based focused checks, existing metadata/URL/markup only"
+      },
+      "broaderRegression": {
+        "combined": 203,
+        "passed": 203,
+        "evidence": [
+          "SEARCH127-FROZEN-LOGIC203"
+        ],
+        "classification": "202 suites passed on exact frozen product; one missing-core-contract preparation fixture corrected and separately rerun. Not a manufactured single all-green full-run exit.",
+        "notFreshSingleC61AllGreenExit": true,
+        "allFunctionsVerified": false
+      },
+      "officialPublicGet": {
+        "attempted": 12,
+        "httpSuccessful": 12,
+        "echoExact": 12,
+        "primaryTargets": 3,
+        "primaryProbes": 9,
+        "supplementaryElis": 3,
+        "elisIsNotFourthUiOption": true,
+        "evidence": [
+          "SEARCH127-OFFICIAL-PUBLIC-GET12"
+        ],
+        "governmentJsResultsNotProvedByHttp": true
+      },
+      "directOfficialGui": {
+        "status": "root-direct-public-GUI-confirmed-and-screenshots-read",
+        "targets": [
+          "ordin",
+          "law",
+          "admrul"
+        ],
+        "queries": [
+          "서울특별시 건축 조례",
+          "건축법",
+          "건축물의 에너지절약설계기준"
+        ],
+        "evidence": [
+          "SEARCH127-DIRECT-OFFICIAL-GUI-ordin",
+          "SEARCH127-DIRECT-OFFICIAL-GUI-law",
+          "SEARCH127-DIRECT-OFFICIAL-GUI-admrul"
+        ],
+        "screenshotScope": "selected official category, query, result list/title and body visibly present",
+        "appOriginated": false,
+        "fullNationalCoverage": false
+      },
+      "realAppToOfficial": {
+        "status": "pass",
+        "scope": "root existing owner session: explicit formal app button → official results/query for3 targets",
+        "evidence": [
+          "SEARCH127-FORMAL-APP-OWNER-SCOPE",
+          "SEARCH127-FORMAL-HTTPS4"
+        ],
+        "otherRealMembersVerified": false,
+        "notAllStatesAcceptance": true
+      },
+      "historicalCandidates": [
+        {
+          "artifact": "C60",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-60.html",
+            "sha256": "b5454661895414c55c351035f07613d543b71b07f77e280f8b94927cfbebaf6e",
+            "bytes": 6715041
+          },
+          "flows": 4,
+          "passed": 4,
+          "evidence": [
+            "SEARCH127-C60-MOCK4"
+          ],
+          "separateAdjacentIssue": "managed-reference topbar date shown over external-search form, corrected by C61 one CSS rule; C60 narrow4 not full semantic acceptance"
+        }
+      ],
+      "counting": {
+        "fourNativeJourneysNotTwelveNewFunctions": true,
+        "basic4OverlapsSameSearchComponent": true,
+        "role2SeparateConditions": true,
+        "officialGet12NotUiFlow12": true
+      },
+      "remaining": [
+        "other real members/roles and unexecuted dynamic conditions",
+        "national completeness/daily collection/legal applicability not accepted",
+        "old owner PRE8 limits remain in their historical cohort"
+      ],
+      "formalRelease": {
+        "sha256": "115c1cca7a0080c0ff52212d2c94b74c007b4d807c88bc160faa698ff07b57d8",
+        "bytes": 6715084,
+        "httpsObservedAt": "2026-10-26T10:01:23.213Z",
+        "checks": 4,
+        "evidence": {
+          "path": ".build/review-20261026/published-c61-1793008883213.json",
+          "sha256": "bd9755e944e3cba98984715d00ceca3eaa3b81fa0c437e04833a11839662e366"
+        }
+      }
+    },
     "preservedCurrentState": "C53/C58 and REVIEW126 current labels retain their historical observation time; README now reports formal126. None is new SEARCH127 acceptance.",
     "preservation": [
       "registered catalog and daily watch list unchanged",
@@ -735132,15 +736742,13 @@
       "retained": "previous measurements and all menu content/full-hide rules"
     },
     "limits": [
-      "official public GET3-target contract verified by owner; government-JS results/native new-tab completeness remain unverified",
-      "no new platform API or DB schema is specified",
-      "actual target/action IDs and built HTML pending",
-      "PC390 keyboard/new-tab/state-preservation notrun",
-      "AGENTS change excluded after automatic approval rejection; not a required residual task"
+      "two explicitly approved requests accepted in one existing formal owner session plus isolated viewport conditions",
+      "other real members/roles and unexecuted dynamic conditions remain separate",
+      "nationwide registration/daily collection/completeness/legal applicability not accepted"
     ],
     "allPlatformComponentsAccepted": false,
     "targetRelease": "0.12.7",
-    "targetReleaseStatus": "planned",
+    "targetReleaseStatus": "published-external-scoped-acceptance",
     "metadataSourceCorrection": {
       "source": {
         "path": "src/spec.js",
@@ -735183,6 +736791,209 @@
         "sha256": "271aa513d79467088b71cdea698cfab7f5affe09f939f49cf490fad86a32fbc9",
         "scope": "inverse source exact: metadata block +3 existing owner bindings only"
       }
-    ]
+    ],
+    "beforeExternalAcceptance": {
+      "artifact": "C61",
+      "html": {
+        "path": ".build/review-20261026/integration-candidate-61.html",
+        "sha256": "a7d08348954a7ba1d4fecc04b8f39cda9bd7f6965a85b7ede3a74c849a022f80",
+        "bytes": 6715149
+      },
+      "completed": 0,
+      "allStatesAccepted": false,
+      "formalPromotion": false,
+      "sourceBridge": {
+        "evidence": "SEARCH127-C60-C61-STYLE-BRIDGE",
+        "unchangedJs": 35,
+        "changedCssRuleBytes": 108,
+        "notNativeAcceptanceTransfer": true
+      },
+      "isolatedBrowser": {
+        "status": "pass",
+        "flows": 4,
+        "widths": [
+          1280,
+          1440,
+          1600,
+          390
+        ],
+        "officialTargetsPerFlow": 3,
+        "scope": "actual Edge with synthetic account and same-origin mock; official destination local echo",
+        "evidence": [
+          "SEARCH127-C61-MOCK4"
+        ],
+        "actualOfficialResult": false,
+        "workspacePuts": 0,
+        "actualDatabase": false,
+        "realMembers": false
+      },
+      "basicSearchObservation": {
+        "status": "observed-default-only",
+        "states": 4,
+        "route": {
+          "view": "law",
+          "tab": "search"
+        },
+        "roleHiddenConditions": 2,
+        "evidence": [
+          "SEARCH127-C61-SEARCH-BASIC4-ROLE2"
+        ],
+        "notAll31Routes": true,
+        "notFourMoreBusinessFunctions": true
+      },
+      "automatic": {
+        "pureSearch": 7,
+        "navigation": 4,
+        "specification": 20,
+        "evidence": [
+          "SEARCH127-PURE7-NAV4-SPEC20"
+        ],
+        "scope": "source-based focused checks, existing metadata/URL/markup only"
+      },
+      "broaderRegression": {
+        "combined": 203,
+        "passed": 203,
+        "evidence": [
+          "SEARCH127-FROZEN-LOGIC203"
+        ],
+        "classification": "202 suites passed on exact frozen product; one missing-core-contract preparation fixture corrected and separately rerun. Not a manufactured single all-green full-run exit.",
+        "notFreshSingleC61AllGreenExit": true,
+        "allFunctionsVerified": false
+      },
+      "officialPublicGet": {
+        "attempted": 12,
+        "httpSuccessful": 12,
+        "echoExact": 12,
+        "primaryTargets": 3,
+        "primaryProbes": 9,
+        "supplementaryElis": 3,
+        "elisIsNotFourthUiOption": true,
+        "evidence": [
+          "SEARCH127-OFFICIAL-PUBLIC-GET12"
+        ],
+        "governmentJsResultsNotProvedByHttp": true
+      },
+      "directOfficialGui": {
+        "status": "root-direct-public-GUI-confirmed-and-screenshots-read",
+        "targets": [
+          "ordin",
+          "law",
+          "admrul"
+        ],
+        "queries": [
+          "서울특별시 건축 조례",
+          "건축법",
+          "건축물의 에너지절약설계기준"
+        ],
+        "evidence": [
+          "SEARCH127-DIRECT-OFFICIAL-GUI-ordin",
+          "SEARCH127-DIRECT-OFFICIAL-GUI-law",
+          "SEARCH127-DIRECT-OFFICIAL-GUI-admrul"
+        ],
+        "screenshotScope": "selected official category, query, result list/title and body visibly present",
+        "appOriginated": false,
+        "fullNationalCoverage": false
+      },
+      "realAppToOfficial": {
+        "status": "notrun",
+        "reason": "root will verify after final formal deployment; direct-portal screenshots and local echo do not prove the app-originated journey"
+      },
+      "historicalCandidates": [
+        {
+          "artifact": "C60",
+          "html": {
+            "path": ".build/review-20261026/integration-candidate-60.html",
+            "sha256": "b5454661895414c55c351035f07613d543b71b07f77e280f8b94927cfbebaf6e",
+            "bytes": 6715041
+          },
+          "flows": 4,
+          "passed": 4,
+          "evidence": [
+            "SEARCH127-C60-MOCK4"
+          ],
+          "separateAdjacentIssue": "managed-reference topbar date shown over external-search form, corrected by C61 one CSS rule; C60 narrow4 not full semantic acceptance"
+        }
+      ],
+      "counting": {
+        "fourNativeJourneysNotTwelveNewFunctions": true,
+        "basic4OverlapsSameSearchComponent": true,
+        "role2SeparateConditions": true,
+        "officialGet12NotUiFlow12": true
+      },
+      "remaining": [
+        "formal app button to actual official-site result journey",
+        "real other members/roles and all dynamic conditions",
+        "nationwide completeness/legal applicability not implied",
+        "old owner PRE8 observation limits remain in their historical cohort"
+      ]
+    },
+    "externalAcceptance": {
+      "at": "2026-10-26T10:16:45.378Z",
+      "provenance": "root explicit completion signal after actual formal-app button clicks; this reviewer independently read HTTPS JSON and photos, did not operate a real session",
+      "version": "0.12.7",
+      "codeCommit": "6139a57a7aeccc9f5843a7b0409872c408c8328b",
+      "deploymentId": "dpl_J8Kb29XdQ4gcypzugH299mMZ23aL",
+      "formal": {
+        "sha256": "115c1cca7a0080c0ff52212d2c94b74c007b4d807c88bc160faa698ff07b57d8",
+        "bytes": 6715084,
+        "httpsObservedAt": "2026-10-26T10:01:23.213Z",
+        "checks": 4,
+        "evidence": {
+          "path": ".build/review-20261026/published-c61-1793008883213.json",
+          "sha256": "bd9755e944e3cba98984715d00ceca3eaa3b81fa0c437e04833a11839662e366"
+        }
+      },
+      "actorScope": "one existing authorized owner session; other real members/roles not reverified",
+      "officialAppJourney": {
+        "status": "passed",
+        "entry": "formal law sidebar → new search tab → explicit search button",
+        "targets": [
+          "ordin",
+          "law",
+          "admrul"
+        ],
+        "rootObserved": "new browser tabs4/5/6 with official result title and exact query; original app remained, error text0",
+        "rawKeywordsNotReconstructedByThisReviewer": true
+      },
+      "sidebar": {
+        "status": "passed",
+        "rootObserved": "Enter hides whole sidebar/open symbol/aria 메뉴 펼치기/visible tooltip; Space reopens/close symbol/aria 메뉴 접기; search values preserved"
+      },
+      "photos": [
+        {
+          "path": ".build/review-20261026/screenshots/15-formal-search127-ready.jpg",
+          "sha256": "391d4f1a0e86da3c7daacb448c4c605ddbc3273ca253fdf2c267e01d5b9f9860"
+        },
+        {
+          "path": ".build/review-20261026/screenshots/16-formal-search127-menu-collapsed.jpg",
+          "sha256": "8f0a6038b04ca01b6bdd7963dba225f636c7846fefdf32ddd4d7a0039123f690"
+        }
+      ],
+      "acceptedRequirementIds": [
+        "LAW127-01",
+        "NAV127-02"
+      ],
+      "allPlatformComponentsAccepted": false,
+      "nationwideCollectionComplete": false,
+      "otherMembersVerified": false,
+      "compiledLedgerOrSpecChanged": false,
+      "evidence": [
+        "SEARCH127-FORMAL-HTTPS4",
+        "SEARCH127-FORMAL-APP-OWNER-SCOPE",
+        "SEARCH127-FORMAL-PHOTO-15",
+        "SEARCH127-FORMAL-PHOTO-16"
+      ]
+    },
+    "actualAccepted": 2,
+    "scopedAcceptedRecords": 6,
+    "compiledSnapshot": {
+      "targetStatus": "planned",
+      "completed": 0,
+      "ledger": {
+        "path": "docs/review-20261026-search127-ledger.json",
+        "sha256": "dbe5ea0038c826db83883ef9737b19964dc1123b2df73c1bb58ad72487c7e9df"
+      },
+      "preservedUnchanged": true
+    }
   }
 }
