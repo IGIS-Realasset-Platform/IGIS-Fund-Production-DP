@@ -1,12 +1,15 @@
 {
   "schemaVersion": "component-review-matrix-v1",
   "deployedRelease": {
-    "version": "0.12.7",
-    "candidate": "C61",
-    "date": "2026-10-26",
-    "sourceCommit": "6139a57a7aeccc9f5843a7b0409872c408c8328b",
-    "formalHtmlSha256": "115c1cca7a0080c0ff52212d2c94b74c007b4d807c88bc160faa698ff07b57d8",
-    "verification": "docs/review-20261026-search127-verification.md",
+    "version": "0.12.8",
+    "candidate": "C66",
+    "date": "2026-10-27",
+    "sourceCommit": "e876a18bbd550d03f4c8ec43fab0ee30f62991dc",
+    "deploymentId": "dpl_GwJPCqUZMVian8ryVRiSofYQhK5a",
+    "formalHtmlSha256": "245468a361139cf78d9cc66c1a9858e7f7ba2b1e73269835523fa73b7f46362d",
+    "bytes": 6737331,
+    "publishedAt": "2026-10-27T08:56:50.340Z",
+    "verification": "docs/review-20261027-verification.md",
     "inventoryBaselinePreserved": true,
     "allComponentsAccepted": false
   },
@@ -53,7 +56,9 @@
     "review127PendingRecords": 0,
     "review127PlannedComponentDefinitions": 4,
     "review127ScopedAcceptedRecords": 6,
-    "review128PendingRecords": 27
+    "review128PendingRecords": 8,
+    "review128PendingRequirements": 0,
+    "review128ScopedReviewedRecords": 27
   },
   "actualExecution": {
     "evidence": "C44-ACTUAL-42",
@@ -673407,24 +673412,29 @@
         "view": "navigation",
         "tab": null
       },
-      "lifecycle": "review128-planned",
-      "definitionStage": "2026-10-27 direct request, prior acceptance not inherited",
+      "lifecycle": "review128-scoped-reviewed",
+      "definitionStage": "current C66 source and scoped native/live-member observation; not all-state acceptance",
       "purpose": {
         "userTask": "사이드바 상태별 제어 위치",
         "reference": "NAV128-01",
         "decision": "approved-purpose-verification-pending"
       },
       "informationSufficiency": {
-        "status": "notrun"
+        "status": "scoped-reviewed",
+        "scope": "Four explicit user requests and recorded connected consumers",
+        "remaining": [
+          "Other members/all dynamic states not universally accepted"
+        ]
       },
       "wording": {
-        "status": "notrun"
+        "status": "scoped-pass",
+        "scope": "Current Korean labels and meaning checked against actual source values/user action"
       },
       "geometry": {
-        "alignment": "notrun",
-        "size": "notrun",
-        "scroll": "notrun",
-        "keyboard": "notrun"
+        "alignment": "scoped-pass",
+        "size": "scoped-pass",
+        "scroll": "Scoped native evidence; final existing owner panel also read",
+        "keyboard": "Current formal Enter/Space and focus passed"
       },
       "consumers": [
         "sidebar",
@@ -673441,30 +673451,75 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            {
+              "file": "src/core.js",
+              "sha256": "c60849e7a56aa9faa0a6b292a4ebf9bcf061fbb106b2478c43b2ef88bc425795"
+            },
+            {
+              "file": "src/recovery.css",
+              "sha256": "9e83c6b4a9007ad5241c5c358796ce529756919dd3377178e2a4e258dfdc7638"
+            }
+          ],
+          "scope": "Current sources only"
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            {
+              "path": ".build/center-20261020/logic-2026-10-27T08-46-48.430Z.json",
+              "sha256": "6a0f041539631253840d80a56e8eb430f33223deb73a01d3b1671fcbaec43fef"
+            }
+          ],
+          "scope": "209 suites, not 209 unique business functions"
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scoped-pass",
+          "evidence": [
+            {
+              "path": ".build/review-20261027/navigation-notifications-1793089464355/evidence.json",
+              "sha256": "5e4bdd34bda094e6ad2d6c2c0785f0259e9578c6f65e14dc10180a3076fcbeba"
+            }
+          ],
+          "scope": "C64 four sizes; two-module C66 bridge and current formal member repeat",
+          "allStatesAccepted": false
         },
         "actualServer": {
-          "status": "notrun",
-          "evidence": []
+          "status": "not-applicable-to-layout",
+          "evidence": [
+            ".build/review-20261027/live-member-acceptance.json",
+            ".build/review-20261027/db-after-law-add.json"
+          ],
+          "scope": "One existing owner; law active195/projectlinks2; workspace revision34/hash unchanged; no all-member acceptance"
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "not-run-engine-unchanged",
+          "scope": "Report print/template hashes and four output models preserved; no fresh actual PDF or installed Excel claim"
         }
       },
-      "source": [],
-      "html": null,
+      "source": [
+        {
+          "file": "src/core.js",
+          "sha256": "c60849e7a56aa9faa0a6b292a4ebf9bcf061fbb106b2478c43b2ef88bc425795"
+        },
+        {
+          "file": "src/recovery.css",
+          "sha256": "9e83c6b4a9007ad5241c5c358796ce529756919dd3377178e2a4e258dfdc7638"
+        }
+      ],
+      "html": {
+        "path": ".build/review-20261027/integration-candidate-66.html",
+        "sha256": "20ff55f5072398e18bca9665348c4cc671f5efad4244f278921a13ae23cbec3d",
+        "bytes": 6737396
+      },
       "evidence": [],
-      "allStatesAccepted": false
+      "allStatesAccepted": false,
+      "metadata": {
+        "reviewRequestId": "NAV128-01",
+        "completed": true,
+        "scopedOnly": true
+      }
     },
     {
       "componentID": "NAV128-CLOSE",
@@ -673475,24 +673530,29 @@
         "view": "navigation",
         "tab": null
       },
-      "lifecycle": "review128-planned",
-      "definitionStage": "2026-10-27 direct request, prior acceptance not inherited",
+      "lifecycle": "review128-scoped-reviewed",
+      "definitionStage": "current C66 source and scoped native/live-member observation; not all-state acceptance",
       "purpose": {
         "userTask": "사이드바 상단 접기",
         "reference": "NAV128-01",
         "decision": "approved-purpose-verification-pending"
       },
       "informationSufficiency": {
-        "status": "notrun"
+        "status": "scoped-reviewed",
+        "scope": "Four explicit user requests and recorded connected consumers",
+        "remaining": [
+          "Other members/all dynamic states not universally accepted"
+        ]
       },
       "wording": {
-        "status": "notrun"
+        "status": "scoped-pass",
+        "scope": "Current Korean labels and meaning checked against actual source values/user action"
       },
       "geometry": {
-        "alignment": "notrun",
-        "size": "notrun",
-        "scroll": "notrun",
-        "keyboard": "notrun"
+        "alignment": "scoped-pass",
+        "size": "scoped-pass",
+        "scroll": "Scoped native evidence; final existing owner panel also read",
+        "keyboard": "Current formal Enter/Space and focus passed"
       },
       "consumers": [
         "sidebar",
@@ -673509,30 +673569,75 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            {
+              "file": "src/core.js",
+              "sha256": "c60849e7a56aa9faa0a6b292a4ebf9bcf061fbb106b2478c43b2ef88bc425795"
+            },
+            {
+              "file": "src/recovery.css",
+              "sha256": "9e83c6b4a9007ad5241c5c358796ce529756919dd3377178e2a4e258dfdc7638"
+            }
+          ],
+          "scope": "Current sources only"
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            {
+              "path": ".build/center-20261020/logic-2026-10-27T08-46-48.430Z.json",
+              "sha256": "6a0f041539631253840d80a56e8eb430f33223deb73a01d3b1671fcbaec43fef"
+            }
+          ],
+          "scope": "209 suites, not 209 unique business functions"
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scoped-pass",
+          "evidence": [
+            {
+              "path": ".build/review-20261027/navigation-notifications-1793089464355/evidence.json",
+              "sha256": "5e4bdd34bda094e6ad2d6c2c0785f0259e9578c6f65e14dc10180a3076fcbeba"
+            }
+          ],
+          "scope": "C64 four sizes; two-module C66 bridge and current formal member repeat",
+          "allStatesAccepted": false
         },
         "actualServer": {
-          "status": "notrun",
-          "evidence": []
+          "status": "not-applicable-to-layout",
+          "evidence": [
+            ".build/review-20261027/live-member-acceptance.json",
+            ".build/review-20261027/db-after-law-add.json"
+          ],
+          "scope": "One existing owner; law active195/projectlinks2; workspace revision34/hash unchanged; no all-member acceptance"
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "not-run-engine-unchanged",
+          "scope": "Report print/template hashes and four output models preserved; no fresh actual PDF or installed Excel claim"
         }
       },
-      "source": [],
-      "html": null,
+      "source": [
+        {
+          "file": "src/core.js",
+          "sha256": "c60849e7a56aa9faa0a6b292a4ebf9bcf061fbb106b2478c43b2ef88bc425795"
+        },
+        {
+          "file": "src/recovery.css",
+          "sha256": "9e83c6b4a9007ad5241c5c358796ce529756919dd3377178e2a4e258dfdc7638"
+        }
+      ],
+      "html": {
+        "path": ".build/review-20261027/integration-candidate-66.html",
+        "sha256": "20ff55f5072398e18bca9665348c4cc671f5efad4244f278921a13ae23cbec3d",
+        "bytes": 6737396
+      },
       "evidence": [],
-      "allStatesAccepted": false
+      "allStatesAccepted": false,
+      "metadata": {
+        "reviewRequestId": "NAV128-01",
+        "completed": false,
+        "scopedOnly": true
+      }
     },
     {
       "componentID": "NAV128-OPEN",
@@ -673543,24 +673648,29 @@
         "view": "navigation",
         "tab": null
       },
-      "lifecycle": "review128-planned",
-      "definitionStage": "2026-10-27 direct request, prior acceptance not inherited",
+      "lifecycle": "review128-scoped-reviewed",
+      "definitionStage": "current C66 source and scoped native/live-member observation; not all-state acceptance",
       "purpose": {
         "userTask": "접힌 후 독립 재열기",
         "reference": "NAV128-01",
         "decision": "approved-purpose-verification-pending"
       },
       "informationSufficiency": {
-        "status": "notrun"
+        "status": "scoped-reviewed",
+        "scope": "Four explicit user requests and recorded connected consumers",
+        "remaining": [
+          "Other members/all dynamic states not universally accepted"
+        ]
       },
       "wording": {
-        "status": "notrun"
+        "status": "scoped-pass",
+        "scope": "Current Korean labels and meaning checked against actual source values/user action"
       },
       "geometry": {
-        "alignment": "notrun",
-        "size": "notrun",
-        "scroll": "notrun",
-        "keyboard": "notrun"
+        "alignment": "scoped-pass",
+        "size": "scoped-pass",
+        "scroll": "Scoped native evidence; final existing owner panel also read",
+        "keyboard": "Current formal Enter/Space and focus passed"
       },
       "consumers": [
         "sidebar",
@@ -673577,30 +673687,75 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            {
+              "file": "src/core.js",
+              "sha256": "c60849e7a56aa9faa0a6b292a4ebf9bcf061fbb106b2478c43b2ef88bc425795"
+            },
+            {
+              "file": "src/recovery.css",
+              "sha256": "9e83c6b4a9007ad5241c5c358796ce529756919dd3377178e2a4e258dfdc7638"
+            }
+          ],
+          "scope": "Current sources only"
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            {
+              "path": ".build/center-20261020/logic-2026-10-27T08-46-48.430Z.json",
+              "sha256": "6a0f041539631253840d80a56e8eb430f33223deb73a01d3b1671fcbaec43fef"
+            }
+          ],
+          "scope": "209 suites, not 209 unique business functions"
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scoped-pass",
+          "evidence": [
+            {
+              "path": ".build/review-20261027/navigation-notifications-1793089464355/evidence.json",
+              "sha256": "5e4bdd34bda094e6ad2d6c2c0785f0259e9578c6f65e14dc10180a3076fcbeba"
+            }
+          ],
+          "scope": "C64 four sizes; two-module C66 bridge and current formal member repeat",
+          "allStatesAccepted": false
         },
         "actualServer": {
-          "status": "notrun",
-          "evidence": []
+          "status": "not-applicable-to-layout",
+          "evidence": [
+            ".build/review-20261027/live-member-acceptance.json",
+            ".build/review-20261027/db-after-law-add.json"
+          ],
+          "scope": "One existing owner; law active195/projectlinks2; workspace revision34/hash unchanged; no all-member acceptance"
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "not-run-engine-unchanged",
+          "scope": "Report print/template hashes and four output models preserved; no fresh actual PDF or installed Excel claim"
         }
       },
-      "source": [],
-      "html": null,
+      "source": [
+        {
+          "file": "src/core.js",
+          "sha256": "c60849e7a56aa9faa0a6b292a4ebf9bcf061fbb106b2478c43b2ef88bc425795"
+        },
+        {
+          "file": "src/recovery.css",
+          "sha256": "9e83c6b4a9007ad5241c5c358796ce529756919dd3377178e2a4e258dfdc7638"
+        }
+      ],
+      "html": {
+        "path": ".build/review-20261027/integration-candidate-66.html",
+        "sha256": "20ff55f5072398e18bca9665348c4cc671f5efad4244f278921a13ae23cbec3d",
+        "bytes": 6737396
+      },
       "evidence": [],
-      "allStatesAccepted": false
+      "allStatesAccepted": false,
+      "metadata": {
+        "reviewRequestId": "NAV128-01",
+        "completed": false,
+        "scopedOnly": true
+      }
     },
     {
       "componentID": "LAW128-02",
@@ -673611,24 +673766,29 @@
         "view": "law",
         "tab": "search"
       },
-      "lifecycle": "review128-planned",
-      "definitionStage": "2026-10-27 direct request, prior acceptance not inherited",
+      "lifecycle": "review128-scoped-reviewed",
+      "definitionStage": "current C66 source and scoped native/live-member observation; not all-state acceptance",
       "purpose": {
         "userTask": "API 법령 검색·관리 편입",
         "reference": "LAW128-02",
         "decision": "approved-purpose-verification-pending"
       },
       "informationSufficiency": {
-        "status": "notrun"
+        "status": "scoped-reviewed",
+        "scope": "Four explicit user requests and recorded connected consumers",
+        "remaining": [
+          "Other members/all dynamic states not universally accepted"
+        ]
       },
       "wording": {
-        "status": "notrun"
+        "status": "scoped-pass",
+        "scope": "Current Korean labels and meaning checked against actual source values/user action"
       },
       "geometry": {
-        "alignment": "notrun",
-        "size": "notrun",
-        "scroll": "notrun",
-        "keyboard": "notrun"
+        "alignment": "scoped-pass",
+        "size": "scoped-pass",
+        "scroll": "Scoped native evidence; final existing owner panel also read",
+        "keyboard": "Only recorded native/real paths accepted"
       },
       "consumers": [
         "search",
@@ -673647,30 +673807,107 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            {
+              "file": "src/law-monitor.js",
+              "sha256": "2ab877ae579aa75bf70948cce9c7f1c030e2277d4d3b82a312608bd144f6d380"
+            },
+            {
+              "file": "src/law-search.css",
+              "sha256": "ed3417a750fa0b69c4d0288b2a03868739d888d42f9ffe377d655f9110e99d5c"
+            },
+            {
+              "file": "server/center-services.mjs",
+              "sha256": "90173b443d04c87f989def69c3b87ebb8df8cb355cee15b00f58c9e809799aa3"
+            },
+            {
+              "file": "server/law-collector.mjs",
+              "sha256": "07f594000f060cbce3560d03a5b8a89dfc65a3a9d03b2e94c9db4f0cb0d34213"
+            },
+            {
+              "file": "server/law-watch.mjs",
+              "sha256": "64d12017a40a373bd0bb60300091b271f36762f8c619fab9e2fc7c2aadf216dc"
+            },
+            {
+              "file": "server/maintenance-runtime.mjs",
+              "sha256": "810f57494fbd7d5c20deecbf6cbbd892883c3cfa02e0c29cd6dcc0d7bc2730e9"
+            }
+          ],
+          "scope": "Current sources only"
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            {
+              "path": ".build/center-20261020/logic-2026-10-27T08-46-48.430Z.json",
+              "sha256": "6a0f041539631253840d80a56e8eb430f33223deb73a01d3b1671fcbaec43fef"
+            }
+          ],
+          "scope": "209 suites, not 209 unique business functions"
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scoped-pass",
+          "evidence": [
+            {
+              "path": ".build/review-20261027/law-browser-1793090787718/evidence.json",
+              "sha256": "bbaf63232f8db76f32ec7a50c5f02e3bb0f47a4d6211502c1f6d55ee6ec97e7c"
+            }
+          ],
+          "scope": "Exact C66 native3 plus actual3-provider/C65 save/C66 readback",
+          "allStatesAccepted": false
         },
         "actualServer": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scoped-pass",
+          "evidence": [
+            ".build/review-20261027/live-member-acceptance.json",
+            ".build/review-20261027/db-after-law-add.json"
+          ],
+          "scope": "One existing owner; law active195/projectlinks2; workspace revision34/hash unchanged; no all-member acceptance"
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "not-run-engine-unchanged",
+          "scope": "Report print/template hashes and four output models preserved; no fresh actual PDF or installed Excel claim"
         }
       },
-      "source": [],
-      "html": null,
+      "source": [
+        {
+          "file": "src/law-monitor.js",
+          "sha256": "2ab877ae579aa75bf70948cce9c7f1c030e2277d4d3b82a312608bd144f6d380"
+        },
+        {
+          "file": "src/law-search.css",
+          "sha256": "ed3417a750fa0b69c4d0288b2a03868739d888d42f9ffe377d655f9110e99d5c"
+        },
+        {
+          "file": "server/center-services.mjs",
+          "sha256": "90173b443d04c87f989def69c3b87ebb8df8cb355cee15b00f58c9e809799aa3"
+        },
+        {
+          "file": "server/law-collector.mjs",
+          "sha256": "07f594000f060cbce3560d03a5b8a89dfc65a3a9d03b2e94c9db4f0cb0d34213"
+        },
+        {
+          "file": "server/law-watch.mjs",
+          "sha256": "64d12017a40a373bd0bb60300091b271f36762f8c619fab9e2fc7c2aadf216dc"
+        },
+        {
+          "file": "server/maintenance-runtime.mjs",
+          "sha256": "810f57494fbd7d5c20deecbf6cbbd892883c3cfa02e0c29cd6dcc0d7bc2730e9"
+        }
+      ],
+      "html": {
+        "path": ".build/review-20261027/integration-candidate-66.html",
+        "sha256": "20ff55f5072398e18bca9665348c4cc671f5efad4244f278921a13ae23cbec3d",
+        "bytes": 6737396
+      },
       "evidence": [],
-      "allStatesAccepted": false
+      "allStatesAccepted": false,
+      "metadata": {
+        "reviewRequestId": "LAW128-02",
+        "completed": true,
+        "scopedOnly": true
+      }
     },
     {
       "componentID": "LAW128-TARGET",
@@ -673681,24 +673918,29 @@
         "view": "law",
         "tab": "search"
       },
-      "lifecycle": "review128-planned",
-      "definitionStage": "2026-10-27 direct request, prior acceptance not inherited",
+      "lifecycle": "review128-scoped-reviewed",
+      "definitionStage": "current C66 source and scoped native/live-member observation; not all-state acceptance",
       "purpose": {
         "userTask": "법령 검색 대상",
         "reference": "LAW128-02",
         "decision": "approved-purpose-verification-pending"
       },
       "informationSufficiency": {
-        "status": "notrun"
+        "status": "scoped-reviewed",
+        "scope": "Four explicit user requests and recorded connected consumers",
+        "remaining": [
+          "Other members/all dynamic states not universally accepted"
+        ]
       },
       "wording": {
-        "status": "notrun"
+        "status": "scoped-pass",
+        "scope": "Current Korean labels and meaning checked against actual source values/user action"
       },
       "geometry": {
-        "alignment": "notrun",
-        "size": "notrun",
-        "scroll": "notrun",
-        "keyboard": "notrun"
+        "alignment": "scoped-pass",
+        "size": "scoped-pass",
+        "scroll": "Scoped native evidence; final existing owner panel also read",
+        "keyboard": "Only recorded native/real paths accepted"
       },
       "consumers": [
         "search",
@@ -673717,30 +673959,107 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            {
+              "file": "src/law-monitor.js",
+              "sha256": "2ab877ae579aa75bf70948cce9c7f1c030e2277d4d3b82a312608bd144f6d380"
+            },
+            {
+              "file": "src/law-search.css",
+              "sha256": "ed3417a750fa0b69c4d0288b2a03868739d888d42f9ffe377d655f9110e99d5c"
+            },
+            {
+              "file": "server/center-services.mjs",
+              "sha256": "90173b443d04c87f989def69c3b87ebb8df8cb355cee15b00f58c9e809799aa3"
+            },
+            {
+              "file": "server/law-collector.mjs",
+              "sha256": "07f594000f060cbce3560d03a5b8a89dfc65a3a9d03b2e94c9db4f0cb0d34213"
+            },
+            {
+              "file": "server/law-watch.mjs",
+              "sha256": "64d12017a40a373bd0bb60300091b271f36762f8c619fab9e2fc7c2aadf216dc"
+            },
+            {
+              "file": "server/maintenance-runtime.mjs",
+              "sha256": "810f57494fbd7d5c20deecbf6cbbd892883c3cfa02e0c29cd6dcc0d7bc2730e9"
+            }
+          ],
+          "scope": "Current sources only"
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            {
+              "path": ".build/center-20261020/logic-2026-10-27T08-46-48.430Z.json",
+              "sha256": "6a0f041539631253840d80a56e8eb430f33223deb73a01d3b1671fcbaec43fef"
+            }
+          ],
+          "scope": "209 suites, not 209 unique business functions"
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scoped-pass",
+          "evidence": [
+            {
+              "path": ".build/review-20261027/law-browser-1793090787718/evidence.json",
+              "sha256": "bbaf63232f8db76f32ec7a50c5f02e3bb0f47a4d6211502c1f6d55ee6ec97e7c"
+            }
+          ],
+          "scope": "Exact C66 native3 plus actual3-provider/C65 save/C66 readback",
+          "allStatesAccepted": false
         },
         "actualServer": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scoped-pass",
+          "evidence": [
+            ".build/review-20261027/live-member-acceptance.json",
+            ".build/review-20261027/db-after-law-add.json"
+          ],
+          "scope": "One existing owner; law active195/projectlinks2; workspace revision34/hash unchanged; no all-member acceptance"
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "not-run-engine-unchanged",
+          "scope": "Report print/template hashes and four output models preserved; no fresh actual PDF or installed Excel claim"
         }
       },
-      "source": [],
-      "html": null,
+      "source": [
+        {
+          "file": "src/law-monitor.js",
+          "sha256": "2ab877ae579aa75bf70948cce9c7f1c030e2277d4d3b82a312608bd144f6d380"
+        },
+        {
+          "file": "src/law-search.css",
+          "sha256": "ed3417a750fa0b69c4d0288b2a03868739d888d42f9ffe377d655f9110e99d5c"
+        },
+        {
+          "file": "server/center-services.mjs",
+          "sha256": "90173b443d04c87f989def69c3b87ebb8df8cb355cee15b00f58c9e809799aa3"
+        },
+        {
+          "file": "server/law-collector.mjs",
+          "sha256": "07f594000f060cbce3560d03a5b8a89dfc65a3a9d03b2e94c9db4f0cb0d34213"
+        },
+        {
+          "file": "server/law-watch.mjs",
+          "sha256": "64d12017a40a373bd0bb60300091b271f36762f8c619fab9e2fc7c2aadf216dc"
+        },
+        {
+          "file": "server/maintenance-runtime.mjs",
+          "sha256": "810f57494fbd7d5c20deecbf6cbbd892883c3cfa02e0c29cd6dcc0d7bc2730e9"
+        }
+      ],
+      "html": {
+        "path": ".build/review-20261027/integration-candidate-66.html",
+        "sha256": "20ff55f5072398e18bca9665348c4cc671f5efad4244f278921a13ae23cbec3d",
+        "bytes": 6737396
+      },
       "evidence": [],
-      "allStatesAccepted": false
+      "allStatesAccepted": false,
+      "metadata": {
+        "reviewRequestId": "LAW128-02",
+        "completed": false,
+        "scopedOnly": true
+      }
     },
     {
       "componentID": "LAW128-QUERY",
@@ -673751,24 +674070,29 @@
         "view": "law",
         "tab": "search"
       },
-      "lifecycle": "review128-planned",
-      "definitionStage": "2026-10-27 direct request, prior acceptance not inherited",
+      "lifecycle": "review128-scoped-reviewed",
+      "definitionStage": "current C66 source and scoped native/live-member observation; not all-state acceptance",
       "purpose": {
         "userTask": "법령 검색어",
         "reference": "LAW128-02",
         "decision": "approved-purpose-verification-pending"
       },
       "informationSufficiency": {
-        "status": "notrun"
+        "status": "scoped-reviewed",
+        "scope": "Four explicit user requests and recorded connected consumers",
+        "remaining": [
+          "Other members/all dynamic states not universally accepted"
+        ]
       },
       "wording": {
-        "status": "notrun"
+        "status": "scoped-pass",
+        "scope": "Current Korean labels and meaning checked against actual source values/user action"
       },
       "geometry": {
-        "alignment": "notrun",
-        "size": "notrun",
-        "scroll": "notrun",
-        "keyboard": "notrun"
+        "alignment": "scoped-pass",
+        "size": "scoped-pass",
+        "scroll": "Scoped native evidence; final existing owner panel also read",
+        "keyboard": "Only recorded native/real paths accepted"
       },
       "consumers": [
         "search",
@@ -673787,30 +674111,107 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            {
+              "file": "src/law-monitor.js",
+              "sha256": "2ab877ae579aa75bf70948cce9c7f1c030e2277d4d3b82a312608bd144f6d380"
+            },
+            {
+              "file": "src/law-search.css",
+              "sha256": "ed3417a750fa0b69c4d0288b2a03868739d888d42f9ffe377d655f9110e99d5c"
+            },
+            {
+              "file": "server/center-services.mjs",
+              "sha256": "90173b443d04c87f989def69c3b87ebb8df8cb355cee15b00f58c9e809799aa3"
+            },
+            {
+              "file": "server/law-collector.mjs",
+              "sha256": "07f594000f060cbce3560d03a5b8a89dfc65a3a9d03b2e94c9db4f0cb0d34213"
+            },
+            {
+              "file": "server/law-watch.mjs",
+              "sha256": "64d12017a40a373bd0bb60300091b271f36762f8c619fab9e2fc7c2aadf216dc"
+            },
+            {
+              "file": "server/maintenance-runtime.mjs",
+              "sha256": "810f57494fbd7d5c20deecbf6cbbd892883c3cfa02e0c29cd6dcc0d7bc2730e9"
+            }
+          ],
+          "scope": "Current sources only"
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            {
+              "path": ".build/center-20261020/logic-2026-10-27T08-46-48.430Z.json",
+              "sha256": "6a0f041539631253840d80a56e8eb430f33223deb73a01d3b1671fcbaec43fef"
+            }
+          ],
+          "scope": "209 suites, not 209 unique business functions"
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scoped-pass",
+          "evidence": [
+            {
+              "path": ".build/review-20261027/law-browser-1793090787718/evidence.json",
+              "sha256": "bbaf63232f8db76f32ec7a50c5f02e3bb0f47a4d6211502c1f6d55ee6ec97e7c"
+            }
+          ],
+          "scope": "Exact C66 native3 plus actual3-provider/C65 save/C66 readback",
+          "allStatesAccepted": false
         },
         "actualServer": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scoped-pass",
+          "evidence": [
+            ".build/review-20261027/live-member-acceptance.json",
+            ".build/review-20261027/db-after-law-add.json"
+          ],
+          "scope": "One existing owner; law active195/projectlinks2; workspace revision34/hash unchanged; no all-member acceptance"
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "not-run-engine-unchanged",
+          "scope": "Report print/template hashes and four output models preserved; no fresh actual PDF or installed Excel claim"
         }
       },
-      "source": [],
-      "html": null,
+      "source": [
+        {
+          "file": "src/law-monitor.js",
+          "sha256": "2ab877ae579aa75bf70948cce9c7f1c030e2277d4d3b82a312608bd144f6d380"
+        },
+        {
+          "file": "src/law-search.css",
+          "sha256": "ed3417a750fa0b69c4d0288b2a03868739d888d42f9ffe377d655f9110e99d5c"
+        },
+        {
+          "file": "server/center-services.mjs",
+          "sha256": "90173b443d04c87f989def69c3b87ebb8df8cb355cee15b00f58c9e809799aa3"
+        },
+        {
+          "file": "server/law-collector.mjs",
+          "sha256": "07f594000f060cbce3560d03a5b8a89dfc65a3a9d03b2e94c9db4f0cb0d34213"
+        },
+        {
+          "file": "server/law-watch.mjs",
+          "sha256": "64d12017a40a373bd0bb60300091b271f36762f8c619fab9e2fc7c2aadf216dc"
+        },
+        {
+          "file": "server/maintenance-runtime.mjs",
+          "sha256": "810f57494fbd7d5c20deecbf6cbbd892883c3cfa02e0c29cd6dcc0d7bc2730e9"
+        }
+      ],
+      "html": {
+        "path": ".build/review-20261027/integration-candidate-66.html",
+        "sha256": "20ff55f5072398e18bca9665348c4cc671f5efad4244f278921a13ae23cbec3d",
+        "bytes": 6737396
+      },
       "evidence": [],
-      "allStatesAccepted": false
+      "allStatesAccepted": false,
+      "metadata": {
+        "reviewRequestId": "LAW128-02",
+        "completed": false,
+        "scopedOnly": true
+      }
     },
     {
       "componentID": "LAW128-RESULTS",
@@ -673821,24 +674222,29 @@
         "view": "law",
         "tab": "search"
       },
-      "lifecycle": "review128-planned",
-      "definitionStage": "2026-10-27 direct request, prior acceptance not inherited",
+      "lifecycle": "review128-scoped-reviewed",
+      "definitionStage": "current C66 source and scoped native/live-member observation; not all-state acceptance",
       "purpose": {
         "userTask": "공식 검색 결과·원문",
         "reference": "LAW128-02",
         "decision": "approved-purpose-verification-pending"
       },
       "informationSufficiency": {
-        "status": "notrun"
+        "status": "scoped-reviewed",
+        "scope": "Four explicit user requests and recorded connected consumers",
+        "remaining": [
+          "Other members/all dynamic states not universally accepted"
+        ]
       },
       "wording": {
-        "status": "notrun"
+        "status": "scoped-pass",
+        "scope": "Current Korean labels and meaning checked against actual source values/user action"
       },
       "geometry": {
-        "alignment": "notrun",
-        "size": "notrun",
-        "scroll": "notrun",
-        "keyboard": "notrun"
+        "alignment": "scoped-pass",
+        "size": "scoped-pass",
+        "scroll": "Scoped native evidence; final existing owner panel also read",
+        "keyboard": "Only recorded native/real paths accepted"
       },
       "consumers": [
         "search",
@@ -673857,30 +674263,107 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            {
+              "file": "src/law-monitor.js",
+              "sha256": "2ab877ae579aa75bf70948cce9c7f1c030e2277d4d3b82a312608bd144f6d380"
+            },
+            {
+              "file": "src/law-search.css",
+              "sha256": "ed3417a750fa0b69c4d0288b2a03868739d888d42f9ffe377d655f9110e99d5c"
+            },
+            {
+              "file": "server/center-services.mjs",
+              "sha256": "90173b443d04c87f989def69c3b87ebb8df8cb355cee15b00f58c9e809799aa3"
+            },
+            {
+              "file": "server/law-collector.mjs",
+              "sha256": "07f594000f060cbce3560d03a5b8a89dfc65a3a9d03b2e94c9db4f0cb0d34213"
+            },
+            {
+              "file": "server/law-watch.mjs",
+              "sha256": "64d12017a40a373bd0bb60300091b271f36762f8c619fab9e2fc7c2aadf216dc"
+            },
+            {
+              "file": "server/maintenance-runtime.mjs",
+              "sha256": "810f57494fbd7d5c20deecbf6cbbd892883c3cfa02e0c29cd6dcc0d7bc2730e9"
+            }
+          ],
+          "scope": "Current sources only"
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            {
+              "path": ".build/center-20261020/logic-2026-10-27T08-46-48.430Z.json",
+              "sha256": "6a0f041539631253840d80a56e8eb430f33223deb73a01d3b1671fcbaec43fef"
+            }
+          ],
+          "scope": "209 suites, not 209 unique business functions"
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scoped-pass",
+          "evidence": [
+            {
+              "path": ".build/review-20261027/law-browser-1793090787718/evidence.json",
+              "sha256": "bbaf63232f8db76f32ec7a50c5f02e3bb0f47a4d6211502c1f6d55ee6ec97e7c"
+            }
+          ],
+          "scope": "Exact C66 native3 plus actual3-provider/C65 save/C66 readback",
+          "allStatesAccepted": false
         },
         "actualServer": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scoped-pass",
+          "evidence": [
+            ".build/review-20261027/live-member-acceptance.json",
+            ".build/review-20261027/db-after-law-add.json"
+          ],
+          "scope": "One existing owner; law active195/projectlinks2; workspace revision34/hash unchanged; no all-member acceptance"
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "not-run-engine-unchanged",
+          "scope": "Report print/template hashes and four output models preserved; no fresh actual PDF or installed Excel claim"
         }
       },
-      "source": [],
-      "html": null,
+      "source": [
+        {
+          "file": "src/law-monitor.js",
+          "sha256": "2ab877ae579aa75bf70948cce9c7f1c030e2277d4d3b82a312608bd144f6d380"
+        },
+        {
+          "file": "src/law-search.css",
+          "sha256": "ed3417a750fa0b69c4d0288b2a03868739d888d42f9ffe377d655f9110e99d5c"
+        },
+        {
+          "file": "server/center-services.mjs",
+          "sha256": "90173b443d04c87f989def69c3b87ebb8df8cb355cee15b00f58c9e809799aa3"
+        },
+        {
+          "file": "server/law-collector.mjs",
+          "sha256": "07f594000f060cbce3560d03a5b8a89dfc65a3a9d03b2e94c9db4f0cb0d34213"
+        },
+        {
+          "file": "server/law-watch.mjs",
+          "sha256": "64d12017a40a373bd0bb60300091b271f36762f8c619fab9e2fc7c2aadf216dc"
+        },
+        {
+          "file": "server/maintenance-runtime.mjs",
+          "sha256": "810f57494fbd7d5c20deecbf6cbbd892883c3cfa02e0c29cd6dcc0d7bc2730e9"
+        }
+      ],
+      "html": {
+        "path": ".build/review-20261027/integration-candidate-66.html",
+        "sha256": "20ff55f5072398e18bca9665348c4cc671f5efad4244f278921a13ae23cbec3d",
+        "bytes": 6737396
+      },
       "evidence": [],
-      "allStatesAccepted": false
+      "allStatesAccepted": false,
+      "metadata": {
+        "reviewRequestId": "LAW128-02",
+        "completed": false,
+        "scopedOnly": true
+      }
     },
     {
       "componentID": "LAW128-PAGES",
@@ -673891,24 +674374,29 @@
         "view": "law",
         "tab": "search"
       },
-      "lifecycle": "review128-planned",
-      "definitionStage": "2026-10-27 direct request, prior acceptance not inherited",
+      "lifecycle": "review128-scoped-reviewed",
+      "definitionStage": "current C66 source and scoped native/live-member observation; not all-state acceptance",
       "purpose": {
         "userTask": "검색 결과 페이지",
-        "reference": "LAW128-RESULTS",
+        "reference": "LAW128-02",
         "decision": "approved-purpose-verification-pending"
       },
       "informationSufficiency": {
-        "status": "notrun"
+        "status": "scoped-reviewed",
+        "scope": "Four explicit user requests and recorded connected consumers",
+        "remaining": [
+          "Other members/all dynamic states not universally accepted"
+        ]
       },
       "wording": {
-        "status": "notrun"
+        "status": "scoped-pass",
+        "scope": "Current Korean labels and meaning checked against actual source values/user action"
       },
       "geometry": {
-        "alignment": "notrun",
-        "size": "notrun",
-        "scroll": "notrun",
-        "keyboard": "notrun"
+        "alignment": "scoped-pass",
+        "size": "scoped-pass",
+        "scroll": "Scoped native evidence; final existing owner panel also read",
+        "keyboard": "Only recorded native/real paths accepted"
       },
       "consumers": [
         "search",
@@ -673927,30 +674415,107 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            {
+              "file": "src/law-monitor.js",
+              "sha256": "2ab877ae579aa75bf70948cce9c7f1c030e2277d4d3b82a312608bd144f6d380"
+            },
+            {
+              "file": "src/law-search.css",
+              "sha256": "ed3417a750fa0b69c4d0288b2a03868739d888d42f9ffe377d655f9110e99d5c"
+            },
+            {
+              "file": "server/center-services.mjs",
+              "sha256": "90173b443d04c87f989def69c3b87ebb8df8cb355cee15b00f58c9e809799aa3"
+            },
+            {
+              "file": "server/law-collector.mjs",
+              "sha256": "07f594000f060cbce3560d03a5b8a89dfc65a3a9d03b2e94c9db4f0cb0d34213"
+            },
+            {
+              "file": "server/law-watch.mjs",
+              "sha256": "64d12017a40a373bd0bb60300091b271f36762f8c619fab9e2fc7c2aadf216dc"
+            },
+            {
+              "file": "server/maintenance-runtime.mjs",
+              "sha256": "810f57494fbd7d5c20deecbf6cbbd892883c3cfa02e0c29cd6dcc0d7bc2730e9"
+            }
+          ],
+          "scope": "Current sources only"
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            {
+              "path": ".build/center-20261020/logic-2026-10-27T08-46-48.430Z.json",
+              "sha256": "6a0f041539631253840d80a56e8eb430f33223deb73a01d3b1671fcbaec43fef"
+            }
+          ],
+          "scope": "209 suites, not 209 unique business functions"
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scoped-pass",
+          "evidence": [
+            {
+              "path": ".build/review-20261027/law-browser-1793090787718/evidence.json",
+              "sha256": "bbaf63232f8db76f32ec7a50c5f02e3bb0f47a4d6211502c1f6d55ee6ec97e7c"
+            }
+          ],
+          "scope": "Exact C66 native3 plus actual3-provider/C65 save/C66 readback",
+          "allStatesAccepted": false
         },
         "actualServer": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scoped-pass",
+          "evidence": [
+            ".build/review-20261027/live-member-acceptance.json",
+            ".build/review-20261027/db-after-law-add.json"
+          ],
+          "scope": "One existing owner; law active195/projectlinks2; workspace revision34/hash unchanged; no all-member acceptance"
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "not-run-engine-unchanged",
+          "scope": "Report print/template hashes and four output models preserved; no fresh actual PDF or installed Excel claim"
         }
       },
-      "source": [],
-      "html": null,
+      "source": [
+        {
+          "file": "src/law-monitor.js",
+          "sha256": "2ab877ae579aa75bf70948cce9c7f1c030e2277d4d3b82a312608bd144f6d380"
+        },
+        {
+          "file": "src/law-search.css",
+          "sha256": "ed3417a750fa0b69c4d0288b2a03868739d888d42f9ffe377d655f9110e99d5c"
+        },
+        {
+          "file": "server/center-services.mjs",
+          "sha256": "90173b443d04c87f989def69c3b87ebb8df8cb355cee15b00f58c9e809799aa3"
+        },
+        {
+          "file": "server/law-collector.mjs",
+          "sha256": "07f594000f060cbce3560d03a5b8a89dfc65a3a9d03b2e94c9db4f0cb0d34213"
+        },
+        {
+          "file": "server/law-watch.mjs",
+          "sha256": "64d12017a40a373bd0bb60300091b271f36762f8c619fab9e2fc7c2aadf216dc"
+        },
+        {
+          "file": "server/maintenance-runtime.mjs",
+          "sha256": "810f57494fbd7d5c20deecbf6cbbd892883c3cfa02e0c29cd6dcc0d7bc2730e9"
+        }
+      ],
+      "html": {
+        "path": ".build/review-20261027/integration-candidate-66.html",
+        "sha256": "20ff55f5072398e18bca9665348c4cc671f5efad4244f278921a13ae23cbec3d",
+        "bytes": 6737396
+      },
       "evidence": [],
-      "allStatesAccepted": false
+      "allStatesAccepted": false,
+      "metadata": {
+        "reviewRequestId": "LAW128-02",
+        "completed": false,
+        "scopedOnly": true
+      }
     },
     {
       "componentID": "LAW128-ADD",
@@ -673961,24 +674526,29 @@
         "view": "law",
         "tab": "search"
       },
-      "lifecycle": "review128-planned",
-      "definitionStage": "2026-10-27 direct request, prior acceptance not inherited",
+      "lifecycle": "review128-scoped-reviewed",
+      "definitionStage": "current C66 source and scoped native/live-member observation; not all-state acceptance",
       "purpose": {
         "userTask": "관리 법령 추가",
-        "reference": "LAW128-RESULTS",
+        "reference": "LAW128-02",
         "decision": "approved-purpose-verification-pending"
       },
       "informationSufficiency": {
-        "status": "notrun"
+        "status": "scoped-reviewed",
+        "scope": "Four explicit user requests and recorded connected consumers",
+        "remaining": [
+          "Other members/all dynamic states not universally accepted"
+        ]
       },
       "wording": {
-        "status": "notrun"
+        "status": "scoped-pass",
+        "scope": "Current Korean labels and meaning checked against actual source values/user action"
       },
       "geometry": {
-        "alignment": "notrun",
-        "size": "notrun",
-        "scroll": "notrun",
-        "keyboard": "notrun"
+        "alignment": "scoped-pass",
+        "size": "scoped-pass",
+        "scroll": "Scoped native evidence; final existing owner panel also read",
+        "keyboard": "Only recorded native/real paths accepted"
       },
       "consumers": [
         "search",
@@ -673997,30 +674567,107 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            {
+              "file": "src/law-monitor.js",
+              "sha256": "2ab877ae579aa75bf70948cce9c7f1c030e2277d4d3b82a312608bd144f6d380"
+            },
+            {
+              "file": "src/law-search.css",
+              "sha256": "ed3417a750fa0b69c4d0288b2a03868739d888d42f9ffe377d655f9110e99d5c"
+            },
+            {
+              "file": "server/center-services.mjs",
+              "sha256": "90173b443d04c87f989def69c3b87ebb8df8cb355cee15b00f58c9e809799aa3"
+            },
+            {
+              "file": "server/law-collector.mjs",
+              "sha256": "07f594000f060cbce3560d03a5b8a89dfc65a3a9d03b2e94c9db4f0cb0d34213"
+            },
+            {
+              "file": "server/law-watch.mjs",
+              "sha256": "64d12017a40a373bd0bb60300091b271f36762f8c619fab9e2fc7c2aadf216dc"
+            },
+            {
+              "file": "server/maintenance-runtime.mjs",
+              "sha256": "810f57494fbd7d5c20deecbf6cbbd892883c3cfa02e0c29cd6dcc0d7bc2730e9"
+            }
+          ],
+          "scope": "Current sources only"
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            {
+              "path": ".build/center-20261020/logic-2026-10-27T08-46-48.430Z.json",
+              "sha256": "6a0f041539631253840d80a56e8eb430f33223deb73a01d3b1671fcbaec43fef"
+            }
+          ],
+          "scope": "209 suites, not 209 unique business functions"
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scoped-pass",
+          "evidence": [
+            {
+              "path": ".build/review-20261027/law-browser-1793090787718/evidence.json",
+              "sha256": "bbaf63232f8db76f32ec7a50c5f02e3bb0f47a4d6211502c1f6d55ee6ec97e7c"
+            }
+          ],
+          "scope": "Exact C66 native3 plus actual3-provider/C65 save/C66 readback",
+          "allStatesAccepted": false
         },
         "actualServer": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scoped-pass",
+          "evidence": [
+            ".build/review-20261027/live-member-acceptance.json",
+            ".build/review-20261027/db-after-law-add.json"
+          ],
+          "scope": "One existing owner; law active195/projectlinks2; workspace revision34/hash unchanged; no all-member acceptance"
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "not-run-engine-unchanged",
+          "scope": "Report print/template hashes and four output models preserved; no fresh actual PDF or installed Excel claim"
         }
       },
-      "source": [],
-      "html": null,
+      "source": [
+        {
+          "file": "src/law-monitor.js",
+          "sha256": "2ab877ae579aa75bf70948cce9c7f1c030e2277d4d3b82a312608bd144f6d380"
+        },
+        {
+          "file": "src/law-search.css",
+          "sha256": "ed3417a750fa0b69c4d0288b2a03868739d888d42f9ffe377d655f9110e99d5c"
+        },
+        {
+          "file": "server/center-services.mjs",
+          "sha256": "90173b443d04c87f989def69c3b87ebb8df8cb355cee15b00f58c9e809799aa3"
+        },
+        {
+          "file": "server/law-collector.mjs",
+          "sha256": "07f594000f060cbce3560d03a5b8a89dfc65a3a9d03b2e94c9db4f0cb0d34213"
+        },
+        {
+          "file": "server/law-watch.mjs",
+          "sha256": "64d12017a40a373bd0bb60300091b271f36762f8c619fab9e2fc7c2aadf216dc"
+        },
+        {
+          "file": "server/maintenance-runtime.mjs",
+          "sha256": "810f57494fbd7d5c20deecbf6cbbd892883c3cfa02e0c29cd6dcc0d7bc2730e9"
+        }
+      ],
+      "html": {
+        "path": ".build/review-20261027/integration-candidate-66.html",
+        "sha256": "20ff55f5072398e18bca9665348c4cc671f5efad4244f278921a13ae23cbec3d",
+        "bytes": 6737396
+      },
       "evidence": [],
-      "allStatesAccepted": false
+      "allStatesAccepted": false,
+      "metadata": {
+        "reviewRequestId": "LAW128-02",
+        "completed": false,
+        "scopedOnly": true
+      }
     },
     {
       "componentID": "LAW128-CATALOG",
@@ -674031,24 +674678,29 @@
         "view": "law",
         "tab": "search"
       },
-      "lifecycle": "review128-planned",
-      "definitionStage": "2026-10-27 direct request, prior acceptance not inherited",
+      "lifecycle": "review128-scoped-reviewed",
+      "definitionStage": "current C66 source and scoped native/live-member observation; not all-state acceptance",
       "purpose": {
         "userTask": "추가 후 관리 법령·일일 확인 연결",
-        "reference": "LAW128-ADD",
+        "reference": "LAW128-02",
         "decision": "approved-purpose-verification-pending"
       },
       "informationSufficiency": {
-        "status": "notrun"
+        "status": "scoped-reviewed",
+        "scope": "Four explicit user requests and recorded connected consumers",
+        "remaining": [
+          "Other members/all dynamic states not universally accepted"
+        ]
       },
       "wording": {
-        "status": "notrun"
+        "status": "scoped-pass",
+        "scope": "Current Korean labels and meaning checked against actual source values/user action"
       },
       "geometry": {
-        "alignment": "notrun",
-        "size": "notrun",
-        "scroll": "notrun",
-        "keyboard": "notrun"
+        "alignment": "scoped-pass",
+        "size": "scoped-pass",
+        "scroll": "Scoped native evidence; final existing owner panel also read",
+        "keyboard": "Only recorded native/real paths accepted"
       },
       "consumers": [
         "search",
@@ -674067,30 +674719,107 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            {
+              "file": "src/law-monitor.js",
+              "sha256": "2ab877ae579aa75bf70948cce9c7f1c030e2277d4d3b82a312608bd144f6d380"
+            },
+            {
+              "file": "src/law-search.css",
+              "sha256": "ed3417a750fa0b69c4d0288b2a03868739d888d42f9ffe377d655f9110e99d5c"
+            },
+            {
+              "file": "server/center-services.mjs",
+              "sha256": "90173b443d04c87f989def69c3b87ebb8df8cb355cee15b00f58c9e809799aa3"
+            },
+            {
+              "file": "server/law-collector.mjs",
+              "sha256": "07f594000f060cbce3560d03a5b8a89dfc65a3a9d03b2e94c9db4f0cb0d34213"
+            },
+            {
+              "file": "server/law-watch.mjs",
+              "sha256": "64d12017a40a373bd0bb60300091b271f36762f8c619fab9e2fc7c2aadf216dc"
+            },
+            {
+              "file": "server/maintenance-runtime.mjs",
+              "sha256": "810f57494fbd7d5c20deecbf6cbbd892883c3cfa02e0c29cd6dcc0d7bc2730e9"
+            }
+          ],
+          "scope": "Current sources only"
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            {
+              "path": ".build/center-20261020/logic-2026-10-27T08-46-48.430Z.json",
+              "sha256": "6a0f041539631253840d80a56e8eb430f33223deb73a01d3b1671fcbaec43fef"
+            }
+          ],
+          "scope": "209 suites, not 209 unique business functions"
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scoped-pass",
+          "evidence": [
+            {
+              "path": ".build/review-20261027/law-browser-1793090787718/evidence.json",
+              "sha256": "bbaf63232f8db76f32ec7a50c5f02e3bb0f47a4d6211502c1f6d55ee6ec97e7c"
+            }
+          ],
+          "scope": "Exact C66 native3 plus actual3-provider/C65 save/C66 readback",
+          "allStatesAccepted": false
         },
         "actualServer": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scoped-pass",
+          "evidence": [
+            ".build/review-20261027/live-member-acceptance.json",
+            ".build/review-20261027/db-after-law-add.json"
+          ],
+          "scope": "One existing owner; law active195/projectlinks2; workspace revision34/hash unchanged; no all-member acceptance"
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "not-run-engine-unchanged",
+          "scope": "Report print/template hashes and four output models preserved; no fresh actual PDF or installed Excel claim"
         }
       },
-      "source": [],
-      "html": null,
+      "source": [
+        {
+          "file": "src/law-monitor.js",
+          "sha256": "2ab877ae579aa75bf70948cce9c7f1c030e2277d4d3b82a312608bd144f6d380"
+        },
+        {
+          "file": "src/law-search.css",
+          "sha256": "ed3417a750fa0b69c4d0288b2a03868739d888d42f9ffe377d655f9110e99d5c"
+        },
+        {
+          "file": "server/center-services.mjs",
+          "sha256": "90173b443d04c87f989def69c3b87ebb8df8cb355cee15b00f58c9e809799aa3"
+        },
+        {
+          "file": "server/law-collector.mjs",
+          "sha256": "07f594000f060cbce3560d03a5b8a89dfc65a3a9d03b2e94c9db4f0cb0d34213"
+        },
+        {
+          "file": "server/law-watch.mjs",
+          "sha256": "64d12017a40a373bd0bb60300091b271f36762f8c619fab9e2fc7c2aadf216dc"
+        },
+        {
+          "file": "server/maintenance-runtime.mjs",
+          "sha256": "810f57494fbd7d5c20deecbf6cbbd892883c3cfa02e0c29cd6dcc0d7bc2730e9"
+        }
+      ],
+      "html": {
+        "path": ".build/review-20261027/integration-candidate-66.html",
+        "sha256": "20ff55f5072398e18bca9665348c4cc671f5efad4244f278921a13ae23cbec3d",
+        "bytes": 6737396
+      },
       "evidence": [],
-      "allStatesAccepted": false
+      "allStatesAccepted": false,
+      "metadata": {
+        "reviewRequestId": "LAW128-02",
+        "completed": false,
+        "scopedOnly": true
+      }
     },
     {
       "componentID": "NTF128-03",
@@ -674101,24 +674830,29 @@
         "view": "notification",
         "tab": null
       },
-      "lifecycle": "review128-planned",
-      "definitionStage": "2026-10-27 direct request, prior acceptance not inherited",
+      "lifecycle": "review128-scoped-reviewed",
+      "definitionStage": "current C66 source and scoped native/live-member observation; not all-state acceptance",
       "purpose": {
         "userTask": "로그인 후 본인 알림 건수",
         "reference": "NTF128-03",
         "decision": "approved-purpose-verification-pending"
       },
       "informationSufficiency": {
-        "status": "notrun"
+        "status": "scoped-reviewed",
+        "scope": "Four explicit user requests and recorded connected consumers",
+        "remaining": [
+          "Other members/all dynamic states not universally accepted"
+        ]
       },
       "wording": {
-        "status": "notrun"
+        "status": "scoped-pass",
+        "scope": "Current Korean labels and meaning checked against actual source values/user action"
       },
       "geometry": {
-        "alignment": "notrun",
-        "size": "notrun",
-        "scroll": "notrun",
-        "keyboard": "notrun"
+        "alignment": "scoped-pass",
+        "size": "scoped-pass",
+        "scroll": "Scoped native evidence; final existing owner panel also read",
+        "keyboard": "Only recorded native/real paths accepted"
       },
       "consumers": [
         "bootstrap",
@@ -674137,30 +674871,67 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            {
+              "file": "src/notifications.js",
+              "sha256": "71acce3733d077e590c0098586d2da0d46519591204027b0f8c072285c4298a1"
+            }
+          ],
+          "scope": "Current sources only"
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            {
+              "path": ".build/center-20261020/logic-2026-10-27T08-46-48.430Z.json",
+              "sha256": "6a0f041539631253840d80a56e8eb430f33223deb73a01d3b1671fcbaec43fef"
+            }
+          ],
+          "scope": "209 suites, not 209 unique business functions"
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scoped-pass",
+          "evidence": [
+            {
+              "path": ".build/review-20261027/navigation-notifications-1793089464355/evidence.json",
+              "sha256": "5e4bdd34bda094e6ad2d6c2c0785f0259e9578c6f65e14dc10180a3076fcbeba"
+            }
+          ],
+          "scope": "C64 four sizes; two-module C66 bridge and current formal member repeat",
+          "allStatesAccepted": false
         },
         "actualServer": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scoped-pass",
+          "evidence": [
+            ".build/review-20261027/live-member-acceptance.json",
+            ".build/review-20261027/db-after-law-add.json"
+          ],
+          "scope": "One existing owner; law active195/projectlinks2; workspace revision34/hash unchanged; no all-member acceptance"
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "not-run-engine-unchanged",
+          "scope": "Report print/template hashes and four output models preserved; no fresh actual PDF or installed Excel claim"
         }
       },
-      "source": [],
-      "html": null,
+      "source": [
+        {
+          "file": "src/notifications.js",
+          "sha256": "71acce3733d077e590c0098586d2da0d46519591204027b0f8c072285c4298a1"
+        }
+      ],
+      "html": {
+        "path": ".build/review-20261027/integration-candidate-66.html",
+        "sha256": "20ff55f5072398e18bca9665348c4cc671f5efad4244f278921a13ae23cbec3d",
+        "bytes": 6737396
+      },
       "evidence": [],
-      "allStatesAccepted": false
+      "allStatesAccepted": false,
+      "metadata": {
+        "reviewRequestId": "NTF128-03",
+        "completed": true,
+        "scopedOnly": true
+      }
     },
     {
       "componentID": "NTF128-BADGE",
@@ -674171,24 +674942,29 @@
         "view": "notification",
         "tab": null
       },
-      "lifecycle": "review128-planned",
-      "definitionStage": "2026-10-27 direct request, prior acceptance not inherited",
+      "lifecycle": "review128-scoped-reviewed",
+      "definitionStage": "current C66 source and scoped native/live-member observation; not all-state acceptance",
       "purpose": {
         "userTask": "클릭 전 미읽음 건수",
         "reference": "NTF128-03",
         "decision": "approved-purpose-verification-pending"
       },
       "informationSufficiency": {
-        "status": "notrun"
+        "status": "scoped-reviewed",
+        "scope": "Four explicit user requests and recorded connected consumers",
+        "remaining": [
+          "Other members/all dynamic states not universally accepted"
+        ]
       },
       "wording": {
-        "status": "notrun"
+        "status": "scoped-pass",
+        "scope": "Current Korean labels and meaning checked against actual source values/user action"
       },
       "geometry": {
-        "alignment": "notrun",
-        "size": "notrun",
-        "scroll": "notrun",
-        "keyboard": "notrun"
+        "alignment": "scoped-pass",
+        "size": "scoped-pass",
+        "scroll": "Scoped native evidence; final existing owner panel also read",
+        "keyboard": "Only recorded native/real paths accepted"
       },
       "consumers": [
         "bootstrap",
@@ -674207,30 +674983,67 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            {
+              "file": "src/notifications.js",
+              "sha256": "71acce3733d077e590c0098586d2da0d46519591204027b0f8c072285c4298a1"
+            }
+          ],
+          "scope": "Current sources only"
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            {
+              "path": ".build/center-20261020/logic-2026-10-27T08-46-48.430Z.json",
+              "sha256": "6a0f041539631253840d80a56e8eb430f33223deb73a01d3b1671fcbaec43fef"
+            }
+          ],
+          "scope": "209 suites, not 209 unique business functions"
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scoped-pass",
+          "evidence": [
+            {
+              "path": ".build/review-20261027/navigation-notifications-1793089464355/evidence.json",
+              "sha256": "5e4bdd34bda094e6ad2d6c2c0785f0259e9578c6f65e14dc10180a3076fcbeba"
+            }
+          ],
+          "scope": "C64 four sizes; two-module C66 bridge and current formal member repeat",
+          "allStatesAccepted": false
         },
         "actualServer": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scoped-pass",
+          "evidence": [
+            ".build/review-20261027/live-member-acceptance.json",
+            ".build/review-20261027/db-after-law-add.json"
+          ],
+          "scope": "One existing owner; law active195/projectlinks2; workspace revision34/hash unchanged; no all-member acceptance"
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "not-run-engine-unchanged",
+          "scope": "Report print/template hashes and four output models preserved; no fresh actual PDF or installed Excel claim"
         }
       },
-      "source": [],
-      "html": null,
+      "source": [
+        {
+          "file": "src/notifications.js",
+          "sha256": "71acce3733d077e590c0098586d2da0d46519591204027b0f8c072285c4298a1"
+        }
+      ],
+      "html": {
+        "path": ".build/review-20261027/integration-candidate-66.html",
+        "sha256": "20ff55f5072398e18bca9665348c4cc671f5efad4244f278921a13ae23cbec3d",
+        "bytes": 6737396
+      },
       "evidence": [],
-      "allStatesAccepted": false
+      "allStatesAccepted": false,
+      "metadata": {
+        "reviewRequestId": "NTF128-03",
+        "completed": false,
+        "scopedOnly": true
+      }
     },
     {
       "componentID": "NTF128-INBOX",
@@ -674241,24 +675054,29 @@
         "view": "notification",
         "tab": null
       },
-      "lifecycle": "review128-planned",
-      "definitionStage": "2026-10-27 direct request, prior acceptance not inherited",
+      "lifecycle": "review128-scoped-reviewed",
+      "definitionStage": "current C66 source and scoped native/live-member observation; not all-state acceptance",
       "purpose": {
         "userTask": "읽음·삭제 후 건수·세션 일치",
         "reference": "NTF128-03",
         "decision": "approved-purpose-verification-pending"
       },
       "informationSufficiency": {
-        "status": "notrun"
+        "status": "scoped-reviewed",
+        "scope": "Four explicit user requests and recorded connected consumers",
+        "remaining": [
+          "Other members/all dynamic states not universally accepted"
+        ]
       },
       "wording": {
-        "status": "notrun"
+        "status": "scoped-pass",
+        "scope": "Current Korean labels and meaning checked against actual source values/user action"
       },
       "geometry": {
-        "alignment": "notrun",
-        "size": "notrun",
-        "scroll": "notrun",
-        "keyboard": "notrun"
+        "alignment": "scoped-pass",
+        "size": "scoped-pass",
+        "scroll": "Scoped native evidence; final existing owner panel also read",
+        "keyboard": "Only recorded native/real paths accepted"
       },
       "consumers": [
         "bootstrap",
@@ -674277,30 +675095,67 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            {
+              "file": "src/notifications.js",
+              "sha256": "71acce3733d077e590c0098586d2da0d46519591204027b0f8c072285c4298a1"
+            }
+          ],
+          "scope": "Current sources only"
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            {
+              "path": ".build/center-20261020/logic-2026-10-27T08-46-48.430Z.json",
+              "sha256": "6a0f041539631253840d80a56e8eb430f33223deb73a01d3b1671fcbaec43fef"
+            }
+          ],
+          "scope": "209 suites, not 209 unique business functions"
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scoped-pass",
+          "evidence": [
+            {
+              "path": ".build/review-20261027/navigation-notifications-1793089464355/evidence.json",
+              "sha256": "5e4bdd34bda094e6ad2d6c2c0785f0259e9578c6f65e14dc10180a3076fcbeba"
+            }
+          ],
+          "scope": "C64 four sizes; two-module C66 bridge and current formal member repeat",
+          "allStatesAccepted": false
         },
         "actualServer": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scoped-pass",
+          "evidence": [
+            ".build/review-20261027/live-member-acceptance.json",
+            ".build/review-20261027/db-after-law-add.json"
+          ],
+          "scope": "One existing owner; law active195/projectlinks2; workspace revision34/hash unchanged; no all-member acceptance"
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "not-run-engine-unchanged",
+          "scope": "Report print/template hashes and four output models preserved; no fresh actual PDF or installed Excel claim"
         }
       },
-      "source": [],
-      "html": null,
+      "source": [
+        {
+          "file": "src/notifications.js",
+          "sha256": "71acce3733d077e590c0098586d2da0d46519591204027b0f8c072285c4298a1"
+        }
+      ],
+      "html": {
+        "path": ".build/review-20261027/integration-candidate-66.html",
+        "sha256": "20ff55f5072398e18bca9665348c4cc671f5efad4244f278921a13ae23cbec3d",
+        "bytes": 6737396
+      },
       "evidence": [],
-      "allStatesAccepted": false
+      "allStatesAccepted": false,
+      "metadata": {
+        "reviewRequestId": "NTF128-03",
+        "completed": false,
+        "scopedOnly": true
+      }
     },
     {
       "componentID": "RPT128-04",
@@ -674311,24 +675166,29 @@
         "view": "report",
         "tab": "generate"
       },
-      "lifecycle": "review128-planned",
-      "definitionStage": "2026-10-27 direct request, prior acceptance not inherited",
+      "lifecycle": "review128-scoped-reviewed",
+      "definitionStage": "current C66 source and scoped native/live-member observation; not all-state acceptance",
       "purpose": {
         "userTask": "국토부 보고서 작업화면",
         "reference": "RPT128-04",
         "decision": "approved-purpose-verification-pending"
       },
       "informationSufficiency": {
-        "status": "notrun"
+        "status": "scoped-reviewed",
+        "scope": "Four explicit user requests and recorded connected consumers",
+        "remaining": [
+          "Other members/all dynamic states not universally accepted"
+        ]
       },
       "wording": {
-        "status": "notrun"
+        "status": "scoped-pass",
+        "scope": "Current Korean labels and meaning checked against actual source values/user action"
       },
       "geometry": {
-        "alignment": "notrun",
-        "size": "notrun",
-        "scroll": "notrun",
-        "keyboard": "notrun"
+        "alignment": "scoped-pass",
+        "size": "scoped-pass",
+        "scroll": "Native5+boundary7; 390 popup horizontal-scroll destination1 separately verified",
+        "keyboard": "Only recorded native/real paths accepted"
       },
       "consumers": [
         "selection",
@@ -674346,30 +675206,91 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            {
+              "file": "src/report.js",
+              "sha256": "8ebab5fa92a2d0a631b8e7f9c2ca6817e780bda5dae296e0a7fa41c75d2c31e4"
+            },
+            {
+              "file": "src/report-editor.css",
+              "sha256": "4fd1b5780898a724222c323a3420589cf6e7ee59eb55f6248a38a8a491d07545"
+            },
+            {
+              "file": "src/report-form.js",
+              "sha256": "e3b65cfddfd5d4b3ce84a4c88c6e18bad15179e0a58d00f905485999da4b6891"
+            },
+            {
+              "file": "src/report.css",
+              "sha256": "db6bb5c2c549186af55e7704ed619b0c26bdc38c4934ca718e99fe5a20987c05"
+            }
+          ],
+          "scope": "Current sources only"
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            {
+              "path": ".build/center-20261020/logic-2026-10-27T08-46-48.430Z.json",
+              "sha256": "6a0f041539631253840d80a56e8eb430f33223deb73a01d3b1671fcbaec43fef"
+            }
+          ],
+          "scope": "209 suites, not 209 unique business functions"
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scoped-pass",
+          "evidence": [
+            {
+              "path": ".build/review-20261027/report128/2026-10-27T08-49-31-608Z/evidence.json",
+              "sha256": "fbc089031062f86df9d22d3f61a9746ce681dc221dfa1f7ae89488969bc8fe6f"
+            }
+          ],
+          "scope": "Exact C66 native5+boundaries7 and actual owner source table",
+          "allStatesAccepted": false
         },
         "actualServer": {
-          "status": "notrun",
-          "evidence": []
+          "status": "not-applicable-to-layout",
+          "evidence": [
+            ".build/review-20261027/live-member-acceptance.json",
+            ".build/review-20261027/db-after-law-add.json"
+          ],
+          "scope": "One existing owner; law active195/projectlinks2; workspace revision34/hash unchanged; no all-member acceptance"
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "not-run-engine-unchanged",
+          "scope": "Report print/template hashes and four output models preserved; no fresh actual PDF or installed Excel claim"
         }
       },
-      "source": [],
-      "html": null,
+      "source": [
+        {
+          "file": "src/report.js",
+          "sha256": "8ebab5fa92a2d0a631b8e7f9c2ca6817e780bda5dae296e0a7fa41c75d2c31e4"
+        },
+        {
+          "file": "src/report-editor.css",
+          "sha256": "4fd1b5780898a724222c323a3420589cf6e7ee59eb55f6248a38a8a491d07545"
+        },
+        {
+          "file": "src/report-form.js",
+          "sha256": "e3b65cfddfd5d4b3ce84a4c88c6e18bad15179e0a58d00f905485999da4b6891"
+        },
+        {
+          "file": "src/report.css",
+          "sha256": "db6bb5c2c549186af55e7704ed619b0c26bdc38c4934ca718e99fe5a20987c05"
+        }
+      ],
+      "html": {
+        "path": ".build/review-20261027/integration-candidate-66.html",
+        "sha256": "20ff55f5072398e18bca9665348c4cc671f5efad4244f278921a13ae23cbec3d",
+        "bytes": 6737396
+      },
       "evidence": [],
-      "allStatesAccepted": false
+      "allStatesAccepted": false,
+      "metadata": {
+        "reviewRequestId": "RPT128-04",
+        "completed": true,
+        "scopedOnly": true
+      }
     },
     {
       "componentID": "RPT128-SELECT",
@@ -674380,24 +675301,29 @@
         "view": "report",
         "tab": "generate"
       },
-      "lifecycle": "review128-planned",
-      "definitionStage": "2026-10-27 direct request, prior acceptance not inherited",
+      "lifecycle": "review128-scoped-reviewed",
+      "definitionStage": "current C66 source and scoped native/live-member observation; not all-state acceptance",
       "purpose": {
         "userTask": "보고서 종류·기간·기준 선택",
         "reference": "RPT128-04",
         "decision": "approved-purpose-verification-pending"
       },
       "informationSufficiency": {
-        "status": "notrun"
+        "status": "scoped-reviewed",
+        "scope": "Four explicit user requests and recorded connected consumers",
+        "remaining": [
+          "Other members/all dynamic states not universally accepted"
+        ]
       },
       "wording": {
-        "status": "notrun"
+        "status": "scoped-pass",
+        "scope": "Current Korean labels and meaning checked against actual source values/user action"
       },
       "geometry": {
-        "alignment": "notrun",
-        "size": "notrun",
-        "scroll": "notrun",
-        "keyboard": "notrun"
+        "alignment": "scoped-pass",
+        "size": "scoped-pass",
+        "scroll": "Native5+boundary7; 390 popup horizontal-scroll destination1 separately verified",
+        "keyboard": "Only recorded native/real paths accepted"
       },
       "consumers": [
         "selection",
@@ -674415,30 +675341,91 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            {
+              "file": "src/report.js",
+              "sha256": "8ebab5fa92a2d0a631b8e7f9c2ca6817e780bda5dae296e0a7fa41c75d2c31e4"
+            },
+            {
+              "file": "src/report-editor.css",
+              "sha256": "4fd1b5780898a724222c323a3420589cf6e7ee59eb55f6248a38a8a491d07545"
+            },
+            {
+              "file": "src/report-form.js",
+              "sha256": "e3b65cfddfd5d4b3ce84a4c88c6e18bad15179e0a58d00f905485999da4b6891"
+            },
+            {
+              "file": "src/report.css",
+              "sha256": "db6bb5c2c549186af55e7704ed619b0c26bdc38c4934ca718e99fe5a20987c05"
+            }
+          ],
+          "scope": "Current sources only"
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            {
+              "path": ".build/center-20261020/logic-2026-10-27T08-46-48.430Z.json",
+              "sha256": "6a0f041539631253840d80a56e8eb430f33223deb73a01d3b1671fcbaec43fef"
+            }
+          ],
+          "scope": "209 suites, not 209 unique business functions"
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scoped-pass",
+          "evidence": [
+            {
+              "path": ".build/review-20261027/report128/2026-10-27T08-49-31-608Z/evidence.json",
+              "sha256": "fbc089031062f86df9d22d3f61a9746ce681dc221dfa1f7ae89488969bc8fe6f"
+            }
+          ],
+          "scope": "Exact C66 native5+boundaries7 and actual owner source table",
+          "allStatesAccepted": false
         },
         "actualServer": {
-          "status": "notrun",
-          "evidence": []
+          "status": "not-applicable-to-layout",
+          "evidence": [
+            ".build/review-20261027/live-member-acceptance.json",
+            ".build/review-20261027/db-after-law-add.json"
+          ],
+          "scope": "One existing owner; law active195/projectlinks2; workspace revision34/hash unchanged; no all-member acceptance"
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "not-run-engine-unchanged",
+          "scope": "Report print/template hashes and four output models preserved; no fresh actual PDF or installed Excel claim"
         }
       },
-      "source": [],
-      "html": null,
+      "source": [
+        {
+          "file": "src/report.js",
+          "sha256": "8ebab5fa92a2d0a631b8e7f9c2ca6817e780bda5dae296e0a7fa41c75d2c31e4"
+        },
+        {
+          "file": "src/report-editor.css",
+          "sha256": "4fd1b5780898a724222c323a3420589cf6e7ee59eb55f6248a38a8a491d07545"
+        },
+        {
+          "file": "src/report-form.js",
+          "sha256": "e3b65cfddfd5d4b3ce84a4c88c6e18bad15179e0a58d00f905485999da4b6891"
+        },
+        {
+          "file": "src/report.css",
+          "sha256": "db6bb5c2c549186af55e7704ed619b0c26bdc38c4934ca718e99fe5a20987c05"
+        }
+      ],
+      "html": {
+        "path": ".build/review-20261027/integration-candidate-66.html",
+        "sha256": "20ff55f5072398e18bca9665348c4cc671f5efad4244f278921a13ae23cbec3d",
+        "bytes": 6737396
+      },
       "evidence": [],
-      "allStatesAccepted": false
+      "allStatesAccepted": false,
+      "metadata": {
+        "reviewRequestId": "RPT128-04",
+        "completed": false,
+        "scopedOnly": true
+      }
     },
     {
       "componentID": "RPT128-TOOLS",
@@ -674449,24 +675436,29 @@
         "view": "report",
         "tab": "generate"
       },
-      "lifecycle": "review128-planned",
-      "definitionStage": "2026-10-27 direct request, prior acceptance not inherited",
+      "lifecycle": "review128-scoped-reviewed",
+      "definitionStage": "current C66 source and scoped native/live-member observation; not all-state acceptance",
       "purpose": {
         "userTask": "수정·출력·작성본 저장",
         "reference": "RPT128-04",
         "decision": "approved-purpose-verification-pending"
       },
       "informationSufficiency": {
-        "status": "notrun"
+        "status": "scoped-reviewed",
+        "scope": "Four explicit user requests and recorded connected consumers",
+        "remaining": [
+          "Other members/all dynamic states not universally accepted"
+        ]
       },
       "wording": {
-        "status": "notrun"
+        "status": "scoped-pass",
+        "scope": "Current Korean labels and meaning checked against actual source values/user action"
       },
       "geometry": {
-        "alignment": "notrun",
-        "size": "notrun",
-        "scroll": "notrun",
-        "keyboard": "notrun"
+        "alignment": "scoped-pass",
+        "size": "scoped-pass",
+        "scroll": "Native5+boundary7; 390 popup horizontal-scroll destination1 separately verified",
+        "keyboard": "Only recorded native/real paths accepted"
       },
       "consumers": [
         "selection",
@@ -674484,30 +675476,91 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            {
+              "file": "src/report.js",
+              "sha256": "8ebab5fa92a2d0a631b8e7f9c2ca6817e780bda5dae296e0a7fa41c75d2c31e4"
+            },
+            {
+              "file": "src/report-editor.css",
+              "sha256": "4fd1b5780898a724222c323a3420589cf6e7ee59eb55f6248a38a8a491d07545"
+            },
+            {
+              "file": "src/report-form.js",
+              "sha256": "e3b65cfddfd5d4b3ce84a4c88c6e18bad15179e0a58d00f905485999da4b6891"
+            },
+            {
+              "file": "src/report.css",
+              "sha256": "db6bb5c2c549186af55e7704ed619b0c26bdc38c4934ca718e99fe5a20987c05"
+            }
+          ],
+          "scope": "Current sources only"
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            {
+              "path": ".build/center-20261020/logic-2026-10-27T08-46-48.430Z.json",
+              "sha256": "6a0f041539631253840d80a56e8eb430f33223deb73a01d3b1671fcbaec43fef"
+            }
+          ],
+          "scope": "209 suites, not 209 unique business functions"
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scoped-pass",
+          "evidence": [
+            {
+              "path": ".build/review-20261027/report128/2026-10-27T08-49-31-608Z/evidence.json",
+              "sha256": "fbc089031062f86df9d22d3f61a9746ce681dc221dfa1f7ae89488969bc8fe6f"
+            }
+          ],
+          "scope": "Exact C66 native5+boundaries7 and actual owner source table",
+          "allStatesAccepted": false
         },
         "actualServer": {
-          "status": "notrun",
-          "evidence": []
+          "status": "not-applicable-to-layout",
+          "evidence": [
+            ".build/review-20261027/live-member-acceptance.json",
+            ".build/review-20261027/db-after-law-add.json"
+          ],
+          "scope": "One existing owner; law active195/projectlinks2; workspace revision34/hash unchanged; no all-member acceptance"
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "not-run-engine-unchanged",
+          "scope": "Report print/template hashes and four output models preserved; no fresh actual PDF or installed Excel claim"
         }
       },
-      "source": [],
-      "html": null,
+      "source": [
+        {
+          "file": "src/report.js",
+          "sha256": "8ebab5fa92a2d0a631b8e7f9c2ca6817e780bda5dae296e0a7fa41c75d2c31e4"
+        },
+        {
+          "file": "src/report-editor.css",
+          "sha256": "4fd1b5780898a724222c323a3420589cf6e7ee59eb55f6248a38a8a491d07545"
+        },
+        {
+          "file": "src/report-form.js",
+          "sha256": "e3b65cfddfd5d4b3ce84a4c88c6e18bad15179e0a58d00f905485999da4b6891"
+        },
+        {
+          "file": "src/report.css",
+          "sha256": "db6bb5c2c549186af55e7704ed619b0c26bdc38c4934ca718e99fe5a20987c05"
+        }
+      ],
+      "html": {
+        "path": ".build/review-20261027/integration-candidate-66.html",
+        "sha256": "20ff55f5072398e18bca9665348c4cc671f5efad4244f278921a13ae23cbec3d",
+        "bytes": 6737396
+      },
       "evidence": [],
-      "allStatesAccepted": false
+      "allStatesAccepted": false,
+      "metadata": {
+        "reviewRequestId": "RPT128-04",
+        "completed": false,
+        "scopedOnly": true
+      }
     },
     {
       "componentID": "RPT128-SOURCE",
@@ -674518,24 +675571,29 @@
         "view": "report",
         "tab": "generate"
       },
-      "lifecycle": "review128-planned",
-      "definitionStage": "2026-10-27 direct request, prior acceptance not inherited",
+      "lifecycle": "review128-scoped-reviewed",
+      "definitionStage": "current C66 source and scoped native/live-member observation; not all-state acceptance",
       "purpose": {
         "userTask": "기재자료·저장본",
         "reference": "RPT128-04",
         "decision": "approved-purpose-verification-pending"
       },
       "informationSufficiency": {
-        "status": "notrun"
+        "status": "scoped-reviewed",
+        "scope": "Four explicit user requests and recorded connected consumers",
+        "remaining": [
+          "Other members/all dynamic states not universally accepted"
+        ]
       },
       "wording": {
-        "status": "notrun"
+        "status": "scoped-pass",
+        "scope": "Current Korean labels and meaning checked against actual source values/user action"
       },
       "geometry": {
-        "alignment": "notrun",
-        "size": "notrun",
-        "scroll": "notrun",
-        "keyboard": "notrun"
+        "alignment": "scoped-pass",
+        "size": "scoped-pass",
+        "scroll": "Native5+boundary7; 390 popup horizontal-scroll destination1 separately verified",
+        "keyboard": "Only recorded native/real paths accepted"
       },
       "consumers": [
         "selection",
@@ -674553,30 +675611,91 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            {
+              "file": "src/report.js",
+              "sha256": "8ebab5fa92a2d0a631b8e7f9c2ca6817e780bda5dae296e0a7fa41c75d2c31e4"
+            },
+            {
+              "file": "src/report-editor.css",
+              "sha256": "4fd1b5780898a724222c323a3420589cf6e7ee59eb55f6248a38a8a491d07545"
+            },
+            {
+              "file": "src/report-form.js",
+              "sha256": "e3b65cfddfd5d4b3ce84a4c88c6e18bad15179e0a58d00f905485999da4b6891"
+            },
+            {
+              "file": "src/report.css",
+              "sha256": "db6bb5c2c549186af55e7704ed619b0c26bdc38c4934ca718e99fe5a20987c05"
+            }
+          ],
+          "scope": "Current sources only"
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            {
+              "path": ".build/center-20261020/logic-2026-10-27T08-46-48.430Z.json",
+              "sha256": "6a0f041539631253840d80a56e8eb430f33223deb73a01d3b1671fcbaec43fef"
+            }
+          ],
+          "scope": "209 suites, not 209 unique business functions"
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scoped-pass",
+          "evidence": [
+            {
+              "path": ".build/review-20261027/report128/2026-10-27T08-49-31-608Z/evidence.json",
+              "sha256": "fbc089031062f86df9d22d3f61a9746ce681dc221dfa1f7ae89488969bc8fe6f"
+            }
+          ],
+          "scope": "Exact C66 native5+boundaries7 and actual owner source table",
+          "allStatesAccepted": false
         },
         "actualServer": {
-          "status": "notrun",
-          "evidence": []
+          "status": "not-applicable-to-layout",
+          "evidence": [
+            ".build/review-20261027/live-member-acceptance.json",
+            ".build/review-20261027/db-after-law-add.json"
+          ],
+          "scope": "One existing owner; law active195/projectlinks2; workspace revision34/hash unchanged; no all-member acceptance"
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "not-run-engine-unchanged",
+          "scope": "Report print/template hashes and four output models preserved; no fresh actual PDF or installed Excel claim"
         }
       },
-      "source": [],
-      "html": null,
+      "source": [
+        {
+          "file": "src/report.js",
+          "sha256": "8ebab5fa92a2d0a631b8e7f9c2ca6817e780bda5dae296e0a7fa41c75d2c31e4"
+        },
+        {
+          "file": "src/report-editor.css",
+          "sha256": "4fd1b5780898a724222c323a3420589cf6e7ee59eb55f6248a38a8a491d07545"
+        },
+        {
+          "file": "src/report-form.js",
+          "sha256": "e3b65cfddfd5d4b3ce84a4c88c6e18bad15179e0a58d00f905485999da4b6891"
+        },
+        {
+          "file": "src/report.css",
+          "sha256": "db6bb5c2c549186af55e7704ed619b0c26bdc38c4934ca718e99fe5a20987c05"
+        }
+      ],
+      "html": {
+        "path": ".build/review-20261027/integration-candidate-66.html",
+        "sha256": "20ff55f5072398e18bca9665348c4cc671f5efad4244f278921a13ae23cbec3d",
+        "bytes": 6737396
+      },
       "evidence": [],
-      "allStatesAccepted": false
+      "allStatesAccepted": false,
+      "metadata": {
+        "reviewRequestId": "RPT128-04",
+        "completed": false,
+        "scopedOnly": true
+      }
     },
     {
       "componentID": "RPT128-EDITOR",
@@ -674587,24 +675706,29 @@
         "view": "report",
         "tab": "generate"
       },
-      "lifecycle": "review128-planned",
-      "definitionStage": "2026-10-27 direct request, prior acceptance not inherited",
+      "lifecycle": "review128-scoped-reviewed",
+      "definitionStage": "current C66 source and scoped native/live-member observation; not all-state acceptance",
       "purpose": {
         "userTask": "보고서 편집·취소·플랫폼 반영",
         "reference": "RPT128-04",
         "decision": "approved-purpose-verification-pending"
       },
       "informationSufficiency": {
-        "status": "notrun"
+        "status": "scoped-reviewed",
+        "scope": "Four explicit user requests and recorded connected consumers",
+        "remaining": [
+          "Other members/all dynamic states not universally accepted"
+        ]
       },
       "wording": {
-        "status": "notrun"
+        "status": "scoped-pass",
+        "scope": "Current Korean labels and meaning checked against actual source values/user action"
       },
       "geometry": {
-        "alignment": "notrun",
-        "size": "notrun",
-        "scroll": "notrun",
-        "keyboard": "notrun"
+        "alignment": "scoped-pass",
+        "size": "scoped-pass",
+        "scroll": "Native5+boundary7; 390 popup horizontal-scroll destination1 separately verified",
+        "keyboard": "Only recorded native/real paths accepted"
       },
       "consumers": [
         "selection",
@@ -674622,30 +675746,91 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            {
+              "file": "src/report.js",
+              "sha256": "8ebab5fa92a2d0a631b8e7f9c2ca6817e780bda5dae296e0a7fa41c75d2c31e4"
+            },
+            {
+              "file": "src/report-editor.css",
+              "sha256": "4fd1b5780898a724222c323a3420589cf6e7ee59eb55f6248a38a8a491d07545"
+            },
+            {
+              "file": "src/report-form.js",
+              "sha256": "e3b65cfddfd5d4b3ce84a4c88c6e18bad15179e0a58d00f905485999da4b6891"
+            },
+            {
+              "file": "src/report.css",
+              "sha256": "db6bb5c2c549186af55e7704ed619b0c26bdc38c4934ca718e99fe5a20987c05"
+            }
+          ],
+          "scope": "Current sources only"
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            {
+              "path": ".build/center-20261020/logic-2026-10-27T08-46-48.430Z.json",
+              "sha256": "6a0f041539631253840d80a56e8eb430f33223deb73a01d3b1671fcbaec43fef"
+            }
+          ],
+          "scope": "209 suites, not 209 unique business functions"
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scoped-pass",
+          "evidence": [
+            {
+              "path": ".build/review-20261027/report128/2026-10-27T08-49-31-608Z/evidence.json",
+              "sha256": "fbc089031062f86df9d22d3f61a9746ce681dc221dfa1f7ae89488969bc8fe6f"
+            }
+          ],
+          "scope": "Exact C66 native5+boundaries7 and actual owner source table",
+          "allStatesAccepted": false
         },
         "actualServer": {
-          "status": "notrun",
-          "evidence": []
+          "status": "not-applicable-to-layout",
+          "evidence": [
+            ".build/review-20261027/live-member-acceptance.json",
+            ".build/review-20261027/db-after-law-add.json"
+          ],
+          "scope": "One existing owner; law active195/projectlinks2; workspace revision34/hash unchanged; no all-member acceptance"
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "not-run-engine-unchanged",
+          "scope": "Report print/template hashes and four output models preserved; no fresh actual PDF or installed Excel claim"
         }
       },
-      "source": [],
-      "html": null,
+      "source": [
+        {
+          "file": "src/report.js",
+          "sha256": "8ebab5fa92a2d0a631b8e7f9c2ca6817e780bda5dae296e0a7fa41c75d2c31e4"
+        },
+        {
+          "file": "src/report-editor.css",
+          "sha256": "4fd1b5780898a724222c323a3420589cf6e7ee59eb55f6248a38a8a491d07545"
+        },
+        {
+          "file": "src/report-form.js",
+          "sha256": "e3b65cfddfd5d4b3ce84a4c88c6e18bad15179e0a58d00f905485999da4b6891"
+        },
+        {
+          "file": "src/report.css",
+          "sha256": "db6bb5c2c549186af55e7704ed619b0c26bdc38c4934ca718e99fe5a20987c05"
+        }
+      ],
+      "html": {
+        "path": ".build/review-20261027/integration-candidate-66.html",
+        "sha256": "20ff55f5072398e18bca9665348c4cc671f5efad4244f278921a13ae23cbec3d",
+        "bytes": 6737396
+      },
       "evidence": [],
-      "allStatesAccepted": false
+      "allStatesAccepted": false,
+      "metadata": {
+        "reviewRequestId": "RPT128-04",
+        "completed": false,
+        "scopedOnly": true
+      }
     },
     {
       "componentID": "LAW128-LINK",
@@ -674656,24 +675841,29 @@
         "view": "law",
         "tab": "search"
       },
-      "lifecycle": "review128-planned",
-      "definitionStage": "2026-10-27 direct request, prior acceptance not inherited",
+      "lifecycle": "review128-scoped-reviewed",
+      "definitionStage": "current C66 source and scoped native/live-member observation; not all-state acceptance",
       "purpose": {
         "userTask": "기존 관리 법령을 현재 사업에 연결",
         "reference": "LAW128-02",
         "decision": "approved-purpose-verification-pending"
       },
       "informationSufficiency": {
-        "status": "notrun"
+        "status": "scoped-reviewed",
+        "scope": "Four explicit user requests and recorded connected consumers",
+        "remaining": [
+          "Other members/all dynamic states not universally accepted"
+        ]
       },
       "wording": {
-        "status": "notrun"
+        "status": "scoped-pass",
+        "scope": "Current Korean labels and meaning checked against actual source values/user action"
       },
       "geometry": {
-        "alignment": "notrun",
-        "size": "notrun",
-        "scroll": "notrun",
-        "keyboard": "notrun"
+        "alignment": "scoped-pass",
+        "size": "scoped-pass",
+        "scroll": "Scoped native evidence; final existing owner panel also read",
+        "keyboard": "Only recorded native/real paths accepted"
       },
       "consumers": [
         "global managed catalog",
@@ -674690,30 +675880,107 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            {
+              "file": "src/law-monitor.js",
+              "sha256": "2ab877ae579aa75bf70948cce9c7f1c030e2277d4d3b82a312608bd144f6d380"
+            },
+            {
+              "file": "src/law-search.css",
+              "sha256": "ed3417a750fa0b69c4d0288b2a03868739d888d42f9ffe377d655f9110e99d5c"
+            },
+            {
+              "file": "server/center-services.mjs",
+              "sha256": "90173b443d04c87f989def69c3b87ebb8df8cb355cee15b00f58c9e809799aa3"
+            },
+            {
+              "file": "server/law-collector.mjs",
+              "sha256": "07f594000f060cbce3560d03a5b8a89dfc65a3a9d03b2e94c9db4f0cb0d34213"
+            },
+            {
+              "file": "server/law-watch.mjs",
+              "sha256": "64d12017a40a373bd0bb60300091b271f36762f8c619fab9e2fc7c2aadf216dc"
+            },
+            {
+              "file": "server/maintenance-runtime.mjs",
+              "sha256": "810f57494fbd7d5c20deecbf6cbbd892883c3cfa02e0c29cd6dcc0d7bc2730e9"
+            }
+          ],
+          "scope": "Current sources only"
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            {
+              "path": ".build/center-20261020/logic-2026-10-27T08-46-48.430Z.json",
+              "sha256": "6a0f041539631253840d80a56e8eb430f33223deb73a01d3b1671fcbaec43fef"
+            }
+          ],
+          "scope": "209 suites, not 209 unique business functions"
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scoped-pass",
+          "evidence": [
+            {
+              "path": ".build/review-20261027/law-browser-1793090787718/evidence.json",
+              "sha256": "bbaf63232f8db76f32ec7a50c5f02e3bb0f47a4d6211502c1f6d55ee6ec97e7c"
+            }
+          ],
+          "scope": "Exact C66 native3 plus actual3-provider/C65 save/C66 readback",
+          "allStatesAccepted": false
         },
         "actualServer": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scoped-pass",
+          "evidence": [
+            ".build/review-20261027/live-member-acceptance.json",
+            ".build/review-20261027/db-after-law-add.json"
+          ],
+          "scope": "One existing owner; law active195/projectlinks2; workspace revision34/hash unchanged; no all-member acceptance"
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "not-run-engine-unchanged",
+          "scope": "Report print/template hashes and four output models preserved; no fresh actual PDF or installed Excel claim"
         }
       },
-      "source": [],
-      "html": null,
+      "source": [
+        {
+          "file": "src/law-monitor.js",
+          "sha256": "2ab877ae579aa75bf70948cce9c7f1c030e2277d4d3b82a312608bd144f6d380"
+        },
+        {
+          "file": "src/law-search.css",
+          "sha256": "ed3417a750fa0b69c4d0288b2a03868739d888d42f9ffe377d655f9110e99d5c"
+        },
+        {
+          "file": "server/center-services.mjs",
+          "sha256": "90173b443d04c87f989def69c3b87ebb8df8cb355cee15b00f58c9e809799aa3"
+        },
+        {
+          "file": "server/law-collector.mjs",
+          "sha256": "07f594000f060cbce3560d03a5b8a89dfc65a3a9d03b2e94c9db4f0cb0d34213"
+        },
+        {
+          "file": "server/law-watch.mjs",
+          "sha256": "64d12017a40a373bd0bb60300091b271f36762f8c619fab9e2fc7c2aadf216dc"
+        },
+        {
+          "file": "server/maintenance-runtime.mjs",
+          "sha256": "810f57494fbd7d5c20deecbf6cbbd892883c3cfa02e0c29cd6dcc0d7bc2730e9"
+        }
+      ],
+      "html": {
+        "path": ".build/review-20261027/integration-candidate-66.html",
+        "sha256": "20ff55f5072398e18bca9665348c4cc671f5efad4244f278921a13ae23cbec3d",
+        "bytes": 6737396
+      },
       "evidence": [],
-      "allStatesAccepted": false
+      "allStatesAccepted": false,
+      "metadata": {
+        "reviewRequestId": "LAW128-02",
+        "completed": false,
+        "scopedOnly": true
+      }
     },
     {
       "componentID": "RPT128-SOURCE-TABLE",
@@ -674724,24 +675991,30 @@
         "view": "report",
         "tab": "generate"
       },
-      "lifecycle": "review128-planned",
-      "definitionStage": "2026-10-27 direct request, prior acceptance not inherited",
+      "lifecycle": "review128-scoped-reviewed",
+      "definitionStage": "current C66 source and scoped native/live-member observation; not all-state acceptance",
       "purpose": {
         "userTask": "기재자료 확인 표·열",
         "reference": "RPT128-04",
         "decision": "approved-purpose-linked-child-review"
       },
       "informationSufficiency": {
-        "status": "notrun"
+        "status": "scoped-reviewed",
+        "scope": "Actual source count/unit labels and corresponding unchanged navigation definitions; all child destination edits not newly executed",
+        "remaining": [
+          "Other members/all dynamic states not universally accepted",
+          "Every linked destination edit/save/cancel not re-executed by this narrow display change"
+        ]
       },
       "wording": {
-        "status": "notrun"
+        "status": "scoped-pass",
+        "scope": "Current Korean labels and meaning checked against actual source values/user action"
       },
       "geometry": {
-        "alignment": "notrun",
-        "size": "notrun",
-        "scroll": "notrun",
-        "keyboard": "notrun"
+        "alignment": "scoped-pass",
+        "size": "scoped-pass",
+        "scroll": "Native5+boundary7; 390 popup horizontal-scroll destination1 separately verified",
+        "keyboard": "Only recorded native/real paths accepted"
       },
       "consumers": [
         "source summary display",
@@ -674759,30 +676032,95 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            {
+              "file": "src/report.js",
+              "sha256": "8ebab5fa92a2d0a631b8e7f9c2ca6817e780bda5dae296e0a7fa41c75d2c31e4"
+            },
+            {
+              "file": "src/report-editor.css",
+              "sha256": "4fd1b5780898a724222c323a3420589cf6e7ee59eb55f6248a38a8a491d07545"
+            },
+            {
+              "file": "src/report-form.js",
+              "sha256": "e3b65cfddfd5d4b3ce84a4c88c6e18bad15179e0a58d00f905485999da4b6891"
+            },
+            {
+              "file": "src/report.css",
+              "sha256": "db6bb5c2c549186af55e7704ed619b0c26bdc38c4934ca718e99fe5a20987c05"
+            }
+          ],
+          "scope": "Current sources only"
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            {
+              "path": ".build/center-20261020/logic-2026-10-27T08-46-48.430Z.json",
+              "sha256": "6a0f041539631253840d80a56e8eb430f33223deb73a01d3b1671fcbaec43fef"
+            }
+          ],
+          "scope": "209 suites, not 209 unique business functions"
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scoped-pass",
+          "evidence": [
+            {
+              "path": ".build/review-20261027/report128/2026-10-27T08-49-31-608Z/evidence.json",
+              "sha256": "fbc089031062f86df9d22d3f61a9746ce681dc221dfa1f7ae89488969bc8fe6f"
+            }
+          ],
+          "scope": "Exact C66 native5+boundaries7 and actual owner source table",
+          "allStatesAccepted": false
         },
         "actualServer": {
-          "status": "notrun",
-          "evidence": []
+          "status": "not-applicable-to-layout",
+          "evidence": [
+            ".build/review-20261027/live-member-acceptance.json",
+            ".build/review-20261027/db-after-law-add.json"
+          ],
+          "scope": "One existing owner; law active195/projectlinks2; workspace revision34/hash unchanged; no all-member acceptance"
         },
         "output": {
+          "status": "not-run-engine-unchanged",
+          "scope": "Report print/template hashes and four output models preserved; no fresh actual PDF or installed Excel claim"
+        },
+        "childDestinationActions": {
           "status": "notrun",
-          "evidence": []
+          "scope": "Unchanged navigation bindings; this row content and table observation do not execute every downstream edit"
         }
       },
-      "source": [],
-      "html": null,
+      "source": [
+        {
+          "file": "src/report.js",
+          "sha256": "8ebab5fa92a2d0a631b8e7f9c2ca6817e780bda5dae296e0a7fa41c75d2c31e4"
+        },
+        {
+          "file": "src/report-editor.css",
+          "sha256": "4fd1b5780898a724222c323a3420589cf6e7ee59eb55f6248a38a8a491d07545"
+        },
+        {
+          "file": "src/report-form.js",
+          "sha256": "e3b65cfddfd5d4b3ce84a4c88c6e18bad15179e0a58d00f905485999da4b6891"
+        },
+        {
+          "file": "src/report.css",
+          "sha256": "db6bb5c2c549186af55e7704ed619b0c26bdc38c4934ca718e99fe5a20987c05"
+        }
+      ],
+      "html": {
+        "path": ".build/review-20261027/integration-candidate-66.html",
+        "sha256": "20ff55f5072398e18bca9665348c4cc671f5efad4244f278921a13ae23cbec3d",
+        "bytes": 6737396
+      },
       "evidence": [],
-      "allStatesAccepted": false
+      "allStatesAccepted": false,
+      "metadata": {
+        "reviewRequestId": "RPT128-04",
+        "completed": false,
+        "scopedOnly": true
+      }
     },
     {
       "componentID": "RPT128-SOURCE-ENTITY",
@@ -674793,24 +676131,30 @@
         "view": "report",
         "tab": "generate"
       },
-      "lifecycle": "review128-planned",
-      "definitionStage": "2026-10-27 direct request, prior acceptance not inherited",
+      "lifecycle": "review128-scoped-reviewed",
+      "definitionStage": "current C66 source and scoped native/live-member observation; not all-state acceptance",
       "purpose": {
         "userTask": "시행법인·식별정보와 수정 이동",
         "reference": "RPT128-04",
         "decision": "approved-purpose-linked-child-review"
       },
       "informationSufficiency": {
-        "status": "notrun"
+        "status": "scoped-reviewed",
+        "scope": "Actual source count/unit labels and corresponding unchanged navigation definitions; all child destination edits not newly executed",
+        "remaining": [
+          "Other members/all dynamic states not universally accepted",
+          "Every linked destination edit/save/cancel not re-executed by this narrow display change"
+        ]
       },
       "wording": {
-        "status": "notrun"
+        "status": "scoped-pass",
+        "scope": "Current Korean labels and meaning checked against actual source values/user action"
       },
       "geometry": {
-        "alignment": "notrun",
-        "size": "notrun",
-        "scroll": "notrun",
-        "keyboard": "notrun"
+        "alignment": "scoped-pass",
+        "size": "scoped-pass",
+        "scroll": "Native5+boundary7; 390 popup horizontal-scroll destination1 separately verified",
+        "keyboard": "Only recorded native/real paths accepted"
       },
       "consumers": [
         "source summary display",
@@ -674828,30 +676172,95 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            {
+              "file": "src/report.js",
+              "sha256": "8ebab5fa92a2d0a631b8e7f9c2ca6817e780bda5dae296e0a7fa41c75d2c31e4"
+            },
+            {
+              "file": "src/report-editor.css",
+              "sha256": "4fd1b5780898a724222c323a3420589cf6e7ee59eb55f6248a38a8a491d07545"
+            },
+            {
+              "file": "src/report-form.js",
+              "sha256": "e3b65cfddfd5d4b3ce84a4c88c6e18bad15179e0a58d00f905485999da4b6891"
+            },
+            {
+              "file": "src/report.css",
+              "sha256": "db6bb5c2c549186af55e7704ed619b0c26bdc38c4934ca718e99fe5a20987c05"
+            }
+          ],
+          "scope": "Current sources only"
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            {
+              "path": ".build/center-20261020/logic-2026-10-27T08-46-48.430Z.json",
+              "sha256": "6a0f041539631253840d80a56e8eb430f33223deb73a01d3b1671fcbaec43fef"
+            }
+          ],
+          "scope": "209 suites, not 209 unique business functions"
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scoped-pass",
+          "evidence": [
+            {
+              "path": ".build/review-20261027/report128/2026-10-27T08-49-31-608Z/evidence.json",
+              "sha256": "fbc089031062f86df9d22d3f61a9746ce681dc221dfa1f7ae89488969bc8fe6f"
+            }
+          ],
+          "scope": "Exact C66 native5+boundaries7 and actual owner source table",
+          "allStatesAccepted": false
         },
         "actualServer": {
-          "status": "notrun",
-          "evidence": []
+          "status": "not-applicable-to-layout",
+          "evidence": [
+            ".build/review-20261027/live-member-acceptance.json",
+            ".build/review-20261027/db-after-law-add.json"
+          ],
+          "scope": "One existing owner; law active195/projectlinks2; workspace revision34/hash unchanged; no all-member acceptance"
         },
         "output": {
+          "status": "not-run-engine-unchanged",
+          "scope": "Report print/template hashes and four output models preserved; no fresh actual PDF or installed Excel claim"
+        },
+        "childDestinationActions": {
           "status": "notrun",
-          "evidence": []
+          "scope": "Unchanged navigation bindings; this row content and table observation do not execute every downstream edit"
         }
       },
-      "source": [],
-      "html": null,
+      "source": [
+        {
+          "file": "src/report.js",
+          "sha256": "8ebab5fa92a2d0a631b8e7f9c2ca6817e780bda5dae296e0a7fa41c75d2c31e4"
+        },
+        {
+          "file": "src/report-editor.css",
+          "sha256": "4fd1b5780898a724222c323a3420589cf6e7ee59eb55f6248a38a8a491d07545"
+        },
+        {
+          "file": "src/report-form.js",
+          "sha256": "e3b65cfddfd5d4b3ce84a4c88c6e18bad15179e0a58d00f905485999da4b6891"
+        },
+        {
+          "file": "src/report.css",
+          "sha256": "db6bb5c2c549186af55e7704ed619b0c26bdc38c4934ca718e99fe5a20987c05"
+        }
+      ],
+      "html": {
+        "path": ".build/review-20261027/integration-candidate-66.html",
+        "sha256": "20ff55f5072398e18bca9665348c4cc671f5efad4244f278921a13ae23cbec3d",
+        "bytes": 6737396
+      },
       "evidence": [],
-      "allStatesAccepted": false
+      "allStatesAccepted": false,
+      "metadata": {
+        "reviewRequestId": "RPT128-04",
+        "completed": false,
+        "scopedOnly": true
+      }
     },
     {
       "componentID": "RPT128-SOURCE-REPORTER",
@@ -674862,24 +676271,30 @@
         "view": "report",
         "tab": "generate"
       },
-      "lifecycle": "review128-planned",
-      "definitionStage": "2026-10-27 direct request, prior acceptance not inherited",
+      "lifecycle": "review128-scoped-reviewed",
+      "definitionStage": "current C66 source and scoped native/live-member observation; not all-state acceptance",
       "purpose": {
         "userTask": "보고용 사무소·담당자와 보고서 수정",
         "reference": "RPT128-04",
         "decision": "approved-purpose-linked-child-review"
       },
       "informationSufficiency": {
-        "status": "notrun"
+        "status": "scoped-reviewed",
+        "scope": "Actual source count/unit labels and corresponding unchanged navigation definitions; all child destination edits not newly executed",
+        "remaining": [
+          "Other members/all dynamic states not universally accepted",
+          "Every linked destination edit/save/cancel not re-executed by this narrow display change"
+        ]
       },
       "wording": {
-        "status": "notrun"
+        "status": "scoped-pass",
+        "scope": "Current Korean labels and meaning checked against actual source values/user action"
       },
       "geometry": {
-        "alignment": "notrun",
-        "size": "notrun",
-        "scroll": "notrun",
-        "keyboard": "notrun"
+        "alignment": "scoped-pass",
+        "size": "scoped-pass",
+        "scroll": "Native5+boundary7; 390 popup horizontal-scroll destination1 separately verified",
+        "keyboard": "Only recorded native/real paths accepted"
       },
       "consumers": [
         "source summary display",
@@ -674897,30 +676312,95 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            {
+              "file": "src/report.js",
+              "sha256": "8ebab5fa92a2d0a631b8e7f9c2ca6817e780bda5dae296e0a7fa41c75d2c31e4"
+            },
+            {
+              "file": "src/report-editor.css",
+              "sha256": "4fd1b5780898a724222c323a3420589cf6e7ee59eb55f6248a38a8a491d07545"
+            },
+            {
+              "file": "src/report-form.js",
+              "sha256": "e3b65cfddfd5d4b3ce84a4c88c6e18bad15179e0a58d00f905485999da4b6891"
+            },
+            {
+              "file": "src/report.css",
+              "sha256": "db6bb5c2c549186af55e7704ed619b0c26bdc38c4934ca718e99fe5a20987c05"
+            }
+          ],
+          "scope": "Current sources only"
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            {
+              "path": ".build/center-20261020/logic-2026-10-27T08-46-48.430Z.json",
+              "sha256": "6a0f041539631253840d80a56e8eb430f33223deb73a01d3b1671fcbaec43fef"
+            }
+          ],
+          "scope": "209 suites, not 209 unique business functions"
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scoped-pass",
+          "evidence": [
+            {
+              "path": ".build/review-20261027/report128/2026-10-27T08-49-31-608Z/evidence.json",
+              "sha256": "fbc089031062f86df9d22d3f61a9746ce681dc221dfa1f7ae89488969bc8fe6f"
+            }
+          ],
+          "scope": "Exact C66 native5+boundaries7 and actual owner source table",
+          "allStatesAccepted": false
         },
         "actualServer": {
-          "status": "notrun",
-          "evidence": []
+          "status": "not-applicable-to-layout",
+          "evidence": [
+            ".build/review-20261027/live-member-acceptance.json",
+            ".build/review-20261027/db-after-law-add.json"
+          ],
+          "scope": "One existing owner; law active195/projectlinks2; workspace revision34/hash unchanged; no all-member acceptance"
         },
         "output": {
+          "status": "not-run-engine-unchanged",
+          "scope": "Report print/template hashes and four output models preserved; no fresh actual PDF or installed Excel claim"
+        },
+        "childDestinationActions": {
           "status": "notrun",
-          "evidence": []
+          "scope": "Unchanged navigation bindings; this row content and table observation do not execute every downstream edit"
         }
       },
-      "source": [],
-      "html": null,
+      "source": [
+        {
+          "file": "src/report.js",
+          "sha256": "8ebab5fa92a2d0a631b8e7f9c2ca6817e780bda5dae296e0a7fa41c75d2c31e4"
+        },
+        {
+          "file": "src/report-editor.css",
+          "sha256": "4fd1b5780898a724222c323a3420589cf6e7ee59eb55f6248a38a8a491d07545"
+        },
+        {
+          "file": "src/report-form.js",
+          "sha256": "e3b65cfddfd5d4b3ce84a4c88c6e18bad15179e0a58d00f905485999da4b6891"
+        },
+        {
+          "file": "src/report.css",
+          "sha256": "db6bb5c2c549186af55e7704ed619b0c26bdc38c4934ca718e99fe5a20987c05"
+        }
+      ],
+      "html": {
+        "path": ".build/review-20261027/integration-candidate-66.html",
+        "sha256": "20ff55f5072398e18bca9665348c4cc671f5efad4244f278921a13ae23cbec3d",
+        "bytes": 6737396
+      },
       "evidence": [],
-      "allStatesAccepted": false
+      "allStatesAccepted": false,
+      "metadata": {
+        "reviewRequestId": "RPT128-04",
+        "completed": false,
+        "scopedOnly": true
+      }
     },
     {
       "componentID": "RPT128-SOURCE-AREA",
@@ -674931,24 +676411,30 @@
         "view": "report",
         "tab": "generate"
       },
-      "lifecycle": "review128-planned",
-      "definitionStage": "2026-10-27 direct request, prior acceptance not inherited",
+      "lifecycle": "review128-scoped-reviewed",
+      "definitionStage": "current C66 source and scoped native/live-member observation; not all-state acceptance",
       "purpose": {
         "userTask": "사업개요·연면적 원단위/미입력/0",
         "reference": "RPT128-04",
         "decision": "approved-purpose-linked-child-review"
       },
       "informationSufficiency": {
-        "status": "notrun"
+        "status": "scoped-reviewed",
+        "scope": "Actual source count/unit labels and corresponding unchanged navigation definitions; all child destination edits not newly executed",
+        "remaining": [
+          "Other members/all dynamic states not universally accepted",
+          "Every linked destination edit/save/cancel not re-executed by this narrow display change"
+        ]
       },
       "wording": {
-        "status": "notrun"
+        "status": "scoped-pass",
+        "scope": "Current Korean labels and meaning checked against actual source values/user action"
       },
       "geometry": {
-        "alignment": "notrun",
-        "size": "notrun",
-        "scroll": "notrun",
-        "keyboard": "notrun"
+        "alignment": "scoped-pass",
+        "size": "scoped-pass",
+        "scroll": "Native5+boundary7; 390 popup horizontal-scroll destination1 separately verified",
+        "keyboard": "Only recorded native/real paths accepted"
       },
       "consumers": [
         "source summary display",
@@ -674966,30 +676452,95 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            {
+              "file": "src/report.js",
+              "sha256": "8ebab5fa92a2d0a631b8e7f9c2ca6817e780bda5dae296e0a7fa41c75d2c31e4"
+            },
+            {
+              "file": "src/report-editor.css",
+              "sha256": "4fd1b5780898a724222c323a3420589cf6e7ee59eb55f6248a38a8a491d07545"
+            },
+            {
+              "file": "src/report-form.js",
+              "sha256": "e3b65cfddfd5d4b3ce84a4c88c6e18bad15179e0a58d00f905485999da4b6891"
+            },
+            {
+              "file": "src/report.css",
+              "sha256": "db6bb5c2c549186af55e7704ed619b0c26bdc38c4934ca718e99fe5a20987c05"
+            }
+          ],
+          "scope": "Current sources only"
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            {
+              "path": ".build/center-20261020/logic-2026-10-27T08-46-48.430Z.json",
+              "sha256": "6a0f041539631253840d80a56e8eb430f33223deb73a01d3b1671fcbaec43fef"
+            }
+          ],
+          "scope": "209 suites, not 209 unique business functions"
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scoped-pass",
+          "evidence": [
+            {
+              "path": ".build/review-20261027/report128/2026-10-27T08-49-31-608Z/evidence.json",
+              "sha256": "fbc089031062f86df9d22d3f61a9746ce681dc221dfa1f7ae89488969bc8fe6f"
+            }
+          ],
+          "scope": "Exact C66 native5+boundaries7 and actual owner source table",
+          "allStatesAccepted": false
         },
         "actualServer": {
-          "status": "notrun",
-          "evidence": []
+          "status": "not-applicable-to-layout",
+          "evidence": [
+            ".build/review-20261027/live-member-acceptance.json",
+            ".build/review-20261027/db-after-law-add.json"
+          ],
+          "scope": "One existing owner; law active195/projectlinks2; workspace revision34/hash unchanged; no all-member acceptance"
         },
         "output": {
+          "status": "not-run-engine-unchanged",
+          "scope": "Report print/template hashes and four output models preserved; no fresh actual PDF or installed Excel claim"
+        },
+        "childDestinationActions": {
           "status": "notrun",
-          "evidence": []
+          "scope": "Unchanged navigation bindings; this row content and table observation do not execute every downstream edit"
         }
       },
-      "source": [],
-      "html": null,
+      "source": [
+        {
+          "file": "src/report.js",
+          "sha256": "8ebab5fa92a2d0a631b8e7f9c2ca6817e780bda5dae296e0a7fa41c75d2c31e4"
+        },
+        {
+          "file": "src/report-editor.css",
+          "sha256": "4fd1b5780898a724222c323a3420589cf6e7ee59eb55f6248a38a8a491d07545"
+        },
+        {
+          "file": "src/report-form.js",
+          "sha256": "e3b65cfddfd5d4b3ce84a4c88c6e18bad15179e0a58d00f905485999da4b6891"
+        },
+        {
+          "file": "src/report.css",
+          "sha256": "db6bb5c2c549186af55e7704ed619b0c26bdc38c4934ca718e99fe5a20987c05"
+        }
+      ],
+      "html": {
+        "path": ".build/review-20261027/integration-candidate-66.html",
+        "sha256": "20ff55f5072398e18bca9665348c4cc671f5efad4244f278921a13ae23cbec3d",
+        "bytes": 6737396
+      },
       "evidence": [],
-      "allStatesAccepted": false
+      "allStatesAccepted": false,
+      "metadata": {
+        "reviewRequestId": "RPT128-04",
+        "completed": false,
+        "scopedOnly": true
+      }
     },
     {
       "componentID": "RPT128-SOURCE-FINANCE",
@@ -675000,24 +676551,30 @@
         "view": "report",
         "tab": "generate"
       },
-      "lifecycle": "review128-planned",
-      "definitionStage": "2026-10-27 direct request, prior acceptance not inherited",
+      "lifecycle": "review128-scoped-reviewed",
+      "definitionStage": "current C66 source and scoped native/live-member observation; not all-state acceptance",
       "purpose": {
         "userTask": "출자·대출 실제 건수와 파이낸싱 이동",
         "reference": "RPT128-04",
         "decision": "approved-purpose-linked-child-review"
       },
       "informationSufficiency": {
-        "status": "notrun"
+        "status": "scoped-reviewed",
+        "scope": "Actual source count/unit labels and corresponding unchanged navigation definitions; all child destination edits not newly executed",
+        "remaining": [
+          "Other members/all dynamic states not universally accepted",
+          "Every linked destination edit/save/cancel not re-executed by this narrow display change"
+        ]
       },
       "wording": {
-        "status": "notrun"
+        "status": "scoped-pass",
+        "scope": "Current Korean labels and meaning checked against actual source values/user action"
       },
       "geometry": {
-        "alignment": "notrun",
-        "size": "notrun",
-        "scroll": "notrun",
-        "keyboard": "notrun"
+        "alignment": "scoped-pass",
+        "size": "scoped-pass",
+        "scroll": "Native5+boundary7; 390 popup horizontal-scroll destination1 separately verified",
+        "keyboard": "Only recorded native/real paths accepted"
       },
       "consumers": [
         "source summary display",
@@ -675035,30 +676592,95 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            {
+              "file": "src/report.js",
+              "sha256": "8ebab5fa92a2d0a631b8e7f9c2ca6817e780bda5dae296e0a7fa41c75d2c31e4"
+            },
+            {
+              "file": "src/report-editor.css",
+              "sha256": "4fd1b5780898a724222c323a3420589cf6e7ee59eb55f6248a38a8a491d07545"
+            },
+            {
+              "file": "src/report-form.js",
+              "sha256": "e3b65cfddfd5d4b3ce84a4c88c6e18bad15179e0a58d00f905485999da4b6891"
+            },
+            {
+              "file": "src/report.css",
+              "sha256": "db6bb5c2c549186af55e7704ed619b0c26bdc38c4934ca718e99fe5a20987c05"
+            }
+          ],
+          "scope": "Current sources only"
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            {
+              "path": ".build/center-20261020/logic-2026-10-27T08-46-48.430Z.json",
+              "sha256": "6a0f041539631253840d80a56e8eb430f33223deb73a01d3b1671fcbaec43fef"
+            }
+          ],
+          "scope": "209 suites, not 209 unique business functions"
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scoped-pass",
+          "evidence": [
+            {
+              "path": ".build/review-20261027/report128/2026-10-27T08-49-31-608Z/evidence.json",
+              "sha256": "fbc089031062f86df9d22d3f61a9746ce681dc221dfa1f7ae89488969bc8fe6f"
+            }
+          ],
+          "scope": "Exact C66 native5+boundaries7 and actual owner source table",
+          "allStatesAccepted": false
         },
         "actualServer": {
-          "status": "notrun",
-          "evidence": []
+          "status": "not-applicable-to-layout",
+          "evidence": [
+            ".build/review-20261027/live-member-acceptance.json",
+            ".build/review-20261027/db-after-law-add.json"
+          ],
+          "scope": "One existing owner; law active195/projectlinks2; workspace revision34/hash unchanged; no all-member acceptance"
         },
         "output": {
+          "status": "not-run-engine-unchanged",
+          "scope": "Report print/template hashes and four output models preserved; no fresh actual PDF or installed Excel claim"
+        },
+        "childDestinationActions": {
           "status": "notrun",
-          "evidence": []
+          "scope": "Unchanged navigation bindings; this row content and table observation do not execute every downstream edit"
         }
       },
-      "source": [],
-      "html": null,
+      "source": [
+        {
+          "file": "src/report.js",
+          "sha256": "8ebab5fa92a2d0a631b8e7f9c2ca6817e780bda5dae296e0a7fa41c75d2c31e4"
+        },
+        {
+          "file": "src/report-editor.css",
+          "sha256": "4fd1b5780898a724222c323a3420589cf6e7ee59eb55f6248a38a8a491d07545"
+        },
+        {
+          "file": "src/report-form.js",
+          "sha256": "e3b65cfddfd5d4b3ce84a4c88c6e18bad15179e0a58d00f905485999da4b6891"
+        },
+        {
+          "file": "src/report.css",
+          "sha256": "db6bb5c2c549186af55e7704ed619b0c26bdc38c4934ca718e99fe5a20987c05"
+        }
+      ],
+      "html": {
+        "path": ".build/review-20261027/integration-candidate-66.html",
+        "sha256": "20ff55f5072398e18bca9665348c4cc671f5efad4244f278921a13ae23cbec3d",
+        "bytes": 6737396
+      },
       "evidence": [],
-      "allStatesAccepted": false
+      "allStatesAccepted": false,
+      "metadata": {
+        "reviewRequestId": "RPT128-04",
+        "completed": false,
+        "scopedOnly": true
+      }
     },
     {
       "componentID": "RPT128-SOURCE-LAND",
@@ -675069,24 +676691,30 @@
         "view": "report",
         "tab": "generate"
       },
-      "lifecycle": "review128-planned",
-      "definitionStage": "2026-10-27 direct request, prior acceptance not inherited",
+      "lifecycle": "review128-scoped-reviewed",
+      "definitionStage": "current C66 source and scoped native/live-member observation; not all-state acceptance",
       "purpose": {
         "userTask": "필지·토지계약·지급회차의 개별 건수",
         "reference": "RPT128-04",
         "decision": "approved-purpose-linked-child-review"
       },
       "informationSufficiency": {
-        "status": "notrun"
+        "status": "scoped-reviewed",
+        "scope": "Actual source count/unit labels and corresponding unchanged navigation definitions; all child destination edits not newly executed",
+        "remaining": [
+          "Other members/all dynamic states not universally accepted",
+          "Every linked destination edit/save/cancel not re-executed by this narrow display change"
+        ]
       },
       "wording": {
-        "status": "notrun"
+        "status": "scoped-pass",
+        "scope": "Current Korean labels and meaning checked against actual source values/user action"
       },
       "geometry": {
-        "alignment": "notrun",
-        "size": "notrun",
-        "scroll": "notrun",
-        "keyboard": "notrun"
+        "alignment": "scoped-pass",
+        "size": "scoped-pass",
+        "scroll": "Native5+boundary7; 390 popup horizontal-scroll destination1 separately verified",
+        "keyboard": "Only recorded native/real paths accepted"
       },
       "consumers": [
         "source summary display",
@@ -675104,30 +676732,95 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            {
+              "file": "src/report.js",
+              "sha256": "8ebab5fa92a2d0a631b8e7f9c2ca6817e780bda5dae296e0a7fa41c75d2c31e4"
+            },
+            {
+              "file": "src/report-editor.css",
+              "sha256": "4fd1b5780898a724222c323a3420589cf6e7ee59eb55f6248a38a8a491d07545"
+            },
+            {
+              "file": "src/report-form.js",
+              "sha256": "e3b65cfddfd5d4b3ce84a4c88c6e18bad15179e0a58d00f905485999da4b6891"
+            },
+            {
+              "file": "src/report.css",
+              "sha256": "db6bb5c2c549186af55e7704ed619b0c26bdc38c4934ca718e99fe5a20987c05"
+            }
+          ],
+          "scope": "Current sources only"
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            {
+              "path": ".build/center-20261020/logic-2026-10-27T08-46-48.430Z.json",
+              "sha256": "6a0f041539631253840d80a56e8eb430f33223deb73a01d3b1671fcbaec43fef"
+            }
+          ],
+          "scope": "209 suites, not 209 unique business functions"
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scoped-pass",
+          "evidence": [
+            {
+              "path": ".build/review-20261027/report128/2026-10-27T08-49-31-608Z/evidence.json",
+              "sha256": "fbc089031062f86df9d22d3f61a9746ce681dc221dfa1f7ae89488969bc8fe6f"
+            }
+          ],
+          "scope": "Exact C66 native5+boundaries7 and actual owner source table",
+          "allStatesAccepted": false
         },
         "actualServer": {
-          "status": "notrun",
-          "evidence": []
+          "status": "not-applicable-to-layout",
+          "evidence": [
+            ".build/review-20261027/live-member-acceptance.json",
+            ".build/review-20261027/db-after-law-add.json"
+          ],
+          "scope": "One existing owner; law active195/projectlinks2; workspace revision34/hash unchanged; no all-member acceptance"
         },
         "output": {
+          "status": "not-run-engine-unchanged",
+          "scope": "Report print/template hashes and four output models preserved; no fresh actual PDF or installed Excel claim"
+        },
+        "childDestinationActions": {
           "status": "notrun",
-          "evidence": []
+          "scope": "Unchanged navigation bindings; this row content and table observation do not execute every downstream edit"
         }
       },
-      "source": [],
-      "html": null,
+      "source": [
+        {
+          "file": "src/report.js",
+          "sha256": "8ebab5fa92a2d0a631b8e7f9c2ca6817e780bda5dae296e0a7fa41c75d2c31e4"
+        },
+        {
+          "file": "src/report-editor.css",
+          "sha256": "4fd1b5780898a724222c323a3420589cf6e7ee59eb55f6248a38a8a491d07545"
+        },
+        {
+          "file": "src/report-form.js",
+          "sha256": "e3b65cfddfd5d4b3ce84a4c88c6e18bad15179e0a58d00f905485999da4b6891"
+        },
+        {
+          "file": "src/report.css",
+          "sha256": "db6bb5c2c549186af55e7704ed619b0c26bdc38c4934ca718e99fe5a20987c05"
+        }
+      ],
+      "html": {
+        "path": ".build/review-20261027/integration-candidate-66.html",
+        "sha256": "20ff55f5072398e18bca9665348c4cc671f5efad4244f278921a13ae23cbec3d",
+        "bytes": 6737396
+      },
       "evidence": [],
-      "allStatesAccepted": false
+      "allStatesAccepted": false,
+      "metadata": {
+        "reviewRequestId": "RPT128-04",
+        "completed": false,
+        "scopedOnly": true
+      }
     },
     {
       "componentID": "RPT128-SOURCE-PERMITS",
@@ -675138,24 +676831,30 @@
         "view": "report",
         "tab": "generate"
       },
-      "lifecycle": "review128-planned",
-      "definitionStage": "2026-10-27 direct request, prior acceptance not inherited",
+      "lifecycle": "review128-scoped-reviewed",
+      "definitionStage": "current C66 source and scoped native/live-member observation; not all-state acceptance",
       "purpose": {
         "userTask": "인허가 실제 건수와 인허가 이동",
         "reference": "RPT128-04",
         "decision": "approved-purpose-linked-child-review"
       },
       "informationSufficiency": {
-        "status": "notrun"
+        "status": "scoped-reviewed",
+        "scope": "Actual source count/unit labels and corresponding unchanged navigation definitions; all child destination edits not newly executed",
+        "remaining": [
+          "Other members/all dynamic states not universally accepted",
+          "Every linked destination edit/save/cancel not re-executed by this narrow display change"
+        ]
       },
       "wording": {
-        "status": "notrun"
+        "status": "scoped-pass",
+        "scope": "Current Korean labels and meaning checked against actual source values/user action"
       },
       "geometry": {
-        "alignment": "notrun",
-        "size": "notrun",
-        "scroll": "notrun",
-        "keyboard": "notrun"
+        "alignment": "scoped-pass",
+        "size": "scoped-pass",
+        "scroll": "Native5+boundary7; 390 popup horizontal-scroll destination1 separately verified",
+        "keyboard": "Only recorded native/real paths accepted"
       },
       "consumers": [
         "source summary display",
@@ -675173,30 +676872,95 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            {
+              "file": "src/report.js",
+              "sha256": "8ebab5fa92a2d0a631b8e7f9c2ca6817e780bda5dae296e0a7fa41c75d2c31e4"
+            },
+            {
+              "file": "src/report-editor.css",
+              "sha256": "4fd1b5780898a724222c323a3420589cf6e7ee59eb55f6248a38a8a491d07545"
+            },
+            {
+              "file": "src/report-form.js",
+              "sha256": "e3b65cfddfd5d4b3ce84a4c88c6e18bad15179e0a58d00f905485999da4b6891"
+            },
+            {
+              "file": "src/report.css",
+              "sha256": "db6bb5c2c549186af55e7704ed619b0c26bdc38c4934ca718e99fe5a20987c05"
+            }
+          ],
+          "scope": "Current sources only"
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            {
+              "path": ".build/center-20261020/logic-2026-10-27T08-46-48.430Z.json",
+              "sha256": "6a0f041539631253840d80a56e8eb430f33223deb73a01d3b1671fcbaec43fef"
+            }
+          ],
+          "scope": "209 suites, not 209 unique business functions"
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scoped-pass",
+          "evidence": [
+            {
+              "path": ".build/review-20261027/report128/2026-10-27T08-49-31-608Z/evidence.json",
+              "sha256": "fbc089031062f86df9d22d3f61a9746ce681dc221dfa1f7ae89488969bc8fe6f"
+            }
+          ],
+          "scope": "Exact C66 native5+boundaries7 and actual owner source table",
+          "allStatesAccepted": false
         },
         "actualServer": {
-          "status": "notrun",
-          "evidence": []
+          "status": "not-applicable-to-layout",
+          "evidence": [
+            ".build/review-20261027/live-member-acceptance.json",
+            ".build/review-20261027/db-after-law-add.json"
+          ],
+          "scope": "One existing owner; law active195/projectlinks2; workspace revision34/hash unchanged; no all-member acceptance"
         },
         "output": {
+          "status": "not-run-engine-unchanged",
+          "scope": "Report print/template hashes and four output models preserved; no fresh actual PDF or installed Excel claim"
+        },
+        "childDestinationActions": {
           "status": "notrun",
-          "evidence": []
+          "scope": "Unchanged navigation bindings; this row content and table observation do not execute every downstream edit"
         }
       },
-      "source": [],
-      "html": null,
+      "source": [
+        {
+          "file": "src/report.js",
+          "sha256": "8ebab5fa92a2d0a631b8e7f9c2ca6817e780bda5dae296e0a7fa41c75d2c31e4"
+        },
+        {
+          "file": "src/report-editor.css",
+          "sha256": "4fd1b5780898a724222c323a3420589cf6e7ee59eb55f6248a38a8a491d07545"
+        },
+        {
+          "file": "src/report-form.js",
+          "sha256": "e3b65cfddfd5d4b3ce84a4c88c6e18bad15179e0a58d00f905485999da4b6891"
+        },
+        {
+          "file": "src/report.css",
+          "sha256": "db6bb5c2c549186af55e7704ed619b0c26bdc38c4934ca718e99fe5a20987c05"
+        }
+      ],
+      "html": {
+        "path": ".build/review-20261027/integration-candidate-66.html",
+        "sha256": "20ff55f5072398e18bca9665348c4cc671f5efad4244f278921a13ae23cbec3d",
+        "bytes": 6737396
+      },
       "evidence": [],
-      "allStatesAccepted": false
+      "allStatesAccepted": false,
+      "metadata": {
+        "reviewRequestId": "RPT128-04",
+        "completed": false,
+        "scopedOnly": true
+      }
     },
     {
       "componentID": "RPT128-SOURCE-SALES",
@@ -675207,24 +676971,30 @@
         "view": "report",
         "tab": "generate"
       },
-      "lifecycle": "review128-planned",
-      "definitionStage": "2026-10-27 direct request, prior acceptance not inherited",
+      "lifecycle": "review128-scoped-reviewed",
+      "definitionStage": "current C66 source and scoped native/live-member observation; not all-state acceptance",
       "purpose": {
         "userTask": "분양·매각 기록 건수와 이동",
         "reference": "RPT128-04",
         "decision": "approved-purpose-linked-child-review"
       },
       "informationSufficiency": {
-        "status": "notrun"
+        "status": "scoped-reviewed",
+        "scope": "Actual source count/unit labels and corresponding unchanged navigation definitions; all child destination edits not newly executed",
+        "remaining": [
+          "Other members/all dynamic states not universally accepted",
+          "Every linked destination edit/save/cancel not re-executed by this narrow display change"
+        ]
       },
       "wording": {
-        "status": "notrun"
+        "status": "scoped-pass",
+        "scope": "Current Korean labels and meaning checked against actual source values/user action"
       },
       "geometry": {
-        "alignment": "notrun",
-        "size": "notrun",
-        "scroll": "notrun",
-        "keyboard": "notrun"
+        "alignment": "scoped-pass",
+        "size": "scoped-pass",
+        "scroll": "Native5+boundary7; 390 popup horizontal-scroll destination1 separately verified",
+        "keyboard": "Only recorded native/real paths accepted"
       },
       "consumers": [
         "source summary display",
@@ -675242,30 +677012,95 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            {
+              "file": "src/report.js",
+              "sha256": "8ebab5fa92a2d0a631b8e7f9c2ca6817e780bda5dae296e0a7fa41c75d2c31e4"
+            },
+            {
+              "file": "src/report-editor.css",
+              "sha256": "4fd1b5780898a724222c323a3420589cf6e7ee59eb55f6248a38a8a491d07545"
+            },
+            {
+              "file": "src/report-form.js",
+              "sha256": "e3b65cfddfd5d4b3ce84a4c88c6e18bad15179e0a58d00f905485999da4b6891"
+            },
+            {
+              "file": "src/report.css",
+              "sha256": "db6bb5c2c549186af55e7704ed619b0c26bdc38c4934ca718e99fe5a20987c05"
+            }
+          ],
+          "scope": "Current sources only"
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            {
+              "path": ".build/center-20261020/logic-2026-10-27T08-46-48.430Z.json",
+              "sha256": "6a0f041539631253840d80a56e8eb430f33223deb73a01d3b1671fcbaec43fef"
+            }
+          ],
+          "scope": "209 suites, not 209 unique business functions"
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scoped-pass",
+          "evidence": [
+            {
+              "path": ".build/review-20261027/report128/2026-10-27T08-49-31-608Z/evidence.json",
+              "sha256": "fbc089031062f86df9d22d3f61a9746ce681dc221dfa1f7ae89488969bc8fe6f"
+            }
+          ],
+          "scope": "Exact C66 native5+boundaries7 and actual owner source table",
+          "allStatesAccepted": false
         },
         "actualServer": {
-          "status": "notrun",
-          "evidence": []
+          "status": "not-applicable-to-layout",
+          "evidence": [
+            ".build/review-20261027/live-member-acceptance.json",
+            ".build/review-20261027/db-after-law-add.json"
+          ],
+          "scope": "One existing owner; law active195/projectlinks2; workspace revision34/hash unchanged; no all-member acceptance"
         },
         "output": {
+          "status": "not-run-engine-unchanged",
+          "scope": "Report print/template hashes and four output models preserved; no fresh actual PDF or installed Excel claim"
+        },
+        "childDestinationActions": {
           "status": "notrun",
-          "evidence": []
+          "scope": "Unchanged navigation bindings; this row content and table observation do not execute every downstream edit"
         }
       },
-      "source": [],
-      "html": null,
+      "source": [
+        {
+          "file": "src/report.js",
+          "sha256": "8ebab5fa92a2d0a631b8e7f9c2ca6817e780bda5dae296e0a7fa41c75d2c31e4"
+        },
+        {
+          "file": "src/report-editor.css",
+          "sha256": "4fd1b5780898a724222c323a3420589cf6e7ee59eb55f6248a38a8a491d07545"
+        },
+        {
+          "file": "src/report-form.js",
+          "sha256": "e3b65cfddfd5d4b3ce84a4c88c6e18bad15179e0a58d00f905485999da4b6891"
+        },
+        {
+          "file": "src/report.css",
+          "sha256": "db6bb5c2c549186af55e7704ed619b0c26bdc38c4934ca718e99fe5a20987c05"
+        }
+      ],
+      "html": {
+        "path": ".build/review-20261027/integration-candidate-66.html",
+        "sha256": "20ff55f5072398e18bca9665348c4cc671f5efad4244f278921a13ae23cbec3d",
+        "bytes": 6737396
+      },
       "evidence": [],
-      "allStatesAccepted": false
+      "allStatesAccepted": false,
+      "metadata": {
+        "reviewRequestId": "RPT128-04",
+        "completed": false,
+        "scopedOnly": true
+      }
     }
   ],
   "popupCandidates": [
@@ -738870,11 +740705,44 @@
     "date": "2026-10-27",
     "targetRelease": "0.12.8",
     "requirements": 4,
-    "completed": 0,
+    "completed": 4,
     "records": 27,
     "scope": "four latest user requests only",
     "source": "docs/review-20261027-spec.md",
     "ledger": "docs/review-20261027-ledger.json",
-    "allPlatformComponentsAccepted": false
+    "allPlatformComponentsAccepted": false,
+    "status": "published-scope-accepted",
+    "release": {
+      "version": "0.12.8",
+      "candidate": "C66",
+      "date": "2026-10-27",
+      "sourceCommit": "e876a18bbd550d03f4c8ec43fab0ee30f62991dc",
+      "deploymentId": "dpl_GwJPCqUZMVian8ryVRiSofYQhK5a",
+      "formalHtmlSha256": "245468a361139cf78d9cc66c1a9858e7f7ba2b1e73269835523fa73b7f46362d",
+      "bytes": 6737331,
+      "publishedAt": "2026-10-27T08:56:50.340Z",
+      "verification": "docs/review-20261027-verification.md",
+      "inventoryBaselinePreserved": true,
+      "allComponentsAccepted": false
+    },
+    "actualNative": {
+      "navigation": 4,
+      "law": 3,
+      "reportNormal": 5,
+      "reportMeaning": 7,
+      "separateMobileHorizontalScroll": 1
+    },
+    "logical": {
+      "suites": 209,
+      "passed": 209,
+      "path": ".build/center-20261020/logic-2026-10-27T08-46-48.430Z.json",
+      "sha256": "6a0f041539631253840d80a56e8eb430f33223deb73a01d3b1671fcbaec43fef"
+    },
+    "remaining": [
+      "All member roles/dynamic states not universally accepted",
+      "New next natural law cron run not yet observed",
+      "Unchanged source-summary destination edit paths are not all re-executed",
+      "Fresh actual PDF and installed Excel are outside this display-only correction"
+    ]
   }
 }
