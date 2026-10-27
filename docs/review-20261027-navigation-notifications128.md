@@ -48,3 +48,9 @@ RED: `tests/review128-navigation-notifications.mjs` 신규5조건이 현행 코�
 증거: `.build/review-20261027/navigation-notifications-1793089464355/evidence.json`(6,653B), SHA256 `5e4bdd34bda094e6ad2d6c2c0785f0259e9578c6f65e14dc10180a3076fcbeba`. 새 `expanded-1440.png`(SHA256 `4a1611eef2ef053809f845011a491465c42b166ffe70e55db46f411d536ea6bd`)와 `expanded-390.png`(`f4d86466c3823902ea8b6df704ae82bceb1003d34582a968abb279d20b70becf`)를 직접 열었습니다. 별도 임시프로필·전체요청intercept 조건이며 사용자 쿠키 조회/쓰기·실서버 자료저장·운영 로그 조회는 이 실행에서0입니다. 기록된 requests는 합성 API의 메서드·경로뿐입니다.
 
 최종 C64 전체 순차 논리회귀는 `.build/center-20261020/logic-2026-10-27T08-17-54.693Z.json`(503,143B), SHA256 `f53f57cb026c099cac577bd87d302a6c41b2119be53c0377169461842a27a849`입니다. 단일207/207·실행중 소스변경0·정상종료이며 실제 화면/운영서버/PDF산출물 검수와 구별합니다. 이전 C63 205/207과 구식 날짜/허용DTO 확장기대2건의 집중교정은 당시 기록으로 보존했습니다. C64 이후 서버 전용 URL의 시행일 보존 교정은 이 보고의 새로운 서버 수락으로 승계하지 않습니다.
+
+## C65 서버 교정 이후 새 전체 회귀
+
+서버 `center-services.mjs` SHA256 `90173b443d04c87f989def69c3b87ebb8df8cb355cee15b00f58c9e809799aa3`와 새 `review128-law-public-date`25조건을 동결한 뒤 전체208묶음을 새로 순차 실행했습니다. C64의207통과를 새 서버 완료로 승계하지 않았습니다.
+
+최신 결과는 `.build/center-20261020/logic-2026-10-27T08-27-22.378Z.json`(505,923B), SHA256 `6ade6383aa41eb1b0f36956cbe6c0e5f60dee59dd20fe090212103ee3b87d669`입니다. 단일208/208·실패0·실행중 소스변경0·정상종료입니다. HTML은 C64와 같은 바이트이고 실제 브라우저4조건은 위 C64 결과로 정확히 구분합니다. 이 논리회귀가 운영DB·실회원 권한·실제 공식API·PDF 새 산출물의 검수를 대신하지는 않습니다.

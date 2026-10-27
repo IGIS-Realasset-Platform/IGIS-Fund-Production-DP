@@ -43,7 +43,7 @@
     "businessCounterexamples": 1,
     "currentObservedDefinitions": 975,
     "historicalRecords": 3238,
-    "totalMatrixRecords": 4280,
+    "totalMatrixRecords": 4288,
     "allPriorIDsPreserved": true,
     "currentActualCohortCountsAreNotAddedToHistoricCounts": true,
     "sourceCandidateCohort": "C44 historical, not current visible controls",
@@ -53,7 +53,7 @@
     "review127PendingRecords": 0,
     "review127PlannedComponentDefinitions": 4,
     "review127ScopedAcceptedRecords": 6,
-    "review128PendingRecords": 19
+    "review128PendingRecords": 27
   },
   "actualExecution": {
     "evidence": "C44-ACTUAL-42",
@@ -674714,6 +674714,558 @@
       "html": null,
       "evidence": [],
       "allStatesAccepted": false
+    },
+    {
+      "componentID": "RPT128-SOURCE-TABLE",
+      "parentID": "RPT128-SOURCE",
+      "kind": "table",
+      "label": "기재자료 확인 표·열",
+      "route": {
+        "view": "report",
+        "tab": "generate"
+      },
+      "lifecycle": "review128-planned",
+      "definitionStage": "2026-10-27 direct request, prior acceptance not inherited",
+      "purpose": {
+        "userTask": "기재자료 확인 표·열",
+        "reference": "RPT128-04",
+        "decision": "approved-purpose-linked-child-review"
+      },
+      "informationSufficiency": {
+        "status": "notrun"
+      },
+      "wording": {
+        "status": "notrun"
+      },
+      "geometry": {
+        "alignment": "notrun",
+        "size": "notrun",
+        "scroll": "notrun",
+        "keyboard": "notrun"
+      },
+      "consumers": [
+        "source summary display",
+        "real source array/count/unit",
+        "source edit navigation",
+        "report state preservation",
+        "printed report unchanged"
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "date": "2026-10-27",
+          "reference": "docs/review-20261027-spec.md"
+        }
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualServer": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "source": [],
+      "html": null,
+      "evidence": [],
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "RPT128-SOURCE-ENTITY",
+      "parentID": "RPT128-SOURCE",
+      "kind": "table-row-and-action",
+      "label": "시행법인·식별정보와 수정 이동",
+      "route": {
+        "view": "report",
+        "tab": "generate"
+      },
+      "lifecycle": "review128-planned",
+      "definitionStage": "2026-10-27 direct request, prior acceptance not inherited",
+      "purpose": {
+        "userTask": "시행법인·식별정보와 수정 이동",
+        "reference": "RPT128-04",
+        "decision": "approved-purpose-linked-child-review"
+      },
+      "informationSufficiency": {
+        "status": "notrun"
+      },
+      "wording": {
+        "status": "notrun"
+      },
+      "geometry": {
+        "alignment": "notrun",
+        "size": "notrun",
+        "scroll": "notrun",
+        "keyboard": "notrun"
+      },
+      "consumers": [
+        "source summary display",
+        "real source array/count/unit",
+        "source edit navigation",
+        "report state preservation",
+        "printed report unchanged"
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "date": "2026-10-27",
+          "reference": "docs/review-20261027-spec.md"
+        }
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualServer": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "source": [],
+      "html": null,
+      "evidence": [],
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "RPT128-SOURCE-REPORTER",
+      "parentID": "RPT128-SOURCE",
+      "kind": "table-row-and-action",
+      "label": "보고용 사무소·담당자와 보고서 수정",
+      "route": {
+        "view": "report",
+        "tab": "generate"
+      },
+      "lifecycle": "review128-planned",
+      "definitionStage": "2026-10-27 direct request, prior acceptance not inherited",
+      "purpose": {
+        "userTask": "보고용 사무소·담당자와 보고서 수정",
+        "reference": "RPT128-04",
+        "decision": "approved-purpose-linked-child-review"
+      },
+      "informationSufficiency": {
+        "status": "notrun"
+      },
+      "wording": {
+        "status": "notrun"
+      },
+      "geometry": {
+        "alignment": "notrun",
+        "size": "notrun",
+        "scroll": "notrun",
+        "keyboard": "notrun"
+      },
+      "consumers": [
+        "source summary display",
+        "real source array/count/unit",
+        "source edit navigation",
+        "report state preservation",
+        "printed report unchanged"
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "date": "2026-10-27",
+          "reference": "docs/review-20261027-spec.md"
+        }
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualServer": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "source": [],
+      "html": null,
+      "evidence": [],
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "RPT128-SOURCE-AREA",
+      "parentID": "RPT128-SOURCE",
+      "kind": "table-row-and-action",
+      "label": "사업개요·연면적 원단위/미입력/0",
+      "route": {
+        "view": "report",
+        "tab": "generate"
+      },
+      "lifecycle": "review128-planned",
+      "definitionStage": "2026-10-27 direct request, prior acceptance not inherited",
+      "purpose": {
+        "userTask": "사업개요·연면적 원단위/미입력/0",
+        "reference": "RPT128-04",
+        "decision": "approved-purpose-linked-child-review"
+      },
+      "informationSufficiency": {
+        "status": "notrun"
+      },
+      "wording": {
+        "status": "notrun"
+      },
+      "geometry": {
+        "alignment": "notrun",
+        "size": "notrun",
+        "scroll": "notrun",
+        "keyboard": "notrun"
+      },
+      "consumers": [
+        "source summary display",
+        "real source array/count/unit",
+        "source edit navigation",
+        "report state preservation",
+        "printed report unchanged"
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "date": "2026-10-27",
+          "reference": "docs/review-20261027-spec.md"
+        }
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualServer": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "source": [],
+      "html": null,
+      "evidence": [],
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "RPT128-SOURCE-FINANCE",
+      "parentID": "RPT128-SOURCE",
+      "kind": "table-row-and-action",
+      "label": "출자·대출 실제 건수와 파이낸싱 이동",
+      "route": {
+        "view": "report",
+        "tab": "generate"
+      },
+      "lifecycle": "review128-planned",
+      "definitionStage": "2026-10-27 direct request, prior acceptance not inherited",
+      "purpose": {
+        "userTask": "출자·대출 실제 건수와 파이낸싱 이동",
+        "reference": "RPT128-04",
+        "decision": "approved-purpose-linked-child-review"
+      },
+      "informationSufficiency": {
+        "status": "notrun"
+      },
+      "wording": {
+        "status": "notrun"
+      },
+      "geometry": {
+        "alignment": "notrun",
+        "size": "notrun",
+        "scroll": "notrun",
+        "keyboard": "notrun"
+      },
+      "consumers": [
+        "source summary display",
+        "real source array/count/unit",
+        "source edit navigation",
+        "report state preservation",
+        "printed report unchanged"
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "date": "2026-10-27",
+          "reference": "docs/review-20261027-spec.md"
+        }
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualServer": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "source": [],
+      "html": null,
+      "evidence": [],
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "RPT128-SOURCE-LAND",
+      "parentID": "RPT128-SOURCE",
+      "kind": "table-row-and-action",
+      "label": "필지·토지계약·지급회차의 개별 건수",
+      "route": {
+        "view": "report",
+        "tab": "generate"
+      },
+      "lifecycle": "review128-planned",
+      "definitionStage": "2026-10-27 direct request, prior acceptance not inherited",
+      "purpose": {
+        "userTask": "필지·토지계약·지급회차의 개별 건수",
+        "reference": "RPT128-04",
+        "decision": "approved-purpose-linked-child-review"
+      },
+      "informationSufficiency": {
+        "status": "notrun"
+      },
+      "wording": {
+        "status": "notrun"
+      },
+      "geometry": {
+        "alignment": "notrun",
+        "size": "notrun",
+        "scroll": "notrun",
+        "keyboard": "notrun"
+      },
+      "consumers": [
+        "source summary display",
+        "real source array/count/unit",
+        "source edit navigation",
+        "report state preservation",
+        "printed report unchanged"
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "date": "2026-10-27",
+          "reference": "docs/review-20261027-spec.md"
+        }
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualServer": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "source": [],
+      "html": null,
+      "evidence": [],
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "RPT128-SOURCE-PERMITS",
+      "parentID": "RPT128-SOURCE",
+      "kind": "table-row-and-action",
+      "label": "인허가 실제 건수와 인허가 이동",
+      "route": {
+        "view": "report",
+        "tab": "generate"
+      },
+      "lifecycle": "review128-planned",
+      "definitionStage": "2026-10-27 direct request, prior acceptance not inherited",
+      "purpose": {
+        "userTask": "인허가 실제 건수와 인허가 이동",
+        "reference": "RPT128-04",
+        "decision": "approved-purpose-linked-child-review"
+      },
+      "informationSufficiency": {
+        "status": "notrun"
+      },
+      "wording": {
+        "status": "notrun"
+      },
+      "geometry": {
+        "alignment": "notrun",
+        "size": "notrun",
+        "scroll": "notrun",
+        "keyboard": "notrun"
+      },
+      "consumers": [
+        "source summary display",
+        "real source array/count/unit",
+        "source edit navigation",
+        "report state preservation",
+        "printed report unchanged"
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "date": "2026-10-27",
+          "reference": "docs/review-20261027-spec.md"
+        }
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualServer": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "source": [],
+      "html": null,
+      "evidence": [],
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "RPT128-SOURCE-SALES",
+      "parentID": "RPT128-SOURCE",
+      "kind": "table-row-and-action",
+      "label": "분양·매각 기록 건수와 이동",
+      "route": {
+        "view": "report",
+        "tab": "generate"
+      },
+      "lifecycle": "review128-planned",
+      "definitionStage": "2026-10-27 direct request, prior acceptance not inherited",
+      "purpose": {
+        "userTask": "분양·매각 기록 건수와 이동",
+        "reference": "RPT128-04",
+        "decision": "approved-purpose-linked-child-review"
+      },
+      "informationSufficiency": {
+        "status": "notrun"
+      },
+      "wording": {
+        "status": "notrun"
+      },
+      "geometry": {
+        "alignment": "notrun",
+        "size": "notrun",
+        "scroll": "notrun",
+        "keyboard": "notrun"
+      },
+      "consumers": [
+        "source summary display",
+        "real source array/count/unit",
+        "source edit navigation",
+        "report state preservation",
+        "printed report unchanged"
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "date": "2026-10-27",
+          "reference": "docs/review-20261027-spec.md"
+        }
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualServer": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "source": [],
+      "html": null,
+      "evidence": [],
+      "allStatesAccepted": false
     }
   ],
   "popupCandidates": [
@@ -738319,7 +738871,7 @@
     "targetRelease": "0.12.8",
     "requirements": 4,
     "completed": 0,
-    "records": 19,
+    "records": 27,
     "scope": "four latest user requests only",
     "source": "docs/review-20261027-spec.md",
     "ledger": "docs/review-20261027-ledger.json",

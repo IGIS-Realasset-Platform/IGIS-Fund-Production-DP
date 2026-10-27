@@ -1,18 +1,19 @@
 {
   "version": "0.12.8",
   "origin": "https://development-project-platform-preview-git-preview-b5dda7-igisra.vercel.app",
-  "htmlSha256": "838b95494af9777d51c407cb6adda14b15dbe54d7107f2f0b990e0aa07e12640",
-  "bytes": 6736937,
+  "htmlSha256": "efea1d868174e7744c20316606025376946a9795506657087cb6748341f59ae5",
+  "bytes": 6737360,
   "notionRequired": false,
   "realProjectDataIncluded": false,
   "mode": "authenticated-private-schema-runtime-with-optional-source",
   "localBuildVerified": true,
-  "actualBrowser": "REVIEW128 exact C64 client; scoped native/navigation/report/law and separate final-server tests in docs/review-20261027-verification.md; member/publication pending",
+  "actualBrowser": "REVIEW128 exact C66 client plus focused final source summary and managed-law labels; C65 real member API3/add/persistence observed. Final C66 publication and member read-back pending.",
   "previousProtectedDeployment": "dpl_8KPvxYTuF6tXPyio42gf455rGAqZ",
   "previousVersion": "0.12.7",
-  "status": "review128-c65-prepared-not-published",
+  "status": "review128-c66-prepared-not-published",
   "preparedAt": "2026-10-27",
-  "previousProductionDeploymentId": "dpl_J8Kb29XdQ4gcypzugH299mMZ23aL",
-  "previousProductionHtmlSha256": "115c1cca7a0080c0ff52212d2c94b74c007b4d807c88bc160faa698ff07b57d8",
-  "wholeRequirementsComplete": false
+  "previousProductionDeploymentId": "dpl_FnpXLDYbZNkq9ra3wD4kyZPGKTJS",
+  "previousProductionHtmlSha256": "a9675afd1fc6d1fad867a1b6ecf809e6f8b50360035ddd564cd3890d97d403d9",
+  "wholeRequirementsComplete": false,
+  "previousProductionSourceCommit": "79899965cdc04749050cc33e65fd5693a4217c4d"
 }
