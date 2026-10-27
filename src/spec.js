@@ -691,7 +691,7 @@ A.spec.verification={...A.spec.verification,status:'v0.10.30 검수 완료 · �
  }
  const deploymentStatus=typeof DEPLOYMENT_STATUS_V0111==='undefined'?null:A.clone(DEPLOYMENT_STATUS_V0111);
  if(deploymentStatus){
-  const cloudDeployment=A.runtime?.persistence==='cloud',expectedDeploymentVersion=cloudDeployment?'0.12.7':'0.11.0';
+  const cloudDeployment=A.runtime?.persistence==='cloud',expectedDeploymentVersion=cloudDeployment?'0.12.8':'0.11.0';
   if(deploymentStatus.schemaVersion!=='deployment-status-v0111'||deploymentStatus.version!==expectedDeploymentVersion)throw Error('현재 배포 상태 정의를 확인해 주세요.');
   const originalFeatureContracts=A.clone(A.spec.featureContracts),originalDataContracts=A.clone(A.spec.dataContracts),originalProductionContracts=A.clone(A.spec.productionContracts),originalInformationArchitecture=A.clone(A.spec.informationArchitecture),originalCostRules=A.clone(A.spec.costRules),priorAuthentication=A.clone(A.spec.productionContracts?.authentication??null),historical=[inheritedAuthentication,priorAuthentication].filter(Boolean),unique=[];for(const item of historical)if(!unique.some(saved=>JSON.stringify(saved)===JSON.stringify(item)))unique.push(item);
   A.spec.legacyReferences=A.spec.legacyReferences||{};A.spec.legacyReferences.authenticationPolicies=[...(A.spec.legacyReferences.authenticationPolicies||[]),...unique];A.spec.legacyReferences.originalFeatureContracts=originalFeatureContracts;A.spec.legacyReferences.originalDataContracts=originalDataContracts;A.spec.legacyReferences.originalProductionContracts=originalProductionContracts;A.spec.legacyReferences.originalInformationArchitecture=originalInformationArchitecture;A.spec.legacyReferences.originalCostRules=originalCostRules;
@@ -895,6 +895,27 @@ A.spec.verification={...A.spec.verification,status:'v0.10.30 검수 완료 · �
   A.spec.currentNavigation=current.navigation;
   data.officialLegalSearch={statePath:'ui.lawSiteSearch',fields:['target','query'],workspaceMutation:false,newWorkspaceFields:false,databaseWrites:0,credentialsSent:false,projectDataSent:false,scope:'화면 검색 선호만 보존 · 기존 법령/사업/사람검토 원장 불변'};
  }
+ if(A.cloudMode&&typeof REVIEW128_FIX_LEDGER!=='undefined'){
+  const review=A.clone(REVIEW128_FIX_LEDGER),items=review?.items,allowed=['NAV128-01','LAW128-02','NTF128-03','RPT128-04'];
+  if(!Array.isArray(items)||items.some(x=>!x||!allowed.includes(x.id))||new Set(items.map(x=>x.id)).size!==items.length)throw Error('현재 추가 요구의 ID와 중복을 확인해 주세요.');
+  const ids=items.map(x=>x.id),scope={count:ids.length,ids:A.clone(ids),requestIds:A.clone(ids),source:'REVIEW128_FIX_LEDGER.items',classification:'현재 후속 요구 · 빌드 시점 완료 미수락'},current=A.spec.currentFeatureContracts,data=A.spec.currentDataContracts;
+  A.spec.legacyReferences.beforeReview128={requirementLedger:A.clone(A.spec.requirementLedger),requirements:A.clone(A.spec.requirements),acceptanceTests:A.clone(A.spec.acceptanceTests),featureContracts:A.clone(current),dataContracts:A.clone(data),verification:A.clone(A.spec.verification)};
+  A.spec.review128=review;A.spec.verification.review128=A.clone(review);
+  const rows=items.map(x=>({id:x.id,name:x.name,behavior:x.acceptance.join(' / '),source:'docs/review-20261027-spec.md',sourceLedger:'docs/review-20261027-ledger.json',requirementScope:'latest-review128',implementationAccepted:false,verified:false,status:'구현·검수 상태는 외부 검수기록 참조 · 빌드 시점 미수락'}));
+  for(const row of rows)if(A.spec.currentFunctionalRequirements.some(x=>x.id===row.id))throw Error('현재 추가 요구가 중복됐습니다.');
+  A.spec.currentFunctionalRequirements.push(...rows);A.spec.functionalRequirements=A.spec.currentFunctionalRequirements;
+  A.spec.requirements=items.map(x=>({id:x.id,name:x.name,decision:x.acceptance.join(' / '),source:'docs/review-20261027-spec.md',implemented:false,verified:false}));
+  A.spec.requirementLedger={...A.spec.requirementLedger,count:ids.length,scope:'현재 후속4요구 · 이전 명세/당시 수락 보존',requestIds:ids,items:A.clone(items),baselineScopes:[...(A.spec.requirementLedger.baselineScopes||[]),{name:'이전 SEARCH127',count:A.spec.legacyReferences.beforeReview128.requirementLedger.count,ids:A.clone(A.spec.legacyReferences.beforeReview128.requirementLedger.requestIds),verification:'당시 범위 보존'}]};
+  A.spec.acceptanceTests.push(...rows.map(x=>({...A.clone(x),classification:'현재 후속 수락조건'})));
+  A.spec.specificationSections.current={...A.spec.specificationSections.current,...A.clone(scope),requirements:ids.join(', ')};
+  current.approvedRequirements=A.clone(scope);data.approvedRequirements=A.clone(scope);
+  current.officialLegalSearch={...current.officialLegalSearch,mode:'api-results',searchEndpoint:'/api/law-search',addEndpoint:'/api/law-watch',searchWrites:false,explicitAddRequired:true,dailyInput:'development_project_platform.law_watchlist',allNationwideLawsAlreadyWatched:false,databaseWrites:'명시적 추가 시 기존 watch 저장 경로만',managedCatalogExpanded:'explicit-add-only',dailyWatchExpanded:'explicit-add-only',scope:'공식 API 검색목록과 선택 추가. 사업 연결은 법적 적용 확정과 구별'};
+  current.navigation.sidebarControl={...current.navigation.sidebarControl,expandedLocation:'sidebar-header',collapsedLocation:'topbar'};
+  current.notifications={...current.notifications,initialLoad:'authenticated-nonblocking',personalStateOnly:true,workspaceWritesOnLoad:false};
+  current.reportWorkspace={...current.reportWorkspace,selectionAndActionsGrouped:true,legalTemplateChanged:false,savedReportsPreserved:true,platformApplySeparate:true};
+  data.officialLegalSearch={...data.officialLegalSearch,searchWrites:false,explicitAddEndpoint:'/api/law-watch',storage:'development_project_platform.law_watchlist + law_project_watches',newWorkspaceFields:false};
+  A.spec.verification.requirements=A.clone(items);A.spec.verification.status='REVIEW128 후속4요구 · 정확 산출물별 구현/자동/실화면/서버/출력 별도';A.spec.delivery.approvedRequestIds=A.clone(ids);A.spec.delivery.latestUserDecision='2026-10-27 후속 '+ids.join(', ');
+ }
  if(A.realMode){delete A.spec.dataContracts.reportExample;delete A.spec.featureContracts.reportExample;}
  A.register('spec',()=>{
    const tabs=[['overview','개요'],['functions','기능정의서'],['sdd','SDD'],['tests','TDD·검수'],['data','데이터 구조'],['history','개발이력'],['feedback','피드백'],['json','전체 JSON']];
@@ -902,7 +923,7 @@ A.spec.verification={...A.spec.verification,status:'v0.10.30 검수 완료 · �
    const pre=x=>'<pre class="spec-json">'+A.esc(JSON.stringify(x,null,2))+'</pre>';
    const jsonViewer=x=>'<textarea class="spec-json" aria-label="플랫폼 명세 전체 JSON" readonly wrap="off" spellcheck="false">'+A.esc(JSON.stringify(x,null,2))+'</textarea>';
    if(A.cloudMode&&A.spec.specificationSections){
-    const sections=A.spec.specificationSections,current=A.spec.deploymentStatus?.current||{},ledger=A.spec.search127||A.spec.review126||A.spec.center120FixLedger||{items:[]};
+    const sections=A.spec.specificationSections,current=A.spec.deploymentStatus?.current||{},ledger=A.spec.review128||A.spec.search127||A.spec.review126||A.spec.center120FixLedger||{items:[]};
     if(active==='overview')content=A.table(['항목','내용'],[['기준 버전',A.spec.meta.version],[A.spec.search127?'이번 추가'+A.spec.requirementLedger.count+'요구':A.spec.review126?'이번 검토'+A.spec.requirementLedger.count+'요구':'이번 승인 요구',A.spec.requirementLedger.count+'개 · '+A.spec.specificationSections.current.requirements],['명세 구분','현행 계약 / 대체된 요구 / 당시 검수 / 향후 계획'],['정식 주소',current.officialOrigin||'https://igis-development-project-platform.vercel.app'],['배포 상태',current.releaseState||'최종 검수 중'],['앱 로그인',A.spec.productionContracts.authentication.identity+' · '+A.spec.productionContracts.authentication.verification],['로그인 유지','기본8시간 / 선택7일 고정만료 · 브라우저에는 이메일만 기억'],['중앙 저장',A.spec.delivery.runtimeConnections],['샘플 접근',A.spec.productionContracts.authorization.samplePolicy],['사업비 기준','회사 공통37개·선택58개·기존 CBS 유형 유지'],['사업비 보관','수시 수정 / 분기말 확인과제 / 담당자 저장 고정본 / 승인예산 분리'],['인허가','기본경로+조건별 추천 · 목록/맵 동일원장 · 실제일은 발생단계 필수'],['법령 일일 확인',A.spec.lawMonitoring.configuration],['과거 법령 참고본',A.spec.legalSourceSnapshot?.dataDate||'자료 없음'],['현재 검수 상태',A.spec.verification.status],['전체 동작 검수','정적 동작 인벤토리는 실행 수가 아님. 요구별 자동/화면/배포 상태 분리'],['추가 데이터',current.connections?.notion||'Notion은 관리자 선택 보충자료']].map(([key,value])=>[A.esc(key),A.esc(value)]));
     else if(active==='functions')content=A.table(['ID','기능','현행 동작','검수 상태'],A.spec.currentFunctionalRequirements.map(row=>[A.esc(row.id),A.esc(row.name),'<div class="wrap">'+A.esc(row.behavior)+'</div>',A.esc(row.status)]));
     else if(active==='sdd')content=pre({classification:'현행 계약',features:A.spec.currentFeatureContracts,production:A.spec.productionContracts,server:A.spec.backendBlueprint,preservation:A.spec.prototypeBoundary,future:sections.future});

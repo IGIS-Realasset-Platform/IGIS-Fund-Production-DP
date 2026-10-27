@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "REVIEW128",
+  "targetRelease": "0.12.8",
+  "targetReleaseStatus": "planned",
+  "createdAt": "2026-10-27",
+  "baseline": "v0.12.7 C61",
+  "items": [
+    {"id":"NAV128-01","name":"사이드바 상태에 맞는 제어 위치","acceptance":["펼침에는 사이드바 상단 접기, 접힘에는 독립 재열기","글자 메뉴·전체 숨김·키보드·초점·문맥 보존"],"stage":{"implementation":"notrun","automatic":"notrun","actualScreen":"notrun","actualServer":"not-applicable"},"completed":false},
+    {"id":"LAW128-02","name":"앱 안의 법령 검색·관리목록 편입","acceptance":["공식3종 API 검색결과와 페이지를 앱에 표시","명시 추가·권한·중복/관할/판본 검증 뒤 기존 관리목록·주기 확인에 편입","검색/추가 실패·프로젝트 전환·지연응답 보존"],"stage":{"implementation":"notrun","automatic":"notrun","actualScreen":"notrun","actualServer":"notrun"},"completed":false},
+    {"id":"NTF128-03","name":"로그인 후 알림 건수 자동 표시","acceptance":["버튼 클릭 없이 비차단 본인 알림 조회","읽음·삭제·세션 교체·오류에서 정확한 건수와 개인 상태 유지"],"stage":{"implementation":"notrun","automatic":"notrun","actualScreen":"notrun","actualServer":"notrun"},"completed":false},
+    {"id":"RPT128-04","name":"국토부 보고서 작업화면 배치·크기","acceptance":["관련 선택과 주요/보조 행동을 가까이 정렬","편집·저장본·출력·플랫폼 반영 및 법정서식/숫자 보존"],"stage":{"implementation":"notrun","automatic":"notrun","actualScreen":"notrun","output":"notrun"},"completed":false}
+  ],
+  "summary":{"requirements":4,"completed":0,"allPlatformComponentsAccepted":false}
+}

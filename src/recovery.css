@@ -35,6 +35,9 @@ b,strong,th { font-weight:600; }
 .dp-app .sidebar-toggle:hover::after,.dp-app .sidebar-toggle:focus-visible::after { opacity:1; visibility:visible; }
 .dp-app .sidebar-toggle:hover { background:var(--surface-hover,#e8eef5); }
 .dp-app .sidebar-toggle:focus-visible { outline:2px solid var(--primary,#245b9c); outline-offset:2px; }
+.dp-app .brand .sidebar-toggle:hover { background:#ffffff18; }
+.dp-app .brand .sidebar-toggle:focus-visible { outline-color:#fff; }
+.dp-app .brand .sidebar-toggle::after { left:auto; right:0; border:1px solid #ffffff50; }
 .dp-app .nav { display:grid; align-content:start; gap:4px; padding:12px; overflow:auto; min-height:0; flex:1; }
 .dp-app .nav-btn { display:flex; align-items:center; gap:12px; width:100%; min-height:40px; padding:8px 10px; border:0; border-radius:5px; background:transparent; color:#cad7e5; text-align:left; white-space:nowrap; }
 .dp-app .nav-btn:hover { background:#ffffff12; color:white; }

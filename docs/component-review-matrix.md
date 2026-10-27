@@ -1,5 +1,33 @@
 # 화면·컴포넌트 업무 검토 매트릭스
 
+<!-- REVIEW128-START -->
+## 2026-10-27 후속 REVIEW128 — 4요구·검수 대기
+
+기존4261행을 보존하고 19행을 등록했습니다. 사이드바 위치, API 법령검색/추가, 알림 초기건수, 보고서 배치를 [명세](review-20261027-spec.md)·[대장](review-20261027-ledger.json)과 연결합니다. 구현·자동·실화면·실서버·출력을 각각 기록하며 이전 C61 통과를 승계하지 않습니다.
+
+- `NAV128-01` — 사이드바 상태별 제어 위치 (requirement): 미검증
+- `NAV128-CLOSE` — 사이드바 상단 접기 (button): 미검증
+- `NAV128-OPEN` — 접힌 후 독립 재열기 (button): 미검증
+- `LAW128-02` — API 법령 검색·관리 편입 (requirement): 미검증
+- `LAW128-TARGET` — 법령 검색 대상 (select-field): 미검증
+- `LAW128-QUERY` — 법령 검색어 (input): 미검증
+- `LAW128-RESULTS` — 공식 검색 결과·원문 (table): 미검증
+- `LAW128-PAGES` — 검색 결과 페이지 (buttons): 미검증
+- `LAW128-ADD` — 관리 법령 추가 (button): 미검증
+- `LAW128-CATALOG` — 추가 후 관리 법령·일일 확인 연결 (table): 미검증
+- `NTF128-03` — 로그인 후 본인 알림 건수 (requirement): 미검증
+- `NTF128-BADGE` — 클릭 전 미읽음 건수 (badge): 미검증
+- `NTF128-INBOX` — 읽음·삭제 후 건수·세션 일치 (popup): 미검증
+- `RPT128-04` — 국토부 보고서 작업화면 (requirement): 미검증
+- `RPT128-SELECT` — 보고서 종류·기간·기준 선택 (form): 미검증
+- `RPT128-TOOLS` — 수정·출력·작성본 저장 (button-group): 미검증
+- `RPT128-SOURCE` — 기재자료·저장본 (buttons): 미검증
+- `RPT128-EDITOR` — 보고서 편집·취소·플랫폼 반영 (editor): 미검증
+
+- `LAW128-LINK` — 기존 관리 법령의 현재 사업 연결 (button): 미검증
+
+<!-- REVIEW128-END -->
+
 기본 정의 기준은 `4bb632ab3a2326a6ccc5cb02983fd379bc486cf1b14adcaa984682ca6d5a81e9` — v0.12.5 C53입니다. 최신 한정 검수와 정식 반영은 **v0.12.7 C61**, 정식 지문 `115c1cca7a0080c0ff52212d2c94b74c007b4d807c88bc160faa698ff07b57d8`이며 [검수 기록](review-20261026-search127-verification.md)을 확인합니다. C53의 원정의와 과거 실패를 보존하고 C58 당시 범위와 C61 신규2요구의 승인 범위를 별도 연결했습니다. 전체 구성요소/모든 기능 완료는 아닙니다.
 
 <!-- SEARCH127-START -->

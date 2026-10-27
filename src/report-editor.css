@@ -69,3 +69,27 @@
  .report-edit-page { margin-left:0; }
  .report-edit-owner { align-items:flex-start; flex-direction:column; }
 }
+/* REPORT128 compact workspace controls. Official report pages and print stay unchanged. */
+.report-workspace-main { max-width:1040px; container:report-controls / inline-size; }
+.report-workspace-main>.panel-header { align-items:center; flex-wrap:wrap; gap:10px 20px; padding:12px 16px; }
+.report-workspace-main>.panel-body { padding:16px; }
+.report-workspace-main .form-grid.report-selectors { grid-template-columns:minmax(180px,1fr) minmax(160px,.75fr) minmax(220px,1.35fr); gap:12px; align-items:end; margin:0; max-width:960px; }
+.report-workspace-main .report-selectors .field { min-width:0; }
+.report-workspace-main .report-selectors input,.report-workspace-main .report-selectors select { width:100%; min-width:0; min-height:38px; }
+.report-workspace-main .report-primary-actions { margin-top:16px; gap:8px; }
+.report-workspace-main .report-primary-actions .btn { min-height:38px; }
+.report-workspace-main .report-management-actions { margin:0; gap:8px; }
+.report-workspace-main .report-management-actions .btn { min-height:32px; }
+.report-workspace-main .report-legal-links { margin-top:16px; padding-top:12px; border-top:1px solid var(--line); gap:6px 12px; font-size:12px; }
+@container report-controls (max-width:700px){
+ .report-workspace-main .form-grid.report-selectors { grid-template-columns:1fr; }
+ .report-workspace-main .report-primary-actions { align-items:stretch; }
+ .report-workspace-main .report-primary-actions .btn { flex:1 1 140px; }
+}
+@media(max-width:700px){
+ .report-workspace-main>.panel-header { align-items:flex-start; gap:10px; }
+ .report-workspace-main .form-grid.report-selectors { grid-template-columns:1fr; }
+ .report-workspace-main .report-management-actions { width:100%; }
+ .report-workspace-main .report-primary-actions { align-items:stretch; }
+ .report-workspace-main .report-primary-actions .btn { flex:1 1 140px; }
+}

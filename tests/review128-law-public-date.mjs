@@ -1,0 +1,35 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import {createHash} from 'node:crypto';
+import {createCenterHandlers} from '../server/center-services.mjs';
+const file='server/center-services.mjs',sha=value=>createHash('sha256').update(value).digest('hex'),before=sha(fs.readFileSync(file)),blank={sequence:null,lawId:null,url:null},base='https://www.law.go.kr/LSW/',lawURL=(sequence='123',extra='')=>base+'lsInfoP.do?lsiSeq='+sequence+extra,normal=(url,sequence='123',lawId='1')=>({sequence,lawId,url}),cases=[];
+function add(name,source,expected,{target='law',id='D'+(cases.length+1)}={}){cases.push({name,row:{id,target,name:'합성 법령 '+id,jurisdiction:null,source},expected});}
+add('source 공식 ISO일자만 제공', {sequence:'123',lawId:'1',effectiveAt:'2026-10-01'},normal(lawURL('123','&efYd=20261001')));
+add('원래 officialLawUrl 링크의 efYd 보존',{sequence:'123',lawId:'1',url:lawURL('123','&efYd=20261001')},normal(lawURL('123','&efYd=20261001')));
+add('두 정식일자 일치',{sequence:'123',lawId:'1',effectiveAt:'2026-10-01',url:lawURL('123','&efYd=20261001')},normal(lawURL('123','&efYd=20261001')));
+add('두 정식일자 충돌은 임의 선택하지 않음',{sequence:'123',lawId:'1',effectiveAt:'2026-11-01',url:lawURL('123','&efYd=20261001')},blank);
+add('잘못된 source 일자를 정상 URL로 숨기지 않음',{sequence:'123',lawId:'1',effectiveAt:'2026-02-30',url:lawURL('123','&efYd=20261001')},blank);
+add('잘못된 URL 일자를 정상 source로 숨기지 않음',{sequence:'123',lawId:'1',effectiveAt:'2026-10-01',url:lawURL('123','&efYd=20260230')},blank);
+add('중복 efYd는 같아도 하나를 고르지 않음',{sequence:'123',lawId:'1',url:lawURL('123','&efYd=20261001&efYd=20261001')},blank);
+add('빈 source 일자는 URL 정식일자를 사용',{sequence:'123',lawId:'1',effectiveAt:'',url:lawURL('123','&efYd=20261001')},normal(lawURL('123','&efYd=20261001')));
+add('빈 URL efYd는 잘못된 명시입력',{sequence:'123',lawId:'1',url:lawURL('123','&efYd=')},blank);
+add('URL의 ISO표기 efYd는 허용형식 아님',{sequence:'123',lawId:'1',url:lawURL('123','&efYd=2026-10-01')},blank);
+add('존재하지 않는 비윤년 일자',{sequence:'123',lawId:'1',url:lawURL('123','&efYd=20260229')},blank);
+add('윤년 일자는 보존',{sequence:'123',lawId:'1',url:lawURL('123','&efYd=20240229')},normal(lawURL('123','&efYd=20240229')));
+add('source 시각을 날짜로 임의 축약하지 않음',{sequence:'123',lawId:'1',effectiveAt:'2026-10-01T00:00:00Z'},blank);
+add('행정규칙에 law 전용 efYd를 붙이지 않음',{sequence:'777',lawId:'7',effectiveAt:'2026-10-01',url:base+'admRulLsInfoP.do?admRulSeq=777&efYd=20261001'},normal(base+'admRulLsInfoP.do?admRulSeq=777','777','7'),{target:'admrul'});
+add('조례의 미사용 날짜는 원문URL에 이식하지 않음',{sequence:'888',lawId:'8',effectiveAt:'not-a-date',url:base+'ordinInfoP.do?ordinSeq=888&efYd=not-a-date'},normal(base+'ordinInfoP.do?ordinSeq=888','888','8'),{target:'ordin'});
+add('다른 target 공식URL의 ID/일자를 law로 바꾸지 않음',{sequence:'123',lawId:'1',effectiveAt:'2026-10-01',url:base+'ordinInfoP.do?ordinSeq=123&efYd=20261001'},blank);
+add('source 판본ID와 URL 판본ID 충돌',{sequence:'123',lawId:'1',url:lawURL('456','&efYd=20261001')},blank);
+add('공식 일자는 보존하고 임의 query/hash는 배제',{sequence:'123',lawId:'1',url:lawURL('123','&efYd=20261001&api_key=synthetic-private#synthetic-private')},normal(lawURL('123','&efYd=20261001')));
+add('외부주소의 일자를 공식판본에 적용하지 않음',{sequence:'123',lawId:'1',effectiveAt:'2026-10-01',url:'https://example.invalid/LSW/lsInfoP.do?lsiSeq=123&efYd=20261101'},normal(lawURL('123','&efYd=20261001')));
+add('허용되지 않은 prototype target은 법령으로 fallback하지 않음',{sequence:'123',lawId:'1',effectiveAt:'2026-10-01'},blank,{target:'__proto__'});
+add('알 수 없는 target은 법령으로 fallback하지 않음',{sequence:'123',lawId:'1'},blank,{target:'custom'});
+add('중복 공식ID는 동일값이어도 모호함',{sequence:'123',lawId:'1',url:lawURL('123','&lsiSeq=123&efYd=20261001')},blank);
+add('일자 없는 공식링크는 날짜를 만들지 않음',{sequence:'123',lawId:'1',url:lawURL()},normal(lawURL()));
+add('legacy URL만 있어도 공식ID와 일자 모두 보존',{url:lawURL('123','&efYd=20261001')},normal(lawURL('123','&efYd=20261001'),'123',null));
+add('source null일자와 URL 정식일자',{sequence:'123',lawId:'1',effectiveAt:null,url:lawURL('123','&efYd=20261001')},normal(lawURL('123','&efYd=20261001')));
+const queries=[],handler=createCenterHandlers({origin:'https://qa.invalid',accessPolicy:async()=>({isAdmin:true,projects:{}}),withTransaction:async(req,fn)=>fn({query:async sql=>{queries.push(sql);return sql.includes('FROM development_project_platform.law_watchlist WHERE active=true')?{rows:cases.map(c=>c.row)}:{rows:[]};}},{userId:'QA'})});
+const result=await(await handler.referenceData(new Request('https://qa.invalid/api/reference-data?kind=laws'))).json(),checks=[];
+for(const [index,c]of cases.entries())try{assert.deepEqual(result.watchlist[index].source,c.expected);assert.deepEqual(Object.keys(result.watchlist[index].source).sort(),['lawId','sequence','url']);assert.equal(result.watchlist[index].id,c.row.id);assert.equal(result.watchlist[index].target,c.row.target);assert.equal(result.watchlist[index].name,c.row.name);checks.push({name:c.name,passed:true});}catch(error){checks.push({name:c.name,passed:false,observed:result.watchlist[index].source,expected:c.expected,message:error.message});}
+assert(queries.every(sql=>/^SELECT /.test(sql)),'fixture permits no mutation');const after=sha(fs.readFileSync(file));assert.equal(after,before,'product unchanged during fixture');const output='.build/review-20261027/law-public-date-independent-'+Date.now()+'.json',evidence={at:new Date().toISOString(),product:file,sourceBefore:before,sourceAfter:after,fixtureSha256:sha(fs.readFileSync(new URL(import.meta.url))),checks,passed:checks.filter(x=>x.passed).length,failed:checks.filter(x=>!x.passed).length,network:0,database:false,productEdits:0};fs.writeFileSync(output,JSON.stringify(evidence,null,2));console.log(JSON.stringify({output,...evidence}));if(evidence.failed)process.exitCode=1;

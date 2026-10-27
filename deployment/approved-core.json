@@ -1,13 +1,18 @@
 {
-  "version": "0.12.7",
+  "version": "0.12.8",
   "origin": "https://development-project-platform-preview-git-preview-b5dda7-igisra.vercel.app",
-  "htmlSha256": "22e2d9e736cf12ef2c03ec7f9bcc5f27e5474e55ac60154769c1030f2036e31f",
-  "bytes": 6715113,
+  "htmlSha256": "838b95494af9777d51c407cb6adda14b15dbe54d7107f2f0b990e0aa07e12640",
+  "bytes": 6736937,
   "notionRequired": false,
   "realProjectDataIncluded": false,
   "mode": "authenticated-private-schema-runtime-with-optional-source",
   "localBuildVerified": true,
-  "actualBrowser": "SEARCH127 C61 four-size focused UI flows passed. Official destination JS results were checked separately with CUA; real app-to-official flow follows publication. Current acceptance scope and preparation corrections in docs/review-20261026-search127-verification.md. No all-component or nationwide collection acceptance.",
+  "actualBrowser": "REVIEW128 exact C64 client; scoped native/navigation/report/law and separate final-server tests in docs/review-20261027-verification.md; member/publication pending",
   "previousProtectedDeployment": "dpl_8KPvxYTuF6tXPyio42gf455rGAqZ",
-  "previousVersion": "0.12.6"
+  "previousVersion": "0.12.7",
+  "status": "review128-c65-prepared-not-published",
+  "preparedAt": "2026-10-27",
+  "previousProductionDeploymentId": "dpl_J8Kb29XdQ4gcypzugH299mMZ23aL",
+  "previousProductionHtmlSha256": "115c1cca7a0080c0ff52212d2c94b74c007b4d807c88bc160faa698ff07b57d8",
+  "wholeRequirementsComplete": false
 }

@@ -43,7 +43,7 @@
     "businessCounterexamples": 1,
     "currentObservedDefinitions": 975,
     "historicalRecords": 3238,
-    "totalMatrixRecords": 4261,
+    "totalMatrixRecords": 4280,
     "allPriorIDsPreserved": true,
     "currentActualCohortCountsAreNotAddedToHistoricCounts": true,
     "sourceCandidateCohort": "C44 historical, not current visible controls",
@@ -52,7 +52,8 @@
     "review126CandidateSourceComponentDefinitions": 8,
     "review127PendingRecords": 0,
     "review127PlannedComponentDefinitions": 4,
-    "review127ScopedAcceptedRecords": 6
+    "review127ScopedAcceptedRecords": 6,
+    "review128PendingRecords": 19
   },
   "actualExecution": {
     "evidence": "C44-ACTUAL-42",
@@ -673396,6 +673397,1323 @@
         }
       },
       "acceptedScopeInformationSufficiency": "sufficient for the two explicitly accepted workflows; all-state/role/nationwide checks remain outside scope"
+    },
+    {
+      "componentID": "NAV128-01",
+      "parentID": null,
+      "kind": "requirement",
+      "label": "사이드바 상태별 제어 위치",
+      "route": {
+        "view": "navigation",
+        "tab": null
+      },
+      "lifecycle": "review128-planned",
+      "definitionStage": "2026-10-27 direct request, prior acceptance not inherited",
+      "purpose": {
+        "userTask": "사이드바 상태별 제어 위치",
+        "reference": "NAV128-01",
+        "decision": "approved-purpose-verification-pending"
+      },
+      "informationSufficiency": {
+        "status": "notrun"
+      },
+      "wording": {
+        "status": "notrun"
+      },
+      "geometry": {
+        "alignment": "notrun",
+        "size": "notrun",
+        "scroll": "notrun",
+        "keyboard": "notrun"
+      },
+      "consumers": [
+        "sidebar",
+        "topbar",
+        "keyboard",
+        "persisted UI"
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "date": "2026-10-27",
+          "reference": "docs/review-20261027-spec.md"
+        }
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualServer": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "source": [],
+      "html": null,
+      "evidence": [],
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "NAV128-CLOSE",
+      "parentID": "NAV128-01",
+      "kind": "button",
+      "label": "사이드바 상단 접기",
+      "route": {
+        "view": "navigation",
+        "tab": null
+      },
+      "lifecycle": "review128-planned",
+      "definitionStage": "2026-10-27 direct request, prior acceptance not inherited",
+      "purpose": {
+        "userTask": "사이드바 상단 접기",
+        "reference": "NAV128-01",
+        "decision": "approved-purpose-verification-pending"
+      },
+      "informationSufficiency": {
+        "status": "notrun"
+      },
+      "wording": {
+        "status": "notrun"
+      },
+      "geometry": {
+        "alignment": "notrun",
+        "size": "notrun",
+        "scroll": "notrun",
+        "keyboard": "notrun"
+      },
+      "consumers": [
+        "sidebar",
+        "topbar",
+        "keyboard",
+        "persisted UI"
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "date": "2026-10-27",
+          "reference": "docs/review-20261027-spec.md"
+        }
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualServer": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "source": [],
+      "html": null,
+      "evidence": [],
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "NAV128-OPEN",
+      "parentID": "NAV128-01",
+      "kind": "button",
+      "label": "접힌 후 독립 재열기",
+      "route": {
+        "view": "navigation",
+        "tab": null
+      },
+      "lifecycle": "review128-planned",
+      "definitionStage": "2026-10-27 direct request, prior acceptance not inherited",
+      "purpose": {
+        "userTask": "접힌 후 독립 재열기",
+        "reference": "NAV128-01",
+        "decision": "approved-purpose-verification-pending"
+      },
+      "informationSufficiency": {
+        "status": "notrun"
+      },
+      "wording": {
+        "status": "notrun"
+      },
+      "geometry": {
+        "alignment": "notrun",
+        "size": "notrun",
+        "scroll": "notrun",
+        "keyboard": "notrun"
+      },
+      "consumers": [
+        "sidebar",
+        "topbar",
+        "keyboard",
+        "persisted UI"
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "date": "2026-10-27",
+          "reference": "docs/review-20261027-spec.md"
+        }
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualServer": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "source": [],
+      "html": null,
+      "evidence": [],
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "LAW128-02",
+      "parentID": null,
+      "kind": "requirement",
+      "label": "API 법령 검색·관리 편입",
+      "route": {
+        "view": "law",
+        "tab": "search"
+      },
+      "lifecycle": "review128-planned",
+      "definitionStage": "2026-10-27 direct request, prior acceptance not inherited",
+      "purpose": {
+        "userTask": "API 법령 검색·관리 편입",
+        "reference": "LAW128-02",
+        "decision": "approved-purpose-verification-pending"
+      },
+      "informationSufficiency": {
+        "status": "notrun"
+      },
+      "wording": {
+        "status": "notrun"
+      },
+      "geometry": {
+        "alignment": "notrun",
+        "size": "notrun",
+        "scroll": "notrun",
+        "keyboard": "notrun"
+      },
+      "consumers": [
+        "search",
+        "pagination",
+        "add",
+        "managed catalog",
+        "project watch",
+        "daily collection"
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "date": "2026-10-27",
+          "reference": "docs/review-20261027-spec.md"
+        }
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualServer": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "source": [],
+      "html": null,
+      "evidence": [],
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "LAW128-TARGET",
+      "parentID": "LAW128-02",
+      "kind": "select-field",
+      "label": "법령 검색 대상",
+      "route": {
+        "view": "law",
+        "tab": "search"
+      },
+      "lifecycle": "review128-planned",
+      "definitionStage": "2026-10-27 direct request, prior acceptance not inherited",
+      "purpose": {
+        "userTask": "법령 검색 대상",
+        "reference": "LAW128-02",
+        "decision": "approved-purpose-verification-pending"
+      },
+      "informationSufficiency": {
+        "status": "notrun"
+      },
+      "wording": {
+        "status": "notrun"
+      },
+      "geometry": {
+        "alignment": "notrun",
+        "size": "notrun",
+        "scroll": "notrun",
+        "keyboard": "notrun"
+      },
+      "consumers": [
+        "search",
+        "pagination",
+        "add",
+        "managed catalog",
+        "project watch",
+        "daily collection"
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "date": "2026-10-27",
+          "reference": "docs/review-20261027-spec.md"
+        }
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualServer": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "source": [],
+      "html": null,
+      "evidence": [],
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "LAW128-QUERY",
+      "parentID": "LAW128-02",
+      "kind": "input",
+      "label": "법령 검색어",
+      "route": {
+        "view": "law",
+        "tab": "search"
+      },
+      "lifecycle": "review128-planned",
+      "definitionStage": "2026-10-27 direct request, prior acceptance not inherited",
+      "purpose": {
+        "userTask": "법령 검색어",
+        "reference": "LAW128-02",
+        "decision": "approved-purpose-verification-pending"
+      },
+      "informationSufficiency": {
+        "status": "notrun"
+      },
+      "wording": {
+        "status": "notrun"
+      },
+      "geometry": {
+        "alignment": "notrun",
+        "size": "notrun",
+        "scroll": "notrun",
+        "keyboard": "notrun"
+      },
+      "consumers": [
+        "search",
+        "pagination",
+        "add",
+        "managed catalog",
+        "project watch",
+        "daily collection"
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "date": "2026-10-27",
+          "reference": "docs/review-20261027-spec.md"
+        }
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualServer": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "source": [],
+      "html": null,
+      "evidence": [],
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "LAW128-RESULTS",
+      "parentID": "LAW128-02",
+      "kind": "table",
+      "label": "공식 검색 결과·원문",
+      "route": {
+        "view": "law",
+        "tab": "search"
+      },
+      "lifecycle": "review128-planned",
+      "definitionStage": "2026-10-27 direct request, prior acceptance not inherited",
+      "purpose": {
+        "userTask": "공식 검색 결과·원문",
+        "reference": "LAW128-02",
+        "decision": "approved-purpose-verification-pending"
+      },
+      "informationSufficiency": {
+        "status": "notrun"
+      },
+      "wording": {
+        "status": "notrun"
+      },
+      "geometry": {
+        "alignment": "notrun",
+        "size": "notrun",
+        "scroll": "notrun",
+        "keyboard": "notrun"
+      },
+      "consumers": [
+        "search",
+        "pagination",
+        "add",
+        "managed catalog",
+        "project watch",
+        "daily collection"
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "date": "2026-10-27",
+          "reference": "docs/review-20261027-spec.md"
+        }
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualServer": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "source": [],
+      "html": null,
+      "evidence": [],
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "LAW128-PAGES",
+      "parentID": "LAW128-RESULTS",
+      "kind": "buttons",
+      "label": "검색 결과 페이지",
+      "route": {
+        "view": "law",
+        "tab": "search"
+      },
+      "lifecycle": "review128-planned",
+      "definitionStage": "2026-10-27 direct request, prior acceptance not inherited",
+      "purpose": {
+        "userTask": "검색 결과 페이지",
+        "reference": "LAW128-RESULTS",
+        "decision": "approved-purpose-verification-pending"
+      },
+      "informationSufficiency": {
+        "status": "notrun"
+      },
+      "wording": {
+        "status": "notrun"
+      },
+      "geometry": {
+        "alignment": "notrun",
+        "size": "notrun",
+        "scroll": "notrun",
+        "keyboard": "notrun"
+      },
+      "consumers": [
+        "search",
+        "pagination",
+        "add",
+        "managed catalog",
+        "project watch",
+        "daily collection"
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "date": "2026-10-27",
+          "reference": "docs/review-20261027-spec.md"
+        }
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualServer": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "source": [],
+      "html": null,
+      "evidence": [],
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "LAW128-ADD",
+      "parentID": "LAW128-RESULTS",
+      "kind": "button",
+      "label": "관리 법령 추가",
+      "route": {
+        "view": "law",
+        "tab": "search"
+      },
+      "lifecycle": "review128-planned",
+      "definitionStage": "2026-10-27 direct request, prior acceptance not inherited",
+      "purpose": {
+        "userTask": "관리 법령 추가",
+        "reference": "LAW128-RESULTS",
+        "decision": "approved-purpose-verification-pending"
+      },
+      "informationSufficiency": {
+        "status": "notrun"
+      },
+      "wording": {
+        "status": "notrun"
+      },
+      "geometry": {
+        "alignment": "notrun",
+        "size": "notrun",
+        "scroll": "notrun",
+        "keyboard": "notrun"
+      },
+      "consumers": [
+        "search",
+        "pagination",
+        "add",
+        "managed catalog",
+        "project watch",
+        "daily collection"
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "date": "2026-10-27",
+          "reference": "docs/review-20261027-spec.md"
+        }
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualServer": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "source": [],
+      "html": null,
+      "evidence": [],
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "LAW128-CATALOG",
+      "parentID": "LAW128-ADD",
+      "kind": "table",
+      "label": "추가 후 관리 법령·일일 확인 연결",
+      "route": {
+        "view": "law",
+        "tab": "search"
+      },
+      "lifecycle": "review128-planned",
+      "definitionStage": "2026-10-27 direct request, prior acceptance not inherited",
+      "purpose": {
+        "userTask": "추가 후 관리 법령·일일 확인 연결",
+        "reference": "LAW128-ADD",
+        "decision": "approved-purpose-verification-pending"
+      },
+      "informationSufficiency": {
+        "status": "notrun"
+      },
+      "wording": {
+        "status": "notrun"
+      },
+      "geometry": {
+        "alignment": "notrun",
+        "size": "notrun",
+        "scroll": "notrun",
+        "keyboard": "notrun"
+      },
+      "consumers": [
+        "search",
+        "pagination",
+        "add",
+        "managed catalog",
+        "project watch",
+        "daily collection"
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "date": "2026-10-27",
+          "reference": "docs/review-20261027-spec.md"
+        }
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualServer": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "source": [],
+      "html": null,
+      "evidence": [],
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "NTF128-03",
+      "parentID": null,
+      "kind": "requirement",
+      "label": "로그인 후 본인 알림 건수",
+      "route": {
+        "view": "notification",
+        "tab": null
+      },
+      "lifecycle": "review128-planned",
+      "definitionStage": "2026-10-27 direct request, prior acceptance not inherited",
+      "purpose": {
+        "userTask": "로그인 후 본인 알림 건수",
+        "reference": "NTF128-03",
+        "decision": "approved-purpose-verification-pending"
+      },
+      "informationSufficiency": {
+        "status": "notrun"
+      },
+      "wording": {
+        "status": "notrun"
+      },
+      "geometry": {
+        "alignment": "notrun",
+        "size": "notrun",
+        "scroll": "notrun",
+        "keyboard": "notrun"
+      },
+      "consumers": [
+        "bootstrap",
+        "sidebar",
+        "inbox",
+        "read",
+        "delete",
+        "session"
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "date": "2026-10-27",
+          "reference": "docs/review-20261027-spec.md"
+        }
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualServer": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "source": [],
+      "html": null,
+      "evidence": [],
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "NTF128-BADGE",
+      "parentID": "NTF128-03",
+      "kind": "badge",
+      "label": "클릭 전 미읽음 건수",
+      "route": {
+        "view": "notification",
+        "tab": null
+      },
+      "lifecycle": "review128-planned",
+      "definitionStage": "2026-10-27 direct request, prior acceptance not inherited",
+      "purpose": {
+        "userTask": "클릭 전 미읽음 건수",
+        "reference": "NTF128-03",
+        "decision": "approved-purpose-verification-pending"
+      },
+      "informationSufficiency": {
+        "status": "notrun"
+      },
+      "wording": {
+        "status": "notrun"
+      },
+      "geometry": {
+        "alignment": "notrun",
+        "size": "notrun",
+        "scroll": "notrun",
+        "keyboard": "notrun"
+      },
+      "consumers": [
+        "bootstrap",
+        "sidebar",
+        "inbox",
+        "read",
+        "delete",
+        "session"
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "date": "2026-10-27",
+          "reference": "docs/review-20261027-spec.md"
+        }
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualServer": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "source": [],
+      "html": null,
+      "evidence": [],
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "NTF128-INBOX",
+      "parentID": "NTF128-03",
+      "kind": "popup",
+      "label": "읽음·삭제 후 건수·세션 일치",
+      "route": {
+        "view": "notification",
+        "tab": null
+      },
+      "lifecycle": "review128-planned",
+      "definitionStage": "2026-10-27 direct request, prior acceptance not inherited",
+      "purpose": {
+        "userTask": "읽음·삭제 후 건수·세션 일치",
+        "reference": "NTF128-03",
+        "decision": "approved-purpose-verification-pending"
+      },
+      "informationSufficiency": {
+        "status": "notrun"
+      },
+      "wording": {
+        "status": "notrun"
+      },
+      "geometry": {
+        "alignment": "notrun",
+        "size": "notrun",
+        "scroll": "notrun",
+        "keyboard": "notrun"
+      },
+      "consumers": [
+        "bootstrap",
+        "sidebar",
+        "inbox",
+        "read",
+        "delete",
+        "session"
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "date": "2026-10-27",
+          "reference": "docs/review-20261027-spec.md"
+        }
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualServer": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "source": [],
+      "html": null,
+      "evidence": [],
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "RPT128-04",
+      "parentID": null,
+      "kind": "requirement",
+      "label": "국토부 보고서 작업화면",
+      "route": {
+        "view": "report",
+        "tab": "generate"
+      },
+      "lifecycle": "review128-planned",
+      "definitionStage": "2026-10-27 direct request, prior acceptance not inherited",
+      "purpose": {
+        "userTask": "국토부 보고서 작업화면",
+        "reference": "RPT128-04",
+        "decision": "approved-purpose-verification-pending"
+      },
+      "informationSufficiency": {
+        "status": "notrun"
+      },
+      "wording": {
+        "status": "notrun"
+      },
+      "geometry": {
+        "alignment": "notrun",
+        "size": "notrun",
+        "scroll": "notrun",
+        "keyboard": "notrun"
+      },
+      "consumers": [
+        "selection",
+        "editor",
+        "saved report",
+        "platform apply",
+        "print"
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "date": "2026-10-27",
+          "reference": "docs/review-20261027-spec.md"
+        }
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualServer": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "source": [],
+      "html": null,
+      "evidence": [],
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "RPT128-SELECT",
+      "parentID": "RPT128-04",
+      "kind": "form",
+      "label": "보고서 종류·기간·기준 선택",
+      "route": {
+        "view": "report",
+        "tab": "generate"
+      },
+      "lifecycle": "review128-planned",
+      "definitionStage": "2026-10-27 direct request, prior acceptance not inherited",
+      "purpose": {
+        "userTask": "보고서 종류·기간·기준 선택",
+        "reference": "RPT128-04",
+        "decision": "approved-purpose-verification-pending"
+      },
+      "informationSufficiency": {
+        "status": "notrun"
+      },
+      "wording": {
+        "status": "notrun"
+      },
+      "geometry": {
+        "alignment": "notrun",
+        "size": "notrun",
+        "scroll": "notrun",
+        "keyboard": "notrun"
+      },
+      "consumers": [
+        "selection",
+        "editor",
+        "saved report",
+        "platform apply",
+        "print"
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "date": "2026-10-27",
+          "reference": "docs/review-20261027-spec.md"
+        }
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualServer": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "source": [],
+      "html": null,
+      "evidence": [],
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "RPT128-TOOLS",
+      "parentID": "RPT128-04",
+      "kind": "button-group",
+      "label": "수정·출력·작성본 저장",
+      "route": {
+        "view": "report",
+        "tab": "generate"
+      },
+      "lifecycle": "review128-planned",
+      "definitionStage": "2026-10-27 direct request, prior acceptance not inherited",
+      "purpose": {
+        "userTask": "수정·출력·작성본 저장",
+        "reference": "RPT128-04",
+        "decision": "approved-purpose-verification-pending"
+      },
+      "informationSufficiency": {
+        "status": "notrun"
+      },
+      "wording": {
+        "status": "notrun"
+      },
+      "geometry": {
+        "alignment": "notrun",
+        "size": "notrun",
+        "scroll": "notrun",
+        "keyboard": "notrun"
+      },
+      "consumers": [
+        "selection",
+        "editor",
+        "saved report",
+        "platform apply",
+        "print"
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "date": "2026-10-27",
+          "reference": "docs/review-20261027-spec.md"
+        }
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualServer": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "source": [],
+      "html": null,
+      "evidence": [],
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "RPT128-SOURCE",
+      "parentID": "RPT128-04",
+      "kind": "buttons",
+      "label": "기재자료·저장본",
+      "route": {
+        "view": "report",
+        "tab": "generate"
+      },
+      "lifecycle": "review128-planned",
+      "definitionStage": "2026-10-27 direct request, prior acceptance not inherited",
+      "purpose": {
+        "userTask": "기재자료·저장본",
+        "reference": "RPT128-04",
+        "decision": "approved-purpose-verification-pending"
+      },
+      "informationSufficiency": {
+        "status": "notrun"
+      },
+      "wording": {
+        "status": "notrun"
+      },
+      "geometry": {
+        "alignment": "notrun",
+        "size": "notrun",
+        "scroll": "notrun",
+        "keyboard": "notrun"
+      },
+      "consumers": [
+        "selection",
+        "editor",
+        "saved report",
+        "platform apply",
+        "print"
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "date": "2026-10-27",
+          "reference": "docs/review-20261027-spec.md"
+        }
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualServer": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "source": [],
+      "html": null,
+      "evidence": [],
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "RPT128-EDITOR",
+      "parentID": "RPT128-04",
+      "kind": "editor",
+      "label": "보고서 편집·취소·플랫폼 반영",
+      "route": {
+        "view": "report",
+        "tab": "generate"
+      },
+      "lifecycle": "review128-planned",
+      "definitionStage": "2026-10-27 direct request, prior acceptance not inherited",
+      "purpose": {
+        "userTask": "보고서 편집·취소·플랫폼 반영",
+        "reference": "RPT128-04",
+        "decision": "approved-purpose-verification-pending"
+      },
+      "informationSufficiency": {
+        "status": "notrun"
+      },
+      "wording": {
+        "status": "notrun"
+      },
+      "geometry": {
+        "alignment": "notrun",
+        "size": "notrun",
+        "scroll": "notrun",
+        "keyboard": "notrun"
+      },
+      "consumers": [
+        "selection",
+        "editor",
+        "saved report",
+        "platform apply",
+        "print"
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "date": "2026-10-27",
+          "reference": "docs/review-20261027-spec.md"
+        }
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualServer": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "source": [],
+      "html": null,
+      "evidence": [],
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "LAW128-LINK",
+      "parentID": "LAW128-RESULTS",
+      "kind": "button",
+      "label": "기존 관리 법령을 현재 사업에 연결",
+      "route": {
+        "view": "law",
+        "tab": "search"
+      },
+      "lifecycle": "review128-planned",
+      "definitionStage": "2026-10-27 direct request, prior acceptance not inherited",
+      "purpose": {
+        "userTask": "기존 관리 법령을 현재 사업에 연결",
+        "reference": "LAW128-02",
+        "decision": "approved-purpose-verification-pending"
+      },
+      "informationSufficiency": {
+        "status": "notrun"
+      },
+      "wording": {
+        "status": "notrun"
+      },
+      "geometry": {
+        "alignment": "notrun",
+        "size": "notrun",
+        "scroll": "notrun",
+        "keyboard": "notrun"
+      },
+      "consumers": [
+        "global managed catalog",
+        "current project watch",
+        "explicit existing watch POST",
+        "current project permissions"
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "date": "2026-10-27",
+          "reference": "docs/review-20261027-spec.md"
+        }
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualServer": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "source": [],
+      "html": null,
+      "evidence": [],
+      "allStatesAccepted": false
     }
   ],
   "popupCandidates": [
@@ -736995,5 +738313,16 @@
       },
       "preservedUnchanged": true
     }
+  },
+  "review128": {
+    "date": "2026-10-27",
+    "targetRelease": "0.12.8",
+    "requirements": 4,
+    "completed": 0,
+    "records": 19,
+    "scope": "four latest user requests only",
+    "source": "docs/review-20261027-spec.md",
+    "ledger": "docs/review-20261027-ledger.json",
+    "allPlatformComponentsAccepted": false
   }
 }
