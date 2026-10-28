@@ -1,10 +1,10 @@
 {
-  "version": "0.12.8",
+  "version": "0.12.9",
   "origin": "https://igis-development-project-platform.vercel.app",
-  "htmlSha256": "245468a361139cf78d9cc66c1a9858e7f7ba2b1e73269835523fa73b7f46362d",
-  "bytes": 6737331,
-  "status": "published-review128-c66-verified",
-  "preparedAt": "2026-10-27",
+  "htmlSha256": "01821a726f27511b02905fe614e1b7c3327f892a28dde7780ad621b1c83d481d",
+  "bytes": 6782277,
+  "status": "review129-c73-prepared-not-published",
+  "preparedAt": "2026-10-28",
   "historicalV0120FunctionalVerificationDeploymentId": "dpl_Dnx4JXyfitYNqAD97WMTzVBrXehb",
   "historicalV0120FunctionalVerificationSourceCommit": "6f475d8f7228fe194ee04b0d35623b80db10a4b0",
   "historicalV0120MetadataOnlyEvidence": ".build/center-20261020/c32-metadata-only-equivalence.json",
@@ -22,9 +22,11 @@
   "previousC61PublicationVerifiedAt": "2026-10-26T10:01:23.213Z",
   "previousC61DeploymentId": "dpl_J8Kb29XdQ4gcypzugH299mMZ23aL",
   "previousC61SourceCommit": "6139a57a7aeccc9f5843a7b0409872c408c8328b",
-  "actualBrowser": "REVIEW128 C66 final209 logical, native law3/report5+7/navigation4 with exact bridge, existing owner API3/add/reload/DB and final UI readback. Scoped verification in docs/review-20261027-verification.md.",
-  "sourceCommit": "e876a18bbd550d03f4c8ec43fab0ee30f62991dc",
-  "deploymentId": "dpl_GwJPCqUZMVian8ryVRiSofYQhK5a",
-  "publishedAt": "2026-10-27T08:56:50.340Z",
-  "publicationVerifiedAt": "2026-10-27T08:56:50.340Z"
+  "actualBrowser": "Scoped C73 acceptance tracked in docs/review-20261028-verification.md; no full-platform acceptance",
+  "previousReview128Release": {
+    "version": "0.12.8",
+    "sourceCommit": "e876a18bbd550d03f4c8ec43fab0ee30f62991dc",
+    "deploymentId": "dpl_GwJPCqUZMVian8ryVRiSofYQhK5a",
+    "formalHtmlSha256": "245468a361139cf78d9cc66c1a9858e7f7ba2b1e73269835523fa73b7f46362d"
+  }
 }

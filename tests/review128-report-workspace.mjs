@@ -23,7 +23,9 @@ test('배치는 전용 작업영역에만 제한하고 인쇄·A4 크기를 덮�
  assert.match(css,/\.report-workspace-main \.form-grid\.report-selectors\s*\{[^}]*grid-template-columns:/);
  assert.match(css,/@media\(max-width:700px\)[\s\S]*\.report-workspace-main \.form-grid\.report-selectors\s*\{[^}]*grid-template-columns:1fr/);
  assert.match(css,/@container report-controls \(max-width:700px\)[\s\S]*\.report-workspace-main \.form-grid\.report-selectors\s*\{[^}]*grid-template-columns:1fr/,'sidebar-open narrow content must respond to its own width');
- const owned=css.slice(css.indexOf('/* REPORT128 compact workspace controls.'));
+ const start=css.indexOf('/* REPORT128 compact workspace controls.'),popup=css.indexOf('/* Active report editor only:',start),resume=popup<0?-1:css.indexOf('@media(max-width:700px)',popup);
+ if(popup>=0)assert(resume>popup,'REPORT129 popup boundary ends before the retained REPORT128 mobile rule');
+ const owned=popup<0?css.slice(start):css.slice(start,popup)+css.slice(resume);
  assert(owned&&!owned.includes('.report-edit-page')&&!owned.includes('@page')&&!owned.includes('.official-form-table'));
 });
 test('보조 조회는 원래 자료·저장본을 열며 원장·보고본을 수정하지 않는다',()=>{

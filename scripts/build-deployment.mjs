@@ -6,7 +6,7 @@ import {verifyCloudBuild} from './cloud-build-check.mjs';
 import {resolveCloudOrigin} from './deployment-policy.mjs';
 import {permitDomainBundle} from './permit-domain-bundle.mjs';
 
-const cloud=process.argv.includes('--cloud'),version=cloud?'0.12.8':'0.11.0',runtime={mode:'real',version,storageKey:cloud?'development-platform-cloud-v0111':'development-platform-real-v0110',notionSourceUrl:'/api/notion-source',...(cloud?{persistence:'cloud'}:{})};
+const cloud=process.argv.includes('--cloud'),version=cloud?'0.12.9':'0.11.0',runtime={mode:'real',version,storageKey:cloud?'development-platform-cloud-v0111':'development-platform-real-v0110',notionSourceUrl:'/api/notion-source',...(cloud?{persistence:'cloud'}:{})};
 const args=process.argv.slice(2),option=name=>{const index=args.indexOf(name);return index>=0?args[index+1]||'':''},sourceArg=option('--source'),outArg=option('--out'),iconsArg=option('--icons');
 const localQa=cloud&&args.includes('--local-qa');if(localQa&&process.env.VERCEL==='1')throw Error('합성 HTTP 검수본은 클라우드에 배포할 수 없습니다.');if(cloud)runtime.cloudOrigin=resolveCloudOrigin(option('--cloud-origin'),{localQa});
 if(!outArg)throw Error('실제 빌드는 --out <.build/private-html>을 지정해야 합니다. Notion --source는 선택사항입니다.');
@@ -48,6 +48,7 @@ code+='const PURPOSE125_FIX_LEDGER='+await read('docs/purpose-20261023-ledger.js
 code+='const REVIEW126_FIX_LEDGER='+await read('docs/review-20261026-ledger.json')+';\n';
 code+='const SEARCH127_FIX_LEDGER='+await read('docs/review-20261026-search127-ledger.json')+';\n';
 code+='const REVIEW128_FIX_LEDGER='+await read('docs/review-20261027-ledger.json')+';\n';
+code+='const REVIEW129_FIX_LEDGER='+await read('docs/review-20261028-ledger.json')+';\n';
 const permitReference=JSON.parse(await read('docs/permit-catalog-20261020-review.json'));code+='const PERMIT_REFERENCE='+JSON.stringify({asOf:permitReference.asOf,sources:permitReference.sources,rows:permitReference.rows})+';\n';
 const bootCode="App.notionProjects=NotionProjects;App.spec.meta.version='"+version+"';"+(cloud?'App.cloudSession.start();':'App.boot();App.notionAddon?.start?.();');
 const reportAssetsBinding=cloud?'{css:'+JSON.stringify(reportCss)+',fonts:document.getElementById("dp-fonts").textContent}':JSON.stringify({css:reportCss,fonts:fontCss});

@@ -86,6 +86,13 @@
  .report-workspace-main .report-primary-actions { align-items:stretch; }
  .report-workspace-main .report-primary-actions .btn { flex:1 1 140px; }
 }
+/* Active report editor only: the original input stays in its cell DOM; printed forms are separate. */
+.report-popup-placeholder { display:block; min-width:0; width:100%; pointer-events:none; }
+.report-edit-page .report-edit-cell>.cell-editable.report-popup-cell { position:fixed; z-index:1200; left:var(--report-popup-left); top:var(--report-popup-top); width:var(--report-popup-width); max-width:calc(100vw - 24px); max-height:var(--report-popup-max-height); display:grid; gap:8px; margin:0; padding:12px; box-sizing:border-box; border:1px solid var(--blue); border-radius:6px; background:#fff; box-shadow:0 4px 18px #10243e26; color:var(--text,#10243e); font:400 14px/1.4 Pretendard,'Malgun Gothic',sans-serif; overflow:auto; cursor:default; }
+.report-edit-page .report-popup-cell .cell-edit-input { display:block; width:100%; min-width:0; max-width:100%; min-height:36px; box-sizing:border-box; font:inherit; transform:none!important; }
+.report-edit-page .report-popup-cell textarea.cell-edit-input { min-height:120px; resize:vertical; }
+.report-edit-page .report-popup-cell .dp-inline-tools.in-cell { width:100%; margin:0; }
+.report-edit-page .report-popup-cell .dp-inline-error { flex-basis:100%; max-width:100%; white-space:normal; overflow-wrap:anywhere; font:inherit; }
 @media(max-width:700px){
  .report-workspace-main>.panel-header { align-items:flex-start; gap:10px; }
  .report-workspace-main .form-grid.report-selectors { grid-template-columns:1fr; }

@@ -1,5 +1,7 @@
 # 현재 작업 인수인계
 
+> **진행 중: REVIEW129 / v0.12.9** — 최신6개 요청과 추가 열 이동 결함을 함께 수정·검수합니다. 정식 버전은 아래 v0.12.8이며 아직 새 버전 게시 완료를 뜻하지 않습니다. [명세](review-20261028-spec.md) · [법령 범위](review-20261028-law-review.md)
+
 ## 2026-10-27 최종 정식 — REVIEW128 C66
 
 최신4요구는 **v0.12.8 C66 정식**에 반영했습니다. 소스 `e876a18bbd550d03f4c8ec43fab0ee30f62991dc`, 배포 `dpl_GwJPCqUZMVian8ryVRiSofYQhK5a`, 정식 HTML `245468a361139cf78d9cc66c1a9858e7f7ba2b1e73269835523fa73b7f46362d`·6,737,331B입니다. [명세](review-20261027-spec.md)·[최종 검수](review-20261027-verification.md)를 우선하며 아래 C61/C58/C53 등은 당시 기록입니다.

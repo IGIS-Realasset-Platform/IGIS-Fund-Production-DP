@@ -282,3 +282,6 @@ textarea.spec-json { display:block; width:100%; resize:none; border:0; border-ra
   .portfolio-cost-axis { min-width:600px; }
   .panel-body:has(.portfolio-cost-list) { overflow:auto; }
 }
+/* Editing cannot become an auto-layout column's new intrinsic width. */
+table[data-inline-layout-locked] .cell-editable.is-editing { box-sizing:border-box; width:100%; min-width:0; max-width:100%; }
+table[data-inline-layout-locked] .cell-edit-input { box-sizing:border-box; width:100%; min-width:0; max-width:100%; }

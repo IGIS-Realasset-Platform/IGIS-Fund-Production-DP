@@ -1,0 +1,122 @@
+{
+  "schemaVersion": 1,
+  "id": "REVIEW129",
+  "createdAt": "2026-10-28",
+  "targetRelease": "0.12.9",
+  "targetReleaseStatus": "candidate-build-snapshot",
+  "baseline": "v0.12.8 C66",
+  "items": [
+    {
+      "id": "LAW129-01",
+      "name": "변경내용의 직접 신구대비·원문 링크",
+      "acceptance": [
+        "요약 유무와 무관한 정확 공식 링크",
+        "운영 설명 제거·원자료 보존"
+      ],
+      "stage": {
+        "implementation": "implemented-pending-final-acceptance",
+        "automatic": "focused-passed-final-regression-pending",
+        "actualScreen": "notrun",
+        "actualProvider": "notrun"
+      },
+      "completed": false
+    },
+    {
+      "id": "LAW129-02",
+      "name": "일반 부동산개발 법령 관리범위 대조",
+      "acceptance": [
+        "단계·용도·인허가·법령계층 독립 coverage와 누락보완",
+        "기존 관리/사업연결 보존·범위 밖 완전성 주장 금지"
+      ],
+      "stage": {
+        "research": "documented",
+        "implementation": "implemented-pending-final-acceptance",
+        "automatic": "focused-passed-final-regression-pending",
+        "actualDatabase": "376-active-181-added-195-originals-preserved"
+      },
+      "completed": false
+    },
+    {
+      "id": "LAW129-03",
+      "name": "전체 기본 공식3종 통합 검색",
+      "acceptance": [
+        "전체 기본·3종 검색/페이지/종료·부분실패 구별",
+        "종류·관할·판본·추가/권한/지연/재접속 보존"
+      ],
+      "stage": {
+        "implementation": "implemented-pending-final-acceptance",
+        "automatic": "focused-passed-final-regression-pending",
+        "actualScreen": "notrun",
+        "actualProvider": "notrun"
+      },
+      "completed": false
+    },
+    {
+      "id": "RPT129-04",
+      "name": "DB와4종 보고서 원천·역반영 대조",
+      "acceptance": [
+        "현재DB 독립값과 보고/미리보기/출력 일치",
+        "보고서 전용/원장반영 구별·중앙저장·재접속·원값복원"
+      ],
+      "stage": {
+        "implementation": "implemented-pending-final-acceptance",
+        "automatic": "focused-passed-final-regression-pending",
+        "actualScreen": "notrun",
+        "actualDatabase": "notrun",
+        "output": "notrun"
+      },
+      "completed": false
+    },
+    {
+      "id": "UX129-05",
+      "name": "인허가 목록·공사 보고기재 UX",
+      "acceptance": [
+        "레퍼런스 기반 목록 도구·표 위계·한번에 입력",
+        "선택/날짜/숫자·이력/원자저장/취소·기존 상세4탭 보존"
+      ],
+      "stage": {
+        "research": "documented",
+        "implementation": "implemented-pending-final-acceptance",
+        "automatic": "focused-passed-final-regression-pending",
+        "actualScreen": "notrun"
+      },
+      "completed": false
+    },
+    {
+      "id": "FORM129-06",
+      "name": "전체 활성 입력 자료형·보존 검토",
+      "acceptance": [
+        "정적/실제/동적 입력 분모·행별 의미/자료형/근거와 미해결 구별",
+        "데이터 종류에 맞는 도구·선행0/미입력0/legacy값·저장/원복 경계"
+      ],
+      "stage": {
+        "inventory": "notrun",
+        "implementation": "implemented-pending-final-acceptance",
+        "automatic": "focused-passed-final-regression-pending",
+        "actualScreen": "notrun",
+        "actualDatabase": "notrun"
+      },
+      "completed": false
+    },
+    {
+      "id": "UX129-07",
+      "name": "같은셀 편집의 열 위치·너비 안정성",
+      "acceptance": [
+        "실제 편집 진입 전후 열 기하·사용자 너비·스크롤 보존",
+        "저장/취소/실패·모든 표/팝업·내용/오류 잘림 방지"
+      ],
+      "stage": {
+        "implementation": "implemented-pending-final-acceptance",
+        "automatic": "focused-passed-final-regression-pending",
+        "actualScreen": "notrun"
+      },
+      "completed": false
+    }
+  ],
+  "summary": {
+    "requirements": 7,
+    "completed": 0,
+    "allPlatformComponentsAccepted": false,
+    "compiledSnapshotIsFinalAcceptance": false
+  }
+}
