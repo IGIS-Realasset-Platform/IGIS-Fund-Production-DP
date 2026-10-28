@@ -22112,7 +22112,39 @@
       "independentTreeAndTotals": 39,
       "actualWritesByThisAudit": 0
     },
-    "nativeAndPdf": "separate exact-artifact evidence; static source review is not native/API/PDF acceptance"
+    "nativeAndPdf": "separate exact-artifact evidence; static source review is not native/API/PDF acceptance",
+    "focusedNativeEvidence": {
+      "c70": {
+        "htmlSha256": "be8155fd2a28989008adb50e26769d0786ce58e29564b4d01eda2521afcac8bc",
+        "readers": 12,
+        "widgets": 8,
+        "sourceRowValues": 290,
+        "pdfCount": 12,
+        "pages": 48,
+        "actualViewedPages": 48
+      },
+      "c72": {
+        "htmlSha256": "d3e9d0f036687bf8e4754e135d8e20a5943752235c7c9bb411ac1b89b90b1603",
+        "accepted": false,
+        "controlPass": 7,
+        "controlFail": 1,
+        "reason": "Actual textarea moved beyond the popup; initial outer-popup-only assertion did not suffice."
+      },
+      "c73": {
+        "htmlSha256": "b14a3ff6084479039765e061e3e9a49dd9840ec138dd4d274952c1c401b5500b",
+        "readers": 1,
+        "widgets": 8,
+        "controlHitTests": 24,
+        "sourceRowValues": 47,
+        "actualViewedInputPngs": 8,
+        "actualViewedReaderPngs": 1,
+        "actualDatabaseWrites": 0,
+        "actualRemoteRequests": 0,
+        "errors": 0,
+        "pdfReexports": 0
+      },
+      "scope": "These bounded runtime flows do not equal all680 static source candidates or all dynamic input instances."
+    }
   },
   "sources": [
     [

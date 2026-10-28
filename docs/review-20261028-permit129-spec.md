@@ -95,3 +95,14 @@ C71에서 관측한390 왼쪽잘림3과769 토지계약 첫 Escape14px 변동은
 - 인허가 원본 유지: `permit129-c71-c72-source-bridge.json`에서 `permit-views.js`99e2…·`permit.css`16d3…·`permit-detail.css`60fe… 전체 원문 바이트가 C71/C72 HTML에 그대로 포함됨을 확인했습니다. C71의33필드×5=165검사/5업무흐름과 C72의 `permit129-1793161084045/evidence.json`390 기준33필드·mock503/저장/reload1흐름 통과를 분리 기록합니다. 공유core 변경 후에도 원문·초기clean·취소·조건부필수·이력·과거보고서 보존을 확인했습니다.
 - 종합 증거: `.build/review-20261028/frontend129-c72-composite-acceptance.json`에 원 실행/재실행 경로·SHA·원준비오류·정확 대체 흐름·고유255분모·제품/실행기 지문을 연결했습니다. 최종 실행기8cf10…는 준비교정 후 동결입니다.
 - 실제DB쓰기0·실제 사용자 쿠키0·외부네트워크0이며 격리 Edge는 모두 종료했습니다. 실제 회원·서버·정식배포 수락은 root의 별도 검수 대상입니다.
+
+
+## C73 최종 CSS 교정과 정확 분모 분리
+
+보고서 담당의 별도 실제 검수에서 C72의390 textarea와 공통 left clamp가 충돌한 사례가 추가 확인됐습니다. C72의 대표40개 당시 통과는 그 외 사례까지 결함이 없다는 뜻이 아니며 원 결과를 보존합니다. Root는 보고서 전용 `.report-edit-page .report-popup-cell .cell-edit-input`에 `transform:none!important; `26바이트 한 곳만 추가했습니다.
+
+독립 C72→C73 파일 비교 결과는 `frontend129-c72-c73-css-bridge.json`에 기록했습니다. 변경 오프셋2164641 이전/이후 전체 바이트가 동일하며 공통core/recovery/permit3파일/report.js 전체 원문도 두 HTML에 그대로 들어 있습니다. 해당 popup 클래스는 reportCell 편집 경로에서만 생성되므로 비보고서 입력에는 선택자가 맞지 않습니다. 기존255 중 보고서40(8대표×5해상도)/비보고서215를 정확히 분리했습니다.
+
+C73 `.build/review-20261028/integration-candidate-73.html`의 SHA256은 `b14a3ff6084479039765e061e3e9a49dd9840ec138dd4d274952c1c401b5500b`, 크기6,782,342B입니다. 보고서 담당의 reader1·강화입력8 종료/Edge 종료 후, 같은 최종 실행기로 `--views report --widths 1280,1440,1600,769,390`을 실행했습니다. `inline-layout-current-1793161428152/evidence.json`에서40/40통과·제품실패0·준비오류0·페이지오류0, 실행 중 실행기 변경0입니다. 과거40과 현재40의 width/identity 전체 대응도 assert했습니다. 실제 hit-test·가시프레임·tooltip0·표/열/가로scroll1px·취소/동일값 저장·종료원스타일 복원을 확인했습니다.390의 text/textarea/date/number/tel/email6캡처도 직접 열어 입력 전체가 보이는 것을 확인했습니다.
+
+최종 합본은 `frontend129-c73-composite-acceptance.json`입니다. **비보고서215는 C72 실제 검사+정확 CSS 범위 동등성, 보고서40은 최종 C73 실제 검사로 합계 고유255**이며 단일255개 C73 실행처럼 표시하지 않습니다. 보고서 담당의 강화입력8/reader1·PDF/서버 검수 분모는 이255와 별개입니다. 인허가33필드·원문·원금액·상세4탭·DB·사용자 쿠키에 추가 변경은 없습니다. 실제DB쓰기0/외부호출0/격리 Edge 종료를 유지합니다.

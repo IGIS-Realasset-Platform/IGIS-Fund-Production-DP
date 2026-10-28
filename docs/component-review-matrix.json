@@ -1,16 +1,15 @@
 {
   "schemaVersion": "component-review-matrix-v1",
   "deployedRelease": {
-    "version": "0.12.8",
-    "candidate": "C66",
-    "date": "2026-10-27",
-    "sourceCommit": "e876a18bbd550d03f4c8ec43fab0ee30f62991dc",
-    "deploymentId": "dpl_GwJPCqUZMVian8ryVRiSofYQhK5a",
-    "formalHtmlSha256": "245468a361139cf78d9cc66c1a9858e7f7ba2b1e73269835523fa73b7f46362d",
-    "bytes": 6737331,
-    "publishedAt": "2026-10-27T08:56:50.340Z",
-    "verification": "docs/review-20261027-verification.md",
-    "inventoryBaselinePreserved": true,
+    "version": "0.12.9",
+    "candidate": "C73",
+    "date": "2026-10-28",
+    "sourceCommit": "3a74775b99b7d51a8f21c7bb3eead5fb8f317f74",
+    "deploymentId": "dpl_AAmrwxQmC21Ed6Yu3kwqNRBX3MQy",
+    "formalHtmlSha256": "01821a726f27511b02905fe614e1b7c3327f892a28dde7780ad621b1c83d481d",
+    "bytes": 6782277,
+    "publishedAt": "2026-10-28T04:30:50.551Z",
+    "verification": "docs/review-20261028-verification.md",
     "allComponentsAccepted": false
   },
   "at": "2026-10-23T04:12:22.096Z",
@@ -677111,7 +677110,7 @@
       "route": {
         "view": "law"
       },
-      "lifecycle": "review129-planned",
+      "lifecycle": "review129-published-scope-accepted",
       "definitionStage": "latest2026-10-28 request; no inherited pass",
       "purpose": {
         "userTask": "신구대비·원문 직접링크",
@@ -677119,20 +677118,28 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scope-accepted",
+          "evidence": [
+            "docs/review-20261028-verification.md"
+          ]
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scope-passed",
+          "evidence": [
+            "228 logical plus changed CSS direct consumers5"
+          ]
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scoped-passed",
+          "evidence": [
+            "C73 composite255; permit33x5 bridge; report8"
+          ]
         },
         "actualDatabase": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scoped-owner-or-readonly-verified",
+          "evidence": [
+            "docs/review-20261028-verification.md"
+          ]
         },
         "output": {
           "status": "notrun",
@@ -677140,7 +677147,10 @@
         }
       },
       "source": [],
-      "html": null,
+      "html": {
+        "candidate": "C73",
+        "sha256": "01821a726f27511b02905fe614e1b7c3327f892a28dde7780ad621b1c83d481d"
+      },
       "allStatesAccepted": false,
       "policyBasis": [
         {
@@ -677158,7 +677168,7 @@
       "route": {
         "view": "law"
       },
-      "lifecycle": "review129-planned",
+      "lifecycle": "review129-published-scope-accepted",
       "definitionStage": "latest2026-10-28 request; no inherited pass",
       "purpose": {
         "userTask": "일반 개발법령 coverage",
@@ -677166,20 +677176,28 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scope-accepted",
+          "evidence": [
+            "docs/review-20261028-verification.md"
+          ]
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scope-passed",
+          "evidence": [
+            "228 logical plus changed CSS direct consumers5"
+          ]
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scoped-passed",
+          "evidence": [
+            "C73 composite255; permit33x5 bridge; report8"
+          ]
         },
         "actualDatabase": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scoped-owner-or-readonly-verified",
+          "evidence": [
+            "docs/review-20261028-verification.md"
+          ]
         },
         "output": {
           "status": "notrun",
@@ -677187,7 +677205,10 @@
         }
       },
       "source": [],
-      "html": null,
+      "html": {
+        "candidate": "C73",
+        "sha256": "01821a726f27511b02905fe614e1b7c3327f892a28dde7780ad621b1c83d481d"
+      },
       "allStatesAccepted": false,
       "policyBasis": [
         {
@@ -677205,7 +677226,7 @@
       "route": {
         "view": "law"
       },
-      "lifecycle": "review129-planned",
+      "lifecycle": "review129-published-scope-accepted",
       "definitionStage": "latest2026-10-28 request; no inherited pass",
       "purpose": {
         "userTask": "전체 기본 통합검색",
@@ -677213,20 +677234,28 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scope-accepted",
+          "evidence": [
+            "docs/review-20261028-verification.md"
+          ]
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scope-passed",
+          "evidence": [
+            "228 logical plus changed CSS direct consumers5"
+          ]
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scoped-passed",
+          "evidence": [
+            "C73 composite255; permit33x5 bridge; report8"
+          ]
         },
         "actualDatabase": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scoped-owner-or-readonly-verified",
+          "evidence": [
+            "docs/review-20261028-verification.md"
+          ]
         },
         "output": {
           "status": "notrun",
@@ -677234,7 +677263,10 @@
         }
       },
       "source": [],
-      "html": null,
+      "html": {
+        "candidate": "C73",
+        "sha256": "01821a726f27511b02905fe614e1b7c3327f892a28dde7780ad621b1c83d481d"
+      },
       "allStatesAccepted": false,
       "policyBasis": [
         {
@@ -677252,7 +677284,7 @@
       "route": {
         "view": "report"
       },
-      "lifecycle": "review129-planned",
+      "lifecycle": "review129-published-scope-accepted",
       "definitionStage": "latest2026-10-28 request; no inherited pass",
       "purpose": {
         "userTask": "DB↔보고서 현재값·역반영",
@@ -677260,20 +677292,28 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scope-accepted",
+          "evidence": [
+            "docs/review-20261028-verification.md"
+          ]
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scope-passed",
+          "evidence": [
+            "228 logical plus changed CSS direct consumers5"
+          ]
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scoped-passed",
+          "evidence": [
+            "C73 composite255; permit33x5 bridge; report8"
+          ]
         },
         "actualDatabase": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scoped-owner-or-readonly-verified",
+          "evidence": [
+            "docs/review-20261028-verification.md"
+          ]
         },
         "output": {
           "status": "notrun",
@@ -677281,7 +677321,10 @@
         }
       },
       "source": [],
-      "html": null,
+      "html": {
+        "candidate": "C73",
+        "sha256": "01821a726f27511b02905fe614e1b7c3327f892a28dde7780ad621b1c83d481d"
+      },
       "allStatesAccepted": false,
       "policyBasis": [
         {
@@ -677299,7 +677342,7 @@
       "route": {
         "view": "permit"
       },
-      "lifecycle": "review129-planned",
+      "lifecycle": "review129-published-scope-accepted",
       "definitionStage": "latest2026-10-28 request; no inherited pass",
       "purpose": {
         "userTask": "인허가/공사 입력 UX",
@@ -677307,20 +677350,28 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scope-accepted",
+          "evidence": [
+            "docs/review-20261028-verification.md"
+          ]
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scope-passed",
+          "evidence": [
+            "228 logical plus changed CSS direct consumers5"
+          ]
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scoped-passed",
+          "evidence": [
+            "C73 composite255; permit33x5 bridge; report8"
+          ]
         },
         "actualDatabase": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scoped-owner-or-readonly-verified",
+          "evidence": [
+            "docs/review-20261028-verification.md"
+          ]
         },
         "output": {
           "status": "notrun",
@@ -677328,7 +677379,10 @@
         }
       },
       "source": [],
-      "html": null,
+      "html": {
+        "candidate": "C73",
+        "sha256": "01821a726f27511b02905fe614e1b7c3327f892a28dde7780ad621b1c83d481d"
+      },
       "allStatesAccepted": false,
       "policyBasis": [
         {
@@ -677346,7 +677400,7 @@
       "route": {
         "view": "all"
       },
-      "lifecycle": "review129-planned",
+      "lifecycle": "review129-published-scope-accepted",
       "definitionStage": "latest2026-10-28 request; no inherited pass",
       "purpose": {
         "userTask": "전체 활성 manual 입력자료형",
@@ -677354,20 +677408,28 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scope-accepted",
+          "evidence": [
+            "docs/review-20261028-verification.md"
+          ]
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scope-passed",
+          "evidence": [
+            "228 logical plus changed CSS direct consumers5"
+          ]
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scoped-passed",
+          "evidence": [
+            "C73 composite255; permit33x5 bridge; report8"
+          ]
         },
         "actualDatabase": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scoped-owner-or-readonly-verified",
+          "evidence": [
+            "docs/review-20261028-verification.md"
+          ]
         },
         "output": {
           "status": "notrun",
@@ -677375,7 +677437,10 @@
         }
       },
       "source": [],
-      "html": null,
+      "html": {
+        "candidate": "C73",
+        "sha256": "01821a726f27511b02905fe614e1b7c3327f892a28dde7780ad621b1c83d481d"
+      },
       "allStatesAccepted": false,
       "policyBasis": [
         {
@@ -677393,7 +677458,7 @@
       "route": {
         "view": "all"
       },
-      "lifecycle": "review129-planned",
+      "lifecycle": "review129-published-scope-accepted",
       "definitionStage": "latest2026-10-28 request; no inherited pass",
       "purpose": {
         "userTask": "같은셀 편집의 열 위치·너비 안정성",
@@ -677401,20 +677466,28 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scope-accepted",
+          "evidence": [
+            "docs/review-20261028-verification.md"
+          ]
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scope-passed",
+          "evidence": [
+            "228 logical plus changed CSS direct consumers5"
+          ]
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scoped-passed",
+          "evidence": [
+            "C73 composite255; permit33x5 bridge; report8"
+          ]
         },
         "actualDatabase": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scoped-owner-or-readonly-verified",
+          "evidence": [
+            "docs/review-20261028-verification.md"
+          ]
         },
         "output": {
           "status": "notrun",
@@ -677422,7 +677495,10 @@
         }
       },
       "source": [],
-      "html": null,
+      "html": {
+        "candidate": "C73",
+        "sha256": "01821a726f27511b02905fe614e1b7c3327f892a28dde7780ad621b1c83d481d"
+      },
       "allStatesAccepted": false,
       "policyBasis": [
         {
@@ -677440,7 +677516,7 @@
       "route": {
         "view": "scoped"
       },
-      "lifecycle": "review129-in-progress",
+      "lifecycle": "review129-published-scope-accepted",
       "definitionStage": "registered before final native acceptance",
       "purpose": {
         "userTask": "공통 같은셀 편집 열 고정·원복",
@@ -677448,20 +677524,28 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scope-accepted",
+          "evidence": [
+            "docs/review-20261028-verification.md"
+          ]
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scope-passed",
+          "evidence": [
+            "228 logical plus changed CSS direct consumers5"
+          ]
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scoped-passed",
+          "evidence": [
+            "C73 composite255; permit33x5 bridge; report8"
+          ]
         },
         "actualDatabase": {
-          "status": "notrun",
-          "evidence": []
+          "status": "not-individually-executed",
+          "evidence": [
+            "docs/review-20261028-verification.md"
+          ]
         },
         "output": {
           "status": "notrun",
@@ -677472,7 +677556,10 @@
         "src/core.js",
         "src/recovery.css"
       ],
-      "html": null,
+      "html": {
+        "candidate": "C73",
+        "sha256": "01821a726f27511b02905fe614e1b7c3327f892a28dde7780ad621b1c83d481d"
+      },
       "allStatesAccepted": false,
       "policyBasis": [
         {
@@ -677490,7 +677577,7 @@
       "route": {
         "view": "scoped"
       },
-      "lifecycle": "review129-in-progress",
+      "lifecycle": "review129-published-scope-accepted",
       "definitionStage": "registered before final native acceptance",
       "purpose": {
         "userTask": "편집 Escape와 부모 팝업 유지",
@@ -677498,20 +677585,28 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scope-accepted",
+          "evidence": [
+            "docs/review-20261028-verification.md"
+          ]
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scope-passed",
+          "evidence": [
+            "228 logical plus changed CSS direct consumers5"
+          ]
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scoped-passed",
+          "evidence": [
+            "C73 composite255; permit33x5 bridge; report8"
+          ]
         },
         "actualDatabase": {
-          "status": "notrun",
-          "evidence": []
+          "status": "not-individually-executed",
+          "evidence": [
+            "docs/review-20261028-verification.md"
+          ]
         },
         "output": {
           "status": "notrun",
@@ -677521,7 +677616,10 @@
       "source": [
         "src/core.js"
       ],
-      "html": null,
+      "html": {
+        "candidate": "C73",
+        "sha256": "01821a726f27511b02905fe614e1b7c3327f892a28dde7780ad621b1c83d481d"
+      },
       "allStatesAccepted": false,
       "policyBasis": [
         {
@@ -677539,7 +677637,7 @@
       "route": {
         "view": "scoped"
       },
-      "lifecycle": "review129-in-progress",
+      "lifecycle": "review129-published-scope-accepted",
       "definitionStage": "registered before final native acceptance",
       "purpose": {
         "userTask": "하단·우측 편집 도구 가시성",
@@ -677547,20 +677645,28 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scope-accepted",
+          "evidence": [
+            "docs/review-20261028-verification.md"
+          ]
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scope-passed",
+          "evidence": [
+            "228 logical plus changed CSS direct consumers5"
+          ]
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scoped-passed",
+          "evidence": [
+            "C73 composite255; permit33x5 bridge; report8"
+          ]
         },
         "actualDatabase": {
-          "status": "notrun",
-          "evidence": []
+          "status": "not-individually-executed",
+          "evidence": [
+            "docs/review-20261028-verification.md"
+          ]
         },
         "output": {
           "status": "notrun",
@@ -677572,7 +677678,10 @@
         "src/report.js",
         "src/report-editor.css"
       ],
-      "html": null,
+      "html": {
+        "candidate": "C73",
+        "sha256": "01821a726f27511b02905fe614e1b7c3327f892a28dde7780ad621b1c83d481d"
+      },
       "allStatesAccepted": false,
       "policyBasis": [
         {
@@ -677590,7 +677699,7 @@
       "route": {
         "view": "scoped"
       },
-      "lifecycle": "review129-in-progress",
+      "lifecycle": "review129-published-scope-accepted",
       "definitionStage": "registered before final native acceptance",
       "purpose": {
         "userTask": "착공·공사·준공 통합33입력",
@@ -677598,20 +677707,28 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scope-accepted",
+          "evidence": [
+            "docs/review-20261028-verification.md"
+          ]
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scope-passed",
+          "evidence": [
+            "228 logical plus changed CSS direct consumers5"
+          ]
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scoped-passed",
+          "evidence": [
+            "C73 composite255; permit33x5 bridge; report8"
+          ]
         },
         "actualDatabase": {
-          "status": "notrun",
-          "evidence": []
+          "status": "not-individually-executed",
+          "evidence": [
+            "docs/review-20261028-verification.md"
+          ]
         },
         "output": {
           "status": "notrun",
@@ -677622,7 +677739,10 @@
         "src/permit-views.js",
         "src/permit.css"
       ],
-      "html": null,
+      "html": {
+        "candidate": "C73",
+        "sha256": "01821a726f27511b02905fe614e1b7c3327f892a28dde7780ad621b1c83d481d"
+      },
       "allStatesAccepted": false,
       "policyBasis": [
         {
@@ -677640,7 +677760,7 @@
       "route": {
         "view": "scoped"
       },
-      "lifecycle": "review129-in-progress",
+      "lifecycle": "review129-published-scope-accepted",
       "definitionStage": "registered before final native acceptance",
       "purpose": {
         "userTask": "인허가 목록 보기·상태·추가 도구",
@@ -677648,20 +677768,28 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scope-accepted",
+          "evidence": [
+            "docs/review-20261028-verification.md"
+          ]
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scope-passed",
+          "evidence": [
+            "228 logical plus changed CSS direct consumers5"
+          ]
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scoped-passed",
+          "evidence": [
+            "C73 composite255; permit33x5 bridge; report8"
+          ]
         },
         "actualDatabase": {
-          "status": "notrun",
-          "evidence": []
+          "status": "not-individually-executed",
+          "evidence": [
+            "docs/review-20261028-verification.md"
+          ]
         },
         "output": {
           "status": "notrun",
@@ -677672,7 +677800,10 @@
         "src/permit-views.js",
         "src/permit.css"
       ],
-      "html": null,
+      "html": {
+        "candidate": "C73",
+        "sha256": "01821a726f27511b02905fe614e1b7c3327f892a28dde7780ad621b1c83d481d"
+      },
       "allStatesAccepted": false,
       "policyBasis": [
         {
@@ -677690,7 +677821,7 @@
       "route": {
         "view": "scoped"
       },
-      "lifecycle": "review129-in-progress",
+      "lifecycle": "review129-published-scope-accepted",
       "definitionStage": "registered before final native acceptance",
       "purpose": {
         "userTask": "전체 공식3종 페이지·선택추가",
@@ -677698,20 +677829,28 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scope-accepted",
+          "evidence": [
+            "docs/review-20261028-verification.md"
+          ]
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scope-passed",
+          "evidence": [
+            "228 logical plus changed CSS direct consumers5"
+          ]
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scoped-passed",
+          "evidence": [
+            "C73 composite255; permit33x5 bridge; report8"
+          ]
         },
         "actualDatabase": {
-          "status": "notrun",
-          "evidence": []
+          "status": "not-individually-executed",
+          "evidence": [
+            "docs/review-20261028-verification.md"
+          ]
         },
         "output": {
           "status": "notrun",
@@ -677722,7 +677861,10 @@
         "src/law-monitor.js",
         "server/center-services.mjs"
       ],
-      "html": null,
+      "html": {
+        "candidate": "C73",
+        "sha256": "01821a726f27511b02905fe614e1b7c3327f892a28dde7780ad621b1c83d481d"
+      },
       "allStatesAccepted": false,
       "policyBasis": [
         {
@@ -677740,7 +677882,7 @@
       "route": {
         "view": "scoped"
       },
-      "lifecycle": "review129-in-progress",
+      "lifecycle": "review129-published-scope-accepted",
       "definitionStage": "registered before final native acceptance",
       "purpose": {
         "userTask": "비표준 원문·공백·0·식별문자 보존",
@@ -677748,20 +677890,28 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scope-accepted",
+          "evidence": [
+            "docs/review-20261028-verification.md"
+          ]
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scope-passed",
+          "evidence": [
+            "228 logical plus changed CSS direct consumers5"
+          ]
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scoped-passed",
+          "evidence": [
+            "C73 composite255; permit33x5 bridge; report8"
+          ]
         },
         "actualDatabase": {
-          "status": "notrun",
-          "evidence": []
+          "status": "not-individually-executed",
+          "evidence": [
+            "docs/review-20261028-verification.md"
+          ]
         },
         "output": {
           "status": "notrun",
@@ -677774,7 +677924,10 @@
         "src/contracts.js",
         "src/report.js"
       ],
-      "html": null,
+      "html": {
+        "candidate": "C73",
+        "sha256": "01821a726f27511b02905fe614e1b7c3327f892a28dde7780ad621b1c83d481d"
+      },
       "allStatesAccepted": false,
       "policyBasis": [
         {
@@ -677792,7 +677945,7 @@
       "route": {
         "view": "scoped"
       },
-      "lifecycle": "review129-in-progress",
+      "lifecycle": "review129-published-scope-accepted",
       "definitionStage": "registered before final native acceptance",
       "purpose": {
         "userTask": "보고서 단일원천 값의 날짜·숫자·연락처 입력",
@@ -677800,20 +677953,28 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scope-accepted",
+          "evidence": [
+            "docs/review-20261028-verification.md"
+          ]
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scope-passed",
+          "evidence": [
+            "228 logical plus changed CSS direct consumers5"
+          ]
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "scoped-passed",
+          "evidence": [
+            "C73 composite255; permit33x5 bridge; report8"
+          ]
         },
         "actualDatabase": {
-          "status": "notrun",
-          "evidence": []
+          "status": "not-individually-executed",
+          "evidence": [
+            "docs/review-20261028-verification.md"
+          ]
         },
         "output": {
           "status": "notrun",
@@ -677823,7 +677984,10 @@
       "source": [
         "src/report.js"
       ],
-      "html": null,
+      "html": {
+        "candidate": "C73",
+        "sha256": "01821a726f27511b02905fe614e1b7c3327f892a28dde7780ad621b1c83d481d"
+      },
       "allStatesAccepted": false,
       "policyBasis": [
         {
@@ -786859,7 +787023,7 @@
     "date": "2026-10-28",
     "targetRelease": "0.12.9",
     "requirements": 7,
-    "completed": 0,
+    "completed": 7,
     "scope": "docs/review-20261028-spec.md",
     "allPlatformComponentsAccepted": false,
     "records": 15,
@@ -786868,9 +787032,56 @@
       "distinctRuntimeCount": null,
       "allDynamicCasesExecuted": false,
       "source": "docs/review-20261028-input-inventory.json",
-      "sourceSha256": "88f17b1f0a71c28b9d395a99b667a055330e3ed254196f3b4c10dc5f4665b880"
+      "sourceSha256": "327e495fb419c318a37335378e8a809a2c3ac614c13655690d85e14ca41e09ee"
     },
     "sourceCandidateRecords": 680,
-    "totalRecords": 695
+    "totalRecords": 695,
+    "status": "published-scope-accepted",
+    "release": {
+      "version": "0.12.9",
+      "candidate": "C73",
+      "date": "2026-10-28",
+      "sourceCommit": "3a74775b99b7d51a8f21c7bb3eead5fb8f317f74",
+      "deploymentId": "dpl_AAmrwxQmC21Ed6Yu3kwqNRBX3MQy",
+      "formalHtmlSha256": "01821a726f27511b02905fe614e1b7c3327f892a28dde7780ad621b1c83d481d",
+      "bytes": 6782277,
+      "publishedAt": "2026-10-28T04:30:50.551Z",
+      "verification": "docs/review-20261028-verification.md",
+      "allComponentsAccepted": false
+    },
+    "scopedComponents": 15,
+    "actual": {
+      "inlineUnique": 255,
+      "inlineNonReport": {
+        "count": 215,
+        "artifact": "C72",
+        "bridgeTo": "C73"
+      },
+      "inlineReport": {
+        "count": 40,
+        "artifact": "C73"
+      },
+      "permitFields": 33,
+      "permitSizes": 5,
+      "reportCurrentNativeInputs": 8,
+      "reportReaderModels": 12,
+      "pdfFiles": 12,
+      "pdfPages": 48,
+      "actualOwnerWorkspaceRevisions": [
+        34,
+        35,
+        36,
+        37
+      ]
+    },
+    "compiledSnapshot": {
+      "ledger": "docs/review-20261028-ledger.json",
+      "sha256": "b86404381f1f8e101e917e4eb4ae77d31383299e9baf8460b6870188fbf902be",
+      "completed": 0,
+      "preservedUnchanged": true
+    },
+    "policy": {
+      "reportClassification": "User approved existing report classification retained; center standard later; no statutory allocation accuracy claim"
+    }
   }
 }
