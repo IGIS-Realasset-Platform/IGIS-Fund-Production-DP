@@ -1,21 +1,19 @@
 {
   "version": "0.13.0",
+  "candidate": "C86",
   "origin": "https://development-project-platform-preview-git-preview-b5dda7-igisra.vercel.app",
-  "htmlSha256": "7a9b38e77028999164b21e4bc8607182e4db0665a059a6ac6c487abb9a01005e",
-  "bytes": 6836953,
+  "htmlSha256": "bdefb6dc9e8ba35388029b04139cc79e05fb4f8294f7529afed7ed04267f2ba9",
+  "bytes": 6870552,
   "notionRequired": false,
   "realProjectDataIncluded": false,
   "mode": "authenticated-private-schema-runtime-with-optional-source",
   "localBuildVerified": true,
-  "actualBrowser": "Protected candidate for current native and authenticated DB verification; not production acceptance",
-  "status": "review130-c79-protected-candidate",
+  "actualBrowser": "Scoped C85 native cohorts plus source-equivalent C86 known-status DOM; two legacy display cases separately verified. See final external verification for actual server/canary and publication.",
+  "status": "review130-c86-protected-verified-candidate",
   "preparedAt": "2026-10-28",
   "wholeRequirementsComplete": false,
-  "verificationPending": [
-    "current whole-regression final freeze",
-    "remaining native families",
-    "authenticated sample event DB/reconnect/report"
-  ],
+  "actualAuthenticatedServer": "pending controlled canary",
+  "wholePlatformComponentsAccepted": false,
   "previousRelease": {
     "version": "0.12.9",
     "sourceCommit": "3a74775b99b7d51a8f21c7bb3eead5fb8f317f74",

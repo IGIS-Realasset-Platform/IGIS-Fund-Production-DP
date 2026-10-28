@@ -26,13 +26,13 @@
   },
   "status": {
     "prepared": true,
-    "isolatedRead": "observed-C73-only",
-    "normalUISubmit": "notrun",
-    "actualNative": "notrun",
-    "actualDatabase": "notrun",
-    "reconnect": "notrun",
-    "output": "notrun",
-    "production": "notrun",
+    "isolatedRead": "C84-exact-source-bound-observed",
+    "normalUISubmit": "current-source-normal-callbacks-memory-only",
+    "actualNative": "C85-report-notice-targeted-pass-C84-permit-partner-unchanged-module-bridge",
+    "actualDatabase": "notrun-by-QA",
+    "reconnect": "C84-isolated-report-api-memory-pass-real-service-pending",
+    "output": "C84-reader-render-pass-PDF-and-real-archive-pending",
+    "production": "root-owned-pending",
     "allPlatformComplete": false
   },
   "meaning": "route + ordered parent popup actions/variants + exact action and type/kind/schema/section + node/form field kind; repeated record identities remain separate required occurrences, not additional functions",
@@ -85,27 +85,101 @@
       "newIDsForced": false,
       "actualDatabaseWrites": 0,
       "actualNativeRuns": 0
+    },
+    "reportFocusedCurrent": {
+      "passed": 375,
+      "failed": 0,
+      "sourceChanged": 0,
+      "reportSHA256": "003fd59997eef36802cc078d1a9b958abc555b000bd53a75af5725d9e3fdc74f",
+      "actualDatabaseWrites": 0,
+      "actualNetwork": 0
+    },
+    "noticeFocusedCurrent": {
+      "passed": 44,
+      "failed": 0,
+      "sourceSHA256": "c55f87d4b6ffeffa6281646e8f0be51f0ac578a087c7f687cbe28ca8cef7975c",
+      "nativeScrollFixAcceptance": "C85-PC1440-mobile390-executed-passed"
+    },
+    "CCurrentNarrative": {
+      "passed": 13,
+      "failed": 0,
+      "visibleBusinessSentenceOccurrencesEach": 1,
+      "legacyClearBeforeStructuredEntry": true,
+      "normalHistoryGenerated": true,
+      "manualMetadataAdded": false,
+      "pastProjectionIsNotFixedBodyArchive": true
     }
   },
   "currentReadClosure": {
     "version": "0.13.0",
+    "candidate": "C84",
+    "htmlSHA256": "ef4707729a7babf2ada422272a8f72ea832d7af80a3d26a529bc57fb14c6ab1a",
     "routes": 31,
     "mainInstances": 93,
     "endpointInstances": 4487,
     "formInstances": 899,
     "maximumObservedDepth": 4,
     "preparationBlocked": 0,
-    "sourceChanged": 1,
-    "finalHTMLBound": false,
-    "changedSources": [
-      "src/law-monitor.js"
-    ],
-    "status": "read-observed-but-final-source-rebind-required"
+    "sourceChanged": 0,
+    "finalHTMLBound": true,
+    "status": "C84-read-only-observed-newer-source-requires-new-binding",
+    "actualNetwork": 0,
+    "blockedReadAttempts": 6,
+    "submits": 0,
+    "actualNativeRuns": 0
   },
   "missingClassification": {
     "observedBlankInstances": 3480,
     "sourceReviewUniqueSectionFields": 20,
     "valuesFilled": 0,
     "countsDoNotEqualMissingRecords": true
+  },
+  "historicalBaselineStatus": {
+    "prepared": true,
+    "isolatedRead": "observed-C73-only",
+    "normalUISubmit": "notrun",
+    "actualNative": "notrun",
+    "actualDatabase": "notrun",
+    "reconnect": "notrun",
+    "output": "notrun",
+    "production": "notrun",
+    "allPlatformComplete": false
+  },
+  "nativeC84": {
+    "exactHTMLSHA256": "ef4707729a7babf2ada422272a8f72ea832d7af80a3d26a529bc57fb14c6ab1a",
+    "viewports": [
+      1440,
+      390
+    ],
+    "reportBundlesPassed": 2,
+    "permitExistingEditCancelPassed": 2,
+    "partnerReadBundlesPassed": 2,
+    "noticeFailedBundles": 2,
+    "noticeFailure": "actual-click-boundary scroll reset on503; correct row restored",
+    "sourceChanged": 0,
+    "allHTTPMocked": true,
+    "actualExternalRequests": 0,
+    "actualDatabaseWrites": 0,
+    "finalAcceptance": false,
+    "preparationErrorsSeparated": true
+  },
+  "nativeC85": {
+    "exactHTMLSHA256": "86b47fef5c5d77efb87c6bcec19ac8ed22d743ac21616de4ee618050725585a5",
+    "viewports": [
+      1440,
+      390
+    ],
+    "reportBundlesPassed": 2,
+    "noticeBundlesPassed": 2,
+    "sourceChanged": 0,
+    "allHTTPMocked": true,
+    "startupArchiveGET": 0,
+    "overviewEntryMetadataGET": 1,
+    "overviewEntryBodyGET": 0,
+    "actualExternalRequests": 0,
+    "actualDatabaseWrites": 0,
+    "actualCommentWrites": 0,
+    "finalAcceptance": false,
+    "allSevenRequirementsAccepted": false
   }
 }

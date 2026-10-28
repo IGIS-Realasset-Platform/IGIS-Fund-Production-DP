@@ -109,6 +109,8 @@ textarea { resize:vertical; line-height:1.5; }
 .dense-table .table-date,.dense-table .table-align-center { text-align:center; }
 .dense-table .table-align-left { text-align:left; }
 .dense-table .table-align-right { text-align:right; }
+.dense-table .table-wrap-text { white-space:normal; overflow-wrap:anywhere; }
+.dense-table th:not(.num):not(.table-date):not(.table-nowrap),.dense-table td:not(.num):not(.table-date):not(.table-nowrap) { white-space:normal; overflow-wrap:anywhere; }
 .cell-editable:hover { background:var(--blue-soft); }
 .cell-editable.is-editing { background:white; min-width:64px; max-width:100%; }
 .cell-edit-input { width:100%; height:26px; min-width:0; padding:1px 4px; border:1px solid var(--blue); font-size:14px; }

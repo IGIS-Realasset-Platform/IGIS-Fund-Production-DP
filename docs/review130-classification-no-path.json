@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "scope": "classification-specific evidence-path input only",
+  "status": {
+    "implemented": true,
+    "pure": {
+      "passed": 14,
+      "failed": 0,
+      "before": {
+        "passed": 5,
+        "failed": 9
+      }
+    },
+    "native": "C84 PC/390 normal and503 flows4/4; scoped original counterexample",
+    "actualDBWrites": 0,
+    "nativeCurrentArtifact": "C84 scoped native pass; see nativeC84"
+  },
+  "protected": [
+    "raw sourcePath",
+    "existing classification evidence",
+    "explicit legacy caller evidence",
+    "source ID/code/amount/frozen stages",
+    "contract/VAT/reported total boundaries",
+    "owner and stale target guard",
+    "classification event and audit"
+  ],
+  "files": [
+    {
+      "file": "src/cbs-purpose.js",
+      "sha256": "065edcb0ce2f413a4a68100ed3601a5b480e48a16760db644975c7355203b9b9"
+    },
+    {
+      "file": "tests/review130-classification-no-path.mjs",
+      "sha256": "844292f8b3c29bf4821250a48b6a0f4bcad2f49b7853e4b88333247978f7b948"
+    },
+    {
+      "file": "tests/v0117-cbs-purpose.mjs",
+      "sha256": "fc87282117b1b55b1cc15f5f042b7f7477df140d7da52e226d9c57c0d06e639f"
+    }
+  ],
+  "evidence": {
+    "red": ".build/review130-20261028/classification-no-path-red-final.json",
+    "green": ".build/review130-20261028/classification-no-path-green-final.json",
+    "adjacent": ".build/review130-20261028/classification-adjacent.json"
+  },
+  "nativeC84": {
+    "status": "scoped-counterexample-pass",
+    "artifact": {
+      "file": ".build/review130-20261028/integration-candidate-84.html",
+      "sha256": "ef4707729a7babf2ada422272a8f72ea832d7af80a3d26a529bc57fb14c6ab1a",
+      "bytes": 6867058
+    },
+    "run": ".build/review130-20261028/cost-native/2026-10-28T11-13-30-943Z/evidence.json",
+    "actualDBWrites": 0
+  }
+}

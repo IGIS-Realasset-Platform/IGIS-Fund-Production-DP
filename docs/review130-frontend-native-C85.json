@@ -1,0 +1,141 @@
+{
+  "schemaVersion": "review130-final-frontend-native-v1",
+  "html": {
+    "file": ".build/review130-20261028/integration-candidate-85.html",
+    "sha256": "86b47fef5c5d77efb87c6bcec19ac8ed22d743ac21616de4ee618050725585a5",
+    "bytes": 6870565
+  },
+  "fixture": {
+    "file": ".build/review-20261028/review130-db-source-before.json",
+    "sha256": "078d47e72cbc348ca1a3187688bd0dfd7e3b51c6993ae219fa7ada1ffee8645f",
+    "revision": 37,
+    "costOverlay": "explicit isolated QA project only; original A/B/C source preserved"
+  },
+  "scope": "final assigned finite frontend cohorts only; no actual DB/auth/server verification and no claim all platform states",
+  "units": {
+    "constructionViewportCases": 5,
+    "constructionFieldDefinitions": 33,
+    "constructionRenderedFieldChecks": 165,
+    "constructionSectionFocusChecks": 30,
+    "ownerBusinessWorkflows": 10,
+    "mixedBusinessWorkflows": 2,
+    "generatedExcelFilesRead": 4,
+    "doNotSumAsUniqueFeatures": true
+  },
+  "entries": [
+    {
+      "kind": "construction",
+      "file": ".build/review130-20261028/construction-native-1793189276013/evidence.json",
+      "evidenceSHA256": "d9c4e32237bb8d4c27f83862be23cfba390f5e4a623740640d28e404209829ba",
+      "cases": 5,
+      "passed": 5,
+      "errors": 0,
+      "defects": 0,
+      "sourceFixed": true,
+      "outputs": [],
+      "screenshots": [
+        "C:\\Users\\10524\\Desktop\\codex_realasset\\Project\\07_DevelopmentProjectPlatform\\.build\\review130-20261028\\construction-native-1793189276013\\construction-1280.png",
+        "C:\\Users\\10524\\Desktop\\codex_realasset\\Project\\07_DevelopmentProjectPlatform\\.build\\review130-20261028\\construction-native-1793189276013\\form-1280.png",
+        "C:\\Users\\10524\\Desktop\\codex_realasset\\Project\\07_DevelopmentProjectPlatform\\.build\\review130-20261028\\construction-native-1793189276013\\construction-1440.png",
+        "C:\\Users\\10524\\Desktop\\codex_realasset\\Project\\07_DevelopmentProjectPlatform\\.build\\review130-20261028\\construction-native-1793189276013\\form-1440.png",
+        "C:\\Users\\10524\\Desktop\\codex_realasset\\Project\\07_DevelopmentProjectPlatform\\.build\\review130-20261028\\construction-native-1793189276013\\construction-1600.png",
+        "C:\\Users\\10524\\Desktop\\codex_realasset\\Project\\07_DevelopmentProjectPlatform\\.build\\review130-20261028\\construction-native-1793189276013\\form-1600.png",
+        "C:\\Users\\10524\\Desktop\\codex_realasset\\Project\\07_DevelopmentProjectPlatform\\.build\\review130-20261028\\construction-native-1793189276013\\construction-769.png",
+        "C:\\Users\\10524\\Desktop\\codex_realasset\\Project\\07_DevelopmentProjectPlatform\\.build\\review130-20261028\\construction-native-1793189276013\\form-769.png",
+        "C:\\Users\\10524\\Desktop\\codex_realasset\\Project\\07_DevelopmentProjectPlatform\\.build\\review130-20261028\\construction-native-1793189276013\\construction-390.png",
+        "C:\\Users\\10524\\Desktop\\codex_realasset\\Project\\07_DevelopmentProjectPlatform\\.build\\review130-20261028\\construction-native-1793189276013\\form-390.png"
+      ]
+    },
+    {
+      "kind": "owner",
+      "file": ".build/review130-20261028/cost-native/2026-10-28T12-10-00-543Z/evidence.json",
+      "evidenceSHA256": "4c683f8a7defce5e1932f2ee63b0fc77fb8162336b3ba94b17e26003ce742fa1",
+      "cases": 10,
+      "passed": 10,
+      "errors": 0,
+      "defects": 0,
+      "sourceFixed": true,
+      "outputs": [],
+      "screenshots": [
+        ".build/review130-20261028/cost-native/2026-10-28T12-10-00-543Z/management130-single-save-1280.png",
+        ".build/review130-20261028/cost-native/2026-10-28T12-10-00-543Z/management130-independent-cost-1280.png",
+        ".build/review130-20261028/cost-native/2026-10-28T12-10-00-543Z/management130-multiple-owner-1280.png",
+        ".build/review130-20261028/cost-native/2026-10-28T12-10-00-543Z/management130-single-save-390.png",
+        ".build/review130-20261028/cost-native/2026-10-28T12-10-00-543Z/management130-independent-cost-390.png",
+        ".build/review130-20261028/cost-native/2026-10-28T12-10-00-543Z/management130-multiple-owner-390.png"
+      ]
+    },
+    {
+      "kind": "permitMixed",
+      "file": ".build/review130-20261028/cost-native/2026-10-28T12-13-07-581Z/evidence.json",
+      "evidenceSHA256": "3bd49447a9ec0cf9edd8408cf63d8908a4c09a81e5a60251790c06fbf7273f03",
+      "cases": 1,
+      "passed": 1,
+      "errors": 0,
+      "defects": 0,
+      "sourceFixed": true,
+      "outputs": [
+        {
+          "file": "C:\\Users\\10524\\Desktop\\codex_realasset\\Project\\07_DevelopmentProjectPlatform\\.build\\review130-20261028\\cost-native\\2026-10-28T12-13-07-581Z\\mixed-family-permit_services.xlsx",
+          "sha256": "014c137158b3c4207889327f7fd9e9964e3978d453c978a099535600cdfc30c8",
+          "sheets": 1,
+          "rawWonAndDisplayFormats": true,
+          "checkedRows": 6
+        },
+        {
+          "file": "C:\\Users\\10524\\Desktop\\codex_realasset\\Project\\07_DevelopmentProjectPlatform\\.build\\review130-20261028\\cost-native\\2026-10-28T12-13-07-581Z\\mixed-family-comparison-permit_services.xlsx",
+          "sha256": "263f713f442aa0833fb717dd0797ba621f5f4f965057a37314ea6c28488bcd62",
+          "sheets": 1,
+          "rawWonAndDisplayFormats": true,
+          "checkedRows": 5
+        }
+      ],
+      "screenshots": [
+        ".build/review130-20261028/cost-native/2026-10-28T12-13-07-581Z/mixed-family-one-parent-permit-services.png",
+        ".build/review130-20261028/cost-native/2026-10-28T12-13-07-581Z/mixed-family-comparison-permit-services.png"
+      ]
+    },
+    {
+      "kind": "landMixed",
+      "file": ".build/review130-20261028/cost-native/2026-10-28T12-14-32-198Z/evidence.json",
+      "evidenceSHA256": "261c0cc676b47e5b8a8c0cec48c3a021f8685dc5c3352eaa3b6159b3436bdc84",
+      "cases": 1,
+      "passed": 1,
+      "errors": 0,
+      "defects": 0,
+      "sourceFixed": true,
+      "outputs": [
+        {
+          "file": "C:\\Users\\10524\\Desktop\\codex_realasset\\Project\\07_DevelopmentProjectPlatform\\.build\\review130-20261028\\cost-native\\2026-10-28T12-14-32-198Z\\mixed-family-land_purchase.xlsx",
+          "sha256": "aa92d3737156254f52de471633bcabbad9f3812a0a728d60bf476e093832884e",
+          "sheets": 1,
+          "rawWonAndDisplayFormats": true,
+          "checkedRows": 6
+        },
+        {
+          "file": "C:\\Users\\10524\\Desktop\\codex_realasset\\Project\\07_DevelopmentProjectPlatform\\.build\\review130-20261028\\cost-native\\2026-10-28T12-14-32-198Z\\mixed-family-comparison-land_purchase.xlsx",
+          "sha256": "88ee9b7d6a09ba2dffa4e24f3a10bff3dfacea8f4881e253eab2eac065e5d369",
+          "sheets": 1,
+          "rawWonAndDisplayFormats": true,
+          "checkedRows": 5
+        }
+      ],
+      "screenshots": [
+        ".build/review130-20261028/cost-native/2026-10-28T12-14-32-198Z/mixed-family-one-parent-land-purchase.png",
+        ".build/review130-20261028/cost-native/2026-10-28T12-14-32-198Z/mixed-family-comparison-land-purchase.png"
+      ]
+    }
+  ],
+  "manualVisual": {
+    "constructionPNG": 10,
+    "financialIndependentPNG": 4,
+    "initialDateC84PNG": 10,
+    "scope": "direct view_image inspection, not every platform screenshot"
+  },
+  "actualDBWrites": 0,
+  "actualUserCookies": false,
+  "externalRequests": 0,
+  "productEditsDuringNative": 0,
+  "ownIsolatedEdgeClosed": true,
+  "allPlatformComplete": false
+}

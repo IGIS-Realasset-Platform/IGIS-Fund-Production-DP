@@ -1,0 +1,26 @@
+{
+  "date": "2026-10-28",
+  "requirements": ["DATA130-05", "QA130-06"],
+  "migration": {
+    "name": "development_platform_report_archives_20261028",
+    "file": "database/review130-report-archives.sql",
+    "sha256": "b518912d8699b9590adc7f60331e4a1e86bbaaf191a101d0325e0944275d179a",
+    "result": "applied",
+    "scope": "Two new tables and their indexes, constraints, policies and grants in development_project_platform only; platform migration bookkeeping is recorded by the standard migration tool."
+  },
+  "tables": ["report_snapshots", "report_snapshot_events"],
+  "effectiveRuntimePermissions": {"read":true,"create":true,"statusUpdate":true,"bodyUpdate":false,"projectUpdate":false,"delete":false},
+  "publicSelect": {"anon":false,"authenticated":false,"service_role":false},
+  "bothTablesRLS": true,
+  "afterDDLRows": {"archives":0,"events":0},
+  "unchangedBeforeAndAfterDDL": {
+    "workspaceRevision":37,
+    "workspaceMD5":"2dc21afa5417832d343c52616e7be9d4",
+    "projectMoneyStagesContractsLoansVatMD5":"477deb2f40b8a14768e0973441dce213",
+    "legacyReportMetadataMD5":"548824e50ebf6e48b25c564a0b16806a"
+  },
+  "existingReportReality": {"legacyMetadataRows":3,"frozenReportBodyRows":0,"meaning":"The old rows contain submission metadata only. A metadata hash is not evidence that a frozen body existed or was preserved."},
+  "notYetAccepted": ["authenticated API creation and status update","client UI and reconnect","new actual frozen body immutability","formal publication"],
+  "existingBusinessServicesOrSchemasChanged":false,
+  "sharedSupabaseAuthChanged":false
+}

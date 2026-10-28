@@ -1,0 +1,99 @@
+{
+  "date": "2026-10-28",
+  "scope": "LAW130-02 and UI130-07 law list/search/catalog only",
+  "status": "accepted-scoped-source-and-native-composite",
+  "artifactC84": {
+    "path": ".build/review130-20261028/integration-candidate-84.html",
+    "sha256": "ef4707729a7babf2ada422272a8f72ea832d7af80a3d26a529bc57fb14c6ab1a"
+  },
+  "artifactC85": {
+    "path": ".build/review130-20261028/integration-candidate-85.html",
+    "sha256": "86b47fef5c5d77efb87c6bcec19ac8ed22d743ac21616de4ee618050725585a5"
+  },
+  "originalNativeProof": {
+    "path": ".build/review130/law-table-browser-1793187046964/evidence.json",
+    "sha256": "09218e017f4f01c497ca1906b407ef193a0f6201fb4af83ee36b93864f011ddc",
+    "viewports": [
+      {
+        "width": 1600,
+        "height": 1000
+      },
+      {
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "width": 769,
+        "height": 900
+      },
+      {
+        "width": 390,
+        "height": 844
+      }
+    ],
+    "passed": 5,
+    "metadataRows": [
+      29,
+      376,
+      3
+    ],
+    "businessWrites": 0
+  },
+  "bridgeSHA256": "d2195ed8dcfc3a862f0ad6486ec58dd46742ca5098e9c516db6873f55ac8897b",
+  "unchangedFilesIndependentlyChecked": 45,
+  "changedModulesIndependentlyExtracted": [
+    {
+      "file": "src/notifications.js",
+      "oldEmbeddedLFHash": "71acce3733d077e590c0098586d2da0d46519591204027b0f8c072285c4298a1",
+      "newEmbeddedLFHash": "c55f87d4b6ffeffa6281646e8f0be51f0ac578a087c7f687cbe28ca8cef7975c",
+      "oldRawSourceHash": "71acce3733d077e590c0098586d2da0d46519591204027b0f8c072285c4298a1",
+      "newRawSourceHash": "c55f87d4b6ffeffa6281646e8f0be51f0ac578a087c7f687cbe28ca8cef7975c",
+      "oldLines": 43,
+      "newLines": 43
+    },
+    {
+      "file": "src/report.js",
+      "oldEmbeddedLFHash": "4d3c4bded08198e92f5c1820dba1d4bf28d2fa70349fd46c3091b59e24a745c7",
+      "newEmbeddedLFHash": "67379f128367f9ee717d36b869e6272289d8fb67d2e24d0badf7bc1bbf066b70",
+      "oldRawSourceHash": "5461df893e4b2df60438ede9a7c048733ca0083751614c0fff1ff5f076af06e6",
+      "newRawSourceHash": "003fd59997eef36802cc078d1a9b958abc555b000bd53a75af5725d9e3fdc74f",
+      "oldLines": 389,
+      "newLines": 394
+    },
+    {
+      "file": "src/recovery-views.js",
+      "oldEmbeddedLFHash": "5105a4086be0685e2d2b0a2d3afe70827664ed3967b9e866f36286988332cb14",
+      "newEmbeddedLFHash": "c21296b3ee4013f3c441c89ab2d3e86c80633e5ad83279519e5e18e80bc9697c",
+      "oldRawSourceHash": "5105a4086be0685e2d2b0a2d3afe70827664ed3967b9e866f36286988332cb14",
+      "newRawSourceHash": "c21296b3ee4013f3c441c89ab2d3e86c80633e5ad83279519e5e18e80bc9697c",
+      "oldLines": 108,
+      "newLines": 108
+    },
+    {
+      "file": "src/spec.js",
+      "oldEmbeddedLFHash": "31fabe1a75ac11a0d817e40d992610c3ab085a3ecf81e41b88b66cb76240f545",
+      "newEmbeddedLFHash": "cda57fc671d8499666cbed270e2f36a80ef52f11846099a63e07cef3aa03fbc9",
+      "oldRawSourceHash": "31fabe1a75ac11a0d817e40d992610c3ab085a3ecf81e41b88b66cb76240f545",
+      "newRawSourceHash": "cda57fc671d8499666cbed270e2f36a80ef52f11846099a63e07cef3aa03fbc9",
+      "oldLines": 975,
+      "newLines": 975
+    }
+  ],
+  "rationale": [
+    "core/table metrics/first-fit, law renderers, sorting, reference cache, search/watch handlers and all law/scroll CSS are byte-identical in the two pinned HTMLs.",
+    "The recovery-views change is exclusively the overview registration; that route was not entered in these law-list flows.",
+    "Report changes are archive and overview hooks reached only on report/overview actions; law comparison has a separate fresh exact-C85 native receipt.",
+    "Notification changes are popup paint/restore focus paths; the law-list flows never open notifications. Their new popup behavior has its own exact-C85 native receipt.",
+    "Specification changes are owner specification data/rendering, not law-list execution or law-table CSS."
+  ],
+  "actualNewNativeRunsAdded": 0,
+  "wholePlatformAccepted": false,
+  "actualDatabaseWrites": 0,
+  "limits": [
+    "This acceptance is not a new C85 law-table physical run, not report/notification/spec acceptance, and not all conditional states."
+  ]
+}

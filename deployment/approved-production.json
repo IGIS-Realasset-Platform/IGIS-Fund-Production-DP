@@ -1,21 +1,19 @@
 {
   "version": "0.13.0",
+  "candidate": "C86",
   "origin": "https://igis-development-project-platform.vercel.app",
-  "htmlSha256": "b67eec49425d489338b824de324a14ff3daf3131b0bb555083bb81c6d73f5d63",
-  "bytes": 6836924,
+  "htmlSha256": "042aba6212a931fc6b6c3e6cca2f013330babce6f37aad653e8ee532341114b5",
+  "bytes": 6870523,
   "notionRequired": false,
   "realProjectDataIncluded": false,
   "mode": "authenticated-private-schema-runtime-with-optional-source",
   "localBuildVerified": true,
-  "actualBrowser": "Protected candidate for current native and authenticated DB verification; not production acceptance",
-  "status": "review130-c79-prepared-not-promoted",
+  "actualBrowser": "Scoped C85 native cohorts plus source-equivalent C86 known-status DOM; two legacy display cases separately verified. See final external verification for actual server/canary and publication.",
+  "status": "review130-c86-prepared-production-candidate",
   "preparedAt": "2026-10-28",
   "wholeRequirementsComplete": false,
-  "verificationPending": [
-    "current whole-regression final freeze",
-    "remaining native families",
-    "authenticated sample event DB/reconnect/report"
-  ],
+  "actualAuthenticatedServer": "pending controlled canary",
+  "wholePlatformComponentsAccepted": false,
   "previousRelease": {
     "version": "0.12.9",
     "sourceCommit": "3a74775b99b7d51a8f21c7bb3eead5fb8f317f74",

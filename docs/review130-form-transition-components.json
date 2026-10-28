@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "scope": "REVIEW130 입력 흐름의 초안 소비, 기존 공통 매트릭스에 병합할 하위 소비자 메타데이터",
+  "wholePlatformComplete": false,
+  "actualDatabaseWrites": 0,
+  "rows": [
+    {
+      "id": "FORM130-TRANSITION-CORE",
+      "component": "공통 폼 제출·초안·다음 화면 전환",
+      "purpose": "성공한 입력만 소비하고 실패·취소의 원문은 보존",
+      "implementation": "명시 옵션·정상 false·세션 교체·유효 작업·서버 성공·제출 시점 키",
+      "pure": "18/18 통과, 불변 이전본 8통과/10실패",
+      "native": "C84 scoped original counterexample PASS; docs/review130-native-C84.md",
+      "boundary": "검색·추천·같은 세션 false·취소·503 자동 소비 금지",
+      "test": "tests/review130-form-transition-drafts.mjs"
+    },
+    {
+      "id": "FORM130-TRANSITION-COST-ENTRY",
+      "component": "하위 항목 초기 직접·목록 입력 / 활성 하위 추가·수정",
+      "purpose": "필요한 새 비용만 기록하고 다음 새 행에 이전 이름·금액을 자동 주입하지 않음",
+      "implementation": "openEntry consumeOnTransition 명시",
+      "pure": "비활성60+40→전환→빈 신규→null 하위 / 기존0·503 보존 통과",
+      "native": "C84 scoped original counterexample PASS; docs/review130-native-C84.md",
+      "boundary": "원금액·과거·코드·합산 정의·이력 불변",
+      "test": "tests/review130-form-transition-drafts.mjs"
+    },
+    {
+      "id": "FORM130-TRANSITION-COST-ACTIVATE",
+      "component": "하위 합계 전환 사유·확인",
+      "purpose": "확인해 저장한 전환의 초안을 사용 완료 처리",
+      "implementation": "showManager 최초 전환 옵션 명시",
+      "pure": "확인된100,000,000원 전환 후 소비한 사유·확인 초안 없음",
+      "native": "C84 scoped original counterexample PASS; docs/review130-native-C84.md",
+      "boundary": "합계 일치·명시 확인·원래100,000,000원 보존 조건 유지",
+      "test": "tests/review130-form-transition-drafts.mjs"
+    },
+    {
+      "id": "FORM130-TRANSITION-COST-DELETE",
+      "component": "하위 항목 삭제 사유·취소·상위 복귀",
+      "purpose": "미저장 사유를 보존하고 정상 삭제가 끝난 초안만 소비",
+      "implementation": "openDelete 옵션 명시",
+      "pure": "미저장 닫기·사유 복원·정상 삭제·원금액/기타 하위 유지 통과",
+      "native": "C84 scoped original counterexample PASS; docs/review130-native-C84.md",
+      "boundary": "마지막 하위·계약/VAT 연결·기존 삭제 정책 변경 없음",
+      "test": "tests/review130-form-transition-drafts.mjs"
+    },
+    {
+      "id": "FORM130-CLASSIFICATION-NO-PATH",
+      "component": "사업비 분류 수정의 경로 강제",
+      "purpose": "필요한 관리분류를 새 파일경로 없이 변경",
+      "implementation": "폼의 새 evidence 입력/강제 검증 제거, 기존값 및 legacy API 명시경로 보존",
+      "pure": "14/14, 이전 분류모듈5통과/9실패",
+      "native": "C84 scoped original counterexample PASS; docs/review130-native-C84.md",
+      "boundary": "실제 계약/문서/인허가 파일경로와 원금액·확정본·계약VAT·owner검사 유지",
+      "test": "tests/review130-classification-no-path.mjs"
+    }
+  ]
+}

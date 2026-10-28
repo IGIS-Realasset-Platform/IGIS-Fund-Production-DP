@@ -1,0 +1,274 @@
+{
+  "reviewId": "REVIEW130",
+  "date": "2026-10-28",
+  "candidate": "C85",
+  "html": {
+    "path": ".build/review130-20261028/integration-candidate-85.html",
+    "sha256": "86b47fef5c5d77efb87c6bcec19ac8ed22d743ac21616de4ee618050725585a5",
+    "bytes": 6870565
+  },
+  "requirements": [
+    "QA130-06"
+  ],
+  "scope": "Five remaining finance/professional cohorts; isolated fresh Edge profiles and explicit memory API only. Existing actual source37 data is read through a safe fixed local projection; no actual business DB/member-cookie access.",
+  "source37": {
+    "path": ".build/review-20261028/review130-db-source-before.json",
+    "sha256": "078d47e72cbc348ca1a3187688bd0dfd7e3b51c6993ae219fa7ada1ffee8645f",
+    "revision": 37
+  },
+  "financeFixture": {
+    "path": ".build\\review130-20261028\\finance-professional-native\\finance130-input.json",
+    "fileSha256": "8f66edd146f0dc88946e5358586a6ac8a0cf4c95e0a4aefff8a95ee74b195ab0",
+    "stateSha256": "bfcecca51485790be6c5ce4859f1f09775d49d0d81027fdddf893158359dbef2",
+    "syntheticDonorId": "QA-FIN-REPORT-CONSUMER-125",
+    "otherStatePreserved": true
+  },
+  "professionalFixture": {
+    "path": ".build\\review130-20261028\\finance-professional-native\\professional130-input.json",
+    "fileSha256": "de29de6348b0db68267248baa7b88c4dd9c19f7d99487d4e707c734f74f3f412",
+    "stateSha256": "7ee71fa062a1ba26fc6b677882f48a7499bffa2311074e74211f636b63aa3b3b",
+    "overlay": null
+  },
+  "originalHelpersUnchanged": 6,
+  "summary": {
+    "remainingCohorts": 5,
+    "uniqueNativeFlows": 26,
+    "uniquePassed": 26,
+    "sourceChanged": [],
+    "actualBusinessDatabaseWrites": 0,
+    "actualMemberOrOriginalBrowserProfilesAccessed": false,
+    "originalSource37AndPreparedInputsUnchanged": true,
+    "productChangedForPreparationFix": false
+  },
+  "finance": {
+    "uniqueFlows": 16,
+    "passed": 16,
+    "viewports": [
+      {
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "width": 390,
+        "height": 844
+      }
+    ],
+    "names": [
+      "selldown-1280",
+      "capital-known-1280",
+      "capital-zero-1280",
+      "capital-null-1280",
+      "other-guarantees-1280",
+      "selldown-390",
+      "capital-known-390",
+      "capital-zero-390",
+      "capital-null-390",
+      "other-guarantees-390",
+      "loan-add-1280",
+      "other-equities-1280",
+      "other-guarantors-1280",
+      "loan-add-390",
+      "other-equities-390",
+      "other-guarantors-390"
+    ],
+    "initialAttempt": {
+      "path": ".build/review130-20261028/finance-professional-native/finance130-ui/1793188448000/evidence.json",
+      "sha256": "c0fca72c33ba70fb3d195aa96f5107d580bb0ab64dd16f3060622a1b52e40e84"
+    },
+    "initialHelperBlocked6": {
+      "classification": "test preparation, not product failure",
+      "cause": "helper called nonexistent App.report.canonical",
+      "correction": "actual exported reportData(project,businessDate,current) only; independent report values preserved",
+      "names": [
+        "loan-add-1280",
+        "other-equities-1280",
+        "other-guarantors-1280",
+        "loan-add-390",
+        "other-equities-390",
+        "other-guarantors-390"
+      ]
+    },
+    "retryOnly6": {
+      "path": ".build/review130-20261028/finance-professional-native/finance130-ui/1793188817832/evidence.json",
+      "sha256": "3c8818406f32ddcc3a78234f9dfc0973c15c62ef15ac7eff9a746e469f4495aa"
+    },
+    "expectedMock503Executions": 40,
+    "unexpectedHttp": [],
+    "javascriptErrors": 0,
+    "mockErrors": 0
+  },
+  "professional": {
+    "uniqueFlows": 10,
+    "passed": 10,
+    "names": [
+      "1280-read-cancel",
+      "1280-edit503-reload",
+      "1280-edit403-preserve",
+      "1280-retire-restore",
+      "1280-new-record-503-edit",
+      "390-read-cancel",
+      "390-edit503-reload",
+      "390-edit403-preserve",
+      "390-retire-restore",
+      "390-new-record-503-edit"
+    ],
+    "evidence": {
+      "path": ".build/review130-20261028/finance-professional-native/professional130-ui/1793188976958/evidence.json",
+      "sha256": "1da7b906135d374745a9e63d518d233e7fc11aae5bf948872915134de1551c0e"
+    }
+  },
+  "combinedEvidence": {
+    "path": ".build/review130-20261028/finance-professional-native/combined-current-native.json",
+    "sha256": "f6d75c612ba706b6fdf8526bbf9a482f3fa51f35487c15770f09ee45de5b4cf5"
+  },
+  "supplementalOnly": {
+    "newUniqueFlowCount": 0,
+    "professionalLastField": {
+      "evidence": {
+        "path": ".build/review130-20261028/finance-professional-native/professional130-ui/1793190160513/evidence.json",
+        "sha256": "f3e41a45fa37b6cc5a463ba1baf62ecf07d758679e92af1fa175783afdfb26d4"
+      },
+      "summary": {
+        "planned": 1,
+        "executed": 1,
+        "passed": 1,
+        "failed": 0,
+        "blocked": 0,
+        "unexpected": 0
+      },
+      "geometry": {
+        "left": 43,
+        "right": 347,
+        "top": 634.15625,
+        "bottom": 670.453125,
+        "footerTop": 686.40625,
+        "viewport": 844,
+        "hit": true,
+        "aboveFooter": true,
+        "inViewport": true
+      }
+    },
+    "capitalPopup": {
+      "evidence": {
+        "path": ".build/review130-20261028/finance-professional-native/finance130-ui/1793190247201/evidence.json",
+        "sha256": "bd36ade5b223afa6f268b7845952d04ed16cc6a2393a466f244ad7210f15d713"
+      },
+      "summary": {
+        "planned": 2,
+        "executed": 2,
+        "passed": 2,
+        "failed": 0,
+        "expected503": 0,
+        "unexpectedHttp": [],
+        "pageErrors": 0,
+        "mockErrors": 0,
+        "sourceChanged": []
+      },
+      "flows": [
+        {
+          "name": "capital-known-1280",
+          "geometry": {
+            "title": "자금구성",
+            "headings": [
+              {
+                "text": "구분",
+                "align": "left"
+              },
+              {
+                "text": "약정·출자",
+                "align": "right"
+              },
+              {
+                "text": "실행·납입",
+                "align": "right"
+              },
+              {
+                "text": "잔액",
+                "align": "right"
+              }
+            ],
+            "values": [
+              {
+                "text": "자기자본",
+                "align": "start"
+              },
+              {
+                "text": "1,100억원",
+                "align": "right"
+              },
+              {
+                "text": "1,100억원",
+                "align": "right"
+              },
+              {
+                "text": "1,100억원",
+                "align": "right"
+              }
+            ],
+            "nested": 0
+          }
+        },
+        {
+          "name": "capital-known-390",
+          "geometry": {
+            "title": "자금구성",
+            "headings": [
+              {
+                "text": "구분",
+                "align": "left"
+              },
+              {
+                "text": "약정·출자",
+                "align": "right"
+              },
+              {
+                "text": "실행·납입",
+                "align": "right"
+              },
+              {
+                "text": "잔액",
+                "align": "right"
+              }
+            ],
+            "values": [
+              {
+                "text": "자기자본",
+                "align": "start"
+              },
+              {
+                "text": "1,100억원",
+                "align": "right"
+              },
+              {
+                "text": "1,100억원",
+                "align": "right"
+              },
+              {
+                "text": "1,100억원",
+                "align": "right"
+              }
+            ],
+            "nested": 0
+          }
+        }
+      ]
+    }
+  },
+  "visualReceipt": {
+    "path": ".build/review130-20261028/backend-final-visual-read.json",
+    "sha256": "8462662177254d8e1c33a21144b960f6e69e4cf72bb5ae6363343ba78412fe85"
+  },
+  "independentProfessionalVisualReceipt": {
+    "path": ".build/review-20261028/review130-data-qa/professional4png-independent-read.json",
+    "sha256": "62eda57e97de3eefcda81763708309c78641ff2e74ed6a09cded0da5ab6e3db4"
+  },
+  "limits": [
+    "Isolated API success/403/503/offline behavior only, not actual business DB or authenticated production UI acceptance.",
+    "Source37 export excluded archived report payloads; those omitted archives are not claimed verified here.",
+    "Capital chart boundary changes affect only the explicitly synthetic donor; original source money is preserved.",
+    "Financial report checks invoke current reportData; actual PDF/Excel printing belongs to the separate output cohort.",
+    "Finance first10 and retried6 are combined by exact case names, same HTML/prod code/data, and identical flow module; they are not represented as a single26-flow execution.",
+    "Human visual inspection coverage will be recorded separately from actual entered/DOM/action assertions."
+  ],
+  "actualProductionAcceptance": "Not claimed by these isolated native flows. Root owns authenticated production save/reconnect/deployment/server log verification."
+}

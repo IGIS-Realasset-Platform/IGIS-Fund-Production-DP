@@ -1,0 +1,268 @@
+{
+  "date": "2026-10-28",
+  "requirements": [
+    "DATA130-05",
+    "QA130-06"
+  ],
+  "scope": "App-only report archive factory/router/runtime; pure and explicit-memory regressions. Root applied DDL evidence is separate; authenticated runtime/body save and formal publication are not yet accepted here.",
+  "baseline": {
+    "kind": "actual isolated original function size failure",
+    "beforeWorkspaceBytes": 2908186,
+    "afterOneSnapshotBytes": 4397350,
+    "canonicalBytes": 753408,
+    "payloadBytes": 734623,
+    "workspaceLimitBytes": 4000000,
+    "rawBodyIncluded": false
+  },
+  "api": {
+    "url": "/api/report-archives",
+    "physicalEndpoint": "api/reference-data.js",
+    "selector": "archives",
+    "methods": [
+      "GET",
+      "POST",
+      "PATCH"
+    ],
+    "physicalFunctionCount": 12,
+    "list": "metadata-only",
+    "detail": "record only on explicit GET id",
+    "postAndPatch": "metadata-only",
+    "nonDetailSqlReads": "metadata and request/hash columns only; no record/SELECT*/RETURNING*",
+    "workspace": "project/current-stage IDs projection only; no lock/update/revision/audit mutation",
+    "recordLimitUtf8Bytes": 4000000,
+    "immutable": "full initial record; runtime column updates only status fields",
+    "sourceId": "original report UID; scoped unique by project",
+    "id": "server UUID",
+    "version": "status optimistic version",
+    "permission": "existing project viewer read/editor+ create/status; approver/admin for changes touching confirmed/submitted",
+    "retry": "stable source/request/body; request mismatch/source mismatch/status version conflict are distinct409; current metadata replay; committed-response-loss covered"
+  },
+  "sourcePins": {
+    "src/report.js": "003fd59997eef36802cc078d1a9b958abc555b000bd53a75af5725d9e3fdc74f",
+    "server/report-archives.mjs": "60a58532b8576fa44591e04aabfb602d509fc55ac45ce0be93fb3febcfd00f17",
+    "server/workspace-runtime.mjs": "8bece33d7572ce933881e52c457b85dd3c96fb4cfeeb88f6b45c23c774404957",
+    "server/reference-router.mjs": "ce5b7ef0904ea977d0cc00201c90264be8d3d14efde1e0e5c3cfa4c2af05656d",
+    "api/reference-data.js": "7152b3a69091eaf4e5d5f54f4422dbf1b5ab909c7e2b78fb6192d382e6a5a457",
+    "database/review130-report-archives.sql": "b518912d8699b9590adc7f60331e4a1e86bbaaf191a101d0325e0944275d179a",
+    "vercel.json": "1a73e5604efa901af69f6d9d98fba4f2dd9a9cd180c615eafdbadf55eb6c9a70"
+  },
+  "focused": {
+    "evidence": {
+      "path": ".build/review130-20261028/report-archive-focus-1793190579507.json",
+      "sha256": "10098816f19af716083117d230824db9abd0d2cff60c74940b00f28747bad081"
+    },
+    "summary": {
+      "suites": 15,
+      "passedSuites": 15,
+      "failedSuites": 0,
+      "passedChecks": 240,
+      "failedChecks": 0
+    },
+    "sourceChanged": [],
+    "tests": [
+      {
+        "file": "tests/review130-report-archive-routing.mjs",
+        "testSha256": "f9cb8c2a9b93336cc0967868d40f7f8ddea630dfa45945fb931eed5872c1d6bd",
+        "testSha256After": "f9cb8c2a9b93336cc0967868d40f7f8ddea630dfa45945fb931eed5872c1d6bd",
+        "exitCode": 0,
+        "passed": 13,
+        "failed": 0,
+        "assertionCountUnavailable": false
+      },
+      {
+        "file": "tests/review130-report-archive-server.mjs",
+        "testSha256": "a2465a001659c935cc5a2a5c2156d39359a2a20d76020622ee4ce0b3f7032e0b",
+        "testSha256After": "a2465a001659c935cc5a2a5c2156d39359a2a20d76020622ee4ce0b3f7032e0b",
+        "exitCode": 0,
+        "passed": 31,
+        "failed": 0,
+        "assertionCountUnavailable": false
+      },
+      {
+        "file": "tests/review130-report-archive-runtime.mjs",
+        "testSha256": "cc8fb5c2e595a30a00e9c3b945bd43909871dd39f2743876ba573b1ada070714",
+        "testSha256After": "cc8fb5c2e595a30a00e9c3b945bd43909871dd39f2743876ba573b1ada070714",
+        "exitCode": 0,
+        "passed": 8,
+        "failed": 0,
+        "assertionCountUnavailable": false
+      },
+      {
+        "file": "tests/cloud-storage-runtime.mjs",
+        "testSha256": "c1b710b04d65be010c53e81cd3dd9757eb8d75b765200354bf75ff6299e15d3e",
+        "testSha256After": "c1b710b04d65be010c53e81cd3dd9757eb8d75b765200354bf75ff6299e15d3e",
+        "exitCode": 0,
+        "passed": 7,
+        "failed": 0,
+        "assertionCountUnavailable": false
+      },
+      {
+        "file": "tests/perf115-workspace-runtime.mjs",
+        "testSha256": "f319a7b7ab9a0d1e9f96915f0d99388f63d7f07020d4fe7e6096b841488d4259",
+        "testSha256After": "f319a7b7ab9a0d1e9f96915f0d99388f63d7f07020d4fe7e6096b841488d4259",
+        "exitCode": 0,
+        "passed": 10,
+        "failed": 0,
+        "assertionCountUnavailable": false
+      },
+      {
+        "file": "tests/center120-interface-runtime.mjs",
+        "testSha256": "ec9051ea49cee49ba04e0be708e2c9e293e129cfcc7fbf7a5201f7bb5f8094f6",
+        "testSha256After": "ec9051ea49cee49ba04e0be708e2c9e293e129cfcc7fbf7a5201f7bb5f8094f6",
+        "exitCode": 0,
+        "passed": 0,
+        "failed": 0,
+        "assertionCountUnavailable": true
+      },
+      {
+        "file": "tests/center120-services.mjs",
+        "testSha256": "6ab40e060c0c55c14ca3df7b7739d28b14c9da7977b82309da1c84b346954449",
+        "testSha256After": "6ab40e060c0c55c14ca3df7b7739d28b14c9da7977b82309da1c84b346954449",
+        "exitCode": 0,
+        "passed": 13,
+        "failed": 0,
+        "assertionCountUnavailable": false
+      },
+      {
+        "file": "tests/center120-partner-router.mjs",
+        "testSha256": "bd9508d5bb3fd01abc6044a05b1452c7b32c9a86d04d701108a78b41bb3237c4",
+        "testSha256After": "bd9508d5bb3fd01abc6044a05b1452c7b32c9a86d04d701108a78b41bb3237c4",
+        "exitCode": 0,
+        "passed": 8,
+        "failed": null,
+        "assertionCountUnavailable": false
+      },
+      {
+        "file": "tests/center120-partner-comments.mjs",
+        "testSha256": "368c513248ed6f96f59d80711c37d3c3609bf2ba9cf93fd49da0f9d8a6ff3149",
+        "testSha256After": "368c513248ed6f96f59d80711c37d3c3609bf2ba9cf93fd49da0f9d8a6ff3149",
+        "exitCode": 0,
+        "passed": 24,
+        "failed": 0,
+        "assertionCountUnavailable": false
+      },
+      {
+        "file": "tests/center120-partner-comments-independent.mjs",
+        "testSha256": "a74daa9eb6f3bbadfe5b785ad38fe23c25f45084e8cdd81482df4b5a5c3a7051",
+        "testSha256After": "a74daa9eb6f3bbadfe5b785ad38fe23c25f45084e8cdd81482df4b5a5c3a7051",
+        "exitCode": 0,
+        "passed": 6,
+        "failed": 0,
+        "assertionCountUnavailable": false
+      },
+      {
+        "file": "tests/review126-db-queries.mjs",
+        "testSha256": "a1647c1268fa3baaf37055bf9d6ab76d88f4906e55c67be8fcc7a8f7c5b2b466",
+        "testSha256After": "a1647c1268fa3baaf37055bf9d6ab76d88f4906e55c67be8fcc7a8f7c5b2b466",
+        "exitCode": 0,
+        "passed": 41,
+        "failed": 0,
+        "assertionCountUnavailable": false
+      },
+      {
+        "file": "tests/center120-law-api.mjs",
+        "testSha256": "bca17142e8989f43ad1089fe01eb726557afedc952d805c9edea048b469f353a",
+        "testSha256After": "bca17142e8989f43ad1089fe01eb726557afedc952d805c9edea048b469f353a",
+        "exitCode": 0,
+        "passed": 9,
+        "failed": 0,
+        "assertionCountUnavailable": false
+      },
+      {
+        "file": "tests/center120-law-watch.mjs",
+        "testSha256": "a2d88a2a9cd6971596f36ad461cce57f8770c2cd838a3666708c8f3fb0800ac4",
+        "testSha256After": "a2d88a2a9cd6971596f36ad461cce57f8770c2cd838a3666708c8f3fb0800ac4",
+        "exitCode": 0,
+        "passed": 11,
+        "failed": 0,
+        "assertionCountUnavailable": false
+      },
+      {
+        "file": "tests/center120-cost-snapshots.mjs",
+        "testSha256": "28cf79492039efb0e735feaab9b291e0f05678bf9584fb39823207cdf5af331e",
+        "testSha256After": "28cf79492039efb0e735feaab9b291e0f05678bf9584fb39823207cdf5af331e",
+        "exitCode": 0,
+        "passed": 10,
+        "failed": 0,
+        "assertionCountUnavailable": false
+      },
+      {
+        "file": "tests/review130-report-archives.mjs",
+        "testSha256": "9b4f15ddf5ac63f330c8e849817debbd119810df2b657dfb9b82f1902c4c6c45",
+        "testSha256After": "9b4f15ddf5ac63f330c8e849817debbd119810df2b657dfb9b82f1902c4c6c45",
+        "exitCode": 0,
+        "passed": 49,
+        "failed": 0,
+        "assertionCountUnavailable": false
+      }
+    ],
+    "newServerChecks": 31,
+    "newRoutingChecks": 13,
+    "newRuntimeAndSchemaChecks": 8,
+    "legacyInterfaceTestHasUnreportedAssertionCount": true,
+    "sharedExplicitMemoryDbFixture": {
+      "path": "tests/support/report-archive-store.mjs",
+      "sha256": "3955c8f275174f617d22cea9d540ac9d9c114ab9b6dfcc64ccca046c19c0c544"
+    }
+  },
+  "boundaryCorrections": {
+    "sqlNull": "First before_metadata is an SQL NULL parameter, not JSON string null. Raw parameter and SQL-compatible mock CHECK guarded.",
+    "missingTestFileCollision": "Old generic report-archives test path became QA client. Backend restored under report-archive-server; original27 retained. Old14-suite188 is not cited as backend27 file proof.",
+    "routing": "13 physical function RED corrected to12 using existing router; original5 rewrites preserved"
+  },
+  "database": {
+    "evidencePath": "docs/review130-report-archive-db-verification.json",
+    "evidenceSha256": "2fb05357695b7e7d34c976662e9e5e4abfc2392b40a0ae48cd350195a56ca04b",
+    "migration": {
+      "name": "development_platform_report_archives_20261028",
+      "file": "database/review130-report-archives.sql",
+      "sha256": "b518912d8699b9590adc7f60331e4a1e86bbaaf191a101d0325e0944275d179a",
+      "result": "applied",
+      "scope": "Two new tables and their indexes, constraints, policies and grants in development_project_platform only; platform migration bookkeeping is recorded by the standard migration tool."
+    },
+    "afterDDLRows": {
+      "archives": 0,
+      "events": 0
+    },
+    "bothTablesRLS": true,
+    "effectiveRuntimePermissions": {
+      "read": true,
+      "create": true,
+      "statusUpdate": true,
+      "bodyUpdate": false,
+      "projectUpdate": false,
+      "delete": false
+    },
+    "publicSelect": {
+      "anon": false,
+      "authenticated": false,
+      "service_role": false
+    },
+    "unchangedBeforeAndAfterDDL": {
+      "workspaceRevision": 37,
+      "workspaceMD5": "2dc21afa5417832d343c52616e7be9d4",
+      "projectMoneyStagesContractsLoansVatMD5": "477deb2f40b8a14768e0973441dce213",
+      "legacyReportMetadataMD5": "548824e50ebf6e48b25c564a0b16806a"
+    },
+    "existingReportReality": {
+      "legacyMetadataRows": 3,
+      "frozenReportBodyRows": 0,
+      "meaning": "The old rows contain submission metadata only. A metadata hash is not evidence that a frozen body existed or was preserved."
+    },
+    "executedBy": "root; this worker performed no actual DB writes"
+  },
+  "notYetAccepted": [
+    "authenticated actual API creation/status/retry",
+    "actual client save/reconnect of the new body",
+    "new body immutability in actual DB",
+    "final release HTML/UI/publication"
+  ],
+  "preserved": {
+    "oldReportsAndReportSnapshots": "compatible read; never migrated/deleted/rewritten by this API",
+    "otherBusinessSchemas": true,
+    "sharedSupabaseAuth": true,
+    "existingLoginConfiguration": true,
+    "privateBodyOrCredentialsIncluded": false
+  },
+  "currentClientIntegration": "Current QA client tests reach the actual reference router and archive factory through the shared SQL-compatible explicit-memory DB. Actual server DB/member acceptance remains separate."
+}

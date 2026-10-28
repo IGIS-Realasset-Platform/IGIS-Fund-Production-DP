@@ -1,0 +1,592 @@
+{
+  "schemaVersion": "review130-scope-bridge-v1",
+  "artifacts": [
+    {
+      "id": "C83",
+      "file": ".build/review130-20261028/integration-candidate-83.html",
+      "sha256": "90cdb421ad6e8b54d28e436e5201f0f7aedca6cfd657787511f1a89fb36ddf3f",
+      "bytes": 6844704
+    },
+    {
+      "id": "C84",
+      "file": ".build/review130-20261028/integration-candidate-84.html",
+      "sha256": "ef4707729a7babf2ada422272a8f72ea832d7af80a3d26a529bc57fb14c6ab1a",
+      "bytes": 6867058
+    },
+    {
+      "id": "C85",
+      "file": ".build/review130-20261028/integration-candidate-85.html",
+      "sha256": "86b47fef5c5d77efb87c6bcec19ac8ed22d743ac21616de4ee618050725585a5",
+      "bytes": 6870565
+    }
+  ],
+  "normalization": "CRLF to LF only for exact source embedding, no implementation result copied as test expected value",
+  "modules": [
+    {
+      "name": "src/core.js",
+      "normalizedSHA256": "3cc5514aefee0701058591d2aa1c5e2cb6cfc2debc49d7ec10d8cc64b32af7ce",
+      "exactEmbedding": {
+        "C83": false,
+        "C84": true,
+        "C85": true
+      }
+    },
+    {
+      "name": "src/recovery.css",
+      "normalizedSHA256": "ba22710bbfda4de915d535824d93d1abb6121898afb4b62b34973045f4c753c7",
+      "exactEmbedding": {
+        "C83": true,
+        "C84": true,
+        "C85": true
+      }
+    },
+    {
+      "name": "src/cbs-recovery.css",
+      "normalizedSHA256": "0c331d45fbea1492bb46b5baa757ab23aa8e0f7e0190e396e665eff82394b451",
+      "exactEmbedding": {
+        "C83": true,
+        "C84": true,
+        "C85": true
+      }
+    },
+    {
+      "name": "src/contracts-recovery.css",
+      "normalizedSHA256": "5c6f5052bf384dba4181f89958f9d1141e5ea6503d3d54e3d87ffd6cfffec907",
+      "exactEmbedding": {
+        "C83": true,
+        "C84": true,
+        "C85": true
+      }
+    },
+    {
+      "name": "src/permit.css",
+      "normalizedSHA256": "c4e7460586a7d0635bfa50bf18bb380331cfd8446886a317b0500b770d70eb6a",
+      "exactEmbedding": {
+        "C83": true,
+        "C84": true,
+        "C85": true
+      }
+    },
+    {
+      "name": "src/permit-detail.css",
+      "normalizedSHA256": "60fece915f4ceb56ff0d54c9cd52efac23851662b89887df8989de4dbb243623",
+      "exactEmbedding": {
+        "C83": true,
+        "C84": true,
+        "C85": true
+      }
+    },
+    {
+      "name": "src/cbs.js",
+      "normalizedSHA256": "1183ae0afbd8f0ee1875ed4a722d4d1ddf8e7099da61923b008aceee189b5076",
+      "exactEmbedding": {
+        "C83": true,
+        "C84": true,
+        "C85": true
+      }
+    },
+    {
+      "name": "src/contracts.js",
+      "normalizedSHA256": "6b16e9a5ab505285729d4b5ea0561d66fb83616558e00c0f1ec20f478812a80d",
+      "exactEmbedding": {
+        "C83": false,
+        "C84": true,
+        "C85": true
+      }
+    },
+    {
+      "name": "src/legal.js",
+      "normalizedSHA256": "2671e4b5acde1f7c9e6791e173aca40b6c5a98eeb8d7fbf60b0a79de73c2a802",
+      "exactEmbedding": {
+        "C83": true,
+        "C84": true,
+        "C85": true
+      }
+    },
+    {
+      "name": "src/permit-views.js",
+      "normalizedSHA256": "505aeab0facab88f28c20fda9cee40361d79d448003b3737401eacb0719c32c0",
+      "exactEmbedding": {
+        "C83": true,
+        "C84": true,
+        "C85": true
+      }
+    },
+    {
+      "name": "src/cbs-purpose.js",
+      "normalizedSHA256": "065edcb0ce2f413a4a68100ed3601a5b480e48a16760db644975c7355203b9b9",
+      "exactEmbedding": {
+        "C83": false,
+        "C84": true,
+        "C85": true
+      }
+    },
+    {
+      "name": "src/cost-breakdown.js",
+      "normalizedSHA256": "28389b9165b1074c9cb2f4775a8b22f5c9e59f077c3e473f46d6d2c65ff1ece5",
+      "exactEmbedding": {
+        "C83": false,
+        "C84": true,
+        "C85": true
+      }
+    },
+    {
+      "name": "src/cost-asset-presets.js",
+      "normalizedSHA256": "32da5dada27e63f7b3020d28592debb3973a180869b025f3b801c797be3d9ffb",
+      "exactEmbedding": {
+        "C83": true,
+        "C84": true,
+        "C85": true
+      }
+    },
+    {
+      "name": "src/cost-type-master.js",
+      "normalizedSHA256": "f2de9be9ee3df60565e228b51fbfc5d1cc38a35e9a089a8c4cfca85654155d92",
+      "exactEmbedding": {
+        "C83": true,
+        "C84": true,
+        "C85": true
+      }
+    },
+    {
+      "name": "src/cost-taxonomy.js",
+      "normalizedSHA256": "e41bb31d85288b7cf9a871445869e3eb8b7ac2cedb75441d05322d88ee44c923",
+      "exactEmbedding": {
+        "C83": true,
+        "C84": true,
+        "C85": true
+      }
+    },
+    {
+      "name": "src/cost-company-profile.js",
+      "normalizedSHA256": "d745d22ee3881096818a0a9b3d5f17e14609f0d1709224a7952b8c1c4f0d1fbc",
+      "exactEmbedding": {
+        "C83": true,
+        "C84": true,
+        "C85": true
+      }
+    },
+    {
+      "name": "src/cost-order.js",
+      "normalizedSHA256": "25db373a0bd3d05d7ad5b355979f78ef736b336e23b81b97d9879fc405edcc31",
+      "exactEmbedding": {
+        "C83": true,
+        "C84": true,
+        "C85": true
+      }
+    },
+    {
+      "name": "src/cost-coding.js",
+      "normalizedSHA256": "3fc3976de4e38e13e83483e31afc16376f2a4d80648f3542e28983bfdf0c9aaf",
+      "exactEmbedding": {
+        "C83": true,
+        "C84": true,
+        "C85": true
+      }
+    },
+    {
+      "name": "src/cost-snapshots.js",
+      "normalizedSHA256": "ebc13054f94f530bf519ac115a2c192d62d8d821827dd77b81142fd55e26f906",
+      "exactEmbedding": {
+        "C83": true,
+        "C84": true,
+        "C85": true
+      }
+    },
+    {
+      "name": "src/xlsx-export.js",
+      "normalizedSHA256": "0057b4af1706d1937f01ce903dc49aa7f634cb882f7e36e8af3af870dcb70712",
+      "exactEmbedding": {
+        "C83": true,
+        "C84": true,
+        "C85": true
+      }
+    },
+    {
+      "name": "src/notifications.js",
+      "normalizedSHA256": "c55f87d4b6ffeffa6281646e8f0be51f0ac578a087c7f687cbe28ca8cef7975c",
+      "exactEmbedding": {
+        "C83": false,
+        "C84": false,
+        "C85": true
+      }
+    },
+    {
+      "name": "src/report.js",
+      "normalizedSHA256": "67379f128367f9ee717d36b869e6272289d8fb67d2e24d0badf7bc1bbf066b70",
+      "exactEmbedding": {
+        "C83": false,
+        "C84": false,
+        "C85": true
+      }
+    },
+    {
+      "name": "src/recovery-views.js",
+      "normalizedSHA256": "c21296b3ee4013f3c441c89ab2d3e86c80633e5ad83279519e5e18e80bc9697c",
+      "exactEmbedding": {
+        "C83": false,
+        "C84": false,
+        "C85": true
+      }
+    },
+    {
+      "name": "src/spec.js",
+      "normalizedSHA256": "cda57fc671d8499666cbed270e2f36a80ef52f11846099a63e07cef3aa03fbc9",
+      "exactEmbedding": {
+        "C83": false,
+        "C84": false,
+        "C85": true
+      }
+    }
+  ],
+  "partialFunctions": [
+    {
+      "file": "src/core.js",
+      "line": 123,
+      "endLine": 123,
+      "name": "releaseInlineTableLayout",
+      "normalizedSHA256": "3e81ee03b81ac9f8570d6e82bf42f8a5c40cf82094839e1a544c538383dda1f5",
+      "exactEmbedding": {
+        "C83": true,
+        "C84": true,
+        "C85": true
+      }
+    },
+    {
+      "file": "src/core.js",
+      "line": 124,
+      "endLine": 138,
+      "name": "lockInlineTableLayout",
+      "normalizedSHA256": "c2bbedfb31a5fe7971aaefd05052d99d69764ec95c4f6cea6f74852d5f8a355b",
+      "exactEmbedding": {
+        "C83": true,
+        "C84": true,
+        "C85": true
+      }
+    },
+    {
+      "file": "src/core.js",
+      "line": 139,
+      "endLine": 147,
+      "name": "revealInlineVertically",
+      "normalizedSHA256": "1aec689c36848de6b8b6b5c786ff1ee081388136017eed3a7d708d42798c85e2",
+      "exactEmbedding": {
+        "C83": true,
+        "C84": true,
+        "C85": true
+      }
+    },
+    {
+      "file": "src/core.js",
+      "line": 172,
+      "endLine": 172,
+      "name": "inlineDirty",
+      "normalizedSHA256": "299e9356fba8ed329eb345c69f28d757d4f249d7ca54114f6ad2e58a2214efd8",
+      "exactEmbedding": {
+        "C83": true,
+        "C84": true,
+        "C85": true
+      }
+    },
+    {
+      "file": "src/core.js",
+      "line": 189,
+      "endLine": 189,
+      "name": "focusInline",
+      "normalizedSHA256": "91e53eecc369fc65384c68fdef0da4802a1950c7c09d37ce947bb384544f8df5",
+      "exactEmbedding": {
+        "C83": true,
+        "C84": true,
+        "C85": true
+      }
+    },
+    {
+      "file": "src/core.js",
+      "line": 233,
+      "endLine": 241,
+      "name": "beginInline",
+      "normalizedSHA256": "1392f0c883e266eeb763530fe5cf8eeb343d7e44706dcfca91ff2ecd979ee05a",
+      "exactEmbedding": {
+        "C83": true,
+        "C84": true,
+        "C85": true
+      }
+    },
+    {
+      "file": "src/core.js",
+      "line": 242,
+      "endLine": 253,
+      "name": "saveInline",
+      "normalizedSHA256": "e0c6abf412f5ea9bd86633dfcd5342a134f1c666167c3a1e5b5950c3b93afc4b",
+      "exactEmbedding": {
+        "C83": true,
+        "C84": true,
+        "C85": true
+      }
+    },
+    {
+      "file": "src/core.js",
+      "line": 254,
+      "endLine": 259,
+      "name": "cancelInline",
+      "normalizedSHA256": "73b83ded03c3185e0f71fcb7a6c4673c6d23552fd7c239e0939d7708a8931c60",
+      "exactEmbedding": {
+        "C83": true,
+        "C84": true,
+        "C85": true
+      }
+    },
+    {
+      "file": "src/core.js",
+      "line": 266,
+      "endLine": 275,
+      "name": "handleInlineClick",
+      "normalizedSHA256": "f0dda3f7ac49e7ccbb423fe184cc6edf6dccdd06918b34a57e4882a222674363",
+      "exactEmbedding": {
+        "C83": true,
+        "C84": true,
+        "C85": true
+      }
+    },
+    {
+      "file": "src/core.js",
+      "line": 110,
+      "endLine": 114,
+      "name": "A.editable",
+      "normalizedSHA256": "6386556b9b7a1c8452012580b1571bfd3ec4b8ea9b8a490b574454570a23ee70",
+      "exactEmbedding": {
+        "C83": true,
+        "C84": true,
+        "C85": true
+      }
+    },
+    {
+      "file": "src/core.js",
+      "line": 116,
+      "endLine": 116,
+      "name": "A.parseInlineValue base",
+      "normalizedSHA256": "912a36b7efe582139184ba2b69b1ef6a75e526bd3cb4985d4c78f0da1f55f05e",
+      "exactEmbedding": {
+        "C83": true,
+        "C84": true,
+        "C85": true
+      }
+    },
+    {
+      "file": "src/recovery-views.js",
+      "line": 84,
+      "endLine": 84,
+      "name": "issueTable",
+      "normalizedSHA256": "4eeac8ebb158ec9d8ad4d7bf387126fd05af98e7b942b4a5d1d1365e7475974a",
+      "exactEmbedding": {
+        "C83": true,
+        "C84": true,
+        "C85": true
+      }
+    },
+    {
+      "file": "src/recovery-views.js",
+      "line": 34,
+      "endLine": 34,
+      "name": "timeline",
+      "normalizedSHA256": "cad833cf96561819b87f4f945ef87abeaa2e44d8a4d70ba364ec388bafa88099",
+      "exactEmbedding": {
+        "C83": true,
+        "C84": true,
+        "C85": true
+      }
+    },
+    {
+      "file": "src/recovery-views.js",
+      "line": 82,
+      "endLine": 82,
+      "name": "costMini",
+      "normalizedSHA256": "28ad48dad09ee374bc6e816caa0aa04d2c679e227fb85152f32f4a4b8f16dcd9",
+      "exactEmbedding": {
+        "C83": true,
+        "C84": true,
+        "C85": true
+      }
+    },
+    {
+      "file": "src/recovery-views.js",
+      "line": 83,
+      "endLine": 83,
+      "name": "financeMini",
+      "normalizedSHA256": "598d35c4d58454ad0e454a449aefb8391174914563c34d1f241b7edb6e5366ce",
+      "exactEmbedding": {
+        "C83": true,
+        "C84": true,
+        "C85": true
+      }
+    },
+    {
+      "file": "src/notifications.js",
+      "line": 13,
+      "endLine": 13,
+      "name": "sidebar",
+      "normalizedSHA256": "756fe6817e0cac94862edde03e99586cefddde5b8f0d602ccf6e7355a92464fd",
+      "exactEmbedding": {
+        "C83": true,
+        "C84": true,
+        "C85": true
+      }
+    },
+    {
+      "file": "src/notifications.js",
+      "line": 14,
+      "endLine": 14,
+      "name": "updateSidebar",
+      "normalizedSHA256": "15f21b2f7e8cb09705b989cba90eeab61cd1feb0981261dcffb8dad1098a8e61",
+      "exactEmbedding": {
+        "C83": true,
+        "C84": true,
+        "C85": true
+      }
+    },
+    {
+      "file": "src/core.js",
+      "line": 86,
+      "endLine": 90,
+      "name": "A.table",
+      "normalizedSHA256": "b96b065f074b3e2269d035b6c4fc9bddec329fa39901f79363602b4150f25893",
+      "exactEmbedding": {
+        "C83": true,
+        "C84": true,
+        "C85": true
+      }
+    },
+    {
+      "file": "src/core.js",
+      "line": 92,
+      "endLine": 92,
+      "name": "tableCellMinimum",
+      "normalizedSHA256": "e52af629b9f5af4326b2b0376ffa27a346cc60ecd9b8743c165a76405761dfc7",
+      "exactEmbedding": {
+        "C83": false,
+        "C84": true,
+        "C85": true
+      }
+    },
+    {
+      "file": "src/core.js",
+      "line": 93,
+      "endLine": 93,
+      "name": "tableMetrics",
+      "normalizedSHA256": "6361bd051483708f01284222300a9f517d0baae3f6b19d4fcfdf09deb2a0c01b",
+      "exactEmbedding": {
+        "C83": true,
+        "C84": true,
+        "C85": true
+      }
+    },
+    {
+      "file": "src/core.js",
+      "name": "paintTableWidths",
+      "normalizedSHA256": "88a1e1b63e9285e5b01e41a585fd366a0fdf0f3da7325d0dcafc4566b082594e",
+      "exactEmbedding": {
+        "C83": true,
+        "C84": true,
+        "C85": true
+      }
+    }
+  ],
+  "denominators": {
+    "doNotSumDifferentUnits": true,
+    "C83": {
+      "sourceReadTableViewports": 310,
+      "renderedEditableUIOccurrences": 5390,
+      "tableTypeFieldContextsDiscovered": 565,
+      "fieldContextsAttempted": 565,
+      "fieldContextsPassed": 555,
+      "fieldContextsPreparationBlocked": 10,
+      "fieldContextIdentityDefinition": "viewport/surface/entity/id/field/project",
+      "uniquePassedContextKeys": 555,
+      "auxiliaryFlowCases": 15,
+      "auxiliaryFlowPassed": 15,
+      "resizeTableLayoutProtocolCases": 115,
+      "resizeTableLayoutPassed": 115,
+      "resizeProtocolDefinition": "one viewport/surface/layout-key with seven operations; not seven business features",
+      "compositeSameValueSaveNotRun": 5,
+      "presetWorkflowCases": 18
+    },
+    "C84": {
+      "costBusinessWorkflowCases": 2,
+      "guarantorFieldContextCases": 10,
+      "initialDateReadTableViewportCases": 10,
+      "classificationBusinessWorkflowCases": 4
+    },
+    "C85FreshActualNativeByThisAgent": {
+      "costBusinessWorkflowCases": 0,
+      "guarantorFieldContextCases": 0,
+      "initialDateReadTableViewportCases": 0,
+      "classificationBusinessWorkflowCases": 0,
+      "construction33FormViewportCases": 5,
+      "costOwnerWorkflows": 10,
+      "mixedExportWorkflows": 2,
+      "actualExcelFilesRead": 4
+    }
+  },
+  "acceptance": {
+    "C84OriginalCounterexamples": "accepted in exact C84, component source-equivalent support for C85 only where modules/core/CSS/consumers above match",
+    "C83Geometry": "historical exact-C83 execution plus unchanged editor-function support; initial-fit/details/form and overview report side effects changed, so not a fresh C85 whole-run pass",
+    "C83Presets": "18 historical UI workflows with exact preset/cbs/domain source embedding in C85; current generated HTML has no fresh18 preset workflows by this agent",
+    "unchangedPartialFunctions": "only source preservation evidence, never substitutes for all branch/runtime/server/output verification",
+    "excludedChanges": [
+      "report archive and latest submission UI hooks",
+      "notification popup state and focus",
+      "owner specification"
+    ],
+    "allPlatformComplete": false,
+    "realDBWrites": 0,
+    "C83Resize": "historical115 protocol executions; metrics/paint source support plus current financial table rerun are separated from changed late-detached listener guards and new initial fitting",
+    "changedMinimumCell": "tableCellMinimum differs C83→C84; same tableMetrics does not imply same effective-measurement behavior. Current initial-date10 and financial resize20 are scoped current checks."
+  },
+  "dataDefinitions": [
+    {
+      "variable": "COST_TYPE_MASTER",
+      "file": "src/data/cost-type-master-v4.json",
+      "normalizedSHA256": "4937aef2312818b3eb098949b1b5913429cd9f42428ebdb2a7b853552133ecd7",
+      "exactVariableEmbedding": {
+        "C83": true,
+        "C84": true,
+        "C85": true
+      }
+    },
+    {
+      "variable": "COST_TAXONOMY",
+      "file": "src/data/cost-taxonomy-v4.json",
+      "normalizedSHA256": "81fe373146fec64f70ec93e5cfd49f3740fd7c7779817af0328237a39af5d470",
+      "exactVariableEmbedding": {
+        "C83": true,
+        "C84": true,
+        "C85": true
+      }
+    },
+    {
+      "variable": "COST_USE_PRESETS",
+      "file": "src/data/cost-presets-v2.json",
+      "normalizedSHA256": "ebfb4df46a7e8c3d4229e37876a2a6e406968ff8894bc9b0c51d4f7860786284",
+      "exactVariableEmbedding": {
+        "C83": true,
+        "C84": true,
+        "C85": true
+      }
+    },
+    {
+      "variable": "COST_TYPE_MASTER_ARCHIVE",
+      "files": [
+        "src/data/cost-type-master-v1.json",
+        "src/data/cost-type-master-v2.json",
+        "src/data/cost-type-master-v3.json"
+      ],
+      "canonicalJSONSHA256": "8da20206febe9562f83de2c073285553d9efa38ff685c3cfae65d2c4a7b563f8",
+      "exactVariableEmbedding": {
+        "C83": true,
+        "C84": true,
+        "C85": true
+      }
+    }
+  ],
+  "currentActualEvidence": "docs/review130-frontend-native-C85.json"
+}

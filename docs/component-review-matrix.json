@@ -45,7 +45,7 @@
     "businessCounterexamples": 1,
     "currentObservedDefinitions": 975,
     "historicalRecords": 3238,
-    "totalMatrixRecords": 4993,
+    "totalMatrixRecords": 5046,
     "allPriorIDsPreserved": true,
     "currentActualCohortCountsAreNotAddedToHistoricCounts": true,
     "sourceCandidateCohort": "C44 historical, not current visible controls",
@@ -59,8 +59,8 @@
     "review128PendingRequirements": 0,
     "review128ScopedReviewedRecords": 27,
     "review129PendingRequirements": 0,
-    "review130PendingRequirements": 6,
-    "meaning": "Matrix records include historical definitions/observations/input candidates; not unique current actions"
+    "review130PendingRequirements": 7,
+    "meaning": "Historical definitions, source candidates and current scenario/component records are separate; total records are not unique current UI actions."
   },
   "actualExecution": {
     "evidence": "C44-ACTUAL-42",
@@ -723825,6 +723825,2557 @@
         "src/core.js"
       ],
       "allStatesAccepted": false
+    },
+    {
+      "componentID": "UI130-07",
+      "parentID": null,
+      "kind": "requirement",
+      "label": "목록 정렬·한 줄 표시·열 너비 조정",
+      "lifecycle": "review130-in-progress",
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review-20261028-review130-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "목록 정렬·한 줄 표시·열 너비 조정",
+        "reference": null
+      },
+      "source": [
+        "docs/review-20261028-review130-ledger.json"
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "CONS130-SCHEDULE",
+      "parentID": "UX130-01",
+      "kind": "work-unit",
+      "label": "착공·준공 예정/실제/지연 고정열 및 신고·재개·변경일/내용6개 조회",
+      "lifecycle": "review130-in-progress",
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review-20261028-review130-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "착공·준공 예정/실제/지연 고정열 및 신고·재개·변경일/내용6개 조회",
+        "reference": "UX130-01"
+      },
+      "source": [
+        "src/permit-views.js"
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "CONS130-PF",
+      "parentID": "UX130-01",
+      "kind": "work-unit",
+      "label": "본PF 실제 실행 여부·일자·지연·사유·내용5개 조회",
+      "lifecycle": "review130-in-progress",
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review-20261028-review130-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "본PF 실제 실행 여부·일자·지연·사유·내용5개 조회",
+        "reference": "UX130-01"
+      },
+      "source": [
+        "src/permit-views.js"
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "CONS130-WORK",
+      "parentID": "UX130-01",
+      "kind": "work-unit",
+      "label": "전체지연·사유와 공사중단/재개5개 구별",
+      "lifecycle": "review130-in-progress",
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review-20261028-review130-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "전체지연·사유와 공사중단/재개5개 구별",
+        "reference": "UX130-01"
+      },
+      "source": [
+        "src/permit-views.js"
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "CONS130-PROGRESS",
+      "parentID": "UX130-01",
+      "kind": "work-unit",
+      "label": "기준일·계획·실제·차이 조회, 수시기록/공정이력 유지",
+      "lifecycle": "review130-in-progress",
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review-20261028-review130-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "기준일·계획·실제·차이 조회, 수시기록/공정이력 유지",
+        "reference": "UX130-01"
+      },
+      "source": [
+        "src/permit-views.js"
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "CONS130-AGREEMENT",
+      "parentID": "UX130-01",
+      "kind": "work-unit",
+      "label": "약정4개와 별도 대출 만기 원문 조회",
+      "lifecycle": "review130-in-progress",
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review-20261028-review130-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "약정4개와 별도 대출 만기 원문 조회",
+        "reference": "UX130-01"
+      },
+      "source": [
+        "src/permit-views.js"
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "CONS130-EDIT",
+      "parentID": "UX130-01",
+      "kind": "work-unit",
+      "label": "전체수정1개와6단계 수정→동일폼 해당fieldset 초점",
+      "lifecycle": "review130-in-progress",
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review-20261028-review130-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "전체수정1개와6단계 수정→동일폼 해당fieldset 초점",
+        "reference": "UX130-01"
+      },
+      "source": [
+        "src/permit-views.js"
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "CONS130-FORM",
+      "parentID": "UX130-01",
+      "kind": "work-unit",
+      "label": "33입력 label/value 행 정렬·자료형·원문·취소/실패 보존",
+      "lifecycle": "review130-in-progress",
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review-20261028-review130-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "33입력 label/value 행 정렬·자료형·원문·취소/실패 보존",
+        "reference": "UX130-01"
+      },
+      "source": [
+        "src/permit-views.js"
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "CONS130-PROGRESS-ACCESS",
+      "parentID": "UX130-01",
+      "kind": "work-unit",
+      "label": "공정 차트/이력/직접진입의 조회권한과 저장직전 사업·권한·실제기록 재검사, 부모복귀",
+      "lifecycle": "review130-in-progress",
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review-20261028-review130-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "공정 차트/이력/직접진입의 조회권한과 저장직전 사업·권한·실제기록 재검사, 부모복귀",
+        "reference": "UX130-01"
+      },
+      "source": [
+        "src/permit-views.js"
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "CONS130-FIELD-construction-noticeDate",
+      "parentID": "UX130-01",
+      "kind": "field",
+      "label": "착공신고일 조회·입력·보고 연결",
+      "lifecycle": "review130-in-progress",
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review-20261028-review130-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "착공신고일 조회·입력·보고 연결",
+        "reference": "UX130-01"
+      },
+      "source": [
+        "src/permit-views.js",
+        "src/report-form.js"
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "allStatesAccepted": false,
+      "definition": {
+        "sourceField": "construction.noticeDate",
+        "formName": "construction__noticeDate",
+        "type": "date",
+        "section": "start",
+        "reportCoordinate": "4-3:1:1"
+      }
+    },
+    {
+      "componentID": "CONS130-FIELD-construction-plannedStart",
+      "parentID": "UX130-01",
+      "kind": "field",
+      "label": "착공예정일 조회·입력·보고 연결",
+      "lifecycle": "review130-in-progress",
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review-20261028-review130-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "착공예정일 조회·입력·보고 연결",
+        "reference": "UX130-01"
+      },
+      "source": [
+        "src/permit-views.js",
+        "src/report-form.js"
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "allStatesAccepted": false,
+      "definition": {
+        "sourceField": "construction.plannedStart",
+        "formName": "construction__plannedStart",
+        "type": "date",
+        "section": "start",
+        "reportCoordinate": "4-3:1:2"
+      }
+    },
+    {
+      "componentID": "CONS130-FIELD-construction-actualStart",
+      "parentID": "UX130-01",
+      "kind": "field",
+      "label": "실제 착공일 조회·입력·보고 연결",
+      "lifecycle": "review130-in-progress",
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review-20261028-review130-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "실제 착공일 조회·입력·보고 연결",
+        "reference": "UX130-01"
+      },
+      "source": [
+        "src/permit-views.js",
+        "src/report-form.js"
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "allStatesAccepted": false,
+      "definition": {
+        "sourceField": "construction.actualStart",
+        "formName": "construction__actualStart",
+        "type": "date",
+        "section": "start",
+        "reportCoordinate": "4-3:1:3"
+      }
+    },
+    {
+      "componentID": "CONS130-FIELD-construction-startDelayed",
+      "parentID": "UX130-01",
+      "kind": "field",
+      "label": "착공 지연 조회·입력·보고 연결",
+      "lifecycle": "review130-in-progress",
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review-20261028-review130-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "착공 지연 조회·입력·보고 연결",
+        "reference": "UX130-01"
+      },
+      "source": [
+        "src/permit-views.js",
+        "src/report-form.js"
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "allStatesAccepted": false,
+      "definition": {
+        "sourceField": "construction.startDelayed",
+        "formName": "construction__startDelayed",
+        "type": "select",
+        "section": "start",
+        "reportCoordinate": "4-3:3:1"
+      }
+    },
+    {
+      "componentID": "CONS130-FIELD-construction-startDelayReportDate",
+      "parentID": "UX130-01",
+      "kind": "field",
+      "label": "착공연기신고일 조회·입력·보고 연결",
+      "lifecycle": "review130-in-progress",
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review-20261028-review130-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "착공연기신고일 조회·입력·보고 연결",
+        "reference": "UX130-01"
+      },
+      "source": [
+        "src/permit-views.js",
+        "src/report-form.js"
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "allStatesAccepted": false,
+      "definition": {
+        "sourceField": "construction.startDelayReportDate",
+        "formName": "construction__startDelayReportDate",
+        "type": "date",
+        "section": "start",
+        "reportCoordinate": "4-3:3:2"
+      }
+    },
+    {
+      "componentID": "CONS130-FIELD-construction-startDelayReason",
+      "parentID": "UX130-01",
+      "kind": "field",
+      "label": "착공 지연사유 조회·입력·보고 연결",
+      "lifecycle": "review130-in-progress",
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review-20261028-review130-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "착공 지연사유 조회·입력·보고 연결",
+        "reference": "UX130-01"
+      },
+      "source": [
+        "src/permit-views.js",
+        "src/report-form.js"
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "allStatesAccepted": false,
+      "definition": {
+        "sourceField": "construction.startDelayReason",
+        "formName": "construction__startDelayReason",
+        "type": "select",
+        "section": "start",
+        "reportCoordinate": "4-3:3:3"
+      }
+    },
+    {
+      "componentID": "CONS130-FIELD-construction-startDelayDetail",
+      "parentID": "UX130-01",
+      "kind": "field",
+      "label": "착공 지연 세부내용 조회·입력·보고 연결",
+      "lifecycle": "review130-in-progress",
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review-20261028-review130-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "착공 지연 세부내용 조회·입력·보고 연결",
+        "reference": "UX130-01"
+      },
+      "source": [
+        "src/permit-views.js",
+        "src/report-form.js"
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "allStatesAccepted": false,
+      "definition": {
+        "sourceField": "construction.startDelayDetail",
+        "formName": "construction__startDelayDetail",
+        "type": "textarea",
+        "section": "start",
+        "reportCoordinate": "4-3:3:4"
+      }
+    },
+    {
+      "componentID": "CONS130-FIELD-construction-restartDate",
+      "parentID": "UX130-01",
+      "kind": "field",
+      "label": "착공 재개예정일 조회·입력·보고 연결",
+      "lifecycle": "review130-in-progress",
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review-20261028-review130-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "착공 재개예정일 조회·입력·보고 연결",
+        "reference": "UX130-01"
+      },
+      "source": [
+        "src/permit-views.js",
+        "src/report-form.js"
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "allStatesAccepted": false,
+      "definition": {
+        "sourceField": "construction.restartDate",
+        "formName": "construction__restartDate",
+        "type": "date",
+        "section": "start",
+        "reportCoordinate": "4-3:3:5"
+      }
+    },
+    {
+      "componentID": "CONS130-FIELD-construction-mainPf",
+      "parentID": "UX130-01",
+      "kind": "field",
+      "label": "본PF 전환(실행) 조회·입력·보고 연결",
+      "lifecycle": "review130-in-progress",
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review-20261028-review130-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "본PF 전환(실행) 조회·입력·보고 연결",
+        "reference": "UX130-01"
+      },
+      "source": [
+        "src/permit-views.js",
+        "src/report-form.js"
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "allStatesAccepted": false,
+      "definition": {
+        "sourceField": "construction.mainPf",
+        "formName": "construction__mainPf",
+        "type": "select",
+        "section": "pf",
+        "reportCoordinate": "4-3-pf:2:1"
+      }
+    },
+    {
+      "componentID": "CONS130-FIELD-construction-mainPfDate",
+      "parentID": "UX130-01",
+      "kind": "field",
+      "label": "본PF 전환(실행)일 조회·입력·보고 연결",
+      "lifecycle": "review130-in-progress",
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review-20261028-review130-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "본PF 전환(실행)일 조회·입력·보고 연결",
+        "reference": "UX130-01"
+      },
+      "source": [
+        "src/permit-views.js",
+        "src/report-form.js"
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "allStatesAccepted": false,
+      "definition": {
+        "sourceField": "construction.mainPfDate",
+        "formName": "construction__mainPfDate",
+        "type": "date",
+        "section": "pf",
+        "reportCoordinate": "4-3-pf:2:2"
+      }
+    },
+    {
+      "componentID": "CONS130-FIELD-construction-mainPfDelayed",
+      "parentID": "UX130-01",
+      "kind": "field",
+      "label": "본PF 지연 조회·입력·보고 연결",
+      "lifecycle": "review130-in-progress",
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review-20261028-review130-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "본PF 지연 조회·입력·보고 연결",
+        "reference": "UX130-01"
+      },
+      "source": [
+        "src/permit-views.js",
+        "src/report-form.js"
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "allStatesAccepted": false,
+      "definition": {
+        "sourceField": "construction.mainPfDelayed",
+        "formName": "construction__mainPfDelayed",
+        "type": "select",
+        "section": "pf",
+        "reportCoordinate": "4-3-pf:2:3"
+      }
+    },
+    {
+      "componentID": "CONS130-FIELD-construction-mainPfDelayReason",
+      "parentID": "UX130-01",
+      "kind": "field",
+      "label": "본PF 지연사유 조회·입력·보고 연결",
+      "lifecycle": "review130-in-progress",
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review-20261028-review130-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "본PF 지연사유 조회·입력·보고 연결",
+        "reference": "UX130-01"
+      },
+      "source": [
+        "src/permit-views.js",
+        "src/report-form.js"
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "allStatesAccepted": false,
+      "definition": {
+        "sourceField": "construction.mainPfDelayReason",
+        "formName": "construction__mainPfDelayReason",
+        "type": "select",
+        "section": "pf",
+        "reportCoordinate": "4-3-pf:2:4"
+      }
+    },
+    {
+      "componentID": "CONS130-FIELD-construction-mainPfDelayDetail",
+      "parentID": "UX130-01",
+      "kind": "field",
+      "label": "본PF 지연 세부내용 조회·입력·보고 연결",
+      "lifecycle": "review130-in-progress",
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review-20261028-review130-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "본PF 지연 세부내용 조회·입력·보고 연결",
+        "reference": "UX130-01"
+      },
+      "source": [
+        "src/permit-views.js",
+        "src/report-form.js"
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "allStatesAccepted": false,
+      "definition": {
+        "sourceField": "construction.mainPfDelayDetail",
+        "formName": "construction__mainPfDelayDetail",
+        "type": "textarea",
+        "section": "pf",
+        "reportCoordinate": "4-3-pf:2:5"
+      }
+    },
+    {
+      "componentID": "CONS130-FIELD-construction-delay",
+      "parentID": "UX130-01",
+      "kind": "field",
+      "label": "사업 전체 지연 조회·입력·보고 연결",
+      "lifecycle": "review130-in-progress",
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review-20261028-review130-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "사업 전체 지연 조회·입력·보고 연결",
+        "reference": "UX130-01"
+      },
+      "source": [
+        "src/permit-views.js",
+        "src/report-form.js"
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "allStatesAccepted": false,
+      "definition": {
+        "sourceField": "construction.delay",
+        "formName": "construction__delay",
+        "type": "select",
+        "section": "work",
+        "reportCoordinate": null
+      }
+    },
+    {
+      "componentID": "CONS130-FIELD-construction-suspended",
+      "parentID": "UX130-01",
+      "kind": "field",
+      "label": "공사중단 여부 조회·입력·보고 연결",
+      "lifecycle": "review130-in-progress",
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review-20261028-review130-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "공사중단 여부 조회·입력·보고 연결",
+        "reference": "UX130-01"
+      },
+      "source": [
+        "src/permit-views.js",
+        "src/report-form.js"
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "allStatesAccepted": false,
+      "definition": {
+        "sourceField": "construction.suspended",
+        "formName": "construction__suspended",
+        "type": "select",
+        "section": "work",
+        "reportCoordinate": "4-4:2:3"
+      }
+    },
+    {
+      "componentID": "CONS130-FIELD-construction-suspensionDate",
+      "parentID": "UX130-01",
+      "kind": "field",
+      "label": "공사중단일 조회·입력·보고 연결",
+      "lifecycle": "review130-in-progress",
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review-20261028-review130-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "공사중단일 조회·입력·보고 연결",
+        "reference": "UX130-01"
+      },
+      "source": [
+        "src/permit-views.js",
+        "src/report-form.js"
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "allStatesAccepted": false,
+      "definition": {
+        "sourceField": "construction.suspensionDate",
+        "formName": "construction__suspensionDate",
+        "type": "date",
+        "section": "work",
+        "reportCoordinate": "4-4:2:4"
+      }
+    },
+    {
+      "componentID": "CONS130-FIELD-construction-suspensionReason",
+      "parentID": "UX130-01",
+      "kind": "field",
+      "label": "공사중단사유 조회·입력·보고 연결",
+      "lifecycle": "review130-in-progress",
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review-20261028-review130-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "공사중단사유 조회·입력·보고 연결",
+        "reference": "UX130-01"
+      },
+      "source": [
+        "src/permit-views.js",
+        "src/report-form.js"
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "allStatesAccepted": false,
+      "definition": {
+        "sourceField": "construction.suspensionReason",
+        "formName": "construction__suspensionReason",
+        "type": "select",
+        "section": "work",
+        "reportCoordinate": "4-4:2:5"
+      }
+    },
+    {
+      "componentID": "CONS130-FIELD-construction-suspensionDetail",
+      "parentID": "UX130-01",
+      "kind": "field",
+      "label": "공사중단 세부내용 조회·입력·보고 연결",
+      "lifecycle": "review130-in-progress",
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review-20261028-review130-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "공사중단 세부내용 조회·입력·보고 연결",
+        "reference": "UX130-01"
+      },
+      "source": [
+        "src/permit-views.js",
+        "src/report-form.js"
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "allStatesAccepted": false,
+      "definition": {
+        "sourceField": "construction.suspensionDetail",
+        "formName": "construction__suspensionDetail",
+        "type": "textarea",
+        "section": "work",
+        "reportCoordinate": "4-4:2:6"
+      }
+    },
+    {
+      "componentID": "CONS130-FIELD-construction-constructionRestartDate",
+      "parentID": "UX130-01",
+      "kind": "field",
+      "label": "공사 재개예정일 조회·입력·보고 연결",
+      "lifecycle": "review130-in-progress",
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review-20261028-review130-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "공사 재개예정일 조회·입력·보고 연결",
+        "reference": "UX130-01"
+      },
+      "source": [
+        "src/permit-views.js",
+        "src/report-form.js"
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "allStatesAccepted": false,
+      "definition": {
+        "sourceField": "construction.constructionRestartDate",
+        "formName": "construction__constructionRestartDate",
+        "type": "date",
+        "section": "work",
+        "reportCoordinate": "4-4:2:7"
+      }
+    },
+    {
+      "componentID": "CONS130-FIELD-construction-constructionDelayReason",
+      "parentID": "UX130-01",
+      "kind": "field",
+      "label": "공사지연 사유 조회·입력·보고 연결",
+      "lifecycle": "review130-in-progress",
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review-20261028-review130-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "공사지연 사유 조회·입력·보고 연결",
+        "reference": "UX130-01"
+      },
+      "source": [
+        "src/permit-views.js",
+        "src/report-form.js"
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "allStatesAccepted": false,
+      "definition": {
+        "sourceField": "construction.constructionDelayReason",
+        "formName": "construction__constructionDelayReason",
+        "type": "textarea",
+        "section": "work",
+        "reportCoordinate": "4-4:3:2"
+      }
+    },
+    {
+      "componentID": "CONS130-FIELD-construction-plannedCompletion",
+      "parentID": "UX130-01",
+      "kind": "field",
+      "label": "준공예정일(계획) 조회·입력·보고 연결",
+      "lifecycle": "review130-in-progress",
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review-20261028-review130-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "준공예정일(계획) 조회·입력·보고 연결",
+        "reference": "UX130-01"
+      },
+      "source": [
+        "src/permit-views.js",
+        "src/report-form.js"
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "allStatesAccepted": false,
+      "definition": {
+        "sourceField": "construction.plannedCompletion",
+        "formName": "construction__plannedCompletion",
+        "type": "date",
+        "section": "completion",
+        "reportCoordinate": "4-4:6:1"
+      }
+    },
+    {
+      "componentID": "CONS130-FIELD-construction-actualCompletion",
+      "parentID": "UX130-01",
+      "kind": "field",
+      "label": "준공일(실제) 조회·입력·보고 연결",
+      "lifecycle": "review130-in-progress",
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review-20261028-review130-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "준공일(실제) 조회·입력·보고 연결",
+        "reference": "UX130-01"
+      },
+      "source": [
+        "src/permit-views.js",
+        "src/report-form.js"
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "allStatesAccepted": false,
+      "definition": {
+        "sourceField": "construction.actualCompletion",
+        "formName": "construction__actualCompletion",
+        "type": "date",
+        "section": "completion",
+        "reportCoordinate": "4-4:6:2"
+      }
+    },
+    {
+      "componentID": "CONS130-FIELD-construction-completionDelayed",
+      "parentID": "UX130-01",
+      "kind": "field",
+      "label": "준공 지연 조회·입력·보고 연결",
+      "lifecycle": "review130-in-progress",
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review-20261028-review130-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "준공 지연 조회·입력·보고 연결",
+        "reference": "UX130-01"
+      },
+      "source": [
+        "src/permit-views.js",
+        "src/report-form.js"
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "allStatesAccepted": false,
+      "definition": {
+        "sourceField": "construction.completionDelayed",
+        "formName": "construction__completionDelayed",
+        "type": "select",
+        "section": "completion",
+        "reportCoordinate": "4-4:6:3"
+      }
+    },
+    {
+      "componentID": "CONS130-FIELD-construction-completionDelayReason",
+      "parentID": "UX130-01",
+      "kind": "field",
+      "label": "준공 지연사유 조회·입력·보고 연결",
+      "lifecycle": "review130-in-progress",
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review-20261028-review130-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "준공 지연사유 조회·입력·보고 연결",
+        "reference": "UX130-01"
+      },
+      "source": [
+        "src/permit-views.js",
+        "src/report-form.js"
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "allStatesAccepted": false,
+      "definition": {
+        "sourceField": "construction.completionDelayReason",
+        "formName": "construction__completionDelayReason",
+        "type": "select",
+        "section": "completion",
+        "reportCoordinate": "4-4:6:4"
+      }
+    },
+    {
+      "componentID": "CONS130-FIELD-construction-completionDelayDetail",
+      "parentID": "UX130-01",
+      "kind": "field",
+      "label": "준공 지연 세부내용 조회·입력·보고 연결",
+      "lifecycle": "review130-in-progress",
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review-20261028-review130-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "준공 지연 세부내용 조회·입력·보고 연결",
+        "reference": "UX130-01"
+      },
+      "source": [
+        "src/permit-views.js",
+        "src/report-form.js"
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "allStatesAccepted": false,
+      "definition": {
+        "sourceField": "construction.completionDelayDetail",
+        "formName": "construction__completionDelayDetail",
+        "type": "textarea",
+        "section": "completion",
+        "reportCoordinate": "4-4:6:5"
+      }
+    },
+    {
+      "componentID": "CONS130-FIELD-construction-revisedCompletion",
+      "parentID": "UX130-01",
+      "kind": "field",
+      "label": "변경 준공예정일 조회·입력·보고 연결",
+      "lifecycle": "review130-in-progress",
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review-20261028-review130-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "변경 준공예정일 조회·입력·보고 연결",
+        "reference": "UX130-01"
+      },
+      "source": [
+        "src/permit-views.js",
+        "src/report-form.js"
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "allStatesAccepted": false,
+      "definition": {
+        "sourceField": "construction.revisedCompletion",
+        "formName": "construction__revisedCompletion",
+        "type": "date",
+        "section": "completion",
+        "reportCoordinate": "4-4:6:6"
+      }
+    },
+    {
+      "componentID": "CONS130-FIELD-construction-plannedProgress",
+      "parentID": "UX130-01",
+      "kind": "field",
+      "label": "계획 공정률(%) 조회·입력·보고 연결",
+      "lifecycle": "review130-in-progress",
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review-20261028-review130-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "계획 공정률(%) 조회·입력·보고 연결",
+        "reference": "UX130-01"
+      },
+      "source": [
+        "src/permit-views.js",
+        "src/report-form.js"
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "allStatesAccepted": false,
+      "definition": {
+        "sourceField": "construction.plannedProgress",
+        "formName": "construction__plannedProgress",
+        "type": "number",
+        "section": "progress",
+        "reportCoordinate": "4-4:2:1"
+      }
+    },
+    {
+      "componentID": "CONS130-FIELD-construction-actualProgress",
+      "parentID": "UX130-01",
+      "kind": "field",
+      "label": "실제 공정률(%) 조회·입력·보고 연결",
+      "lifecycle": "review130-in-progress",
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review-20261028-review130-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "실제 공정률(%) 조회·입력·보고 연결",
+        "reference": "UX130-01"
+      },
+      "source": [
+        "src/permit-views.js",
+        "src/report-form.js"
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "allStatesAccepted": false,
+      "definition": {
+        "sourceField": "construction.actualProgress",
+        "formName": "construction__actualProgress",
+        "type": "number",
+        "section": "progress",
+        "reportCoordinate": "4-4:2:2"
+      }
+    },
+    {
+      "componentID": "CONS130-FIELD-project-progressAsOf",
+      "parentID": "UX130-01",
+      "kind": "field",
+      "label": "공정률 기준일 조회·입력·보고 연결",
+      "lifecycle": "review130-in-progress",
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review-20261028-review130-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "공정률 기준일 조회·입력·보고 연결",
+        "reference": "UX130-01"
+      },
+      "source": [
+        "src/permit-views.js",
+        "src/report-form.js"
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "allStatesAccepted": false,
+      "definition": {
+        "sourceField": "progressAsOf",
+        "formName": "progressAsOf",
+        "type": "date",
+        "section": "progress",
+        "reportCoordinate": null
+      }
+    },
+    {
+      "componentID": "CONS130-FIELD-projectDates-contractCompletion",
+      "parentID": "UX130-01",
+      "kind": "field",
+      "label": "계약상 준공일 조회·입력·보고 연결",
+      "lifecycle": "review130-in-progress",
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review-20261028-review130-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "계약상 준공일 조회·입력·보고 연결",
+        "reference": "UX130-01"
+      },
+      "source": [
+        "src/permit-views.js",
+        "src/report-form.js"
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "allStatesAccepted": false,
+      "definition": {
+        "sourceField": "projectDates.contractCompletion",
+        "formName": "projectDates__contractCompletion",
+        "type": "date",
+        "section": "agreements",
+        "reportCoordinate": null
+      }
+    },
+    {
+      "componentID": "CONS130-FIELD-projectDates-responsibleCompletion",
+      "parentID": "UX130-01",
+      "kind": "field",
+      "label": "책임준공 약정일 조회·입력·보고 연결",
+      "lifecycle": "review130-in-progress",
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review-20261028-review130-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "책임준공 약정일 조회·입력·보고 연결",
+        "reference": "UX130-01"
+      },
+      "source": [
+        "src/permit-views.js",
+        "src/report-form.js"
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "allStatesAccepted": false,
+      "definition": {
+        "sourceField": "projectDates.responsibleCompletion",
+        "formName": "projectDates__responsibleCompletion",
+        "type": "date",
+        "section": "agreements",
+        "reportCoordinate": null
+      }
+    },
+    {
+      "componentID": "CONS130-FIELD-projectDates-responsibleExtension",
+      "parentID": "UX130-01",
+      "kind": "field",
+      "label": "책임준공 연장 약정일 조회·입력·보고 연결",
+      "lifecycle": "review130-in-progress",
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review-20261028-review130-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "책임준공 연장 약정일 조회·입력·보고 연결",
+        "reference": "UX130-01"
+      },
+      "source": [
+        "src/permit-views.js",
+        "src/report-form.js"
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "allStatesAccepted": false,
+      "definition": {
+        "sourceField": "projectDates.responsibleExtension",
+        "formName": "projectDates__responsibleExtension",
+        "type": "date",
+        "section": "agreements",
+        "reportCoordinate": null
+      }
+    },
+    {
+      "componentID": "CONS130-FIELD-projectDates-responsibleSourcePath",
+      "parentID": "UX130-01",
+      "kind": "field",
+      "label": "책임준공 약정 근거 경로 조회·입력·보고 연결",
+      "lifecycle": "review130-in-progress",
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review-20261028-review130-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "책임준공 약정 근거 경로 조회·입력·보고 연결",
+        "reference": "UX130-01"
+      },
+      "source": [
+        "src/permit-views.js",
+        "src/report-form.js"
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "allStatesAccepted": false,
+      "definition": {
+        "sourceField": "projectDates.responsibleSourcePath",
+        "formName": "projectDates__responsibleSourcePath",
+        "type": "text",
+        "section": "agreements",
+        "reportCoordinate": null
+      }
+    },
+    {
+      "componentID": "UI130-07-RESIZE",
+      "parentID": "UI130-07",
+      "kind": "table-contract",
+      "label": "표별 기본폭·사용자폭·클릭/드래그/키보드/취소",
+      "lifecycle": "review130-in-progress",
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review-20261028-review130-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "표별 기본폭·사용자폭·클릭/드래그/키보드/취소",
+        "reference": "UI130-07"
+      },
+      "source": [
+        "src/core.js",
+        "src/recovery.css"
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "UI130-07-ALIGN",
+      "parentID": "UI130-07",
+      "kind": "table-contract",
+      "label": "머리/본문의 숫자·날짜 정렬 및 명시적 줄바꿈",
+      "lifecycle": "review130-in-progress",
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review-20261028-review130-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "머리/본문의 숫자·날짜 정렬 및 명시적 줄바꿈",
+        "reference": "UI130-07"
+      },
+      "source": [
+        "src/core.js",
+        "src/recovery.css"
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "UI130-07-RECENT",
+      "parentID": "UI130-07",
+      "kind": "table-contract",
+      "label": "법령 변경표 한줄·원문/비교·3열정렬·시행사건",
+      "lifecycle": "review130-in-progress",
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review-20261028-review130-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "법령 변경표 한줄·원문/비교·3열정렬·시행사건",
+        "reference": "UI130-07"
+      },
+      "source": [
+        "src/legal.js",
+        "src/law-comparison.css"
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "UI130-07-CATALOG",
+      "parentID": "UI130-07",
+      "kind": "table-contract",
+      "label": "관리 법령표 분야·종류·긴 법령명·범위 정렬",
+      "lifecycle": "review130-in-progress",
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review-20261028-review130-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "관리 법령표 분야·종류·긴 법령명·범위 정렬",
+        "reference": "UI130-07"
+      },
+      "source": [
+        "src/legal.js",
+        "src/law-comparison.css"
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "UI130-07-SEARCH",
+      "parentID": "UI130-07",
+      "kind": "table-contract",
+      "label": "검색표 법령·기관·일자·추가열 초기 가시성",
+      "lifecycle": "review130-in-progress",
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review-20261028-review130-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "검색표 법령·기관·일자·추가열 초기 가시성",
+        "reference": "UI130-07"
+      },
+      "source": [
+        "src/law-monitor.js",
+        "src/law-search.css"
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REPORT130-LEGACY-preparation",
+      "parentID": "DATA130-05",
+      "kind": "field",
+      "label": "사업 준비 추진경과 원문 정정·보고서전용/플랫폼반영",
+      "lifecycle": "review130-in-progress",
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review-20261028-review130-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "사업 준비 추진경과 원문 정정·보고서전용/플랫폼반영",
+        "reference": "DATA130-05"
+      },
+      "source": [
+        "src/report.js",
+        "src/report-form.js"
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REPORT130-LEGACY-permit",
+      "parentID": "DATA130-05",
+      "kind": "field",
+      "label": "인허가 추진경과 원문 정정·보고서전용/플랫폼반영",
+      "lifecycle": "review130-in-progress",
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review-20261028-review130-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "인허가 추진경과 원문 정정·보고서전용/플랫폼반영",
+        "reference": "DATA130-05"
+      },
+      "source": [
+        "src/report.js",
+        "src/report-form.js"
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REPORT130-LEGACY-start",
+      "parentID": "DATA130-05",
+      "kind": "field",
+      "label": "착공 추진경과 원문 정정·보고서전용/플랫폼반영",
+      "lifecycle": "review130-in-progress",
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review-20261028-review130-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "착공 추진경과 원문 정정·보고서전용/플랫폼반영",
+        "reference": "DATA130-05"
+      },
+      "source": [
+        "src/report.js",
+        "src/report-form.js"
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REPORT130-LEGACY-construction",
+      "parentID": "DATA130-05",
+      "kind": "field",
+      "label": "공사·준공 추진경과 원문 정정·보고서전용/플랫폼반영",
+      "lifecycle": "review130-in-progress",
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review-20261028-review130-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "공사·준공 추진경과 원문 정정·보고서전용/플랫폼반영",
+        "reference": "DATA130-05"
+      },
+      "source": [
+        "src/report.js",
+        "src/report-form.js"
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "PERMIT130-ROUND-SOURCE",
+      "parentID": "DATA130-05",
+      "kind": "data-contract",
+      "label": "신청·승인 회차 저장 후 버전·이력·보고 연결",
+      "lifecycle": "review130-in-progress",
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review-20261028-review130-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "신청·승인 회차 저장 후 버전·이력·보고 연결",
+        "reference": "DATA130-05"
+      },
+      "source": [
+        "src/permit-map.js",
+        "src/report.js"
+      ],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "DATA130-C-POSITIVE",
+      "parentID": "DATA130-05",
+      "kind": "fixture-scenario",
+      "label": "개별 발생사건 가정과 선행상태·날짜·보고 정합",
+      "lifecycle": "review130-in-progress",
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review-20261028-review130-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "개별 발생사건 가정과 선행상태·날짜·보고 정합",
+        "reference": "DATA130-05"
+      },
+      "source": [],
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": []
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": []
+        }
+      },
+      "allStatesAccepted": false
     }
   ],
   "popupCandidates": [
@@ -787537,10 +790088,22 @@
   "review130": {
     "date": "2026-10-28",
     "targetRelease": "0.13.0",
-    "requirements": 6,
+    "requirements": [
+      "UX130-01",
+      "LAW130-02",
+      "LAW130-03",
+      "UI130-04",
+      "DATA130-05",
+      "QA130-06",
+      "UI130-07"
+    ],
     "completed": 0,
     "baselineRelease": "C73",
     "actualRuntimeInventory": "pending current C73 discovery",
-    "allPlatformComponentsAccepted": false
+    "allPlatformComponentsAccepted": false,
+    "currentRequirementCount": 7,
+    "definitionRecords": 63,
+    "previousRecordsPreserved": 4983,
+    "finalEvidencePending": true
   }
 }

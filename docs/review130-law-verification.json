@@ -11,13 +11,13 @@
     "LAW130-03"
   ],
   "sourcePins": {
-    "src/law-monitor.js": "233b503848d0c9ea4f44d12f1a3f72b119f528d3c921de9fa6f616fe5a55b670",
+    "src/law-monitor.js": "302f407aba052e7a894e6bd52a2e4676a3a234255a32e5632baa8b2b7b76676c",
     "src/law-search.css": "7ae316c4ba540265767c16847c3e7b9928eede8a2489ef3842ae74264eb397f6",
-    "src/law-comparison.css": "9b49b6b434e7c1a922a09c0df281dd778f2633a4f1d94091eb69dabd4a05c1ae",
+    "src/law-comparison.css": "f9a3e2dff5262e27bdfe664543979071719d2ff6acda3a6443038413745de620",
     "server/law-collector.mjs": "1c9ddc586d09c408740aa522e695aae61dd72391ce7af02ab18a7efdc5a1dc7c",
     "server/law-watch.mjs": "1492c662359dee365c81c864837580786c1d8f52ccfe2987333d1ae37c0955aa",
     "server/center-services.mjs": "400e5f8b28e0b0b22eab4d39ad6e307b2df607b638f274630f6cae573ddc0da8",
-    "src/legal.js": "1b02ef559deb9fe56f774165ba9c6f8c186cd48a1f44cc49782ab5eb233fa406",
+    "src/legal.js": "2671e4b5acde1f7c9e6791e173aca40b6c5a98eeb8d7fbf60b0a79de73c2a802",
     "server/law-comparison.mjs": "e7037c9f32c2094eb100140cfaf5c0b1cab869a095110eec41813e35e7f1b186"
   },
   "window": {
@@ -187,16 +187,16 @@
     "cronStateChanged": false
   },
   "focus": {
-    "suites": 24,
-    "passedSuites": 24,
+    "suites": 28,
+    "passedSuites": 28,
     "failedSuites": 0,
-    "passedChecks": 360,
+    "passedChecks": 397,
     "failedChecks": 0,
-    "sourceChanged": [],
     "evidence": {
-      "path": ".build/review130/law-focus-1793175713863.json",
-      "sha256": "d1d40028ff8dd94dd3244d8f3ecb2f68fb615c295c17e2cd9989f9765eb342dc"
-    }
+      "path": ".build/review130/law-focus-1793190681577.json",
+      "sha256": "d8beda8e766ed7ab6a1709e3c383849d4b77cdf130d72f067b947273d6e0a659"
+    },
+    "sourceChanged": []
   },
   "naturalSchedule": {
     "observedLatestCheckedAtUtc": "2026-10-27T23:04:33.693Z",
@@ -206,11 +206,11 @@
   },
   "acceptance": {
     "implementation": "focused-passed",
-    "officialPublicRead": "passed-with-stated-provider-scope",
-    "finalPinnedAppNative": "C78 feature candidate3/3 passed and6PNG directly viewed; subsequent final release and new law-table request remain separately pending",
-    "wholePlatformRegression": "root-pending",
-    "formalDeployment": "pending",
-    "actualMemberFlow": "root-pending",
+    "officialPublicRead": "376/376 passed within stated provider scope; actual credential schedule is separate",
+    "finalPinnedAppNative": "8 unique law flows passed: C84 table5 accepted by exact unchanged-scope bridge + exactC85 comparison3; bridge adds0 runs",
+    "wholePlatformRegression": "root-owned final regression; not inferred from focused tests",
+    "formalDeployment": "root-owned pending",
+    "actualMemberFlow": "root-owned pending",
     "newNaturalSchedule": "not-observed"
   },
   "safety": {
@@ -219,7 +219,28 @@
     "environmentRead": false,
     "otherSchemaOrServiceChanged": false
   },
-  "nativeFeatureCandidate": {
+  "correctedNativeRegressions": [
+    {
+      "candidate": "C75",
+      "failedViewports": 3,
+      "cause": "HTML pre parser removed the initial original newline",
+      "fix": "Wrap each original in a span inside pre; exact DOM original text restored"
+    },
+    {
+      "candidate": "C76",
+      "failedViewports": 3,
+      "cause": "First literal change was below the initial viewport",
+      "fix": "Reveal only on the first successful popup result; preserve intervening scroll/input/focus/project/root context and horizontal position"
+    },
+    {
+      "candidate": "C77",
+      "functionalViewportsPassed": 3,
+      "visualObservation": "Before/after headings scrolled out of view",
+      "fix": "Sticky headings limited to the comparison pair; C78 tests both headings and changed text hit/overlap coordinates"
+    }
+  ],
+  "nextScope": "No further law feature edit planned. Root verifies final deployment/member flow/server logs separately; new376 natural scheduled collection and EUM API integration are not accepted by public read/native tests.",
+  "priorNativeFeatureCandidate": {
     "candidate": "C78",
     "html": {
       "path": ".build/review130-20261028/integration-candidate-78.html",
@@ -393,25 +414,223 @@
     "actualOfficialNetwork": false,
     "finalReleaseArtifactAcceptance": false
   },
-  "correctedNativeRegressions": [
-    {
-      "candidate": "C75",
-      "failedViewports": 3,
-      "cause": "HTML pre parser removed the initial original newline",
-      "fix": "Wrap each original in a span inside pre; exact DOM original text restored"
+  "finalNative": {
+    "candidate": "C85",
+    "html": {
+      "path": ".build/review130-20261028/integration-candidate-85.html",
+      "sha256": "86b47fef5c5d77efb87c6bcec19ac8ed22d743ac21616de4ee618050725585a5",
+      "bytes": 6870565
     },
-    {
-      "candidate": "C76",
-      "failedViewports": 3,
-      "cause": "First literal change was below the initial viewport",
-      "fix": "Reveal only on the first successful popup result; preserve intervening scroll/input/focus/project/root context and horizontal position"
+    "scope": "Isolated current HTML/35 modules and fixed test clock; official previously verified two-body original text is injected, API writes go only to isolated memory.",
+    "uniqueLawFlows": 8,
+    "table": {
+      "candidate": "C84",
+      "html": {
+        "path": ".build/review130-20261028/integration-candidate-84.html",
+        "sha256": "ef4707729a7babf2ada422272a8f72ea832d7af80a3d26a529bc57fb14c6ab1a",
+        "bytes": 6867058
+      },
+      "summary": {
+        "planned": 5,
+        "passed": 5,
+        "failed": 0,
+        "errors": 0,
+        "mockErrors": 0,
+        "workspacePuts": 0,
+        "otherWrites": 0,
+        "sourceChanged": []
+      },
+      "evidence": {
+        "path": ".build/review130/law-table-browser-1793187046964/evidence.json",
+        "sha256": "09218e017f4f01c497ca1906b407ef193a0f6201fb4af83ee36b93864f011ddc"
+      },
+      "acceptance": "Root independently accepted unchanged law-table scope to C85; not a new C85 five-flow execution",
+      "bridge": {
+        "path": "docs/review130-law-table-bridge-acceptance.json",
+        "sha256": "005e8ac3da82cc36407708b0b557083d1ac769e514f5dd5052518945ca301894"
+      },
+      "newExecutionsFromBridge": 0,
+      "independentVisual": [
+        {
+          "path": ".build/review-20261028/review130-data-qa/law-search5png-independent-read.json",
+          "sha256": "329265cb6c964c3c4ec12f581ae0e005165cb970aa6de3ed6379b113dce35c6b"
+        },
+        {
+          "path": ".build/review130-20261028/law-catalog5png-independent-read.json",
+          "sha256": "f9dd2f24442b3a3d1743802d1db0094109b7898605241164556bfeaaf1be6478"
+        }
+      ]
     },
-    {
-      "candidate": "C77",
-      "functionalViewportsPassed": 3,
-      "visualObservation": "Before/after headings scrolled out of view",
-      "fix": "Sticky headings limited to the comparison pair; C78 tests both headings and changed text hit/overlap coordinates"
-    }
-  ],
-  "nextScope": "User added law-table alignment/one-line/column-width optimization after C78; do not inherit C78 popup acceptance as new table acceptance"
+    "comparison": {
+      "candidate": "C85",
+      "summary": {
+        "planned": 3,
+        "passed": 3,
+        "failed": 0,
+        "errors": 0,
+        "mockErrors": 0,
+        "workspacePuts": 0,
+        "watchPosts": 3,
+        "comparisonRequests": 3,
+        "sourceChanged": []
+      },
+      "evidence": {
+        "path": ".build/review130/law-browser-1793188211607/evidence.json",
+        "sha256": "0b3045408f6dea0e8ced785ff1305c720d1c45fc5b1cddc68d2a53ef4ed76cdb"
+      },
+      "flows": [
+        {
+          "viewport": {
+            "width": 1280,
+            "height": 800
+          },
+          "checks": [
+            "one click auto-loads exact official two-version data into one window; both textContents identical and literal changes highlighted",
+            "sticky before/after headings stay visible and hit-testable without covering either actual changed text, including stacked mobile view",
+            "before/after original links preserve exact sequence and noopener; no fabricated official comparison",
+            "keyboard Enter opens one comparison and Escape closes it; horizontal coordinate stays zero",
+            "default all and local-kind scope agree; actual kind labels do not become generic ordinances",
+            "external official notice search sends no app query/project data and preserves input",
+            "added verified kind persists in in-memory management reference without business workspace write",
+            "viewer candidate buttons are disabled and raw dispatched click cannot add or write workspace"
+          ],
+          "status": "passed",
+          "firstChange": {
+            "top": 158.75,
+            "bottom": 174.75,
+            "bodyTop": 103,
+            "bodyBottom": 754,
+            "visible": true
+          },
+          "firstHeader": {
+            "label": "변경 전",
+            "bodyTop": 103,
+            "bodyBottom": 754,
+            "headerTop": 115,
+            "headerBottom": 143.296875,
+            "markTop": 158.75,
+            "markBottom": 174.75,
+            "visible": true,
+            "markNotCovered": true,
+            "headerHit": true
+          },
+          "afterHeader": {
+            "label": "변경 후",
+            "bodyTop": 103,
+            "bodyBottom": 754,
+            "headerTop": 115,
+            "headerBottom": 143.296875,
+            "markTop": 158.75,
+            "markBottom": 174.75,
+            "visible": true,
+            "markNotCovered": true,
+            "headerHit": true
+          }
+        },
+        {
+          "viewport": {
+            "width": 769,
+            "height": 900
+          },
+          "checks": [
+            "one click auto-loads exact official two-version data into one window; both textContents identical and literal changes highlighted",
+            "sticky before/after headings stay visible and hit-testable without covering either actual changed text, including stacked mobile view",
+            "before/after original links preserve exact sequence and noopener; no fabricated official comparison",
+            "keyboard Enter opens one comparison and Escape closes it; horizontal coordinate stays zero",
+            "default all and local-kind scope agree; actual kind labels do not become generic ordinances",
+            "external official notice search sends no app query/project data and preserves input",
+            "added verified kind persists in in-memory management reference without business workspace write",
+            "viewer candidate buttons are disabled and raw dispatched click cannot add or write workspace"
+          ],
+          "status": "passed",
+          "firstChange": {
+            "top": 162.9375,
+            "bottom": 178.9375,
+            "bodyTop": 107,
+            "bodyBottom": 850,
+            "visible": true
+          },
+          "firstHeader": {
+            "label": "변경 전",
+            "bodyTop": 107,
+            "bodyBottom": 850,
+            "headerTop": 119,
+            "headerBottom": 147.296875,
+            "markTop": 162.9375,
+            "markBottom": 178.9375,
+            "visible": true,
+            "markNotCovered": true,
+            "headerHit": true
+          },
+          "afterHeader": {
+            "label": "변경 후",
+            "bodyTop": 107,
+            "bodyBottom": 850,
+            "headerTop": 119,
+            "headerBottom": 147.296875,
+            "markTop": 162.9375,
+            "markBottom": 178.9375,
+            "visible": true,
+            "markNotCovered": true,
+            "headerHit": true
+          }
+        },
+        {
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "checks": [
+            "one click auto-loads exact official two-version data into one window; both textContents identical and literal changes highlighted",
+            "sticky before/after headings stay visible and hit-testable without covering either actual changed text, including stacked mobile view",
+            "before/after original links preserve exact sequence and noopener; no fabricated official comparison",
+            "keyboard Enter opens one comparison and Escape closes it; horizontal coordinate stays zero",
+            "default all and local-kind scope agree; actual kind labels do not become generic ordinances",
+            "external official notice search sends no app query/project data and preserves input",
+            "added verified kind persists in in-memory management reference without business workspace write",
+            "viewer candidate buttons are disabled and raw dispatched click cannot add or write workspace"
+          ],
+          "status": "passed",
+          "firstChange": {
+            "top": 160.59375,
+            "bottom": 176.59375,
+            "bodyTop": 105,
+            "bodyBottom": 796,
+            "visible": true
+          },
+          "firstHeader": {
+            "label": "변경 전",
+            "bodyTop": 105,
+            "bodyBottom": 796,
+            "headerTop": 117,
+            "headerBottom": 145.296875,
+            "markTop": 160.59375,
+            "markBottom": 176.59375,
+            "visible": true,
+            "markNotCovered": true,
+            "headerHit": true
+          },
+          "afterHeader": {
+            "label": "변경 후",
+            "bodyTop": 105,
+            "bodyBottom": 796,
+            "headerTop": 117,
+            "headerBottom": 145.296875,
+            "markTop": 160.859375,
+            "markBottom": 176.859375,
+            "visible": true,
+            "markNotCovered": true,
+            "headerHit": true
+          }
+        }
+      ],
+      "directlyViewedPngs": 6
+    },
+    "visualReceipt": {
+      "path": ".build/review130-20261028/backend-final-visual-read.json",
+      "sha256": "8462662177254d8e1c33a21144b960f6e69e4cf72bb5ae6363343ba78412fe85"
+    },
+    "actualBusinessDatabase": false,
+    "actualOfficialNetwork": false
+  }
 }

@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "requirement": "REVIEW130 input type and new cost non-manufacture, same-flow callback draft lifecycle",
+  "status": {
+    "implemented": true,
+    "pure": {
+      "passed": 18,
+      "failed": 0,
+      "beforeFix": {
+        "passed": 8,
+        "failed": 10
+      }
+    },
+    "nativeCurrentArtifact": "C84 scoped native pass; see nativeC84",
+    "actualDBWrites": 0
+  },
+  "scope": {
+    "core": "form draft clear key, submitted draft key capture, explicit successful false-transition consumption only",
+    "cost": "openEntry/showManager initial activation/openDelete opt-in only",
+    "otherUIChanged": false,
+    "amountAlgorithmsChanged": false
+  },
+  "fingerprints": {
+    "coreScopedLinesSHA256": "2928589145ece03e6908eaead1c850bc7c5526975c5226709e212f54d000fe26",
+    "costOptInLinesSHA256": "99c30518f5bbd45ae88adc4ffd485ac8afcc8d4825df2477dbd622a07ac6e96f",
+    "costFileSHA256": "28389b9165b1074c9cb2f4775a8b22f5c9e59f077c3e473f46d6d2c65ff1ece5",
+    "testSHA256": "3c84d395ff732d6d5e5fa3f6a9fc6daaa090f19ee863d596e047fbb3c7d8ad98"
+  },
+  "evidence": {
+    "nativeBefore": ".build/review130-20261028/cost-native/2026-10-28T10-26-23-956Z/evidence.json",
+    "red": ".build/review130-20261028/form-transition-red-final18.json",
+    "green": ".build/review130-20261028/form-transition-green-final18.json",
+    "adjacent": ".build/review130-20261028/form-transition-adjacent.json",
+    "consumerAdjacent": ".build/review130-20261028/form-transition-consumer-adjacent.json"
+  },
+  "notes": "Actual browser source before is C83; 18 pure checks do not substitute for final generated HTML verification. Baseline switch only uses explicit immutable before-fix copies; normal test has no fallback.",
+  "preparationNote": "Cloud fixtures include canonical state arrays so the503 failure path does not stop at an unrelated stub-render preparation exception.",
+  "nativeC84": {
+    "status": "scoped-counterexample-pass",
+    "artifact": {
+      "file": ".build/review130-20261028/integration-candidate-84.html",
+      "sha256": "ef4707729a7babf2ada422272a8f72ea832d7af80a3d26a529bc57fb14c6ab1a",
+      "bytes": 6867058
+    },
+    "run": ".build/review130-20261028/cost-native/2026-10-28T11-06-57-587Z/evidence.json",
+    "actualDBWrites": 0
+  }
+}
