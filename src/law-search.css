@@ -8,3 +8,4 @@
 .law-site-search [data-law-search-results] .dense-table td:last-child{z-index:1}
 .law-site-search [data-law-search-results] .dense-table tbody tr:hover>td:last-child{background:#f8fafc}
 @container(max-width:600px){.law-site-search-form{grid-template-columns:minmax(0,1fr);padding:0}.law-site-search-form .btn{width:100%;min-height:44px}.law-site-search-error{grid-column:1}}
+.law-site-search .law-search-external{display:flex;justify-content:flex-end;margin-top:8px}.law-site-search .law-search-external .btn{max-width:100%;white-space:normal;text-align:right}

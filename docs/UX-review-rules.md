@@ -36,7 +36,7 @@
 | UX-06 | 불필요한 설명·장식 태그를 다시 넣지 않음 | 범위 근거·표시 상태·자동 합계·분류 확인을 목록에 재노출 | v0122-picker-acceptance, v0124-integration |
 | UX-07 | 미입력·0원·원 단위 정확도·확정자료를 구분 | 임의 금액·0원 입력, 빈 저장으로 총액/원자료 변경 | v0124-cost-empty, v0125-cost-preservation |
 | UX-08 | 표시되는 목록·합계·비교·엑셀의 의미를 대조. 펼친 전체 행의 ID/명칭/순서/개별 원금액까지 확인하고 같은 합계만으로 하위행 수락을 대신하지 않음. 선택한 자료판본을 요약·그래프·축·툴팁에 일관되게 적용하고 원천 순번/새 조회시각을 원관측 식별자로 쓰지 않음 | 엑셀 별도 원금액/기준정보 시트, 숫자 분류명, 미입력을 0으로 변환. 중간 실제행의 자식이 빠져도 상위합계 일치만으로 통과. 요약은 구판·그래프는 최신판, 소실한 선택을 다른 관측으로 조용히 대체 | v0116-binary-download, v0117-cost-export, v0124-integration, v0125-cost-preservation, followup123-market-version-selection, continuation125-cost-excel-tree |
-| UX-09 | 같은 셀 편집과 취소/Enter/Escape를 검증 | 화면 중간·맨 아래의 별도 편집표와 눌리지 않는 취소 | v0105-inline, v0111-cost, v0124-cost-empty |
+| UX-09 | 최신2026-10-28 지시에 따라 명시적 수정버튼으로 진입을 통일하고 기존 위치/취소/Enter/Escape를 검증 | 화면 중간·맨 아래의 별도 편집표와 눌리지 않는 취소 | v0105-inline, v0111-cost, v0124-cost-empty |
 | UX-10 | 접힘·검색·실제 스크롤 소유자·포커스·프로젝트 문맥을 이어줌. 입력확정의 blur/change가 누르고 있는 버튼을 교체하지 않게 하고 실제 첫 pointer 클릭을 확인. 목록 커서는 표시 시간과 별도로 원래 정밀도 유지 | Tab/Enter를 먼저 누른 검사만 통과시키고 검색 직후 클릭 소실을 놓침. 추가 후 맨 위 이동·접힘 소실·잘못된 스크롤·밀리초 변환으로 다음 행 누락. 상세 top0을 예전240으로 덮기·자식복귀240→0·지연갱신의 초점 강탈. 긴본문의 화면밖 탭/추가버튼 접근에 따른 클릭 전 스크롤과 handler 복원값을 구분 | v0125-catalog-fold, v0125-fold-integration, center120-navigation-scroll, center120-partner-comments-independent, continuation125-cost-search-pointer, review126-permit-detail(UI126-PERMIT-10~13), review126-permit-browser, .build/review-20261026/permit-scroll-browser.mjs |
 | UX-11 | 취소·닫기와 실제 부모/종료를 구분 | 이전 팝업 전부 소실 또는 닫기를 누를 때 다른 창이 반복됨 | v0113-core, v0113-permit, v0125-fold-integration, review126-permit-detail(UI126-PERMIT-11/12), review126-permit-browser, .build/review-20261026/permit-scroll-browser.mjs |
 | UX-12 | 일반 진입 홈·메뉴 첫 탭·명시적 목적지·프로젝트 전환을 구분 | 마지막 저장된 엉뚱한 메뉴로 파일이 시작됨 | v0118-core, v0118-cost-ui |
@@ -216,3 +216,13 @@ PDF 검수는 화면에서 보이는 숫자와 복사·검색으로 추출되는
 - 마지막 행·우측 셀의 입력/적용/취소가 보이는지, 팝업/표 스크롤과 툴팁이 가리는지 확인합니다. A4 보고서의 좁은 셀은 같은 편집 도구를 셀 위로 충분히 펼치되 원래 인쇄 행·열을 밀지 않습니다.
 - 소스 후보의 개수는 실제 고유 입력의 수나 모든 상태의 실행 수가 아닙니다. docs/review-20261028-input-inventory.json과 매트릭스에서 자료형/행별 판단·동적 표현·실행/미실행을 구별합니다.
 - 재발검사: review129-input-controls·form-dirty·retained-form-defaults·legal-optional-numbers·report-retained-values·report-popup·inline-layout-browser. 최종 지문별 결과는 버전 검수기록을 따릅니다.
+
+
+## REVIEW130 조회·입력 연결 보완
+
+- 목록 표는 날짜·숫자·행동의 머리와 본문을 같은 열 기준으로 정렬합니다. 법령명·조항·원문 링크를 강제 줄바꿈하지 않되, 긴 조치내용을 무조건 한 줄로 숨기지 않습니다. 오래된 열 개수/비율 CSS를 새 표에 적용하지 않습니다.
+- 열 너비는 표별 의미 있는 기본폭과 사용자 조정을 구별합니다. 조절선 클릭만으로 폭이 바뀌지 않아야 하며, 실제 드래그·키보드·Escape·재진입과 편집 중 고정폭을 함께 검사합니다. 표 헤더 고정·정렬버튼·서버 업무자료 저장은 너비 조정으로 바뀌지 않습니다.
+
+- 입력폼에 항목이 남아 있어도 요약 화면에서 기존 조회값이 사라지면 조회 누락입니다. 이전본표↔현재본표↔폼↔출력의 필드별 대응을 대조합니다. 예정/실제/지연은 같은 역할의 고정열로, 서로 다른 사건일은 실제 이름으로 구분합니다.
+- 수정은 명시적 버튼을 기본으로 하고 더블클릭/셀클릭만으로 진입을 숨기지 않습니다. 필터/조회조건 변경과 원장값 수정을 구별하며 같은 폼으로 가는 여러 행은 업무단위 행동으로 중복을 줄입니다.
+- 샘플시험은 항목별 발생조건·일자·선행상태를 묶어 양방향으로 검증하고 DB/보고서/원복까지 잇습니다. 미발생·기관작성칸·계산값을 일괄 가짜입력으로 채우는 안은 최신사용자정정으로 폐기됐습니다.

@@ -1,0 +1,111 @@
+{
+  "schemaVersion": "review130-finite-path-plan-v1",
+  "requirements": [
+    "DATA130-05",
+    "QA130-06",
+    "UI130-04"
+  ],
+  "basis": {
+    "codeCommit": "3a74775b99b7d51a8f21c7bb3eead5fb8f317f74",
+    "htmlSHA256": "01821a726f27511b02905fe614e1b7c3327f892a28dde7780ad621b1c83d481d",
+    "sourceRevision": 37,
+    "sourceSHA256": "078d47e72cbc348ca1a3187688bd0dfd7e3b51c6993ae219fa7ada1ffee8645f",
+    "closureSHA256": "daef65e2e683ddb78894a15df6f648200ef61903fc3c918c482c6253eab730ee",
+    "matrixSHA256": "705db47dffbc8c363876c889d1479aed121de987819644e8de9275cd741b5690"
+  },
+  "counts": {
+    "canonicalRoutes": 31,
+    "observedEndpointInstances": 4469,
+    "observedFormInstances": 884,
+    "uniqueStructuralNodes": 4505,
+    "plannedScenarios": 18935,
+    "coveredObservedInstances": 28848,
+    "unresolvedC53Definitions": 975,
+    "actualNativeRuns": 0,
+    "actualDatabaseWrites": 0
+  },
+  "status": {
+    "prepared": true,
+    "isolatedRead": "observed-C73-only",
+    "normalUISubmit": "notrun",
+    "actualNative": "notrun",
+    "actualDatabase": "notrun",
+    "reconnect": "notrun",
+    "output": "notrun",
+    "production": "notrun",
+    "allPlatformComplete": false
+  },
+  "meaning": "route + ordered parent popup actions/variants + exact action and type/kind/schema/section + node/form field kind; repeated record identities remain separate required occurrences, not additional functions",
+  "limits": [
+    "C73/source37 observed route closure only. Final0.13.0 source and HTML require rebind/re-render before any final acceptance.",
+    "Unavailable conditional/new-record states, role variants, error forms and output are separately planned; this closure is not all-platform runtime acceptance.",
+    "No depth cap was imposed; repeated endpoint/cycle aliases are recorded instead of infinite reopening.",
+    "Modal parent path is first observed canonical path; alias paths record additional incoming routes.",
+    "Final0.13.0 rebind and conditional/new-record states remain unverified.",
+    "Private exact IDs, paths and source values live only in .build/review-20261028/review130-data-qa/."
+  ],
+  "validation": {
+    "planIntegrity": {
+      "passed": 7,
+      "failed": 0,
+      "scope": "Plan traceability only"
+    },
+    "businessProposalModel": {
+      "passed": 10,
+      "failed": 0,
+      "scope": "Detached source37/current API model only; not normal UI or actual DB"
+    },
+    "normalSaveCallbacks": {
+      "passed": 3,
+      "failed": 0,
+      "manualSourceMetadataAdded": false,
+      "scope": "Current normal UI callbacks in detached memory; actual DB/native0",
+      "priorRed": {
+        "passed": 1,
+        "failed": 2,
+        "preserved": true
+      }
+    },
+    "reportReviewLabels": {
+      "passed": 86,
+      "failed": 0,
+      "scope": "Current nominal-rate label plus original composite report-only protections"
+    },
+    "legacyProgressLink": {
+      "passed": 23,
+      "failed": 0,
+      "typedTextPreserved": true,
+      "reportOnlyPlatformBoundary": true
+    },
+    "CPositiveNormalFlow": {
+      "status": "passed",
+      "executedSteps": 19,
+      "memoryCommits": 16,
+      "generatedMetadataByNormalCallbacks": true,
+      "newIDsForced": false,
+      "actualDatabaseWrites": 0,
+      "actualNativeRuns": 0
+    }
+  },
+  "currentReadClosure": {
+    "version": "0.13.0",
+    "routes": 31,
+    "mainInstances": 93,
+    "endpointInstances": 4487,
+    "formInstances": 899,
+    "maximumObservedDepth": 4,
+    "preparationBlocked": 0,
+    "sourceChanged": 1,
+    "finalHTMLBound": false,
+    "changedSources": [
+      "src/law-monitor.js"
+    ],
+    "status": "read-observed-but-final-source-rebind-required"
+  },
+  "missingClassification": {
+    "observedBlankInstances": 3480,
+    "sourceReviewUniqueSectionFields": 20,
+    "valuesFilled": 0,
+    "countsDoNotEqualMissingRecords": true
+  }
+}

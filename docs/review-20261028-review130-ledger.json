@@ -1,0 +1,121 @@
+{
+  "schemaVersion": 1,
+  "id": "REVIEW130",
+  "createdAt": "2026-10-28",
+  "targetRelease": "0.13.0",
+  "targetReleaseStatus": "candidate",
+  "baseline": "v0.12.9 C73",
+  "items": [
+    {
+      "id": "UX130-01",
+      "name": "착공·공사·준공 전체 조회와 정렬표",
+      "acceptance": [
+        "기존 조회항목/추가33입력의 본표·폼 대응; 예정/실제/지연의 고정열; 원약정·상세4탭 보존"
+      ],
+      "stage": {
+        "implementation": "implemented",
+        "automatic": "focused-passed",
+        "actualScreen": "notrun",
+        "actualDatabase": "notrun",
+        "output": "notrun"
+      },
+      "completed": false
+    },
+    {
+      "id": "LAW130-02",
+      "name": "현재KST 최근30일·실제 신구비교",
+      "acceptance": [
+        "공포일 오늘-29~오늘 양끝포함; source날짜와조회기간분리; 공식 자치법규 비교의 실제전후문·판본 검증"
+      ],
+      "stage": {
+        "implementation": "implemented",
+        "automatic": "focused-passed",
+        "actualScreen": "notrun",
+        "actualDatabase": "notrun",
+        "output": "notrun"
+      },
+      "completed": false
+    },
+    {
+      "id": "LAW130-03",
+      "name": "지자체 규범 범위 재확인",
+      "acceptance": [
+        "국가법률/조례규칙/훈령예규고시·공고의 효력·공급자지원 구별; 가능한검색·정기확인에 세부종류 보존"
+      ],
+      "stage": {
+        "implementation": "implemented",
+        "automatic": "focused-passed",
+        "actualScreen": "notrun",
+        "actualDatabase": "notrun",
+        "output": "notrun"
+      },
+      "completed": false
+    },
+    {
+      "id": "UI130-04",
+      "name": "명시적 수정버튼으로 입력 진입 통일",
+      "acceptance": [
+        "셀클릭/더블클릭 단독개시 제거; 값·행/업무단위 수정버튼으로 일관 진입; 저장/취소/키보드·동일폼/부모 유지"
+      ],
+      "stage": {
+        "implementation": "implemented",
+        "automatic": "focused-passed",
+        "actualScreen": "notrun",
+        "actualDatabase": "notrun",
+        "output": "notrun"
+      },
+      "completed": false
+    },
+    {
+      "id": "DATA130-05",
+      "name": "발생·미발생 정합 샘플과 실제 연계",
+      "acceptance": [
+        "A/B/C 전체단계 재구성 금지; 항목별 선행조건/일자/상태 가정→DB저장→재접속→보고서 반영→원복; 미발생/기관작성칸/계산값을 누락과 구별"
+      ],
+      "stage": {
+        "implementation": "implemented",
+        "automatic": "focused-passed",
+        "actualScreen": "notrun",
+        "actualDatabase": "notrun",
+        "output": "notrun"
+      },
+      "completed": false
+    },
+    {
+      "id": "QA130-06",
+      "name": "미검증 실제 경로·하위버튼 끝까지 검수",
+      "acceptance": [
+        "과거후보수와현재고유동작 분리; 실제도달경로·팝업깊이·추가/수정/저장/취소/실패/재접속·출력에 대한 유한분모와 원값보존"
+      ],
+      "stage": {
+        "implementation": "inventory-and-checks-ready",
+        "automatic": "in-progress",
+        "actualScreen": "notrun",
+        "actualDatabase": "notrun",
+        "output": "notrun"
+      },
+      "completed": false
+    },
+    {
+      "id": "UI130-07",
+      "name": "목록 정렬·한 줄 표시·열 너비 조정",
+      "acceptance": [
+        "법령 변경/관리/검색의 이름·조항·링크·날짜 정렬과 최소 줄바꿈; 유사한 본표/팝업의 날짜/금액/행동 정렬; 클릭만 한 폭 불변, 드래그/키보드/취소/재진입·기존너비보존"
+      ],
+      "stage": {
+        "implementation": "in-progress",
+        "automatic": "focused-passed",
+        "actualScreen": "notrun",
+        "actualDatabase": "not-applicable-layout-only",
+        "output": "notrun"
+      },
+      "completed": false
+    }
+  ],
+  "summary": {
+    "requirements": 7,
+    "completed": 0,
+    "allPlatformComponentsAccepted": false
+  },
+  "snapshotMeaning": "Build-time implementation and automated checks only. Later actual screen, authenticated DB, output and publication acceptance are recorded in the external verification document; never infer whole-platform acceptance."
+}

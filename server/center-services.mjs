@@ -1,6 +1,6 @@
 import {randomUUID,createHash} from 'node:crypto';
 import {WorkspaceError,readWorkspaceAccess,workspaceStateHash,workspaceErrorResponse} from './cloud-storage.mjs';
-import {searchOfficialLaws,searchAllOfficialLaws,getOfficialLawDetail,officialLawUrl} from './law-collector.mjs';
+import {searchOfficialLaws,searchAllOfficialLaws,getOfficialLawDetail,officialLawUrl,officialDocumentKind} from './law-collector.mjs';
 import {koreaDate} from './date-time.mjs';
 import {createLawWatchHandler} from './law-watch.mjs';
 import {canonicalLawChanges} from './law-change-identity.mjs';
@@ -31,7 +31,7 @@ function publicLawWatch(row){
  if(identity)try{const parsed=new URL(source.url),official=parsed.protocol==='https:'&&['law.go.kr','www.law.go.kr'].includes(parsed.hostname)&&!parsed.username&&!parsed.password&&!parsed.port,knownPath=Object.values(paths).some(([file])=>parsed.pathname==='/LSW/'+file);if(official&&knownPath){const[file,key]=identity,version=valid(parsed.searchParams.get(key)),otherKeys=Object.values(paths).map(([,key])=>key).filter(other=>other!==key);if(parsed.pathname!=='/LSW/'+file||parsed.searchParams.getAll(key).length!==1||!version||otherKeys.some(key=>parsed.searchParams.has(key))||sequence&&sequence!==version)conflict=true;else{sequence=sequence||version;if(row.target==='law'&&parsed.searchParams.has('efYd')){const raw=parsed.searchParams.get('efYd'),candidate=/^\d{8}$/.test(raw||'')?raw.slice(0,4)+'-'+raw.slice(4,6)+'-'+raw.slice(6,8):null;if(parsed.searchParams.getAll('efYd').length!==1||!date(candidate))conflict=true;else urlEffectiveAt=candidate;}}}}catch{}
  if(sourceEffectiveAt&&urlEffectiveAt&&sourceEffectiveAt!==urlEffectiveAt)conflict=true;
  if(conflict||!identity){sequence=null;lawId=null;}const url=sequence?officialLawUrl(row.target,sequence,sourceEffectiveAt||urlEffectiveAt):null;
- return{id:row.id,target:row.target,name:row.name,jurisdiction:row.jurisdiction||null,status:'configured',source:{sequence,lawId,url}};
+ const kind=sequence&&!conflict?officialDocumentKind(row.target,source.kind):null;return{id:row.id,target:row.target,name:row.name,jurisdiction:row.jurisdiction||null,status:'configured',source:{sequence,lawId,url,...(kind?{kind}:{})}};
 }
 export function taskMetadata(row){return {id:row.id,notificationId:row.id,projectId:row.project_id,quarterKey:row.quarter_key,dueDate:dateOnly(row.due_date),createdAt:row.created_at,completedAt:row.completed_at,snapshotId:row.snapshot_id,status:row.completed_at?'completed':'pending',title:`${row.quarter_key} 사업비 확인`,target:{projectId:row.project_id,view:'cost',tab:'detail'}};}
 export function snapshotMetadata(row){return {id:row.id,projectId:row.project_id,kind:row.kind,label:row.label,asOfDate:dateOnly(row.as_of_date),capturedAt:row.captured_at,quarterKey:row.quarter_key,version:row.version,reason:row.reason,correctsId:row.corrects_id,workspaceRevision:Number(row.workspace_revision),createdBy:row.created_by};}

@@ -1,0 +1,135 @@
+{
+  "createdAt": "2026-10-28T05:51:41.078Z",
+  "scope": "REVIEW130 요청1/연결요청4 owned construction only",
+  "basis": [
+    "정식C73",
+    "직전C66",
+    "report-form4-3/4-4",
+    "33필드 승인명세"
+  ],
+  "preserved": [
+    "permit-detail4tabs/CSS",
+    "form definitions/order/types",
+    "actual-date/contract-date/loan-maturity ownership",
+    "raw values/frozen report/history/DB"
+  ],
+  "rows": [
+    {
+      "componentID": "CONS130-SCHEDULE",
+      "purpose": "착공·준공 예정/실제/지연 고정열 및 신고·재개·변경일/내용6개 조회",
+      "source": "src/permit-views.js construction()",
+      "tests": [
+        "review130-construction-display",
+        "review130-construction-browser"
+      ],
+      "implementation": "implemented",
+      "pureChecks": "passed",
+      "native": "not-run-current-candidate",
+      "actualDBWrites": 0
+    },
+    {
+      "componentID": "CONS130-PF",
+      "purpose": "본PF 실제 실행 여부·일자·지연·사유·내용5개 조회",
+      "source": "src/permit-views.js construction()",
+      "tests": [
+        "review130-construction-display"
+      ],
+      "implementation": "implemented",
+      "pureChecks": "passed",
+      "native": "not-run-current-candidate",
+      "actualDBWrites": 0
+    },
+    {
+      "componentID": "CONS130-WORK",
+      "purpose": "전체지연·사유와 공사중단/재개5개 구별",
+      "source": "src/permit-views.js construction()",
+      "tests": [
+        "review130-construction-display"
+      ],
+      "implementation": "implemented",
+      "pureChecks": "passed",
+      "native": "not-run-current-candidate",
+      "actualDBWrites": 0
+    },
+    {
+      "componentID": "CONS130-PROGRESS",
+      "purpose": "기준일·계획·실제·차이 조회, 수시기록/공정이력 유지",
+      "source": "src/permit-views.js construction()",
+      "tests": [
+        "review129-permit-input",
+        "review130-construction-display"
+      ],
+      "implementation": "implemented",
+      "pureChecks": "passed",
+      "native": "not-run-current-candidate",
+      "actualDBWrites": 0
+    },
+    {
+      "componentID": "CONS130-AGREEMENT",
+      "purpose": "약정4개와 별도 대출 만기 원문 조회",
+      "source": "src/permit-views.js construction()",
+      "tests": [
+        "review129-permit-input",
+        "review130-construction-display"
+      ],
+      "implementation": "implemented",
+      "pureChecks": "passed",
+      "native": "not-run-current-candidate",
+      "actualDBWrites": 0
+    },
+    {
+      "componentID": "CONS130-EDIT",
+      "purpose": "전체수정1개와6단계 수정→동일폼 해당fieldset 초점",
+      "source": "src/permit-views.js construction-section-edit",
+      "tests": [
+        "review130-construction-display",
+        "review130-construction-browser"
+      ],
+      "implementation": "implemented",
+      "pureChecks": "passed",
+      "native": "not-run-current-candidate",
+      "actualDBWrites": 0
+    },
+    {
+      "componentID": "CONS130-FORM",
+      "purpose": "33입력 label/value 행 정렬·자료형·원문·취소/실패 보존",
+      "source": "src/permit.css construction-input-fields",
+      "tests": [
+        "review129-permit-input",
+        "followup121-required-markers",
+        "review130-construction-browser"
+      ],
+      "implementation": "implemented",
+      "pureChecks": "passed",
+      "native": "not-run-current-candidate",
+      "actualDBWrites": 0
+    },
+    {
+      "componentID": "CONS130-PROGRESS-ACCESS",
+      "purpose": "공정 차트/이력/직접진입의 조회권한과 저장직전 사업·권한·실제기록 재검사, 부모복귀",
+      "source": "src/permit-views.js progressChart/progressRecordForm/openProgressHistory",
+      "tests": [
+        "review130-construction-display"
+      ],
+      "implementation": "implemented",
+      "pureChecks": "passed",
+      "native": "not-run-current-candidate",
+      "actualDBWrites": 0
+    }
+  ],
+  "sourcePins": [
+    {
+      "path": "src/permit-views.js",
+      "sha256": "4739dcf5248df2979c40733b28e044085e4596cdc43e92fa2dbd176cacd972e0"
+    },
+    {
+      "path": "src/permit.css",
+      "sha256": "c4e7460586a7d0635bfa50bf18bb380331cfd8446886a317b0500b770d70eb6a"
+    },
+    {
+      "path": "src/permit-detail.css",
+      "sha256": "60fece915f4ceb56ff0d54c9cd52efac23851662b89887df8989de4dbb243623"
+    }
+  ],
+  "pureTotal": 18
+}

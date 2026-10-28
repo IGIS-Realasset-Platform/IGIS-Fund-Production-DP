@@ -1,7 +1,7 @@
 import assert from'node:assert/strict';import fs from'node:fs';
 const read=p=>fs.readFileSync(p,'utf8'),ledger=JSON.parse(read('docs/recheck-20261022-ledger.json'));
 assert.deepEqual(ledger.items.map(x=>x.id),['AUTO123-01','AUTO123-02','AUTO123-03']);assert.equal(ledger.version,'0.12.3');
-const currentVersion=JSON.parse(read('package.json')).version;assert.match(currentVersion,/^0\.12\.\d+$/);
+const currentVersion=JSON.parse(read('package.json')).version;assert.match(currentVersion,/^0\.(?:12|13)\.\d+$/);
 for(const file of['package-lock.json','src/data/deployment-status-cloud-v0111.json'])assert.equal(JSON.parse(read(file)).version,currentVersion,file);
 assert(read('scripts/build-deployment.mjs').includes("cloud?'"+currentVersion+"'"));assert.match(read('scripts/build-deployment.mjs'),/AUTO123_FIX_LEDGER/);assert.match(read('src/spec.js'),/A\.spec\.auto123/);assert.match(read('scripts/verify-center120.mjs'),/followup12\[123\]-/);
 assert.equal(ledger.items.find(x=>x.id==='AUTO123-03').allRolesAndConditionsVerified,false);

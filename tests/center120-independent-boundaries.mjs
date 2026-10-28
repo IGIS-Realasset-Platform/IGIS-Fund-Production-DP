@@ -13,9 +13,9 @@ async function check(name,run){try{await run();checks.push({name,status:'passed'
 const sourcePins=Object.fromEntries(['server/sample-access.mjs','server/law-collector.mjs','server/maintenance-runtime.mjs','shared/permit-domain.mjs','database/center-20261020.sql'].map(path=>[path,createHash('sha256').update(fs.readFileSync(path)).digest('hex')]));
 const clock=()=>new Date('2026-10-20T01:00:00.000Z');
 const watch={id:'national-building',target:'law',name:'건축법',source:{url:'https://www.law.go.kr'}};
-const version=(sequence,at)=>({'법령일련번호':sequence,'법령명한글':'건축법','공포일자':at,'시행일자':at,'공포번호':sequence});
+const version=(sequence,at)=>({'법령ID':'100','법령일련번호':sequence,'법령명한글':'건축법','공포일자':at,'시행일자':at,'공포번호':sequence});
 const nationalResponse=rows=>Response.json({LawSearch:{totalCnt:String(rows.length),page:'1',law:rows}});
-const detailLoader=async({sequence,clock})=>({record:{name:'건축법',bodyHash:'new-body-'+sequence},checkedAt:clock().toISOString()});
+const detailLoader=async({sequence,clock})=>({record:{name:'건축법',lawId:'100',bodyHash:'new-body-'+sequence},checkedAt:clock().toISOString()});
 
 await check('I01 신규가입 샘플 부여는 정확한 승인 3개 중 하나라도 없으면 성공하지 않는다',async()=>{
  const existing=['TEST-20261016-A','TEST-20261016-B'];
@@ -34,9 +34,9 @@ await check('I02 일일 수집은 현재가 된 새 버전 때문에 이전 원�
 await check('I03 행정규칙·조례 공백기간 회복은 현행 목록만 조회하지 않는다',async()=>{
  for(const target of ['admrul','ordin']){
   const urls=[];
-  const row=target==='admrul'?{'행정규칙일련번호':'30001','행정규칙명':'독립 행정규칙','발령일자':'20261019','시행일자':'20261020','발령번호':'30001'}:{'자치법규일련번호':'40001','자치법규명':'독립 조례','공포일자':'20261019','시행일자':'20261020','공포번호':'40001'};
+  const row=target==='admrul'?{'행정규칙ID':'300','행정규칙일련번호':'30001','행정규칙명':'독립 행정규칙','발령일자':'20261019','시행일자':'20261020','발령번호':'30001'}:{'자치법규ID':'400','자치법규일련번호':'40001','자치법규명':'독립 조례','공포일자':'20261019','시행일자':'20261020','공포번호':'40001'};
   const name=target==='admrul'?'독립 행정규칙':'독립 조례';
-  await collectWatch({id:'independent-'+target,target,name,source:{}},{oc:'synthetic-independent',clock,fetcher:async url=>{urls.push(new URL(url));return Response.json({[target==='admrul'?'AdmRulSearch':'OrdinSearch']:{totalCnt:'1',page:'1',[target==='admrul'?'admrul':'law']:[row]}});},detailLoader:async({clock})=>({record:{name,bodyHash:'body'},checkedAt:clock().toISOString()})});
+  await collectWatch({id:'independent-'+target,target,name,source:{}},{oc:'synthetic-independent',clock,fetcher:async url=>{urls.push(new URL(url));return Response.json({[target==='admrul'?'AdmRulSearch':'OrdinSearch']:{totalCnt:'1',page:'1',[target==='admrul'?'admrul':'law']:[row]}});},detailLoader:async({clock})=>({record:{name,lawId:target==='admrul'?'300':'400',bodyHash:'body'},checkedAt:clock().toISOString()})});
   assert(urls.some(url=>String(url.searchParams.get('nw')||'').split(',').includes('2')),target+' historical list must be requested explicitly');
  }
 });
@@ -115,8 +115,8 @@ await check('I11 첫 전체성공 전의 부분실패 후에도 실패 출처의
  const env={CRON_SECRET:'independent-maintenance-secret-thirty-two-plus',DP_AUTH_ORIGIN:'https://independent.example.invalid',DP_AUTH_SECRET:'independent-auth-secret-thirty-two-plus',DP_AUTH_DATABASE_URL:'postgresql://development_project_platform_runtime:synthetic@db.baqybhtfvuttcyyzspyi.supabase.co:5432/postgres',DP_ALLOWED_EMAILS:'["member@igisam.com"]',DP_MAIL_PROVIDER:'gmail',DP_GMAIL_USER:'synthetic@gmail.com',DP_GMAIL_APP_PASSWORD:'abcdefghijklmnop',DP_LAW_OC:'synthetic-independent'};
  const run=createMaintenanceRuntime({environment:()=>env,clock:()=>at,loadDrivers:async()=>({pool:{connect:async()=>client}}),fetcher:async url=>{
   const name=new URL(url).searchParams.get('query');if(attempt===1&&name==='독립법B')return Response.json({error:'unavailable'},{status:503});
-  const b=name==='독립법B',row={...version(b?'20002':'20001',b?'20261002':'20261001'),'법령명한글':name};return nationalResponse([row]);
- },collector:options=>collectLawSnapshot({...options,detailLoader:async({sequence,clock})=>({record:{name:sequence==='20002'?'독립법B':'독립법A',bodyHash:'hash-'+sequence},checkedAt:clock().toISOString()})})});
+  const b=name==='독립법B',row={...version(b?'20002':'20001',b?'20261002':'20261001'),'법령명한글':name,'법령ID':b?'202':'201'};return nationalResponse([row]);
+ },collector:options=>collectLawSnapshot({...options,detailLoader:async({sequence,clock})=>({record:{name:sequence==='20002'?'독립법B':'독립법A',lawId:sequence==='20002'?'202':'201',bodyHash:'hash-'+sequence},checkedAt:clock().toISOString()})})});
  const request=()=>new Request(env.DP_AUTH_ORIGIN+'/api/maintenance',{headers:{authorization:'Bearer '+env.CRON_SECRET}});
  const first=await (await run(request())).json();assert.equal(first.jobs.law.status,'partial_failure');assert.equal(db.statuses.get('law').cursor,undefined);
  at=new Date('2026-10-21T01:00:00Z');attempt=2;

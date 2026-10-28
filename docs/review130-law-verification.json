@@ -1,0 +1,417 @@
+{
+  "reviewId": "REVIEW130",
+  "date": "2026-10-28",
+  "formalBaseline": {
+    "version": "0.12.9",
+    "candidate": "C73",
+    "source": "3a74775b99b7d51a8f21c7bb3eead5fb8f317f74"
+  },
+  "requirements": [
+    "LAW130-02",
+    "LAW130-03"
+  ],
+  "sourcePins": {
+    "src/law-monitor.js": "233b503848d0c9ea4f44d12f1a3f72b119f528d3c921de9fa6f616fe5a55b670",
+    "src/law-search.css": "7ae316c4ba540265767c16847c3e7b9928eede8a2489ef3842ae74264eb397f6",
+    "src/law-comparison.css": "9b49b6b434e7c1a922a09c0df281dd778f2633a4f1d94091eb69dabd4a05c1ae",
+    "server/law-collector.mjs": "1c9ddc586d09c408740aa522e695aae61dd72391ce7af02ab18a7efdc5a1dc7c",
+    "server/law-watch.mjs": "1492c662359dee365c81c864837580786c1d8f52ccfe2987333d1ae37c0955aa",
+    "server/center-services.mjs": "400e5f8b28e0b0b22eab4d39ad6e307b2df607b638f274630f6cae573ddc0da8",
+    "src/legal.js": "1b02ef559deb9fe56f774165ba9c6f8c186cd48a1f44cc49782ab5eb233fa406",
+    "server/law-comparison.mjs": "e7037c9f32c2094eb100140cfaf5c0b1cab869a095110eec41813e35e7f1b186"
+  },
+  "window": {
+    "timezone": "Asia/Seoul",
+    "basis": "promulgation date",
+    "startOffsetDays": -29,
+    "endOffsetDays": 0,
+    "inclusive": true,
+    "futurePromulgationExcluded": true,
+    "invalidDatesExcluded": true,
+    "firstObservationNotPromulgation": true,
+    "sourceDataDateRetained": true,
+    "sampleModeSourceDatePolicyRetained": true
+  },
+  "comparison": {
+    "officialTableLinkOnlyWhenVerified": true,
+    "otherwiseExactBeforeAfterOriginals": true,
+    "oneWindowAutomaticLoad": true,
+    "knownOfficialFamilyAndVersionBinding": true,
+    "retainedUnknownOrDifferentFamilyHistoryNotSilentlyReused": true,
+    "literalHighlightOnly": true,
+    "escapedOriginalTextPreserved": true,
+    "totalInputCharacterLimit": 262144,
+    "totalLcsCellLimit": 1000000,
+    "overBudget": "Complete plain original text, no invented changes",
+    "officialExample": {
+      "name": "서울특별시 건축 조례",
+      "officialId": "2000120",
+      "before": {
+        "sequence": "2116749",
+        "number": "10083",
+        "announcedAt": "2026-03-30",
+        "effectiveAt": "2026-03-30",
+        "url": "https://www.law.go.kr/LSW/ordinInfoP.do?ordinSeq=2116749"
+      },
+      "after": {
+        "sequence": "2171799",
+        "number": "10170",
+        "announcedAt": "2026-10-01",
+        "effectiveAt": "2026-11-12",
+        "url": "https://www.law.go.kr/LSW/ordinInfoP.do?ordinSeq=2171799"
+      },
+      "comparisonBasis": "Actual same-ID two-original whole-body and addenda comparison; not an official supplied old-and-new table"
+    }
+  },
+  "regionalScope": {
+    "ordinKinds": [
+      "조례",
+      "규칙",
+      "훈령",
+      "예규",
+      "기타",
+      "고시",
+      "의회규칙"
+    ],
+    "admrulKinds": [
+      "훈령",
+      "예규",
+      "고시",
+      "공고",
+      "지침",
+      "기타"
+    ],
+    "kindDoesNotDetermineLegalEffect": true,
+    "eum": {
+      "officialSearch": "https://www.eum.go.kr/web/gs/gv/gvGosiList.jsp",
+      "fixedExternalLink": true,
+      "appQueryOrProjectNotTransmitted": true,
+      "dataList": "https://www.eum.go.kr/web/op/sv/svItemList.jsp",
+      "apiRequiresSeparateOfficialLinkageApplication": true,
+      "csvFrequency": "monthly",
+      "newCollectorCount": 0,
+      "connectedApiCount": 0,
+      "scheduledSourceCount": 0
+    }
+  },
+  "officialPublicRead": {
+    "initial": {
+      "requested": 376,
+      "checked": 373,
+      "failures": [
+        {
+          "id": "law-local-goyang-planning",
+          "code": "LAW_IDENTITY_AMBIGUOUS"
+        },
+        {
+          "id": "law-v010-3-3-rule",
+          "code": "LAW_IDENTITY_AMBIGUOUS"
+        },
+        {
+          "id": "law-v010-4-6-rule",
+          "code": "LAW_IDENTITY_AMBIGUOUS"
+        }
+      ],
+      "elapsedMs": 126501,
+      "budgetMs": 180000,
+      "http": {
+        "200": 1132
+      },
+      "transportFailures": 0,
+      "evidence": {
+        "path": ".build/review130/public-collector-1793172493506/summary.json",
+        "sha256": "add69b48076cbbf027f9d0096906f08e67fa243f8d1363ef149207826dc1fac4"
+      }
+    },
+    "identityCorrection": {
+      "officialIds": [
+        {
+          "id": "law-local-goyang-planning",
+          "lawId": "2029738",
+          "storedMst": "2169855"
+        },
+        {
+          "id": "law-v010-3-3-rule",
+          "lawId": "009169",
+          "storedMst": "279277"
+        },
+        {
+          "id": "law-v010-4-6-rule",
+          "lawId": "008567",
+          "storedMst": "289271",
+          "currentPayloadMst": "290881"
+        }
+      ],
+      "rootDatabaseEvidence": "docs/review130-law-identity-fix.json",
+      "onlySourceLawIdChanged": true,
+      "sourceOtherKeysPreserved": true,
+      "activeCount": 376,
+      "workspaceRevision": 37,
+      "workspaceUnchanged": true
+    },
+    "retry": {
+      "requested": 376,
+      "checked": 376,
+      "expectedIdsCollected": 376,
+      "failures": [],
+      "elapsedMs": 118057,
+      "budgetMs": 180000,
+      "http": {
+        "200": 1135
+      },
+      "transportFailures": 0,
+      "sourceIdPresent": 185,
+      "sourceIdMissing": 191,
+      "only3VerifiedIdsLocallyPinned": true,
+      "masterEnrichment": false,
+      "evidence": {
+        "path": ".build/review130/public-collector-1793174409641/summary.json",
+        "sha256": "5a2f6648014bd8522e50ff9a4cbb1a66807a5de1017343e3cd9ff9480b27c0df"
+      }
+    },
+    "preservation": {
+      "previousRecords": 195,
+      "previousChanges": 201,
+      "missingRecords": 0,
+      "missingOrRewrittenChanges": 0,
+      "knownVersionMissing": 0,
+      "unidentifiedOriginalVersions": 45,
+      "unidentifiedOriginalRawPayloadRetained": 45,
+      "unidentifiedVersionIdentityNewlyVerified": false,
+      "sourceChanged": false,
+      "watchInputUnchanged": true,
+      "previousInputUnchanged": true
+    },
+    "runtimeCredentialUsed": false,
+    "databaseSnapshotWritten": false,
+    "cronStateChanged": false
+  },
+  "focus": {
+    "suites": 24,
+    "passedSuites": 24,
+    "failedSuites": 0,
+    "passedChecks": 360,
+    "failedChecks": 0,
+    "sourceChanged": [],
+    "evidence": {
+      "path": ".build/review130/law-focus-1793175713863.json",
+      "sha256": "d1d40028ff8dd94dd3244d8f3ecb2f68fb615c295c17e2cd9989f9765eb342dc"
+    }
+  },
+  "naturalSchedule": {
+    "observedLatestCheckedAtUtc": "2026-10-27T23:04:33.693Z",
+    "observedSnapshotRecords": 195,
+    "observedSnapshotChanges": 201,
+    "new376CollectorNaturalExecutionObserved": false
+  },
+  "acceptance": {
+    "implementation": "focused-passed",
+    "officialPublicRead": "passed-with-stated-provider-scope",
+    "finalPinnedAppNative": "C78 feature candidate3/3 passed and6PNG directly viewed; subsequent final release and new law-table request remain separately pending",
+    "wholePlatformRegression": "root-pending",
+    "formalDeployment": "pending",
+    "actualMemberFlow": "root-pending",
+    "newNaturalSchedule": "not-observed"
+  },
+  "safety": {
+    "privateRawBodyIncluded": false,
+    "credentialIncluded": false,
+    "environmentRead": false,
+    "otherSchemaOrServiceChanged": false
+  },
+  "nativeFeatureCandidate": {
+    "candidate": "C78",
+    "html": {
+      "path": ".build/review130-20261028/integration-candidate-78.html",
+      "sha256": "38e77b619750aa499283ced76a10abc355496fa1a807bb17724af4a0cffde70c",
+      "bytes": 6823824
+    },
+    "scope": "isolated Edge/exact final35 modules; approved synthetic A/B/C and fixed KST clock; previously verified actual official two-body response plus synthetic search/watch transport; no real DB/member cookies/provider requests",
+    "evidence": {
+      "path": ".build/review130/law-browser-1793175727930/evidence.json",
+      "sha256": "5dc9fdb80b6241ec950e55399a741ea05c220a1f92ff83375cc819528c61a841"
+    },
+    "summary": {
+      "planned": 3,
+      "passed": 3,
+      "failed": 0,
+      "errors": 0,
+      "mockErrors": 0,
+      "workspacePuts": 0,
+      "watchPosts": 3,
+      "comparisonRequests": 3,
+      "sourceChanged": []
+    },
+    "flows": [
+      {
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        },
+        "status": "passed",
+        "firstChange": {
+          "top": 158.75,
+          "bottom": 174.75,
+          "bodyTop": 103,
+          "bodyBottom": 754,
+          "visible": true
+        },
+        "firstHeader": {
+          "label": "변경 전",
+          "bodyTop": 103,
+          "bodyBottom": 754,
+          "headerTop": 115,
+          "headerBottom": 143.296875,
+          "markTop": 158.75,
+          "markBottom": 174.75,
+          "visible": true,
+          "markNotCovered": true,
+          "headerHit": true
+        },
+        "afterHeader": {
+          "label": "변경 후",
+          "bodyTop": 103,
+          "bodyBottom": 754,
+          "headerTop": 115,
+          "headerBottom": 143.296875,
+          "markTop": 158.75,
+          "markBottom": 174.75,
+          "visible": true,
+          "markNotCovered": true,
+          "headerHit": true
+        },
+        "checks": [
+          "one click auto-loads exact official two-version data into one window; both textContents identical and literal changes highlighted",
+          "sticky before/after headings stay visible and hit-testable without covering either actual changed text, including stacked mobile view",
+          "before/after original links preserve exact sequence and noopener; no fabricated official comparison",
+          "keyboard Enter opens one comparison and Escape closes it; horizontal coordinate stays zero",
+          "default all and local-kind scope agree; actual kind labels do not become generic ordinances",
+          "external official notice search sends no app query/project data and preserves input",
+          "added verified kind persists in in-memory management reference without business workspace write",
+          "viewer candidate buttons are disabled and raw dispatched click cannot add or write workspace"
+        ]
+      },
+      {
+        "viewport": {
+          "width": 769,
+          "height": 900
+        },
+        "status": "passed",
+        "firstChange": {
+          "top": 162.9375,
+          "bottom": 178.9375,
+          "bodyTop": 107,
+          "bodyBottom": 850,
+          "visible": true
+        },
+        "firstHeader": {
+          "label": "변경 전",
+          "bodyTop": 107,
+          "bodyBottom": 850,
+          "headerTop": 119,
+          "headerBottom": 147.296875,
+          "markTop": 162.9375,
+          "markBottom": 178.9375,
+          "visible": true,
+          "markNotCovered": true,
+          "headerHit": true
+        },
+        "afterHeader": {
+          "label": "변경 후",
+          "bodyTop": 107,
+          "bodyBottom": 850,
+          "headerTop": 119,
+          "headerBottom": 147.296875,
+          "markTop": 162.9375,
+          "markBottom": 178.9375,
+          "visible": true,
+          "markNotCovered": true,
+          "headerHit": true
+        },
+        "checks": [
+          "one click auto-loads exact official two-version data into one window; both textContents identical and literal changes highlighted",
+          "sticky before/after headings stay visible and hit-testable without covering either actual changed text, including stacked mobile view",
+          "before/after original links preserve exact sequence and noopener; no fabricated official comparison",
+          "keyboard Enter opens one comparison and Escape closes it; horizontal coordinate stays zero",
+          "default all and local-kind scope agree; actual kind labels do not become generic ordinances",
+          "external official notice search sends no app query/project data and preserves input",
+          "added verified kind persists in in-memory management reference without business workspace write",
+          "viewer candidate buttons are disabled and raw dispatched click cannot add or write workspace"
+        ]
+      },
+      {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "status": "passed",
+        "firstChange": {
+          "top": 160.59375,
+          "bottom": 176.59375,
+          "bodyTop": 105,
+          "bodyBottom": 796,
+          "visible": true
+        },
+        "firstHeader": {
+          "label": "변경 전",
+          "bodyTop": 105,
+          "bodyBottom": 796,
+          "headerTop": 117,
+          "headerBottom": 145.296875,
+          "markTop": 160.59375,
+          "markBottom": 176.59375,
+          "visible": true,
+          "markNotCovered": true,
+          "headerHit": true
+        },
+        "afterHeader": {
+          "label": "변경 후",
+          "bodyTop": 105,
+          "bodyBottom": 796,
+          "headerTop": 117,
+          "headerBottom": 145.296875,
+          "markTop": 160.859375,
+          "markBottom": 176.859375,
+          "visible": true,
+          "markNotCovered": true,
+          "headerHit": true
+        },
+        "checks": [
+          "one click auto-loads exact official two-version data into one window; both textContents identical and literal changes highlighted",
+          "sticky before/after headings stay visible and hit-testable without covering either actual changed text, including stacked mobile view",
+          "before/after original links preserve exact sequence and noopener; no fabricated official comparison",
+          "keyboard Enter opens one comparison and Escape closes it; horizontal coordinate stays zero",
+          "default all and local-kind scope agree; actual kind labels do not become generic ordinances",
+          "external official notice search sends no app query/project data and preserves input",
+          "added verified kind persists in in-memory management reference without business workspace write",
+          "viewer candidate buttons are disabled and raw dispatched click cannot add or write workspace"
+        ]
+      }
+    ],
+    "visualPngDirectlyViewed": 6,
+    "actualBusinessDatabase": false,
+    "actualOfficialNetwork": false,
+    "finalReleaseArtifactAcceptance": false
+  },
+  "correctedNativeRegressions": [
+    {
+      "candidate": "C75",
+      "failedViewports": 3,
+      "cause": "HTML pre parser removed the initial original newline",
+      "fix": "Wrap each original in a span inside pre; exact DOM original text restored"
+    },
+    {
+      "candidate": "C76",
+      "failedViewports": 3,
+      "cause": "First literal change was below the initial viewport",
+      "fix": "Reveal only on the first successful popup result; preserve intervening scroll/input/focus/project/root context and horizontal position"
+    },
+    {
+      "candidate": "C77",
+      "functionalViewportsPassed": 3,
+      "visualObservation": "Before/after headings scrolled out of view",
+      "fix": "Sticky headings limited to the comparison pair; C78 tests both headings and changed text hit/overlap coordinates"
+    }
+  ],
+  "nextScope": "User added law-table alignment/one-line/column-width optimization after C78; do not inherit C78 popup acceptance as new table acceptance"
+}

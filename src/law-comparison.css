@@ -3,7 +3,31 @@
 .law-comparison-controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0}
 .law-comparison-pair{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
 .law-comparison-pair>div{min-width:0;border:1px solid #dbe3ec;border-radius:6px;padding:12px}
+.law-comparison-pair>div>strong{position:sticky;top:0;display:block;background:#fff;z-index:1;padding:4px 0}
 .law-comparison-pair pre{font:inherit;line-height:1.65;white-space:pre-wrap;overflow-wrap:anywhere;margin:8px 0 0;max-height:360px;overflow:auto}
 .law-comparison>section{margin-top:16px}.law-comparison h5{font-size:15px;margin:8px 0}.law-comparison-source{font-size:13px;color:#52677f}
 .law-change-links{display:flex;flex-wrap:wrap;gap:6px 16px;align-items:center;margin:8px 0}.law-change-links a{overflow-wrap:anywhere}.law-amendment-text{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.65}.law-sort-button{font:inherit;font-weight:inherit;color:inherit;border:0;background:none;padding:4px 0;cursor:pointer;text-align:left}.law-sort-button:focus-visible{outline:2px solid #2563eb;outline-offset:3px}.law-change-table th:nth-child(3),.law-change-table th:nth-child(4),.law-change-table td:nth-child(3),.law-change-table td:nth-child(4){white-space:nowrap}.law-change-table td:last-child{white-space:nowrap}.law-comparison-pair pre{max-height:none;overflow:visible}
+.law-diff-removed{background:#fee2e2;color:#9f1239;text-decoration:line-through}.law-diff-added{background:#dbeafe;color:#153e75;text-decoration:underline;text-underline-offset:2px}
 @media(max-width:760px){.law-comparison-pair{grid-template-columns:minmax(0,1fr)}}
+/* Only the three law lists: named content columns remain readable while dates
+   and actions keep their units. User-adjusted colgroup widths take precedence. */
+.law-workspace .law-change-table{min-width:880px;table-layout:fixed}
+.law-workspace .law-change-table th,.law-workspace .law-change-table td{height:38px;padding:8px 10px;vertical-align:middle;text-align:left}
+.law-workspace .law-change-table th:first-child{width:auto}
+.law-workspace .law-change-table th:nth-child(2){width:248px}
+.law-workspace .law-change-table th:nth-child(3){width:116px}
+.law-workspace .law-change-table th:nth-child(4){width:174px}
+.law-workspace .law-change-table td:first-child,.law-workspace .law-catalog-table td:nth-child(2),.law-workspace .law-search-table td:first-child,.law-workspace .law-search-table td:nth-child(3){white-space:normal;overflow-wrap:anywhere;word-break:keep-all}
+.law-workspace .law-change-name{line-height:1.5}
+.law-workspace .law-change-name .law-change-title{display:inline;min-height:0;padding:0;border:0;line-height:inherit;white-space:normal}
+.law-workspace .law-change-clauses{margin-left:10px;font-size:13px}
+.law-workspace .law-change-table .law-change-links{display:inline-flex;flex-wrap:nowrap;align-items:center;gap:12px;margin:0;white-space:nowrap}
+.law-workspace .law-change-table .law-change-links>*{flex:0 0 auto;white-space:nowrap;overflow-wrap:normal}
+.law-workspace .law-change-table .law-change-links .btn{min-height:0;padding:0;border:0;line-height:1.5}
+.law-workspace .law-date-list{display:flex;flex-wrap:wrap;gap:2px 10px;align-items:center}
+.law-workspace .law-date-list>span{white-space:nowrap}
+.law-workspace .law-catalog-table{table-layout:fixed;min-width:760px}
+.law-workspace .law-catalog-table th:first-child{width:110px}.law-workspace .law-catalog-table th:nth-child(2){width:auto}.law-workspace .law-catalog-table th:nth-child(3){width:210px}.law-workspace .law-catalog-table th:nth-child(4){width:112px}
+.law-workspace .law-catalog-table th,.law-workspace .law-catalog-table td,.law-workspace .law-search-table th,.law-workspace .law-search-table td{vertical-align:middle}
+.law-workspace .law-search-table{table-layout:fixed;min-width:1024px}
+.law-workspace .law-search-table th:first-child{width:auto}

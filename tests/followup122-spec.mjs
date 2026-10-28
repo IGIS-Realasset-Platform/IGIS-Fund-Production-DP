@@ -3,7 +3,7 @@ import fs from 'node:fs';
 const read=p=>fs.readFileSync(p,'utf8'), ledger=JSON.parse(read('docs/ux-20261022-fix-ledger.json'));
 assert.deepEqual(ledger.items.map(x=>x.id),['UX122-01','UX122-02','UX122-03','UX122-04','UX122-05']);
 assert.equal(ledger.version,'0.12.2');
-const currentVersion=JSON.parse(read('package.json')).version;assert.match(currentVersion,/^0\.12\.\d+$/);
+const currentVersion=JSON.parse(read('package.json')).version;assert.match(currentVersion,/^0\.(?:12|13)\.\d+$/);
 for(const file of ['package-lock.json','src/data/deployment-status-cloud-v0111.json'])assert.equal(JSON.parse(read(file)).version,currentVersion,file);
 assert(read('scripts/build-deployment.mjs').includes("cloud?'"+currentVersion+"'"));
 assert.match(read('scripts/build-deployment.mjs'),/UX122_FIX_LEDGER/);

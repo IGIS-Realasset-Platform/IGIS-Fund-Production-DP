@@ -1,0 +1,14 @@
+{
+  "date": "2026-10-28",
+  "requirement": "LAW130-02",
+  "scope": "development_project_platform.law_watchlist.source.lawId only",
+  "method": "Existing stored official MST independently read and matched to the current official family; conditional atomic update guarded by all 3 complete-source MD5 values",
+  "updatedRows": [
+    {"id":"law-local-goyang-planning","officialId":"2029738","storedMst":"2169855","preservedSourceMD5":"a698cf401a3c5f182ad84c330b894277"},
+    {"id":"law-v010-3-3-rule","officialId":"009169","storedMst":"279277","preservedSourceMD5":"13735b0edf9d03ecdea45c55eb67003f"},
+    {"id":"law-v010-4-6-rule","officialId":"008567","storedMst":"289271","preservedSourceMD5":"dc4214a81004f461581f8e50f2ecc32f"}
+  ],
+  "verifiedAfterWrite": {"updatedCount":3,"activeWatchCount":376,"sourceOtherKeysUnchanged":true,"workspaceRevision":37,"workspaceMD5":"2dc21afa5417832d343c52616e7be9d4","workspaceUnchanged":true},
+  "preserved": ["all original source URL/title/verifiedAt keys","watch IDs and active state","project watch links","past versions and changes","other schemas and services"],
+  "limits": ["This is an identity-data correction, not evidence of a new deployed collector or its next scheduled execution."]
+}

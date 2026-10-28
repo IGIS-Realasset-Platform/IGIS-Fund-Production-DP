@@ -1,26 +1,25 @@
 {
-  "version": "0.12.9",
+  "version": "0.13.0",
   "origin": "https://development-project-platform-preview-git-preview-b5dda7-igisra.vercel.app",
-  "htmlSha256": "7b77049c18e6462e80cde25f87eb9ef501098a23ada43eff82da85a7f3fab72c",
-  "bytes": 6782306,
+  "htmlSha256": "7a9b38e77028999164b21e4bc8607182e4db0665a059a6ac6c487abb9a01005e",
+  "bytes": 6836953,
   "notionRequired": false,
   "realProjectDataIncluded": false,
   "mode": "authenticated-private-schema-runtime-with-optional-source",
   "localBuildVerified": true,
-  "actualBrowser": "Scoped C73 acceptance in docs/review-20261028-verification.md; all-platform states not claimed",
-  "previousProtectedDeployment": "dpl_8KPvxYTuF6tXPyio42gf455rGAqZ",
-  "previousVersion": "0.12.7",
-  "status": "review129-c73-preview-verified",
+  "actualBrowser": "Protected candidate for current native and authenticated DB verification; not production acceptance",
+  "status": "review130-c79-protected-candidate",
   "preparedAt": "2026-10-28",
-  "previousProductionDeploymentId": "dpl_FnpXLDYbZNkq9ra3wD4kyZPGKTJS",
-  "previousProductionHtmlSha256": "a9675afd1fc6d1fad867a1b6ecf809e6f8b50360035ddd564cd3890d97d403d9",
   "wholeRequirementsComplete": false,
-  "previousProductionSourceCommit": "79899965cdc04749050cc33e65fd5693a4217c4d",
-  "previousReview128Release": {
-    "version": "0.12.8",
-    "sourceCommit": "e876a18bbd550d03f4c8ec43fab0ee30f62991dc",
-    "deploymentId": "dpl_GwJPCqUZMVian8ryVRiSofYQhK5a",
-    "formalHtmlSha256": "245468a361139cf78d9cc66c1a9858e7f7ba2b1e73269835523fa73b7f46362d"
-  },
-  "sourceCommit": "3a74775b99b7d51a8f21c7bb3eead5fb8f317f74"
+  "verificationPending": [
+    "current whole-regression final freeze",
+    "remaining native families",
+    "authenticated sample event DB/reconnect/report"
+  ],
+  "previousRelease": {
+    "version": "0.12.9",
+    "sourceCommit": "3a74775b99b7d51a8f21c7bb3eead5fb8f317f74",
+    "productionDeploymentId": "dpl_AAmrwxQmC21Ed6Yu3kwqNRBX3MQy",
+    "formalHtmlSha256": "01821a726f27511b02905fe614e1b7c3327f892a28dde7780ad621b1c83d481d"
+  }
 }
