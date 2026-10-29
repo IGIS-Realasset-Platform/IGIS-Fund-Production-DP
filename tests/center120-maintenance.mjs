@@ -1,11 +1,13 @@
 import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
+import {verifiedLawResult} from './support/law-verified-result.mjs';
 import {quarterEnds,createMaintenanceRuntime,lawSnapshotPayload} from '../server/maintenance-runtime.mjs';
 import {parseOfficialPage,collectWatch,collectLawSnapshot} from '../server/law-collector.mjs';
 const checks=[];async function check(name,fn){try{await fn();checks.push({name,status:'passed'});}catch(e){checks.push({name,status:'failed',error:e.message});}}
 const now='2026-12-31T03:00:00Z',clock=()=>new Date(now),watch={id:'building',target:'law',name:'건축법',source:{url:'https://www.law.go.kr'}};
 const law=(number='20001',date='20261220',extra={})=>({'법령ID':'100','법령일련번호':number,'법령명한글':'건축법','공포일자':date,'시행일자':date,'공포번호':number,'법령상세링크':'/LSW/lsInfoP.do?lsiSeq='+number,...extra});
 const response=(rows,total=rows.length,page=1)=>Response.json({LawSearch:{totalCnt:String(total),page:String(page),law:rows}});
-const detailLoader=async({sequence,clock})=>({record:{name:'건축법',lawId:'100',bodyHash:'synthetic-body-'+sequence},checkedAt:clock().toISOString()});
+const detailLoader=async({sequence,clock})=>({record:{name:'건축법',lawId:'100',bodyHash:createHash('sha256').update('Independent maintenance body fixture '+sequence).digest('hex')},checkedAt:clock().toISOString()});
 await check('rollout quarter begins at first arriving calendar quarter, not prior 3 months',()=>{assert.deepEqual(quarterEnds('2026-10-20T00:00:00Z','2026-12-30T14:00:00Z'),[]);assert.deepEqual(quarterEnds('2026-10-20T00:00:00Z','2026-12-30T15:00:00Z'),[{quarterKey:'2026-Q4',dueDate:'2026-12-31'}]);assert.deepEqual(quarterEnds('2026-10-20T00:00:00Z','2027-04-01T00:00:00Z').map(x=>x.quarterKey),['2026-Q4','2027-Q1']);});
 await check('missing OC/watchlist is configuration failure, no fetch and no changes=0 success',async()=>{let calls=0;const a=await collectLawSnapshot({watchlist:[watch],fetcher:()=>{calls++;}});assert.equal(a.status,'configuration_missing');assert.equal(calls,0);const b=await collectLawSnapshot({watchlist:[],oc:'synthetic'});assert.equal(b.status,'configuration_missing');});
 await check('empty/auth/error malformed API body is failed, not partial success or zero changes',async()=>{for(const body of [{LawSearch:{totalCnt:'0',page:'1'}},{error:'invalid key'},{}])assert.throws(()=>parseOfficialPage(body,'law',1));const result=await collectLawSnapshot({watchlist:[watch],oc:'synthetic',fetcher:async()=>Response.json({error:'forbidden'},{status:403}),clock});assert.equal(result.status,'failed');assert.equal(result.failures[0].code,'API_AUTH_FAILED');assert.equal(result.checkedCount,0);});
@@ -37,7 +39,7 @@ function maintenanceFixture({failQuarter=false,lawStatus='configuration_missing'
  throw Error('Unexpected synthetic SQL '+q);
  }};
  const environment=()=>({CRON_SECRET:'synthetic-maintenance-secret-thirty-two-plus',DP_AUTH_ORIGIN:'https://platform.example.invalid',DP_AUTH_SECRET:'isolated-test-secret-more-than-32-characters',DP_AUTH_DATABASE_URL:'postgresql://development_project_platform_runtime:synthetic-password@db.baqybhtfvuttcyyzspyi.supabase.co:5432/postgres',DP_ALLOWED_EMAILS:'["test.member@igisam.com"]',DP_MAIL_PROVIDER:'gmail',DP_GMAIL_USER:'test.sender@gmail.com',DP_GMAIL_APP_PASSWORD:'abcd efgh ijkl mnop'});
- const run=createMaintenanceRuntime({environment,clock,loadDrivers:async()=>({pool:{connect:async()=>client}}),partnerCollector:async()=>{throw Error('No partner reference in this isolated law fixture');},collector:async()=>({status:lawStatus,errorCode:lawStatus==='configuration_missing'?'LAW_API_CONFIGURATION_MISSING':null,records:lawStatus==='success'?[{id:'building'}]:[],changes:[],failures:[]})});
+ const run=createMaintenanceRuntime({environment,clock,loadDrivers:async()=>({pool:{connect:async()=>client}}),partnerCollector:async()=>{throw Error('No partner reference in this isolated law fixture');},collector:async options=>lawStatus==='success'?verifiedLawResult({watchlist:options.watchlist,previous:options.previous,day:'2026-12-31'}):({status:lawStatus,errorCode:lawStatus==='configuration_missing'?'LAW_API_CONFIGURATION_MISSING':null,records:[],changes:[],failures:[],requestedCount:0,checkedCount:0})});
  return {db,run,request:auth=>new Request('https://platform.example.invalid/api/maintenance',{headers:{authorization:auth||'Bearer '+environment().CRON_SECRET}})};
 }
 await check('cron requires separate secret before any DB query',async()=>{const a=maintenanceFixture();assert.equal((await a.run(a.request('Bearer wrong'))).status,401);assert.equal(a.db.queries.length,0);const noSecret=createMaintenanceRuntime({environment:()=>({})});assert.equal((await noSecret(a.request())).status,503);});

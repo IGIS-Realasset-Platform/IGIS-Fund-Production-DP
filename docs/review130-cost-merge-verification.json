@@ -1,0 +1,600 @@
+{
+  "schemaVersion": "review130-cost-merge-verification-v1",
+  "updatedAt": "2026-10-29",
+  "requirements": [
+    "UI130-04",
+    "QA130-06"
+  ],
+  "candidate": "C91",
+  "scope": "bounded connected cost-management repair; original scope/amount/ID/code/contract/VAT/history preserved",
+  "frozenPins": {
+    "src/cbs.js": "03d46577ae6e041e9ee2774fcc4bfa838aa85f2ba132c1666f706e8bc93c9552",
+    "src/cost-breakdown.js": "4264151197555875c382b4b17d819e7d7091b6dfe06200f4aaaa95bdda8defa2",
+    "src/cost-company-profile.js": "37ab0a0088c6867041a4eadc36988f166d3be8dc2c7a2e10a531e3ecb2abcafe",
+    "src/vat.js": "b8e4a2a25b2b9e95f501acbd0fbb1393b76a5ac23f38ffb4778cb125aa6f62f5",
+    "tests/review130-cost-merge-scope.mjs": "eb710a0a5cc4efa761ae223261abf35858b67af7ca8ef5b1c4fd837bbf815917",
+    "tests/review130-cost-detail-source-copy.mjs": "6f6d26b27649973f35de77e26e6ce2b28f4a44d0dba6b3af101704f320d387f2",
+    "tests/review130-cost-binding-inheritance.mjs": "808b2479908d50d594417b32ee8d412e3967fc68ae7fa0e9c45e49bce1e3d835",
+    "tests/review130-cost-copy-history.mjs": "3b08e170bd571b991c934c9fa8b5ee0b01a3da6c02dcee6863a84ea6d4c7198b",
+    "tests/v0119-company-profile.mjs": "6729fb879a108b5850152c2ba7d90e4a404d4daabedc2d8feeda0bc3ecf80bbb"
+  },
+  "implementation": {
+    "status": "scoped-complete",
+    "files": [
+      "src/cbs.js",
+      "src/cost-breakdown.js",
+      "src/vat.js",
+      "src/cost-company-profile.js"
+    ],
+    "changes": [
+      "capture effective pre-merge scope including absence without generating a budget scope ID",
+      "preserve each side original live source ID set; VAT reads this scope dynamically",
+      "same-scope real duplicates blocked; same computed ancestor is not a second independent budget",
+      "explicit copy method/reason in raw assignment call; original binding unchanged",
+      "defined costBreakdown/breakdownParentId merge rejected before mutation, action/choice excluded",
+      "copy history same ID null/0 priority and exact origin only, known project ownership via read-only WeakMap; original stage unchanged"
+    ],
+    "arithmeticOrTaxonomyPolicyChanged": false,
+    "newUserFacingCodeOrScopeFields": false
+  },
+  "automatic": {
+    "test": "tests/review130-cost-merge-scope.mjs",
+    "checks": [
+      {
+        "name": "원래 범위 부재의 정상 독립 합치기는 총액과 참조를 보존한다",
+        "pass": true
+      },
+      {
+        "name": "서로 다른 명시 범위의 정상 독립 합치기는 총액과 참조를 보존한다",
+        "pass": true
+      },
+      {
+        "name": "상위에서 상속한 범위의 정상 독립 합치기는 총액과 참조를 보존한다",
+        "pass": true
+      },
+      {
+        "name": "원래 빈 문자열도 상속은 기존대로의 정상 독립 합치기는 총액과 참조를 보존한다",
+        "pass": true
+      },
+      {
+        "name": "명시적으로 같은 예산의 중복은 합치기로 숨기지 않고 부분 기록도 쓰지 않는다",
+        "pass": true
+      },
+      {
+        "name": "합친 원자료를 수정해도 새 상위 범위를 부당하게 상속하지 않는다",
+        "pass": true
+      },
+      {
+        "name": "합친 원자료의 후속 하위 분해도 같은 범위 정의를 사용한다",
+        "pass": true
+      },
+      {
+        "name": "반복 합치기에서도 기존 범위 부재와 명시 범위를 유지한다",
+        "pass": true
+      },
+      {
+        "name": "저장 실패 시 원금액·별명·범위·계약·VAT·확정본·감사를 전부 원복한다",
+        "pass": true
+      },
+      {
+        "name": "서로 다른 명시 범위의 후속 같은 범위 중복 저장 차단은 유지한다",
+        "pass": true
+      },
+      {
+        "name": "양쪽 기존 VAT는 각각 원래 범위를 읽고 진짜 변경만 추적한다 2000000",
+        "pass": true
+      },
+      {
+        "name": "양쪽 기존 VAT는 각각 원래 범위를 읽고 진짜 변경만 추적한다 0",
+        "pass": true
+      },
+      {
+        "name": "미입력 대상의 기존 VAT는 합쳐 들어온 다른 범위 금액으로 채워지지 않는다",
+        "pass": true
+      },
+      {
+        "name": "원자료 집합 키가 없는 일반 항목은 기존 현재금액 정의를 유지한다",
+        "pass": true
+      },
+      {
+        "name": "합친 원자료 집합의 일부 미입력과 확인된 상세합계를 구별한다",
+        "pass": true
+      },
+      {
+        "name": "이동할 기존 하위의 상속 범위와 별도 명시 범위가 모두 보존된다",
+        "pass": true
+      },
+      {
+        "name": "현재 하위 분해는 기존 유효 범위와 별도 원가를 합산에서 보존한다",
+        "pass": true
+      },
+      {
+        "name": "인접 드래그의 새 상위 범위 상속이 중복을 만들면 계획에서 원장 쓰기 없이 차단한다",
+        "pass": true
+      },
+      {
+        "name": "합친 뒤 본표·분석·엑셀 투영과 과거 원범위 금액은 같은 독립 금액을 보존한다",
+        "pass": true
+      },
+      {
+        "name": "명시 하위 분해 source 합치기는 원장·감사 쓰기 전에 같은 이유로 차단한다",
+        "pass": true
+      },
+      {
+        "name": "명시 하위 분해 target 합치기는 원장·감사 쓰기 전에 같은 이유로 차단한다",
+        "pass": true
+      },
+      {
+        "name": "명시 하위 분해 source-child 합치기는 원장·감사 쓰기 전에 같은 이유로 차단한다",
+        "pass": true
+      },
+      {
+        "name": "명시 하위 분해 target-child 합치기는 원장·감사 쓰기 전에 같은 이유로 차단한다",
+        "pass": true
+      },
+      {
+        "name": "명시 하위 분해 원가의 관리 메뉴·직접 진입·목적지 선택은 같은 지원 범위를 쓴다",
+        "pass": true
+      },
+      {
+        "name": "실제 중앙 저장 계약은 합치기 새 원자료와 범위 메타를 허용한다 현재 v4",
+        "pass": true
+      },
+      {
+        "name": "실제 중앙 저장 계약은 합치기 새 원자료와 범위 메타를 허용한다 기존 v3",
+        "pass": true
+      }
+    ],
+    "passed": 26,
+    "failed": 0,
+    "phase": "Final C91 current consumer semantics and server 1f7c...aad7",
+    "pastGuardRed": {
+      "exactCbsSourceSha256": "d63f048c90801b74758f02b30b8953a2b2857c9f44fe22ce1264ad06313b9935",
+      "passed": 0,
+      "failed": 5,
+      "currentAcceptance": false
+    },
+    "currentGuard": {
+      "passed": 5,
+      "failed": 0
+    },
+    "v0119": {
+      "passed": 25,
+      "failed": 0,
+      "supersededExpectation": "double activation/no button replaced by explicit button only; preservation assertions intact"
+    },
+    "initialRegression": {
+      "suites": 21,
+      "passed": 19,
+      "failed": 2,
+      "sourceChanged": [
+        "src/cbs.js"
+      ],
+      "acceptedAsFinal": false
+    },
+    "finalFourSuites": {
+      "privateEvidencePath": ".build/review130-20261028/cost-final-four-suites.json",
+      "sha256": "0d07f108b95bc35d96345eecc66f390b51764c29575822d685eba5ed8ae11db9",
+      "scope": "final4 focused suites; check counts are model/API assertions, not unique screens",
+      "pins": {
+        "src/cbs.js": "03d46577ae6e041e9ee2774fcc4bfa838aa85f2ba132c1666f706e8bc93c9552",
+        "src/cost-breakdown.js": "4264151197555875c382b4b17d819e7d7091b6dfe06200f4aaaa95bdda8defa2",
+        "src/cost-company-profile.js": "37ab0a0088c6867041a4eadc36988f166d3be8dc2c7a2e10a531e3ecb2abcafe",
+        "src/vat.js": "b8e4a2a25b2b9e95f501acbd0fbb1393b76a5ac23f38ffb4778cb125aa6f62f5",
+        "server/cloud-storage.mjs": "1f7c4d9ca2a88754e412612e0189093adbaa8e1afdd7e3493d6000df01e9aad7"
+      },
+      "results": [
+        {
+          "file": "tests/review130-cost-merge-scope.mjs",
+          "path": ".build/review130-20261028/cost-final-merge26.json",
+          "sha256": "b30fc63bca5641e1d023b6dab187dab1814d3267f63a2f504d6ceddca7b40d52",
+          "exitCode": 0,
+          "passed": 26,
+          "failed": 0
+        },
+        {
+          "file": "tests/review130-cost-detail-source-copy.mjs",
+          "path": ".build/review130-20261028/cost-final-typed7.json",
+          "sha256": "8d12137fb2ace1d8d42165f3aafa788f56d8f0d19826e9802b8ff391aa6db91f",
+          "exitCode": 0,
+          "passed": 7,
+          "failed": 0
+        },
+        {
+          "file": "tests/review130-cost-binding-inheritance.mjs",
+          "path": ".build/review130-20261028/cost-final-inheritance22.json",
+          "sha256": "fd43c7b14ac88afea4598262e458f268f97b6f09de71f5c7822e1bd113f6bc71",
+          "exitCode": 0,
+          "passed": 22,
+          "failed": 0
+        },
+        {
+          "file": "tests/review130-cost-copy-history.mjs",
+          "path": ".build/review130-20261028/cost-final-history13.json",
+          "sha256": "25e0e48dc93068fa2d5ed8ba548503e4e661075d3f041f9415eb39f2d08e9132",
+          "exitCode": 0,
+          "passed": 13,
+          "failed": 0
+        }
+      ],
+      "totalChecks": 68,
+      "passed": 68,
+      "failed": 0,
+      "sourceChanged": [],
+      "actualDBWrites": 0
+    },
+    "c89FocusedRegression": {
+      "privateEvidencePath": ".build/review130-20261028/cost-merge-regression-1793238327851/results.json",
+      "sha256": "ce8d94530df80bbb6561d0a4a5e4832c8c10e3247f4470c74c3ab378544d7460",
+      "suites": 21,
+      "passed": 21,
+      "failed": 0,
+      "sourceChanged": [],
+      "cbsPin": "96f94e3ba01dea9411d5d5d2ff143bbd49334995068fafec4a7c2af3c8927761",
+      "notFinalC91WholeRun": true
+    },
+    "additionalCallerChecks": {
+      "typedDetail": {
+        "checks": 7,
+        "passed": 7,
+        "actualCatalogCallback": true
+      },
+      "inheritance": {
+        "checks": 22,
+        "passed": 22,
+        "legacyPublicApisSeparatedFromActualModernManagerCallbacks": true,
+        "modernManagerCallbacks": 2
+      },
+      "copyHistory": {
+        "checks": 13,
+        "passed": 13,
+        "preparedExactC90Baseline": {
+          "passed": 8,
+          "failed": 5
+        },
+        "scope": "exact origin only, old copy ID null/0 wins, owner proof, original stage unchanged"
+      }
+    }
+  },
+  "native": {
+    "viewports": [
+      {
+        "width": 1280,
+        "height": 800
+      },
+      {
+        "width": 390,
+        "height": 844
+      }
+    ],
+    "artifacts": {
+      "c86": {
+        "privateEvidencePath": ".build/review130-20261028/cost-native/2026-10-29T00-47-21-603Z/evidence.json",
+        "evidenceSha256": "78ab1affa9034fb47ac870bc6a3b1b266fb38afe4d08189e4c97ca4aa1f60cb7",
+        "html": {
+          "path": ".build/review130-20261028/integration-candidate-86.html",
+          "bytes": 6870588,
+          "sha256": "6438d5a4a1cf632f84f4e7ba0456c87ef85b553da22cf9728532f8ba744f882f"
+        },
+        "flows": [
+          {
+            "name": "cost-management-extra-merge-ui-1280",
+            "status": "failed"
+          },
+          {
+            "name": "cost-management-extra-dirty-choices-1280",
+            "status": "validated-mocked-UI-flow"
+          },
+          {
+            "name": "cost-management-extra-late-deleted-1280",
+            "status": "validated-mocked-UI-flow"
+          },
+          {
+            "name": "cost-management-extra-merge-ui-390",
+            "status": "failed"
+          },
+          {
+            "name": "cost-management-extra-dirty-choices-390",
+            "status": "validated-mocked-UI-flow"
+          },
+          {
+            "name": "cost-management-extra-late-deleted-390",
+            "status": "validated-mocked-UI-flow"
+          }
+        ],
+        "pageErrors": 0,
+        "consoleErrors": 0,
+        "defects": 2
+      },
+      "c88": {
+        "privateEvidencePath": ".build/review130-20261028/cost-native/2026-10-29T01-23-21-477Z/evidence.json",
+        "evidenceSha256": "316206f6c94117bbeb671e7ff1dc1b8735b5068ee706462f42288b0839c7f2e0",
+        "html": {
+          "path": ".build/review130-20261028/integration-candidate-88.html",
+          "bytes": 6872548,
+          "sha256": "a990816ab59b6901cb4f895acd808d0281a6c6351fb1f4eae1258563e09628c5"
+        },
+        "flows": [
+          {
+            "name": "cost-management-extra-merge-ui-1280",
+            "status": "validated-mocked-UI-flow"
+          },
+          {
+            "name": "cost-management-extra-dirty-choices-1280",
+            "status": "validated-mocked-UI-flow"
+          },
+          {
+            "name": "cost-management-extra-late-deleted-1280",
+            "status": "validated-mocked-UI-flow"
+          },
+          {
+            "name": "cost-management-extra-merge-ui-390",
+            "status": "validated-mocked-UI-flow"
+          },
+          {
+            "name": "cost-management-extra-dirty-choices-390",
+            "status": "validated-mocked-UI-flow"
+          },
+          {
+            "name": "cost-management-extra-late-deleted-390",
+            "status": "validated-mocked-UI-flow"
+          },
+          {
+            "name": "cost-management-null-merge-1280",
+            "status": "validated-mocked-UI-flow"
+          },
+          {
+            "name": "cost-management-null-merge-390",
+            "status": "validated-mocked-UI-flow"
+          }
+        ],
+        "pageErrors": 0,
+        "consoleErrors": 0,
+        "defects": 0
+      },
+      "c89First": {
+        "privateEvidencePath": ".build/review130-20261028/cost-native/2026-10-29T01-35-26-265Z/evidence.json",
+        "evidenceSha256": "94ac02d22caaad70110aca5050293b1058b238b0f784e0a143e7dfdc4f0e1140",
+        "html": {
+          "path": ".build/review130-20261028/integration-candidate-89.html",
+          "bytes": 6873049,
+          "sha256": "0d93de2af58c9cf1f9de0e13ff58b0018e0baa2ec951f1d23e7eb747af0afb7e"
+        },
+        "flows": [
+          {
+            "name": "cost-management-extra-merge-ui-1280",
+            "status": "validated-mocked-UI-flow"
+          },
+          {
+            "name": "cost-management-extra-merge-ui-390",
+            "status": "validated-mocked-UI-flow"
+          },
+          {
+            "name": "cost-management-breakdown-guard-and-pointer-1280",
+            "status": "failed"
+          },
+          {
+            "name": "cost-management-breakdown-guard-and-pointer-390",
+            "status": "validated-mocked-UI-flow"
+          }
+        ],
+        "pageErrors": 0,
+        "consoleErrors": 0,
+        "defects": 1
+      },
+      "c89PcRetest": {
+        "privateEvidencePath": ".build/review130-20261028/cost-native/2026-10-29T01-38-39-832Z/evidence.json",
+        "evidenceSha256": "d47783470a8bffdbb93a71d67a2ed65d85d3d2c045c809dbfb2d2a58a2b5a82d",
+        "html": {
+          "path": ".build/review130-20261028/integration-candidate-89.html",
+          "bytes": 6873049,
+          "sha256": "0d93de2af58c9cf1f9de0e13ff58b0018e0baa2ec951f1d23e7eb747af0afb7e"
+        },
+        "flows": [
+          {
+            "name": "cost-management-breakdown-guard-and-pointer-1280",
+            "status": "validated-mocked-UI-flow"
+          }
+        ],
+        "pageErrors": 0,
+        "consoleErrors": 0,
+        "defects": 0
+      }
+    },
+    "c88": {
+      "flows": 8,
+      "passed": 8,
+      "actualDBWrites": 0
+    },
+    "c89": {
+      "first": {
+        "flows": 4,
+        "passed": 3,
+        "preparationBlocked": 1
+      },
+      "sameArtifactPcRetest": {
+        "flows": 1,
+        "passed": 1
+      },
+      "uniqueAcceptedFlows": 4,
+      "singleAllGreenRun": false,
+      "pointerNegative": {
+        "field": "one confirmed zero cost amount field",
+        "contexts": 2,
+        "actions": [
+          "actual numeric text click",
+          "actual numeric text doubleclick",
+          "focused value Enter"
+        ],
+        "positive": "explicit edit button Enter opens; Escape preserves",
+        "allFieldsAccepted": false
+      }
+    },
+    "finalSourceConnectedCohort": {
+      "uniqueFlows": 10,
+      "fromC89Fresh": 4,
+      "fromC88UnchangedBranches": 6,
+      "bridgeAddsNoPhysicalRuns": true
+    },
+    "actualDBWrites": 0,
+    "externalRemoteServiceWrites": 0,
+    "actualMemberCookiesUsed": false,
+    "edgeClosed": true
+  },
+  "modelServer": {
+    "actualExportNames": [
+      "validateWorkspaceState",
+      "validateProjectCostChange",
+      "mergeWorkspaceState"
+    ],
+    "v4": {
+      "status": "pass",
+      "actualHTTP": false,
+      "actualDatabase": false
+    },
+    "legacyV3": {
+      "status": "pass",
+      "actualHTTP": false,
+      "actualDatabase": false,
+      "scope": "Exact before/after through actual named server functions; final independent merge26 includes v3",
+      "initialFailurePreserved": true
+    },
+    "modelHttp200IsServerAcceptance": false,
+    "existingBreakdown": {
+      "prior": "domain total equal but actual server 422 INVALID_COST_BREAKDOWN",
+      "current": "same clear error before row/audit writes; source/target excluded in UI; no server weakening"
+    },
+    "backendFocusedEvidence": {
+      "sourceSha256": "7f9c6c6f42d14e0bb6ab61f481bb905f07d48eda6a99c7aa1cad3b42d60903ff",
+      "count": 116,
+      "passed": 116,
+      "handlerCasesIncluded": 8,
+      "privateEvidencePath": ".build/review130-20261028/cost-merge-server-generated-fixtures.json",
+      "sha256": "94b2bde681b52200271606fb1fa7b0ae4e15ab61dac703ed4b67ff5df79fbdd2",
+      "largerFocus": {
+        "suites": 14,
+        "checks": 351,
+        "passed": 351,
+        "sourceChanged": [],
+        "privatePath": ".build/review130-20261028/cost-merge-server-focus-1793239720825.json",
+        "sha256": "ddcc0cf2c28fd1fac25b754358ac5a36ec5249e7e6214f52140c4868c8663ec0"
+      },
+      "notAdditionalUniqueCounts": true
+    }
+  },
+  "preservation": {
+    "independentAmountsWon": [
+      1000001,
+      2000000,
+      3000001,
+      103000001
+    ],
+    "nullAndZeroDistinct": true,
+    "partialUnknownKnownSumSeparate": true,
+    "originalContractsVatFrozenExact": true,
+    "dynamicVatSourceFollowsOnlyItsOriginalScope": true,
+    "originalBindingsUnchanged": true,
+    "sourceAliasPreserved": true,
+    "outputModelCurrentAndPastMatchIndependentAmounts": true,
+    "postMergeExcelBinaryVerified": true
+  },
+  "evidenceBridges": {
+    "c86ToC88": ".build/review130-20261028/cost-merge-source-preservation.json",
+    "c88ToC89": ".build/review130-20261028/cost-merge-C88-C89-bridge.json",
+    "unchangedModuleHashIsNotFreshExecution": true,
+    "c89ToC90": ".build/review130-20261028/cost-binding-C89-C90-bridge.json",
+    "c86ToC88OnlyThose3ModulesChanged": true,
+    "c90ToC91": ".build/review130-20261028/cost-copy-history-final-bridge.json",
+    "finalC86LocalQaToC91Only4ModulesChanged": true
+  },
+  "limits": [
+    "26 conditions are automatic model checks, not26 unique screens",
+    "final10 native contexts are bounded scenarios, not all COST-MANAGEMENT cases",
+    "actual provider/DB/member cookies0; synthetic mock HTTP200 does not prove production storage",
+    "original packets/source37/private PNG contents not published",
+    "whole platform QA130-06 remains incomplete",
+    "Final output2 are actual downloaded files from isolated mock-API UI; installed Excel and real member operating DB merge remain outside scope",
+    "C89 input/guard/pointer native cohort retains original artifact; C90/C91 changed internal binding/history consumers have separate model and exact-output evidence"
+  ],
+  "allCostManagementConditionsAccepted": false,
+  "allPlatformComponentsAccepted": false,
+  "formalReleaseAtInitialWriting": "C86",
+  "deploymentAcceptance": "Root-managed release/member verification is separate from this subagent source/model/mock-UI/output acceptance",
+  "output": {
+    "status": "pass",
+    "candidate": "C91",
+    "html": {
+      "path": ".build/review130-20261028/integration-candidate-91.html",
+      "bytes": 6874804,
+      "sha256": "9111ad9adeb5a41d96f37888efa00d522c5fd12b85ae384acf30fe519fd59f77"
+    },
+    "actualFilesDownloaded": 2,
+    "zipOoxmlFilesReRead": 2,
+    "independentInputAmountsUsed": true,
+    "privateEvidencePath": ".build/review130-20261028/cost-native/2026-10-29T02-27-48-221Z/evidence.json",
+    "evidenceSha256": "cc9f983e62d9343513793e0e50b820fa0b83d19386d974d76cb0354768222105",
+    "files": [
+      {
+        "scenario": "known-originals",
+        "sha256": "d08525ef41dea51c4530195f0a4db79ab41b6d1a1dc68bb751b1ff916cd0fb8e",
+        "sheets": [
+          "세부 사업비"
+        ],
+        "independentExpectedWon": [
+          1000001,
+          2000000,
+          3000001,
+          100000000,
+          103000001
+        ],
+        "rawWonAndIntegerMillionFormatVerified": true,
+        "originalNamesOrderScopePreserved": true
+      },
+      {
+        "scenario": "zero-and-missing",
+        "sha256": "97851ccd47378ace6184e6a649176290ad0e151ddf690679f72c46b669649448",
+        "sheets": [
+          "세부 사업비"
+        ],
+        "independentExpectedWon": [
+          1000001,
+          0,
+          null
+        ],
+        "rawWonAndIntegerMillionFormatVerified": true,
+        "originalNamesOrderScopePreserved": true
+      }
+    ],
+    "originalFrozenContractsVatExact": true,
+    "source37OriginalFileUnchanged": true,
+    "actualDBWrites": 0,
+    "installedExcelRun": false,
+    "bodyAndPacketNotUploaded": true,
+    "earlierC90": {
+      "status": "historical-failure",
+      "htmlSha256": "26a8f0e0f8e780cccf017e0c92755ea5887ed5fe6c24e368e3feada496a4cf15",
+      "normalFile": "failed: child past values null instead of known1000001/2000000",
+      "zeroNullFile": "passed",
+      "originalFilesRetained": true
+    },
+    "copyHistoryCorrection": {
+      "currentFile": "src/cost-company-profile.js",
+      "exactCopyIdPreferred": true,
+      "exactOriginOnlyFallback": true,
+      "sourceIdsPlusOriginNeverAddedTogether": true,
+      "knownForeignOwnerThrows": true,
+      "unprovedCloneNoOriginGuess": true,
+      "weakMapTrackingDoesNotChangeJson": true
+    },
+    "doesNotAddUniqueFeatureCount": true,
+    "visualScope": {
+      "productAfterDownloadPCPngsDirectlyViewed": 2,
+      "observations": [
+        "known aggregate/current and fixed comparison columns remain aligned",
+        "explicit0 and missing fee remain distinct in visible product rows"
+      ],
+      "spreadsheetApplicationRendered": false,
+      "doesNotReplaceZipOoxmlRead": true
+    }
+  }
+}

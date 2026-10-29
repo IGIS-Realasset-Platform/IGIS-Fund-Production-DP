@@ -15,7 +15,7 @@ const clock=()=>new Date('2026-10-20T01:00:00.000Z');
 const watch={id:'national-building',target:'law',name:'건축법',source:{url:'https://www.law.go.kr'}};
 const version=(sequence,at)=>({'법령ID':'100','법령일련번호':sequence,'법령명한글':'건축법','공포일자':at,'시행일자':at,'공포번호':sequence});
 const nationalResponse=rows=>Response.json({LawSearch:{totalCnt:String(rows.length),page:'1',law:rows}});
-const detailLoader=async({sequence,clock})=>({record:{name:'건축법',lawId:'100',bodyHash:'new-body-'+sequence},checkedAt:clock().toISOString()});
+const detailLoader=async({sequence,clock})=>({record:{name:'건축법',lawId:'100',bodyHash:createHash('sha256').update('Independent new body fixture '+sequence).digest('hex')},checkedAt:clock().toISOString()});
 
 await check('I01 신규가입 샘플 부여는 정확한 승인 3개 중 하나라도 없으면 성공하지 않는다',async()=>{
  const existing=['TEST-20261016-A','TEST-20261016-B'];
@@ -116,7 +116,7 @@ await check('I11 첫 전체성공 전의 부분실패 후에도 실패 출처의
  const run=createMaintenanceRuntime({environment:()=>env,clock:()=>at,loadDrivers:async()=>({pool:{connect:async()=>client}}),fetcher:async url=>{
   const name=new URL(url).searchParams.get('query');if(attempt===1&&name==='독립법B')return Response.json({error:'unavailable'},{status:503});
   const b=name==='독립법B',row={...version(b?'20002':'20001',b?'20261002':'20261001'),'법령명한글':name,'법령ID':b?'202':'201'};return nationalResponse([row]);
- },collector:options=>collectLawSnapshot({...options,detailLoader:async({sequence,clock})=>({record:{name:sequence==='20002'?'독립법B':'독립법A',lawId:sequence==='20002'?'202':'201',bodyHash:'hash-'+sequence},checkedAt:clock().toISOString()})})});
+ },collector:options=>collectLawSnapshot({...options,detailLoader:async({sequence,clock})=>({record:{name:sequence==='20002'?'독립법B':'독립법A',lawId:sequence==='20002'?'202':'201',bodyHash:createHash('sha256').update('Independent actual-collector fixture law body '+sequence).digest('hex')},checkedAt:clock().toISOString()})})});
  const request=()=>new Request(env.DP_AUTH_ORIGIN+'/api/maintenance',{headers:{authorization:'Bearer '+env.CRON_SECRET}});
  const first=await (await run(request())).json();assert.equal(first.jobs.law.status,'partial_failure');assert.equal(db.statuses.get('law').cursor,undefined);
  at=new Date('2026-10-21T01:00:00Z');attempt=2;

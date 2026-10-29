@@ -1,0 +1,80 @@
+{
+  "reviewId": "REVIEW130",
+  "date": "2026-10-29",
+  "candidate": {
+    "path": ".build/review130-20261028/integration-candidate-86.html",
+    "sha256": "6438d5a4a1cf632f84f4e7ba0456c87ef85b553da22cf9728532f8ba744f882f",
+    "version": "0.13.0"
+  },
+  "scope": "Round-add form target-boundary only:3negative and1normal structural journey ×1440/390. Not every permit/opinion/action-plan family or official applicability.",
+  "source": {
+    "revision": 37,
+    "sha256": "078d47e72cbc348ca1a3187688bd0dfd7e3b51c6993ae219fa7ada1ffee8645f",
+    "originalFileUnchanged": true,
+    "onlyClonedApproved3Projects": true
+  },
+  "counts": {
+    "scenarios": 4,
+    "viewports": 2,
+    "uniqueNativeCases": 8,
+    "passed": 8,
+    "failed": 0,
+    "doNotCountPreparationRerunsAgain": true
+  },
+  "cases": [
+    {
+      "name": "target deletion",
+      "passed": 2,
+      "expectation": "No source/audit/HTTP write;current inputs preserved;provided dirty-close choice then safe closure"
+    },
+    {
+      "name": "meaningful replacement under same ID",
+      "passed": 2,
+      "expectation": "Changed evidence source blocks old form; inputs preserved; explicit close returns fresh parent rounds tab"
+    },
+    {
+      "name": "project context change",
+      "passed": 2,
+      "expectation": "Old form cannot write current/old project or force context back; inputs preserved and safe close"
+    },
+    {
+      "name": "multiple predecessors plus deemed reference",
+      "passed": 2,
+      "expectation": "Explicit structural preconditions; normal approval round ID/source-before history generated; original rounds/source and linked reference/other projects retained",
+      "legalEligibilityAssertion": false
+    }
+  ],
+  "modelPreparation": {
+    "firstRunFailures": 8,
+    "negative6": "Helper omitted actual provided dirty-close choice after Escape; corrected without hiding/removing prompt",
+    "normal2": "Raw JSON serialization hashes differ only due project-object key order. Field-level and canonical content comparison is equal; no empty report containers added.",
+    "frozenC86InitExistingBusinessValueChanges": 0,
+    "sourceReportArrays": "Reports/snapshots absent before and after boot; original omitted historical data remains outside this source37 test"
+  },
+  "versionBridge": {
+    "directModules": [
+      "src/core.js",
+      "src/legal.js",
+      "src/permit-map.js",
+      "src/permit-views.js"
+    ],
+    "changedDuringExecution": [],
+    "claim": "C86 exact execution; later artifact carries this scope only if these entry modules/consumers remain byte-identical or have explicit function-level bridge. No new later-version native run is inferred."
+  },
+  "limits": {
+    "concurrency": "Declared authoritative state injections in an isolated fixture, followed by actual DOM input/submit/close; not real other-member edits",
+    "normal": "Structure/handler/link preservation only; no legal eligibility or agency-issued-file existence claim",
+    "wholePermitTargetScopeAccepted": false,
+    "QA13006Completed": false,
+    "actualGovernmentSubmission": false
+  },
+  "safety": {
+    "actualDBWrites": 0,
+    "actualExternalRequests": 0,
+    "realAccountAccess": 0,
+    "productEdits": 0,
+    "sourceFileChanges": 0
+  },
+  "evidenceMetadataSHA256": "c9f4c48eef914b3e77a4b5fdffab0d390b18a1e37eaf2ec9c1e4f475cd5666ab",
+  "privateRawValuesPublished": false
+}

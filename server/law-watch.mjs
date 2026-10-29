@@ -1,6 +1,7 @@
 import {createHash,randomUUID} from 'node:crypto';
 import {WorkspaceError,readWorkspaceAccess} from './cloud-storage.mjs';
 import {getOfficialLawDetail,officialDocumentKind} from './law-collector.mjs';
+import {LAW_WATCH_SCOPE_LOCK} from './law-collection-progress.mjs';
 const T=name=>'development_project_platform.'+name;
 const json=(body,status=200)=>Response.json(body,{status,headers:{'cache-control':'private, no-store','x-content-type-options':'nosniff'}});
 const error=(status,code,message)=>{throw new WorkspaceError(status,code,message);};
@@ -46,6 +47,7 @@ export function createLawWatchHandler({withTransaction,origin,accessPolicy=readW
   const deadline=Date.now()+30000;let detail;try{detail=await detailService({...input,oc:lawConfiguration().oc,clock,deadline});}catch{return json({error:'LAW_SOURCE_UNAVAILABLE',message:'공식 법령의 본문을 확인하지 못해 추가하지 않았습니다. 잠시 후 다시 시도해 주세요.'},503);}
   const record=detail?.record;if(!validOfficialRecord(record,input.target,input.sequence,input.effectiveAt))error(422,'LAW_SOURCE_MISMATCH','선택한 판본과 공식 법령 본문이 일치하지 않아 추가하지 않았습니다.');
   let pending;const save=verification=>withTransaction(request,async(client,user)=>{if(!user?.userId||user.userId!==identity)error(401,'AUTH_REQUIRED','로그인 상태가 변경되었습니다. 다시 시도해 주세요.');await project(client,input.projectId,{lock:true});const access=await accessPolicy(client,user);if(!canEdit(access,input.projectId))error(403,'WORKSPACE_FORBIDDEN','이 사업을 수정할 권한이 변경되었습니다.');
+   await client.query('SELECT pg_advisory_xact_lock(hashtextextended($1,0))',[LAW_WATCH_SCOPE_LOCK]);
    const query=`SELECT id,target,name,active,jurisdiction,source FROM ${T('law_watchlist')} WHERE target=$1 AND name=$2`;let global=await client.query(query,[input.target,record.name]);
    if(verification&&(global.rows.length!==1||watchIdentityKey(global.rows[0])!==verification.key))error(409,'LAW_WATCH_CHANGED','법령 확인목록이 변경되었습니다. 다시 선택해 주세요.');
    if(!global.rows.length){const id='law-watch-'+createHash('sha256').update(input.target+'|'+record.name).digest('hex').slice(0,24);await client.query(`INSERT INTO ${T('law_watchlist')}(id,target,name,jurisdiction,source,active) VALUES($1,$2,$3,$4,$5::jsonb,true) ON CONFLICT(target,name) DO NOTHING`,[id,input.target,record.name,record.jurisdiction||null,JSON.stringify({url:record.officialUrl,sequence:record.sequence,lawId:record.lawId||null,...(officialDocumentKind(input.target,record.kind)?{kind:officialDocumentKind(input.target,record.kind)}:{}),agency:record.agency||null,agencyCode:record.agencyCode||null,verifiedAt:detail.checkedAt})]);global=await client.query(query,[input.target,record.name]);}

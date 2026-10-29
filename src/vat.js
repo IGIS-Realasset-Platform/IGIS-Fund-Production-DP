@@ -44,7 +44,7 @@
     return {net,vat,gross,deductible,nonDeductible,pending,costAmount,ratio,errors,valid:!errors.length,isEstimate:mode==='budget',taxConfirmed,arithmeticConfirmed:net!==null&&vat!==null&&gross!==null&&Number.isSafeInteger(gross)&&net+vat===gross,status:errors.length?'입력 오류':taxConfirmed?(reviewStatus==='settled'?'신고정산 완료':'세무검토 완료'):mode==='budget'&&costAmount!==null?'예산 가정':vat===0?'세액 없음':'세무 미확정'};
   }
   function sourceOf(p,kind,id){
-    if(kind==='cost'){const n=(p.cbs||[]).find(x=>x.id===id);return n?{name:n.name,value:typeof A.amount==='function'?A.amount(p,id):n.current??null,record:n}:null;}
+    if(kind==='cost'){const n=(p.cbs||[]).find(x=>x.id===id);return n?{name:n.name,value:Array.isArray(n.mergedSourceIds)||n.mergedIntoId?A.domain.mergedCostSourceInfo(p,id).value:typeof A.amount==='function'?A.amount(p,id):n.current??null,record:n}:null;}
     if(kind==='contract'){const c=(p.contracts||[]).find(x=>x.id===id&&!x.deletedAt);if(!c)return null;const r=c.revisions?.at(-1)||c;return {name:c.name,value:r.total??c.amount??null,record:r,contract:c};}
     return null;
   }

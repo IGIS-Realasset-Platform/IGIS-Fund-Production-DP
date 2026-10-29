@@ -44,7 +44,7 @@
     "businessCounterexamples": 1,
     "currentObservedDefinitions": 975,
     "historicalRecords": 3238,
-    "totalMatrixRecords": 5053,
+    "totalMatrixRecords": 5067,
     "allPriorIDsPreserved": true,
     "currentActualCohortCountsAreNotAddedToHistoricCounts": true,
     "sourceCandidateCohort": "C44 historical, not current visible controls",
@@ -723893,12 +723893,9 @@
         "actualScreen": {
           "status": "pass",
           "evidence": [
-            "docs/review130-frontend-native-C85.md",
-            "docs/review130-finance-professional-verification.md",
-            "docs/review-20261028-review130-data-qa.md",
-            "docs/review130-C83-C84-C85-validation-bridge.md"
+            "docs/review130-cost-merge-verification.json"
           ],
-          "scope": "Typed field/explicit edit entry fixed cohorts and late role/target guards; no all-UI/all-role claim.",
+          "scope": "Exact C89 zero-money value at1280/390: physical text click/doubleclick/idle Enter do not edit, explicit button Enter does. Other field types native negative conditions not inherited.",
           "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
@@ -727993,6 +727990,872 @@
         }
       },
       "allStatesAccepted": false
+    },
+    {
+      "componentID": "COST130-MERGE-SCOPE",
+      "parentID": "QA130-06",
+      "kind": "connected-counterexample-contract",
+      "label": "합치기 전 독립 범위·범위 부재와 원금액 보존",
+      "lifecycle": "review130-scoped-candidate-verified",
+      "visibleUserControl": false,
+      "source": [
+        "src/cbs.js"
+      ],
+      "policyBasis": [
+        {
+          "kind": "confirmed-connected-defect-or-preservation-boundary",
+          "reference": "docs/review130-final-verification.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "합치기 전 독립 범위·범위 부재와 원금액 보존",
+        "reference": "QA130-06"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass",
+          "evidence": [
+            "docs/review130-cost-merge-verification.json"
+          ],
+          "scope": "C91 candidate scope only; current production still C86.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass",
+          "evidence": [
+            "docs/review130-cost-merge-verification.json"
+          ],
+          "scope": "Focused independent counterexamples; final exact-source full regression still pending.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "pass",
+          "evidence": [
+            "docs/review130-cost-merge-verification.json"
+          ],
+          "scope": "C88/C89 physical flows, C91 actual downloads and explicit unchanged-branch bridges are different units.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "No live cost/source modifications for isolated counterexamples; C86 real C source verification is separate.",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "C91 two actual downloaded ZIP/XML files, not installed Excel execution.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "scope": "Only named version, synthetic-data and operation cohort accepted.",
+      "allStatesAccepted": false,
+      "hasUserFacingConsumer": true
+    },
+    {
+      "componentID": "COST130-MERGE-VAT",
+      "parentID": "QA130-06",
+      "kind": "connected-counterexample-contract",
+      "label": "양쪽 VAT 원래 원자료 집합·후속 변경·0/null",
+      "lifecycle": "review130-scoped-candidate-verified",
+      "visibleUserControl": false,
+      "source": [
+        "src/cbs.js",
+        "src/vat.js"
+      ],
+      "policyBasis": [
+        {
+          "kind": "confirmed-connected-defect-or-preservation-boundary",
+          "reference": "docs/review130-final-verification.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "양쪽 VAT 원래 원자료 집합·후속 변경·0/null",
+        "reference": "QA130-06"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass",
+          "evidence": [
+            "docs/review130-cost-merge-verification.json"
+          ],
+          "scope": "C91 candidate scope only; current production still C86.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass",
+          "evidence": [
+            "docs/review130-cost-merge-verification.json"
+          ],
+          "scope": "Focused independent counterexamples; final exact-source full regression still pending.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "pass",
+          "evidence": [
+            "docs/review130-cost-merge-verification.json"
+          ],
+          "scope": "C88/C89 physical flows, C91 actual downloads and explicit unchanged-branch bridges are different units.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "No live cost/source modifications for isolated counterexamples; C86 real C source verification is separate.",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "C91 two actual downloaded ZIP/XML files, not installed Excel execution.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "scope": "Only named version, synthetic-data and operation cohort accepted.",
+      "allStatesAccepted": false,
+      "hasUserFacingConsumer": true
+    },
+    {
+      "componentID": "COST130-MERGE-COPY-GUARD",
+      "parentID": "QA130-06",
+      "kind": "connected-counterexample-contract",
+      "label": "기존 버전 원자료의 정확 복사·서버 권한/무쓰기",
+      "lifecycle": "review130-scoped-candidate-verified",
+      "visibleUserControl": false,
+      "source": [
+        "server/cloud-storage.mjs"
+      ],
+      "policyBasis": [
+        {
+          "kind": "confirmed-connected-defect-or-preservation-boundary",
+          "reference": "docs/review130-final-verification.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "기존 버전 원자료의 정확 복사·서버 권한/무쓰기",
+        "reference": "QA130-06"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass",
+          "evidence": [
+            "docs/review130-cost-server-independent-read.json"
+          ],
+          "scope": "C91 candidate scope only; current production still C86.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass",
+          "evidence": [
+            "docs/review130-cost-server-independent-read.json"
+          ],
+          "scope": "Focused independent counterexamples; final exact-source full regression still pending.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "C88/C89 physical flows, C91 actual downloads and explicit unchanged-branch bridges are different units.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "No live cost/source modifications for isolated counterexamples; C86 real C source verification is separate.",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "C91 two actual downloaded ZIP/XML files, not installed Excel execution.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "scope": "Only named version, synthetic-data and operation cohort accepted.",
+      "allStatesAccepted": false,
+      "hasUserFacingConsumer": false
+    },
+    {
+      "componentID": "COST130-MERGE-UNSUPPORTED-SPLIT",
+      "parentID": "QA130-06",
+      "kind": "connected-counterexample-contract",
+      "label": "명시분해의 무효 합치기 선택·호출 사전 차단",
+      "lifecycle": "review130-scoped-candidate-verified",
+      "visibleUserControl": false,
+      "source": [
+        "src/cbs.js"
+      ],
+      "policyBasis": [
+        {
+          "kind": "confirmed-connected-defect-or-preservation-boundary",
+          "reference": "docs/review130-final-verification.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "명시분해의 무효 합치기 선택·호출 사전 차단",
+        "reference": "QA130-06"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass",
+          "evidence": [
+            "docs/review130-cost-merge-verification.json"
+          ],
+          "scope": "C91 candidate scope only; current production still C86.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass",
+          "evidence": [
+            "docs/review130-cost-merge-verification.json"
+          ],
+          "scope": "Focused independent counterexamples; final exact-source full regression still pending.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "pass",
+          "evidence": [
+            "docs/review130-cost-merge-verification.json"
+          ],
+          "scope": "C88/C89 physical flows, C91 actual downloads and explicit unchanged-branch bridges are different units.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "No live cost/source modifications for isolated counterexamples; C86 real C source verification is separate.",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "C91 two actual downloaded ZIP/XML files, not installed Excel execution.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "scope": "Only named version, synthetic-data and operation cohort accepted.",
+      "allStatesAccepted": false,
+      "hasUserFacingConsumer": true
+    },
+    {
+      "componentID": "COST130-BINDING-CALLERS",
+      "parentID": "UI130-04",
+      "kind": "connected-counterexample-contract",
+      "label": "신규 상속 작업의 실제 코드연결 API 인자·반환 계약",
+      "lifecycle": "review130-scoped-candidate-verified",
+      "visibleUserControl": false,
+      "source": [
+        "src/cbs.js",
+        "src/cost-breakdown.js",
+        "src/cost-coding.js"
+      ],
+      "policyBasis": [
+        {
+          "kind": "confirmed-connected-defect-or-preservation-boundary",
+          "reference": "docs/review130-final-verification.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "신규 상속 작업의 실제 코드연결 API 인자·반환 계약",
+        "reference": "UI130-04"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass",
+          "evidence": [
+            "docs/review130-cost-merge-verification.json"
+          ],
+          "scope": "C91 candidate scope only; current production still C86.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass",
+          "evidence": [
+            "docs/review130-cost-merge-verification.json"
+          ],
+          "scope": "Focused independent counterexamples; final exact-source full regression still pending.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "C88/C89 physical flows, C91 actual downloads and explicit unchanged-branch bridges are different units.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "No live cost/source modifications for isolated counterexamples; C86 real C source verification is separate.",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "C91 two actual downloaded ZIP/XML files, not installed Excel execution.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "scope": "Only named version, synthetic-data and operation cohort accepted.",
+      "allStatesAccepted": false,
+      "hasUserFacingConsumer": false
+    },
+    {
+      "componentID": "COST130-COPY-HISTORY",
+      "parentID": "UI130-07",
+      "kind": "connected-counterexample-contract",
+      "label": "새 원자료 copy ID의 정확한 과거 origin 금액",
+      "lifecycle": "review130-scoped-candidate-verified",
+      "visibleUserControl": false,
+      "source": [
+        "src/cost-company-profile.js",
+        "src/cbs.js"
+      ],
+      "policyBasis": [
+        {
+          "kind": "confirmed-connected-defect-or-preservation-boundary",
+          "reference": "docs/review130-final-verification.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "새 원자료 copy ID의 정확한 과거 origin 금액",
+        "reference": "UI130-07"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass",
+          "evidence": [
+            "docs/review130-cost-output-independent-read.json"
+          ],
+          "scope": "C91 candidate scope only; current production still C86.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass",
+          "evidence": [
+            "docs/review130-cost-output-independent-read.json"
+          ],
+          "scope": "Focused independent counterexamples; final exact-source full regression still pending.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "contentReviewed",
+          "evidence": [
+            "docs/review130-cost-output-independent-read.json"
+          ],
+          "scope": "C88/C89 physical flows, C91 actual downloads and explicit unchanged-branch bridges are different units.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "No live cost/source modifications for isolated counterexamples; C86 real C source verification is separate.",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "pass",
+          "evidence": [
+            "docs/review130-cost-output-independent-read.json"
+          ],
+          "scope": "C91 two actual downloaded ZIP/XML files, not installed Excel execution.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "scope": "Only named version, synthetic-data and operation cohort accepted.",
+      "allStatesAccepted": false,
+      "hasUserFacingConsumer": true
+    },
+    {
+      "componentID": "COST130-COPY-STAGE-OWNER",
+      "parentID": "DATA130-05",
+      "kind": "connected-counterexample-contract",
+      "label": "등록 전·저장·표시 clone의 확인된 사업 소유자",
+      "lifecycle": "review130-scoped-candidate-verified",
+      "visibleUserControl": false,
+      "source": [
+        "src/cbs.js",
+        "src/cost-company-profile.js"
+      ],
+      "policyBasis": [
+        {
+          "kind": "confirmed-connected-defect-or-preservation-boundary",
+          "reference": "docs/review130-final-verification.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "등록 전·저장·표시 clone의 확인된 사업 소유자",
+        "reference": "DATA130-05"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass",
+          "evidence": [
+            "docs/review130-cost-merge-verification.json"
+          ],
+          "scope": "C91 candidate scope only; current production still C86.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass",
+          "evidence": [
+            "docs/review130-cost-merge-verification.json"
+          ],
+          "scope": "Focused independent counterexamples; final exact-source full regression still pending.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "C88/C89 physical flows, C91 actual downloads and explicit unchanged-branch bridges are different units.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "No live cost/source modifications for isolated counterexamples; C86 real C source verification is separate.",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "C91 two actual downloaded ZIP/XML files, not installed Excel execution.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "scope": "Only named version, synthetic-data and operation cohort accepted.",
+      "allStatesAccepted": false,
+      "hasUserFacingConsumer": false
+    },
+    {
+      "componentID": "COST130-EXCEL-MERGE",
+      "parentID": "QA130-06",
+      "kind": "connected-counterexample-contract",
+      "label": "실제 XLSX 원자료·과거·1원 정밀도·0/null·한 시트",
+      "lifecycle": "review130-scoped-candidate-verified",
+      "visibleUserControl": false,
+      "source": [
+        "src/cbs.js",
+        "src/cost-company-profile.js"
+      ],
+      "policyBasis": [
+        {
+          "kind": "confirmed-connected-defect-or-preservation-boundary",
+          "reference": "docs/review130-final-verification.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "실제 XLSX 원자료·과거·1원 정밀도·0/null·한 시트",
+        "reference": "QA130-06"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass",
+          "evidence": [
+            "docs/review130-cost-output-independent-read.json"
+          ],
+          "scope": "C91 candidate scope only; current production still C86.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass",
+          "evidence": [
+            "docs/review130-cost-output-independent-read.json"
+          ],
+          "scope": "Focused independent counterexamples; final exact-source full regression still pending.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "contentReviewed",
+          "evidence": [
+            "docs/review130-cost-output-independent-read.json"
+          ],
+          "scope": "C88/C89 physical flows, C91 actual downloads and explicit unchanged-branch bridges are different units.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "No live cost/source modifications for isolated counterexamples; C86 real C source verification is separate.",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "pass",
+          "evidence": [
+            "docs/review130-cost-output-independent-read.json"
+          ],
+          "scope": "C91 two actual downloaded ZIP/XML files, not installed Excel execution.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "scope": "Only named version, synthetic-data and operation cohort accepted.",
+      "allStatesAccepted": false,
+      "hasUserFacingConsumer": true
+    },
+    {
+      "componentID": "LAW130-CHECKPOINT",
+      "parentID": "LAW130-02",
+      "kind": "connected-counterexample-contract",
+      "label": "같은 날·범위·원문 증명에 묶인 완료 진행 재개",
+      "lifecycle": "review130-scoped-candidate-verified",
+      "visibleUserControl": false,
+      "source": [
+        "server/law-collector.mjs",
+        "server/law-collection-progress.mjs"
+      ],
+      "policyBasis": [
+        {
+          "kind": "confirmed-connected-defect-or-preservation-boundary",
+          "reference": "docs/review130-final-verification.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "같은 날·범위·원문 증명에 묶인 완료 진행 재개",
+        "reference": "LAW130-02"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass",
+          "evidence": [
+            "docs/review130-law-collection-recovery-verification.json"
+          ],
+          "scope": "C91 candidate scope only; current production still C86.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass",
+          "evidence": [
+            "docs/review130-law-collection-recovery-verification.json"
+          ],
+          "scope": "Focused independent counterexamples; final exact-source full regression still pending.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "C88/C89 physical flows, C91 actual downloads and explicit unchanged-branch bridges are different units.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "No live cost/source modifications for isolated counterexamples; C86 real C source verification is separate.",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "C91 two actual downloaded ZIP/XML files, not installed Excel execution.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "scope": "Only named version, synthetic-data and operation cohort accepted.",
+      "allStatesAccepted": false,
+      "hasUserFacingConsumer": false
+    },
+    {
+      "componentID": "LAW130-WATCH-SCOPE",
+      "parentID": "LAW130-02",
+      "kind": "connected-counterexample-contract",
+      "label": "당일 성공 뒤 등록·원자료 변경과 최종 범위 잠금",
+      "lifecycle": "review130-scoped-candidate-verified",
+      "visibleUserControl": false,
+      "source": [
+        "server/law-watch.mjs",
+        "server/maintenance-runtime.mjs"
+      ],
+      "policyBasis": [
+        {
+          "kind": "confirmed-connected-defect-or-preservation-boundary",
+          "reference": "docs/review130-final-verification.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "당일 성공 뒤 등록·원자료 변경과 최종 범위 잠금",
+        "reference": "LAW130-02"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass",
+          "evidence": [
+            "docs/review130-law-collection-recovery-verification.json"
+          ],
+          "scope": "C91 candidate scope only; current production still C86.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass",
+          "evidence": [
+            "docs/review130-law-collection-recovery-verification.json"
+          ],
+          "scope": "Focused independent counterexamples; final exact-source full regression still pending.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "C88/C89 physical flows, C91 actual downloads and explicit unchanged-branch bridges are different units.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "No live cost/source modifications for isolated counterexamples; C86 real C source verification is separate.",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "C91 two actual downloaded ZIP/XML files, not installed Excel execution.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "scope": "Only named version, synthetic-data and operation cohort accepted.",
+      "allStatesAccepted": false,
+      "hasUserFacingConsumer": false
+    },
+    {
+      "componentID": "LAW130-COMPLETE-SET",
+      "parentID": "LAW130-02",
+      "kind": "connected-counterexample-contract",
+      "label": "정확 완료 ID집합·실패의 여집합·원문 판본 증명",
+      "lifecycle": "review130-scoped-candidate-verified",
+      "visibleUserControl": false,
+      "source": [
+        "server/maintenance-runtime.mjs"
+      ],
+      "policyBasis": [
+        {
+          "kind": "confirmed-connected-defect-or-preservation-boundary",
+          "reference": "docs/review130-final-verification.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "정확 완료 ID집합·실패의 여집합·원문 판본 증명",
+        "reference": "LAW130-02"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass",
+          "evidence": [
+            "docs/review130-law-runtime-completion-verification.md"
+          ],
+          "scope": "C91 candidate scope only; current production still C86.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass",
+          "evidence": [
+            "docs/review130-law-runtime-completion-verification.md"
+          ],
+          "scope": "Focused independent counterexamples; final exact-source full regression still pending.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "C88/C89 physical flows, C91 actual downloads and explicit unchanged-branch bridges are different units.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "No live cost/source modifications for isolated counterexamples; C86 real C source verification is separate.",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "C91 two actual downloaded ZIP/XML files, not installed Excel execution.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "scope": "Only named version, synthetic-data and operation cohort accepted.",
+      "allStatesAccepted": false,
+      "hasUserFacingConsumer": false
+    },
+    {
+      "componentID": "LAW130-RETRY-TRANSPORT",
+      "parentID": "LAW130-02",
+      "kind": "connected-counterexample-contract",
+      "label": "공식 JSON404 제한 재시도·Retry-After·회차 이월",
+      "lifecycle": "review130-scoped-candidate-verified",
+      "visibleUserControl": false,
+      "source": [
+        "server/law-collector.mjs",
+        "server/maintenance-runtime.mjs"
+      ],
+      "policyBasis": [
+        {
+          "kind": "confirmed-connected-defect-or-preservation-boundary",
+          "reference": "docs/review130-final-verification.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "공식 JSON404 제한 재시도·Retry-After·회차 이월",
+        "reference": "LAW130-02"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass",
+          "evidence": [
+            "docs/review130-law-collection-recovery-verification.json"
+          ],
+          "scope": "C91 candidate scope only; current production still C86.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass",
+          "evidence": [
+            "docs/review130-law-collection-recovery-verification.json"
+          ],
+          "scope": "Focused independent counterexamples; final exact-source full regression still pending.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "C88/C89 physical flows, C91 actual downloads and explicit unchanged-branch bridges are different units.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "No live cost/source modifications for isolated counterexamples; C86 real C source verification is separate.",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "C91 two actual downloaded ZIP/XML files, not installed Excel execution.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "scope": "Only named version, synthetic-data and operation cohort accepted.",
+      "allStatesAccepted": false,
+      "hasUserFacingConsumer": false
+    },
+    {
+      "componentID": "LAW130-RETAINED-RAW",
+      "parentID": "LAW130-02",
+      "kind": "connected-counterexample-contract",
+      "label": "이전 미식별 raw판본과 새 공식 판본의 역할 분리",
+      "lifecycle": "review130-followup-in-progress",
+      "visibleUserControl": false,
+      "source": [
+        "server/law-collector.mjs",
+        "server/law-collection-progress.mjs",
+        "server/maintenance-runtime.mjs"
+      ],
+      "policyBasis": [
+        {
+          "kind": "confirmed-connected-defect-or-preservation-boundary",
+          "reference": "docs/review130-final-verification.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "이전 미식별 raw판본과 새 공식 판본의 역할 분리",
+        "reference": "LAW130-02"
+      },
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review130-law-collection-recovery-spec.md"
+          ],
+          "scope": "C91 candidate scope only; current production still C86.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review130-law-collection-recovery-spec.md"
+          ],
+          "scope": "Focused independent counterexamples; final exact-source full regression still pending.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "C88/C89 physical flows, C91 actual downloads and explicit unchanged-branch bridges are different units.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "No live cost/source modifications for isolated counterexamples; C86 real C source verification is separate.",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "C91 two actual downloaded ZIP/XML files, not installed Excel execution.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "scope": "Pending exact product/actual recovery; do not inherit C86 or model successes.",
+      "allStatesAccepted": false,
+      "hasUserFacingConsumer": false
+    },
+    {
+      "componentID": "LAW130-ACTUAL-RECOVERY",
+      "parentID": "QA130-06",
+      "kind": "connected-counterexample-contract",
+      "label": "배포 코드 실제376 수집·재개·DB·자연 예약 관측",
+      "lifecycle": "review130-followup-in-progress",
+      "visibleUserControl": false,
+      "source": [
+        "api/maintenance.js",
+        "server/maintenance-runtime.mjs"
+      ],
+      "policyBasis": [
+        {
+          "kind": "confirmed-connected-defect-or-preservation-boundary",
+          "reference": "docs/review130-final-verification.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "배포 코드 실제376 수집·재개·DB·자연 예약 관측",
+        "reference": "QA130-06"
+      },
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "C91 candidate scope only; current production still C86.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Focused independent counterexamples; final exact-source full regression still pending.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "C88/C89 physical flows, C91 actual downloads and explicit unchanged-branch bridges are different units.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "No live cost/source modifications for isolated counterexamples; C86 real C source verification is separate.",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "C91 two actual downloaded ZIP/XML files, not installed Excel execution.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "scope": "Pending exact product/actual recovery; do not inherit C86 or model successes.",
+      "allStatesAccepted": false,
+      "hasUserFacingConsumer": false
     }
   ],
   "popupCandidates": [
@@ -789408,7 +790271,12 @@
           "docs/review130-finance-professional-verification.md",
           "docs/review130-frontend-native-C85.md"
         ],
-        "allStatesAccepted": false
+        "allStatesAccepted": false,
+        "additionalScopedNative": {
+          "passed": 8,
+          "source": "C86 exact, unchanged permit consumers through C91",
+          "scope": "3 late-target negative+compound/deeming-reference normal ×PC/390; no automatic legal applicability judgment."
+        }
       }
     },
     {
@@ -789546,7 +790414,12 @@
           "docs/review130-finance-professional-verification.md",
           "docs/review130-frontend-native-C85.md"
         ],
-        "allStatesAccepted": false
+        "allStatesAccepted": false,
+        "additionalScopedOutput": {
+          "files": 2,
+          "source": "C91 exact actual downloads",
+          "scope": "Independent ZIP/XML original current/past amounts and0/null; native operating print dialog and installed Excel remain unverified."
+        }
       }
     },
     {
@@ -791867,12 +792740,18 @@
     "actualRuntimeInventory": "31routes×3fake projects read discovery; frozen C86, per-domain physical runs and explicit source bridges. Not18935 completed scenarios.",
     "allPlatformComponentsAccepted": false,
     "currentRequirementCount": 7,
-    "definitionRecords": 70,
+    "definitionRecords": 84,
     "previousRecordsPreserved": 4983,
     "finalEvidencePending": false,
     "remainingRequirement": "QA130-06",
     "currentBoundedAcceptance": 6,
     "natural376": "partial-recovery-in-progress",
-    "evidence": "docs/review130-final-verification.md"
+    "evidence": "docs/review130-final-verification.md",
+    "candidate": {
+      "id": "C91",
+      "localHtmlSha256": "9111ad9adeb5a41d96f37888efa00d522c5fd12b85ae384acf30fe519fd59f77",
+      "publication": "pending",
+      "actualLawRecovery": "pending-retained-raw-proof"
+    }
   }
 }

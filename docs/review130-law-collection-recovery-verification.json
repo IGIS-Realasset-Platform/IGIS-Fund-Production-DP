@@ -1,0 +1,1114 @@
+{
+  "reviewId": "REVIEW130",
+  "date": "2026-10-29",
+  "requirements": [
+    "LAW130-R1",
+    "LAW130-R2",
+    "LAW130-R3",
+    "LAW130-R4",
+    "LAW130-R5",
+    "LAW130-R6",
+    "LAW130-R7"
+  ],
+  "spec": {
+    "path": "docs/review130-law-collection-recovery-spec.md",
+    "sha256": "a7ad66799086f8a4c43921edaeafe5d1c3660a1816d7e3feefe3a1aa5b7aa09e"
+  },
+  "observation": {
+    "naturalEvidence": {
+      "path": ".build/review-20261028/c86-law-natural-check-1793233367959.json",
+      "sha256": "8d8277a2e9fb2686b520d1bae04611ae0198ad9fbfc3fa51126073d36df8e6ed"
+    },
+    "failureEvidence": {
+      "path": ".build/review-20261028/c86-law-failure-analysis-1793233549923.json",
+      "sha256": "0bf2739b8689fb7ffa402f049ca769a8ca21b796a31c4276e65b359b4b4334d7"
+    },
+    "observedAtKst": "2026-10-29 09:22:46.890198",
+    "activeWatchCount": 376,
+    "activeTargets": {
+      "law": 350,
+      "ordin": 11,
+      "admrul": 15
+    },
+    "runs": [
+      {
+        "id": "1d138471-2e7a-4499-9d10-a91b1909ceb5",
+        "dayKey": "2026-10-29",
+        "status": "partial_failure",
+        "errorCode": "LAW_COLLECTION_PARTIAL",
+        "startedAt": "2026-10-28T23:03:29.036688+00:00",
+        "finishedAt": "2026-10-28T23:06:29.808079+00:00",
+        "checkedCount": 162,
+        "failureCount": 214,
+        "failureBuckets": [
+          {
+            "code": "API_HTTP_FAILED",
+            "count": 17,
+            "httpStatus": "404",
+            "reasonCode": "HTTP_404",
+            "attemptCount": "1"
+          },
+          {
+            "code": "API_HTTP_FAILED",
+            "count": 1,
+            "httpStatus": "502",
+            "reasonCode": "HTTP_502",
+            "attemptCount": "2"
+          },
+          {
+            "code": "COLLECTION_TIME_BUDGET",
+            "count": 194,
+            "httpStatus": null,
+            "reasonCode": null,
+            "attemptCount": null
+          },
+          {
+            "code": "NETWORK_FAILED",
+            "count": 2,
+            "httpStatus": null,
+            "reasonCode": "REQUEST_TIMEOUT",
+            "attemptCount": "2"
+          }
+        ],
+        "requestedCount": 376,
+        "durationSeconds": 180.771391
+      },
+      {
+        "id": "7f0393b6-bbe8-4eb2-8cad-f1794ef909c6",
+        "dayKey": "2026-10-29",
+        "status": "partial_failure",
+        "errorCode": "LAW_COLLECTION_PARTIAL",
+        "startedAt": "2026-10-29T00:10:23.732591+00:00",
+        "finishedAt": "2026-10-29T00:13:24.38893+00:00",
+        "checkedCount": 310,
+        "failureCount": 66,
+        "failureBuckets": [
+          {
+            "code": "API_HTTP_FAILED",
+            "count": 23,
+            "httpStatus": "404",
+            "reasonCode": "HTTP_404",
+            "attemptCount": "1"
+          },
+          {
+            "code": "COLLECTION_TIME_BUDGET",
+            "count": 43,
+            "httpStatus": null,
+            "reasonCode": null,
+            "attemptCount": null
+          }
+        ],
+        "requestedCount": 376,
+        "durationSeconds": 180.656339
+      }
+    ],
+    "successfulWatchIdsRepeated": 162,
+    "first404SucceededAtNextRun": true,
+    "firstAndSecond404IdIntersection": 0,
+    "full376NaturalSuccessObserved": false,
+    "lastFullSuccessScope": 195,
+    "lastFullSuccessAt": "2026-10-27T23:04:34.037013+00:00",
+    "snapshotLatestRecords": 311,
+    "snapshotCurrentDayVerified": 310,
+    "meaning": "Do not promote old195 success or311 retained records to376 checked success."
+  },
+  "implementation": {
+    "serverOnly": true,
+    "clientFilesChanged": [],
+    "newDatabaseObjects": 0,
+    "newDatabasePermissions": 0,
+    "checkpoint": {
+      "storage": "Existing reference_snapshots.payload.collectionProgress, atomically with records/changes and maintenance result",
+      "version": 1,
+      "scopeFields": [
+        "id",
+        "target",
+        "name",
+        "jurisdiction",
+        "source"
+      ],
+      "completionBinding": [
+        "same KST day",
+        "exact full watch scope hash",
+        "unique active ID",
+        "same target/name/jurisdiction/source",
+        "known official family",
+        "current/scheduled exact version URL/sequence/effective date",
+        "64hex body hash",
+        "actual bodyCheckedAt on that KST day",
+        "full persisted record hash",
+        "Runtime accepted completed IDs = active IDs minus failure IDs = checkedCount; positive counts never bypass official proof"
+      ],
+      "newDayOrScopeChange": "fresh collection; old success not borrowed",
+      "legacyTransition": "Exact same attemptedDate and typed complete failure complement plus every current-day source/version/body check. Unproven input starts fresh.",
+      "recordsAndChanges": "Existing retained records and previous change events are preserved. Reuse invents no new timestamp or change event."
+    },
+    "counters": {
+      "requestedCount": "Current full active scope",
+      "checkedCount": "Verified fresh plus verified current-day reused IDs",
+      "fetchedCount": "New successful watch collections in this invocation",
+      "reusedCount": "Strictly bound completed watch IDs reused",
+      "attemptedCount": "Watch collections started; HTTP retry is not another watch",
+      "deferredCount": "Budget/day/cooldown deferred watches",
+      "invariants": [
+        "fetched+reused=checked",
+        "attempted+reused+deferred=requested",
+        "failures=requested-checked"
+      ]
+    },
+    "retry": {
+      "jsonOfficial404": "One short bounded inline retry, then still failed if404 remains; no empty-success conversion",
+      "attachment404": "Previous single failed attempt retained; not broadened by the DRF JSON incident",
+      "authentication401403": "No inline retry",
+      "existingRetryAfter": "Safe cooldown honored; no unbounded sleep",
+      "sameSlotBackoffSeconds": 60,
+      "sameSlotAttemptCap": 4,
+      "nextSlot": "Unfinished validated progress continues in the next existing slot; cap is not permanent abandonment"
+    },
+    "atomicity": {
+      "jobLeaseAndCas": "Existing law lease and successor-owner compare preserved",
+      "globalWatchScopeLock": "development-project-platform:law-watch-scope",
+      "lockWhere": "Short acquisition scope check and final watch registration/save/reference/status only; never provider network",
+      "saveGuards": [
+        "KST day unchanged",
+        "current watch scope equals prepared scope",
+        "active job lease still belongs to this run"
+      ],
+      "normalDaily": "Snapshot/checkpoint/status now use the same transaction, including failure rollback",
+      "administratorDmlLimit": "Direct administrator SQL can bypass cooperative advisory locks; root coordinates such writes separately."
+    },
+    "successSkip": {
+      "sameDay": "Compare current global scope against stored scope/day/requested/checked/failure proof before skipping",
+      "changedScope": "Run fresh at the same-day next existing slot; project links alone are not a global change",
+      "oldScopeProofMissing": "Do not borrow success without scope proof"
+    }
+  },
+  "sourcePins": {
+    "server/law-collector.mjs": {
+      "before": "1c9ddc586d09c408740aa522e695aae61dd72391ce7af02ab18a7efdc5a1dc7c",
+      "after": "7223926e20f9cafd544cb8dc4773ad88979762f9b38919733d3e859d51deea6e"
+    },
+    "server/law-collection-progress.mjs": {
+      "before": null,
+      "after": "4e8e74826af64291c78ba2b86022166df791f16359a9585a0c6cdf0988102649"
+    },
+    "server/maintenance-runtime.mjs": {
+      "before": "810f57494fbd7d5c20deecbf6cbbd892883c3cfa02e0c29cd6dcc0d7bc2730e9",
+      "after": "6556e5c1a49b3b63401870b088247ab10e321cf8f966c3c96fc5474d19d07d4a",
+      "beforeCompletionClosure": "2d61712fd1e8096b5c9e4f6becc9e3da126570f8110dd01c6ec2c5c0973c48a8"
+    },
+    "server/law-watch.mjs": {
+      "before": "1492c662359dee365c81c864837580786c1d8f52ccfe2987333d1ae37c0955aa",
+      "after": "0b3d705c72ce18e8133b56deea619e07dbc950c4abd7adb2e348ae3856aae508"
+    }
+  },
+  "focused": {
+    "suites": 32,
+    "passedSuites": 32,
+    "failedSuites": 0,
+    "reportedPassedChecks": 530,
+    "reportedFailedChecks": 0,
+    "sourceChanged": [],
+    "evidence": {
+      "path": ".build/review-20261028/law-recovery-focus-1793245306385.json",
+      "sha256": "cd15a6b89895ed95610577750e8be1f668ceb764367830cdf8678251a4fa774e"
+    },
+    "sources": {
+      "src/law-monitor.js": "2b7da2867f30af6b9fd21baa5beb6d40f51f1ade310fce005bb9c8eea1993a65",
+      "src/law-search.css": "7ae316c4ba540265767c16847c3e7b9928eede8a2489ef3842ae74264eb397f6",
+      "src/law-comparison.css": "f9a3e2dff5262e27bdfe664543979071719d2ff6acda3a6443038413745de620",
+      "server/law-collector.mjs": "7223926e20f9cafd544cb8dc4773ad88979762f9b38919733d3e859d51deea6e",
+      "server/law-collection-progress.mjs": "4e8e74826af64291c78ba2b86022166df791f16359a9585a0c6cdf0988102649",
+      "server/maintenance-runtime.mjs": "6556e5c1a49b3b63401870b088247ab10e321cf8f966c3c96fc5474d19d07d4a",
+      "server/law-watch.mjs": "0b3d705c72ce18e8133b56deea619e07dbc950c4abd7adb2e348ae3856aae508",
+      "server/center-services.mjs": "400e5f8b28e0b0b22eab4d39ad6e307b2df607b638f274630f6cae573ddc0da8",
+      "src/legal.js": "2671e4b5acde1f7c9e6791e173aca40b6c5a98eeb8d7fbf60b0a79de73c2a802",
+      "src/core.js": "3cc5514aefee0701058591d2aa1c5e2cb6cfc2debc49d7ec10d8cc64b32af7ce"
+    },
+    "executedTests": [
+      {
+        "file": "tests/review130-law-resume.mjs",
+        "sha256": "166fa8d063a5adef7334143881a440f39ad7639f6d726976c8ff055fe7fcbc3f",
+        "passed": 42,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/review130-maintenance-resume.mjs",
+        "sha256": "8ee809bcee22afbd06903f52d8b41ccbb6d65c96d6950b6356fab4a9b3c9be0f",
+        "passed": 34,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/continuation124-maintenance-retry.mjs",
+        "sha256": "c4cd12a0509af92ae449e224c4065423a580086f3654a5f3c016fc7b8c5917cc",
+        "passed": 31,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/center120-partner-maintenance.mjs",
+        "sha256": "1ffee1ff627e73c5f4d54bc89e2721fe8f33f24d09db5eac252049b581f13c07",
+        "passed": 26,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/review130-law-window.mjs",
+        "sha256": "c896575ba75976c6c92d6e7147130d4baab81f6bff2a7a92e9912d29447a5f0f",
+        "passed": 10,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/review129-law-links.mjs",
+        "sha256": "4ebed65813119015816aa0e7f62abe3688968b70dd215fb2d4549aa09162a638",
+        "passed": 3,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/review129-law-search-all.mjs",
+        "sha256": "ea564d8090140cf6dcc5c4828924dbada6c9de440e0a6f310dbb0cd0451c5656",
+        "passed": 12,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/review130-law-list-projection.mjs",
+        "sha256": "6e83dcf2fd3dedb745a61f4ad54fd98e0143bb534915ff8be9bf146375d7ffd7",
+        "passed": 17,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/review130-law-table.mjs",
+        "sha256": "9478d01f2b085f6d52fa09ffc5d459c50ff0e1a4d75b6e0c6ddd118187072b18",
+        "passed": 5,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/review130-law-reveal.mjs",
+        "sha256": "3bd1ed95cf100aebf0f590530be0c0b92899756fdf391724ff206ac60ec9d3ba",
+        "passed": 9,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/review130-law-comparison-links.mjs",
+        "sha256": "80e4e8d72d0f93d52e62dd429e87fa4e103b7abdc5531c391d3c43205eddf051",
+        "passed": 12,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/review130-law-text-diff.mjs",
+        "sha256": "4fa4b1b751a05b837b30a024a3559acc7fe5a0ecfaf8108826d79fc28344f10a",
+        "passed": 9,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/review130-law-kinds.mjs",
+        "sha256": "77f3dc83dd583b365cf1138411bd4bd51329a2c06452345a3782a9626e552560",
+        "passed": 23,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/review130-law-kind-storage.mjs",
+        "sha256": "72e8b841a5ab2f930b441513b9dc6bbdb4603ba575efad49530597c303ac8ffa",
+        "passed": 5,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/center120-law-api.mjs",
+        "sha256": "bca17142e8989f43ad1089fe01eb726557afedc952d805c9edea048b469f353a",
+        "passed": 9,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/center120-law-watch.mjs",
+        "sha256": "cbadcb9a628f11748525097a77ffa5c41021951674a3662803480f5fe2124d8e",
+        "passed": 11,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/review126-db-queries.mjs",
+        "sha256": "a1647c1268fa3baaf37055bf9d6ab76d88f4906e55c67be8fcc7a8f7c5b2b466",
+        "passed": 41,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/center120-law-identity-independent.mjs",
+        "sha256": "8ab7a7fb9e8f6218100b899e0b70e278ce5529efdb398ddde5f9aa14b76d7bda",
+        "passed": 24,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/center120-law-identity-services.mjs",
+        "sha256": "0dcc478872dd084442a576a22dea42c005443d492e0d35d2aabdef0b0d36f0a0",
+        "passed": 3,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/review129-law-agency.mjs",
+        "sha256": "e55ee4a31166b113cf25c23de491261c05cfb69858e67547f4cca711ddc81571",
+        "passed": 3,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/continuation124-law-human-ui.mjs",
+        "sha256": "4ddce9e8ee6c6e4fea376972e6fdaf39319fbbadc23ca4864ee58970522ec634",
+        "passed": 13,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/followup122-law-value-view.mjs",
+        "sha256": "68a966eb8c14df74034833d8cb6badeee86129aa3f357f9503601308d2b02736",
+        "passed": 23,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/center120-independent-boundaries.mjs",
+        "sha256": "bd9cc24ef3913d0007dda51aef81030709b2eed609a6c2bb44954978c2e4562a",
+        "passed": 11,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/center120-maintenance.mjs",
+        "sha256": "299583b83874798467051dbb863ffefcc948a95b86134852c0d963ebf09854e1",
+        "passed": 17,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/continuation124-law-attachments-identity.mjs",
+        "sha256": "2fbe7f7615d687e14d7c20e71d8d2ba1253d73c9856b5bbf1a65d2cbd794af68",
+        "passed": 13,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/continuation124-law-attachments-retry.mjs",
+        "sha256": "e69e2cfd267a20d201af8db8e5199fe3e0536539c324330fe456286ac738a8ec",
+        "passed": 13,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/continuation124-maintenance-retry-cooldown.mjs",
+        "sha256": "c00734f79bca66e7eb8c59d4dd69bf0a8becfc0f363fcfa0c38ef5df465ab22e",
+        "passed": 24,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/followup121-law-comparison.mjs",
+        "sha256": "795ed30ad18da56fcf49a84ff035b865f89c72cd006a98643d27b8b2395579f8",
+        "passed": 17,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/followup121-law-workflow.mjs",
+        "sha256": "4111b86470122438a52166179a748a5d59492bd72f3c01957d7a4b18f458ba79",
+        "passed": 15,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/followup123-law-availability.mjs",
+        "sha256": "00f492a6bff470cb2e7c316e83141871bc740073b8350d8f774497b09642774f",
+        "passed": 24,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/followup123-law-cache-independent.mjs",
+        "sha256": "b0f6d669b60a1e48cf599157043351fd1bccd4b4ea78755aeee9556a917f8ade",
+        "passed": 24,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/search127-law-search.mjs",
+        "sha256": "2098a433d04b400e1f077981597110920ed400054232790209e4c6f75d2be8f1",
+        "passed": 7,
+        "exitCode": 0
+      }
+    ]
+  },
+  "tdd": {
+    "collectorInitial": {
+      "path": ".build/review-20261028/law-resume-1793234189168.json",
+      "sha256": "fbe86c0ec1492414a9a66dfef04898962b23045d09afb713ba11f1e622a89e80"
+    },
+    "collectorInitialPassed": 0,
+    "collectorInitialFailed": 23,
+    "runtimeInitial": {
+      "path": ".build/review-20261028/maintenance-resume-1793234571993.json",
+      "sha256": "8c646dc1d0983e209184b586c43142cd78037867d6506ff6e6bc11be23da52c4"
+    },
+    "runtimeInitialPassed": 2,
+    "runtimeInitialFailed": 14,
+    "currentCollectorChecks": 42,
+    "currentRuntimeChecks": 34,
+    "successScopeRed": {
+      "path": ".build/review-20261028/maintenance-resume-1793235701082.json",
+      "sha256": "5962779489e70a064a9440e2420b9ea48ea51005513a9f1bb763063a50c1d58f"
+    },
+    "successScopeRedPassed": 21,
+    "successScopeRedFailed": 5,
+    "api404HoldRed": {
+      "path": ".build/review-20261028/law-resume-1793236067515.json",
+      "sha256": "8c12788c33430f8289c3c7d7564500805721d8cdb91cafd5c40f8abfb91c4226"
+    },
+    "api404HoldRedPassed": 40,
+    "api404HoldRedFailed": 1,
+    "preparationBudgetRed": {
+      "path": ".build/review-20261028/law-resume-1793236208118.json",
+      "sha256": "dea13c6b5132cfc8c864a01db070113158031a9a4342cf895eae19805583b4b2"
+    },
+    "preparationBudgetRedPassed": 41,
+    "preparationBudgetRedFailed": 1,
+    "midnightAfterLockRed": {
+      "path": ".build/review-20261028/maintenance-resume-1793235440556.json",
+      "sha256": "5597e6b33fc60535c7cf835a6500e812ff7c2484cf3f293bf16d6a7bb144e2f6"
+    },
+    "midnightAfterLockRedPassed": 19,
+    "midnightAfterLockRedFailed": 1,
+    "actualReproductionScope": "Existing functions entered normally in explicit-memory fixtures. No absent-module preparation failure relabeled as product RED."
+  },
+  "regressionCorrections": {
+    "actualBoundaryFixes": [
+      "Empty watch scope remains configuration_missing rather than failing before other jobs.",
+      "404 recovery narrowed to controlled DRF JSON APIs; attachment404 remains one failure."
+    ],
+    "fixtureOnly": [
+      "Exact shared advisory-lock statement/argument prepared in two memory stores.",
+      "Old successful maintenance mocks now provide independent verified date/count for a real one-watch scope.",
+      "Only the old JSON404 single-attempt expectation was replaced by approved bounded two-attempt failure; original body/permission/rollback/cooldown assertions retained."
+    ]
+  },
+  "acceptance": {
+    "implementation": "Current32-suite530-condition focus plus separate12 preserved-role counterexamples passed; exact final source/deployment and real R7 remain separate",
+    "actualCodeDeployment": "not performed by this observer",
+    "actualNewCodeRecovery": "pending root deployment plus one closed authenticated recovery run",
+    "naturalOldCode": "Observed partial failures, not accepted as full376 success"
+  },
+  "safety": {
+    "actualBusinessDbWrites": 0,
+    "actualExternalCollectorRetryRuns": 0,
+    "actualCredentialOrEnvironmentFilesRead": false,
+    "otherSchemaChanges": 0,
+    "sharedAuthChanges": 0,
+    "newUserFacingOperationsPanels": 0
+  },
+  "priorFocusedBeforeCompletionClosure": {
+    "evidence": {
+      "path": ".build/review-20261028/law-recovery-focus-1793236226202.json",
+      "sha256": "a36ba901a52a736295d6d527f4d50b8227f6e77ec8241f14802efae64f3c7b5c"
+    },
+    "suites": 32,
+    "passedSuites": 32,
+    "reportedPassedChecks": 524,
+    "reportedFailedChecks": 0,
+    "sourceChanged": [],
+    "testFiles": [
+      {
+        "file": "tests/review130-law-resume.mjs",
+        "sha256": "166fa8d063a5adef7334143881a440f39ad7639f6d726976c8ff055fe7fcbc3f",
+        "passed": 42,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/review130-maintenance-resume.mjs",
+        "sha256": "db9737d2cf3175945ab9f044b040091d511fd1020292646abfdac8c0fe672506",
+        "passed": 28,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/continuation124-maintenance-retry.mjs",
+        "sha256": "d10858fd9241cb3f65f45a7793fd5d2d1c7c77a5a2f3741b11660855292f2b9c",
+        "passed": 31,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/center120-partner-maintenance.mjs",
+        "sha256": "a3c4bd7e08b78d62478c934bf6691c1fda2d16fd3e2422d059717f5a0f071738",
+        "passed": 26,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/review130-law-window.mjs",
+        "sha256": "c896575ba75976c6c92d6e7147130d4baab81f6bff2a7a92e9912d29447a5f0f",
+        "passed": 10,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/review129-law-links.mjs",
+        "sha256": "4ebed65813119015816aa0e7f62abe3688968b70dd215fb2d4549aa09162a638",
+        "passed": 3,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/review129-law-search-all.mjs",
+        "sha256": "ea564d8090140cf6dcc5c4828924dbada6c9de440e0a6f310dbb0cd0451c5656",
+        "passed": 12,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/review130-law-list-projection.mjs",
+        "sha256": "6e83dcf2fd3dedb745a61f4ad54fd98e0143bb534915ff8be9bf146375d7ffd7",
+        "passed": 17,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/review130-law-table.mjs",
+        "sha256": "9478d01f2b085f6d52fa09ffc5d459c50ff0e1a4d75b6e0c6ddd118187072b18",
+        "passed": 5,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/review130-law-reveal.mjs",
+        "sha256": "3bd1ed95cf100aebf0f590530be0c0b92899756fdf391724ff206ac60ec9d3ba",
+        "passed": 9,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/review130-law-comparison-links.mjs",
+        "sha256": "80e4e8d72d0f93d52e62dd429e87fa4e103b7abdc5531c391d3c43205eddf051",
+        "passed": 12,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/review130-law-text-diff.mjs",
+        "sha256": "4fa4b1b751a05b837b30a024a3559acc7fe5a0ecfaf8108826d79fc28344f10a",
+        "passed": 9,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/review130-law-kinds.mjs",
+        "sha256": "4186f610cc40e4e1abcf2315334a3d37517f3297d6c866d65a7f1cfc3ec6ff3e",
+        "passed": 23,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/review130-law-kind-storage.mjs",
+        "sha256": "72e8b841a5ab2f930b441513b9dc6bbdb4603ba575efad49530597c303ac8ffa",
+        "passed": 5,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/center120-law-api.mjs",
+        "sha256": "bca17142e8989f43ad1089fe01eb726557afedc952d805c9edea048b469f353a",
+        "passed": 9,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/center120-law-watch.mjs",
+        "sha256": "cbadcb9a628f11748525097a77ffa5c41021951674a3662803480f5fe2124d8e",
+        "passed": 11,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/review126-db-queries.mjs",
+        "sha256": "a1647c1268fa3baaf37055bf9d6ab76d88f4906e55c67be8fcc7a8f7c5b2b466",
+        "passed": 41,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/center120-law-identity-independent.mjs",
+        "sha256": "8ab7a7fb9e8f6218100b899e0b70e278ce5529efdb398ddde5f9aa14b76d7bda",
+        "passed": 24,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/center120-law-identity-services.mjs",
+        "sha256": "0dcc478872dd084442a576a22dea42c005443d492e0d35d2aabdef0b0d36f0a0",
+        "passed": 3,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/review129-law-agency.mjs",
+        "sha256": "e55ee4a31166b113cf25c23de491261c05cfb69858e67547f4cca711ddc81571",
+        "passed": 3,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/continuation124-law-human-ui.mjs",
+        "sha256": "4ddce9e8ee6c6e4fea376972e6fdaf39319fbbadc23ca4864ee58970522ec634",
+        "passed": 13,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/followup122-law-value-view.mjs",
+        "sha256": "68a966eb8c14df74034833d8cb6badeee86129aa3f357f9503601308d2b02736",
+        "passed": 23,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/center120-independent-boundaries.mjs",
+        "sha256": "16aa1a271ec500fb13cede7aa6468070236881b211232a22ae17d2af7a57e03a",
+        "passed": 11,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/center120-maintenance.mjs",
+        "sha256": "79d78fc6fd34cb35237e18c0b6727c05dd4e887b9528d44269118caed40ee7bd",
+        "passed": 17,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/continuation124-law-attachments-identity.mjs",
+        "sha256": "2fbe7f7615d687e14d7c20e71d8d2ba1253d73c9856b5bbf1a65d2cbd794af68",
+        "passed": 13,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/continuation124-law-attachments-retry.mjs",
+        "sha256": "e69e2cfd267a20d201af8db8e5199fe3e0536539c324330fe456286ac738a8ec",
+        "passed": 13,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/continuation124-maintenance-retry-cooldown.mjs",
+        "sha256": "bfac302aca21329fa58c261a273b4640bc897865da811a5a2282f680641875b6",
+        "passed": 24,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/followup121-law-comparison.mjs",
+        "sha256": "f3827008513193083c4abf34a74ba000703306c4726347bcfc324ca5d334dae3",
+        "passed": 17,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/followup121-law-workflow.mjs",
+        "sha256": "4111b86470122438a52166179a748a5d59492bd72f3c01957d7a4b18f458ba79",
+        "passed": 15,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/followup123-law-availability.mjs",
+        "sha256": "00f492a6bff470cb2e7c316e83141871bc740073b8350d8f774497b09642774f",
+        "passed": 24,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/followup123-law-cache-independent.mjs",
+        "sha256": "b0f6d669b60a1e48cf599157043351fd1bccd4b4ea78755aeee9556a917f8ade",
+        "passed": 24,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/search127-law-search.mjs",
+        "sha256": "2098a433d04b400e1f077981597110920ed400054232790209e4c6f75d2be8f1",
+        "passed": 7,
+        "exitCode": 0
+      }
+    ]
+  },
+  "completionClosure": {
+    "scope": "Runtime result acceptance only; other3 law server modules and all client code unchanged by this closure",
+    "before": {
+      "path": ".build/review-20261028/review130-data-qa/law-runtime-source-before-completion-fix.mjs",
+      "sha256": "2d61712fd1e8096b5c9e4f6becc9e3da126570f8110dd01c6ec2c5c0973c48a8"
+    },
+    "after": {
+      "path": "server/maintenance-runtime.mjs",
+      "sha256": "adf0f23dcaed7504391087c57f23d03604c8601fd880fb95d042dd6df7d755bc"
+    },
+    "independentRed": {
+      "path": ".build/review-20261028/review130-data-qa/law-runtime-completion-independent-red.json",
+      "sha256": "81a962042eb505d1a37242ad15abd9ebae6e08b5a0fed44265c499e42c0a764a"
+    },
+    "independentGreen": {
+      "path": ".build/review-20261028/review130-data-qa/law-runtime-completion-independent-final-green.json",
+      "sha256": "dd46778e1fd93a258f1f4e707ff9c515c47753e04861801d6dc8c589d90eb1e2"
+    },
+    "newRuntimeSixRed": {
+      "path": ".build/review-20261028/review130-data-qa/law-runtime-added-red.stdout.json",
+      "sha256": "dbf24ca5a4c14e2b560cbb89d9f5b6f101e457752ff242cba092ad3d2495551f"
+    },
+    "newRuntimeSixBefore": {
+      "passed": 30,
+      "failed": 4,
+      "total": 34
+    },
+    "newRuntimeSixAfter": {
+      "passed": 34,
+      "failed": 0,
+      "total": 34
+    },
+    "productCounterexample": "Producer reports positive checkedCount with empty/missing completed proof or metadata-only success; old runtime stores success and skips next run. New runtime rejects before snapshot/status promotion.",
+    "invariants": [
+      "positive checkedCount requires typed checkpoint and counters",
+      "checkpoint unique IDs exactly equal active IDs minus failures",
+      "checkpoint ID count equals checkedCount",
+      "all successful record identity/family/current+scheduled version/body hash/source/KST date verified through existing resumeLawProgress",
+      "prior records/changes, failed raw records, partial/zero, lease, CAS, secret, day/scope, transaction guards unchanged"
+    ],
+    "fixtureCorrections": {
+      "positiveDtoFiles": [
+        "tests/continuation124-maintenance-retry.mjs",
+        "tests/center120-partner-maintenance.mjs",
+        "tests/center120-maintenance.mjs"
+      ],
+      "realCollectorBodyHashFixtureFiles": [
+        "tests/center120-independent-boundaries.mjs",
+        "tests/continuation124-maintenance-retry-cooldown.mjs"
+      ],
+      "sharedIndependentPositiveFixture": {
+        "path": "tests/support/law-verified-result.mjs",
+        "sha256": "008a1cf632576103873a2ba04fa607a6585e70db471ee4aa085fa6b5c1f5de0b"
+      },
+      "bindingsOnly": [
+        "tests/review130-maintenance-resume.mjs"
+      ],
+      "existingAssertionsPreserved": {
+        "path": ".build/review-20261028/review130-data-qa/law-fixture-proof-assertion-audit.json",
+        "sha256": "4b0c7d1505cbb3e8bebb38a5414703aeaf5e2cc92f28562bb4a6c22f31e34705"
+      },
+      "singleApprovedExpectationReplacement": {
+        "test": "tests/continuation124-maintenance-retry-cooldown.mjs",
+        "requirement": "LAW130-R1: same-day exact-scope verified successes reused",
+        "oldExpectedBTotalFetch": 2,
+        "newExpectedBTotalFetch": 1,
+        "newReusedCount": 1,
+        "newFetchedCount": 0,
+        "newAttemptedCount": 0,
+        "newDeferredCount": 1,
+        "preserved": "All original A Retry-After/failure/raw and other-job assertions",
+        "oldRun": {
+          "path": ".build/review-20261028/review130-data-qa/law-cooldown-obsolete-repeat-red.json",
+          "sha256": "ff9add841869ebd26d4ab4780af8950739ee97716b2226d6942db0ead3e71f6e"
+        }
+      }
+    },
+    "preparationFailureRunPreserved": {
+      "path": ".build/review-20261028/law-recovery-focus-1793238120320.json",
+      "sha256": "bc7951f180355f454a8b61847a35182b1c6a90ef89c5f24744fdf86052723eca"
+    },
+    "independentRead": {
+      "path": ".build/review130-20261028/law-runtime-completion-independent-read.json",
+      "sha256": "7d381ba3d04862127a8bc9c53b28d09bc08c194fcd151facf576e5e42592dd4c"
+    },
+    "independentReadAddsExecutedTests": 0,
+    "actualDatabaseWrites": 0,
+    "actualProviderRuns": 0,
+    "browserRuns": 0
+  },
+  "priorFocusedBeforePreservedRole": {
+    "suites": 32,
+    "passedSuites": 32,
+    "failedSuites": 0,
+    "reportedPassedChecks": 530,
+    "reportedFailedChecks": 0,
+    "sourceChanged": [],
+    "evidence": {
+      "path": ".build/review-20261028/law-recovery-focus-1793238794135.json",
+      "sha256": "16c7f2f4008938de9809481ae277517fa8cd93c4d2fdf685e7d229737e76f80f"
+    },
+    "testFiles": [
+      {
+        "file": "tests/review130-law-resume.mjs",
+        "sha256": "166fa8d063a5adef7334143881a440f39ad7639f6d726976c8ff055fe7fcbc3f",
+        "passed": 42,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/review130-maintenance-resume.mjs",
+        "sha256": "8ee809bcee22afbd06903f52d8b41ccbb6d65c96d6950b6356fab4a9b3c9be0f",
+        "passed": 34,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/continuation124-maintenance-retry.mjs",
+        "sha256": "c4cd12a0509af92ae449e224c4065423a580086f3654a5f3c016fc7b8c5917cc",
+        "passed": 31,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/center120-partner-maintenance.mjs",
+        "sha256": "1ffee1ff627e73c5f4d54bc89e2721fe8f33f24d09db5eac252049b581f13c07",
+        "passed": 26,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/review130-law-window.mjs",
+        "sha256": "c896575ba75976c6c92d6e7147130d4baab81f6bff2a7a92e9912d29447a5f0f",
+        "passed": 10,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/review129-law-links.mjs",
+        "sha256": "4ebed65813119015816aa0e7f62abe3688968b70dd215fb2d4549aa09162a638",
+        "passed": 3,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/review129-law-search-all.mjs",
+        "sha256": "ea564d8090140cf6dcc5c4828924dbada6c9de440e0a6f310dbb0cd0451c5656",
+        "passed": 12,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/review130-law-list-projection.mjs",
+        "sha256": "6e83dcf2fd3dedb745a61f4ad54fd98e0143bb534915ff8be9bf146375d7ffd7",
+        "passed": 17,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/review130-law-table.mjs",
+        "sha256": "9478d01f2b085f6d52fa09ffc5d459c50ff0e1a4d75b6e0c6ddd118187072b18",
+        "passed": 5,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/review130-law-reveal.mjs",
+        "sha256": "3bd1ed95cf100aebf0f590530be0c0b92899756fdf391724ff206ac60ec9d3ba",
+        "passed": 9,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/review130-law-comparison-links.mjs",
+        "sha256": "80e4e8d72d0f93d52e62dd429e87fa4e103b7abdc5531c391d3c43205eddf051",
+        "passed": 12,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/review130-law-text-diff.mjs",
+        "sha256": "4fa4b1b751a05b837b30a024a3559acc7fe5a0ecfaf8108826d79fc28344f10a",
+        "passed": 9,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/review130-law-kinds.mjs",
+        "sha256": "4186f610cc40e4e1abcf2315334a3d37517f3297d6c866d65a7f1cfc3ec6ff3e",
+        "passed": 23,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/review130-law-kind-storage.mjs",
+        "sha256": "72e8b841a5ab2f930b441513b9dc6bbdb4603ba575efad49530597c303ac8ffa",
+        "passed": 5,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/center120-law-api.mjs",
+        "sha256": "bca17142e8989f43ad1089fe01eb726557afedc952d805c9edea048b469f353a",
+        "passed": 9,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/center120-law-watch.mjs",
+        "sha256": "cbadcb9a628f11748525097a77ffa5c41021951674a3662803480f5fe2124d8e",
+        "passed": 11,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/review126-db-queries.mjs",
+        "sha256": "a1647c1268fa3baaf37055bf9d6ab76d88f4906e55c67be8fcc7a8f7c5b2b466",
+        "passed": 41,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/center120-law-identity-independent.mjs",
+        "sha256": "8ab7a7fb9e8f6218100b899e0b70e278ce5529efdb398ddde5f9aa14b76d7bda",
+        "passed": 24,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/center120-law-identity-services.mjs",
+        "sha256": "0dcc478872dd084442a576a22dea42c005443d492e0d35d2aabdef0b0d36f0a0",
+        "passed": 3,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/review129-law-agency.mjs",
+        "sha256": "e55ee4a31166b113cf25c23de491261c05cfb69858e67547f4cca711ddc81571",
+        "passed": 3,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/continuation124-law-human-ui.mjs",
+        "sha256": "4ddce9e8ee6c6e4fea376972e6fdaf39319fbbadc23ca4864ee58970522ec634",
+        "passed": 13,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/followup122-law-value-view.mjs",
+        "sha256": "68a966eb8c14df74034833d8cb6badeee86129aa3f357f9503601308d2b02736",
+        "passed": 23,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/center120-independent-boundaries.mjs",
+        "sha256": "caef7b20afc0a6cce5d0759537fbd2f202ae54c4d4def2f8d64127342cf0b520",
+        "passed": 11,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/center120-maintenance.mjs",
+        "sha256": "32b1ae57981f6e158a04e047fe79e199cd3901e4c4c477de8c2811b6298b8edc",
+        "passed": 17,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/continuation124-law-attachments-identity.mjs",
+        "sha256": "2fbe7f7615d687e14d7c20e71d8d2ba1253d73c9856b5bbf1a65d2cbd794af68",
+        "passed": 13,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/continuation124-law-attachments-retry.mjs",
+        "sha256": "e69e2cfd267a20d201af8db8e5199fe3e0536539c324330fe456286ac738a8ec",
+        "passed": 13,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/continuation124-maintenance-retry-cooldown.mjs",
+        "sha256": "c00734f79bca66e7eb8c59d4dd69bf0a8becfc0f363fcfa0c38ef5df465ab22e",
+        "passed": 24,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/followup121-law-comparison.mjs",
+        "sha256": "f3827008513193083c4abf34a74ba000703306c4726347bcfc324ca5d334dae3",
+        "passed": 17,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/followup121-law-workflow.mjs",
+        "sha256": "4111b86470122438a52166179a748a5d59492bd72f3c01957d7a4b18f458ba79",
+        "passed": 15,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/followup123-law-availability.mjs",
+        "sha256": "00f492a6bff470cb2e7c316e83141871bc740073b8350d8f774497b09642774f",
+        "passed": 24,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/followup123-law-cache-independent.mjs",
+        "sha256": "b0f6d669b60a1e48cf599157043351fd1bccd4b4ea78755aeee9556a917f8ade",
+        "passed": 24,
+        "exitCode": 0
+      },
+      {
+        "file": "tests/search127-law-search.mjs",
+        "sha256": "2098a433d04b400e1f077981597110920ed400054232790209e4c6f75d2be8f1",
+        "passed": 7,
+        "exitCode": 0
+      }
+    ]
+  },
+  "preservedVersionRoleClosure": {
+    "date": "2026-10-29",
+    "scope": "Law producer/progress/runtime3 files and exact positive fixtures only; no business DB writes, actual collection/deployment, new schema or permissions",
+    "actualMetadataObservation": {
+      "evidence": {
+        "path": ".build/review130-20261028/law-retained-version-metadata-1793241661850.json",
+        "sha256": "3530e634c29e7706d7e5b26bc75d4ca1ac53c181197f4f91af44d7bc95dd19ee"
+      },
+      "observedAtKst": "2026-10-29 11:41:01.462167",
+      "records": 4,
+      "existingRoleMarkers": false,
+      "bodyTextRead": false,
+      "credentialsRead": false
+    },
+    "design": {
+      "path": "docs/review130-law-preserved-version-role.md",
+      "sha256": "4d1bee6dce24b2262b68b220edd901568675786ecd2bd49bf1d9beb72cda8b6c"
+    },
+    "sourcePins": {
+      "server/law-collector.mjs": "7223926e20f9cafd544cb8dc4773ad88979762f9b38919733d3e859d51deea6e",
+      "server/law-collection-progress.mjs": "4e8e74826af64291c78ba2b86022166df791f16359a9585a0c6cdf0988102649",
+      "server/maintenance-runtime.mjs": "6556e5c1a49b3b63401870b088247ab10e321cf8f966c3c96fc5474d19d07d4a",
+      "server/law-watch.mjs": "0b3d705c72ce18e8133b56deea619e07dbc950c4abd7adb2e348ae3856aae508",
+      "src/law-monitor.js": "2b7da2867f30af6b9fd21baa5beb6d40f51f1ade310fce005bb9c8eea1993a65"
+    },
+    "tdd": {
+      "red": {
+        "path": ".build/review130-20261028/law-preserved-role-red.json",
+        "sha256": "d983caf7352d0559fea51402d575b440859b31371c4750209041d804ebc98c82"
+      },
+      "redPassed": 3,
+      "redFailed": 9,
+      "producerStage": {
+        "path": ".build/review130-20261028/law-preserved-role-source-stage.json",
+        "sha256": "0bd6bb6b2a5f778afaa1e33448eb4fc59a82a76ad9743f43f98ada739bf0f4ea"
+      },
+      "producerPassed": 10,
+      "producerFailed": 2,
+      "green": {
+        "path": ".build/review130-20261028/law-preserved-role-green.json",
+        "sha256": "dc8349585112945743746d4e479129d2016023774affc05fd8afda57e075db87"
+      },
+      "greenPassed": 12,
+      "greenFailed": 0,
+      "test": {
+        "path": "tests/review130-law-preserved-role.mjs",
+        "sha256": "7db6354b8539846d1e3a3c2f74da66adbce4178b3a6794aab5bafade6b882697"
+      }
+    },
+    "focused": {
+      "baseline": {
+        "path": ".build/review-20261028/law-recovery-focus-1793245306385.json",
+        "sha256": "cd15a6b89895ed95610577750e8be1f668ceb764367830cdf8678251a4fa774e"
+      },
+      "baselineSuites": 32,
+      "baselineChecks": 530,
+      "newRoleSuiteChecks": 12,
+      "uniqueSuites": 33,
+      "uniquePassedChecks": 542,
+      "failedChecks": 0,
+      "sourceChanged": []
+    },
+    "preparationFailuresPreserved": [
+      {
+        "path": ".build/review-20261028/law-recovery-focus-1793243644351.json",
+        "sha256": "5e25582d131cbcfeba79bbb58bbd95d59782491475a15a56763a9d2fbf2ffe6b"
+      },
+      {
+        "path": ".build/review-20261028/law-recovery-focus-1793245126896.json",
+        "sha256": "db3c6cb32568658aba2fd49b06456287574f1b4b756a691451377c858cd969fc"
+      }
+    ],
+    "fixtureCorrections": [
+      {
+        "path": "tests/continuation124-maintenance-retry.mjs",
+        "change": "Positive provider result uses shared normal DTO fixture; retained unidentified raw versions are not discarded or assigned made-up identifiers.",
+        "sha256": "c4cd12a0509af92ae449e224c4065423a580086f3654a5f3c016fc7b8c5917cc"
+      },
+      {
+        "path": "tests/support/law-verified-result.mjs",
+        "change": "Shared synthetic provider now retains exact unmatched old raw versions and records their hashes separately; fresh identified versions keep strict normal proof.",
+        "sha256": "1cd4f1d009978d6f37890fe1b2fd6c673e87eaff6ffa8a9a08a944465bb440da"
+      },
+      {
+        "path": "tests/review130-law-kinds.mjs",
+        "change": "Fixed provider bodyCheckedAt to canonical ISO milliseconds, matching actual getOfficialLawDetail; same instant, original names, IDs, dates and kind assertions preserved.",
+        "sha256": "77f3dc83dd583b365cf1138411bd4bd51329a2c06452345a3782a9626e552560"
+      },
+      {
+        "path": "tests/center120-independent-boundaries.mjs",
+        "change": "Fresh synthetic body digest is an independently derived 64-hex SHA256; original unidentified old body and timestamp literals remain unchanged.",
+        "sha256": "bd9cc24ef3913d0007dda51aef81030709b2eed609a6c2bb44954978c2e4562a"
+      },
+      {
+        "path": "tests/center120-maintenance.mjs",
+        "change": "Fresh synthetic body digest is an independently derived 64-hex SHA256; all original quarter/atomic/failure/permission assertions remain.",
+        "sha256": "299583b83874798467051dbb863ffefcc948a95b86134852c0d963ebf09854e1"
+      },
+      {
+        "path": "tests/followup121-law-comparison.mjs",
+        "change": "Distinct provider observations explicitly run on consecutive KST days; final older-publication recheck has recoveryFrom 2026-10-21. Original publication date, amendment text, sequence, first event, bodyChanged and preserved-event assertions remain. This is an explicit missed-period recheck, not a claim of automatic all-historical daily discovery.",
+        "sha256": "795ed30ad18da56fcf49a84ff035b865f89c72cd006a98643d27b8b2395579f8"
+      }
+    ],
+    "consumerRead": {
+      "serverReferenceDto": "Passes raw catalog through; no new official role promotion",
+      "comparison": "Context chooses confirmed matching official family; QA corrected the availability lookup to the same identified version, tested separately",
+      "recentAndScheduledLists": "Use separate changes dates, not preserved raw versionStatus",
+      "sourcePinsAreCurrent": true
+    },
+    "invariants": [
+      "fresh current and scheduled official proofs validated within each worker catch boundary",
+      "preserved raw version fields and technical status unchanged",
+      "sidecar binds exact raw version hashes to previous same record and excludes known fresh official versions",
+      "runtime verifies preservation provenance against exact previous raw and rejects forged or changed archives",
+      "fresh verified same-key official observation has proof priority",
+      "strict completed IDs equal active minus failures and verified body evidence remains mandatory",
+      "partial failure, scope/day, lease/CAS, transaction and bounded retry guards retained"
+    ],
+    "deploymentAndActualRecovery": "Pending root final exact source deployment and closed real run; local542 does not establish real376 success",
+    "actualDatabaseWrites": 0,
+    "actualCollectorRuns": 0,
+    "actualDeploymentRuns": 0
+  }
+}

@@ -144,6 +144,73 @@ function assertProjectHistory(old,next,access){
   for(const key of ['reportSnapshots','reports']){const oldReports=recordMap(old?.[key]);if((next[key]||[]).some(row=>{const previous=oldReports.get(row.id);return (['확정','제출'].includes(row.status)||['확정','제출'].includes(previous?.status))&&['status','submitted','receipt'].some(key=>!same(row[key],previous?.[key]));}))throw forbidden();}
  }
 }
+function preservedManagementMergeCopies(old,next,priorRows,nextRows,priorLinks,links){
+ const oldEventIds=new Set((old?.classificationEvents||[]).map(e=>e.id)),events=(next.classificationEvents||[]).filter(e=>e?.kind==='management-merge'&&!oldEventIds.has(e.id));
+ const eventReferencedIds=new Set();for(const e of events)for(const id of [...(Array.isArray(e.fromIds)?e.fromIds:[]),...(Array.isArray(e.toIds)?e.toIds:[])]){const ids=nextRows.get(id)?.mergedSourceIds;if(Array.isArray(ids))for(const sourceId of ids)eventReferencedIds.add(sourceId);}
+ const otherSourcePaths=new Set(['detail-source-copy','split-inherit','breakdown-inherit']);
+ const copies=(next.cbs||[]).filter(r=>!priorRows.has(r.id)&&(links[r.id]?.method==='merge-source-copy'||eventReferencedIds.has(r.id)||own(r,'originCbsId')&&!otherSourcePaths.has(links[r.id]?.method)));
+ if(!copies.length)return new Set();
+ const fail=reason=>{const e=new WorkspaceError(400,'COST_MERGE_SOURCE_INVALID','합치기 원자료의 원항목·금액·비용유형 연결을 확인해 주세요.');e.reason=reason;throw e;};
+ if(!old||old.id!==next.id||priorRows.size!==(old.cbs||[]).length||nextRows.size!==(next.cbs||[]).length)fail('PROJECT_OR_RECORD_IDENTITY');
+ const byOrigin=new Map();for(const r of copies){if(!validId(r.id)||!validId(r.originCbsId)||r.sourceRecord!==true||r.managementAccount!==false||r.templateDefault!==false||r.deletedAt||links[r.id]?.method!=='merge-source-copy')fail('COPY_STRUCTURE');if(byOrigin.has(r.originCbsId))fail('DUPLICATE_ORIGIN_COPY');byOrigin.set(r.originCbsId,r);}
+ const children=(rows,id)=>[...rows.values()].filter(r=>!r.deletedAt&&r.parentId===id).sort((a,b)=>(a.sortOrder??0)-(b.sortOrder??0)||a.id.localeCompare(b.id));
+ const posting=(id,map)=>{const b=map[id];if(!b||b.costTypeMappingStatus!=='confirmed')return null;const e=costBinding(id,b);return e.entryRole==='posting'&&!e.kind.startsWith('system-')?{binding:b,entry:e}:null;};
+ const unstructured=(r,ignored)=>Object.fromEntries(Object.entries(r).filter(([k])=>!ignored.has(k)));
+ const copyStructure=new Set(['id','parentId','code','originCbsId','sourceRecord','managementAccount','templateDefault','mergedBudgetScopeRef']);
+ const effectiveScope=(rows,row)=>{let current=row;const seen=new Set();while(current){if(seen.has(current.id))fail('SCOPE_CYCLE');seen.add(current.id);if(current.budgetScopeRef)return String(current.budgetScopeRef);if(own(current,'mergedBudgetScopeRef'))return String(current.mergedBudgetScopeRef||'');const parent=rows.get(current.parentId);current=parent&&!parent.deletedAt?parent:null;}return'';};
+ const nextSourceCode=origin=>{if(typeof origin.code!=='string'||!origin.code)fail('SOURCE_CODE');const prefix=origin.code+'.',used=new Set((old.cbs||[]).map(r=>r.code));let index=old.cbsCodeCounters?.[origin.id]||0;if(!Number.isSafeInteger(index)||index<0)fail('SOURCE_CODE_COUNTER');for(const r of old.cbs||[])if(typeof r.code==='string'&&r.code.startsWith(prefix)){const n=Number(r.code.slice(prefix.length));if(Number.isSafeInteger(n))index=Math.max(index,n);}let code;do{code=prefix+String(++index).padStart(2,'0');}while(used.has(code));return code;};
+ const allChildren=(rows,id)=>[...rows.values()].filter(r=>r.parentId===id);
+ const sameIds=(a,b)=>a.length===b.length&&same([...a].sort(),[...b].sort());
+ function preserveExistingBranch(parent,toId,moved){
+  const direct=allChildren(priorRows,parent.id),moving=new Set(direct.filter(r=>!r.deletedAt).map(r=>r.id)),queue=[...direct],seen=new Set();
+  while(queue.length){const before=queue.shift();if(seen.has(before.id))fail('EXISTING_SOURCE_CYCLE');seen.add(before.id);if(before.costBreakdown)fail('EXPLICIT_BREAKDOWN_SCOPE');const after=nextRows.get(before.id),isMoved=moved&&moving.has(before.id),ignored=isMoved?new Set(['parentId','mergedBudgetScopeRef']):new Set();
+   if(!after||!same(unstructured(before,ignored),unstructured(after,ignored))||!same(priorLinks[before.id],links[before.id]))fail('EXISTING_SOURCE_CHANGED');
+   if(isMoved&&(!own(after,'mergedBudgetScopeRef')||typeof after.mergedBudgetScopeRef!=='string'||after.parentId!==toId||after.mergedBudgetScopeRef!==effectiveScope(priorRows,before)))fail('EXISTING_SOURCE_MOVE');
+   if(!before.deletedAt&&effectiveScope(priorRows,before)!==effectiveScope(nextRows,after))fail('EXISTING_SOURCE_SCOPE');
+   const oldChildren=allChildren(priorRows,before.id),nextChildren=allChildren(nextRows,before.id);if(!sameIds(oldChildren.map(r=>r.id),nextChildren.map(r=>r.id)))fail('EXISTING_CHILD_SET');queue.push(...oldChildren);
+  }
+  return direct;
+ }
+ const checkedEvents=new Set();
+ function checkEvent(event){
+  if(checkedEvents.has(event.id))return;checkedEvents.add(event.id);
+  if(!validId(event.id)||events.filter(e=>e.id===event.id).length!==1||!Array.isArray(event.fromIds)||event.fromIds.length!==1||!Array.isArray(event.toIds)||event.toIds.length!==1)fail('MERGE_EVENT');
+  const fromId=event.fromIds[0],toId=event.toIds[0],from=priorRows.get(fromId),to=priorRows.get(toId),afterFrom=nextRows.get(fromId),afterTo=nextRows.get(toId);
+  if(!from||!to||fromId===toId||from.deletedAt||to.deletedAt||from.managementAccount!==true||to.managementAccount!==true||!same(from.parentId,to.parentId)||from.companyManagedTotal||to.companyManagedTotal||from.currentAmountMode==='reported-total'||to.currentAmountMode==='reported-total'||from.costBreakdown||to.costBreakdown)fail('MERGE_PARTICIPANTS');
+  if(!afterFrom||!afterTo||afterTo.deletedAt||afterTo.managementAccount!==true||typeof afterFrom.deletedAt!=='string'||!Number.isFinite(Date.parse(afterFrom.deletedAt))||afterFrom.mergedIntoId!==toId)fail('MERGE_ALIAS');
+  if(!posting(fromId,priorLinks)||!posting(toId,priorLinks)||!same(priorLinks[fromId],links[fromId])||!same(priorLinks[toId],links[toId]))fail('ORIGINAL_BINDING');
+  if(!same(unstructured(from,new Set(['deletedAt','mergedIntoId','mergedSourceIds'])),unstructured(afterFrom,new Set(['deletedAt','mergedIntoId','mergedSourceIds']))))fail('FROM_ORIGINAL_CHANGED');
+  if(!same(unstructured(to,new Set(['mergedSourceIds','sourceIds','budgetState'])),unstructured(afterTo,new Set(['mergedSourceIds','sourceIds','budgetState']))))fail('TARGET_ORIGINAL_CHANGED');
+  if([from,to].some(r=>r.sourceIds!==undefined&&r.sourceIds!==null&&!Array.isArray(r.sourceIds)))fail('SOURCE_IDS');
+  if(!same(afterTo.sourceIds,[...new Set([...(to.sourceIds||[]),...(from.sourceIds||[])])]))fail('TARGET_SOURCE_IDS');
+  for(const origin of [from,to]){
+   const priorChildren=children(priorRows,origin.id),created=byOrigin.get(origin.id),current=nextRows.get(origin.id);let expected;
+   if(!priorChildren.length&&origin.budgetState!=='template'){
+    if(!created)fail('MISSING_ORIGINAL_COPY');expected=[created.id];
+   }else{
+    if(created)fail('UNEXPECTED_ORIGINAL_COPY');
+    if(!priorChildren.length&&origin.budgetState==='template'&&['current','initial','reportedCurrentTotal'].some(k=>origin[k]!==null&&origin[k]!==undefined&&origin[k]!==''))fail('TEMPLATE_HAS_ENTERED_AMOUNT');
+    expected=Array.isArray(origin.mergedSourceIds)?origin.mergedSourceIds:priorChildren.map(r=>r.id);
+   }
+   if(!Array.isArray(current.mergedSourceIds)||!same(current.mergedSourceIds,expected))fail('SOURCE_MAPPING');
+  }
+  const fromChildren=preserveExistingBranch(from,toId,true),toChildren=preserveExistingBranch(to,toId,false),expectedFrom=fromChildren.filter(r=>r.deletedAt).map(r=>r.id),expectedTo=[...toChildren.map(r=>r.id),...fromChildren.filter(r=>!r.deletedAt).map(r=>r.id),...[from,to].map(r=>byOrigin.get(r.id)?.id).filter(Boolean)];
+  if(!sameIds(allChildren(nextRows,fromId).map(r=>r.id),expectedFrom)||!sameIds(allChildren(nextRows,toId).map(r=>r.id),expectedTo))fail('MERGE_CHILD_SET');
+  if(afterTo.budgetState!==(children(nextRows,toId).length?'active':to.budgetState))fail('TARGET_BUDGET_STATE');
+ }
+ const allowed=new Set();
+ for(const row of copies){
+  const origin=priorRows.get(row.originCbsId);if(!origin||origin.deletedAt||origin.managementAccount!==true||origin.sourceRecord===true||origin.budgetState==='template'||children(priorRows,origin.id).length)fail('ORIGINAL_SOURCE');
+  const matches=events.filter(e=>Array.isArray(e.fromIds)&&Array.isArray(e.toIds)&&e.toIds.includes(row.parentId)&&(e.fromIds.includes(origin.id)||e.toIds.includes(origin.id)));if(matches.length!==1)fail('MERGE_EVENT_RELATION');const event=matches[0];checkEvent(event);
+  if(row.parentId!==event.toIds[0]||row.code!==nextSourceCode(origin)||(next.cbs||[]).filter(r=>r.code===row.code).length!==1)fail('COPY_POSITION_OR_CODE');
+  if(!same(unstructured(origin,copyStructure),unstructured(row,copyStructure)))fail('COPY_ORIGINAL_CHANGED');
+  const original=posting(origin.id,priorLinks),created=posting(row.id,links);if(!original||!created||original.binding.costTypeId!==created.binding.costTypeId||original.binding.costTypeCode!==created.binding.costTypeCode||original.binding.masterVersion!==created.binding.masterVersion||created.binding.reason!=='관리항목 합치기 원자료 보존')fail('COPY_BINDING');
+  const oldBinding={...original.binding,entryRole:original.entry.entryRole,kind:original.entry.kind},newBinding={...created.binding,entryRole:created.entry.entryRole,kind:created.entry.kind};for(const k of ['recordId','method','reason']){delete oldBinding[k];delete newBinding[k];}if(!same(oldBinding,newBinding))fail('COPY_BINDING_ORIGINAL_CHANGED');
+  const scope=effectiveScope(priorRows,origin);if(event.fromIds[0]===origin.id&&!own(row,'mergedBudgetScopeRef')||own(row,'mergedBudgetScopeRef')&&(typeof row.mergedBudgetScopeRef!=='string'||row.mergedBudgetScopeRef!==scope)||effectiveScope(nextRows,row)!==scope)fail('COPY_SCOPE');
+  allowed.add(row.id);
+ }
+ return allowed;
+}
 export function validateProjectCostChange(old,next){
  const confirmedTarget=(project,id)=>{const binding=project.costCoding?.currentByRecordId?.[id],entry=binding&&costMasters.get(binding.masterVersion)?.get(binding.costTypeId);if(!binding||binding.costTypeMappingStatus!=='confirmed'||!entry||entry.code!==binding.costTypeCode||entry.entryRole!=='posting'||entry.kind.startsWith('system-'))return null;const target=costTaxonomy.finalItems.find(t=>t.primaryTypeId===binding.costTypeId)||costTaxonomy.finalItems.find(t=>t.finalId===costTaxonomy.old152Map.find(m=>m.oldTypeId===binding.costTypeId)?.targetKey);return target?.role==='budget-cost'?target.finalId:null;};
  const transition=validateCostBreakdownTransitions(old,next,{confirmedTarget});if(!transition.valid)throw new WorkspaceError(422,'INVALID_COST_BREAKDOWN',transition.errors[0].message);
@@ -153,10 +220,12 @@ export function validateProjectCostChange(old,next){
  // 같은 검토 유형의 금액 수정·soft delete·명시적 확인총액 전환은 그대로 보존합니다.
  const nextRows=recordMap(next.cbs);
  for(const row of old?.cbs||[]){const previous=priorLinks[row.id];if(!previous||costBinding(row.id,previous).kind!=='system-review')continue;const linked=links[row.id],target=nextRows.get(row.id),explicitReported=linked?.costTypeId==='sys_review_reported'&&linked.method==='reported-total'&&target?.currentAmountMode==='reported-total';if(!target||!linked||costBinding(row.id,linked).kind!=='system-review'||linked.costTypeMappingStatus!=='review'||!sameType(previous,linked)&&!explicitReported)throw new WorkspaceError(400,'COST_REVIEW_PRESERVED','기존 검토 비용의 원래 코드 연결을 유지해 주세요. 원래 코드로 금액을 수정할 수 있습니다.');}
+ const mergeCopies=preservedManagementMergeCopies(old,next,priorRows,nextRows,priorLinks,links);
  for(const row of next.cbs||[]){
   if(row.deletedAt)continue;const previous=priorRows.get(row.id),entered=['current','initial','reportedCurrentTotal'].some(key=>row[key]!==undefined&&row[key]!==null&&row[key]!==''&&!same(row[key],previous?.[key]));if(!entered)continue;
   const children=(next.cbs||[]).filter(child=>child.parentId===row.id&&!child.deletedAt&&child.budgetState!=='template');if(children.length&&!row.companyManagedTotal&&row.currentAmountMode!=='reported-total')continue;
   const link=links[row.id];if(!link)throw invalid('금액을 입력하기 전에 등록된 비용 항목을 선택해 주세요.');const entry=costBinding(row.id,link),priorLink=priorLinks[row.id];
+  if(mergeCopies.has(row.id))continue;
   const firstTemplateAmount=previous?.budgetState==='template'&&['current','initial','reportedCurrentTotal'].every(key=>previous[key]===null||previous[key]===undefined||previous[key]==='');
   if(!previous&&link.method==='split-inherit'){if(priorRows.has(row.parentId)&&!priorRows.get(row.parentId).deletedAt&&sameType(priorLinks[row.parentId],link))continue;throw invalid('분해할 기존 비용과 같은 비용코드를 연결해 주세요.');}
   if(!previous&&link.method==='breakdown-inherit'){const parent=priorRows.get(row.breakdownParentId);if(parent&&!parent.deletedAt&&parent.id===row.parentId&&sameType(priorLinks[parent.id],link)&&link.costTypeMappingStatus==='confirmed'&&entry.entryRole==='posting'&&!entry.kind.startsWith('system-'))continue;throw invalid('직접 입력한 하위 내역은 기존 상위의 확인된 비용코드를 유지해 주세요.');}

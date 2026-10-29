@@ -1,0 +1,227 @@
+{
+  "schemaVersion": "review130-cost-server-independent-read-v1",
+  "reviewedAt": "2026-10-29T02:03:40.109768+00:00",
+  "requirements": [
+    "UI130-04",
+    "QA130-06"
+  ],
+  "scope": "Independent source/original formal guard/actual isolated callback packet read plus unchanged116-condition memory/server handler suite. Narrow management merge copy acceptance only.",
+  "reviewedFiles": [
+    "server/cloud-storage.mjs",
+    "tests/review130-cost-merge-server.mjs"
+  ],
+  "sourcePinBefore": "7f9c6c6f42d14e0bb6ab61f481bb905f07d48eda6a99c7aa1cad3b42d60903ff",
+  "sourcePinAfter": "7f9c6c6f42d14e0bb6ab61f481bb905f07d48eda6a99c7aa1cad3b42d60903ff",
+  "allDependencyPinsBefore": {
+    "server/cloud-storage.mjs": "7f9c6c6f42d14e0bb6ab61f481bb905f07d48eda6a99c7aa1cad3b42d60903ff",
+    "tests/review130-cost-merge-server.mjs": "fa0d1480a51a6fd2297219b0cc4f79a2ba754d62d637b1cb27a539ec0e51236a",
+    ".build/review130-20261028/cost-merge-server-boundary-v2.json": "b9ec128bb4b0982425013f968cda09ad08e443726cf8f1fd0e9980568f3e390a",
+    ".build/review130-20261028/cost-detail-source-copy-fixed-before-after.json": "da9979d29d6de75236b0794ca506353027b1091d0195434af146f7ef7666b088",
+    "tests/cloud-storage.mjs": "5916cbc5ce755068889477cd2eb051a51d65847fdd55052ef1696a0af57f9116"
+  },
+  "allDependencyPinsAfter": {
+    "server/cloud-storage.mjs": "7f9c6c6f42d14e0bb6ab61f481bb905f07d48eda6a99c7aa1cad3b42d60903ff",
+    "tests/review130-cost-merge-server.mjs": "fa0d1480a51a6fd2297219b0cc4f79a2ba754d62d637b1cb27a539ec0e51236a",
+    ".build/review130-20261028/cost-merge-server-boundary-v2.json": "b9ec128bb4b0982425013f968cda09ad08e443726cf8f1fd0e9980568f3e390a",
+    ".build/review130-20261028/cost-detail-source-copy-fixed-before-after.json": "da9979d29d6de75236b0794ca506353027b1091d0195434af146f7ef7666b088",
+    "tests/cloud-storage.mjs": "5916cbc5ce755068889477cd2eb051a51d65847fdd55052ef1696a0af57f9116"
+  },
+  "sourceChanged": [],
+  "verdict": "scoped-source-and-memory-accept; no new actionable defect found in the requested copy exception; real server/DB commit remains separate",
+  "originalGuardComparison": {
+    "formalCommit": "f4cc10c0ef52054ed3435f95a30126cf12c9d4a8",
+    "originalGuardSha256": "baac62052cf8883b3b55f3e3b22de3b703973d8deafaaba5a9bd8d967776f079",
+    "currentGuardAfterRemovingTwoNewLinesSha256": "baac62052cf8883b3b55f3e3b22de3b703973d8deafaaba5a9bd8d967776f079",
+    "originalGuardByteIdenticalAfterRemovingOnlyNewHelperCallAndAllowedCopyBranch": true,
+    "unchangedPaths": [
+      "system-review protection",
+      "existing same-type amount update",
+      "template first amount/new selectable restriction",
+      "existing split-inherit",
+      "existing breakdown-inherit",
+      "ordinary v4 new-selectable posting expense",
+      "explicit VAT/reclassification/reported-total/remainder"
+    ]
+  },
+  "sourceFindings": {
+    "copyCandidates": "merge-source-copy and event-referenced new IDs are checked even with null/0; unproven originCbsId does not bypass with generic selected method",
+    "originalIdentity": "same project, unique before/after IDs, exact live original management leaf, one copy per origin; no template/system-review laundering",
+    "rawAndBinding": "Unchanged original payload excluding exact callback structural fields; exact original confirmed posting type/code/master and preserved extra binding fields; explicit merge copy method/reason",
+    "eventRelation": "Exactly one new unambiguous one-from/one-to event, original same-parent management participants, deleted alias points to live target, exact source mapping; no event/mapping spoof accepted",
+    "codeAndScope": "New code derived from original counter/codes, globally unique after; original explicit/inherited/no scope conserved; no invented source scope",
+    "otherPaths": "Existing v4 detail-source-copy/split-inherit/breakdown-inherit routes are excluded from new copy-candidate catch; their original guards still apply",
+    "notAdded": "No new permission for currently unreachable legacy-v3 typed-detail path"
+  },
+  "actualCallbackPacketRead": {
+    "path": ".build/review130-20261028/cost-merge-server-boundary-v2.json",
+    "sha256": "b9ec128bb4b0982425013f968cda09ad08e443726cf8f1fd0e9980568f3e390a",
+    "provenance": "Parent-supplied actual isolated normal UI callback packet-v2; exact file read, not actual production workspace data",
+    "newExactOriginalCopies": 2,
+    "originalAmountsAndAllBusinessFieldsPreserved": true,
+    "copyCodeRoleAndParentChangesOnly": true,
+    "otherProjectsExactlyEqual": true,
+    "costStagesContractsVatLoansPermitsExactlyEqual": true,
+    "currentV4TypedDetailPacket": {
+      "path": ".build/review130-20261028/cost-detail-source-copy-fixed-before-after.json",
+      "sha256": "da9979d29d6de75236b0794ca506353027b1091d0195434af146f7ef7666b088",
+      "legacyUiReachabilityClaimed": false
+    },
+    "currentV4TypedDetailSchemaProjectMergePass": true,
+    "legacyTypedDetailUiReachabilityClaimed": false
+  },
+  "execution": {
+    "path": ".build/review-20261028/review130-data-qa/cost-server-independent-execution.json",
+    "sha256": "8353fe6cc0b55d849ae760c4c0311e1c95effcc9542d3d434b58d32316869298",
+    "suite": "tests/review130-cost-merge-server.mjs",
+    "testSha256": "fa0d1480a51a6fd2297219b0cc4f79a2ba754d62d637b1cb27a539ec0e51236a",
+    "passed": 116,
+    "failed": 0,
+    "exitCode": 0,
+    "stderrBytes": 0,
+    "model": "Actual exported schema/project/workspace guard and PUT handler; existing SQL-compatible memory transaction store",
+    "coverage": [
+      "v3/v4 posted amount and explicit0/null/absence",
+      "fake origin/project/code/raw amount/type/method/event/mapping/scope/duplicate copy",
+      "zero-copy template branch and source empty set",
+      "other projects and original contract/VAT/frozen stage data",
+      "real handler mock role403/invalid400/CAS409/audit rollback/idempotent replay",
+      "existing v4 typed-detail callback preserved"
+    ],
+    "countDifference": "116 actual current checks; do not reuse earlier115 count or add repeated reviewer run as new unique coverage"
+  },
+  "limits": [
+    "Read/memory suite acceptance does not prove actual DB/production HTTP commit or post-deployment reconnect",
+    "Packet provenance as parent-provided isolated callback artifacts; no new native browser run by this reviewer",
+    "Only requested management merge copy exception reviewed; not a full storage/security audit",
+    "Does not close all dynamic QA130-06 conditions"
+  ],
+  "safety": {
+    "productFilesEdited": 0,
+    "testsEdited": 0,
+    "actualDatabaseAccess": 0,
+    "actualProviderCalls": 0,
+    "browserRuns": 0,
+    "matrixOrReadmeEdits": 0
+  },
+  "rootCurrentExecution": {
+    "at": "2026-10-29T03:03:50.253Z",
+    "passed": 132,
+    "failed": 0,
+    "sourceSha256": "1f7c4d9ca2a88754e412612e0189093adbaa8e1afdd7e3493d6000df01e9aad7",
+    "sourceChanged": false,
+    "testsAuthoredBy": "backend engineer; root re-executed the same corpus, not a new132-condition denominator",
+    "scope": "Actual exported schema/project/workspace/PUT functions with explicit synthetic fixtures and strict mock transactions; real DB writes0.",
+    "receipt": {
+      "path": ".build/review130-20261028/root-cost-server-independent-132.json",
+      "sha256": "0cb40422cc12d470e2642f6df6c597371c99f37c92522f2177b1ddb6177b61a5"
+    },
+    "priorIndependent116Preserved": true
+  },
+  "originalReadStatus": "Historical exact7f9c source/116-condition read retained; rootCurrentExecution also preserved. Latest reviewer child-branch scope is latestExistingChildrenRead.",
+  "latestExistingChildrenRead": {
+    "at": "2026-10-29T03:09:36.775961+00:00",
+    "sourcePinBefore": "1f7c4d9ca2a88754e412612e0189093adbaa8e1afdd7e3493d6000df01e9aad7",
+    "sourcePinAfter": "1f7c4d9ca2a88754e412612e0189093adbaa8e1afdd7e3493d6000df01e9aad7",
+    "testPinBefore": "e50fe77c1f9362bb523f67649317b05a2a5a5ea58257da917d66f309e0f6407d",
+    "testPinAfter": "e50fe77c1f9362bb523f67649317b05a2a5a5ea58257da917d66f309e0f6407d",
+    "sourceChanged": [],
+    "execution": {
+      "path": ".build/review-20261028/review130-data-qa/cost-server-existing-children-independent-execution.json",
+      "sha256": "146b65a2bf49860e62d233822f197b860fbbca231b1f2c6079c80acca1696bea",
+      "passed": 132,
+      "failed": 0,
+      "exitCode": 0,
+      "stderrBytes": 0
+    },
+    "readScope": [
+      "preserveExistingBranch",
+      "checkEvent exact from/target child ID sets"
+    ],
+    "findings": {
+      "movedDirectChildren": "Only original live direct from-children move to target; parentId and mergedBudgetScopeRef are sole changed fields; exact old effective scope required",
+      "descendants": "Descendant parent/code/name/amount/raw evidence/deletion/type binding stay exact; every original nested child ID set stays exact",
+      "targetChildren": "Existing target branches stay equal in all fields/bindings with equal effective scope",
+      "twoGroups": "Old deleted direct children remain under from; live originals and exact copy records form target child set; missing/unmoved/foreign/extra child refused",
+      "oldCopyGuards": "Copied leaf identity/code/type/raw fields/role/origin/event/0/null guards retained",
+      "currentTypedDetail": "Existing current-v4 typed-detail callback packet still passes; no new v3 typed-detail whitelist"
+    },
+    "newCasesVersus116Names": [
+      {
+        "name": "plain legacy descendants and existing target children preserve original records without creating new detail support",
+        "status": "passed"
+      },
+      {
+        "name": "legacy merge cannot lose or rewrite existing source structure: not-moved",
+        "status": "passed"
+      },
+      {
+        "name": "legacy merge cannot lose or rewrite existing source structure: wrong-target",
+        "status": "passed"
+      },
+      {
+        "name": "legacy merge cannot lose or rewrite existing source structure: amount",
+        "status": "passed"
+      },
+      {
+        "name": "legacy merge cannot lose or rewrite existing source structure: code",
+        "status": "passed"
+      },
+      {
+        "name": "legacy merge cannot lose or rewrite existing source structure: name",
+        "status": "passed"
+      },
+      {
+        "name": "legacy merge cannot lose or rewrite existing source structure: deleted",
+        "status": "passed"
+      },
+      {
+        "name": "legacy merge cannot lose or rewrite existing source structure: missing",
+        "status": "passed"
+      },
+      {
+        "name": "legacy merge cannot lose or rewrite existing source structure: scope",
+        "status": "passed"
+      },
+      {
+        "name": "legacy merge cannot lose or rewrite existing source structure: binding",
+        "status": "passed"
+      },
+      {
+        "name": "legacy merge cannot lose or rewrite existing source structure: extra-child",
+        "status": "passed"
+      },
+      {
+        "name": "legacy merge cannot lose or rewrite existing source structure: descendant",
+        "status": "passed"
+      },
+      {
+        "name": "legacy merge cannot lose or rewrite existing source structure: target-child",
+        "status": "passed"
+      },
+      {
+        "name": "actual PUT rejects invalid legacy movement without partial write: not-moved",
+        "status": "passed"
+      },
+      {
+        "name": "actual PUT rejects invalid legacy movement without partial write: target-original-amount",
+        "status": "passed"
+      },
+      {
+        "name": "later ordinary editing of a preserved legacy source is not frozen by the one-time copy guard",
+        "status": "passed"
+      }
+    ],
+    "reviewConclusion": "No new actionable issue found in requested existing-child move proof; current132/132 PASS with unchanged source. Earlier7f9c acceptance is original-time evidence and not automatic inheritance.",
+    "coverageAccounting": "132 suite includes earlier cases. Repeated reviewer run adds0 new unique native/production cases; do not sum116+132 as248 unique checks.",
+    "limits": [
+      "Existing-child checks are synthetic memory fixtures, not new native/DB child movement",
+      "Only requested management merge copy boundary reviewed, not full storage/security audit",
+      "Actual DB commit/production HTTP reconnect remain separate"
+    ],
+    "productFilesEdited": 0,
+    "testFilesEdited": 0,
+    "actualDatabaseAccess": 0,
+    "actualProviderCalls": 0,
+    "browserRuns": 0
+  }
+}

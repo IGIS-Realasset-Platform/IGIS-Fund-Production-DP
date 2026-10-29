@@ -1,0 +1,197 @@
+{
+  "schemaVersion": "review130-law-preserved-availability-v1",
+  "reviewedAt": "2026-10-29T03:41:38.805182+00:00",
+  "requirements": [
+    "LAW130-02",
+    "QA130-06"
+  ],
+  "status": "client consumer corrected and frozen; selected server-only observation fixture pending backend preparation; final global/deployment separate",
+  "candidate": {
+    "name": "C92",
+    "path": ".build/review130-20261028/integration-candidate-92.html",
+    "sha256": "118aef0e4706102d060cb308a6814ff67642f4c0cd3a514fbf0083709397ebf1",
+    "bytes": 6874771
+  },
+  "source": {
+    "before": {
+      "path": ".build/review-20261028/review130-data-qa/law-monitor-before-preserved-availability.js",
+      "sha256": "302f407aba052e7a894e6bd52a2e4676a3a234255a32e5632baa8b2b7b76676c"
+    },
+    "after": {
+      "path": "src/law-monitor.js",
+      "sha256": "2b7da2867f30af6b9fd21baa5beb6d40f51f1ade310fce005bb9c8eea1993a65"
+    },
+    "test": {
+      "path": "tests/review130-law-preserved-availability.mjs",
+      "sha256": "0e87296bc00e9cd40fdc31cffd85bf1e58ae6e6b4adca78552d3714ebb92cfb9"
+    },
+    "targetedLogicalLines": [
+      33,
+      40,
+      42,
+      49
+    ],
+    "otherProductFilesEditedByThisChange": []
+  },
+  "counterexample": {
+    "origin": "Independent synthetic mixed official-ID model, not an assertion of current DB corruption",
+    "tuple": "Same sequence/effectiveAt/announcedAt and normalized law number; old record missing officialId and selected fresh version has exact known family",
+    "before": "Raw first-match availability borrows wrong attachment-only flag or unknown attachments. Context merge could also retain known ID while overwriting metadata from unknown row.",
+    "initial2": {
+      "path": ".build/review-20261028/review130-data-qa/law-preserved-availability-red.json",
+      "sha256": "741712b3bda65d70d073f0e2af48ad5b1ba66612e1253747d4da11542499fef6",
+      "passed": 0,
+      "failed": 2
+    },
+    "expanded8Before": {
+      "path": ".build/review-20261028/review130-data-qa/law-preserved-availability-eight-red.json",
+      "sha256": "4e614c01f828f19a04e8ab2017de5b8d95d1373426dad16bd6c67de93a2df502",
+      "passed": 4,
+      "failed": 4
+    },
+    "expanded8After": {
+      "path": ".build/review-20261028/review130-data-qa/law-preserved-availability-eight-http-green.json",
+      "sha256": "1143b5329dd4e46f51d62cbb8f10a0300a8a0b6331a7a51262f4a02cfc95d42b",
+      "passed": 8,
+      "failed": 0,
+      "sourceChanged": []
+    },
+    "dimensions": [
+      "old-first/fresh-first",
+      "official metadata present/keys absent",
+      "old attachment-only versus fresh text and reverse"
+    ],
+    "rawDataUnchanged": "Every case compares complete state JSON before/after including records and versions"
+  },
+  "correction": {
+    "authority": "Known+unknown duplicate keeps the entire known version object. Unknown metadata cannot fill missing official keys or overwrite them in reversed order.",
+    "retainedGuards": "Existing duplicate announced-date/law-number/foreign-family conflicts, same-family filtering, unique after and exact prior candidate conditions unchanged. Both-known merge and legacy-only policy unchanged.",
+    "lookup": "Private WeakMap binds each existing flat comparison context object to its selected after version; availability reads that metadata instead of selecting again from raw arrays.",
+    "newUiOrNewApiFields": false
+  },
+  "httpFlatContract": {
+    "uniqueContract": 1,
+    "checkedInsideExisting8Cases": true,
+    "contextExactFields": [
+      "target",
+      "sequence",
+      "effectiveAt",
+      "beforeSequence",
+      "beforeEffectiveAt",
+      "lawId"
+    ],
+    "actualMockRequestExactKeys": [
+      "projectId",
+      "target",
+      "sequence",
+      "effectiveAt",
+      "beforeSequence",
+      "beforeEffectiveAt",
+      "comparison"
+    ],
+    "selectedMetadataSerialized": false,
+    "sourceOrRoleFieldsAddedToUrl": false,
+    "realHttpCalls": 0,
+    "method": "Public loadChangeComparison executes against closed mocked HTTP response and records URL; exact keys/values and identity success asserted."
+  },
+  "selectedRegressions": {
+    "evidence": {
+      "path": ".build/review-20261028/review130-data-qa/law-preserved-availability-focus/receipt.json",
+      "sha256": "8dd7a2085d64ad0e6f2abe0a0f2bb4c3c1358195541e788024127336eacbc0cc"
+    },
+    "suites": 13,
+    "passedSuites": 12,
+    "failedSuites": 1,
+    "passedChecks": 162,
+    "failedChecks": 1,
+    "sourceChanged": [],
+    "fullyPassingSubset": {
+      "suites": 12,
+      "checks": 146,
+      "includesNew8": true,
+      "scope": "Candidate/identity/attachment/UI consumers plus new8; not full platform"
+    },
+    "remainingServerOnly": {
+      "test": "tests/followup121-law-comparison.mjs",
+      "passed": 16,
+      "failed": 1,
+      "clientModuleImported": false,
+      "meaning": "Same-day checkpoint reuse bypasses provider observation in old fixture. Backend owns approved next-day observation/recovery-window preparation. Original failure evidence preserved; not called a new UI product failure or full regression pass."
+    }
+  },
+  "serverRoleReadCohort": {
+    "sourcePins": {
+      "server/law-collector.mjs": "7223926e20f9cafd544cb8dc4773ad88979762f9b38919733d3e859d51deea6e",
+      "server/law-collection-progress.mjs": "4e8e74826af64291c78ba2b86022166df791f16359a9585a0c6cdf0988102649",
+      "server/maintenance-runtime.mjs": "6556e5c1a49b3b63401870b088247ab10e321cf8f966c3c96fc5474d19d07d4a"
+    },
+    "readEvidence": {
+      "path": ".build/review-20261028/review130-data-qa/law-preserved-role-independent-read-final.json",
+      "sha256": "862b3ea87b232dcbd7a8799927ca098d02c29f4d253bbf883551e4cf757b85c8"
+    },
+    "reviewerServerTestsExecuted": 0,
+    "readFindings": [
+      "Fresh source verified with allowPreserved:false before merge",
+      "Sidecar rawHashes tied to exact unknown prior version of same record",
+      "Raw version object/status kept unchanged",
+      "Runtime completed ID complement/count guard text identical to adf0"
+    ],
+    "author12ResultOnly": {
+      "path": ".build/review130-20261028/law-preserved-role-green.json",
+      "sha256": "dc8349585112945743746d4e479129d2016023774affc05fd8afda57e075db87",
+      "reportedPassed": 12,
+      "reportedFailed": 0,
+      "notRecountedAsReviewerExecution": true
+    }
+  },
+  "independentSourceRead": {
+    "reviewer": "frontend_engineer_128",
+    "mode": "Compared actual before302f/after2b7d source; four logical lines only excluding line endings; no new execution",
+    "conclusion": "Authority, unchanged identity candidates/flat HTTP contract, WeakMap non-serialization and source object immutability accepted within scope",
+    "executedCasesAdded": 0
+  },
+  "C91ToC92Bridge": {
+    "C91": {
+      "path": ".build/review130-20261028/integration-candidate-91.html",
+      "sha256": "9111ad9adeb5a41d96f37888efa00d522c5fd12b85ae384acf30fe519fd59f77"
+    },
+    "C92": {
+      "path": ".build/review130-20261028/integration-candidate-92.html",
+      "sha256": "118aef0e4706102d060cb308a6814ff67642f4c0cd3a514fbf0083709397ebf1"
+    },
+    "onlyLawMonitorModuleReplaced": true,
+    "sourceAssemblyNormalization": "Before source file140 CRLF line endings normalized to LF as in actual HTML; current source LF. Raw source hashes and assembled bytes distinguished.",
+    "oldAssembledModuleSha256": "dc04fcfcb9b7070dd6ffe4f2b9f861227748379a49cb3cb98e312de9f576711a",
+    "newAssembledModuleSha256": "2b7da2867f30af6b9fd21baa5beb6d40f51f1ade310fce005bb9c8eea1993a65",
+    "oldModuleOccurrences": 1,
+    "newModuleOccurrences": 1,
+    "wholeHtmlByteEqualAfterReplacement": true,
+    "moduleByteDelta": -33,
+    "htmlByteDelta": -33,
+    "cost4AndActualXlsx2": "All other HTML bytes unchanged. C91 actual2 Excel output scope transfers by unchanged code evidence, not a new C92 native execution.",
+    "xlsxIndependentRead": {
+      "path": "docs/review130-cost-output-independent-read.json",
+      "sha256": "6eff7a70136f42c279c5fea4c07f1f2273a6a98a6985584a53c503aaf5ef62b1"
+    }
+  },
+  "limits": [
+    "No current DB record corruption claimed from synthetic model reproduction",
+    "No actual external law source/production API/DB/native browser run",
+    "Selected regressions and source bridge do not replace final homogeneous global cohort or actual collector verification",
+    "No new investigation beyond this connected consumer; QA130-06 remains partial"
+  ],
+  "safety": {
+    "productEdited": [
+      "src/law-monitor.js"
+    ],
+    "testAdded": [
+      "tests/review130-law-preserved-availability.mjs"
+    ],
+    "serverProductsEdited": 0,
+    "otherTestsEdited": 0,
+    "originalRecordsOrBodiesEdited": 0,
+    "actualDbAccess": 0,
+    "actualExternalCalls": 0,
+    "browserRuns": 0
+  }
+}

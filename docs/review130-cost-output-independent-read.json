@@ -1,0 +1,319 @@
+{
+  "schemaVersion": "review130-cost-output-independent-read-v1",
+  "reviewedAt": "2026-10-29T03:06:04.816914+00:00",
+  "requirements": [
+    "UI130-04",
+    "QA130-06"
+  ],
+  "candidate": {
+    "name": "C91",
+    "sha256": "9111ad9adeb5a41d96f37888efa00d522c5fd12b85ae384acf30fe519fd59f77",
+    "nativeEvidence": {
+      "path": ".build/review130-20261028/cost-native/2026-10-29T02-27-48-221Z/evidence.json",
+      "sha256": "cc9f983e62d9343513793e0e50b820fa0b83d19386d974d76cb0354768222105"
+    },
+    "actualBrowserRunsAddedByThisReviewer": 0
+  },
+  "method": "Read actual XLSX ZIP bytes with Python stdlib zipfile and ElementTree; workbook relationships, worksheet XML, explicit cell types/values, shared or inline strings and number styles. No frontend XLSX helper imported or evaluation copied. Independent expected integers supplied by approved case.",
+  "files": [
+    {
+      "path": ".build/review130-20261028/cost-native/2026-10-29T02-27-48-221Z/merge-known-originals.xlsx",
+      "sha256Before": "d08525ef41dea51c4530195f0a4db79ab41b6d1a1dc68bb751b1ff916cd0fb8e",
+      "sha256After": "d08525ef41dea51c4530195f0a4db79ab41b6d1a1dc68bb751b1ff916cd0fb8e",
+      "worksheet": {
+        "name": "세부 사업비",
+        "state": "visible",
+        "dimension": "A1:H53",
+        "parsedPresentCells": 175,
+        "declaredSheetCount": 1
+      },
+      "numberFormat": {
+        "code": "#,##0,,",
+        "meaning": "원 정수값을 유지하고 백만원 단위로 표시; 화면 반올림을 원값 변경으로 읽지 않음"
+      },
+      "privateXmlRead": {
+        "path": ".build/review-20261028/review130-data-qa/cost-output-xml-read/merge-known-originals-native-xml.json",
+        "sha256": "c158591080e32967f154af717b47c7267e28a0058a061f178828738d139dafd2"
+      }
+    },
+    {
+      "path": ".build/review130-20261028/cost-native/2026-10-29T02-27-48-221Z/merge-zero-and-missing.xlsx",
+      "sha256Before": "97851ccd47378ace6184e6a649176290ad0e151ddf690679f72c46b669649448",
+      "sha256After": "97851ccd47378ace6184e6a649176290ad0e151ddf690679f72c46b669649448",
+      "worksheet": {
+        "name": "세부 사업비",
+        "state": "visible",
+        "dimension": "A1:H49",
+        "parsedPresentCells": 120,
+        "declaredSheetCount": 1
+      },
+      "numberFormat": {
+        "code": "#,##0,,",
+        "meaning": "원 정수값을 유지하고 백만원 단위로 표시; 화면 반올림을 원값 변경으로 읽지 않음"
+      },
+      "privateXmlRead": {
+        "path": ".build/review-20261028/review130-data-qa/cost-output-xml-read/merge-zero-and-missing-native-xml.json",
+        "sha256": "552d71ed2822c74d359cf4972e9a728de3b4a9c5fcf8f5248953a72f297d56ae"
+      }
+    }
+  ],
+  "selectedScope": {
+    "known": {
+      "pastColumn": "D",
+      "currentColumn": "F",
+      "aggregateRow": 6,
+      "sourceRows": [
+        7,
+        8
+      ],
+      "expectedOriginalWon": [
+        1000001,
+        2000000
+      ],
+      "expectedAggregateWon": 3000001,
+      "totalRow": 4,
+      "independentTopLevelRows": [
+        5,
+        12
+      ],
+      "expectedIndependentOtherGroupWon": 100000000,
+      "expectedTotalWon": 103000001
+    },
+    "zeroAndMissing": {
+      "missingFeeRow": 7,
+      "numericZeroTaxRow": 9,
+      "pastColumn": "D",
+      "currentColumn": "F",
+      "expectedKnownTotalWon": 1000001,
+      "missingNumericCells": [
+        "D7",
+        "F7"
+      ],
+      "numericZeroCells": [
+        "D9",
+        "F9"
+      ]
+    },
+    "rowOrder": "Known aggregate row6 then exact original source rows7/8; missing fee row7 before explicit zero tax row9",
+    "sheet": "Exactly one visible worksheet named 세부 사업비 per file, no hidden second sheet"
+  },
+  "verdict": "selected independent ZIP/XML checks passed; historical source-copy amounts are present in D and current amounts in F; no amount correction or file regeneration",
+  "checks": [
+    {
+      "condition": "merge-known-originals exact supplied SHA",
+      "status": "passed"
+    },
+    {
+      "condition": "merge-known-originals exactly one declared visible worksheet and one worksheet XML",
+      "status": "passed"
+    },
+    {
+      "condition": "merge-known-originals no formulas in parsed cells",
+      "status": "passed"
+    },
+    {
+      "condition": "merge-known-originals D4 original integer",
+      "status": "passed"
+    },
+    {
+      "condition": "merge-known-originals F4 original integer",
+      "status": "passed"
+    },
+    {
+      "condition": "merge-known-originals D5 original integer",
+      "status": "passed"
+    },
+    {
+      "condition": "merge-known-originals F5 original integer",
+      "status": "passed"
+    },
+    {
+      "condition": "merge-known-originals D6 original integer",
+      "status": "passed"
+    },
+    {
+      "condition": "merge-known-originals F6 original integer",
+      "status": "passed"
+    },
+    {
+      "condition": "merge-known-originals D7 original integer",
+      "status": "passed"
+    },
+    {
+      "condition": "merge-known-originals F7 original integer",
+      "status": "passed"
+    },
+    {
+      "condition": "merge-known-originals D8 original integer",
+      "status": "passed"
+    },
+    {
+      "condition": "merge-known-originals F8 original integer",
+      "status": "passed"
+    },
+    {
+      "condition": "merge-known-originals D12 original integer",
+      "status": "passed"
+    },
+    {
+      "condition": "merge-known-originals F12 original integer",
+      "status": "passed"
+    },
+    {
+      "condition": "merge-known-originals exact row order aggregate/original from/original target",
+      "status": "passed"
+    },
+    {
+      "condition": "merge-known-originals D source children sum once into aggregate",
+      "status": "passed"
+    },
+    {
+      "condition": "merge-known-originals D independent top level groups sum once to total",
+      "status": "passed"
+    },
+    {
+      "condition": "merge-known-originals F source children sum once into aggregate",
+      "status": "passed"
+    },
+    {
+      "condition": "merge-known-originals F independent top level groups sum once to total",
+      "status": "passed"
+    },
+    {
+      "condition": "merge-known-originals D4 raw won preserved with million display style",
+      "status": "passed"
+    },
+    {
+      "condition": "merge-known-originals F4 raw won preserved with million display style",
+      "status": "passed"
+    },
+    {
+      "condition": "merge-known-originals D5 raw won preserved with million display style",
+      "status": "passed"
+    },
+    {
+      "condition": "merge-known-originals F5 raw won preserved with million display style",
+      "status": "passed"
+    },
+    {
+      "condition": "merge-known-originals D6 raw won preserved with million display style",
+      "status": "passed"
+    },
+    {
+      "condition": "merge-known-originals F6 raw won preserved with million display style",
+      "status": "passed"
+    },
+    {
+      "condition": "merge-known-originals D7 raw won preserved with million display style",
+      "status": "passed"
+    },
+    {
+      "condition": "merge-known-originals F7 raw won preserved with million display style",
+      "status": "passed"
+    },
+    {
+      "condition": "merge-known-originals D8 raw won preserved with million display style",
+      "status": "passed"
+    },
+    {
+      "condition": "merge-known-originals F8 raw won preserved with million display style",
+      "status": "passed"
+    },
+    {
+      "condition": "merge-known-originals D12 raw won preserved with million display style",
+      "status": "passed"
+    },
+    {
+      "condition": "merge-known-originals F12 raw won preserved with million display style",
+      "status": "passed"
+    },
+    {
+      "condition": "merge-known-originals past/current headers label million unit",
+      "status": "passed"
+    },
+    {
+      "condition": "merge-zero-and-missing exact supplied SHA",
+      "status": "passed"
+    },
+    {
+      "condition": "merge-zero-and-missing exactly one declared visible worksheet and one worksheet XML",
+      "status": "passed"
+    },
+    {
+      "condition": "merge-zero-and-missing no formulas in parsed cells",
+      "status": "passed"
+    },
+    {
+      "condition": "merge-zero-and-missing exact blank/zero row labels",
+      "status": "passed"
+    },
+    {
+      "condition": "merge-zero-and-missing D unknown fee has no numeric cell",
+      "status": "passed"
+    },
+    {
+      "condition": "merge-zero-and-missing D explicit tax zero remains numeric0",
+      "status": "passed"
+    },
+    {
+      "condition": "merge-zero-and-missing D total and aggregate retain independent known source amount",
+      "status": "passed"
+    },
+    {
+      "condition": "merge-zero-and-missing F unknown fee has no numeric cell",
+      "status": "passed"
+    },
+    {
+      "condition": "merge-zero-and-missing F explicit tax zero remains numeric0",
+      "status": "passed"
+    },
+    {
+      "condition": "merge-zero-and-missing F total and aggregate retain independent known source amount",
+      "status": "passed"
+    },
+    {
+      "condition": "merge-zero-and-missing D9 raw won preserved with million display style",
+      "status": "passed"
+    },
+    {
+      "condition": "merge-zero-and-missing D4 raw won preserved with million display style",
+      "status": "passed"
+    },
+    {
+      "condition": "merge-zero-and-missing D6 raw won preserved with million display style",
+      "status": "passed"
+    },
+    {
+      "condition": "merge-zero-and-missing F9 raw won preserved with million display style",
+      "status": "passed"
+    },
+    {
+      "condition": "merge-zero-and-missing F4 raw won preserved with million display style",
+      "status": "passed"
+    },
+    {
+      "condition": "merge-zero-and-missing F6 raw won preserved with million display style",
+      "status": "passed"
+    },
+    {
+      "condition": "merge-zero-and-missing past/current headers label million unit",
+      "status": "passed"
+    }
+  ],
+  "coverageAccounting": "Independent read of2 existing actual download artifacts. This adds0 native runs and does not expand2 native downloads into full export/platform acceptance. Parsed all present cells but judged only explicitly listed scope.",
+  "limits": [
+    "Installed Excel not launched and not requested for this read",
+    "No visual rendering or new UI interaction by this reader",
+    "No new production DB/server write verified",
+    "Other scenarios, sheets or historical documents outside these2 exact files are not accepted by this read",
+    "Old C90 missing-value output remains its own prior failure; no old evidence overwritten"
+  ],
+  "safety": {
+    "xlsxResavedOrReexported": 0,
+    "productFilesEdited": 0,
+    "testFilesEdited": 0,
+    "actualDbAccess": 0,
+    "browserRuns": 0,
+    "filesChanged": []
+  }
+}
