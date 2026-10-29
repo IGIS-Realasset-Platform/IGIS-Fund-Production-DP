@@ -2,13 +2,14 @@
   "schemaVersion": "component-review-matrix-v1",
   "deployedRelease": {
     "version": "0.13.0",
-    "candidate": "C92",
+    "candidate": "C93",
     "date": "2026-10-29",
-    "sourceCommit": "15fa61f35239c6c1f8cc59509f8e007066ec7e3b",
-    "deploymentId": "dpl_BHYdfDUnt1mFm3EjyoENNzoGPpj2",
-    "formalHtmlSha256": "5d842a047f3bed18279fee9791705d9649848abd32fd2d6b16d1c0ae38cb5846",
-    "bytes": 6874706,
-    "verification": "docs/review130-c92-live-verification.json",
+    "sourceCommit": "1166cab67a8e9ac32d2af0e4c29982122aef18d1",
+    "deploymentId": "dpl_3pVpQyQv5L7N2iw3TBpZFCFnTQLc",
+    "productionDeploymentId": "dpl_3pVpQyQv5L7N2iw3TBpZFCFnTQLc",
+    "formalHtmlSha256": "0284982811d2ec1ebc178c1c36dd78f90e5a4b4bad033ab8250414b6276f5ebc",
+    "bytes": 6910675,
+    "verification": "docs/review131-final-verification.json",
     "allComponentsAccepted": false
   },
   "at": "2026-10-23T04:12:22.096Z",
@@ -44,7 +45,7 @@
     "businessCounterexamples": 1,
     "currentObservedDefinitions": 975,
     "historicalRecords": 3238,
-    "totalMatrixRecords": 5081,
+    "totalMatrixRecords": 5135,
     "allPriorIDsPreserved": true,
     "currentActualCohortCountsAreNotAddedToHistoricCounts": true,
     "sourceCandidateCohort": "C44 historical, not current visible controls",
@@ -66,7 +67,9 @@
       "confirmedRouteStates": 30,
       "actualMeaning": "Historical C53 names retained; current C86 discovery has31 routes. Neither is all-state completed count."
     },
-    "review131PendingRequirements": 6
+    "review131PendingRequirements": 0,
+    "review131AddedContentDefinitions": 54,
+    "review131ScopedAcceptedRequirements": 6
   },
   "actualExecution": {
     "evidence": "C44-ACTUAL-42",
@@ -729585,6 +729588,4323 @@
         }
       },
       "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW131-C93-INTAKE",
+      "parentID": "PERMIT131-01",
+      "kind": "popup-form",
+      "label": "추가할 인허가 선택",
+      "lifecycle": "review131-c93-bounded-verification",
+      "visibleUserControl": true,
+      "source": [
+        {
+          "path": "src/permit-map.js",
+          "sha256": "b77f661f494f96a0c072ca7844475a399b3a63f10263bec081d109bf03684a5a"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "추가할 인허가 선택",
+        "reference": "docs/review131-spec.md"
+      },
+      "content": {
+        "label": "추가할 인허가 선택",
+        "type": "form",
+        "consumers": [
+          "조건 초안",
+          "추천",
+          "선택",
+          "조건만 저장",
+          "선택 추가",
+          "취소/X/Escape"
+        ],
+        "preservation": "원금액·미입력/0·기존 ID/이름·계약/VAT·과거본 보존. 내용/타입 정의와 실제 실행은 별도"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass-source-scope",
+          "evidence": [
+            {
+              "path": ".build/review131/source-freeze.json",
+              "sha256": "02007e01323453350acf36069da057d6018cc040d174d4db6ca54326258afa29"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass-bounded-model",
+          "evidence": [
+            {
+              "path": "docs/review131-permit-intake-verification.json",
+              "sha256": "b3c91b6390081383109f16153fbc5c214940c4bee35eaf979a876d1b05728bab"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "pass-bounded-local-native",
+          "evidence": [
+            {
+              "path": ".build/review131/native-visual-review.json",
+              "sha256": "3fc70c6d480844e672df89c7c25213b553f630e95c5a6561bd28702883546dbd"
+            }
+          ],
+          "scope": "정확 local HTML 10fb6a7867b66f849f681d45c8c1d63ccbf8dfb26448fa2a9849e4d61a3abfb4의 합성자료 캡처/DOM·좌표. 실제 DB 아님",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "pass-bounded-real-B",
+          "evidence": [
+            {
+              "path": ".build/review131/release-live-after-yes-1793254365773.json",
+              "sha256": "a926a6e5131eef3a1c5528ea23689db03aa7134b726c88858cf0252aaaba3a65",
+              "scope": "private SQL receipt; raw values not copied"
+            },
+            {
+              "path": ".build/review131/release-live-after-unknown-1793254532792.json",
+              "sha256": "34584456c1922e98c1ec0175322180ae796cb58de1d439f03fc9004da638f740",
+              "scope": "private SQL receipt; raw values not copied"
+            }
+          ],
+          "scope": "B specialStructure 예→재접속→미확인명시정정; otherflags/otherrows notexercised",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "새 보고서/PDF/설치 Excel 전수검수는 이번 정의 확인과 별개",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW131-C93-TABS",
+      "parentID": "PERMIT131-01",
+      "kind": "tablist",
+      "label": "추천 조건 / 인허가 목록",
+      "lifecycle": "review131-c93-bounded-verification",
+      "visibleUserControl": true,
+      "source": [
+        {
+          "path": "src/permit-map.js",
+          "sha256": "b77f661f494f96a0c072ca7844475a399b3a63f10263bec081d109bf03684a5a"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "추천 조건 / 인허가 목록",
+        "reference": "docs/review131-spec.md"
+      },
+      "content": {
+        "label": "추천 조건 / 인허가 목록",
+        "type": "tablist",
+        "consumers": [
+          "초안",
+          "활성 패널",
+          "좌우/Home/End"
+        ],
+        "preservation": "원금액·미입력/0·기존 ID/이름·계약/VAT·과거본 보존. 내용/타입 정의와 실제 실행은 별도"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass-source-scope",
+          "evidence": [
+            {
+              "path": ".build/review131/source-freeze.json",
+              "sha256": "02007e01323453350acf36069da057d6018cc040d174d4db6ca54326258afa29"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass-bounded-model",
+          "evidence": [
+            {
+              "path": "docs/review131-permit-intake-verification.json",
+              "sha256": "b3c91b6390081383109f16153fbc5c214940c4bee35eaf979a876d1b05728bab"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "pass-bounded-local-native",
+          "evidence": [
+            {
+              "path": ".build/review131/native-visual-review.json",
+              "sha256": "3fc70c6d480844e672df89c7c25213b553f630e95c5a6561bd28702883546dbd"
+            }
+          ],
+          "scope": "정확 local HTML 10fb6a7867b66f849f681d45c8c1d63ccbf8dfb26448fa2a9849e4d61a3abfb4의 합성자료 캡처/DOM·좌표. 실제 DB 아님",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "정식 전환 후 root의 조건만 실제 DB 저장 검수 대기",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "새 보고서/PDF/설치 Excel 전수검수는 이번 정의 확인과 별개",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW131-C93-TAB-CONDITIONS",
+      "parentID": "REVIEW131-C93-TABS",
+      "kind": "tab",
+      "label": "추천 조건",
+      "lifecycle": "review131-c93-bounded-verification",
+      "visibleUserControl": true,
+      "source": [
+        {
+          "path": "src/permit-map.js",
+          "sha256": "b77f661f494f96a0c072ca7844475a399b3a63f10263bec081d109bf03684a5a"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "추천 조건",
+        "reference": "docs/review131-spec.md"
+      },
+      "content": {
+        "label": "추천 조건",
+        "type": "tab",
+        "consumers": [
+          "동일 초안",
+          "입력값",
+          "검색/접힘/초점"
+        ],
+        "preservation": "원금액·미입력/0·기존 ID/이름·계약/VAT·과거본 보존. 내용/타입 정의와 실제 실행은 별도"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass-source-scope",
+          "evidence": [
+            {
+              "path": ".build/review131/source-freeze.json",
+              "sha256": "02007e01323453350acf36069da057d6018cc040d174d4db6ca54326258afa29"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass-bounded-model",
+          "evidence": [
+            {
+              "path": "docs/review131-permit-intake-verification.json",
+              "sha256": "b3c91b6390081383109f16153fbc5c214940c4bee35eaf979a876d1b05728bab"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "pass-bounded-local-native",
+          "evidence": [
+            {
+              "path": ".build/review131/native-visual-review.json",
+              "sha256": "3fc70c6d480844e672df89c7c25213b553f630e95c5a6561bd28702883546dbd"
+            }
+          ],
+          "scope": "정확 local HTML 10fb6a7867b66f849f681d45c8c1d63ccbf8dfb26448fa2a9849e4d61a3abfb4의 합성자료 캡처/DOM·좌표. 실제 DB 아님",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "정식 전환 후 root의 조건만 실제 DB 저장 검수 대기",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "새 보고서/PDF/설치 Excel 전수검수는 이번 정의 확인과 별개",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW131-C93-TAB-LIST",
+      "parentID": "REVIEW131-C93-TABS",
+      "kind": "tab",
+      "label": "인허가 목록",
+      "lifecycle": "review131-c93-bounded-verification",
+      "visibleUserControl": true,
+      "source": [
+        {
+          "path": "src/permit-map.js",
+          "sha256": "b77f661f494f96a0c072ca7844475a399b3a63f10263bec081d109bf03684a5a"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "인허가 목록",
+        "reference": "docs/review131-spec.md"
+      },
+      "content": {
+        "label": "인허가 목록",
+        "type": "tab",
+        "consumers": [
+          "동일 초안",
+          "입력값",
+          "검색/접힘/초점"
+        ],
+        "preservation": "원금액·미입력/0·기존 ID/이름·계약/VAT·과거본 보존. 내용/타입 정의와 실제 실행은 별도"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass-source-scope",
+          "evidence": [
+            {
+              "path": ".build/review131/source-freeze.json",
+              "sha256": "02007e01323453350acf36069da057d6018cc040d174d4db6ca54326258afa29"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass-bounded-model",
+          "evidence": [
+            {
+              "path": "docs/review131-permit-intake-verification.json",
+              "sha256": "b3c91b6390081383109f16153fbc5c214940c4bee35eaf979a876d1b05728bab"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "pass-bounded-local-native",
+          "evidence": [
+            {
+              "path": ".build/review131/native-visual-review.json",
+              "sha256": "3fc70c6d480844e672df89c7c25213b553f630e95c5a6561bd28702883546dbd"
+            }
+          ],
+          "scope": "정확 local HTML 10fb6a7867b66f849f681d45c8c1d63ccbf8dfb26448fa2a9849e4d61a3abfb4의 합성자료 캡처/DOM·좌표. 실제 DB 아님",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "정식 전환 후 root의 조건만 실제 DB 저장 검수 대기",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "새 보고서/PDF/설치 Excel 전수검수는 이번 정의 확인과 별개",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW131-C93-FLAG-trafficZone",
+      "parentID": "LAW131-04",
+      "kind": "input-field",
+      "label": "도시교통정비지역 또는 교통권역 해당",
+      "lifecycle": "review131-c93-bounded-verification",
+      "visibleUserControl": true,
+      "source": [
+        {
+          "path": "src/permit-map.js",
+          "sha256": "b77f661f494f96a0c072ca7844475a399b3a63f10263bec081d109bf03684a5a"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "도시교통정비지역 또는 교통권역 해당",
+        "reference": "docs/review131-spec.md"
+      },
+      "content": {
+        "label": "도시교통정비지역 또는 교통권역 해당",
+        "type": "select:미확인/예/아니오",
+        "consumers": [
+          "permitConditions.trafficZone",
+          "추천",
+          "수동 선택",
+          "저장",
+          "재진입"
+        ],
+        "preservation": "원금액·미입력/0·기존 ID/이름·계약/VAT·과거본 보존. 내용/타입 정의와 실제 실행은 별도",
+        "change": "new"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass-source-scope",
+          "evidence": [
+            {
+              "path": ".build/review131/source-freeze.json",
+              "sha256": "02007e01323453350acf36069da057d6018cc040d174d4db6ca54326258afa29"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass-bounded-model",
+          "evidence": [
+            {
+              "path": "docs/review131-permit-intake-verification.json",
+              "sha256": "b3c91b6390081383109f16153fbc5c214940c4bee35eaf979a876d1b05728bab"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "pass-bounded-local-native",
+          "evidence": [
+            {
+              "path": ".build/review131/native-visual-review.json",
+              "sha256": "3fc70c6d480844e672df89c7c25213b553f630e95c5a6561bd28702883546dbd"
+            }
+          ],
+          "scope": "정확 local HTML 10fb6a7867b66f849f681d45c8c1d63ccbf8dfb26448fa2a9849e4d61a3abfb4의 합성자료 캡처/DOM·좌표. 실제 DB 아님",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "정식 전환 후 root의 조건만 실제 DB 저장 검수 대기",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "새 보고서/PDF/설치 Excel 전수검수는 이번 정의 확인과 별개",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW131-C93-FLAG-trafficScope",
+      "parentID": "LAW131-04",
+      "kind": "input-field",
+      "label": "교통영향평가 대상사업·용도·규모 해당",
+      "lifecycle": "review131-c93-bounded-verification",
+      "visibleUserControl": true,
+      "source": [
+        {
+          "path": "src/permit-map.js",
+          "sha256": "b77f661f494f96a0c072ca7844475a399b3a63f10263bec081d109bf03684a5a"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "교통영향평가 대상사업·용도·규모 해당",
+        "reference": "docs/review131-spec.md"
+      },
+      "content": {
+        "label": "교통영향평가 대상사업·용도·규모 해당",
+        "type": "select:미확인/예/아니오",
+        "consumers": [
+          "permitConditions.trafficScope",
+          "추천",
+          "수동 선택",
+          "저장",
+          "재진입"
+        ],
+        "preservation": "원금액·미입력/0·기존 ID/이름·계약/VAT·과거본 보존. 내용/타입 정의와 실제 실행은 별도",
+        "change": "new"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass-source-scope",
+          "evidence": [
+            {
+              "path": ".build/review131/source-freeze.json",
+              "sha256": "02007e01323453350acf36069da057d6018cc040d174d4db6ca54326258afa29"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass-bounded-model",
+          "evidence": [
+            {
+              "path": "docs/review131-permit-intake-verification.json",
+              "sha256": "b3c91b6390081383109f16153fbc5c214940c4bee35eaf979a876d1b05728bab"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "pass-bounded-local-native",
+          "evidence": [
+            {
+              "path": ".build/review131/native-visual-review.json",
+              "sha256": "3fc70c6d480844e672df89c7c25213b553f630e95c5a6561bd28702883546dbd"
+            }
+          ],
+          "scope": "정확 local HTML 10fb6a7867b66f849f681d45c8c1d63ccbf8dfb26448fa2a9849e4d61a3abfb4의 합성자료 캡처/DOM·좌표. 실제 DB 아님",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "정식 전환 후 root의 조건만 실제 DB 저장 검수 대기",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "새 보고서/PDF/설치 Excel 전수검수는 이번 정의 확인과 별개",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW131-C93-FLAG-specialStructure",
+      "parentID": "LAW131-05",
+      "kind": "input-field",
+      "label": "특수구조 건축물 해당",
+      "lifecycle": "review131-c93-bounded-verification",
+      "visibleUserControl": true,
+      "source": [
+        {
+          "path": "src/permit-map.js",
+          "sha256": "b77f661f494f96a0c072ca7844475a399b3a63f10263bec081d109bf03684a5a"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "특수구조 건축물 해당",
+        "reference": "docs/review131-spec.md"
+      },
+      "content": {
+        "label": "특수구조 건축물 해당",
+        "type": "select:미확인/예/아니오",
+        "consumers": [
+          "permitConditions.specialStructure",
+          "추천",
+          "수동 선택",
+          "저장",
+          "재진입"
+        ],
+        "preservation": "원금액·미입력/0·기존 ID/이름·계약/VAT·과거본 보존. 내용/타입 정의와 실제 실행은 별도",
+        "change": "new"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass-source-scope",
+          "evidence": [
+            {
+              "path": ".build/review131/source-freeze.json",
+              "sha256": "02007e01323453350acf36069da057d6018cc040d174d4db6ca54326258afa29"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass-bounded-model",
+          "evidence": [
+            {
+              "path": "docs/review131-permit-intake-verification.json",
+              "sha256": "b3c91b6390081383109f16153fbc5c214940c4bee35eaf979a876d1b05728bab"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "pass-bounded-local-native",
+          "evidence": [
+            {
+              "path": ".build/review131/native-visual-review.json",
+              "sha256": "3fc70c6d480844e672df89c7c25213b553f630e95c5a6561bd28702883546dbd"
+            }
+          ],
+          "scope": "정확 local HTML 10fb6a7867b66f849f681d45c8c1d63ccbf8dfb26448fa2a9849e4d61a3abfb4의 합성자료 캡처/DOM·좌표. 실제 DB 아님",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "pass-bounded-real-B",
+          "evidence": [
+            {
+              "path": ".build/review131/release-live-after-yes-1793254365773.json",
+              "sha256": "a926a6e5131eef3a1c5528ea23689db03aa7134b726c88858cf0252aaaba3a65",
+              "scope": "private SQL receipt; raw values not copied"
+            },
+            {
+              "path": ".build/review131/release-live-after-unknown-1793254532792.json",
+              "sha256": "34584456c1922e98c1ec0175322180ae796cb58de1d439f03fc9004da638f740",
+              "scope": "private SQL receipt; raw values not copied"
+            }
+          ],
+          "scope": "B specialStructure 예→재접속→미확인명시정정; otherflags/otherrows notexercised",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "새 보고서/PDF/설치 Excel 전수검수는 이번 정의 확인과 별개",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW131-C93-FLAG-airDefenseArea",
+      "parentID": "LAW131-06",
+      "kind": "input-field",
+      "label": "대공방어협조구역 해당",
+      "lifecycle": "review131-c93-bounded-verification",
+      "visibleUserControl": true,
+      "source": [
+        {
+          "path": "src/permit-map.js",
+          "sha256": "b77f661f494f96a0c072ca7844475a399b3a63f10263bec081d109bf03684a5a"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "대공방어협조구역 해당",
+        "reference": "docs/review131-spec.md"
+      },
+      "content": {
+        "label": "대공방어협조구역 해당",
+        "type": "select:미확인/예/아니오",
+        "consumers": [
+          "permitConditions.airDefenseArea",
+          "추천",
+          "수동 선택",
+          "저장",
+          "재진입"
+        ],
+        "preservation": "원금액·미입력/0·기존 ID/이름·계약/VAT·과거본 보존. 내용/타입 정의와 실제 실행은 별도",
+        "change": "new"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass-source-scope",
+          "evidence": [
+            {
+              "path": ".build/review131/source-freeze.json",
+              "sha256": "02007e01323453350acf36069da057d6018cc040d174d4db6ca54326258afa29"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass-bounded-model",
+          "evidence": [
+            {
+              "path": "docs/review131-permit-intake-verification.json",
+              "sha256": "b3c91b6390081383109f16153fbc5c214940c4bee35eaf979a876d1b05728bab"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "pass-bounded-local-native",
+          "evidence": [
+            {
+              "path": ".build/review131/native-visual-review.json",
+              "sha256": "3fc70c6d480844e672df89c7c25213b553f630e95c5a6561bd28702883546dbd"
+            }
+          ],
+          "scope": "정확 local HTML 10fb6a7867b66f849f681d45c8c1d63ccbf8dfb26448fa2a9849e4d61a3abfb4의 합성자료 캡처/DOM·좌표. 실제 DB 아님",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "정식 전환 후 root의 조건만 실제 DB 저장 검수 대기",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "새 보고서/PDF/설치 Excel 전수검수는 이번 정의 확인과 별개",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW131-C93-FLAG-airDefenseHeight",
+      "parentID": "LAW131-06",
+      "kind": "input-field",
+      "label": "대공방어 협의대상 높이 해당",
+      "lifecycle": "review131-c93-bounded-verification",
+      "visibleUserControl": true,
+      "source": [
+        {
+          "path": "src/permit-map.js",
+          "sha256": "b77f661f494f96a0c072ca7844475a399b3a63f10263bec081d109bf03684a5a"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "대공방어 협의대상 높이 해당",
+        "reference": "docs/review131-spec.md"
+      },
+      "content": {
+        "label": "대공방어 협의대상 높이 해당",
+        "type": "select:미확인/예/아니오",
+        "consumers": [
+          "permitConditions.airDefenseHeight",
+          "추천",
+          "수동 선택",
+          "저장",
+          "재진입"
+        ],
+        "preservation": "원금액·미입력/0·기존 ID/이름·계약/VAT·과거본 보존. 내용/타입 정의와 실제 실행은 별도",
+        "change": "new"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass-source-scope",
+          "evidence": [
+            {
+              "path": ".build/review131/source-freeze.json",
+              "sha256": "02007e01323453350acf36069da057d6018cc040d174d4db6ca54326258afa29"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass-bounded-model",
+          "evidence": [
+            {
+              "path": "docs/review131-permit-intake-verification.json",
+              "sha256": "b3c91b6390081383109f16153fbc5c214940c4bee35eaf979a876d1b05728bab"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "pass-bounded-local-native",
+          "evidence": [
+            {
+              "path": ".build/review131/native-visual-review.json",
+              "sha256": "3fc70c6d480844e672df89c7c25213b553f630e95c5a6561bd28702883546dbd"
+            }
+          ],
+          "scope": "정확 local HTML 10fb6a7867b66f849f681d45c8c1d63ccbf8dfb26448fa2a9849e4d61a3abfb4의 합성자료 캡처/DOM·좌표. 실제 DB 아님",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "정식 전환 후 root의 조건만 실제 DB 저장 검수 대기",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "새 보고서/PDF/설치 Excel 전수검수는 이번 정의 확인과 별개",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW131-C93-FLAG-militaryArea",
+      "parentID": "LAW131-06",
+      "kind": "input-field",
+      "label": "군사기지·군사시설 보호구역 해당",
+      "lifecycle": "review131-c93-bounded-verification",
+      "visibleUserControl": true,
+      "source": [
+        {
+          "path": "src/permit-map.js",
+          "sha256": "b77f661f494f96a0c072ca7844475a399b3a63f10263bec081d109bf03684a5a"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "군사기지·군사시설 보호구역 해당",
+        "reference": "docs/review131-spec.md"
+      },
+      "content": {
+        "label": "군사기지·군사시설 보호구역 해당",
+        "type": "select:미확인/예/아니오",
+        "consumers": [
+          "permitConditions.militaryArea",
+          "추천",
+          "수동 선택",
+          "저장",
+          "재진입"
+        ],
+        "preservation": "원금액·미입력/0·기존 ID/이름·계약/VAT·과거본 보존. 내용/타입 정의와 실제 실행은 별도",
+        "change": "existing-key-label-clarified"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass-source-scope",
+          "evidence": [
+            {
+              "path": ".build/review131/source-freeze.json",
+              "sha256": "02007e01323453350acf36069da057d6018cc040d174d4db6ca54326258afa29"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass-bounded-model",
+          "evidence": [
+            {
+              "path": "docs/review131-permit-intake-verification.json",
+              "sha256": "b3c91b6390081383109f16153fbc5c214940c4bee35eaf979a876d1b05728bab"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "pass-bounded-local-native",
+          "evidence": [
+            {
+              "path": ".build/review131/native-visual-review.json",
+              "sha256": "3fc70c6d480844e672df89c7c25213b553f630e95c5a6561bd28702883546dbd"
+            }
+          ],
+          "scope": "정확 local HTML 10fb6a7867b66f849f681d45c8c1d63ccbf8dfb26448fa2a9849e4d61a3abfb4의 합성자료 캡처/DOM·좌표. 실제 DB 아님",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "정식 전환 후 root의 조건만 실제 DB 저장 검수 대기",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "새 보고서/PDF/설치 Excel 전수검수는 이번 정의 확인과 별개",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW131-C93-OVERVIEW-FORM",
+      "parentID": "UX131-03",
+      "kind": "popup-form",
+      "label": "사업개요 수정",
+      "lifecycle": "review131-c93-bounded-verification",
+      "visibleUserControl": true,
+      "source": [
+        {
+          "path": "src/recovery-views.js",
+          "sha256": "d0d4f7acce3738ab228bbda2655da74bf0a0f593ef3b3911bbd61ad7b1cbf448"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "사업개요 수정",
+        "reference": "docs/review131-spec.md"
+      },
+      "content": {
+        "label": "사업개요 수정",
+        "type": "form24",
+        "consumers": [
+          "사업개요",
+          "면적원장",
+          "사업별 인허가 추천",
+          "변경이력"
+        ],
+        "preservation": "원금액·미입력/0·기존 ID/이름·계약/VAT·과거본 보존. 내용/타입 정의와 실제 실행은 별도"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass-source-scope",
+          "evidence": [
+            {
+              "path": ".build/review131/source-freeze.json",
+              "sha256": "02007e01323453350acf36069da057d6018cc040d174d4db6ca54326258afa29"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass-bounded-model",
+          "evidence": [
+            {
+              "path": ".build/review131/record-editing-overview-regression.json",
+              "sha256": "7478bb9f30e56879892ba35769073e80b4cbcd839fa505c15bdeb6032426db87"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun-final-native",
+          "evidence": [],
+          "scope": "중간본·다른 화면 통과를 최종 현재 입력으로 승계하지 않음",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "정식 전환 후 root의 조건만 실제 DB 저장 검수 대기",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "새 보고서/PDF/설치 Excel 전수검수는 이번 정의 확인과 별개",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW131-C93-OVERVIEW-EDIT",
+      "parentID": "UX131-03",
+      "kind": "section-action",
+      "label": "사업개요 수정",
+      "lifecycle": "review131-c93-bounded-verification",
+      "visibleUserControl": true,
+      "source": [
+        {
+          "path": "src/recovery-views.js",
+          "sha256": "d0d4f7acce3738ab228bbda2655da74bf0a0f593ef3b3911bbd61ad7b1cbf448"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "사업개요 수정",
+        "reference": "docs/review131-spec.md"
+      },
+      "content": {
+        "label": "사업개요 수정",
+        "type": "button",
+        "consumers": [
+          "기존24필드 입력",
+          "저장/취소",
+          "권한/대상 재검사"
+        ],
+        "preservation": "원금액·미입력/0·기존 ID/이름·계약/VAT·과거본 보존. 내용/타입 정의와 실제 실행은 별도"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass-source-scope",
+          "evidence": [
+            {
+              "path": ".build/review131/source-freeze.json",
+              "sha256": "02007e01323453350acf36069da057d6018cc040d174d4db6ca54326258afa29"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass-bounded-model",
+          "evidence": [
+            {
+              "path": ".build/review131/record-editing-overview-regression.json",
+              "sha256": "7478bb9f30e56879892ba35769073e80b4cbcd839fa505c15bdeb6032426db87"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun-final-native",
+          "evidence": [],
+          "scope": "중간본·다른 화면 통과를 최종 현재 입력으로 승계하지 않음",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "정식 전환 후 root의 조건만 실제 DB 저장 검수 대기",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "새 보고서/PDF/설치 Excel 전수검수는 이번 정의 확인과 별개",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW131-C93-OVERVIEW-FIELD-name",
+      "parentID": "REVIEW131-C93-OVERVIEW-FORM",
+      "kind": "input-field",
+      "label": "사업명",
+      "lifecycle": "review131-c93-bounded-verification",
+      "visibleUserControl": true,
+      "source": [
+        {
+          "path": "src/recovery-views.js",
+          "sha256": "d0d4f7acce3738ab228bbda2655da74bf0a0f593ef3b3911bbd61ad7b1cbf448"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "사업명",
+        "reference": "docs/review131-spec.md"
+      },
+      "content": {
+        "label": "사업명",
+        "type": "text",
+        "consumers": [
+          "project.name",
+          "기존 조회/저장/취소",
+          "해당 면적/추천/이력 소비자"
+        ],
+        "preservation": "원금액·미입력/0·기존 ID/이름·계약/VAT·과거본 보존. 내용/타입 정의와 실제 실행은 별도"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass-source-scope",
+          "evidence": [
+            {
+              "path": ".build/review131/source-freeze.json",
+              "sha256": "02007e01323453350acf36069da057d6018cc040d174d4db6ca54326258afa29"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass-bounded-model",
+          "evidence": [
+            {
+              "path": ".build/review131/record-editing-overview-regression.json",
+              "sha256": "7478bb9f30e56879892ba35769073e80b4cbcd839fa505c15bdeb6032426db87"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun-final-native",
+          "evidence": [],
+          "scope": "중간본·다른 화면 통과를 최종 현재 입력으로 승계하지 않음",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "정식 전환 후 root의 조건만 실제 DB 저장 검수 대기",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "새 보고서/PDF/설치 Excel 전수검수는 이번 정의 확인과 별개",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW131-C93-OVERVIEW-FIELD-type",
+      "parentID": "REVIEW131-C93-OVERVIEW-FORM",
+      "kind": "input-field",
+      "label": "사업유형",
+      "lifecycle": "review131-c93-bounded-verification",
+      "visibleUserControl": true,
+      "source": [
+        {
+          "path": "src/recovery-views.js",
+          "sha256": "d0d4f7acce3738ab228bbda2655da74bf0a0f593ef3b3911bbd61ad7b1cbf448"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "사업유형",
+        "reference": "docs/review131-spec.md"
+      },
+      "content": {
+        "label": "사업유형",
+        "type": "select",
+        "consumers": [
+          "project.type",
+          "기존 조회/저장/취소",
+          "해당 면적/추천/이력 소비자"
+        ],
+        "preservation": "원금액·미입력/0·기존 ID/이름·계약/VAT·과거본 보존. 내용/타입 정의와 실제 실행은 별도"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass-source-scope",
+          "evidence": [
+            {
+              "path": ".build/review131/source-freeze.json",
+              "sha256": "02007e01323453350acf36069da057d6018cc040d174d4db6ca54326258afa29"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass-bounded-model",
+          "evidence": [
+            {
+              "path": ".build/review131/record-editing-overview-regression.json",
+              "sha256": "7478bb9f30e56879892ba35769073e80b4cbcd839fa505c15bdeb6032426db87"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun-final-native",
+          "evidence": [],
+          "scope": "중간본·다른 화면 통과를 최종 현재 입력으로 승계하지 않음",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "정식 전환 후 root의 조건만 실제 DB 저장 검수 대기",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "새 보고서/PDF/설치 Excel 전수검수는 이번 정의 확인과 별개",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW131-C93-OVERVIEW-FIELD-stage",
+      "parentID": "REVIEW131-C93-OVERVIEW-FORM",
+      "kind": "input-field",
+      "label": "현재단계",
+      "lifecycle": "review131-c93-bounded-verification",
+      "visibleUserControl": true,
+      "source": [
+        {
+          "path": "src/recovery-views.js",
+          "sha256": "d0d4f7acce3738ab228bbda2655da74bf0a0f593ef3b3911bbd61ad7b1cbf448"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "현재단계",
+        "reference": "docs/review131-spec.md"
+      },
+      "content": {
+        "label": "현재단계",
+        "type": "text",
+        "consumers": [
+          "project.stage",
+          "기존 조회/저장/취소",
+          "해당 면적/추천/이력 소비자"
+        ],
+        "preservation": "원금액·미입력/0·기존 ID/이름·계약/VAT·과거본 보존. 내용/타입 정의와 실제 실행은 별도"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass-source-scope",
+          "evidence": [
+            {
+              "path": ".build/review131/source-freeze.json",
+              "sha256": "02007e01323453350acf36069da057d6018cc040d174d4db6ca54326258afa29"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass-bounded-model",
+          "evidence": [
+            {
+              "path": ".build/review131/record-editing-overview-regression.json",
+              "sha256": "7478bb9f30e56879892ba35769073e80b4cbcd839fa505c15bdeb6032426db87"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun-final-native",
+          "evidence": [],
+          "scope": "중간본·다른 화면 통과를 최종 현재 입력으로 승계하지 않음",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "정식 전환 후 root의 조건만 실제 DB 저장 검수 대기",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "새 보고서/PDF/설치 Excel 전수검수는 이번 정의 확인과 별개",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW131-C93-OVERVIEW-FIELD-basic-method",
+      "parentID": "REVIEW131-C93-OVERVIEW-FORM",
+      "kind": "input-field",
+      "label": "사업방식",
+      "lifecycle": "review131-c93-bounded-verification",
+      "visibleUserControl": true,
+      "source": [
+        {
+          "path": "src/recovery-views.js",
+          "sha256": "d0d4f7acce3738ab228bbda2655da74bf0a0f593ef3b3911bbd61ad7b1cbf448"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "사업방식",
+        "reference": "docs/review131-spec.md"
+      },
+      "content": {
+        "label": "사업방식",
+        "type": "text",
+        "consumers": [
+          "project.basic.method",
+          "기존 조회/저장/취소",
+          "해당 면적/추천/이력 소비자"
+        ],
+        "preservation": "원금액·미입력/0·기존 ID/이름·계약/VAT·과거본 보존. 내용/타입 정의와 실제 실행은 별도"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass-source-scope",
+          "evidence": [
+            {
+              "path": ".build/review131/source-freeze.json",
+              "sha256": "02007e01323453350acf36069da057d6018cc040d174d4db6ca54326258afa29"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass-bounded-model",
+          "evidence": [
+            {
+              "path": ".build/review131/record-editing-overview-regression.json",
+              "sha256": "7478bb9f30e56879892ba35769073e80b4cbcd839fa505c15bdeb6032426db87"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun-final-native",
+          "evidence": [],
+          "scope": "중간본·다른 화면 통과를 최종 현재 입력으로 승계하지 않음",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "정식 전환 후 root의 조건만 실제 DB 저장 검수 대기",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "새 보고서/PDF/설치 Excel 전수검수는 이번 정의 확인과 별개",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW131-C93-OVERVIEW-FIELD-basic-operator",
+      "parentID": "REVIEW131-C93-OVERVIEW-FORM",
+      "kind": "input-field",
+      "label": "사업시행자",
+      "lifecycle": "review131-c93-bounded-verification",
+      "visibleUserControl": true,
+      "source": [
+        {
+          "path": "src/recovery-views.js",
+          "sha256": "d0d4f7acce3738ab228bbda2655da74bf0a0f593ef3b3911bbd61ad7b1cbf448"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "사업시행자",
+        "reference": "docs/review131-spec.md"
+      },
+      "content": {
+        "label": "사업시행자",
+        "type": "text",
+        "consumers": [
+          "project.basic.operator",
+          "기존 조회/저장/취소",
+          "해당 면적/추천/이력 소비자"
+        ],
+        "preservation": "원금액·미입력/0·기존 ID/이름·계약/VAT·과거본 보존. 내용/타입 정의와 실제 실행은 별도"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass-source-scope",
+          "evidence": [
+            {
+              "path": ".build/review131/source-freeze.json",
+              "sha256": "02007e01323453350acf36069da057d6018cc040d174d4db6ca54326258afa29"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass-bounded-model",
+          "evidence": [
+            {
+              "path": ".build/review131/record-editing-overview-regression.json",
+              "sha256": "7478bb9f30e56879892ba35769073e80b4cbcd839fa505c15bdeb6032426db87"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun-final-native",
+          "evidence": [],
+          "scope": "중간본·다른 화면 통과를 최종 현재 입력으로 승계하지 않음",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "정식 전환 후 root의 조건만 실제 DB 저장 검수 대기",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "새 보고서/PDF/설치 Excel 전수검수는 이번 정의 확인과 별개",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW131-C93-OVERVIEW-FIELD-basic-manager",
+      "parentID": "REVIEW131-C93-OVERVIEW-FORM",
+      "kind": "input-field",
+      "label": "담당자",
+      "lifecycle": "review131-c93-bounded-verification",
+      "visibleUserControl": true,
+      "source": [
+        {
+          "path": "src/recovery-views.js",
+          "sha256": "d0d4f7acce3738ab228bbda2655da74bf0a0f593ef3b3911bbd61ad7b1cbf448"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "담당자",
+        "reference": "docs/review131-spec.md"
+      },
+      "content": {
+        "label": "담당자",
+        "type": "text",
+        "consumers": [
+          "project.basic.manager",
+          "기존 조회/저장/취소",
+          "해당 면적/추천/이력 소비자"
+        ],
+        "preservation": "원금액·미입력/0·기존 ID/이름·계약/VAT·과거본 보존. 내용/타입 정의와 실제 실행은 별도"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass-source-scope",
+          "evidence": [
+            {
+              "path": ".build/review131/source-freeze.json",
+              "sha256": "02007e01323453350acf36069da057d6018cc040d174d4db6ca54326258afa29"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass-bounded-model",
+          "evidence": [
+            {
+              "path": ".build/review131/record-editing-overview-regression.json",
+              "sha256": "7478bb9f30e56879892ba35769073e80b4cbcd839fa505c15bdeb6032426db87"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun-final-native",
+          "evidence": [],
+          "scope": "중간본·다른 화면 통과를 최종 현재 입력으로 승계하지 않음",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "정식 전환 후 root의 조건만 실제 DB 저장 검수 대기",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "새 보고서/PDF/설치 Excel 전수검수는 이번 정의 확인과 별개",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW131-C93-OVERVIEW-FIELD-location",
+      "parentID": "REVIEW131-C93-OVERVIEW-FORM",
+      "kind": "input-field",
+      "label": "소재지",
+      "lifecycle": "review131-c93-bounded-verification",
+      "visibleUserControl": true,
+      "source": [
+        {
+          "path": "src/recovery-views.js",
+          "sha256": "d0d4f7acce3738ab228bbda2655da74bf0a0f593ef3b3911bbd61ad7b1cbf448"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "소재지",
+        "reference": "docs/review131-spec.md"
+      },
+      "content": {
+        "label": "소재지",
+        "type": "text",
+        "consumers": [
+          "project.location",
+          "기존 조회/저장/취소",
+          "해당 면적/추천/이력 소비자"
+        ],
+        "preservation": "원금액·미입력/0·기존 ID/이름·계약/VAT·과거본 보존. 내용/타입 정의와 실제 실행은 별도"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass-source-scope",
+          "evidence": [
+            {
+              "path": ".build/review131/source-freeze.json",
+              "sha256": "02007e01323453350acf36069da057d6018cc040d174d4db6ca54326258afa29"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass-bounded-model",
+          "evidence": [
+            {
+              "path": ".build/review131/record-editing-overview-regression.json",
+              "sha256": "7478bb9f30e56879892ba35769073e80b4cbcd839fa505c15bdeb6032426db87"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun-final-native",
+          "evidence": [],
+          "scope": "중간본·다른 화면 통과를 최종 현재 입력으로 승계하지 않음",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "정식 전환 후 root의 조건만 실제 DB 저장 검수 대기",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "새 보고서/PDF/설치 Excel 전수검수는 이번 정의 확인과 별개",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW131-C93-OVERVIEW-FIELD-building-representativeLot",
+      "parentID": "REVIEW131-C93-OVERVIEW-FORM",
+      "kind": "input-field",
+      "label": "대표지번",
+      "lifecycle": "review131-c93-bounded-verification",
+      "visibleUserControl": true,
+      "source": [
+        {
+          "path": "src/recovery-views.js",
+          "sha256": "d0d4f7acce3738ab228bbda2655da74bf0a0f593ef3b3911bbd61ad7b1cbf448"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "대표지번",
+        "reference": "docs/review131-spec.md"
+      },
+      "content": {
+        "label": "대표지번",
+        "type": "text",
+        "consumers": [
+          "project.building.representativeLot",
+          "기존 조회/저장/취소",
+          "해당 면적/추천/이력 소비자"
+        ],
+        "preservation": "원금액·미입력/0·기존 ID/이름·계약/VAT·과거본 보존. 내용/타입 정의와 실제 실행은 별도"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass-source-scope",
+          "evidence": [
+            {
+              "path": ".build/review131/source-freeze.json",
+              "sha256": "02007e01323453350acf36069da057d6018cc040d174d4db6ca54326258afa29"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass-bounded-model",
+          "evidence": [
+            {
+              "path": ".build/review131/record-editing-overview-regression.json",
+              "sha256": "7478bb9f30e56879892ba35769073e80b4cbcd839fa505c15bdeb6032426db87"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun-final-native",
+          "evidence": [],
+          "scope": "중간본·다른 화면 통과를 최종 현재 입력으로 승계하지 않음",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "정식 전환 후 root의 조건만 실제 DB 저장 검수 대기",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "새 보고서/PDF/설치 Excel 전수검수는 이번 정의 확인과 별개",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW131-C93-OVERVIEW-FIELD-basic-periodStart",
+      "parentID": "REVIEW131-C93-OVERVIEW-FORM",
+      "kind": "input-field",
+      "label": "사업 시작월",
+      "lifecycle": "review131-c93-bounded-verification",
+      "visibleUserControl": true,
+      "source": [
+        {
+          "path": "src/recovery-views.js",
+          "sha256": "d0d4f7acce3738ab228bbda2655da74bf0a0f593ef3b3911bbd61ad7b1cbf448"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "사업 시작월",
+        "reference": "docs/review131-spec.md"
+      },
+      "content": {
+        "label": "사업 시작월",
+        "type": "month",
+        "consumers": [
+          "project.basic.periodStart",
+          "기존 조회/저장/취소",
+          "해당 면적/추천/이력 소비자"
+        ],
+        "preservation": "원금액·미입력/0·기존 ID/이름·계약/VAT·과거본 보존. 내용/타입 정의와 실제 실행은 별도"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass-source-scope",
+          "evidence": [
+            {
+              "path": ".build/review131/source-freeze.json",
+              "sha256": "02007e01323453350acf36069da057d6018cc040d174d4db6ca54326258afa29"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass-bounded-model",
+          "evidence": [
+            {
+              "path": ".build/review131/record-editing-overview-regression.json",
+              "sha256": "7478bb9f30e56879892ba35769073e80b4cbcd839fa505c15bdeb6032426db87"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun-final-native",
+          "evidence": [],
+          "scope": "중간본·다른 화면 통과를 최종 현재 입력으로 승계하지 않음",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "정식 전환 후 root의 조건만 실제 DB 저장 검수 대기",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "새 보고서/PDF/설치 Excel 전수검수는 이번 정의 확인과 별개",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW131-C93-OVERVIEW-FIELD-basic-periodEnd",
+      "parentID": "REVIEW131-C93-OVERVIEW-FORM",
+      "kind": "input-field",
+      "label": "사업 종료월",
+      "lifecycle": "review131-c93-bounded-verification",
+      "visibleUserControl": true,
+      "source": [
+        {
+          "path": "src/recovery-views.js",
+          "sha256": "d0d4f7acce3738ab228bbda2655da74bf0a0f593ef3b3911bbd61ad7b1cbf448"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "사업 종료월",
+        "reference": "docs/review131-spec.md"
+      },
+      "content": {
+        "label": "사업 종료월",
+        "type": "month",
+        "consumers": [
+          "project.basic.periodEnd",
+          "기존 조회/저장/취소",
+          "해당 면적/추천/이력 소비자"
+        ],
+        "preservation": "원금액·미입력/0·기존 ID/이름·계약/VAT·과거본 보존. 내용/타입 정의와 실제 실행은 별도"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass-source-scope",
+          "evidence": [
+            {
+              "path": ".build/review131/source-freeze.json",
+              "sha256": "02007e01323453350acf36069da057d6018cc040d174d4db6ca54326258afa29"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass-bounded-model",
+          "evidence": [
+            {
+              "path": ".build/review131/record-editing-overview-regression.json",
+              "sha256": "7478bb9f30e56879892ba35769073e80b4cbcd839fa505c15bdeb6032426db87"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun-final-native",
+          "evidence": [],
+          "scope": "중간본·다른 화면 통과를 최종 현재 입력으로 승계하지 않음",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "정식 전환 후 root의 조건만 실제 DB 저장 검수 대기",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "새 보고서/PDF/설치 Excel 전수검수는 이번 정의 확인과 별개",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW131-C93-OVERVIEW-FIELD-basic-established",
+      "parentID": "REVIEW131-C93-OVERVIEW-FORM",
+      "kind": "input-field",
+      "label": "법인 설립일",
+      "lifecycle": "review131-c93-bounded-verification",
+      "visibleUserControl": true,
+      "source": [
+        {
+          "path": "src/recovery-views.js",
+          "sha256": "d0d4f7acce3738ab228bbda2655da74bf0a0f593ef3b3911bbd61ad7b1cbf448"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "법인 설립일",
+        "reference": "docs/review131-spec.md"
+      },
+      "content": {
+        "label": "법인 설립일",
+        "type": "date",
+        "consumers": [
+          "project.basic.established",
+          "기존 조회/저장/취소",
+          "해당 면적/추천/이력 소비자"
+        ],
+        "preservation": "원금액·미입력/0·기존 ID/이름·계약/VAT·과거본 보존. 내용/타입 정의와 실제 실행은 별도"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass-source-scope",
+          "evidence": [
+            {
+              "path": ".build/review131/source-freeze.json",
+              "sha256": "02007e01323453350acf36069da057d6018cc040d174d4db6ca54326258afa29"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass-bounded-model",
+          "evidence": [
+            {
+              "path": ".build/review131/record-editing-overview-regression.json",
+              "sha256": "7478bb9f30e56879892ba35769073e80b4cbcd839fa505c15bdeb6032426db87"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun-final-native",
+          "evidence": [],
+          "scope": "중간본·다른 화면 통과를 최종 현재 입력으로 승계하지 않음",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "정식 전환 후 root의 조건만 실제 DB 저장 검수 대기",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "새 보고서/PDF/설치 Excel 전수검수는 이번 정의 확인과 별개",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW131-C93-OVERVIEW-FIELD-building-zone",
+      "parentID": "REVIEW131-C93-OVERVIEW-FORM",
+      "kind": "input-field",
+      "label": "용도지역",
+      "lifecycle": "review131-c93-bounded-verification",
+      "visibleUserControl": true,
+      "source": [
+        {
+          "path": "src/recovery-views.js",
+          "sha256": "d0d4f7acce3738ab228bbda2655da74bf0a0f593ef3b3911bbd61ad7b1cbf448"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "용도지역",
+        "reference": "docs/review131-spec.md"
+      },
+      "content": {
+        "label": "용도지역",
+        "type": "text",
+        "consumers": [
+          "project.building.zone",
+          "기존 조회/저장/취소",
+          "해당 면적/추천/이력 소비자"
+        ],
+        "preservation": "원금액·미입력/0·기존 ID/이름·계약/VAT·과거본 보존. 내용/타입 정의와 실제 실행은 별도"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass-source-scope",
+          "evidence": [
+            {
+              "path": ".build/review131/source-freeze.json",
+              "sha256": "02007e01323453350acf36069da057d6018cc040d174d4db6ca54326258afa29"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass-bounded-model",
+          "evidence": [
+            {
+              "path": ".build/review131/record-editing-overview-regression.json",
+              "sha256": "7478bb9f30e56879892ba35769073e80b4cbcd839fa505c15bdeb6032426db87"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun-final-native",
+          "evidence": [],
+          "scope": "중간본·다른 화면 통과를 최종 현재 입력으로 승계하지 않음",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "정식 전환 후 root의 조건만 실제 DB 저장 검수 대기",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "새 보고서/PDF/설치 Excel 전수검수는 이번 정의 확인과 별개",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW131-C93-OVERVIEW-FIELD-building-mainUse",
+      "parentID": "REVIEW131-C93-OVERVIEW-FORM",
+      "kind": "input-field",
+      "label": "주용도",
+      "lifecycle": "review131-c93-bounded-verification",
+      "visibleUserControl": true,
+      "source": [
+        {
+          "path": "src/recovery-views.js",
+          "sha256": "d0d4f7acce3738ab228bbda2655da74bf0a0f593ef3b3911bbd61ad7b1cbf448"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "주용도",
+        "reference": "docs/review131-spec.md"
+      },
+      "content": {
+        "label": "주용도",
+        "type": "text",
+        "consumers": [
+          "project.building.mainUse",
+          "기존 조회/저장/취소",
+          "해당 면적/추천/이력 소비자"
+        ],
+        "preservation": "원금액·미입력/0·기존 ID/이름·계약/VAT·과거본 보존. 내용/타입 정의와 실제 실행은 별도"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass-source-scope",
+          "evidence": [
+            {
+              "path": ".build/review131/source-freeze.json",
+              "sha256": "02007e01323453350acf36069da057d6018cc040d174d4db6ca54326258afa29"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass-bounded-model",
+          "evidence": [
+            {
+              "path": ".build/review131/record-editing-overview-regression.json",
+              "sha256": "7478bb9f30e56879892ba35769073e80b4cbcd839fa505c15bdeb6032426db87"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun-final-native",
+          "evidence": [],
+          "scope": "중간본·다른 화면 통과를 최종 현재 입력으로 승계하지 않음",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "정식 전환 후 root의 조건만 실제 DB 저장 검수 대기",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "새 보고서/PDF/설치 Excel 전수검수는 이번 정의 확인과 별개",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW131-C93-OVERVIEW-FIELD-building-siteArea",
+      "parentID": "REVIEW131-C93-OVERVIEW-FORM",
+      "kind": "input-field",
+      "label": "대지면적 (㎡)",
+      "lifecycle": "review131-c93-bounded-verification",
+      "visibleUserControl": true,
+      "source": [
+        {
+          "path": "src/recovery-views.js",
+          "sha256": "d0d4f7acce3738ab228bbda2655da74bf0a0f593ef3b3911bbd61ad7b1cbf448"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "대지면적 (㎡)",
+        "reference": "docs/review131-spec.md"
+      },
+      "content": {
+        "label": "대지면적 (㎡)",
+        "type": "number",
+        "consumers": [
+          "project.building.siteArea",
+          "기존 조회/저장/취소",
+          "해당 면적/추천/이력 소비자"
+        ],
+        "preservation": "원금액·미입력/0·기존 ID/이름·계약/VAT·과거본 보존. 내용/타입 정의와 실제 실행은 별도"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass-source-scope",
+          "evidence": [
+            {
+              "path": ".build/review131/source-freeze.json",
+              "sha256": "02007e01323453350acf36069da057d6018cc040d174d4db6ca54326258afa29"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass-bounded-model",
+          "evidence": [
+            {
+              "path": ".build/review131/record-editing-overview-regression.json",
+              "sha256": "7478bb9f30e56879892ba35769073e80b4cbcd839fa505c15bdeb6032426db87"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun-final-native",
+          "evidence": [],
+          "scope": "중간본·다른 화면 통과를 최종 현재 입력으로 승계하지 않음",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "정식 전환 후 root의 조건만 실제 DB 저장 검수 대기",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "새 보고서/PDF/설치 Excel 전수검수는 이번 정의 확인과 별개",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW131-C93-OVERVIEW-FIELD-building-buildingArea",
+      "parentID": "REVIEW131-C93-OVERVIEW-FORM",
+      "kind": "input-field",
+      "label": "건축면적 (㎡)",
+      "lifecycle": "review131-c93-bounded-verification",
+      "visibleUserControl": true,
+      "source": [
+        {
+          "path": "src/recovery-views.js",
+          "sha256": "d0d4f7acce3738ab228bbda2655da74bf0a0f593ef3b3911bbd61ad7b1cbf448"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "건축면적 (㎡)",
+        "reference": "docs/review131-spec.md"
+      },
+      "content": {
+        "label": "건축면적 (㎡)",
+        "type": "number",
+        "consumers": [
+          "project.building.buildingArea",
+          "기존 조회/저장/취소",
+          "해당 면적/추천/이력 소비자"
+        ],
+        "preservation": "원금액·미입력/0·기존 ID/이름·계약/VAT·과거본 보존. 내용/타입 정의와 실제 실행은 별도"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass-source-scope",
+          "evidence": [
+            {
+              "path": ".build/review131/source-freeze.json",
+              "sha256": "02007e01323453350acf36069da057d6018cc040d174d4db6ca54326258afa29"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass-bounded-model",
+          "evidence": [
+            {
+              "path": ".build/review131/record-editing-overview-regression.json",
+              "sha256": "7478bb9f30e56879892ba35769073e80b4cbcd839fa505c15bdeb6032426db87"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun-final-native",
+          "evidence": [],
+          "scope": "중간본·다른 화면 통과를 최종 현재 입력으로 승계하지 않음",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "정식 전환 후 root의 조건만 실제 DB 저장 검수 대기",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "새 보고서/PDF/설치 Excel 전수검수는 이번 정의 확인과 별개",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW131-C93-OVERVIEW-FIELD-building-gfaTotal",
+      "parentID": "REVIEW131-C93-OVERVIEW-FORM",
+      "kind": "input-field",
+      "label": "연면적 (㎡)",
+      "lifecycle": "review131-c93-bounded-verification",
+      "visibleUserControl": true,
+      "source": [
+        {
+          "path": "src/recovery-views.js",
+          "sha256": "d0d4f7acce3738ab228bbda2655da74bf0a0f593ef3b3911bbd61ad7b1cbf448"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "연면적 (㎡)",
+        "reference": "docs/review131-spec.md"
+      },
+      "content": {
+        "label": "연면적 (㎡)",
+        "type": "number",
+        "consumers": [
+          "project.building.gfaTotal",
+          "기존 조회/저장/취소",
+          "해당 면적/추천/이력 소비자"
+        ],
+        "preservation": "원금액·미입력/0·기존 ID/이름·계약/VAT·과거본 보존. 내용/타입 정의와 실제 실행은 별도"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass-source-scope",
+          "evidence": [
+            {
+              "path": ".build/review131/source-freeze.json",
+              "sha256": "02007e01323453350acf36069da057d6018cc040d174d4db6ca54326258afa29"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass-bounded-model",
+          "evidence": [
+            {
+              "path": ".build/review131/record-editing-overview-regression.json",
+              "sha256": "7478bb9f30e56879892ba35769073e80b4cbcd839fa505c15bdeb6032426db87"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun-final-native",
+          "evidence": [],
+          "scope": "중간본·다른 화면 통과를 최종 현재 입력으로 승계하지 않음",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "정식 전환 후 root의 조건만 실제 DB 저장 검수 대기",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "새 보고서/PDF/설치 Excel 전수검수는 이번 정의 확인과 별개",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW131-C93-OVERVIEW-FIELD-building-floorsAbove",
+      "parentID": "REVIEW131-C93-OVERVIEW-FORM",
+      "kind": "input-field",
+      "label": "지상층수",
+      "lifecycle": "review131-c93-bounded-verification",
+      "visibleUserControl": true,
+      "source": [
+        {
+          "path": "src/recovery-views.js",
+          "sha256": "d0d4f7acce3738ab228bbda2655da74bf0a0f593ef3b3911bbd61ad7b1cbf448"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "지상층수",
+        "reference": "docs/review131-spec.md"
+      },
+      "content": {
+        "label": "지상층수",
+        "type": "integer",
+        "consumers": [
+          "project.building.floorsAbove",
+          "기존 조회/저장/취소",
+          "해당 면적/추천/이력 소비자"
+        ],
+        "preservation": "원금액·미입력/0·기존 ID/이름·계약/VAT·과거본 보존. 내용/타입 정의와 실제 실행은 별도"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass-source-scope",
+          "evidence": [
+            {
+              "path": ".build/review131/source-freeze.json",
+              "sha256": "02007e01323453350acf36069da057d6018cc040d174d4db6ca54326258afa29"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass-bounded-model",
+          "evidence": [
+            {
+              "path": ".build/review131/record-editing-overview-regression.json",
+              "sha256": "7478bb9f30e56879892ba35769073e80b4cbcd839fa505c15bdeb6032426db87"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun-final-native",
+          "evidence": [],
+          "scope": "중간본·다른 화면 통과를 최종 현재 입력으로 승계하지 않음",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "정식 전환 후 root의 조건만 실제 DB 저장 검수 대기",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "새 보고서/PDF/설치 Excel 전수검수는 이번 정의 확인과 별개",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW131-C93-OVERVIEW-FIELD-building-floorsBelow",
+      "parentID": "REVIEW131-C93-OVERVIEW-FORM",
+      "kind": "input-field",
+      "label": "지하층수",
+      "lifecycle": "review131-c93-bounded-verification",
+      "visibleUserControl": true,
+      "source": [
+        {
+          "path": "src/recovery-views.js",
+          "sha256": "d0d4f7acce3738ab228bbda2655da74bf0a0f593ef3b3911bbd61ad7b1cbf448"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "지하층수",
+        "reference": "docs/review131-spec.md"
+      },
+      "content": {
+        "label": "지하층수",
+        "type": "integer",
+        "consumers": [
+          "project.building.floorsBelow",
+          "기존 조회/저장/취소",
+          "해당 면적/추천/이력 소비자"
+        ],
+        "preservation": "원금액·미입력/0·기존 ID/이름·계약/VAT·과거본 보존. 내용/타입 정의와 실제 실행은 별도"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass-source-scope",
+          "evidence": [
+            {
+              "path": ".build/review131/source-freeze.json",
+              "sha256": "02007e01323453350acf36069da057d6018cc040d174d4db6ca54326258afa29"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass-bounded-model",
+          "evidence": [
+            {
+              "path": ".build/review131/record-editing-overview-regression.json",
+              "sha256": "7478bb9f30e56879892ba35769073e80b4cbcd839fa505c15bdeb6032426db87"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun-final-native",
+          "evidence": [],
+          "scope": "중간본·다른 화면 통과를 최종 현재 입력으로 승계하지 않음",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "정식 전환 후 root의 조건만 실제 DB 저장 검수 대기",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "새 보고서/PDF/설치 Excel 전수검수는 이번 정의 확인과 별개",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW131-C93-OVERVIEW-FIELD-building-far",
+      "parentID": "REVIEW131-C93-OVERVIEW-FORM",
+      "kind": "input-field",
+      "label": "용적률 (%)",
+      "lifecycle": "review131-c93-bounded-verification",
+      "visibleUserControl": true,
+      "source": [
+        {
+          "path": "src/recovery-views.js",
+          "sha256": "d0d4f7acce3738ab228bbda2655da74bf0a0f593ef3b3911bbd61ad7b1cbf448"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "용적률 (%)",
+        "reference": "docs/review131-spec.md"
+      },
+      "content": {
+        "label": "용적률 (%)",
+        "type": "number",
+        "consumers": [
+          "project.building.far",
+          "기존 조회/저장/취소",
+          "해당 면적/추천/이력 소비자"
+        ],
+        "preservation": "원금액·미입력/0·기존 ID/이름·계약/VAT·과거본 보존. 내용/타입 정의와 실제 실행은 별도"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass-source-scope",
+          "evidence": [
+            {
+              "path": ".build/review131/source-freeze.json",
+              "sha256": "02007e01323453350acf36069da057d6018cc040d174d4db6ca54326258afa29"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass-bounded-model",
+          "evidence": [
+            {
+              "path": ".build/review131/record-editing-overview-regression.json",
+              "sha256": "7478bb9f30e56879892ba35769073e80b4cbcd839fa505c15bdeb6032426db87"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun-final-native",
+          "evidence": [],
+          "scope": "중간본·다른 화면 통과를 최종 현재 입력으로 승계하지 않음",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "정식 전환 후 root의 조건만 실제 DB 저장 검수 대기",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "새 보고서/PDF/설치 Excel 전수검수는 이번 정의 확인과 별개",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW131-C93-OVERVIEW-FIELD-building-bcr",
+      "parentID": "REVIEW131-C93-OVERVIEW-FORM",
+      "kind": "input-field",
+      "label": "건폐율 (%)",
+      "lifecycle": "review131-c93-bounded-verification",
+      "visibleUserControl": true,
+      "source": [
+        {
+          "path": "src/recovery-views.js",
+          "sha256": "d0d4f7acce3738ab228bbda2655da74bf0a0f593ef3b3911bbd61ad7b1cbf448"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "건폐율 (%)",
+        "reference": "docs/review131-spec.md"
+      },
+      "content": {
+        "label": "건폐율 (%)",
+        "type": "number",
+        "consumers": [
+          "project.building.bcr",
+          "기존 조회/저장/취소",
+          "해당 면적/추천/이력 소비자"
+        ],
+        "preservation": "원금액·미입력/0·기존 ID/이름·계약/VAT·과거본 보존. 내용/타입 정의와 실제 실행은 별도"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass-source-scope",
+          "evidence": [
+            {
+              "path": ".build/review131/source-freeze.json",
+              "sha256": "02007e01323453350acf36069da057d6018cc040d174d4db6ca54326258afa29"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass-bounded-model",
+          "evidence": [
+            {
+              "path": ".build/review131/record-editing-overview-regression.json",
+              "sha256": "7478bb9f30e56879892ba35769073e80b4cbcd839fa505c15bdeb6032426db87"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun-final-native",
+          "evidence": [],
+          "scope": "중간본·다른 화면 통과를 최종 현재 입력으로 승계하지 않음",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "정식 전환 후 root의 조건만 실제 DB 저장 검수 대기",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "새 보고서/PDF/설치 Excel 전수검수는 이번 정의 확인과 별개",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW131-C93-OVERVIEW-FIELD-building-gfaAbove",
+      "parentID": "REVIEW131-C93-OVERVIEW-FORM",
+      "kind": "input-field",
+      "label": "지상 연면적 (㎡)",
+      "lifecycle": "review131-c93-bounded-verification",
+      "visibleUserControl": true,
+      "source": [
+        {
+          "path": "src/recovery-views.js",
+          "sha256": "d0d4f7acce3738ab228bbda2655da74bf0a0f593ef3b3911bbd61ad7b1cbf448"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "지상 연면적 (㎡)",
+        "reference": "docs/review131-spec.md"
+      },
+      "content": {
+        "label": "지상 연면적 (㎡)",
+        "type": "number",
+        "consumers": [
+          "project.building.gfaAbove",
+          "기존 조회/저장/취소",
+          "해당 면적/추천/이력 소비자"
+        ],
+        "preservation": "원금액·미입력/0·기존 ID/이름·계약/VAT·과거본 보존. 내용/타입 정의와 실제 실행은 별도"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass-source-scope",
+          "evidence": [
+            {
+              "path": ".build/review131/source-freeze.json",
+              "sha256": "02007e01323453350acf36069da057d6018cc040d174d4db6ca54326258afa29"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass-bounded-model",
+          "evidence": [
+            {
+              "path": ".build/review131/record-editing-overview-regression.json",
+              "sha256": "7478bb9f30e56879892ba35769073e80b4cbcd839fa505c15bdeb6032426db87"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun-final-native",
+          "evidence": [],
+          "scope": "중간본·다른 화면 통과를 최종 현재 입력으로 승계하지 않음",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "정식 전환 후 root의 조건만 실제 DB 저장 검수 대기",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "새 보고서/PDF/설치 Excel 전수검수는 이번 정의 확인과 별개",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW131-C93-OVERVIEW-FIELD-building-gfaBelow",
+      "parentID": "REVIEW131-C93-OVERVIEW-FORM",
+      "kind": "input-field",
+      "label": "지하 연면적 (㎡)",
+      "lifecycle": "review131-c93-bounded-verification",
+      "visibleUserControl": true,
+      "source": [
+        {
+          "path": "src/recovery-views.js",
+          "sha256": "d0d4f7acce3738ab228bbda2655da74bf0a0f593ef3b3911bbd61ad7b1cbf448"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "지하 연면적 (㎡)",
+        "reference": "docs/review131-spec.md"
+      },
+      "content": {
+        "label": "지하 연면적 (㎡)",
+        "type": "number",
+        "consumers": [
+          "project.building.gfaBelow",
+          "기존 조회/저장/취소",
+          "해당 면적/추천/이력 소비자"
+        ],
+        "preservation": "원금액·미입력/0·기존 ID/이름·계약/VAT·과거본 보존. 내용/타입 정의와 실제 실행은 별도"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass-source-scope",
+          "evidence": [
+            {
+              "path": ".build/review131/source-freeze.json",
+              "sha256": "02007e01323453350acf36069da057d6018cc040d174d4db6ca54326258afa29"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass-bounded-model",
+          "evidence": [
+            {
+              "path": ".build/review131/record-editing-overview-regression.json",
+              "sha256": "7478bb9f30e56879892ba35769073e80b4cbcd839fa505c15bdeb6032426db87"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun-final-native",
+          "evidence": [],
+          "scope": "중간본·다른 화면 통과를 최종 현재 입력으로 승계하지 않음",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "정식 전환 후 root의 조건만 실제 DB 저장 검수 대기",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "새 보고서/PDF/설치 Excel 전수검수는 이번 정의 확인과 별개",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW131-C93-OVERVIEW-FIELD-building-farArea",
+      "parentID": "REVIEW131-C93-OVERVIEW-FORM",
+      "kind": "input-field",
+      "label": "용적률 산정 연면적 (㎡)",
+      "lifecycle": "review131-c93-bounded-verification",
+      "visibleUserControl": true,
+      "source": [
+        {
+          "path": "src/recovery-views.js",
+          "sha256": "d0d4f7acce3738ab228bbda2655da74bf0a0f593ef3b3911bbd61ad7b1cbf448"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "용적률 산정 연면적 (㎡)",
+        "reference": "docs/review131-spec.md"
+      },
+      "content": {
+        "label": "용적률 산정 연면적 (㎡)",
+        "type": "number",
+        "consumers": [
+          "project.building.farArea",
+          "기존 조회/저장/취소",
+          "해당 면적/추천/이력 소비자"
+        ],
+        "preservation": "원금액·미입력/0·기존 ID/이름·계약/VAT·과거본 보존. 내용/타입 정의와 실제 실행은 별도"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass-source-scope",
+          "evidence": [
+            {
+              "path": ".build/review131/source-freeze.json",
+              "sha256": "02007e01323453350acf36069da057d6018cc040d174d4db6ca54326258afa29"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass-bounded-model",
+          "evidence": [
+            {
+              "path": ".build/review131/record-editing-overview-regression.json",
+              "sha256": "7478bb9f30e56879892ba35769073e80b4cbcd839fa505c15bdeb6032426db87"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun-final-native",
+          "evidence": [],
+          "scope": "중간본·다른 화면 통과를 최종 현재 입력으로 승계하지 않음",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "정식 전환 후 root의 조건만 실제 DB 저장 검수 대기",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "새 보고서/PDF/설치 Excel 전수검수는 이번 정의 확인과 별개",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW131-C93-OVERVIEW-FIELD-building-acquisitionLandArea",
+      "parentID": "REVIEW131-C93-OVERVIEW-FORM",
+      "kind": "input-field",
+      "label": "취득대상 토지면적 (㎡)",
+      "lifecycle": "review131-c93-bounded-verification",
+      "visibleUserControl": true,
+      "source": [
+        {
+          "path": "src/recovery-views.js",
+          "sha256": "d0d4f7acce3738ab228bbda2655da74bf0a0f593ef3b3911bbd61ad7b1cbf448"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "취득대상 토지면적 (㎡)",
+        "reference": "docs/review131-spec.md"
+      },
+      "content": {
+        "label": "취득대상 토지면적 (㎡)",
+        "type": "number",
+        "consumers": [
+          "project.building.acquisitionLandArea",
+          "기존 조회/저장/취소",
+          "해당 면적/추천/이력 소비자"
+        ],
+        "preservation": "원금액·미입력/0·기존 ID/이름·계약/VAT·과거본 보존. 내용/타입 정의와 실제 실행은 별도"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass-source-scope",
+          "evidence": [
+            {
+              "path": ".build/review131/source-freeze.json",
+              "sha256": "02007e01323453350acf36069da057d6018cc040d174d4db6ca54326258afa29"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass-bounded-model",
+          "evidence": [
+            {
+              "path": ".build/review131/record-editing-overview-regression.json",
+              "sha256": "7478bb9f30e56879892ba35769073e80b4cbcd839fa505c15bdeb6032426db87"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun-final-native",
+          "evidence": [],
+          "scope": "중간본·다른 화면 통과를 최종 현재 입력으로 승계하지 않음",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "정식 전환 후 root의 조건만 실제 DB 저장 검수 대기",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "새 보고서/PDF/설치 Excel 전수검수는 이번 정의 확인과 별개",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW131-C93-RECORD-EDIT-loan",
+      "parentID": "UX131-03",
+      "kind": "record-action",
+      "label": "대출 수정",
+      "lifecycle": "review131-c93-bounded-verification",
+      "visibleUserControl": true,
+      "source": [
+        {
+          "path": "src/contracts.js",
+          "sha256": "ceab80bb15df3df0898468f2c2b784150745f213f28a307dcf70e4af726b1658"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "대출 수정",
+        "reference": "docs/review131-spec.md"
+      },
+      "content": {
+        "label": "대출 수정",
+        "type": "button",
+        "consumers": [
+          "원기록",
+          "기존 기록폼",
+          "저장/취소/실패",
+          "기존 금액/원문/관계/이력"
+        ],
+        "preservation": "원금액·미입력/0·기존 ID/이름·계약/VAT·과거본 보존. 내용/타입 정의와 실제 실행은 별도"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass-source-scope",
+          "evidence": [
+            {
+              "path": ".build/review131/source-freeze.json",
+              "sha256": "02007e01323453350acf36069da057d6018cc040d174d4db6ca54326258afa29"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass-bounded-model",
+          "evidence": [
+            {
+              "path": ".build/review131/record-editing-units-regression.json",
+              "sha256": "105908c564cfc2e16ffbc9cc89a9cd88db972a19e7cf1a519ca8928a06f9dc60"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun-final-native",
+          "evidence": [],
+          "scope": "중간본·다른 화면 통과를 최종 현재 입력으로 승계하지 않음",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "정식 전환 후 root의 조건만 실제 DB 저장 검수 대기",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "새 보고서/PDF/설치 Excel 전수검수는 이번 정의 확인과 별개",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW131-C93-RECORD-EDIT-equities",
+      "parentID": "UX131-03",
+      "kind": "record-action",
+      "label": "출자자 수정",
+      "lifecycle": "review131-c93-bounded-verification",
+      "visibleUserControl": true,
+      "source": [
+        {
+          "path": "src/contracts.js",
+          "sha256": "ceab80bb15df3df0898468f2c2b784150745f213f28a307dcf70e4af726b1658"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "출자자 수정",
+        "reference": "docs/review131-spec.md"
+      },
+      "content": {
+        "label": "출자자 수정",
+        "type": "button",
+        "consumers": [
+          "원기록",
+          "기존 기록폼",
+          "저장/취소/실패",
+          "기존 금액/원문/관계/이력"
+        ],
+        "preservation": "원금액·미입력/0·기존 ID/이름·계약/VAT·과거본 보존. 내용/타입 정의와 실제 실행은 별도"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass-source-scope",
+          "evidence": [
+            {
+              "path": ".build/review131/source-freeze.json",
+              "sha256": "02007e01323453350acf36069da057d6018cc040d174d4db6ca54326258afa29"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass-bounded-model",
+          "evidence": [
+            {
+              "path": ".build/review131/record-editing-units-regression.json",
+              "sha256": "105908c564cfc2e16ffbc9cc89a9cd88db972a19e7cf1a519ca8928a06f9dc60"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun-final-native",
+          "evidence": [],
+          "scope": "중간본·다른 화면 통과를 최종 현재 입력으로 승계하지 않음",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "정식 전환 후 root의 조건만 실제 DB 저장 검수 대기",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "새 보고서/PDF/설치 Excel 전수검수는 이번 정의 확인과 별개",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW131-C93-RECORD-EDIT-guarantees",
+      "parentID": "UX131-03",
+      "kind": "record-action",
+      "label": "담보·신용보강·보증 수정",
+      "lifecycle": "review131-c93-bounded-verification",
+      "visibleUserControl": true,
+      "source": [
+        {
+          "path": "src/contracts.js",
+          "sha256": "ceab80bb15df3df0898468f2c2b784150745f213f28a307dcf70e4af726b1658"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "담보·신용보강·보증 수정",
+        "reference": "docs/review131-spec.md"
+      },
+      "content": {
+        "label": "담보·신용보강·보증 수정",
+        "type": "button",
+        "consumers": [
+          "원기록",
+          "기존 기록폼",
+          "저장/취소/실패",
+          "기존 금액/원문/관계/이력"
+        ],
+        "preservation": "원금액·미입력/0·기존 ID/이름·계약/VAT·과거본 보존. 내용/타입 정의와 실제 실행은 별도"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass-source-scope",
+          "evidence": [
+            {
+              "path": ".build/review131/source-freeze.json",
+              "sha256": "02007e01323453350acf36069da057d6018cc040d174d4db6ca54326258afa29"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass-bounded-model",
+          "evidence": [
+            {
+              "path": ".build/review131/record-editing-units-regression.json",
+              "sha256": "105908c564cfc2e16ffbc9cc89a9cd88db972a19e7cf1a519ca8928a06f9dc60"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun-final-native",
+          "evidence": [],
+          "scope": "중간본·다른 화면 통과를 최종 현재 입력으로 승계하지 않음",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "정식 전환 후 root의 조건만 실제 DB 저장 검수 대기",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "새 보고서/PDF/설치 Excel 전수검수는 이번 정의 확인과 별개",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW131-C93-RECORD-EDIT-guarantors",
+      "parentID": "UX131-03",
+      "kind": "record-action",
+      "label": "보고 보증기관 수정",
+      "lifecycle": "review131-c93-bounded-verification",
+      "visibleUserControl": true,
+      "source": [
+        {
+          "path": "src/contracts.js",
+          "sha256": "ceab80bb15df3df0898468f2c2b784150745f213f28a307dcf70e4af726b1658"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "보고 보증기관 수정",
+        "reference": "docs/review131-spec.md"
+      },
+      "content": {
+        "label": "보고 보증기관 수정",
+        "type": "button",
+        "consumers": [
+          "원기록",
+          "기존 기록폼",
+          "저장/취소/실패",
+          "기존 금액/원문/관계/이력"
+        ],
+        "preservation": "원금액·미입력/0·기존 ID/이름·계약/VAT·과거본 보존. 내용/타입 정의와 실제 실행은 별도"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass-source-scope",
+          "evidence": [
+            {
+              "path": ".build/review131/source-freeze.json",
+              "sha256": "02007e01323453350acf36069da057d6018cc040d174d4db6ca54326258afa29"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass-bounded-model",
+          "evidence": [
+            {
+              "path": ".build/review131/record-editing-units-regression.json",
+              "sha256": "105908c564cfc2e16ffbc9cc89a9cd88db972a19e7cf1a519ca8928a06f9dc60"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun-final-native",
+          "evidence": [],
+          "scope": "중간본·다른 화면 통과를 최종 현재 입력으로 승계하지 않음",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "정식 전환 후 root의 조건만 실제 DB 저장 검수 대기",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "새 보고서/PDF/설치 Excel 전수검수는 이번 정의 확인과 별개",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW131-C93-RECORD-EDIT-contract",
+      "parentID": "UX131-03",
+      "kind": "record-action",
+      "label": "계약 수정",
+      "lifecycle": "review131-c93-bounded-verification",
+      "visibleUserControl": true,
+      "source": [
+        {
+          "path": "src/contracts.js",
+          "sha256": "ceab80bb15df3df0898468f2c2b784150745f213f28a307dcf70e4af726b1658"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "계약 수정",
+        "reference": "docs/review131-spec.md"
+      },
+      "content": {
+        "label": "계약 수정",
+        "type": "button",
+        "consumers": [
+          "원기록",
+          "기존 기록폼",
+          "저장/취소/실패",
+          "기존 금액/원문/관계/이력"
+        ],
+        "preservation": "원금액·미입력/0·기존 ID/이름·계약/VAT·과거본 보존. 내용/타입 정의와 실제 실행은 별도"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass-source-scope",
+          "evidence": [
+            {
+              "path": ".build/review131/source-freeze.json",
+              "sha256": "02007e01323453350acf36069da057d6018cc040d174d4db6ca54326258afa29"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass-bounded-model",
+          "evidence": [
+            {
+              "path": ".build/review131/record-editing-units-regression.json",
+              "sha256": "105908c564cfc2e16ffbc9cc89a9cd88db972a19e7cf1a519ca8928a06f9dc60"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun-final-native",
+          "evidence": [],
+          "scope": "중간본·다른 화면 통과를 최종 현재 입력으로 승계하지 않음",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "정식 전환 후 root의 조건만 실제 DB 저장 검수 대기",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "새 보고서/PDF/설치 Excel 전수검수는 이번 정의 확인과 별개",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW131-C93-RECORD-EDIT-document",
+      "parentID": "UX131-03",
+      "kind": "record-action",
+      "label": "문서 수정",
+      "lifecycle": "review131-c93-bounded-verification",
+      "visibleUserControl": true,
+      "source": [
+        {
+          "path": "src/contracts.js",
+          "sha256": "ceab80bb15df3df0898468f2c2b784150745f213f28a307dcf70e4af726b1658"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "문서 수정",
+        "reference": "docs/review131-spec.md"
+      },
+      "content": {
+        "label": "문서 수정",
+        "type": "button",
+        "consumers": [
+          "원기록",
+          "기존 기록폼",
+          "저장/취소/실패",
+          "기존 금액/원문/관계/이력"
+        ],
+        "preservation": "원금액·미입력/0·기존 ID/이름·계약/VAT·과거본 보존. 내용/타입 정의와 실제 실행은 별도"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass-source-scope",
+          "evidence": [
+            {
+              "path": ".build/review131/source-freeze.json",
+              "sha256": "02007e01323453350acf36069da057d6018cc040d174d4db6ca54326258afa29"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass-bounded-model",
+          "evidence": [
+            {
+              "path": ".build/review131/record-editing-units-regression.json",
+              "sha256": "105908c564cfc2e16ffbc9cc89a9cd88db972a19e7cf1a519ca8928a06f9dc60"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun-final-native",
+          "evidence": [],
+          "scope": "중간본·다른 화면 통과를 최종 현재 입력으로 승계하지 않음",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "정식 전환 후 root의 조건만 실제 DB 저장 검수 대기",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "새 보고서/PDF/설치 Excel 전수검수는 이번 정의 확인과 별개",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW131-C93-RECORD-EDIT-permit",
+      "parentID": "UX131-03",
+      "kind": "record-action",
+      "label": "인허가 수정",
+      "lifecycle": "review131-c93-bounded-verification",
+      "visibleUserControl": true,
+      "source": [
+        {
+          "path": "src/permit-views.js",
+          "sha256": "795f6b36de3eb211ce9d4b99195b45de2ee4b495c5fab4c4f716dee2a7a19cb3"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "인허가 수정",
+        "reference": "docs/review131-spec.md"
+      },
+      "content": {
+        "label": "인허가 수정",
+        "type": "button",
+        "consumers": [
+          "원기록",
+          "기존 기록폼",
+          "저장/취소/실패",
+          "기존 금액/원문/관계/이력"
+        ],
+        "preservation": "원금액·미입력/0·기존 ID/이름·계약/VAT·과거본 보존. 내용/타입 정의와 실제 실행은 별도"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass-source-scope",
+          "evidence": [
+            {
+              "path": ".build/review131/source-freeze.json",
+              "sha256": "02007e01323453350acf36069da057d6018cc040d174d4db6ca54326258afa29"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass-bounded-model",
+          "evidence": [
+            {
+              "path": "docs/review131-permit-intake-verification.json",
+              "sha256": "b3c91b6390081383109f16153fbc5c214940c4bee35eaf979a876d1b05728bab"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun-final-native",
+          "evidence": [],
+          "scope": "중간본·다른 화면 통과를 최종 현재 입력으로 승계하지 않음",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "정식 전환 후 root의 조건만 실제 DB 저장 검수 대기",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "새 보고서/PDF/설치 Excel 전수검수는 이번 정의 확인과 별개",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW131-C93-RECORD-EDIT-parcel",
+      "parentID": "UX131-03",
+      "kind": "record-action",
+      "label": "토지 필지 수정",
+      "lifecycle": "review131-c93-bounded-verification",
+      "visibleUserControl": true,
+      "source": [
+        {
+          "path": "src/permit-views.js",
+          "sha256": "795f6b36de3eb211ce9d4b99195b45de2ee4b495c5fab4c4f716dee2a7a19cb3"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "토지 필지 수정",
+        "reference": "docs/review131-spec.md"
+      },
+      "content": {
+        "label": "토지 필지 수정",
+        "type": "button",
+        "consumers": [
+          "원기록",
+          "기존 기록폼",
+          "저장/취소/실패",
+          "기존 금액/원문/관계/이력"
+        ],
+        "preservation": "원금액·미입력/0·기존 ID/이름·계약/VAT·과거본 보존. 내용/타입 정의와 실제 실행은 별도"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass-source-scope",
+          "evidence": [
+            {
+              "path": ".build/review131/source-freeze.json",
+              "sha256": "02007e01323453350acf36069da057d6018cc040d174d4db6ca54326258afa29"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass-bounded-model",
+          "evidence": [
+            {
+              "path": "docs/review131-permit-intake-verification.json",
+              "sha256": "b3c91b6390081383109f16153fbc5c214940c4bee35eaf979a876d1b05728bab"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun-final-native",
+          "evidence": [],
+          "scope": "중간본·다른 화면 통과를 최종 현재 입력으로 승계하지 않음",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "정식 전환 후 root의 조건만 실제 DB 저장 검수 대기",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "새 보고서/PDF/설치 Excel 전수검수는 이번 정의 확인과 별개",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW131-C93-RECORD-EDIT-landContract",
+      "parentID": "UX131-03",
+      "kind": "record-action",
+      "label": "토지매매계약 수정",
+      "lifecycle": "review131-c93-bounded-verification",
+      "visibleUserControl": true,
+      "source": [
+        {
+          "path": "src/permit-views.js",
+          "sha256": "795f6b36de3eb211ce9d4b99195b45de2ee4b495c5fab4c4f716dee2a7a19cb3"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "토지매매계약 수정",
+        "reference": "docs/review131-spec.md"
+      },
+      "content": {
+        "label": "토지매매계약 수정",
+        "type": "button",
+        "consumers": [
+          "원기록",
+          "기존 기록폼",
+          "저장/취소/실패",
+          "기존 금액/원문/관계/이력"
+        ],
+        "preservation": "원금액·미입력/0·기존 ID/이름·계약/VAT·과거본 보존. 내용/타입 정의와 실제 실행은 별도"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass-source-scope",
+          "evidence": [
+            {
+              "path": ".build/review131/source-freeze.json",
+              "sha256": "02007e01323453350acf36069da057d6018cc040d174d4db6ca54326258afa29"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass-bounded-model",
+          "evidence": [
+            {
+              "path": "docs/review131-permit-intake-verification.json",
+              "sha256": "b3c91b6390081383109f16153fbc5c214940c4bee35eaf979a876d1b05728bab"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun-final-native",
+          "evidence": [],
+          "scope": "중간본·다른 화면 통과를 최종 현재 입력으로 승계하지 않음",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "정식 전환 후 root의 조건만 실제 DB 저장 검수 대기",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "새 보고서/PDF/설치 Excel 전수검수는 이번 정의 확인과 별개",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW131-C93-RECORD-EDIT-landPayment",
+      "parentID": "UX131-03",
+      "kind": "record-action",
+      "label": "토지 지급회차 수정",
+      "lifecycle": "review131-c93-bounded-verification",
+      "visibleUserControl": true,
+      "source": [
+        {
+          "path": "src/permit-views.js",
+          "sha256": "795f6b36de3eb211ce9d4b99195b45de2ee4b495c5fab4c4f716dee2a7a19cb3"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "토지 지급회차 수정",
+        "reference": "docs/review131-spec.md"
+      },
+      "content": {
+        "label": "토지 지급회차 수정",
+        "type": "button",
+        "consumers": [
+          "원기록",
+          "기존 기록폼",
+          "저장/취소/실패",
+          "기존 금액/원문/관계/이력"
+        ],
+        "preservation": "원금액·미입력/0·기존 ID/이름·계약/VAT·과거본 보존. 내용/타입 정의와 실제 실행은 별도"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass-source-scope",
+          "evidence": [
+            {
+              "path": ".build/review131/source-freeze.json",
+              "sha256": "02007e01323453350acf36069da057d6018cc040d174d4db6ca54326258afa29"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass-bounded-model",
+          "evidence": [
+            {
+              "path": "docs/review131-permit-intake-verification.json",
+              "sha256": "b3c91b6390081383109f16153fbc5c214940c4bee35eaf979a876d1b05728bab"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun-final-native",
+          "evidence": [],
+          "scope": "중간본·다른 화면 통과를 최종 현재 입력으로 승계하지 않음",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "정식 전환 후 root의 조건만 실제 DB 저장 검수 대기",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "새 보고서/PDF/설치 Excel 전수검수는 이번 정의 확인과 별개",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW131-C93-RECORD-EDIT-sale",
+      "parentID": "UX131-03",
+      "kind": "record-action",
+      "label": "분양·매각 수정",
+      "lifecycle": "review131-c93-bounded-verification",
+      "visibleUserControl": true,
+      "source": [
+        {
+          "path": "src/permit-views.js",
+          "sha256": "795f6b36de3eb211ce9d4b99195b45de2ee4b495c5fab4c4f716dee2a7a19cb3"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "분양·매각 수정",
+        "reference": "docs/review131-spec.md"
+      },
+      "content": {
+        "label": "분양·매각 수정",
+        "type": "button",
+        "consumers": [
+          "원기록",
+          "기존 기록폼",
+          "저장/취소/실패",
+          "기존 금액/원문/관계/이력"
+        ],
+        "preservation": "원금액·미입력/0·기존 ID/이름·계약/VAT·과거본 보존. 내용/타입 정의와 실제 실행은 별도"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass-source-scope",
+          "evidence": [
+            {
+              "path": ".build/review131/source-freeze.json",
+              "sha256": "02007e01323453350acf36069da057d6018cc040d174d4db6ca54326258afa29"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass-bounded-model",
+          "evidence": [
+            {
+              "path": "docs/review131-permit-intake-verification.json",
+              "sha256": "b3c91b6390081383109f16153fbc5c214940c4bee35eaf979a876d1b05728bab"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun-final-native",
+          "evidence": [],
+          "scope": "중간본·다른 화면 통과를 최종 현재 입력으로 승계하지 않음",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "정식 전환 후 root의 조건만 실제 DB 저장 검수 대기",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "새 보고서/PDF/설치 Excel 전수검수는 이번 정의 확인과 별개",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW131-C93-RECORD-EDIT-issue",
+      "parentID": "UX131-03",
+      "kind": "record-action",
+      "label": "주요 현안 수정",
+      "lifecycle": "review131-c93-bounded-verification",
+      "visibleUserControl": true,
+      "source": [
+        {
+          "path": "src/recovery-views.js",
+          "sha256": "d0d4f7acce3738ab228bbda2655da74bf0a0f593ef3b3911bbd61ad7b1cbf448"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "주요 현안 수정",
+        "reference": "docs/review131-spec.md"
+      },
+      "content": {
+        "label": "주요 현안 수정",
+        "type": "button",
+        "consumers": [
+          "원기록",
+          "기존 기록폼",
+          "저장/취소/실패",
+          "기존 금액/원문/관계/이력"
+        ],
+        "preservation": "원금액·미입력/0·기존 ID/이름·계약/VAT·과거본 보존. 내용/타입 정의와 실제 실행은 별도"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass-source-scope",
+          "evidence": [
+            {
+              "path": ".build/review131/source-freeze.json",
+              "sha256": "02007e01323453350acf36069da057d6018cc040d174d4db6ca54326258afa29"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass-bounded-model",
+          "evidence": [
+            {
+              "path": ".build/review131/record-editing-adjacent-green.json",
+              "sha256": "6f7699b79614aea45d63d700c70b2a87a71261fce42cc6fffe534bf67bbb9c2f"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun-final-native",
+          "evidence": [],
+          "scope": "중간본·다른 화면 통과를 최종 현재 입력으로 승계하지 않음",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "정식 전환 후 root의 조건만 실제 DB 저장 검수 대기",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "새 보고서/PDF/설치 Excel 전수검수는 이번 정의 확인과 별개",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW131-C93-RECORD-EDIT-benchmark",
+      "parentID": "UX131-03",
+      "kind": "record-action",
+      "label": "유사사업 수정",
+      "lifecycle": "review131-c93-bounded-verification",
+      "visibleUserControl": true,
+      "source": [
+        {
+          "path": "src/partners.js",
+          "sha256": "f2299de9b19dc588c7896c5e0708fe950c194de68cabef11ac9b20d02311ac84"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "유사사업 수정",
+        "reference": "docs/review131-spec.md"
+      },
+      "content": {
+        "label": "유사사업 수정",
+        "type": "button",
+        "consumers": [
+          "원기록",
+          "기존 기록폼",
+          "저장/취소/실패",
+          "기존 금액/원문/관계/이력"
+        ],
+        "preservation": "원금액·미입력/0·기존 ID/이름·계약/VAT·과거본 보존. 내용/타입 정의와 실제 실행은 별도"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass-source-scope",
+          "evidence": [
+            {
+              "path": ".build/review131/source-freeze.json",
+              "sha256": "02007e01323453350acf36069da057d6018cc040d174d4db6ca54326258afa29"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass-bounded-model",
+          "evidence": [
+            {
+              "path": ".build/review131/record-editing-adjacent-green.json",
+              "sha256": "6f7699b79614aea45d63d700c70b2a87a71261fce42cc6fffe534bf67bbb9c2f"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun-final-native",
+          "evidence": [],
+          "scope": "중간본·다른 화면 통과를 최종 현재 입력으로 승계하지 않음",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "정식 전환 후 root의 조건만 실제 DB 저장 검수 대기",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "새 보고서/PDF/설치 Excel 전수검수는 이번 정의 확인과 별개",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW131-C93-SEARCH",
+      "parentID": "PERMIT131-01",
+      "kind": "connected-action",
+      "label": "항목 검색",
+      "lifecycle": "review131-c93-bounded-verification",
+      "visibleUserControl": true,
+      "source": [
+        {
+          "path": "src/permit-map.js",
+          "sha256": "b77f661f494f96a0c072ca7844475a399b3a63f10263bec081d109bf03684a5a"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "항목 검색",
+        "reference": "docs/review131-spec.md"
+      },
+      "content": {
+        "label": "항목 검색",
+        "type": "search",
+        "consumers": [
+          "동일 초안",
+          "입력값",
+          "중복 제외",
+          "부모/초점 복귀"
+        ],
+        "preservation": "원금액·미입력/0·기존 ID/이름·계약/VAT·과거본 보존. 내용/타입 정의와 실제 실행은 별도"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass-source-scope",
+          "evidence": [
+            {
+              "path": ".build/review131/source-freeze.json",
+              "sha256": "02007e01323453350acf36069da057d6018cc040d174d4db6ca54326258afa29"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass-bounded-model",
+          "evidence": [
+            {
+              "path": "docs/review131-permit-intake-verification.json",
+              "sha256": "b3c91b6390081383109f16153fbc5c214940c4bee35eaf979a876d1b05728bab"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "pass-bounded-local-native",
+          "evidence": [
+            {
+              "path": ".build/review131/native-visual-review.json",
+              "sha256": "3fc70c6d480844e672df89c7c25213b553f630e95c5a6561bd28702883546dbd"
+            }
+          ],
+          "scope": "정확 local HTML 10fb6a7867b66f849f681d45c8c1d63ccbf8dfb26448fa2a9849e4d61a3abfb4의 합성자료 캡처/DOM·좌표. 실제 DB 아님",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "정식 전환 후 root의 조건만 실제 DB 저장 검수 대기",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "새 보고서/PDF/설치 Excel 전수검수는 이번 정의 확인과 별개",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW131-C93-GROUP",
+      "parentID": "PERMIT131-01",
+      "kind": "connected-action",
+      "label": "인허가 분류 접기/펼치기",
+      "lifecycle": "review131-c93-bounded-verification",
+      "visibleUserControl": true,
+      "source": [
+        {
+          "path": "src/permit-map.js",
+          "sha256": "b77f661f494f96a0c072ca7844475a399b3a63f10263bec081d109bf03684a5a"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "인허가 분류 접기/펼치기",
+        "reference": "docs/review131-spec.md"
+      },
+      "content": {
+        "label": "인허가 분류 접기/펼치기",
+        "type": "details",
+        "consumers": [
+          "동일 초안",
+          "입력값",
+          "중복 제외",
+          "부모/초점 복귀"
+        ],
+        "preservation": "원금액·미입력/0·기존 ID/이름·계약/VAT·과거본 보존. 내용/타입 정의와 실제 실행은 별도"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass-source-scope",
+          "evidence": [
+            {
+              "path": ".build/review131/source-freeze.json",
+              "sha256": "02007e01323453350acf36069da057d6018cc040d174d4db6ca54326258afa29"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass-bounded-model",
+          "evidence": [
+            {
+              "path": "docs/review131-permit-intake-verification.json",
+              "sha256": "b3c91b6390081383109f16153fbc5c214940c4bee35eaf979a876d1b05728bab"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "pass-bounded-local-native",
+          "evidence": [
+            {
+              "path": ".build/review131/native-visual-review.json",
+              "sha256": "3fc70c6d480844e672df89c7c25213b553f630e95c5a6561bd28702883546dbd"
+            }
+          ],
+          "scope": "정확 local HTML 10fb6a7867b66f849f681d45c8c1d63ccbf8dfb26448fa2a9849e4d61a3abfb4의 합성자료 캡처/DOM·좌표. 실제 DB 아님",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "정식 전환 후 root의 조건만 실제 DB 저장 검수 대기",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "새 보고서/PDF/설치 Excel 전수검수는 이번 정의 확인과 별개",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW131-C93-CONDITIONS-SAVE",
+      "parentID": "PERMIT131-01",
+      "kind": "connected-action",
+      "label": "조건 저장",
+      "lifecycle": "review131-c93-bounded-verification",
+      "visibleUserControl": true,
+      "source": [
+        {
+          "path": "src/permit-map.js",
+          "sha256": "b77f661f494f96a0c072ca7844475a399b3a63f10263bec081d109bf03684a5a"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "조건 저장",
+        "reference": "docs/review131-spec.md"
+      },
+      "content": {
+        "label": "조건 저장",
+        "type": "button",
+        "consumers": [
+          "동일 초안",
+          "입력값",
+          "중복 제외",
+          "부모/초점 복귀"
+        ],
+        "preservation": "원금액·미입력/0·기존 ID/이름·계약/VAT·과거본 보존. 내용/타입 정의와 실제 실행은 별도"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass-source-scope",
+          "evidence": [
+            {
+              "path": ".build/review131/source-freeze.json",
+              "sha256": "02007e01323453350acf36069da057d6018cc040d174d4db6ca54326258afa29"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass-bounded-model",
+          "evidence": [
+            {
+              "path": "docs/review131-permit-intake-verification.json",
+              "sha256": "b3c91b6390081383109f16153fbc5c214940c4bee35eaf979a876d1b05728bab"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "pass-bounded-local-native",
+          "evidence": [
+            {
+              "path": ".build/review131/native-visual-review.json",
+              "sha256": "3fc70c6d480844e672df89c7c25213b553f630e95c5a6561bd28702883546dbd"
+            }
+          ],
+          "scope": "정확 local HTML 10fb6a7867b66f849f681d45c8c1d63ccbf8dfb26448fa2a9849e4d61a3abfb4의 합성자료 캡처/DOM·좌표. 실제 DB 아님",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "pass-bounded-real-B",
+          "evidence": [
+            {
+              "path": ".build/review131/release-live-after-yes-1793254365773.json",
+              "sha256": "a926a6e5131eef3a1c5528ea23689db03aa7134b726c88858cf0252aaaba3a65",
+              "scope": "private SQL receipt; raw values not copied"
+            },
+            {
+              "path": ".build/review131/release-live-after-unknown-1793254532792.json",
+              "sha256": "34584456c1922e98c1ec0175322180ae796cb58de1d439f03fc9004da638f740",
+              "scope": "private SQL receipt; raw values not copied"
+            }
+          ],
+          "scope": "B specialStructure 예→재접속→미확인명시정정; otherflags/otherrows notexercised",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "새 보고서/PDF/설치 Excel 전수검수는 이번 정의 확인과 별개",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW131-C93-SELECTION-SAVE",
+      "parentID": "PERMIT131-01",
+      "kind": "connected-action",
+      "label": "선택한 인허가 추가",
+      "lifecycle": "review131-c93-bounded-verification",
+      "visibleUserControl": true,
+      "source": [
+        {
+          "path": "src/permit-map.js",
+          "sha256": "b77f661f494f96a0c072ca7844475a399b3a63f10263bec081d109bf03684a5a"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "선택한 인허가 추가",
+        "reference": "docs/review131-spec.md"
+      },
+      "content": {
+        "label": "선택한 인허가 추가",
+        "type": "button",
+        "consumers": [
+          "동일 초안",
+          "입력값",
+          "중복 제외",
+          "부모/초점 복귀"
+        ],
+        "preservation": "원금액·미입력/0·기존 ID/이름·계약/VAT·과거본 보존. 내용/타입 정의와 실제 실행은 별도"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass-source-scope",
+          "evidence": [
+            {
+              "path": ".build/review131/source-freeze.json",
+              "sha256": "02007e01323453350acf36069da057d6018cc040d174d4db6ca54326258afa29"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass-bounded-model",
+          "evidence": [
+            {
+              "path": "docs/review131-permit-intake-verification.json",
+              "sha256": "b3c91b6390081383109f16153fbc5c214940c4bee35eaf979a876d1b05728bab"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "pass-bounded-local-native",
+          "evidence": [
+            {
+              "path": ".build/review131/native-visual-review.json",
+              "sha256": "3fc70c6d480844e672df89c7c25213b553f630e95c5a6561bd28702883546dbd"
+            }
+          ],
+          "scope": "정확 local HTML 10fb6a7867b66f849f681d45c8c1d63ccbf8dfb26448fa2a9849e4d61a3abfb4의 합성자료 캡처/DOM·좌표. 실제 DB 아님",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "정식 전환 후 root의 조건만 실제 DB 저장 검수 대기",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "새 보고서/PDF/설치 Excel 전수검수는 이번 정의 확인과 별개",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW131-C93-CANCEL",
+      "parentID": "PERMIT131-01",
+      "kind": "connected-action",
+      "label": "취소 / 닫기 / Escape",
+      "lifecycle": "review131-c93-bounded-verification",
+      "visibleUserControl": true,
+      "source": [
+        {
+          "path": "src/permit-map.js",
+          "sha256": "b77f661f494f96a0c072ca7844475a399b3a63f10263bec081d109bf03684a5a"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "취소 / 닫기 / Escape",
+        "reference": "docs/review131-spec.md"
+      },
+      "content": {
+        "label": "취소 / 닫기 / Escape",
+        "type": "button-and-key",
+        "consumers": [
+          "동일 초안",
+          "입력값",
+          "중복 제외",
+          "부모/초점 복귀"
+        ],
+        "preservation": "원금액·미입력/0·기존 ID/이름·계약/VAT·과거본 보존. 내용/타입 정의와 실제 실행은 별도"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass-source-scope",
+          "evidence": [
+            {
+              "path": ".build/review131/source-freeze.json",
+              "sha256": "02007e01323453350acf36069da057d6018cc040d174d4db6ca54326258afa29"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass-bounded-model",
+          "evidence": [
+            {
+              "path": "docs/review131-permit-intake-verification.json",
+              "sha256": "b3c91b6390081383109f16153fbc5c214940c4bee35eaf979a876d1b05728bab"
+            }
+          ],
+          "scope": "명시된 현재 소스·자료·행동만 확인",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "pass-bounded-local-native",
+          "evidence": [
+            {
+              "path": ".build/review131/native-visual-review.json",
+              "sha256": "3fc70c6d480844e672df89c7c25213b553f630e95c5a6561bd28702883546dbd"
+            }
+          ],
+          "scope": "정확 local HTML 10fb6a7867b66f849f681d45c8c1d63ccbf8dfb26448fa2a9849e4d61a3abfb4의 합성자료 캡처/DOM·좌표. 실제 DB 아님",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "pass-bounded-real-B",
+          "evidence": [
+            {
+              "path": ".build/review131/release-live-after-yes-1793254365773.json",
+              "sha256": "a926a6e5131eef3a1c5528ea23689db03aa7134b726c88858cf0252aaaba3a65",
+              "scope": "private SQL receipt; raw values not copied"
+            },
+            {
+              "path": ".build/review131/release-live-after-unknown-1793254532792.json",
+              "sha256": "34584456c1922e98c1ec0175322180ae796cb58de1d439f03fc9004da638f740",
+              "scope": "private SQL receipt; raw values not copied"
+            }
+          ],
+          "scope": "B specialStructure 예→재접속→미확인명시정정; otherflags/otherrows notexercised",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "새 보고서/PDF/설치 Excel 전수검수는 이번 정의 확인과 별개",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
     }
   ],
   "popupCandidates": [
@@ -786189,6 +790509,30 @@
       "path": ".build/review-20261026/screenshots/16-formal-search127-menu-collapsed.jpg",
       "sha256": "8f0a6038b04ca01b6bdd7963dba225f636c7846fefdf32ddd4d7a0039123f690",
       "kind": "formal app screenshot independently visually read"
+    },
+    {
+      "id": "REVIEW131-C93-source-freeze.json",
+      "path": ".build/review131/source-freeze.json",
+      "sha256": "02007e01323453350acf36069da057d6018cc040d174d4db6ca54326258afa29",
+      "kind": "exact-source bounded evidence; acceptance gates separate"
+    },
+    {
+      "id": "REVIEW131-C93-native-visual-review.json",
+      "path": ".build/review131/native-visual-review.json",
+      "sha256": "3fc70c6d480844e672df89c7c25213b553f630e95c5a6561bd28702883546dbd",
+      "kind": "exact-source bounded evidence; acceptance gates separate"
+    },
+    {
+      "id": "REVIEW131-C93-native-final-keyboard.json",
+      "path": ".build/review131/native-final-keyboard.json",
+      "sha256": "ac784146a83733c270bcccce2bcca967528386b6b91ea947da4e6102379c49de",
+      "kind": "exact-source bounded evidence; acceptance gates separate"
+    },
+    {
+      "id": "REVIEW131-C93-FINAL-GLOBAL",
+      "path": ".build/center-20261020/logic-2026-10-29T05-55-51.330Z.json",
+      "sha256": "55337ed5b78111b1619004f82daf07eb90c351f0c6c9f4a323e4aefe0626ec26",
+      "kind": "exact frozen logical regression278; native/DB/output separate"
     }
   ],
   "safety": {
@@ -793505,10 +797849,186 @@
       "LAW131-05",
       "LAW131-06"
     ],
-    "implementation": "in-progress",
+    "implementation": "six scoped requirements accepted",
     "allPlatformComponentsAccepted": false,
     "evidence": "docs/review131-spec.md",
     "previousRecordsPreserved": 5067,
-    "previousPrefixSha256": "32a4a0d657164439d1489b9421210252b2f3f200e7ffba99f559aa558508cc74"
+    "previousPrefixSha256": "32a4a0d657164439d1489b9421210252b2f3f200e7ffba99f559aa558508cc74",
+    "candidate": "C93",
+    "currentFormal": "C93",
+    "preservedPrefixRecords": 5081,
+    "preservedPrefixSha256": "e50459a57130a75b5acaf8aea6e3b7e60fa7add21f1c0ff64c0cc9e1b947d43a",
+    "currentC93ComponentIDs": [
+      "REVIEW131-C93-INTAKE",
+      "REVIEW131-C93-TABS",
+      "REVIEW131-C93-TAB-CONDITIONS",
+      "REVIEW131-C93-TAB-LIST",
+      "REVIEW131-C93-FLAG-trafficZone",
+      "REVIEW131-C93-FLAG-trafficScope",
+      "REVIEW131-C93-FLAG-specialStructure",
+      "REVIEW131-C93-FLAG-airDefenseArea",
+      "REVIEW131-C93-FLAG-airDefenseHeight",
+      "REVIEW131-C93-FLAG-militaryArea",
+      "REVIEW131-C93-OVERVIEW-FORM",
+      "REVIEW131-C93-OVERVIEW-EDIT",
+      "REVIEW131-C93-OVERVIEW-FIELD-name",
+      "REVIEW131-C93-OVERVIEW-FIELD-type",
+      "REVIEW131-C93-OVERVIEW-FIELD-stage",
+      "REVIEW131-C93-OVERVIEW-FIELD-basic-method",
+      "REVIEW131-C93-OVERVIEW-FIELD-basic-operator",
+      "REVIEW131-C93-OVERVIEW-FIELD-basic-manager",
+      "REVIEW131-C93-OVERVIEW-FIELD-location",
+      "REVIEW131-C93-OVERVIEW-FIELD-building-representativeLot",
+      "REVIEW131-C93-OVERVIEW-FIELD-basic-periodStart",
+      "REVIEW131-C93-OVERVIEW-FIELD-basic-periodEnd",
+      "REVIEW131-C93-OVERVIEW-FIELD-basic-established",
+      "REVIEW131-C93-OVERVIEW-FIELD-building-zone",
+      "REVIEW131-C93-OVERVIEW-FIELD-building-mainUse",
+      "REVIEW131-C93-OVERVIEW-FIELD-building-siteArea",
+      "REVIEW131-C93-OVERVIEW-FIELD-building-buildingArea",
+      "REVIEW131-C93-OVERVIEW-FIELD-building-gfaTotal",
+      "REVIEW131-C93-OVERVIEW-FIELD-building-floorsAbove",
+      "REVIEW131-C93-OVERVIEW-FIELD-building-floorsBelow",
+      "REVIEW131-C93-OVERVIEW-FIELD-building-far",
+      "REVIEW131-C93-OVERVIEW-FIELD-building-bcr",
+      "REVIEW131-C93-OVERVIEW-FIELD-building-gfaAbove",
+      "REVIEW131-C93-OVERVIEW-FIELD-building-gfaBelow",
+      "REVIEW131-C93-OVERVIEW-FIELD-building-farArea",
+      "REVIEW131-C93-OVERVIEW-FIELD-building-acquisitionLandArea",
+      "REVIEW131-C93-RECORD-EDIT-loan",
+      "REVIEW131-C93-RECORD-EDIT-equities",
+      "REVIEW131-C93-RECORD-EDIT-guarantees",
+      "REVIEW131-C93-RECORD-EDIT-guarantors",
+      "REVIEW131-C93-RECORD-EDIT-contract",
+      "REVIEW131-C93-RECORD-EDIT-document",
+      "REVIEW131-C93-RECORD-EDIT-permit",
+      "REVIEW131-C93-RECORD-EDIT-parcel",
+      "REVIEW131-C93-RECORD-EDIT-landContract",
+      "REVIEW131-C93-RECORD-EDIT-landPayment",
+      "REVIEW131-C93-RECORD-EDIT-sale",
+      "REVIEW131-C93-RECORD-EDIT-issue",
+      "REVIEW131-C93-RECORD-EDIT-benchmark",
+      "REVIEW131-C93-SEARCH",
+      "REVIEW131-C93-GROUP",
+      "REVIEW131-C93-CONDITIONS-SAVE",
+      "REVIEW131-C93-SELECTION-SAVE",
+      "REVIEW131-C93-CANCEL"
+    ],
+    "newConditionKeys": [
+      "trafficZone",
+      "trafficScope",
+      "specialStructure",
+      "airDefenseArea",
+      "airDefenseHeight"
+    ],
+    "clarifiedExistingConditionKeys": [
+      "militaryArea"
+    ],
+    "finalVerification": "docs/review131-final-verification.json",
+    "globalRegression": {
+      "state": "pass-exact-frozen-source",
+      "phase": "review131-final-frozen",
+      "passed": 278,
+      "failed": 0,
+      "total": 278,
+      "sourcePins": 616,
+      "sourceChangedDuringRun": [],
+      "evidence": {
+        "path": ".build/center-20261020/logic-2026-10-29T05-55-51.330Z.json",
+        "sha256": "55337ed5b78111b1619004f82daf07eb90c351f0c6c9f4a323e4aefe0626ec26"
+      },
+      "allFunctionsVerified": false,
+      "scope": "current center, FUP121, UX122, AUTO123, CONT124 PUR125 and REVIEW126/SEARCH127/REVIEW128/REVIEW129 logical requirements plus selected authentication/storage/performance regressions; private approved fixtures where required; not full browser/production/PDF coverage"
+    },
+    "acceptedRequirements": [
+      "PERMIT131-01",
+      "PERMIT131-02",
+      "UX131-03",
+      "LAW131-04",
+      "LAW131-05",
+      "LAW131-06"
+    ],
+    "pendingRequirements": [],
+    "actualDatabase": {
+      "state": "pass-scoped-real-B-condition-save-reconnect",
+      "beforeRevision": 56,
+      "afterYesRevision": 57,
+      "afterUnknownRevision": 58,
+      "auditCount": 58,
+      "requestCount": 58,
+      "addedCommits": 2,
+      "changedProject": "B only",
+      "changedNewConditionKey": "specialStructure",
+      "oldExistingConditionKeysChanged": 0,
+      "finalStoredValue": "미확인 명시",
+      "priorPropertyState": "absent",
+      "rawIdenticalRestoration": false,
+      "otherProjectsConditionsFingerprintUnchanged": true,
+      "allThreeProjectHashesExcludingConditionsUnchanged": true,
+      "auditOtherProjects": 0,
+      "unrelatedUserDataRestored": false,
+      "evidence": [
+        {
+          "path": ".build/review131/release-live-after-yes-1793254365773.json",
+          "sha256": "a926a6e5131eef3a1c5528ea23689db03aa7134b726c88858cf0252aaaba3a65",
+          "scope": "private SQL receipt; raw values not copied"
+        },
+        {
+          "path": ".build/review131/release-live-after-unknown-1793254532792.json",
+          "sha256": "34584456c1922e98c1ec0175322180ae796cb58de1d439f03fc9004da638f740",
+          "scope": "private SQL receipt; raw values not copied"
+        }
+      ],
+      "provenance": "root existing signed-in nativeUI + infra read-only SQL receipts; newtab6; explicit B reselection after reload"
+    },
+    "requirementVerdicts": {
+      "PERMIT131-01": {
+        "accepted": true,
+        "scope": "root approved bounded latest scope",
+        "verification": "docs/review131-final-verification.json",
+        "allStatesAccepted": false
+      },
+      "PERMIT131-02": {
+        "accepted": true,
+        "scope": "root approved bounded latest scope",
+        "verification": "docs/review131-final-verification.json",
+        "allStatesAccepted": false
+      },
+      "UX131-03": {
+        "accepted": true,
+        "scope": "root approved bounded latest scope",
+        "verification": "docs/review131-final-verification.json",
+        "allStatesAccepted": false
+      },
+      "LAW131-04": {
+        "accepted": true,
+        "scope": "root approved bounded latest scope",
+        "verification": "docs/review131-final-verification.json",
+        "allStatesAccepted": false
+      },
+      "LAW131-05": {
+        "accepted": true,
+        "scope": "root approved bounded latest scope",
+        "verification": "docs/review131-final-verification.json",
+        "allStatesAccepted": false
+      },
+      "LAW131-06": {
+        "accepted": true,
+        "scope": "root approved bounded latest scope",
+        "verification": "docs/review131-final-verification.json",
+        "allStatesAccepted": false
+      }
+    }
+  },
+  "review131PreviousFormalC92": {
+    "version": "0.13.0",
+    "candidate": "C92",
+    "date": "2026-10-29",
+    "sourceCommit": "15fa61f35239c6c1f8cc59509f8e007066ec7e3b",
+    "deploymentId": "dpl_BHYdfDUnt1mFm3EjyoENNzoGPpj2",
+    "formalHtmlSha256": "5d842a047f3bed18279fee9791705d9649848abd32fd2d6b16d1c0ae38cb5846",
+    "bytes": 6874706,
+    "verification": "docs/review130-c92-live-verification.json",
+    "allComponentsAccepted": false
   }
 }

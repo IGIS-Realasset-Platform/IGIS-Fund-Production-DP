@@ -1,0 +1,251 @@
+{
+  "reviewId": "REVIEW131",
+  "date": "2026-10-29",
+  "scope": "One actual authenticated formal condition-only save/re-entry/reset flow on approved virtual projectB. Other source/native requirements and full-platform dynamic audit remain separate.",
+  "deployment": {
+    "candidate": "C93",
+    "id": "dpl_3pVpQyQv5L7N2iw3TBpZFCFnTQLc",
+    "sourceCommit": "1166cab67a8e9ac32d2af0e4c29982122aef18d1",
+    "formalHtmlSha256": "0284982811d2ec1ebc178c1c36dd78f90e5a4b4bad033ab8250414b6276f5ebc"
+  },
+  "actors": {
+    "uiOwner": "root existing authenticated browser session",
+    "databaseObserver": "backend engineer read only"
+  },
+  "baseline": {
+    "observedAt": "2026-10-29 06:07:55.004396+00",
+    "observedAtKst": "2026-10-29 15:07:55.004396",
+    "workspaceRevision": 56,
+    "workspaceMd5": "1a1655a77cce4e5baf89c7787bde80d1",
+    "auditCount": 56,
+    "requestCount": 56,
+    "specialStructure": [
+      {
+        "projectId": "TEST-20261016-A",
+        "keyPresent": false,
+        "value": null
+      },
+      {
+        "projectId": "TEST-20261016-B",
+        "keyPresent": false,
+        "value": null
+      },
+      {
+        "projectId": "TEST-20261016-C",
+        "keyPresent": false,
+        "value": null
+      }
+    ],
+    "projectOutsideConditions": [
+      {
+        "projectId": "TEST-20261016-A",
+        "md5": "25fb0c347cbd62cbbcc03e243d95f058"
+      },
+      {
+        "projectId": "TEST-20261016-B",
+        "md5": "5988766dbfb55b8fdfd138b272f2b9de"
+      },
+      {
+        "projectId": "TEST-20261016-C",
+        "md5": "d4aa31fa30b5a9223f544ce860b5d235"
+      }
+    ],
+    "lastAudit": {
+      "createdAt": "2026-10-29T04:25:00.470722+00:00",
+      "baseRevision": 55,
+      "nextRevision": 56,
+      "sampleChangedProjects": [
+        "TEST-20261016-A"
+      ],
+      "otherChangedProjectCount": 0
+    }
+  },
+  "afterYes": {
+    "observedAt": "2026-10-29 06:12:35.937653+00",
+    "observedAtKst": "2026-10-29 15:12:35.937653",
+    "workspaceRevision": 57,
+    "workspaceMd5": "6832bb45620e2b7070aaa84e2eda9cdb",
+    "auditCount": 57,
+    "requestCount": 57,
+    "specialStructure": [
+      {
+        "projectId": "TEST-20261016-A",
+        "keyPresent": false,
+        "value": null
+      },
+      {
+        "projectId": "TEST-20261016-B",
+        "keyPresent": true,
+        "value": "예"
+      },
+      {
+        "projectId": "TEST-20261016-C",
+        "keyPresent": false,
+        "value": null
+      }
+    ],
+    "projectOutsideConditions": [
+      {
+        "projectId": "TEST-20261016-A",
+        "md5": "25fb0c347cbd62cbbcc03e243d95f058"
+      },
+      {
+        "projectId": "TEST-20261016-B",
+        "md5": "5988766dbfb55b8fdfd138b272f2b9de"
+      },
+      {
+        "projectId": "TEST-20261016-C",
+        "md5": "d4aa31fa30b5a9223f544ce860b5d235"
+      }
+    ],
+    "lastAudit": {
+      "createdAt": "2026-10-29T06:11:10.894858+00:00",
+      "baseRevision": 56,
+      "nextRevision": 57,
+      "beforeWorkspaceMd5": "1a1655a77cce4e5baf89c7787bde80d1",
+      "sampleChangedProjects": [
+        "TEST-20261016-B"
+      ],
+      "otherChangedProjectCount": 0
+    }
+  },
+  "afterUnknown": {
+    "observedAt": "2026-10-29 06:14:10.42661+00",
+    "observedAtKst": "2026-10-29 15:14:10.42661",
+    "workspaceRevision": 58,
+    "workspaceMd5": "8c6fd194444ab77a13b5fff1556da345",
+    "auditCount": 58,
+    "requestCount": 58,
+    "specialStructure": [
+      {
+        "projectId": "TEST-20261016-A",
+        "keyPresent": false,
+        "value": null
+      },
+      {
+        "projectId": "TEST-20261016-B",
+        "keyPresent": true,
+        "value": "미확인"
+      },
+      {
+        "projectId": "TEST-20261016-C",
+        "keyPresent": false,
+        "value": null
+      }
+    ],
+    "projectOutsideConditions": [
+      {
+        "projectId": "TEST-20261016-A",
+        "md5": "25fb0c347cbd62cbbcc03e243d95f058"
+      },
+      {
+        "projectId": "TEST-20261016-B",
+        "md5": "5988766dbfb55b8fdfd138b272f2b9de"
+      },
+      {
+        "projectId": "TEST-20261016-C",
+        "md5": "d4aa31fa30b5a9223f544ce860b5d235"
+      }
+    ],
+    "lastAudit": {
+      "createdAt": "2026-10-29T06:13:20.864608+00:00",
+      "baseRevision": 57,
+      "nextRevision": 58,
+      "beforeWorkspaceMd5": "6832bb45620e2b7070aaa84e2eda9cdb",
+      "sampleChangedProjects": [
+        "TEST-20261016-B"
+      ],
+      "otherChangedProjectCount": 0
+    }
+  },
+  "acceptance": {
+    "authenticatedFormalSessionRetained": true,
+    "homeAndExplicitProjectBSelection": true,
+    "conditionOnlySaveReachedList": true,
+    "savedYesObservedAfterReentryByRoot": true,
+    "resetToUnknownObservedByRoot": true,
+    "uiWrites": 2,
+    "revisionIncrease": 2,
+    "auditIncrease": 2,
+    "requestIncrease": 2,
+    "projectOutsideConditionsAllThreeUnchanged": true,
+    "existingConditionFieldsAllThreeUnchanged": true,
+    "addedKeysOnFirstSave": [
+      {
+        "projectId": "TEST-20261016-B",
+        "keys": [
+          "specialStructure"
+        ]
+      }
+    ],
+    "addedKeysOnReset": [],
+    "bothAuditEventsOnlyProjectB": true,
+    "unrelatedProjectsOrCostRecordsEditedByCanary": false,
+    "rawFullyRestored": false,
+    "rawRestorationLimit": "The key was absent at baseline; final state explicitly retains specialStructure=미확인. Normal audit/request history and revisions remain. Semantic reset is not byte-identical raw rollback."
+  },
+  "logs": {
+    "evidence": {
+      "path": ".build/review131/release-c93-final-log-review-1793254588970.json",
+      "sha256": "a3761e4c4f4a326161654e677e502106f7ea759c1cae669080653cc01246f8e9"
+    },
+    "target": {
+      "project": "prj_nuodSnX6pv9g2i0YERSQUfAIkedT",
+      "deployment": "dpl_3pVpQyQv5L7N2iw3TBpZFCFnTQLc"
+    },
+    "requests": 12,
+    "statuses": {
+      "200": 8,
+      "304": 1,
+      "307": 1,
+      "401": 2
+    },
+    "actualWorkspacePut200": 2,
+    "runtimeEmittedRecords": 0,
+    "http5xx": 0,
+    "classifiedErrors": {
+      "databaseConstraint": 0,
+      "sessionOrAuthentication": 0,
+      "uncaughtOrUnhandled": 0,
+      "timeout": 0
+    },
+    "truncated": false,
+    "excludedIntervals": 0,
+    "scope": {
+      "since": "30m",
+      "limit": 200
+    },
+    "limit": "Bounded time/deployment only. No records in runtime means no emitted runtime records in this query, not proof that every request/application path was error free."
+  },
+  "evidence": {
+    "before": {
+      "path": ".build/review131/release-live-before-1793254091889.json",
+      "sha256": "3e3353f585586e567e190c6bf2a613df627b118a77926bba38aa3be7b0445333"
+    },
+    "afterYes": {
+      "path": ".build/review131/release-live-after-yes-1793254365773.json",
+      "sha256": "a926a6e5131eef3a1c5528ea23689db03aa7134b726c88858cf0252aaaba3a65"
+    },
+    "afterUnknown": {
+      "path": ".build/review131/release-live-after-unknown-1793254532792.json",
+      "sha256": "34584456c1922e98c1ec0175322180ae796cb58de1d439f03fc9004da638f740"
+    },
+    "rootSavedDom": {
+      "path": ".build/review131/formal-condition-saved.txt",
+      "sha256": "c0d884f683bbfcca240d05c123585739e2cfee765e88e86aec17fb090e104998"
+    }
+  },
+  "safety": {
+    "sqlWritesByObserver": 0,
+    "otherSchemaAccess": 0,
+    "lawCollectorInvocations": 0,
+    "authOrEnvironmentSettingsChanged": false,
+    "rawProjectDataOrBodiesPublished": false,
+    "cookiesOrCredentialValuesRead": false
+  },
+  "limits": [
+    "This canary did not separately create/save traffic or military permit records in the live database. Their pure rules/native selection tests are separate.",
+    "Whole-platform all-button/all-dynamic-state acceptance is false.",
+    "Earlier R7 law376 completion remains C92 evidence; no new law run is claimed for C93."
+  ]
+}

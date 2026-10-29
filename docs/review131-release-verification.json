@@ -3,13 +3,14 @@
   "candidate": "C93",
   "version": "0.13.0",
   "preparedAt": "2026-10-29T05:30:39.790Z",
-  "status": "prepared-not-deployed",
+  "status": "formal-promoted-scoped-accepted",
   "currentFormal": {
     "version": "0.13.0",
-    "candidate": "C92",
-    "sourceCommit": "15fa61f35239c6c1f8cc59509f8e007066ec7e3b",
-    "productionDeploymentId": "dpl_BHYdfDUnt1mFm3EjyoENNzoGPpj2",
-    "formalHtmlSha256": "5d842a047f3bed18279fee9791705d9649848abd32fd2d6b16d1c0ae38cb5846"
+    "candidate": "C93",
+    "sourceCommit": "1166cab67a8e9ac32d2af0e4c29982122aef18d1",
+    "productionDeploymentId": "dpl_3pVpQyQv5L7N2iw3TBpZFCFnTQLc",
+    "formalHtmlSha256": "0284982811d2ec1ebc178c1c36dd78f90e5a4b4bad033ab8250414b6276f5ebc",
+    "bytes": 6910675
   },
   "rootArtifact": {
     "path": ".build/review131/root-c93.html",
@@ -58,20 +59,61 @@
     "repository": "KYLee94/IGIS_Development_Project_Platform",
     "visibility": "private",
     "branch": "preview/core-v0.11.0",
-    "sourceCommit": null,
-    "mainUpdate": "pending non-force fast-forward after final source/docs acceptance"
+    "sourceCommit": "1166cab67a8e9ac32d2af0e4c29982122aef18d1",
+    "mainUpdate": "Final source-equivalent six-test/document/checklist closure; exact remote main SHA is recorded by the external publication receipt, avoiding a self-referential commit hash."
   },
   "vercel": {
     "project": "prj_nuodSnX6pv9g2i0YERSQUfAIkedT",
     "team": "team_kp5N1HWJyMkz6FcMvihNud31",
-    "preview": null,
-    "production": null,
-    "promoted": false
+    "preview": {
+      "id": "dpl_DgT3fEuXKBsmVxKxcJ4nZ5BggNuQ",
+      "status": "READY",
+      "exactHtmlSha256": "145fc7ad5c3debdfff54833451242dd6a7b3dbcf4f9fdf3594b851dcd7a6b8cb"
+    },
+    "production": {
+      "id": "dpl_3pVpQyQv5L7N2iw3TBpZFCFnTQLc",
+      "status": "READY",
+      "exactHtmlSha256": "0284982811d2ec1ebc178c1c36dd78f90e5a4b4bad033ab8250414b6276f5ebc"
+    },
+    "promoted": true
   },
   "verification": {
-    "fullRegression": "pending root/QA exact frozen source run",
-    "protectedPreview": "notrun",
-    "authenticatedSaveReconnect": "notrun",
+    "fullRegression": {
+      "passed": 278,
+      "failed": 0,
+      "sourceChanged": [],
+      "evidence": {
+        "path": ".build/center-20261020/logic-2026-10-29T05-55-51.330Z.json",
+        "sha256": "55337ed5b78111b1619004f82daf07eb90c351f0c6c9f4a323e4aefe0626ec26"
+      }
+    },
+    "protectedPreview": "Exact HTML200/workspace401/archive401 passed",
+    "publicFormal": {
+      "evidence": {
+        "path": ".build/review131/release-public-c93-1793254164734.json",
+        "sha256": "a991a1cd7dcfb281b12167493021a72019ba851acd88a4e59a1ada15672134c2"
+      },
+      "formal": 200,
+      "workspace": 401,
+      "archives": 401,
+      "oldAddress": 307,
+      "previewProtection": 302
+    },
+    "authenticatedSaveReconnect": {
+      "scope": "Actual virtual projectB condition-only yes/reentry/unknown flow",
+      "uiWrites": 2,
+      "workspaceRevisions": [
+        56,
+        57,
+        58
+      ],
+      "projectOutsideConditionsAllThreeUnchanged": true,
+      "rawFullyRestored": false,
+      "evidence": {
+        "path": "docs/review131-live-db-verification.json",
+        "sha256": "ee9290aea6b0eb75d9f6e726f1d57dd4e0da802a7119b454d78f064fc276b1db"
+      }
+    },
     "wholePlatformAccepted": false
   },
   "privacy": {
@@ -80,8 +122,60 @@
     "staffCommentBodiesCopied": false,
     "privateBuildPacketsCopied": false,
     "credentialsCopied": false,
-    "publicationScan": "pending actual allowlist copy"
+    "publicationScan": "pending actual allowlist copy",
+    "initialPreviewPublication": {
+      "knownStaffCommentRows": 14,
+      "uniqueBodies": 10,
+      "leaked": 0,
+      "evidence": {
+        "path": ".build/review131/release-publication-1793251961654.json",
+        "sha256": "af40acb139835022ead400725990b78978483737077eea998a9a2d7e03f31eaf"
+      }
+    },
+    "finalClosure": "Same explicit allowlist plus exactly one authorized generated checklist; final copy/corpus/expanded-XML scan is recorded in the external main publication receipt."
   },
   "businessDatabaseWritesByReleaseAgent": 0,
-  "environmentChanges": 0
+  "environmentChanges": 0,
+  "previousFormal": {
+    "version": "0.13.0",
+    "candidate": "C92",
+    "sourceCommit": "15fa61f35239c6c1f8cc59509f8e007066ec7e3b",
+    "productionDeploymentId": "dpl_BHYdfDUnt1mFm3EjyoENNzoGPpj2",
+    "formalHtmlSha256": "5d842a047f3bed18279fee9791705d9649848abd32fd2d6b16d1c0ae38cb5846"
+  },
+  "closedAt": "2026-10-29T06:24:20.763Z",
+  "testPreparationClosure": {
+    "files": 6,
+    "runtimeSourceFilesCompared": 113,
+    "runtimeChanged": [],
+    "evidence": {
+      "path": ".build/review131/release-six-tests-synced.json",
+      "sha256": "f0f99b537929268955023fe5cd8192e03937f2179d7aa9300fd7dc5564fbdbde"
+    }
+  },
+  "requestAudit": {
+    "requirements": 13,
+    "boundedAccepted": 12,
+    "partiallyVerified": [
+      "QA130-06"
+    ],
+    "allDynamicStatesAccepted": false,
+    "evidence": {
+      "path": "docs/review131-user-window-audit.json",
+      "sha256": "aed487ced4292a3d917300f898d7ee7416d6e8d6375eaaa6238e1dc0318fb02c"
+    }
+  },
+  "cumulativeChecklist": {
+    "rows": 506,
+    "checked": 419,
+    "unchecked": 87,
+    "path": "docs/checklists/개발사업관리플랫폼_요구사항_체크리스트_v0.13.0_C93.xlsx",
+    "sha256": "2d70896d059a3f0a90ac0a6380e8e5ddda795d2d98be286d509b6d00553c101b",
+    "bytes": 146530
+  },
+  "finalVerification": {
+    "path": "docs/review131-final-verification.json",
+    "sha256": "c76ca5917cdd87df2a52a4bdf99fa7734f3bc2ba1efb9d9ff43848608a9d57d6"
+  },
+  "scopeClosure": "This requested window is closed with12 bounded acceptances and QA130-06 partial. No automatic follow-up work is scheduled."
 }

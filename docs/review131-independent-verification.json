@@ -1,7 +1,7 @@
 {
   "schemaVersion": "review131-independent-verification-v1",
-  "at": "2026-10-29T05:09:36.981498+00:00",
-  "status": "in-progress; no release/global/native acceptance",
+  "at": "2026-10-29T06:04:10.777Z",
+  "status": "final frozen logical cohort passed; actual UI/DB/deployment remain separately scoped owner evidence",
   "requirements": [
     "PERMIT131-01",
     "PERMIT131-02",
@@ -85,6 +85,99 @@
       "test": "tests/review131-independent-criteria.mjs",
       "testSha256": "4605576e7aa8c62c9c50be16e62d12662531beb0a10a6911e2f324a13ac76867",
       "evidence": {
+        "path": ".build/center-20261020/logic-2026-10-29T05-55-51.330Z.json",
+        "sha256": "55337ed5b78111b1619004f82daf07eb90c351f0c6c9f4a323e4aefe0626ec26",
+        "fileEntry": "tests/review131-independent-criteria.mjs"
+      },
+      "passed": 261,
+      "failed": 0,
+      "sourcePins": {
+        "shared/permit-domain.mjs": "867e7b587598ac842355d8eccc87fc76692fc2e95908daa1eeb6a3f702176af7",
+        "scripts/permit-domain-bundle.mjs": "eeb262ee880e85c995a895f5940b43a1e1e8bf64bb05422cc06330b33f9e804b",
+        "src/permit-map.js": "b77f661f494f96a0c072ca7844475a399b3a63f10263bec081d109bf03684a5a",
+        "src/legal.js": "2671e4b5acde1f7c9e6791e173aca40b6c5a98eeb8d7fbf60b0a79de73c2a802"
+      },
+      "sourceChanged": [],
+      "state": "executed within final homogeneous frozen278-group run"
+    },
+    {
+      "test": "tests/review131-independent-api.mjs",
+      "testSha256": "d39d04304a7dd5d973ebbbc5385289b155bec3bd9422396a86345e01831adac9",
+      "evidence": {
+        "path": ".build/center-20261020/logic-2026-10-29T05-55-51.330Z.json",
+        "sha256": "55337ed5b78111b1619004f82daf07eb90c351f0c6c9f4a323e4aefe0626ec26",
+        "fileEntry": "tests/review131-independent-api.mjs"
+      },
+      "passed": 15,
+      "failed": 0,
+      "sourcePins": {
+        "shared/permit-domain.mjs": "867e7b587598ac842355d8eccc87fc76692fc2e95908daa1eeb6a3f702176af7",
+        "server/cloud-storage.mjs": "1f7c4d9ca2a88754e412612e0189093adbaa8e1afdd7e3493d6000df01e9aad7",
+        "server/workspace-runtime.mjs": "8bece33d7572ce933881e52c457b85dd3c96fb4cfeeb88f6b45c23c774404957",
+        "tests/cloud-storage.mjs": "5916cbc5ce755068889477cd2eb051a51d65847fdd55052ef1696a0af57f9116"
+      },
+      "sourceChanged": [],
+      "state": "executed within final homogeneous frozen278-group run"
+    },
+    {
+      "test": "tests/review131-independent-catalog.mjs",
+      "testSha256": "ee8daaca9766833edeb6b074fd3e3cdc75ea9b283b420ac82a6c4d3c155b8f14",
+      "evidence": {
+        "path": ".build/center-20261020/logic-2026-10-29T05-55-51.330Z.json",
+        "sha256": "55337ed5b78111b1619004f82daf07eb90c351f0c6c9f4a323e4aefe0626ec26",
+        "fileEntry": "tests/review131-independent-catalog.mjs"
+      },
+      "passed": 11,
+      "failed": 0,
+      "sourcePins": {
+        "src/legal.js": "2671e4b5acde1f7c9e6791e173aca40b6c5a98eeb8d7fbf60b0a79de73c2a802",
+        "src/permit-map.js": "b77f661f494f96a0c072ca7844475a399b3a63f10263bec081d109bf03684a5a",
+        "shared/permit-domain.mjs": "867e7b587598ac842355d8eccc87fc76692fc2e95908daa1eeb6a3f702176af7",
+        "scripts/permit-domain-bundle.mjs": "eeb262ee880e85c995a895f5940b43a1e1e8bf64bb05422cc06330b33f9e804b",
+        "docs/permit-catalog-20261020-review.json": "884198754fc6a28019334132186dbb74eb6d51414e6b1f58f7e1b5567821f0b0"
+      },
+      "sourceChanged": [],
+      "state": "executed within final homogeneous frozen278-group run"
+    }
+  ],
+  "preparationCorrections": [
+    {
+      "test": "tests/review131-independent-catalog.mjs",
+      "initialPassed": 7,
+      "initialFailed": 3,
+      "cause": "2 VM/host array prototype comparisons; one formal-label implementation in progress",
+      "correction": "Array.from to compare exact values, no ID/name/order/semantic assertions weakened",
+      "originalFailureEvidence": ".build/review131/independent/catalog-initial.json"
+    }
+  ],
+  "pending": [
+    "Root current native view/keyboard/scroll and restored-field captures have separate evidence; this reviewer performed0 native runs",
+    "Actual deployed C93/source/preview/promotion or actual DB acceptance must use owner release evidence",
+    "Full dynamic platform and all legal procedures/conditions remain outside this278-group scope"
+  ],
+  "legalScopeCautions": [
+    "Manual24 at old baseline is not24 missing catalog rows; new2 recommendation rules change reachability denominator",
+    "Ordinary warehouse sector is not itself logistics terminal/complex development",
+    "Residential sector is not itself proof of statutory housing-project scope",
+    "Housing Act49 use inspection differs from generic building-use approval; replacement/deemed scope requires separate company/legal decision, no new type invented by reviewer"
+  ],
+  "safety": {
+    "productFilesEdited": 0,
+    "onlyOwnedIndependentTestsAndDocsEdited": true,
+    "actualDatabaseCalls": 0,
+    "actualExternalBusinessApiCalls": 0,
+    "publicOfficialLawWebResearch": true,
+    "nativeBrowserRuns": 0,
+    "originalFilesResaved": 0,
+    "rawOriginalValuesPublished": false,
+    "sharedHarnessEdited": false,
+    "testsFinalFrozen": true
+  },
+  "priorIntermediateAutomatic": [
+    {
+      "test": "tests/review131-independent-criteria.mjs",
+      "testSha256": "4605576e7aa8c62c9c50be16e62d12662531beb0a10a6911e2f324a13ac76867",
+      "evidence": {
         "path": ".build/review131/independent/criteria-current.json",
         "sha256": "532133c36a8ed6391a41fa0e04b337baf525ab64507311d40be364c15cf98332"
       },
@@ -137,36 +230,97 @@
       "state": "intermediate exact cohort, final same-source rerun pending"
     }
   ],
-  "preparationCorrections": [
-    {
-      "test": "tests/review131-independent-catalog.mjs",
-      "initialPassed": 7,
-      "initialFailed": 3,
-      "cause": "2 VM/host array prototype comparisons; one formal-label implementation in progress",
-      "correction": "Array.from to compare exact values, no ID/name/order/semantic assertions weakened",
-      "originalFailureEvidence": ".build/review131/independent/catalog-initial.json"
-    }
-  ],
-  "pending": [
-    "Current intake callbacks/manual selection/alias filtering/cancel/draft failures",
-    "Root overview/business edit-unit consumers including area and unchanged historical values",
-    "Finite native field/footer/focus/scroll geometry and actual saved reconnect by root",
-    "Same final source focused/global/deployed artifact cohort"
-  ],
-  "legalScopeCautions": [
-    "Manual24 at old baseline is not24 missing catalog rows; new2 recommendation rules change reachability denominator",
-    "Ordinary warehouse sector is not itself logistics terminal/complex development",
-    "Residential sector is not itself proof of statutory housing-project scope",
-    "Housing Act49 use inspection differs from generic building-use approval; replacement/deemed scope requires separate company/legal decision, no new type invented by reviewer"
-  ],
-  "safety": {
-    "productFilesEdited": 0,
-    "onlyOwnedIndependentTestsAndDocsEdited": true,
-    "actualDatabaseCalls": 0,
-    "actualExternalBusinessApiCalls": 0,
-    "publicOfficialLawWebResearch": true,
-    "nativeBrowserRuns": 0,
-    "originalFilesResaved": 0,
-    "rawOriginalValuesPublished": false
+  "finalLogicalRun": {
+    "path": ".build/center-20261020/logic-2026-10-29T05-55-51.330Z.json",
+    "sha256": "55337ed5b78111b1619004f82daf07eb90c351f0c6c9f4a323e4aefe0626ec26",
+    "phase": "review131-final-frozen",
+    "packageVersion": "0.13.0",
+    "startedAt": "2026-10-29T05:55:51.330Z",
+    "finishedAt": "2026-10-29T06:04:10.777Z",
+    "passedGroups": 278,
+    "failedGroups": 0,
+    "manifestEntries": 278,
+    "sourceHashEntries": 616,
+    "sourceChangedDuringRun": [],
+    "review131Groups": [
+      "tests/review131-edit-units.mjs",
+      "tests/review131-form-view-context.mjs",
+      "tests/review131-independent-api.mjs",
+      "tests/review131-independent-catalog.mjs",
+      "tests/review131-independent-criteria.mjs",
+      "tests/review131-overview-edit.mjs",
+      "tests/review131-permit-conditions-server.mjs",
+      "tests/review131-permit-criteria.mjs",
+      "tests/review131-permit-intake.mjs",
+      "tests/review131-permit-legal-conditions.mjs",
+      "tests/review131-permit-military-conditions.mjs",
+      "tests/review131-record-editing-adjacent.mjs"
+    ],
+    "excludedHelper": "tests/review131-permit-intake-harness.mjs",
+    "artifactSuites": [
+      {
+        "file": "tests/center120-report-pdf-acceptance.mjs",
+        "status": "separate-required-artifact-stage",
+        "requiredArguments": [
+          "--results",
+          "--signature-results"
+        ],
+        "reason": "최종 생성 PDF·서명 장문 출력·정확 HTML 지문이 필요한 실제 산출물 검사이며 순수 논리검사로 실행하거나 준비 부재를 제품 실패/통과로 세지 않습니다."
+      }
+    ],
+    "allFunctionsVerified": false
+  },
+  "firstGlobalFailurePreserved": {
+    "path": ".build/center-20261020/logic-2026-10-29T05-32-02.988Z.json",
+    "sha256": "8facaf7e0cb3bf42e847ea455cad246d99faf4437c56bddfdaa51468b6afddc5",
+    "passedGroups": 272,
+    "failedGroups": 6,
+    "sourceChangedDuringRun": [],
+    "onlyChangedFilesBetweenFailureAndFinal": [
+      "tests/center120-permit-followup.mjs",
+      "tests/center120-regional-ui.mjs",
+      "tests/center121-permit-selection-ux.mjs",
+      "tests/followup121-spec.mjs",
+      "tests/review129-permit-input-types.mjs",
+      "tests/review129-permit-input.mjs"
+    ],
+    "productChangesBetweenRuns": 0
+  },
+  "approvedSixTestCorrections": {
+    "path": ".build/review131/independent/final-six-preparation-receipt.json",
+    "sha256": "3a006b5e60a8717427a054d084fdcf174fb6232e559419cf7ff545d96a5d7c52",
+    "passed": 68,
+    "failed": 0,
+    "sourceChanged": [],
+    "originalMandatoryFieldsDateIdentityValuesSourceBudgetAuditRoleAssertionsPreserved": true,
+    "meaningReplacements": [
+      "Initial defaults are tested on absent attributes, not explicitly cleared attributes",
+      "Zero selection and unchanged conditions has disabled save; condition-only save is allowed by latest requirement",
+      "Successful async intake returns true to actual core close contract; inert capture fixture is not native closure proof"
+    ],
+    "preparation": [
+      "Actual inert current control values/list-tab/manual checkbox events replace initial HTML caches",
+      "Exact real shared-domain bundle is inserted once before legal in manual module fixture; shared harness unchanged",
+      "Parcel/sale readonly record-entry tests use actual row form select; separate land inline fields stay checked",
+      "Duplicate checked/filled input is prepared before the simulated concurrent addition"
+    ]
+  },
+  "legacyEntryCorrections": {
+    "evidence": ".build/review131/independent/entry-test-preservation.json",
+    "sha256": "47a3cea6d972a1a02b41f1fa5d4ac9e0fd04429c6517021f6541d9adae3a5869",
+    "contractsFocusedChecks": 19,
+    "sharedCopyFocusedChecks": 8,
+    "theseTwoFilesAreSeparateFocusedEvidenceNotAddedTo278Manifest": true,
+    "legalCurrentOfficialHrefAndOriginalTextVerified": true,
+    "vatClipboardIsRetainedHandlerPayloadModelOnly": true,
+    "vatLegacyHistoryUiReachabilityClaimed": false
+  },
+  "militaryGroupCorrection": {
+    "basis": "Parent-approved company classification for Military Act13 administrative consultation; impact assessment is a different procedure",
+    "canonicalNewGroup": "토지·기반시설",
+    "oldStoredGroupIdNameUnchanged": true,
+    "red": ".build/review131/independent/catalog-group.json",
+    "green": ".build/review131/independent/catalog-group-final.json",
+    "finalCatalogChecks": 11
   }
 }

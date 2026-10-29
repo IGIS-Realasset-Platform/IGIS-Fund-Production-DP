@@ -1,0 +1,785 @@
+{
+  "schemaVersion": "review131-user-window-audit-v1",
+  "auditAt": "2026-10-29T06:20:41.563257+00:00",
+  "allRequestedWorkComplete": false,
+  "wholePlatformAccepted": false,
+  "qa130_06Complete": false,
+  "window": {
+    "requested": "2026-10-28 오후14:35 지시부터 현재 최신 지시까지",
+    "source": "Codex app list_threads/read_thread, current thread only; turnLimit1 and previous cursor1",
+    "threadId": "01a0eadd-6139-77b0-9428-9645f38ffee3",
+    "threadTitle": "개발사업관리플랫폼 v0.2",
+    "startTurn": {
+      "id": "01a18101-8fab-7d92-805f-4632adaf9834",
+      "startedAtUnix": 1793165727,
+      "turnStartedAtKst": "2026-10-28 14:35:27 KST",
+      "firstUserMessageId": "01a18101-9880-7533-89ff-bc0b6020150a",
+      "matched": "Exact initial six requests and explicit sample correction found"
+    },
+    "nextTurn": {
+      "id": "01a18178-b9e8-7a71-bcad-1349438215f0",
+      "turnStartedAtKst": "2026-10-28 16:45:35 KST"
+    },
+    "readTurns": 2,
+    "retrievedUserMessageItems": 12,
+    "latestUserMessageId": "01a18647-3668-7cc3-a93c-d0af957ffc11",
+    "messageTimestampsAvailable": false,
+    "precisionLimit": "These are turn-start times. Individual userMessage items expose type/id/content only. Do not assign the same turn time as each message send time. Older than14:35 requests are baseline only, not newly added window requirements.",
+    "toolPreparation": "turnLimit30 exceeded max10;10-turn history exceeded size; limit1 and one previous page succeeded. Full outputs/tool arguments are not published."
+  },
+  "denominator": {
+    "namedProductRequirements": 13,
+    "review130": 7,
+    "review131": 6,
+    "previousReview129": "baseline/source preservation only; not7 additional window requirements",
+    "boundedProductImplementationAndRegressionComplete": 12,
+    "dynamicWholePlatformPartial": 1,
+    "finalCurrentLiveRestorationReceiptPending": false,
+    "recordOrTestCountsNotUiCoverageDenominators": true,
+    "boundedAcceptedRequirements": 12
+  },
+  "requirements": [
+    {
+      "id": "UX130-01",
+      "request": "착공·공사·준공 조회 항목/예정·실제·지연 표",
+      "conclusion": "completed-bounded-with-latest-corrections",
+      "allDynamicStatesVerified": false,
+      "source": "src/permit-views.js",
+      "automatic": {
+        "state": "bounded regression passed",
+        "evidence": [
+          ".build/center-20261020/logic-2026-10-29T05-55-51.330Z.json",
+          "docs/review130-c92-live-verification.json"
+        ]
+      },
+      "native": {
+        "state": "accepted named prior C73/C86/C92 cohorts and unchanged consumers only",
+        "evidence": [
+          "docs/review130-final-verification.md",
+          "docs/review-20261028-verification.md"
+        ]
+      },
+      "actualDatabase": {
+        "state": "named C sample/report/archive/law scope only",
+        "evidence": [
+          "docs/review130-c86-live-db-verification.json",
+          "docs/review130-c92-live-verification.json"
+        ]
+      },
+      "deployment": {
+        "state": "C92 prior scope deployed, C93 current source inherited where unchanged",
+        "evidence": [
+          "docs/review130-c92-live-verification.json"
+        ]
+      },
+      "limit": "기존 상세4탭·33입력과 조회 대응의 명시범위, 모든 사업의 모든 발생조건은 아님"
+    },
+    {
+      "id": "LAW130-02",
+      "request": "KST 최근30일과 정확한 전후 판본 비교",
+      "conclusion": "completed-bounded-with-latest-corrections",
+      "allDynamicStatesVerified": false,
+      "source": "src/law-monitor.js·server/law-comparison.mjs",
+      "automatic": {
+        "state": "bounded regression passed",
+        "evidence": [
+          ".build/center-20261020/logic-2026-10-29T05-55-51.330Z.json",
+          "docs/review130-c92-live-verification.json"
+        ]
+      },
+      "native": {
+        "state": "accepted named prior C73/C86/C92 cohorts and unchanged consumers only",
+        "evidence": [
+          "docs/review130-final-verification.md",
+          "docs/review-20261028-verification.md"
+        ]
+      },
+      "actualDatabase": {
+        "state": "named C sample/report/archive/law scope only",
+        "evidence": [
+          "docs/review130-c86-live-db-verification.json",
+          "docs/review130-c92-live-verification.json"
+        ]
+      },
+      "deployment": {
+        "state": "C92 prior scope deployed, C93 current source inherited where unchanged",
+        "evidence": [
+          "docs/review130-c92-live-verification.json"
+        ]
+      },
+      "limit": "376 active 범위의 실제 fresh 확인0실패는 전체 세상 모든 법령 수집이 아님"
+    },
+    {
+      "id": "LAW130-03",
+      "request": "지방규범 종류·공급자지원 범위",
+      "conclusion": "completed-bounded-with-latest-corrections",
+      "allDynamicStatesVerified": false,
+      "source": "src/legal.js·server/law-search.mjs",
+      "automatic": {
+        "state": "bounded regression passed",
+        "evidence": [
+          ".build/center-20261020/logic-2026-10-29T05-55-51.330Z.json",
+          "docs/review130-c92-live-verification.json"
+        ]
+      },
+      "native": {
+        "state": "accepted named prior C73/C86/C92 cohorts and unchanged consumers only",
+        "evidence": [
+          "docs/review130-final-verification.md",
+          "docs/review-20261028-verification.md"
+        ]
+      },
+      "actualDatabase": {
+        "state": "named C sample/report/archive/law scope only",
+        "evidence": [
+          "docs/review130-c86-live-db-verification.json",
+          "docs/review130-c92-live-verification.json"
+        ]
+      },
+      "deployment": {
+        "state": "C92 prior scope deployed, C93 current source inherited where unchanged",
+        "evidence": [
+          "docs/review130-c92-live-verification.json"
+        ]
+      },
+      "limit": "법령/행정규칙/자치법규 종류와 공급자 지원·원문을 구별한 범위"
+    },
+    {
+      "id": "UI130-04",
+      "request": "입력·수정 명시 버튼 통일",
+      "conclusion": "completed-bounded-with-latest-corrections",
+      "allDynamicStatesVerified": false,
+      "source": "src/core.js·각 업무 모듈",
+      "automatic": {
+        "state": "bounded regression passed",
+        "evidence": [
+          ".build/center-20261020/logic-2026-10-29T05-55-51.330Z.json",
+          "docs/review130-c92-live-verification.json"
+        ]
+      },
+      "native": {
+        "state": "accepted named prior C73/C86/C92 cohorts and unchanged consumers only",
+        "evidence": [
+          "docs/review130-final-verification.md",
+          "docs/review-20261028-verification.md"
+        ]
+      },
+      "actualDatabase": {
+        "state": "named C sample/report/archive/law scope only",
+        "evidence": [
+          "docs/review130-c86-live-db-verification.json",
+          "docs/review130-c92-live-verification.json"
+        ]
+      },
+      "deployment": {
+        "state": "C92 prior scope deployed, C93 current source inherited where unchanged",
+        "evidence": [
+          "docs/review130-c92-live-verification.json"
+        ]
+      },
+      "limit": "최신 UX131-03이 셀별 반복 버튼의 업무·저장 단위만 정정; 더블클릭 단독 요구는 대체됨"
+    },
+    {
+      "id": "DATA130-05",
+      "request": "정합한 발생 가정 샘플의 DB·보고서 연결",
+      "conclusion": "completed-bounded-with-latest-corrections",
+      "allDynamicStatesVerified": false,
+      "source": "src/report.js·src/permit-map.js",
+      "automatic": {
+        "state": "bounded regression passed",
+        "evidence": [
+          ".build/center-20261020/logic-2026-10-29T05-55-51.330Z.json",
+          "docs/review130-c92-live-verification.json"
+        ]
+      },
+      "native": {
+        "state": "accepted named prior C73/C86/C92 cohorts and unchanged consumers only",
+        "evidence": [
+          "docs/review130-final-verification.md",
+          "docs/review-20261028-verification.md"
+        ]
+      },
+      "actualDatabase": {
+        "state": "named C sample/report/archive/law scope only",
+        "evidence": [
+          "docs/review130-c86-live-db-verification.json",
+          "docs/review130-c92-live-verification.json"
+        ]
+      },
+      "deployment": {
+        "state": "C92 prior scope deployed, C93 current source inherited where unchanged",
+        "evidence": [
+          "docs/review130-c92-live-verification.json"
+        ]
+      },
+      "limit": "사용자 정정에 따라 미발생/기관작성/계산값을 억지로 채우지 않음. 승인 C 긍정사건 유지·임시 시험값만 복원"
+    },
+    {
+      "id": "QA130-06",
+      "request": "모든 미검증 화면·팝업·하위버튼의 실제 동적 전수",
+      "conclusion": "partial-unfinished",
+      "allDynamicStatesVerified": false,
+      "source": "플랫폼 전체 동적 경로",
+      "automatic": {
+        "state": "bounded regression passed",
+        "evidence": [
+          ".build/center-20261020/logic-2026-10-29T05-55-51.330Z.json",
+          "docs/review130-c92-live-verification.json"
+        ]
+      },
+      "native": {
+        "state": "partial/not-full",
+        "evidence": [
+          "docs/review130-final-verification.md",
+          "docs/review-20261028-verification.md"
+        ]
+      },
+      "actualDatabase": {
+        "state": "not-full-dynamic",
+        "evidence": [
+          "docs/review130-c86-live-db-verification.json",
+          "docs/review130-c92-live-verification.json"
+        ]
+      },
+      "deployment": {
+        "state": "C92 prior scope deployed, C93 current source inherited where unchanged",
+        "evidence": [
+          "docs/review130-c92-live-verification.json"
+        ]
+      },
+      "limit": "부분 수행. 자동278·읽기closure·후보/매트릭스 기록 수로 완료 승계 불가"
+    },
+    {
+      "id": "UI130-07",
+      "request": "법령표 및 유사표 정렬·열폭·한줄/줄바꿈",
+      "conclusion": "completed-bounded-with-latest-corrections",
+      "allDynamicStatesVerified": false,
+      "source": "src/core.js·법령표 CSS",
+      "automatic": {
+        "state": "bounded regression passed",
+        "evidence": [
+          ".build/center-20261020/logic-2026-10-29T05-55-51.330Z.json",
+          "docs/review130-c92-live-verification.json"
+        ]
+      },
+      "native": {
+        "state": "accepted named prior C73/C86/C92 cohorts and unchanged consumers only",
+        "evidence": [
+          "docs/review130-final-verification.md",
+          "docs/review-20261028-verification.md"
+        ]
+      },
+      "actualDatabase": {
+        "state": "named C sample/report/archive/law scope only",
+        "evidence": [
+          "docs/review130-c86-live-db-verification.json",
+          "docs/review130-c92-live-verification.json"
+        ]
+      },
+      "deployment": {
+        "state": "C92 prior scope deployed, C93 current source inherited where unchanged",
+        "evidence": [
+          "docs/review130-c92-live-verification.json"
+        ]
+      },
+      "limit": "검수한 표/폭/키보드·정렬 범위. 모든 표의 모든 자료길이 조합 완료는 아님"
+    },
+    {
+      "id": "PERMIT131-01",
+      "request": "인허가 선택·추가의 두 탭과 같은 조건 초안",
+      "conclusion": "completed-bounded-owner-accepted",
+      "source": "src/permit-map.js·src/permit-map.css·src/core.js",
+      "automatic": {
+        "state": "pass exact final278; REVIEW13112groups including independent models/API",
+        "evidence": [
+          ".build/center-20261020/logic-2026-10-29T05-55-51.330Z.json",
+          "docs/review131-independent-verification.json"
+        ]
+      },
+      "native": {
+        "state": "root bounded final local UI; formal B condition save/reconnect owner-reported",
+        "evidence": [
+          "docs/review131-final-verification.json",
+          ".build/review131/native-final-flow.json",
+          ".build/review131/native-final-keyboard.json"
+        ]
+      },
+      "actualDatabase": {
+        "state": "owner-confirmed actual formal UI plus SQL save/reconnect/correction completed",
+        "beforeRevision": 56,
+        "afterYesRevision": 57,
+        "afterUnknownRevision": 58,
+        "workspaceAuditRequestsAdded": 2,
+        "onlyBConditionsChanged": true,
+        "existingConditionFieldsChanged": 0,
+        "threeProjectHashesExcludingConditionsEqual": true,
+        "reconnectConfirmedYes": true,
+        "cancelGuardAfterCorrection": 0,
+        "finalValue": "미확인",
+        "initialKeyWasAbsent": true,
+        "newUnknownKeyRemains": true,
+        "rawWholeWorkspaceRestored": false,
+        "unrelatedUserChangesRestored": false,
+        "privateEvidenceHandles": {
+          "afterYes": "1793254365773",
+          "afterUnknown": "1793254532792"
+        },
+        "meaning": "Test value was corrected through normal UI to unknown. Original absent key now remains explicit unknown; do not claim full raw JSON rollback.",
+        "source": "root latest direct final gate report; owner live metadata being synchronized",
+        "scope": "Actual B condition-only canary. New permit batch addition and other field/role/late-state combinations have bounded model/API/local native evidence, not operating DB testing of every combination."
+      },
+      "deployment": {
+        "state": "formal-promoted-owner-confirmed",
+        "sourceCommit": "1166cab67a8e9ac32d2af0e4c29982122aef18d1",
+        "deploymentId": "dpl_3pVpQyQv5L7N2iw3TBpZFCFnTQLc",
+        "htmlSha256": "0284982811d2ec1ebc178c1c36dd78f90e5a4b4bad033ab8250414b6276f5ebc",
+        "evidence": [
+          "root latest direct formal verification; docs/review131-release-verification.json and final-verification are being synchronized"
+        ],
+        "htmlBytes": 6910675
+      },
+      "allDynamicStatesVerified": false,
+      "limit": "Bounded new6 feature acceptance; not every old popup/role/combined condition. Existing60/selected58 includes manual-only scope; do not claim nationwide legal procedural completeness."
+    },
+    {
+      "id": "PERMIT131-02",
+      "request": "기존 인허가 전체 목록과 추천·수동 선택 범위",
+      "conclusion": "completed-bounded-owner-accepted",
+      "source": "shared/permit-domain.mjs·src/permit-map.js·docs/review131-permit-coverage.json",
+      "automatic": {
+        "state": "pass exact final278; REVIEW13112groups including independent models/API",
+        "evidence": [
+          ".build/center-20261020/logic-2026-10-29T05-55-51.330Z.json",
+          "docs/review131-independent-verification.json"
+        ]
+      },
+      "native": {
+        "state": "root bounded final local UI; formal B condition save/reconnect owner-reported",
+        "evidence": [
+          "docs/review131-final-verification.json",
+          ".build/review131/native-final-flow.json",
+          ".build/review131/native-final-keyboard.json"
+        ]
+      },
+      "actualDatabase": {
+        "state": "owner-confirmed actual formal UI plus SQL save/reconnect/correction completed",
+        "beforeRevision": 56,
+        "afterYesRevision": 57,
+        "afterUnknownRevision": 58,
+        "workspaceAuditRequestsAdded": 2,
+        "onlyBConditionsChanged": true,
+        "existingConditionFieldsChanged": 0,
+        "threeProjectHashesExcludingConditionsEqual": true,
+        "reconnectConfirmedYes": true,
+        "cancelGuardAfterCorrection": 0,
+        "finalValue": "미확인",
+        "initialKeyWasAbsent": true,
+        "newUnknownKeyRemains": true,
+        "rawWholeWorkspaceRestored": false,
+        "unrelatedUserChangesRestored": false,
+        "privateEvidenceHandles": {
+          "afterYes": "1793254365773",
+          "afterUnknown": "1793254532792"
+        },
+        "meaning": "Test value was corrected through normal UI to unknown. Original absent key now remains explicit unknown; do not claim full raw JSON rollback.",
+        "source": "root latest direct final gate report; owner live metadata being synchronized",
+        "scope": "Actual B condition-only canary. New permit batch addition and other field/role/late-state combinations have bounded model/API/local native evidence, not operating DB testing of every combination."
+      },
+      "deployment": {
+        "state": "formal-promoted-owner-confirmed",
+        "sourceCommit": "1166cab67a8e9ac32d2af0e4c29982122aef18d1",
+        "deploymentId": "dpl_3pVpQyQv5L7N2iw3TBpZFCFnTQLc",
+        "htmlSha256": "0284982811d2ec1ebc178c1c36dd78f90e5a4b4bad033ab8250414b6276f5ebc",
+        "evidence": [
+          "root latest direct formal verification; docs/review131-release-verification.json and final-verification are being synchronized"
+        ],
+        "htmlBytes": 6910675
+      },
+      "allDynamicStatesVerified": false,
+      "limit": "Bounded new6 feature acceptance; not every old popup/role/combined condition. Existing60/selected58 includes manual-only scope; do not claim nationwide legal procedural completeness."
+    },
+    {
+      "id": "UX131-03",
+      "request": "업무·저장 단위의 수정 진입과 기존 입력 보존",
+      "conclusion": "completed-bounded-owner-accepted",
+      "source": "src/core.js·src/recovery-views.js·src/contracts.js·src/partners.js·src/permit-views.js",
+      "automatic": {
+        "state": "pass exact final278; REVIEW13112groups including independent models/API",
+        "evidence": [
+          ".build/center-20261020/logic-2026-10-29T05-55-51.330Z.json",
+          "docs/review131-independent-verification.json"
+        ]
+      },
+      "native": {
+        "state": "root bounded final local UI; formal B condition save/reconnect owner-reported",
+        "evidence": [
+          "docs/review131-final-verification.json",
+          ".build/review131/native-final-flow.json",
+          ".build/review131/native-final-keyboard.json"
+        ]
+      },
+      "actualDatabase": {
+        "state": "owner-confirmed actual formal UI plus SQL save/reconnect/correction completed",
+        "beforeRevision": 56,
+        "afterYesRevision": 57,
+        "afterUnknownRevision": 58,
+        "workspaceAuditRequestsAdded": 2,
+        "onlyBConditionsChanged": true,
+        "existingConditionFieldsChanged": 0,
+        "threeProjectHashesExcludingConditionsEqual": true,
+        "reconnectConfirmedYes": true,
+        "cancelGuardAfterCorrection": 0,
+        "finalValue": "미확인",
+        "initialKeyWasAbsent": true,
+        "newUnknownKeyRemains": true,
+        "rawWholeWorkspaceRestored": false,
+        "unrelatedUserChangesRestored": false,
+        "privateEvidenceHandles": {
+          "afterYes": "1793254365773",
+          "afterUnknown": "1793254532792"
+        },
+        "meaning": "Test value was corrected through normal UI to unknown. Original absent key now remains explicit unknown; do not claim full raw JSON rollback.",
+        "source": "root latest direct final gate report; owner live metadata being synchronized",
+        "scope": "Actual B condition-only canary. New permit batch addition and other field/role/late-state combinations have bounded model/API/local native evidence, not operating DB testing of every combination."
+      },
+      "deployment": {
+        "state": "formal-promoted-owner-confirmed",
+        "sourceCommit": "1166cab67a8e9ac32d2af0e4c29982122aef18d1",
+        "deploymentId": "dpl_3pVpQyQv5L7N2iw3TBpZFCFnTQLc",
+        "htmlSha256": "0284982811d2ec1ebc178c1c36dd78f90e5a4b4bad033ab8250414b6276f5ebc",
+        "evidence": [
+          "root latest direct formal verification; docs/review131-release-verification.json and final-verification are being synchronized"
+        ],
+        "htmlBytes": 6910675
+      },
+      "allDynamicStatesVerified": false,
+      "limit": "Bounded new6 feature acceptance; not every old popup/role/combined condition. Existing60/selected58 includes manual-only scope; do not claim nationwide legal procedural completeness."
+    },
+    {
+      "id": "LAW131-04",
+      "request": "교통지역과 대상사업·용도·규모 조건의 추천 연결",
+      "conclusion": "completed-bounded-owner-accepted",
+      "source": "shared/permit-domain.mjs·docs/review131-permit-legal-basis.md",
+      "automatic": {
+        "state": "pass exact final278; REVIEW13112groups including independent models/API",
+        "evidence": [
+          ".build/center-20261020/logic-2026-10-29T05-55-51.330Z.json",
+          "docs/review131-independent-verification.json"
+        ]
+      },
+      "native": {
+        "state": "root bounded final local UI; formal B condition save/reconnect owner-reported",
+        "evidence": [
+          "docs/review131-final-verification.json",
+          ".build/review131/native-final-flow.json",
+          ".build/review131/native-final-keyboard.json"
+        ]
+      },
+      "actualDatabase": {
+        "state": "owner-confirmed actual formal UI plus SQL save/reconnect/correction completed",
+        "beforeRevision": 56,
+        "afterYesRevision": 57,
+        "afterUnknownRevision": 58,
+        "workspaceAuditRequestsAdded": 2,
+        "onlyBConditionsChanged": true,
+        "existingConditionFieldsChanged": 0,
+        "threeProjectHashesExcludingConditionsEqual": true,
+        "reconnectConfirmedYes": true,
+        "cancelGuardAfterCorrection": 0,
+        "finalValue": "미확인",
+        "initialKeyWasAbsent": true,
+        "newUnknownKeyRemains": true,
+        "rawWholeWorkspaceRestored": false,
+        "unrelatedUserChangesRestored": false,
+        "privateEvidenceHandles": {
+          "afterYes": "1793254365773",
+          "afterUnknown": "1793254532792"
+        },
+        "meaning": "Test value was corrected through normal UI to unknown. Original absent key now remains explicit unknown; do not claim full raw JSON rollback.",
+        "source": "root latest direct final gate report; owner live metadata being synchronized",
+        "scope": "Actual B condition-only canary. New permit batch addition and other field/role/late-state combinations have bounded model/API/local native evidence, not operating DB testing of every combination."
+      },
+      "deployment": {
+        "state": "formal-promoted-owner-confirmed",
+        "sourceCommit": "1166cab67a8e9ac32d2af0e4c29982122aef18d1",
+        "deploymentId": "dpl_3pVpQyQv5L7N2iw3TBpZFCFnTQLc",
+        "htmlSha256": "0284982811d2ec1ebc178c1c36dd78f90e5a4b4bad033ab8250414b6276f5ebc",
+        "evidence": [
+          "root latest direct formal verification; docs/review131-release-verification.json and final-verification are being synchronized"
+        ],
+        "htmlBytes": 6910675
+      },
+      "allDynamicStatesVerified": false,
+      "limit": "Bounded new6 feature acceptance; not every old popup/role/combined condition. Existing60/selected58 includes manual-only scope; do not claim nationwide legal procedural completeness."
+    },
+    {
+      "id": "LAW131-05",
+      "request": "특수구조 건축물과 정식 구조안전 심의 연결",
+      "conclusion": "completed-bounded-owner-accepted",
+      "source": "shared/permit-domain.mjs·docs/review131-permit-legal-basis.md",
+      "automatic": {
+        "state": "pass exact final278; REVIEW13112groups including independent models/API",
+        "evidence": [
+          ".build/center-20261020/logic-2026-10-29T05-55-51.330Z.json",
+          "docs/review131-independent-verification.json"
+        ]
+      },
+      "native": {
+        "state": "root bounded final local UI; formal B condition save/reconnect owner-reported",
+        "evidence": [
+          "docs/review131-final-verification.json",
+          ".build/review131/native-final-flow.json",
+          ".build/review131/native-final-keyboard.json"
+        ]
+      },
+      "actualDatabase": {
+        "state": "owner-confirmed actual formal UI plus SQL save/reconnect/correction completed",
+        "beforeRevision": 56,
+        "afterYesRevision": 57,
+        "afterUnknownRevision": 58,
+        "workspaceAuditRequestsAdded": 2,
+        "onlyBConditionsChanged": true,
+        "existingConditionFieldsChanged": 0,
+        "threeProjectHashesExcludingConditionsEqual": true,
+        "reconnectConfirmedYes": true,
+        "cancelGuardAfterCorrection": 0,
+        "finalValue": "미확인",
+        "initialKeyWasAbsent": true,
+        "newUnknownKeyRemains": true,
+        "rawWholeWorkspaceRestored": false,
+        "unrelatedUserChangesRestored": false,
+        "privateEvidenceHandles": {
+          "afterYes": "1793254365773",
+          "afterUnknown": "1793254532792"
+        },
+        "meaning": "Test value was corrected through normal UI to unknown. Original absent key now remains explicit unknown; do not claim full raw JSON rollback.",
+        "source": "root latest direct final gate report; owner live metadata being synchronized",
+        "scope": "Actual B condition-only canary. New permit batch addition and other field/role/late-state combinations have bounded model/API/local native evidence, not operating DB testing of every combination."
+      },
+      "deployment": {
+        "state": "formal-promoted-owner-confirmed",
+        "sourceCommit": "1166cab67a8e9ac32d2af0e4c29982122aef18d1",
+        "deploymentId": "dpl_3pVpQyQv5L7N2iw3TBpZFCFnTQLc",
+        "htmlSha256": "0284982811d2ec1ebc178c1c36dd78f90e5a4b4bad033ab8250414b6276f5ebc",
+        "evidence": [
+          "root latest direct formal verification; docs/review131-release-verification.json and final-verification are being synchronized"
+        ],
+        "htmlBytes": 6910675
+      },
+      "allDynamicStatesVerified": false,
+      "limit": "Bounded new6 feature acceptance; not every old popup/role/combined condition. Existing60/selected58 includes manual-only scope; do not claim nationwide legal procedural completeness."
+    },
+    {
+      "id": "LAW131-06",
+      "request": "대공방어협조구역과 법정 높이조건의 협의 연결",
+      "conclusion": "completed-bounded-owner-accepted",
+      "source": "shared/permit-domain.mjs·src/permit-map.js·docs/review131-permit-legal-basis.md",
+      "automatic": {
+        "state": "pass exact final278; REVIEW13112groups including independent models/API",
+        "evidence": [
+          ".build/center-20261020/logic-2026-10-29T05-55-51.330Z.json",
+          "docs/review131-independent-verification.json"
+        ]
+      },
+      "native": {
+        "state": "root bounded final local UI; formal B condition save/reconnect owner-reported",
+        "evidence": [
+          "docs/review131-final-verification.json",
+          ".build/review131/native-final-flow.json",
+          ".build/review131/native-final-keyboard.json"
+        ]
+      },
+      "actualDatabase": {
+        "state": "owner-confirmed actual formal UI plus SQL save/reconnect/correction completed",
+        "beforeRevision": 56,
+        "afterYesRevision": 57,
+        "afterUnknownRevision": 58,
+        "workspaceAuditRequestsAdded": 2,
+        "onlyBConditionsChanged": true,
+        "existingConditionFieldsChanged": 0,
+        "threeProjectHashesExcludingConditionsEqual": true,
+        "reconnectConfirmedYes": true,
+        "cancelGuardAfterCorrection": 0,
+        "finalValue": "미확인",
+        "initialKeyWasAbsent": true,
+        "newUnknownKeyRemains": true,
+        "rawWholeWorkspaceRestored": false,
+        "unrelatedUserChangesRestored": false,
+        "privateEvidenceHandles": {
+          "afterYes": "1793254365773",
+          "afterUnknown": "1793254532792"
+        },
+        "meaning": "Test value was corrected through normal UI to unknown. Original absent key now remains explicit unknown; do not claim full raw JSON rollback.",
+        "source": "root latest direct final gate report; owner live metadata being synchronized",
+        "scope": "Actual B condition-only canary. New permit batch addition and other field/role/late-state combinations have bounded model/API/local native evidence, not operating DB testing of every combination."
+      },
+      "deployment": {
+        "state": "formal-promoted-owner-confirmed",
+        "sourceCommit": "1166cab67a8e9ac32d2af0e4c29982122aef18d1",
+        "deploymentId": "dpl_3pVpQyQv5L7N2iw3TBpZFCFnTQLc",
+        "htmlSha256": "0284982811d2ec1ebc178c1c36dd78f90e5a4b4bad033ab8250414b6276f5ebc",
+        "evidence": [
+          "root latest direct formal verification; docs/review131-release-verification.json and final-verification are being synchronized"
+        ],
+        "htmlBytes": 6910675
+      },
+      "allDynamicStatesVerified": false,
+      "limit": "Bounded new6 feature acceptance; not every old popup/role/combined condition. Existing60/selected58 includes manual-only scope; do not claim nationwide legal procedural completeness."
+    }
+  ],
+  "latestDecisions": [
+    {
+      "scope": "sample",
+      "userMessageId": "01a18108-cbda-7f50-a238-d30e6ff72d0e",
+      "decision": "Do not invent all actual start/completion dates or rewrite A/B/C stages; construct consistent individual positive occurrences and test Supabase/report consumers. Positive C events stay; temporary edge values restored."
+    },
+    {
+      "scope": "edit entry",
+      "decision": "Explicit buttons remain; later request changes granularity to existing business/row/form units. Cost amounts keep independent row/reason boundaries."
+    },
+    {
+      "scope": "legal names",
+      "decision": "Actual legal procedure names and stable existing IDs; practical shorthand is search-only where specified, not automatic record identity."
+    }
+  ],
+  "crossCutting": [
+    {
+      "request": "정식 배포·GitHub·README/검수문서까지 마감",
+      "state": "C93 formal/source deployed and exact6 tests synced; root/infra synchronize final GitHub/README/checklist/Excel closeout after this audit",
+      "evidence": [
+        "docs/review131-release-verification.json",
+        ".build/review131/release-six-tests-synced.json"
+      ],
+      "limit": "Source deployment is verified; do not claim these two newly written audit files were already published before owner closeout."
+    },
+    {
+      "request": "속도조정·subagent 최대분담·root orchestration",
+      "state": "implemented operationally: root native/orchestration, frontend intake and2 fixture repairs, backend legal/release, independent QA/global; final278 ran while native/release proceeded",
+      "limit": "No claim of a guaranteed speed SLA or that all historical delay disappeared."
+    },
+    {
+      "request": "기존서비스·다른DB/Auth·원본보존",
+      "state": "no changes by audit; app-only scope and named preservation comparisons are evidence in owner release/DB records",
+      "limit": "No generalized proof of every unrelated service state."
+    },
+    {
+      "request": "확인하고 종료",
+      "state": "audit written; remaining partial and final receipt gap reported immediately; no new features/research/full-test expansion initiated"
+    }
+  ],
+  "hardRemaining": [
+    {
+      "id": "QA130-06",
+      "state": "partial/false",
+      "meaning": "All screens/popups/subbuttons under every dynamic role/data/submit/cancel/failure/reconnect state have not been executed. Whole code278 pass does not satisfy that request.",
+      "specificLimits": [
+        "Other real member/role/session combinations are not all actual-login tested",
+        "Combined existing cost/contract/VAT/all late-target branches exceed executed finite cases",
+        "Production native print-dialog file save was not accepted after prior CDP timeout; generated-source PDF4/18 is a separate passed artifact"
+      ],
+      "evidence": [
+        "docs/review130-final-verification.md",
+        "docs/review131-final-verification.json"
+      ]
+    }
+  ],
+  "evidenceSnapshots": {
+    "docs/review-20261028-spec.md": {
+      "sha256": "b95ebbff4d0ec728359ed132acb5e77d9e76737fbfe8d6ae97c928604eacf1dc"
+    },
+    "docs/review-20261028-verification.md": {
+      "sha256": "f754ff44bcace5654c14d2c945a8346e5440a59b1941242f93219a092822192a"
+    },
+    "docs/review-20261028-review130-spec.md": {
+      "sha256": "bb29d506d1146abf9ac21d9266b1dd346749bcfbb7379b628a8eb94315f3e8c4"
+    },
+    "docs/review130-final-verification.md": {
+      "sha256": "cee0ee730b24cf0ae261ededad159505510c11ac3044b78569ba556ec076cfa0"
+    },
+    "docs/review130-c92-live-verification.json": {
+      "sha256": "ba6b211e8286f376ea901eea2c28c8e35d807108128200e2eedf19c7bb460d7d"
+    },
+    "docs/review131-spec.md": {
+      "sha256": "6f55787e0f18b029b94fbf509d4e63c23c74de1fdff6bc2f06a1abc1c668560d"
+    },
+    "docs/review131-final-verification.json": {
+      "sha256": "5f7eaddcfbb3c2a38ef4094aa07973469f6a89af51267cca1ce671a4d3c819b8"
+    },
+    "docs/review131-independent-verification.json": {
+      "sha256": "09413f4a26d5a6dd6c898a6f2489c955666e34e2cf809911d080497548daea8f"
+    },
+    ".build/center-20261020/logic-2026-10-29T05-55-51.330Z.json": {
+      "sha256": "55337ed5b78111b1619004f82daf07eb90c351f0c6c9f4a323e4aefe0626ec26"
+    }
+  },
+  "safety": {
+    "newFeatures": 0,
+    "newTests": 0,
+    "productOrTestEdits": 0,
+    "matrixReadmeOrChecklistEdits": 0,
+    "databaseAccess": 0,
+    "browserUse": 0,
+    "otherChatBodiesRead": 0,
+    "writtenFiles": [
+      "docs/review131-user-window-audit.md",
+      "docs/review131-user-window-audit.json"
+    ],
+    "privateSourceValuesPublished": false
+  },
+  "latestC93Gate": {
+    "sourceCommit": "1166cab67a8e9ac32d2af0e4c29982122aef18d1",
+    "deploymentId": "dpl_3pVpQyQv5L7N2iw3TBpZFCFnTQLc",
+    "formalHtmlSha256": "0284982811d2ec1ebc178c1c36dd78f90e5a4b4bad033ab8250414b6276f5ebc",
+    "formalHtmlBytes": 6910675,
+    "formalPromoted": true,
+    "database": {
+      "state": "owner-confirmed actual formal UI plus SQL save/reconnect/correction completed",
+      "beforeRevision": 56,
+      "afterYesRevision": 57,
+      "afterUnknownRevision": 58,
+      "workspaceAuditRequestsAdded": 2,
+      "onlyBConditionsChanged": true,
+      "existingConditionFieldsChanged": 0,
+      "threeProjectHashesExcludingConditionsEqual": true,
+      "reconnectConfirmedYes": true,
+      "cancelGuardAfterCorrection": 0,
+      "finalValue": "미확인",
+      "initialKeyWasAbsent": true,
+      "newUnknownKeyRemains": true,
+      "rawWholeWorkspaceRestored": false,
+      "unrelatedUserChangesRestored": false,
+      "privateEvidenceHandles": {
+        "afterYes": "1793254365773",
+        "afterUnknown": "1793254532792"
+      },
+      "meaning": "Test value was corrected through normal UI to unknown. Original absent key now remains explicit unknown; do not claim full raw JSON rollback.",
+      "source": "root latest direct final gate report; owner live metadata being synchronized"
+    },
+    "limitedLogs": {
+      "requests": 12,
+      "http200": 8,
+      "http304": 1,
+      "http307": 1,
+      "http401": 2,
+      "http5xx": 0,
+      "runtimeErrors": 0,
+      "scope": "bounded selected latest requests only, not all-time service guarantee"
+    },
+    "sixTestsReleaseSync": {
+      "path": ".build/review131/release-six-tests-synced.json",
+      "sha256": "f0f99b537929268955023fe5cd8192e03937f2179d7aa9300fd7dc5564fbdbde",
+      "runtimeBuild113FilesUnchanged": true
+    }
+  },
+  "scopeLimits": {
+    "automaticFutureLegalCompleteness": false,
+    "allNationalOrLocalLegalProcessesGuaranteed": false,
+    "newCodeNaturalSchedulerObserved": false,
+    "manualOfficialScheduledPathFresh376VerifiedAtC92": true,
+    "newCodeNaturalSchedulerMeaning": "Actual manually invoked existing official scheduled route was verified; no claim that a future natural scheduled tick already occurred.",
+    "installedExcel": "not executed; OOXML/reimport/render/file checks are separate",
+    "matrixRecordCountIsNotExecutedUiCount": true,
+    "documentSourceTiming": "Some review131 final/release JSONs were still prepared/pending at read time. Latest root actual formal/DB report overrides those historical status labels; this audit does not edit owner documents."
+  },
+  "summary": "13 named product requirements in exact recovered time window:12 bounded acceptances,1 partial unfinished QA130-06. Therefore all-requested-work-complete remains false; no new work is started after the requested closeout."
+}
